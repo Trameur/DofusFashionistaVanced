@@ -14,18 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""User text must survive the full unicode range.
-
-Production errors (2026-07-19): a project named with an emoji (4-byte
-utf8mb4) crashed /createproject/ and a Google login with a Turkish last
-name crashed the oauth pipeline, both with MySQL DataError 1366 because
-legacy tables kept a pre-utf8mb4 charset. Migration 0026 converts them at
-deploy time; these tests pin the application path (no validation stripping,
-no re-encoding) so the fix stays end to end.
-
-Separate module from tests.py (the worktree is shared with a second
-session).
-"""
+"""User text must survive the full unicode range, 4-byte utf8mb4 included."""
 
 from django.contrib.auth.models import User
 from django.test import TestCase

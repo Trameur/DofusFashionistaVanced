@@ -23,14 +23,12 @@ from fashionistapulp.structure import get_structure
 logger = logging.getLogger(__name__)
 
 
-# Items the optimiser excludes by default: GM-only, event, joke and duplicate items
-# nobody wants the solver to pick, with the item name in a trailing comment. Ids
-# absent from the active game version are skipped automatically.
-# An id only belongs here when every version that has it means the SAME item.
-# Retro reuses 406 of its ids for something else, Touch 225, so anything found in
-# one version goes in the per-version list below or it forbids a real item
-# elsewhere: 11761 is Le Divhugalch on Retro and the Teroid Axe on the other
-# four, 11745 is the Epee Clipse against the Oracular Hammer.
+# Items the optimiser excludes by default: GM-only, event, joke and duplicate
+# items, with the item name in a trailing comment. Ids absent from the active
+# game version are skipped. Versions reuse ankama ids for unrelated items (11761
+# is Le Divhugalch on Retro and the Teroid Axe on the other four), so an id only
+# belongs here when every version means the same item; anything else goes in the
+# per-version list below.
 DEFAULT_EXCLUSION_ANKAMA_IDS = [
     9031,   # Gore Master's Ring (Gms Only)
     9202,   # Gore Master's Other Ring (Retro)
@@ -62,15 +60,10 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     16341,  # Bendant (same, forgemagie fodder carrying an AP bonus)
 ]
 
-# Per-version defaults: items that are in the game data but shouldn't be proposed
-# for that specific version (e.g. an item scraped into Touch that Touch players
-# can't actually get). Same forbidden-by-default-but-removable behaviour, version
-# scoped so the same Ankama id stays available where it is a real item (10076 is a
-# genuine Retro shield but does not exist in Dofus Touch).
+# Forbidden by default for one version only, when the same ankama id is a real
+# item elsewhere (10076 is a genuine Retro shield, absent from Dofus Touch).
 DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
-    # Items with no way left to get them: verified one by one against the
-    # live data (no drop, no recipe, no live quest/achievement) and the
-    # wikis. Forbidden by default but removable, like the touch list.
+    # Items with no source left: no drop, no recipe, no live quest or achievement.
     'dofus3': [
         # GM-only items
         7913,    # Animagi (GM)
@@ -176,8 +169,8 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         7913, 9031, 2154, 2155, 2156, 10685, 10686, 10687, 10688, 16343, 8941, 8956, 8957, 8958, 8959, 8960, 8961, 8962, 8963, 8964, 8965, 8966, 10054, 10055, 10056, 10058, 10061, 10102, 11855, 12465, 12466, 6773, 10784, 10785, 10794, 10799, 10800, 10801, 12661, 27267, 27268, 27280, 27282, 1505, 8338, 8627, 10158, 10159, 10160, 10161, 10162, 10163, 10164, 10165, 10166, 10167, 11811, 17456, 17457, 21506, 21507, 21508, 21509, 21510, 1628, 1629, 1630, 1631, 1632, 1633, 6661, 6793, 6800, 6840, 6863, 6886, 7097, 11603, 11610, 11617, 11733, 11748, 677, 856, 6713, 8575, 8854, 13063
     ],
     'touch': [
-        # No recipe and no drop proves nothing here: a quest, the shop and an
-        # event all leave those tables empty. Each id has its own reason.
+        # Quest, shop and event rewards also have no drop and no recipe, so empty
+        # tables alone prove nothing; each id below has its own reason.
         10076,  # Unique Hispanian Shield, absent from the Touch encyclopedia
         12615,  # Escudo Epico, Spanish community event, PC only
         21593,  # [!] Unshakeable test shield
@@ -399,8 +392,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         8726,    # Crusuede Shoes
         8727,    # Relief Boots
         8728,    # Veggie Boots
-        # spent revamp tokens: the item text itself says to trade them in, and
-        # the Touch backend has no drop, recipe, quest or achievement for them
+        # spent revamp tokens: the item text itself says to trade them in
         12385,   # Hoodwink Headgear
         12386,   # Arpone Mask
         12387,   # Hanging Cloak
@@ -419,29 +411,26 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         14053,   # Flawed Cap
         14054,   # Flawed Ring
         14056,   # Flawed Boots
-        # Boufbowl match rings: handed out inside a match, never owned. The Touch
-        # backend still has them under their untranslated internal name, with no
-        # stat, drop or recipe.
+        # Boufbowl match rings: handed out inside a match, never owned. Still in
+        # the Touch backend under their untranslated internal name.
         19961,   # [!] Bague de Boufbowl (Attaquant Bleu)
         19963,   # [!] Bague de Boufbowl (Attaquant Rouge)
         19965,   # [!] Bague de Boufbowl (Defenseur Bleu)
         19967,   # [!] Bague de Boufbowl (Defenseur Rouge)
         19995,   # [!] Samy Bague de Boufbowl (test)
-        # Boufbowl match rings again: level 1, no real stats, their only effect
-        # casts a team-identity spell during a match.
+        # Boufbowl match rings again: no real stats, their only effect casts a
+        # team-identity spell during a match.
         18815,   # Gobbowl Ring
         19957,   # Gobbowl Ring (Blue Captain)
         19959,   # Gobbowl Ring (Red Captain)
-        # Hispanic set: a Goultarminator prize for the Spanish community on PC,
-        # absent from the Dofus Touch encyclopedia altogether.
+        # Hispanic set: PC Goultarminator prize, absent from the Touch encyclopedia
         12616,   # Caschoygan
         12617,   # Cuarzomyr Masinko
-        # Kwismas hats carrying a past year of the Dofus calendar. Kwismas comes
-        # back every year, but with that year's number; 648 and 649 are gone.
+        # Kwismas hats stamped with a past year of the Dofus calendar; Kwismas
+        # returns every year, but with that year's number.
         15823,   # Kwismas 648 Treetop
         16888,   # Kwismas 649 Treetop
-        # [FM] is Ankama's own smithmagic-workbench marker. These three exist in
-        # no other version and have no recipe and no drop on Touch either.
+        # [FM] is Ankama's own smithmagic-workbench marker
         18555,   # [FM] Capistil
         18557,   # [FM] Plantamulet
         18559,   # [FM] Cuttings
@@ -449,8 +438,8 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
     'retro': [
         7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus
                 # level 1 Dofus with +10% all resists, a real Dofus 2+ item)
-        13171,  # Nolifishield / Grobouclier (Grobe dungeon key shield; a real
-                # item but not built with, so hidden by default and removable)
+        13171,  # Nolifishield / Grobouclier (Grobe dungeon key shield, a real
+                # item but never built with)
         11761,  # Le Divhugalch (unobtainable joke staff, +3 AP/+3 MP)
         11745,  # Epee Clipse (GM sword: 5 AP/MP, 500 in every characteristic)
     ],
@@ -569,7 +558,7 @@ def _item_id_to_local_or_name(item_id, language):
     item = structure.get_item_by_id(item_id)
 
     if item is None:
-        # Legacy pickles can reference retired items; fall back to any variant we still know
+        # Legacy pickles can reference retired items
         for candidate in structure.get_items_by_or_id(item_id):
             if candidate is not None:
                 item = candidate
@@ -585,7 +574,6 @@ def _item_id_to_local_or_name(item_id, language):
     if 'en' in localized_names:
         return localized_names['en']
 
-    # Last resort: return first available localization or name/id to avoid crashing the UI
     if localized_names:
         return next(iter(localized_names.values()))
     if getattr(item, 'name', None):

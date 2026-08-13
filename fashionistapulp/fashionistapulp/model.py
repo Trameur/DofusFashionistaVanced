@@ -49,8 +49,6 @@ class Model:
     _EXO_STAT_KEYS = {'ap', 'mp', 'range'}
 
     def _apply_stat_overrides(self, stat_overrides):
-        """Deep-copy overridden items and modify their stats before constraint creation.
-        AP/MP/Range overrides are skipped, the exo option handles them in modify_stat_total_constraints."""
         new_items_list = []
         for item in self.items_list:
             item_overrides = stat_overrides.get(item.id)
@@ -110,8 +108,7 @@ class Model:
                     self.problem.setup_variable('capped_resist', var_id, 0, 50)
     
     def create_item_number_variables(self):
-        # Dofus 2/3 let you equip two copies of a setless ring; Retro 1.29 never
-        # allows the same ring twice (the "L'autre X" variants exist for that).
+        # Dofus 2/3 allow two copies of a setless ring; Retro 1.29 never allows the same ring twice.
         rings_can_double = self.structure.game_version != 'retro'
         for item in self.items_list:
             doublable = (rings_can_double
@@ -135,9 +132,8 @@ class Model:
     def create_stat_total_variables(self):
         self.stat_count = len(self.stats_list)
 
-        # Stats that appear in any set's max_caps need an overage variable so the LP can
-        # represent effective stats below the character's base (e.g. 6-piece Cire Momore caps MP at 2
-        # while base MP is 3, without overage the equality constraint makes that infeasible).
+        # A set cap can sit below the character's base (6-piece Cire Momore caps MP at 2, base is 3),
+        # so a capped stat needs an overage variable.
         self._capped_stat_ids = set()
         for item_set in self.sets_list:
             if not item_set.max_caps:
@@ -177,15 +173,10 @@ class Model:
         
         
     def add_weird_item_weights_to_objective_funcion(self, objective_values, level):
-        # These hard-coded weights target Dofus 3 specific items (Cocoa Dofus 2,
-        # Prytekt-O-Mat, Crocobur 3, etc.). Older versions don't ship most of
-        # them, so the lookups return None and crash. Skip the whole pass for
-        # versions that don't share the Dofus 3 item catalog.
+        # These weights name Dofus 3 items; other versions don't ship them and the lookups return None.
         if getattr(self.structure, 'game_version', 'dofus3') not in ('dofus3', 'beta'):
             return
 
-        # Skip all special item bonuses for pure support builds (mule/leech)
-        # where all combat-relevant stats are zero
         combat_stats = ('dam', 'hp', 'ap', 'mp', 'ch', 'permedam', 'perrandam',
                         'str', 'int', 'agi', 'pow', 'heals', 'trocadeur')
         if not any(objective_values.get(s, 0) for s in combat_stats):
@@ -340,9 +331,6 @@ class Model:
         
         #Buhorado Feather
         #When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns (stackable 10 times).
-        #With crits, you can stack up to 100 Pushback Damage (10 stacks × 10)
-        #For crit builds (~60% crit): sustain ~6 stacks on average = 60 pushback damage
-        #More conservative: ~40-50 average pushback damage for crit builds
         buhorado_feather_new_stat_weight = objective_values.get('pshdam', 0) * 45 * objective_values.get('ch', 0) / 100
         self.problem.add_to_of('p', 
                                self.structure.get_item_by_name("Buhorado Feather").id, 
@@ -469,8 +457,6 @@ class Model:
 
         #Surpryz
         #The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn.
-        #For crit builds with ~60% base crit: Turn 1: +40% (capped at 100%), Turn 2: +35%, Turn 3: +15%
-        #Average effective bonus: (40 + 35 + 15) / 3 = 30% average for crit builds
         surpryz_new_stat_weight = objective_values.get('ch', 0) * 20
         self.problem.add_to_of('p',
                                 self.structure.get_item_by_name("Surpryz").id,
@@ -478,9 +464,6 @@ class Model:
 
         #Prynyang
         #The bearer sacrifices 10% resistance to gain 10% final damage on the first turn, then gains 3% final damage and resistance on the second turn, and sacrifices 10% final damage to gain 10% resistance on the third turn.
-        #Turn 1: +10% damage, -10% res | Turn 2: +3% damage, +3% res | Turn 3: -10% damage, +10% res
-        #With optimal play: attack on turns 1-2 (13% damage total), defend on turn 3 (10% res when needed)
-        #Effective value: ~4-5% damage when attacking, ~3% res when defending
         prynyang_new_stat_weight = (objective_values.get('permedam', 0) * 5 + objective_values.get('perrandam', 0) * 5 + 
                                     objective_values.get('respermee', 0) * 4 + objective_values.get('resperran', 0) * 4)
         self.problem.add_to_of('p',
@@ -716,8 +699,7 @@ class Model:
             for item in self.items_list:
                 if self.structure.get_type_name_by_id(item.type) == item_type:
                     items_of_type.append(item)
-            # A type with no available items (e.g. Shield in Retro 1.29) would make
-            # restriction_lt_eq collapse sum([]) <= n into a bool; skip it.
+            # A type with no items (Shield in Retro 1.29) collapses sum([]) <= n into a bool.
             if not items_of_type:
                 continue
             restriction = self.problem.restriction_lt_eq(TYPE_NAME_TO_SLOT_NUMBER[item_type],
@@ -805,12 +787,7 @@ class Model:
         name_by_key = {stat.key: stat.name for stat in self.main_stats_list}
         push_curve = scrolls_push_cost_curve(game_version)
         for stat in caps:
-            # On retro the scrolled base eats the cheap low tiers before any
-            # point is spent (see the retro Iop Intelligence case). Everywhere
-            # else, Touch included, scrolls are tracked separately and the cost
-            # curve only counts invested points: scrolls_push_cost_curve holds
-            # the sources, and adding Touch back here would misprice every
-            # Touch build.
+            # On retro the scrolled base eats the cheap low tiers before any point is spent.
             scrolled = (base_stats_by_attr.get(name_by_key.get(stat), 0)
                         if push_curve else 0)
             widths = tier_widths_after_scroll(caps[stat], scrolled)
@@ -938,14 +915,7 @@ class Model:
             self.restrictions.fourth_set_constraints[item_set.name] = restrictions_list
     
     def create_set_max_cap_constraints(self):
-        """Big-M constraints for set-based stat caps (e.g. Cire Momore AP/MP/Range limits).
-        For each (set, tier, stat) cap:
-          stat[s] + (global_max - cap) * ss[set_id, tier+1] <= global_max
-        When tier is active (ss=1): stat <= cap. When inactive (ss=0): stat <= global_max (no new restriction).
-        Overage bound per stat (one constraint aggregating all capping tiers):
-          overage[s] <= global_max * sum(ss for all tiers that cap this stat)
-        This lets overage absorb the gap when the cap is below base, making the problem feasible.
-        """
+        """Big-M constraints for set-based stat caps (e.g. Cire Momore AP/MP/Range limits)."""
         overage_ss_per_stat = {}  # stat_id -> list of (set_id, tier_index)
 
         for item_set in self.sets_list:
@@ -968,9 +938,6 @@ class Model:
                 if stat_id in self._capped_stat_ids:
                     overage_ss_per_stat.setdefault(stat_id, []).append((item_set.id, num_items + 1))
 
-        # One aggregate overage bound per capped stat:
-        # overage[s] - global_max * sum(ss[set, k]) <= 0
-        # → overage=0 when no cap active; overage free up to global_max when any cap fires.
         for stat_id, ss_keys in overage_ss_per_stat.items():
             stat = self.structure.get_stat_by_id(stat_id)
             if not stat or stat.name not in self.stat_maximum:
@@ -994,9 +961,7 @@ class Model:
         # Count 2 for each bonus 3 for all item sets tested
         matrix += [(2, 'ss', '%d_%d' % (item_set.id, 3 + 1)) for item_set in self.sets_list]
         matrix.append((-N_TOTAL_SETS, 'ytrophy', 1))
-        # Cap on weighted set-bonuses while a light-set trophy is worn: "Set bonus
-        # < 3" (dofus3) allows 2 (1 bonus 3 or 2 bonus 2); the stricter touch "Set
-        # bonus < 2" allows only 1. Use the strictest cap present in the item pool.
+        # Light-set trophy cap: dofus3 "Set bonus < 3" allows 2, touch "Set bonus < 2" allows 1.
         light_set_caps = []
         for item in self.items_list:
             cap = item.weird_conditions['light_set']
@@ -1265,12 +1230,7 @@ class ModelInput(object):
                 'origin': 'generated'}
 
     def __hash__(self, *args, **kwargs):
-        # The solution cache (DatabaseSolutionMemory) keys entries by this hash,
-        # so it MUST include the game version. Otherwise a Retro build and a
-        # Dofus 3 / Dofus 2 build with the same level, class, stats and options
-        # collide on the same key, and one version is served another version's
-        # stored solution -- a broken build. Including the version here also
-        # naturally bypasses any previously-cached cross-version entries.
+        # DatabaseSolutionMemory keys its cache by this hash, so it must include the game version.
         from fashionistapulp.structure import get_current_game_version
         overrides_key = frozenset(
             (item_id, frozenset(stats.items()))

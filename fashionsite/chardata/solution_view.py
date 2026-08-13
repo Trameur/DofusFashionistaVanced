@@ -71,20 +71,14 @@ _SHARE_SLOT_ORDER = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
                      'Belt', 'Boots', 'Dofus', 'Pet']
 
 
-# Hint a slot as upgradable only when the equipped item is clearly off the pace
-# for *this build*: there must be at least this many strictly-better-scoring
-# options for the slot (so a top pick is never flagged) AND the equipped item
-# must score below this fraction of the slot's best score (so "good enough"
-# items stay silent). Score = the item's stats dotted with the build's stat
-# weights, the same ranking the "switch item" list uses, so a low-level item
-# that scores well for the build is correctly left alone.
+# Upgrade hint thresholds: this many strictly better-scoring options for the
+# slot, and the equipped item scoring below this fraction of the slot's best.
 _UPGRADE_MIN_BETTER = 5
 _UPGRADE_SCORE_RATIO = 0.8
 _UPGRADE_MAX_HINTS = 4
-# Slots whose item is well-modelled by the build's stat weights. Weapons are
-# valued by damage/AP (own ranking), and Dofus/Pet are picked for unique
-# effects, quests or ownership, a flat stat score is a poor "upgrade" signal
-# for those, so they're left out to keep hints trustworthy.
+# Slots whose item is well-modelled by the build's stat weights. Weapons rank on
+# damage/AP and Dofus/Pet on unique effects, so a flat stat score means nothing
+# there.
 _CHECKED_SLOTS = {'Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots', 'Shield'}
 
 
@@ -98,8 +92,8 @@ def _resolve_structure_item(structure, name):
 
 
 def _weighted_rate(structure, item, weights):
-    """Build-specific score: the item's stats weighted by the build's stat
-    weights (mirrors item_exchange._rate, which orders the switch-item list)."""
+    """The item's stats weighted by the build's stat weights (mirrors
+    item_exchange._rate, which orders the switch-item list)."""
     if item.name in structure.or_items:
         item = structure.get_or_item_by_name(item.name)[0]
     rating = 0
@@ -110,7 +104,7 @@ def _weighted_rate(structure, item, weights):
     return rating
 
 
-# Lazy: this dict is built at import, the language is only known per request.
+# Built at import, so the labels must be lazy: the language is per request.
 _PIECE_LABELS = {'hat': gettext_lazy('Hat'), 'cloak': gettext_lazy('Cloak'),
                  'shield': gettext_lazy('Shield'), 'weapon': gettext_lazy('Weapon'),
                  'mount': gettext_lazy('Mount')}
@@ -127,13 +121,11 @@ def _default_colors(char):
 def _preview_pieces(char, look=None):
     hidden = parse_hidden(char.hidden_parts)
     gear = (look or {}).get('gear') or {}
-    # Only two thirds of cloaks and under a third of weapons have art, so a box
-    # for a slot the preview cannot draw does nothing when ticked.
     slots = [slot for slot in sorted(SLOT_TO_NODE)
              if slot not in UNDRAWN_SLOTS
              and (SLOT_TO_NODE[slot] in gear or slot in hidden)]
-    # Hiding the mount takes it out of the look, so the box has to stay while
-    # it is off or there is no way back.
+    # Hiding the mount takes it out of the look, so the box must stay while it
+    # is off.
     if (look and look.get('mount')) or MOUNT_SLOT in hidden:
         slots.append(MOUNT_SLOT)
     return [{'slot': slot, 'label': _PIECE_LABELS[slot], 'hidden': slot in hidden}
@@ -141,19 +133,14 @@ def _preview_pieces(char, look=None):
 
 
 def _undrawn_pieces(look):
-    """The worn pieces the preview has no art for, named for the reader."""
+    """The worn pieces the preview has no art for."""
     return [_PIECE_LABELS[slot] for slot in sorted((look or {}).get('undrawn', []))
             if slot in _PIECE_LABELS]
 
 
 def _build_check(char, solution):
-    """Heuristic build review. For each equipped slot, score the equipped item
-    against every item that fits the slot using the build's own stat weights and
-    hint only the slots where the equipped item is clearly suboptimal, many
-    stronger options *and* well below the slot's best score. Stays silent for
-    items that are already top picks (including low-level items that score well)
-    and for pieces kept by an active set bonus. Returns equipped count + the
-    suggestion list."""
+    """Equipped count plus the slots whose item is clearly outscored for this
+    build."""
     structure = get_structure()
     try:
         weights = pickle.loads(char.stats_weight) if char.stats_weight else None
@@ -188,10 +175,8 @@ def _build_check(char, solution):
                 continue
 
             type_name = structure.get_type_name_by_id(structure_item.type)
-            # Skip slots whose stored item no longer matches the slot's type,
-            # old builds carry item ids that current versions reuse for a
-            # different item, which would otherwise be ranked against the wrong
-            # list. (Such builds are surfaced as outdated elsewhere.)
+            # Old builds carry item ids that current versions reuse for a
+            # different item, whose type no longer matches the slot.
             if TYPE_NAME_TO_SLOT.get(type_name, '').lower() != slot.lower():
                 continue
 
@@ -224,7 +209,7 @@ def _build_check(char, solution):
                     'gap': best_rate - equipped_rate,
                 })
 
-        # Biggest score gaps first, capped so the hint stays compact.
+        # Biggest score gaps first.
         suggestions.sort(key=lambda entry: entry['gap'], reverse=True)
         suggestions = suggestions[:_UPGRADE_MAX_HINTS]
 
@@ -255,8 +240,6 @@ def _build_share_text(request, char, solution):
         if chips:
             lines += ['', ' / '.join(chips)]
     except Exception:
-        # Stats are a nice-to-have in the share text; don't fail the share if they
-        # can't be computed, but surface it so the underlying bug gets noticed.
         logger.exception('Failed to build stats chips for share text (char %s)', char.id)
     lines.append('')
     if char.link_shared:
@@ -273,8 +256,8 @@ _CLASS_AVATAR_COUNT = 6
 
 
 def get_class_avatar(char):
-    """Stable per-char avatar URL, falling back to a placeholder for classes
-    without art (Forgelance) or unknown values."""
+    """Stable per-char avatar URL; classes with no art (Forgelance) get a
+    placeholder."""
     cls = char.char_class or ''
     if cls not in _CLASS_AVATAR_DIRS:
         return static('chardata/QuestionMark-lighttheme.png')
@@ -290,8 +273,7 @@ def _get_stat_filter_options():
     for stat in stats:
         if stat.key == 'hp':
             continue
-        # PVP resists only exist in some versions (e.g. retro); show them
-        # only where the current version's items actually use them.
+        # PVP resists only exist in some versions (retro).
         if stat.key.startswith('pvp') and stat.key not in used_stat_keys:
             continue
         icon_path = get_stat_icon_path(stat.key)
@@ -541,16 +523,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'build_check': build_check,
               'build_score': build_score,
               'has_build_score': build_score is not None,
-              # The history deltas always compare against the CURRENT build. When
-              # viewing a saved generation, build_score is that snapshot's score,
-              # not the current build's, so pass None there and let the helper
-              # score the current solution (otherwise the snapshot's own row read
-              # 0 and every other delta used the wrong baseline).
-              # The history deltas always compare against the CURRENT build. When
-              # viewing a saved generation, build_score is that snapshot's score,
-              # not the current build's, so pass None there and let the helper
-              # score the current solution (otherwise the snapshot's own row read
-              # 0 and every other delta used the wrong baseline).
+              # History deltas compare against the current build, so a snapshot
+              # view passes None and lets the helper score the current solution.
               'generation_history': [] if is_guest else _build_generation_history(
                   request, char, generation,
                   None if is_generation_snapshot else build_score),
@@ -642,8 +616,7 @@ def solution_linked(request, char_name, encoded_char_id):
     char = get_char_encoded_or_raise(encoded_char_id)
     if char.game_version != getattr(request, 'game_version', 'dofus3'):
         raise Http404
-    # A shared build whose solution was never stored (or was reset) cannot
-    # render the solution page; 404 instead of an AttributeError 500.
+    # A shared build whose solution was never stored cannot render this page.
     if get_solution(char) is None:
         raise Http404
 
@@ -663,23 +636,17 @@ def solution_linked(request, char_name, encoded_char_id):
             if not recent_view:
                 # Record the view
                 BuildView.objects.create(build=char, ip_address=ip_address)
-                # Bump the counter without char.save(): a full save rewrites
-                # every blob column and (auto_now) bumps modified_time, which
-                # pollutes the "recently updated" ordering, the API's
-                # modified_at, and the shared-build meta cache key on every
-                # single view.
+                # char.save() would rewrite every blob column and bump
+                # modified_time (auto_now) on every view.
                 Char.objects.filter(pk=char.pk).update(view_count=F('view_count') + 1)
                 char.view_count += 1
     except Exception as e:
-        # If view tracking fails, log it but don't break the page
         logger.warning('View tracking error: %s', e)
     
     return _solution(request, char.pk, True, encoded_char_id, char=char)
 
 def _shared_build_slug(char):
-    """A build nobody named used to be filed under the word "shared", which
-    told a reader and a search engine nothing. The class and level are what
-    the page is about, and the title already says exactly that."""
+    """The build's name, or its class and level when it has none."""
     if char.char_name:
         return char.char_name
     parts = [str(char.char_class or '').strip(), str(char.level or '').strip()]
@@ -688,9 +655,8 @@ def _shared_build_slug(char):
 
 
 def shared_build_path(char):
-    """The one url a shared build lives at. The name in the path is decorative
-    (the view reads only the id), so every spelling of it serves the same page
-    and would claim to be canonical on its own."""
+    """The canonical url of a shared build. The name in the path is decorative:
+    the view reads only the id, so every spelling of it serves the same page."""
     from urllib.parse import quote
     prefix = '' if char.game_version in (None, '', 'dofus3') else '/' + char.game_version
     return '%s/s/%s/%s/' % (prefix,
@@ -740,7 +706,7 @@ def set_char_gender(request, char_id):
 
 
 def set_char_colors(request, char_id):
-    """Same as the sex switch: the preview only, never the build."""
+    """Preview only, never the build."""
     char = get_char_or_raise(request, char_id)
     defaults = _default_colors(char)
     wanted = parse_colors(request.POST.get('colors'), defaults)

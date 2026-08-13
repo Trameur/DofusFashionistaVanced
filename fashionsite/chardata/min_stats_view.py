@@ -75,8 +75,7 @@ def min_stats(request, char_id):
     for stat in structure.get_stats_list():
         if stat.key == 'vit':
             continue
-        # PVP resists only exist in some versions (e.g. retro); show them
-        # only where the current version's items actually use them.
+        # PVP resists only exist in some versions (Retro).
         if stat.key.startswith('pvp') and stat.key not in used_stat_keys:
             continue
         stat_to_add = {}

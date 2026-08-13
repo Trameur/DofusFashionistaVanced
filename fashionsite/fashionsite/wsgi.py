@@ -73,11 +73,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'fashionsite.settings'
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-# Prechauffer les caches encyclopedie en arriere-plan : gunicorn recycle les
-# workers (--max-requests), sans ca le premier visiteur de chaque nouveau
-# worker paie les constructions a froid (~0.5s par version rien que pour le
-# coeur monstres). Les requetes servies pendant la chauffe construisent
-# elles-memes ce qui leur manque, comme avant.
+# Prechauffer les caches encyclopedie en arriere-plan
 import threading
 
 def _warm_encyclopedia_caches():

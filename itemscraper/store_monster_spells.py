@@ -68,16 +68,16 @@ _PLURAL = re.compile(r'\{\{?~p(.*?)\}\}?')
 _SPACES = re.compile(r'\s{2,}')
 _LETTER = re.compile(r'[^\W\d_]', re.UNICODE)
 
-# "Invoque : #1" holds a monster id, not an amount, so the number is looked up.
+# On these effects "#1" holds a monster id, not an amount.
 _SUMMON_EFFECTS = frozenset([181, 185])
 
 
 def render_effect(template, dice_num, dice_side, monster_names=None):
     """One effect row read the way the client reads it, or None.
 
-    The templates carry two numbers and a segment that only appears when the
-    row is a range: "#1{{~1~2 a }}#2 dommages Eau" is "13 a 16 dommages Eau"
-    when both are set, and "20% des PV max" when the second is 0.
+    A template carries two numbers and a segment that only appears when the row
+    is a range: "#1{{~1~2 a }}#2 dommages Eau" reads "13 a 16 dommages Eau" when
+    both are set, "20% des PV max" when the second is 0.
     """
     if not template:
         return None
@@ -93,26 +93,20 @@ def render_effect(template, dice_num, dice_side, monster_names=None):
     if monster_names is not None:
         summoned = monster_names.get(dice_num)
         if not summoned:
-            return None  # "Invoque :" and nothing after it is worse than silence
+            return None
         text = text.replace('#1', summoned)
     else:
         text = text.replace('#1', str(dice_num))
     text = _SPACES.sub(' ', text).strip()
-    # A row whose whole meaning is a number the dump never names, a state id
-    # above all, says nothing to a reader. So does one still holding a
-    # placeholder we could not fill.
+    # A row with no letter left is a bare state id the dump never names.
     if not text or '#' in text or not _LETTER.search(text):
         return None
     return text
 
 
 def spell_description(spell, levels, effects, entries, monsters):
-    """What a monster spell does, in one line.
-
-    Ankama writes a prose description for 1307 of the 7600 spells the monsters
-    cast, so for the rest the rows are the only answer there is. They are the
-    same rows the client prints, taken at the spell's first grade.
-    """
+    """What a monster spell does, in one line: Ankama's prose description, or
+    failing that the effect rows of the spell's first grade."""
     prose = (entries.get(str(spell.get('descriptionId'))) or '').strip()
     if prose:
         return prose
@@ -135,7 +129,7 @@ def spell_description(spell, levels, effects, entries, monsters):
 
 
 def parse_grade_mapping(raw):
-    """Spell grade per monster grade, from "1,54;1,56;..." (the id is a handle)."""
+    """Spell grade per monster grade, from "1,54;1,56;..."."""
     grades = []
     for chunk in (raw or '').split(';'):
         head = chunk.split(',')[0].strip()
@@ -222,7 +216,6 @@ def main():
             used.add(spell_id)
             linked += 1
 
-    # "Invoque : #1" names a monster, so the summon rows can read properly.
     monster_names = {
         language: {mid: labels[language].get(str(monster.get('nameId')))
                    for mid, monster in monsters.items()}

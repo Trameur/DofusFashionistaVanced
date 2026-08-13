@@ -5,12 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Natural-language build generator (no LLM).
-
-A single text box: type "Iop 200 terre PvM" and get a ready build. Parsing is
-keyword-based (see nl_parser), works in FR/EN/ES/PT/DE, offline and free, our
-answer to Dafous' conversational generator, backed by the LP solver.
-"""
+"""Build generator driven by a free-text request, parsed by nl_parser."""
 
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _, get_language
@@ -23,10 +18,7 @@ from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
 
 
-# Example chips shown under the box, in the active UI language so they read like
-# what a player of that language would actually type (the parser understands all
-# five). Clicking one fills the box, so every example must itself parse to a
-# class. Keywords are the ones nl_parser recognizes per language.
+# Clicking a chip fills the box, so every example must itself parse to a class.
 EXAMPLE_QUERIES_BY_LANG = {
     'en': ['Iop 200 earth PvM', 'Cra agi pvp level 150', 'Eniripsa fire healer',
            'Enutrof farm drop 100'],
@@ -47,10 +39,6 @@ def _example_queries():
 
 
 def _style_name(style):
-    # Short localized style label for the auto-generated build name; the raw key
-    # ("group_pvm") would otherwise leak into the name. Distinct from
-    # coaching_view's verbose dropdown labels, which are too long here and omit
-    # "farm".
     return {
         'solo_pvm': _('solo PvM'),
         'group_pvm': _('group PvM'),
@@ -66,9 +54,7 @@ def _aspect_labels(aspects):
 
 
 def _interpretation(parsed, confirmed):
-    """Human-readable echo of what the parser understood, so a misread is
-    visible before a build is created. When the class is missing we only show
-    the bits we actually recognized (no defaulted aspects)."""
+    """Human-readable echo of what the parser understood."""
     if confirmed:
         cls = parsed['char_class']
         return {
@@ -91,8 +77,6 @@ def smart_build(request):
         parsed = parse_build_request(query)
 
         if not parsed['matched_class']:
-            # Can't build without a class, so re-render with an error and whatever
-            # else we did recognize, so the user can see what to add.
             return set_response(request, 'chardata/smart_build.html', {
                 'query': query,
                 'error': _("Tell us which class, e.g. \"Iop 200 earth PvM\"."),
@@ -102,8 +86,6 @@ def smart_build(request):
             })
 
         if not request.POST.get('confirm'):
-            # Echo the interpretation and let the user confirm or edit before we
-            # build, keeps a misread from silently producing the wrong set.
             return set_response(request, 'chardata/smart_build.html', {
                 'query': query,
                 'interpretation': _interpretation(parsed, confirmed=True),

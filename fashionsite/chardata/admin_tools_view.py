@@ -7,10 +7,7 @@
 
 """Staff-only dashboard with lightweight moderation and site tools.
 
-Distinct from Django's /admin/: this is a quick, task-focused page for the
-day-to-day (review reported comments, glance at site activity) without the
-model-form overhead. Every entry point is gated to admins only; a non-admin
-gets a plain 404 so the page's existence is not revealed.
+A non-admin gets a plain 404 on every entry point, not a 403.
 """
 from collections import defaultdict
 from datetime import timedelta
@@ -28,8 +25,7 @@ from chardata.util import set_response, request_by_super_user
 
 
 def _is_admin(request):
-    """Admin = the app's configured super-user email OR a Django superuser.
-    Accepting either avoids locking the owner out if only one is set up."""
+    """Admin = the app's configured super-user email OR a Django superuser."""
     user = request.user
     if user.is_anonymous:
         return False
@@ -157,7 +153,6 @@ VERSION_COLOURS = {'dofus3': '#c8a05a', 'beta': '#7aa6c2', 'dofus2': '#8fae7a',
 
 
 def _charts(data):
-    """SVG built server side: the page pulls in no charting library."""
     versions = {admin_stats.VERSION_LABELS.get(slug, slug): series
                 for slug, series in data['overview']['builds_by_version'].items()}
     colours = {admin_stats.VERSION_LABELS.get(slug, slug): colour
@@ -196,7 +191,7 @@ AD_SLOTS = ('home_top', 'footer', 'encyclopedia_inline', 'guide_inline',
 
 @require_POST
 def admin_ads_action(request):
-    """Turn the ads on or off and set the slot ids, without a deploy."""
+    """Turn the ads on or off and set the slot ids."""
     _require_admin(request)
     import json
     from django.core.cache import cache

@@ -5,12 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Comments on shared builds. Mirrors the BuildVote pattern.
-
-Includes content moderation (chardata.moderation), opt-out email notifications
-to the build owner, and a community report endpoint that mails admins (and
-auto-hides a comment once it has 3 distinct reports).
-"""
+"""Comments on shared builds: posting, deletion, reporting."""
 
 import logging
 
@@ -93,10 +88,7 @@ def _author_language(owner):
 
 
 def _notify_build_owner(request, build, comment):
-    """Email the build owner when someone else comments on their build.
-
-    Silent on failure, a SMTP hiccup must not break the comment POST.
-    """
+    """Email the build owner when someone else comments on their build."""
     owner = build.owner
     if owner is None or not owner.email:
         return
@@ -210,9 +202,8 @@ def report_comment(request, comment_id):
     except IntegrityError:
         return JsonResponse({'error': _('You already reported this comment')}, status=400)
 
-    # Notify admins (routed through the django.request mail_admins handler via
-    # logger.error). The T3 rate-limit filter will dedupe bursts on the same
-    # comment_id since the signature is built from the log location.
+    # Notify admins: logger.error routes to the django.request mail_admins
+    # handler, whose rate-limit filter dedupes by log location.
     logger.error(
         'Comment %s reported by user %s (reason=%s, build=%s, author=%s): %r',
         comment.id, request.user.id, reason, comment.build_id, comment.user_id,

@@ -16,26 +16,14 @@
 
 """Store the 1.29 monster stats per grade into items_retro.db.
 
-Two sources, first-hand data first (per the site's sourcing policy):
-  - level, elemental resistances and AP/MP dodges come from Ankama's OWN
-    lang CDN (retro_raw/monsters_fr.json, category "monsters"): each grade
-    carries l plus r = [mp dodge, ap dodge, air, water, fire, earth,
-    neutral], validated 3990/3990 against the previous data.
-  - HP/AP/MP are mostly server-side in 1.29, BUT the current lang carries
-    lp/ap/mp for a small set of monsters (68 as of 1.48); those official
-    values win over the Solomonk bestiary cards (credited on the About
-    page), which remain the source for every other monster: the same AJAX
-    endpoint the Retro drops come from, data-rank-N attributes keyed by
-    data-mobid with icon-vita/icon-pa/icon-pm classes. Disagreements on
-    the overlap are printed so Solomonk's accuracy stays observable.
-Monsters absent from the lang (none today) keep the full Solomonk card.
-
-The endpoint now requires a prior visit to the search page in the same
-session (it answers "Restricted access" otherwise; hardening added some
-time after the drops scrape).
-
-The table matches the other versions' monster_grades so the encyclopedia
-renders the same section while every version keeps its own numbers.
+Level, resistances and AP/MP dodges come from Ankama's lang CDN
+(retro_raw/monsters_fr.json, category "monsters"), where each grade carries l
+plus r = [mp dodge, ap dodge, air, water, fire, earth, neutral]. HP/AP/MP are
+mostly server-side in 1.29: the lang carries lp/ap/mp for a small set of
+monsters, the rest come from the Solomonk bestiary cards (credited on the About
+page), keyed by data-mobid with icon-vita/icon-pa/icon-pm classes. The AJAX
+endpoint answers "Restricted access" without a prior visit to the search page
+in the same session.
 
 Usage (from itemscraper/):
     python store_retro_monster_grades.py [--delay 0.5] [--max-pages N]
@@ -91,8 +79,7 @@ def fetch_page(opener, offset):
         'Referer': SEARCH_PAGE, 'X-Requested-With': 'XMLHttpRequest'})
     with opener.open(req, timeout=60) as resp:
         body = resp.read().decode('utf-8', 'replace')
-    # The endpoint wraps the cards in {"html": "..."}: decode it so the
-    # quotes are real quotes for the regexes (the raw body escapes them).
+    # The endpoint wraps the cards in {"html": "..."}, with the quotes escaped.
     try:
         body = json.loads(body).get('html', '')
     except ValueError:
@@ -124,9 +111,7 @@ def main():
     with opener.open(SEARCH_PAGE, timeout=60) as resp:
         resp.read()
 
-    # First-hand grade data from the official lang CDN. The raw is not
-    # committed (the pipeline's lang/download-fr step fetches it, category
-    # "monsters"); without it fall back to the Solomonk-only behaviour.
+    # The raw is not committed: the pipeline's lang/download-fr step fetches it.
     lang_path = os.path.join(CURRENT_DIR, 'retro_raw', 'monsters_fr.json')
     lang_grades = {}
     if not os.path.exists(lang_path):
@@ -139,10 +124,7 @@ def main():
                 if not isinstance(entry, dict):
                     continue
                 grades = {}
-                # Up to SIX grades: 98 monsters (mostly bosses) carry an
-                # official g6; Solomonk's cards expose rank 6 for a few of
-                # them and the fusion should prefer the official numbers
-                # there too.
+                # Up to six grades; the monsters carrying a g6 are mostly bosses.
                 for gnum in range(1, 7):
                     g = entry.get('g%d' % gnum)
                     if isinstance(g, dict) and 'r' in g and len(g['r']) >= 7:
@@ -152,8 +134,8 @@ def main():
                             'mp_dodge': r[0], 'ap_dodge': r[1],
                             'air': r[2], 'water': r[3], 'fire': r[4],
                             'earth': r[5], 'neutral': r[6],
-                            # Official HP/AP/MP exist for a few monsters
-                            # only; None means "ask Solomonk".
+                            # The lang has these for a few monsters only;
+                            # None means "ask Solomonk".
                             'lp': g.get('lp'), 'ap': g.get('ap'),
                             'mp': g.get('mp'),
                         }
@@ -166,8 +148,7 @@ def main():
     while page < args.max_pages:
         html = fetch_page(opener, page * BATCH)
         if html is None:
-            # Intermittent empty responses mid-crawl: retry the same page
-            # before treating it as the end of the bestiary.
+            # The endpoint answers empty intermittently mid-crawl.
             empty_streak += 1
             if empty_streak > 2:
                 break
@@ -217,8 +198,6 @@ def main():
                 return per_stat.get(key, {}).get(grade)
             official = lang_grades.get(mobid, {}).get(grade)
             if official is not None:
-                # Official lp/ap/mp win when the lang has them; print the
-                # overlap disagreements to keep an eye on Solomonk.
                 hp_ap_mp = []
                 for lang_key, solomonk_key in (('lp', 'vita'), ('ap', 'pa'),
                                                ('mp', 'pm')):
@@ -254,8 +233,7 @@ def main():
     conn.close()
     print('stored %d grade rows for %d retro monsters' % (stored, matched))
 
-    # Keep the retro dump in sync so a future pipeline load-db (which rebuilds
-    # the db from the dump) does not drop the table (same as store_drops).
+    # The pipeline's load-db rebuilds the db from the dump.
     sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
     _save_db_to_dump(DB_PATH, 'retro')

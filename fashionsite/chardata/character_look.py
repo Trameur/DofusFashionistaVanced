@@ -39,32 +39,23 @@ SLOT_TO_NODE = {
     'weapon': 'Arme',
 }
 
-# A weapon never draws, and the placement is not in the shipped data. Of 27
-# skeletons, 22 expose an Arme node and none of them positions it in any of
-# their animations, combat ones included; a shield is positioned in every
-# single one. The weapon skin carries only geometry, under those same node
-# names, with an identity transform. So the client works the placement out at
-# runtime from something we do not download, and drawing one would mean
-# guessing an attachment point on every build.
+# A weapon never draws: no skeleton positions its Arme node in any animation
+# and the weapon skin carries only geometry with an identity transform, so the
+# placement is worked out at runtime from data we do not download.
 UNDRAWN_SLOTS = ('weapon',)
 
 MOUNT_SLOT = 'mount'
 
 REFERENCE_SCALE = 53.0
 
-# Dofus 3 art. Beta shares the client, and Dofus 2 and Touch keep the same
-# equipment designs, so the skins matched once serve all four. Touch waited on
-# the worry that its own art ids would collide in the single Dofus 3 cache;
-# it never stores its own, it replays the Dofus 3 decisions by name, and all
-# 762 of its matches land on the piece of the same name. Retro is 1.29 art and
-# shares nothing.
+# Dofus 3 art. Beta shares the client, Dofus 2 and Touch keep the same
+# equipment designs and match by name. Retro is 1.29 art and shares nothing.
 VERSIONS_WITH_ART = ('dofus3', 'beta', 'dofus2', 'touch')
 
-# The ColorGray slots the art exposes. Six, not five: slot 6 was left out and
-# every piece wearing it stayed grey.
+# The ColorGray slots the art exposes.
 COLOR_SLOTS = 6
-# Only a fallback for a breed whose look carries none; the real ones come from
-# the client, per breed and per gender.
+# Fallback for a breed whose look carries none; the real ones come from the
+# client, per breed and per gender.
 DEFAULT_COLORS = ['c49a7a', '4a5c84', 'd6c4a0', '605046', '968c82', '968c82']
 
 
@@ -96,9 +87,8 @@ def parse_hidden(raw):
     return [slot for slot in known if slot in wanted]
 
 
-# Spelled out rather than scaled from one base: the canvas has to stay exactly
-# twice the css size and keep the 5:7 shape, and rounding a percentage breaks
-# both. The percent is only the label the account page stores.
+# The canvas is exactly twice the css size and keeps the 5:7 shape. The percent
+# is only the label the account page stores.
 PREVIEW_BOXES = {
     75: {'canvas': (110, 154), 'css': (55, 77), 'scale': 0.455},
     100: {'canvas': (150, 210), 'css': (75, 105), 'scale': 0.62},
@@ -174,7 +164,7 @@ def preview_is_on():
 
 def get_character_look(char, solution, game_version='dofus3'):
     """None if the preview is off, the version has no art, or the class is
-    unknown. Every caller already draws the avatar instead."""
+    unknown."""
     if not preview_is_on():
         return None
     if game_version not in VERSIONS_WITH_ART:
@@ -222,8 +212,7 @@ def get_character_look(char, solution, game_version='dofus3'):
         if skin:
             look['gear'][node] = skin
         elif result_item.slot not in UNDRAWN_SLOTS:
-            # A third of hats and a quarter of capes have no art: the matcher
-            # cannot tell their two best candidates apart. Say which, or the
-            # piece just goes missing from the box with no explanation.
+            # Many hats and capes have no skin: the matcher cannot tell their
+            # two best candidates apart.
             look['undrawn'].append(result_item.slot)
     return look

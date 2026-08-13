@@ -1,16 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Original, hand-written guide content for the Dofus Fashionista.
+"""Hand-written guide content: per slug and language, a title, a description
+(listing card and meta description) and an HTML body.
 
-This is real editorial content (not scraped item data): walkthroughs and
-explanations written for players, in the five site languages. It lives in a
-plain data structure rather than the gettext catalogs because long-form
-articles don't belong in .po files, and because every language is written by
-hand so it reads naturally instead of like a machine translation.
-
-Each guide: a slug and a per-language block with title, a short description
-(used for the listing card + meta description), and an HTML body.
-The body uses simple markup (h2/p/ul/li/a/strong) and links back into the tool
-with root-relative URLs so the version namespace doesn't matter.
+Bodies use h2/p/ul/li/a/strong only, and link into the tool with root-relative
+URLs so the version namespace does not matter.
 """
 from __future__ import annotations
 
@@ -21,13 +14,8 @@ ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-
 
 GUIDES = {
     # ------------------------------------------------------------------ #
-    # Critical hits are a genuinely different SYSTEM per version: Retro (1.29)
-    # uses the old 1/X fraction where Agility raises the rate, while the modern
-    # game (Dofus 3, beta, Dofus 2, Touch) uses a flat percentage where Agility
-    # does nothing. So this guide carries one content per system, selected from
-    # the version the reader is on. Sources: DofuX (dofux.org) 1.29 crit
-    # calculator (1/X + Agility) for Retro; official forums / Touch crit rework
-    # (percentage, 50% cap) for modern.
+    # Retro (1.29) crit is a 1/X fraction that Agility improves; modern crit is a
+    # flat percentage capped at 50% that Agility does not touch.
     'critical-hits': {
         'published': '2026-07-22',
         'version_groups': {'retro': 'retro'},
@@ -1260,11 +1248,8 @@ GUIDES = {
         },
     },
 
-    # Kolossium (ranked PvP) exists on modern Dofus (Dofus 3, beta, Dofus 2,
-    # Touch) but NOT on Dofus Retro (1.29), so this guide serves a Retro variant
-    # framed around its two real poles, PvM and PvP, with the same weighting
-    # advice. Retro 1.29 also has no alliances/prisms (a Dofus 2.x feature), so
-    # the Retro copy avoids naming any mode that does not exist there.
+    # Retro 1.29 has no Kolossium and no alliances or prisms; its only modes are
+    # PvM and PvP.
     # ------------------------------------------------------------------ #
     'game-modes': {
         'published': '2026-07-01',
@@ -2963,8 +2948,6 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # Version neutral: every version has per-element monster resistances,
-    # so no numbers and no modern-only stats.
     'monster-weaknesses': {
         'published': '2026-07-23',
         'i18n': {
@@ -3072,11 +3055,8 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # The six dofus slots hold three different families in the modern game and
-    # only Dofus in Retro. Every figure below is counted from our own item
-    # tables (type 9), so it moves with the data instead of being asserted:
-    # 320 items on Dofus 3 and the beta, 266 on Touch, 17 on Retro. The
-    # example items are read from the same tables.
+    # The six dofus slots hold three families in the modern game (Dofus,
+    # trophies, prysmaradites) and only Dofus in Retro.
     'dofus-and-trophies': {
         'published': '2026-08-11',
         'i18n': {
@@ -3199,12 +3179,8 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # Transcendence runes are a modern-client system: Dofus 3, the beta and
-    # Dofus 2 have them, Touch and Retro do not, and those two do not even
-    # share a smithmagic ruleset with each other. So this guide carries three
-    # contents. Source: the rune catalogue the site itself ships
-    # (forgemagie_transcendance.json, 81 runes over three ranks) and the rules
-    # the forgemagie tool enforces.
+    # Transcendence runes exist on Dofus 3, the beta and Dofus 2 only; Touch and
+    # Retro have none, and their smithmagic rulesets differ from each other too.
     'transcendence-runes': {
         'published': '2026-08-12',
         'version_groups': {'touch': 'touch', 'retro': 'retro'},
@@ -3499,12 +3475,9 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # The best-turn panel exists on four versions and not on Dofus 2, whose
-    # archives carry no spell level table at all (0 castable spells against 31
-    # on Dofus 3). Retro also reads differently: it never got the AP/MP/range
-    # limitation, so its turn is not capped at 12 AP. Three contents.
-    # Source: the site's own solver (spell_combo.py: 6 base AP, cap from the
-    # version, 8 casts deep, per-turn / per-target / cooldown honoured).
+    # The Dofus 2 archives carry no spell level table, so there is no best turn
+    # to compute there. Retro never got the AP/MP/range limitation, so its turn
+    # is not capped at 12 AP.
     'best-turn-damage': {
         'published': '2026-08-12',
         'version_groups': {'dofus2': 'dofus2', 'retro': 'retro'},
@@ -3789,11 +3762,6 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # The inventory works the same on all five versions (it is your own items,
-    # not the game's rules), so this is a plain guide. Source: the feature
-    # itself, inventory_solver.py, which stores inventory_mode ('all' |
-    # 'mixed' | 'only') and a folder, and merges the folder's saved rolls into
-    # the stat overrides the solver runs with and the solution displays.
     'inventory-and-your-own-rolls': {
         'published': '2026-08-12',
         'i18n': {
@@ -3952,26 +3920,19 @@ def _lang(code):
 
 
 def ordered_slugs():
-    """Every guide slug, hub display order first. ORDER drives the order, but
-    a slug missing from it must still be listed everywhere (hub, sitemap):
-    the crafting guide shipped unlisted for a morning because only its page
-    existed, nothing linked it."""
+    """Every guide slug, ORDER first, then any slug ORDER forgot."""
     return ORDER + [slug for slug in GUIDES if slug not in ORDER]
 
 
-# A few guides describe a mechanic that is a genuinely different SYSTEM per game
-# version (critical hits: Retro's 1/X + Agility vs the modern percentage). Those
-# guides carry 'i18n_by_group' instead of 'i18n': one full content per system,
-# selected from the version the reader is on. Versions that share a system share
-# one canonical page (so distinct systems each rank, without duplicate content).
+# A guide whose mechanic differs per version carries 'i18n_by_group' instead of
+# 'i18n': one content per system, and one canonical page per system.
 _DEFAULT_GUIDE_GROUP = 'modern'
 _GROUP_CANONICAL_VERSION = {'modern': 'dofus3', 'touch': 'touch',
                             'dofus2': 'dofus2', 'retro': 'retro'}
 
 
 def _guide_group(guide, game_version):
-    """The content group for a per-version guide, or None when the guide is the
-    same across every version."""
+    """The content group for a per-version guide, None for a plain one."""
     if 'i18n_by_group' not in guide:
         return None
     return (guide.get('version_groups') or {}).get(
@@ -3995,10 +3956,8 @@ def is_version_specific(slug):
 
 
 def guide_canonical_version(slug, game_version='dofus3'):
-    """The version whose URL is canonical for this guide at this version. A plain
-    guide is always canonical at the global (dofus3) /guides/ URL; a per-version
-    guide is canonical at its system's representative version, so each system is
-    one indexable page and versions sharing a system do not duplicate it."""
+    """The canonical version for this guide: dofus3 for a plain guide, the
+    system's representative version for a per-version one."""
     guide = GUIDES.get(slug)
     group = _guide_group(guide, game_version) if guide else None
     if group is None:
@@ -4007,10 +3966,8 @@ def guide_canonical_version(slug, game_version='dofus3'):
 
 
 def canonical_versions(slug):
-    """Every distinct version whose URL is a canonical guide page: always dofus3
-    (the global /guides/ URL), plus each other system's representative for a
-    per-version guide. The sitemap emits one entry per system so both pages get
-    discovered and indexed."""
+    """Every version whose URL is a canonical page for this guide: dofus3, plus
+    each other system's representative. The sitemap emits one entry per system."""
     guide = GUIDES.get(slug)
     if not guide or 'i18n_by_group' not in guide:
         return ['dofus3']
@@ -4041,10 +3998,8 @@ def _version_specific_slugs():
 
 
 def _localize_body_links(body, game_version):
-    """A body link to a version-specific guide (e.g. critical hits) must keep the
-    reader on their version, or a Retro reader would be sent to the modern crit
-    page. Rewrite those links to the current version prefix; links to plain,
-    global guides are left on /guides/ (they read the same everywhere)."""
+    """Point body links to version-specific guides at the current version; links
+    to plain guides stay on /guides/."""
     if game_version == 'dofus3':
         return body
     for slug in _version_specific_slugs():
@@ -4068,10 +4023,8 @@ def get_guide(slug, language_code, game_version='dofus3'):
 
 
 def iter_content_blocks():
-    """Yield (slug, variant, lang, block) for every localized content block,
-    covering plain guides (variant None) and per-version guides (variant = the
-    group name). Guards and audits iterate this so version-specific content is
-    never skipped."""
+    """Yield (slug, variant, lang, block) for every localized block; variant is
+    None for a plain guide, else the group name."""
     for slug, guide in GUIDES.items():
         if 'i18n_by_group' in guide:
             for group, by_lang in guide['i18n_by_group'].items():

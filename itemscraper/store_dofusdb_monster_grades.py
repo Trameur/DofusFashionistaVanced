@@ -14,16 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Store the official monster stats per grade for dofus3 or beta.
-
-Source: the DofusDB monsters API (the asset mirror already trusted for the
-spell audits and the monster artwork), paged with a grades-only $select.
-dofus3 reads api.dofusdb.fr into items.db; beta reads api.beta.dofusdb.fr
-into items_beta.db: two separate sources for two separate games, never
-shared. Only monsters present in our own monster_names are stored.
-
-The table matches store_touch_monster_grades.py so the encyclopedia page
-code is identical across versions while every version keeps its own numbers.
+"""Store the monster stats per grade for dofus3 or beta, from the DofusDB API.
 
 Usage (from itemscraper/):
     python store_dofusdb_monster_grades.py [--game-version dofus3|beta]
@@ -125,8 +116,7 @@ def main():
             stored += 1
     conn.commit()
     conn.close()
-    # Keep the version's dump in sync (load-db rebuilds from it; the beta
-    # dump silently lacked these tables until 2026-07-20).
+    # Keep the dump in sync: load-db rebuilds the db from it
     sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
     _save_db_to_dump(db_path, args.game_version)

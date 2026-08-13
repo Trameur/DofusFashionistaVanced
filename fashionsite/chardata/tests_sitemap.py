@@ -14,17 +14,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Sitemap quality thresholds.
-
-The sitemap must only submit encyclopedia pages that carry real content:
-thousands of one-line monster and resource pages pushed for indexing read
-as "low value content" to crawlers and ad reviews (AdSense refusal of
-2026-07-10). Thin pages stay served and internally linked, they are just
-not submitted.
-
-Separate module from tests.py so it can evolve without touching the shared
-test file (the worktree is shared with a second session).
-"""
+"""Sitemap quality thresholds: thin encyclopedia pages stay served but are not
+submitted."""
 
 import sqlite3
 
@@ -80,8 +71,6 @@ class SitemapQualityThresholdTests(TestCase):
         self.assertIn('/retro/encyclopedia/monster/%d-' % rich, xml)
 
     def test_one_drop_monsters_need_two_spells_and_two_grades(self):
-        # A single drop is rescued by the stat table and the spell list, but
-        # one of each is still a one-line page.
         conn = sqlite3.connect(get_items_db_path('dofus3'))
         try:
             rows = conn.execute(
@@ -110,8 +99,6 @@ class SitemapQualityThresholdTests(TestCase):
         self.assertIn('/encyclopedia/monster/%d-' % rich, xml)
 
     def test_thin_resources_are_not_submitted(self):
-        # A resource with a single recipe usage and no drops is a one-line
-        # page; one with several usages or a drop section carries content.
         conn = sqlite3.connect(get_items_db_path('retro'))
         try:
             row = conn.execute(

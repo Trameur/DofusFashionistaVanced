@@ -739,7 +739,6 @@ def _build_reference_rows(structure, game_version, language, t):
     return rows
 
 
-# UI strings for the transcendence-rune panel (kept out of LOCALIZED_UI).
 TRANSCENDENCE_UI = {
     'en': {
         'title': 'Transcendence runes (lock smithmagic)',
@@ -910,8 +909,6 @@ def _item_payload(structure, item, language, display_name=None):
             'name': _localized_label(stat.name, language),
             'icon': _get_stat_icon_url(stat.key),
             'value': int(round(stat_value)),
-            # The natural minimum roll: under it the game is generous, which is
-            # what makes smithmagic worth doing at all.
             'min': int(round(low)) if low is not None else None,
         })
     stats.sort(key=lambda entry: STAT_ORDER.get(entry['key'], 9999))
@@ -1009,8 +1006,7 @@ def forgemagie_items(request):
 
     items = []
     for _rank, _name_len, item, localized_name, type_name in matches[:20]:
-        # Items with several possible roll sets (Gelano-style "or items") have
-        # their stats on per-variant entries; surface each variant separately.
+        # "Or items" (Gelano-style) carry their stats on per-variant entries.
         variants = [item]
         if not item.stats:
             or_variants = structure.get_items_by_or_name(

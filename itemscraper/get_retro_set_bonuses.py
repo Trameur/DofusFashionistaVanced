@@ -14,29 +14,10 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Build retro_set_bonuses.json from the Dofus Retro Tools API.
+"""Build retro_set_bonuses.json from the Dofus Retro Tools API (/api/set-bonuses).
 
-Set bonuses are not in the Ankama lang CDN (they are server-side), so no
-first-hand source exists. Dofus Retro Tools expressly offers a JSON API
-(/api/set-bonuses) keyed by the Ankama set id with the full per-piece-count
-bonus table: per the site's data-sourcing policy an offered API beats
-scraping a fan site's pages, so this replaced the earlier Solomonk page
-scrape (2026-07-20). The API is credited on the About page.
-
-The API mapping (codes -> internal stat names) lives in
-store_retro_set_bonuses.py and is reused as-is; values are written with the
-internal English stat names, which load_set_bonuses passes through.
-
-Sets the API has no bonuses for fall back to the committed items_retro.db,
-so a rebuild can never regress below what production already serves. The API
-carries 171 of the 178 sets; the fallback is empty because the committed
-database has nothing for the other seven either. Six of them do carry items
-(Givranoplie, Rapine, Phong Huss, Hectaupe, Grilliane, Gadjete) and no source
-states their bonus: the lang CDN ships the pieces without a bonus table, and
-Solomonk returns no items at all for those set ids (checked 2026-08-11).
-Their 24 pieces also have no recipe and no drop, where a quarter of the retro
-catalogue has a recipe, so they read as content the lang file carries without
-the game handing it out.
+Sets the API has no bonuses for fall back to the committed items_retro.db. Values
+use the internal English stat names from store_retro_set_bonuses.py's mapping.
 
 Usage (from the repo root):
     python itemscraper/get_retro_set_bonuses.py

@@ -1,27 +1,15 @@
 #!/usr/bin/env python3
 """store_item_skins.py - fill items.skin from the item to skin matching.
 
-The character preview needs the skin behind each visible piece. That link is
-not in the game data, so match_item_skins.py works it out from the art; this
-writes the result into the version database and back into the dump.
+Only Hat, Cloak, Shield and Weapon carry a skin. The matching itself is in
+match_item_skins.py; its decisions live in the repo and are replayed here.
 
     python itemscraper/store_item_skins.py --game-version dofus3 --input item_skins_dofus3.json
-
-Only Hat, Cloak, Shield and Weapon carry a skin: nothing else shows on the
-character. A match whose margin over the runner up is thin is skipped unless
---min-margin says otherwise, because a wrong skin is worse than none.
-
-The matching takes hours, so the decisions it reached are kept in the repo as
-`item_skins.json` and replayed with --input like any other run. Rebuilding a
-database no longer means matching again.
-
     python itemscraper/store_item_skins.py --game-version dofus3 --export itemscraper/item_skins.json
-
-The other versions replay those same decisions by ankama id, but they renumbered
-part of their catalogue, so `item_skins_by_name.json` keys the same decisions by
-type and name and --names picks up what the ids miss.
-
     python itemscraper/store_item_skins.py --game-version dofus3 --export-names itemscraper/item_skins_by_name.json
+
+The other versions renumbered part of their catalogue, so --names replays the
+same decisions keyed by type and name for the items whose ankama id moved.
 """
 from __future__ import annotations
 
@@ -34,8 +22,7 @@ import sys
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _HERE)
-# The pipelines run this as a bare subprocess with no PYTHONPATH, so the package
-# that holds the shared name matching has to be found from here.
+# The pipelines run this as a bare subprocess with no PYTHONPATH.
 sys.path.insert(0, os.path.join(os.path.dirname(_HERE), 'fashionistapulp'))
 
 from fashionistapulp.fashion_util import is_same_item_name  # noqa: E402
@@ -48,7 +35,6 @@ VISIBLE_TYPES = ('Hat', 'Cloak', 'Shield', 'Weapon')
 # Our own numbering of same-named items, which is not part of the game name.
 DISAMBIGUATION = re.compile(r'\s*\(#\d+\)\s*$')
 
-# The encyclopedia's cross-version links weigh the same question.
 same_item = is_same_item_name
 
 
@@ -64,7 +50,6 @@ def add_column(conn):
 
 
 def clear_skins(conn):
-    """Without this a match dropped by a later run keeps the old run's skin."""
     conn.execute("""
         UPDATE items SET skin = NULL WHERE type IN (
             SELECT id FROM item_types WHERE name IN (%s))"""
@@ -72,7 +57,6 @@ def clear_skins(conn):
 
 
 def export(conn, path):
-    """The decisions as they stand, ready to be replayed into a fresh database."""
     rows = conn.execute("""
         SELECT i.ankama_id, i.skin FROM items i JOIN item_types t ON t.id = i.type
         WHERE i.skin IS NOT NULL AND t.name IN (%s)
@@ -86,11 +70,8 @@ def export(conn, path):
 
 
 def names_index(conn):
-    """The same decisions keyed by type and name, for a renumbered catalogue.
-
-    A name carrying two different skins is left out rather than guessed at; in
-    the Dofus 3 catalogue there is none.
-    """
+    """The same decisions keyed by type and name. A name carrying two different
+    skins is left out."""
     rows = conn.execute("""
         SELECT t.name, i.name, i.skin FROM items i JOIN item_types t ON t.id = i.type
         WHERE i.skin IS NOT NULL AND t.name IN (%s)""" % ','.join('?' * len(VISIBLE_TYPES)),
@@ -150,10 +131,8 @@ def main():
         add_column(conn)
         clear_skins(conn)
         # An item gated behind alternative conditions is flattened into one row
-        # per condition, "(#1)" and "(#2)", sharing its ankama id. They are the
-        # same piece and wear the same art, so every row gets it. Keyed by ankama
-        # id alone, the last row won and the art landed on the copy while the
-        # canonical low id stayed bare, on fifteen pieces.
+        # per condition, "(#1)" and "(#2)", sharing its ankama id: they are the
+        # same piece, so every one of its rows takes the skin.
         known = {}
         for ankama_id, item_id, type_name, item_name in conn.execute("""
             SELECT i.ankama_id, i.id, t.name, i.name FROM items i

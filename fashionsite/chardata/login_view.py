@@ -40,10 +40,8 @@ from django.utils.translation import gettext as _
 logger = logging.getLogger(__name__)
 
 
-# Login/register/change-password hash the password in the browser (login.js:
-# SHA256('dofusfashionista' + password)) before sending it, so every stored password is
-# make_password(<that hash>). The reset form posts the raw password, so it must get the
-# same pre-hash here or the new password will never authenticate.
+# login.js posts SHA256('dofusfashionista' + password), so every stored password
+# is make_password(<that hash>). The reset form posts the raw password.
 def _prehash_password(raw_password):
     return hashlib.sha256(('dofusfashionista' + raw_password).encode('utf-8')).hexdigest()
 
@@ -76,8 +74,7 @@ def register(request):
     password = request.POST.get('password', None)
     email = request.POST.get('email', None)
 
-    # Check the lengths before any side effect. The username also has to fit
-    # UserAlias.alias (50), not just auth_user (150).
+    # The username has to fit UserAlias.alias (50), not just auth_user (150).
     max_username = UserAlias._meta.get_field('alias').max_length
     max_email = User._meta.get_field('email').max_length
     if (not username or len(username) > max_username
@@ -88,8 +85,7 @@ def register(request):
     except ValidationError:
         raise PermissionDenied
 
-    # MySQL's username index is case-insensitive, so match that here too,
-    # otherwise a case-only duplicate slips through and the insert fails.
+    # MySQL's username index is case-insensitive.
     users = User.objects.filter(username__iexact=username)
     if users:
         raise PermissionDenied
@@ -103,11 +99,9 @@ def register(request):
     link = request.build_absolute_uri(
         reverse('confirm_email',
                 args=(username, _generate_token_for_user(username))))
-    # Account first, so we never mail a link for an account that failed to insert.
     try:
         user = User.objects.create_user(username, email, password)
     except IntegrityError:
-        # Race or a case-only variant the index rejects -> already taken.
         raise PermissionDenied
     user.is_active = False
     user.save()
@@ -124,8 +118,6 @@ def register(request):
                   [email])
     except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
         logger.exception('Registration email could not be sent to %s', email)
-        # No mail means the account can never be confirmed, so undo it
-        # (the alias follows by cascade).
         user.delete()
         return set_response(request,
                             'chardata/recover_password.html',
@@ -302,10 +294,8 @@ def recover_password(request, username, recover_token):
                              'error_message': error_message})
 
     user.set_password(_prehash_password(new_password))
-    # Completing the reset proves the user owns the account's email (the link was
-    # emailed to them), so activate the account too. Otherwise a user who never
-    # confirmed their email can reset their password but still never log in
-    # (local_login rejects inactive accounts) -> permanent lockout.
+    # Completing the reset proves the email, and local_login rejects inactive
+    # accounts.
     user.is_active = True
     user.save()
 

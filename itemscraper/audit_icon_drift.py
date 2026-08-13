@@ -16,25 +16,11 @@
 
 """Detect icon drift between the committed files and their live sources.
 
-The download pipelines skip files that already exist, so a visual rework on
-the game side (new renders, redrawn icons) would never reach the site. This
-tool samples committed icons per family, re-fetches the SOURCE image, applies
-the same resize as the downloader, and measures the mean absolute pixel
-difference. A family with several drifted samples deserves a --force rerun
-of its downloader.
-
-Families audited (URL-based sources only):
-  - resources dofus3/dofus2 (dofusdude raw icon urls)
-  - resources touch (official Touch CDN, iconId mapping)
-  - monsters dofus3 (DofusDB img urls, gfx-keyed)
-  - monsters touch (official Touch CDN, monster-id-keyed)
-Retro is excluded on purpose: its icons are rendered from the client via
-Cytrus (download_retro_images/download_retro_monster_artworks --force), and
-a client update is already visible through the Cytrus version string.
+The download pipelines skip files that already exist. Retro is not audited:
+its icons are rendered from the client via Cytrus, not fetched from a URL.
 
 Usage (from itemscraper/):
     python audit_icon_drift.py [--sample 12] [--threshold 8.0]
-Exit code 0 always: this is a report, not a gate.
 """
 
 import argparse
@@ -60,11 +46,11 @@ def _on_white(image):
 
 
 def mean_abs_diff(local_path, source_bytes, size, thumbnail):
-    """Reproduce the downloader's resize, then compare pixel by pixel.
-    Both sides are composited on white first: webp zeroes the RGB of fully
-    transparent pixels while the source PNG keeps arbitrary values there,
-    which would read as huge fake drift. Lossy webp still leaves a few
-    units of codec noise; the threshold sits above it."""
+    """Mean pixel difference after reproducing the downloader's resize.
+
+    Both sides are composited on white: webp zeroes the RGB of fully
+    transparent pixels where the source PNG keeps arbitrary values.
+    """
     local = Image.open(local_path).convert('RGBA')
     remote = Image.open(io.BytesIO(source_bytes)).convert('RGBA')
     if thumbnail:

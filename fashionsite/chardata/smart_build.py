@@ -34,19 +34,10 @@ ALL_ASPECTS_LIST = ['str', 'int', 'cha', 'agi',
                     'trap', 'summon', 'pushback',
                     'pp', 'pods']
 
-# Every game version is a different game: the weight engine below is tuned for
-# Dofus 3, and each other version overrides what actually differs.
-#
-# 'zero_stats' is DATA-DRIVEN: stats no item of that version's pool carries
-# (measured against items_<version>.db), so weighting them only pollutes the
-# advanced tuning page. The remaining knobs encode 1.29 mechanics:
-#  - in 1.29 there are no AP/MP dodge/withdrawal item stats; WISDOM plays that
-#    role (10 wis = 1 AP/MP dodge and withdrawal), so its baseline is higher
-#    and the aprape/mprape presets route through it;
-#  - % resistance gear is rare in 1.29 (a few sets, PvP-only shields), so the
-#    quadratic Dofus 3 endgame curve overvalues it: linear, gentler curve;
-#  - first turns decide short 1.29 fights and initiative gear is common, so
-#    initiative is worth more than in Dofus 3.
+# Per-version overrides of the weight engine, which is tuned for Dofus 3.
+# 'zero_stats': stats no item of that version's pool carries.
+# 1.29 has no AP/MP dodge/withdrawal item stats: wisdom plays that role (10 wis = 1),
+# and % resistance gear is rare there.
 VERSION_WEIGHT_TUNING = {
     'dofus3': {},
     'beta': {},
@@ -59,9 +50,6 @@ VERSION_WEIGHT_TUNING = {
                        'respermee', 'resperran', 'resperwea'),
     },
     'retro': {
-        # 'ref' used to be here: 1.29 does carry Reflects, on the Prespic ring
-        # and belt, on Sulik and on a fed Tarzantula. The stat was missing from
-        # the item decoder, so the data said it did not exist.
         'zero_stats': ('cridam', 'apred', 'mpred', 'apres', 'mpres',
                        'lock', 'pshdam', 'pshres', 'crires',
                        'permedam', 'perrandam', 'perweadam', 'perspedam',
@@ -585,103 +573,70 @@ RACE_TO_BUILD_PROFILE = {
 
 RACES_WITH_HYBRID_PROFILES = ['Huppermage']
 
-# Per-version overrides of the class build profiles. Every game version is a
-# different game: a class plays differently, a stat that is strong in Dofus 3
-# can be worthless in 1.29, so every class x element/preset x version must be
-# tunable independently. Same shape as RACE_TO_BUILD_PROFILE, resolved most
-# specific first:
-#   version race element/preset param  >  version race 'all' param
-#   > base race element param  >  base race 'all' param
-#   > version 'default' param  >  base 'default' param
-# so an override only states what actually differs in that version. Example:
-#   'retro': {
-#       'Cra': {
-#           'all': {'mpred_importance': 0.9},
-#           'agi': {'airdam': 5.0},
-#       },
-#   }
-# Keep entries sourced from the current meta of that version (guides, class
-# spell kits), one class at a time; empty means "inherit the Dofus 3 profile"
-# (minus the engine-level VERSION_WEIGHT_TUNING above).
+# Per-version overrides of the class build profiles, same shape as
+# RACE_TO_BUILD_PROFILE. Resolved most specific first:
+#   version race element/preset > version race 'all'
+#   > base race element > base race 'all'
+#   > version 'default' > base 'default'
 RACE_PROFILE_OVERRIDES_BY_VERSION = {
     'beta': {},
     'dofus2': {},
-    # Touch overrides. Primary factual basis: the Touch spell kits verified
-    # line by line against the live game backend (dofus_constants_touch_spells,
-    # 165/165 audit), rated per element by kit depth and hardest hit at max
-    # grade; plus the explicit element verdicts of the Guidactik Touch PvM
-    # tier list (2025). Rule of thumb: +0.5 for the clearly dominant element,
-    # -1.0 for a clearly poor kit (top hit under ~75% of the class best),
-    # explicit guide warnings take precedence.
     'touch': {
-        # Transfusion Arrow 48-52 towers over the kit; the air kit tops at
-        # 26-28, roughly half of it.
+        # Transfusion Arrow (48-52) leads the kit; the air kit tops at 26-28.
         'Cra': {
             'str': {'earthdam': 6.5},
             'agi': {'airdam': 5.0},
         },
-        # Troubling Word 42-44 leads; the air kit is thin (3 spells, top
-        # 28-30). Touch Eniripsa remains the game's healer (S tier as such),
-        # unlike the offensive Dofus 3 profile.
+        # Troubling Word (42-44) leads; the air kit is thin (top 28-30).
+        # The Touch Eniripsa is a healer, unlike the offensive Dofus 3 profile.
         'Eniripsa': {
             'all': {'heals_importance': 0.5},
             'int': {'firedam': 6.5},
             'agi': {'airdam': 5.0},
         },
-        # Guidactik: the fire path "lacks power"; earth and water kits are
-        # even (34-37 / 34-38).
+        # The fire path lacks power; earth and water kits are even (34-38).
         'Enutrof': {
             'int': {'firedam': 5.5},
         },
-        # Furnace 33-37 leads a small, even kit (2 spells per element).
+        # Furnace (33-37) leads a small, even kit.
         'Feca': {
             'int': {'firedam': 6.5},
         },
-        # Ecume 38-42 leads (5 water spells).
+        # Ecume (38-42) leads, with 5 water spells.
         'Foggernaut': {
             'cha': {'waterdam': 6.5},
         },
-        # Sword of Fate 41-45 leads the kit.
+        # Sword of Fate (41-45) leads the kit.
         'Iop': {
             'int': {'firedam': 6.5},
         },
-        # Guidactik: the Touch Zobal is "restricted to the air pathway";
-        # water is also the weakest kit (top 26-30).
+        # The Touch Zobal is restricted to the air pathway; water tops at 26-30.
         'Masqueraider': {
             'agi': {'airdam': 6.5},
             'cha': {'waterdam': 5.5},
         },
-        # Pandatak 42-46 leads the kit.
+        # Pandatak (42-46) leads the kit.
         'Pandawa': {
             'str': {'earthdam': 6.5},
         },
-        # Carnage 41-45 leads; the earth kit tops at 28-32, clearly behind.
+        # Carnage (41-45) leads; the earth kit tops at 28-32.
         'Sacrier': {
             'agi': {'airdam': 6.5},
             'str': {'earthdam': 5.0},
         },
-        # Aggressive Brambles 41-46 leads the kit.
+        # Aggressive Brambles (41-46) leads the kit.
         'Sadida': {
             'str': {'earthdam': 6.5},
         },
-        # Deadly Attack 50-54 towers over the kit; the fire kit tops at
-        # 32-36, clearly behind.
+        # Deadly Attack (50-54) leads; the fire kit tops at 32-36.
         'Sram': {
             'str': {'earthdam': 6.5},
             'int': {'firedam': 5.0},
         },
-        # Ecaflip, Osamodas, Rogue, Xelor: even kits, no explicit guide
-        # verdict: inherit the base profile.
     },
     'retro': {
-        # Cra 1.29: the kit is 4 fire arrows (Magic/Burning/Explosive: the solo
-        # PvM reference), a water line crowned by Expiation (37-39, the hardest
-        # hitting arrow) plus Slow Down/Immobilisation (MP removal runs through
-        # wisdom in 1.29, handled by VERSION_WEIGHT_TUNING), a reduced earth
-        # line (post-1.29-nerf: Punitive/Destructive only) and an air line
-        # around the lvl 70 steal (Absorbing Arrow, PvP leaning). Sources: the
-        # 1.29 spell kit from the official lang (dofus_constants_retro_spells),
-        # dofuswiki Cra guides and dofus.com Cra forum threads on the nerf.
+        # Expiation (37-39 water) is the hardest hitting arrow; the earth line
+        # is down to two spells and the air line leans PvP.
         'Cra': {
             'str': {
                 'earthdam': 5.0,
@@ -693,12 +648,8 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'airdam': 5.5,
             },
         },
-        # Sacrier 1.29: the guides are unanimous (Millenium, Gamosaurus,
-        # Breakflip, jeuxonline): full vitality at every level (the class gets
-        # 2 HP per point), and the water path (Dissolution, a melee-zone life
-        # steal, 8 AP = two per turn) is the PvM reference; every path stays
-        # viable. Kit check against the 1.29 lang: Dissolution 22-26 water
-        # steal, Absorption 23-27 fire steal.
+        # The 1.29 Sacrier gets 2 HP per vitality point; Dissolution (22-26
+        # water steal, 8 AP) is the PvM path.
         'Sacrier': {
             'all': {
                 'vit_importance': 1.0,
@@ -707,12 +658,8 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 6.5,
             },
         },
-        # Iop 1.29: fire is the recommended path (Storm of Power at 60,
-        # "unmatched", 9 AP = three per turn; kit check: 36-40 fire), earth
-        # stays the endgame classic (Iop's Wrath 51-70, "without competition"),
-        # and the guides explicitly advise AGAINST the air path. Sources:
-        # Guidactik, Gamosaurus, Millenium, Breakflip, jeuxonline Iop 1.29
-        # guides and the dofus.com retro forum (fire vs air thread).
+        # Storm of Power (36-40 fire, lvl 60) and Iop's Wrath (51-70 earth)
+        # lead; the air path is weak.
         'Iop': {
             'int': {
                 'firedam': 6.5,
@@ -721,12 +668,8 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'airdam': 4.5,
             },
         },
-        # Eniripsa 1.29: THE healer of the game (int raised to 200-300 before
-        # vitality, heals scale with int), far from the offensive Dofus 3
-        # profile (heals_importance 0.05); the water path is built around
-        # Vampiric Word (kit check: 31-40 line steal, damage + self-sustain).
-        # Sources: Millenium, Breakflip, Gamosaurus, Guidactik, jeuxonline
-        # Eniripsa 1.29 guides.
+        # The 1.29 Eniripsa is the healer of the game and its heals scale with
+        # intelligence; the water path is built around Vampiric Word (31-40 steal).
         'Eniripsa': {
             'all': {
                 'heals_importance': 0.6,
@@ -735,34 +678,22 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 6.5,
             },
         },
-        # Enutrof 1.29: water is the stated main path (Pelle Massacrante, the
-        # kit's biggest hit, 45-50 checked against the lang; chance also feeds
-        # the class's dropper identity, raised to ~150 then vitality). The MP
-        # removal identity has no item stat in 1.29 (wisdom covers it at the
-        # engine level). Sources: Millenium, Guidactik, Gamosaurus, Breakflip,
-        # jeuxonline Enutrof 1.29 guides.
+        # Pelle Massacrante (45-50 water) is the kit's biggest hit, and chance
+        # also feeds the class's dropper identity.
         'Enutrof': {
             'cha': {
                 'waterdam': 6.5,
             },
         },
-        # Sram 1.29: earth is the stated best path (earth traps carry the
-        # early game, then Deadly Attack, the kit's biggest hit, 41-60 checked
-        # against the lang; strength raised to 200-300 then vitality/agility).
-        # Sources: Breakflip, Millenium, Guidactik, Gamosaurus, jeuxonline
-        # Sram 1.29 guides and the dofus.com Sram Terre thread.
+        # Earth traps carry the early game, then Deadly Attack (41-60), the
+        # kit's biggest hit.
         'Sram': {
             'str': {
                 'earthdam': 6.5,
             },
         },
-        # Feca 1.29: fire/int is the reference path (int 200-300 then
-        # vitality; the Burning Glyph is the signature and the armors scale
-        # with int, so int both damages and mitigates), the guides explicitly
-        # advise against earth ("losing the burning glyph is really
-        # unfortunate") and call water more limited (Bubble 16-24 checked).
-        # Sources: Gamosaurus, Breakflip, Guidactik, jeuxonline Feca 1.29
-        # guides and the dofus.com Feca fire guide thread.
+        # The Burning Glyph and the Feca armors both scale with intelligence;
+        # the water kit is limited (Bubble 16-24).
         'Feca': {
             'int': {
                 'firedam': 6.5,
@@ -774,26 +705,15 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 5.5,
             },
         },
-        # Osamodas 1.29: fire is the advised path (Crackler Punch 18-37
-        # checked: single target, through obstacles, plus an AoE, and int
-        # also boosts the heals; int to 200 then vitality; the Red Dragoone
-        # is the fire ultimate). The summoner identity is already carried by
-        # the base profile (summons_are_important, 2-3 summons minimum).
-        # Sources: Millenium, Guidactik, Gamosaurus, Breakflip, jeuxonline
-        # Osamodas 1.29 guides.
+        # Crackler Punch (18-37 fire) hits through obstacles, and intelligence
+        # also boosts the Osamodas heals.
         'Osamodas': {
             'int': {
                 'firedam': 6.5,
             },
         },
-        # Xelor 1.29: fire is the obvious path (early spells, correct damage
-        # plus the AP removal identity; int 200-300 then vitality/wisdom: the
-        # AP removal runs through wisdom, covered by the engine tuning and the
-        # AP Removal preset). Earth hits hardest (Xelor Punch 41-45 checked)
-        # but only late: inherit. Air is an acceptable alternative: inherit.
-        # Water is viable only with wisdom and high-level gear. Sources:
-        # Breakflip, Gamosaurus, Millenium, Guidactik, jeuxonline Xelor 1.29
-        # guides.
+        # Fire carries the early game; earth hits hardest (Xelor Punch 41-45)
+        # but only late, and water needs wisdom and high-level gear.
         'Xelor': {
             'int': {
                 'firedam': 6.5,
@@ -802,18 +722,14 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'waterdam': 5.5,
             },
         },
-        # Ecaflip 1.29: earth is the class's main element (6 earth spells,
-        # top Feline Spirit 36-50 checked; strength to 200 then vitality).
-        # Sources: Breakflip, Millenium Ecaflip 1.29 guides.
+        # Earth is the class's main element: 6 spells, topped by Feline Spirit (36-50).
         'Ecaflip': {
             'str': {
                 'earthdam': 6.5,
             },
         },
-        # Sadida 1.29: damage is "essentially earth" (Aggressive Brambles),
-        # while the fire kit is marginal (3 spells, top Wild Grass 11-20
-        # checked). Air's lone big hit (Poupesque Sacrifice 41-45) consumes a
-        # doll: inherited. Sources: Breakflip, Millenium Sadida 1.29 guides.
+        # Damage is essentially earth (Aggressive Brambles); the fire kit is
+        # marginal (top Wild Grass 11-20) and the air big hit consumes a doll.
         'Sadida': {
             'str': {
                 'earthdam': 6.5,
@@ -822,8 +738,6 @@ RACE_PROFILE_OVERRIDES_BY_VERSION = {
                 'firedam': 5.0,
             },
         },
-        # Pandawa 1.29: no override on purpose; the sources split (earth "most
-        # accessible" vs fire "cheapest in AP") and the lang kit is balanced.
     },
 }
 
@@ -941,8 +855,6 @@ def _set_minimums(char, aspects):
         mins['range'] = round(mins['range']
                               * param_for_build(race, elements, 'range_importance', 'float_avg', game_version=game_version))
 
-    # Preserve user-customized AP/MP/Range if they already exist and exceed the new defaults
-    # (skip for mule/leech builds, always use 0)
     if not is_mule and not is_leech and char.minimum_stats:
         saved = pickle.loads(char.minimum_stats)
         for stat_key, stat_name in [('ap', 'AP'), ('mp', 'MP'), ('range', 'Range')]:
@@ -968,9 +880,8 @@ def _set_minimums(char, aspects):
     #    options['turq_dofus'] = (level >= 190)
     #options['shields'] = ('duel' in aspects)
     if is_mule or is_leech:
-        # Prysmaradites give combat bonuses useless for mule/leech
-        # Mule keeps dofus enabled so pp/cha dofuses can still be selected
-        # Leech only needs Cawwot Dofus for wis
+        # Prysmaradites give combat bonuses, useless for mule/leech.
+        # The Cawwot Dofus is the wisdom one.
         if is_leech:
             options['dofus'] = 'cawwot'
         options['prysmaradite'] = False
@@ -1012,7 +923,6 @@ def _set_weights(char, aspects, apply=True):
     w['mp'] = (20 + 100 * level_pct) * b
     range_importance = pfb(race, elements, 'range_importance', 'float_avg')
     w['range'] = (16 + 80 * level_pct) * range_importance * b
-    # Increased main stat priority: mono 7 (was 4.5), bi 6 (was 4), tri 4 (was 3), omni 3 (was 2.5)
     attack_factor = {0: 0, 1: 6, 2: 5, 3: 3, 4: 2}[element_count]
     if 'glasscannon' in aspects:
         attack_factor *= 1.5
@@ -1035,9 +945,7 @@ def _set_weights(char, aspects, apply=True):
     w['agi'] = attack_factor * b if 'agi' in elements else 0
     w['cha'] = attack_factor * b if 'cha' in elements else 0
     w['agi'] = max(w['agi'], (w['dodge'] + w['lock']) / 10)
-    # Power boosts damage in EVERY element you use, so its value scales with the number
-    # of damage elements (~Nx a single element characteristic, minus a discount for the
-    # element chars' secondary stats / set value). pow/element ratios: .67 / 1.6 / 2.67 / 4.25.
+    # Power boosts damage in every element you use, so its value scales with the element count.
     w['pow'] = {0: 0, 1: 4, 2: 8, 3: 8, 4: 8.5}[element_count] * b
     if 'glasscannon' in aspects:
         w['pow'] *= 1.5
@@ -1049,9 +957,6 @@ def _set_weights(char, aspects, apply=True):
     w['waterdam'] = w['cha'] * pfb(race, elements, 'waterdam') * dam_mult
     w['neutdam'] = pfb(race, elements, 'neutdam') * w['earthdam']
     w['dam'] = w['neutdam'] + w['earthdam'] + w['firedam'] + w['airdam'] + w['waterdam']
-    # Damage weight scales with the chosen element(s) (attack_factor), resist did
-    # not, so 'res' next to an element barely moved the set. Boost it enough to
-    # compete with element damage so a "resists" build is actually tanky.
     res_w = ((3 if 'res' in aspects else 1)
              * (0.5 if 'glasscannon' in aspects else 1)
              * b)
@@ -1075,9 +980,7 @@ def _set_weights(char, aspects, apply=True):
     if 'mprape' in aspects:
         w['mpred'] = max(2.5 * w['mpred'], minimum_red)
     w['wis'] = max(w['wis'], (w['apred'] + w['mpred'] + w['apres'] + w['mpres']) / 10.0)
-    # Versions where wisdom itself is the AP/MP defense stat (1.29): the
-    # aprape/mprape presets must push wisdom, since the item stats they
-    # normally push do not exist there.
+    # In 1.29 wisdom is itself the AP/MP defense stat.
     if 'wis_rape_floor' in tuning and ('aprape' in aspects or 'mprape' in aspects):
         w['wis'] = max(w['wis'], tuning['wis_rape_floor'] * b)
     
@@ -1123,8 +1026,7 @@ def _set_weights(char, aspects, apply=True):
     w['pshres'] = 0.1 * b
     w['crires'] = 2 * res_w if 'pvp' in aspects else 0.2 * res_w
 
-    # Retro re-introduces "vs players" resistances (gone from Dofus 3); on a PvP preset,
-    # value each like its matching regular resistance. Unused in versions without them.
+    # Retro has "vs players" resistances, gone from Dofus 3.
     if 'pvp' in aspects or 'duel' in aspects:
         for elem, suffix in product(DAMAGE_TYPES, ['', 'per']):
             w['pvp%sres%s' % (elem, suffix)] = w['%sres%s' % (elem, suffix)]
@@ -1172,8 +1074,7 @@ def _set_weights(char, aspects, apply=True):
 
     w['resperwea'] = chance_of_melee_def * resper_w * 5
 
-    # For pure mule/prospection builds (no combat elements), zero out irrelevant stats
-    # Keep pp (prospecting) and cha (chance, since 10 cha = 1 pp, so cha = pp/10) non-zero
+    # 10 chance = 1 prospecting, so a mule build keeps cha at pp/10.
     if not elements and ('pp' in aspects or 'pods' in aspects):
         for zero_key in ('ap', 'mp', 'range', 'heals', 'summon',
                          'dodge', 'lock', 'agi', 'apred', 'mpred', 'apres', 'mpres',
@@ -1190,7 +1091,6 @@ def _set_weights(char, aspects, apply=True):
         w['dam'] = 0
         w['cha'] = w['pp'] / 10.0
 
-    # For pure leeching/wisdom builds (wis aspect, no combat elements), zero out everything except wis
     if not elements and 'wis' in aspects and 'pp' not in aspects and 'pods' not in aspects:
         for zero_key in ('ap', 'mp', 'range', 'heals', 'summon',
                          'dodge', 'lock', 'agi', 'apred', 'mpred', 'apres', 'mpres',
@@ -1206,8 +1106,7 @@ def _set_weights(char, aspects, apply=True):
             w['%sdam' % damage_type] = 0
         w['dam'] = 0
 
-    # Stats no item of this version's pool carries (see VERSION_WEIGHT_TUNING):
-    # keep the keys so the tuning page stays stable, but at 0.
+    # Stats no item of this version's pool carries; the tuning page expects every key present.
     for zero_key in tuning.get('zero_stats', ()):
         if zero_key in w:
             w[zero_key] = 0

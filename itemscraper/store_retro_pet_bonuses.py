@@ -3,21 +3,16 @@
 
 """store_retro_pet_bonuses.py: maxed-stat variants for Dofus Retro pets.
 
-Classic Retro pets have no fixed stats in Ankama's data: you feed them and one
-stat grows to a cap. Crucially, *most pets are locked to a specific stat* (Air
-Bwak -> Agility, the Dragoones -> Wisdom, Croums -> resist, ...), so the bonus
-can't be auto-derived and isn't free-choice. It therefore lives in a curated,
-hand-editable data file: itemscraper/retro_pet_bonuses.json
+Classic Retro pets have no fixed stats: you feed them and one stat grows to a
+cap, and most pets are locked to a specific stat (Air Bwak -> Agility, the
+Dragoones -> Wisdom, Croums -> resist). Nothing in the data says which, so it
+is curated in itemscraper/retro_pet_bonuses.json:
 
     { "<English pet name>": [ ["<stat name>", <max value>], ... ], ... }
 
-A stat name beginning with "%" is treated as a percentage. A pet may list
-several entries if it genuinely offers a choice; an empty list (or a pet absent
-from the file) gets no variant. For each listed (pet, stat) this creates a
-maxed Pet item, "<Pet> (+80 Agility)", that the optimizer can use, localized
-in FR/ES/PT/DE. Variants reuse the pet's ankama id (encyclopedia still shows one
-pet) and live in a reserved id range so re-runs replace cleanly. Re-dumps
-items_retro.db. Run after load_item_db (like the other retro post-steps)."""
+A stat name beginning with "%" is a percentage; an empty list gets no variant.
+Each (pet, stat) becomes a maxed Pet item, "<Pet> (+80 Agility)", localized in
+FR/ES/PT/DE and reusing the pet's ankama id. Run after load_item_db."""
 
 import json
 import os
@@ -34,13 +29,11 @@ from store_item_obtainment import (  # noqa: E402  (sys.path set above)
 
 GAME_VERSION = 'retro'
 BONUSES_PATH = os.path.join(CURRENT_DIRECTORY, 'retro_pet_bonuses.json')
-# Synthetic id range for generated variants, lets the script wipe & rebuild its
-# own rows without touching real items (real retro ids are < 100000).
+# Synthetic id range for the generated variants; real retro ids are < 100000.
 VARIANT_ID_BASE = 10_000_000
 NON_EN_LANGUAGES = ['fr', 'es', 'pt', 'de']
 
-# Localized labels for the stats used by pets, so variant names read naturally.
-# Falls back to the English stat name for anything not listed here.
+# Localized labels for the stats used by pets.
 STAT_LABELS = {
     'Strength': {'fr': 'Force', 'es': 'Fuerza', 'pt': 'Força', 'de': 'Stärke'},
     'Intelligence': {'fr': 'Intelligence', 'es': 'Inteligencia', 'pt': 'Inteligência', 'de': 'Intelligenz'},
@@ -60,8 +53,7 @@ def _label(stat_name, lang):
     labels = STAT_LABELS.get(stat_name)
     if labels and lang in labels:
         return labels[lang]
-    # Fallback to the English stat name, dropping a leading "% " so it isn't
-    # doubled with the "%" the formatter adds for percentage stats.
+    # Drop a leading "% ": the formatter adds the sign for percentage stats.
     return stat_name[2:] if stat_name.startswith('% ') else stat_name
 
 
@@ -82,7 +74,6 @@ def main():
     pet_type = cursor.execute("SELECT id FROM item_types WHERE name = 'Pet'").fetchone()[0]
     stat_id_by_name = {name: sid for sid, name in cursor.execute("SELECT id, name FROM stats")}
 
-    # Idempotent: drop any variants this script created before, then rebuild.
     cursor.execute("DELETE FROM stats_of_item WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM item_names WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM items WHERE id >= ?", (VARIANT_ID_BASE,))

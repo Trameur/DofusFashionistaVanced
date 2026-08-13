@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Store the skeleton, colours and scale behind each mount.
-
-Source: the DofusDB mounts endpoint, which carries the look string the server
-sends the client, `{bone||1=colour,2=colour,...|scale}`. Only a handful of
-skeletons cover every mount; the variants differ by colour alone.
+"""Store the skeleton, colours and scale behind each mount, from the DofusDB
+mounts endpoint.
 
     python itemscraper/store_dofusdb_mount_looks.py [--game-version dofus3|beta]
 
 Our mount items carry synthetic ankama_ids, so DofusDB's certificateId matches
-nothing. They are paired on the NAME instead, and a pair only counts when all
-five languages agree, so a translation that happens to collide cannot create a
-wrong mount.
+nothing: mounts are paired on their name in all five languages.
 """
 from __future__ import annotations
 
@@ -76,9 +71,8 @@ def parse_look(look):
         value = value.strip()
         if not index.strip().isdigit():
             continue
-        # The client writes two colour forms. Hex is accepted ONLY behind its
-        # sigil: bare decimals like 498894 are also six hex digits, and 16
-        # mounts would silently change colour if the sigil were optional.
+        # A colour comes as a decimal or as #RRGGBB. A bare decimal like 498894
+        # also reads as six hex digits, so hex only counts behind the sigil.
         if value.startswith('#') and re.fullmatch(r'#[0-9A-Fa-f]{6}', value):
             packed.append((int(index), int(value[1:], 16)))
         elif value.lstrip('-').isdigit():
@@ -154,11 +148,6 @@ def main():
         bones[bone] = bones.get(bone, 0) + 1
         matched += 1
 
-    # Say what got nothing, or a source that loses a third of a family reads
-    # as a success. 54 Seemyools shipped lookless for weeks that way: their
-    # four newest colours exist in no client file (checked against Ankama's
-    # own MountsDataRoot, 2026-08-12), so the shortfall is expected, but it
-    # has to stay visible and it has to be seen if it grows.
     uncovered = {}
     for item_id, name in cursor.execute(
             "SELECT i.id, i.name FROM items i WHERE i.ankama_type = 'mounts' "

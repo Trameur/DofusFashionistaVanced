@@ -16,25 +16,15 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Server-side equivalent of the spells page "Fully Buff" button.
-
-The solution page's "With buffs" toggle shows what the stats look like with the
-character's class self-buffs active. Rather than the old hard-coded potion
-bundle, this reuses the real per-version damage-spell data (the same source the
-spells page uses) so the numbers match that page and adapt per game version.
-"""
+"""Server-side equivalent of the spells page "Fully Buff" button."""
 
 from fashionistapulp.dofus_constants import DAMAGE_SPELLS
 
-# Universal buff stats that have no row in the solution stat summary (they're
-# final-damage multipliers, not characteristics), so they're dropped from the
-# preview. Anything else not present in the displayed stats is also ignored
-# client-side, so this is just to keep the emitted data honest.
+# Final-damage multipliers, not characteristics: no row in the solution summary.
 _BUFF_STATS_WITHOUT_ROW = {'final', 'finalheals'}
 
 
 def get_damage_spells_for_version(game_version):
-    # Every version uses its own decoded damage spells -- no cross-version reuse.
     if game_version == 'retro':
         from fashionistapulp.dofus_constants_retro_spells import RETRO_DAMAGE_SPELLS
         return RETRO_DAMAGE_SPELLS
@@ -74,7 +64,7 @@ def _decide_spell_level(level_req, char_level):
 
 def _is_double_buff_slot(spell, buff_spell_names):
     # A "second slot" linked spell shares its slot with the buff it links back
-    # to; the spells page counts only the first one. is_linked == (rank, name).
+    # to; only the first one counts. is_linked == (rank, name).
     if spell.is_linked and spell.is_linked[0] == 2:
         return spell.is_linked[1] in buff_spell_names
     return False
@@ -101,14 +91,10 @@ def _buff_value(buff_scaling, stat, stacks, effect_max_dam):
 
 
 def compute_full_buff_stats(char, game_version):
-    """Stat deltas if the character's class self-buffs are fully active.
+    """{stat_key: value} deltas if the character's class self-buffs are fully active.
 
-    For every class damage spell that buffs a characteristic, take the best
-    usable stack at the highest spell level the character can cast and sum the
-    bonuses. Only universal buffs are kept: category-restricted ones (weapon- or
-    spell-only Power, glyph/trap Power, final damage, ...) have no plain stat row
-    in the solution summary and would misrepresent it. Returns {stat_key: value};
-    the template only applies keys that exist in the displayed stats.
+    Category-restricted buffs (weapon- or spell-only Power, glyph/trap Power,
+    final damage) have no plain stat row in the solution summary and are dropped.
     """
     spells_by_class = get_damage_spells_for_version(game_version)
     spells = spells_by_class.get(char.char_class, []) + spells_by_class.get('default', [])

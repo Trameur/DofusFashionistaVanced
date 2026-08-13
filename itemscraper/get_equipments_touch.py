@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 Turn the raw Touch tables (touch_raw/) into transformed_equipment.json and
-transformed_sets.json, in the same shape get_equipments2.py produces for Dofus 3.
-That lets get_equipments3.py and load_item_db.py --game-version touch reuse the
-existing dump/load path unchanged via --input-dir.
+transformed_sets.json, in the shape get_equipments2.py produces for Dofus 3.
+
+Usage: get_equipments_touch.py [--raw-dir DIR] [--out-dir DIR]
 
 Touch is a Dofus 2 fork, so item records are Ankama's raw d2o objects:
   - possibleEffects[]  effectId -> Effects table (characteristic + operator),
@@ -12,14 +12,7 @@ Touch is a Dofus 2 fork, so item records are Ankama's raw d2o objects:
   - typeId             the slot (see TYPE_MAP); _type=='Weapon' marks weapons.
   - itemSetId          set membership (the sets carry the per-piece bonuses).
 
-Touch keeps a few stats Dofus 3 dropped or reworked: PvP resists, AP/MP parry
-(Esquive) and reduction (Retrait), dodge/lock (Fuite/Tacle) and traps. The maps
-below come from Touch's Effects table and are checked against a handful of known
-items (Gelano gives +1 AP, the Gobball headgear gives Str/Int/Lock/MP-parry, the
-7-piece Gobball set gives +1 AP).
-
-We only emit stat names that exist in STAT_NAME_TO_KEY (get_equipments3.py); the
-dump drops anything else, which is fine since the rest is cosmetic/flavour.
+Only stat names that exist in STAT_NAME_TO_KEY (get_equipments3.py) are emitted.
 """
 
 from __future__ import annotations
@@ -30,9 +23,8 @@ import re
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
-# typeId -> (slot w_type, weapon subtype or None). Only real equipment is kept;
-# resources / consumables / quest items / cosmetic "d'apparat" types are dropped.
-# Weapon subtypes must match WEAPON_TYPES in get_equipments3.py.
+# typeId -> (slot w_type, weapon subtype or None). Weapon subtypes must match
+# WEAPON_TYPES in get_equipments3.py.
 # ---------------------------------------------------------------------------
 TYPE_MAP = {
     1: ('Amulet', None),
@@ -89,50 +81,37 @@ CHAR0_EFFECT_TO_STAT = {
     158: 'Pods', 159: 'Pods',
 }
 
-# Weapon hit lines (characteristic 0, only meaningful on a weapon). diceNum..diceSide
-# is the weapon's damage roll. Routed to "(<Element> damage|steal)" so get_equipments3
-# turns them into weapon_hits rather than flat characteristic bonuses.
+# Weapon hit lines (characteristic 0, only meaningful on a weapon); diceNum..diceSide
+# is the weapon's damage roll. get_equipments3 reads "(<Element> damage|steal)"
+# as a weapon hit.
 WEAPON_DAMAGE_BY_EFFECT = {96: 'Water', 97: 'Earth', 98: 'Air', 99: 'Fire', 100: 'Neutral'}
 WEAPON_STEAL_BY_EFFECT = {91: 'Water', 92: 'Earth', 93: 'Air', 94: 'Fire', 95: 'Neutral'}
 
-# Weapon AP-removal hit: effect 101 ("removes X AP from the enemy", e.g. the Worn
-# Koulosse Staff). It shares characteristic id 1 with the +AP bonus but has
-# bonusType 0, so it isn't a wielder stat; on a weapon it's a hit line, routed to
-# "(removes ap)" so get_equipments3 stores it as a weapon_hit (like life/MP steal).
+# Weapon AP-removal hit: effect 101 ("removes X AP from the enemy") shares
+# characteristic id 1 with the +AP bonus but carries bonusType 0, so it is a hit
+# line and not a wielder stat.
 WEAPON_AP_REMOVAL_BY_EFFECT = {101}
 
-# Weapon heal: effect 108, described by the game as "#1{~1~2 à }#2 (PV rendus)".
-# Like Retro and unlike modern Dofus, which types the same line "soins Feu", the
-# Touch effect names no element. Intelligence still scales it, so the dump files
-# it under the model's Intelligence element and the page drops the label. Fifteen
-# weapons carry it (Arc Hidsad, Pelle Gicque, Le Thanos...) and showed only their
-# damage. 81 shares the description and is unused by any current item.
+# Weapon heal: effects 108 and 81, "#1{~1~2 à }#2 (PV rendus)". The Touch line
+# names no element (Retro does the same); Intelligence scales it, so it is filed
+# under the model's Intelligence element and the page drops the label.
 WEAPON_HEAL_BY_EFFECT = {108, 81}
 
-# What the client says about an item beyond its stats, under the names Dofus 3
-# already uses so the site's own translations apply. Only these two are certain:
-#   795 "Arme de chasse", kept when its value is 1. At 0 it sits on the Hunter's
-#       own tools (Couteau de Chasse, Arc de Chasse...); at 1 it names the same
-#       seventeen weapons Dofus 3 lists, which is the cross-check.
-#   981 "Lie au personnage", no parameter at all, on 241 items.
-# 983 "Echangeable : #1" is left out on purpose: it carries a parameter here
-# (0, 62, 63) where Dofus 3 only ever writes 0, so the two do not say the same
-# thing. 724 "Titre : #3" holds the title in a field the flag cannot carry.
+# Non-stat item lines, under the names Dofus 3 uses so the site's translations
+# apply. 795 "Arme de chasse" only means a hunting weapon at value 1; at 0 it
+# sits on the Hunter's own tools. 981 "Lie au personnage" takes no parameter.
 FLAG_BY_EFFECT = {795: 'Hunting Weapon', 981: 'Linked to the character'}
 FLAG_NEEDS_VALUE = {795: 1}
 
-# Equip-condition codes -> internal stat (the 6 primaries, like Retro;
-# alignment Ps/Pa and quest/flag codes are skipped to avoid mis-gating).
+# Equip-condition codes -> internal stat (the 6 primaries; alignment Ps/Pa and
+# quest/flag codes are skipped).
 CONDITION_MAP = {
     'CS': 'Strength', 'CI': 'Intelligence', 'CA': 'Agility',
     'CV': 'Vitality', 'CC': 'Chance', 'CW': 'Wisdom',
 }
 
-# CP and CM gate Action and Movement Points, on the total WITH the item's own
-# bonus counted: the 2.9 devblog says the "AP < 12" pieces "become unequippable
-# if the players who use them try to reach 12 AP while wearing them", naming
-# Cushtycloak, Awmigawd Band and the other carriers. That is their design: the
-# +1 AP is cheap because it can never take the character to the cap.
+# CP and CM gate Action and Movement Points on the total WITH the item's own
+# bonus counted, so an "AP < 12" piece cannot itself take the character to 12.
 AP_MP_CONDITION_MAP = {'CP': 'AP', 'CM': 'MP'}
 
 LANGS = ['en', 'fr', 'es', 'pt', 'de']
@@ -158,12 +137,10 @@ def stat_for_effect(eid: int, effects: dict):
     name = CHAR_TO_STAT.get(char)
     if name is None:
         return None
-    # A characteristic id is shared by the real item bonus AND by combat-only
-    # effects with the same characteristic: e.g. "removes 1-2 AP from the enemy",
-    # "AP lost by the caster", weapon hits, in-fight steals. Ankama flags wielder
-    # stats with bonusType 1 (bonus) / -1 (malus); bonusType 0 is an in-fight
-    # effect and must NOT become a flat characteristic (was turning "removes X AP"
-    # into a phantom "+X AP" bonus, e.g. Worn Koulosse Staff).
+    # A characteristic id is shared by the wielder bonus and by combat-only
+    # effects ("removes 1-2 AP from the enemy", weapon hits, in-fight steals).
+    # Ankama flags wielder stats with bonusType 1 (bonus) / -1 (malus);
+    # bonusType 0 is in-fight only and is not a flat characteristic.
     if e.get('bonusType') not in (1, -1):
         return None
     return name, sign
@@ -204,16 +181,14 @@ def decode_effects(possible_effects, effects, is_weapon):
         if resolved is None:
             continue
         name, sign = resolved
-        # Positive stats: get_equipments3 keeps the max (best roll); negatives:
-        # it keeps stat[0]. Signing both ends gives the right "best case" either way.
+        # get_equipments3 keeps the max on a positive stat and stat[0] on a
+        # negative one, so both ends carry the sign.
         stats.append([sign * lo, sign * hi, name])
     return stats, hits
 
 
-# A Touch shield carries no stat of its own: it is fed forgemagie runes and
-# gains bonusRatio per level, up to level 100. So its final line is ratio * 100,
-# and the data agrees: every one of the ~250 ratios shipped is an exact
-# hundredth. Without this a player sees 67 shields with no stats at all.
+# A Touch shield carries no stat of its own: it gains bonusRatio per level, up
+# to level 100, so its final line is ratio * 100.
 SHIELD_MAX_LEVEL = 100
 
 
@@ -253,12 +228,8 @@ def decode_conditions(criteria: str):
     the set-bonus gate 'Pk<N' -> 'Set bonus < N' so trophies that limit panoply bonuses
     get the 'light_set' weird condition downstream (get_equipments3.py).
 
-    Every gate reads the post-equip total, the item's own bonus included, which
-    is what the model compares too, so the thresholds pass through unchanged.
-
     A part holding a '|' is dropped whole: the min/max tables can only AND, and
-    turning "CM<6|CP<12" (the Professor Xa pieces) into two AND gates would
-    forbid what the game allows.
+    "CM<6|CP<12" as two AND gates would forbid what the game allows.
     """
     out = []
     if not criteria or criteria == 'null':
@@ -345,8 +316,7 @@ def build_sets(sets_by_lang, effects, valid_item_ids):
             continue
 
         # The LP supports set bonuses for at most 8 equipped pieces (ss index =
-        # num_pieces+1, capped at 9 in model.py); tiers above the set's own item
-        # count are unreachable too. All other versions cap at 8 as well.
+        # num_pieces+1, capped at 9 in model.py).
         max_pieces = min(len(equipment_ids), 8)
 
         stats_list = []
@@ -385,8 +355,7 @@ def build_sets(sets_by_lang, effects, valid_item_ids):
 def load_mounts(raw_dir: Path):
     """Read the scraped Touch mounts (download_touch_mounts.py) as Pet-slot records.
 
-    Mounts share Ankama ids with equipment, so get_equipments3 offsets their db id;
-    the model's dragoturkey toggle gates them by "Dragoturkey" in the English name.
+    Mounts share Ankama ids with equipment, so get_equipments3 offsets their db id.
     """
     path = raw_dir / 'mounts.json'
     if not path.exists():

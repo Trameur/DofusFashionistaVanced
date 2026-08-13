@@ -45,9 +45,8 @@ class Char(models.Model):
     allow_points_distribution = models.BooleanField(default=True)
     # 0 male, 1 female, only used to pick the body and head of the preview.
     gender = models.IntegerField(default=0)
-    # Five hex triplets for the preview, comma separated. Empty means the
-    # default palette, which is what every build drew before.
-    # Six hex triplets and five commas is 41, so 40 rejected every full set.
+    # Six hex triplets for the preview, comma separated (41 chars). Empty means
+    # the default palette.
     colors = models.CharField(max_length=48, blank=True, default='')
     # Slots the preview leaves off, comma separated, e.g. "hat,cloak".
     hidden_parts = models.CharField(max_length=60, blank=True, default='')
@@ -59,9 +58,7 @@ class Char(models.Model):
 
     class Meta:
         # The shared-builds page filters on these three and orders by date.
-        # game_version alone does not narrow anything (nearly every row is
-        # dofus3), so without this the browse scans the whole table, blobs
-        # included, to find the couple of dozen shared builds.
+        # game_version alone is not selective: nearly every row is dofus3.
         indexes = [
             models.Index(fields=['game_version', 'link_shared', 'deleted',
                                  '-created_time'],
@@ -69,7 +66,7 @@ class Char(models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        # MySQL strict mode rejects over-long values, so clip the labels to the column size.
+        # MySQL strict mode rejects over-long values.
         for field_name in ('name', 'char_name', 'char_build'):
             value = getattr(self, field_name, None)
             if value:
@@ -122,8 +119,7 @@ class BuildView(models.Model):
         ]
 
 class BuildComment(models.Model):
-    """Comments left by users on shared builds. Soft-deleted via `deleted` flag
-    (same pattern as Char.deleted) so moderation history stays intact."""
+    """Comments left by users on shared builds, soft-deleted via `deleted`."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     build = models.ForeignKey(Char, on_delete=models.CASCADE)
     content = models.TextField(max_length=2000)
@@ -136,10 +132,8 @@ class BuildComment(models.Model):
         ]
 
 class BuildTag(models.Model):
-    """Free-form tags that the build owner attaches to a Char to help
-    classification ("Klime", "PvP arena", "Frigost dungeons"). Stored
-    lowercased + trimmed so case-insensitive lookups are cheap; original
-    display name is preserved in `display_name`."""
+    """Free-form tags the build owner attaches to a Char ("Klime", "PvP arena").
+    `name` is lowercased and trimmed, `display_name` keeps the original."""
     char = models.ForeignKey(Char, on_delete=models.CASCADE, related_name='tags')
     name = models.CharField(max_length=40, db_index=True)
     display_name = models.CharField(max_length=40)
@@ -153,11 +147,8 @@ class BuildTag(models.Model):
 
 
 class SolutionGeneration(models.Model):
-    """Recent generated solutions for a character.
-
-    A generation is deliberately tied to one Char and one game version: Dofus 3,
-    Retro and Touch builds never share item ids or calculations.
-    """
+    """Recent generated solutions for a character, per game version: item ids
+    and calculations are not shared across versions."""
     char = models.ForeignKey(Char, on_delete=models.CASCADE,
                              related_name='solution_generations')
     game_version = models.CharField(max_length=20, default='dofus3', db_index=True)
@@ -189,11 +180,8 @@ class UserFollow(models.Model):
 
 
 class WorkshopItem(models.Model):
-    """A single item the user wants to craft (or remember to acquire).
-
-    Stored per game_version so a Dofus 3 craft list is independent from a
-    Dofus 2 one. Quantity defaults to 1, players who add the same item
-    multiple times bump the counter rather than creating duplicates."""
+    """A single item the user wants to craft, per game version. Adding the same
+    item again bumps quantity."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item_id = models.IntegerField()  # internal id from structure.items_dict
     game_version = models.CharField(max_length=20, default='dofus3')
@@ -208,11 +196,8 @@ class WorkshopItem(models.Model):
 
 
 class InventoryFolder(models.Model):
-    """A named group of items the user owns ("Imagiro", "Bank alt", ...).
-
-    Scoped to a game version so a server folder never mixes items across
-    versions. Folders double as the unit the solver can be restricted to
-    ("only use items from this folder")."""
+    """A named group of items the user owns ("Imagiro", "Bank alt"), per game
+    version. The solver can be restricted to one folder."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     game_version = models.CharField(max_length=20, default='dofus3')
@@ -226,12 +211,9 @@ class InventoryFolder(models.Model):
 
 
 class InventoryItem(models.Model):
-    """One physical item the user owns, in a folder.
-
-    The same item can appear several times (two Gelanos with different
-    rolls). custom_stats holds the real rolls as a JSON {stat_key: value}
-    map when known (e.g. saved from the smithmagic page or from a solution's
-    stat editor); empty means "stats as listed in the encyclopedia"."""
+    """One physical item the user owns, in a folder; the same item can appear
+    several times with different rolls. custom_stats is a JSON
+    {stat_key: value} map, empty meaning the stats the encyclopedia lists."""
     folder = models.ForeignKey(InventoryFolder, on_delete=models.CASCADE,
                                related_name='items')
     item_id = models.IntegerField()  # internal id from structure.items_dict
@@ -245,10 +227,8 @@ class InventoryItem(models.Model):
 
 
 class CommentReport(models.Model):
-    """Player-submitted report on a comment. unique_together prevents a single
-    user from spamming reports on the same comment. When 3 distinct users have
-    reported one comment the view will auto-mark it deleted pending admin
-    review (see chardata.comment_view.report_comment)."""
+    """Player-submitted report on a comment. Three distinct reporters auto-mark
+    the comment deleted (chardata.comment_view.report_comment)."""
 
     REASON_CHOICES = [
         ('spam', 'Spam'),
@@ -279,8 +259,7 @@ class ContactForm(forms.Form):
 class SolutionCounter(models.Model):
     input_hash = models.BigIntegerField(unique=True)
     get_count = models.IntegerField(default=0)
-    # Game version the solve ran under, for per-version stats. Set when the row
-    # is first created; rows from before this field existed default to 'dofus3'.
+    # Game version the solve ran under, for per-version stats.
     game_version = models.CharField(max_length=20, default='dofus3', db_index=True)
     created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     modified_time = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -301,9 +280,8 @@ class SolutionMemoryHits(models.Model):
 
 
 class PageHit(models.Model):
-    """One row per page and per day. Ids in the path are folded into a
-    placeholder, so this counts pages and not visits, and it stores nothing
-    about who asked."""
+    """One row per page and per day; ids in the path are folded into a
+    placeholder."""
     day = models.DateField(db_index=True)
     path = models.CharField(max_length=200)
     game_version = models.CharField(max_length=20, default='dofus3')
@@ -314,9 +292,8 @@ class PageHit(models.Model):
 
 
 class SiteSetting(models.Model):
-    """Settings the owner changes from the admin page. gen_config.json is on
-    the server and only read at boot, so anything that has to move without a
-    deploy lives here instead."""
+    """Settings the owner changes from the admin page; gen_config.json is only
+    read at boot."""
     key = models.CharField(max_length=60, unique=True)
     value = models.TextField(blank=True)
 
@@ -328,13 +305,12 @@ from django.utils import translation as _translation
 
 @receiver(user_logged_in)
 def _remember_language_on_login(sender, request, user, **kwargs):
-    """Backfill the notification-email language for accounts that never used
-    the language selector. An explicit choice is never overwritten."""
+    """Backfill the notification-email language; an explicit choice is never
+    overwritten."""
     try:
         alias, _created = UserAlias.objects.get_or_create(user=user)
         if not alias.language:
             alias.language = _translation.get_language() or 'en'
             alias.save(update_fields=['language'])
     except Exception:
-        # A profile hiccup must never break the login itself.
         pass

@@ -49,9 +49,9 @@ def exclusions(request, char_id):
     all_items = s.get_all_unique_items_ids_with_type()
     all_items_names = s.get_all_unique_items_names_with_ids(language)
 
-    # Some items (like Gelano) are grouped variants indexed under an id you can't
-    # forbid directly. Point them at a forbiddable variant instead, forbidding one
-    # forbids the whole group. Don't mutate all_items_names, it's shared.
+    # Grouped variants (Gelano) are indexed under an id that cannot be forbidden;
+    # map them to a forbiddable variant, which forbids the whole group.
+    # all_items_names is shared, do not mutate it.
     forbiddable_ids = set(all_items)
     or_name_to_forbiddable = {}
     for item_id in all_items:

@@ -3,28 +3,16 @@
 
 """store_retro_set_bonuses.py: fill missing Dofus Retro set bonuses.
 
-Set bonuses are not in Ankama's Retro lang CDN (they're server-side), so the
-builder seeds them from a vendored 1.29 community snapshot
-(itemscraper/retro_set_bonuses.json). That snapshot misses ~70 sets added since
-1.29: their `set_bonus` rows are absent, so equipping >=2 pieces used to crash
-the optimizer and, once that was made safe, simply granted no set bonus.
+Set bonuses are server-side, so they are not in Ankama's Retro lang CDN. The
+vendored 1.29 snapshot (itemscraper/retro_set_bonuses.json) misses the sets
+added since 1.29. Dofus Retro Tools (dofusretrotools.com) exposes them at
+/api/set-bonuses, keyed by the Ankama set id (`clothId`), which matches
+sets.ankama_id exactly.
 
-Dofus Retro Tools (dofusretrotools.com) exposes a clean JSON API,
-/api/set-bonuses, with every set keyed by its Ankama set id (`clothId`) and a
-full per-piece-count bonus table. We key on that id (it matches sets.ankama_id
-exactly) and map its stat codes to our internal stat names. Validated against
-the sets we already have: the common codes agree exactly; the snapshot's gaps
-and a Puissance/Damage conflation are corrected by this source.
-
-Conservative by default: only sets with zero existing set_bonus rows are filled,
-leaving the validated data for the rest untouched (pass --all to refresh every
-set from the API instead).
-
-Two phases, mirroring the repo's vendored-snapshot approach:
-  * --scrape: fetch the API and (re)write the committed snapshot
-    retro_set_bonuses_drt.json (full source, keyed by ankama id), then apply it.
-  * default: apply the committed snapshot to the DB with no network, so this
-    post-load step works offline on every rebuild.
+Only sets with no set_bonus row at all are filled, unless --all is given.
+  * --scrape: fetch the API and rewrite the committed snapshot
+    retro_set_bonuses_drt.json, then apply it.
+  * default: apply the committed snapshot, with no network.
 Run after load_item_db, like the other retro post-steps.
 """
 
@@ -49,15 +37,10 @@ from store_item_obtainment import (  # noqa: E402  (sys.path set above)
 GAME_VERSION = 'retro'
 API_URL = 'https://dofusretrotools.com/api/set-bonuses'
 HEADERS = {'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json'}
-# Vendored snapshot of the scraped bonuses, keyed by set ankama id so it can be
-# re-applied to a freshly rebuilt DB without touching the network. Committed to
-# the repo; --scrape refreshes it, the default run just applies it.
+# Vendored snapshot of the scraped bonuses, keyed by set ankama id.
 CACHE_PATH = os.path.join(CURRENT_DIRECTORY, 'retro_set_bonuses_drt.json')
 
-# Dofus Retro Tools two-letter stat codes -> internal stat names. Validated by
-# exact agreement with the sets that already had bonuses (and by per-code spot
-# checks: pd=Pods on the Bwork Chief set, rn=Neutral resist on Country, ic=Summon
-# on Bearman, pu=Power being a code distinct from dmg=Damage).
+# Dofus Retro Tools two-letter stat codes -> internal stat names.
 STAT_CODE = {
     'vi': 'Vitality', 'sa': 'Wisdom', 'ag': 'Agility', 'in': 'Intelligence',
     'ch': 'Chance', 'fo': 'Strength', 'dmg': 'Damage', 'so': 'Heals',
@@ -71,9 +54,9 @@ _ELEMENTS = {'feu': 'Fire', 'terre': 'Earth', 'eau': 'Water', 'air': 'Air', 'neu
 def _code_to_stat(code, value):
     """A bonus entry's code/value -> (internal stat name, value), or (None, _).
 
-    Most codes are the two-letter STAT_CODE keys; resists, flat HP and physical
-    reduction come through as a full French phrase (e.g. "10 % de resistance a la
-    terre", "+100 en vie", "Reduction physique de 1") whose value is in the text.
+    Resists, flat HP and physical reduction arrive not as a STAT_CODE key but as
+    a French phrase carrying the value: "10 % de resistance a la terre",
+    "+100 en vie", "Reduction physique de 1".
     """
     if code in STAT_CODE:
         return STAT_CODE[code], value

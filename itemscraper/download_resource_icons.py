@@ -14,29 +14,12 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Download the official icons of every recipe ingredient (resource pages).
+"""Download the icons of every recipe ingredient into chardata/resources/.
 
-Icons are stored by ANKAMA ID (not name: resource names carry characters
-filenames cannot). Existing files are skipped, so the step is cheap on re-runs.
+Icons are named by Ankama id: resource names carry characters filenames cannot.
 
-Default (dofus3, shared with beta like the root items/ directory):
-ingredient ids come from item_recipe_ingredient_names in items.db and
-items_beta.db; icon URLs come from the dofusdude raw files (all_*_en.json,
-image_urls.icon, 64px); target is chardata/resources/60x60/.
-
---game-version touch: ids come from items_touch.db, icons from the official
-Touch assets CDN (config.json assetsUrl + /gfx/items/<iconId>.png, iconId
-from touch_raw/Items_fr.json); target is chardata/resources/touch/60x60/.
-
---game-version retro: ids come from items_retro.db; icons are RENDERED from
-the official 1.29 client (clips/items/<type>/<gfx>.swf via the Cytrus CDN,
-type and gfx from retro_raw/items_fr.json), reusing download_retro_images'
-dual-background renderer and SWF cache. Needs java + ffdec (warns and keeps
-the committed icons without them). A gfx missing in the client stays absent.
-
---game-version dofus2: same dofusdude mechanism as dofus3 but against the
-dofus2 API raws (itemscraper/dofus2/all_*_en.json, ids from items_dofus2.db);
-target is chardata/resources/dofus2/60x60/.
+Usage (from itemscraper/):
+    python download_resource_icons.py [--game-version dofus3|touch|retro|dofus2]
 """
 
 import argparse
@@ -135,8 +118,7 @@ def retro_icon_keys():
 
 
 def run_retro(force):
-    """Render the retro ingredient icons from the official client (the
-    other versions download ready-made PNGs; retro has none first-hand)."""
+    """Render the retro ingredient icons from the client SWFs; needs java + ffdec."""
     from concurrent.futures import ThreadPoolExecutor
     from download_retro_monster_artworks import (
         download_manifest, load_fragment, find_tool)
@@ -264,8 +246,7 @@ def main():
         try:
             resp = session.get(urls[ankama_id], timeout=30)
             if resp.status_code == 404:
-                # Not an error: the source simply has no icon for this item
-                # (community CDNs are incomplete); the page shows no image.
+                # 404 means the source has no icon for this item, not an error
                 absent += 1
                 continue
             resp.raise_for_status()

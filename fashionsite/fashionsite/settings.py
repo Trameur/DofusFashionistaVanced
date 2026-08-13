@@ -100,8 +100,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Raw skin and bone bundles from Ankama's CDN, and where the preview bakes them
-# the first time a page asks. Unset means no character preview.
+# Raw skin and bone bundles from Ankama's CDN, and where the preview bakes them.
 CHARACTER_BUNDLE_DIR = os.environ.get(
     'CHARACTER_BUNDLE_DIR',
     os.path.join(os.path.dirname(BASE_DIR), 'character_bundles'))
@@ -164,8 +163,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 MIDDLEWARE = [
-    # SecurityMiddleware actually emits the SECURE_* headers configured above
-    # (hsts, nosniff, referrer-policy); without it they were never sent.
+    # Emits the SECURE_* headers configured above (hsts, nosniff, referrer-policy).
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
@@ -201,9 +199,6 @@ if not DEBUG:
     SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 
-# Reset the global current game version before each test so a test that sets a
-# non-default version cannot leak it into the next one (only read by manage.py
-# test; inert in production).
 TEST_RUNNER = 'fashionsite.test_runner.ResetGameVersionRunner'
 
 
@@ -274,16 +269,10 @@ with open(os.path.join(CONFIG_DIR, 'serve_static')) as f:
     #ALLOWED_HOSTS = ['fashionistavanced.com', 'www.fashionistavanced.com']
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATIC_URL = '/static/'
-    # Django 6 honours STORAGES, not the legacy STATICFILES_STORAGE (it silently
-    # ignores the latter -- which left production serving un-hashed static files
-    # behind nginx's 30-day cache, so CSS/JS changes never reached returning
-    # users). Hash them in production so every deploy busts the cache; plain
-    # storage in dev, where runserver serves static without collectstatic (and
-    # ManifestStaticFilesStorage.url() needs the manifest to exist).
+    # Django 6 honours STORAGES and silently ignores the legacy STATICFILES_STORAGE.
+    # ManifestStaticFilesStorage.url() needs a manifest, which runserver never collects.
     if not serve_static or not DEBUG:
-        # Lenient: a missing manifest entry (an asset referenced by a template
-        # or CSS url() but not collected) degrades to the unhashed path instead
-        # of raising and 500-ing the whole page. Real files are still hashed.
+        # A missing manifest entry degrades to the unhashed path instead of raising.
         _staticfiles_backend = 'fashionsite.storage.LenientManifestStaticFilesStorage'
     else:
         _staticfiles_backend = 'django.contrib.staticfiles.storage.StaticFilesStorage'
@@ -294,8 +283,6 @@ with open(os.path.join(CONFIG_DIR, 'serve_static')) as f:
 
 LOGGING = {
     'version': 1,
-    # Keep app loggers (chardata.*, fashionistapulp.*) alive so their errors reach
-    # the root handler below instead of being silently disabled.
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
@@ -349,10 +336,8 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        # Bots constantly probe the raw IP with spoofed/garbage Host headers,
-        # each producing a uniquely-worded DisallowedHost error that slips past
-        # the rate-limited mail filter. These aren't actionable, so log to the
-        # console only and never email them.
+        # Bots probe the raw IP with garbage Host headers; each DisallowedHost is
+        # worded differently and slips past the rate-limited mail filter.
         'django.security.DisallowedHost': {
             'handlers': ['console'],
             'level': 'ERROR',
@@ -368,11 +353,8 @@ LOGGING = {
             'level': 'DEBUG',
         },
     },
-    # Catch-all. Any ERROR logged anywhere that a more specific logger above didn't
-    # already handle propagates here and gets emailed: app-code logger.error /
-    # logger.exception (including exceptions a view caught and logged instead of
-    # letting them 500), library errors, management commands, etc. django.request
-    # and django.security set propagate=False, so unhandled 500s are not sent twice.
+    # Catch-all. django.request and django.security set propagate=False, so
+    # unhandled 500s are not mailed twice.
     'root': {
         'handlers': ['console', 'mail_admins'],
         'level': 'ERROR',
@@ -395,16 +377,9 @@ EMAIL_HOST_USER = GEN_CONFIGS['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = GEN_CONFIGS['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = GEN_CONFIGS['EMAIL_PORT']
 
-# Local testing helper: run the server with FASHIONISTA_EMAIL_CONSOLE=1 to print
-# outgoing mail (password reset, welcome, notifications) to the terminal instead
-# of sending it through SMTP. Opt-in via env var so it never affects production
-# or the scheduled tasks that really need to send mail.
 if os.environ.get('FASHIONISTA_EMAIL_CONSOLE') == '1':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Server error notifications: Django's AdminEmailHandler sends to ADMINS on
-# ERROR-level log records (including unhandled exceptions via django.request).
-# Rate-limited by chardata.log_filters.RateLimitedErrorFilter.
 ADMINS = [('DofusFashionista Errors', EMAIL_HOST_USER)]
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -427,12 +402,8 @@ EXPERIMENTS = {
     'ITEM_LINKS': True,
 }
 
-# The drawn character on a build page. Off while the art assembly is
-# reworked: a head ships every piece twice, an untinted copy and a colourable
-# twin whose bounds differ, and the renderer has no rule for choosing, so
-# pieces land beside their own outline and a hand or a shield drifts. The
-# class avatar stands in, which is what every page already falls back to.
-# Turn it on again once a whole character is right in all five orientations.
+# The drawn character on a build page. Off while the art assembly is reworked;
+# the class avatar stands in.
 CHARACTER_PREVIEW = False
 
 DEFAULT_THEME = 'lighttheme'

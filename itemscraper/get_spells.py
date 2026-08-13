@@ -37,11 +37,10 @@ ELEMENT_ID_TO_TOKEN = {
 BEST_ELEMENT_DESCRIPTION_TOKENS = ("best-element", "best element")
 BEST_ELEMENT_TOKENS = ("EARTH", "FIRE", "WATER", "AIR")
 
-# "A,*E3531" means the row only lands while the caster carries state 3531, and
-# "*e3531" while it does not, so the two spellings are different conditions and
-# the whole set of them names the case a row belongs to. The star is optional:
-# Devouring Arrow writes its stack states as plain "E573". A state token is a
-# letter followed by digits, which is what tells it from a target letter.
+# "A,*E3531" means the row lands only while the caster carries state 3531, "*e3531"
+# only while it does not. The star is optional (Devouring Arrow writes "E573"). A
+# state token is a letter followed by digits, which is what tells it from a target
+# letter.
 STATE_IN_TARGET_MASK = re.compile(r"\b\*?[eE]\d+\b")
 
 ZONE_SIGNATURE_KEYS = ("shape", "param1", "param2")
@@ -88,7 +87,7 @@ def _load_datacenter_table(path: Path) -> Dict[int, Dict[str, Any]]:
             table[int(key)] = record
         return table
 
-    # Some tables (rarely) omit objectsById; fall back to the IDs embedded in the data itself.
+    # Some tables omit objectsById; fall back to the ids embedded in the records.
     for record in refs.values():
         record_id = record.get("id")
         if record_id is None:
@@ -355,9 +354,8 @@ class SpellTransformer:
             return None
         if min_val == max_val:
             return str(min_val)
-        # A zero maximum is no maximum: Ankama's own line reads
-        # "#1{{~1~2 to }}#2 Fire damage" and drops the "to #2" part. Kept as
-        # "16-0" the page printed a range that boosted to 86 to 25.
+        # A zero maximum is no maximum: Ankama's own template
+        # ("#1{{~1~2 to }}#2 Fire damage") drops the "to #2" part.
         if max_val == 0:
             return str(min_val)
         return f"{min_val}-{max_val}"
@@ -382,18 +380,16 @@ class SpellTransformer:
                 heals_flag = "heal" in desc_lower
                 element_token = ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
 
-                # A state in the target mask gates the row: Schnaps deals its
-                # Air damage sober or drunk, never both, and the two rows were
-                # summed. Rows sharing a state land together.
+                # A state in the target mask gates the row: Schnaps deals its Air
+                # damage sober or drunk, never both. Rows sharing a state land
+                # together.
                 state = STATE_IN_TARGET_MASK.findall(
                     str(effect.get("target_mask") or ""))
                 state_group = ",".join(sorted(state)) if state else None
 
-                # The mask and the zone together say which case a row belongs
-                # to. Ankama writes one row per case with the same damage in
-                # each: Bramble hits the target, then the infected around it;
-                # Epidemic hits the cell, then the spread; Bear Cry hits
-                # through a glyph or directly. A cast lands one of them.
+                # Mask plus zone identifies the case. Ankama writes one row per
+                # case with the same damage in each (Bramble, Epidemic, Bear Cry);
+                # a cast lands one of them.
                 situation = "%s|%s" % (
                     effect.get("target_mask") or "",
                     _zone_signature(effect.get("zone")),
@@ -596,11 +592,8 @@ class SpellTransformer:
             entry["level_count"] = len(levels)
             entry["max_grade"] = max((lvl.get("grade") or 0 for lvl in levels), default=0)
             breed_ids = {lvl.get("spell_breed") for lvl in levels if lvl.get("spell_breed")}
-            # Recent classes (e.g. Forgelance = breed 20) carry the player breed only
-            # in spell_variants (breedId); their spell levels' spell_breed is an
-            # unrelated id (2374/2376 for Forgelance), so spell_breed alone drops them
-            # from the class map. Fold in the variant breed; write_class_map then keeps
-            # only ids that are real breeds, dropping the unrelated spell_breed noise.
+            # Recent classes (Forgelance = breed 20) carry the player breed only in
+            # spell_variants (breedId); their levels' spell_breed is an unrelated id.
             variant_link = self.variant_lookup.get(int(spell_id))
             if variant_link and variant_link.breed_id:
                 breed_ids.add(variant_link.breed_id)
@@ -648,8 +641,7 @@ class SpellTransformer:
             if localized:
                 names.setdefault(name_en, localized)
 
-        # Dofus 3 and the beta share this map but ship different spell lists, so
-        # a run adds to what the other wrote instead of dropping its spells.
+        # Dofus 3 and the beta share this file with different spell lists.
         merged: Dict[str, Dict[str, str]] = {}
         if output_path.exists():
             try:

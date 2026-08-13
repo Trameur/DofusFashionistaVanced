@@ -5,15 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Keyword-based natural-language build request parser.
-
-Turns a free-text query like "Iop 200 terre PvM" or "Cra agi pvp niveau 150"
-into structured build parameters. No LLM, pure multilingual keyword matching
-(FR / EN / ES / PT / DE), so it works offline, instantly and for free.
-
-Output: dict with char_class, level, element_aspect (str/int/cha/agi/omni or
-None), style (solo_pvm / group_pvm / pvp / farm) and the derived aspect set.
-"""
+"""Keyword-based build request parser (FR / EN / ES / PT / DE)."""
 
 import re
 import unicodedata
@@ -61,10 +53,9 @@ _STYLE_BASE_ASPECTS = {
     'farm': {'wis', 'pp'},
 }
 
-# Explicit focus keywords -> extra build aspects, layered on top of the style's
-# base aspects. Lets "osa invocation", "sram pièges", "eni soin", "pvp pp" steer
-# the build beyond the four coarse styles. Keys must stay valid smart_build
-# aspects (ASPECT_TO_SHORT_NAME / ALL_ASPECTS_LIST).
+# Focus keyword -> extra build aspect, layered on the style's base aspects.
+# Keys must stay valid smart_build aspects (ASPECT_TO_SHORT_NAME /
+# ALL_ASPECTS_LIST).
 _ASPECT_WORDS = {
     'heal': ['heal', 'heals', 'healer', 'soin', 'soins', 'soigneur', 'sanador',
              'curandeiro', 'cura', 'heilung', 'heiler'],
@@ -93,9 +84,8 @@ _CLASS_DEFAULT_ELEMENT = {
 }
 
 
-# Extra class aliases on top of the canonical English names: official French
-# and German names (which differ for several classes) and the abbreviations
-# players actually type. All normalized/accent-folded at index build time.
+# Aliases on top of the canonical English names: the official French and German
+# names, which differ for several classes, plus the usual player abbreviations.
 _EXTRA_CLASS_ALIASES = {
     'Cra': ['craa', 'archer'],
     'Ecaflip': ['eca', 'ecaf', 'eca'],
@@ -139,9 +129,8 @@ def _match_class(tokens):
         cls = _CLASS_ALIAS_INDEX.get(token)
         if cls is not None:
             return cls
-    # 2. Prefix match: a token like "sacrie" / "masquer" that uniquely begins
-    #    (or is begun by) a single class's name/alias. Only fire when it points
-    #    at exactly one class, so ambiguous fragments stay unmatched.
+    # 2. Prefix match: a token like "sacrie" that uniquely begins (or is begun
+    #    by) a single class's name/alias.
     for token in tokens:
         if len(token) < _MIN_PREFIX_LEN:
             continue

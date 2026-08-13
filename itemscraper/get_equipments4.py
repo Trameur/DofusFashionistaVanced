@@ -31,10 +31,7 @@ from fashionistapulp.fashion_util import normalize_name, safe_icon_name
 
 def sanitize_filename(name):
     # The runtime looks icons up under safe_icon_name(normalize_name(item)),
-    # so files must be materialized under that exact name: variant suffixes
-    # like " (GM)" or " (#2)" reuse the base artwork, and Windows-forbidden
-    # characters are stripped. A raw name here would produce a thumbnail the
-    # site can never serve.
+    # so the files must be written under that exact name.
     return safe_icon_name(normalize_name(name))
 
 
@@ -88,8 +85,7 @@ def main():
         data = json.load(f)
 
     current_directory = os.path.dirname(os.path.abspath(__file__))
-    # dofus3 and touch share the root items/ directory (backward-compatible).
-    # Other versions (beta, retro...) get their own subdirectory.
+    # dofus3 and touch share the root items/ directory.
     version_subdir = '' if game_version in ('dofus3', 'touch') else game_version + '/'
 
     target_directories = [

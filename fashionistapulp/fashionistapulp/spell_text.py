@@ -16,13 +16,11 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""An item's special spell prints as a heading and the prose under it."""
+"""Fold an item's special spell block into its name and its description."""
 
 import re
 
-# Unity rich text for the element icons, on one item, the Dofusteuse. The
-# element is named in the words that follow, so the tag says nothing the reader
-# loses by not seeing it, and it was printed raw.
+# Unity rich text for the element icons.
 _SPRITE = re.compile(r'<sprite\s+name="[^"]*"\s*/?>')
 _MARKUP = re.compile(r'<[^<>]{1,40}>')
 
@@ -49,15 +47,8 @@ def _is_head(line):
 def fold_spell_blocks(lines):
     """(lines to keep, {spell name: what it does}).
 
-    The Dofus 3 archive writes an item's special spell as its name on one line
-    and the rules under it:
-
-        Droiture de Fallanster :
-        - Lorsque le porteur termine son tour en ligne de vue d'un ennemi, ...
-
-    which the reader meets as two lines of prose. Fold the rules into the name
-    so the page can print the name and keep the rest for a tooltip. Anything
-    that is not under a heading is left exactly as it was.
+    The archive writes a special spell as its name on one line and its rules on
+    the lines under it. Lines with no heading above them are left as they are.
     """
     kept = []
     tooltips = {}

@@ -2,30 +2,21 @@
 """
 download_retro_images.py: render Dofus Retro item/mount/pet icons.
 
-First-hand source: the official 1.29 client served by Ankama's Cytrus CDN
-(the community Cyberia CDN mirror was used before the sourcing policy of
-2026-07-20). Each icon is a Flash clip at clips/items/<type>/<gfx>.swf;
-the type/gfx mapping comes from the official lang (retro_raw/items_*.json)
-exactly like before.
+Each icon is a Flash clip at clips/items/<type>/<gfx>.swf in the official
+1.29 client (Ankama's Cytrus CDN); the type/gfx mapping comes from the lang
+files in retro_raw/items_*.json.
 
-Rendering: JPEXS ffdec's own frame renderer (the SVG+resvg chain used for
-the monster artworks mis-renders some icon gradients, e.g. Toady). Frame
-exports are always composited on the stage color, so the clip is rendered
-TWICE, once on a black and once on a white stage (the SetBackgroundColor
-tag is patched in a temp copy), and the true straight-alpha image is
-recovered pixel by pixel from the pair (alpha = 255 - (white - black);
-these icons genuinely use translucency, e.g. Toady's spots). The result is
-cropped, centered on a square canvas and stored as the 60x60 PNG that
+ffdec frame exports are always composited on the stage color, so each clip
+is rendered twice, once on a black and once on a white stage (the
+SetBackgroundColor tag is patched in a temp copy), and the straight-alpha
+image is recovered from the pair. The result lands as the 60x60 PNG that
 image_store.get_image_url expects:
 
   fashionsite/chardata/static/chardata/{items,pets}/retro/60x60/<normalized_name>-60-60.png
 
-External tools: JPEXS ffdec (needs Java), see
-download_retro_monster_artworks. Without them the script warns and exits 0
-so pipelines keep the committed icons.
-
-Idempotent: skips icons already on disk unless --force. A gfx missing in
-the client leaves the existing file untouched.
+Needs JPEXS ffdec and Java (see download_retro_monster_artworks); without
+them the script warns and exits 0. Skips icons already on disk unless
+--force.
 """
 
 from __future__ import annotations
@@ -61,7 +52,6 @@ ICON_PREFIX = 'resources/app/retroclient/clips/items/'
 CACHE_DIR = Path(__file__).resolve().parent / 'retro_raw' / 'item_icons'
 SIZE = 60
 ZOOM = 4
-# Content fills the square minus a small margin, like the original icons.
 MARGIN = 0.06
 
 
@@ -116,9 +106,8 @@ def render_icon(swf_path, java, ffdec_jar):
             renders.append(np.asarray(
                 Image.open(png).convert('RGB'), dtype=np.int16))
         white_r, black_r = renders
-    # c_white = a*C + (1-a)*255 and c_black = a*C, per channel, so the
-    # channel-averaged difference gives (1-a)*255 and black is the
-    # premultiplied color.
+    # c_white = a*C + (1-a)*255 and c_black = a*C per channel, so the averaged
+    # difference gives (1-a)*255 and black is the premultiplied color.
     alpha = 255 - (white_r - black_r).clip(0, 255).mean(axis=2)
     safe = np.maximum(alpha, 1)
     color = (black_r * 255.0 / safe[:, :, None]).clip(0, 255)
@@ -158,10 +147,8 @@ def main(argv=None):
 
     raw = Path(args.raw_dir)
     items = json.loads((raw / f'items_{args.lang}.json').read_text(encoding='utf-8'))['I']['u']
-    # No lang file is complete and French is the thinnest, so get_equipments_retro
-    # fills the gaps from the other four, in this order. Read only the French one
-    # here and 52 items the database does carry were never offered to the
-    # renderer at all: they showed the placeholder.
+    # No lang file is complete and French is the thinnest, so the gaps come from
+    # the other four, in the order get_equipments_retro uses.
     for lang in ('en', 'es', 'pt', 'de'):
         if lang == args.lang:
             continue
@@ -194,8 +181,8 @@ def main(argv=None):
         if not name:
             continue
         type_dir = 'pets' if TYPE_MAP[type_id][0] == 'Pet' else 'items'
-        # safe_icon_name mirrors image_store's lookup ("Wand Else?" is
-        # requested without the '?', which Windows cannot store anyway).
+        # safe_icon_name mirrors image_store's lookup ("Wand Else?" is stored
+        # without the '?', which Windows cannot put in a filename).
         dest = (STATIC / type_dir / 'retro' / '60x60'
                 / ('%s-60-60.png' % safe_icon_name(normalize_name(name))))
         try:

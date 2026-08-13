@@ -96,8 +96,7 @@ def setup(request, char_id=0):
 
 
 def _free_versions_for_anon(request):
-    """The versions a signed-out visitor can still start a project on. Being told
-    to log in without being told Retro is still free was the confusing part."""
+    """The versions a signed-out visitor can still start a project on."""
     if request.user is None or not request.user.is_anonymous:
         return []
     taken = set(get_anon_char_ids(request))
@@ -111,7 +110,7 @@ def _free_versions_for_anon(request):
 
 
 def is_anon_cant_create(request):
-    # One project per version: the five versions are different games.
+    # One project per version.
     if not request.user.is_anonymous:
         return False
     game_version = getattr(request, 'game_version', 'dofus3')
@@ -257,8 +256,7 @@ def understand_build_post(request):
 def save_project_to_user(request, char_id=None):
     if request.user is None or request.user.is_anonymous:
         return HttpResponseText('ok')
-    # A signed-out visitor can now have one project per version, so signing in
-    # has to claim all of them, not just the last one they touched.
+    # A signed-out visitor holds one project per version; signing in claims them all.
     char_ids = [char_id] if char_id else list(get_anon_char_ids(request).values())
     for pk in char_ids:
         char = get_object_or_404(Char, pk=pk)

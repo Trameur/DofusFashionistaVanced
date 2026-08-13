@@ -16,14 +16,9 @@
 
 """Store the official Touch monster stats per grade into items_touch.db.
 
-Source: the Touch backend Monsters table (touch_raw/Monsters_fr.json, the
-same file the drops index is built from). Each monster carries up to five
-MonsterGrade entries with level, life, AP, MP, dodges and the five percent
-resistances. The numbers are language-neutral, so one raw file is enough.
-
-The table feeds the encyclopedia monster pages (stats-per-grade section,
-Touch only: other versions get their stats from their own sources or show
-nothing, never Touch numbers).
+Source: the Touch backend Monsters table (touch_raw/Monsters_fr.json). A monster
+carries up to five grades, and the numbers are language-neutral, so one raw file
+is enough.
 
 Usage (from itemscraper/):
     python store_touch_monster_grades.py [--raw-dir touch_raw]

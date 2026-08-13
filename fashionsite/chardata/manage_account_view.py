@@ -28,7 +28,6 @@ from chardata.util import set_response
 
 
 def _get_or_create_alias(user):
-    """Return the UserAlias row for `user`, creating an empty one if missing."""
     try:
         return user.useralias
     except UserAlias.DoesNotExist:
@@ -62,7 +61,7 @@ def manage_account(request):
 
 
 def save_account(request):
-    # Clip to the column sizes, the browser maxlength doesn't guard direct POSTs.
+    # The browser maxlength doesn't guard direct POSTs.
     form_alias = request.POST.get('alias', '')
     form_alias = form_alias[:UserAlias._meta.get_field('alias').max_length]
     form_email = request.POST.get('email', '')
@@ -85,8 +84,6 @@ def save_account(request):
     alias = _get_or_create_alias(request.user)
     alias.alias = form_alias
     alias.notify_comments = form_notify_comments
-    # Only touch the language when the field was actually submitted (a cached
-    # page without the select must not clear an explicit choice).
     if 'email_language' in request.POST:
         form_email_language = request.POST['email_language']
         if form_email_language in EMAIL_LANGUAGES:

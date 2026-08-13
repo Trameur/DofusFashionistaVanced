@@ -41,7 +41,6 @@ def send_email(request):
     from_email = request.POST.get('email', '')
     name = request.POST.get('name', '')
 
-    # DEBUG skips the captcha, like the register form.
     if not settings.DEBUG and not recaptcha_ok(request):
         return HttpResponseRedirect(reverse('nomessage'))
 

@@ -16,11 +16,10 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Match an item line to the spell it names, so the page can explain it."""
+"""Match an item line to the spell it names."""
 
 
 class SpellTip(object):
-    """The spell an extra line names, and what it does."""
 
     def __init__(self, spell, description):
         self.spell = spell
@@ -30,9 +29,8 @@ class SpellTip(object):
 def spell_tip_for(line, tooltips):
     """The spell this line is about, or None.
 
-    An item can name several spells, and their names overlap: Retro has both
-    "Bond" and "Bond Felin". The longest name that occurs in the line is the
-    one the line is about, so match on that rather than on the first hit.
+    Names overlap: Retro has both "Bond" and "Bond Felin", so the longest match
+    wins.
     """
     if not line or not tooltips:
         return None

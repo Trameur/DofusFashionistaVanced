@@ -80,9 +80,6 @@ def _create_weapon_web_digest(weapon):
         web_digest['type'] = 'weapon_non_mageable'
     web_digest['name'] = weapon.localized_name
     web_digest['level'] = weapon.level
-    # Use the same version-aware icon resolution as the solution page, so the
-    # weapon image works for Retro (and Beta/Dofus 2) instead of pointing at a
-    # Dofus 3-only path.
     web_digest['image_url'] = static(get_image_url(weapon.type, weapon.name))
     web_digest['hit_number'] = len(weapon.non_crit_hits)
     web_digest['non_crit_dams'] = _convert_weapon_damage(weapon.non_crit_hits)
@@ -132,12 +129,8 @@ _dofus2_spell_icons = None
 
 
 def _dofus2_spell_icon_names():
-    """The spells Dofus 2 keeps its own icon for, one directory listing.
-
-    Its release ships no spell image archive, so it reads the Dofus 3 folder,
-    which has nothing under the eleven names Dofus 3 renamed. Those are stored
-    per version by store_dofus2_spell_icons.py; everything else is shared.
-    """
+    """The spells Dofus 2 keeps its own icon for; the rest come from the
+    Dofus 3 folder."""
     global _dofus2_spell_icons
     if _dofus2_spell_icons is None:
         _dofus2_spell_icons = frozenset(
@@ -165,9 +158,6 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     for stat, delta in buffs_in_force(char.char_class, char.level,
                                       game_version, buff_state,
                                       levels).items():
-        # Not "if stat in stats": a buff can grant a stat no piece of gear
-        # carries, final damage above all, and skipping those made a ticked
-        # Portal worth nothing to the turn.
         stats[stat] = stats.get(stat, 0) + delta
     ap = combat_ap(stats.get('ap'), game_version)
     spells = castable_spells(char.char_class, char.level, game_version,
@@ -202,10 +192,7 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     current_language = get_supported_language()
     web_digest['type'] = 'spell'
     web_digest['name'] = _localized_spell_name(spell.name, current_language, game_version)
-    # The page keys everything by the name it shows, which is translated. The
-    # combo endpoint matches on the name the data carries, so the two only met
-    # when a spell happens to read the same in both languages: on a French
-    # page the buffs and the ranks were silently dropped.
+    # 'name' is translated; the combo endpoint matches on the untranslated name.
     web_digest['canonical'] = spell.name
     web_digest['level'] = spell.level_req
     web_digest['stacks'] = spell.stacks
@@ -223,7 +210,6 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     return web_digest
 
 def best_combo_json(request, char_id=0):
-    """The combo panel again, for the buffs the reader has ticked."""
     import json
     from django.http import JsonResponse
     char = get_char_or_raise(request, char_id)

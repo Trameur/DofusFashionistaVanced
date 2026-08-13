@@ -52,14 +52,11 @@ def set_min_stats(char, minimum_values):
     if 'Range' in minimum_values:
         if minimum_values['Range'] == 0:
             del minimum_values['Range']
-    # AP/MP/Range minimums are clamped to the version's hard cap (12/6/6 on modern
-    # and Touch). Retro (1.29) has no such cap, so get_stat_maximum omits those
-    # keys there and the minimum is left as the player asked (17 AP is legal there).
+    # AP/MP/Range cap at 12/6/6 on modern and Touch. Retro (1.29) has no cap, so
+    # get_stat_maximum omits those keys there and 17 AP stands.
     caps = get_stat_maximum(getattr(char, 'game_version', 'dofus3'))
     for stat_name, stat_value in minimum_values.items():
-        # A min that was never set comes back as None (or '') from the char's stored
-        # values; skip it so the caps below never do min(cap, None). A GET on this
-        # POST view (bots, crawlers) reaches here with those stored mins.
+        # A min that was never set is stored as None or ''.
         if not isinstance(stat_value, int):
             continue
         if stat_name in ('AP', 'MP', 'Range') and stat_name in caps:

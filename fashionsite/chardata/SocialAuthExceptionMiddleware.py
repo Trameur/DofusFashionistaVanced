@@ -22,11 +22,8 @@ from social_core.exceptions import (AuthCanceled, AuthMissingParameter,
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 
-# OAuth callbacks that arrive cancelled, malformed, or with a missing/forbidden state
-# token (denied consent, crawlers hitting /complete/, stale or CSRF-failed redirects)
-# are normal client-side noise, not server errors. Redirect them to login quietly
-# instead of 500ing + emailing the admins on every bot hit. Real auth failures
-# (AuthFailed, AuthForbidden, AuthAlreadyAssociated…) still fall through to the parent.
+# Cancelled or malformed OAuth callbacks: denied consent, crawlers hitting
+# /complete/, stale or CSRF-failed redirects. Client noise, not server errors.
 BENIGN_OAUTH_EXCEPTIONS = (AuthCanceled, AuthMissingParameter,
                            AuthStateMissing, AuthStateForbidden)
 

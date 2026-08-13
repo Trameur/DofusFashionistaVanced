@@ -3,19 +3,15 @@
 
 """store_touch_pet_bonuses.py: maxed-stat variants for Dofus Touch pets.
 
-Touch pets gain their stats by feeding (hormone caps), so the backend
-datacenter carries no bonus values; scrape_touch_pet_bonuses.py pulls the
-official per-pet maxima from the dofus-touch.com encyclopedia into
+Touch pets gain their stats by feeding, so the backend datacenter carries no
+bonus values; scrape_touch_pet_bonuses.py writes the official per-pet maxima to
 itemscraper/touch_pet_bonuses.json:
 
     { "<English pet name>": [ ["<stat name>", <max value>], ... ], ... }
 
-Like on Retro, each listed (pet, stat) is an exclusive feeding choice, so this
-creates one maxed Pet item per entry, "<Pet> (+110 Agility)", localized in
-FR/ES/PT/DE, that the optimizer can pick. Variants reuse the pet's ankama id
-(the encyclopedia still shows one pet) and live in a reserved id range so
-re-runs replace cleanly. The range starts at 200M because the Touch db already
-uses ids around 101M for synthesized mounts. Re-dumps items_touch.db."""
+Each listed (pet, stat) is an exclusive feeding choice, so every entry becomes
+one maxed Pet item, "<Pet> (+110 Agility)", localized in FR/ES/PT/DE. Variants
+reuse the pet's ankama id. Re-dumps items_touch.db."""
 
 import json
 import os
@@ -32,13 +28,10 @@ from store_item_obtainment import (  # noqa: E402  (sys.path set above)
 
 GAME_VERSION = 'touch'
 BONUSES_PATH = os.path.join(CURRENT_DIRECTORY, 'touch_pet_bonuses.json')
-# Reserved id range for generated variants (real Touch ids stay far below:
-# max observed is ~101M from the synthesized mounts).
+# Reserved id range for generated variants; real Touch ids stay below ~101M.
 VARIANT_ID_BASE = 200_000_000
 NON_EN_LANGUAGES = ['fr', 'es', 'pt', 'de']
 
-# Localized labels for the stats used by pets, so variant names read naturally.
-# Falls back to the English stat name for anything not listed here.
 STAT_LABELS = {
     'Strength': {'fr': 'Force', 'es': 'Fuerza', 'pt': 'Força', 'de': 'Stärke'},
     'Intelligence': {'fr': 'Intelligence', 'es': 'Inteligencia', 'pt': 'Inteligência', 'de': 'Intelligenz'},
@@ -94,7 +87,7 @@ def main():
     pet_type = cursor.execute("SELECT id FROM item_types WHERE name = 'Pet'").fetchone()[0]
     stat_id_by_name = {name: sid for sid, name in cursor.execute("SELECT id, name FROM stats")}
 
-    # Idempotent: drop any variants this script created before, then rebuild.
+    # Drop the variants of a previous run.
     cursor.execute("DELETE FROM stats_of_item WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM item_names WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM items WHERE id >= ?", (VARIANT_ID_BASE,))
@@ -131,9 +124,8 @@ def main():
                 if stat_id is None:
                     print('  ! unknown stat %r for %s, skipping' % (stat_name, pet_name))
                     continue
-                # Some pets already carry their maxed bonus as datacenter
-                # stats (Sirocco 160 agi...): a variant duplicating the base
-                # item would just clutter the pool.
+                # Some pets already carry their maxed bonus as datacenter stats
+                # (Sirocco 160 agi).
                 if (stat_id, value) in base_stats:
                     continue
                 is_percent = stat_name.strip().startswith('%')
@@ -154,9 +146,8 @@ def main():
                         "INSERT INTO item_names(item, language, name) VALUES (?, ?, ?)",
                         (variant_id, lang,
                          _variant_name(base, _label(stat_name, lang), value, is_percent)))
-                # The description and the weight are written before this step
-                # runs, so a variant would carry neither. It is the same
-                # creature: it reads the same page.
+                # Descriptions and pods are written before this step runs, so
+                # copy the pet's.
                 cursor.execute(
                     "INSERT OR REPLACE INTO item_descriptions(item, language, description)"
                     " SELECT ?, language, description FROM item_descriptions"

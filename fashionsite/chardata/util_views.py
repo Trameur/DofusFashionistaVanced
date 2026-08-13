@@ -20,8 +20,6 @@ from chardata.util import set_response
 
 
 def changelog_content(request):
-    """Changelog entries, fetched when the modal is first opened. Kept out of
-    every page: it was ~23KB of markup on each one."""
     return render(request, 'chardata/changelog_content.html')
 
 

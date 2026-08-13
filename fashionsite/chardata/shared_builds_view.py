@@ -49,8 +49,7 @@ logger = logging.getLogger(__name__)
 SHORT_NAME_TO_KEY = {v: k for k, v in ASPECT_TO_SHORT_NAME.items()}
 SHARED_BUILDS_PAGE_SIZE = 24
 
-# Char columns not needed to render a gallery card; minimal_solution stays
-# because the meta computation reads it on cache misses.
+# Char columns a gallery card never reads.
 _HEAVY_CHAR_FIELDS = ('minimum_stats', 'minimum_crits', 'stats_weight',
                       'options', 'inclusions', 'exclusions', 'aspects',
                       'empty_slots', 'stat_overrides')
@@ -118,7 +117,6 @@ def _get_compact_stats(solution, structure):
             'icon_url': static(icon_path) if icon_path else None,
         })
 
-    # Keep shared card stats intentionally compact: only main/core stats.
     for stat_key in ['ap', 'mp', 'range', 'summon', 'vit', 'wis', 'str', 'int', 'cha', 'agi', 'pow', 'ch']:
         stat = structure.get_stat_by_key(stat_key)
         if stat is None:
@@ -183,8 +181,6 @@ def _get_shared_build_meta(char):
                 meta['has_outdated_slots'] = True
             acquisition_entries.append((item.ankama_id, item_type_name))
 
-        # What the build costs to assemble. Counts only: the rarest drop rate
-        # would need a query per build, and the build's own page says it.
         counts = summarize_by_ankama_id(acquisition_entries, game_version)
         meta['acquisition_summary'] = format_acquisition_counts(
             counts['craftable'], counts['drop_only'], counts['unknown'])
@@ -300,8 +296,7 @@ def shared_builds(request):
         if request.GET.get(f'check_{aspect}'):
             selected_aspects.append(aspect)
     
-    # Start with all shared, non-deleted builds for the current game version.
-    # Only annotate vote counts when needed for ordering, it's an expensive JOIN.
+    # Annotate vote counts only when the ordering needs them: expensive JOIN.
     game_version = getattr(request, 'game_version', 'dofus3')
     needs_vote_annotation = order_by in ('likes', 'favorites') or (
         request.user.is_authenticated and (show_liked or show_favorited)
@@ -416,14 +411,12 @@ def shared_builds(request):
     else:
         builds = builds.order_by('-view_count', '-modified_time')
 
-    # Sort and paginate on ids only: ordering full rows drags every blob
-    # column through the MySQL sort buffer, which made this page ~10x slower
-    # than the rest of the site. Full rows are fetched for the shown page only.
+    # Sort and paginate on ids only: ordering full rows drags every blob column
+    # through the MySQL sort buffer.
     def _fetch_page_chars(page_ids, for_meta=False):
         rows = Char.objects.filter(id__in=page_ids).select_related('owner')
-        # Deferring is only right for the cards. Building the meta reads the
-        # solution and the minimums, which brought the deferred columns back
-        # one query each per build.
+        # The meta reads the solution and the minimums, so a deferred column
+        # there costs one extra query per build.
         if not for_meta:
             rows = rows.defer(*_HEAVY_CHAR_FIELDS)
         chars_by_id = {char.id: char for char in rows}
@@ -431,9 +424,7 @@ def shared_builds(request):
 
     builds_data = []
     if hide_invalid:
-        # Validity comes from the per-build meta cache; check it with a
-        # 2-column scan. Full rows are fetched only for cache misses and for
-        # the page actually shown.
+        # Validity comes from the per-build meta cache.
         id_rows = list(builds.values_list('id', 'modified_time', 'game_version'))
         metas = {}
         miss_ids = []
@@ -445,9 +436,6 @@ def shared_builds(request):
             else:
                 miss_ids.append(row_id)
         if miss_ids:
-            # No defer here: building the meta reads the solution and the
-            # minimums, so the deferred columns came back one query each per
-            # build. Deferring is only right for the cards, which read none.
             for char in Char.objects.filter(id__in=miss_ids):
                 metas[char.id] = _get_shared_build_meta(char)
 
@@ -478,9 +466,8 @@ def shared_builds(request):
         page_chars = _fetch_page_chars(list(builds_page.object_list), for_meta=True)
         meta_by_id = {char.id: _get_shared_build_meta(char) for char in page_chars}
 
-    # Bulk-fetch vote counts for just the page items (1-2 queries for N items).
-    # Always needed now: the page rows are re-fetched by id, so ordering
-    # annotations do not survive to them.
+    # Bulk-fetch vote counts: the page rows are re-fetched by id, so the
+    # ordering annotations do not reach them.
     if page_chars:
         page_char_ids = [char.id for char in page_chars]
         vote_rows = BuildVote.objects.filter(
@@ -504,7 +491,7 @@ def shared_builds(request):
         if alias.alias
     }
 
-    # Bulk-fetch tags for the page items so each build row can show its chips.
+    # Bulk-fetch tags for the page items.
     tags_by_char = {}
     comment_counts = {}
     if page_chars:

@@ -42,14 +42,14 @@ def main():
         folder = '../fashionsite/chardata/static/chardata/%s' % folder_name
         with open(json_file) as f:
             for entry in json.load(f):
-                name = entry.get('name')  # Safely fetch the name
+                name = entry.get('name')
                 if not name:
                     print('[%d] This entry doesnt have a name %s' % (i, entry))
                 else:
                     image_path = folder + '/' + entry['name'] + '.png'
                     if not os.path.isfile(image_path):
-                        image_url = entry.get('image_url')  # Safely fetch the image URL
-                        if image_url:  # Check if image_url exists
+                        image_url = entry.get('image_url')
+                        if image_url:
                             image_path = os.path.join(folder, f"{name}.png")
                             print('[%d] Downloading %s' % (i, entry['name']))
                             download_image(entry['image_url'], image_path)

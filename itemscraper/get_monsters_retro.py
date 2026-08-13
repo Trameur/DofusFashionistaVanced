@@ -1,21 +1,9 @@
 #!/usr/bin/env python3
 """get_monsters_retro.py - build the item -> monster drops index for Dofus Retro.
 
-Unlike the other versions, Retro has no automatable first-party drop source: the
-1.29 client / lang files carry monster names and stats but not the drop tables
-(those are server-side), and Ankama publishes no Retro monster encyclopedia. The
-only maintained, current (1.48) and automatable source is the community reference
-Solomonk.fr, which tracks the live game.
-
-Solomonk renders its bestiary through a paginated AJAX endpoint that returns
-monster cards keyed by Ankama monster and item ids, in Retro's three official
-languages (fr, en, es). This scrapes every monster across those languages and
-emits the exact same index shape as the dofusdude-based get_monsters.py:
-
-    {item_ankama_id: [{monster_ankama_id, names{lang}, rates}]}
-
-so store_drops.py loads it unchanged. Item/monster ids are Ankama ids, so they map
-straight onto items_retro.db (ankama_id) and the encyclopedia's per-language names.
+Scrapes the paginated Solomonk.fr bestiary AJAX endpoint and emits
+{item_ankama_id: [{monster_ankama_id, names{lang}, rates}]}, the same shape as
+get_monsters.py. Item and monster ids are Ankama ids.
 
 Usage (from repo root):
     python itemscraper/get_monsters_retro.py --output itemscraper/transformed_drops_retro.json
@@ -34,8 +22,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-# Dofus Retro's three official languages. pt/de do not exist for Retro, so those
-# users fall back to the English monster name (handled by the encyclopedia query).
+# Retro's only official languages: pt and de do not exist for it.
 LANGUAGES: Sequence[str] = ("fr", "en", "es")
 DEFAULT_OUTPUT = Path("itemscraper/transformed_drops_retro.json")
 
@@ -46,8 +33,7 @@ BATCH = 10  # the endpoint only honours Q=10; larger values return an empty body
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
-# Collapse settings the site sends; required for the endpoint to answer. The data
-# is present in the HTML regardless of collapse state.
+# The endpoint only answers when these collapse settings are sent.
 COLLAPSE = {
     "CS[bestiaryCollapseSpells]": "true",
     "CS[bestiaryCollapseSubareas]": "true",
@@ -55,9 +41,8 @@ COLLAPSE = {
     "CS[bestiaryCollapseDropsTemporis]": "true",
 }
 
-# The monster title anchor: `card-solo-monster-title"><a ... href=".../<ankama_id>/<slug>">Name</a>`.
-# The class marker also appears on a decorative div (followed by <div, not <a>), so we
-# require the <a> to pin only real titles; each card spans from one title to the next.
+# The card-solo-monster-title class also sits on a decorative div, so the <a> is
+# required to match only real titles.
 TITLE_RE = re.compile(
     r'card-solo-monster-title"><a[^>]*href="[^"]*?/(\d+)/[^"/]+"[^>]*>([^<]+)</a>')
 # One drop: an item link (Ankama id in the path) followed by its ( <rate>% ...).
@@ -94,8 +79,7 @@ def _parse_drops(card_html: str) -> List[Tuple[int, float]]:
     start = card_html.find('data-collapse-target="bestiaryCollapseDrops"')
     if start == -1:
         return []  # class invocations and some monsters have no drops
-    # Bound the region to the regular-drops block: stop before the seasonal Temporis
-    # drops (a different server's table) if that block follows.
+    # Temporis drops are a seasonal server's own table, not regular drops.
     end = card_html.find("bestiaryCollapseDropsTemporis", start)
     region = card_html[start:end] if end != -1 else card_html[start:]
     drops: List[Tuple[int, float]] = []
@@ -110,9 +94,7 @@ def _parse_drops(card_html: str) -> List[Tuple[int, float]]:
 
 
 def _parse_cards(page_html: str) -> List[Tuple[int, str, List[Tuple[int, float]]]]:
-    """Parse one page into [(monster_id, monster_name, [(item_id, rate), ...])].
-
-    Each card spans from its title anchor to the next title anchor (or page end)."""
+    """Parse one page into [(monster_id, monster_name, [(item_id, rate), ...])]."""
     titles = list(TITLE_RE.finditer(page_html))
     cards: List[Tuple[int, str, List[Tuple[int, float]]]] = []
     for i, match in enumerate(titles):
@@ -138,9 +120,8 @@ def _fetch_language(lang: str, delay: float, max_pages: int,
         data = _http_get_json("%s?%s" % (AJAX, query))
         cards = _parse_cards((data or {}).get("html") or "")
         if not cards:
-            # The endpoint intermittently serves an empty page mid-crawl:
-            # retry the same offset before treating it as the real end
-            # (a premature break once silently dropped 3/4 of the bestiary).
+            # The endpoint intermittently serves an empty page mid-crawl, so an
+            # empty page is only the end after a few retries at the same offset.
             empty_streak += 1
             if empty_streak > 2:
                 break

@@ -22,11 +22,8 @@ from django.utils.translation import gettext_lazy as _
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 
-# Dofus option keys in display order, with the short English label and its
-# translation. The icon is always chardata/<key>.png. Used to render the
-# allow/forbid dofus grid as a loop filtered to what exists in the current game
-# version (instead of hardcoding). The English text is kept alongside so
-# _dofus_label can tell "translated" from "left as the source".
+# Display order. The icon is always chardata/<key>.png; the English label is kept
+# so _dofus_label can tell a real translation from an untranslated string.
 DOFUS_DISPLAY = [
     ('cawwot', 'Cawwot', _('Cawwot')),
     ('grofus', 'Grofus', _('Grofus')),
@@ -95,10 +92,8 @@ def get_dofus_not_for_char(char):
 
 
 def _dofus_label(key, english, translated):
-    """The short label when the catalog really has one, otherwise the dofus's own
-    name in the player's language, straight from the game data (Sylvan Dofus is
-    Wald-Dofus in German). Beats leaving the English word on screen, and a dofus
-    added by a future update reads right before anyone translates anything."""
+    """The short label, or the dofus's name in the player's language from the game
+    data when the catalog has no translation."""
     text = str(translated)
     language = get_supported_language()
     # In English the label IS the source text, never a missing translation.
@@ -113,25 +108,20 @@ def _dofus_label(key, english, translated):
     localized = item.localized_names.get(language)
     if not localized:
         return english
-    # "Dofus Vulbis", "Dofus Turquoise": the language reuses the English word, so
-    # the short label was right all along and the long name would only wrap.
+    # Some languages keep the English word in the full name ("Dofus Vulbis").
     if english.lower() in localized.lower():
         return english
     return localized
 
 
-# Resolved at render time: the labels are cached per game version, not per
-# language, so they must stay lazy.
+# Labels are cached per game version, not per language, so they must stay lazy.
 _lazy_dofus_label = lazy(_dofus_label, str)
 
 _available_options_cache = {}
 
 
 def get_available_options(structure=None):
-    """Which dofuses, mounts and prysmaradite exist in the current game version, so
-    the wizard/options page shows only version-relevant toggles (Retro/Dofus 2 have
-    no prysmaradite, fewer dofuses, etc.) instead of hardcoding the Dofus 3 set.
-    Cached per version since the item DB is static at runtime."""
+    """Which dofuses, mounts and prysmaradite exist in the current game version."""
     s = structure or get_structure()
     ver = s.game_version
     cached = _available_options_cache.get(ver)

@@ -2,22 +2,16 @@
 """
 Download the Dofus Touch game data tables.
 
-The Touch client doesn't expose a public API; it pulls its data straight from its
-own backend, so we go to the same place. config.json hands back the current data
-host (dataUrl), then each table is a POST to /data/map with the class name. The
-response is the whole table, keyed by id, with names already localised to the
-requested language. Plain GETs 404, the route only answers POST.
+config.json hands back the current data host (dataUrl); each table is then the
+whole table keyed by id, names localised to the requested language. Plain GETs
+404, the route only answers POST.
 
   config : GET  https://dt-proxy-production-login.ankama-games.com/config.json?lang=<lang>
   table  : POST <dataUrl>/data/map   {"class": "Items", "lang": "<lang>"}
 
-(config.json hands back the dataUrl, so this keeps working when Ankama rotates
-the host.)
-
-Records are Ankama's raw d2o objects, since Touch is a Dofus 2 fork: items carry
-possibleEffects (effectId + diceNum/diceSide range), criteria, itemSetId,
-recipeIds, level, typeId, iconId; item sets carry their per-piece bonuses inline.
-get_equipments_touch.py turns these into the optimizer's item model.
+Records are Ankama's raw d2o objects: items carry possibleEffects (effectId +
+diceNum/diceSide range), criteria, itemSetId, recipeIds, level, typeId, iconId;
+item sets carry their per-piece bonuses inline.
 """
 
 from __future__ import annotations
@@ -30,25 +24,19 @@ from pathlib import Path
 
 import requests
 
-# The live channel. proxyconnection.touch.dofus.com is NXDOMAIN and the "early"
-# channel that replaced it is the test server: on 2026-08-08 it served assets
-# 3.2.4 against production's 3.2.11, and 27 items nobody can own, among them
-# "Frozenfoux [WIP]", "Elixir d'Ascension du testeur" and "[FM] Capistil".
-# Nothing is only in production, so reading it here loses nothing.
+# The live channel; the "early" channel that replaced proxyconnection.touch.
+# dofus.com is the test server and serves items nobody can own.
 CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
 FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 
-# A mobile-ish UA; the data API doesn't gate on it, but be polite/identifiable.
+# The data API does not gate on the UA.
 USER_AGENT = "Dofus/2 CFNetwork"
 
-# Tables needed to build an equipment optimizer. (Many more exist: Spells,
-# Monsters, Areas, Jobs, …, add as needed.)
 DEFAULT_CLASSES = [
     'Items', 'ItemSets', 'ItemTypes', 'Effects', 'Recipes', 'Breeds', 'Monsters',
 ]
 
-# Languages Touch serves (config.serverLanguages). FR is primary for names here;
-# the rest are pulled so the site can localise item names like the other versions.
+# Languages Touch serves (config.serverLanguages).
 ALL_LANGS = ['fr', 'en', 'es', 'pt', 'de']
 
 
@@ -114,7 +102,7 @@ def main(argv=None):
             failures += 1
 
     # Other languages: only the name-bearing tables (Recipes carries the
-    # localized jobName used by the craft-profession display).
+    # localized jobName).
     if args.all_langs:
         name_tables = [c for c in ('Items', 'ItemSets', 'ItemTypes', 'Monsters', 'Recipes')
                        if c in args.classes]

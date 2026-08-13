@@ -166,25 +166,16 @@ STAT_TRANSLATE = {
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
 
-# An in-fight effect that takes AP or MP off the target. Its type name is the
-# bare characteristic, exactly like the wielder bonus, so the name alone cannot
-# tell them apart; is_active can, and the game sets it. The old code keyed on
-# dofusdude's effect number instead, and that number is minted per dump: the
-# attract line is 255 in Dofus 3 and 253 in the beta, so blocking 253 silently
-# cost the beta its five attract weapons while Dofus 3 kept theirs, and the MP a
-# weapon removes is 238 here and 192 in Dofus 2, so Dofus 2 needed a hand-written
-# list of six item names to patch over the miss.
+# In-fight effects that take AP or MP off the target. Their type name is the
+# bare characteristic, like the wielder bonus, so only is_active tells them
+# apart: dofusdude's effect numbers are minted per dump and differ per version.
 IN_FIGHT_REMOVAL_HITS = {'AP': '(removes ap)', 'MP': '(removes mp)'}
 
 
-# A spell hat writes a modifier on one named spell rather than a characteristic:
-# "Fracture: +2 Maximum Range", "Reduces the Conquest spell's AP cost by 1". The
-# optimizer has no notion of that, so nothing was stored and roughly 500 items
-# across the three versions reached their page blank. The source already formats
-# the sentence in all five languages, so it is kept as a read line.
-# Told apart by shape, not by name or id, both of which drift between dumps: the
-# effect puts the SPELL id in int_minimum, ignores int_maximum, and its formatted
-# text opens on the spell name where a characteristic opens on its number.
+# A spell modifier targets one named spell rather than a characteristic:
+# "Fracture: +2 Maximum Range". Names and effect ids drift between dumps, so it
+# is recognised by shape: the SPELL id sits in int_minimum, int_maximum is
+# ignored, and the formatted text opens on the spell name, not on a number.
 def is_spell_modifier(eff):
     if not eff.get('ignore_int_max') or eff.get('int_maximum'):
         return False
@@ -204,18 +195,15 @@ def effect_row(eff):
     hit = IN_FIGHT_REMOVAL_HITS.get(name)
     if hit is None:
         return [lo, hi, f"({name})"]
-    # The source writes the removal as a negative bonus, "-1 AP" or "-3 to -2 AP".
-    # The hit already says it is taken off the target, so store how much is taken,
-    # 2 to 3, the way the Touch client reports the same line. Left signed, the page
-    # read "Removes -1 AP".
+    # The source writes the removal as a negative bonus, "-3 to -2 AP"; store the
+    # amount taken, 2 to 3, the way the Touch client reports the same line.
     taken = sorted(abs(v) for v in (lo, hi) if v is not None)
     return [taken[0], taken[-1], hit] if taken else [lo, hi, hit]
 
 
 def clean_display_name(name):
-    # Only strip the dofusdude "[!]" unavailable-language tag. Windows-forbidden
-    # characters stay in the display name ("Wand Else?", "Plushy-Ball: Tofu");
-    # icon filenames are normalized separately (get_equipments4/image_store).
+    # "[!]" is dofusdude's unavailable-language tag. Icon filenames are
+    # normalized separately (get_equipments4/image_store).
     return name.replace("[!]", "").strip()
 
 def parse_conditions(tree):
@@ -415,8 +403,8 @@ for item in equipment_data['en']['items']:
         if len(flattened_or_conditions) > 1:
             for i, conditions in enumerate(flattened_or_conditions):
                 copy_item = deepcopy(transformed_item)
-                # "(#1)" and not " 1": structure.py groups the branches of one
-                # item on that exact tag and shows the plain name to the player.
+                # structure.py groups the branches of one item on that exact
+                # "(#N)" tag and shows the plain name to the player.
                 for lang in LANGUAGES:
                     lang_name_key = f"name_{lang}"
                     if lang_name_key in copy_item:
@@ -484,9 +472,8 @@ with open(f'{current_directory}/transformed_equipment.json', 'w', encoding='utf-
 
 def _normalize_set_effects(effects):
     """Dofus 2 ships set effects as a list-of-lists (one sublist per N-piece
-    bonus, each effect carrying its own ``item_combination``). Dofus 3 uses a
-    dict keyed by piece count. Normalize to the dict shape so downstream code
-    works for both versions."""
+    bonus, each effect carrying its own ``item_combination``); Dofus 3 ships a
+    dict keyed by piece count. Returns the dict shape."""
     if not isinstance(effects, list):
         return effects
     by_combo = {}

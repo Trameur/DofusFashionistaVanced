@@ -7,13 +7,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Player inventory.
-
-Logged-in players keep folders of items they actually own (typically one
-folder per server, or any custom label), per game version. Items can carry
-their real rolls (saved from the smithmagic page or a solution's stat
-editor). A project can then be restricted on the Options page to only use
-items from one folder."""
+"""Player inventory: folders of owned items, per user and game version."""
 
 import json
 
@@ -307,8 +301,7 @@ def _custom_stat_lines(structure, item, custom_stats, language):
 
 
 def _editor_rows(structure, item, custom_stats, language):
-    """Editable lines for an item: its encyclopedia stats plus any extra keys
-    already saved (exos), with the saved roll as current value."""
+    """Editable lines: the item's encyclopedia stats plus any saved extra keys (exos)."""
     base = {}
     for stat_id, stat_value in item.stats:
         stat = structure.get_stat_by_id(stat_id)
@@ -331,8 +324,7 @@ def _editor_rows(structure, item, custom_stats, language):
     return rows
 
 
-# In-game tooltips abbreviate stat words ("Dmg Neutre", "% Rés. Terre");
-# replacements applied to the localized names to also register those forms.
+# In-game tooltips abbreviate stat words ("Dmg Neutre", "% Rés. Terre").
 _OCR_ABBREVIATIONS = {
     'fr': [('dommages', 'dmg'), ('dommage', 'dmg'), ('resistance', 'res')],
     'en': [('damage', 'dmg'), ('resistance', 'res'), ('resist', 'res')],
@@ -353,8 +345,7 @@ _OCR_MANUAL_ALIASES = {
 
 
 def _ocr_normalize(value):
-    """Server twin of the page's JS normalizer: accentless, lowercase, dots
-    and apostrophes spaced out, whitespace collapsed."""
+    """Server twin of the page's JS normalizer."""
     value = strip_accents(value).lower()
     for char in ".'’":
         value = value.replace(char, ' ')
@@ -374,11 +365,8 @@ def _ocr_name_variants(normalized, lang):
 
 
 def _ocr_stat_lexicon(structure):
-    """{lang: {normalized stat name: stat key}} for every supported language,
-    so the screenshot reader can map OCR'd stat lines to stat keys and guess
-    the screenshot's language by which lexicon matches most lines. Exact
-    names are registered first; abbreviations, singulars and de-percented
-    forms never shadow them."""
+    """{lang: {normalized stat name: stat key}}, for mapping OCR'd stat lines and
+    for guessing the screenshot's language by which lexicon matches most lines."""
     lexicon = {}
     for lang, _tess in OCR_LANGUAGES:
         names = []
@@ -498,8 +486,7 @@ def inventory(request):
 
 @login_required
 def inventory_folders(request):
-    """JSON folder list for the current game version (used by the smithmagic
-    page, the solution page and the options page widgets)."""
+    """JSON folder list for the current game version."""
     game_version = getattr(request, 'game_version', 'dofus3')
     folders = get_user_folders(request.user, game_version)
     return JsonResponse({'folders': _folder_payload(folders)})
@@ -550,9 +537,8 @@ def inventory_folder_delete(request):
 @login_required
 @require_POST
 def inventory_add(request):
-    """Add one owned item to a folder. Accepts either an existing folder_id
-    or new_folder_name (created on the fly); stats is an optional JSON
-    {stat_key: value} map of the item's real rolls."""
+    """Add one owned item to a folder: folder_id or new_folder_name, optional
+    stats JSON of the item's real rolls."""
     game_version = getattr(request, 'game_version', 'dofus3')
     structure = get_structure()
 

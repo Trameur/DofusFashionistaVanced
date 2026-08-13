@@ -6,8 +6,6 @@ from django.db.models import Sum
 
 
 def site_stats(request):
-    # 'site_stats_v2': the shape changed (per-version breakdown), so use a fresh
-    # key rather than serve a stale old-format dict from cache after a deploy.
     stats = cache.get('site_stats_v2')
     if stats is None:
         from django.contrib.auth.models import User
@@ -19,7 +17,6 @@ def site_stats(request):
                                          game_version=slug).count()
             runs = (SolutionCounter.objects.filter(game_version=slug)
                     .aggregate(t=Sum('get_count'))['t']) or 0
-            # Skip versions with no activity so the sidebar stays uncluttered.
             if characters or shared or runs:
                 per_version.append({
                     'label': label,
@@ -45,10 +42,8 @@ ACTIVE_GAME_VERSIONS = [
 
 _GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 
-# Word inserted between "Dofus" and "Fashionista" for SEO titles/descriptions,
-# e.g. "Dofus Retro Fashionista". Empty for the default (dofus3) version so it
-# stays "Dofus Fashionista". Distinct from the dropdown label ("Dofus 2") to
-# avoid awkward duplication like "Dofus Dofus 2 Fashionista".
+# Word inserted between "Dofus" and "Fashionista" in SEO titles, e.g. "Dofus
+# Retro Fashionista". Empty on dofus3, which stays "Dofus Fashionista".
 _GAME_VERSION_SEO_WORDS = {
     'dofus3': '',
     'beta': 'Beta',
@@ -59,9 +54,8 @@ _GAME_VERSION_SEO_WORDS = {
 
 _VERSION_PREFIXES = ('beta/', 'dofus2/', 'retro/', 'touch/')
 _CHAR_ID_RE = re.compile(r'/\d+/')
-# Shared / linked build pages ('/s/<name>/<id>/', '/spells_linked/<name>/<id>/')
-# are version-specific too, but their char id is encoded (non-numeric), so the
-# numeric check above doesn't catch them.
+# Shared build pages ('/s/<name>/<id>/', '/spells_linked/<name>/<id>/') carry an
+# encoded, non-numeric char id, so _CHAR_ID_RE does not match them.
 _LINKED_PREFIXES = ('s/', 'spells_linked/')
 _VERSION_SWITCH_NUMERIC_SAFE_PREFIXES = ('encyclopedia/',)
 
@@ -76,17 +70,15 @@ def game_version(request):
             base_path = '/' + stripped[len(prefix):]
             break
     base_stripped = base_path.lstrip('/')
-    # Char-specific pages don't translate across versions, a build exists in
-    # only one game version. Send the version switcher to home instead of a
-    # broken URL. Owned pages carry a numeric id; shared/linked pages an encoded one.
-    # Encyclopedia pages are public versioned data, so keep their numeric ids.
+    # A build exists in one game version only, so the switcher falls back to
+    # home. Encyclopedia ids are versioned public data, not char ids.
     safe_numeric_path = base_stripped.startswith(_VERSION_SWITCH_NUMERIC_SAFE_PREFIXES)
     if (not safe_numeric_path
             and (_CHAR_ID_RE.search(base_path)
                  or base_stripped.startswith(_LINKED_PREFIXES))):
         base_path = '/'
 
-    # api_base is the URL prefix for AJAX calls: '' for dofus3, '/beta' for beta, etc.
+    # URL prefix for AJAX calls.
     api_base = '' if gv == 'dofus3' else f'/{gv}'
 
     return {
@@ -101,13 +93,10 @@ def game_version(request):
 
 DEFAULT_AD_CLIENT = 'ca-pub-3961330018791408'
 
-# Pages people come to read. The solver and the account screens stay clean:
-# ads there would cost third-party scripts on the heaviest pages of the site.
 AD_PATH_PREFIXES = ('/encyclopedia/', '/guides/', '/sharedbuilds/', '/s/',
                     '/about/', '/faq/', '/support/', '/license/', '/privacy/')
 
-# Tool pages that only get ads if their slot id is configured, so the dashboard
-# is the switch.
+# Tool pages that carry ads only once their slot id is configured.
 OPTIONAL_AD_PATHS = {'/solution/': 'solution', '/spells/': 'solution'}
 
 
@@ -122,9 +111,8 @@ AD_SETTING_TTL = 30
 
 
 def ad_config():
-    """gen_config.json for the defaults, the admin page on top. Cached because
-    this runs on every request; the cache is local to the worker, so a change
-    takes up to AD_SETTING_TTL seconds to reach all of them."""
+    """Ad settings: gen_config.json defaults, admin page on top. The cache is
+    local to the worker, so a change takes up to AD_SETTING_TTL to reach all."""
     from django.conf import settings
     config = dict(getattr(settings, 'GEN_CONFIGS', {}).get('adsense') or {})
     stored = cache.get(AD_SETTING_KEY, False)
@@ -158,8 +146,8 @@ def ads(request):
     return {
         'ads_allowed': allowed,
         'ads_enabled': allowed and bool(slots),
-        # data-ad-client on the script tag is what turns on AdSense's own
-        # automatic placement, which lands on top of the units below.
+        # data-ad-client on the script tag turns on AdSense automatic placement,
+        # which lands on top of the units below.
         'ad_auto': config.get('auto', True),
         'ad_client': client,
         'ad_publisher': client.replace('ca-', '', 1),

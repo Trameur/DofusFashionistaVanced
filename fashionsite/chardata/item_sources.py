@@ -14,13 +14,10 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""How an item is obtained, straight from the scraped data: does it have a
-recipe, and what is its best drop rate. The item picker shows it so a player
-can tell a craftable piece from a 0.05% drop before building around it.
+"""Item acquisition (recipe, best drop rate) read from the scraped item DB.
 
-Keyed by ankama_id rather than internal id: an item with OR equip conditions is
-split into one row per branch and only the first branch carries the recipe and
-the drops, so both branches have to answer the same thing.
+Keyed by ankama_id: an item with OR equip conditions is split into one row per
+branch and only the first branch carries the recipe and the drops.
 """
 
 import sqlite3
@@ -39,8 +36,10 @@ def _table_exists(cursor, name):
 
 
 def get_acquisition_by_ankama_id(ankama_ids, game_version=None):
-    """{ankama_id: {'craftable': bool, 'best_drop_rate': float or None}} for the
-    ids that have a known source. Ids with no source at all are left out."""
+    """{ankama_id: {'craftable': bool, 'best_drop_rate': float or None}}.
+
+    Ids with no known source are left out.
+    """
     ankama_ids = [i for i in set(ankama_ids or []) if i is not None]
     if not ankama_ids:
         return {}
@@ -81,10 +80,10 @@ _source_ids_cache = {}
 
 
 def get_source_ankama_ids(game_version=None):
-    """{'craftable': set, 'droppable': set} for the whole version. Cheaper than
-    an IN clause when the caller has to filter a full item type at once, or has
-    to answer for many builds in a row. Cached per version: the item DB does not
-    change while the process runs."""
+    """{'craftable': set, 'droppable': set} for the whole version.
+
+    Cached per version: the item DB does not change while the process runs.
+    """
     if game_version is None:
         game_version = get_current_game_version()
     cached = _source_ids_cache.get(game_version)
@@ -109,8 +108,7 @@ def get_source_ankama_ids(game_version=None):
 
 
 def acquisition_text(craftable, best_drop_rate):
-    """"Craftable", "Drop rate: 2.50%", or both. Empty when we know of no source:
-    we never claim an item is unobtainable, a quest may still give it."""
+    """"Craftable", "Drop rate: 2.50%", or both. Empty when no source is known."""
     from django.template.defaultfilters import floatformat
     from django.utils.translation import gettext as _
     parts = []
@@ -124,9 +122,6 @@ def acquisition_text(craftable, best_drop_rate):
 
 
 def format_acquisition_counts(craftable, drop_only, unknown, rarest_rate=None):
-    """The set-level sentence. rarest_rate is optional: the gallery cards only
-    have the counts (working out the rarest rate would mean a query per build),
-    the solution page has it and says it."""
     from django.template.defaultfilters import floatformat
     from django.utils.translation import ngettext
     parts = []
@@ -154,8 +149,7 @@ def format_acquisition_counts(craftable, drop_only, unknown, rarest_rate=None):
 
 
 def summarize_by_ankama_id(entries, game_version=None):
-    """Counts for a build we only know by (ankama_id, type name) pairs, which is
-    all a gallery card has. Two set lookups, no per-build query."""
+    """Counts for a build known only as (ankama_id, type name) pairs."""
     sources = get_source_ankama_ids(game_version)
     craftable = drop_only = unknown = 0
     for ankama_id, type_name in entries:
@@ -171,11 +165,7 @@ def summarize_by_ankama_id(entries, game_version=None):
 
 
 def acquisition_summary(result_items):
-    """One line for the whole set: how many pieces you can craft, how many you
-    can only farm, and the rarest of those rates, which is what really sets the
-    farming time. Deliberately no score and no time estimate: we have no data
-    for either. Items we know no source for are counted as unknown, never as
-    unobtainable."""
+    """One line for the whole set: craftable count, drop-only count, rarest rate."""
     craftable = 0
     drop_only_rates = []
     unknown = 0
@@ -187,10 +177,8 @@ def acquisition_summary(result_items):
         elif getattr(item, 'best_drop_rate', None):
             drop_only_rates.append(item.best_drop_rate)
         elif getattr(item, 'type', None) in ('Dofus', 'Pet'):
-            # A dofus comes from a quest or a dungeon boss and a mount from
-            # breeding, so having neither recipe nor drop is normal for them,
-            # not a gap. Trophies and prysmaradites sit in the same section but
-            # do have recipes, and those still count above.
+            # Dofus come from quests or dungeon bosses and pets from breeding:
+            # neither has a recipe or a drop.
             continue
         else:
             unknown += 1
@@ -201,8 +189,7 @@ def acquisition_summary(result_items):
 
 
 def attach_acquisition(result_items, game_version=None):
-    """Set craftable / best_drop_rate / acquisition_text on result items, in one
-    pass over the database."""
+    """Set craftable / best_drop_rate / acquisition_text on result items."""
     acquisition = get_acquisition_by_ankama_id(
         [getattr(item, 'ankama_id', None) for item in result_items], game_version)
     for item in result_items:

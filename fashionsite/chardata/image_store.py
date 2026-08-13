@@ -34,9 +34,7 @@ def _static_exists(path):
 
 
 def list_static_dir(path):
-    """File names inside a static directory, from the app statics or
-    STATIC_ROOT (collectstatic output), whichever exists. Lets callers build
-    an in-memory availability set instead of probing files one by one."""
+    """File names inside a static directory, from the app statics or STATIC_ROOT."""
     directory = finders.find(path)
     if not directory or not os.path.isdir(directory):
         static_root = getattr(settings, 'STATIC_ROOT', None)
@@ -49,9 +47,8 @@ def list_static_dir(path):
 
 RETRO_PLACEHOLDER = 'chardata/QuestionMark-lighttheme.png'
 
-# Variant items produced by the data pipeline ("Nomoon 2", "Animagi (GM)",
-# "Boune (+80 Agility)") reuse the base item's artwork; only the base icon
-# exists on disk. The fallback only applies when the exact icon is missing.
+# Variant items from the data pipeline ("Nomoon 2", "Animagi (GM)", "Boune (+80
+# Agility)") reuse the base item's artwork; only the base icon exists on disk.
 _VARIANT_SUFFIX = re.compile(r' (?:\d+|\([^)]*\))$')
 
 
@@ -69,8 +66,6 @@ def get_image_url(type, name, game_version=None):
     base_name = _VARIANT_SUFFIX.sub('', name)
     dofus3_path = _icon_path(type_dir, name)
     if game_version == 'dofus3':
-        # Only variant names pay the existence check; regular names keep the
-        # unconditional fast path.
         if base_name != name and not _static_exists(dofus3_path):
             fallback = _icon_path(type_dir, base_name)
             if _static_exists(fallback):
@@ -83,10 +78,8 @@ def get_image_url(type, name, game_version=None):
         versioned_base = _icon_path(type_dir, base_name, game_version)
         if _static_exists(versioned_base):
             return versioned_base
-    # Beta/Dofus 2 items look like Dofus 3, so fall back to the Dofus 3 icon. Retro
-    # items are visually distinct, so the Dofus 3 icon would be the wrong item (and
-    # most names don't even match) -- show a neutral placeholder until we have real
-    # Retro icons in chardata/items/retro/60x60/.
+    # Beta/Dofus 2 items look like Dofus 3; Retro items are visually distinct, so a
+    # Dofus 3 icon would show the wrong item.
     if game_version == 'retro':
         return RETRO_PLACEHOLDER
     if base_name != name and not _static_exists(dofus3_path):

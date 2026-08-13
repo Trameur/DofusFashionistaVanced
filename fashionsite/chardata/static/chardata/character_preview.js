@@ -58,15 +58,10 @@
         // Pieces are id-addressed and cached a year; only the url can bust it.
         this.stamp = options.assetVersion
             ? '?v=' + encodeURIComponent(options.assetVersion) : '';
-        // The cache file names carry the format version. Asking for that name
-        // is what lets the front end answer from disk without a worker.
+        // The cache file names carry the format version.
         this.formats = options.assetFormats || {};
         this.look = options.look;
         this.colors = options.colors || {};
-        // The template ships a backing store twice the css size, which a phone
-        // at 3x then upscales. Follow the screen instead, never below the two
-        // it already had, and carry the ratio in the draw scale since paint()
-        // replaces the transform.
         var cssWidth = canvas.clientWidth || canvas.width / 2;
         var cssHeight = canvas.clientHeight || canvas.height / 2;
         var ratio = Math.min(Math.max(window.devicePixelRatio || 1, 2), 3);
@@ -128,7 +123,6 @@
                 })
                 .catch(function () {}));
         }
-        // A part that fails to load is skipped, not fatal.
         this.skins.forEach(function (id) {
             jobs.push(fetch(self.base + '/parts/' + id + '/parts'
                     + self.suffix('skin') + '.json' + self.stamp)
@@ -144,7 +138,6 @@
             if (!self.poses || !self.manifests[self.look.body]) {
                 throw new Error('no character art');
             }
-            // A rider without its mount is a legless torso.
             if (self.look.mount && !self.mount) {
                 throw new Error('no mount art');
             }
@@ -163,11 +156,7 @@
 
     // The head is drawn whole at the Tete node, in its own local space. Some
     // heads carry pieces named after other skeleton nodes (Chapeau, Natte,
-    // Cole), and entriesFor used to match those too, painting them a second
-    // time at that node, offset and oversized: on an Eliotrope the braid came
-    // back tinted by slot 5, a blue slab beside the head. Only skip the ones
-    // headEntries already draws for the orientation on screen, or a Sram
-    // loses the collar its own node carries.
+    // Cole), which entriesFor must not paint a second time at that node.
     CharacterPreview.prototype.headDrawn = function () {
         if (this.headDrawnFor !== this.orientation) {
             var seen = {};
@@ -202,7 +191,7 @@
         return out;
     };
 
-    // Heads ship every expression; drawing them all turns the face to mush.
+    // Heads ship every expression, not just the one on screen.
     var EXPRESSION = /^visage_(?!neutre|base)|_visage_(?!neutre)|^tete\d+$/;
 
     CharacterPreview.prototype.headEntries = function () {
@@ -228,9 +217,8 @@
         ctx.globalCompositeOperation = 'multiply';
         ctx.fillStyle = 'rgb(' + rgb.join(',') + ')';
         ctx.fillRect(0, 0, w, h);
-        // The greyscale art sits at a median luminance of 87/255, so a plain
-        // multiply returned about a third of the chosen colour. Mid grey is
-        // the neutral point the art is drawn around, not white.
+        // The greyscale art is drawn around mid grey as its neutral, not white,
+        // so a plain multiply comes back far darker than the chosen colour.
         ctx.globalCompositeOperation = 'lighter';
         ctx.drawImage(c, 0, 0);
         ctx.globalCompositeOperation = 'destination-in';
@@ -239,8 +227,6 @@
         return c;
     };
 
-    // The first draw waits for the whole sheet, so the character appears at
-    // once instead of a piece at a time.
     CharacterPreview.prototype.decoded = function (skinId) {
         var img = this.image(skinId);
         if (img.complete && img.naturalWidth) { return null; }

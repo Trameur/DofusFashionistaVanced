@@ -42,9 +42,6 @@ def wizard(request, char_id):
 
     wizard_data = Data(char)
     constant_data = ConstantData(char)
-    # Reuse the solution page's avatar helper so classes without shipped art
-    # (Forgelance) fall back to the placeholder instead of a 404 image, and so
-    # the two pages can never drift on which classes have avatars.
     wizard_pic = get_class_avatar(char)
 
     context = {'char_id': char_id,
@@ -73,8 +70,7 @@ def wizard_post(request, char_id):
 
     minimum_values = get_min_stats(char)
     for stat_name in STATS_WITH_CONFIG_MINS:
-        # An empty/absent field (blank input, or a bot's bare GET) yields None;
-        # treat it as 0 (no minimum) so set_min_stats' min(cap, value) never sees None.
+        # A blank field means no minimum.
         minimum = safe_int(request.POST.get('min_%s' % stat_name, '')) or 0
         minimum_values[stat_name] = minimum
         

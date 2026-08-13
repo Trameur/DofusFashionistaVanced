@@ -131,7 +131,6 @@ def about(request, char_id=0):
     language_code = (get_language() or settings.LANGUAGE_CODE or 'en').split('-')[0]
     language_name = dict(settings.LANGUAGES).get(language_code, 'English')
 
-    # Keep known translator credits and fall back to Trameur when missing.
     about_authors = {
         'fr': 'Mr-quifaitmal, Naturalglyphs, Edrolys, Praesugatus, Hyd-x, Bouzouw, Elbisiap et Trameur',
         'es': 'Nelson-Magno',
@@ -169,8 +168,7 @@ def privacy(request, char_id=0):
                          'char_id': char_id})
 
 def support(request, char_id=0):
-    # Donation links are opt-in via settings.SUPPORT_LINKS = [{'label','url'}].
-    # When none are configured the page still works, showing the free ways to help.
+    # settings.SUPPORT_LINKS is a list of {'label', 'url'}.
     support_links = getattr(settings, 'SUPPORT_LINKS', []) or []
     return set_response(request,
                         'chardata/support.html',
@@ -181,8 +179,7 @@ def support(request, char_id=0):
 
 
 def set_language_and_remember(request):
-    """Django's set_language, plus: remember the choice on the user's profile
-    so notification emails can be sent in their language."""
+    """Django's set_language, plus the choice stored on the user's profile."""
     from django.utils.translation import check_for_language
     from django.views.i18n import set_language as django_set_language
     response = django_set_language(request)

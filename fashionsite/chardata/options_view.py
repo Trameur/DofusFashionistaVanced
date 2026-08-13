@@ -37,8 +37,7 @@ def _inventory_folders_for(request, char):
 
 
 def parse_inventory_options(request, char, options):
-    """Read the item-source choice posted by the options page or the wizard
-    into `options`. No-op when the form did not include the controls."""
+    """Read the posted item-source choice into `options`; no-op when absent."""
     if ('inventory_mode' not in request.POST
             and 'inventory_folder' not in request.POST):
         return

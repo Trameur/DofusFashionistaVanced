@@ -98,8 +98,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Raw skin and bone bundles from Ankama's CDN, and where the preview bakes them
-# the first time a page asks. Unset means no character preview.
+# Raw skin and bone bundles from Ankama's CDN, and where the preview bakes them.
 CHARACTER_BUNDLE_DIR = os.environ.get(
     'CHARACTER_BUNDLE_DIR',
     os.path.join(os.path.dirname(BASE_DIR), 'character_bundles'))
@@ -269,8 +268,6 @@ with open(os.path.join(CONFIG_DIR, 'serve_static')) as f:
 
 LOGGING = {
     'version': 1,
-    # Keep app loggers (chardata.*, fashionistapulp.*) alive so their errors reach
-    # the root handler below instead of being silently disabled.
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
@@ -324,10 +321,8 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        # Bots constantly probe the raw IP with spoofed/garbage Host headers,
-        # each producing a uniquely-worded DisallowedHost error that slips past
-        # the rate-limited mail filter. These aren't actionable, so log to the
-        # console only and never email them.
+        # Every DisallowedHost error is worded differently, so the rate-limited
+        # mail filter never dedupes them. Console only.
         'django.security.DisallowedHost': {
             'handlers': ['console'],
             'level': 'ERROR',
@@ -343,11 +338,8 @@ LOGGING = {
             'level': 'DEBUG',
         },
     },
-    # Catch-all. Any ERROR logged anywhere that a more specific logger above didn't
-    # already handle propagates here and gets emailed: app-code logger.error /
-    # logger.exception (including exceptions a view caught and logged instead of
-    # letting them 500), library errors, management commands, etc. django.request
-    # and django.security set propagate=False, so unhandled 500s are not sent twice.
+    # Catch-all: django.request and django.security set propagate=False, so a
+    # 500 is not mailed twice.
     'root': {
         'handlers': ['console', 'mail_admins'],
         'level': 'ERROR',
@@ -370,14 +362,10 @@ EMAIL_HOST_USER = GEN_CONFIGS['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = GEN_CONFIGS['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = GEN_CONFIGS['EMAIL_PORT']
 
-# Run with FASHIONISTA_EMAIL_CONSOLE=1 to print outgoing mail (password reset,
-# etc.) to the terminal instead of sending via SMTP, for local testing.
+# FASHIONISTA_EMAIL_CONSOLE=1 prints outgoing mail to the terminal.
 if os.environ.get('FASHIONISTA_EMAIL_CONSOLE') == '1':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Server error notifications: Django's AdminEmailHandler sends to ADMINS on
-# ERROR-level log records (including unhandled exceptions via django.request).
-# Rate-limited by chardata.log_filters.RateLimitedErrorFilter.
 ADMINS = [('DofusFashionista Errors', EMAIL_HOST_USER)]
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -418,7 +406,7 @@ SUPPORT_LINKS = [
 
 
 
-# --- dev-only overrides (local visual testing, never committed/deployed) ---
+# --- dev-only overrides ---
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},

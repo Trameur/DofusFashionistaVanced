@@ -895,11 +895,8 @@ _STACK_CAP_IN_TEXT = {
 def _stack_limit_from_description(spell: Mapping[str, Any]) -> Optional[int]:
     """The cap the spell text states, for the spells whose levels state none.
 
-    The Eliotrope's portals are the case that matters: every rank of Portail
-    and of Errance reads max_stack -1, undeclared, while the description says
-    "cumulable 10 fois" / "stackable 10 times". The site showed one portal
-    where the game allows ten. The two languages have to agree, so a stray
-    number in one translation cannot invent a cap on its own.
+    The Eliotrope portals read max_stack -1 at every rank while the text says
+    "cumulable 10 fois". Both languages must agree before a cap is taken.
     """
     caps = set()
     for lang, pattern in _STACK_CAP_IN_TEXT.items():
@@ -929,8 +926,8 @@ def _extract_stack_limit(spell: Mapping[str, Any]) -> Optional[int]:
             stack_values.append(stack)
     if stack_values:
         return max(stack_values)
-    # A level that says 1 is saying the spell does not stack, and that beats
-    # any prose. Only silence at every rank is worth reading the text for.
+    # max_stack 1 means the spell does not stack; only silence at every rank
+    # falls back to the description.
     if declared:
         return None
     return _stack_limit_from_description(spell)
@@ -999,11 +996,8 @@ def _copy_damage_rows(rows: Optional[Sequence[Mapping[str, Any]]], level_count: 
         return []
     copied: List[Dict[str, Any]] = []
     for row in rows:
-        # Rebuilding three keys dropped the rest. Friendship Word lands a glyph
-        # that heals allies as readily as it hits enemies, and it reached the
-        # site as 24 damage rows: no heals flag, so its twelve heal rows were
-        # counted as damage, and no best-element group, so its four elements
-        # were summed instead of being the one hit the caster picks.
+        # Carry every key: the heals flag and best_element_group decide whether
+        # a row is damage and whether it sums or is one of several elements.
         carried = dict(row)
         carried["ranges"] = _fit_ranges(list(row.get("ranges", [])), level_count)
         copied.append(carried)
@@ -1039,9 +1033,8 @@ def _build_state_aggregates(
     rows: Sequence[Mapping[str, Any]],
     total_row_count: int,
 ) -> Optional[List[Tuple[str, List[int]]]]:
-    """A state in the target mask decides whether a row lands, so rows under
-    different states are alternatives: Schnaps hits sober or drunk, Trickery
-    picks one element. Rows sharing a state land together."""
+    """Rows under different target-mask states are alternatives (Schnaps hits
+    sober or drunk); rows sharing a state land together."""
     groups: Dict[Any, List[int]] = {}
     for idx, row in enumerate(rows):
         state = row.get("state_group")
@@ -1062,9 +1055,8 @@ def _collapse_identical_aggregates(
     elements: Sequence[str],
     non_crit: Sequence[Sequence[str]],
 ) -> Optional[List[Tuple[str, List[int]]]]:
-    """Groups that print the same line are one line. The page draws a row per
-    group, so a spell written once per target case showed 24-27 twice. Only for
-    unlabelled groups: a stack label is what tells them apart."""
+    """Groups printing the same line collapse into one; a labelled (stack)
+    group never collapses, the label is what tells them apart."""
     if not aggregates or len(aggregates) < 2:
         return aggregates
 
@@ -1106,9 +1098,8 @@ def _build_duplicated_row_aggregates(
     rows: Sequence[Mapping[str, Any]],
     total_row_count: int,
 ) -> Optional[List[Tuple[str, List[int]]]]:
-    """A patch copied the row instead of adding a hit, which only two archives
-    can tell apart; find_duplicated_damage_rows.py names the spells it happened
-    to and how many rows came first."""
+    """Spells whose damage rows are a copy rather than a second hit, named by
+    find_duplicated_damage_rows.py with how many rows came first."""
     entry = _duplicated_row_spells().get(str(ankama_id))
     if not entry:
         return None
@@ -1125,11 +1116,9 @@ def _build_situation_aggregates(
     rows: Sequence[Mapping[str, Any]],
     total_row_count: int,
 ) -> Optional[List[Tuple[str, List[int]]]]:
-    """The mask and the zone say which case a row lands in. When two cases carry
-    the very same damage the row was written once per case, not once per hit:
-    Bramble hits the target then the infected around it, Epidemic hits the cell
-    then the spread. Summing them doubled the spell. Identical rows in the same
-    case stay summed, since nothing in the data tells a repeat from a copy."""
+    """Rows in different situations (mask + zone) are cases, not extra hits:
+    Bramble hits the target then the infected around it. Identical rows within
+    one situation stay summed."""
     groups: Dict[Any, List[int]] = {}
     for idx, row in enumerate(rows):
         situation = row.get("situation")
@@ -1191,8 +1180,8 @@ def _build_best_element_aggregates(
 
 
 def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, List[int]]]:
-    """Cost and cast limits per level. None if the lists do not line up; a
-    limit of 0 means no limit, so all-zero keys are dropped."""
+    """Cost and cast limits per level. A limit of 0 means no limit, so all-zero
+    keys are dropped."""
     levels = spell.get("levels") or []
     if len(levels) != level_count:
         return None
@@ -1306,7 +1295,6 @@ def convert_spell(
         aggregates = _build_stack_row_aggregates(stack_row_block, base_row_count, stack_labels)
     if aggregates_from_best and aggregates and stack_labels and stack_row_block:
         aggregates = _prefix_stack_labels(aggregates, stack_row_block, stack_labels)
-    # Last resort, so a spell that stacks keeps the labels the page prints.
     if not aggregates:
         aggregates = _build_state_aggregates(normal_rows, len(non_crit))
     if not aggregates:
@@ -1544,8 +1532,8 @@ def render_spell(entry: SpellEntry) -> List[str]:
     if entry.casting:
         extra_args.append(f"casting={entry.casting!r}")
     if entry.ankama_id:
-        # Lets the audits match DofusDB by id instead of by (homonymous)
-        # name; the hand-written defaults have no id and stay name-based.
+        # The audits match spells by id; the hand-written defaults have no id
+        # and stay name-based.
         extra_args.append(f"spell_id={entry.ankama_id}")
     if extra_args:
         closing += ", " + ", ".join(extra_args)

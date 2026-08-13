@@ -23,8 +23,7 @@ from fashionistapulp.structure import get_structure
 
 
 def get_stats_weights(char, persist=True):
-    """persist=False for read-only callers: filling the defaults in normally
-    re-saves the char, and merely viewing a shared build must not touch it."""
+    """persist=False for read-only callers: filling in the defaults re-saves the char."""
     weights = {}
     
     if char.stats_weight:
@@ -85,12 +84,8 @@ def _fill_defaults(char, weights):
             weights[e] = stan_w[e]
         char.stats_weight = pickle.dumps(stan_w)
 
-# Weights become objective coefficients for the solver. High-end crit or
-# multi-element builds (dam is a sum, cridam scales with it) and manually tuned
-# weights can legitimately exceed the old 5k guard, and _set_weights stores such
-# weights without any check. Re-saving one (which a plain wizard GET can trigger)
-# must not 500 the character's own pages, so clamp to a generous ceiling instead
-# of asserting. The ceiling only guards against truly runaway values.
+# Weights become objective coefficients for the solver; high-end crit and
+# multi-element builds legitimately reach five figures.
 MAX_STAT_WEIGHT = 50000
 
 def set_stats_weights(char, weights):

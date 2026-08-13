@@ -7,11 +7,9 @@
 
 """Recipe ingredient aggregation.
 
-Reads the recipe tables (`item_recipes`, `item_recipe_ingredient_names`) that
-`itemscraper/store_item_obtainment.py` writes into the per-version items DB and
-sums ingredient counts across a collection of items. Used by the workshop list
-and the build/solution page so a player can see the full shopping list of raw
-materials needed to craft everything at once."""
+The recipe tables (`item_recipes`, `item_recipe_ingredient_names`) are written
+into the per-version items DB by `itemscraper/store_item_obtainment.py`.
+"""
 
 import logging
 import sqlite3
@@ -21,8 +19,7 @@ from fashionistapulp.fashionista_config import get_items_db_path
 
 logger = logging.getLogger(__name__)
 
-# Recipe ingredient subtypes that map onto items we actually host a detail page
-# for, so we can link the ingredient back into the encyclopedia.
+# Ingredient subtypes we host a detail page for, so the ingredient can link back.
 _LOCAL_INGREDIENT_TYPES = {
     'equipment': 'equipment',
     'mounts': 'mount',

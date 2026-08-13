@@ -121,17 +121,15 @@ def _source_filter(request):
 
 
 def _apply_source_filter(items, wanted):
-    """Keep the items we know are craftable or droppable. An item with no known
-    source is dropped from the list, not labelled unobtainable: a quest or an
-    achievement may still give it."""
+    """Keep items with a known craft or drop source. Unknown is not
+    unobtainable: quest and achievement rewards are not in the source data."""
     if not wanted:
         return items
     structure = get_structure()
     allowed = get_source_ankama_ids()[wanted]
     kept = []
     for item in items:
-        # The pool entry of an OR item is a stand-in without an ankama_id, so
-        # ask the branch that carries the real data.
+        # The pool entry of an OR item has no ankama_id; its branches do.
         source_item = item
         if item.name in structure.or_items:
             source_item = structure.get_or_item_by_name(item.name)[0]
@@ -149,8 +147,8 @@ def _hide_removed_item(item):
     return True
 
 def _owned_item_ids(request, char):
-    """Item ids in the project owner's inventory (any folder of this game
-    version), or None when the inventory does not apply (guest/anonymous)."""
+    """Inventory item ids of the build owner for this game version, or None
+    for a guest."""
     if not request.user.is_authenticated or char.owner_id != request.user.id:
         return None
     from chardata.models import InventoryItem
@@ -236,7 +234,6 @@ def get_items_of_type(request, char_id):
         items = _order_items(itype, char, search_term, stat_filters)
     cache.set(cache_key, items, 300)
 
-    # Filtered after the cache so inventory edits show up immediately.
     owned_ids = _owned_item_ids(request, char)
     inventory_only = (request.POST.get('inventory_only') == 'true'
                       and owned_ids is not None)
@@ -247,8 +244,6 @@ def get_items_of_type(request, char_id):
     max_page = math.ceil(len(items) / 10.0)
     items_to_return = items[(page - 1) * 10 : page * 10]
 
-    # Saved inventory rolls / manual overrides, so listed items show the
-    # stats the solver actually counts.
     effective_overrides = get_effective_stat_overrides(char) or None
 
     itemResults = []
@@ -256,8 +251,6 @@ def get_items_of_type(request, char_id):
         if item.name in structure.or_items:
             for or_item in structure.get_or_item_by_name(item.name):
                 owned = owned_ids is not None and or_item.id in owned_ids
-                # The whole or-group passes the inventory filter as soon as
-                # one variant is owned; only surface the owned roll(s).
                 if inventory_only and not owned:
                     continue
                 result_item = ModelResultItem(or_item, effective_overrides)
@@ -314,7 +307,6 @@ def get_items_to_exchange(request, char_id):
                                                                                          search_term, stat_filters)
     cache.set(cache_key, items_to_exchange, 300)
 
-    # Filtered after the cache so inventory edits show up immediately.
     owned_ids = _owned_item_ids(request, char)
     inventory_only = (request.POST.get('inventory_only') == 'true'
                       and owned_ids is not None)
@@ -330,15 +322,11 @@ def get_items_to_exchange(request, char_id):
     differences = {}
     itemResults = []
     weapon_info = {}
-    # Saved inventory rolls / manual overrides, so listed items show the
-    # stats the solver actually counts.
     effective_overrides = get_effective_stat_overrides(char) or None
     for item in items_to_return:
         if item.name in structure.or_items:
             for or_item in structure.get_or_item_by_name(item.name):
                 owned = owned_ids is not None and or_item.id in owned_ids
-                # The whole or-group passes the inventory filter as soon as
-                # one variant is owned; only surface the owned roll(s).
                 if inventory_only and not owned:
                     continue
                 result_item = ModelResultItem(or_item, effective_overrides)
@@ -373,9 +361,7 @@ def get_items_to_exchange(request, char_id):
                                                           effective_overrides)
     
             
-    # The switch popup shows each item's icon via item.file. evolve_result_item
-    # only sets the slot placeholder, so set the real version-aware item icon here
-    # (like the solution page), otherwise the popup shows broken/placeholder images.
+    # evolve_result_item only puts the slot placeholder in .file.
     for ri in itemResults:
         ri.file = static(get_image_url(ri.type, ri.name))
     attach_acquisition(itemResults)
@@ -403,8 +389,7 @@ def switch_item(request, char_id):
     except (TypeError, ValueError):
         item = None
     if item is None:
-        # An unknown id must not fall through to switch_item(None, ...),
-        # which would silently remove whatever is in the slot.
+        # switch_item(None, slot) silently empties the slot.
         return HttpResponseBadRequest()
     result = get_solution(char)
     result.switch_item(item, slot,

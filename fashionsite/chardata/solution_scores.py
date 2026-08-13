@@ -12,10 +12,8 @@ from fashionistapulp.structure import (get_current_game_version, get_structure,
                                        set_current_game_version)
 
 
-# A stable, build-agnostic score for public/shared build cards. The scale is
-# intentionally close to item stat weights: one AP should matter a lot more
-# than one elemental stat, while balanced defensive and utility stats still
-# contribute enough to make support/tank builds comparable.
+# Build-agnostic score for public/shared build cards, on the same scale as the
+# item stat weights.
 GENERIC_BUILD_WEIGHTS = {
     'ap': 120,
     'mp': 90,

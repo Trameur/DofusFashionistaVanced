@@ -14,17 +14,11 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Emit fashionsite/chardata/dynamic_translations.py.
+"""Emit fashionsite/chardata/dynamic_translations.py; run after any data update.
 
-Several views translate DATA at runtime (gettext(variable)): item type names
-(encyclopedia/forgemagie/inventory labels), stat names (min stats, inclusions,
-shared-builds chips), element names and slot types. makemessages cannot see
-those strings in the code, so `--no-obsolete` used to purge their catalog
-entries. This script collects every such string from its real source (the five
-per-version item databases and the dofus_constants tables) into a scanned
-module of gettext_noop() calls, making the catalogs stable.
-
-Run after any data update (wired into the update_data* pipelines).
+Item types, stat names, elements and slots are translated at runtime with
+gettext(variable), which makemessages cannot see: without this generated module
+of gettext_noop() calls, --no-obsolete purges their catalog entries.
 """
 
 import os
@@ -76,11 +70,8 @@ def main():
     # STAT_NAME_TO_KEY keys are the display names the views translate.
     strings.update(k for k in STAT_NAME_TO_KEY if k)
 
-    # The transform normalizes scraped labels through STAT_TRANSLATE
-    # (get_equipments2.py); its VALUES are the canonical strings the site
-    # renders and translates at runtime ("Linked to the character",
-    # "Hunting Weapon", weapon hit labels...). Read via AST: importing the
-    # module would run its argparse.
+    # STAT_TRANSLATE values (get_equipments2.py) are the canonical strings the site
+    # renders and translates at runtime. Read via AST: importing it runs its argparse.
     import ast
     tree = ast.parse(open(os.path.join(CURRENT_DIR, 'get_equipments2.py'),
                           encoding='utf-8').read())

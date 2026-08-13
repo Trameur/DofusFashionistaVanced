@@ -21,8 +21,7 @@ import unicodedata
 
 
 def _fold(text):
-    # Lowercase + strip accents so localized markers (e.g. "degats", "piege")
-    # match however the user typed them ("dégâts", "piège").
+    # The marker lists below are unaccented ASCII, so fold the input to match.
     folded = unicodedata.normalize('NFKD', text or '')
     return ''.join(c for c in folded if not unicodedata.combining(c)).lower()
 

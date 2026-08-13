@@ -3,13 +3,9 @@
 
 """Add Dofus Touch "special spell" tooltip lines to items_touch.db.
 
-Some items cast a spell at the start of combat (effect 2822, "Lance le sort #1 au
-debut du combat" / "Casts spell #1 at the start of combat") -- e.g. several Dofus
-and shields. The Touch data carries this as a raw effect whose diceNum is the cast
-spell's id, so we resolve the spell name (per language) and store the formatted
-line in the extra_lines table, the same place get_equipments3 puts Dofus 3's
-"-special spell-" lines. The encyclopedia / solution then show it like any other
-version.
+Effect 2822 ("Casts spell #1 at the start of combat") carries the cast spell's
+id in diceNum. The resolved line is stored per language in extra_lines, where
+get_equipments3 also puts Dofus 3's "-special spell-" lines.
 """
 
 import json
@@ -36,17 +32,12 @@ FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 UA = "Dofus/2 CFNetwork"
 
 # effect id -> (field holding the cast spell id, placeholder in the description).
-# 722, "Permet l'utilisation du sort: #3", is deliberately absent: the four spell
-# ids it points at on the Dofushu and the Cog of Infinity (21952, 24126, 24284,
-# 24286) are in none of the 7455 spells the backend serves, so the line could
-# only be printed with a bare number in place of a name.
+# Effect 722's spell ids (Dofushu, Cog of Infinity) are in no backend spell,
+# so it has no entry here.
 CAST_SPELL_EFFECTS = {2822: ('diceNum', '#1')}
 
-# The class Emblems and a handful of weapons carry no characteristic, only a
-# modifier on one named spell, so their page was blank. Same effects as the 1.29
-# spell hats; here the backend hands us the sentence in all five languages, so
-# nothing has to be worded by hand. The spell id sits in diceNum and the amount
-# in value: "Emblème Féca : Héroïsme" reduces spell 6801's cooldown by 2.
+# Modifiers on one named spell (the class Emblems, a few weapons): spell id in
+# diceNum, amount in value.
 SPELL_MODIFIER_EFFECTS = set(range(281, 292))
 
 

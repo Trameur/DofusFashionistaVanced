@@ -14,28 +14,13 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Download the artwork of every monster that has an encyclopedia page.
+"""Download monster artwork as 96px WebP, named by Ankama id.
 
-Images are stored by ANKAMA ID as 96px WebP (artwork sources are 128px PNG,
-WebP keeps the whole set in the tens of megabytes). Existing files are
-skipped, so the step is cheap on re-runs.
+Usage: python download_monster_images.py [--game-version dofus3|touch]
 
-Default (dofus3, shared with beta like the root items/ directory): monster
-ids come from monster_names in items.db and items_beta.db; artwork comes from
-the DofusDB asset mirror (api.dofusdb.fr/img/monsters/<id>.png, the same
-source our spell audits already trust). Monsters missing there just stay
-without a file and the site renders them without an image.
-
---game-version touch: monster ids come from items_touch.db; artwork comes
-from the official Touch assets CDN (config.json assetsUrl +
-/gfx/monsters/<monsterId>.png, indexed by MONSTER id there, unlike DofusDB);
-target is chardata/monsters/touch/96/. The era-accurate 2D art differs from
-the modern renders on purpose.
-
-Retro is handled by download_retro_monster_artworks.py (vectors extracted
-from the official 1.29 client via Cytrus). Dofus2 is NOT handled: no
-artwork source found so far (see the loop TODO), and versions must never
-borrow another version's art.
+dofus3 artwork comes from the DofusDB mirror, touch from the official Touch
+assets CDN, which indexes by monster id. Retro artwork is handled by
+download_retro_monster_artworks.py.
 """
 
 import argparse
@@ -58,8 +43,8 @@ DB_PATHS = [
 TOUCH_DB_PATHS = [
     os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp', 'items_touch.db'),
 ]
-# The image file name is the monster's gfxId, NOT its id (monster 46 renders
-# img/monsters/12.png): the id -> img mapping must come from the monsters API.
+# DofusDB names the artwork file by gfxId, not by monster id, so the id -> img
+# mapping has to come from the monsters API.
 DOFUSDB_MONSTERS_URL = 'https://api.dofusdb.fr/monsters?%%24limit=%d&%%24skip=%d'
 PAGE_SIZE = 50
 TOUCH_CONFIG_URL = 'https://dt-proxy-production-login.ankama-games.com/config.json'
@@ -93,7 +78,7 @@ def monster_ids(db_paths):
 
 
 def image_urls(session):
-    """id -> artwork URL for every monster DofusDB knows, via the paged API."""
+    """id -> artwork URL for every monster DofusDB knows."""
     urls = {}
     skip = 0
     while True:

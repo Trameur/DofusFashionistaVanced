@@ -1,16 +1,11 @@
 #!/usr/bin/env python3
 """
 Turn the parsed Retro lang JSON (from download_retro_langs.py) into
-transformed_equipment.json and transformed_sets.json, in the same shape
-get_equipments2.py produces for Dofus 3. That way get_equipments3.py and
-load_item_db.py reuse the existing dump/load path unchanged via --input-dir.
+transformed_equipment.json and transformed_sets.json, in the shape
+get_equipments2.py produces for Dofus 3.
 
-A few items to sanity-check the stat decoding against: the Gobball headgear gives
-1-40 Strength / 1-40 Intelligence, the Gobball amulet 1-10 of each, and Gelano /
-the Ochre Dofus +1 AP.
-
-Effects come as ISTA entries "<effectId_hex>#<jetMin_hex>#<jetMax_hex>#<dice>". We
-use the best roll, so value = jetMax (falling back to jetMin).
+Effects come as ISTA entries "<effectId_hex>#<jetMin_hex>#<jetMax_hex>#<dice>";
+the value taken is jetMax, falling back to jetMin.
 """
 
 from __future__ import annotations
@@ -32,18 +27,13 @@ TYPE_MAP = {
     '17': ('Cloak', None), '18': ('Pet', None), '19': ('Weapon', 'Axe'),
     '21': ('Weapon', 'Pickaxe'), '22': ('Weapon', 'Scythe'), '23': ('Dofus', None),
     '82': ('Shield', None),  # Retro 1.48 added shields
-    # Backpacks share the cape slot on Retro. All seventeen carry stats, from a
-    # lone pod bonus up to nine lines on the Koolich Bag, and seven of them are
-    # a set piece: the Wabbit set has seven members and the Cawwot-Bag is the
-    # only one in that slot, so leaving them out also kept the top tier of
-    # those set bonuses out of reach.
+    # Backpacks share the cape slot on Retro.
     '81': ('Cloak', None),
-    # Dragodinde mounts (English names contain "Dragoturkey"); like Dofus 3 they
-    # share the Pet slot, and the "Dragoturkeys" mount toggle gates them.
+    # Dragodinde mounts (Dragoturkey in English) share the Pet slot, gated by
+    # the "Dragoturkeys" mount toggle.
     '97': ('Pet', None),
-    # Two weapon categories Retro has and Dofus 3 dropped, named here as the
-    # game names them in I['t']. 102 holds a single GM crossbow, forbidden by
-    # default like the other GM gear; 114 is the five level-30 Tormentators.
+    # Two weapon categories Retro has and Dofus 3 dropped, named as the game
+    # names them in I['t']. 102 is a single GM crossbow, 114 the Tormentators.
     '102': ('Weapon', 'Crossbow'),
     '114': ('Weapon', 'Magic Weapon'),
 }
@@ -53,24 +43,19 @@ EFFECT_MAP = {
     118: ('Strength', 1), 119: ('Agility', 1), 123: ('Chance', 1),
     124: ('Wisdom', 1), 125: ('Vitality', 1), 126: ('Intelligence', 1),
     112: ('Damage', 1), 115: ('Critical Hits', 1), 117: ('Range', 1),
-    # 138 = "Augmente les dommages de X%": Retro's percent-damage stat. Dofus 3
-    # split Power off, but on 1.29 items this is the game's % damage, so map it to
-    # the model's Power (its percent-damage stat) rather than dropping it.
+    # 138 = "Augmente les dommages de X%", Retro's percent-damage stat; the
+    # model calls that Power.
     138: ('Power', 1),
     110: ('HP', 1), 174: ('Initiative', 1), 176: ('Prospecting', 1),
-    # 220 = 'Renvoie X dommages'. Only three items carry it (the Prespic
-    # ring and belt, and Sulik), which is why its absence went unnoticed;
-    # the set-bonus table already knew the stat under its french name.
+    # 220 = 'Renvoie X dommages', carried only by the Prespic ring and belt
+    # and by Sulik.
     220: ('Reflects', 1),
     178: ('Heals', 1), 182: ('Summon', 1), 111: ('AP', 1), 128: ('MP', 1),
     96: ('Water Damage', 1), 97: ('Earth Damage', 1), 98: ('Air Damage', 1),
     99: ('Fire Damage', 1), 100: ('Neutral Damage', 1),
     210: ('% Earth Resist', 1), 211: ('% Water Resist', 1), 212: ('% Air Resist', 1),
     213: ('% Fire Resist', 1), 214: ('% Neutral Resist', 1),
-    # 215-219 are the same five as a malus, "X% de faiblesse face a ...". Thirty
-    # three items carry one, usually paying for a resist in another element, and
-    # no item is ever weak and resistant in the same one. Dropping them showed
-    # only the upside of the trade.
+    # 215-219 are the same five as a malus, "X% de faiblesse face a ...".
     215: ('% Earth Resist', -1), 216: ('% Water Resist', -1),
     217: ('% Air Resist', -1), 218: ('% Fire Resist', -1),
     219: ('% Neutral Resist', -1),
@@ -82,9 +67,8 @@ EFFECT_MAP = {
     175: ('Prospecting', -1), 168: ('AP', -1), 169: ('MP', -1),
     166: ('AP', 1), 177: ('Dodge', 1), 173: ('Lock', 1),
     194: ('Pods', 1),
-    # Minor stats found via the effects-lang audit (low frequency but real).
     158: ('Pods', 1), 225: ('Trap Damage', 1), 226: ('% Trap Damage', 1),
-    # PVP resists ("face aux combattants"), still on Retro items (e.g. shields),
+    # PVP resists ("face aux combattants"), on Retro items (e.g. shields) but
     # removed from Dofus 3. % variants 250-254, flat variants 260-264.
     250: ('% Earth Resist in PVP', 1), 251: ('% Water Resist in PVP', 1),
     252: ('% Air Resist in PVP', 1), 253: ('% Fire Resist in PVP', 1),
@@ -107,40 +91,31 @@ ELEMENT_BY_EFFECT = {
 }
 
 # Life-steal (vol de vie) damage effect ids -> element label. Same element order
-# as ELEMENT_BY_EFFECT but 5 lower. On a weapon these are steal hit lines that
-# deal damage and heal the caster; without them, vol-de-vie weapons (e.g. Sceptre
-# du Minotot, Marteau de la Terps) lose those damage lines entirely.
+# as ELEMENT_BY_EFFECT but 5 lower. On a weapon these are hit lines that deal
+# damage and heal the caster.
 STEAL_BY_EFFECT = {
     91: 'Water', 92: 'Earth', 93: 'Air', 94: 'Fire', 95: 'Neutral',
 }
 
-# Weapon heal, "PDV rendus". The game's own effects file lists the heal ids in
-# EHEL = {0: 108, 1: 81}, and neither entry carries the 'e' element field that
-# every damage and steal effect has: in 1.29 a heal has no element. Intelligence
-# still scales it (base * (100 + Intelligence) / 100 + Soins), so the dump files
-# it under the model's Intelligence element. Without this the fifteen weapons that
-# heal (Arc Hidsad, Pelle Gicque, Baguette Rhon...) show only their damage line.
+# Weapon heal, "PDV rendus". The game's effects file lists the heal ids as
+# EHEL = {0: 108, 1: 81}; neither carries the 'e' element field every damage and
+# steal effect has, so in 1.29 a heal has no element. Intelligence still scales
+# it: base * (100 + Intelligence) / 100 + Soins.
 HEAL_BY_EFFECT = {108, 81}
 
 # What the lang says about an item beyond its stats, under the names Dofus 3
-# already uses so the site's own translations apply. Only these two are certain:
-#   795 "Arme de chasse", kept when its value is 1. At 0 it sits on the Hunter's
-#       own tools; at 1 it names the weapons Dofus 3 lists as such.
-#   2151 "Lie au personnage", no parameter, six equippable items.
-# 983 "Lie au compte" is left out on purpose: 795 equippable items carry it, but
-# it takes a parameter this decoder cannot read with any confidence, and no
-# existing label means account-bound. 724 "Afficher le titre" holds the title in
-# a field a flag cannot carry.
+# already uses so the site's own translations apply.
+#   795 "Arme de chasse": 0 on the Hunter's own tools, 1 on the weapons Dofus 3
+#       lists as hunting weapons.
+#   2151 "Lie au personnage", no parameter.
 FLAG_BY_EFFECT = {795: 'Hunting Weapon', 2151: 'Linked to the character'}
 FLAG_NEEDS_VALUE = {795: 1}
 
 # 1.29 spell hats and capes carry no characteristic at all, only a modifier on
-# one named spell, so 302 items (755 lines) reached the page with nothing on
-# them. The optimizer has no notion of a per-spell modifier, so these are read
-# lines rather than stats. The French wording is the game's own, from
-# effects_fr.json; the other four are ours, since the lang ships no translated
-# effect table. Values are hex like the rest of an ISTA field, which the data
-# proves on its own: "#1e" is no decimal number.
+# one named spell. The optimizer has no notion of a per-spell modifier, so these
+# are read lines, not stats. The French wording is the game's own, from
+# effects_fr.json; the lang ships no translated effect table, so the other four
+# are ours. Values are hex, like the rest of an ISTA field.
 SPELL_EFFECT_TEMPLATES = {
     281: {'fr': 'Augmente la portée du sort %(spell)s de %(value)d',
           'en': 'Increases the range of %(spell)s by %(value)d',
@@ -247,15 +222,13 @@ def _map_set_stat(fr_type):
 
 
 def load_set_bonuses(path):
-    """Vendored scrapstuff sets.json -> [(frozenset(item_names), stats_list), ...].
+    """Vendored scrapstuff sets.json -> [(ankama_id, frozenset(item_names), stats_list), ...].
 
-    Matched to lang sets by item-name overlap (set names diverge too much:
-    "Abra Ancestral" vs "Abraknyde Ancestrale"). stats_list matches get_equipments3:
+    stats_list matches get_equipments3:
       [{'effect_key': num_pieces, 'effects': [[value, value, EnglishStat], ...]}, ...]
 
-    NOTE: this snapshot is Dofus Retro 1.29, but live Retro is 1.48. Item stats come
-    from the live CDN (1.48); only these set bonuses are 1.29 -- accurate for old sets
-    but missing the ~70 sets added since 1.29. Replace with a 1.48 source when found.
+    The snapshot is Dofus Retro 1.29 while live Retro is 1.48: item stats come from
+    the live CDN, only these set bonuses are 1.29, so the sets added since are missing.
     """
     p = Path(path)
     if not p.exists():
@@ -288,9 +261,8 @@ def load_set_bonuses(path):
 
 
 def _match_set_bonuses(lang_item_names, set_bonuses, set_ankama_id=None):
-    """Pick the bonus entry for this lang set: by ankama id when the entry
-    carries one (the Solomonk scrape does), else by best item-name overlap
-    (the legacy snapshot format has no ids)."""
+    """Pick the bonus entry for this lang set: by ankama id when the entry carries
+    one, else by best item-name overlap (the legacy snapshot format has no ids)."""
     if set_ankama_id is not None:
         for ankama_id, _item_names, stats_list in set_bonuses:
             if ankama_id == set_ankama_id:
@@ -304,7 +276,6 @@ def _match_set_bonuses(lang_item_names, set_bonuses, set_ankama_id=None):
         overlap = len(lang_item_names & item_names)
         if overlap > best_overlap:
             best_overlap, best_stats, best_size = overlap, stats_list, len(item_names)
-    # Require the match to cover at least half of the source set's items.
     if best_overlap >= max(2, best_size // 2):
         return best_stats
     return []
@@ -374,11 +345,8 @@ def decode_stats(ista_string, is_weapon=False):
 
     stats = list of [min, max, english_stat_name] (characteristic bonuses).
     hits  = list of [min, max, '(<Element> damage)' / '(<Element> steal)'] weapon
-            hit lines (weapons only). Life-steal (vol de vie) rolls use a separate
-            effect-id range and are emitted as steal lines.
-    On a weapon the elemental-damage/steal effects are the weapon's damage roll,
-    not a flat +damage characteristic, so they are routed to hit lines instead of
-    stats.
+            hit lines (weapons only). On a weapon the elemental damage and steal
+            effects are the weapon's roll, not a flat characteristic.
     """
     stats = []
     hits = []
@@ -428,14 +396,13 @@ def decode_stats(ista_string, is_weapon=False):
 def decode_weapon_e(e):
     """Retro weapon 'e' array -> {ap, crit_chance, crit_bonus}.
 
-    Layout (validated against Boisaille tier vs Dofus 3 Twiggy Sword):
+    Layout:
       [twoHanded, _, crit_chance, crit_failure, maxRange, minRange, ap, crit_bonus]
     """
     out = {}
     if isinstance(e, list) and len(e) >= 8:
         ap, crit, cbonus = e[6], e[2], e[7]
-        # -1 is the game saying it has no weapon data for the item, not a cost.
-        # Four items carry it and the page was printing "AP: -1".
+        # -1 means the game has no weapon data for the item, not a cost.
         if isinstance(ap, (int, float)) and ap > 0:
             out['ap'] = int(ap)
         if isinstance(crit, (int, float)):
@@ -458,13 +425,10 @@ def decode_conditions(c_string):
 
 
 def min_player_level(c_string):
-    """Minimum character level required by a 'PL>NN' condition.
+    """Minimum character level required by a 'PL>NN' condition, 1 when there is none.
 
-    Retro encodes the level needed to *use* an item (e.g. mount certificates,
-    i.e. dragodindes) as 'PL>NN' (player level strictly greater than NN ->
-    NN+1). Returns 1 when there is no such condition. 'PL<NN' (max-level)
-    conditions are intentionally ignored as they do not raise the minimum
-    usable level.
+    'PL>NN' is strictly greater, so the minimum is NN+1. 'PL<NN' is a max-level
+    condition and does not raise the minimum.
     """
     best = 1
     for val in re.findall(r'PL\s*>\s*(\d+)', str(c_string or '')):
@@ -502,11 +466,9 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
             level = int(it.get('l', 1))
         except (TypeError, ValueError):
             level = 1
-        # Mount certificates (dragodindes) and a few other retro items gate
-        # usage by character level via a "PL>NN" condition, not the item-level
-        # field `l` (which for a certificate is just the mount tier, 1..10).
-        # Honour it so the item only appears for characters that can actually
-        # equip it (dragodindes: PL>59 -> level 60).
+        # Mount certificates and a few other retro items gate usage by character
+        # level with a "PL>NN" condition, not the item-level field `l` (which for
+        # a certificate is just the mount tier, 1..10).
         level = max(level, min_player_level(it.get('c', '')))
         level = max(1, min(level, 200))  # structure.py indexes types by level 1..200
         is_weapon = weapon_type is not None
@@ -543,9 +505,8 @@ def build(items_root, sets_root, names_by_lang=None, set_bonuses=None,
             return (set_names_by_lang.get(lang) or {}).get(sid) or name_fr
 
         equipment_ids = [int(x) for x in sd['i']]
-        # Set membership comes from the lang; per-piece bonuses come from the vendored
-        # community snapshot, matched by item-name overlap (set names diverge). Drop
-        # tiers that exceed the item count (guards scrape noise + model 9-slot limit).
+        # Set membership comes from the lang; per-piece bonuses from the vendored
+        # snapshot. The model has 9 slots, so tiers above that are dropped.
         lang_item_names = {item_name_by_id.get(str(i), '') for i in sd['i']}
         lang_item_names.discard('')
         max_pieces = min(len(equipment_ids), 9)
@@ -584,10 +545,8 @@ def main(argv=None):
         if isinstance(it, dict) and iid in ista:
             it['istats'] = ista[iid]
 
-    # No lang file is complete, and French is the thinnest of the five: it is
-    # missing 127 items the English one has, 24 of them equippable, which left
-    # four sets without a single member. Take those from whichever language does
-    # carry them, with that language's stats.
+    # No lang file is complete, French least of all, so items missing from the
+    # chosen one are taken from whichever language carries them.
     for lang in ('en', 'es', 'pt', 'de'):
         if lang == args.lang:
             continue
@@ -606,8 +565,7 @@ def main(argv=None):
                 it['istats'] = other_stats[iid]
             items_root['u'][iid] = it
 
-    # Localized item names from the per-language lang files (downloaded if present).
-    # The site's real audience is heavily ES/PT (~40%), so pull every language we can.
+    # Localized item names from the per-language lang files.
     names_by_lang = {}
     for lang in ('en', 'es', 'pt', 'de'):
         path = raw / f'items_{lang}.json'
@@ -616,8 +574,7 @@ def main(argv=None):
             names_by_lang[lang] = {k: v.get('n') for k, v in lang_items.items()
                                    if isinstance(v, dict)}
 
-    # Localized set names from the per-language itemsets lang files (if present),
-    # so set names aren't stuck in French in EN/ES/PT/DE.
+    # Localized set names from the per-language itemsets lang files.
     set_names_by_lang = {}
     for lang in ('en', 'fr', 'es', 'pt', 'de'):
         path = raw / f'itemsets_{lang}.json'

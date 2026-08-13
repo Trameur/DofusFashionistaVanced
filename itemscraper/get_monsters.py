@@ -1,12 +1,6 @@
 #!/usr/bin/env python3
 """get_monsters.py - build the item -> monster drops index from the raw dofusdude
-dump (dofusdude/dofus3-main releases), the same source get_spells.py reads.
-
-The REST API (api.dofusdu.de) doesn't expose monsters, but the raw release does:
-monsters.json holds every monster with a `drops` list of {objectId, dropId,
-percentDropForGrade1..5, ...}. This turns that into a reverse index
-{item_ankama_id: [monsters that drop it, with localized names and per-grade rates]}
-so the encyclopedia can show "Dropped by ...".
+dump (dofusdude/dofus3-main releases). The REST API does not expose monsters.
 
 Usage (from repo root):
     python itemscraper/get_monsters.py --dataset-dir itemscraper/raw/<version> \
@@ -39,9 +33,7 @@ def _unwrap_array(value: Any) -> List[Any]:
 
 
 def _load_datacenter_table(path: Path) -> Dict[int, Dict[str, Any]]:
-    """Resolve the monster table into a plain {id: record} map. Handles both the
-    dofus3/beta Unity serialization (objectsById + references.RefIds) and the
-    Dofus 2 / Touch legacy format (a plain list of monster records)."""
+    """Resolve the monster table into a plain {id: record} map."""
     data = _load_json(path)
     if isinstance(data, list):  # Dofus 2 / Touch: a plain list of records
         return {int(r["id"]): r for r in data
@@ -97,9 +89,9 @@ def build_drops_index(dataset_dir: Path,
         if object_id is None or max(rates) <= 0:
             return  # a 0% entry is not a real drop
         per_item = index.setdefault(int(object_id), {})
-        # a monster can list the same item more than once (different criterions
-        # or drops[] + globalDrops); keep the best rate. One unconditional entry
-        # means the drop is free, so only keep a condition when every entry has one.
+        # A monster can list the same item twice (criterions, or drops[] plus
+        # globalDrops): keep the best rate, and one entry without a condition
+        # makes the drop unconditional.
         existing = per_item.get(int(monster_id))
         if existing is None:
             per_item[int(monster_id)] = {"names": names, "rates": rates,
@@ -123,13 +115,11 @@ def build_drops_index(dataset_dir: Path,
                 conditions = ""
             conditions = conditions or None
             add(drop.get("objectId"), monster_id, names, rates, conditions)
-        # globalDrops apply regardless of grade (a min/max rate range); use the max.
-        # No conditions there, receiverCriterion is empty across the dataset.
+        # globalDrops apply regardless of grade, as a min/max rate range.
         for gd in _unwrap_array(monster.get("globalDrops")):
             rate = gd.get("maxPercentDrop", gd.get("minPercentDrop", 0)) or 0
             add(gd.get("objectId"), monster_id, names, [rate])
 
-    # flatten to a JSON-friendly, sorted structure
     out: Dict[str, Any] = {}
     for item_id in sorted(index):
         monsters_list = [

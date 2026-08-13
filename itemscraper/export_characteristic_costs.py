@@ -2,19 +2,14 @@
 # -*- coding: utf-8 -*-
 """export_characteristic_costs.py - what each game charges for a stat point.
 
-The soft caps in dofus_constants decide how far a build can push a
-characteristic, so a wrong tier silently changes every solve. Retro's tables
-came from a wiki; every version actually ships its own, and this reads them:
-
     dofus3, beta, dofus2  itemscraper/raw/<build>/breeds.json  statsPointsFor*
     touch                 itemscraper/touch_raw/Breeds_fr.json statsPointsFor*
     retro                 itemscraper/retro_raw/classes_fr.json b10..b15
 
     python itemscraper/export_characteristic_costs.py
 
-Those inputs are downloaded, not committed, so the answer is written to
-characteristic_costs.json and the test suite compares the constants against
-that. Rerun this after a version moves.
+The inputs are downloaded, not committed. The result goes to
+characteristic_costs.json, which the test suite checks the constants against.
 """
 from __future__ import annotations
 
@@ -43,8 +38,7 @@ STAT_BY_FIELD = {
     'statsPointsForWisdom': 'wis',
 }
 
-# 1.29 characteristic ids. Read off the tables themselves rather than assumed:
-# the Iop's cheap stat is b10 and the Feca's is b15.
+# 1.29 characteristic ids: the Iop's cheap stat is b10, the Feca's is b15.
 STAT_BY_RETRO_KEY = {'b10': 'str', 'b11': 'vit', 'b12': 'wis',
                      'b13': 'cha', 'b14': 'agi', 'b15': 'int'}
 
@@ -61,8 +55,8 @@ SHARED = '*'
 def bounds(rows):
     """The game's [cost, floor] rows as the six upper bounds the model wants.
 
-    A three wide row is [gain, cost, floor]: the Sacrier's vitality is the one
-    that uses it, one capital point for two, the model's 0.5 tier.
+    A three wide row is [gain, cost, floor]: the Sacrier's vitality, one
+    capital point for two, the model's 0.5 tier.
     """
     by_cost = {}
     for row in rows:
@@ -96,8 +90,7 @@ def _unity_rows(field):
 def from_breeds(path):
     """A modern or Dofus 2 breeds.json -> {stat: bounds}, one shared table.
 
-    These write a row the other way round from Retro, [floor, cost], so the
-    rows are turned before they are read.
+    Rows come as [floor, cost] here, the other way round from Retro.
     """
     with open(path, encoding='utf-8') as fh:
         data = json.load(fh)
@@ -173,8 +166,6 @@ def main(argv=None):
         json.dump(stored, fh, indent=1, sort_keys=True)
         fh.write('\n')
     if missing:
-        # Downloaded, not committed: a version nobody has fetched keeps the
-        # entry it already had rather than losing it.
         print('kept as they were, no source on this machine: %s'
               % ', '.join(missing))
     return 0

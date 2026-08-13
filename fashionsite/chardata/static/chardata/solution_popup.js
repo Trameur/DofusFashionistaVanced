@@ -38,9 +38,7 @@ var popupInventoryOnly = false;
 var popupSourceFilter = '';
 
 function popupInventoryAvailable() {
-    // Only for the logged-in project owner (the inventory is theirs); the
-    // page defines popupUserAuthenticated/isGuest, other popup users
-    // (e.g. the wizard weapon picker) may not.
+    // Not every page opening the popup defines these (e.g. the wizard weapon picker).
     return typeof popupUserAuthenticated !== 'undefined' && popupUserAuthenticated
         && typeof isGuest !== 'undefined' && !isGuest;
 }
@@ -544,8 +542,7 @@ function setStats(item, weaponInfo) {
             stats += statText;
         }
         stats += statRangeText(statLine);
-        // The same marker the item card carries. Built by spell_tip.js, which
-        // base.html loads on every page.
+        // spellTipHtml comes from spell_tip.js, loaded by base.html.
         stats += (window.spellTipHtml ? window.spellTipHtml(statLine) : '');
         stats += "<br>";
     });
@@ -597,8 +594,6 @@ function createComparison(differences, item){
     return comparison;
 }
 
-// "Can I actually get this one?", straight from the scraped data: a recipe, a
-// drop rate, or nothing at all when we know of no source.
 function describeItemSource(item) {
     var parts = [];
     if (item.craftable) {
@@ -642,8 +637,6 @@ function populateItems(items, violations, char_id, searchTerm, slot, differences
         var stats = setStats(item, weaponInfo);
         stats += setConditionLines(item);
         var comparison = createComparison(differences, item);
-        // The header carries markup (line breaks, the owned icon, the set), so
-        // the icon gets the bare name instead: markup would close its alt early.
         var data = {name: headerString, alt: item.localized_name,
             violations: violationsString, stats: stats,
             imageSource: item.file, comparison: comparison, comparisontitle: gettext("Comparison"),

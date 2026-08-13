@@ -16,16 +16,9 @@
 
 """Store where each Retro monster can be found into items_retro.db.
 
-Source: the same Solomonk bestiary cards the drops and grades come from.
-Each card carries a "Sous-zones" block whose id encodes the monster id:
-
-    <div ... id="collapse-<mobid>-1" data-collapse-target="bestiaryCollapseSubareas">
-      <div ...><a ...>Port de Madrestam</a>, <a ...>...</a></div>
-
-The card list is language-aware, so the subarea names are pulled for every
-language the site serves. The endpoint needs a prior same-session visit to
-the search page and intermittently serves empty pages mid-crawl (only a few
-consecutive empties mean the real end).
+Source: the Solomonk bestiary cards, whose "Sous-zones" block id carries the
+monster id. The endpoint needs a prior same-session visit to the search page,
+and serves empty pages mid-crawl: only a few consecutive empties mean the end.
 
 Usage (from itemscraper/):
     python store_retro_monster_subareas.py [--delay 0.5] [--max-pages N]
@@ -156,8 +149,7 @@ def main():
     conn.close()
     print('stored %d subarea rows for %d retro monsters' % (stored, len(matched)))
 
-    # Keep the retro dump in sync so a future pipeline load-db does not drop
-    # the table (same as the drops and grades stores).
+    # Keep the dump in sync: load-db rebuilds the db from it
     sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
     _save_db_to_dump(DB_PATH, 'retro')

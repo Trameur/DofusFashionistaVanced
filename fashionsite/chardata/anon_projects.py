@@ -14,13 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""The project a signed-out visitor is working on, one per game version.
-
-The five versions are different games, so being stopped from trying Retro
-because you already made a Dofus 3 build made no sense. The session used to hold
-a single 'char_id'; it now holds a {game_version: char id} map under 'char_ids',
-and the old key is still read so a visitor mid-session does not lose their work.
-"""
+"""The project a signed-out visitor is working on, one per game version."""
 
 SESSION_KEY = 'char_ids'
 LEGACY_SESSION_KEY = 'char_id'
@@ -52,7 +46,7 @@ def get_anon_char_id(request, game_version):
 
 
 def owns_anon_char(request, char_id):
-    """Any version: a visitor browsing Retro can still open their Dofus 3 build."""
+    """True for a project of any game version, not only the current one."""
     try:
         char_id = int(char_id)
     except (TypeError, ValueError):
@@ -64,8 +58,7 @@ def remember_anon_char(request, char):
     ids = dict(get_anon_char_ids(request))
     ids[char.game_version] = char.pk
     request.session[SESSION_KEY] = ids
-    # The old key kept pointing at whatever was created last, which is what the
-    # legacy readers expect while they are still around.
+    # Legacy readers expect the last project created.
     request.session[LEGACY_SESSION_KEY] = char.pk
     request.session.modified = True
 

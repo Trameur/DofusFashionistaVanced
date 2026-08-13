@@ -20,17 +20,12 @@ from queue import Empty, Queue
 from .model import Model
 from .structure import get_current_game_version
 
-# A Model caches a version-specific structure (items / sets / stats) built when it
-# is created; setup() only re-applies constraints -- it does NOT rebuild that
-# structure. So models MUST be pooled per game version: borrowing a model built
-# for another version would solve the request with the wrong version's items,
-# producing random broken / incomplete builds across versions. Key the pool by
-# the game version each model was built for.
+# A Model caches its version's structure (items / sets / stats) at construction and
+# setup() never rebuilds it, so models must be pooled per game version.
 _model_queues = defaultdict(Queue)
 
 
 def create_model():
-    """Pre-build a model for the current game version and add it to its pool."""
     _model_queues[get_current_game_version()].put(Model())
 
 
@@ -39,9 +34,6 @@ def borrow_model():
     try:
         return _model_queues[version].get_nowait()
     except Empty:
-        # No pooled model for this version yet -- build one (captures this
-        # version's structure). If a previous borrow was never returned (e.g.
-        # an exception), this also avoids blocking forever on an empty queue.
         return Model()
 
 

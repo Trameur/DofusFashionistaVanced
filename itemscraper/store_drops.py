@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 """store_drops.py - load the item->monster drops index (from get_monsters.py)
-into items.db and re-dump it, so the encyclopedia can show "Dropped by ...".
-
-Mirrors store_item_obtainment.py: it opens items.db (bootstrapping from the dump
-if needed), fills two tables, then re-saves the dump so the data survives the
-runtime rebuild that structure.py does from the dump.
+into items.db and re-dump it.
 
     item_drops     (item internal id, monster_ankama_id, rate)   -- item = items.id
     resource_drops (resource_ankama_id, monster_ankama_id, rate) -- crafting-ingredient resources
@@ -39,22 +35,16 @@ def _load_drops(path):
 def store_drops(drops_path, game_version="dofus3"):
     drops = _load_drops(drops_path)
     items_db_path = get_items_db_path(game_version)
-    # dofus3 rebuilds items.db from the dump at runtime (structure.py), so the DUMP
-    # is the source of truth: rebuild from it first, then re-dump, for a clean add.
-    # Every other version loads its committed items_<ver>.db as-is at runtime, so the
-    # DB is the source of truth: edit it in place (never rebuild from a possibly-stale
-    # dump), then re-dump to keep the dump in sync.
+    # dofus3 rebuilds items.db from the dump at runtime, so the dump is the source
+    # of truth; every other version loads its committed items_<ver>.db as-is.
     if game_version == 'dofus3':
         _load_db_from_dump(items_db_path, game_version)
     conn = sqlite3.connect(items_db_path)
     try:
         cursor = conn.cursor()
-        # ankama_id -> every internal row that is this item. An item gated
-        # behind alternative conditions is flattened into "(#1)" and "(#2)",
-        # and a fed pet into one row per bonus; they all drop from the same
-        # monsters. Keeping only the canonical low id left the copy's page
-        # claiming the item drops nowhere. Touch and Retro reuse ids across
-        # kinds, so only the equipment rows are eligible.
+        # One ankama_id can be several internal rows: alternative conditions are
+        # flattened into "(#1)" and "(#2)", a fed pet into one row per bonus. Touch
+        # and Retro reuse ankama ids across kinds, so only equipment rows are eligible.
         ankama_to_ids = {}
         columns = [row[1] for row in cursor.execute('PRAGMA table_info(items)')]
         query = ("SELECT id, ankama_id FROM items WHERE ankama_id IS NOT NULL"
@@ -63,8 +53,8 @@ def store_drops(drops_path, game_version="dofus3"):
                  + " ORDER BY id")
         for item_id, ankama_id in cursor.execute(query):
             ankama_to_ids.setdefault(ankama_id, []).append(item_id)
-        # Crafting-ingredient resources have their own encyclopedia page, so their
-        # drops get their own table (keyed by ankama_id, they are not items we carry).
+        # Crafting-ingredient resources are not items we carry, so their drops go
+        # in their own table, keyed by ankama_id.
         resource_ankama_ids = set()
         cursor.execute(
             "SELECT 1 FROM sqlite_master WHERE type = 'table' "

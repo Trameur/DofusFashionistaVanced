@@ -1,28 +1,16 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""Store what the spells named on an item actually do, per language.
+"""Store what the spells named on an item do, into spell_tooltips.
 
-An item that casts or modifies a spell prints a line that names it and stops
-there: "Lance le sort Bouclier Stoique au debut du combat", "Agitation : -1 PA".
-The reader is told a name and nothing else. Every version's own data carries
-the spell's description right beside the name the scraper already reads, so
-this collects it into a spell_tooltips table the site reads back to hang a
-tooltip off the line.
+    python store_spell_tooltips.py --game-version dofus3|beta|dofus2|retro|touch
 
-One resolver per version, because each game ships its data its own way:
-
-  dofus3 / beta / dofus2  the modifier effect's int_minimum is the spell's
-                          ankama id (never its name: 443 of the 760 spells the
-                          items point at share an English name with another
-                          spell, and 442 of those have different descriptions).
-                          Name and description come from the client datacenter
-                          under raw/<tag>/.
-  retro                   the ISTA string carries the id, and the lang file
-                          holds the description under 'd' next to the name
-                          under 'n' the scraper already reads.
-  touch                   effect 2822's diceNum is the id, and the backend
-                          hands over an already localized description.
+Where the spell id comes from, per version:
+  dofus3, beta, dofus2  int_minimum on the modifier effect. Never the name:
+                        443 of the 760 spells the items point at share an
+                        English name with a different spell.
+  retro                 field 1 of the ISTA string, description under 'd'.
+  touch                 diceNum on effect 2822.
 """
 
 import argparse
@@ -62,12 +50,7 @@ def _items_of(payload):
 
 
 def _clean(text):
-    """A description worth showing, or None.
-
-    Empty strings, and the "[!]" tag the upstream API uses for a language it
-    has no translation for, both mean there is nothing to say in this language,
-    and printing English under a French line is worse than printing nothing.
-    """
+    """A description worth showing, or None. "[!]" tags an untranslated one."""
     text = (text or '').strip()
     if not text or text.startswith('[!]'):
         return None
@@ -123,12 +106,9 @@ def _dofus2_spells(raw_dir):
 def _dofusdude_tooltips(game_version, spells_by_id):
     """{item ankama id: {lang: {spell name: description}}}.
 
-    An effect names a spell when int_minimum resolves to one AND that spell's
-    localized name occurs in the sentence the reader sees. Both halves matter.
-    int_minimum is a numeric field the API reuses rather than a named one, so
-    the name check is what keeps a drift upstream from printing the wrong
-    spell; and it is the only rule that holds across versions, since Dofus 2
-    numbers these effects 3 to 6 where Dofus 3 numbers them 205 to 242.
+    int_minimum is a numeric field the API reuses, so the resolved name must
+    also occur in the sentence. Dofus 2 numbers these effects 3 to 6 where
+    Dofus 3 numbers them 205 to 242, so the effect id is no help.
     """
     directory = os.path.join(CURRENT_DIRECTORY, EQUIPMENT_DIR[game_version])
     tooltips = {}
@@ -176,8 +156,7 @@ def _retro_tooltips():
             except (TypeError, ValueError):
                 continue
 
-    # The stat strings live in their own file, the way the item build reads
-    # them: items_<lang>.json carries no istats of its own.
+    # items_<lang>.json carries no istats; they live in itemstats_<lang>.json.
     stats = _load(raw_dir / 'itemstats_fr.json')['ISTA']
     tooltips = {}
     for ankama_id, ista in stats.items():
@@ -239,8 +218,7 @@ def collect(game_version, tag=None):
 
 
 def _archive_tag(game_version):
-    """The archive this version is on, never the newest one on disk: beta and
-    Dofus 3 share raw/ and beta is usually the older of the two."""
+    """The archive this version is on. Beta and Dofus 3 share raw/."""
     import fashionista_version
     return {'dofus3': fashionista_version.FASHIONISTA_VERSION,
             'beta': fashionista_version.FASHIONISTA_BETA_VERSION,
@@ -277,10 +255,7 @@ def store(game_version, tooltips):
             continue
         kept_any = False
         for lang, by_name in by_lang.items():
-            # Only what the reader can actually hover. An item can reference a
-            # spell without printing a line about it, and the dump this lands
-            # in is tracked in git, so an entry with nothing to attach to is
-            # weight for nothing: it takes retro from 302 items down to 64.
+            # Only spells a line actually names: the dump is tracked in git.
             text = '\n'.join(_lines_of(cursor, item_id, lang))
             kept = {name: description for name, description in by_name.items()
                     if name in text}

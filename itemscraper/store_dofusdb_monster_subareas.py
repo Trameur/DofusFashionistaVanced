@@ -14,18 +14,9 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Store where each Dofus 3 / Beta monster can be found.
+"""Store where each Dofus 3 / Beta monster can be found, from the DofusDB API.
 
-Source: the DofusDB API (credited on the About page), the same one the
-per-grade stats come from. Two endpoints:
-  - /monsters (paged, $select id+subareas): subarea ids per monster;
-  - /subareas (paged, $select id+name): localized names (fr/en/es/pt/de).
-Stored as monster_subareas (monster, language, position, name) like the
-retro and touch tables so the encyclopedia renders the same section.
-
-The store re-dumps the version's db afterwards (structure.py rebuilds
-items.db from the committed dump on every process start, and load-db does
-the same in the pipelines), so commit BOTH the db and its dump.
+Commit both the db and its dump: structure.py rebuilds the db from the dump.
 
 Usage (from itemscraper/):
     python store_dofusdb_monster_subareas.py [--game-version dofus3|beta]
@@ -137,8 +128,7 @@ def main():
                 matched.add(monster_id)
     conn.commit()
     conn.close()
-    # Keep the version's dump in sync (load-db rebuilds from it; the beta
-    # dump silently lacked these tables until 2026-07-20).
+    # Keep the dump in sync: load-db rebuilds the db from it
     sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
     _save_db_to_dump(db_path, args.game_version)

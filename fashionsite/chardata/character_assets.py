@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Serve character preview art, baking a skin the first time it is asked for.
-
-Bundles live in CHARACTER_BUNDLE_DIR, baked PNGs in CHARACTER_CACHE_DIR.
-"""
+"""Serve character preview art, baked from CHARACTER_BUNDLE_DIR into CHARACTER_CACHE_DIR."""
 import json
 import math
 import os
@@ -20,11 +17,9 @@ ORIENTATIONS = ('0', '1', '2', '5', '6')
 PIXELS_PER_UNIT = 4.0
 PAD = 2
 
-# The standing idle. Its name carries the breed number, so it is matched rather
-# than spelled out. The same skeletons also carry AnimStatiqueExploRetro (the
-# older stance) and AnimStatiqueCombat (fists up, and only two orientations).
-# The rider skeleton, and the mounts, name it plainly instead, so both spellings
-# are tried in order.
+# The standing idle, its name carrying the breed number. The same skeletons also
+# carry AnimStatiqueExploRetro (older stance) and AnimStatiqueCombat (fists up,
+# two orientations). Riders and mounts spell the idle AnimStatique_<orientation>.
 ANIMATIONS = (re.compile(r'^AnimStatiqueExploNewAge\d*_(\d)$'),
               re.compile(r'^AnimStatique_(\d)$'))
 
@@ -194,9 +189,8 @@ class Bone(object):
         raise ValueError('%s is not a bone' % path)
 
     def _offsets(self, animation):
-        """The block offsets. The header counts the TABLE first, the frames
-        last, and the two differ: reading `frames` entries walks past the
-        table into the first block."""
+        """The block offsets. The header counts the table first and the frames
+        last, and the two differ: reading `frames` entries walks past the table."""
         raw = self.animations[animation]
         table, _records, _unused, frames = struct.unpack_from('<4H', raw, 0)
         table = min(table, max(0, (len(raw) - 8) // 4))
@@ -245,8 +239,7 @@ class Bone(object):
         return out
 
     def key_frame(self, animation):
-        # Painted in the order they are stored. The `order` field is not that
-        # order: it swaps around every record without a symbol.
+        # Painted in stored order; the `order` field is not that order.
         raw, start, end = self._bounds(animation, 0)
         return self._walk(raw, start, end) or self._scan(raw, start, end)
 
@@ -278,9 +271,8 @@ class Bone(object):
 class Mount(Bone):
     """A mount keeps its own art in its bone bundle.
 
-    The character pairs a skin to a skeleton by node name. A mount does not:
-    its records carry no node, and the symbol is the index into the bundle's
-    `graphics` table, which also names the mesh the geometry indexes into.
+    Its records carry no node name: the symbol is the index into the bundle's
+    `graphics` table, which also names the mesh to index into.
     """
 
     def __init__(self, path):
@@ -320,8 +312,8 @@ class Mount(Bone):
     def key_frame(self, animation):
         """The mount's pieces in paint order.
 
-        Only the symbol bit carries art. A node without one names the pieces
-        that follow, which is where their look colour comes from.
+        Only a record with the symbol bit carries art; one without it names the
+        pieces that follow, which is where their colour slot comes from.
         """
         raw, start, end = self._bounds(animation, 0)
         out, pos, named = [], start, ''
@@ -349,9 +341,8 @@ class Mount(Bone):
         return out
 
 
-# A bone or skin id as it is allowed to appear in a file name. Ascii on
-# purpose: \w also matches letters no filesystem should have to reason about,
-# and it is what made this hard to be sure of at a glance.
+# A bone or skin id as it may appear in a file name. Ascii only: \w matches
+# letters no filesystem should have to reason about.
 SAFE_ID = re.compile(r'\A[A-Za-z0-9_-]{1,64}\Z')
 
 
@@ -360,13 +351,8 @@ class UnsafeAssetId(ValueError):
 
 
 def _safe_id(value):
-    """The id, once it is proven to be a single harmless path component.
-
-    Every one of these ids reaches here from a url. Each route pins it and
-    each ensure_ function re-checks it, but that scattered the proof across
-    three files and left nothing at the place the path is actually built.
-    This is that place.
-    """
+    """The id, once proven to be a single harmless path component. These ids
+    all reach here from a url."""
     token = str(value)
     if not SAFE_ID.match(token):
         raise UnsafeAssetId(token)
@@ -374,12 +360,7 @@ def _safe_id(value):
 
 
 def _under(root, *parts):
-    """A path built under root, normalized, and proven to still start there.
-
-    _safe_id already refuses anything that could climb out, but that proof
-    lived in a regex several calls away from the open(). Saying it again here,
-    on the built path itself, puts the guarantee where it is read.
-    """
+    """A path built under root, normalized, and proven to still start there."""
     base = os.path.realpath(root)
     path = os.path.normpath(os.path.join(base, *parts))
     if not path.startswith(base + os.sep):
@@ -482,8 +463,7 @@ def _skin_cache(skin_id):
 def pack_atlas(pieces, gap=1):
     """Lay the baked pieces out in rows, tallest first, on one square-ish sheet.
 
-    Returns (atlas image, {name: (x, y)}). One sheet is one request instead of
-    the thirty a character used to cost.
+    Returns (atlas image, {name: (x, y)}).
     """
     from PIL import Image
     order = sorted(pieces, key=lambda name: -pieces[name].height)
@@ -548,8 +528,7 @@ def ensure_skin(skin_id):
         return manifest
 
 
-# In the cache file name. Nothing ever expires it, so a decoder change needs a
-# new name.
+# In the cache file name. Nothing expires it, so a decoder change needs a bump.
 POSE_FORMAT = 4
 MOUNT_FORMAT = 5
 SKIN_FORMAT = 6
@@ -592,9 +571,7 @@ def ensure_pose(bone_id):
         return path
 
 
-# A part is named by its skin and its own name, and Ankama ships a new skin id
-# rather than changing one, so what is here never changes. A body is 539 files;
-# without this every page view fetches them again.
+# Ankama ships a new skin id when art changes, so a baked part never changes.
 FOREVER = 'public, max-age=31536000, immutable'
 
 
@@ -606,14 +583,14 @@ def asset_token():
 
 
 def asset_formats():
-    """The cache file names carry these. The client asks for the file by its
-    real name so nginx can answer from disk instead of waking a worker."""
+    """The format numbers the cache file names carry, so the client can ask for
+    a file nginx serves from disk."""
     return {'pose': POSE_FORMAT, 'mount': MOUNT_FORMAT, 'skin': SKIN_FORMAT}
 
 
 def expected_skins():
-    """Every skin the site can ask for: the class bodies and heads, plus the
-    skin of every item in the versions that have art."""
+    """Every skin the site can ask for: class bodies and heads, plus the skin of
+    every item in the versions that have art."""
     from chardata.character_look import VERSIONS_WITH_ART, _breed_looks
     from fashionistapulp.structure import get_structure
     wanted = set()
@@ -629,9 +606,8 @@ def expected_skins():
 
 
 def cache_report():
-    """What the preview would find on this machine. Nothing bakes in
-    production (the bundles are not shipped), so a missing cache means the
-    preview draws nothing at all, with no error anywhere."""
+    """What the preview would find on this machine. Production ships no bundles
+    and bakes nothing, so a missing cache draws nothing and raises nothing."""
     root = os.path.join(cache_dir(), 'parts')
     baked = set()
     if os.path.isdir(root):
@@ -651,8 +627,7 @@ def cache_report():
 
 
 def preload_links(look):
-    """The urls the preview will ask for, so the browser can start during the
-    html parse rather than after the script runs. Same names as the client
+    """The urls the preview will ask for. They must match the names the client
     builds, or the browser fetches everything twice."""
     if not look:
         return []
@@ -683,8 +658,8 @@ def _forever(response):
 
 
 def _same_format(fmt, current):
-    """The version in the url is what names the file on disk; another one
-    would be a stale client asking for art this build cannot produce."""
+    """The format in the url names the file on disk; another one is a stale
+    client asking for art this build cannot produce."""
     return fmt is None or int(fmt) == current
 
 
@@ -698,14 +673,7 @@ def parts_manifest_view(request, skin_id, fmt=None):
 
 
 def _served(path):
-    """The file to hand back, once it is proven to sit inside the cache.
-
-    Each of these three views already pins its id a different way: an int
-    cast, a \\d+ route, a regex. That is three separate arguments a reader has
-    to redo to convince themselves nothing escapes. This is the one argument,
-    made where the file is opened, and it holds even if a route is loosened
-    later.
-    """
+    """The file to hand back, once proven to sit inside the cache."""
     root = os.path.realpath(cache_dir())
     resolved = os.path.realpath(path)
     if not resolved.startswith(root + os.sep):

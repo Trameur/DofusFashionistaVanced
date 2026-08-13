@@ -30,7 +30,7 @@ MAX_TOTAL_VALUE = 3000
 
 
 def _bounded(value, ceiling):
-    """Clamp to 0..ceiling. The field is free text, it posts what is typed."""
+    """Clamp to 0..ceiling."""
     return max(0, min(value, ceiling))
 
 
@@ -42,8 +42,6 @@ def setup_base_stats(request, char_id=0):
 def save_char(request, char_id):
     char = _post(request, char_id)
     stats = _get_stats(char)
-    # The page's state engine replaces its reference state with this
-    # response; without distrib, "discard changes" unchecked the box.
     stats['distrib'] = char.allow_points_distribution
     return HttpResponseJson(json.dumps(stats))
 
@@ -71,12 +69,9 @@ def _page(request, char_id, is_new_char):
                 new_list.append(None)
         lower_soft_caps[stat] = new_list
 
-    # Which of the six cost tiers (1:2, 1:1, 2:1, 3:1, 4:1, 5:1) to show, driven
-    # by the actual soft-cap data instead of class names: a tier is present when
-    # some stat has a real threshold (a number) or an open-ended tier (None)
-    # there, absent when every stat has 0. The old class-name conditionals were
-    # only true for Retro, so modern Pandawa/Foggernaut/Rogue lost their real 4:1
-    # tier, Touch hid its 5:1, and modern Sacrier grew phantom 1:2/5:1 columns.
+    # The six cost tiers are 1:2, 1:1, 2:1, 3:1, 4:1, 5:1. A tier exists when
+    # some stat has a threshold there (a number) or an open-ended one (None);
+    # 0 for every stat means the tier does not exist for that class.
     show_tiers = [any((caps[n] is None) or (caps[n] and caps[n] > 0)
                       for caps in soft_caps.values())
                   for n in range(6)]
@@ -117,11 +112,8 @@ def _post(request, char_id):
         basestats.scrolled_value = scrolled
         basestats.save()
         
-    # HTML checkboxes post their value attribute when checked (this form
-    # sends "choose_stats") and post NOTHING when unchecked: presence is
-    # the signal. The old whitelist ('true', 'on'...) never matched the
-    # real payload, so every save from the page silently forced the flag
-    # to False and the box would not stay checked.
+    # A checkbox posts its value attribute when checked and nothing at all
+    # when unchecked: presence is the signal, not the value.
     raw = request.POST.get('choose_stats')
     allow_point_distribution = (raw is not None and
                                 str(raw).strip().lower()

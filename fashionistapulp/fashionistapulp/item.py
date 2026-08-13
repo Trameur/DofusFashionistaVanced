@@ -29,18 +29,14 @@ class Item:
         self.ankama_type = None
         self.is_one_handed = False
         self.stats = []
-        # stat id -> (lowest roll, highest roll), only for stats that vary. The
-        # solver keeps reading self.stats (the best roll); this is what the
-        # encyclopedia shows so a player knows what an average one looks like.
+        # stat id -> (lowest roll, highest roll), only for stats that vary.
         self.stat_ranges = {}
-        # Character skin for the pieces that show on the character. None on the
-        # rest, and on any version whose data has no match for it.
+        # Character skin for the pieces that show on the character, None otherwise.
         self.skin = None
         self.min_stats_to_equip = []
         self.max_stats_to_equip = []
         self.localized_extras = {}
-        # {language: {spell name: what the spell does}} for the spells the
-        # extra lines name but never explain.
+        # {language: {spell name: what the spell does}}
         self.spell_tooltips = {}
         self.flags = []
         self.localized_names = {}

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""scrape_retro_pet_bonuses.py: auto-build retro_pet_bonuses.json from dofux.org.
+"""scrape_retro_pet_bonuses.py: build retro_pet_bonuses.json from dofux.org.
 
 Dofus Retro pet bonuses (the stats a pet can be fed toward, and their caps) are
 not in Ankama's lang data. The fan database dofux.org lists them per pet in a
@@ -11,10 +11,8 @@ not in Ankama's lang data. The fan database dofux.org lists them per pet in a
     +0 à 80 en agilité (...)
     0 à 20 % de résistance à l'air (...)
 
-This scrapes that page, maps the French stat words to the internal stat names,
-and maps each French pet name -> ankama id -> English name (via the retro lang
-files in retro_raw/) so the output keys match items_retro.db. Result is written
-to retro_pet_bonuses.json, consumed by store_retro_pet_bonuses.py.
+French pet names are mapped to English through the ankama id in the retro_raw
+lang files, so the output keys match items_retro.db.
 
 Network + the retro_raw items_{fr,en}.json lang dumps are required.
 """
@@ -49,10 +47,8 @@ FOOD_STATS = {
     'renvois': 'Reflects',
 }
 
-# Manual data (keyed by English items_retro.db name) that overrides / fills the
-# scrape. dofux omits a "Nourriture" block for some quest-reward pets, so they're
-# supplied here from community sources (millenium / dofusretro.jeuxonline).
-# Edit this to correct any pet, it takes precedence over the scrape.
+# Manual bonuses (keyed by English items_retro.db name) that win over the
+# scrape; dofux omits a "Nourriture" block for some quest-reward pets.
 OVERRIDES = {
     'Nomoon': [['Prospecting', 80]],
     'Bworky': [['Pods', 1000]],
@@ -145,12 +141,12 @@ def _parse_effect_lines(lines):
 
 
 def _fetch_solomonk_pets():
-    """{ankama_id: [[stat, max], ...]} from the Solomonk pets listing (the
-    live 1.48 reference; covers event pets dofux never had). Cards come from
-    the select_stuff endpoint (session-primed, T=18, minimal params: adding
-    C=false makes it return empty) and carry the ankama id in the item URL.
-    The endpoint intermittently serves empty pages mid-crawl, so only two
-    consecutive empties end the crawl (same rule as the bestiary scrapers)."""
+    """{ankama_id: [[stat, max], ...]} from the Solomonk pets listing.
+
+    Cards come from the session-primed select_stuff endpoint (T=18, minimal
+    params: adding C=false makes it return empty) and carry the ankama id in
+    the item URL. The endpoint intermittently serves empty pages mid-crawl, so
+    only two consecutive empties end it."""
     session = requests.Session()
     session.headers['User-Agent'] = 'Mozilla/5.0'
     session.get(_SOLOMONK_LIST, timeout=60)
@@ -227,7 +223,7 @@ def main():
         else:
             unmatched.append(fr_norm)
 
-    # Solomonk (live 1.48, id-keyed: no name matching) overrides dofux.
+    # Solomonk (live 1.48, id-keyed) overrides dofux.
     print('Fetching the Solomonk pets listing ...')
     solomonk = _fetch_solomonk_pets()
     solomonk_named = 0
@@ -239,8 +235,7 @@ def main():
     print('Parsed bonuses for %d pets from Solomonk (%d matched to the db).'
           % (len(solomonk), solomonk_named))
 
-    # Result: every DB-feedable pet as a key (so it's a complete checklist),
-    # filled from the scrape where available, plus any extra scraped pets.
+    # Every DB-feedable pet gets a key, so the file is a complete checklist.
     result = {}
     for en_name in _db_feedable_en_names():
         result[en_name] = scraped_en.get(en_name, [])

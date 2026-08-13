@@ -87,8 +87,7 @@ def fashion(request, char_id, spells=False):
     inv_mode, inv_folder = get_inventory_solver_settings(char)
     if inv_mode == 'only':
         exclusions = apply_inventory_restriction(char, exclusions, inv_folder)
-    # Inventory rolls become stat overrides; manual per-project overrides
-    # (edited on the solution page) keep priority over them.
+    # Manual per-project overrides win over the inventory rolls.
     stat_overrides = get_effective_stat_overrides(char)
 
     if stat_overrides:
@@ -102,10 +101,8 @@ def fashion(request, char_id, spells=False):
                 if stat and stat.key in _EXO_KEY_TO_OPTION:
                     base_val = base_stats_dict.get(stat_id, 0)
                     option_key = _EXO_KEY_TO_OPTION[stat.key]
-                    # An owned item with an exo roll only turns a plain "no" into
-                    # "yes"; it must not clobber a specific choice like the MP
-                    # "only Gelano" ('gelano'), which would then equip the plain
-                    # Gelano instead of the +1 AP +1 MP one.
+                    # The option can hold a specific choice like 'gelano', not
+                    # just a bool.
                     if value > base_val and not model_options[option_key]:
                         model_options[option_key] = True
 

@@ -42,12 +42,11 @@ from fashionistapulp.fashionistapulp.dofus_constants import (
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
-# Mounts and equipment share ankama_ids, so we offset mount IDs
-# Duplicate items (same ankama_id, different conditions) also need offsets
+# Mounts and equipment share ankama_ids, and one ankama_id can cover several
+# items (same id, different conditions), so both get an offset.
 MOUNT_ID_OFFSET = 1000000
 DUPLICATE_ID_OFFSET = 100000000
 
-# Track ankama_id occurrences to handle duplicates
 ankama_id_counter = {}
 
 def get_item_id(item):
@@ -84,8 +83,7 @@ WEAPON_TYPES = {
     'Pickaxe': 'pickaxe',
     'Scythe': 'scythe',
     'Lance': 'lance',
-    # Retro-only categories. Appended so the ids above never move: the dumps
-    # store weapon_weapontype by id, and only retro fills these two.
+    # Retro-only, kept last: the dumps store weapon_weapontype by list position.
     'Crossbow': 'crossbow',
     'Magic Weapon': 'magic_weapon',
 }
@@ -258,10 +256,8 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         f.write(f"INSERT INTO items VALUES({item_id},'{escape_single_quotes(item['name_en'])}',{item['level']},{list(TYPE_NAME_TO_SLOT.values()).index(item['w_type'].lower()) + 1},{set_id_or_null},{item['ankama_id']},'{item['ankama_type']}',NULL,NULL);\n")
 
     # Write CREATE TABLE for stats_of_items
-    # value stays what the solver reads (the best roll). min_value/max_value keep
-    # the two ends of the range so the encyclopedia can show "7 to 10 Strength"
-    # instead of pretending every item rolls perfect. NULL when the item has a
-    # single fixed value.
+    # value is the best roll; min_value/max_value are the two ends of the range,
+    # NULL when the item has a single fixed value.
     f.write("""CREATE TABLE stats_of_item
             (item INTEGER, stat INTEGER, value INTEGER,
             min_value INTEGER, max_value INTEGER,
@@ -456,8 +452,8 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                 if max_value is None:
                     max_value = min_value
 
-                # Parse weapon hit lines, handling "(Fire heals)", "((Fire damage))"
-                # (the dofus2 source double-wraps hit lines) and legacy "Fire Steal".
+                # Hit lines come parenthesized, "(Fire heals)"; the dofus2 source
+                # double-wraps them, and legacy lines read "Fire Steal".
                 normalized_description = description.strip()
                 is_parenthesized_hit = (
                     normalized_description.startswith("(")
@@ -469,10 +465,9 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     normalized_description = normalized_description[1:-1].strip()
 
                 parts = normalized_description.lower().split()
-                # Retro and Touch write the weapon heal with no element at all,
-                # where modern Dofus types it "Fire heals". Intelligence scales it
-                # in every version, so it is stored under the Intelligence element
-                # and only the printed label differs.
+                # Retro and Touch write the weapon heal with no element, modern
+                # types it "Fire heals". Intelligence scales it in every version,
+                # so it is stored as fire either way.
                 if is_parenthesized_hit and parts == ['heals']:
                     f.write(f"INSERT INTO weapon_hits VALUES({item_id},{i},{min_value},{max_value},0,1,'fire');\n")
                     i += 1
@@ -485,8 +480,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     damage_type = parts[1]
 
                     if element in {'neutral', 'earth', 'fire', 'water', 'air', 'best-element'} and damage_type in {'damage', 'steal', 'steals', 'heal', 'heals', 'healing'}:
-                        # Plain labels like "Fire Damage" are stats and must not become hit lines.
-                        # Keep plain parsing only for legacy steal/heal labels (e.g. "Fire Steal").
+                        # Unparenthesized "Fire Damage" is a stat, not a hit line.
                         if not is_parenthesized_hit and damage_type == 'damage':
                             continue
 
@@ -537,10 +531,8 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     if not (desc.startswith('(') and desc.endswith(')')):
                         f.write(f"INSERT INTO item_flags VALUES({item_id}, '{escape_single_quotes(desc)}');\n")
 
-    # Trophies share the Dofus slot (same internal type), so the only way to tell
-    # them apart later is a flag. w_type == 'Trophy' is overwritten to 'Dofus' above
-    # for the slot, so we captured it as is_trophy; keep it as a 'Trophy' flag so the
-    # optimizer can offer a "no trophies" option. Runs for every version.
+    # Trophies share the Dofus slot and internal type, so only this flag tells
+    # them apart once w_type has been overwritten to 'Dofus'.
     for item in original_data:
         if item.get('is_trophy'):
             item_id = item_to_id[id(item)]
@@ -608,7 +600,5 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
             if item['is_prysmaradite']:
                 f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, 2);\n")
 
-    # Note: sqlite_sequence is no longer needed since we're not using AUTOINCREMENT
-    # The IDs are now explicitly set using ankama_id
     f.write("""COMMIT;\n""")
     

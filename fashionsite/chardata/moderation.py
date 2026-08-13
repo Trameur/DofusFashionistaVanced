@@ -5,19 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Content moderation for user-submitted text (comments, etc.).
-
-Two layers:
-  1. Link filter, only links to dofusfashionista.gg / fashionistavanced.com
-     pass through. Any other domain rejects the message.
-  2. Profanity filter, a curated FR / EN / ES / PT word list rejects messages
-     that contain insults or slurs. Word-boundary matching + ASCII folding so
-     we don't false-flag legitimate words (e.g. class names) that happen to
-     contain a banned substring, and so accents don't bypass the filter.
-
-ES and PT are first-class because they together cover ~40% of the active user
-base (Spain + Colombia + Chile + Brazil).
-"""
+"""Link and profanity filtering for user-submitted text."""
 
 import re
 import unicodedata
@@ -32,17 +20,14 @@ ALLOWED_HOSTS = {
     'www.fashionistavanced.com',
 }
 
-# URL regex: catches both bare hostnames and full URLs.
-# Examples matched: example.com, https://example.com/path, sub.example.co.uk
+# Matches bare hostnames as well as full URLs.
 _URL_RE = re.compile(
     r'\b(?:https?://)?(?:[\w-]+\.)+[a-z]{2,}(?:/[^\s]*)?',
     re.IGNORECASE,
 )
 
-# Curated insult / slur list. Lowercased, ASCII-folded.
-# Word-boundary matching means short tokens (tg, pd) only match standalone.
-# Be mindful when adding short words, avoid Dofus class names (Cra, Iop, Sram,
-# etc.), elemental stats, or common substrings.
+# Entries must be lowercased and ASCII-folded. Short ones must not collide with
+# class names (Cra, Iop, Sram) or stat words.
 _PROFANITY_WORDS = {
     # French insults
     'putain', 'pute', 'putes', 'merde', 'merdique', 'connard', 'connards',
@@ -54,7 +39,7 @@ _PROFANITY_WORDS = {
     'fuck', 'fucking', 'fucker', 'fuckers', 'shit', 'shitty', 'bitch',
     'bitches', 'asshole', 'assholes', 'cunt', 'cunts', 'dick', 'dicks',
     'whore', 'whores', 'slut', 'sluts', 'retard', 'retards', 'retarded',
-    # Spanish insults (Spain + LATAM). After ASCII folding: 'cabrón' → 'cabron'.
+    # Spanish insults
     'mierda', 'mierdas', 'joder', 'puta', 'putas', 'puto', 'putos', 'cabron',
     'cabrones', 'cabrona', 'cabronas', 'gilipollas', 'polla', 'pollas',
     'cono', 'conos', 'maricon', 'maricones', 'marica', 'maricas', 'mariconazo',
@@ -62,7 +47,7 @@ _PROFANITY_WORDS = {
     'chinga', 'chingar', 'chingada', 'chingadera', 'chingate', 'pinche',
     'verga', 'vergas', 'mamon', 'mamones', 'imbecil', 'imbeciles',
     'zorra', 'zorras', 'perra', 'perras', 'puton', 'putones',
-    # Portuguese insults (Brazil + PT). After ASCII folding: 'cuzão' → 'cuzao'.
+    # Portuguese insults
     'porra', 'caralho', 'caralhos', 'merdas', 'viado', 'viados', 'bicha',
     'bichas', 'cuzao', 'cuzoes', 'babaca', 'babacas', 'corno', 'cornos',
     'corna', 'cornas', 'vagabunda', 'vagabundas', 'vagabundo', 'vagabundos',
@@ -76,7 +61,7 @@ _PROFANITY_WORDS = {
 
 
 def _normalize(text):
-    """Lowercase + strip accents so 'Encule' / 'enculé' / 'ENCULÉ' all match."""
+    """Lowercase and strip accents."""
     folded = unicodedata.normalize('NFKD', text)
     folded = ''.join(c for c in folded if not unicodedata.combining(c))
     return folded.lower()

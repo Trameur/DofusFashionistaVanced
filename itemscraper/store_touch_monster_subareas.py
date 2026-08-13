@@ -16,16 +16,10 @@
 
 """Store where each Touch monster can be found into items_touch.db.
 
-First-hand source: the official Touch game data. The client's SubAreas
-table (served by Ankama's data proxy, POST /data/map {"class": "SubAreas",
-"lang": ...}) carries, per subarea, the localized name (nameId) and the
-list of monster ids that spawn there. Inverted here into monster ->
-[subarea names], stored per language like the retro table so the
-encyclopedia renders the same "where to find it" section.
-
-A filtered snapshot of the table (id, nameId, areaId, level, monsters) is
-kept in touch_raw/SubAreas_<lang>.json so the store can re-run offline;
---download refreshes it from the live proxy.
+The client's SubAreas table (POST /data/map {"class": "SubAreas"}) carries per
+subarea its localized nameId and the monster ids that spawn there; inverted
+here into monster -> [subarea names], per language. A filtered snapshot lives
+in touch_raw/SubAreas_<lang>.json.
 
 Usage (from itemscraper/):
     python store_touch_monster_subareas.py [--download]

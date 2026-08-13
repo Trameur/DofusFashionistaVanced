@@ -3,16 +3,12 @@
 
 """store_retro_descriptions.py: fill item_descriptions for Dofus Retro.
 
-The other versions get their descriptions from the dofusdu.de all_*.json files
-through store_item_obtainment.py. Retro ships its data as Ankama "lang" SWF
-files instead, where the text sits on each item record:
+Retro ships its text in Ankama "lang" files, on each item record:
 
     I['u'][<ankama_id>]['d'] = "Cette amulette augmente l'intelligence ..."
 
-Without this the retro encyclopedia pages carry no text at all, while dofus3
-holds 19130 description rows and touch 15410. The text is already downloaded
-by the lang step, so this only reads what is on disk and writes the table the
-encyclopedia already reads for every other version.
+The other versions get theirs from the dofusdu.de all_*.json files, through
+store_item_obtainment.py.
 """
 
 import argparse
@@ -36,8 +32,7 @@ LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 RAW_DIR = os.path.join(CURRENT_DIRECTORY, 'retro_raw')
 
 # Most weapons carry "#1" instead of a description: the client builds their text
-# from the effects. Printing that on a page is worse than printing nothing, and
-# it is 17520 of the 31217 rows. "---" and "..." are the same idea by hand.
+# from the effects. "---" and "..." are the same thing written by hand.
 PLACEHOLDER = re.compile(r'^[\s#\d.\-]*$')
 
 
@@ -60,7 +55,6 @@ def main():
             'SELECT ankama_id FROM items WHERE ankama_id IS NOT NULL'):
         known[str(ankama_id)] = _resolve_item_ids(cursor, ankama_id, 'equipment')
 
-    # Rerunnable: drop what a previous run wrote before writing again.
     cursor.execute('DELETE FROM item_descriptions')
 
     stored = 0
@@ -74,8 +68,8 @@ def main():
             item_ids = known.get(raw_id)
             if not description or not item_ids or PLACEHOLDER.match(description):
                 continue
-            # A fed pet is a row of its own, "Bow Meow (+80 Vitality)", and it
-            # is the same creature: it reads the same description.
+            # A fed pet is a row of its own, "Bow Meow (+80 Vitality)": same
+            # creature, same description.
             for item_id in item_ids:
                 cursor.execute(
                     'INSERT OR REPLACE INTO item_descriptions(item, language, description)'

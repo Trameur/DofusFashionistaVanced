@@ -34,12 +34,9 @@ from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
 
 def ads_txt_view(request):
-    """The sellers allowed to sell this inventory.
+    """Fallback ads.txt; in production nginx answers from docker/ads.txt.
 
-    In production nginx answers this itself, from docker/ads.txt, so the file
-    survives a deploy or an outage; this is the fallback. Either way the
-    publisher comes from the ad config, never a second copy: a file naming
-    another publisher than the ad code stops the ads from being bought at all.
+    A publisher id that disagrees with the ad code stops the ads being bought.
     """
     from chardata.context_processors import DEFAULT_AD_CLIENT, ad_config
     client = ad_config().get('client') or DEFAULT_AD_CLIENT
@@ -47,8 +44,7 @@ def ads_txt_view(request):
     return HttpResponse(content, content_type='text/plain')
 
 def chrome_devtools_view(request):
-    """Chrome DevTools probes this on localhost (automatic workspace folders);
-    answer 204 quietly instead of spamming the dev log with 404 warnings."""
+    """Chrome DevTools probes this path on localhost."""
     return HttpResponse(status=204)
 
 def manifest_view(request):
@@ -80,10 +76,7 @@ def manifest_view(request):
     return HttpResponse(_json.dumps(manifest), content_type='application/manifest+json')
 
 def service_worker_view(request):
-    """Minimal offline-first service worker. Served at root for full scope.
-
-    Network-first for navigation (so users always get fresh builds when online)
-    with a tiny cached offline fallback; cache-first for static assets."""
+    """Offline-first service worker; served at root so its scope covers the site."""
     sw = """
 const CACHE = 'fashionista-v2';
 const OFFLINE_URL = '/offline/';
@@ -143,8 +136,6 @@ def offline_view(request):
 # --- Sitemap ---------------------------------------------------------------
 import time as _sitemap_time
 
-# Cache the (expensive) encyclopedia item URL list so Googlebot sitemap fetches
-# do not re-query the item database on every request.
 _SITEMAP_ITEM_CACHE = {'ts': 0.0, 'xml': ''}
 _SITEMAP_ITEM_TTL = 6 * 3600
 
@@ -155,12 +146,7 @@ def _sitemap_url(loc, changefreq, priority):
 
 
 def _sitemap_encyclopedia_items(base_url):
-    """Best-effort <url> block for encyclopedia item pages in every game
-    version.
-
-    Cached for a few hours and fully defensive: any failure yields the
-    previously cached value (or an empty string), so the sitemap never breaks.
-    """
+    """<url> block for encyclopedia item pages in every game version."""
     now = _sitemap_time.time()
     cached = _SITEMAP_ITEM_CACHE
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
@@ -221,7 +207,7 @@ _SITEMAP_SET_CACHE = {'ts': 0.0, 'xml': ''}
 
 
 def _sitemap_encyclopedia_sets(base_url):
-    """Best-effort <url> block for encyclopedia set pages in every version."""
+    """<url> block for encyclopedia set pages in every game version."""
     now = _sitemap_time.time()
     cached = _SITEMAP_SET_CACHE
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
@@ -259,9 +245,7 @@ _SITEMAP_RESOURCE_CACHE = {'ts': 0.0, 'xml': ''}
 
 
 def _sitemap_encyclopedia_resources(base_url):
-    """Best-effort <url> block for encyclopedia ingredient pages in every game
-    version. Ingredients can differ across versions, so each version gets its
-    own canonical URLs."""
+    """<url> block for encyclopedia ingredient pages in every game version."""
     now = _sitemap_time.time()
     cached = _SITEMAP_RESOURCE_CACHE
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
@@ -290,10 +274,6 @@ def _sitemap_encyclopedia_resources(base_url):
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'resource_drops'")
                 has_drops = cursor.fetchone() is not None
 
-                # The resource page only exists when the ingredient is used
-                # by at least one recipe; only submit it for indexing when it
-                # carries real content beyond one line: several recipe usages,
-                # or a drop section. Thin pages stay served, just unsubmitted.
                 drop_join = ''
                 drop_criterion = ''
                 if has_drops:
@@ -342,9 +322,7 @@ _SITEMAP_MONSTER_CACHE = {'ts': 0.0, 'xml': ''}
 
 
 def _sitemap_encyclopedia_monsters(base_url):
-    """Best-effort <url> block for monster encyclopedia pages in every game
-    version. Monster drops are version-specific, so these URLs are canonical per
-    version unlike the generic encyclopedia list."""
+    """<url> block for monster encyclopedia pages in every game version."""
     now = _sitemap_time.time()
     cached = _SITEMAP_MONSTER_CACHE
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
@@ -380,11 +358,6 @@ def _sitemap_encyclopedia_monsters(base_url):
                 if not drop_sources:
                     continue
 
-                # Two drops used to be the only thing a monster page had, so
-                # one drop meant a one-line page. It now also carries the
-                # grade stats and the spells it casts. A single spell next to
-                # a single grade is still one line, so a rescued page needs
-                # two of each to count as content.
                 cursor.execute(
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'monster_spells'")
                 substantial = ('OR ((SELECT COUNT(DISTINCT spell_ankama_id) '
@@ -446,29 +419,24 @@ def _sitemap_pages(base_url):
         ('/quickstart/', 'monthly', '0.7'),
         ('/smartbuild/', 'monthly', '0.7'),
         ('/sharedbuilds/', 'daily', '0.9'),
-        # /random/ always answers with a redirect to a random shared build, so
-        # it does not belong in the sitemap (crawlers want stable 200 urls).
+        # /random/ only ever redirects, so it is not sitemap material.
         ('/choose_compare_sets/', 'weekly', '0.7'),
         ('/encyclopedia/', 'daily', '0.9'),
         ('/encyclopedia/sets/', 'weekly', '0.8'),
         ('/forgemagie/', 'weekly', '0.8'),
-        # /workshop/ is behind the login, so a crawler only ever gets the
-        # redirect to /login/. Same reason /random/ is not here.
+        # /workshop/ is behind the login: a crawler only gets the /login/ redirect.
         ('/loadprojects/', 'weekly', '0.5'),
     ]
     for path, freq, prio in static_paths:
         blocks.append(_sitemap_url(base_url + path, freq, prio))
 
-    # Guides hub + each guide (original editorial content), with the article's
-    # publish date as lastmod.
     blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
     try:
         from chardata import guides_content
         for slug in guides_content.ordered_slugs():
             published = guides_content.GUIDES[slug].get('published')
             lastmod = ('\n    <lastmod>%s</lastmod>' % published) if published else ''
-            # A per-version guide (e.g. critical hits) is several distinct pages,
-            # one per game system; emit each so every version's page is indexed.
+            # A per-version guide is a distinct page per game version.
             for version in guides_content.canonical_versions(slug):
                 prefix = '' if version == 'dofus3' else '/%s' % version
                 blocks.append('  <url>\n    <loc>%s%s/guides/%s/</loc>%s\n'
@@ -480,8 +448,6 @@ def _sitemap_pages(base_url):
 
     for version_slug in ('beta', 'dofus2', 'retro', 'touch'):
         vbase = '%s/%s' % (base_url, version_slug)
-        # Every game version has distinct equipment data and calculations, so
-        # its encyclopedia hub and set index are canonical versioned URLs.
         for sub, prio in (('/', '0.8'), ('/setup/', '0.7'), ('/sharedbuilds/', '0.7'),
                           ('/forgemagie/', '0.6'), ('/encyclopedia/', '0.8'),
                           ('/encyclopedia/sets/', '0.7')):
@@ -489,10 +455,7 @@ def _sitemap_pages(base_url):
 
     try:
         from urllib.parse import quote
-        # List every shared build that has a stored solution (a solutionless
-        # /s/ URL 404s, so feeding those to Google would only add soft-404s).
-        # Most-viewed first so the crawl budget lands on the popular builds.
-        # Capped well under the 50k-URL sitemap limit.
+        # A /s/ URL whose build has no stored solution 404s.
         shared_chars = (Char.objects
                         .filter(link_shared=True, deleted=False)
                         .exclude(minimal_solution=b'')
@@ -512,8 +475,7 @@ def _sitemap_pages(base_url):
     return '\n'.join(blocks)
 
 
-# One file per section. Google refuses a sitemap over 50000 urls outright and
-# the single file was already at 41208; the biggest section here is half that.
+# One file per section: Google refuses a sitemap over 50000 urls.
 SITEMAP_SECTIONS = (
     ('pages', _sitemap_pages),
     ('items', _sitemap_encyclopedia_items),
@@ -556,8 +518,7 @@ urlpatterns = [
     re_path(r'^sitemap\.xml$', sitemap_view, name='sitemap'),
     re_path(r'^sitemap-(?P<section>[a-z]+)\.xml$', sitemap_section_view,
             name='sitemap_section'),
-    # Staff-only dashboard (moderation + site tools). Gated in the view; 404 for
-    # everyone else. Not version-prefixed.
+    # Staff-only dashboard, gated in the view; 404 for everyone else.
     re_path(r'^admin-tools/$', admin_tools_view.admin_tools, name='admin_tools'),
     re_path(r'^admin-comment-action/$', admin_tools_view.admin_comment_action, name='admin_comment_action'),
     re_path(r'^admin-ads-action/$', admin_tools_view.admin_ads_action, name='admin_ads_action'),
@@ -566,10 +527,8 @@ urlpatterns = [
     re_path(r'^offline/$', offline_view, name='offline'),
     re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog', kwargs=js_info_dict),
 
-    # Character preview art, baked on first request. Not version-prefixed: the
-    # skins come from one asset set. The -v<n> names match the cache file
-    # names so nginx serves them off disk; the bare ones stay for pages that
-    # were rendered before.
+    # Character preview art, baked on first request. The -v<n> names match the
+    # cache file names, so nginx serves them straight off disk.
     re_path(r'^character/poses/(?P<bone_id>[\w-]+)-v(?P<fmt>\d+)\.json$',
             character_assets.pose_view, name='character_pose_versioned'),
     re_path(r'^character/poses/(?P<bone_id>[\w-]+)\.json$',
@@ -706,9 +665,6 @@ urlpatterns = [
     re_path(r'^privacy/', views.privacy, name='privacy'),
     re_path(r'^support/', views.support, name='support'),
     re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia, name='encyclopedia'),
-    # The slug stops at the next slash: as ".*" it swallowed them, so
-    # /233-kaiser/robots.txt and /233-kaiser/a/b/c/ served the item page
-    # with a 200, an endless set of URLs for a crawler to walk.
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
             encyclopedia_view.encyclopedia_item,
             name='encyclopedia_item'),
@@ -794,16 +750,15 @@ if settings.EXPERIMENTS['COMPARE_SETS']:
 
 if settings.EXPERIMENTS['TRANSLATION']:
     urlpatterns += [
-                            # Ours first: set_language that also remembers the
-                            # choice on the profile (notification email language).
+                            # Ours first: it also stores the choice on the
+                            # profile, for the notification email language.
                             re_path(r'^i18n/setlang/$', views.set_language_and_remember, name='set_language'),
                             re_path(r'^i18n/', include('django.conf.urls.i18n'))]
 
 urlpatterns += staticfiles_urlpatterns()
 
-# Version-specific routes: same views, game_version set by middleware.
-# Each version gets a Django URL namespace so {% game_url %} can resolve
-# version-prefixed URLs (e.g. reverse('beta:setup') → /beta/setup/).
+# Version-specific routes: same views, game_version set by middleware. The URL
+# namespace is what makes reverse('beta:setup') give /beta/setup/.
 _game_urls = ('chardata.game_urls', 'chardata')
 urlpatterns += [
     path('beta/', include(_game_urls, namespace='beta')),

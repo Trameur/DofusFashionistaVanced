@@ -49,8 +49,7 @@ def _featured_avatar(char):
 
 
 def _get_featured_builds(request, game_version):
-    """Top community builds for the current game version, scored by likes +
-    favorites + (capped) view count. Cached so the homepage stays fast."""
+    """Top shared builds of the current game version, best scored first."""
     cache_key = 'home_featured_builds:%s' % game_version
     cached = cache.get(cache_key)
     if cached is not None:
@@ -157,8 +156,7 @@ def home(request, char_id=0):
                          'char_id': char_id})
 
 def random_build(request):
-    """Redirect to a random shared build for the current game version.
-    Falls back to /sharedbuilds/ if there isn't a single one."""
+    """Redirect to a random shared build of the current game version."""
     game_version = getattr(request, 'game_version', 'dofus3')
     char = (Char.objects
             .filter(link_shared=True, deleted=False, game_version=game_version)

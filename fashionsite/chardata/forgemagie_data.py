@@ -16,24 +16,12 @@
 
 """Smithmagic (forgemagie) rune data per game version.
 
-The numbers come from community references, cross-checked against several
-sources (Ankama tutorials, JeuxOnLine, Dofus pour les Noobs, dofastuces,
-Dofuzion's 1.29 table, Touch-specific rune lists), plus the corrections a
-player who mages daily sent in 2026-06: the Ra tier of the five elemental
-resists, of Ré Cri, Ré Pou and Do Pou, the Pa tier of Do Ren, and the density
-of Ré Per Mé and Ré Per Di, which is 10 and not 15. Three rulesets cover the
-five game versions served by the site:
+Three rulesets cover the five game versions served by the site:
 
-- 'modern': Dofus 3, beta and Dofus 2. Current rune roster and densities
-  (post-2.29: Vi runes give 5/15/50 at 0.2 weight per vitality, Cri weighs
-  10, So weighs 10).
-- 'touch': Dofus Touch, forked from Dofus 2.14. Its 1.54/1.57/1.59 updates
-  brought the weights to the PC values (Vi 5/15/50 at 0.2, Cri 10, So 10)
-  and removed trap damage, trap power and reflect from items entirely;
-  Wisdom still weighs 1 per point against the PC's 3, and there are no
-  %-damage-per-attack-type stats.
-- 'retro': Dofus 1.29. Smaller stat roster, old densities (fixed resists
-  weigh 5, % resists 4, reflects 30, trap damage 15).
+- 'modern': Dofus 3, beta and Dofus 2.
+- 'touch': Dofus Touch, forked from Dofus 2.14. Wisdom weighs 1 per point
+  against the PC's 3.
+- 'retro': Dofus 1.29. Smaller stat roster, older densities.
 
 Each stat entry:
 - density: sink weight of one point of the stat.
@@ -41,8 +29,8 @@ Each stat entry:
   appear or be lost through item rolls).
 - tiers: (tier_prefix, bonus) pairs, e.g. ('Pa', 3) is the 'Rune Pa Xxx'
   giving +3. The rune's weight is bonus * density.
-- approx: True when no era-specific source confirmed the density and the
-  modern value is used as a best guess (only affects stats without runes).
+- approx: True when the density is a best guess taken from the modern
+  values (only affects stats without runes).
 """
 
 # Per-stat weight of over/exo bonuses cannot exceed this in every version.
@@ -119,17 +107,11 @@ _MODERN_STATS = {
     'respermee': _stat(10, 'Ré Per Mé', [('', 1)]),
     'resperran': _stat(10, 'Ré Per Di', [('', 1)]),
     # No "Ré Per Ar" rune exists in game: % weapon resist cannot be maged.
-    # The stat itself is kept (used by builds and item display) but rune-less.
     'resperwea': _stat(15, '', [], approx=True),
 }
 
-# Touch never received the per-attack-type percentage stats, and update 1.57
-# "Albuera" (2022-11-29) removed trap damage, trap power and reflect from items
-# and runes altogether. Its weights caught up with the PC game in 1.54/1.59
-# (So 20 -> 10, Vi to 5/15/50 at 0.2, Cri to 10) with one divergence left:
-# Wisdom weighs 1 per point against the PC's 3. All values read from the
-# official Touch encyclopedia's "Poids de Forgemagie" field on 2026-08-09;
-# no Ra tier exists on Touch for the resists, So or the elemental damages.
+# Touch has no per-attack-type percentage stats, no trap damage, trap power or
+# reflect, and no Ra tier for the resists, So or the elemental damages.
 _TOUCH_STATS = dict(_MODERN_STATS)
 for _key in ('permedam', 'perrandam', 'perweadam', 'perspedam',
              'respermee', 'resperran', 'resperwea',
@@ -156,9 +138,8 @@ _TOUCH_STATS.update({
     'cridam': _stat(5, 'Do Cri', [('', 1), ('Pa', 3)]),
 })
 
-# 1.29: no Power/Lock/AP-MP reduction or dodge runes existed; resists and a
-# few weights differ. '% Do' (the pre-2.0 % damage line) is kept under 'pow'
-# for the reference table even though almost no 1.29 item rolls it.
+# 1.29 has no Power, Lock, AP/MP reduction or dodge runes. 'pow' holds
+# '% Do', the pre-2.0 % damage line.
 _RETRO_STATS = {
     'vit': _stat(0.25, 'Vi', [('', 3), ('Pa', 10), ('Ra', 30)]),
     'str': _stat(1, 'Fo', _STANDARD_TIERS),

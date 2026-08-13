@@ -544,7 +544,7 @@ class ModelResult():
 class ModelResultItem():
 
     def __init__(self, item, stat_overrides=None):
-        # Default weapon-specific flags so legacy pickles missing new fields stay safe
+        # Legacy pickles can be missing the newer weapon fields.
         self.is_mageable = False
         if item:
             structure = get_structure()
@@ -570,7 +570,7 @@ class ModelResultItem():
             else:
                 self.localized_name = or_item[0].localized_names[get_supported_language()]
             # Several set pieces share a name (the four retro wedding rings, one
-            # per elemental set), so the picker needs the set to tell them apart.
+            # per elemental set).
             self.localized_set_name = None
             if item.set is not None:
                 item_set = structure.get_set_by_id(item.set)
@@ -583,10 +583,8 @@ class ModelResultItem():
     
             self.stats = {}
             self.base_stats = {}
-            # An item can list the same characteristic more than once (Ankama does
-            # this on a few items, e.g. the retro Minotot Sceptre = 6% + 6% Water
-            # Resist). In game these stack, so sum repeats here rather than letting
-            # the later line overwrite the earlier one.
+            # An item can list the same stat twice (retro Minotot Sceptre:
+            # 6% + 6% Water Resist); in game the two lines stack.
             self.stat_ranges = {}
             item_ranges = getattr(item, 'stat_ranges', {}) or {}
             for stat_id, stat_value in item.stats:
@@ -607,8 +605,8 @@ class ModelResultItem():
                     stat = structure.get_stat_by_id(stat_id)
                     if stat:
                         if stat.key in _EXO_KEYS and override_val > self.stats.get(stat.key, 0):
-                            # exo portion; get_stats_gear() adds +1 via ap_exo/mp_exo/range_exo
-                            # options, so we keep it out of self.stats but remember it for display
+                            # get_stats_gear() already adds the exo +1 from the
+                            # ap_exo/mp_exo/range_exo options.
                             self.exo_overrides[stat.key] = override_val
                         else:
                             self.stats[stat.key] = override_val
@@ -627,15 +625,14 @@ class ModelResultItem():
             translated_flags = flag_lines(getattr(item, 'flags', []))
             localized_extras, folded = fold_spell_blocks(localized_extras)
             self.extras = translated_flags + [(line, None) for line in localized_extras]
-            # An extra line names a spell and stops there, so carry what the
-            # spells it names actually do and let the page hang it off them.
+            # An extra line names a spell without saying what it does.
             self.spell_tooltips = dict(
                 getattr(item, 'spell_tooltips', {}).get(get_supported_language()) or {},
                 **folded)
     
             if self.type == 'Weapon':
-                # By item, not by name: Retro and Touch let several weapons share
-                # one, and the damage block showed the last one read.
+                # Retro and Touch let several weapons share a name, so match on
+                # the item first.
                 weapon = (structure.get_weapon_for_item(item)
                           or structure.get_weapon_by_name(self.name))
                 if weapon is not None:
@@ -708,9 +705,8 @@ class ModelResultSet():
         self.localized_name = item_set.localized_names[get_supported_language()]
 
     def get_bonus(self):
-        # Some sets (notably many Retro sets) define no bonus for a given piece
-        # count -- equipping that many pieces simply grants nothing rather than
-        # being an error, so missing counts yield an empty bonus.
+        # Many Retro sets define no bonus for a given piece count: wearing that
+        # many pieces grants nothing, it is not an error.
         return self.bonus_per_num_items.get(self.number_of_items, {})
 
     def get_max_caps(self):

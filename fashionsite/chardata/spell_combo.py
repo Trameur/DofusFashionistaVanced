@@ -27,15 +27,14 @@ from chardata.spell_buffs import (_buff_value, _decide_spell_level,
 
 MAX_CASTS = 8
 
-# What a character starts a fight with, before any gear. The stats the site
-# carries are gear bonuses only, so a build with no AP item reads as 0 and had
-# nothing to spend.
+# The stats the site carries are gear bonuses only; this is what a character
+# starts a fight with.
 BASE_AP = 6
 
 
 def combat_ap(gear_ap, game_version):
-    """The AP a turn actually has. Retro never got the PA/PM/PO limitation, so
-    only the other versions take the cap."""
+    """The AP a turn has. Retro never got the PA/PM/PO limitation, so it takes
+    no cap."""
     total = BASE_AP + (gear_ap or 0)
     cap = get_stat_maximum(game_version).get('AP')
     return min(total, cap) if cap else total
@@ -44,17 +43,10 @@ def combat_ap(gear_ap, game_version):
 def _element_alternatives(aggregates, effects):
     """The groups of a best-element spell, or None when they are not that.
 
-    The generator writes a best-element hit as one single-row group per
-    element, and a stacking spell as one group per stack. They look identical
-    apart from the elements: four groups of earth/fire/water/air are one hit
-    the caster picks, five groups all of water are the same hit growing. Only
-    the first shape may be scored on its best row; keeping group 0 there meant
-    always scoring Earth, on 84 Dofus 3 spells.
-
-    A spell can carry several such runs, one per glyph grade or per state.
-    Those are alternatives too, but which one applies is not something the
-    panel knows, so it keeps the first, the way it already assumes nothing is
-    stacked yet.
+    The generator writes a best-element hit as one single-row group per element
+    and a stacking spell as one group per stack; only a repeated element tells
+    the two shapes apart. A spell can carry several such runs, one per glyph
+    grade or per state; the first one is kept.
     """
     if not aggregates or len(aggregates) < 2:
         return None
@@ -91,7 +83,6 @@ class Castable(object):
             groups = [set(digest.aggregates[0][1])] if digest.aggregates else [None]
         # A row the spell does not have at this level is stored as 0 to 0, and
         # the damage formula hands it the flat bonus anyway: max(0 + dam, 0).
-        # Friendship Word carried twelve of them, 40% of what it claimed.
         self.alternatives = []
         for wanted in groups:
             kept = [effect for index, effect in hits
@@ -104,9 +95,7 @@ class Castable(object):
         casting = spell.casting or {}
         limits = [casting.get(key, [None] * (level_index + 1))[level_index]
                   for key in ('per_turn', 'per_target')]
-        # A spell on a cooldown cannot come back the same turn, and 67 of the
-        # 536 Dofus 3 class spells are gated by nothing else. No spell carries
-        # a cooldown together with a per-turn cap, so this cannot tighten one.
+        # A spell on a cooldown cannot come back the same turn.
         cooldown = casting.get('cooldown', [None] * (level_index + 1))[level_index]
         if cooldown:
             limits.append(1)
@@ -141,14 +130,8 @@ def _average(damages):
 
 
 def final_multiplier(stats):
-    """The percentage applied after everything else, the way the damage table
-    on the page does it.
-
-    calculate_damage stops at per-spell damage, so a buff that grants final
-    damage and nothing else was worth exactly zero to the turn: ticking the
-    Eliotrope's Portal moved every line of the page except this one. Heals are
-    not scored here, so finalheals has nothing to change.
-    """
+    """The percentage applied after everything else; calculate_damage stops at
+    per-spell damage. Heals are not scored here, so finalheals is ignored."""
     multiplier = (100.0 + stats.get('final', 0)) / 100.0
     negative = stats.get('negfinal', 0)
     if negative:
@@ -161,16 +144,11 @@ def buffs_in_force(char_class, char_level, game_version, buff_state,
     """Stat deltas from the buffs the reader ticked on the spells page.
 
     The page stores one entry per spell, 'n2' or 'c1': the letter says whether
-    the buff was read on its critical line, the digits how many stacks. The
-    panel used to be rendered once from the gear alone and never saw any of
-    this, so ticking Fully Buff changed every damage line except the combo.
-    Rebuilding the deltas here keeps one implementation of the rules.
+    the buff was read on its critical line, the digits how many stacks.
     """
     deltas = {}
     for spell, stacks, crit in _ticked_buffs(char_class, char_level,
                                              game_version, buff_state):
-        # A buff read at the rank the page shows, not at the highest one:
-        # lowering Puissance has to weaken what it grants.
         level_index = _chosen_level(levels, spell, char_level)
         castable = Castable(spell, level_index, crit)
         for stat, delta in castable.buff_deltas(stacks).items():
@@ -179,11 +157,7 @@ def buffs_in_force(char_class, char_level, game_version, buff_state,
 
 
 def stacks_in_force(char_class, char_level, game_version, buff_state):
-    """{spell name: stacks} for the buffs the reader ticked.
-
-    The turn search needs it to know what is already standing: a buff it casts
-    again has to add the difference, not its whole value a second time.
-    """
+    """{spell name: stacks} for the buffs the reader ticked."""
     return {spell.name: stacks
             for spell, stacks, _crit
             in _ticked_buffs(char_class, char_level, game_version, buff_state)}
@@ -192,9 +166,7 @@ def stacks_in_force(char_class, char_level, game_version, buff_state):
 def _ticked_buffs(char_class, char_level, game_version, buff_state):
     """(spell, stacks, crit) per entry the page posted, in its own vocabulary.
 
-    Both the class bucket and the shared one: a Cra ticking Perfidious
-    Boomerang raised every damage line on the page and moved the combo by
-    nothing, because only the class bucket was searched for a name.
+    A ticked name can come from the class bucket or the shared one.
     """
     if not buff_state:
         return
@@ -218,10 +190,8 @@ def _ticked_buffs(char_class, char_level, game_version, buff_state):
 
 
 def _chosen_level(levels, spell, char_level):
-    """The rank to read a spell at: the reader's pick, else the highest one
-    the character level reaches. The page offers every rank a spell has, so a
-    pick the level cannot reach falls back to that highest one, the way a
-    spell the level cannot reach at all is left out of the turn entirely."""
+    """The rank to read a spell at: the reader's pick, else the highest one the
+    character level reaches."""
     highest = _decide_spell_level(spell.level_req, char_level)
     wanted = (levels or {}).get(spell.name)
     try:
@@ -237,9 +207,8 @@ def castable_spells(char_class, char_level, game_version, crit=False,
                     levels=None):
     """Class bucket only: the shared one is weapons, pies and Dofus effects.
 
-    `levels` is {spell name: rank index} for the ranks the reader picked on
-    the page. Without it every spell is read at the highest rank the level
-    allows, which is what the page starts on.
+    `levels` is {spell name: rank index}; without it every spell is read at the
+    highest rank the character level allows.
     """
     by_class = get_damage_spells_for_version(game_version)
     spells = by_class.get(char_class, [])
@@ -258,11 +227,8 @@ def castable_spells(char_class, char_level, game_version, crit=False,
 def best_turn(stats, spells, ap, crit=False, standing=None):
     """(total, [(spell name, damage), ...]) for the best order fitting the AP.
 
-    `standing` is {spell name: stacks} for the buffs the reader has already
-    ticked, whose value is part of `stats` by the time we get here. Casting
-    one of those again may only add the difference: a Cra with Powerful Shots
-    ticked was handed its +250 Power twice, 24% too much, and spent an AP on
-    the second helping.
+    `standing` is {spell name: stacks} for the buffs the reader already ticked,
+    whose value is part of `stats`: recasting one adds only the difference.
     """
     stats = dict(stats)
     standing = standing or {}
@@ -283,13 +249,10 @@ def best_turn(stats, spells, ap, crit=False, standing=None):
                 continue
             was = other.buff_deltas(already) if already else {}
             for stat, value in other.buff_deltas(reached).items():
-                # A stat no piece of gear carries is still a stat: dropping
-                # the ones absent from the build silently threw away every
-                # final damage buff, which is the only thing some spells give.
                 gained = value - was.get(stat, 0)
                 buffed[stat] = buffed.get(stat, 0) + gained
-        # A best-element spell offers one hit per element and the caster takes
-        # the one their gear favours, so it has to be scored after the buffs.
+        # A best-element spell is scored after the buffs: the caster picks the
+        # element their gear favours.
         best_seen = 0.0
         multiplier = final_multiplier(buffed)
         for alternative in spell.alternatives:

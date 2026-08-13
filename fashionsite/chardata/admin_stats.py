@@ -29,13 +29,12 @@ PERIODS = OrderedDict([
 ])
 DEFAULT_PERIOD = '6m'
 
-# How many rows a table holds. The page shows the first few and reveals the rest.
+# How many rows a table holds.
 ROW_CAP = 100
 CLASS_CAP = 20
 
 
-# Nothing on the site predates this, and it keeps every date subtraction inside
-# what datetime can hold.
+# Floor for every date: keeps date subtraction inside what datetime can hold.
 EARLIEST = datetime.date(2000, 1, 1)
 
 
@@ -49,7 +48,6 @@ class Period(object):
         self.start = min(max(start, EARLIEST), self.end)
         self.unit = _unit_for((self.end - self.start).days + 1)
         if not custom:
-            # A preset starts on a bucket boundary, so the first bar is whole.
             self.start = max(_bucket_start(self.start, self.unit), EARLIEST)
         self.days = (self.end - self.start).days + 1
         self.previous_end = self.start - datetime.timedelta(days=1)
@@ -114,8 +112,7 @@ FIRST_DAY_SECONDS = 3600
 
 
 def _first_day_on_record():
-    """Char.created_time carries no index, so this is a scan. It only moves when
-    the oldest row is deleted, hence the long cache."""
+    """Char.created_time carries no index, so this is a table scan."""
     known = cache.get(FIRST_DAY_KEY)
     if known:
         return known
@@ -242,7 +239,6 @@ def _languages():
 
 
 def versions(period, version):
-    """Every version stays on the table: this panel is the comparison."""
     rows = []
     for slug in VERSIONS:
         alive = Char.objects.filter(game_version=slug, deleted=False)
@@ -284,7 +280,6 @@ LEVEL_BANDS = ((1, 20), (21, 50), (51, 100), (101, 150), (151, 199), (200, 200))
 
 
 def _levels(shown):
-    """Counted by the database: there can be six figure numbers of builds."""
     per_version = OrderedDict()
     for slug in shown:
         counts = Char.objects.filter(deleted=False, game_version=slug).aggregate(
@@ -435,8 +430,8 @@ def dashboard(refresh=False, period_key=None, version=None, start=None, end=None
         cache.delete(FIRST_DAY_KEY)
     period = resolve_period(period_key, start, end)
     version = resolve_version(version)
-    # Only presets are cached. A custom range would mint a key per date pair and
-    # push everything else out of a cache the whole site shares.
+    # Only presets are cached: a custom range mints a key per date pair, in a
+    # cache the whole site shares.
     key = None if period.custom else '%s:%s:%s' % (CACHE_KEY, period.key, version or 'all')
     if key and not refresh:
         cached = cache.get(key)

@@ -161,11 +161,8 @@ class Structure:
                 self.dt_items_dict_name[item.name] = item
                 by_ankama = self.dt_items_dict_ankama
             if ankama_id is not None:
-                # Mounts live in their own Ankama id space and reuse equipment
-                # ids: on Touch, 42 is both the Twiggy Sword and a Dragoturkey.
-                # Their db id is already offset; a mount must not shadow the
-                # equipment here either, since this is what lock_forbid resolves
-                # through.
+                # Mounts have their own Ankama id space and reuse equipment ids:
+                # on Touch, 42 is both the Twiggy Sword and a Dragoturkey.
                 if ankama_type != 'mounts' or ankama_id not in by_ankama:
                     by_ankama[ankama_id] = item
             if item_set is not None:
@@ -432,8 +429,7 @@ class Structure:
             item = self.get_item_by_id(item_id)
             name = WEIRD_CONDITION_FROM_ID[condition_id]
             if name == 'light_set':
-                # Store the set-bonus cap (2 for "< 3", 1 for the stricter touch
-                # "< 2") instead of a bare True, so the LP enforces the right one.
+                # The set-bonus cap: 2 for "< 3", 1 for the stricter touch "< 2".
                 item.weird_conditions['light_set'] = LIGHT_SET_LIMIT_FROM_ID.get(condition_id, 2)
             else:
                 item.weird_conditions[name] = True
@@ -452,11 +448,9 @@ class Structure:
             item.localized_extras[language] = lines
     
     def read_spell_tooltips_table(self):
-        """What the spells named in the extra lines actually do.
+        """What the spells named in the extra lines do.
 
-        The table is filled by itemscraper/store_spell_tooltips.py and is
-        allowed to be missing: a database built before it existed still loads,
-        the lines just stay as bare names.
+        Filled by itemscraper/store_spell_tooltips.py; the table may be absent.
         """
         c = self.conn.cursor()
         try:
@@ -492,11 +486,9 @@ class Structure:
     def _weapon_key(self, item_id, is_dofus_touch, item_name):
         """What makes two rows the same weapon.
 
-        The branches of one item, "(#1)" and "(#2)", share an ankama id and must
-        share their damage. Two items that merely share a name must not: Retro
-        lists eleven Ecaflip Paws rolling 2-21 up to 22-41 and four Bronze Swords
-        of four different elements, and keyed by name they collapsed into one,
-        so every one of them showed the last one read.
+        The branches of one item, "(#1)" and "(#2)", share an ankama id and share
+        their damage. Retro items that merely share a name (eleven Ecaflip Paws,
+        four Bronze Swords of four elements) do not.
         """
         items = self.dt_items_dict if is_dofus_touch else self.items_dict
         item = items.get(item_id)
@@ -519,8 +511,8 @@ class Structure:
         return item_name, w
 
     def get_weapon_for_item(self, item):
-        """The weapon of this exact item, where get_weapon_by_name can only
-        answer for the first item carrying the name."""
+        """The weapon of this exact item; get_weapon_by_name only ever answers
+        for the first item carrying the name."""
         if item is None:
             return None
         is_dofus_touch = self._is_item_dofus_touch(item.id)
@@ -576,13 +568,12 @@ class Structure:
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
             w.weapon_type = weapon_type
                 
-        # By key, not by name: the name index only holds the first weapon under
-        # each name, and every weapon needs its hits worked out.
+        # By key: the name index only holds the first weapon under each name.
         for weapon_name, w in itertools.chain(iter(self.weapons_by_key.items()),
                                               iter(self.dt_weapons_by_key.items())):
             w.has_crits = (w.crit_bonus is not None)
-            # Some weapons just have no crit or type (magnifying glass, fishing
-            # rod...), so this is debug, not a warning.
+            # Some weapons have no crit or type at all (magnifying glass,
+            # fishing rod...).
             if not w.has_crits and w.crit_chance is not None:
                 logger.debug('%s is missing crit_bonus', weapon_name)
             if w.crit_chance is None and w.has_crits:
@@ -817,8 +808,7 @@ class Structure:
                     item.localized_names[lang] = (sibling_name if sibling_name
                                                   else '[!] %s' % item.or_name)
                 elif item.or_name != item.name:
-                    # The "(#1)" tag only groups the branches of an OR item; drop
-                    # it in every language, like the English name above.
+                    # The "(#N)" tag only groups the branches of an OR item.
                     item.localized_names[lang] = self.get_or_item_name(
                         item.localized_names[lang])
 
@@ -935,9 +925,8 @@ class Structure:
         return self.stats_list
 
     def get_used_stat_keys(self):
-        # Stat keys that actually appear on an item or set bonus in this
-        # version's data. Lets callers show only version-relevant stats
-        # (e.g. PVP resists exist in the retro data but not in Dofus 2/3).
+        # Stat keys that appear on an item or set bonus in this version's data
+        # (PVP resists exist in retro but not in Dofus 2/3).
         if self._used_stat_keys is None:
             used = set()
             for item in itertools.chain(self.items_list, self.dt_items_list):
@@ -1051,11 +1040,9 @@ class Structure:
         return [self.get_item_by_id(item_id)]
 
     def get_set_by_id(self, set_id):
-        # Prefer sets_dict over dt_sets_dict, matching read_set_bonus_table (which
-        # stores .bonus on the sets_dict object). In a non-touch structure dt_sets_dict
-        # holds synthetic touch sets (Jellix/Gelano) whose ids can collide with real
-        # sets: id 1 is the dofus3 "Gobball Set" but also the touch "Jellix Set", so
-        # checking dt first returned the bonusless touch set for every Gobball build.
+        # dt_sets_dict holds the synthetic touch sets (Jellix/Gelano), whose ids
+        # collide with real ones: 1 is both the dofus3 Gobball Set and the touch
+        # Jellix Set. read_set_bonus_table stores .bonus on the sets_dict object.
         if set_id in self.sets_dict:
             return self.sets_dict.get(set_id)
         return self.dt_sets_dict.get(set_id)

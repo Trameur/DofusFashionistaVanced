@@ -88,16 +88,9 @@ def _process_parameters(sets_params):
 
 
 def _compare_previews(builds, game_version):
-    """The drawable look of each compared set, keyed to its own canvas.
-
-    All or nothing: a row where one build is drawn and the next is a blank box
-    reads as a broken page, and the only reason a look comes back empty is a
-    version with no art at all, which is the same answer for every build.
-    """
+    """The drawable look of each compared set, keyed to its own canvas."""
     previews = []
     for build in builds:
-        # The wrapper carries the solution; the colours and the hidden pieces
-        # belong to the character behind it.
         look = get_character_look(build.char, build.solution, game_version)
         if look is None:
             return []
@@ -152,12 +145,8 @@ def compare_sets(request, sets_params):
         try:
             chars.append(_resolve_compare_build(request, char_str))
         except (Http404, PermissionDenied):
-            # A build that was removed (or made private) since it was added to the
-            # comparison cart: drop it and compare the rest instead of 404ing the
-            # whole page.
             continue
     if len(chars) < 2:
-        # Fewer than two of the requested builds still exist -- nothing to compare.
         raise Http404
     solutions = {}
     model_results = {}
@@ -329,9 +318,7 @@ def _is_direct_damage_effect(effect):
 
 
 def _acquisition_by_char(solutions, game_version):
-    """What each compared build costs to assemble. Only a handful of builds are
-    ever compared, so this can afford the exact rarest drop rate, unlike the
-    gallery cards."""
+    """What each compared build costs to assemble."""
     summaries = {}
     for char_id, solution in solutions.items():
         items = [item for item in solution['item_per_slot'].values()
@@ -608,8 +595,6 @@ def get_item_stats(request):
     structure = get_structure()
     item = structure.get_item_by_id(item_id)
     if item is None:
-        # Stale compare page or an id from another game version: no such item
-        # in the current structure, answer null like the empty-id case.
         return HttpResponseJson(None)
     result_item = ModelResultItem(item)
     evolve_result_item(result_item)
@@ -641,14 +626,8 @@ def compare_set_search_proj_name(request):
     return JsonResponse(char_list, safe=False)
 
 def _get_text_error_response(cause):
-    # The response is text/plain (+ site-wide nosniff) and the picker page
-    # renders it with jQuery .text(), so nothing executes today; escaping
-    # the user-echoed parts (see _rejected_link_error) keeps it that way if
-    # a future consumer renders the message as HTML.
     return HttpResponseText('Error: %s' % cause)
 
 
 def _rejected_link_error(message, raw_link):
-    """Error response echoing a user-pasted link: escape the link (and cap
-    it, a paste can be arbitrarily long) before it enters the message."""
     return _get_text_error_response(message % escape(raw_link[:120]))

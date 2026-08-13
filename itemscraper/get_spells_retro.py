@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
 """
-get_spells_retro.py - extract Dofus Retro (1.29) damage spells per class.
+Extract Dofus Retro (1.29) damage spells per class, for dofus_constants'
+DAMAGE_SPELLS, from the lang files download_retro_langs.py writes.
 
-Reads the parsed Retro lang files (spells_<lang>.json + classes_<lang>.json from
-download_retro_langs.py) and emits a per-class damage-spell dataset shaped to feed
-dofus_constants' DAMAGE_SPELLS (Spell/Effects), consumed by chardata.spells_view.
+    python get_spells_retro.py [--raw-dir retro_raw] [--module-out PATH]
 
-Decoding notes (validated against known spells):
-  - A spell "level" array ends with two effect lists; each effect entry is
-    [dice, ..., effect_id]. Elemental damage uses the same effect ids as items
-    (96 Water, 97 Earth, 98 Air, 99 Fire, 100 Neutral). e.g. Attaque Naturelle ->
-    fire 2-6 (l1) ... 9-13 (l6), confirming the dice -> min/max mapping.
-  - The two lists are the normal and critical effects, but their order is not
-    fixed; we assign crit = the higher-valued roll (crit >= normal always holds).
+A spell "level" array ends with two effect lists; each entry is
+[dice, ..., effect_id], with the item effect ids for elemental damage.
 """
 
 from __future__ import annotations
@@ -23,9 +17,8 @@ import re
 import sys
 from pathlib import Path
 
-# Retro effect id -> element token (matches dofus_constants element tokens).
-# 96-100 = elemental damage, 91-95 = elemental steals (same hit, heals the
-# caster); both verified against the 1.29 effects lang (effects_fr.json).
+# Retro effect id -> element token. 96-100 elemental damage, 91-95 elemental
+# steals (same hit, heals the caster).
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 
@@ -50,11 +43,9 @@ def dice_range(d):
 
 
 def _collect(effect_list):
-    """One effect list -> {element_token: (min, max)} for elemental damage.
-
-    A level can carry several lines of one element (conditional branches,
-    damage/steal pairs): keep the strongest line per element (by midpoint),
-    like the Touch decoder."""
+    """One effect list -> {element_token: (min, max)}. A level can carry several
+    lines of one element (conditional branches, damage/steal pairs); the
+    strongest by midpoint wins."""
     out = {}
     for e in (effect_list or []):
         if isinstance(e, list) and len(e) >= 2 and e[-1] in DAMAGE_EFFECTS:
@@ -68,12 +59,15 @@ def _collect(effect_list):
 
 
 def decode_level(level_arr):
-    """Spell level array -> {element: (normal_range, crit_range)}."""
+    """Spell level array -> {element: (normal_range, crit_range)}.
+
+    The two effect lists are the normal and the critical effects, in no fixed
+    order; the crit is the higher roll.
+    """
     if not isinstance(level_arr, list) or len(level_arr) < 2:
         return {}
     a, b = _collect(level_arr[-2]), _collect(level_arr[-1])
     result = {}
-    # Iterate in a fixed element order (by effect id) so output is deterministic.
     for elem in ('water', 'earth', 'air', 'fire', 'neutral'):
         ra, rb = a.get(elem), b.get(elem)
         if not ra and not rb:
@@ -86,11 +80,8 @@ def decode_level(level_arr):
     return result
 
 
-# Slots of the 21-wide level array that say what a cast costs and how often the
-# game allows it. Identified against the spells themselves: Magic Arrow reads 4
-# at 18 and 2 at 7, which is its AP cost and its famous two casts a turn;
-# Healing Word falls 6,6,5,5,4 at 18 as it ranks up; Iop's Wrath carries its
-# cooldown at 6. Without these the combo panel never appeared on Retro.
+# Slots of the 21-wide level array carrying what a cast costs and how often the
+# game allows it.
 CASTING_SLOTS = {'cooldown': 6, 'per_turn': 7, 'per_target': 8, 'ap': 18}
 
 
@@ -123,7 +114,6 @@ def decode_spell(spell):
                 elements.append(elem)
     if not elements or not per_level:
         return None
-    # Build, per element, the per-level normal/crit "min-max" strings.
     non_crit_ranges, crit_ranges = [], []
     for elem in elements:
         nc, cr = [], []
@@ -133,8 +123,7 @@ def decode_spell(spell):
             cr.append('%d-%d' % crit if crit else '0-0')
         non_crit_ranges.append(nc)
         crit_ranges.append(cr)
-    # A key only ships when some level uses it: a spell with no per-turn cap
-    # reads 0 everywhere, and an all-zero list would read as a real limit.
+    # An absent limit reads 0 at every level, which would pass for a real one.
     casting = {}
     for key in CASTING_SLOTS:
         values = [level.get(key, 0) for level in casting_levels]
@@ -158,8 +147,8 @@ ELEMENT_TOKEN_TO_CONST = {
 
 
 def _level_req(n):
-    """Retro spell ranks 1..n: ranks 1-5 are reachable early (level 1), rank 6
-    needs character level 100. (Retro gates ranks by spell points, not level.)"""
+    """Character level per spell rank: rank 6 needs level 100, ranks 1-5 are
+    reachable at level 1 (Retro gates ranks by spell points, not level)."""
     if n <= 1:
         return [100]
     return [1] * (n - 1) + [100]
@@ -220,8 +209,7 @@ def build(spells_root, classes_root):
 
 
 def build_spell_names(by_class, names_by_lang):
-    """{french_name: {lang: localized_name}} for every damage spell, keyed by the
-    French name (which is what Spell.name carries)."""
+    """{french_name: {lang: localized_name}}; Spell.name carries the French name."""
     out = {}
     for spells in by_class.values():
         for s in spells:
@@ -253,11 +241,8 @@ def main(argv=None):
 
     by_class, missing = build(spells_root, classes_root)
 
-    # Localized spell names from the per-language spell lang files. Every
-    # supported language is REQUIRED: a partial run would silently emit a
-    # module without en/es/pt/de names (retro_raw is not committed, the
-    # pipeline downloads the langs first; run download_retro_langs.py for
-    # the missing ones before this script).
+    # Every language is required: retro_raw is not committed, so run
+    # download_retro_langs.py for the missing ones first.
     names_by_lang = {}
     for lang in ('en', 'es', 'pt', 'de'):
         path = raw / f'spells_{lang}.json'

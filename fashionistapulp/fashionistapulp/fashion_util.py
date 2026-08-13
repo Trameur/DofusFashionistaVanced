@@ -23,24 +23,15 @@ _DISAMBIGUATION = re.compile(r'\s*\(#\d+\)\s*$')
 
 
 def _comparable_name(name):
-    """The name with everything the versions spell differently taken out.
-
-    Accents and apostrophes drift between the pools for the same item, and
-    Retro writes Crystaloball where Dofus 3 writes Crystal O'Ball. Word order
-    still counts: Bwork Chief Helmet and Chief Bwork Helmet stay apart, since
-    guessing wrong here sends a reader to another item.
-    """
+    """The name stripped of what versions spell differently: Retro writes
+    Crystaloball where Dofus 3 writes Crystal O'Ball."""
     flat = _DISAMBIGUATION.sub('', name or '').casefold()
     return re.sub(r'[^a-z0-9]', '', unidecode.unidecode(flat))
 
 
 def is_same_item_name(name, other):
-    """Whether two versions naming an ankama id mean the same item.
-
-    Only Dofus 3 and the Beta share an id space outright. Dofus 2 reuses 62 of
-    its ids for something else, Touch 225 and Retro 406, so an id alone is not
-    an identity: the name is what decides.
-    """
+    """Whether two versions naming an ankama id mean the same item. Only Dofus 3
+    and the Beta share an id space; elsewhere ids are reused, so the name decides."""
     if not name or not other:
         return False
     return _comparable_name(name) == _comparable_name(other)
@@ -54,8 +45,7 @@ def normalize_name(s):
 
 
 def safe_icon_name(s):
-    """Icon filenames must be materializable on every platform; strip the
-    characters Windows forbids (e.g. the '?' in "Wand Else?")."""
+    """Strips the characters Windows forbids in a filename (e.g. "Wand Else?")."""
     return ''.join(c for c in s if c not in '<>:"/\\|?*').strip()
 
 

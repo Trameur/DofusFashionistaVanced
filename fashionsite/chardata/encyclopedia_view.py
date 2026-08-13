@@ -347,10 +347,8 @@ NON_SEARCHABLE_STAT_KEYS = {
 }
 
 # Synthetic Dofus Retro pet variants (one per stat a pet can be fed toward, at
-# its cap) live at/above this id and reuse the base pet's ankama id, so they
-# group with it. The base pet has no fixed stats, so instead of a blank stat
-# list we surface these as the bonuses the pet can be fed toward. Must match
-# VARIANT_ID_BASE in itemscraper/store_retro_pet_bonuses.py.
+# its cap) live at or above this id and reuse the base pet's ankama id. Must
+# match VARIANT_ID_BASE in itemscraper/store_retro_pet_bonuses.py.
 PET_VARIANT_ID_BASE = 10_000_000
 
 
@@ -433,8 +431,7 @@ def _find_weapon_for_variants(structure, variant_items):
         if flag not in flags_to_try:
             flags_to_try.append(flag)
 
-    # The item first: Retro and Touch let several weapons share a name, and by
-    # name alone they all answered with the last one read.
+    # Retro and Touch let several weapons share a name, so try the item first.
     for item in variant_items:
         weapon = structure.get_weapon_for_item(item)
         if weapon is not None and getattr(weapon, 'base_hit', None):
@@ -475,9 +472,7 @@ def _get_weapon_detail_lines(structure, variant_items, language):
 def _get_pet_feedable_bonuses(structure, grouped_variants, language):
     """For a Retro pet, the maxed stats it can be fed toward (one per variant).
 
-    Each synthetic variant carries a single stat at its cap; the player picks
-    one, so these read as alternatives (OR) on the pet's page. Empty for any
-    item that isn't a feedable Retro pet.
+    The player picks one, so they read as alternatives (OR) on the pet's page.
     """
     bonuses = []
     for variant in sorted(grouped_variants, key=lambda current: current.id):
@@ -500,8 +495,7 @@ def _get_pet_feedable_bonuses(structure, grouped_variants, language):
 
 
 def _get_set_bonuses(structure, item_set, language):
-    """The bonuses a panoply grants per number of pieces worn, grouped, for the item
-    page. The data was already loaded (set_bonus table) but only the set name was shown."""
+    """The bonuses a panoply grants per number of pieces worn, grouped for the item page."""
     if item_set is None or not (getattr(item_set, 'bonus', None)
                                 or getattr(item_set, 'max_caps', None)):
         return []
@@ -518,9 +512,8 @@ def _get_set_bonuses(structure, item_set, language):
                 'icon_url': _get_stat_icon_url(stat.key),
             },
         ))
-    # A few sets take instead of giving: Cire Momore's Curse holds the wearer
-    # to 2 MP on six pieces, under the 3 a character starts with. Listing only
-    # the bonus rows sold that set as pure upside.
+    # Some sets cap a stat: Cire Momore's Curse holds the wearer to 2 MP on six
+    # pieces, under the 3 a character starts with.
     caps_by_pieces = {}
     for num_items, stat_id, max_value in getattr(item_set, 'max_caps', None) or []:
         stat = structure.get_stat_by_id(stat_id)
@@ -571,10 +564,7 @@ def _get_set_items(structure, item_set, language, game_version):
 
 
 def _breadcrumb_jsonld(crumbs):
-    """A schema.org BreadcrumbList for the page, as a JSON string (always valid).
-
-    crumbs: list of (name, absolute_url). Enables breadcrumb rich results in search.
-    """
+    """A schema.org BreadcrumbList as a JSON string. crumbs: list of (name, absolute_url)."""
     payload = json.dumps({
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -583,9 +573,8 @@ def _breadcrumb_jsonld(crumbs):
             for i, (name, url) in enumerate(crumbs)
         ],
     }, ensure_ascii=False)
-    # Escape characters that could break out of the surrounding <script> tag (the JSON
-    # is rendered with |safe). Same approach as Django's json_script. Names come from
-    # the item DB, so this is defense-in-depth against any odd source value.
+    # The JSON is rendered with |safe inside a <script>, so escape what could
+    # break out of the tag.
     return payload.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
 
 
@@ -598,13 +587,8 @@ def _absolute_versioned_url(path, game_version='dofus3'):
 
 
 def _paginated_canonical(request, path, game_version, page_obj):
-    """A page of a list is its own page, not a copy of the first one.
-
-    Every page pointed at page 1, which tells a search engine that everything
-    past it is a duplicate; the list is the only crawl path into the four
-    thousand item pages. A filtered or sorted view still points at the plain
-    list, so the filter combinations do not each become a page of their own.
-    """
+    """Canonical url for a list page: itself, except for a filtered or sorted
+    view, which points at the plain list."""
     url = _absolute_versioned_url(path, game_version)
     filters = {key for key in request.GET if key != 'page'}
     number = getattr(page_obj, 'number', 1) or 1
@@ -614,8 +598,9 @@ def _paginated_canonical(request, path, game_version, page_obj):
 
 
 def _stat_amount_text(item, stat_id, best_value):
-    """"7 to 10" when the roll varies, plain "10" when it is fixed. The number
-    shown alone stays the best roll, which is what the optimiser assumes."""
+    """"7 to 10" when the roll varies, plain "10" when it is fixed.
+
+    The single number is the best roll, which is what the optimiser assumes."""
     stat_range = get_stat_range(item, stat_id)
     if stat_range is None:
         return '%d' % best_value
@@ -631,7 +616,6 @@ def _get_stat_lines(structure, item, language):
         stat = structure.get_stat_by_id(stat_id)
         if stat is None:
             continue
-        # Round stat value to nearest integer to avoid floating-point precision issues
         rounded_value = int(round(stat_value))
         stat_lines.append({
             'text': '%s%s%s' % (
@@ -657,9 +641,8 @@ def _collect_unique_items(structure):
     return items
 
 
-# Light listing entries per structure: grouping, stats maps and search blobs
-# never change during a process lifetime (structures are forever singletons), so
-# build that expensive core once and derive the cheap localized labels from it.
+# Structures are process-lifetime singletons, so the grouping, stats maps and
+# search blobs are built once and the localized labels derived from them.
 _light_core_cache = {}
 _light_index_cache = {}
 
@@ -678,9 +661,7 @@ def _get_light_core(structure):
     for _, variants in grouped_items.items():
         item = _get_group_representative(variants)
         # 'or'-group placeholders (e.g. Gelano) carry no ankama id or stats; the
-        # real data lives on the named variants in or_items. Use the variant
-        # that has an ankama id so the card shows the stat line and a working
-        # details link.
+        # real data lives on the named variants in or_items.
         if not getattr(item, 'ankama_id', None):
             _or_variants = (structure.or_items.get(item.name)
                             or structure.dt_or_items.get(item.name) or [])
@@ -954,9 +935,8 @@ def _encyclopedia_missing_response(request, kind, requested_name):
 
 
 # Ingredient icons are stored by ankama id (resource names carry characters
-# filenames cannot). dofus3 and beta share the root directory (same id space);
-# other versions have their own id spaces so each needs its own subdirectory,
-# otherwise the dofus3 art could be a different item. No file, no icon.
+# filenames cannot). dofus3 and beta share an id space and the root directory;
+# every other version has its own id space, so it gets its own subdirectory.
 _INGREDIENT_ICON_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
                          'retro': 'retro/', 'dofus2': 'dofus2/'}
 _resource_search_index_cache = {}
@@ -966,9 +946,7 @@ _ingredient_icon_ids_cache = {}
 
 
 def _ingredient_icon_ids(game_version):
-    """Ids with a local ingredient icon, one directory listing per process:
-    resource pages render up to 100+ recipe lines, so per-file probing added
-    that many disk hits per render."""
+    """Ids with a local ingredient icon, from one directory listing per process."""
     subdir = _INGREDIENT_ICON_DIRS.get(game_version)
     if subdir is None:
         return frozenset()
@@ -986,8 +964,7 @@ RECIPE_LOCAL_TYPES = ('equipment', 'mount', 'pet')
 
 
 def _recipe_lookups(cursor, recipe_rows, language, has_recipe_names_table):
-    """Ingredient names and the items they point at, in two queries. A recipe
-    runs to eight ingredients and each used to cost up to three."""
+    """Ingredient names and the items they point at, in two queries."""
     pairs = [(row[1], row[2]) for row in recipe_rows]
     names = {}
     if pairs and has_recipe_names_table:
@@ -1031,19 +1008,16 @@ def _ingredient_icon_url(game_version, ankama_id):
     return None
 
 
-# Monster artwork per version: dofus3/beta share the modern renders (DofusDB
-# id -> gfx mapping), touch has its own era-accurate 2D art from the official
-# Touch CDN (indexed by monster id there), retro has the vector artworks
-# extracted from the official 1.29 client (download_retro_monster_artworks).
-# Dofus 2 has no artwork source yet and must never borrow another version's.
+# Monster artwork per version: dofus3/beta share the modern renders, touch has
+# its own 2D art from the official Touch CDN, retro the vectors extracted from
+# the 1.29 client. Dofus 2 has no artwork source and must not borrow another's.
 _MONSTER_IMAGE_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
                        'retro': 'retro/'}
 _monster_image_ids_cache = {}
 
 
 def _monster_image_ids(game_version):
-    """Ids with local monster artwork, one directory listing per process:
-    the hub renders 60 rows per page, so per-file probing is off the table."""
+    """Ids with local monster artwork, from one directory listing per process."""
     subdir = _MONSTER_IMAGE_DIRS.get(game_version)
     if subdir is None:
         return frozenset()
@@ -1135,18 +1109,16 @@ def _version_item_keys(game_version):
 
 
 def _other_versions_with_item(current_version, ankama_type, ankama_id, name):
-    """Cross-version links for an item page, for the versions that really have it.
+    """Cross-version links for an item page.
 
-    Only Dofus 3 and the Beta share an id space outright. Following the id alone
-    sent 406 Retro pages and 225 Touch ones to an unrelated item, so the other
-    version has to name the same thing, and it labels its own link with its own
-    name.
+    Only Dofus 3 and the Beta share an id space, so the other version has to
+    name the same item as well as carry the id.
     """
     if not ankama_type or not ankama_id:
         return []
     links = []
-    # The page hands us the name in the reader's language; identity is decided
-    # on the english one both pools store, or nothing would ever match in French.
+    # Identity is decided on the english name both pools store, not on the
+    # reader's language.
     here = _version_item_keys(current_version).get((ankama_type, ankama_id))
     for game_version, label in ACTIVE_GAME_VERSIONS:
         if game_version == current_version:
@@ -1196,10 +1168,8 @@ def _version_resource_keys(game_version):
 
 
 def _other_versions_with_resource(current_version, subtype, ankama_id, name):
-    """Cross-version links for a resource page, for the versions that really
-    have it. Ingredient ids collide across the Retro/modern split even harder
-    than item ids: 270 of the 676 Retro pages the id alone matched named
-    something else."""
+    """Cross-version links for a resource page. Ingredient ids collide across the
+    Retro/modern split even harder than item ids, so the name has to match too."""
     links = []
     here = _version_resource_keys(current_version).get((subtype, ankama_id))
     for game_version, label in ACTIVE_GAME_VERSIONS:
@@ -1226,13 +1196,10 @@ def _set_item_ankama_ids(structure, item_set):
 
 
 def _other_versions_with_set(current_version, set_id, language):
-    """Cross-version links for a set page: every OTHER version that carries the
-    same set. A set id is NOT a shared identity across the Retro/modern split
-    (id 11 is the Cawwot Set on dofus3 but the unrelated Wabbit Set on Retro,
-    ids 71/72 are the Piwi colours swapped), so the link is only kept when the
-    two sets really are the same set, confirmed by shared item identity (Ankama
-    item ids), not by id alone. Structures are warmed at startup, so the
-    per-version lookups are cheap dict hits."""
+    """Cross-version links for a set page. A set id is not a shared identity
+    across the Retro/modern split (id 11 is the Cawwot Set on dofus3 but the
+    unrelated Wabbit Set on Retro, ids 71/72 are the Piwi colours swapped), so
+    the rosters have to match too."""
     current_structure = get_structure(current_version)
     current_set = current_structure.sets_dict.get(set_id)
     if current_set is None or not getattr(current_set, 'items', None):
@@ -1252,10 +1219,6 @@ def _other_versions_with_set(current_version, set_id, language):
             item_set.localized_names.get('en') or item_set.name or '')
         other_ids = _set_item_ankama_ids(other_structure, item_set)
         union = current_ids | other_ids
-        # It is the same set when the (accent-insensitive) name matches, or when
-        # the two rosters share at least half their items. The item overlap is
-        # sharply bimodal (same sets ~0.8+, id-reuse ~0.3), so together they keep
-        # renamed-but-same sets and reject reused ids (Cawwot vs Wabbit) alike.
         same_name = bool(current_en) and current_en == other_en
         enough_overlap = bool(union) and len(current_ids & other_ids) >= 0.5 * len(union)
         if not (same_name or enough_overlap):
@@ -1267,20 +1230,16 @@ def _other_versions_with_set(current_version, set_id, language):
         links.append({
             'label': label,
             'url': get_set_link(set_id, name, game_version=game_version),
-            # The item count differs by version (and a same-name link can carry a
-            # different roster), so it flags at a glance that the set is not the
-            # same everywhere.
+            # The item count differs by version, even for a same-name match.
             'item_count': len(other_ids),
         })
     return links
 
 
 def _search_resources(game_version, normalized_search, language, limit=48):
-    """Recipe ingredients matching the encyclopedia search box, as links to
-    their resource pages. Matches every language with the same accent-insensitive
-    normalization as items and monsters. Returns (entries, total): entries are
-    capped at limit for the page, total is the real match count so the UI can
-    show honest numbers."""
+    """Recipe ingredients matching the encyclopedia search box, as links to their
+    resource pages. Returns (entries, total): entries are capped at limit, total
+    is the real match count."""
     if not normalized_search:
         return [], 0
 
@@ -1307,8 +1266,7 @@ def _search_resources(game_version, normalized_search, language, limit=48):
 
 def _search_monsters(game_version, normalized_search, language, limit=48):
     """Monsters matching the encyclopedia search box, as links to their pages.
-    Reuses the cached per-version monster index (same normalization). Returns
-    (entries, total) like _search_resources."""
+    Returns (entries, total) like _search_resources."""
     if not normalized_search:
         return [], 0
     hits = []
@@ -1432,8 +1390,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                         local_name = local_item[3]
                         local_item_url = get_item_link(local_item[1], local_item[0], local_name, game_version)
 
-                # Resources are not items we carry, but each gets its own page
-                # listing every item it crafts. Link them so recipes are navigable.
+                # Resources are not items we carry, but each has its own page.
                 resource_url = None
                 if local_item_url is None and resolved_ingredient:
                     resource_url = get_resource_link(
@@ -1497,8 +1454,8 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_craft_jobs'"
         )
         if cursor.fetchone() is not None:
-            # Job 1 ("Base") is Ankama's placeholder for special workbench
-            # recipes no player profession can learn; hide the craft line.
+            # Job 1 ("Base") is Ankama's placeholder for workbench recipes no
+            # player profession can learn.
             cursor.execute(
                 """
                 SELECT cj.level,
@@ -1556,8 +1513,6 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     'has_conditions': bool(conditions),
                     'conditions_text': _drop_conditions_text(conditions, drops_ui),
                 })
-            # Best drop rate first, then the lowest-level (easiest) source, so
-            # among equally-likely droppers the cheapest to farm shows up top.
             default_data['drops'].sort(
                 key=lambda d: (-d['rate'],
                                d['level_min'] if d['level_min'] is not None else 10 ** 9))
@@ -1706,7 +1661,7 @@ def encyclopedia(request):
     else:
         filtered_items = sorted(filtered_items, key=lambda entry: (-entry['level'], (entry['name'] or '').lower()))
 
-    # Keep page size aligned with a 3-column grid to avoid orphan single-item rows.
+    # 39 fills a 3-column grid exactly.
     paginator = Paginator(filtered_items, 39)
     page = request.GET.get('page', 1)
     try:
@@ -1815,12 +1770,11 @@ def encyclopedia_set(request, set_id):
     t = _ui_text()
 
     set_id = safe_int(set_id, None)
-    # sets_dict first, like read_set_bonus_table / get_set_by_id (the bonus-bearing set).
+    # sets_dict holds the bonus-bearing set.
     item_set = None
     if set_id is not None:
         item_set = structure.sets_dict.get(set_id) or structure.dt_sets_dict.get(set_id)
     if item_set is None:
-        # Same policy as unknown items: useful page, real 404 status.
         response = encyclopedia(request)
         response.status_code = 404
         return response
@@ -1918,15 +1872,14 @@ def encyclopedia_sets(request):
     def set_sort_key(entry):
         name_key = ((entry['name'] or '').lower(),)
         if sort_key == 'level':
-            # By the set's top item level (its tier), lowest first, so players
-            # can scan to their level; sets with no level data sink to the end.
+            # A set's top item level is its tier; sets with no level data sink
+            # to the end.
             return (entry['level_max'] is None, entry['level_max'] or 0,
                     entry['level_min'] or 0) + name_key
         return name_key
 
     sets.sort(key=set_sort_key)
 
-    # The level sort only makes sense when some set carries item levels.
     has_levels = any(entry['level_max'] is not None for entry in sets)
     sort_options = [
         {
@@ -2041,10 +1994,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     localized_name = _get_display_name_for_group(structure, grouped_variants, language)
     type_name = structure.get_type_name_by_id(representative_item.type)
     localized_type_name = _localized_label(type_name, language)
-    # Resolve the set the way read_set_bonus_table stored its bonuses (sets_dict
-    # first). get_set_by_id() checks dt_sets_dict first, which for the one id that
-    # exists in both (1) returns the touch "Jellix Set" instead of the dofus3
-    # "Gobball Set" -> wrong name AND no .bonus to show.
+    # sets_dict first: get_set_by_id() checks dt_sets_dict first, and id 1 exists
+    # in both (touch "Jellix Set" against dofus3 "Gobball Set").
     item_set = None
     if representative_item.set is not None:
         item_set = (structure.sets_dict.get(representative_item.set)
@@ -2066,11 +2017,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'icon_url': _get_stat_icon_url(stat.key),
         })
 
-    # Feeding bonuses are a Retro-only pet feature -- the synthetic variant ids this
-    # reads are created solely for Retro pets. Other versions concatenate cross-
-    # version duplicates at overlapping high ids (e.g. a belt's second entry, id
-    # 100M + ankama_id), so guard by version to avoid mislabelling those stats as
-    # "fed" bonuses on a regular equipment page.
+    # Feeding bonuses are a Retro-only pet feature. Other versions put cross-version
+    # duplicates in the same high id range (100M + ankama_id), so guard by version.
     is_retro_version = getattr(request, 'game_version', None) == 'retro'
     pet_feedable_bonuses = (
         _get_pet_feedable_bonuses(structure, grouped_variants, language)
@@ -2087,8 +2035,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     with translation.override(language):
         extras = [label for label, _icon
                   in flag_lines(getattr(representative_item, 'flags', []))] + extras
-    # An extra line names a spell and never says what it does, so pair each
-    # line with the spell it is about and let the page explain it.
+    # An extra line names a spell without saying what it does.
     spell_tooltips = dict(
         getattr(representative_item, 'spell_tooltips', {}).get(language) or {},
         **folded)
@@ -2394,10 +2341,8 @@ def _db_table_exists(cursor, table_name):
 
 
 def _monster_level_spans(cursor, monster_ids):
-    """{monster_ankama_id: (min_level, max_level)} across the monster's grades, so
-    a "Dropped by" line can show how strong the monster is (a farmability cue).
-    Empty when monster_grades is absent (older version DBs) or the ids have no
-    graded level."""
+    """{monster_ankama_id: (min_level, max_level)} across the monster's grades.
+    Empty when monster_grades is absent (older version DBs)."""
     spans = {}
     monster_ids = [mid for mid in set(monster_ids) if mid is not None]
     if not monster_ids or not _db_table_exists(cursor, 'monster_grades'):
@@ -2564,12 +2509,7 @@ def _get_monster_drop_previews(cursor, monster_ids, language, game_version, limi
 
 def _build_monster_core(game_version):
     """Language-neutral part of the monster index (drop counts, all localized
-    names, normalized search blob). This is the expensive build (SQL scans +
-    accent stripping), so it runs once per version; _get_monster_index derives
-    the cheap per-language view from it. Each alias is normalized once via a
-    memo: the old code re-normalized giant concatenated blobs (a popular drop
-    like a common resource was re-processed once per dropping monster), which
-    dominated the page's cold render time."""
+    names, normalized search blob), built once per version."""
     monsters = []
     conn = None
     try:
@@ -2644,10 +2584,8 @@ def _build_monster_core(game_version):
             for monster_id, level_min, level_max in cursor.fetchall():
                 level_spans[monster_id] = (level_min, level_max)
 
-        # The single element every grade is weakest to (the same rule the monster
-        # page uses for its "Weakness: Fire" line), so the hub can offer a "weak
-        # to X" filter for targeted farming. None when grades disagree or resists
-        # are flat, so the filter never claims a weakness that does not hold.
+        # The single element every grade is weakest to. None when the grades
+        # disagree or the resists are flat.
         weakest_by_monster = {}
         if _db_table_exists(cursor, 'monster_grades'):
             grades_by_monster = defaultdict(list)
@@ -2748,9 +2686,7 @@ def _get_monster_index(game_version, language):
 
 def warm_caches():
     """Pre-build the per-version encyclopedia caches. Called from a background
-    thread at wsgi startup so the first visitor after a worker (re)start does
-    not pay the cold builds; gunicorn recycles workers every ~1000 requests, so
-    cold starts are routine in production, not just at deploys."""
+    thread at wsgi startup."""
     for game_version, _label in ACTIVE_GAME_VERSIONS:
         structure = get_structure(game_version)
         _get_light_core(structure)
@@ -2766,14 +2702,11 @@ def warm_caches():
 
 
 def _get_monster_version_links(monster_id, current_game_version, language):
-    """Cross-version links for a monster page, served from the cached monster
-    core (the core only carries monsters that drop something, which is exactly
-    the condition for the target page to be worth linking). The old version
-    opened every other version's db and ran drop counts on each page view.
+    """Cross-version links for a monster page, from the cached monster core
+    (which only carries monsters that drop something).
 
-    A monster id is no more a shared identity than an item id: 195 of the 940
-    the id alone matched between Dofus 3 and Touch are a different monster, and
-    102 of 662 between Dofus 3 and Retro. The english names have to agree."""
+    A monster id is no more a shared identity than an item id, so the english
+    names have to agree."""
     links = []
     here = _get_monster_core_by_id(current_game_version).get(monster_id) or {}
     here_en = (here.get('names') or {}).get('en')
@@ -2889,8 +2822,7 @@ def encyclopedia_monsters(request):
         }
         for value in MONSTER_DROP_FILTERS
     ]
-    # The level sort only makes sense for versions whose db carries the
-    # per-grade stats (dofus2 has no source for them).
+    # dofus2 has no source for per-grade stats, so it gets no level sort.
     has_levels = any(entry['level_min'] is not None
                      for entry in _get_monster_index(game_version, language))
     sort_options = [
@@ -2902,8 +2834,6 @@ def encyclopedia_monsters(request):
         for value in MONSTER_SORTS
         if value != 'level' or has_levels
     ]
-    # Only offer weaknesses that some monster in this version actually has, so
-    # the filter has no dead options (dofus2 has no grade stats, so no filter).
     present_weaknesses = {entry['weakest_element']
                           for entry in _get_monster_index(game_version, language)
                           if entry.get('weakest_element')}
@@ -2982,8 +2912,7 @@ _GRADE_ELEMENTS = ('earth', 'fire', 'water', 'air', 'neutral')
 
 def _weakest_elements(grade):
     """Element keys with the lowest resistance in a grade (what the monster takes
-    the most damage from), so the stats table can point players at the right
-    element. Empty when resistances are missing or all equal (no real weakness)."""
+    the most damage from). Empty when resistances are missing or all equal."""
     present = {key: grade.get(key) for key in _GRADE_ELEMENTS
                if grade.get(key) is not None}
     if len(present) < 2:
@@ -2995,9 +2924,8 @@ def _weakest_elements(grade):
 
 
 def _consistent_weakest(grades):
-    """The single element every grade is weakest to, for a one-line summary and
-    the meta description. None when the grades disagree, tie, or have no distinct
-    weakness, so the summary only claims a weakness that actually holds."""
+    """The single element every grade is weakest to. None when the grades
+    disagree, tie, or have no distinct weakness."""
     weak_sets = [grade.get('weakest') or set() for grade in grades]
     if not weak_sets or any(len(weak) != 1 for weak in weak_sets):
         return None
@@ -3027,7 +2955,7 @@ def _monster_spells(cursor, monster_ankama_id, language):
         grades = [int(grade) for grade in (mapping or '').split(',') if grade.isdigit()]
         wanted[spell_id] = grades[0] if grades else 1
 
-    # One query, not one per spell: the fullest monster carries forty.
+    # The fullest monster carries forty spells.
     details = {}
     if wanted:
         placeholders = ','.join('?' * len(wanted))
@@ -3048,7 +2976,6 @@ def _monster_spells(cursor, monster_ankama_id, language):
         spells.append({
             'id': spell_id,
             'name': name,
-            # The page said the name, the AP and the range and stopped there.
             'spell_tip': SpellTip(name, description) if description else None,
             'ap_cost': ap_cost,
             'range_min': range_min,
@@ -3079,9 +3006,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
             return _monster_not_found_response(request, target_monster_id, slug)
         monster_name = _get_monster_display_name(cursor, target_monster_id, language)
 
-        # Official per-grade stats, stored per version from that version's own
-        # source (touch: the backend Monsters table). Versions without the
-        # table simply show no stats section, never another version's numbers.
+        # Per-grade stats, stored per version from that version's own source
+        # (touch: the backend Monsters table).
         if _db_table_exists(cursor, 'monster_grades'):
             for row in cursor.execute(
                     """
@@ -3100,10 +3026,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
                 }
                 grade['weakest'] = _weakest_elements(grade)
                 grades.append(grade)
-        # Where the monster can be found, from the version's own source
-        # (retro: the Solomonk bestiary subarea blocks). Localized names per
-        # language with a French fallback; versions without the table simply
-        # show no section.
+        # Where the monster can be found, from the version's own source (retro:
+        # the Solomonk bestiary subarea blocks). Localized, French as fallback.
         subareas = []
         if _db_table_exists(cursor, 'monster_subareas'):
             rows = cursor.execute(
@@ -3121,7 +3045,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     """, (target_monster_id,)).fetchall()
             subareas = [row[0] for row in rows]
 
-        # Cost and reach of the grade the monster's first grade casts.
+        # Cost and reach at the monster's first grade.
         spells = []
         if _db_table_exists(cursor, 'monster_spells'):
             spells = _monster_spells(cursor, target_monster_id, language)
@@ -3244,8 +3168,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
 
 
 def encyclopedia_resource(request, subtype, ankama_id, slug=None):
-    """A crafting ingredient (resource) page: lists every item this ingredient is
-    used to craft, in the current game version. Reached from item recipe lines."""
+    """A crafting ingredient (resource) page: every item it is used to craft, in
+    the current game version."""
     language = get_supported_language()
     t = _ui_text()
     game_version = getattr(request, 'game_version', 'dofus3')
@@ -3317,7 +3241,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                         item_type_name, item_name, game_version)),
                 })
 
-        # Resources are also dropped by monsters: show "Dropped by ..." like item pages.
+        # Resources are also dropped by monsters.
         cursor.execute(
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'resource_drops'")
         if resource_name is not None and cursor.fetchone() is not None:
@@ -3351,7 +3275,6 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                     'has_conditions': bool(conditions),
                     'conditions_text': _drop_conditions_text(conditions, drops_ui),
                 })
-            # Best drop rate first, then the lowest-level (easiest) source.
             drops.sort(key=lambda d: (-d['rate'],
                                       d['level_min'] if d['level_min'] is not None else 10 ** 9))
     except Exception:

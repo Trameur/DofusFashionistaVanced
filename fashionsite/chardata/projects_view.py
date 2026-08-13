@@ -95,21 +95,18 @@ def _unchecked_duplicate_project(request, proj_id_to_copy):
     
     char_to_copy = get_object_or_404(Char, pk=proj_id_to_copy)
     if not signed_out:
-        # Counted per version, like creating one: a full Dofus 3 list must not
-        # stop you from duplicating a Retro build.
+        # The project cap is per game version.
         chars = Char.objects.filter(owner=request.user,
                                     game_version=char_to_copy.game_version)
         chars = chars.exclude(deleted=True)
         if len(chars) >= MAXIMUM_NUMBER_OF_PROJECTS and request.user.email not in TESTER_USERS:
             return False
     
-    # Fetched again on purpose: the copy is made by clearing the pk of a model
-    # instance, so it must not be the one the version check above is holding.
+    # Refetched: the copy is made by clearing the pk of this instance.
     char_to_duplicate = get_object_or_404(Char, pk=proj_id_to_copy)
     new_char = char_to_duplicate;
     new_char.owner = None if signed_out else request.user
     new_char.pk = None;
-    # Clip the base name, not the suffix, so ' copy' stays visible.
     suffix = ' copy'
     name_limit = Char._meta.get_field('name').max_length
     new_char.name = char_to_duplicate.name[:name_limit - len(suffix)] + suffix

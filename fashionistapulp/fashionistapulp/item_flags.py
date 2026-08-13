@@ -16,23 +16,14 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""What the game says about an item beyond its stats, worded once for the
-solution page and the encyclopedia.
-
-Only Hunting Weapon was ever shown. The other four were read from the source,
-stored, translated into the four other languages, and then dropped on the floor:
-468 Dofus 3 items carry one.
-"""
+"""What the game says about an item beyond its stats."""
 from django.utils.translation import gettext as _
 
 _ICONS = {'Hunting Weapon': 'chardata/hunting_weapon.png'}
 
-# Trophy and -special spell- stay out: the first is a slot marker the solver
-# uses, the second only says that a description follows, which is already shown.
-# Exchangeable is out too. The source writes "Exchangeable: 0" and nothing else,
-# on all 123 items that carry it, so the field says nothing; read as a boolean
-# it printed "Not exchangeable" on the Crimson, Emerald, Turquoise, Cawwot and
-# Vulbis Dofus, which are traded every day.
+# Left out: Trophy is a slot marker the solver uses, -special spell- only
+# announces the description shown below it, and the source writes
+# "Exchangeable: 0" on every item that carries it.
 _LABELS = ('Hunting Weapon', 'Fertile', 'Linked to the character',
            'Cooperative crafting impossible')
 

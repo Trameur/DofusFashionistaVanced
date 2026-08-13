@@ -91,17 +91,11 @@ def get_wizard_sliders(char):
         main_special_slider.add_subslider(Slider('heals', _('Heals'), False))
     if 'summon' in aspects or param_for_build(race, elements, 'summons_are_important', game_version=game_version):
         main_special_slider.add_subslider(Slider('summon', _('Summons'), False))
-    # Wisdom (XP) and Prospecting (drop rate) apply to any build, not just
-    # specific archetypes, so always offer them here for discoverability
-    # (users reported not finding them). They default to weight 0, so builds
-    # that ignore them are unaffected.
     main_special_slider.add_subslider(Slider('wis', _('Wisdom'), False))
     main_special_slider.add_subslider(Slider('pp', _('Prospecting'), False))
 
-    # Stats no item of this game version carries weigh 0 by construction
-    # (VERSION_WEIGHT_TUNING zero_stats): offering their sliders would only
-    # mislead, so drop them (e.g. no Critical Damage or AP Reduction gear
-    # exists in 1.29, no Trap Damage gear on Touch).
+    # Stats no gear of this version carries: no Critical Damage or AP Reduction
+    # in 1.29, no Trap Damage on Touch.
     from chardata.smart_build import VERSION_WEIGHT_TUNING
     dead_stats = set(VERSION_WEIGHT_TUNING.get(game_version, {}).get('zero_stats', ()))
     if dead_stats:

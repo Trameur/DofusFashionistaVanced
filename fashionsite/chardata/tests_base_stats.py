@@ -14,18 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Characteristic point cost curve, per game version.
-
-User report (2026-07-10): on Dofus 3 the first 100 invested points cost 200
-instead of 100. Root cause: the engine applied the RETRO rule (scrolled
-points consume the cheap cost tiers) to every version, and characters carry
-scrolled=100 by default. Since Dofus 2.48 (October 2018) scrolls are tracked
-separately and never push the cost curve; only Retro (1.29) and Touch (2.x
-fork frozen before 2.48) keep the old rule.
-
-Separate module from tests.py so it can evolve without touching the shared
-test file (the worktree is shared with a second session).
-"""
+"""Base stats page: cost curve per game version, and the save round trip."""
 
 import unittest
 
@@ -47,10 +36,6 @@ def _pulp_solver_available():
 
 class ScrollCostCurveTests(TestCase):
     def test_only_retro_pushes_the_curve(self):
-        # Touch adopted the post-2.48 separate tracking despite its 2.x
-        # origin: a live Touch character (int scrolled 51, 305 invested)
-        # was charged the flat 925, not the pushed 1078; the site's -153
-        # mismatch (2026-07-20 player report) pinned the rule down.
         for version, expected in (('dofus3', False), ('beta', False),
                                   ('dofus2', False), ('touch', False),
                                   ('retro', True)):
@@ -80,10 +65,8 @@ class ScrollCostCurveTests(TestCase):
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_dofus3_distribution_ignores_scrolls_on_the_cost_curve(self):
-        # Iop 200, str build, scrolled 100 everywhere (the default seed):
-        # 995 points must fill the 1/2/3 tiers (300 str for 600 points) and
-        # push into 4:1, landing at 398. The old retro-rule behavior started
-        # at the 2:1 tier and stopped at 323.
+        # Iop 200 str with the default scrolled 100: the 995 points must fill
+        # the 1:1, 2:1 and 3:1 tiers and reach into 4:1.
         from chardata.coaching_view import create_build
         from chardata.solution import get_solution
         from chardata.util import get_stats
@@ -105,11 +88,8 @@ class ScrollCostCurveTests(TestCase):
 
 
 class ChooseStatsCheckboxTests(TestCase):
-    """User report (2026-07-21): once unchecked and saved, the "Distribute
-    the points for me" box could never be re-enabled. The form posts the
-    checkbox's value attribute ("choose_stats"), which the old server-side
-    whitelist ('true', 'on'...) never matched: EVERY save from the page
-    forced the flag to False, checked or not."""
+    """A save from the page keeps the "Distribute the points for me" box as
+    the user left it, in both directions."""
 
     def _char(self, owner):
         from chardata.coaching_view import create_build
@@ -137,8 +117,7 @@ class ChooseStatsCheckboxTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         char.refresh_from_db()
         self.assertTrue(char.allow_points_distribution)
-        # The state engine reuses this response as its reference state:
-        # distrib must be in it or "discard changes" unchecks the box.
+        # The page's state engine reuses this response as its reference state.
         self.assertIn('"distrib": true', resp.content.decode('utf-8'))
 
     def test_unchecking_then_rechecking_round_trips(self):

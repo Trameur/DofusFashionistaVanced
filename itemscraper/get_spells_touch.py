@@ -2,16 +2,15 @@
 """
 Build the Dofus Touch damage-spells dataset (per class) from the Touch backend.
 
-Unlike items, the spell data is fully in Touch's own data backend: Breeds gives
-each class its spell ids (breedSpellsId), Spells gives each spell its grades
-(spellLevels), and SpellLevels carries the per-grade effects, including separate
-non-crit (`effects`) and crit (`criticalEffect`) lists, so no encyclopedia scrape
-is needed. Elemental damage uses the same effect ids as items (96 Water, 97 Earth,
-98 Air, 99 Fire, 100 Neutral); diceNum/diceSide are the min/max of the hit.
+Breeds gives each class its spell ids (breedSpellsId), Spells gives each spell
+its grades (spellLevels), and SpellLevels carries the per-grade non-crit
+(`effects`) and crit (`criticalEffect`) lists. Elemental damage uses the same
+effect ids as items (96 Water, 97 Earth, 98 Air, 99 Fire, 100 Neutral);
+diceNum/diceSide are the min/max of the hit.
 
-Output: fashionistapulp/dofus_constants_touch_spells.py defining TOUCH_DAMAGE_SPELLS
-(Spell/Effects objects) and TOUCH_SPELL_NAMES ({fr_name: {lang: name}}), shaped
-exactly like the retro module and consumed by chardata.spell_buffs.
+Output: fashionistapulp/dofus_constants_touch_spells.py defining
+TOUCH_DAMAGE_SPELLS (Spell/Effects objects) and TOUCH_SPELL_NAMES
+({fr_name: {lang: name}}), shaped like the retro module.
 """
 
 from __future__ import annotations
@@ -30,13 +29,12 @@ CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
 FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 UA = "Dofus/2 CFNetwork"
 WEB_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
-# Spell icons live on the assets CDN, prefixed "sort_" (from the client bundle).
+# Spell icons live on the assets CDN, prefixed "sort_".
 SPELL_ICON_URL = "%s/gfx/spells/sort_%s.png"
 SPELLS_STATIC = (Path(__file__).resolve().parent.parent / 'fashionsite' / 'chardata'
                  / 'static' / 'chardata' / 'spells' / 'touch')
 
-# 96-100 = elemental damage, 91-95 = elemental steals (same hit, heals the
-# caster); both families verified against the proxy Effects table.
+# 96-100 elemental damage, 91-95 elemental steals (same hit, heals the caster).
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 ELEMENT_TOKEN_TO_CONST = {'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER',
@@ -61,8 +59,8 @@ def resolve_config():
 
 
 def download_spell_images(by_class, spells, assets_url):
-    """Fetch each damage spell's icon from the Touch assets CDN, save it 96x96 under
-    its French name (what spells_view expects: chardata/spells/touch/<name>.png)."""
+    """Save each damage spell's icon 96x96 as chardata/spells/touch/<French name>.png,
+    where spells_view looks for it."""
     try:
         from PIL import Image
     except ImportError:
@@ -111,10 +109,8 @@ def collect_damage(effect_list):
     """One effect list -> {element: (min, max)} for elemental damage hits.
 
     A spell level can carry several lines of the same element: state-dependent
-    branches (targetMask '#A,E<state>' or 'v50') and damage/steal pairs. Keep
-    the strongest line per element (by midpoint): mutually exclusive branches
-    resolve to the best case, which is also how the aggregated Dofus 3 spells
-    are modeled ("Hit in best element")."""
+    branches (targetMask '#A,E<state>' or 'v50') and damage/steal pairs. The
+    strongest line per element (by midpoint) wins."""
     out = {}
     for e in (effect_list or []):
         eid = e.get('effectId')
@@ -130,9 +126,7 @@ def collect_damage(effect_list):
     return out
 
 
-# What a cast costs and how often the game allows it. The level dict carried
-# these all along and decode_spell read past them, so Touch shipped no casting
-# data at all and the combo panel never appeared on that version.
+# What a cast costs and how often the game allows it.
 CASTING_FIELDS = {'ap': 'apCost', 'per_turn': 'maxCastPerTurn',
                   'per_target': 'maxCastPerTarget', 'cooldown': 'minCastInterval'}
 
@@ -185,11 +179,9 @@ def decode_spell(spell, spell_levels):
         'elements': elements,
         'non_crit_ranges': non_crit,
         'crit_ranges': crit,
-        # The buff can accumulate (maxStack in the game data): the damage
-        # simulator shows the multiplier like on Dofus 3.
+        # maxStack in the game data: the buff can accumulate.
         'stacks': max(stacks) if stacks else None,
-        # A key only ships when some level uses it: a spell with no per-turn
-        # cap reads 0 everywhere, and an all-zero list would read as a limit.
+        # A cast limit of 0 means no limit, so all-zero keys are dropped.
         'casting': {key: [level[key] for level in casting_levels]
                     for key in CASTING_FIELDS
                     if any(level[key] for level in casting_levels)} or None,

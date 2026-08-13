@@ -17,8 +17,8 @@ try:
 except ModuleNotFoundError:
     fashionista_config = importlib.import_module('fashionistapulp.fashionistapulp.fashionista_config')
 
-# Resolve against the repo that contains this script, not the global config
-# (which points at one fixed checkout and breaks worktrees).
+# Resolved against the repo holding this script: the global config points at
+# one fixed checkout, which breaks worktrees.
 
 def get_items_db_path(game_version='dofus3'):
     db_file = fashionista_config._DB_FILES.get(game_version, 'items.db')
@@ -50,11 +50,7 @@ NAME_SOURCE_CATEGORIES = [
 
 
 def _find_base_dir(base_dir=None, game_version='dofus3'):
-    """Resolve the directory containing all_*_<lang>.json files.
-
-    Supports execution from both repository root and itemscraper directory, and
-    per-version data subdirectories (itemscraper/beta, itemscraper/dofus2).
-    """
+    """Resolve the directory containing all_*_<lang>.json files."""
     subdir = VERSION_DATA_SUBDIR.get(game_version)
     candidates = []
     if base_dir:
@@ -244,10 +240,8 @@ def _resolve_item_ids(cursor, ankama_id, ankama_type):
     """Every row that is this item.
 
     An item gated behind alternative conditions is flattened into one row per
-    condition, "(#1)" and "(#2)", sharing its ankama id. They are the same
-    piece and read from the same entry, so all of them get it. Taking only the
-    first left the copy with no description, no pods, no recipe and no craft
-    job: 37 items on dofus3 and the beta, 110 on Touch, 48 on Retro.
+    condition, "(#1)" and "(#2)", sharing its ankama id: they are the same
+    piece and read from the same entry.
     """
     cursor.execute(
         "SELECT id FROM items WHERE ankama_id = ? AND ankama_type = ? ORDER BY dofustouch ASC",
@@ -266,7 +260,7 @@ def _resolve_item_ids(cursor, ankama_id, ankama_type):
 
 
 def _resolve_item_id(cursor, ankama_id, ankama_type):
-    """The first of those rows. Kept for the callers that write one row."""
+    """The first of those rows."""
     rows = _resolve_item_ids(cursor, ankama_id, ankama_type)
     return rows[0] if rows else None
 

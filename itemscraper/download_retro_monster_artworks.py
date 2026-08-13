@@ -14,35 +14,12 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Extract the Retro monster artworks from the official 1.29 client.
+"""Extract the Retro monster artworks from the 1.29 client on the Cytrus CDN.
 
-First-hand source: Ankama's own game files, served by the Cytrus CDN that
-the Ankama Launcher uses (cytrus.cdn.ankama.com). The client ships one
-artwork clip per gfxId in clips/artworks/big/<gfxId>.swf; the official
-lang (retro_raw/monsters_fr.json, category "monsters") maps each monster
-to its gfxId. No fan site involved.
-
-A handful of monsters have no artwork clip at all; for those the standing
-pose of the in-game sprite (clips/sprites/<gfxId>.swf, linkage staticR/
-staticL) is rendered instead, zoomed since those vectors are at game
-scale.
-
-The clips are Flash vectors placed off-canvas (the game slides them in at
-runtime), so a plain frame render comes out blank. The working chain is:
-  1. read the Cytrus manifest (FlatBuffers) and download the clip;
-  2. export the frame as SVG with JPEXS ffdec;
-  3. drop the stage background, the invisible guide shapes and the
-     runtime _mcMask helper, then set the viewBox to the real content
-     (every path point pushed through the placement matrices);
-  4. rasterize with resvg, crop to the alpha bounding box with Pillow,
-     store as 96px WebP under chardata/monsters/retro/96/<ankama_id>.webp
-     (same layout, size and quality as the other versions).
-
-External tools (both free software, fetched once by hand): JPEXS ffdec
-(ffdec.jar, needs a Java runtime) and resvg. Point to them with
---ffdec-jar/--java/--resvg or the FFDEC_JAR/JAVA_EXE/RESVG_EXE env vars.
-Without them the script warns and exits 0 so the retro pipeline can run
-on machines that only need the committed WebPs.
+The clips are Flash vectors placed off-canvas, so a frame render is blank
+until the viewBox is recomputed from the path points. Needs JPEXS ffdec
+(ffdec.jar plus a Java runtime) and resvg, given by --ffdec-jar/--java/--resvg
+or the FFDEC_JAR/JAVA_EXE/RESVG_EXE env vars.
 
 Usage (from itemscraper/):
     python download_retro_monster_artworks.py [--workers 6]
@@ -104,7 +81,7 @@ def fetch_bytes(url, byte_range=None):
 
 
 # ---------------------------------------------------------------------------
-# Cytrus v6 manifest (FlatBuffers). Community-documented schema:
+# Cytrus v6 manifest (FlatBuffers) schema:
 #   Manifest { fragments:[Fragment] }
 #   Fragment { name:string; files:[File]; bundles:[Bundle] }
 #   File     { name:string; size:long; hash:[byte]; chunks:[Chunk] }
@@ -247,8 +224,7 @@ def _paths_of(el, defs, depth=0):
 
 
 def _is_invisible(el, defs):
-    """True for the guide shapes: paths everywhere but none drawn. A def
-    with no path at any depth draws nothing either way, so keep it."""
+    """True for the guide shapes: paths everywhere but none of them drawn."""
     paths = list(_paths_of(el, defs))
     if not paths:
         return False
@@ -408,10 +384,9 @@ def _export_assets(swf_path):
 
 
 def render_static_sprite(swf_path, webp_name, dirs, java, ffdec_jar):
-    """Fallback for monsters without an artwork clip: render the in-game
-    standing pose. The sprite SWF exports its clips by linkage name
-    (staticR/staticL for the idle poses); the vectors are at game scale
-    (~20px), so ffdec renders them zoomed before the 96px resize."""
+    """Fallback for monsters without an artwork clip: the in-game standing
+    pose. The sprite SWF exports its clips by linkage name (staticR/staticL
+    for the idle poses) and its vectors are at game scale, hence the zoom."""
     names = _export_assets(swf_path)
     char_id = names.get('staticR') or names.get('staticL')
     if not char_id:
@@ -515,8 +490,7 @@ def main():
                 rendered = render_swf(swf_path, '%d.webp' % mid, dirs,
                                       java, ffdec_jar, resvg_exe)
                 return ('ok' if rendered else 'empty'), mid
-            # No artwork clip in the client: fall back to the standing pose
-            # of the in-game sprite.
+            # No artwork clip in the client: fall back to the sprite.
             entry = files.get('%s%d.swf' % (SPRITE_PREFIX, gfx))
             if entry is None:
                 return 'no_artwork', mid

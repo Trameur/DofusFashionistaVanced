@@ -222,11 +222,10 @@ class TouchVenom2Spider(scrapy.Spider):
                 weapon['has_conditions'] = True
         print('END')
 
-        # Find the image URL using XPath based on the HTML structure
         image_url_xpath = "//div[@class='ak-encyclo-detail-illu']/img[@class='img-maxresponsive']/@src"
         image_url = response.xpath(image_url_xpath).extract_first()
 
         if image_url:
-            weapon['image_url'] = image_url  # Store the image_url in weapon data
+            weapon['image_url'] = image_url
 
         yield weapon

@@ -5,12 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Coaching / Quick Start flow for newcomers.
-
-Three dropdowns (class, level, play style) → a fully configured project +
-optimization, no scary wizard. Reuses `set_char_aspects` so the resulting
-build is identical to what an expert would get through the normal flow.
-"""
+"""Coaching / Quick Start flow: class + level + play style to a configured project."""
 
 import pickle
 
@@ -77,8 +72,8 @@ def _style_aspects(style, char_class):
 
 
 def _locale_class_options(game_version):
-    """Return [(key, localized_name), ...] sorted by localized name,
-    filtered for the current game version (e.g. no Forgelance on /dofus2/)."""
+    """[(key, localized_name)] sorted by name, filtered for the game version
+    (no Forgelance on /dofus2/)."""
     items = [(key, str(name)) for key, name in LOCALIZED_CHARACTER_CLASSES.items()
              if key in CHARACTER_CLASSES]
     allowed = set(filter_classes_for_version([k for k, _ in items], game_version))
@@ -101,10 +96,8 @@ def coaching(request):
 
 
 def create_build(request, char_class, char_level, aspects, game_version, name=None):
-    """Create a fully configured Char + base stats and return it.
-
-    Shared by the Quick Start (coaching) flow and the natural-language build
-    generator. `aspects` is a set of smart_build aspect keys."""
+    """Create a fully configured Char + base stats. `aspects` is a set of
+    smart_build aspect keys."""
     if (char_class not in CHARACTER_CLASSES
             or not class_exists_in_version(char_class, game_version)):
         fallback = filter_classes_for_version(CHARACTER_CLASSES, game_version)
@@ -131,8 +124,7 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
     # Retro 1.29 has no AP/MP/range exotismes, Turquoise Dofus or prysmaradites.
     exos = game_version != 'retro'
-    # Retro shields only work in PvP, so a PvM preset forbids them by default;
-    # the PvP preset (and every non-retro version) keeps them.
+    # Retro shields only work in PvP.
     shields = game_version != 'retro' or 'pvp' in aspects
     set_options(char, {'ap_exo': exos and char_level >= 200,
                        'mp_exo': exos and char_level >= 200,
@@ -166,9 +158,6 @@ def _create_from_coaching(request, game_version):
     if style not in dict(PLAY_STYLES):
         style = 'solo_pvm'
 
-    # char_class validation/fallback happens inside create_build; compute
-    # aspects against the (possibly defaulted) class afterwards is fine since
-    # _style_aspects tolerates any class.
     aspects = _style_aspects(style, char_class if char_class in CHARACTER_CLASSES else CHARACTER_CLASSES[0])
     char = create_build(request, char_class, char_level, aspects, game_version)
 
