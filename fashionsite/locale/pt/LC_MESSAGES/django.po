@@ -6451,3 +6451,43 @@ msgstr "Item não encontrado"
 #: .\chardata\workshop_view.py:213 .\chardata\workshop_view.py:242
 msgid "Build has no solution yet"
 msgstr "Este build ainda não tem solução"
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "August 2026"
+msgstr "Agosto de 2026"
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "The spells page now shows the best order of casts for one turn, with the damage each cast adds and the AP it costs."
+msgstr "A página de feitiços agora mostra a melhor ordem de lançamentos para um turno, com o dano que cada um acrescenta e os PA que custa."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "It follows what you change: the buffs you tick, the rank you pick on a spell, and the Fully Buff button."
+msgstr "Ele acompanha o que você muda: os bônus que marca, o nível que escolhe num feitiço e o botão Bônus máximos."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Retro and Touch spells now carry their AP cost and their casting limits, so their spells page works like the others."
+msgstr "Os feitiços de Retro e Touch agora trazem o seu custo em PA e os seus limites de lançamento, por isso a página de feitiços funciona como as outras."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Spells explained where they are named"
+msgstr "Os feitiços explicados onde são nomeados"
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "An item that casts or changes a spell used to give only its name. Hover the marker beside the line to read what the spell does."
+msgstr "Um item que lança ou modifica um feitiço dava apenas o nome. Passe o cursor sobre o marcador ao lado da linha para ler o que o feitiço faz."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Monster pages do the same: every spell a monster casts now says what it does, on top of its AP cost and its range."
+msgstr "As páginas de monstros fazem o mesmo: cada feitiço que um monstro lança diz agora o que faz, além do seu custo em PA e do seu alcance."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Four new guides"
+msgstr "Quatro novos guias"
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Transcendence runes, reading the best turn panel, building around the gear you already own, and the six Dofus slots."
+msgstr "As runas de transcendência, como ler o quadro do melhor turno, montar o equipamento à volta do que já tem, e os seis espaços de Dofus."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Each one is written per version where the rule differs between them."
+msgstr "Cada um é escrito por versão onde a regra difere de uma para a outra."

@@ -6486,3 +6486,43 @@ msgstr "Gegenstand nicht gefunden"
 #: .\chardata\workshop_view.py:213 .\chardata\workshop_view.py:242
 msgid "Build has no solution yet"
 msgstr "Dieser Build hat noch keine Lösung"
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "August 2026"
+msgstr "August 2026"
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "The spells page now shows the best order of casts for one turn, with the damage each cast adds and the AP it costs."
+msgstr "Die Zauberseite zeigt jetzt die beste Reihenfolge der Würfe für eine Runde, mit dem Schaden, den jeder Wurf bringt, und den AP, die er kostet."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "It follows what you change: the buffs you tick, the rank you pick on a spell, and the Fully Buff button."
+msgstr "Es folgt Ihren Änderungen: den angehakten Boosts, der gewählten Zauberstufe und der Schaltfläche Voll geboostet."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Retro and Touch spells now carry their AP cost and their casting limits, so their spells page works like the others."
+msgstr "Die Zauber von Retro und Touch tragen jetzt ihre AP-Kosten und ihre Wurfgrenzen, sodass ihre Zauberseite wie die anderen funktioniert."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Spells explained where they are named"
+msgstr "Zauber werden dort erklärt, wo sie genannt werden"
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "An item that casts or changes a spell used to give only its name. Hover the marker beside the line to read what the spell does."
+msgstr "Ein Gegenstand, der einen Zauber wirkt oder verändert, nannte nur dessen Namen. Fahren Sie über das Zeichen neben der Zeile, um zu lesen, was der Zauber bewirkt."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Monster pages do the same: every spell a monster casts now says what it does, on top of its AP cost and its range."
+msgstr "Auf den Monsterseiten ebenso: Jeder Zauber, den ein Monster wirkt, sagt jetzt, was er bewirkt, zusätzlich zu AP-Kosten und Reichweite."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Four new guides"
+msgstr "Vier neue Ratgeber"
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Transcendence runes, reading the best turn panel, building around the gear you already own, and the six Dofus slots."
+msgstr "Transzendenzrunen, das Feld für die beste Runde lesen, ein Set um die eigene Ausrüstung herum bauen und die sechs Dofus-Plätze."
+
+#: .\chardata	emplates\chardata\changelog_content.html:1
+msgid "Each one is written per version where the rule differs between them."
+msgstr "Jeder ist je Version geschrieben, wo sich die Regel unterscheidet."
