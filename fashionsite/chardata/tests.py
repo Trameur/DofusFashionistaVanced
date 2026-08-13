@@ -5683,18 +5683,18 @@ class ItemFlagTests(SimpleTestCase):
         from django.utils import translation as django_translation
         from fashionistapulp.item_flags import flag_lines
         flags = ['Hunting Weapon', 'Fertile', 'Linked to the character',
-                 'Exchangeable', 'Cooperative crafting impossible']
+                 'Cooperative crafting impossible']
         expected = {
             'en': ['Hunting Weapon', 'Fertile', 'Linked to the character',
-                   'Not exchangeable', 'Cooperative crafting impossible'],
+                   'Cooperative crafting impossible'],
             'fr': ['Arme de chasse', 'Fertile', 'Lié au personnage',
-                   'Non échangeable', 'Craft coopératif impossible'],
+                   'Craft coopératif impossible'],
             'es': ['Arma de caza', 'Fértil', 'Vinculado al personaje',
-                   'No intercambiable', 'Fabricación cooperativa imposible'],
+                   'Fabricación cooperativa imposible'],
             'pt': ['Arma de caça', 'Fértil', 'Vinculado ao personagem',
-                   'Não trocável', 'Fabricação cooperativa impossível'],
+                   'Fabricação cooperativa impossível'],
             'de': ['Jagdwaffe', 'Fruchtbar', 'Mit dem Charakter verknüpft',
-                   'Nicht tauschbar', 'Kooperatives Handwerk nicht möglich'],
+                   'Kooperatives Handwerk nicht möglich'],
         }
         for language, labels in expected.items():
             with self.subTest(language=language):
@@ -5706,12 +5706,26 @@ class ItemFlagTests(SimpleTestCase):
         from fashionistapulp.item_flags import flag_lines
         self.assertEqual([], flag_lines(['Trophy', '-special spell-']))
 
-    def test_a_bound_dofus_is_not_called_exchangeable(self):
-        # The source only ever writes "Exchangeable: 0", and the value is gone by
-        # the time it is a flag, so the bare word would say the opposite.
+    def test_the_dofus_are_not_called_unexchangeable(self):
+        # The source writes "Exchangeable: 0" and nothing else, on all 123 items
+        # that carry it, so the field says nothing at all. Read as a boolean it
+        # printed "Not exchangeable" on the Crimson, Emerald, Turquoise, Cawwot
+        # and Vulbis Dofus, which are traded every day.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.item_flags import flag_lines
-        self.assertEqual([('Not exchangeable', None)],
-                         flag_lines(['Exchangeable']))
+        self.assertEqual([], flag_lines(['Exchangeable']))
+        for version in ('dofus3', 'beta', 'dofus2'):
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                carriers = connection.execute(
+                    "SELECT COUNT(*) FROM item_flags"
+                    " WHERE flag = 'Exchangeable'").fetchone()[0]
+            finally:
+                connection.close()
+            with self.subTest(version=version):
+                self.assertGreater(carriers, 50)
 
     def test_the_item_page_and_the_solution_read_the_same_list(self):
         from chardata import encyclopedia_view
@@ -5960,6 +5974,50 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
         sentence = ['Quand le porteur termine son tour et que la cible est '
                     'encore en vue, il gagne les bonus suivants :', '- 10 %']
         self.assertEqual(sentence, fold_spell_blocks(sentence)[0])
+
+    def test_a_monster_spell_says_what_it_does(self):
+        # The page named the spell, its AP and its range and stopped there.
+        # Ankama writes prose for 1307 of the 7600 spells the monsters cast, so
+        # the rest are read off their own effect rows.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version, floor in (('dofus3', 0.95), ('beta', 0.95)):
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                rows, described = connection.execute(
+                    "SELECT COUNT(*), SUM(CASE WHEN description IS NOT NULL"
+                    " AND description != '' THEN 1 ELSE 0 END)"
+                    " FROM monster_spell_names WHERE language = 'fr'").fetchone()
+                every_language = connection.execute(
+                    'SELECT COUNT(DISTINCT language) FROM monster_spell_names'
+                ).fetchone()[0]
+            finally:
+                connection.close()
+            with self.subTest(version=version):
+                self.assertGreater(rows, 7000)
+                self.assertGreaterEqual(described / float(rows), floor)
+                self.assertEqual(5, every_language)
+
+    def test_an_effect_row_reads_the_way_the_client_prints_it(self):
+        from itemscraper.store_monster_spells import render_effect
+        self.assertEqual('13 à 16 dommages Eau',
+                         render_effect('#1{{~1~2 à }}#2 dommages Eau', 13, 16))
+        self.assertEqual('20% des PV max',
+                         render_effect('#1{{~1~2 à }}#2% des PV max', 20, 0))
+        self.assertEqual('-1 PA', render_effect('-#1{{~1~2 à -}}#2 PA', 1, 0))
+        self.assertEqual('Repousse de 4 cases',
+                         render_effect('Repousse de #1 case{{~ps}}', 4, 0))
+        self.assertEqual('Repousse de 1 case',
+                         render_effect('Repousse de #1 case{{~ps}}', 1, 0))
+        # A row whose whole meaning is a state id says nothing to a reader, and
+        # neither does one still holding a placeholder.
+        self.assertIsNone(render_effect('#1', 18500, 2))
+        self.assertIsNone(render_effect('État #3', 3, 0))
+        self.assertIsNone(render_effect('', 1, 2))
+        self.assertEqual('Invoque : Bouftou',
+                         render_effect('Invoque : #1', 42, 1, {42: 'Bouftou'}))
+        self.assertIsNone(render_effect('Invoque : #1', 42, 1, {}))
 
     def test_no_untranslated_english_leaks_into_another_language(self):
         # The upstream tags a missing translation with "[!]", and English under
