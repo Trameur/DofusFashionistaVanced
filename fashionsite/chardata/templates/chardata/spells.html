@@ -27,9 +27,12 @@
     {% endif %}
 
     {% if best_combo %}
-    <div id="best-combo"
+    <div id="best-combo" aria-live="polite"
          data-combo-url="{% if encoded_char_id %}{% game_url 'best_combo_linked' encoded_char_id %}{% else %}{% game_url 'best_combo' char_id %}{% endif %}"
-         data-damage-label="{% trans "damage" %}">
+         data-damage-label="{% trans "damage" %}"
+         data-ap-label="{% blocktrans with ap="__ap__" %}{{ ap }} AP{% endblocktrans %}"
+         data-ap-note="{% blocktrans with used="__used__" available="__available__" %}{{ used }} of {{ available }} AP used.{% endblocktrans %}">
+        <span class="best-combo-busy" aria-hidden="true"></span>
         <div class="best-combo-head">
             <span class="best-combo-title">{% trans "Best combo this turn" %}</span>
             <span class="best-combo-total">{{ best_combo.total }} {% trans "damage" %}</span>
@@ -1057,7 +1060,19 @@
         if (comboTimer) {
             clearTimeout(comboTimer);
         }
+        // The search can take a couple of seconds, so say so from the first
+        // click rather than leaving a stale total sitting there.
+        setComboBusy(true);
         comboTimer = setTimeout(sendBestCombo, 120);
+    }
+
+    function setComboBusy(busy) {
+        var panel = $("#best-combo");
+        if (!panel.length) {
+            return;
+        }
+        panel.toggleClass('is-recalculating', !!busy);
+        panel.attr('aria-busy', busy ? 'true' : 'false');
     }
 
     // The rank of each spell counts as much as the buffs: the server reads
@@ -1082,6 +1097,7 @@
             comboTimer = null;
         }
         comboPending = comboSignature(comboPayload());
+        setComboBusy(false);
     }
 
     function sendBestCombo() {
@@ -1092,6 +1108,7 @@
         }
         var payload = comboPayload();
         if (comboSignature(payload) === comboPending) {
+            setComboBusy(false);
             return;
         }
         comboPending = comboSignature(payload);
@@ -1099,7 +1116,17 @@
         if (comboRequest) {
             comboRequest.abort();
         }
-        comboRequest = $.post(panel.data('combo-url'), payload)
+        var request = $.post(panel.data('combo-url'), payload);
+        comboRequest = request;
+        setComboBusy(true);
+        request.always(function() {
+                // An aborted request is a newer one taking over, and a failed
+                // one leaves the last answer on screen: neither is a moment to
+                // pretend the panel is settled.
+                if (comboRequest === request && !comboTimer) {
+                    setComboBusy(false);
+                }
+            })
             .done(function(data) {
                 if (!data || !data.best_combo) {
                     panel.hide();
@@ -1116,13 +1143,17 @@
                         .attr('src', cast.image_url).attr('alt', cast.name)
                         .appendTo(line);
                     $("<span class='best-combo-name'></span>").text(cast.name).appendTo(line);
-                    $("<span class='best-combo-ap'></span>").text(cast.ap + ' AP').appendTo(line);
+                    $("<span class='best-combo-ap'></span>")
+                        .text(panel.data('ap-label').replace('__ap__', cast.ap))
+                        .appendTo(line);
                     $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
                     $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
                     list.append(line);
                 });
                 panel.find('.best-combo-ap-note')
-                     .text(combo.ap_used + ' / ' + combo.ap_available + ' AP');
+                     .text(panel.data('ap-note')
+                                .replace('__used__', combo.ap_used)
+                                .replace('__available__', combo.ap_available));
             });
     }
 
