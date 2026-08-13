@@ -24,7 +24,7 @@ _ICONS = {'Hunting Weapon': 'chardata/hunting_weapon.png'}
 # Left out: Trophy is a slot marker the solver uses, -special spell- only
 # announces the description shown below it, and the source writes
 # "Exchangeable: 0" on every item that carries it.
-_LABELS = ('Hunting Weapon', 'Fertile', 'Linked to the character',
+_LABELS = ('Hunting Weapon', 'Linked to the character',
            'Cooperative crafting impossible')
 
 
