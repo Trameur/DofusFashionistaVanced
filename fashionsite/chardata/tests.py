@@ -53,8 +53,7 @@ from django.utils.translation import gettext
 
 class PoFileFormatTests(SimpleTestCase):
     """The docker build runs compilemessages, whose msgfmt --check-format
-    rejects e.g. a bare % in a msgstr whose msgid uses %%. That exact mistake
-    broke a production deploy; catch it locally instead."""
+    rejects a bare % in a msgstr whose msgid uses %%."""
 
     @unittest.skipIf(shutil.which('msgfmt') is None, 'msgfmt not installed')
     def test_every_po_passes_msgfmt_check_format(self):
@@ -94,18 +93,15 @@ class OfficialSiteUrlTests(SimpleTestCase):
 
 
 class EmailTemplateTranslationTests(SimpleTestCase):
-    """Email templates render server-side in the recipient's language and are
-    never seen during normal dev, so a blocktrans whose text drifts from its .po
-    msgid falls back to English silently (removing a dash from the comment mail
-    template without resyncing the catalog did exactly that). Read the committed
-    .po, not the compiled .mo, so the drift is caught before a deploy hits it."""
+    """A blocktrans whose text drifts from its .po msgid falls back to English
+    silently. Reads the committed .po, not the compiled .mo."""
 
     LANGS = ('fr', 'es', 'pt', 'de')
 
     @staticmethod
     def _blocktrans_msgids(text):
-        # Only the plain {% blocktrans %}...{% endblocktrans %} form (none of the
-        # email templates use the with/count/trimmed variants).
+        # Plain {% blocktrans %} only: no email template uses the
+        # with/count/trimmed variants.
         blocks = re.findall(
             r'\{%\s*blocktrans\s*%\}(.*?)\{%\s*endblocktrans\s*%\}', text, re.DOTALL)
         return [re.sub(r'\{\{\s*(\w+)\s*\}\}', r'%(\1)s', b) for b in blocks]
@@ -142,9 +138,7 @@ class EmailTemplateTranslationTests(SimpleTestCase):
 
 class BrandNameCatalogTests(SimpleTestCase):
     """Branding rule: "The Dofus Fashionista" in English only; every other
-    language uses "Dofus Fashionista" (no "The"). The title check can't see
-    strings like the transactional emails, where the German catalog still
-    carried "The Dofus Fashionista"; scan the catalogs directly."""
+    language uses "Dofus Fashionista" (no "The")."""
 
     NON_ENGLISH = ('fr', 'es', 'pt', 'de')
 
@@ -168,8 +162,6 @@ class BrandNameCatalogTests(SimpleTestCase):
                         % (lang, len(offenders), offenders)))
 
     def test_brand_fashionista_is_capitalized(self):
-        # The brand keeps a capital F everywhere ("Dofus Fashionista"). A French
-        # password-reset email had shipped "Dofus fashionista".
         try:
             import polib
         except ImportError:
@@ -188,29 +180,23 @@ class BrandNameCatalogTests(SimpleTestCase):
 
 
 class TranslationRegressionTests(SimpleTestCase):
-    """Guards the i18n fixes (fuzzy/empty strings) across fr/es/pt/de.
-
-    A fuzzy or empty .po entry is ignored by Django and silently falls back to
-    English, so these assert the *translated* output is actually served.
-    """
+    """A fuzzy or empty .po entry is ignored by Django and falls back to
+    English, so these assert the translated output across fr/es/pt/de."""
 
     def test_charged_n_times_fr(self):
-        # French keeps the digit: "Chargée 3 fois", not a spelled-out count.
         with translation.override('fr'):
             self.assertEqual(gettext('Charged 3 times'), 'Chargée 3 fois')
             self.assertEqual(gettext('Charged 12 times'), 'Chargée 12 fois')
 
     def test_touch_set_bonus_condition_shows_lt_2(self):
-        # Touch trophies cap at 1 set bonus, so their condition line must read
-        # "< 2"; dofus3/beta stay "< 3". Guards both the cap logic and the i18n.
+        # Touch trophies cap at 1 set bonus, so their condition line reads
+        # "< 2"; dofus3 and the beta stay "< 3".
         from chardata.solution_result import LightSetConditionLine
         with translation.override('fr'):
             self.assertEqual(LightSetConditionLine(None, 1).text, 'Bonus de panoplies < 2')
             self.assertEqual(LightSetConditionLine(None, 2).text, 'Bonus de panoplies < 3')
 
     def test_german_mp_is_bp_not_member_of_parliament(self):
-        # Regression: DE "MP" had been mistranslated as "Abgeordneter" (= a
-        # member of parliament). Movement Points must read "BP".
         with translation.override('de'):
             self.assertEqual(gettext('MP'), 'BP')
 
@@ -223,7 +209,6 @@ class TranslationRegressionTests(SimpleTestCase):
                                  msg='Steals MP wrong for %s' % lang)
 
     def test_removes_ap_translated_per_language(self):
-        # Weapon "removes N AP" hit line (e.g. Worn Koulosse Staff on Touch).
         expected = {'fr': 'Retire 3 PA', 'es': 'Quita 3 PA',
                     'pt': 'Remove 3 PA', 'de': 'Entzieht 3 AP'}
         for lang, exp in expected.items():
@@ -232,8 +217,6 @@ class TranslationRegressionTests(SimpleTestCase):
                                  msg='Removes AP wrong for %s' % lang)
 
     def test_removes_mp_translated_per_language(self):
-        # Its twin: 12 weapons per version take MP off the target (Crackler
-        # Blade, Mumminotor Hammer...) and the line had nowhere to come from.
         expected = {'fr': 'Retire 3 PM', 'es': 'Quita 3 PM',
                     'pt': 'Remove 3 PM', 'de': 'Entzieht 3 BP'}
         for lang, exp in expected.items():
@@ -258,10 +241,8 @@ class TranslationRegressionTests(SimpleTestCase):
 
 
 class StructureSetResolutionTests(SimpleTestCase):
-    """get_set_by_id must return the real (bonus-bearing) set, not a synthetic touch
-    set sharing its id. id 1 is the dofus3 "Gobball Set" (sets_dict, has bonuses) and
-    also the touch "Jellix Set" (dt_sets_dict, no bonuses); checking dt first showed
-    Gobball builds as "Jellix Set" with no set bonus."""
+    """get_set_by_id must return the bonus-bearing set, not a synthetic touch set
+    sharing its id: 1 is the dofus3 "Gobball Set" and the touch "Jellix Set"."""
 
     def test_get_set_by_id_prefers_real_bonus_set(self):
         from fashionistapulp.structure import get_structure
@@ -273,7 +254,7 @@ class StructureSetResolutionTests(SimpleTestCase):
 
 class BreadcrumbJsonLdTests(SimpleTestCase):
     """The breadcrumb JSON-LD is embedded in a <script> via |safe, so it must escape
-    characters that could break out of the tag (defense-in-depth)."""
+    characters that could break out of the tag."""
 
     def test_escapes_script_breakout(self):
         import json
@@ -286,9 +267,8 @@ class BreadcrumbJsonLdTests(SimpleTestCase):
                          'a</script><img src=x>')
 
 
-# Use the plain (non-manifest) static storage so template {% static %} calls do
-# not require a collectstatic manifest during tests (settings uses the manifest
-# storage when DEBUG is False, which the test runner forces).
+# Plain (non-manifest) static storage: the test runner forces DEBUG=False, and
+# settings would then make {% static %} require a collectstatic manifest.
 @override_settings(
     STORAGES={
         'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
@@ -299,8 +279,6 @@ class PublicRouteSmokeTests(TestCase):
     """Key public routes resolve and return the expected status codes."""
 
     def test_setup_links_the_class_guide(self):
-        # The class dropdown is where the "which class?" question actually
-        # happens: the setup page must link the class guide there, localized.
         resp = self.client.get('/setup/')
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'href="/guides/choosing-your-class/"')
@@ -333,8 +311,8 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertContains(resp, '%s/encyclopedia/resource/' % prefix)
 
     def test_search_family_nav_links_each_result_family(self):
-        # Multi-family searches get an anchored count bar above the results;
-        # plain browsing (no query) never shows it.
+        # The anchored count bar is for multi-family searches only: plain
+        # browsing, with no query, never shows it.
         resp = self.client.get('/retro/encyclopedia/', {'q': 'bouftou'},
                                HTTP_ACCEPT_LANGUAGE='fr')
         self.assertEqual(resp.status_code, 200)
@@ -353,15 +331,15 @@ class PublicRouteSmokeTests(TestCase):
     def test_search_totals_are_real_not_capped(self):
         from chardata import encyclopedia_view as ev
 
-        # A one-letter needle matches far more than the display cap: the
-        # total must say so while the page entries stay capped.
+        # A one-letter needle overflows the display cap: the entries stay
+        # capped, the total does not.
         entries, total = ev._search_resources('retro', 'e', 'en')
         self.assertLessEqual(len(entries), 48)
         self.assertGreater(total, 12)
         self.assertGreaterEqual(total, len(entries))
 
-        # Rendered: the section header carries the real total, and the chips
-        # beyond the first 12 fold behind a details block.
+        # On the page, the section header carries the real total and the chips
+        # past the first 12 fold behind a details block.
         needle = ev._normalized_text('bouftou')
         _entries, res_total = ev._search_resources('retro', needle, 'fr')
         resp = self.client.get('/retro/encyclopedia/', {'q': 'bouftou'},
@@ -419,9 +397,8 @@ class PublicRouteSmokeTests(TestCase):
             encyclopedia_view._light_index_cache.clear()
 
     def test_item_page_renders_translated_dynamic_stats(self):
-        # The runtime-translated data strings (dynamic_translations) must
-        # actually render localized: Sulik carries the 'Reflects' stat. The
-        # expected text comes from the catalog, never hardcoded.
+        # Item 6988 (Sulik) carries 'Reflects', one of the data strings
+        # translated at runtime through dynamic_translations.
         from django.utils import translation
         with translation.override('fr'):
             expected = translation.gettext('Reflects')
@@ -460,8 +437,7 @@ class PublicRouteSmokeTests(TestCase):
         conn.close()
         self.assertIsNotNone(row, 'no monster name found')
         self.assertIsNotNone(resource_row, 'no resource-only name found')
-        # A monster-only query: chips shown, and the misleading "no items
-        # match your filters" notice must stay hidden.
+        # A monster-only query: chips shown, no "no items match" notice.
         resp = self.client.get('/encyclopedia/', {'q': row[0]})
         self.assertContains(resp, '/encyclopedia/monster/')
         self.assertNotContains(resp, LOCALIZED_UI['en']['no_results'])
@@ -480,10 +456,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(resp.context['monster_results'], [])
 
     def test_item_pages_print_the_description_the_game_ships(self):
-        # Retro held zero description rows until 2026-08-02 while dofus3 held
-        # 19130; the text was on disk the whole time. This covers the whole
-        # chain, store to page, and the placeholder filter: retro weapons carry
-        # the literal "#1" rather than prose and must print nothing instead.
+        # Retro weapons carry the literal "#1" instead of prose, and a
+        # placeholder like that must print nothing.
         import html as html_module
         for version, prefix, ankama_id in (('dofus3', '', 44), ('retro', '/retro', 39)):
             resp = self.client.get('%s/encyclopedia/item/equipment/%d-x/'
@@ -505,25 +479,20 @@ class PublicRouteSmokeTests(TestCase):
         return m.group(0)
 
     def test_item_page_links_other_versions(self):
-        # Twiggy Sword (44) is on dofus3, the beta and dofus2, and not on touch:
-        # the "Also in" block cross-links only the versions that carry the item
-        # (unlike the global version switcher, which links blindly).
+        # Twiggy Sword (44) is on dofus3, the beta and dofus2, not on touch.
         block = self._other_versions_block('/encyclopedia/item/equipment/44-x/')
         self.assertIn('/dofus2/encyclopedia/item/equipment/44-', block)
         self.assertIn('/beta/encyclopedia/item/equipment/44-', block)
         self.assertNotIn('/touch/', block)
-        # Retro also has a 44 and it is NOT this sword but the Powerful Twiggy
-        # Sword, one of 406 ids it reuses for something else. Only Dofus 3 and
-        # the beta share an id space, so an id alone never proves identity.
+        # Retro's 44 is the Powerful Twiggy Sword: only dofus3 and the beta
+        # share an id space, so an id alone never proves identity.
         self.assertNotIn('/retro/', block)
         block = self._other_versions_block('/dofus2/encyclopedia/item/equipment/44-x/')
         self.assertIn('"/encyclopedia/item/equipment/44-', block)
 
     def test_a_monster_or_ingredient_id_is_no_identity_either(self):
-        # Same reuse as items, on the two families the page links by id too:
-        # monster 62 is the Gob-Trotter on Dofus 3 and the Karne Rider on
-        # Retro, ingredient 2639 the Fake Claw of Ceangal against the Bwork
-        # Chief Helmet's neighbour. Neither may offer the other.
+        # Monster 62 is the Gob-Trotter on dofus3 and the Karne Rider on Retro;
+        # equipment 6813 is the Bwork Chief Helmet against the Chief Bwork one.
         from chardata.encyclopedia_view import (_get_monster_version_links,
                                                 _other_versions_with_resource,
                                                 _version_resource_keys)
@@ -541,9 +510,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertNotIn('Retro', labels)
 
     def test_a_name_that_only_differs_by_an_accent_is_the_same_item(self):
-        # The pools spell the same item differently: Vor'Om against Vôr'Om,
-        # Crystal O'Ball against Crystaloball. Word order still counts, or
-        # Bwork Chief and Chief Bwork would merge.
+        # The pools spell one item several ways, but word order still tells
+        # two items apart.
         from fashionistapulp.fashion_util import is_same_item_name
         self.assertTrue(is_same_item_name("Vor'Om Axe", 'Vôr’Om Axe'))
         self.assertTrue(is_same_item_name("Crystal O'Ball", 'Crystaloball'))
@@ -555,8 +523,7 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_a_cross_version_link_survives_a_translated_page(self):
         # The page passes the name in the reader's language while both pools
-        # store the english one. Comparing those two would drop every link as
-        # soon as the reader is not english, which is most of the audience.
+        # store the English one.
         block = self._other_versions_block('/encyclopedia/item/equipment/44-x/')
         self.assertIn('/dofus2/encyclopedia/item/equipment/44-', block)
         resp = self.client.get('/encyclopedia/item/equipment/44-x/',
@@ -568,8 +535,7 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('/dofus2/encyclopedia/item/equipment/44-', m.group(0))
 
     def test_resource_page_links_other_versions(self):
-        # Sesame Seed (resources/287) is a craft ingredient in every version:
-        # the "Also in" block must cross-link them all.
+        # Sesame Seed (resources/287) is a craft ingredient in every version.
         resp = self.client.get('/encyclopedia/resource/resources/287-x/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
@@ -579,8 +545,7 @@ class PublicRouteSmokeTests(TestCase):
         for prefix in ('/retro', '/dofus2', '/touch', '/beta'):
             self.assertIn('%s/encyclopedia/resource/resources/287-' % prefix,
                           block)
-        # Strawberry (resources/381) is only used by dofus3-era recipes:
-        # no touch/retro link even though the global switcher lists them.
+        # Strawberry (resources/381) is only used by dofus3-era recipes.
         resp = self.client.get('/encyclopedia/resource/resources/381-x/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
@@ -589,7 +554,7 @@ class PublicRouteSmokeTests(TestCase):
         block = m.group(0)
         self.assertNotIn('/touch/', block)
         self.assertNotIn('/retro/', block)
-        # And the retro page links back to dofus3 (unprefixed URL).
+        # dofus3 is the unprefixed URL.
         resp = self.client.get('/retro/encyclopedia/resource/resources/287-x/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
@@ -719,8 +684,6 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(set(seen_versions), {'retro'})
 
     def test_public_pages_ok(self):
-        # The guide list comes from the content module, not a copy kept here:
-        # the copy had drifted and left monster-weaknesses untested.
         from chardata.guides_content import ordered_slugs
         paths = ['/', '/about/', '/faq/', '/privacy/', '/support/',
                  '/license/', '/encyclopedia/', '/sharedbuilds/',
@@ -736,8 +699,7 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_every_guide_answers_under_every_version(self):
         # A guide is served under each version prefix and rewrites its own
-        # links per version, so answering on /guides/ proves nothing about
-        # /retro/guides/. These are the pages built to earn their own traffic.
+        # links per version.
         from chardata.guides_content import ordered_slugs
         for version in ('beta', 'dofus2', 'retro', 'touch'):
             for slug in ordered_slugs():
@@ -766,9 +728,7 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual([], dead)
 
     def test_the_solver_loading_screen_stays_off_the_reading_pages(self):
-        # It carries loading.js, 23kB of tailoring quips, plus a marquee that
-        # runs on a 60th of a second interval. Only a project can start a solve,
-        # so only a project needs any of it.
+        # Only a project can start a solve.
         for path in ('/', '/encyclopedia/', '/guides/', '/sharedbuilds/',
                      '/about/', '/faq/'):
             with self.subTest(path=path):
@@ -778,7 +738,7 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_brand_name_localized_in_title(self):
         # Branding: "The Dofus Fashionista" in English, "Dofus Fashionista"
-        # (no "The") in the other languages.
+        # everywhere else.
         cases = {'en': 'The Dofus Fashionista:', 'fr': 'Dofus Fashionista :',
                  'de': 'Dofus Fashionista:'}
         for path in ('/faq/', '/encyclopedia/', '/guides/'):
@@ -795,17 +755,13 @@ class PublicRouteSmokeTests(TestCase):
                         self.assertIn('Dofus Fashionista', title)
 
     def test_smart_build_understands_a_german_query(self):
-        # POST a German description (no confirm) -> the view echoes the parsed
-        # class, proving the German keywords work end to end (view + template),
-        # not just in the parser unit tests. "Halsabschneider" is the German
-        # class name for Rogue.
+        # "Halsabschneider" is the German class name for Rogue; a POST without
+        # confirm echoes the parsed class.
         resp = self.client.post('/smartbuild/', {'q': 'Halsabschneider Stufe 150 Luft'})
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Rogue')
 
     def test_compare_cart_injected_in_base(self):
-        # The comparison cart (add a build from anywhere, compare in one click)
-        # is injected site-wide: header cart container, i18n config, script.
         resp = self.client.get('/encyclopedia/')
         self.assertEqual(resp.status_code, 200)
         html = resp.content.decode()
@@ -815,9 +771,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('compare_tray.js', html)
 
     def test_non_retro_item_hides_pet_feeding_section(self):
-        # Regression: a belt (e.g. Belteen) carries a second entry at id
-        # 100M + ankama_id; the Retro pet-feeding logic mislabelled its stats as
-        # "Possible bonuses (when fed)". That section must not show outside Retro.
+        # A duplicate variant of an item sits at id 100M + ankama_id, and the
+        # "when fed" section belongs to Retro pets only.
         from fashionistapulp.structure import get_structure
         structure = get_structure()
         target = next((it for it in structure.get_concatenated_items_lists()
@@ -831,14 +786,13 @@ class PublicRouteSmokeTests(TestCase):
         self.assertNotIn('when fed', resp.content.decode())
 
     def test_unknown_url_returns_real_404(self):
-        # AdSense "low value content" regression: unknown URLs must be 404,
-        # not a soft-200 error page.
+        # An unknown URL must 404, never render a soft-200 error page.
         resp = self.client.get('/this-page-does-not-exist-xyz123/')
         self.assertEqual(resp.status_code, 404)
 
     def test_service_worker_stays_network_first(self):
-        # The sw must keep navigations network-first, otherwise users get stuck
-        # on a stale cached site after a deploy.
+        # Navigations must stay network-first, or a deploy leaves visitors on
+        # the cached site.
         resp = self.client.get('/sw.js')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
@@ -846,17 +800,16 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('fetch(req).catch', body)
 
     def test_js_catalog_serves_translations(self):
-        # The popups translate through gettext() from /jsi18n/; guard that the
-        # catalog actually carries the chardata djangojs entries.
+        # The popups translate through gettext() against the chardata djangojs
+        # catalog served at /jsi18n/.
         resp = self.client.get('/jsi18n/', headers={'accept-language': 'fr'})
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         self.assertIn('Fermer', body)
 
     def test_a_page_that_needs_a_login_lands_on_the_login_page(self):
-        # The dev settings had no LOGIN_URL, so @login_required sent anonymous
-        # visitors to Django's default /accounts/login/, which is a 404 here.
-        # Both settings files must point at the route that exists.
+        # LOGIN_URL must name a route that exists; Django's default
+        # /accounts/login/ is a 404 here.
         from django.conf import settings
         resp = self.client.get('/workshop/')
         self.assertEqual(resp.status_code, 302)
@@ -877,15 +830,13 @@ class PublicRouteSmokeTests(TestCase):
         self.assertEqual(found['settings.py'], found['settings_dev.py'], found)
 
     def test_security_headers_sent(self):
-        # SecurityMiddleware has to be installed for nosniff and referrer-policy
-        # to actually go out.
+        # These two headers only go out with SecurityMiddleware installed.
         resp = self.client.get('/')
         self.assertEqual(resp.headers.get('X-Content-Type-Options'), 'nosniff')
         self.assertEqual(resp.headers.get('Referrer-Policy'), 'same-origin')
 
     def test_home_website_jsonld_valid(self):
-        # Sitelinks searchbox: the home page carries WebSite+SearchAction
-        # JSON-LD pointing at the encyclopedia search.
+        # The Google sitelinks searchbox needs WebSite+SearchAction JSON-LD.
         import json
         resp = self.client.get('/')
         html = resp.content.decode('utf-8')
@@ -897,9 +848,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('/encyclopedia/?q=', data['potentialAction']['target']['urlTemplate'])
 
     def test_default_og_image_present(self):
-        # Links shared on discord/twitter need a preview image; item/set pages
-        # have their own, everything else falls back to the wide brand card
-        # (1200x630, summary_large_image).
+        # Item and set pages carry their own preview image; every other page
+        # falls back to the wide brand card.
         for path in ['/', '/guides/getting-started/', '/smartbuild/']:
             with self.subTest(path=path):
                 resp = self.client.get(path)
@@ -911,10 +861,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertTrue(os.path.exists(card), 'og-card.jpg missing from static')
 
     def test_404_page_is_translated(self):
-        # The error page is user-visible in every language; the fr heading had
-        # silently shipped in english. The expected text comes from the
-        # catalog so a translation rewording cannot silently break the test
-        # (a de rewording once left main red for a whole tick).
+        # The expected heading comes from the catalog, so a rewording of the
+        # translation does not break the test.
         from django.utils import translation
         msgid = '404 - Page Not Found'
         for lang in ('fr', 'es', 'de'):
@@ -929,8 +877,6 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertIn(needle, resp.content.decode('utf-8'))
 
     def test_encyclopedia_item_shows_set_bonuses(self):
-        # The item page now surfaces the panoply's per-piece bonuses (the set_bonus
-        # data was loaded but only the set NAME was shown before).
         from fashionistapulp.structure import get_structure
         s = get_structure()
         target = None
@@ -938,8 +884,8 @@ class PublicRouteSmokeTests(TestCase):
             if getattr(iset, 'bonus', None) and getattr(iset, 'items', None):
                 for iid in iset.items:
                     it = s.get_item_by_id(iid)
-                    # The view resolves the set from the item's own .set (sets_dict
-                    # first), so only items whose .set lands on a bonus set qualify.
+                    # The view resolves the set from the item's own .set, so
+                    # only items whose .set lands on a bonus set qualify.
                     if (it and getattr(it, 'ankama_type', None)
                             and getattr(it, 'ankama_id', None)
                             and getattr(it, 'set', None) is not None
@@ -955,9 +901,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertContains(resp, 'Set bonuses')
 
     def test_a_set_that_caps_says_so_on_its_page(self):
-        # The page listed the giving half only, so Cire Momore's Curse read as
-        # pure upside while it actually holds a six-piece wearer to 2 MP, under
-        # the 3 a character starts with.
+        # Cire Momore's Curse holds a six-piece wearer to 2 MP, under the 3 a
+        # character starts with.
         from fashionistapulp.structure import get_structure
         structure = get_structure()
         item_set = structure.get_set_by_name("Cire Momore's Curse")
@@ -983,9 +928,8 @@ class PublicRouteSmokeTests(TestCase):
         self.assertNotContains(response, 'Caps this set imposes')
 
     def test_gobball_set_item_shows_dofus3_set_name_not_touch(self):
-        # Regression: set id 1 is the dofus3 "Gobball Set" (with bonuses) AND, in
-        # dt_sets_dict, the touch "Jellix Set". get_set_by_id() checks dt first, so
-        # Gobball items wrongly showed "Jellix Set" and no bonuses.
+        # Set id 1 is the dofus3 "Gobball Set" and, in dt_sets_dict, the touch
+        # "Jellix Set".
         from fashionistapulp.structure import get_structure
         s = get_structure()
         gob = next((v for v in s.sets_dict.values()
@@ -1021,18 +965,15 @@ class PublicRouteSmokeTests(TestCase):
         self.assertContains(resp, 'Smith')
 
     def test_base_job_recipes_hide_the_craft_line(self):
-        # Musamune is a "Base" (job 1) recipe: a special workbench craft no
-        # player profession can learn, so no "Crafted by" line.
+        # Musamune is a "Base" (job 1) recipe, a workbench craft no player
+        # profession can learn.
         resp = self.client.get('/encyclopedia/item/equipment/23590-x/')
         self.assertEqual(resp.status_code, 200)
         self.assertNotContains(resp, 'Crafted by')
 
     def test_encyclopedia_search_filters_results(self):
-        # The WebSite SearchAction points google at /encyclopedia/?q=...; the
-        # search must actually filter (a broken filter would surface directly
-        # in the sitelinks searchbox). Count result cards via their item links
-        # (the changelog modal on every page mentions item names, so plain
-        # substring checks are unreliable).
+        # Count result cards by their item links: the changelog modal on every
+        # page mentions item names, so a substring check is unreliable.
         resp = self.client.get('/encyclopedia/', {'q': 'Gelano'})
         self.assertEqual(resp.status_code, 200)
         html = resp.content.decode('utf-8')
@@ -1107,7 +1048,7 @@ class PublicRouteSmokeTests(TestCase):
     def test_encyclopedia_sets_list_shows_level_and_offers_sort(self):
         resp = self.client.get('/encyclopedia/sets/', HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
-        # Sets carry item levels, so the sort control renders and cards show one.
+        # Sets carry item levels, so the sort control renders.
         self.assertIn('name="sort"', resp.content.decode('utf-8'))
         self.assertTrue(any(entry['level_max']
                             for entry in resp.context['sets_page'].object_list))
@@ -1118,7 +1059,7 @@ class PublicRouteSmokeTests(TestCase):
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context['sort_key'], 'level')
-        # The first page is the lowest-level sets, ordered by top item level.
+        # A set sorts on its top item level.
         leveled = [entry['level_max'] for entry in resp.context['sets_page'].object_list
                    if entry['level_max'] is not None]
         self.assertTrue(leveled)
@@ -1137,7 +1078,6 @@ class PublicRouteSmokeTests(TestCase):
         self.assertLessEqual(len(page.object_list), 60)
         if not page.has_other_pages():
             self.skipTest('not enough sets to paginate in this version')
-        # Page links carry the active sort so it survives paging.
         resp2 = self.client.get('/encyclopedia/sets/?sort=level&page=2',
                                 HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp2.status_code, 200)
@@ -1163,21 +1103,19 @@ class PublicRouteSmokeTests(TestCase):
         resp = self.client.get(set_url)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Set bonuses')
-        self.assertContains(resp, '/encyclopedia/item/')  # at least one item links out
+        self.assertContains(resp, '/encyclopedia/item/')
         self.assertContains(resp, 'property="og:image"')  # set-specific social preview
-        self.assertContains(resp, 'BreadcrumbList')  # breadcrumb structured data
+        self.assertContains(resp, 'BreadcrumbList')
         legacy_resp = self.client.get('/encyclopedia/set/%s/' % target_id)
         self.assertEqual(legacy_resp.status_code, 200)
         self.assertContains(legacy_resp, 'https://dofusfashionista.gg%s' % set_url)
 
     def test_encyclopedia_set_page_links_to_other_versions(self):
         from chardata.encyclopedia_view import _other_versions_with_set
-        # The Gobball Set (id 1) exists in every version with distinct items and
-        # bonuses, so the set page should link to the other versions of it.
+        # The Gobball Set (id 1) exists in every version, with distinct items
+        # and bonuses.
         links = _other_versions_with_set('dofus3', 1, 'en')
         self.assertTrue(links, 'expected cross-version links for a shared set')
-        # Every link points to another version (prefixed), never back to dofus3,
-        # and carries that version's item count so a difference is visible.
         for entry in links:
             self.assertRegex(entry['url'],
                              r'^/(retro|touch|beta|dofus2)/encyclopedia/set/1-')
@@ -1188,13 +1126,12 @@ class PublicRouteSmokeTests(TestCase):
         body = resp.content.decode('utf-8')
         self.assertIn('Also in', body)
         self.assertIn('/retro/encyclopedia/set/1-', body)
-        # Retro's Gobball has 7 items, so the link shows the count.
+        # The label carries that version's item count.
         self.assertRegex(body, r'Retro \(\d+\)')
 
     def test_encyclopedia_set_other_versions_excludes_current_and_includes_default(self):
         from chardata.encyclopedia_view import _other_versions_with_set
-        # From Retro, the Gobball Set (id 1) links to the other versions, which
-        # includes the default (dofus3, unprefixed) and never back to Retro.
+        # dofus3 is the default version, so its URLs carry no prefix.
         urls = [entry['url'] for entry in _other_versions_with_set('retro', 1, 'en')]
         self.assertTrue(any(url.startswith('/encyclopedia/set/1-') for url in urls),
                         'expected an unprefixed dofus3 link from a retro set')
@@ -1203,9 +1140,8 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_encyclopedia_set_other_versions_skips_id_reused_for_a_different_set(self):
         from chardata.encyclopedia_view import _other_versions_with_set
-        # Set ids are not a shared identity across the Retro/modern split: id 201
-        # is the Kalkaneus Set on dofus3 but the unrelated Bronze Intelligence
-        # Set on Retro (no shared items), so it must not be cross-linked.
+        # Id 201 is the Kalkaneus Set on dofus3 but the unrelated Bronze
+        # Intelligence Set on Retro, sharing no item.
         urls = [entry['url'] for entry in _other_versions_with_set('dofus3', 201, 'en')]
         self.assertFalse(any(url.startswith('/retro/') for url in urls),
                          'id 201 is a different set on Retro; must not cross-link')
@@ -1236,7 +1172,6 @@ class PublicRouteSmokeTests(TestCase):
         self.assertGreaterEqual(len(data['itemListElement']), 2)
 
     def test_encyclopedia_pages_show_visible_breadcrumbs(self):
-        # The JSON-LD breadcrumb exists for robots; humans get the same trail.
         from fashionistapulp.structure import get_structure
         s = get_structure()
         it = next(i for i in s.get_concatenated_items_lists()
@@ -1251,8 +1186,7 @@ class PublicRouteSmokeTests(TestCase):
             self.assertContains(resp, 'aria-label="Breadcrumb"', msg_prefix=url)
 
     def test_encyclopedia_unknown_set_is_a_real_404_with_useful_page(self):
-        # Pruned/unknown sets and items must answer 404 (so search engines
-        # drop them) while still giving humans a clear way back.
+        # A pruned or unknown set or item must 404 and still link back.
         resp = self.client.get('/encyclopedia/set/99999999/')
         self.assertEqual(resp.status_code, 404)
         self.assertContains(resp, '/encyclopedia/', status_code=404)
@@ -1302,7 +1236,6 @@ class PublicRouteSmokeTests(TestCase):
                             status_code=404)
 
     def test_encyclopedia_list_card_links_to_set(self):
-        # Items in a panoply now expose a link to their set page from the list card.
         resp = self.client.get('/encyclopedia/?q=gobball')
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, '/encyclopedia/set/')
@@ -1326,15 +1259,12 @@ class PublicRouteSmokeTests(TestCase):
         return '\n'.join(parts)
 
     def test_sitemap_has_no_redirecting_urls(self):
-        # /random/ always 302s to a random shared build; redirect targets do
-        # not belong in a sitemap.
+        # /random/ always 302s to a random shared build.
         self.assertNotIn('/random/', self._sitemap_body())
 
     def test_every_page_the_sitemap_advertises_answers(self):
-        # Matching on a known path only caught the case someone remembered:
-        # /workshop/ sat in this list for a while and 302s to /login/ for the
-        # anonymous crawler, which Google files as a redirect and never indexes.
-        # This section is the hand-kept one, so it is where that drifts.
+        # This sitemap section is the hand-kept one: a page needing a login
+        # answers 302 to the anonymous crawler and drifts in unnoticed.
         import re
         response = self.client.get('/sitemap-pages.xml')
         self.assertEqual(200, response.status_code)
@@ -1354,13 +1284,12 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('<?xml', body)
         self.assertIn('<urlset', body)
         self.assertIn('/privacy/', body)
-        # Global and version-specific encyclopedia hubs are all canonical because
-        # each game version has distinct data and calculations.
+        # Each version has its own data and calculations, so every version hub
+        # is canonical.
         self.assertIn('https://dofusfashionista.gg/encyclopedia/', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/</loc>', body)
         self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/sets/', body)
         self.assertIn('/retro/forgemagie/', body)
-        # Original guide content is listed (hub + at least one article).
         self.assertIn('https://dofusfashionista.gg/guides/', body)
         self.assertIn('/guides/getting-started/', body)
 
@@ -1441,8 +1370,7 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('https://dofusfashionista.gg%s' % retro_set_url, body)
 
     def test_sitemap_lists_shared_builds_with_a_solution_only(self):
-        # Shared builds are content pages worth indexing, but a build with no
-        # stored solution answers 404 on /s/, so it must stay out of the sitemap.
+        # A build with no stored solution answers 404 on /s/.
         import pickle
         from django.contrib.auth.models import User
         from chardata.models import Char
@@ -1490,16 +1418,14 @@ class PublicRouteSmokeTests(TestCase):
     }
 )
 class CanonicalUrlTests(TestCase):
-    """Version-prefixed info pages (/retro/about/ …) are duplicates of the global
-    pages, so they must canonicalize to the global URL; version-specific pages keep
-    a self-referential canonical."""
+    """Version-prefixed info pages (/retro/about/ …) canonicalize to the global URL;
+    version-specific pages keep a self-referential canonical."""
 
     def _canonical(self, path):
         resp = self.client.get(path)
         self.assertEqual(resp.status_code, 200, msg='%s -> %s' % (path, resp.status_code))
         html = resp.content.decode('utf-8', 'replace')
-        # Tolerant of HTML minification (htmlmin strips attribute quotes when DEBUG=False)
-        # and of attribute ordering within the <link> tag.
+        # htmlmin strips attribute quotes when DEBUG=False, and attribute order varies.
         tag = re.search(r'<link[^>]*\brel=["\']?canonical["\']?[^>]*>', html)
         self.assertIsNotNone(tag, msg='no canonical tag on %s' % path)
         href = re.search(r'\bhref=["\']?([^"\'\s>]+)', tag.group(0))
@@ -1519,7 +1445,6 @@ class CanonicalUrlTests(TestCase):
                          'https://dofusfashionista.gg/privacy/')
 
     def test_version_specific_page_keeps_self_canonical(self):
-        # The version IS meaningful content here, so canonical stays self-referential.
         self.assertEqual(self._canonical('/retro/'),
                          'https://dofusfashionista.gg/retro/')
 
@@ -1581,8 +1506,7 @@ class VersionSwitcherPathTests(SimpleTestCase):
 
 
 class RegistrationTests(TestCase):
-    """Username uniqueness must be case-insensitive (MySQL's unique index is), so a
-    case-only variant is detected as taken instead of 500ing later in create_user."""
+    """Username uniqueness must be case-insensitive, like MySQL's unique index."""
 
     def test_check_username_is_case_insensitive(self):
         from django.contrib.auth.models import User
@@ -1594,8 +1518,7 @@ class RegistrationTests(TestCase):
 
 
 class SocialAuthCancelTests(TestCase):
-    """Cancelling the Google OAuth consent (AuthCanceled) must redirect to login,
-    not raise a 500 + admin error email."""
+    """An interrupted OAuth callback must redirect to login, not 500."""
 
     def test_auth_canceled_redirects_to_login(self):
         from django.test import RequestFactory
@@ -1609,8 +1532,7 @@ class SocialAuthCancelTests(TestCase):
         self.assertIn('/login', resp['Location'])
 
     def test_auth_missing_parameter_redirects_to_login(self):
-        # Bots/stale redirects hit /complete/ without the state param -> AuthMissingParameter.
-        # Must redirect to login, not 500 + email admins.
+        # Bots and stale redirects hit /complete/ without the state param.
         from django.test import RequestFactory
         from social_core.exceptions import AuthMissingParameter
         from chardata.SocialAuthExceptionMiddleware import SocialAuthExceptionMiddleware
@@ -1623,9 +1545,8 @@ class SocialAuthCancelTests(TestCase):
 
 
 class PasswordResetTests(TestCase):
-    """Completing a password reset must also activate the account, so a user who
-    never confirmed their email isn't locked out forever (reset works but login
-    rejects inactive accounts)."""
+    """Completing a password reset also activates the account: login rejects
+    inactive accounts."""
 
     def test_reset_activates_inactive_account(self):
         from django.contrib.auth.models import User
@@ -1649,15 +1570,14 @@ class PasswordResetTests(TestCase):
         self.assertIn('/do_recover_password/', mail.outbox[0].body)
 
     def test_reset_sends_nothing_for_unknown_email(self):
-        # Anti-enumeration: same page, but no mail for an unknown address.
+        # Anti-enumeration: the page must not differ for an unknown address.
         from django.core import mail
         resp = self.client.post('/recover_password/', {'email': 'nobody@example.com'})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
 
     def test_reset_sends_nothing_for_google_login_account(self):
-        # Google-login accounts have no password to reset, so nothing is sent
-        # (this is the usual reason a reset "doesn't arrive").
+        # Google-login accounts have no password to reset.
         from django.contrib.auth.models import User
         from django.core import mail
         from social_django.models import UserSocialAuth
@@ -1669,8 +1589,7 @@ class PasswordResetTests(TestCase):
 
 
 class ProjectActionRobustnessTests(TestCase):
-    """POST-only project endpoints must not 500 when hit by a bare GET (bots/crawlers).
-    Regression: /deleteprojects/ did json.loads(None) -> TypeError -> 500."""
+    """POST-only project endpoints must not 500 when hit by a bare GET (bots/crawlers)."""
 
     def test_delete_projects_get_does_not_500(self):
         resp = self.client.get('/deleteprojects/')
@@ -1685,8 +1604,6 @@ class ProjectActionRobustnessTests(TestCase):
         self.assertNotEqual(resp.status_code, 500)
 
     def test_wizard_post_get_does_not_500(self):
-        # Regression: /wizardpost/<id>/ did safe_int('') -> None -> min(12, None)
-        # -> TypeError -> 500 on a bare GET.
         resp = self.client.get('/wizardpost/1/')
         self.assertNotEqual(resp.status_code, 500)
 
@@ -1705,8 +1622,7 @@ class ProjectActionRobustnessTests(TestCase):
         return char
 
     def test_a_slot_value_that_is_not_an_id_does_not_500(self):
-        # Prod: POST /inclusionspost/<id>/ with a slot carrying '\n' reached
-        # int() and answered 500. Anything unparseable leaves the slot empty.
+        # Anything unparseable leaves the slot empty.
         from chardata.lock_forbid import get_inclusions_dict
         char = self._owned_char('lockprobe')
         for value in ('\n', ' ', 'abc', '1.5'):
@@ -1740,9 +1656,6 @@ class ProjectActionRobustnessTests(TestCase):
                 self.assertEqual(b'error', resp.content)
 
     def test_set_min_stats_tolerates_none_caps(self):
-        # Regression (prod /wizardpost/): a char whose *stored* AP/MP/Range min is
-        # None reaches set_min_stats -> min(12, None) -> TypeError. The earlier
-        # safe_int guard only covered POSTed fields, not the char's stored mins.
         import pickle
         from chardata.min_stats import set_min_stats
 
@@ -1760,9 +1673,7 @@ class ProjectActionRobustnessTests(TestCase):
         self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 6))
 
     def test_set_min_stats_does_not_cap_ap_mp_range_on_retro(self):
-        # Retro (1.29) has no 12/6/6 hard limit, so a Retro player must be able to
-        # require more (17 AP / 7 MP exo items exist there). Modern/Touch stay
-        # clamped to 12/6/6.
+        # Retro (1.29) has no 12/6/6 cap: 17 AP and 7 MP exo items exist there.
         import pickle
         from chardata.min_stats import set_min_stats
 
@@ -1783,16 +1694,11 @@ class ProjectActionRobustnessTests(TestCase):
         self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 6))
 
     def test_compare_sets_skips_missing_builds(self):
-        # Regression: a build removed after being added to the comparison cart
-        # made the whole /compare_sets/ page raise. Stale ids are now skipped;
-        # with fewer than two left it's a clean 404, never a 500.
         resp = self.client.get('/compare_sets/99999999/88888888/')
         self.assertEqual(resp.status_code, 404)
 
     def test_compare_sets_survives_a_crawler_probing_files_under_it(self):
-        # Prod error 2026-08-09: GET /compare_sets/235493/robots.txt was a 500,
-        # because the ".+" route hands "robots.txt" to the ORM as a pk and
-        # ValueError fires before get_object_or_404 can turn it into a 404.
+        # The ".+" route hands a non-numeric segment to the ORM as a pk.
         for url in ('/compare_sets/235493/robots.txt',
                     '/compare_sets/robots.txt',
                     '/compare_sets/235493/wp-login.php'):
@@ -1870,7 +1776,6 @@ class SolutionSetTemplateTests(SimpleTestCase):
 
 @override_settings(CHARACTER_PREVIEW=True)
 class CompareSetsPreviewTests(TestCase):
-    """The point of the page is what the two builds look like, so it draws them."""
 
     def setUp(self):
         from django.contrib.auth.models import User
@@ -1927,16 +1832,8 @@ class CompareSetsPreviewTests(TestCase):
 
 
 class SharedBuildCompareIdTests(TestCase):
-    """Regression: a *shared* build added to the comparison cart must carry the
-    's' prefix on its encoded id. Commit 496a717e shipped it without the prefix,
-    so the cart stored the bare encoded blob and /compare_sets/ then did
-    int('<base64>') -> ValueError. The templates that emit the cart id for
-    shared builds rely on the contract guarded here:
-      - solution.html      data-build-id="s{{ encoded_char_id }}"
-      - shared_builds.html data-build-id="s{{ build.encoded_id }}"
-    i.e. 's' + encode_char_id(id) must round-trip back to the shared char, and
-    the bare encoded form must not be accepted as a build id.
-    """
+    """A shared build's comparison id is 's' + encode_char_id(id); the bare
+    encoded form is not a valid build id."""
 
     def _make_shared_char(self, link_shared=True):
         from chardata.models import Char
@@ -1956,8 +1853,6 @@ class SharedBuildCompareIdTests(TestCase):
         self.assertTrue(was_encoded)
 
     def test_bare_encoded_id_is_rejected_as_int(self):
-        # The exact symptom of the missing-prefix bug: without 's', the encoded
-        # blob is handed to int() -> ValueError. The 's' prefix is mandatory.
         from chardata.encoded_char_id import encode_char_id
         from chardata.util import get_char_id_possibly_encoded
         char = self._make_shared_char()
@@ -1976,7 +1871,6 @@ class SharedBuildCompareIdTests(TestCase):
         self.assertEqual(resolved.pk, char.pk)
 
     def test_unshared_char_via_share_link_is_denied(self):
-        # A build that isn't shared must not be reachable through the 's' link.
         from django.contrib.auth.models import AnonymousUser
         from django.core.exceptions import PermissionDenied
         from django.test import RequestFactory
@@ -2122,8 +2016,7 @@ class ChooseCompareSetsPickerTests(TestCase):
 
 
 class WorkshopTests(TestCase):
-    """The workshop aggregates the items a player wants to craft; cover the
-    add endpoint happy path, its error paths and the auth guard."""
+    """The workshop aggregates the items a player wants to craft."""
 
     def setUp(self):
         from django.contrib.auth.models import User
@@ -2151,9 +2044,8 @@ class WorkshopTests(TestCase):
 
 
 class ItemPickerSetNameTests(TestCase):
-    """Set pieces that share a name (the four retro wedding rings, one per
-    elemental set) are only tellable apart by their set, so the picker payload
-    has to carry it, localized."""
+    """Set pieces that share a name (the retro wedding rings, one per elemental
+    set) are only tellable apart by their set, so the picker payload carries it."""
 
     def test_payload_carries_the_localized_set_name(self):
         from django.utils import translation as django_translation
@@ -2181,8 +2073,7 @@ class ItemPickerSetNameTests(TestCase):
             self.assertNotIn(None, set_names)
 
     def test_acquisition_answers_for_both_branches_of_an_or_item(self):
-        # Only the first branch carries the recipe and the drops, so keying the
-        # lookup on the internal id would leave "(#2)" looking sourceless.
+        # Only the first branch of an OR item carries the recipe and the drops.
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.item_sources import attach_acquisition, get_acquisition_by_ankama_id
         self.addCleanup(set_current_game_version, 'dofus3')
@@ -2257,14 +2148,12 @@ class ItemPickerSetNameTests(TestCase):
             # A dofus and a mount have neither recipe nor drop by nature.
             self.assertEqual(
                 acquisition_summary([Piece(type='Dofus'), Piece(type='Pet')]), '')
-            # But a craftable piece in the same section still counts.
             self.assertIn('1 craftable piece',
                           acquisition_summary([Piece(craftable=True, type='Dofus')]))
 
     def test_gallery_cards_summarize_without_a_query_per_build(self):
-        # A card only knows (ankama_id, type), and the gallery renders 24 of
-        # them: the counts must come from the version-wide sets, not from a
-        # lookup per build (that page already had a TTFB problem).
+        # A card only knows (ankama_id, type); the counts come from the
+        # version-wide sets, never from a lookup per build.
         from django.utils import translation
         from fashionistapulp.structure import set_current_game_version
         from chardata.item_sources import (format_acquisition_counts,
@@ -2314,8 +2203,8 @@ class ItemPickerSetNameTests(TestCase):
         self.assertIn('acquisition_summary', open(page, encoding='utf-8').read())
 
     def test_sourceless_item_gets_no_acquisition_claim(self):
-        # We only state what the data says: no recipe and no drop means no line,
-        # never "unobtainable" (a quest or an achievement may still give it).
+        # No recipe and no drop means no line: a quest or an achievement may
+        # still give the item.
         from fashionistapulp.structure import set_current_game_version
         from chardata.item_sources import get_acquisition_by_ankama_id
         self.addCleanup(set_current_game_version, 'dofus3')
@@ -2365,8 +2254,7 @@ class ItemPickerSetNameTests(TestCase):
                     self.assertIn(source_item.ankama_id, sources[wanted], item.name)
 
     def test_source_filter_keeps_or_items_it_should(self):
-        # The pool entry of an OR item has no ankama_id of its own, so a naive
-        # filter would drop every one of them.
+        # The pool entry of an OR item has no ankama_id of its own.
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.item_exchange import _apply_source_filter
         self.addCleanup(set_current_game_version, 'dofus3')
@@ -2378,8 +2266,8 @@ class ItemPickerSetNameTests(TestCase):
         self.assertIn(tynril[0], _apply_source_filter(hats, 'craftable'))
 
     def test_icon_alt_never_receives_the_header_markup(self):
-        # The header holds line breaks, the owned icon and now the set line, so
-        # feeding it to alt="" closed the attribute early and leaked markup.
+        # The header carries markup (line breaks, the owned icon, the set line),
+        # so alt="" gets the plain name instead.
         import os
         from django.conf import settings
         path = os.path.join(settings.BASE_DIR, 'chardata', 'static', 'chardata',
@@ -2390,9 +2278,8 @@ class ItemPickerSetNameTests(TestCase):
 
 
 class GetItemStatsTests(TestCase):
-    """/get_item_stats_compare/ powers the compare-page item tooltips. An id
-    that isn't in the current structure (stale page, other game version) should
-    answer null, not error."""
+    """/get_item_stats_compare/ powers the compare-page item tooltips; an id
+    absent from the current structure answers null, not an error."""
 
     def test_valid_item_returns_stats(self):
         from fashionistapulp.structure import get_structure
@@ -2402,8 +2289,7 @@ class GetItemStatsTests(TestCase):
         self.assertIn('stats_lines', resp.content.decode('utf-8'))
 
     def test_payload_tells_how_to_get_the_item(self):
-        # The compare popup shows the same secondary lines as the switch popup;
-        # without these two fields it silently fell back to name and stats only.
+        # The compare popup shows the same secondary lines as the switch popup.
         import json as json_mod
         from fashionistapulp.structure import get_structure
         item = get_structure('dofus3').get_item_by_name('Tynril Hat (#1)')
@@ -2451,7 +2337,7 @@ class GetItemStatsTests(TestCase):
             self.assertEqual(resp.json(), {})
 
     def test_evolve_no_item_result_does_not_crash(self):
-        # A no-item result must survive evolve_result_item (it reads .slot/.file).
+        # evolve_result_item reads .slot and .file.
         from fashionistapulp.modelresult import ModelResultItem
         from chardata.solution_result import evolve_result_item
         result_item = ModelResultItem(None)
@@ -2477,8 +2363,6 @@ class GetItemStatsTests(TestCase):
 
 
 class CommunityFeatureTests(TestCase):
-    """Comments and votes on shared builds are the retention features; cover
-    the happy paths and the auth guard."""
 
     def setUp(self):
         from django.contrib.auth.models import User
@@ -2516,8 +2400,7 @@ class CommunityFeatureTests(TestCase):
 
 class RegistrationFunnelTests(TestCase):
     """End-to-end signup: register -> inactive user + confirmation email ->
-    following the emailed link activates the account. This is the growth
-    funnel; it must never silently break."""
+    following the emailed link activates the account."""
 
     def setUp(self):
         # Registration checks recaptcha with a live Google call; pass it.
@@ -2553,7 +2436,6 @@ class RegistrationFunnelTests(TestCase):
         self.assertFalse(user.is_active, 'bad token must not activate')
 
     def test_welcome_email_follows_request_language(self):
-        # A French visitor registering must get the welcome email in French.
         from django.core import mail
         resp = self.client.post('/register/', {
             'username': 'joueurfr', 'password': 'a-solid-password-42',
@@ -2566,8 +2448,7 @@ class RegistrationFunnelTests(TestCase):
 
 
 class ContactFormTests(TestCase):
-    """The contact form is the players' support lifeline; a silent breakage
-    means lost messages. DEBUG=True (test settings) bypasses the captcha."""
+    """DEBUG=True (the test settings) bypasses the contact captcha."""
 
     def test_contact_page_renders(self):
         self.assertEqual(self.client.get('/contact/').status_code, 200)
@@ -2591,8 +2472,6 @@ class ContactFormTests(TestCase):
 
 
 class AuthenticatedPagesSmokeTests(TestCase):
-    """The anonymous smoke tests cover the public site; these cover the pages
-    a logged-in player actually lives in."""
 
     def setUp(self):
         from django.contrib.auth.models import User
@@ -2609,9 +2488,8 @@ class AuthenticatedPagesSmokeTests(TestCase):
 
 
 class ErrorHandlerRenderTests(TestCase):
-    """The 500 handler renders a full template (extends base); if that render
-    itself breaks, users get a blank page exactly when things already went
-    wrong. Guard that the handler produces real, translated html."""
+    """The 500 handler renders a full template that extends base, so its own
+    render can fail."""
 
     def test_app_error_renders(self):
         from django.test import RequestFactory
@@ -2630,9 +2508,8 @@ class ErrorHandlerRenderTests(TestCase):
 
 
 class PrivateProjectAccessTests(TestCase):
-    """Private (non-shared) project pages must never render for a third party
-    (including crawlers): anonymous access to someone else's char has to be
-    denied, so private builds cannot leak or get indexed."""
+    """Private (non-shared) project pages must never render for a third party,
+    crawlers included."""
 
     def _make_private_char(self):
         from chardata.models import Char
@@ -2654,11 +2531,8 @@ class PrivateProjectAccessTests(TestCase):
 
 
 class StaticStorageRegressionTests(SimpleTestCase):
-    """Guards the encyclopedia 500: under the production ManifestStaticFilesStorage
-    a {% static %} reference to an asset that wasn't collected (a single missing
-    item icon -- 'Mister Penguin Chain') raised ValueError and 500'd the whole
-    listing. The lenient storage must degrade a missing asset to a URL, not raise.
-    """
+    """Under the production ManifestStaticFilesStorage, a {% static %} asset that
+    was not collected must degrade to a URL instead of raising."""
 
     @override_settings(STORAGES={
         'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
@@ -2666,17 +2540,13 @@ class StaticStorageRegressionTests(SimpleTestCase):
     })
     def test_missing_asset_degrades_to_url(self):
         from django.contrib.staticfiles.storage import staticfiles_storage
-        # Not in the manifest and not on disk: must return a (unhashed) URL
-        # instead of raising ValueError.
         url = staticfiles_storage.url('chardata/definitely-missing-xyz.png')
         self.assertIn('definitely-missing-xyz.png', url)
 
 
 class RateLimitedErrorFilterTests(SimpleTestCase):
-    """The mail_admins rate-limiter must dedupe duplicate errors but never
-    suppress an email because of its own failure -- a cache hiccup must not make
-    us blind to production errors (prod went 3 days without a single error mail).
-    """
+    """The mail_admins rate-limiter dedupes duplicate errors, and fails open
+    when the cache itself fails."""
 
     def test_dedupes_same_signature_once_per_window(self):
         import logging
@@ -2708,9 +2578,8 @@ class RateLimitedErrorFilterTests(SimpleTestCase):
     }
 )
 class GuidesContentTests(TestCase):
-    """The Guides section is original editorial content (AdSense "low value
-    content" remedy). It must render in every language, 404 on unknown slugs,
-    and stay self-canonical."""
+    """The guides are editorial content: they render in every language, 404 on
+    an unknown slug, and stay self-canonical."""
 
     def test_hub_lists_every_guide(self):
         from chardata import guides_content
@@ -2721,10 +2590,7 @@ class GuidesContentTests(TestCase):
             self.assertIn('/guides/%s/' % slug, html)
 
     def test_order_covers_every_guide(self):
-        # The crafting guide shipped published but invisible for a morning:
-        # only ORDER feeds the hub and the sitemap, and it was missing there.
-        # ordered_slugs() now catches forgotten slugs at runtime; this catches
-        # them at test time, where the author actually sees it.
+        # Only ORDER feeds the hub and the sitemap.
         from chardata import guides_content
         self.assertEqual(set(guides_content.ORDER),
                          set(guides_content.GUIDES),
@@ -2782,14 +2648,10 @@ class GuidesContentTests(TestCase):
         self.assertEqual(articles[0]['datePublished'], '2026-06-30')
 
     def test_guide_body_links_back_into_the_tool(self):
-        # Internal links (SEO + UX): the article body points at real tool pages.
         resp = self.client.get('/guides/getting-started/')
         self.assertContains(resp, 'href="/setup/"')
 
     def test_all_guide_body_links_resolve(self):
-        # Every root-relative link in every language's body must keep resolving
-        # when site URLs change; a dead link in editorial content is invisible
-        # until a reader hits it.
         from chardata import guides_content
         hrefs = set()
         for slug, variant, lang, block in guides_content.iter_content_blocks():
@@ -2800,7 +2662,6 @@ class GuidesContentTests(TestCase):
             self.assertIn(resp.status_code, (200, 301, 302), href)
 
     def test_content_is_translated_per_language(self):
-        # Each language must serve its own hand-written title, not the English one.
         cases = {
             'fr': 'ton premier stuff',
             'es': 'tu primer build',
@@ -2816,12 +2677,8 @@ class GuidesContentTests(TestCase):
                 self.assertIn(needle, html, msg='%s title missing' % lang)
 
     def test_non_english_guides_use_native_accents(self):
-        # Guards against a recurring authoring mistake: writing fr/es/pt/de guide
-        # content in ASCII (resistance instead of resistance, Ueber instead of
-        # ueber). Real long-form text in these languages always carries plenty of
-        # accented letters; a transliterated block has none. The lowest legitimate
-        # count across the current guides is 14 (a short German guide), so a floor
-        # of 8 flags a stripped block without false-positiving.
+        # Real fr/es/pt/de prose always carries accented letters; an
+        # ASCII-transliterated block has almost none.
         from chardata import guides_content
         accented = re.compile('[À-ɏ]')
         for slug, variant, lang, block in guides_content.iter_content_blocks():
@@ -2838,9 +2695,7 @@ class GuidesContentTests(TestCase):
 
 class NlParserTests(SimpleTestCase):
     """The smart-build natural-language parser must understand all five UI
-    languages. German was added last; these lock in the German class names,
-    elements, styles and aspects (official Ankama names, sourced from the de
-    translations) so the feature stays complete."""
+    languages; the class, element and style words are the official Ankama ones."""
 
     def _parse(self, text):
         from chardata.nl_parser import parse_build_request
@@ -2879,14 +2734,12 @@ class NlParserTests(SimpleTestCase):
         self.assertIn('trap', self._parse('Sram Falle')['extra_aspects'])
 
     def test_existing_languages_still_parse(self):
-        # Guard against regressions in the FR/EN keyword sets while extending DE.
         self.assertEqual(self._parse('Iop 200 terre PvM')['char_class'], 'Iop')
         self.assertEqual(self._parse('Iop 200 terre PvM')['element'], 'str')
         self.assertEqual(self._parse('Cra agi pvp niveau 150')['style'], 'pvp')
 
     def test_every_example_chip_parses_to_a_class(self):
-        # The example chips are clickable and fill the box, so each one must
-        # itself resolve to a class in every language it is offered in.
+        # Clicking an example chip fills the box with its text.
         from chardata.nl_build_view import EXAMPLE_QUERIES_BY_LANG
         for lang, examples in EXAMPLE_QUERIES_BY_LANG.items():
             for ex in examples:
@@ -2895,8 +2748,7 @@ class NlParserTests(SimpleTestCase):
                                          msg='example %r has no class' % ex)
 
     def test_build_name_style_is_localized(self):
-        # The auto-generated build name must not leak the raw "group_pvm" key;
-        # the style word is served in the active language.
+        # The auto-generated build name must not leak the raw "group_pvm" key.
         from chardata.nl_build_view import _style_name
         with translation.override('fr'):
             self.assertEqual(_style_name('group_pvm'), 'PvM en groupe')
@@ -2905,10 +2757,8 @@ class NlParserTests(SimpleTestCase):
 
 
 class AspectParserTests(SimpleTestCase):
-    """The "understand my build" text field (build_confirmation.html ->
-    /understandbuild/) auto-checks aspect boxes from a free-text description.
-    It was English-only; these lock in the FR/ES/PT/DE keywords and the accent
-    folding so non-English players get their aspects recognized too."""
+    """The "understand my build" field (build_confirmation.html ->
+    /understandbuild/) auto-checks aspect boxes from a free-text description."""
 
     def _aspects(self, text):
         from chardata.aspect_parser import parse_aspects
@@ -2928,7 +2778,7 @@ class AspectParserTests(SimpleTestCase):
         self.assertEqual(self._aspects('Cra agua sanador'), {'cha', 'heal'})
 
     def test_accent_folding(self):
-        # "dégâts" must match the "degats" marker.
+        # The keyword table stores the folded form, "degats".
         self.assertIn('dam', self._aspects('dégâts'))
 
     def test_english_still_parses(self):
@@ -2937,9 +2787,8 @@ class AspectParserTests(SimpleTestCase):
 
 
 class ItemIconFallbackTests(SimpleTestCase):
-    """Variant items produced by the data pipeline ("Nomoon 2") reuse the base
-    item's artwork; only the base icon exists on disk. get_image_url must fall
-    back to the base icon instead of serving a broken image."""
+    """Variant items ("Nomoon 2") reuse the base item's artwork; only the base
+    icon exists on disk, so get_image_url falls back to it."""
 
     def test_variant_falls_back_to_base_icon(self):
         from chardata.image_store import get_image_url
@@ -2957,24 +2806,20 @@ class ItemIconFallbackTests(SimpleTestCase):
                          'chardata/items/60x60/Sponghield-60-60.png')
 
     def test_windows_illegal_chars_stripped_from_icon_path(self):
-        # "Wand Else?" cannot exist as a filename on windows; the icon is
-        # stored (and must be looked up) without the question mark.
+        # "Wand Else?" cannot be a filename on windows: the icon drops the "?".
         from chardata.image_store import get_image_url
         self.assertEqual(get_image_url('Weapon', 'Wand Else?', 'touch'),
                          'chardata/items/touch/60x60/Wand Else-60-60.png')
 
 
 class LocalizedUiParityTests(SimpleTestCase):
-    """The inventory, forgemagie and encyclopedia pages each carry their own
-    hand-maintained per-language UI dict. A key present in English but missing
-    in another language renders blank (or raises) for those users, so these keep
-    the five languages at strict key parity and catch future drift."""
+    """The inventory, forgemagie and encyclopedia pages each carry a
+    hand-maintained per-language UI dict; a key missing in one language renders
+    blank there."""
 
     LANGS = ['en', 'fr', 'es', 'pt', 'de']
 
     def test_encyclopedia_ui_uses_proper_accents(self):
-        # The encyclopedia dict shipped unaccented ("Encyclopedie", "Direcao");
-        # pin a few strings so the accents don't regress.
         from chardata.encyclopedia_view import LOCALIZED_UI
         self.assertEqual(LOCALIZED_UI['fr']['title'], 'Encyclopédie')
         self.assertEqual(LOCALIZED_UI['fr']['details_title'], "Détails de l'objet")
@@ -3005,14 +2850,10 @@ class LocalizedUiParityTests(SimpleTestCase):
         self._assert_parity(LOCALIZED_UI, 'encyclopedia')
 
     def test_localized_ui_dicts_use_native_accents(self):
-        # The forgemagie and inventory dicts once shipped ASCII-transliterated
-        # (fuer, Waehle, anaden), a whole-block authoring slip. These three dicts
-        # are prose-heavy in every language and always carry many accented
-        # letters; a transliterated block drops to almost none, so a floor of 8
-        # flags the slip without false-positiving (the lowest legitimate count
-        # here is 13). MONSTER_UI is intentionally not checked: its values are
-        # one-word labels (German Erde/Feuer/Stufe legitimately have no umlaut),
-        # too short for a count-based guard.
+        # These three dicts are prose-heavy in every language and always carry
+        # accented letters; an ASCII-transliterated block has almost none.
+        # MONSTER_UI is left out: its one-word labels (Erde, Feuer, Stufe) carry
+        # none of their own.
         from chardata import encyclopedia_view, forgemagie_view, inventory_view
         accented = re.compile('[À-ɏ]')
         dicts = {
@@ -3031,8 +2872,7 @@ class LocalizedUiParityTests(SimpleTestCase):
 
 
 class ApiDocsTests(TestCase):
-    """The public API advertises /about/#api as its docs; that section must
-    exist, stay translated, and the meta endpoint must keep pointing at it."""
+    """The public API advertises /about/#api as its docs."""
 
     def test_about_documents_the_api(self):
         resp = self.client.get('/about/')
@@ -3050,8 +2890,6 @@ class ApiDocsTests(TestCase):
         self.assertEqual(resp.json()['docs'], 'https://dofusfashionista.gg/about/#api')
 
     def test_api_responses_carry_cache_and_cors_headers(self):
-        # Public API contract: open CORS + short client-side cache, so bots
-        # and overlays do not hammer the backend.
         for url, max_age in (('/api/v1/', 'max-age=300'),
                              ('/api/v1/shared-builds/', 'max-age=60')):
             resp = self.client.get(url)
@@ -3062,7 +2900,7 @@ class ApiDocsTests(TestCase):
 
 class CommentNotificationLanguageTests(TestCase):
     """The build owner gets the new-comment email in the language they last
-    picked in the language selector, not hardcoded English."""
+    picked in the language selector."""
 
     def _make_build(self, owner):
         from chardata.models import Char
@@ -3083,8 +2921,6 @@ class CommentNotificationLanguageTests(TestCase):
         self.assertEqual(UserAlias.objects.get(user=user).language, 'de')
 
     def test_login_backfills_language(self):
-        # Accounts that never touched the language selector get the language
-        # they were browsing in when they logged in.
         from django.contrib.auth.models import User
         from chardata.models import UserAlias
         user = User.objects.create_user('nolang', 'n@test.local', 'pw-42-solid')
@@ -3108,18 +2944,15 @@ class CommentNotificationLanguageTests(TestCase):
         self.client.force_login(user)
         resp = self.client.get('/manageaccount/')
         self.assertContains(resp, 'email_language')
-        # Explicit choice saved.
         resp = self.client.post('/saveaccount/', {'alias': 'Testeur', 'email_language': 'es'})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.json()['email_language'], 'es')
         self.assertEqual(UserAlias.objects.get(user=user).language, 'es')
-        # Bogus value ignored, choice kept.
         self.client.post('/saveaccount/', {'alias': 'Testeur', 'email_language': 'xx'})
         self.assertEqual(UserAlias.objects.get(user=user).language, 'es')
-        # Field absent (cached page): choice kept.
         self.client.post('/saveaccount/', {'alias': 'Testeur'})
         self.assertEqual(UserAlias.objects.get(user=user).language, 'es')
-        # "Automatic" clears it.
+        # The empty value is the "Automatic" option.
         self.client.post('/saveaccount/', {'alias': 'Testeur', 'email_language': ''})
         self.assertIsNone(UserAlias.objects.get(user=user).language)
 
@@ -3144,8 +2977,7 @@ class CommentNotificationLanguageTests(TestCase):
 
 
 class WizardSlidersRoundTripTests(SimpleTestCase):
-    """The tuning page maps sliders to solver weights and back; drift in that
-    mapping silently corrupts what players believe they configured."""
+    """The tuning page maps sliders to solver weights and back."""
 
     def test_set_then_get_round_trips_for_every_slider(self):
         import collections
@@ -3163,7 +2995,7 @@ class WizardSlidersRoundTripTests(SimpleTestCase):
 
 class SharedBuildsHideInvalidTests(TestCase):
     """The hide_invalid filter drops builds whose stored solution no longer
-    unpickles; it must keep working after the cache-driven scan rewrite."""
+    unpickles."""
 
     def _make_build(self, name, blob):
         from django.contrib.auth.models import User
@@ -3290,9 +3122,8 @@ class SharedLinkWithoutSolutionTests(TestCase):
 
 
 class SharedSolutionPageTests(TestCase):
-    """End-to-end render of a shared solution page from a hand-built minimal
-    solution (no solver run), guarding the view-count contract: one view is
-    counted and modified_time must not move."""
+    """A shared solution page counts one view and must not move
+    modified_time."""
 
     def _shared_build(self):
         import pickle as _pickle
@@ -3496,9 +3327,6 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertEqual(kept_ids, created_ids[-10:])
 
     def test_a_piece_box_is_ticked_when_the_piece_is_shown(self):
-        # It read the other way round: ticking a box HID the piece, so a
-        # reader ticking "Hat" watched it vanish. A build reached us with
-        # cloak, hat and shield all hidden that way.
         import re as _re
         owner, char, _ = self._build_char_with_items()
         self.client.force_login(owner)
@@ -3525,8 +3353,7 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertFalse(drawn.get('hat', True), 'a hidden piece stayed ticked')
 
     def test_the_two_banner_panels_can_actually_close(self):
-        # Both carry display:flex, which beats the [hidden] the browser sheet
-        # gives, so they stayed open for good and their buttons did nothing.
+        # Both carry display:flex, which beats the browser sheet's [hidden].
         css = os.path.join(os.path.dirname(__file__), 'static', 'chardata',
                            'solution_overrides.css')
         with open(css, encoding='utf-8') as handle:
@@ -3538,10 +3365,8 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertIn('display: none', guard.split('}')[0] + '}')
 
     def test_the_owner_can_resize_the_preview_on_the_page(self):
-        # The preview shipped tiny with no way to grow it: the size lived in
-        # the account page only, behind the alias link nobody reads as a
-        # button. The banner now carries its own controls and the whole size
-        # table, so the client can rebuild the canvas without a round trip.
+        # The banner carries the whole size table, so the client rebuilds the
+        # canvas without a round trip.
         import json as json_module
         from chardata.character_look import PREVIEW_SIZES, preview_box
         owner, char, _ = self._build_char_with_items()
@@ -3563,8 +3388,6 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertContains(resp, '/manageaccount/')
 
     def test_a_super_user_can_reach_their_own_account(self):
-        # The header branched on the badge and printed the name with nothing
-        # to click, so an admin had no way into their own account page.
         from unittest.mock import patch
         owner, char, _ = self._build_char_with_items()
         self.client.force_login(owner)
@@ -3576,8 +3399,6 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertContains(resp, '/manageaccount/')
 
     def test_a_project_page_still_carries_the_loading_screen(self):
-        # The reading pages dropped it; the pages that can start a solve must
-        # keep it, or the tailor button hides the content and shows nothing.
         owner, char, _ = self._build_char_with_items()
         self.client.force_login(owner)
         resp = self.client.get('/solution/%d/' % char.pk)
@@ -3601,10 +3422,6 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertContains(resp, 'Compare with current')
 
     def test_a_saved_generation_keeps_the_base_stats_it_was_solved_with(self):
-        # A player solving for a lock minimum has the auto assignment move
-        # agility to reach it. Regenerating with new minimums moved the old
-        # generation's characteristics too, so the comparison showed a build
-        # that never met the threshold it was actually solved for.
         import pickle as _pickle
         from chardata.solution import get_solution
         from chardata.solution_history import (get_generation_solution,
@@ -3678,10 +3495,6 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertContains(resp, 'vs current')
 
     def test_snapshot_view_scores_history_against_current_build(self):
-        # Regression: viewing a saved generation used that snapshot's score as the
-        # history baseline, so the snapshot's own row showed a 0 delta and every
-        # other delta was measured against the wrong build. The baseline must stay
-        # the current build even while viewing a snapshot.
         import pickle as _pickle
         from chardata.solution import get_solution
         from chardata.solution_history import get_generation_solution, record_solution_generation
@@ -3721,8 +3534,6 @@ class SolutionGenerationHistoryTests(TestCase):
         history = resp.context['generation_history']
         snap_row = next(r for r in history if r['id'] == generation.id)
         self.assertTrue(snap_row['is_current_snapshot'])
-        # Baseline is the current build, so the snapshot's own delta is
-        # snapshot_score - current_score (non-zero), not 0 against itself.
         self.assertEqual(snap_row['score_delta'], snapshot_score - current_score)
         self.assertNotEqual(snap_row['score_delta'], 0)
 
@@ -3820,9 +3631,7 @@ class SolutionGenerationHistoryTests(TestCase):
                          '/compare_sets/%d/g%d' % (char.pk, generation.pk))
 
     def test_generation_endpoints_deny_non_owners(self):
-        # Saved generations are private snapshots: another logged-in user must not
-        # be able to view them, restore them over the owner's build, or pull them
-        # into a comparison, even when the owner's build itself is link-shared.
+        # Snapshots stay private even when the build itself is link-shared.
         import pickle as _pickle
         from django.contrib.auth.models import User
         from chardata.solution_history import record_solution_generation
@@ -3848,16 +3657,15 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertEqual(bytes(char.minimal_solution), blob_before,
                          'a non-owner restore must not touch the stored solution')
 
-        # The whole comparison collapses (<2 accessible builds) instead of leaking.
+        # Fewer than two accessible builds collapses the whole comparison.
         compare_resp = self.client.get(
             '/compare_sets/%d/g%d/' % (char.pk, generation.pk))
         self.assertEqual(compare_resp.status_code, 404)
 
 
 class SharedSolutionPageDeepTests(TestCase):
-    """Same fixture as SharedSolutionPageTests but with a real item equipped:
-    the page must show the item card, and switching an item on a char that has
-    a solution must actually change the stored solution."""
+    """A shared build with a real item equipped: the page shows the item card
+    and slot edits rewrite the stored solution."""
 
     def _build_with_hat(self, owner):
         import pickle as _pickle
@@ -4130,9 +3938,7 @@ class CompareSetsSpellPreviewTests(TestCase):
 
 
 class InlineScriptSyntaxTests(TestCase):
-    """Syntax-check every inline script of the key pages with node. A single
-    stray quote in a jQuery string can kill a whole page's JS silently, so this
-    catches it before it ships."""
+    """Syntax-check every inline script of the key pages with node."""
 
     @unittest.skipIf(shutil.which('node') is None, 'node not installed')
     def test_inline_scripts_parse(self):
@@ -4181,9 +3987,8 @@ class InlineScriptSyntaxTests(TestCase):
                  '/exclusions/%d/' % char.pk,
                  '/forgemagie/', '/inventory/', '/workshop/',
                  '/choose_compare_sets/', '/manageaccount/']
-        # Extract inline scripts with a real HTML tokenizer instead of a regexp: a
-        # regexp can never match every script end tag the browser accepts (</script >,
-        # </script\t\nbar>, ...), so html.parser is both correct and CodeQL-clean.
+        # A regexp cannot match every script end tag a browser accepts
+        # (</script >, </script\t\nbar>, ...), hence the tokenizer.
         from html.parser import HTMLParser
 
         class _InlineScripts(HTMLParser):
@@ -4234,9 +4039,8 @@ class InlineScriptSyntaxTests(TestCase):
                     os.unlink(path)
 
 class JqueryStringQuoteLintTests(SimpleTestCase):
-    """No empty double-quoted attribute inside a double-quoted jQuery string:
-    it closes the string early and kills the inline script. Scans every template,
-    including the admin pages the render-based node check can't reach."""
+    """An empty double-quoted attribute inside a double-quoted jQuery string
+    closes the string early and kills the inline script."""
 
     def test_no_empty_double_quoted_attr_in_jquery_string(self):
         template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -4256,9 +4060,8 @@ class JqueryStringQuoteLintTests(SimpleTestCase):
 
 
 class GelanoExoDisplayLintTests(SimpleTestCase):
-    """mp_exo can be the string "gelano" (the MP then comes from equipping the
-    Gelano ring, not a free exo). The solution page's exo display must test it
-    strictly (=== true) or 'gelano' shows a phantom "+1" on MP (reported bug)."""
+    """mp_exo can be the string "gelano" (the MP comes from equipping the Gelano
+    ring, not a free exo), so the exo display must test it with === true."""
 
     def test_solution_exo_display_uses_strict_equality(self):
         path = os.path.join(os.path.dirname(__file__), 'templates',
@@ -4272,14 +4075,12 @@ class GelanoExoDisplayLintTests(SimpleTestCase):
 
 class RetroSoftCapsTests(SimpleTestCase):
     """Retro (1.29) spends characteristic points on class-specific tables; every
-    other version keeps the uniform modern table. Costs verified against the
-    129dofus wiki 'Soft Cap' page (cross-checked with dofuzion)."""
+    other version keeps the uniform modern table."""
 
     _TIER_COST = [0.5, 1, 2, 3, 4, 5]
 
     def _capital_cost(self, caps, target):
-        # Mirror the model's per-tier width computation, then walk the tiers
-        # cheapest-first to reach `target` stat points.
+        # Mirrors the model's per-tier width computation.
         widths = []
         for i in range(6):
             if i >= 1 and caps[i - 1] is not None and caps[i] is not None:
@@ -4333,7 +4134,6 @@ class RetroSoftCapsTests(SimpleTestCase):
     def test_the_workshop_prices_a_copy_like_the_item_it_copies(self):
         # The encyclopedia keys its pages on the ankama id, so a copy has no
         # page of its own; what it does have is a place in the solver pool.
-        # A build equipping one used to give the workshop nothing to buy.
         from chardata.recipe_util import aggregate_ingredients
         from fashionistapulp.structure import get_structure
         pool = list(get_structure('dofus3').get_concatenated_items_lists())
@@ -4359,10 +4159,7 @@ class RetroSoftCapsTests(SimpleTestCase):
 
     def test_rows_of_the_same_item_carry_the_same_extra_data(self):
         # An item gated behind alternative conditions is flattened into
-        # "(#1)" and "(#2)", and a fed pet into one row per bonus. The
-        # writers resolved a single row, so the copy reached the
-        # encyclopedia with no description, no weight, no recipe, no craft
-        # job: 37 groups on dofus3 and the beta, 110 on Touch, 48 on Retro.
+        # "(#1)" and "(#2)", and a fed pet into one row per bonus.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
@@ -4386,10 +4183,8 @@ class RetroSoftCapsTests(SimpleTestCase):
                 conn.close()
 
     def test_every_version_charges_what_its_own_files_say(self):
-        # A wrong tier silently changes every solve on that version, and the
-        # retro tables came from a wiki. Each game ships its own answer;
-        # itemscraper/export_characteristic_costs.py reads them out and this
-        # holds the constants to it. Rerun that script when a version moves.
+        # itemscraper/export_characteristic_costs.py reads the costs out of each
+        # game's own files; rerun it when a version moves.
         import json
         from fashionistapulp.dofus_constants import get_soft_caps_for
         from fashionistapulp.fashionista_config import get_fashionista_path
@@ -4412,10 +4207,8 @@ class RetroSoftCapsTests(SimpleTestCase):
 
 
 class TouchSoftCapsTests(SimpleTestCase):
-    """Dofus Touch keeps its own 2.x-era characteristic costs (from its game
-    files touch_raw/Breeds_fr.json): one uniform table for every class where the
-    elements and Wisdom scale 1/2/3/4/5 at 100/200/300/400 and Vitality is 1:1.
-    Notably Wisdom is distributable and cheap early, unlike modern's flat 3:1."""
+    """Dofus Touch keeps one uniform 2.x-era table for every class: elements and
+    Wisdom scale 1/2/3/4/5 at 100/200/300/400, Vitality is 1:1."""
 
     _TIER_COST = [0.5, 1, 2, 3, 4, 5]
 
@@ -4462,7 +4255,6 @@ class TouchSoftCapsTests(SimpleTestCase):
 
     def test_only_sacrier_gets_cheap_vitality_in_retro(self):
         from fashionistapulp.dofus_constants import get_soft_caps_for
-        # Sacrier reaches 100 vitality for 50 capital points; everyone else 100.
         self.assertEqual(
             self._capital_cost(get_soft_caps_for('retro', 'Sacrier')['vit'], 100), 50)
         for char_class in ('Iop', 'Cra', 'Feca', 'Pandawa'):
@@ -4484,20 +4276,14 @@ class TouchSoftCapsTests(SimpleTestCase):
         return cost
 
     def test_retro_is_the_only_version_where_scrolls_push_the_curve(self):
-        # The tempting mistake is to lump Touch in with Retro because it forked
-        # from 2.x before the October 2018 change. It adopted the rule on its
-        # own: a player's character scrolled to 51 Intelligence with 305 points
-        # invested was charged 925 in game, the flat curve, not the 1078 the
-        # pushed curve wants. Nothing else pins which versions push, so a
-        # one-word edit here would misprice every Touch build in silence.
+        # Touch forked from 2.x before the change but charges the flat curve too.
         from fashionistapulp.dofus_constants import scrolls_push_cost_curve
         self.assertTrue(scrolls_push_cost_curve('retro'))
         for version in ('dofus3', 'beta', 'dofus2', 'touch'):
             self.assertFalse(scrolls_push_cost_curve(version), version)
 
     def test_scrolls_push_points_up_the_cost_curve(self):
-        # Reported bug: an Iop scrolled to 100 Intelligence was charged 1:1 for the
-        # next point. Scrolls are free stat but still climb the curve, so it is 5:1.
+        # Scrolls are free stat but still climb the cost curve.
         from fashionistapulp.dofus_constants import get_soft_caps_for
         iop_int = get_soft_caps_for('retro', 'Iop')['int']
         self.assertEqual(self._capital_for_extra(iop_int, 0, 1), 1)      # fresh: 1:1
@@ -4505,7 +4291,7 @@ class TouchSoftCapsTests(SimpleTestCase):
         self.assertEqual(self._capital_for_extra(iop_int, 100, 10), 50)
         # 30 base sits 10 into the 2:1 tier.
         self.assertEqual(self._capital_for_extra(iop_int, 30, 1), 2)
-        # Modern is affected too: scrolled to 100 the next Strength point is 2:1.
+        # Modern too: scrolled to 100, the next Strength point is 2:1.
         modern_str = get_soft_caps_for('dofus3', 'Iop')['str']
         self.assertEqual(self._capital_for_extra(modern_str, 100, 1), 2)
         # 1:1 stats (vitality) never get pricier from scrolling.
@@ -4513,10 +4299,8 @@ class TouchSoftCapsTests(SimpleTestCase):
 
 
 class StatMaximumPerVersionTests(SimpleTestCase):
-    """AP/MP/Range are hard-capped at 12/6/6 by the Dofus 2 "PA/PM/PO limitation"
-    which Dofus 3, the beta, Dofus 2 and Touch keep, but Dofus Retro (1.29) never
-    got it (17 AP / 7 MP exo items exist there). So the optimizer must not cap
-    AP/MP/Range on Retro, while still capping them everywhere else."""
+    """AP/MP/Range are capped at 12/6/6 from Dofus 2 on; Retro (1.29) never got
+    that limitation and must stay uncapped."""
 
     def test_modern_and_touch_cap_ap_mp_range(self):
         from fashionistapulp.dofus_constants import get_stat_maximum
@@ -4543,9 +4327,8 @@ class StatMaximumPerVersionTests(SimpleTestCase):
 
 
 class DropMonsterLevelTests(TestCase):
-    """Item and resource "Dropped by" lines show the dropping monster's level
-    range (a farmability cue), sourced from monster_grades. Treering (ankama_id
-    836) is dropped by Treechnid, whose grades span level 38-50 in dofus3."""
+    """The "Dropped by" lines show the dropping monster's level range. Treering
+    (836) is dropped by Treechnid, whose grades span 38-50 in dofus3."""
 
     def test_drop_level_text_helper(self):
         from chardata import encyclopedia_view
@@ -4567,9 +4350,8 @@ class DropMonsterLevelTests(TestCase):
         self.assertIn('38-50', html)
 
     def test_item_drops_break_rate_ties_by_level(self):
-        # Croblade (ankama_id 2544) is dropped by many monsters all at the same
-        # rate, so the "Dropped by" list must fall back to the easiest (lowest
-        # level) source first instead of an arbitrary order.
+        # Croblade (2544) is dropped by many monsters at the same rate, so the
+        # list falls back to the lowest level first.
         from chardata import encyclopedia_view
         url = encyclopedia_view.get_item_link('equipment', 2544, 'Croblade', 'dofus3')
         resp = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en')
@@ -4582,16 +4364,13 @@ class DropMonsterLevelTests(TestCase):
                     drop['level_min'] if drop['level_min'] is not None else 10 ** 9)
 
         self.assertEqual(drops, sorted(drops, key=order))
-        # These share one rate, so the levels themselves must be non-decreasing.
         levels = [d['level_min'] for d in drops if d['level_min'] is not None]
         self.assertEqual(levels, sorted(levels))
 
 
 class OrItemNamingTests(SimpleTestCase):
-    """An item with OR equip conditions is split into one row per branch. The
-    branches must carry the "(#N)" tag, which is what structure.py groups them
-    on: named " 1" / " 2" they stay ungrouped and the player sees the same item
-    twice, in the pool and in the encyclopedia."""
+    """An item with OR equip conditions is split into one row per branch; the
+    branches carry the "(#N)" tag that structure.py groups them on."""
 
     DBS = {'dofus3': 'items.db', 'beta': 'items_beta.db', 'dofus2': 'items_dofus2.db',
            'touch': 'items_touch.db', 'retro': 'items_retro.db'}
@@ -4636,8 +4415,7 @@ class OrItemGroupingTests(SimpleTestCase):
             structure = get_structure(version)
             or_items = structure.get_or_items()
             self.assertIn('Tynril Hat', or_items)
-            # The solver forbids a whole group at once from this list, so both
-            # branches must be in it: forbidding one used to leave the other in.
+            # The solver forbids a whole group at once from this list.
             self.assertEqual(
                 sorted(item.id for item in
                        structure.get_available_or_items()['Tynril Hat']),
@@ -4654,7 +4432,7 @@ class OrItemGroupingTests(SimpleTestCase):
 
     def test_runtime_branch_borrows_its_localized_name(self):
         # The Gelano MP-exo variant is built in memory, so it has no row in
-        # item_names and used to show up as "[!] Gelano" outside English.
+        # item_names and must borrow the ring's localized names.
         from fashionistapulp.structure import get_structure
         for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
             structure = get_structure(version)
@@ -4672,8 +4450,7 @@ class OrItemGroupingTests(SimpleTestCase):
                 self.assertEqual(len(names), 1, (version, language, names))
 
     def test_weapon_lookup_accepts_the_grouped_name(self):
-        # get_weapon_by_name is called with both dofus_touch flags; the OR
-        # branch used to read the touch dict while testing the regular one.
+        # get_weapon_by_name is called with both dofus_touch flags.
         from fashionistapulp.structure import get_structure
         structure = get_structure('dofus3')
         for dofus_touch in (False, True):
@@ -4706,10 +4483,8 @@ class OrItemPageTests(TestCase):
 
 
 class DropsOnCanonicalItemTests(SimpleTestCase):
-    """A few ankama_ids carry more than one row (id = 100000000 + ankama_id,
-    and the fed pets). Whichever of them a page is asked for, it has to say
-    where the item drops: the copy is the same item. What must never happen
-    is the copy holding them while the canonical low id shows nothing."""
+    """A few ankama_ids carry more than one row (id = 100000000 + ankama_id, and
+    the fed pets); the copy must never hold drops the canonical low id lacks."""
 
     DBS = {'dofus3': 'items.db', 'beta': 'items_beta.db',
            'touch': 'items_touch.db', 'retro': 'items_retro.db'}
@@ -4742,8 +4517,7 @@ class DropsOnCanonicalItemTests(SimpleTestCase):
 
 class DropConditionsTests(TestCase):
     """Drops with an Ankama criterion show the "under conditions" marker;
-    retro has no conditions so it never does. Fixtures are looked up in the
-    DB because the conditioned set changes with every data update."""
+    retro has no conditions so it never does."""
 
     def _cursor(self, version='dofus3'):
         import sqlite3
@@ -4775,7 +4549,6 @@ class DropConditionsTests(TestCase):
     def test_free_drops_are_not_flagged(self):
         from chardata import encyclopedia_view
         cur = self._cursor()
-        # An item whose every drop line is unconditional must show no marker.
         row = cur.execute("""
             SELECT i.ankama_id, i.ankama_type
             FROM item_drops d JOIN items i ON i.id = d.item
@@ -4850,8 +4623,7 @@ class DropConditionsTests(TestCase):
 
 class MonsterWeakestElementTests(TestCase):
     """The monster stats table marks the weakest element (lowest resistance) per
-    grade so players know what to hit with. Crocodyl (261) resists fire the least
-    in dofus3."""
+    grade. Crocodyl (261) resists fire the least in dofus3."""
 
     def test_weakest_elements_helper(self):
         from chardata import encyclopedia_view
@@ -4878,10 +4650,8 @@ class MonsterWeakestElementTests(TestCase):
         self.assertIn('monster-weakest-hint', html)
 
     def test_a_monster_the_game_gives_no_health_shows_a_dash(self):
-        # 112 dofus3 monsters carry 0 life points in the game's own data, the
-        # Arakne among them, and the page printed a flat 0. Real values are
-        # untouched, and the template must not leak a Django comment either:
-        # {# #} is single-line only.
+        # The Arakne carries 0 life points in the game's own data. {# #} is
+        # single-line only, so a multi-line one leaks into the page.
         from chardata import encyclopedia_view
         blank = self.client.get(
             encyclopedia_view.get_monster_link(246, 'Arakne', 'dofus3')
@@ -4908,20 +4678,17 @@ class MonsterWeakestElementTests(TestCase):
         from chardata import encyclopedia_view
         url = encyclopedia_view.get_monster_link(261, 'Crocodyl', 'dofus3')
         html = self.client.get(url).content.decode('utf-8')
-        # Crocodyl resists fire the least in every grade -> explicit summary.
+        # Crocodyl resists fire the least in every grade.
         self.assertIn('Weakness:', html)
         self.assertIn('Fire', html)
-        # The weakness also feeds the meta description (in <head>, before the body).
+        # The weakness also feeds the meta description in <head>.
         head = html.split('</head>', 1)[0]
         self.assertIn('Weakness: Fire', head)
 
 
 class TrophyPrysmaraditeVersionTests(SimpleTestCase):
-    """Trophies and prysmaradites are post-1.29 slot fillers (trophies arrived in
-    Dofus 2.x, prysmaradites in Dofus 3), so each version's pool must carry only
-    the ones its game actually has, or the solver could hand a Retro build a
-    trophy that never existed there. Retro 1.29 has 6 Dofus slots (sourced:
-    dofux/dragoune 1.29 references) and neither trophies nor prysmaradites."""
+    """Trophies arrived in Dofus 2.x and prysmaradites in Dofus 3, so each
+    version's pool carries only the ones its own game has."""
 
     @staticmethod
     def _counts(version):
@@ -4934,11 +4701,9 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
         return prys, trophy
 
     def test_retro_has_neither_trophies_nor_prysmaradites(self):
-        # Both are post-1.29, so Retro must have zero of each.
         self.assertEqual(self._counts('retro'), (0, 0))
 
     def test_touch_has_trophies_but_no_prysmaradites(self):
-        # Touch carries trophies (Dofus 2.x) but not prysmaradites (Dofus 3).
         prys, trophy = self._counts('touch')
         self.assertEqual(prys, 0)
         self.assertGreater(trophy, 0)
@@ -4951,8 +4716,7 @@ class TrophyPrysmaraditeVersionTests(SimpleTestCase):
 
 class UnobtainableDefaultsTests(TestCase):
     """New dofus3/beta projects exclude by default the items nobody can get
-    anymore (lottery, removed tutorials, one-off events...); quest rewards and
-    craftables stay in. Existing projects are never touched."""
+    anymore; quest rewards and craftables stay in."""
 
     def test_new_dofus3_project_excludes_the_dead_items_only(self):
         from chardata.lock_forbid import get_default_exclusions
@@ -4998,9 +4762,8 @@ class UnobtainableDefaultsTests(TestCase):
 
 
 class SharedBuildsGalleryPerfTests(TestCase):
-    """The gallery paginates on ids only (sorting full rows dragged every blob
-    through the MySQL sort buffer) and shows 24 builds per page. Vote counts
-    are bulk-fetched for the page whatever the ordering."""
+    """The gallery paginates on ids only and shows 24 builds per page, with the
+    vote counts bulk-fetched whatever the ordering."""
 
     def _make_builds(self, n):
         from django.contrib.auth.models import User
@@ -5083,9 +4846,8 @@ class ChangelogLazyTests(TestCase):
 
 
 class SetupMobileHooksTests(TestCase):
-    """The setup Elements/Options/Focus table stacks into full-width rows on
-    phones via CSS that orders the three group titles; keep the class hooks the
-    stacking depends on."""
+    """Phone CSS stacks the setup table by ordering the three group titles, so
+    the class hooks it keys on must stay."""
 
     def test_setup_keeps_the_group_title_hooks(self):
         resp = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en')
@@ -5097,9 +4859,8 @@ class SetupMobileHooksTests(TestCase):
 
 
 class LoadProjectsTableTests(TestCase):
-    """The project list keeps the classic dark brown table in both skins, so the
-    modern heading colour must not land on it, and the fixed pixel widths in the
-    cells must not push the table out of the content box."""
+    """The project list keeps the classic dark table in both skins: no modern
+    heading colour on it, and no pixel widths pushing it out of the content box."""
 
     def _css(self, name):
         from django.conf import settings
@@ -5153,16 +4914,13 @@ class LoadProjectsTableTests(TestCase):
         self.assertTrue(rounded, 'the last row lost its rounded corner')
         for selector in rounded:
             self.assertIn(':last-child', selector)
-            # The script used to pin it to the level cell, which is no longer last.
             self.assertNotIn('level-cell', selector)
         page = self.client.get('/loadprojects/', HTTP_ACCEPT_LANGUAGE='en')
         self.assertNotIn('updateTableTemplate', page.content.decode('utf-8'))
 
 
 class BannerCharacterTests(TestCase):
-    """A random character out of the 75 illustrations greets the visitor over the
-    banner. The modern skin used to hide it with display:none while the browser
-    still downloaded it, so the page paid for the image and lost the charm."""
+    """A random character illustration greets the visitor over the banner."""
 
     def _modern_css(self):
         from django.conf import settings
@@ -5181,8 +4939,6 @@ class BannerCharacterTests(TestCase):
         css = self._modern_css()
         shown = 'html.fm-modern .char-overlay{\n  display:block !important;'
         self.assertIn(shown, css)
-        # The rule that turns it off again must sit inside the phone block: no
-        # room there, and the classic skin hides it below that width too.
         hidden_at = css.find(
             'html.fm-modern .char-overlay{ display:none !important; }')
         self.assertNotEqual(hidden_at, -1, 'the phone rule disappeared')
@@ -5191,17 +4947,15 @@ class BannerCharacterTests(TestCase):
                             'the character is hidden outside the phone block')
 
     def test_the_modern_character_cannot_swallow_a_click(self):
-        # It sits over the header controls at narrow desktop widths, so it has to
-        # stay decorative.
+        # It sits over the header controls at narrow desktop widths.
         css = self._modern_css()
         block = css.split('html.fm-modern .char-overlay{')[1].split('}')[0]
         self.assertIn('pointer-events:none', block)
 
 
 class FaqNewcomerTests(TestCase):
-    """The FAQ opens with beginner questions (free, account, version, where to
-    start) before the expert slider mechanics, and the start answer links the
-    Quick Start and the getting-started guide."""
+    """The FAQ opens with the beginner questions before the expert slider
+    mechanics, and the start answer links the Quick Start and its guide."""
 
     def test_faq_shows_newcomer_questions_and_links(self):
         resp = self.client.get('/faq/', HTTP_ACCEPT_LANGUAGE='en')
@@ -5211,7 +4965,6 @@ class FaqNewcomerTests(TestCase):
         self.assertIn('Do I need an account?', body)
         self.assertIn('/quickstart/', body)
         self.assertIn('/guides/getting-started/', body)
-        # Beginner block comes before the expert slider question.
         self.assertLess(body.index('Is the Dofus Fashionista free?'),
                         body.index('numbers by the sliders'))
 
@@ -5221,9 +4974,8 @@ class FaqNewcomerTests(TestCase):
 
 
 class SeoTitleTests(TestCase):
-    """Shared build pages carry a keyword-shaped title (class + level +
-    version), the private solution page keeps its generic one, and the home
-    title suffix is translated."""
+    """A shared build title carries class, level and version; the private
+    solution page keeps its generic one and the home suffix is translated."""
 
     def _shared_char(self):
         from chardata.models import Char
@@ -5278,8 +5030,7 @@ class SeoTitleTests(TestCase):
 
 class ItemCorrectionsTests(SimpleTestCase):
     """item_corrections.json fixes upstream data errors at the end of every
-    update pipeline. Each entry needs note + source, stat keys must exist,
-    null removes a stat, and unknown ankama ids are skipped."""
+    update pipeline: an entry needs note and source, null removes a stat."""
 
     @staticmethod
     def _script():
@@ -5362,9 +5113,7 @@ class ItemCorrectionsTests(SimpleTestCase):
 
 class RetroSpellHatTests(SimpleTestCase):
     """A 1.29 spell hat carries no characteristic, only a modifier on one named
-    spell, so 302 items reached the page with nothing written on them at all.
-    The wording is the game's own and the spell names come from its own lang, in
-    each of the five languages."""
+    spell, worded from the game's own lang in each of the five languages."""
 
     def _extras(self, ankama_id, language):
         from fashionistapulp.structure import get_structure
@@ -5397,9 +5146,7 @@ class RetroSpellHatTests(SimpleTestCase):
                     self.assertNotRegex(line, r'\b(145|155|141|154)\b')
 
     def test_the_whole_family_is_covered(self):
-        # 302 items in the 1.29 lang carry one of these effects, but 239 of them
-        # are Toniques, potions the site does not carry. The 63 equippable ones
-        # are hats, capes, belts, boots, rings and three weapons.
+        # Most of the 1.29 carriers are Toniques, potions the site does not carry.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         connection = sqlite3.connect(
@@ -5414,9 +5161,6 @@ class RetroSpellHatTests(SimpleTestCase):
 
 
 class PaginatedCanonicalTests(TestCase):
-    """Every page of a list pointed at page 1, which tells a search engine that
-    everything past it is a duplicate. The list is the only crawl path into the
-    four thousand item pages, so pages 2 and beyond were being disowned."""
 
     def _canonical(self, url):
         import re
@@ -5434,14 +5178,12 @@ class PaginatedCanonicalTests(TestCase):
                     self._canonical('%s?page=2' % path))
 
     def test_the_first_page_keeps_the_bare_url(self):
-        # Otherwise the list would live at two addresses.
         for url in ('/encyclopedia/', '/encyclopedia/?page=1'):
             with self.subTest(url=url):
                 self.assertEqual('https://dofusfashionista.gg/encyclopedia/',
                                  self._canonical(url))
 
     def test_a_filtered_view_still_points_at_the_plain_list(self):
-        # Or every filter combination becomes a page of its own.
         self.assertEqual('https://dofusfashionista.gg/encyclopedia/',
                          self._canonical('/encyclopedia/?q=kaiser&page=2'))
 
@@ -5453,19 +5195,15 @@ class PaginatedCanonicalTests(TestCase):
 
 class PreviewArtBelongsToTheItemTests(SimpleTestCase):
     """Dofus 2 and Touch have no art of their own: they borrow the Dofus 3 piece,
-    by ankama id when they share one and by name otherwise. Neither key is an
-    identity on its own, an id means another item across versions on 225 Touch
-    pieces and names collide too, so the piece drawn on a character has to be
-    checked against the item it is drawn for."""
+    by ankama id when they share one and by name otherwise."""
 
     @staticmethod
     def _same_piece(name, owner):
         from fashionistapulp.fashion_util import is_same_item_name
         if is_same_item_name(name, owner):
             return True
-        # Dofus 3 numbers its repeated names ("Ecaflip Paw 2"), Touch does not,
-        # and the counter is not part of the item. Stripping it in the shared
-        # matcher would be wrong: "Caracape 2" is a real item name.
+        # Dofus 3 numbers its repeated names ("Ecaflip Paw 2"), Touch does not.
+        # "Caracape 2" is a real item name, so the shared matcher cannot strip it.
         import re
         return is_same_item_name(name, re.sub(r'\s+\d+$', '', owner or ''))
 
@@ -5509,11 +5247,8 @@ class PreviewArtBelongsToTheItemTests(SimpleTestCase):
 
 
 class CrawlerUrlSpaceTests(TestCase):
-    """A slug written ".*" swallows slashes, so every encyclopedia page answered
-    200 under an endless set of paths: /233-kaiser/robots.txt, /233-kaiser/a/b/c/.
-    The canonical was right, so nothing was indexed twice, but a crawler could
-    walk forever. The last real production error mail was a crawler doing exactly
-    that on another route."""
+    """A slug pattern that swallows slashes gives one page an endless set of
+    URLs, and a crawler walks all of them."""
 
     JUNK = [
         '/encyclopedia/item/equipment/233-kaiser/robots.txt',
@@ -5563,13 +5298,12 @@ class CrawlerUrlSpaceTests(TestCase):
 
 
 class VersionInPageMetaTests(TestCase):
-    """Five versions were serving one title and one description on thousands of
-    encyclopedia URLs, so a result list could not tell the Retro Kaiser from the
-    Dofus 3 one. The canonicals were already right; only the wording was not."""
+    """Every version names itself in the title and description of an
+    encyclopedia URL, so no two of them read the same."""
 
     def _meta(self, url):
-        # The minifier reorders attributes, so the description meta can come out
-        # either way round; match the tag first, then read its content.
+        # The minifier reorders attributes, so match the tag first, then read
+        # its content.
         import re
         html = self.client.get(url, follow=True).content.decode('utf-8', 'replace')
         title = re.search(r'<title[^>]*>(.*?)</title>', html, re.S)
@@ -5588,7 +5322,7 @@ class VersionInPageMetaTests(TestCase):
             with self.subTest(version=prefix or 'dofus3'):
                 self.assertIn('Kaiser', title)
                 if label is None:
-                    # The default version stays as it reads today.
+                    # The default version carries no version suffix.
                     self.assertNotIn('(Dofus', title)
                 else:
                     self.assertIn('(%s)' % label, title)
@@ -5606,16 +5340,13 @@ class VersionInPageMetaTests(TestCase):
         self.assertEqual(len(titles), len(set(titles)), titles)
 
     def test_the_smithmagic_page_says_where_it_lives(self):
-        # It was the one page whose title was a bare label, with no site name.
         title, _desc = self._meta('/forgemagie/')
         self.assertIn('The Dofus Fashionista', title)
 
 
 class ImageWeightTests(TestCase):
     """An image with no width and height moves the page under the reader as it
-    loads, which is one of the three numbers Google grades a page on. The list
-    pages were already written that way; the item page and the home page were
-    not, and shipped 64 and 179 unsized images."""
+    loads."""
 
     def _images(self, url):
         import re
@@ -5635,8 +5366,6 @@ class ImageWeightTests(TestCase):
             self.assertIn('loading="lazy"', icon)
 
     def test_the_item_picture_itself_is_never_deferred(self):
-        # It is what the reader sees first; deferring it delays the very thing
-        # the page is about.
         images = self._images('/encyclopedia/item/equipment/233-kaiser/')
         hero = [i for i in images if 'alt="Kaiser"' in i]
         self.assertTrue(hero)
@@ -5652,9 +5381,8 @@ class ImageWeightTests(TestCase):
             self.assertIn('height="60"', image)
 
     def test_no_page_ships_a_crowd_of_unsized_images(self):
-        # What is left on purpose: the class mascot in the header, whose CSS is
-        # height-driven and which is hidden on mobile, and the three giant home
-        # buttons, whose CSS is responsive. A fixed width would fight both.
+        # Left unsized on purpose: the header mascot and the three home buttons,
+        # whose size comes from responsive CSS.
         pages = {
             '/': 4,
             '/encyclopedia/': 1,
@@ -5673,8 +5401,8 @@ class ImageWeightTests(TestCase):
                 self.assertLessEqual(len(unsized), allowed, unsized[:3])
 
     def test_the_german_flag_is_not_squashed_into_a_square(self):
-        # de.png is 50x37 where the other four are 24x24, and it used to declare
-        # 24x24 anyway. The list gives every flag the same box in CSS instead.
+        # de.png is 50x37 where the other four flags are 24x24; CSS gives them
+        # all the same box.
         images = [i for i in self._images('/') if 'de.png' in i]
         self.assertTrue(images)
         for image in images:
@@ -5714,10 +5442,8 @@ class ItemFlagTests(SimpleTestCase):
         self.assertEqual([], flag_lines(['Trophy', '-special spell-']))
 
     def test_the_dofus_are_not_called_unexchangeable(self):
-        # The source writes "Exchangeable: 0" and nothing else, on all 123 items
-        # that carry it, so the field says nothing at all. Read as a boolean it
-        # printed "Not exchangeable" on the Crimson, Emerald, Turquoise, Cawwot
-        # and Vulbis Dofus, which are traded every day.
+        # The source writes "Exchangeable: 0" on every carrier, never anything
+        # else, so the field says nothing about the item.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.item_flags import flag_lines
@@ -5760,8 +5486,7 @@ class ItemFlagTests(SimpleTestCase):
     def test_retro_and_touch_carry_the_flags_their_client_declares(self):
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
-        # The client marks more items than the site carries: 241 Touch items are
-        # bound to the character, 59 of them equipment.
+        # The client marks more items than the site carries, hence the low floors.
         for version, floors in (('retro', {'Hunting Weapon': 5,
                                            'Linked to the character': 5}),
                                 ('touch', {'Hunting Weapon': 15,
@@ -5778,9 +5503,8 @@ class ItemFlagTests(SimpleTestCase):
                     self.assertGreaterEqual(counts.get(flag, 0), floor)
 
     def test_the_hunter_tools_are_not_called_hunting_weapons(self):
-        # The effect sits on both, and only its value tells them apart: 1 on the
-        # weapons Dofus 3 lists, 0 on the Hunter's own Couteau de Chasse and its
-        # seven siblings.
+        # The effect sits on both; only its value tells them apart, 1 on a real
+        # hunting weapon and 0 on the Hunter's own tools.
         from fashionistapulp.structure import get_structure
         for version in ('retro', 'touch'):
             structure = get_structure(version)
@@ -5794,11 +5518,9 @@ class ItemFlagTests(SimpleTestCase):
 
 
 class SpellHatTests(SimpleTestCase):
-    """The same family in the four versions that ship it: a hat or cape whose
-    only content is a modifier on a named spell. Nothing was stored for it, so
-    roughly 500 items reached their page with not a line on them. Dofus 3, the
-    beta and Dofus 2 hand us the sentence already written in five languages;
-    Retro has to be worded from its own effect table."""
+    """A hat or cape whose only content is a modifier on a named spell: modern
+    Dofus ships the sentence in five languages, Retro is worded from its own
+    effect table."""
 
     def _extras(self, version, ankama_id, language):
         from fashionistapulp.structure import get_structure
@@ -5824,11 +5546,8 @@ class SpellHatTests(SimpleTestCase):
                     self.assertTrue(self._extras(version, 8619, language))
 
     def test_touch_weapons_get_their_modifier_from_the_backend(self):
-        # Touch is the one version whose spell names are not in the downloaded
-        # data, so its line is written by a later step straight from the backend,
-        # which also hands over the sentence in five languages. Most of the family
-        # sits on the class Emblems, a slot the site does not carry, so only the
-        # weapons show up here.
+        # Touch spell names are not in the downloaded data; a later step reads
+        # them from the backend, in five languages.
         lines = self._extras('touch', 8992, 'en')
         self.assertTrue(lines)
         self.assertIn("Reduces Moon Hammer's AP cost by 1", lines)
@@ -5855,10 +5574,8 @@ class SpellHatTests(SimpleTestCase):
 
 
 class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
-    """An item line names a spell and stops there: "Lance le sort Bouclier
-    Stoique au debut du combat", "Agitation : -1 PA". Every version's own data
-    carries the description right beside the name the scraper already reads, so
-    the line now hangs a tooltip off it."""
+    """An item line names a spell and stops there ("Agitation : -1 PA"); the
+    tooltip hung off it holds the description from the version's own data."""
 
     def _item(self, version, ankama_id):
         from fashionistapulp.structure import get_structure
@@ -5867,7 +5584,7 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
                     if item.ankama_id == ankama_id)
 
     def test_the_shield_says_what_the_shield_spell_does(self):
-        # The one the player reported: Touch, Bouclier de Sidimote.
+        # Touch, Bouclier de Sidimote.
         from chardata.spell_tips import spell_tip_for
         item = self._item('touch', 16191)
         for language in ('fr', 'en', 'es', 'pt', 'de'):
@@ -5909,9 +5626,6 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
                 self.assertGreaterEqual(rows, items * 4)
 
     def test_a_stored_spell_is_one_a_line_actually_names(self):
-        # The table is only worth its weight in the tracked dump if every entry
-        # has a line to hang on, and a tooltip on a spell the reader cannot see
-        # named would be a tooltip on nothing.
         from fashionistapulp.structure import get_structure
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             orphans = []
@@ -5924,8 +5638,7 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
                 self.assertEqual([], orphans[:5])
 
     def test_the_longest_name_wins_when_two_overlap(self):
-        # Retro has both "Bond" and "Bond Felin", and the first hit would put
-        # the wrong spell's text under the line.
+        # Retro has both "Bond" and "Bond Felin".
         from chardata.spell_tips import spell_tip_for
         tooltips = {'Bond': 'the short one', 'Bond Felin': 'the long one'}
         tip = spell_tip_for('+1 de portee sur le sort Bond Felin', tooltips)
@@ -5937,9 +5650,7 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
         self.assertIsNone(spell_tip_for('', tooltips))
 
     def test_a_special_spell_keeps_its_name_and_hides_its_prose(self):
-        # Fallanster's Rectitude printed its spell name on one line and four
-        # lines of rules under it, as plain text. The name is the line now, and
-        # the rules are what the marker holds.
+        # Fallanster's Rectitude: a spell name, then its rules as plain text.
         from fashionistapulp.spell_text import fold_spell_blocks
         from fashionistapulp.structure import get_structure
         item = next(i for i in get_structure('dofus3').get_concatenated_items_lists()
@@ -5974,8 +5685,8 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
                         self.assertTrue(description.strip())
                         self.assertNotIn('<sprite', description)
             seen[version] = folded_items
-        # Only the three modern versions ship the shape; Retro and Touch write
-        # their special effects as one sentence with no heading.
+        # Retro and Touch write their special effects as one sentence with no
+        # heading, so nothing there folds.
         self.assertGreaterEqual(seen['dofus3'], 45)
         self.assertGreaterEqual(seen['beta'], 45)
         self.assertGreaterEqual(seen['dofus2'], 18)
@@ -5994,9 +5705,8 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
         self.assertEqual(sentence, fold_spell_blocks(sentence)[0])
 
     def test_a_monster_spell_says_what_it_does(self):
-        # The page named the spell, its AP and its range and stopped there.
-        # Ankama writes prose for 1307 of the 7600 spells the monsters cast, so
-        # the rest are read off their own effect rows.
+        # Ankama writes prose for a minority of the spells monsters cast; the
+        # rest are read off their own effect rows.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         for version, floor in (('dofus3', 0.95), ('beta', 0.95)):
@@ -6028,8 +5738,8 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
                          render_effect('Repousse de #1 case{{~ps}}', 4, 0))
         self.assertEqual('Repousse de 1 case',
                          render_effect('Repousse de #1 case{{~ps}}', 1, 0))
-        # A row whose whole meaning is a state id says nothing to a reader, and
-        # neither does one still holding a placeholder.
+        # A row that is only a state id, or still holds a placeholder, says
+        # nothing a reader can use.
         self.assertIsNone(render_effect('#1', 18500, 2))
         self.assertIsNone(render_effect('État #3', 3, 0))
         self.assertIsNone(render_effect('', 1, 2))
@@ -6038,8 +5748,7 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
         self.assertIsNone(render_effect('Invoque : #1', 42, 1, {}))
 
     def test_no_untranslated_english_leaks_into_another_language(self):
-        # The upstream tags a missing translation with "[!]", and English under
-        # a French line is worse than no tooltip at all.
+        # The upstream tags a missing translation with "[!]".
         from fashionistapulp.structure import get_structure
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             tagged = []
@@ -6052,11 +5761,8 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
 
 
 class WeaponsSharingANameTests(SimpleTestCase):
-    """Retro and Touch let genuinely different weapons carry one name, where the
-    Dofus 3 transform numbers its duplicates. Weapons were indexed by name, so
-    the eleven Ecaflip Paws collapsed into one and every level was shown rolling
-    22 to 41, and the four Bronze Swords all came out air. The branches of a
-    single item, "(#1)" and "(#2)", must keep sharing their weapon."""
+    """Retro and Touch let different weapons carry one name where Dofus 3 numbers
+    its duplicates, but the "(#1)" and "(#2)" branches are one item, one weapon."""
 
     def _hits(self, version, ankama_id):
         from fashionistapulp.structure import get_structure
@@ -6092,11 +5798,8 @@ class WeaponsSharingANameTests(SimpleTestCase):
 
 
 class RepeatedWeaponHitTests(SimpleTestCase):
-    """A weapon that strikes twice writes its roll twice, and the solver is right
-    to add them up. Do not "deduplicate" this. Kukri Kura says so in two sources
-    that share no code: the 1.29 lang gives it 64#a#15#1d12+9 twice over, and the
-    Dofus 3 dump reads "10 to 21 Neutral damage" twice. Thirty weapons per version
-    are in that case, the same ones in all five."""
+    """A weapon that strikes twice writes its roll twice and the solver adds them
+    up. Do not "deduplicate" this."""
 
     def _rolls(self, version, name):
         from fashionistapulp.structure import get_structure
@@ -6106,8 +5809,8 @@ class RepeatedWeaponHitTests(SimpleTestCase):
         return [(h.min_dam, h.max_dam, h.element) for h in weapon.base_hit]
 
     def test_a_weapon_that_strikes_twice_keeps_both_rolls(self):
-        # Dofus 3 and the beta gate the same dagger behind two alternative
-        # conditions, and the pipeline flattens that into a numbered pair.
+        # Dofus 3 and the beta gate the same dagger behind two conditions, which
+        # the pipeline flattens into a numbered pair.
         names = {'dofus3': 'Kukri Kura (#1)', 'beta': 'Kukri Kura (#1)',
                  'dofus2': 'Kukri Kura', 'retro': 'Kukri Kura',
                  'touch': 'Kukri Kura'}
@@ -6141,12 +5844,8 @@ class RepeatedWeaponHitTests(SimpleTestCase):
 
 
 class WeaponHealHitPerVersionTests(SimpleTestCase):
-    """A healing weapon must show its heal, and show it the way its own game
-    writes it. Retro's effects file files the heal under EHEL and gives it no
-    element; Touch describes it "(PV rendus)", also elementless; modern Dofus
-    types the same line "Fire heals". Retro and Touch dropped the roll entirely,
-    so fourteen Retro weapons and fifteen Touch ones lost it; four of the Retro
-    ones heal and nothing else, and had no hit line at all."""
+    """A healing weapon shows its heal the way its own game writes it: Retro and
+    Touch give it no element, modern Dofus types the line "Fire heals"."""
 
     HEALERS = {'retro': 14, 'touch': 15}
 
@@ -6193,15 +5892,8 @@ class WeaponHealHitPerVersionTests(SimpleTestCase):
 
 
 class DofusEquipLevelPerVersionTests(SimpleTestCase):
-    """The same Dofus has a different equip level per version, each faithful to
-    that version's own source, so no version should borrow another's gate:
-    - Retro 1.29 equips the classic Dofus from level 6 (sourced: dofux /
-      dragoune.fr 1.29 references);
-    - PC Dofus 3 / beta / Dofus 2 level-gate them (Emerald 100, Vulbis 180...);
-    - Dofus Touch keeps Vulbis/Crimson/Turquoise at level 6 (VERIFIED against the
-      Touch backend Items_en.json: level 6, criteria null) while gating Emerald
-      at 140. It looks like a data bug but it is genuine Touch data, so it must
-      NOT be 'fixed' to the PC levels."""
+    """Each version gates the classic Dofus at its own level: Retro and Touch
+    from 6, PC Dofus from 100 up. Genuine data, do not align them."""
 
     def test_retro_dofus_equip_from_level_6_but_pc_gates_them(self):
         from fashionistapulp.structure import get_structure
@@ -6216,8 +5908,6 @@ class DofusEquipLevelPerVersionTests(SimpleTestCase):
                                '%s should be level-gated on PC Dofus 3' % name)
 
     def test_touch_keeps_classic_dofus_low_level(self):
-        # Genuine Touch data (first-party backend), not a bug: these three are
-        # equippable from level 6 on Touch even though PC gates them high.
         from fashionistapulp.structure import get_structure
         touch = get_structure('touch')
         for name in ('Vulbis Dofus', 'Crimson Dofus', 'Turquoise Dofus'):
@@ -6228,9 +5918,8 @@ class DofusEquipLevelPerVersionTests(SimpleTestCase):
 
 
 class UnobtainableItemsTests(SimpleTestCase):
-    """Joke/unobtainable items (reported: Le Divhugalch, a +3 AP/+3 MP retro staff)
-    are forbidden by default through the standard mechanism, so the solver never
-    picks them yet a user can still remove them from the forbidden list."""
+    """Unobtainable joke items are forbidden by default, so the solver never
+    picks them, and a user can still take them off the forbidden list."""
 
     def test_le_divhugalch_forbidden_by_default_but_still_available_in_retro(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
@@ -6239,15 +5928,13 @@ class UnobtainableItemsTests(SimpleTestCase):
         s = get_structure('retro')
         item = s.get_item_by_ankama_id(11761)
         self.assertIsNotNone(item, 'Le Divhugalch missing from retro data')
-        # Forbidden by default, so it is never proposed...
         self.assertIn(item.id, get_default_exclusions(char=None))
-        # ...but still in the pool, so it can be un-forbidden by hand.
+        # Still in the pool, so it can be un-forbidden by hand.
         self.assertIn(item.id, {it.id for it in s.get_available_items_list()})
 
     def test_gm_items_forbidden_by_default(self):
-        # Staff-only items (GM suffix) exist in the scraped data of several
-        # versions but no player can obtain them, so the solver must not
-        # propose them (reported after the Touch pet pool review).
+        # Staff-only items (GM suffix) are in the scraped data but no player can
+        # obtain them.
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.lock_forbid import get_default_exclusions
         gm_ankama_ids = (6894,   # Ultra-powerful Combat Bow Meow (GM)
@@ -6268,10 +5955,8 @@ class UnobtainableItemsTests(SimpleTestCase):
 
 
 class OfficialNamePunctuationTests(SimpleTestCase):
-    """The dofus3/beta transform used to strip Windows-forbidden characters
-    from the displayed EN name ("Wand Else" instead of "Wand Else?"); only
-    icon filenames need that. Lock the official punctuation so a future
-    pipeline run cannot regress it."""
+    """Only icon filenames need Windows-forbidden characters stripped; the
+    displayed name keeps the punctuation the game gives it."""
 
     def test_names_keep_their_official_punctuation(self):
         from fashionistapulp.structure import get_structure
@@ -6285,9 +5970,8 @@ class OfficialNamePunctuationTests(SimpleTestCase):
 
 
 class VersionItemAvailabilityTests(SimpleTestCase):
-    """Items in a version's data that shouldn't be proposed there are forbidden by
-    default per version, without touching the versions where they are real
-    (reported: the Hispanic shield was offered on Dofus Touch)."""
+    """An item a version's data carries but the version cannot give is forbidden
+    by default there, and left alone in the versions where it is real."""
 
     def test_hispanic_shield_forbidden_by_default_on_touch_not_on_retro(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
@@ -6296,11 +5980,10 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         touch = get_structure('touch')
         shield = touch.get_item_by_ankama_id(10076)
         self.assertIsNotNone(shield, 'Hispanic shield missing from Touch data')
-        # Forbidden by default on Touch...
         self.assertIn(shield.id, get_default_exclusions(char=None))
-        # ...but still in the pool, so it can be un-forbidden by hand.
+        # Still in the pool, so it can be un-forbidden by hand.
         self.assertIn(shield.id, {it.id for it in touch.get_available_items_list()})
-        # On Retro it is a genuine item: not force-forbidden.
+        # On Retro it is a genuine item.
         set_current_game_version('retro')
         retro = get_structure('retro')
         self.assertNotIn(retro.get_item_by_ankama_id(10076).id,
@@ -6308,7 +5991,7 @@ class VersionItemAvailabilityTests(SimpleTestCase):
 
     def test_no_lone_hidden_piece_in_an_available_set(self):
         # A set is earned as a whole, so one hidden piece among available ones
-        # is a wrong default. That shape is what caught the Touch shields.
+        # is a wrong default.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure, set_current_game_version
@@ -6346,10 +6029,9 @@ class VersionItemAvailabilityTests(SimpleTestCase):
             checked += 1
         self.assertTrue(checked, 'no version exposed default exclusions')
 
-    # Ankama leaves its own working markers on items that never reach a player:
-    # "[!] " and "[wip]" for untranslated internal content, "[FM]" for the
-    # smithmagic workbench, "(GM)" for game-master gear. Any name carrying one
-    # is internal by definition, whatever the version.
+    # Ankama's own working markers, on items that never reach a player: "[!] "
+    # and "[wip]" for internal content, "[FM]" for the smithmagic workbench,
+    # "(GM)" for game-master gear.
     INTERNAL_MARKERS = (
         lambda name: name.startswith('[!] '),
         lambda name: name.lower().startswith('[wip'),
@@ -6358,8 +6040,6 @@ class VersionItemAvailabilityTests(SimpleTestCase):
     )
 
     def test_ankama_internal_markers_are_forbidden_by_default(self):
-        # Recomputed from the data on every run, so a marker arriving with a
-        # future update fails here instead of reaching the item pool.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.structure import get_structure, set_current_game_version
@@ -6386,20 +6066,10 @@ class VersionItemAvailabilityTests(SimpleTestCase):
                     self.assertIn(item_id, defaults,
                                   '%s carries an Ankama internal marker but is '
                                   'proposable' % name)
-        # Every version carries the (GM) trio, so an empty run means the sweep
-        # itself broke rather than the data being clean.
         self.assertGreater(checked, 10, 'the marker sweep found almost nothing')
 
-    # The Touch incarnation sets have no recipe and no drop, which makes them
-    # look unobtainable to the audit. They are not: Ankama sells them through
-    # the in-game shop rotation ("les incarnations integreront les rotations",
-    # official Touch forum 04/02/2019), with named shop announcements for
-    # Hulkrap (13/08/2019), Rapiat (12/11/2019), Ektope, Klume, Kalkaneus,
-    # Hichete, Karotz, Kubitus and Plunder, plus a moderator answer for Fyred
-    # Ampe ("pas craftable, mais tu dois pouvoir l'obtenir dans le shop"). The
-    # Albueran Recruit set is the tutorial quest reward. Blocking any of them
-    # would take a real item out of a player's pool, so this test guards the
-    # research: see e5_touch/touch_verified_obtainable.json in the loop folder.
+    # The Touch incarnation sets have no recipe and no drop, so they look
+    # unobtainable, but Ankama sells them in the in-game shop rotation.
     TOUCH_SHOP_INCARNATION_ANKAMA_IDS = (
         10638, 10639, 10640, 10641, 10642, 10643, 10644, 10645, 10847, 10848,
         10849, 10850, 10851, 10852, 10853, 10854, 10855, 10856, 10857, 10858,
@@ -6412,14 +6082,7 @@ class VersionItemAvailabilityTests(SimpleTestCase):
         18844, 18846, 18848,
     )
 
-    # Second wave, same method. The Albueran honorary pieces are the reward of
-    # the Albuera introduction quest, one variant per element, which is why each
-    # piece exists four times; four of its shields had been hidden as "honor
-    # reward, no Touch source" and that was wrong, a beginner earns them. The
-    # beauty amulets are the prizes of the Miss & Mister contest, still run on
-    # Touch (official news, 2024 edition, names them one by one). The Cog of
-    # Infinity comes from a Frigost quest. Gobbowl Ring 11083 is a level 41 item
-    # with real stats, unlike the level 1 match rings.
+    # Each Albueran honorary piece exists four times, one variant per element.
     TOUCH_VERIFIED_OBTAINABLE_ANKAMA_IDS = (
         # Albueran Honorary Set, the four elemental variants
         18850, 18852, 18854, 18856, 18858, 18860, 18862, 18864, 18866, 18868,
@@ -6474,14 +6137,13 @@ class VersionItemAvailabilityTests(SimpleTestCase):
     def test_ice_dofus_forbidden_by_default_on_retro_not_on_dofus3(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.lock_forbid import get_default_exclusions
-        # The Ice Dofus does not exist in 1.29; it was scraped into Retro as a
-        # bogus level 1 Dofus, so it is forbidden by default there.
+        # The Ice Dofus does not exist in 1.29, only as a bogus level 1 scrape.
         set_current_game_version('retro')
         retro = get_structure('retro')
         ice = retro.get_item_by_ankama_id(7043)
         self.assertIsNotNone(ice, 'Ice Dofus missing from Retro data')
         self.assertIn(ice.id, get_default_exclusions(char=None))
-        # But it is a real Dofus on Dofus 3: not force-forbidden there.
+        # It is a real Dofus on Dofus 3.
         set_current_game_version('dofus3')
         dofus3 = get_structure('dofus3')
         self.assertNotIn(dofus3.get_item_by_ankama_id(7043).id,
@@ -6490,8 +6152,7 @@ class VersionItemAvailabilityTests(SimpleTestCase):
     def test_grobouclier_forbidden_by_default_on_retro(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
         from chardata.lock_forbid import get_default_exclusions
-        # The Grobouclier (Nolifishield) is a Grobe dungeon-key shield players
-        # do not build with; hidden by default on Retro but still removable.
+        # The Grobouclier (Nolifishield) is a Grobe dungeon-key shield, not gear.
         set_current_game_version('retro')
         retro = get_structure('retro')
         shield = retro.get_item_by_ankama_id(13171)
@@ -6501,9 +6162,8 @@ class VersionItemAvailabilityTests(SimpleTestCase):
 
 
 class TrophyFlagTests(SimpleTestCase):
-    """Trophies share the Dofus slot but carry a 'Trophy' flag (written by the data
-    pipeline from the source's Trophy type) so the "no trophies" option can forbid
-    them without touching real Dofuses."""
+    """Trophies sit in the Dofus slot beside real Dofuses, told apart by a
+    'Trophy' flag."""
 
     def test_trophies_flagged_but_not_real_dofuses(self):
         from fashionistapulp.structure import get_structure
@@ -6521,8 +6181,7 @@ class TrophyFlagTests(SimpleTestCase):
 
 
 class WizardTrophyOptionTests(TestCase):
-    """The 'no trophies' toggle must show on the wizard too, not just the options
-    page (reported missing on /wizard/). It rides the same options plumbing."""
+    """The 'no trophies' toggle shows on the wizard, not only on the options page."""
 
     def test_wizard_shows_trophies_checkbox(self):
         import pickle
@@ -6541,10 +6200,8 @@ class WizardTrophyOptionTests(TestCase):
 
 
 class SoftCapTableColumnsTests(TestCase):
-    """The soft-cap reference table on the base-characteristics page must show the
-    cost-tier columns that actually exist for the char's VERSION, not a Retro-only
-    guess keyed on class name. Modern all-classes have a 4:1 tier; Touch has 5:1;
-    modern has no 1:2 and no 5:1 (so Sacrier must not grow phantom columns)."""
+    """The soft-cap table shows the cost tiers of the char's version: every modern
+    class has a 4:1 and no 1:2 or 5:1 tier, Touch has a 5:1."""
 
     def _char(self, char_class, version):
         import pickle
@@ -6562,8 +6219,7 @@ class SoftCapTableColumnsTests(TestCase):
 
     def _headers(self, char):
         import re
-        # Non-dofus3 versions live under a URL prefix that sets request.game_version;
-        # without it get_char_or_raise 404s on the version mismatch.
+        # Non-dofus3 versions live under a URL prefix that sets request.game_version.
         prefix = '' if char.game_version == 'dofus3' else '/%s' % char.game_version
         resp = self.client.get('%s/setup/%d/' % (prefix, char.pk))
         self.assertEqual(resp.status_code, 200)
@@ -6572,7 +6228,6 @@ class SoftCapTableColumnsTests(TestCase):
         return set(re.findall(r'<th class="stat-title">(\d:\d)</th>', html))
 
     def test_modern_pandawa_shows_the_four_to_one_tier(self):
-        # Regression: 4:1 was hidden for Pandawa/Foggernaut/Rogue on every version.
         cols = self._headers(self._char('Pandawa', 'dofus3'))
         self.assertEqual(cols, {'1:1', '2:1', '3:1', '4:1'})
 
@@ -6592,9 +6247,7 @@ class SoftCapTableColumnsTests(TestCase):
 
 
 class WizardAvatarFallbackTests(TestCase):
-    """The wizard avatar used a raw class path, so a Forgelance project (Dofus 3
-    only, no shipped art) rendered a 404 image. It now reuses the solution page's
-    get_class_avatar helper, which falls back to the placeholder."""
+    """A class with no shipped avatar art falls back to the placeholder image."""
 
     def _wizard_char(self, char_class):
         import pickle
@@ -6655,8 +6308,8 @@ class RetroShieldsDefaultTests(TestCase):
 
 
 class FullScrollRetroTests(TestCase):
-    """Scroll caps per version: Touch 150 (Dedale, update 1.73), Retro 101,
-    every other version 100. The 'full parcho' button honours the version cap."""
+    """Scroll caps per version: Touch 150, Retro 101, every other version 100.
+    The 'full parcho' button honours the version cap."""
 
     def _full_scroll_values(self, version):
         from django.test import RequestFactory
@@ -6685,10 +6338,8 @@ class FullScrollRetroTests(TestCase):
 
 
 class VersionWeightTuningTests(SimpleTestCase):
-    """Each game version is a different game: the smart-build weights zero the
-    stats that version's item pool does not carry, and encode 1.29 mechanics
-    (wisdom as the AP/MP defense stat, rarer % resistance gear, stronger
-    initiative). The Dofus 3 engine itself must not move."""
+    """The smart-build weights zero the stats a version's item pool does not carry,
+    and on Retro wisdom is the AP/MP defense stat."""
 
     def _weights(self, version, aspects, race='Iop'):
         from types import SimpleNamespace
@@ -6726,9 +6377,7 @@ class VersionWeightTuningTests(SimpleTestCase):
         self.assertEqual(w['apred'], 0)
 
     def test_class_profiles_can_be_overridden_per_version(self):
-        # Every class x element/preset x version is independently tunable:
-        # a retro override must change retro weights only, at the right
-        # specificity (element beats 'all', override beats base profile).
+        # Resolution order: element beats 'all', an override beats the base profile.
         from unittest.mock import patch
         from chardata.smart_build import (RACE_PROFILE_OVERRIDES_BY_VERSION,
                                           param_for_build)
@@ -6742,29 +6391,23 @@ class VersionWeightTuningTests(SimpleTestCase):
             self.assertEqual(
                 param_for_build('Ecaflip', ['agi'], 'mpred_importance',
                                 game_version='retro'), 0.9)
-            # Params the override does not state inherit the base profile.
             self.assertEqual(
                 param_for_build('Ecaflip', ['agi'], 'meleeness', game_version='retro'),
                 param_for_build('Ecaflip', ['agi'], 'meleeness'))
-            # Other versions are untouched.
             self.assertEqual(param_for_build('Ecaflip', ['agi'], 'airdam'), 6.0)
-            # And the whole weight vector reacts on retro only.
             wr = self._weights('retro', {'agi'}, race='Ecaflip')
             w3 = self._weights('dofus3', {'agi'}, race='Ecaflip')
             self.assertLess(wr['airdam'], w3['airdam'])
         self.assertEqual(
             param_for_build('Ecaflip', ['agi'], 'airdam', game_version='retro'), 6.0)
-        # The real, committed retro tuning is live (Cra 1.29).
         self.assertEqual(
             param_for_build('Cra', ['agi'], 'airdam', game_version='retro'), 5.5)
         self.assertEqual(param_for_build('Cra', ['agi'], 'airdam'), 6.0)
 
 
 class WizardSlidersPerVersionTests(TestCase):
-    """The wizard hides sliders for stats no item of the version carries
-    (VERSION_WEIGHT_TUNING zero_stats): a retro build has no Critical Damage
-    or AP Reduction gear, a touch build no Trap Damage gear. Dofus 3 keeps
-    everything."""
+    """The wizard hides sliders for stats no item of the version carries: no
+    Critical Damage or AP Reduction gear on Retro, no Trap Damage gear on Touch."""
 
     def _slider_keys(self, version, char_class='Iop', aspects=None):
         from django.test import RequestFactory
@@ -6804,17 +6447,14 @@ class WizardSlidersPerVersionTests(TestCase):
 
 
 class StatsWeightCapTests(TestCase):
-    """A build whose weights exceed the old 5k guard (high-end crit/omni builds
-    store weights via _set_weights, which never checks the bound) used to 500 on
-    a plain wizard GET, because get_stats_weights re-saves through
-    set_stats_weights. Re-saving must clamp, not crash, and keep the value."""
+    """Saving stats weights clamps at MAX_STAT_WEIGHT instead of failing, and
+    keeps a merely large value as it is."""
 
     def _char_with_weight(self, cridam):
         import pickle
         from django.contrib.auth.models import User
         from chardata.models import Char
-        # Omit the resper defaults so get_stats_weights fills them -> changed=True
-        # -> a re-save through set_stats_weights (the prod crash path).
+        # Omitting the resper defaults makes get_stats_weights fill them and re-save.
         weights = {'str': 100, 'dam': 4320, 'cridam': cridam, 'ch': 240}
         owner = User.objects.create_user(
             'wcap%d' % cridam, 'wc@test.local', 'pw-wcap-77')
@@ -6858,8 +6498,7 @@ def _pulp_solver_available():
 
 
 class SolverSmokeTests(TestCase):
-    """The optimizer is the product; one real end-to-end solve guards the
-    whole chain (weights -> model -> pulp solver -> stored solution)."""
+    """One real end-to-end solve: weights, model, pulp solver, stored solution."""
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_full_solve_stores_a_solution_with_items(self):
@@ -6911,8 +6550,6 @@ class SolverSmokeTests(TestCase):
         equipped = sum(1 for ri in solution.item_list if ri.item_added)
         self.assertGreaterEqual(equipped, 3, version)
 
-    # Retro and Touch have their own solve tests; these two were the versions
-    # nothing ever solved for, so a rebuild could break them unnoticed.
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_full_solve_on_beta(self):
         self._solve_version('beta')
@@ -6923,10 +6560,8 @@ class SolverSmokeTests(TestCase):
 
 
 class TouchPetSolveTests(TestCase):
-    """Maxed pet variants (scraped from the official Dofus Touch encyclopedia)
-    must reach the solver: at level 50 no mount is equippable (all level 60)
-    and no natural pet beats the maxed bonuses, so a strength solve has to put
-    a synthesized variant in the Pet slot."""
+    """Touch ships maxed pet variants as synthesized items. Mounts are all level
+    60, so at level 50 the Pet slot can only hold one of those variants."""
 
     VARIANT_ID_BASE = 200000000
 
@@ -6967,10 +6602,7 @@ class TouchPetSolveTests(TestCase):
             'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
 
 class SolvedBuildIsWearableTests(TestCase):
-    """The smoke tests prove a solve happens and equips something. They never
-    checked that what comes back is a build a player could actually wear: an
-    item above the character's level, a third ring or a removed item would all
-    have gone through unnoticed, and the optimizer is the product."""
+    """What the solver hands back has to be a build a character could wear."""
 
     # One of each, except rings, which a character wears two of.
     SLOT_LIMITS = {'Hat': 1, 'Cloak': 1, 'Amulet': 1, 'Belt': 1, 'Boots': 1,
@@ -7023,14 +6655,11 @@ class SolvedBuildIsWearableTests(TestCase):
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_a_retro_build_is_wearable(self):
-        # 1.29 plays by its own rules, so it gets its own check.
         self._check('retro', 'Iop', 100, {'str'})
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_a_fresh_build_never_wears_a_default_forbidden_item(self):
-        # The default exclusions hide GM gear and joke pieces. One of them in a
-        # first solve is something a player would report, and would never find
-        # in the item list to take out.
+        # The default exclusions hide GM gear and joke pieces.
         from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
                                           DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION)
         for version in ('dofus3', 'retro'):
@@ -7044,9 +6673,7 @@ class SolvedBuildIsWearableTests(TestCase):
 
     def test_no_default_exclusion_hides_another_version_item(self):
         # The global list is written with Dofus 3 ankama ids, and an id is not an
-        # identity across versions: two real weapons were once forbidden because
-        # a Retro item shared theirs. Only a genuine clash counts here, an id
-        # simply absent from a version hides nothing.
+        # identity across versions; an id absent from a version hides nothing.
         from fashionistapulp.structure import get_structure
         from fashionistapulp.fashion_util import is_same_item_name
         from chardata.lock_forbid import DEFAULT_EXCLUSION_ANKAMA_IDS
@@ -7070,8 +6697,8 @@ class SolvedBuildIsWearableTests(TestCase):
                 self.assertEqual([], clashes)
 
     def _check_equip_conditions(self, version, char_class, level, aspects):
-        """A gated item is read on the FINAL total, its own bonus counted: that
-        is how the game chains gear, and how the AP and MP gates were settled."""
+        """An equip condition is read on the final total, the item's own bonus
+        counted."""
         from fashionistapulp.structure import get_structure
         worn, solution = self._solve(version, char_class, level, aspects,
                                      with_solution=True)
@@ -7105,8 +6732,7 @@ class SolvedBuildIsWearableTests(TestCase):
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_the_build_can_put_its_own_gated_gear_on(self):
-        # Touch and Retro are the two that reach for gated pieces: 12% of the
-        # Touch catalogue is gated and 65% of Retro's, against 6% on Dofus 3.
+        # Touch and Retro are the versions that reach for gated pieces.
         exercised = 0
         for version, char_class in (('touch', 'Iop'), ('retro', 'Iop')):
             gates, broken = self._check_equip_conditions(
@@ -7114,13 +6740,11 @@ class SolvedBuildIsWearableTests(TestCase):
             exercised += gates
             with self.subTest(version=version):
                 self.assertEqual([], broken)
-        # Without this the test would pass by never meeting a gate at all.
         self.assertGreater(exercised, 0, 'no equip condition was exercised')
 
     def _check_set_bonus(self, version):
-        """The solver counts the set pieces itself and adds the matching tier.
-        A miscount or an off-by-one tier would quietly hand the build stats the
-        game never grants, and the totals are what the player reads."""
+        """The solver counts the set pieces itself and adds the matching tier
+        bonus."""
         from collections import Counter
         from fashionistapulp.structure import get_structure
         worn, solution = self._solve(version, 'Iop', 200, {'str'},
@@ -7169,11 +6793,8 @@ class SolvedBuildIsWearableTests(TestCase):
 
 
 class DistributedPointsAreAffordableTests(TestCase):
-    """The cost tables are checked on their own numbers elsewhere. This checks
-    the bill: when the solver spends the characteristic points itself, a
-    character of that level has to be able to afford what comes back. Three
-    versions, because the three cost regimes are different games: modern's flat
-    wisdom, Retro's class-specific table, and Touch's 2.x-era one."""
+    """When the solver spends the characteristic points itself, a character of
+    that level must be able to afford the bill. Each version prices its own."""
 
     TIER_COST = [0.5, 1, 2, 3, 4, 5]
 
@@ -7243,15 +6864,12 @@ class DistributedPointsAreAffordableTests(TestCase):
                 self.assertEqual(0, unpriced, '%s priced no tier for some points'
                                               % version)
                 self.assertLessEqual(total, budget, version)
-                # Without this the test would pass on a build that spent nothing.
                 self.assertGreater(total, budget * 0.5, version)
 
 
 class SetMaxCapTests(TestCase):
-    """Cire Momore's Curse is the one set that caps stats instead of raising
-    them: the more pieces, the lower the MP, range and summon ceiling. The
-    optimizer never reaches for it on its own, so the cap code only runs when
-    a player locks the pieces in, and nothing exercised that path."""
+    """Cire Momore's Curse is the one set that caps stats instead of raising them:
+    the more pieces worn, the lower the MP, range and summon ceiling."""
 
     SET_NAME = "Cire Momore's Curse"
     SLOT_BY_ITEM = [('Heavy Burden', 'amulet'), ("Cire's Sorrow", 'hat'),
@@ -7301,9 +6919,8 @@ class SetMaxCapTests(TestCase):
             stat = structure.get_stat_by_id(stat_id)
             caps_by_tier.setdefault(num_items, {})[stat.key] = max_value
 
-        # Two tiers, because a cap read off the wrong tier would still look
-        # capped: at two pieces MP stops at 4, at six it drops to 2, under the
-        # 3 MP the character starts with.
+        # At two pieces MP stops at 4, at six it drops to 2, under the 3 MP a
+        # character starts with.
         for pieces in (2, 6):
             with self.subTest(pieces=pieces):
                 totals = self._solve_wearing(pieces).get_stats_total()
@@ -7316,9 +6933,8 @@ class SetMaxCapTests(TestCase):
 
 
 class RetroUncappedApSolveTests(TestCase):
-    """Retro (1.29) has no 12/6/6 AP/MP/Range cap, so the optimizer leaves those
-    stats uncapped there. A full retro solve must still complete (the LP stays
-    bounded through gear) now that the caps are gone for that version."""
+    """Retro has no 12/6/6 AP/MP/Range cap, so the optimizer leaves those stats
+    uncapped there and the LP stays bounded through the gear pool alone."""
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_retro_solve_completes_with_uncapped_ap(self):
@@ -7344,10 +6960,8 @@ class RetroUncappedApSolveTests(TestCase):
 
 
 class WeaponTypeDisplayTests(TestCase):
-    """Weapons with no standard type (magnifying glass, fishing rod...) show
-    their AP line without a placeholder type prefix. evolve_result_item formats
-    the damage line from the global current game version; the test runner resets
-    it to dofus3 before each test, so no per-class pinning is needed here."""
+    """A weapon with no standard type (magnifying glass, fishing rod) shows its AP
+    line without a type prefix. evolve_result_item reads the global game version."""
 
     def _damage_head(self, item_name):
         from fashionistapulp.structure import get_structure
@@ -7375,8 +6989,7 @@ class WeaponTypeDisplayTests(TestCase):
         self.assertIn('(Sword)', head)
 
 class ForgemagieRuneRosterTests(SimpleTestCase):
-    """A player who mages daily listed the runes the simulator was missing.
-    Every correction is for the modern game; Touch forked before them."""
+    """The rune roster of the modern game; Touch forked before these runes."""
 
     def _stat(self, version, key):
         from chardata.forgemagie_data import get_fm_stat
@@ -7401,8 +7014,7 @@ class ForgemagieRuneRosterTests(SimpleTestCase):
         self.assertEqual(self._stat('dofus3', 'resperwea')['tiers'], [])
 
     def test_touch_weights_match_its_own_encyclopedia(self):
-        # Read from the official Touch encyclopedia's "Poids de Forgemagie"
-        # field on 2026-08-09, per-rune, against production data 3.2.11.
+        # From the Touch encyclopedia's per-rune "Poids de Forgemagie" field.
         for key in ('fireres', 'crires', 'pshres', 'pshdam', 'firedam'):
             with self.subTest(stat=key):
                 self.assertNotIn('Ra', dict(self._stat('touch', key)['tiers']))
@@ -7426,8 +7038,7 @@ class ForgemagieRuneRosterTests(SimpleTestCase):
 
 
 class TranscendenceCatalogueTests(SimpleTestCase):
-    """The 81 transcendence runes, their weights re-verified against the live
-    client data on 2026-08-09. The weight is what the 101 rule adds to the
+    """The transcendence runes: a rune's weight is what the 101 rule adds to the
     targeted stat's current weight."""
 
     @classmethod
@@ -7467,9 +7078,8 @@ class TranscendenceCatalogueTests(SimpleTestCase):
 
 
 class ForgemagiePayloadTests(TestCase):
-    """The workbench needs the natural minimum roll: under it the game gives
-    the line away, and a model that cannot see the minimum prices every throw
-    as if the item were already perfect."""
+    """The workbench needs each line's natural minimum roll: under it the game
+    gives the line away."""
 
     def _ring(self):
         from fashionistapulp.structure import get_structure
@@ -7485,8 +7095,6 @@ class ForgemagiePayloadTests(TestCase):
         self.assertEqual((stats['ch']['min'], stats['ch']['value']), (4, 5))
 
     def test_the_item_search_uses_the_same_payload(self):
-        # It used to build its own copy of the dict, so a field added to
-        # _item_payload reached the inventory and never the search.
         resp = self.client.get('/forgemagie/items/', {'q': 'Rhineetle Ring'})
         self.assertEqual(resp.status_code, 200)
         items = resp.json()['items']
@@ -7520,7 +7128,7 @@ class TranscendenceAdviceTests(SimpleTestCase):
         self.assertEqual(self._best({'ch': 1})['name_fr'], 'Rune Ta Cri')
 
     def test_an_empty_line_takes_the_biggest_rune(self):
-        # Nothing on the line, so the whole ladder is legal and the top wins.
+        # Nothing on the line, so the whole ladder is legal.
         self.assertEqual(self._best({'str': 1})['name_fr'], 'Rune Rata Fo')
 
     def test_a_stat_the_build_ignores_is_never_suggested(self):
@@ -7545,9 +7153,8 @@ class TranscendenceAdviceTests(SimpleTestCase):
 
 
 class ReadOnlyStatsWeightsTests(TestCase):
-    """Reading the weights to advise on a build must not write the build back:
-    filling the defaults in normally re-saves the char, and the shared page is
-    read-only."""
+    """Reading the weights with persist=False must not write the char back;
+    filling the defaults in normally does re-save it."""
 
     def _char(self):
         from chardata.models import Char
@@ -7576,9 +7183,8 @@ class ReadOnlyStatsWeightsTests(TestCase):
 
 
 class WeaponCriticalRateTests(SimpleTestCase):
-    """Retro states a weapon's critical rate the way the game does, one hit in
-    X; Dofus 2 turned the same field into a percentage. The Kaiser hammer is
-    1/200 in game and the page used to read "CH: 200%"."""
+    """Retro states a weapon's critical rate as one hit in X (the Kaiser hammer is
+    1/200); Dofus 2 turned the same field into a percentage."""
 
     def _line(self, version, weapon_type='Hammer', ap=4, crit_chance=200,
               crit_bonus=5):
@@ -7599,7 +7205,7 @@ class WeaponCriticalRateTests(SimpleTestCase):
                 self.assertNotIn('1/30', line)
 
     def test_a_retro_weapon_that_cannot_crit_shows_no_rate(self):
-        # The game writes -1 there, and four retro weapons carry it.
+        # The game writes -1 for a weapon that cannot crit.
         line = self._line('retro', crit_chance=-1)
         self.assertNotIn('CH', line)
         self.assertIn('AP: 4', line)
@@ -7623,9 +7229,7 @@ class WeaponCriticalRateTests(SimpleTestCase):
 
 class NonElementalWeaponHitTests(SimpleTestCase):
     """A weapon line that is not damage: it pushes, attracts, steals MP, takes AP
-    off. The solution page has worded these for years and the item page printed
-    the internal token instead, so a Treestaff read "1 to 1 (removes_ap)" on its
-    own page and "Removes 1 AP" inside a build. Both read the same code now."""
+    off. The item page and the picker word them through the same code."""
 
     def _lines(self, version, name):
         from fashionistapulp.structure import get_structure
@@ -7658,12 +7262,8 @@ class NonElementalWeaponHitTests(SimpleTestCase):
 
 
 class InFightAPAndMPRemovalTests(SimpleTestCase):
-    """dofusdude numbers its effects per dump, so the id that named the attract
-    line was 255 in Dofus 3 and 253 in the beta. The source dropped effects by
-    that number, which cost the beta its five attract weapons while Dofus 3 kept
-    theirs, and threw away every AP and MP a weapon takes off its target. What
-    tells a wielder's +1 AP from a weapon's -1 AP is is_active, which the game
-    sets, so that is what the transform reads now."""
+    """What tells a wielder's +1 AP from a weapon's -1 AP is the is_active flag the
+    game sets, not the effect id, which dofusdude renumbers per dump."""
 
     def _hits(self, version, element):
         import sqlite3
@@ -7682,7 +7282,7 @@ class InFightAPAndMPRemovalTests(SimpleTestCase):
             with self.subTest(version=version):
                 self.assertGreaterEqual(self._hits(version, 'removes_ap'), floor)
                 self.assertGreaterEqual(self._hits(version, 'removes_mp'), 5)
-        # Touch decodes its own client and already had the AP one.
+        # Touch decodes its own client, not dofusdude.
         self.assertGreaterEqual(self._hits('touch', 'removes_ap'), 20)
 
     def test_the_attract_line_survives_in_every_version_that_has_it(self):
@@ -7691,8 +7291,7 @@ class InFightAPAndMPRemovalTests(SimpleTestCase):
                 self.assertEqual(5, self._hits(version, 'attracts'))
 
     def test_an_in_fight_effect_never_becomes_a_wielder_bonus(self):
-        # The Treestaff removes 1 AP and grants no AP at all; its real AP
-        # Reduction and AP Parry lines must survive the same rule.
+        # The Treestaff removes 1 AP and grants none, but does carry AP Reduction.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         for version in ('dofus3', 'beta', 'dofus2'):
@@ -7747,9 +7346,8 @@ class ExclusionsForbidTests(TestCase):
 
 
 class RobotsTxtTests(TestCase):
-    """robots.txt must keep the public content crawlable while blocking the
-    action endpoints and per-project/private pages that were flooding Search
-    Console with 403 / soft-404 / noindex 'errors' and wasting crawl budget."""
+    """robots.txt keeps the public content crawlable and blocks the action
+    endpoints and the per-project pages."""
 
     def _parser(self):
         import urllib.robotparser as rp
@@ -7769,9 +7367,7 @@ class RobotsTxtTests(TestCase):
                             'robots.txt must not block content page %s' % url)
 
     def test_action_endpoints_are_blocked(self):
-        # The workshop carries @login_required like the inventory beside it, so
-        # a crawler only ever gets the redirect to /login/. It sat on the
-        # crawlable list and in the sitemap while its twin was blocked.
+        # The workshop is @login_required, so a crawler only ever gets /login/.
         p, _ = self._parser()
         for url in ['/setup/170414/', '/beta/setup/170414/', '/postcomment/3048/',
                     '/beta/postcomment/3048/', '/touch/saveprojecttouser/',
@@ -7866,7 +7462,6 @@ class AdminToolsTests(TestCase):
                                 {'comment_id': comment.id, 'action': 'delete'})
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(BuildComment.objects.get(id=comment.id).deleted)
-        # Hiding also processes its open reports.
         self.assertFalse(CommentReport.objects.filter(comment=comment, processed=False).exists())
 
         resp = self.client.post('/admin-comment-action/',
@@ -7892,10 +7487,8 @@ class AdminToolsTests(TestCase):
 
 
 class CreateLocalAdminCommandTests(TestCase):
-    """create_local_admin makes a superuser whose password works with the
-    site's own login form (which pre-hashes in the browser). This is the way
-    back in when the only admin is a Google-login account that can't be used
-    on a localhost test server."""
+    """create_local_admin makes a superuser whose password works with the site's
+    own login form, which pre-hashes in the browser."""
 
     def test_created_admin_logs_in_via_site_form(self):
         import hashlib
@@ -7909,14 +7502,11 @@ class CreateLocalAdminCommandTests(TestCase):
         resp = self.client.post('/local_login/', {'username': 'localadmin', 'password': prehash})
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content.decode(), 'ok')
-        # And that session can reach the staff dashboard.
         self.assertEqual(self.client.get('/admin-tools/').status_code, 200)
 
 
 class GelanoExoInventoryTests(TestCase):
-    """MP exo "only Gelano" must equip the +1 AP +1 MP Gelano, not the plain
-    one. Owning another item with an MP roll above its base used to flip the
-    'gelano' choice to a generic "yes", which equipped the plain Gelano."""
+    """MP exo "only Gelano" must equip the +1 AP +1 MP Gelano, not the plain one."""
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_gelano_exo_keeps_the_mp_gelano_despite_an_owned_mp_roll(self):
@@ -7940,7 +7530,7 @@ class GelanoExoInventoryTests(TestCase):
         folder = InventoryFolder.objects.create(
             user=owner, name='inv', game_version='dofus3')
         InventoryItem.objects.create(folder=folder, item_id=gelano2.id, custom_stats='')
-        # An owned item with an MP roll above its base (the trigger for the bug).
+        # An owned item with an MP roll above its base.
         InventoryItem.objects.create(
             folder=folder, item_id=boots.id, custom_stats='{"mp": 3}')
         options = get_options(char)
@@ -7960,9 +7550,8 @@ class GelanoExoInventoryTests(TestCase):
 
 
 class RetroPercentDamageStatTests(SimpleTestCase):
-    """Retro's "% Dommages" (effect 138) is the game's percent-damage stat; it
-    was dropped by the scraper. It now maps to Power, so items like the Feathered
-    Belt (15% Dmg) carry it and a retro damage build can stack it."""
+    """Retro's "% Dommages" (effect 138) is its percent-damage stat and maps to
+    Power."""
 
     def test_feathered_belt_has_the_percent_damage_stat(self):
         from fashionistapulp.structure import get_structure
@@ -7983,9 +7572,8 @@ class RetroPercentDamageStatTests(SimpleTestCase):
 
 
 class RetroAbsentStatsTests(SimpleTestCase):
-    """These stats are Dofus 2.30+ mechanics that do not exist in Retro 1.29.
-    No Retro item should carry them, and the solution page hides their rows for
-    the retro version (they are not derived either, so they stay at zero)."""
+    """These stats are Dofus 2.30+ mechanics that Retro 1.29 does not have: no
+    Retro item carries them and the solution page hides their rows."""
 
     DOFUS2_ONLY = [
         'Critical Damage', 'Pushback Damage', 'Critical Resist', 'Pushback Resist',
@@ -8007,10 +7595,8 @@ class RetroAbsentStatsTests(SimpleTestCase):
 
 
 class TouchAbsentStatsTests(SimpleTestCase):
-    """Dofus Touch forked before the Dofus 2.30 percent-final damage/resist stats,
-    so it has none of them, but it kept the Dofus 2.x critical/pushback stats and
-    the PvP resists. The solution page hides the final damage/resist rows for
-    touch while keeping the critical/pushback rows and the PvP resist rows."""
+    """Touch forked before the Dofus 2.30 percent-final damage and resist stats,
+    but kept the critical and pushback stats and the PvP resists."""
 
     FINAL_ABSENT = [
         '% Melee Damage', '% Ranged Damage', '% Weapon Damage', '% Spell Damage',
@@ -8034,8 +7620,7 @@ class TouchAbsentStatsTests(SimpleTestCase):
                              % (name, offenders[:5]))
 
     def test_touch_still_carries_critical_and_pushback_stats(self):
-        # The solution page shows character totals including weapons, so check the
-        # raw touch item db (weapons are excluded from get_concatenated_items_lists).
+        # Weapons are excluded from get_concatenated_items_lists, so read the raw db.
         import os, sqlite3, fashionistapulp
         db = os.path.join(os.path.dirname(fashionistapulp.__file__), 'items_touch.db')
         c = sqlite3.connect(db)
@@ -8054,10 +7639,8 @@ class TouchAbsentStatsTests(SimpleTestCase):
 
 
 class NoEmDashInGuidesTests(SimpleTestCase):
-    """The /guides/ prose is our original, AdSense-facing editorial content; a run of
-    em/en dashes reads as machine-generated. Guard every localized guide field so a
-    future edit cannot reintroduce one (the 'desc' field also feeds the Google snippet
-    and the og:description). See chardata.guides_content.GUIDES."""
+    """No em or en dash in any localized guide field of
+    chardata.guides_content.GUIDES."""
 
     def test_no_guide_field_contains_an_em_or_en_dash(self):
         from chardata import guides_content
@@ -8071,9 +7654,7 @@ class NoEmDashInGuidesTests(SimpleTestCase):
             'em/en dash found in guide content (use ., :, , or parentheses): %s' % offenders)
 
     def test_no_dash_in_templates_or_catalogs(self):
-        # Same rule for everything else we render: template sources and the
-        # translation catalogs. The footer separators and og:titles carried
-        # ndash/mdash entities for years; this pins the cleanup.
+        # Same rule for the template sources and the translation catalogs.
         import glob
         import io
         import os
@@ -8097,10 +7678,8 @@ class NoEmDashInGuidesTests(SimpleTestCase):
 
 
 class GuideMetaDescriptionLengthTests(SimpleTestCase):
-    """Each guide 'desc' is the <meta name="description">, og:description and JSON-LD
-    description. Past ~160 characters Google truncates it in the search snippet, losing
-    the tail (call to action, keyword). Guard every localized description so a future
-    edit stays within the snippet budget. See chardata.guides_content.GUIDES."""
+    """Each guide 'desc' is the meta description; past ~160 characters Google
+    truncates it in the search snippet."""
 
     MAX_DESC = 160
 
@@ -8118,9 +7697,8 @@ class GuideMetaDescriptionLengthTests(SimpleTestCase):
 
 
 class GermanStatTerminologyTests(TestCase):
-    """The German client says Staerke, Intelligenz, Flinkheit, Glueck,
-    Vitalitaet, Weisheit (see itemscraper/all_equipment_de.json). Keep every
-    surface on those names."""
+    """The German client says Staerke, Intelligenz, Flinkheit, Glueck, Vitalitaet,
+    Weisheit; every surface uses those names."""
 
     OFFICIAL = {
         'Strength': 'Stärke',
@@ -8157,13 +7735,8 @@ class GermanStatTerminologyTests(TestCase):
 
 
 class NoModernOnlyMasteryTermInGuidesTests(SimpleTestCase):
-    """Elemental "mastery" (maitrise / dominio / dominio / Beherrschung) is a modern-Dofus
-    stat: it does not exist in Retro 1.29, where elemental damage comes straight from the
-    element characteristic (Strength/Intelligence/Agility/Chance). The guides are shared
-    across every version, so any "mastery" wording is wrong for Retro readers. Frame
-    damage-scaling around the element and its characteristic instead, which is true on all
-    versions. Guard every localized guide field so a future edit cannot reintroduce it.
-    See chardata.guides_content.GUIDES."""
+    """Elemental "mastery" is a modern-Dofus stat: Retro 1.29 damage comes from the
+    element characteristic, and the guides are shared across every version."""
 
     MASTERY_TERMS = ('mastery', 'masteries', 'maîtrise',
                      'dominio', 'domínio', 'beherrschung')
@@ -8187,9 +7760,7 @@ class NoModernOnlyMasteryTermInGuidesTests(SimpleTestCase):
 
 
 class AnonymousProjectPerVersionTests(TestCase):
-    """A signed-out visitor gets one project per game version. Being stopped from
-    trying Retro because you already built something on Dofus 3 read like a bug:
-    the five versions are different games."""
+    """A signed-out visitor gets one project per game version."""
 
     def _create(self, prefix, name):
         return self.client.post('%s/createproject/' % prefix, {
@@ -8206,7 +7777,6 @@ class AnonymousProjectPerVersionTests(TestCase):
                 self.assertEqual(
                     Char.objects.filter(game_version=version, owner=None,
                                         deleted=False).count(), 1)
-        # The setup page stops offering the form once that version is taken.
         self.assertNotContains(self.client.get('/retro/setup/'), 'name="charname"')
         self.assertContains(self.client.get('/dofus2/setup/'), 'name="charname"')
 
@@ -8234,8 +7804,7 @@ class AnonymousProjectPerVersionTests(TestCase):
                          ['dofus3', 'retro', 'touch'])
 
     def test_a_session_from_before_the_change_keeps_its_project(self):
-        # Sessions in flight hold the old single 'char_id' key; it must still be
-        # honoured, and the version it belongs to must count as taken.
+        # Sessions in flight hold the old single 'char_id' key.
         from chardata.anon_projects import get_anon_char_id, owns_anon_char
         from chardata.models import Char
         self._create('/retro', 'anon-retro')
@@ -8250,21 +7819,17 @@ class AnonymousProjectPerVersionTests(TestCase):
         self.assertNotContains(self.client.get('/retro/setup/'), 'name="charname"')
 
     def test_the_block_message_points_at_the_versions_still_free(self):
-        # Telling a visitor to log in without saying Retro is still open was the
-        # confusing half of the old behaviour.
         self._create('', 'anon-dofus3')
         resp = self.client.get('/setup/', HTTP_ACCEPT_LANGUAGE='en')
         self.assertContains(resp, 'You already have a project on Dofus 3')
         self.assertContains(resp, 'You can still start one on another version')
-        # Look inside the block itself: the header version selector links every
-        # version, so searching the whole page would prove nothing.
+        # The header version selector links every version, so only the block counts.
         body = resp.content.decode('utf-8')
         block = body.split('class="free-versions"')[1].split('</span>')[0]
         for url in ('/retro/setup/', '/touch/setup/', '/beta/setup/',
                     '/dofus2/setup/'):
             with self.subTest(url=url):
                 self.assertIn(url, block)
-        # The version already taken is not offered again.
         self.assertNotIn('href="/setup/"', block)
 
     def test_the_free_version_list_shrinks_as_versions_are_taken(self):
@@ -8297,7 +7862,7 @@ class AnonymousProjectPerVersionTests(TestCase):
         self.addCleanup(setattr, projects_view, 'MAXIMUM_NUMBER_OF_PROJECTS',
                         original_limit)
         try:
-            # Dofus 3 is full, Retro has room: the Retro copy must go through.
+            # Dofus 3 is full, Retro has room.
             for index in range(2):
                 Char.objects.create(
                     name='d3-%d' % index, char_name='x', char_class='Iop',
@@ -8386,8 +7951,7 @@ class PostLengthGuardTests(TestCase):
         resp = self.client.post('/saveaccount/', {'alias': 'A' * 300})
         self.assertEqual(resp.status_code, 200)
         limit = UserAlias._meta.get_field('alias').max_length
-        # Fresh query: force_login's language backfill already cached a stale
-        # user.useralias relation on this instance.
+        # Fresh query: force_login already cached a stale user.useralias here.
         self.assertEqual(UserAlias.objects.get(user=user).alias, 'A' * limit)
 
     def test_save_account_ignores_an_overlong_email(self):
@@ -8457,7 +8021,6 @@ class PostLengthGuardTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'chardata/recover_password.html')
         self.assertFalse(User.objects.filter(username='ghostuser').exists())
-        # The name is reusable: a second attempt with a working mailer passes.
         resp2 = self.client.post('/register/', {'username': 'ghostuser',
                                                 'password': 'pw-42-solid',
                                                 'email': 'ghost@test.local'})
@@ -8497,8 +8060,7 @@ class PostLengthGuardTests(TestCase):
 
 
 class MonsterWeaknessGuideTests(SimpleTestCase):
-    """Dofus 2 has no monster stats, so every language of the guide must keep
-    the Dofus 2 caveat."""
+    """Dofus 2 ships no monster stats, so the guide keeps the caveat."""
 
     def test_every_language_keeps_the_dofus2_caveat(self):
         from chardata import guides_content
@@ -8510,10 +8072,8 @@ class MonsterWeaknessGuideTests(SimpleTestCase):
 
 
 class VersionSpecificGuideTests(TestCase):
-    """Critical hits are a different SYSTEM per version, so the crit guide serves
-    the modern content on modern versions (canonical at the global /guides/ URL)
-    and the Retro content under /retro/, self-canonical, so each system is its
-    own indexable page. Plain guides stay global on every version."""
+    """Critical hits are a different system per version: modern content is canonical
+    at /guides/, Retro content self-canonical under /retro/. Plain guides stay global."""
 
     def _head(self, path):
         resp = self.client.get(path)
@@ -8532,13 +8092,11 @@ class VersionSpecificGuideTests(TestCase):
         self.assertIn('1/X', html)
         self.assertIn('Agility raises your critical hit rate', html)
         self.assertIn('https://dofusfashionista.gg/retro/guides/critical-hits/', head)
-        # The modern-only "no effect on critical hits" line must not leak here.
         self.assertNotIn('no effect on critical hits', html)
 
     def test_touch_crit_shares_the_modern_page(self):
         html, head = self._head('/touch/guides/critical-hits/')
         self.assertIn('percentage', html)
-        # Touch uses the modern system, so it canonicals to the global page.
         self.assertIn('https://dofusfashionista.gg/guides/critical-hits/', head)
 
     def test_modern_game_modes_guide_mentions_kolossium(self):
@@ -8547,8 +8105,7 @@ class VersionSpecificGuideTests(TestCase):
         self.assertIn('https://dofusfashionista.gg/guides/game-modes/', head)
 
     def test_retro_game_modes_guide_drops_kolossium(self):
-        # Dofus Retro (1.29) has no Kolossium, so the Retro variant frames the
-        # two real poles (PvM and PvP) and never names the modern ranked mode.
+        # Dofus Retro 1.29 has no Kolossium.
         html, head = self._head('/retro/guides/game-modes/')
         self.assertIn('Building for PvM and PvP', html)
         self.assertNotIn('Kolossium', html)
@@ -8557,13 +8114,10 @@ class VersionSpecificGuideTests(TestCase):
     def test_touch_game_modes_shares_the_modern_page(self):
         html, head = self._head('/touch/guides/game-modes/')
         self.assertIn('Kolossium', html)
-        # Touch has the Kolossium, so it canonicals to the global modern page.
         self.assertIn('https://dofusfashionista.gg/guides/game-modes/', head)
 
     def test_retro_game_modes_variant_names_no_mode_absent_from_1_29(self):
-        # The Retro variant frames PvM/PvP only. Retro 1.29 has neither the
-        # Kolossium (a modern ranked mode) nor alliances/prisms (a Dofus 2.x
-        # feature), so naming either would be version-incorrect in any language.
+        # Retro 1.29 has neither the Kolossium nor alliances/prisms.
         import re
         from chardata import guides_content
         absent_in_retro = re.compile(
@@ -8583,10 +8137,8 @@ class VersionSpecificGuideTests(TestCase):
                 'https://dofusfashionista.gg/guides/getting-started/', head)
 
     def test_kolossium_appears_only_in_the_game_modes_guide(self):
-        # Kolossium/Kolizeum is a modern-only ranked mode. The game-modes guide
-        # keeps it (version-aware, modern group); every OTHER guide must use a
-        # version-neutral "competitive PvP" so a Retro reader is never told about
-        # a mode their game does not have.
+        # Kolossium/Kolizeum is a modern-only ranked mode; only the version-aware
+        # game-modes guide may name it, every other guide says "competitive PvP".
         import re
         from chardata import guides_content
         pattern = re.compile(r'koliz|koloss|kolise', re.IGNORECASE)
@@ -8613,8 +8165,6 @@ class VersionSpecificGuideTests(TestCase):
                          ['dofus3', 'retro'])
 
     def test_body_link_to_a_version_guide_follows_the_reader_version(self):
-        # The crit link inside stats-explained must keep a Retro reader on the
-        # Retro crit page; on the default it stays the global URL.
         retro = self.client.get('/retro/guides/stats-explained/').content.decode('utf-8')
         self.assertIn('href="/retro/guides/critical-hits/"', retro)
         modern = self.client.get('/guides/stats-explained/').content.decode('utf-8')
@@ -8641,8 +8191,7 @@ class EncyclopediaCacheWarmupTests(SimpleTestCase):
             self.assertIn(version, ev._version_item_keys_cache)
             self.assertIn(version, ev._version_resource_keys_cache)
             self.assertIn(version, ev._resource_search_index_cache)
-        # After the warmup every cross-version helper must answer without
-        # touching sqlite (this is what the wsgi background thread buys us).
+        # After the warmup every cross-version helper must answer without sqlite.
         with unittest.mock.patch.object(
                 ev.sqlite3, 'connect',
                 side_effect=AssertionError('cold db hit after warmup')):
@@ -8655,9 +8204,8 @@ class EncyclopediaCacheWarmupTests(SimpleTestCase):
 
 
 class EncyclopediaResourcePageTests(TestCase):
-    """The resource page is the reverse recipe index: it lists every item a crafting
-    ingredient is used in, and item recipes link to it. See
-    encyclopedia_view.encyclopedia_resource."""
+    """The resource page is the reverse recipe index: every item an ingredient
+    is used in, with the item recipes linking back to it."""
 
     def _busiest_resource(self, game_version='dofus3'):
         import sqlite3
@@ -8865,8 +8413,7 @@ class EncyclopediaResourcePageTests(TestCase):
 
 
 class EncyclopediaMonsterPageTests(TestCase):
-    """Monster encyclopedia pages are version-scoped and built from the per-version
-    drop tables, so Retro monsters never borrow modern drops or names."""
+    """Monster pages are version-scoped: each version's own drop tables and names."""
 
     def _retro_item_url_with_variant_only_drop(self):
         import sqlite3
@@ -9021,8 +8568,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.context['sort_key'], 'name')
 
     def test_monsters_list_can_filter_by_weakness(self):
-        # Crocodyl (261) resists fire the least in every dofus3 grade, so it is
-        # findable under the Fire weakness filter and hidden under Water.
+        # Crocodyl (261) resists fire the least in every dofus3 grade.
         resp = self.client.get('/encyclopedia/monsters/?q=crocodyl&weak=fire',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
@@ -9036,8 +8582,6 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertNotIn(261, water_ids)
 
     def test_weakness_filter_offers_only_present_elements(self):
-        # dofus3 carries per-grade resistances, so the filter renders with the
-        # elements some monster is actually weakest to, "all" first.
         resp = self.client.get('/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
@@ -9053,8 +8597,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.context['weakness_filter'], 'all')
 
     def test_weakness_filter_offered_on_every_version(self):
-        # The control appears wherever grade stats exist. dofus2 was the last
-        # version without them until its 2.73 archive was read on 2026-08-02.
+        # The control appears wherever grade stats exist.
         resp = self.client.get('/dofus2/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
@@ -9062,23 +8605,19 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('name="weak"', resp.content.decode('utf-8'))
 
     def test_hub_card_shows_weakness_tag(self):
-        # Crocodyl (261) is weakest to fire in dofus3, so its hub card surfaces
-        # the weakness at a glance, matching the monster page's "Weakness: Fire".
+        # Crocodyl (261) is weakest to fire in dofus3.
         resp = self.client.get('/encyclopedia/monsters/?q=crocodyl',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         # The combined class attribute only appears on a rendered card, never in
-        # the stylesheet, so it proves a card actually carries the tag.
+        # the stylesheet.
         self.assertIn('encyclopedia-monsters-meta encyclopedia-monsters-weakness', body)
         self.assertIn('Weakness: Fire', body)
-        # The tag is a shortcut into the weakness filter for that element.
         self.assertIn('/encyclopedia/monsters/?weak=fire', body)
         self.assertIn('Show monsters with this weakness', body)
 
     def test_hub_card_weakness_tag_links_into_the_filter(self):
-        # Following a card's weakness tag lands on the filtered hub for that
-        # element, with the same monster present (the tag closes the loop).
         resp = self.client.get('/encyclopedia/monsters/?weak=fire',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
@@ -9087,8 +8626,6 @@ class EncyclopediaMonsterPageTests(TestCase):
                             for m in resp.context['monsters_page'].object_list))
 
     def test_hub_card_shows_the_weakness_tag_on_dofus2(self):
-        # Its resistances agree with dofus3 on 198 of 200 monsters, so the
-        # cards surface a weakness there like everywhere else.
         resp = self.client.get('/dofus2/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
@@ -9096,8 +8633,6 @@ class EncyclopediaMonsterPageTests(TestCase):
                       resp.content.decode('utf-8'))
 
     def test_hub_links_the_weakness_guide(self):
-        # The hub advertises the monster-weaknesses guide under the search
-        # form, in the reader's language.
         resp = self.client.get('/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         body = resp.content.decode('utf-8')
@@ -9109,15 +8644,12 @@ class EncyclopediaMonsterPageTests(TestCase):
                       resp_fr.content.decode('utf-8'))
 
     def test_hub_weakness_guide_link_follows_the_version_prefix(self):
-        # From the retro hub the link stays inside /retro/ so the reader does
-        # not silently switch game versions.
         resp = self.client.get('/retro/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertIn('/retro/guides/monster-weaknesses/',
                       resp.content.decode('utf-8'))
 
     def test_hub_links_the_weakness_guide_on_dofus2(self):
-        # The note follows the data, and dofus2 now has resistances.
         resp = self.client.get('/dofus2/encyclopedia/monsters/',
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertIn('monster-weaknesses', resp.content.decode('utf-8'))
@@ -9173,9 +8705,7 @@ class EncyclopediaMonsterPageTests(TestCase):
                 version['game_version'])
 
     def test_touch_monster_page_shows_official_grade_stats(self):
-        # The stats-per-grade section comes from the Touch backend Monsters
-        # table (monster_grades, stored by store_touch_monster_grades.py).
-        # Expectations are read back from the db so a re-scrape stays honest.
+        # Touch grades come from the Touch backend Monsters table (monster_grades).
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
 
@@ -9198,8 +8728,7 @@ class EncyclopediaMonsterPageTests(TestCase):
             self.assertIn('<td>%d</td>' % level, body)
             self.assertIn('<td>%d</td>' % hp, body)
 
-        # dofus3 has its OWN grades (DofusDB source): same monster id, its
-        # own numbers. The two versions must differ, proving no data sharing.
+        # dofus3 grades come from DofusDB: same monster id, its own numbers.
         conn = sqlite3.connect(get_items_db_path('dofus3'))
         try:
             d3_rows = conn.execute(
@@ -9233,8 +8762,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('id="monster-stats"', body)
         self.assertIn('<td>%d</td>' % retro_rows[0][1], body)
 
-        # dofus2 joined them on 2026-08-02: its grades come from the 2.73
-        # archive it already downloads, and they are its own numbers.
+        # dofus2 grades come from the 2.73 archive it already downloads.
         conn = sqlite3.connect(get_items_db_path('dofus2'))
         try:
             d2_rows = conn.execute(
@@ -9250,8 +8778,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('<td>%d</td>' % d2_rows[0][1], body)
 
     def test_monster_hub_shows_level_ranges_per_version(self):
-        # The hub cards show the level span across grades, read from each
-        # version's own monster_grades table; expectations come from the db.
+        # The level span comes from each version's own monster_grades table.
         import re
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -9274,7 +8801,6 @@ class EncyclopediaMonsterPageTests(TestCase):
                         if level_max != level_min else 'Niveau %d' % level_min)
             self.assertIn(expected, re.sub(r'\s+', ' ', body), version)
 
-        # Sorting by level orders the touch hub by ascending level span.
         resp = self.client.get('/touch/encyclopedia/monsters/?sort=level',
                                HTTP_ACCEPT_LANGUAGE='fr')
         self.assertEqual(resp.status_code, 200)
@@ -9286,7 +8812,6 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(mins, sorted(mins))
 
     def test_monster_page_title_carries_the_level_span(self):
-        # The title/meta use the version's own grade levels.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
 
@@ -9306,11 +8831,9 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         self.assertIn('Niveau %s - Monstre' % span, body)
-        # The minifier reorders attributes: match the content only. The version
-        # names itself first, then the level span (a weakness line may follow).
+        # The minifier reorders attributes, so match the content only.
         self.assertIn('content="Dofus Touch. Niveau %s. ' % span, body)
 
-        # dofus2 carries its own span since its grades landed.
         conn = sqlite3.connect(get_items_db_path('dofus2'))
         try:
             d2_min, d2_max = conn.execute(
@@ -9327,9 +8850,8 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('Niveau %s - Monstre' % d2_span, resp.content.decode('utf-8'))
 
     def test_retro_monster_page_lists_its_subareas(self):
-        # "Where to find it" comes from the version's own source (retro:
-        # the Solomonk bestiary subarea blocks); expectations are read back
-        # from the db. Versions without the table show no section.
+        # Retro subareas come from the Solomonk bestiary; a version without the
+        # table shows no section at all.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
 
@@ -9352,8 +8874,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         for (name,) in rows[:3]:
             self.assertIn(name, body)
 
-        # Touch has its OWN first-hand locations (the client SubAreas
-        # table): same monster id, its own zones, natively localized.
+        # Touch locations come from the client SubAreas table, natively localized.
         conn = sqlite3.connect(get_items_db_path('touch'))
         try:
             touch_rows = conn.execute(
@@ -9377,7 +8898,7 @@ class EncyclopediaMonsterPageTests(TestCase):
         for (name,) in touch_rows[:2]:
             self.assertIn(name, body)
 
-        # dofus3 locations come from DofusDB (its own zones, own ids).
+        # dofus3 locations come from DofusDB.
         conn = sqlite3.connect(get_items_db_path('dofus3'))
         try:
             d3_rows = conn.execute(
@@ -9394,18 +8915,15 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('id="monster-subareas"', body)
         self.assertIn(d3_rows[0][0], body)
 
-        # dofus2 has no source for monster locations: no section at all.
+        # dofus2 has no source for monster locations.
         resp = self.client.get('/dofus2/encyclopedia/monster/101-bouftou/')
         self.assertEqual(resp.status_code, 200)
         self.assertNotIn('id="monster-subareas"',
                          resp.content.decode('utf-8'))
 
     def test_monster_page_shows_the_artwork(self):
-        # dofus3/beta artwork comes from the DofusDB id -> img mapping (the
-        # file name is the gfxId, not the monster id); touch has its own
-        # era-accurate art from the official Touch CDN (indexed by monster
-        # id); retro has the vectors extracted from the official 1.29 client.
-        # Versions without a source (dofus2) must never borrow another's art.
+        # Artwork per version: dofus3/beta from DofusDB (file named by gfxId, not
+        # monster id), touch from the Touch CDN, retro from the 1.29 client.
         from chardata import encyclopedia_view as ev
 
         self.assertTrue(ev._monster_image_url('dofus3', 101))
@@ -9418,7 +8936,6 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('monsters/retro/96/101.webp', retro_url)
         self.assertIsNone(ev._monster_image_url('dofus2', 101))
 
-        # The touch page serves the touch art, not the modern render.
         resp = self.client.get('/touch/encyclopedia/monster/101-bouftou/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
@@ -9435,7 +8952,6 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('chardata/monsters/96/101.webp', body)
         self.assertIn('property="og:image"', body)
 
-        # The retro page serves the 1.29 art, never the modern render.
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
@@ -9444,7 +8960,6 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertNotIn('chardata/monsters/96/101.webp', body)
         self.assertIn('property="og:image"', body)
 
-        # Search chips reuse the same artwork on dofus3.
         resp = self.client.get('/encyclopedia/', {'q': 'bouftou'})
         body = resp.content.decode('utf-8')
         self.assertIn('chardata/monsters/96/', body)
@@ -9456,8 +8971,8 @@ class EncyclopediaMonsterPageTests(TestCase):
     def test_monsters_hub_shows_thumbnails_from_cached_id_set(self):
         from chardata import encyclopedia_view as ev
 
-        # The hub renders 60 rows per page: availability comes from one
-        # cached directory listing, never per-file probing.
+        # Thumbnail availability comes from one cached directory listing, never
+        # per-file probing.
         resp = self.client.get('/encyclopedia/monsters/', {'q': 'bouftou'})
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'chardata/monsters/96/')
@@ -9466,7 +8981,6 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertNotContains(resp, 'chardata/monsters/96/')
         self.assertContains(resp, 'chardata/monsters/retro/96/')
 
-        # Warm set answers without listing the disk again.
         self.assertIn(101, ev._monster_image_ids('dofus3'))
         self.assertIn(101, ev._monster_image_ids('retro'))
         with unittest.mock.patch.object(
@@ -9479,8 +8993,7 @@ class EncyclopediaMonsterPageTests(TestCase):
     def test_ingredient_icons_served_from_cached_id_set(self):
         from chardata import encyclopedia_view as ev
 
-        # Sesame Seed (287) has an icon in every version; after the per-dir
-        # set is warm, no icon lookup may list the disk again.
+        # Sesame Seed (287) has an icon in every version.
         for version in ('dofus3', 'beta', 'touch', 'retro', 'dofus2'):
             self.assertIn(287, ev._ingredient_icon_ids(version), version)
         with unittest.mock.patch.object(
@@ -9492,9 +9005,6 @@ class EncyclopediaMonsterPageTests(TestCase):
     def test_monster_version_links_served_from_cache(self):
         from chardata import encyclopedia_view
 
-        # Warm the per-version caches, then cut sqlite off: the links must
-        # come out of memory (one db scan per version per process, not four
-        # db opens plus counts on every monster page view).
         first = encyclopedia_view._get_monster_version_links(101, 'retro', 'fr')
         self.assertTrue(first)
         with unittest.mock.patch.object(
@@ -9707,13 +9217,8 @@ class EncyclopediaMonsterPageTests(TestCase):
 
 
 class PlaceholdersSurviveTranslationTests(SimpleTestCase):
-    """A translation has to carry the same placeholders as its source.
-
-    Seen live in Portuguese: "%(minNonCrit)d" where the string says
-    "%(minNonCrit)s". Django's javascript interpolate() only replaces
-    %(name)s, so the reader got the literal "%(minNonCrit)d" in a weapon
-    tooltip. msgfmt does not catch it, because a named placeholder with
-    another conversion is still valid gettext."""
+    """A translation has to carry the same placeholders as its source: interpolate()
+    only replaces %(name)s, and msgfmt accepts a msgstr that changed the conversion."""
 
     LANGS = ('fr', 'es', 'pt', 'de')
     CATALOGS = ('django.po', 'djangojs.po')
@@ -9747,13 +9252,8 @@ class PlaceholdersSurviveTranslationTests(SimpleTestCase):
 
 
 class NoMojibakeInTranslationsTests(SimpleTestCase):
-    """Guard against encoding corruption in the .po catalogs: a tool writing them
-    with the wrong encoding turns accents into literal question marks (seen live:
-    'Derni?res g?n?rations', 'Comparer ? l'actuel', '?ffnen'). msgfmt does not
-    catch this because the file stays valid. Two detectors:
-    - a '?' squeezed between letters never occurs in legitimate copy;
-    - a translation should not carry more '?' than its source string (one final
-      question mark is tolerated: some languages phrase a statement as a question)."""
+    """A .po written with the wrong encoding turns accents into literal question
+    marks, and the file stays valid for msgfmt."""
 
     LANGS = ('en', 'fr', 'es', 'pt', 'de')
     CATALOGS = ('django.po', 'djangojs.po')
@@ -9796,9 +9296,8 @@ class NoMojibakeInTranslationsTests(SimpleTestCase):
 
 
 class StatRangeTests(TestCase):
-    """The encyclopedia used to print only the best roll, which reads as if every
-    item came out perfect. The scraped data has both ends of the roll, the dump
-    was throwing the low one away."""
+    """An item stat rolls in a range: both ends are stored and shown, while the
+    solver keeps optimising on the best roll."""
 
     def test_the_range_is_stored_but_the_solver_still_reads_the_best_roll(self):
         from fashionistapulp.structure import get_structure
@@ -9807,9 +9306,7 @@ class StatRangeTests(TestCase):
         self.assertIsNotNone(item)
         vitality = structure.get_stat_by_key('vit').id
         self.assertEqual(item.stat_ranges[vitality], (201, 250))
-        # What the model optimises on is untouched: still the best roll.
         self.assertIn((vitality, 250), item.stats)
-        # A fixed stat carries no range at all.
         action_points = structure.get_stat_by_key('ap').id
         self.assertNotIn(action_points, item.stat_ranges)
 
@@ -9825,8 +9322,7 @@ class StatRangeTests(TestCase):
 
     def test_every_version_with_range_data_shows_it(self):
         from fashionistapulp.structure import get_structure
-        # Same sword, four games: the roll differs per version and Touch has its
-        # own numbers, so each one is read from its own database.
+        # Same sword in four games: the roll differs per version.
         expected = {'dofus3': ('44', '7 à 10'), 'beta': ('44', '7 à 10'),
                     'dofus2': ('44', '7 à 10'), 'touch': ('47', '11 à 15')}
         prefixes = {'dofus3': '', 'beta': '/beta', 'dofus2': '/dofus2',
@@ -9840,9 +9336,8 @@ class StatRangeTests(TestCase):
                 self.assertContains(resp, text)
 
     def test_retro_has_no_stat_range_because_the_game_has_none(self):
-        # In Dofus Retro 1.29 equipment stats are fixed. Every ranged line in the
-        # Retro source is a weapon damage line, which is not an item stat, so an
-        # empty result here is the game being faithful, not a data gap.
+        # In Dofus Retro 1.29 equipment stats are fixed; the only ranged lines in
+        # the source are weapon damage, which is not an item stat.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         conn = sqlite3.connect(get_items_db_path('retro'))
@@ -9906,9 +9401,8 @@ class StatRangeInThePickerTests(TestCase):
 
 
 class CharacterPreviewIsOffTests(TestCase):
-    """The drawn character is switched off site-wide while its art assembly
-    is reworked. Every page already falls back to the class avatar, so the
-    switch is one flag and nothing downstream needs to know."""
+    """The drawn character is off site-wide; every page falls back to the
+    class avatar."""
 
     def _shared_build(self, owner=None):
         import pickle as _pickle
@@ -9940,8 +9434,6 @@ class CharacterPreviewIsOffTests(TestCase):
         return owner, char
 
     def test_the_setting_is_off_in_the_shipped_configuration(self):
-        # A release must not carry it on by accident; the tests that need it
-        # ask for it themselves with override_settings.
         from django.conf import settings
         self.assertFalse(getattr(settings, 'CHARACTER_PREVIEW', False))
 
@@ -10048,9 +9540,8 @@ class CharacterLookTests(TestCase):
         self.assertTrue(resp.json()['body'])
 
     def test_only_the_versions_sharing_this_art_get_a_preview(self):
-        # Dofus 2 and Touch kept the same equipment designs, so the skins
-        # matched once from the Dofus 3 art fit them. Retro is 1.29 art and
-        # shares nothing, so it draws nothing.
+        # Dofus 2 and Touch share the Dofus 3 equipment art; Retro is 1.29 art
+        # and shares none of it.
         from chardata.character_look import get_character_look
         char = self._char('Iop')
         for version in ('dofus3', 'beta', 'dofus2', 'touch'):
@@ -10058,10 +9549,8 @@ class CharacterLookTests(TestCase):
         self.assertIsNone(get_character_look(char, None, 'retro'))
 
     def test_a_shared_skin_never_points_at_another_piece(self):
-        # This is what kept Touch out of the preview: the cache is a single
-        # Dofus 3 id space, so a skin id meaning something else in another
-        # version would draw the wrong gear. No version stores art of its own,
-        # they replay the Dofus 3 decisions by name, and this holds them to it.
+        # The skin cache is one Dofus 3 id space; the other versions reuse
+        # those ids by name rather than storing art of their own.
         from fashionistapulp.structure import get_structure
         from fashionistapulp.fashion_util import is_same_item_name
         from chardata.character_look import VERSIONS_WITH_ART
@@ -10097,12 +9586,8 @@ class CharacterLookTests(TestCase):
                 self.assertEqual(len(types), len(SLOT_TO_NODE), version)
 
     def test_the_stored_skins_match_the_ones_kept_in_the_repo(self):
-        # The matching takes hours and its output lives only in the database,
-        # so a rebuild would lose it. item_skins.json is that output, and this
-        # fails the day the two drift apart. The file keeps every candidate
-        # with its margin, the database only those that clear the floor, so a
-        # floor can move without matching again. Every version storing skins is
-        # checked here, preview or not, since the dump is what a rebuild reads.
+        # item_skins.json keeps every candidate with its margin, the database
+        # only those that clear the floor.
         import json
         import sqlite3
         from fashionistapulp.fashionista_config import (get_fashionista_path,
@@ -10131,8 +9616,8 @@ class CharacterLookTests(TestCase):
                 return None
             return entry['skin']
 
-        # The other versions renumbered part of their catalogue, so they also
-        # replay the same decisions under type and name.
+        # The other versions renumbered part of their catalogue, so the name
+        # index covers them too.
         conn = sqlite3.connect(get_items_db_path('dofus3'))
         try:
             self.assertEqual(by_name, names_index(conn))
@@ -10203,8 +9688,7 @@ class CharacterLookTests(TestCase):
                          [int(expected[0][i:i + 2], 16) for i in (0, 2, 4)])
 
     def test_every_class_has_the_colours_the_client_ships(self):
-        # Slot 6 was the one nobody defined, so every piece wearing it stayed
-        # grey. The client gives six, per class and per gender.
+        # The client gives six colours, per class and per gender.
         from chardata.character_look import (COLOR_SLOTS, CLASS_TO_BREED,
                                              DEFAULT_COLORS, breed_colors)
         self.assertEqual(len(DEFAULT_COLORS), COLOR_SLOTS)
@@ -10257,7 +9741,6 @@ class CharacterLookTests(TestCase):
         for percent in PREVIEW_SIZES:
             box = preview_box(percent)
             with self.subTest(percent=percent):
-                # A bigger canvas with the same draw scale would only add margin.
                 self.assertAlmostEqual(box['canvas_width'] / normal['canvas_width'],
                                        box['scale'] / normal['scale'], places=2)
                 self.assertAlmostEqual(box['canvas_width'] / box['canvas_height'],
@@ -10265,8 +9748,8 @@ class CharacterLookTests(TestCase):
                                        places=2)
 
     def test_the_draw_scale_reaches_the_page_as_a_number_in_every_language(self):
-        # French formats 0.909 as "0,909", which turns the object literal it
-        # sits in into broken JavaScript and kills the whole preview.
+        # French writes 0.909 as "0,909", which breaks the JavaScript object
+        # literal it sits in.
         from django.template import Context, Template
         from django.utils import translation
         from chardata.character_look import PREVIEW_SIZES, preview_box
@@ -10326,7 +9809,6 @@ class CharacterLookTests(TestCase):
         char.refresh_from_db()
         self.assertEqual(char.hidden_parts, 'cloak,hat')
         self.assertEqual(sorted(resp.json()['hidden']), ['cloak', 'hat'])
-        # Nothing about the solution changed, only what the preview draws.
         self.assertEqual(get_character_look(char, None)['hidden'], ['cloak', 'hat'])
 
     def test_a_hidden_slot_is_dropped_from_the_gear_the_preview_draws(self):
@@ -10424,13 +9906,12 @@ class MountLookTests(TestCase):
         self.assertEqual(
             parse_look('{5023||2=13173535,1=14877997,3=14575892|85}'),
             (5023, ['e3052d', 'c9031f', 'de6914'], 85))
-        # The client also writes hex behind a sigil: the Armoured Dragoturkey
-        # mixes both forms in one look and used to lose its three # colours.
+        # The client also writes hex behind a sigil, and one look can mix both
+        # forms.
         self.assertEqual(
             parse_look('{639|1247|1=#FFA433,2=#722B19,3=#7B4835,4=7758915|120}'),
             (639, ['ffa433', '722b19', '7b4835', '766443'], 120))
-        # Bare decimals that HAPPEN to read as six hex digits stay decimal:
-        # 498894 tints 15 Rhineetles today and must remain 079cce.
+        # A bare decimal that reads as six hex digits is still a decimal.
         self.assertEqual(
             parse_look('{5023||1=498894,3=2605815,2=2605815|85}'),
             (5023, ['079cce', '27c2f7', '27c2f7'], 85))
@@ -10456,7 +9937,7 @@ class MountLookTests(TestCase):
                         self.assertRegex(value, r'^[0-9a-f]{6}$')
 
     def test_the_whole_stable_rides_on_a_handful_of_skeletons(self):
-        # Colour variants share a skeleton, so the art to ship is small.
+        # Colour variants share a skeleton.
         for version in self.VERSIONS:
             bones = {row[1] for row in self._rows(version)}
             with self.subTest(version=version):
@@ -10619,7 +10100,7 @@ class CharacterPoseDecodingTests(TestCase):
 
     def test_only_a_record_holding_a_symbol_draws_anything(self):
         # A named record with no symbol is not a piece, it introduces the ones
-        # that follow. Drawing both paints the mount twice, uncoloured on top.
+        # that follow.
         mount = self._mount(
             [self._record(1, 0x30, 0, self._identity(20.0)),
              self._record(0, 0x11, 0, self._identity(20.0), symbol=1)],
@@ -10646,7 +10127,7 @@ class CharacterPoseDecodingTests(TestCase):
         self.assertEqual(mount.key_frame('AnimStatique_2'), [])
 
     def test_the_rider_slots_keep_their_place_in_the_mount_list(self):
-        # The character is drawn INTO these, so their position in the list is
+        # The character is drawn into these, so their position in the list is
         # what puts the near leg in front of the mount and the far one behind.
         mount = self._mount(
             [self._record(0, 0x31, 0, self._identity(10.0), symbol=0xFFFF),
@@ -10658,8 +10139,6 @@ class CharacterPoseDecodingTests(TestCase):
                          ['carried_1_0', 0, 'carried_6_0'])
 
     def test_the_prebake_covers_the_mounts_and_the_rider(self):
-        # Baking a mount takes as long as baking a body, so it must not happen
-        # while someone waits for a page.
         import unittest.mock
         from django.core.management import call_command
         from chardata import character_assets
@@ -10679,8 +10158,7 @@ class CharacterPoseDecodingTests(TestCase):
         self.assertIn(639, mounts)
 
     def test_a_skin_is_one_sheet_not_thirty_files(self):
-        # A character used to cost 85 requests. The sheet holds every part of
-        # every orientation, so turning it costs none at all.
+        # The sheet holds every part of every orientation.
         from chardata import character_assets
         images = {}
         try:
@@ -10698,14 +10176,12 @@ class CharacterPoseDecodingTests(TestCase):
         self.assertEqual(len(set(spots)), len(spots))
 
     def test_the_sheet_version_reaches_the_cache_buster(self):
-        # Without it the browser keeps a year-old sheet in the old format.
         from chardata import character_assets
         self.assertIn(str(character_assets.SKIN_FORMAT),
                       character_assets.asset_token().split('-'))
 
     def test_a_baked_skeleton_needs_no_bundle_behind_it(self):
-        # Production ships the cache and not the 861 MB of bundles, so asking
-        # for the bundle would switch the mount off on the only box that counts.
+        # Production ships the baked cache, not the bundles.
         import tempfile
         from django.test import override_settings
         from chardata import character_assets
@@ -10733,8 +10209,7 @@ class CharacterPoseDecodingTests(TestCase):
 
     def test_the_offset_table_is_sized_by_its_own_header_field(self):
         # The header counts the table first and the frames last, and the two
-        # differ per skeleton. Sizing the table by the frame count reads past
-        # it into the first block.
+        # differ per skeleton.
         import struct
         from chardata.character_assets import Bone
         block = self._record(0, 0x31, 3, self._identity(46.0))
@@ -10832,7 +10307,7 @@ class AdminDashboardTests(TestCase):
 
 class AdminDashboardFilterTests(TestCase):
     """The toolbar picks the range and the version, and both have to reach the
-    figures instead of only the labels."""
+    figures."""
 
     def _admin(self):
         from django.contrib.auth.models import User
@@ -10856,7 +10331,6 @@ class AdminDashboardFilterTests(TestCase):
         self.assertEqual(month.key, '30d')
         fallback = admin_stats.resolve_period('nonsense')
         self.assertEqual(fallback.key, admin_stats.DEFAULT_PERIOD)
-        # The window before it must not overlap the window itself.
         self.assertEqual(month.previous_end, month.start - datetime.timedelta(days=1))
         self.assertEqual((month.previous_end - month.previous_start).days + 1, month.days)
 
@@ -10879,7 +10353,6 @@ class AdminDashboardFilterTests(TestCase):
             with self.subTest(query=query):
                 resp = self.client.get('/admin-tools/', query)
                 self.assertEqual(resp.status_code, 200)
-        # A date past today never becomes the end of the window.
         for query in ({'start': '2030-01-01'}, {'end': '2030-01-01'},
                       {'start': '2030-01-01', 'end': '2031-01-01'}):
             period = admin_stats.resolve_period(**query)
@@ -10893,7 +10366,6 @@ class AdminDashboardFilterTests(TestCase):
             period = admin_stats.resolve_period(key)
             with self.subTest(key=key):
                 self.assertEqual(period.start, period.bucket_of(period.start))
-        # A custom range keeps the days that were asked for.
         custom = admin_stats.resolve_period(start='2026-03-05', end='2026-03-20')
         self.assertEqual(custom.start, datetime.date(2026, 3, 5))
 
@@ -10916,7 +10388,6 @@ class AdminDashboardFilterTests(TestCase):
         self.assertEqual(admin_stats.resolve_period('7d').unit, 'day')
         self.assertEqual(admin_stats.resolve_period('90d').unit, 'week')
         self.assertEqual(admin_stats.resolve_period('12m').unit, 'month')
-        # One bar per bucket, and the range never draws an empty chart.
         week = admin_stats.resolve_period('7d')
         self.assertEqual(len(week.buckets), 7)
         self.assertEqual(len(week.series({})), 7)
@@ -10975,10 +10446,8 @@ class AdminDashboardFilterTests(TestCase):
 
 
 class DofusGridLabelTests(SimpleTestCase):
-    """The dofus grid labels were hand-kept in the catalogs, so es/pt/de showed
-    English words for a third of them. When the catalog has nothing, the label
-    now comes from the game data, which already holds the official name of every
-    language and updates itself when a dofus is added."""
+    """A dofus label the catalog does not translate falls back to the official
+    item name the game data carries for that language."""
 
     def setUp(self):
         from fashionistapulp.structure import set_current_game_version
@@ -10993,14 +10462,13 @@ class DofusGridLabelTests(SimpleTestCase):
                     for entry in get_available_options()['dofuses']}
 
     def test_source_languages_keep_their_short_labels(self):
-        # English is the source and French is fully translated: the fallback must
-        # not touch either, long names would only wrap in a 70px box.
+        # English is the source and French is fully translated, so the fallback
+        # must not touch either.
         self.assertEqual(self._labels('en')['sylvan'], 'Sylvan')
         self.assertEqual(self._labels('en')['ochre'], 'Ochre')
         french = self._labels('fr')
         self.assertEqual(french['sylvan'], 'Sylvestre')
-        # A word French spells like English keeps the short form: the game name
-        # contains it, so there is nothing to fall back to.
+        # A word French spells like English keeps the short form.
         self.assertEqual(french['vulbis'], 'Vulbis')
         self.assertEqual(french['turquoise'], 'Turquoise')
 
@@ -11018,16 +10486,15 @@ class DofusGridLabelTests(SimpleTestCase):
                     self.assertEqual(labels[key], name)
 
     def test_no_label_leaks_an_internal_disambiguation_number(self):
-        # DOFUS_OPTIONS points at 'Cocoa Dofus 2' and 'Sylvan Dofus 2', names our
-        # own pipeline numbered; a player must never see that number.
+        # DOFUS_OPTIONS points at names our own pipeline numbered, such as
+        # 'Cocoa Dofus 2'.
         for language in ('en', 'fr', 'es', 'pt', 'de'):
             for key, label in self._labels(language).items():
                 with self.subTest(language=language, key=key):
                     self.assertFalse(label.rstrip()[-1:].isdigit(), label)
 
     def test_every_option_still_points_at_a_real_item(self):
-        # The fallback reads the item by its English name, so a rename in the
-        # data would silently send every language back to English.
+        # The fallback reads the item by its English name.
         from fashionistapulp.structure import get_structure
         from chardata.options import DOFUS_OPTIONS
         structure = get_structure('dofus3')
@@ -11037,20 +10504,12 @@ class DofusGridLabelTests(SimpleTestCase):
 
 
 class NoLanguageLeftInEnglishTests(SimpleTestCase):
-    """A string translated in French but left as the English source in another
-    language is an untranslated string, not a choice. German shipped 42 of them
-    (Search, Select, Loading, every password error, every weapon damage line)
-    until 2026-07-25, and nothing caught it: msgfmt is happy with an msgstr that
-    repeats the msgid.
-
-    Words that really are identical in the target language are allowlisted per
-    language, so adding one is a deliberate act."""
+    """A msgstr that repeats its msgid is an untranslated string, and msgfmt
+    does not complain about it."""
 
     LANGS = ('es', 'pt', 'de')
     CATALOGS = ('django.po', 'djangojs.po')
-    # Words that really do read the same in the target language: Dofus keeps
-    # Set / AP / MP, and several German words (month names, Name, Neutral,
-    # Hammer, Ring, optional) are spelled like the English ones.
+    # Words that really do read the same in the target language.
     IDENTICAL_IN_LANGUAGE = {
         'es': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Error', 'No'},
         'pt': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote'},
@@ -11062,16 +10521,13 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
                ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d',
                '%(ap)s AP'},
     }
-    # Dofus grid labels: the catalog entry stays in English on purpose, the page
-    # falls back to the item's official name in the player's language (see
-    # options._dofus_label and DofusGridLabelTests). Translating them here would
-    # only duplicate what the game data already says.
+    # Dofus grid labels stay in English here: the page falls back to the item's
+    # official name (see options._dofus_label).
     LABELLED_FROM_GAME_DATA = {
         'Black Spotted', 'Cocoa', 'Ebony', 'Nightmare', 'Silver',
         'Sparkling Silver', 'Sylvan', 'Dotrich', 'Grofus', 'Kaliptus',
     }
-    # Proper nouns still waiting on a sourced official name per language. They
-    # stay in English rather than being guessed.
+    # Proper nouns still waiting on a sourced official name per language.
     PENDING_OFFICIAL_NAME = {'Rhineetles', 'Xelor', 'Cra', 'Sacrier'}
 
     def _catalog(self, lang, catalog):
@@ -11106,12 +10562,11 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
 
 
 class SpellCastingCostTests(SimpleTestCase):
-    """What a cast costs and how often it is allowed. Read straight from the
-    client data; a combo is only worth computing on exact numbers."""
+    """What a cast costs and how often it is allowed, read from the client
+    data."""
 
-    # The versions whose spells come from the Unity dumps. dofus2 ships no
-    # spell level data at all (its pipeline says so and skips the step), and
-    # retro/touch are decoded separately.
+    # The versions whose spells come from the Unity dumps: dofus2 ships no
+    # spell level data, and retro/touch are decoded separately.
     VERSIONS = ('dofus3', 'beta')
 
     def _spells(self, version):
@@ -11120,11 +10575,8 @@ class SpellCastingCostTests(SimpleTestCase):
                 for spell in spells]
 
     def test_retro_and_touch_know_their_costs_too(self):
-        # Their decoders read past the cast data their own sources carry, so
-        # both shipped none of it and the combo panel silently never appeared
-        # on two of the five versions. Retro keeps it in the level array at 18
-        # (AP), 7 (per turn), 8 (per target) and 6 (cooldown); Touch names the
-        # same four fields in the level dict.
+        # Retro keeps the cast data in the level array at 18 (AP), 7 (per
+        # turn), 8 (per target) and 6 (cooldown); Touch names the same fields.
         for version in ('retro', 'touch'):
             with self.subTest(version=version):
                 spells = self._spells(version)
@@ -11170,9 +10622,6 @@ class SpellCastingCostTests(SimpleTestCase):
                     self.assertEqual(spell.ap_cost(), spell.casting['ap'][-1])
 
     def test_the_costs_are_the_ones_the_game_charges(self):
-        # Anchored so a shifted column in the generator cannot pass unnoticed.
-        # Pressure allows more casts per turn than per target, and the top
-        # grade of Concentration allows one more of each than the first.
         spells = {spell.name: spell for spell in self._spells('dofus3')}
         self.assertEqual(spells['Pressure'].casting,
                          {'ap': [3, 3, 3], 'per_turn': [4, 4, 4],
@@ -11183,7 +10632,7 @@ class SpellCastingCostTests(SimpleTestCase):
 
     def test_a_spell_the_client_never_described_says_so(self):
         # The hand-written stand-ins (a pie, a weapon skill, a Dofus) are not
-        # castable spells; None is the honest answer, not a made-up cost.
+        # castable spells.
         spells = {spell.name: spell for spell in self._spells('dofus3')}
         self.assertIsNone(spells['Weapon Skill'].casting)
         self.assertIsNone(spells['Weapon Skill'].ap_cost())
@@ -11255,8 +10704,7 @@ class AdsTests(TestCase):
         self.assertEqual(off['ad_slots'], {})
 
     def test_the_frame_is_only_drawn_once_an_ad_filled(self):
-        # A blocked or unsold slot must leave nothing behind, not an empty
-        # labelled box, which is what most visitors with a blocker would see.
+        # A blocked or unsold slot must leave nothing behind, not an empty box.
         from fashionistapulp.fashionista_config import get_fashionista_path
         path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
                             'static', 'chardata', 'modern.css')
@@ -11283,8 +10731,6 @@ class AdsTests(TestCase):
         self.assertEqual(values['ad_publisher'], 'pub-42')
 
     def test_ads_txt_names_the_publisher_the_ad_code_uses(self):
-        # A file naming another publisher than the ad code stops the inventory
-        # from being bought, silently, so the two read the same config.
         from django.conf import settings
         from django.test import override_settings
         gen = dict(getattr(settings, 'GEN_CONFIGS', {}))
@@ -11294,8 +10740,8 @@ class AdsTests(TestCase):
         self.assertEqual(body, 'google.com, pub-42, DIRECT, f08c47fec0942fa0')
 
     def test_the_file_nginx_serves_names_the_same_publisher(self):
-        # nginx answers /ads.txt from docker/ads.txt so it survives a deploy or
-        # an outage, which means that copy, not the view, is what AdSense reads.
+        # nginx answers /ads.txt from docker/ads.txt, so that copy is what
+        # AdSense reads.
         from fashionistapulp.fashionista_config import get_fashionista_path
         from chardata.context_processors import DEFAULT_AD_CLIENT
         path = os.path.join(get_fashionista_path(), 'docker', 'ads.txt')
@@ -11306,8 +10752,7 @@ class AdsTests(TestCase):
 
 
 class MonsterSpellQueryTests(SimpleTestCase):
-    """The spell block used to run one query per spell, and the fullest
-    monster carries forty of them."""
+    """The spell block reads every spell of a monster in one query."""
 
     def _conn(self):
         import sqlite3
@@ -11372,8 +10817,6 @@ class MonsterSpellQueryTests(SimpleTestCase):
 
 
 class RecipeLookupTests(SimpleTestCase):
-    """Each ingredient used to cost up to three queries, and a recipe runs to
-    eight of them, on the biggest page family of the site."""
 
     def _conn(self):
         import sqlite3
@@ -11430,9 +10873,7 @@ class RecipeLookupTests(SimpleTestCase):
 
 
 class SkinMatchMarginTests(SimpleTestCase):
-    """The floors decide how much gear the preview can draw. They were set
-    once from 32 labelled pairs and kept while the sample grew to 96, which
-    left the weapon floor rejecting 43 of 44 labelled weapons."""
+    """The margin floors decide how much gear the preview can draw."""
 
     def _labelled(self):
         import json
@@ -11453,8 +10894,6 @@ class SkinMatchMarginTests(SimpleTestCase):
         return MIN_MARGIN
 
     def test_each_floor_is_the_one_the_labels_support(self):
-        # A floor is only worth its cost when it buys precision. Below 60% the
-        # preview would draw the wrong sword often enough to be noticed.
         for slot, data in self._labelled().items():
             floor = self._floors()[slot]
             kept = [label for margin, label in data if margin >= floor]
@@ -11477,14 +10916,8 @@ class SkinMatchMarginTests(SimpleTestCase):
 
 
 class HeadArtStaysOnTheHeadTests(SimpleTestCase):
-    """A head skin is drawn whole at the Tete node, in its own local space.
-
-    Several heads carry pieces named after OTHER skeleton nodes: the
-    Eliotrope's head holds Chapeau_1 and Natte_1, which are also the hat and
-    braid attachment points. The renderer used to look for a node's art in
-    every loaded skin, so those pieces were painted a second time at their
-    like-named node, offset and oversized, and the braid came back tinted by
-    colour slot 5, a blue slab across the head."""
+    """A head skin is drawn whole at the Tete node, and some heads carry pieces
+    named after other skeleton nodes: the Eliotrope's Chapeau_1 and Natte_1."""
 
     JS = os.path.join(os.path.dirname(__file__), 'static', 'chardata',
                       'character_preview.js')
@@ -11500,11 +10933,8 @@ class HeadArtStaysOnTheHeadTests(SimpleTestCase):
                          'a blanket skip drops the collar a Sram wears')
 
     def test_a_blanket_skip_would_lose_art_the_head_never_redraws(self):
-        # Why the guard is narrow. Some heads place a piece at its own node
-        # under an orientation suffix headEntries never returns for the view
-        # being drawn: the Sram female's collar, the Sadida female's braid.
-        # Skipping the head skin outright would delete those for good, so the
-        # guard only skips what headEntries already puts on screen.
+        # Some heads place a piece at its own node under an orientation suffix
+        # headEntries never returns: the Sram female's collar.
         import json
         from chardata import character_assets
         from chardata.character_look import _breed_looks, player_bones
@@ -11555,8 +10985,6 @@ class HeadArtStaysOnTheHeadTests(SimpleTestCase):
                         'guard could go back to skipping the head outright')
 
     def test_a_head_really_does_carry_a_body_node_name(self):
-        # The guard above is only worth its line while this holds. It reads
-        # the baked cache, so it also proves the collision is in real data.
         import json
         from chardata import character_assets
         from chardata.character_look import SLOT_TO_NODE, _breed_looks
@@ -11584,8 +11012,7 @@ class HeadArtStaysOnTheHeadTests(SimpleTestCase):
 
 @override_settings(CHARACTER_PREVIEW=True)
 class PreviewPieceBoxesTests(SimpleTestCase):
-    """A tickbox for a slot the preview cannot draw does nothing, and the
-    matcher only found art for 64% of cloaks and 29% of weapons."""
+    """A tickbox for a slot the preview cannot draw does nothing."""
 
     def _pieces(self, hidden, gear, mount=None):
         from chardata.solution_view import _preview_pieces
@@ -11602,9 +11029,6 @@ class PreviewPieceBoxesTests(SimpleTestCase):
         self.assertEqual(['hat'], self._pieces('', {hat: 242}))
 
     def test_a_worn_piece_with_no_art_is_named_instead_of_vanishing(self):
-        # A third of hats have no art, and the box for one simply is not
-        # drawn, so the reader is left wondering. get_character_look says
-        # which pieces it could not draw.
         from chardata.character_look import get_character_look
         from chardata.solution_view import _undrawn_pieces
         from fashionistapulp.structure import get_structure
@@ -11637,8 +11061,7 @@ class PreviewPieceBoxesTests(SimpleTestCase):
         self.assertEqual([], _undrawn_pieces(look))
 
     def test_a_weapon_is_never_called_missing_art(self):
-        # It is not the matcher's fault: no pose places a weapon at all, so
-        # naming it here would report a permanent limit as a data gap.
+        # No pose places a weapon at all.
         from chardata.character_look import get_character_look
 
         class Item(object):
@@ -11658,10 +11081,8 @@ class PreviewPieceBoxesTests(SimpleTestCase):
         self.assertEqual([], self._pieces('', {arme: 5662}))
 
     def test_the_poses_still_have_nowhere_to_put_a_weapon(self):
-        # The reason the box is gone. 22 of the 27 skeletons expose an Arme
-        # node and none positions it, in any animation; the skin holds only
-        # geometry with an identity transform. Delete UNDRAWN_SLOTS the day
-        # this fails, because then the data finally says where it goes.
+        # Delete UNDRAWN_SLOTS the day this fails: the data would then say
+        # where a weapon goes.
         import json
         from chardata import character_assets
         root = os.path.join(character_assets.cache_dir(), 'poses')
@@ -11696,8 +11117,7 @@ class PreviewPieceBoxesTests(SimpleTestCase):
 
 class SharedBuildCanonicalTests(TestCase):
     """The name in /s/<name>/<id>/ is decorative: the view reads only the id,
-    so every spelling serves the same build. Each one used to name itself as
-    the canonical url, which is as many duplicates as anyone cares to type."""
+    so every spelling serves the same build."""
 
     def _shared(self, name='hero', version='dofus3'):
         from chardata.models import Char
@@ -11716,8 +11136,6 @@ class SharedBuildCanonicalTests(TestCase):
                          shared_build_path(char))
 
     def test_a_build_with_no_name_is_filed_under_what_it_is(self):
-        # 622 builds sat under the literal word "shared", which says nothing
-        # to a reader or to a search engine.
         from chardata.solution_view import shared_build_path
         self.assertIn('/s/iop-200/', shared_build_path(self._shared(name='')))
 
@@ -11732,8 +11150,7 @@ class SharedBuildCanonicalTests(TestCase):
         self.assertIn('/s/shared/', shared_build_path(char))
 
     def test_a_versioned_build_keeps_its_version_in_the_url(self):
-        # /s/... resolves to dofus3, and the view 404s when the build belongs
-        # to another version, so the prefix is not decoration.
+        # /s/... resolves to dofus3, and the view 404s a build from elsewhere.
         from chardata.solution_view import shared_build_path
         self.assertTrue(shared_build_path(self._shared(version='beta'))
                         .startswith('/beta/s/'))
@@ -11742,7 +11159,6 @@ class SharedBuildCanonicalTests(TestCase):
         self.assertTrue(shared_build_path(self._shared()).startswith('/s/'))
 
     def test_the_sitemap_submits_that_exact_url(self):
-        # Two builders of the same url drift apart; one function feeds both.
         from fashionsite import urls
         from chardata.solution_view import shared_build_path
         char = self._shared(name='Sitemap Build')
@@ -11751,8 +11167,6 @@ class SharedBuildCanonicalTests(TestCase):
         for build in (char, beta):
             self.assertIn(
                 'https://dofusfashionista.gg' + shared_build_path(build), xml)
-        # Submitted without its prefix, a beta build lands on the dofus3 route
-        # and the view 404s it.
         self.assertNotIn('https://dofusfashionista.gg/s/Beta%20Build/', xml)
 
     def test_the_page_names_the_build_url_not_the_one_asked_for(self):
@@ -11766,8 +11180,7 @@ class SharedBuildCanonicalTests(TestCase):
 
 
 class BannerWeightTests(SimpleTestCase):
-    """The banner is on every page, so it is the first thing a visitor from
-    search downloads. It was a 1.27 MB PNG of a photographic scene."""
+    """The banner is on every page, so every first page view downloads it."""
 
     LIMIT = 250 * 1024
 
@@ -11788,8 +11201,7 @@ class BannerWeightTests(SimpleTestCase):
                             % (name, size / 1024))
 
     def test_the_stat_icons_are_not_shipped_at_source_resolution(self):
-        # They show at 15 to 30px. The source art went up to 500x500, which
-        # cost about a megabyte on any page listing stats.
+        # They show at 15 to 30px.
         from PIL import Image
         from fashionistapulp.fashionista_config import get_fashionista_path
         from chardata.stat_icons import STAT_ICON_FILENAME_BY_KEY
@@ -11823,8 +11235,7 @@ class BannerWeightTests(SimpleTestCase):
 
 class SharedBuildsIndexTests(TestCase):
     """The browse filters on game_version, link_shared and deleted and orders
-    by date. Measured on 200000 rows shaped like the real table: 1.0 s without
-    this index, 20 ms with it."""
+    by date."""
 
     def test_the_browse_filter_is_covered_by_an_index(self):
         from chardata.models import Char
@@ -11833,8 +11244,6 @@ class SharedBuildsIndexTests(TestCase):
                       'the shared-builds browse would scan the whole table')
 
     def test_the_browse_query_filters_on_those_columns(self):
-        # If the view stops filtering on one of them the index above stops
-        # matching, and nothing else would notice.
         from chardata.models import Char
         sql = str(Char.objects.filter(link_shared=True, deleted=False,
                                       game_version='dofus3')
@@ -11845,7 +11254,7 @@ class SharedBuildsIndexTests(TestCase):
 
 class AdminPreviewCacheTests(TestCase):
     """The preview fails silently when its cache is missing: no exception, no
-    log line, just a blank character. The dashboard is where that shows."""
+    log line, just a blank character."""
 
     def setUp(self):
         from django.contrib.auth.models import User
@@ -11869,8 +11278,8 @@ class AdminPreviewCacheTests(TestCase):
 
 
 class AdminAdSettingsTests(TestCase):
-    """gen_config.json sits on the server and is only read at boot, so the
-    admin page writes the ad settings to the database instead."""
+    """gen_config.json is only read at boot, so the ad settings live in the
+    database."""
 
     def setUp(self):
         from django.contrib.auth.models import User
@@ -11919,8 +11328,7 @@ class AdminAdSettingsTests(TestCase):
 
     def test_auto_ads_can_be_turned_off_without_losing_the_units(self):
         # data-ad-client on the script tag is what lets Google place ads by
-        # itself. Left on next to our own units, a page carries both. The
-        # units keep their own data-ad-client, so only the tag can be read.
+        # itself; the units carry their own, so only the tag can be read.
         self._post(enabled='1', auto='1', slot_footer='6811885155')
         tag, body = self._script_tag()
         self.assertIn('data-ad-client', tag)
@@ -11943,8 +11351,8 @@ class AdminAdSettingsTests(TestCase):
 
 
 class SitemapIndexTests(TestCase):
-    """Google refuses a sitemap over 50000 urls outright, and the single file
-    was at 41208. One file per section keeps every one of them far from it."""
+    """Google refuses a sitemap over 50000 urls, so each section gets its own
+    file."""
 
     LIMIT = 50000
 
@@ -11978,8 +11386,7 @@ class SitemapIndexTests(TestCase):
 
 
 class EncyclopediaPaginationTests(TestCase):
-    """The hubs run to 85 and 100 pages. A window of three around the current
-    one left the last page that many clicks away, for a reader and a crawler."""
+    """The hubs run to dozens of pages each."""
 
     HUBS = ('/encyclopedia/', '/encyclopedia/monsters/', '/encyclopedia/sets/')
 
@@ -12011,9 +11418,7 @@ class EncyclopediaPaginationTests(TestCase):
 
 
 class MonsterSitemapTests(SimpleTestCase):
-    """Which monster pages are pushed for indexing. Two drops used to be all a
-    page had; it now carries the grade stats and the spells too, but one of
-    each is still a one-line page."""
+    """Which monster pages are pushed for indexing."""
 
     def _submitted(self, game_version='dofus3'):
         import re
@@ -12074,8 +11479,6 @@ class MonsterSitemapTests(SimpleTestCase):
                 continue
             if monster in submitted:
                 continue
-            # Left out, which is what a page with one drop and nothing else
-            # deserves. Just make sure the rule dropped some.
             break
         else:
             self.fail('nothing was left out at all')
@@ -12091,11 +11494,11 @@ class MonsterSitemapTests(SimpleTestCase):
 
 
 class MonsterSpellTests(TestCase):
-    """The spells a monster casts, on its encyclopedia page. Straight from the
+    """The spells a monster casts on its encyclopedia page, straight from the
     datacenter dump: which spells, at which grade, for what cost and reach."""
 
     VERSIONS = ('dofus3', 'beta')
-    # The Strawberry Jelly, whose four spells are stable enough to anchor on.
+    # The Strawberry Jelly, which casts four spells.
     JELLY = 57
 
     def _rows(self, version, sql, args=()):
@@ -12123,8 +11526,6 @@ class MonsterSpellTests(TestCase):
                      (29844, 'Jellifier'), (267, 'Strawberry Bone')])
 
     def test_every_stored_spell_has_a_name_to_show(self):
-        # Monsters point at ids the spell table does not describe, -1 among
-        # them. A row the page can only drop has no business being stored.
         for version in self.VERSIONS:
             nameless = self._rows(version, """
                 SELECT COUNT(*) FROM monster_spells ms
@@ -12141,8 +11542,8 @@ class MonsterSpellTests(TestCase):
         self.assertIn((1, 3, 0, 4), rows)
 
     def test_the_grade_mapping_keeps_the_spell_grade_not_the_level_id(self):
-        # The dump writes "1,54;1,56;1,58;1,60;1,62": one entry per monster
-        # grade, each "<spell grade>,<level id>". Only the grade is meaningful.
+        # The dump writes one entry per monster grade, each
+        # "<spell grade>,<level id>". Only the grade is meaningful.
         from chardata.encyclopedia_view import _monster_spells
         from itemscraper.store_monster_spells import parse_grade_mapping
         self.assertEqual(parse_grade_mapping('1,54;1,56;1,58;1,60;1,62'),
@@ -12153,8 +11554,6 @@ class MonsterSpellTests(TestCase):
         self.assertTrue(callable(_monster_spells))
 
     def test_the_description_only_promises_spells_where_there_are_some(self):
-        # 5051 pages worth of search snippet: it must not offer spells to a
-        # version whose page has none.
         import re
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -12166,8 +11565,7 @@ class MonsterSpellTests(TestCase):
         finally:
             conn.close()
 
-        # Django reorders the attributes, so read the description by name
-        # rather than by the shape of the tag.
+        # Django reorders the attributes, so match the meta tag by name.
         described = re.compile(
             r'<meta content="([^"]*)" name="description"\s*/?>')
 
@@ -12201,8 +11599,8 @@ class MonsterSpellTests(TestCase):
 
 
 class CombatApTests(SimpleTestCase):
-    """The stats the site carries are gear bonuses, so a build with no AP item
-    read as 0 AP and the combo panel never appeared at all."""
+    """The stats the site carries are gear bonuses, so 0 AP means a bare turn
+    rather than no turn at all."""
 
     def test_a_build_with_no_ap_item_still_has_a_turn(self):
         from chardata.spell_combo import BASE_AP, combat_ap
@@ -12218,14 +11616,12 @@ class CombatApTests(SimpleTestCase):
                 self.assertEqual(12, combat_ap(9, version))
 
     def test_retro_never_got_the_limitation(self):
-        # 17 AP builds exist there, so the cap must not apply.
         from chardata.spell_combo import combat_ap
         self.assertEqual(15, combat_ap(9, 'retro'))
 
     def test_a_state_gated_spell_counts_one_state_not_all(self):
-        # Schnaps deals its Air damage sober or drunk, never both, and the two
-        # rows were summed. Trickery picks one element at random out of four,
-        # each behind its own state, and all sixteen were added together.
+        # Schnaps deals its Air damage sober or drunk, never both; Trickery
+        # picks one element out of four, each behind its own state.
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spell_combo import Castable
@@ -12244,10 +11640,8 @@ class CombatApTests(SimpleTestCase):
                 self.assertEqual(keep, len(castable.hits), name)
 
     def test_the_same_damage_written_once_per_case_counts_once(self):
-        # Bramble hits the target, then the infected around it; Epidemic hits
-        # the cell, then the spread; Bear Cry hits through a glyph or directly.
-        # Ankama writes one row per case with the same damage in each and the
-        # page was adding them up, so Bramble read 48-54 instead of 24-27.
+        # Bramble hits the target then the infected around it, Epidemic the
+        # cell then the spread: one row per case, the same damage in each.
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spell_combo import Castable
@@ -12266,9 +11660,8 @@ class CombatApTests(SimpleTestCase):
                                                castable.hits[0].max_dam))
 
     def test_a_fixed_damage_is_not_a_range_ending_at_zero(self):
-        # Ankama writes a fixed hit as min with no max and its own line drops
-        # the "to" part. Kept as 16-0, the page boosted both ends and printed
-        # "86 to 25". A zero maximum only means a row absent at that level.
+        # Ankama writes a fixed hit as a min with no max, and a zero maximum
+        # only means the row is absent at that level.
         from chardata.spell_buffs import get_damage_spells_for_version
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             for char_class, spells in get_damage_spells_for_version(version).items():
@@ -12282,9 +11675,8 @@ class CombatApTests(SimpleTestCase):
                                                  spell.name)
 
     def test_groups_that_print_the_same_line_are_one_line(self):
-        # The page draws a row per group, so splitting a spell written once per
-        # target case traded a wrong total for the right one printed twice.
-        # A label is what makes two rows worth showing.
+        # The page draws a row per group, and a label is what makes two rows
+        # worth showing.
         from chardata.spell_buffs import get_damage_spells_for_version
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             for char_class, spells in get_damage_spells_for_version(version).items():
@@ -12305,10 +11697,8 @@ class CombatApTests(SimpleTestCase):
                                         spell.name)
 
     def test_a_row_a_patch_copied_is_not_a_second_hit(self):
-        # The four Huppermage elemental basics went from one damage row to two
-        # identical ones in 3.6.2.1 while keeping their 3 AP and their value,
-        # and they are the only spells in 4360 that did. Ankama did not double
-        # four basic spells for free; the row was copied.
+        # The four Huppermage elemental basics each carry two identical damage
+        # rows, one of them a copy.
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spell_combo import Castable
@@ -12326,9 +11716,7 @@ class CombatApTests(SimpleTestCase):
                                                castable.hits[0].max_dam))
 
     def test_dofus2_counts_the_same_damage_once_too(self):
-        # Its archives ship no spell level data, so the block is hand-carried
-        # and never got the rule. The aggregates came from the 3.5.17.26
-        # archive, whose ranges these entries match to the number.
+        # Dofus 2 ships no spell level data, so its block is hand-carried.
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spell_combo import Castable
@@ -12345,8 +11733,6 @@ class CombatApTests(SimpleTestCase):
                                                castable.hits[0].max_dam))
 
     def test_every_class_gets_a_turn_it_can_play(self):
-        # The panel returned None for months and nothing said so. A class that
-        # stops producing a cast is the same silence.
         from fashionistapulp.structure import get_structure
         from chardata.spell_combo import best_turn, castable_spells, combat_ap
         from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
@@ -12401,11 +11787,8 @@ def _combo_stats(version='dofus3', **overrides):
 
 
 class FinalDamageReachesTheTurnTests(SimpleTestCase):
-    """A buff that grants final damage and nothing else was worth zero to the
-    panel, twice over: the stat was dropped for not being on any piece of
-    gear, and the damage formula stopped before the final percentage. Nine
-    spells across eight classes give it, the Eliotrope's Portal among them,
-    and ticking any of them moved every line of the page except this one."""
+    """A buff that grants final damage and nothing else still has to lift the
+    turn."""
 
     def _spells_granting_final(self, version):
         from chardata.spell_buffs import get_damage_spells_for_version
@@ -12421,8 +11804,7 @@ class FinalDamageReachesTheTurnTests(SimpleTestCase):
         return found
 
     def test_final_damage_is_not_a_gear_stat_anywhere(self):
-        # Which is why the old "if stat in stats" filter dropped it: the only
-        # thing that ever grants it is a spell.
+        # The only thing that ever grants final damage is a spell.
         from fashionistapulp.structure import get_structure
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             keys = {stat.key for stat in get_structure(version).get_stats_list()}
@@ -12468,9 +11850,8 @@ class FinalDamageReachesTheTurnTests(SimpleTestCase):
                     self.assertGreater(on['total'], off['total'])
 
     def test_dofus2_has_no_turn_to_lift(self):
-        # Its archive ships no casting block at all, so not one of its 497
-        # spells states an AP cost and the panel never appears. Nothing to fix
-        # here: the data is missing at the source.
+        # The Dofus 2 archive ships no casting block, so no spell there states
+        # an AP cost.
         from chardata.spell_buffs import get_damage_spells_for_version
         from chardata.spell_combo import castable_spells
         spells = [spell
@@ -12483,17 +11864,14 @@ class FinalDamageReachesTheTurnTests(SimpleTestCase):
         self.assertEqual([], castable_spells('Eliotrope', 200, 'dofus2'))
 
     def test_retro_and_touch_have_no_such_buff_to_lose(self):
-        # Every version is its own game: nothing here should quietly start
-        # applying a percentage the older ones never had.
         for version in ('retro', 'touch'):
             with self.subTest(version=version):
                 self.assertEqual([], self._spells_granting_final(version))
 
 
 class ATickedBuffIsAlreadyStandingTests(SimpleTestCase):
-    """The reader ticks a buff to say it is already up. The search then cast
-    it again and was handed its whole value a second time, and spent an AP
-    doing it: a Cra with Powerful Shots ticked read 24% too high."""
+    """The reader ticks a buff to say it is already standing, so recasting it
+    can only add what it has left to give."""
 
     def _with_buff(self, char_class, buff_state, ap=12):
         from chardata.spell_combo import buffs_in_force
@@ -12539,9 +11917,7 @@ class ATickedBuffIsAlreadyStandingTests(SimpleTestCase):
 
     def test_a_buff_from_the_shared_bucket_reaches_the_turn(self):
         # Perfidious Boomerang and Weapon Skill sit in the bucket every class
-        # shares, and only the class bucket was searched for a posted name, so
-        # ticking the boomerang raised every line of the page and moved the
-        # panel by nothing.
+        # shares, not in the class bucket.
         from chardata.spell_combo import buffs_in_force, stacks_in_force
         for char_class in ('Cra', 'Iop', 'Eliotrope'):
             with self.subTest(char_class=char_class):
@@ -12561,11 +11937,8 @@ class ATickedBuffIsAlreadyStandingTests(SimpleTestCase):
 
 
 class PortalsStackTenTimesTests(SimpleTestCase):
-    """The page offered one portal where the game allows ten. Every rank of
-    Portail and of Errance declares max_stack -1, undeclared, and the cap only
-    appears in the spell text the client ships: "cumulable 10 fois", the same
-    number in all five languages. The generator now reads it when, and only
-    when, the level rows say nothing."""
+    """Every rank of Portail and of Errance declares max_stack -1, undeclared,
+    so the cap of ten lives only in the spell text: "cumulable 10 fois"."""
 
     def _portal_spells(self, version):
         from chardata.spell_combo import castable_spells
@@ -12594,9 +11967,8 @@ class PortalsStackTenTimesTests(SimpleTestCase):
         self.assertAlmostEqual(plain['total'] * 1.2, full['total'], delta=1)
 
     def test_dofus2_keeps_its_own_portal(self):
-        # Its archive ships no spell levels at all, its Portail text carries
-        # neither the final damage line nor the stacking wording, and spell
-        # 14604 is not even called Errance there. Nothing to carry over.
+        # The Dofus 2 archive ships no spell levels, and its Portail text
+        # carries neither the final damage line nor the stacking wording.
         from chardata.spell_buffs import get_damage_spells_for_version
         spells = {spell.name: spell for spell
                   in get_damage_spells_for_version('dofus2')['Eliotrope']}
@@ -12604,8 +11976,7 @@ class PortalsStackTenTimesTests(SimpleTestCase):
 
     def test_the_text_only_speaks_where_the_levels_are_silent(self):
         # A rank that says max_stack 1 is saying the spell does not stack, and
-        # that has to beat the prose: eleven other class spells state a cap in
-        # their description while declaring 1, and none of them may move.
+        # that beats the prose.
         from itemscraper import generate_damage_spells as module
         text = {'description_fr': 'cumulable 4 fois',
                 'description_en': 'stackable 4 times'}
@@ -12624,10 +11995,7 @@ class PortalsStackTenTimesTests(SimpleTestCase):
 
 class ComboReadsWhatThePageSendsTests(SimpleTestCase):
     """The page keys its buffs and its ranks by the name it displays, which is
-    translated; the combo endpoint matches on the name the data carries. The
-    two only met where a spell reads the same in both languages, so on a
-    French page a fully boosted Iop turn came back 292 instead of 850: only
-    Agitation, spelled alike, was counted."""
+    translated; the combo endpoint matches on the name the data carries."""
 
     def test_a_spell_digest_carries_the_name_the_data_uses(self):
         from django.utils import translation
@@ -12661,9 +12029,6 @@ class ComboReadsWhatThePageSendsTests(SimpleTestCase):
                          'a translated key must not silently half-work')
 
     def test_the_rank_the_reader_picks_reaches_the_search(self):
-        # Lowering a buff has to weaken what it grants, and lowering a damage
-        # spell has to weaken the cast. Both used to be read at the highest
-        # rank the level allowed, whatever the page showed.
         from chardata.spell_combo import buffs_in_force, castable_spells
         top = buffs_in_force('Iop', 200, 'dofus3', {'Power': 'c1'})
         low = buffs_in_force('Iop', 200, 'dofus3', {'Power': 'c1'},
@@ -12692,8 +12057,8 @@ class ComboReadsWhatThePageSendsTests(SimpleTestCase):
 
 
 class SpellComboTests(SimpleTestCase):
-    """The best order of casts in a turn. A buff cast first changes what every
-    later cast is worth, so the order is the answer, not a detail of it."""
+    """The best order of casts in a turn: a buff cast first changes what every
+    later cast is worth."""
 
     def _stats(self, **overrides):
         from fashionistapulp.structure import get_structure
@@ -12731,10 +12096,8 @@ class SpellComboTests(SimpleTestCase):
             best = total
 
     def test_a_spell_on_a_cooldown_is_cast_once(self):
-        # Reported by a player: the panel showed four casts of Friendship Word
-        # for 14264. The source says maxCastPerTurn 0 and minCastInterval 1, so
-        # the only gate is the cooldown, which the panel read as no gate at all.
-        # 67 of the 536 Dofus 3 class spells are gated by nothing else.
+        # Friendship Word says maxCastPerTurn 0 and minCastInterval 1: the
+        # cooldown is the only gate, and it allows one cast.
         spells = self._spells('Eniripsa')
         friendship = next(s for s in spells if s.name == 'Friendship Word')
         self.assertEqual(1, friendship.limit)
@@ -12746,9 +12109,7 @@ class SpellComboTests(SimpleTestCase):
             self.assertEqual(1, spell.limit, spell.name)
 
     def test_a_row_the_spell_does_not_have_earns_nothing(self):
-        # A level the spell has not reached is stored as 0 to 0, and the damage
-        # formula still handed it the flat bonus: max(int(mult * 0) + dam, 0).
-        # Twelve of Friendship Word's rows were padding worth 40% of its total.
+        # A level the spell has not reached is stored as 0 to 0.
         for spell in self._spells('Eniripsa') + self._spells('Feca'):
             for alternative in spell.alternatives:
                 for effect in alternative:
@@ -12757,8 +12118,7 @@ class SpellComboTests(SimpleTestCase):
 
     def test_a_best_element_spell_is_scored_on_the_element_it_would_use(self):
         # The generator writes such a spell as one single-row group per
-        # element, always in earth, fire, water, air order, and the panel kept
-        # group 0: every one of them was scored in Earth.
+        # element, always in earth, fire, water, air order.
         from chardata.spell_combo import best_turn
         spells = self._spells()
         intimidation = next(s for s in spells if s.name == 'Intimidation')
@@ -12773,9 +12133,8 @@ class SpellComboTests(SimpleTestCase):
         self.assertGreater(earth_total, 0)
 
     def test_a_stacking_spell_still_starts_from_nothing_built_up(self):
-        # Stacks look like best-element groups: one single row each. They are
-        # told apart by the element repeating, and picking the best of those
-        # would assume the stack is already full.
+        # Stacks look like best-element groups, one single row each; they are
+        # told apart by the element repeating.
         spells = self._spells('Cra')
         stacked = next(s for s in spells if s.name == 'Immobilising Arrow')
         self.assertGreater(stacked.stacks, 1)
@@ -12795,7 +12154,6 @@ class SpellComboTests(SimpleTestCase):
                 self.assertLessEqual(count, limit, name)
 
     def test_the_buff_goes_before_the_hit_it_pays_for(self):
-        # The whole point of searching instead of sorting by damage per AP.
         # 7 AP buys Power and still leaves room for the hits it pays for.
         from chardata.spell_combo import best_turn
         spells = self._spells()
@@ -12826,9 +12184,8 @@ class SpellComboTests(SimpleTestCase):
         self.assertEqual((total, order), (0.0, []))
 
     def test_alternative_damage_lines_are_not_added_up(self):
-        # The spells page prints a stacking spell as "Stack 0:" ... "Stack 4:",
-        # five lines of which a cast lands exactly one. Adding them made Fit of
-        # Rage five times its own damage, and it won every turn it was in.
+        # A stacking spell is printed as one line per stack, "Stack 0:" to
+        # "Stack 4:", of which a cast lands exactly one.
         spells = {spell.name: spell for spell in self._spells()}
         rage = spells['Fit of Rage']
         self.assertTrue(rage.stacked)
@@ -12836,8 +12193,7 @@ class SpellComboTests(SimpleTestCase):
         self.assertEqual(len(rage.spell.get_effects_digest().non_crit_dams[-1]), 5)
 
     def test_several_hits_in_one_cast_are_added_up(self):
-        # The other shape: no aggregates, so the rows are real hits landing
-        # together and the cast is worth their sum.
+        # No aggregates: the rows are real hits landing together.
         spells = {spell.name: spell for spell in self._spells()}
         concentration = spells['Concentration']
         self.assertFalse(concentration.stacked)
@@ -12872,8 +12228,7 @@ class SpellComboPageTests(TestCase):
         solution = ModelResultMinimal({'hat': hat.id}, {
             'options': {'ap_exo': False, 'mp_exo': False},
             'origin': 'generated', 'char_level': 200,
-            # AP is a base stat of the character, not something gear alone
-            # gives; without it the turn has nothing to spend.
+            # AP is a base stat of the character, not something gear gives.
             'base_stats_by_attr': {'AP': 7, 'MP': 3, 'Vitality': 0, 'Wisdom': 0,
                                    'Strength': 300, 'Intelligence': 0,
                                    'Chance': 0, 'Agility': 0},
@@ -12931,9 +12286,6 @@ class SpellComboPageTests(TestCase):
         return owner, char
 
     def test_a_ticked_buff_changes_the_panel(self):
-        # Reported by a player: Fully Buff changed every damage line on the
-        # page except this panel, because the panel was rendered once from the
-        # gear alone and nothing asked for it again.
         import json
         from django.test import Client
         owner, char = self._combo_char('combobuff')
@@ -12978,8 +12330,7 @@ class SpellComboPageTests(TestCase):
 
 
 class GameVersionWatchTests(SimpleTestCase):
-    """Every version is checked against its own source each session, so the two
-    strings the check pulls apart are worth freezing."""
+    """The two version strings the check pulls apart, frozen."""
 
     @classmethod
     def setUpClass(cls):
@@ -13004,8 +12355,8 @@ class GameVersionWatchTests(SimpleTestCase):
             cytrus.get_version = original
 
     def test_touch_is_watched_by_the_bundle_its_client_asks_for(self):
-        # Touch publishes no version anywhere we can read, and its site answers
-        # 403. This string moves on every release, which is the signal.
+        # Touch publishes no version number anywhere readable; its asset bundle
+        # name moves on every release.
         import check_game_versions
         original = check_game_versions._json
         try:
@@ -13038,9 +12389,8 @@ class GameVersionWatchTests(SimpleTestCase):
              ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS) = saved
 
     def test_a_retro_content_patch_is_not_silent(self):
-        # Retro and Touch never move their public number, so comparing that
-        # number said "ok" through 1.48.20 -> 1.48.21 and through every Touch
-        # asset bundle. Both are watched on their real build now.
+        # Retro's public version number does not move on a content patch; only
+        # its build string does.
         import fashionista_version as ours
         self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
                                          ours.WATCHED_TOUCH_ASSETS), 0)
@@ -13054,16 +12404,9 @@ class GameVersionWatchTests(SimpleTestCase):
 
 
 class PreviewAssetsStayInTheCacheTests(SimpleTestCase):
-    """The three preview views open a file whose name comes from the url.
-
-    Each pinned its id a different way, an int cast, a \\d+ route, a regex, so
-    proving nothing escapes meant redoing three separate arguments, and a code
-    scanner could not follow any of them. The check now lives where the file is
-    opened and holds even if a route is loosened later."""
+    """The three preview views open a file whose name comes from the url."""
 
     def test_an_id_that_could_be_a_path_never_becomes_one(self):
-        # The gate sits in the three path builders, so every name derived from
-        # an id is safe where it is made rather than three files away.
         from chardata import character_assets
         refused = ['..', '../etc/passwd', 'a/b', 'a\\b', 'C:\\Windows', '.',
                    '', ' ', 'with space', 'e\u0301', 'x' * 65, '1;rm']
@@ -13076,10 +12419,8 @@ class PreviewAssetsStayInTheCacheTests(SimpleTestCase):
                 self.assertEqual(value, character_assets._safe_id(value))
 
     def test_an_id_the_route_lets_through_is_a_404_not_a_500(self):
-        # Django routes these with \w and \d, which in python also match
-        # unicode: a precomposed accent passes [\w-]+ and an arabic-indic
-        # digit passes \d+ and even isdigit(). Both must answer "no art",
-        # not raise on the way to building a file name.
+        # Python's \w and \d also match unicode: a precomposed accent passes
+        # [\w-]+, and an arabic-indic digit passes \d+ and isdigit().
         from chardata import character_assets
         import re
         self.assertTrue(re.match(r'^[\w-]+$', '\xe1'))
@@ -13105,7 +12446,6 @@ class PreviewAssetsStayInTheCacheTests(SimpleTestCase):
                 self.assertTrue(built.startswith(root + os.sep), built)
 
     def test_a_bone_that_is_not_an_id_is_simply_not_drawable(self):
-        # has_bone was the one entry that built a path with no check at all.
         from chardata import character_assets
         self.assertFalse(character_assets.has_bone('../../etc/passwd'))
         self.assertFalse(character_assets.has_bone('a/b'))
@@ -13149,8 +12489,8 @@ class PreviewAssetsStayInTheCacheTests(SimpleTestCase):
 
 
 class PreviewIsServedFromDiskTests(SimpleTestCase):
-    """A build nobody has looked at is about a hundred baked pieces. nginx
-    serves them, but only Django can bake the ones that are missing."""
+    """nginx serves the baked preview pieces; only Django can bake a missing
+    one."""
 
     def _nginx(self):
         from fashionistapulp.fashionista_config import get_fashionista_path
@@ -13159,8 +12499,6 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
             return fh.read()
 
     def test_www_is_redirected_to_the_apex(self):
-        # www served the whole site a second time. The canonical tag named the
-        # apex, but both copies stayed crawlable.
         config = self._nginx()
         self.assertIn('server_name www.dofusfashionista.gg;', config)
         self.assertIn('return 301 https://dofusfashionista.gg$request_uri;',
@@ -13192,8 +12530,8 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
         self.assertIn('try_files /parts/$skin/$piece @app;', config)
 
     def test_the_manifest_url_is_the_name_of_the_file_on_disk(self):
-        # nginx matches on the path alone. A url that does not name the cache
-        # file falls through to @app and wakes a worker for every skin.
+        # nginx matches on the path alone: a url that does not name the cache
+        # file falls through to @app.
         from chardata import character_assets
         formats = character_assets.asset_formats()
         self.assertEqual(
@@ -13228,8 +12566,7 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
         self.assertEqual([], character_assets.preload_links(None))
 
     def test_an_empty_cache_is_reported_as_missing_everything(self):
-        # Production cannot bake, so an empty cache means the preview draws
-        # nothing and says nothing. The dashboard has to show it.
+        # Production cannot bake, so an empty cache has to be reported.
         import tempfile
         from django.test import override_settings
         from chardata import character_assets
@@ -13249,10 +12586,8 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
                          'a skin with no baked art draws nothing')
 
     def test_half_the_art_is_named_for_a_colour_slot(self):
-        # Measured, not assumed: 51.6% of the baked pieces carry a
-        # ColorGray_N_ name and all six slots are used. The rest keeps the
-        # colours Ankama drew, which is why a character is never fully tinted.
-        # Two earlier attempts at a cleverer mapping dropped this figure.
+        # A piece named ColorGray_N_ takes the colour of slot N; the rest keeps
+        # the colours Ankama drew, so a character is never fully tinted.
         import json
         import re
         from chardata import character_assets, character_look
@@ -13281,9 +12616,7 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
 
     def test_a_mount_keeps_the_colour_slots_its_art_carries(self):
         # The slot comes from the naming record that precedes the art record.
-        # Pairing them wrongly once cost every mount its colours, silently:
-        # a gold dragoturkey and a green one drew the same. Bone 1824 really
-        # does have one tinted piece in Ankama's own art, so it is excluded.
+        # Bone 1824 really does carry a single tinted piece in Ankama's art.
         import json
         from chardata import character_assets
         root = os.path.join(character_assets.cache_dir(), 'mounts')
@@ -13314,9 +12647,8 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
         self.assertGreater(checked, 0)
 
     def test_the_tint_does_not_return_a_third_of_the_chosen_colour(self):
-        # The greyscale art has a median luminance of 87/255, so a plain
-        # multiply gave back about a third of the colour: the Iop's own skin
-        # tone efa06c came out dark brown. Mid grey is the neutral point.
+        # The art is greyscale and darker than mid grey, which is the neutral
+        # point of the tint: a plain multiply gives back a fraction of the colour.
         from fashionistapulp.fashionista_config import get_fashionista_path
         path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
                             'static', 'chardata', 'character_preview.js')
@@ -13337,9 +12669,7 @@ class PreviewIsServedFromDiskTests(SimpleTestCase):
 
 class RunRootScriptTests(SimpleTestCase):
     """structure.py rebuilds the items database through this on every import,
-    so it runs on every worker start. It used to build a shell string with the
-    path unquoted, and on Linux it ran the file itself through its shebang
-    while the python3 it had chosen went unused."""
+    so it runs on every worker start."""
 
     def _script(self, directory, body):
         path = os.path.join(directory, 'probe_script.py')
@@ -13401,11 +12731,7 @@ class RunRootScriptTests(SimpleTestCase):
 
 class DumpItemDbFallbackTests(SimpleTestCase):
     """dump_item_db.py uses the sqlite3 CLI when it is on the PATH and a Python
-    fallback when it is not. The machine the pipelines run on has no sqlite3,
-    so the fallback is the one that would write the tracked dumps, and it wrote
-    a poorer file than the CLI: no indexes at all, and blobs pushed through
-    str() as b'...' so the dump could not even be read back. extra_lines holds
-    pickled lists, so that hit real data."""
+    fallback when it is not; the machine the pipelines run on has no sqlite3."""
 
     def _sample_db(self, path):
         import pickle
@@ -13480,11 +12806,7 @@ class DumpItemDbFallbackTests(SimpleTestCase):
 
 class LoadItemDbFailsLoudlyTests(SimpleTestCase):
     """Every caller runs load_item_db.py as a subprocess and reads its exit
-    code: the pipelines mark the step failed on a non-zero one. It used to
-    print the error and return 0, so a failed import left the previous
-    database in place while the run reported the step as done. That is the
-    same silent shape as the gutted monster tables and the Dofus 2 rebuild
-    that lost its recipes."""
+    code: the pipelines mark the step failed on a non-zero one."""
 
     def test_a_failed_import_exits_non_zero(self):
         import importlib
@@ -13515,9 +12837,7 @@ class LoadItemDbFailsLoudlyTests(SimpleTestCase):
 
 
 class ItemDatabaseIntegrityTests(SimpleTestCase):
-    """A broken scrape shows up as a build the solver cannot explain, weeks after
-    the run that caused it. These are the invariants every version's database
-    held on 2026-08-02, so the next run that breaks one says so."""
+    """The invariants every version's item database must hold after a scrape."""
 
     VERSIONS = ('dofus3', 'beta', 'dofus2', 'retro', 'touch')
 
@@ -13574,10 +12894,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 self.assertEqual(0, rows[0][0])
 
     def test_the_preview_keeps_the_art_it_matched(self):
-        # What the preview draws. The 2026-07 rematch took weapons from 29 to
-        # 67 percent; a scrape that quietly breaks the matcher shows up as bare
-        # heads, not as an error. Floors sit a few points under the measured
-        # 2026-08-02 coverage so honest drift does not fail the suite.
+        # A scrape that breaks the skin matcher shows up as bare art on the
+        # preview, not as an error.
         floors = {'Cloak': 65, 'Hat': 60, 'Shield': 85, 'Weapon': 62}
         for version in ('dofus3', 'beta'):
             rows = self._rows(version,
@@ -13593,10 +12911,6 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                             floors[name], name)
 
     def test_a_set_holds_as_many_pieces_as_its_bonuses_ask_for(self):
-        # How the retro gap showed up: the bonus table offered a seven-piece
-        # tier for the Wabbit set while only six pieces were imported, because
-        # backpacks were unmapped and the French lang file is the thinnest of
-        # the five. A tier nobody can reach is a piece nobody can wear.
         for version in self.VERSIONS:
             rows = self._rows(version,
                 'SELECT s.name, MAX(b.num_pieces_used),'
@@ -13608,14 +12922,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     self.assertLessEqual(top_tier, pieces, name)
 
     def test_the_tables_a_rebuild_must_not_gut(self):
-        # items/load-db rebuilds the database from the item dump and every later
-        # store writes its own table back on top, so one step that dies, or that
-        # was never in the pipeline at all, takes a whole table with it while the
-        # run still exits 0. It has happened three times: twice on the monster
-        # tables, and on 2026-08-10 Dofus 2 turned out to have no items/obtainment
-        # step whatsoever. Floors, not "more than zero": that run came back with
-        # 420 monster grades out of 7092 and 415 monster names out of 6675, and
-        # "more than zero" called it healthy.
+        # Every store writes its own table on top of the load-db rebuild, so a
+        # step that dies takes a whole table with it while the run exits 0.
         floors = {
             'dofus3': {'monster_grades': 20000, 'monster_subareas': 12000,
                        'monster_spells': 10000, 'monster_names': 20000,
@@ -13653,9 +12961,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
 
     def test_every_version_that_matches_art_still_has_the_column(self):
         # store_item_skins is what creates items.skin, so a step that dies takes
-        # the whole column with it and the pipeline is the only place that says
-        # so. It died on Touch on 2026-08-10, on an import the subprocess had no
-        # path for, and the rebuilt database came out with no art at all.
+        # the whole column with it.
         for version, floor in (('dofus3', 1000), ('beta', 1000),
                                ('dofus2', 900), ('touch', 600)):
             with self.subTest(version=version):
@@ -13666,10 +12972,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
 
     def test_both_halves_of_a_split_item_wear_the_same_art(self):
         # An item gated behind alternative conditions becomes one row per
-        # condition, "(#1)" and "(#2)", under one ankama id. The skin store keyed
-        # them by that id alone, so the second row overwrote the first and the
-        # art ended up on the copy while the canonical piece drew bare: fifteen
-        # of them, Cushtycloak and Ice Daggers among others.
+        # condition, "(#1)" and "(#2)", under a single ankama id.
         for version in ('dofus3', 'beta'):
             with self.subTest(version=version):
                 rows = self._rows(version,
@@ -13686,9 +12989,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
 
     def test_touch_shields_carry_the_stats_they_reach_when_fed(self):
         # A Touch shield has no stat of its own: it is fed runes and gains
-        # bonusRatio per level up to 100, so its line is ratio * 100. A player
-        # reported 67 of the 89 showing nothing at all, and the values were in
-        # the client data the whole time, under shieldBonuses.
+        # bonusRatio per level up to 100, so its line is ratio * 100.
         rows = self._rows('touch',
             "SELECT COUNT(*), SUM(CASE WHEN EXISTS ("
             "  SELECT 1 FROM stats_of_item s WHERE s.item = i.id) THEN 1 ELSE 0 END)"
@@ -13700,9 +13001,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         self.assertLessEqual(total - with_stats, 8)
 
     def test_no_weapon_costs_a_negative_number_of_ap(self):
-        # Retro writes -1 where it has no weapon data; the scraper stored it and
-        # four item pages read "AP: -1". A zero cost is left alone, the Gobbowl
-        # Ball really is free to use.
+        # Retro writes -1 where it has no weapon data. A zero cost is real: the
+        # Gobbowl Ball is free to use.
         for version in self.VERSIONS:
             with self.subTest(version=version):
                 rows = self._rows(version,
@@ -13710,10 +13010,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 self.assertEqual(0, rows[0][0])
 
     def test_a_mount_never_shadows_equipment_of_the_same_ankama_id(self):
-        # Mounts have their own Ankama id space and reuse equipment ids: on
-        # Touch every one of the 121 mounts collides, and the dict used to
-        # answer with the mount, so 121 real items were unreachable by id.
-        # lock_forbid resolves through that dict.
+        # Mounts have their own Ankama id space and reuse equipment ids, and
+        # lock_forbid resolves an id through the same dict.
         from fashionistapulp.structure import get_structure
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -13739,9 +13037,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 self.assertEqual(mounts, [])
 
     def test_every_item_icon_the_pages_ask_for_is_on_disk(self):
-        # Icons are keyed by item name, so a rename in the game data breaks
-        # them without touching a single row. Nothing in the database can see
-        # that; only the file can. About 21k files, two seconds.
+        # Icons are keyed by item name, so a rename in the game data breaks them
+        # without touching a single row.
         import sqlite3
         from chardata.image_store import get_image_url
         from fashionistapulp.fashionista_config import (get_fashionista_path,
@@ -13770,10 +13067,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 self.assertEqual(missing[:5], [])
 
     def test_every_spell_icon_the_pages_ask_for_is_on_disk(self):
-        # Nothing catches a broken spell icon: the url is built from the name
-        # without touching the disk, so a rename in the game data just serves a
-        # 404. Only Tormenting Arrow is allowed to miss, and only because
-        # Dofus 3 dropped its icon and the Dofus 2 release ships none.
+        # The url is built from the spell name without touching the disk, so a
+        # rename serves a 404. Dofus 2 ships no icon for Tormenting Arrow.
         from urllib.parse import unquote
         from chardata.spell_buffs import get_damage_spells_for_version
         from chardata.spells_view import _spell_image_url
@@ -13799,10 +13094,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 self.assertEqual(missing, sorted(allowed.get(version, set())))
 
     def test_the_retro_placeholder_covers_no_more_items_than_it_has_to(self):
-        # Retro shows a question mark when the 1.29 client carries no clip for
-        # the item, and that file always exists, so the guard above cannot see
-        # a retro icon go missing. These 25 are the ones whose gfx the client
-        # really does not have; any more than that is a regression.
+        # Retro falls back to a question mark when the 1.29 client carries no
+        # clip, and that file always exists, so the guard above cannot see it.
         import sqlite3
         from chardata.image_store import get_image_url, RETRO_PLACEHOLDER
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -13828,10 +13121,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 self.assertEqual(0, rows[0][0])
 
     def test_retro_keeps_the_two_weapon_families_dofus3_dropped(self):
-        # Lang types 102 and 114. The five Tormentators and Crocobur are real
-        # level 30-40 gear that no build could reach while the types were
-        # unmapped; the lone crossbow is GM-only, so it is forbidden by default
-        # rather than dropped, like the rest of the GM gear.
+        # Lang types 102 and 114. The lone crossbow (8511) is GM-only and is
+        # forbidden by default, like the rest of the GM gear.
         from chardata.lock_forbid import DEFAULT_EXCLUSION_ANKAMA_IDS
         rows = self._rows('retro',
             'SELECT t.name, COUNT(*) FROM items i'
@@ -13858,12 +13149,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                          localized)
 
     def test_touch_ap_and_mp_gates_reach_the_condition_tables(self):
-        # The lang criteria CP and CM gate Action and Movement Points on the
-        # total WITH the item's own bonus counted: the 2.9 devblog says these
-        # pieces "become unequippable if the players who use them try to reach
-        # 12 AP while wearing them". A part holding a '|' is dropped whole:
-        # the Xa pieces say "CM<6|CP<12" and two AND gates would forbid what
-        # the game allows.
+        # The lang criteria CP and CM gate AP and MP on the total, the item's own
+        # bonus counted. A part holding a '|' is a disjunction, dropped whole.
         cases = {
             11738: ('AP', 'max', 10),   # Awmigawd Band: CP<11
             16354: ('AP', 'max', 11),   # Protozash: CP<12
@@ -13879,7 +13166,6 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                        WHERE i.ankama_id = %d AND s.name = '%s'"""
                     % (table, ankama_id, stat))
                 self.assertEqual([(value,)], rows)
-        # The disjunction is skipped, not split into AND.
         rows = self._rows('touch',
             """SELECT COUNT(*) FROM max_stat_to_equip c
                JOIN items i ON i.id = c.item
@@ -13889,10 +13175,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
 
     def test_every_version_skips_the_same_non_elemental_hit_types(self):
         # calculate_damage looks the hit's element up in DAMAGE_TYPE_TO_MAIN_STAT,
-        # which only holds the five real ones, so a hit type missing from the skip
-        # list raises. Beta's list had drifted and its five steals_mp weapons blew
-        # up: War's Halbaxe, Blade O'Ven, Captain Chafer's Daggers, The Ripper's
-        # Claws, Scalarcin Daggeribones.
+        # which holds the five real ones, so an unskipped hit type raises.
         import collections
         import fashionistapulp.dofus_constants as modern
         import fashionistapulp.dofus_constants_beta as beta
@@ -13913,10 +13196,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                         collections.defaultdict(int), False, False)
 
     def test_retro_keeps_the_bad_half_of_an_elemental_trade(self):
-        # 1.29 sells a resist in one element against a weakness in another, on
-        # 33 items. The decoder mapped the five resists and not the five
-        # weaknesses, so the solver saw the upside alone and over-valued them.
-        # La Bourgeonette pays 5% air for its 5% earth.
+        # 1.29 sells a resist in one element against a weakness in another. La
+        # Bourgeonette, ankama 2394, pays 5% air for its 5% earth.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         connection = sqlite3.connect(
@@ -13941,10 +13222,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
 
     def test_no_version_zeroes_a_stat_its_own_items_carry(self):
         # zero_stats tells the solver a stat does not exist in that version, so
-        # gear carrying it is never valued. Retro listed Reflects because the
-        # item decoder had no entry for effect 220 and the data therefore said
-        # so: three items and a fed Tarzantula were losing the stat. A rule read
-        # off our own data is only as good as the scrape underneath it.
+        # gear carrying it is never valued.
         import sqlite3
         from chardata.smart_build import VERSION_WEIGHT_TUNING
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -13972,11 +13250,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 connection.close()
 
     def test_the_global_exclusions_forbid_the_same_item_everywhere(self):
-        # The list is keyed by ankama id, and an id is not an identity: Retro
-        # reuses 406 of them for something else, Touch 225. Two entries added
-        # for a Retro item were forbidding the Teroid Axe (11761) and the
-        # Oracular Hammer (11745) on the four other versions. An id whose
-        # versions disagree on the name belongs in the per-version list.
+        # The list is keyed by ankama id, and versions reuse an id for a
+        # different item. An id the versions disagree on belongs per version.
         import sqlite3
         from chardata.lock_forbid import DEFAULT_EXCLUSION_ANKAMA_IDS
         from fashionistapulp.fashionista_config import get_items_db_path
@@ -14002,9 +13277,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                        name, version))
 
     def test_an_item_ankama_calls_unequippable_is_never_proposed(self):
-        # Two beta amulets carry an AP bonus and the line "This object cannot
-        # be equipped, it exists merely to be broken". The solver would have
-        # worn what the game says cannot be worn.
+        # The game ships the line "This object cannot be equipped, it exists
+        # merely to be broken" on pieces it will not let a character wear.
         from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
                                           DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION)
         for version in self.VERSIONS:
@@ -14020,11 +13294,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     self.assertIn(ankama_id, allowed, name)
 
     def test_a_dev_item_never_reaches_the_solver(self):
-        # Ankama left "Anneau de Ghaston" in the 3.6.7.7 beta: 99 AP, 99 MP,
-        # 32767 Vitality. The solver would have worn it in every ring slot.
         # Outside the exclusions the ceiling is 2 AP and 2 MP on every version,
-        # so 3 is already off the map; a real item reaching it is a game event
-        # worth reading this test's failure for.
+        # so a piece giving 3 is a dev item.
         from chardata.lock_forbid import (DEFAULT_EXCLUSION_ANKAMA_IDS,
                                           DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION)
         for version in self.VERSIONS:
@@ -14043,12 +13314,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
 
 
 class NoEmDashInCodeTests(SimpleTestCase):
-    """Em/en dashes read machine-generated, so the whole site avoids them (copy,
-    comments, CSS, JS). The 2026-07 sweep brought every first-party source to zero;
-    this test freezes that state. Allowlisted leftovers:
-    - <title>/og:title separator dashes (ranking-sensitive, pending a decision);
-    - this test file itself (the guard literals);
-    - third-party minified libraries."""
+    """No em or en dash in first-party sources, copy and comments alike."""
 
     DASH_RE = re.compile('[—–]')
     EXTENSIONS = ('.py', '.html', '.css', '.js')
