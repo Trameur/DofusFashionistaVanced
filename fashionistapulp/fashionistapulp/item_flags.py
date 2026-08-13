@@ -29,22 +29,15 @@ _ICONS = {'Hunting Weapon': 'chardata/hunting_weapon.png'}
 
 # Trophy and -special spell- stay out: the first is a slot marker the solver
 # uses, the second only says that a description follows, which is already shown.
+# Exchangeable is out too. The source writes "Exchangeable: 0" and nothing else,
+# on all 123 items that carry it, so the field says nothing; read as a boolean
+# it printed "Not exchangeable" on the Crimson, Emerald, Turquoise, Cawwot and
+# Vulbis Dofus, which are traded every day.
 _LABELS = ('Hunting Weapon', 'Fertile', 'Linked to the character',
-           'Cooperative crafting impossible', 'Exchangeable')
+           'Cooperative crafting impossible')
 
 
 def flag_lines(flags):
     """[(label, icon key or None)] for the flags worth reading."""
-    lines = []
-    for flag in flags or []:
-        if flag not in _LABELS:
-            continue
-        if flag == 'Exchangeable':
-            # The source only ever writes "Exchangeable: 0", on the quest Dofus,
-            # the Flute and the pets, and the value is lost by the time it is a
-            # flag. Printing "Exchangeable" would say the opposite of the truth.
-            label = _('Not exchangeable')
-        else:
-            label = _(flag)
-        lines.append((label, _ICONS.get(flag)))
-    return lines
+    return [(_(flag), _ICONS.get(flag))
+            for flag in flags or [] if flag in _LABELS]
