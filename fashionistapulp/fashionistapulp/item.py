@@ -39,6 +39,9 @@ class Item:
         self.min_stats_to_equip = []
         self.max_stats_to_equip = []
         self.localized_extras = {}
+        # {language: {spell name: what the spell does}} for the spells the
+        # extra lines name but never explain.
+        self.spell_tooltips = {}
         self.flags = []
         self.localized_names = {}
         self.accentless_local_names = {}

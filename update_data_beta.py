@@ -20,6 +20,7 @@ Pipeline steps:
     spells/transform    get_spells.py         -> itemscraper/transformed_spells_beta.json
     spells/duplicates   find_duplicated_damage_rows.py -> itemscraper/duplicated_damage_rows.json
     spells/constants    generate_damage_spells.py -> dofus_constants_beta.py
+    spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
     spell-images        download_spell_images.py  -> static spell icons
     resize              resize_images.py      -> 60x60 thumbnails
 """
@@ -248,6 +249,12 @@ def main() -> None:
             "--class-json", "itemscraper/transformed_class_spells_beta.json",
             "--spells-json", "itemscraper/transformed_spells_beta.json",
             "--constants", "fashionistapulp/fashionistapulp/dofus_constants_beta.py",
+        ])
+        # What the spells an item names actually do, for the tooltip on the
+        # extra lines. Needs both the spell archive and the finished item db.
+        step("spells/tooltips", [
+            PY, "-m", "itemscraper.store_spell_tooltips",
+            "--game-version", "beta", "--tag", version,
         ])
         # Monster drops -> item_drops / monster_names in items_beta.db (encyclopedia "Dropped by").
         step("drops/transform", [

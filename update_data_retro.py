@@ -289,6 +289,13 @@ def main() -> None:
             "--game-version", "retro",
         ], cwd=ITEMSCRAPER)
 
+    # What the spells an item names actually do, for the tooltip on the extra
+    # lines. The description sits under 'd' beside the name under 'n' in the
+    # same lang file the item build already reads.
+    step("spells/tooltips", [
+        PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "retro",
+    ])
+
     # Manual fixes last, so they survive whatever the stores rebuilt.
     step("items/corrections", [
         PY, "store_item_corrections.py", "--game-version", "retro",

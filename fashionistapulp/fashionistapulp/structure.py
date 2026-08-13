@@ -95,6 +95,7 @@ class Structure:
         self.read_max_stat_to_equip_table()
         self.read_weird_conditions_table()
         self.read_extra_lines_table()
+        self.read_spell_tooltips_table()
         self.read_item_flags_table()
         self.read_set_bonus_table()
         self.read_set_max_caps_table()
@@ -450,6 +451,28 @@ class Structure:
             item = self.get_item_by_id(item_id)
             item.localized_extras[language] = lines
     
+    def read_spell_tooltips_table(self):
+        """What the spells named in the extra lines actually do.
+
+        The table is filled by itemscraper/store_spell_tooltips.py and is
+        allowed to be missing: a database built before it existed still loads,
+        the lines just stay as bare names.
+        """
+        c = self.conn.cursor()
+        try:
+            rows = c.execute(
+                'SELECT item, language, tooltips FROM spell_tooltips').fetchall()
+        except Exception:
+            return
+        for item_id, language, blob in rows:
+            if isinstance(blob, str):
+                blob = blob.encode()
+            tooltips = pickle.loads(blob)
+            assert type(tooltips) is dict
+            item = self.get_item_by_id(item_id)
+            if item is not None:
+                item.spell_tooltips[language] = tooltips
+
     def read_item_flags_table(self):
         c = self.conn.cursor()
         try:

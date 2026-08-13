@@ -206,6 +206,13 @@ def main() -> None:
             "--game-version", "dofus2",
             str(ITEMSCRAPER / "dofus2"),
         ], cwd=ITEMSCRAPER)
+        # What the spells an item names actually do, for the tooltip on the
+        # extra lines. The 2.73 archive ships no spell levels but it does ship
+        # the spell text, so this one works where spells/constants cannot.
+        step("spells/tooltips", [
+            PY, "-m", "itemscraper.store_spell_tooltips",
+            "--game-version", "dofus2", "--tag", version,
+        ])
 
     if do_images:
         step("item-images", [

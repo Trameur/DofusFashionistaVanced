@@ -19,6 +19,7 @@ Steps:
     items/load-db    load_item_db.py           -> items_touch.db
     items/recipes    store_touch_recipes.py    -> item_recipes + descriptions + pods in items_touch.db
     items/special-spells store_touch_special_spells.py -> "casts spell" extra_lines (Dofus/shields)
+    spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
     spells/build     get_spells_touch.py       -> dofus_constants_touch_spells.py (TOUCH_DAMAGE_SPELLS)
     item-images      download_touch_images.py  -> static/chardata/{items,pets}/touch/60x60/
 
@@ -146,6 +147,11 @@ def main() -> None:
 
     # "Casts spell at start of combat" tooltip lines (Dofus/shields) -> extra_lines.
     step("items/special-spells", [PY, "store_touch_special_spells.py"], cwd=ITEMSCRAPER)
+
+    # What those spells actually do, for the tooltip on the lines above.
+    step("spells/tooltips", [
+        PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "touch",
+    ])
 
     # Monster drops (from the backend Monsters table) -> item_drops / monster_names
     # in items_touch.db (encyclopedia "Dropped by"). Runs after recipes finalize the db.
