@@ -140,6 +140,22 @@ def _average(damages):
     return total
 
 
+def final_multiplier(stats):
+    """The percentage applied after everything else, the way the damage table
+    on the page does it.
+
+    calculate_damage stops at per-spell damage, so a buff that grants final
+    damage and nothing else was worth exactly zero to the turn: ticking the
+    Eliotrope's Portal moved every line of the page except this one. Heals are
+    not scored here, so finalheals has nothing to change.
+    """
+    multiplier = (100.0 + stats.get('final', 0)) / 100.0
+    negative = stats.get('negfinal', 0)
+    if negative:
+        multiplier = multiplier * (100.0 - negative) / 100.0
+    return multiplier
+
+
 def buffs_in_force(char_class, char_level, game_version, buff_state,
                    levels=None):
     """Stat deltas from the buffs the reader ticked on the spells page.
@@ -151,10 +167,42 @@ def buffs_in_force(char_class, char_level, game_version, buff_state,
     Rebuilding the deltas here keeps one implementation of the rules.
     """
     deltas = {}
+    for spell, stacks, crit in _ticked_buffs(char_class, char_level,
+                                             game_version, buff_state):
+        # A buff read at the rank the page shows, not at the highest one:
+        # lowering Puissance has to weaken what it grants.
+        level_index = _chosen_level(levels, spell, char_level)
+        castable = Castable(spell, level_index, crit)
+        for stat, delta in castable.buff_deltas(stacks).items():
+            deltas[stat] = deltas.get(stat, 0) + delta
+    return deltas
+
+
+def stacks_in_force(char_class, char_level, game_version, buff_state):
+    """{spell name: stacks} for the buffs the reader ticked.
+
+    The turn search needs it to know what is already standing: a buff it casts
+    again has to add the difference, not its whole value a second time.
+    """
+    return {spell.name: stacks
+            for spell, stacks, _crit
+            in _ticked_buffs(char_class, char_level, game_version, buff_state)}
+
+
+def _ticked_buffs(char_class, char_level, game_version, buff_state):
+    """(spell, stacks, crit) per entry the page posted, in its own vocabulary.
+
+    Both the class bucket and the shared one: a Cra ticking Perfidious
+    Boomerang raised every damage line on the page and moved the combo by
+    nothing, because only the class bucket was searched for a name.
+    """
     if not buff_state:
-        return deltas
+        return
     by_class = get_damage_spells_for_version(game_version)
-    by_name = {spell.name: spell for spell in by_class.get(char_class, [])}
+    by_name = {spell.name: spell
+               for bucket in (by_class.get('default', []),
+                              by_class.get(char_class, []))
+               for spell in bucket}
     for name, value in buff_state.items():
         spell = by_name.get(name)
         if spell is None or not value:
@@ -166,13 +214,7 @@ def buffs_in_force(char_class, char_level, game_version, buff_state,
             continue
         if not stacks or char_level < spell.level_req[0]:
             continue
-        # A buff read at the rank the page shows, not at the highest one:
-        # lowering Puissance has to weaken what it grants.
-        level_index = _chosen_level(levels, spell, char_level)
-        castable = Castable(spell, level_index, crit)
-        for stat, delta in castable.buff_deltas(stacks).items():
-            deltas[stat] = deltas.get(stat, 0) + delta
-    return deltas
+        yield spell, stacks, crit
 
 
 def _chosen_level(levels, spell, char_level):
@@ -213,9 +255,17 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     return out
 
 
-def best_turn(stats, spells, ap, crit=False):
-    """(total, [(spell name, damage), ...]) for the best order fitting the AP."""
+def best_turn(stats, spells, ap, crit=False, standing=None):
+    """(total, [(spell name, damage), ...]) for the best order fitting the AP.
+
+    `standing` is {spell name: stacks} for the buffs the reader has already
+    ticked, whose value is part of `stats` by the time we get here. Casting
+    one of those again may only add the difference: a Cra with Powerful Shots
+    ticked was handed its +250 Power twice, 24% too much, and spent an AP on
+    the second helping.
+    """
     stats = dict(stats)
+    standing = standing or {}
     spells = [spell for spell in spells if spell.cost and spell.cost <= ap]
     if not spells:
         return 0.0, []
@@ -227,15 +277,24 @@ def best_turn(stats, spells, ap, crit=False):
         for index, other in enumerate(spells):
             if not counts[index]:
                 continue
-            for stat, value in other.buff_deltas(counts[index]).items():
-                if stat in buffed:
-                    buffed[stat] = buffed[stat] + value
+            already = min(standing.get(other.name, 0), other.stacks)
+            reached = min(already + counts[index], other.stacks)
+            if reached <= already:
+                continue
+            was = other.buff_deltas(already) if already else {}
+            for stat, value in other.buff_deltas(reached).items():
+                # A stat no piece of gear carries is still a stat: dropping
+                # the ones absent from the build silently threw away every
+                # final damage buff, which is the only thing some spells give.
+                gained = value - was.get(stat, 0)
+                buffed[stat] = buffed.get(stat, 0) + gained
         # A best-element spell offers one hit per element and the caster takes
         # the one their gear favours, so it has to be scored after the buffs.
         best_seen = 0.0
+        multiplier = final_multiplier(buffed)
         for alternative in spell.alternatives:
             rows = [copy.copy(effect) for effect in alternative]
-            gained = _average(calculate_damage(rows, buffed, crit, True))
+            gained = _average(calculate_damage(rows, buffed, crit, True)) * multiplier
             if gained > best_seen:
                 best_seen = gained
         return best_seen

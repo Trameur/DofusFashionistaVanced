@@ -159,19 +159,24 @@ def _spell_image_url(spell_name, game_version):
 def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force,
-                                      castable_spells, combat_ap)
+                                      castable_spells, combat_ap,
+                                      stacks_in_force)
     stats = dict(solution.get_stats_total())
     for stat, delta in buffs_in_force(char.char_class, char.level,
                                       game_version, buff_state,
                                       levels).items():
-        if stat in stats:
-            stats[stat] = stats[stat] + delta
+        # Not "if stat in stats": a buff can grant a stat no piece of gear
+        # carries, final damage above all, and skipping those made a ticked
+        # Portal worth nothing to the turn.
+        stats[stat] = stats.get(stat, 0) + delta
     ap = combat_ap(stats.get('ap'), game_version)
     spells = castable_spells(char.char_class, char.level, game_version,
                              levels=levels)
     if not ap or not spells:
         return None
-    total, order = best_turn(stats, spells, ap)
+    standing = stacks_in_force(char.char_class, char.level, game_version,
+                               buff_state)
+    total, order = best_turn(stats, spells, ap, standing=standing)
     if not order:
         return None
     language = get_supported_language()

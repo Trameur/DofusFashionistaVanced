@@ -12136,6 +12136,252 @@ class CombatApTests(SimpleTestCase):
         self.assertGreater(len(order), 0)
 
 
+class _ComboChar(object):
+
+    def __init__(self, char_class, level=200):
+        self.char_class = char_class
+        self.level = level
+
+
+class _ComboSolution(object):
+
+    def __init__(self, stats):
+        self._stats = stats
+
+    def get_stats_total(self):
+        return dict(self._stats)
+
+
+def _combo_stats(version='dofus3', **overrides):
+    from fashionistapulp.structure import get_structure
+    stats = {stat.key: 0 for stat in get_structure(version).get_stats_list()}
+    stats.update({'ap': 6, 'str': 300, 'int': 300, 'cha': 300, 'agi': 300})
+    stats.update(overrides)
+    return stats
+
+
+class FinalDamageReachesTheTurnTests(SimpleTestCase):
+    """A buff that grants final damage and nothing else was worth zero to the
+    panel, twice over: the stat was dropped for not being on any piece of
+    gear, and the damage formula stopped before the final percentage. Nine
+    spells across eight classes give it, the Eliotrope's Portal among them,
+    and ticking any of them moved every line of the page except this one."""
+
+    def _spells_granting_final(self, version):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        found = []
+        for char_class, spells in get_damage_spells_for_version(version).items():
+            if char_class == 'default':
+                continue
+            for spell in spells:
+                rows = spell.get_effects_digest().non_crit_dams or []
+                if any(effect.element == 'buff_final'
+                       for row in rows for effect in row):
+                    found.append((char_class, spell))
+        return found
+
+    def test_final_damage_is_not_a_gear_stat_anywhere(self):
+        # Which is why the old "if stat in stats" filter dropped it: the only
+        # thing that ever grants it is a spell.
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            keys = {stat.key for stat in get_structure(version).get_stats_list()}
+            with self.subTest(version=version):
+                self.assertNotIn('final', keys)
+
+    def test_the_final_percentage_multiplies_the_turn(self):
+        from chardata.spell_combo import best_turn, castable_spells
+        spells = [spell for spell in castable_spells('Iop', 200, 'dofus3')
+                  if spell.name == 'Pressure']
+        self.assertEqual(1, len(spells))
+        plain, _order = best_turn(_combo_stats(), spells, 6)
+        self.assertGreater(plain, 0)
+        for percent in (2, 10, 25):
+            with self.subTest(percent=percent):
+                lifted, _order = best_turn(_combo_stats(final=percent), spells, 6)
+                self.assertAlmostEqual(plain * (100 + percent) / 100.0, lifted,
+                                       places=6)
+
+    def test_a_ticked_portal_lifts_the_eliotrope_turn(self):
+        from chardata.spells_view import _best_combo
+        char = _ComboChar('Eliotrope')
+        solution = _ComboSolution(_combo_stats())
+        off = _best_combo(char, solution, 'dofus3', {'Portal': 'n0'})
+        on = _best_combo(char, solution, 'dofus3', {'Portal': 'n1'})
+        self.assertTrue(off and on)
+        self.assertGreater(on['total'], off['total'])
+
+    def test_every_spell_that_grants_it_moves_its_own_turn(self):
+        from chardata.spells_view import _best_combo
+        for version in ('dofus3', 'beta'):
+            granting = self._spells_granting_final(version)
+            self.assertTrue(granting, version)
+            for char_class, spell in granting:
+                with self.subTest(version=version, spell=spell.name):
+                    char = _ComboChar(char_class)
+                    solution = _ComboSolution(_combo_stats(version))
+                    off = _best_combo(char, solution, version,
+                                      {spell.name: 'n0'})
+                    on = _best_combo(char, solution, version,
+                                     {spell.name: 'n%d' % spell.stacks})
+                    self.assertTrue(off and on)
+                    self.assertGreater(on['total'], off['total'])
+
+    def test_dofus2_has_no_turn_to_lift(self):
+        # Its archive ships no casting block at all, so not one of its 497
+        # spells states an AP cost and the panel never appears. Nothing to fix
+        # here: the data is missing at the source.
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spell_combo import castable_spells
+        spells = [spell
+                  for char_class, bucket
+                  in get_damage_spells_for_version('dofus2').items()
+                  if char_class != 'default'
+                  for spell in bucket]
+        self.assertTrue(spells)
+        self.assertEqual([], [spell.name for spell in spells if spell.casting])
+        self.assertEqual([], castable_spells('Eliotrope', 200, 'dofus2'))
+
+    def test_retro_and_touch_have_no_such_buff_to_lose(self):
+        # Every version is its own game: nothing here should quietly start
+        # applying a percentage the older ones never had.
+        for version in ('retro', 'touch'):
+            with self.subTest(version=version):
+                self.assertEqual([], self._spells_granting_final(version))
+
+
+class ATickedBuffIsAlreadyStandingTests(SimpleTestCase):
+    """The reader ticks a buff to say it is already up. The search then cast
+    it again and was handed its whole value a second time, and spent an AP
+    doing it: a Cra with Powerful Shots ticked read 24% too high."""
+
+    def _with_buff(self, char_class, buff_state, ap=12):
+        from chardata.spell_combo import buffs_in_force
+        stats = _combo_stats(ap=ap, pow=100, dam=30, perspedam=20)
+        for stat, delta in buffs_in_force(char_class, 200, 'dofus3',
+                                          buff_state).items():
+            stats[stat] = stats.get(stat, 0) + delta
+        return stats
+
+    def test_a_buff_at_its_cap_is_worth_nothing_to_recast(self):
+        from chardata.spell_combo import best_turn, castable_spells
+        spells = castable_spells('Cra', 200, 'dofus3')
+        powerful = next(s for s in spells if s.name == 'Powerful Shots')
+        self.assertEqual(1, powerful.stacks)
+        stats = self._with_buff('Cra', {'Powerful Shots': 'n1'})
+        standing = {'Powerful Shots': 1}
+        once, _order = best_turn(stats, spells, 12, standing=standing)
+        without = [s for s in spells if s.name != 'Powerful Shots']
+        absent, _order = best_turn(stats, without, 12)
+        self.assertAlmostEqual(absent, once, places=6)
+        twice, _order = best_turn(stats, spells, 12)
+        self.assertGreater(twice, once)
+
+    def test_the_more_is_already_up_the_less_a_recast_can_add(self):
+        from chardata.spell_combo import best_turn, castable_spells
+        for char_class, name in (('Eliotrope', 'Portal'),
+                                 ('Cra', 'Powerful Shots')):
+            spells = castable_spells(char_class, 200, 'dofus3')
+            stats = self._with_buff(char_class, {name: 'n1'})
+            totals = [best_turn(stats, spells, 12, standing={name: held})[0]
+                      for held in (0, 1, 2, 5, 10)]
+            with self.subTest(char_class=char_class):
+                self.assertEqual(sorted(totals, reverse=True), totals)
+
+    def test_a_stacking_buff_at_its_cap_is_not_worth_an_ap(self):
+        from chardata.spell_combo import best_turn, castable_spells
+        spells = castable_spells('Eliotrope', 200, 'dofus3')
+        stats = self._with_buff('Eliotrope', {'Portal': 'n10'})
+        capped, _order = best_turn(stats, spells, 12, standing={'Portal': 10})
+        without = [spell for spell in spells if spell.name != 'Portal']
+        absent, _order = best_turn(stats, without, 12)
+        self.assertAlmostEqual(absent, capped, places=6)
+
+    def test_a_buff_from_the_shared_bucket_reaches_the_turn(self):
+        # Perfidious Boomerang and Weapon Skill sit in the bucket every class
+        # shares, and only the class bucket was searched for a posted name, so
+        # ticking the boomerang raised every line of the page and moved the
+        # panel by nothing.
+        from chardata.spell_combo import buffs_in_force, stacks_in_force
+        for char_class in ('Cra', 'Iop', 'Eliotrope'):
+            with self.subTest(char_class=char_class):
+                deltas = buffs_in_force(char_class, 200, 'dofus3',
+                                        {'Perfidious Boomerang': 'n1'})
+                self.assertEqual({'str': 160, 'int': 160, 'cha': 160,
+                                  'agi': 160}, deltas)
+                self.assertEqual({'Perfidious Boomerang': 1},
+                                 stacks_in_force(char_class, 200, 'dofus3',
+                                                 {'Perfidious Boomerang': 'n1'}))
+
+    def test_a_weapon_only_buff_stays_out_of_a_spell_turn(self):
+        # Weapon Skill grants buff_pow_weapon, and the turn is spells only.
+        from chardata.spell_combo import buffs_in_force
+        self.assertEqual({}, buffs_in_force('Cra', 200, 'dofus3',
+                                            {'Weapon Skill': 'n1'}))
+
+
+class PortalsStackTenTimesTests(SimpleTestCase):
+    """The page offered one portal where the game allows ten. Every rank of
+    Portail and of Errance declares max_stack -1, undeclared, and the cap only
+    appears in the spell text the client ships: "cumulable 10 fois", the same
+    number in all five languages. The generator now reads it when, and only
+    when, the level rows say nothing."""
+
+    def _portal_spells(self, version):
+        from chardata.spell_combo import castable_spells
+        spells = {spell.name: spell
+                  for spell in castable_spells('Eliotrope', 200, version)}
+        return spells['Portal'], spells['Wandering']
+
+    def test_a_portal_stacks_ten_times_at_two_percent(self):
+        for version in ('dofus3', 'beta'):
+            for spell in self._portal_spells(version):
+                with self.subTest(version=version, spell=spell.name):
+                    self.assertEqual(10, spell.stacks)
+                    self.assertEqual({'final': 2, 'finalheals': 2},
+                                     spell.buff_deltas(1))
+                    self.assertEqual({'final': 20, 'finalheals': 20},
+                                     spell.buff_deltas(10))
+                    self.assertEqual(spell.buff_deltas(10),
+                                     spell.buff_deltas(11))
+
+    def test_ten_portals_are_worth_a_fifth_more_damage(self):
+        from chardata.spells_view import _best_combo
+        char = _ComboChar('Eliotrope')
+        solution = _ComboSolution(_combo_stats())
+        plain = _best_combo(char, solution, 'dofus3', {'Portal': 'n0'})
+        full = _best_combo(char, solution, 'dofus3', {'Portal': 'n10'})
+        self.assertAlmostEqual(plain['total'] * 1.2, full['total'], delta=1)
+
+    def test_dofus2_keeps_its_own_portal(self):
+        # Its archive ships no spell levels at all, its Portail text carries
+        # neither the final damage line nor the stacking wording, and spell
+        # 14604 is not even called Errance there. Nothing to carry over.
+        from chardata.spell_buffs import get_damage_spells_for_version
+        spells = {spell.name: spell for spell
+                  in get_damage_spells_for_version('dofus2')['Eliotrope']}
+        self.assertEqual(1, spells['Portal'].stacks or 1)
+
+    def test_the_text_only_speaks_where_the_levels_are_silent(self):
+        # A rank that says max_stack 1 is saying the spell does not stack, and
+        # that has to beat the prose: eleven other class spells state a cap in
+        # their description while declaring 1, and none of them may move.
+        from itemscraper import generate_damage_spells as module
+        text = {'description_fr': 'cumulable 4 fois',
+                'description_en': 'stackable 4 times'}
+        silent = dict(text, levels=[{'max_stack': -1}, {'max_stack': -1}])
+        declared = dict(text, levels=[{'max_stack': 1}, {'max_stack': 1}])
+        counted = dict(text, levels=[{'max_stack': 6}, {'max_stack': -1}])
+        disagreeing = {'description_fr': 'cumulable 4 fois',
+                       'description_en': 'stackable 7 times',
+                       'levels': [{'max_stack': -1}]}
+        self.assertEqual(4, module._extract_stack_limit(silent))
+        self.assertIsNone(module._extract_stack_limit(declared))
+        self.assertEqual(6, module._extract_stack_limit(counted))
+        self.assertIsNone(module._extract_stack_limit(disagreeing))
+        self.assertIsNone(module._extract_stack_limit({'levels': []}))
+
+
 class ComboReadsWhatThePageSendsTests(SimpleTestCase):
     """The page keys its buffs and its ranks by the name it displays, which is
     translated; the combo endpoint matches on the name the data carries. The
