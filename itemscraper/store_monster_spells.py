@@ -23,6 +23,7 @@ import argparse
 import io
 import json
 import os
+import re
 import sqlite3
 import sys
 
@@ -61,6 +62,78 @@ def _labels(dump_dir):
     return out
 
 
+_OPTIONAL = re.compile(r'\{\{?~1~2(.*?)\}\}?')
+# "Repousse de #1 case{{~ps}}": the segment after ~p is what a plural adds.
+_PLURAL = re.compile(r'\{\{?~p(.*?)\}\}?')
+_SPACES = re.compile(r'\s{2,}')
+_LETTER = re.compile(r'[^\W\d_]', re.UNICODE)
+
+# "Invoque : #1" holds a monster id, not an amount, so the number is looked up.
+_SUMMON_EFFECTS = frozenset([181, 185])
+
+
+def render_effect(template, dice_num, dice_side, monster_names=None):
+    """One effect row read the way the client reads it, or None.
+
+    The templates carry two numbers and a segment that only appears when the
+    row is a range: "#1{{~1~2 a }}#2 dommages Eau" is "13 a 16 dommages Eau"
+    when both are set, and "20% des PV max" when the second is 0.
+    """
+    if not template:
+        return None
+    dice_num = dice_num or 0
+    dice_side = dice_side or 0
+    if dice_side and dice_side != dice_num:
+        text = _OPTIONAL.sub(lambda match: match.group(1), template)
+        text = text.replace('#2', str(dice_side))
+    else:
+        text = _OPTIONAL.sub('', template).replace('#2', '')
+    plural = dice_num > 1 or (dice_side and dice_side > 1)
+    text = _PLURAL.sub((lambda match: match.group(1)) if plural else '', text)
+    if monster_names is not None:
+        summoned = monster_names.get(dice_num)
+        if not summoned:
+            return None  # "Invoque :" and nothing after it is worse than silence
+        text = text.replace('#1', summoned)
+    else:
+        text = text.replace('#1', str(dice_num))
+    text = _SPACES.sub(' ', text).strip()
+    # A row whose whole meaning is a number the dump never names, a state id
+    # above all, says nothing to a reader. So does one still holding a
+    # placeholder we could not fill.
+    if not text or '#' in text or not _LETTER.search(text):
+        return None
+    return text
+
+
+def spell_description(spell, levels, effects, entries, monsters):
+    """What a monster spell does, in one line.
+
+    Ankama writes a prose description for 1307 of the 7600 spells the monsters
+    cast, so for the rest the rows are the only answer there is. They are the
+    same rows the client prints, taken at the spell's first grade.
+    """
+    prose = (entries.get(str(spell.get('descriptionId'))) or '').strip()
+    if prose:
+        return prose
+    for level_id in (spell.get('spellLevels') or {}).get('Array') or []:
+        level = levels.get(level_id) or {}
+        rendered = []
+        for row in (level.get('effects') or {}).get('Array') or []:
+            if not isinstance(row, dict):
+                continue
+            effect_id = row.get('effectId')
+            effect = effects.get(effect_id) or {}
+            names = monsters if effect_id in _SUMMON_EFFECTS else None
+            line = render_effect(entries.get(str(effect.get('descriptionId'))),
+                                 row.get('diceNum'), row.get('diceSide'), names)
+            if line and line not in rendered:
+                rendered.append(line)
+        if rendered:
+            return ', '.join(rendered)
+    return None
+
+
 def parse_grade_mapping(raw):
     """Spell grade per monster grade, from "1,54;1,56;..." (the id is a handle)."""
     grades = []
@@ -89,6 +162,7 @@ def main():
     monsters = _table(os.path.join(dump_dir, 'monsters.json'))
     spells = _table(os.path.join(dump_dir, 'spells.json'))
     levels = _table(os.path.join(dump_dir, 'spell_levels.json'))
+    effects = _table(os.path.join(dump_dir, 'effects.json'))
     labels = _labels(dump_dir)
 
     db_path = os.path.join(ROOT, 'fashionistapulp', 'fashionistapulp',
@@ -114,6 +188,7 @@ def main():
             spell_ankama_id INTEGER NOT NULL,
             language TEXT NOT NULL,
             name TEXT NOT NULL,
+            description TEXT,
             PRIMARY KEY (spell_ankama_id, language)
         )""")
     cursor.execute("""
@@ -147,6 +222,12 @@ def main():
             used.add(spell_id)
             linked += 1
 
+    # "Invoque : #1" names a monster, so the summon rows can read properly.
+    monster_names = {
+        language: {mid: labels[language].get(str(monster.get('nameId')))
+                   for mid, monster in monsters.items()}
+        for language in LANGUAGES}
+
     named = priced = 0
     for spell_id in sorted(used):
         spell = spells.get(spell_id)
@@ -158,8 +239,10 @@ def main():
             if not name:
                 continue
             cursor.execute(
-                'INSERT OR REPLACE INTO monster_spell_names VALUES (?, ?, ?)',
-                (spell_id, language, name))
+                'INSERT OR REPLACE INTO monster_spell_names VALUES (?, ?, ?, ?)',
+                (spell_id, language, name,
+                 spell_description(spell, levels, effects, labels[language],
+                                   monster_names[language])))
             named += 1
         for level_id in (spell.get('spellLevels') or {}).get('Array') or []:
             level = levels.get(level_id)

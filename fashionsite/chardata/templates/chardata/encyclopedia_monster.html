@@ -156,6 +156,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                 {% for spell in spells %}
                 <li>
                     <span class="monster-spell-name">{{ spell.name }}</span>
+                    {% if spell.spell_tip %}{% include 'chardata/spell_tip.html' with tip=spell.spell_tip %}{% endif %}
                     {% if spell.ap_cost %}<span class="monster-spell-ap">{{ spell.ap_cost }} {{ mt.ap_label }}</span>{% endif %}
                     {% if spell.has_range %}<span class="monster-spell-range">{{ mt.range_label }} {{ spell.range_min }}-{{ spell.range_max }}</span>{% endif %}
                 </li>

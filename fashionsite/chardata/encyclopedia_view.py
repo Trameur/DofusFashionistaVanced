@@ -12,7 +12,7 @@ from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.image_store import get_image_url, _static_exists, list_static_dir
 from chardata.official_site import (
     get_item_link, get_monster_link, get_resource_link, get_set_link)
-from chardata.spell_tips import spell_tip_for
+from chardata.spell_tips import SpellTip, spell_tip_for
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
@@ -3010,7 +3010,8 @@ def _monster_spells(cursor, monster_ankama_id, language):
     rows = cursor.execute(
         """
         SELECT ms.spell_ankama_id, ms.grade_mapping,
-               COALESCE(mine.name, fallback.name)
+               COALESCE(mine.name, fallback.name),
+               COALESCE(mine.description, fallback.description)
         FROM monster_spells ms
         LEFT JOIN monster_spell_names mine
           ON mine.spell_ankama_id = ms.spell_ankama_id AND mine.language = ?
@@ -3020,7 +3021,7 @@ def _monster_spells(cursor, monster_ankama_id, language):
         ORDER BY ms.position
         """, (language, monster_ankama_id)).fetchall()
     wanted = {}
-    for spell_id, mapping, name in rows:
+    for spell_id, mapping, name, _description in rows:
         if not name:
             continue
         grades = [int(grade) for grade in (mapping or '').split(',') if grade.isdigit()]
@@ -3040,13 +3041,15 @@ def _monster_spells(cursor, monster_ankama_id, language):
                 details[row[0]] = row[2:]
 
     spells = []
-    for spell_id, mapping, name in rows:
+    for spell_id, mapping, name, description in rows:
         if not name:
             continue
         ap_cost, range_min, range_max = details.get(spell_id, (None, None, None))
         spells.append({
             'id': spell_id,
             'name': name,
+            # The page said the name, the AP and the range and stopped there.
+            'spell_tip': SpellTip(name, description) if description else None,
             'ap_cost': ap_cost,
             'range_min': range_min,
             'range_max': range_max,
