@@ -49,7 +49,8 @@
                 {% if line.icon_url %}
                     <img class="solution-inline-stat-icon" src="{{ line.icon_url }}" alt="" width="15" height="15" style="width:15px;height:15px;max-width:15px;max-height:15px;vertical-align:middle;">
                 {% endif %}
-                <span>{% if line.icon_url %}&nbsp;{% endif %}{{line.text}}</span>
+                <span{% if line.spell_tip %} class="spell-line"{% endif %}>{% if line.icon_url %}&nbsp;{% endif %}{{line.text}}</span>
+                {% if line.spell_tip %}{% include 'chardata/spell_tip.html' with tip=line.spell_tip %}{% endif %}
             </span>
             <br>
         {% endfor %}

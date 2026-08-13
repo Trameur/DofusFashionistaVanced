@@ -168,7 +168,7 @@
             <b>{{ t.extra_effects_label }}</b>
             <ul class="encyclopedia-list">
                 {% for extra in extras %}
-                <li>{{ extra }}</li>
+                <li>{% if extra.spell_tip %}<span class="spell-line">{{ extra.text }}</span>{% include 'chardata/spell_tip.html' with tip=extra.spell_tip %}{% else %}{{ extra.text }}{% endif %}</li>
                 {% endfor %}
             </ul>
         </div>

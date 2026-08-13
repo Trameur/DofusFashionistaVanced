@@ -127,6 +127,7 @@ function populatePopUp(data) {
                 stats += ' <span class="solution-stat-range">('
                     + statLine.range_text + ')</span>';
             }
+            stats += (window.spellTipHtml ? window.spellTipHtml(statLine) : '');
             stats += "<br>";
         });
         if (data.condition_lines && data.condition_lines.length > 0) {

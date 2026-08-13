@@ -28,6 +28,7 @@ from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
     SLOT_NAME_TO_TYPE
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_structure, get_current_game_version
+from chardata.spell_tips import spell_tip_for
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
@@ -192,6 +193,7 @@ def evolve_result_item(result_item, r=None):
             elif stat_value < base_val:
                 line.formatting = '#o'
         result_item.stats_lines.append(line)
+    spell_tooltips = getattr(result_item, 'spell_tooltips', None) or {}
     for extra in result_item.extras:
         if isinstance(extra, tuple):
             text, icon_key = extra
@@ -199,6 +201,7 @@ def evolve_result_item(result_item, r=None):
             line.icon_url = static(icon_key) if icon_key else None
         else:
             line = ExtraLine(extra)
+        line.spell_tip = spell_tip_for(line.text, spell_tooltips)
         result_item.stats_lines.append(line)
 
     result_item.condition_lines = []
@@ -280,6 +283,7 @@ class ExtraLine:
         self.text = line
         self.formatting = ''
         self.icon_url = None
+        self.spell_tip = None
 
 class MinConditionLine:
     

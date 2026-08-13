@@ -544,6 +544,9 @@ function setStats(item, weaponInfo) {
             stats += statText;
         }
         stats += statRangeText(statLine);
+        // The same marker the item card carries. Built by spell_tip.js, which
+        // base.html loads on every page.
+        stats += (window.spellTipHtml ? window.spellTipHtml(statLine) : '');
         stats += "<br>";
     });
     return stats;
