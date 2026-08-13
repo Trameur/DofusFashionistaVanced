@@ -140,7 +140,8 @@ def _average(damages):
     return total
 
 
-def buffs_in_force(char_class, char_level, game_version, buff_state):
+def buffs_in_force(char_class, char_level, game_version, buff_state,
+                   levels=None):
     """Stat deltas from the buffs the reader ticked on the spells page.
 
     The page stores one entry per spell, 'n2' or 'c1': the letter says whether
@@ -165,22 +166,46 @@ def buffs_in_force(char_class, char_level, game_version, buff_state):
             continue
         if not stacks or char_level < spell.level_req[0]:
             continue
-        level_index = _decide_spell_level(spell.level_req, char_level)
+        # A buff read at the rank the page shows, not at the highest one:
+        # lowering Puissance has to weaken what it grants.
+        level_index = _chosen_level(levels, spell, char_level)
         castable = Castable(spell, level_index, crit)
         for stat, delta in castable.buff_deltas(stacks).items():
             deltas[stat] = deltas.get(stat, 0) + delta
     return deltas
 
 
-def castable_spells(char_class, char_level, game_version, crit=False):
-    """Class bucket only: the shared one is weapons, pies and Dofus effects."""
+def _chosen_level(levels, spell, char_level):
+    """The rank to read a spell at: the reader's pick, else the highest one
+    the character level reaches. The page offers every rank a spell has, so a
+    pick the level cannot reach falls back to that highest one, the way a
+    spell the level cannot reach at all is left out of the turn entirely."""
+    highest = _decide_spell_level(spell.level_req, char_level)
+    wanted = (levels or {}).get(spell.name)
+    try:
+        wanted = int(wanted)
+    except (TypeError, ValueError):
+        return highest
+    if 0 <= wanted <= highest:
+        return wanted
+    return highest
+
+
+def castable_spells(char_class, char_level, game_version, crit=False,
+                    levels=None):
+    """Class bucket only: the shared one is weapons, pies and Dofus effects.
+
+    `levels` is {spell name: rank index} for the ranks the reader picked on
+    the page. Without it every spell is read at the highest rank the level
+    allows, which is what the page starts on.
+    """
     by_class = get_damage_spells_for_version(game_version)
     spells = by_class.get(char_class, [])
     out = []
     for spell in spells:
         if not spell.casting or char_level < spell.level_req[0]:
             continue
-        level_index = _decide_spell_level(spell.level_req, char_level)
+        level_index = _chosen_level(levels, spell, char_level)
         castable = Castable(spell, level_index, crit)
         if not castable.cost or (not castable.hits and not castable.buffs):
             continue

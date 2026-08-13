@@ -156,17 +156,19 @@ def _spell_image_url(spell_name, game_version):
     return static(spell_dir + spell_name + '.png')
 
 
-def _best_combo(char, solution, game_version, buff_state=None):
+def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force,
                                       castable_spells, combat_ap)
     stats = dict(solution.get_stats_total())
     for stat, delta in buffs_in_force(char.char_class, char.level,
-                                      game_version, buff_state).items():
+                                      game_version, buff_state,
+                                      levels).items():
         if stat in stats:
             stats[stat] = stats[stat] + delta
     ap = combat_ap(stats.get('ap'), game_version)
-    spells = castable_spells(char.char_class, char.level, game_version)
+    spells = castable_spells(char.char_class, char.level, game_version,
+                             levels=levels)
     if not ap or not spells:
         return None
     total, order = best_turn(stats, spells, ap)
@@ -195,6 +197,11 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     current_language = get_supported_language()
     web_digest['type'] = 'spell'
     web_digest['name'] = _localized_spell_name(spell.name, current_language, game_version)
+    # The page keys everything by the name it shows, which is translated. The
+    # combo endpoint matches on the name the data carries, so the two only met
+    # when a spell happens to read the same in both languages: on a French
+    # page the buffs and the ranks were silently dropped.
+    web_digest['canonical'] = spell.name
     web_digest['level'] = spell.level_req
     web_digest['stacks'] = spell.stacks
     web_digest['image_url'] = _spell_image_url(spell.name, game_version)
@@ -234,15 +241,17 @@ def _best_combo_response(request, char):
     solution = get_solution(char)
     if solution is None:
         return JsonResponse({'best_combo': None})
-    try:
-        buff_state = json.loads(request.POST.get('buff_state') or '{}')
-    except ValueError:
-        buff_state = {}
-    if not isinstance(buff_state, dict):
-        buff_state = {}
+    def posted(key):
+        try:
+            value = json.loads(request.POST.get(key) or '{}')
+        except ValueError:
+            return {}
+        return value if isinstance(value, dict) else {}
+
     game_version = getattr(request, 'game_version', 'dofus3')
-    return JsonResponse(
-        {'best_combo': _best_combo(char, solution, game_version, buff_state)})
+    return JsonResponse({'best_combo': _best_combo(
+        char, solution, game_version, posted('buff_state'),
+        posted('spell_levels'))})
 
 
 def spells(request, char_id=0):

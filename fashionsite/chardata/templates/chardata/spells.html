@@ -1002,11 +1002,14 @@
                 $(this).addClass('selected-level');
                 spellLevel[spell.name] = level;
                 setCellContent(spell);
-                
+
                 if (isSpellBuff(spell)) {
                     recalculateBuffsForSpell(spell);
-                    recalculateDamages();
                 }
+                // Every rank change moves the turn, not just a buff's: the
+                // panel used to sit still while the damage table under it
+                // changed.
+                recalculateDamages();
             });
         });
         
@@ -1031,27 +1034,72 @@
     
     var comboRequest = null;
     var comboPending = null;
+    var comboTimer = null;
 
     // The panel is worked out server side, so that the cast order, the AP
     // budget and the per-turn limits stay in one place instead of being
     // reimplemented here and drifting from it. Ticking a buff used to change
     // every damage line on the page except this one.
+    function byCanonicalName(bySpellName) {
+        var out = {};
+        $.each(spellDigests, function(i, spell) {
+            if (spell.canonical && bySpellName[spell.name] !== undefined) {
+                out[spell.canonical] = bySpellName[spell.name];
+            }
+        });
+        return out;
+    }
+
+    // "Fully boosted" walks every buff spell in turn, and each step used to
+    // fire its own server search, so one click cost as many turn searches as
+    // the class has buffs. Let the burst settle and ask once.
     function refreshBestCombo() {
+        if (comboTimer) {
+            clearTimeout(comboTimer);
+        }
+        comboTimer = setTimeout(sendBestCombo, 120);
+    }
+
+    // The rank of each spell counts as much as the buffs: the server reads
+    // the highest one the level allows unless the page says otherwise. Both
+    // travel under the name the data carries, not the translated one the page
+    // shows.
+    function comboPayload() {
+        return {buff_state: JSON.stringify(byCanonicalName(buffState)),
+                spell_levels: JSON.stringify(byCanonicalName(spellLevel))};
+    }
+
+    function comboSignature(payload) {
+        return payload.buff_state + '|' + payload.spell_levels;
+    }
+
+    // The page opens on the state the panel was rendered for, so the first
+    // pass has nothing to ask: a turn search is not cheap enough to spend on
+    // an answer already on screen.
+    function markComboRendered() {
+        if (comboTimer) {
+            clearTimeout(comboTimer);
+            comboTimer = null;
+        }
+        comboPending = comboSignature(comboPayload());
+    }
+
+    function sendBestCombo() {
+        comboTimer = null;
         var panel = $("#best-combo");
         if (!panel.length) {
             return;
         }
-        var state = JSON.stringify(buffState);
-        if (state === comboPending) {
+        var payload = comboPayload();
+        if (comboSignature(payload) === comboPending) {
             return;
         }
-        comboPending = state;
+        comboPending = comboSignature(payload);
+        payload.csrfmiddlewaretoken = getCsrfToken();
         if (comboRequest) {
             comboRequest.abort();
         }
-        comboRequest = $.post(panel.data('combo-url'),
-                              {buff_state: state,
-                               csrfmiddlewaretoken: getCsrfToken()})
+        comboRequest = $.post(panel.data('combo-url'), payload)
             .done(function(data) {
                 if (!data || !data.best_combo) {
                     panel.hide();
@@ -1220,7 +1268,8 @@
             setDot(spell);
         });
         recalculateDamages();
-        
+        markComboRendered();
+
         $("#all-buffs-button").on('click', function() {
             fullyBuff();
             recalculateDamages();

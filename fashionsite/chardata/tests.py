@@ -12136,6 +12136,75 @@ class CombatApTests(SimpleTestCase):
         self.assertGreater(len(order), 0)
 
 
+class ComboReadsWhatThePageSendsTests(SimpleTestCase):
+    """The page keys its buffs and its ranks by the name it displays, which is
+    translated; the combo endpoint matches on the name the data carries. The
+    two only met where a spell reads the same in both languages, so on a
+    French page a fully boosted Iop turn came back 292 instead of 850: only
+    Agitation, spelled alike, was counted."""
+
+    def test_a_spell_digest_carries_the_name_the_data_uses(self):
+        from django.utils import translation
+        from chardata.spells_view import _create_spell_web_digest
+        from chardata.spell_buffs import get_damage_spells_for_version
+        spells = get_damage_spells_for_version('dofus3').get('Iop', [])
+        power = next(spell for spell in spells if spell.name == 'Power')
+        with translation.override('fr'):
+            digest = _create_spell_web_digest(power, 'dofus3')
+        self.assertEqual('Power', digest['canonical'])
+        self.assertNotEqual(digest['canonical'], digest['name'],
+                            'pick a spell whose French name differs')
+
+    def test_every_digest_carries_one(self):
+        from chardata.spells_view import _create_spell_web_digest
+        from chardata.spell_buffs import get_damage_spells_for_version
+        for version in ('dofus3', 'retro', 'touch'):
+            spells = get_damage_spells_for_version(version)
+            bucket = next((v for v in spells.values() if v), [])
+            for spell in bucket[:20]:
+                with self.subTest(version=version, spell=spell.name):
+                    digest = _create_spell_web_digest(spell, version)
+                    self.assertEqual(spell.name, digest['canonical'])
+
+    def test_a_buff_only_counts_under_the_name_the_data_uses(self):
+        from chardata.spell_combo import buffs_in_force
+        canonical = buffs_in_force('Iop', 200, 'dofus3', {'Power': 'c1'})
+        translated = buffs_in_force('Iop', 200, 'dofus3', {'Puissance': 'c1'})
+        self.assertTrue(canonical, 'the canonical name found no buff')
+        self.assertEqual({}, translated,
+                         'a translated key must not silently half-work')
+
+    def test_the_rank_the_reader_picks_reaches_the_search(self):
+        # Lowering a buff has to weaken what it grants, and lowering a damage
+        # spell has to weaken the cast. Both used to be read at the highest
+        # rank the level allowed, whatever the page showed.
+        from chardata.spell_combo import buffs_in_force, castable_spells
+        top = buffs_in_force('Iop', 200, 'dofus3', {'Power': 'c1'})
+        low = buffs_in_force('Iop', 200, 'dofus3', {'Power': 'c1'},
+                             {'Power': 0})
+        self.assertTrue(top and low)
+        self.assertNotEqual(top, low, 'the rank did not reach the buff')
+        for stat, value in low.items():
+            self.assertLessEqual(value, top[stat])
+
+        highest = {c.name: c for c in castable_spells('Iop', 200, 'dofus3')}
+        lowered = {c.name: c for c in castable_spells(
+            'Iop', 200, 'dofus3', levels={'Pressure': 0})}
+        self.assertIn('Pressure', highest)
+        self.assertNotEqual(highest['Pressure'].effects,
+                            lowered['Pressure'].effects)
+
+    def test_a_rank_the_spell_does_not_have_is_ignored(self):
+        from chardata.spell_combo import castable_spells
+        plain = {c.name: c.effects for c in castable_spells('Iop', 200, 'dofus3')}
+        for silly in ({'Pressure': 99}, {'Pressure': -3},
+                      {'Pressure': 'top'}, {'Pressure': None}):
+            with self.subTest(levels=silly):
+                got = {c.name: c.effects for c
+                       in castable_spells('Iop', 200, 'dofus3', levels=silly)}
+                self.assertEqual(plain['Pressure'], got['Pressure'])
+
+
 class SpellComboTests(SimpleTestCase):
     """The best order of casts in a turn. A buff cast first changes what every
     later cast is worth, so the order is the answer, not a detail of it."""
