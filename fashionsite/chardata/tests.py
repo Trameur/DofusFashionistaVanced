@@ -5683,28 +5683,24 @@ class ImageWeightTests(TestCase):
 
 
 class ItemFlagTests(SimpleTestCase):
-    """What the game says about an item beyond its stats. Only Hunting Weapon was
-    ever printed; Fertile, Linked to the character and Cooperative crafting
-    impossible were read, stored and translated into four languages, then never
-    shown, on 397 Dofus 3 items."""
+    """What the game says about an item beyond its stats: only the flags worth
+    reading are printed."""
 
     def test_every_shown_flag_is_translated_everywhere(self):
-        # Fertile is the same word in French, so "differs from English" is no
-        # test at all here; the expected wording is spelled out instead.
         from django.utils import translation as django_translation
         from fashionistapulp.item_flags import flag_lines
-        flags = ['Hunting Weapon', 'Fertile', 'Linked to the character',
+        flags = ['Hunting Weapon', 'Linked to the character',
                  'Cooperative crafting impossible']
         expected = {
-            'en': ['Hunting Weapon', 'Fertile', 'Linked to the character',
+            'en': ['Hunting Weapon', 'Linked to the character',
                    'Cooperative crafting impossible'],
-            'fr': ['Arme de chasse', 'Fertile', 'Lié au personnage',
+            'fr': ['Arme de chasse', 'Lié au personnage',
                    'Craft coopératif impossible'],
-            'es': ['Arma de caza', 'Fértil', 'Vinculado al personaje',
+            'es': ['Arma de caza', 'Vinculado al personaje',
                    'Fabricación cooperativa imposible'],
-            'pt': ['Arma de caça', 'Fértil', 'Vinculado ao personagem',
+            'pt': ['Arma de caça', 'Vinculado ao personagem',
                    'Fabricação cooperativa impossível'],
-            'de': ['Jagdwaffe', 'Fruchtbar', 'Mit dem Charakter verknüpft',
+            'de': ['Jagdwaffe', 'Mit dem Charakter verknüpft',
                    'Kooperatives Handwerk nicht möglich'],
         }
         for language, labels in expected.items():
@@ -5747,8 +5743,19 @@ class ItemFlagTests(SimpleTestCase):
         from fashionistapulp.structure import get_structure
         structure = get_structure('dofus3')
         carriers = [item for item in structure.items_dict.values()
+                    if 'Linked to the character' in (getattr(item, 'flags', None) or [])]
+        self.assertGreaterEqual(len(carriers), 50)
+
+    def test_fertile_is_a_pet_detail_no_one_reads(self):
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.item_flags import flag_lines
+        self.assertEqual([], flag_lines(['Fertile']))
+        structure = get_structure('dofus3')
+        carriers = [structure.get_type_name_by_id(item.type)
+                    for item in structure.items_dict.values()
                     if 'Fertile' in (getattr(item, 'flags', None) or [])]
-        self.assertGreaterEqual(len(carriers), 100)
+        self.assertTrue(carriers)
+        self.assertEqual({'Pet'}, set(carriers))
 
     def test_retro_and_touch_carry_the_flags_their_client_declares(self):
         import sqlite3
@@ -7524,6 +7531,17 @@ class TranscendenceAdviceTests(SimpleTestCase):
         for version in ('retro', 'touch'):
             with self.subTest(version=version):
                 self.assertIsNone(self._best({'vit': 1}, version=version))
+
+    def test_a_slot_that_takes_no_rune_is_never_advised(self):
+        from chardata.transcendence_advice import best_transcendence
+        for item_type in ('Pet', 'Dofus'):
+            with self.subTest(item_type=item_type):
+                self.assertIsNone(best_transcendence('dofus3', self.RING,
+                                                     {'str': 1}, item_type))
+        for item_type in ('Ring', 'Hat', 'Weapon', None):
+            with self.subTest(item_type=item_type):
+                self.assertIsNotNone(best_transcendence('dofus3', self.RING,
+                                                        {'str': 1}, item_type))
 
 
 class ReadOnlyStatsWeightsTests(TestCase):
