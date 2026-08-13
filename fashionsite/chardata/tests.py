@@ -5822,6 +5822,159 @@ class SpellHatTests(SimpleTestCase):
                 self.assertEqual(items * 5, rows)
 
 
+class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
+    """An item line names a spell and stops there: "Lance le sort Bouclier
+    Stoique au debut du combat", "Agitation : -1 PA". Every version's own data
+    carries the description right beside the name the scraper already reads, so
+    the line now hangs a tooltip off it."""
+
+    def _item(self, version, ankama_id):
+        from fashionistapulp.structure import get_structure
+        return next(item for item
+                    in get_structure(version).get_concatenated_items_lists()
+                    if item.ankama_id == ankama_id)
+
+    def test_the_shield_says_what_the_shield_spell_does(self):
+        # The one the player reported: Touch, Bouclier de Sidimote.
+        from chardata.spell_tips import spell_tip_for
+        item = self._item('touch', 16191)
+        for language in ('fr', 'en', 'es', 'pt', 'de'):
+            with self.subTest(language=language):
+                line = item.localized_extras[language][0]
+                tip = spell_tip_for(line, item.spell_tooltips.get(language))
+                self.assertIsNotNone(tip, line)
+                self.assertIn(tip.spell, line)
+                self.assertGreater(len(tip.description), 20)
+
+    def test_an_emblem_explains_every_spell_it_names(self):
+        from chardata.spell_tips import spell_tip_for
+        for version in ('dofus3', 'beta', 'dofus2', 'retro'):
+            ankama_id = 11745 if version == 'retro' else 8619
+            item = self._item(version, ankama_id)
+            for language in ('fr', 'en', 'es', 'pt', 'de'):
+                tooltips = item.spell_tooltips.get(language) or {}
+                lines = item.localized_extras.get(language) or []
+                with self.subTest(version=version, language=language):
+                    self.assertTrue(lines)
+                    for line in lines:
+                        self.assertIsNotNone(spell_tip_for(line, tooltips), line)
+
+    def test_the_tooltip_is_read_in_every_version(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version, floor in (('dofus3', 90), ('beta', 90), ('dofus2', 90),
+                               ('retro', 55), ('touch', 60)):
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                items, rows = connection.execute(
+                    'SELECT COUNT(DISTINCT item), COUNT(*)'
+                    ' FROM spell_tooltips').fetchone()
+            finally:
+                connection.close()
+            with self.subTest(version=version):
+                self.assertGreaterEqual(items, floor)
+                self.assertGreaterEqual(rows, items * 4)
+
+    def test_a_stored_spell_is_one_a_line_actually_names(self):
+        # The table is only worth its weight in the tracked dump if every entry
+        # has a line to hang on, and a tooltip on a spell the reader cannot see
+        # named would be a tooltip on nothing.
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            orphans = []
+            for item in get_structure(version).get_concatenated_items_lists():
+                for language, tooltips in item.spell_tooltips.items():
+                    text = '\n'.join(item.localized_extras.get(language) or [])
+                    orphans += [(item.name, language, spell)
+                                for spell in tooltips if spell not in text]
+            with self.subTest(version=version):
+                self.assertEqual([], orphans[:5])
+
+    def test_the_longest_name_wins_when_two_overlap(self):
+        # Retro has both "Bond" and "Bond Felin", and the first hit would put
+        # the wrong spell's text under the line.
+        from chardata.spell_tips import spell_tip_for
+        tooltips = {'Bond': 'the short one', 'Bond Felin': 'the long one'}
+        tip = spell_tip_for('+1 de portee sur le sort Bond Felin', tooltips)
+        self.assertEqual('Bond Felin', tip.spell)
+        self.assertEqual('the long one', tip.description)
+        self.assertEqual('Bond', spell_tip_for('sort Bond', tooltips).spell)
+        self.assertIsNone(spell_tip_for('200 Vitalite', tooltips))
+        self.assertIsNone(spell_tip_for('sort Bond', {}))
+        self.assertIsNone(spell_tip_for('', tooltips))
+
+    def test_a_special_spell_keeps_its_name_and_hides_its_prose(self):
+        # Fallanster's Rectitude printed its spell name on one line and four
+        # lines of rules under it, as plain text. The name is the line now, and
+        # the rules are what the marker holds.
+        from fashionistapulp.spell_text import fold_spell_blocks
+        from fashionistapulp.structure import get_structure
+        item = next(i for i in get_structure('dofus3').get_concatenated_items_lists()
+                    if i.ankama_id == 20357)
+        for language in ('fr', 'en', 'es', 'pt', 'de'):
+            with self.subTest(language=language):
+                lines = item.localized_extras[language]
+                self.assertGreaterEqual(len(lines), 2)
+                kept, folded = fold_spell_blocks(lines)
+                self.assertEqual(1, len(kept))
+                self.assertEqual(1, len(folded))
+                name = kept[0]
+                self.assertFalse(name.endswith(':'))
+                self.assertIn(name, folded)
+                self.assertGreater(len(folded[name]), 40)
+
+    def test_every_headed_block_folds_in_every_version(self):
+        from fashionistapulp.spell_text import fold_spell_blocks
+        from fashionistapulp.structure import get_structure
+        seen = {}
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            folded_items = 0
+            for item in get_structure(version).get_concatenated_items_lists():
+                for language, lines in item.localized_extras.items():
+                    kept, folded = fold_spell_blocks(lines)
+                    if not folded:
+                        continue
+                    if language == 'fr':
+                        folded_items += 1
+                    for name, description in folded.items():
+                        self.assertIn(name, kept)
+                        self.assertTrue(description.strip())
+                        self.assertNotIn('<sprite', description)
+            seen[version] = folded_items
+        # Only the three modern versions ship the shape; Retro and Touch write
+        # their special effects as one sentence with no heading.
+        self.assertGreaterEqual(seen['dofus3'], 45)
+        self.assertGreaterEqual(seen['beta'], 45)
+        self.assertGreaterEqual(seen['dofus2'], 18)
+        self.assertEqual(0, seen['retro'])
+        self.assertEqual(0, seen['touch'])
+
+    def test_a_line_that_is_not_a_heading_is_left_alone(self):
+        from fashionistapulp.spell_text import fold_spell_blocks
+        plain = ['Occasionne des dommages Neutre.', 'Agitation : -1 PA']
+        self.assertEqual((plain, {}), fold_spell_blocks(plain))
+        self.assertEqual(([], {}), fold_spell_blocks([]))
+        self.assertEqual((['Nom :'], {}), fold_spell_blocks(['Nom :']))
+        # A sentence that happens to end in a colon is prose, not a name.
+        sentence = ['Quand le porteur termine son tour et que la cible est '
+                    'encore en vue, il gagne les bonus suivants :', '- 10 %']
+        self.assertEqual(sentence, fold_spell_blocks(sentence)[0])
+
+    def test_no_untranslated_english_leaks_into_another_language(self):
+        # The upstream tags a missing translation with "[!]", and English under
+        # a French line is worse than no tooltip at all.
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            tagged = []
+            for item in get_structure(version).get_concatenated_items_lists():
+                for tooltips in item.spell_tooltips.values():
+                    tagged += [text for text in tooltips.values()
+                               if text.startswith('[!]')]
+            with self.subTest(version=version):
+                self.assertEqual([], tagged[:5])
+
+
 class WeaponsSharingANameTests(SimpleTestCase):
     """Retro and Touch let genuinely different weapons carry one name, where the
     Dofus 3 transform numbers its duplicates. Weapons were indexed by name, so
