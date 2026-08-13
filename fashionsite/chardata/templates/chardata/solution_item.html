@@ -55,13 +55,6 @@
             <br>
         {% endfor %}
         </div>
-        {% if item.transcendence %}
-            <hr class="solution-item-hr" />
-            <span class="solution-inline-stat-line" title="{% trans 'This rune always lands, and locks the item against any further smithmagic.' %}">
-                <span>&#9670;&nbsp;{{ item.transcendence }}</span>
-            </span>
-            <br>
-        {% endif %}
         {% if item.condition_lines %}
             <hr class="solution-item-hr" />
             {% for line in item.condition_lines %}

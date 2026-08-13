@@ -32,7 +32,6 @@ from chardata.spell_tips import spell_tip_for
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
-from chardata.transcendence_advice import best_transcendence
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from chardata.official_site import get_item_link, get_set_link
@@ -80,7 +79,6 @@ class SolutionResult:
         item_ids = {}
         for result_item in all_items:
             evolve_result_item(result_item, r)
-            attach_transcendence(result_item, self.weights)
         # "Can I actually get this set?" answered on the page itself, one pass
         # over the DB for the whole solution.
         attach_acquisition(all_items)
@@ -249,18 +247,6 @@ def evolve_result_item(result_item, r=None):
                                          result_item.localized_name,
                                          game_version=get_current_game_version())
 
-def attach_transcendence(result_item, weights):
-    result_item.transcendence = None
-    if not result_item.item_added or not weights:
-        return
-    rune = best_transcendence(get_current_game_version(),
-                              getattr(result_item, 'stats', None) or {}, weights)
-    if rune is None:
-        return
-    # Ankama names its runes in French in every client, like the workshop does.
-    result_item.transcendence = '%s: +%d %s' % (
-        rune['name_fr'], rune['bonus'],
-        _(get_structure().get_stat_by_key(rune['stat_key']).name))
 
 
 class AttributeLine:
