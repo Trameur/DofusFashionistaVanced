@@ -31,8 +31,9 @@ FEED_TAIL = 2
 
 # Units above the fold are worth their cost at once. The rest are built when
 # the reader comes near them, which also keeps a rail out of the page until the
-# screen is wide enough to show it.
-EAGER_SLOTS = ('home_top', 'content_top')
+# screen is wide enough to show it. home_top keeps its name but sits under the
+# buttons now, so it waits like the others.
+EAGER_SLOTS = ('content_top',)
 
 
 def _claim(context):

@@ -46,7 +46,6 @@
         {% trans "Dofus Fashionista is a free theorycrafting tool. Tell it your class, level and what you want, and it instantly finds your best possible set. No spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a serious optimizer: fine-tune every stat, compare builds, and min-max across all five versions of the game: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch. Save your characters, share your builds, and become a better theorycrafter, fast." %}
     </p>
 <div class="main-div" >
-    {% ad_unit 'home_top' 'fm-ad-top' %}    
     <table>
     {% for list in items %}
     <tr>
@@ -81,6 +80,11 @@
         · <a href="{% game_url 'random_build' %}">{% trans "Discover a random build" %}</a>
         · <a href="{% url 'guides' %}">{% trans "Read the guides" %}</a>.
     </p>
+
+    {% comment %}Below the buttons, not above them: the whole point of this
+    page is the row of calls to action, and nothing should push them down the
+    screen.{% endcomment %}
+    {% ad_unit 'home_top' %}
 
     {% if featured_builds %}
     <div class="featured-builds-wrap">
