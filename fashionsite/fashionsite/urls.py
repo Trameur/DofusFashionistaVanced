@@ -19,7 +19,7 @@ from django.views.i18n import JavaScriptCatalog
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView, TemplateView
 from django.http import Http404, HttpResponse
 from django.views.static import serve
 import os
@@ -514,6 +514,10 @@ js_info_dict = {
 
 urlpatterns = [
     re_path(r'^ads\.txt$', ads_txt_view, name='ads_txt'),
+    # Browsers ask the root for the icon even when the page names its own.
+    re_path(r'^favicon\.ico$', RedirectView.as_view(
+        url=settings.STATIC_URL + 'chardata/favicon.ico', permanent=True),
+        name='favicon'),
     re_path(r'^\.well-known/appspecific/com\.chrome\.devtools\.json$', chrome_devtools_view),
     re_path(r'^sitemap\.xml$', sitemap_view, name='sitemap'),
     re_path(r'^sitemap-(?P<section>[a-z]+)\.xml$', sitemap_section_view,

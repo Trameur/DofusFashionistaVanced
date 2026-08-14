@@ -697,6 +697,12 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertEqual(resp.status_code, 200,
                                  msg='%s -> %s' % (path, resp.status_code))
 
+    def test_favicon_at_the_root_points_at_the_icon(self):
+        resp = self.client.get('/favicon.ico')
+        self.assertEqual(301, resp.status_code)
+        self.assertTrue(resp['Location'].endswith('chardata/favicon.ico'),
+                        msg=resp['Location'])
+
     def test_every_guide_answers_under_every_version(self):
         # A guide is served under each version prefix and rewrites its own
         # links per version.
