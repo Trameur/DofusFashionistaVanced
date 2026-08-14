@@ -4159,7 +4159,7 @@ msgstr "Es ist ein Fehler aufgetreten"
 #: .\chardata\templates\chardata\loading.html:12
 #, python-format
 msgid "Tailoring a set for %(char_name)s"
-msgstr "Einen Satz für %(char_name)s anpassen"
+msgstr "Ein Set für %(char_name)s schneidern"
 
 #: .\chardata\templates\chardata\loading.html:14
 msgid "Tailoring a set"
@@ -5382,7 +5382,7 @@ msgstr ""
 #: .\chardata\templates\chardata\solution.html:154
 #, python-format
 msgid "This is the set that we suggest for <b>%(charname)s</b>. "
-msgstr "Dies ist der Satz, den wir für <b>%(charname)s</b> vorschlagen."
+msgstr "Dies ist das Set, das wir für <b>%(charname)s</b> vorschlagen."
 
 #: .\chardata\templates\chardata\solution.html:156
 msgid "This is the suggested set."
@@ -5418,17 +5418,17 @@ msgstr "Mit meinen anderen Sets vergleichen"
 #: .\chardata\templates\chardata\solution.html:198
 #, python-format
 msgid "This is %(owner)s's set for %(charname)s. "
-msgstr "Dies ist der Satz von %(owner)s für %(charname)s."
+msgstr "Dies ist das Set von %(owner)s für %(charname)s."
 
 #: .\chardata\templates\chardata\solution.html:200
 #, python-format
 msgid "This is %(owner)s's set. "
-msgstr "Dies ist der Satz von %(owner)s."
+msgstr "Dies ist das Set von %(owner)s."
 
 #: .\chardata\templates\chardata\solution.html:204
 #, python-format
 msgid "This is someone else's set for %(charname)s. "
-msgstr "Dies ist der Satz einer anderen Person für %(charname)s."
+msgstr "Dies ist das Set einer anderen Person für %(charname)s."
 
 #: .\chardata\templates\chardata\solution.html:206
 msgid "This is someone else's set."

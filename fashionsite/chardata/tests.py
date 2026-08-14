@@ -11158,6 +11158,67 @@ class AdInventoryTests(TestCase):
         self.assertEqual(sorted(named - set(AD_SLOTS)), [])
 
 
+class LoadingMarqueeTests(SimpleTestCase):
+    """The bar that scrolls while the solver runs, in every language."""
+
+    LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
+
+    def _script(self):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'static', 'chardata', 'loading.js')
+        with open(path, encoding='utf-8') as handle:
+            return handle.read()
+
+    def _lists(self):
+        import re
+        script = self._script()
+        found = {}
+        for match in re.finditer(r'var cars(\w\w) = \[', script):
+            start = match.end()
+            depth, index = 1, start
+            while depth and index < len(script):
+                if script[index] == '[':
+                    depth += 1
+                elif script[index] == ']':
+                    depth -= 1
+                index += 1
+            body = script[start:index - 1]
+            found[match.group(1)] = re.findall(r'^\s*["\'](.+?)["\'],?\s*$',
+                                               body, re.M)
+        return found
+
+    def test_every_language_has_its_own_lines(self):
+        # German had none at all: it fell through to an empty string and a
+        # German player watched a blank bar for the whole solve.
+        lists = self._lists()
+        self.assertEqual(sorted(lists), sorted(self.LANGUAGES))
+        for language in self.LANGUAGES:
+            with self.subTest(language=language):
+                self.assertGreater(len(lists[language]), 100, language)
+
+    def test_no_language_is_left_a_short_list(self):
+        # French stopped at the 99th line while the others ran to 117.
+        lists = self._lists()
+        counts = {language: len(lines) for language, lines in lists.items()}
+        self.assertEqual(len(set(counts.values())), 1, counts)
+
+    def test_a_line_is_never_written_twice_in_one_language(self):
+        for language, lines in self._lists().items():
+            with self.subTest(language=language):
+                self.assertEqual(len(lines), len(set(lines)), language)
+
+    def test_the_picker_knows_every_language_and_falls_back(self):
+        script = self._script()
+        for language in self.LANGUAGES:
+            with self.subTest(language=language):
+                self.assertIn("case '%s':" % language, script)
+        # An unknown language reads English rather than nothing at all.
+        tail = script.split('default:', 1)[1]
+        self.assertIn('sentences = carsen;', tail)
+        self.assertNotIn("return '';", tail)
+
+
 class GuideBodySplitTests(SimpleTestCase):
     """A guide is cut between two sections so a unit can stand there."""
 
