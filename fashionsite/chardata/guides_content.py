@@ -14,8 +14,9 @@ ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-
 
 GUIDES = {
     # ------------------------------------------------------------------ #
-    # Retro (1.29) crit is a 1/X fraction that Agility improves; modern crit is a
-    # flat percentage capped at 50% that Agility does not touch.
+    # Retro (1.29 branch) crit is a 1/X fraction that Agility improves and that
+    # stops at 1/2; update 2.29 turned crit into an additive percentage that
+    # Agility does not touch, reaching 100% and never falling under 1%.
     'critical-hits': {
         'published': '2026-07-22',
         'version_groups': {'retro': 'retro'},
@@ -23,7 +24,7 @@ GUIDES = {
             'modern': {
                 'en': {
                     'title': 'Critical hits in modern Dofus: how they really work',
-                    'desc': "In modern Dofus, crit is a percentage: spell base plus gear, capped at 50%, and Agility does nothing. How to build for critical hits.",
+                    'desc': "In modern Dofus, crit is a percentage: spell base plus gear, all the way to 100%, and Agility does nothing. How to build for critical hits.",
                     'lead': "In Dofus 3, the beta, Dofus 2 and Touch, critical hits run on percentages. Here is what actually drives your crit rate, and when to build for it.",
                     'body': '''
 <h2>How critical hits work now</h2>
@@ -32,8 +33,8 @@ GUIDES = {
 <h2>Agility does not touch your crit rate</h2>
 <p>This is the big difference from the old game: in modern Dofus, <strong>Agility has no effect on critical hits</strong>. Your crit rate comes only from the spell's base and your gear's +Critical Hits. Building Agility for crits is a Retro habit that does nothing here.</p>
 
-<h2>The cap, and crit damage</h2>
-<p>No matter how much +Critical Hits you stack, your chance is capped at <strong>50%</strong> per attack. Once you are there, more crit chance is wasted. Separately, the Critical Damage stat (the "+X on critical hits" you see on items) makes your crits hit harder but does <em>not</em> change how often they land. Chance and damage are two different stats.</p>
+<h2>How high it goes, and crit damage</h2>
+<p>There is no 50% ceiling any more. Since the crit overhaul, update 2.29 on Dofus and the same rework on Touch, the two numbers simply add up, and <strong>100% is reachable</strong> if the spell's base plus your gear gets you there: every hit crits. The other end has a floor instead, <strong>1%</strong>, so an attack that can crit at all never drops below one chance in a hundred, however much critical resistance is thrown at you. Separately, the Critical Damage stat (the "+X on critical hits" you see on items) makes your crits hit harder but does <em>not</em> change how often they land. Chance and damage are two different stats.</p>
 
 <h2>When to build for crits</h2>
 <p>Crits are worth chasing when the spell's critical line adds a meaningful bonus and you can push the rate high enough to rely on it. A spell that gains little on a crit, or a build stuck at a low rate, is usually better served by flat damage or Power. In the Fashionista, weight Critical Hits when your key spells reward it, and check the spell before you commit.</p>
@@ -43,7 +44,7 @@ GUIDES = {
                 },
                 'fr': {
                     'title': "Les coups critiques sur le Dofus moderne : comment ça marche",
-                    'desc': "Sur le Dofus moderne, le critique est un pourcentage : base du sort plus stuff, plafonné à 50 %, et l'Agilité n'y fait rien. Comment build pour les critiques.",
+                    'desc': "Sur le Dofus moderne, le critique est un pourcentage : base du sort plus stuff, jusqu'à 100 %, et l'Agilité n'y fait rien. Comment build pour les critiques.",
                     'lead': "Sur Dofus 3, la bêta, Dofus 2 et Touch, les coups critiques tournent en pourcentages. Voici ce qui décide vraiment ton taux, et quand build pour.",
                     'body': '''
 <h2>Comment marchent les coups critiques aujourd'hui</h2>
@@ -52,8 +53,8 @@ GUIDES = {
 <h2>L'Agilité ne touche pas ton taux de critique</h2>
 <p>C'est la grande différence avec l'ancien jeu : sur le Dofus moderne, <strong>l'Agilité n'a aucun effet sur les coups critiques</strong>. Ton taux vient uniquement de la base du sort et des +Coups Critiques de ton stuff. Monter l'Agilité pour les critiques est un réflexe Rétro qui ne sert à rien ici.</p>
 
-<h2>Le plafond, et les dommages critiques</h2>
-<p>Peu importe combien de +Coups Critiques tu empiles, ta chance est plafonnée à <strong>50 %</strong> par attaque. Une fois à ce niveau, plus de taux de critique est gaspillé. À part ça, la stat Dommages Critiques (le « +X en cas de critique » sur les items) fait taper tes critiques plus fort mais ne change <em>pas</em> leur fréquence. Chance et dégâts sont deux stats différentes.</p>
+<h2>Jusqu'où ça monte, et les dommages critiques</h2>
+<p>Il n'y a plus de plafond à 50 %. Depuis la refonte des critiques, la mise à jour 2.29 sur Dofus et la même refonte sur Touch, les deux nombres s'additionnent simplement, et <strong>les 100 % sont atteignables</strong> si la base du sort plus ton stuff t'y emmènent : chaque coup passe en critique. De l'autre côté il y a un plancher, <strong>1 %</strong> : une attaque qui peut critiquer ne descend jamais sous une chance sur cent, peu importe la résistance aux critiques qu'on t'envoie. À part ça, la stat Dommages Critiques (le « +X en cas de critique » sur les items) fait taper tes critiques plus fort mais ne change <em>pas</em> leur fréquence. Chance et dégâts sont deux stats différentes.</p>
 
 <h2>Quand build pour les critiques</h2>
 <p>Les critiques valent le coup quand la ligne critique du sort ajoute un vrai bonus et que tu peux monter le taux assez haut pour compter dessus. Un sort qui gagne peu en critique, ou un build coincé à un taux bas, est souvent mieux servi par des dommages fixes ou de la Puissance. Dans la Fashionista, pondère les Coups Critiques quand tes sorts clés le récompensent, et vérifie le sort avant de t'engager.</p>
@@ -63,7 +64,7 @@ GUIDES = {
                 },
                 'es': {
                     'title': "Los golpes críticos en el Dofus moderno: cómo funcionan",
-                    'desc': "En el Dofus moderno, el crítico es un porcentaje: base del hechizo más equipo, con tope del 50 %, y la Agilidad no hace nada. Cómo construir para críticos.",
+                    'desc': "En el Dofus moderno, el crítico es un porcentaje: base del hechizo más equipo, hasta el 100 %, y la Agilidad no hace nada. Cómo construir para críticos.",
                     'lead': "En Dofus 3, la beta, Dofus 2 y Touch, los golpes críticos van por porcentajes. Esto es lo que decide de verdad tu tasa, y cuándo construir para ella.",
                     'body': '''
 <h2>Cómo funcionan los críticos ahora</h2>
@@ -72,8 +73,8 @@ GUIDES = {
 <h2>La Agilidad no toca tu tasa de crítico</h2>
 <p>Esta es la gran diferencia con el juego antiguo: en el Dofus moderno, <strong>la Agilidad no tiene ningún efecto sobre los golpes críticos</strong>. Tu tasa viene solo de la base del hechizo y de los +Golpes Críticos de tu equipo. Subir Agilidad para los críticos es un hábito de Retro que aquí no sirve de nada.</p>
 
-<h2>El tope, y el daño crítico</h2>
-<p>Por mucho +Golpes Críticos que acumules, tu probabilidad está limitada al <strong>50 %</strong> por ataque. Una vez ahí, más tasa de crítico se desperdicia. Aparte, la estadística Daño Crítico (el «+X en crítico» de los objetos) hace que tus críticos peguen más fuerte pero <em>no</em> cambia su frecuencia. Probabilidad y daño son dos estadísticas distintas.</p>
+<h2>Hasta dónde llega, y el daño crítico</h2>
+<p>Ya no hay techo del 50 %. Desde la remodelación de los críticos, la actualización 2.29 en Dofus y la misma revisión en Touch, los dos números simplemente se suman, y <strong>se puede llegar al 100 %</strong> si la base del hechizo más tu equipo te llevan ahí: todos los golpes son críticos. En el otro extremo hay un suelo, el <strong>1 %</strong>: un ataque que puede criticar nunca baja de una probabilidad entre cien, por mucha resistencia a críticos que te echen encima. Aparte, la estadística Daño Crítico (el «+X en crítico» de los objetos) hace que tus críticos peguen más fuerte pero <em>no</em> cambia su frecuencia. Probabilidad y daño son dos estadísticas distintas.</p>
 
 <h2>Cuándo construir para críticos</h2>
 <p>Los críticos merecen la pena cuando la línea crítica del hechizo añade un bonus real y puedes subir la tasa lo suficiente como para depender de ella. Un hechizo que gana poco en crítico, o un build atascado en una tasa baja, suele estar mejor servido con daño fijo o Potencia. En la Fashionista, pondera los Golpes Críticos cuando tus hechizos clave lo recompensen, y revisa el hechizo antes de comprometerte.</p>
@@ -83,7 +84,7 @@ GUIDES = {
                 },
                 'pt': {
                     'title': "Os golpes críticos no Dofus moderno: como funcionam",
-                    'desc': "No Dofus moderno, o crítico é uma porcentagem: base do feitiço mais equipamento, com teto de 50 %, e a Agilidade não faz nada. Como construir para críticos.",
+                    'desc': "No Dofus moderno, o crítico é uma porcentagem: base do feitiço mais equipamento, até 100 %, e a Agilidade não faz nada. Como construir para críticos.",
                     'lead': "No Dofus 3, no beta, no Dofus 2 e no Touch, os golpes críticos funcionam por porcentagens. Aqui está o que decide sua taxa, e quando construir para ela.",
                     'body': '''
 <h2>Como os críticos funcionam agora</h2>
@@ -92,8 +93,8 @@ GUIDES = {
 <h2>A Agilidade não mexe na sua taxa de crítico</h2>
 <p>Essa é a grande diferença em relação ao jogo antigo: no Dofus moderno, <strong>a Agilidade não tem nenhum efeito sobre os golpes críticos</strong>. Sua taxa vem só da base do feitiço e dos +Golpes Críticos do seu equipamento. Subir Agilidade para os críticos é um hábito de Retro que aqui não serve para nada.</p>
 
-<h2>O teto, e o dano crítico</h2>
-<p>Não importa quanto +Golpes Críticos você empilhe, sua chance é limitada a <strong>50 %</strong> por ataque. Uma vez lá, mais taxa de crítico é desperdiçada. À parte disso, o atributo Dano Crítico (o «+X no crítico» dos itens) faz seus críticos baterem mais forte mas <em>não</em> muda a frequência deles. Chance e dano são dois atributos diferentes.</p>
+<h2>Até onde vai, e o dano crítico</h2>
+<p>Não existe mais teto de 50 %. Desde a reformulação dos críticos, a atualização 2.29 no Dofus e a mesma revisão no Touch, os dois números simplesmente se somam, e <strong>dá para chegar a 100 %</strong> se a base do feitiço mais o seu equipamento te levarem lá: todo golpe sai crítico. Do outro lado existe um piso, <strong>1 %</strong>: um ataque que pode critar nunca cai abaixo de uma chance em cem, por mais resistência a críticos que joguem em você. À parte disso, o atributo Dano Crítico (o «+X no crítico» dos itens) faz seus críticos baterem mais forte mas <em>não</em> muda a frequência deles. Chance e dano são dois atributos diferentes.</p>
 
 <h2>Quando construir para críticos</h2>
 <p>Os críticos valem a pena quando a linha crítica do feitiço adiciona um bônus real e você consegue subir a taxa alto o bastante para contar com ela. Um feitiço que ganha pouco no crítico, ou um build preso numa taxa baixa, costuma ser melhor servido por dano fixo ou Potência. Na Fashionista, pondere os Golpes Críticos quando seus feitiços principais recompensarem, e confira o feitiço antes de se comprometer.</p>
@@ -103,7 +104,7 @@ GUIDES = {
                 },
                 'de': {
                     'title': "Kritische Treffer im modernen Dofus: wie sie wirklich funktionieren",
-                    'desc': "Im modernen Dofus ist Kritisch ein Prozentwert: Zauber-Basis plus Ausrüstung, gedeckelt bei 50 %, und Flinkheit bringt nichts. So baust du auf Kritische.",
+                    'desc': "Im modernen Dofus ist Kritisch ein Prozentwert: Zauber-Basis plus Ausrüstung, bis zu 100 %, und Flinkheit bringt nichts. So baust du auf Kritische.",
                     'lead': "In Dofus 3, der Beta, Dofus 2 und Touch laufen kritische Treffer über Prozente. Hier steht, was deine Kritrate wirklich treibt, und wann du darauf baust.",
                     'body': '''
 <h2>Wie kritische Treffer heute funktionieren</h2>
@@ -112,8 +113,8 @@ GUIDES = {
 <h2>Flinkheit berührt deine Kritrate nicht</h2>
 <p>Das ist der große Unterschied zum alten Spiel: im modernen Dofus hat <strong>Flinkheit keinerlei Wirkung auf kritische Treffer</strong>. Deine Rate kommt allein aus der Zauber-Basis und den +Kritische Treffer deiner Ausrüstung. Flinkheit für Kritische zu steigern ist eine Retro-Gewohnheit, die hier nichts bringt.</p>
 
-<h2>Die Deckelung, und der kritische Schaden</h2>
-<p>Egal wie viel +Kritische Treffer du stapelst, deine Chance ist pro Angriff bei <strong>50 %</strong> gedeckelt. Ab da ist mehr Kritrate verschwendet. Davon getrennt lässt der Wert Kritischer Schaden (das „+X bei kritischem Treffer" auf Items) deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen. Chance und Schaden sind zwei verschiedene Werte.</p>
+<h2>Wie hoch es geht, und der kritische Schaden</h2>
+<p>Eine 50-%-Grenze gibt es nicht mehr. Seit der Überarbeitung der Kritischen, Update 2.29 bei Dofus und dieselbe Umstellung bei Touch, addieren sich die beiden Zahlen einfach, und <strong>100 % sind erreichbar</strong>, wenn Zauber-Basis plus Ausrüstung dich dorthin bringen: dann sitzt jeder Treffer kritisch. Am anderen Ende steht stattdessen eine Untergrenze von <strong>1 %</strong>: ein Angriff, der überhaupt kritisch treffen kann, fällt nie unter eine Chance von eins zu hundert, wie viel kritische Resistenz dir auch entgegengesetzt wird. Davon getrennt lässt der Wert Kritischer Schaden (das „+X bei kritischem Treffer" auf Items) deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen. Chance und Schaden sind zwei verschiedene Werte.</p>
 
 <h2>Wann du auf Kritische baust</h2>
 <p>Kritische lohnen sich, wenn die kritische Zeile des Zaubers einen echten Bonus gibt und du die Rate hoch genug bringst, um dich darauf zu verlassen. Ein Zauber, der beim Kritischen kaum gewinnt, oder ein Build mit niedriger Rate, fährt oft besser mit festem Schaden oder Kraft. Gewichte in der Fashionista Kritische Treffer, wenn deine Schlüsselzauber es belohnen, und prüfe den Zauber, bevor du dich festlegst.</p>
@@ -215,7 +216,7 @@ GUIDES = {
 <p>Das ist der zentrale Retro-Unterschied: <strong>Flinkheit hebt deine kritische Trefferrate</strong>. In Flinkheit zu investieren senkt deinen Kritbruch, also kritiert ein Flinkheits-Build deutlich öfter. Das ist das Gegenteil vom modernen Dofus, wo Flinkheit nichts für Kritische tut. Im Retro gehört Flinkheit zum Plan, zusammen mit +Kritische Treffer aus der Ausrüstung, wenn du zuverlässige Kritische willst.</p>
 
 <h2>Die Deckelung, und der kritische Schaden</h2>
-<p>Deine Kritrate kann nicht besser als <strong>1/2</strong> werden (eine Chance von zwei), egal wie viel Flinkheit und Ausrüstung du stapelst. Darüber hinaus ist mehr Rate verschwendet. Der kritische Schadensbonus der Ausrüstung lässt deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen.</p>
+<p>Deine Kritrate kann nicht besser als <strong>1/2</strong> werden (eine Chance von eins zu zwei), egal wie viel Flinkheit und Ausrüstung du stapelst. Darüber hinaus ist mehr Rate verschwendet. Der kritische Schadensbonus der Ausrüstung lässt deine Kritischen härter treffen, ändert aber <em>nicht</em>, wie oft sie landen.</p>
 
 <h2>Wann du auf Kritische baust</h2>
 <p>Im Retro lohnen sich Kritische, wenn der zusätzliche kritische Schaden die Flinkheit und Ausrüstung wert ist, die du für eine gute Rate ausgibst. Manche Builds setzen voll auf Flinkheit für Ausweichen und Kritische; andere nehmen Kritische als Bonus auf einem Stärke- oder Glücks-Build mit. Gewichte in der Fashionista Kritische Treffer (und Flinkheit), wenn deine Waffe und Zauber den Kritischen belohnen, und lass sie sonst niedrig.</p>
