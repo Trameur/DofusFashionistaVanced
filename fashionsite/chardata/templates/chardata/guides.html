@@ -44,6 +44,8 @@
         {% endfor %}
     </div>
 
+    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.list_inline extra_class="fm-ad-inline" %}
+
     <p class="fm-guides-cta">
         {% trans "Done reading?" %}
         <a href="{% game_url 'setup' %}">{% trans "Create a project" %}</a>

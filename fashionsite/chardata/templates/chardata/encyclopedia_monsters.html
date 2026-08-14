@@ -161,5 +161,6 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
     {% else %}
     <div class="encyclopedia-monsters-meta">{{ mt.no_monsters }}</div>
     {% endif %}
+    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.list_inline extra_class="fm-ad-inline" %}
 </div>
 {% endblock %}

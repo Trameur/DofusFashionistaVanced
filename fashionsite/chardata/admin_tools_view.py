@@ -186,7 +186,7 @@ def _display_name(user):
 
 
 AD_SLOTS = ('home_top', 'footer', 'encyclopedia_inline', 'guide_inline',
-            'shared_inline', 'solution')
+            'shared_inline', 'solution', 'list_inline')
 
 
 @require_POST
