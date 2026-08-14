@@ -13007,6 +13007,26 @@ class SpellVariantTests(TestCase):
         self.assertEqual(_variant_partners(spells, 'dofus2'), {})
         self.assertEqual(_variant_partners(spells, None), {})
 
+    def test_the_buff_panel_holds_the_same_rule_as_the_turn(self):
+        # The engine refuses to cast both faces of a pair, and the "buff
+        # everything" button already picks one. A hand-set buff was the one way
+        # left to have both standing at once, and the damage table believed it.
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'templates', 'chardata', 'spells.html')
+        with open(path, encoding='utf-8') as handle:
+            markup = handle.read()
+        # Switching a face on drops its partner, in the state and on screen.
+        handler = markup.split('select.change(function(e) {', 1)[1]
+        handler = handler.split('});', 1)[0]
+        self.assertIn('turnOffLinkedPartner(spell);', handler)
+        self.assertIn("select.val() !== 'n0'", handler)
+        body = markup.split('function turnOffLinkedPartner(spell) {', 1)[1]
+        body = body.split('\n    }', 1)[0]
+        for step in ("buffState[partner.name] = 'n0';", "select.val('n0');",
+                     'recalculateBuffsForSpell(partner);'):
+            self.assertIn(step, body)
+
     def test_a_turn_never_casts_both_faces_of_a_pair(self):
         from fashionistapulp.structure import get_structure
         from chardata.spell_combo import best_turn, castable_spells

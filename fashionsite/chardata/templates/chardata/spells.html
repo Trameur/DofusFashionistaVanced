@@ -1045,6 +1045,25 @@
         }
     }
     
+    // The two faces of a spell pair share one slot in the spellbook, so only
+    // one of them can be up. The turn engine already refuses to cast both, and
+    // the "buff everything" button already picks one; a hand-set buff was the
+    // one way left to have both standing at once.
+    function linkedPartner(spell) {
+        if (!spell.is_linked) { return null; }
+        return spells[spell.is_linked[1]] || null;
+    }
+
+    function turnOffLinkedPartner(spell) {
+        var partner = linkedPartner(spell);
+        if (!partner || !isSpellBuff(partner)) { return; }
+        if (buffState[partner.name] === 'n0') { return; }
+        buffState[partner.name] = 'n0';
+        var select = buffStackForSpell[partner.name];
+        if (select) { select.val('n0'); }
+        recalculateBuffsForSpell(partner);
+    }
+
     function createStack(spell) {
         var select = $('<select class="select-stack"></select>')
         buffStackForSpell[spell.name] = select;
@@ -1067,6 +1086,9 @@
         });
         select.change(function(e) {
             buffState[spell.name] = select.val();
+            if (select.val() !== 'n0') {
+                turnOffLinkedPartner(spell);
+            }
             recalculateBuffsForSpell(spell);
             recalculateDamages();
         });
