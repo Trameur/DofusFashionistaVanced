@@ -12755,6 +12755,189 @@ class SpellVariantTests(TestCase):
                                  for name, _damage in order_bound), 12)
 
 
+class SpellReferenceTests(TestCase):
+    """The page used to know a spell's damage and nothing else: not what it
+    costs, not how far it reaches, not what the game says it does, and it left
+    out every spell that neither hurts nor buffs."""
+
+    NUMBERED = ('dofus3', 'beta', 'touch', 'retro')
+
+    def test_every_version_carries_its_class_spells(self):
+        from chardata.spell_reference import get_spell_reference
+        for version in self.NUMBERED + ('dofus2',):
+            with self.subTest(version=version):
+                classes = get_spell_reference(version)
+                self.assertGreaterEqual(len(classes), 12, version)
+                spells = [spell for block in classes.values() for spell in block]
+                self.assertGreater(len(spells), 200, version)
+                for spell in spells:
+                    self.assertTrue(spell.get('id') is not None)
+                    for language in ('en', 'fr', 'es', 'pt', 'de'):
+                        self.assertIn(language, spell['name'])
+
+    def test_a_version_with_spell_levels_states_the_cast(self):
+        from chardata.spell_reference import get_spell_reference
+        for version in self.NUMBERED:
+            with self.subTest(version=version):
+                spells = [spell
+                          for block in get_spell_reference(version).values()
+                          for spell in block]
+                with_ap = [spell for spell in spells if spell.get('ap')]
+                with_range = [spell for spell in spells if spell.get('range')]
+                self.assertGreater(len(with_ap), len(spells) / 2, version)
+                self.assertGreater(len(with_range), len(spells) / 2, version)
+                for spell in with_ap:
+                    self.assertTrue(all(cost > 0 for cost in spell['ap']
+                                        if cost is not None), spell['name'])
+
+    def test_dofus2_says_what_it_has_and_no_more(self):
+        # Its archive ships no spell level, so inventing one would be a lie.
+        from chardata.spell_reference import get_spell_reference
+        spells = [spell for block in get_spell_reference('dofus2').values()
+                  for spell in block]
+        self.assertTrue(spells)
+        self.assertFalse([spell for spell in spells if spell.get('ap')])
+        self.assertTrue([spell for spell in spells
+                         if spell['description'].get('fr')])
+
+    def test_a_damage_spell_is_tied_to_what_the_game_says(self):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spell_reference import reference_by_spell_id
+        for version in self.NUMBERED:
+            with self.subTest(version=version):
+                linked = total = 0
+                for char_class in ('Iop', 'Cra', 'Sram', 'Feca'):
+                    spells = get_damage_spells_for_version(version).get(
+                        char_class, [])
+                    reference = reference_by_spell_id(version, char_class)
+                    for spell in spells:
+                        total += 1
+                        if spell.spell_id in reference:
+                            linked += 1
+                self.assertGreater(total, 0, version)
+                self.assertEqual(linked, total, version)
+
+    def test_the_page_lists_the_spells_that_neither_hurt_nor_buff(self):
+        import json
+        import re
+        from django.contrib.auth.models import User
+        from django.test import Client
+        from chardata.models import Char
+        import pickle
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+
+        structure = get_structure('dofus3')
+        hat = next(item for item in
+                   structure.get_unique_items_by_type_and_level('Hat', 200)
+                   if not item.removed and item.ankama_id)
+        owner = User.objects.create_user('reference', 'ref@test.local',
+                                         'pw-42-solid')
+        solution = ModelResultMinimal({'hat': hat.id}, {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated', 'char_level': 200,
+            'base_stats_by_attr': {'AP': 12, 'MP': 6, 'Vitality': 0,
+                                   'Wisdom': 0, 'Strength': 300,
+                                   'Intelligence': 0, 'Chance': 0,
+                                   'Agility': 0},
+            'locked_equips': {}}, {})
+        char = Char.objects.create(
+            name='Ref', char_name='ref', char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=pickle.dumps({'vit': 1, 'str': 1}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=pickle.dumps(solution),
+            owner=owner, link_shared=True, game_version='dofus3')
+        client = Client()
+        client.force_login(owner)
+        page = client.get('/spells/%d/' % char.pk).content.decode('utf-8')
+        digests = json.loads(
+            re.search(r'var spellDigests = (\[.*?\]);\n', page, re.S).group(1))
+
+        with_reference = [d for d in digests if d.get('reference')]
+        utility = [d for d in digests
+                   if d.get('type') == 'spell' and not d.get('non_crit_dams')]
+        self.assertGreaterEqual(len(with_reference), 40)
+        self.assertGreaterEqual(len(utility), 5)
+        # Every card the reference feeds says what it costs and what it does.
+        for digest in with_reference:
+            self.assertTrue(digest['reference']['ap'], digest['name'])
+            self.assertTrue(digest['reference']['description'], digest['name'])
+        # No spell is listed twice.
+        names = [digest['name'] for digest in digests]
+        self.assertEqual(len(names), len(set(names)))
+
+    def test_the_labels_over_a_damage_block_are_translated(self):
+        # "Hit in best element", "Stack 2" and "4 MP used this turn" are built
+        # by the generator, so they are translated by shape: they read English
+        # in every language until now.
+        from django.utils import translation
+        from chardata.spells_view import _localized_aggregate_label
+        for language in ('fr', 'es', 'pt', 'de'):
+            with translation.override(language):
+                best = _localized_aggregate_label('Hit in best element')
+                stack = _localized_aggregate_label('Stack 2')
+                mp = _localized_aggregate_label('4 MP used this turn')
+                both = _localized_aggregate_label(
+                    'Stack 2 - Hit in best element')
+                with self.subTest(language=language):
+                    self.assertNotEqual(best, 'Hit in best element')
+                    self.assertNotEqual(stack, 'Stack 2')
+                    self.assertNotEqual(mp, '4 MP used this turn')
+                    self.assertIn('2', stack)
+                    self.assertIn('4', mp)
+                    self.assertIn(best, both)
+                    self.assertIn(stack, both)
+        with translation.override('en'):
+            self.assertEqual(_localized_aggregate_label('Stack 3'), 'Stack 3')
+
+    def test_every_label_the_generator_writes_has_a_translation(self):
+        from django.utils import translation
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spells_view import _localized_aggregate_label
+        labels = set()
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            for bucket in get_damage_spells_for_version(version).values():
+                for spell in bucket:
+                    for label, _indexes in (
+                            spell.get_effects_digest().aggregates or []):
+                        if label:
+                            labels.add(label)
+        self.assertTrue(labels)
+        with translation.override('fr'):
+            untranslated = sorted(label for label in labels
+                                  if _localized_aggregate_label(label) == label)
+        self.assertEqual(untranslated, [])
+
+    def test_the_weapon_row_carries_the_same_numbers(self):
+        from chardata.spells_view import _create_weapon_web_digest
+        from fashionistapulp.dofus_constants import DAMAGE_TYPES, BaseDamage
+
+        # The digest reads one row list per element the weapon could be maged to.
+        plain = {element: [BaseDamage(20, 30, 'earth')]
+                 for element in DAMAGE_TYPES}
+        critical = {element: [BaseDamage(25, 35, 'earth')]
+                    for element in DAMAGE_TYPES}
+
+        class _Weapon(object):
+            is_mageable = False
+            localized_name = 'Test Blade'
+            name = 'Test Blade'
+            type = 'Weapon'
+            level = 100
+            ap = 4
+            uses_per_turn = 2
+            crit_chance = 30
+            weapon_type = 'Dagger'
+            non_crit_hits = plain
+            crit_hits = critical
+
+        digest = _create_weapon_web_digest(_Weapon())
+        self.assertEqual(digest['reference']['ap'], [4])
+        self.assertEqual(digest['reference']['per_turn'], [2])
+        self.assertEqual(digest['reference']['crit'], [30])
+
+
 class WeaponEffectRowTests(TestCase):
     """A weapon row that pulls the target or takes its AP is not damage. The
     page summed it into the damage line and printed NaN on 125 weapons."""

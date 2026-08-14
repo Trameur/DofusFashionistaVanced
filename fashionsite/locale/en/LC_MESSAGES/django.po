@@ -6008,3 +6008,30 @@ msgstr ""
 #: .\chardata\templates\chardata\encyclopedia_item.html:32
 msgid "Breadcrumb"
 msgstr ""
+
+msgid "Boosts"
+msgstr "Boosts"
+
+msgid "Utility"
+msgstr "Utility"
+
+msgid "per turn"
+msgstr "per turn"
+
+msgid "per target"
+msgstr "per target"
+
+msgid "Cooldown"
+msgstr "Cooldown"
+
+msgid "crit"
+msgstr "crit"
+
+msgid "Hit in best element"
+msgstr "Hit in best element"
+
+msgid "%(count)s MP used this turn"
+msgstr "%(count)s MP used this turn"
+
+msgid "Stack %(count)s"
+msgstr "Stack %(count)s"

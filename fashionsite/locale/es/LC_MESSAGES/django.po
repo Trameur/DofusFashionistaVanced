@@ -6557,3 +6557,30 @@ msgstr "Lo que hace %(spell)s"
 #: .\chardata\templates\chardata\encyclopedia_item.html:32
 msgid "Breadcrumb"
 msgstr "Ruta de navegación"
+
+msgid "Boosts"
+msgstr "Mejoras"
+
+msgid "Utility"
+msgstr "Utilidad"
+
+msgid "per turn"
+msgstr "por turno"
+
+msgid "per target"
+msgstr "por objetivo"
+
+msgid "Cooldown"
+msgstr "Reutilización"
+
+msgid "crit"
+msgstr "GC"
+
+msgid "Hit in best element"
+msgstr "Golpe en el mejor elemento"
+
+msgid "%(count)s MP used this turn"
+msgstr "%(count)s PM usados este turno"
+
+msgid "Stack %(count)s"
+msgstr "Acumulación %(count)s"

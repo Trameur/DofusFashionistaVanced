@@ -229,6 +229,10 @@ def main() -> None:
         # Needs the archive the patch replaced, so it runs on whatever is under
         # raw/ and is a no-op with a single one.
         step("spells/duplicates", [PY, "-m", "itemscraper.find_duplicated_damage_rows"])
+        step("spells/reference", [
+            PY, "itemscraper/store_spell_reference.py",
+            "--game-version", "dofus3",
+        ])
         step("spells/constants", [
             PY, "-m", "itemscraper.generate_damage_spells",
             "--class-json", "itemscraper/transformed_class_spells.json",

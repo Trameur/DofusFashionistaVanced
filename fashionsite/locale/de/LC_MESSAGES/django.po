@@ -6564,3 +6564,30 @@ msgstr "Was %(spell)s bewirkt"
 #: .\chardata\templates\chardata\encyclopedia_item.html:32
 msgid "Breadcrumb"
 msgstr "Brotkrumennavigation"
+
+msgid "Boosts"
+msgstr "Buffs"
+
+msgid "Utility"
+msgstr "Hilfszauber"
+
+msgid "per turn"
+msgstr "pro Runde"
+
+msgid "per target"
+msgstr "pro Ziel"
+
+msgid "Cooldown"
+msgstr "Abklingzeit"
+
+msgid "crit"
+msgstr "KT"
+
+msgid "Hit in best element"
+msgstr "Treffer im besten Element"
+
+msgid "%(count)s MP used this turn"
+msgstr "%(count)s BP in dieser Runde verbraucht"
+
+msgid "Stack %(count)s"
+msgstr "Stapel %(count)s"

@@ -244,6 +244,12 @@ def main() -> None:
         # for this version. The committed DAMAGE_SPELLS block is the 2.73
         # content Dofus 3 launched with, with spell ids injected from the
         # archive names (see dofus_constants_dofus2.py header).
+        # The archive does name every class spell and describe it, which is
+        # what the reference carries; the numbers stay empty for this version.
+        step("spells/reference", [
+            PY, "itemscraper/store_spell_reference.py",
+            "--game-version", "dofus2",
+        ])
         # Monster drops -> item_drops / monster_names in items_dofus2.db (encyclopedia "Dropped by").
         step("drops/transform", [
             PY, "get_monsters.py",

@@ -301,6 +301,10 @@ def main() -> None:
         PY, "store_item_corrections.py", "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
 
+    step("spells/reference", [
+        PY, "itemscraper/store_spell_reference.py",
+        "--game-version", "retro",
+    ])
     step("spells/decode", [
         PY, "get_spells_retro.py",
         "--raw-dir", RETRO_RAW_DIR,

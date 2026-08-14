@@ -246,6 +246,10 @@ def emit_module(by_class, spell_names, path):
                 tail.append("stacks=%d" % s['stacks'])
             if s.get('casting'):
                 tail.append("casting=%s" % json.dumps(s['casting'], sort_keys=True))
+            # The id ties the spell to what the game says about it, in
+            # chardata/spell_reference/touch.json.
+            if s.get('id') is not None:
+                tail.append("spell_id=%d" % s['id'])
             lines.append("        )%s)," % (", " + ", ".join(tail) if tail else ""))
         lines.append("    ],")
     lines.append("    'default': [],")

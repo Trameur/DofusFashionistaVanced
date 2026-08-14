@@ -244,6 +244,10 @@ def main() -> None:
             "--class-output", "itemscraper/transformed_class_spells_beta.json",
         ])
         step("spells/duplicates", [PY, "-m", "itemscraper.find_duplicated_damage_rows"])
+        step("spells/reference", [
+            PY, "itemscraper/store_spell_reference.py",
+            "--game-version", "beta",
+        ])
         step("spells/constants", [
             PY, "-m", "itemscraper.generate_damage_spells",
             "--class-json", "itemscraper/transformed_class_spells_beta.json",

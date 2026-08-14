@@ -86,6 +86,10 @@
                             {% trans "Str" %}
                         </button>
                         <button id="other-filter" class="button-generic filter-button">{% trans "Others" %}</button>
+                        <span class="filter-group-break"></span>
+                        <button id="damage-family-filter" class="button-generic filter-button">{% trans "Damage" %}</button>
+                        <button id="buff-family-filter" class="button-generic filter-button">{% trans "Boosts" %}</button>
+                        <button id="utility-family-filter" class="button-generic filter-button">{% trans "Utility" %}</button>
                     </div>
                 </td>
             </tr>
@@ -115,6 +119,7 @@
     var spellFallbackImg = "{% static 'chardata/QuestionMark-lighttheme.png' %}";
     var spells;
     var cells = {}
+    var metaCells = {};
     var buffsForSpell = {};
     var buffState = {};
     var buffStackForSpell = {};
@@ -124,7 +129,94 @@
     var chaFilter = false;
     var strFilter = false;
     var othersFilter = false;
-   
+    // The three families a spell can belong to. A spell that hurts and buffs
+    // shows as long as one of its families is on.
+    var hideDamageFamily = false;
+    var hideBuffFamily = false;
+    var hideUtilityFamily = false;
+    // Retro states a critical rate as the X of 1/X, everywhere else it is a
+    // percentage.
+    var CRIT_IS_FRACTION = {{ crit_is_fraction|yesno:"true,false" }};
+
+    function spellDealsDamage(spell) {
+        var rows = spell.non_crit_dams || spell.crit_dams;
+        if (!rows || !rows.length) {
+            return false;
+        }
+        var found = false;
+        $.each(rows[0], function(i, hit) {
+            // A base of 0 still prints a damage line: the flat damage of the
+            // gear lands on it, which is the whole point of a Dofus effect.
+            if (hit.element.indexOf('buff') === -1
+                    && !NON_DAMAGE_ELEMENTS[hit.element]) {
+                found = true;
+            }
+        });
+        return found;
+    }
+
+    function spellFamilyShown(spell) {
+        if (spell.type != 'spell') {
+            return true;
+        }
+        var damage = spellDealsDamage(spell);
+        var buff = isSpellBuff(spell);
+        if (damage && !hideDamageFamily) {
+            return true;
+        }
+        if (buff && !hideBuffFamily) {
+            return true;
+        }
+        if (!damage && !buff && !hideUtilityFamily) {
+            return true;
+        }
+        return false;
+    }
+
+    function rankValue(list, spell) {
+        if (!list || !list.length) {
+            return null;
+        }
+        var rank = spellLevel[spell.name] || 0;
+        return list[Math.min(rank, list.length - 1)];
+    }
+
+    function referenceLine(spell) {
+        var reference = spell.reference;
+        if (!reference) {
+            return '';
+        }
+        var parts = [];
+        var ap = rankValue(reference.ap, spell);
+        if (ap) {
+            parts.push(ap + ' {% trans "AP" %}');
+        }
+        var range = rankValue(reference.range, spell);
+        if (range && (range[0] || range[1])) {
+            parts.push('{% trans "Range" %} '
+                       + (range[0] === range[1] ? range[0]
+                          : range[0] + '-' + range[1]));
+        }
+        var perTurn = rankValue(reference.per_turn, spell);
+        if (perTurn) {
+            parts.push(perTurn + ' {% trans "per turn" %}');
+        }
+        var perTarget = rankValue(reference.per_target, spell);
+        if (perTarget) {
+            parts.push(perTarget + ' {% trans "per target" %}');
+        }
+        var cooldown = rankValue(reference.cooldown, spell);
+        if (cooldown) {
+            parts.push('{% trans "Cooldown" %} ' + cooldown);
+        }
+        var crit = rankValue(reference.crit, spell);
+        if (crit) {
+            parts.push((CRIT_IS_FRACTION ? '1/' + crit : crit + '%')
+                       + ' {% trans "crit" %}');
+        }
+        return parts.join(' · ');
+    }
+
     function checkElement(spell, element){
         notEle = true;
         if (spell.crit_dams != null) {
@@ -151,6 +243,9 @@
 
     function checkIfSpellToDisplay(spell){
         if (spell == null) {
+            return false;
+        }
+        if (!spellFamilyShown(spell)) {
             return false;
         }
         if (levelFilter){
@@ -334,16 +429,37 @@
 
         if (spell.type == 'weapon'){
             inner_title_cell.append("{% trans 'Level' %}: ");
-            
+
             inner_title_cell.append(spell.level);
         }
-        
+        // What the cast costs and how often the game allows it, filled in with
+        // the rank the reader picked.
+        if (spell.reference) {
+            var meta = $("<div class='spell-meta'></div>");
+            inner_title_cell.append(meta);
+            metaCells[spell.name] = meta;
+        }
+
         return table;
     }
 
     function createContent(spell, header) {
         var table = $("<table width='100%'></table>");
-        
+
+        // The game's own words about the spell, above its numbers.
+        if (spell.reference && spell.reference.description) {
+            var line_description = $("<tr></tr>");
+            var description_cell = $("<td class='spell-description'></td>");
+            description_cell.text(spell.reference.description);
+            line_description.append(description_cell);
+            table.append(line_description);
+        }
+        // A spell that neither hurts nor buffs has no damage table at all.
+        if (!spell.non_crit_dams && !spell.crit_dams) {
+            header.append(createDots(spell));
+            return table;
+        }
+
         var line_non_crit = $("<tr class='normal-hit-line'></tr>");
         var non_crit_cell = $("<td class='normal-hit-cell'></td>");
         
@@ -806,6 +922,10 @@
     
     function isSpellBuff(spell) {
         var isBuff = false;
+        // A spell that neither hurts nor buffs carries no damage table at all.
+        if (!spell.non_crit_dams) {
+            return false;
+        }
         $.each(spell.non_crit_dams[0], function(i, effect) {
             if (effect.element.indexOf("buff") != -1) {
                 isBuff = true;
@@ -961,11 +1081,15 @@
     }
     
     function setCellContent(spell) {
+        var metaCell = metaCells[spell.name];
+        if (metaCell) {
+            metaCell.text(referenceLine(spell));
+        }
         var cellsForSpell = cells[spell.name];
         if (!cellsForSpell) {
             return;
         }
-        
+
         var non_crit_cell = cellsForSpell.nonCrit;
         var crit_title_cell = cellsForSpell.critTitle;
         var crit_hit_cell = cellsForSpell.crit;
@@ -1382,6 +1506,23 @@
             }
             reloadSpells();
         });
+        function familyFilter(id, read, write) {
+            $(id).on('click', function() {
+                var hidden = !read();
+                write(hidden);
+                $(id).css('opacity', hidden ? '0.5' : '1');
+                reloadSpells();
+            });
+        }
+        familyFilter("#damage-family-filter",
+                     function() { return hideDamageFamily; },
+                     function(value) { hideDamageFamily = value; });
+        familyFilter("#buff-family-filter",
+                     function() { return hideBuffFamily; },
+                     function(value) { hideBuffFamily = value; });
+        familyFilter("#utility-family-filter",
+                     function() { return hideUtilityFamily; },
+                     function(value) { hideUtilityFamily = value; });
     });
 </script>    
 {% endblock %}

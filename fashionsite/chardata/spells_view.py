@@ -23,6 +23,7 @@ from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spell_localization import get_localized_spell_name
+from chardata.spell_reference import localized, reference_by_spell_id
 from chardata.util import set_response, get_char_or_raise
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -35,6 +36,7 @@ from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL,
                                              NON_ELEMENTAL_HIT_TYPES)
 
 import jsonpickle
+import re
 
 def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     char_class = char.char_class
@@ -53,9 +55,19 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     game_version = getattr(request, 'game_version', 'dofus3')
     spells_by_class = get_damage_spells_for_version(game_version)
     class_spells = spells_by_class.get(char_class, [])
+    reference = reference_by_spell_id(game_version, char_class)
     for spell in class_spells + spells_by_class.get('default', []):
         web_digest = _create_spell_web_digest(spell, game_version)
+        entry = reference.get(getattr(spell, 'spell_id', None))
+        if entry is not None:
+            web_digest['reference'] = _reference_digest(entry)
         digests.append(web_digest)
+    # The spells the class has that neither hurt nor buff: they were missing
+    # from the page entirely.
+    shown = {getattr(spell, 'spell_id', None) for spell in class_spells}
+    for spell_id, entry in reference.items():
+        if spell_id not in shown:
+            digests.append(_create_reference_web_digest(entry, game_version))
     digests_json = jsonpickle.encode(digests, unpicklable=False)
     stats_json = jsonpickle.encode(solution.get_stats_total(), unpicklable=False)
     return set_response(request, 
@@ -71,10 +83,52 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                              list(NON_ELEMENTAL_HIT_TYPES), unpicklable=False),
                          'char_id': char_id,
                          'char_level': char.level,
+                         # Retro states a critical rate as the X of 1/X.
+                         'crit_is_fraction': game_version == 'retro',
                          'char_stats_json': stats_json,
                          'best_combo': _best_combo(char, solution, game_version),
                          'no_class_spells': len(class_spells) == 0},
                         char)
+
+def _reference_digest(entry):
+    """What the game says about a spell, in the reader's language."""
+    language = get_supported_language()
+    return {'description': localized(entry, 'description', language),
+            'kind': localized(entry, 'kind', language),
+            'ap': entry.get('ap'),
+            'range': entry.get('range'),
+            'per_turn': entry.get('per_turn'),
+            'per_target': entry.get('per_target'),
+            'cooldown': entry.get('cooldown'),
+            'crit': entry.get('crit')}
+
+
+def _create_reference_web_digest(entry, game_version):
+    """A spell that neither hurts nor buffs: the page still lists it, with what
+    the game says and no damage table."""
+    language = get_supported_language()
+    name = localized(entry, 'name', language)
+    return {'type': 'spell',
+            'name': name,
+            'canonical': name,
+            'level': entry.get('levels') or [1],
+            'stacks': None,
+            'image_url': _spell_image_url(_reference_icon_name(entry, name),
+                                          game_version),
+            'hit_number': 0,
+            'non_crit_dams': None,
+            'crit_dams': None,
+            'aggregates': None,
+            'is_linked': None,
+            'special': None,
+            'buff_scaling': None,
+            'reference': _reference_digest(entry)}
+
+
+def _reference_icon_name(entry, shown_name):
+    """The icon file is named after the English spell name."""
+    return localized(entry, 'name', 'en') or shown_name
+
 
 def _create_weapon_web_digest(weapon):
     web_digest = {}
@@ -86,6 +140,18 @@ def _create_weapon_web_digest(weapon):
     web_digest['name'] = weapon.localized_name
     web_digest['level'] = weapon.level
     web_digest['image_url'] = static(get_image_url(weapon.type, weapon.name))
+    # The same numbers the spells carry, so a weapon can be read beside them.
+    web_digest['reference'] = {
+        'description': '',
+        'kind': getattr(weapon, 'weapon_type', '') or '',
+        'ap': [weapon.ap] if getattr(weapon, 'ap', None) else None,
+        'range': None,
+        'per_turn': ([weapon.uses_per_turn]
+                     if getattr(weapon, 'uses_per_turn', None) else None),
+        'per_target': None,
+        'cooldown': None,
+        'crit': ([weapon.crit_chance]
+                 if getattr(weapon, 'crit_chance', None) else None)}
     web_digest['hit_number'] = len(weapon.non_crit_hits)
     web_digest['non_crit_dams'] = _convert_weapon_damage(weapon.non_crit_hits)
     web_digest['crit_dams'] = _convert_weapon_damage(weapon.crit_hits)
@@ -307,6 +373,29 @@ def _convert_weapon_damage(base):
     return actual_damages
     
 
+_BEST_ELEMENT = 'Hit in best element'
+_STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
+_MP_LABEL = re.compile(r'^(\d+) MP used this turn$')
+
+
+def _localized_aggregate_label(label):
+    """The generator writes these labels in English and builds them by hand,
+    so they are translated by shape rather than one msgid per number."""
+    if label == _BEST_ELEMENT:
+        return _('Hit in best element')
+    match = _MP_LABEL.match(label)
+    if match:
+        return _('%(count)s MP used this turn') % {'count': match.group(1)}
+    match = _STACK_LABEL.match(label)
+    if match:
+        stack = _('Stack %(count)s') % {'count': match.group(1)}
+        rest = match.group(2)
+        if rest:
+            return '%s - %s' % (stack, _localized_aggregate_label(rest))
+        return stack
+    return _(label)
+
+
 def convert_aggregates(aggregates):
     if aggregates is None:
         return None
@@ -315,7 +404,7 @@ def convert_aggregates(aggregates):
         lis = []
         for ele in tup:
             if isinstance(ele, str) and ele != '':
-                lis.append(_(ele))
+                lis.append(_localized_aggregate_label(ele))
             else:
                 lis.append(ele)
         new_aggr.append(lis)

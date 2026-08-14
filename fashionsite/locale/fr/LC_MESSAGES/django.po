@@ -6601,3 +6601,30 @@ msgstr "Ce que fait %(spell)s"
 #: .\chardata\templates\chardata\encyclopedia_item.html:32
 msgid "Breadcrumb"
 msgstr "Fil d’Ariane"
+
+msgid "Boosts"
+msgstr "Boosts"
+
+msgid "Utility"
+msgstr "Utilitaires"
+
+msgid "per turn"
+msgstr "par tour"
+
+msgid "per target"
+msgstr "par cible"
+
+msgid "Cooldown"
+msgstr "Relance"
+
+msgid "crit"
+msgstr "CC"
+
+msgid "Hit in best element"
+msgstr "Coup dans le meilleur élément"
+
+msgid "%(count)s MP used this turn"
+msgstr "%(count)s PM utilisés ce tour"
+
+msgid "Stack %(count)s"
+msgstr "Cumul %(count)s"

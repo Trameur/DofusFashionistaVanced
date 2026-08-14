@@ -179,11 +179,16 @@ def emit_module(by_class, spell_names, path):
             lines.append("            %s," % json.dumps(s['non_crit_ranges']))
             lines.append("            %s," % json.dumps(s['crit_ranges']))
             lines.append("            [%s]," % elems)
+            # The id ties the spell to what the game says about it, in
+            # chardata/spell_reference/retro.json.
+            tail = []
             if s.get('casting'):
-                lines.append("        ), casting=%s),"
-                             % json.dumps(s['casting'], sort_keys=True))
-            else:
-                lines.append("        )),")
+                tail.append("casting=%s" % json.dumps(s['casting'],
+                                                      sort_keys=True))
+            if s.get('id') is not None:
+                tail.append("spell_id=%d" % s['id'])
+            lines.append("        )%s)," % (', ' + ', '.join(tail) if tail
+                                            else ''))
         lines.append("    ],")
     lines.append("    'default': [],")
     lines.append("}")

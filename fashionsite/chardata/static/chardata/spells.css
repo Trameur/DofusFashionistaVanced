@@ -303,3 +303,25 @@
         width: 4.5em;
     }
 }
+
+.spell-meta {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-top: 2px;
+    line-height: 1.35;
+    /* The rank dots sit bottom right of the same header. */
+    padding-right: 26px;
+}
+
+.spell-description {
+    font-size: 12.5px;
+    line-height: 1.4;
+    opacity: 0.85;
+    padding: 4px 6px 6px 6px;
+    white-space: pre-line;
+}
+
+.filter-group-break {
+    display: inline-block;
+    width: 12px;
+}

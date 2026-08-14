@@ -213,6 +213,10 @@ def main() -> None:
 
     # Damage spells per class -> dofus_constants_touch_spells.py (independent of items).
     step("spells/build", [PY, "get_spells_touch.py"], cwd=ITEMSCRAPER)
+    step("spells/reference", [
+        PY, "itemscraper/store_spell_reference.py",
+        "--game-version", "touch",
+    ])
 
     if not args.skip_images:
         step("item-images", [PY, "download_touch_images.py", "--raw-dir", TOUCH_RAW_DIR],

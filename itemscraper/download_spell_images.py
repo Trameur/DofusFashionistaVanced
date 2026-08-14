@@ -34,7 +34,7 @@ DEFAULT_STATIC_SPELLS = Path("fashionsite/chardata/static/chardata/spells")
 DEFAULT_STATICFILES_SPELLS = Path("fashionsite/staticfiles/chardata/spells")
 DEFAULT_CONSTANTS_PATH = Path("fashionistapulp/fashionistapulp/dofus_constants.py")
 AVAILABLE_SIZES = ("48", "96")
-AVAILABLE_SCOPES = ("damage", "all")
+AVAILABLE_SCOPES = ("damage", "class", "all")
 DEFAULT_SCOPE = "damage"
 INVALID_FILENAME_CHARS = re.compile(r'[<>:"/\\|?*\x00-\x1f]')
 WHITESPACE_RE = re.compile(r"\s+")
@@ -119,7 +119,7 @@ def parse_args() -> argparse.Namespace:
         "--scope",
         choices=AVAILABLE_SCOPES,
         default=DEFAULT_SCOPE,
-        help="Which spells to copy: 'damage' (class + default DAMAGE_SPELLS) or 'all'.",
+        help="Which spells to copy: 'damage' (the DAMAGE_SPELLS), 'class' (every class spell the page lists) or 'all' (every spell in the game, monsters included).",
     )
     parser.add_argument(
         "--overwrite",
@@ -261,10 +261,30 @@ def load_damage_spell_names(constants_path: Path) -> Set[str]:
     return names
 
 
-def filter_spell_records(records: Sequence[SpellIconRecord], scope: str, constants_path: Path) -> List[SpellIconRecord]:
+def load_class_spell_names(game_version: str) -> Set[str]:
+    """Every class spell the version has, from the spell reference the page
+    reads: the damage ones plus the spells that only move or protect."""
+    path = (Path("fashionsite") / "chardata" / "spell_reference"
+            / ("%s.json" % game_version))
+    if not path.exists():
+        return set()
+    with path.open(encoding="utf-8") as handle:
+        classes = json.load(handle)
+    return {(spell.get("name") or {}).get("en", "").casefold()
+            for block in classes.values() for spell in block
+            if (spell.get("name") or {}).get("en")}
+
+
+def filter_spell_records(records: Sequence[SpellIconRecord], scope: str,
+                         constants_path: Path,
+                         game_version: str = "dofus3") -> List[SpellIconRecord]:
     if scope == "all":
         return list(records)
     allowed_names = load_damage_spell_names(constants_path)
+    if scope == "class":
+        # The whole class book, not only what deals damage. 'all' would drag in
+        # every monster spell: 10000 icons and 130 MB.
+        allowed_names = allowed_names | load_class_spell_names(game_version)
     filtered = [record for record in records if record.english_name.casefold() in allowed_names]
     if not filtered:
         raise ValueError("No spell images matched the DAMAGE_SPELLS selection")
@@ -365,7 +385,8 @@ def main() -> int:
     print(f"Extracted {written} spell icons (skipped {skipped}) from {raw_dir.name} -> {source_dir}")
 
     records = load_spell_metadata(args.metadata)
-    scoped_records = filter_spell_records(records, args.scope, args.constants)
+    scoped_records = filter_spell_records(records, args.scope, args.constants,
+                                         getattr(args, "game_version", "dofus3"))
     unique_records, dropped = dedupe_spell_records(scoped_records)
     if dropped:
         print(f"Skipped {len(dropped)} duplicate spell names (keeping the first occurrence).")
