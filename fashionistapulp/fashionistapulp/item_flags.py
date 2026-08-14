@@ -21,7 +21,7 @@ from django.utils.translation import gettext as _
 
 _ICONS = {'Hunting Weapon': 'chardata/hunting_weapon.png'}
 
-_LABELS = ('Hunting Weapon')
+_LABELS = ('Hunting Weapon',)
 
 
 def flag_lines(flags):

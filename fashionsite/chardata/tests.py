@@ -5435,26 +5435,27 @@ class ItemFlagTests(SimpleTestCase):
 
     def test_every_shown_flag_is_translated_everywhere(self):
         from django.utils import translation as django_translation
-        from fashionistapulp.item_flags import flag_lines
-        flags = ['Hunting Weapon', 'Linked to the character',
-                 'Cooperative crafting impossible']
+        from fashionistapulp.item_flags import _LABELS, flag_lines
         expected = {
-            'en': ['Hunting Weapon', 'Linked to the character',
-                   'Cooperative crafting impossible'],
-            'fr': ['Arme de chasse', 'Lié au personnage',
-                   'Craft coopératif impossible'],
-            'es': ['Arma de caza', 'Vinculado al personaje',
-                   'Fabricación cooperativa imposible'],
-            'pt': ['Arma de caça', 'Vinculado ao personagem',
-                   'Fabricação cooperativa impossível'],
-            'de': ['Jagdwaffe', 'Mit dem Charakter verknüpft',
-                   'Kooperatives Handwerk nicht möglich'],
+            'en': ['Hunting Weapon'],
+            'fr': ['Arme de chasse'],
+            'es': ['Arma de caza'],
+            'pt': ['Arma de caça'],
+            'de': ['Jagdwaffe'],
         }
+        self.assertEqual(sorted(_LABELS), sorted(expected['en']),
+                         'a shown flag has no expected translation here')
         for language, labels in expected.items():
             with self.subTest(language=language):
                 with django_translation.override(language):
                     self.assertEqual(
-                        labels, [label for label, _icon in flag_lines(flags)])
+                        labels,
+                        [label for label, _icon in flag_lines(list(_LABELS))])
+
+    def test_the_lines_a_gear_optimiser_does_not_need_are_dropped(self):
+        from fashionistapulp.item_flags import flag_lines
+        self.assertEqual([], flag_lines(['Linked to the character',
+                                         'Cooperative crafting impossible']))
 
     def test_the_slot_marker_is_not_a_line_to_read(self):
         from fashionistapulp.item_flags import flag_lines
@@ -13330,6 +13331,35 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                 with self.subTest(version=version, item=name):
                     self.assertIn(ankama_id, allowed,
                                   '%s gives %s AP or MP' % (name, value))
+
+
+class PinnedDependenciesAgreeTests(SimpleTestCase):
+    """boto3 requires the botocore of its own version, so a bump that lifts one
+    and not the other stops the Docker build before the image is even built.
+    It happened on the 14/08 deploy: boto3 1.43.61 with botocore 1.43.51."""
+
+    FILES = ('requirements.txt', 'requirements-docker.txt',
+             'requirements_aws.txt', 'requirements_win.txt')
+    PIN = re.compile(r'^([A-Za-z0-9._-]+)==([^\s#]+)', re.M)
+
+    def test_boto3_and_botocore_are_pinned_together(self):
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        checked = 0
+        for name in self.FILES:
+            path = os.path.join(repo_root, name)
+            if not os.path.exists(path):
+                continue
+            with open(path, encoding='utf-8') as fh:
+                pins = dict(self.PIN.findall(fh.read()))
+            if 'boto3' not in pins or 'botocore' not in pins:
+                continue
+            checked += 1
+            with self.subTest(requirements=name):
+                self.assertEqual(pins['boto3'], pins['botocore'],
+                                 '%s pins boto3 %s with botocore %s'
+                                 % (name, pins['boto3'], pins['botocore']))
+        self.assertTrue(checked, 'no requirements file pins both packages')
 
 
 class NoEmDashInCodeTests(SimpleTestCase):
