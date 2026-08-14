@@ -149,6 +149,21 @@ def _spell_image_url(spell_name, game_version):
     return static(spell_dir + spell_name + '.png')
 
 
+def _weapon_castable(solution):
+    """The equipped weapon as one more thing the turn can spend its AP on."""
+    from chardata.spell_combo import WeaponCastable
+    weapons = (getattr(solution, 'items', None) or {}).get('Weapon') or []
+    if not weapons:
+        return None
+    weapon = weapons[0]
+    if not weapon.item_added or not hasattr(weapon, 'non_crit_hits'):
+        return None
+    if not getattr(weapon, 'ap', 0):
+        return None
+    castable = WeaponCastable(weapon)
+    return castable if castable.alternatives else None
+
+
 def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force,
@@ -162,6 +177,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     ap = combat_ap(stats.get('ap'), game_version)
     spells = castable_spells(char.char_class, char.level, game_version,
                              levels=levels)
+    weapon = _weapon_castable(solution)
+    if weapon is not None:
+        spells = spells + [weapon]
     if not ap or not spells:
         return None
     standing = stacks_in_force(char.char_class, char.level, game_version,
@@ -175,9 +193,17 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     running = 0
     for name, damage in order:
         running += damage
-        casts.append({'name': _localized_spell_name(name, language, game_version),
-                      'image_url': _spell_image_url(name, game_version),
-                      'ap': by_name[name].cost,
+        castable = by_name[name]
+        if castable.is_spell:
+            shown_name = _localized_spell_name(name, language, game_version)
+            image_url = _spell_image_url(name, game_version)
+        else:
+            shown_name = castable.weapon.localized_name
+            image_url = static(get_image_url(castable.weapon.type,
+                                             castable.weapon.name))
+        casts.append({'name': shown_name,
+                      'image_url': image_url,
+                      'ap': castable.cost,
                       'damage': int(round(damage)),
                       'running': int(round(running))})
     return {'casts': casts,

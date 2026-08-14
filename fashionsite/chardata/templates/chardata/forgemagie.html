@@ -1520,7 +1520,8 @@
             });
             // The hunting rune raises nothing, so it has no stat group of its
             // own, it only goes on a weapon, and it lands once for good.
-            var pending = (currentItem && currentItem.is_weapon)
+            var pending = (currentItem && currentItem.is_weapon
+                           && !currentItem.is_hunting)
                     ? noStatRunes().filter(function(rune) {
                         return !(session && session.noStat
                                  && session.noStat[rune.key]);
@@ -1839,12 +1840,6 @@
             throwsMeter.appendChild(throwsValue);
             simMeters.appendChild(throwsMeter);
 
-            if (session.noStat && session.noStat.hunting) {
-                var huntingMeter = document.createElement('div');
-                huntingMeter.textContent = t.sim_is_hunting;
-                simMeters.appendChild(huntingMeter);
-            }
-
             renderQuality(document.getElementById('fm-sim-quality'),
                 session.rows.map(function(row) {
                     return {key: row.key, value: row.value, max: row.max};
@@ -1968,6 +1963,25 @@
                 tr.appendChild(remainingTd);
 
                 simRowsBody.appendChild(tr);
+            });
+
+            // A landed hunting rune reads as the line the game writes on a
+            // hunting weapon, in the exotic colour since this one had none.
+            noStatRunes().forEach(function(rune) {
+                if (!(session.noStat && session.noStat[rune.key])) {
+                    return;
+                }
+                var line = document.createElement('tr');
+                line.className = 'fm-exo-line';
+                var nameTd = document.createElement('td');
+                nameTd.textContent = t['stat_line_' + rune.key] || rune.name;
+                line.appendChild(nameTd);
+                var stateTd = document.createElement('td');
+                stateTd.textContent = t.sim_landed;
+                line.appendChild(stateTd);
+                line.appendChild(document.createElement('td'));
+                line.appendChild(document.createElement('td'));
+                simRowsBody.appendChild(line);
             });
 
             var suggestion = suggestThrow();

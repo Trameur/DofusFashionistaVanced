@@ -12124,11 +12124,27 @@ class ATickedBuffIsAlreadyStandingTests(SimpleTestCase):
                                  stacks_in_force(char_class, 200, 'dofus3',
                                                  {'Perfidious Boomerang': 'n1'}))
 
-    def test_a_weapon_only_buff_stays_out_of_a_spell_turn(self):
-        # Weapon Skill grants buff_pow_weapon, and the turn is spells only.
-        from chardata.spell_combo import buffs_in_force
-        self.assertEqual({}, buffs_in_force('Cra', 200, 'dofus3',
-                                            {'Weapon Skill': 'n1'}))
+    def test_a_weapon_only_buff_lifts_the_weapon_and_no_spell(self):
+        # Weapon Skill grants buff_pow_weapon: +300 Power, weapons only. It used
+        # to be dropped, so a turn read the weapon unbuffed and always preferred
+        # the spells.
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import (best_turn, buffs_in_force,
+                                          castable_spells)
+        deltas = buffs_in_force('Cra', 200, 'dofus3', {'Weapon Skill': 'n1'})
+        self.assertEqual({'powweap': 300}, deltas)
+
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 300, 'agi': 300, 'int': 300, 'cha': 300})
+        spell = next(spell for spell in castable_spells('Cra', 200, 'dofus3')
+                     if spell.alternatives)
+        _item, weapon = WeaponInTheTurnTests()._weapon_with_damage()
+        plain_spell, _o1 = best_turn(stats, [spell], spell.cost)
+        plain_weapon, _o2 = best_turn(stats, [weapon], weapon.cost)
+        buffed = dict(stats, **deltas)
+        self.assertEqual(best_turn(buffed, [spell], spell.cost)[0], plain_spell)
+        self.assertGreater(best_turn(buffed, [weapon], weapon.cost)[0],
+                           plain_weapon)
 
 
 class PortalsStackTenTimesTests(SimpleTestCase):
@@ -12400,6 +12416,69 @@ class SpellComboTests(SimpleTestCase):
         for outsider in ('Burnt Pie', 'Weapon Skill', 'Perfidious Boomerang',
                          'Pestilential Fog'):
             self.assertNotIn(outsider, names)
+
+
+class WeaponInTheTurnTests(TestCase):
+    """Hitting with the weapon is part of a turn, so the combo may spend AP on
+    it. It used to be left out: castable_spells only reads the class bucket."""
+
+    def _weapon_with_damage(self, ap=4):
+        # The hits only exist on the solver's result item, so the shape is
+        # rebuilt here: {element: [rows]}, the way a maged weapon carries one
+        # list per element it could be maged to.
+        from fashionistapulp.dofus_constants import NEUTRAL, BaseDamage
+        from chardata.spell_combo import WeaponCastable
+
+        class _Weapon(object):
+            def __init__(self):
+                self.name = 'Test Blade'
+                self.localized_name = 'Test Blade'
+                self.type = 'Weapon'
+                self.ap = ap
+                self.element_maged = None
+                self.non_crit_hits = {
+                    NEUTRAL: [BaseDamage(20, 30, 'earth')]}
+                self.crit_hits = {NEUTRAL: [BaseDamage(25, 35, 'earth')]}
+
+        item = _Weapon()
+        return item, WeaponCastable(item)
+
+    def test_the_weapon_costs_the_ap_the_item_states(self):
+        item, castable = self._weapon_with_damage(ap=5)
+        self.assertEqual(castable.cost, item.ap)
+        self.assertFalse(castable.is_spell)
+        self.assertEqual(castable.buff_deltas(3), {})
+        self.assertTrue(castable.alternatives)
+
+    def test_the_weapon_is_scored_as_a_weapon_not_as_a_spell(self):
+        # % weapon damage must reach it and % spell damage must not; the two
+        # used to be the same call with is_spell hardcoded to True.
+        from chardata.spell_combo import best_turn
+        _item, castable = self._weapon_with_damage()
+        base = {'str': 300, 'int': 0, 'cha': 0, 'agi': 0, 'pow': 0, 'dam': 0,
+                'cridam': 0, 'heals': 0, 'perspedam': 0, 'perweadam': 0}
+        from fashionistapulp.structure import get_structure
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update(base)
+        plain, _order = best_turn(stats, [castable], castable.cost)
+        spell_boost = dict(stats, perspedam=100)
+        weapon_boost = dict(stats, perweadam=100)
+        self.assertEqual(best_turn(spell_boost, [castable], castable.cost)[0],
+                         plain)
+        self.assertGreater(best_turn(weapon_boost, [castable], castable.cost)[0],
+                           plain)
+
+    def test_offering_the_weapon_never_makes_the_turn_worse(self):
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import best_turn, castable_spells
+        _item, weapon = self._weapon_with_damage()
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 400, 'int': 400, 'pow': 80, 'dam': 40})
+        spells = castable_spells('Iop', 200, 'dofus3')
+        self.assertTrue(spells)
+        without, _o1 = best_turn(stats, spells, 11)
+        with_weapon, _o2 = best_turn(stats, spells + [weapon], 11)
+        self.assertGreaterEqual(with_weapon, without)
 
 
 class SpellComboPageTests(TestCase):

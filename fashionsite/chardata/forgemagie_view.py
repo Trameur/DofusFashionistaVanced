@@ -143,7 +143,8 @@ LOCALIZED_UI = {
         'quality_perfect': 'perfect',
         'quality_overperfect': 'beyond perfect',
         'sim_other_runes': 'Other runes',
-        'sim_is_hunting': 'Hunting weapon: yes',
+        'stat_line_hunting': 'Hunting Weapon',
+        'sim_landed': 'yes',
         'nostat_title': 'Runes that raise no characteristic',
         'nostat_rune': 'Rune',
         'nostat_what': 'What it does',
@@ -274,7 +275,8 @@ LOCALIZED_UI = {
         'quality_perfect': 'parfait',
         'quality_overperfect': 'plus que parfait',
         'sim_other_runes': 'Autres runes',
-        'sim_is_hunting': 'Arme de chasse : oui',
+        'stat_line_hunting': 'Arme de chasse',
+        'sim_landed': 'oui',
         'nostat_title': 'Runes qui ne montent aucune caractéristique',
         'nostat_rune': 'Rune',
         'nostat_what': 'Ce qu’elle fait',
@@ -405,7 +407,8 @@ LOCALIZED_UI = {
         'quality_perfect': 'perfecta',
         'quality_overperfect': 'más que perfecta',
         'sim_other_runes': 'Otras runas',
-        'sim_is_hunting': 'Arma de caza: sí',
+        'stat_line_hunting': 'Arma de caza',
+        'sim_landed': 'sí',
         'nostat_title': 'Runas que no suben ninguna característica',
         'nostat_rune': 'Runa',
         'nostat_what': 'Qué hace',
@@ -536,7 +539,8 @@ LOCALIZED_UI = {
         'quality_perfect': 'perfeita',
         'quality_overperfect': 'além do perfeito',
         'sim_other_runes': 'Outras runas',
-        'sim_is_hunting': 'Arma de caça: sim',
+        'stat_line_hunting': 'Arma de caça',
+        'sim_landed': 'sim',
         'nostat_title': 'Runas que não aumentam nenhum atributo',
         'nostat_rune': 'Runa',
         'nostat_what': 'O que faz',
@@ -667,7 +671,8 @@ LOCALIZED_UI = {
         'quality_perfect': 'perfekt',
         'quality_overperfect': 'besser als perfekt',
         'sim_other_runes': 'Andere Runen',
-        'sim_is_hunting': 'Jagdwaffe: ja',
+        'stat_line_hunting': 'Jagdwaffe',
+        'sim_landed': 'ja',
         'nostat_title': 'Runen, die keinen Wert erhöhen',
         'nostat_rune': 'Rune',
         'nostat_what': 'Wirkung',
@@ -971,7 +976,8 @@ def forgemagie(request):
                 'sim_improve', 'sim_improve_done',
                 'sim_mode_sim', 'sim_mode_real',
                 'sim_mode_sim_hint', 'sim_mode_real_hint',
-                'sim_other_runes', 'sim_is_hunting',
+                'sim_other_runes', 'stat_line_hunting',
+                'sim_landed',
             )
         },
         'noStatRunes': _throwable_no_stat_runes(game_version, t),
@@ -1031,9 +1037,11 @@ def _item_payload(structure, item, language, display_name=None):
         'name': display_name or structure.get_item_name_in_language(item, language),
         'level': item.level,
         'type_name': _localized_label(type_name, language),
-        # The hunting rune only goes on a weapon, and the label above is
-        # translated, so the canonical type travels with the item.
+        # The hunting rune only goes on a weapon that is not one already, and
+        # the label above is translated, so the canonical type and the flag
+        # travel with the item.
         'is_weapon': type_name == 'Weapon',
+        'is_hunting': 'Hunting Weapon' in (getattr(item, 'flags', None) or []),
         'image_url': static(get_image_url(type_name, item.name)),
         'stats': stats,
     }

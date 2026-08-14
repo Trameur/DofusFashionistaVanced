@@ -303,3 +303,13 @@
         .fm-trans-opt img { width: 28px; height: 28px; }
         .fm-trans-opt:hover { border-color: #8e24aa; }
         .fm-trans-lock { margin-top: 10px; padding: 8px 10px; border-radius: 6px; background: #ede7f6; color: #4a148c; font-weight: 600; }
+
+/* A line the item did not roll: the hunting rune writes one, and it reads in
+   the same colour as the over/exo weight above. */
+.fm-exo-line td {
+    color: #b26a00;
+    font-weight: 600;
+}
+html.fm-dark .fm-exo-line td {
+    color: #e0a458;
+}

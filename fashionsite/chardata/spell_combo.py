@@ -20,15 +20,16 @@
 
 import copy
 
-from fashionistapulp.dofus_constants import calculate_damage, get_stat_maximum
+from fashionistapulp.dofus_constants import (NEUTRAL, calculate_damage,
+                                             get_stat_maximum)
 
 from chardata.spell_buffs import (_buff_value, _decide_spell_level,
                                   get_damage_spells_for_version)
 
 MAX_CASTS = 8
 
-# The stats the site carries are gear bonuses only; this is what a character
-# starts a fight with.
+# What a character starts a fight with, for a build saved before the site
+# stored its base characteristics.
 BASE_AP = 6
 
 
@@ -65,7 +66,34 @@ def _element_alternatives(aggregates, effects):
     return run if len(run) > 1 else None
 
 
+class WeaponCastable(object):
+    """The equipped weapon, offered to the turn the way a spell is: it costs its
+    own AP and it hits. The damage formula scores it as a weapon, so % weapon
+    damage applies to it and % spell damage does not."""
+
+    is_spell = False
+    stacks = 1
+    limit = None
+
+    def __init__(self, weapon, crit=False):
+        self.weapon = weapon
+        self.name = weapon.name
+        self.cost = weapon.ap
+        rows = weapon.crit_hits if crit else weapon.non_crit_hits
+        element = getattr(weapon, 'element_maged', None) or NEUTRAL
+        hits = (rows or {}).get(element) or (rows or {}).get(NEUTRAL) or []
+        kept = [hit for hit in hits if hit.min_dam or hit.max_dam]
+        self.alternatives = [kept] if kept else []
+        self.hits = kept
+        self.buffs = []
+
+    def buff_deltas(self, count):
+        return {}
+
+
 class Castable(object):
+
+    is_spell = True
 
     def __init__(self, spell, level_index, crit):
         self.spell = spell
@@ -110,10 +138,17 @@ class Castable(object):
         capped = min(count, self.stacks)
         for effect in self.buffs:
             parts = effect.element.split('_')
-            if len(parts) > 2:  # weapon-only, glyph-only... not every hit
-                continue
             stat = parts[1]
-            value = _buff_value(self.spell.buff_scaling, stat, capped,
+            scaled_as = stat
+            if len(parts) > 2:
+                # A buff that only lifts some casts. Weapon Skill's Power is the
+                # one a turn can spend, and it goes under its own key so it
+                # reaches the weapon and no spell. Glyph-only and trap-only
+                # buffs have nothing to apply to here.
+                if parts[2] != 'weapon' or stat != 'pow':
+                    continue
+                stat = 'powweap'
+            value = _buff_value(self.spell.buff_scaling, scaled_as, capped,
                                 effect.max_dam)
             if stat == 'depow':
                 stat, value = 'pow', -value
@@ -253,13 +288,19 @@ def best_turn(stats, spells, ap, crit=False, standing=None):
             for stat, value in other.buff_deltas(reached).items():
                 gained = value - was.get(stat, 0)
                 buffed[stat] = buffed.get(stat, 0) + gained
+        # Weapon Skill lifts the weapon's Power and nothing else, the way the
+        # spells page reads it.
+        if not spell.is_spell and buffed.get('powweap'):
+            buffed['pow'] = buffed.get('pow', 0) + buffed['powweap']
         # A best-element spell is scored after the buffs: the caster picks the
         # element their gear favours.
         best_seen = 0.0
         multiplier = final_multiplier(buffed)
         for alternative in spell.alternatives:
             rows = [copy.copy(effect) for effect in alternative]
-            gained = _average(calculate_damage(rows, buffed, crit, True)) * multiplier
+            gained = (_average(calculate_damage(rows, buffed, crit,
+                                                spell.is_spell))
+                      * multiplier)
             if gained > best_seen:
                 best_seen = gained
         return best_seen
