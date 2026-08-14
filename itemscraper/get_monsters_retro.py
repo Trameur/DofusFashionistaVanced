@@ -22,7 +22,10 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-# Retro's only official languages: pt and de do not exist for it.
+# What this source publishes, not what the game has. Retro's own client files
+# carry German and Portuguese for items, sets and jobs, but solomonk.fr answers
+# only fr, en and es; the other two redirect. So the German and Portuguese
+# monster names have no source, and the encyclopedia falls back to English.
 LANGUAGES: Sequence[str] = ("fr", "en", "es")
 DEFAULT_OUTPUT = Path("itemscraper/transformed_drops_retro.json")
 

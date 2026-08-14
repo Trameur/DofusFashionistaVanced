@@ -313,6 +313,12 @@ msgstr "(Repousse en cases)"
 msgid "(Steals MP)"
 msgstr "(Vole PM)"
 
+msgid "(removes mp)"
+msgstr "(retire PM)"
+
+msgid "(removes ap)"
+msgstr "(retire PA)"
+
 #: .\chardata\dynamic_translations.py:40
 msgid "(Steals kamas)"
 msgstr "(Vole des kamas)"

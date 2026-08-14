@@ -312,6 +312,12 @@ msgstr "(Empuja en casillas)"
 msgid "(Steals MP)"
 msgstr "(Roba PM)"
 
+msgid "(removes mp)"
+msgstr "(quita PM)"
+
+msgid "(removes ap)"
+msgstr "(quita PA)"
+
 #: .\chardata\dynamic_translations.py:40
 msgid "(Steals kamas)"
 msgstr "(Roba kamas)"

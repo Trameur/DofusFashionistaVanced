@@ -224,6 +224,41 @@ class TranslationRegressionTests(SimpleTestCase):
                 self.assertEqual(gettext('Removes %(mp)d MP') % {'mp': 3}, exp,
                                  msg='Removes MP wrong for %s' % lang)
 
+    def test_the_weapon_removal_hits_are_translated(self):
+        # These two sit on a weapon's damage line, and they were the only
+        # runtime-translated data strings left in English in every language.
+        expected = {
+            '(removes ap)': {'fr': '(retire PA)', 'es': '(quita PA)',
+                             'pt': '(remove PA)', 'de': '(entzieht AP)'},
+            '(removes mp)': {'fr': '(retire PM)', 'es': '(quita PM)',
+                             'pt': '(remove PM)', 'de': '(entzieht BP)'},
+        }
+        for source, per_language in expected.items():
+            for language, want in per_language.items():
+                with translation.override(language):
+                    self.assertEqual(gettext(source), want,
+                                     msg='%s wrong for %s' % (source, language))
+
+    def test_every_runtime_translated_data_string_is_answered(self):
+        # The catalogs are what turns data into the reader's language; a blank
+        # entry shows the raw English on the page.
+        import ast
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'dynamic_translations.py')
+        with open(path, encoding='utf-8') as handle:
+            tree = ast.parse(handle.read())
+        strings = [node.args[0].value for node in ast.walk(tree)
+                   if isinstance(node, ast.Call)
+                   and getattr(node.func, 'id', '') == 'gettext_noop'
+                   and node.args and isinstance(node.args[0], ast.Constant)]
+        self.assertGreater(len(strings), 100)
+        for language in ('fr', 'es', 'pt', 'de'):
+            with translation.override(language):
+                blank = [s for s in strings if not gettext(s).strip()]
+            with self.subTest(language=language):
+                self.assertEqual(blank, [], language)
+
     def test_previously_untranslated_ui_strings(self):
         expected = {
             'Hunting Weapon': {'fr': 'Arme de chasse', 'es': 'Arma de caza',

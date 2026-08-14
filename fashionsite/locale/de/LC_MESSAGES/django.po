@@ -313,6 +313,12 @@ msgstr "(Zurückstoßen in Feldern)"
 msgid "(Steals MP)"
 msgstr "(Stiehlt BP)"
 
+msgid "(removes mp)"
+msgstr "(entzieht BP)"
+
+msgid "(removes ap)"
+msgstr "(entzieht AP)"
+
 #: .\chardata\dynamic_translations.py:40
 msgid "(Steals kamas)"
 msgstr "(Stiehlt Kamas)"

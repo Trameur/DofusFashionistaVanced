@@ -311,6 +311,12 @@ msgstr ""
 msgid "(Steals MP)"
 msgstr ""
 
+msgid "(removes mp)"
+msgstr "(removes mp)"
+
+msgid "(removes ap)"
+msgstr "(removes ap)"
+
 #: .\chardata\dynamic_translations.py:40
 msgid "(Steals kamas)"
 msgstr ""
