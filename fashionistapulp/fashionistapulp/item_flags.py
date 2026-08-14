@@ -21,11 +21,7 @@ from django.utils.translation import gettext as _
 
 _ICONS = {'Hunting Weapon': 'chardata/hunting_weapon.png'}
 
-# Left out: Trophy is a slot marker the solver uses, -special spell- only
-# announces the description shown below it, and the source writes
-# "Exchangeable: 0" on every item that carries it.
-_LABELS = ('Hunting Weapon', 'Linked to the character',
-           'Cooperative crafting impossible')
+_LABELS = ('Hunting Weapon')
 
 
 def flag_lines(flags):
