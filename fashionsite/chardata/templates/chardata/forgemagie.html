@@ -946,6 +946,7 @@
                 }),
                 sink: 0,
                 throws: 0,
+                noStat: {},
                 runesUsed: {},
                 runePrices: {},
                 itemCost: null,
@@ -1144,10 +1145,14 @@
             if (row.exo && config.onePercentExo.indexOf(row.key) !== -1) {
                 return {sc: 0.01, sn: 0, ec: 0.99};
             }
-            var pass = FM_ODDS.base
-                     * passFactorRuneLimit(row.value, tier.bonus)
-                     * passFactorFill(row, tier)
-                     * passFactorWeight();
+            // A rune that raises no line has neither a 20x limit to run into
+            // nor a roll to fill: only the weight already on the item weighs
+            // against it.
+            var lineFactors = tier.bonus
+                    ? passFactorRuneLimit(row.value, tier.bonus)
+                      * passFactorFill(row, tier)
+                    : 1;
+            var pass = FM_ODDS.base * lineFactors * passFactorWeight();
             pass = Math.max(FM_ODDS.floor, Math.min(0.98, pass));
             // Rebuilding a line the item has not even rolled naturally costs
             // nothing: those successes are mostly critical, so nothing is lost
@@ -1258,8 +1263,14 @@
             if (session && session.locked) {
                 return;
             }
-            var rowIndex = findOrCreateSessionRow(key);
-            if (wouldExceedCap(session.rows[rowIndex], tier)) {
+            // A rune that raises no stat has no line to grow and no cap to
+            // reach; it lands once and its weight is all it costs.
+            var noStat = !!noStatRune(key);
+            if (noStat && session.noStat && session.noStat[key]) {
+                return;
+            }
+            var rowIndex = noStat ? -1 : findOrCreateSessionRow(key);
+            if (!noStat && wouldExceedCap(session.rows[rowIndex], tier)) {
                 simChanceSpan.textContent =
                     t.verdict_cap.replace('%s', statInfo(key).name);
                 simChanceSpan.className = 'fm-bad';
@@ -1272,7 +1283,10 @@
             }
             simChanceSpan.className = 'small-explain';
             pushUndo();
-            var row = session.rows[rowIndex];
+            // A rune with no line behaves like one thrown on an empty stat:
+            // there is no accumulated weight on it to fight against.
+            var row = noStat ? {key: key, value: 0, max: 0, exo: false}
+                             : session.rows[rowIndex];
             var outcome = forcedOutcome;
             if (!outcome) {
                 var chances = chancesFor(row, tier);
@@ -1286,9 +1300,17 @@
             // mode we never guess them, the player edits the actual stats and
             // sink afterwards (the Now cells are editable).
             if (outcome === 'sc') {
-                row.value += tier.bonus;
+                if (noStat) {
+                    markNoStat(key);
+                } else {
+                    row.value += tier.bonus;
+                }
             } else if (outcome === 'sn') {
-                row.value += tier.bonus;
+                if (noStat) {
+                    markNoStat(key);
+                } else {
+                    row.value += tier.bonus;
+                }
                 if (!realMode) {
                     applyLoss(tier.weight, rowIndex, lost, tier.weight);
                 }
@@ -1311,6 +1333,11 @@
             }
             saveSession();
             renderSession();
+        }
+
+        function markNoStat(key) {
+            session.noStat = session.noStat || {};
+            session.noStat[key] = true;
         }
 
         // Cheapest possible throw: each time the unwanted heavy stat drops,
@@ -1491,7 +1518,37 @@
                 });
                 simRuneSelect.appendChild(group);
             });
+            // The hunting rune raises nothing, so it has no stat group of its
+            // own, it only goes on a weapon, and it lands once for good.
+            var pending = (currentItem && currentItem.is_weapon)
+                    ? noStatRunes().filter(function(rune) {
+                        return !(session && session.noStat
+                                 && session.noStat[rune.key]);
+                    })
+                    : [];
+            if (pending.length) {
+                var other = document.createElement('optgroup');
+                other.label = t.sim_other_runes;
+                pending.forEach(function(rune) {
+                    var option = document.createElement('option');
+                    option.value = 'nostat|' + rune.key;
+                    option.textContent = rune.name + ' (' + rune.weight + ')';
+                    other.appendChild(option);
+                });
+                simRuneSelect.appendChild(other);
+            }
             updateChanceDisplay();
+        }
+
+        function noStatRunes() {
+            return config.noStatRunes || [];
+        }
+
+        function noStatRune(key) {
+            var found = noStatRunes().filter(function(rune) {
+                return rune.key === key;
+            });
+            return found.length ? found[0] : null;
         }
 
         function selectedRune() {
@@ -1500,6 +1557,13 @@
                 return null;
             }
             var parts = value.split('|');
+            if (parts[0] === 'nostat') {
+                var rune = noStatRune(parts[1]);
+                return rune ? {key: rune.key, noStat: true,
+                               tier: {name: rune.name, bonus: 0,
+                                      weight: rune.weight}}
+                            : null;
+            }
             var info = statInfo(parts[0]);
             if (!info) {
                 return null;
@@ -1774,6 +1838,12 @@
             throwsValue.textContent = session.throws;
             throwsMeter.appendChild(throwsValue);
             simMeters.appendChild(throwsMeter);
+
+            if (session.noStat && session.noStat.hunting) {
+                var huntingMeter = document.createElement('div');
+                huntingMeter.textContent = t.sim_is_hunting;
+                simMeters.appendChild(huntingMeter);
+            }
 
             renderQuality(document.getElementById('fm-sim-quality'),
                 session.rows.map(function(row) {

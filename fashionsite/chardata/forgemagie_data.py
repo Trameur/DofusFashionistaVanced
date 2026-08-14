@@ -203,11 +203,11 @@ _RETRO_STATS = {
 # own item file: ankama ids 10057 and 7508 exist in the Dofus 3, beta, Dofus 2,
 # Touch and Retro data alike. The hunting rune costs 5 of weight on Dofus 3; no
 # source gives that figure for Touch or Retro, so those stay unstated.
-_HUNTING = {'key': 'hunting', 'weight': 5}
-_HUNTING_UNKNOWN = {'key': 'hunting', 'weight': None}
+_HUNTING = {'key': 'hunting', 'weight': 5, 'mageable': True}
+_HUNTING_UNKNOWN = {'key': 'hunting', 'weight': None, 'mageable': True}
 # The signature rune goes in with the ingredients at craft time and never
 # touches smithmagic, so it weighs nothing anywhere.
-_SIGNATURE = {'key': 'signature', 'weight': 0}
+_SIGNATURE = {'key': 'signature', 'weight': 0, 'mageable': False}
 
 _NO_STAT_RUNES = {
     'modern': [_HUNTING, _SIGNATURE],

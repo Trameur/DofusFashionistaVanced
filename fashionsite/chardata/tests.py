@@ -7173,6 +7173,40 @@ class NoStatRuneTests(TestCase):
                 self.assertIn('Signature Rune', body)
                 self.assertIn('Runes that raise no characteristic', body)
 
+    def test_only_the_hunting_rune_reaches_the_simulator(self):
+        # The signature rune goes in at craft time, and a weight this version
+        # does not state cannot be weighed against the item.
+        from chardata.forgemagie_view import _throwable_no_stat_runes, _ui_text
+        text = _ui_text()
+        for version in ('dofus3', 'beta', 'dofus2'):
+            with self.subTest(version=version):
+                runes = _throwable_no_stat_runes(version, text)
+                self.assertEqual([rune['key'] for rune in runes], ['hunting'])
+                self.assertEqual(runes[0]['weight'], 5)
+        for version in ('touch', 'retro'):
+            with self.subTest(version=version):
+                self.assertEqual(_throwable_no_stat_runes(version, text), [])
+
+    def test_the_page_hands_the_simulator_its_rune(self):
+        resp = self.client.get('/forgemagie/', HTTP_ACCEPT_LANGUAGE='en')
+        runes = resp.context['js_config']['noStatRunes']
+        self.assertEqual([rune['name'] for rune in runes], ['Hunting Rune'])
+
+    def test_an_item_says_whether_it_is_a_weapon(self):
+        # The type shown to the reader is translated, so the picker cannot read
+        # it to know where the hunting rune may go.
+        from fashionistapulp.structure import get_structure
+        from chardata.forgemagie_view import _item_payload
+        structure = get_structure('dofus3')
+        for type_name, expected in (('Weapon', True), ('Hat', False)):
+            item = next(item for item in
+                        structure.get_unique_items_by_type_and_level(
+                            type_name, 200)
+                        if not item.removed)
+            with self.subTest(type=type_name):
+                payload = _item_payload(structure, item, 'en')
+                self.assertEqual(payload['is_weapon'], expected)
+
     def test_only_the_versions_with_transcendence_list_its_runes(self):
         # The simulator carries the transcendence strings on every version, so
         # the box is read from the context, not from the page text.

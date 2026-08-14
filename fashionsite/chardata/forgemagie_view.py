@@ -142,6 +142,8 @@ LOCALIZED_UI = {
         'quality_amazing': 'amazing',
         'quality_perfect': 'perfect',
         'quality_overperfect': 'beyond perfect',
+        'sim_other_runes': 'Other runes',
+        'sim_is_hunting': 'Hunting weapon: yes',
         'nostat_title': 'Runes that raise no characteristic',
         'nostat_rune': 'Rune',
         'nostat_what': 'What it does',
@@ -271,6 +273,8 @@ LOCALIZED_UI = {
         'quality_amazing': 'incroyable',
         'quality_perfect': 'parfait',
         'quality_overperfect': 'plus que parfait',
+        'sim_other_runes': 'Autres runes',
+        'sim_is_hunting': 'Arme de chasse : oui',
         'nostat_title': 'Runes qui ne montent aucune caractéristique',
         'nostat_rune': 'Rune',
         'nostat_what': 'Ce qu’elle fait',
@@ -400,6 +404,8 @@ LOCALIZED_UI = {
         'quality_amazing': 'increíble',
         'quality_perfect': 'perfecta',
         'quality_overperfect': 'más que perfecta',
+        'sim_other_runes': 'Otras runas',
+        'sim_is_hunting': 'Arma de caza: sí',
         'nostat_title': 'Runas que no suben ninguna característica',
         'nostat_rune': 'Runa',
         'nostat_what': 'Qué hace',
@@ -529,6 +535,8 @@ LOCALIZED_UI = {
         'quality_amazing': 'incrível',
         'quality_perfect': 'perfeita',
         'quality_overperfect': 'além do perfeito',
+        'sim_other_runes': 'Outras runas',
+        'sim_is_hunting': 'Arma de caça: sim',
         'nostat_title': 'Runas que não aumentam nenhum atributo',
         'nostat_rune': 'Runa',
         'nostat_what': 'O que faz',
@@ -658,6 +666,8 @@ LOCALIZED_UI = {
         'quality_amazing': 'unglaublich',
         'quality_perfect': 'perfekt',
         'quality_overperfect': 'besser als perfekt',
+        'sim_other_runes': 'Andere Runen',
+        'sim_is_hunting': 'Jagdwaffe: ja',
         'nostat_title': 'Runen, die keinen Wert erhöhen',
         'nostat_rune': 'Rune',
         'nostat_what': 'Wirkung',
@@ -795,6 +805,17 @@ def _build_no_stat_rune_rows(game_version, t):
                        else _format_weight(rune['weight'])),
         })
     return rows
+
+
+def _throwable_no_stat_runes(game_version, t):
+    """The no-stat runes the simulator can actually throw: the signature rune
+    never enters smithmagic, and a rune whose weight this version does not
+    state cannot be weighed against the item."""
+    return [{'key': rune['key'],
+             'name': t['rune_%s' % rune['key']],
+             'weight': rune['weight']}
+            for rune in get_no_stat_runes(game_version)
+            if rune['mageable'] and rune['weight']]
 
 
 def _build_transcendence_rows(structure, game_version, language, trans_t):
@@ -950,8 +971,10 @@ def forgemagie(request):
                 'sim_improve', 'sim_improve_done',
                 'sim_mode_sim', 'sim_mode_real',
                 'sim_mode_sim_hint', 'sim_mode_real_hint',
+                'sim_other_runes', 'sim_is_hunting',
             )
         },
+        'noStatRunes': _throwable_no_stat_runes(game_version, t),
         'transcendence': get_transcendence_by_stat(game_version),
         'transT': trans_t,
     }
@@ -1008,6 +1031,9 @@ def _item_payload(structure, item, language, display_name=None):
         'name': display_name or structure.get_item_name_in_language(item, language),
         'level': item.level,
         'type_name': _localized_label(type_name, language),
+        # The hunting rune only goes on a weapon, and the label above is
+        # translated, so the canonical type travels with the item.
+        'is_weapon': type_name == 'Weapon',
         'image_url': static(get_image_url(type_name, item.name)),
         'stats': stats,
     }
