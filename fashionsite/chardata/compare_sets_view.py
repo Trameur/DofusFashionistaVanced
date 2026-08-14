@@ -41,7 +41,9 @@ from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get_or_none,
                            HttpResponseText, char_belongs_to_user, get_char_id_possibly_encoded,
                            HttpResponseJson, version_reverse)
-from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, TYPE_NAME_TO_SLOT
+from fashionistapulp.dofus_constants import (NON_ELEMENTAL_HIT_TYPES,
+                                             TYPE_NAME_TO_SLOT_NUMBER,
+                                             TYPE_NAME_TO_SLOT)
 from fashionistapulp.modelresult import ModelResultItem
 from fashionistapulp.structure import get_structure
 
@@ -62,8 +64,7 @@ TYPE_ORDER = [
 COMPARE_SHARE_QUERY_KEYS = ('spell_class', 'spell_name')
 COMPARE_PICKER_LIMIT = 24
 
-NON_DAMAGE_PREVIEW_ELEMENTS = {
-    'attracts', 'pushes', 'advances', 'steals_mp', 'removes_ap'}
+NON_DAMAGE_PREVIEW_ELEMENTS = set(NON_ELEMENTAL_HIT_TYPES)
 
 
 class _CompareBuild:
@@ -297,6 +298,8 @@ def _build_spell_preview_context(request, chars, model_results):
             spell_digests, unpicklable=False),
         'weapon_digests_json': jsonpickle.encode(
             weapon_digests, unpicklable=False),
+        'non_elemental_hits_json': jsonpickle.encode(
+            list(NON_ELEMENTAL_HIT_TYPES), unpicklable=False),
         'char_levels_json': json.dumps(
             {str(char.pk): char.level for char in chars}),
     }

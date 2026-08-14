@@ -12755,6 +12755,83 @@ class SpellVariantTests(TestCase):
                                  for name, _damage in order_bound), 12)
 
 
+class WeaponEffectRowTests(TestCase):
+    """A weapon row that pulls the target or takes its AP is not damage. The
+    page summed it into the damage line and printed NaN on 125 weapons."""
+
+    def _page(self, weapon_name):
+        import pickle
+        from django.contrib.auth.models import User
+        from django.test import Client
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+
+        weapon = get_structure('dofus3').get_item_by_name(weapon_name)
+        self.assertIsNotNone(weapon, weapon_name)
+        owner = User.objects.create_user('nanlook', 'nan@test.local',
+                                         'pw-42-solid')
+        solution = ModelResultMinimal({'weapon': weapon.id}, {
+            'options': {'ap_exo': False, 'mp_exo': False},
+            'origin': 'generated', 'char_level': 200,
+            'base_stats_by_attr': {'AP': 12, 'MP': 6, 'Vitality': 0,
+                                   'Wisdom': 0, 'Strength': 300,
+                                   'Intelligence': 0, 'Chance': 0,
+                                   'Agility': 0},
+            'locked_equips': {}}, {})
+        char = Char.objects.create(
+            name='Nan', char_name='nan', char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=pickle.dumps({'vit': 1, 'str': 1}),
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=pickle.dumps(solution),
+            owner=owner, link_shared=True, game_version='dofus3')
+        client = Client()
+        client.force_login(owner)
+        return client.get('/spells/%d/' % char.pk).content.decode('utf-8')
+
+    def _weapon_digest(self, page):
+        import json
+        import re
+        match = re.search(r'var spellDigests = (\[.*?\]);\n', page, re.S)
+        self.assertIsNotNone(match)
+        digests = json.loads(match.group(1))
+        weapon = digests[0]
+        self.assertIn(weapon['type'], ('weapon', 'weapon_non_mageable'))
+        return weapon
+
+    def test_a_drain_row_is_not_summed_into_the_damage_line(self):
+        # Gargandyas's Fury hits in the best element, takes 2 MP and pulls one
+        # cell. Only the first is damage, so the damage group holds only it.
+        weapon = self._weapon_digest(self._page("Gargandyas's Fury"))
+        elements = [hit['element'] for hit in weapon['non_crit_dams'][0]]
+        self.assertEqual(elements, ['best', 'removes_mp', 'attracts'])
+        groups = [indexes for _label, indexes in weapon['aggregates']]
+        self.assertEqual(groups, [[0], [1], [2]])
+
+    def test_the_page_reads_the_hit_types_from_the_damage_formula(self):
+        # The page used to keep its own copy of the list and it drifted.
+        from fashionistapulp.dofus_constants import NON_ELEMENTAL_HIT_TYPES
+        page = self._page("Gargandyas's Fury")
+        for hit_type in NON_ELEMENTAL_HIT_TYPES:
+            self.assertIn('"%s"' % hit_type, page, hit_type)
+        self.assertNotIn("{'attracts': true", page)
+
+    def test_the_crit_line_keeps_the_pull_at_one_cell(self):
+        page = self._page("Gargandyas's Fury")
+        weapon = self._weapon_digest(page)
+        plain = weapon['non_crit_dams'][0]
+        crit = weapon['crit_dams'][0]
+        for before, after in zip(plain, crit):
+            if before['element'] in ('removes_mp', 'attracts'):
+                self.assertEqual(after['min_dam'], before['min_dam'],
+                                 before['element'])
+                self.assertEqual(after['max_dam'], before['max_dam'],
+                                 before['element'])
+        # The damage row still gains it.
+        self.assertGreater(crit[0]['min_dam'], plain[0]['min_dam'])
+
+
 class SpellComboPageTests(TestCase):
     """The combo the engine finds has to reach the spells page."""
 
@@ -13754,6 +13831,61 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                JOIN stats s ON s.id = c.stat
                WHERE i.ankama_id = 12108 AND s.name IN ('AP', 'MP')""")
         self.assertEqual(0, rows[0][0])
+
+    def test_a_hit_type_the_page_cannot_read_is_caught_here(self):
+        # A weapon row whose element is neither a real element nor a declared
+        # non-elemental type reaches the page as damage, and the page prints
+        # NaN: 125 weapons did, because "removes 2 MP" was missing from the
+        # lists. This is the check that would have caught it.
+        import sqlite3
+        from fashionistapulp.dofus_constants import (DAMAGE_TYPES,
+                                                     NON_ELEMENTAL_HIT_TYPES)
+        from fashionistapulp.fashionista_config import get_items_db_path
+        known = set(DAMAGE_TYPES) | set(NON_ELEMENTAL_HIT_TYPES) | {'best'}
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                found = {row[0] for row in connection.execute(
+                    'SELECT DISTINCT element FROM weapon_hits')}
+            finally:
+                connection.close()
+            self.assertTrue(found, version)
+            self.assertEqual(found - known, set(), version)
+
+    def test_the_three_constant_copies_declare_the_same_hit_types(self):
+        import fashionistapulp.dofus_constants as modern
+        import fashionistapulp.dofus_constants_beta as beta
+        import fashionistapulp.dofus_constants_dofus2 as dofus2
+        self.assertEqual(beta.NON_ELEMENTAL_HIT_TYPES,
+                         modern.NON_ELEMENTAL_HIT_TYPES)
+        self.assertEqual(dofus2.NON_ELEMENTAL_HIT_TYPES,
+                         modern.NON_ELEMENTAL_HIT_TYPES)
+
+    def test_the_crit_line_leaves_a_pull_or_a_drain_alone(self):
+        # The critical bonus is damage: adding it to "attracts 1 cell" read as
+        # "attracts 11 cells" on Gargandyas's Fury.
+        from fashionistapulp.dofus_constants import (NEUTRAL,
+                                                     NON_ELEMENTAL_HIT_TYPES)
+        from fashionistapulp.structure import get_structure
+        seen = 0
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            structure = get_structure(version)
+            weapons = list(structure.weapons_by_key.values())
+            weapons += list(structure.dt_weapons_by_key.values())
+            for weapon in weapons:
+                if not weapon.crit_hits or not weapon.crit_bonus:
+                    continue
+                plain = weapon.non_crit_hits[NEUTRAL]
+                crit = weapon.crit_hits[NEUTRAL]
+                for before, after in zip(plain, crit):
+                    if before.element not in NON_ELEMENTAL_HIT_TYPES:
+                        continue
+                    seen += 1
+                    self.assertEqual((after.min_dam, after.max_dam),
+                                     (before.min_dam, before.max_dam),
+                                     '%s %s' % (version, before.element))
+        self.assertGreater(seen, 50)
 
     def test_every_version_skips_the_same_non_elemental_hit_types(self):
         # calculate_damage looks the hit's element up in DAMAGE_TYPE_TO_MAIN_STAT,

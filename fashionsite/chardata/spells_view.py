@@ -31,7 +31,8 @@ from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
 from fashionistapulp.translation import get_supported_language
 
-from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL)
+from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL,
+                                             NON_ELEMENTAL_HIT_TYPES)
 
 import jsonpickle
 
@@ -64,6 +65,10 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          'encoded_char_id': encoded_char_id,
                          'user': request.user,
                          'digests_json': digests_json,
+                         # The page must call a hit type non-elemental exactly
+                         # where the damage formula does.
+                         'non_elemental_hits_json': jsonpickle.encode(
+                             list(NON_ELEMENTAL_HIT_TYPES), unpicklable=False),
                          'char_id': char_id,
                          'char_level': char.level,
                          'char_stats_json': stats_json,
@@ -84,12 +89,11 @@ def _create_weapon_web_digest(weapon):
     web_digest['hit_number'] = len(weapon.non_crit_hits)
     web_digest['non_crit_dams'] = _convert_weapon_damage(weapon.non_crit_hits)
     web_digest['crit_dams'] = _convert_weapon_damage(weapon.crit_hits)
-    NON_DAMAGE_ELEMENTS = {'attracts', 'pushes', 'advances', 'steals_mp', 'removes_ap'}
     damage_indexes = []
     healing_indexes = []
     effect_indexes = []
     for i, hit_instance in enumerate(weapon.non_crit_hits[NEUTRAL]):
-        if hit_instance.element in NON_DAMAGE_ELEMENTS:
+        if hit_instance.element in NON_ELEMENTAL_HIT_TYPES:
             effect_indexes.append(i)
         elif hit_instance.heals:
             healing_indexes.append(i)

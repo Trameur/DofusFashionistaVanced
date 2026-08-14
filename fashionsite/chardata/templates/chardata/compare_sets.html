@@ -325,13 +325,12 @@ var compareWeaponDigests = {{ weapon_digests_json|safe }};
 var compareCharLevels = {{ char_levels_json|safe }};
 var compareSpellsByKey = {};
 var COMPARE_LEVEL_TO_ELEMENT = ['N', 'E', 'F', 'W', 'A'];
-var COMPARE_NON_DAMAGE_ELEMENTS = {
-    'attracts': true,
-    'pushes': true,
-    'advances': true,
-    'steals_mp': true,
-    'removes_ap': true
-};
+// Straight from the damage formula: a hand-kept copy drifted and the page
+// printed NaN on the weapons that take MP.
+var COMPARE_NON_DAMAGE_ELEMENTS = {};
+$.each({{ non_elemental_hits_json|safe }}, function(i, element) {
+    COMPARE_NON_DAMAGE_ELEMENTS[element] = true;
+});
 $.each(compareSpellDigests, function(i, spell) {
     compareSpellsByKey[spell.compare_key] = spell;
 });

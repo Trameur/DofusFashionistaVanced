@@ -27,7 +27,8 @@ from threading import Lock
 
 logger = logging.getLogger(__name__)
 
-from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL, STAT_ORDER,
+from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL,
+                             NON_ELEMENTAL_HIT_TYPES, STAT_ORDER,
                              WEIRD_CONDITION_FROM_ID, LIGHT_SET_LIMIT_FROM_ID)
 from .dofus_stat import Stat
 from .fashion_util import normalize_name, strip_accents
@@ -42,6 +43,18 @@ from django.utils.translation import gettext as _
 
 
 load_items_db_from_dump()
+
+
+def _with_crit_bonus(hit, crit_bonus):
+    """The same hit on the critical line. A row that pulls the target or takes
+    its AP counts cells and points, not damage, so the bonus leaves it alone:
+    it used to turn "attracts 1 cell" into "attracts 11 cells"."""
+    if hit.element in NON_ELEMENTAL_HIT_TYPES:
+        return DamageDigest(hit.min_dam, hit.max_dam, hit.element,
+                            hit.steals, hit.heals)
+    return DamageDigest(hit.min_dam + crit_bonus, hit.max_dam + crit_bonus,
+                        hit.element, hit.steals, hit.heals)
+
 
 lock = Lock()
 _structure_singletons = {}
@@ -606,11 +619,7 @@ class Structure:
                     continue
                 w.base_hit.append(hit)
                 if w.has_crits:
-                    w.crit_base_hit.append(DamageDigest(hit.min_dam + w.crit_bonus,
-                                                        hit.max_dam + w.crit_bonus,
-                                                        hit.element,
-                                                        hit.steals,
-                                                        hit.heals))
+                    w.crit_base_hit.append(_with_crit_bonus(hit, w.crit_bonus))
 
             w.is_mageable = any([hit.element == NEUTRAL and not hit.steals
                                  for hit in w.base_hit])
@@ -623,11 +632,8 @@ class Structure:
                                             hit.steals,
                                             hit.heals) for hit in w.base_hit]
                 if w.has_crits:
-                    w.crit_maged_hit = [DamageDigest(hit.min_dam + w.crit_bonus,
-                                                     hit.max_dam + w.crit_bonus,
-                                                     hit.element,
-                                                     hit.steals,
-                                                     hit.heals) for hit in w.maged_hit]
+                    w.crit_maged_hit = [_with_crit_bonus(hit, w.crit_bonus)
+                                        for hit in w.maged_hit]
                 else:
                     w.crit_maged_hit = None
             else:

@@ -106,6 +106,12 @@
 <script>
     var spellDigests = {{digests_json | safe}};
     var charStats = {{char_stats_json | safe}};
+    // The hit types that move or drain instead of hurting, straight from the
+    // damage formula so the two can never disagree.
+    var NON_DAMAGE_ELEMENTS = {};
+    $.each({{non_elemental_hits_json | safe}}, function(i, element) {
+        NON_DAMAGE_ELEMENTS[element] = true;
+    });
     var spellFallbackImg = "{% static 'chardata/QuestionMark-lighttheme.png' %}";
     var spells;
     var cells = {}
@@ -471,7 +477,6 @@
     function calculateFinalDamage(spell, damage, isCrit) {
         var totalStats = getTotalStats(spell);
         var result = [];
-        var NON_DAMAGE_ELEMENTS = {'attracts': true, 'pushes': true, 'advances': true, 'steals_mp': true};
         $.each(damage, function(i, d) {
             if (d.element.indexOf("buff") != -1 || NON_DAMAGE_ELEMENTS[d.element]) {
                 result.push(d);
@@ -774,6 +779,10 @@
             return ["{% trans 'Advances' %} ", " {% trans 'cell(s)' %}"];
         } else if (element == "steals_mp") {
             return ["-", " {% trans 'MP' %}"];
+        } else if (element == "removes_mp") {
+            return ["-", " {% trans 'MP' %}"];
+        } else if (element == "removes_ap") {
+            return ["-", " {% trans 'AP' %}"];
         } else {
             return ["", ""];
         }

@@ -5282,10 +5282,19 @@ def get_equiped_weapon(char_stats):
             break
     return weapon
 
+# Hit types that move or drain the target instead of hurting it: their number
+# is cells or AP, not damage, so nothing multiplies it and no damage stat adds
+# to it. The spells page reads this same list, which used to be copied by hand
+# in three places and drifted: 125 weapons showed NaN because the page thought
+# "removes 2 MP" was damage.
+NON_ELEMENTAL_HIT_TYPES = ('pushes', 'steals', 'attracts', 'advances',
+                           'steals_mp', 'removes_ap', 'removes_mp')
+
+
 def calculate_damage(base_damage, char_stats, critical_hit, is_spell):
     damage_instances = []
     for dam in base_damage:
-        if dam.element in ('pushes', 'steals', 'attracts', 'advances', 'steals_mp', 'removes_ap', 'removes_mp'): #non-elemental hit types
+        if dam.element in NON_ELEMENTAL_HIT_TYPES:
             continue
         if dam.element == 'best' or dam.element == 'damage' or dam.element == 'best-element': #best/damage/best-element = damage in best element
             dam.element = get_best_element(char_stats)
