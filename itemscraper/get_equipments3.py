@@ -419,6 +419,17 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         if 'ap' in item:
             f.write(f"INSERT INTO weapon_ap VALUES({item_id},{item['ap']});\n")
 
+    f.write("""CREATE TABLE weapon_uses_per_turn
+             (item INTEGER, value INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id));\n""")
+
+    # How many swings the turn allows. Retro never limited a weapon and writes
+    # no row at all.
+    for item in original_data:
+        item_id = item_to_id[id(item)]
+        if item.get('uses_per_turn'):
+            f.write(f"INSERT INTO weapon_uses_per_turn VALUES({item_id},{item['uses_per_turn']});\n")
+
     f.write("""CREATE TABLE weapontype
              (id INTEGER PRIMARY KEY AUTOINCREMENT, name text, key text);\n""")
     

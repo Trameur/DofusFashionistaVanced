@@ -562,6 +562,18 @@ class Structure:
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
             w.ap = ap
                 
+        # How many swings a turn allows. Retro never limited a weapon, and a
+        # dump built before the table exists has none either.
+        has_uses = any(row[0] == 'weapon_uses_per_turn' for row in c.execute(
+            "SELECT name FROM sqlite_master WHERE type = 'table'"
+            " AND name = 'weapon_uses_per_turn'"))
+        if has_uses:
+            for entry in c.execute(
+                    'SELECT item, value FROM weapon_uses_per_turn'):
+                item_id = entry[0]
+                item_name, w = self._get_item_name_and_weapon_by_id(item_id)
+                w.uses_per_turn = entry[1] or None
+
         for entry in c.execute('SELECT item, weapontype FROM weapon_weapontype'):
             item_id = entry[0]
             weapon_type = entry[1]

@@ -25,6 +25,7 @@ from fashionistapulp.dofus_constants import (NEUTRAL, calculate_damage,
 
 from chardata.spell_buffs import (_buff_value, _decide_spell_level,
                                   get_damage_spells_for_version)
+from chardata.spell_variants import variant_of
 
 MAX_CASTS = 8
 
@@ -73,12 +74,15 @@ class WeaponCastable(object):
 
     is_spell = False
     stacks = 1
-    limit = None
+    spell_id = None
 
     def __init__(self, weapon, crit=False):
         self.weapon = weapon
         self.name = weapon.name
         self.cost = weapon.ap
+        # Most swords swing once a turn and most daggers twice, whatever the AP
+        # left. Retro alone never limited a weapon and leaves this empty.
+        self.limit = getattr(weapon, 'uses_per_turn', None)
         rows = weapon.crit_hits if crit else weapon.non_crit_hits
         element = getattr(weapon, 'element_maged', None) or NEUTRAL
         hits = (rows or {}).get(element) or (rows or {}).get(NEUTRAL) or []
@@ -98,6 +102,7 @@ class Castable(object):
     def __init__(self, spell, level_index, crit):
         self.spell = spell
         self.name = spell.name
+        self.spell_id = spell.spell_id
         self.cost = spell.ap_cost(level_index)
         digest = spell.get_effects_digest()
         rows = digest.crit_dams if crit else digest.non_crit_dams
@@ -261,7 +266,30 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     return out
 
 
-def best_turn(stats, spells, ap, crit=False, standing=None):
+def _variant_partners(spells, game_version):
+    """index -> indices of the spells it cannot share a turn with.
+
+    A class spell comes as a pair and only one of the two is armed for the
+    fight, so a turn holds one or the other, never both.
+    """
+    if not game_version:
+        return {}
+    by_variant = {}
+    for index, spell in enumerate(spells):
+        variant = variant_of(game_version, getattr(spell, 'spell_id', None))
+        if variant is not None:
+            by_variant.setdefault(variant, []).append(index)
+    partners = {}
+    for indices in by_variant.values():
+        if len(indices) < 2:
+            continue
+        for index in indices:
+            partners[index] = frozenset(other for other in indices
+                                        if other != index)
+    return partners
+
+
+def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None):
     """(total, [(spell name, damage), ...]) for the best order fitting the AP.
 
     `standing` is {spell name: stacks} for the buffs the reader already ticked,
@@ -272,6 +300,7 @@ def best_turn(stats, spells, ap, crit=False, standing=None):
     spells = [spell for spell in spells if spell.cost and spell.cost <= ap]
     if not spells:
         return 0.0, []
+    partners = _variant_partners(spells, game_version)
 
     def damage_of(spell, counts):
         if not spell.alternatives:
@@ -317,6 +346,8 @@ def best_turn(stats, spells, ap, crit=False, standing=None):
                 if spell.cost > ap_left:
                     continue
                 if spell.limit and counts[index] >= spell.limit:
+                    continue
+                if any(counts[other] for other in partners.get(index, ())):
                     continue
                 gained = damage_of(spell, counts)
                 after = list(counts)

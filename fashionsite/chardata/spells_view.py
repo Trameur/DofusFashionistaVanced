@@ -184,7 +184,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
         return None
     standing = stacks_in_force(char.char_class, char.level, game_version,
                                buff_state)
-    total, order = best_turn(stats, spells, ap, standing=standing)
+    total, order = best_turn(stats, spells, ap, standing=standing,
+                             game_version=game_version)
     if not order:
         return None
     language = get_supported_language()

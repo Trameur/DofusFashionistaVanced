@@ -295,6 +295,8 @@ def build_equipment(items_by_lang, effects):
                 rec['crit_chance'] = int(it['criticalHitProbability'])
             if it.get('criticalHitBonus') is not None:
                 rec['crit_bonus'] = int(it['criticalHitBonus'])
+            if it.get('maxCastPerTurn'):
+                rec['uses_per_turn'] = int(it['maxCastPerTurn'])
         out.append(rec)
     return out
 

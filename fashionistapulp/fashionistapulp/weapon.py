@@ -20,6 +20,7 @@ class Weapon:
         self.crit_bonus = None
         self.crit_chance = None
         self.ap = None
+        self.uses_per_turn = None
         self.weapon_type = None
         self.hits_dict = {}
         

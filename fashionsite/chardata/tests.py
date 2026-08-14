@@ -8259,6 +8259,52 @@ class MonsterWeaknessGuideTests(SimpleTestCase):
                 self.assertIn('Dofus 2', block['body'])
 
 
+class CriticalHitCeilingTests(SimpleTestCase):
+    """Update 2.29 made crit an additive percentage: 100% is reachable and 1% is
+    the floor. Retro stayed on the 1.29 branch, where 1/2 is as good as it gets.
+    The modern page used to state a 50% ceiling, which is the pre-2.29 rule."""
+
+    def _blocks(self, group):
+        from chardata import guides_content
+        blocks = guides_content.GUIDES['critical-hits']['i18n_by_group'][group]
+        self.assertEqual(sorted(blocks), ['de', 'en', 'es', 'fr', 'pt'])
+        return blocks
+
+    def test_the_modern_page_reaches_100_and_floors_at_1(self):
+        for lang, block in self._blocks('modern').items():
+            with self.subTest(lang=lang):
+                # The body still names 50 to say the old ceiling is gone; the
+                # summary is where the wrong claim used to live.
+                self.assertIn('100', block['body'])
+                self.assertIn('2.29', block['body'])
+                self.assertIn('100', block['desc'])
+                self.assertNotIn('50', block['desc'])
+                # English writes 1%, the other four write 1 %.
+                self.assertRegex(block['body'], r'<strong>1\s?%</strong>')
+
+    def test_the_retro_page_stops_at_one_in_two(self):
+        for lang, block in self._blocks('retro').items():
+            with self.subTest(lang=lang):
+                self.assertIn('1/2', block['body'])
+                self.assertIn('1/X', block['body'])
+                self.assertNotIn('2.29', block['body'])
+
+    def test_a_percentage_version_never_stores_a_rate_above_100(self):
+        # Where crit is a percentage it cannot pass 100, so no weapon may store
+        # more. Retro is left out on purpose: its number is the X of 1/X, and
+        # the "1 in X" rendering is pinned by the weapon header tests.
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            structure = get_structure(version)
+            weapons = list(structure.weapons_by_key.values())
+            weapons += list(structure.dt_weapons_by_key.values())
+            rates = [weapon.crit_chance for weapon in weapons
+                     if weapon.crit_chance is not None]
+            self.assertTrue(rates, version)
+            self.assertLessEqual(max(rates), 100, version)
+            self.assertGreaterEqual(min(rates), 0, version)
+
+
 class VersionSpecificGuideTests(TestCase):
     """Critical hits are a different system per version: modern content is canonical
     at /guides/, Retro content self-canonical under /retro/. Plain guides stay global."""
@@ -12422,7 +12468,7 @@ class WeaponInTheTurnTests(TestCase):
     """Hitting with the weapon is part of a turn, so the combo may spend AP on
     it. It used to be left out: castable_spells only reads the class bucket."""
 
-    def _weapon_with_damage(self, ap=4):
+    def _weapon_with_damage(self, ap=4, uses_per_turn=None):
         # The hits only exist on the solver's result item, so the shape is
         # rebuilt here: {element: [rows]}, the way a maged weapon carries one
         # list per element it could be maged to.
@@ -12435,6 +12481,7 @@ class WeaponInTheTurnTests(TestCase):
                 self.localized_name = 'Test Blade'
                 self.type = 'Weapon'
                 self.ap = ap
+                self.uses_per_turn = uses_per_turn
                 self.element_maged = None
                 self.non_crit_hits = {
                     NEUTRAL: [BaseDamage(20, 30, 'earth')]}
@@ -12468,6 +12515,39 @@ class WeaponInTheTurnTests(TestCase):
         self.assertGreater(best_turn(weapon_boost, [castable], castable.cost)[0],
                            plain)
 
+    def test_the_turn_swings_the_weapon_only_as_often_as_the_game_allows(self):
+        # A 4 AP weapon in a 12 AP turn used to be swung three times. The game
+        # stops most swords at one swing and most daggers at two.
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import best_turn
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 300})
+        for limit, expected in ((None, 3), (1, 1), (2, 2)):
+            _item, castable = self._weapon_with_damage(ap=4,
+                                                       uses_per_turn=limit)
+            _total, order = best_turn(stats, [castable], 12)
+            self.assertEqual(len(order), expected, 'limite %s' % limit)
+
+    def test_the_weapon_limit_reaches_the_solved_build(self):
+        # It has to survive the item DB and the solver's own result item, which
+        # is what the page actually offers to the turn.
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            structure = get_structure(version)
+            weapons = list(structure.weapons_by_key.values())
+            weapons += list(structure.dt_weapons_by_key.values())
+            limits = [weapon.uses_per_turn for weapon in weapons
+                      if weapon.uses_per_turn]
+            self.assertGreater(len(limits), 300, version)
+            self.assertEqual(min(limits), 1, version)
+            self.assertLessEqual(max(limits), 3, version)
+            # One swing is the common case in every version that has the rule.
+            self.assertGreater(limits.count(1), len(limits) / 2, version)
+        # Dofus Retro never limited a weapon: its source has no such field.
+        retro = get_structure('retro')
+        self.assertFalse([weapon for weapon in retro.weapons_by_key.values()
+                          if weapon.uses_per_turn])
+
     def test_offering_the_weapon_never_makes_the_turn_worse(self):
         from fashionistapulp.structure import get_structure
         from chardata.spell_combo import best_turn, castable_spells
@@ -12479,6 +12559,119 @@ class WeaponInTheTurnTests(TestCase):
         without, _o1 = best_turn(stats, spells, 11)
         with_weapon, _o2 = best_turn(stats, spells + [weapon], 11)
         self.assertGreaterEqual(with_weapon, without)
+
+
+class SpellVariantTests(TestCase):
+    """A Dofus 3 class spell comes as a pair and the player arms one of the two
+    before the fight, so one turn can hold one face or the other, never both.
+    The turn used to chain them and reported combos no fight can play."""
+
+    def test_the_two_faces_of_a_pair_know_each_other(self):
+        from chardata.spell_variants import get_variant_by_spell_id, variant_of
+        by_spell = get_variant_by_spell_id('dofus3')
+        self.assertTrue(by_spell)
+        pairs = {}
+        for spell_id, variant in by_spell.items():
+            pairs.setdefault(variant, []).append(spell_id)
+        sized = [ids for ids in pairs.values() if len(ids) > 1]
+        self.assertTrue(sized)
+        first, second = sized[0][0], sized[0][1]
+        self.assertEqual(variant_of('dofus3', first),
+                         variant_of('dofus3', second))
+        self.assertIsNone(variant_of('dofus3', None))
+
+    def test_only_the_versions_that_have_variants_carry_them(self):
+        # Dofus 2, Touch and Retro predate the pairs, so the constraint has to
+        # be a no-op there rather than a guess.
+        from chardata.spell_variants import get_variant_by_spell_id
+        for version in ('dofus3', 'beta'):
+            self.assertTrue(get_variant_by_spell_id(version), version)
+        for version in ('dofus2', 'touch', 'retro'):
+            self.assertFalse(get_variant_by_spell_id(version), version)
+
+    def test_partners_are_read_from_the_spell_ids(self):
+        from chardata.spell_combo import _variant_partners
+        from chardata.spell_variants import get_variant_by_spell_id
+
+        class _Castable(object):
+            def __init__(self, spell_id):
+                self.spell_id = spell_id
+
+        by_spell = get_variant_by_spell_id('dofus3')
+        pairs = {}
+        for spell_id, variant in by_spell.items():
+            pairs.setdefault(variant, []).append(int(spell_id))
+        two = next(ids for ids in pairs.values() if len(ids) > 1)
+        spells = [_Castable(two[0]), _Castable(two[1]), _Castable(None)]
+        partners = _variant_partners(spells, 'dofus3')
+        self.assertEqual(partners.get(0), frozenset([1]))
+        self.assertEqual(partners.get(1), frozenset([0]))
+        self.assertNotIn(2, partners)
+        # A version with no variants constrains nothing.
+        self.assertEqual(_variant_partners(spells, 'dofus2'), {})
+        self.assertEqual(_variant_partners(spells, None), {})
+
+    def test_a_turn_never_casts_both_faces_of_a_pair(self):
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import best_turn, castable_spells
+        from chardata.spell_variants import variant_of
+
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 400, 'int': 400, 'cha': 400, 'agi': 400,
+                      'pow': 100, 'dam': 40})
+        for char_class in ('Rogue', 'Cra', 'Iop'):
+            spells = castable_spells(char_class, 200, 'dofus3')
+            self.assertTrue(spells, char_class)
+            by_name = {spell.name: spell for spell in spells}
+            _total, order = best_turn(stats, spells, 12,
+                                      game_version='dofus3')
+            # Casting the same spell twice is fine; casting its other face is
+            # what no fight can do.
+            armed = {}
+            for name, _damage in order:
+                variant = variant_of('dofus3', by_name[name].spell_id)
+                if variant is None:
+                    continue
+                self.assertEqual(armed.setdefault(variant, name), name,
+                                 '%s casts both faces of a pair' % char_class)
+
+    def test_the_constraint_costs_the_turn_only_the_illegal_cast(self):
+        # A fixture where the rule bites: unconstrained, the best Rogue turn
+        # chains Musket and Shot Pellets, which are the two faces of one
+        # variant. The turn has to lose that cast and keep the rest.
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import best_turn, castable_spells
+        from chardata.spell_variants import variant_of
+
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 400, 'int': 400, 'cha': 400, 'agi': 400,
+                      'pow': 100, 'dam': 40})
+        spells = castable_spells('Rogue', 200, 'dofus3')
+        by_name = {spell.name: spell for spell in spells}
+
+        def clashes(order):
+            armed = {}
+            found = []
+            for name, _damage in order:
+                variant = variant_of('dofus3', by_name[name].spell_id)
+                if variant is None:
+                    continue
+                if armed.get(variant, name) != name:
+                    found.append((armed[variant], name))
+                armed[variant] = name
+            return found
+
+        free, order_free = best_turn(stats, spells, 12)
+        bound, order_bound = best_turn(stats, spells, 12,
+                                       game_version='dofus3')
+        self.assertTrue(clashes(order_free),
+                        'the fixture no longer reaches a forbidden pair')
+        self.assertFalse(clashes(order_bound))
+        # The turn stays whole and still spends what it can.
+        self.assertLess(bound, free)
+        self.assertEqual(len(order_bound), len(order_free))
+        self.assertLessEqual(sum(by_name[name].cost
+                                 for name, _damage in order_bound), 12)
 
 
 class SpellComboPageTests(TestCase):
@@ -12533,6 +12726,36 @@ class SpellComboPageTests(TestCase):
         self.assertIn(str(combo['total']), page)
         # The page asks for the panel again whenever a buff is ticked.
         self.assertIn('data-combo-url', page)
+
+    def test_the_page_hands_the_version_to_the_engine(self):
+        # The pair rule only applies when _best_combo passes game_version, and
+        # every engine test names it itself, so dropping that one argument would
+        # go unnoticed: this Iop used to chain Concentration and Sentence, the
+        # two faces of one variant.
+        from chardata.solution import get_solution
+        from chardata.spells_view import _best_combo, _localized_spell_name
+        from chardata.spell_combo import castable_spells
+        from chardata.spell_variants import variant_of
+        from fashionistapulp.translation import get_supported_language
+
+        _owner, char = self._combo_char('versioned')
+        combo = _best_combo(char, get_solution(char), 'dofus3')
+        self.assertTrue(combo['casts'])
+        language = get_supported_language()
+        by_shown = {
+            _localized_spell_name(spell.name, language, 'dofus3'): spell
+            for spell in castable_spells(char.char_class, char.level, 'dofus3')}
+        armed = {}
+        for cast in combo['casts']:
+            spell = by_shown.get(cast['name'])
+            if spell is None:
+                continue  # the weapon, which is in no variant
+            variant = variant_of('dofus3', spell.spell_id)
+            if variant is None:
+                continue
+            self.assertEqual(armed.setdefault(variant, cast['name']),
+                             cast['name'],
+                             'the panel casts both faces of a pair')
 
     def _combo_char(self, username, link_shared=True):
         from django.contrib.auth.models import User

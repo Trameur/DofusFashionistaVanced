@@ -25,7 +25,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 47,
@@ -70,7 +71,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 53,
@@ -115,7 +117,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 58,
@@ -150,7 +153,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 60,
@@ -191,7 +195,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 65,
@@ -238,7 +243,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 66,
@@ -278,7 +284,8 @@
         "weapon_type": "Sword",
         "ap": 2,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 67,
@@ -321,7 +328,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 74,
@@ -387,7 +395,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 95,
@@ -417,7 +426,8 @@
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 10,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 101,
@@ -616,7 +626,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 138,
@@ -646,7 +657,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 145,
@@ -677,7 +689,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 151,
@@ -708,7 +721,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 156,
@@ -927,7 +941,8 @@
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 50,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 180,
@@ -982,7 +997,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 181,
@@ -1045,7 +1061,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 183,
@@ -1078,7 +1095,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 188,
@@ -1108,7 +1126,8 @@
         "weapon_type": "Staff",
         "ap": 2,
         "crit_chance": 10,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 194,
@@ -1146,7 +1165,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 200,
@@ -1198,7 +1218,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 201,
@@ -1243,7 +1264,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 202,
@@ -1315,7 +1337,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 203,
@@ -1397,7 +1420,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 206,
@@ -1430,7 +1454,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 212,
@@ -1463,7 +1488,8 @@
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 30,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 218,
@@ -1498,7 +1524,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 219,
@@ -1546,7 +1573,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 220,
@@ -1597,7 +1625,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 222,
@@ -1630,7 +1659,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 228,
@@ -1678,7 +1708,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 233,
@@ -1736,7 +1767,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 20
+        "crit_bonus": 20,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 234,
@@ -1783,7 +1815,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 235,
@@ -1819,7 +1852,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 236,
@@ -1852,7 +1886,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 237,
@@ -1895,7 +1930,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 239,
@@ -1928,7 +1964,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 245,
@@ -1966,7 +2003,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 250,
@@ -2021,7 +2059,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 251,
@@ -2059,7 +2098,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 253,
@@ -2169,7 +2209,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 270,
@@ -2227,7 +2268,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 271,
@@ -2265,7 +2307,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 272,
@@ -2318,7 +2361,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 273,
@@ -2356,7 +2400,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 278,
@@ -2471,7 +2516,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 298,
@@ -2557,7 +2603,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 323,
@@ -2696,7 +2743,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 328,
@@ -2729,7 +2777,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 329,
@@ -2787,7 +2836,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 331,
@@ -2820,7 +2870,8 @@
         "weapon_type": "Bow",
         "ap": 2,
         "crit_chance": 15,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 332,
@@ -2853,7 +2904,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 333,
@@ -2901,7 +2953,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 334,
@@ -2939,7 +2992,8 @@
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 335,
@@ -2992,7 +3046,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 336,
@@ -3030,7 +3085,8 @@
         "weapon_type": "Staff",
         "ap": 2,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 337,
@@ -3068,7 +3124,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 339,
@@ -3111,7 +3168,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 20
+        "crit_bonus": 20,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 340,
@@ -3144,7 +3202,8 @@
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 15,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 341,
@@ -3174,7 +3233,8 @@
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 10,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 342,
@@ -3207,7 +3267,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 40,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 346,
@@ -3279,7 +3340,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 348,
@@ -3361,7 +3423,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 355,
@@ -3455,7 +3518,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 10,
-        "crit_bonus": 20
+        "crit_bonus": 20,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 358,
@@ -3498,7 +3562,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 20
+        "crit_bonus": 20,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 359,
@@ -3565,7 +3630,8 @@
         "weapon_type": "Staff",
         "ap": 2,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 454,
@@ -3593,7 +3659,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 455,
@@ -3634,7 +3701,8 @@
         "weapon_type": "Hammer",
         "ap": 2,
         "crit_chance": 20,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 456,
@@ -3672,7 +3740,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 458,
@@ -3747,7 +3816,8 @@
         "weapon_type": "Bow",
         "ap": 2,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 469,
@@ -3800,7 +3870,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 478,
@@ -3852,7 +3923,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 482,
@@ -3890,7 +3962,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 497,
@@ -3913,7 +3986,8 @@
         "weapon_type": "Pickaxe",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 502,
@@ -3941,7 +4015,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 515,
@@ -3989,7 +4064,8 @@
         "weapon_type": "Axe",
         "ap": 6,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 592,
@@ -4035,7 +4111,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 610,
@@ -4165,7 +4242,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 620,
@@ -4208,7 +4286,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 35,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 629,
@@ -4338,7 +4417,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 657,
@@ -4386,7 +4466,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 658,
@@ -4424,7 +4505,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 674,
@@ -4474,7 +4556,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 675,
@@ -4519,7 +4602,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 676,
@@ -4559,7 +4643,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 677,
@@ -5225,7 +5310,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 744,
@@ -5420,7 +5506,8 @@
         "weapon_type": "Scythe",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 766,
@@ -5814,7 +5901,8 @@
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 783,
@@ -6055,7 +6143,8 @@
         "weapon_type": "Staff",
         "ap": 2,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 819,
@@ -6088,7 +6177,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 822,
@@ -6126,7 +6216,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 825,
@@ -6174,7 +6265,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 828,
@@ -6207,7 +6299,8 @@
         "weapon_type": "Bow",
         "ap": 2,
         "crit_chance": 20,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 829,
@@ -6240,7 +6333,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 830,
@@ -6288,7 +6382,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 833,
@@ -6353,7 +6448,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 836,
@@ -6767,7 +6863,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 898,
@@ -6820,7 +6917,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 903,
@@ -7122,7 +7220,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 923,
@@ -7188,7 +7287,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 927,
@@ -7244,7 +7344,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 928,
@@ -7277,7 +7378,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 933,
@@ -7858,7 +7960,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 971,
@@ -8064,7 +8167,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1030,
@@ -8107,7 +8211,8 @@
         "weapon_type": "Dagger",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1031,
@@ -8152,7 +8257,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1033,
@@ -8205,7 +8311,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 13
+        "crit_bonus": 13,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1039,
@@ -8268,7 +8375,8 @@
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 3
     },
     {
         "ankama_id": 1040,
@@ -8319,7 +8427,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1041,
@@ -8362,7 +8471,8 @@
         "weapon_type": "Dagger",
         "ap": 4,
         "crit_chance": 1,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1043,
@@ -8423,7 +8533,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1047,
@@ -8486,7 +8597,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1053,
@@ -8547,7 +8659,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1054,
@@ -8597,7 +8710,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1056,
@@ -8645,7 +8759,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1059,
@@ -8678,7 +8793,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1061,
@@ -8721,7 +8837,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1065,
@@ -8759,7 +8876,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1069,
@@ -8817,7 +8935,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1073,
@@ -8865,7 +8984,8 @@
         "weapon_type": "Hammer",
         "ap": 6,
         "crit_chance": 35,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1075,
@@ -8910,7 +9030,8 @@
         "weapon_type": "Hammer",
         "ap": 6,
         "crit_chance": 35,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1077,
@@ -8958,7 +9079,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1079,
@@ -9001,7 +9123,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1083,
@@ -9052,7 +9175,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1084,
@@ -9105,7 +9229,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1085,
@@ -9153,7 +9278,8 @@
         "weapon_type": "Hammer",
         "ap": 6,
         "crit_chance": 40,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1087,
@@ -9224,7 +9350,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1097,
@@ -9267,7 +9394,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1102,
@@ -9300,7 +9428,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1107,
@@ -9343,7 +9472,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1110,
@@ -9376,7 +9506,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1116,
@@ -9419,7 +9550,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1118,
@@ -9457,7 +9589,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1122,
@@ -9520,7 +9653,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1128,
@@ -9568,7 +9702,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 14
+        "crit_bonus": 14,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1132,
@@ -9611,7 +9746,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1134,
@@ -9654,7 +9790,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1138,
@@ -9699,7 +9836,8 @@
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1146,
@@ -9754,7 +9892,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1149,
@@ -9807,7 +9946,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1153,
@@ -9850,7 +9990,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1163,
@@ -9915,7 +10056,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1330,
@@ -10011,7 +10153,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1351,
@@ -10049,7 +10192,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1352,
@@ -10122,7 +10266,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1353,
@@ -10170,7 +10315,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1354,
@@ -10218,7 +10364,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1355,
@@ -10266,7 +10413,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1356,
@@ -10299,7 +10447,8 @@
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 10,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1357,
@@ -10359,7 +10508,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1359,
@@ -10422,7 +10572,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1360,
@@ -10475,7 +10626,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1361,
@@ -10523,7 +10675,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1362,
@@ -10573,7 +10726,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1363,
@@ -10628,7 +10782,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 40,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1364,
@@ -10678,7 +10833,8 @@
         "weapon_type": "Staff",
         "ap": 2,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1365,
@@ -10716,7 +10872,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1366,
@@ -10754,7 +10911,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1367,
@@ -10799,7 +10957,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1368,
@@ -10837,7 +10996,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1369,
@@ -10880,7 +11040,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1370,
@@ -10918,7 +11079,8 @@
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 35,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1371,
@@ -10973,7 +11135,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1372,
@@ -11013,7 +11176,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1373,
@@ -11056,7 +11220,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1374,
@@ -11114,7 +11279,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1375,
@@ -11142,7 +11308,8 @@
         "weapon_type": "Axe",
         "ap": 2,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1376,
@@ -11192,7 +11359,8 @@
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1377,
@@ -11230,7 +11398,8 @@
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1378,
@@ -11268,7 +11437,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1383,
@@ -11341,7 +11511,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1393,
@@ -11384,7 +11555,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1399,
@@ -11417,7 +11589,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1403,
@@ -11462,7 +11635,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1404,
@@ -11507,7 +11681,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1426,
@@ -11550,7 +11725,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1427,
@@ -11608,7 +11784,8 @@
         "weapon_type": "Shovel",
         "ap": 6,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1430,
@@ -11679,7 +11856,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1432,
@@ -11727,7 +11905,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1433,
@@ -11782,7 +11961,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1435,
@@ -11847,7 +12027,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1436,
@@ -11900,7 +12081,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1438,
@@ -11935,7 +12117,8 @@
         "weapon_type": "Pickaxe",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1439,
@@ -11968,7 +12151,8 @@
         "weapon_type": "Pickaxe",
         "ap": 6,
         "crit_chance": 5,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1474,
@@ -12063,7 +12247,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1476,
@@ -12246,7 +12431,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1480,
@@ -12927,7 +13113,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1504,
@@ -12965,7 +13152,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1511,
@@ -13032,7 +13220,8 @@
         "weapon_type": "Sword",
         "ap": 9,
         "crit_chance": 25,
-        "crit_bonus": 9
+        "crit_bonus": 9,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1559,
@@ -13129,7 +13318,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1602,
@@ -13265,7 +13455,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1621,
@@ -13593,7 +13784,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1651,
@@ -13646,7 +13838,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 1656,
@@ -14614,7 +14807,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 1748,
@@ -14870,7 +15064,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2070,
@@ -15270,7 +15465,8 @@
         "weapon_type": "Bow",
         "ap": 6,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2361,
@@ -15298,7 +15494,8 @@
         "weapon_type": "Bow",
         "ap": 6,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2367,
@@ -15715,7 +15912,8 @@
         "weapon_type": "Axe",
         "ap": 6,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2380,
@@ -16794,7 +16992,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2416,
@@ -16837,7 +17036,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2417,
@@ -16895,7 +17095,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2418,
@@ -17469,7 +17670,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2441,
@@ -18572,7 +18774,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2545,
@@ -18717,7 +18920,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2589,
@@ -18750,7 +18954,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2590,
@@ -18783,7 +18988,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2592,
@@ -18826,7 +19032,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2593,
@@ -18874,7 +19081,8 @@
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2595,
@@ -18922,7 +19130,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2597,
@@ -18970,7 +19179,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2600,
@@ -19018,7 +19228,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2601,
@@ -19081,7 +19292,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2603,
@@ -19134,7 +19346,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2604,
@@ -19197,7 +19410,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2606,
@@ -19265,7 +19479,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2608,
@@ -19326,7 +19541,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2612,
@@ -19387,7 +19603,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2614,
@@ -19450,7 +19667,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2615,
@@ -19513,7 +19731,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2616,
@@ -19576,7 +19795,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2629,
@@ -19692,7 +19912,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2638,
@@ -19749,7 +19970,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2639,
@@ -19811,7 +20033,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2640,
@@ -19849,7 +20072,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 2641,
@@ -20799,7 +21023,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 3357,
@@ -20847,7 +21072,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 3647,
@@ -20903,7 +21129,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 3648,
@@ -20961,7 +21188,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 3649,
@@ -21024,7 +21252,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 3650,
@@ -21090,7 +21319,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 3651,
@@ -21148,7 +21378,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 3652,
@@ -21215,7 +21446,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 4241,
@@ -21280,7 +21512,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 4242,
@@ -21328,7 +21561,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 4381,
@@ -21445,7 +21679,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 4684,
@@ -21601,7 +21836,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6438,
@@ -21661,7 +21897,8 @@
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 3
     },
     {
         "ankama_id": 6439,
@@ -21727,7 +21964,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6440,
@@ -21785,7 +22023,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6442,
@@ -21841,7 +22080,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6443,
@@ -21994,7 +22234,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6446,
@@ -22052,7 +22293,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6449,
@@ -22216,7 +22458,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6452,
@@ -22277,7 +22520,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6453,
@@ -22328,7 +22572,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6454,
@@ -22384,7 +22629,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6459,
@@ -23399,7 +23645,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6485,
@@ -23459,7 +23706,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6491,
@@ -23507,7 +23755,8 @@
         "weapon_type": "Bow",
         "ap": 2,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6492,
@@ -23555,7 +23804,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6493,
@@ -23655,7 +23905,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6495,
@@ -23737,7 +23988,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6496,
@@ -23803,7 +24055,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6497,
@@ -23856,7 +24109,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6498,
@@ -24070,7 +24324,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6504,
@@ -24131,7 +24386,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6505,
@@ -24194,7 +24450,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6506,
@@ -24324,7 +24581,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6508,
@@ -24362,7 +24620,8 @@
         "weapon_type": "Hammer",
         "ap": 2,
         "crit_chance": 20,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6509,
@@ -24430,7 +24689,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6510,
@@ -24515,7 +24775,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6511,
@@ -24591,7 +24852,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6512,
@@ -24647,7 +24909,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6513,
@@ -24700,7 +24963,8 @@
         "weapon_type": "Hammer",
         "ap": 2,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6516,
@@ -24762,7 +25026,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6517,
@@ -24823,7 +25088,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6518,
@@ -24889,7 +25155,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6519,
@@ -24947,7 +25214,8 @@
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6520,
@@ -25005,7 +25273,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6521,
@@ -25066,7 +25335,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6522,
@@ -25138,7 +25408,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6523,
@@ -25199,7 +25470,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6524,
@@ -25242,7 +25514,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6525,
@@ -25305,7 +25578,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6526,
@@ -25363,7 +25637,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6527,
@@ -25414,7 +25689,8 @@
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6528,
@@ -25492,7 +25768,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6535,
@@ -25550,7 +25827,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6536,
@@ -25618,7 +25896,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6537,
@@ -25676,7 +25955,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6538,
@@ -25724,7 +26004,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6539,
@@ -25785,7 +26066,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6540,
@@ -25851,7 +26133,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6604,
@@ -25947,7 +26230,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 1
+        "crit_bonus": 1,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6713,
@@ -26000,7 +26284,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6716,
@@ -26278,7 +26563,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6731,
@@ -26719,7 +27005,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6751,
@@ -26765,7 +27052,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6752,
@@ -26811,7 +27099,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6753,
@@ -27203,7 +27492,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6763,
@@ -27485,7 +27775,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6771,
@@ -27801,7 +28092,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6781,
@@ -27834,7 +28126,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6782,
@@ -27867,7 +28160,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6783,
@@ -27900,7 +28194,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6784,
@@ -27933,7 +28228,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6785,
@@ -27966,7 +28262,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6786,
@@ -27999,7 +28296,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6789,
@@ -28115,7 +28413,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6793,
@@ -28362,7 +28661,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6800,
@@ -28913,7 +29213,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 40,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6825,
@@ -29502,7 +29803,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6915,
@@ -29901,7 +30203,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6925,
@@ -31188,7 +31491,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6961,
@@ -31310,7 +31614,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6982,
@@ -31358,7 +31663,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 6983,
@@ -31424,7 +31730,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6984,
@@ -31480,7 +31787,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 6988,
@@ -32383,7 +32691,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7029,
@@ -32575,7 +32884,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7038,
@@ -32701,7 +33011,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7043,
@@ -32905,7 +33216,8 @@
         "weapon_type": "Sword",
         "ap": 2,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7103,
@@ -32966,7 +33278,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7104,
@@ -33229,7 +33542,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7112,
@@ -34445,7 +34759,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7154,
@@ -34502,7 +34817,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7155,
@@ -34573,7 +34889,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7156,
@@ -34624,7 +34941,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7157,
@@ -34704,7 +35022,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7158,
@@ -34764,7 +35083,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7159,
@@ -34830,7 +35150,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7160,
@@ -34905,7 +35226,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7161,
@@ -34971,7 +35293,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7162,
@@ -35027,7 +35350,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7163,
@@ -35082,7 +35406,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7164,
@@ -35150,7 +35475,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7165,
@@ -35225,7 +35551,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7167,
@@ -35270,7 +35597,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7168,
@@ -35330,7 +35658,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7169,
@@ -35395,7 +35724,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7170,
@@ -35456,7 +35786,8 @@
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 35,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 3
     },
     {
         "ankama_id": 7171,
@@ -35522,7 +35853,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7172,
@@ -35573,7 +35905,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7173,
@@ -35611,7 +35944,8 @@
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7174,
@@ -35698,7 +36032,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7177,
@@ -35787,7 +36122,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7181,
@@ -35863,7 +36199,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7182,
@@ -35923,7 +36260,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7183,
@@ -35983,7 +36321,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7184,
@@ -36031,7 +36370,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7185,
@@ -36087,7 +36427,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7187,
@@ -36127,7 +36468,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7188,
@@ -36188,7 +36530,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7189,
@@ -36263,7 +36606,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7190,
@@ -36324,7 +36668,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7191,
@@ -36395,7 +36740,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7192,
@@ -36446,7 +36792,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7193,
@@ -36512,7 +36859,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7194,
@@ -36580,7 +36928,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7195,
@@ -36646,7 +36995,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7197,
@@ -36727,7 +37077,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7198,
@@ -36778,7 +37129,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7199,
@@ -36850,7 +37202,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7200,
@@ -36890,7 +37243,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7201,
@@ -36938,7 +37292,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7202,
@@ -36988,7 +37343,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7203,
@@ -37058,7 +37414,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7204,
@@ -37104,7 +37461,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7205,
@@ -37147,7 +37505,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7206,
@@ -37213,7 +37572,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7207,
@@ -37273,7 +37633,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7208,
@@ -37321,7 +37682,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7209,
@@ -37359,7 +37721,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 13
+        "crit_bonus": 13,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7210,
@@ -37412,7 +37775,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7211,
@@ -37474,7 +37838,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7212,
@@ -37512,7 +37877,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7213,
@@ -37568,7 +37934,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7214,
@@ -38877,7 +39244,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7255,
@@ -38935,7 +39303,8 @@
         "weapon_type": "Axe",
         "ap": 6,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7256,
@@ -38991,7 +39360,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7257,
@@ -39052,7 +39422,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7339,
@@ -39254,7 +39625,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7414,
@@ -39824,7 +40196,8 @@
         "weapon_type": "Hammer",
         "ap": 6,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7680,
@@ -40075,7 +40448,8 @@
         "weapon_type": "Wand",
         "ap": 2,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 3
     },
     {
         "ankama_id": 7754,
@@ -40200,7 +40574,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7883,
@@ -40636,7 +41011,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 7891,
@@ -40744,7 +41120,8 @@
         "weapon_type": "Wand",
         "ap": 6,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 7921,
@@ -40932,7 +41309,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8006,
@@ -41178,7 +41556,8 @@
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8089,
@@ -41271,7 +41650,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8090,
@@ -41342,7 +41722,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8091,
@@ -41433,7 +41814,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8092,
@@ -41514,7 +41896,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8094,
@@ -41567,7 +41950,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8095,
@@ -41628,7 +42012,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8096,
@@ -41699,7 +42084,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8097,
@@ -41764,7 +42150,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8098,
@@ -41832,7 +42219,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8099,
@@ -41918,7 +42306,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8100,
@@ -41999,7 +42388,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8101,
@@ -42065,7 +42455,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8103,
@@ -42139,7 +42530,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8104,
@@ -42211,7 +42603,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8108,
@@ -42322,7 +42715,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8111,
@@ -42604,7 +42998,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8119,
@@ -42934,7 +43329,8 @@
         "weapon_type": "Scythe",
         "ap": 3,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8128,
@@ -43060,7 +43456,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8131,
@@ -43391,7 +43788,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8149,
@@ -44875,7 +45273,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8256,
@@ -45966,7 +46365,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8275,
@@ -46034,7 +46434,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8276,
@@ -47069,7 +47470,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8293,
@@ -47150,7 +47552,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8294,
@@ -47221,7 +47624,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8295,
@@ -47287,7 +47691,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8296,
@@ -47358,7 +47763,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8297,
@@ -47430,7 +47836,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8298,
@@ -47601,7 +48008,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8301,
@@ -48026,7 +48434,8 @@
         "weapon_type": "Sword",
         "ap": 1,
         "crit_chance": 50,
-        "crit_bonus": 1
+        "crit_bonus": 1,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8341,
@@ -48165,7 +48574,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8417,
@@ -48251,7 +48661,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8419,
@@ -48301,7 +48712,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8420,
@@ -48372,7 +48784,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8441,
@@ -48587,7 +49000,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8445,
@@ -48866,7 +49280,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8451,
@@ -50405,7 +50820,8 @@
         "weapon_type": "Dagger",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8521,
@@ -50820,7 +51236,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 13,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8596,
@@ -50881,7 +51298,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8598,
@@ -50929,7 +51347,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8599,
@@ -50972,7 +51391,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8604,
@@ -51032,7 +51452,8 @@
         "weapon_type": "Sword",
         "ap": 8,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8605,
@@ -51095,7 +51516,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8607,
@@ -51171,7 +51593,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8608,
@@ -51224,7 +51647,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8609,
@@ -51279,7 +51703,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8610,
@@ -51330,7 +51755,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8611,
@@ -51386,7 +51812,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8612,
@@ -51436,7 +51863,8 @@
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8613,
@@ -51489,7 +51917,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8614,
@@ -51542,7 +51971,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8615,
@@ -51598,7 +52028,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8616,
@@ -51659,7 +52090,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8617,
@@ -51697,7 +52129,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8618,
@@ -51762,7 +52195,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8619,
@@ -51798,7 +52232,8 @@
         "weapon_type": "Wand",
         "ap": 6,
         "crit_chance": 1,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8628,
@@ -52409,7 +52844,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8677,
@@ -52521,7 +52957,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8699,
@@ -52662,7 +53099,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8704,
@@ -53438,7 +53876,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8826,
@@ -53504,7 +53943,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8827,
@@ -53570,7 +54010,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8829,
@@ -53686,7 +54127,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8834,
@@ -53752,7 +54194,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8835,
@@ -53823,7 +54266,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8836,
@@ -53889,7 +54333,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8837,
@@ -53955,7 +54400,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8838,
@@ -54031,7 +54477,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8839,
@@ -54766,7 +55213,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8850,
@@ -54814,7 +55262,8 @@
         "weapon_type": "Staff",
         "ap": 2,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 3
     },
     {
         "ankama_id": 8856,
@@ -55307,7 +55756,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8865,
@@ -55502,7 +55952,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8869,
@@ -55987,7 +56438,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8879,
@@ -56239,7 +56691,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8925,
@@ -56320,7 +56773,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8926,
@@ -56416,7 +56870,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8927,
@@ -56502,7 +56957,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8928,
@@ -56562,7 +57018,8 @@
         "weapon_type": "Dagger",
         "ap": 2,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 3
     },
     {
         "ankama_id": 8929,
@@ -56653,7 +57110,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 8930,
@@ -56724,7 +57182,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8931,
@@ -56811,7 +57270,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 10,
-        "crit_bonus": 9
+        "crit_bonus": 9,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8932,
@@ -56889,7 +57349,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8933,
@@ -56965,7 +57426,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8934,
@@ -57052,7 +57514,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8935,
@@ -57133,7 +57596,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8936,
@@ -57214,7 +57678,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8937,
@@ -57292,7 +57757,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8941,
@@ -57332,7 +57798,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8956,
@@ -57372,7 +57839,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8957,
@@ -57412,7 +57880,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8958,
@@ -57452,7 +57921,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8959,
@@ -57492,7 +57962,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8960,
@@ -57532,7 +58003,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8961,
@@ -57572,7 +58044,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8962,
@@ -57612,7 +58085,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8963,
@@ -57652,7 +58126,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8964,
@@ -57692,7 +58167,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8965,
@@ -57732,7 +58208,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8966,
@@ -57772,7 +58249,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8989,
@@ -57998,7 +58476,8 @@
         "weapon_type": "Scythe",
         "ap": 6,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 8993,
@@ -58096,7 +58575,8 @@
         "weapon_type": "Sword",
         "ap": 7,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9004,
@@ -58258,7 +58738,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9122,
@@ -58907,7 +59388,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9135,
@@ -59018,7 +59500,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9136,
@@ -59114,7 +59597,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9137,
@@ -59219,7 +59703,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 9138,
@@ -59289,7 +59774,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9139,
@@ -61185,7 +61671,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 9177,
@@ -61758,7 +62245,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9192,
@@ -62646,7 +63134,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 9469,
@@ -62722,7 +63211,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9471,
@@ -63025,7 +63515,8 @@
         "weapon_type": "Staff",
         "ap": 42,
         "crit_chance": 13,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9655,
@@ -63240,7 +63731,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9707,
@@ -63266,7 +63758,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9708,
@@ -63292,7 +63785,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9709,
@@ -63318,7 +63812,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9710,
@@ -63362,7 +63857,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9711,
@@ -63388,7 +63884,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9712,
@@ -63414,7 +63911,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9713,
@@ -63440,7 +63938,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9716,
@@ -63466,7 +63965,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 9717,
@@ -63510,7 +64010,8 @@
         "weapon_type": "Dagger",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9724,
@@ -63536,7 +64037,8 @@
         "weapon_type": "Shovel",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9725,
@@ -63562,7 +64064,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9726,
@@ -63588,7 +64091,8 @@
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9727,
@@ -63614,7 +64118,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9728,
@@ -63658,7 +64163,8 @@
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 40,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9729,
@@ -63684,7 +64190,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9730,
@@ -63710,7 +64217,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 40,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9731,
@@ -63736,7 +64244,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9735,
@@ -63762,7 +64271,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9736,
@@ -63806,7 +64316,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9739,
@@ -63832,7 +64343,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9741,
@@ -63858,7 +64370,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9742,
@@ -63884,7 +64397,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9743,
@@ -63910,7 +64424,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9744,
@@ -63954,7 +64469,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9745,
@@ -63980,7 +64496,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9746,
@@ -64006,7 +64523,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9747,
@@ -64032,7 +64550,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9748,
@@ -64058,7 +64577,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9749,
@@ -64102,7 +64622,8 @@
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9750,
@@ -64128,7 +64649,8 @@
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9751,
@@ -64154,7 +64676,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9752,
@@ -64180,7 +64703,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9753,
@@ -64206,7 +64730,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9754,
@@ -64250,7 +64775,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 40,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9755,
@@ -64276,7 +64802,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9756,
@@ -64302,7 +64829,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9757,
@@ -64328,7 +64856,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9758,
@@ -64354,7 +64883,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9759,
@@ -64398,7 +64928,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 35,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9785,
@@ -64762,7 +65293,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 1,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 9972,
@@ -64785,7 +65317,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10054,
@@ -65072,7 +65605,8 @@
         "weapon_type": "Bow",
         "ap": 6,
         "crit_chance": 15,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10126,
@@ -65110,7 +65644,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10127,
@@ -65148,7 +65683,8 @@
         "weapon_type": "Staff",
         "ap": 6,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10133,
@@ -65186,7 +65722,8 @@
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10155,
@@ -65892,7 +66429,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10623,
@@ -66012,7 +66550,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10627,
@@ -66127,7 +66666,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10631,
@@ -66237,7 +66777,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10635,
@@ -66347,7 +66888,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 25,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10639,
@@ -66457,7 +66999,8 @@
         "weapon_type": "Pickaxe",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10643,
@@ -66745,7 +67288,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10798,
@@ -66902,7 +67446,8 @@
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10828,
@@ -67376,7 +67921,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10857,
@@ -67399,7 +67945,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10858,
@@ -67422,7 +67969,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10863,
@@ -67497,7 +68045,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 10904,
@@ -67657,7 +68206,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 5,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 10963,
@@ -67776,7 +68326,8 @@
         "weapon_type": "Sword",
         "ap": 6,
         "crit_chance": 15,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10976,
@@ -67873,7 +68424,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 10980,
@@ -68589,7 +69141,8 @@
         "weapon_type": "Sword",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11343,
@@ -68841,7 +69394,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 10,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11350,
@@ -68971,7 +69525,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11354,
@@ -69096,7 +69651,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11358,
@@ -69221,7 +69777,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11362,
@@ -69376,7 +69933,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11366,
@@ -69399,7 +69957,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11374,
@@ -70471,7 +71030,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11563,
@@ -71863,7 +72423,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11598,
@@ -73406,7 +73967,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11625,
@@ -73502,7 +74064,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11626,
@@ -73597,7 +74160,8 @@
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11627,
@@ -73694,7 +74258,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11628,
@@ -73795,7 +74360,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11629,
@@ -73887,7 +74453,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 10,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11630,
@@ -73988,7 +74555,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11631,
@@ -74074,7 +74642,8 @@
         "weapon_type": "Hammer",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11632,
@@ -74175,7 +74744,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11633,
@@ -74270,7 +74840,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11634,
@@ -74366,7 +74937,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11635,
@@ -74462,7 +75034,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11667,
@@ -75141,7 +75714,8 @@
         "weapon_type": "Axe",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11712,
@@ -77707,7 +78281,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11743,
@@ -77797,7 +78372,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11744,
@@ -77898,7 +78474,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11745,
@@ -77994,7 +78571,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11746,
@@ -78090,7 +78668,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11747,
@@ -78197,7 +78776,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11748,
@@ -78214,7 +78794,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11749,
@@ -78305,7 +78886,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11750,
@@ -78411,7 +78993,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11751,
@@ -78497,7 +79080,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11752,
@@ -78592,7 +79176,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11753,
@@ -78688,7 +79273,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11754,
@@ -78793,7 +79379,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11755,
@@ -78884,7 +79471,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11756,
@@ -78991,7 +79579,8 @@
         "weapon_type": "Bow",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11757,
@@ -79092,7 +79681,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11758,
@@ -79203,7 +79793,8 @@
         "weapon_type": "Wand",
         "ap": 5,
         "crit_chance": 10,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11759,
@@ -79301,7 +79892,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11760,
@@ -79399,7 +79991,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11761,
@@ -79510,7 +80103,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11762,
@@ -79605,7 +80199,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11763,
@@ -79710,7 +80305,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11765,
@@ -80075,7 +80671,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11820,
@@ -80187,7 +80784,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11850,
@@ -80381,7 +80979,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11858,
@@ -80419,7 +81018,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11873,
@@ -80449,7 +81049,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11874,
@@ -80474,7 +81075,8 @@
         "weapon_type": "Hammer",
         "ap": 6,
         "crit_chance": 10,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11875,
@@ -80504,7 +81106,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 11947,
@@ -80595,7 +81198,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 11950,
@@ -80940,7 +81544,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 35,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12009,
@@ -81019,7 +81624,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12019,
@@ -81174,7 +81780,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12023,
@@ -81309,7 +81916,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12027,
@@ -81434,7 +82042,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12031,
@@ -81559,7 +82168,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12035,
@@ -81694,7 +82304,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 12039,
@@ -81829,7 +82440,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 12043,
@@ -82047,7 +82659,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12068,
@@ -82398,7 +83011,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12085,
@@ -82665,7 +83279,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 12089,
@@ -83563,7 +84178,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12100,
@@ -83891,7 +84507,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12104,
@@ -84601,7 +85218,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12113,
@@ -84852,7 +85470,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12116,
@@ -87068,7 +87687,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12622,
@@ -88158,7 +88778,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 40,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12678,
@@ -89990,7 +90611,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 12882,
@@ -90562,7 +91184,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13064,
@@ -90756,7 +91379,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13093,
@@ -91280,7 +91904,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13120,
@@ -92684,7 +93309,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13252,
@@ -92819,7 +93445,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13296,
@@ -92838,7 +93465,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13297,
@@ -93296,7 +93924,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13344,
@@ -93662,7 +94291,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13584,
@@ -94038,7 +94668,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13632,
@@ -95614,7 +96245,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13657,
@@ -98152,7 +98784,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 13850,
@@ -98499,7 +99132,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13896,
@@ -98605,7 +99239,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 13897,
@@ -99847,7 +100482,8 @@
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14056,
@@ -101939,7 +102575,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14085,
@@ -103251,7 +103888,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 14132,
@@ -103344,7 +103982,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 5,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 14133,
@@ -103440,7 +104079,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14135,
@@ -103551,7 +104191,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14146,
@@ -103584,7 +104225,8 @@
         "weapon_type": "Pickaxe",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14156,
@@ -103679,7 +104321,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14159,
@@ -104214,7 +104857,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14166,
@@ -104302,7 +104946,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14167,
@@ -104413,7 +105058,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14168,
@@ -104957,7 +105603,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 30,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14277,
@@ -105507,7 +106154,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 14289,
@@ -105585,7 +106233,8 @@
         "weapon_type": "Axe",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 20
+        "crit_bonus": 20,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14300,
@@ -106306,7 +106955,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 14545,
@@ -108429,7 +109079,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15028,
@@ -108539,7 +109190,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15057,
@@ -108872,7 +109524,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 14
+        "crit_bonus": 14,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15064,
@@ -111795,7 +112448,8 @@
         "weapon_type": "Bow",
         "ap": 6,
         "crit_chance": 15,
-        "crit_bonus": 15
+        "crit_bonus": 15,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15610,
@@ -111881,7 +112535,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 30,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15615,
@@ -111969,7 +112624,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15616,
@@ -112065,7 +112721,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15617,
@@ -112167,7 +112824,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15618,
@@ -112238,7 +112896,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15620,
@@ -112446,7 +113105,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15637,
@@ -113174,7 +113834,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15753,
@@ -113242,7 +113903,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 15754,
@@ -114080,7 +114742,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 15792,
@@ -115917,7 +116580,8 @@
         "weapon_type": "Shovel",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16032,
@@ -116079,7 +116743,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 30,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 16036,
@@ -116831,7 +117496,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 20,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16126,
@@ -119637,7 +120303,8 @@
         "weapon_type": "Wand",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 16193,
@@ -119764,7 +120431,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 20,
-        "crit_bonus": 7
+        "crit_bonus": 7,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16196,
@@ -121027,7 +121695,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16330,
@@ -121110,7 +121779,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 8
+        "crit_bonus": 8,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16332,
@@ -121193,7 +121863,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 16334,
@@ -121294,7 +121965,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 12
+        "crit_bonus": 12,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16336,
@@ -121377,7 +122049,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16338,
@@ -121475,7 +122148,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16344,
@@ -124567,7 +125241,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16460,
@@ -125537,7 +126212,8 @@
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 16688,
@@ -126214,7 +126890,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 17756,
@@ -126252,7 +126929,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 17758,
@@ -126290,7 +126968,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 17760,
@@ -126328,7 +127007,8 @@
         "weapon_type": "Sword",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 17766,
@@ -126717,7 +127397,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 25,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 17776,
@@ -126881,7 +127562,8 @@
         "weapon_type": "Wand",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 17780,
@@ -127145,7 +127827,8 @@
         "weapon_type": "Staff",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 2
+        "crit_bonus": 2,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 17786,
@@ -127345,7 +128028,8 @@
         "weapon_type": "Staff",
         "ap": 4,
         "crit_chance": 15,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 17790,
@@ -127431,7 +128115,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 5,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 17792,
@@ -128341,7 +129026,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 15,
-        "crit_bonus": 3
+        "crit_bonus": 3,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 18600,
@@ -128713,7 +129399,8 @@
         "weapon_type": "Hammer",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 18846,
@@ -128988,7 +129675,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 18864,
@@ -129709,7 +130397,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 18910,
@@ -129747,7 +130436,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 18912,
@@ -129785,7 +130475,8 @@
         "weapon_type": "Staff",
         "ap": 3,
         "crit_chance": 35,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 19006,
@@ -130069,7 +130760,8 @@
         "weapon_type": "Axe",
         "ap": 4,
         "crit_chance": 10,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 19115,
@@ -130565,7 +131257,8 @@
         "weapon_type": "Bow",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 6
+        "crit_bonus": 6,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 19145,
@@ -131619,7 +132312,8 @@
         "weapon_type": "Shovel",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 4
+        "crit_bonus": 4,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 19187,
@@ -131725,7 +132419,8 @@
         "weapon_type": "Hammer",
         "ap": 5,
         "crit_chance": 5,
-        "crit_bonus": 5
+        "crit_bonus": 5,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 19189,
@@ -131984,7 +132679,8 @@
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 0,
-        "crit_bonus": 0
+        "crit_bonus": 0,
+        "uses_per_turn": 2
     },
     {
         "ankama_id": 19195,
@@ -136894,7 +137590,8 @@
         "weapon_type": "Sword",
         "ap": 5,
         "crit_chance": 15,
-        "crit_bonus": 10
+        "crit_bonus": 10,
+        "uses_per_turn": 1
     },
     {
         "ankama_id": 21611,

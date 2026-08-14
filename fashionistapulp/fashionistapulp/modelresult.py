@@ -642,6 +642,7 @@ class ModelResultItem():
                     self.crit_bonus = weapon.crit_bonus
                     self.crit_chance = weapon.crit_chance_percent
                     self.ap = weapon.ap
+                    self.uses_per_turn = weapon.uses_per_turn
                     weapon_type = structure.get_weapon_type_by_id(weapon.weapon_type)
                     self.weapon_type = weapon_type.name if weapon_type is not None else "DefaultName"
                 else:
