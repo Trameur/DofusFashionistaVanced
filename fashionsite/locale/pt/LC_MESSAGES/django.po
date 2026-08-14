@@ -4023,28 +4023,20 @@ msgid ""
 "The Dofus Fashionista uses Google OAuth to authenticate users. This means "
 "that the Dofus Fashionista does not store your password. However, the Dofus "
 "Fashionista does store your email address and your Google ID."
-msgstr ""
-"Dofus Fashionista usa Google OAuth para autenticar usuarios. Isso significa "
-"que Dofus Fashionista nao armazena sua senha. No entanto, Dofus Fashionista "
-"armazena seu email e seu ID do Google."
+msgstr "Dofus Fashionista usa Google OAuth para autenticar usuários. Isso significa que Dofus Fashionista não armazena sua senha. No entanto, Dofus Fashionista armazena seu email e seu ID do Google."
 
 #: .\chardata\templates\chardata\license.html:62
 msgid ""
 "If you prefer not to use Google OAuth, you can still use the Dofus "
 "Fashionista. You can create an account with a username and password. The "
 "Dofus Fashionista stores your password in an encrypted form."
-msgstr ""
-"Se voce preferir nao usar Google OAuth, ainda pode usar Dofus Fashionista. "
-"Voce pode criar uma conta com nome de usuario e senha. Dofus Fashionista "
-"armazena sua senha de forma criptografada."
+msgstr "Se você preferir não usar Google OAuth, ainda pode usar Dofus Fashionista. Você pode criar uma conta com nome de usuário e senha. Dofus Fashionista armazena sua senha de forma criptografada."
 
 #: .\chardata\templates\chardata\license.html:63
 msgid ""
 "The Dofus Fashionista also stores the characters you create. This "
 "information is used to provide the services of the Dofus Fashionista."
-msgstr ""
-"Dofus Fashionista tambem armazena os personagens que voce cria. Essas "
-"informacoes sao usadas para fornecer os servicos de Dofus Fashionista."
+msgstr "Dofus Fashionista também armazena os personagens que você cria. Essas informações são usadas para fornecer os serviços de Dofus Fashionista."
 
 #: .\chardata\templates\chardata\license.html:64
 msgid ""
@@ -5113,7 +5105,7 @@ msgstr "Layout de slots desatualizado"
 
 #: .\chardata\templates\chardata\shared_builds.html:242
 msgid "Conditions not met"
-msgstr "Condicoes nao atendidas"
+msgstr "Condições não atendidas"
 
 #: .\chardata\templates\chardata\shared_builds.html:250
 msgid "Views"
@@ -5389,11 +5381,7 @@ msgid ""
 "    This set was generated from scratch. Click the add (<img "
 "style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
 "title='Add'>) buttons to choose items and build a set for you."
-msgstr ""
-"\n"
-"    Este set foi criado manualmente. Clique nos botões adicionar (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) para escolher os itens e criar um set para você."
+msgstr "\n    Este set foi criado manualmente. Clique nos botões adicionar (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Adicionar'>) para escolher os itens e criar um set para você."
 
 #: .\chardata\templates\chardata\solution.html:183
 msgid "Compare with my other sets"
@@ -6536,3 +6524,12 @@ msgstr "Os escudos trazem agora os atributos que atingem depois de alimentados a
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
 msgstr "As condições de PA e PM do equipamento de Touch chegam agora ao otimizador, verificadas nos totais que o próprio equipamento atinge, por isso um equipamento gerado é um que a sua personagem consegue mesmo usar."
+
+#: .\chardata\templates\chardata\spell_tip.html:2
+#, python-format
+msgid "What %(spell)s does"
+msgstr "O que %(spell)s faz"
+
+#: .\chardata\templates\chardata\encyclopedia_item.html:32
+msgid "Breadcrumb"
+msgstr "Trilha de navegação"

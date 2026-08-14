@@ -17,7 +17,7 @@
 
 {% block main %}
 <div class="encyclopedia-missing text">
-    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+    <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> &gt;
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> &gt;
         <span>{{ missing.title }}</span>

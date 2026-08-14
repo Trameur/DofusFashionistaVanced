@@ -5999,3 +5999,12 @@ msgstr ""
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
 msgstr ""
+
+#: .\chardata\templates\chardata\spell_tip.html:2
+#, python-format
+msgid "What %(spell)s does"
+msgstr ""
+
+#: .\chardata\templates\chardata\encyclopedia_item.html:32
+msgid "Breadcrumb"
+msgstr ""

@@ -74,7 +74,7 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
 {% block main %}
 {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
 <div class="encyclopedia-monster text">
-    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+    <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> &gt;
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> &gt;
         <a href="{% game_url 'encyclopedia_monsters' %}">{{ mt.monsters_label }}</a> &gt;

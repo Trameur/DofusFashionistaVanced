@@ -82,6 +82,11 @@
         window.location.href = base + '/compare_sets/' + ids.join('/');
     }
 
+    function removeLabel() {
+        return (typeof gettext === 'function')
+            ? gettext('Remove from the comparison') : 'Remove';
+    }
+
     function rowHtml(b) {
         var av = b.avatar
             ? '<img src="' + esc(b.avatar) + '" alt="" class="cc-av">' : '';
@@ -90,7 +95,7 @@
         return '<div class="cc-row">' + av +
             '<span class="cc-name">' + esc(b.name || ('#' + b.id)) + lvl + '</span>' +
             '<button type="button" class="cc-x" data-ct-remove="' + esc(b.id) +
-            '" aria-label="remove">&times;</button></div>';
+            '" aria-label="' + esc(removeLabel()) + '">&times;</button></div>';
     }
 
     function render() {

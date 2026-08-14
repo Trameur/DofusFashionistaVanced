@@ -29,7 +29,7 @@
 
 {% block main %}
 <div class="encyclopedia-item text">
-    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+    <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
         <span>{{ item.name }}</span>

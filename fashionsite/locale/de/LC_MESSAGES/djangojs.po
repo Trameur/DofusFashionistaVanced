@@ -700,3 +700,12 @@ msgstr "Alle"
 #: .\chardata\static\chardata\solution_popup.js:234
 msgid "Droppable"
 msgstr "Beute"
+
+#: .\chardata\static\chardata\spell_tip.js:86
+#, python-format
+msgid "What %(spell)s does"
+msgstr "Was %(spell)s bewirkt"
+
+#: .\chardata\static\chardata\compare_tray.js:86
+msgid "Remove from the comparison"
+msgstr "Aus dem Vergleich entfernen"

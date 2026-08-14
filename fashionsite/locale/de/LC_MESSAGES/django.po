@@ -5400,18 +5400,7 @@ msgid ""
 "for another you like best by clicking the switch (<img class='solution-item-"
 "button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s "
 "title='Switch'>) button."
-msgstr ""
-"Wenn Ihnen ein Element nicht gefällt, klicken Sie auf die Schaltfläche "
-"„Verbieten“ ( <img style='position: relative; unten: -3px; links: -2px;' "
-"src=%(delete)s title='Forbid'> ) unter seinem Namen und <a "
-"href=\"%(run_again_link)s\" class=\"rerun-button\">erneut ausführen</a>. "
-"Wenn Sie hingegen ein Element für zukünftige Sätze für dieses Zeichen "
-"sperren möchten, klicken Sie auf die Schaltfläche „Sperren“ (<img "
-"style='position: relative; unten: -1px; links: 0px;' src=%(lock)s "
-"title='Lock'>). Sie können auch jedes Element gegen ein anderes austauschen, "
-"das Ihnen am besten gefällt, indem Sie auf die Schaltfläche zum Wechseln "
-"(<img class='solution-item-button' style='position: relative; unten: -5px; "
-"links: 0px;' src=%(switch)s title='Switch'>) klicken."
+msgstr "Wenn Ihnen ein Gegenstand nicht gefällt, klicken Sie unter seinem Namen auf die Schaltfläche „Verbieten“ ( <img style='position: relative; bottom: -3px; left: -2px;' src=%(delete)s title='Verbieten'> ) und <a href=\"%(run_again_link)s\" class=\"rerun-button\">starten Sie die Suche neu</a>. Wenn Sie umgekehrt einen Gegenstand für die nächsten Sets dieses Charakters festhalten möchten, klicken Sie auf die Schaltfläche „Sperren“ (<img style='position: relative; bottom: -1px; left: 0px;' src=%(lock)s title='Sperren'>). Sie können außerdem jeden Gegenstand gegen einen anderen tauschen, der Ihnen besser gefällt, indem Sie auf die Schaltfläche „Tauschen“ (<img class='solution-item-button' style='position: relative; bottom: -5px; left: 0px;' src=%(switch)s title='Tauschen'>) klicken."
 
 #: .\chardata\templates\chardata\solution.html:165
 #, python-format
@@ -5420,12 +5409,7 @@ msgid ""
 "    This set was generated from scratch. Click the add (<img "
 "style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
 "title='Add'>) buttons to choose items and build a set for you."
-msgstr ""
-"\n"
-"Dieses Set wurde von Grund auf neu erstellt. Klicken Sie auf die "
-"Schaltflächen „Hinzufügen“ (<img style='position: relative; unten: -4px; "
-"links: 1px;' src=%(add)s title='Add'>), um Elemente auszuwählen und ein Set "
-"für Sie zu erstellen."
+msgstr "\nDieses Set wurde von Grund auf neu erstellt. Klicken Sie auf die Schaltflächen „Hinzufügen“ (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Hinzufügen'>), um Gegenstände auszuwählen und ein Set für Sie zu erstellen."
 
 #: .\chardata\templates\chardata\solution.html:183
 msgid "Compare with my other sets"
@@ -6011,7 +5995,7 @@ msgstr "W"
 
 #: .\chardata\templates\chardata\spells.html:956
 msgid "A"
-msgstr "A"
+msgstr "L"
 
 #: .\chardata\templates\chardata\state_engine_all_buttons.html:3
 msgid "Discard Changes"
@@ -6121,7 +6105,7 @@ msgstr "Vielen Dank, dass Sie uns kontaktiert haben."
 
 #: .\chardata\templates\chardata\theme-selector.html:4
 msgid "Theme"
-msgstr "Thema"
+msgstr "Design"
 
 #: .\chardata\templates\chardata\theme-selector.html:7
 msgid "Light Theme"
@@ -6571,3 +6555,12 @@ msgstr "Die Schilde tragen jetzt die Werte, die sie mit Fütterung bis Stufe 100
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
 msgstr "Die AP- und MP-Bedingungen der Touch-Ausrüstung erreichen jetzt den Optimierer und werden an den Summen geprüft, die das Set selbst erreicht, sodass ein erzeugtes Set auch wirklich tragbar ist."
+
+#: .\chardata\templates\chardata\spell_tip.html:2
+#, python-format
+msgid "What %(spell)s does"
+msgstr "Was %(spell)s bewirkt"
+
+#: .\chardata\templates\chardata\encyclopedia_item.html:32
+msgid "Breadcrumb"
+msgstr "Brotkrumennavigation"

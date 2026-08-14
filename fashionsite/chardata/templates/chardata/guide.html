@@ -53,7 +53,7 @@
 
 {% block main %}
 <article class="fm-guide">
-    <nav class="fm-guide-crumbs" aria-label="Breadcrumb">
+    <nav class="fm-guide-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
         <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a> ›
         <span>{{ guide.title }}</span>

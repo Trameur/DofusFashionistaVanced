@@ -3046,9 +3046,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:88
 msgid "Select 2 to 4 builds below, or paste solution/share links manually."
-msgstr ""
-"Selectionne 2 a 4 builds ci-dessous, ou colle des liens de solution/partage "
-"a la main."
+msgstr "Sélectionne 2 à 4 builds ci-dessous, ou colle des liens de solution/partage à la main."
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:100
 #: .\chardata\templates\chardata\solution.html:10
@@ -5973,7 +5971,7 @@ msgstr "(pièges)"
 
 #: .\chardata\templates\chardata\spells.html:745
 msgid "Final Damage"
-msgstr "Degats finaux"
+msgstr "Dégâts finaux"
 
 #: .\chardata\templates\chardata\spells.html:747
 msgid "Final Heals"
@@ -6143,15 +6141,15 @@ msgstr "Merci de nous avoir contactés."
 
 #: .\chardata\templates\chardata\theme-selector.html:4
 msgid "Theme"
-msgstr "Theme"
+msgstr "Thème"
 
 #: .\chardata\templates\chardata\theme-selector.html:7
 msgid "Light Theme"
-msgstr "Theme clair"
+msgstr "Thème clair"
 
 #: .\chardata\templates\chardata\theme-selector.html:8
 msgid "Dark Theme"
-msgstr "Theme sombre"
+msgstr "Thème sombre"
 
 #: .\chardata\templates\chardata\theme-selector.html:9
 msgid "Auto"
@@ -6594,3 +6592,12 @@ msgstr "Les boucliers portent maintenant les statistiques qu’ils atteignent un
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
 msgstr "Les conditions en PA et PM des équipements Touch arrivent maintenant jusqu’à l’optimiseur, vérifiées sur les totaux que l’équipement atteint lui-même, si bien qu’un équipement généré est un équipement que votre personnage peut réellement porter."
+
+#: .\chardata\templates\chardata\spell_tip.html:2
+#, python-format
+msgid "What %(spell)s does"
+msgstr "Ce que fait %(spell)s"
+
+#: .\chardata\templates\chardata\encyclopedia_item.html:32
+msgid "Breadcrumb"
+msgstr "Fil d’Ariane"

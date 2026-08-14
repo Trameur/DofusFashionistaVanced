@@ -28,7 +28,7 @@
 {% block main %}
 {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
 <div class="encyclopedia-item text">
-    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+    <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
         <span>{{ resource.name }}</span>

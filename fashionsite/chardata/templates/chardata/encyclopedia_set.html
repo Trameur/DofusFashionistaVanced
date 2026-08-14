@@ -68,7 +68,7 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
 
 {% block main %}
 <div class="encyclopedia-item text">
-    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+    <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> ›
         <a href="{% game_url 'encyclopedia_sets' %}">{% trans "All sets" %}</a> ›

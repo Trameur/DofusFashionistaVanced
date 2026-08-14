@@ -58,7 +58,7 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
 {% block main %}
 <div class="encyclopedia-monsters text">
     <h1 align="center">{{ mt.monsters_label }}</h1>
-    <nav class="encyclopedia-crumbs" aria-label="Breadcrumb">
+    <nav class="encyclopedia-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> &gt;
         <a href="{% game_url 'encyclopedia' %}">{{ t.title }}</a> &gt;
         <span>{{ mt.monsters_label }}</span>

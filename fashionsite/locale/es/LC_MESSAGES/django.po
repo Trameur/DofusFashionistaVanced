@@ -4055,9 +4055,7 @@ msgstr ""
 msgid ""
 "The Dofus Fashionista also stores the characters you create. This "
 "information is used to provide the services of the Dofus Fashionista."
-msgstr ""
-"Dofus Fashionista tambien almacena los personajes que creas. Esta "
-"informacion se usa para ofrecer los servicios de Dofus Fashionista."
+msgstr "Dofus Fashionista también almacena los personajes que creas. Esta información se usa para ofrecer los servicios de Dofus Fashionista."
 
 #: .\chardata\templates\chardata\license.html:64
 msgid ""
@@ -5442,9 +5440,7 @@ msgstr "Este es el set de otro usuario."
 msgid ""
 "If you wish to modify it, <a href=\"%(copy_link)s\" class=\"copy-action-"
 "link\">copy</a> it to your workspace.</p>"
-msgstr ""
-"Si deseas modificarlo, <a href=\"%(copy_link)s\" class=\"copy-action-"
-"link\">copialo</a> a tu área de trabajo."
+msgstr "Si deseas modificarlo, <a href=\"%(copy_link)s\" class=\"copy-action-link\">cópialo</a> a tu área de trabajo.</p>"
 
 #: .\chardata\templates\chardata\solution.html:222
 msgid "Compare to another set"
@@ -6552,3 +6548,12 @@ msgstr "Los escudos ahora llevan las características que alcanzan al alimentarl
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
 msgstr "Las condiciones de PA y PM del equipo de Touch llegan ahora al optimizador, comprobadas sobre los totales que el propio equipo alcanza, así que un equipo generado es uno que tu personaje puede llevar de verdad."
+
+#: .\chardata\templates\chardata\spell_tip.html:2
+#, python-format
+msgid "What %(spell)s does"
+msgstr "Lo que hace %(spell)s"
+
+#: .\chardata\templates\chardata\encyclopedia_item.html:32
+msgid "Breadcrumb"
+msgstr "Ruta de navegación"

@@ -645,3 +645,80 @@ msgstr ""
 #: fashionsite/chardata/static/chardata/solution_popup.js
 msgid "In my inventory"
 msgstr ""
+
+#: .\chardata\static\chardata\spell_tip.js:86
+#, python-format
+msgid "What %(spell)s does"
+msgstr ""
+
+#: .\chardata\static\chardata\compare_tray.js:86
+msgid "Remove from the comparison"
+msgstr ""
+
+#: .\chardata\static\chardata\compare_sets_popup.js:19
+msgid "Close"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:50
+msgid "AP"
+msgstr ""
+
+#| msgid "M"
+msgid "MP"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:52
+msgid "Range"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:53
+msgid "Summons"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:54
+msgid "Vitality"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:55
+msgid "Wisdom"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:56
+msgid "Strength"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:57
+msgid "Intelligence"
+msgstr ""
+
+#| msgid "Cancel"
+msgid "Chance"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:59
+msgid "Agility"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:590
+msgid "Set"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:578
+msgid "Craftable"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:578
+msgid "Drop rate: %(rate)s"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "How to get it"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "Any source"
+msgstr ""
+
+#: .\chardata\static\chardata\solution_popup.js:234
+msgid "Droppable"
+msgstr ""

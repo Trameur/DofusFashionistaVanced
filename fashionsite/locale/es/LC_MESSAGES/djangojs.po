@@ -55,7 +55,7 @@ msgstr "Choose"
 
 #: .\admin\js\SelectFilter2.js:69
 msgid "Remove"
-msgstr "Reemplazar "
+msgstr "Eliminar "
 
 #: .\admin\js\SelectFilter2.js:75
 #, javascript-format
@@ -298,7 +298,7 @@ msgstr "Cualquier stat"
 
 #: .\chardata\static\chardata\solution_popup.js:168
 msgid "Minimum"
-msgstr "Minimo"
+msgstr "Mínimo"
 
 #: .\chardata\static\chardata\solution_popup.js:218
 msgid "Search"
@@ -451,7 +451,7 @@ msgstr "Filtros de stats"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Damage"
-msgstr "Danos"
+msgstr "Daños"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Neutral Resistance"
@@ -698,3 +698,12 @@ msgstr "Todas"
 #: .\chardata\static\chardata\solution_popup.js:234
 msgid "Droppable"
 msgstr "Botín"
+
+#: .\chardata\static\chardata\spell_tip.js:86
+#, python-format
+msgid "What %(spell)s does"
+msgstr "Lo que hace %(spell)s"
+
+#: .\chardata\static\chardata\compare_tray.js:86
+msgid "Remove from the comparison"
+msgstr "Quitar de la comparación"

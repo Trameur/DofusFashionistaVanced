@@ -694,3 +694,12 @@ msgstr "Toutes"
 #: .\chardata\static\chardata\solution_popup.js:234
 msgid "Droppable"
 msgstr "Droppable"
+
+#: .\chardata\static\chardata\spell_tip.js:86
+#, python-format
+msgid "What %(spell)s does"
+msgstr "Ce que fait %(spell)s"
+
+#: .\chardata\static\chardata\compare_tray.js:86
+msgid "Remove from the comparison"
+msgstr "Retirer de la comparaison"

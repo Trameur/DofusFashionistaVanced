@@ -55,7 +55,7 @@ msgstr "Choose"
 
 #: .\admin\js\SelectFilter2.js:69
 msgid "Remove"
-msgstr "Removendo "
+msgstr "Remover "
 
 #: .\admin\js\SelectFilter2.js:75
 #, javascript-format
@@ -298,7 +298,7 @@ msgstr "Qualquer stat"
 
 #: .\chardata\static\chardata\solution_popup.js:168
 msgid "Minimum"
-msgstr "Minimo"
+msgstr "Mínimo"
 
 #: .\chardata\static\chardata\solution_popup.js:218
 msgid "Search"
@@ -452,23 +452,23 @@ msgstr "Danos"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Neutral Resistance"
-msgstr "Resistencia Neutra"
+msgstr "Resistência Neutra"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Earth Resistance"
-msgstr "Resistencia Terra"
+msgstr "Resistência Terra"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Fire Resistance"
-msgstr "Resistencia Fogo"
+msgstr "Resistência Fogo"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Water Resistance"
-msgstr "Resistencia Agua"
+msgstr "Resistência Água"
 
 #: chardata/static/chardata/solution_popup.js
 msgid "Air Resistance"
-msgstr "Resistencia Ar"
+msgstr "Resistência Ar"
 
 #: staticfiles/admin/js/SelectFilter2.js:105
 #, javascript-format
@@ -699,3 +699,12 @@ msgstr "Todas"
 #: .\chardata\static\chardata\solution_popup.js:234
 msgid "Droppable"
 msgstr "Dropável"
+
+#: .\chardata\static\chardata\spell_tip.js:86
+#, python-format
+msgid "What %(spell)s does"
+msgstr "O que %(spell)s faz"
+
+#: .\chardata\static\chardata\compare_tray.js:86
+msgid "Remove from the comparison"
+msgstr "Remover da comparação"
