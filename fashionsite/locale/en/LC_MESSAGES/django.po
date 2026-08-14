@@ -6036,6 +6036,12 @@ msgstr "%(count)s MP used this turn"
 msgid "Stack %(count)s"
 msgstr "Stack %(count)s"
 
+msgid "With %(states)s"
+msgstr "With %(states)s"
+
+msgid "Without %(states)s"
+msgstr "Without %(states)s"
+
 msgid "Normal hit"
 msgstr "Normal hit"
 

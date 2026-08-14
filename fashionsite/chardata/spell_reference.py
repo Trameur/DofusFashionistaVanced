@@ -10,7 +10,9 @@ import json
 import os
 
 _DIRECTORY = os.path.join(os.path.dirname(__file__), 'spell_reference')
+_STATES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'spell_states')
 _CACHE = {}
+_STATE_CACHE = {}
 
 
 def get_spell_reference(game_version):
@@ -31,6 +33,30 @@ def reference_by_spell_id(game_version, char_class):
     return {entry['id']: entry
             for entry in classes.get(char_class) or []
             if entry.get('id') is not None}
+
+
+def get_spell_states(game_version):
+    """{state id: {lang: name}} for one version, empty when the source has none.
+
+    Only dofus3 and beta: the 2.73 archive ships no state file, and Retro and
+    Touch build no state-gated damage row.
+    """
+    if game_version not in _STATE_CACHE:
+        path = os.path.join(_STATES_DIRECTORY, '%s.json' % game_version)
+        try:
+            with open(path, encoding='utf-8') as handle:
+                _STATE_CACHE[game_version] = json.load(handle)
+        except (IOError, OSError, ValueError):
+            _STATE_CACHE[game_version] = {}
+    return _STATE_CACHE[game_version]
+
+
+def state_name(game_version, state_id, language):
+    """The name the game gives a state, or '' when the version has no table."""
+    entry = get_spell_states(game_version).get(str(state_id))
+    if not entry:
+        return ''
+    return localized({'name': entry}, 'name', language)
 
 
 def localized(entry, key, language):

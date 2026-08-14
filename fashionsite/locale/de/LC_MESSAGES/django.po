@@ -6592,6 +6592,12 @@ msgstr "%(count)s BP in dieser Runde verbraucht"
 msgid "Stack %(count)s"
 msgstr "Stapel %(count)s"
 
+msgid "With %(states)s"
+msgstr "Mit %(states)s"
+
+msgid "Without %(states)s"
+msgstr "Ohne %(states)s"
+
 msgid "Normal hit"
 msgstr "Normaler Treffer"
 

@@ -1,0 +1,2788 @@
+{
+ "1049": {
+  "de": "[!] Feu des Ténèbres",
+  "en": "[!] Feu des Ténèbres",
+  "es": "[!] Feu des Ténèbres",
+  "fr": "Feu des Ténèbres",
+  "pt": "[!] Feu des Ténèbres"
+ },
+ "105": {
+  "de": "Grozilla-Zustand",
+  "en": "Tyrannised",
+  "es": "Tirasaurinizado",
+  "fr": "Tyrannisé",
+  "pt": "Tiranizado"
+ },
+ "1057": {
+  "de": "Bedrängt",
+  "en": "Harassed",
+  "es": "Acosado",
+  "fr": "Harcelé",
+  "pt": "Perseguido"
+ },
+ "106": {
+  "de": "Grasmera-Zustand",
+  "en": "Meteoroid",
+  "es": "Meteorito",
+  "fr": "Météoroïde",
+  "pt": "Meteoroide"
+ },
+ "1076": {
+  "de": "[!] Martelé I",
+  "en": "[!] Martelé I",
+  "es": "[!] Martelé I",
+  "fr": "Martelé I",
+  "pt": "[!] Martelé I"
+ },
+ "1077": {
+  "de": "[!] Martelé II",
+  "en": "[!] Martelé II",
+  "es": "[!] Martelé II",
+  "fr": "Martelé II",
+  "pt": "[!] Martelé II"
+ },
+ "1084": {
+  "de": "[!] Focus I",
+  "en": "[!] Focus I",
+  "es": "[!] Focus I",
+  "fr": "Focus I",
+  "pt": "[!] Focus I"
+ },
+ "1085": {
+  "de": "[!] Focus II",
+  "en": "[!] Focus II",
+  "es": "[!] Focus II",
+  "fr": "Focus II",
+  "pt": "[!] Focus II"
+ },
+ "1086": {
+  "de": "Kwantenraserei",
+  "en": "Kwantum Frenzy",
+  "es": "Frenesí Kuántiko",
+  "fr": "Frénésie Kantik",
+  "pt": "Frenesi Kwantik"
+ },
+ "1088": {
+  "de": "Heil",
+  "en": "Whole",
+  "es": "Entero",
+  "fr": "Entier",
+  "pt": "Inteiro"
+ },
+ "1089": {
+  "de": "[!] Enrobage Fondu",
+  "en": "[!] Enrobage Fondu",
+  "es": "[!] Enrobage Fondu",
+  "fr": "Enrobage Fondu",
+  "pt": "[!] Enrobage Fondu"
+ },
+ "1090": {
+  "de": "[!] Morceaux Soufflés",
+  "en": "[!] Morceaux Soufflés",
+  "es": "[!] Morceaux Soufflés",
+  "fr": "Morceaux Soufflés",
+  "pt": "[!] Morceaux Soufflés"
+ },
+ "1091": {
+  "de": "[!] Mousse Lavée",
+  "en": "[!] Mousse Lavée",
+  "es": "[!] Mousse Lavée",
+  "fr": "Mousse Lavée",
+  "pt": "[!] Mousse Lavée"
+ },
+ "11": {
+  "de": "Beritten",
+  "en": "Riding",
+  "es": "Cabalgando",
+  "fr": "Chevauchant",
+  "pt": "Cavalgando"
+ },
+ "111": {
+  "de": "Erstes Zeichen von Daigoro",
+  "en": "Daggero's First Mark",
+  "es": "Primera Marca de Daigorobo",
+  "fr": "Première Marque de Daïgoro",
+  "pt": "Primeira Marca de Daigoro"
+ },
+ "112": {
+  "de": "Zweites Zeichen von Daigoro",
+  "en": "Daggero's Second Mark",
+  "es": "Segunda Marca de Daigorobo",
+  "fr": "Deuxième Marque de Daïgoro",
+  "pt": "Segunda Marca de Daigoro"
+ },
+ "113": {
+  "de": "Drittes Zeichen von Daigoro",
+  "en": "Daggero's Third Mark",
+  "es": "Tercera Marca de Daigorobo",
+  "fr": "Troisième Marque de Daïgoro",
+  "pt": "Terceira Marca de Daigoro"
+ },
+ "114": {
+  "de": "Viertes Zeichen von Daigoro",
+  "en": "Daggero's Fourth Mark",
+  "es": "Cuarta Marca de Daigorobo",
+  "fr": "Quatrième Marque de Daïgoro",
+  "pt": "Quarta Marca de Daigoro"
+ },
+ "115": {
+  "de": "Fünftes Zeichen von Daigoro",
+  "en": "Daggero's Fifth Mark",
+  "es": "Quinta Marca de Daigorobo",
+  "fr": "Cinquième Marque de Daïgoro",
+  "pt": "Quinta Marca de Daigoro"
+ },
+ "1207": {
+  "de": "Ziel des Mondes",
+  "en": "Lunar Target",
+  "es": "Objetivo Lunar",
+  "fr": "Cible lunaire",
+  "pt": "Alvo Lunar"
+ },
+ "1208": {
+  "de": "[!] Poison pétrifiant",
+  "en": "[!] Poison pétrifiant",
+  "es": "[!] Poison pétrifiant",
+  "fr": "Poison pétrifiant",
+  "pt": "[!] Poison pétrifiant"
+ },
+ "1209": {
+  "de": "[!] Ricochet 1",
+  "en": "[!] Ricochet 1",
+  "es": "[!] Ricochet 1",
+  "fr": "Ricochet 1",
+  "pt": "[!] Ricochet 1"
+ },
+ "1271": {
+  "de": "Khalpass 0",
+  "en": "Pass Khal 0",
+  "es": "Pase Kal 0",
+  "fr": "Passe Khal 0",
+  "pt": "Passa Cal 0"
+ },
+ "1272": {
+  "de": "Khalpass 1",
+  "en": "Pass Khal 1",
+  "es": "Pase Kal 1",
+  "fr": "Passe Khal 1",
+  "pt": "Passa Cal 1"
+ },
+ "1273": {
+  "de": "Khalpass 2",
+  "en": "Pass Khal 2",
+  "es": "Pase Kal 2",
+  "fr": "Passe Khal 2",
+  "pt": "Passa Cal 2"
+ },
+ "1274": {
+  "de": "Khalpass 3",
+  "en": "Pass Khal 3",
+  "es": "Pase Kal 3",
+  "fr": "Passe Khal 3",
+  "pt": "Passa Cal 3"
+ },
+ "1275": {
+  "de": "Khalpass 4",
+  "en": "Pass Khal 4",
+  "es": "Pase Kal 4",
+  "fr": "Passe Khal 4",
+  "pt": "Passa Cal 4"
+ },
+ "134": {
+  "de": "Evolution II",
+  "en": "Evolution II",
+  "es": "Evolución II",
+  "fr": "Évolution II",
+  "pt": "Evolução II"
+ },
+ "135": {
+  "de": "Evolution III",
+  "en": "Evolution III",
+  "es": "Evolución III",
+  "fr": "Évolution III",
+  "pt": "Evolução III"
+ },
+ "1352": {
+  "de": "Kalk",
+  "en": "Limestone",
+  "es": "Calizo",
+  "fr": "Calcaire",
+  "pt": "Calcário"
+ },
+ "1353": {
+  "de": "Kohle",
+  "en": "Coal",
+  "es": "Carbonoso",
+  "fr": "Charbon",
+  "pt": "Carvão"
+ },
+ "1354": {
+  "de": "Ton",
+  "en": "Clay",
+  "es": "Arcilloso",
+  "fr": "Argile",
+  "pt": "Argila"
+ },
+ "1355": {
+  "de": "Schiefer",
+  "en": "Slate",
+  "es": "Pizarroso",
+  "fr": "Ardoise",
+  "pt": "Ardósia"
+ },
+ "1356": {
+  "de": "Wächter",
+  "en": "Guardian",
+  "es": "Guardián",
+  "fr": "Gardien",
+  "pt": "Guardião"
+ },
+ "1435": {
+  "de": "Phase 2",
+  "en": "Phase 2",
+  "es": "Fase 2",
+  "fr": "Phase 2",
+  "pt": "Fase 2"
+ },
+ "1453": {
+  "de": "[!] Dragoeuf en songe",
+  "en": "[!] Dragoeuf en songe",
+  "es": "[!] Dragoeuf en songe",
+  "fr": "Dragoeuf en songe",
+  "pt": "[!] Dragoeuf en songe"
+ },
+ "1480": {
+  "de": "[!] 0 Miliciens",
+  "en": "[!] 0 Miliciens",
+  "es": "[!] 0 Miliciens",
+  "fr": "0 Miliciens",
+  "pt": "[!] 0 Miliciens"
+ },
+ "1481": {
+  "de": "[!] 1 Miliciens",
+  "en": "[!] 1 Miliciens",
+  "es": "[!] 1 Miliciens",
+  "fr": "1 Miliciens",
+  "pt": "[!] 1 Miliciens"
+ },
+ "1482": {
+  "de": "[!] 2 Miliciens",
+  "en": "[!] 2 Miliciens",
+  "es": "[!] 2 Miliciens",
+  "fr": "2 Miliciens",
+  "pt": "[!] 2 Miliciens"
+ },
+ "1483": {
+  "de": "[!] 3 Miliciens",
+  "en": "[!] 3 Miliciens",
+  "es": "[!] 3 Miliciens",
+  "fr": "3 Miliciens",
+  "pt": "[!] 3 Miliciens"
+ },
+ "1484": {
+  "de": "[!] 4 Miliciens",
+  "en": "[!] 4 Miliciens",
+  "es": "[!] 4 Miliciens",
+  "fr": "4 Miliciens",
+  "pt": "[!] 4 Miliciens"
+ },
+ "153": {
+  "de": "Tiefgefroren",
+  "en": "Deep Freeze",
+  "es": "Congelado",
+  "fr": "Surgelé",
+  "pt": "Congelado"
+ },
+ "1535": {
+  "de": "[!] _GLYPH ON",
+  "en": "[!] _GLYPH ON",
+  "es": "[!] _GLYPH ON",
+  "fr": "_GLYPH ON",
+  "pt": "[!] _GLYPH ON"
+ },
+ "1542": {
+  "de": "Luft",
+  "en": "Air",
+  "es": "Aire",
+  "fr": "Air",
+  "pt": "Ar"
+ },
+ "1543": {
+  "de": "Erde",
+  "en": "Earth",
+  "es": "Tierra",
+  "fr": "Terre",
+  "pt": "Terra"
+ },
+ "1544": {
+  "de": "Feuer",
+  "en": "Fire",
+  "es": "Fuego",
+  "fr": "Feu",
+  "pt": "Fogo"
+ },
+ "1545": {
+  "de": "Wasser",
+  "en": "Water",
+  "es": "Agua",
+  "fr": "Eau",
+  "pt": "Água"
+ },
+ "1556": {
+  "de": "[!] _SLAVE",
+  "en": "[!] _SLAVE",
+  "es": "[!] _SLAVE",
+  "fr": "_SLAVE",
+  "pt": "[!] _SLAVE"
+ },
+ "156": {
+  "de": "Thermolaktiv",
+  "en": "Thermolactic",
+  "es": "Termolácteo",
+  "fr": "Thermolacté",
+  "pt": "Termolácteo"
+ },
+ "1625": {
+  "de": "[!] Marqueur Frappe Cardinale",
+  "en": "[!] Marqueur Frappe Cardinale",
+  "es": "[!] Marqueur Frappe Cardinale",
+  "fr": "Marqueur Frappe Cardinale",
+  "pt": "[!] Marqueur Frappe Cardinale"
+ },
+ "164": {
+  "de": "Büßer",
+  "en": "Penitent",
+  "es": "Penitente",
+  "fr": "Pénitent",
+  "pt": "Penitente"
+ },
+ "1653": {
+  "de": "[!] Jet de Sable Proche",
+  "en": "[!] Jet de Sable Proche",
+  "es": "[!] Jet de Sable Proche",
+  "fr": "Jet de Sable Proche",
+  "pt": "[!] Jet de Sable Proche"
+ },
+ "171": {
+  "de": "Gegrillt",
+  "en": "Scorch",
+  "es": "Fulminado",
+  "fr": "Foudroyé",
+  "pt": "Fulminado"
+ },
+ "177": {
+  "de": "Krakelig",
+  "en": "Spineless",
+  "es": "Pulposo",
+  "fr": "Poulpé",
+  "pt": "Polposo"
+ },
+ "18": {
+  "de": "Eingefroren",
+  "en": "Frozen",
+  "es": "Helado",
+  "fr": "Gelé",
+  "pt": "Gelado"
+ },
+ "182": {
+  "de": "Geladen",
+  "en": "Charged",
+  "es": "Cargado",
+  "fr": "Chargé",
+  "pt": "Carregado"
+ },
+ "183": {
+  "de": "Schlack auf Schlack",
+  "en": "Scorified",
+  "es": "Escarificado",
+  "fr": "Scorifié",
+  "pt": "Escorificado"
+ },
+ "185": {
+  "de": "Volltrunken",
+  "en": "Too Tipsy",
+  "es": "Demasiado borracho",
+  "fr": "Trop Saoul",
+  "pt": "Trêbado"
+ },
+ "186": {
+  "de": "Mutig",
+  "en": "Courageous",
+  "es": "Valiente",
+  "fr": "Courageux",
+  "pt": "Corajoso"
+ },
+ "187": {
+  "de": "Glückspilz",
+  "en": "Lucky Devil",
+  "es": "Suertudo",
+  "fr": "Veinard",
+  "pt": "Sortudo"
+ },
+ "1876": {
+  "de": "Widrige Treue",
+  "en": "Opposing Allegiance",
+  "es": "Lealtad Contraria",
+  "fr": "Allégeance contraire",
+  "pt": "Lealdade Contrária"
+ },
+ "191": {
+  "de": "Goldesort-Mal",
+  "en": "Mark of the Breatheaters",
+  "es": "Marca de los Auroros",
+  "fr": "Marque des Mangelors",
+  "pt": "Marca dos Devoradouros"
+ },
+ "2002": {
+  "de": "Gehetzt",
+  "en": "Tratracked",
+  "es": "Tratacado",
+  "fr": "Trataqué",
+  "pt": "Perseguido"
+ },
+ "2020": {
+  "de": "Schimmer aus Externam",
+  "en": "Externam Glimmer",
+  "es": "Fulgor de Externam",
+  "fr": "Lueur d'Externam",
+  "pt": "Luz de Externam"
+ },
+ "2031": {
+  "de": "Emono",
+  "en": "Emono",
+  "es": "Emono",
+  "fr": "Emono",
+  "pt": "Emono"
+ },
+ "2053": {
+  "de": "[!] Komihoz tu",
+  "en": "[!] Komihoz tu",
+  "es": "[!] Komihoz tu",
+  "fr": "Komihoz tu",
+  "pt": "[!] Komihoz tu"
+ },
+ "2056": {
+  "de": "Aufsteigender Mond",
+  "en": "Waxing Moon",
+  "es": "Luna Ascendiente",
+  "fr": "Lune Ascendante",
+  "pt": "Lua Ascendente"
+ },
+ "2057": {
+  "de": "Absteigender Mond",
+  "en": "Waning Moon",
+  "es": "Luna Descendiente",
+  "fr": "Lune Descendante",
+  "pt": "Lua Descendente"
+ },
+ "2066": {
+  "de": "[!] Cible No noroi",
+  "en": "[!] Cible No noroi",
+  "es": "[!] Cible No noroi",
+  "fr": "Cible No noroi",
+  "pt": "[!] Cible No noroi"
+ },
+ "2068": {
+  "de": "Sakura",
+  "en": "Sakura",
+  "es": "Sakura",
+  "fr": "Sakura",
+  "pt": "Sakura"
+ },
+ "2069": {
+  "de": "Senbonzakura",
+  "en": "Senbonzakura",
+  "es": "Senbonzakura",
+  "fr": "Senbonzakura",
+  "pt": "Senbonzakura"
+ },
+ "2070": {
+  "de": "Usugasumi Senbonzakura",
+  "en": "Usugasumi Senbonzakura",
+  "es": "Usugasumi Senbonzakura",
+  "fr": "Usugasumi Senbonzakura",
+  "pt": "Usugasumi Senbonzakura"
+ },
+ "2080": {
+  "de": "Beute der Geistreichen",
+  "en": "Slayspirit Prey",
+  "es": "Presa de los Espiritasesinos",
+  "fr": "Proie des spiritueurs",
+  "pt": "Presa dos Assassispíritos"
+ },
+ "215": {
+  "de": "Infektion",
+  "en": "Infection",
+  "es": "Infección",
+  "fr": "Infection",
+  "pt": "Infecção"
+ },
+ "216": {
+  "de": "Durchschleusen",
+  "en": "Ferryman",
+  "es": "Pasante",
+  "fr": "Passeur",
+  "pt": "Passador"
+ },
+ "2173": {
+  "de": "[!] Wulan - Ton pire cauchemar",
+  "en": "[!] Wulan - Ton pire cauchemar",
+  "es": "[!] Wulan - Ton pire cauchemar",
+  "fr": "Wulan - Ton pire cauchemar",
+  "pt": "[!] Wulan - Ton pire cauchemar"
+ },
+ "220": {
+  "de": "Instabil",
+  "en": "Unstable",
+  "es": "Inestable",
+  "fr": "Instable",
+  "pt": "Instável"
+ },
+ "2219": {
+  "de": "Unsichtbarer Byaku",
+  "en": "Invisible Byakou",
+  "es": "Byaku Invisible",
+  "fr": "Byakou Invisible",
+  "pt": "Byako Invisível"
+ },
+ "2220": {
+  "de": "[!] Doshidorobo - État si lance un sort",
+  "en": "[!] Doshidorobo - État si lance un sort",
+  "es": "[!] Doshidorobo - État si lance un sort",
+  "fr": "Doshidorobo - État si lance un sort",
+  "pt": "[!] Doshidorobo - État si lance un sort"
+ },
+ "2221": {
+  "de": "Papiermassaker",
+  "en": "Stationery Slaughter",
+  "es": "Hoja Cortante",
+  "fr": "Papetuerie",
+  "pt": "Papelação"
+ },
+ "2387": {
+  "de": "A-Gyō",
+  "en": "A-Gyō",
+  "es": "A-Gyō",
+  "fr": "A-Gyō",
+  "pt": "A-Gyō"
+ },
+ "2388": {
+  "de": "Un-Gyō",
+  "en": "Un-Gyō",
+  "es": "Un-Gyō",
+  "fr": "Un-Gyō",
+  "pt": "Un-Gyō"
+ },
+ "2413": {
+  "de": "[!] Tranches fines",
+  "en": "[!] Tranches fines",
+  "es": "[!] Tranches fines",
+  "fr": "Tranches fines",
+  "pt": "[!] Tranches fines"
+ },
+ "244": {
+  "de": "Telefrag",
+  "en": "Telefrag",
+  "es": "Telefrag",
+  "fr": "Téléfrag",
+  "pt": "Telefrag"
+ },
+ "245": {
+  "de": "Mumie",
+  "en": "Mummy",
+  "es": "Momia",
+  "fr": "Momie",
+  "pt": "Múmia"
+ },
+ "2472": {
+  "de": "Lösegeld I",
+  "en": "Ransom I",
+  "es": "Recompensa I",
+  "fr": "Rançon I",
+  "pt": "Resgate I"
+ },
+ "2473": {
+  "de": "Lösegeld II",
+  "en": "Ransom II",
+  "es": "Recompensa II",
+  "fr": "Rançon II",
+  "pt": "Resgate II"
+ },
+ "2474": {
+  "de": "Lösegeld III",
+  "en": "Ransom III",
+  "es": "Recompensa III",
+  "fr": "Rançon III",
+  "pt": "Resgate III"
+ },
+ "2483": {
+  "de": "[!] Tour Roublard",
+  "en": "[!] Tour Roublard",
+  "es": "[!] Tour Roublard",
+  "fr": "Tour Roublard",
+  "pt": "[!] Tour Roublard"
+ },
+ "2498": {
+  "de": "[!] Plombage",
+  "en": "[!] Plombage",
+  "es": "[!] Plombage",
+  "fr": "Plombage",
+  "pt": "[!] Plombage"
+ },
+ "251": {
+  "de": "Telefrag",
+  "en": "Telefrag",
+  "es": "Telefrag",
+  "fr": "Téléfrag",
+  "pt": "Telefrag"
+ },
+ "253": {
+  "de": "Kokon",
+  "en": "Cocoon",
+  "es": "Capullo",
+  "fr": "Cocon",
+  "pt": "Casulo"
+ },
+ "2535": {
+  "de": "Knochoszillation",
+  "en": "Throbbone",
+  "es": "Huesoscilación",
+  "fr": "Os cillation",
+  "pt": "Osso Cilação"
+ },
+ "256": {
+  "de": "Laubbaum",
+  "en": "Leafy",
+  "es": "Frondoso",
+  "fr": "Feuillu",
+  "pt": "Frondosa"
+ },
+ "2575": {
+  "de": "Geist des Wals",
+  "en": "Whale's Spirit",
+  "es": "Espíritu de la Ballena",
+  "fr": "Esprit de la Baleine",
+  "pt": "Espírito da Baleia"
+ },
+ "258": {
+  "de": "Ninja-Zeichen",
+  "en": "Ninja Mark",
+  "es": "Marca Ninja",
+  "fr": "Marque Ninja",
+  "pt": "Marca Ninja"
+ },
+ "2596": {
+  "de": "[!] Typhomet - Regard de l'Hérétique",
+  "en": "[!] Typhomet - Regard de l'Hérétique",
+  "es": "[!] Typhomet - Regard de l'Hérétique",
+  "fr": "Typhomet - Regard de l'Hérétique",
+  "pt": "[!] Typhomet - Regard de l'Hérétique"
+ },
+ "2600": {
+  "de": "[!] Bonraphin - sort 2",
+  "en": "[!] Bonraphin - sort 2",
+  "es": "[!] Bonraphin - sort 2",
+  "fr": "Bonraphin - sort 2",
+  "pt": "[!] Bonraphin - sort 2"
+ },
+ "2601": {
+  "de": "Ewige Qualen",
+  "en": "Eternal Torment",
+  "es": "Tormentos Eternos",
+  "fr": "Tourments Éternels",
+  "pt": "Tormentos Eternos"
+ },
+ "2618": {
+  "de": "Bonta-Wut 10",
+  "en": "Bontarian Wrath 10",
+  "es": "Cólera Bontariana 10",
+  "fr": "Colère Bontarienne 10",
+  "pt": "Cólera Bontariana 10"
+ },
+ "2629": {
+  "de": "Brâk-Hass 10",
+  "en": "Brakmarian Wrath 10",
+  "es": "Odio Brakmariano 10",
+  "fr": "Haine Brâkmarienne 10",
+  "pt": "Ódio Brakmariano 10"
+ },
+ "263": {
+  "de": "Infiziert",
+  "en": "Infected",
+  "es": "Infectado",
+  "fr": "Infecté",
+  "pt": "Infectado"
+ },
+ "264": {
+  "de": "Vergiftet",
+  "en": "Poisoned",
+  "es": "Envenenado",
+  "fr": "Empoisonné",
+  "pt": "Envenenado"
+ },
+ "2645": {
+  "de": "[!] Peur Viscérale",
+  "en": "[!] Peur Viscérale",
+  "es": "[!] Peur Viscérale",
+  "fr": "Peur Viscérale",
+  "pt": "[!] Peur Viscérale"
+ },
+ "2646": {
+  "de": "[!] Peur Viscérale",
+  "en": "[!] Peur Viscérale",
+  "es": "[!] Peur Viscérale",
+  "fr": "Peur Viscérale",
+  "pt": "[!] Peur Viscérale"
+ },
+ "2647": {
+  "de": "[!] Peur Viscérale",
+  "en": "[!] Peur Viscérale",
+  "es": "[!] Peur Viscérale",
+  "fr": "Peur Viscérale",
+  "pt": "[!] Peur Viscérale"
+ },
+ "265": {
+  "de": "Beute",
+  "en": "Prey",
+  "es": "Presa",
+  "fr": "Proie",
+  "pt": "Presa"
+ },
+ "268": {
+  "de": "Duell",
+  "en": "Duel",
+  "es": "Duelo",
+  "fr": "Duel",
+  "pt": "Duelo"
+ },
+ "2690": {
+  "de": "Böswillige Träumereien",
+  "en": "Malicious Dreams",
+  "es": "Ensoñaciones Malvadas",
+  "fr": "Rêveries malveillantes",
+  "pt": "Sonhos Malignos"
+ },
+ "2701": {
+  "de": "[!] Kissiphrot Sipique",
+  "en": "[!] Kissiphrot Sipique",
+  "es": "[!] Kissiphrot Sipique",
+  "fr": "Kissiphrot Sipique",
+  "pt": "[!] Kissiphrot Sipique"
+ },
+ "2763": {
+  "de": "[!] Toxines rang 1",
+  "en": "[!] Toxines rang 1",
+  "es": "[!] Toxines rang 1",
+  "fr": "Toxines rang 1",
+  "pt": "[!] Toxines rang 1"
+ },
+ "2764": {
+  "de": "[!] Toxines rang 2",
+  "en": "[!] Toxines rang 2",
+  "es": "[!] Toxines rang 2",
+  "fr": "Toxines rang 2",
+  "pt": "[!] Toxines rang 2"
+ },
+ "277": {
+  "de": "Allgemeiner Zustand 3",
+  "en": "Generic State 3",
+  "es": "Estado Genérico 3",
+  "fr": "Etat générique 3",
+  "pt": "Estado genérico 3"
+ },
+ "278": {
+  "de": "Allgemeiner Zustand 2",
+  "en": "Generic State 2",
+  "es": "Estado Genérico 2",
+  "fr": "Etat générique 2",
+  "pt": "Estado genérico 2"
+ },
+ "279": {
+  "de": "Allgemeiner Zustand 1",
+  "en": "Generic State 1",
+  "es": "Estado Genérico 1",
+  "fr": "Etat générique 1",
+  "pt": "Estado genérico 1"
+ },
+ "288": {
+  "de": "Immunität",
+  "en": "Immunity",
+  "es": "Inmunidad",
+  "fr": "Immunité",
+  "pt": "Imunidade"
+ },
+ "2886": {
+  "de": "Zielhilfe",
+  "en": "Targetaide",
+  "es": "Telescópika",
+  "fr": "Aidalavisé",
+  "pt": "Miralonga"
+ },
+ "290": {
+  "de": "Feuer",
+  "en": "Fire",
+  "es": "Fuego",
+  "fr": "Feu",
+  "pt": "Fogo"
+ },
+ "291": {
+  "de": "Wasser",
+  "en": "Water",
+  "es": "Agua",
+  "fr": "Eau",
+  "pt": "Água"
+ },
+ "292": {
+  "de": "Erde",
+  "en": "Earth",
+  "es": "Tierra",
+  "fr": "Terre",
+  "pt": "Terra"
+ },
+ "293": {
+  "de": "Luft",
+  "en": "Air",
+  "es": "Aire",
+  "fr": "Air",
+  "pt": "Ar"
+ },
+ "295": {
+  "de": "Runische Behandlung (Rune)",
+  "en": "Runic Treatment (rune)",
+  "es": "Tratamiento Rúnico (runa)",
+  "fr": "Surcharge Runique (rang 1)",
+  "pt": "Tratamento Rúnico (runa)"
+ },
+ "296": {
+  "de": "Rune",
+  "en": "Rune",
+  "es": "Runa",
+  "fr": "Rune",
+  "pt": "Runa"
+ },
+ "3": {
+  "de": "Träger",
+  "en": "Carrying",
+  "es": "Portador",
+  "fr": "Porteur",
+  "pt": "Carregador"
+ },
+ "300": {
+  "de": "Bremsspur",
+  "en": "Skidmark",
+  "es": "Tasmarkao",
+  "fr": "Markalakulote",
+  "pt": "Markanakueka"
+ },
+ "305": {
+  "de": "Gejagt",
+  "en": "Hunted",
+  "es": "Cazado",
+  "fr": "Chassé",
+  "pt": "Caçado"
+ },
+ "334": {
+  "de": "Mutation I",
+  "en": "Mutation I",
+  "es": "Mutación I",
+  "fr": "Mutation I",
+  "pt": "Mutação I"
+ },
+ "335": {
+  "de": "Mutation II",
+  "en": "Mutation II",
+  "es": "Mutación II",
+  "fr": "Mutation II",
+  "pt": "Mutação II"
+ },
+ "3355": {
+  "de": "Kollagen",
+  "en": "Collagen",
+  "es": "Colágeno",
+  "fr": "Collagène",
+  "pt": "Colágeno"
+ },
+ "336": {
+  "de": "Mutation III",
+  "en": "Mutation III",
+  "es": "Mutación III",
+  "fr": "Mutation III",
+  "pt": "Mutação III"
+ },
+ "3360": {
+  "de": "Bewaffnet",
+  "en": "Armed",
+  "es": "Armado",
+  "fr": "Armé",
+  "pt": "Armado"
+ },
+ "338": {
+  "de": "Vewwiegelt",
+  "en": "Wocked",
+  "es": "Cewwado",
+  "fr": "Vewwouillé",
+  "pt": "Twancado"
+ },
+ "3458": {
+  "de": "In Teekanne verwandelt",
+  "en": "Transformed into a Teapot",
+  "es": "Transformado en Tetera",
+  "fr": "Transformé en théière",
+  "pt": "Transformado em Chaleira"
+ },
+ "3524": {
+  "de": "[!] Leçon de Grunob",
+  "en": "[!] Leçon de Grunob",
+  "es": "[!] Leçon de Grunob",
+  "fr": "Leçon de Grunob",
+  "pt": "[!] Leçon de Grunob"
+ },
+ "3531": {
+  "de": "Nüchtern",
+  "en": "Sober",
+  "es": "Sobrio",
+  "fr": "Sobre",
+  "pt": "Sóbrio"
+ },
+ "3532": {
+  "de": "Explosive Handfläche „Nüchtern“",
+  "en": "Sober Explosive Palm",
+  "es": "Palma Explosiva Sobrio",
+  "fr": "Paume Explosive Sobre",
+  "pt": "Palma Explosiva Sóbrio"
+ },
+ "3547": {
+  "de": "Brüllendes Metall",
+  "en": "Howling Metal",
+  "es": "Metal Pesado",
+  "fr": "Métal Hurlant",
+  "pt": "Metal Pesado"
+ },
+ "3551": {
+  "de": "Tobender Zielpfeil",
+  "en": "Fulminating Arrow Target",
+  "es": "Flecha Fulminante Objetivo",
+  "fr": "Flèche Fulminante (cible)",
+  "pt": "Flecha Fulminante Alvo"
+ },
+ "3571": {
+  "de": "Feste Verhexung",
+  "en": "Motionless Evil",
+  "es": "Maleficio Inmóvil",
+  "fr": "Maléfice immobile",
+  "pt": "Malefício Imóvel"
+ },
+ "3577": {
+  "de": "Brummschädel",
+  "en": "Hangover",
+  "es": "Resaca",
+  "fr": "Gueule de Bois",
+  "pt": "Ressaca"
+ },
+ "3602": {
+  "de": "[!] Flamboyance 2",
+  "en": "[!] Flamboyance 2",
+  "es": "[!] Flamboyance 2",
+  "fr": "Flamboyance 2",
+  "pt": "[!] Flamboyance 2"
+ },
+ "3603": {
+  "de": "[!] Flamboyance 3",
+  "en": "[!] Flamboyance 3",
+  "es": "[!] Flamboyance 3",
+  "fr": "Flamboyance 3",
+  "pt": "[!] Flamboyance 3"
+ },
+ "3604": {
+  "de": "[!] Flamboyance 4",
+  "en": "[!] Flamboyance 4",
+  "es": "[!] Flamboyance 4",
+  "fr": "Flamboyance 4",
+  "pt": "[!] Flamboyance 4"
+ },
+ "3605": {
+  "de": "[!] Flamboyance 5",
+  "en": "[!] Flamboyance 5",
+  "es": "[!] Flamboyance 5",
+  "fr": "Flamboyance 5",
+  "pt": "[!] Flamboyance 5"
+ },
+ "3606": {
+  "de": "[!] Firmament 3",
+  "en": "[!] Firmament 3",
+  "es": "[!] Firmament 3",
+  "fr": "Firmament 3",
+  "pt": "[!] Firmament 3"
+ },
+ "3607": {
+  "de": "[!] Firmament 6",
+  "en": "[!] Firmament 6",
+  "es": "[!] Firmament 6",
+  "fr": "Firmament 6",
+  "pt": "[!] Firmament 6"
+ },
+ "3608": {
+  "de": "[!] Firmament 9",
+  "en": "[!] Firmament 9",
+  "es": "[!] Firmament 9",
+  "fr": "Firmament 9",
+  "pt": "[!] Firmament 9"
+ },
+ "3609": {
+  "de": "[!] Firmament 12",
+  "en": "[!] Firmament 12",
+  "es": "[!] Firmament 12",
+  "fr": "Firmament 12",
+  "pt": "[!] Firmament 12"
+ },
+ "3610": {
+  "de": "[!] Firmament 15",
+  "en": "[!] Firmament 15",
+  "es": "[!] Firmament 15",
+  "fr": "Firmament 15",
+  "pt": "[!] Firmament 15"
+ },
+ "3611": {
+  "de": "[!] Holmgang",
+  "en": "[!] Holmgang",
+  "es": "[!] Holmgang",
+  "fr": "Holmgang",
+  "pt": "[!] Holmgang"
+ },
+ "3666": {
+  "de": "[!] Oligarchie 1",
+  "en": "[!] Oligarchie 1",
+  "es": "[!] Oligarchie 1",
+  "fr": "Oligarchie 1",
+  "pt": "[!] Oligarchie 1"
+ },
+ "3667": {
+  "de": "[!] Oligarchie 2",
+  "en": "[!] Oligarchie 2",
+  "es": "[!] Oligarchie 2",
+  "fr": "Oligarchie 2",
+  "pt": "[!] Oligarchie 2"
+ },
+ "3668": {
+  "de": "[!] Oligarchie 3",
+  "en": "[!] Oligarchie 3",
+  "es": "[!] Oligarchie 3",
+  "fr": "Oligarchie 3",
+  "pt": "[!] Oligarchie 3"
+ },
+ "3669": {
+  "de": "[!] Oligarchie 4",
+  "en": "[!] Oligarchie 4",
+  "es": "[!] Oligarchie 4",
+  "fr": "Oligarchie 4",
+  "pt": "[!] Oligarchie 4"
+ },
+ "3670": {
+  "de": "[!] Oligarchie 5",
+  "en": "[!] Oligarchie 5",
+  "es": "[!] Oligarchie 5",
+  "fr": "Oligarchie 5",
+  "pt": "[!] Oligarchie 5"
+ },
+ "3671": {
+  "de": "[!] Oligarchie 6",
+  "en": "[!] Oligarchie 6",
+  "es": "[!] Oligarchie 6",
+  "fr": "Oligarchie 6",
+  "pt": "[!] Oligarchie 6"
+ },
+ "3757": {
+  "de": "Miesepeta",
+  "en": "Ratmudgeon",
+  "es": "Tedioso",
+  "fr": "Rabajoi",
+  "pt": "Sengrassa"
+ },
+ "378": {
+  "de": "Parasitiert",
+  "en": "Parasited",
+  "es": "Parasitado",
+  "fr": "Parasité",
+  "pt": "Parasitado"
+ },
+ "380": {
+  "de": "Miau! Du bist!",
+  "en": "You're the Bow Meow!",
+  "es": "¡Miaumiau Tú!",
+  "fr": "C'est toi le Chacha !",
+  "pt": "Miaw é você!"
+ },
+ "3811": {
+  "de": "Glühend",
+  "en": "Ardent",
+  "es": "Ardiente",
+  "fr": "Ardent",
+  "pt": "Ardente"
+ },
+ "3812": {
+  "de": "Ektoplasmisch",
+  "en": "Ectoplasmic",
+  "es": "Ectoplasmático",
+  "fr": "Ectoplasmique",
+  "pt": "Ectoplásmico"
+ },
+ "3813": {
+  "de": "Flammend",
+  "en": "Flamboyant",
+  "es": "Flamígero",
+  "fr": "Flamboyant",
+  "pt": "Flamejante"
+ },
+ "3915": {
+  "de": "[!] Surprise I",
+  "en": "[!] Surprise I",
+  "es": "[!] Surprise I",
+  "fr": "Surprise I",
+  "pt": "[!] Surprise I"
+ },
+ "3916": {
+  "de": "[!] Surprise II",
+  "en": "[!] Surprise II",
+  "es": "[!] Surprise II",
+  "fr": "Surprise II",
+  "pt": "[!] Surprise II"
+ },
+ "3917": {
+  "de": "[!] Surprise III",
+  "en": "[!] Surprise III",
+  "es": "[!] Surprise III",
+  "fr": "Surprise III",
+  "pt": "[!] Surprise III"
+ },
+ "3931": {
+  "de": "[!] Jormun (cercle)",
+  "en": "[!] Jormun (cercle)",
+  "es": "[!] Jormun (cercle)",
+  "fr": "Jormun (cercle)",
+  "pt": "[!] Jormun (cercle)"
+ },
+ "3942": {
+  "de": "[!] Javelot-Foudre (ligne)",
+  "en": "[!] Javelot-Foudre (ligne)",
+  "es": "[!] Javelot-Foudre (ligne)",
+  "fr": "Javelot-Foudre (ligne)",
+  "pt": "[!] Javelot-Foudre (ligne)"
+ },
+ "400": {
+  "de": "Wahnsinn 1",
+  "en": "Madness 1",
+  "es": "Locura 1",
+  "fr": "Folie 1",
+  "pt": "Loucura 1"
+ },
+ "4005": {
+  "de": "Hand von Pandawa I",
+  "en": "Pandawa's Hand I",
+  "es": "Mano de Pandawa I",
+  "fr": "Main de Pandawa I",
+  "pt": "Mão de Pandawa I"
+ },
+ "401": {
+  "de": "Wahnsinn 2",
+  "en": "Madness 2",
+  "es": "Locura 2",
+  "fr": "Folie 2",
+  "pt": "Loucura 2"
+ },
+ "402": {
+  "de": "Wahnsinn 3",
+  "en": "Madness 3",
+  "es": "Locura 3",
+  "fr": "Folie 3",
+  "pt": "Loucura 3"
+ },
+ "403": {
+  "de": "Wahnsinn 4",
+  "en": "Madness 4",
+  "es": "Locura 4",
+  "fr": "Folie 4",
+  "pt": "Loucura 4"
+ },
+ "404": {
+  "de": "Wahnsinn 5",
+  "en": "Madness 5",
+  "es": "Locura 5",
+  "fr": "Folie 5",
+  "pt": "Loucura 5"
+ },
+ "4045": {
+  "de": "[!] Instable Méditation Céleste",
+  "en": "[!] Instable Méditation Céleste",
+  "es": "[!] Instable Méditation Céleste",
+  "fr": "Instable Méditation Céleste",
+  "pt": "[!] Instable Méditation Céleste"
+ },
+ "405": {
+  "de": "Wahnsinn 6",
+  "en": "Madness 6",
+  "es": "Locura 6",
+  "fr": "Folie 6",
+  "pt": "Loucura 6"
+ },
+ "406": {
+  "de": "Wahnsinn 7",
+  "en": "Madness 7",
+  "es": "Locura 7",
+  "fr": "Folie 7",
+  "pt": "Loucura 7"
+ },
+ "407": {
+  "de": "Wahnsinn 8",
+  "en": "Madness 8",
+  "es": "Locura 8",
+  "fr": "Folie 8",
+  "pt": "Loucura 8"
+ },
+ "4077": {
+  "de": "[!] Ébriété rang 1",
+  "en": "[!] Ébriété rang 1",
+  "es": "[!] Ébriété rang 1",
+  "fr": "Ébriété rang 1",
+  "pt": "[!] Ébriété rang 1"
+ },
+ "4078": {
+  "de": "[!] Ébriété rang 2",
+  "en": "[!] Ébriété rang 2",
+  "es": "[!] Ébriété rang 2",
+  "fr": "Ébriété rang 2",
+  "pt": "[!] Ébriété rang 2"
+ },
+ "4079": {
+  "de": "[!] Ébriété rang 3",
+  "en": "[!] Ébriété rang 3",
+  "es": "[!] Ébriété rang 3",
+  "fr": "Ébriété rang 3",
+  "pt": "[!] Ébriété rang 3"
+ },
+ "408": {
+  "de": "Wahnsinn 9",
+  "en": "Madness 9",
+  "es": "Locura 9",
+  "fr": "Folie 9",
+  "pt": "Loucura 9"
+ },
+ "410": {
+  "de": "Leiter",
+  "en": "Driver",
+  "es": "Conductor",
+  "fr": "Conducteur",
+  "pt": "Condutor"
+ },
+ "4171": {
+  "de": "Ausgetrocknete Phiole",
+  "en": "Crackly Vial",
+  "es": "Frasco Crujido",
+  "fr": "Fiole Craquelée",
+  "pt": "Frasco Esmagador"
+ },
+ "4172": {
+  "de": "Entflammte Phiole",
+  "en": "Blazing Vial",
+  "es": "Frasco Enardecido",
+  "fr": "Fiole Embrasée",
+  "pt": "Frasco Chamejante"
+ },
+ "4173": {
+  "de": "Vereiste Phiole",
+  "en": "Frozen Vial",
+  "es": "Frasco Helado",
+  "fr": "Fiole Givrée",
+  "pt": "Frasco Congelado"
+ },
+ "4174": {
+  "de": "Windige Phiole",
+  "en": "Windy Vial",
+  "es": "Frasco Aireado",
+  "fr": "Fiole Éventée",
+  "pt": "Frasco Ventoso"
+ },
+ "4175": {
+  "de": "Wort der Erde",
+  "en": "Word of Earth",
+  "es": "Palabra de Tierra",
+  "fr": "Mot de Terre",
+  "pt": "Palavra de Terra"
+ },
+ "4176": {
+  "de": "Wort des Feuers",
+  "en": "Word of Fire",
+  "es": "Palabra de Fuego",
+  "fr": "Mot de Feu",
+  "pt": "Palavra de Fogo"
+ },
+ "4177": {
+  "de": "Wort des Wassers",
+  "en": "Word of Water",
+  "es": "Palabra de Agua",
+  "fr": "Mot d'Eau",
+  "pt": "Palavra de Água"
+ },
+ "4178": {
+  "de": "Wort der Luft",
+  "en": "Word of Air",
+  "es": "Palabra de Aire",
+  "fr": "Mot d'Air",
+  "pt": "Palavras de Ar"
+ },
+ "4181": {
+  "de": "[!] Fiole Détruite",
+  "en": "[!] Fiole Détruite",
+  "es": "[!] Fiole Détruite",
+  "fr": "Fiole Détruite",
+  "pt": "[!] Fiole Détruite"
+ },
+ "4182": {
+  "de": "[!] Fiole rang 1",
+  "en": "[!] Fiole rang 1",
+  "es": "[!] Fiole rang 1",
+  "fr": "Fiole rang 1",
+  "pt": "[!] Fiole rang 1"
+ },
+ "4183": {
+  "de": "[!] Fiole rang 2",
+  "en": "[!] Fiole rang 2",
+  "es": "[!] Fiole rang 2",
+  "fr": "Fiole rang 2",
+  "pt": "[!] Fiole rang 2"
+ },
+ "4188": {
+  "de": "[!] Fiole Consommée",
+  "en": "[!] Fiole Consommée",
+  "es": "[!] Fiole Consommée",
+  "fr": "Fiole Consommée",
+  "pt": "[!] Fiole Consommée"
+ },
+ "42": {
+  "de": "Geschwächt",
+  "en": "Weakened",
+  "es": "Debilitado",
+  "fr": "Affaibli",
+  "pt": "Enfraquecido"
+ },
+ "422": {
+  "de": "Begossen",
+  "en": "Drenched",
+  "es": "Empapado",
+  "fr": "Draché",
+  "pt": "Encharcado"
+ },
+ "424": {
+  "de": "Terrpaniert",
+  "en": "Terpaned",
+  "es": "Tierpanado",
+  "fr": "Terpané",
+  "pt": "Terpanado"
+ },
+ "4243": {
+  "de": "Gemälde",
+  "en": "Paint",
+  "es": "Pintura",
+  "fr": "Peinture",
+  "pt": "Pintura"
+ },
+ "4244": {
+  "de": "Gemälde",
+  "en": "Paint",
+  "es": "Pintura",
+  "fr": "Peinture",
+  "pt": "Pintura"
+ },
+ "440": {
+  "de": "Anvisiert",
+  "en": "Targeted",
+  "es": "Blanco",
+  "fr": "Ciblé",
+  "pt": "Visado"
+ },
+ "441": {
+  "de": "Taktik A",
+  "en": "Tactic A",
+  "es": "Táctica A",
+  "fr": "Tactique A",
+  "pt": "Tática A"
+ },
+ "442": {
+  "de": "Taktik B",
+  "en": "Tactic B",
+  "es": "Táctica B",
+  "fr": "Tactique B",
+  "pt": "Tática B"
+ },
+ "443": {
+  "de": "Taktik C",
+  "en": "Tactic C",
+  "es": "Táctica C",
+  "fr": "Tactique C",
+  "pt": "Tática C"
+ },
+ "4437": {
+  "de": "[!] Bosquet Enchanté",
+  "en": "[!] Bosquet Enchanté",
+  "es": "[!] Bosquet Enchanté",
+  "fr": "Bosquet Enchanté",
+  "pt": "[!] Bosquet Enchanté"
+ },
+ "444": {
+  "de": "Taktik D",
+  "en": "Tactic D",
+  "es": "Táctica D",
+  "fr": "Tactique D",
+  "pt": "Tática D"
+ },
+ "449": {
+  "de": "Verwundbar",
+  "en": "Vulnerable",
+  "es": "Vulnerable",
+  "fr": "Vulnérable",
+  "pt": "Vulnerável"
+ },
+ "479": {
+  "de": "Feuer",
+  "en": "Fire",
+  "es": "Fuego",
+  "fr": "Feu",
+  "pt": "Fogo"
+ },
+ "480": {
+  "de": "Wasser",
+  "en": "Water",
+  "es": "Agua",
+  "fr": "Eau",
+  "pt": "Água"
+ },
+ "481": {
+  "de": "Luft",
+  "en": "Air",
+  "es": "Aire",
+  "fr": "Air",
+  "pt": "Ar"
+ },
+ "482": {
+  "de": "Erde",
+  "en": "Earth",
+  "es": "Tierra",
+  "fr": "Terre",
+  "pt": "Terra"
+ },
+ "498": {
+  "de": "Betrunken",
+  "en": "Drunk",
+  "es": "Borracho",
+  "fr": "Saoul",
+  "pt": "Bêbado"
+ },
+ "50": {
+  "de": "Entschieden",
+  "en": "Decisive",
+  "es": "Decisivo",
+  "fr": "Décisif",
+  "pt": "Decisivo"
+ },
+ "502": {
+  "de": "Schmutzige Ausscheidung",
+  "en": "Messy Evacuation",
+  "es": "Deyección Ensuciadora",
+  "fr": "Déjection salissante",
+  "pt": "Dejeção Suja"
+ },
+ "5051": {
+  "de": "Opfergabe ans Jenseits",
+  "en": "Offering to Death",
+  "es": "Ofrenda a la Muerte",
+  "fr": "Offrande au trépas",
+  "pt": "Oferenda à Morte"
+ },
+ "507": {
+  "de": "Blutige Ausscheidung",
+  "en": "Bloody Evacuation",
+  "es": "Deyección Sanguínea",
+  "fr": "Déjection sanguine",
+  "pt": "Dejeção Sanguínea"
+ },
+ "511": {
+  "de": "Wirbelwind",
+  "en": "Whirlwind",
+  "es": "Torbellino",
+  "fr": "Tourbillon",
+  "pt": "Redemoinho"
+ },
+ "5117": {
+  "de": "Mykologalisiert",
+  "en": "Mychologated",
+  "es": "Mikologalizado",
+  "fr": "Mykologalisé",
+  "pt": "Micolobiossonado"
+ },
+ "513": {
+  "de": "Wut",
+  "en": "Rage",
+  "es": "Rabia",
+  "fr": "Rage",
+  "pt": "Raiva"
+ },
+ "5139": {
+  "de": "[!] Transplantage Néfaste",
+  "en": "[!] Transplantage Néfaste",
+  "es": "[!] Transplantage Néfaste",
+  "fr": "Transplantage Néfaste",
+  "pt": "[!] Transplantage Néfaste"
+ },
+ "514": {
+  "de": "Wuut",
+  "en": "Raage",
+  "es": "Raabia",
+  "fr": "Raage",
+  "pt": "Raaiva"
+ },
+ "5153": {
+  "de": "[!] Racines du mal",
+  "en": "[!] Racines du mal",
+  "es": "[!] Racines du mal",
+  "fr": "Racines du mal",
+  "pt": "[!] Racines du mal"
+ },
+ "516": {
+  "de": "Beute",
+  "en": "Prey",
+  "es": "Presa",
+  "fr": "Proie",
+  "pt": "Presa"
+ },
+ "517": {
+  "de": "Bestialische Form",
+  "en": "Animal Form",
+  "es": "Forma Bestial",
+  "fr": "Forme Bestiale",
+  "pt": "Forma Bestial"
+ },
+ "5208": {
+  "de": "[!] Blop royaux (faiblesse Air)",
+  "en": "[!] Blop royaux (faiblesse Air)",
+  "es": "[!] Blop royaux (faiblesse Air)",
+  "fr": "Blop royaux (faiblesse Air)",
+  "pt": "[!] Blop royaux (faiblesse Air)"
+ },
+ "5209": {
+  "de": "[!] Blop royaux (faiblesse Feu)",
+  "en": "[!] Blop royaux (faiblesse Feu)",
+  "es": "[!] Blop royaux (faiblesse Feu)",
+  "fr": "Blop royaux (faiblesse Feu)",
+  "pt": "[!] Blop royaux (faiblesse Feu)"
+ },
+ "5210": {
+  "de": "[!] Blop royaux (faiblesse Eau)",
+  "en": "[!] Blop royaux (faiblesse Eau)",
+  "es": "[!] Blop royaux (faiblesse Eau)",
+  "fr": "Blop royaux (faiblesse Eau)",
+  "pt": "[!] Blop royaux (faiblesse Eau)"
+ },
+ "5211": {
+  "de": "[!] Blop royaux (faiblesse Terre)",
+  "en": "[!] Blop royaux (faiblesse Terre)",
+  "es": "[!] Blop royaux (faiblesse Terre)",
+  "fr": "Blop royaux (faiblesse Terre)",
+  "pt": "[!] Blop royaux (faiblesse Terre)"
+ },
+ "522": {
+  "de": "Gefangen",
+  "en": "Trapped",
+  "es": "Atrapado",
+  "fr": "Piégé",
+  "pt": "Enrascado"
+ },
+ "5247": {
+  "de": "Gejagt",
+  "en": "Hunted",
+  "es": "Cazado",
+  "fr": "Chassé",
+  "pt": "Caçado"
+ },
+ "5248": {
+  "de": "[!] Scarafeuille Terre",
+  "en": "[!] Scarafeuille Terre",
+  "es": "[!] Scarafeuille Terre",
+  "fr": "Scarafeuille Terre",
+  "pt": "[!] Scarafeuille Terre"
+ },
+ "5249": {
+  "de": "[!] Scarafeuille Feu",
+  "en": "[!] Scarafeuille Feu",
+  "es": "[!] Scarafeuille Feu",
+  "fr": "Scarafeuille Feu",
+  "pt": "[!] Scarafeuille Feu"
+ },
+ "5250": {
+  "de": "[!] Scarafeuille Eau",
+  "en": "[!] Scarafeuille Eau",
+  "es": "[!] Scarafeuille Eau",
+  "fr": "Scarafeuille Eau",
+  "pt": "[!] Scarafeuille Eau"
+ },
+ "5251": {
+  "de": "[!] Scarafeuille Air",
+  "en": "[!] Scarafeuille Air",
+  "es": "[!] Scarafeuille Air",
+  "fr": "Scarafeuille Air",
+  "pt": "[!] Scarafeuille Air"
+ },
+ "5259": {
+  "de": "Biss des Königlichen Fresssacks",
+  "en": "Royal Gobball Bite",
+  "es": "Mordedura de Jalató Real",
+  "fr": "Morsure du Bouftou Royal",
+  "pt": "Mordida do Papatudo Real"
+ },
+ "5260": {
+  "de": "Vermenschwandlung",
+  "en": "Greener Pastures",
+  "es": "Trashumancia",
+  "fr": "Glyphes déclenchés",
+  "pt": "Transumância"
+ },
+ "5309": {
+  "de": "[!] Harmattan",
+  "en": "[!] Harmattan",
+  "es": "[!] Harmattan",
+  "fr": "Harmattan",
+  "pt": "[!] Harmattan"
+ },
+ "5317": {
+  "de": "[!] Marée cible",
+  "en": "[!] Marée cible",
+  "es": "[!] Marée cible",
+  "fr": "Marée cible",
+  "pt": "[!] Marée cible"
+ },
+ "532": {
+  "de": "Wie ein WuWulf gefangen",
+  "en": "Trapped Like A Boowolf",
+  "es": "Atrapado como un Milubo",
+  "fr": "Piégé comme un Mulou",
+  "pt": "Enrascado feito um Milobo"
+ },
+ "5343": {
+  "de": "Entfettet",
+  "en": "Scrubbed",
+  "es": "Desengrasado",
+  "fr": "Dégraissé",
+  "pt": "Scrub"
+ },
+ "5348": {
+  "de": "[!] Invisible",
+  "en": "[!] Invisible",
+  "es": "[!] Invisible",
+  "fr": "Invisible",
+  "pt": "[!] Invisible"
+ },
+ "5354": {
+  "de": "Kewlheit",
+  "en": "Kewlitude",
+  "es": "Kewlidad",
+  "fr": "Kewlitude",
+  "pt": "Kewlitude"
+ },
+ "5375": {
+  "de": "[!] Barrière ennemi",
+  "en": "[!] Barrière ennemi",
+  "es": "[!] Barrière ennemi",
+  "fr": "Barrière ennemi",
+  "pt": "[!] Barrière ennemi"
+ },
+ "538": {
+  "de": "Segen des Stinkelings",
+  "en": "Ougaa's Blessing",
+  "es": "Bendición de Ugah",
+  "fr": "Bénédiction d'Ougah",
+  "pt": "Bênção de Ugah"
+ },
+ "5409": {
+  "de": "Infiziert (Ziel)",
+  "en": "Infected (target)",
+  "es": "Infectado (objetivo)",
+  "fr": "Infecté (effets sur cible)",
+  "pt": "Infectado (alvo)"
+ },
+ "5418": {
+  "de": "Puppenhafte Präparation I",
+  "en": "Dollish Decoction I",
+  "es": "Preparación Muñequera I",
+  "fr": "Préparation Poupesque I",
+  "pt": "Preparação Bonecal I"
+ },
+ "5420": {
+  "de": "Puppenhafte Präparation III",
+  "en": "Dollish Decoction III",
+  "es": "Preparación Muñequera III",
+  "fr": "Préparation Poupesque III",
+  "pt": "Preparação Bonecal III"
+ },
+ "5424": {
+  "de": "Ansteckung (Ziel)",
+  "en": "Contagion (target)",
+  "es": "Contagio (objetivo)",
+  "fr": "Contagion (cible)",
+  "pt": "Contágio (alvo)"
+ },
+ "543": {
+  "de": "Surrus Segen",
+  "en": "Rickmortar's Blessing",
+  "es": "Bendición de Pistonudo",
+  "fr": "Bénédiction de Surru",
+  "pt": "Bênção de Diabêlia"
+ },
+ "544": {
+  "de": "Luft-Bwork",
+  "en": "Air Bwork",
+  "es": "Bwork de Aire",
+  "fr": "Bwork Air",
+  "pt": "Bwork Ar"
+ },
+ "5465": {
+  "de": "Pik",
+  "en": "Spades",
+  "es": "Pica",
+  "fr": "Pique",
+  "pt": "Espadas"
+ },
+ "5466": {
+  "de": "Kleeblatt",
+  "en": "Clubs",
+  "es": "Trébol",
+  "fr": "Trèfle",
+  "pt": "Paus"
+ },
+ "5467": {
+  "de": "Herz",
+  "en": "Hearts",
+  "es": "Corazón",
+  "fr": "Cœur",
+  "pt": "Copas"
+ },
+ "5468": {
+  "de": "Karo",
+  "en": "Diamonds",
+  "es": "Diamante",
+  "fr": "Carreau",
+  "pt": "Ouros"
+ },
+ "548": {
+  "de": "Nach oben",
+  "en": "High",
+  "es": "Arriba",
+  "fr": "Haut",
+  "pt": "Para Cima"
+ },
+ "5480": {
+  "de": "Bunter Royal Flush",
+  "en": "Royal Straight with All Suits",
+  "es": "Serie Real de Colores",
+  "fr": "Suite Royale Couleurs",
+  "pt": "Royal Flush Naipes"
+ },
+ "5481": {
+  "de": "Pik-Royal Flush",
+  "en": "Royal Straight in Spades",
+  "es": "Serie Real de Picas",
+  "fr": "Suite Royale de Pique",
+  "pt": "Royal Flush de Espadas"
+ },
+ "5482": {
+  "de": "Kreuz-Royal Flush",
+  "en": "Royal Straight in Clubs",
+  "es": "Serie Real de Tréboles",
+  "fr": "Suite Royale de Trèfle",
+  "pt": "Royal Flush de Paus"
+ },
+ "5483": {
+  "de": "Herz-Royal Flush",
+  "en": "Royal Straight in Hearts",
+  "es": "Serie Real de Corazones",
+  "fr": "Suite Royale de Cœur",
+  "pt": "Royal Flush de Copas"
+ },
+ "5484": {
+  "de": "Karo-Royal Flush",
+  "en": "Royal Straight in Diamonds",
+  "es": "Serie Real de Diamantes",
+  "fr": "Suite Royale de Carreau",
+  "pt": "Royal Flush de Ouros"
+ },
+ "5485": {
+  "de": "Buben-Vierling",
+  "en": "Four Jacks",
+  "es": "Póquer de Sotas",
+  "fr": "Carré de Valets",
+  "pt": "Quadra de Valetes"
+ },
+ "5486": {
+  "de": "Damen-Vierling",
+  "en": "Four Queens",
+  "es": "Póquer de Damas",
+  "fr": "Carré de Dames",
+  "pt": "Quadra de Damas"
+ },
+ "5487": {
+  "de": "König-Vierling",
+  "en": "Four Kings",
+  "es": "Póquer de Reyes",
+  "fr": "Carré de Rois",
+  "pt": "Quadra de Reis"
+ },
+ "5488": {
+  "de": "Ass-Vierling",
+  "en": "Four Aces",
+  "es": "Póquer de Ases",
+  "fr": "Carré d'As",
+  "pt": "Quadra de Ases"
+ },
+ "549": {
+  "de": "Nach rechts",
+  "en": "Right",
+  "es": "Derecha",
+  "fr": "Droite",
+  "pt": "Para a Direita"
+ },
+ "5497": {
+  "de": "Erdrutsch IV",
+  "en": "Collapse IV",
+  "es": "Desprendimiento IV",
+  "fr": "Éboulement IV",
+  "pt": "Desmoronamento IV"
+ },
+ "5498": {
+  "de": "Goldwaschen IV",
+  "en": "Placer Mining IV",
+  "es": "Búsqueda de Oro IV",
+  "fr": "Orpaillage IV",
+  "pt": "Garimpo IV"
+ },
+ "5499": {
+  "de": "Klingende Münze IV",
+  "en": "Hard Cash IV",
+  "es": "Moneda Sonante IV",
+  "fr": "Monnaie Sonnante IV",
+  "pt": "Moeda Falsa IV"
+ },
+ "550": {
+  "de": "Nach unten",
+  "en": "Low",
+  "es": "Abajo",
+  "fr": "Bas",
+  "pt": "Para Baixo"
+ },
+ "551": {
+  "de": "Nach links",
+  "en": "Left",
+  "es": "Izquierda",
+  "fr": "Gauche",
+  "pt": "Para a Esquerda"
+ },
+ "5532": {
+  "de": "Royal Flush",
+  "en": "Royal Straight",
+  "es": "Serie Real",
+  "fr": "Suite Royale",
+  "pt": "Royal Flush"
+ },
+ "5533": {
+  "de": "Farben-Vierling",
+  "en": "Four Suits",
+  "es": "Póquer de Colores",
+  "fr": "Carré Couleurs",
+  "pt": "Quadra de Naipes"
+ },
+ "5538": {
+  "de": "Blendwerk (Luft) 2 AP",
+  "en": "Trickery Air 2 AP",
+  "es": "Truco de Aire 2 PA",
+  "fr": "Tromperie Air 2 PA",
+  "pt": "Enganação de Ar 2 PA"
+ },
+ "5539": {
+  "de": "Blendwerk (Luft) 3 AP",
+  "en": "Trickery Air 3 AP",
+  "es": "Truco de Aire 3 PA",
+  "fr": "Tromperie Air 3 PA",
+  "pt": "Enganação de Ar 3 PA"
+ },
+ "5540": {
+  "de": "Blendwerk (Luft) 4 AP",
+  "en": "Trickery Air 4 AP",
+  "es": "Truco de Aire 4 PA",
+  "fr": "Tromperie Air 4 PA",
+  "pt": "Enganação de Ar 4 PA"
+ },
+ "5541": {
+  "de": "Blendwerk (Luft) 5 AP",
+  "en": "Trickery Air 5 AP",
+  "es": "Truco de Aire 5 PA",
+  "fr": "Tromperie Air 5 PA",
+  "pt": "Enganação de Ar 5 PA"
+ },
+ "5542": {
+  "de": "Blendwerk (Wasser) 2 AP",
+  "en": "Trickery Water 2 AP",
+  "es": "Truco de Agua 2 PA",
+  "fr": "Tromperie Eau 2 PA",
+  "pt": "Enganação de Água 2 PA"
+ },
+ "5543": {
+  "de": "Blendwerk (Wasser) 3 AP",
+  "en": "Trickery Water 3 AP",
+  "es": "Truco de Agua 3 PA",
+  "fr": "Tromperie Eau 3 PA",
+  "pt": "Enganação de Água 3 PA"
+ },
+ "5544": {
+  "de": "Blendwerk (Wasser) 4 AP",
+  "en": "Trickery Water 4 AP",
+  "es": "Truco de Agua 4 PA",
+  "fr": "Tromperie Eau 4 PA",
+  "pt": "Enganação de Água 4 PA"
+ },
+ "5545": {
+  "de": "Blendwerk (Wasser) 5 AP",
+  "en": "Trickery Water 5 AP",
+  "es": "Truco de Agua 5 PA",
+  "fr": "Tromperie Eau 5 PA",
+  "pt": "Enganação de Água 5 PA"
+ },
+ "5546": {
+  "de": "Blendwerk (Feuer) 2 AP",
+  "en": "Trickery Fire 2 AP",
+  "es": "Truco de Fuego 2 PA",
+  "fr": "Tromperie Feu 2 PA",
+  "pt": "Enganação de Fogo 2 PA"
+ },
+ "5547": {
+  "de": "Blendwerk (Feuer) 3 AP",
+  "en": "Trickery Fire 3 AP",
+  "es": "Truco de Fuego 3 PA",
+  "fr": "Tromperie Feu 3 PA",
+  "pt": "Enganação de Fogo 3 PA"
+ },
+ "5548": {
+  "de": "Blendwerk (Feuer) 4 AP",
+  "en": "Trickery Fire 4 AP",
+  "es": "Truco de Fuego 4 PA",
+  "fr": "Tromperie Feu 4 PA",
+  "pt": "Enganação de Fogo 4 PA"
+ },
+ "5549": {
+  "de": "Blendwerk (Feuer) 5 AP",
+  "en": "Trickery Fire 5 AP",
+  "es": "Truco de Fuego 5 PA",
+  "fr": "Tromperie Feu 5 PA",
+  "pt": "Enganação de Fogo 5 PA"
+ },
+ "5550": {
+  "de": "Blendwerk (Erde) 2 AP",
+  "en": "Trickery Earth 2 AP",
+  "es": "Truco de Tierra 2 PA",
+  "fr": "Tromperie Terre 2 PA",
+  "pt": "Enganação de Terra 2 PA"
+ },
+ "5551": {
+  "de": "Blendwerk (Erde) 3 AP",
+  "en": "Trickery Earth 3 AP",
+  "es": "Truco de Tierra 3 PA",
+  "fr": "Tromperie Terre 3 PA",
+  "pt": "Enganação de Terra 3 PA"
+ },
+ "5552": {
+  "de": "Blendwerk (Erde) 4 AP",
+  "en": "Trickery Earth 4 AP",
+  "es": "Truco de Tierra 4 PA",
+  "fr": "Tromperie Terre 4 PA",
+  "pt": "Enganação de Terra 4 PA"
+ },
+ "5553": {
+  "de": "Blendwerk (Erde) 5 AP",
+  "en": "Trickery Earth 5 AP",
+  "es": "Truco de Tierra 5 PA",
+  "fr": "Tromperie Terre 5 PA",
+  "pt": "Enganação de Terra 5 PA"
+ },
+ "56": {
+  "de": "Unverwundbar",
+  "en": "Invulnerable",
+  "es": "Invulnerable",
+  "fr": "Invulnérable",
+  "pt": "Invulnerável"
+ },
+ "5600": {
+  "de": "Unglück",
+  "en": "Misfortune",
+  "es": "Desdicha",
+  "fr": "Infortune",
+  "pt": "Infortúnio"
+ },
+ "562": {
+  "de": "Rot des Regenbogen-Einohrs",
+  "en": "Rainikron Red",
+  "es": "Rojo Urikoíris",
+  "fr": "Rouge Rainikrone",
+  "pt": "Vermelho-Iriskrônia"
+ },
+ "5675": {
+  "de": "Paare von Königen und Assen",
+  "en": "Pairs of Kings and Aces",
+  "es": "Parejas de Reyes y de Ases",
+  "fr": "Paires de Rois et d'As",
+  "pt": "Pares de Reis e Ases"
+ },
+ "5676": {
+  "de": "Paare von Damen und Assen",
+  "en": "Pairs of Queens and Aces",
+  "es": "Parejas de Reinas y de Ases",
+  "fr": "Paires de Dames et d'As",
+  "pt": "Pares de Damas e Ases"
+ },
+ "5677": {
+  "de": "Paare von Damen und Königen",
+  "en": "Pairs of Queens and Kings",
+  "es": "Parejas de Reinas y de Reyes",
+  "fr": "Paires de Dames et de Rois",
+  "pt": "Pares de Damas e Reis"
+ },
+ "5678": {
+  "de": "Paare von Buben und Assen",
+  "en": "Pairs of Jacks and Aces",
+  "es": "Parejas de Sotas y de Ases",
+  "fr": "Paires de Valets et d'As",
+  "pt": "Pares de Valetes e Ases"
+ },
+ "5679": {
+  "de": "Paare von Buben und Königen",
+  "en": "Pairs of Jacks and Kings",
+  "es": "Parejas de Sotas y de Reyes",
+  "fr": "Paires de Valets et de Rois",
+  "pt": "Pares de Valetes e Reis"
+ },
+ "5680": {
+  "de": "Paare von Buben und Damen",
+  "en": "Pairs of Jacks and Queens",
+  "es": "Parejas de Sotas y de Reinas",
+  "fr": "Paires de Valets et de Dames",
+  "pt": "Pares de Valetes e Damas"
+ },
+ "570": {
+  "de": "Pfeil der Qual Zustand",
+  "en": "Fulminating Arrow Check",
+  "es": "Flecha Fulminante Check",
+  "fr": "Flèche Fulminante (touché)",
+  "pt": "Flecha Fulminante"
+ },
+ "5706": {
+  "de": "Dreier mit Assen",
+  "en": "Three Aces",
+  "es": "Trío de Ases",
+  "fr": "Brelan d'As",
+  "pt": "Trinca de Ases"
+ },
+ "5707": {
+  "de": "Dreier mit Königen",
+  "en": "Three Kings",
+  "es": "Trío de Reyes",
+  "fr": "Brelan de Rois",
+  "pt": "Trinca de Reis"
+ },
+ "5708": {
+  "de": "Dreier mit Damen",
+  "en": "Three Queens",
+  "es": "Trío de Reinas",
+  "fr": "Brelan de Dames",
+  "pt": "Trinca de Damas"
+ },
+ "5709": {
+  "de": "Dreier mit Buben",
+  "en": "Three Jacks",
+  "es": "Trío de Sotas",
+  "fr": "Brelan de Valets",
+  "pt": "Trinca de Valetes"
+ },
+ "571": {
+  "de": "Nekronyx",
+  "en": "Necronyx",
+  "es": "Necrónix",
+  "fr": "Nécronyx",
+  "pt": "Necrônix"
+ },
+ "573": {
+  "de": "Verheerender Pfeil I",
+  "en": "Devouring Arrow I",
+  "es": "Flecha Voraz I",
+  "fr": "Flèche Dévorante I",
+  "pt": "Flecha Devoradora I"
+ },
+ "574": {
+  "de": "Verheerender Pfeil II",
+  "en": "Devouring Arrow II",
+  "es": "Flecha Voraz II",
+  "fr": "Flèche Dévorante II",
+  "pt": "Flecha Devoradora II"
+ },
+ "5742": {
+  "de": "[!] Holmgang (cast)",
+  "en": "[!] Holmgang (cast)",
+  "es": "[!] Holmgang (cast)",
+  "fr": "Holmgang (cast)",
+  "pt": "[!] Holmgang (cast)"
+ },
+ "5743": {
+  "de": "[!] Holmgang (portée)",
+  "en": "[!] Holmgang (portée)",
+  "es": "[!] Holmgang (portée)",
+  "fr": "Holmgang (portée)",
+  "pt": "[!] Holmgang (portée)"
+ },
+ "5744": {
+  "de": "[!] Holmgang (initialement dans la zone)",
+  "en": "[!] Holmgang (initialement dans la zone)",
+  "es": "[!] Holmgang (initialement dans la zone)",
+  "fr": "Holmgang (initialement dans la zone)",
+  "pt": "[!] Holmgang (initialement dans la zone)"
+ },
+ "5896": {
+  "de": "[!] Forêt Hantée (cible)",
+  "en": "[!] Forêt Hantée (cible)",
+  "es": "[!] Forêt Hantée (cible)",
+  "fr": "Forêt Hantée (cible)",
+  "pt": "[!] Forêt Hantée (cible)"
+ },
+ "5897": {
+  "de": "[!] Mangrove (cible)",
+  "en": "[!] Mangrove (cible)",
+  "es": "[!] Mangrove (cible)",
+  "fr": "Mangrove (cible)",
+  "pt": "[!] Mangrove (cible)"
+ },
+ "590": {
+  "de": "Sturm der Macht I",
+  "en": "Strengthstorm I",
+  "es": "Tempestad de Potencia I",
+  "fr": "Tempête de Puissance I",
+  "pt": "Tempestade de Poder I"
+ },
+ "591": {
+  "de": "Sturm der Macht II",
+  "en": "Strengthstorm II",
+  "es": "Tempestad de Potencia II",
+  "fr": "Tempête de Puissance II",
+  "pt": "Tempestade de Poder II"
+ },
+ "5971": {
+  "de": "[!] Mama Trooll (pré fight)",
+  "en": "[!] Mama Trooll (pré fight)",
+  "es": "[!] Mama Trooll (pré fight)",
+  "fr": "Mama Trooll (pré fight)",
+  "pt": "[!] Mama Trooll (pré fight)"
+ },
+ "6": {
+  "de": "Verwurzelt",
+  "en": "Rooted",
+  "es": "Arraigado",
+  "fr": "Enraciné",
+  "pt": "Enraizado"
+ },
+ "601": {
+  "de": "Runenüberladung",
+  "en": "Runic Overcharge",
+  "es": "Sobrecarga Rúnica",
+  "fr": "Surcharge Runique",
+  "pt": "Sobrecarga Rúnica"
+ },
+ "6137": {
+  "de": "[!] Sables du Temps (cible)",
+  "en": "[!] Sables du Temps (cible)",
+  "es": "[!] Sables du Temps (cible)",
+  "fr": "Sables du Temps (cible)",
+  "pt": "[!] Sables du Temps (cible)"
+ },
+ "614": {
+  "de": "Zeitriss",
+  "en": "Time Rift",
+  "es": "Falla Temporal",
+  "fr": "Faille (blocage)",
+  "pt": "Fenda Temporal"
+ },
+ "6140": {
+  "de": "[!] Dessèchement",
+  "en": "[!] Dessèchement",
+  "es": "[!] Dessèchement",
+  "fr": "Dessèchement",
+  "pt": "[!] Dessèchement"
+ },
+ "6159": {
+  "de": "[!] Rugiffle",
+  "en": "[!] Rugiffle",
+  "es": "[!] Rugiffle",
+  "fr": "Rugiffle",
+  "pt": "[!] Rugiffle"
+ },
+ "6266": {
+  "de": "[!] Bébé",
+  "en": "[!] Bébé",
+  "es": "[!] Bébé",
+  "fr": "Bébé",
+  "pt": "[!] Bébé"
+ },
+ "6283": {
+  "de": "[!] Phase I",
+  "en": "[!] Phase I",
+  "es": "[!] Phase I",
+  "fr": "Phase I",
+  "pt": "[!] Phase I"
+ },
+ "6284": {
+  "de": "[!] Phase II",
+  "en": "[!] Phase II",
+  "es": "[!] Phase II",
+  "fr": "Phase II",
+  "pt": "[!] Phase II"
+ },
+ "6285": {
+  "de": "[!] Phase III",
+  "en": "[!] Phase III",
+  "es": "[!] Phase III",
+  "fr": "Phase III",
+  "pt": "[!] Phase III"
+ },
+ "6286": {
+  "de": "[!] Phase IV",
+  "en": "[!] Phase IV",
+  "es": "[!] Phase IV",
+  "fr": "Phase IV",
+  "pt": "[!] Phase IV"
+ },
+ "6299": {
+  "de": "[!] Coup de Grisou (blocage)",
+  "en": "[!] Coup de Grisou (blocage)",
+  "es": "[!] Coup de Grisou (blocage)",
+  "fr": "Coup de Grisou (blocage)",
+  "pt": "[!] Coup de Grisou (blocage)"
+ },
+ "6403": {
+  "de": "Verstellt",
+  "en": "Malfunctioning",
+  "es": "Desajustada",
+  "fr": "Déréglée",
+  "pt": "Desregulada"
+ },
+ "6467": {
+  "de": "Ausschlüpfen II",
+  "en": "Hatching II",
+  "es": "Eclosión II",
+  "fr": "Éclosion II",
+  "pt": "Eclosão II"
+ },
+ "6470": {
+  "de": "Manipulsiert",
+  "en": "Manipulsated",
+  "es": "Manipulsado",
+  "fr": "Manipulsé",
+  "pt": "Manipulsado"
+ },
+ "6597": {
+  "de": "[!] Light Count 0%",
+  "en": "[!] Light Count 0%",
+  "es": "[!] Light Count 0%",
+  "fr": "Light Count 0%",
+  "pt": "[!] Light Count 0%"
+ },
+ "6598": {
+  "de": "[!] Light Count 10%",
+  "en": "[!] Light Count 10%",
+  "es": "[!] Light Count 10%",
+  "fr": "Light Count 10%",
+  "pt": "[!] Light Count 10%"
+ },
+ "6599": {
+  "de": "[!] Light Count 20%",
+  "en": "[!] Light Count 20%",
+  "es": "[!] Light Count 20%",
+  "fr": "Light Count 20%",
+  "pt": "[!] Light Count 20%"
+ },
+ "6600": {
+  "de": "[!] Light Count 30%",
+  "en": "[!] Light Count 30%",
+  "es": "[!] Light Count 30%",
+  "fr": "Light Count 30%",
+  "pt": "[!] Light Count 30%"
+ },
+ "6601": {
+  "de": "[!] Light Count 40%",
+  "en": "[!] Light Count 40%",
+  "es": "[!] Light Count 40%",
+  "fr": "Light Count 40%",
+  "pt": "[!] Light Count 40%"
+ },
+ "6602": {
+  "de": "[!] Light Count 50%",
+  "en": "[!] Light Count 50%",
+  "es": "[!] Light Count 50%",
+  "fr": "Light Count 50%",
+  "pt": "[!] Light Count 50%"
+ },
+ "6603": {
+  "de": "[!] Light Count 60%",
+  "en": "[!] Light Count 60%",
+  "es": "[!] Light Count 60%",
+  "fr": "Light Count 60%",
+  "pt": "[!] Light Count 60%"
+ },
+ "6604": {
+  "de": "[!] Light Count 70%",
+  "en": "[!] Light Count 70%",
+  "es": "[!] Light Count 70%",
+  "fr": "Light Count 70%",
+  "pt": "[!] Light Count 70%"
+ },
+ "6605": {
+  "de": "[!] Light Count 80%",
+  "en": "[!] Light Count 80%",
+  "es": "[!] Light Count 80%",
+  "fr": "Light Count 80%",
+  "pt": "[!] Light Count 80%"
+ },
+ "6606": {
+  "de": "[!] Light Count 90%",
+  "en": "[!] Light Count 90%",
+  "es": "[!] Light Count 90%",
+  "fr": "Light Count 90%",
+  "pt": "[!] Light Count 90%"
+ },
+ "6607": {
+  "de": "[!] Light Count 100%",
+  "en": "[!] Light Count 100%",
+  "es": "[!] Light Count 100%",
+  "fr": "Light Count 100%",
+  "pt": "[!] Light Count 100%"
+ },
+ "6608": {
+  "de": "Dunkler Albaffe",
+  "en": "Dark Dreem",
+  "es": "Dark Monírico",
+  "fr": "Dark Sonj",
+  "pt": "Dark Sônio"
+ },
+ "662": {
+  "de": "Verheerender Pfeil III",
+  "en": "Devouring Arrow III",
+  "es": "Flecha Voraz III",
+  "fr": "Flèche Dévorante III",
+  "pt": "Flecha Devoradora III"
+ },
+ "6626": {
+  "de": "Kerker I",
+  "en": "Isolation Cell I",
+  "es": "Calabozo I",
+  "fr": "Cachot I",
+  "pt": "Solitária I"
+ },
+ "6627": {
+  "de": "Kerker II",
+  "en": "Isolation Cell II",
+  "es": "Calabozo II",
+  "fr": "Cachot II",
+  "pt": "Solitária II"
+ },
+ "6628": {
+  "de": "Kerker III",
+  "en": "Isolation Cell III",
+  "es": "Calabozo III",
+  "fr": "Cachot III",
+  "pt": "Solitária III"
+ },
+ "6629": {
+  "de": "Kerker IV",
+  "en": "Isolation Cell IV",
+  "es": "Calabozo IV",
+  "fr": "Cachot IV",
+  "pt": "Solitária IV"
+ },
+ "6631": {
+  "de": "Immunität: Kaiserliches Exil",
+  "en": "Immunity: Imperial Exile",
+  "es": "Inmunidad: Exilio Imperial",
+  "fr": "Immunité : Exil Impérial",
+  "pt": "Imunidade: Exílio Imperial"
+ },
+ "6664": {
+  "de": "[!] flowerIsAlly",
+  "en": "[!] flowerIsAlly",
+  "es": "[!] flowerIsAlly",
+  "fr": "flowerIsAlly",
+  "pt": "[!] flowerIsAlly"
+ },
+ "6665": {
+  "de": "[!] flowerIsEnemy",
+  "en": "[!] flowerIsEnemy",
+  "es": "[!] flowerIsEnemy",
+  "fr": "flowerIsEnemy",
+  "pt": "[!] flowerIsEnemy"
+ },
+ "6677": {
+  "de": "[!] isInGlyph",
+  "en": "[!] isInGlyph",
+  "es": "[!] isInGlyph",
+  "fr": "isInGlyph",
+  "pt": "[!] isInGlyph"
+ },
+ "675": {
+  "de": "Leitfeuer",
+  "en": "Fuze",
+  "es": "Estopín",
+  "fr": "Etoupille",
+  "pt": "Pavio-Curto"
+ },
+ "6939": {
+  "de": "[!] Pendule",
+  "en": "[!] Pendule",
+  "es": "[!] Pendule",
+  "fr": "Pendule",
+  "pt": "[!] Pendule"
+ },
+ "695": {
+  "de": "Nimbos 3",
+  "en": "Stubbyob 3",
+  "es": "Taponano 3",
+  "fr": "Nimbos 3",
+  "pt": "Brutanão 3"
+ },
+ "6951": {
+  "de": "[!] Snyler",
+  "en": "[!] Snyler",
+  "es": "[!] Snyler",
+  "fr": "Snyler",
+  "pt": "[!] Snyler"
+ },
+ "6969": {
+  "de": "[!] Rune (rang 1)",
+  "en": "[!] Rune (rang 1)",
+  "es": "[!] Rune (rang 1)",
+  "fr": "Rune (rang 1)",
+  "pt": "[!] Rune (rang 1)"
+ },
+ "6970": {
+  "de": "[!] Rune (rang 2)",
+  "en": "[!] Rune (rang 2)",
+  "es": "[!] Rune (rang 2)",
+  "fr": "Rune (rang 2)",
+  "pt": "[!] Rune (rang 2)"
+ },
+ "6971": {
+  "de": "[!] Rune (rang 3)",
+  "en": "[!] Rune (rang 3)",
+  "es": "[!] Rune (rang 3)",
+  "fr": "Rune (rang 3)",
+  "pt": "[!] Rune (rang 3)"
+ },
+ "6980": {
+  "de": "[!] Surcharge Runique (rang 2)",
+  "en": "[!] Surcharge Runique (rang 2)",
+  "es": "[!] Surcharge Runique (rang 2)",
+  "fr": "Surcharge Runique (rang 2)",
+  "pt": "[!] Surcharge Runique (rang 2)"
+ },
+ "7": {
+  "de": "Schwerkraft",
+  "en": "Gravity",
+  "es": "Pesante",
+  "fr": "Pesanteur",
+  "pt": "Gravidade"
+ },
+ "7019": {
+  "de": "[!] Kolosso solo",
+  "en": "[!] Kolosso solo",
+  "es": "[!] Kolosso solo",
+  "fr": "Kolosso solo",
+  "pt": "[!] Kolosso solo"
+ },
+ "7020": {
+  "de": "[!] Wa Wabitt solo",
+  "en": "[!] Wa Wabitt solo",
+  "es": "[!] Wa Wabitt solo",
+  "fr": "Wa Wabitt solo",
+  "pt": "[!] Wa Wabitt solo"
+ },
+ "707": {
+  "de": "1 Telefrag verbraucht",
+  "en": "1 Telefrag consumed",
+  "es": "1 telefrag consumido",
+  "fr": "1 Téléfrag consommé",
+  "pt": "1 Telefrag consumido"
+ },
+ "7117": {
+  "de": "[!] Flèche Boomerang (cibles)",
+  "en": "[!] Flèche Boomerang (cibles)",
+  "es": "[!] Flèche Boomerang (cibles)",
+  "fr": "Flèche Boomerang (cibles)",
+  "pt": "[!] Flèche Boomerang (cibles)"
+ },
+ "7118": {
+  "de": "[!] Flèche Boomerang (nouvelle cible)",
+  "en": "[!] Flèche Boomerang (nouvelle cible)",
+  "es": "[!] Flèche Boomerang (nouvelle cible)",
+  "fr": "Flèche Boomerang (nouvelle cible)",
+  "pt": "[!] Flèche Boomerang (nouvelle cible)"
+ },
+ "7120": {
+  "de": "Pfeil der Abschaffung I",
+  "en": "Abolition Arrow I",
+  "es": "Flecha de Abolición I",
+  "fr": "Flèche d'Abolition I",
+  "pt": "Flecha de Abolição I"
+ },
+ "7121": {
+  "de": "Pfeil der Abschaffung II",
+  "en": "Abolition Arrow II",
+  "es": "Flecha de Abolición II",
+  "fr": "Flèche d'Abolition II",
+  "pt": "Flecha de Abolição II"
+ },
+ "713": {
+  "de": "Infiziert III",
+  "en": "Infected III",
+  "es": "Infectado III",
+  "fr": "Infecté III",
+  "pt": "Infectado III"
+ },
+ "714": {
+  "de": "Graue Faust I",
+  "en": "Grey Fist I",
+  "es": "Puño Gris I",
+  "fr": "Poing Gris I",
+  "pt": "Punho Cinza I"
+ },
+ "715": {
+  "de": "Graue Faust II",
+  "en": "Grey Fist II",
+  "es": "Puño Gris II",
+  "fr": "Poing Gris II",
+  "pt": "Punho Cinza II"
+ },
+ "7154": {
+  "de": "[!] playerStill inArena",
+  "en": "[!] playerStill inArena",
+  "es": "[!] playerStill inArena",
+  "fr": "playerStill inArena",
+  "pt": "[!] playerStill inArena"
+ },
+ "7157": {
+  "de": "Geflüchteter",
+  "en": "Escaped",
+  "es": "Fugado",
+  "fr": "Évadé",
+  "pt": "Fugitivo"
+ },
+ "738": {
+  "de": "Garn des Schicksals",
+  "en": "Thread of Destiny",
+  "es": "Hilo del Destino",
+  "fr": "Fil du Destin",
+  "pt": "Fio do Destino"
+ },
+ "742": {
+  "de": "Zorn des Schicksals",
+  "en": "Wrath of Destiny",
+  "es": "Ira del Destino",
+  "fr": "Colère du Destin",
+  "pt": "Ira do Destino"
+ },
+ "755": {
+  "de": "Dissident",
+  "en": "Dissident",
+  "es": "Disidente",
+  "fr": "Dissident",
+  "pt": "Dissidente"
+ },
+ "76": {
+  "de": "Unheilbar",
+  "en": "Unhealable",
+  "es": "Incurable",
+  "fr": "Insoignable",
+  "pt": "Incurável"
+ },
+ "8": {
+  "de": "Getragen",
+  "en": "Carried",
+  "es": "Portado",
+  "fr": "Porté",
+  "pt": "Carregado"
+ },
+ "816": {
+  "de": "Paradoxon von Hauptmann Rot-Teka",
+  "en": "Captain Scarlight's Paradox",
+  "es": "Paradoja del Capitán Eskarlata",
+  "fr": "Paradoxe du Capitaine Ékarlatte",
+  "pt": "Paradoxo do Capitão Skarlat"
+ },
+ "864": {
+  "de": "Generischer Zustand Sandzecke 01",
+  "en": "Tremrus Generic State 01",
+  "es": "Estado Genérico Tremorso 01",
+  "fr": "État générique Trémorse 01",
+  "pt": "Estado Genérico Tremorsa 01"
+ },
+ "865": {
+  "de": "Generischer Zustand Sandzecke 02",
+  "en": "Tremrus Generic State 02",
+  "es": "Estado Genérico Tremorso 02",
+  "fr": "État générique Trémorse 02",
+  "pt": "Estado Genérico Tremorsa 02"
+ },
+ "872": {
+  "de": "Generischer Zustand Crânonier",
+  "en": "Sucgunner Generic State",
+  "es": "Estado Genérico Mortisparo",
+  "fr": "État générique Crânonier",
+  "pt": "Estado Genérico Cranhoneiro"
+ },
+ "903": {
+  "de": "Einschlag 1/4",
+  "en": "Impact 1/4",
+  "es": "Impacto 1/4",
+  "fr": "Impact 1/4",
+  "pt": "Impacto 1/4"
+ },
+ "915": {
+  "de": "Generischer Zustand Schrotladung 01",
+  "en": "Buckshot Generic State 01",
+  "es": "Estado Genérico Posta 01",
+  "fr": "État générique Chevrotine 01",
+  "pt": "Estado Genérico Chumbo Grosso 01"
+ },
+ "916": {
+  "de": "Generischer Zustand Schrotladung 02",
+  "en": "Buckshot Generic State 02",
+  "es": "Estado Genérico Posta 02",
+  "fr": "État générique Chevrotine 02",
+  "pt": "Estado Genérico Chumbo Grosso 02"
+ },
+ "917": {
+  "de": "Generischer Zustand Schrotladung 03",
+  "en": "Buckshot Generic State 03",
+  "es": "Estado Genérico Posta 03",
+  "fr": "État générique Chevrotine 03",
+  "pt": "Estado Genérico Chumbo Grosso 03"
+ },
+ "918": {
+  "de": "Generischer Zustand Schrotladung 04",
+  "en": "Buckshot Generic State 04",
+  "es": "Estado Genérico Posta 04",
+  "fr": "État générique Chevrotine 04",
+  "pt": "Estado Genérico Chumbo Grosso 04"
+ },
+ "919": {
+  "de": "Generischer Zustand Schrotladung 05",
+  "en": "Buckshot Generic State 05",
+  "es": "Estado Genérico Posta 05",
+  "fr": "État générique Chevrotine 05",
+  "pt": "Estado Genérico Chumbo Grosso 05"
+ },
+ "92": {
+  "de": "Kaboom",
+  "en": "Kaboom",
+  "es": "Kabúm",
+  "fr": "Kaboom",
+  "pt": "Kaboom"
+ },
+ "920": {
+  "de": "Generischer Zustand Schrotladung 06",
+  "en": "Buckshot Generic State 06",
+  "es": "Estado Genérico Posta 06",
+  "fr": "État générique Chevrotine 06",
+  "pt": "Estado Genérico Chumbo Grosso 06"
+ },
+ "921": {
+  "de": "Generischer Zustand Schrotladung 07",
+  "en": "Buckshot Generic State 07",
+  "es": "Estado Genérico Posta 07",
+  "fr": "État générique Chevrotine 07",
+  "pt": "Estado Genérico Chumbo Grosso 07"
+ },
+ "922": {
+  "de": "Generischer Zustand Schrotladung 08",
+  "en": "Buckshot Generic State 08",
+  "es": "Estado Genérico Posta 08",
+  "fr": "État générique Chevrotine 08",
+  "pt": "Estado Genérico Chumbo Grosso 08"
+ },
+ "932": {
+  "de": "Verbrennung ersten Grades",
+  "en": "First Degree Burn",
+  "es": "Quemadura de Primer Grado",
+  "fr": "Brûlure au premier degré",
+  "pt": "Queimaduras de Primeiro Grau"
+ },
+ "933": {
+  "de": "Verbrennung zweiten Grades",
+  "en": "Second Degree Burn",
+  "es": "Quemadura de Segundo Grado",
+  "fr": "Brûlure au second degré",
+  "pt": "Queimaduras de Segundo Grau"
+ },
+ "934": {
+  "de": "Verbrennung dritten Grades",
+  "en": "Third Degree Burn",
+  "es": "Quemadura de Tercer Grado",
+  "fr": "Brûlure au troisième degré",
+  "pt": "Queimaduras de Terceiro Grau"
+ },
+ "956": {
+  "de": "Windiger Besieger",
+  "en": "Gusting Slayer",
+  "es": "Asesino Aéreo",
+  "fr": "Pourfendeur Soufflant",
+  "pt": "Exterminador Aéreo"
+ },
+ "957": {
+  "de": "Flüssiger Besieger",
+  "en": "Liquid Slayer",
+  "es": "Asesino Líquido",
+  "fr": "Pourfendeur Liquide",
+  "pt": "Exterminador Líquido"
+ },
+ "958": {
+  "de": "Brennender Besieger",
+  "en": "Burning Slayer",
+  "es": "Asesino Ardiente",
+  "fr": "Pourfendeur Ardent",
+  "pt": "Exterminador Ardente"
+ },
+ "959": {
+  "de": "Steiniger Besieger",
+  "en": "Stony Slayer",
+  "es": "Asesino Rocoso",
+  "fr": "Pourfendeur Rocailleux",
+  "pt": "Exterminador Rochoso"
+ },
+ "964": {
+  "de": "Schokolatheist",
+  "en": "Chocolathiest",
+  "es": "Chocolateo",
+  "fr": "Chocolathée",
+  "pt": "Chocolateu"
+ },
+ "97": {
+  "de": "Unverrückbar",
+  "en": "Unmovable",
+  "es": "Indesplazable",
+  "fr": "Indéplaçable",
+  "pt": "Irremovível"
+ },
+ "99": {
+  "de": "Berserker",
+  "en": "Psychopathic",
+  "es": "Sáikopat",
+  "fr": "Psychopathe",
+  "pt": "Psicopata"
+ }
+}

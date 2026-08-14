@@ -19,6 +19,8 @@ Pipeline steps:
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
     spells/transform    get_spells.py         -> itemscraper/transformed_spells_beta.json
     spells/duplicates   find_duplicated_damage_rows.py -> itemscraper/duplicated_damage_rows.json
+    spells/reference    store_spell_reference.py -> spell_reference/beta.json
+    spells/states       store_spell_states.py -> spell_states/beta.json
     spells/constants    generate_damage_spells.py -> dofus_constants_beta.py
     spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
     spell-images        download_spell_images.py  -> static spell icons
@@ -247,6 +249,12 @@ def main() -> None:
         step("spells/reference", [
             PY, "itemscraper/store_spell_reference.py",
             "--game-version", "beta",
+        ])
+        # The names of the states a damage row is gated on, so the page can say
+        # which case each block is. Reads the transform, so it runs after it.
+        step("spells/states", [
+            PY, "itemscraper/store_spell_states.py",
+            "--game-version", "beta", "--tag", version,
         ])
         step("spells/constants", [
             PY, "-m", "itemscraper.generate_damage_spells",

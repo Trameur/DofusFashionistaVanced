@@ -23,7 +23,8 @@ from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spell_localization import get_localized_spell_name
-from chardata.spell_reference import localized, reference_by_spell_id
+from chardata.spell_reference import (localized, reference_by_spell_id,
+                                      state_name)
 from chardata.util import set_response, get_char_or_raise
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -297,7 +298,8 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest['hit_number'] = digest.hit_number
     web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)
     web_digest['crit_dams'] = _convert_spell_damage(digest.crit_dams)
-    web_digest['aggregates'] = convert_aggregates(digest.aggregates)
+    web_digest['aggregates'] = convert_aggregates(digest.aggregates,
+                                                  game_version)
     web_digest['is_linked'] = (
         spell.is_linked[0],
         get_localized_spell_name(spell.is_linked[1], current_language)
@@ -376,9 +378,31 @@ def _convert_weapon_damage(base):
 _BEST_ELEMENT = 'Hit in best element'
 _STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
 _MP_LABEL = re.compile(r'^(\d+) MP used this turn$')
+_STATE_LABEL = re.compile(r'^State (!?\d+(?:,!?\d+)*)$')
 
 
-def _localized_aggregate_label(label):
+def _localized_state_label(token, game_version):
+    """The states the generator wrote as ids, under the names the game gives
+    them. An unknown id leaves the whole label out rather than showing a
+    number."""
+    language = get_supported_language()
+    needed, absent = [], []
+    for part in token.split(','):
+        without = part.startswith('!')
+        name = state_name(game_version, part.lstrip('!'), language)
+        if not name:
+            return ''
+        (absent if without else needed).append(name)
+    parts = []
+    if needed:
+        parts.append(_('With %(states)s') % {'states': ', '.join(needed)})
+    if absent:
+        text = _('Without %(states)s') % {'states': ', '.join(absent)}
+        parts.append(text if not parts else text[0].lower() + text[1:])
+    return ', '.join(parts)
+
+
+def _localized_aggregate_label(label, game_version=None):
     """The generator writes these labels in English and builds them by hand,
     so they are translated by shape rather than one msgid per number."""
     if label == _BEST_ELEMENT:
@@ -386,17 +410,21 @@ def _localized_aggregate_label(label):
     match = _MP_LABEL.match(label)
     if match:
         return _('%(count)s MP used this turn') % {'count': match.group(1)}
+    match = _STATE_LABEL.match(label)
+    if match:
+        return _localized_state_label(match.group(1), game_version)
     match = _STACK_LABEL.match(label)
     if match:
         stack = _('Stack %(count)s') % {'count': match.group(1)}
         rest = match.group(2)
         if rest:
-            return '%s - %s' % (stack, _localized_aggregate_label(rest))
+            return '%s - %s' % (stack,
+                                _localized_aggregate_label(rest, game_version))
         return stack
     return _(label)
 
 
-def convert_aggregates(aggregates):
+def convert_aggregates(aggregates, game_version=None):
     if aggregates is None:
         return None
     new_aggr = []
@@ -404,7 +432,7 @@ def convert_aggregates(aggregates):
         lis = []
         for ele in tup:
             if isinstance(ele, str) and ele != '':
-                lis.append(_localized_aggregate_label(ele))
+                lis.append(_localized_aggregate_label(ele, game_version))
             else:
                 lis.append(ele)
         new_aggr.append(lis)

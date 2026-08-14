@@ -1050,6 +1050,37 @@ def _build_state_aggregates(
     return aggregates
 
 
+STATE_IN_MASK = re.compile(r"\*?([eE])(\d+)")
+
+
+def _state_token(state_group: Optional[str]) -> str:
+    """The state ids the mask names, as the page reads them back: an id the row
+    needs, a "!" in front of one it needs absent. The mask says nothing about
+    who carries the state, so neither does the label the page builds."""
+    if not state_group:
+        return ""
+    parts: List[str] = []
+    for sign, state_id in STATE_IN_MASK.findall(state_group):
+        parts.append(state_id if sign == "E" else "!%s" % state_id)
+    if not parts:
+        return ""
+    return "State %s" % ",".join(parts)
+
+
+def _label_state_aggregates(
+    rows: Sequence[Mapping[str, Any]],
+    aggregates: Sequence[Tuple[str, Sequence[int]]],
+) -> List[Tuple[str, List[int]]]:
+    """Name each alternative after the state that gates it. The page turns the
+    ids into the state names the game itself uses."""
+    labelled: List[Tuple[str, List[int]]] = []
+    for label, indexes in aggregates:
+        if not label and indexes and indexes[0] < len(rows):
+            label = _state_token(rows[indexes[0]].get("state_group"))
+        labelled.append((label, list(indexes)))
+    return labelled
+
+
 def _collapse_identical_aggregates(
     aggregates: Optional[Sequence[Tuple[str, Sequence[int]]]],
     elements: Sequence[str],
@@ -1300,14 +1331,22 @@ def convert_spell(
         aggregates = _build_stack_row_aggregates(stack_row_block, base_row_count, stack_labels)
     if aggregates_from_best and aggregates and stack_labels and stack_row_block:
         aggregates = _prefix_stack_labels(aggregates, stack_row_block, stack_labels)
+    state_aggregates = None
     if not aggregates:
-        aggregates = _build_state_aggregates(normal_rows, len(non_crit))
+        state_aggregates = _build_state_aggregates(normal_rows, len(non_crit))
+        aggregates = state_aggregates
     if not aggregates:
         aggregates = _build_situation_aggregates(normal_rows, len(non_crit))
     if not aggregates:
         aggregates = _build_duplicated_row_aggregates(
             spell.get("ankama_id"), normal_rows, len(non_crit))
-    aggregates = _collapse_identical_aggregates(aggregates, elements, non_crit)
+    collapsed = _collapse_identical_aggregates(aggregates, elements, non_crit)
+    # Two states printing the same numbers collapse into one block, and that
+    # block belongs to neither of them, so only an untouched list is named.
+    if (state_aggregates is not None and collapsed is not None
+            and len(collapsed) == len(state_aggregates)):
+        collapsed = _label_state_aggregates(normal_rows, collapsed)
+    aggregates = collapsed
     if not non_crit:
         return None
     stacks = stack_limit

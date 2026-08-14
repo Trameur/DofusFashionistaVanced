@@ -6629,6 +6629,12 @@ msgstr "%(count)s PM utilisés ce tour"
 msgid "Stack %(count)s"
 msgstr "Cumul %(count)s"
 
+msgid "With %(states)s"
+msgstr "Avec %(states)s"
+
+msgid "Without %(states)s"
+msgstr "Sans %(states)s"
+
 msgid "Normal hit"
 msgstr "Coup normal"
 

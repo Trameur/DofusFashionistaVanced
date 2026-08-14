@@ -6561,6 +6561,12 @@ msgstr "%(count)s PM usados neste turno"
 msgid "Stack %(count)s"
 msgstr "Acúmulo %(count)s"
 
+msgid "With %(states)s"
+msgstr "Com %(states)s"
+
+msgid "Without %(states)s"
+msgstr "Sem %(states)s"
+
 msgid "Normal hit"
 msgstr "Golpe normal"
 

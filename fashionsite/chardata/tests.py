@@ -12250,6 +12250,36 @@ class PortalsStackTenTimesTests(SimpleTestCase):
         self.assertIsNone(module._extract_stack_limit({'levels': []}))
 
 
+class StateGatedBlocksTests(SimpleTestCase):
+    """A spell whose damage depends on a state writes one block per case, and
+    the blocks were unlabelled."""
+
+    def test_a_block_carries_the_state_its_mask_names(self):
+        from itemscraper import generate_damage_spells as module
+        spell = {'ankama_id': 1, 'name_en': 'Probe',
+                 'level_requirements': [1],
+                 'damage_templates': {'normal': [
+                     {'element': 'FIRE', 'ranges': ['10-12'],
+                      'state_group': 'E183'},
+                     {'element': 'FIRE', 'ranges': ['5-6'],
+                      'state_group': '*e183,E92'}]}}
+        entry = module.convert_spell(spell)
+        self.assertEqual([('State 183', [0]), ('State !183,92', [1])],
+                         entry.aggregates)
+
+    def test_two_states_printing_the_same_numbers_stay_one_block(self):
+        # Naming them would print the same table twice under two headings.
+        from itemscraper import generate_damage_spells as module
+        row = {'element': 'FIRE', 'ranges': ['10-12']}
+        spell = {'ankama_id': 1, 'name_en': 'Probe',
+                 'level_requirements': [1],
+                 'damage_templates': {'normal': [
+                     dict(row, state_group='E183'),
+                     dict(row, state_group='e183')]}}
+        entry = module.convert_spell(spell)
+        self.assertEqual([('', [0])], entry.aggregates)
+
+
 class ComboReadsWhatThePageSendsTests(SimpleTestCase):
     """The page keys its buffs and its ranks by the name it displays, which is
     translated; the combo endpoint matches on the name the data carries."""
@@ -12948,6 +12978,62 @@ class SpellReferenceTests(TestCase):
         with translation.override('en'):
             self.assertEqual(_localized_aggregate_label('Stack 3'), 'Stack 3')
 
+    def test_a_state_gated_block_says_which_state_it_is(self):
+        # Explosive Flask hits once sober and once drunk, and the two blocks
+        # printed the same table with nothing telling them apart.
+        from django.utils import translation
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spells_view import _create_spell_web_digest
+        spells = get_damage_spells_for_version('dofus3')['Pandawa']
+        flask = next(spell for spell in spells
+                     if spell.name == 'Explosive Flask')
+        expected = {'fr': ('Avec Sobre', 'Avec Saoul'),
+                    'en': ('With Sober', 'With Drunk'),
+                    'de': ('Mit Nüchtern', 'Mit Betrunken')}
+        for language, (sober, drunk) in expected.items():
+            with translation.override(language):
+                digest = _create_spell_web_digest(flask, 'dofus3')
+            labels = [group[0] for group in digest['aggregates']]
+            with self.subTest(language=language):
+                self.assertIn(sober, labels)
+                self.assertIn(drunk, labels)
+
+    def test_a_state_the_version_cannot_name_leaves_no_label(self):
+        # Better a block with no label than one reading "State 999999".
+        from django.utils import translation
+        from chardata.spells_view import _localized_aggregate_label
+        with translation.override('fr'):
+            self.assertEqual(
+                '', _localized_aggregate_label('State 999999', 'dofus3'))
+            # Retro and Touch ship no state table at all.
+            self.assertEqual(
+                '', _localized_aggregate_label('State 3531', 'retro'))
+
+    def test_the_page_names_every_state_the_constants_carry(self):
+        # The constants and the state table are written by two steps of the
+        # same pipeline, and one can be regenerated without the other.
+        import re
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spell_reference import state_name
+        checked = 0
+        for version in ('dofus3', 'beta'):
+            for bucket in get_damage_spells_for_version(version).values():
+                for spell in bucket:
+                    for label, _indexes in (
+                            spell.get_effects_digest().aggregates or []):
+                        match = re.match(r'^State (.+)$', label or '')
+                        if not match:
+                            continue
+                        for part in match.group(1).split(','):
+                            for language in ('en', 'fr', 'es', 'pt', 'de'):
+                                self.assertTrue(
+                                    state_name(version, part.lstrip('!'),
+                                               language),
+                                    'state %s unnamed in %s/%s'
+                                    % (part, version, language))
+                                checked += 1
+        self.assertGreater(checked, 0)
+
     def test_every_label_the_generator_writes_has_a_translation(self):
         from django.utils import translation
         from chardata.spell_buffs import get_damage_spells_for_version
@@ -12959,11 +13045,14 @@ class SpellReferenceTests(TestCase):
                     for label, _indexes in (
                             spell.get_effects_digest().aggregates or []):
                         if label:
-                            labels.add(label)
+                            labels.add((version, label))
         self.assertTrue(labels)
+        # A state label reads as blank when its id is not in the version's
+        # table, so blank counts as untranslated here too.
         with translation.override('fr'):
-            untranslated = sorted(label for label in labels
-                                  if _localized_aggregate_label(label) == label)
+            untranslated = sorted(
+                label for version, label in labels
+                if _localized_aggregate_label(label, version) in (label, ''))
         self.assertEqual(untranslated, [])
 
     def test_the_weapon_row_carries_the_same_numbers(self):
