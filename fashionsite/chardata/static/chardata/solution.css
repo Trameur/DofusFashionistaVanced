@@ -407,6 +407,9 @@
     position:absolute;
     z-index: 9002;
     width: 500px;
+    /* Its padding and border count inside the 500px, so the screen cap below
+       really leaves 10px on each side. */
+    box-sizing: border-box;
     max-width: calc(100vw - 20px);
     overflow: hidden;
 }

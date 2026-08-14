@@ -68,37 +68,32 @@ function blanketSizeSeriously(popUpDivVar, top) {
     blanket3.style.height = blanket_height + 'px';
 }
 
+// Same box as the solution page, and the same rule: centred on the width it
+// really has, which on a phone is the screen less a margin.
 function windowPosSeriously(popUpDivVar, top) {
-    if (typeof window.innerWidth != 'undefined') {
-        viewportwidth = window.innerHeight;
-    } else {
-        viewportwidth = document.documentElement.clientHeight;
-    }
-    if ((viewportwidth > document.body.parentNode.scrollWidth) && (viewportwidth > document.body.parentNode.clientWidth)) {
-        window_width = viewportwidth;
-    } else {
-        if (document.body.parentNode.clientWidth > document.body.parentNode.scrollWidth) {
-	        window_width = document.body.parentNode.clientWidth;
-        } else {
-	        window_width = document.body.parentNode.scrollWidth;
-        }
-    }
+    var root = document.body.parentNode;
+    var viewportwidth = root.clientWidth || window.innerWidth;
     var blanket3 = document.getElementById('blanket');
-    blanket3.style.width = window_width + 'px';
+    blanket3.style.width = Math.max(viewportwidth, root.scrollWidth) + 'px';
     var popUpDiv = document.getElementById(popUpDivVar);
-    window_width = window_width / 2 - 250;
-    popUpDiv.style.left = window_width + 'px';
-    var popUpDiv = document.getElementById(popUpDivVar);
-    popUpDiv_height = top;
-    popUpDiv.style.top = popUpDiv_height + 'px';
+    // popupSeriously is also how the popup closes, and a hidden box measures
+    // zero.
+    if (!popUpDiv.getBoundingClientRect().width) {
+        return;
+    }
+    popUpDiv.style.top = top + 'px';
+    popUpDiv.style.left = '0px';
+    var box = popUpDiv.getBoundingClientRect();
+    var wanted = Math.max(10, Math.round((viewportwidth - box.width) / 2));
+    popUpDiv.style.left = Math.round(wanted - box.left) + 'px';
 }
 
 function popupSeriously(top) {
     windowname = 'popUpDiv';
+    toggle(windowname);
     windowPosSeriously(windowname, top);
-    toggle(windowname);	
     blanketSizeSeriously(windowname, top);
-    toggle('blanket');	
+    toggle('blanket');
 }
 
 function getItemStats(itemId) {

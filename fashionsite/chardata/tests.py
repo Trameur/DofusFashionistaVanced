@@ -2271,6 +2271,19 @@ class ItemPickerSetNameTests(TestCase):
         self.assertEqual(len(tynril), 1, 'Tynril Hat missing from the pool')
         self.assertIn(tynril[0], _apply_source_filter(hats, 'craftable'))
 
+    def test_the_popup_is_not_placed_with_the_screen_height(self):
+        # It was centred on window.innerHeight and on half of a hardcoded 500,
+        # which put a third of it past the right edge of a phone.
+        import os
+        from django.conf import settings
+        for name in ('blanket.js', 'solution_popup.js', 'compare_sets_popup.js'):
+            path = os.path.join(settings.BASE_DIR, 'chardata', 'static',
+                                'chardata', name)
+            source = open(path, encoding='utf-8').read()
+            with self.subTest(script=name):
+                self.assertNotIn('viewportwidth = window.innerHeight', source)
+                self.assertNotIn('/ 2 - 250', source)
+
     def test_icon_alt_never_receives_the_header_markup(self):
         # The header carries markup (line breaks, the owned icon, the set line),
         # so alt="" gets the plain name instead.

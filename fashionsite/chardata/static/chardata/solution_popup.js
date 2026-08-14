@@ -108,20 +108,30 @@ function resolveAndAppend(section, t, data) {
     return resolved;
 }
 
+// The popup is 500px wide on a desktop but the stylesheet shrinks it to the
+// screen on a phone, so it is centred on what it measures, never on 250.
 function setPopUpDivSize(windowname, top, width) {
     var popUpDiv = document.getElementById(windowname);
-    width = width / 2 - 250;
-    popUpDiv.style.left = width + 'px';
+    // popupSwitch is also how the popup closes, and a hidden box measures zero.
+    if (!popUpDiv.getBoundingClientRect().width) {
+        return;
+    }
     popUpDiv.style.top = top + 'px';
+    // left:0 is the left of the positioned ancestor, not of the screen, so
+    // measure there first and move by the difference.
+    popUpDiv.style.left = '0px';
+    var box = popUpDiv.getBoundingClientRect();
+    var wanted = Math.max(10, Math.round((width - box.width) / 2));
+    popUpDiv.style.left = Math.round(wanted - box.left) + 'px';
 }
 
 function popupSwitch(top) {
     windowname = 'popUpDiv';
     width = window_pos(top, 'blanket');
+    toggleDiv(windowname);
     setPopUpDivSize(windowname, top, width);
-    toggleDiv(windowname);	
     blanket_size(windowname, top, 'blanket');
-    toggleDiv('blanket');	
+    toggleDiv('blanket');
 }
 
 function clearSwitchDiv(thisItemName, imageURL) {

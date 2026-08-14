@@ -30,24 +30,14 @@ function blanket_size(popUpDivVar, top, blanketName) {
     blanket.style.height = blanket_height + 'px';
 }
 
+// The blanket has to cover the whole page, but a popup is centred on what the
+// visitor can actually see.
 function window_pos(top, blanketName) {
-    if (typeof window.innerWidth != 'undefined') {
-        viewportwidth = window.innerHeight;
-    } else {
-        viewportwidth = document.documentElement.clientHeight;
-    }
-    if ((viewportwidth > document.body.parentNode.scrollWidth) && (viewportwidth > document.body.parentNode.clientWidth)) {
-        window_width = viewportwidth;
-    } else {
-        if (document.body.parentNode.clientWidth > document.body.parentNode.scrollWidth) {
-            window_width = document.body.parentNode.clientWidth;
-        } else {
-            window_width = document.body.parentNode.scrollWidth;
-        }
-    }
+    var root = document.body.parentNode;
+    var viewportwidth = root.clientWidth || window.innerWidth;
     var blanket = document.getElementById(blanketName);
-    blanket.style.width = window_width + 'px';
-    return window_width;
+    blanket.style.width = Math.max(viewportwidth, root.scrollWidth) + 'px';
+    return viewportwidth;
 }
 
 function popup(top, window, blanket) {
