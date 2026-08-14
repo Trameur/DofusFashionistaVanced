@@ -10750,7 +10750,7 @@ class SpellCastingCostTests(SimpleTestCase):
                 stats.update({'str': 400, 'int': 400, 'pow': 80, 'dam': 40})
                 spells = castable_spells(char_class, 200, version)
                 self.assertTrue(spells, version)
-                ap = combat_ap(4, version)
+                ap = combat_ap(11, version)
                 total, order = best_turn(stats, spells, ap)
                 self.assertGreater(total, 0)
                 by_name = {spell.name: spell for spell in spells}
@@ -11753,10 +11753,17 @@ class MonsterSpellTests(TestCase):
 
 
 class CombatApTests(SimpleTestCase):
-    """The stats the site carries are gear bonuses, so 0 AP means a bare turn
-    rather than no turn at all."""
+    """The solution total already carries the character's base AP, so the turn
+    is worked out on that number and nothing is added to it."""
 
-    def test_a_build_with_no_ap_item_still_has_a_turn(self):
+    def test_the_turn_uses_the_ap_the_character_actually_has(self):
+        # A level 200 build reads 7 base + 4 from gear. It used to be read as a
+        # gear bonus and pushed to 6 + 11 = 17, capped to a wrong 12.
+        from chardata.spell_combo import combat_ap
+        self.assertEqual(11, combat_ap(11, 'dofus3'))
+        self.assertEqual(8, combat_ap(8, 'dofus3'))
+
+    def test_a_build_saved_without_base_stats_still_has_a_turn(self):
         from chardata.spell_combo import BASE_AP, combat_ap
         self.assertEqual(BASE_AP, combat_ap(0, 'dofus3'))
         self.assertEqual(BASE_AP, combat_ap(None, 'dofus3'))
@@ -11765,13 +11772,13 @@ class CombatApTests(SimpleTestCase):
         from chardata.spell_combo import combat_ap
         for version in ('dofus3', 'beta', 'dofus2', 'touch'):
             with self.subTest(version=version):
-                self.assertEqual(10, combat_ap(4, version))
-                self.assertEqual(12, combat_ap(6, version))
-                self.assertEqual(12, combat_ap(9, version))
+                self.assertEqual(12, combat_ap(12, version))
+                self.assertEqual(12, combat_ap(13, version))
+                self.assertEqual(12, combat_ap(20, version))
 
     def test_retro_never_got_the_limitation(self):
         from chardata.spell_combo import combat_ap
-        self.assertEqual(15, combat_ap(9, 'retro'))
+        self.assertEqual(15, combat_ap(15, 'retro'))
 
     def test_a_state_gated_spell_counts_one_state_not_all(self):
         # Schnaps deals its Air damage sober or drunk, never both; Trickery
@@ -12400,6 +12407,10 @@ class SpellComboPageTests(TestCase):
         self.assertTrue(combo['casts'])
         self.assertLessEqual(combo['ap_used'], combo['ap_available'])
         self.assertEqual(combo['casts'][-1]['running'], combo['total'])
+        # The turn is worked out on the AP the character has, capped at 12. The
+        # base AP used to be added a second time and every build read 12 of 12.
+        total_ap = dict(get_solution(char).get_stats_total())['ap']
+        self.assertEqual(combo['ap_available'], min(total_ap, 12))
 
         client = Client()
         client.force_login(owner)

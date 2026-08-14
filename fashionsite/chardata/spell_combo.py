@@ -32,10 +32,12 @@ MAX_CASTS = 8
 BASE_AP = 6
 
 
-def combat_ap(gear_ap, game_version):
-    """The AP a turn has. Retro never got the PA/PM/PO limitation, so it takes
-    no cap."""
-    total = BASE_AP + (gear_ap or 0)
+def combat_ap(total_ap, game_version):
+    """The AP a turn has. The solution total already carries the character's own
+    base AP, so nothing is added to it; only a build saved without base stats
+    falls back to the starting AP. Retro never got the PA/PM/PO limitation, so
+    it takes no cap."""
+    total = total_ap or BASE_AP
     cap = get_stat_maximum(game_version).get('AP')
     return min(total, cap) if cap else total
 
