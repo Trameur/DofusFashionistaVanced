@@ -848,6 +848,9 @@ html.fm-modern .compare-page .solution-stat-table{
   vertical-align:-2px; opacity:.85;
 }
 .spell-tip-mark svg{ display:block; }
+.spell-tip:focus-visible .spell-tip-mark{
+  outline:2px solid currentColor; outline-offset:2px; border-radius:50%;
+}
 .spell-tip:hover .spell-tip-mark,
 .spell-tip:focus .spell-tip-mark,
 .spell-tip.st-open .spell-tip-mark{ opacity:1; }

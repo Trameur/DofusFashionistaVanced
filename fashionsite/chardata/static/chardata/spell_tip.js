@@ -6,6 +6,7 @@
     'use strict';
 
     var OPEN = 'st-open';
+    var MARGIN = 8;
     // The same info icon the sidebar uses, so the popups match the pages.
     var MARK = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none"'
              + ' stroke="currentColor" stroke-width="1.8" stroke-linecap="round"'
@@ -23,15 +24,56 @@
         }
     }
 
+    // The switch popup clips what leaves it, so the panel has to stay inside
+    // that box and not merely inside the screen.
+    function room(tip) {
+        var box = {left: 0, right: window.innerWidth};
+        var node = tip.parentElement;
+        while (node && node !== document.body && node !== document.documentElement) {
+            var style = window.getComputedStyle(node);
+            if (style.overflowX !== 'visible' || style.overflowY !== 'visible') {
+                var rect = node.getBoundingClientRect();
+                box.left = Math.max(box.left, rect.left);
+                box.right = Math.min(box.right, rect.right);
+                break;
+            }
+            node = node.parentElement;
+        }
+        return box;
+    }
+
     function place(tip) {
         var panel = tip.querySelector('.spell-tip-panel');
         if (!panel) {
             return;
         }
         tip.classList.remove('st-flip');
-        var box = panel.getBoundingClientRect();
-        if (box.right > window.innerWidth - 8) {
+        panel.style.left = '';
+        panel.style.right = '';
+        var rect = panel.getBoundingClientRect();
+        if (!rect.width) {
+            return;
+        }
+        var box = room(tip);
+        if (rect.right > box.right - MARGIN) {
             tip.classList.add('st-flip');
+            rect = panel.getBoundingClientRect();
+        }
+        if (rect.left < box.left + MARGIN) {
+            // On a phone the panel is wider than the room on either side of the
+            // mark, so neither edge fits: pin it to the margin instead.
+            panel.style.left =
+                (box.left + MARGIN - tip.getBoundingClientRect().left) + 'px';
+            panel.style.right = 'auto';
+        }
+    }
+
+    // The pinned offset is measured in pixels, so anything that moves the mark
+    // afterwards leaves the panel behind.
+    function placeOpen() {
+        var open = document.querySelectorAll('.spell-tip.' + OPEN);
+        for (var i = 0; i < open.length; i++) {
+            place(open[i]);
         }
     }
 
@@ -42,18 +84,21 @@
         }
     });
 
+    window.addEventListener('resize', placeOpen);
+    document.addEventListener('scroll', placeOpen, true);
+
     document.addEventListener('click', function (event) {
         var tip = event.target.closest && event.target.closest('.spell-tip');
         if (!tip) {
             closeAll(null);
             return;
         }
-        // The lines sit inside the item card, which collapses when clicked.
-        event.stopPropagation();
-        event.preventDefault();
         if (hoverCapable) {
             return;
         }
+        // A tap toggles the panel, and must not reach what is underneath.
+        event.stopPropagation();
+        event.preventDefault();
         var wasOpen = tip.classList.contains(OPEN);
         closeAll(tip);
         if (wasOpen) {
@@ -83,7 +128,11 @@
         if (!tip || !tip.description) {
             return '';
         }
-        return '<span class="spell-tip" tabindex="0" role="button">'
+        var label = (typeof gettext === 'function')
+            ? interpolate(gettext('What %(spell)s does'), {spell: tip.spell}, true)
+            : '';
+        return '<span class="spell-tip" tabindex="0" role="button"'
+             + ' aria-label="' + esc(label) + '">'
              + '<span class="spell-tip-mark" aria-hidden="true">' + MARK + '</span>'
              + '<span class="spell-tip-panel" role="tooltip">'
              + '<b class="spell-tip-name">' + esc(tip.spell) + '</b>'
