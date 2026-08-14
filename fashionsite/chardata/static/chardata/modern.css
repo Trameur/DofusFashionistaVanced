@@ -636,6 +636,15 @@ html.fm-modern .solution-item-button{
   transition:background .15s ease, transform .1s ease;
 }
 html.fm-modern .solution-item-button:hover{ background:var(--fm-accent-soft); transform:translateY(-1px); }
+/* A finger is not a mouse pointer: keep the drawing small and grow the box it
+   answers to, so the six actions stop being 17px targets on a phone. */
+@media (pointer: coarse){
+  html.fm-modern .solution-item-button{ padding:8px !important; }
+}
+/* Reachable by keyboard now, so it has to be visible when it is reached. */
+html.fm-modern .solution-item-button:focus-visible{
+  outline:2px solid var(--fm-accent-text); outline-offset:1px; background:var(--fm-accent-soft);
+}
 html.fm-modern .solution-item-lock-button, html.fm-modern .solution-item-lock-empty-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Crect%20x=%275%27%20y=%2711%27%20width=%2714%27%20height=%279%27%20rx=%272%27/%3E%3Cpath%20d=%27M8%2011V7a4%204%200%200%201%208%200v4%27/%3E%3C/svg%3E"); }
 html.fm-modern .solution-item-forbid-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23d6594a%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%278.5%27/%3E%3Cline%20x1=%276%27%20y1=%276%27%20x2=%2718%27%20y2=%2718%27/%3E%3C/svg%3E"); }
 html.fm-modern .solution-item-switch-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M3%209h14%27/%3E%3Cpath%20d=%27M14%206l3%203-3%203%27/%3E%3Cpath%20d=%27M21%2015H7%27/%3E%3Cpath%20d=%27M10%2012l-3%203%203%203%27/%3E%3C/svg%3E"); }

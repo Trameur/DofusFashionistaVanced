@@ -11158,6 +11158,76 @@ class AdInventoryTests(TestCase):
         self.assertEqual(sorted(named - set(AD_SLOTS)), [])
 
 
+class SolutionItemButtonTests(SimpleTestCase):
+    """The six actions on an item were images with empty alt text: a screen
+    reader passed over them, a keyboard could not reach them, and a phone,
+    which never hovers, saw nothing of their title."""
+
+    ACTIONS = ('lock', 'forbid', 'switch', 'remove', 'add', 'lock-empty')
+
+    def _markup(self, name):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'templates', 'chardata', name)
+        with open(path, encoding='utf-8') as handle:
+            return handle.read()
+
+    def _buttons(self):
+        import re
+        markup = self._markup('solution_item.html')
+        return re.findall(r'<img[^>]*solution-item-(\w[\w-]*)-button[^>]*>',
+                          markup)
+
+    def test_every_action_is_a_control_a_keyboard_can_reach(self):
+        import re
+        markup = self._markup('solution_item.html')
+        tags = re.findall(r'<img[^>]*class="solution-item-button[^"]*"[^>]*>',
+                          markup)
+        self.assertEqual(len(tags), len(self.ACTIONS), tags)
+        for tag in tags:
+            with self.subTest(tag=tag[:80]):
+                self.assertIn('role="button"', tag)
+                self.assertIn('tabindex="0"', tag)
+                self.assertNotIn('alt=""', tag)
+                # The name carries the item, or six identical "Lock" read the
+                # same to someone who cannot see which row they are on.
+                self.assertIn('{{ item.localized_name }}', tag)
+
+    def test_the_two_toggles_say_whether_they_are_on(self):
+        import re
+        markup = self._markup('solution_item.html')
+        for action in ('lock', 'forbid', 'lock-empty'):
+            tag = re.search(r'<img[^>]*solution-item-%s-button[^>]*>' % action,
+                            markup).group(0)
+            with self.subTest(action=action):
+                self.assertIn('aria-pressed=', tag)
+        page = self._markup('solution.html')
+        # Opacity was the only signal that a toggle was on.
+        self.assertEqual(page.count("attr('aria-pressed', 'true')"), 3)
+        self.assertEqual(page.count("attr('aria-pressed', 'false')"), 3)
+
+    def test_enter_and_space_reach_the_click_the_handlers_listen_for(self):
+        page = self._markup('solution.html')
+        handler = page.split("$(document).on('keydown', '.solution-item-button'",
+                             1)[1].split('});', 1)[0]
+        for key in ("'Enter'", "' '"):
+            self.assertIn(key, handler)
+        self.assertIn("$(this).trigger('click');", handler)
+
+    def test_a_finger_gets_a_target_it_can_hit(self):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'static', 'chardata', 'modern.css')
+        with open(path, encoding='utf-8') as handle:
+            css = handle.read()
+        block = css.split('@media (pointer: coarse){', 1)[1].split('}', 1)[0]
+        self.assertIn('.solution-item-button', block)
+        # 17px of drawing plus 8px each side clears the 24px a touch target
+        # needs; the icon itself is left alone.
+        self.assertIn('padding:8px', block)
+        self.assertIn('.solution-item-button:focus-visible', css)
+
+
 class LoadingMarqueeTests(SimpleTestCase):
     """The bar that scrolls while the solver runs, in every language."""
 

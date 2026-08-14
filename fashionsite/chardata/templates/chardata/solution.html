@@ -1363,13 +1363,15 @@
             {% endif %}
         }
 
+        // Opacity is the only thing that told a sighted reader whether a
+        // toggle is on. aria-pressed says the same to everyone else.
         function updateLockButtonState(button, key) {
             if (isGuest) {
                 button.hide();
             } else if (itemIsLocked[key]) {
-                button.css({opacity: 1});
+                button.css({opacity: 1}).attr('aria-pressed', 'true');
             } else {
-                button.css({opacity: 0.3});
+                button.css({opacity: 0.3}).attr('aria-pressed', 'false');
             }
         }
 
@@ -1377,11 +1379,20 @@
             if (isGuest) {
                 button.hide();
             } else if (itemIsForbidden[key]) {
-                button.css({opacity: 1});
+                button.css({opacity: 1}).attr('aria-pressed', 'true');
             } else {
-                button.css({opacity: 0.3});
+                button.css({opacity: 0.3}).attr('aria-pressed', 'false');
             }
         }
+
+        // An <img> takes no keystrokes of its own, so Enter and Space have to
+        // be turned into the click the handlers already listen for.
+        $(document).on('keydown', '.solution-item-button', function(e) {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                e.preventDefault();
+                $(this).trigger('click');
+            }
+        });
 
         function updateSwitchButtonState(button) {
             if (isGuest) {
@@ -1610,9 +1621,9 @@
                     if (isGuest) {
                         button.hide();
                     } else if (itemIsEmptyLocked[key]) {
-                        button.css({opacity: 1});
+                        button.css({opacity: 1}).attr('aria-pressed', 'true');
                     } else {
-                        button.css({opacity: 0.3});
+                        button.css({opacity: 0.3}).attr('aria-pressed', 'false');
                     }
                 }
 

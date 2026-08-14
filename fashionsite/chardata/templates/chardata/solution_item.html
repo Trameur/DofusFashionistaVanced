@@ -23,14 +23,19 @@
             {% if disable_solution_item_actions %}
                 <span class="solution-item-actions-disabled">{% trans "Saved generation" %}</span>
             {% else %}
+            {% comment %}These are images doing the work of buttons. Empty alt
+            text and a title were all they carried, so a screen reader passed
+            over them in silence, a keyboard could not reach them, and a phone,
+            which never hovers, showed nothing at all. The name carries the
+            item so six identical "Lock" do not read the same.{% endcomment %}
             {% if item.id %}
-                <img alt="" src="{% static "chardata/lock-icon.png" %}" class="solution-item-button solution-item-lock-button" title='{% trans "Lock" context "button name" %}'>
-                <img alt="" src="{% static "chardata/delete-icon.png" %}" class="solution-item-button solution-item-forbid-button" title='{% trans "Forbid" %}'>
-                <img alt="" src="{% static "chardata/1412645636_Left-right.png" %}" class="solution-item-button solution-item-switch-button" title='{% trans "Switch" %}'>
-                <img alt="" src="{% static "chardata/cross-icon.png" %}" class="solution-item-button solution-item-remove-button" title='{% trans "Remove" %}'>
+                <img alt="{% trans "Lock" context "button name" %} {{ item.localized_name }}" role="button" tabindex="0" aria-pressed="false" src="{% static "chardata/lock-icon.png" %}" class="solution-item-button solution-item-lock-button" title='{% trans "Lock" context "button name" %}'>
+                <img alt="{% trans "Forbid" %} {{ item.localized_name }}" role="button" tabindex="0" aria-pressed="false" src="{% static "chardata/delete-icon.png" %}" class="solution-item-button solution-item-forbid-button" title='{% trans "Forbid" %}'>
+                <img alt="{% trans "Switch" %} {{ item.localized_name }}" role="button" tabindex="0" src="{% static "chardata/1412645636_Left-right.png" %}" class="solution-item-button solution-item-switch-button" title='{% trans "Switch" %}'>
+                <img alt="{% trans "Remove" %} {{ item.localized_name }}" role="button" tabindex="0" src="{% static "chardata/cross-icon.png" %}" class="solution-item-button solution-item-remove-button" title='{% trans "Remove" %}'>
             {% else %}
-                <img alt="" src="{% static "chardata/add-icon.png" %}" class="solution-item-button solution-item-add-button" title='{% trans "Add" %}'>
-                <img alt="" src="{% static "chardata/lock-icon.png" %}" class="solution-item-button solution-item-lock-empty-button" title='{% trans "Lock empty" %}'>
+                <img alt="{% trans "Add" %} {{ item.localized_name }}" role="button" tabindex="0" src="{% static "chardata/add-icon.png" %}" class="solution-item-button solution-item-add-button" title='{% trans "Add" %}'>
+                <img alt="{% trans "Lock empty" %} {{ item.localized_name }}" role="button" tabindex="0" aria-pressed="false" src="{% static "chardata/lock-icon.png" %}" class="solution-item-button solution-item-lock-empty-button" title='{% trans "Lock empty" %}'>
             {% endif %}
             {% endif %}
             </div>
