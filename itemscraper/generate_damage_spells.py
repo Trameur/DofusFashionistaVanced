@@ -1195,6 +1195,11 @@ def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, L
         values = [int(level.get(field) or 0) for level in levels]
         if any(values):
             casting[key] = values
+    # How often the cast lands a critical, in percent: the character's own
+    # Critical Hits adds to it. 0 is a spell that cannot crit at all.
+    crit = [int(level.get("critical_hit_probability") or 0) for level in levels]
+    if any(crit):
+        casting["crit"] = crit
     return casting
 
 

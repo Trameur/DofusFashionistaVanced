@@ -5856,8 +5856,8 @@ msgid "%(used)s of %(available)s AP used."
 msgstr "%(used)s PA usados de %(available)s."
 
 #: .\chardata\templates\chardata\spells.html:47
-msgid "One turn on a single target, self buffs included."
-msgstr "Un solo turno sobre un objetivo, con los buffs propios."
+msgid "One turn on a single target: average damage, self buffs and critical hit rate included."
+msgstr "Un solo turno sobre un objetivo: daño medio, con los buffs propios y la tasa de golpe crítico."
 
 #: .\chardata\templates\chardata\spells.html:57
 msgid "Fully Buff"

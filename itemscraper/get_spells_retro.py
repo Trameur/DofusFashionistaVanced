@@ -82,7 +82,12 @@ def decode_level(level_arr):
 
 # Slots of the 21-wide level array carrying what a cast costs and how often the
 # game allows it.
-CASTING_SLOTS = {'cooldown': 6, 'per_turn': 7, 'per_target': 8, 'ap': 18}
+# Slot 15 is the critical hit rate as the X of 1/X, 0 when the spell cannot
+# crit: it is the only slot that improves with the rank (151 spells of the 156
+# that move it get a smaller X at a higher rank), while slot 14, the critical
+# failure, sits at 100 for most spells and barely moves.
+CASTING_SLOTS = {'cooldown': 6, 'per_turn': 7, 'per_target': 8, 'ap': 18,
+                 'crit': 15}
 
 
 def decode_casting(level_arr):

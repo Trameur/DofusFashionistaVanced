@@ -10859,10 +10859,10 @@ class SpellCastingCostTests(SimpleTestCase):
         spells = {spell.name: spell for spell in self._spells('dofus3')}
         self.assertEqual(spells['Pressure'].casting,
                          {'ap': [3, 3, 3], 'per_turn': [4, 4, 4],
-                          'per_target': [2, 2, 2]})
+                          'per_target': [2, 2, 2], 'crit': [10, 10, 10]})
         self.assertEqual(spells['Concentration'].casting,
                          {'ap': [2, 2, 2], 'per_turn': [3, 3, 4],
-                          'per_target': [2, 2, 3]})
+                          'per_target': [2, 2, 3], 'crit': [5, 5, 5]})
 
     def test_a_spell_the_client_never_described_says_so(self):
         # The hand-written stand-ins (a pie, a weapon skill, a Dofus) are not
@@ -12559,6 +12559,87 @@ class WeaponInTheTurnTests(TestCase):
         without, _o1 = best_turn(stats, spells, 11)
         with_weapon, _o2 = best_turn(stats, spells + [weapon], 11)
         self.assertGreaterEqual(with_weapon, without)
+
+
+class CritRateInTheTurnTests(TestCase):
+    """A cast is worth its two lines blended by how often the critical lands.
+    The turn used to score every cast on its normal line alone."""
+
+    def test_a_percentage_version_adds_the_gear_to_the_spell(self):
+        from chardata.spell_combo import crit_chance
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            with self.subTest(version=version):
+                self.assertAlmostEqual(crit_chance(15, {'ch': 0}, version), 0.15)
+                self.assertAlmostEqual(crit_chance(15, {'ch': 20}, version), 0.35)
+                # 100% is reachable and nothing goes past it.
+                self.assertAlmostEqual(crit_chance(30, {'ch': 70}, version), 1.0)
+                self.assertAlmostEqual(crit_chance(30, {'ch': 400}, version), 1.0)
+                # An attack that can crit never falls under 1%.
+                self.assertAlmostEqual(crit_chance(5, {'ch': -90}, version), 0.01)
+                # One that cannot crit at all stays at zero.
+                self.assertEqual(crit_chance(0, {'ch': 50}, version), 0.0)
+
+    def test_retro_stays_on_its_own_one_in_x(self):
+        from chardata.spell_combo import crit_chance
+        self.assertAlmostEqual(crit_chance(50, {'ch': 0}, 'retro'), 0.02)
+        self.assertAlmostEqual(crit_chance(50, {'ch': 20}, 'retro'), 1 / 30.0)
+        # 1 in 2 is as good as it gets, whatever the gear says.
+        self.assertAlmostEqual(crit_chance(50, {'ch': 48}, 'retro'), 0.5)
+        self.assertAlmostEqual(crit_chance(50, {'ch': 300}, 'retro'), 0.5)
+        self.assertEqual(crit_chance(0, {'ch': 30}, 'retro'), 0.0)
+        # The same numbers mean something else on a percentage version.
+        from chardata.spell_combo import crit_chance as chance
+        self.assertNotAlmostEqual(chance(50, {'ch': 20}, 'retro'),
+                                  chance(50, {'ch': 20}, 'dofus3'))
+
+    def test_the_turn_lands_between_the_two_lines(self):
+        from fashionistapulp.dofus_constants import NEUTRAL, BaseDamage
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import WeaponCastable, best_turn
+
+        class _Weapon(object):
+            def __init__(self, crit_chance):
+                self.name = 'Test Blade'
+                self.localized_name = 'Test Blade'
+                self.type = 'Weapon'
+                self.ap = 4
+                self.uses_per_turn = 1
+                self.crit_chance = crit_chance
+                self.element_maged = None
+                self.non_crit_hits = {NEUTRAL: [BaseDamage(20, 30, 'earth')]}
+                self.crit_hits = {NEUTRAL: [BaseDamage(40, 60, 'earth')]}
+
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 100})
+        never, _o = best_turn(stats, [WeaponCastable(_Weapon(0))], 4,
+                              game_version='dofus3')
+        sometimes, _o = best_turn(stats, [WeaponCastable(_Weapon(30))], 4,
+                                  game_version='dofus3')
+        always, _o = best_turn(dict(stats, ch=100),
+                               [WeaponCastable(_Weapon(30))], 4,
+                               game_version='dofus3')
+        self.assertGreater(sometimes, never)
+        self.assertGreater(always, sometimes)
+        # 30% of the way from one line to the other.
+        self.assertAlmostEqual(sometimes, never + 0.30 * (always - never),
+                               places=6)
+
+    def test_every_version_that_has_spells_carries_their_crit_rate(self):
+        from chardata.spell_combo import castable_spells
+        for version, char_class in (('dofus3', 'Cra'), ('beta', 'Cra'),
+                                    ('touch', 'Cra'), ('retro', 'Cra')):
+            with self.subTest(version=version):
+                spells = castable_spells(char_class, 200, version)
+                self.assertTrue(spells)
+                rated = [spell for spell in spells if spell.crit_rate]
+                self.assertGreater(len(rated), len(spells) / 2)
+                if version == 'retro':
+                    # The X of 1/X, so it sits well above a percentage.
+                    self.assertGreaterEqual(min(spell.crit_rate
+                                                for spell in rated), 10)
+                else:
+                    self.assertLessEqual(max(spell.crit_rate
+                                             for spell in rated), 100)
 
 
 class SpellVariantTests(TestCase):

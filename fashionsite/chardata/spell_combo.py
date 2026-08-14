@@ -83,12 +83,19 @@ class WeaponCastable(object):
         # Most swords swing once a turn and most daggers twice, whatever the AP
         # left. Retro alone never limited a weapon and leaves this empty.
         self.limit = getattr(weapon, 'uses_per_turn', None)
-        rows = weapon.crit_hits if crit else weapon.non_crit_hits
         element = getattr(weapon, 'element_maged', None) or NEUTRAL
-        hits = (rows or {}).get(element) or (rows or {}).get(NEUTRAL) or []
-        kept = [hit for hit in hits if hit.min_dam or hit.max_dam]
-        self.alternatives = [kept] if kept else []
-        self.hits = kept
+
+        def swing(rows):
+            hits = (rows or {}).get(element) or (rows or {}).get(NEUTRAL) or []
+            kept = [hit for hit in hits if hit.min_dam or hit.max_dam]
+            return [kept] if kept else []
+
+        self.plain_alternatives = swing(weapon.non_crit_hits)
+        self.crit_alternatives = swing(weapon.crit_hits)
+        self.alternatives = (self.crit_alternatives if crit
+                             else self.plain_alternatives)
+        self.hits = self.alternatives[0] if self.alternatives else []
+        self.crit_rate = getattr(weapon, 'crit_chance', None) or 0
         self.buffs = []
 
     def buff_deltas(self, count):
@@ -109,25 +116,41 @@ class Castable(object):
         self.effects = rows[level_index] if level_index < len(rows) else []
         self.buffs = [effect for effect in self.effects
                       if effect.element.startswith('buff')]
-        hits = [(index, effect) for index, effect in enumerate(self.effects)
-                if not effect.element.startswith('buff')]
-        # Aggregate rows are alternatives, one per stack or element; a cast
-        # lands one. First group = nothing built up.
-        groups = _element_alternatives(digest.aggregates, self.effects)
-        if groups is None:
-            groups = [set(digest.aggregates[0][1])] if digest.aggregates else [None]
-        # A row the spell does not have at this level is stored as 0 to 0, and
-        # the damage formula hands it the flat bonus anyway: max(0 + dam, 0).
-        self.alternatives = []
-        for wanted in groups:
-            kept = [effect for index, effect in hits
-                    if (wanted is None or index in wanted)
-                    and (effect.min_dam or effect.max_dam)]
-            if kept:
-                self.alternatives.append(kept)
+
+        def landed(effects):
+            """The damage a cast can land, one list per alternative."""
+            hits = [(index, effect) for index, effect in enumerate(effects)
+                    if not effect.element.startswith('buff')]
+            # Aggregate rows are alternatives, one per stack or element; a cast
+            # lands one. First group = nothing built up.
+            groups = _element_alternatives(digest.aggregates, effects)
+            if groups is None:
+                groups = ([set(digest.aggregates[0][1])] if digest.aggregates
+                          else [None])
+            # A row the spell does not have at this level is stored as 0 to 0,
+            # and the damage formula hands it the flat bonus anyway.
+            out = []
+            for wanted in groups:
+                kept = [effect for index, effect in hits
+                        if (wanted is None or index in wanted)
+                        and (effect.min_dam or effect.max_dam)]
+                if kept:
+                    out.append(kept)
+            return out
+
+        def at_level(rows):
+            return landed(rows[level_index] if level_index < len(rows) else [])
+
+        self.plain_alternatives = at_level(digest.non_crit_dams)
+        self.crit_alternatives = at_level(digest.crit_dams)
+        self.alternatives = (self.crit_alternatives if crit
+                             else self.plain_alternatives)
         self.hits = self.alternatives[0] if self.alternatives else []
         self.stacked = bool(digest.aggregates)
         casting = spell.casting or {}
+        crit_rates = casting.get('crit') or []
+        self.crit_rate = (crit_rates[level_index]
+                          if level_index < len(crit_rates) else 0)
         limits = [casting.get(key, [None] * (level_index + 1))[level_index]
                   for key in ('per_turn', 'per_target')]
         # A spell on a cooldown cannot come back the same turn.
@@ -169,6 +192,25 @@ def _average(damages):
             continue
         total += (damage.min_dam + damage.max_dam) / 2.0
     return total
+
+
+def crit_chance(base_rate, stats, game_version):
+    """The odds one cast lands a critical, between 0 and 1.
+
+    Dofus Retro runs the 1.29 system: the rate is the X of 1/X, the Critical
+    Hits of the gear lowers it and 1/2 is as good as it gets. Agility lowers it
+    further in game, which is not modelled here because Ankama never published
+    the curve, so a Retro Agility build crits a little more often than the turn
+    below assumes. Every other version runs the percentage system update 2.29
+    brought in: the spell's own rate plus the character's Critical Hits, which
+    can reach 100% and never falls under 1% on an attack that can crit at all.
+    """
+    if not base_rate:
+        return 0.0
+    bonus = stats.get('ch', 0) or 0
+    if game_version == 'retro':
+        return 1.0 / max(2, base_rate - bonus)
+    return min(100, max(1, base_rate + bonus)) / 100.0
 
 
 def final_multiplier(stats):
@@ -321,18 +363,34 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None):
         # spells page reads it.
         if not spell.is_spell and buffed.get('powweap'):
             buffed['pow'] = buffed.get('pow', 0) + buffed['powweap']
-        # A best-element spell is scored after the buffs: the caster picks the
-        # element their gear favours.
-        best_seen = 0.0
         multiplier = final_multiplier(buffed)
-        for alternative in spell.alternatives:
-            rows = [copy.copy(effect) for effect in alternative]
-            gained = (_average(calculate_damage(rows, buffed, crit,
-                                                spell.is_spell))
-                      * multiplier)
-            if gained > best_seen:
-                best_seen = gained
-        return best_seen
+
+        def scored(alternatives, critical):
+            # A best-element spell is scored after the buffs: the caster picks
+            # the element their gear favours.
+            best_seen = 0.0
+            for alternative in alternatives:
+                rows = [copy.copy(effect) for effect in alternative]
+                gained = (_average(calculate_damage(rows, buffed, critical,
+                                                    spell.is_spell))
+                          * multiplier)
+                if gained > best_seen:
+                    best_seen = gained
+            return best_seen
+
+        if crit:
+            return scored(spell.alternatives, True)
+        # What a cast is worth on average: the critical line lands as often as
+        # the rate says, the normal line the rest of the time.
+        odds = crit_chance(getattr(spell, 'crit_rate', 0), buffed, game_version)
+        plain = scored(getattr(spell, 'plain_alternatives', spell.alternatives),
+                       False)
+        if not odds:
+            return plain
+        critical = scored(getattr(spell, 'crit_alternatives', None) or [], True)
+        if not critical:
+            return plain
+        return plain * (1 - odds) + critical * odds
 
     best = {}
 

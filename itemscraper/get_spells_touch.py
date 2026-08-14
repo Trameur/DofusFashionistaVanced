@@ -126,9 +126,11 @@ def collect_damage(effect_list):
     return out
 
 
-# What a cast costs and how often the game allows it.
+# What a cast costs, how often the game allows it, and how often it crits.
+# Touch runs the same percentage crit system as Dofus since its own overhaul.
 CASTING_FIELDS = {'ap': 'apCost', 'per_turn': 'maxCastPerTurn',
-                  'per_target': 'maxCastPerTarget', 'cooldown': 'minCastInterval'}
+                  'per_target': 'maxCastPerTarget', 'cooldown': 'minCastInterval',
+                  'crit': 'criticalHitProbability'}
 
 
 def decode_spell(spell, spell_levels):
