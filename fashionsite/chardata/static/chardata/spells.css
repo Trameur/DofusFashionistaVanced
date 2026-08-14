@@ -325,3 +325,11 @@
     display: inline-block;
     width: 12px;
 }
+
+.hit-block-label {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    padding: 2px 6px 0 6px;
+}

@@ -6584,3 +6584,9 @@ msgstr "%(count)s PM usados este turno"
 
 msgid "Stack %(count)s"
 msgstr "Acumulación %(count)s"
+
+msgid "Normal hit"
+msgstr "Golpe normal"
+
+msgid "Critical hit"
+msgstr "Golpe crítico"

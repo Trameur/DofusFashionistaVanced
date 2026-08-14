@@ -6628,3 +6628,9 @@ msgstr "%(count)s PM utilisés ce tour"
 
 msgid "Stack %(count)s"
 msgstr "Cumul %(count)s"
+
+msgid "Normal hit"
+msgstr "Coup normal"
+
+msgid "Critical hit"
+msgstr "Coup critique"

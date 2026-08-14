@@ -181,6 +181,18 @@
         return list[Math.min(rank, list.length - 1)];
     }
 
+    function critRateLabel(base, spell) {
+        // The rate the character actually plays with: the spell's own base
+        // plus their Critical Hits, buffs included. Retro runs the 1.29
+        // system, where the gear lowers the X of 1/X and 1/2 is the ceiling;
+        // everywhere else the two add up, cap 100%, floor 1%.
+        var bonus = getTotalStats(spell)['ch'] || 0;
+        if (CRIT_IS_FRACTION) {
+            return '1/' + Math.max(2, base - bonus);
+        }
+        return Math.min(100, Math.max(1, base + bonus)) + '%';
+    }
+
     function referenceLine(spell) {
         var reference = spell.reference;
         if (!reference) {
@@ -211,8 +223,7 @@
         }
         var crit = rankValue(reference.crit, spell);
         if (crit) {
-            parts.push((CRIT_IS_FRACTION ? '1/' + crit : crit + '%')
-                       + ' {% trans "crit" %}');
+            parts.push(critRateLabel(crit, spell) + ' {% trans "crit" %}');
         }
         return parts.join(' · ');
     }
@@ -460,19 +471,26 @@
             return table;
         }
 
+        // Which block is which: the two used to be told apart by a bare line.
+        var line_normal_label = $("<tr class='normal-hit-line'><td "
+            + "class='hit-block-label'>{% trans 'Normal hit' %}</td></tr>");
+        table.append(line_normal_label);
+
         var line_non_crit = $("<tr class='normal-hit-line'></tr>");
         var non_crit_cell = $("<td class='normal-hit-cell'></td>");
-        
+
         table.append(line_non_crit);
         line_non_crit.append(non_crit_cell);
-        
+
         var line_crit_title = $("<tr></tr>");
         var crit_title_cell = $("<td class='crit-hit-title'></td>");
-        
+
         table.append(line_crit_title);
         line_crit_title.append(crit_title_cell);
-        crit_title_cell.append("<hr class='hr-crit'/>")
-        
+        crit_title_cell.append("<hr class='hr-crit'/>");
+        crit_title_cell.append("<div class='hit-block-label'>"
+                               + "{% trans 'Critical hit' %}</div>");
+
         var line_crit_hit = $("<tr class='crit-hit-line'></tr>");
         var crit_hit_cell = $("<td class='crit-hit-cell'></td>");
         
@@ -480,7 +498,7 @@
         line_crit_hit.append(crit_hit_cell);
         
         cells[spell.name] = {nonCrit: non_crit_cell, critTitle:crit_title_cell, crit:crit_hit_cell,
-            header: header};
+            normalLabel: line_normal_label, header: header};
         header.append(createDots(spell));
         
         if (isSpellBuff(spell)) {
@@ -1098,9 +1116,12 @@
         if (spell.crit_dams === null){
             crit_title_cell.hide();
             crit_hit_cell.hide();
+            // With no critical block there is nothing to tell apart.
+            cellsForSpell.normalLabel.hide();
         } else {
             crit_title_cell.show();
             crit_hit_cell.show();
+            cellsForSpell.normalLabel.show();
             crit_hit_cell.empty();
             crit_hit_cell.append(getHits(spell, spell.crit_dams[spellLevel[spell.name]], true));
         }

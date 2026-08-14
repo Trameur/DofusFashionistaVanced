@@ -77,3 +77,8 @@
 .best-combo-casts li + li {
     border-top: 1px solid #333333;
 }
+
+/* The critical title cell is nearly black here, and it now holds a label. */
+.hit-block-label {
+    color: #DDD;
+}

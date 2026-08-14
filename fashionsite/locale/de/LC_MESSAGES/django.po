@@ -6591,3 +6591,9 @@ msgstr "%(count)s BP in dieser Runde verbraucht"
 
 msgid "Stack %(count)s"
 msgstr "Stapel %(count)s"
+
+msgid "Normal hit"
+msgstr "Normaler Treffer"
+
+msgid "Critical hit"
+msgstr "Kritischer Treffer"

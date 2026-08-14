@@ -66,3 +66,7 @@
 .best-combo-casts li + li {
     border-top: 1px solid #CACCA7;
 }
+
+.hit-block-label {
+    color: #3D200D;
+}
