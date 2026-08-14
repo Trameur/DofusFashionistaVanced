@@ -343,10 +343,27 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None):
     if not spells:
         return 0.0, []
     partners = _variant_partners(spells, game_version)
+    # What a cast is worth depends on the buffs standing when it lands, and on
+    # nothing else in the turn so far: two states that differ only in how often
+    # something unrelated was cast score the same. Scoring by that alone turned
+    # 781000 damage computations into a few thousand for a Huppermage.
+    buff_indexes = tuple(index for index, spell in enumerate(spells)
+                         if spell.buffs)
+    scores = {}
 
     def damage_of(spell, counts):
         if not spell.alternatives:
             return 0.0
+        key = (spell.name,
+               tuple(min(counts[index], spells[index].stacks)
+                     for index in buff_indexes))
+        if key in scores:
+            return scores[key]
+        value = _damage_of(spell, counts)
+        scores[key] = value
+        return value
+
+    def _damage_of(spell, counts):
         buffed = dict(stats)
         for index, other in enumerate(spells):
             if not counts[index]:
@@ -393,9 +410,17 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None):
         return plain * (1 - odds) + critical * odds
 
     best = {}
+    # Past its own cap a cast changes nothing for what follows: the buff is at
+    # its ceiling and the limit is already reached. Folding those states
+    # together is what keeps a class with many buffs from taking seconds.
+    caps = tuple(max(spell.stacks or 1, spell.limit or 0, 1)
+                 for spell in spells)
+
+    def fold(counts):
+        return tuple(min(count, cap) for count, cap in zip(counts, caps))
 
     def search(ap_left, counts, depth):
-        key = (ap_left, counts)
+        key = (ap_left, fold(counts))
         if key in best:
             return best[key]
         outcome = (0.0, ())

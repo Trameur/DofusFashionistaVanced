@@ -1062,11 +1062,11 @@
  "Eliotrope": [
   {
    "description": {
-    "de": "Fügt den Gegnern Luftschaden zu und stößt die Ziele im Wirkungsbereich zurück. \n\nIn einem Portal gewirkt: Fügt den Gegnern im Wirkungsbereich nur Luftschaden zu.",
-    "en": "Inflicts Air damage on enemies and repels targets in an area of effect. \n\nCast through a portal: inflicts Air damage only on enemies in an area of effect.",
-    "es": "Ocasiona daños de aire a los enemigos y repele a los objetivos en zona. \n\nProyectado a un portal: ocasiona únicamente daños de aire a los enemigos en zona.",
-    "fr": "Occasionne des dommages Air aux ennemis et repousse les cibles en zone. \n\nProjeté dans un portail : occasionne uniquement des dommages Air aux ennemis en zone.",
-    "pt": "Inflige danos de ar aos inimigos e afasta os alvos em zona. \n\nProjetado em um portal: inflige apenas danos de ar aos inimigos em zona."
+    "de": "Fügt den Gegnern Luftschaden zu und stößt die Ziele im Wirkungsbereich zurück.\n\nIn einem Portal gewirkt: Fügt den Gegnern im Wirkungsbereich nur Luftschaden zu.",
+    "en": "Inflicts Air damage on enemies and repels targets in an area of effect.\n\nCast through a portal: inflicts Air damage only on enemies in an area of effect.",
+    "es": "Ocasiona daños de aire a los enemigos y repele a los objetivos en zona.\n\nProyectado a un portal: ocasiona únicamente daños de aire a los enemigos en zona.",
+    "fr": "Occasionne des dommages Air aux ennemis et repousse les cibles en zone.\n\nProjeté dans un portail : occasionne uniquement des dommages Air aux ennemis en zone.",
+    "pt": "Inflige danos de ar aos inimigos e afasta os alvos em zona.\n\nProjetado em um portal: inflige apenas danos de ar aos inimigos em zona."
    },
    "id": 14575,
    "kind": {
@@ -1230,11 +1230,11 @@
   },
   {
    "description": {
-    "de": "Opfert vorübergehend einen Teil der LP des Zaubernden für folgende Wirkungen: \n• Die Reichweite der Zauber „Portal“ und „Flexibles Portal“ des Zaubernden wird erhöht.\n• Die Reichweite des ausgewählten Verbündeten wird erhöht.",
-    "en": "Temporarily sacrifices some of the caster's health to: \n• Increase the Range of the caster's Portal and Flexible Portal spells.\n• Increase the targeted ally's Range.",
-    "es": "Sacrifica temporalmente una parte de la vida del lanzador para: \n• Aumentar el alcance de los hechizos Portal y Portal Flexible del lanzador.\n• Aumentar el alcance del aliado objetivo.",
-    "fr": "Sacrifie temporairement une partie de la vie du lanceur pour : \n• Augmenter la Portée des sorts Portail et Portail Flexible du lanceur.\n• Augmenter la Portée de l'allié ciblé.",
-    "pt": "Sacrifica temporariamente uma parte da vida do lançador para: \n• Aumentar o alcance dos feitiços Portal e Portal Flexível do lançador.\n• Aumentar o alcance do aliado visado."
+    "de": "Opfert vorübergehend einen Teil der LP des Zaubernden für folgende Wirkungen:\n• Die Reichweite der Zauber „Portal“ und „Flexibles Portal“ des Zaubernden wird erhöht.\n• Die Reichweite des ausgewählten Verbündeten wird erhöht.",
+    "en": "Temporarily sacrifices some of the caster's health to:\n• Increase the Range of the caster's Portal and Flexible Portal spells.\n• Increase the targeted ally's Range.",
+    "es": "Sacrifica temporalmente una parte de la vida del lanzador para:\n• Aumentar el alcance de los hechizos Portal y Portal Flexible del lanzador.\n• Aumentar el alcance del aliado objetivo.",
+    "fr": "Sacrifie temporairement une partie de la vie du lanceur pour :\n• Augmenter la Portée des sorts Portail et Portail Flexible du lanceur.\n• Augmenter la Portée de l'allié ciblé.",
+    "pt": "Sacrifica temporariamente uma parte da vida do lançador para:\n• Aumentar o alcance dos feitiços Portal e Portal Flexível do lançador.\n• Aumentar o alcance do aliado visado."
    },
    "id": 14580,
    "kind": {
@@ -1542,11 +1542,11 @@
   },
   {
    "description": {
-    "de": "Verursacht Erdschaden. \n\nIn einem Portal gewirkt: Verursacht Erdschaden und verringert die Chance auf kritische Treffer.",
-    "en": "Inflicts Earth damage. \n\nCast through a portal: inflicts Earth damage and reduces Critical odds.",
-    "es": "Ocasiona daños de tierra. \n\nProyectado a un portal: ocasiona daños de tierra y reduce las probabilidades de crítico.",
-    "fr": "Occasionne des dommages Terre. \n\nProjeté dans un portail : occasionne des dommages Terre et réduit les chances de Critique.",
-    "pt": "Inflige danos de terra. \n\nProjetado em um portal: inflige danos de terra e reduz as chances de crítico."
+    "de": "Verursacht Erdschaden.\n\nIn einem Portal gewirkt: Verursacht Erdschaden und verringert die Chance auf kritische Treffer.",
+    "en": "Inflicts Earth damage.\n\nCast through a portal: inflicts Earth damage and reduces Critical odds.",
+    "es": "Ocasiona daños de tierra.\n\nProyectado a un portal: ocasiona daños de tierra y reduce las probabilidades de crítico.",
+    "fr": "Occasionne des dommages Terre.\n\nProjeté dans un portail : occasionne des dommages Terre et réduit les chances de Critique.",
+    "pt": "Inflige danos de terra.\n\nProjetado em um portal: inflige danos de terra e reduz as chances de crítico."
    },
    "id": 14638,
    "kind": {
@@ -1566,11 +1566,11 @@
   },
   {
    "description": {
-    "de": "2 Runden lang für alle, wenn eine Einheit (der Zaubernde ausgenommen) ein Portal benutzt: \n• Erhöht die AP des Zaubernden.\n• Heilt den Zaubernden und seine Verbündeten im Umkreis von 2 Feldern um ihn herum.",
-    "en": "On everyone for 2 turns, if an entity (excluding the caster) uses a portal: \n• Increases the caster's AP.\n• Heals the caster and their allies in a 2-cell circle around the caster.",
-    "es": "En todo el mundo durante 2 turnos, si una entidad (excepto lanzador) toma un portal: \n• Aumenta los PA del lanzador.\n• Cura al lanzador y sus aliados en un círculo de 2 casillas a su alrededor.",
-    "fr": "Sur tout le monde pendant 2 tours, si une entité (hors lanceur) emprunte un portail : \n• Augmente les PA du lanceur.\n• Soigne le lanceur et ses alliés dans un cercle de 2 cases autour de lui.",
-    "pt": "Em todo mundo durante 2 turnos, se uma entidade (exceto o lançador) pegar um portal: \n• Aumenta os PA do lançador.\n• Cura o lançador e seus aliados em um círculo de 2 células ao redor dele."
+    "de": "2 Runden lang für alle, wenn eine Einheit (der Zaubernde ausgenommen) ein Portal benutzt:\n• Erhöht die AP des Zaubernden.\n• Heilt den Zaubernden und seine Verbündeten im Umkreis von 2 Feldern um ihn herum.",
+    "en": "On everyone for 2 turns, if an entity (excluding the caster) uses a portal:\n• Increases the caster's AP.\n• Heals the caster and their allies in a 2-cell circle around the caster.",
+    "es": "En todo el mundo durante 2 turnos, si una entidad (excepto lanzador) toma un portal:\n• Aumenta los PA del lanzador.\n• Cura al lanzador y sus aliados en un círculo de 2 casillas a su alrededor.",
+    "fr": "Sur tout le monde pendant 2 tours, si une entité (hors lanceur) emprunte un portail :\n• Augmente les PA du lanceur.\n• Soigne le lanceur et ses alliés dans un cercle de 2 cases autour de lui.",
+    "pt": "Em todo mundo durante 2 turnos, se uma entidade (exceto o lançador) pegar um portal:\n• Aumenta os PA do lançador.\n• Cura o lançador e seus aliados em um círculo de 2 células ao redor dele."
    },
    "id": 14596,
    "kind": {
@@ -1856,11 +1856,11 @@
   },
   {
    "description": {
-    "de": "Versetzt das Ziel in den Zustand „Gemälde“ und fügt Gegnern Erdschaden zu oder heilt Verbündete.\n\n<b>Zustand „Gemälde“:</b>\n• Bei einem Gegner: Verringert seine Resistenz gegen Schubsen.\n• Bei einem Verbündeten: Heilt ihn zu Beginn seiner Runde.",
-    "en": "Applies the Paint state to the target and inflicts Earth damage on enemies or heals allies.\n\n<b>Paint State:</b>\n• On an enemy: reduces their Pushback Resistance.\n• On an ally: heals them at the start of their turn.",
-    "es": "Aplica el estado Pintura en el objetivo y ocasiona daños de tierra a los enemigos o cura a los aliados.\n\n<b>Estado Pintura:</b>\n• Si es un enemigo: reduce sus resistencias de empuje.\n• Si es un aliado: le cura al principio de su turno.",
-    "fr": "Applique l'état Peinture sur la cible et occasionne des dommages Terre aux ennemis ou soigne les alliés.\n\n<b>État Peinture :</b>\n• Si c'est un ennemi : réduit ses Résistances Poussée.\n• Si c'est un allié : le soigne au début de son tour.",
-    "pt": "Aplica o estado Pintura no alvo e inflige danos de terra nos inimigos ou cura os aliados.\n\n<b>Estado Pintura:</b>\n• Se for um inimigo: reduz as resistências a empurrão.\n• Se for um aliado: cura no início de seu turno."
+    "de": "Versetzt das Ziel in den Zustand „Gemälde“ und fügt Gegnern Erdschaden zu oder heilt Verbündete.\n\nZustand „Gemälde“:\n• Bei einem Gegner: Verringert seine Resistenz gegen Schubsen.\n• Bei einem Verbündeten: Heilt ihn zu Beginn seiner Runde.",
+    "en": "Applies the Paint state to the target and inflicts Earth damage on enemies or heals allies.\n\nPaint State:\n• On an enemy: reduces their Pushback Resistance.\n• On an ally: heals them at the start of their turn.",
+    "es": "Aplica el estado Pintura en el objetivo y ocasiona daños de tierra a los enemigos o cura a los aliados.\n\nEstado Pintura:\n• Si es un enemigo: reduce sus resistencias de empuje.\n• Si es un aliado: le cura al principio de su turno.",
+    "fr": "Applique l'état Peinture sur la cible et occasionne des dommages Terre aux ennemis ou soigne les alliés.\n\nÉtat Peinture :\n• Si c'est un ennemi : réduit ses Résistances Poussée.\n• Si c'est un allié : le soigne au début de son tour.",
+    "pt": "Aplica o estado Pintura no alvo e inflige danos de terra nos inimigos ou cura os aliados.\n\nEstado Pintura:\n• Se for um inimigo: reduz as resistências a empurrão.\n• Se for um aliado: cura no início de seu turno."
    },
    "id": 25868,
    "kind": {
@@ -3662,11 +3662,11 @@
   },
   {
    "description": {
-    "de": "Teleportiert den anvisierten Verbündeten auf das erste verfügbare Feld zwischen sich und dem Zaubernden. \nWenn der anvisierte Verbündete ein Turm ist, wird dieser ebenfalls geheilt.",
-    "en": "Teleports the allied target to the first cell available between the caster and it. \nIf the targeted ally is a Turret, also heals it.",
-    "es": "Teletransporta al aliado objetivo a la primera casilla disponible entre el lanzador y él. \nSi el aliado objetivo es una torreta, también la cura.",
-    "fr": "Téléporte l'allié ciblé sur la première case disponible entre le lanceur et lui. \nSi l'allié ciblé est une Tourelle, la soigne également.",
-    "pt": "Teletransporta o alvo visado para a primeira célula disponível entre o lançador e ele. \nSe o aliado visado for uma torre, também a cura."
+    "de": "Teleportiert den anvisierten Verbündeten auf das erste verfügbare Feld zwischen sich und dem Zaubernden.\nWenn der anvisierte Verbündete ein Turm ist, wird dieser ebenfalls geheilt.",
+    "en": "Teleports the allied target to the first cell available between the caster and it.\nIf the targeted ally is a Turret, also heals it.",
+    "es": "Teletransporta al aliado objetivo a la primera casilla disponible entre el lanzador y él.\nSi el aliado objetivo es una torreta, también la cura.",
+    "fr": "Téléporte l'allié ciblé sur la première case disponible entre le lanceur et lui.\nSi l'allié ciblé est une Tourelle, la soigne également.",
+    "pt": "Teletransporta o alvo visado para a primeira célula disponível entre o lançador e ele.\nSe o aliado visado for uma torre, também a cura."
    },
    "id": 13862,
    "kind": {
@@ -3712,11 +3712,11 @@
  "Huppermage": [
   {
    "description": {
-    "de": "Platziert eine Luftrune, verursacht Luftschaden und wirkt den Zustand „Luft“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Places an Air rune, inflicts Air damage, and applies the Air state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Pone una runa de aire, ocasiona daños de aire y aplica el estado Aire.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Pose une rune d'Air, occasionne des dommages Air et applique l'état Air.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Coloca uma runa de ar, inflige danos de ar e aplica o estado Ar.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Platziert eine Luftrune, verursacht Luftschaden und wirkt den Zustand „Luft“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Places an Air rune, inflicts Air damage, and applies the Air state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Pone una runa de aire, ocasiona daños de aire y aplica el estado Aire.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Pose une rune d'Air, occasionne des dommages Air et applique l'état Air.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Coloca uma runa de ar, inflige danos de ar e aplica o estado Ar.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13669,
    "kind": {
@@ -3736,11 +3736,11 @@
   },
   {
    "description": {
-    "de": "Platziert eine Erdrune, verursacht Erdschaden und wirkt den Zustand „Erde“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Places an Earth rune, inflicts Earth damage, and applies the Earth state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Pone una runa de tierra, ocasiona daños de tierra y aplica el estado Tierra.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Pose une rune de Terre, occasionne des dommages Terre et applique l'état Terre.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Coloca uma runa de terra, inflige danos de terra e aplica o estado Terra.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Platziert eine Erdrune, verursacht Erdschaden und wirkt den Zustand „Erde“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Places an Earth rune, inflicts Earth damage, and applies the Earth state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Pone una runa de tierra, ocasiona daños de tierra y aplica el estado Tierra.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Pose une rune de Terre, occasionne des dommages Terre et applique l'état Terre.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Coloca uma runa de terra, inflige danos de terra e aplica o estado Terra.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13668,
    "kind": {
@@ -3760,11 +3760,11 @@
   },
   {
    "description": {
-    "de": "Platziert eine Feuerrune, verursacht Feuerschaden und wirkt den Zustand „Feuer“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Places a Fire rune, inflicts Fire damage, and applies the Fire state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Pone una runa de fuego, ocasiona daños de fuego y aplica el estado Fuego.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Pose une rune de Feu, occasionne des dommages Feu et applique l'état Feu.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Coloca uma runa de fogo, inflige danos de fogo e aplica o estado Fogo.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Platziert eine Feuerrune, verursacht Feuerschaden und wirkt den Zustand „Feuer“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Places a Fire rune, inflicts Fire damage, and applies the Fire state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Pone una runa de fuego, ocasiona daños de fuego y aplica el estado Fuego.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Pose une rune de Feu, occasionne des dommages Feu et applique l'état Feu.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Coloca uma runa de fogo, inflige danos de fogo e aplica o estado Fogo.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13666,
    "kind": {
@@ -3784,11 +3784,11 @@
   },
   {
    "description": {
-    "de": "Platziert eine Wasserrune, verursacht Wasserschaden und wirkt den Zustand „Wasser“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Places a Water rune, inflicts Water damage, and applies the Water state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Pone una runa de agua, ocasiona daños de agua y aplica el estado Agua.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Pose une rune d'Eau, occasionne des dommages Eau et applique l'état Eau.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Coloca uma runa de água, inflige danos de água e aplica o estado Água.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Platziert eine Wasserrune, verursacht Wasserschaden und wirkt den Zustand „Wasser“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Places a Water rune, inflicts Water damage, and applies the Water state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Pone una runa de agua, ocasiona daños de agua y aplica el estado Agua.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Pose une rune d'Eau, occasionne des dommages Eau et applique l'état Eau.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Coloca uma runa de água, inflige danos de água e aplica o estado Água.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13667,
    "kind": {
@@ -3808,11 +3808,11 @@
   },
   {
    "description": {
-    "de": "Aktiviert alle Runen des Zaubernden im Besitz eines Gegners:\n• Fügt Gegnern Schaden im Element der Rune zu.\n• Erhöht pro getroffenem Gegner die Eigenschaften des Zaubernden je nach Element der Rune.\n• Wirkt den Elementarzustand der Rune.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Triggers all of the caster's runes that are occupied by an enemy:\n• Inflicts damage on enemies in the rune's element.\n• Increases the caster's characteristics based on the rune's element for each enemy hit.\n• Applies the rune's elemental state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Activa todas las runas del lanzador ocupadas por un enemigo:\n• Ocasiona daños a los enemigos en el elemento de la runa.\n• Aumenta las características del lanzador según el elemento de la runa por enemigo alcanzado.\n• Aplica el estado elemental de la runa.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Déclenche toutes les runes du lanceur occupées par un ennemi :\n• Occasionne des dommages aux ennemis dans l'élément de la rune.\n• Augmente les caractéristiques du lanceur selon l'élément de la rune par ennemi touché.\n• Applique l'état élémentaire de la rune.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Aciona todas as runas do lançador ocupadas por um inimigo:\n• Inflige danos aos inimigos no elemento da runa.\n• Aumenta as características do lançador de acordo com o elemento da runa por inimigo afetado.\n• Aplica o estado elementar da runa.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Aktiviert alle Runen des Zaubernden im Besitz eines Gegners:\n• Fügt Gegnern Schaden im Element der Rune zu.\n• Erhöht pro getroffenem Gegner die Eigenschaften des Zaubernden je nach Element der Rune.\n• Wirkt den Elementarzustand der Rune.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Triggers all of the caster's runes that are occupied by an enemy:\n• Inflicts damage on enemies in the rune's element.\n• Increases the caster's characteristics based on the rune's element for each enemy hit.\n• Applies the rune's elemental state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Activa todas las runas del lanzador ocupadas por un enemigo:\n• Ocasiona daños a los enemigos en el elemento de la runa.\n• Aumenta las características del lanzador según el elemento de la runa por enemigo alcanzado.\n• Aplica el estado elemental de la runa.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Déclenche toutes les runes du lanceur occupées par un ennemi :\n• Occasionne des dommages aux ennemis dans l'élément de la rune.\n• Augmente les caractéristiques du lanceur selon l'élément de la rune par ennemi touché.\n• Applique l'état élémentaire de la rune.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Aciona todas as runas do lançador ocupadas por um inimigo:\n• Inflige danos aos inimigos no elemento da runa.\n• Aumenta as características do lançador de acordo com o elemento da runa por inimigo afetado.\n• Aplica o estado elementar da runa.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13670,
    "kind": {
@@ -3856,11 +3856,11 @@
   },
   {
    "description": {
-    "de": "Platziert Erdrunen, entzieht Lebenspunkte im Element Erde und wirkt den Zustand „Erde“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Places Earth runes, steals HP in the Earth element, and applies the Earth state in an area of effect.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Pone runas de tierra, roba vida en el elemento tierra y aplica el estado Tierra en zona.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Pose des runes de Terre, vole de la vie dans l'élément Terre et applique l'état Terre en zone.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Coloca runas de terra, rouba vida no elemento terra e aplica o estado Terra em zona.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Platziert Erdrunen, entzieht Lebenspunkte im Element Erde und wirkt den Zustand „Erde“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Places Earth runes, steals HP in the Earth element, and applies the Earth state in an area of effect.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Pone runas de tierra, roba vida en el elemento tierra y aplica el estado Tierra en zona.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Pose des runes de Terre, vole de la vie dans l'élément Terre et applique l'état Terre en zone.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Coloca runas de terra, rouba vida no elemento terra e aplica o estado Terra em zona.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13674,
    "kind": {
@@ -3880,11 +3880,11 @@
   },
   {
    "description": {
-    "de": "Platziert Luftrunen, entzieht Lebenspunkte im Element Luft und wirkt den Zustand „Luft“.\nHat keine Wirkung auf den Zaubernden.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Places Air runes, steals HP in the Air element, and applies the Air state in an area of effect.\nDoes not affect the caster.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Pone runas de aire, roba vida en el elemento aire y aplica el estado Aire en zona.\nNo afecta al lanzador.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Pose des runes d'Air, vole de la vie dans l'élément Air et applique l'état Air en zone.\nN'affecte pas le lanceur.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Coloca runas de ar, rouba vida no elemento ar e aplica o estado Ar em zona.\nNão afeta o lançador.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Platziert Luftrunen, entzieht Lebenspunkte im Element Luft und wirkt den Zustand „Luft“.\nHat keine Wirkung auf den Zaubernden.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Places Air runes, steals HP in the Air element, and applies the Air state in an area of effect.\nDoes not affect the caster.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Pone runas de aire, roba vida en el elemento aire y aplica el estado Aire en zona.\nNo afecta al lanzador.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Pose des runes d'Air, vole de la vie dans l'élément Air et applique l'état Air en zone.\nN'affecte pas le lanceur.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Coloca runas de ar, rouba vida no elemento ar e aplica o estado Ar em zona.\nNão afeta o lançador.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13678,
    "kind": {
@@ -3928,11 +3928,11 @@
   },
   {
    "description": {
-    "de": "Platziert Feuerrunen, entzieht Lebenspunkte im Element Feuer und wirkt den Zustand „Feuer“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Places Fire runes, steals HP in the Fire element, and applies the Fire state in an area of effect.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Pone runas de fuego, roba vida en el elemento fuego y aplica el estado Fuego en zona.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Pose des runes de Feu, vole de la vie dans l'élément Feu et applique l'état Feu en zone.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Coloca runas de fogo, rouba vida no elemento fogo e aplica o estado Fogo em zona.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Platziert Feuerrunen, entzieht Lebenspunkte im Element Feuer und wirkt den Zustand „Feuer“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Places Fire runes, steals HP in the Fire element, and applies the Fire state in an area of effect.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Pone runas de fuego, roba vida en el elemento fuego y aplica el estado Fuego en zona.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Pose des runes de Feu, vole de la vie dans l'élément Feu et applique l'état Feu en zone.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Coloca runas de fogo, rouba vida no elemento fogo e aplica o estado Fogo em zona.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13680,
    "kind": {
@@ -3952,11 +3952,11 @@
   },
   {
    "description": {
-    "de": "Platziert Wasserrunen, entzieht Lebenspunkte im Element Wasser und wirkt den Zustand „Wasser“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Places Water runes, steals HP in the Water element, and applies the Water state in an area of effect.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Pone runas de agua, roba vida en el elemento agua y aplica el estado Agua en zona.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Pose des runes d'Eau, vole de la vie dans l'élément Eau et applique l'état Eau en zone.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Coloca runas de água, rouba vida no elemento água e aplica o estado Água em zona.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Platziert Wasserrunen, entzieht Lebenspunkte im Element Wasser und wirkt den Zustand „Wasser“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Places Water runes, steals HP in the Water element, and applies the Water state in an area of effect.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Pone runas de agua, roba vida en el elemento agua y aplica el estado Agua en zona.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Pose des runes d'Eau, vole de la vie dans l'élément Eau et applique l'état Eau en zone.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Coloca runas de água, rouba vida no elemento água e aplica o estado Água em zona.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13676,
    "kind": {
@@ -4000,11 +4000,11 @@
   },
   {
    "description": {
-    "de": "Erhöht die Resistenzen des ausgewählten Verbündeten und versetzt ihn in den Zustand „Elementar-Schild“:\n• Falls das Ziel Schaden erleidet, wird die Resistenz gegen das Angriffselement verringert und der gegnerische Angreifer in den Zustand des Elements versetzt.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Increases the targeted ally's resistance and applies the Elemental Shield state on the ally:\n• If the target suffers damage, reduces the target's resistance in the element of the attack suffered and applies the state of that element to the enemy attacker.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Aumenta las resistencias del aliado objetivo y le aplica el estado Escudo Elemental:\n• Si el objetivo sufre daños, reduce las resistencias al elemento del ataque sufrido y aplica el estado de este elemento a su atacante enemigo.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Augmente les résistances de l'allié ciblé et lui applique l'état Bouclier Élémentaire :\n• Si la cible subit des dommages, réduit ses résistances à l'élément de l'attaque subie et applique l'état de cet élément sur son attaquant ennemi.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Aumenta as resistências do aliado visado e aplica o estado Escudo Elementar:\n• Se o alvo sofrer danos, reduz as resistências ao elemento do ataque sofrido e aplica o estado desse elemento ao atacante inimigo.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Erhöht die Resistenzen des ausgewählten Verbündeten und versetzt ihn in den Zustand „Elementar-Schild“:\n• Falls das Ziel Schaden erleidet, wird die Resistenz gegen das Angriffselement verringert und der gegnerische Angreifer in den Zustand des Elements versetzt.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Increases the targeted ally's resistance and applies the Elemental Shield state on the ally:\n• If the target suffers damage, reduces the target's resistance in the element of the attack suffered and applies the state of that element to the enemy attacker.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Aumenta las resistencias del aliado objetivo y le aplica el estado Escudo Elemental:\n• Si el objetivo sufre daños, reduce las resistencias al elemento del ataque sufrido y aplica el estado de este elemento a su atacante enemigo.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Augmente les résistances de l'allié ciblé et lui applique l'état Bouclier Élémentaire :\n• Si la cible subit des dommages, réduit ses résistances à l'élément de l'attaque subie et applique l'état de cet élément sur son attaquant ennemi.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Aumenta as resistências do aliado visado e aplica o estado Escudo Elementar:\n• Se o alvo sofrer danos, reduz as resistências ao elemento do ataque sofrido e aplica o estado desse elemento ao atacante inimigo.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13682,
    "kind": {
@@ -4024,11 +4024,11 @@
   },
   {
    "description": {
-    "de": "Verringert die Wirkungsdauer beim Ziel, platziert eine Feuerrune, fügt Gegnern Feuerschaden zu und versetzt sie in die Zustände „Feuer“ und „Detonation“.\n\nDie Entzauberung ist nicht möglich, wenn sich das Ziel bereits im Zustand „Detonation“ befindet.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Reduces the duration of the target's effects, places a Fire rune, inflicts Fire damage on enemies, and applies the Fire state and the Deflagration state.\n\nThe unbewitchment cannot be applied if the target is already in the Deflagration state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Reduce la duración de los efectos del objetivo, pone una runa de fuego, ocasiona daños de fuego a los enemigos y aplica el estado Deflagración.\n\nEl desembrujo no se puede aplicar si el objetivo está ya bajo el estado Deflagración.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Réduit la durée des effets de la cible, pose une rune de Feu, occasionne des dommages Feu aux ennemis et applique l'état Feu et l'état Déflagration.\n\nLe désenvoûtement ne peut pas être appliqué si la cible est déjà dans l'état Déflagration.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Reduz a duração dos efeitos do alvo, coloca uma runa de fogo, inflige danos de fogo aos inimigos e aplica o estado Fogo e o estado Deflagração.\n\nO desencantamento não pode ser aplicado se o alvo já estiver no estado Deflagração.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Verringert die Wirkungsdauer beim Ziel, platziert eine Feuerrune, fügt Gegnern Feuerschaden zu und versetzt sie in die Zustände „Feuer“ und „Detonation“.\n\nDie Entzauberung ist nicht möglich, wenn sich das Ziel bereits im Zustand „Detonation“ befindet.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Reduces the duration of the target's effects, places a Fire rune, inflicts Fire damage on enemies, and applies the Fire state and the Deflagration state.\n\nThe unbewitchment cannot be applied if the target is already in the Deflagration state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Reduce la duración de los efectos del objetivo, pone una runa de fuego, ocasiona daños de fuego a los enemigos y aplica el estado Deflagración.\n\nEl desembrujo no se puede aplicar si el objetivo está ya bajo el estado Deflagración.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Réduit la durée des effets de la cible, pose une rune de Feu, occasionne des dommages Feu aux ennemis et applique l'état Feu et l'état Déflagration.\n\nLe désenvoûtement ne peut pas être appliqué si la cible est déjà dans l'état Déflagration.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Reduz a duração dos efeitos do alvo, coloca uma runa de fogo, inflige danos de fogo aos inimigos e aplica o estado Fogo e o estado Deflagração.\n\nO desencantamento não pode ser aplicado se o alvo já estiver no estado Deflagração.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13681,
    "kind": {
@@ -4072,11 +4072,11 @@
   },
   {
    "description": {
-    "de": "Zieht das Ziel heran, platziert eine Wasserrune, fügt Gegnern Wasserschaden zu und wirkt den Zustand „Wasser“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Attracts the target, places a Water Rune, inflicts Water damage on enemies, and applies the Water state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Atrae al objetivo, pone una runa de agua, ocasiona daños de agua a los enemigos y aplica el estado Agua.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Attire la cible, pose une rune d'Eau, occasionne des dommages Eau aux ennemis et applique l'état Eau.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Atrai o alvo, coloca uma runa de água, inflige danos de água aos inimigos e aplica o estado Água.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Zieht das Ziel heran, platziert eine Wasserrune, fügt Gegnern Wasserschaden zu und wirkt den Zustand „Wasser“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Attracts the target, places a Water Rune, inflicts Water damage on enemies, and applies the Water state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Atrae al objetivo, pone una runa de agua, ocasiona daños de agua a los enemigos y aplica el estado Agua.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Attire la cible, pose une rune d'Eau, occasionne des dommages Eau aux ennemis et applique l'état Eau.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Atrai o alvo, coloca uma runa de água, inflige danos de água aos inimigos e aplica o estado Água.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13677,
    "kind": {
@@ -4120,11 +4120,11 @@
   },
   {
    "description": {
-    "de": "Wirkt den Elementarzustand des anvisierten Gegners bei allen Gegnern in einem Umkreis von 3 Feldern um ihn herum.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Propagates the elemental state of the targeted enemy on all enemies in a 3-cell circle around the targeted enemy.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Propaga el estado elemental del enemigo objetivo a todos los enemigos en un círculo de 3 casillas alrededor de este.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Propage l'état élémentaire de l'ennemi ciblé sur tous les ennemis dans un cercle de 3 cases autour de lui.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Propaga o estado elementar do inimigo visado para todos os inimigos em um círculo de 3 células ao redor dele.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Wirkt den Elementarzustand des anvisierten Gegners bei allen Gegnern in einem Umkreis von 3 Feldern um ihn herum.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Propagates the elemental state of the targeted enemy on all enemies in a 3-cell circle around the targeted enemy.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Propaga el estado elemental del enemigo objetivo a todos los enemigos en un círculo de 3 casillas alrededor de este.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Propage l'état élémentaire de l'ennemi ciblé sur tous les ennemis dans un cercle de 3 cases autour de lui.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Propaga o estado elementar do inimigo visado para todos os inimigos em um círculo de 3 células ao redor dele.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13695,
    "kind": {
@@ -4144,11 +4144,11 @@
   },
   {
    "description": {
-    "de": "Bei einem Verbündeten: Erhöht die Reichweite.\n\nBei einem Gegner: Verringert die Reichweite, platziert eine Luftrune, verursacht Luftschaden und wirkt den Zustand „Luft“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "On an ally: increases Range.\n\nOn an enemy: removes Range, places an Air rune, inflicts Air damage, and applies the Air state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "En un aliado: aumenta el alcance.\n\nEn un enemigo: retira alcance, pone una runa de aire, ocasiona daños de aire y aplica el estado Aire.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Sur un allié : augmente la Portée.\n\nSur un ennemi : retire de la Portée, pose une rune d'Air, occasionne des dommages Air et applique l'état Air.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Em um aliado: aumenta o alcance.\n\nEm um inimigo: retira alcance, coloca uma runa de ar, inflige danos de ar e aplica o estado Ar.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Bei einem Verbündeten: Erhöht die Reichweite.\n\nBei einem Gegner: Verringert die Reichweite, platziert eine Luftrune, verursacht Luftschaden und wirkt den Zustand „Luft“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "On an ally: increases Range.\n\nOn an enemy: removes Range, places an Air rune, inflicts Air damage, and applies the Air state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "En un aliado: aumenta el alcance.\n\nEn un enemigo: retira alcance, pone una runa de aire, ocasiona daños de aire y aplica el estado Aire.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Sur un allié : augmente la Portée.\n\nSur un ennemi : retire de la Portée, pose une rune d'Air, occasionne des dommages Air et applique l'état Air.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Em um aliado: aumenta o alcance.\n\nEm um inimigo: retira alcance, coloca uma runa de ar, inflige danos de ar e aplica o estado Ar.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13679,
    "kind": {
@@ -4168,11 +4168,11 @@
   },
   {
    "description": {
-    "de": "Stößt das Ziel zurück, platziert eine Erdrune, fügt Gegnern Erdschaden zu und wirkt den Zustand „Erde“.\n\nKann {spell,23876,1::<font color=\"#ebc304\">Elementar-Kombinationen</font>} erzeugen.",
-    "en": "Repels the target, places an Earth rune, inflicts Earth damage on enemies, and applies the Earth state.\n\nCan generate {spell,23876,1::<font color=\"#ebc304\">elemental combinations</font>}.",
-    "es": "Empuja al objetivo, pone una runa de tierra, ocasiona daños de tierra a los enemigos y aplica el estado Tierra.\n\nPuede generar {spell,23876,1::<font color=\"#ebc304\">combinaciones elementales</font>}.",
-    "fr": "Repousse la cible, pose une rune de Terre, occasionne des dommages Terre aux ennemis et applique l'état Terre.\n\nPeut générer des {spell,23876,1::<font color=\"#ebc304\">combinaisons élémentaires</font>}.",
-    "pt": "Empurra o alvo, coloca uma runa de terra, inflige danos de terra aos inimigos e aplica o estado Terra.\n\nPode gerar {spell,23876,1::<font color=\"#ebc304\">combinações elementares</font>}."
+    "de": "Stößt das Ziel zurück, platziert eine Erdrune, fügt Gegnern Erdschaden zu und wirkt den Zustand „Erde“.\n\nKann {spell,23876,1::Elementar-Kombinationen} erzeugen.",
+    "en": "Repels the target, places an Earth rune, inflicts Earth damage on enemies, and applies the Earth state.\n\nCan generate {spell,23876,1::elemental combinations}.",
+    "es": "Empuja al objetivo, pone una runa de tierra, ocasiona daños de tierra a los enemigos y aplica el estado Tierra.\n\nPuede generar {spell,23876,1::combinaciones elementales}.",
+    "fr": "Repousse la cible, pose une rune de Terre, occasionne des dommages Terre aux ennemis et applique l'état Terre.\n\nPeut générer des {spell,23876,1::combinaisons élémentaires}.",
+    "pt": "Empurra o alvo, coloca uma runa de terra, inflige danos de terra aos inimigos e aplica o estado Terra.\n\nPode gerar {spell,23876,1::combinações elementares}."
    },
    "id": 13675,
    "kind": {
@@ -4746,11 +4746,11 @@
   },
   {
    "description": {
-    "de": "Verursacht Erdschaden.\nDer Schaden des Zaubers wird nach jedem Wirken erhöht. \n\nWird der Zauber nicht erneut gewirkt, wird der Bonus wieder verringert.",
-    "en": "Inflicts Earth damage.\nThe spell's damage is increased after each casting. \n\nThe bonuses decrement if the spell is not cast again.",
-    "es": "Ocasiona daños de tierra.\nLos daños del hechizo aumentan después de cada lanzamiento. \n\nLos bonus disminuyen si el hechizo no se vuelve a lanzar.",
-    "fr": "Occasionne des dommages Terre.\nLes dommages du sort sont augmentés après chaque lancer. \n\nLes bonus se décrémentent si le sort n'est pas relancé.",
-    "pt": "Inflige danos de terra.\nOs danos do feitiço aumentam após cada lançamento. \n\nOs bônus diminuem se o feitiço não for relançado."
+    "de": "Verursacht Erdschaden.\nDer Schaden des Zaubers wird nach jedem Wirken erhöht.\n\nWird der Zauber nicht erneut gewirkt, wird der Bonus wieder verringert.",
+    "en": "Inflicts Earth damage.\nThe spell's damage is increased after each casting.\n\nThe bonuses decrement if the spell is not cast again.",
+    "es": "Ocasiona daños de tierra.\nLos daños del hechizo aumentan después de cada lanzamiento.\n\nLos bonus disminuyen si el hechizo no se vuelve a lanzar.",
+    "fr": "Occasionne des dommages Terre.\nLes dommages du sort sont augmentés après chaque lancer.\n\nLes bonus se décrémentent si le sort n'est pas relancé.",
+    "pt": "Inflige danos de terra.\nOs danos do feitiço aumentam após cada lançamento.\n\nOs bônus diminuem se o feitiço não for relançado."
    },
    "id": 13156,
    "kind": {
@@ -5398,11 +5398,11 @@
   },
   {
    "description": {
-    "de": "Verbraucht die Beschwörungsladungen, um je nach Element und Ladungsanzahl eine beherrschbare Kreatur zu beschwören.\nWenn der Zaubernde im Zustand „Entladen“ ist: Beschwört einen kontrollierbaren Amorph.\n\nWenn die Beschwörung noch am Leben ist und der Zauber erneut gewirkt wird, wird sie auf das ausgewählte Feld teleportiert und bewegungsunfähig gemacht. \nWerden mehrere Beschwörungen in derselben Runde teleportiert, kostet dies jedes Mal 1 AP mehr.\n\nDie Abklingzeit dieses Zaubers beginnt mit dem Tod der Beschwörung und hängt von ihrer Farbe ab.",
-    "en": "Consumes summoning charges to summon a biddable creature based on the element and the number of charges.\nIf the caster is Uncharged: summons a controllable Noformo.\n\nIf the summons is still alive when the spell is recast, it is teleported to the targeted cell and immobilised. \nTeleporting multiple summons during the same turn costs 1 AP more each time.\n\nThis spell's cooldown period starts when the summons dies, and depends on its colour.",
-    "es": "Consume las cargas invocadoras e invoca a una criatura dominable según el elemento y el número de cargas.\nSi el lanzador está descargado: invoca un amorfo controlable.\n\nSi la invocación sigue con vida y el hechizo vuelve a lanzarse, esta se teletransporta a la casilla objetivo y se inmoviliza. \nTeletransportar a varias invocaciones en un mismo turno cuesta 1 PA más en cada ocasión.\n\nEl tiempo de espera de este hechizo empieza cuando muere la invocación y depende de su color.",
-    "fr": "Consomme les charges invocatrices pour invoquer une créature maîtrisable selon l'élément et le nombre de charges.\nSi le lanceur est Déchargé : invoque un Informo contrôlable.\n\nSi l'invocation est encore en vie et que le sort est relancé, elle est téléportée sur la case ciblée en l'immobilisant. \nTéléporter plusieurs invocations dans le même tour coûte 1 PA de plus à chaque fois.\n\nLe temps de relance de ce sort débute à la mort de l'invocation et dépend de sa couleur.",
-    "pt": "Consome as cargas invocadoras para invocar uma criatura controlável de acordo com o elemento e o número de cargas.\nSe o lançador estiver Descarregado: invoca um Osamorfo controlável.\n\nSe a invocação ainda estiver viva e o feitiço for lançado, ela será teletransportada para a célula visada e imobilizada. \nTeletransportar várias invocações no mesmo turno custa 1 PA a mais a cada vez.\n\nO intervalo de relançamento do feitiço começa a contar quando a invocação morre e depende da cor dela."
+    "de": "Verbraucht die Beschwörungsladungen, um je nach Element und Ladungsanzahl eine beherrschbare Kreatur zu beschwören.\nWenn der Zaubernde im Zustand „Entladen“ ist: Beschwört einen kontrollierbaren Amorph.\n\nWenn die Beschwörung noch am Leben ist und der Zauber erneut gewirkt wird, wird sie auf das ausgewählte Feld teleportiert und bewegungsunfähig gemacht.\nWerden mehrere Beschwörungen in derselben Runde teleportiert, kostet dies jedes Mal 1 AP mehr.\n\nDie Abklingzeit dieses Zaubers beginnt mit dem Tod der Beschwörung und hängt von ihrer Farbe ab.",
+    "en": "Consumes summoning charges to summon a biddable creature based on the element and the number of charges.\nIf the caster is Uncharged: summons a controllable Noformo.\n\nIf the summons is still alive when the spell is recast, it is teleported to the targeted cell and immobilised.\nTeleporting multiple summons during the same turn costs 1 AP more each time.\n\nThis spell's cooldown period starts when the summons dies, and depends on its colour.",
+    "es": "Consume las cargas invocadoras e invoca a una criatura dominable según el elemento y el número de cargas.\nSi el lanzador está descargado: invoca un amorfo controlable.\n\nSi la invocación sigue con vida y el hechizo vuelve a lanzarse, esta se teletransporta a la casilla objetivo y se inmoviliza.\nTeletransportar a varias invocaciones en un mismo turno cuesta 1 PA más en cada ocasión.\n\nEl tiempo de espera de este hechizo empieza cuando muere la invocación y depende de su color.",
+    "fr": "Consomme les charges invocatrices pour invoquer une créature maîtrisable selon l'élément et le nombre de charges.\nSi le lanceur est Déchargé : invoque un Informo contrôlable.\n\nSi l'invocation est encore en vie et que le sort est relancé, elle est téléportée sur la case ciblée en l'immobilisant.\nTéléporter plusieurs invocations dans le même tour coûte 1 PA de plus à chaque fois.\n\nLe temps de relance de ce sort débute à la mort de l'invocation et dépend de sa couleur.",
+    "pt": "Consome as cargas invocadoras para invocar uma criatura controlável de acordo com o elemento e o número de cargas.\nSe o lançador estiver Descarregado: invoca um Osamorfo controlável.\n\nSe a invocação ainda estiver viva e o feitiço for lançado, ela será teletransportada para a célula visada e imobilizada.\nTeletransportar várias invocações no mesmo turno custa 1 PA a mais a cada vez.\n\nO intervalo de relançamento do feitiço começa a contar quando a invocação morre e depende da cor dela."
    },
    "id": 13998,
    "kind": {
@@ -5518,11 +5518,11 @@
   },
   {
    "description": {
-    "de": "Verbraucht die Beschwörungsladungen, um je nach Element und Ladungsanzahl eine beherrschbare Kreatur zu beschwören.\nWenn der Zaubernde im Zustand „Entladen“ ist: Beschwört einen kontrollierbaren Amorph.\n\nWenn die Beschwörung noch am Leben ist und der Zauber erneut gewirkt wird, wird sie auf das ausgewählte Feld teleportiert und bewegungsunfähig gemacht. \nWerden mehrere Beschwörungen in derselben Runde teleportiert, kostet dies jedes Mal 1 AP mehr.\n\nDie Abklingzeit dieses Zaubers beginnt mit dem Tod der Beschwörung und hängt von ihrer Farbe ab.",
-    "en": "Consumes summoning charges to summon a biddable creature based on the element and the number of charges.\nIf the caster is Uncharged: summons a controllable Noformo.\n\nIf the summons is still alive when the spell is recast, it is teleported to the targeted cell and immobilised. \nTeleporting multiple summons during the same turn costs 1 AP more each time.\n\nThis spell's cooldown period starts when the summons dies, and depends on its colour.",
-    "es": "Consume las cargas invocadoras e invoca a una criatura dominable según el elemento y el número de cargas.\nSi el lanzador está descargado: invoca un amorfo controlable.\n\nSi la invocación sigue con vida y el hechizo vuelve a lanzarse, esta se teletransporta a la casilla objetivo y se inmoviliza. \nTeletransportar a varias invocaciones en un mismo turno cuesta 1 PA más en cada ocasión.\n\nEl tiempo de espera de este hechizo empieza cuando muere la invocación y depende de su color.",
-    "fr": "Consomme les charges invocatrices pour invoquer une créature maîtrisable selon l'élément et le nombre de charges.\nSi le lanceur est Déchargé : invoque un Informo contrôlable.\n\nSi l'invocation est encore en vie et que le sort est relancé, elle est téléportée sur la case ciblée en l'immobilisant. \nTéléporter plusieurs invocations dans le même tour coûte 1 PA de plus à chaque fois.\n\nLe temps de relance de ce sort débute à la mort de l'invocation et dépend de sa couleur.",
-    "pt": "Consome as cargas invocadoras para invocar uma criatura controlável de acordo com o elemento e o número de cargas.\nSe o lançador estiver Descarregado: invoca um Osamorfo controlável.\n\nSe a invocação ainda estiver viva e o feitiço for lançado, ela será teletransportada para a célula visada e imobilizada. \nTeletransportar várias invocações no mesmo turno custa 1 PA a mais a cada vez.\n\nO intervalo de relançamento do feitiço começa a contar quando a invocação morre e depende da cor dela."
+    "de": "Verbraucht die Beschwörungsladungen, um je nach Element und Ladungsanzahl eine beherrschbare Kreatur zu beschwören.\nWenn der Zaubernde im Zustand „Entladen“ ist: Beschwört einen kontrollierbaren Amorph.\n\nWenn die Beschwörung noch am Leben ist und der Zauber erneut gewirkt wird, wird sie auf das ausgewählte Feld teleportiert und bewegungsunfähig gemacht.\nWerden mehrere Beschwörungen in derselben Runde teleportiert, kostet dies jedes Mal 1 AP mehr.\n\nDie Abklingzeit dieses Zaubers beginnt mit dem Tod der Beschwörung und hängt von ihrer Farbe ab.",
+    "en": "Consumes summoning charges to summon a biddable creature based on the element and the number of charges.\nIf the caster is Uncharged: summons a controllable Noformo.\n\nIf the summons is still alive when the spell is recast, it is teleported to the targeted cell and immobilised.\nTeleporting multiple summons during the same turn costs 1 AP more each time.\n\nThis spell's cooldown period starts when the summons dies, and depends on its colour.",
+    "es": "Consume las cargas invocadoras e invoca a una criatura dominable según el elemento y el número de cargas.\nSi el lanzador está descargado: invoca un amorfo controlable.\n\nSi la invocación sigue con vida y el hechizo vuelve a lanzarse, esta se teletransporta a la casilla objetivo y se inmoviliza.\nTeletransportar a varias invocaciones en un mismo turno cuesta 1 PA más en cada ocasión.\n\nEl tiempo de espera de este hechizo empieza cuando muere la invocación y depende de su color.",
+    "fr": "Consomme les charges invocatrices pour invoquer une créature maîtrisable selon l'élément et le nombre de charges.\nSi le lanceur est Déchargé : invoque un Informo contrôlable.\n\nSi l'invocation est encore en vie et que le sort est relancé, elle est téléportée sur la case ciblée en l'immobilisant.\nTéléporter plusieurs invocations dans le même tour coûte 1 PA de plus à chaque fois.\n\nLe temps de relance de ce sort débute à la mort de l'invocation et dépend de sa couleur.",
+    "pt": "Consome as cargas invocadoras para invocar uma criatura controlável de acordo com o elemento e o número de cargas.\nSe o lançador estiver Descarregado: invoca um Osamorfo controlável.\n\nSe a invocação ainda estiver viva e o feitiço for lançado, ela será teletransportada para a célula visada e imobilizada.\nTeletransportar várias invocações no mesmo turno custa 1 PA a mais a cada vez.\n\nO intervalo de relançamento do feitiço começa a contar quando a invocação morre e depende da cor dela."
    },
    "id": 14006,
    "kind": {
@@ -5734,11 +5734,11 @@
   },
   {
    "description": {
-    "de": "Verbraucht die Beschwörungsladungen, um je nach Element und Ladungsanzahl eine beherrschbare Kreatur zu beschwören.\nWenn der Zaubernde im Zustand „Entladen“ ist: Beschwört einen kontrollierbaren Amorph.\n\nWenn die Beschwörung noch am Leben ist und der Zauber erneut gewirkt wird, wird sie auf das ausgewählte Feld teleportiert und bewegungsunfähig gemacht. \nWerden mehrere Beschwörungen in derselben Runde teleportiert, kostet dies jedes Mal 1 AP mehr.\n\nDie Abklingzeit dieses Zaubers beginnt mit dem Tod der Beschwörung und hängt von ihrer Farbe ab.",
-    "en": "Consumes summoning charges to summon a biddable creature based on the element and the number of charges.\nIf the caster is Uncharged: summons a controllable Noformo.\n\nIf the summons is still alive when the spell is recast, it is teleported to the targeted cell and immobilised. \nTeleporting multiple summons during the same turn costs 1 AP more each time.\n\nThis spell's cooldown period starts when the summons dies, and depends on its colour.",
-    "es": "Consume las cargas invocadoras e invoca a una criatura dominable según el elemento y el número de cargas.\nSi el lanzador está descargado: invoca un amorfo controlable.\n\nSi la invocación sigue con vida y el hechizo vuelve a lanzarse, esta se teletransporta a la casilla objetivo y se inmoviliza. \nTeletransportar a varias invocaciones en un mismo turno cuesta 1 PA más en cada ocasión.\n\nEl tiempo de espera de este hechizo empieza cuando muere la invocación y depende de su color.",
-    "fr": "Consomme les charges invocatrices pour invoquer une créature maîtrisable selon l'élément et le nombre de charges.\nSi le lanceur est Déchargé : invoque un Informo contrôlable.\n\nSi l'invocation est encore en vie et que le sort est relancé, elle est téléportée sur la case ciblée en l'immobilisant. \nTéléporter plusieurs invocations dans le même tour coûte 1 PA de plus à chaque fois.\n\nLe temps de relance de ce sort débute à la mort de l'invocation et dépend de sa couleur.",
-    "pt": "Consome as cargas invocadoras para invocar uma criatura controlável de acordo com o elemento e o número de cargas.\nSe o lançador estiver Descarregado: invoca um Osamorfo controlável.\n\nSe a invocação ainda estiver viva e o feitiço for lançado, ela será teletransportada para a célula visada e imobilizada. \nTeletransportar várias invocações no mesmo turno custa 1 PA a mais a cada vez.\n\nO intervalo de relançamento do feitiço começa a contar quando a invocação morre e depende da cor dela."
+    "de": "Verbraucht die Beschwörungsladungen, um je nach Element und Ladungsanzahl eine beherrschbare Kreatur zu beschwören.\nWenn der Zaubernde im Zustand „Entladen“ ist: Beschwört einen kontrollierbaren Amorph.\n\nWenn die Beschwörung noch am Leben ist und der Zauber erneut gewirkt wird, wird sie auf das ausgewählte Feld teleportiert und bewegungsunfähig gemacht.\nWerden mehrere Beschwörungen in derselben Runde teleportiert, kostet dies jedes Mal 1 AP mehr.\n\nDie Abklingzeit dieses Zaubers beginnt mit dem Tod der Beschwörung und hängt von ihrer Farbe ab.",
+    "en": "Consumes summoning charges to summon a biddable creature based on the element and the number of charges.\nIf the caster is Uncharged: summons a controllable Noformo.\n\nIf the summons is still alive when the spell is recast, it is teleported to the targeted cell and immobilised.\nTeleporting multiple summons during the same turn costs 1 AP more each time.\n\nThis spell's cooldown period starts when the summons dies, and depends on its colour.",
+    "es": "Consume las cargas invocadoras e invoca a una criatura dominable según el elemento y el número de cargas.\nSi el lanzador está descargado: invoca un amorfo controlable.\n\nSi la invocación sigue con vida y el hechizo vuelve a lanzarse, esta se teletransporta a la casilla objetivo y se inmoviliza.\nTeletransportar a varias invocaciones en un mismo turno cuesta 1 PA más en cada ocasión.\n\nEl tiempo de espera de este hechizo empieza cuando muere la invocación y depende de su color.",
+    "fr": "Consomme les charges invocatrices pour invoquer une créature maîtrisable selon l'élément et le nombre de charges.\nSi le lanceur est Déchargé : invoque un Informo contrôlable.\n\nSi l'invocation est encore en vie et que le sort est relancé, elle est téléportée sur la case ciblée en l'immobilisant.\nTéléporter plusieurs invocations dans le même tour coûte 1 PA de plus à chaque fois.\n\nLe temps de relance de ce sort débute à la mort de l'invocation et dépend de sa couleur.",
+    "pt": "Consome as cargas invocadoras para invocar uma criatura controlável de acordo com o elemento e o número de cargas.\nSe o lançador estiver Descarregado: invoca um Osamorfo controlável.\n\nSe a invocação ainda estiver viva e o feitiço for lançado, ela será teletransportada para a célula visada e imobilizada.\nTeletransportar várias invocações no mesmo turno custa 1 PA a mais a cada vez.\n\nO intervalo de relançamento do feitiço começa a contar quando a invocação morre e depende da cor dela."
    },
    "id": 14007,
    "kind": {
@@ -8120,11 +8120,11 @@
   },
   {
    "description": {
-    "de": "Verursacht Luftschaden und entzieht BP. \n\nBei infizierten Gegnern: Wendet die Wirkungen auf alle infizierten Gegner an, indem die Infektion in einem Umkreis von 2 Feldern um sie verbreitet wird.",
-    "en": "Inflicts Air damage and removes MP. \n\nOn an Infected enemy: applies the effects on all Infected enemies and spreads the Infection in a 2-cell circle around them.",
-    "es": "Ocasiona daños de aire y retira PM. \n\nEn un enemigo infectado: aplica los efectos a todos los enemigos infectados propagando la infección en un círculo de 2 casillas a su alrededor.",
-    "fr": "Occasionne des dommages Air et retire des PM. \n\nSur un ennemi Infecté : applique les effets sur tous les ennemis Infectés en propageant l'Infection dans un cercle de 2 cases autour d'eux.",
-    "pt": "Inflige danos de ar e retira PM. \n\nEm um inimigo Infectado: aplica os efeitos a todos os inimigos Infectados propagando a Infecção em um círculo de 2 células ao redor deles."
+    "de": "Verursacht Luftschaden und entzieht BP.\n\nBei infizierten Gegnern: Wendet die Wirkungen auf alle infizierten Gegner an, indem die Infektion in einem Umkreis von 2 Feldern um sie verbreitet wird.",
+    "en": "Inflicts Air damage and removes MP.\n\nOn an Infected enemy: applies the effects on all Infected enemies and spreads the Infection in a 2-cell circle around them.",
+    "es": "Ocasiona daños de aire y retira PM.\n\nEn un enemigo infectado: aplica los efectos a todos los enemigos infectados propagando la infección en un círculo de 2 casillas a su alrededor.",
+    "fr": "Occasionne des dommages Air et retire des PM.\n\nSur un ennemi Infecté : applique les effets sur tous les ennemis Infectés en propageant l'Infection dans un cercle de 2 cases autour d'eux.",
+    "pt": "Inflige danos de ar e retira PM.\n\nEm um inimigo Infectado: aplica os efeitos a todos os inimigos Infectados propagando a Infecção em um círculo de 2 células ao redor deles."
    },
    "id": 13575,
    "kind": {
@@ -9012,11 +9012,11 @@
  "Xelor": [
   {
    "description": {
-    "de": "Verursacht Wasserschaden.\nWenn das Ziel ein Gegner ist, werden ihm ebenfalls AP entzogen.\nGegnern im Zustand „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“ werden zusätzliche AP entzogen.",
-    "en": "Inflicts Water damage.\nIf the target is an enemy, also reduces the target's AP.\nThe AP removal is greater on enemies in the {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} state.",
-    "es": "Ocasiona daños de agua.\nSi el objetivo es un enemigo, también le retira PA.\nLa retirada de PA es mayor en los enemigos que estén bajo el estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "fr": "Occasionne des dommages Eau.\nSi la cible est un ennemi, lui retire également des PA.\nLe retrait de PA est plus important sur les ennemis dans l'état {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Inflige danos de água.\nSe o alvo for um inimigo, também retira PA dele.\nA retirada de PA é maior em um inimigo no estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Verursacht Wasserschaden.\nWenn das Ziel ein Gegner ist, werden ihm ebenfalls AP entzogen.\nGegnern im Zustand „{spell,24510,1::Telefrag}“ werden zusätzliche AP entzogen.",
+    "en": "Inflicts Water damage.\nIf the target is an enemy, also reduces the target's AP.\nThe AP removal is greater on enemies in the {spell,24510,1::Telefrag} state.",
+    "es": "Ocasiona daños de agua.\nSi el objetivo es un enemigo, también le retira PA.\nLa retirada de PA es mayor en los enemigos que estén bajo el estado {spell,24510,1::Telefrag}.",
+    "fr": "Occasionne des dommages Eau.\nSi la cible est un ennemi, lui retire également des PA.\nLe retrait de PA est plus important sur les ennemis dans l'état {spell,24510,1::Téléfrag}.",
+    "pt": "Inflige danos de água.\nSe o alvo for um inimigo, também retira PA dele.\nA retirada de PA é maior em um inimigo no estado {spell,24510,1::Telefrag}."
    },
    "id": 13242,
    "kind": {
@@ -9036,11 +9036,11 @@
   },
   {
    "description": {
-    "de": "Verursacht Feuerschaden.\nWenn das Ziel ein Gegner ist, wird dieser zudem in den Zustand „Zeiger“ versetzt.\n• Verursacht Feuerschaden und entzieht den Zustand „Zeiger“ am Ende des Zustands „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“.",
-    "en": "Inflicts Fire damage.\nIf the target is an enemy, also applies the Hand state:\n• Inflicts Fire damage and removes the Hand state upon leaving the {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} state.",
-    "es": "Ocasiona daños de fuego.\nSi el objetivo es un enemigo, también le aplica el estado Aguja:\n• Ocasiona daños de fuego y retira el estado Aguja al salir del estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "fr": "Occasionne des dommages Feu.\nSi la cible est un ennemi, lui applique également l'état Aiguille :\n• Occasionne des dommages Feu et retire l'état Aiguille en sortie d'état {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Inflige danos de fogo.\nSe o alvo for um inimigo, aplica também o estado Ponteiro:\n• Inflige danos de fogo e retira o estado Ponteiro na saída do estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Verursacht Feuerschaden.\nWenn das Ziel ein Gegner ist, wird dieser zudem in den Zustand „Zeiger“ versetzt.\n• Verursacht Feuerschaden und entzieht den Zustand „Zeiger“ am Ende des Zustands „{spell,24510,1::Telefrag}“.",
+    "en": "Inflicts Fire damage.\nIf the target is an enemy, also applies the Hand state:\n• Inflicts Fire damage and removes the Hand state upon leaving the {spell,24510,1::Telefrag} state.",
+    "es": "Ocasiona daños de fuego.\nSi el objetivo es un enemigo, también le aplica el estado Aguja:\n• Ocasiona daños de fuego y retira el estado Aguja al salir del estado {spell,24510,1::Telefrag}.",
+    "fr": "Occasionne des dommages Feu.\nSi la cible est un ennemi, lui applique également l'état Aiguille :\n• Occasionne des dommages Feu et retire l'état Aiguille en sortie d'état {spell,24510,1::Téléfrag}.",
+    "pt": "Inflige danos de fogo.\nSe o alvo for um inimigo, aplica também o estado Ponteiro:\n• Inflige danos de fogo e retira o estado Ponteiro na saída do estado {spell,24510,1::Telefrag}."
    },
    "id": 13244,
    "kind": {
@@ -9060,11 +9060,11 @@
   },
   {
    "description": {
-    "de": "Verursacht Luftschaden.\nBei Zielen im Zustand „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“ wird der Schaden erhöht.",
-    "en": "Inflicts Air damage.\nDamage is greater on targets in the {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} state.",
-    "es": "Ocasiona daños de aire.\nLos daños son mayores en los objetivos con el estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "fr": "Occasionne des dommages Air.\nLes dommages sont plus importants sur les cibles dans l'état {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Inflige danos de ar.\nOs danos são maiores nos alvos no estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Verursacht Luftschaden.\nBei Zielen im Zustand „{spell,24510,1::Telefrag}“ wird der Schaden erhöht.",
+    "en": "Inflicts Air damage.\nDamage is greater on targets in the {spell,24510,1::Telefrag} state.",
+    "es": "Ocasiona daños de aire.\nLos daños son mayores en los objetivos con el estado {spell,24510,1::Telefrag}.",
+    "fr": "Occasionne des dommages Air.\nLes dommages sont plus importants sur les cibles dans l'état {spell,24510,1::Téléfrag}.",
+    "pt": "Inflige danos de ar.\nOs danos são maiores nos alvos no estado {spell,24510,1::Telefrag}."
    },
    "id": 13254,
    "kind": {
@@ -9084,11 +9084,11 @@
   },
   {
    "description": {
-    "de": "Teleportiert das Ziel symmetrisch zum Zaubernden und fügt den Gegnern Erdschaden zu.\n\nKann einen Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "Teleports the target symmetrically in relation to the caster and inflicts Earth damage on enemies.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "Teletransporta al objetivo simétricamente con respecto al lanzador y ocasiona daños de tierra a los enemigos.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Téléporte la cible symétriquement par rapport au lanceur et occasionne des dommages Terre aux ennemis.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Teletransporta o alvo simetricamente em relação ao lançador e inflige danos de terra aos inimigos.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Teleportiert das Ziel symmetrisch zum Zaubernden und fügt den Gegnern Erdschaden zu.\n\nKann einen Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "Teleports the target symmetrically in relation to the caster and inflicts Earth damage on enemies.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "Teletransporta al objetivo simétricamente con respecto al lanzador y ocasiona daños de tierra a los enemigos.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Téléporte la cible symétriquement par rapport au lanceur et occasionne des dommages Terre aux ennemis.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "Teletransporta o alvo simetricamente em relação ao lançador e inflige danos de terra aos inimigos.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13252,
    "kind": {
@@ -9108,11 +9108,11 @@
   },
   {
    "description": {
-    "de": "Teleportiert den Zaubernden symmetrisch zum Ziel.\n\nSetzt die Abklingzeit des Zaubers auf 0, wenn ein „Telefrag“ vom Zaubernden erzeugt oder verbraucht wird.\n\nKann einen Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "Teleports the caster symmetrically relative to the target.\n\nSets the spell's cooldown period to 0 when a Telefrag is generated or consumed by the caster.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "Teletransporta al lanzador simétricamente con respecto al objetivo.\n\nFija en 0 el tiempo de espera del hechizo cuando el lanzador genera o consume un telefrag.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Téléporte le lanceur symétriquement par rapport à la cible.\n\nFixe le temps de relance du sort à 0 lorsqu'un Téléfrag est généré ou consommé par le lanceur.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Teletransporta o lançador de forma simétrica em relação ao alvo.\n\nFixa o intervalo de relançamento do feitiço em 0 quando um Telefrag é gerado ou consumido pelo lançador.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Teleportiert den Zaubernden symmetrisch zum Ziel.\n\nSetzt die Abklingzeit des Zaubers auf 0, wenn ein „Telefrag“ vom Zaubernden erzeugt oder verbraucht wird.\n\nKann einen Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "Teleports the caster symmetrically relative to the target.\n\nSets the spell's cooldown period to 0 when a Telefrag is generated or consumed by the caster.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "Teletransporta al lanzador simétricamente con respecto al objetivo.\n\nFija en 0 el tiempo de espera del hechizo cuando el lanzador genera o consume un telefrag.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Téléporte le lanceur symétriquement par rapport à la cible.\n\nFixe le temps de relance du sort à 0 lorsqu'un Téléfrag est généré ou consommé par le lanceur.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "Teletransporta o lançador de forma simétrica em relação ao alvo.\n\nFixa o intervalo de relançamento do feitiço em 0 quando um Telefrag é gerado ou consumido pelo lançador.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13249,
    "kind": {
@@ -9132,11 +9132,11 @@
   },
   {
    "description": {
-    "de": "Teleportiert den ausgewählten Verbündeten am Ende seiner Runde an dessen Position zu Rundenbeginn.\n\nKann einen Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "Teleports the targeted ally to their starting position at the end of their turn.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "Teletransporta al aliado objetivo a su posición de principio de turno al final de su turno.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Téléporte l'allié ciblé à sa position de début de tour à la fin de son tour.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Teletransporta o aliado visado para sua posição do início do turno no fim de seu turno.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Teleportiert den ausgewählten Verbündeten am Ende seiner Runde an dessen Position zu Rundenbeginn.\n\nKann einen Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "Teleports the targeted ally to their starting position at the end of their turn.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "Teletransporta al aliado objetivo a su posición de principio de turno al final de su turno.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Téléporte l'allié ciblé à sa position de début de tour à la fin de son tour.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "Teletransporta o aliado visado para sua posição do início do turno no fim de seu turno.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13243,
    "kind": {
@@ -9180,11 +9180,11 @@
   },
   {
    "description": {
-    "de": "Fügt Gegnern Luftschaden zu und teleportiert das Ziel zu seiner vorherigen Position.\n\nKann einen Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "Inflicts Air damage on enemies and teleports the target to its previous position.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "Ocasiona daños de aire a los enemigos y teletransporta al objetivo a su posición anterior.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Occasionne des dommages Air aux ennemis et téléporte la cible à sa position précédente.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Inflige danos de ar aos inimigos e teletransporta o alvo de volta à sua posição anterior.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Fügt Gegnern Luftschaden zu und teleportiert das Ziel zu seiner vorherigen Position.\n\nKann einen Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "Inflicts Air damage on enemies and teleports the target to its previous position.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "Ocasiona daños de aire a los enemigos y teletransporta al objetivo a su posición anterior.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Occasionne des dommages Air aux ennemis et téléporte la cible à sa position précédente.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "Inflige danos de ar aos inimigos e teletransporta o alvo de volta à sua posição anterior.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13245,
    "kind": {
@@ -9204,11 +9204,11 @@
   },
   {
    "description": {
-    "de": "Verursacht Feuerschaden und entzieht den Gegnern AP.\n\nBei einem Ziel im Zustand „Telefrag“ wird Feuerschaden verursacht und Gegnern im Umkreis von 2 Feldern AP entzogen.\n\nVerbraucht den Zustand „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“ des Ziels.",
-    "en": "Inflicts Fire damage and removes AP from enemies.\n\nOn a target in the Telefrag state: inflicts Fire damage on and removes AP from enemies in a 2-cell circle.\n\nConsumes the target's {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} state.",
-    "es": "Ocasiona daños de fuego y retira PA a los enemigos.\n\nEn un objetivo en el estado Telefrag: ocasiona daños de fuego y retira PA a los enemigos en un círculo de 2 casillas.\n\nConsume el estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} del objetivo.",
-    "fr": "Occasionne des dommages Feu et retire des PA aux ennemis.\n\nSur une cible dans l'état Téléfrag : occasionne des dommages Feu et retire des PA aux ennemis dans un cercle de 2 cases.\n\nConsomme l'état {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>} de la cible.",
-    "pt": "Inflige danos de fogo e retira PA dos inimigos.\n\nEm um alvo no estado Telefrag: inflige danos de fogo e retira PA dos inimigos em um círculo de 2 células.\n\nConsome o estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} do alvo."
+    "de": "Verursacht Feuerschaden und entzieht den Gegnern AP.\n\nBei einem Ziel im Zustand „Telefrag“ wird Feuerschaden verursacht und Gegnern im Umkreis von 2 Feldern AP entzogen.\n\nVerbraucht den Zustand „{spell,24510,1::Telefrag}“ des Ziels.",
+    "en": "Inflicts Fire damage and removes AP from enemies.\n\nOn a target in the Telefrag state: inflicts Fire damage on and removes AP from enemies in a 2-cell circle.\n\nConsumes the target's {spell,24510,1::Telefrag} state.",
+    "es": "Ocasiona daños de fuego y retira PA a los enemigos.\n\nEn un objetivo en el estado Telefrag: ocasiona daños de fuego y retira PA a los enemigos en un círculo de 2 casillas.\n\nConsume el estado {spell,24510,1::Telefrag} del objetivo.",
+    "fr": "Occasionne des dommages Feu et retire des PA aux ennemis.\n\nSur une cible dans l'état Téléfrag : occasionne des dommages Feu et retire des PA aux ennemis dans un cercle de 2 cases.\n\nConsomme l'état {spell,24510,1::Téléfrag} de la cible.",
+    "pt": "Inflige danos de fogo e retira PA dos inimigos.\n\nEm um alvo no estado Telefrag: inflige danos de fogo e retira PA dos inimigos em um círculo de 2 células.\n\nConsome o estado {spell,24510,1::Telefrag} do alvo."
    },
    "id": 13261,
    "kind": {
@@ -9228,11 +9228,11 @@
   },
   {
    "description": {
-    "de": "Verursacht Wasserschaden bei Gegnern im Wirkungsbereich.\n\nBei Zielen im Zustand „Telefrag“ werden AP entzogen und im Wirkungsbereich Wasserschaden verursacht.\n\nVerbraucht die Zustände „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“ der Ziele.",
-    "en": "Inflicts Water damage on enemies in an area of effect.\n\nOn enemies in the Telefrag state: steals AP and inflicts Water damage in an area of effect.\n\nConsumes the targets' {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} states.",
-    "es": "Ocasiona daños de agua a los enemigos en zona.\n\nEn los enemigos en el estado Telefrag: roba PA y ocasiona daños de agua en zona.\n\nConsume los estados {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} de los objetivos.",
-    "fr": "Occasionne des dommages Eau aux ennemis en zone.\n\nSur des ennemis dans l'état Téléfrag : vole des PA et occasionne des dommages Eau en zone.\n\nConsomme les états {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>} des cibles.",
-    "pt": "Inflige danos de água aos inimigos em zona.\n\nEm inimigos no estado Telefrag: rouba PA e inflige danos de água em zona.\n\nConsome os estados {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} dos alvos."
+    "de": "Verursacht Wasserschaden bei Gegnern im Wirkungsbereich.\n\nBei Zielen im Zustand „Telefrag“ werden AP entzogen und im Wirkungsbereich Wasserschaden verursacht.\n\nVerbraucht die Zustände „{spell,24510,1::Telefrag}“ der Ziele.",
+    "en": "Inflicts Water damage on enemies in an area of effect.\n\nOn enemies in the Telefrag state: steals AP and inflicts Water damage in an area of effect.\n\nConsumes the targets' {spell,24510,1::Telefrag} states.",
+    "es": "Ocasiona daños de agua a los enemigos en zona.\n\nEn los enemigos en el estado Telefrag: roba PA y ocasiona daños de agua en zona.\n\nConsume los estados {spell,24510,1::Telefrag} de los objetivos.",
+    "fr": "Occasionne des dommages Eau aux ennemis en zone.\n\nSur des ennemis dans l'état Téléfrag : vole des PA et occasionne des dommages Eau en zone.\n\nConsomme les états {spell,24510,1::Téléfrag} des cibles.",
+    "pt": "Inflige danos de água aos inimigos em zona.\n\nEm inimigos no estado Telefrag: rouba PA e inflige danos de água em zona.\n\nConsome os estados {spell,24510,1::Telefrag} dos alvos."
    },
    "id": 13259,
    "kind": {
@@ -9276,11 +9276,11 @@
   },
   {
    "description": {
-    "de": "Verursacht Feuerschaden bei Gegnern.\n\nZiele im Zustand „Telefrag“ im Wirkungsbereich werden symmetrisch zum Mittelpunkt teleportiert, Gegnern wird Feuerschaden zugefügt.\n\nKann einen Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "Inflicts Fire damage on enemies.\n\nOn targets in the Telefrag state in an area of effect: teleports targets symmetrically in relation to the centre and inflicts Fire damage on enemies.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "Ocasiona daños de fuego a los enemigos.\n\nEn los objetivos en el estado Telefrag en zona: teletransporta a los objetivos simétricamente con respecto al centro y ocasiona daños de fuego a los enemigos.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Occasionne des dommages Feu aux ennemis.\n\nSur des cibles dans l'état Téléfrag en zone : téléporte les cibles symétriquement par rapport au centre et occasionne des dommages Feu aux ennemis.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Inflige danos de fogo aos inimigos.\n\nNos alvos no estado Telefrag em zona: teletransporta os alvos simetricamente em relação ao centro e inflige danos de fogo aos inimigos.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Verursacht Feuerschaden bei Gegnern.\n\nZiele im Zustand „Telefrag“ im Wirkungsbereich werden symmetrisch zum Mittelpunkt teleportiert, Gegnern wird Feuerschaden zugefügt.\n\nKann einen Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "Inflicts Fire damage on enemies.\n\nOn targets in the Telefrag state in an area of effect: teleports targets symmetrically in relation to the centre and inflicts Fire damage on enemies.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "Ocasiona daños de fuego a los enemigos.\n\nEn los objetivos en el estado Telefrag en zona: teletransporta a los objetivos simétricamente con respecto al centro y ocasiona daños de fuego a los enemigos.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Occasionne des dommages Feu aux ennemis.\n\nSur des cibles dans l'état Téléfrag en zone : téléporte les cibles symétriquement par rapport au centre et occasionne des dommages Feu aux ennemis.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "Inflige danos de fogo aos inimigos.\n\nNos alvos no estado Telefrag em zona: teletransporta os alvos simetricamente em relação ao centro e inflige danos de fogo aos inimigos.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13257,
    "kind": {
@@ -9300,11 +9300,11 @@
   },
   {
    "description": {
-    "de": "Teleportiert alle an ihre vorherige Position.\n\nKann einen Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "Teleports everyone to their previous positions.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "Teletransporta a todo el mundo a su posición anterior.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Téléporte tout le monde à sa position précédente.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Teletransporta todo mundo para a posição anterior.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Teleportiert alle an ihre vorherige Position.\n\nKann einen Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "Teleports everyone to their previous positions.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "Teletransporta a todo el mundo a su posición anterior.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Téléporte tout le monde à sa position précédente.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "Teletransporta todo mundo para a posição anterior.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13262,
    "kind": {
@@ -9324,11 +9324,11 @@
   },
   {
    "description": {
-    "de": "Verursacht bei Gegnern Erdschaden.\n\nBei einem Ziel im Zustand „Telefrag“ wird die Wirkungsdauer der Effekte beim Ziel verringert, der Zustand „Motivationsmangel“ auferlegt und den Gegnern Erdschaden zugefügt.\n\nDie Entzauberung ist nicht möglich, wenn sich das Ziel bereits im Zustand „Motivationsmangel“ befindet.\n\nDer Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} wird verbraucht.",
-    "en": "Inflicts Earth damage on enemies.\n\nOn a target in the Telefrag state: reduces the duration of effects on the target, applies the Loss of Motivation state on the target, and inflicts Earth damage on enemies.\n\nThe unbewitchment cannot be applied if the target is already in the Loss of Motivation state.\n\nConsumes the {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} state.",
-    "es": "Ocasiona daños de tierra a los enemigos.\n\nEn un objetivo en el estado Telefrag: reduce la duración de los efectos sobre el objetivo, le aplica el estado Desmotivación y ocasiona daños de tierra a los enemigos.\n\nEl desembrujo no se puede aplicar si el objetivo está ya en el estado Desmotivación.\n\nConsume el estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "fr": "Occasionne des dommages Terre aux ennemis.\n\nSur une cible dans l'état Téléfrag : réduit la durée des effets sur la cible, lui applique l'état Démotivation et occasionne des dommages Terre aux ennemis.\n\nLe désenvoûtement ne peut pas être appliqué si la cible est déjà dans l'état Démotivation.\n\nConsomme l'état {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Inflige danos de terra aos inimigos.\n\nEm um alvo no estado Telefrag: reduz a duração dos efeitos sobre o alvo, aplica nele o estado Desmotivação e inflige danos de terra aos inimigos.\n\nO desencantamento não pode ser aplicado se o alvo já estiver no estado Desmotivação.\n\nConsome o estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Verursacht bei Gegnern Erdschaden.\n\nBei einem Ziel im Zustand „Telefrag“ wird die Wirkungsdauer der Effekte beim Ziel verringert, der Zustand „Motivationsmangel“ auferlegt und den Gegnern Erdschaden zugefügt.\n\nDie Entzauberung ist nicht möglich, wenn sich das Ziel bereits im Zustand „Motivationsmangel“ befindet.\n\nDer Zustand {spell,24510,1::„Telefrag“} wird verbraucht.",
+    "en": "Inflicts Earth damage on enemies.\n\nOn a target in the Telefrag state: reduces the duration of effects on the target, applies the Loss of Motivation state on the target, and inflicts Earth damage on enemies.\n\nThe unbewitchment cannot be applied if the target is already in the Loss of Motivation state.\n\nConsumes the {spell,24510,1::Telefrag} state.",
+    "es": "Ocasiona daños de tierra a los enemigos.\n\nEn un objetivo en el estado Telefrag: reduce la duración de los efectos sobre el objetivo, le aplica el estado Desmotivación y ocasiona daños de tierra a los enemigos.\n\nEl desembrujo no se puede aplicar si el objetivo está ya en el estado Desmotivación.\n\nConsume el estado {spell,24510,1::Telefrag}.",
+    "fr": "Occasionne des dommages Terre aux ennemis.\n\nSur une cible dans l'état Téléfrag : réduit la durée des effets sur la cible, lui applique l'état Démotivation et occasionne des dommages Terre aux ennemis.\n\nLe désenvoûtement ne peut pas être appliqué si la cible est déjà dans l'état Démotivation.\n\nConsomme l'état {spell,24510,1::Téléfrag}.",
+    "pt": "Inflige danos de terra aos inimigos.\n\nEm um alvo no estado Telefrag: reduz a duração dos efeitos sobre o alvo, aplica nele o estado Desmotivação e inflige danos de terra aos inimigos.\n\nO desencantamento não pode ser aplicado se o alvo já estiver no estado Desmotivação.\n\nConsome o estado {spell,24510,1::Telefrag}."
    },
    "id": 13248,
    "kind": {
@@ -9348,11 +9348,11 @@
   },
   {
    "description": {
-    "de": "Auf „Komplize“ oder „Zifferblatt von Xélor“ des Zaubernden:\n• Wirkt den Zustand „Unverrückbar“.\n• Teleportiert die Einheiten symmetrisch zu ihnen in einem Umkreis von 4 Feldern um sie herum.\n• Setzt die Abklingzeit der Zauber „Komplize“ und „Zifferblatt von Xélor“ des Zaubernden auf 1 Runde.\n• Teleportiert diese Einheiten zu Beginn der Runde von „Komplize“ oder „Zifferblatt“ erneut.\n\nDie Teleportation hat keine Wirkung auf Synchro oder Zaubernden.\n\nDie Effekte können nicht mithilfe eines Zaubers aufgehoben werden.\n\nKann den Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "On the caster's Accomplice or Xelor's Dial:\n• Applies the Unmovable state.\n• Teleports entities symmetrically in relation to them in a 4-cell circle around them.\n• Sets the cooldown period of the caster's Accomplice and Xelor's Dial spells to 1 turn.\n• At the start of the Accomplice's or Dial's turn, teleports these entities again.\n\nTeleportation does not affect a Synchro and the caster.\n\nThe effects cannot be unbewitched.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "En el cómplice o en la esfera de Xelor del lanzador:\n• Aplica el estado Indesplazable.\n• Teletransporta a las entidades simétricamente con respecto a sí mismas en un círculo de 4 casillas a su alrededor.\n• Fija el tiempo de espera de los hechizos Cómplice y Esfera de Xelor del lanzador en 1 turno.\n• Al principio del turno del cómplice o de la esfera, vuelve a teletransportar a estas entidades.\n\nLa teletransportación no afecta a la syncro ni al lanzador.\n\nLos efectos no se pueden desembrujar.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Sur le Complice ou le Cadran de Xélor du lanceur :\n• Applique l'état Indeplaçable.\n• Téléporte les entités symétriquement par rapport à eux dans un cercle de 4 cases autour d'eux.\n• Fixe le temps de relance des sorts Complice et Cadran de Xélor du lanceur à 1 tour.\n• Au début du tour du Complice ou du Cadran, téléporte de nouveau ces entités.\n\nLa téléportation n'affecte pas une Synchro et le lanceur.\n\nLes effets ne peuvent pas être désenvoûtés.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "No Cúmplice ou no Quadrante de Xelor do lançador:\n• Aplica o estado Irremovível.\n• Teletransporta as entidades simetricamente em relação a eles em um círculo de 4 células ao redor deles.\n• Fixa o intervalo de relançamento dos feitiços Cúmplice e Quadrante de Xelor do lançador em 1 turno.\n• No início do turno do Cúmplice ou do Quadrante, teletransporta de novo essas entidades.\n\nO teletransporte não afeta uma Sincro nem o lançador.\n\nOs efeitos não podem ser retirados.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Auf „Komplize“ oder „Zifferblatt von Xélor“ des Zaubernden:\n• Wirkt den Zustand „Unverrückbar“.\n• Teleportiert die Einheiten symmetrisch zu ihnen in einem Umkreis von 4 Feldern um sie herum.\n• Setzt die Abklingzeit der Zauber „Komplize“ und „Zifferblatt von Xélor“ des Zaubernden auf 1 Runde.\n• Teleportiert diese Einheiten zu Beginn der Runde von „Komplize“ oder „Zifferblatt“ erneut.\n\nDie Teleportation hat keine Wirkung auf Synchro oder Zaubernden.\n\nDie Effekte können nicht mithilfe eines Zaubers aufgehoben werden.\n\nKann den Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "On the caster's Accomplice or Xelor's Dial:\n• Applies the Unmovable state.\n• Teleports entities symmetrically in relation to them in a 4-cell circle around them.\n• Sets the cooldown period of the caster's Accomplice and Xelor's Dial spells to 1 turn.\n• At the start of the Accomplice's or Dial's turn, teleports these entities again.\n\nTeleportation does not affect a Synchro and the caster.\n\nThe effects cannot be unbewitched.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "En el cómplice o en la esfera de Xelor del lanzador:\n• Aplica el estado Indesplazable.\n• Teletransporta a las entidades simétricamente con respecto a sí mismas en un círculo de 4 casillas a su alrededor.\n• Fija el tiempo de espera de los hechizos Cómplice y Esfera de Xelor del lanzador en 1 turno.\n• Al principio del turno del cómplice o de la esfera, vuelve a teletransportar a estas entidades.\n\nLa teletransportación no afecta a la syncro ni al lanzador.\n\nLos efectos no se pueden desembrujar.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Sur le Complice ou le Cadran de Xélor du lanceur :\n• Applique l'état Indeplaçable.\n• Téléporte les entités symétriquement par rapport à eux dans un cercle de 4 cases autour d'eux.\n• Fixe le temps de relance des sorts Complice et Cadran de Xélor du lanceur à 1 tour.\n• Au début du tour du Complice ou du Cadran, téléporte de nouveau ces entités.\n\nLa téléportation n'affecte pas une Synchro et le lanceur.\n\nLes effets ne peuvent pas être désenvoûtés.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "No Cúmplice ou no Quadrante de Xelor do lançador:\n• Aplica o estado Irremovível.\n• Teletransporta as entidades simetricamente em relação a eles em um círculo de 4 células ao redor deles.\n• Fixa o intervalo de relançamento dos feitiços Cúmplice e Quadrante de Xelor do lançador em 1 turno.\n• No início do turno do Cúmplice ou do Quadrante, teletransporta de novo essas entidades.\n\nO teletransporte não afeta uma Sincro nem o lançador.\n\nOs efeitos não podem ser retirados.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13250,
    "kind": {
@@ -9372,11 +9372,11 @@
   },
   {
    "description": {
-    "de": "Beschwört eine statische Synchro, die stirbt und dabei den Gegnern in einem Umkreis von 3 Feldern Luftschaden zufügt, wenn die Synchro in den Zustand „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“ versetzt wird. Der Schaden verringert sich nicht mit der Entfernung.\n\nSie wird geheilt, und der von ihr verursachte Endschaden wird bei jedem vom Zaubernden erzeugten „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“ erhöht.\nDiese Wirkung kann nur einmal pro Runde und einmal pro Zauber ausgelöst werden.\n\nDie Synchro ist gegen die Zauber „Mumifizierung“ und „Einbalsamieren“ immun und kann nicht mit dem Zauber „Zurückspulen“ aktiviert werden.\n\nJedes Team kann immer nur eine Synchro haben. Ist die Synchro noch aktiv und wird erneut beschworen, wird die alte zerstört und macht Platz für die neue.",
-    "en": "Summons a static Synchro that dies and inflicts Air damage on enemies in a 3-cell circle when it enters the {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} state. Damage does not decrease with distance.\n\nIt is healed and its final damage inflicted increases with each {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} generated by the caster.\nThis effect can only be triggered 1 time per turn and 1 time per spell.\n\nThe Synchro is immune to the Mummification and Embalming spells and cannot be activated with the Rewind spell.\n\nThere can only be one Synchro per team. If the Synchro is still on the field when summoned again, the old one is destroyed to make room for the new one.",
-    "es": "Invoca una syncro estática que muere ocasionando daños de aire a los enemigos en un círculo de 3 casillas cuando entra en el estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}. Los daños no disminuyen con la distancia.\n\nSe cura, y los daños finales que cause aumentan con cada {spell,24510,1::<font color=\"#ebc304\">telefrag</font>} generado por el lanzador.\nEste efecto solo puede activarse una vez por turno, y solo una vez por hechizo.\n\nLa syncro es inmune a los hechizos Momificación y Embalsamamiento, y no es posible activarla con el hechizo Rebobinamiento.\n\nSolo puede haber una syncro por equipo. Si la syncro está aún presente y vuelve a ser invocada, la anterior se destruye y se sustituye por la nueva.",
-    "fr": "Invoque une Synchro statique qui meurt en occasionnant des dommages Air aux ennemis dans un cercle de 3 cases lorsqu'elle entre dans l'état {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}. Les dommages ne diminuent pas avec la distance.\n\nElle est soignée et ses dommages finaux occasionnés sont augmentés pour chaque {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>} qui est généré par le lanceur.\nCet effet ne peut être déclenché qu'une fois par tour, et qu'une fois par sort.\n\nLa Synchro est immunisée contre les sorts Momification et Embaumement, et ne peut pas s'activer avec le sort Rembobinage.\n\nIl ne peut y avoir qu'une seule Synchro par équipe. Si la Synchro est encore présente et que celle-ci est ré-invoquée, l'ancienne est détruite pour laisser place à la nouvelle.",
-    "pt": "Invoca uma Sincro estática que morre infligindo danos de ar aos inimigos em um círculo de 3 células quando ela entra no estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}. Os danos não diminuem com a distância.\n\nEla é curada e os danos finais infligidos são aumentados a cada {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} gerado pelo lançador.\nEsse efeito pode ser acionado somente uma vez por turno e por feitiço.\n\nA Sincro é imunizada contra os feitiços Mumificação e Embalsamamento e não pode ser ativada com o feitiço Rebobinando.\n\nSó pode haver uma Sincro por equipe. Se a Sincro ainda estiver presente e for invocada de novo, a antiga será destruída para dar lugar à nova."
+    "de": "Beschwört eine statische Synchro, die stirbt und dabei den Gegnern in einem Umkreis von 3 Feldern Luftschaden zufügt, wenn die Synchro in den Zustand „{spell,24510,1::Telefrag}“ versetzt wird. Der Schaden verringert sich nicht mit der Entfernung.\n\nSie wird geheilt, und der von ihr verursachte Endschaden wird bei jedem vom Zaubernden erzeugten „{spell,24510,1::Telefrag}“ erhöht.\nDiese Wirkung kann nur einmal pro Runde und einmal pro Zauber ausgelöst werden.\n\nDie Synchro ist gegen die Zauber „Mumifizierung“ und „Einbalsamieren“ immun und kann nicht mit dem Zauber „Zurückspulen“ aktiviert werden.\n\nJedes Team kann immer nur eine Synchro haben. Ist die Synchro noch aktiv und wird erneut beschworen, wird die alte zerstört und macht Platz für die neue.",
+    "en": "Summons a static Synchro that dies and inflicts Air damage on enemies in a 3-cell circle when it enters the {spell,24510,1::Telefrag} state. Damage does not decrease with distance.\n\nIt is healed and its final damage inflicted increases with each {spell,24510,1::Telefrag} generated by the caster.\nThis effect can only be triggered 1 time per turn and 1 time per spell.\n\nThe Synchro is immune to the Mummification and Embalming spells and cannot be activated with the Rewind spell.\n\nThere can only be one Synchro per team. If the Synchro is still on the field when summoned again, the old one is destroyed to make room for the new one.",
+    "es": "Invoca una syncro estática que muere ocasionando daños de aire a los enemigos en un círculo de 3 casillas cuando entra en el estado {spell,24510,1::Telefrag}. Los daños no disminuyen con la distancia.\n\nSe cura, y los daños finales que cause aumentan con cada {spell,24510,1::telefrag} generado por el lanzador.\nEste efecto solo puede activarse una vez por turno, y solo una vez por hechizo.\n\nLa syncro es inmune a los hechizos Momificación y Embalsamamiento, y no es posible activarla con el hechizo Rebobinamiento.\n\nSolo puede haber una syncro por equipo. Si la syncro está aún presente y vuelve a ser invocada, la anterior se destruye y se sustituye por la nueva.",
+    "fr": "Invoque une Synchro statique qui meurt en occasionnant des dommages Air aux ennemis dans un cercle de 3 cases lorsqu'elle entre dans l'état {spell,24510,1::Téléfrag}. Les dommages ne diminuent pas avec la distance.\n\nElle est soignée et ses dommages finaux occasionnés sont augmentés pour chaque {spell,24510,1::Téléfrag} qui est généré par le lanceur.\nCet effet ne peut être déclenché qu'une fois par tour, et qu'une fois par sort.\n\nLa Synchro est immunisée contre les sorts Momification et Embaumement, et ne peut pas s'activer avec le sort Rembobinage.\n\nIl ne peut y avoir qu'une seule Synchro par équipe. Si la Synchro est encore présente et que celle-ci est ré-invoquée, l'ancienne est détruite pour laisser place à la nouvelle.",
+    "pt": "Invoca uma Sincro estática que morre infligindo danos de ar aos inimigos em um círculo de 3 células quando ela entra no estado {spell,24510,1::Telefrag}. Os danos não diminuem com a distância.\n\nEla é curada e os danos finais infligidos são aumentados a cada {spell,24510,1::Telefrag} gerado pelo lançador.\nEsse efeito pode ser acionado somente uma vez por turno e por feitiço.\n\nA Sincro é imunizada contra os feitiços Mumificação e Embalsamamento e não pode ser ativada com o feitiço Rebobinando.\n\nSó pode haver uma Sincro por equipe. Se a Sincro ainda estiver presente e for invocada de novo, a antiga será destruída para dar lugar à nova."
    },
    "id": 13247,
    "kind": {
@@ -9420,11 +9420,11 @@
   },
   {
    "description": {
-    "de": "Erhöht Ausweichen des anvisierten Verbündeten.\nTeleportiert das Ziel in der nächsten Runde an seine vorherige Position.\n\nDie Effekte können nicht mithilfe eines Zaubers aufgehoben werden.\n\nKann den Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "Increases the targeted ally's Dodge.\nTeleports the target back to its previous position on the following turn.\n\nThe effects cannot be unbewitched.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "Aumenta la huida del aliado objetivo.\nTeletransporta al objetivo a su posición anterior en el siguiente turno.\n\nLos efectos no se pueden desembrujar.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Augmente la Fuite de l'allié ciblé.\nTéléporte la cible à sa position précédente au tour suivant.\n\nLes effets ne peuvent pas être désenvoûtés.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Aumenta a fuga do aliado visado.\nTeletransporta o alvo de volta à sua posição anterior no turno seguinte.\n\nOs efeitos não podem ser retirados.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Erhöht Ausweichen des anvisierten Verbündeten.\nTeleportiert das Ziel in der nächsten Runde an seine vorherige Position.\n\nDie Effekte können nicht mithilfe eines Zaubers aufgehoben werden.\n\nKann den Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "Increases the targeted ally's Dodge.\nTeleports the target back to its previous position on the following turn.\n\nThe effects cannot be unbewitched.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "Aumenta la huida del aliado objetivo.\nTeletransporta al objetivo a su posición anterior en el siguiente turno.\n\nLos efectos no se pueden desembrujar.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Augmente la Fuite de l'allié ciblé.\nTéléporte la cible à sa position précédente au tour suivant.\n\nLes effets ne peuvent pas être désenvoûtés.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "Aumenta a fuga do aliado visado.\nTeletransporta o alvo de volta à sua posição anterior no turno seguinte.\n\nOs efeitos não podem ser retirados.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13251,
    "kind": {
@@ -9444,11 +9444,11 @@
   },
   {
    "description": {
-    "de": "Entzieht Leben im Element Wasser.\n\nBei einem Gegner im Zustand „Telefrag“ werden Lebenspunkte im Element Wasser und AP (1 Mal kumulierbar) entzogen.\n\nDer Zaubernde erhält in der nächsten Runde 1 AP.\n\nDer Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} wird verbraucht.",
-    "en": "Steals HP in the Water element.\n\nOn an enemy in the Telefrag state: steals HP in the Water element and removes AP (stackable 1 time).\n\nGives the caster 1 AP on the following turn.\n\nConsumes the {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} state.",
-    "es": "Roba vida con el elemento agua.\n\nEn un enemigo bajo el estado Telefrag: roba vida con el elemento agua y retira PA (acumulable 1 vez).\n\nDa 1 PA al lanzador en el siguiente turno.\n\nConsume el estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "fr": "Vole de la vie dans l'élément Eau.\n\nSur un ennemi dans l'état Téléfrag : vole de la vie dans l'élément Eau et retire des PA (cumulable 1 fois).\n\nDonne 1 PA au lanceur au tour suivant.\n\nConsomme l'état {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Rouba vida no elemento água.\n\nEm um inimigo no estado Telefrag: rouba vida no elemento água e retira PA (acumula 1 vez).\n\nDá 1 PA ao lançador no turno seguinte.\n\nConsome o estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Entzieht Leben im Element Wasser.\n\nBei einem Gegner im Zustand „Telefrag“ werden Lebenspunkte im Element Wasser und AP (1 Mal kumulierbar) entzogen.\n\nDer Zaubernde erhält in der nächsten Runde 1 AP.\n\nDer Zustand {spell,24510,1::„Telefrag“} wird verbraucht.",
+    "en": "Steals HP in the Water element.\n\nOn an enemy in the Telefrag state: steals HP in the Water element and removes AP (stackable 1 time).\n\nGives the caster 1 AP on the following turn.\n\nConsumes the {spell,24510,1::Telefrag} state.",
+    "es": "Roba vida con el elemento agua.\n\nEn un enemigo bajo el estado Telefrag: roba vida con el elemento agua y retira PA (acumulable 1 vez).\n\nDa 1 PA al lanzador en el siguiente turno.\n\nConsume el estado {spell,24510,1::Telefrag}.",
+    "fr": "Vole de la vie dans l'élément Eau.\n\nSur un ennemi dans l'état Téléfrag : vole de la vie dans l'élément Eau et retire des PA (cumulable 1 fois).\n\nDonne 1 PA au lanceur au tour suivant.\n\nConsomme l'état {spell,24510,1::Téléfrag}.",
+    "pt": "Rouba vida no elemento água.\n\nEm um inimigo no estado Telefrag: rouba vida no elemento água e retira PA (acumula 1 vez).\n\nDá 1 PA ao lançador no turno seguinte.\n\nConsome o estado {spell,24510,1::Telefrag}."
    },
    "id": 13256,
    "kind": {
@@ -9468,11 +9468,11 @@
   },
   {
    "description": {
-    "de": "Fügt Gegnern im Wirkungsbereich Erdschaden zu.\nBei Zielen im Zustand „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“ wird der Schaden erhöht.\n\nVerbraucht die „{spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}“-Zustände der Ziele.",
-    "en": "Inflicts Earth damage on enemies in an area of effect.\nDamage is greater on targets in the {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} state.\n\nConsumes the targets' {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} states.",
-    "es": "Ocasiona daños de tierra a los enemigos en zona.\nLos daños son mayores en los objetivos con el estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.\n\nConsume los estados {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} de los objetivos.",
-    "fr": "Occasionne des dommages Terre aux ennemis en zone.\nLes dommages sont plus importants sur les cibles dans l'état {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.\n\nConsomme les états {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>} des cibles.",
-    "pt": "Inflige danos de terra aos inimigos em zona.\nOs danos são maiores nos alvos no estado {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.\n\nConsome os estados {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>} dos alvos."
+    "de": "Fügt Gegnern im Wirkungsbereich Erdschaden zu.\nBei Zielen im Zustand „{spell,24510,1::Telefrag}“ wird der Schaden erhöht.\n\nVerbraucht die „{spell,24510,1::Telefrag}“-Zustände der Ziele.",
+    "en": "Inflicts Earth damage on enemies in an area of effect.\nDamage is greater on targets in the {spell,24510,1::Telefrag} state.\n\nConsumes the targets' {spell,24510,1::Telefrag} states.",
+    "es": "Ocasiona daños de tierra a los enemigos en zona.\nLos daños son mayores en los objetivos con el estado {spell,24510,1::Telefrag}.\n\nConsume los estados {spell,24510,1::Telefrag} de los objetivos.",
+    "fr": "Occasionne des dommages Terre aux ennemis en zone.\nLes dommages sont plus importants sur les cibles dans l'état {spell,24510,1::Téléfrag}.\n\nConsomme les états {spell,24510,1::Téléfrag} des cibles.",
+    "pt": "Inflige danos de terra aos inimigos em zona.\nOs danos são maiores nos alvos no estado {spell,24510,1::Telefrag}.\n\nConsome os estados {spell,24510,1::Telefrag} dos alvos."
    },
    "id": 13253,
    "kind": {
@@ -9516,11 +9516,11 @@
   },
   {
    "description": {
-    "de": "Platziert eine Monofeld-Falle, die die Einheiten symmetrisch zur Falle in einem Umkreis von 2 Feldern teleportiert.\n\nKann einen Zustand {spell,24510,1::<font color=\"#ebc304\">„Telefrag“</font>} erzeugen.",
-    "en": "Places a single-cell trap that teleports entities symmetrically in relation to the trap in a 2-cell circle.\n\nCan generate a {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}.",
-    "es": "Pone una trampa monocasilla que teletransporta a las entidades simétricamente con respecto a la trampa en un círculo de 2 casillas.\n\nPuede generar un {spell,24510,1::<font color=\"#ebc304\">telefrag</font>}.",
-    "fr": "Pose un piège mono-cellule qui téléporte les entités symétriquement par rapport au piège dans un cercle de 2 cases.\n\nPeut générer un {spell,24510,1::<font color=\"#ebc304\">Téléfrag</font>}.",
-    "pt": "Coloca uma armadilha de alvo único que teletransporta as entidades simetricamente em relação à armadilha em um círculo de 2 células.\n\nPode gerar um {spell,24510,1::<font color=\"#ebc304\">Telefrag</font>}."
+    "de": "Platziert eine Monofeld-Falle, die die Einheiten symmetrisch zur Falle in einem Umkreis von 2 Feldern teleportiert.\n\nKann einen Zustand {spell,24510,1::„Telefrag“} erzeugen.",
+    "en": "Places a single-cell trap that teleports entities symmetrically in relation to the trap in a 2-cell circle.\n\nCan generate a {spell,24510,1::Telefrag}.",
+    "es": "Pone una trampa monocasilla que teletransporta a las entidades simétricamente con respecto a la trampa en un círculo de 2 casillas.\n\nPuede generar un {spell,24510,1::telefrag}.",
+    "fr": "Pose un piège mono-cellule qui téléporte les entités symétriquement par rapport au piège dans un cercle de 2 cases.\n\nPeut générer un {spell,24510,1::Téléfrag}.",
+    "pt": "Coloca uma armadilha de alvo único que teletransporta as entidades simetricamente em relação à armadilha em um círculo de 2 células.\n\nPode gerar um {spell,24510,1::Telefrag}."
    },
    "id": 13296,
    "kind": {

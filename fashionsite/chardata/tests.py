@@ -12716,6 +12716,33 @@ class SpellVariantTests(TestCase):
                 self.assertEqual(armed.setdefault(variant, name), name,
                                  '%s casts both faces of a pair' % char_class)
 
+    def test_a_class_full_of_buffs_does_not_stall_the_page(self):
+        # The Huppermage buffs with nearly every spell, and its turn took four
+        # seconds: 781000 damage computations, almost all of them the same one
+        # over again. The count is what to watch, not the clock, which moves
+        # with whatever else the machine is doing.
+        from unittest import mock
+        from fashionistapulp.structure import get_structure
+        from chardata.spell_combo import best_turn, castable_spells
+        import chardata.spell_combo as spell_combo
+
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 400, 'int': 400, 'cha': 400, 'agi': 400,
+                      'pow': 100, 'dam': 40, 'ch': 20})
+        spells = castable_spells('Huppermage', 200, 'dofus3')
+        self.assertGreater(len(spells), 25)
+        real = spell_combo.calculate_damage
+        calls = []
+        def counted(*args, **kwargs):
+            calls.append(1)
+            return real(*args, **kwargs)
+        with mock.patch.object(spell_combo, 'calculate_damage', counted):
+            total, order = best_turn(stats, spells, 12, game_version='dofus3')
+        self.assertTrue(order)
+        self.assertGreater(total, 0)
+        # About 7600 today; anything near the old six figures is the bug back.
+        self.assertLess(len(calls), 50000)
+
     def test_the_constraint_costs_the_turn_only_the_illegal_cast(self):
         # A fixture where the rule bites: unconstrained, the best Rogue turn
         # chains Musket and Shot Pellets, which are the two faces of one
@@ -12866,6 +12893,36 @@ class SpellReferenceTests(TestCase):
         # No spell is listed twice.
         names = [digest['name'] for digest in digests]
         self.assertEqual(len(names), len(set(names)))
+
+    def test_no_description_ships_the_client_markup(self):
+        # The game writes a spell reference as {{spell,23876,1::Elemental
+        # Combinations}}, an element icon as <sprite name="terre"> and colours
+        # as rich text. All of it used to be printed raw.
+        import re
+        from chardata.spell_reference import get_spell_reference
+        markup = re.compile(r'\{\{|<[a-zA-Z/][^>]{0,24}>')
+        for version in self.NUMBERED + ('dofus2',):
+            offenders = []
+            for block in get_spell_reference(version).values():
+                for spell in block:
+                    for key in ('name', 'description', 'kind'):
+                        for text in (spell.get(key) or {}).values():
+                            if markup.search(text or ''):
+                                offenders.append((spell['name'].get('en'), text))
+            self.assertEqual(offenders[:3], [], version)
+
+    def test_a_reference_still_names_what_it_points_at(self):
+        # Stripping the markup must keep the label, not swallow the sentence.
+        from chardata.spell_reference import get_spell_reference
+        found = False
+        for block in get_spell_reference('dofus3').values():
+            for spell in block:
+                english = spell.get('description', {}).get('en') or ''
+                if spell['name'].get('en') == 'Ether':
+                    found = True
+                    self.assertIn('Elemental Combinations', english)
+                    self.assertNotIn('{{', english)
+        self.assertTrue(found)
 
     def test_the_labels_over_a_damage_block_are_translated(self):
         # "Hit in best element", "Stack 2" and "4 MP used this turn" are built

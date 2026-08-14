@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -47,6 +48,32 @@ CLASS_ID_TO_NAME = {
 }
 
 
+# The client writes its own markup inside the text: a spell reference as
+# {{spell,id,rank::label}}, an element icon as <sprite name="terre">, and Unity
+# rich text for emphasis and colour. The label of a reference is the readable
+# part, the icon always sits in front of the word it illustrates, and the rest
+# is decoration, so the text keeps only what a reader needs.
+_SPELL_REFERENCE = re.compile(r'\{\{\s*spell\s*,[^:}]*::(.*?)\}\}', re.S)
+_SPRITE = re.compile(r'<sprite[^>]*>')
+_RICH_TEXT = re.compile(r'</?(?:b|i|u|strong|em|color|size|font)\b[^>]*>', re.I)
+_SPACES = re.compile(r'[ \t]{2,}')
+
+
+def clean_text(text):
+    """The game's own words, with the client's markup taken out."""
+    if not text:
+        return ''
+    cleaned = _SPELL_REFERENCE.sub(lambda match: match.group(1), text)
+    cleaned = _SPRITE.sub('', cleaned)
+    cleaned = _RICH_TEXT.sub('', cleaned)
+    cleaned = _SPACES.sub(' ', cleaned)
+    return '\n'.join(line.strip() for line in cleaned.split('\n')).strip()
+
+
+def _clean_map(values):
+    return {lang: clean_text(text) for lang, text in (values or {}).items()}
+
+
 def _rank_values(levels, key, transform=None):
     """One value per rank, or None when the source never states it."""
     out = []
@@ -57,6 +84,9 @@ def _rank_values(levels, key, transform=None):
 
 
 def _drop_empty(spell):
+    for key in ('name', 'description', 'kind'):
+        if key in spell:
+            spell[key] = _clean_map(spell[key])
     return {key: value for key, value in spell.items() if value not in (None, {})}
 
 

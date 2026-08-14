@@ -993,7 +993,7 @@
     40
    ],
    "description": {
-    "de": "Senkt die Reichweite der Ziele und stiehlt LP im Element Wasser. \n",
+    "de": "Senkt die Reichweite der Ziele und stiehlt LP im Element Wasser.",
     "en": "Reduces the range of targeted characters and steals life through Water-type damage.",
     "es": "El hechizo Ojo de Topo permite disminuir el alcance de los hechizos de los personajes objetivo y roba la vida con el elemento agua.",
     "fr": "Réduit la portée des personnages ciblés et vole de la vie dans l'élément Eau.",
@@ -1654,7 +1654,7 @@
     20
    ],
    "description": {
-    "de": "Ecaflips Schicksal verursacht Erd-Schaden. Bei einem kritischen Treffer verliert der Gegner zusätzlich auch noch einen BP für mehrere Runden. \n",
+    "de": "Ecaflips Schicksal verursacht Erd-Schaden. Bei einem kritischen Treffer verliert der Gegner zusätzlich auch noch einen BP für mehrere Runden.",
     "en": "Fate of Ecaflip inflicts Earth-type damage. It can decrease an enemy's MP by one for several turns in the case of a critical hit.",
     "es": "Destino de Zurcarák causa daños de tierra y le quita un PM a un enemigo durante varios turnos si se logra un golpe crítico.",
     "fr": "Le Destin d'Ecaflip inflige des dégâts de Terre et enlève un PM pendant plusieurs tours à un ennemi sur un coup critique.",
@@ -1788,7 +1788,7 @@
     45
    ],
    "description": {
-    "de": "Die Klaue von Ceangal verursacht Erd-Schaden. Bei einem kritischen Treffer verliert der Gegner zusätzlich auch noch einen AP für mehrere Runden. \n",
+    "de": "Die Klaue von Ceangal verursacht Erd-Schaden. Bei einem kritischen Treffer verliert der Gegner zusätzlich auch noch einen AP für mehrere Runden.",
     "en": "Claw of Ceangal inflicts Earth-type damage. It can decrease an enemy's AP for several turns in case of a critical hit.",
     "es": "Garra de Ceangal causa daños de tierra y puede hacer perder un PA durante varios turnos si se logra un golpe crítico.",
     "fr": "La Griffe de Ceangal inflige des dégâts de terre et peut faire perdre un PA pour plusieurs tours sur un coup critique.",
@@ -3309,7 +3309,7 @@
     45
    ],
    "description": {
-    "de": "Wort der Stille senkt beträchtlich die AP von Kreaturen innerhalb des Wirkungsbereiches. \n",
+    "de": "Wort der Stille senkt beträchtlich die AP von Kreaturen innerhalb des Wirkungsbereiches.",
     "en": "Word of Silence considerably reduces the AP of anyone caught in its area of effect.",
     "es": "Palabra de Silencio reduce de forma considerable los PA de todo aquel que se encuentre en su zona de efecto.",
     "fr": "Le Mot de Silence réduit considérablement les PA de tous ceux qui se trouvent dans sa zone d'effet..",
@@ -4046,7 +4046,7 @@
     "de": "Entziehendes Wort entzieht Gegnern AP, allerdings verursacht es auch Schaden beim Zaubernden.",
     "en": "Draining Word reduces enemies' AP but also damages the caster.",
     "es": "Palabra Drenaje hace que los enemigos pierdan PA, pero hiere al lanzador del hechizo.",
-    "fr": "Le Mot Drainant fait perdre des PA aux ennemis, mais blesse le lanceur du sort. \n",
+    "fr": "Le Mot Drainant fait perdre des PA aux ennemis, mais blesse le lanceur du sort.",
     "pt": "Drenar faz com que os inimigos percam PA, porém causa danos ao conjurador."
    },
    "id": 123,
@@ -4201,7 +4201,7 @@
     50
    ],
    "description": {
-    "de": "Stimulierendes Wort erhöht die AP mehrerer Verbündeter,  fügt jedoch dem Zaubernden Schaden zu.",
+    "de": "Stimulierendes Wort erhöht die AP mehrerer Verbündeter, fügt jedoch dem Zaubernden Schaden zu.",
     "en": "Stimulating Word can increase the AP of several players but injures the caster.",
     "es": "Palabra Estimulante aumenta los PA de varios jugadores, pero hiere al lanzador del hechizo.",
     "fr": "Le Mot Stimulant peut augmenter les PA de plusieurs joueurs, mais blesse le lanceur.",
@@ -10141,7 +10141,7 @@
     "de": "Dieser Zauberspruch senkt den Schaden, den beschworene Kreaturen von Gegnern erhalten oder in geringerem Ausmaß den Schaden von Verbündeten.",
     "en": "Toad reduces damage taken by summons and, to a lesser extent, allies.",
     "es": "Sapo permite reducir los daños recibidos por las invocaciones y, en menor medida, de los aliados.",
-    "fr": "Le Crapaud permet de réduire les dommages reçus par les invocations et dans une moindre mesure, par les alliés. \n",
+    "fr": "Le Crapaud permet de réduire les dommages reçus par les invocations et dans une moindre mesure, par les alliés.",
     "pt": "O Sapo reduz os danos recebidos por invocações, e em menor escala, aliados."
    },
    "id": 28,
@@ -11263,7 +11263,7 @@
     "de": "Erdschwäche senkt die gegnerische Resistenz gegen Erdangriffe.",
     "en": "This spell decreases Earth resistance.",
     "es": "Este hechizo permite rebajar las resistencias de tierra de un enemigo.",
-    "fr": "Ce sort permet de baisser les resistances \"Terre\" d'un ennemi. \n",
+    "fr": "Ce sort permet de baisser les resistances \"Terre\" d'un ennemi.",
     "pt": "Com este feitiço, o conjurador pode diminuir a resistência a Terra dos inimigos."
    },
    "id": 697,
@@ -11398,7 +11398,7 @@
     "en": "This spell enables its caster to stand firm (meaning that the caster can't be repelled, tackled but cannot tackle the enemy either).",
     "es": "Este hechizo hace que su lanzador ya no sea ni empujado ni placado, pero también le impide placar a sus enemigos.",
     "fr": "Ce sort permet de ne plus être repoussé, et de ne plus être taclé, mais empêche de tacler ses adversaires.",
-    "pt": "Este feitiço permite que o conjurador agüente firme (quer dizer que ele não poderá ser repelido nem obstruído pelo inimigo)  ."
+    "pt": "Este feitiço permite que o conjurador agüente firme (quer dizer que ele não poderá ser repelido nem obstruído pelo inimigo) ."
    },
    "id": 695,
    "levels": [
@@ -11464,7 +11464,7 @@
     "de": "Luftschwäche senkt die gegnerische Resistenz gegen Luftangriffe.",
     "en": "This spell decreases Air resistance.",
     "es": "Este hechizo permite rebajar las resistencias de tipo aire de un enemigo.",
-    "fr": "Ce sort permet de baisser les resistances \"Air\" d'un ennemi. \n",
+    "fr": "Ce sort permet de baisser les resistances \"Air\" d'un ennemi.",
     "pt": "Com este feitiço, o conjurador pode diminuir a resistência a Ar dos inimigos."
    },
    "id": 694,
@@ -11657,7 +11657,7 @@
     "de": "Wasserschwäche senkt die gegnerische Resistenz gegen Wasserangriffe.",
     "en": "This spell decreases the enemy's Water resistance.",
     "es": "Este hechizo disminuye la resistencia de tipo agua de un enemigo.",
-    "fr": "Ce sort permet de baisser les résistances \"Eau\" d'un ennemi. \n",
+    "fr": "Ce sort permet de baisser les résistances \"Eau\" d'un ennemi.",
     "pt": "Com este feitiço, o conjurador pode diminuir a resistência a Água dos inimigos."
    },
    "id": 691,
@@ -13289,7 +13289,7 @@
     "en": "Allows the caster to dodge a close combat attack.",
     "es": "Este hechizo le permite que su lanzador esquive los ataques cuerpo a cuerpo.",
     "fr": "Permet d'esquiver une attaque lancée au corps à corps.",
-    "pt": "Permite ao conjurador  se esquivar em um combate."
+    "pt": "Permite ao conjurador se esquivar em um combate."
    },
    "id": 444,
    "levels": [
@@ -13772,7 +13772,7 @@
     50
    ],
    "description": {
-    "de": "Buschfeuer verursacht sowohl Feuer-, als auch Wasser-Schaden. \n",
+    "de": "Buschfeuer verursacht sowohl Feuer-, als auch Wasser-Schaden.",
     "en": "This spell inflicts Fire and Water-type damage.",
     "es": "Este hechizo permite causar daños de tipo fuego y agua.",
     "fr": "Ce sort permet d'infliger des dégâts de type Feu et Eau.",
@@ -13914,7 +13914,7 @@
     45
    ],
    "description": {
-    "de": "Aggressive Ranken verursachen erheblichen Schaden, können allerdings nicht jede Runde beschworen werden. \n",
+    "de": "Aggressive Ranken verursachen erheblichen Schaden, können allerdings nicht jede Runde beschworen werden.",
     "en": "Aggressive Brambles inflict serious damage but can be cast only once per turn.",
     "es": "Zarzas Agresivas causa enormes daños pero dependiendo del nivel del hechizo solamente se pueden lanzar de vez en cuando.",
     "fr": "Les Ronces Agressives infligent d'énormes dégâts, mais ne peuvent pas être utilisées à chaque tour.",
@@ -13992,7 +13992,7 @@
     "de": "Aufblaspüppchen erhöht die BP des Zaubernden und kann diesen oder einen seiner Verbündeten heilen.",
     "en": "The Inflatable Doll increases MP and can heal the caster or one of his allies.",
     "es": "La Hinchable aumenta los puntos de movimiento y puede curar a un aliado o al lanzador del hechizo.",
-    "fr": "La Poupée Gonflable augmente les points de mouvement et peut guérir un allié ou le  lanceur.",
+    "fr": "La Poupée Gonflable augmente les points de mouvement et peut guérir un allié ou le lanceur.",
     "pt": "A Inflável aumenta os PM e pode curar o conjurar ou um de seus aliados."
    },
    "id": 190,
@@ -14074,7 +14074,7 @@
    "description": {
     "de": "Giftiger Windstrom vergiftet alle Kampfteilnehmer im Wirkungsbereich und reduziert für die Dauer mehrerer Runden ihre Intelligenz.",
     "en": "Poisoned Wind poisons all the players in the area of effect and decreases their intelligence for several turns.",
-    "es": "Viento Envenenado intoxica a todos los jugadores  presentes en la zona, sean amigo o enemigos y les quita inteligencia durante varios turnos.",
+    "es": "Viento Envenenado intoxica a todos los jugadores presentes en la zona, sean amigo o enemigos y les quita inteligencia durante varios turnos.",
     "fr": "Le Vent Empoisonné empoisonne tous les joueurs présents dans la zone, amis comme ennemis, et leur retire de l'intelligence pendant plusieurs tours.",
     "pt": "Vento Envenenado envenena todos os jogadores na área de efeito e faz com eles percam inteligência por vários turnos."
    },
@@ -14905,7 +14905,7 @@
     50
    ],
    "description": {
-    "de": "Lähmgift verursacht Schaden sobald AP ausgegeben werden. \n",
+    "de": "Lähmgift verursacht Schaden sobald AP ausgegeben werden.",
     "en": "Paralyzing Poison deals Fire-type damage when an enemy next uses AP.",
     "es": "Veneno Paralizante causará daños de fuego cuando se utilicen PA.",
     "fr": "Le Poison Paralysant inflige des dégâts de Feu lorsque des PA sont utilisés.",
@@ -15845,7 +15845,7 @@
     "de": "Die Giftfalle vergiftet denjenigen, der die Falle auslöst.",
     "en": "Poisoned Trap poisons the player who sets it off.",
     "es": "Trampa Envenenada intoxica al jugador que la active.",
-    "fr": "Le Piège Empoisonné empoisonne le joueur qui le déclenche. \n",
+    "fr": "Le Piège Empoisonné empoisonne le joueur qui le déclenche.",
     "pt": "Armadilha Envenenada envenena um jogador que ativá-la."
    },
    "id": 71,
@@ -16876,7 +16876,7 @@
     "de": "Durch diesen Zauberspruch kann sich der Zaubernde in eine Mumie verwandeln, um einige Resistenzen zu erhalten.",
     "en": "This spell turns the caster into a mummy with increased resistances.",
     "es": "Con Momificación, el lanzador se transforma en momia para conseguir ciertas resistencias.",
-    "fr": "Ce sort permet  à son lanceur de se transformer en momie pour bénéficier de certaines résistances.",
+    "fr": "Ce sort permet à son lanceur de se transformer en momie pour bénéficier de certaines résistances.",
     "pt": "Este feitiço transforma o conjurador em uma múmia para conseguir mais resistência."
    },
    "id": 99,
@@ -17343,7 +17343,7 @@
    ],
    "description": {
     "de": "Zeitstaub verursacht Feuer-Schaden und entzieht mehreren Charakteren AP.",
-    "en": "Temporal Dust inflicts damage and reduces the AP of  several players.",
+    "en": "Temporal Dust inflicts damage and reduces the AP of several players.",
     "es": "Polvo Temporal causa daños de fuego y hace perder PA a varios jugadores.",
     "fr": "La Poussière Temporelle inflige des dégâts de Feu et fait perdre des PA à plusieurs joueurs.",
     "pt": "Poeira Temporal inflige danos e faz vários personagens perderem PA."
