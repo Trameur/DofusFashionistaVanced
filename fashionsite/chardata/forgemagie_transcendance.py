@@ -24,9 +24,14 @@ def _load():
     return _CACHE
 
 
+# The 2.x client ships the Ta/Pata/Rata names too; Touch forked before them and
+# Retro never had them.
+_RULESETS_WITH_TRANSCENDENCE = ('modern', 'dofus2')
+
+
 def get_transcendence_runes(game_version):
-    """List of transcendence runes for this version (empty outside 'modern')."""
-    if get_ruleset(game_version) != 'modern':
+    """List of transcendence runes for this version (empty where it has none)."""
+    if get_ruleset(game_version) not in _RULESETS_WITH_TRANSCENDENCE:
         return []
     return _load()['runes']
 

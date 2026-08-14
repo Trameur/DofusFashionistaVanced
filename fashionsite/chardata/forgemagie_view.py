@@ -24,7 +24,7 @@ from django.utils import translation
 
 from chardata.forgemagie_data import (
     MAGEABLE_TYPES, ONE_PERCENT_EXO_STATS, OVER_WEIGHT_CAP,
-    get_fm_stats, get_ruleset,
+    get_fm_stats, get_no_stat_runes, get_ruleset,
 )
 from chardata.forgemagie_transcendance import get_transcendence_by_stat
 from chardata.image_store import get_image_url
@@ -42,6 +42,7 @@ LOCALIZED_UI = {
         'title': 'Smithmagic Lab',
         'subtitle': 'Plan your maging: sink math, rune counts and risk for this game version.',
         'version_note_modern': 'Values for the current PC game (Dofus 2 / Dofus 3).',
+        'version_note_dofus2': 'Values for Dofus 2, which has no Ra rune for the elemental resists or critical resist, and no Pa rune for reflect.',
         'version_note_touch': 'Values for Dofus Touch, which kept the pre-2.29 weights: Vi runes give +3/+10/+30, Crit weighs 30, Heal weighs 20.',
         'version_note_retro': 'Values for Dofus Retro 1.29: fixed resists weigh 5, % resists 4, Reflects 30, Trap damage 15.',
         'search_label': 'Item',
@@ -141,7 +142,15 @@ LOCALIZED_UI = {
         'quality_amazing': 'amazing',
         'quality_perfect': 'perfect',
         'quality_overperfect': 'beyond perfect',
-        'ref_hunt_note': 'Special case: the Hunting rune adds no stat - it turns a weapon into a hunting weapon.',
+        'nostat_title': 'Runes that raise no characteristic',
+        'nostat_rune': 'Rune',
+        'nostat_what': 'What it does',
+        'nostat_weight': 'Weight',
+        'nostat_unknown': 'not known for this version',
+        'rune_hunting': 'Hunting Rune',
+        'rune_hunting_what': 'Turns a weapon into a hunting weapon, the kind that brings meat back from a fight.',
+        'rune_signature': 'Signature Rune',
+        'rune_signature_what': 'Signs the item with its crafter’s name. It goes in with the ingredients when the item is crafted, never during smithmagic.',
         'inv_save': 'Save to my inventory',
         'inv_save_smithed': 'Save the smithed item to my inventory',
         'inv_new_folder': 'New folder…',
@@ -162,6 +171,7 @@ LOCALIZED_UI = {
         'title': 'Atelier de Forgemagie',
         'subtitle': 'Planifiez vos FM : calcul du puits, nombre de runes et risque pour cette version du jeu.',
         'version_note_modern': 'Valeurs pour le jeu PC actuel (Dofus 2 / Dofus 3).',
+        'version_note_dofus2': 'Valeurs pour Dofus 2, qui n’a pas de rune Ra pour les résistances élémentaires ni pour la résistance critique, ni de rune Pa pour le renvoi.',
         'version_note_touch': 'Valeurs pour Dofus Touch, qui a conservé les poids d’avant la 2.29 : runes Vi +3/+10/+30, Critique au poids 30, Soin au poids 20.',
         'version_note_retro': 'Valeurs pour Dofus Retro 1.29 : résistances fixes au poids 5, % résistances 4, Renvoi de dommages 30, Dommages aux pièges 15.',
         'search_label': 'Objet',
@@ -261,7 +271,15 @@ LOCALIZED_UI = {
         'quality_amazing': 'incroyable',
         'quality_perfect': 'parfait',
         'quality_overperfect': 'plus que parfait',
-        'ref_hunt_note': 'Cas particulier : la rune de chasse n’ajoute aucune stat - elle transforme une arme en arme de chasse.',
+        'nostat_title': 'Runes qui ne montent aucune caractéristique',
+        'nostat_rune': 'Rune',
+        'nostat_what': 'Ce qu’elle fait',
+        'nostat_weight': 'Poids',
+        'nostat_unknown': 'inconnu pour cette version',
+        'rune_hunting': 'Rune de chasse',
+        'rune_hunting_what': 'Transforme une arme en arme de chasse, celle qui ramène de la viande d’un combat.',
+        'rune_signature': 'Rune de Signature',
+        'rune_signature_what': 'Signe l’objet du nom de son artisan. Elle se met avec les ingrédients à la fabrication, jamais en forgemagie.',
         'inv_save': 'Sauvegarder dans mon inventaire',
         'inv_save_smithed': 'Sauvegarder l’objet forgemagé dans mon inventaire',
         'inv_new_folder': 'Nouveau dossier…',
@@ -282,6 +300,7 @@ LOCALIZED_UI = {
         'title': 'Taller de Forjamagia',
         'subtitle': 'Planifica tu forjamagia: cálculo del pozo, cantidad de runas y riesgo para esta versión del juego.',
         'version_note_modern': 'Valores para el juego de PC actual (Dofus 2 / Dofus 3).',
+        'version_note_dofus2': 'Valores para Dofus 2, que no tiene runa Ra para las resistencias elementales ni para la resistencia crítica, ni runa Pa para el reenvío.',
         'version_note_touch': 'Valores para Dofus Touch, que conservó los pesos anteriores a la 2.29: runas Vi +3/+10/+30, Crítico con peso 30, Curación con peso 20.',
         'version_note_retro': 'Valores para Dofus Retro 1.29: resistencias fijas con peso 5, % resistencias 4, Reenvío de daños 30, Daños de trampa 15.',
         'search_label': 'Objeto',
@@ -381,7 +400,15 @@ LOCALIZED_UI = {
         'quality_amazing': 'increíble',
         'quality_perfect': 'perfecta',
         'quality_overperfect': 'más que perfecta',
-        'ref_hunt_note': 'Caso especial: la runa de caza no añade ninguna característica - convierte un arma en arma de caza.',
+        'nostat_title': 'Runas que no suben ninguna característica',
+        'nostat_rune': 'Runa',
+        'nostat_what': 'Qué hace',
+        'nostat_weight': 'Peso',
+        'nostat_unknown': 'desconocido en esta versión',
+        'rune_hunting': 'Runa de caza',
+        'rune_hunting_what': 'Convierte un arma en arma de caza, la que trae carne de un combate.',
+        'rune_signature': 'Runa de firma',
+        'rune_signature_what': 'Firma el objeto con el nombre de su artesano. Se añade con los ingredientes al fabricarlo, nunca en la forjamagia.',
         'inv_save': 'Guardar en mi inventario',
         'inv_save_smithed': 'Guardar el objeto forjado en mi inventario',
         'inv_new_folder': 'Nueva carpeta…',
@@ -402,6 +429,7 @@ LOCALIZED_UI = {
         'title': 'Oficina de Forjamagia',
         'subtitle': 'Planeje sua forjamagia: cálculo do poço, quantidade de runas e risco para esta versão do jogo.',
         'version_note_modern': 'Valores para o jogo de PC atual (Dofus 2 / Dofus 3).',
+        'version_note_dofus2': 'Valores para o Dofus 2, que não tem runa Ra para as resistências elementares nem para a resistência crítica, nem runa Pa para o reenvio.',
         'version_note_touch': 'Valores para o Dofus Touch, que manteve os pesos anteriores à 2.29: runas Vi +3/+10/+30, Crítico com peso 30, Cura com peso 20.',
         'version_note_retro': 'Valores para o Dofus Retro 1.29: resistências fixas com peso 5, % resistências 4, Reenvio de danos 30, Danos de armadilha 15.',
         'search_label': 'Item',
@@ -501,7 +529,15 @@ LOCALIZED_UI = {
         'quality_amazing': 'incrível',
         'quality_perfect': 'perfeita',
         'quality_overperfect': 'além do perfeito',
-        'ref_hunt_note': 'Caso especial: a runa de caça não adiciona nenhum atributo - ela transforma uma arma em arma de caça.',
+        'nostat_title': 'Runas que não aumentam nenhum atributo',
+        'nostat_rune': 'Runa',
+        'nostat_what': 'O que faz',
+        'nostat_weight': 'Peso',
+        'nostat_unknown': 'desconhecido nesta versão',
+        'rune_hunting': 'Runa de Caça',
+        'rune_hunting_what': 'Transforma uma arma em arma de caça, aquela que traz carne de um combate.',
+        'rune_signature': 'Runa de assinatura',
+        'rune_signature_what': 'Assina o item com o nome de quem o fabricou. Entra junto com os ingredientes na fabricação, nunca na forjamagia.',
         'inv_save': 'Salvar no meu inventário',
         'inv_save_smithed': 'Salvar o item forjado no meu inventário',
         'inv_new_folder': 'Nova pasta…',
@@ -522,6 +558,7 @@ LOCALIZED_UI = {
         'title': 'Schmiedemagie-Labor',
         'subtitle': 'Plane deine Schmiedemagie: Senken-Berechnung, Runenanzahl und Risiko für diese Spielversion.',
         'version_note_modern': 'Werte für das aktuelle PC-Spiel (Dofus 2 / Dofus 3).',
+        'version_note_dofus2': 'Werte für Dofus 2, das keine Ra-Rune für die Elementarresistenzen und die kritische Resistenz hat und keine Pa-Rune für die Schadensreflexion.',
         'version_note_touch': 'Werte für Dofus Touch, das die Gewichte von vor 2.29 behalten hat: Vi-Runen +3/+10/+30, Kritisch mit Gewicht 30, Heilung mit Gewicht 20.',
         'version_note_retro': 'Werte für Dofus Retro 1.29: feste Resistenzen mit Gewicht 5, % Resistenzen 4, Schadensreflexion 30, Fallenschaden 15.',
         'search_label': 'Gegenstand',
@@ -621,7 +658,15 @@ LOCALIZED_UI = {
         'quality_amazing': 'unglaublich',
         'quality_perfect': 'perfekt',
         'quality_overperfect': 'besser als perfekt',
-        'ref_hunt_note': 'Sonderfall: Die Jagdrune fügt keinen Wert hinzu - sie macht aus einer Waffe eine Jagdwaffe.',
+        'nostat_title': 'Runen, die keinen Wert erhöhen',
+        'nostat_rune': 'Rune',
+        'nostat_what': 'Wirkung',
+        'nostat_weight': 'Gewicht',
+        'nostat_unknown': 'für diese Version nicht bekannt',
+        'rune_hunting': 'Jagdrune',
+        'rune_hunting_what': 'Macht aus einer Waffe eine Jagdwaffe, mit der man Fleisch aus einem Kampf mitbringt.',
+        'rune_signature': 'Signier-Rune',
+        'rune_signature_what': 'Versieht den Gegenstand mit dem Namen seines Handwerkers. Sie kommt bei der Herstellung zu den Zutaten, nie in die Schmiedemagie.',
         'inv_save': 'In meinem Inventar speichern',
         'inv_save_smithed': 'Den geschmiedeten Gegenstand in meinem Inventar speichern',
         'inv_new_folder': 'Neuer Ordner…',
@@ -739,6 +784,45 @@ def _build_reference_rows(structure, game_version, language, t):
     return rows
 
 
+def _build_no_stat_rune_rows(game_version, t):
+    """The runes of this version that change the item without raising a stat."""
+    rows = []
+    for rune in get_no_stat_runes(game_version):
+        rows.append({
+            'name': t['rune_%s' % rune['key']],
+            'what': t['rune_%s_what' % rune['key']],
+            'weight': (t['nostat_unknown'] if rune['weight'] is None
+                       else _format_weight(rune['weight'])),
+        })
+    return rows
+
+
+def _build_transcendence_rows(structure, game_version, language, trans_t):
+    """One row per stat a transcendence rune can raise, in reference order."""
+    by_stat = get_transcendence_by_stat(game_version)
+    if not by_stat:
+        return []
+    rows = []
+    for stat_key in _ordered_fm_stat_keys(structure, get_fm_stats(game_version)):
+        entry = by_stat.get(stat_key)
+        if entry is None:
+            continue
+        stat = structure.get_stat_by_key(stat_key)
+        rows.append({
+            'key': stat_key,
+            'name': (_localized_label(stat.name, language) if stat is not None
+                     else entry['label']),
+            'icon_url': _get_stat_icon_url(stat_key),
+            'runes': [
+                '%s: +%d / %s' % (rune['name_fr'], rune['bonus'],
+                                  trans_t['weight_word']
+                                  % _format_weight(rune['weight']))
+                for rune in entry['runes']
+            ],
+        })
+    return rows
+
+
 TRANSCENDENCE_UI = {
     'en': {
         'title': 'Transcendence runes (lock smithmagic)',
@@ -832,6 +916,10 @@ def forgemagie(request):
 
     stat_payload = _build_stat_payload(structure, game_version, language)
     reference_rows = _build_reference_rows(structure, game_version, language, t)
+    trans_t = TRANSCENDENCE_UI.get(language, TRANSCENDENCE_UI['en'])
+    no_stat_rune_rows = _build_no_stat_rune_rows(game_version, t)
+    transcendence_rows = _build_transcendence_rows(
+        structure, game_version, language, trans_t)
 
     js_config = {
         'overCap': OVER_WEIGHT_CAP,
@@ -865,7 +953,7 @@ def forgemagie(request):
             )
         },
         'transcendence': get_transcendence_by_stat(game_version),
-        'transT': TRANSCENDENCE_UI.get(language, TRANSCENDENCE_UI['en']),
+        'transT': trans_t,
     }
 
     preload = _inventory_preload(request, structure, language, game_version)
@@ -882,6 +970,9 @@ def forgemagie(request):
             'version_note': t['version_note_%s' % ruleset],
             'reference_rows': reference_rows,
             'has_approx_rows': any(row['approx'] for row in reference_rows),
+            'no_stat_rune_rows': no_stat_rune_rows,
+            'transcendence_rows': transcendence_rows,
+            'trans_t': trans_t,
             'js_config': js_config,
             'tips': [t['tip_1'], t['tip_2'], t['tip_3'], t['tip_4']],
         },

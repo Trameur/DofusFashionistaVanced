@@ -248,9 +248,63 @@
                 </tbody>
             </table>
         </div>
-        <p class="fm-footer-note">{{ t.ref_hunt_note }}</p>
+        <div class="fm-section-title">{{ t.nostat_title }}</div>
+        <div class="fm-table-wrapper">
+            <table class="fm-table">
+                <thead>
+                    <tr>
+                        <th>{{ t.nostat_rune }}</th>
+                        <th>{{ t.nostat_what }}</th>
+                        <th>{{ t.nostat_weight }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in no_stat_rune_rows %}
+                    <tr>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.what }}</td>
+                        <td>{{ row.weight }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         <p class="fm-footer-note">{{ t.footer_sources }}</p>
     </div>
+
+    {% if transcendence_rows %}
+    <div class="fm-box brown-box">
+        <div class="fm-section-title big-text">{{ trans_t.title }}</div>
+        <p class="fm-footer-note">{{ trans_t.intro }}</p>
+        <div class="fm-table-wrapper">
+            <table class="fm-table">
+                <thead>
+                    <tr>
+                        <th>{{ t.ref_stat }}</th>
+                        <th class="fm-cell-runes">{{ t.ref_runes }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in transcendence_rows %}
+                    <tr>
+                        <td>
+                            <span class="fm-stat-cell">
+                                {% if row.icon_url %}<img src="{{ row.icon_url }}" alt="" width="16" height="16" loading="lazy" decoding="async">{% endif %}
+                                <span>{{ row.name }}</span>
+                            </span>
+                        </td>
+                        <td class="fm-cell-runes">
+                            {% for rune in row.runes %}
+                            <span class="fm-ref-tier">{{ rune }}</span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
 
     {{ js_config|json_script:"fm-config" }}
     <script>

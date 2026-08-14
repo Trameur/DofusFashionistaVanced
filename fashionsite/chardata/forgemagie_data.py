@@ -16,12 +16,17 @@
 
 """Smithmagic (forgemagie) rune data per game version.
 
-Three rulesets cover the five game versions served by the site:
+Four rulesets cover the five game versions served by the site:
 
-- 'modern': Dofus 3, beta and Dofus 2.
+- 'modern': Dofus 3 and its beta.
+- 'dofus2': the modern weights, but the smaller rune roster of the 2.x client.
 - 'touch': Dofus Touch, forked from Dofus 2.14. Wisdom weighs 1 per point
   against the PC's 3.
 - 'retro': Dofus 1.29. Smaller stat roster, older densities.
+
+Rune names are the ones each version's own item table publishes, checked
+against it: 105 runes on Dofus 3 and the beta, 98 on Dofus 2, 86 on Touch,
+57 on Retro.
 
 Each stat entry:
 - density: sink weight of one point of the stat.
@@ -65,18 +70,18 @@ _MODERN_STATS = {
     'init': _stat(0.1, 'Ini', [('', 10), ('Pa', 30), ('Ra', 100)]),
     'pod': _stat(0.25, 'Pod', [('', 10), ('Pa', 30), ('Ra', 100)]),
     'pp': _stat(3, 'Prospe', [('', 1), ('Pa', 3)]),
-    'ap': _stat(100, 'Ga PA', [('', 1)]),
-    'mp': _stat(90, 'Ga PME', [('', 1)]),
-    'range': _stat(51, 'Ga PO', [('', 1)]),
+    'ap': _stat(100, 'Ga Pa', [('', 1)]),
+    'mp': _stat(90, 'Ga Pme', [('', 1)]),
+    'range': _stat(51, 'Po', [('', 1)]),
     'summon': _stat(30, 'Invo', [('', 1)]),
     'dam': _stat(20, 'Do', [('', 1)]),
     'heals': _stat(10, 'So', [('', 1), ('Pa', 3)]),
     'ch': _stat(10, 'Cri', [('', 1)]),
     'ref': _stat(10, 'Do Ren', [('', 1), ('Pa', 3)]),
-    'apred': _stat(7, 'Ret PA', [('', 1), ('Pa', 3)]),
-    'mpred': _stat(7, 'Ret PME', [('', 1), ('Pa', 3)]),
-    'apres': _stat(7, 'Ré PA', [('', 1), ('Pa', 3)]),
-    'mpres': _stat(7, 'Ré PME', [('', 1), ('Pa', 3)]),
+    'apred': _stat(7, 'Ret Pa', [('', 1), ('Pa', 3)]),
+    'mpred': _stat(7, 'Ret Pme', [('', 1), ('Pa', 3)]),
+    'apres': _stat(7, 'Ré Pa', [('', 1), ('Pa', 3)]),
+    'mpres': _stat(7, 'Ré Pme', [('', 1), ('Pa', 3)]),
     'neutresper': _stat(6, 'Ré Per Neutre', [('', 1)]),
     'earthresper': _stat(6, 'Ré Per Terre', [('', 1)]),
     'fireresper': _stat(6, 'Ré Per Feu', [('', 1)]),
@@ -90,7 +95,7 @@ _MODERN_STATS = {
     'cridam': _stat(5, 'Do Cri', [('', 1), ('Pa', 3)]),
     'pshdam': _stat(5, 'Do Pou', _STANDARD_TIERS),
     'trapdam': _stat(5, 'Do Pi', [('', 1), ('Pa', 3)]),
-    'trapdamper': _stat(2, 'Pi Per', _STANDARD_TIERS),
+    'trapdamper': _stat(2, 'Per Pi', _STANDARD_TIERS),
     'neutres': _stat(2, 'Ré Neutre', _STANDARD_TIERS),
     'earthres': _stat(2, 'Ré Terre', _STANDARD_TIERS),
     'fireres': _stat(2, 'Ré Feu', _STANDARD_TIERS),
@@ -138,8 +143,22 @@ _TOUCH_STATS.update({
     'cridam': _stat(5, 'Do Cri', [('', 1), ('Pa', 3)]),
 })
 
-# 1.29 has no Power, Lock, AP/MP reduction or dodge runes. 'pow' holds
-# '% Do', the pre-2.0 % damage line.
+# Dofus 2 shares the modern weights but not the modern rune roster: its own
+# item table has no Ra rune for the elemental resists or for critical resist,
+# and no Pa rune for reflect. Pushback resist does have its Ra rune there.
+_DOFUS2_STATS = dict(_MODERN_STATS)
+_DOFUS2_STATS.update({
+    'ref': _stat(10, 'Do Ren', [('', 1)]),
+    'neutres': _stat(2, 'Ré Neutre', [('', 1), ('Pa', 3)]),
+    'earthres': _stat(2, 'Ré Terre', [('', 1), ('Pa', 3)]),
+    'fireres': _stat(2, 'Ré Feu', [('', 1), ('Pa', 3)]),
+    'waterres': _stat(2, 'Ré Eau', [('', 1), ('Pa', 3)]),
+    'airres': _stat(2, 'Ré Air', [('', 1), ('Pa', 3)]),
+    'crires': _stat(2, 'Ré Cri', [('', 1), ('Pa', 3)]),
+})
+
+# 1.29 has no Power, Lock, AP/MP reduction or dodge runes. 'pow' holds the
+# pre-2.0 % damage line, whose rune the game calls Do Per.
 _RETRO_STATS = {
     'vit': _stat(0.25, 'Vi', [('', 3), ('Pa', 10), ('Ra', 30)]),
     'str': _stat(1, 'Fo', _STANDARD_TIERS),
@@ -150,16 +169,16 @@ _RETRO_STATS = {
     'init': _stat(0.1, 'Ini', [('', 10), ('Pa', 30), ('Ra', 100)]),
     'pod': _stat(0.25, 'Pod', [('', 10), ('Pa', 30), ('Ra', 100)]),
     'pp': _stat(3, 'Prospe', [('', 1), ('Pa', 3)]),
-    'ap': _stat(100, 'PA', [('', 1)]),
-    'mp': _stat(90, 'PM', [('', 1)]),
-    'range': _stat(51, 'PO', [('', 1)]),
+    'ap': _stat(100, 'Ga Pa', [('', 1)]),
+    'mp': _stat(90, 'Ga Pme', [('', 1)]),
+    'range': _stat(51, 'Po', [('', 1)]),
     'summon': _stat(30, 'Invo', [('', 1)]),
     'dam': _stat(20, 'Do', [('', 1)]),
-    'pow': _stat(2, '% Do', _STANDARD_TIERS),
+    'pow': _stat(2, 'Do Per', _STANDARD_TIERS),
     'heals': _stat(20, 'So', [('', 1)]),
     'ch': _stat(30, 'Cri', [('', 1)]),
     'ref': _stat(30, 'Do Ren', [('', 1)]),
-    'trapdam': _stat(15, 'Do Pi', [('', 1)]),
+    'trapdam': _stat(15, 'Pi', [('', 1)]),
     'trapdamper': _stat(2, 'Pi Per', _STANDARD_TIERS),
     'neutresper': _stat(4, 'Ré Per Neutre', [('', 1)]),
     'earthresper': _stat(4, 'Ré Per Terre', [('', 1)]),
@@ -179,16 +198,35 @@ _RETRO_STATS = {
     'dodge': _stat(4, '', [], approx=True),
 }
 
+# Runes that change an item without giving it a characteristic. They are not in
+# the item tables the site ships, so their presence was read from each version's
+# own item file: ankama ids 10057 and 7508 exist in the Dofus 3, beta, Dofus 2,
+# Touch and Retro data alike. The hunting rune costs 5 of weight on Dofus 3; no
+# source gives that figure for Touch or Retro, so those stay unstated.
+_HUNTING = {'key': 'hunting', 'weight': 5}
+_HUNTING_UNKNOWN = {'key': 'hunting', 'weight': None}
+# The signature rune goes in with the ingredients at craft time and never
+# touches smithmagic, so it weighs nothing anywhere.
+_SIGNATURE = {'key': 'signature', 'weight': 0}
+
+_NO_STAT_RUNES = {
+    'modern': [_HUNTING, _SIGNATURE],
+    'dofus2': [_HUNTING, _SIGNATURE],
+    'touch': [_HUNTING_UNKNOWN, _SIGNATURE],
+    'retro': [_HUNTING_UNKNOWN, _SIGNATURE],
+}
+
 _RULESET_BY_VERSION = {
     'dofus3': 'modern',
     'beta': 'modern',
-    'dofus2': 'modern',
+    'dofus2': 'dofus2',
     'touch': 'touch',
     'retro': 'retro',
 }
 
 _STATS_BY_RULESET = {
     'modern': _MODERN_STATS,
+    'dofus2': _DOFUS2_STATS,
     'touch': _TOUCH_STATS,
     'retro': _RETRO_STATS,
 }
@@ -205,3 +243,8 @@ def get_fm_stats(game_version):
 
 def get_fm_stat(game_version, stat_key):
     return get_fm_stats(game_version).get(stat_key)
+
+
+def get_no_stat_runes(game_version):
+    """[{key, weight}] for the runes of this version that raise no stat."""
+    return _NO_STAT_RUNES[get_ruleset(game_version)]

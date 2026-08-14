@@ -7057,6 +7057,140 @@ class ForgemagieRuneRosterTests(SimpleTestCase):
                 self.assertIsNotNone(self._stat('dofus3', key))
 
 
+class RuneNamesMatchTheGameTests(SimpleTestCase):
+    """Every rune the page names has to exist in that version's own item table.
+    The page used to print Rune Ga PO, Rune Pi Per and a dozen other spellings
+    the game does not use, so a player searching the market found nothing."""
+
+    RUNE_TYPE = 133
+    RUNE_TYPE_ID = 78
+
+    @staticmethod
+    def _root():
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        return get_fashionista_path()
+
+    def _resources(self, *parts):
+        import json
+        path = os.path.join(self._root(), 'itemscraper', *parts)
+        if not os.path.exists(path):
+            self.skipTest('%s not in this checkout' % path)
+        with open(path, encoding='utf-8') as handle:
+            data = json.load(handle)
+        items = data if isinstance(data, list) else data['items']
+        return {item['name'] for item in items
+                if isinstance(item, dict)
+                and (item.get('type') or {}).get('id') == self.RUNE_TYPE}
+
+    def _touch(self):
+        import json
+        path = os.path.join(self._root(), 'itemscraper', 'touch_raw',
+                            'Items_fr.json')
+        if not os.path.exists(path):
+            self.skipTest('touch item table not in this checkout')
+        with open(path, encoding='utf-8') as handle:
+            data = json.load(handle)
+        return {item['nameId'] for item in data.values()
+                if isinstance(item, dict)
+                and item.get('typeId') == self.RUNE_TYPE_ID
+                and isinstance(item.get('nameId'), str)}
+
+    def _retro(self):
+        import json
+        path = os.path.join(self._root(), 'itemscraper', 'retro_raw',
+                            'items_fr.json')
+        if not os.path.exists(path):
+            self.skipTest('retro item table not in this checkout')
+        with open(path, encoding='utf-8') as handle:
+            data = json.load(handle)
+        return {item['n'] for item in data['I']['u'].values()
+                if isinstance(item, dict)
+                and item.get('t') == self.RUNE_TYPE_ID
+                and isinstance(item.get('n'), str)}
+
+    def _page_names(self, version):
+        from chardata.forgemagie_data import get_fm_stats
+        names = set()
+        for stat in get_fm_stats(version).values():
+            for tier, _bonus in stat['tiers']:
+                names.add(' '.join(part for part in ('Rune', tier, stat['rune'])
+                                   if part))
+        return names
+
+    def test_no_version_names_a_rune_the_game_does_not_have(self):
+        sources = (
+            ('dofus3', lambda: self._resources('all_resources_fr.json')),
+            ('beta', lambda: self._resources('beta', 'all_resources_fr.json')),
+            ('dofus2', lambda: self._resources('dofus2', 'all_resources_fr.json')),
+            ('touch', self._touch),
+            ('retro', self._retro),
+        )
+        for version, reader in sources:
+            with self.subTest(version=version):
+                unknown = sorted(self._page_names(version) - reader())
+                self.assertEqual(unknown, [])
+
+
+class NoStatRuneTests(TestCase):
+    """The hunting and signature runes raise no characteristic, so the stat table
+    cannot hold them. Both exist in all five versions (ankama items 10057 and
+    7508); only the hunting rune's weight is known, and only for the PC game."""
+
+    VERSIONS = (('', 'dofus3'), ('beta/', 'beta'), ('dofus2/', 'dofus2'),
+                ('touch/', 'touch'), ('retro/', 'retro'))
+
+    def test_every_version_lists_both_runes(self):
+        from chardata.forgemagie_data import get_no_stat_runes
+        for _prefix, version in self.VERSIONS:
+            with self.subTest(version=version):
+                keys = [rune['key'] for rune in get_no_stat_runes(version)]
+                self.assertEqual(keys, ['hunting', 'signature'])
+
+    def test_the_signature_rune_never_weighs_anything(self):
+        # It goes in with the craft ingredients, so it never enters smithmagic.
+        from chardata.forgemagie_data import get_no_stat_runes
+        for _prefix, version in self.VERSIONS:
+            with self.subTest(version=version):
+                signature = get_no_stat_runes(version)[1]
+                self.assertEqual(signature['weight'], 0)
+
+    def test_the_hunting_weight_is_stated_only_where_it_is_known(self):
+        from chardata.forgemagie_data import get_no_stat_runes
+        for version in ('dofus3', 'beta', 'dofus2'):
+            with self.subTest(version=version):
+                self.assertEqual(get_no_stat_runes(version)[0]['weight'], 5)
+        for version in ('touch', 'retro'):
+            with self.subTest(version=version):
+                self.assertIsNone(get_no_stat_runes(version)[0]['weight'])
+
+    def test_the_page_names_both_runes_under_every_version(self):
+        for prefix, version in self.VERSIONS:
+            with self.subTest(version=version):
+                body = self.client.get(
+                    '/%sforgemagie/' % prefix,
+                    HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+                self.assertIn('Hunting Rune', body)
+                self.assertIn('Signature Rune', body)
+                self.assertIn('Runes that raise no characteristic', body)
+
+    def test_only_the_versions_with_transcendence_list_its_runes(self):
+        # The simulator carries the transcendence strings on every version, so
+        # the box is read from the context, not from the page text.
+        for prefix, version in self.VERSIONS:
+            with self.subTest(version=version):
+                resp = self.client.get('/%sforgemagie/' % prefix,
+                                       HTTP_ACCEPT_LANGUAGE='en')
+                rows = resp.context['transcendence_rows']
+                if version in ('dofus3', 'beta', 'dofus2'):
+                    self.assertTrue(rows)
+                    vit = [row for row in rows if row['key'] == 'vit']
+                    self.assertEqual(len(vit), 1)
+                    self.assertTrue(
+                        any('Rune Ta Vi' in cell for cell in vit[0]['runes']))
+                else:
+                    self.assertEqual(rows, [])
+
+
 class TranscendenceCatalogueTests(SimpleTestCase):
     """The transcendence runes: a rune's weight is what the 101 rule adds to the
     targeted stat's current weight."""
