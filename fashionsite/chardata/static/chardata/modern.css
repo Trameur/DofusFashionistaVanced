@@ -318,12 +318,56 @@ html.fm-modern .fm-ad:has(ins[data-ad-status="filled"])::before{ content:attr(da
      and a label saying "advertisement" is the last thing to make unreadable. */
   font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--fm-muted); margin-bottom:4px; }
 html.fm-modern .fm-ad:has(ins[data-ad-status="unfilled"]){ display:none; }
-html.fm-modern .fm-ad:empty{ display:none; }
+/* A unit waiting for the reader is empty on purpose, and hiding it would stop
+   it ever being seen, so it would never load. Only a unit that will never hold
+   anything is collapsed here. */
+html.fm-modern .fm-ad:empty:not(.fm-ad-lazy){ display:none; }
 html.fm-modern .fm-ad ins{ display:block; }
 html.fm-modern .fm-ad-top{ margin:14px 0 4px; }
 html.fm-modern .fm-ad-inline{ margin:22px auto; max-width:728px; }
 html.fm-modern .fm-ad-sidebar{ position:sticky; top:16px; margin-top:14px; }
 @media (max-width:900px){ html.fm-modern .fm-ad-sidebar{ position:static; } }
+
+/* A unit standing between the rows of a list. Inside a grid it takes the whole
+   width instead of one cell, so it reads as a break in the list and never as a
+   result. */
+html.fm-modern .fm-ad-feed{ margin:20px auto; max-width:728px; }
+/* Not scoped to the modern skin: the classic look shares these grids, and a
+   unit taking a single cell there would read as one more result.
+   The width is explicit because a grid item with auto side margins shrinks to
+   its content, and an empty box is zero wide: Google would then be handed a
+   nought-pixel slot and hand back nothing. */
+.encyclopedia-grid > .fm-ad-feed,
+.encyclopedia-monsters-grid > .fm-ad-feed,
+.encyclopedia-sets-grid > .fm-ad-feed,
+.builds-grid > .fm-ad-feed,
+.fm-guides-grid > .fm-ad-feed{ grid-column:1 / -1; width:100%; }
+
+/* ---------- Side rails ----------
+   The shell stops at 1200px, so anything past 1560px of screen is empty margin
+   on both sides. The rails live in that margin and nowhere else: below the
+   breakpoint they are display:none, which also means the script never builds
+   them, so a narrow screen is never asked to load an ad it cannot show. The
+   height gate keeps a 600px unit off a short laptop screen.
+   Every rule below names .fm-ad.fm-ad-rail, at the same weight, so the order
+   decides and not the count of classes. The bare class first, for the classic
+   look, which has no gutter of its own to speak of. */
+.fm-ad-rail{ display:none; }
+html.fm-modern .fm-ad.fm-ad-rail{ display:none; }
+@media (min-width:1560px) and (min-height:700px){
+  html.fm-modern .fm-ad.fm-ad-rail{
+    /* Below the language and theme blankets (z-index 1) so a rail does not
+       stay bright over a dimmed page. Nothing else shares the gutter. */
+    display:block; position:fixed; top:96px; width:160px; margin:0; z-index:0;
+  }
+  html.fm-modern .fm-ad.fm-ad-rail-left{ left:calc(50% - 776px); }
+  html.fm-modern .fm-ad.fm-ad-rail-right{ right:calc(50% - 776px); }
+}
+@media (min-width:1860px) and (min-height:700px){
+  html.fm-modern .fm-ad.fm-ad-rail{ width:300px; }
+  html.fm-modern .fm-ad.fm-ad-rail-left{ left:calc(50% - 920px); }
+  html.fm-modern .fm-ad.fm-ad-rail-right{ right:calc(50% - 920px); }
+}
 
 /* ============================================================================
    HOME

@@ -2,6 +2,7 @@
 {% load version_url %}
 {% load static_s3 %}
 {% load i18n %}
+{% load ads %}
 
 {% block title %}{{ resource.name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ resource.kind_label }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
@@ -70,6 +71,8 @@
             {% endif %}
         </div>
 
+        {% ad_unit 'content_top' %}
+
         {% if drops %}
         <div class="encyclopedia-section">
             <b>{{ t.dropped_by_label }}</b>
@@ -90,7 +93,7 @@
             {% endif %}
         </div>
         {% endif %}
-        {% include "chardata/ad_slot.html" with ad_slot=ad_slots.encyclopedia_inline extra_class="fm-ad-inline" %}
+        {% ad_unit 'encyclopedia_inline' %}
     </div>
 </div>
 {% endblock %}

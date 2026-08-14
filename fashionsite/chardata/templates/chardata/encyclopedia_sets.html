@@ -1,6 +1,7 @@
 {% extends "chardata/base.html" %}
 {% load version_url %}
 {% load i18n %}
+{% load ads %}
 
 {% block title %}{% trans "Sets" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
@@ -62,6 +63,7 @@
     </form>
 
     {% if sets_page.object_list %}
+    {% ad_unit 'content_top' %}
     <div class="encyclopedia-sets-meta">{{ sets_count }} {% trans "sets" %}</div>
     <div class="encyclopedia-sets-grid">
         {% for set_entry in sets_page.object_list %}
@@ -73,6 +75,7 @@
             <div class="encyclopedia-sets-items">{{ t.set_items_label }}: {{ set_entry.sample_items|join:", " }}{% if set_entry.more_items_count %} +{{ set_entry.more_items_count }}{% endif %}</div>
             {% endif %}
         </a>
+        {% ad_feed forloop.counter forloop.revcounter0 every=15 %}
         {% endfor %}
     </div>
 
@@ -99,6 +102,5 @@
     {% else %}
     <div class="encyclopedia-sets-meta">{% trans "No set found." %}</div>
     {% endif %}
-    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.list_inline extra_class="fm-ad-inline" %}
 </div>
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 {% load i18n %}
+{% load ads %}
 
 {% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista - {% trans "Equipment Set Optimizer" %}{% endblock %}
 
@@ -45,7 +46,7 @@
         {% trans "Dofus Fashionista is a free theorycrafting tool. Tell it your class, level and what you want, and it instantly finds your best possible set. No spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a serious optimizer: fine-tune every stat, compare builds, and min-max across all five versions of the game: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch. Save your characters, share your builds, and become a better theorycrafter, fast." %}
     </p>
 <div class="main-div" >
-    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.home_top extra_class="fm-ad-top" %}    
+    {% ad_unit 'home_top' 'fm-ad-top' %}    
     <table>
     {% for list in items %}
     <tr>

@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 {% load i18n %}
+{% load ads %}
 {% load static_s3 %}
 {% load version_url %}
 
@@ -62,9 +63,18 @@
     <h1 class="fm-guide-title">{{ guide.title }}</h1>
     <p class="fm-guide-lead">{{ guide.lead }}</p>
 
+    {% comment %}The view cuts the guide at the section heading nearest its
+    middle so a unit can stand between two sections rather than inside one. A
+    guide too short to cut comes back whole and body_rest is empty.{% endcomment %}
     <div class="fm-guide-body">
-        {{ guide.body|safe }}
+        {{ guide_body_top|safe }}
     </div>
+    {% if guide_body_rest %}
+    {% ad_unit 'guide_inline' %}
+    <div class="fm-guide-body">
+        {{ guide_body_rest|safe }}
+    </div>
+    {% endif %}
 
     <div class="fm-guide-foot-cta">
         <a class="fm-guide-btn" href="{% game_url 'setup' %}">{% trans "Create a project" %}</a>
@@ -81,7 +91,7 @@
         </ul>
     </div>
     {% endif %}
-    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.guide_inline extra_class="fm-ad-inline" %}
+    {% ad_unit 'guide_inline' %}
 </article>
 
 <style>

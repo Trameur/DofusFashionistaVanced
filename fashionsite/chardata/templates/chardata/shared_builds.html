@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load ads %}
 {% load static_s3 %}
 {% load version_url %}
 
@@ -157,7 +158,7 @@
             ({% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }})
         </div>
         
-        {% include "chardata/ad_slot.html" with ad_slot=ad_slots.shared_inline extra_class="fm-ad-inline" %}
+        {% ad_unit 'shared_inline' %}
         <div class="builds-grid">
             {% for build in builds %}
                 <div class="build-card">
@@ -300,6 +301,7 @@
                         {% trans "View Build" %} →
                     </a>
                 </div>
+                {% ad_feed forloop.counter forloop.revcounter0 every=8 limit=2 %}
             {% endfor %}
         </div>
         

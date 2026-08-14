@@ -10984,6 +10984,230 @@ class AdsTests(TestCase):
         self.assertEqual(served, 'google.com, %s, DIRECT, f08c47fec0942fa0'
                          % DEFAULT_AD_CLIENT.replace('ca-', '', 1))
 
+    def test_the_forgemagie_pages_may_carry_ads(self):
+        # Five pages in the sitemap that served nothing at all.
+        self.assertTrue(self._ads('/forgemagie/')['ads_allowed'])
+        self.assertTrue(self._ads('/forgemagie/items/')['ads_allowed'])
+
+    def test_the_funnel_stays_clear(self):
+        for path in ('/setup/', '/quickstart/', '/smartbuild/'):
+            with self.subTest(path=path):
+                self.assertFalse(self._ads(path)['ads_allowed'])
+
+
+class AdInventoryTests(TestCase):
+    """What each kind of page shows, and what it refuses to show."""
+
+    SLOTS = {'home_top': '11', 'footer': '12', 'encyclopedia_inline': '13',
+             'guide_inline': '14', 'shared_inline': '15', 'solution': '16',
+             'list_inline': '17', 'content_top': '18', 'rail': '19'}
+
+    def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
+
+    def _page(self, path, **kwargs):
+        from django.conf import settings
+        from django.test import override_settings
+        gen = dict(getattr(settings, 'GEN_CONFIGS', {}))
+        gen['adsense'] = {'client': 'ca-pub-42', 'slots': self.SLOTS,
+                          'enabled': True}
+        with override_settings(GEN_CONFIGS=gen):
+            response = self.client.get(path, **kwargs)
+        self.assertEqual(response.status_code, 200, path)
+        return response.content.decode('utf-8')
+
+    @staticmethod
+    def _units(body):
+        """(units on the page, units waiting for the reader, rails).
+
+        Counted on the container, not on the class name: the loader script in
+        base.html says '.fm-ad-lazy' too, and counting that made every page
+        look like it carried one unit more than it does.
+        """
+        return (body.count('class="fm-ad '),
+                body.count('fm-ad-lazy"'),
+                body.count('fm-ad-rail-'))
+
+    def test_an_item_page_carries_a_unit_the_reader_reaches(self):
+        # The card runs up to eleven sections, so the one at its foot was the
+        # only unit and nobody scrolled that far.
+        body = self._page('/encyclopedia/item/equipment/6988-x/')
+        top = body.index("data-ad-slot=\"%s\"" % self.SLOTS['content_top'])
+        bottom = body.index("data-ad-slot=\"%s\""
+                            % self.SLOTS['encyclopedia_inline'])
+        self.assertLess(top, bottom)
+
+    def test_a_set_page_carries_units_at_all(self):
+        # 1874 set pages shipped without a single one.
+        body = self._page('/encyclopedia/set/321-x/')
+        total, _waiting, rails = self._units(body)
+        self.assertGreaterEqual(total - rails, 3)
+        self.assertEqual(rails, 2)
+
+    def test_a_long_list_is_broken_by_units(self):
+        body = self._page('/encyclopedia/')
+        self.assertGreater(body.count('fm-ad-feed'), 0,
+                           'the results grid runs unbroken')
+
+    def test_the_feed_leaves_the_end_of_the_list_alone(self):
+        from chardata.templatetags.ads import ad_feed
+        context = {'ads_enabled': True, 'ad_client': 'ca-pub-42',
+                   'ad_slots': self.SLOTS, 'request': None}
+        # No request means no slot can be claimed, so this only checks the
+        # placement rule; the last rows must not even ask.
+        self.assertEqual('', ad_feed(context, 12, 1, every=12))
+        self.assertEqual('', ad_feed(context, 7, 30, every=12))
+        self.assertEqual('', ad_feed(context, 48, 30, every=12, limit=3))
+
+    # The shared-builds list is empty in the test database, so it stands in for
+    # a page with nothing to show: the ceiling still applies, the floor cannot.
+    FILLED = ('/', '/encyclopedia/', '/encyclopedia/monsters/',
+              '/encyclopedia/sets/', '/guides/',
+              '/encyclopedia/item/equipment/6988-x/')
+
+    def test_the_page_ceiling_holds(self):
+        from chardata.templatetags.ads import PAGE_CEILING
+        for path in self.FILLED + ('/sharedbuilds/', '/forgemagie/'):
+            total, _waiting, rails = self._units(self._page(path))
+            with self.subTest(path=path):
+                self.assertLessEqual(total - rails, PAGE_CEILING, path)
+
+    def test_a_page_with_content_carries_more_than_the_footer(self):
+        for path in self.FILLED:
+            total, _waiting, rails = self._units(self._page(path))
+            with self.subTest(path=path):
+                self.assertGreater(total - rails, 1, path)
+
+    def test_the_rails_survive_a_page_full_of_units(self):
+        # They sit beside the column, so the in-body ceiling must not eat them.
+        for path in ('/encyclopedia/', '/guides/', '/forgemagie/'):
+            with self.subTest(path=path):
+                self.assertEqual(2, self._units(self._page(path))[2])
+
+    def test_a_unit_below_the_fold_ships_without_its_ins(self):
+        # push() binds to the first <ins> it has not processed, in document
+        # order, so a waiting unit that already had one would answer for the
+        # unit above it.
+        body = self._page('/encyclopedia/item/equipment/6988-x/')
+        waiting = body.split('fm-ad-lazy"', 1)[1].split('</div>', 1)[0]
+        self.assertNotIn('adsbygoogle', waiting)
+        self.assertIn('data-ad-slot', waiting)
+
+    def _css(self, name):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'static', 'chardata', name)
+        with open(path, encoding='utf-8') as handle:
+            return handle.read()
+
+    def test_a_waiting_unit_is_not_hidden_before_it_is_built(self):
+        # It ships without its <ins> on purpose, so the rule that collapses an
+        # empty box would hide it, and a hidden box never comes into view, so
+        # it would never load at all.
+        css = self._css('modern.css')
+        self.assertIn('.fm-ad:empty:not(.fm-ad-lazy){ display:none; }', css)
+        self.assertNotIn('.fm-ad:empty{ display:none; }', css)
+
+    def test_a_unit_in_a_grid_is_given_a_width(self):
+        # A grid item with auto side margins shrinks to its content, and an
+        # empty box is nought wide: Google answers a nought-wide slot with an
+        # error rather than an ad.
+        css = self._css('modern.css')
+        block = css.split('> .fm-ad-feed{', 1)[1].split('}', 1)[0]
+        self.assertIn('width:100%', block)
+
+    def test_the_loader_refuses_a_box_with_no_width(self):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'templates', 'chardata', 'base.html')
+        with open(path, encoding='utf-8') as handle:
+            markup = handle.read()
+        self.assertIn('if (!box.getBoundingClientRect().width) { return false; }',
+                      markup)
+        # And it keeps watching that box, or a rail would never appear when the
+        # window is widened.
+        self.assertIn('if (entry.isIntersecting && build(entry.target))', markup)
+
+    def test_the_narrow_reader_is_never_asked_to_load_a_rail(self):
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'static', 'chardata', 'modern.css')
+        with open(path, encoding='utf-8') as handle:
+            css = handle.read()
+        # Unscoped, so the classic look hides them too.
+        self.assertIn('\n.fm-ad-rail{ display:none; }', css)
+        self.assertIn('@media (min-width:1560px) and (min-height:700px)', css)
+
+    def test_every_slot_a_template_names_can_be_set_from_the_admin_page(self):
+        import re
+        from chardata.admin_tools_view import AD_SLOTS
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        root = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'templates', 'chardata')
+        named = set()
+        for name in os.listdir(root):
+            if not name.endswith('.html'):
+                continue
+            with open(os.path.join(root, name), encoding='utf-8') as handle:
+                text = handle.read()
+            named.update(re.findall(r"\{%\s*ad_unit\s+'(\w+)'", text))
+            named.update(re.findall(r"slot_name='(\w+)'", text))
+            named.update(re.findall(r"ad_slots\.(\w+)", text))
+        self.assertTrue(named)
+        self.assertEqual(sorted(named - set(AD_SLOTS)), [])
+
+
+class GuideBodySplitTests(SimpleTestCase):
+    """A guide is cut between two sections so a unit can stand there."""
+
+    def _body(self, sections, filler=400):
+        return ''.join('<h2>Part %d</h2><p>%s</p>' % (n, 'x' * filler)
+                       for n in range(sections))
+
+    def test_the_cut_lands_on_a_heading(self):
+        from chardata.guides_view import split_body
+        top, rest = split_body(self._body(8))
+        self.assertTrue(rest.startswith('<h2>'), rest[:40])
+        self.assertNotEqual('', top)
+
+    def test_nothing_of_the_guide_is_lost(self):
+        from chardata.guides_view import split_body
+        body = self._body(8)
+        top, rest = split_body(body)
+        self.assertEqual(body, top + rest)
+
+    def test_the_cut_never_strands_the_first_or_last_section(self):
+        from chardata.guides_view import split_body
+        body = self._body(4, filler=1200)
+        top, rest = split_body(body)
+        self.assertNotEqual('', rest, 'the fixture is too short to be cut')
+        self.assertGreater(top.count('<h2>'), 0)
+        self.assertGreater(rest.count('<h2>'), 0)
+        self.assertIn('Part 3', rest)
+        self.assertIn('Part 0', top)
+
+    def test_a_short_guide_is_left_whole(self):
+        from chardata.guides_view import split_body
+        top, rest = split_body('<h2>One</h2><p>short</p>')
+        self.assertEqual('', rest)
+        top, rest = split_body(self._body(2))
+        self.assertEqual('', rest)
+
+    def test_the_real_guides_are_cut_where_they_should_be(self):
+        from chardata import guides_content
+        from chardata.guides_view import split_body
+        cut = 0
+        for entry in guides_content.list_guides('fr', 'dofus3'):
+            data = guides_content.get_guide(entry['slug'], 'fr', 'dofus3')
+            top, rest = split_body(data.get('body'))
+            self.assertEqual(data.get('body') or '', top + rest,
+                             entry['slug'])
+            if rest:
+                self.assertTrue(rest.startswith('<h2'), entry['slug'])
+                cut += 1
+        self.assertGreater(cut, 0, 'no guide is long enough to carry a unit')
+
 
 class MonsterSpellQueryTests(SimpleTestCase):
     """The spell block reads every spell of a monster in one query."""

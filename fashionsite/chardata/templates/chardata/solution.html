@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load ads %}
 {% load l10n %}
 {% load static_s3 %}
 {% load version_url %}
@@ -253,7 +254,7 @@
     {% endif %}
     {% endif %}
 
-    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.solution extra_class="fm-ad-inline" %}
+    {% ad_unit 'solution' %}
 
     {% if is_generation_snapshot %}
     <div class="solution-history-notice">

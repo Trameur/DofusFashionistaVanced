@@ -26,6 +26,32 @@ def _guide_url(version, slug):
     return reverse('guide', args=[slug])
 
 
+# The guides run from 1600 to 4200 characters. At 3000 only two of the
+# twenty-seven were ever cut; at 2400 with four sections, half of them are, and
+# each half still holds a section the reader came for.
+MIN_SPLIT_LENGTH = 2400
+MIN_SPLIT_SECTIONS = 4
+
+
+def split_body(body):
+    """A guide in two halves, so a unit can stand between them.
+
+    The break lands on the section heading nearest the middle, never inside a
+    paragraph. A guide too short, or with too few sections to cut without
+    stranding one, comes back whole and gets no unit in its text.
+    """
+    body = body or ''
+    starts = [index for index in range(len(body))
+              if body.startswith('<h2', index)]
+    if len(body) < MIN_SPLIT_LENGTH or len(starts) < MIN_SPLIT_SECTIONS:
+        return body, ''
+    middle = len(body) // 2
+    # The first heading opens the guide, the last closes it; cutting at either
+    # would put the unit against the lead or against the foot.
+    cut = min(starts[1:-1], key=lambda index: abs(index - middle))
+    return body[:cut], body[cut:]
+
+
 def guides(request, char_id=0):
     language = get_language() or 'en'
     game_version = getattr(request, 'game_version', 'dofus3')
@@ -49,6 +75,7 @@ def guide(request, slug, char_id=0):
     canonical_version = guides_content.guide_canonical_version(slug, game_version)
     canonical_url = 'https://dofusfashionista.gg' + _guide_url(
         canonical_version, slug)
+    body_top, body_rest = split_body(data.get('body'))
     return set_response(
         request,
         'chardata/guide.html',
@@ -56,6 +83,8 @@ def guide(request, slug, char_id=0):
          'user': request.user,
          'char_id': char_id,
          'guide': data,
+         'guide_body_top': body_top,
+         'guide_body_rest': body_rest,
          'canonical_url': canonical_url,
          'other_guides': [g for g in guides_content.list_guides(
                               language, game_version)

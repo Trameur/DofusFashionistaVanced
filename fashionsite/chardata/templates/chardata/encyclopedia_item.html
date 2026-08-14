@@ -2,6 +2,7 @@
 {% load version_url %}
 {% load static_s3 %}
 {% load i18n %}
+{% load ads %}
 
 {% block title %}{{ item.name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
@@ -73,6 +74,11 @@
             </ul>
         </div>
         {% endif %}
+
+        {% comment %}The card below can run eleven sections long, so a unit at
+        its foot is never seen. This one sits where the reader already is once
+        they have read the stats they came for.{% endcomment %}
+        {% ad_unit 'content_top' %}
 
         {% if set_bonuses %}
         <div class="encyclopedia-section">
@@ -267,7 +273,7 @@
             {% endif %}
         </div>
         {% endif %}
-        {% include "chardata/ad_slot.html" with ad_slot=ad_slots.encyclopedia_inline extra_class="fm-ad-inline" %}
+        {% ad_unit 'encyclopedia_inline' %}
     </div>
 </div>
 <script>

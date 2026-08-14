@@ -108,6 +108,16 @@
     </table>
   
 <script>
+    // The cards are built here, not by the template, so the unit that stands
+    // between them is built here too. base.html turns the placeholder into a
+    // real unit once the reader comes near it.
+    var FEED_AD = {% if ads_enabled and ad_slots.list_inline %}{
+        client: "{{ ad_client }}",
+        slot: "{{ ad_slots.list_inline }}",
+        label: "{% trans 'Advertisement' %}",
+        every: 8,
+        limit: 2
+    }{% else %}null{% endif %};
     var spellDigests = {{digests_json | safe}};
     var charStats = {{char_stats_json | safe}};
     // The hit types that move or drain instead of hurting, straight from the
@@ -1323,9 +1333,37 @@
         refreshBestCombo();
     }
     
+    // Ticking a buff redraws every card, and a unit rebuilt on each tick would
+    // ask Google for a fresh ad the reader never asked to see. The nodes are
+    // created once and moved back into the columns after each redraw.
+    var feedAdNodes = [];
+    var feedAdsCreated = false;
+
+    function takeFeedAd(index) {
+        if (!FEED_AD || index >= FEED_AD.limit) { return null; }
+        if (feedAdNodes[index]) { return feedAdNodes[index]; }
+        feedAdsCreated = true;
+        feedAdNodes[index] = $("<div class='fm-ad fm-ad-feed fm-ad-lazy'></div>")
+            .attr('data-label', FEED_AD.label)
+            .attr('data-ad-client', FEED_AD.client)
+            .attr('data-ad-slot', FEED_AD.slot)
+            .attr('data-ad-format', 'auto')
+            .attr('data-full-width', 'true');
+        return feedAdNodes[index];
+    }
+
+    function detachFeedAds() {
+        for (var i = 0; i < feedAdNodes.length; i++) {
+            if (feedAdNodes[i]) { feedAdNodes[i].detach(); }
+        }
+    }
+
     function createLines(){
+        var placed = 0;
+        var ads = 0;
+        feedAdsCreated = false;
         for ( var i = 0; i < spellDigests.length; i++ ) {
-            if (spellDigests[i].is_linked == null 
+            if (spellDigests[i].is_linked == null
             || (spellDigests[i].is_linked && spellDigests[i].is_linked[0] != 2)) {
                 var cell = $("#spells0");
                 for ( var j = 1; j < 3; j++ ){
@@ -1335,7 +1373,22 @@
                 }
                 var new_cell = createSpellPairOrSingle(spellDigests[i]);
                 cell.append(new_cell);
+                placed++;
+                // The shortest column is where the reader's eye lands next, so
+                // a unit dropped there reads as one more card rather than as a
+                // banner cutting across the list.
+                if (FEED_AD && placed % FEED_AD.every === 0
+                        && i < spellDigests.length - 2) {
+                    var node = takeFeedAd(ads);
+                    if (node) {
+                        cell.append(node);
+                        ads++;
+                    }
+                }
             }
+        }
+        if (feedAdsCreated && window.fmAdScan) {
+            window.fmAdScan();
         }
     }
 
@@ -1362,6 +1415,9 @@
     
     
     function reloadSpells(){
+        // Out of the columns before they are emptied, or a filled unit would
+        // be destroyed and the next redraw would ask for a fresh one.
+        detachFeedAds();
         $("#spells0").empty();
         $("#spells1").empty();
         $("#spells2").empty();

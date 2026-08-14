@@ -93,11 +93,19 @@ def game_version(request):
 
 DEFAULT_AD_CLIENT = 'ca-pub-3961330018791408'
 
+# The forgemagie pages are in the sitemap, one per version, and are read the
+# way a reference page is read. They served nothing until they were listed here.
+# The funnel stays out on purpose: /setup/, /quickstart/ and /smartbuild/ are
+# where a reader becomes a user, and an ad there costs more than it earns.
 AD_PATH_PREFIXES = ('/encyclopedia/', '/guides/', '/sharedbuilds/', '/s/',
-                    '/about/', '/faq/', '/support/', '/license/', '/privacy/')
+                    '/forgemagie/', '/about/', '/faq/', '/support/',
+                    '/license/', '/privacy/')
 
 # Tool pages that carry ads only once their slot id is configured.
-OPTIONAL_AD_PATHS = {'/solution/': 'solution', '/spells/': 'solution'}
+# /spells_linked/ is the shared, logged-out face of /spells/ and is read the
+# way /s/ is; it matched neither prefix and so served nothing at all.
+OPTIONAL_AD_PATHS = {'/solution/': 'solution', '/spells/': 'solution',
+                     '/spells_linked/': 'solution'}
 
 
 def _without_version(path, game_version):

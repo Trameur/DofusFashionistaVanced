@@ -1,5 +1,6 @@
 {% extends "chardata/base.html" %}
 {% load i18n %}
+{% load ads %}
 {% load static_s3 %}
 {% load version_url %}
 
@@ -377,6 +378,7 @@
     {% endif %}
     {% endif %}
 
+    {% ad_unit 'content_top' %}
     <div class="encyclopedia-results-header big-text" id="items-results">{{ t.results }}: {{ items_count }}</div>
 
     {% if items_page.object_list %}
@@ -408,6 +410,7 @@
                 {% endif %}
             </div>
         </div>
+        {% ad_feed forloop.counter forloop.revcounter0 every=12 %}
         {% endfor %}
     </div>
 
@@ -439,6 +442,5 @@
     <p>{{ t.no_results }}</p>
     {% endif %}
     {% endif %}
-    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.list_inline extra_class="fm-ad-inline" %}
 </div>
 {% endblock %}

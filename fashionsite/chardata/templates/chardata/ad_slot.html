@@ -1,16 +1,30 @@
 {% load i18n %}{% comment %}
-Renders a unit only when the page is allowed ads AND a slot id is set.
-Slot ids come from GEN_CONFIGS['adsense']['slots'] through the ads processor.
-Usage: {% include "chardata/ad_slot.html" with ad_slot=ad_slots.home_top extra_class="fm-ad-top" %}
+The markup of one unit. Reached through the {% load ads %} tags, which decide
+the slot, the page ceiling and whether the unit waits for the reader.
+
+A lazy unit ships without its <ins>: adsbygoogle.push() binds to the first
+element it has not processed yet, in document order, so a unit sitting there
+before its turn would steal the push meant for the one above it. The script in
+base.html builds the element and pushes in the same breath, far enough ahead of
+the viewport that the page has settled by the time the reader gets there. That
+is why nothing here reserves a height: an unsold or blocked unit must leave no
+gap behind, and the reader never sees the fill.
 {% endcomment %}
 {% if ads_enabled and ad_slot %}
-<div class="fm-ad {{ extra_class }}" data-label="{% trans 'Advertisement' %}">
+<div class="fm-ad {{ extra_class }}{% if ad_lazy %} fm-ad-lazy{% endif %}"
+     data-label="{% trans 'Advertisement' %}"
+     {% if ad_lazy %}data-ad-client="{{ ad_client }}"
+     data-ad-slot="{{ ad_slot }}"
+     data-ad-format="{{ ad_format|default:'auto' }}"
+     data-full-width="{{ ad_full_width|default:'true' }}"{% endif %}>
+  {% if not ad_lazy %}
   <ins class="adsbygoogle"
        style="display:block"
        data-ad-client="{{ ad_client }}"
        data-ad-slot="{{ ad_slot }}"
        data-ad-format="{{ ad_format|default:'auto' }}"
-       data-full-width-responsive="true"></ins>
+       data-full-width-responsive="{{ ad_full_width|default:'true' }}"></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  {% endif %}
 </div>
 {% endif %}

@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 {% load i18n %}
+{% load ads %}
 {% load static_s3 %}
 {% load version_url %}
 
@@ -41,10 +42,9 @@
                 <span class="fm-guide-card-desc">{{ g.desc }}</span>
             </span>
         </a>
+        {% ad_feed forloop.counter forloop.revcounter0 every=9 limit=1 %}
         {% endfor %}
     </div>
-
-    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.list_inline extra_class="fm-ad-inline" %}
 
     <p class="fm-guides-cta">
         {% trans "Done reading?" %}

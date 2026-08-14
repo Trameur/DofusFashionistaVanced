@@ -1,4 +1,4 @@
-{% load i18n %}{% load static_s3 %}{% get_current_language as LANGUAGE_CODE %}<!DOCTYPE html>
+{% load i18n %}{% load static_s3 %}{% load ads %}{% get_current_language as LANGUAGE_CODE %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:'en' }}">
 <head>
     <meta charset="utf-8">
@@ -68,6 +68,68 @@
     <!-- Google Funding Choices (Consent Management) - Must load before other Google scripts -->
     <script {% if ad_auto %}data-ad-client="{{ ad_client }}" {% endif %}async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script src="https://fundingchoicesmessages.google.com/i/{{ ad_publisher }}?ers=1"></script>
+    <script>
+    // Units below the fold ship as an empty div and are built here, a screen
+    // and a half before the reader reaches them, so the page loads with only
+    // the units it actually shows and the fill never moves text under an eye.
+    // The <ins> cannot exist earlier: push() takes the first element it has
+    // not processed, in document order, so a waiting unit would answer for
+    // the one above it. A rail is display:none until the gutter is wide
+    // enough, never intersects, and so is never asked to fill.
+    (function () {
+        function build(box) {
+            if (box.dataset.fmAdBuilt) { return true; }
+            // Google sizes the ad from the width of the box it is given, and
+            // answers a zero-width one with an error instead of an ad. A box
+            // with no width is either not laid out yet or not shown at this
+            // screen size, so leave it alone and look again next time.
+            if (!box.getBoundingClientRect().width) { return false; }
+            box.dataset.fmAdBuilt = '1';
+            var ins = document.createElement('ins');
+            ins.className = 'adsbygoogle';
+            ins.style.display = 'block';
+            ins.setAttribute('data-ad-client', box.dataset.adClient || '');
+            ins.setAttribute('data-ad-slot', box.dataset.adSlot || '');
+            ins.setAttribute('data-ad-format', box.dataset.adFormat || 'auto');
+            ins.setAttribute('data-full-width-responsive',
+                             box.dataset.fullWidth || 'true');
+            box.appendChild(ins);
+            try {
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {}
+            return true;
+        }
+        function start() {
+            var boxes = document.querySelectorAll('.fm-ad-lazy');
+            if (!boxes.length) { return; }
+            if (!('IntersectionObserver' in window)) {
+                Array.prototype.forEach.call(boxes, build);
+                return;
+            }
+            var seen = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    // Keep watching a box that was not ready: a rail becomes
+                    // real when the window is widened, and nothing else would
+                    // bring it back.
+                    if (entry.isIntersecting && build(entry.target)) {
+                        seen.unobserve(entry.target);
+                    }
+                });
+            }, {rootMargin: '600px 300px'});
+            Array.prototype.forEach.call(boxes, function (box) {
+                seen.observe(box);
+            });
+        }
+        // A page that builds its own list in script (the spells page) calls
+        // this again once its units are in the document.
+        window.fmAdScan = start;
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', start);
+        } else {
+            start();
+        }
+    })();
+    </script>
     {% endif %}
 
     {% if google_analytics_id %}
@@ -312,7 +374,7 @@
         
         {% comment %}Only a project can start a solve: the buttons that show this screen all sit under the same test.{% endcomment %}
         {% if char_id and char_id != 0 %}{% include "chardata/loading.html" with char=char language=language %}{% endif %}
-            {% include "chardata/ad_slot.html" with ad_slot=ad_slots.footer extra_class="fm-ad-inline" %}
+            {% ad_unit 'footer' %}
             <div align="center" class="footer">
                 {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>
@@ -378,6 +440,10 @@
         </div>
      </div>
     </div>
+{% comment %}The shell stops at 1200px, so a wide screen leaves a few hundred
+pixels empty either side. The rails live there and nowhere else: they sit
+outside every column so nothing they do can move the page.{% endcomment %}
+{% ad_rails %}
 {% include "chardata/changelog_modal.html" %}
 <script>window.CHANGELOG_CONTENT_URL = "{% url 'changelog_content' %}";</script>
 <script src="{% static 'chardata/changelog.js' %}"></script>

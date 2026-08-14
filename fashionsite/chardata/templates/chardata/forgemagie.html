@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static_s3 %}
 {% load version_url %}
+{% load ads %}
 
 {% block title %}{{ t.title }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Plan your Dofus forgemagie (maging) runs: the Fashionista's simulator estimates rune throws, success odds and the best path to your target stats." %}{% endblock %}
@@ -188,6 +189,10 @@
             <p class="fm-footer-note">{{ t.sim_disclaimer }}</p>
         </div>
     </div>
+
+    {% comment %}Between the simulator and the reference text below it: the
+    reader has their answer and is about to start reading.{% endcomment %}
+    {% ad_unit 'content_top' %}
 
     <div class="fm-box brown-box fm-how">
         <div class="fm-section-title big-text">{{ t.how_title }}</div>

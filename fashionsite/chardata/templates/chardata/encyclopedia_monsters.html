@@ -1,6 +1,7 @@
 {% extends "chardata/base.html" %}
 {% load version_url %}
 {% load i18n %}
+{% load ads %}
 
 {% block title %}{{ mt.monsters_label }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} - {% trans "The Dofus Fashionista" %}{% endblock %}
 
@@ -108,6 +109,7 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
     {% endif %}
 
     {% if monsters_page.object_list %}
+    {% ad_unit 'content_top' %}
     <div class="encyclopedia-monsters-meta">{{ monsters_count }} {{ mt.monsters_label|lower }}</div>
     <div class="encyclopedia-monsters-grid">
         {% for monster in monsters_page.object_list %}
@@ -135,6 +137,7 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
             </div>
             {% endif %}
         </div>
+        {% ad_feed forloop.counter forloop.revcounter0 every=15 %}
         {% endfor %}
     </div>
 
@@ -161,6 +164,5 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
     {% else %}
     <div class="encyclopedia-monsters-meta">{{ mt.no_monsters }}</div>
     {% endif %}
-    {% include "chardata/ad_slot.html" with ad_slot=ad_slots.list_inline extra_class="fm-ad-inline" %}
 </div>
 {% endblock %}
