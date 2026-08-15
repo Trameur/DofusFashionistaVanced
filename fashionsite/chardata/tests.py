@@ -11299,6 +11299,95 @@ class SolutionItemButtonTests(SimpleTestCase):
         self.assertIn('.solution-item-button:focus-visible', css)
 
 
+class Dofus2SpellsAgainstItsArchiveTests(SimpleTestCase):
+    """What the site lists for Dofus 2, against the 2.73 archive itself.
+
+    The list is hand-held: generate_damage_spells cannot rebuild it, so the
+    only thing keeping it honest is a comparison with the release it claims to
+    describe.
+    """
+
+    # Listed for Dofus 2 with neither a spell id nor a name the 2.73 archive
+    # knows, and given by the modern game to that same class. The Osamodas was
+    # reworked after 2.73, which is why it carries most of them. Removing them
+    # would leave those classes far short of the spells they really had, so
+    # they are pinned here until there is a source to rebuild the list from.
+    NOT_IN_2_73 = {
+        ('Eliotrope', 'Cataclysm'),
+        ('Huppermage', 'Asteroid'), ('Huppermage', 'Avalanche'),
+        ('Huppermage', 'Sublimation'), ('Huppermage', 'Telluric Lances'),
+        ('Osamodas', 'Bestial Charge'), ('Osamodas', 'Bestial Pact'),
+        ('Osamodas', 'Chtiger Claws'), ('Osamodas', 'Crobak Call'),
+        ('Osamodas', 'Discipline'), ('Osamodas', 'Draconic Breath'),
+        ('Osamodas', 'Feather Tornado'), ('Osamodas', 'Golden Fleece'),
+        ('Osamodas', 'Leap-Froog'), ('Osamodas', 'Piranya Teeth'),
+        ('Osamodas', 'Prespic Peaks'), ('Osamodas', 'Snake Bite'),
+        ('Osamodas', 'Song of the Phoenix'), ('Osamodas', 'Swift Whip'),
+        ('Osamodas', 'Toad Slobber'), ('Osamodas', 'Vulture Talons'),
+        ('Osamodas', 'Wild Heart'),
+        ('Sadida', "Sadida's Tear"), ('Sadida', 'Miasmas'),
+        ('Xelor', 'Dropper'), ('Xelor', 'Dust'), ('Xelor', 'Regulator'),
+        ('Xelor', 'Sands of Time'),
+    }
+
+    def _archive(self):
+        import json
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        import fashionista_version
+        root = os.path.join(get_fashionista_path(), 'itemscraper', 'raw',
+                            fashionista_version.FASHIONISTA_DOFUS2_VERSION)
+        if not os.path.isdir(root):
+            self.skipTest('the 2.73 archive is not in this checkout')
+
+        def load(name):
+            with open(os.path.join(root, name), encoding='utf-8') as handle:
+                return json.load(handle)
+
+        texts = load('en.json')
+        table = texts.get('texts', texts)
+        rows = load('spells.json')
+        return ({row['id'] for row in rows},
+                {table.get(str(row.get('nameId')), '') for row in rows})
+
+    def test_every_spell_with_an_id_is_in_the_archive(self):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        ids, _names = self._archive()
+        strangers = []
+        for class_name, bucket in get_damage_spells_for_version('dofus2').items():
+            if class_name == 'default':
+                continue
+            for spell in bucket:
+                spell_id = getattr(spell, 'spell_id', None)
+                if spell_id and spell_id not in ids:
+                    strangers.append((class_name, spell.name, spell_id))
+        self.assertEqual(strangers, [])
+
+    def test_no_new_modern_spell_leaks_into_the_dofus_2_list(self):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        _ids, names = self._archive()
+        listed = get_damage_spells_for_version('dofus2')
+        unknown = set()
+        for class_name, bucket in listed.items():
+            if class_name == 'default':
+                continue
+            for spell in bucket:
+                if getattr(spell, 'spell_id', None):
+                    continue
+                if spell.name not in names:
+                    unknown.add((class_name, spell.name))
+        self.assertEqual(unknown, self.NOT_IN_2_73)
+
+    def test_the_pinned_ones_are_all_modern_spells_of_that_class(self):
+        # If one were not, it would be a 2.73 spell the archive simply renamed,
+        # and pinning it here would be wrong.
+        from chardata.spell_buffs import get_damage_spells_for_version
+        modern = {name: {spell.name for spell in bucket} for name, bucket
+                  in get_damage_spells_for_version('dofus3').items()}
+        for class_name, spell_name in sorted(self.NOT_IN_2_73):
+            with self.subTest(spell=spell_name):
+                self.assertIn(spell_name, modern.get(class_name, set()))
+
+
 class LoadingMarqueeTests(SimpleTestCase):
     """The bar that scrolls while the solver runs, in every language."""
 
