@@ -93,6 +93,7 @@ def main():
     cursor.execute("DELETE FROM items WHERE id >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM item_descriptions WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM item_extra_info WHERE item >= ?", (VARIANT_ID_BASE,))
+    cursor.execute("DELETE FROM item_drops WHERE item >= ?", (VARIANT_ID_BASE,))
 
     next_id = VARIANT_ID_BASE
     created = 0
@@ -146,8 +147,9 @@ def main():
                         "INSERT INTO item_names(item, language, name) VALUES (?, ?, ?)",
                         (variant_id, lang,
                          _variant_name(base, _label(stat_name, lang), value, is_percent)))
-                # Descriptions and pods are written before this step runs, so
-                # copy the pet's.
+                # Descriptions, pods and drops are written before this step
+                # runs, so copy the pet's. Without the drops a maxed variant
+                # shows no "Dropped by" while the pet it is made from does.
                 cursor.execute(
                     "INSERT OR REPLACE INTO item_descriptions(item, language, description)"
                     " SELECT ?, language, description FROM item_descriptions"
@@ -156,6 +158,10 @@ def main():
                     "INSERT OR REPLACE INTO item_extra_info(item, pods)"
                     " SELECT ?, pods FROM item_extra_info WHERE item = ?",
                     (variant_id, pet_id))
+                cursor.execute(
+                    "INSERT INTO item_drops(item, monster_ankama_id, rate, conditions)"
+                    " SELECT ?, monster_ankama_id, rate, conditions FROM item_drops"
+                    " WHERE item = ?", (variant_id, pet_id))
                 created += 1
 
     conn.commit()
