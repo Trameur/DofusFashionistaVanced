@@ -7230,9 +7230,24 @@ class NoStatRuneTests(TestCase):
         for version in ('dofus3', 'beta', 'dofus2'):
             with self.subTest(version=version):
                 self.assertEqual(get_no_stat_runes(version)[0]['weight'], 5)
-        for version in ('touch', 'retro'):
-            with self.subTest(version=version):
-                self.assertIsNone(get_no_stat_runes(version)[0]['weight'])
+        # Touch weighs 2, from a player who checked the table against the game;
+        # no file states it. Retro still has nobody to state it.
+        self.assertEqual(get_no_stat_runes('touch')[0]['weight'], 2)
+        self.assertIsNone(get_no_stat_runes('retro')[0]['weight'])
+
+    def test_touch_can_now_throw_its_hunting_rune(self):
+        # A rune with no weight cannot be weighed against the item, so the
+        # simulator refused to offer it at all.
+        from chardata.forgemagie_view import (LOCALIZED_UI,
+                                              _throwable_no_stat_runes)
+        labels = LOCALIZED_UI['en']
+        touch = [rune['key'] for rune
+                 in _throwable_no_stat_runes('touch', labels)]
+        self.assertIn('hunting', touch)
+        self.assertNotIn('signature', touch)
+        retro = [rune['key'] for rune
+                 in _throwable_no_stat_runes('retro', labels)]
+        self.assertEqual(retro, [])
 
     def test_the_page_names_both_runes_under_every_version(self):
         for prefix, version in self.VERSIONS:
@@ -7249,14 +7264,14 @@ class NoStatRuneTests(TestCase):
         # does not state cannot be weighed against the item.
         from chardata.forgemagie_view import _throwable_no_stat_runes, _ui_text
         text = _ui_text()
-        for version in ('dofus3', 'beta', 'dofus2'):
+        for version, weight in (('dofus3', 5), ('beta', 5), ('dofus2', 5),
+                                ('touch', 2)):
             with self.subTest(version=version):
                 runes = _throwable_no_stat_runes(version, text)
                 self.assertEqual([rune['key'] for rune in runes], ['hunting'])
-                self.assertEqual(runes[0]['weight'], 5)
-        for version in ('touch', 'retro'):
-            with self.subTest(version=version):
-                self.assertEqual(_throwable_no_stat_runes(version, text), [])
+                self.assertEqual(runes[0]['weight'], weight)
+        # Retro is the one left with nobody to state its hunting weight.
+        self.assertEqual(_throwable_no_stat_runes('retro', text), [])
 
     def test_the_page_hands_the_simulator_its_rune(self):
         resp = self.client.get('/forgemagie/', HTTP_ACCEPT_LANGUAGE='en')

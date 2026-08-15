@@ -203,9 +203,15 @@ _RETRO_STATS = {
 # Runes that change an item without giving it a characteristic. They are not in
 # the item tables the site ships, so their presence was read from each version's
 # own item file: ankama ids 10057 and 7508 exist in the Dofus 3, beta, Dofus 2,
-# Touch and Retro data alike. The hunting rune costs 5 of weight on Dofus 3; no
-# source gives that figure for Touch or Retro, so those stay unstated.
+# Touch and Retro data alike. The hunting rune costs 5 of weight on Dofus 3 and
+# 2 on Touch; nothing states it for Retro, so that one stays unstated and its
+# rune cannot be thrown in the simulator.
 _HUNTING = {'key': 'hunting', 'weight': 5, 'mageable': True}
+# Touch weighs 2. No first-party source states it: the item table carries only
+# the carry weight, and dofustouch.com is a parked domain now. It comes from a
+# Touch player who checked the rest of this table against their own game, so it
+# is the one figure here resting on a report rather than on a file.
+_HUNTING_TOUCH = {'key': 'hunting', 'weight': 2, 'mageable': True}
 _HUNTING_UNKNOWN = {'key': 'hunting', 'weight': None, 'mageable': True}
 # The signature rune goes in with the ingredients at craft time and never
 # touches smithmagic, so it weighs nothing anywhere.
@@ -214,7 +220,7 @@ _SIGNATURE = {'key': 'signature', 'weight': 0, 'mageable': False}
 _NO_STAT_RUNES = {
     'modern': [_HUNTING, _SIGNATURE],
     'dofus2': [_HUNTING, _SIGNATURE],
-    'touch': [_HUNTING_UNKNOWN, _SIGNATURE],
+    'touch': [_HUNTING_TOUCH, _SIGNATURE],
     'retro': [_HUNTING_UNKNOWN, _SIGNATURE],
 }
 
