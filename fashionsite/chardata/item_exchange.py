@@ -26,6 +26,7 @@ from fashionistapulp.fashion_util import strip_accents
 #import cProfile
 
 from django.http import HttpResponseBadRequest
+from django.views.decorators.http import require_POST
 
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.min_stats import get_min_stats_digested_by_key
@@ -102,9 +103,8 @@ def _apply_stat_filters(items, stat_filters):
 def _order_items(item_type, char, search_term, stat_filters=None):
     structure = get_structure()
     items = structure.get_unique_items_by_type_and_level(item_type, char.level)
-    search_term = search_term.lower()
-    search_term = strip_accents(search_term)
-    if search_term is not None:
+    search_term = strip_accents((search_term or '').lower())
+    if search_term:
         items = [i for i in items if _item_contains_term(i, re.sub(r'\W+', '', search_term))]
     items = [i for i in items if _hide_removed_item(i)]
     items = _apply_stat_filters(items, stat_filters or [])
@@ -167,9 +167,8 @@ def _is_owned(structure, item, owned_ids):
 def _order_by_hits(item_type, char, search_term, stat_filters=None):
     structure = get_structure()
     items = structure.get_unique_items_by_type_and_level(item_type, char.level)
-    search_term = search_term.lower()
-    search_term = strip_accents(search_term)
-    if search_term is not None and search_term != '':
+    search_term = strip_accents((search_term or '').lower())
+    if search_term:
         items = [i for i in items if _item_contains_term(i, re.sub(r'\W+', '', search_term))]
     items = [i for i in items if _hide_removed_item(i)]
     items = _apply_stat_filters(items, stat_filters or [])
@@ -212,14 +211,17 @@ def check_if_violates(item, slot, char, stat_overrides=None):
     minimums = get_min_stats_digested_by_key(char)
     return result.get_all_project_violations(item.type, minimums)
 
+@require_POST
 def get_items_of_type(request, char_id):
     char = get_char_or_raise(request, char_id)
-        
+
     page = safe_int(request.POST.get('page'), 1)
     search_term = request.POST.get('search_term', None)
     slot = request.POST.get('slot', None)
     stat_filters = _parse_stat_filters(request)
-    
+
+    if slot not in SLOTS:
+        return HttpResponseBadRequest()
     itype = SLOT_NAME_TO_TYPE[slot]
     structure = get_structure()
     
@@ -275,18 +277,19 @@ def get_items_of_type(request, char_id):
     
     return HttpResponseJson(json_response)  
     
+@require_POST
 def get_items_to_exchange(request, char_id):
     char = get_char_or_raise(request, char_id)
-        
+
     slot = request.POST.get('slot', None)
     page = safe_int(request.POST.get('page', 1), 1)
     search_term = request.POST.get('search_term', None)
     order_by_stats = request.POST.get('order_by_stat', True)
     stat_filters = _parse_stat_filters(request)
-    
-    assert slot in SLOTS
-    assert int(page) >= 0
-    
+
+    if slot not in SLOTS or page < 0:
+        return HttpResponseBadRequest()
+
     structure = get_structure()
     item_type = structure.get_type_id_by_name(SLOT_NAME_TO_TYPE.get(slot))
     
@@ -377,11 +380,13 @@ def get_items_to_exchange(request, char_id):
     
     return HttpResponseJson(json_response)
 
+@require_POST
 def switch_item(request, char_id):
     char = get_char_or_raise(request, char_id)
     item_name = request.POST.get('itemName', None)
     slot = request.POST.get('slot', None)
-    assert slot in SLOTS
+    if slot not in SLOTS:
+        return HttpResponseBadRequest()
 
     structure = get_structure()
     try:
@@ -399,11 +404,13 @@ def switch_item(request, char_id):
 
     return HttpResponseText('ok')
 
+@require_POST
 def remove_item(request, char_id):
     char = get_char_or_raise(request, char_id)
     slot = request.POST.get('slot', None)
-    assert slot in SLOTS
-    
+    if slot not in SLOTS:
+        return HttpResponseBadRequest()
+
     result = get_solution(char)
     result.switch_item(None, slot)
     set_solution(char, result)
@@ -465,7 +472,9 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
             total_damage -= (damage.min_dam + damage.max_dam)/2
         else:
             total_damage += (damage.min_dam + damage.max_dam)/2
-    if weapon_obj.ap == 0:
+    # Four Retro weapons carry no weapon data at all in the game files, so they
+    # reach here with no AP cost. Damage per AP means nothing for them.
+    if not weapon_obj.ap:
         rating_non_crit = 0
     else:
         rating_non_crit = total_damage / float(weapon_obj.ap)
@@ -483,7 +492,7 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
                 total_damage -= (damage.min_dam + damage.max_dam)/2
             else:
                 total_damage += (damage.min_dam + damage.max_dam)/2
-        if weapon_obj.ap == 0:
+        if not weapon_obj.ap:
             rating_crit = 0
         else:
             rating_crit = total_damage / float(weapon_obj.ap)

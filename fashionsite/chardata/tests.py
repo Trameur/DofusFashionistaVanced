@@ -14906,6 +14906,130 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                   '%s gives %s AP or MP' % (name, value))
 
 
+class ItemExchangeEndpointTests(TestCase):
+    """The item picker endpoints read request.POST and used to assert on what
+    they found there. A bare GET, which is what a crawler and a stale tab both
+    send, walked into the assert and mailed a 500."""
+
+    ENDPOINTS = ('/itemexchange/%d/', '/itemadd/%d/', '/exchange/%d/',
+                 '/remove/%d/')
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        import _pickle
+        from fashionistapulp.modelresult import ModelResultMinimal
+        self.user = User.objects.create_user('picker', 'picker@test.local',
+                                             'pw-42-solid')
+        input_ = {'char_class': 'Iop', 'char_level': 200, 'origin': 'generated',
+                  'options': {'ap_exo': False, 'mp_exo': False},
+                  'base_stats_by_attr': {'Vitality': 0, 'Wisdom': 0,
+                                         'Strength': 0, 'Intelligence': 0,
+                                         'Chance': 0, 'Agility': 0},
+                  'locked_equips': {}}
+        self.char = Char.objects.create(
+            name='Picker Build', char_name='picker-build', char_class='Iop',
+            char_build='Damage', level=200, minimum_stats=b'',
+            minimum_crits=b'', stats_weight=b'', options=b'', inclusions=b'',
+            exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({}, input_, {})),
+            owner=self.user, link_shared=False, game_version='retro')
+        self.client.force_login(self.user)
+
+    def test_a_get_is_refused_instead_of_raising(self):
+        for pattern in self.ENDPOINTS:
+            with self.subTest(endpoint=pattern):
+                resp = self.client.get('/retro' + pattern % self.char.pk)
+                self.assertEqual(resp.status_code, 405)
+
+    def test_the_retro_weapon_list_sorts_by_damage(self):
+        # The crash a player hit: the weapon picker, ordered by damage rather
+        # than by stats, rates every Retro weapon including the four the game
+        # gives no AP cost.
+        resp = self.client.post('/retro/itemexchange/%d/' % self.char.pk,
+                                {'slot': 'weapon', 'page': '1',
+                                 'order_by_stat': 'false'})
+        self.assertEqual(resp.status_code, 200)
+
+    def test_a_post_with_no_slot_is_a_bad_request(self):
+        for pattern in self.ENDPOINTS:
+            with self.subTest(endpoint=pattern):
+                resp = self.client.post('/retro' + pattern % self.char.pk)
+                self.assertEqual(resp.status_code, 400)
+                resp = self.client.post('/retro' + pattern % self.char.pk,
+                                        {'slot': 'not-a-slot'})
+                self.assertEqual(resp.status_code, 400)
+
+
+class WeaponWithoutApTests(TestCase):
+    """Retro ships four weapons the game itself gives no combat data to, so
+    they reach the rating with no AP cost. Dividing the damage by it took the
+    whole weapon list down, sorted by damage, on every Retro build."""
+
+    NO_AP_IDS = (2170, 3358, 6455, 8093)
+
+    def test_the_four_retro_weapons_still_carry_no_ap(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('retro')
+        structure = get_structure('retro')
+        for item_id in self.NO_AP_IDS:
+            item = structure.get_item_by_id(item_id)
+            with self.subTest(item=item_id):
+                self.assertIsNotNone(item)
+                weapon = structure.get_weapon_by_name(item.name)
+                self.assertIsNotNone(weapon)
+                self.assertIsNone(weapon.ap)
+
+    def test_no_other_version_hides_a_weapon_without_ap(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        tables = ('weapon_hits', 'weapon_crit_bonus', 'weapon_crit_hits',
+                  'weapon_weapontype')
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                seen = set()
+                for table in tables:
+                    seen |= {row[0] for row in conn.execute(
+                        'SELECT DISTINCT item FROM %s' % table)}
+                with_ap = {row[0] for row in conn.execute(
+                    'SELECT item FROM weapon_ap')}
+            finally:
+                conn.close()
+            with self.subTest(version=version):
+                self.assertTrue(seen)
+                self.assertEqual(sorted(seen - with_ap), [])
+
+    def test_a_weapon_with_no_ap_rates_zero_rather_than_raising(self):
+        import collections
+        from unittest import mock
+        from chardata.item_exchange import _get_weapon_rate
+
+        class Hitless(object):
+            ap = None
+            has_crits = False
+            crit_chance_percent = 0
+            non_crit_hits = collections.defaultdict(list)
+            crit_hits = collections.defaultdict(list)
+
+        class Pool(object):
+            is_mageable = False
+
+        class Solution(object):
+            stats_total = {'ch': 0}
+
+            def switch_item(self, item, slot, overrides=None):
+                return Pool()
+
+        class Named(object):
+            name = 'Mercenary\'s Sword'
+
+        with mock.patch('chardata.item_exchange.get_structure') as structure:
+            structure.return_value.get_weapon_by_name.return_value = Hitless()
+            self.assertEqual(_get_weapon_rate(Named(), None, Solution()), 0)
+
+
 class PinnedDependenciesAgreeTests(SimpleTestCase):
     """boto3 requires the botocore of its own version, so a bump that lifts one
     and not the other stops the Docker build before the image is even built.
