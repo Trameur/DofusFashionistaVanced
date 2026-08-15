@@ -6656,6 +6656,79 @@ class TouchPetSolveTests(TestCase):
             pet.id, self.VARIANT_ID_BASE,
             'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
 
+class OneItemCountsOnceTests(TestCase):
+    """An item gated behind alternative conditions ships as "(#1)" and "(#2)",
+    and the exo variants do the same. The group was used to forbid and to lock,
+    never to count, so both rows of Crocoring could fill the two ring slots: one
+    ring worn twice, and two pieces of its set counted from one. A setless ring
+    is the pair the game does allow, so that one has to stay."""
+
+    OPTIONS = {'ap_exo': False, 'range_exo': False, 'mp_exo': False,
+               'dofus': True, 'dragoturkey': True, 'seemyool': True,
+               'rhineetle': True, 'prysmaradite': False, 'shields': True,
+               'trophies': True}
+
+    def _solve(self, locked):
+        from fashionistapulp.model import Model, ModelInput
+        from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
+        weights = {key: 0 for key in STAT_NAME_TO_KEY.values()}
+        weights.update({'vit': 40, 'pow': 60})
+        model_input = ModelInput(
+            char_level=200,
+            base_stats_by_attr={'Vitality': 0, 'Wisdom': 0, 'Strength': 0,
+                                'Intelligence': 0, 'Chance': 0, 'Agility': 0},
+            minimum_stats={}, locked_equips=locked, forbidden_equips=set(),
+            objective_values=weights, options=self.OPTIONS, char_class='Iop',
+            stat_points_to_distribute=5 * 199)
+        model = Model()
+        model.setup(model_input)
+        model.run(2)
+        return model.get_solved_status()
+
+    def test_every_split_group_is_counted_as_one_item(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from fashionistapulp.model import Model
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            self.addCleanup(set_current_game_version, 'dofus3')
+            set_current_game_version(version)
+            structure = get_structure(version)
+            groups = {name: members for name, members
+                      in structure.get_available_or_items().items()
+                      if len(members) > 1}
+            if not groups:
+                continue
+            model = Model()
+            with self.subTest(version=version):
+                for name, members in groups.items():
+                    self.assertIn(members[0].id,
+                                  model.restrictions.or_item_count_constraints,
+                                  '%s is not counted as one item' % name)
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_a_set_ring_cannot_fill_both_slots_from_its_two_rows(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        crocoring = structure.get_available_or_items().get('Crocoring')
+        self.assertTrue(crocoring and len(crocoring) == 2)
+        self.assertIsNotNone(crocoring[0].set, 'Crocoring stopped being a set ring')
+        locked = {'ring1': crocoring[0].id, 'ring2': crocoring[1].id}
+        self.assertEqual(self._solve(locked), 'Infeasible')
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_a_setless_ring_still_fills_both_slots(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        band = structure.get_available_or_items().get('Awmigawd Band')
+        self.assertTrue(band and len(band) == 2)
+        self.assertIsNone(band[0].set, 'Awmigawd Band gained a set')
+        locked = {'ring1': band[0].id, 'ring2': band[1].id}
+        self.assertEqual(self._solve(locked), 'Optimal')
+
+
 class OrEquipConditionTests(TestCase):
     """Touch gates some items on either of two stats, "MP < 6 or AP < 12" on the
     Professor Xa set. Keeping both as AND rows would forbid builds the game

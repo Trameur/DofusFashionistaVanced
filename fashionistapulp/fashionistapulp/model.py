@@ -667,6 +667,7 @@ class Model:
         self.create_condition_contraints()
         self.create_minimum_stat_constraints()
         self.create_advanced_minimum_stat_constraints()
+        self.create_or_item_count_constraints()
         self.create_locked_equip_constraints()
 #        self.create_two_handed_constraints()
         self.create_forbidden_items_constraints()
@@ -848,6 +849,28 @@ class Model:
             if restriction is not None:
                 restriction.changeRHS(1 if options['mp_exo'] == 'gelano' else 0)
     
+    def create_or_item_count_constraints(self):
+        """One item split into rows is still one item.
+
+        An item gated behind alternative conditions ships as "(#1)" and "(#2)",
+        and the exo variants do the same. Nothing counted the group, so the two
+        rows of Crocoring could fill both ring slots: one ring worn twice, and
+        two pieces of its set counted from one. The pair of a setless ring is
+        the case the game does allow, so the ceiling is the one a single member
+        already has.
+        """
+        for _name, members in self.structure.get_available_or_items().items():
+            if len(members) < 2:
+                continue
+            first = members[0]
+            doublable = (self.structure.game_version != 'retro'
+                         and self.structure.get_type_name_by_id(first.type) == 'Ring'
+                         and first.set is None)
+            restriction = self.problem.restriction_lt_eq(
+                2 if doublable else 1,
+                [(1, 'x', item.id) for item in members])
+            self.restrictions.or_item_count_constraints[first.id] = restriction
+
     def create_locked_equip_constraints(self):
         for item in self.items_list:
             restriction = self.problem.restriction_lt_eq(-1, [(-1, 'x', item.id)])

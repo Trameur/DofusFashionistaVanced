@@ -33,6 +33,7 @@ class Restrictions:
         self.min_condition_contraints = {}
         self.max_condition_contraints = {}
         self.or_condition_contraints = {}
+        self.or_item_count_constraints = {}
         self.or_branch_constraints = {}
         self.stat_total_constraints = {}
         self.minimum_stat_constraints = {}
