@@ -407,6 +407,13 @@ SUPPORT_LINKS = [
 
 
 # --- dev-only overrides ---
+
+# A 500 raised while poking at a local server is not a production incident, and
+# mailing it to the project inbox buries the real user reports in there. Set
+# FASHIONISTA_MAIL_ERRORS=1 to test that path on purpose.
+if os.environ.get('FASHIONISTA_MAIL_ERRORS') != '1':
+    ADMINS = []
+
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
