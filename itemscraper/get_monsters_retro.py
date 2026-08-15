@@ -49,8 +49,12 @@ COLLAPSE = {
 TITLE_RE = re.compile(
     r'card-solo-monster-title"><a[^>]*href="[^"]*?/(\d+)/[^"/]+"[^>]*>([^<]+)</a>')
 # One drop: an item link (Ankama id in the path) followed by its ( <rate>% ...).
+# The rate used to be plain text after the paren; the site now wraps it in a
+# span carrying one rate per monster rank, whose own text is the rank 1 rate.
+# Both shapes are read, so the parser survives the site changing back.
 DROP_RE = re.compile(
-    r'href="[^"]*?/(\d+)/[^"/]+"[^>]*>.*?</a>\s*\(\s*([\d.,]+)\s*%', re.S)
+    r'href="[^"]*?/(\d+)/[^"/]+"[^>]*>.*?</a>\s*\(\s*(?:<span[^>]*>\s*)?'
+    r'([\d.,]+)\s*(?:</span>)?\s*%', re.S)
 
 
 def _http_get_json(url: str, retries: int = 3, timeout: int = 30) -> Dict[str, Any] | None:
@@ -174,7 +178,15 @@ def build_drops_index(languages: Sequence[str] = LANGUAGES,
     return out
 
 
-def main() -> None:
+# A page of 10 monsters carries about 20 drops, and the source has over a
+# thousand monsters. Anything near zero means the markup moved again, not that
+# the game lost its loot: the site once wrapped the rate in a span and this
+# scraper quietly returned nothing, which then emptied the drop, monster name,
+# grade and subarea tables in one run while every step still said ok.
+MIN_PAIRS = 500
+
+
+def main() -> int:
     parser = argparse.ArgumentParser(description="Build the Retro item->drops index from Solomonk")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--languages", nargs="*", default=list(LANGUAGES))
@@ -182,16 +194,25 @@ def main() -> None:
                         help="seconds between requests (be polite to the source)")
     parser.add_argument("--max-pages", type=int, default=400,
                         help="safety cap on pages fetched per language")
+    parser.add_argument("--min-pairs", type=int, default=MIN_PAIRS,
+                        help="fail rather than write a suspiciously empty index")
     args = parser.parse_args()
 
     index = build_drops_index(args.languages, args.delay, args.max_pages)
+    total_pairs = sum(len(v) for v in index.values())
+    if total_pairs < args.min_pairs:
+        print("ERROR: only %d item/monster pairs, expected at least %d. "
+              "The source markup has probably changed; %s left untouched."
+              % (total_pairs, args.min_pairs, args.output))
+        return 1
+
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", encoding="utf-8") as fh:
         json.dump(index, fh, ensure_ascii=False)
-    total_pairs = sum(len(v) for v in index.values())
     print("items with drops: %d | item/monster pairs: %d -> %s"
           % (len(index), total_pairs, args.output))
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

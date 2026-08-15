@@ -34,6 +34,15 @@ def _load_drops(path):
 
 def store_drops(drops_path, game_version="dofus3"):
     drops = _load_drops(drops_path)
+    # The three tables below are dropped and rebuilt, so an empty index does not
+    # leave them as they were, it empties them, and the monster names go with
+    # them: grades and subareas key off those names and empty in turn. It has
+    # happened once, when the source moved its drop rate into a span.
+    if not drops:
+        raise SystemExit(
+            '%s holds no drops at all; refusing to empty item_drops, '
+            'resource_drops and monster_names for %s.'
+            % (drops_path, game_version))
     items_db_path = get_items_db_path(game_version)
     # dofus3 rebuilds items.db from the dump at runtime, so the dump is the source
     # of truth; every other version loads its committed items_<ver>.db as-is.
