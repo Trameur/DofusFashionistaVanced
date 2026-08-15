@@ -61,12 +61,16 @@ EFFECT_MAP = {
     219: ('% Neutral Resist', -1),
     240: ('Earth Resist', 1), 241: ('Water Resist', 1), 242: ('Air Resist', 1),
     243: ('Fire Resist', 1), 244: ('Neutral Resist', 1),
-    # malus (negative)
+    # malus (negative). The game pairs each bonus with the id just above it:
+    # 174/175 are initiative, 176/177 prospecting. Reading 175 as prospecting
+    # put a malus of up to -500 prospecting on seven items that lose initiative,
+    # and 177 was read as Dodge, a stat Retro does not have at all.
     153: ('Vitality', -1), 154: ('Agility', -1), 155: ('Intelligence', -1),
     156: ('Wisdom', -1), 157: ('Strength', -1), 152: ('Chance', -1),
-    175: ('Prospecting', -1), 168: ('AP', -1), 169: ('MP', -1),
-    166: ('AP', 1), 177: ('Dodge', 1), 173: ('Lock', 1),
-    194: ('Pods', 1),
+    175: ('Initiative', -1), 177: ('Prospecting', -1),
+    168: ('AP', -1), 169: ('MP', -1), 166: ('AP', 1),
+    # 158 is the carry weight; 194 is "Gagner X kamas", which is not a stat, and
+    # 173 is "Reduction physique diminue", which the site has no stat for.
     158: ('Pods', 1), 225: ('Trap Damage', 1), 226: ('% Trap Damage', 1),
     # PVP resists ("face aux combattants"), on Retro items (e.g. shields) but
     # removed from Dofus 3. % variants 250-254, flat variants 260-264.

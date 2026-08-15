@@ -174,10 +174,10 @@ def main() -> None:
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
-    # Set bonuses from the Dofus Retro Tools API (expressly offered, keyed
-    # by ankama set id; replaced the Solomonk page scrape per the sourcing
-    # policy). A network failure leaves the committed retro_set_bonuses.json
-    # in place for items/transform below.
+    # Set bonuses are server-side, so no Ankama file has them: solomonk.fr
+    # leads and the Dofus Retro Tools API fills the sets it does not list.
+    # A network failure leaves the committed retro_set_bonuses.json in place
+    # for items/transform below.
     step("sets/bonuses", [
         PY, "get_retro_set_bonuses.py",
     ], cwd=ITEMSCRAPER)

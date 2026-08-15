@@ -14906,6 +14906,166 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                   '%s gives %s AP or MP' % (name, value))
 
 
+class RetroDropScrapeTests(SimpleTestCase):
+    """Solomonk moved each drop rate into a span carrying one value per monster
+    rank. The parser wanted the number in plain text after the paren, so it
+    matched nothing, and the run that followed emptied the drop, monster name,
+    grade and subarea tables while every step still reported ok."""
+
+    # The two shapes, as the site served them before and after the change.
+    OLD_MARKUP = ('<a class="text-solobrown" href="https://solomonk.fr/fr/'
+                  'ressource/362/peau-de-larve-bleue">Peau de Larve Bleue</a>'
+                  ' (20% <i class="icon-dropper"></i>), ')
+    NEW_MARKUP = ('<a class="text-solobrown" href="https://solomonk.fr/fr/'
+                  'ressource/362/peau-de-larve-bleue">Peau de Larve Bleue'
+                  '<sup><abbr title="Drops maximum">1</abbr></sup></a> '
+                  '(<span data-mobid=31 data-rank-1=20 data-rank-2=20>20</span>'
+                  '% <abbr title="0PP"><i class="icon-dropper"></i></abbr>), ')
+
+    def _scraper(self):
+        import importlib.util
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper', 'get_monsters_retro.py')
+        spec = importlib.util.spec_from_file_location('get_monsters_retro',
+                                                      path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_the_rate_is_read_from_both_markups(self):
+        scraper = self._scraper()
+        for label, markup in (('old', self.OLD_MARKUP),
+                              ('new', self.NEW_MARKUP)):
+            with self.subTest(markup=label):
+                found = scraper.DROP_RE.findall(markup)
+                self.assertEqual(found, [('362', '20')])
+
+    def test_an_empty_scrape_is_a_failure_not_a_result(self):
+        scraper = self._scraper()
+        self.assertGreaterEqual(scraper.MIN_PAIRS, 100)
+
+    def test_the_shipped_retro_drops_are_not_empty(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('retro')
+        if not os.path.exists(path):
+            self.skipTest('no retro database')
+        connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        try:
+            for table, floor in (('item_drops', 400), ('resource_drops', 2000),
+                                 ('monster_names', 2000),
+                                 ('monster_grades', 3000),
+                                 ('monster_subareas', 2500)):
+                count = connection.execute(
+                    'SELECT COUNT(*) FROM %s' % table).fetchone()[0]
+                with self.subTest(table=table):
+                    self.assertGreaterEqual(count, floor)
+        finally:
+            connection.close()
+
+
+class RetroEffectMapTests(SimpleTestCase):
+    """The Retro effect ids were mapped by hand and four were wrong. The game
+    pairs a bonus with the id just above it, so 174/175 are initiative and
+    176/177 prospecting; reading 175 as prospecting put a malus of up to -500
+    prospecting on items that lose initiative, and 177 became Dodge, a stat
+    Dofus Retro does not have."""
+
+    # ankama id -> the stat the game gives it a malus in
+    MALUS_ITEMS = {
+        2601: 'Initiative', 2606: 'Initiative', 2614: 'Initiative',
+        6438: 'Initiative', 8513: 'Initiative', 8819: 'Initiative',
+        9961: 'Initiative',
+        2381: 'Prospecting', 4242: 'Prospecting', 5999: 'Prospecting',
+        7138: 'Prospecting',
+    }
+    # Lock and Dodge arrived with Dofus 2. No Retro item has either.
+    ABSENT_FROM_RETRO = ('Lock', 'Dodge')
+
+    def _connect(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('retro')
+        if not os.path.exists(path):
+            self.skipTest('no retro database')
+        return sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+
+    def test_retro_has_neither_lock_nor_dodge(self):
+        connection = self._connect()
+        try:
+            for stat in self.ABSENT_FROM_RETRO:
+                count = connection.execute(
+                    """SELECT COUNT(*) FROM stats_of_item o
+                       JOIN stats st ON st.id = o.stat WHERE st.name = ?""",
+                    (stat,)).fetchone()[0]
+                with self.subTest(stat=stat):
+                    self.assertEqual(count, 0,
+                                     '%d retro items carry %s' % (count, stat))
+        finally:
+            connection.close()
+
+    def test_the_malus_lands_on_the_stat_the_game_names(self):
+        connection = self._connect()
+        try:
+            for ankama_id, stat in self.MALUS_ITEMS.items():
+                rows = connection.execute(
+                    """SELECT st.name, o.value FROM stats_of_item o
+                       JOIN items i ON i.id = o.item
+                       JOIN stats st ON st.id = o.stat
+                       WHERE i.ankama_id = ? AND o.value < 0""",
+                    (ankama_id,)).fetchall()
+                with self.subTest(item=ankama_id):
+                    if not rows:
+                        continue  # not every one of them is in the pool
+                    self.assertIn(stat, [name for name, _value in rows],
+                                  'item %d has %s' % (ankama_id, rows))
+        finally:
+            connection.close()
+
+    def test_every_mapped_effect_says_what_the_map_claims(self):
+        # The raw lang files are not committed, so this only runs on a machine
+        # that has fetched them. It is the check that found the four.
+        import json
+        import unicodedata
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        raw = os.path.join(repo_root, 'itemscraper', 'retro_raw',
+                           'effects_fr.json')
+        scraper = os.path.join(repo_root, 'itemscraper',
+                               'get_equipments_retro.py')
+        if not os.path.exists(raw):
+            self.skipTest('retro_raw not fetched on this machine')
+        with open(raw, encoding='utf-8') as handle:
+            effects = json.load(handle)['E']
+        with open(scraper, encoding='utf-8') as handle:
+            source = handle.read()
+        namespace = {}
+        table = source.split('EFFECT_MAP = {', 1)[1].split('\n}', 1)[0]
+        exec('EFFECT_MAP = {' + table + '\n}', namespace)
+
+        def flatten(text):
+            return unicodedata.normalize('NFKD', text or '').encode(
+                'ascii', 'ignore').decode().lower()
+
+        wrong = []
+        for effect_id, (name, sign) in namespace['EFFECT_MAP'].items():
+            text = (effects.get(str(effect_id)) or {}).get('d')
+            if text is None:
+                wrong.append('%d -> %s: no such effect' % (effect_id, name))
+                continue
+            flat = flatten(text)
+            is_malus = (flat.strip().startswith('-') or 'diminu' in flat
+                        or 'reduit' in flat)
+            if is_malus and sign > 0:
+                wrong.append('%d -> %s +1 but the game says %r'
+                             % (effect_id, name, text))
+            if not is_malus and sign < 0 and 'faiblesse' not in flat:
+                wrong.append('%d -> %s -1 but the game says %r'
+                             % (effect_id, name, text))
+        self.assertEqual(wrong, [])
+
+
 class RetroSetBonusCodeTests(SimpleTestCase):
     """Retro set bonuses are server-side, so they come from two fan databases.
     A player reported the Panoplignon: the game grants it percent TRAP damage,
