@@ -15180,6 +15180,42 @@ class StatNamesReachTheModelTests(SimpleTestCase):
                 self.assertEqual(sorted(used - known), [])
 
 
+class RebuildCheckTests(SimpleTestCase):
+    """check_rebuild.py diffs a rebuilt database against the committed one. A
+    rebuild reports success either way, and three times in one week one changed
+    something nobody asked for: the Retro drop tables emptied when the source
+    moved its markup, the Touch pet variants lost the drops they inherit, and
+    the synthesized Gelano row took a new id because it is numbered from the
+    highest id in the data, which orphans it in every saved build."""
+
+    def _module(self):
+        import importlib.util
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper', 'check_rebuild.py')
+        spec = importlib.util.spec_from_file_location('check_rebuild', path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_it_covers_every_version(self):
+        module = self._module()
+        self.assertEqual(sorted(module.VERSIONS),
+                         sorted(('dofus3', 'beta', 'dofus2', 'touch', 'retro')))
+        for version in module.VERSIONS:
+            with self.subTest(version=version):
+                self.assertIn(version, module.COMMITTED)
+
+    def test_it_reads_the_committed_copy_of_each_version(self):
+        module = self._module()
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        for version, path in module.COMMITTED.items():
+            with self.subTest(version=version):
+                self.assertTrue(os.path.exists(os.path.join(repo_root, path)),
+                                '%s is not where the check looks' % path)
+
+
 class SourceHealthCheckTests(SimpleTestCase):
     """check_sources.py probes every live source a version is built from, by
     running that source's real parser rather than reading a status code. It is
