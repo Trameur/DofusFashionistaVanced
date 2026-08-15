@@ -6053,3 +6053,8 @@ msgstr "Normal hit"
 
 msgid "Critical hit"
 msgstr "Critical hit"
+
+#: .\chardata\translation_util.py:0
+msgctxt "retro"
+msgid "% Trap Damage"
+msgstr "% Trap Damage"

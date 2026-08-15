@@ -24,7 +24,7 @@ from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
 from chardata.stat_range import format_stat_range, get_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
-from chardata.translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
+from chardata.translation_util import localized_stat_name, LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
 from static_s3.templatetags.static_s3 import static
 
 
@@ -380,6 +380,14 @@ def _localized_label(label, language):
         return _(label)
 
 
+def _localized_stat(stat_name, language, game_version=None):
+    """A stat's name, in the reader's language and its own version's words."""
+    if not stat_name:
+        return ''
+    with translation.override(language):
+        return localized_stat_name(stat_name, game_version)
+
+
 def _is_searchable_stat_key(stat_key):
     if not stat_key:
         return False
@@ -487,7 +495,7 @@ def _get_pet_feedable_bonuses(structure, grouped_variants, language):
                 'text': '%d%s%s' % (
                     rounded_value,
                     '' if stat.name.startswith('%') else ' ',
-                    _localized_label(stat.name, language),
+                    _localized_stat(stat.name, language, structure.game_version),
                 ),
                 'icon_url': _get_stat_icon_url(stat.key),
             })
@@ -507,7 +515,7 @@ def _get_set_bonuses(structure, item_set, language):
         by_pieces.setdefault(num_items, []).append((
             STAT_ORDER.get(stat.key, 9999),
             {
-                'name': _localized_label(stat.name, language),
+                'name': _localized_stat(stat.name, language, structure.game_version),
                 'value': int(round(value)),
                 'icon_url': _get_stat_icon_url(stat.key),
             },
@@ -522,7 +530,7 @@ def _get_set_bonuses(structure, item_set, language):
         caps_by_pieces.setdefault(num_items, []).append((
             STAT_ORDER.get(stat.key, 9999),
             {
-                'name': _localized_label(stat.name, language),
+                'name': _localized_stat(stat.name, language, structure.game_version),
                 'value': int(round(max_value)),
                 'icon_url': _get_stat_icon_url(stat.key),
             },
@@ -621,7 +629,7 @@ def _get_stat_lines(structure, item, language):
             'text': '%s%s%s' % (
                 _stat_amount_text(item, stat_id, rounded_value),
                 '' if stat.name.startswith('%') else ' ',
-                _localized_label(stat.name, language),
+                _localized_stat(stat.name, language, structure.game_version),
             ),
             'negative': stat_value < 0,
             'icon_url': _get_stat_icon_url(stat.key),
@@ -766,7 +774,7 @@ def _condition_text(structure, stat_id, value, is_max, language):
     stat = structure.get_stat_by_id(stat_id)
     if stat is None:
         return None
-    label = _localized_label(stat.name, language)
+    label = _localized_stat(stat.name, language, structure.game_version)
     return ('%s < %d' % (label, value + 1) if is_max
             else '%s > %d' % (label, value - 1))
 
@@ -2028,7 +2036,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         if stat is None:
             continue
         stat_lines.append({
-            'name': _localized_label(stat.name, language),
+            'name': _localized_stat(stat.name, language, structure.game_version),
             'value': stat_value,
             'amount_text': _stat_amount_text(representative_item, stat_id,
                                              int(round(stat_value))),

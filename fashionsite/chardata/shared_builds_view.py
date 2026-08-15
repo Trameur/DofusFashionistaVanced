@@ -25,6 +25,7 @@ import logging
 import json
 import pickle
 
+from chardata.translation_util import localized_stat_name
 from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.util import set_response, version_reverse
@@ -121,7 +122,7 @@ def _get_compact_stats(solution, structure):
         stat = structure.get_stat_by_key(stat_key)
         if stat is None:
             continue
-        add_chip(stat_key, total_stats.get(stat_key, 0), label=_(stat.name))
+        add_chip(stat_key, total_stats.get(stat_key, 0), label=localized_stat_name(stat.name))
 
     return compact_stats
 

@@ -6644,3 +6644,8 @@ msgstr "Coup normal"
 
 msgid "Critical hit"
 msgstr "Coup critique"
+
+#: .\chardata\translation_util.py:0
+msgctxt "retro"
+msgid "% Trap Damage"
+msgstr "% de dommages aux pièges"

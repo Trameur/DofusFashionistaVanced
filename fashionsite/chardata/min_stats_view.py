@@ -16,6 +16,7 @@
 
 import json
 
+from chardata.translation_util import localized_stat_name
 from chardata.min_stats import get_min_stats, set_min_stats, convert_dict_index_name_to_key
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson
@@ -37,7 +38,7 @@ def _get_adv_stat_icon_urls(structure, adv_stat):
 
     if local_name and ' + ' in local_name:
         localized_name_to_stat_name = {
-            _(stat.name): stat.name for stat in structure.get_stats_list()
+            localized_stat_name(stat.name): stat.name for stat in structure.get_stats_list()
         }
         ordered_from_label = []
         for localized_part in local_name.split(' + '):
@@ -80,7 +81,7 @@ def min_stats(request, char_id):
             continue
         stat_to_add = {}
         stat_to_add['key'] = stat.key
-        stat_to_add['name'] = _(stat.name)
+        stat_to_add['name'] = localized_stat_name(stat.name)
         stat_to_add['icon_url'] = _get_stat_icon_url(stat.key)
         stats.append(stat_to_add)
     

@@ -16,6 +16,29 @@
 
 from django.utils.translation import gettext_lazy
 from django.utils.translation import gettext as _
+from django.utils.translation import pgettext
+
+
+# A stat whose name the versions do not agree on. Dofus 3 calls the percent
+# trap stat Trap Power and Dofus 2 Traps (Power), both characteristics; Retro's
+# effect 226 is a plain percentage, "+X% de dommages aux pieges", so calling it
+# Power there says the wrong thing about what it does. The catalogue carries
+# the version as the context, and the version that says nothing keeps the
+# default: pgettext returns the msgid untouched when the context is missing,
+# so only the pairs listed here may go through it.
+VERSION_STAT_NAMES = {
+    ('retro', '% Trap Damage'),
+}
+
+
+def localized_stat_name(name, game_version=None):
+    """The stat's name as the running version's own game words it."""
+    if game_version is None:
+        from fashionistapulp.structure import get_current_game_version
+        game_version = get_current_game_version()
+    if (game_version, name) in VERSION_STAT_NAMES:
+        return pgettext(game_version, name)
+    return _(name)
 
 
 LOCALIZED_CHARACTER_CLASSES = {

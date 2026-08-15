@@ -15180,6 +15180,48 @@ class StatNamesReachTheModelTests(SimpleTestCase):
                 self.assertEqual(sorted(used - known), [])
 
 
+class VersionStatNameTests(SimpleTestCase):
+    """Dofus 3 and Dofus 2 have a trap characteristic and call it Power; Retro's
+    effect 226 is a plain percentage, "+X% de dommages aux pieges" in its own
+    lang files. One shared name called it Power everywhere, which said the wrong
+    thing about what it does on Retro, and the Panoplignon is a trap set."""
+
+    # From itemscraper/retro_raw/effects_<lang>.json, effect 226.
+    RETRO = {'fr': '% de dommages aux pièges',
+             'es': '% de daños con las trampas',
+             'pt': '% de dano para armadilhas',
+             'de': '% Schaden durch Fallen'}
+
+    def test_retro_words_the_percent_trap_stat_its_own_way(self):
+        from django.utils import translation
+        from chardata.translation_util import localized_stat_name
+        for language, wanted in self.RETRO.items():
+            with self.subTest(language=language), translation.override(language):
+                self.assertEqual(localized_stat_name('% Trap Damage', 'retro'),
+                                 wanted)
+
+    def test_the_other_versions_keep_the_shared_name(self):
+        from django.utils import translation
+        from chardata.translation_util import localized_stat_name
+        with translation.override('fr'):
+            shared = localized_stat_name('% Trap Damage', 'dofus3')
+            self.assertNotEqual(shared, self.RETRO['fr'])
+            for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+                with self.subTest(version=version):
+                    self.assertEqual(
+                        localized_stat_name('% Trap Damage', version), shared)
+
+    def test_a_stat_with_no_override_is_translated_as_before(self):
+        from django.utils import translation
+        from django.utils.translation import gettext
+        from chardata.translation_util import localized_stat_name
+        with translation.override('fr'):
+            for name in ('Trap Damage', 'Strength', 'AP', 'Prospecting'):
+                with self.subTest(stat=name):
+                    self.assertEqual(localized_stat_name(name, 'retro'),
+                                     gettext(name))
+
+
 class RebuildCheckTests(SimpleTestCase):
     """check_rebuild.py diffs a rebuilt database against the committed one. A
     rebuild reports success either way, and three times in one week one changed

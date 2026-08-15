@@ -25,6 +25,7 @@ import pickle
 
 logger = logging.getLogger(__name__)
 
+from chardata.translation_util import localized_stat_name
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
                                      MOUNT_SLOT, PREVIEW_SIZES, SLOT_TO_NODE,
                                      UNDRAWN_SLOTS, breed_colors,
@@ -280,7 +281,7 @@ def _get_stat_filter_options():
         result.append({
             'key': stat.key,
             'id': stat.id,
-            'label': _(stat.name),
+            'label': localized_stat_name(stat.name),
             'icon_url': static(icon_path) if icon_path else None,
         })
     return result

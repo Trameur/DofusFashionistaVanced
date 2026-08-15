@@ -17,6 +17,7 @@
 import json
 import jsonpickle
 
+from chardata.translation_util import localized_stat_name
 from chardata.lock_forbid import (get_inclusions_dict,
     set_inclusions_dict_and_check_exclusions,
     get_stat_overrides, set_item_stat_override, remove_item_stat_override)
@@ -97,7 +98,7 @@ def get_item_details(request):
             icon_path = get_stat_icon_path(stat.key)
             info['stats'].append({
                 'stat_id': stat_id,
-                'name': _(stat.name),
+                'name': localized_stat_name(stat.name),
                 'value': value,
                 'icon_url': static(icon_path) if icon_path else None,
             })
