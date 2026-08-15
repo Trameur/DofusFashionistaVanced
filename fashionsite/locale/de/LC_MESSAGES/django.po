@@ -1726,13 +1726,12 @@ msgid "monster stats and artwork for Dofus 3 and the Beta"
 msgstr "Monsterwerte und Illustrationen für Dofus 3 und die Beta"
 
 #: .\chardata\templates\chardata\about.html:49
-msgid "Dofus Retro bestiary: monster drops, stats per grade and locations"
-msgstr ""
-"Dofus-Retro-Bestiarium: Drops, Werte pro Stufe und Fundorte der Monster"
+msgid "Dofus Retro set bonuses, and the bestiary: monster drops, stats per grade and locations"
+msgstr "Set-Boni für Dofus Retro und das Bestiarium: Drops, Werte pro Stufe und Fundorte der Monster"
 
 #: .\chardata\templates\chardata\about.html:50
-msgid "Dofus Retro set bonuses"
-msgstr "Set-Boni für Dofus Retro"
+msgid "Dofus Retro set bonuses for the sets Solomonk does not list"
+msgstr "Set-Boni für Dofus Retro, die Solomonk nicht führt"
 
 #: .\chardata\templates\chardata\about.html:51
 msgid "Dofus Retro spell icons"

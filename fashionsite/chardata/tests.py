@@ -14906,6 +14906,153 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                   '%s gives %s AP or MP' % (name, value))
 
 
+class RetroSetBonusCodeTests(SimpleTestCase):
+    """Retro set bonuses are server-side, so they come from two fan databases.
+    A player reported the Panoplignon: the game grants it percent TRAP damage,
+    which its own weapon grants too, where the dofusretrotools API codes plain
+    percent damage. Solomonk leads for that reason, the API fills the sets it
+    does not cover, and three codes the API alone uses were missing outright."""
+
+    RETRO_SETS = ((35, 'Aerdala Set'), (68, 'Black Rat Set'))
+    # ankama id -> {pieces: {stat: value}}, as solomonk and the player state it.
+    PLAYER_REPORTED = {
+        119: {2: {'% Trap Damage': 25}, 3: {'% Trap Damage': 50},
+              4: {'% Trap Damage': 80}},
+    }
+
+    def test_the_panoplignon_grants_trap_damage_not_plain_damage(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('retro')
+        if not os.path.exists(path):
+            self.skipTest('no retro database')
+        connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        try:
+            for ankama_id, tiers in self.PLAYER_REPORTED.items():
+                rows = connection.execute(
+                    """SELECT b.num_pieces_used, st.name, b.value
+                       FROM set_bonus b
+                       JOIN sets s ON s.id = b.item_set
+                       JOIN stats st ON st.id = b.stat
+                       WHERE s.ankama_id = ?""", (ankama_id,)).fetchall()
+                got = {}
+                for pieces, stat, value in rows:
+                    got.setdefault(pieces, {})[stat] = value
+                for pieces, wanted in tiers.items():
+                    with self.subTest(set=ankama_id, pieces=pieces):
+                        self.assertTrue(rows, 'set %d has no bonus' % ankama_id)
+                        for stat, value in wanted.items():
+                            self.assertEqual(got.get(pieces, {}).get(stat), value)
+                        self.assertNotIn('Power', got.get(pieces, {}))
+        finally:
+            connection.close()
+
+    def _stat_code(self):
+        # The scraper imports requests, which the site does not need, so the
+        # table is read out of the source rather than by importing the module.
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper',
+                            'store_retro_set_bonuses.py')
+        with open(path, encoding='utf-8') as handle:
+            source = handle.read()
+        table = source.split('STAT_CODE = {', 1)[1].split('\n}', 1)[0]
+        namespace = {}
+        exec('STAT_CODE = {' + table + '\n}', namespace)
+        return namespace['STAT_CODE']
+
+    def test_the_corrected_codes_keep_their_meaning(self):
+        codes = self._stat_code()
+        self.assertEqual(codes.get('pi'), 'Trap Damage')
+        self.assertEqual(codes.get('pip'), '% Trap Damage')
+        self.assertEqual(codes.get('pu'), 'Power')
+        # This endpoint uses both for the percent, unlike the item one, where
+        # rn is the flat resist. Solomonk prints a percent for every rn tier.
+        self.assertEqual(codes.get('rn'), '% Neutral Resist')
+        self.assertEqual(codes.get('rnp'), '% Neutral Resist')
+
+    def test_every_code_names_a_stat_the_retro_database_has(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('retro')
+        if not os.path.exists(path):
+            self.skipTest('no retro database')
+        connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        try:
+            known = {row[0] for row in connection.execute(
+                'SELECT name FROM stats')}
+        finally:
+            connection.close()
+        missing = sorted(set(self._stat_code().values()) - known)
+        self.assertEqual(missing, [], 'codes naming no stat row: %s' % missing)
+
+    def test_the_two_trap_sets_carry_their_trap_bonus(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('retro')
+        if not os.path.exists(path):
+            self.skipTest('no retro database')
+        connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        try:
+            for ankama_id, name in self.RETRO_SETS:
+                rows = connection.execute(
+                    """SELECT st.name, b.num_pieces_used, b.value
+                       FROM set_bonus b
+                       JOIN sets s ON s.id = b.item_set
+                       JOIN stats st ON st.id = b.stat
+                       WHERE s.ankama_id = ? AND st.name LIKE '%Trap Damage'""",
+                    (ankama_id,)).fetchall()
+                with self.subTest(set=name):
+                    kinds = {row[0] for row in rows}
+                    self.assertEqual(kinds, {'Trap Damage', '% Trap Damage'})
+                    self.assertTrue(all(row[2] > 0 for row in rows))
+        finally:
+            connection.close()
+
+    def test_retro_neutral_resist_set_bonuses_are_all_percent(self):
+        # Every neutral resist a Retro set grants is a percent, and it always
+        # sits beside percent elemental resists. A flat one here would mean the
+        # rn code had been read as the item endpoint reads it.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('retro')
+        if not os.path.exists(path):
+            self.skipTest('no retro database')
+        connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        try:
+            counts = dict(connection.execute(
+                """SELECT st.name, COUNT(*)
+                   FROM set_bonus b JOIN stats st ON st.id = b.stat
+                   WHERE st.name IN ('Neutral Resist', '% Neutral Resist')
+                   GROUP BY st.name"""))
+        finally:
+            connection.close()
+        self.assertTrue(counts.get('% Neutral Resist'),
+                        'no percent neutral resist set bonus at all')
+        self.assertEqual(counts.get('Neutral Resist', 0), 0)
+
+    def test_the_vendored_snapshot_carries_the_trap_bonus_too(self):
+        # get_equipments_retro reads this file on a full rebuild, so a rebuild
+        # would put the missing bonuses straight back if only the db were fixed.
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        import json
+        path = os.path.join(repo_root, 'itemscraper', 'retro_set_bonuses.json')
+        if not os.path.exists(path):
+            self.skipTest('no vendored set bonus snapshot')
+        with open(path, encoding='utf-8') as handle:
+            snapshot = json.load(handle)
+        by_id = {entry['ankama_id']: entry for entry in snapshot}
+        for ankama_id, name in self.RETRO_SETS:
+            entry = by_id.get(ankama_id)
+            with self.subTest(set=name):
+                self.assertIsNotNone(entry)
+                kinds = {line['type'] for tier in entry['bonus']
+                         for line in tier}
+                self.assertIn('Trap Damage', kinds)
+                self.assertIn('% Trap Damage', kinds)
+
+
 class ItemExchangeEndpointTests(TestCase):
     """The item picker endpoints read request.POST and used to assert on what
     they found there. A bare GET, which is what a crawler and a stale tab both

@@ -75,16 +75,14 @@ def _db_fallbacks(missing_sets, items_root):
 
 
 def main():
-    from store_retro_set_bonuses import fetch_api_records
+    from store_retro_set_bonuses import fetch_records
 
     sets_root = json.loads(
         (RAW_DIR / 'itemsets_fr.json').read_text(encoding='utf-8'))['IS']
     items_root = json.loads(
         (RAW_DIR / 'items_fr.json').read_text(encoding='utf-8'))['I']['u']
 
-    records = {r['ankama_id']: r for r in fetch_api_records()}
-    print('fetched %d sets with bonuses from the Dofus Retro Tools API'
-          % len(records))
+    records = {r['ankama_id']: r for r in fetch_records()}
 
     out = []
     missing = []
@@ -110,7 +108,7 @@ def main():
             'name': sd.get('n'),
             'items': [n for n in item_names if n],
             'bonus': bonus,
-            'source': 'dofusretrotools',
+            'source': record.get('source', 'dofusretrotools'),
         })
 
     fallbacks = _db_fallbacks(missing, items_root)

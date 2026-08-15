@@ -1,531 +1,8 @@
 [
   {
-    "ankama_id": 60,
-    "name": "Panoplie du Piou Rouge",
-    "tiers": {
-      "2": {
-        "Intelligence": 1
-      },
-      "3": {
-        "Intelligence": 2
-      },
-      "4": {
-        "Intelligence": 4
-      },
-      "5": {
-        "Initiative": 30,
-        "Intelligence": 8
-      },
-      "6": {
-        "Damage": 1,
-        "Heals": 1,
-        "Initiative": 60,
-        "Intelligence": 16
-      }
-    }
-  },
-  {
-    "ankama_id": 61,
-    "name": "Panoplie du Piou Bleu",
-    "tiers": {
-      "2": {
-        "Chance": 1
-      },
-      "3": {
-        "Chance": 2
-      },
-      "4": {
-        "Chance": 4
-      },
-      "5": {
-        "Chance": 8,
-        "Initiative": 30
-      },
-      "6": {
-        "Chance": 16,
-        "Damage": 1,
-        "Heals": 1,
-        "Initiative": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 74,
-    "name": "Panoplie Ananas",
-    "tiers": {
-      "2": {
-        "Prospecting": 10
-      },
-      "3": {
-        "Prospecting": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 45,
-    "name": "Panoplie du Champion",
-    "tiers": {
-      "5": {
-        "Agility": 100,
-        "Chance": 100,
-        "Intelligence": 100,
-        "Strength": 100,
-        "Vitality": 100,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 5,
-    "name": "Panoplie du Jeune Aventurier",
-    "tiers": {
-      "2": {
-        "Agility": 10,
-        "Chance": 10,
-        "Intelligence": 10,
-        "Strength": 10,
-        "Vitality": 10,
-        "Wisdom": 10
-      },
-      "3": {
-        "Agility": 15,
-        "Chance": 15,
-        "Intelligence": 15,
-        "Strength": 15,
-        "Vitality": 15,
-        "Wisdom": 15
-      },
-      "4": {
-        "Agility": 20,
-        "Chance": 20,
-        "Intelligence": 20,
-        "Strength": 20,
-        "Vitality": 20,
-        "Wisdom": 20
-      },
-      "5": {
-        "Agility": 25,
-        "Chance": 25,
-        "Intelligence": 25,
-        "Strength": 25,
-        "Vitality": 25,
-        "Wisdom": 25
-      },
-      "6": {
-        "Agility": 40,
-        "Chance": 40,
-        "Intelligence": 40,
-        "Strength": 40,
-        "Vitality": 40,
-        "Wisdom": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 150,
-    "name": "Panoplie du débutant",
-    "tiers": {
-      "2": {
-        "Initiative": 2,
-        "Vitality": 2
-      },
-      "3": {
-        "Initiative": 3,
-        "Vitality": 3
-      },
-      "4": {
-        "Initiative": 4,
-        "Vitality": 4
-      },
-      "5": {
-        "Initiative": 5,
-        "Vitality": 5
-      },
-      "6": {
-        "Initiative": 6,
-        "Vitality": 6
-      },
-      "7": {
-        "Initiative": 7,
-        "Vitality": 7
-      },
-      "8": {
-        "Initiative": 8,
-        "Vitality": 8
-      }
-    }
-  },
-  {
-    "ankama_id": 62,
-    "name": "Panoplie du Piou Violet",
-    "tiers": {
-      "2": {
-        "Wisdom": 1
-      },
-      "3": {
-        "Wisdom": 2
-      },
-      "4": {
-        "Wisdom": 3
-      },
-      "5": {
-        "Initiative": 30,
-        "Wisdom": 4
-      },
-      "6": {
-        "Initiative": 60,
-        "Wisdom": 10
-      }
-    }
-  },
-  {
-    "ankama_id": 69,
-    "name": "Panoplie du Boune",
-    "tiers": {
-      "2": {
-        "Agility": 5,
-        "Chance": 5,
-        "HP": 5,
-        "Intelligence": 5,
-        "Strength": 5,
-        "Wisdom": 5
-      },
-      "3": {
-        "Agility": 10,
-        "Chance": 10,
-        "HP": 10,
-        "Intelligence": 10,
-        "Strength": 10,
-        "Wisdom": 10
-      },
-      "4": {
-        "Agility": 15,
-        "Chance": 15,
-        "HP": 15,
-        "Intelligence": 15,
-        "Strength": 15,
-        "Wisdom": 15
-      },
-      "5": {
-        "Agility": 20,
-        "Chance": 20,
-        "HP": 20,
-        "Intelligence": 20,
-        "Strength": 20,
-        "Wisdom": 20
-      },
-      "6": {
-        "Agility": 25,
-        "Chance": 25,
-        "HP": 25,
-        "Intelligence": 25,
-        "Strength": 25,
-        "Wisdom": 25
-      }
-    }
-  },
-  {
-    "ankama_id": 70,
-    "name": "Panoplie du Piou Rose",
-    "tiers": {
-      "2": {
-        "HP": 2,
-        "Heals": 1
-      },
-      "3": {
-        "HP": 4,
-        "Heals": 2
-      },
-      "4": {
-        "HP": 6,
-        "Heals": 3
-      },
-      "5": {
-        "HP": 8,
-        "Heals": 4
-      },
-      "6": {
-        "HP": 12,
-        "Heals": 6
-      }
-    }
-  },
-  {
-    "ankama_id": 71,
-    "name": "Panoplie du Piou Vert",
-    "tiers": {
-      "2": {
-        "Agility": 1
-      },
-      "3": {
-        "Agility": 2
-      },
-      "4": {
-        "Agility": 4
-      },
-      "5": {
-        "Agility": 8,
-        "Initiative": 30
-      },
-      "6": {
-        "Agility": 16,
-        "Damage": 1,
-        "Heals": 1,
-        "Initiative": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 72,
-    "name": "Panoplie du Piou Jaune",
-    "tiers": {
-      "2": {
-        "Strength": 1
-      },
-      "3": {
-        "Strength": 2
-      },
-      "4": {
-        "Strength": 4
-      },
-      "5": {
-        "Initiative": 30,
-        "Strength": 8
-      },
-      "6": {
-        "Damage": 1,
-        "Heals": 1,
-        "Initiative": 60,
-        "Strength": 16
-      }
-    }
-  },
-  {
-    "ankama_id": 22,
-    "name": "Panoplie Arakne",
-    "tiers": {
-      "2": {
-        "Agility": 10,
-        "Vitality": 5
-      },
-      "3": {
-        "Agility": 20,
-        "Damage": 1,
-        "Vitality": 10
-      },
-      "4": {
-        "Agility": 30,
-        "Damage": 2,
-        "Vitality": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 24,
-    "name": "Panoplie Champ Champ",
-    "tiers": {
-      "2": {
-        "Intelligence": 5,
-        "Wisdom": 10
-      },
-      "3": {
-        "Intelligence": 10,
-        "Wisdom": 20
-      },
-      "4": {
-        "Damage": 1,
-        "Intelligence": 15,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 18,
-    "name": "Panoplie Champêtre",
-    "tiers": {
-      "2": {
-        "Agility": 5,
-        "Vitality": 5
-      },
-      "3": {
-        "Agility": 10,
-        "Intelligence": 5,
-        "Vitality": 10
-      },
-      "4": {
-        "% Neutral Resist": 4,
-        "Agility": 15,
-        "Intelligence": 10,
-        "Vitality": 15
-      },
-      "5": {
-        "% Neutral Resist": 8,
-        "Agility": 20,
-        "Initiative": 10,
-        "Intelligence": 15,
-        "Vitality": 20
-      },
-      "6": {
-        "% Neutral Resist": 12,
-        "Agility": 25,
-        "Initiative": 20,
-        "Intelligence": 20,
-        "Range": 1,
-        "Vitality": 25
-      },
-      "7": {
-        "% Neutral Resist": 16,
-        "AP": 1,
-        "Agility": 30,
-        "Initiative": 30,
-        "Intelligence": 25,
-        "Range": 1,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 63,
-    "name": "Panoplie en Mousse",
-    "tiers": {
-      "2": {
-        "Initiative": 50,
-        "Vitality": 5
-      },
-      "3": {
-        "Initiative": 60,
-        "Vitality": 10
-      },
-      "4": {
-        "Initiative": 70,
-        "Vitality": 15
-      },
-      "5": {
-        "Initiative": 80,
-        "Vitality": 20,
-        "Wisdom": 5
-      },
-      "6": {
-        "Initiative": 90,
-        "Vitality": 30,
-        "Wisdom": 10
-      },
-      "7": {
-        "Initiative": 100,
-        "Vitality": 40,
-        "Wisdom": 20
-      },
-      "8": {
-        "Damage": 2,
-        "Initiative": 200,
-        "Range": 1,
-        "Vitality": 50,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 25,
-    "name": "Panoplie du Bandit",
-    "tiers": {
-      "2": {
-        "Damage": 3,
-        "Vitality": 30
-      },
-      "3": {
-        "Damage": 5,
-        "Initiative": 50,
-        "Vitality": 40
-      },
-      "4": {
-        "Damage": 7,
-        "Initiative": 100,
-        "Vitality": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 12,
-    "name": "Panoplie de l'Homme Ours",
-    "tiers": {
-      "2": {
-        "Agility": 5,
-        "Vitality": 5
-      },
-      "3": {
-        "Agility": 10,
-        "Initiative": 10,
-        "Vitality": 10
-      },
-      "4": {
-        "Agility": 15,
-        "Damage": 5,
-        "Initiative": 15,
-        "Vitality": 15
-      },
-      "5": {
-        "Agility": 20,
-        "Initiative": 20,
-        "Power": 10,
-        "Vitality": 20
-      },
-      "6": {
-        "Agility": 25,
-        "Initiative": 25,
-        "Power": 15,
-        "Summon": 1,
-        "Vitality": 25
-      },
-      "7": {
-        "AP": 1,
-        "Agility": 30,
-        "Initiative": 30,
-        "Power": 20,
-        "Summon": 2,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 47,
-    "name": "Panoplie du Paysan",
-    "tiers": {
-      "2": {
-        "Chance": 5,
-        "Vitality": 10
-      },
-      "3": {
-        "Chance": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Chance": 15,
-        "Damage": 1,
-        "Vitality": 30
-      },
-      "5": {
-        "Chance": 20,
-        "Damage": 3,
-        "Vitality": 40,
-        "Wisdom": 10
-      },
-      "6": {
-        "Chance": 25,
-        "Damage": 5,
-        "Vitality": 50,
-        "Wisdom": 20
-      },
-      "7": {
-        "Chance": 30,
-        "Damage": 7,
-        "Vitality": 60,
-        "Wisdom": 40
-      }
-    }
-  },
-  {
     "ankama_id": 1,
     "name": "Panoplie du Bouftou",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Intelligence": 5,
@@ -561,473 +38,9 @@
     }
   },
   {
-    "ankama_id": 23,
-    "name": "Panoplie Moskito",
-    "tiers": {
-      "2": {
-        "Chance": 10,
-        "Vitality": 5
-      },
-      "3": {
-        "Chance": 30,
-        "Vitality": 10
-      },
-      "4": {
-        "Chance": 40,
-        "Vitality": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 21,
-    "name": "Panoplie du Sanglier",
-    "tiers": {
-      "2": {
-        "Vitality": 30
-      },
-      "3": {
-        "Initiative": 50,
-        "Vitality": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 50,
-    "name": "Panoplie du Tofu",
-    "tiers": {
-      "2": {
-        "Damage": 2,
-        "Initiative": 50
-      },
-      "3": {
-        "Agility": 5,
-        "Damage": 3,
-        "Initiative": 100,
-        "Vitality": 5
-      },
-      "4": {
-        "Agility": 10,
-        "Damage": 4,
-        "Initiative": 150,
-        "Vitality": 10
-      },
-      "5": {
-        "Agility": 20,
-        "Damage": 5,
-        "Initiative": 200,
-        "Vitality": 20
-      },
-      "6": {
-        "Agility": 40,
-        "Damage": 6,
-        "Initiative": 250,
-        "Vitality": 40,
-        "Wisdom": 15
-      },
-      "7": {
-        "Agility": 60,
-        "Damage": 7,
-        "Initiative": 300,
-        "Vitality": 60,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 7,
-    "name": "Panoplie de Toady",
-    "tiers": {
-      "2": {
-        "Agility": 50,
-        "Critical Hits": 5,
-        "Damage": 5
-      }
-    }
-  },
-  {
-    "ankama_id": 40,
-    "name": "Panoplie du Wa",
-    "tiers": {
-      "2": {
-        "HP": 50
-      },
-      "3": {
-        "HP": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 115,
-    "name": "Citronoplie",
-    "tiers": {
-      "2": {
-        "Chance": 10,
-        "Intelligence": 10
-      },
-      "3": {
-        "Chance": 20,
-        "Intelligence": 20
-      },
-      "4": {
-        "Chance": 30,
-        "Critical Hits": 3,
-        "Intelligence": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 122,
-    "name": "Panoplie Cigale",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Vitality": 30,
-        "Wisdom": 10
-      }
-    }
-  },
-  {
-    "ankama_id": 124,
-    "name": "Pompanoplie",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Summon": 1,
-        "Vitality": 20
-      },
-      "4": {
-        "Summon": 2,
-        "Vitality": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 16,
-    "name": "Panoplie Fourbasse",
-    "tiers": {
-      "2": {
-        "Critical Hits": 5,
-        "Vitality": 10
-      },
-      "3": {
-        "Critical Hits": 6,
-        "Initiative": 20,
-        "Vitality": 20
-      },
-      "4": {
-        "Critical Hits": 7,
-        "Damage": 3,
-        "Initiative": 40,
-        "Vitality": 30
-      },
-      "5": {
-        "Critical Hits": 8,
-        "Damage": 4,
-        "Initiative": 60,
-        "Range": 1,
-        "Vitality": 40
-      },
-      "6": {
-        "Critical Hits": 8,
-        "Damage": 5,
-        "Initiative": 80,
-        "MP": 1,
-        "Range": 1,
-        "Vitality": 50
-      },
-      "7": {
-        "AP": 1,
-        "Critical Hits": 10,
-        "Damage": 6,
-        "Initiative": 100,
-        "MP": 1,
-        "Range": 2,
-        "Vitality": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 112,
-    "name": "Panoplie Bzz",
-    "tiers": {
-      "2": {
-        "Damage": 2,
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 4,
-        "Vitality": 20
-      },
-      "4": {
-        "Damage": 8,
-        "Summon": 1,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 117,
-    "name": "Panoplie de l'empire",
-    "tiers": {
-      "2": {
-        "Strength": 10,
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 4,
-        "Strength": 20,
-        "Vitality": 20
-      },
-      "4": {
-        "Damage": 8,
-        "Range": 1,
-        "Strength": 30,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 31,
-    "name": "Panoplie du Prespic",
-    "tiers": {
-      "2": {
-        "Damage": 2
-      },
-      "3": {
-        "Damage": 5,
-        "Wisdom": 15
-      },
-      "4": {
-        "Damage": 8,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 155,
-    "name": "Panoplie du Corbeau Noir",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 1,
-        "Vitality": 20
-      },
-      "4": {
-        "Critical Hits": 2,
-        "Damage": 2,
-        "Vitality": 30
-      },
-      "5": {
-        "Critical Hits": 4,
-        "Damage": 3,
-        "Range": 1,
-        "Vitality": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 114,
-    "name": "Panoplie du Bois de l'Est",
-    "tiers": {
-      "2": {
-        "Agility": 10,
-        "Vitality": 10
-      },
-      "3": {
-        "Agility": 20,
-        "Vitality": 20
-      },
-      "4": {
-        "Agility": 30,
-        "Damage": 3,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 33,
-    "name": "Panoplie Larvesque",
-    "tiers": {
-      "2": {
-        "Intelligence": 10,
-        "Vitality": 20
-      },
-      "3": {
-        "Fire Resist": 2,
-        "Intelligence": 20,
-        "Vitality": 40
-      },
-      "4": {
-        "Fire Resist": 4,
-        "Heals": 6,
-        "Intelligence": 40,
-        "Vitality": 60
-      },
-      "5": {
-        "Fire Resist": 8,
-        "Heals": 10,
-        "Intelligence": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 113,
-    "name": "Panoplie de Peggy la Porkass",
-    "tiers": {
-      "2": {
-        "Critical Hits": 2,
-        "Vitality": 10
-      },
-      "3": {
-        "Critical Hits": 4,
-        "Vitality": 20
-      },
-      "4": {
-        "Critical Hits": 6,
-        "Vitality": 30,
-        "Wisdom": 10
-      }
-    }
-  },
-  {
-    "ankama_id": 148,
-    "name": "Panoplie de Rekto Topi",
-    "tiers": {
-      "2": {
-        "Damage": 1,
-        "Intelligence": 10
-      },
-      "3": {
-        "Damage": 5,
-        "Intelligence": 20
-      },
-      "4": {
-        "Damage": 4,
-        "Heals": 6,
-        "Intelligence": 30,
-        "Power": 10
-      }
-    }
-  },
-  {
-    "ankama_id": 145,
-    "name": "Panoplie de Kocksis",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Vitality": 20,
-        "Wisdom": 10
-      },
-      "4": {
-        "Damage": 5,
-        "Vitality": 30,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 13,
-    "name": "Panoplie du Kwak de Glace",
-    "tiers": {
-      "2": {
-        "Chance": 15,
-        "Vitality": 15
-      },
-      "3": {
-        "Chance": 20,
-        "Intelligence": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Chance": 25,
-        "Intelligence": 15,
-        "Vitality": 25,
-        "Wisdom": 5
-      },
-      "5": {
-        "Chance": 30,
-        "Intelligence": 20,
-        "Range": 1,
-        "Vitality": 30,
-        "Wisdom": 10
-      },
-      "6": {
-        "Chance": 35,
-        "Intelligence": 25,
-        "MP": 1,
-        "Range": 1,
-        "Vitality": 35,
-        "Wisdom": 10
-      },
-      "7": {
-        "AP": 1,
-        "Chance": 45,
-        "Intelligence": 30,
-        "MP": 1,
-        "Range": 1,
-        "Vitality": 45,
-        "Wisdom": 15
-      },
-      "8": {
-        "% Water Resist": 10,
-        "AP": 1,
-        "Chance": 55,
-        "Intelligence": 35,
-        "MP": 1,
-        "Range": 1,
-        "Vitality": 55,
-        "Wisdom": 25
-      }
-    }
-  },
-  {
-    "ankama_id": 135,
-    "name": "Panoplie de Noké",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Vitality": 20,
-        "Wisdom": 10
-      },
-      "4": {
-        "Critical Hits": 2,
-        "Vitality": 30,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 136,
-    "name": "Panoplie Solaire",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Chance": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Chance": 20,
-        "Summon": 1,
-        "Vitality": 30
-      }
-    }
-  },
-  {
     "ankama_id": 2,
     "name": "Panoplie du Kwak de Flammes",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Intelligence": 15,
@@ -1081,55 +94,363 @@
     }
   },
   {
-    "ankama_id": 15,
-    "name": "Panoplie du Kwak du Vent",
+    "ankama_id": 3,
+    "name": "Panoplie de l'Abraknyde",
+    "source": "solomonk",
     "tiers": {
       "2": {
+        "Strength": 10
+      },
+      "3": {
+        "HP": 10,
+        "Strength": 10
+      },
+      "4": {
+        "% Neutral Resist": 10,
+        "HP": 20,
+        "Strength": 20
+      },
+      "5": {
+        "% Earth Resist": 15,
+        "% Neutral Resist": 15,
+        "HP": 30,
+        "Strength": 30
+      },
+      "6": {
+        "% Air Resist": -20,
+        "% Earth Resist": 20,
+        "% Fire Resist": -20,
+        "% Neutral Resist": 20,
+        "HP": 40,
+        "Strength": 40
+      },
+      "7": {
+        "% Air Resist": -20,
+        "% Earth Resist": 20,
+        "% Fire Resist": -20,
+        "% Neutral Resist": 20,
+        "AP": 1,
+        "Damage": 4,
+        "HP": 50,
+        "Strength": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 4,
+    "name": "Panoplie du Bouftou Royal",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 20
+      },
+      "3": {
+        "Damage": 2,
+        "Vitality": 30
+      },
+      "4": {
+        "Damage": 3,
+        "Strength": 40,
+        "Vitality": 40
+      },
+      "5": {
+        "Damage": 4,
+        "Strength": 50,
+        "Vitality": 50
+      },
+      "6": {
+        "Damage": 5,
+        "Intelligence": 60,
+        "Strength": 60,
+        "Vitality": 60
+      },
+      "7": {
+        "AP": 1,
+        "Damage": 6,
+        "Intelligence": 70,
+        "Strength": 70,
+        "Vitality": 70
+      }
+    }
+  },
+  {
+    "ankama_id": 5,
+    "name": "Panoplie du Jeune Aventurier",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 10,
+        "Chance": 10,
+        "Intelligence": 10,
+        "Strength": 10,
+        "Vitality": 10,
+        "Wisdom": 10
+      },
+      "3": {
         "Agility": 15,
+        "Chance": 15,
+        "Intelligence": 15,
+        "Strength": 15,
+        "Vitality": 15,
+        "Wisdom": 15
+      },
+      "4": {
+        "Agility": 20,
+        "Chance": 20,
+        "Intelligence": 20,
+        "Strength": 20,
+        "Vitality": 20,
+        "Wisdom": 20
+      },
+      "5": {
+        "Agility": 25,
+        "Chance": 25,
+        "Intelligence": 25,
+        "Strength": 25,
+        "Vitality": 25,
+        "Wisdom": 25
+      },
+      "6": {
+        "Agility": 40,
+        "Chance": 40,
+        "Intelligence": 40,
+        "Strength": 40,
+        "Vitality": 40,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 6,
+    "name": "Panoplie Gelax",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Intelligence": 20
+      },
+      "3": {
+        "Intelligence": 30
+      },
+      "4": {
+        "Intelligence": 40,
+        "Prospecting": 10
+      },
+      "5": {
+        "Intelligence": 40,
+        "Prospecting": 20
+      },
+      "6": {
+        "Intelligence": 50,
+        "Prospecting": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 7,
+    "name": "Panoplie de Toady",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 50,
+        "Critical Hits": 5,
+        "Damage": 5
+      }
+    }
+  },
+  {
+    "ankama_id": 8,
+    "name": "Panoplie du Corbac",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 3
+      },
+      "3": {
+        "AP": 1,
+        "Damage": 3
+      },
+      "4": {
+        "AP": 1,
+        "Damage": 5,
+        "MP": 1
+      },
+      "5": {
+        "AP": 1,
+        "Damage": 10,
+        "MP": 1,
+        "Range": 1,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 9,
+    "name": "Panoplie Tortue",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 50,
+        "Prospecting": 10
+      },
+      "3": {
+        "Chance": 70,
+        "Damage": 3,
+        "Prospecting": 20
+      },
+      "4": {
+        "Chance": 80,
+        "Damage": 6,
+        "Prospecting": 30,
+        "Range": 1
+      }
+    }
+  },
+  {
+    "ankama_id": 10,
+    "name": "Panoplie Végétatif",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Prospecting": 15
+      },
+      "3": {
+        "AP": 1,
+        "Prospecting": 15
+      }
+    }
+  },
+  {
+    "ankama_id": 11,
+    "name": "Panoplie du Wabbit",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "HP": 50
+      },
+      "3": {
+        "HP": 100
+      },
+      "4": {
+        "Damage": 5,
+        "HP": 100,
+        "Prospecting": 10
+      },
+      "5": {
+        "Damage": 5,
+        "HP": 100,
+        "MP": 1,
+        "Prospecting": 10
+      },
+      "6": {
+        "Damage": 8,
+        "HP": 200,
+        "Initiative": 500,
+        "MP": 1,
+        "Prospecting": 10
+      },
+      "7": {
+        "Damage": 16,
+        "HP": 250,
+        "Initiative": 1000,
+        "MP": 2,
+        "Prospecting": 15
+      }
+    }
+  },
+  {
+    "ankama_id": 12,
+    "name": "Panoplie de l'Homme Ours",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 5,
+        "Vitality": 5
+      },
+      "3": {
+        "Agility": 10,
+        "Initiative": 10,
+        "Vitality": 10
+      },
+      "4": {
+        "Agility": 15,
+        "Initiative": 15,
+        "Power": 5,
+        "Vitality": 15
+      },
+      "5": {
+        "Agility": 20,
+        "Initiative": 20,
+        "Power": 10,
+        "Vitality": 20
+      },
+      "6": {
+        "Agility": 25,
+        "Initiative": 25,
+        "Power": 15,
+        "Summon": 1,
+        "Vitality": 25
+      },
+      "7": {
+        "AP": 1,
+        "Agility": 30,
+        "Initiative": 30,
+        "Power": 20,
+        "Summon": 2,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 13,
+    "name": "Panoplie du Kwak de Glace",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 15,
         "Vitality": 15
       },
       "3": {
-        "Agility": 20,
-        "Strength": 10,
+        "Chance": 20,
+        "Intelligence": 10,
         "Vitality": 20
       },
       "4": {
-        "Agility": 25,
-        "Strength": 15,
+        "Chance": 25,
+        "Intelligence": 15,
         "Vitality": 25,
         "Wisdom": 5
       },
       "5": {
-        "Agility": 30,
+        "Chance": 30,
+        "Intelligence": 20,
         "Range": 1,
-        "Strength": 20,
         "Vitality": 30,
         "Wisdom": 10
       },
       "6": {
-        "Agility": 35,
+        "Chance": 35,
+        "Intelligence": 25,
         "MP": 1,
         "Range": 1,
-        "Strength": 25,
         "Vitality": 35,
-        "Wisdom": 15
+        "Wisdom": 10
       },
       "7": {
         "AP": 1,
-        "Agility": 45,
+        "Chance": 45,
+        "Intelligence": 30,
         "MP": 1,
         "Range": 1,
-        "Strength": 30,
         "Vitality": 45,
-        "Wisdom": 20
+        "Wisdom": 15
       },
       "8": {
-        "% Air Resist": 10,
+        "% Water Resist": 10,
         "AP": 1,
-        "Agility": 55,
+        "Chance": 55,
+        "Intelligence": 35,
         "MP": 1,
         "Range": 1,
-        "Strength": 35,
         "Vitality": 55,
         "Wisdom": 25
       }
@@ -1138,6 +459,7 @@
   {
     "ankama_id": 14,
     "name": "Panoplie du Kwak de Terre",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Strength": 15,
@@ -1191,1337 +513,246 @@
     }
   },
   {
-    "ankama_id": 137,
-    "name": "Panoplie Mace",
+    "ankama_id": 15,
+    "name": "Panoplie du Kwak du Vent",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Vitality": 10
+        "Agility": 15,
+        "Vitality": 15
       },
       "3": {
-        "Intelligence": 10,
+        "Agility": 20,
+        "Strength": 10,
         "Vitality": 20
       },
       "4": {
-        "Intelligence": 20,
-        "Vitality": 30,
-        "Wisdom": 15
-      }
-    }
-  },
-  {
-    "ankama_id": 131,
-    "name": "Panoplie Mystère",
-    "tiers": {
-      "2": {
-        "Prospecting": 5,
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 2,
-        "Prospecting": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Damage": 4,
-        "Prospecting": 15,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 116,
-    "name": "Panoplie de Charlie",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Power": 20,
-        "Vitality": 20
-      },
-      "4": {
-        "Damage": 4,
-        "Power": 30,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 140,
-    "name": "Panoplie Sleump",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Critical Hits": 1,
-        "Vitality": 20
-      },
-      "4": {
-        "Critical Hits": 2,
-        "Vitality": 30,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 149,
-    "name": "Panoplie de Grizou",
-    "tiers": {
-      "2": {
-        "Chance": 10
-      },
-      "3": {
-        "Chance": 20,
-        "Damage": 2
-      },
-      "4": {
-        "Chance": 30,
-        "Damage": 4,
-        "Range": 1
-      }
-    }
-  },
-  {
-    "ankama_id": 133,
-    "name": "Panoplie de la Denrée",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Vitality": 20,
-        "Wisdom": 10
-      },
-      "4": {
-        "Damage": 5,
-        "Vitality": 30,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 34,
-    "name": "Panoplie Akwadala",
-    "tiers": {
-      "2": {
-        "Chance": 5,
-        "Vitality": 5
-      },
-      "3": {
-        "Chance": 10,
-        "Vitality": 10
-      },
-      "4": {
-        "Chance": 15,
-        "Vitality": 20
+        "Agility": 25,
+        "Strength": 15,
+        "Vitality": 25,
+        "Wisdom": 5
       },
       "5": {
-        "Chance": 20,
-        "Vitality": 40
+        "Agility": 30,
+        "Range": 1,
+        "Strength": 20,
+        "Vitality": 30,
+        "Wisdom": 10
       },
       "6": {
-        "Chance": 30,
-        "Prospecting": 10,
-        "Vitality": 60
+        "Agility": 35,
+        "MP": 1,
+        "Range": 1,
+        "Strength": 25,
+        "Vitality": 35,
+        "Wisdom": 15
       },
       "7": {
         "AP": 1,
-        "Chance": 40,
-        "Prospecting": 20,
-        "Vitality": 80,
+        "Agility": 45,
+        "MP": 1,
+        "Range": 1,
+        "Strength": 30,
+        "Vitality": 45,
         "Wisdom": 20
       },
       "8": {
-        "AP": 1,
-        "Chance": 60,
-        "MP": 1,
-        "Prospecting": 30,
-        "Vitality": 100,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 134,
-    "name": "Panoplie Yug",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 2,
-        "Vitality": 20
-      },
-      "4": {
-        "Damage": 4,
-        "Summon": 1,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 147,
-    "name": "Panoplie de Laikteur",
-    "tiers": {
-      "2": {
-        "Initiative": 50,
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 3,
-        "Initiative": 100,
-        "Vitality": 20
-      },
-      "4": {
-        "Damage": 5,
-        "Initiative": 200,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 143,
-    "name": "Panoplie des Bouftons Rouges",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Vitality": 20,
-        "Wisdom": 10
-      },
-      "4": {
-        "Damage": 4,
-        "Vitality": 30,
-        "Wisdom": 20
-      },
-      "5": {
-        "Damage": 8,
-        "Summon": 1,
-        "Vitality": 40,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 142,
-    "name": "Panoplie Real Boitar",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Vitality": 20,
-        "Wisdom": 10
-      },
-      "4": {
-        "Damage": 4,
-        "Vitality": 30,
-        "Wisdom": 20
-      },
-      "5": {
-        "Damage": 8,
-        "Summon": 1,
-        "Vitality": 40,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 138,
-    "name": "Panoplie Chisp",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Agility": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Agility": 20,
-        "Power": 15,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 144,
-    "name": "Panoplie de Grüt",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Vitality": 20,
-        "Wisdom": 10
-      },
-      "4": {
-        "Range": 1,
-        "Vitality": 30,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 146,
-    "name": "Panoplie de Gobeuf",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Agility": 20,
-        "Vitality": 20
-      },
-      "4": {
-        "Agility": 30,
-        "Critical Hits": 8,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 139,
-    "name": "Panoplie Goldobrak",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Critical Hits": 1,
-        "Vitality": 20
-      },
-      "4": {
-        "Chance": 20,
-        "Critical Hits": 2,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 110,
-    "name": "Panoplie Gato",
-    "tiers": {
-      "2": {
-        "% Earth Resist": 5,
-        "Strength": 10
-      },
-      "3": {
-        "% Earth Resist": 10,
-        "Strength": 40,
-        "Vitality": 40
-      },
-      "4": {
-        "% Earth Resist": 20,
-        "Strength": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 111,
-    "name": "Panoplie Paupayahn",
-    "tiers": {
-      "2": {
-        "% Air Resist": 5,
-        "Agility": 10
-      },
-      "3": {
         "% Air Resist": 10,
-        "Agility": 40,
-        "Vitality": 40
-      },
-      "4": {
-        "% Air Resist": 20,
-        "Agility": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 8,
-    "name": "Panoplie du Corbac",
-    "tiers": {
-      "2": {
-        "Damage": 3
-      },
-      "3": {
         "AP": 1,
-        "Damage": 3
-      },
-      "4": {
-        "AP": 1,
-        "Damage": 5,
-        "MP": 1
-      },
-      "5": {
-        "AP": 1,
+        "Agility": 55,
         "MP": 1,
-        "Power": 10,
         "Range": 1,
-        "Wisdom": 30
+        "Strength": 35,
+        "Vitality": 55,
+        "Wisdom": 25
       }
     }
   },
   {
-    "ankama_id": 76,
-    "name": "Panoplie Mégaman",
+    "ankama_id": 16,
+    "name": "Panoplie Fourbasse",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "% Water Resist": 5,
-        "Chance": 10
+        "Critical Hits": 5,
+        "Vitality": 10
       },
       "3": {
-        "% Water Resist": 10,
-        "Chance": 40,
-        "Vitality": 40
-      },
-      "4": {
-        "% Water Resist": 20,
-        "Chance": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 130,
-    "name": "Panoplie du Vampyre maudit",
-    "tiers": {
-      "2": {
-        "Damage": 1,
+        "Critical Hits": 6,
+        "Initiative": 20,
         "Vitality": 20
       },
-      "3": {
-        "Damage": 2,
+      "4": {
+        "Critical Hits": 7,
+        "Damage": 3,
+        "Initiative": 40,
         "Vitality": 30
       },
-      "4": {
-        "Damage": 3,
+      "5": {
+        "Critical Hits": 8,
+        "Damage": 4,
+        "Initiative": 60,
+        "Range": 1,
         "Vitality": 40
       },
-      "5": {
-        "Damage": 4,
+      "6": {
+        "Critical Hits": 8,
+        "Damage": 5,
+        "Initiative": 80,
+        "MP": 1,
         "Range": 1,
         "Vitality": 50
-      },
-      "6": {
-        "Damage": 5,
-        "MP": 1,
-        "Range": 2,
-        "Vitality": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 132,
-    "name": "Panoplie Tétounik",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Intelligence": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Intelligence": 20,
-        "Range": 1,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 3,
-    "name": "Panoplie de l'Abraknyde",
-    "tiers": {
-      "2": {
-        "Strength": 10
-      },
-      "3": {
-        "HP": 10,
-        "Strength": 10
-      },
-      "4": {
-        "% Neutral Resist": 10,
-        "HP": 20,
-        "Strength": 20
-      },
-      "5": {
-        "% Earth Resist": 15,
-        "% Neutral Resist": 15,
-        "HP": 30,
-        "Strength": 30
-      },
-      "6": {
-        "% Air Resist": -20,
-        "% Earth Resist": 20,
-        "% Fire Resist": -20,
-        "% Neutral Resist": 20,
-        "HP": 40,
-        "Strength": 40
       },
       "7": {
-        "% Air Resist": -20,
-        "% Earth Resist": 20,
-        "% Fire Resist": -20,
-        "% Neutral Resist": 20,
         "AP": 1,
-        "Damage": 4,
-        "HP": 50,
-        "Strength": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 123,
-    "name": "Panoplie Posh",
-    "tiers": {
-      "2": {
-        "Initiative": 100
-      },
-      "3": {
-        "Damage": 5,
-        "Initiative": 200
-      }
-    }
-  },
-  {
-    "ankama_id": 29,
-    "name": "Panoplie du Scarafeuille Blanc",
-    "tiers": {
-      "2": {
-        "% Air Resist": 5,
-        "Agility": 10
-      },
-      "3": {
-        "% Air Resist": 10,
-        "Agility": 40,
-        "Vitality": 40
-      },
-      "4": {
-        "% Air Resist": 20,
-        "Agility": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 75,
-    "name": "Panoplie Vioutifoule",
-    "tiers": {
-      "2": {
-        "% Fire Resist": 5,
-        "Intelligence": 10
-      },
-      "3": {
-        "% Fire Resist": 10,
-        "Intelligence": 40,
-        "Vitality": 40
-      },
-      "4": {
-        "% Fire Resist": 20,
-        "Intelligence": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 27,
-    "name": "Panoplie du Scarafeuille Vert",
-    "tiers": {
-      "2": {
-        "% Earth Resist": 5,
-        "Strength": 10
-      },
-      "3": {
-        "% Earth Resist": 10,
-        "Strength": 40,
-        "Vitality": 40
-      },
-      "4": {
-        "% Earth Resist": 20,
-        "Strength": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 28,
-    "name": "Panoplie du Scarafeuille Rouge",
-    "tiers": {
-      "2": {
-        "% Fire Resist": 5,
-        "Intelligence": 10
-      },
-      "3": {
-        "% Fire Resist": 10,
-        "Intelligence": 40,
-        "Vitality": 40
-      },
-      "4": {
-        "% Fire Resist": 20,
-        "Intelligence": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 30,
-    "name": "Panoplie du Scarafeuille Bleu",
-    "tiers": {
-      "2": {
-        "% Water Resist": 5,
-        "Chance": 10
-      },
-      "3": {
-        "% Water Resist": 10,
-        "Chance": 40,
-        "Vitality": 40
-      },
-      "4": {
-        "% Water Resist": 20,
-        "Chance": 60,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 26,
-    "name": "Panoplie du Craqueleur",
-    "tiers": {
-      "2": {
-        "Strength": 10
-      },
-      "3": {
-        "Strength": 20
-      },
-      "4": {
-        "% Neutral Resist": 5,
-        "Strength": 30
-      },
-      "5": {
-        "% Neutral Resist": 10,
-        "Strength": 40
-      },
-      "6": {
-        "% Neutral Resist": 15,
-        "Strength": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 125,
-    "name": "Panoplie Cristaline",
-    "tiers": {
-      "2": {
-        "Heals": 2,
-        "Vitality": 10
-      },
-      "3": {
-        "Heals": 4,
-        "Vitality": 20
-      },
-      "4": {
-        "Heals": 8,
-        "Range": 1,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 126,
-    "name": "Panoplie du Parrain",
-    "tiers": {
-      "2": {
-        "Agility": 10,
-        "Chance": 10,
-        "Vitality": 10
-      },
-      "3": {
-        "Agility": 20,
-        "Chance": 20,
-        "Vitality": 20
-      },
-      "4": {
-        "Agility": 30,
-        "Chance": 30,
-        "Range": 1,
-        "Vitality": 30,
-        "Wisdom": 20
-      },
-      "5": {
-        "Agility": 40,
-        "Chance": 40,
+        "Critical Hits": 10,
+        "Damage": 6,
+        "Initiative": 100,
         "MP": 1,
         "Range": 2,
-        "Vitality": 40,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 129,
-    "name": "Panoplie Papayou",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 5,
-        "Vitality": 20
-      },
-      "4": {
-        "Power": 10,
-        "Prospecting": 10,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 127,
-    "name": "Panoplie du Black Wab",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Power": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Power": 20,
-        "Summon": 1,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 128,
-    "name": "Panoplie de Slait",
-    "tiers": {
-      "2": {
-        "Heals": 1,
-        "Vitality": 10
-      },
-      "3": {
-        "Heals": 2,
-        "Vitality": 20,
-        "Wisdom": 10
-      },
-      "4": {
-        "Heals": 4,
-        "Range": 1,
-        "Vitality": 40,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 101,
-    "name": "Panoplie Blop Indigo",
-    "tiers": {
-      "2": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": -60,
-        "% Neutral Resist": 5,
-        "% Water Resist": 10,
-        "Chance": 10,
-        "Vitality": 10
-      },
-      "3": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": -55,
-        "% Neutral Resist": 10,
-        "% Water Resist": 20,
-        "Chance": 30,
-        "Vitality": 30
-      },
-      "4": {
-        "% Air Resist": 15,
-        "% Earth Resist": 15,
-        "% Fire Resist": -50,
-        "% Neutral Resist": 15,
-        "% Water Resist": 30,
-        "AP": 1,
-        "Chance": 50,
-        "Vitality": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 42,
-    "name": "Panoplie Dindo",
-    "tiers": {
-      "2": {
-        "Agility": 40,
-        "Vitality": 40
-      },
-      "3": {
-        "Agility": 50,
-        "Prospecting": 20,
-        "Vitality": 50
-      },
-      "4": {
-        "Agility": 60,
-        "MP": 1,
-        "Prospecting": 20,
         "Vitality": 60
       }
     }
   },
   {
-    "ankama_id": 98,
-    "name": "Panoplie Blop Griotte",
+    "ankama_id": 17,
+    "name": "Panoplie de Farle Ingalsse",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 10,
-        "% Neutral Resist": 5,
-        "% Water Resist": -60,
-        "Intelligence": 10,
-        "Vitality": 10
-      },
-      "3": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 20,
-        "% Neutral Resist": 10,
-        "% Water Resist": -55,
-        "Intelligence": 30,
-        "Vitality": 30
-      },
-      "4": {
-        "% Air Resist": 15,
-        "% Earth Resist": 15,
-        "% Fire Resist": 30,
-        "% Neutral Resist": 15,
-        "% Water Resist": -50,
-        "AP": 1,
-        "Intelligence": 50,
-        "Vitality": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 99,
-    "name": "Panoplie Blop Reinette",
-    "tiers": {
-      "2": {
-        "% Air Resist": -60,
-        "% Earth Resist": 10,
-        "% Fire Resist": 5,
-        "% Neutral Resist": 5,
-        "% Water Resist": 5,
         "Strength": 10,
         "Vitality": 10
       },
       "3": {
-        "% Air Resist": -55,
-        "% Earth Resist": 20,
-        "% Fire Resist": 10,
-        "% Neutral Resist": 10,
-        "% Water Resist": 10,
+        "Agility": 10,
+        "Strength": 20,
+        "Vitality": 20
+      },
+      "4": {
+        "% Earth Resist": 5,
+        "Agility": 20,
         "Strength": 30,
         "Vitality": 30
       },
-      "4": {
-        "% Air Resist": -50,
-        "% Earth Resist": 30,
-        "% Fire Resist": 15,
-        "% Neutral Resist": 15,
-        "% Water Resist": 15,
-        "AP": 1,
-        "Strength": 50,
-        "Vitality": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 100,
-    "name": "Panoplie Blop Coco",
-    "tiers": {
-      "2": {
-        "% Air Resist": 10,
-        "% Earth Resist": -60,
-        "% Fire Resist": 5,
-        "% Neutral Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 10,
-        "Vitality": 10
-      },
-      "3": {
-        "% Air Resist": 20,
-        "% Earth Resist": -55,
-        "% Fire Resist": 10,
-        "% Neutral Resist": 10,
-        "% Water Resist": 10,
-        "Agility": 30,
-        "Vitality": 30
-      },
-      "4": {
-        "% Air Resist": 30,
-        "% Earth Resist": -50,
-        "% Fire Resist": 15,
-        "% Neutral Resist": 15,
-        "% Water Resist": 15,
-        "AP": 1,
-        "Agility": 50,
-        "Vitality": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 49,
-    "name": "Panoplie du Scarafeuille Noir",
-    "tiers": {
-      "2": {
-        "% Neutral Resist": 5,
-        "Power": 15,
-        "Vitality": 25
-      },
-      "3": {
-        "% Neutral Resist": 10,
-        "Power": 30,
-        "Vitality": 50
-      },
-      "4": {
-        "% Neutral Resist": 20,
-        "Power": 60,
-        "Vitality": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 154,
-    "name": "Panoplie de Kloug",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Chance": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Chance": 20,
-        "Range": 2,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 152,
-    "name": "Panoplie d'Hulkrap",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Intelligence": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Intelligence": 20,
-        "Range": 2,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 151,
-    "name": "Panoplie du Roks Or",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Power": 20,
-        "Vitality": 20
-      },
-      "4": {
-        "Power": 30,
-        "Vitality": 30,
-        "Wisdom": 30
-      },
       "5": {
+        "% Earth Resist": 10,
+        "Agility": 30,
+        "Strength": 40,
+        "Vitality": 40
+      },
+      "6": {
+        "% Earth Resist": 15,
+        "Agility": 40,
+        "Strength": 50,
+        "Vitality": 50,
+        "Wisdom": 20
+      },
+      "7": {
+        "% Earth Resist": 20,
+        "Agility": 50,
         "MP": 1,
-        "Power": 40,
-        "Vitality": 40,
-        "Wisdom": 40
+        "Strength": 60,
+        "Vitality": 60,
+        "Wisdom": 30
       }
     }
   },
   {
-    "ankama_id": 153,
-    "name": "Panoplie de Klüme",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Strength": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Range": 2,
-        "Strength": 20,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 43,
-    "name": "Panoplie du Boufcool",
+    "ankama_id": 18,
+    "name": "Panoplie Champêtre",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Agility": 5,
-        "Chance": 5
+        "Vitality": 5
       },
       "3": {
         "Agility": 10,
-        "Chance": 10
-      },
-      "4": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 2
-      },
-      "5": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 4
-      },
-      "6": {
-        "Agility": 60,
-        "Chance": 60,
-        "Damage": 5
-      },
-      "7": {
-        "AP": 1,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 7,
-        "Vitality": 50,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 10,
-    "name": "Panoplie Végétatif",
-    "tiers": {
-      "2": {
-        "Prospecting": 15
-      },
-      "3": {
-        "AP": 1,
-        "Prospecting": 15
-      }
-    }
-  },
-  {
-    "ankama_id": 51,
-    "name": "Panoplie Scarabosse Doré",
-    "tiers": {
-      "2": {
-        "Damage": 1,
-        "Heals": 1,
-        "Vitality": 20
-      },
-      "3": {
-        "Damage": 2,
-        "Heals": 2,
-        "Vitality": 30
-      },
-      "4": {
-        "Damage": 3,
-        "Heals": 3,
-        "Vitality": 40
-      },
-      "5": {
-        "Damage": 4,
-        "Heals": 4,
-        "Vitality": 50,
-        "Wisdom": 20
-      },
-      "6": {
-        "Damage": 5,
-        "Heals": 5,
-        "Vitality": 60,
-        "Wisdom": 40
-      },
-      "7": {
-        "Heals": 10,
-        "Power": 10,
-        "Vitality": 80,
-        "Wisdom": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 6,
-    "name": "Panoplie Gelax",
-    "tiers": {
-      "2": {
-        "Intelligence": 20
-      },
-      "3": {
-        "Intelligence": 30
-      },
-      "4": {
-        "Intelligence": 40,
-        "Prospecting": 10
-      },
-      "5": {
-        "Intelligence": 40,
-        "Prospecting": 20
-      },
-      "6": {
-        "Intelligence": 50,
-        "Prospecting": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 11,
-    "name": "Panoplie du Wabbit",
-    "tiers": {
-      "2": {
-        "HP": 50
-      },
-      "3": {
-        "HP": 100
-      },
-      "4": {
-        "Damage": 5,
-        "HP": 100,
-        "Prospecting": 10
-      },
-      "5": {
-        "Damage": 5,
-        "HP": 100,
-        "MP": 1,
-        "Prospecting": 10
-      },
-      "6": {
-        "Damage": 8,
-        "HP": 200,
-        "Initiative": 500,
-        "MP": 1,
-        "Prospecting": 10
-      },
-      "7": {
-        "HP": 250,
-        "Initiative": 1000,
-        "MP": 2,
-        "Power": 16,
-        "Prospecting": 15
-      }
-    }
-  },
-  {
-    "ankama_id": 200,
-    "name": "Panoplie de force en bronze",
-    "tiers": {
-      "5": {
-        "AP": 1,
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 5,
-        "Intelligence": 20,
-        "Range": 1,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 100,
-        "Wisdom": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 201,
-    "name": "Panoplie d'intelligence en bronze",
-    "tiers": {
-      "5": {
-        "AP": 1,
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 5,
-        "Intelligence": 100,
-        "Range": 1,
-        "Strength": 20,
-        "Summon": 1,
-        "Vitality": 100,
-        "Wisdom": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 202,
-    "name": "Panoplie de chance en bronze",
-    "tiers": {
-      "5": {
-        "AP": 1,
-        "Agility": 20,
-        "Chance": 100,
-        "Damage": 5,
-        "Intelligence": 20,
-        "Range": 1,
-        "Strength": 20,
-        "Summon": 1,
-        "Vitality": 100,
-        "Wisdom": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 203,
-    "name": "Panoplie d'agilité en bronze",
-    "tiers": {
-      "5": {
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 20,
-        "Damage": 5,
-        "Intelligence": 20,
-        "Range": 1,
-        "Strength": 20,
-        "Summon": 1,
-        "Vitality": 100,
-        "Wisdom": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 9,
-    "name": "Panoplie Tortue",
-    "tiers": {
-      "2": {
-        "Chance": 50,
-        "Prospecting": 10
-      },
-      "3": {
-        "Chance": 70,
-        "Damage": 3,
-        "Prospecting": 20
-      },
-      "4": {
-        "Chance": 80,
-        "Damage": 6,
-        "Prospecting": 30,
-        "Range": 1
-      }
-    }
-  },
-  {
-    "ankama_id": 46,
-    "name": "Panoplie du Koalak",
-    "tiers": {
-      "2": {
-        "Agility": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Wisdom": 10
-      },
-      "4": {
-        "Agility": 60,
-        "Critical Hits": 4,
-        "Wisdom": 20
-      },
-      "5": {
-        "Agility": 80,
-        "Critical Hits": 6,
-        "Wisdom": 30
-      },
-      "6": {
-        "Agility": 100,
-        "Critical Hits": 8,
-        "Wisdom": 40
-      },
-      "7": {
-        "AP": 1,
-        "Agility": 120,
-        "Critical Hits": 12,
-        "Vitality": 80,
-        "Wisdom": 50
-      },
-      "8": {
-        "AP": 1,
-        "Agility": 150,
-        "Critical Hits": 20,
-        "Range": 1,
-        "Vitality": 150,
-        "Wisdom": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 41,
-    "name": "Panoplie du Kitsou",
-    "tiers": {
-      "2": {
-        "Vitality": 40
-      },
-      "3": {
-        "Vitality": 60,
-        "Wisdom": 30
-      },
-      "4": {
-        "AP": 1,
-        "Vitality": 100,
-        "Wisdom": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 32,
-    "name": "Panoplie du Mulou",
-    "tiers": {
-      "2": {
-        "Heals": 2,
-        "Strength": 10,
+        "Intelligence": 5,
         "Vitality": 10
       },
+      "4": {
+        "% Neutral Resist": 4,
+        "Agility": 15,
+        "Intelligence": 10,
+        "Vitality": 15
+      },
+      "5": {
+        "% Neutral Resist": 8,
+        "Agility": 20,
+        "Initiative": 10,
+        "Intelligence": 15,
+        "Vitality": 20
+      },
+      "6": {
+        "% Neutral Resist": 12,
+        "Agility": 25,
+        "Initiative": 20,
+        "Intelligence": 20,
+        "Range": 1,
+        "Vitality": 25
+      },
+      "7": {
+        "% Neutral Resist": 16,
+        "AP": 1,
+        "Agility": 30,
+        "Initiative": 30,
+        "Intelligence": 25,
+        "Range": 1,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 19,
+    "name": "Panoplie du Chef Bwork",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Initiative": 100,
+        "Pods": 100
+      },
       "3": {
-        "Heals": 4,
-        "Strength": 20,
+        "Initiative": 120,
+        "Pods": 200,
         "Vitality": 20
       },
       "4": {
-        "Heals": 6,
-        "Prospecting": 5,
-        "Strength": 30,
-        "Vitality": 30
-      },
-      "5": {
-        "Heals": 8,
-        "Prospecting": 10,
-        "Strength": 40,
+        "Initiative": 140,
+        "Pods": 300,
+        "Strength": 20,
         "Vitality": 40
       },
-      "6": {
-        "Heals": 10,
-        "Prospecting": 15,
-        "Strength": 60,
+      "5": {
+        "Agility": 20,
+        "Initiative": 160,
+        "Pods": 400,
+        "Strength": 40,
         "Vitality": 60
       },
-      "7": {
-        "Heals": 12,
-        "Prospecting": 20,
-        "Strength": 80,
+      "6": {
+        "Agility": 40,
+        "Initiative": 180,
+        "Pods": 500,
+        "Strength": 60,
         "Vitality": 80,
-        "Wisdom": 30
+        "Wisdom": 10
+      },
+      "7": {
+        "Agility": 60,
+        "Initiative": 200,
+        "MP": 1,
+        "Pods": 600,
+        "Strength": 80,
+        "Vitality": 100,
+        "Wisdom": 20
       }
     }
   },
   {
     "ankama_id": 20,
     "name": "Panoplie du Chef Crocodaille",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Agility": 15,
@@ -2565,44 +796,347 @@
     }
   },
   {
-    "ankama_id": 4,
-    "name": "Panoplie du Bouftou Royal",
+    "ankama_id": 21,
+    "name": "Panoplie du Sanglier",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Vitality": 20
-      },
-      "3": {
-        "Damage": 2,
         "Vitality": 30
       },
+      "3": {
+        "Initiative": 50,
+        "Vitality": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 22,
+    "name": "Panoplie Arakne",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 10,
+        "Vitality": 5
+      },
+      "3": {
+        "Agility": 20,
+        "Damage": 1,
+        "Vitality": 10
+      },
       "4": {
+        "Agility": 30,
+        "Damage": 2,
+        "Vitality": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 23,
+    "name": "Panoplie Moskito",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 10,
+        "Vitality": 5
+      },
+      "3": {
+        "Chance": 30,
+        "Vitality": 10
+      },
+      "4": {
+        "Chance": 40,
+        "Vitality": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 24,
+    "name": "Panoplie Champ Champ",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Intelligence": 5,
+        "Wisdom": 10
+      },
+      "3": {
+        "Intelligence": 10,
+        "Wisdom": 20
+      },
+      "4": {
+        "Damage": 1,
+        "Intelligence": 15,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 25,
+    "name": "Panoplie du Bandit",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
         "Damage": 3,
+        "Vitality": 30
+      },
+      "3": {
+        "Damage": 5,
+        "Initiative": 50,
+        "Vitality": 40
+      },
+      "4": {
+        "Damage": 7,
+        "Initiative": 100,
+        "Vitality": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 26,
+    "name": "Panoplie du Craqueleur",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Strength": 10
+      },
+      "3": {
+        "Strength": 20
+      },
+      "4": {
+        "% Neutral Resist": 5,
+        "Strength": 30
+      },
+      "5": {
+        "% Neutral Resist": 10,
+        "Strength": 40
+      },
+      "6": {
+        "% Neutral Resist": 15,
+        "Strength": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 27,
+    "name": "Panoplie du Scarafeuille Vert",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Earth Resist": 5,
+        "Strength": 10
+      },
+      "3": {
+        "% Earth Resist": 10,
         "Strength": 40,
         "Vitality": 40
       },
+      "4": {
+        "% Earth Resist": 20,
+        "Strength": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 28,
+    "name": "Panoplie du Scarafeuille Rouge",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Fire Resist": 5,
+        "Intelligence": 10
+      },
+      "3": {
+        "% Fire Resist": 10,
+        "Intelligence": 40,
+        "Vitality": 40
+      },
+      "4": {
+        "% Fire Resist": 20,
+        "Intelligence": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 29,
+    "name": "Panoplie du Scarafeuille Blanc",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Air Resist": 5,
+        "Agility": 10
+      },
+      "3": {
+        "% Air Resist": 10,
+        "Agility": 40,
+        "Vitality": 40
+      },
+      "4": {
+        "% Air Resist": 20,
+        "Agility": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 30,
+    "name": "Panoplie du Scarafeuille Bleu",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Water Resist": 5,
+        "Chance": 10
+      },
+      "3": {
+        "% Water Resist": 10,
+        "Chance": 40,
+        "Vitality": 40
+      },
+      "4": {
+        "% Water Resist": 20,
+        "Chance": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 31,
+    "name": "Panoplie du Prespic",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 2,
+        "Reflects": 2
+      },
+      "3": {
+        "Damage": 5,
+        "Reflects": 5,
+        "Wisdom": 15
+      },
+      "4": {
+        "Damage": 8,
+        "Reflects": 8,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 32,
+    "name": "Panoplie du Mulou",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Heals": 2,
+        "Strength": 10,
+        "Vitality": 10
+      },
+      "3": {
+        "Heals": 4,
+        "Strength": 20,
+        "Vitality": 20
+      },
+      "4": {
+        "Heals": 6,
+        "Prospecting": 5,
+        "Strength": 30,
+        "Vitality": 30
+      },
       "5": {
-        "Damage": 4,
-        "Strength": 50,
-        "Vitality": 50
+        "Heals": 8,
+        "Prospecting": 10,
+        "Strength": 40,
+        "Vitality": 40
       },
       "6": {
-        "Damage": 5,
-        "Intelligence": 60,
+        "Heals": 10,
+        "Prospecting": 15,
         "Strength": 60,
         "Vitality": 60
       },
       "7": {
+        "Heals": 12,
+        "Prospecting": 20,
+        "Strength": 80,
+        "Vitality": 80,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 33,
+    "name": "Panoplie Larvesque",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Intelligence": 10,
+        "Vitality": 20
+      },
+      "3": {
+        "Fire Resist": 2,
+        "Intelligence": 20,
+        "Vitality": 40
+      },
+      "4": {
+        "Fire Resist": 4,
+        "Heals": 6,
+        "Intelligence": 40,
+        "Vitality": 60
+      },
+      "5": {
+        "Fire Resist": 8,
+        "Heals": 10,
+        "Intelligence": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 34,
+    "name": "Panoplie Akwadala",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 5,
+        "Vitality": 5
+      },
+      "3": {
+        "Chance": 10,
+        "Vitality": 10
+      },
+      "4": {
+        "Chance": 15,
+        "Vitality": 20
+      },
+      "5": {
+        "Chance": 20,
+        "Vitality": 40
+      },
+      "6": {
+        "Chance": 30,
+        "Prospecting": 10,
+        "Vitality": 60
+      },
+      "7": {
         "AP": 1,
-        "Damage": 6,
-        "Intelligence": 70,
-        "Strength": 70,
-        "Vitality": 70
+        "Chance": 40,
+        "Prospecting": 20,
+        "Vitality": 80,
+        "Wisdom": 20
+      },
+      "8": {
+        "AP": 1,
+        "Chance": 60,
+        "MP": 1,
+        "Prospecting": 30,
+        "Vitality": 100,
+        "Wisdom": 30
       }
     }
   },
   {
     "ankama_id": 35,
     "name": "Panoplie Aerdala",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Agility": 10,
@@ -2617,32 +1151,133 @@
         "Vitality": 30
       },
       "5": {
+        "% Trap Damage": 5,
         "Agility": 40,
+        "Trap Damage": 4,
         "Vitality": 40
       },
       "6": {
+        "% Trap Damage": 10,
         "Agility": 50,
+        "Trap Damage": 6,
         "Vitality": 50,
         "Wisdom": 5
       },
       "7": {
+        "% Trap Damage": 20,
         "Agility": 60,
         "Range": 1,
+        "Trap Damage": 8,
         "Vitality": 60,
         "Wisdom": 15
       },
       "8": {
+        "% Trap Damage": 40,
         "Agility": 80,
         "MP": 1,
         "Range": 1,
+        "Trap Damage": 12,
         "Vitality": 80,
         "Wisdom": 30
       }
     }
   },
   {
+    "ankama_id": 36,
+    "name": "Panoplie Terrdala",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Damage": 2,
+        "Vitality": 20
+      },
+      "4": {
+        "Damage": 4,
+        "Strength": 10,
+        "Vitality": 40
+      },
+      "5": {
+        "Damage": 6,
+        "Strength": 20,
+        "Vitality": 60
+      },
+      "6": {
+        "% Neutral Resist": 5,
+        "Damage": 8,
+        "Strength": 40,
+        "Vitality": 100
+      },
+      "7": {
+        "% Neutral Resist": 10,
+        "Damage": 10,
+        "Strength": 60,
+        "Vitality": 150
+      },
+      "8": {
+        "% Neutral Resist": 20,
+        "AP": 1,
+        "Damage": 12,
+        "Strength": 80,
+        "Vitality": 250
+      }
+    }
+  },
+  {
+    "ankama_id": 37,
+    "name": "Panoplie Feudala",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Heals": 2,
+        "Vitality": 10
+      },
+      "3": {
+        "Heals": 4,
+        "Vitality": 20
+      },
+      "4": {
+        "Heals": 6,
+        "Initiative": 100,
+        "Vitality": 30
+      },
+      "5": {
+        "Heals": 8,
+        "Initiative": 150,
+        "Vitality": 40
+      },
+      "6": {
+        "Heals": 10,
+        "Initiative": 200,
+        "Intelligence": 20,
+        "Vitality": 50,
+        "Wisdom": 10
+      },
+      "7": {
+        "Heals": 12,
+        "Initiative": 250,
+        "Intelligence": 40,
+        "Range": 1,
+        "Vitality": 60,
+        "Wisdom": 20
+      },
+      "8": {
+        "Heals": 14,
+        "Initiative": 500,
+        "Intelligence": 80,
+        "MP": 1,
+        "Range": 1,
+        "Vitality": 80,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
     "ankama_id": 38,
     "name": "Panoplie O'Boul",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Critical Hits": 2,
@@ -2665,8 +1300,389 @@
     }
   },
   {
+    "ankama_id": 39,
+    "name": "Panoplie d'Elya Wood",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Heals": 8,
+        "Vitality": 60
+      },
+      "3": {
+        "Heals": 12,
+        "Intelligence": 40,
+        "Vitality": 100
+      },
+      "4": {
+        "Heals": 16,
+        "Intelligence": 60,
+        "Range": 1,
+        "Vitality": 150
+      }
+    }
+  },
+  {
+    "ankama_id": 40,
+    "name": "Panoplie du Wa",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "HP": 50
+      },
+      "3": {
+        "HP": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 41,
+    "name": "Panoplie du Kitsou",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 40
+      },
+      "3": {
+        "Vitality": 60,
+        "Wisdom": 30
+      },
+      "4": {
+        "AP": 1,
+        "Vitality": 100,
+        "Wisdom": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 42,
+    "name": "Panoplie Dindo",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 40,
+        "Vitality": 40
+      },
+      "3": {
+        "Agility": 50,
+        "Prospecting": 20,
+        "Vitality": 50
+      },
+      "4": {
+        "Agility": 60,
+        "MP": 1,
+        "Prospecting": 20,
+        "Vitality": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 43,
+    "name": "Panoplie du Boufcool",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 5,
+        "Chance": 5
+      },
+      "3": {
+        "Agility": 10,
+        "Chance": 10
+      },
+      "4": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 2
+      },
+      "5": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 4
+      },
+      "6": {
+        "Agility": 60,
+        "Chance": 60,
+        "Damage": 5
+      },
+      "7": {
+        "AP": 1,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 7,
+        "Vitality": 50,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 44,
+    "name": "Panoplie du Koulosse",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 8,
+        "Heals": 8
+      },
+      "3": {
+        "Critical Hits": 6,
+        "Damage": 12,
+        "Heals": 12
+      },
+      "4": {
+        "Critical Hits": 10,
+        "Damage": 16,
+        "Heals": 16,
+        "Prospecting": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 45,
+    "name": "Panoplie du Champion",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "Agility": 100,
+        "Chance": 100,
+        "Intelligence": 100,
+        "Strength": 100,
+        "Vitality": 100,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 46,
+    "name": "Panoplie du Koalak",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Wisdom": 10
+      },
+      "4": {
+        "Agility": 60,
+        "Critical Hits": 4,
+        "Wisdom": 20
+      },
+      "5": {
+        "Agility": 80,
+        "Critical Hits": 6,
+        "Wisdom": 30
+      },
+      "6": {
+        "Agility": 100,
+        "Critical Hits": 8,
+        "Wisdom": 40
+      },
+      "7": {
+        "AP": 1,
+        "Agility": 120,
+        "Critical Hits": 12,
+        "Vitality": 80,
+        "Wisdom": 50
+      },
+      "8": {
+        "AP": 1,
+        "Agility": 150,
+        "Critical Hits": 20,
+        "Range": 1,
+        "Vitality": 150,
+        "Wisdom": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 47,
+    "name": "Panoplie du Paysan",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 5,
+        "Vitality": 10
+      },
+      "3": {
+        "Chance": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Chance": 15,
+        "Damage": 1,
+        "Vitality": 30
+      },
+      "5": {
+        "Chance": 20,
+        "Damage": 3,
+        "Vitality": 40,
+        "Wisdom": 10
+      },
+      "6": {
+        "Chance": 25,
+        "Damage": 5,
+        "Vitality": 50,
+        "Wisdom": 20
+      },
+      "7": {
+        "Chance": 30,
+        "Damage": 7,
+        "Vitality": 60,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 49,
+    "name": "Panoplie du Scarafeuille Noir",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Neutral Resist": 5,
+        "Power": 15,
+        "Vitality": 25
+      },
+      "3": {
+        "% Neutral Resist": 10,
+        "Power": 30,
+        "Vitality": 50
+      },
+      "4": {
+        "% Neutral Resist": 20,
+        "Power": 60,
+        "Vitality": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 50,
+    "name": "Panoplie du Tofu",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 2,
+        "Initiative": 50
+      },
+      "3": {
+        "Agility": 5,
+        "Damage": 3,
+        "Initiative": 100,
+        "Vitality": 5
+      },
+      "4": {
+        "Agility": 10,
+        "Damage": 4,
+        "Initiative": 150,
+        "Vitality": 10
+      },
+      "5": {
+        "Agility": 20,
+        "Damage": 5,
+        "Initiative": 200,
+        "Vitality": 20
+      },
+      "6": {
+        "Agility": 40,
+        "Damage": 6,
+        "Initiative": 250,
+        "Vitality": 40,
+        "Wisdom": 15
+      },
+      "7": {
+        "Agility": 60,
+        "Damage": 7,
+        "Initiative": 300,
+        "Vitality": 60,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 51,
+    "name": "Panoplie Scarabosse Doré",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 1,
+        "Heals": 1,
+        "Vitality": 20
+      },
+      "3": {
+        "Damage": 2,
+        "Heals": 2,
+        "Vitality": 30
+      },
+      "4": {
+        "Damage": 3,
+        "Heals": 3,
+        "Vitality": 40
+      },
+      "5": {
+        "Damage": 4,
+        "Heals": 4,
+        "Vitality": 50,
+        "Wisdom": 20
+      },
+      "6": {
+        "Damage": 5,
+        "Heals": 5,
+        "Vitality": 60,
+        "Wisdom": 40
+      },
+      "7": {
+        "Damage": 10,
+        "Heals": 10,
+        "Vitality": 80,
+        "Wisdom": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 52,
+    "name": "Panoplie du Craqueleur Légendaire",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 10,
+        "Initiative": 10
+      },
+      "3": {
+        "Agility": 11,
+        "Critical Hits": 1,
+        "Initiative": 20
+      },
+      "4": {
+        "Agility": 12,
+        "Critical Hits": 2,
+        "Initiative": 40
+      },
+      "5": {
+        "Agility": 13,
+        "Critical Hits": 4,
+        "Initiative": 60,
+        "Wisdom": 10
+      },
+      "6": {
+        "Agility": 14,
+        "Critical Hits": 6,
+        "Initiative": 80,
+        "Wisdom": 20
+      },
+      "7": {
+        "% Earth Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 15,
+        "Critical Hits": 8,
+        "Initiative": 100,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
     "ankama_id": 53,
     "name": "Panoplie de Shika Ingalsse",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Intelligence": 10,
@@ -2716,622 +1732,9 @@
     }
   },
   {
-    "ankama_id": 105,
-    "name": "Panoplie Blop Indigo Royale",
-    "tiers": {
-      "2": {
-        "Chance": 10,
-        "Critical Hits": 2,
-        "Wisdom": 10
-      },
-      "3": {
-        "Chance": 20,
-        "Critical Hits": 4,
-        "Wisdom": 20
-      },
-      "4": {
-        "Chance": 30,
-        "Critical Hits": 6,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 17,
-    "name": "Panoplie de Farle Ingalsse",
-    "tiers": {
-      "2": {
-        "Strength": 10,
-        "Vitality": 10
-      },
-      "3": {
-        "Agility": 10,
-        "Strength": 20,
-        "Vitality": 20
-      },
-      "4": {
-        "% Earth Resist": 5,
-        "Agility": 20,
-        "Strength": 30,
-        "Vitality": 30
-      },
-      "5": {
-        "% Earth Resist": 10,
-        "Agility": 30,
-        "Strength": 40,
-        "Vitality": 40
-      },
-      "6": {
-        "% Earth Resist": 15,
-        "Agility": 40,
-        "Strength": 50,
-        "Vitality": 50,
-        "Wisdom": 20
-      },
-      "7": {
-        "% Earth Resist": 20,
-        "Agility": 50,
-        "MP": 1,
-        "Strength": 60,
-        "Vitality": 60,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 102,
-    "name": "Panoplie Blop Griotte Royale",
-    "tiers": {
-      "2": {
-        "Critical Hits": 2,
-        "Intelligence": 10,
-        "Wisdom": 10
-      },
-      "3": {
-        "Critical Hits": 4,
-        "Intelligence": 20,
-        "Wisdom": 20
-      },
-      "4": {
-        "Critical Hits": 6,
-        "Intelligence": 30,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 104,
-    "name": "Panoplie Blop Coco Royale",
-    "tiers": {
-      "2": {
-        "Agility": 10,
-        "Critical Hits": 2,
-        "Wisdom": 10
-      },
-      "3": {
-        "Agility": 20,
-        "Critical Hits": 4,
-        "Wisdom": 20
-      },
-      "4": {
-        "Agility": 30,
-        "Critical Hits": 6,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 103,
-    "name": "Panoplie Blop Reinette Royale",
-    "tiers": {
-      "2": {
-        "Critical Hits": 2,
-        "Strength": 10,
-        "Wisdom": 10
-      },
-      "3": {
-        "Critical Hits": 4,
-        "Strength": 20,
-        "Wisdom": 20
-      },
-      "4": {
-        "Critical Hits": 6,
-        "Strength": 30,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 44,
-    "name": "Panoplie du Koulosse",
-    "tiers": {
-      "2": {
-        "Damage": 8,
-        "Heals": 8
-      },
-      "3": {
-        "Critical Hits": 6,
-        "Damage": 12,
-        "Heals": 12
-      },
-      "4": {
-        "Critical Hits": 10,
-        "Damage": 16,
-        "Heals": 16,
-        "Prospecting": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 36,
-    "name": "Panoplie Terrdala",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 2,
-        "Vitality": 20
-      },
-      "4": {
-        "Damage": 4,
-        "Strength": 10,
-        "Vitality": 40
-      },
-      "5": {
-        "Damage": 6,
-        "Strength": 20,
-        "Vitality": 60
-      },
-      "6": {
-        "% Neutral Resist": 5,
-        "Damage": 8,
-        "Strength": 40,
-        "Vitality": 100
-      },
-      "7": {
-        "% Neutral Resist": 10,
-        "Damage": 10,
-        "Strength": 60,
-        "Vitality": 150
-      },
-      "8": {
-        "% Neutral Resist": 20,
-        "AP": 1,
-        "Damage": 12,
-        "Strength": 80,
-        "Vitality": 250
-      }
-    }
-  },
-  {
-    "ankama_id": 52,
-    "name": "Panoplie du Craqueleur Légendaire",
-    "tiers": {
-      "2": {
-        "Agility": 10,
-        "Initiative": 10
-      },
-      "3": {
-        "Agility": 11,
-        "Critical Hits": 1,
-        "Initiative": 20
-      },
-      "4": {
-        "Agility": 12,
-        "Critical Hits": 2,
-        "Initiative": 40
-      },
-      "5": {
-        "Agility": 13,
-        "Critical Hits": 4,
-        "Initiative": 60,
-        "Wisdom": 10
-      },
-      "6": {
-        "Agility": 14,
-        "Critical Hits": 6,
-        "Initiative": 80,
-        "Wisdom": 20
-      },
-      "7": {
-        "% Earth Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 15,
-        "Critical Hits": 8,
-        "Initiative": 100,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 106,
-    "name": "Panoplie Blop Multicolore Royale",
-    "tiers": {
-      "2": {
-        "Damage": 1,
-        "Heals": 1,
-        "Vitality": 10
-      },
-      "3": {
-        "Damage": 2,
-        "Heals": 2,
-        "Vitality": 20
-      },
-      "4": {
-        "Damage": 4,
-        "Heals": 4,
-        "Range": 1,
-        "Vitality": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 207,
-    "name": "Panoplie d'agilité en argent",
-    "tiers": {
-      "5": {
-        "AP": 1,
-        "Agility": 125,
-        "Chance": 25,
-        "Intelligence": 25,
-        "MP": 1,
-        "Power": 10,
-        "Range": 1,
-        "Strength": 25,
-        "Summon": 2,
-        "Vitality": 200,
-        "Wisdom": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 206,
-    "name": "Panoplie de chance en argent",
-    "tiers": {
-      "5": {
-        "AP": 1,
-        "Agility": 25,
-        "Chance": 125,
-        "Intelligence": 25,
-        "MP": 1,
-        "Power": 10,
-        "Range": 1,
-        "Strength": 25,
-        "Summon": 2,
-        "Vitality": 200,
-        "Wisdom": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 205,
-    "name": "Panoplie d'intelligence en argent",
-    "tiers": {
-      "5": {
-        "AP": 1,
-        "Agility": 25,
-        "Chance": 25,
-        "Intelligence": 125,
-        "MP": 1,
-        "Power": 10,
-        "Range": 1,
-        "Strength": 25,
-        "Summon": 2,
-        "Vitality": 200,
-        "Wisdom": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 204,
-    "name": "Panoplie de force en argent",
-    "tiers": {
-      "5": {
-        "AP": 1,
-        "Agility": 25,
-        "Chance": 25,
-        "Intelligence": 25,
-        "MP": 1,
-        "Power": 10,
-        "Range": 1,
-        "Strength": 125,
-        "Summon": 2,
-        "Vitality": 200,
-        "Wisdom": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 80,
-    "name": "Panoplie Sombre",
-    "tiers": {
-      "2": {
-        "Damage": 3,
-        "Heals": 3
-      },
-      "3": {
-        "Damage": 6,
-        "Heals": 6,
-        "Vitality": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 37,
-    "name": "Panoplie Feudala",
-    "tiers": {
-      "2": {
-        "Heals": 2,
-        "Vitality": 10
-      },
-      "3": {
-        "Heals": 4,
-        "Vitality": 20
-      },
-      "4": {
-        "Heals": 6,
-        "Initiative": 100,
-        "Vitality": 30
-      },
-      "5": {
-        "Heals": 8,
-        "Initiative": 150,
-        "Vitality": 40
-      },
-      "6": {
-        "Heals": 10,
-        "Initiative": 200,
-        "Intelligence": 20,
-        "Vitality": 50,
-        "Wisdom": 10
-      },
-      "7": {
-        "Heals": 12,
-        "Initiative": 250,
-        "Intelligence": 40,
-        "Range": 1,
-        "Vitality": 60,
-        "Wisdom": 20
-      },
-      "8": {
-        "Heals": 14,
-        "Initiative": 500,
-        "Intelligence": 80,
-        "MP": 1,
-        "Range": 1,
-        "Vitality": 80,
-        "Wisdom": 40
-      }
-    }
-  },
-  {
-    "ankama_id": 19,
-    "name": "Panoplie du Chef Bwork",
-    "tiers": {
-      "2": {
-        "Initiative": 100,
-        "Pods": 100
-      },
-      "3": {
-        "Initiative": 120,
-        "Pods": 200,
-        "Vitality": 20
-      },
-      "4": {
-        "Initiative": 140,
-        "Pods": 300,
-        "Strength": 20,
-        "Vitality": 40
-      },
-      "5": {
-        "Agility": 20,
-        "Initiative": 160,
-        "Pods": 400,
-        "Strength": 40,
-        "Vitality": 60
-      },
-      "6": {
-        "Agility": 40,
-        "Initiative": 180,
-        "Pods": 500,
-        "Strength": 60,
-        "Vitality": 80,
-        "Wisdom": 10
-      },
-      "7": {
-        "Agility": 60,
-        "Initiative": 200,
-        "MP": 1,
-        "Pods": 600,
-        "Strength": 80,
-        "Vitality": 100,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 77,
-    "name": "Panoplie Vassale",
-    "tiers": {
-      "2": {
-        "Agility": 5,
-        "Heals": 1,
-        "Intelligence": 5
-      },
-      "3": {
-        "Agility": 10,
-        "Heals": 3,
-        "Intelligence": 10,
-        "Wisdom": 10
-      },
-      "4": {
-        "Agility": 20,
-        "Heals": 5,
-        "Intelligence": 20,
-        "Range": 1,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 58,
-    "name": "Panoplie du Dragon Cochon",
-    "tiers": {
-      "2": {
-        "Vitality": 20
-      },
-      "3": {
-        "Vitality": 30,
-        "Wisdom": 10
-      },
-      "4": {
-        "Agility": 10,
-        "Chance": 10,
-        "Vitality": 40,
-        "Wisdom": 20
-      },
-      "5": {
-        "Agility": 20,
-        "Chance": 20,
-        "Prospecting": 10,
-        "Vitality": 50,
-        "Wisdom": 30
-      },
-      "6": {
-        "Agility": 30,
-        "Chance": 30,
-        "Prospecting": 15,
-        "Vitality": 60,
-        "Wisdom": 40
-      },
-      "7": {
-        "Agility": 50,
-        "Chance": 50,
-        "MP": 1,
-        "Prospecting": 30,
-        "Vitality": 120,
-        "Wisdom": 60
-      }
-    }
-  },
-  {
-    "ankama_id": 68,
-    "name": "Panoplie du Rat Noir",
-    "tiers": {
-      "2": {
-        "Agility": 5,
-        "Vitality": 10
-      },
-      "3": {
-        "Agility": 10,
-        "Vitality": 20
-      },
-      "4": {
-        "Agility": 20,
-        "Vitality": 30
-      },
-      "5": {
-        "Agility": 25,
-        "Critical Hits": 1,
-        "Vitality": 35
-      },
-      "6": {
-        "Agility": 30,
-        "Critical Hits": 3,
-        "Vitality": 40
-      },
-      "7": {
-        "Agility": 40,
-        "Critical Hits": 5,
-        "Range": 1,
-        "Vitality": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 67,
-    "name": "Panoplie du Rat Blanc",
-    "tiers": {
-      "2": {
-        "Vitality": 10
-      },
-      "3": {
-        "Agility": 10,
-        "Strength": 10,
-        "Vitality": 15
-      },
-      "4": {
-        "Agility": 15,
-        "Strength": 15,
-        "Vitality": 20
-      },
-      "5": {
-        "% Air Resist": 2,
-        "% Neutral Resist": 2,
-        "Agility": 20,
-        "Strength": 20,
-        "Vitality": 30
-      },
-      "6": {
-        "% Air Resist": 5,
-        "% Neutral Resist": 5,
-        "Agility": 30,
-        "Strength": 30,
-        "Vitality": 40
-      },
-      "7": {
-        "% Air Resist": 10,
-        "% Neutral Resist": 10,
-        "AP": 1,
-        "Agility": 40,
-        "Strength": 40,
-        "Vitality": 50
-      }
-    }
-  },
-  {
-    "ankama_id": 59,
-    "name": "Panoplie du Mominotor",
-    "tiers": {
-      "2": {
-        "Chance": 5,
-        "Intelligence": 5
-      },
-      "3": {
-        "Chance": 10,
-        "Intelligence": 10
-      },
-      "4": {
-        "Chance": 15,
-        "Intelligence": 15,
-        "Summon": 1
-      },
-      "5": {
-        "Chance": 20,
-        "Intelligence": 20,
-        "Summon": 2,
-        "Wisdom": 10
-      },
-      "6": {
-        "Chance": 30,
-        "Intelligence": 30,
-        "Summon": 3,
-        "Wisdom": 20
-      },
-      "7": {
-        "Chance": 40,
-        "Intelligence": 40,
-        "MP": 1,
-        "Summon": 4,
-        "Wisdom": 40
-      }
-    }
-  },
-  {
     "ankama_id": 54,
     "name": "Panoplie du Minotoror",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Vitality": 20
@@ -3362,168 +1765,46 @@
     }
   },
   {
-    "ankama_id": 65,
-    "name": "Panoplie Ancestrale",
+    "ankama_id": 55,
+    "name": "Panoplie du Meulou",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Damage": 5
+        "Damage": 2,
+        "Vitality": 20
       },
       "3": {
-        "Critical Hits": 1,
-        "Damage": 2,
-        "Initiative": 20,
-        "Power": 10
+        "Damage": 4,
+        "Vitality": 40
       },
       "4": {
-        "% Earth Resist": 2,
-        "% Neutral Resist": 2,
-        "Critical Hits": 2,
-        "Damage": 3,
-        "Initiative": 40,
-        "Power": 15
+        "Damage": 6,
+        "Vitality": 60
       },
       "5": {
-        "% Earth Resist": 3,
-        "% Neutral Resist": 3,
-        "Critical Hits": 4,
-        "Damage": 4,
-        "Initiative": 60,
-        "Power": 20
+        "Damage": 7,
+        "Range": 1,
+        "Vitality": 80
       },
       "6": {
-        "% Earth Resist": 4,
-        "% Neutral Resist": 4,
-        "Critical Hits": 6,
-        "Damage": 5,
-        "Initiative": 100,
-        "Power": 25,
-        "Range": 1
-      }
-    }
-  },
-  {
-    "ankama_id": 208,
-    "name": "Panoplie de force en or",
-    "tiers": {
-      "5": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Neutral Resist": 5,
-        "% Water Resist": 5,
-        "AP": 2,
-        "Agility": 30,
-        "Chance": 30,
-        "Intelligence": 30,
-        "MP": 1,
-        "Power": 15,
-        "Range": 2,
-        "Strength": 150,
-        "Summon": 2,
-        "Vitality": 300,
-        "Wisdom": 90
-      }
-    }
-  },
-  {
-    "ankama_id": 211,
-    "name": "Panoplie d'agilité en or",
-    "tiers": {
-      "5": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Neutral Resist": 5,
-        "% Water Resist": 5,
-        "AP": 2,
-        "Agility": 150,
-        "Chance": 30,
-        "Intelligence": 30,
-        "MP": 1,
-        "Power": 15,
-        "Range": 2,
-        "Strength": 30,
-        "Summon": 2,
-        "Vitality": 300,
-        "Wisdom": 90
-      }
-    }
-  },
-  {
-    "ankama_id": 210,
-    "name": "Panoplie de chance en or",
-    "tiers": {
-      "5": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Neutral Resist": 5,
-        "% Water Resist": 5,
-        "AP": 2,
-        "Agility": 30,
-        "Chance": 150,
-        "Intelligence": 30,
-        "MP": 1,
-        "Power": 15,
-        "Range": 2,
-        "Strength": 30,
-        "Summon": 2,
-        "Vitality": 300,
-        "Wisdom": 90
-      }
-    }
-  },
-  {
-    "ankama_id": 209,
-    "name": "Panoplie d'intelligence en or",
-    "tiers": {
-      "5": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Neutral Resist": 5,
-        "% Water Resist": 5,
-        "AP": 2,
-        "Agility": 30,
-        "Chance": 30,
-        "Intelligence": 150,
-        "MP": 1,
-        "Power": 15,
-        "Range": 2,
-        "Strength": 30,
-        "Summon": 2,
-        "Vitality": 300,
-        "Wisdom": 90
-      }
-    }
-  },
-  {
-    "ankama_id": 96,
-    "name": "Panoplie Baveuse",
-    "tiers": {
-      "2": {
-        "Chance": 20,
-        "Damage": 4,
-        "Strength": 20
-      },
-      "3": {
         "AP": 1,
-        "Chance": 30,
-        "Damage": 6,
-        "Strength": 30,
-        "Wisdom": 20
+        "Damage": 8,
+        "Range": 1,
+        "Vitality": 100
       }
     }
   },
   {
     "ankama_id": 56,
     "name": "Panoplie du Dragoeuf",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Agility": 5,
         "Chance": 5,
-        "Damage": 5,
+        "Damage": 1,
         "Intelligence": 5,
+        "Power": 5,
         "Strength": 5
       },
       "3": {
@@ -3565,1006 +1846,9 @@
     }
   },
   {
-    "ankama_id": 93,
-    "name": "Panoplie du Zoth Zotheur",
-    "tiers": {
-      "2": {
-        "Initiative": 100,
-        "Vitality": 80
-      }
-    }
-  },
-  {
-    "ankama_id": 64,
-    "name": "Panoplie Cérémoniale",
-    "tiers": {
-      "2": {
-        "Vitality": 20
-      },
-      "3": {
-        "Agility": 10,
-        "Intelligence": 10,
-        "Vitality": 40
-      },
-      "4": {
-        "Agility": 20,
-        "Intelligence": 20,
-        "Vitality": 60
-      },
-      "5": {
-        "Agility": 35,
-        "Intelligence": 35,
-        "Vitality": 80,
-        "Wisdom": 10
-      },
-      "6": {
-        "Agility": 50,
-        "Intelligence": 50,
-        "MP": 1,
-        "Vitality": 100,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 39,
-    "name": "Panoplie d'Elya Wood",
-    "tiers": {
-      "2": {
-        "Heals": 8,
-        "Vitality": 60
-      },
-      "3": {
-        "Heals": 12,
-        "Intelligence": 40,
-        "Vitality": 100
-      },
-      "4": {
-        "Heals": 16,
-        "Intelligence": 60,
-        "Range": 1,
-        "Vitality": 150
-      }
-    }
-  },
-  {
-    "ankama_id": 79,
-    "name": "Panoplie Claire",
-    "tiers": {
-      "2": {
-        "Critical Hits": 2,
-        "Damage": 2,
-        "Vitality": 30
-      },
-      "3": {
-        "Critical Hits": 3,
-        "Damage": 3,
-        "Range": 1,
-        "Vitality": 50
-      },
-      "4": {
-        "Critical Hits": 5,
-        "Damage": 6,
-        "Range": 1,
-        "Vitality": 80,
-        "Wisdom": 20
-      }
-    }
-  },
-  {
-    "ankama_id": 95,
-    "name": "Panoplie du Zothicien",
-    "tiers": {
-      "2": {
-        "Damage": 8
-      }
-    }
-  },
-  {
-    "ankama_id": 55,
-    "name": "Panoplie du Meulou",
-    "tiers": {
-      "2": {
-        "Damage": 2,
-        "Vitality": 20
-      },
-      "3": {
-        "Damage": 4,
-        "Vitality": 40
-      },
-      "4": {
-        "Damage": 6,
-        "Vitality": 60
-      },
-      "5": {
-        "Damage": 7,
-        "Range": 1,
-        "Vitality": 80
-      },
-      "6": {
-        "AP": 1,
-        "Damage": 8,
-        "Range": 1,
-        "Vitality": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 66,
-    "name": "Panoplie du Chêne Mou",
-    "tiers": {
-      "2": {
-        "Vitality": 20
-      },
-      "3": {
-        "Damage": 1,
-        "Heals": 1,
-        "Vitality": 40
-      },
-      "4": {
-        "Damage": 2,
-        "Heals": 2,
-        "Vitality": 60,
-        "Wisdom": 10
-      },
-      "5": {
-        "Damage": 3,
-        "Heals": 3,
-        "Power": 10,
-        "Vitality": 80,
-        "Wisdom": 20
-      },
-      "6": {
-        "Damage": 4,
-        "Heals": 4,
-        "MP": 1,
-        "Power": 20,
-        "Vitality": 100,
-        "Wisdom": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 81,
-    "name": "Panoplie Témeraire",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 92,
-    "name": "Panoplie Ethylique",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 91,
-    "name": "Panoplie Indestructible",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 90,
-    "name": "Panoplie Sauvage",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 2,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 3,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 89,
-    "name": "Panoplie Criminelle",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 88,
-    "name": "Panoplie de Gouttière",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 87,
-    "name": "Panoplie Exsangue",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 86,
-    "name": "Panoplie Intemporelle",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 85,
-    "name": "Panoplie Vénérable",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 84,
-    "name": "Panoplie de l'Innombrable",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 2,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 3,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 83,
-    "name": "Panoplie Altruiste",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 82,
-    "name": "Panoplie du Prince des voleurs",
-    "tiers": {
-      "2": {
-        "Agility": 20,
-        "Chance": 20,
-        "Damage": 3,
-        "Heals": 3,
-        "Intelligence": 20,
-        "Prospecting": 10,
-        "Strength": 20,
-        "Vitality": 100,
-        "Wisdom": 20
-      },
-      "3": {
-        "Agility": 40,
-        "Chance": 40,
-        "Damage": 7,
-        "Heals": 7,
-        "Intelligence": 40,
-        "Prospecting": 20,
-        "Strength": 40,
-        "Vitality": 200,
-        "Wisdom": 40
-      },
-      "4": {
-        "% Air Resist": 5,
-        "% Earth Resist": 5,
-        "% Fire Resist": 5,
-        "% Water Resist": 5,
-        "Agility": 70,
-        "Chance": 70,
-        "Damage": 12,
-        "Heals": 12,
-        "Intelligence": 70,
-        "Prospecting": 30,
-        "Strength": 70,
-        "Summon": 1,
-        "Vitality": 500,
-        "Wisdom": 70
-      },
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Water Resist": 10,
-        "AP": 1,
-        "Agility": 100,
-        "Chance": 100,
-        "Damage": 20,
-        "Heals": 20,
-        "Intelligence": 100,
-        "Prospecting": 40,
-        "Strength": 100,
-        "Summon": 1,
-        "Vitality": 800,
-        "Wisdom": 100
-      }
-    }
-  },
-  {
-    "ankama_id": 212,
-    "name": "Panoplie de force en diamant",
-    "tiers": {
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Neutral Resist": 10,
-        "% Water Resist": 10,
-        "AP": 2,
-        "Agility": 35,
-        "Chance": 35,
-        "Intelligence": 35,
-        "MP": 1,
-        "Power": 20,
-        "Range": 2,
-        "Strength": 175,
-        "Summon": 2,
-        "Vitality": 500,
-        "Wisdom": 120
-      }
-    }
-  },
-  {
-    "ankama_id": 213,
-    "name": "Panoplie d'intelligence en diamant",
-    "tiers": {
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Neutral Resist": 10,
-        "% Water Resist": 10,
-        "AP": 2,
-        "Agility": 35,
-        "Chance": 35,
-        "Intelligence": 175,
-        "MP": 1,
-        "Power": 20,
-        "Range": 2,
-        "Strength": 35,
-        "Summon": 2,
-        "Vitality": 500,
-        "Wisdom": 120
-      }
-    }
-  },
-  {
-    "ankama_id": 214,
-    "name": "Panoplie de chance en diamant",
-    "tiers": {
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Neutral Resist": 10,
-        "% Water Resist": 10,
-        "AP": 2,
-        "Agility": 35,
-        "Chance": 175,
-        "Intelligence": 35,
-        "MP": 1,
-        "Power": 20,
-        "Range": 2,
-        "Strength": 35,
-        "Summon": 2,
-        "Vitality": 500,
-        "Wisdom": 120
-      }
-    }
-  },
-  {
-    "ankama_id": 215,
-    "name": "Panoplie d'agilité en diamant",
-    "tiers": {
-      "5": {
-        "% Air Resist": 10,
-        "% Earth Resist": 10,
-        "% Fire Resist": 10,
-        "% Neutral Resist": 10,
-        "% Water Resist": 10,
-        "AP": 2,
-        "Agility": 175,
-        "Chance": 35,
-        "Intelligence": 35,
-        "MP": 1,
-        "Power": 20,
-        "Range": 2,
-        "Strength": 35,
-        "Summon": 2,
-        "Vitality": 500,
-        "Wisdom": 120
-      }
-    }
-  },
-  {
-    "ankama_id": 94,
-    "name": "Panoplie du Zothuliste",
-    "tiers": {
-      "2": {
-        "Intelligence": 25,
-        "Strength": 25
-      }
-    }
-  },
-  {
     "ankama_id": 57,
     "name": "Panoplie du Minotot",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Chance": 10,
@@ -4603,8 +1887,612 @@
     }
   },
   {
+    "ankama_id": 58,
+    "name": "Panoplie du Dragon Cochon",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 20
+      },
+      "3": {
+        "Vitality": 30,
+        "Wisdom": 10
+      },
+      "4": {
+        "Agility": 10,
+        "Chance": 10,
+        "Vitality": 40,
+        "Wisdom": 20
+      },
+      "5": {
+        "Agility": 20,
+        "Chance": 20,
+        "Prospecting": 10,
+        "Vitality": 50,
+        "Wisdom": 30
+      },
+      "6": {
+        "Agility": 30,
+        "Chance": 30,
+        "Prospecting": 15,
+        "Vitality": 60,
+        "Wisdom": 40
+      },
+      "7": {
+        "Agility": 50,
+        "Chance": 50,
+        "MP": 1,
+        "Prospecting": 30,
+        "Vitality": 120,
+        "Wisdom": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 59,
+    "name": "Panoplie du Mominotor",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 5,
+        "Intelligence": 5
+      },
+      "3": {
+        "Chance": 10,
+        "Intelligence": 10
+      },
+      "4": {
+        "Chance": 15,
+        "Intelligence": 15,
+        "Summon": 1
+      },
+      "5": {
+        "Chance": 20,
+        "Intelligence": 20,
+        "Summon": 2,
+        "Wisdom": 10
+      },
+      "6": {
+        "Chance": 30,
+        "Intelligence": 30,
+        "Summon": 3,
+        "Wisdom": 20
+      },
+      "7": {
+        "Chance": 40,
+        "Intelligence": 40,
+        "MP": 1,
+        "Summon": 4,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 60,
+    "name": "Panoplie du Piou Rouge",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Intelligence": 1
+      },
+      "3": {
+        "Intelligence": 2
+      },
+      "4": {
+        "Intelligence": 4
+      },
+      "5": {
+        "Initiative": 30,
+        "Intelligence": 8
+      },
+      "6": {
+        "Damage": 1,
+        "Heals": 1,
+        "Initiative": 60,
+        "Intelligence": 16
+      }
+    }
+  },
+  {
+    "ankama_id": 61,
+    "name": "Panoplie du Piou Bleu",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 1
+      },
+      "3": {
+        "Chance": 2
+      },
+      "4": {
+        "Chance": 4
+      },
+      "5": {
+        "Chance": 8,
+        "Initiative": 30
+      },
+      "6": {
+        "Chance": 16,
+        "Damage": 1,
+        "Heals": 1,
+        "Initiative": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 62,
+    "name": "Panoplie du Piou Violet",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Wisdom": 1
+      },
+      "3": {
+        "Wisdom": 2
+      },
+      "4": {
+        "Wisdom": 3
+      },
+      "5": {
+        "Initiative": 30,
+        "Wisdom": 4
+      },
+      "6": {
+        "Initiative": 60,
+        "Wisdom": 10
+      }
+    }
+  },
+  {
+    "ankama_id": 63,
+    "name": "Panoplie en Mousse",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Initiative": 50,
+        "Vitality": 5
+      },
+      "3": {
+        "Initiative": 60,
+        "Vitality": 10
+      },
+      "4": {
+        "Initiative": 70,
+        "Vitality": 15
+      },
+      "5": {
+        "Initiative": 80,
+        "Vitality": 20,
+        "Wisdom": 5
+      },
+      "6": {
+        "Initiative": 90,
+        "Vitality": 30,
+        "Wisdom": 10
+      },
+      "7": {
+        "Initiative": 100,
+        "Vitality": 40,
+        "Wisdom": 20
+      },
+      "8": {
+        "Damage": 2,
+        "Initiative": 200,
+        "Range": 1,
+        "Vitality": 50,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 64,
+    "name": "Panoplie Cérémoniale",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 20
+      },
+      "3": {
+        "Agility": 10,
+        "Intelligence": 10,
+        "Vitality": 40
+      },
+      "4": {
+        "Agility": 20,
+        "Intelligence": 20,
+        "Vitality": 60
+      },
+      "5": {
+        "Agility": 35,
+        "Intelligence": 35,
+        "Vitality": 80,
+        "Wisdom": 10
+      },
+      "6": {
+        "Agility": 50,
+        "Intelligence": 50,
+        "MP": 1,
+        "Vitality": 100,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 65,
+    "name": "Panoplie Ancestrale",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 1,
+        "Power": 5
+      },
+      "3": {
+        "Critical Hits": 1,
+        "Damage": 2,
+        "Initiative": 20,
+        "Power": 10
+      },
+      "4": {
+        "% Earth Resist": 2,
+        "% Neutral Resist": 2,
+        "Critical Hits": 2,
+        "Damage": 3,
+        "Initiative": 40,
+        "Power": 15
+      },
+      "5": {
+        "% Earth Resist": 3,
+        "% Neutral Resist": 3,
+        "Critical Hits": 4,
+        "Damage": 4,
+        "Initiative": 60,
+        "Power": 20
+      },
+      "6": {
+        "% Earth Resist": 4,
+        "% Neutral Resist": 4,
+        "Critical Hits": 6,
+        "Damage": 5,
+        "Initiative": 100,
+        "Power": 25,
+        "Range": 1
+      }
+    }
+  },
+  {
+    "ankama_id": 66,
+    "name": "Panoplie du Chêne Mou",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 20
+      },
+      "3": {
+        "Damage": 1,
+        "Heals": 1,
+        "Vitality": 40
+      },
+      "4": {
+        "Damage": 2,
+        "Heals": 2,
+        "Vitality": 60,
+        "Wisdom": 10
+      },
+      "5": {
+        "Damage": 3,
+        "Heals": 3,
+        "Power": 10,
+        "Vitality": 80,
+        "Wisdom": 20
+      },
+      "6": {
+        "Damage": 4,
+        "Heals": 4,
+        "MP": 1,
+        "Power": 20,
+        "Vitality": 100,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 67,
+    "name": "Panoplie du Rat Blanc",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Agility": 10,
+        "Strength": 10,
+        "Vitality": 15
+      },
+      "4": {
+        "Agility": 15,
+        "Strength": 15,
+        "Vitality": 20
+      },
+      "5": {
+        "% Air Resist": 2,
+        "% Neutral Resist": 2,
+        "Agility": 20,
+        "Strength": 20,
+        "Vitality": 30
+      },
+      "6": {
+        "% Air Resist": 5,
+        "% Neutral Resist": 5,
+        "Agility": 30,
+        "Strength": 30,
+        "Vitality": 40
+      },
+      "7": {
+        "% Air Resist": 10,
+        "% Neutral Resist": 10,
+        "AP": 1,
+        "Agility": 40,
+        "Strength": 40,
+        "Vitality": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 68,
+    "name": "Panoplie du Rat Noir",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 5,
+        "Trap Damage": 1,
+        "Vitality": 10
+      },
+      "3": {
+        "% Trap Damage": 5,
+        "Agility": 10,
+        "Trap Damage": 2,
+        "Vitality": 20
+      },
+      "4": {
+        "% Trap Damage": 10,
+        "Agility": 20,
+        "Trap Damage": 4,
+        "Vitality": 30
+      },
+      "5": {
+        "% Trap Damage": 15,
+        "Agility": 25,
+        "Critical Hits": 1,
+        "Trap Damage": 6,
+        "Vitality": 35
+      },
+      "6": {
+        "% Trap Damage": 20,
+        "Agility": 30,
+        "Critical Hits": 3,
+        "Trap Damage": 8,
+        "Vitality": 40
+      },
+      "7": {
+        "% Trap Damage": 30,
+        "Agility": 40,
+        "Critical Hits": 5,
+        "Range": 1,
+        "Trap Damage": 10,
+        "Vitality": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 69,
+    "name": "Panoplie du Boune",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 5,
+        "Chance": 5,
+        "HP": 5,
+        "Intelligence": 5,
+        "Strength": 5,
+        "Wisdom": 5
+      },
+      "3": {
+        "Agility": 10,
+        "Chance": 10,
+        "HP": 10,
+        "Intelligence": 10,
+        "Strength": 10,
+        "Wisdom": 10
+      },
+      "4": {
+        "Agility": 15,
+        "Chance": 15,
+        "HP": 15,
+        "Intelligence": 15,
+        "Strength": 15,
+        "Wisdom": 15
+      },
+      "5": {
+        "Agility": 20,
+        "Chance": 20,
+        "HP": 20,
+        "Intelligence": 20,
+        "Strength": 20,
+        "Wisdom": 20
+      },
+      "6": {
+        "Agility": 25,
+        "Chance": 25,
+        "HP": 25,
+        "Intelligence": 25,
+        "Strength": 25,
+        "Wisdom": 25
+      }
+    }
+  },
+  {
+    "ankama_id": 70,
+    "name": "Panoplie du Piou Rose",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "HP": 2,
+        "Heals": 1
+      },
+      "3": {
+        "HP": 4,
+        "Heals": 2
+      },
+      "4": {
+        "HP": 6,
+        "Heals": 3
+      },
+      "5": {
+        "HP": 8,
+        "Heals": 4
+      },
+      "6": {
+        "HP": 12,
+        "Heals": 6
+      }
+    }
+  },
+  {
+    "ankama_id": 71,
+    "name": "Panoplie du Piou Vert",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 1
+      },
+      "3": {
+        "Agility": 2
+      },
+      "4": {
+        "Agility": 4
+      },
+      "5": {
+        "Agility": 8,
+        "Initiative": 30
+      },
+      "6": {
+        "Agility": 16,
+        "Damage": 1,
+        "Heals": 1,
+        "Initiative": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 72,
+    "name": "Panoplie du Piou Jaune",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Strength": 1
+      },
+      "3": {
+        "Strength": 2
+      },
+      "4": {
+        "Strength": 4
+      },
+      "5": {
+        "Initiative": 30,
+        "Strength": 8
+      },
+      "6": {
+        "Damage": 1,
+        "Heals": 1,
+        "Initiative": 60,
+        "Strength": 16
+      }
+    }
+  },
+  {
+    "ankama_id": 74,
+    "name": "Panoplie Ananas",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Prospecting": 10
+      },
+      "3": {
+        "Prospecting": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 75,
+    "name": "Panoplie Vioutifoule",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "% Fire Resist": 5,
+        "Intelligence": 10
+      },
+      "3": {
+        "% Fire Resist": 10,
+        "Intelligence": 40,
+        "Vitality": 40
+      },
+      "4": {
+        "% Fire Resist": 20,
+        "Intelligence": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 76,
+    "name": "Panoplie Mégaman",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "% Water Resist": 5,
+        "Chance": 10
+      },
+      "3": {
+        "% Water Resist": 10,
+        "Chance": 40,
+        "Vitality": 40
+      },
+      "4": {
+        "% Water Resist": 20,
+        "Chance": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 77,
+    "name": "Panoplie Vassale",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 5,
+        "Heals": 1,
+        "Intelligence": 5
+      },
+      "3": {
+        "Agility": 10,
+        "Heals": 3,
+        "Intelligence": 10,
+        "Wisdom": 10
+      },
+      "4": {
+        "Agility": 20,
+        "Heals": 5,
+        "Intelligence": 20,
+        "Range": 1,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
     "ankama_id": 78,
     "name": "Panoplie Souveraine",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Prospecting": 5,
@@ -4620,125 +2508,1134 @@
     }
   },
   {
-    "ankama_id": 120,
-    "name": "Panoplie des Sous-bois",
+    "ankama_id": 79,
+    "name": "Panoplie Claire",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Chance": 15,
         "Critical Hits": 2,
-        "Damage": 2
-      },
-      "3": {
-        "Chance": 30,
-        "Critical Hits": 4,
-        "Damage": 4,
-        "Prospecting": 15
-      }
-    }
-  },
-  {
-    "ankama_id": 121,
-    "name": "Panoplycélium",
-    "tiers": {
-      "2": {
         "Damage": 2,
-        "Strength": 10
+        "Vitality": 30
       },
       "3": {
-        "Damage": 4,
+        "Critical Hits": 3,
+        "Damage": 3,
         "Range": 1,
-        "Strength": 30
-      }
-    }
-  },
-  {
-    "ankama_id": 108,
-    "name": "Panoplie du Bworker Berserker",
-    "tiers": {
-      "2": {
-        "Chance": 15,
-        "Intelligence": 15
-      },
-      "3": {
-        "Chance": 30,
-        "Critical Hits": 2,
-        "Intelligence": 30
+        "Vitality": 50
       },
       "4": {
-        "Chance": 50,
-        "Critical Hits": 4,
-        "Intelligence": 50,
-        "MP": 1
+        "Critical Hits": 5,
+        "Damage": 6,
+        "Range": 1,
+        "Vitality": 80,
+        "Wisdom": 20
       }
     }
   },
   {
-    "ankama_id": 118,
-    "name": "Panoplie Ougah",
+    "ankama_id": 80,
+    "name": "Panoplie Sombre",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Damage": 2,
+        "Damage": 3,
+        "Heals": 3
+      },
+      "3": {
+        "Damage": 6,
+        "Heals": 6,
+        "Vitality": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 81,
+    "name": "Panoplie Témeraire",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
         "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 82,
+    "name": "Panoplie du Prince des voleurs",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 83,
+    "name": "Panoplie Altruiste",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 84,
+    "name": "Panoplie de l'Innombrable",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 2,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 3,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 85,
+    "name": "Panoplie Vénérable",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 86,
+    "name": "Panoplie Intemporelle",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 87,
+    "name": "Panoplie Exsangue",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 88,
+    "name": "Panoplie de Gouttière",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 89,
+    "name": "Panoplie Criminelle",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 90,
+    "name": "Panoplie Sauvage",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 2,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 3,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 91,
+    "name": "Panoplie Indestructible",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 92,
+    "name": "Panoplie Ethylique",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 3,
+        "Heals": 3,
+        "Intelligence": 20,
+        "Prospecting": 10,
+        "Strength": 20,
+        "Vitality": 100,
+        "Wisdom": 20
+      },
+      "3": {
+        "Agility": 40,
+        "Chance": 40,
+        "Damage": 7,
+        "Heals": 7,
+        "Intelligence": 40,
+        "Prospecting": 20,
+        "Strength": 40,
+        "Vitality": 200,
+        "Wisdom": 40
+      },
+      "4": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 70,
+        "Chance": 70,
+        "Damage": 12,
+        "Heals": 12,
+        "Intelligence": 70,
+        "Prospecting": 30,
+        "Strength": 70,
+        "Summon": 1,
+        "Vitality": 500,
+        "Wisdom": 70
+      },
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 100,
+        "Damage": 20,
+        "Heals": 20,
+        "Intelligence": 100,
+        "Prospecting": 40,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 800,
+        "Wisdom": 100
+      }
+    }
+  },
+  {
+    "ankama_id": 93,
+    "name": "Panoplie du Zoth Zotheur",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Initiative": 100,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 94,
+    "name": "Panoplie du Zothuliste",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Intelligence": 25,
+        "Strength": 25
+      }
+    }
+  },
+  {
+    "ankama_id": 95,
+    "name": "Panoplie du Zothicien",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 8
+      }
+    }
+  },
+  {
+    "ankama_id": 96,
+    "name": "Panoplie Baveuse",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 20,
+        "Damage": 4,
+        "Strength": 20
+      },
+      "3": {
+        "AP": 1,
+        "Chance": 30,
+        "Damage": 6,
+        "Strength": 30,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 97,
+    "name": "Panoplie Ventouse",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Wisdom": 20
+      },
+      "3": {
+        "AP": 1,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 98,
+    "name": "Panoplie Blop Griotte",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 5,
+        "% Water Resist": -60,
+        "Intelligence": 10,
+        "Vitality": 10
+      },
+      "3": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 20,
+        "% Neutral Resist": 10,
+        "% Water Resist": -55,
+        "Intelligence": 30,
+        "Vitality": 30
+      },
+      "4": {
+        "% Air Resist": 15,
+        "% Earth Resist": 15,
+        "% Fire Resist": 30,
+        "% Neutral Resist": 15,
+        "% Water Resist": -50,
+        "AP": 1,
+        "Intelligence": 50,
+        "Vitality": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 99,
+    "name": "Panoplie Blop Reinette",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Air Resist": -60,
+        "% Earth Resist": 10,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Strength": 10,
+        "Vitality": 10
+      },
+      "3": {
+        "% Air Resist": -55,
+        "% Earth Resist": 20,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "Strength": 30,
+        "Vitality": 30
+      },
+      "4": {
+        "% Air Resist": -50,
+        "% Earth Resist": 30,
+        "% Fire Resist": 15,
+        "% Neutral Resist": 15,
+        "% Water Resist": 15,
+        "AP": 1,
+        "Strength": 50,
+        "Vitality": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 100,
+    "name": "Panoplie Blop Coco",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Air Resist": 10,
+        "% Earth Resist": -60,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "Agility": 10,
+        "Vitality": 10
+      },
+      "3": {
+        "% Air Resist": 20,
+        "% Earth Resist": -55,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "Agility": 30,
+        "Vitality": 30
+      },
+      "4": {
+        "% Air Resist": 30,
+        "% Earth Resist": -50,
+        "% Fire Resist": 15,
+        "% Neutral Resist": 15,
+        "% Water Resist": 15,
+        "AP": 1,
+        "Agility": 50,
+        "Vitality": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 101,
+    "name": "Panoplie Blop Indigo",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": -60,
+        "% Neutral Resist": 5,
+        "% Water Resist": 10,
+        "Chance": 10,
+        "Vitality": 10
+      },
+      "3": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": -55,
+        "% Neutral Resist": 10,
+        "% Water Resist": 20,
+        "Chance": 30,
+        "Vitality": 30
+      },
+      "4": {
+        "% Air Resist": 15,
+        "% Earth Resist": 15,
+        "% Fire Resist": -50,
+        "% Neutral Resist": 15,
+        "% Water Resist": 30,
+        "AP": 1,
+        "Chance": 50,
+        "Vitality": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 102,
+    "name": "Panoplie Blop Griotte Royale",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Critical Hits": 2,
+        "Intelligence": 10,
         "Wisdom": 10
       },
       "3": {
-        "Damage": 4,
-        "Prospecting": 20,
+        "Critical Hits": 4,
+        "Intelligence": 20,
         "Wisdom": 20
       },
       "4": {
-        "Damage": 6,
-        "Prospecting": 30,
-        "Range": 1,
+        "Critical Hits": 6,
+        "Intelligence": 30,
         "Wisdom": 30
       }
     }
   },
   {
-    "ankama_id": 119,
-    "name": "Panoplignon",
+    "ankama_id": 103,
+    "name": "Panoplie Blop Reinette Royale",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Agility": 10,
-        "Power": 25
-      },
-      "3": {
-        "Agility": 20,
-        "Power": 50,
+        "Critical Hits": 2,
+        "Strength": 10,
         "Wisdom": 10
       },
-      "4": {
-        "AP": 1,
-        "Agility": 40,
-        "Power": 80,
+      "3": {
+        "Critical Hits": 4,
+        "Strength": 20,
         "Wisdom": 20
+      },
+      "4": {
+        "Critical Hits": 6,
+        "Strength": 30,
+        "Wisdom": 30
       }
     }
   },
   {
-    "ankama_id": 109,
-    "name": "Panoplie du Bworker Gladiateur",
+    "ankama_id": 104,
+    "name": "Panoplie Blop Coco Royale",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Agility": 15,
-        "Strength": 15
+        "Agility": 10,
+        "Critical Hits": 2,
+        "Wisdom": 10
       },
       "3": {
-        "Agility": 30,
-        "Critical Hits": 2,
-        "Strength": 30
+        "Agility": 20,
+        "Critical Hits": 4,
+        "Wisdom": 20
       },
       "4": {
-        "AP": 1,
-        "Agility": 50,
+        "Agility": 30,
+        "Critical Hits": 6,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 105,
+    "name": "Panoplie Blop Indigo Royale",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 10,
+        "Critical Hits": 2,
+        "Wisdom": 10
+      },
+      "3": {
+        "Chance": 20,
         "Critical Hits": 4,
-        "Strength": 50
+        "Wisdom": 20
+      },
+      "4": {
+        "Chance": 30,
+        "Critical Hits": 6,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 106,
+    "name": "Panoplie Blop Multicolore Royale",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 1,
+        "Heals": 1,
+        "Vitality": 10
+      },
+      "3": {
+        "Damage": 2,
+        "Heals": 2,
+        "Vitality": 20
+      },
+      "4": {
+        "Damage": 4,
+        "Heals": 4,
+        "Range": 1,
+        "Vitality": 30
       }
     }
   },
   {
     "ankama_id": 107,
     "name": "Panoplie Tue-Mouche",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Intelligence": 20,
@@ -4763,52 +3660,987 @@
     }
   },
   {
-    "ankama_id": 216,
-    "name": "Panoplie Grobe",
+    "ankama_id": 108,
+    "name": "Panoplie du Bworker Berserker",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Critical Hits": 1,
-        "Power": 10,
-        "Prospecting": 5
+        "Chance": 15,
+        "Intelligence": 15
       },
       "3": {
+        "Chance": 30,
         "Critical Hits": 2,
-        "Power": 20,
-        "Prospecting": 10
+        "Intelligence": 30
+      },
+      "4": {
+        "Chance": 50,
+        "Critical Hits": 4,
+        "Intelligence": 50,
+        "MP": 1
+      }
+    }
+  },
+  {
+    "ankama_id": 109,
+    "name": "Panoplie du Bworker Gladiateur",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Agility": 15,
+        "Strength": 15
+      },
+      "3": {
+        "Agility": 30,
+        "Critical Hits": 2,
+        "Strength": 30
       },
       "4": {
         "AP": 1,
+        "Agility": 50,
+        "Critical Hits": 4,
+        "Strength": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 110,
+    "name": "Panoplie Gato",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "% Earth Resist": 5,
+        "Strength": 10
+      },
+      "3": {
+        "% Earth Resist": 10,
+        "Strength": 40,
+        "Vitality": 40
+      },
+      "4": {
+        "% Earth Resist": 20,
+        "Strength": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 111,
+    "name": "Panoplie Paupayahn",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "% Air Resist": 5,
+        "Agility": 10
+      },
+      "3": {
+        "% Air Resist": 10,
+        "Agility": 40,
+        "Vitality": 40
+      },
+      "4": {
+        "% Air Resist": 20,
+        "Agility": 60,
+        "Vitality": 80
+      }
+    }
+  },
+  {
+    "ankama_id": 112,
+    "name": "Panoplie Bzz",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Damage": 2,
+        "Vitality": 10
+      },
+      "3": {
+        "Damage": 4,
+        "Vitality": 20
+      },
+      "4": {
+        "Damage": 8,
+        "Summon": 1,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 113,
+    "name": "Panoplie de Peggy la Porkass",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Critical Hits": 2,
+        "Vitality": 10
+      },
+      "3": {
+        "Critical Hits": 4,
+        "Vitality": 20
+      },
+      "4": {
+        "Critical Hits": 6,
+        "Vitality": 30,
+        "Wisdom": 10
+      }
+    }
+  },
+  {
+    "ankama_id": 114,
+    "name": "Panoplie du Bois de l'Est",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Agility": 10,
+        "Vitality": 10
+      },
+      "3": {
+        "Agility": 20,
+        "Vitality": 20
+      },
+      "4": {
+        "Agility": 30,
+        "Damage": 3,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 115,
+    "name": "Citronoplie",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Chance": 10,
+        "Intelligence": 10
+      },
+      "3": {
+        "Chance": 20,
+        "Intelligence": 20
+      },
+      "4": {
+        "Chance": 30,
         "Critical Hits": 3,
+        "Intelligence": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 116,
+    "name": "Panoplie de Charlie",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Power": 20,
+        "Vitality": 20
+      },
+      "4": {
+        "Damage": 4,
         "Power": 30,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 117,
+    "name": "Panoplie de l'empire",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Strength": 10,
+        "Vitality": 10
+      },
+      "3": {
+        "Damage": 4,
+        "Strength": 20,
+        "Vitality": 20
+      },
+      "4": {
+        "Damage": 8,
+        "Range": 1,
+        "Strength": 30,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 118,
+    "name": "Panoplie Ougah",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 2,
+        "Prospecting": 10,
+        "Wisdom": 10
+      },
+      "3": {
+        "Damage": 4,
+        "Prospecting": 20,
+        "Wisdom": 20
+      },
+      "4": {
+        "Damage": 6,
+        "Prospecting": 30,
+        "Range": 1,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 119,
+    "name": "Panoplignon",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "% Trap Damage": 25,
+        "Agility": 10
+      },
+      "3": {
+        "% Trap Damage": 50,
+        "Agility": 20,
+        "Wisdom": 10
+      },
+      "4": {
+        "% Trap Damage": 80,
+        "AP": 1,
+        "Agility": 40,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 120,
+    "name": "Panoplie des Sous-bois",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 15,
+        "Critical Hits": 2,
+        "Damage": 2
+      },
+      "3": {
+        "Chance": 30,
+        "Critical Hits": 4,
+        "Damage": 4,
         "Prospecting": 15
       }
     }
   },
   {
-    "ankama_id": 164,
-    "name": "Panoplie de Qu'Tan",
+    "ankama_id": 121,
+    "name": "Panoplycélium",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Chance": 15,
-        "Critical Hits": 1,
-        "Strength": 15
+        "Damage": 2,
+        "Strength": 10
       },
       "3": {
-        "Chance": 30,
-        "Critical Hits": 2,
+        "Damage": 4,
+        "Range": 1,
         "Strength": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 122,
+    "name": "Panoplie Cigale",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Vitality": 30,
+        "Wisdom": 10
+      }
+    }
+  },
+  {
+    "ankama_id": 123,
+    "name": "Panoplie Posh",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Initiative": 100
+      },
+      "3": {
+        "Damage": 5,
+        "Initiative": 200
+      }
+    }
+  },
+  {
+    "ankama_id": 124,
+    "name": "Pompanoplie",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Summon": 1,
+        "Vitality": 20
       },
       "4": {
-        "Chance": 50,
-        "Critical Hits": 4,
+        "Summon": 2,
+        "Vitality": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 125,
+    "name": "Panoplie Cristaline",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Heals": 2,
+        "Vitality": 10
+      },
+      "3": {
+        "Heals": 4,
+        "Vitality": 20
+      },
+      "4": {
+        "Heals": 8,
+        "Range": 1,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 126,
+    "name": "Panoplie du Parrain",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Agility": 10,
+        "Chance": 10,
+        "Vitality": 10
+      },
+      "3": {
+        "Agility": 20,
+        "Chance": 20,
+        "Vitality": 20
+      },
+      "4": {
+        "Agility": 30,
+        "Chance": 30,
+        "Range": 1,
+        "Vitality": 30,
+        "Wisdom": 20
+      },
+      "5": {
+        "Agility": 40,
+        "Chance": 40,
         "MP": 1,
-        "Strength": 50
+        "Range": 2,
+        "Vitality": 40,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 127,
+    "name": "Panoplie du Black Wab",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Power": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Power": 20,
+        "Summon": 1,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 128,
+    "name": "Panoplie de Slait",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Heals": 1,
+        "Vitality": 10
+      },
+      "3": {
+        "Heals": 2,
+        "Vitality": 20,
+        "Wisdom": 10
+      },
+      "4": {
+        "Heals": 4,
+        "Range": 1,
+        "Vitality": 40,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 129,
+    "name": "Panoplie Papayou",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Damage": 5,
+        "Vitality": 20
+      },
+      "4": {
+        "Power": 10,
+        "Prospecting": 10,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 130,
+    "name": "Panoplie du Vampyre maudit",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 1,
+        "Vitality": 20
+      },
+      "3": {
+        "Damage": 2,
+        "Vitality": 30
+      },
+      "4": {
+        "Damage": 3,
+        "Vitality": 40
+      },
+      "5": {
+        "Damage": 4,
+        "Range": 1,
+        "Vitality": 50
+      },
+      "6": {
+        "Damage": 5,
+        "MP": 1,
+        "Range": 2,
+        "Vitality": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 131,
+    "name": "Panoplie Mystère",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Prospecting": 5,
+        "Vitality": 10
+      },
+      "3": {
+        "Damage": 2,
+        "Prospecting": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Damage": 4,
+        "Prospecting": 15,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 132,
+    "name": "Panoplie Tétounik",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Intelligence": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Intelligence": 20,
+        "Range": 1,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 133,
+    "name": "Panoplie de la Denrée",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Vitality": 20,
+        "Wisdom": 10
+      },
+      "4": {
+        "Damage": 5,
+        "Vitality": 30,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 134,
+    "name": "Panoplie Yug",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Damage": 2,
+        "Vitality": 20
+      },
+      "4": {
+        "Damage": 4,
+        "Summon": 1,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 135,
+    "name": "Panoplie de Noké",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Vitality": 20,
+        "Wisdom": 10
+      },
+      "4": {
+        "Critical Hits": 2,
+        "Vitality": 30,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 136,
+    "name": "Panoplie Solaire",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Chance": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Chance": 20,
+        "Summon": 1,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 137,
+    "name": "Panoplie Mace",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Intelligence": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Intelligence": 20,
+        "Vitality": 30,
+        "Wisdom": 15
+      }
+    }
+  },
+  {
+    "ankama_id": 138,
+    "name": "Panoplie Chisp",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Agility": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Agility": 20,
+        "Power": 15,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 139,
+    "name": "Panoplie Goldobrak",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Critical Hits": 1,
+        "Vitality": 20
+      },
+      "4": {
+        "Chance": 20,
+        "Critical Hits": 2,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 140,
+    "name": "Panoplie Sleump",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Critical Hits": 1,
+        "Vitality": 20
+      },
+      "4": {
+        "Critical Hits": 2,
+        "Vitality": 30,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 142,
+    "name": "Panoplie Real Boitar",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Vitality": 20,
+        "Wisdom": 10
+      },
+      "4": {
+        "Damage": 4,
+        "Vitality": 30,
+        "Wisdom": 20
+      },
+      "5": {
+        "Damage": 8,
+        "Summon": 1,
+        "Vitality": 40,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 143,
+    "name": "Panoplie des Bouftons Rouges",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Vitality": 20,
+        "Wisdom": 10
+      },
+      "4": {
+        "Damage": 4,
+        "Vitality": 30,
+        "Wisdom": 20
+      },
+      "5": {
+        "Damage": 8,
+        "Summon": 1,
+        "Vitality": 40,
+        "Wisdom": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 144,
+    "name": "Panoplie de Grüt",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Vitality": 20,
+        "Wisdom": 10
+      },
+      "4": {
+        "Range": 1,
+        "Vitality": 30,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 145,
+    "name": "Panoplie de Kocksis",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Vitality": 20,
+        "Wisdom": 10
+      },
+      "4": {
+        "Damage": 5,
+        "Vitality": 30,
+        "Wisdom": 20
+      }
+    }
+  },
+  {
+    "ankama_id": 146,
+    "name": "Panoplie de Gobeuf",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Agility": 20,
+        "Vitality": 20
+      },
+      "4": {
+        "Agility": 30,
+        "Critical Hits": 8,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 147,
+    "name": "Panoplie de Laikteur",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Initiative": 50,
+        "Vitality": 10
+      },
+      "3": {
+        "Initiative": 100,
+        "Reflects": 3,
+        "Vitality": 20
+      },
+      "4": {
+        "Damage": 5,
+        "Initiative": 200,
+        "Reflects": 5,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 148,
+    "name": "Panoplie de Rekto Topi",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Damage": 1,
+        "Intelligence": 10
+      },
+      "3": {
+        "Damage": 2,
+        "Intelligence": 20,
+        "Power": 5
+      },
+      "4": {
+        "Damage": 4,
+        "Heals": 6,
+        "Intelligence": 30,
+        "Power": 10
+      }
+    }
+  },
+  {
+    "ankama_id": 149,
+    "name": "Panoplie de Grizou",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Chance": 10
+      },
+      "3": {
+        "Chance": 20,
+        "Damage": 2
+      },
+      "4": {
+        "Chance": 30,
+        "Damage": 4,
+        "Range": 1
+      }
+    }
+  },
+  {
+    "ankama_id": 150,
+    "name": "Panoplie du débutant",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Initiative": 2,
+        "Vitality": 2
+      },
+      "3": {
+        "Initiative": 3,
+        "Vitality": 3
+      },
+      "4": {
+        "Initiative": 4,
+        "Vitality": 4
+      },
+      "5": {
+        "Initiative": 5,
+        "Vitality": 5
+      },
+      "6": {
+        "Initiative": 6,
+        "Vitality": 6
+      },
+      "7": {
+        "Initiative": 7,
+        "Vitality": 7
+      },
+      "8": {
+        "Initiative": 8,
+        "Vitality": 8
+      }
+    }
+  },
+  {
+    "ankama_id": 151,
+    "name": "Panoplie du Roks Or",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Power": 20,
+        "Vitality": 20
+      },
+      "4": {
+        "Power": 30,
+        "Vitality": 30,
+        "Wisdom": 30
+      },
+      "5": {
+        "MP": 1,
+        "Power": 40,
+        "Vitality": 40,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 152,
+    "name": "Panoplie d'Hulkrap",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Intelligence": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Intelligence": 20,
+        "Range": 2,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 153,
+    "name": "Panoplie de Klüme",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Strength": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Range": 2,
+        "Strength": 20,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 154,
+    "name": "Panoplie de Kloug",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Chance": 10,
+        "Vitality": 20
+      },
+      "4": {
+        "Chance": 20,
+        "Range": 2,
+        "Vitality": 30
+      }
+    }
+  },
+  {
+    "ankama_id": 155,
+    "name": "Panoplie du Corbeau Noir",
+    "source": "dofusretrotools",
+    "tiers": {
+      "2": {
+        "Vitality": 10
+      },
+      "3": {
+        "Damage": 1,
+        "Vitality": 20
+      },
+      "4": {
+        "Critical Hits": 2,
+        "Damage": 2,
+        "Vitality": 30
+      },
+      "5": {
+        "Critical Hits": 4,
+        "Damage": 3,
+        "Range": 1,
+        "Vitality": 40
       }
     }
   },
   {
     "ankama_id": 163,
     "name": "Panoplie d'Ilyzaelle",
+    "source": "solomonk",
     "tiers": {
       "2": {
         "Agility": 15,
@@ -4829,15 +4661,420 @@
     }
   },
   {
-    "ankama_id": 97,
-    "name": "Panoplie Ventouse",
+    "ankama_id": 164,
+    "name": "Panoplie de Qu'Tan",
+    "source": "solomonk",
     "tiers": {
       "2": {
-        "Wisdom": 20
+        "Chance": 15,
+        "Critical Hits": 1,
+        "Strength": 15
       },
       "3": {
+        "Chance": 30,
+        "Critical Hits": 2,
+        "Strength": 30
+      },
+      "4": {
+        "Chance": 50,
+        "Critical Hits": 4,
+        "MP": 1,
+        "Strength": 50
+      }
+    }
+  },
+  {
+    "ankama_id": 200,
+    "name": "Panoplie de force en bronze",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
         "AP": 1,
-        "Wisdom": 20
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 5,
+        "Intelligence": 20,
+        "Power": 5,
+        "Range": 1,
+        "Strength": 100,
+        "Summon": 1,
+        "Vitality": 100,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 201,
+    "name": "Panoplie d'intelligence en bronze",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "AP": 1,
+        "Agility": 20,
+        "Chance": 20,
+        "Damage": 5,
+        "Intelligence": 100,
+        "Power": 5,
+        "Range": 1,
+        "Strength": 20,
+        "Summon": 1,
+        "Vitality": 100,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 202,
+    "name": "Panoplie de chance en bronze",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "AP": 1,
+        "Agility": 20,
+        "Chance": 100,
+        "Damage": 5,
+        "Intelligence": 20,
+        "Power": 5,
+        "Range": 1,
+        "Strength": 20,
+        "Summon": 1,
+        "Vitality": 100,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 203,
+    "name": "Panoplie d'agilité en bronze",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "AP": 1,
+        "Agility": 100,
+        "Chance": 20,
+        "Damage": 5,
+        "Intelligence": 20,
+        "Power": 5,
+        "Range": 1,
+        "Strength": 20,
+        "Summon": 1,
+        "Vitality": 100,
+        "Wisdom": 40
+      }
+    }
+  },
+  {
+    "ankama_id": 204,
+    "name": "Panoplie de force en argent",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "AP": 1,
+        "Agility": 25,
+        "Chance": 25,
+        "Damage": 10,
+        "Intelligence": 25,
+        "MP": 1,
+        "Power": 10,
+        "Range": 1,
+        "Strength": 125,
+        "Summon": 2,
+        "Vitality": 200,
+        "Wisdom": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 205,
+    "name": "Panoplie d'intelligence en argent",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "AP": 1,
+        "Agility": 25,
+        "Chance": 25,
+        "Damage": 10,
+        "Intelligence": 125,
+        "MP": 1,
+        "Power": 10,
+        "Range": 1,
+        "Strength": 25,
+        "Summon": 2,
+        "Vitality": 200,
+        "Wisdom": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 206,
+    "name": "Panoplie de chance en argent",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "AP": 1,
+        "Agility": 25,
+        "Chance": 125,
+        "Damage": 10,
+        "Intelligence": 25,
+        "MP": 1,
+        "Power": 10,
+        "Range": 1,
+        "Strength": 25,
+        "Summon": 2,
+        "Vitality": 200,
+        "Wisdom": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 207,
+    "name": "Panoplie d'agilité en argent",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "AP": 1,
+        "Agility": 125,
+        "Chance": 25,
+        "Damage": 10,
+        "Intelligence": 25,
+        "MP": 1,
+        "Power": 10,
+        "Range": 1,
+        "Strength": 25,
+        "Summon": 2,
+        "Vitality": 200,
+        "Wisdom": 60
+      }
+    }
+  },
+  {
+    "ankama_id": 208,
+    "name": "Panoplie de force en or",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "AP": 2,
+        "Agility": 30,
+        "Chance": 30,
+        "Damage": 15,
+        "Intelligence": 30,
+        "MP": 1,
+        "Power": 15,
+        "Range": 2,
+        "Strength": 150,
+        "Summon": 2,
+        "Vitality": 300,
+        "Wisdom": 90
+      }
+    }
+  },
+  {
+    "ankama_id": 209,
+    "name": "Panoplie d'intelligence en or",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "AP": 2,
+        "Agility": 30,
+        "Chance": 30,
+        "Damage": 15,
+        "Intelligence": 150,
+        "MP": 1,
+        "Power": 15,
+        "Range": 2,
+        "Strength": 30,
+        "Summon": 2,
+        "Vitality": 300,
+        "Wisdom": 90
+      }
+    }
+  },
+  {
+    "ankama_id": 210,
+    "name": "Panoplie de chance en or",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "AP": 2,
+        "Agility": 30,
+        "Chance": 150,
+        "Damage": 15,
+        "Intelligence": 30,
+        "MP": 1,
+        "Power": 15,
+        "Range": 2,
+        "Strength": 30,
+        "Summon": 2,
+        "Vitality": 300,
+        "Wisdom": 90
+      }
+    }
+  },
+  {
+    "ankama_id": 211,
+    "name": "Panoplie d'agilité en or",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "% Air Resist": 5,
+        "% Earth Resist": 5,
+        "% Fire Resist": 5,
+        "% Neutral Resist": 5,
+        "% Water Resist": 5,
+        "AP": 2,
+        "Agility": 150,
+        "Chance": 30,
+        "Damage": 15,
+        "Intelligence": 30,
+        "MP": 1,
+        "Power": 15,
+        "Range": 2,
+        "Strength": 30,
+        "Summon": 2,
+        "Vitality": 300,
+        "Wisdom": 90
+      }
+    }
+  },
+  {
+    "ankama_id": 212,
+    "name": "Panoplie de force en diamant",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 2,
+        "Agility": 35,
+        "Chance": 35,
+        "Damage": 20,
+        "Intelligence": 35,
+        "MP": 1,
+        "Power": 20,
+        "Range": 2,
+        "Strength": 175,
+        "Summon": 2,
+        "Vitality": 500,
+        "Wisdom": 120
+      }
+    }
+  },
+  {
+    "ankama_id": 213,
+    "name": "Panoplie d'intelligence en diamant",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 2,
+        "Agility": 35,
+        "Chance": 35,
+        "Damage": 20,
+        "Intelligence": 175,
+        "MP": 1,
+        "Power": 20,
+        "Range": 2,
+        "Strength": 35,
+        "Summon": 2,
+        "Vitality": 500,
+        "Wisdom": 120
+      }
+    }
+  },
+  {
+    "ankama_id": 214,
+    "name": "Panoplie de chance en diamant",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 2,
+        "Agility": 35,
+        "Chance": 175,
+        "Damage": 20,
+        "Intelligence": 35,
+        "MP": 1,
+        "Power": 20,
+        "Range": 2,
+        "Strength": 35,
+        "Summon": 2,
+        "Vitality": 500,
+        "Wisdom": 120
+      }
+    }
+  },
+  {
+    "ankama_id": 215,
+    "name": "Panoplie d'agilité en diamant",
+    "source": "solomonk",
+    "tiers": {
+      "5": {
+        "% Air Resist": 10,
+        "% Earth Resist": 10,
+        "% Fire Resist": 10,
+        "% Neutral Resist": 10,
+        "% Water Resist": 10,
+        "AP": 2,
+        "Agility": 175,
+        "Chance": 35,
+        "Damage": 20,
+        "Intelligence": 35,
+        "MP": 1,
+        "Power": 20,
+        "Range": 2,
+        "Strength": 35,
+        "Summon": 2,
+        "Vitality": 500,
+        "Wisdom": 120
+      }
+    }
+  },
+  {
+    "ankama_id": 216,
+    "name": "Panoplie Grobe",
+    "source": "solomonk",
+    "tiers": {
+      "2": {
+        "Critical Hits": 1,
+        "Power": 10,
+        "Prospecting": 5
+      },
+      "3": {
+        "Critical Hits": 2,
+        "Power": 20,
+        "Prospecting": 10
+      },
+      "4": {
+        "AP": 1,
+        "Critical Hits": 3,
+        "Power": 30,
+        "Prospecting": 15
       }
     }
   }

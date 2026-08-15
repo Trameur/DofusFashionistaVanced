@@ -102,7 +102,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 2,
@@ -274,7 +274,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 3,
@@ -399,7 +399,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 4,
@@ -500,7 +500,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 5,
@@ -646,7 +646,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 6,
@@ -704,7 +704,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 7,
@@ -730,7 +730,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 8,
@@ -780,12 +780,12 @@
      "value": "1"
     },
     {
-     "type": "MP",
-     "value": "1"
+     "type": "Damage",
+     "value": "10"
     },
     {
-     "type": "Power",
-     "value": "10"
+     "type": "MP",
+     "value": "1"
     },
     {
      "type": "Range",
@@ -797,7 +797,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 9,
@@ -853,7 +853,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 10,
@@ -882,7 +882,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 11,
@@ -966,6 +966,10 @@
    ],
    [
     {
+     "type": "Damage",
+     "value": "16"
+    },
+    {
      "type": "HP",
      "value": "250"
     },
@@ -978,16 +982,12 @@
      "value": "2"
     },
     {
-     "type": "Power",
-     "value": "16"
-    },
-    {
      "type": "Prospecting",
      "value": "15"
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 12,
@@ -1033,12 +1033,12 @@
      "value": "15"
     },
     {
-     "type": "Damage",
-     "value": "5"
-    },
-    {
      "type": "Initiative",
      "value": "15"
+    },
+    {
+     "type": "Power",
+     "value": "5"
     },
     {
      "type": "Vitality",
@@ -1112,7 +1112,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 13,
@@ -1284,7 +1284,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 14,
@@ -1456,7 +1456,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 15,
@@ -1628,7 +1628,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 16,
@@ -1765,7 +1765,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 17,
@@ -1890,7 +1890,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 18,
@@ -2027,7 +2027,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 19,
@@ -2164,7 +2164,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 20,
@@ -2301,7 +2301,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 21,
@@ -2330,7 +2330,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 22,
@@ -2382,7 +2382,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 23,
@@ -2426,7 +2426,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 24,
@@ -2474,7 +2474,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 25,
@@ -2526,7 +2526,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 26,
@@ -2584,7 +2584,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 27,
@@ -2636,7 +2636,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 28,
@@ -2688,7 +2688,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 29,
@@ -2740,7 +2740,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 30,
@@ -2792,7 +2792,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 31,
@@ -2809,11 +2809,19 @@
     {
      "type": "Damage",
      "value": "2"
+    },
+    {
+     "type": "Reflects",
+     "value": "2"
     }
    ],
    [
     {
      "type": "Damage",
+     "value": "5"
+    },
+    {
+     "type": "Reflects",
      "value": "5"
     },
     {
@@ -2827,12 +2835,16 @@
      "value": "8"
     },
     {
+     "type": "Reflects",
+     "value": "8"
+    },
+    {
      "type": "Wisdom",
      "value": "30"
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 32,
@@ -2953,7 +2965,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 33,
@@ -3028,7 +3040,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 34,
@@ -3148,7 +3160,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 35,
@@ -3197,8 +3209,16 @@
    ],
    [
     {
+     "type": "% Trap Damage",
+     "value": "5"
+    },
+    {
      "type": "Agility",
      "value": "40"
+    },
+    {
+     "type": "Trap Damage",
+     "value": "4"
     },
     {
      "type": "Vitality",
@@ -3207,8 +3227,16 @@
    ],
    [
     {
+     "type": "% Trap Damage",
+     "value": "10"
+    },
+    {
      "type": "Agility",
      "value": "50"
+    },
+    {
+     "type": "Trap Damage",
+     "value": "6"
     },
     {
      "type": "Vitality",
@@ -3221,12 +3249,20 @@
    ],
    [
     {
+     "type": "% Trap Damage",
+     "value": "20"
+    },
+    {
      "type": "Agility",
      "value": "60"
     },
     {
      "type": "Range",
      "value": "1"
+    },
+    {
+     "type": "Trap Damage",
+     "value": "8"
     },
     {
      "type": "Vitality",
@@ -3238,6 +3274,10 @@
     }
    ],
    [
+    {
+     "type": "% Trap Damage",
+     "value": "40"
+    },
     {
      "type": "Agility",
      "value": "80"
@@ -3251,6 +3291,10 @@
      "value": "1"
     },
     {
+     "type": "Trap Damage",
+     "value": "12"
+    },
+    {
      "type": "Vitality",
      "value": "80"
     },
@@ -3260,7 +3304,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 36,
@@ -3380,7 +3424,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 37,
@@ -3524,7 +3568,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 38,
@@ -3592,7 +3636,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 39,
@@ -3648,7 +3692,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 40,
@@ -3673,7 +3717,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 41,
@@ -3717,7 +3761,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 42,
@@ -3773,7 +3817,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 43,
@@ -3878,7 +3922,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 44,
@@ -3934,7 +3978,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 45,
@@ -3978,7 +4022,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 46,
@@ -4102,7 +4146,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 47,
@@ -4207,7 +4251,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 49,
@@ -4263,7 +4307,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 50,
@@ -4388,7 +4432,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 51,
@@ -4484,11 +4528,11 @@
    ],
    [
     {
-     "type": "Heals",
+     "type": "Damage",
      "value": "10"
     },
     {
-     "type": "Power",
+     "type": "Heals",
      "value": "10"
     },
     {
@@ -4501,7 +4545,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 52,
@@ -4622,7 +4666,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 53,
@@ -4783,7 +4827,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 54,
@@ -4868,7 +4912,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 55,
@@ -4946,7 +4990,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 56,
@@ -4972,10 +5016,14 @@
     },
     {
      "type": "Damage",
-     "value": "5"
+     "value": "1"
     },
     {
      "type": "Intelligence",
+     "value": "5"
+    },
+    {
+     "type": "Power",
      "value": "5"
     },
     {
@@ -5104,7 +5152,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 57,
@@ -5221,7 +5269,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 58,
@@ -5342,7 +5390,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 59,
@@ -5451,7 +5499,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 60,
@@ -5513,7 +5561,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 61,
@@ -5575,7 +5623,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 62,
@@ -5629,7 +5677,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 63,
@@ -5741,7 +5789,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 64,
@@ -5831,7 +5879,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 65,
@@ -5849,6 +5897,10 @@
    [
     {
      "type": "Damage",
+     "value": "1"
+    },
+    {
+     "type": "Power",
      "value": "5"
     }
    ],
@@ -5953,7 +6005,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 66,
@@ -6055,7 +6107,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 67,
@@ -6176,7 +6228,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 68,
@@ -6198,14 +6250,26 @@
      "value": "5"
     },
     {
+     "type": "Trap Damage",
+     "value": "1"
+    },
+    {
      "type": "Vitality",
      "value": "10"
     }
    ],
    [
     {
+     "type": "% Trap Damage",
+     "value": "5"
+    },
+    {
      "type": "Agility",
      "value": "10"
+    },
+    {
+     "type": "Trap Damage",
+     "value": "2"
     },
     {
      "type": "Vitality",
@@ -6214,8 +6278,16 @@
    ],
    [
     {
+     "type": "% Trap Damage",
+     "value": "10"
+    },
+    {
      "type": "Agility",
      "value": "20"
+    },
+    {
+     "type": "Trap Damage",
+     "value": "4"
     },
     {
      "type": "Vitality",
@@ -6223,6 +6295,10 @@
     }
    ],
    [
+    {
+     "type": "% Trap Damage",
+     "value": "15"
+    },
     {
      "type": "Agility",
      "value": "25"
@@ -6232,11 +6308,19 @@
      "value": "1"
     },
     {
+     "type": "Trap Damage",
+     "value": "6"
+    },
+    {
      "type": "Vitality",
      "value": "35"
     }
    ],
    [
+    {
+     "type": "% Trap Damage",
+     "value": "20"
+    },
     {
      "type": "Agility",
      "value": "30"
@@ -6246,11 +6330,19 @@
      "value": "3"
     },
     {
+     "type": "Trap Damage",
+     "value": "8"
+    },
+    {
      "type": "Vitality",
      "value": "40"
     }
    ],
    [
+    {
+     "type": "% Trap Damage",
+     "value": "30"
+    },
     {
      "type": "Agility",
      "value": "40"
@@ -6264,12 +6356,16 @@
      "value": "1"
     },
     {
+     "type": "Trap Damage",
+     "value": "10"
+    },
+    {
      "type": "Vitality",
      "value": "50"
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 69,
@@ -6415,7 +6511,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 70,
@@ -6481,7 +6577,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 71,
@@ -6543,7 +6639,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 72,
@@ -6605,7 +6701,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 74,
@@ -6630,7 +6726,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 75,
@@ -6802,7 +6898,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 78,
@@ -6847,7 +6943,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 79,
@@ -6915,7 +7011,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 80,
@@ -6952,7 +7048,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 81,
@@ -7056,6 +7152,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -7114,6 +7214,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -7163,7 +7267,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 82,
@@ -7267,6 +7371,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -7325,6 +7433,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -7374,7 +7486,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 83,
@@ -7478,6 +7590,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -7536,6 +7652,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -7585,7 +7705,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 84,
@@ -7689,6 +7809,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -7747,6 +7871,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -7796,7 +7924,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 85,
@@ -7900,6 +8028,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -7958,6 +8090,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -8007,7 +8143,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 86,
@@ -8111,6 +8247,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -8169,6 +8309,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -8218,7 +8362,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 87,
@@ -8322,6 +8466,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -8380,6 +8528,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -8429,7 +8581,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 88,
@@ -8533,6 +8685,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -8591,6 +8747,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -8640,7 +8800,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 89,
@@ -8744,6 +8904,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -8802,6 +8966,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -8851,7 +9019,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 90,
@@ -8955,6 +9123,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -9013,6 +9185,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -9062,7 +9238,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 91,
@@ -9166,6 +9342,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -9224,6 +9404,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -9273,7 +9457,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 92,
@@ -9377,6 +9561,10 @@
      "value": "5"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "5"
+    },
+    {
      "type": "% Water Resist",
      "value": "5"
     },
@@ -9435,6 +9623,10 @@
      "value": "10"
     },
     {
+     "type": "% Neutral Resist",
+     "value": "10"
+    },
+    {
      "type": "% Water Resist",
      "value": "10"
     },
@@ -9484,7 +9676,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 93,
@@ -9506,7 +9698,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 94,
@@ -9528,7 +9720,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 95,
@@ -9546,7 +9738,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 96,
@@ -9595,7 +9787,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 97,
@@ -9624,7 +9816,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 98,
@@ -9732,7 +9924,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 99,
@@ -9840,7 +10032,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 100,
@@ -9948,7 +10140,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 101,
@@ -10056,7 +10248,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 102,
@@ -10112,7 +10304,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 103,
@@ -10168,7 +10360,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 104,
@@ -10224,7 +10416,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 105,
@@ -10280,7 +10472,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 106,
@@ -10340,7 +10532,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 107,
@@ -10416,7 +10608,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 108,
@@ -10472,7 +10664,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 109,
@@ -10528,7 +10720,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 110,
@@ -10984,7 +11176,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 119,
@@ -10999,22 +11191,22 @@
    [],
    [
     {
-     "type": "Agility",
-     "value": "10"
+     "type": "% Trap Damage",
+     "value": "25"
     },
     {
-     "type": "Power",
-     "value": "25"
+     "type": "Agility",
+     "value": "10"
     }
    ],
    [
     {
-     "type": "Agility",
-     "value": "20"
+     "type": "% Trap Damage",
+     "value": "50"
     },
     {
-     "type": "Power",
-     "value": "50"
+     "type": "Agility",
+     "value": "20"
     },
     {
      "type": "Wisdom",
@@ -11022,6 +11214,10 @@
     }
    ],
    [
+    {
+     "type": "% Trap Damage",
+     "value": "80"
+    },
     {
      "type": "AP",
      "value": "1"
@@ -11031,16 +11227,12 @@
      "value": "40"
     },
     {
-     "type": "Power",
-     "value": "80"
-    },
-    {
      "type": "Wisdom",
      "value": "20"
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 120,
@@ -11085,7 +11277,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 121,
@@ -11122,7 +11314,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 122,
@@ -11581,7 +11773,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 131,
@@ -12199,7 +12391,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 145,
@@ -12243,7 +12435,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 146,
@@ -12287,7 +12479,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 147,
@@ -12312,12 +12504,12 @@
    ],
    [
     {
-     "type": "Damage",
-     "value": "3"
-    },
-    {
      "type": "Initiative",
      "value": "100"
+    },
+    {
+     "type": "Reflects",
+     "value": "3"
     },
     {
      "type": "Vitality",
@@ -12334,12 +12526,16 @@
      "value": "200"
     },
     {
+     "type": "Reflects",
+     "value": "5"
+    },
+    {
      "type": "Vitality",
      "value": "30"
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 148,
@@ -12365,11 +12561,15 @@
    [
     {
      "type": "Damage",
-     "value": "5"
+     "value": "2"
     },
     {
      "type": "Intelligence",
      "value": "20"
+    },
+    {
+     "type": "Power",
+     "value": "5"
     }
    ],
    [
@@ -12391,7 +12591,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 149,
@@ -12435,7 +12635,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 150,
@@ -12523,7 +12723,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 151,
@@ -12586,7 +12786,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 152,
@@ -12630,7 +12830,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 153,
@@ -12674,7 +12874,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 154,
@@ -12718,7 +12918,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 155,
@@ -12841,7 +13041,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 164,
@@ -12901,7 +13101,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 200,
@@ -12940,6 +13140,10 @@
      "value": "20"
     },
     {
+     "type": "Power",
+     "value": "5"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -12961,7 +13165,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 201,
@@ -13000,6 +13204,10 @@
      "value": "100"
     },
     {
+     "type": "Power",
+     "value": "5"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -13021,7 +13229,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 202,
@@ -13060,6 +13268,10 @@
      "value": "20"
     },
     {
+     "type": "Power",
+     "value": "5"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -13081,7 +13293,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 203,
@@ -13120,6 +13332,10 @@
      "value": "20"
     },
     {
+     "type": "Power",
+     "value": "5"
+    },
+    {
      "type": "Range",
      "value": "1"
     },
@@ -13141,7 +13357,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 204,
@@ -13172,6 +13388,10 @@
      "value": "25"
     },
     {
+     "type": "Damage",
+     "value": "10"
+    },
+    {
      "type": "Intelligence",
      "value": "25"
     },
@@ -13205,7 +13425,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 205,
@@ -13236,6 +13456,10 @@
      "value": "25"
     },
     {
+     "type": "Damage",
+     "value": "10"
+    },
+    {
      "type": "Intelligence",
      "value": "125"
     },
@@ -13269,7 +13493,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 206,
@@ -13300,6 +13524,10 @@
      "value": "125"
     },
     {
+     "type": "Damage",
+     "value": "10"
+    },
+    {
      "type": "Intelligence",
      "value": "25"
     },
@@ -13333,7 +13561,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 207,
@@ -13364,6 +13592,10 @@
      "value": "25"
     },
     {
+     "type": "Damage",
+     "value": "10"
+    },
+    {
      "type": "Intelligence",
      "value": "25"
     },
@@ -13397,7 +13629,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 208,
@@ -13448,6 +13680,10 @@
      "value": "30"
     },
     {
+     "type": "Damage",
+     "value": "15"
+    },
+    {
      "type": "Intelligence",
      "value": "30"
     },
@@ -13481,7 +13717,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 209,
@@ -13532,6 +13768,10 @@
      "value": "30"
     },
     {
+     "type": "Damage",
+     "value": "15"
+    },
+    {
      "type": "Intelligence",
      "value": "150"
     },
@@ -13565,7 +13805,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 210,
@@ -13616,6 +13856,10 @@
      "value": "150"
     },
     {
+     "type": "Damage",
+     "value": "15"
+    },
+    {
      "type": "Intelligence",
      "value": "30"
     },
@@ -13649,7 +13893,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 211,
@@ -13700,6 +13944,10 @@
      "value": "30"
     },
     {
+     "type": "Damage",
+     "value": "15"
+    },
+    {
      "type": "Intelligence",
      "value": "30"
     },
@@ -13733,7 +13981,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 212,
@@ -13784,6 +14032,10 @@
      "value": "35"
     },
     {
+     "type": "Damage",
+     "value": "20"
+    },
+    {
      "type": "Intelligence",
      "value": "35"
     },
@@ -13817,7 +14069,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 213,
@@ -13868,6 +14120,10 @@
      "value": "35"
     },
     {
+     "type": "Damage",
+     "value": "20"
+    },
+    {
      "type": "Intelligence",
      "value": "175"
     },
@@ -13901,7 +14157,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 214,
@@ -13952,6 +14208,10 @@
      "value": "175"
     },
     {
+     "type": "Damage",
+     "value": "20"
+    },
+    {
      "type": "Intelligence",
      "value": "35"
     },
@@ -13985,7 +14245,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 215,
@@ -14036,6 +14296,10 @@
      "value": "35"
     },
     {
+     "type": "Damage",
+     "value": "20"
+    },
+    {
      "type": "Intelligence",
      "value": "35"
     },
@@ -14069,7 +14333,7 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  },
  {
   "ankama_id": 216,
@@ -14129,6 +14393,6 @@
     }
    ]
   ],
-  "source": "dofusretrotools"
+  "source": "solomonk"
  }
 ]

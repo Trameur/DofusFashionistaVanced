@@ -1719,14 +1719,12 @@ msgid "monster stats and artwork for Dofus 3 and the Beta"
 msgstr "características e ilustrações dos monstros para o Dofus 3 e o Beta"
 
 #: .\chardata\templates\chardata\about.html:49
-msgid "Dofus Retro bestiary: monster drops, stats per grade and locations"
-msgstr ""
-"bestiário do Dofus Retro: drops, características por grau e zonas dos "
-"monstros"
+msgid "Dofus Retro set bonuses, and the bestiary: monster drops, stats per grade and locations"
+msgstr "bônus de conjuntos do Dofus Retro, e bestiário: drops, características por grau e zonas dos monstros"
 
 #: .\chardata\templates\chardata\about.html:50
-msgid "Dofus Retro set bonuses"
-msgstr "bônus de conjuntos do Dofus Retro"
+msgid "Dofus Retro set bonuses for the sets Solomonk does not list"
+msgstr "bônus de conjuntos do Dofus Retro que o Solomonk não lista"
 
 #: .\chardata\templates\chardata\about.html:51
 msgid "Dofus Retro spell icons"
