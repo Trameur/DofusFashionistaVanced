@@ -14906,6 +14906,48 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                   '%s gives %s AP or MP' % (name, value))
 
 
+class SourceHealthCheckTests(SimpleTestCase):
+    """check_sources.py probes every live source a version is built from, by
+    running that source's real parser rather than reading a status code. It is
+    the check that was missing when solomonk changed its drop markup. These
+    tests only read its shape, so they never touch the network."""
+
+    VERSIONS_WITH_LIVE_SOURCES = ('retro', 'dofus3', 'touch')
+
+    def _module(self):
+        import importlib.util
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper', 'check_sources.py')
+        spec = importlib.util.spec_from_file_location('check_sources', path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_every_version_with_a_live_source_is_probed(self):
+        probed = {version for version, _n, _p, _f in self._module().PROBES}
+        for version in self.VERSIONS_WITH_LIVE_SOURCES:
+            with self.subTest(version=version):
+                self.assertIn(version, probed)
+
+    def test_each_probe_has_a_floor_above_zero(self):
+        # A floor of zero would pass on a source that answers with nothing,
+        # which is the failure this whole file exists to catch.
+        for version, name, probe, floor in self._module().PROBES:
+            with self.subTest(source=name):
+                self.assertGreater(floor, 0)
+                self.assertTrue(callable(probe))
+                self.assertTrue(version and name)
+
+    def test_the_solomonk_drop_probe_reads_the_real_regexes(self):
+        # It must fail with the scraper, not carry its own copy of the pattern.
+        module = self._module()
+        source = open(module.__file__, encoding='utf-8').read()
+        drop_probe = source.split('def probe_retro_drops', 1)[1].split('\ndef ', 1)[0]
+        self.assertIn('scraper.DROP_RE', drop_probe)
+        self.assertIn('scraper.TITLE_RE', drop_probe)
+
+
 class RetroDropScrapeTests(SimpleTestCase):
     """Solomonk moved each drop rate into a span carrying one value per monster
     rank. The parser wanted the number in plain text after the paren, so it
