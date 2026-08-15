@@ -992,7 +992,8 @@
             ]
         ],
         "conditions": [
-            "Wisdom > 100"
+            "Wisdom > 100",
+            "AP < 11 | MP < 6"
         ],
         "weapon_type": "Wand",
         "ap": 4,
@@ -1569,7 +1570,9 @@
                 "(Neutral damage)"
             ]
         ],
-        "conditions": [],
+        "conditions": [
+            "Agility > 60 | Chance > 60"
+        ],
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 25,
@@ -23641,7 +23644,9 @@
                 "(Neutral damage)"
             ]
         ],
-        "conditions": [],
+        "conditions": [
+            "Strength > 90 | Agility > 90"
+        ],
         "weapon_type": "Bow",
         "ap": 4,
         "crit_chance": 25,
@@ -84831,7 +84836,9 @@
                 "% Water Resist"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "MP < 6 | AP < 12"
+        ]
     },
     {
         "ankama_id": 12109,
@@ -84910,7 +84917,9 @@
                 "AP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "MP < 6 | AP < 12"
+        ]
     },
     {
         "ankama_id": 12110,
@@ -85009,7 +85018,9 @@
                 "AP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "MP < 6 | AP < 12"
+        ]
     },
     {
         "ankama_id": 12111,
@@ -85113,7 +85124,9 @@
                 "AP Reduction"
             ]
         ],
-        "conditions": []
+        "conditions": [
+            "MP < 6 | AP < 12"
+        ]
     },
     {
         "ankama_id": 12112,
@@ -85213,6 +85226,7 @@
             ]
         ],
         "conditions": [
+            "MP < 6 | AP < 12",
             "Wisdom > 300"
         ],
         "weapon_type": "Shovel",
@@ -103978,7 +103992,9 @@
                 "(Fire damage)"
             ]
         ],
-        "conditions": [],
+        "conditions": [
+            "Strength > 450 | Agility > 450"
+        ],
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 5,
@@ -114738,7 +114754,9 @@
                 "(Air steal)"
             ]
         ],
-        "conditions": [],
+        "conditions": [
+            "Strength > 450 | Agility > 450"
+        ],
         "weapon_type": "Dagger",
         "ap": 3,
         "crit_chance": 10,

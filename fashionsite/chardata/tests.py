@@ -6656,6 +6656,101 @@ class TouchPetSolveTests(TestCase):
             pet.id, self.VARIANT_ID_BASE,
             'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
 
+class OrEquipConditionTests(TestCase):
+    """Touch gates some items on either of two stats, "MP < 6 or AP < 12" on the
+    Professor Xa set. Keeping both as AND rows would forbid builds the game
+    allows, so the condition used to be dropped whole and the item went out
+    unconstrained: a player asked the wizard for 12 AP and got pieces capped at
+    11. The solver picks one branch per worn item now."""
+
+    KNOWN = {
+        'Professor Xa\'s Cloak': [('MP', True, 5), ('AP', True, 11)],
+        'Flinty Daggers': [('Strength', False, 451), ('Agility', False, 451)],
+    }
+
+    def test_the_scraper_keeps_the_disjunction(self):
+        import importlib.util
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper', 'get_equipments_touch.py')
+        spec = importlib.util.spec_from_file_location('get_equipments_touch',
+                                                      path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        decode = module.decode_conditions
+        self.assertEqual(decode('CM<6|CP<12'), ['MP < 6 | AP < 12'])
+        self.assertEqual(decode('(CM<6|CP<12)&CW>300'),
+                         ['MP < 6 | AP < 12', 'Wisdom > 300'])
+        self.assertEqual(decode('CW>100&(CP<11|CM<6)'),
+                         ['Wisdom > 100', 'AP < 11 | MP < 6'])
+        self.assertEqual(decode('CS>20&CV>6'), ['Strength > 20', 'Vitality > 6'])
+        # A branch gating something we do not model leaves nothing enforceable.
+        self.assertEqual(decode('Pj=48|Pj=49'), [])
+
+    def test_the_touch_items_carry_their_branches(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('touch')
+        structure = get_structure('touch')
+        for name, expected in self.KNOWN.items():
+            item = structure.get_item_by_name(name)
+            with self.subTest(item=name):
+                self.assertIsNotNone(item, '%s missing from items_touch.db' % name)
+                got = [(structure.get_stat_by_id(stat).name, is_max, value)
+                       for branch in item.or_conditions for stat, is_max, value in branch]
+                self.assertEqual(sorted(got), sorted(expected))
+
+    def test_the_model_builds_one_selector_per_branch(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from fashionistapulp.model import Model
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('touch')
+        structure = get_structure('touch')
+        model = Model()
+        with_or = [item for item in model.items_list if item.or_conditions]
+        self.assertTrue(with_or, 'no touch item carries an or condition')
+        for item in with_or:
+            with self.subTest(item=item.name):
+                self.assertIn(item.id, model.restrictions.or_branch_constraints)
+                for number, branch in enumerate(item.or_conditions):
+                    for stat, _is_max, _value in branch:
+                        self.assertIn((item.id, number, stat),
+                                      model.restrictions.or_condition_contraints)
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_a_solve_that_breaks_every_branch_drops_the_item(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from fashionistapulp.model import Model, ModelInput
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('touch')
+        structure = get_structure('touch')
+        options = {'ap_exo': False, 'range_exo': False, 'mp_exo': False,
+                   'dofus': True, 'dragoturkey': True, 'seemyool': True,
+                   'rhineetle': True, 'prysmaradite': False, 'shields': True,
+                   'trophies': True}
+        # Professor Xa needs MP under 6 or AP under 12; ask for both above.
+        model_input = ModelInput(
+            char_level=200,
+            base_stats_by_attr={'Vitality': 0, 'Wisdom': 0, 'Strength': 0,
+                                'Intelligence': 0, 'Chance': 0, 'Agility': 0},
+            minimum_stats={'AP': 12, 'MP': 6},
+            locked_equips={}, forbidden_equips=set(),
+            objective_values={'str': 50, 'vit': 10, 'ap': 800, 'mp': 600},
+            options=options, char_class='Iop',
+            stat_points_to_distribute=5 * 199)
+        model = Model()
+        model.setup(model_input)
+        model.run(2)
+        self.assertEqual(model.get_solved_status(), 'Optimal')
+        result = model.get_result_minimal()
+        for item_id in (result.item_per_slot or {}).values():
+            item = structure.get_item_by_id(item_id)
+            if item is None or not item.or_conditions:
+                continue
+            self.fail('%s was equipped though neither branch can hold at '
+                      '12 AP and 6 MP' % item.name)
+
+
 class SolvedBuildIsWearableTests(TestCase):
     """What the solver hands back has to be a build a character could wear."""
 

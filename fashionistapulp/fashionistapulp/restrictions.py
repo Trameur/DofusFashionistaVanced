@@ -32,6 +32,8 @@ class Restrictions:
         self.fourth_set_constraints = {}
         self.min_condition_contraints = {}
         self.max_condition_contraints = {}
+        self.or_condition_contraints = {}
+        self.or_branch_constraints = {}
         self.stat_total_constraints = {}
         self.minimum_stat_constraints = {}
         self.advanced_minimum_stat_constraints = {}

@@ -106,6 +106,7 @@ class Structure:
         self.read_stats_of_item_table()
         self.read_min_stat_to_equip_table()
         self.read_max_stat_to_equip_table()
+        self.read_or_conditions_table()
         self.read_weird_conditions_table()
         self.read_extra_lines_table()
         self.read_spell_tooltips_table()
@@ -433,6 +434,27 @@ class Structure:
             value = entry[2]
             item = self.get_item_by_id(item_id)
             item.max_stats_to_equip.append((stat_id, value))
+
+    def read_or_conditions_table(self):
+        c = self.conn.cursor()
+        if not self._table_exists('item_or_conditions'):
+            return
+        by_item = {}
+        for item_id, branch, stat_id, is_max, value in c.execute(
+                'SELECT item, branch, stat, is_max, value FROM item_or_conditions'
+                ' ORDER BY item, branch'):
+            by_item.setdefault(item_id, {}).setdefault(branch, []).append(
+                (stat_id, bool(is_max), value))
+        for item_id, branches in by_item.items():
+            item = self.get_item_by_id(item_id)
+            if item is not None:
+                item.or_conditions = [gates for _branch, gates
+                                      in sorted(branches.items())]
+
+    def _table_exists(self, name):
+        c = self.conn.cursor()
+        return c.execute("SELECT 1 FROM sqlite_master WHERE type = 'table'"
+                         " AND name = ?", (name,)).fetchone() is not None
 
     def read_weird_conditions_table(self):
         c = self.conn.cursor()

@@ -35,6 +35,9 @@ class Item:
         self.skin = None
         self.min_stats_to_equip = []
         self.max_stats_to_equip = []
+        # Gates the game lets you satisfy one of, not all: [[(stat, is_max, value)]].
+        # Each inner list is one branch of an OR.
+        self.or_conditions = []
         self.localized_extras = {}
         # {language: {spell name: what the spell does}}
         self.spell_tooltips = {}

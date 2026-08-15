@@ -1022,7 +1022,45 @@ class Model:
                                                              [(100000, 'p', item.id),
                                                               (1, 'stat', stat)])
                 
-                self.restrictions.max_condition_contraints[(item.id, stat)] = restriction                     
+                self.restrictions.max_condition_contraints[(item.id, stat)] = restriction
+
+        self.create_or_condition_constraints()
+
+    def create_or_condition_constraints(self):
+        """Gates the game lets you satisfy one of, "MP < 6 or AP < 12".
+
+        One binary per branch says which one the build leans on. At least one
+        must be picked when the item is worn, and a branch only binds when it is
+        the one picked, so the other stays free. Both were dropped before, which
+        let the solver hand out an item the game refuses to equip.
+        """
+        for item in self.items_list:
+            if not item.or_conditions:
+                continue
+            selectors = []
+            for number, gates in enumerate(item.or_conditions):
+                key = '%s_%s' % (item.id, number)
+                self.problem.setup_variable('b', key, 0, 1)
+                selectors.append((1, 'b', key))
+                for stat, is_max, value in gates:
+                    if is_max:
+                        # stat <= value unless this branch is off or the item is out
+                        restriction = self.problem.restriction_lt_eq(
+                            200000 + value,
+                            [(100000, 'p', item.id), (100000, 'b', key),
+                             (1, 'stat', stat)])
+                    else:
+                        restriction = self.problem.restriction_lt_eq(
+                            200000 - value,
+                            [(100000, 'p', item.id), (100000, 'b', key),
+                             (-1, 'stat', stat)])
+                    self.restrictions.or_condition_contraints[
+                        (item.id, number, stat)] = restriction
+            # at least one branch when the item is worn: p - sum(b) <= 0
+            restriction = self.problem.restriction_lt_eq(
+                0, [(1, 'p', item.id)] + [(-c, family, key)
+                                          for c, family, key in selectors])
+            self.restrictions.or_branch_constraints[item.id] = restriction
 
     def create_stat_total_constraints(self):
         for stat in self.stats_list:

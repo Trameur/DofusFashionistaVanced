@@ -375,6 +375,38 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     if operator == '<':
                         f.write(f"INSERT INTO max_stat_to_equip VALUES({item_id},{stat_index},{int(stat_value)-1});\n")
 
+    # An item the game lets you wear when EITHER gate holds, "MP < 6 | AP < 12".
+    # The two tables above can only AND, so such a condition used to be dropped
+    # and the item went unconstrained; branch groups them for the solver.
+    f.write("""CREATE TABLE item_or_conditions
+             (item INTEGER, branch INTEGER, stat INTEGER, is_max INTEGER, value INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id),
+              FOREIGN KEY(stat) REFERENCES stats(id));\n""")
+
+    for item in original_data:
+        item_id = item_to_id[id(item)]
+        for condition_string in item.get('conditions', []):
+            if '|' not in condition_string:
+                continue
+            branches = []
+            for branch in condition_string.split('|'):
+                parts = branch.split()
+                if len(parts) > 3:
+                    parts = [" ".join(parts[:-2]), parts[-2], parts[-1]]
+                if len(parts) != 3 or parts[0] not in STAT_NAME_TO_KEY_LOCAL:
+                    branches = []
+                    break
+                stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(parts[0]) + 1
+                if parts[1] == '<':
+                    branches.append((stat_index, 1, int(parts[2]) - 1))
+                elif parts[1] == '>':
+                    branches.append((stat_index, 0, int(parts[2]) + 1))
+                else:
+                    branches = []
+                    break
+            for number, (stat_index, is_max, value) in enumerate(branches):
+                f.write(f"INSERT INTO item_or_conditions VALUES({item_id},{number},{stat_index},{is_max},{value});\n")
+
     # Write CREATE TABLE for min_rank_to_equip
     f.write("""CREATE TABLE min_rank_to_equip
              (item INTEGER, value INTEGER,

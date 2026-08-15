@@ -228,19 +228,29 @@ def decode_conditions(criteria: str):
     the set-bonus gate 'Pk<N' -> 'Set bonus < N' so trophies that limit panoply bonuses
     get the 'light_set' weird condition downstream (get_equipments3.py).
 
-    A part holding a '|' is dropped whole: the min/max tables can only AND, and
-    "CM<6|CP<12" as two AND gates would forbid what the game allows.
+    A part whose branches are OR-ed comes out as one string joined by ' | ', for
+    instance 'MP < 6 | AP < 12'. It used to be dropped whole, because the min and
+    max tables can only AND and keeping both gates would forbid what the game
+    allows; the solver models the disjunction now, so it is carried through. A
+    branch that gates nothing we model (a class, an alignment, a subscription)
+    makes the whole part unenforceable, so that one is still dropped.
     """
     out = []
     if not criteria or criteria == 'null':
         return out
     for part in _top_level_parts(str(criteria)):
-        if '|' in part:
-            continue
+        gates = []
         for code, op, val in re.findall(r'(C[A-Z])\s*([<>])\s*(\d+)', part):
             stat = CONDITION_MAP.get(code) or AP_MP_CONDITION_MAP.get(code)
             if stat:
-                out.append('%s %s %s' % (stat, op, val))
+                gates.append('%s %s %s' % (stat, op, val))
+        if '|' not in part:
+            out.extend(gates)
+            continue
+        branches = [branch for branch in part.replace('(', '').replace(')', '').split('|')]
+        if len(gates) != len(branches):
+            continue
+        out.append(' | '.join(gates))
     for val in re.findall(r'Pk\s*<\s*(\d+)', str(criteria)):
         out.append('Set bonus < %s' % val)
     return out
