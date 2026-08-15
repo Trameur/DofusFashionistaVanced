@@ -7152,18 +7152,54 @@ class RuneNamesMatchTheGameTests(SimpleTestCase):
                                    if part))
         return names
 
-    def test_no_version_names_a_rune_the_game_does_not_have(self):
-        sources = (
+    def _sources(self):
+        return (
             ('dofus3', lambda: self._resources('all_resources_fr.json')),
             ('beta', lambda: self._resources('beta', 'all_resources_fr.json')),
             ('dofus2', lambda: self._resources('dofus2', 'all_resources_fr.json')),
             ('touch', self._touch),
             ('retro', self._retro),
         )
-        for version, reader in sources:
+
+    def test_no_version_names_a_rune_the_game_does_not_have(self):
+        for version, reader in self._sources():
             with self.subTest(version=version):
                 unknown = sorted(self._page_names(version) - reader())
                 self.assertEqual(unknown, [])
+
+    # The other direction. A rune of the game that the stat table does not
+    # name is either not a stat rune or a duplicate of one already named, and
+    # every one of them is listed here with why. Anything else appearing is a
+    # rune the page would silently never offer.
+    OUT_OF_THE_STAT_TABLE = {
+        # Raise no characteristic; the page carries them separately.
+        'Rune de chasse', 'Rune de Signature',
+        # Account-bound twins of Ga Pa, Ga Pme and Po, same power, so naming
+        # them again would offer the same rune twice.
+        'Rune Gata Pa', 'Rune Gata Pme', 'Rune Gata Po',
+        # Raises a shield's rank, not a characteristic (the game says so).
+        'Rune de fortification mineure', 'Rune de fortification moyenne',
+        'Rune de fortification majeure',
+        # Power 3 like Rune Vi, but which characteristic it feeds is not in
+        # the 1.29 files this checkout has, so it stays out rather than be
+        # guessed at.
+        'Rune Vie',
+    }
+
+    def test_no_version_leaves_a_stat_rune_out(self):
+        for version, reader in self._sources():
+            with self.subTest(version=version):
+                missed = sorted(reader() - self._page_names(version)
+                                - self.OUT_OF_THE_STAT_TABLE)
+                self.assertEqual(missed, [])
+
+    def test_the_retro_trap_rune_has_its_pa_tier(self):
+        # Rune Pa Pi is in the 1.29 item table at power 3, and the page used to
+        # offer the trap line its base rune only.
+        from chardata.forgemagie_data import get_fm_stat
+        self.assertEqual(get_fm_stat('retro', 'trapdam')['tiers'],
+                         [('', 1), ('Pa', 3)])
+        self.assertIn('Rune Pa Pi', self._page_names('retro'))
 
 
 class NoStatRuneTests(TestCase):

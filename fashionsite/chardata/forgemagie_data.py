@@ -178,7 +178,9 @@ _RETRO_STATS = {
     'heals': _stat(20, 'So', [('', 1)]),
     'ch': _stat(30, 'Cri', [('', 1)]),
     'ref': _stat(30, 'Do Ren', [('', 1)]),
-    'trapdam': _stat(15, 'Pi', [('', 1)]),
+    # Rune Pa Pi exists in 1.29 at power 3, the same shape every other Pa rune
+    # has; only this line was missing it.
+    'trapdam': _stat(15, 'Pi', [('', 1), ('Pa', 3)]),
     'trapdamper': _stat(2, 'Pi Per', _STANDARD_TIERS),
     'neutresper': _stat(4, 'Ré Per Neutre', [('', 1)]),
     'earthresper': _stat(4, 'Ré Per Terre', [('', 1)]),
