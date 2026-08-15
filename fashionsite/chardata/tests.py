@@ -2097,7 +2097,7 @@ class ItemPickerSetNameTests(TestCase):
         with django_translation.override('fr'):
             set_current_game_version('dofus3')
             structure = get_structure('dofus3')
-            hat = structure.get_item_by_name('Tynril Hat (#1)')
+            hat = structure.get_item_by_name('Tynril Hat')
             self.assertIsNotNone(hat)
             self.assertEqual(ModelResultItem(hat).localized_set_name,
                              'Panoplie du Tynril')
@@ -2125,13 +2125,14 @@ class ItemPickerSetNameTests(TestCase):
         self.assertTrue(sources[8699]['craftable'])
         self.assertGreater(sources[8699]['best_drop_rate'], 0)
 
-        branches = [structure.get_item_by_name('Tynril Hat (#%d)' % n) for n in (1, 2)]
-        self.assertNotIn(None, branches)
-        attach_acquisition(branches, 'dofus3')
-        for branch in branches:
-            with self.subTest(branch=branch.name):
-                self.assertTrue(branch.craftable)
-                self.assertGreater(branch.best_drop_rate, 0)
+        # It used to be one row per branch, each needing its own acquisition.
+        # One row now, and it still has to carry both.
+        hat = structure.get_item_by_name('Tynril Hat')
+        self.assertIsNotNone(hat)
+        self.assertTrue(hat.or_conditions)
+        attach_acquisition([hat], 'dofus3')
+        self.assertTrue(hat.craftable)
+        self.assertGreater(hat.best_drop_rate, 0)
 
     def test_acquisition_text_reads_naturally_in_each_language(self):
         from django.utils import translation
@@ -2346,7 +2347,7 @@ class GetItemStatsTests(TestCase):
         # The compare popup shows the same secondary lines as the switch popup.
         import json as json_mod
         from fashionistapulp.structure import get_structure
-        item = get_structure('dofus3').get_item_by_name('Tynril Hat (#1)')
+        item = get_structure('dofus3').get_item_by_name('Tynril Hat')
         self.assertIsNotNone(item)
         resp = self.client.post('/get_item_stats_compare/', {'itemId': item.id})
         payload = json_mod.loads(resp.content.decode('utf-8'))
@@ -4195,7 +4196,8 @@ class RetroSoftCapsTests(SimpleTestCase):
         for item in pool:
             by_ankama.setdefault(item.ankama_id, []).append(item)
         pairs = [rows for rows in by_ankama.values() if len(rows) > 1]
-        self.assertTrue(pairs, 'no copy left to check')
+        if not pairs:
+            self.skipTest('no ankama id carries more than one row any more')
         checked = 0
         for rows in pairs:
             canonical = min(rows, key=lambda i: i.id)
@@ -4209,7 +4211,9 @@ class RetroSoftCapsTests(SimpleTestCase):
                 with self.subTest(item=other.name):
                     self.assertEqual(wanted['ingredients'], got['ingredients'])
                     checked += 1
-        self.assertGreater(checked, 10)
+        if not checked:
+            self.skipTest('the only ankama id left with two rows is the '
+                          'synthesized Gelano, which has no recipe')
 
     def test_rows_of_the_same_item_carry_the_same_extra_data(self):
         # An item gated behind alternative conditions is flattened into
@@ -4467,13 +4471,15 @@ class OrItemGroupingTests(SimpleTestCase):
         from fashionistapulp.structure import get_structure
         for version in ('dofus3', 'beta'):
             structure = get_structure(version)
-            or_items = structure.get_or_items()
-            self.assertIn('Tynril Hat', or_items)
-            # The solver forbids a whole group at once from this list.
+            # It used to be two rows grouped back together for the picker. It is
+            # one row carrying both branches now, so there is nothing to group.
+            hat = structure.get_item_by_name('Tynril Hat')
+            self.assertIsNotNone(hat)
+            self.assertTrue(hat.or_conditions,
+                            'Tynril Hat lost its either-or condition')
             self.assertEqual(
-                sorted(item.id for item in
-                       structure.get_available_or_items()['Tynril Hat']),
-                [8699, 100008699])
+                [item.id for item in structure.items_dict.values()
+                 if item.ankama_id == hat.ankama_id], [8699])
             with self.subTest(version=version):
                 hats = [item for item
                         in structure.get_unique_items_by_type_and_level('Hat', 200, False)
@@ -4518,6 +4524,8 @@ class OrItemPageTests(TestCase):
     have them."""
 
     def test_or_item_pages_render(self):
+        # An item the game lets you wear on either of two conditions is one row
+        # now, and its page has to say so rather than drop the condition.
         import os
         import sqlite3
         from fashionistapulp import structure as structure_module
@@ -4525,15 +4533,17 @@ class OrItemPageTests(TestCase):
         for version, prefix in (('items.db', ''), ('items_beta.db', '/beta')):
             cur = sqlite3.connect(os.path.join(base, version)).cursor()
             ankama_ids = [row[0] for row in cur.execute(
-                "SELECT DISTINCT ankama_id FROM items WHERE name LIKE '%(#%' "
-                "AND ankama_id IS NOT NULL")]
-            self.assertTrue(ankama_ids)
+                'SELECT DISTINCT i.ankama_id FROM items i'
+                ' JOIN item_or_conditions o ON o.item = i.id'
+                ' WHERE i.ankama_id IS NOT NULL')]
+            self.assertTrue(ankama_ids, 'no item carries an either-or condition')
             for ankama_id in ankama_ids:
                 resp = self.client.get(
                     '%s/encyclopedia/item/equipment/%d-x/' % (prefix, ankama_id))
                 with self.subTest(version=version, ankama_id=ankama_id):
                     self.assertEqual(resp.status_code, 200)
                     self.assertNotContains(resp, '(#1)')
+                    self.assertContains(resp, 'OR')
 
 
 class DropsOnCanonicalItemTests(SimpleTestCase):
@@ -5844,12 +5854,12 @@ class WeaponsSharingANameTests(SimpleTestCase):
         for version in ('dofus3', 'beta'):
             with self.subTest(version=version):
                 structure = get_structure(version)
-                first = structure.get_item_by_name('Kukri Kura (#1)')
-                second = structure.get_item_by_name('Kukri Kura (#2)')
-                self.assertIsNotNone(first)
-                self.assertIsNotNone(second)
-                self.assertIs(structure.get_weapon_for_item(first),
-                              structure.get_weapon_for_item(second))
+                # It used to be two rows sharing one weapon. One row now,
+                # carrying both branches, and it still has its weapon.
+                item = structure.get_item_by_name('Kukri Kura')
+                self.assertIsNotNone(item)
+                self.assertTrue(item.or_conditions)
+                self.assertIsNotNone(structure.get_weapon_for_item(item))
 
 
 class RepeatedWeaponHitTests(SimpleTestCase):
@@ -5864,9 +5874,9 @@ class RepeatedWeaponHitTests(SimpleTestCase):
         return [(h.min_dam, h.max_dam, h.element) for h in weapon.base_hit]
 
     def test_a_weapon_that_strikes_twice_keeps_both_rolls(self):
-        # Dofus 3 and the beta gate the same dagger behind two conditions, which
-        # the pipeline flattens into a numbered pair.
-        names = {'dofus3': 'Kukri Kura (#1)', 'beta': 'Kukri Kura (#1)',
+        # Dofus 3 and the beta gate the same dagger behind either of two
+        # conditions; it is one item on every version.
+        names = {'dofus3': 'Kukri Kura', 'beta': 'Kukri Kura',
                  'dofus2': 'Kukri Kura', 'retro': 'Kukri Kura',
                  'touch': 'Kukri Kura'}
         for version, name in names.items():
@@ -9854,7 +9864,7 @@ class StatRangeTests(TestCase):
     def test_the_range_is_stored_but_the_solver_still_reads_the_best_roll(self):
         from fashionistapulp.structure import get_structure
         structure = get_structure('dofus3')
-        item = structure.get_item_by_name('Tynril Hat (#1)')
+        item = structure.get_item_by_name('Tynril Hat')
         self.assertIsNotNone(item)
         vitality = structure.get_stat_by_key('vit').id
         self.assertEqual(item.stat_ranges[vitality], (201, 250))
@@ -9923,7 +9933,7 @@ class StatRangeInThePickerTests(TestCase):
         return {line.text: line for line in result_item.stats_lines}
 
     def test_a_varying_stat_carries_its_range_and_a_fixed_one_does_not(self):
-        lines = self._stat_lines('Tynril Hat (#1)')
+        lines = self._stat_lines('Tynril Hat')
         self.assertEqual(lines['250 Vitality'].range_text, '201 to 250')
         self.assertEqual(lines['1 AP'].range_text, None)
 
@@ -9934,7 +9944,7 @@ class StatRangeInThePickerTests(TestCase):
         for language, text in expected.items():
             with self.subTest(language=language):
                 with translation.override(language):
-                    lines = self._stat_lines('Tynril Hat (#1)')
+                    lines = self._stat_lines('Tynril Hat')
                     ranges = [line.range_text for line in lines.values()
                               if line.range_text]
                     self.assertIn(text, ranges)
@@ -14751,7 +14761,10 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     ' FROM items i JOIN item_types t ON t.id = i.type'
                     " WHERE t.name IN ('Hat','Cloak','Shield','Weapon')"
                     ' GROUP BY i.ankama_id HAVING COUNT(*) > 1')
-                self.assertTrue(rows, 'no split piece to check')
+                if not rows:
+                    # An item gated behind alternative conditions is one row
+                    # carrying both now, so no worn piece is split any more.
+                    continue
                 for ankama_id, total, distinct_skins, bare in rows:
                     if distinct_skins:
                         self.assertEqual(0, bare, 'ankama %s' % ankama_id)

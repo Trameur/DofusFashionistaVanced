@@ -761,32 +761,50 @@ def _get_display_name_for_group(structure, variant_items, language):
     return representative_name
 
 
+def _condition_text(structure, stat_id, value, is_max, language):
+    """One gate, worded the way the rest of the project words them."""
+    stat = structure.get_stat_by_id(stat_id)
+    if stat is None:
+        return None
+    label = _localized_label(stat.name, language)
+    return ('%s < %d' % (label, value + 1) if is_max
+            else '%s > %d' % (label, value - 1))
+
+
 def _format_condition_groups(structure, variant_items, language):
+    """The template reads a list of groups: within one, the gates all hold; a
+    build only has to satisfy one group. An item whose branches used to ship as
+    separate rows carries them on itself now, so its groups come from there."""
     groups = []
     for variant in variant_items:
-        parts = []
-        for stat_id, stat_value in sorted(
-            variant.min_stats_to_equip,
-            key=lambda pair: STAT_ORDER.get(structure.get_stat_by_id(pair[0]).key, 9999),
-        ):
-            stat = structure.get_stat_by_id(stat_id)
-            if stat is None:
-                continue
-            # Keep legacy wording used elsewhere in project: "Stat > value-1".
-            parts.append('%s > %d' % (_localized_label(stat.name, language), stat_value - 1))
+        def order(pair):
+            stat = structure.get_stat_by_id(pair[0])
+            return STAT_ORDER.get(stat.key, 9999) if stat else 9999
 
-        for stat_id, stat_value in sorted(
-            variant.max_stats_to_equip,
-            key=lambda pair: STAT_ORDER.get(structure.get_stat_by_id(pair[0]).key, 9999),
-        ):
-            stat = structure.get_stat_by_id(stat_id)
-            if stat is None:
-                continue
-            # Keep legacy wording used elsewhere in project: "Stat < value+1".
-            parts.append('%s < %d' % (_localized_label(stat.name, language), stat_value + 1))
+        shared = []
+        for stat_id, value in sorted(variant.min_stats_to_equip, key=order):
+            text = _condition_text(structure, stat_id, value, False, language)
+            if text:
+                shared.append(text)
+        for stat_id, value in sorted(variant.max_stats_to_equip, key=order):
+            text = _condition_text(structure, stat_id, value, True, language)
+            if text:
+                shared.append(text)
 
-        if parts:
-            groups.append(parts)
+        branches = getattr(variant, 'or_conditions', None) or []
+        if not branches:
+            if shared:
+                groups.append(shared)
+            continue
+        for branch in branches:
+            parts = list(shared)
+            for stat_id, is_max, value in sorted(
+                    branch, key=lambda gate: order((gate[0],))):
+                text = _condition_text(structure, stat_id, value, is_max, language)
+                if text:
+                    parts.append(text)
+            if parts:
+                groups.append(parts)
 
     return groups
 
