@@ -14906,6 +14906,35 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                                   '%s gives %s AP or MP' % (name, value))
 
 
+class StatNamesReachTheModelTests(SimpleTestCase):
+    """Each version turns its own effect ids into stat names through a table
+    written by hand, and a name that does not reach the model is a stat the
+    solver silently cannot weigh. Four Retro ids named the wrong stat outright;
+    this holds the layer that carries them."""
+
+    VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+
+    def test_no_version_stores_a_stat_the_model_does_not_know(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
+        known = set(STAT_NAME_TO_KEY)
+        for version in self.VERSIONS:
+            path = get_items_db_path(version)
+            if not os.path.exists(path):
+                continue
+            connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+            try:
+                used = {row[0] for row in connection.execute(
+                    'SELECT DISTINCT s.name FROM stats_of_item o '
+                    'JOIN stats s ON s.id = o.stat')}
+            finally:
+                connection.close()
+            with self.subTest(version=version):
+                self.assertTrue(used, 'no stats at all in %s' % version)
+                self.assertEqual(sorted(used - known), [])
+
+
 class SourceHealthCheckTests(SimpleTestCase):
     """check_sources.py probes every live source a version is built from, by
     running that source's real parser rather than reading a status code. It is
