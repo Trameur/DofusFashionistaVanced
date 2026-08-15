@@ -33987,11 +33987,11 @@
     {
         "ankama_id": 6981,
         "ankama_type": "equipment",
-        "name_en": "Ice Daggers (#1)",
-        "name_fr": "Dagues Lassay (#1)",
-        "name_es": "Dagas Heladas (#1)",
-        "name_pt": "Adagas de Gelo (#1)",
-        "name_de": "Eisige Klingen (#1)",
+        "name_en": "Ice Daggers",
+        "name_fr": "Dagues Lassay",
+        "name_es": "Dagas Heladas",
+        "name_pt": "Adagas de Gelo",
+        "name_de": "Eisige Klingen",
         "w_type": "Dagger",
         "level": 150,
         "ap": 3,
@@ -34058,85 +34058,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Agility > 249"
-        ]
-    },
-    {
-        "ankama_id": 6981,
-        "ankama_type": "equipment",
-        "name_en": "Ice Daggers (#2)",
-        "name_fr": "Dagues Lassay (#2)",
-        "name_es": "Dagas Heladas (#2)",
-        "name_pt": "Adagas de Gelo (#2)",
-        "name_de": "Eisige Klingen (#2)",
-        "w_type": "Dagger",
-        "level": 150,
-        "ap": 3,
-        "uses_per_turn": 2,
-        "range": [
-            1,
-            1
+            "Agility > 249 | Strength > 249"
         ],
-        "crit_chance": 25,
-        "crit_bonus": 5,
-        "stats": [
-            [
-                8,
-                13,
-                "(Neutral damage)"
-            ],
-            [
-                8,
-                13,
-                "(Air damage)"
-            ],
-            [
-                1,
-                null,
-                "MP"
-            ],
-            [
-                31,
-                50,
-                "Strength"
-            ],
-            [
-                201,
-                250,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Agility"
-            ],
-            [
-                6,
-                10,
-                "Damage"
-            ],
-            [
-                16,
-                20,
-                "Trap Damage"
-            ],
-            [
-                16,
-                25,
-                "% Trap Damage"
-            ],
-            [
-                300,
-                null,
-                "Initiative"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5044-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Strength > 249"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 6982,
@@ -52078,11 +52002,11 @@
     {
         "ankama_id": 8414,
         "ankama_type": "equipment",
-        "name_en": "Dreggon Daggers (#1)",
-        "name_fr": "Dagues du Dragoeuf (#1)",
-        "name_es": "Dagas de dragohuevo (#1)",
-        "name_pt": "Adagas do Dragoeuf (#1)",
-        "name_de": "Drachei-Dolche (#1)",
+        "name_en": "Dreggon Daggers",
+        "name_fr": "Dagues du Dragoeuf",
+        "name_es": "Dagas de dragohuevo",
+        "name_pt": "Adagas do Dragoeuf",
+        "name_de": "Drachei-Dolche",
         "w_type": "Dagger",
         "level": 128,
         "ap": 3,
@@ -52164,106 +52088,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Strength > 89",
-            "Intelligence > 89",
-            "Agility > 89",
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 8414,
-        "ankama_type": "equipment",
-        "name_en": "Dreggon Daggers (#2)",
-        "name_fr": "Dagues du Dragoeuf (#2)",
-        "name_es": "Dagas de dragohuevo (#2)",
-        "name_pt": "Adagas do Dragoeuf (#2)",
-        "name_de": "Drachei-Dolche (#2)",
-        "w_type": "Dagger",
-        "level": 128,
-        "ap": 3,
-        "uses_per_turn": 1,
-        "range": [
-            1,
-            1
+            "Strength > 89 & Intelligence > 89 & Agility > 89 & AP < 12 | Strength > 89 & Intelligence > 89 & Agility > 89 & MP < 6"
         ],
-        "crit_chance": 25,
-        "crit_bonus": 5,
-        "stats": [
-            [
-                5,
-                10,
-                "(Earth damage)"
-            ],
-            [
-                5,
-                10,
-                "(Fire damage)"
-            ],
-            [
-                5,
-                10,
-                "(Air damage)"
-            ],
-            [
-                81,
-                130,
-                "Vitality"
-            ],
-            [
-                26,
-                40,
-                "Strength"
-            ],
-            [
-                26,
-                40,
-                "Intelligence"
-            ],
-            [
-                26,
-                40,
-                "Agility"
-            ],
-            [
-                1,
-                2,
-                "Earth Damage"
-            ],
-            [
-                1,
-                2,
-                "Fire Damage"
-            ],
-            [
-                1,
-                2,
-                "Air Damage"
-            ],
-            [
-                4,
-                6,
-                "Heals"
-            ],
-            [
-                2,
-                3,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5058-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Strength > 89",
-            "Intelligence > 89",
-            "Agility > 89",
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 8415,
@@ -59355,11 +59182,11 @@
     {
         "ankama_id": 8699,
         "ankama_type": "equipment",
-        "name_en": "Tynril Hat (#1)",
-        "name_fr": "Coiffe du Tynril (#1)",
-        "name_es": "Tocado de Tynril (#1)",
-        "name_pt": "Chapéu do Tynril (#1)",
-        "name_de": "Tynril-Hut (#1)",
+        "name_en": "Tynril Hat",
+        "name_fr": "Coiffe du Tynril",
+        "name_es": "Tocado de Tynril",
+        "name_pt": "Chapéu do Tynril",
+        "name_de": "Tynril-Hut",
         "w_type": "Hat",
         "level": 164,
         "stats": [
@@ -59413,72 +59240,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 8699,
-        "ankama_type": "equipment",
-        "name_en": "Tynril Hat (#2)",
-        "name_fr": "Coiffe du Tynril (#2)",
-        "name_es": "Tocado de Tynril (#2)",
-        "name_pt": "Chapéu do Tynril (#2)",
-        "name_de": "Tynril-Hut (#2)",
-        "w_type": "Hat",
-        "level": 164,
-        "stats": [
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                201,
-                250,
-                "Vitality"
-            ],
-            [
-                26,
-                40,
-                "Wisdom"
-            ],
-            [
-                21,
-                30,
-                "Prospecting"
-            ],
-            [
-                6,
-                8,
-                "Air Resist"
-            ],
-            [
-                6,
-                8,
-                "Water Resist"
-            ],
-            [
-                6,
-                8,
-                "Fire Resist"
-            ],
-            [
-                6,
-                8,
-                "Neutral Resist"
-            ],
-            [
-                6,
-                8,
-                "Earth Resist"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16188-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 8701,
@@ -61209,11 +60973,11 @@
     {
         "ankama_id": 8827,
         "ankama_type": "equipment",
-        "name_en": "Zoth Warrior Axe (#1)",
-        "name_fr": "Hache du Guerrier Zoth (#1)",
-        "name_es": "Hacha de guerrero zoth (#1)",
-        "name_pt": "Machado do Guerreiro Zoth (#1)",
-        "name_de": "Axt des Zoth-Kriegers (#1)",
+        "name_en": "Zoth Warrior Axe",
+        "name_fr": "Hache du Guerrier Zoth",
+        "name_es": "Hacha de guerrero zoth",
+        "name_pt": "Machado do Guerreiro Zoth",
+        "name_de": "Axt des Zoth-Kriegers",
         "w_type": "Axe",
         "level": 139,
         "ap": 5,
@@ -61275,82 +61039,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Vitality > 1499",
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 8827,
-        "ankama_type": "equipment",
-        "name_en": "Zoth Warrior Axe (#2)",
-        "name_fr": "Hache du Guerrier Zoth (#2)",
-        "name_es": "Hacha de guerrero zoth (#2)",
-        "name_pt": "Machado do Guerreiro Zoth (#2)",
-        "name_de": "Axt des Zoth-Kriegers (#2)",
-        "w_type": "Axe",
-        "level": 139,
-        "ap": 5,
-        "uses_per_turn": 1,
-        "range": [
-            1,
-            1
+            "Vitality > 1499 & AP < 12 | Vitality > 1499 & MP < 6"
         ],
-        "crit_chance": 25,
-        "crit_bonus": 5,
-        "stats": [
-            [
-                7,
-                13,
-                "(Air damage)"
-            ],
-            [
-                7,
-                13,
-                "(Water damage)"
-            ],
-            [
-                7,
-                13,
-                "(Fire damage)"
-            ],
-            [
-                7,
-                13,
-                "(Neutral damage)"
-            ],
-            [
-                251,
-                300,
-                "Vitality"
-            ],
-            [
-                26,
-                35,
-                "Wisdom"
-            ],
-            [
-                3,
-                4,
-                "Damage"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/19047-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Vitality > 1499",
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 8828,
@@ -63347,11 +63038,11 @@
     {
         "ankama_id": 8866,
         "ankama_type": "equipment",
-        "name_en": "Powerful Dazzling Cloak (#1)",
-        "name_fr": "Puissante Cape Fulgurante (#1)",
-        "name_es": "Poderosa capa fulgurante (#1)",
-        "name_pt": "Poderosa capa fulgurante (#1)",
-        "name_de": "Mächtiger schillernder Umhang (#1)",
+        "name_en": "Powerful Dazzling Cloak",
+        "name_fr": "Puissante Cape Fulgurante",
+        "name_es": "Poderosa capa fulgurante",
+        "name_pt": "Poderosa capa fulgurante",
+        "name_de": "Mächtiger schillernder Umhang",
         "w_type": "Cloak",
         "level": 110,
         "stats": [
@@ -63380,47 +63071,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 8866,
-        "ankama_type": "equipment",
-        "name_en": "Powerful Dazzling Cloak (#2)",
-        "name_fr": "Puissante Cape Fulgurante (#2)",
-        "name_es": "Poderosa capa fulgurante (#2)",
-        "name_pt": "Poderosa capa fulgurante (#2)",
-        "name_de": "Mächtiger schillernder Umhang (#2)",
-        "w_type": "Cloak",
-        "level": 110,
-        "stats": [
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                31,
-                40,
-                "Vitality"
-            ],
-            [
-                4,
-                5,
-                "Damage"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17145-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 8867,
@@ -64968,11 +64621,11 @@
     {
         "ankama_id": 8932,
         "ankama_type": "equipment",
-        "name_en": "Kukri Kura (#1)",
-        "name_fr": "Kukri Kura (#1)",
-        "name_es": "Kukri Kura (#1)",
-        "name_pt": "Kukri Kura (#1)",
-        "name_de": "Schwert des Teilens (#1)",
+        "name_en": "Kukri Kura",
+        "name_fr": "Kukri Kura",
+        "name_es": "Kukri Kura",
+        "name_pt": "Kukri Kura",
+        "name_de": "Schwert des Teilens",
         "w_type": "Sword",
         "level": 179,
         "ap": 3,
@@ -65049,95 +64702,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Strength > 249"
-        ]
-    },
-    {
-        "ankama_id": 8932,
-        "ankama_type": "equipment",
-        "name_en": "Kukri Kura (#2)",
-        "name_fr": "Kukri Kura (#2)",
-        "name_es": "Kukri Kura (#2)",
-        "name_pt": "Kukri Kura (#2)",
-        "name_de": "Schwert des Teilens (#2)",
-        "w_type": "Sword",
-        "level": 179,
-        "ap": 3,
-        "uses_per_turn": 1,
-        "range": [
-            1,
-            1
+            "Strength > 249 | Agility > 199"
         ],
-        "crit_chance": 15,
-        "crit_bonus": 7,
-        "stats": [
-            [
-                10,
-                21,
-                "(Neutral damage)"
-            ],
-            [
-                10,
-                21,
-                "(Neutral damage)"
-            ],
-            [
-                31,
-                50,
-                "Strength"
-            ],
-            [
-                21,
-                30,
-                "Agility"
-            ],
-            [
-                26,
-                40,
-                "Wisdom"
-            ],
-            [
-                151,
-                200,
-                "Vitality"
-            ],
-            [
-                2,
-                3,
-                "Critical Hits"
-            ],
-            [
-                5,
-                7,
-                "Damage"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                301,
-                500,
-                "Initiative"
-            ],
-            [
-                6,
-                10,
-                "Neutral Resist"
-            ],
-            [
-                6,
-                10,
-                "% Neutral Resist"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/6080-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Agility > 199"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 8933,
@@ -85228,11 +84795,11 @@
     {
         "ankama_id": 11738,
         "ankama_type": "equipment",
-        "name_en": "Awmigawd Band (#1)",
-        "name_fr": "Anneau Aimgéroks (#1)",
-        "name_es": "Anillo Chanicomo (#1)",
-        "name_pt": "Anel AiMewDews (#1)",
-        "name_de": "Owigail-Ring (#1)",
+        "name_en": "Awmigawd Band",
+        "name_fr": "Anneau Aimgéroks",
+        "name_es": "Anillo Chanicomo",
+        "name_pt": "Anel AiMewDews",
+        "name_de": "Owigail-Ring",
         "w_type": "Ring",
         "level": 194,
         "stats": [
@@ -85291,77 +84858,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 11738,
-        "ankama_type": "equipment",
-        "name_en": "Awmigawd Band (#2)",
-        "name_fr": "Anneau Aimgéroks (#2)",
-        "name_es": "Anillo Chanicomo (#2)",
-        "name_pt": "Anel AiMewDews (#2)",
-        "name_de": "Owigail-Ring (#2)",
-        "w_type": "Ring",
-        "level": 194,
-        "stats": [
-            [
-                201,
-                250,
-                "Vitality"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                2,
-                3,
-                "Critical Hits"
-            ],
-            [
-                31,
-                40,
-                "Power"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                5,
-                7,
-                "Neutral Damage"
-            ],
-            [
-                5,
-                7,
-                "Earth Damage"
-            ],
-            [
-                5,
-                7,
-                "Fire Damage"
-            ],
-            [
-                5,
-                7,
-                "Air Damage"
-            ],
-            [
-                5,
-                7,
-                "Water Damage"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9211-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 11739,
@@ -92259,11 +91758,11 @@
     {
         "ankama_id": 12108,
         "ankama_type": "equipment",
-        "name_en": "Professor Xa's Cloak (#1)",
-        "name_fr": "Cape du Professeur Xa (#1)",
-        "name_es": "Capa del profesor Xa (#1)",
-        "name_pt": "Capa do Professor Xa (#1)",
-        "name_de": "Professor Xas Umhang (#1)",
+        "name_en": "Professor Xa's Cloak",
+        "name_fr": "Cape du Professeur Xa",
+        "name_es": "Capa del profesor Xa",
+        "name_pt": "Capa do Professor Xa",
+        "name_de": "Professor Xas Umhang",
         "w_type": "Cloak",
         "level": 194,
         "stats": [
@@ -92352,107 +91851,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 12108,
-        "ankama_type": "equipment",
-        "name_en": "Professor Xa's Cloak (#2)",
-        "name_fr": "Cape du Professeur Xa (#2)",
-        "name_es": "Capa del profesor Xa (#2)",
-        "name_pt": "Capa do Professor Xa (#2)",
-        "name_de": "Professor Xas Umhang (#2)",
-        "w_type": "Cloak",
-        "level": 194,
-        "stats": [
-            [
-                151,
-                200,
-                "Vitality"
-            ],
-            [
-                21,
-                30,
-                "Strength"
-            ],
-            [
-                21,
-                30,
-                "Intelligence"
-            ],
-            [
-                21,
-                30,
-                "Chance"
-            ],
-            [
-                21,
-                30,
-                "Wisdom"
-            ],
-            [
-                2,
-                3,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                11,
-                20,
-                "Prospecting"
-            ],
-            [
-                7,
-                10,
-                "Neutral Damage"
-            ],
-            [
-                7,
-                10,
-                "Earth Damage"
-            ],
-            [
-                7,
-                10,
-                "Fire Damage"
-            ],
-            [
-                7,
-                10,
-                "Water Damage"
-            ],
-            [
-                3,
-                4,
-                "% Neutral Resist"
-            ],
-            [
-                3,
-                4,
-                "% Earth Resist"
-            ],
-            [
-                3,
-                4,
-                "% Fire Resist"
-            ],
-            [
-                3,
-                4,
-                "% Water Resist"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17222-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 12109,
@@ -92745,11 +92146,11 @@
     {
         "ankama_id": 12112,
         "ankama_type": "equipment",
-        "name_en": "Professor Xa's Shovel (#1)",
-        "name_fr": "Pelle du Professeur Xa (#1)",
-        "name_es": "Pala del profesor Xa (#1)",
-        "name_pt": "Pá do Professor Xa (#1)",
-        "name_de": "Professor Xas Schaufel (#1)",
+        "name_en": "Professor Xa's Shovel",
+        "name_fr": "Pelle du Professeur Xa",
+        "name_es": "Pala del profesor Xa",
+        "name_pt": "Pá do Professor Xa",
+        "name_de": "Professor Xas Schaufel",
         "w_type": "Shovel",
         "level": 191,
         "ap": 3,
@@ -92851,120 +92252,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 12112,
-        "ankama_type": "equipment",
-        "name_en": "Professor Xa's Shovel (#2)",
-        "name_fr": "Pelle du Professeur Xa (#2)",
-        "name_es": "Pala del profesor Xa (#2)",
-        "name_pt": "Pá do Professor Xa (#2)",
-        "name_de": "Professor Xas Schaufel (#2)",
-        "w_type": "Shovel",
-        "level": 191,
-        "ap": 3,
-        "uses_per_turn": 2,
-        "range": [
-            1,
-            1
+            "AP < 12 | MP < 6"
         ],
-        "crit_chance": 5,
-        "crit_bonus": 3,
-        "stats": [
-            [
-                15,
-                21,
-                "(Neutral damage)"
-            ],
-            [
-                5,
-                7,
-                "(Neutral steal)"
-            ],
-            [
-                1,
-                1,
-                "(removes ap)"
-            ],
-            [
-                151,
-                200,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Strength"
-            ],
-            [
-                31,
-                50,
-                "Intelligence"
-            ],
-            [
-                31,
-                50,
-                "Chance"
-            ],
-            [
-                4,
-                5,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                11,
-                20,
-                "Prospecting"
-            ],
-            [
-                6,
-                8,
-                "Neutral Damage"
-            ],
-            [
-                6,
-                8,
-                "Earth Damage"
-            ],
-            [
-                6,
-                8,
-                "Fire Damage"
-            ],
-            [
-                6,
-                8,
-                "Water Damage"
-            ],
-            [
-                7,
-                10,
-                "% Air Resist"
-            ],
-            [
-                4,
-                5,
-                "AP Reduction"
-            ],
-            [
-                4,
-                5,
-                "Dodge"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/8063-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 12113,
@@ -101562,11 +100852,11 @@
     {
         "ankama_id": 13194,
         "ankama_type": "equipment",
-        "name_en": "Mad Chatter (#1)",
-        "name_fr": "Chapeau Potin (#1)",
-        "name_es": "Casco Tilleo (#1)",
-        "name_pt": "Chapéu Fedor (#1)",
-        "name_de": "Tratschut (#1)",
+        "name_en": "Mad Chatter",
+        "name_fr": "Chapeau Potin",
+        "name_es": "Casco Tilleo",
+        "name_pt": "Chapéu Fedor",
+        "name_de": "Tratschut",
         "w_type": "Hat",
         "level": 199,
         "stats": [
@@ -101635,87 +100925,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 13194,
-        "ankama_type": "equipment",
-        "name_en": "Mad Chatter (#2)",
-        "name_fr": "Chapeau Potin (#2)",
-        "name_es": "Casco Tilleo (#2)",
-        "name_pt": "Chapéu Fedor (#2)",
-        "name_de": "Tratschut (#2)",
-        "w_type": "Hat",
-        "level": 199,
-        "stats": [
-            [
-                351,
-                400,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Wisdom"
-            ],
-            [
-                4,
-                6,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                11,
-                15,
-                "Neutral Resist"
-            ],
-            [
-                7,
-                10,
-                "% Neutral Resist"
-            ],
-            [
-                5,
-                7,
-                "MP Loss Resist"
-            ],
-            [
-                9,
-                12,
-                "Dodge"
-            ],
-            [
-                11,
-                15,
-                "Critical Resist"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                null,
-                null,
-                "Title:"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16397-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 13197,
@@ -105486,11 +104698,11 @@
     {
         "ankama_id": 13657,
         "ankama_type": "equipment",
-        "name_en": "Cushtycloak (#1)",
-        "name_fr": "Cape Matelassée (#1)",
-        "name_es": "Capa Colchonada (#1)",
-        "name_pt": "Capa acolchoada (#1)",
-        "name_de": "Mas Ratz-Umhang (#1)",
+        "name_en": "Cushtycloak",
+        "name_fr": "Cape Matelassée",
+        "name_es": "Capa Colchonada",
+        "name_pt": "Capa acolchoada",
+        "name_de": "Mas Ratz-Umhang",
         "w_type": "Cloak",
         "level": 196,
         "stats": [
@@ -105574,111 +104786,18 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 13657,
-        "ankama_type": "equipment",
-        "name_en": "Cushtycloak (#2)",
-        "name_fr": "Cape Matelassée (#2)",
-        "name_es": "Capa Colchonada (#2)",
-        "name_pt": "Capa acolchoada (#2)",
-        "name_de": "Mas Ratz-Umhang (#2)",
-        "w_type": "Cloak",
-        "level": 196,
-        "stats": [
-            [
-                201,
-                250,
-                "Vitality"
-            ],
-            [
-                31,
-                45,
-                "Agility"
-            ],
-            [
-                31,
-                45,
-                "Chance"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                7,
-                10,
-                "Air Damage"
-            ],
-            [
-                7,
-                10,
-                "Water Damage"
-            ],
-            [
-                4,
-                6,
-                "AP Reduction"
-            ],
-            [
-                4,
-                6,
-                "Dodge"
-            ],
-            [
-                4,
-                6,
-                "% Earth Resist"
-            ],
-            [
-                4,
-                6,
-                "% Neutral Resist"
-            ],
-            [
-                4,
-                6,
-                "% Fire Resist"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                7,
-                10,
-                "Critical Damage"
-            ],
-            [
-                -10,
-                -7,
-                "Critical Resist"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17255-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 13658,
         "ankama_type": "equipment",
-        "name_en": "Slothful Slippers (#1)",
-        "name_fr": "Pantoufles Émar (#1)",
-        "name_es": "Pantuflas Raganas (#1)",
-        "name_pt": "Chinelos Preguicite (#1)",
-        "name_de": "Nicks Schuh A (#1)",
+        "name_en": "Slothful Slippers",
+        "name_fr": "Pantoufles Émar",
+        "name_es": "Pantuflas Raganas",
+        "name_pt": "Chinelos Preguicite",
+        "name_de": "Nicks Schuh A",
         "w_type": "Boots",
         "level": 196,
         "stats": [
@@ -105747,96 +104866,18 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 13658,
-        "ankama_type": "equipment",
-        "name_en": "Slothful Slippers (#2)",
-        "name_fr": "Pantoufles Émar (#2)",
-        "name_es": "Pantuflas Raganas (#2)",
-        "name_pt": "Chinelos Preguicite (#2)",
-        "name_de": "Nicks Schuh A (#2)",
-        "w_type": "Boots",
-        "level": 196,
-        "stats": [
-            [
-                251,
-                300,
-                "Vitality"
-            ],
-            [
-                31,
-                40,
-                "Intelligence"
-            ],
-            [
-                31,
-                40,
-                "Agility"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                7,
-                10,
-                "Fire Damage"
-            ],
-            [
-                7,
-                10,
-                "Air Damage"
-            ],
-            [
-                -8,
-                -6,
-                "Dodge"
-            ],
-            [
-                4,
-                6,
-                "Heals"
-            ],
-            [
-                7,
-                10,
-                "% Air Resist"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                1,
-                null,
-                "MP"
-            ],
-            [
-                4,
-                5,
-                "MP Reduction"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11227-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 13659,
         "ankama_type": "equipment",
-        "name_en": "Shabby Shoes (#1)",
-        "name_fr": "Sabots Minables (#1)",
-        "name_es": "Zuecos Traz (#1)",
-        "name_pt": "Tamancos Miseráveis (#1)",
-        "name_de": "Uner-Treter 'Lich' (#1)",
+        "name_en": "Shabby Shoes",
+        "name_fr": "Sabots Minables",
+        "name_es": "Zuecos Traz",
+        "name_pt": "Tamancos Miseráveis",
+        "name_de": "Uner-Treter 'Lich'",
         "w_type": "Boots",
         "level": 196,
         "stats": [
@@ -105910,92 +104951,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 13659,
-        "ankama_type": "equipment",
-        "name_en": "Shabby Shoes (#2)",
-        "name_fr": "Sabots Minables (#2)",
-        "name_es": "Zuecos Traz (#2)",
-        "name_pt": "Tamancos Miseráveis (#2)",
-        "name_de": "Uner-Treter 'Lich' (#2)",
-        "w_type": "Boots",
-        "level": 196,
-        "stats": [
-            [
-                251,
-                300,
-                "Vitality"
-            ],
-            [
-                41,
-                60,
-                "Strength"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                7,
-                10,
-                "Prospecting"
-            ],
-            [
-                8,
-                12,
-                "Neutral Damage"
-            ],
-            [
-                8,
-                12,
-                "Earth Damage"
-            ],
-            [
-                6,
-                8,
-                "Dodge"
-            ],
-            [
-                8,
-                12,
-                "Earth Resist"
-            ],
-            [
-                6,
-                8,
-                "% Air Resist"
-            ],
-            [
-                6,
-                8,
-                "% Water Resist"
-            ],
-            [
-                1,
-                null,
-                "MP"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                -1,
-                null,
-                "Range"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11226-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 13661,
@@ -110772,11 +109730,11 @@
     {
         "ankama_id": 14063,
         "ankama_type": "equipment",
-        "name_en": "Creaking Tree Hat (#1)",
-        "name_fr": "Coiffe Ranshi (#1)",
-        "name_es": "Sombrero Soifam (#1)",
-        "name_pt": "Chapéu Carad Pal (#1)",
-        "name_de": "Pizzolino (#1)",
+        "name_en": "Creaking Tree Hat",
+        "name_fr": "Coiffe Ranshi",
+        "name_es": "Sombrero Soifam",
+        "name_pt": "Chapéu Carad Pal",
+        "name_de": "Pizzolino",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -110835,77 +109793,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 14063,
-        "ankama_type": "equipment",
-        "name_en": "Creaking Tree Hat (#2)",
-        "name_fr": "Coiffe Ranshi (#2)",
-        "name_es": "Sombrero Soifam (#2)",
-        "name_pt": "Chapéu Carad Pal (#2)",
-        "name_de": "Pizzolino (#2)",
-        "w_type": "Hat",
-        "level": 200,
-        "stats": [
-            [
-                351,
-                400,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Heals"
-            ],
-            [
-                51,
-                75,
-                "Power"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                16,
-                20,
-                "Prospecting"
-            ],
-            [
-                11,
-                15,
-                "Damage"
-            ],
-            [
-                7,
-                10,
-                "AP Loss Resist"
-            ],
-            [
-                11,
-                15,
-                "Lock"
-            ],
-            [
-                -20,
-                -16,
-                "Critical Damage"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16359-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 14064,
@@ -113629,11 +112519,11 @@
     {
         "ankama_id": 14130,
         "ankama_type": "equipment",
-        "name_en": "Jolly Good Belt (#1)",
-        "name_fr": "Sangle Aise (#1)",
-        "name_es": "Fajín Glés (#1)",
-        "name_pt": "Correia Inglesa (#1)",
-        "name_de": "Gürtel Bisch (#1)",
+        "name_en": "Jolly Good Belt",
+        "name_fr": "Sangle Aise",
+        "name_es": "Fajín Glés",
+        "name_pt": "Correia Inglesa",
+        "name_de": "Gürtel Bisch",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -113702,87 +112592,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 14130,
-        "ankama_type": "equipment",
-        "name_en": "Jolly Good Belt (#2)",
-        "name_fr": "Sangle Aise (#2)",
-        "name_es": "Fajín Glés (#2)",
-        "name_pt": "Correia Inglesa (#2)",
-        "name_de": "Gürtel Bisch (#2)",
-        "w_type": "Belt",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                41,
-                60,
-                "Intelligence"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                4,
-                5,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                16,
-                20,
-                "Prospecting"
-            ],
-            [
-                11,
-                15,
-                "Fire Damage"
-            ],
-            [
-                11,
-                15,
-                "Water Damage"
-            ],
-            [
-                11,
-                15,
-                "Air Damage"
-            ],
-            [
-                6,
-                8,
-                "MP Loss Resist"
-            ],
-            [
-                -20,
-                -16,
-                "Dodge"
-            ],
-            [
-                16,
-                20,
-                "Critical Resist"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10246-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 14131,
@@ -113894,11 +112706,11 @@
     {
         "ankama_id": 14132,
         "ankama_type": "equipment",
-        "name_en": "Flinty Daggers (#1)",
-        "name_fr": "Dagues Érhy (#1)",
-        "name_es": "Dagas Guerridas (#1)",
-        "name_pt": "Adaga Guerrida (#1)",
-        "name_de": "Dolche des Veteranen (#1)",
+        "name_en": "Flinty Daggers",
+        "name_fr": "Dagues Érhy",
+        "name_es": "Dagas Guerridas",
+        "name_pt": "Adaga Guerrida",
+        "name_de": "Dolche des Veteranen",
         "w_type": "Dagger",
         "level": 200,
         "ap": 3,
@@ -113990,212 +112802,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Strength > 399"
-        ]
-    },
-    {
-        "ankama_id": 14132,
-        "ankama_type": "equipment",
-        "name_en": "Flinty Daggers (#2)",
-        "name_fr": "Dagues Érhy (#2)",
-        "name_es": "Dagas Guerridas (#2)",
-        "name_pt": "Adaga Guerrida (#2)",
-        "name_de": "Dolche des Veteranen (#2)",
-        "w_type": "Dagger",
-        "level": 200,
-        "ap": 3,
-        "uses_per_turn": 2,
-        "range": [
-            1,
-            1
+            "Strength > 399 | Intelligence > 399 | Agility > 399"
         ],
-        "crit_chance": 20,
-        "crit_bonus": 6,
-        "stats": [
-            [
-                16,
-                22,
-                "(Neutral damage)"
-            ],
-            [
-                10,
-                14,
-                "(Fire damage)"
-            ],
-            [
-                351,
-                400,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Strength"
-            ],
-            [
-                31,
-                50,
-                "Intelligence"
-            ],
-            [
-                31,
-                50,
-                "Agility"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                2,
-                null,
-                "Summon"
-            ],
-            [
-                11,
-                15,
-                "Earth Damage"
-            ],
-            [
-                11,
-                15,
-                "Fire Damage"
-            ],
-            [
-                11,
-                15,
-                "Air Damage"
-            ],
-            [
-                7,
-                10,
-                "% Water Resist"
-            ],
-            [
-                7,
-                10,
-                "Dodge"
-            ],
-            [
-                11,
-                15,
-                "Critical Resist"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5087-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Intelligence > 399"
-        ]
-    },
-    {
-        "ankama_id": 14132,
-        "ankama_type": "equipment",
-        "name_en": "Flinty Daggers (#3)",
-        "name_fr": "Dagues Érhy (#3)",
-        "name_es": "Dagas Guerridas (#3)",
-        "name_pt": "Adaga Guerrida (#3)",
-        "name_de": "Dolche des Veteranen (#3)",
-        "w_type": "Dagger",
-        "level": 200,
-        "ap": 3,
-        "uses_per_turn": 2,
-        "range": [
-            1,
-            1
-        ],
-        "crit_chance": 20,
-        "crit_bonus": 6,
-        "stats": [
-            [
-                16,
-                22,
-                "(Neutral damage)"
-            ],
-            [
-                10,
-                14,
-                "(Fire damage)"
-            ],
-            [
-                351,
-                400,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Strength"
-            ],
-            [
-                31,
-                50,
-                "Intelligence"
-            ],
-            [
-                31,
-                50,
-                "Agility"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                2,
-                null,
-                "Summon"
-            ],
-            [
-                11,
-                15,
-                "Earth Damage"
-            ],
-            [
-                11,
-                15,
-                "Fire Damage"
-            ],
-            [
-                11,
-                15,
-                "Air Damage"
-            ],
-            [
-                7,
-                10,
-                "% Water Resist"
-            ],
-            [
-                7,
-                10,
-                "Dodge"
-            ],
-            [
-                11,
-                15,
-                "Critical Resist"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/5087-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Agility > 399"
-        ]
+        "or_branch_count": 3
     },
     {
         "ankama_id": 14133,
@@ -114967,11 +113576,11 @@
     {
         "ankama_id": 14164,
         "ankama_type": "equipment",
-        "name_en": "Archon's Bow (#1)",
-        "name_fr": "Arc Honte (#1)",
-        "name_es": "Arco Honte (#1)",
-        "name_pt": "Arco Honte (#1)",
-        "name_de": "Bogen des Archonten (#1)",
+        "name_en": "Archon's Bow",
+        "name_fr": "Arc Honte",
+        "name_es": "Arco Honte",
+        "name_pt": "Arco Honte",
+        "name_de": "Bogen des Archonten",
         "w_type": "Bow",
         "level": 200,
         "ap": 4,
@@ -115078,251 +113687,18 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Intelligence > 399"
-        ]
-    },
-    {
-        "ankama_id": 14164,
-        "ankama_type": "equipment",
-        "name_en": "Archon's Bow (#2)",
-        "name_fr": "Arc Honte (#2)",
-        "name_es": "Arco Honte (#2)",
-        "name_pt": "Arco Honte (#2)",
-        "name_de": "Bogen des Archonten (#2)",
-        "w_type": "Bow",
-        "level": 200,
-        "ap": 4,
-        "uses_per_turn": 1,
-        "range": [
-            3,
-            8
+            "Intelligence > 399 | Chance > 399 | Agility > 399"
         ],
-        "crit_chance": 0,
-        "crit_bonus": 0,
-        "stats": [
-            [
-                24,
-                32,
-                "(Neutral damage)"
-            ],
-            [
-                4,
-                7,
-                "(Water steal)"
-            ],
-            [
-                4,
-                7,
-                "(Air steal)"
-            ],
-            [
-                201,
-                250,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Intelligence"
-            ],
-            [
-                31,
-                50,
-                "Wisdom"
-            ],
-            [
-                -9,
-                -6,
-                "Critical Hits"
-            ],
-            [
-                31,
-                50,
-                "Power"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                201,
-                300,
-                "Initiative"
-            ],
-            [
-                8,
-                12,
-                "Fire Damage"
-            ],
-            [
-                8,
-                12,
-                "Water Damage"
-            ],
-            [
-                8,
-                12,
-                "Air Damage"
-            ],
-            [
-                6,
-                8,
-                "% Neutral Resist"
-            ],
-            [
-                6,
-                8,
-                "% Water Resist"
-            ],
-            [
-                6,
-                8,
-                "% Air Resist"
-            ],
-            [
-                5,
-                7,
-                "MP Reduction"
-            ],
-            [
-                7,
-                10,
-                "Dodge"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/2075-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Chance > 399"
-        ]
-    },
-    {
-        "ankama_id": 14164,
-        "ankama_type": "equipment",
-        "name_en": "Archon's Bow (#3)",
-        "name_fr": "Arc Honte (#3)",
-        "name_es": "Arco Honte (#3)",
-        "name_pt": "Arco Honte (#3)",
-        "name_de": "Bogen des Archonten (#3)",
-        "w_type": "Bow",
-        "level": 200,
-        "ap": 4,
-        "uses_per_turn": 1,
-        "range": [
-            3,
-            8
-        ],
-        "crit_chance": 0,
-        "crit_bonus": 0,
-        "stats": [
-            [
-                24,
-                32,
-                "(Neutral damage)"
-            ],
-            [
-                4,
-                7,
-                "(Water steal)"
-            ],
-            [
-                4,
-                7,
-                "(Air steal)"
-            ],
-            [
-                201,
-                250,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Intelligence"
-            ],
-            [
-                31,
-                50,
-                "Wisdom"
-            ],
-            [
-                -9,
-                -6,
-                "Critical Hits"
-            ],
-            [
-                31,
-                50,
-                "Power"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                201,
-                300,
-                "Initiative"
-            ],
-            [
-                8,
-                12,
-                "Fire Damage"
-            ],
-            [
-                8,
-                12,
-                "Water Damage"
-            ],
-            [
-                8,
-                12,
-                "Air Damage"
-            ],
-            [
-                6,
-                8,
-                "% Neutral Resist"
-            ],
-            [
-                6,
-                8,
-                "% Water Resist"
-            ],
-            [
-                6,
-                8,
-                "% Air Resist"
-            ],
-            [
-                5,
-                7,
-                "MP Reduction"
-            ],
-            [
-                7,
-                10,
-                "Dodge"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/2075-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Agility > 399"
-        ]
+        "or_branch_count": 3
     },
     {
         "ankama_id": 14166,
         "ankama_type": "equipment",
-        "name_en": "Sepulchral Sceptre (#1)",
-        "name_fr": "Bâton Beau (#1)",
-        "name_es": "Bastón Ba (#1)",
-        "name_pt": "Bastumba (#1)",
-        "name_de": "Grabstock (#1)",
+        "name_en": "Sepulchral Sceptre",
+        "name_fr": "Bâton Beau",
+        "name_es": "Bastón Ba",
+        "name_pt": "Bastumba",
+        "name_de": "Grabstock",
         "w_type": "Staff",
         "level": 197,
         "ap": 4,
@@ -115404,195 +113780,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "Strength > 299",
-            "Intelligence > 299"
-        ]
-    },
-    {
-        "ankama_id": 14166,
-        "ankama_type": "equipment",
-        "name_en": "Sepulchral Sceptre (#2)",
-        "name_fr": "Bâton Beau (#2)",
-        "name_es": "Bastón Ba (#2)",
-        "name_pt": "Bastumba (#2)",
-        "name_de": "Grabstock (#2)",
-        "w_type": "Staff",
-        "level": 197,
-        "ap": 4,
-        "uses_per_turn": 1,
-        "range": [
-            1,
-            2
+            "Strength > 299 & Intelligence > 299 | Strength > 299 & Chance > 299 | Strength > 299 & Agility > 299"
         ],
-        "crit_chance": 25,
-        "crit_bonus": 7,
-        "stats": [
-            [
-                17,
-                24,
-                "(Neutral damage)"
-            ],
-            [
-                16,
-                22,
-                "(Earth damage)"
-            ],
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Wisdom"
-            ],
-            [
-                3,
-                4,
-                "Critical Hits"
-            ],
-            [
-                51,
-                75,
-                "Power"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                16,
-                20,
-                "Neutral Resist"
-            ],
-            [
-                16,
-                20,
-                "Water Resist"
-            ],
-            [
-                -15,
-                -11,
-                "Dodge"
-            ],
-            [
-                16,
-                20,
-                "Pushback Resist"
-            ],
-            [
-                16,
-                20,
-                "Critical Damage"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4115-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Strength > 299",
-            "Chance > 299"
-        ]
-    },
-    {
-        "ankama_id": 14166,
-        "ankama_type": "equipment",
-        "name_en": "Sepulchral Sceptre (#3)",
-        "name_fr": "Bâton Beau (#3)",
-        "name_es": "Bastón Ba (#3)",
-        "name_pt": "Bastumba (#3)",
-        "name_de": "Grabstock (#3)",
-        "w_type": "Staff",
-        "level": 197,
-        "ap": 4,
-        "uses_per_turn": 1,
-        "range": [
-            1,
-            2
-        ],
-        "crit_chance": 25,
-        "crit_bonus": 7,
-        "stats": [
-            [
-                17,
-                24,
-                "(Neutral damage)"
-            ],
-            [
-                16,
-                22,
-                "(Earth damage)"
-            ],
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Wisdom"
-            ],
-            [
-                3,
-                4,
-                "Critical Hits"
-            ],
-            [
-                51,
-                75,
-                "Power"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                16,
-                20,
-                "Neutral Resist"
-            ],
-            [
-                16,
-                20,
-                "Water Resist"
-            ],
-            [
-                -15,
-                -11,
-                "Dodge"
-            ],
-            [
-                16,
-                20,
-                "Pushback Resist"
-            ],
-            [
-                16,
-                20,
-                "Critical Damage"
-            ]
-        ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/4115-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "Strength > 299",
-            "Agility > 299"
-        ]
+        "or_branch_count": 3
     },
     {
         "ankama_id": 14167,
@@ -120847,11 +119037,11 @@
     {
         "ankama_id": 14937,
         "ankama_type": "equipment",
-        "name_en": "Vigilante Cape (#1)",
-        "name_fr": "Cape des Justiciers (#1)",
-        "name_es": "Capa de los justicieros (#1)",
-        "name_pt": "Capa dos Justiceiros (#1)",
-        "name_de": "Umhang der Ritter der Gerechtigkeit (#1)",
+        "name_en": "Vigilante Cape",
+        "name_fr": "Cape des Justiciers",
+        "name_es": "Capa de los justicieros",
+        "name_pt": "Capa dos Justiceiros",
+        "name_de": "Umhang der Ritter der Gerechtigkeit",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -120930,97 +119120,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 14937,
-        "ankama_type": "equipment",
-        "name_en": "Vigilante Cape (#2)",
-        "name_fr": "Cape des Justiciers (#2)",
-        "name_es": "Capa de los justicieros (#2)",
-        "name_pt": "Capa dos Justiceiros (#2)",
-        "name_de": "Umhang der Ritter der Gerechtigkeit (#2)",
-        "w_type": "Cloak",
-        "level": 200,
-        "stats": [
-            [
-                201,
-                250,
-                "Vitality"
-            ],
-            [
-                31,
-                40,
-                "Strength"
-            ],
-            [
-                31,
-                40,
-                "Intelligence"
-            ],
-            [
-                31,
-                40,
-                "Agility"
-            ],
-            [
-                31,
-                40,
-                "Chance"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                7,
-                10,
-                "Air Damage"
-            ],
-            [
-                7,
-                10,
-                "Water Damage"
-            ],
-            [
-                7,
-                10,
-                "Earth Damage"
-            ],
-            [
-                7,
-                10,
-                "Neutral Damage"
-            ],
-            [
-                7,
-                10,
-                "Fire Damage"
-            ],
-            [
-                7,
-                10,
-                "% Air Resist"
-            ],
-            [
-                2,
-                null,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17292-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 15009,
@@ -127714,11 +125816,11 @@
     {
         "ankama_id": 15692,
         "ankama_type": "equipment",
-        "name_en": "Baleenaboots (#1)",
-        "name_fr": "Baleinabottes (#1)",
-        "name_es": "Ballenotas (#1)",
-        "name_pt": "Botaleias (#1)",
-        "name_de": "Walstiefel (#1)",
+        "name_en": "Baleenaboots",
+        "name_fr": "Baleinabottes",
+        "name_es": "Ballenotas",
+        "name_pt": "Botaleias",
+        "name_de": "Walstiefel",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -127797,106 +125899,18 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 15692,
-        "ankama_type": "equipment",
-        "name_en": "Baleenaboots (#2)",
-        "name_fr": "Baleinabottes (#2)",
-        "name_es": "Ballenotas (#2)",
-        "name_pt": "Botaleias (#2)",
-        "name_de": "Walstiefel (#2)",
-        "w_type": "Boots",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                41,
-                60,
-                "Strength"
-            ],
-            [
-                41,
-                60,
-                "Agility"
-            ],
-            [
-                11,
-                15,
-                "Critical Resist"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                5,
-                7,
-                "Dodge"
-            ],
-            [
-                9,
-                12,
-                "Air Damage"
-            ],
-            [
-                9,
-                12,
-                "Earth Damage"
-            ],
-            [
-                9,
-                12,
-                "Neutral Damage"
-            ],
-            [
-                7,
-                10,
-                "% Water Resist"
-            ],
-            [
-                -5,
-                null,
-                "AP Loss Resist"
-            ],
-            [
-                1,
-                null,
-                "MP"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11276-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 15693,
         "ankama_type": "equipment",
-        "name_en": "Pathogastrics (#1)",
-        "name_fr": "Pataugastrique (#1)",
-        "name_es": "Patogas (#1)",
-        "name_pt": "Patoconga (#1)",
-        "name_de": "Pathogewürgastiefel (#1)",
+        "name_en": "Pathogastrics",
+        "name_fr": "Pataugastrique",
+        "name_es": "Patogas",
+        "name_pt": "Patoconga",
+        "name_de": "Pathogewürgastiefel",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -127970,101 +125984,18 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 15693,
-        "ankama_type": "equipment",
-        "name_en": "Pathogastrics (#2)",
-        "name_fr": "Pataugastrique (#2)",
-        "name_es": "Patogas (#2)",
-        "name_pt": "Patoconga (#2)",
-        "name_de": "Pathogewürgastiefel (#2)",
-        "w_type": "Boots",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                41,
-                60,
-                "Intelligence"
-            ],
-            [
-                41,
-                60,
-                "Chance"
-            ],
-            [
-                -20,
-                null,
-                "Pushback Resist"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Lock"
-            ],
-            [
-                9,
-                12,
-                "Fire Damage"
-            ],
-            [
-                9,
-                12,
-                "Water Damage"
-            ],
-            [
-                7,
-                10,
-                "% Air Resist"
-            ],
-            [
-                4,
-                5,
-                "AP Reduction"
-            ],
-            [
-                11,
-                15,
-                "Critical Damage"
-            ],
-            [
-                1,
-                null,
-                "MP"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11275-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 15694,
         "ankama_type": "equipment",
-        "name_en": "Kideebonnet (#1)",
-        "name_fr": "Kidibonnet (#1)",
-        "name_es": "Kidiboina (#1)",
-        "name_pt": "Kidiboina (#1)",
-        "name_de": "Kidibommelmütze (#1)",
+        "name_en": "Kideebonnet",
+        "name_fr": "Kidibonnet",
+        "name_es": "Kidiboina",
+        "name_pt": "Kidiboina",
+        "name_de": "Kidibommelmütze",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -128133,87 +126064,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 15694,
-        "ankama_type": "equipment",
-        "name_en": "Kideebonnet (#2)",
-        "name_fr": "Kidibonnet (#2)",
-        "name_es": "Kidiboina (#2)",
-        "name_pt": "Kidiboina (#2)",
-        "name_de": "Kidibommelmütze (#2)",
-        "w_type": "Hat",
-        "level": 200,
-        "stats": [
-            [
-                351,
-                400,
-                "Vitality"
-            ],
-            [
-                41,
-                50,
-                "Chance"
-            ],
-            [
-                11,
-                15,
-                "Power"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                11,
-                15,
-                "Lock"
-            ],
-            [
-                11,
-                15,
-                "Water Damage"
-            ],
-            [
-                5,
-                7,
-                "% Neutral Resist"
-            ],
-            [
-                5,
-                7,
-                "% Fire Resist"
-            ],
-            [
-                7,
-                10,
-                "MP Loss Resist"
-            ],
-            [
-                3,
-                4,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16448-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 15695,
@@ -128512,11 +126365,11 @@
     {
         "ankama_id": 15699,
         "ankama_type": "equipment",
-        "name_en": "Belteen (#1)",
-        "name_fr": "Ceintacé (#1)",
-        "name_es": "Cintáceo (#1)",
-        "name_pt": "Cintáceo (#1)",
-        "name_de": "Orcürtel (#1)",
+        "name_en": "Belteen",
+        "name_fr": "Ceintacé",
+        "name_es": "Cintáceo",
+        "name_pt": "Cintáceo",
+        "name_de": "Orcürtel",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -128585,87 +126438,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 15699,
-        "ankama_type": "equipment",
-        "name_en": "Belteen (#2)",
-        "name_fr": "Ceintacé (#2)",
-        "name_es": "Cintáceo (#2)",
-        "name_pt": "Cintáceo (#2)",
-        "name_de": "Orcürtel (#2)",
-        "w_type": "Belt",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Power"
-            ],
-            [
-                16,
-                20,
-                "Pushback Resist"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                -10,
-                null,
-                "Dodge"
-            ],
-            [
-                7,
-                10,
-                "% Neutral Resist"
-            ],
-            [
-                7,
-                10,
-                "% Water Resist"
-            ],
-            [
-                5,
-                7,
-                "MP Loss Resist"
-            ],
-            [
-                16,
-                20,
-                "Critical Damage"
-            ],
-            [
-                3,
-                4,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10281-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 15700,
@@ -141631,11 +139406,11 @@
     {
         "ankama_id": 18000,
         "ankama_type": "equipment",
-        "name_en": "Koutoulou Mask (#1)",
-        "name_fr": "Masque de Koutoulou (#1)",
-        "name_es": "Máscara de Kutulú (#1)",
-        "name_pt": "Máscara de Katulu (#1)",
-        "name_de": "Kutuluhmaske (#1)",
+        "name_en": "Koutoulou Mask",
+        "name_fr": "Masque de Koutoulou",
+        "name_es": "Máscara de Kutulú",
+        "name_pt": "Máscara de Katulu",
+        "name_de": "Kutuluhmaske",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -141694,77 +139469,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 18000,
-        "ankama_type": "equipment",
-        "name_en": "Koutoulou Mask (#2)",
-        "name_fr": "Masque de Koutoulou (#2)",
-        "name_es": "Máscara de Kutulú (#2)",
-        "name_pt": "Máscara de Katulu (#2)",
-        "name_de": "Kutuluhmaske (#2)",
-        "w_type": "Hat",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                51,
-                70,
-                "Strength"
-            ],
-            [
-                16,
-                25,
-                "Critical Resist"
-            ],
-            [
-                21,
-                30,
-                "Wisdom"
-            ],
-            [
-                9,
-                12,
-                "Earth Damage"
-            ],
-            [
-                9,
-                12,
-                "Neutral Damage"
-            ],
-            [
-                7,
-                10,
-                "% Air Resist"
-            ],
-            [
-                7,
-                10,
-                "% Fire Resist"
-            ],
-            [
-                2,
-                null,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16499-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 18001,
@@ -141830,11 +139537,11 @@
     {
         "ankama_id": 18002,
         "ankama_type": "equipment",
-        "name_en": "Merdiodon Cloak (#1)",
-        "name_fr": "Cape de Diondin (#1)",
-        "name_es": "Capa de diondino (#1)",
-        "name_pt": "Capa de Diondina (#1)",
-        "name_de": "Igelnixumhang (#1)",
+        "name_en": "Merdiodon Cloak",
+        "name_fr": "Cape de Diondin",
+        "name_es": "Capa de diondino",
+        "name_pt": "Capa de Diondina",
+        "name_de": "Igelnixumhang",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -141893,77 +139600,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 18002,
-        "ankama_type": "equipment",
-        "name_en": "Merdiodon Cloak (#2)",
-        "name_fr": "Cape de Diondin (#2)",
-        "name_es": "Capa de diondino (#2)",
-        "name_pt": "Capa de Diondina (#2)",
-        "name_de": "Igelnixumhang (#2)",
-        "w_type": "Cloak",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                61,
-                80,
-                "Intelligence"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Lock"
-            ],
-            [
-                11,
-                15,
-                "Fire Damage"
-            ],
-            [
-                7,
-                10,
-                "% Air Resist"
-            ],
-            [
-                5,
-                7,
-                "MP Loss Resist"
-            ],
-            [
-                2,
-                null,
-                "Range"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                11,
-                15,
-                "Heals"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17369-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 18003,
@@ -142151,11 +139790,11 @@
     {
         "ankama_id": 18006,
         "ankama_type": "equipment",
-        "name_en": "Ockloth (#1)",
-        "name_fr": "Poulpagne (#1)",
-        "name_es": "Calpulpillos (#1)",
-        "name_pt": "Tangáculo (#1)",
-        "name_de": "Kraklschurz (#1)",
+        "name_en": "Ockloth",
+        "name_fr": "Poulpagne",
+        "name_es": "Calpulpillos",
+        "name_pt": "Tangáculo",
+        "name_de": "Kraklschurz",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -142214,77 +139853,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 18006,
-        "ankama_type": "equipment",
-        "name_en": "Ockloth (#2)",
-        "name_fr": "Poulpagne (#2)",
-        "name_es": "Calpulpillos (#2)",
-        "name_pt": "Tangáculo (#2)",
-        "name_de": "Kraklschurz (#2)",
-        "w_type": "Belt",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                51,
-                70,
-                "Chance"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                11,
-                15,
-                "Water Damage"
-            ],
-            [
-                5,
-                7,
-                "% Neutral Resist"
-            ],
-            [
-                5,
-                7,
-                "% Fire Resist"
-            ],
-            [
-                11,
-                15,
-                "AP Loss Resist"
-            ],
-            [
-                2,
-                null,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10313-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 18007,
@@ -142406,11 +139977,11 @@
     {
         "ankama_id": 18009,
         "ankama_type": "equipment",
-        "name_en": "Menobelt (#1)",
-        "name_fr": "Menoture (#1)",
-        "name_es": "Menoturón (#1)",
-        "name_pt": "Menocinto (#1)",
-        "name_de": "Menogürtel (#1)",
+        "name_en": "Menobelt",
+        "name_fr": "Menoture",
+        "name_es": "Menoturón",
+        "name_pt": "Menocinto",
+        "name_de": "Menogürtel",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -142464,72 +140035,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 18009,
-        "ankama_type": "equipment",
-        "name_en": "Menobelt (#2)",
-        "name_fr": "Menoture (#2)",
-        "name_es": "Menoturón (#2)",
-        "name_pt": "Menocinto (#2)",
-        "name_de": "Menogürtel (#2)",
-        "w_type": "Belt",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                61,
-                80,
-                "Agility"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                16,
-                20,
-                "Air Damage"
-            ],
-            [
-                7,
-                10,
-                "% Earth Resist"
-            ],
-            [
-                9,
-                12,
-                "AP Reduction"
-            ],
-            [
-                4,
-                6,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10314-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 18010,
@@ -146068,11 +143576,11 @@
     {
         "ankama_id": 18439,
         "ankama_type": "equipment",
-        "name_en": "The Dorado (#1)",
-        "name_fr": "Le Dorado (#1)",
-        "name_es": "El Dorado (#1)",
-        "name_pt": "O Dorado (#1)",
-        "name_de": "El Dorado (#1)",
+        "name_en": "The Dorado",
+        "name_fr": "Le Dorado",
+        "name_es": "El Dorado",
+        "name_pt": "O Dorado",
+        "name_de": "El Dorado",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -146156,102 +143664,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 18439,
-        "ankama_type": "equipment",
-        "name_en": "The Dorado (#2)",
-        "name_fr": "Le Dorado (#2)",
-        "name_es": "El Dorado (#2)",
-        "name_pt": "O Dorado (#2)",
-        "name_de": "El Dorado (#2)",
-        "w_type": "Hat",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                41,
-                50,
-                "Strength"
-            ],
-            [
-                41,
-                50,
-                "Intelligence"
-            ],
-            [
-                41,
-                50,
-                "Agility"
-            ],
-            [
-                41,
-                50,
-                "Chance"
-            ],
-            [
-                21,
-                30,
-                "Wisdom"
-            ],
-            [
-                7,
-                10,
-                "Lock"
-            ],
-            [
-                7,
-                10,
-                "Fire Damage"
-            ],
-            [
-                7,
-                10,
-                "Air Damage"
-            ],
-            [
-                7,
-                10,
-                "Earth Damage"
-            ],
-            [
-                7,
-                10,
-                "Neutral Damage"
-            ],
-            [
-                7,
-                10,
-                "Water Damage"
-            ],
-            [
-                7,
-                10,
-                "AP Loss Resist"
-            ],
-            [
-                2,
-                null,
-                "Range"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16506-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 18529,
@@ -156185,11 +153600,11 @@
     {
         "ankama_id": 19595,
         "ankama_type": "equipment",
-        "name_en": "Scapu Helm (#1)",
-        "name_fr": "Heaume Oplate (#1)",
-        "name_es": "Yelmo Moplato (#1)",
-        "name_pt": "Elmo Plata (#1)",
-        "name_de": "Breitschulterhelm (#1)",
+        "name_en": "Scapu Helm",
+        "name_fr": "Heaume Oplate",
+        "name_es": "Yelmo Moplato",
+        "name_pt": "Elmo Plata",
+        "name_de": "Breitschulterhelm",
         "w_type": "Hat",
         "level": 200,
         "stats": [
@@ -156258,96 +153673,18 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 19595,
-        "ankama_type": "equipment",
-        "name_en": "Scapu Helm (#2)",
-        "name_fr": "Heaume Oplate (#2)",
-        "name_es": "Yelmo Moplato (#2)",
-        "name_pt": "Elmo Plata (#2)",
-        "name_de": "Breitschulterhelm (#2)",
-        "w_type": "Hat",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                61,
-                80,
-                "Intelligence"
-            ],
-            [
-                31,
-                40,
-                "Pushback Resist"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                -10,
-                null,
-                "Dodge"
-            ],
-            [
-                11,
-                15,
-                "Fire Damage"
-            ],
-            [
-                5,
-                7,
-                "% Neutral Resist"
-            ],
-            [
-                5,
-                7,
-                "% Air Resist"
-            ],
-            [
-                9,
-                12,
-                "AP Loss Resist"
-            ],
-            [
-                3,
-                4,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16538-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 19596,
         "ankama_type": "equipment",
-        "name_en": "Suspender Belt (#1)",
-        "name_fr": "Ceinture Gence (#1)",
-        "name_es": "Talabarte Urge (#1)",
-        "name_pt": "Cinturgência (#1)",
-        "name_de": "Dringlichkeitsgurt (#1)",
+        "name_en": "Suspender Belt",
+        "name_fr": "Ceinture Gence",
+        "name_es": "Talabarte Urge",
+        "name_pt": "Cinturgência",
+        "name_de": "Dringlichkeitsgurt",
         "w_type": "Belt",
         "level": 200,
         "stats": [
@@ -156416,87 +153753,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 19596,
-        "ankama_type": "equipment",
-        "name_en": "Suspender Belt (#2)",
-        "name_fr": "Ceinture Gence (#2)",
-        "name_es": "Talabarte Urge (#2)",
-        "name_pt": "Cinturgência (#2)",
-        "name_de": "Dringlichkeitsgurt (#2)",
-        "w_type": "Belt",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                400,
-                "Vitality"
-            ],
-            [
-                61,
-                80,
-                "Strength"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                -20,
-                null,
-                "Lock"
-            ],
-            [
-                14,
-                18,
-                "Earth Damage"
-            ],
-            [
-                14,
-                18,
-                "Neutral Damage"
-            ],
-            [
-                16,
-                25,
-                "Pushback Damage"
-            ],
-            [
-                7,
-                10,
-                "% Air Resist"
-            ],
-            [
-                11,
-                15,
-                "MP Loss Resist"
-            ],
-            [
-                2,
-                3,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10329-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 19597,
@@ -157227,11 +154486,11 @@
     {
         "ankama_id": 19607,
         "ankama_type": "equipment",
-        "name_en": "Absoluti Cape (#1)",
-        "name_fr": "Cape Solution (#1)",
-        "name_es": "Capilla absolutoria (#1)",
-        "name_pt": "Capa Herdão (#1)",
-        "name_de": "Umhang der Vergebung (#1)",
+        "name_en": "Absoluti Cape",
+        "name_fr": "Cape Solution",
+        "name_es": "Capilla absolutoria",
+        "name_pt": "Capa Herdão",
+        "name_de": "Umhang der Vergebung",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -157295,82 +154554,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 19607,
-        "ankama_type": "equipment",
-        "name_en": "Absoluti Cape (#2)",
-        "name_fr": "Cape Solution (#2)",
-        "name_es": "Capilla absolutoria (#2)",
-        "name_pt": "Capa Herdão (#2)",
-        "name_de": "Umhang der Vergebung (#2)",
-        "w_type": "Cloak",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                61,
-                80,
-                "Chance"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                11,
-                15,
-                "Prospecting"
-            ],
-            [
-                11,
-                15,
-                "Water Damage"
-            ],
-            [
-                11,
-                15,
-                "Pushback Damage"
-            ],
-            [
-                7,
-                10,
-                "% Earth Resist"
-            ],
-            [
-                7,
-                10,
-                "% Neutral Resist"
-            ],
-            [
-                1,
-                null,
-                "Summon"
-            ],
-            [
-                3,
-                4,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17402-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 19608,
@@ -157482,11 +154668,11 @@
     {
         "ankama_id": 19610,
         "ankama_type": "equipment",
-        "name_en": "Boot Boots (#1)",
-        "name_fr": "Bottes Honyme (#1)",
-        "name_es": "Zapautonimias (#1)",
-        "name_pt": "Bota Utonímica (#1)",
-        "name_de": "Selbsterklärende Stiefel (#1)",
+        "name_en": "Boot Boots",
+        "name_fr": "Bottes Honyme",
+        "name_es": "Zapautonimias",
+        "name_pt": "Bota Utonímica",
+        "name_de": "Selbsterklärende Stiefel",
         "w_type": "Boots",
         "level": 200,
         "stats": [
@@ -157570,102 +154756,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 19610,
-        "ankama_type": "equipment",
-        "name_en": "Boot Boots (#2)",
-        "name_fr": "Bottes Honyme (#2)",
-        "name_es": "Zapautonimias (#2)",
-        "name_pt": "Bota Utonímica (#2)",
-        "name_de": "Selbsterklärende Stiefel (#2)",
-        "w_type": "Boots",
-        "level": 200,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                31,
-                50,
-                "Strength"
-            ],
-            [
-                31,
-                50,
-                "Chance"
-            ],
-            [
-                31,
-                50,
-                "Intelligence"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                -10,
-                null,
-                "Dodge"
-            ],
-            [
-                7,
-                10,
-                "Fire Damage"
-            ],
-            [
-                7,
-                10,
-                "Earth Damage"
-            ],
-            [
-                7,
-                10,
-                "Neutral Damage"
-            ],
-            [
-                7,
-                10,
-                "Water Damage"
-            ],
-            [
-                7,
-                10,
-                "% Air Resist"
-            ],
-            [
-                2,
-                3,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                1,
-                null,
-                "MP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/11335-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 19622,
@@ -161138,11 +158231,11 @@
     {
         "ankama_id": 21223,
         "ankama_type": "equipment",
-        "name_en": "Crocoring (#1)",
-        "name_fr": "Crocanneau (#1)",
-        "name_es": "Coconillo (#1)",
-        "name_pt": "Crocanel (#1)",
-        "name_de": "Crocoring (#1)",
+        "name_en": "Crocoring",
+        "name_fr": "Crocanneau",
+        "name_es": "Coconillo",
+        "name_pt": "Crocanel",
+        "name_de": "Crocoring",
         "w_type": "Ring",
         "level": 200,
         "stats": [
@@ -161186,62 +158279,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 21223,
-        "ankama_type": "equipment",
-        "name_en": "Crocoring (#2)",
-        "name_fr": "Crocanneau (#2)",
-        "name_es": "Coconillo (#2)",
-        "name_pt": "Crocanel (#2)",
-        "name_de": "Crocoring (#2)",
-        "w_type": "Ring",
-        "level": 200,
-        "stats": [
-            [
-                251,
-                300,
-                "Vitality"
-            ],
-            [
-                21,
-                40,
-                "Power"
-            ],
-            [
-                11,
-                20,
-                "Pushback Resist"
-            ],
-            [
-                11,
-                20,
-                "Critical Resist"
-            ],
-            [
-                3,
-                5,
-                "Critical Hits"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ],
-            [
-                16,
-                25,
-                "Wisdom"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9339-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 21224,
@@ -164256,11 +161296,11 @@
     {
         "ankama_id": 22214,
         "ankama_type": "equipment",
-        "name_en": "Slobberpuss' Collar (#1)",
-        "name_fr": "Collier de Bavdur (#1)",
-        "name_es": "Collar de Bábaro (#1)",
-        "name_pt": "Colar de Babdur (#1)",
-        "name_de": "Schlabbradors Halsband (#1)",
+        "name_en": "Slobberpuss' Collar",
+        "name_fr": "Collier de Bavdur",
+        "name_es": "Collar de Bábaro",
+        "name_pt": "Colar de Babdur",
+        "name_de": "Schlabbradors Halsband",
         "w_type": "Amulet",
         "level": 200,
         "stats": [
@@ -164329,87 +161369,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 22214,
-        "ankama_type": "equipment",
-        "name_en": "Slobberpuss' Collar (#2)",
-        "name_fr": "Collier de Bavdur (#2)",
-        "name_es": "Collar de Bábaro (#2)",
-        "name_pt": "Colar de Babdur (#2)",
-        "name_de": "Schlabbradors Halsband (#2)",
-        "w_type": "Amulet",
-        "level": 200,
-        "stats": [
-            [
-                701,
-                1000,
-                "Initiative"
-            ],
-            [
-                401,
-                500,
-                "Vitality"
-            ],
-            [
-                31,
-                40,
-                "Wisdom"
-            ],
-            [
-                16,
-                20,
-                "Lock"
-            ],
-            [
-                2,
-                3,
-                "% Earth Resist"
-            ],
-            [
-                2,
-                3,
-                "% Neutral Resist"
-            ],
-            [
-                2,
-                3,
-                "% Water Resist"
-            ],
-            [
-                2,
-                3,
-                "% Air Resist"
-            ],
-            [
-                2,
-                3,
-                "% Fire Resist"
-            ],
-            [
-                4,
-                7,
-                "MP Loss Resist"
-            ],
-            [
-                -1,
-                null,
-                "Range"
-            ],
-            [
-                2,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/1311-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 22215,
@@ -167844,11 +164806,11 @@
     {
         "ankama_id": 23626,
         "ankama_type": "equipment",
-        "name_en": "Slayspirit Headband (#1)",
-        "name_fr": "Bandeau de Spiritueur (#1)",
-        "name_es": "Bandana de espiritasesino (#1)",
-        "name_pt": "Faixa de Assassispírito (#1)",
-        "name_de": "Geistreichen-Augenbinde (#1)",
+        "name_en": "Slayspirit Headband",
+        "name_fr": "Bandeau de Spiritueur",
+        "name_es": "Bandana de espiritasesino",
+        "name_pt": "Faixa de Assassispírito",
+        "name_de": "Geistreichen-Augenbinde",
         "w_type": "Hat",
         "level": 155,
         "stats": [
@@ -167937,107 +164899,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 23626,
-        "ankama_type": "equipment",
-        "name_en": "Slayspirit Headband (#2)",
-        "name_fr": "Bandeau de Spiritueur (#2)",
-        "name_es": "Bandana de espiritasesino (#2)",
-        "name_pt": "Faixa de Assassispírito (#2)",
-        "name_de": "Geistreichen-Augenbinde (#2)",
-        "w_type": "Hat",
-        "level": 155,
-        "stats": [
-            [
-                -200,
-                null,
-                "Initiative"
-            ],
-            [
-                151,
-                200,
-                "Vitality"
-            ],
-            [
-                41,
-                50,
-                "Strength"
-            ],
-            [
-                41,
-                50,
-                "Intelligence"
-            ],
-            [
-                41,
-                50,
-                "Agility"
-            ],
-            [
-                16,
-                20,
-                "Wisdom"
-            ],
-            [
-                -20,
-                null,
-                "Dodge"
-            ],
-            [
-                5,
-                7,
-                "Fire Damage"
-            ],
-            [
-                5,
-                7,
-                "Air Damage"
-            ],
-            [
-                5,
-                7,
-                "Earth Damage"
-            ],
-            [
-                5,
-                7,
-                "Neutral Damage"
-            ],
-            [
-                4,
-                5,
-                "% Fire Resist"
-            ],
-            [
-                7,
-                10,
-                "Critical Damage"
-            ],
-            [
-                2,
-                3,
-                "Critical Hits"
-            ],
-            [
-                -2,
-                null,
-                "Range"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16634-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 23627,
@@ -170210,11 +167074,11 @@
     {
         "ankama_id": 25221,
         "ankama_type": "equipment",
-        "name_en": "Wings of Chaos (#1)",
-        "name_fr": "Ailes du Chaos (#1)",
-        "name_es": "Alas del Caos (#1)",
-        "name_pt": "Asas do Caos (#1)",
-        "name_de": "Schwingen des Chaos (#1)",
+        "name_en": "Wings of Chaos",
+        "name_fr": "Ailes du Chaos",
+        "name_es": "Alas del Caos",
+        "name_pt": "Asas do Caos",
+        "name_de": "Schwingen des Chaos",
         "w_type": "Cloak",
         "level": 200,
         "stats": [
@@ -170283,87 +167147,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 25221,
-        "ankama_type": "equipment",
-        "name_en": "Wings of Chaos (#2)",
-        "name_fr": "Ailes du Chaos (#2)",
-        "name_es": "Alas del Caos (#2)",
-        "name_pt": "Asas do Caos (#2)",
-        "name_de": "Schwingen des Chaos (#2)",
-        "w_type": "Cloak",
-        "level": 200,
-        "stats": [
-            [
-                201,
-                300,
-                "Initiative"
-            ],
-            [
-                351,
-                400,
-                "Vitality"
-            ],
-            [
-                51,
-                70,
-                "Agility"
-            ],
-            [
-                11,
-                15,
-                "Critical Resist"
-            ],
-            [
-                21,
-                30,
-                "Wisdom"
-            ],
-            [
-                -15,
-                null,
-                "Dodge"
-            ],
-            [
-                15,
-                18,
-                "Air Damage"
-            ],
-            [
-                6,
-                8,
-                "% Water Resist"
-            ],
-            [
-                6,
-                8,
-                "% Air Resist"
-            ],
-            [
-                4,
-                6,
-                "MP Reduction"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/17498-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 25222,
@@ -180684,11 +177470,11 @@
     {
         "ankama_id": 31774,
         "ankama_type": "equipment",
-        "name_en": "Oktapodas Helm (#1)",
-        "name_fr": "Heaume Tapodas (#1)",
-        "name_es": "Yelmo Tapodas (#1)",
-        "name_pt": "Elmo Tapodas (#1)",
-        "name_de": "Tapodas-Helm (#1)",
+        "name_en": "Oktapodas Helm",
+        "name_fr": "Heaume Tapodas",
+        "name_es": "Yelmo Tapodas",
+        "name_pt": "Elmo Tapodas",
+        "name_de": "Tapodas-Helm",
         "w_type": "Hat",
         "level": 198,
         "stats": [
@@ -180767,97 +177553,9 @@
         "dofustouch": false,
         "has_conditions": true,
         "conditions": [
-            "AP < 12"
-        ]
-    },
-    {
-        "ankama_id": 31774,
-        "ankama_type": "equipment",
-        "name_en": "Oktapodas Helm (#2)",
-        "name_fr": "Heaume Tapodas (#2)",
-        "name_es": "Yelmo Tapodas (#2)",
-        "name_pt": "Elmo Tapodas (#2)",
-        "name_de": "Tapodas-Helm (#2)",
-        "w_type": "Hat",
-        "level": 198,
-        "stats": [
-            [
-                301,
-                350,
-                "Vitality"
-            ],
-            [
-                41,
-                60,
-                "Chance"
-            ],
-            [
-                41,
-                60,
-                "Agility"
-            ],
-            [
-                21,
-                30,
-                "Pushback Resist"
-            ],
-            [
-                21,
-                30,
-                "Wisdom"
-            ],
-            [
-                -7,
-                null,
-                "Dodge"
-            ],
-            [
-                7,
-                10,
-                "Water Damage"
-            ],
-            [
-                7,
-                10,
-                "Air Damage"
-            ],
-            [
-                4,
-                7,
-                "% Water Resist"
-            ],
-            [
-                4,
-                7,
-                "% Air Resist"
-            ],
-            [
-                3,
-                5,
-                "MP Reduction"
-            ],
-            [
-                -1,
-                null,
-                "Summon"
-            ],
-            [
-                1,
-                null,
-                "Range"
-            ],
-            [
-                1,
-                null,
-                "AP"
-            ]
+            "AP < 12 | MP < 6"
         ],
-        "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/16859-128.png",
-        "dofustouch": false,
-        "has_conditions": true,
-        "conditions": [
-            "MP < 6"
-        ]
+        "or_branch_count": 2
     },
     {
         "ankama_id": 31785,

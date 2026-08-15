@@ -39361,6 +39361,10 @@ INSERT INTO "item_names" VALUES(30356,'fr','Jyfus');
 INSERT INTO "item_names" VALUES(30356,'es','Jyfus');
 INSERT INTO "item_names" VALUES(30356,'pt','Dofui');
 INSERT INTO "item_names" VALUES(30356,'de','Jyfus');
+CREATE TABLE item_or_conditions
+             (item INTEGER, branch INTEGER, stat INTEGER, is_max INTEGER, value INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id),
+              FOREIGN KEY(stat) REFERENCES stats(id));
 CREATE TABLE item_recipe_ingredient_names (
             ingredient_ankama_id INTEGER,
             ingredient_subtype TEXT,
@@ -70288,6 +70292,9 @@ INSERT INTO "job_names" VALUES(1,'fr','Base');
 INSERT INTO "job_names" VALUES(1,'es','Base');
 INSERT INTO "job_names" VALUES(1,'pt','Base');
 INSERT INTO "job_names" VALUES(1,'de','Grundwert');
+CREATE TABLE legacy_item_ids
+             (old_id INTEGER PRIMARY KEY, item INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id));
 CREATE TABLE max_stat_to_equip
              (item INTEGER, stat INTEGER, value INTEGER,
               FOREIGN KEY(item) REFERENCES items(id),
@@ -120974,7 +120981,9 @@ INSERT INTO "weapon_hits" VALUES(29024,1,2,3,0,0,'best');
 CREATE TABLE weapon_is_onehanded
              (item INTEGER, value INTEGER,
               FOREIGN KEY(item) REFERENCES items(id));
-CREATE TABLE weapon_uses_per_turn (item INTEGER, value INTEGER);
+CREATE TABLE weapon_uses_per_turn
+             (item INTEGER, value INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id));
 INSERT INTO "weapon_uses_per_turn" VALUES(44,1);
 INSERT INTO "weapon_uses_per_turn" VALUES(49,1);
 INSERT INTO "weapon_uses_per_turn" VALUES(55,1);
@@ -122406,12 +122415,11 @@ INSERT INTO "weapontype" VALUES(10,'Scythe','scythe');
 INSERT INTO "weapontype" VALUES(11,'Lance','lance');
 INSERT INTO "weapontype" VALUES(12,'Crossbow','crossbow');
 INSERT INTO "weapontype" VALUES(13,'Magic Weapon','magic_weapon');
-CREATE INDEX idx_item_craft_jobs_item ON item_craft_jobs (item);
-CREATE INDEX idx_job_names_id ON job_names (job_ankama_id);
 CREATE INDEX idx_item_drops_item ON item_drops (item);
 CREATE INDEX idx_resource_drops_res ON resource_drops (resource_ankama_id);
 CREATE INDEX idx_monster_names_id ON monster_names (monster_ankama_id);
-CREATE INDEX idx_weapon_uses_per_turn_item ON weapon_uses_per_turn (item);
+CREATE INDEX idx_item_craft_jobs_item ON item_craft_jobs (item);
+CREATE INDEX idx_job_names_id ON job_names (job_ankama_id);
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('item_types',10);
 INSERT INTO "sqlite_sequence" VALUES('stats',64);

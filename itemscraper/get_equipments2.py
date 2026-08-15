@@ -399,21 +399,23 @@ for item in equipment_data['en']['items']:
         flattened_or_conditions = parse_conditions(item["conditions"])
         if len(flattened_or_conditions) == 0:
             raise ValueError("Invalid parsing of conditions detected")
-        # An item is created per OR condition
+        def gate(cond):
+            name = STAT_TRANSLATE.get(cond['element']['name'], cond['element']['name'])
+            return f"{name} {cond['operator']} {cond['int_value']}"
+
+        # An item the game lets you wear when any one branch holds used to ship
+        # as one row per branch, "(#1)" and "(#2)". The solver models the
+        # disjunction now, so it stays one item and the branches are joined by
+        # ' | ', each branch's own gates by ' & '. The rows those copies had are
+        # kept resolvable for builds saved before this, see legacy_item_ids.
         if len(flattened_or_conditions) > 1:
-            for i, conditions in enumerate(flattened_or_conditions):
-                copy_item = deepcopy(transformed_item)
-                # structure.py groups the branches of one item on that exact
-                # "(#N)" tag and shows the plain name to the player.
-                for lang in LANGUAGES:
-                    lang_name_key = f"name_{lang}"
-                    if lang_name_key in copy_item:
-                        copy_item[lang_name_key] += f" (#{i + 1})"
-                copy_item["conditions"] = [f"{STAT_TRANSLATE.get(cond['element']['name'], cond['element']['name'])} {cond['operator']} {cond['int_value']}" for cond in conditions]
-                new_data.append(copy_item)
+            transformed_item["conditions"] = [
+                ' | '.join(' & '.join(gate(cond) for cond in branch)
+                           for branch in flattened_or_conditions)]
+            transformed_item["or_branch_count"] = len(flattened_or_conditions)
         else:
-            transformed_item["conditions"] = [f"{STAT_TRANSLATE.get(cond['element']['name'], cond['element']['name'])} {cond['operator']} {cond['int_value']}" for cond in flattened_or_conditions[0]]
-            new_data.append(transformed_item)
+            transformed_item["conditions"] = [gate(cond) for cond in flattened_or_conditions[0]]
+        new_data.append(transformed_item)
     else:
         # Ensure "conditions" key exists with an empty list
         transformed_item["conditions"] = []     

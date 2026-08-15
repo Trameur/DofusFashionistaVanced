@@ -383,6 +383,20 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
               FOREIGN KEY(item) REFERENCES items(id),
               FOREIGN KEY(stat) REFERENCES stats(id));\n""")
 
+    def _gate(text):
+        """'Strength > 450' -> (stat index, is_max, the value that still fits)."""
+        parts = text.split()
+        if len(parts) > 3:
+            parts = [" ".join(parts[:-2]), parts[-2], parts[-1]]
+        if len(parts) != 3 or parts[0] not in STAT_NAME_TO_KEY_LOCAL:
+            return None
+        stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(parts[0]) + 1
+        if parts[1] == '<':
+            return (stat_index, 1, int(parts[2]) - 1)
+        if parts[1] == '>':
+            return (stat_index, 0, int(parts[2]) + 1)
+        return None
+
     for item in original_data:
         item_id = item_to_id[id(item)]
         for condition_string in item.get('conditions', []):
@@ -390,22 +404,30 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                 continue
             branches = []
             for branch in condition_string.split('|'):
-                parts = branch.split()
-                if len(parts) > 3:
-                    parts = [" ".join(parts[:-2]), parts[-2], parts[-1]]
-                if len(parts) != 3 or parts[0] not in STAT_NAME_TO_KEY_LOCAL:
+                gates = [_gate(text) for text in branch.split('&')]
+                if any(g is None for g in gates):
                     branches = []
                     break
-                stat_index = list(STAT_NAME_TO_KEY_LOCAL).index(parts[0]) + 1
-                if parts[1] == '<':
-                    branches.append((stat_index, 1, int(parts[2]) - 1))
-                elif parts[1] == '>':
-                    branches.append((stat_index, 0, int(parts[2]) + 1))
-                else:
-                    branches = []
-                    break
-            for number, (stat_index, is_max, value) in enumerate(branches):
-                f.write(f"INSERT INTO item_or_conditions VALUES({item_id},{number},{stat_index},{is_max},{value});\n")
+                branches.append(gates)
+            for number, gates in enumerate(branches):
+                for stat_index, is_max, value in gates:
+                    f.write(f"INSERT INTO item_or_conditions VALUES({item_id},{number},{stat_index},{is_max},{value});\n")
+
+    # An item whose branches used to ship as one row each keeps those rows'
+    # ids pointing at it, so a build saved before the change still finds every
+    # piece it stored. The old numbering was ankama_id + 100000000 * n.
+    f.write("""CREATE TABLE legacy_item_ids
+             (old_id INTEGER PRIMARY KEY, item INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id));\n""")
+    for item in original_data:
+        branch_count = item.get('or_branch_count') or 0
+        if branch_count < 2:
+            continue
+        item_id = item_to_id[id(item)]
+        for number in range(1, branch_count):
+            old_id = item['ankama_id'] + DUPLICATE_ID_OFFSET * number
+            if old_id != item_id:
+                f.write(f"INSERT OR IGNORE INTO legacy_item_ids VALUES({old_id},{item_id});\n")
 
     # Write CREATE TABLE for min_rank_to_equip
     f.write("""CREATE TABLE min_rank_to_equip

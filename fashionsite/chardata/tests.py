@@ -6656,6 +6656,62 @@ class TouchPetSolveTests(TestCase):
             pet.id, self.VARIANT_ID_BASE,
             'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
 
+class OldBuildsKeepTheirItemsTests(SimpleTestCase):
+    """Collapsing the "(#1)"/"(#2)" rows into one item retires ids that saved
+    builds store, and a build whose id no longer resolves loses that slot in
+    silence. legacy_item_ids carries the retired rows onto the item they became,
+    and the synthesized Gelano rows stop moving with the data."""
+
+    VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+
+    def test_no_version_still_ships_a_split_row(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version in self.VERSIONS:
+            path = get_items_db_path(version)
+            if not os.path.exists(path):
+                continue
+            connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+            try:
+                left = connection.execute(
+                    "SELECT COUNT(*) FROM items WHERE name LIKE '%(#%'").fetchone()[0]
+            finally:
+                connection.close()
+            with self.subTest(version=version):
+                self.assertEqual(left, 0)
+
+    def test_a_retired_row_still_finds_its_item(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        for version in ('dofus3', 'beta'):
+            set_current_game_version(version)
+            structure = get_structure(version)
+            self.assertTrue(structure.legacy_item_ids,
+                            'no retired ids recorded for %s' % version)
+            for old_id, item_id in structure.legacy_item_ids.items():
+                with self.subTest(version=version, old_id=old_id):
+                    found = structure.get_item_by_id(old_id)
+                    self.assertIsNotNone(
+                        found, 'a build storing %d loses that slot' % old_id)
+                    self.assertEqual(found.id, item_id)
+
+    def test_the_gelano_rows_have_a_fixed_id(self):
+        from fashionistapulp.structure import (get_structure, set_current_game_version,
+                                               GELANO_IDS, GELANO_DEPLOYED_IDS)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        for version in self.VERSIONS:
+            set_current_game_version(version)
+            structure = get_structure(version)
+            gelano = structure.items_dict_name.get('Gelano (#1)')
+            with self.subTest(version=version):
+                self.assertIsNotNone(gelano)
+                self.assertEqual(gelano.id, GELANO_IDS['Gelano (#1)'])
+                for old_id in GELANO_DEPLOYED_IDS.get(version, {}):
+                    found = structure.get_item_by_id(old_id)
+                    self.assertIsNotNone(found)
+                    self.assertEqual(found.name, 'Gelano (#1)')
+
+
 class OneItemCountsOnceTests(TestCase):
     """An item gated behind alternative conditions ships as "(#1)" and "(#2)",
     and the exo variants do the same. The group was used to forbid and to lock,
@@ -6704,28 +6760,36 @@ class OneItemCountsOnceTests(TestCase):
                                   model.restrictions.or_item_count_constraints,
                                   '%s is not counted as one item' % name)
 
-    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
-    def test_a_set_ring_cannot_fill_both_slots_from_its_two_rows(self):
+    def test_a_set_ring_cannot_fill_both_ring_slots(self):
+        # It used to reach both slots through its two condition rows. There is
+        # one row now, and the solver may take a set ring only once, so the two
+        # ring slots can no longer both hold it.
         from fashionistapulp.structure import get_structure, set_current_game_version
+        from fashionistapulp.model import Model
         self.addCleanup(set_current_game_version, 'dofus3')
         set_current_game_version('dofus3')
         structure = get_structure('dofus3')
-        crocoring = structure.get_available_or_items().get('Crocoring')
-        self.assertTrue(crocoring and len(crocoring) == 2)
-        self.assertIsNotNone(crocoring[0].set, 'Crocoring stopped being a set ring')
-        locked = {'ring1': crocoring[0].id, 'ring2': crocoring[1].id}
-        self.assertEqual(self._solve(locked), 'Infeasible')
+        crocoring = structure.get_item_by_name('Crocoring')
+        self.assertIsNotNone(crocoring)
+        self.assertIsNotNone(crocoring.set, 'Crocoring stopped being a set ring')
+        rows = [item for item in structure.items_dict.values()
+                if item.ankama_id == crocoring.ankama_id]
+        self.assertEqual(len(rows), 1, 'Crocoring is split again: %s'
+                         % [item.name for item in rows])
+        model = Model()
+        self.assertEqual(
+            model.problem.pulp_vars['x_%d' % crocoring.id].upBound, 1)
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
-    def test_a_setless_ring_still_fills_both_slots(self):
+    def test_a_setless_ring_still_fills_both_ring_slots(self):
         from fashionistapulp.structure import get_structure, set_current_game_version
         self.addCleanup(set_current_game_version, 'dofus3')
         set_current_game_version('dofus3')
         structure = get_structure('dofus3')
-        band = structure.get_available_or_items().get('Awmigawd Band')
-        self.assertTrue(band and len(band) == 2)
-        self.assertIsNone(band[0].set, 'Awmigawd Band gained a set')
-        locked = {'ring1': band[0].id, 'ring2': band[1].id}
+        band = structure.get_item_by_name('Awmigawd Band')
+        self.assertIsNotNone(band)
+        self.assertIsNone(band.set, 'Awmigawd Band gained a set')
+        locked = {'ring1': band.id, 'ring2': band.id}
         self.assertEqual(self._solve(locked), 'Optimal')
 
 

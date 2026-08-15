@@ -60,6 +60,24 @@ lock = Lock()
 _structure_singletons = {}
 _current_game_version = threading.local()
 
+# The Gelano rows are synthesized, not scraped, and their ids used to be
+# max(item id) + 1. That moved every time the item set did, and a build saved
+# before the move lost its ring. Fixed ids, far above anything the scrapers
+# hand out (mounts sit at 1000000, the duplicates sat at 100000000 and the
+# Touch pet variants at 200000000).
+GELANO_IDS = {'Gelano (#1)': 990000001, 'Gelano (#2)': 990000011}
+
+# What max(item id) + 1 came out as in the data each version last shipped, so
+# the builds saved against it still find the ring. Anything older than that was
+# already lost to the same drift, which is what the fixed ids above end.
+GELANO_DEPLOYED_IDS = {
+    'dofus3': {200014167: 'Gelano (#1)'},
+    'beta': {200014167: 'Gelano (#1)'},
+    'dofus2': {1029457: 'Gelano (#1)'},
+    'touch': {200000228: 'Gelano (#1)', 200000226: 'Gelano (#1)'},
+    'retro': {10000087: 'Gelano (#1)'},
+}
+
 
 def get_structure(game_version=None):
     global _structure_singletons
@@ -95,6 +113,7 @@ class Structure:
     def __init__(self, game_version='dofus3'):
         self.game_version = game_version
         self._used_stat_keys = None
+        self.legacy_item_ids = {}
         self.conn = sqlite3.connect(get_items_db_path(game_version))
     
         self.read_sets_table()
@@ -107,6 +126,7 @@ class Structure:
         self.read_min_stat_to_equip_table()
         self.read_max_stat_to_equip_table()
         self.read_or_conditions_table()
+        self.read_legacy_item_ids_table()
         self.read_weird_conditions_table()
         self.read_extra_lines_table()
         self.read_spell_tooltips_table()
@@ -322,6 +342,8 @@ class Structure:
                 item.stats.append((stat_id, value))   
                 
     def insert_gelanos(self):
+        for old_id, name in GELANO_DEPLOYED_IDS.get(self.game_version, {}).items():
+            self.legacy_item_ids.setdefault(old_id, GELANO_IDS[name])
         if not self.get_set_by_name('Jellix Set', True):
             new_set = Set()
             new_set.name = 'Jellix Set'
@@ -345,10 +367,7 @@ class Structure:
         if "Gelano (#1)" not in self.items_dict_name:
             logger.debug('Gelano (#1) not there, inserting')
             item = Item()
-            if self.items_dict.keys():
-                item.id = max(self.items_dict.keys()) + 1
-            else:
-                item.id = 1
+            item.id = GELANO_IDS['Gelano (#1)']
             item.name = "Gelano (#1)"
             item.level = 60
             item.type = self.get_type_id_by_name('Ring')
@@ -365,10 +384,7 @@ class Structure:
         if "Gelano (#1)" not in self.dt_items_dict_name:
             logger.debug('Gelano (#1) not there (dofus touch), inserting')
             item = Item()
-            if self.dt_items_dict.keys():
-                item.id = max(self.dt_items_dict.keys()) + 1
-            else:
-                item.id = 1
+            item.id = GELANO_IDS['Gelano (#1)'] + 1
             item.name = "Gelano (#1)"
             item.level = 60
             item.dofus_touch = True
@@ -386,10 +402,7 @@ class Structure:
         if "Gelano (#2)" not in self.items_dict_name:
             logger.debug('Gelano (#2) not there, inserting')
             item = Item()
-            if self.items_dict.keys():
-                item.id = max(self.items_dict.keys()) + 1
-            else:
-                item.id = 1
+            item.id = GELANO_IDS['Gelano (#2)']
             item.name = "Gelano (#2)"
             item.level = 60
             item.type = self.get_type_id_by_name('Ring')
@@ -404,7 +417,7 @@ class Structure:
         if "Gelano (#2)" not in self.dt_items_dict_name:
             logger.debug('Gelano (#2) not there (dofus touch), inserting')
             item = Item()
-            item.id = max(self.dt_items_dict.keys()) + 1
+            item.id = GELANO_IDS['Gelano (#2)'] + 1
             item.name = "Gelano (#2)"
             item.level = 60
             item.dofus_touch = True
@@ -434,6 +447,15 @@ class Structure:
             value = entry[2]
             item = self.get_item_by_id(item_id)
             item.max_stats_to_equip.append((stat_id, value))
+
+    def read_legacy_item_ids_table(self):
+        self.legacy_item_ids = {}
+        if not self._table_exists('legacy_item_ids'):
+            return
+        c = self.conn.cursor()
+        for old_id, item_id in c.execute(
+                'SELECT old_id, item FROM legacy_item_ids'):
+            self.legacy_item_ids[old_id] = item_id
 
     def read_or_conditions_table(self):
         c = self.conn.cursor()
@@ -1039,8 +1061,14 @@ class Structure:
     def get_item_by_id(self, item_id):
         if item_id in self.dt_items_dict:
             return self.dt_items_dict.get(item_id)
-        else:
-            return self.items_dict.get(item_id, None)
+        found = self.items_dict.get(item_id, None)
+        if found is None:
+            # A build saved when an item's branches were separate rows stored
+            # the row it was solved with; that row is one item again now.
+            moved = self.legacy_item_ids.get(item_id)
+            if moved is not None:
+                return self.items_dict.get(moved, None)
+        return found
 
     def get_item_by_ankama_id(self, ankama_id, dofus_touch=False):
         if dofus_touch:
