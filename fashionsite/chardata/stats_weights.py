@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import pickle
+from chardata.char_blobs import read_char_blob
 
 from chardata.smart_build import get_standard_weights
 from chardata.util import remove_cache_for_char
@@ -24,10 +25,7 @@ from fashionistapulp.structure import get_structure
 
 def get_stats_weights(char, persist=True):
     """persist=False for read-only callers: filling in the defaults re-saves the char."""
-    weights = {}
-    
-    if char.stats_weight:
-        weights = pickle.loads(char.stats_weight)
+    weights = read_char_blob(char.stats_weight, {}, 'stats_weight', char)
         
     # Fill in 0 for all stats that exist but have no weight, or a default value
     # from smart_build if it's in STATS_TO_FILL_DEFAULT.

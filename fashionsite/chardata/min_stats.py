@@ -15,15 +15,12 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import pickle
+from chardata.char_blobs import read_char_blob
 from fashionistapulp.dofus_constants import get_stat_maximum
 from fashionistapulp.structure import get_structure
 
 def get_min_stats(char):
-    mins = {}
-    if char.minimum_stats:
-        mins = pickle.loads(char.minimum_stats)
-        
-    return mins
+    return read_char_blob(char.minimum_stats, {}, 'minimum_stats', char)
 
 def convert_dict_index_name_to_key(mins):
     s = get_structure()

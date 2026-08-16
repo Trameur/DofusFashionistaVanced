@@ -15,6 +15,7 @@ same merged overrides must be used when rendering the solution, so the
 displayed items carry the rolls the solver optimized with."""
 
 import pickle
+from chardata.char_blobs import read_char_blob
 
 from chardata.lock_forbid import get_inclusions_dict, get_stat_overrides
 from fashionistapulp.structure import get_structure
@@ -34,7 +35,7 @@ def get_inventory_mode(options):
 def get_inventory_solver_settings(char):
     """('all'|'mixed'|'only', folder) for this project. The folder must still
     belong to the project owner and match the project's game version."""
-    options = pickle.loads(char.options) if char.options else {}
+    options = read_char_blob(char.options, {}, 'options', char)
     mode = get_inventory_mode(options)
     if mode == 'all':
         return 'all', None

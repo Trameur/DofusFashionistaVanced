@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 from django.utils.translation import gettext_lazy
 from itertools import product, combinations
 import pickle
+from chardata.char_blobs import read_char_blob
 
 from chardata.options import get_options, set_options
 from fashionistapulp.dofus_constants import DAMAGE_TYPES, STAT_KEY_TO_NAME, MAIN_STATS
@@ -1143,10 +1144,7 @@ def get_elements(aspects):
     return elements
 
 def get_char_aspects(char):
-    aspects = set()
-    if char.aspects:
-        aspects = pickle.loads(char.aspects)
-    return aspects
+    return read_char_blob(char.aspects, set(), 'aspects', char)
     
 def set_char_aspects(char, aspects, reset, set_minimums=True):
     char.aspects = pickle.dumps(aspects)

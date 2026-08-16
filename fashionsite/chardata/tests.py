@@ -3048,6 +3048,57 @@ class WizardSlidersRoundTripTests(SimpleTestCase):
                                  'slider %r: set %s, got back %s' % (key, value, got))
 
 
+class UnreadableCharBlobTests(TestCase):
+    """A Char keeps eight pickled columns of objects that have been renamed and
+    moved over the years. One that no longer reads back used to raise out of
+    whatever page touched it: a single shared build with an unreadable
+    minimum_stats answered 500 for every visitor of the public gallery, not
+    just for itself."""
+
+    COLUMNS = ('minimum_stats', 'stats_weight', 'options', 'inclusions',
+               'exclusions', 'aspects', 'empty_slots', 'stat_overrides')
+
+    def _solved_shared_build(self, name):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from chardata.coaching_view import create_build
+        owner = User.objects.create_user(name.lower(), '%s@t.local' % name.lower(),
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 50, {'str'}, 'dofus3')
+        char.name = char.char_name = name
+        char.save()
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        char.link_shared = True
+        char.save()
+        self.client.logout()
+        return char
+
+    def test_no_single_unreadable_column_takes_a_page_down(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution_view import shared_build_path
+        for column in self.COLUMNS:
+            char = self._solved_shared_build('Sonde' + column.replace('_', ''))
+            setattr(char, column, b'not-a-pickle')
+            char.save()
+            with self.subTest(column=column):
+                self.assertEqual(200, self.client.get('/sharedbuilds/').status_code)
+                self.assertEqual(200,
+                                 self.client.get(shared_build_path(char)).status_code)
+
+    def test_a_reader_falls_back_to_the_empty_value(self):
+        from chardata.char_blobs import read_char_blob
+        self.assertEqual({}, read_char_blob(b'not-a-pickle', {}, 'minimum_stats'))
+        self.assertEqual([], read_char_blob(b'not-a-pickle', [], 'exclusions'))
+        self.assertEqual({}, read_char_blob(b'', {}, 'options'))
+        self.assertEqual({'ap': 12}, read_char_blob(
+            __import__('pickle').dumps({'ap': 12}), {}, 'minimum_stats'))
+
+
 class SharedBuildsHideInvalidTests(TestCase):
     """What the gallery offers has to open. A build whose stored solution
     cannot be read has no page at all: its /s/ url raised straight out of

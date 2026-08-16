@@ -17,6 +17,7 @@
 from chardata.lock_forbid import get_all_exclusions_en_names
 
 import pickle
+from chardata.char_blobs import read_char_blob
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 from fashionistapulp.structure import get_structure
@@ -157,10 +158,10 @@ def get_available_options(structure=None):
 
 
 def get_options(char):
-    options = {}
-    
+    options = read_char_blob(char.options, {}, 'options', char)
+    # keyed on the stored column, not on what it read back: a char whose
+    # options blob is unreadable still needs these four defaults.
     if char.options:
-        options = pickle.loads(char.options)
         options['dragoturkey'] = options.get('dragoturkey', True)
         options['seemyool'] = options.get('seemyool', True)
         options['rhineetle'] = options.get('rhineetle', True)

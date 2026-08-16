@@ -16,6 +16,7 @@
 
 import logging
 import pickle
+from chardata.char_blobs import read_char_blob
 
 from fashionistapulp.dofus_constants import SLOTS
 from fashionistapulp.structure import get_structure
@@ -483,10 +484,7 @@ def get_all_inclusions_en_names(char):
             for key, value in list(item_dict.items())}
 
 def get_inclusions_dict(char):
-    inclusions = {}
-    if char.inclusions:
-        inclusions = pickle.loads(char.inclusions)
-    return inclusions
+    return read_char_blob(char.inclusions, {}, 'inclusions', char)
 
 def set_exclusions_list_by_name(char, excluded_items):
     s = get_structure()
@@ -604,10 +602,7 @@ def _save_exclusion_list(char, excluded_items):
     char.save()
 
 def _get_all_exclusions(char):
-    exclusions = []
-    if char.exclusions:
-        exclusions = pickle.loads(char.exclusions)
-    return exclusions
+    return read_char_blob(char.exclusions, [], 'exclusions', char)
 
 def add_items_to_exclusions(char, item_ids):
     exclusions = get_all_exclusions_ids(char)
@@ -634,9 +629,7 @@ def remove_items_from_exclusions(char, item_ids):
         _save_exclusion_list(char, exclusions)
 
 def get_empty_slots(char):
-    if char.empty_slots:
-        return pickle.loads(char.empty_slots)
-    return []
+    return read_char_blob(char.empty_slots, [], 'empty_slots', char)
 
 def set_empty_slot(char, slot, is_empty):
     empty = get_empty_slots(char)
@@ -650,9 +643,7 @@ def set_empty_slot(char, slot, is_empty):
     char.save()
 
 def get_stat_overrides(char):
-    if char.stat_overrides:
-        return pickle.loads(char.stat_overrides)
-    return {}
+    return read_char_blob(char.stat_overrides, {}, 'stat_overrides', char)
 
 def set_item_stat_override(char, item_id, stat_id, value):
     overrides = get_stat_overrides(char)
