@@ -3049,8 +3049,11 @@ class WizardSlidersRoundTripTests(SimpleTestCase):
 
 
 class SharedBuildsHideInvalidTests(TestCase):
-    """The hide_invalid filter drops builds whose stored solution no longer
-    unpickles."""
+    """What the gallery offers has to open. A build whose stored solution
+    cannot be read has no page at all: its /s/ url raised straight out of
+    pickle, a 500 on a public link nobody could fix. The reader's "hide invalid
+    or outdated" checkbox is a different thing, it hides builds that render
+    fine but no longer respect a condition."""
 
     def _make_build(self, name, blob):
         from django.contrib.auth.models import User
@@ -3065,16 +3068,58 @@ class SharedBuildsHideInvalidTests(TestCase):
             minimal_solution=blob,
             owner=owner, link_shared=True, game_version='dofus3')
 
-    def test_hide_invalid_drops_corrupt_builds_only(self):
-        self._make_build('ValidementVisible', b'')
-        self._make_build('CorrompuCache', b'not-a-pickle')
-        resp = self.client.get('/sharedbuilds/?hide_invalid=1')
-        self.assertEqual(resp.status_code, 200)
-        self.assertContains(resp, 'ValidementVisible')
-        self.assertNotContains(resp, 'CorrompuCache')
-        resp = self.client.get('/sharedbuilds/')
-        self.assertContains(resp, 'ValidementVisible')
-        self.assertContains(resp, 'CorrompuCache')
+    def _solved_shared_build(self, name):
+        """A real solved build: nothing short of one renders a /s/ page."""
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from chardata.coaching_view import create_build
+        owner = User.objects.create_user(name.lower(), '%s@t.local' % name.lower(),
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 50, {'str'}, 'dofus3')
+        char.name = name
+        char.char_name = name
+        char.save()
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        char.link_shared = True
+        char.save()
+        self.client.logout()
+        return char
+
+    def test_a_build_with_no_readable_solution_is_never_listed(self):
+        self._make_build('SansSolutionDuTout', b'')
+        self._make_build('CorrompuDansLaListe', b'not-a-pickle')
+        for query in ('', '?hide_invalid=1'):
+            with self.subTest(query=query):
+                body = self.client.get('/sharedbuilds/' + query)
+                self.assertNotContains(body, 'SansSolutionDuTout')
+                self.assertNotContains(body, 'CorrompuDansLaListe')
+
+    def test_a_corrupt_build_answers_404_not_500(self):
+        # pickle.loads used to raise straight out of the public page.
+        from chardata.solution_view import shared_build_path
+        char = self._make_build('CorrompuPublic', b'not-a-pickle')
+        self.assertEqual(404, self.client.get(shared_build_path(char)).status_code)
+
+    def test_every_build_the_list_links_to_opens(self):
+        import re
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        self._solved_shared_build('StuffQuiSOuvre')
+        self._make_build('SansSolutionDuTout', b'')
+        self._make_build('CorrompuDansLaListe', b'not-a-pickle')
+        body = self.client.get('/sharedbuilds/').content.decode('utf-8')
+        self.assertIn('StuffQuiSOuvre', body)
+        paths = set(re.findall(r'href="([^"]*/s/[^"]+)"', body))
+        self.assertTrue(paths, 'the list shows no shared build at all')
+        for path in paths:
+            if not path.startswith('/'):
+                path = '/' + path.split('/', 3)[-1]
+            with self.subTest(path=path):
+                self.assertEqual(200, self.client.get(path).status_code)
 
 
 class SharedBuildMetaVersionTests(TestCase):

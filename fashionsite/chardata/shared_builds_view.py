@@ -139,6 +139,10 @@ def _get_shared_build_meta(char):
         'has_condition_issues': False,
         'has_missing_items': False,
         'is_invalid': False,
+        # is_invalid also covers a build that renders fine but breaks a
+        # condition: that is the reader's checkbox. This one means the page
+        # itself cannot exist, so the list must not link to it at all.
+        'cannot_render': False,
         'public_score': 0,
         'preview_items': [],
         'compact_stats': [],
@@ -160,6 +164,7 @@ def _get_shared_build_meta(char):
         except Exception:
             meta['has_outdated_slots'] = True
             meta['is_invalid'] = True
+            meta['cannot_render'] = True
             cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
             return meta
 
@@ -193,6 +198,7 @@ def _get_shared_build_meta(char):
             meta['has_condition_issues'] = True
 
         if solution is None:
+            meta['cannot_render'] = True
             meta['is_invalid'] = (
                 meta['has_outdated_slots'] or meta['has_condition_issues'])
             cache.set(cache_key, meta, SHARED_BUILD_META_CACHE_TIMEOUT)
@@ -304,13 +310,17 @@ def shared_builds(request):
     )
 
     base_filter = dict(link_shared=True, deleted=False, game_version=game_version)
+    # A build whose solution was never stored 404s on its own /s/ page, so
+    # listing it here hands the visitor a dead link. The sitemap skips them
+    # already, with the same exclude.
+    shared = Char.objects.filter(**base_filter).exclude(minimal_solution=b'')
     if needs_vote_annotation:
-        builds = Char.objects.filter(**base_filter).select_related('owner').annotate(
+        builds = shared.select_related('owner').annotate(
             like_count=Count(Case(When(buildvote__vote_type='like', then=1), output_field=IntegerField())),
             favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1), output_field=IntegerField()))
         )
     else:
-        builds = Char.objects.filter(**base_filter).select_related('owner')
+        builds = shared.select_related('owner')
     
     # Apply filters
     if char_class:
@@ -507,6 +517,10 @@ def shared_builds(request):
             comment_counts[row['build_id']] = row['cnt']
 
     for char in page_chars:
+        # A build whose stored solution cannot be read has no page to link to.
+        # The meta for this page is computed either way, so this costs nothing.
+        if meta_by_id.get(char.id, {}).get('cannot_render'):
+            continue
         encoded_id = encode_char_id(int(char.id))
         char_name = char.char_name or 'shared'
         link = request.build_absolute_uri(version_reverse(request, 'solution_linked',
@@ -566,7 +580,10 @@ def shared_builds(request):
             build['user_favorited'] = build['char'].id in user_favorites
     
     # Get all unique classes for filter dropdown (same game version)
-    all_classes = Char.objects.filter(link_shared=True, deleted=False, game_version=game_version).values_list('char_class', flat=True).distinct().order_by('char_class')
+    all_classes = (Char.objects
+                   .filter(link_shared=True, deleted=False, game_version=game_version)
+                   .exclude(minimal_solution=b'')
+                   .values_list('char_class', flat=True).distinct().order_by('char_class'))
     
     # Prepare aspect names and layout for checkboxes (same as projdetails.html)
     aspect_to_name = {k: str(v) for k, v in ASPECT_TO_NAME.items()}

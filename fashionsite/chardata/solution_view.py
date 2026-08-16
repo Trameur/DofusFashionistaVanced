@@ -617,8 +617,17 @@ def solution_linked(request, char_name, encoded_char_id):
     char = get_char_encoded_or_raise(encoded_char_id)
     if char.game_version != getattr(request, 'game_version', 'dofus3'):
         raise Http404
-    # A shared build whose solution was never stored cannot render this page.
-    if get_solution(char) is None:
+    # A shared build whose solution was never stored cannot render this page,
+    # and one whose stored solution no longer reads back raised straight out of
+    # pickle: a public url answering 500 on a build nobody can fix.
+    try:
+        if get_solution(char) is None:
+            raise Http404
+    except Http404:
+        raise
+    except Exception:
+        logger.warning('shared build %s has an unreadable solution', char.id,
+                       exc_info=True)
         raise Http404
 
     # Increment view count only once per IP per 24 hours
