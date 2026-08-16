@@ -8392,6 +8392,43 @@ class NoEmDashInGuidesTests(SimpleTestCase):
             'em/en dash in rendered sources (use ., :, &middot; or |): %s' % offenders)
 
 
+class GuideBodyLinksKeepTheVersionTests(TestCase):
+    """A guide body is written with plain paths, "/setup/". Read under Retro or
+    Touch, every one of them dropped the reader back into Dofus 3 without a
+    word: the tool page for another game, from a guide about theirs."""
+
+    def test_a_body_link_carries_the_version(self):
+        from chardata.guides_view import add_version_prefix
+        self.assertEqual('<a href="/retro/setup/">x</a>',
+                         add_version_prefix('<a href="/setup/">x</a>', 'retro'))
+        self.assertEqual('<a href="/beta/guides/critical-hits/">x</a>',
+                         add_version_prefix('<a href="/guides/critical-hits/">x</a>',
+                                            'beta'))
+
+    def test_it_leaves_alone_what_it_should(self):
+        from chardata.guides_view import add_version_prefix
+        for html, version in (('<a href="/touch/forgemagie/">x</a>', 'touch'),
+                              ('<a href="/setup/">x</a>', 'dofus3'),
+                              ('<a href="https://www.ankama.com/">x</a>', 'retro'),
+                              ('<a href="/static/a.png">x</a>', 'retro')):
+            with self.subTest(html=html, version=version):
+                self.assertEqual(html, add_version_prefix(html, version))
+
+    def test_the_pages_serve_links_that_stay_in_the_version(self):
+        import re
+        from chardata.guides_content import ordered_slugs
+        for version in ('retro', 'touch'):
+            for slug in ordered_slugs()[:6]:
+                response = self.client.get('/%s/guides/%s/' % (version, slug))
+                body = response.content.decode('utf-8')
+                article = body.split('<article', 1)[-1].split('</article>', 1)[0]
+                strays = [href for href in re.findall(r'href="(/[^"]*)"', article)
+                          if not href.startswith('/%s/' % version)
+                          and not href.startswith('/static')]
+                with self.subTest(version=version, guide=slug):
+                    self.assertEqual([], strays)
+
+
 class GuideMetaDescriptionLengthTests(SimpleTestCase):
     """Each guide 'desc' is the meta description; past ~160 characters Google
     truncates it in the search snippet."""

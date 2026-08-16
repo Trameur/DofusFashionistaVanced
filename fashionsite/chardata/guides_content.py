@@ -7,7 +7,7 @@ URLs so the version namespace does not matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'inventory-and-your-own-rolls',
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'pets-mounts-and-shields', 'inventory-and-your-own-rolls',
          'best-turn-damage', 'transcendence-runes',
          'versions-explained']
 
@@ -3905,6 +3905,369 @@ GUIDES = {
 
 <p><em>Leg einen Ordner auf der <a href="/inventory/">Inventarseite</a> an und wähl dann einen Modus in den Projektoptionen. Neu hier? <a href="/setup/">Rechne zuerst einen Build.</a></em></p>
 ''',
+            },
+        },
+    },
+
+    # ------------------------------------------------------------------ #
+    # The pet slot works differently per version: modern Dofus ships the pet's
+    # bonus in its own data, while Touch and Retro pets are fed up to a cap the
+    # data does not carry, so the tool lists the fed pet as its own entry.
+    # Retro has no mount in the slot at all, and its shields are PvP only.
+    'pets-mounts-and-shields': {
+        'published': '2026-08-16',
+        'version_groups': {'touch': 'touch', 'retro': 'retro'},
+        'i18n_by_group': {
+            'modern': {
+                'en': {
+                    'title': 'Pets, mounts and shields: the slots people leave empty',
+                    'desc': "The pet slot and the shield slot are free stats most builds waste. What each one gives in modern Dofus, and how to tell the optimizer what you own.",
+                    'lead': "Two slots decide more than players think, and both are usually left to whatever was lying around. Here is what the pet slot and the shield slot are worth.",
+                    'body': '''
+<h2>Three things, two slots</h2>
+<p>A pet, a mount and a shield are not decoration. The pet slot holds either a pet or a mount, never both, and the shield slot holds a shield. Between them they carry as much as a good ring, and they are the two slots people fill last, with whatever they happened to have. An optimizer notices immediately: give it the whole roster and it will often hand you a build you did not expect.</p>
+
+<h2>Pets carry their bonus in the game's own data</h2>
+<p>In Dofus 3, the beta and Dofus 2, each pet's bonus is written in the game data, so the Fashionista reads it directly: a Bow Meow shows its Power and Dodge, a Bow Wow its Wisdom, and the optimizer treats them like any other item. The catch is on your side, not the tool's: a pet only gives those numbers while it is looked after. The build assumes a pet in good shape.</p>
+
+<h2>Mounts share the pet slot</h2>
+<p>A mount is not a separate slot: it goes where the pet goes, so every mount you consider is a pet you give up. Most of the pet-slot roster is mounts, and their stats can be significant, which is exactly why the choice deserves a moment rather than a habit.</p>
+<p>You almost certainly do not own all of them, so the Fashionista lets you switch off the families you cannot ride: Dragoturkey, Seemyool and Rhineetle each have their own toggle in the project options. Turn off what you do not have and the solution becomes something you can actually equip today.</p>
+
+<h2>Shields are a real slot</h2>
+<p>Shields are ordinary equipment here: they carry resistance, sometimes vitality or damage, and the optimizer weighs them against everything else. There is a single switch to include or exclude them, which is useful when you are building for a mode where you would rather not spend the slot.</p>
+
+<h2>Getting it right in the tool</h2>
+<p>Start by telling the truth about what you own: switch off the mount families you do not have, and decide whether shields are in. Then let the optimizer choose. If a pet or a mount surprises you, open its page and read what it actually gives before you dismiss it.</p>
+
+<p><em>Not sure what your pet slot is worth? <a href="/setup/">Let the optimizer decide.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': "Familiers, montures et boucliers : les emplacements qu'on laisse vides",
+                    'desc': "L'emplacement familier et le bouclier sont des stats gratuites que la plupart des builds gaspillent. Ce qu'ils valent, et comment les régler.",
+                    'lead': "Deux emplacements pèsent plus lourd qu'on ne croit, et les deux sont bouclés avec ce qui traînait. Voilà ce que valent vraiment le familier et le bouclier.",
+                    'body': '''
+<h2>Trois objets, deux emplacements</h2>
+<p>Un familier, une monture et un bouclier, ce n'est pas de la décoration. L'emplacement familier accueille soit un familier soit une monture, jamais les deux, et l'emplacement bouclier accueille un bouclier. À eux deux, ils portent autant qu'un bon anneau, et ce sont les deux emplacements qu'on remplit en dernier, avec ce qu'on avait sous la main. Un optimiseur, lui, le voit tout de suite : donne-lui la liste complète et il te sortira souvent un build auquel tu ne pensais pas.</p>
+
+<h2>Les familiers portent leur bonus dans les données du jeu</h2>
+<p>Sur Dofus 3, la beta et Dofus 2, le bonus de chaque familier est écrit dans les données du jeu : la Fashionista le lit directement. Un Chacha affiche sa Puissance et sa Fuite, un Chienchien sa Sagesse, et l'optimiseur les traite comme n'importe quel autre objet. Le piège est de ton côté, pas du sien : un familier ne donne ces chiffres que s'il est entretenu. Le build suppose un familier en forme.</p>
+
+<h2>La monture prend la place du familier</h2>
+<p>Une monture n'est pas un emplacement à part : elle va là où va le familier, donc chaque monture envisagée est un familier auquel tu renonces. La majorité des objets de cet emplacement sont des montures, et leurs stats ne sont pas anecdotiques : la question mérite une minute de réflexion plutôt qu'une habitude.</p>
+<p>Tu ne les possèdes sûrement pas toutes, alors la Fashionista te laisse couper les familles que tu ne peux pas monter : dinde, seemyool et rhineetle ont chacun leur case dans les options du projet. Décoche ce que tu n'as pas, et la solution devient quelque chose que tu peux réellement équiper aujourd'hui.</p>
+
+<h2>Le bouclier est un vrai emplacement</h2>
+<p>Ici, les boucliers sont de l'équipement comme un autre : ils apportent de la résistance, parfois de la vitalité ou des dommages, et l'optimiseur les met en concurrence avec le reste. Une seule case les inclut ou les exclut, ce qui est pratique quand tu prépares un mode où tu préfères garder l'emplacement libre.</p>
+
+<h2>Le régler correctement dans l'outil</h2>
+<p>Commence par dire la vérité sur ce que tu possèdes : coupe les familles de montures que tu n'as pas, et tranche sur les boucliers. Ensuite, laisse l'optimiseur choisir. Si un familier ou une monture te surprend, ouvre sa page et lis ce qu'il donne vraiment avant de l'écarter.</p>
+
+<p><em>Tu ne sais pas ce que vaut ton emplacement familier ? <a href="/setup/">Laisse l'optimiseur trancher.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Mascotas, monturas y escudos: las casillas que se dejan vacías',
+                    'desc': 'La casilla de mascota y la de escudo son estadísticas gratis que casi todos desperdician. Qué valen en el Dofus moderno y cómo ajustarlas.',
+                    'lead': 'Dos casillas pesan más de lo que parece, y las dos suelen rellenarse con lo primero que había. Esto es lo que valen de verdad la mascota y el escudo.',
+                    'body': '''
+<h2>Tres cosas, dos casillas</h2>
+<p>Una mascota, una montura y un escudo no son adorno. La casilla de mascota admite una mascota o una montura, nunca las dos, y la de escudo admite un escudo. Entre las dos cargan tanto como un buen anillo, y son las últimas que se rellenan, con lo que uno tenía a mano. El optimizador lo nota enseguida: dale la lista completa y muchas veces te devolverá un equipo que no esperabas.</p>
+
+<h2>Las mascotas llevan su bonus en los datos del juego</h2>
+<p>En Dofus 3, la beta y Dofus 2, el bonus de cada mascota está escrito en los datos del juego, así que la Fashionista lo lee directamente: un Miaumiau muestra su Potencia y su Huida, un Wauwau su Sabiduría, y el optimizador los trata como a cualquier otro objeto. La trampa está de tu lado, no del suyo: una mascota solo da esas cifras mientras la cuidas. El equipo da por hecho una mascota en forma.</p>
+
+<h2>La montura ocupa la casilla de la mascota</h2>
+<p>Una montura no es una casilla aparte: va donde va la mascota, así que cada montura que consideras es una mascota a la que renuncias. La mayor parte de esa casilla son monturas, y sus estadísticas no son menores, justo por eso la elección merece un minuto y no una costumbre.</p>
+<p>Seguramente no las tienes todas, así que la Fashionista te deja apagar las familias que no puedes montar: dragopavo, seemyool y rinescarabajo tienen su propia casilla en las opciones del proyecto. Desmarca lo que no tengas y la solución pasa a ser algo que puedes equipar hoy mismo.</p>
+
+<h2>El escudo es una casilla de verdad</h2>
+<p>Aquí los escudos son equipo normal: aportan resistencia, a veces vitalidad o daño, y el optimizador los compara con todo lo demás. Una sola casilla los incluye o los excluye, lo que viene bien cuando preparas un modo en el que prefieres no gastar ese hueco.</p>
+
+<h2>Ajustarlo bien en la herramienta</h2>
+<p>Empieza por decir la verdad sobre lo que tienes: apaga las familias de monturas que te falten y decide si entran los escudos. Luego deja elegir al optimizador. Si una mascota o una montura te sorprende, abre su página y lee lo que da de verdad antes de descartarla.</p>
+
+<p><em>¿No sabes cuánto vale tu casilla de mascota? <a href="/setup/">Deja que el optimizador decida.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Mascotes, montarias e escudos: os espaços que ficam vazios',
+                    'desc': 'O espaço de mascote e o de escudo são atributos de graça que quase toda build desperdiça. O que valem no Dofus moderno e como ajustá-los.',
+                    'lead': 'Dois espaços pesam mais do que parece, e os dois costumam ser preenchidos com o que estava sobrando. Veja o que valem de verdade a mascote e o escudo.',
+                    'body': '''
+<h2>Três coisas, dois espaços</h2>
+<p>Mascote, montaria e escudo não são enfeite. O espaço de mascote aceita uma mascote ou uma montaria, nunca as duas, e o de escudo aceita um escudo. Juntos, carregam tanto quanto um bom anel, e são os dois espaços que a gente preenche por último, com o que tinha à mão. O otimizador percebe na hora: dê a lista inteira a ele e muitas vezes você recebe uma build que não esperava.</p>
+
+<h2>As mascotes trazem o bônus nos dados do próprio jogo</h2>
+<p>No Dofus 3, na beta e no Dofus 2, o bônus de cada mascote está escrito nos dados do jogo, então a Fashionista lê direto: um Miaw mostra sua Potência e sua Fuga, um Awaw sua Sabedoria, e o otimizador os trata como qualquer outro item. A pegadinha é do seu lado, não do dele: a mascote só dá esses números enquanto é cuidada. A build pressupõe uma mascote em dia.</p>
+
+<h2>A montaria ocupa o espaço da mascote</h2>
+<p>Montaria não é um espaço separado: ela vai onde a mascote iria, então cada montaria considerada é uma mascote abandonada. A maior parte desse espaço é de montarias, e os atributos delas não são pouca coisa, e é exatamente por isso que a escolha merece um minuto em vez de virar hábito.</p>
+<p>Você provavelmente não tem todas, então a Fashionista deixa desligar as famílias que você não monta: dragoperu, seemyool e rinesouro têm cada um sua caixa nas opções do projeto. Desmarque o que não tem e a solução vira algo que dá para equipar hoje.</p>
+
+<h2>Escudo é um espaço de verdade</h2>
+<p>Aqui os escudos são equipamento comum: dão resistência, às vezes vitalidade ou dano, e o otimizador os compara com o resto. Uma única caixa os inclui ou exclui, o que ajuda quando você monta para um modo em que prefere não gastar o espaço.</p>
+
+<h2>Acertando isso na ferramenta</h2>
+<p>Comece dizendo a verdade sobre o que você tem: desligue as famílias de montaria que faltam e decida se os escudos entram. Depois deixe o otimizador escolher. Se uma mascote ou uma montaria surpreender você, abra a página dela e leia o que ela dá de verdade antes de descartar.</p>
+
+<p><em>Não sabe quanto vale seu espaço de mascote? <a href="/setup/">Deixe o otimizador decidir.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Begleiter, Reittiere und Schilde: die Plätze, die leer bleiben',
+                    'desc': 'Begleiterplatz und Schildplatz sind geschenkte Werte, die die meisten Builds verschenken. Was sie bringen und wie du sie einstellst.',
+                    'lead': 'Zwei Plätze wiegen schwerer als gedacht, und beide werden meist mit dem gefüllt, was gerade herumlag. Das ist ihr echter Wert.',
+                    'body': '''
+<h2>Drei Dinge, zwei Plätze</h2>
+<p>Begleiter, Reittier und Schild sind keine Deko. Auf den Begleiterplatz passt entweder ein Begleiter oder ein Reittier, nie beides, und auf den Schildplatz ein Schild. Zusammen tragen sie so viel wie ein guter Ring, und sie sind die beiden Plätze, die man zuletzt füllt, mit dem, was da war. Ein Optimierer merkt das sofort: Gib ihm die vollständige Auswahl, und du bekommst oft einen Build, mit dem du nicht gerechnet hast.</p>
+
+<h2>Begleiter tragen ihren Bonus in den Spieldaten selbst</h2>
+<p>In Dofus 3, der Beta und Dofus 2 steht der Bonus jedes Begleiters in den Spieldaten, die Fashionista liest ihn also direkt: Ein Maunzmiez zeigt seine Leistung und sein Ausweichen, ein SchnuffWuff seine Weisheit, und der Optimierer behandelt sie wie jedes andere Teil. Der Haken liegt bei dir, nicht beim Werkzeug: Ein Begleiter liefert diese Zahlen nur, solange er versorgt wird. Der Build setzt einen gesunden Begleiter voraus.</p>
+
+<h2>Das Reittier belegt den Begleiterplatz</h2>
+<p>Ein Reittier ist kein eigener Platz: Es sitzt dort, wo der Begleiter säße. Jedes Reittier, das du erwägst, ist also ein Begleiter, auf den du verzichtest. Der größte Teil dieses Platzes besteht aus Reittieren, und ihre Werte sind alles andere als nebensächlich, genau deshalb verdient die Wahl eine Minute statt einer Gewohnheit.</p>
+<p>Du besitzt sicher nicht alle, deshalb kannst du in der Fashionista die Familien abschalten, die du nicht reiten kannst: Dragotruthahn, Seemyool und Rhinokäfer haben je ein eigenes Kästchen in den Projektoptionen. Schalte ab, was dir fehlt, und die Lösung wird zu etwas, das du heute anlegen kannst.</p>
+
+<h2>Der Schild ist ein echter Platz</h2>
+<p>Schilde sind hier ganz normale Ausrüstung: Sie bringen Widerstand, manchmal Lebenspunkte oder Schaden, und der Optimierer wägt sie gegen alles andere ab. Ein einziges Kästchen nimmt sie hinein oder heraus, praktisch, wenn du für einen Modus baust, in dem du den Platz lieber sparst.</p>
+
+<h2>Im Werkzeug richtig einstellen</h2>
+<p>Sag zuerst ehrlich, was du besitzt: Schalte die Reittierfamilien ab, die dir fehlen, und entscheide über die Schilde. Dann lass den Optimierer wählen. Überrascht dich ein Begleiter oder ein Reittier, öffne seine Seite und lies, was er wirklich gibt, bevor du ihn verwirfst.</p>
+
+<p><em>Unklar, was dein Begleiterplatz wert ist? <a href="/setup/">Lass den Optimierer entscheiden.</a></em></p>
+''',
+                },
+            },
+            'touch': {
+                'en': {
+                    'title': 'Pets, mounts and shields on Dofus Touch: the slots people leave empty',
+                    'desc': "On Touch a pet is worth what you feed it, and the fed pet is its own entry. What the pet and shield slots are really worth, and how to set them.",
+                    'lead': "On Touch the pet slot is not what the item list first suggests: a fed pet is a different item from the one you tame. Here is how to use that.",
+                    'body': '''
+<h2>Three things, two slots</h2>
+<p>A pet, a mount and a shield are not decoration. The pet slot holds either a pet or a mount, never both, and the shield slot holds a shield. Between them they carry as much as a good ring, and they are the two slots people fill last, with whatever they happened to have.</p>
+
+<h2>A Touch pet is worth what you feed it</h2>
+<p>This is the part that catches people out. On Touch the backend carries no bonus for a feeding pet: the values a pet can reach come from the official encyclopedia, which publishes the maximum effects under hormone. So the Fashionista lists the fed pet as an item of its own, with the number in its name, like "Bow Meow (+110 Strength)" or "Bontarian Tofu (+2100 Initiative)". The catalogue holds 228 of those maxed entries across 116 pets.</p>
+<p>Read them for what they are: a target, not a purchase. The optimizer proposing "Wabbit (+110 Agility)" means the build wants an Agility Wabbit fed all the way, not that you can buy one at that value. If the feeding is not something you will do, exclude the entry and solve again.</p>
+
+<h2>Mounts share the pet slot</h2>
+<p>A mount goes where the pet goes, so every mount you consider is a pet you give up. Touch has a real mount roster in that slot, and the Fashionista lets you switch off the families you cannot ride: Dragoturkey, Seemyool and Rhineetle each have their own toggle in the project options. Turn off what you do not have and the solution becomes something you can equip today.</p>
+
+<h2>Shields are a real slot</h2>
+<p>Touch shields are ordinary equipment: resistance, sometimes vitality or damage, weighed against everything else. One switch includes or excludes them, and the values the tool uses are the ones a shield reaches when it is fed to level 100, so the same rule applies as for pets: the number assumes the work is done.</p>
+
+<h2>Getting it right in the tool</h2>
+<p>Decide what you are willing to feed, exclude the maxed entries you will never reach, switch off the mount families you do not own, and let the optimizer work with what is left. A build you can actually assemble beats a better one on paper.</p>
+
+<p><em>Ready to plan around a fed pet? <a href="/setup/">Build it here.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': "Familiers, montures et boucliers sur Dofus Touch : les emplacements qu'on laisse vides",
+                    'desc': "Sur Touch, un familier vaut ce que tu lui donnes, et le familier gavé est un objet à part. Ce que valent le familier et le bouclier.",
+                    'lead': "Sur Touch, l'emplacement familier n'est pas ce que la liste d'objets laisse croire : un familier gavé est un autre objet que celui que tu apprivoises. Voilà comment t'en servir.",
+                    'body': '''
+<h2>Trois objets, deux emplacements</h2>
+<p>Un familier, une monture et un bouclier, ce n'est pas de la décoration. L'emplacement familier accueille soit un familier soit une monture, jamais les deux, et l'emplacement bouclier accueille un bouclier. À eux deux, ils portent autant qu'un bon anneau, et ce sont les deux emplacements qu'on boucle en dernier, avec ce qu'on avait sous la main.</p>
+
+<h2>Sur Touch, un familier vaut ce que tu lui donnes</h2>
+<p>C'est là que beaucoup se font avoir. Sur Touch, le backend ne porte aucun bonus pour un familier qui se nourrit : les valeurs qu'il peut atteindre viennent de l'encyclopédie officielle, qui publie les effets maximum sous hormone. La Fashionista liste donc le familier gavé comme un objet à part entière, avec le chiffre dans son nom, du genre "Chacha (+110 Force)" ou "Tofu Bontarien (+2100 Initiative)". Le catalogue en compte 228, répartis sur 116 familiers.</p>
+<p>Lis-les pour ce qu'ils sont : un objectif, pas un achat. Si l'optimiseur te propose "Wabbit (+110 Agilité)", ça veut dire que le build veut un Wabbit agi gavé à fond, pas que tu peux en acheter un à cette valeur. Si le gavage n'est pas quelque chose que tu feras, exclus l'objet et relance.</p>
+
+<h2>La monture prend la place du familier</h2>
+<p>Une monture va là où irait le familier : chaque monture envisagée est un familier auquel tu renonces. Touch a une vraie sélection de montures sur cet emplacement, et la Fashionista te laisse couper les familles que tu ne peux pas monter : dinde, seemyool et rhineetle ont chacun leur case dans les options du projet. Décoche ce que tu n'as pas, et la solution devient équipable aujourd'hui.</p>
+
+<h2>Le bouclier est un vrai emplacement</h2>
+<p>Les boucliers Touch sont de l'équipement comme un autre : résistance, parfois vitalité ou dommages, mis en concurrence avec le reste. Une case les inclut ou les exclut, et les valeurs utilisées sont celles qu'un bouclier atteint une fois nourri jusqu'au niveau 100 : même règle que pour les familiers, le chiffre suppose le travail fait.</p>
+
+<h2>Le régler correctement dans l'outil</h2>
+<p>Décide ce que tu es prêt à gaver, exclus les versions maximales que tu n'atteindras jamais, coupe les familles de montures que tu n'as pas, et laisse l'optimiseur travailler avec ce qui reste. Un build que tu peux réellement assembler vaut mieux qu'un meilleur build sur le papier.</p>
+
+<p><em>Prêt à construire autour d'un familier gavé ? <a href="/setup/">Fais-le ici.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Mascotas, monturas y escudos en Dofus Touch: las casillas que se dejan vacías',
+                    'desc': 'En Touch una mascota vale lo que le das, y la mascota cebada es un objeto aparte. Qué valen la casilla de mascota y la de escudo.',
+                    'lead': 'En Touch la casilla de mascota no es lo que sugiere la lista de objetos: una mascota cebada es otro objeto distinto del que domas. Así se aprovecha.',
+                    'body': '''
+<h2>Tres cosas, dos casillas</h2>
+<p>Una mascota, una montura y un escudo no son adorno. La casilla de mascota admite una mascota o una montura, nunca las dos, y la de escudo admite un escudo. Entre las dos cargan tanto como un buen anillo, y son las últimas que se rellenan, con lo que uno tenía a mano.</p>
+
+<h2>En Touch una mascota vale lo que le das</h2>
+<p>Aquí es donde muchos se pierden. En Touch el backend no lleva ningún bonus para una mascota que se alimenta: los valores que puede alcanzar salen de la enciclopedia oficial, que publica los efectos máximos con hormona. Por eso la Fashionista lista la mascota cebada como un objeto propio, con la cifra en el nombre, del tipo "Miaumiau (+110 Fuerza)" o "Tofu bontariano (+2100 Iniciativa)". El catálogo tiene 228 de esas entradas al máximo, repartidas en 116 mascotas.</p>
+<p>Léelas por lo que son: un objetivo, no una compra. Que el optimizador proponga "Wabbit (+110 Agilidad)" significa que el equipo quiere un Wabbit de agilidad cebado del todo, no que puedas comprar uno con ese valor. Si no vas a hacer ese trabajo, excluye la entrada y vuelve a calcular.</p>
+
+<h2>La montura ocupa la casilla de la mascota</h2>
+<p>La montura va donde iría la mascota: cada montura que consideras es una mascota a la que renuncias. Touch tiene una selección real de monturas en esa casilla, y la Fashionista te deja apagar las familias que no puedes montar: dragopavo, seemyool y rinescarabajo tienen su propia casilla en las opciones del proyecto. Desmarca lo que no tengas y la solución pasa a ser equipable hoy.</p>
+
+<h2>El escudo es una casilla de verdad</h2>
+<p>Los escudos de Touch son equipo normal: resistencia, a veces vitalidad o daño, comparados con todo lo demás. Una casilla los incluye o los excluye, y los valores que usa la herramienta son los que alcanza un escudo alimentado hasta el nivel 100: la misma regla que con las mascotas, la cifra da por hecho el trabajo hecho.</p>
+
+<h2>Ajustarlo bien en la herramienta</h2>
+<p>Decide qué estás dispuesto a cebar, excluye las versiones máximas que nunca alcanzarás, apaga las familias de monturas que no tengas y deja que el optimizador trabaje con lo que queda. Un equipo que puedes montar de verdad vale más que uno mejor sobre el papel.</p>
+
+<p><em>¿Listo para planificar con una mascota cebada? <a href="/setup/">Constrúyelo aquí.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Mascotes, montarias e escudos no Dofus Touch: os espaços que ficam vazios',
+                    'desc': 'No Touch a mascote vale o que você dá a ela, e a mascote no máximo é um item à parte. O que valem os espaços de mascote e de escudo.',
+                    'lead': 'No Touch o espaço de mascote não é o que a lista de itens sugere: uma mascote alimentada é outro item, diferente do que você doma. Veja como usar isso.',
+                    'body': '''
+<h2>Três coisas, dois espaços</h2>
+<p>Mascote, montaria e escudo não são enfeite. O espaço de mascote aceita uma mascote ou uma montaria, nunca as duas, e o de escudo aceita um escudo. Juntos, carregam tanto quanto um bom anel, e são os últimos a serem preenchidos, com o que estava à mão.</p>
+
+<h2>No Touch, a mascote vale o que você dá a ela</h2>
+<p>É aqui que muita gente se perde. No Touch o backend não traz bônus nenhum para uma mascote que se alimenta: os valores que ela pode atingir vêm da enciclopédia oficial, que publica os efeitos máximos sob hormônio. Por isso a Fashionista lista a mascote alimentada como um item próprio, com o número no nome, tipo "Miaw (+110 Força)" ou "Tofu Bontariano (+2100 Iniciativa)". O catálogo tem 228 dessas entradas no máximo, espalhadas por 116 mascotes.</p>
+<p>Leia como o que são: uma meta, não uma compra. Se o otimizador propõe "Wabbit (+110 Agilidade)", isso quer dizer que a build quer um Wabbit de agilidade alimentado até o teto, não que dá para comprar um assim. Se você não vai fazer esse trabalho, exclua a entrada e calcule de novo.</p>
+
+<h2>A montaria ocupa o espaço da mascote</h2>
+<p>A montaria vai onde a mascote iria: cada montaria considerada é uma mascote abandonada. O Touch tem uma seleção real de montarias nesse espaço, e a Fashionista deixa desligar as famílias que você não monta: dragoperu, seemyool e rinesouro têm cada um sua caixa nas opções do projeto. Desmarque o que não tem e a solução vira algo equipável hoje.</p>
+
+<h2>Escudo é um espaço de verdade</h2>
+<p>Os escudos do Touch são equipamento comum: resistência, às vezes vitalidade ou dano, comparados com o resto. Uma caixa os inclui ou exclui, e os valores usados são os que um escudo atinge alimentado até o nível 100: mesma regra das mascotes, o número pressupõe o trabalho feito.</p>
+
+<h2>Acertando isso na ferramenta</h2>
+<p>Decida o que está disposto a alimentar, exclua as versões no máximo que nunca vai alcançar, desligue as famílias de montaria que não tem e deixe o otimizador trabalhar com o que sobra. Uma build que você consegue montar vale mais que uma melhor no papel.</p>
+
+<p><em>Pronto para planejar com uma mascote alimentada? <a href="/setup/">Monte aqui.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Begleiter, Reittiere und Schilde in Dofus Touch: die Plätze, die leer bleiben',
+                    'desc': 'In Touch ist ein Begleiter so viel wert wie das, was du fütterst. Was Begleiter- und Schildplatz wirklich bringen.',
+                    'lead': 'In Touch ist der Begleiterplatz nicht das, was die Itemliste zuerst nahelegt: Ein gefütterter Begleiter ist ein anderes Teil als der, den du zähmst. So nutzt du das.',
+                    'body': '''
+<h2>Drei Dinge, zwei Plätze</h2>
+<p>Begleiter, Reittier und Schild sind keine Deko. Auf den Begleiterplatz passt entweder ein Begleiter oder ein Reittier, nie beides, und auf den Schildplatz ein Schild. Zusammen tragen sie so viel wie ein guter Ring, und sie werden zuletzt gefüllt, mit dem, was gerade da war.</p>
+
+<h2>In Touch zählt, was du fütterst</h2>
+<p>Hier stolpern viele. In Touch trägt das Backend keinen Bonus für einen Fütterbegleiter: Die erreichbaren Werte stehen in der offiziellen Enzyklopädie, die die Maximaleffekte unter Hormon veröffentlicht. Deshalb führt die Fashionista den gefütterten Begleiter als eigenes Teil, mit der Zahl im Namen, etwa "Maunzmiez (+110 Stärke)" oder "Bonta-Tofu (+2100 Initiative)". Der Katalog enthält 228 solcher Maximalvarianten, verteilt auf 116 Begleiter.</p>
+<p>Lies sie als das, was sie sind: ein Ziel, kein Kauf. Schlägt der Optimierer "Wabbit (+110 Flinkheit)" vor, will der Build ein voll gefüttertes Flinkheits-Wabbit, nicht eines, das du so kaufen kannst. Wenn du das Füttern nicht auf dich nimmst, schließ das Teil aus und rechne neu.</p>
+
+<h2>Das Reittier belegt den Begleiterplatz</h2>
+<p>Ein Reittier sitzt dort, wo der Begleiter säße: Jedes Reittier ist ein Begleiter, auf den du verzichtest. Touch hat auf diesem Platz eine echte Auswahl an Reittieren, und in der Fashionista kannst du die Familien abschalten, die du nicht reiten kannst: Dragotruthahn, Seemyool und Rhinokäfer haben je ein eigenes Kästchen in den Projektoptionen. Schalte ab, was dir fehlt, und die Lösung wird heute anlegbar.</p>
+
+<h2>Der Schild ist ein echter Platz</h2>
+<p>Touch-Schilde sind normale Ausrüstung: Widerstand, manchmal Lebenspunkte oder Schaden, abgewogen gegen alles andere. Ein Kästchen nimmt sie hinein oder heraus, und die verwendeten Werte sind die, die ein Schild erreicht, wenn er bis Stufe 100 gefüttert wurde: dieselbe Regel wie bei Begleitern, die Zahl setzt die Arbeit voraus.</p>
+
+<h2>Im Werkzeug richtig einstellen</h2>
+<p>Entscheide, was du zu füttern bereit bist, schließ die Maximalvarianten aus, die du nie erreichst, schalte fehlende Reittierfamilien ab und lass den Optimierer mit dem Rest arbeiten. Ein Build, den du wirklich zusammenbekommst, schlägt einen besseren auf dem Papier.</p>
+
+<p><em>Bereit, um einen gefütterten Begleiter herum zu planen? <a href="/setup/">Bau ihn hier.</a></em></p>
+''',
+                },
+            },
+            'retro': {
+                'en': {
+                    'title': 'Pets and shields on Dofus Retro: the slots people leave empty',
+                    'desc': "Retro has no mount in the pet slot and its shields only matter in PvP. What a fed pet is worth, and how to set both slots in the optimizer.",
+                    'lead': "Retro plays these two slots by its own rules: no mounts at all, shields for PvP, and a pet that is worth exactly what you feed it.",
+                    'body': '''
+<h2>Two slots, not three</h2>
+<p>On Retro the pet slot holds a pet, full stop: there is no mount competing for it the way there is in the modern versions. That makes the choice simpler and the slot easier to forget. The shield slot is the other one people leave empty, and on Retro there is a good reason for that, which is not the same as no reason.</p>
+
+<h2>A Retro pet is worth what you feed it</h2>
+<p>Retro pets gain their stats by being fed, and those values are not in Ankama's lang data at all. The Fashionista takes the feeding caps from the fan databases that publish them and turns each one into an item of its own, with the number in the name, like "Bworky (+1000 Pods)" or "Minipoth (+800 Initiative)". There are 87 of those maxed entries.</p>
+<p>Treat them as a target, not a purchase: the optimizer picking a maxed pet means the build wants that pet fed all the way. If you will not do the feeding, exclude the entry and solve again.</p>
+
+<h2>Shields are PvP gear here</h2>
+<p>Retro shields only do their work in player versus player, so a build made for monsters gets nothing from the slot. The Fashionista follows that rule: a Retro preset built for PvM leaves shields out by default, and a PvP one brings them back. If you are theorycrafting for the arena, make sure the switch is on, because the shield roster is large and the optimizer will use it.</p>
+
+<h2>Getting it right in the tool</h2>
+<p>Decide the two questions before you solve: which pet you are actually willing to feed, and whether this build ever fights another player. Answer them in the project options and the solution stops containing gear you cannot use.</p>
+
+<p><em>Building for Retro? <a href="/setup/">Set the two slots and solve.</a></em></p>
+''',
+                },
+                'fr': {
+                    'title': "Familiers et boucliers sur Dofus Rétro : les emplacements qu'on laisse vides",
+                    'desc': "Le Rétro n'a pas de monture sur l'emplacement familier, et ses boucliers ne servent qu'en PvP. Ce que vaut un familier gavé.",
+                    'lead': "Le Rétro joue ces deux emplacements avec ses propres règles : aucune monture, des boucliers pour le PvP, et un familier qui vaut exactement ce que tu lui donnes.",
+                    'body': '''
+<h2>Deux emplacements, pas trois</h2>
+<p>Sur Rétro, l'emplacement familier accueille un familier, point : aucune monture ne vient le disputer comme sur les versions modernes. Le choix est donc plus simple, et l'emplacement plus facile à oublier. Le bouclier est l'autre qu'on laisse vide, et sur Rétro il y a une bonne raison à ça, ce qui n'est pas la même chose qu'aucune raison.</p>
+
+<h2>Sur Rétro, un familier vaut ce que tu lui donnes</h2>
+<p>Les familiers Rétro gagnent leurs stats en mangeant, et ces valeurs n'existent nulle part dans les données de langue d'Ankama. La Fashionista récupère les plafonds de nourriture sur les bases de données de fans qui les publient et transforme chacun en objet à part entière, avec le chiffre dans le nom, du genre "Bworky (+1000 Pods)" ou "Minipoth (+800 Initiative)". Il y en a 87.</p>
+<p>Prends-les comme un objectif, pas comme un achat : si l'optimiseur choisit un familier gavé, c'est que le build veut ce familier nourri à fond. Si tu ne feras pas le gavage, exclus l'objet et relance.</p>
+
+<h2>Ici, le bouclier est du matériel PvP</h2>
+<p>Les boucliers Rétro ne font leur travail qu'en joueur contre joueur : un build fait pour les monstres ne tire rien de cet emplacement. La Fashionista suit cette règle : un préréglage Rétro orienté PvM laisse les boucliers de côté par défaut, un préréglage PvP les remet. Si tu theorycraftes pour l'arène, vérifie que la case est cochée, parce que la sélection de boucliers est large et que l'optimiseur s'en servira.</p>
+
+<h2>Le régler correctement dans l'outil</h2>
+<p>Tranche deux questions avant de lancer : quel familier tu es réellement prêt à gaver, et si ce build affrontera un jour un autre joueur. Réponds-y dans les options du projet, et la solution cesse de contenir du stuff que tu ne peux pas utiliser.</p>
+
+<p><em>Tu construis sur Rétro ? <a href="/setup/">Règle les deux emplacements et lance.</a></em></p>
+''',
+                },
+                'es': {
+                    'title': 'Mascotas y escudos en Dofus Retro: las casillas que se dejan vacías',
+                    'desc': 'Retro no tiene monturas en la casilla de mascota y sus escudos solo cuentan en PvP. Cuánto vale una mascota cebada y cómo ajustar las dos casillas.',
+                    'lead': 'Retro juega estas dos casillas con sus propias reglas: ninguna montura, escudos para PvP y una mascota que vale exactamente lo que le das.',
+                    'body': '''
+<h2>Dos casillas, no tres</h2>
+<p>En Retro la casilla de mascota lleva una mascota y punto: no hay montura que se la dispute como en las versiones modernas. La elección es más simple y la casilla, más fácil de olvidar. El escudo es la otra que se deja vacía, y en Retro hay un buen motivo, que no es lo mismo que ninguno.</p>
+
+<h2>En Retro una mascota vale lo que le das</h2>
+<p>Las mascotas de Retro ganan sus estadísticas comiendo, y esos valores no están en los datos de idioma de Ankama. La Fashionista toma los topes de alimentación de las bases de datos de aficionados que los publican y convierte cada uno en un objeto propio, con la cifra en el nombre, del tipo "Bworky (+1000 Pods)" o "Minipoth (+800 Iniciativa)". Hay 87 de esas entradas.</p>
+<p>Tómalas como un objetivo, no como una compra: si el optimizador elige una mascota al máximo, es que el equipo la quiere cebada del todo. Si no vas a hacerlo, excluye la entrada y vuelve a calcular.</p>
+
+<h2>Aquí el escudo es material de PvP</h2>
+<p>Los escudos de Retro solo hacen su trabajo en jugador contra jugador, así que un equipo pensado para monstruos no saca nada de esa casilla. La Fashionista sigue esa regla: un preajuste Retro orientado a PvM deja los escudos fuera por defecto, y uno de PvP los devuelve. Si preparas la arena, comprueba que la casilla esté marcada, porque la selección de escudos es amplia y el optimizador la usará.</p>
+
+<h2>Ajustarlo bien en la herramienta</h2>
+<p>Resuelve dos preguntas antes de calcular: qué mascota estás dispuesto a cebar de verdad y si este equipo se enfrentará alguna vez a otro jugador. Contéstalas en las opciones del proyecto y la solución dejará de incluir equipo que no puedes usar.</p>
+
+<p><em>¿Construyes en Retro? <a href="/setup/">Ajusta las dos casillas y calcula.</a></em></p>
+''',
+                },
+                'pt': {
+                    'title': 'Mascotes e escudos no Dofus Retro: os espaços que ficam vazios',
+                    'desc': 'O Retro não tem montaria no espaço de mascote e seus escudos só contam no PvP. Quanto vale uma mascote alimentada e como ajustar os dois espaços.',
+                    'lead': 'O Retro joga esses dois espaços com regras próprias: nenhuma montaria, escudos para PvP e uma mascote que vale exatamente o que você dá a ela.',
+                    'body': '''
+<h2>Dois espaços, não três</h2>
+<p>No Retro o espaço de mascote leva uma mascote e ponto: não existe montaria disputando com ela como nas versões modernas. A escolha fica mais simples e o espaço, mais fácil de esquecer. O escudo é o outro que fica vazio, e no Retro há um bom motivo, o que não é o mesmo que motivo nenhum.</p>
+
+<h2>No Retro, a mascote vale o que você dá a ela</h2>
+<p>As mascotes do Retro ganham atributos comendo, e esses valores não estão nos dados de idioma da Ankama. A Fashionista pega os tetos de alimentação nas bases de dados de fãs que os publicam e transforma cada um num item próprio, com o número no nome, tipo "Bworky (+1000 Pods)" ou "Minipoth (+800 Iniciativa)". São 87 entradas assim.</p>
+<p>Encare como meta, não como compra: se o otimizador escolhe uma mascote no máximo, é porque a build quer aquela mascote alimentada até o teto. Se você não vai fazer isso, exclua a entrada e calcule de novo.</p>
+
+<h2>Aqui o escudo é equipamento de PvP</h2>
+<p>Os escudos do Retro só funcionam em jogador contra jogador, então uma build feita para monstros não tira nada desse espaço. A Fashionista segue essa regra: um preset Retro voltado ao PvM deixa os escudos de fora por padrão, e um de PvP os traz de volta. Se você planeja a arena, confira se a caixa está marcada, porque a seleção de escudos é grande e o otimizador vai usá-la.</p>
+
+<h2>Acertando isso na ferramenta</h2>
+<p>Resolva duas perguntas antes de calcular: qual mascote você está mesmo disposto a alimentar e se essa build vai enfrentar outro jogador algum dia. Responda nas opções do projeto e a solução para de trazer equipamento que você não pode usar.</p>
+
+<p><em>Construindo no Retro? <a href="/setup/">Ajuste os dois espaços e calcule.</a></em></p>
+''',
+                },
+                'de': {
+                    'title': 'Begleiter und Schilde in Dofus Retro: die Plätze, die leer bleiben',
+                    'desc': 'Retro hat kein Reittier auf dem Begleiterplatz, und seine Schilde zählen nur im PvP. Was ein gefütterter Begleiter bringt und wie du beide Plätze einstellst.',
+                    'lead': 'Retro spielt diese beiden Plätze nach eigenen Regeln: keine Reittiere, Schilde fürs PvP und ein Begleiter, der genau so viel wert ist wie das, was du fütterst.',
+                    'body': '''
+<h2>Zwei Plätze, nicht drei</h2>
+<p>In Retro sitzt auf dem Begleiterplatz ein Begleiter, fertig: Kein Reittier streitet darum wie in den modernen Versionen. Das macht die Wahl einfacher und den Platz leichter zu vergessen. Der Schild ist der andere, der leer bleibt, und in Retro gibt es dafür einen guten Grund, was nicht dasselbe ist wie gar kein Grund.</p>
+
+<h2>In Retro zählt, was du fütterst</h2>
+<p>Retro-Begleiter bekommen ihre Werte durchs Füttern, und diese Werte stehen nirgends in Ankamas Sprachdaten. Die Fashionista holt die Fütterobergrenzen aus den Fan-Datenbanken, die sie veröffentlichen, und macht aus jeder ein eigenes Teil, mit der Zahl im Namen, etwa "Bworky (+1000 Pods)" oder "Minipoth (+800 Initiative)". Es sind 87 solcher Einträge.</p>
+<p>Nimm sie als Ziel, nicht als Kauf: Wählt der Optimierer einen Maximalbegleiter, will der Build genau diesen Begleiter voll gefüttert. Wenn du das nicht machst, schließ den Eintrag aus und rechne neu.</p>
+
+<h2>Der Schild ist hier PvP-Ausrüstung</h2>
+<p>Retro-Schilde wirken nur im Spieler-gegen-Spieler, ein Build gegen Monster holt aus dem Platz also nichts. Die Fashionista folgt dieser Regel: Eine Retro-Vorlage für PvM lässt Schilde standardmäßig weg, eine PvP-Vorlage bringt sie zurück. Wer für die Arena plant, sollte das Kästchen prüfen, denn die Schildauswahl ist groß und der Optimierer nutzt sie.</p>
+
+<h2>Im Werkzeug richtig einstellen</h2>
+<p>Klär zwei Fragen, bevor du rechnest: welchen Begleiter du wirklich füttern willst, und ob dieser Build je gegen einen anderen Spieler antritt. Beantworte sie in den Projektoptionen, und die Lösung enthält keine Ausrüstung mehr, die du nicht nutzen kannst.</p>
+
+<p><em>Baust du für Retro? <a href="/setup/">Stell die beiden Plätze ein und rechne.</a></em></p>
+''',
+                },
             },
         },
     },
