@@ -6666,6 +6666,69 @@ class TouchPetSolveTests(TestCase):
             pet.id, self.VARIANT_ID_BASE,
             'expected a maxed pet variant in the Pet slot, got %r' % pet.name)
 
+
+class TouchPetBonusFileTests(SimpleTestCase):
+    """The variants are written back into the items table as pets, carrying the
+    pet's own ankama id, and they are numbered in file order. So a scrape that
+    reads them as pets writes its own output back into the file, and any pet
+    that falls out of the file renumbers every pet after it: the day Moowitty
+    went missing, 82 saved builds pointed at another player's pet."""
+
+    VARIANT_ID_BASE = 200000000
+
+    def _bonuses(self):
+        import json
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper', 'touch_pet_bonuses.json')
+        with open(path, encoding='utf-8') as handle:
+            return json.load(handle)
+
+    def test_the_file_names_pets_and_never_its_own_variants(self):
+        fed_back = sorted(name for name in self._bonuses() if '(+' in name)
+        self.assertEqual([], fed_back[:5],
+                         '%d generated variant(s) were scraped back in as pets'
+                         % len(fed_back))
+
+    def test_every_pet_named_is_a_touch_pet_the_solver_knows(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('touch')
+        unknown, wrong_slot, generated = [], [], []
+        for name in self._bonuses():
+            item = structure.get_item_by_name(name)
+            if item is None:
+                unknown.append(name)
+            elif structure.get_type_name_by_id(item.type) != 'Pet':
+                wrong_slot.append(name)
+            elif item.id >= self.VARIANT_ID_BASE:
+                generated.append(name)
+        self.assertEqual(([], [], []), (unknown, wrong_slot, generated))
+
+    def test_every_bonus_of_the_file_reached_the_solver(self):
+        # A bonus becomes a variant unless the pet already carries that exact
+        # value as a datacenter stat, in which case a variant would be a copy.
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('touch')
+        variant_stats = {}
+        for item in structure.get_items_list():
+            if item.id >= self.VARIANT_ID_BASE and ' (' in item.name:
+                base = item.name.rsplit(' (', 1)[0]
+                variant_stats.setdefault(base, set()).update(item.stats or [])
+
+        missing = []
+        for name, bonuses in self._bonuses().items():
+            pet = structure.get_item_by_name(name)
+            if pet is None:
+                continue  # the test above is the one that reports this
+            carried = set(pet.stats or []) | variant_stats.get(name, set())
+            for stat_name, value in bonuses:
+                stat = structure.get_stat_by_name(stat_name)
+                if stat is not None and (stat.id, int(value)) not in carried:
+                    missing.append((name, stat_name, value))
+        self.assertEqual([], missing,
+                         '%d bonus line(s) of the file reach no item' % len(missing))
+
+
 class OldBuildsKeepTheirItemsTests(SimpleTestCase):
     """Collapsing the "(#1)"/"(#2)" rows into one item retires ids that saved
     builds store, and a build whose id no longer resolves loses that slot in
@@ -6717,6 +6780,11 @@ class OldBuildsKeepTheirItemsTests(SimpleTestCase):
                 self.assertIsNotNone(gelano)
                 self.assertEqual(gelano.id, GELANO_IDS['Gelano (#1)'])
                 for old_id in GELANO_DEPLOYED_IDS.get(version, {}):
+                    # A retired id that some item now uses is worse than a
+                    # missing one: the alias is silent and the item wins.
+                    self.assertNotIn(
+                        old_id, structure.items_dict,
+                        'a retired Gelano id is a live item on %s' % version)
                     found = structure.get_item_by_id(old_id)
                     self.assertIsNotNone(found)
                     self.assertEqual(found.name, 'Gelano (#1)')

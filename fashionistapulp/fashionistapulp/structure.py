@@ -74,7 +74,10 @@ GELANO_DEPLOYED_IDS = {
     'dofus3': {200014167: 'Gelano (#1)'},
     'beta': {200014167: 'Gelano (#1)'},
     'dofus2': {1029457: 'Gelano (#1)'},
-    'touch': {200000228: 'Gelano (#1)', 200000226: 'Gelano (#1)'},
+    # 200000226 was the Touch number for two days, while a rebuild had lost a
+    # pet and its 226 variants left that slot free. That rebuild never shipped,
+    # the numbering is back to 228 variants, and 200000226 is a Water Bwak.
+    'touch': {200000228: 'Gelano (#1)'},
     'retro': {10000087: 'Gelano (#1)'},
 }
 

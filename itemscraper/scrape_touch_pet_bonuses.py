@@ -48,8 +48,14 @@ SIMPLE_STATS = {
 }
 
 # Manual fixes keyed by English items_touch.db name; take precedence over the
-# scrape (same mechanism as retro's OVERRIDES). Empty so far.
-OVERRIDES = {}
+# scrape (same mechanism as retro's OVERRIDES).
+OVERRIDES = {
+    # Moowitty is still a Touch pet (ankama 13000, type Pet in items_touch.db)
+    # but its encyclopedia page answers 404 since 2026-08-15 and the site search
+    # returns nothing for the name. These are the values this same scrape read
+    # on 2026-07-09, the last day the page existed.
+    'Moowitty': [['Prospecting', 53], ['Wisdom', 98]],
+}
 
 _PCT_RESIST_RE = re.compile(
     r'^(\d+)\s*%\s*R[ée]sistance\s+(Air|Eau|Feu|Terre|Neutre)$', re.I)
@@ -162,6 +168,8 @@ def main():
     parser.add_argument('--limit', type=int, default=0,
                         help='only scrape the first N pets (debug)')
     parser.add_argument('--out', default=OUT_PATH)
+    parser.add_argument('--allow-shrink', action='store_true',
+                        help='write even if pets the file already had are gone')
     args = parser.parse_args()
 
     cursor = sqlite3.connect(DB_PATH).cursor()
@@ -171,6 +179,11 @@ def main():
         JOIN item_types t ON t.id = i.type
         WHERE t.name = 'Pet' AND i.removed IS NOT 1 AND i.ankama_id IS NOT NULL
           AND i.ankama_type != 'mounts'  -- mounts share the Pet slot but live under /montures/
+          -- store_touch_pet_bonuses.py writes the maxed variants back into this
+          -- same table as pets, sharing the pet's ankama id. Without this the
+          -- second run reads them as pets and writes "Mosk (+110 Agility)" as a
+          -- pet of its own, feeding the file its own output.
+          AND i.id < 200000000
         ORDER BY i.ankama_id
         """).fetchall()
     if args.limit:
@@ -199,6 +212,19 @@ def main():
     for name, bonuses in OVERRIDES.items():
         result[name] = bonuses
 
+    # A pet that drops out of this file drops its variants, and the variants are
+    # numbered in file order: losing one renumbers every pet after it, and a
+    # saved build keeps the number. Losing Moowitty on 2026-08-15 moved 82 ids.
+    if os.path.exists(args.out):
+        with open(args.out, encoding='utf-8') as fh:
+            lost = sorted(set(json.load(fh)) - set(result))
+        if lost and not args.allow_shrink:
+            print('the scrape lost %d pet(s) the file already had: %s'
+                  % (len(lost), ', '.join(lost)))
+            print('nothing written. Add them to OVERRIDES, or pass '
+                  '--allow-shrink if the game really dropped them.')
+            return 1
+
     with open(args.out, 'w', encoding='utf-8') as fh:
         json.dump(result, fh, ensure_ascii=False, indent=1, sort_keys=True)
     print('pets scraped: %d with bonuses, %d without an effects block -> %s'
@@ -207,6 +233,7 @@ def main():
         print('no-bonus pets (gift/GM pets with datacenter stats, or truly none):')
         for name in missing[:20]:
             print('   -', name)
+    return 0
 
 
 if __name__ == '__main__':
@@ -214,4 +241,4 @@ if __name__ == '__main__':
         sys.stdout.reconfigure(encoding='utf-8')
     except Exception:
         pass
-    main()
+    raise SystemExit(main())
