@@ -6878,8 +6878,9 @@ class OrEquipConditionTests(TestCase):
         # Professor Xa needs MP under 6 or AP under 12; ask for both above.
         model_input = ModelInput(
             char_level=200,
-            base_stats_by_attr={'Vitality': 0, 'Wisdom': 0, 'Strength': 0,
-                                'Intelligence': 0, 'Chance': 0, 'Agility': 0},
+            base_stats_by_attr={'AP': 7, 'MP': 3, 'Vitality': 0, 'Wisdom': 0,
+                                'Strength': 0, 'Intelligence': 0, 'Chance': 0,
+                                'Agility': 0},
             minimum_stats={'AP': 12, 'MP': 6},
             locked_equips={}, forbidden_equips=set(),
             objective_values={'str': 50, 'vit': 10, 'ap': 800, 'mp': 600},
@@ -6896,6 +6897,61 @@ class OrEquipConditionTests(TestCase):
                 continue
             self.fail('%s was equipped though neither branch can hold at '
                       '12 AP and 6 MP' % item.name)
+
+    def _solve_with_locked_boots(self, minimum_stats):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from fashionistapulp.model import Model, ModelInput
+        from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        boots = structure.get_item_by_name('Baleenaboots')
+        self.assertIsNotNone(boots)
+        self.assertTrue(boots.or_conditions, 'Baleenaboots lost its branches')
+        weights = {key: 0 for key in STAT_NAME_TO_KEY.values()}
+        weights.update({'str': 50, 'vit': 10, 'ap': 800, 'mp': 600})
+        model_input = ModelInput(
+            char_level=200,
+            # the base a level 200 character brings, as get_base_stats_by_attr
+            # hands it to the solver: a condition is read on the final total
+            base_stats_by_attr={'AP': 7, 'MP': 3, 'Vitality': 0, 'Wisdom': 0,
+                                'Strength': 0, 'Intelligence': 0, 'Chance': 0,
+                                'Agility': 0},
+            minimum_stats=minimum_stats,
+            locked_equips={'boots': boots.id}, forbidden_equips=set(),
+            objective_values=weights,
+            options={'ap_exo': False, 'range_exo': False, 'mp_exo': False,
+                     'dofus': True, 'dragoturkey': True, 'seemyool': True,
+                     'rhineetle': True, 'prysmaradite': False, 'shields': True,
+                     'trophies': True},
+            char_class='Iop', stat_points_to_distribute=5 * 199)
+        model = Model()
+        model.setup(model_input)
+        model.run(2)
+        if model.get_solved_status() != 'Optimal':
+            return model.get_solved_status(), None, None
+        variables = model.problem.pulp_vars
+        return (model.get_solved_status(),
+                variables['stat_%d' % structure.get_stat_by_name('AP').id].varValue,
+                variables['stat_%d' % structure.get_stat_by_name('MP').id].varValue)
+
+    @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
+    def test_a_locked_item_keeps_one_of_its_branches_true(self):
+        # Dofus 3 carries the disjunctions on 37 items. Baleenaboots wants
+        # 11 AP or less, or 5 MP or less. Locked into a build, the solver has
+        # to hold one of the two, and asking for both above leaves neither.
+        status, ap, mp = self._solve_with_locked_boots({})
+        self.assertEqual('Optimal', status)
+        self.assertTrue(ap <= 11 or mp <= 5, 'both branches broken at %s AP %s MP'
+                        % (ap, mp))
+
+        status, ap, mp = self._solve_with_locked_boots({'AP': 12})
+        self.assertEqual('Optimal', status)
+        self.assertEqual(12, ap)
+        self.assertLessEqual(mp, 5, 'the AP branch is out, the MP one has to hold')
+
+        status, _ap, _mp = self._solve_with_locked_boots({'AP': 12, 'MP': 6})
+        self.assertEqual('Infeasible', status,
+                         'the boots cannot be worn at 12 AP and 6 MP')
 
 
 class SolvedBuildIsWearableTests(TestCase):
@@ -7025,13 +7081,31 @@ class SolvedBuildIsWearableTests(TestCase):
                     broken.append('%s needs %s <= %d, the build has %d'
                                   % (result_item.name, stat.key, cap,
                                      totals.get(stat.key, 0)))
+            for branch in getattr(item, 'or_conditions', None) or []:
+                gates += 1
+                held = []
+                for stat_id, is_max, value in branch:
+                    stat = structure.get_stat_by_id(stat_id)
+                    if stat is None:
+                        continue
+                    reached = totals.get(stat.key, 0)
+                    held.append(reached <= value if is_max else reached >= value)
+                if all(held):
+                    break
+            else:
+                if getattr(item, 'or_conditions', None):
+                    broken.append('%s is worn though none of its %d branches '
+                                  'holds' % (result_item.name,
+                                             len(item.or_conditions)))
         return gates, broken
 
     @unittest.skipUnless(_pulp_solver_available(), 'no pulp solver available')
     def test_the_build_can_put_its_own_gated_gear_on(self):
-        # Touch and Retro are the versions that reach for gated pieces.
+        # Touch and Retro reach for the gated pieces; Dofus 3 is where the
+        # disjunctions are, 37 items of them.
         exercised = 0
-        for version, char_class in (('touch', 'Iop'), ('retro', 'Iop')):
+        for version, char_class in (('touch', 'Iop'), ('retro', 'Iop'),
+                                    ('dofus3', 'Iop')):
             gates, broken = self._check_equip_conditions(
                 version, char_class, 200, {'str'})
             exercised += gates
