@@ -7,12 +7,35 @@ pick the right language slice and render it. Both are global (not version-
 prefixed): the canonical URL is always /guides/... so versioned copies, if any
 are ever linked, don't create duplicate content.
 """
+import re
+
 from django.http import Http404
 from django.urls import reverse, NoReverseMatch
 from django.utils.translation import get_language
 
 from chardata.util import set_response
 from chardata import guides_content
+
+# The bodies are written with plain site paths ("/setup/"). Read under a
+# version, those paths land on Dofus 3: a Retro reader following "build it
+# here" left Retro without being told. Every path a body links to exists under
+# every prefix, so the fix is to carry the reader's version along.
+VERSION_PREFIXES = ('beta', 'dofus2', 'touch', 'retro')
+_BODY_LINK = re.compile(r'href="(/[^"]*)"')
+
+
+def add_version_prefix(html, game_version):
+    if not html or game_version == 'dofus3' or game_version not in VERSION_PREFIXES:
+        return html
+
+    def prefixed(match):
+        path = match.group(1)
+        first = path.split('/', 2)[1] if path.count('/') > 1 else ''
+        if first in VERSION_PREFIXES or first in ('static', 'media'):
+            return match.group(0)
+        return 'href="/%s%s"' % (game_version, path)
+
+    return _BODY_LINK.sub(prefixed, html)
 
 
 def _guide_url(version, slug):
@@ -75,7 +98,8 @@ def guide(request, slug, char_id=0):
     canonical_version = guides_content.guide_canonical_version(slug, game_version)
     canonical_url = 'https://dofusfashionista.gg' + _guide_url(
         canonical_version, slug)
-    body_top, body_rest = split_body(data.get('body'))
+    body_top, body_rest = split_body(
+        add_version_prefix(data.get('body'), game_version))
     return set_response(
         request,
         'chardata/guide.html',
