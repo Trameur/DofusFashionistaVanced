@@ -328,6 +328,14 @@ def main() -> None:
     if do_images and not args.no_resize:
         step("resize", [PY, "resize_images.py"])
 
+
+    # A rebuild reports success either way. This asks what it changed that
+    # nobody asked for: a table that lost rows, an item whose row id moved.
+    # A moved id empties that slot in every saved build, in silence, which is
+    # how 82 Touch pets changed owner on 2026-08-15.
+    step("verify/rebuild", [PY, "check_rebuild.py", "--only", "beta"],
+         cwd=ITEMSCRAPER)
+
     elapsed = time.time() - t_total
     print(f"\n{'='*60}")
     print(f"  Beta update complete - {elapsed:.0f}s")

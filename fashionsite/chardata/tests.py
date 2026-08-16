@@ -15493,6 +15493,23 @@ class RebuildCheckTests(SimpleTestCase):
                 self.assertTrue(os.path.exists(os.path.join(repo_root, path)),
                                 '%s is not where the check looks' % path)
 
+    def test_every_pipeline_runs_the_check_before_it_reports_success(self):
+        # Running it by hand is running it when you remember to. The Touch pet
+        # renumbering shipped because the check did not exist yet on the day of
+        # that rebuild; from now on the rebuild itself asks the question.
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        for name, version in (('update_data.py', 'dofus3'),
+                              ('update_data_beta.py', 'beta'),
+                              ('update_data_dofus2.py', 'dofus2'),
+                              ('update_data_retro.py', 'retro'),
+                              ('update_data_touch.py', 'touch')):
+            with open(os.path.join(repo_root, name), encoding='utf-8') as handle:
+                source = handle.read()
+            with self.subTest(pipeline=name):
+                self.assertIn('check_rebuild.py', source)
+                self.assertIn('"--only", "%s"' % version, source)
+
     def test_it_can_look_further_back_than_the_last_commit(self):
         # A bad rebuild that is already committed becomes the reference, and
         # comparing with HEAD then says nothing. That is how the Touch pet
