@@ -8614,6 +8614,20 @@ class GuideBodyLinksKeepTheVersionTests(TestCase):
             with self.subTest(html=html, version=version):
                 self.assertEqual(html, add_version_prefix(html, version))
 
+    def test_the_hub_cards_stay_in_the_version(self):
+        # The hub is where a reader clicks. All 28 cards used to point at the
+        # Dofus 3 copy, whatever version the reader was browsing.
+        import re
+        for version in ('retro', 'touch', 'beta', 'dofus2'):
+            response = self.client.get('/%s/guides/' % version)
+            body = response.content.decode('utf-8')
+            grid = body.split('fm-guides-grid', 1)[-1].split('fm-guides-cta', 1)[0]
+            cards = set(re.findall(r'href="([^"]*/guides/[^"]+)"', grid))
+            with self.subTest(version=version):
+                self.assertTrue(cards, 'the hub lists no guide at all')
+                self.assertEqual([], [c for c in cards
+                                      if not c.startswith('/%s/' % version)])
+
     def test_the_pages_serve_links_that_stay_in_the_version(self):
         import re
         from chardata.guides_content import ordered_slugs
