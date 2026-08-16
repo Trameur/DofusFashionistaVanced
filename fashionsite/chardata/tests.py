@@ -15399,6 +15399,16 @@ class RebuildCheckTests(SimpleTestCase):
                 self.assertTrue(os.path.exists(os.path.join(repo_root, path)),
                                 '%s is not where the check looks' % path)
 
+    def test_it_can_look_further_back_than_the_last_commit(self):
+        # A bad rebuild that is already committed becomes the reference, and
+        # comparing with HEAD then says nothing. That is how the Touch pet
+        # numbering shipped broken: only the day before had the right map.
+        module = self._module()
+        self.assertIn('rev', module.committed_bytes.__code__.co_varnames)
+        self.assertIn('rev', module.read_committed.__code__.co_varnames)
+        self.assertEqual('HEAD',
+                         module.read_committed.__defaults__[0])
+
 
 class SourceHealthCheckTests(SimpleTestCase):
     """check_sources.py probes every live source a version is built from, by

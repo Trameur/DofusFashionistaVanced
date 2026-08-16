@@ -12,6 +12,7 @@ committed catches any of that.
     python itemscraper/check_rebuild.py             # every version
     python itemscraper/check_rebuild.py --only retro
     python itemscraper/check_rebuild.py --tolerance 0.05
+    python itemscraper/check_rebuild.py --since HEAD~20   # before a bad commit
 
 Two questions are asked of each version:
 
@@ -53,18 +54,18 @@ COMMITTED = {
 INSERT = re.compile(r'INSERT INTO "?(\w+)"? VALUES\((\d+)')
 
 
-def committed_bytes(path):
+def committed_bytes(path, rev='HEAD'):
     try:
-        return subprocess.run(['git', 'show', 'HEAD:%s' % path],
+        return subprocess.run(['git', 'show', '%s:%s' % (rev, path)],
                               cwd=PROJECT_ROOT, capture_output=True,
                               check=True).stdout
     except subprocess.CalledProcessError:
         return None
 
 
-def read_committed(version):
-    """{table: row count} and {(ankama_id, name): id} as HEAD has them."""
-    raw = committed_bytes(COMMITTED[version])
+def read_committed(version, rev='HEAD'):
+    """{table: row count} and {(ankama_id, name): id} as that revision has them."""
+    raw = committed_bytes(COMMITTED[version], rev)
     if raw is None:
         return None, None
     if COMMITTED[version].endswith('.dump'):
@@ -115,6 +116,12 @@ def main(argv=None):
     parser.add_argument('--only', help='one game version')
     parser.add_argument('--tolerance', type=float, default=0.03,
                         help='share of rows a table may lose without a word')
+    # Once a bad dump is committed it becomes the reference and HEAD sees
+    # nothing. The Touch pet numbering went that way: broken on the 15th,
+    # committed the same hour, and only a comparison with the day before
+    # showed the 82 pets that had changed owner.
+    parser.add_argument('--since', default='HEAD', metavar='REV',
+                        help='compare against this revision instead of HEAD')
     args = parser.parse_args(argv)
 
     versions = [v for v in VERSIONS if not args.only or v == args.only]
@@ -124,9 +131,10 @@ def main(argv=None):
         if not os.path.exists(path):
             print('%-8s no database on this machine' % version)
             continue
-        was_counts, was_items = read_committed(version)
+        was_counts, was_items = read_committed(version, args.since)
         if was_counts is None:
-            print('%-8s nothing committed to compare against' % version)
+            print('%-8s nothing committed at %s to compare against'
+                  % (version, args.since))
             continue
         now_counts, now_items = read_db(path)
 
