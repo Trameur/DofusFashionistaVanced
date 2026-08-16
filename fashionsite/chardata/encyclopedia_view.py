@@ -346,10 +346,13 @@ NON_SEARCHABLE_STAT_KEYS = {
     'hp',
 }
 
-# Synthetic Dofus Retro pet variants (one per stat a pet can be fed toward, at
-# its cap) live at or above this id and reuse the base pet's ankama id. Must
-# match VARIANT_ID_BASE in itemscraper/store_retro_pet_bonuses.py.
-PET_VARIANT_ID_BASE = 10_000_000
+# Synthetic pet variants (one per stat a pet can be fed toward, at its cap) live
+# at or above these ids and reuse the base pet's ankama id. Retro and Touch are
+# the two versions whose data carries no bonus for a feeding pet. Must match
+# VARIANT_ID_BASE in itemscraper/store_{retro,touch}_pet_bonuses.py. The other
+# versions put cross-version duplicates at 100M + ankama id, so they stay out.
+PET_VARIANT_ID_BASE_BY_VERSION = {'retro': 10_000_000, 'touch': 200_000_000}
+PET_VARIANT_ID_BASE = PET_VARIANT_ID_BASE_BY_VERSION['retro']
 
 
 def _ui_text():
@@ -477,14 +480,15 @@ def _get_weapon_detail_lines(structure, variant_items, language):
     return lines
 
 
-def _get_pet_feedable_bonuses(structure, grouped_variants, language):
-    """For a Retro pet, the maxed stats it can be fed toward (one per variant).
+def _get_pet_feedable_bonuses(structure, grouped_variants, language,
+                              variant_id_base=PET_VARIANT_ID_BASE):
+    """For a fed pet, the maxed stats it can be fed toward (one per variant).
 
     The player picks one, so they read as alternatives (OR) on the pet's page.
     """
     bonuses = []
     for variant in sorted(grouped_variants, key=lambda current: current.id):
-        if variant.id < PET_VARIANT_ID_BASE:
+        if variant.id < variant_id_base:
             continue
         for stat_id, stat_value in variant.stats:
             stat = structure.get_stat_by_id(stat_id)
@@ -2043,12 +2047,14 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'icon_url': _get_stat_icon_url(stat.key),
         })
 
-    # Feeding bonuses are a Retro-only pet feature. Other versions put cross-version
-    # duplicates in the same high id range (100M + ankama_id), so guard by version.
-    is_retro_version = getattr(request, 'game_version', None) == 'retro'
+    # Retro and Touch pets carry no bonus in the data: they are fed up to a cap,
+    # and the page would otherwise show a pet with an empty characteristics list.
+    variant_id_base = PET_VARIANT_ID_BASE_BY_VERSION.get(
+        getattr(request, 'game_version', None))
     pet_feedable_bonuses = (
-        _get_pet_feedable_bonuses(structure, grouped_variants, language)
-        if is_retro_version else [])
+        _get_pet_feedable_bonuses(structure, grouped_variants, language,
+                                  variant_id_base)
+        if variant_id_base else [])
     set_bonuses = _get_set_bonuses(structure, item_set, language)
 
     condition_groups = _format_condition_groups(structure, grouped_variants, language)

@@ -6729,6 +6729,49 @@ class TouchPetBonusFileTests(SimpleTestCase):
                          '%d bonus line(s) of the file reach no item' % len(missing))
 
 
+class FedPetPageTests(TestCase):
+    """A Touch or Retro pet carries no bonus in the data: it is fed up to a cap.
+    The page used to print "Characteristics -" and stop there, while the tool
+    itself knew the pet reaches 110 Agility. Retro said so, Touch did not."""
+
+    # Air Bwak, the same ankama id on both, fed toward three different stats.
+    PET_ANKAMA_ID = 2076
+
+    def _sections(self, version, language='en'):
+        import re
+        prefix = '' if version == 'dofus3' else '/' + version
+        response = self.client.get(
+            '%s/encyclopedia/item/equipment/%d-x/' % (prefix, self.PET_ANKAMA_ID),
+            headers={'accept-language': language})
+        self.assertEqual(200, response.status_code, version)
+        return re.findall(r'<b>([^<]+)</b>', response.content.decode('utf-8'))
+
+    def test_touch_and_retro_say_what_the_pet_reaches(self):
+        from chardata.encyclopedia_view import _ui_text
+        for version in ('touch', 'retro'):
+            with self.subTest(version=version):
+                sections = self._sections(version)
+                self.assertIn(_ui_text()['pet_feedable_label'], sections)
+                # and no empty characteristics block above it
+                self.assertNotIn(_ui_text()['stats_label'], sections)
+
+    def test_a_modern_pet_keeps_its_plain_characteristics(self):
+        from chardata.encyclopedia_view import _ui_text
+        sections = self._sections('dofus3')
+        self.assertIn(_ui_text()['stats_label'], sections)
+        self.assertNotIn(_ui_text()['pet_feedable_label'], sections)
+
+    def test_the_label_is_translated_everywhere(self):
+        for language in ('en', 'fr', 'es', 'pt', 'de'):
+            with self.subTest(language=language):
+                sections = self._sections('touch', language)
+                self.assertTrue(
+                    any('fed' in s.lower() or 'nourr' in s.lower()
+                        or 'comida' in s.lower() or 'aliment' in s.lower()
+                        or 'fütterung' in s.lower() for s in sections),
+                    'no feeding section in %s: %s' % (language, sections[:5]))
+
+
 class RetroPetBonusFileTests(SimpleTestCase):
     """Retro feeds its pets too, and numbers its variants the same way, from a
     counter over the file. Its scrape reads two fan sites and keeps a blank
