@@ -6613,3 +6613,27 @@ msgstr "Kritischer Treffer"
 msgctxt "retro"
 msgid "% Trap Damage"
 msgstr "% Schaden durch Fallen"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Gear you can actually wear"
+msgstr "Ausrüstung, die du wirklich anlegen kannst"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "An item that asks for 12 AP or 6 MP, one or the other, is a choice now: the optimizer holds one of the two true instead of dropping the condition. Ask for 12 AP and you no longer get pieces capped at 11."
+msgstr "Ein Teil, das 12 AP oder 6 BP verlangt, eines von beiden, ist jetzt eine Wahl: Der Optimierer hält einen der beiden Zweige, statt die Bedingung fallen zu lassen. Verlang 12 AP und du bekommst keine bei 11 gedeckelten Teile mehr."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Dofus Retro set bonuses were rebuilt from a source that tells trap damage apart from power, so a set that gives trap damage no longer reads as plain damage."
+msgstr "Die Set-Boni von Dofus Retro stammen jetzt aus einer Quelle, die Fallenschaden von Kraft unterscheidet: Ein Set mit Fallenschaden liest sich nicht mehr wie gewöhnlicher Schaden."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Retro monster drops are back after the site they come from changed its pages, and the four errors the item picker was answering with are closed."
+msgstr "Die Monster-Drops in Retro sind zurück, nachdem die Quellseite ihre Seiten umgebaut hatte, und die vier Fehler, mit denen die Item-Auswahl geantwortet hat, sind behoben."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "A Touch pet page now says what the pet reaches once fed, instead of showing an empty list of characteristics."
+msgstr "Die Seite eines Touch-Begleiters sagt jetzt, was er gefüttert erreicht, statt eine leere Merkmalsliste zu zeigen."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
+msgstr "Ein neuer Guide behandelt die Plätze für Begleiter, Reittier und Schild, und die Guide-Links halten dich jetzt in der Version, die du liest."

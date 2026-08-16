@@ -6649,3 +6649,27 @@ msgstr "Coup critique"
 msgctxt "retro"
 msgid "% Trap Damage"
 msgstr "% de dommages aux pièges"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Gear you can actually wear"
+msgstr "Du stuff que tu peux vraiment porter"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "An item that asks for 12 AP or 6 MP, one or the other, is a choice now: the optimizer holds one of the two true instead of dropping the condition. Ask for 12 AP and you no longer get pieces capped at 11."
+msgstr "Un objet qui demande 12 PA ou 6 PM, l'un ou l'autre, est enfin traité comme un choix : l'optimiseur tient l'une des deux branches au lieu de jeter la condition. Demande 12 PA et tu ne reçois plus des pièces plafonnées à 11."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Dofus Retro set bonuses were rebuilt from a source that tells trap damage apart from power, so a set that gives trap damage no longer reads as plain damage."
+msgstr "Les bonus de panoplie du Dofus Rétro ont été refaits depuis une source qui distingue les dommages aux pièges de la puissance : une panoplie qui donne des dommages aux pièges ne se lit plus comme des dommages classiques."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Retro monster drops are back after the site they come from changed its pages, and the four errors the item picker was answering with are closed."
+msgstr "Les drops des monstres Rétro sont revenus après que le site d'où ils viennent a changé ses pages, et les quatre erreurs que renvoyait le sélecteur d'objets sont corrigées."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "A Touch pet page now says what the pet reaches once fed, instead of showing an empty list of characteristics."
+msgstr "La page d'un familier Touch indique maintenant ce qu'il atteint une fois nourri, au lieu d'afficher une liste de caractéristiques vide."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
+msgstr "Un nouveau guide couvre les emplacements familier, monture et bouclier, et les liens des guides te gardent désormais dans la version que tu lis."

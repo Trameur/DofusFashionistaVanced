@@ -6605,3 +6605,27 @@ msgstr "Golpe crítico"
 msgctxt "retro"
 msgid "% Trap Damage"
 msgstr "% de daños con las trampas"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Gear you can actually wear"
+msgstr "Equipo que puedes llevar de verdad"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "An item that asks for 12 AP or 6 MP, one or the other, is a choice now: the optimizer holds one of the two true instead of dropping the condition. Ask for 12 AP and you no longer get pieces capped at 11."
+msgstr "Un objeto que pide 12 PA o 6 PM, uno u otro, por fin es una elección: el optimizador mantiene una de las dos ramas en lugar de tirar la condición. Pide 12 PA y ya no recibes piezas limitadas a 11."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Dofus Retro set bonuses were rebuilt from a source that tells trap damage apart from power, so a set that gives trap damage no longer reads as plain damage."
+msgstr "Las bonificaciones de conjunto de Dofus Retro se rehicieron con una fuente que distingue el daño de trampas de la potencia, así que un conjunto de daño de trampas ya no se lee como daño normal."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Retro monster drops are back after the site they come from changed its pages, and the four errors the item picker was answering with are closed."
+msgstr "Los drops de los monstruos de Retro han vuelto tras el cambio de páginas del sitio del que provienen, y los cuatro errores que devolvía el selector de objetos están corregidos."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "A Touch pet page now says what the pet reaches once fed, instead of showing an empty list of characteristics."
+msgstr "La página de una mascota de Touch ahora dice a cuánto llega una vez alimentada, en lugar de mostrar una lista de características vacía."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
+msgstr "Una guía nueva cubre las casillas de mascota, montura y escudo, y los enlaces de las guías ahora te mantienen en la versión que estás leyendo."

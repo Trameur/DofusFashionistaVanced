@@ -6058,3 +6058,27 @@ msgstr "Critical hit"
 msgctxt "retro"
 msgid "% Trap Damage"
 msgstr "% Trap Damage"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Gear you can actually wear"
+msgstr "Gear you can actually wear"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "An item that asks for 12 AP or 6 MP, one or the other, is a choice now: the optimizer holds one of the two true instead of dropping the condition. Ask for 12 AP and you no longer get pieces capped at 11."
+msgstr "An item that asks for 12 AP or 6 MP, one or the other, is a choice now: the optimizer holds one of the two true instead of dropping the condition. Ask for 12 AP and you no longer get pieces capped at 11."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Dofus Retro set bonuses were rebuilt from a source that tells trap damage apart from power, so a set that gives trap damage no longer reads as plain damage."
+msgstr "Dofus Retro set bonuses were rebuilt from a source that tells trap damage apart from power, so a set that gives trap damage no longer reads as plain damage."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Retro monster drops are back after the site they come from changed its pages, and the four errors the item picker was answering with are closed."
+msgstr "Retro monster drops are back after the site they come from changed its pages, and the four errors the item picker was answering with are closed."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "A Touch pet page now says what the pet reaches once fed, instead of showing an empty list of characteristics."
+msgstr "A Touch pet page now says what the pet reaches once fed, instead of showing an empty list of characteristics."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
+msgstr "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
