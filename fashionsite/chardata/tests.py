@@ -6729,6 +6729,63 @@ class TouchPetBonusFileTests(SimpleTestCase):
                          '%d bonus line(s) of the file reach no item' % len(missing))
 
 
+class RetroPetBonusFileTests(SimpleTestCase):
+    """Retro feeds its pets too, and numbers its variants the same way, from a
+    counter over the file. Its scrape reads two fan sites and keeps a blank
+    entry for every feedable pet, so a source going quiet does not remove a
+    pet: it empties one, which loses that pet's variants and renumbers the
+    rest all the same."""
+
+    VARIANT_ID_BASE = 10000000
+
+    def _bonuses(self):
+        import json
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper', 'retro_pet_bonuses.json')
+        with open(path, encoding='utf-8') as handle:
+            return json.load(handle)
+
+    def test_the_file_names_pets_and_never_its_own_variants(self):
+        fed_back = sorted(name for name in self._bonuses() if '(+' in name)
+        self.assertEqual([], fed_back[:5])
+
+    def test_every_bonus_of_the_file_reached_the_solver(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('retro')
+        variant_stats = {}
+        for item in structure.get_items_list():
+            if item.id >= self.VARIANT_ID_BASE and ' (' in item.name:
+                base = item.name.rsplit(' (', 1)[0]
+                variant_stats.setdefault(base, set()).update(item.stats or [])
+
+        missing = []
+        for name, bonuses in self._bonuses().items():
+            pet = structure.get_item_by_name(name)
+            if pet is None or not bonuses:
+                continue  # a blank entry is the checklist saying "no source"
+            carried = set(pet.stats or []) | variant_stats.get(name, set())
+            for stat_name, value in bonuses:
+                stat = structure.get_stat_by_name(stat_name)
+                if stat is not None and (stat.id, int(value)) not in carried:
+                    missing.append((name, stat_name, value))
+        self.assertEqual([], missing,
+                         '%d bonus line(s) of the file reach no item' % len(missing))
+
+    def test_a_pet_that_lost_its_bonuses_stops_the_scrape(self):
+        # The guard that fires before the file is written. Reading the source
+        # rather than running it: the scrape needs two live fan sites.
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        for name in ('scrape_retro_pet_bonuses.py', 'scrape_touch_pet_bonuses.py'):
+            path = os.path.join(repo_root, 'itemscraper', name)
+            with open(path, encoding='utf-8') as handle:
+                source = handle.read()
+            with self.subTest(scraper=name):
+                self.assertIn('allow-shrink', source)
+                self.assertIn('nothing written', source)
+
+
 class OldBuildsKeepTheirItemsTests(SimpleTestCase):
     """Collapsing the "(#1)"/"(#2)" rows into one item retires ids that saved
     builds store, and a build whose id no longer resolves loses that slot in

@@ -246,6 +246,23 @@ def main():
     result.update(OVERRIDES)
 
     result = dict(sorted(result.items()))
+
+    # A pet whose bonuses go blank loses its variants, and the variants are
+    # numbered in file order, so everything after it is renumbered. A saved
+    # build keeps the number: that is how 82 Touch pets changed owner on
+    # 2026-08-15. Two sources feed this file and either can go quiet.
+    if os.path.exists(OUT_PATH):
+        with open(OUT_PATH, encoding='utf-8') as existing_file:
+            existing = json.load(existing_file)
+        emptied = sorted(name for name, bonuses in existing.items()
+                         if bonuses and not result.get(name))
+        if emptied and '--allow-shrink' not in sys.argv:
+            print('%d pet(s) the file already had lost their bonuses: %s'
+                  % (len(emptied), ', '.join(emptied[:15])))
+            print('nothing written. Add them to OVERRIDES, or pass '
+                  '--allow-shrink if the game really dropped them.')
+            return 1
+
     with open(OUT_PATH, 'w', encoding='utf-8') as out_file:
         json.dump(result, out_file, ensure_ascii=False, indent=2)
 
@@ -258,4 +275,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())
