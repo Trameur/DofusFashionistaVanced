@@ -3048,6 +3048,33 @@ class WizardSlidersRoundTripTests(SimpleTestCase):
                                  'slider %r: set %s, got back %s' % (key, value, got))
 
 
+class CheckPagesCommandTests(TestCase):
+    """check_pages walks every public route on every version and language, with
+    the query strings a crawler invents, and fails on anything that answers 500.
+    Every production 500 this project has had was found by a player or by the
+    error mailbox; this one is meant to find them first."""
+
+    def test_it_walks_the_public_pages_without_a_500(self):
+        from io import StringIO
+        from django.core.management import call_command
+        out = StringIO()
+        call_command('check_pages', only='retro', languages='fr,de', stdout=out)
+        printed = out.getvalue()
+        self.assertIn('no page answered 500', printed)
+        walked = int(printed.split('pages walked:')[1].split()[0])
+        self.assertGreater(walked, 30, printed)
+
+    def test_it_fails_when_a_page_breaks(self):
+        from io import StringIO
+        from unittest import mock
+        from django.core.management import call_command
+        with mock.patch('django.test.Client.get',
+                        side_effect=ValueError('deliberate break')):
+            with self.assertRaises(SystemExit):
+                call_command('check_pages', only='retro', languages='fr',
+                             stdout=StringIO())
+
+
 class UnreadableCharBlobTests(TestCase):
     """A Char keeps eight pickled columns of objects that have been renamed and
     moved over the years. One that no longer reads back used to raise out of
