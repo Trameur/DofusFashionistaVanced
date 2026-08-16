@@ -3090,6 +3090,40 @@ class UnreadableCharBlobTests(TestCase):
                 self.assertEqual(200,
                                  self.client.get(shared_build_path(char)).status_code)
 
+    def test_no_column_is_unpickled_bare(self):
+        """Every pickle.loads of a stored column goes through the helper or a
+        try. One that does neither is a 500 waiting for the day that column
+        stops reading back."""
+        import ast
+        import glob
+        chardata_dir = os.path.dirname(os.path.abspath(__file__))
+        offenders = []
+        for path in glob.glob(os.path.join(chardata_dir, '*.py')):
+            name = os.path.basename(path)
+            if name in ('tests.py', 'char_blobs.py'):
+                continue
+            with open(path, encoding='utf-8') as handle:
+                tree = ast.parse(handle.read(), filename=name)
+            guarded = set()
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Try):
+                    for child in ast.walk(node):
+                        guarded.add(id(child))
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Call):
+                    continue
+                func = node.func
+                if not (isinstance(func, ast.Attribute) and func.attr == 'loads'
+                        and isinstance(func.value, ast.Name)
+                        and func.value.id == 'pickle'):
+                    continue
+                if not node.args or not isinstance(node.args[0], ast.Attribute):
+                    continue
+                if id(node) not in guarded:
+                    offenders.append('%s:%d' % (name, node.lineno))
+        self.assertEqual([], offenders,
+                         'a stored column is unpickled with nothing to catch it')
+
     def test_a_reader_falls_back_to_the_empty_value(self):
         from chardata.char_blobs import read_char_blob
         self.assertEqual({}, read_char_blob(b'not-a-pickle', {}, 'minimum_stats'))

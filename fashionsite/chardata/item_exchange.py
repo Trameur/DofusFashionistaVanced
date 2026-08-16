@@ -20,6 +20,7 @@ import json
 import jsonpickle
 import math
 import pickle
+from chardata.char_blobs import read_char_blob
 import re
 from django.core.cache import cache
 from fashionistapulp.fashion_util import strip_accents
@@ -108,7 +109,7 @@ def _order_items(item_type, char, search_term, stat_filters=None):
         items = [i for i in items if _item_contains_term(i, re.sub(r'\W+', '', search_term))]
     items = [i for i in items if _hide_removed_item(i)]
     items = _apply_stat_filters(items, stat_filters or [])
-    weights = pickle.loads(char.stats_weight)
+    weights = read_char_blob(char.stats_weight, {}, 'stats_weight', char)
     sorted_items = sorted(items, key=lambda item: _rate(structure, item, weights), reverse=True)
     return sorted_items
 

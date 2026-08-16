@@ -17,6 +17,7 @@
 from collections import Counter
 import datetime
 import pickle
+from chardata.char_blobs import read_char_blob
 
 from django.db.models import F
 
@@ -74,7 +75,9 @@ class DatabaseSolutionMemory(object):
             return None
         else:
             todays_state.update(count_hit=F('count_hit')+1)
-            return pickle.loads(memoized_solution.stored)
+            # A memoized solve that no longer reads back is a cache miss, not a
+            # crash: the solver can always compute it again.
+            return read_char_blob(memoized_solution.stored, None, 'memoized solution')
         
     def put(self, model_input, result_tuple):
         input_hash = model_input.__hash__()

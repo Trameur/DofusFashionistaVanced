@@ -16,6 +16,7 @@
 
 import json
 import pickle
+from chardata.char_blobs import read_char_blob
 
 from chardata.inventory_solver import get_inventory_mode
 from chardata.lock_forbid import add_items_to_exclusions, remove_items_from_exclusions
@@ -61,9 +62,7 @@ def parse_inventory_options(request, char, options):
 
 def inventory_source_context(request, char):
     """Template context for the shared item-source widget."""
-    options = {}
-    if char.options:
-        options = pickle.loads(char.options)
+    options = read_char_blob(char.options, {}, 'options', char)
     return {
         'inventory_folders': _inventory_folders_for(request, char),
         'inventory_mode': get_inventory_mode(options),

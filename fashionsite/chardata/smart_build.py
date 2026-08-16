@@ -857,7 +857,7 @@ def _set_minimums(char, aspects):
                               * param_for_build(race, elements, 'range_importance', 'float_avg', game_version=game_version))
 
     if not is_mule and not is_leech and char.minimum_stats:
-        saved = pickle.loads(char.minimum_stats)
+        saved = read_char_blob(char.minimum_stats, {}, 'minimum_stats', char)
         for stat_key, stat_name in [('ap', 'AP'), ('mp', 'MP'), ('range', 'Range')]:
             if stat_name in saved:
                 mins[stat_key] = max(mins[stat_key], saved[stat_name])

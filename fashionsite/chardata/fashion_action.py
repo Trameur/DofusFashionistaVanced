@@ -17,6 +17,7 @@
 from django.conf import settings
 from django.http import HttpResponseRedirect
 import pickle
+from chardata.char_blobs import read_char_blob
 
 from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
                                   get_empty_slots)
@@ -44,9 +45,7 @@ MEMORY = DatabaseSolutionMemory()
 
 def get_options(request, char_id):
     char = get_char_or_raise(request, char_id)
-    options = {}
-    if char.options:
-        options = pickle.loads(char.options)
+    options = read_char_blob(char.options, {}, 'options', char)
     model_options = {'ap_exo': options.get('ap_exo', False),
                      'range_exo': options.get('range_exo', False),
                      'mp_exo': options.get('mp_exo', False),

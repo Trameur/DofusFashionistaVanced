@@ -185,7 +185,7 @@ def set_options(char, options):
     assert options.get('dofus') == 'lightset' or options.get('dofus') == 'cawwot' or type(options.get('dofus', False)) == bool
 
     if char.options:
-        old_options = pickle.loads(char.options)
+        old_options = read_char_blob(char.options, {}, 'options', char)
         old_options.update(options)
         char.options = pickle.dumps(old_options)
     else:
