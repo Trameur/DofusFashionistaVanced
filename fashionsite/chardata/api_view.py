@@ -96,8 +96,12 @@ def api_shared_builds(request):
         page_size = DEFAULT_PAGE_SIZE
     page_size = max(1, min(page_size, MAX_PAGE_SIZE))
 
+    # A build whose solution was never stored has no /s/ page: the gallery and
+    # the sitemap both skip it, and a consumer turning this id into a url would
+    # land on a 404.
     qs = (Char.objects
           .filter(link_shared=True, deleted=False, game_version=game_version)
+          .exclude(minimal_solution=b'')
           .select_related('owner')
           .annotate(
               like_count=Count(Case(When(buildvote__vote_type='like', then=1),
@@ -170,8 +174,12 @@ def api_tier_list(request):
     except (TypeError, ValueError):
         top_n = 5
 
+    # A build whose solution was never stored has no /s/ page: the gallery and
+    # the sitemap both skip it, and a consumer turning this id into a url would
+    # land on a 404.
     qs = (Char.objects
           .filter(link_shared=True, deleted=False, game_version=game_version)
+          .exclude(minimal_solution=b'')
           .select_related('owner')
           .annotate(
               like_count=Count(Case(When(buildvote__vote_type='like', then=1),

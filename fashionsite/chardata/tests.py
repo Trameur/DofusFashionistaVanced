@@ -3091,6 +3091,61 @@ class ApiDocsTests(TestCase):
             self.assertIn(max_age, resp.get('Cache-Control', ''), url)
 
 
+class ApiListsOnlyOpenableBuildsTests(TestCase):
+    """The api hands out an id a consumer turns into a /s/ url. A build whose
+    solution was never stored has no such page: the gallery and the sitemap
+    both skip it, and the api used to list it."""
+
+    def setUp(self):
+        # The api answers are cache_page'd, and the cache outlives a test: any
+        # earlier test that touched these urls would serve its answer to this
+        # one. That is exactly how these two tests passed alone and failed in
+        # the suite.
+        from django.core.cache import cache
+        cache.clear()
+        self.addCleanup(cache.clear)
+
+    def _shared(self, name, blob):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner, _created = User.objects.get_or_create(
+            username='apisharer', defaults={'email': 'api@test.local'})
+        return Char.objects.create(
+            name=name, char_name=name, char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=blob, owner=owner, link_shared=True,
+            game_version='dofus3')
+
+    def test_a_build_with_no_solution_is_not_listed(self):
+        import pickle
+        self._shared('ApiAvecSolution', pickle.dumps({'item_per_slot': {}}))
+        self._shared('ApiSansSolution', b'')
+        names = [row['name'] for row
+                 in self.client.get('/api/v1/shared-builds/').json()['results']]
+        self.assertIn('ApiAvecSolution', names)
+        self.assertNotIn('ApiSansSolution', names)
+
+    def test_the_tier_list_skips_it_too(self):
+        import pickle
+        self._shared('ApiAvecSolution', pickle.dumps({'item_per_slot': {}}))
+        self._shared('ApiSansSolution', b'')
+        body = self.client.get('/api/v1/tier-list/').content.decode('utf-8')
+        self.assertNotIn('ApiSansSolution', body)
+
+    def test_the_payload_carries_no_private_field(self):
+        import pickle
+        self._shared('ApiAvecSolution', pickle.dumps({'item_per_slot': {}}))
+        rows = self.client.get('/api/v1/shared-builds/').json()['results']
+        self.assertTrue(rows)
+        for row in rows:
+            with self.subTest(row=row.get('name')):
+                self.assertNotIn('email', row)
+                self.assertNotIn('owner_id', row)
+                # the raw primary key never leaves, only the encoded id
+                self.assertNotIsInstance(row['id'], int)
+
+
 class CommentNotificationLanguageTests(TestCase):
     """The build owner gets the new-comment email in the language they last
     picked in the language selector."""
