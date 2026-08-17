@@ -7,7 +7,7 @@ URLs so the version namespace does not matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'pets-mounts-and-shields', 'building-on-a-budget', 'inventory-and-your-own-rolls',
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'pets-mounts-and-shields', 'building-on-a-budget', 'inventory-and-your-own-rolls', 'gearing-a-healer',
          'best-turn-damage', 'transcendence-runes',
          'versions-explained']
 
@@ -4275,6 +4275,146 @@ GUIDES = {
     # ------------------------------------------------------------------ #
     # Version neutral: how a piece is obtained is read from each version's own
     # drop and recipe tables, but the reasoning is the same everywhere.
+    'gearing-a-healer': {
+        'published': '2026-08-17',
+        'i18n': {
+            'en': {
+                'title': 'Gearing a healer: what actually raises your heals',
+                'desc': "A heal scales with the characteristic of its element and takes the Heals stat flat. Power and +Damage do nothing for it. How to gear a healer.",
+                'lead': "Healing is not damage, and the stats that raise it are not the ones that raise damage. Here is what your heals really depend on, and how to weight them.",
+                'body': '''
+<h2>What a heal is made of</h2>
+<p>A healing spell has a <strong>base heal</strong>, the numbers written on the spell. Two things change it. The characteristic of the spell's element scales that base, the same way it scales damage: a fire heal follows Intelligence, a water heal follows Chance, and so on. Then the <strong>Heals</strong> stat from your gear is added on top, flat, once per heal.</p>
+<p>That is why the two stats suit different spells. A spell with a big base gains most from the characteristic, because the percentage applies to a big number. A small heal you cast several times a turn gains most from Heals, because the flat bonus lands on every cast.</p>
+
+<h2>What does nothing at all</h2>
+<p>Power, flat +Damage and +Critical Damage are damage stats. They do not touch a heal, and neither does +Damage in the element of your heal. A healer wearing damage gear is wearing statistics that never fire, which is the most common way to build one badly.</p>
+
+<h2>Critical heals</h2>
+<p>A heal can crit, and its critical line is simply a higher base. Critical hits are worth having on a healer exactly when the spell's critical heal is meaningfully bigger than its normal one, and worth ignoring when it is not. The spell page shows both lines side by side.</p>
+
+<h2>Heals written as a share of life</h2>
+<p>Some spells restore a percentage of the target's health instead of a number of points. Those do not read your characteristics or your Heals stat at all: there is nothing to gear for them. If your kit leans on that kind of spell, put the gear where it does something else.</p>
+
+<h2>A dead healer heals nothing</h2>
+<p>Vitality and resistances are not a distraction on a support build, they are part of the job. So is AP: one more cast per turn is worth more than a few points of Heals, and unlike Heals it also buys you the freedom to move and still act.</p>
+
+<h2>How to weight it here</h2>
+<p>Put real weight on Heals and on the characteristic of your heal's element, keep AP as a minimum rather than a weight, and leave Power and +Damage at zero unless you also attack. The optimizer will otherwise happily hand you a damage set: nothing tells it that your Intelligence is there to heal rather than to burn.</p>
+
+<p><em>Gearing a healer? <a href="/setup/">Weight your heals here.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': "Stuff de soigneur : ce qui augmente vraiment tes soins",
+                'desc': "Un soin suit la caractéristique de son élément et prend le stat Soins en plat. La Puissance et les Dommages n'y font rien. Comment stuffer un soigneur.",
+                'lead': "Soigner n'est pas taper, et les stats qui augmentent les soins ne sont pas celles qui augmentent les dégâts. Voici de quoi dépend vraiment ton soin, et comment le peser.",
+                'body': '''
+<h2>De quoi un soin est fait</h2>
+<p>Un sort de soin a une <strong>base</strong>, les nombres écrits sur le sort. Deux choses la modifient. La caractéristique de l'élément du sort multiplie cette base, exactement comme elle multiplie les dégâts : un soin de feu suit l'Intelligence, un soin d'eau suit la Chance, et ainsi de suite. Ensuite le stat <strong>Soins</strong> de ton stuff s'ajoute par-dessus, en plat, une fois par soin.</p>
+<p>C'est pour cela que les deux stats ne servent pas les mêmes sorts. Un sort à grosse base profite surtout de la caractéristique, parce que le pourcentage s'applique à un grand nombre. Un petit soin lancé plusieurs fois par tour profite surtout des Soins, parce que le bonus plat tombe à chaque lancer.</p>
+
+<h2>Ce qui ne fait absolument rien</h2>
+<p>La Puissance, les Dommages plats et les Dommages critiques sont des stats de dégâts. Ils ne touchent pas un soin, et les Dommages dans l'élément de ton soin non plus. Un soigneur en stuff de dégâts porte des statistiques qui ne se déclenchent jamais, et c'est la façon la plus courante de rater ce build.</p>
+
+<h2>Les soins critiques</h2>
+<p>Un soin peut être critique, et sa ligne critique est simplement une base plus haute. Les coups critiques valent donc le détour sur un soigneur exactement quand le soin critique du sort est nettement plus gros que le soin normal, et ne valent rien quand il ne l'est pas. La page du sort affiche les deux lignes côte à côte.</p>
+
+<h2>Les soins écrits en pourcentage de vie</h2>
+<p>Certains sorts rendent un pourcentage de la vie de la cible au lieu d'un nombre de points. Ceux-là ne lisent ni tes caractéristiques ni ton stat Soins : il n'y a rien à stuffer pour eux. Si ton jeu repose sur ce genre de sort, mets le stuff là où il sert à autre chose.</p>
+
+<h2>Un soigneur mort ne soigne pas</h2>
+<p>La Vitalité et les résistances ne sont pas une distraction sur un build de support, elles font partie du travail. Les PA aussi : un lancer de plus par tour vaut mieux que quelques points de Soins, et contrairement aux Soins il t'achète la liberté de bouger et d'agir quand même.</p>
+
+<h2>Comment le peser ici</h2>
+<p>Mets un vrai poids sur les Soins et sur la caractéristique de l'élément de ton soin, garde les PA en minimum plutôt qu'en poids, et laisse la Puissance et les Dommages à zéro si tu ne tapes pas aussi. Sinon l'optimiseur te rendra volontiers une panoplie de dégâts : rien ne lui dit que ton Intelligence est là pour soigner et pas pour brûler.</p>
+
+<p><em>Tu stuffes un soigneur ? <a href="/setup/">Pèse tes soins ici.</a></em></p>
+''',
+            },
+            'es': {
+                'title': 'Equipo de sanador: qué aumenta de verdad tus curaciones',
+                'desc': "Una curación sigue la característica de su elemento y suma el stat Curaciones en plano. La Potencia y los Daños no hacen nada. Cómo equipar a un sanador.",
+                'lead': "Curar no es pegar, y las estadísticas que suben las curaciones no son las que suben el daño. Esto es de lo que depende tu curación, y cómo ponderarla.",
+                'body': '''
+<h2>De qué está hecha una curación</h2>
+<p>Un hechizo de curación tiene una <strong>base</strong>, los números escritos en el hechizo. Dos cosas la cambian. La característica del elemento del hechizo multiplica esa base, igual que multiplica el daño: una curación de fuego sigue la Inteligencia, una de agua sigue la Suerte, y así. Luego el stat <strong>Curaciones</strong> de tu equipo se suma encima, en plano, una vez por curación.</p>
+<p>Por eso las dos estadísticas sirven a hechizos distintos. Un hechizo con base grande aprovecha sobre todo la característica, porque el porcentaje cae sobre un número grande. Una curación pequeña que lanzas varias veces por turno aprovecha sobre todo Curaciones, porque el bono plano entra en cada lanzamiento.</p>
+
+<h2>Lo que no hace absolutamente nada</h2>
+<p>Potencia, Daños planos y Daños críticos son estadísticas de daño. No tocan una curación, ni tampoco los Daños en el elemento de tu curación. Un sanador con equipo de daño lleva estadísticas que nunca se disparan, y es la forma más común de arruinar este build.</p>
+
+<h2>Curaciones críticas</h2>
+<p>Una curación puede ser crítica, y su línea crítica es simplemente una base más alta. Los golpes críticos merecen la pena en un sanador exactamente cuando la curación crítica del hechizo es bastante mayor que la normal, y no merecen nada cuando no lo es. La página del hechizo muestra las dos líneas juntas.</p>
+
+<h2>Curaciones escritas en porcentaje de vida</h2>
+<p>Algunos hechizos devuelven un porcentaje de la vida del objetivo en vez de un número de puntos. Esos no leen tus características ni tu stat Curaciones: no hay nada que equipar para ellos. Si tu juego se apoya en ese tipo de hechizo, pon el equipo donde sirva para otra cosa.</p>
+
+<h2>Un sanador muerto no cura</h2>
+<p>La Vitalidad y las resistencias no son una distracción en un build de apoyo, son parte del trabajo. Los PA también: un lanzamiento más por turno vale más que unos puntos de Curaciones, y a diferencia de Curaciones te compra la libertad de moverte y actuar igual.</p>
+
+<h2>Cómo ponderarlo aquí</h2>
+<p>Pon peso real en Curaciones y en la característica del elemento de tu curación, deja los PA como mínimo en vez de como peso, y deja Potencia y Daños a cero si no pegas también. Si no, el optimizador te dará encantado un equipo de daño: nada le dice que tu Inteligencia está ahí para curar y no para quemar.</p>
+
+<p><em>¿Equipas a un sanador? <a href="/setup/">Pondera tus curaciones aquí.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': 'Equipamento de curandeiro: o que aumenta as suas curas',
+                'desc': "Uma cura é multiplicada pela característica do seu elemento e soma o stat Curas em plano. Potência e Danos não fazem nada. Como equipar um curandeiro.",
+                'lead': "Curar não é bater, e as estatísticas que aumentam as curas não são as que aumentam o dano. Isto é do que a sua cura realmente depende, e como pesá-la.",
+                'body': '''
+<h2>Do que uma cura é feita</h2>
+<p>Um feitiço de cura tem uma <strong>base</strong>, os números escritos no feitiço. Duas coisas a mudam. A característica do elemento do feitiço multiplica essa base, do mesmo modo que multiplica o dano: uma cura de fogo segue a Inteligência, uma de água segue a Sorte, e assim por diante. Depois o stat <strong>Curas</strong> do seu equipamento é somado por cima, em plano, uma vez por cura.</p>
+<p>É por isso que as duas estatísticas servem feitiços diferentes. Um feitiço de base grande aproveita sobretudo a característica, porque a percentagem cai sobre um número grande. Uma cura pequena lançada várias vezes por turno aproveita sobretudo Curas, porque o bónus plano entra em cada lançamento.</p>
+
+<h2>O que não faz absolutamente nada</h2>
+<p>Potência, Danos planos e Danos críticos são estatísticas de dano. Não tocam uma cura, e os Danos no elemento da sua cura também não. Um curandeiro em equipamento de dano usa estatísticas que nunca disparam, e essa é a maneira mais comum de errar este build.</p>
+
+<h2>Curas críticas</h2>
+<p>Uma cura pode ser crítica, e a sua linha crítica é simplesmente uma base mais alta. Os golpes críticos valem a pena num curandeiro exactamente quando a cura crítica do feitiço é bastante maior que a normal, e não valem nada quando não é. A página do feitiço mostra as duas linhas lado a lado.</p>
+
+<h2>Curas escritas em percentagem de vida</h2>
+<p>Alguns feitiços devolvem uma percentagem da vida do alvo em vez de um número de pontos. Esses não leem as suas características nem o stat Curas: não há nada a equipar para eles. Se o seu jogo se apoia nesse tipo de feitiço, ponha o equipamento onde ele sirva para outra coisa.</p>
+
+<h2>Um curandeiro morto não cura</h2>
+<p>Vitalidade e resistências não são uma distracção num build de suporte, fazem parte do trabalho. Os PA também: um lançamento a mais por turno vale mais que alguns pontos de Curas, e ao contrário de Curas compra-lhe a liberdade de andar e agir de qualquer modo.</p>
+
+<h2>Como pesar isto aqui</h2>
+<p>Ponha peso real em Curas e na característica do elemento da sua cura, guarde os PA como mínimo em vez de peso, e deixe Potência e Danos a zero se não bater também. Caso contrário o optimizador dar-lhe-á de bom grado um conjunto de dano: nada lhe diz que a sua Inteligência está ali para curar e não para queimar.</p>
+
+<p><em>Está a equipar um curandeiro? <a href="/setup/">Pese as suas curas aqui.</a></em></p>
+''',
+            },
+            'de': {
+                'title': 'Heiler ausrüsten: was deine Heilung wirklich erhöht',
+                'desc': "Eine Heilung folgt der Charakteristik ihres Elements und nimmt den Wert Heilung flach dazu. Kraft und Schaden tun nichts. So rüstest du einen Heiler aus.",
+                'lead': "Heilen ist kein Schaden, und die Werte, die Heilung erhöhen, sind nicht die, die Schaden erhöhen. Davon hängt deine Heilung wirklich ab, und so gewichtest du sie.",
+                'body': '''
+<h2>Woraus eine Heilung besteht</h2>
+<p>Ein Heilzauber hat eine <strong>Basis</strong>, die Zahlen, die auf dem Zauber stehen. Zwei Dinge verändern sie. Die Charakteristik des Zauberelements skaliert diese Basis, genauso wie sie Schaden skaliert: eine Feuerheilung folgt der Intelligenz, eine Wasserheilung dem Glück, und so weiter. Dann kommt der Wert <strong>Heilung</strong> aus deiner Ausrüstung flach obendrauf, einmal pro Heilung.</p>
+<p>Deshalb passen die beiden Werte zu verschiedenen Zaubern. Ein Zauber mit großer Basis profitiert vor allem von der Charakteristik, weil der Prozentsatz auf eine große Zahl trifft. Eine kleine Heilung, die du mehrmals pro Runde wirkst, profitiert vor allem von Heilung, weil der flache Bonus bei jedem Wirken dazukommt.</p>
+
+<h2>Was überhaupt nichts tut</h2>
+<p>Kraft, flacher Schaden und kritischer Schaden sind Schadenswerte. Sie berühren eine Heilung nicht, und Schaden im Element deiner Heilung auch nicht. Ein Heiler in Schadensausrüstung trägt Werte, die niemals ausgelöst werden, und das ist der häufigste Weg, diesen Build zu verderben.</p>
+
+<h2>Kritische Heilungen</h2>
+<p>Eine Heilung kann kritisch sein, und ihre kritische Zeile ist einfach eine höhere Basis. Kritische Treffer lohnen sich auf einem Heiler genau dann, wenn die kritische Heilung des Zaubers deutlich größer ist als die normale, und lohnen sich nicht, wenn sie das nicht ist. Die Zauberseite zeigt beide Zeilen nebeneinander.</p>
+
+<h2>Heilungen als Anteil des Lebens</h2>
+<p>Manche Zauber geben einen Prozentsatz des Lebens des Ziels zurück statt einer Zahl von Punkten. Die lesen weder deine Charakteristiken noch deinen Wert Heilung: für sie gibt es nichts auszurüsten. Wenn dein Spiel auf solchen Zaubern beruht, setze die Ausrüstung dort ein, wo sie etwas anderes bewirkt.</p>
+
+<h2>Ein toter Heiler heilt nicht</h2>
+<p>Vitalität und Widerstände sind auf einem Unterstützungsbuild keine Ablenkung, sie gehören zur Aufgabe. AP auch: ein Wirken mehr pro Runde ist mehr wert als ein paar Punkte Heilung, und anders als Heilung kauft es dir die Freiheit, dich zu bewegen und trotzdem zu handeln.</p>
+
+<h2>Wie du es hier gewichtest</h2>
+<p>Gib Heilung und der Charakteristik deines Heilelements echtes Gewicht, halte AP als Minimum statt als Gewicht, und lass Kraft und Schaden auf null, wenn du nicht auch angreifst. Sonst gibt dir der Optimierer bereitwillig ein Schadensset: nichts sagt ihm, dass deine Intelligenz zum Heilen da ist und nicht zum Brennen.</p>
+
+<p><em>Rüstest du einen Heiler aus? <a href="/setup/">Gewichte deine Heilung hier.</a></em></p>
+''',
+            },
+        },
+    },
     'building-on-a-budget': {
         'published': '2026-08-17',
         'i18n': {
