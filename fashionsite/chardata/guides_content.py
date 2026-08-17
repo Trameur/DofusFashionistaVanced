@@ -7,7 +7,7 @@ URLs so the version namespace does not matter.
 """
 from __future__ import annotations
 
-ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'pets-mounts-and-shields', 'inventory-and-your-own-rolls',
+ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'pets-mounts-and-shields', 'building-on-a-budget', 'inventory-and-your-own-rolls',
          'best-turn-damage', 'transcendence-runes',
          'versions-explained']
 
@@ -4268,6 +4268,145 @@ GUIDES = {
 <p><em>Baust du für Retro? <a href="/setup/">Stell die beiden Plätze ein und rechne.</a></em></p>
 ''',
                 },
+            },
+        },
+    },
+
+    # ------------------------------------------------------------------ #
+    # Version neutral: how a piece is obtained is read from each version's own
+    # drop and recipe tables, but the reasoning is the same everywhere.
+    'building-on-a-budget': {
+        'published': '2026-08-17',
+        'i18n': {
+            'en': {
+                'title': 'Building on a budget: craft it, farm it, or skip it',
+                'desc': "The tool says how every piece of a set is obtained and can solve from what you already own. How to get a build you can actually assemble.",
+                'lead': "A build is worth what you can actually wear. Here is what the tool tells you about getting the gear, and how to make it plan around what you already have.",
+                'body': '''
+<h2>The line under your build</h2>
+<p>Under every solution the Fashionista prints one line about getting it, something like "4 craftable pieces, 3 pieces by drop only, the rarest at 0.35%". It is the first thing to read after the stats. Two builds can score the same and cost a month apart.</p>
+
+<h2>Craftable is not the same as cheap</h2>
+<p>A craftable piece means the recipe exists and the page lists it. It still needs the ingredients, and some of those are themselves rare drops. What craftable really buys you is <strong>certainty</strong>: you can plan it, farm the ingredients in any order, and you will get the item. A drop is a lottery ticket you buy with your evenings.</p>
+
+<h2>The rarest rate is the real price</h2>
+<p>When the data has it, the line names the rarest drop rate in the whole set. That number decides the plan more than any other: a set whose worst piece drops at 5% is a weekend, and one whose worst piece drops at 0.1% is a project. If a build hangs on a single very rare item, look at what the second-best build costs before you commit to the first.</p>
+
+<h2>Solve from what you own</h2>
+<p>The tool can build from your own inventory instead of the whole game. Fill an inventory folder, then pick a mode in the project options: everything the game has, only what you own, or a mix that fills the gaps you leave open. "Only what you own" answers a different question, and often a more useful one: what is the best set I can wear <em>tonight</em>.</p>
+
+<h2>Lock what you have, exclude what you will not chase</h2>
+<p>Two switches do most of the work. Lock a piece you already own and the optimizer builds around it instead of proposing something you would have to buy. Exclude an item you will never farm and it stops coming back in every solution. A build you assemble beats a better one you never wear.</p>
+
+<h2>Compare before you commit</h2>
+<p>Once you have two candidates, put them side by side: the comparison shows what the second build gains and loses against the first, stat by stat. That is where you find out that the expensive set is worth 3% more damage, or 30%.</p>
+
+<p><em>Want a set you can actually put together? <a href="/setup/">Start here.</a></em></p>
+''',
+            },
+            'fr': {
+                'title': "Construire avec un budget : craft, farm, ou tant pis",
+                'desc': "L'outil dit comment chaque pièce s'obtient et sait optimiser à partir de ce que tu possèdes déjà. Comment sortir un build que tu peux vraiment assembler.",
+                'lead': "Un build vaut ce que tu peux réellement porter. Voilà ce que l'outil te dit sur l'obtention du stuff, et comment lui faire prévoir avec ce que tu as déjà.",
+                'body': '''
+<h2>La ligne sous ton build</h2>
+<p>Sous chaque solution, la Fashionista écrit une ligne sur l'obtention, du genre "4 pièces craftables, 3 pièces uniquement en drop, la plus rare à 0,35 %". C'est la première chose à lire après les stats. Deux builds peuvent avoir le même score et un mois d'écart de coût.</p>
+
+<h2>Craftable ne veut pas dire pas cher</h2>
+<p>Une pièce craftable, c'est une recette qui existe et que la page affiche. Il faut quand même les ingrédients, et certains sont eux-mêmes des drops rares. Ce que le craft t'achète vraiment, c'est la <strong>certitude</strong> : tu peux planifier, farmer les ingrédients dans l'ordre que tu veux, et tu auras l'objet. Un drop, c'est un ticket de loterie payé en soirées.</p>
+
+<h2>Le taux le plus rare est le vrai prix</h2>
+<p>Quand la donnée existe, la ligne indique le taux de drop le plus rare de toute la panoplie. Ce chiffre décide du plan plus que n'importe quel autre : une panoplie dont la pire pièce tombe à 5 %, c'est un week-end ; à 0,1 %, c'est un projet. Si un build repose sur un seul objet très rare, regarde ce que coûte le deuxième meilleur avant de t'engager sur le premier.</p>
+
+<h2>Optimiser à partir de ce que tu as</h2>
+<p>L'outil peut construire depuis ton propre inventaire plutôt que depuis tout le jeu. Remplis un dossier d'inventaire, puis choisis un mode dans les options du projet : tout ce que le jeu propose, seulement ce que tu possèdes, ou un mélange qui comble les trous que tu laisses ouverts. "Seulement ce que je possède" répond à une autre question, souvent plus utile : quel est le meilleur stuff que je peux porter <em>ce soir</em>.</p>
+
+<h2>Verrouille ce que tu as, exclus ce que tu ne chasseras pas</h2>
+<p>Deux réglages font l'essentiel. Verrouille une pièce que tu possèdes déjà et l'optimiseur construit autour au lieu de te proposer quelque chose à acheter. Exclus un objet que tu ne farmeras jamais et il cesse de revenir dans chaque solution. Un build que tu assembles vaut mieux qu'un meilleur build que tu ne portes jamais.</p>
+
+<h2>Compare avant de t'engager</h2>
+<p>Une fois deux candidats en main, mets-les côte à côte : la comparaison montre ce que le second gagne et perd face au premier, stat par stat. C'est là que tu découvres si la panoplie chère vaut 3 % de dommages en plus, ou 30 %.</p>
+
+<p><em>Tu veux un stuff que tu peux vraiment monter ? <a href="/setup/">Commence ici.</a></em></p>
+''',
+            },
+            'es': {
+                'title': 'Construir con presupuesto: fabricar, farmear o dejarlo',
+                'desc': 'La herramienta dice cómo se consigue cada pieza y puede optimizar con lo que ya tienes. Cómo sacar un equipo que puedas montar de verdad.',
+                'lead': 'Un equipo vale lo que puedas llevar de verdad. Esto es lo que la herramienta te dice sobre conseguir las piezas, y cómo hacer que planifique con lo que ya tienes.',
+                'body': '''
+<h2>La línea debajo de tu equipo</h2>
+<p>Debajo de cada solución, la Fashionista escribe una línea sobre cómo conseguirlo, del tipo "4 piezas fabricables, 3 piezas solo por drop, la más rara al 0,35 %". Es lo primero que hay que leer después de las estadísticas. Dos equipos pueden puntuar igual y costar un mes de diferencia.</p>
+
+<h2>Fabricable no quiere decir barato</h2>
+<p>Una pieza fabricable significa que la receta existe y la página la muestra. Aun así hacen falta los ingredientes, y algunos son drops raros. Lo que la fabricación te compra de verdad es <strong>certeza</strong>: puedes planificar, farmear los ingredientes en el orden que quieras, y tendrás el objeto. Un drop es un billete de lotería pagado con tus tardes.</p>
+
+<h2>El porcentaje más raro es el precio real</h2>
+<p>Cuando el dato existe, la línea nombra el drop más raro de todo el conjunto. Ese número decide el plan más que ningún otro: un conjunto cuya peor pieza cae al 5 % es un fin de semana; al 0,1 % es un proyecto. Si un equipo depende de un único objeto rarísimo, mira cuánto cuesta el segundo mejor antes de comprometerte con el primero.</p>
+
+<h2>Optimizar con lo que ya tienes</h2>
+<p>La herramienta puede construir desde tu inventario en lugar de desde todo el juego. Rellena una carpeta de inventario y elige un modo en las opciones del proyecto: todo lo que hay en el juego, solo lo que posees, o una mezcla que rellene los huecos que dejes abiertos. "Solo lo que poseo" responde a otra pregunta, a menudo más útil: cuál es el mejor equipo que puedo llevar <em>esta noche</em>.</p>
+
+<h2>Bloquea lo que tienes, excluye lo que no vas a perseguir</h2>
+<p>Dos ajustes hacen casi todo. Bloquea una pieza que ya tienes y el optimizador construye a su alrededor en vez de proponerte algo que habría que comprar. Excluye un objeto que nunca vas a farmear y dejará de volver en cada solución. Un equipo que montas vale más que uno mejor que nunca llevas.</p>
+
+<h2>Compara antes de decidir</h2>
+<p>Con dos candidatos, ponlos lado a lado: la comparación muestra qué gana y qué pierde el segundo frente al primero, estadística por estadística. Ahí descubres si el conjunto caro vale un 3 % más de daño, o un 30 %.</p>
+
+<p><em>¿Quieres un equipo que puedas montar de verdad? <a href="/setup/">Empieza aquí.</a></em></p>
+''',
+            },
+            'pt': {
+                'title': 'Montar com orçamento: fabricar, farmar ou deixar pra lá',
+                'desc': 'A ferramenta diz como cada peça é obtida e sabe otimizar com o que você já tem. Como sair com uma build que dá para montar de verdade.',
+                'lead': 'Uma build vale o que você consegue mesmo vestir. Veja o que a ferramenta diz sobre conseguir as peças, e como fazê-la planejar com o que você já tem.',
+                'body': '''
+<h2>A linha embaixo da sua build</h2>
+<p>Embaixo de cada solução, a Fashionista escreve uma linha sobre como consegui-la, do tipo "4 peças fabricáveis, 3 peças só por drop, a mais rara a 0,35%". É a primeira coisa a ler depois dos atributos. Duas builds podem pontuar igual e custar um mês de diferença.</p>
+
+<h2>Fabricável não quer dizer barato</h2>
+<p>Uma peça fabricável quer dizer que a receita existe e a página mostra. Ainda faltam os ingredientes, e alguns são drops raros. O que a fabricação compra de verdade é <strong>certeza</strong>: dá para planejar, farmar os ingredientes na ordem que quiser, e o item vem. Um drop é um bilhete de loteria pago com suas noites.</p>
+
+<h2>A taxa mais rara é o preço real</h2>
+<p>Quando o dado existe, a linha aponta o drop mais raro do conjunto inteiro. Esse número decide o plano mais que qualquer outro: um conjunto cuja pior peça cai a 5% é um fim de semana; a 0,1% é um projeto. Se uma build depende de um único item raríssimo, veja quanto custa a segunda melhor antes de se comprometer com a primeira.</p>
+
+<h2>Otimizar com o que você tem</h2>
+<p>A ferramenta pode montar a partir do seu inventário em vez do jogo inteiro. Preencha uma pasta de inventário e escolha um modo nas opções do projeto: tudo o que o jogo tem, só o que você possui, ou uma mistura que preenche as lacunas que você deixar abertas. "Só o que eu tenho" responde a outra pergunta, muitas vezes mais útil: qual a melhor build que consigo vestir <em>hoje à noite</em>.</p>
+
+<h2>Trave o que você tem, exclua o que não vai caçar</h2>
+<p>Dois ajustes fazem quase tudo. Trave uma peça que já tem e o otimizador constrói em volta dela em vez de propor algo para comprar. Exclua um item que nunca vai farmar e ele para de voltar em toda solução. Uma build que você monta vale mais que uma melhor que nunca veste.</p>
+
+<h2>Compare antes de decidir</h2>
+<p>Com dois candidatos, coloque-os lado a lado: a comparação mostra o que a segunda ganha e perde em relação à primeira, atributo por atributo. É ali que se descobre se o conjunto caro vale 3% a mais de dano, ou 30%.</p>
+
+<p><em>Quer uma build que dá para montar? <a href="/setup/">Comece aqui.</a></em></p>
+''',
+            },
+            'de': {
+                'title': 'Mit Budget bauen: herstellen, farmen oder sein lassen',
+                'desc': 'Das Werkzeug sagt, wie jedes Teil zu bekommen ist, und rechnet auch mit dem, was du schon hast. So bekommst du einen Build, den du wirklich anlegen kannst.',
+                'lead': 'Ein Build ist so viel wert, wie du tatsächlich tragen kannst. Das sagt dir das Werkzeug über die Beschaffung, und so plant es mit dem, was du schon besitzt.',
+                'body': '''
+<h2>Die Zeile unter deinem Build</h2>
+<p>Unter jeder Lösung schreibt die Fashionista eine Zeile zur Beschaffung, etwa "4 herstellbare Teile, 3 Teile nur als Beute, das seltenste bei 0,35 %". Das ist das Erste, was man nach den Werten liest. Zwei Builds können gleich punkten und einen Monat auseinanderliegen.</p>
+
+<h2>Herstellbar heißt nicht billig</h2>
+<p>Herstellbar heißt, dass es ein Rezept gibt und die Seite es zeigt. Die Zutaten fehlen trotzdem, und manche davon sind selbst seltene Beute. Was das Handwerk dir wirklich kauft, ist <strong>Sicherheit</strong>: Du kannst planen, die Zutaten in beliebiger Reihenfolge farmen, und das Teil kommt. Beute ist ein Lottoschein, den du mit deinen Abenden bezahlst.</p>
+
+<h2>Die seltenste Rate ist der echte Preis</h2>
+<p>Wenn die Daten sie hergeben, nennt die Zeile die seltenste Fundrate des ganzen Sets. Diese Zahl bestimmt den Plan mehr als jede andere: Ein Set, dessen schlechtestes Teil bei 5 % fällt, ist ein Wochenende; bei 0,1 % ist es ein Projekt. Hängt ein Build an einem einzigen sehr seltenen Teil, sieh dir an, was der zweitbeste kostet, bevor du dich auf den ersten festlegst.</p>
+
+<h2>Mit dem rechnen, was du hast</h2>
+<p>Das Werkzeug kann aus deinem eigenen Inventar bauen statt aus dem ganzen Spiel. Füll einen Inventarordner und wähl dann in den Projektoptionen einen Modus: alles, was es im Spiel gibt, nur was du besitzt, oder eine Mischung, die die Lücken füllt, die du offen lässt. "Nur was ich besitze" beantwortet eine andere Frage, oft die nützlichere: Was ist der beste Build, den ich <em>heute Abend</em> tragen kann.</p>
+
+<h2>Festlegen, was du hast, ausschließen, was du nicht jagst</h2>
+<p>Zwei Schalter machen die Arbeit. Leg ein Teil fest, das du schon besitzt, und der Optimierer baut darum herum, statt dir etwas zum Kaufen vorzuschlagen. Schließ ein Teil aus, das du nie farmen wirst, und es taucht nicht in jeder Lösung wieder auf. Ein Build, den du zusammenbekommst, schlägt einen besseren, den du nie trägst.</p>
+
+<h2>Vergleich, bevor du dich festlegst</h2>
+<p>Hast du zwei Kandidaten, stell sie nebeneinander: Der Vergleich zeigt Wert für Wert, was der zweite gegenüber dem ersten gewinnt und verliert. Dort stellt sich heraus, ob das teure Set 3 % mehr Schaden bringt oder 30 %.</p>
+
+<p><em>Willst du ein Set, das du wirklich zusammenbekommst? <a href="/setup/">Fang hier an.</a></em></p>
+''',
             },
         },
     },
