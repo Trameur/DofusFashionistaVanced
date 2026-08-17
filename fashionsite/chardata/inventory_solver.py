@@ -61,12 +61,32 @@ def apply_inventory_restriction(char, exclusions, folder):
         except (TypeError, ValueError):
             pass
     structure = get_structure()
+    items = list(structure.get_concatenated_items_lists())
+    kept_ids = _with_or_siblings(items, owned_ids | included_ids)
     excluded = set(exclusions)
-    for item in structure.get_concatenated_items_lists():
-        if item.id in owned_ids or item.id in included_ids:
+    for item in items:
+        if item.id in kept_ids:
             continue
         excluded.add(item.id)
     return list(excluded)
+
+
+def _with_or_siblings(items, kept_ids):
+    """The kept ids, plus every row that shares an OR name with one of them.
+
+    An item gated behind alternative conditions ships as several rows, and the
+    solver forbids the whole group as soon as one row is forbidden. A folder
+    only ever holds the row the encyclopedia lists, so excluding the siblings
+    took the owned row down with them: 44 Retro items and 20 Touch ones could
+    not be equipped from a folder that held them."""
+    groups = {}
+    for item in items:
+        groups.setdefault((item.dofus_touch, item.or_name), []).append(item.id)
+    kept = set(kept_ids)
+    for group_ids in groups.values():
+        if len(group_ids) > 1 and not kept.isdisjoint(group_ids):
+            kept.update(group_ids)
+    return kept
 
 
 def get_inventory_stat_overrides(folder):

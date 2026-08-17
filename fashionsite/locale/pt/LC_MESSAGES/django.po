@@ -6605,3 +6605,7 @@ msgstr "A página de uma mascote do Touch agora diz aonde ela chega depois de al
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
 msgstr "Um guia novo cobre os espaços de mascote, montaria e escudo, e os links dos guias agora mantêm você na versão que está lendo."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Only items from my inventory: a piece with alternative equip conditions can be worn again when your inventory holds it, and a Gelano you do not own is no longer slipped into the build."
+msgstr "Apenas itens do meu inventário: uma peça com condições de equipamento alternativas volta a poder ser usada quando o seu inventário a tem, e um Gelano que você não tem já não entra no equipamento."

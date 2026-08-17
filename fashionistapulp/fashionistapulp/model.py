@@ -839,15 +839,24 @@ class Model:
                 restriction.changeRHS(0)
             else:
                 restriction.changeRHS(1)
+        # The exo option decides which of the two synthesized Gelano rows is
+        # usable, and it used to decide it alone: whatever the player forbade,
+        # one row came back. In "only what I own" that meant a ring nobody
+        # owned, since the inventory restriction speaks through the same
+        # exclusions. The option still picks the row; an exclusion still wins.
         gelano1 = self.structure.get_item_by_name('Gelano (#1)')
         gelano2 = self.structure.get_item_by_name('Gelano (#2)')
         if gelano1 and gelano2:
-            restriction = self.restrictions.forbidden_items_constraints.get(gelano2.id, None)
-            if restriction is not None:
-                restriction.changeRHS(0 if options['mp_exo'] == 'gelano' else 1)
-            restriction = self.restrictions.forbidden_items_constraints.get(gelano1.id, None)
-            if restriction is not None:
-                restriction.changeRHS(1 if options['mp_exo'] == 'gelano' else 0)
+            wants_exo = options['mp_exo'] == 'gelano'
+            for gelano, allowed_by_option in ((gelano2, not wants_exo),
+                                              (gelano1, wants_exo)):
+                restriction = self.restrictions.forbidden_items_constraints.get(
+                    gelano.id, None)
+                if restriction is None:
+                    continue
+                restriction.changeRHS(
+                    1 if allowed_by_option and gelano.id not in new_forbid_list
+                    else 0)
     
     def create_or_item_count_constraints(self):
         """One item split into rows is still one item.

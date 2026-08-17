@@ -8616,6 +8616,140 @@ class CreateLocalAdminCommandTests(TestCase):
         self.assertEqual(self.client.get('/admin-tools/').status_code, 200)
 
 
+class SolveFromMyOwnItemsTests(TestCase):
+    """"Only what I own" is a headline promise of the inventory: every piece the
+    solver hands back has to come out of the folder. The mode is read from the
+    options blob, which is one of the columns that now falls back to an empty
+    value rather than raising, so the promise is worth pinning down."""
+
+    def _project_with_folder(self, mode, owned_names):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.models import InventoryFolder, InventoryItem
+        from chardata.options import get_options, set_options
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        structure = get_structure('dofus3')
+        owner = User.objects.create_user('inv' + mode, '%s@t.local' % mode, 'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+        folder = InventoryFolder.objects.create(
+            user=owner, name='mine', game_version='dofus3')
+        owned = []
+        for name in owned_names:
+            item = structure.get_item_by_name(name)
+            self.assertIsNotNone(item, name)
+            InventoryItem.objects.create(folder=folder, item_id=item.id,
+                                         custom_stats='')
+            owned.append(item.name)
+        options = get_options(char)
+        options['inventory_mode'] = mode
+        options['inventory_folder'] = folder.id
+        set_options(char, options)
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        return char, owned
+
+    # A handful of real level 200 pieces, one per slot, plus a cheap weapon.
+    OWNED = ['Baleenaboots', 'Suspender Belt', 'Jiva Necklace', 'Ochre Dofus']
+
+    def test_only_what_i_own_equips_nothing_else(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution import get_solution
+        char, owned = self._project_with_folder('only', self.OWNED)
+        solution = get_solution(char)
+        self.assertIsNotNone(solution)
+        worn = [ri.name for ri in solution.item_list if ri.item_added]
+        self.assertTrue(worn, 'the solver equipped nothing at all')
+        self.assertEqual([], [name for name in worn if name not in owned],
+                         'a piece came from outside the folder')
+
+    def test_everything_mode_ignores_the_folder(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution import get_solution
+        char, owned = self._project_with_folder('all', self.OWNED)
+        worn = [ri.name for ri in get_solution(char).item_list if ri.item_added]
+        self.assertTrue([name for name in worn if name not in owned],
+                        'with the whole game allowed, the build should not be '
+                        'limited to the four owned pieces')
+
+
+class OwnedOrItemStaysEquippableTests(TestCase):
+    """An item gated behind alternative conditions ships as several rows sharing
+    one name, and the solver forbids the whole group as soon as one row is
+    forbidden. A folder holds the single row the item picker offers, so
+    excluding the other rows used to take the owned one down with them: 44 Retro
+    items and 20 Touch ones sat in a folder that could not equip them."""
+
+    def _or_group(self, structure):
+        groups = {}
+        for item in structure.get_concatenated_items_lists():
+            groups.setdefault((item.dofus_touch, item.or_name), []).append(item)
+        for (_dt, name), members in sorted(groups.items(),
+                                           key=lambda kv: str(kv[0][1])):
+            if len(members) > 1 and name != 'Gelano':
+                return name, members
+        return None, []
+
+    def _excluded_ids(self, version, owned_ids):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.models import InventoryFolder, InventoryItem
+        from chardata.inventory_solver import apply_inventory_restriction
+        set_current_game_version(version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user(
+            'orinv' + version, '%s@t.local' % version, 'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, version)
+        folder = InventoryFolder.objects.create(
+            user=owner, name='mine', game_version=version)
+        for item_id in owned_ids:
+            InventoryItem.objects.create(folder=folder, item_id=item_id,
+                                         custom_stats='')
+        return set(apply_inventory_restriction(char, [], folder))
+
+    def _assert_group_survives(self, version):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        set_current_game_version(version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        structure = get_structure(version)
+        name, members = self._or_group(structure)
+        self.assertIsNotNone(name, '%s has no OR-grouped item to check' % version)
+        # The picker offers the group under the id of its first row.
+        excluded = self._excluded_ids(version, [members[0].id])
+        still_forbidden = sorted(m.name for m in members if m.id in excluded)
+        self.assertEqual([], still_forbidden,
+                         'owning %s left rows of it excluded' % name)
+
+    def test_retro_keeps_every_row_of_an_owned_or_item(self):
+        self._assert_group_survives('retro')
+
+    def test_touch_keeps_every_row_of_an_owned_or_item(self):
+        self._assert_group_survives('touch')
+
+    def test_an_or_item_nobody_owns_stays_excluded(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        structure = get_structure('retro')
+        name, members = self._or_group(structure)
+        self.assertIsNotNone(name)
+        excluded = self._excluded_ids('retro', [])
+        missing = sorted(m.name for m in members if m.id not in excluded)
+        self.assertEqual([], missing,
+                         'an unowned group must stay out of the pool')
+
+
 class GelanoExoInventoryTests(TestCase):
     """MP exo "only Gelano" must equip the +1 AP +1 MP Gelano, not the plain one."""
 
@@ -16402,7 +16536,6 @@ class WeaponWithoutApTests(TestCase):
         with mock.patch('chardata.item_exchange.get_structure') as structure:
             structure.return_value.get_weapon_by_name.return_value = Hitless()
             self.assertEqual(_get_weapon_rate(Named(), None, Solution()), 0)
-
 
 class PinnedDependenciesAgreeTests(SimpleTestCase):
     """boto3 requires the botocore of its own version, so a bump that lifts one
