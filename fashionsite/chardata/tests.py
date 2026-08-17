@@ -1585,6 +1585,60 @@ class SocialAuthCancelTests(TestCase):
         self.assertIn('/login', resp['Location'])
 
 
+class PasswordResetTokenExpiryTests(TestCase):
+    """A reset link is a key to the account. The token used to be a bare HMAC
+    of the username and the password hash, with no timestamp: the mail stayed a
+    working key for as long as the password was unchanged, which in an old
+    inbox means years."""
+
+    def _user(self):
+        from django.contrib.auth.models import User
+        return User.objects.create_user('resetme', 'resetme@test.local', 'oldhash')
+
+    def test_a_fresh_link_works(self):
+        from chardata.login_view import _generate_token_for_password_reset
+        user = self._user()
+        token = _generate_token_for_password_reset(user.username, user.password)
+        response = self.client.post(
+            '/do_recover_password/%s/%s/' % (user.username, token),
+            {'new_password': 'brandnew42', 'confirm_password': 'brandnew42'})
+        self.assertNotEqual(403, response.status_code)
+        user.refresh_from_db()
+        self.assertNotEqual('oldhash', user.password)
+
+    def test_an_old_link_is_refused(self):
+        from django.test import override_settings
+        from chardata.login_view import _generate_token_for_password_reset
+        user = self._user()
+        token = _generate_token_for_password_reset(user.username, user.password)
+        with override_settings(PASSWORD_RESET_TIMEOUT=0):
+            response = self.client.get(
+                '/do_recover_password/%s/%s/' % (user.username, token))
+        self.assertEqual(403, response.status_code)
+
+    def test_a_completed_reset_kills_the_older_links(self):
+        from chardata.login_view import _generate_token_for_password_reset
+        user = self._user()
+        first = _generate_token_for_password_reset(user.username, user.password)
+        self.client.post('/do_recover_password/%s/%s/' % (user.username, first),
+                         {'new_password': 'brandnew42',
+                          'confirm_password': 'brandnew42'})
+        response = self.client.get(
+            '/do_recover_password/%s/%s/' % (user.username, first))
+        self.assertEqual(403, response.status_code)
+
+    def test_a_tampered_token_is_refused(self):
+        from chardata.login_view import _generate_token_for_password_reset
+        user = self._user()
+        token = _generate_token_for_password_reset(user.username, user.password)
+        for bad in (token[:-1] + ('a' if token[-1] != 'a' else 'b'),
+                    token.split(':')[0], 'nonsense'):
+            with self.subTest(token=bad[:20]):
+                response = self.client.get(
+                    '/do_recover_password/%s/%s/' % (user.username, bad))
+                self.assertEqual(403, response.status_code)
+
+
 class PasswordResetTests(TestCase):
     """Completing a password reset also activates the account: login rejects
     inactive accounts."""

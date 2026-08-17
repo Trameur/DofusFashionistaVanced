@@ -25,7 +25,9 @@ from django.core.validators import validate_email
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.db import IntegrityError
-from django.utils.crypto import salted_hmac
+from django.core.signing import (BadSignature, SignatureExpired,
+                                 TimestampSigner)
+from django.utils.crypto import constant_time_compare, salted_hmac
 from django.utils.http import url_has_allowed_host_and_scheme
 from smtplib import SMTPRecipientsRefused, SMTPException
 from social_django.models import UserSocialAuth
@@ -264,8 +266,7 @@ def recover_password(request, username, recover_token):
     
     user = users[0]
     current_password = user.password
-    correct_token = _generate_token_for_password_reset(username, current_password)
-    if correct_token != recover_token:
+    if not _password_reset_token_is_valid(username, current_password, recover_token):
         raise PermissionDenied
 
     username = user.username
@@ -309,8 +310,32 @@ def _generate_token_for_user(username):
     return salted_hmac(EMAIL_CONFIRMATION_SALT, username).hexdigest()
 
 PASSWORD_RESET_SALT = settings.GEN_CONFIGS["PASSWORD_RESET_SALT"]
-def _generate_token_for_password_reset(username, password):
+
+
+def _password_reset_hmac(username, password):
     return salted_hmac(PASSWORD_RESET_SALT, username + password).hexdigest()
+
+
+def _generate_token_for_password_reset(username, password):
+    """A reset token that stops working.
+
+    The bare HMAC never expired: a reset mail stayed a working key to the
+    account for as long as the password was unchanged, which is to say for
+    years in an old inbox. Signing it with a timestamp puts Django's
+    PASSWORD_RESET_TIMEOUT on it, three days by default. The password hash
+    stays inside, so a completed reset still kills every older link at once.
+    """
+    return TimestampSigner(salt=PASSWORD_RESET_SALT).sign(
+        _password_reset_hmac(username, password))
+
+
+def _password_reset_token_is_valid(username, password, token):
+    try:
+        signed = TimestampSigner(salt=PASSWORD_RESET_SALT).unsign(
+            token, max_age=settings.PASSWORD_RESET_TIMEOUT)
+    except (BadSignature, SignatureExpired):
+        return False
+    return constant_time_compare(signed, _password_reset_hmac(username, password))
 
 def _get_non_social_users_for_email(email):
     non_social_users = []
