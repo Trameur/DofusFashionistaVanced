@@ -3270,6 +3270,20 @@ class CheckPagesCommandTests(TestCase):
                 call_command('check_pages', only='retro', languages='fr',
                              stdout=StringIO())
 
+    def test_an_unusable_database_is_named_as_such(self):
+        # Run with settings_test outside the test runner and the char table does
+        # not exist, which used to be reported as fifteen broken pages.
+        from io import StringIO
+        from unittest import mock
+        from django.core.management import call_command, CommandError
+        from django.db.utils import OperationalError
+        with mock.patch('chardata.models.Char.objects.exists',
+                        side_effect=OperationalError('no such table')):
+            with self.assertRaises(CommandError) as caught:
+                call_command('check_pages', only='retro', languages='fr',
+                             stdout=StringIO())
+        self.assertIn('settings_dev', str(caught.exception))
+
 
 class UnreadableCharBlobTests(TestCase):
     """A Char keeps eight pickled columns of objects that have been renamed and

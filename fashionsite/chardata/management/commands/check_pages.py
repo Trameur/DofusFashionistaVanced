@@ -21,7 +21,7 @@ was found by a player or by the error mailbox rather than by us: a GET on a
 route that expects a POST, a weapon with no AP cost, a shared build whose
 stored solution no longer read back. They are all cheap to find on purpose.
 
-    py fashionsite/manage.py check_pages --settings=fashionsite.settings_test
+    py fashionsite/manage.py check_pages --settings=fashionsite.settings_dev
     py fashionsite/manage.py check_pages --languages fr --only retro
 
 It then follows every internal link those pages offer, because a link that goes
@@ -35,7 +35,7 @@ anything answered 500, raised, or offered a link that does not open.
 """
 import re
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.test import Client
 
 # How many distinct internal links to follow. The listing pages link to a
@@ -73,7 +73,25 @@ class Command(BaseCommand):
         parser.add_argument('--languages', default=','.join(LANGUAGES),
                             help='comma separated, default all five')
 
+    def _require_a_readable_database(self):
+        """Stop rather than blame the pages for the database.
+
+        The gallery and the two API routes read the char table. Under
+        settings_test that table does not exist, because the in-memory sqlite is
+        only ever migrated by the test runner, and the run then reported fifteen
+        findings that say nothing about the site.
+        """
+        from chardata.models import Char
+        try:
+            Char.objects.exists()
+        except Exception as error:                            # noqa: BLE001
+            raise CommandError(
+                'the char table is not readable (%s: %s). Run this with '
+                '--settings=fashionsite.settings_dev.'
+                % (type(error).__name__, str(error)[:90]))
+
     def handle(self, *args, **options):
+        self._require_a_readable_database()
         client = Client()
         versions = [v for v in VERSIONS if not options['only']
                     or v == options['only']]
