@@ -212,6 +212,26 @@ def main() -> None:
         PY, "store_retro_recipes.py",
     ], cwd=ITEMSCRAPER)
 
+    # Refresh the pet feeding caps first (dofux + Solomonk, credited on
+    # About; no first-hand source: the caps are server-side in 1.29). A
+    # network failure leaves the committed retro_pet_bonuses.json in place.
+    step("pets/scrape", [
+        PY, "scrape_retro_pet_bonuses.py",
+    ], cwd=ITEMSCRAPER)
+
+    # Pet variants (one maxed variant per bonus, from the vendored
+    # retro_pet_bonuses.json snapshot): load-db drops them with every
+    # rebuild, this recreates them (idempotent) and re-dumps.
+    #
+    # BEFORE drops/store: store_drops attaches a drop to every internal row of
+    # an ankama id, so a variant created after it keeps none. Four pets used to
+    # show their monsters on the plain row and nothing on the fed ones. The
+    # drops step cannot simply move later either: monsters/grades and
+    # monsters/subareas read the monster_names table it creates.
+    step("pets/store", [
+        PY, "store_retro_pet_bonuses.py",
+    ], cwd=ITEMSCRAPER)
+
     step("drops/transform", [
         PY, "get_monsters_retro.py",
         "--output", "transformed_drops_retro.json",
@@ -240,20 +260,6 @@ def main() -> None:
     # resvg on the machine the script warns and leaves the committed art.
     step("monsters/artworks", [
         PY, "download_retro_monster_artworks.py",
-    ], cwd=ITEMSCRAPER)
-
-    # Refresh the pet feeding caps first (dofux + Solomonk, credited on
-    # About; no first-hand source: the caps are server-side in 1.29). A
-    # network failure leaves the committed retro_pet_bonuses.json in place.
-    step("pets/scrape", [
-        PY, "scrape_retro_pet_bonuses.py",
-    ], cwd=ITEMSCRAPER)
-
-    # Pet variants (one maxed variant per bonus, from the vendored
-    # retro_pet_bonuses.json snapshot): load-db drops them with every
-    # rebuild, this recreates them (idempotent) and re-dumps.
-    step("pets/store", [
-        PY, "store_retro_pet_bonuses.py",
     ], cwd=ITEMSCRAPER)
 
     # Craft professions ("Crafted by ..."): the 1.29 skills lang lists every

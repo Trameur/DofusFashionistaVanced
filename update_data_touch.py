@@ -153,6 +153,17 @@ def main() -> None:
         PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "touch",
     ])
 
+    # Feeding pets carry no bonuses in the backend datacenter: scrape the official
+    # dofus-touch.com encyclopedia hormone caps, then generate the maxed variants
+    # ("<Pet> (+110 Agility)") the optimizer picks from.
+    #
+    # BEFORE drops/store, like the Retro pipeline: store_drops attaches a drop to
+    # every internal row of an ankama id, so a variant created after it keeps
+    # none. The drops step cannot move later instead, because monsters/grades and
+    # monsters/subareas read the monster_names table it creates.
+    step("pets/scrape-bonuses", [PY, "scrape_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
+    step("pets/store-bonuses", [PY, "store_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
+
     # Monster drops (from the backend Monsters table) -> item_drops / monster_names
     # in items_touch.db (encyclopedia "Dropped by"). Runs after recipes finalize the db.
     step("drops/transform", [
@@ -172,13 +183,6 @@ def main() -> None:
     step("monsters/subareas", [
         PY, "store_touch_monster_subareas.py", "--download",
     ], cwd=ITEMSCRAPER)
-
-    # Feeding pets carry no bonuses in the backend datacenter: scrape the official
-    # dofus-touch.com encyclopedia hormone caps, then generate the maxed variants
-    # ("<Pet> (+110 Agility)") the optimizer picks from. Runs after drops so the
-    # re-dump keeps every table in sync.
-    step("pets/scrape-bonuses", [PY, "scrape_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
-    step("pets/store-bonuses", [PY, "store_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
 
     # Craft professions -> item_craft_jobs / job_names ("Crafted by ..."). The
     # localized Recipes_<lang>.json come from data/download with --all-langs.
