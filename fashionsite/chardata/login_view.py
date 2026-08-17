@@ -92,6 +92,46 @@ def clear_login_failures(request, username):
     for key, _ceiling in _login_fail_keys(request, username):
         cache.delete(key)
 
+
+# A reset request sends a mail to whatever address is posted, so without a
+# limit anyone can flood a player's inbox, and every send spends the project's
+# own Gmail quota, which also carries the welcome mails and the daily recap.
+# Over the limit the page answers exactly as it always does and sends nothing:
+# the response already looks the same whether or not the address has an
+# account, and that must not change.
+RESET_MAIL_WINDOW = 60 * 60
+RESET_MAIL_MAX_PER_EMAIL = 3
+RESET_MAIL_MAX_PER_IP = 10
+
+
+def _reset_mail_keys(request, email):
+    from chardata.solution_view import get_client_ip
+    keys = []
+    if email:
+        keys.append(('reset-mail:%s' % email.lower()[:120],
+                     RESET_MAIL_MAX_PER_EMAIL))
+    ip = get_client_ip(request)
+    if ip:
+        keys.append(('reset-mail-ip:%s' % ip, RESET_MAIL_MAX_PER_IP))
+    return keys
+
+
+def reset_mail_is_throttled(request, email):
+    from django.core.cache import cache
+    for key, ceiling in _reset_mail_keys(request, email):
+        if (cache.get(key) or 0) >= ceiling:
+            return True
+    return False
+
+
+def note_reset_mail_sent(request, email):
+    from django.core.cache import cache
+    for key, _ceiling in _reset_mail_keys(request, email):
+        try:
+            cache.incr(key)
+        except ValueError:
+            cache.set(key, 1, RESET_MAIL_WINDOW)
+
 def _get_from_email():
     return getattr(settings, 'DEFAULT_FROM_EMAIL', None) or settings.EMAIL_HOST_USER or 'DofusFashionistaVanced@gmail.com'
 
@@ -280,6 +320,15 @@ def _recover_password_page(request, email, from_register):
                              'from_register': from_register,
                              'email_send_failed': False})
 
+    if reset_mail_is_throttled(request, email):
+        logger.info('reset mail not sent, over the limit for this hour')
+        return set_response(request,
+                            'chardata/recover_password.html',
+                            {'request': request,
+                             'email': email,
+                             'from_register': from_register,
+                             'email_send_failed': False})
+
     username = non_social_users[0].username
     password = non_social_users[0].password
     
@@ -304,6 +353,7 @@ def _recover_password_page(request, email, from_register):
                              'email': email,
                              'from_register': from_register,
                              'email_send_failed': True})
+    note_reset_mail_sent(request, email)
     return set_response(request,
                         'chardata/recover_password.html', 
                         {'request': request,

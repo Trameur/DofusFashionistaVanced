@@ -1585,6 +1585,44 @@ class SocialAuthCancelTests(TestCase):
         self.assertIn('/login', resp['Location'])
 
 
+class ResetMailThrottleTests(TestCase):
+    """Asking for a reset sent a mail every time it was asked, with no limit:
+    a way to flood a player's inbox, and to spend the project's own sending
+    quota, which also carries the welcome mails and the daily recap."""
+
+    def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
+        self.addCleanup(cache.clear)
+        from django.contrib.auth.models import User
+        User.objects.create_user('floodme', 'floodme@test.local', 'hash')
+
+    def _ask(self, email='floodme@test.local'):
+        return self.client.post('/recover_password/', {'email': email})
+
+    def test_the_mails_stop_at_the_ceiling(self):
+        from django.core import mail
+        from chardata.login_view import RESET_MAIL_MAX_PER_EMAIL
+        for _attempt in range(RESET_MAIL_MAX_PER_EMAIL):
+            self._ask()
+        self.assertEqual(RESET_MAIL_MAX_PER_EMAIL, len(mail.outbox))
+        response = self._ask()
+        self.assertEqual(RESET_MAIL_MAX_PER_EMAIL, len(mail.outbox),
+                         'a fourth mail went out')
+        # and the page still says exactly what it said before
+        self.assertEqual(200, response.status_code)
+
+    def test_an_address_with_no_account_sends_nothing_and_counts_nothing(self):
+        from django.core import mail
+        from chardata.login_view import RESET_MAIL_MAX_PER_EMAIL
+        for _attempt in range(RESET_MAIL_MAX_PER_EMAIL + 2):
+            self._ask('nobody@test.local')
+        self.assertEqual(0, len(mail.outbox))
+        # the real address still gets its mail: the counter is per address
+        self._ask()
+        self.assertEqual(1, len(mail.outbox))
+
+
 class LoginThrottleTests(TestCase):
     """Nothing limited how many passwords could be tried against an account.
     Both the login and the change-password endpoints authenticate whatever is
