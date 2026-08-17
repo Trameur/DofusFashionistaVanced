@@ -3091,6 +3091,70 @@ class ApiDocsTests(TestCase):
             self.assertIn(max_age, resp.get('Cache-Control', ''), url)
 
 
+class RateCounterTests(TestCase):
+    """The failed-login and reset-mail counts used to live in the cache, which is
+    local memory here: a pool of four workers held four separate counters, so the
+    real ceiling was four times the one in the code, and a reload forgot them."""
+
+    def test_an_unknown_key_has_no_hits(self):
+        from chardata.rate_limit import hits
+        self.assertEqual(0, hits('nobody', 900))
+
+    def test_hits_count_up(self):
+        from chardata.rate_limit import hits, note_hit
+        self.assertEqual(1, note_hit('k', 900))
+        self.assertEqual(2, note_hit('k', 900))
+        self.assertEqual(2, hits('k', 900))
+
+    def test_a_count_outside_its_window_starts_again(self):
+        import datetime
+        from django.utils import timezone
+        from chardata.models import RateCounter
+        from chardata.rate_limit import hits, note_hit
+        note_hit('k', 900)
+        note_hit('k', 900)
+        RateCounter.objects.filter(key='k').update(
+            window_start=timezone.now() - datetime.timedelta(seconds=901))
+        self.assertEqual(0, hits('k', 900))
+        self.assertEqual(1, note_hit('k', 900))
+
+    def test_clearing_forgets_it(self):
+        from chardata.rate_limit import clear_hits, hits, note_hit
+        note_hit('k', 900)
+        clear_hits('k')
+        self.assertEqual(0, hits('k', 900))
+
+    def test_the_cache_no_longer_holds_the_count(self):
+        from django.core.cache import cache
+        from chardata.rate_limit import hits, note_hit
+        note_hit('k', 900)
+        note_hit('k', 900)
+        cache.clear()
+        self.assertEqual(2, hits('k', 900),
+                         'a count that a cache flush can reset is per worker')
+
+    def test_a_long_key_is_still_one_key(self):
+        from chardata.models import RateCounter
+        from chardata.rate_limit import hits, note_hit
+        long_key = 'login-fail-user:' + 'x' * 400
+        note_hit(long_key, 900)
+        note_hit(long_key, 900)
+        self.assertEqual(2, hits(long_key, 900))
+        self.assertEqual(1, RateCounter.objects.count())
+
+    def test_dead_rows_are_dropped_when_a_key_appears(self):
+        import datetime
+        from django.utils import timezone
+        from chardata.models import RateCounter
+        from chardata.rate_limit import note_hit
+        RateCounter.objects.create(
+            key='ancient', count=3,
+            window_start=timezone.now() - datetime.timedelta(days=2))
+        note_hit('brand-new', 900)
+        self.assertEqual(['brand-new'],
+                         list(RateCounter.objects.values_list('key', flat=True)))
+
+
 class TemplateCommentsStayOutOfThePageTests(TestCase):
     """Django's {# #} comment is a one-line form. Written across two lines it is
     not a comment at all, and the text lands on the page: three of them shipped,

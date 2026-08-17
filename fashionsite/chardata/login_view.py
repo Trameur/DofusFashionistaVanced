@@ -71,26 +71,23 @@ def _login_fail_keys(request, username):
 
 
 def login_is_throttled(request, username):
-    from django.core.cache import cache
+    from chardata.rate_limit import hits
     for key, ceiling in _login_fail_keys(request, username):
-        if (cache.get(key) or 0) >= ceiling:
+        if hits(key, LOGIN_FAIL_WINDOW) >= ceiling:
             return True
     return False
 
 
 def note_login_failure(request, username):
-    from django.core.cache import cache
+    from chardata.rate_limit import note_hit
     for key, _ceiling in _login_fail_keys(request, username):
-        try:
-            cache.incr(key)
-        except ValueError:
-            cache.set(key, 1, LOGIN_FAIL_WINDOW)
+        note_hit(key, LOGIN_FAIL_WINDOW)
 
 
 def clear_login_failures(request, username):
-    from django.core.cache import cache
+    from chardata.rate_limit import clear_hits
     for key, _ceiling in _login_fail_keys(request, username):
-        cache.delete(key)
+        clear_hits(key)
 
 
 # A reset request sends a mail to whatever address is posted, so without a
@@ -117,20 +114,17 @@ def _reset_mail_keys(request, email):
 
 
 def reset_mail_is_throttled(request, email):
-    from django.core.cache import cache
+    from chardata.rate_limit import hits
     for key, ceiling in _reset_mail_keys(request, email):
-        if (cache.get(key) or 0) >= ceiling:
+        if hits(key, RESET_MAIL_WINDOW) >= ceiling:
             return True
     return False
 
 
 def note_reset_mail_sent(request, email):
-    from django.core.cache import cache
+    from chardata.rate_limit import note_hit
     for key, _ceiling in _reset_mail_keys(request, email):
-        try:
-            cache.incr(key)
-        except ValueError:
-            cache.set(key, 1, RESET_MAIL_WINDOW)
+        note_hit(key, RESET_MAIL_WINDOW)
 
 def _get_from_email():
     return getattr(settings, 'DEFAULT_FROM_EMAIL', None) or settings.EMAIL_HOST_USER or 'DofusFashionistaVanced@gmail.com'

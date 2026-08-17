@@ -297,6 +297,22 @@ class SiteSetting(models.Model):
     key = models.CharField(max_length=60, unique=True)
     value = models.TextField(blank=True)
 
+
+class RateCounter(models.Model):
+    """How many times something happened inside a window, shared by every worker.
+
+    The failed-login and reset-mail limits used to count in the cache, which is
+    local memory here: a pool of four workers held four separate counters, so the
+    real ceiling was four times what the code says, and a restart forgot the lot.
+    A row per key is small, exact and survives a reload.
+    """
+    key = models.CharField(max_length=190, unique=True)
+    window_start = models.DateTimeField()
+    count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return '%s x%d' % (self.key, self.count)
+
 # Signal wiring (models.py is the one chardata module Django always imports).
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
