@@ -227,7 +227,7 @@ def get_items_of_type(request, char_id):
     structure = get_structure()
     
     cache_key = get_picker_cache_key(
-        char_id, structure.get_type_id_by_name(itype), search_term, 'add',
+        char, structure.get_type_id_by_name(itype), search_term, 'add',
         jsonpickle.encode(stat_filters, unpicklable=False))
     items = cache.get(cache_key)
     
@@ -293,7 +293,7 @@ def get_items_to_exchange(request, char_id):
     item_type = structure.get_type_id_by_name(SLOT_NAME_TO_TYPE.get(slot))
     
     cache_key = get_picker_cache_key(
-        char_id, item_type, search_term, order_by_stats,
+        char, item_type, search_term, order_by_stats,
         jsonpickle.encode(stat_filters, unpicklable=False))
     items_to_exchange = cache.get(cache_key)
     

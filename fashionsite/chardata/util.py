@@ -254,7 +254,7 @@ def _char_cache_epoch_key(char_id):
     return 'char-cache-epoch-%s' % char_id
 
 
-def get_picker_cache_key(char_id, item_type, search_term, order_by_stats,
+def get_picker_cache_key(char, item_type, search_term, order_by_stats,
                          stat_filters):
     """The key of a project's cached, ordered item list for one slot.
 
@@ -263,10 +263,19 @@ def get_picker_cache_key(char_id, item_type, search_term, order_by_stats,
     the weapon list in the order it had for five minutes. The key also grew with
     the search term, and a 300 character one pushed it past what a cache key may
     be, so the parts are hashed.
+
+    The project's modification time is part of the key because the generation
+    counter lives in the cache, which is local memory: it moves for the worker
+    that handled the switch and for no other. modified_time is in the database,
+    so every worker sees the same one and none of them can serve the order the
+    build had before.
     """
-    raw = '%s|%s|%s|%s|%s|%s' % (get_char_cache_epoch(char_id), char_id,
-                                 item_type, search_term, order_by_stats,
-                                 stat_filters)
+    char_id = getattr(char, 'id', char)
+    stamp = getattr(char, 'modified_time', None)
+    raw = '%s|%s|%s|%s|%s|%s|%s' % (get_char_cache_epoch(char_id), char_id,
+                                    stamp.isoformat() if stamp else '',
+                                    item_type, search_term, order_by_stats,
+                                    stat_filters)
     return 'picker-%s' % hashlib.sha1(raw.encode('utf-8')).hexdigest()
 
 

@@ -16965,6 +16965,25 @@ class PickerCacheKeyTests(TestCase):
         remove_cache_for_char(11)
         self.assertEqual(other, get_picker_cache_key(12, 1, '', 'true', '[]'))
 
+    def test_saving_the_project_moves_the_key_on_its_own(self):
+        # The generation counter lives in local memory, so it moves for the
+        # worker that handled the switch and for no other. modified_time is in
+        # the database, and every solution write bumps it.
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.util import get_picker_cache_key
+        owner = User.objects.create_user('keymover', 'km@test.local', 'pw-42-sol')
+        char = Char.objects.create(
+            name='Key', char_name='key', char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'', owner=owner,
+            link_shared=False, game_version='dofus3')
+        before = get_picker_cache_key(char, 1, '', 'true', '[]')
+        char.save()
+        char.refresh_from_db()
+        self.assertNotEqual(before,
+                            get_picker_cache_key(char, 1, '', 'true', '[]'))
+
     def test_a_long_search_term_still_makes_a_usable_key(self):
         from chardata.util import get_picker_cache_key
         key = get_picker_cache_key(7, 1, 'x' * 300, 'true', '[]')
