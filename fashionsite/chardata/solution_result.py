@@ -232,9 +232,11 @@ def evolve_result_item(result_item, r=None):
         # the "(type)" prefix for them.
         localized_weapon_type = LOCALIZED_WEAPON_TYPES.get(weapon_type_key)
 
-        damage_lines.append(format_weapon_header(
+        header = format_weapon_header(
             get_current_game_version(), localized_weapon_type, result_item.ap,
-            result_item.crit_chance, result_item.crit_bonus))
+            result_item.crit_chance, result_item.crit_bonus)
+        if header:
+            damage_lines.append(header)
         for hit in result_item.non_crit_hits[NEUTRAL]:
             damage_lines.append(format_weapon_hit(get_current_game_version(),
                                                   hit, LOCALIZED_ELEMENTS))

@@ -17,12 +17,27 @@ _ELEMENTLESS_HEAL_VERSIONS = {'retro', 'touch'}
 
 
 def format_weapon_header(game_version, weapon_type, ap, crit_chance, crit_bonus):
+    """The header line of a weapon's damage block, empty when it says nothing.
+
+    Four Retro items are typed as weapons while the game's own files hold -1 for
+    every weapon parameter, so their AP cost is unknown. Writing an unknown cost
+    as a number answered 500 on the item picker, so it is left out instead.
+    """
     retro = game_version == 'retro'
     values = {'weapon_type': weapon_type, 'AP': ap,
               'crit_chance': crit_chance, 'crit_bonus': crit_bonus}
 
     has_crit = (crit_chance is not None and crit_bonus is not None
                 and not (retro and (crit_chance <= 0 or weapon_type is None)))
+    if ap is None:
+        segments = []
+        if weapon_type is not None:
+            segments.append('(%(weapon_type)s)' % values)
+        if has_crit:
+            segments.append(
+                _('CH: 1/%(crit_chance)d (+%(crit_bonus)d)') % values if retro
+                else _('CH: %(crit_chance)d%% (+%(crit_bonus)d)') % values)
+        return ' '.join(segments)
     if not has_crit:
         if weapon_type is None:
             return _('AP: %(AP)d') % values

@@ -469,9 +469,10 @@ def _get_weapon_detail_lines(structure, variant_items, language):
             LOCALIZED_WEAPON_TYPES.get(weapon_type_name, weapon_type_name)
             if weapon_type_name else None)
 
-        lines = [format_weapon_header(
+        header = format_weapon_header(
             structure.game_version, localized_weapon_type, weapon.ap,
-            weapon.crit_chance, weapon.crit_bonus)]
+            weapon.crit_chance, weapon.crit_bonus)
+        lines = [header] if header else []
 
         for hit in weapon.base_hit:
             lines.append(format_weapon_hit(structure.game_version, hit,

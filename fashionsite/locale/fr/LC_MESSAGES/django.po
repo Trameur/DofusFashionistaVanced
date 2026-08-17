@@ -6677,3 +6677,11 @@ msgstr "Un nouveau guide couvre les emplacements familier, monture et bouclier, 
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Only items from my inventory: a piece with alternative equip conditions can be worn again when your inventory holds it, and a Gelano you do not own is no longer slipped into the build."
 msgstr "Uniquement les objets de mon inventaire : une pièce aux conditions d'équipement alternatives se porte de nouveau quand ton inventaire la contient, et un Gelano que tu ne possèdes pas ne se glisse plus dans l'équipement généré."
+
+#: .\chardata\weapon_header.py:0
+msgid "CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
+msgstr "CC : 1/%(crit_chance)d (+%(crit_bonus)d)"
+
+#: .\chardata\weapon_header.py:0
+msgid "CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr "CC : %(crit_chance)d%% (+%(crit_bonus)d)"

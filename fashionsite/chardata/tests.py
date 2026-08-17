@@ -16537,6 +16537,78 @@ class WeaponWithoutApTests(TestCase):
             structure.return_value.get_weapon_by_name.return_value = Hitless()
             self.assertEqual(_get_weapon_rate(Named(), None, Solution()), 0)
 
+    def test_a_header_without_an_ap_cost_states_what_is_known(self):
+        from chardata.weapon_header import format_weapon_header
+        # Retro: no cost and no crit, which is all four of them.
+        self.assertEqual('(Sword)',
+                         format_weapon_header('retro', 'Sword', None, -1, -1))
+        # Nothing known at all: no line rather than an empty one.
+        self.assertEqual('', format_weapon_header('retro', None, None, -1, -1))
+        # A cost we do not have must not silence a rate we do have.
+        self.assertEqual('(Bow) CH: 1/30 (+5)',
+                         format_weapon_header('retro', 'Bow', None, 30, 5))
+        self.assertEqual('(Bow) CH: 25% (+5)',
+                         format_weapon_header('dofus3', 'Bow', None, 25, 5))
+
+    def test_every_weapon_of_every_version_formats(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.weapon_header import format_weapon_header
+        self.addCleanup(set_current_game_version, 'dofus3')
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            set_current_game_version(version)
+            structure = get_structure(version)
+            weapons = (list(structure.weapons_dict_by_name.items())
+                       + list(structure.dt_weapons_dict_by_name.items()))
+            self.assertTrue(weapons, version)
+            for name, weapon in weapons:
+                try:
+                    format_weapon_header(version, 'Sword', weapon.ap,
+                                         weapon.crit_chance, weapon.crit_bonus)
+                except Exception as error:
+                    self.fail('%s %s: %s' % (version, name, error))
+
+    def test_their_encyclopedia_pages_answer(self):
+        # The item page uses the same formatter, but only for a weapon that has
+        # hits, and these four have none: they were never a 500 there. Pinned
+        # because the page is where the picker sends a player.
+        for item_id in self.NO_AP_IDS:
+            with self.subTest(item=item_id):
+                resp = self.client.get(
+                    '/retro/encyclopedia/item/equipment/%d-x/' % item_id)
+                self.assertEqual(resp.status_code, 200)
+
+    def test_the_weapon_picker_survives_a_weapon_with_no_ap(self):
+        # The player's request, from the 17/08 report: the weapon list ordered
+        # by damage with a search term that reaches one of the four.
+        resp = self.client.post('/retro/itemexchange/%d/' % self.char.pk,
+                                {'slot': 'weapon', 'page': '1',
+                                 'order_by_stat': 'true',
+                                 'search_term': 'Mercenary'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('Mercenary', resp.content.decode('utf-8'))
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        import _pickle
+        from fashionistapulp.modelresult import ModelResultMinimal
+        user = User.objects.create_user('noap', 'noap@test.local', 'pw-42-solid')
+        input_ = {'char_class': 'Iop', 'char_level': 200, 'origin': 'generated',
+                  'options': {'ap_exo': False, 'mp_exo': False},
+                  'base_stats_by_attr': {'Vitality': 0, 'Wisdom': 0,
+                                         'Strength': 0, 'Intelligence': 0,
+                                         'Chance': 0, 'Agility': 0},
+                  'locked_equips': {}}
+        self.char = Char.objects.create(
+            name='No AP', char_name='no-ap', char_class='Iop',
+            char_build='Damage', level=200, minimum_stats=b'',
+            minimum_crits=b'', stats_weight=b'', options=b'', inclusions=b'',
+            exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({}, input_, {})),
+            owner=user, link_shared=False, game_version='retro')
+        self.client.force_login(user)
+
+
 class PinnedDependenciesAgreeTests(SimpleTestCase):
     """boto3 requires the botocore of its own version, so a bump that lifts one
     and not the other stops the Docker build before the image is even built.

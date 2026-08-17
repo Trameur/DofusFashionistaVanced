@@ -6633,3 +6633,11 @@ msgstr "Una guía nueva cubre las casillas de mascota, montura y escudo, y los e
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Only items from my inventory: a piece with alternative equip conditions can be worn again when your inventory holds it, and a Gelano you do not own is no longer slipped into the build."
 msgstr "Solo objetos de mi inventario: una pieza con condiciones de equipamiento alternativas vuelve a poder llevarse cuando tu inventario la tiene, y ya no se cuela un Gelano que no tienes."
+
+#: .\chardata\weapon_header.py:0
+msgid "CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
+msgstr "GC: 1/%(crit_chance)d (+%(crit_bonus)d)"
+
+#: .\chardata\weapon_header.py:0
+msgid "CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr "GC: %(crit_chance)d%% (+%(crit_bonus)d)"

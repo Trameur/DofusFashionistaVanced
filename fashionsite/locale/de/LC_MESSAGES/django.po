@@ -6641,3 +6641,11 @@ msgstr "Ein neuer Guide behandelt die Plätze für Begleiter, Reittier und Schil
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Only items from my inventory: a piece with alternative equip conditions can be worn again when your inventory holds it, and a Gelano you do not own is no longer slipped into the build."
 msgstr "Nur Gegenstände aus meinem Inventar: Ein Teil mit alternativen Ausrüstbedingungen lässt sich wieder tragen, wenn es in deinem Inventar liegt, und ein Gelano, das du nicht besitzt, rutscht nicht mehr in die Ausrüstung."
+
+#: .\chardata\weapon_header.py:0
+msgid "CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
+msgstr "Krit: 1/%(crit_chance)d (+%(crit_bonus)d)"
+
+#: .\chardata\weapon_header.py:0
+msgid "CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr "Krit: %(crit_chance)d%% (+%(crit_bonus)d)"
