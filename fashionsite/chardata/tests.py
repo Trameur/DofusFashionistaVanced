@@ -16623,6 +16623,52 @@ class WeaponWithoutApTests(TestCase):
         self.client.force_login(user)
 
 
+class ExclusionsPostTests(TestCase):
+    """The exclusion list arrives as a JSON string of item ids. A request with
+    no list raised ValidationError straight out of the view, and one whose list
+    is not JSON, or not a list of numbers, raised out of json or int: 500 on all
+    five versions for a request the page never sends and a stale tab does."""
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        self.user = User.objects.create_user('excl', 'excl@test.local',
+                                             'pw-42-solid')
+        self.char = Char.objects.create(
+            name='Excl', char_name='excl', char_class='Iop',
+            char_build='build', level=200, minimum_stats=b'',
+            minimum_crits=b'', stats_weight=b'', options=b'', inclusions=b'',
+            exclusions=b'', owner=self.user, link_shared=False,
+            game_version='dofus3')
+        self.client.force_login(self.user)
+
+    def _post(self, payload):
+        return self.client.post('/exclusionspost/%d/' % self.char.pk, payload)
+
+    def test_a_missing_list_is_a_bad_request(self):
+        self.assertEqual(400, self._post({}).status_code)
+
+    def test_a_list_that_is_not_a_list_of_ids_is_a_bad_request(self):
+        for raw in ('not json', '{"a": 1}', '5', 'null', '[1, "x"]', '[[]]'):
+            with self.subTest(exclusions=raw):
+                self.assertEqual(400, self._post({'exclusions': raw}).status_code)
+
+    def test_a_real_list_is_still_saved(self):
+        import json
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        from chardata.lock_forbid import get_all_exclusions_ids
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        boots_type = structure.get_type_id_by_name('Boots')
+        boots = next(i for i in structure.get_concatenated_items_lists()
+                     if i.type == boots_type and not i.removed)
+        resp = self._post({'exclusions': json.dumps([boots.id])})
+        self.assertEqual(200, resp.status_code)
+        self.char.refresh_from_db()
+        self.assertIn(boots.id, get_all_exclusions_ids(self.char))
+
+
 class PinnedDependenciesAgreeTests(SimpleTestCase):
     """boto3 requires the botocore of its own version, so a bump that lifts one
     and not the other stops the Docker build before the image is even built.

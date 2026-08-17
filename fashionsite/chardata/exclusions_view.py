@@ -14,7 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-from django.core.exceptions import ValidationError
+from django.http import HttpResponseBadRequest
 from django.utils.translation import gettext_lazy
 
 import json
@@ -88,12 +88,17 @@ def exclusions(request, char_id):
 def exclusions_post(request, char_id):
     char = get_char_or_raise(request, char_id)
     
+    # A missing list used to raise out of the view, and a list that is not a
+    # list of numbers used to raise out of json or int: three 500s for a request
+    # the page never sends and a stale tab does.
     exclusions_string = request.POST.get('exclusions', None)
     if exclusions_string is None:
-        raise ValidationError('Exclusions list not received.')
-        
-    exclusions = json.loads(exclusions_string)
-    actual_exclusions = [int(iditem) for iditem in exclusions]
+        return HttpResponseBadRequest('exclusions list not received')
+    try:
+        exclusions = json.loads(exclusions_string)
+        actual_exclusions = [int(iditem) for iditem in exclusions]
+    except (TypeError, ValueError):
+        return HttpResponseBadRequest('exclusions list not understood')
     set_exclusions_list_and_check_inclusions(char, actual_exclusions)
     
     return HttpResponseJson(json.dumps(get_all_exclusions_ids(char)))
