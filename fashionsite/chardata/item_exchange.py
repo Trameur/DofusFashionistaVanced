@@ -37,7 +37,7 @@ from chardata.item_sources import attach_acquisition, get_source_ankama_ids
 from chardata.solution_result import evolve_result_item, AttributeLine
 from static_s3.templatetags.static_s3 import static
 from chardata.util import get_char_or_raise, HttpResponseText, HttpResponseJson,\
-    remove_cache_for_char, safe_int
+    get_picker_cache_key, remove_cache_for_char, safe_int
 from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER, SLOT_NAME_TO_TYPE, calculate_damage,\
     DAMAGE_TYPES, NEUTRAL, ELEMENT_KEY_TO_NAME
 from fashionistapulp.modelresult import ModelResultItem
@@ -226,11 +226,9 @@ def get_items_of_type(request, char_id):
     itype = SLOT_NAME_TO_TYPE[slot]
     structure = get_structure()
     
-    cache_key = ('%s-%s-%s-%s' % (char_id,
-                                  structure.get_type_id_by_name(itype),
-                                  search_term,
-                                  jsonpickle.encode(stat_filters, unpicklable=False)))
-    cache_key = re.sub(r"\s+", '_', cache_key) 
+    cache_key = get_picker_cache_key(
+        char_id, structure.get_type_id_by_name(itype), search_term, 'add',
+        jsonpickle.encode(stat_filters, unpicklable=False))
     items = cache.get(cache_key)
     
     if items == None:
@@ -294,13 +292,10 @@ def get_items_to_exchange(request, char_id):
     structure = get_structure()
     item_type = structure.get_type_id_by_name(SLOT_NAME_TO_TYPE.get(slot))
     
-    cache_key = ('%s-%s-%s-%s-%s' % (char_id,
-                                     item_type,
-                                     search_term,
-                                     order_by_stats,
-                                     jsonpickle.encode(stat_filters, unpicklable=False)))
-    cache_key = re.sub(r"\s+", '_', cache_key) 
-    items_to_exchange = cache.get(cache_key) 
+    cache_key = get_picker_cache_key(
+        char_id, item_type, search_term, order_by_stats,
+        jsonpickle.encode(stat_filters, unpicklable=False))
+    items_to_exchange = cache.get(cache_key)
     
     if items_to_exchange == None:
         if slot == 'weapon' and order_by_stats == 'false':

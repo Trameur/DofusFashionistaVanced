@@ -22,6 +22,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, NoReverseMatch
 from django.utils.translation import get_language
+import hashlib
 import json
 import logging
 import random
@@ -56,7 +57,7 @@ def recaptcha_ok(request):
 from chardata.encoded_char_id import decode_char_id
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char, UserAlias, CharBaseStats
-from fashionistapulp.dofus_constants import STATS_NAMES, TYPE_NAMES
+from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.structure import get_structure
 from chardata.themes import get_css_for_theme, get_theme, check_theme,\
     get_css_static_for_theme, get_ajax_loader_URL, get_all_images_URLs
@@ -249,14 +250,43 @@ class HttpResponseJson(HttpResponse):
     def __init__(self, text, **kwargs):
         return HttpResponse.__init__(self, text, content_type='application/json', **kwargs)
     
+def _char_cache_epoch_key(char_id):
+    return 'char-cache-epoch-%s' % char_id
+
+
+def get_picker_cache_key(char_id, item_type, search_term, order_by_stats,
+                         stat_filters):
+    """The key of a project's cached, ordered item list for one slot.
+
+    It used to be spelled out at each call site, and the invalidation below
+    deleted a third spelling that no longer existed, so switching an item left
+    the weapon list in the order it had for five minutes. The key also grew with
+    the search term, and a 300 character one pushed it past what a cache key may
+    be, so the parts are hashed.
+    """
+    raw = '%s|%s|%s|%s|%s|%s' % (get_char_cache_epoch(char_id), char_id,
+                                 item_type, search_term, order_by_stats,
+                                 stat_filters)
+    return 'picker-%s' % hashlib.sha1(raw.encode('utf-8')).hexdigest()
+
+
+def get_char_cache_epoch(char_id):
+    return cache.get(_char_cache_epoch_key(char_id)) or 0
+
+
 def remove_cache_for_char(char_id):
-    s = get_structure()
-    for slot in TYPE_NAMES:
-        item_type = s.get_type_id_by_name(slot)
-        cache_key = ('%s-%s--true' % (char_id, item_type))
-        cache.delete(cache_key)
-        cache_key = ('%s-%s--false' % (char_id, item_type))
-        cache.delete(cache_key)
+    """Move the project to its next cache generation.
+
+    Its keys hold whatever search term and filters a player typed, so they
+    cannot be enumerated and deleted; counting past them can.
+    """
+    key = _char_cache_epoch_key(char_id)
+    try:
+        cache.incr(key)
+    except ValueError:
+        # incr refuses a key that is not there yet, and the generation must
+        # outlive the lists it names.
+        cache.set(key, 1, None)
         
 def set_theme(request):
     theme = request.POST.get('theme', None)

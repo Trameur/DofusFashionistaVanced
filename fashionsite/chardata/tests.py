@@ -16714,6 +16714,51 @@ class LockAndForbidUnknownItemTests(TestCase):
                 self.assertEqual(resp.status_code, 200)
 
 
+class PickerCacheKeyTests(TestCase):
+    """The item picker caches its ordered list for five minutes, and switching an
+    item has to drop it: the weapon list is ordered by what the current build
+    does with each weapon. The invalidation deleted a spelling of the key that
+    the call sites had stopped using, so it never dropped anything."""
+
+    def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
+
+    def test_switching_an_item_moves_the_key(self):
+        from chardata.util import get_picker_cache_key, remove_cache_for_char
+        before = get_picker_cache_key(7, 1, '', 'true', '[]')
+        remove_cache_for_char(7)
+        after = get_picker_cache_key(7, 1, '', 'true', '[]')
+        self.assertNotEqual(before, after)
+        # and again, so a second switch is not a no-op
+        remove_cache_for_char(7)
+        self.assertNotIn(get_picker_cache_key(7, 1, '', 'true', '[]'),
+                         (before, after))
+
+    def test_what_was_cached_is_no_longer_read(self):
+        from django.core.cache import cache
+        from chardata.util import get_picker_cache_key, remove_cache_for_char
+        key = get_picker_cache_key(11, 2, '', 'true', '[]')
+        cache.set(key, ['stale list'], 300)
+        remove_cache_for_char(11)
+        self.assertIsNone(cache.get(get_picker_cache_key(11, 2, '', 'true',
+                                                        '[]')))
+
+    def test_one_project_does_not_drop_another(self):
+        from chardata.util import get_picker_cache_key, remove_cache_for_char
+        other = get_picker_cache_key(12, 1, '', 'true', '[]')
+        remove_cache_for_char(11)
+        self.assertEqual(other, get_picker_cache_key(12, 1, '', 'true', '[]'))
+
+    def test_a_long_search_term_still_makes_a_usable_key(self):
+        from chardata.util import get_picker_cache_key
+        key = get_picker_cache_key(7, 1, 'x' * 300, 'true', '[]')
+        self.assertLess(len(key), 250)
+        self.assertNotIn(' ', key)
+        self.assertNotEqual(key, get_picker_cache_key(7, 1, 'y' * 300, 'true',
+                                                      '[]'))
+
+
 class PinnedDependenciesAgreeTests(SimpleTestCase):
     """boto3 requires the botocore of its own version, so a bump that lifts one
     and not the other stops the Docker build before the image is even built.
