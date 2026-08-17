@@ -30,6 +30,11 @@ project it works on is created and deleted here, so it needs no fixture.
 
 Exit code is 1 when anything answered 500 or raised. A 400 is a pass: refusing a
 payload is the point.
+
+It sends no mail: it posts as the owner of its own project, and the only endpoint
+here that would notify anyone skips a comment left by the build's own owner. The
+authentication endpoints are deliberately absent, since a sweep of those would
+send real mail and trip the throttles.
 """
 import _pickle
 
@@ -220,6 +225,36 @@ class Command(BaseCommand):
         for slot in ('boots', 'weapon'):
             yield ('/inclusionspost/%d/' % char_id, {slot: UNKNOWN_ITEM})
             yield ('/inclusionspost/%d/' % char_id, {slot: 'x' * 400})
+
+        # The turn panel posts two JSON objects, and what is inside them reaches
+        # the combo simulator.
+        for buffs in ('{}', 'not json', '[]', '{"x": "y"}', '{"1": -5}',
+                      '{"power": 99999}', 'null'):
+            yield ('/best_combo/%d/' % char_id,
+                   {'buff_state': buffs, 'spell_levels': buffs})
+        yield ('/spells/%d/' % char_id, {})
+        for content in ('', 'x' * 5000, '<script>alert(1)</script>'):
+            yield ('/postcomment/%d/' % char_id, {'content': content})
+
+        # The inventory: folders and rolls, keyed by ids the page sends back.
+        yield ('/inventory/folder/add/', {'name': 'sweep'})
+        yield ('/inventory/folder/add/', {'name': 'x' * 400})
+        yield ('/inventory/folder/add/', {})
+        for folder_id in ('abc', '-1', '0', '99999999', ''):
+            yield ('/inventory/folder/delete/', {'folder_id': folder_id})
+            yield ('/inventory/add/', {'folder_id': folder_id, 'item_id': '1'})
+        for item_id in ('abc', '-1', '99999999', ''):
+            yield ('/inventory/add/', {'folder_id': '1', 'item_id': item_id})
+        for custom in ('', '{}', 'not json', '{"mp": "x"}', '{"nope": 3}',
+                       '[1, 2]'):
+            yield ('/inventory/update/', {'id': '1', 'custom_stats': custom})
+        for inv_id in ('abc', '-1', '99999999', ''):
+            yield ('/inventory/remove/', {'id': inv_id})
+            yield ('/inventory/update/', {'id': inv_id, 'custom_stats': '{}'})
+
+        yield ('/choose_compare_sets_post/', {})
+        yield ('/choose_compare_sets_post/',
+               {'char1': str(char_id), 'char2': 'abc'})
 
         # Switching an item writes the solution back, so it goes last.
         for slot in ('boots', 'weapon', 'ring1'):

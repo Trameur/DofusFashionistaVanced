@@ -6617,3 +6617,7 @@ msgstr "GC: 1/%(crit_chance)d (+%(crit_bonus)d)"
 #: .\chardata\weapon_header.py:0
 msgid "CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgstr "GC: %(crit_chance)d%% (+%(crit_bonus)d)"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "The item list refreshes after you switch a piece, instead of keeping for five minutes the order it had before."
+msgstr "A lista de itens atualiza depois de trocar uma peça, em vez de manter durante cinco minutos a ordem que tinha antes."
