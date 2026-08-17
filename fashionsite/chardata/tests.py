@@ -3063,6 +3063,9 @@ class CheckPagesCommandTests(TestCase):
         self.assertIn('no page answered 500', printed)
         walked = int(printed.split('pages walked:')[1].split()[0])
         self.assertGreater(walked, 30, printed)
+        # and it follows what those pages link to
+        followed = int(printed.split('internal links followed:')[1].split()[0])
+        self.assertGreater(followed, 20, printed)
 
     def test_it_fails_when_a_page_breaks(self):
         from io import StringIO

@@ -24,12 +24,25 @@ stored solution no longer read back. They are all cheap to find on purpose.
     py fashionsite/manage.py check_pages --settings=fashionsite.settings_test
     py fashionsite/manage.py check_pages --languages fr --only retro
 
+It then follows every internal link those pages offer, because a link that goes
+nowhere is the other half of the same problem: the guides hub pointed all 28 of
+its cards at the Dofus 3 copy, and the shared build gallery listed a build whose
+page did not exist.
+
 It runs on the test client, so it needs no server, and it walks the same routes
 a crawler would, including query strings a crawler invents. Exit code is 1 when
-anything answered 500 or raised.
+anything answered 500, raised, or offered a link that does not open.
 """
+import re
+
 from django.core.management.base import BaseCommand
 from django.test import Client
+
+# How many distinct internal links to follow. The listing pages link to a
+# thousand items between them; the budget is a runaway guard, not a sample,
+# and the command says how many it left out when it bites.
+LINK_BUDGET = 2000
+_HREF = re.compile(r'href="(/[^"#?]*)"')
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
@@ -68,8 +81,9 @@ class Command(BaseCommand):
 
         walked = 0
         findings = []
+        links = set()
 
-        def visit(path, language):
+        def visit(path, language, collect=False):
             nonlocal walked
             walked += 1
             try:
@@ -80,12 +94,19 @@ class Command(BaseCommand):
                 return
             if response.status_code >= 500:
                 findings.append((path, language, response.status_code))
+                return
+            if collect and response.status_code == 200:
+                body = response.content.decode('utf-8', 'replace')
+                for href in _HREF.findall(body):
+                    if not href.startswith('/static'):
+                        links.add(href)
 
         for version in versions:
             prefix = '' if version == 'dofus3' else '/' + version
             for language in languages:
                 for path in PATHS:
-                    visit(prefix + path, language)
+                    visit(prefix + path, language,
+                          collect=language == languages[0])
             # the query strings only need one language to break a view
             for path in ('/encyclopedia/', '/sharedbuilds/'):
                 for query in HOSTILE:
@@ -96,10 +117,38 @@ class Command(BaseCommand):
                           '?game_version=nope'):
                 visit(path + query, languages[0])
 
+        # A link the site offers has to open. Three of this week's defects were
+        # links that led somewhere else or nowhere at all.
+        followed = 0
+        dead = []
+        for href in sorted(links):
+            if followed >= LINK_BUDGET:
+                break
+            followed += 1
+            try:
+                code = client.get(href, headers={
+                    'accept-language': languages[0]}).status_code
+            except Exception as error:                        # noqa: BLE001
+                dead.append((href, '%s: %s' % (type(error).__name__,
+                                               str(error)[:70])))
+                continue
+            if code >= 400:
+                dead.append((href, code))
+
         self.stdout.write('pages walked: %d' % walked)
+        self.stdout.write('internal links followed: %d of %d found%s'
+                          % (followed, len(links),
+                             '' if followed == len(links)
+                             else ' (budget %d)' % LINK_BUDGET))
+        if dead:
+            self.stdout.write('%d link(s) the site offers that do not open:'
+                              % len(dead))
+            for href, what in dead[:20]:
+                self.stdout.write('   %-52s %s' % (href[:52], what))
         if findings:
             self.stdout.write('%d answered 500 or raised:' % len(findings))
             for path, language, what in findings:
                 self.stdout.write('   %-46s %-3s %s' % (path[:46], language, what))
+        if findings or dead:
             raise SystemExit(1)
-        self.stdout.write('no page answered 500')
+        self.stdout.write('no page answered 500, every link opens')
