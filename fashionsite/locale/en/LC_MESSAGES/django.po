@@ -6098,3 +6098,7 @@ msgstr "CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "The item list refreshes after you switch a piece, instead of keeping for five minutes the order it had before."
 msgstr "The item list refreshes after you switch a piece, instead of keeping for five minutes the order it had before."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."
+msgstr "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."

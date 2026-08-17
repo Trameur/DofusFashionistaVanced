@@ -6621,3 +6621,7 @@ msgstr "GC: %(crit_chance)d%% (+%(crit_bonus)d)"
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "The item list refreshes after you switch a piece, instead of keeping for five minutes the order it had before."
 msgstr "A lista de itens atualiza depois de trocar uma peça, em vez de manter durante cinco minutos a ordem que tinha antes."
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."
+msgstr "Dofus Retro: um item que lhe custa um PA ou um PM agora diz, e uma arma que retira PA do alvo mostra essa linha."

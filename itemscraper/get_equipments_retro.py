@@ -72,6 +72,12 @@ EFFECT_MAP = {
     # 158 is the carry weight; 194 is "Gagner X kamas", which is not a stat, and
     # 173 is "Reduction physique diminue", which the site has no stat for.
     158: ('Pods', 1), 225: ('Trap Damage', 1), 226: ('% Trap Damage', 1),
+    # 2100 "PA perdus" and 127 "PM perdus" name nobody, so they are the wearer's
+    # own loss: they are why Abracaska reads +1 AP and -1 MP in the game, and we
+    # were showing it as +1 AP alone, which made the solver spend an MP it did
+    # not have. 12 and 11 items. 101, "PA perdus A LA CIBLE", is a different id
+    # and a different thing, handled as a weapon hit below.
+    2100: ('AP', -1), 127: ('MP', -1),
     # PVP resists ("face aux combattants"), on Retro items (e.g. shields) but
     # removed from Dofus 3. % variants 250-254, flat variants 260-264.
     250: ('% Earth Resist in PVP', 1), 251: ('% Water Resist in PVP', 1),
@@ -106,6 +112,12 @@ STEAL_BY_EFFECT = {
 # steal effect has, so in 1.29 a heal has no element. Intelligence still scales
 # it: base * (100 + Intelligence) / 100 + Soins.
 HEAL_BY_EFFECT = {108, 81}
+
+# "PA perdus a la cible": 47 weapons take AP off whoever they hit, and the site
+# has worded that line for years on the other versions. Unlike the elemental
+# lines it is usually flat (0d0+1) rather than a die roll, so it needs its own
+# branch. The label is the one get_equipments3.py reads back, "(removes ap)".
+TARGET_LOSS_BY_EFFECT = {101: 'removes ap'}
 
 # What the lang says about an item beyond its stats, under the names Dofus 3
 # already uses so the site's own translations apply.
@@ -380,6 +392,13 @@ def decode_stats(ista_string, is_weapon=False):
             hi = jmax if jmax is not None else jmin
             if hi is not None:
                 hits.append([lo if lo is not None else 0, hi, hit_label])
+            continue
+        if is_weapon and eid in TARGET_LOSS_BY_EFFECT:
+            lo = jmin if jmin is not None else jmax
+            hi = jmax if jmax is not None else jmin
+            if hi is not None:
+                hits.append([lo if lo is not None else 0, hi,
+                             '(%s)' % TARGET_LOSS_BY_EFFECT[eid]])
             continue
         if eid in FLAG_BY_EFFECT:
             wanted = FLAG_NEEDS_VALUE.get(eid)

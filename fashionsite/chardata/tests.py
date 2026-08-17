@@ -3091,6 +3091,58 @@ class ApiDocsTests(TestCase):
             self.assertIn(max_age, resp.get('Cache-Control', ''), url)
 
 
+class RetroApMpLossTests(SimpleTestCase):
+    """Three of Retro's own effect ids were read by nobody. 2100 "PA perdus" and
+    127 "PM perdus" name no target, so they are the wearer's loss: Abracaska is
+    +1 AP and -1 MP in the game and the site showed the AP alone, which let the
+    solver spend an MP the build does not have. 101, "PA perdus a la cible", is
+    the target's loss on 47 weapons, the (removes ap) line the other versions
+    have always printed."""
+
+    def test_a_hat_keeps_the_mp_it_costs(self):
+        from itemscraper.get_equipments_retro import decode_stats
+        # Abracaska, the way its own ISTA line reads: 6f=+1 AP, 7f=-1 MP,
+        # 7d=Vitality 21 to 35.
+        stats, hits = decode_stats('6f#1##0d0+1,7f#1##0d0+1,7d#15#23#1d15+20')
+        self.assertIn([1, 1, 'AP'], stats)
+        self.assertIn([-1, -1, 'MP'], stats)
+        self.assertEqual([], hits)
+
+    def test_boots_keep_the_ap_they_cost(self):
+        from itemscraper.get_equipments_retro import decode_stats
+        stats, _hits = decode_stats('834#1##0d0+1,f1#6#14#1d15+5')
+        self.assertIn([-1, -1, 'AP'], stats)
+
+    def test_a_weapon_takes_ap_off_the_target(self):
+        from itemscraper.get_equipments_retro import decode_stats
+        # Abraton: 65 = "PA perdus a la cible", flat, plus its water hit.
+        stats, hits = decode_stats('65#1##0d0+1,60#5#a#1d6+4', is_weapon=True)
+        self.assertIn([1, 1, '(removes ap)'], hits)
+        self.assertEqual([], stats)
+        # and the rolled form of the same line
+        _stats, rolled = decode_stats('65#1#2#1d2+0', is_weapon=True)
+        self.assertEqual([[1, 2, '(removes ap)']], rolled)
+
+    def test_the_built_data_carries_them(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path('retro'))
+        try:
+            rows = conn.execute(
+                "SELECT COUNT(*) FROM weapon_hits WHERE element = 'removes_ap'"
+            ).fetchone()[0]
+            # A fixed stat is written with min_value and max_value NULL, the
+            # amount living in value alone, so a malus is value < 0.
+            maluses = conn.execute(
+                'SELECT COUNT(*) FROM stats_of_item s JOIN stats t '
+                'ON s.stat = t.id '
+                "WHERE t.name IN ('AP', 'MP') AND s.value < 0").fetchone()[0]
+        finally:
+            conn.close()
+        self.assertGreater(rows, 30, 'no retro weapon takes AP off its target')
+        self.assertGreater(maluses, 15, 'no retro item costs AP or MP')
+
+
 class RateCounterTests(TestCase):
     """The failed-login and reset-mail counts used to live in the cache, which is
     local memory here: a pool of four workers held four separate counters, so the
@@ -16451,8 +16503,12 @@ class RetroEffectMapTests(SimpleTestCase):
                 wrong.append('%d -> %s: no such effect' % (effect_id, name))
                 continue
             flat = flatten(text)
+            # "PA perdus" and "PM perdus" are the third way 1.29 writes a malus,
+            # next to a leading minus and "diminue/reduit". Abracaska carries the
+            # PM one and reads +1 AP, -1 MP in the game (solomonk.fr,
+            # wiki-dofus.eu and dafous agree), which is what settled it.
             is_malus = (flat.strip().startswith('-') or 'diminu' in flat
-                        or 'reduit' in flat)
+                        or 'reduit' in flat or 'perdu' in flat)
             if is_malus and sign > 0:
                 wrong.append('%d -> %s +1 but the game says %r'
                              % (effect_id, name, text))
