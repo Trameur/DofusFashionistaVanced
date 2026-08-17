@@ -1585,6 +1585,52 @@ class SocialAuthCancelTests(TestCase):
         self.assertIn('/login', resp['Location'])
 
 
+class LoginThrottleTests(TestCase):
+    """Nothing limited how many passwords could be tried against an account.
+    Both the login and the change-password endpoints authenticate whatever is
+    posted, so both are the same guessing surface."""
+
+    def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
+        self.addCleanup(cache.clear)
+        from django.contrib.auth.models import User
+        from chardata.login_view import _prehash_password
+        self.user = User.objects.create_user(
+            'brutus', 'brutus@test.local', _prehash_password('the-real-one-42'))
+
+    def _try(self, password, path='/local_login/'):
+        from chardata.login_view import _prehash_password
+        field = 'password'
+        data = {'username': 'brutus', field: _prehash_password(password)}
+        if path == '/change_password/':
+            data['newPassword'] = _prehash_password('whatever-42')
+        return self.client.post(path, data).content.decode('utf-8')
+
+    def test_guessing_stops_after_the_ceiling(self):
+        from chardata.login_view import LOGIN_FAIL_MAX_PER_USER
+        for _attempt in range(LOGIN_FAIL_MAX_PER_USER):
+            self.assertEqual('invalid', self._try('wrong'))
+        self.assertEqual('too-many', self._try('wrong'))
+        # and the right password does not get through the closed door either
+        self.assertEqual('too-many', self._try('the-real-one-42'))
+
+    def test_a_good_password_clears_the_count(self):
+        from chardata.login_view import LOGIN_FAIL_MAX_PER_USER
+        for _attempt in range(LOGIN_FAIL_MAX_PER_USER - 1):
+            self._try('wrong')
+        self.assertEqual('ok', self._try('the-real-one-42'))
+        self.assertEqual('invalid', self._try('wrong'))
+
+    def test_the_change_password_door_is_counted_too(self):
+        from chardata.login_view import LOGIN_FAIL_MAX_PER_USER
+        for _attempt in range(LOGIN_FAIL_MAX_PER_USER):
+            self.assertEqual('invalid', self._try('wrong', '/change_password/'))
+        self.assertEqual('too-many', self._try('wrong', '/change_password/'))
+        # the two doors share one counter: the login is closed as well
+        self.assertEqual('too-many', self._try('the-real-one-42'))
+
+
 class PasswordResetTokenExpiryTests(TestCase):
     """A reset link is a key to the account. The token used to be a bare HMAC
     of the username and the password hash, with no timestamp: the mail stayed a

@@ -13,6 +13,8 @@ function login(username, password) {
                     $("#incorrect-password-error").text(gettext("The username and password entered do not match."));
                 } else if (data === 'confirm-email') {
                     $("#incorrect-password-error").text(gettext("Confirm your email to log in."));
+                } else if (data === 'too-many') {
+                    $("#incorrect-password-error").text(gettext("Too many attempts. Wait a few minutes and try again."));
                 } else {
                     $("#incorrect-password-error").text(gettext("Error while logging in."));
                 }
@@ -31,6 +33,9 @@ function changePassword(username, password, newPassword){
                     $("#login-password").val("");
                     $("#password").val("");
                     $("#password-confirm").val("");
+                } else if (data === 'too-many') {
+                    $("#wrong-password-error").text(gettext("Too many attempts. Wait a few minutes and try again."));
+                    $("#change-succesful").empty();
                 } else {
                     $("#wrong-password-error").text(gettext("Your password did not match our records."));
                     $("#change-succesful").empty();

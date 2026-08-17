@@ -708,3 +708,7 @@ msgstr "O que %(spell)s faz"
 #: .\chardata\static\chardata\compare_tray.js:86
 msgid "Remove from the comparison"
 msgstr "Remover da comparação"
+
+#: .\chardata\static\chardata\login.js:0
+msgid "Too many attempts. Wait a few minutes and try again."
+msgstr "Tentativas demais. Espere alguns minutos e tente de novo."

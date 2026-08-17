@@ -47,6 +47,51 @@ logger = logging.getLogger(__name__)
 def _prehash_password(raw_password):
     return hashlib.sha256(('dofusfashionista' + raw_password).encode('utf-8')).hexdigest()
 
+
+# Nothing limited how many passwords could be tried against an account: both
+# local_login and change_password call authenticate() with whatever is posted.
+# The counters live in the cache, which is per process in production, so a
+# worker pool multiplies the real ceiling by its size. That still turns an
+# unbounded guessing loop into a slow one, and it costs no table.
+LOGIN_FAIL_WINDOW = 15 * 60
+LOGIN_FAIL_MAX_PER_USER = 10
+LOGIN_FAIL_MAX_PER_IP = 30
+
+
+def _login_fail_keys(request, username):
+    from chardata.solution_view import get_client_ip
+    keys = []
+    if username:
+        keys.append(('login-fail-user:%s' % username.lower()[:80],
+                     LOGIN_FAIL_MAX_PER_USER))
+    ip = get_client_ip(request)
+    if ip:
+        keys.append(('login-fail-ip:%s' % ip, LOGIN_FAIL_MAX_PER_IP))
+    return keys
+
+
+def login_is_throttled(request, username):
+    from django.core.cache import cache
+    for key, ceiling in _login_fail_keys(request, username):
+        if (cache.get(key) or 0) >= ceiling:
+            return True
+    return False
+
+
+def note_login_failure(request, username):
+    from django.core.cache import cache
+    for key, _ceiling in _login_fail_keys(request, username):
+        try:
+            cache.incr(key)
+        except ValueError:
+            cache.set(key, 1, LOGIN_FAIL_WINDOW)
+
+
+def clear_login_failures(request, username):
+    from django.core.cache import cache
+    for key, _ceiling in _login_fail_keys(request, username):
+        cache.delete(key)
+
 def _get_from_email():
     return getattr(settings, 'DEFAULT_FROM_EMAIL', None) or settings.EMAIL_HOST_USER or 'DofusFashionistaVanced@gmail.com'
 
@@ -169,14 +214,18 @@ def check_if_taken(request):
 def local_login(request):
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)
+    if login_is_throttled(request, username):
+        return HttpResponseText('too-many')
     user = authenticate(username=username, password=password)
     if user is not None:
+        clear_login_failures(request, username)
         if user.is_active:
             login(request, user)
             return HttpResponseText('ok')
         else:
             return HttpResponseText('confirm-email')
     else:
+        note_login_failure(request, username)
         return HttpResponseText('invalid')
 
 def logout_view(request):
@@ -195,12 +244,16 @@ def change_password(request):
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)
     new_password = request.POST.get('newPassword', None)
+    if login_is_throttled(request, username):
+        return HttpResponseText('too-many')
     user = authenticate(username=username, password=password)
     if user is not None:
+        clear_login_failures(request, username)
         user.set_password(new_password)
         user.save()
         return HttpResponseText('ok')
     else:
+        note_login_failure(request, username)
         return HttpResponseText('invalid')
 
 def recover_password_email_page(request):

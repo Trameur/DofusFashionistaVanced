@@ -722,3 +722,7 @@ msgstr ""
 #: .\chardata\static\chardata\solution_popup.js:234
 msgid "Droppable"
 msgstr ""
+
+#: .\chardata\static\chardata\login.js:0
+msgid "Too many attempts. Wait a few minutes and try again."
+msgstr "Too many attempts. Wait a few minutes and try again."
