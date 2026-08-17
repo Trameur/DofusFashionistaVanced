@@ -56,8 +56,8 @@
 <article class="fm-guide">
     <nav class="fm-guide-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
-        {# the crumb led back to the Dofus 3 hub from a Retro or Touch guide;
-           the structured data above stays on the canonical global URL #}
+        {% comment %}the crumb led back to the Dofus 3 hub from a Retro or Touch
+        guide; the structured data above stays on the canonical global URL{% endcomment %}
         <a href="{% game_url 'guides' %}">{% trans "Guides & tips" %}</a> ›
         <span>{{ guide.title }}</span>
     </nav>

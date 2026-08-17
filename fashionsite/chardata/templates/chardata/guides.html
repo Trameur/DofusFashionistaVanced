@@ -36,9 +36,9 @@
 
     <div class="fm-guides-grid">
         {% for g in guides %}
-        {# the hub is where a reader clicks: a card must keep them in the
-           version they are browsing. The ItemList above stays on the canonical
-           global urls. #}
+        {% comment %}the hub is where a reader clicks: a card must keep them in
+        the version they are browsing. The ItemList above stays on the canonical
+        global urls.{% endcomment %}
         <a class="fm-guide-card" href="{% game_url 'guide' g.slug %}">
             <span class="fm-guide-card-body">
                 <span class="fm-guide-card-title">{{ g.title }}</span>

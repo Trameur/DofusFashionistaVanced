@@ -435,9 +435,9 @@
     {% endif %}
 
     {% else %}
-    {# When resources or monsters matched, "no items match" would read like a
-       failure: the chips above ARE the results. Keep the notice only when
-       nothing matched at all. #}
+    {% comment %}When resources or monsters matched, "no items match" would read
+    like a failure: the chips above ARE the results. Keep the notice only when
+    nothing matched at all.{% endcomment %}
     {% if not resource_results and not monster_results %}
     <p>{{ t.no_results }}</p>
     {% endif %}

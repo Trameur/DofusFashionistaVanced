@@ -3091,6 +3091,44 @@ class ApiDocsTests(TestCase):
             self.assertIn(max_age, resp.get('Cache-Control', ''), url)
 
 
+class TemplateCommentsStayOutOfThePageTests(TestCase):
+    """Django's {# #} comment is a one-line form. Written across two lines it is
+    not a comment at all, and the text lands on the page: three of them shipped,
+    one in the breadcrumb of every guide, one on the guides hub and one on the
+    encyclopedia. A multi-line note has to use {% comment %}."""
+
+    def _templates(self):
+        root = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        for dirpath, _dirs, files in os.walk(root):
+            for name in files:
+                if name.endswith('.html'):
+                    yield os.path.join(dirpath, name)
+
+    def test_no_hash_comment_spans_two_lines(self):
+        offenders = []
+        checked = 0
+        for path in self._templates():
+            checked += 1
+            with open(path, encoding='utf-8', errors='replace') as handle:
+                for number, line in enumerate(handle, 1):
+                    at = line.find('{#')
+                    if at >= 0 and '#}' not in line[at:]:
+                        offenders.append('%s:%d' % (os.path.basename(path),
+                                                    number))
+        self.assertGreater(checked, 20, 'no templates were scanned')
+        self.assertEqual([], offenders,
+                         'use {%% comment %%} for a note over several lines: %s'
+                         % offenders)
+
+    def test_the_pages_that_shipped_one_carry_no_template_syntax(self):
+        for url in ('/guides/getting-started/', '/guides/', '/encyclopedia/'):
+            body = self.client.get(url).content.decode('utf-8')
+            for token in ('{#', '#}', '{%', '%}'):
+                with self.subTest(url=url, token=token):
+                    self.assertNotIn(token, body)
+
+
 class ApiTierListRankingTests(TestCase):
     """The tier list returns the best few builds of each class. It used to read
     every shared build of the version into memory to do it, and a Char row
