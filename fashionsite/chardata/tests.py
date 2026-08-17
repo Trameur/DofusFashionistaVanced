@@ -3091,6 +3091,85 @@ class ApiDocsTests(TestCase):
             self.assertIn(max_age, resp.get('Cache-Control', ''), url)
 
 
+class ApiTierListRankingTests(TestCase):
+    """The tier list returns the best few builds of each class. It used to read
+    every shared build of the version into memory to do it, and a Char row
+    carries nine pickled columns including the stored solution."""
+
+    def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
+        self.addCleanup(cache.clear)
+
+    def _shared(self, name, char_class, views):
+        import pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        owner, _created = User.objects.get_or_create(
+            username='tiersharer', defaults={'email': 'tier@test.local'})
+        return Char.objects.create(
+            name=name, char_name=name, char_class=char_class,
+            char_build='build', level=200, minimum_stats=b'',
+            minimum_crits=b'', stats_weight=b'', options=b'', inclusions=b'',
+            exclusions=b'', view_count=views,
+            minimal_solution=pickle.dumps({'item_per_slot': {}}), owner=owner,
+            link_shared=True, game_version='dofus3')
+
+    def _sections(self, query=''):
+        body = self.client.get('/api/v1/tier-list/' + query).json()
+        return {s['char_class']: s for s in body['sections']}
+
+    def test_each_class_keeps_its_best_and_its_real_count(self):
+        for i, views in enumerate((1, 40, 7, 3)):
+            self._shared('Iop%d' % i, 'Iop', views)
+        for i, views in enumerate((5, 2)):
+            self._shared('Cra%d' % i, 'Cra', views)
+        sections = self._sections('?top=2')
+        self.assertEqual(4, sections['Iop']['count'])
+        self.assertEqual(2, sections['Cra']['count'])
+        self.assertEqual(['Iop1', 'Iop2'],
+                         [b['name'] for b in sections['Iop']['top']])
+        self.assertEqual(['Cra0', 'Cra1'],
+                         [b['name'] for b in sections['Cra']['top']])
+
+    def test_it_builds_no_payload_for_a_build_it_will_not_return(self):
+        from unittest import mock
+        from chardata import api_view
+        for i in range(6):
+            self._shared('Iop%d' % i, 'Iop', i)
+        for i in range(4):
+            self._shared('Cra%d' % i, 'Cra', i)
+        real = api_view._build_payload
+        with mock.patch.object(api_view, '_build_payload',
+                               side_effect=real) as spy:
+            sections = self._sections('?top=1')
+        self.assertEqual(2, spy.call_count, 'ten builds, two returned')
+        self.assertEqual(6, sections['Iop']['count'])
+        self.assertEqual(4, sections['Cra']['count'])
+
+    def test_the_creator_name_costs_no_query_per_row(self):
+        for i in range(6):
+            self._shared('Iop%d' % i, 'Iop', i)
+        # One count query, one ranked read, one alias lookup. The owner name has
+        # to ride along with the row, not come back for it.
+        with self.assertNumQueries(3):
+            sections = self._sections('?top=3')
+        self.assertEqual(3, len(sections['Iop']['top']))
+        self.assertTrue(all(b['creator'] for b in sections['Iop']['top']))
+
+    def test_a_class_with_fewer_builds_than_asked_still_answers(self):
+        self._shared('OnlyOne', 'Sram', 3)
+        sections = self._sections('?top=5')
+        self.assertEqual(1, sections['Sram']['count'])
+        self.assertEqual(['OnlyOne'], [b['name'] for b in sections['Sram']['top']])
+
+    def test_the_view_part_of_the_score_stays_capped(self):
+        self._shared('Modest', 'Eniripsa', 50)
+        self._shared('Viral', 'Eniripsa', 5000)
+        top = self._sections('?top=2')['Eniripsa']['top']
+        self.assertEqual({50}, {b['score'] for b in top})
+
+
 class ApiListsOnlyOpenableBuildsTests(TestCase):
     """The api hands out an id a consumer turns into a /s/ url. A build whose
     solution was never stored has no such page: the gallery and the sitemap

@@ -12,7 +12,8 @@ the community has shared on dofusfashionista. No auth, no DRF. CORS open
 because the data is already public. Cached for 60 s to absorb bursts.
 """
 
-from django.db.models import Count, Case, When, IntegerField
+from django.db.models import Count, Case, When, F, IntegerField, Value
+from django.db.models.functions import Least
 from django.http import JsonResponse, Http404
 from django.views.decorators.cache import cache_page
 from django.views.decorators.http import require_GET
@@ -189,22 +190,50 @@ def api_tier_list(request):
           ))
     if char_class:
         qs = qs.filter(char_class=char_class)
-    rows = list(qs)
-    owner_ids = [r.owner_id for r in rows if r.owner_id]
-    alias_map = {a.user_id: a.alias
-                 for a in UserAlias.objects.filter(user_id__in=owner_ids) if a.alias}
 
-    by_class = {}
-    for r in rows:
-        score = (r.like_count or 0) * 3 + (r.favorite_count or 0) * 5 + min(50, r.view_count or 0)
-        payload = _build_payload(r, alias_map, include_tags=False)
-        payload['score'] = score
-        by_class.setdefault(r.char_class or 'Unknown', []).append(payload)
+    # Only the top few builds of each class are returned, so nothing else has to
+    # be built or even loaded. This used to read every shared build of the
+    # version into memory, and a Char row carries nine pickled columns including
+    # the stored solution.
+    counts = {row['char_class'] or 'Unknown': row['n']
+              for row in qs.values('char_class').annotate(n=Count('id', distinct=True))}
+    ranked = (qs
+              .annotate(score=(F('like_count') * 3 + F('favorite_count') * 5
+                               + Least(F('view_count'), Value(50))))
+              # owner__username by name, so the creator line does not become a
+              # query per row against the deferred owner.
+              .only('id', 'name', 'char_name', 'char_class', 'level',
+                    'game_version', 'view_count', 'created_time',
+                    'modified_time', 'owner', 'owner__username')
+              .order_by('-score', '-id'))
+
+    wanted = {cls: min(top_n, n) for cls, n in counts.items()}
+    picked = {}
+    aliases_needed = set()
+    for row in ranked.iterator(chunk_size=100):
+        cls = row.char_class or 'Unknown'
+        bucket = picked.setdefault(cls, [])
+        if len(bucket) >= wanted.get(cls, top_n):
+            if all(len(picked.get(c, [])) >= w for c, w in wanted.items()):
+                break
+            continue
+        bucket.append(row)
+        if row.owner_id:
+            aliases_needed.add(row.owner_id)
+
+    alias_map = {a.user_id: a.alias
+                 for a in UserAlias.objects.filter(user_id__in=aliases_needed)
+                 if a.alias}
 
     sections = []
-    for cls, builds in by_class.items():
-        builds.sort(key=lambda b: b['score'], reverse=True)
-        sections.append({'char_class': cls, 'count': len(builds), 'top': builds[:top_n]})
+    for cls, rows in picked.items():
+        top = []
+        for row in rows:
+            payload = _build_payload(row, alias_map, include_tags=False)
+            payload['score'] = row.score
+            top.append(payload)
+        sections.append({'char_class': cls, 'count': counts.get(cls, len(rows)),
+                         'top': top})
     sections.sort(key=lambda s: s['count'], reverse=True)
 
     return _json({'game_version': game_version, 'sections': sections})

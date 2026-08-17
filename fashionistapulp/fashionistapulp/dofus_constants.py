@@ -5310,6 +5310,14 @@ def calculate_damage(base_damage, char_stats, critical_hit, is_spell):
             if critical_hit:
                 element_dam += char_stats['cridam']
         else:
+            # A heal scales with the element's characteristic and takes the Heals
+            # stat flat, and neither Power nor any damage bonus: that much is
+            # settled. Whether the % spell damage applied below belongs on a heal
+            # is NOT: no first-party source says so and the community ones
+            # disagree, so it stays as it has always been rather than being
+            # guessed at. Checked 2026-08-17: the stat exists on 5 Dofus 3 items
+            # and 18 Dofus 2 ones, none on Touch or Retro, worth at most a few
+            # percent, so the exposure is small either way.
             element_dam = char_stats['heals']
         minimum_damage = (max(int((1 + element_val / 100.0) * dam.min_dam)
                                                + element_dam, 0))
