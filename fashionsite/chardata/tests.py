@@ -16714,6 +16714,40 @@ class LockAndForbidUnknownItemTests(TestCase):
                 self.assertEqual(resp.status_code, 200)
 
 
+class CheckActionsCommandTests(TestCase):
+    """check_actions posts the action endpoints, which is where every 500 a
+    player has reported actually happened. check_pages can only GET."""
+
+    def test_it_reports_an_endpoint_that_raises(self):
+        from io import StringIO
+        from unittest import mock
+        from django.core.management import call_command
+        out = StringIO()
+        with mock.patch('django.test.Client.post',
+                        side_effect=ValueError('deliberate break')):
+            with self.assertRaises(SystemExit):
+                call_command('check_actions', only='retro', stdout=out)
+        self.assertIn('deliberate break', out.getvalue())
+
+    def test_it_leaves_no_project_behind(self):
+        from io import StringIO
+        from unittest import mock
+        from django.core.management import call_command
+        from chardata.models import Char
+        before = Char.objects.count()
+        with mock.patch('django.test.Client.post',
+                        side_effect=ValueError('deliberate break')):
+            with self.assertRaises(SystemExit):
+                call_command('check_actions', only='retro', stdout=StringIO())
+        self.assertEqual(before, Char.objects.count())
+
+    def test_an_unknown_version_is_refused(self):
+        from io import StringIO
+        from django.core.management import call_command, CommandError
+        with self.assertRaises(CommandError):
+            call_command('check_actions', only='dofus9', stdout=StringIO())
+
+
 class PickerCacheKeyTests(TestCase):
     """The item picker caches its ordered list for five minutes, and switching an
     item has to drop it: the weapon list is ordered by what the current build
