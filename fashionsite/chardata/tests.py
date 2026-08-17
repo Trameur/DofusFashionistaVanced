@@ -16669,6 +16669,51 @@ class ExclusionsPostTests(TestCase):
         self.assertIn(boots.id, get_all_exclusions_ids(self.char))
 
 
+class LockAndForbidUnknownItemTests(TestCase):
+    """The lock and forbid buttons name an item. A name this version does not
+    have is what a tab left open across a data rebuild sends, and both endpoints
+    used to subscript the None they got back for it and answer 500."""
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        self.user = User.objects.create_user('locker', 'locker@test.local',
+                                             'pw-42-solid')
+        self.char = Char.objects.create(
+            name='Locks', char_name='locks', char_class='Iop',
+            char_build='build', level=200, minimum_stats=b'',
+            minimum_crits=b'', stats_weight=b'', options=b'', inclusions=b'',
+            exclusions=b'', owner=self.user, link_shared=False,
+            game_version='retro')
+        self.client.force_login(self.user)
+
+    def test_an_unknown_name_is_refused(self):
+        for path in ('/retro/setitemlocked/%d/', '/retro/setitemforbidden/%d/'):
+            for name in ('No Such Item At All', ''):
+                with self.subTest(path=path, name=name):
+                    resp = self.client.post(path % self.char.pk,
+                                            {'slot': 'boots', 'equip': name,
+                                             'locked': 'true',
+                                             'forbidden': 'true'})
+                    self.assertEqual(resp.status_code, 400)
+
+    def test_a_real_item_and_a_split_one_are_still_accepted(self):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('retro')
+        structure = get_structure('retro')
+        boots_type = structure.get_type_id_by_name('Boots')
+        boots = next(i for i in structure.get_concatenated_items_lists()
+                     if i.type == boots_type and not i.removed)
+        group_name = next(iter(structure.or_items))
+        for name in (boots.name, group_name):
+            with self.subTest(name=name):
+                resp = self.client.post(
+                    '/retro/setitemlocked/%d/' % self.char.pk,
+                    {'slot': 'boots', 'equip': name, 'locked': 'true'})
+                self.assertEqual(resp.status_code, 200)
+
+
 class PinnedDependenciesAgreeTests(SimpleTestCase):
     """boto3 requires the botocore of its own version, so a bump that lifts one
     and not the other stops the Docker build before the image is even built.

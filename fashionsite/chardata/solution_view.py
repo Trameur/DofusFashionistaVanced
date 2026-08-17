@@ -681,6 +681,18 @@ def generate_link(request, char):
     return request.build_absolute_uri(version_reverse(request, 'solution_linked',
                                                       char_name, encoded_id))
 
+def _item_id_for_name(structure, item_name):
+    """The id the lock and forbid lists store, or None if this version has no
+    such item. An item split into branches is only known under its group name,
+    and a name the version does not have at all is a stale tab: both used to
+    reach the same subscript of None and answer 500."""
+    item = structure.get_item_by_name(item_name)
+    if item is not None:
+        return item.id
+    branches = structure.get_or_item_by_name(item_name)
+    return branches[0].id if branches else None
+
+
 def set_item_locked(request, char_id):
     char = get_char_or_raise(request, char_id)
         
@@ -692,12 +704,9 @@ def set_item_locked(request, char_id):
         return HttpResponseBadRequest('unknown slot')
 
     structure = get_structure()
-    item = structure.get_item_by_name(item_name)
-    if item is None:
-        or_item = structure.get_or_item_by_name(item_name)
-        item_id = or_item[0].id
-    else:
-        item_id = structure.get_item_by_name(item_name).id
+    item_id = _item_id_for_name(structure, item_name)
+    if item_id is None:
+        return HttpResponseBadRequest('unknown item')
     if locked == 'true':
         set_item_included(char, item_id, slot, True)
     elif locked == 'false':
@@ -745,13 +754,10 @@ def set_item_forbidden(request, char_id):
     forbidden = request.POST.get('forbidden', None)
     
     structure = get_structure()
-    item = structure.get_item_by_name(item_name)
-    if item is None:
-        or_item = structure.get_or_item_by_name(item_name)
-        item_id = or_item[0].id
-    else:
-        item_id = structure.get_item_by_name(item_name).id
-    
+    item_id = _item_id_for_name(structure, item_name)
+    if item_id is None:
+        return HttpResponseBadRequest('unknown item')
+
     if forbidden == 'true':
         set_excluded(char, item_id, True)
     elif forbidden == 'false':
