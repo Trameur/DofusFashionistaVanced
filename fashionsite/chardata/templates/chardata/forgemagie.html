@@ -414,8 +414,10 @@
         function runePlan(info, delta) {
             // Fewest throws first, then the smallest overshoot. An exact fit
             // built from small runes reads cheap and throws badly: three Pa Vi
-            // at 38% lose to one Ra Vi at 42%, which is why the simulator picks
-            // the big rune. The two used to disagree on the same line.
+            // at 38% lose to one Ra Vi at 42%. The list is then given in throw
+            // order, small runes first, because every rune that lands weighs on
+            // the next throw and the small ones weigh least: the item stays as
+            // light as it can until the big rune finishes the line.
             var tiers = info.tiers.slice().sort(function(a, b) { return b.bonus - a.bonus; });
             if (!tiers.length || delta <= 0) {
                 return [];
@@ -466,6 +468,7 @@
                     plan.push({tier: tiers[index], count: count});
                 }
             });
+            plan.sort(function(a, b) { return a.tier.bonus - b.tier.bonus; });
             return plan;
         }
 
@@ -476,7 +479,7 @@
         }
 
         function difficultyFor(row, info, plan) {
-            if (row.exo && config.onePercentExo.indexOf(row.key) !== -1) {
+            if (isOnePercentTarget(row)) {
                 return {label: t.diff_exo, cls: 'fm-bad'};
             }
             if (row.target > row.max) {
@@ -485,6 +488,7 @@
             if (!plan.length) {
                 return null;
             }
+            // The line is finished by the last rune of the plan, the big one.
             var finishing = plan[plan.length - 1].tier.bonus;
             var ratio = row.target / (20 * finishing);
             if (ratio < 0.7) {
@@ -770,7 +774,7 @@
                 if (row.target > lineCeiling(row) + 0.001 && !capProblemStat) {
                     capProblemStat = info.name;
                 }
-                if (row.exo && config.onePercentExo.indexOf(row.key) !== -1 && row.target > 0) {
+                if (isOnePercentTarget(row)) {
                     hasOnePercentExo = true;
                 }
 
@@ -1044,12 +1048,35 @@
             return session.rows.length - 1;
         }
 
-        // Weight this rune would put past the stat's best roll (the whole
-        // bonus for an exo line). Used for sink / over accounting.
-        function overWeightAfter(row, tier) {
+        // Weight this line carries past the stat's best roll (all of it for an
+        // exo line). Used for sink / over accounting.
+        function overWeightAt(row, value) {
             var info = statInfo(row.key);
+            if (!info) {
+                return 0;
+            }
             var maxRoll = row.exo ? 0 : row.max;
-            return Math.max(0, row.value + tier.bonus - maxRoll) * info.density;
+            return Math.max(0, value - maxRoll) * info.density;
+        }
+
+        function overWeightAfter(row, tier) {
+            return overWeightAt(row, row.value + tier.bonus);
+        }
+
+        // Once a line stands 30 weight past the item's own roll, the game only
+        // grants the point on a critical success, about 1% a throw. Players
+        // know that rule as the AP exo, and its densities put the same four
+        // lines on the same side of it: AP 100, MP 90, range 51, summon 30,
+        // and % spell damage from its second point (2 x 15) but not its first.
+        function isOnePercentThrow(row, tier) {
+            return overWeightAfter(row, tier)
+                   >= config.onePercentOverWeight - 0.001;
+        }
+
+        function isOnePercentTarget(row) {
+            return row.target > 0
+                   && overWeightAt(row, row.target)
+                      >= config.onePercentOverWeight - 0.001;
         }
 
         // Highest value a single line can reach. In game the TOTAL weight of a
@@ -1141,13 +1168,16 @@
             return minRoll > 0 && row.value + tier.bonus <= minRoll;
         }
 
-        function passFactorWeight() {
+        // `extra` is weight a planned sequence has already added: the runes
+        // still to come are thrown on a heavier item than the one on screen.
+        function passFactorWeight(extra) {
             return Math.max(FM_ODDS.weightFloor,
-                            1.0 - totalItemWeight() / FM_ODDS.weightScale);
+                            1.0 - (totalItemWeight() + (extra || 0))
+                                  / FM_ODDS.weightScale);
         }
 
-        function chancesFor(row, tier) {
-            if (row.exo && config.onePercentExo.indexOf(row.key) !== -1) {
+        function chancesFor(row, tier, extra) {
+            if (isOnePercentThrow(row, tier)) {
                 return {sc: 0.01, sn: 0, ec: 0.99};
             }
             // A rune that raises no line has neither a 20x limit to run into
@@ -1157,7 +1187,7 @@
                     ? passFactorRuneLimit(row.value, tier.bonus)
                       * passFactorFill(row, tier)
                     : 1;
-            var pass = FM_ODDS.base * lineFactors * passFactorWeight();
+            var pass = FM_ODDS.base * lineFactors * passFactorWeight(extra);
             pass = Math.max(FM_ODDS.floor, Math.min(0.98, pass));
             // Rebuilding a line the item has not even rolled naturally costs
             // nothing: those successes are mostly critical, so nothing is lost
@@ -1396,11 +1426,16 @@
             return best;
         }
 
-        // Best single throw for one line. The target is a MINIMUM (floor):
-        // we pick the biggest in-target rune that passes well. If the line is
-        // so close to its limit that no in-target rune passes, we allow a
-        // bigger rune that slightly overshoots but actually passes (the "Ra Cha
-        // to 101 chance" case), preferring sink-absorbable then lighter runes.
+        // Best next throw for one line. The target is a MINIMUM (floor): the
+        // plan may overshoot it, and when the line is so close to its limit
+        // that no in-target rune passes we allow the bigger rune that actually
+        // lands (the "Ra Cha to 101 chance" case).
+        //
+        // The choice is made over the whole sequence, not one rune at a time,
+        // because the order changes the odds: every rune already landed makes
+        // the item heavier, so the same two runes are worth more thrown small
+        // first and big last. That is how players mage, and finishing a line
+        // with the big rune falls out of the model instead of being a rule.
         function bestThrowForRow(row) {
             var info = statInfo(row.key);
             if (!info || !info.tiers.length) {
@@ -1417,41 +1452,77 @@
                 return null;
             }
             var maxRoll = row.exo ? 0 : row.max;
-            function passOf(tier) {
-                var c = chancesFor(row, tier);
+            function passAt(value, tier) {
+                var probe = {key: row.key, value: value, max: row.max,
+                             min: row.min, exo: row.exo};
+                var c = chancesFor(probe, tier, (value - row.value) * info.density);
                 return c.sc + c.sn;
             }
-            // What matters is the chance of finishing the line, not of landing
-            // one rune: three Pa Vi at 38% is 5%, one Ra Vi at 42% is 42%, even
-            // though the big rune overshoots. Every throw after the first is
-            // harder than this assumes, which only argues further for the rune
-            // that finishes in one.
-            function reach(tier) {
-                var throws = Math.max(1, Math.ceil((remaining - 0.001) / tier.bonus));
-                return Math.pow(passOf(tier), throws);
-            }
-            function wastesSink(tier) {
-                return row.value + tier.bonus > maxRoll
+            function wastesSink(value, tier) {
+                return value + tier.bonus > maxRoll
                        && tier.weight > session.sink + 0.001;
             }
-            var chosen = legal.slice().sort(function(a, b) {
-                var ra = reach(a), rb = reach(b);
-                if (Math.abs(rb - ra) > 0.02) {
-                    return rb - ra;
+            // Odds of finishing the line from `value`, and the rune to throw
+            // now to get them. Every state is visited once; the line can only
+            // grow, so the walk always ends on the target.
+            var memo = {};
+            function plan(value) {
+                if (value >= row.target - 0.001) {
+                    return {odds: 1, tier: null};
                 }
-                // Same odds of finishing: take the surplus the sink can absorb,
-                // then the lighter rune, which breaks less on a failure.
-                var wa = wastesSink(a), wb = wastesSink(b);
-                if (wa !== wb) {
-                    return wa ? 1 : -1;
+                if (memo[value]) {
+                    return memo[value];
                 }
-                return a.weight - b.weight;
-            })[0];
+                memo[value] = {odds: 0, tier: null};
+                var best = {odds: 0, tier: null};
+                legal.forEach(function(tier) {
+                    var probe = {key: row.key, value: value, max: row.max,
+                                 min: row.min, exo: row.exo};
+                    if (wouldExceedCap(probe, tier)) {
+                        return;
+                    }
+                    var odds = passAt(value, tier) * plan(value + tier.bonus).odds;
+                    if (odds > best.odds + 0.0001) {
+                        best = {odds: odds, tier: tier};
+                        return;
+                    }
+                    if (!best.tier || Math.abs(odds - best.odds) > 0.0001) {
+                        return;
+                    }
+                    // Same odds of finishing: take the surplus the sink can
+                    // absorb, then the lighter rune, which breaks less on a
+                    // failure.
+                    var wasteful = wastesSink(value, tier);
+                    if (wasteful !== wastesSink(value, best.tier)) {
+                        if (!wasteful) {
+                            best = {odds: odds, tier: tier};
+                        }
+                        return;
+                    }
+                    if (tier.weight < best.tier.weight) {
+                        best = {odds: odds, tier: tier};
+                    }
+                });
+                memo[value] = best;
+                return best;
+            }
+            var chosen = plan(row.value).tier;
+            if (!chosen) {
+                // Nothing reaches the target from here: fall back to the rune
+                // most likely to land right now, so the line still moves.
+                chosen = legal.slice().sort(function(a, b) {
+                    var pa = passAt(row.value, a), pb = passAt(row.value, b);
+                    if (Math.abs(pb - pa) > 0.02) {
+                        return pb - pa;
+                    }
+                    return a.weight - b.weight;
+                })[0];
+            }
             if (!chosen) {
                 return null;
             }
             return {key: row.key, name: info.name, tier: chosen,
-                    pass: passOf(chosen), weight: chosen.weight,
+                    pass: passAt(row.value, chosen), weight: chosen.weight,
                     density: info.density, heavy: info.density >= 51};
         }
 

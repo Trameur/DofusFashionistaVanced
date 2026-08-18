@@ -8391,6 +8391,47 @@ class RuneNamesMatchTheGameTests(SimpleTestCase):
         self.assertIn('Rune Pa Pi', self._page_names('retro'))
 
 
+class OnePercentOverWeightTests(TestCase):
+    """A line only lands 30 weight or more past the item's own roll on a
+    critical success. A player reported the same 1% behaviour on the summon exo
+    and on the second point of % spell damage as on an AP exo; the densities
+    put exactly those lines at or above 30, which is why the page now reads the
+    threshold instead of a list of stat keys."""
+
+    ONE_POINT_AT_OR_PAST = ('ap', 'mp', 'range', 'summon')
+    ONE_POINT_UNDER = ('perspedam', 'dam', 'ch', 'vit', 'str')
+
+    def test_the_lines_players_call_one_percent_reach_the_threshold(self):
+        from chardata.forgemagie_data import (ONE_PERCENT_OVER_WEIGHT,
+                                              get_fm_stat)
+        for key in self.ONE_POINT_AT_OR_PAST:
+            with self.subTest(stat=key):
+                self.assertGreaterEqual(get_fm_stat('dofus3', key)['density'],
+                                        ONE_PERCENT_OVER_WEIGHT)
+
+    def test_a_single_light_exo_stays_under_it(self):
+        from chardata.forgemagie_data import (ONE_PERCENT_OVER_WEIGHT,
+                                              get_fm_stat)
+        for key in self.ONE_POINT_UNDER:
+            with self.subTest(stat=key):
+                self.assertLess(get_fm_stat('dofus3', key)['density'],
+                                ONE_PERCENT_OVER_WEIGHT)
+
+    def test_spell_damage_crosses_it_on_its_second_point(self):
+        from chardata.forgemagie_data import (ONE_PERCENT_OVER_WEIGHT,
+                                              get_fm_stat)
+        density = get_fm_stat('dofus3', 'perspedam')['density']
+        self.assertLess(density, ONE_PERCENT_OVER_WEIGHT)
+        self.assertGreaterEqual(2 * density, ONE_PERCENT_OVER_WEIGHT)
+
+    def test_every_version_ships_the_threshold_to_the_page(self):
+        for prefix in ('', 'beta/', 'dofus2/', 'touch/', 'retro/'):
+            with self.subTest(prefix=prefix):
+                body = self.client.get('/%sforgemagie/' % prefix).content.decode('utf-8')
+                self.assertIn('onePercentOverWeight', body)
+                self.assertNotIn('onePercentExo', body)
+
+
 class NoStatRuneTests(TestCase):
     """The hunting and signature runes raise no characteristic, so the stat table
     cannot hold them. Both exist in all five versions (ankama items 10057 and

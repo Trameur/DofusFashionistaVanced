@@ -23,7 +23,7 @@ from django.utils.translation import gettext as _
 from django.utils import translation
 
 from chardata.forgemagie_data import (
-    MAGEABLE_TYPES, ONE_PERCENT_EXO_STATS, OVER_WEIGHT_CAP,
+    MAGEABLE_TYPES, ONE_PERCENT_OVER_WEIGHT, OVER_WEIGHT_CAP,
     get_fm_stats, get_no_stat_runes, get_ruleset,
 )
 from chardata.forgemagie_transcendance import get_transcendence_by_stat
@@ -71,7 +71,9 @@ LOCALIZED_UI = {
         'verdict_ok': 'Your plan fits in the item’s sink: with patience it can pass without overmage.',
         'verdict_over': 'Overmage: your plan needs %s more weight than the item’s sink. Expect many attempts and sacrificed stats.',
         'verdict_cap': 'Impossible: %s exceeds the cap of 101 over/exo weight on a single stat.',
-        'exo_one_percent': 'AP/MP/Range exos only land on a critical success (~1% per rune).',
+        'exo_one_percent': "A line 30 weight past the item's own roll only lands "
+                           'on a critical success (~1% per rune): AP, MP, '
+                           'range, summon, 2% spell damage.',
         'diff_safe': 'very likely',
         'diff_likely': 'likely',
         'diff_risky': 'risky',
@@ -85,7 +87,11 @@ LOCALIZED_UI = {
         'how_ec': 'Critical failure - no bonus, and the item loses stats worth the rune’s weight.',
         'how_sink': 'The sink (reliquat): when a lost stat weighs more than the rune you threw, the difference is stored invisibly on the item and absorbs future losses. The available sink is estimated as the weight gap between your rolls and the item’s best rolls.',
         'how_over': 'Overmage: pushing a stat above its best roll, or adding a stat the item does not have (an exo), costs sink. The total over/exo weight on one stat can never exceed 101.',
-        'how_exo': 'Exo runes for AP, MP and Range only pass on a critical success, commonly estimated at 1% per attempt. Other exos pass like normal runes but count against the 101 cap.',
+        'how_exo': "A line that stands 30 weight or more past the item's own "
+                   'roll only passes on a critical success, commonly '
+                   'estimated at 1% per attempt: AP, MP, range, summon, and '
+                   '% spell damage from its second point. Lighter exos pass '
+                   'like normal runes but count against the 101 cap.',
         'how_rule20': 'Rule of thumb: a rune passes reliably while the stat is below ~20x the rune’s bonus (+1 runes up to ~20, +3 up to ~60, +10 up to ~200). Above that, expect failures - that is where sink and patience matter.',
         'how_sink_loss': 'Careful: the sink is tied to the maging session. Equipping, trading or listing the item is commonly reported to reset it.',
         'how_disclaimer': 'Ankama has never published the exact success formula; rates shown here are community estimates.',
@@ -203,7 +209,10 @@ LOCALIZED_UI = {
         'verdict_ok': 'Votre plan tient dans le puits de l’objet : avec de la patience, il peut passer sans overmage.',
         'verdict_over': 'Overmage : votre plan demande %s de poids de plus que le puits de l’objet. Attendez-vous à de nombreux essais et des stats sacrifiées.',
         'verdict_cap': 'Impossible : %s dépasse le plafond de 101 de poids en over/exo sur une même caractéristique.',
-        'exo_one_percent': 'Les exos PA/PM/PO ne passent que sur un succès critique (~1 % par rune).',
+        'exo_one_percent': "Une ligne à 30 de poids au-delà du roll de l'objet "
+                           'ne passe que sur un succès critique (~1 % par '
+                           'rune) : PA, PM, PO, invocations, 2 % dommages aux '
+                           'sorts.',
         'diff_safe': 'très probable',
         'diff_likely': 'probable',
         'diff_risky': 'risqué',
@@ -217,7 +226,12 @@ LOCALIZED_UI = {
         'how_ec': 'Échec critique - pas de bonus, et l’objet perd des stats à hauteur du poids de la rune.',
         'how_sink': 'Le puits (reliquat) : quand une stat perdue pèse plus lourd que la rune lancée, la différence est stockée invisiblement sur l’objet et absorbe les pertes suivantes. Le puits disponible est estimé comme l’écart de poids entre vos jets et les jets parfaits.',
         'how_over': 'Overmage : monter une stat au-dessus de son jet parfait, ou ajouter une stat absente de l’objet (un exo), consomme du puits. Le poids total en over/exo sur une stat ne peut jamais dépasser 101.',
-        'how_exo': 'Les runes exo PA, PM et PO ne passent que sur un succès critique, estimé à 1 % par essai. Les autres exos passent comme des runes normales mais comptent dans le plafond de 101.',
+        'how_exo': "Une ligne qui dépasse de 30 de poids ou plus le roll de l'objet "
+                   'ne passe que sur un succès critique, estimé à 1 % par '
+                   'essai : PA, PM, PO, invocations, et les % dommages aux '
+                   'sorts à partir du deuxième point. Les exos plus légers '
+                   'passent comme des runes normales mais comptent dans le '
+                   'plafond de 101.',
         'how_rule20': 'Règle empirique : une rune passe bien tant que la stat est sous ~20x le bonus de la rune (+1 jusqu’à ~20, +3 jusqu’à ~60, +10 jusqu’à ~200). Au-delà, attendez-vous à des échecs - c’est là que le puits et la patience comptent.',
         'how_sink_loss': 'Attention : le puits est lié à la session de forgemagie. Équiper, échanger ou mettre l’objet en vente le réinitialise selon les retours de la communauté.',
         'how_disclaimer': 'Ankama n’a jamais publié la formule exacte de réussite ; les taux affichés ici sont des estimations communautaires.',
@@ -335,7 +349,10 @@ LOCALIZED_UI = {
         'verdict_ok': 'Tu plan cabe en el pozo del objeto: con paciencia puede pasar sin overmage.',
         'verdict_over': 'Overmage: tu plan necesita %s de peso más que el pozo del objeto. Espera muchos intentos y características sacrificadas.',
         'verdict_cap': 'Imposible: %s supera el límite de 101 de peso en over/exo sobre una misma característica.',
-        'exo_one_percent': 'Los exos de PA/PM/Alcance solo pasan con un éxito crítico (~1 % por runa).',
+        'exo_one_percent': 'Una línea con 30 de peso por encima de la tirada del '
+                           'objeto solo pasa con un éxito crítico (~1 % por '
+                           'runa): PA, PM, alcance, invocaciones, 2 % daños de '
+                           'hechizos.',
         'diff_safe': 'muy probable',
         'diff_likely': 'probable',
         'diff_risky': 'arriesgado',
@@ -349,7 +366,11 @@ LOCALIZED_UI = {
         'how_ec': 'Fracaso crítico - no hay bono y el objeto pierde características por el peso de la runa.',
         'how_sink': 'El pozo (reliquia): cuando una característica perdida pesa más que la runa lanzada, la diferencia se guarda de forma invisible en el objeto y absorbe pérdidas futuras. El pozo disponible se estima como la diferencia de peso entre tus tiradas y las tiradas perfectas.',
         'how_over': 'Overmage: subir una característica por encima de su tirada perfecta, o añadir una que el objeto no tiene (un exo), consume pozo. El peso total en over/exo sobre una característica nunca puede superar 101.',
-        'how_exo': 'Las runas exo de PA, PM y Alcance solo pasan con un éxito crítico, estimado en un 1 % por intento. Los demás exos pasan como runas normales pero cuentan para el límite de 101.',
+        'how_exo': 'Una línea que supera en 30 de peso o más la tirada del objeto '
+                   'solo pasa con un éxito crítico, estimado en un 1 % por '
+                   'intento: PA, PM, alcance, invocaciones y los % daños de '
+                   'hechizos a partir del segundo punto. Los exos más ligeros '
+                   'pasan como runas normales pero cuentan para el límite de 101.',
         'how_rule20': 'Regla práctica: una runa pasa bien mientras la característica esté por debajo de ~20x el bono de la runa (+1 hasta ~20, +3 hasta ~60, +10 hasta ~200). Por encima, espera fracasos: ahí cuentan el pozo y la paciencia.',
         'how_sink_loss': 'Cuidado: el pozo está ligado a la sesión de forjamagia. Equipar, intercambiar o poner el objeto en venta lo reinicia según la comunidad.',
         'how_disclaimer': 'Ankama nunca publicó la fórmula exacta de éxito; las tasas mostradas aquí son estimaciones de la comunidad.',
@@ -467,7 +488,9 @@ LOCALIZED_UI = {
         'verdict_ok': 'Seu plano cabe no poço do item: com paciência ele pode passar sem overmage.',
         'verdict_over': 'Overmage: seu plano precisa de %s de peso a mais do que o poço do item. Espere muitas tentativas e atributos sacrificados.',
         'verdict_cap': 'Impossível: %s ultrapassa o limite de 101 de peso em over/exo em um mesmo atributo.',
-        'exo_one_percent': 'Exos de PA/PM/Alcance só passam com um sucesso crítico (~1% por runa).',
+        'exo_one_percent': 'Uma linha com 30 de peso além da rolagem do item só '
+                           'passa com um sucesso crítico (~1% por runa): PA, '
+                           'PM, alcance, invocações, 2% danos feitiços.',
         'diff_safe': 'muito provável',
         'diff_likely': 'provável',
         'diff_risky': 'arriscado',
@@ -481,7 +504,11 @@ LOCALIZED_UI = {
         'how_ec': 'Falha crítica - nenhum bônus, e o item perde atributos no valor do peso da runa.',
         'how_sink': 'O poço (resíduo): quando um atributo perdido pesa mais que a runa lançada, a diferença fica armazenada de forma invisível no item e absorve perdas futuras. O poço disponível é estimado como a diferença de peso entre suas rolagens e as rolagens perfeitas.',
         'how_over': 'Overmage: subir um atributo acima da rolagem perfeita, ou adicionar um atributo que o item não tem (um exo), consome poço. O peso total em over/exo em um atributo nunca pode passar de 101.',
-        'how_exo': 'Runas exo de PA, PM e Alcance só passam com um sucesso crítico, estimado em 1% por tentativa. Os outros exos passam como runas normais, mas contam para o limite de 101.',
+        'how_exo': 'Uma linha que ultrapassa em 30 de peso ou mais a rolagem do '
+                   'item só passa com um sucesso crítico, estimado em 1% por '
+                   'tentativa: PA, PM, alcance, invocações e os % danos '
+                   'feitiços a partir do segundo ponto. Os exos mais leves '
+                   'passam como runas normais, mas contam para o limite de 101.',
         'how_rule20': 'Regra prática: uma runa passa bem enquanto o atributo está abaixo de ~20x o bônus da runa (+1 até ~20, +3 até ~60, +10 até ~200). Acima disso, espere falhas - é aí que o poço e a paciência contam.',
         'how_sink_loss': 'Cuidado: o poço está ligado à sessão de forjamagia. Equipar, trocar ou colocar o item à venda o reinicia, segundo a comunidade.',
         'how_disclaimer': 'A Ankama nunca publicou a fórmula exata de sucesso; as taxas mostradas aqui são estimativas da comunidade.',
@@ -599,7 +626,10 @@ LOCALIZED_UI = {
         'verdict_ok': 'Dein Plan passt in die Senke des Gegenstands: Mit Geduld kann er ohne Overmage gelingen.',
         'verdict_over': 'Overmage: Dein Plan braucht %s Gewicht mehr, als die Senke des Gegenstands hergibt. Rechne mit vielen Versuchen und geopferten Werten.',
         'verdict_cap': 'Unmöglich: %s überschreitet die Grenze von 101 Over/Exo-Gewicht auf einem einzelnen Wert.',
-        'exo_one_percent': 'AP/BP/Reichweite-Exos gelingen nur mit einem kritischen Erfolg (~1% pro Rune).',
+        'exo_one_percent': 'Eine Zeile mit 30 Gewicht über dem eigenen Wurf des '
+                           'Gegenstands gelingt nur mit einem kritischen '
+                           'Erfolg (~1% pro Rune): AP, BP, Reichweite, '
+                           'Beschwörung, 2% Zauberschaden.',
         'diff_safe': 'sehr wahrscheinlich',
         'diff_likely': 'wahrscheinlich',
         'diff_risky': 'riskant',
@@ -613,7 +643,12 @@ LOCALIZED_UI = {
         'how_ec': 'Kritischer Misserfolg - kein Bonus, und der Gegenstand verliert Werte im Umfang des Runengewichts.',
         'how_sink': 'Die Senke (Reliquat): Wenn ein verlorener Wert mehr wiegt als die geworfene Rune, wird die Differenz unsichtbar auf dem Gegenstand gespeichert und fängt spätere Verluste ab. Die verfügbare Senke wird als Gewichtsabstand zwischen deinen Würfen und den perfekten Würfen geschätzt.',
         'how_over': 'Overmage: Einen Wert über seinen perfekten Wurf zu heben oder einen neuen Wert hinzuzufügen (ein Exo) kostet Senke. Das gesamte Over/Exo-Gewicht auf einem Wert kann nie 101 überschreiten.',
-        'how_exo': 'Exo-Runen für AP, BP und Reichweite gelingen nur mit einem kritischen Erfolg, geschätzt 1% pro Versuch. Andere Exos gelingen wie normale Runen, zählen aber zur 101-Grenze.',
+        'how_exo': 'Eine Zeile, die 30 Gewicht oder mehr über dem eigenen Wurf '
+                   'des Gegenstands liegt, gelingt nur mit einem kritischen '
+                   'Erfolg, geschätzt 1% pro Versuch: AP, BP, Reichweite, '
+                   'Beschwörung und % Zauberschaden ab dem zweiten Punkt. '
+                   'Leichtere Exos gelingen wie normale Runen, zählen aber '
+                   'zur 101-Grenze.',
         'how_rule20': 'Faustregel: Eine Rune gelingt zuverlässig, solange der Wert unter ~20x dem Runenbonus liegt (+1 bis ~20, +3 bis ~60, +10 bis ~200). Darüber sind Fehlschläge zu erwarten - dort zählen Senke und Geduld.',
         'how_sink_loss': 'Vorsicht: Die Senke ist an die Schmiedemagie-Sitzung gebunden. Anlegen, Tauschen oder Verkaufen des Gegenstands setzt sie laut Community zurück.',
         'how_disclaimer': 'Ankama hat die genaue Erfolgsformel nie veröffentlicht; die hier gezeigten Raten sind Schätzungen der Community.',
@@ -949,7 +984,7 @@ def forgemagie(request):
 
     js_config = {
         'overCap': OVER_WEIGHT_CAP,
-        'onePercentExo': list(ONE_PERCENT_EXO_STATS),
+        'onePercentOverWeight': ONE_PERCENT_OVER_WEIGHT,
         'stats': stat_payload,
         'statOrder': _ordered_fm_stat_keys(structure, get_fm_stats(game_version)),
         'searchUrl': version_reverse(request, 'forgemagie_items'),
