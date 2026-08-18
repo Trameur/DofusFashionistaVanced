@@ -138,6 +138,7 @@ class SolutionResult:
                   'stats_base_json': json.dumps(r.get_stats_base()),
                   'stats_gear_json': json.dumps(r.get_stats_gear()),
                   'stats_total_json': json.dumps(r.get_stats_total()),
+                  'stat_sources_json': json.dumps(stat_sources(r)),
                   'item_names': json.dumps(item_names),
                   'translated_item_names': json.dumps(translated_item_names),
                   'item_ids': json.dumps(item_ids),
@@ -157,6 +158,104 @@ class SolutionResult:
     def is_item_forbidden(self, result_item):
         if result_item.item_added:
             return result_item.or_name in self.exclusions_set
+
+
+def stat_sources(model_result):
+    """Where every number in the stats panel comes from.
+
+    The panel prints one total per stat and says nothing about how it was
+    reached, so a player cannot tell which piece carries their Vitality. This
+    returns, per stat key, the lines that make that total: one per worn item,
+    one per set bonus, the exotic bonus, the character's own base, the share one
+    characteristic lends another (a tenth of Wisdom on the AP and MP stats, a
+    tenth of Agility on Lock and Dodge, a tenth of Chance on Prospecting, five
+    Pods per Strength, the four elements on Initiative, Vitality and the level
+    on HP), and what an active set caps away at the end.
+
+    Each line says which kind it is, because the panel prints two totals: Equip
+    counts the gear alone, Total counts everything.
+    """
+    from fashionistapulp.dofus_constants import BASE_STATS, STAT_KEY_TO_NAME
+    sources = {}
+
+    def add(stat_key, label, value, kind):
+        if not value:
+            return
+        sources.setdefault(stat_key, []).append(
+            {'label': label, 'value': value, 'kind': kind})
+
+    def running(stat_key):
+        return sum(line['value'] for line in sources.get(stat_key, []))
+
+    # A page must never break on a result that is missing a piece: the parts
+    # that are there still explain what they can.
+    for result_item in getattr(model_result, 'item_list', None) or []:
+        if not result_item.item_added:
+            continue
+        name = (getattr(result_item, 'localized_name', None)
+                or getattr(result_item, 'name', ''))
+        for stat_key, value in (result_item.stats or {}).items():
+            add(stat_key, name, value, 'item')
+
+    for result_set in getattr(model_result, 'sets', None) or []:
+        name = (getattr(result_set, 'localized_name', None)
+                or getattr(result_set, 'name', ''))
+        for stat_key, value in result_set.get_bonus().items():
+            add(stat_key, name, value, 'set')
+
+    model_input = getattr(model_result, 'input', None) or {}
+    options = model_input.get('options') or {}
+    for stat_key, option in (('ap', 'ap_exo'), ('mp', 'mp_exo'),
+                             ('range', 'range_exo')):
+        # mp_exo can hold the string "gelano", which is the ring doing the work
+        # and not a free point, so only the plain yes counts here.
+        if options.get(option) is True:
+            add(stat_key, _('Exotic bonus'), 1, 'exo')
+
+    base_by_attr = model_input.get('base_stats_by_attr') or {}
+    distributed = getattr(model_result, 'stats', None) or {}
+    for stat in get_structure().get_stats_list():
+        base = base_by_attr.get(stat.name, 0)
+        if stat.key in BASE_STATS:
+            base += distributed.get(stat.key, 0)
+        add(stat.key, _('Base'), base, 'base')
+
+    try:
+        total = model_result.get_stats_total()
+    except Exception:                                        # noqa: BLE001
+        logger.warning('a solution could not total its stats', exc_info=True)
+        return sources
+
+    def characteristic(key):
+        return _(STAT_KEY_TO_NAME[key])
+
+    for stat_key, from_key in (('apres', 'wis'), ('mpres', 'wis'),
+                               ('apred', 'wis'), ('mpred', 'wis'),
+                               ('dodge', 'agi'), ('lock', 'agi'),
+                               ('pp', 'cha')):
+        add(stat_key, characteristic(from_key), total.get(from_key, 0) // 10,
+            'derived')
+    add('pod', characteristic('str'), total.get('str', 0) * 5, 'derived')
+    for from_key in ('str', 'int', 'cha', 'agi'):
+        add('init', characteristic(from_key), total.get(from_key, 0), 'derived')
+    add('hp', characteristic('vit'), total.get('vit', 0), 'derived')
+    add('hp', _('Level'), model_input.get('char_level', 0) * 5 + 50,
+        'derived')
+
+    # An active set can cap a stat, and the panel prints the capped number: the
+    # lines have to say what was cut or they would add up to more than it.
+    for result_set in getattr(model_result, 'sets', None) or []:
+        name = (getattr(result_set, 'localized_name', None)
+                or getattr(result_set, 'name', ''))
+        for stat_key, _stat_name, max_cap in result_set.get_max_caps():
+            over = running(stat_key) - max_cap
+            if over > 0:
+                add(stat_key, name, -over, 'cap')
+
+    for lines in sources.values():
+        lines.sort(key=lambda line: (line['kind'] == 'cap',
+                                     -abs(line['value']), line['label']))
+    return sources
 
 
 def evolve_result_item(result_item, r=None):

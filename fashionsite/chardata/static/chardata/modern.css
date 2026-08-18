@@ -921,6 +921,12 @@ html.fm-modern .compare-page .solution-stat-table{
 .spell-tip:focus .spell-tip-panel,
 .spell-tip.st-open .spell-tip-panel{ display:block; }
 .spell-tip-name{ display:block; margin-bottom:3px; color:#f7d774; }
+/* One contributor per row inside a stat's panel: what it is on the left, how
+   much it gives on the right. The panel itself is the spell tip's, so the
+   colours and the dark theme come with it. */
+.stat-tip-row{ display:flex; justify-content:space-between; gap:14px;
+               white-space:nowrap; }
+.solution-stat-summary-name.spell-tip{ cursor:help; }
 .spell-tip-text{ display:block; }
 /* Near the right edge the panel would leave the card. */
 .spell-tip.st-flip .spell-tip-panel{ left:auto; right:0; }

@@ -6102,3 +6102,11 @@ msgstr "The item list refreshes after you switch a piece, instead of keeping for
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."
 msgstr "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."
+
+#: .\chardata\solution_result.py:0
+msgid "Exotic bonus"
+msgstr "Exotic bonus"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Tap or hover a stat in your build to see which pieces make it, and how much each one gives."
+msgstr "Tap or hover a stat in your build to see which pieces make it, and how much each one gives."

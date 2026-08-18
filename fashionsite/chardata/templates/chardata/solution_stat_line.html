@@ -11,13 +11,13 @@
     </td>
     {% if base %}
     <td>
-        <span class="solution-stat-summary-name">{{stat_name}}</span>
+        <span class="solution-stat-summary-name" data-stat-key="{{stat_key}}" data-stat-name="{{stat_name}}">{{stat_name}}</span>
     </td>
     <td name="stat_value_base_{{stat_key}}" class="solution-stat-summary-value-cell">
     </td>
     {% else %}
     <td colspan="2">
-        <span class="solution-stat-summary-name">{{stat_name}}</span>
+        <span class="solution-stat-summary-name" data-stat-key="{{stat_key}}" data-stat-name="{{stat_name}}">{{stat_name}}</span>
     </td>
     {% endif %}
     <td name="stat_value_{{stat_key}}" class="solution-stat-summary-value-cell {% if is_last %}bottom-right-cell{% endif %}">

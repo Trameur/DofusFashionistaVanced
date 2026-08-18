@@ -6625,3 +6625,11 @@ msgstr "A lista de itens atualiza depois de trocar uma peça, em vez de manter d
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."
 msgstr "Dofus Retro: um item que lhe custa um PA ou um PM agora diz, e uma arma que retira PA do alvo mostra essa linha."
+
+#: .\chardata\solution_result.py:0
+msgid "Exotic bonus"
+msgstr "Bónus exótico"
+
+#: .\chardata\templates\chardata\changelog_content.html:0
+msgid "Tap or hover a stat in your build to see which pieces make it, and how much each one gives."
+msgstr "Toque ou passe o rato por uma estatística do seu build para ver que peças a compõem e quanto cada uma dá."

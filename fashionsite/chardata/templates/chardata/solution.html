@@ -892,6 +892,11 @@
         var stats_base = {{stats_base_json | safe}};
         var stats_gear = {{stats_gear_json | safe}};
         var stats_total = {{stats_total_json | safe}};
+        // Where each of those totals comes from: {stat: [{label, value, kind}]},
+        // built by solution_result.stat_sources() so the lines are the same
+        // numbers the panel prints rather than a second opinion.
+        var STAT_SOURCES = {{stat_sources_json | safe}};
+        var STAT_GEAR_KINDS = {item: 1, set: 1, exo: 1};
 
         function formatDofusStatValue(value) {
             if (value === null || value === undefined || value === '') {
@@ -966,6 +971,59 @@
                     $("td[name=stat_value_base_" + stat_key + "]").html(formatDofusStatValue(stats_base[stat_key]));
                 }
                 $("td[name=stat_value_" + stat_key + "]").html(statValueString);
+            });
+            updateStatTips($("input[name='total_mode']:checked").val() == "equip");
+        }
+
+        // The panel says how much; this says where it came from. Rebuilt on
+        // every update because the Equip toggle drops everything that is not
+        // gear, and the buff toggle adds a line of its own.
+        function statTipLines(statKey, equipOnly) {
+            var lines = [];
+            $.each(STAT_SOURCES[statKey] || [], function(i, source) {
+                if (equipOnly && !STAT_GEAR_KINDS[source.kind]) return;
+                lines.push({label: source.label, value: source.value});
+            });
+            if ($('#apply_buffs_toggle').is(':checked') && SPELL_BUFFS[statKey]) {
+                lines.push({label: '{% trans "With buffs" %}',
+                            value: SPELL_BUFFS[statKey]});
+            }
+            return lines;
+        }
+
+        function statTipHtml(statName, lines) {
+            var html = '<span class="spell-tip-panel" role="tooltip">'
+                     + '<b class="spell-tip-name">' + escapeStatTip(statName)
+                     + '</b>';
+            for (var i = 0; i < lines.length; i++) {
+                var value = lines[i].value;
+                html += '<span class="stat-tip-row"><span>'
+                     + escapeStatTip(lines[i].label) + '</span><span>'
+                     + (value > 0 ? '+' : '') + value + '</span></span>';
+            }
+            return html + '</span>';
+        }
+
+        function escapeStatTip(value) {
+            return String(value == null ? '' : value)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function updateStatTips(equipOnly) {
+            $('.solution-stat-summary-name[data-stat-key]').each(function() {
+                var cell = $(this);
+                var lines = statTipLines(cell.data('stat-key'), equipOnly);
+                cell.find('.spell-tip').remove();
+                cell.removeClass('spell-tip').removeAttr('tabindex')
+                    .removeAttr('role').removeAttr('aria-label');
+                if (!lines.length) return;
+                // The whole name is the target, so a finger and a mouse both
+                // reach it without a mark to aim at.
+                cell.addClass('spell-tip').attr({
+                    tabindex: 0, role: 'button',
+                    'aria-label': cell.data('stat-name')
+                }).append(statTipHtml(cell.data('stat-name'), lines));
             });
         }
 

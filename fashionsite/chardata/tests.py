@@ -3091,6 +3091,111 @@ class ApiDocsTests(TestCase):
             self.assertIn(max_age, resp.get('Cache-Control', ''), url)
 
 
+# The Equip column counts the gear, and the exotic point the options grant is
+# part of it: get_stats_gear() adds it there, not to the base.
+GEAR_KINDS = ('item', 'set', 'exo')
+ALL_KINDS = GEAR_KINDS + ('base', 'derived', 'cap')
+
+
+class StatSourcesTests(TestCase):
+    """The stats panel prints a total per stat and never said where it came
+    from. Every line of the breakdown has to add up to the number printed above
+    it, or the panel would be worse than saying nothing."""
+
+    def _solved_result(self, version='dofus3'):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.solution import get_solution
+        set_current_game_version(version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user('sources' + version,
+                                         'src-%s@test.local' % version,
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, version)
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk if version == 'dofus3'
+                        else '/%s/fashion/%d/' % (version, char.pk))
+        char.refresh_from_db()
+        return char, get_solution(char)
+
+    def _check(self, version):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution_result import stat_sources
+        _char, result = self._solved_result(version)
+        self.assertIsNotNone(result)
+        sources = stat_sources(result)
+        self.assertTrue(sources, 'no stat has a breakdown at all')
+        total = result.get_stats_total()
+        gear = result.get_stats_gear()
+        for key, lines in sources.items():
+            with self.subTest(version=version, stat=key):
+                self.assertEqual(total.get(key, 0),
+                                 sum(line['value'] for line in lines),
+                                 'the lines do not make the total')
+                self.assertEqual(gear.get(key, 0),
+                                 sum(line['value'] for line in lines
+                                     if line['kind'] in GEAR_KINDS),
+                                 'the gear lines do not make the equip total')
+        return result, sources
+
+    def test_every_total_is_explained_on_dofus3(self):
+        result, sources = self._check('dofus3')
+        worn = {item.localized_name for item in result.item_list
+                if item.item_added}
+        named = {line['label'] for lines in sources.values() for line in lines
+                 if line['kind'] == 'item'}
+        self.assertTrue(named, 'no worn item is named anywhere')
+        self.assertEqual(set(), named - worn, 'a line names something unworn')
+
+    def test_every_total_is_explained_on_retro(self):
+        self._check('retro')
+
+    def test_a_line_carries_a_label_a_value_and_a_kind(self):
+        _result, sources = self._check('dofus3')
+        for lines in sources.values():
+            for line in lines:
+                self.assertEqual({'label', 'value', 'kind'}, set(line))
+                self.assertTrue(line['label'])
+                self.assertNotEqual(0, line['value'], 'a zero line says nothing')
+                self.assertIn(line['kind'], ALL_KINDS)
+
+    def test_a_half_built_result_explains_what_it_can(self):
+        # The solution page must not break on a result that is missing a piece,
+        # which is how the other stored-blob failures used to take a page down.
+        from chardata.solution_result import stat_sources
+
+        class Bare(object):
+            pass
+
+        self.assertEqual({}, stat_sources(Bare()))
+
+    def test_the_page_carries_the_breakdown_and_its_hooks(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        import json
+        import re
+        char, _result = self._solved_result('dofus3')
+        body = self.client.get('/solution/%d/' % char.pk).content.decode('utf-8')
+        self.assertIn('data-stat-key="vit"', body)
+        self.assertIn('STAT_SOURCES', body)
+        payload = json.loads(
+            re.search(r'var STAT_SOURCES = (\{.*?\});', body).group(1))
+        self.assertIn('vit', payload)
+        self.assertTrue(all({'label', 'value', 'kind'} == set(line)
+                            for line in payload['vit']))
+
+    def test_the_biggest_contributor_comes_first(self):
+        _result, sources = self._check('dofus3')
+        for lines in sources.values():
+            values = [abs(line['value']) for line in lines]
+            self.assertEqual(sorted(values, reverse=True), values)
+
+
 class RetroApMpLossTests(SimpleTestCase):
     """Three of Retro's own effect ids were read by nobody. 2100 "PA perdus" and
     127 "PM perdus" name no target, so they are the wearer's loss: Abracaska is
