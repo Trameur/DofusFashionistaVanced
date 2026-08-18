@@ -39,6 +39,15 @@ def cytrus_version(game_version):
     return raw.split('_', 1)[-1] if '_' in raw else raw
 
 
+def retro_lang_versions():
+    """{category: version} for the lang files the item pipeline reads."""
+    import fashionista_version as ours
+    from download_retro_langs import fetch_manifest
+    live = fetch_manifest('fr')
+    return {name: str(live.get(name, 'missing'))
+            for name in ours.WATCHED_RETRO_LANG}
+
+
 def touch_assets():
     url = _json(TOUCH_CONFIG).get('assetsUrl', '')
     return url.rsplit('/', 1)[-1] if url else ''
@@ -70,6 +79,18 @@ def main():
     for name, repo in (('dofus3', 'dofus3-main'), ('beta', 'dofus3-beta')):
         tag = _json(TAGS % repo)[0]['name']
         print('%-8s tag  %s' % (name, tag))
+
+    import fashionista_version as watched
+    live_lang = retro_lang_versions()
+    lang_moved = sorted(name for name, version in live_lang.items()
+                        if version != watched.WATCHED_RETRO_LANG[name])
+    print('%-8s lang %s'
+          % ('retro', ', '.join('%s=%s' % (name, live_lang[name])
+                                for name in sorted(live_lang))))
+    if lang_moved:
+        moved.append(('retro lang', ', '.join(lang_moved)))
+        print('retro lang MOVED on %s, re-scrape retro and update '
+              'WATCHED_RETRO_LANG' % ', '.join(lang_moved))
 
     for name, live in moved:
         if name in ('retro', 'touch'):

@@ -15506,23 +15506,28 @@ class GameVersionWatchTests(SimpleTestCase):
             check_game_versions._json = original
 
 
-    def _run_check(self, retro_live, touch_live):
+    def _run_check(self, retro_live, touch_live, lang_live=None):
         import check_game_versions as check
         import fashionista_version as ours
         saved = (check.cytrus_cdn.get_version, check._json,
+                 check.retro_lang_versions,
                  ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS)
         live = {'dofus3': ours.FASHIONISTA_VERSION,
                 'beta': ours.FASHIONISTA_BETA_VERSION,
                 'dofus2': ours.FASHIONISTA_DOFUS2_VERSION,
                 'retro': retro_live}
+        lang = dict(ours.WATCHED_RETRO_LANG)
+        lang.update(lang_live or {})
         try:
             check.cytrus_cdn.get_version = lambda version: live[version]
+            check.retro_lang_versions = lambda: lang
             check._json = lambda url: (
                 [{'name': 'tag'}] if 'tags' in url
                 else {'assetsUrl': 'https://cdn/assets/' + touch_live})
             return check.main()
         finally:
             (check.cytrus_cdn.get_version, check._json,
+             check.retro_lang_versions,
              ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS) = saved
 
     def test_a_retro_content_patch_is_not_silent(self):
@@ -15533,6 +15538,15 @@ class GameVersionWatchTests(SimpleTestCase):
                                          ours.WATCHED_TOUCH_ASSETS), 0)
         self.assertEqual(self._run_check('1.48.99.9999.999-newer',
                                          ours.WATCHED_TOUCH_ASSETS), 1)
+
+    def test_a_retro_lang_publish_is_not_silent(self):
+        # The item data comes from the lang CDN: 1.49.0 moved the client build
+        # with the lang versions standing still, and the other way round is
+        # what would actually change the items.
+        import fashionista_version as ours
+        self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
+                                         ours.WATCHED_TOUCH_ASSETS,
+                                         {'items': '9999'}), 1)
 
     def test_a_touch_asset_bundle_change_is_not_silent(self):
         import fashionista_version as ours
