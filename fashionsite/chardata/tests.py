@@ -40,7 +40,9 @@ coupling to exact page copy.
 
 from django.test import SimpleTestCase, TestCase, override_settings
 import datetime
+import io
 import glob
+import json
 import os
 import re
 import shutil
@@ -8390,6 +8392,124 @@ class RuneNamesMatchTheGameTests(SimpleTestCase):
         self.assertEqual(get_fm_stat('retro', 'trapdam')['tiers'],
                          [('', 1), ('Pa', 3)])
         self.assertIn('Rune Pa Pi', self._page_names('retro'))
+
+
+class SmithmagicOddsTests(TestCase):
+    """The odds model is fitted on two runs measured on a Rhineetle Ring at a
+    perfect roll: a Ra Vi with vitality 50 short of its max gives a 20 to 25%
+    critical, and a % spell damage exo with no sink about 10%. The knobs are
+    tunable on purpose, so the fit is checked rather than trusted."""
+
+    PAGE = os.path.join(os.path.dirname(__file__), 'templates', 'chardata',
+                        'forgemagie.html')
+
+    MATHS = ('round2', 'statInfo', 'overWeightAt', 'overWeightAfter',
+             'isOnePercentThrow', 'lineCeiling', 'wouldExceedCap',
+             'totalItemWeight', 'passFactorRuneLimit', 'passFactorFill',
+             'belowNaturalMin', 'passFactorWeight', 'passFactorSink',
+             'chancesFor')
+
+    def _function(self, source, name):
+        start = source.index('\n        function %s(' % name) + 1
+        depth = 0
+        index = source.index('{', start)
+        while True:
+            if source[index] == '{':
+                depth += 1
+            elif source[index] == '}':
+                depth -= 1
+                if depth == 0:
+                    return source[start:index + 1]
+            index += 1
+
+    def _model(self):
+        page = io.open(self.PAGE, encoding='utf-8').read()
+        odds = re.search(r'var FM_ODDS = \{.*?\};', page, re.S).group(0)
+        return '\n'.join([odds] + [self._function(page, name)
+                                   for name in self.MATHS])
+
+    def _config(self):
+        from chardata.forgemagie_data import (ONE_PERCENT_OVER_WEIGHT,
+                                              OVER_WEIGHT_CAP, get_fm_stats)
+        stats = {}
+        for key, fm_stat in get_fm_stats('dofus3').items():
+            stats[key] = {
+                'density': fm_stat['density'],
+                'tiers': [{'name': tier, 'bonus': bonus,
+                           'weight': round(bonus * fm_stat['density'], 2)}
+                          for tier, bonus in fm_stat['tiers']],
+            }
+        return {'overCap': OVER_WEIGHT_CAP,
+                'onePercentOverWeight': ONE_PERCENT_OVER_WEIGHT,
+                'stats': stats}
+
+    def _ring_rows(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure()
+        item = structure.get_item_by_name('Rhineetle Ring')
+        self.assertIsNotNone(item)
+        ranges = getattr(item, 'stat_ranges', {}) or {}
+        rows = []
+        for stat_id, value in item.stats:
+            stat = structure.get_stat_by_id(stat_id)
+            low = ranges.get(stat_id, (None, None))[0]
+            rows.append({'key': stat.key, 'value': int(round(value)),
+                         'min': int(round(low)) if low is not None else 0,
+                         'max': int(round(value)), 'target': 0, 'exo': False})
+        return rows
+
+    def _run(self, driver):
+        node = shutil.which('node')
+        if node is None:
+            self.skipTest('node is not installed')
+        source = '%s\nvar config = %s;\nvar rows = %s;\n%s' % (
+            self._model(), json.dumps(self._config()),
+            json.dumps(self._ring_rows()), driver)
+        with tempfile.NamedTemporaryFile('w', suffix='.js', encoding='utf-8',
+                                         delete=False) as handle:
+            handle.write(source)
+            name = handle.name
+        try:
+            done = subprocess.run([node, name], capture_output=True, text=True)
+        finally:
+            os.unlink(name)
+        self.assertEqual(0, done.returncode, done.stderr[-800:])
+        return json.loads(done.stdout)
+
+    def test_the_two_measured_runs_still_read_what_they_measured(self):
+        read = self._run(
+            "var session = {rows: rows, sink: 0};"
+            "var vit = rows.filter(function (r) { return r.key === 'vit'; })[0];"
+            "vit.value -= 50;"
+            "var raVi = config.stats.vit.tiers.filter("
+            "    function (t) { return t.bonus === 50; })[0];"
+            "var short = chancesFor(vit, raVi);"
+            "vit.value += 50;"
+            "var exo = {key: 'perspedam', value: 0, min: 0, max: 0,"
+            "           target: 0, exo: true};"
+            "rows.push(exo);"
+            "var spell = chancesFor(exo, config.stats.perspedam.tiers[0]);"
+            "console.log(JSON.stringify({vitality: short.sc,"
+            "                            spellDamage: spell.sc,"
+            "                            weight: totalItemWeight()}));")
+        self.assertAlmostEqual(360, read['weight'], places=2)
+        self.assertGreaterEqual(read['vitality'], 0.20)
+        self.assertLessEqual(read['vitality'], 0.25)
+        self.assertGreaterEqual(read['spellDamage'], 0.08)
+        self.assertLessEqual(read['spellDamage'], 0.12)
+
+    def test_a_sink_makes_the_same_throw_easier(self):
+        read = self._run(
+            "var exo = {key: 'perspedam', value: 0, min: 0, max: 0,"
+            "           target: 0, exo: true};"
+            "rows.push(exo);"
+            "var tier = config.stats.perspedam.tiers[0];"
+            "var session = {rows: rows, sink: 0};"
+            "var dry = chancesFor(exo, tier).sc;"
+            "session.sink = tier.weight;"
+            "console.log(JSON.stringify({dry: dry,"
+            "                            wet: chancesFor(exo, tier).sc}));")
+        self.assertGreater(read['wet'], read['dry'])
 
 
 class InlineScriptsParseTests(TestCase):
