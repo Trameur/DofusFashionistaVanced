@@ -1381,9 +1381,9 @@
             // there is no accumulated weight on it to fight against.
             var row = noStat ? {key: key, value: 0, max: 0, exo: false}
                              : session.rows[rowIndex];
+            var chances = chancesFor(row, tier);
             var outcome = forcedOutcome;
             if (!outcome) {
-                var chances = chancesFor(row, tier);
                 var roll = Math.random();
                 outcome = roll < chances.sc ? 'sc'
                         : (roll < chances.sc + chances.sn ? 'sn' : 'ec');
@@ -1420,7 +1420,8 @@
                 outcome: outcome,
                 lost: lost,
                 sink: session.sink,
-                manual: realMode
+                manual: realMode,
+                predicted: chances.sc
             });
             if (session.history.length > 1000) {
                 session.history.pop();
@@ -1962,6 +1963,28 @@
             throwsValue.textContent = session.throws;
             throwsMeter.appendChild(throwsValue);
             simMeters.appendChild(throwsMeter);
+
+            var counted = session.history.filter(function(entry) {
+                return typeof entry.predicted === 'number';
+            });
+            if (counted.length >= 10) {
+                var criticals = counted.filter(function(entry) {
+                    return entry.outcome === 'sc';
+                }).length;
+                var expected = counted.reduce(function(sum, entry) {
+                    return sum + entry.predicted;
+                }, 0) / counted.length;
+                var measured = document.createElement('div');
+                measured.textContent = t.sim_criticals + ': ';
+                var measuredValue = document.createElement('span');
+                measuredValue.className = 'fm-sim-meter-value';
+                measuredValue.textContent =
+                    criticals + '/' + counted.length + ' ('
+                    + Math.round(100 * criticals / counted.length) + '%), '
+                    + t.sim_model + ' ' + Math.round(100 * expected) + '%';
+                measured.appendChild(measuredValue);
+                simMeters.appendChild(measured);
+            }
 
             renderQuality(document.getElementById('fm-sim-quality'),
                 session.rows.map(function(row) {
