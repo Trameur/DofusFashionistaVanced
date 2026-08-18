@@ -2210,6 +2210,9 @@ GUIDES = {
 <h2>The two rules that kill plans</h2>
 <p>First, the <strong>101 cap</strong>: the total over/exo weight on a single stat can never exceed 101, and the simulator flags any stat where your target crosses it. Second, a line that ends up <strong>30 weight or more past the item's own roll</strong> only lands on a critical success, commonly estimated around 1% per rune: AP, MP, range, a summon, and % spell damage from its second point. The tool marks those lines so you budget them as a long grind, not a quick job.</p>
 
+<h2>Small runes first</h2>
+<p>Every rune that lands makes the item heavier, and a heavier item makes the next throw harder. So approach the line you want with the small runes and finish it with the big one: the same two runes are worth more in that order. The simulator suggests them that way, and the rune list reads in throw order.</p>
+
 <h2>A sane workflow</h2>
 <p>Generate your target build first, so you know which stats the set actually needs. Then simulate the maging on each candidate item and compare: sometimes hunting a different item beats overmaging the one you own. When the plan reads safe, buy the runes, and not before.</p>
 
@@ -2229,6 +2232,9 @@ GUIDES = {
 
 <h2>Les deux règles qui tuent les plans</h2>
 <p>D'abord, le <strong>plafond de 101</strong> : le poids total en over/exo sur une même stat ne peut jamais dépasser 101, et le simulateur signale toute stat où ta cible le franchit. Ensuite, une ligne qui finit <strong>à 30 de poids ou plus au-delà du roll de l'objet</strong> ne passe que sur un succès critique, estimé autour de 1 % par rune : PA, PM, PO, une invocation, et les % dommages aux sorts à partir du deuxième point. L'outil marque ces lignes pour que tu les budgètes comme un long grind, pas comme une affaire vite pliée.</p>
+
+<h2>Les petites runes d'abord</h2>
+<p>Chaque rune qui passe alourdit l'objet, et un objet plus lourd rend le jet suivant plus dur. Approche donc la ligne visée avec les petites runes et termine avec la grosse : les deux mêmes runes valent plus dans cet ordre. Le simulateur les conseille ainsi, et la liste des runes se lit dans l'ordre des jets.</p>
 
 <h2>Un déroulé sain</h2>
 <p>Génère d'abord ton build cible, pour savoir quelles stats le set attend vraiment. Puis simule la forgemagie sur chaque objet candidat et compare : parfois, chasser un autre objet vaut mieux qu'overmager celui que tu possèdes. Quand le plan s'affiche sûr, achète les runes, et pas avant.</p>
@@ -2250,6 +2256,9 @@ GUIDES = {
 <h2>Las dos reglas que matan planes</h2>
 <p>Primero, el <strong>límite de 101</strong>: el peso total en over/exo sobre una misma estadística nunca puede superar 101, y el simulador marca cualquier estadística donde tu objetivo lo cruce. Segundo, una línea que acaba <strong>30 de peso o más por encima de la tirada del objeto</strong> solo pasa con un éxito crítico, estimado en torno al 1% por runa: PA, PM, alcance, una invocación y los % daños de hechizos a partir del segundo punto. La herramienta señala esas líneas para que las presupuestes como un grind largo, no como algo rápido.</p>
 
+<h2>Primero las runas pequeñas</h2>
+<p>Cada runa que pasa hace el objeto más pesado, y un objeto más pesado vuelve más difícil el siguiente lanzamiento. Acerca la línea que quieres con las runas pequeñas y termínala con la grande: las mismas dos runas valen más en ese orden. El simulador las aconseja así, y la lista de runas se lee en orden de lanzamiento.</p>
+
 <h2>Un flujo sensato</h2>
 <p>Genera primero tu build objetivo, para saber qué estadísticas necesita de verdad el set. Luego simula la forja en cada objeto candidato y compara: a veces cazar otro objeto gana a overmagear el que ya tienes. Cuando el plan se muestre seguro, compra las runas, y no antes.</p>
 
@@ -2270,6 +2279,9 @@ GUIDES = {
 <h2>As duas regras que matam planos</h2>
 <p>Primeiro, o <strong>teto de 101</strong>: o peso total em over/exo em um mesmo atributo nunca pode passar de 101, e o simulador sinaliza qualquer atributo em que a sua meta o ultrapasse. Segundo, uma linha que termina <strong>30 de peso ou mais acima da rolagem do item</strong> só passa com um sucesso crítico, estimado em torno de 1% por runa: PA, PM, alcance, uma invocação e os % danos feitiços a partir do segundo ponto. A ferramenta marca essas linhas para você orçá-las como um grind longo, não como serviço rápido.</p>
 
+<h2>Primeiro as runas pequenas</h2>
+<p>Cada runa que passa deixa o item mais pesado, e um item mais pesado torna o lançamento seguinte mais difícil. Aproxime a linha que você quer com as runas pequenas e termine com a grande: as mesmas duas runas valem mais nessa ordem. O simulador as sugere assim, e a lista de runas se lê na ordem dos lançamentos.</p>
+
 <h2>Um fluxo saudável</h2>
 <p>Gere primeiro o seu build alvo, para saber quais atributos o set realmente precisa. Depois simule a forja em cada item candidato e compare: às vezes caçar outro item ganha de overmagear o que você já tem. Quando o plano aparecer seguro, compre as runas, e não antes.</p>
 
@@ -2289,6 +2301,9 @@ GUIDES = {
 
 <h2>Die zwei Regeln, die Pläne killen</h2>
 <p>Erstens die <strong>101-Grenze</strong>: das gesamte Over/Exo-Gewicht auf einem einzelnen Wert kann nie über 101 gehen, und der Simulator markiert jeden Wert, bei dem dein Ziel sie reißt. Zweitens gelingt eine Zeile, die am Ende <strong>30 Gewicht oder mehr über dem eigenen Wurf des Gegenstands</strong> liegt, nur bei einem kritischen Erfolg, üblicherweise um 1% pro Rune geschätzt: AP, BP, Reichweite, eine Beschwörung und % Zauberschaden ab dem zweiten Punkt. Das Tool kennzeichnet diese Zeilen, damit du sie als langen Grind einplanst, nicht als schnelle Nummer.</p>
+
+<h2>Kleine Runen zuerst</h2>
+<p>Jede Rune, die gelingt, macht den Gegenstand schwerer, und ein schwererer Gegenstand macht den nächsten Wurf härter. Nähere dich der gewünschten Zeile also mit den kleinen Runen und beende sie mit der großen: dieselben zwei Runen sind in dieser Reihenfolge mehr wert. Der Simulator schlägt sie so vor, und die Runenliste steht in Wurfreihenfolge.</p>
 
 <h2>Ein vernünftiger Ablauf</h2>
 <p>Erzeuge zuerst dein Ziel-Build, damit du weißt, welche Werte das Set wirklich braucht. Dann simuliere die Schmiedemagie auf jedem Kandidaten-Item und vergleiche: manchmal schlägt die Jagd nach einem anderen Item das Overmagen des eigenen. Erst wenn der Plan sicher aussieht, kauf die Runen, und nicht vorher.</p>
