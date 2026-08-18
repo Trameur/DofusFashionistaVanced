@@ -23,8 +23,9 @@ from django.utils.translation import gettext as _
 from django.utils import translation
 
 from chardata.forgemagie_data import (
-    MAGEABLE_TYPES, ONE_PERCENT_OVER_WEIGHT, OVER_WEIGHT_CAP,
-    get_fm_stats, get_no_stat_runes, get_ruleset,
+    MAGEABLE_TYPES, OVER_WEIGHT_CAP,
+    get_fm_stats, get_no_stat_runes, get_one_percent_over_weight,
+    get_ruleset,
 )
 from chardata.forgemagie_transcendance import get_transcendence_by_stat
 from chardata.image_store import get_image_url
@@ -994,7 +995,7 @@ def forgemagie(request):
 
     js_config = {
         'overCap': OVER_WEIGHT_CAP,
-        'onePercentOverWeight': ONE_PERCENT_OVER_WEIGHT,
+        'onePercentOverWeight': get_one_percent_over_weight(game_version),
         'stats': stat_payload,
         'statOrder': _ordered_fm_stat_keys(structure, get_fm_stats(game_version)),
         'searchUrl': version_reverse(request, 'forgemagie_items'),

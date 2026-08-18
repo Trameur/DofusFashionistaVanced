@@ -43,7 +43,15 @@ OVER_WEIGHT_CAP = 101
 
 # Extra weight on one line past which a point only lands on a critical, ~1%
 # a throw: AP 100, MP 90, range 51, summon 30, % spell damage from 2 x 15.
-ONE_PERCENT_OVER_WEIGHT = 30
+# Measured on the modern game; Retro keeps the same number for want of a Retro
+# measurement, which there makes an over-crit or an over-reflect (both weigh
+# 30) a 1% throw as well.
+_ONE_PERCENT_OVER_WEIGHT = {
+    'modern': 30,
+    'dofus2': 30,
+    'touch': 30,
+    'retro': 30,
+}
 
 MAGEABLE_TYPES = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
                   'Belt', 'Boots']
@@ -243,6 +251,11 @@ _STATS_BY_RULESET = {
 
 def get_ruleset(game_version):
     return _RULESET_BY_VERSION.get(game_version, 'modern')
+
+
+def get_one_percent_over_weight(game_version):
+    """Extra weight on a line past which only a critical success grants it."""
+    return _ONE_PERCENT_OVER_WEIGHT[get_ruleset(game_version)]
 
 
 def get_fm_stats(game_version):

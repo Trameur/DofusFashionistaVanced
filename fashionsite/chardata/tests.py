@@ -8429,8 +8429,8 @@ class SmithmagicOddsTests(TestCase):
                                    for name in self.MATHS])
 
     def _config(self):
-        from chardata.forgemagie_data import (ONE_PERCENT_OVER_WEIGHT,
-                                              OVER_WEIGHT_CAP, get_fm_stats)
+        from chardata.forgemagie_data import (
+            OVER_WEIGHT_CAP, get_fm_stats, get_one_percent_over_weight)
         stats = {}
         for key, fm_stat in get_fm_stats('dofus3').items():
             stats[key] = {
@@ -8440,7 +8440,7 @@ class SmithmagicOddsTests(TestCase):
                           for tier, bonus in fm_stat['tiers']],
             }
         return {'overCap': OVER_WEIGHT_CAP,
-                'onePercentOverWeight': ONE_PERCENT_OVER_WEIGHT,
+                'onePercentOverWeight': get_one_percent_over_weight('dofus3'),
                 'stats': stats}
 
     def _ring_rows(self):
@@ -8569,27 +8569,44 @@ class OnePercentOverWeightTests(TestCase):
     ONE_POINT_UNDER = ('perspedam', 'dam', 'ch', 'vit', 'str')
 
     def test_the_lines_players_call_one_percent_reach_the_threshold(self):
-        from chardata.forgemagie_data import (ONE_PERCENT_OVER_WEIGHT,
-                                              get_fm_stat)
+        from chardata.forgemagie_data import (get_fm_stat,
+                                              get_one_percent_over_weight)
         for key in self.ONE_POINT_AT_OR_PAST:
             with self.subTest(stat=key):
                 self.assertGreaterEqual(get_fm_stat('dofus3', key)['density'],
-                                        ONE_PERCENT_OVER_WEIGHT)
+                                        get_one_percent_over_weight('dofus3'))
 
     def test_a_single_light_exo_stays_under_it(self):
-        from chardata.forgemagie_data import (ONE_PERCENT_OVER_WEIGHT,
-                                              get_fm_stat)
+        from chardata.forgemagie_data import (get_fm_stat,
+                                              get_one_percent_over_weight)
         for key in self.ONE_POINT_UNDER:
             with self.subTest(stat=key):
                 self.assertLess(get_fm_stat('dofus3', key)['density'],
-                                ONE_PERCENT_OVER_WEIGHT)
+                                get_one_percent_over_weight('dofus3'))
 
     def test_spell_damage_crosses_it_on_its_second_point(self):
-        from chardata.forgemagie_data import (ONE_PERCENT_OVER_WEIGHT,
-                                              get_fm_stat)
+        from chardata.forgemagie_data import (get_fm_stat,
+                                              get_one_percent_over_weight)
         density = get_fm_stat('dofus3', 'perspedam')['density']
-        self.assertLess(density, ONE_PERCENT_OVER_WEIGHT)
-        self.assertGreaterEqual(2 * density, ONE_PERCENT_OVER_WEIGHT)
+        threshold = get_one_percent_over_weight('dofus3')
+        self.assertLess(density, threshold)
+        self.assertGreaterEqual(2 * density, threshold)
+
+    def test_every_ruleset_answers_with_its_own_threshold(self):
+        from chardata.forgemagie_data import get_one_percent_over_weight
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            with self.subTest(version=version):
+                self.assertGreater(get_one_percent_over_weight(version), 0)
+
+    def test_retro_crit_sits_on_its_own_threshold(self):
+        # The Retro crit rune weighs 30 where the modern one weighs 10, so the
+        # same rule makes an over-crit a 1% throw on Retro and not elsewhere.
+        from chardata.forgemagie_data import (get_fm_stat,
+                                              get_one_percent_over_weight)
+        self.assertEqual(30, get_fm_stat('retro', 'ch')['density'])
+        self.assertEqual(10, get_fm_stat('dofus3', 'ch')['density'])
+        self.assertGreaterEqual(get_fm_stat('retro', 'ch')['density'],
+                                get_one_percent_over_weight('retro'))
 
     def test_every_version_ships_the_threshold_to_the_page(self):
         for prefix in ('', 'beta/', 'dofus2/', 'touch/', 'retro/'):
