@@ -6449,24 +6449,24 @@ msgid "August 2026"
 msgstr "Agosto de 2026"
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "The spells page now shows the best order of casts for one turn, with the damage each cast adds and the AP it costs."
-msgstr "A página de feitiços agora mostra a melhor ordem de lançamentos para um turno, com o dano que cada um acrescenta e os PA que custa."
+msgid "The spells page now shows the best order of casts for one turn, with damage and AP."
+msgstr "A página de feitiços mostra a melhor ordem de lançamentos para um turno, com danos e PA."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "It follows what you change: the buffs you tick, the rank you pick on a spell, and the Fully Buff button."
-msgstr "Ele acompanha o que você muda: os bônus que marca, o nível que escolhe num feitiço e o botão Bônus máximos."
+msgid "It follows the buffs you tick and the rank you pick."
+msgstr "Ela segue os buffs que você marca e o nível que escolhe."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Retro and Touch spells now carry their AP cost and their casting limits, so their spells page works like the others."
-msgstr "Os feitiços de Retro e Touch agora trazem o seu custo em PA e os seus limites de lançamento, por isso a página de feitiços funciona como as outras."
+msgid "Retro and Touch spells now carry their AP cost and casting limits."
+msgstr "Os feitiços de Retro e Touch agora trazem o custo em PA e os limites de lançamento."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Spells explained where they are named"
 msgstr "Os feitiços explicados onde são nomeados"
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "An item that casts or changes a spell used to give only its name. Hover the marker beside the line to read what the spell does."
-msgstr "Um item que lança ou modifica um feitiço dava apenas o nome. Passe o cursor sobre o marcador ao lado da linha para ler o que o feitiço faz."
+msgid "Hover the marker beside an item line to read what the spell it names does."
+msgstr "Passe o mouse na marca ao lado de uma linha do item para ler o que faz o feitiço que ela cita."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Monster pages do the same: every spell a monster casts now says what it does, on top of its AP cost and its range."
@@ -6498,20 +6498,20 @@ msgid "A much better smithmagic workshop"
 msgstr "Uma oficina de forjamagia bem melhor"
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "A failed throw now behaves like the game: several stats can drop at once, the sink pays first, and the surplus goes back into the sink."
-msgstr "Um lançamento falhado comporta-se agora como no jogo: vários atributos podem cair de uma vez, o poço paga primeiro e o excedente volta para o poço."
+msgid "A failed throw behaves like the game: several stats can drop, and the sink pays first."
+msgstr "Um lançamento falhado se comporta como no jogo: vários atributos podem cair e o poço paga primeiro."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "The odds are computed for finishing the whole line rather than landing one rune, with critical success, neutral success and critical failure shown apart."
-msgstr "As probabilidades são calculadas para terminar a linha inteira e não para acertar uma só runa, com sucesso crítico, sucesso neutro e falha crítica em separado."
+msgid "The odds cover finishing the whole line, with critical, neutral and failure shown apart."
+msgstr "As chances cobrem a linha inteira, com crítico, neutro e falha mostrados separadamente."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Rune weights and densities were checked against each game's own encyclopedia, and the runes that were missing from the modern roster are in."
-msgstr "Os pesos e densidades das runas foram verificados na enciclopédia de cada jogo, e as runas que faltavam na lista moderna já estão lá."
+msgid "Rune weights and densities checked against each game's own encyclopedia."
+msgstr "Pesos e densidades das runas verificados na enciclopédia de cada jogo."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Transcendence runes: the game's own rules are enforced, and each item of a generated build suggests the rune it gains most from."
-msgstr "Runas de transcendência: as regras do jogo são aplicadas, e cada item de um equipamento gerado sugere a runa que mais lhe aproveita."
+msgid "Transcendence runes follow the game's rules, and each item suggests the rune it gains most from."
+msgstr "As runas de transcendência seguem as regras do jogo, e cada item sugere a runa que mais lhe rende."
 
 
 
@@ -6522,12 +6522,12 @@ msgid "Touch shields and equipment conditions"
 msgstr "Escudos e condições de equipamento no Touch"
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Shields now carry the stats they reach once fed to level 100, so the optimizer stops undervaluing them, and ten shields that are still obtainable are back."
-msgstr "Os escudos trazem agora os atributos que atingem depois de alimentados até ao nível 100, por isso o otimizador deixa de os subestimar, e voltam dez escudos que ainda são obteníveis."
+msgid "Shields carry the stats they reach at level 100, and ten obtainable shields are back."
+msgstr "Os escudos trazem os atributos que atingem no nível 100, e dez escudos ainda obteníveis voltaram."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
-msgstr "As condições de PA e PM do equipamento de Touch chegam agora ao otimizador, verificadas nos totais que o próprio equipamento atinge, por isso um equipamento gerado é um que a sua personagem consegue mesmo usar."
+msgid "AP and MP conditions on Touch gear now reach the optimizer, so a generated build is wearable."
+msgstr "As condições de PA e PM dos equipamentos Touch chegam ao otimizador, então um build gerado é vestível."
 
 #: .\chardata\templates\chardata\spell_tip.html:2
 #, python-format
@@ -6587,28 +6587,26 @@ msgid "Gear you can actually wear"
 msgstr "Equipamento que você consegue mesmo usar"
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "An item that asks for 12 AP or 6 MP, one or the other, is a choice now: the optimizer holds one of the two true instead of dropping the condition. Ask for 12 AP and you no longer get pieces capped at 11."
-msgstr "Um item que pede 12 PA ou 6 PM, um ou outro, agora é uma escolha: o otimizador mantém um dos dois ramos em vez de descartar a condição. Peça 12 PA e você não recebe mais peças limitadas a 11."
+msgid "An item that asks for 12 AP or 6 MP is a real choice now, so a build keeps to the one you asked for."
+msgstr "Um item que pede 12 PA ou 6 PM passa a ser uma escolha real, e o build respeita a que você pediu."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Dofus Retro set bonuses were rebuilt from a source that tells trap damage apart from power, so a set that gives trap damage no longer reads as plain damage."
-msgstr "Os bônus de conjunto do Dofus Retro foram refeitos a partir de uma fonte que separa dano de armadilhas de potência, então um conjunto de dano de armadilhas não é mais lido como dano comum."
+msgid "Dofus Retro: set bonuses rebuilt from a better source, monster drops back, and items now show the AP or MP they cost you."
+msgstr "Dofus Retro: bônus de conjunto refeitos a partir de uma fonte melhor, drops de monstros de volta, e os itens mostram o PA ou PM que custam a você."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Retro monster drops are back after the site they come from changed its pages, and the four errors the item picker was answering with are closed."
-msgstr "Os drops dos monstros do Retro voltaram depois que o site de onde eles vêm mudou as páginas, e os quatro erros que o seletor de itens devolvia foram corrigidos."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "A Touch pet page now says what the pet reaches once fed, instead of showing an empty list of characteristics."
-msgstr "A página de uma mascote do Touch agora diz aonde ela chega depois de alimentada, em vez de mostrar uma lista de características vazia."
+msgid "Touch pet pages show the stats a pet reaches once fed."
+msgstr "As páginas de mascotes do Touch mostram os atributos que o mascote atinge depois de alimentado."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
-msgstr "Um guia novo cobre os espaços de mascote, montaria e escudo, e os links dos guias agora mantêm você na versão que está lendo."
+msgid "A new guide on the pet, mount and shield slots, and guide links keep your version."
+msgstr "Um novo guia sobre os espaços de mascote, montaria e escudo, e os links dos guias mantêm a sua versão."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Only items from my inventory: a piece with alternative equip conditions can be worn again when your inventory holds it, and a Gelano you do not own is no longer slipped into the build."
-msgstr "Apenas itens do meu inventário: uma peça com condições de equipamento alternativas volta a poder ser usada quando o seu inventário a tem, e um Gelano que você não tem já não entra no equipamento."
+msgid "Only items from my inventory works again, and the item list refreshes after you switch a piece."
+msgstr "Apenas itens do meu inventário volta a funcionar, e a lista de itens é atualizada depois de trocar uma peça."
 
 #: .\chardata\weapon_header.py:0
 msgid "CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
@@ -6619,17 +6617,17 @@ msgid "CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgstr "GC: %(crit_chance)d%% (+%(crit_bonus)d)"
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "The item list refreshes after you switch a piece, instead of keeping for five minutes the order it had before."
-msgstr "A lista de itens atualiza depois de trocar uma peça, em vez de manter durante cinco minutos a ordem que tinha antes."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."
-msgstr "Dofus Retro: um item que lhe custa um PA ou um PM agora diz, e uma arma que retira PA do alvo mostra essa linha."
 
 #: .\chardata\solution_result.py:0
 msgid "Exotic bonus"
 msgstr "Bónus exótico"
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Tap or hover a stat in your build to see which pieces make it, and how much each one gives."
-msgstr "Toque ou passe o rato por uma estatística do seu build para ver que peças a compõem e quanto cada uma dá."
+msgid "Tap or hover a stat in your build to see which pieces make it."
+msgstr "Toque ou passe o mouse sobre um atributo do seu build para ver quais peças o dão."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Smithmagic: odds, rune order and losses reworked from what players measure."
+msgstr "Forjamagia: taxas, ordem das runas e perdas refeitas com o que os jogadores medem."

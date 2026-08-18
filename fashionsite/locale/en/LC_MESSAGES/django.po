@@ -5926,24 +5926,24 @@ msgid "August 2026"
 msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "The spells page now shows the best order of casts for one turn, with the damage each cast adds and the AP it costs."
-msgstr ""
+msgid "The spells page now shows the best order of casts for one turn, with damage and AP."
+msgstr "The spells page now shows the best order of casts for one turn, with damage and AP."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "It follows what you change: the buffs you tick, the rank you pick on a spell, and the Fully Buff button."
-msgstr ""
+msgid "It follows the buffs you tick and the rank you pick."
+msgstr "It follows the buffs you tick and the rank you pick."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Retro and Touch spells now carry their AP cost and their casting limits, so their spells page works like the others."
-msgstr ""
+msgid "Retro and Touch spells now carry their AP cost and casting limits."
+msgstr "Retro and Touch spells now carry their AP cost and casting limits."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Spells explained where they are named"
 msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "An item that casts or changes a spell used to give only its name. Hover the marker beside the line to read what the spell does."
-msgstr ""
+msgid "Hover the marker beside an item line to read what the spell it names does."
+msgstr "Hover the marker beside an item line to read what the spell it names does."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
 msgid "Monster pages do the same: every spell a monster casts now says what it does, on top of its AP cost and its range."
@@ -5975,20 +5975,20 @@ msgid "A much better smithmagic workshop"
 msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "A failed throw now behaves like the game: several stats can drop at once, the sink pays first, and the surplus goes back into the sink."
-msgstr ""
+msgid "A failed throw behaves like the game: several stats can drop, and the sink pays first."
+msgstr "A failed throw behaves like the game: several stats can drop, and the sink pays first."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "The odds are computed for finishing the whole line rather than landing one rune, with critical success, neutral success and critical failure shown apart."
-msgstr ""
+msgid "The odds cover finishing the whole line, with critical, neutral and failure shown apart."
+msgstr "The odds cover finishing the whole line, with critical, neutral and failure shown apart."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Rune weights and densities were checked against each game's own encyclopedia, and the runes that were missing from the modern roster are in."
-msgstr ""
+msgid "Rune weights and densities checked against each game's own encyclopedia."
+msgstr "Rune weights and densities checked against each game's own encyclopedia."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Transcendence runes: the game's own rules are enforced, and each item of a generated build suggests the rune it gains most from."
-msgstr ""
+msgid "Transcendence runes follow the game's rules, and each item suggests the rune it gains most from."
+msgstr "Transcendence runes follow the game's rules, and each item suggests the rune it gains most from."
 
 
 
@@ -5999,12 +5999,12 @@ msgid "Touch shields and equipment conditions"
 msgstr ""
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "Shields now carry the stats they reach once fed to level 100, so the optimizer stops undervaluing them, and ten shields that are still obtainable are back."
-msgstr ""
+msgid "Shields carry the stats they reach at level 100, and ten obtainable shields are back."
+msgstr "Shields carry the stats they reach at level 100, and ten obtainable shields are back."
 
 #: .\chardata\templates\chardata\changelog_content.html:1
-msgid "The AP and MP conditions on Touch gear now reach the optimizer, checked on the totals the build itself reaches, so a generated build is one your character can actually wear."
-msgstr ""
+msgid "AP and MP conditions on Touch gear now reach the optimizer, so a generated build is wearable."
+msgstr "AP and MP conditions on Touch gear now reach the optimizer, so a generated build is wearable."
 
 #: .\chardata\templates\chardata\spell_tip.html:2
 #, python-format
@@ -6064,28 +6064,26 @@ msgid "Gear you can actually wear"
 msgstr "Gear you can actually wear"
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "An item that asks for 12 AP or 6 MP, one or the other, is a choice now: the optimizer holds one of the two true instead of dropping the condition. Ask for 12 AP and you no longer get pieces capped at 11."
-msgstr "An item that asks for 12 AP or 6 MP, one or the other, is a choice now: the optimizer holds one of the two true instead of dropping the condition. Ask for 12 AP and you no longer get pieces capped at 11."
+msgid "An item that asks for 12 AP or 6 MP is a real choice now, so a build keeps to the one you asked for."
+msgstr "An item that asks for 12 AP or 6 MP is a real choice now, so a build keeps to the one you asked for."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Dofus Retro set bonuses were rebuilt from a source that tells trap damage apart from power, so a set that gives trap damage no longer reads as plain damage."
-msgstr "Dofus Retro set bonuses were rebuilt from a source that tells trap damage apart from power, so a set that gives trap damage no longer reads as plain damage."
+msgid "Dofus Retro: set bonuses rebuilt from a better source, monster drops back, and items now show the AP or MP they cost you."
+msgstr "Dofus Retro: set bonuses rebuilt from a better source, monster drops back, and items now show the AP or MP they cost you."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Retro monster drops are back after the site they come from changed its pages, and the four errors the item picker was answering with are closed."
-msgstr "Retro monster drops are back after the site they come from changed its pages, and the four errors the item picker was answering with are closed."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "A Touch pet page now says what the pet reaches once fed, instead of showing an empty list of characteristics."
-msgstr "A Touch pet page now says what the pet reaches once fed, instead of showing an empty list of characteristics."
+msgid "Touch pet pages show the stats a pet reaches once fed."
+msgstr "Touch pet pages show the stats a pet reaches once fed."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
-msgstr "A new guide covers the pet, mount and shield slots, and every guide link now keeps you in the version you are reading."
+msgid "A new guide on the pet, mount and shield slots, and guide links keep your version."
+msgstr "A new guide on the pet, mount and shield slots, and guide links keep your version."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Only items from my inventory: a piece with alternative equip conditions can be worn again when your inventory holds it, and a Gelano you do not own is no longer slipped into the build."
-msgstr "Only items from my inventory: a piece with alternative equip conditions can be worn again when your inventory holds it, and a Gelano you do not own is no longer slipped into the build."
+msgid "Only items from my inventory works again, and the item list refreshes after you switch a piece."
+msgstr "Only items from my inventory works again, and the item list refreshes after you switch a piece."
 
 #: .\chardata\weapon_header.py:0
 msgid "CH: 1/%(crit_chance)d (+%(crit_bonus)d)"
@@ -6096,17 +6094,17 @@ msgid "CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgstr "CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "The item list refreshes after you switch a piece, instead of keeping for five minutes the order it had before."
-msgstr "The item list refreshes after you switch a piece, instead of keeping for five minutes the order it had before."
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."
-msgstr "Dofus Retro: an item that costs you an AP or an MP now says so, and a weapon that takes AP off its target shows that line."
 
 #: .\chardata\solution_result.py:0
 msgid "Exotic bonus"
 msgstr "Exotic bonus"
 
 #: .\chardata\templates\chardata\changelog_content.html:0
-msgid "Tap or hover a stat in your build to see which pieces make it, and how much each one gives."
-msgstr "Tap or hover a stat in your build to see which pieces make it, and how much each one gives."
+msgid "Tap or hover a stat in your build to see which pieces make it."
+msgstr "Tap or hover a stat in your build to see which pieces make it."
+
+#: chardata/templates/chardata/changelog_content.html
+msgid "Smithmagic: odds, rune order and losses reworked from what players measure."
+msgstr "Smithmagic: odds, rune order and losses reworked from what players measure."
