@@ -412,12 +412,9 @@
         }
 
         function runePlan(info, delta) {
-            // Fewest throws first, then the smallest overshoot. An exact fit
-            // built from small runes reads cheap and throws badly: three Pa Vi
-            // at 38% lose to one Ra Vi at 42%. The list is then given in throw
-            // order, small runes first, because every rune that lands weighs on
-            // the next throw and the small ones weigh least: the item stays as
-            // light as it can until the big rune finishes the line.
+            // Fewest throws first, then the smallest overshoot: three Pa Vi at
+            // 38% lose to one Ra Vi at 42%. Listed in throw order, small runes
+            // first, so the item stays light until the big one finishes.
             var tiers = info.tiers.slice().sort(function(a, b) { return b.bonus - a.bonus; });
             if (!tiers.length || delta <= 0) {
                 return [];
@@ -488,7 +485,6 @@
             if (!plan.length) {
                 return null;
             }
-            // The line is finished by the last rune of the plan, the big one.
             var finishing = plan[plan.length - 1].tier.bonus;
             var ratio = row.target / (20 * finishing);
             if (ratio < 0.7) {
@@ -1048,8 +1044,7 @@
             return session.rows.length - 1;
         }
 
-        // Weight this line carries past the stat's best roll (all of it for an
-        // exo line). Used for sink / over accounting.
+        // Weight past the stat's best roll (all of it for an exo line).
         function overWeightAt(row, value) {
             var info = statInfo(row.key);
             if (!info) {
@@ -1063,11 +1058,8 @@
             return overWeightAt(row, row.value + tier.bonus);
         }
 
-        // Once a line stands 30 weight past the item's own roll, the game only
-        // grants the point on a critical success, about 1% a throw. Players
-        // know that rule as the AP exo, and its densities put the same four
-        // lines on the same side of it: AP 100, MP 90, range 51, summon 30,
-        // and % spell damage from its second point (2 x 15) but not its first.
+        // Past 30 weight over the item's own roll a point only lands on a
+        // critical, ~1%: AP 100, MP 90, range 51, summon 30, spell damage 2x15.
         function isOnePercentThrow(row, tier) {
             return overWeightAfter(row, tier)
                    >= config.onePercentOverWeight - 0.001;
@@ -1102,16 +1094,21 @@
         // ---- Smithmagic odds model (community estimates; tunable) ----
         // A rune passes less often as: (1) the stat nears ~20x the rune bonus
         // (the "rune limit"), very low beyond; (2) the line nears or passes its
-        // max roll (overmage); (3) the whole item gets heavier (total weight).
-        // Ankama never published the formula, so these knobs are deliberately
-        // tunable and validated against real maging feel (see docs/benchmarks).
+        // max roll (overmage); (3) the whole item gets heavier (total weight),
+        // and more often when the sink already covers it. Ankama never
+        // published the formula, so these knobs are deliberately tunable.
+        // scShare 0.40 is fitted on two runs measured on a Rhineetle Ring
+        // (weight 360 perfect) reported 2026-08-18: Ra Vi with vitality 50
+        // short -> critical 20-25%, % spell damage exo with no sink -> ~10%.
         var FM_ODDS = {
             base: 0.98,        // best case: tiny rune, low stat, light item
-            scShare: 0.25,     // share of successes that are critical (no loss)
+            scShare: 0.40,     // share of successes that are critical (no loss)
             scShareBelowMin: 0.75, // under the natural min roll, losses are rare
             floor: 0.02,       // never show a flat 0% (except the 1% exos)
             weightScale: 2600, // total item weight feeding the global penalty
-            weightFloor: 0.55  // strongest global-weight multiplier
+            weightFloor: 0.55, // strongest global-weight multiplier
+            sinkBonus: 0.25,   // best case, when the sink covers the rune whole
+            thrownLineShare: 0.25 // how much a critical failure spares its line
         };
 
         function totalItemWeight() {
@@ -1168,12 +1165,21 @@
             return minRoll > 0 && row.value + tier.bonus <= minRoll;
         }
 
-        // `extra` is weight a planned sequence has already added: the runes
-        // still to come are thrown on a heavier item than the one on screen.
+        // `extra` is weight the runes still to come are thrown on top of.
         function passFactorWeight(extra) {
             return Math.max(FM_ODDS.weightFloor,
                             1.0 - (totalItemWeight() + (extra || 0))
                                   / FM_ODDS.weightScale);
+        }
+
+        // A throw the sink can cover takes nothing from the lines and lands
+        // more often; nothing when the sink is empty.
+        function passFactorSink(tier) {
+            if (!session || !session.sink || !tier.weight) {
+                return 1;
+            }
+            return 1 + FM_ODDS.sinkBonus
+                       * Math.min(1, session.sink / tier.weight);
         }
 
         function chancesFor(row, tier, extra) {
@@ -1187,7 +1193,8 @@
                     ? passFactorRuneLimit(row.value, tier.bonus)
                       * passFactorFill(row, tier)
                     : 1;
-            var pass = FM_ODDS.base * lineFactors * passFactorWeight(extra);
+            var pass = FM_ODDS.base * lineFactors * passFactorWeight(extra)
+                       * passFactorSink(tier);
             pass = Math.max(FM_ODDS.floor, Math.min(0.98, pass));
             // Rebuilding a line the item has not even rolled naturally costs
             // nothing: those successes are mostly critical, so nothing is lost
@@ -1205,7 +1212,8 @@
         // why an AP survives a standard rune and a Ra rune threatens it. A
         // heavy line eaten by a small loss banks the surplus as sink, and the
         // sink itself cannot pass the cap.
-        function applyLoss(weight, excludeIndex, lost, runeWeight) {
+        // `softIndex` is the thrown line on a critical failure: it resists.
+        function applyLoss(weight, excludeIndex, lost, runeWeight, softIndex) {
             var fromSink = Math.min(session.sink, weight);
             session.sink = round2(session.sink - fromSink);
             weight = round2(weight - fromSink);
@@ -1216,31 +1224,65 @@
                     break;
                 }
                 pool = lightestFirst(pool, runeWeight);
+                // A loss stops at the craft minimum while another line can pay.
+                var payers = pool.filter(function(index) {
+                    return pointsAboveMin(index, weight) >= 1;
+                });
+                if (payers.length) {
+                    var index = pickLossLine(payers, softIndex);
+                    var row = session.rows[index];
+                    var points = Math.min(row.value, pointsAboveMin(index, weight));
+                    row.value -= points;
+                    noteLoss(lost, row.name, points);
+                    weight = round2(weight - points * statInfo(row.key).density);
+                    continue;
+                }
+                // Too little left for a point: overshoot, bank the surplus.
+                var spare = pool.filter(function(index) {
+                    var line = session.rows[index];
+                    return line.value > (line.exo ? 0 : (line.min || 0));
+                });
+                if (spare.length) {
+                    overshootLoss(lightest(spare), weight, lost);
+                    weight = 0;
+                    continue;
+                }
+                // Every line is at its minimum, so one has to break.
                 var fits = pool.filter(function(index) {
                     return pointsThatFit(index, weight) >= 1;
                 });
                 if (fits.length) {
-                    // Heaviest first, then a finer line adjusts the rest: that
-                    // is how a loss lands on the rune's weight exactly.
-                    var index = heaviest(fits);
-                    var row = session.rows[index];
-                    var points = Math.min(row.value, pointsThatFit(index, weight));
-                    row.value -= points;
-                    lost.push({name: row.name, points: points});
-                    weight = round2(weight - points * statInfo(row.key).density);
+                    var broken = pickLossLine(fits, softIndex);
+                    var brokenRow = session.rows[broken];
+                    var taken = Math.min(brokenRow.value,
+                                         pointsThatFit(broken, weight));
+                    brokenRow.value -= taken;
+                    noteLoss(lost, brokenRow.name, taken);
+                    weight = round2(weight - taken * statInfo(brokenRow.key).density);
                     continue;
                 }
-                // Nothing left lands short, so the lightest line overshoots and
-                // the surplus goes back into the sink.
-                var pick = lightest(pool);
-                var picked = session.rows[pick];
-                var density = statInfo(picked.key).density;
-                picked.value -= 1;
-                lost.push({name: picked.name, points: 1});
-                session.sink = round2(Math.min(config.overCap,
-                                               session.sink + (density - weight)));
+                overshootLoss(lightest(pool), weight, lost);
                 weight = 0;
             }
+        }
+
+        // One line eaten twice in the same loss reads as one entry.
+        function noteLoss(lost, name, points) {
+            var seen = lost.filter(function(entry) { return entry.name === name; })[0];
+            if (seen) {
+                seen.points += points;
+                return;
+            }
+            lost.push({name: name, points: points});
+        }
+
+        function overshootLoss(index, weight, lost) {
+            var row = session.rows[index];
+            var density = statInfo(row.key).density;
+            row.value -= 1;
+            noteLoss(lost, row.name, 1);
+            session.sink = round2(Math.min(config.overCap,
+                                           session.sink + (density - weight)));
         }
 
         function lossPool(excludeIndex) {
@@ -1267,11 +1309,28 @@
             return Math.floor((weight + 0.001) / statInfo(session.rows[index].key).density);
         }
 
-        function heaviest(pool) {
-            return pool.reduce(function(best, index) {
-                return statInfo(session.rows[index].key).density
-                       > statInfo(session.rows[best].key).density ? index : best;
-            }, pool[0]);
+        function pointsAboveMin(index, weight) {
+            var row = session.rows[index];
+            var floor = row.exo ? 0 : (row.min || 0);
+            return Math.max(0, Math.min(pointsThatFit(index, weight),
+                                        row.value - floor));
+        }
+
+        // Any line the rune reaches can take the loss, not the heaviest one
+        // every time; the thrown line resists but does not escape.
+        function pickLossLine(pool, softIndex) {
+            var shares = pool.map(function(index) {
+                return index === softIndex ? FM_ODDS.thrownLineShare : 1;
+            });
+            var total = shares.reduce(function(a, b) { return a + b; }, 0);
+            var roll = Math.random() * total;
+            for (var i = 0; i < pool.length; i++) {
+                roll -= shares[i];
+                if (roll <= 0) {
+                    return pool[i];
+                }
+            }
+            return pool[pool.length - 1];
         }
 
         function lightest(pool) {
@@ -1351,7 +1410,7 @@
                 }
             } else {
                 if (!realMode) {
-                    applyLoss(tier.weight, -1, lost, tier.weight);
+                    applyLoss(tier.weight, -1, lost, tier.weight, rowIndex);
                 }
             }
             session.throws += 1;
@@ -1426,16 +1485,9 @@
             return best;
         }
 
-        // Best next throw for one line. The target is a MINIMUM (floor): the
-        // plan may overshoot it, and when the line is so close to its limit
-        // that no in-target rune passes we allow the bigger rune that actually
-        // lands (the "Ra Cha to 101 chance" case).
-        //
-        // The choice is made over the whole sequence, not one rune at a time,
-        // because the order changes the odds: every rune already landed makes
-        // the item heavier, so the same two runes are worth more thrown small
-        // first and big last. That is how players mage, and finishing a line
-        // with the big rune falls out of the model instead of being a rule.
+        // Best next throw for one line, scored over the whole sequence rather
+        // than one rune at a time: each rune that lands weighs on the next, so
+        // small runes come first and the big one finishes.
         function bestThrowForRow(row) {
             var info = statInfo(row.key);
             if (!info || !info.tiers.length) {
@@ -1462,9 +1514,6 @@
                 return value + tier.bonus > maxRoll
                        && tier.weight > session.sink + 0.001;
             }
-            // Odds of finishing the line from `value`, and the rune to throw
-            // now to get them. Every state is visited once; the line can only
-            // grow, so the walk always ends on the target.
             var memo = {};
             function plan(value) {
                 if (value >= row.target - 0.001) {
@@ -1489,9 +1538,7 @@
                     if (!best.tier || Math.abs(odds - best.odds) > 0.0001) {
                         return;
                     }
-                    // Same odds of finishing: take the surplus the sink can
-                    // absorb, then the lighter rune, which breaks less on a
-                    // failure.
+                    // Same odds: sink-absorbable surplus first, then lighter.
                     var wasteful = wastesSink(value, tier);
                     if (wasteful !== wastesSink(value, best.tier)) {
                         if (!wasteful) {
@@ -1508,8 +1555,7 @@
             }
             var chosen = plan(row.value).tier;
             if (!chosen) {
-                // Nothing reaches the target from here: fall back to the rune
-                // most likely to land right now, so the line still moves.
+                // Nothing reaches the target: throw whatever lands best now.
                 chosen = legal.slice().sort(function(a, b) {
                     var pa = passAt(row.value, a), pb = passAt(row.value, b);
                     if (Math.abs(pb - pa) > 0.02) {

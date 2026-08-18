@@ -8393,10 +8393,8 @@ class RuneNamesMatchTheGameTests(SimpleTestCase):
 
 class OnePercentOverWeightTests(TestCase):
     """A line only lands 30 weight or more past the item's own roll on a
-    critical success. A player reported the same 1% behaviour on the summon exo
-    and on the second point of % spell damage as on an AP exo; the densities
-    put exactly those lines at or above 30, which is why the page now reads the
-    threshold instead of a list of stat keys."""
+    critical, so the page reads the threshold instead of a list of stat
+    keys."""
 
     ONE_POINT_AT_OR_PAST = ('ap', 'mp', 'range', 'summon')
     ONE_POINT_UNDER = ('perspedam', 'dam', 'ch', 'vit', 'str')

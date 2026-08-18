@@ -41,11 +41,8 @@ Each stat entry:
 # Per-stat weight of over/exo bonuses cannot exceed this in every version.
 OVER_WEIGHT_CAP = 101
 
-# Extra weight, on one line, past which a point only lands on a critical
-# success, about 1% a throw. A player measured the same 1% behaviour on the
-# summon exo and on the second point of % spell damage as on an AP exo, and the
-# densities say why: AP 100, MP 90, range 51, summon 30 and 2 x 15 for spell
-# damage all reach 30, while a single 1% spell damage (15) does not.
+# Extra weight on one line past which a point only lands on a critical, ~1%
+# a throw: AP 100, MP 90, range 51, summon 30, % spell damage from 2 x 15.
 ONE_PERCENT_OVER_WEIGHT = 30
 
 MAGEABLE_TYPES = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
