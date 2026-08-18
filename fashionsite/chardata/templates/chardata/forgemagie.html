@@ -1569,7 +1569,8 @@
             }
             return {key: row.key, name: info.name, tier: chosen,
                     pass: passAt(row.value, chosen), weight: chosen.weight,
-                    density: info.density, heavy: info.density >= 51};
+                    density: info.density,
+                    heavy: info.density >= 51 || isOnePercentThrow(row, chosen)};
         }
 
         function suggestThrow() {
@@ -1593,9 +1594,9 @@
             if (!throws.length) {
                 return null;
             }
-            // Heavy lines (AP/MP/Range, density >= 51) are kept for the very
-            // end. Otherwise suggest the rune most likely to pass; ties go to
-            // the lighter rune (less collateral on big lines), then to progress.
+            // Heavy lines and 1% throws are kept for the very end. Otherwise
+            // suggest the rune most likely to pass; ties go to the lighter
+            // rune (less collateral on big lines), then to progress.
             var light = throws.filter(function(c) { return !c.heavy; });
             var pool = light.length ? light : throws;
             pool.sort(function(a, b) {
