@@ -3231,6 +3231,18 @@ class StatSourcesTests(TestCase):
         with self.assertRaises(TypeError):
             stat_sources(Bare())
 
+    def test_the_panel_is_dropped_before_being_rebuilt(self):
+        """Equip mode and the buff toggle rebuild the breakdown. The panel is
+        appended to the stat cell itself, so it has to be removed with the
+        rest: while it was not, the stale Total panel stayed on screen and
+        contradicted the number beside it, and the panels piled up on every
+        update."""
+        import os
+        page = os.path.join(os.path.dirname(__file__), 'templates', 'chardata',
+                            'solution.html')
+        body = io.open(page, encoding='utf-8').read()
+        self.assertIn(".find('.spell-tip, .spell-tip-panel').remove()", body)
+
     def test_the_page_carries_the_breakdown_and_its_hooks(self):
         if not _pulp_solver_available():
             self.skipTest('no pulp solver available')
