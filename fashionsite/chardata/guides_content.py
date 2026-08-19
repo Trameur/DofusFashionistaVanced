@@ -2213,6 +2213,9 @@ GUIDES = {
 <h2>Small runes first</h2>
 <p>Every rune that lands makes the item heavier, and a heavier item makes the next throw harder. So approach the line you want with the small runes and finish it with the big one: the same two runes are worth more in that order. The simulator suggests them that way, and the rune list reads in throw order.</p>
 
+<h2>What a failure costs</h2>
+<p>The sink pays first, and only what it cannot cover comes off your stats. The rune then eats lines it can reach, so a small rune never threatens a heavy line like AP, and it stops at the item's craft minimum while any other line can still pay. The line you were raising resists but is not immune. The simulator drops the same way, so a session tells you what a bad run really looks like before you pay for one.</p>
+
 <h2>A sane workflow</h2>
 <p>Generate your target build first, so you know which stats the set actually needs. Then simulate the maging on each candidate item and compare: sometimes hunting a different item beats overmaging the one you own. When the plan reads safe, buy the runes, and not before.</p>
 
@@ -2235,6 +2238,9 @@ GUIDES = {
 
 <h2>Les petites runes d'abord</h2>
 <p>Chaque rune qui passe alourdit l'objet, et un objet plus lourd rend le jet suivant plus dur. Approche donc la ligne visée avec les petites runes et termine avec la grosse : les deux mêmes runes valent plus dans cet ordre. Le simulateur les conseille ainsi, et la liste des runes se lit dans l'ordre des jets.</p>
+
+<h2>Ce que coûte un échec</h2>
+<p>Le puits paie en premier, et seul ce qu'il ne couvre pas part de tes stats. La rune mange ensuite les lignes qu'elle peut atteindre, donc une petite rune ne menace jamais une ligne lourde comme le PA, et elle s'arrête au jet minimum de l'objet tant qu'une autre ligne peut payer. La ligne que tu montais résiste, sans être à l'abri. Le simulateur perd de la même manière, donc une session te montre à quoi ressemble vraiment une mauvaise série avant que tu la paies.</p>
 
 <h2>Un déroulé sain</h2>
 <p>Génère d'abord ton build cible, pour savoir quelles stats le set attend vraiment. Puis simule la forgemagie sur chaque objet candidat et compare : parfois, chasser un autre objet vaut mieux qu'overmager celui que tu possèdes. Quand le plan s'affiche sûr, achète les runes, et pas avant.</p>
@@ -2259,6 +2265,9 @@ GUIDES = {
 <h2>Primero las runas pequeñas</h2>
 <p>Cada runa que pasa hace el objeto más pesado, y un objeto más pesado vuelve más difícil el siguiente lanzamiento. Acerca la línea que quieres con las runas pequeñas y termínala con la grande: las mismas dos runas valen más en ese orden. El simulador las aconseja así, y la lista de runas se lee en orden de lanzamiento.</p>
 
+<h2>Lo que cuesta un fallo</h2>
+<p>El pozo paga primero, y solo lo que no cubre sale de tus características. La runa se come luego las líneas que alcanza, así que una runa pequeña nunca amenaza una línea pesada como los PA, y se detiene en la tirada mínima del objeto mientras otra línea pueda pagar. La línea que subías resiste, pero no es intocable. El simulador pierde igual, así que una sesión te enseña cómo es de verdad una mala racha antes de pagarla.</p>
+
 <h2>Un flujo sensato</h2>
 <p>Genera primero tu build objetivo, para saber qué estadísticas necesita de verdad el set. Luego simula la forja en cada objeto candidato y compara: a veces cazar otro objeto gana a overmagear el que ya tienes. Cuando el plan se muestre seguro, compra las runas, y no antes.</p>
 
@@ -2282,6 +2291,9 @@ GUIDES = {
 <h2>Primeiro as runas pequenas</h2>
 <p>Cada runa que passa deixa o item mais pesado, e um item mais pesado torna o lançamento seguinte mais difícil. Aproxime a linha que você quer com as runas pequenas e termine com a grande: as mesmas duas runas valem mais nessa ordem. O simulador as sugere assim, e a lista de runas se lê na ordem dos lançamentos.</p>
 
+<h2>O que custa uma falha</h2>
+<p>O poço paga primeiro, e só o que ele não cobre sai dos seus atributos. A runa come então as linhas que alcança, então uma runa pequena nunca ameaça uma linha pesada como os PA, e ela para na rolagem mínima do item enquanto outra linha puder pagar. A linha que você subia resiste, mas não fica imune. O simulador perde do mesmo jeito, então uma sessão mostra como é de verdade uma má sequência antes de você pagar por uma.</p>
+
 <h2>Um fluxo saudável</h2>
 <p>Gere primeiro o seu build alvo, para saber quais atributos o set realmente precisa. Depois simule a forja em cada item candidato e compare: às vezes caçar outro item ganha de overmagear o que você já tem. Quando o plano aparecer seguro, compre as runas, e não antes.</p>
 
@@ -2304,6 +2316,9 @@ GUIDES = {
 
 <h2>Kleine Runen zuerst</h2>
 <p>Jede Rune, die gelingt, macht den Gegenstand schwerer, und ein schwererer Gegenstand macht den nächsten Wurf härter. Nähere dich der gewünschten Zeile also mit den kleinen Runen und beende sie mit der großen: dieselben zwei Runen sind in dieser Reihenfolge mehr wert. Der Simulator schlägt sie so vor, und die Runenliste steht in Wurfreihenfolge.</p>
+
+<h2>Was ein Fehlschlag kostet</h2>
+<p>Die Senke zahlt zuerst, und nur was sie nicht deckt geht von deinen Werten ab. Die Rune frisst dann Zeilen, die sie erreicht, eine kleine Rune bedroht also nie eine schwere Zeile wie AP, und sie stoppt am Mindestwurf des Gegenstands, solange eine andere Zeile zahlen kann. Die Zeile, die du hochgezogen hast, wehrt sich, ist aber nicht sicher. Der Simulator verliert genauso, eine Sitzung zeigt dir also, wie eine schlechte Serie wirklich aussieht, bevor du eine bezahlst.</p>
 
 <h2>Ein vernünftiger Ablauf</h2>
 <p>Erzeuge zuerst dein Ziel-Build, damit du weißt, welche Werte das Set wirklich braucht. Dann simuliere die Schmiedemagie auf jedem Kandidaten-Item und vergleiche: manchmal schlägt die Jagd nach einem anderen Item das Overmagen des eigenen. Erst wenn der Plan sicher aussieht, kauf die Runen, und nicht vorher.</p>
