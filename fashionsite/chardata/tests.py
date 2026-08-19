@@ -4748,8 +4748,9 @@ class InlineScriptSyntaxTests(TestCase):
                  '/min_stats/%d/' % char.pk,
                  '/inclusions/%d/' % char.pk,
                  '/exclusions/%d/' % char.pk,
-                 '/forgemagie/', '/inventory/', '/workshop/',
-                 '/choose_compare_sets/', '/manageaccount/']
+                 '/forgemagie/', '/retro/forgemagie/', '/inventory/',
+                 '/workshop/', '/choose_compare_sets/', '/manageaccount/',
+                 '/guides/', '/encyclopedia/sets/', '/encyclopedia/monsters/']
         # A regexp cannot match every script end tag a browser accepts
         # (</script >, </script\t\nbar>, ...), hence the tokenizer.
         from html.parser import HTMLParser
@@ -8510,54 +8511,6 @@ class SmithmagicOddsTests(TestCase):
             "console.log(JSON.stringify({dry: dry,"
             "                            wet: chancesFor(exo, tier).sc}));")
         self.assertGreater(read['wet'], read['dry'])
-
-
-class InlineScriptsParseTests(TestCase):
-    """Every inline script a public page ships must parse. The workshop, the
-    solution page and the encyclopedia carry hundreds of lines of JS inside
-    their templates, where a syntax error breaks the page in the browser and
-    nothing else."""
-
-    PAGES = ('/', '/forgemagie/', '/retro/forgemagie/', '/encyclopedia/',
-             '/encyclopedia/sets/', '/encyclopedia/monsters/', '/guides/',
-             '/spells/', '/sharedbuilds/')
-
-    SCRIPT = re.compile(r'<script([^>]*)>(.*?)</script>', re.S)
-    TYPE = re.compile(r'type\s*=\s*["\']([^"\']+)["\']')
-
-    def _javascript_blocks(self, body):
-        for attrs, source in self.SCRIPT.findall(body):
-            if 'src=' in attrs:
-                continue
-            kind = self.TYPE.search(attrs)
-            if kind and 'javascript' not in kind.group(1).lower():
-                continue
-            if source.strip():
-                yield source
-
-    def test_every_inline_script_parses(self):
-        node = shutil.which('node')
-        if node is None:
-            self.skipTest('node is not installed')
-        checked = 0
-        for path in self.PAGES:
-            body = self.client.get(path).content.decode('utf-8')
-            for index, source in enumerate(self._javascript_blocks(body)):
-                with tempfile.NamedTemporaryFile(
-                        'w', suffix='.js', encoding='utf-8',
-                        delete=False) as handle:
-                    handle.write(source)
-                    name = handle.name
-                try:
-                    done = subprocess.run([node, '--check', name],
-                                          capture_output=True, text=True)
-                finally:
-                    os.unlink(name)
-                self.assertEqual(0, done.returncode,
-                                 '%s script %d: %s'
-                                 % (path, index, done.stderr[-600:]))
-                checked += 1
-        self.assertGreater(checked, 10)
 
 
 class OnePercentOverWeightTests(TestCase):
