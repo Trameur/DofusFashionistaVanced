@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static_s3 %}
+{% load version_url %}
 {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
 <div class="expand-container" id="item-container-{{item.slot}}">
     <div class="{% if item.id %}expand-header{% endif %} solution-item-expand-header">
@@ -87,6 +88,11 @@
         {% if item.id and not disable_solution_item_actions %}
         <div style="margin-top:6px;">
             <button type="button" id="stat-override-btn-sol-{{item.slot}}" class="button-generic" style="font-size:0.8em;padding:2px 8px;">{% trans "Customize stats" %}</button>
+        </div>
+        {% endif %}
+        {% if item.id and item.mageable %}
+        <div style="margin-top:6px;">
+            <a class="button-generic" style="font-size:0.8em;padding:2px 8px;" href="{% game_url 'forgemagie' %}?item={{item.id}}">{% trans "Smithmagic" %}</a>
         </div>
         {% endif %}
     </div>

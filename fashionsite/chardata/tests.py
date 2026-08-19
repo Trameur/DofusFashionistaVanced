@@ -16139,6 +16139,68 @@ class ItemDbWrapperReportsFailureTests(SimpleTestCase):
             self.assertEqual(0, config.save_items_db_to_dump())
 
 
+class ForgeFromABuildTests(TestCase):
+    """The build page is where a player learns which lines to forge, and the
+    workbench preload used to need a login and a saved inventory row, so it
+    could not be reached from a build at all."""
+
+    def _item_of_type(self, type_name, version='dofus3'):
+        from fashionistapulp.structure import get_structure, set_current_game_version
+        set_current_game_version(version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        structure = get_structure(version)
+        for item in structure.get_items_list():
+            if (structure.get_type_name_by_id(item.type) == type_name
+                    and not item.removed and item.stats):
+                return item
+        self.fail('no %s in %s' % (type_name, version))
+
+    def test_a_mageable_item_preloads_without_a_login(self):
+        item = self._item_of_type('Hat')
+        resp = self.client.get('/forgemagie/?item=%d' % item.id)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('"preload"', resp.content.decode('utf-8'))
+
+    def test_what_cannot_be_forged_is_refused(self):
+        pet = self._item_of_type('Pet')
+        for url in ('/forgemagie/?item=%d' % pet.id,
+                    '/forgemagie/?item=99999999',
+                    '/forgemagie/?item=nonsense'):
+            resp = self.client.get(url)
+            self.assertEqual(resp.status_code, 200, url)
+            self.assertNotIn('"preload"', resp.content.decode('utf-8'), url)
+
+    def test_only_the_forgeable_slots_offer_the_link(self):
+        import pickle as _pickle
+        import re
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        owner = User.objects.create_user('forgeowner', 'f@test.local', 'pw-42-solid')
+        hat = self._item_of_type('Hat')
+        pet = self._item_of_type('Pet')
+        char = Char.objects.create(
+            name='forge', char_name='forge', char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=_pickle.dumps({'vit': 1}), options=b'', inclusions=b'',
+            exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal(
+                {'hat': hat.id, 'pet': pet.id},
+                {'options': {'ap_exo': False, 'mp_exo': False},
+                 'origin': 'generated', 'char_level': 200,
+                 'base_stats_by_attr': {'Vitality': 0, 'Wisdom': 0, 'Strength': 0,
+                                        'Intelligence': 0, 'Chance': 0, 'Agility': 0},
+                 'locked_equips': {}}, {})),
+            owner=owner, link_shared=True, game_version='dofus3')
+        from chardata.encoded_char_id import encode_char_id
+        resp = self.client.get('/s/x/%s/' % encode_char_id(char.pk))
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        linked = set(re.findall(r'/forgemagie/\?item=(\d+)', body))
+        self.assertIn(str(hat.id), linked)
+        self.assertNotIn(str(pet.id), linked)
+
+
 class ItemDatabaseIntegrityTests(SimpleTestCase):
     """The invariants every version's item database must hold after a scrape."""
 

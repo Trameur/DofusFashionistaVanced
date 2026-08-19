@@ -22,6 +22,7 @@ import json
 
 logger = logging.getLogger(__name__)
 
+from chardata.forgemagie_data import MAGEABLE_TYPES
 from chardata.image_store import get_image_url
 from chardata.item_sources import acquisition_summary, attach_acquisition
 from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
@@ -84,6 +85,8 @@ class SolutionResult:
         attach_acquisition(all_items)
 
         for result_item in all_items:
+            result_item.mageable = (SLOT_NAME_TO_TYPE.get(result_item.slot)
+                                    in MAGEABLE_TYPES)
             item_per_slot[result_item.slot] = result_item
             item_is_locked[result_item.slot] = self.is_item_locked(result_item)
             item_is_forbidden[result_item.slot] = self.is_item_forbidden(result_item)

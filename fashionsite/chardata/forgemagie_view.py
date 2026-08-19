@@ -1043,7 +1043,8 @@ def forgemagie(request):
         'transT': trans_t,
     }
 
-    preload = _inventory_preload(request, structure, language, game_version)
+    preload = (_inventory_preload(request, structure, language, game_version)
+               or _catalogue_preload(request, structure, language))
     if preload is not None:
         js_config['preload'] = preload
 
@@ -1103,6 +1104,20 @@ def _item_payload(structure, item, language, display_name=None):
         'image_url': static(get_image_url(type_name, item.name)),
         'stats': stats,
     }
+
+
+def _catalogue_preload(request, structure, language):
+    """Workbench preload for /forgemagie/?item=<item id>, for a reader arriving
+    from a build instead of from their own inventory: no saved rolls, no login."""
+    item_id = safe_int(request.GET.get('item'), None)
+    if item_id is None:
+        return None
+    item = structure.get_item_by_id(item_id)
+    if item is None:
+        return None
+    if structure.get_type_name_by_id(item.type) not in MAGEABLE_TYPES:
+        return None
+    return {'item': _item_payload(structure, item, language)}
 
 
 def _inventory_preload(request, structure, language, game_version):
