@@ -8625,6 +8625,17 @@ class OnePercentOverWeightTests(TestCase):
         self.assertGreaterEqual(get_fm_stat('retro', 'ch')['density'],
                                 get_one_percent_over_weight('retro'))
 
+    def test_the_hint_names_the_lines_of_that_version(self):
+        # The sentence used to list the modern lines on every version, so a
+        # Retro reader never saw its crit and reflect runes, which weigh 30
+        # there. It is built from the version's own densities now.
+        modern = self.client.get('/forgemagie/',
+                                 HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        retro = self.client.get('/retro/forgemagie/',
+                                HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        self.assertNotIn('Critical Hits, Reflect', modern)
+        self.assertIn('Critical Hits', retro.split('only lands on a critical')[1][:200])
+
     def test_every_version_ships_the_threshold_to_the_page(self):
         for prefix in ('', 'beta/', 'dofus2/', 'touch/', 'retro/'):
             with self.subTest(prefix=prefix):
