@@ -6635,3 +6635,19 @@ msgstr "Toque ou passe o mouse sobre um atributo do seu build para ver quais pe�
 #: chardata/templates/chardata/changelog_content.html
 msgid "Smithmagic: odds, rune order and losses reworked from what players measure."
 msgstr "Forjamagia: taxas, ordem das runas e perdas refeitas com o que os jogadores medem."
+
+#: .\chardata\templates\chardata\changelog_content.html:8
+msgid "Compare, then forge"
+msgstr "Comparar e depois forjar"
+
+#: .\chardata\templates\chardata\changelog_content.html:8
+msgid "Hover any number in a comparison to see which pieces make it."
+msgstr "Passe o rato por um número de uma comparação para ver que peças o formam."
+
+#: .\chardata\templates\chardata\changelog_content.html:8
+msgid "Dofus Retro and Touch: a comparison can add PvP resistances when your gear carries them."
+msgstr "Dofus Retro e Touch: uma comparação pode somar as resistências PvP quando o seu equipamento as tem."
+
+#: .\chardata\templates\chardata\changelog_content.html:8
+msgid "Every forgeable item in a build opens straight in the smithmagic workbench."
+msgstr "Cada item forjável de um build abre diretamente na bancada de forja."
