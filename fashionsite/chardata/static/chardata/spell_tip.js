@@ -139,4 +139,17 @@
              + '<span class="spell-tip-text">' + esc(tip.description) + '</span>'
              + '</span></span>';
     };
+    // The stats panel builds its lines the same way on the solution page and
+    // on the comparison page.
+    window.statTipPanelHtml = function (name, lines) {
+        var html = '<span class="spell-tip-panel" role="tooltip">'
+                 + '<b class="spell-tip-name">' + esc(name) + '</b>';
+        for (var i = 0; i < lines.length; i++) {
+            var value = lines[i].value;
+            html += '<span class="stat-tip-row"><span>' + esc(lines[i].label)
+                 + '</span><span>' + (value > 0 ? '+' : '') + value
+                 + '</span></span>';
+        }
+        return html + '</span>';
+    };
 }());

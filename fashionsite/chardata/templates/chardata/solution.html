@@ -991,25 +991,6 @@
             return lines;
         }
 
-        function statTipHtml(statName, lines) {
-            var html = '<span class="spell-tip-panel" role="tooltip">'
-                     + '<b class="spell-tip-name">' + escapeStatTip(statName)
-                     + '</b>';
-            for (var i = 0; i < lines.length; i++) {
-                var value = lines[i].value;
-                html += '<span class="stat-tip-row"><span>'
-                     + escapeStatTip(lines[i].label) + '</span><span>'
-                     + (value > 0 ? '+' : '') + value + '</span></span>';
-            }
-            return html + '</span>';
-        }
-
-        function escapeStatTip(value) {
-            return String(value == null ? '' : value)
-                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
-
         function updateStatTips(equipOnly) {
             $('.solution-stat-summary-name[data-stat-key]').each(function() {
                 var cell = $(this);
@@ -1025,7 +1006,7 @@
                 cell.addClass('spell-tip').attr({
                     tabindex: 0, role: 'button',
                     'aria-label': cell.data('stat-name')
-                }).append(statTipHtml(cell.data('stat-name'), lines));
+                }).append(window.statTipPanelHtml(cell.data('stat-name'), lines));
             });
         }
 

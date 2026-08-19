@@ -320,6 +320,8 @@ var allCharIds = [];
 var allStatTotals = {};
 var allStatGears = {};
 var allOptions = {};
+var allStatSources = {};
+var COMPARE_GEAR_KINDS = {item: 1, set: 1, exo: 1};
 var compareSpellDigests = {{ spell_preview_digests_json|safe }};
 var compareWeaponDigests = {{ weapon_digests_json|safe }};
 var compareCharLevels = {{ char_levels_json|safe }};
@@ -341,6 +343,7 @@ allCharIds.push(compareCharId);
 allStatTotals[compareCharId] = {{dict.stats_total_json | safe}};
 allStatGears[compareCharId] = {{dict.stats_gear_json | safe}};
 allOptions[compareCharId] = {{dict.options_json | safe}}
+allStatSources[compareCharId] = {{dict.stat_sources_json | safe}};
 {% endwith %}
 {% endfor %}
 
@@ -393,8 +396,18 @@ function updateDiffs(allCharIds) {
     });
 }
 
+function compareStatTipLines(charId, statKey, equipOnly) {
+    var lines = [];
+    $.each((allStatSources[charId] || {})[statKey] || [], function(i, source) {
+        if (equipOnly && !COMPARE_GEAR_KINDS[source.kind]) return;
+        lines.push({label: source.label, value: source.value});
+    });
+    return lines;
+}
+
 function updateAllStats(allCharIds) {
     var newStatsDict = getAllStatsDict();
+    var equipOnly = $("input[name='total_mode']:checked").val() == "equip";
     
     var pvpResistsAdded = $("input[name='pvp_resists_added']").is(':checked');
     $.each(newStatsDict[allCharIds[0]], function(statKey) {
@@ -439,6 +452,19 @@ function updateAllStats(allCharIds) {
                 $("td[name=stat_value_" + statKey + "_" + charId + "]").wrapInner("<b></b>");
             });
         }
+
+        // Which items make the number, on the number itself: one row carries a
+        // column per build, so the name could not say which build it explains.
+        $.each(allCharIds, function(i, charId) {
+            var lines = compareStatTipLines(charId, statKey, equipOnly);
+            if (!lines.length) return;
+            var cell = $("td[name=stat_value_" + statKey + "_" + charId + "]");
+            var statName = cell.closest("tr")
+                               .find(".solution-stat-summary-name").text();
+            cell.wrapInner('<span class="spell-tip" tabindex="0" role="button"></span>');
+            cell.children(".spell-tip").attr("aria-label", statName)
+                .append(window.statTipPanelHtml(statName, lines));
+        });
     });
 }
 

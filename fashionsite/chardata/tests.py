@@ -2001,6 +2001,17 @@ class CompareSetsPreviewTests(TestCase):
         self.assertEqual(body.count('data-look='), 2)
         self.assertIn('character_preview.js', body)
 
+    def test_each_column_carries_its_own_breakdown(self):
+        """A row holds one column per build, so the stat name cannot say which
+        build a breakdown explains: the panel hangs on the number itself."""
+        resp = self._compare(self._shared_char('one', 'Iop'),
+                             self._shared_char('two', 'Sram'))
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertEqual(body.count('allStatSources[compareCharId] ='), 2)
+        self.assertGreaterEqual(body.count('"kind": "item"'), 2)
+        self.assertIn('statTipPanelHtml', body)
+
     def test_a_version_without_art_draws_nothing_rather_than_empty_boxes(self):
         from chardata.models import Char
         first = self._shared_char('one', 'Iop')
