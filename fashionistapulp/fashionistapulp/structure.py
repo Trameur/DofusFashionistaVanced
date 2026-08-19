@@ -42,7 +42,9 @@ from django.utils.translation import gettext as _
 
 
 
-load_items_db_from_dump()
+# A failed rebuild leaves the previous database in place: keep serving that
+# rather than refusing to start.
+load_items_db_from_dump(strict=False)
 
 
 def _with_crit_bonus(hit, crit_bonus):

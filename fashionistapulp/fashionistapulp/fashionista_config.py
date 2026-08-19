@@ -82,11 +82,17 @@ def get_constants_module(game_version='dofus3'):
     from fashionistapulp.fashionistapulp import dofus_constants
     return dofus_constants
 
-def load_items_db_from_dump():
-    run_root_script('load_item_db.py')
+def load_items_db_from_dump(strict=True):
+    code = run_root_script('load_item_db.py')
+    if strict and code != 0:
+        raise RuntimeError('load_item_db.py exited %d' % code)
+    return code
 
 def save_items_db_to_dump():
-    run_root_script('dump_item_db.py')
+    code = run_root_script('dump_item_db.py')
+    if code != 0:
+        raise RuntimeError('dump_item_db.py exited %d' % code)
+    return code
 
 def run_root_script(script_path):
     """Run one of the root scripts and hand back its exit code."""

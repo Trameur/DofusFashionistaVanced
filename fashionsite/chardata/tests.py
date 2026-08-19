@@ -16038,6 +16038,47 @@ class LoadItemDbFailsLoudlyTests(SimpleTestCase):
         self.assertEqual([], glob.glob(pattern))
 
 
+class ItemDbWrapperReportsFailureTests(SimpleTestCase):
+    """load_item_db.py exits non-zero and run_root_script hands the code back,
+    but the wrapper between them used to drop it: the pipelines load, modify
+    and dump, so a load that failed unnoticed writes the old database over the
+    new one."""
+
+    def _config(self):
+        import importlib
+        return importlib.import_module('fashionistapulp.fashionista_config')
+
+    def test_a_failed_load_reaches_the_caller(self):
+        from unittest import mock
+        config = self._config()
+        with mock.patch.object(config, 'run_root_script', return_value=1):
+            with self.assertRaises(RuntimeError):
+                config.load_items_db_from_dump()
+
+    def test_a_failed_dump_reaches_the_caller(self):
+        from unittest import mock
+        config = self._config()
+        with mock.patch.object(config, 'run_root_script', return_value=1):
+            with self.assertRaises(RuntimeError):
+                config.save_items_db_to_dump()
+
+    def test_the_web_app_keeps_serving_the_database_it_has(self):
+        from unittest import mock
+        config = self._config()
+        with mock.patch.object(config, 'run_root_script', return_value=1):
+            self.assertEqual(1, config.load_items_db_from_dump(strict=False))
+        source = os.path.join(os.path.dirname(config.__file__), 'structure.py')
+        self.assertIn('load_items_db_from_dump(strict=False)',
+                      io.open(source, encoding='utf-8').read())
+
+    def test_a_load_that_works_raises_nothing(self):
+        from unittest import mock
+        config = self._config()
+        with mock.patch.object(config, 'run_root_script', return_value=0):
+            self.assertEqual(0, config.load_items_db_from_dump())
+            self.assertEqual(0, config.save_items_db_to_dump())
+
+
 class ItemDatabaseIntegrityTests(SimpleTestCase):
     """The invariants every version's item database must hold after a scrape."""
 
