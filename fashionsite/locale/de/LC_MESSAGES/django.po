@@ -6683,3 +6683,7 @@ msgstr "Dofus Retro und Touch: Ein Vergleich kann PvP-Resistenzen einrechnen, we
 #: .\chardata\templates\chardata\changelog_content.html:8
 msgid "Every forgeable item in a build opens straight in the smithmagic workbench."
 msgstr "Jeder schmiedbare Gegenstand eines Builds öffnet sich direkt in der Schmiedemagie-Werkbank."
+
+#: .\chardata\templates\chardata\changelog_content.html:11
+msgid "A comparison can now show each build with its class buffs on."
+msgstr "Ein Vergleich kann jetzt jeden Build mit seinen Klassenbuffs zeigen."
