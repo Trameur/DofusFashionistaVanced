@@ -152,10 +152,16 @@ var aspectToTip = {
     summon: '{{ _("Summon spammers should check this. It will increase the minimum summons by 1 and increase importance of summons.")|escapejs }}',
     pushback: '{{ _("Chars that deal significant pushback damage should check this. This increases the +Pushback Damage importance.")|escapejs }}',
 };
+var inertAspects = {{ inert_aspects | safe }};
 var aspectLayout = [['str', 'int', 'cha', 'agi', 'omni'],
                     ['pvp', 'duel'],
                     ['balanced', 'vit', 'glasscannon', 'dam', 'heal', 'aprape', 'mprape', 'crit'],
-                    ['res', 'wis', 'pp', 'pods', 'trap', 'summon', 'pushback', 'noncrit']];
+                    ['res', 'wis', 'pp', 'pods', 'trap', 'summon', 'pushback', 'noncrit']]
+                   .map(function(row) {
+                       return row.filter(function(aspect) {
+                           return inertAspects.indexOf(aspect) === -1;
+                       });
+                   });
 
 function get_questionmark_img()
 {

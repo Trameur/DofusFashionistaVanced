@@ -64,6 +64,25 @@ VERSION_WEIGHT_TUNING = {
 
 ALL_ASPECTS = set(ALL_ASPECTS_LIST)
 
+# The stats an aspect exists to raise, for the aspects tied to a stat a version
+# may not have. Ticking one whose stats are all zeroed changes nothing, so the
+# wizard stops offering it: no Retro item carries pushback damage, and no Touch
+# item carries trap damage. AP and MP removal stay on Retro, where the tuning
+# sends them to wisdom instead.
+ASPECT_STATS = {
+    'aprape': ('apred', 'wis'),
+    'mprape': ('mpred', 'wis'),
+    'pushback': ('pshdam',),
+    'trap': ('trapdam', 'trapdamper'),
+}
+
+
+def inert_aspects(game_version):
+    """The aspects that cannot change a build in this version."""
+    zeroed = set(VERSION_WEIGHT_TUNING.get(game_version, {}).get('zero_stats', ()))
+    return sorted(aspect for aspect, stats in ASPECT_STATS.items()
+                  if zeroed.issuperset(stats))
+
 ASPECT_TO_NAME = {
     'str': gettext_lazy('Strength'),
     'int': gettext_lazy('Intelligence'),

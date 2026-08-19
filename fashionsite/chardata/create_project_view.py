@@ -31,6 +31,7 @@ from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECTS,
+                                  inert_aspects,
                                   ASPECT_TO_NAME)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_raise,
@@ -89,6 +90,7 @@ def setup(request, char_id=0):
                          'state': json.dumps(_get_state_from_char(char)),
                          'char_id': char_id,
                          'aspect_to_name': _get_json_aspect_to_name(),
+                         'inert_aspects': json.dumps(inert_aspects(game_version)),
                          'is_new_char_json': json.dumps(is_new_char),
                          'questionmark': json.dumps(get_questionmark_URL(request)),
                          'is_new_char': is_new_char},

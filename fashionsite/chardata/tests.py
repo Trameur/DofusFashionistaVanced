@@ -2952,6 +2952,44 @@ class NlParserTests(SimpleTestCase):
             self.assertEqual(_style_name('solo_pvm'), 'Solo-PvM')
 
 
+class InertAspectsTests(TestCase):
+    """An aspect whose stats a version carries on no item does nothing there.
+    No Retro item has pushback damage and no Touch item has trap damage, while
+    AP and MP removal stay on Retro because the tuning sends them to wisdom."""
+
+    def test_each_version_names_the_aspects_that_cannot_work(self):
+        from chardata.smart_build import inert_aspects
+        self.assertEqual([], inert_aspects('dofus3'))
+        self.assertEqual([], inert_aspects('beta'))
+        self.assertEqual([], inert_aspects('dofus2'))
+        self.assertEqual(['trap'], inert_aspects('touch'))
+        self.assertEqual(['pushback'], inert_aspects('retro'))
+
+    def test_no_item_carries_the_stats_behind_an_inert_aspect(self):
+        from chardata.smart_build import ASPECT_STATS, inert_aspects
+        from fashionistapulp.structure import get_structure
+        for game_version in ('touch', 'retro'):
+            structure = get_structure(game_version)
+            items = structure.get_items_list(game_version == 'touch')
+            for aspect in inert_aspects(game_version):
+                for key in ASPECT_STATS[aspect]:
+                    with self.subTest(version=game_version, stat=key):
+                        stat = structure.get_stat_by_key(key)
+                        carried = [item.name for item in items
+                                   if any(sid == stat.id for sid, _ in item.stats)]
+                        self.assertEqual([], carried)
+
+    def test_the_wizard_stops_offering_them(self):
+        from django.contrib.auth.models import User
+        owner = User.objects.create_user('aspects', 'aspects@test.local', 'pw-42-solid')
+        self.client.force_login(owner)
+        for prefix, expected in (('', '[]'), ('retro/', '["pushback"]'),
+                                 ('touch/', '["trap"]')):
+            with self.subTest(prefix=prefix):
+                body = self.client.get('/%ssetup/' % prefix).content.decode('utf-8')
+                self.assertIn('var inertAspects = %s' % expected, body)
+
+
 class AspectParserTests(SimpleTestCase):
     """The "understand my build" field (build_confirmation.html ->
     /understandbuild/) auto-checks aspect boxes from a free-text description."""
