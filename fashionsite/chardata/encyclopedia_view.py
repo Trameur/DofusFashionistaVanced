@@ -1938,6 +1938,10 @@ def encyclopedia_sets(request):
     if page_query_prefix:
         page_query_prefix = '%s&' % page_query_prefix
 
+    sets_canonical = _paginated_canonical(
+        request, '/encyclopedia/sets/',
+        getattr(request, 'game_version', 'dofus3'), sets_page)
+
     return set_response(
         request,
         'chardata/encyclopedia_sets.html',
@@ -1945,9 +1949,15 @@ def encyclopedia_sets(request):
             'request': request,
             'char_id': 0,
             't': t,
-            'canonical_url': _paginated_canonical(
-                request, '/encyclopedia/sets/',
-                getattr(request, 'game_version', 'dofus3'), sets_page),
+            'canonical_url': sets_canonical,
+            'breadcrumb_jsonld': _breadcrumb_jsonld([
+                ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+                (t.get('title') or 'Encyclopedia',
+                 _absolute_versioned_url(
+                     '/encyclopedia/',
+                     getattr(request, 'game_version', 'dofus3'))),
+                (_('Sets'), sets_canonical),
+            ]),
             'sets_page': sets_page,
             'search_text': search_text,
             'sets_count': len(sets),
@@ -2887,6 +2897,9 @@ def encyclopedia_monsters(request):
             if element in present_weaknesses
         )
 
+    monsters_canonical = _paginated_canonical(
+        request, '/encyclopedia/monsters/', game_version, page_obj)
+
     return set_response(
         request,
         'chardata/encyclopedia_monsters.html',
@@ -2895,8 +2908,13 @@ def encyclopedia_monsters(request):
             'char_id': 0,
             't': t,
             'mt': mt,
-            'canonical_url': _paginated_canonical(
-                request, '/encyclopedia/monsters/', game_version, page_obj),
+            'canonical_url': monsters_canonical,
+            'breadcrumb_jsonld': _breadcrumb_jsonld([
+                ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+                (t.get('title') or 'Encyclopedia',
+                 _absolute_versioned_url('/encyclopedia/', game_version)),
+                (mt['monsters_label'], monsters_canonical),
+            ]),
             'monsters_page': page_obj,
             'monsters_count': len(monsters),
             'search_text': search_text,

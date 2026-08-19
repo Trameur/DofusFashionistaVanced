@@ -304,6 +304,23 @@ class BreadcrumbJsonLdTests(SimpleTestCase):
         self.assertEqual(json.loads(out)['itemListElement'][0]['name'],
                          'a</script><img src=x>')
 
+    def test_every_page_with_crumbs_carries_the_markup(self):
+        """The two index pages showed a crumb trail no search engine could read,
+        while the five detail pages next to them marked theirs up."""
+        import os
+        import re
+        here = os.path.join(os.path.dirname(__file__), 'templates', 'chardata')
+        missing = []
+        for name in sorted(os.listdir(here)):
+            if not name.startswith('encyclopedia'):
+                continue
+            body = io.open(os.path.join(here, name), encoding='utf-8').read()
+            if not re.search(r'<nav class="encyclopedia-crumbs"', body):
+                continue
+            if 'breadcrumb_jsonld' not in body:
+                missing.append(name)
+        self.assertEqual([], missing)
+
 
 # Plain (non-manifest) static storage: the test runner forces DEBUG=False, and
 # settings would then make {% static %} require a collectstatic manifest.
