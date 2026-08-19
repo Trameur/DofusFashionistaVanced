@@ -2072,6 +2072,31 @@ class CompareSetsPreviewTests(TestCase):
         self.assertIn('getPvpStatToAdd(pvpResistsAdded, statKey)', body)
         self.assertIn('"kind": "item"', body)
 
+    BUFF_TOGGLE = 'id="apply_buffs_toggle"'
+
+    def test_buffs_are_offered_and_kept_per_build(self):
+        """Each compared build has its own class, so its own self-buffs: one
+        shared set of numbers would buff a Sram with an Iop's spells."""
+        import json
+        import re
+        first = self._shared_char('one', 'Iop')
+        second = self._shared_char('two', 'Sram')
+        resp = self._compare(first, second)
+        self.assertEqual(resp.status_code, 200)
+        body = resp.content.decode('utf-8')
+        self.assertIn(self.BUFF_TOGGLE, body)
+        payload = json.loads(re.search(r'COMPARE_BUFFS = (\{.*?\});', body).group(1))
+        self.assertEqual({str(first.pk), str(second.pk)}, set(payload))
+
+    def test_no_buff_anywhere_hides_the_toggle(self):
+        from unittest import mock
+        with mock.patch('chardata.compare_sets_view.compute_full_buff_stats',
+                        return_value={}):
+            resp = self._compare(self._shared_char('one', 'Iop'),
+                                 self._shared_char('two', 'Sram'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotIn(self.BUFF_TOGGLE, resp.content.decode('utf-8'))
+
     def test_a_version_without_art_draws_nothing_rather_than_empty_boxes(self):
         from chardata.models import Char
         first = self._shared_char('one', 'Iop')

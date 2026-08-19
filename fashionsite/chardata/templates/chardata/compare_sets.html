@@ -122,6 +122,13 @@
                         <input type="radio" name="total_mode" value="equip"><span class="checkbox-text">{% trans "Equip" %}</span>
                     </label>
                 </div>
+                {% if shows_spell_buffs %}
+                <div class="solution-stat-summary-mode-option-container">
+                    <label title="{% trans 'Stats with your class self-buffs fully active.' %}">
+                        <input type="checkbox" name="apply_buffs" id="apply_buffs_toggle"><span class="checkbox-text">{% trans "With buffs" %}</span>
+                    </label>
+                </div>
+                {% endif %}
                 {% if shows_pvp_resistances %}
                 <div class="solution-stat-summary-mode-option-container">
                     <label>
@@ -328,6 +335,7 @@ var allStatTotals = {};
 var allStatGears = {};
 var allOptions = {};
 var allStatSources = {};
+var COMPARE_BUFFS = {{ buffs_by_char_json|safe }};
 var COMPARE_GEAR_KINDS = {item: 1, set: 1, exo: 1};
 var compareSpellDigests = {{ spell_preview_digests_json|safe }};
 var compareWeaponDigests = {{ weapon_digests_json|safe }};
@@ -354,13 +362,26 @@ allStatSources[compareCharId] = {{dict.stat_sources_json | safe}};
 {% endwith %}
 {% endfor %}
 
+function applyBuffsToDict(dict) {
+    if (!$('#apply_buffs_toggle').is(':checked')) return dict;
+    var buffed = {};
+    $.each(dict, function(charId, stats) {
+        var copy = {};
+        $.each(stats, function(k, v) { copy[k] = v; });
+        $.each(COMPARE_BUFFS[charId] || {}, function(k, bonus) {
+            if (k in copy) copy[k] += bonus;
+        });
+        buffed[charId] = copy;
+    });
+    return buffed;
+}
+
 function getAllStatsDict() {
     var equipOnly = $("input[name='total_mode']:checked").val() == "equip";
-    var allStatDict;
     if (equipOnly) {
-        return allStatGears;
+        return applyBuffsToDict(allStatGears);
     } else {
-        return allStatTotals;
+        return applyBuffsToDict(allStatTotals);
     }
 }
 
@@ -412,6 +433,11 @@ function compareStatTipLines(charId, statKey, equipOnly, pvpResistsAdded) {
         });
     }
     gather(statKey, lines);
+    var buff = ($('#apply_buffs_toggle').is(':checked')
+                && (COMPARE_BUFFS[charId] || {})[statKey]);
+    if (buff) {
+        lines.push({label: '{% trans "With buffs" %}', value: buff});
+    }
     var pvpKey = getPvpStatToAdd(pvpResistsAdded, statKey);
     if (pvpKey) {
         var pvpLines = [];
@@ -724,6 +750,7 @@ $(document).ready(function() {
     updateStatsTable();
     $("input[name='total_mode']").change(updateStatsTable);
     $("input[name='pvp_resists_added']").change(updateStatsTable);
+    $('#apply_buffs_toggle').change(updateStatsTable);
     $(".solution-items-icon").click(function() {
         if ($(this).prop('id') != 'None') {
             getItemStats($(this).prop('id'));

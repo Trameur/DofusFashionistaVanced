@@ -35,7 +35,8 @@ from chardata.solution_history import get_generation_solution
 from chardata.solution_result import SolutionResult, evolve_result_item
 from chardata.solution_view import generate_link
 from chardata.smart_build import VERSION_WEIGHT_TUNING
-from chardata.spell_buffs import get_damage_spells_for_version
+from chardata.spell_buffs import (compute_full_buff_stats,
+                                 get_damage_spells_for_version)
 from chardata.spells_view import _create_spell_web_digest, _create_weapon_web_digest
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get_or_none,
@@ -86,6 +87,12 @@ class _CompareBuild:
 
 def _process_parameters(sets_params):
     return [x for x in sets_params.split('/') if x]
+
+
+def _buffs_by_char(builds, game_version):
+    """Each compared build has its own class, so its own self-buffs."""
+    return {build.pk: compute_full_buff_stats(build.char, game_version)
+            for build in builds}
 
 
 def _shows_pvp_resistances(model_results):
@@ -187,6 +194,7 @@ def compare_sets(request, sets_params):
     get_compare_link_url = version_reverse(request, 'get_compare_sharing_link',
                                            sets_params)
 
+    buffs_by_char = _buffs_by_char(chars, game_version)
     character_previews = _compare_previews(chars, game_version)
     params = {'chars': chars,
               'char_ids': char_ids,
@@ -198,6 +206,8 @@ def compare_sets(request, sets_params):
               'solutions': solutions,
               'items_sorted': _sort_items(solutions),
               'acquisition_by_char': _acquisition_by_char(solutions, game_version),
+              'buffs_by_char_json': json.dumps(buffs_by_char),
+              'shows_spell_buffs': any(buffs_by_char.values()),
               'shows_pvp_resistances': _shows_pvp_resistances(model_results),
               'char_is_guest': is_guest,
               'links': links,
