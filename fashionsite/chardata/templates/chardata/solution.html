@@ -1014,7 +1014,9 @@
             $('.solution-stat-summary-name[data-stat-key]').each(function() {
                 var cell = $(this);
                 var lines = statTipLines(cell.data('stat-key'), equipOnly);
-                cell.find('.spell-tip').remove();
+                // The panel is appended to the cell itself, so it has to go
+                // with the rest or every update stacks another one on top.
+                cell.find('.spell-tip, .spell-tip-panel').remove();
                 cell.removeClass('spell-tip').removeAttr('tabindex')
                     .removeAttr('role').removeAttr('aria-label');
                 if (!lines.length) return;
