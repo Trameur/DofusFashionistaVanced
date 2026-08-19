@@ -2012,6 +2012,49 @@ class CompareSetsPreviewTests(TestCase):
         self.assertGreaterEqual(body.count('"kind": "item"'), 2)
         self.assertIn('statTipPanelHtml', body)
 
+    # The page is served minified, attributes sorted: match one, not an order.
+    # The JS reads the same name in single quotes on every version.
+    CHECKBOX = 'name="pvp_resists_added"'
+
+    def _retro_char(self, name, item_id):
+        import pickle as _pickle
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import set_current_game_version
+        set_current_game_version('retro')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        return Char.objects.create(
+            name=name, char_name=name, char_class='Iop', char_build='build',
+            level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=_pickle.dumps({'vit': 1}), options=b'', inclusions=b'',
+            exclusions=b'',
+            minimal_solution=_pickle.dumps(
+                ModelResultMinimal({'shield': item_id}, self._base_input(), {})),
+            owner=self.owner, link_shared=True, game_version='retro')
+
+    def test_pvp_resistances_are_offered_where_items_grant_them(self):
+        """Retro shields carry them, no modern item does: the toggle would fold
+        nothing into the resistance rows there."""
+        resp = self._compare(self._retro_char('pvp one', 7070),
+                             self._retro_char('pvp two', 7072), prefix='/retro')
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(self.CHECKBOX, resp.content.decode('utf-8'))
+
+    def test_a_version_no_item_gives_them_hides_the_toggle(self):
+        resp = self._compare(self._shared_char('one', 'Iop'),
+                             self._shared_char('two', 'Sram'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotIn(self.CHECKBOX, resp.content.decode('utf-8'))
+
+    def test_the_breakdown_can_name_the_pvp_share(self):
+        """The toggle adds the PvP stat into the row, so the panel has to say
+        so or it would stop adding up to the number beside it."""
+        resp = self._compare(self._retro_char('pvp one', 7070),
+                             self._retro_char('pvp two', 7072), prefix='/retro')
+        body = resp.content.decode('utf-8')
+        self.assertIn('getPvpStatToAdd(pvpResistsAdded, statKey)', body)
+        self.assertIn('"kind": "item"', body)
+
     def test_a_version_without_art_draws_nothing_rather_than_empty_boxes(self):
         from chardata.models import Char
         first = self._shared_char('one', 'Iop')

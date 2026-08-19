@@ -3167,6 +3167,10 @@ msgstr "Equipo %(n)s"
 msgid "Change Sets"
 msgstr "Cambiar sets"
 
+#: .\chardata\templates\chardata\compare_sets.html:126
+msgid "With PvP resistances"
+msgstr "Con resistencias PvP"
+
 #: .\chardata\templates\chardata\compare_sets.html:122
 #: .\chardata\templates\chardata\solution.html:378
 #: .\chardata\templates\chardata\solution.html:870

@@ -88,6 +88,16 @@ def _process_parameters(sets_params):
     return [x for x in sets_params.split('/') if x]
 
 
+def _shows_pvp_resistances(model_results):
+    """Only Retro and Touch items grant them: elsewhere the toggle would fold
+    nothing into the resistance rows."""
+    for solution in model_results.values():
+        totals = solution.get_stats_total()
+        if any(value for key, value in totals.items() if key.startswith('pvp')):
+            return True
+    return False
+
+
 def _compare_previews(builds, game_version):
     """The drawable look of each compared set, keyed to its own canvas."""
     previews = []
@@ -188,6 +198,7 @@ def compare_sets(request, sets_params):
               'solutions': solutions,
               'items_sorted': _sort_items(solutions),
               'acquisition_by_char': _acquisition_by_char(solutions, game_version),
+              'shows_pvp_resistances': _shows_pvp_resistances(model_results),
               'char_is_guest': is_guest,
               'links': links,
               'compare_link_shared': compare_link_shared,

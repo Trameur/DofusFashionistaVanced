@@ -122,6 +122,13 @@
                         <input type="radio" name="total_mode" value="equip"><span class="checkbox-text">{% trans "Equip" %}</span>
                     </label>
                 </div>
+                {% if shows_pvp_resistances %}
+                <div class="solution-stat-summary-mode-option-container">
+                    <label>
+                        <input type="checkbox" name="pvp_resists_added"><span class="checkbox-text">{% trans "With PvP resistances" %}</span>
+                    </label>
+                </div>
+                {% endif %}
             </td></tr>
             <tr>
                 <td class="solution-stat-summary-icon-header"></td>
@@ -396,12 +403,25 @@ function updateDiffs(allCharIds) {
     });
 }
 
-function compareStatTipLines(charId, statKey, equipOnly) {
+function compareStatTipLines(charId, statKey, equipOnly, pvpResistsAdded) {
     var lines = [];
-    $.each((allStatSources[charId] || {})[statKey] || [], function(i, source) {
-        if (equipOnly && !COMPARE_GEAR_KINDS[source.kind]) return;
-        lines.push({label: source.label, value: source.value});
-    });
+    function gather(key, into) {
+        $.each((allStatSources[charId] || {})[key] || [], function(i, source) {
+            if (equipOnly && !COMPARE_GEAR_KINDS[source.kind]) return;
+            into.push({label: source.label, value: source.value});
+        });
+    }
+    gather(statKey, lines);
+    var pvpKey = getPvpStatToAdd(pvpResistsAdded, statKey);
+    if (pvpKey) {
+        var pvpLines = [];
+        gather(pvpKey, pvpLines);
+        var total = 0;
+        $.each(pvpLines, function(i, line) { total += line.value; });
+        if (total) {
+            lines.push({label: '{% trans "PvP" %}', value: total});
+        }
+    }
     return lines;
 }
 
@@ -456,7 +476,8 @@ function updateAllStats(allCharIds) {
         // Which items make the number, on the number itself: one row carries a
         // column per build, so the name could not say which build it explains.
         $.each(allCharIds, function(i, charId) {
-            var lines = compareStatTipLines(charId, statKey, equipOnly);
+            var lines = compareStatTipLines(charId, statKey, equipOnly,
+                                             pvpResistsAdded);
             if (!lines.length) return;
             var cell = $("td[name=stat_value_" + statKey + "_" + charId + "]");
             var statName = cell.closest("tr")
