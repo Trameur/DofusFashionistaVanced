@@ -905,7 +905,7 @@ html.fm-modern .compare-page .solution-stat-table{
   outline:2px solid currentColor; outline-offset:2px; border-radius:50%;
 }
 .spell-tip:hover .spell-tip-mark,
-.spell-tip:focus .spell-tip-mark,
+.spell-tip:focus-visible .spell-tip-mark,
 .spell-tip.st-open .spell-tip-mark{ opacity:1; }
 .spell-tip-panel{
   position:absolute; left:0; top:calc(100% + 7px); z-index:9500;
@@ -914,12 +914,15 @@ html.fm-modern .compare-page .solution-stat-table{
   border:1px solid rgba(255,255,255,.13); border-radius:10px; padding:8px 10px;
   box-shadow:0 12px 34px rgba(0,0,0,.45); color:#f1f1f4;
   font-size:.86em; font-weight:normal; line-height:1.35;
+  /* The panel covers the lines under it: taking the pointer would hold the
+     line above open and hide the one the pointer is really on. */
+  pointer-events:none;
 }
-/* An invisible bridge, so the pointer can travel from the mark to the panel. */
-.spell-tip-panel::before{ content:""; position:absolute; left:0; right:0; top:-7px; height:7px; }
 .spell-tip:hover .spell-tip-panel,
-.spell-tip:focus .spell-tip-panel,
+.spell-tip:focus-visible .spell-tip-panel,
 .spell-tip.st-open .spell-tip-panel{ display:block; }
+/* A tapped panel keeps the pointer, or the tap would fall through to the row. */
+.spell-tip.st-open .spell-tip-panel{ pointer-events:auto; }
 .spell-tip-name{ display:block; margin-bottom:3px; color:#f7d774; }
 /* One contributor per row inside a stat's panel: what it is on the left, how
    much it gives on the right. The panel itself is the spell tip's, so the
@@ -938,10 +941,10 @@ html.fm-modern .compare-page .solution-stat-table{
 html.fm-dark .spell-line,
 html.fm-dark .spell-tip-mark{ color:#7ec8d8; }
 html.fm-dark .spell-tip:hover .spell-tip-mark,
-html.fm-dark .spell-tip:focus .spell-tip-mark,
+html.fm-dark .spell-tip:focus-visible .spell-tip-mark,
 html.fm-dark .spell-tip.st-open .spell-tip-mark{ color:#a7ddea; }
 .spell-tip:hover .spell-tip-mark,
-.spell-tip:focus .spell-tip-mark,
+.spell-tip:focus-visible .spell-tip-mark,
 .spell-tip.st-open .spell-tip-mark{ color:#1d5561; }
 /* The suggested transcendence rune: a diamond you can hover, not a line. */
 .transcendence-tip{ margin-left:0; }

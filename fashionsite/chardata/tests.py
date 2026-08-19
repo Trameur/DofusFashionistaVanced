@@ -5757,6 +5757,16 @@ class BannerCharacterTests(TestCase):
         self.assertNotEqual(phone_block_at, -1,
                             'the character is hidden outside the phone block')
 
+    def test_a_tooltip_panel_lets_the_pointer_reach_the_line_under_it(self):
+        # The panel hangs over the rows below; while it took the pointer, the
+        # line above stayed open and the one being pointed at never did.
+        css = self._modern_css()
+        block = css.split('.spell-tip-panel{')[1].split('}')[0]
+        self.assertIn('pointer-events:none', block)
+        self.assertIn('.spell-tip.st-open .spell-tip-panel{ pointer-events:auto; }',
+                      css)
+        self.assertNotIn('.spell-tip:focus .spell-tip-panel', css)
+
     def test_the_modern_character_cannot_swallow_a_click(self):
         # It sits over the header controls at narrow desktop widths.
         css = self._modern_css()
