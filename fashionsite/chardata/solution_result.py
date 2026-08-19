@@ -176,6 +176,12 @@ def stat_sources(model_result):
     counts the gear alone, Total counts everything.
     """
     from fashionistapulp.dofus_constants import BASE_STATS, STAT_KEY_TO_NAME
+    # Missing pieces are tolerated below, but an object that is not a result at
+    # all is a wiring mistake: staying quiet there would empty the panel on
+    # every build at once and nothing would say so.
+    if not hasattr(model_result, 'get_stats_total'):
+        raise TypeError('stat_sources needs the model result, got %s'
+                        % type(model_result).__name__)
     sources = {}
 
     def add(stat_key, label, value, kind):

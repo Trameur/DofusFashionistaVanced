@@ -3210,10 +3210,26 @@ class StatSourcesTests(TestCase):
         # which is how the other stored-blob failures used to take a page down.
         from chardata.solution_result import stat_sources
 
+        class HalfBuilt(object):
+            def get_stats_total(self):
+                return {}
+
+        sources = stat_sources(HalfBuilt())
+        self.assertIsInstance(sources, dict)
+        for lines in sources.values():
+            for line in lines:
+                self.assertEqual({'label', 'value', 'kind'}, set(line))
+
+    def test_something_that_is_not_a_result_is_refused(self):
+        # Handing it the wrapper instead of the result would empty the panel on
+        # every build, and a quiet {} would look like a build with no gear.
+        from chardata.solution_result import stat_sources
+
         class Bare(object):
             pass
 
-        self.assertEqual({}, stat_sources(Bare()))
+        with self.assertRaises(TypeError):
+            stat_sources(Bare())
 
     def test_the_page_carries_the_breakdown_and_its_hooks(self):
         if not _pulp_solver_available():
