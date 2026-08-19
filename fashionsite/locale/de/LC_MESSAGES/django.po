@@ -5528,7 +5528,7 @@ msgstr "Mit Buffs"
 
 #: .\chardata\templates\chardata\solution.html:393
 msgid "Base"
-msgstr "Base"
+msgstr "Basis"
 
 #: .\chardata\templates\chardata\solution.html:399
 msgid "Weighted by this project's stat values."
