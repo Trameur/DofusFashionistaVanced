@@ -10875,6 +10875,74 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertIn('id="monster-stats"', body)
         self.assertIn('<td>%d</td>' % d2_rows[0][1], body)
 
+    def test_no_spell_description_keeps_the_client_markup(self):
+        # The tooltip escapes what it is given, so a reader was shown the
+        # client's own markup: "Pushes back 6 cells{{~zs}}", "1 <sprite
+        # name=\"PA\"> AP used", and a spell link written
+        # "{{spell,24510,1::<color=#ebc304>Telefrag</color>}}".
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        for game_version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            try:
+                if not conn.execute(
+                        "SELECT 1 FROM sqlite_master WHERE type = 'table' "
+                        "AND name = 'monster_spell_names'").fetchone():
+                    continue
+                total = conn.execute(
+                    'SELECT COUNT(*) FROM monster_spell_names').fetchone()[0]
+                bad = conn.execute(
+                    "SELECT spell_ankama_id, language, description "
+                    "FROM monster_spell_names "
+                    "WHERE description LIKE '%{{%' OR description LIKE '%<%' "
+                    "LIMIT 5").fetchall()
+            finally:
+                conn.close()
+            self.assertGreater(total, 0, 'no spell names stored for %s'
+                                         % game_version)
+            self.assertFalse(bad, '%s keeps client markup, first few: %s'
+                                  % (game_version, bad[:3]))
+
+    def test_the_agreement_markup_takes_the_form_the_count_asks_for(self):
+        # ~p is what a plural adds and ~s what a singular adds; ~z is a second
+        # slot that no label in the dump carries without ~p, and ~f and ~m are
+        # a gender a spell line never names. An empty payload inside a marker
+        # takes the next segment's, which is how "{{~p~zies}}" spells
+        # territories.
+        import importlib.util
+
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'itemscraper', 'store_monster_spells.py')
+        spec = importlib.util.spec_from_file_location('store_monster_spells',
+                                                      path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        cases = (
+            ('Pushes back #1 cell{{~ps}}{{~zs}}', 1, 'Pushes back 1 cell'),
+            ('Pushes back #1 cell{{~ps}}{{~zs}}', 6, 'Pushes back 6 cells'),
+            ('Repousse de #1 case{{~ps}}{{~zs}}', 1, 'Repousse de 1 case'),
+            ('Repousse de #1 case{{~ps}}{{~zs}}', 4, 'Repousse de 4 cases'),
+            ('#1 Diplomat{{~m}}{{~fin}}', 1, '1 Diplomat'),
+        )
+        for template, count, expected in cases:
+            with self.subTest(template=template, count=count):
+                self.assertEqual(
+                    module.render_effect(template, count, 0), expected)
+
+        # The two shapes that are not about a count at all.
+        self.assertEqual(
+            module.strip_display_markup(
+                'Can generate a '
+                '{{spell,24510,1::<color=#ebc304>Telefrag</color>}}.'),
+            'Can generate a Telefrag.')
+        self.assertEqual(
+            module.strip_display_markup(
+                '200 Neutral damage for 1 <sprite name="PA"> AP used'),
+            '200 Neutral damage for 1 AP used')
+
     def test_no_version_stores_an_unusable_grade_row(self):
         # A row with no level or no life points is not a grade: it renders as
         # dashes and drags the published range down. Every source has produced

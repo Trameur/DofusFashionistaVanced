@@ -63,13 +63,47 @@ def _labels(dump_dir):
 
 
 _OPTIONAL = re.compile(r'\{\{?~1~2(.*?)\}\}?')
-# "Repousse de #1 case{{~ps}}": the segment after ~p is what a plural adds.
-_PLURAL = re.compile(r'\{\{?~p(.*?)\}\}?')
+# Ankama's agreement markup: "Repousse de #1 case{{~ps}}{{~zs}}". A marker
+# holds slots written ~<letter><payload>; ~p is what a plural adds and ~s what
+# a singular adds. ~z is a second slot, and no label in the dump carries it
+# without ~p, so it only ever repeats a decision already made. ~f and ~m are
+# the gender of a referent a spell line never names. Inside one marker an empty
+# payload takes the next segment's, which is how "{{~p~zies}}" spells
+# territories.
+_AGREEMENT = re.compile(r'\{\{?~([^{}]*?)\}\}?')
 _SPACES = re.compile(r'\s{2,}')
+# Prose keeps its paragraph breaks, so only runs of horizontal space collapse.
+_HORIZONTAL = re.compile(r'[^\S\n]{2,}')
+# "{{spell,24510,1::<color=#ebc304>Telefrag</color>}}" is a link to another
+# spell; the part after :: is what the client shows. The colour is the link's,
+# and <sprite name="PA"> is an inline icon that always sits next to the word it
+# illustrates ("1 <sprite name=\"PA\"> AP used"), so it says nothing on its own.
+_SPELL_LINK = re.compile(r'\{\{spell,[^:}]*::(.*?)\}\}')
+_DISPLAY_TAG = re.compile(r'</?(?:sprite|color)\b[^>]*>')
 _LETTER = re.compile(r'[^\W\d_]', re.UNICODE)
 
 # On these effects "#1" holds a monster id, not an amount.
 _SUMMON_EFFECTS = frozenset([181, 185])
+
+
+def _agree(text, plural):
+    """Resolve the agreement markers, keeping the form the count calls for."""
+    def one(match):
+        parts = [part for part in match.group(1).split('~') if part]
+        slots = [(part[0], part[1:]) for part in parts]
+        for index, (letter, payload) in enumerate(slots):
+            if payload:
+                continue
+            inherited = next((later for _slot, later in slots[index + 1:]
+                              if later), '')
+            slots[index] = (letter, inherited)
+        for letter, payload in slots:
+            if letter == 'p':
+                return payload if plural else ''
+            if letter == 's':
+                return '' if plural else payload
+        return ''
+    return _AGREEMENT.sub(one, text)
 
 
 def render_effect(template, dice_num, dice_side, monster_names=None):
@@ -89,7 +123,7 @@ def render_effect(template, dice_num, dice_side, monster_names=None):
     else:
         text = _OPTIONAL.sub('', template).replace('#2', '')
     plural = dice_num > 1 or (dice_side and dice_side > 1)
-    text = _PLURAL.sub((lambda match: match.group(1)) if plural else '', text)
+    text = _agree(text, plural)
     if monster_names is not None:
         summoned = monster_names.get(dice_num)
         if not summoned:
@@ -97,17 +131,27 @@ def render_effect(template, dice_num, dice_side, monster_names=None):
         text = text.replace('#1', summoned)
     else:
         text = text.replace('#1', str(dice_num))
-    text = _SPACES.sub(' ', text).strip()
+    text = _SPACES.sub(' ', strip_display_markup(text)).strip()
     # A row with no letter left is a bare state id the dump never names.
     if not text or '#' in text or not _LETTER.search(text):
         return None
     return text
 
 
+def strip_display_markup(text):
+    """A description as a reader sees it, without the client's own markup."""
+    if not text:
+        return text
+    text = _SPELL_LINK.sub(lambda match: match.group(1), text)
+    text = _DISPLAY_TAG.sub('', text)
+    return _HORIZONTAL.sub(' ', text).strip()
+
+
 def spell_description(spell, levels, effects, entries, monsters):
     """What a monster spell does, in one line: Ankama's prose description, or
     failing that the effect rows of the spell's first grade."""
-    prose = (entries.get(str(spell.get('descriptionId'))) or '').strip()
+    prose = strip_display_markup(
+        entries.get(str(spell.get('descriptionId'))) or '')
     if prose:
         return prose
     for level_id in (spell.get('spellLevels') or {}).get('Array') or []:
