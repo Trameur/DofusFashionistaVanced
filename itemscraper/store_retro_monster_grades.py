@@ -185,7 +185,7 @@ def main():
         )
         """)
     stored = matched = 0
-    official_hp = disagreements = 0
+    official_hp = disagreements = empty = 0
     for mobid, per_stat in sorted(stats.items()):
         if mobid not in known_ids:
             continue
@@ -225,13 +225,22 @@ def main():
                        val('pm'), val('pct_pa'), val('pct_pm'),
                        val('pct_earth'), val('pct_air'), val('pct_fire'),
                        val('pct_water'), val('pct_neutral'))
+            # The grade set is the union over every stat, so a grade that only
+            # `level` knows about produced a row with no life points. Tofu Royal
+            # ended up with a sixth grade at 0 hp, which dragged its published
+            # range down to 0-5000 instead of 4600-5000. A row we cannot fill
+            # is worse than no row.
+            if not row[3]:
+                empty += 1
+                continue
             cursor.execute(
                 'INSERT OR REPLACE INTO monster_grades VALUES '
                 '(?,?,?,?,?,?,?,?,?,?,?,?,?)', row)
             stored += 1
     conn.commit()
     conn.close()
-    print('stored %d grade rows for %d retro monsters' % (stored, matched))
+    print('stored %d grade rows for %d retro monsters '
+          '(%d dropped: no life points)' % (stored, matched, empty))
 
     # The pipeline's load-db rebuilds the db from the dump.
     sys.path.insert(0, CURRENT_DIR)
