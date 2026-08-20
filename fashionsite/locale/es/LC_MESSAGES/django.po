@@ -6683,3 +6683,23 @@ msgstr "Una comparación puede mostrar ahora cada build con sus buffs de clase."
 #: .\chardata\templates\chardata\changelog_content.html:12
 msgid "A new guide on PvP resistance, which only Dofus Retro really has."
 msgstr "Una nueva guía sobre la resistencia PvP, que solo existe de verdad en Dofus Retro."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Readable again"
+msgstr "Legible otra vez"
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Dark theme: the solution table and the item comparison were writing dark text on a dark background."
+msgstr "Tema oscuro: la tabla de la solución y la comparación de objetos escribían texto oscuro sobre fondo oscuro."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "A piece your character cannot equip stands out in both themes now."
+msgstr "Una pieza que tu personaje no puede equipar ahora destaca en ambos temas."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Dofus Retro: the wizard stops offering AP and MP removal, which no Retro item grants."
+msgstr "Dofus Retro: el asistente ya no ofrece la quita de PA y PM, que ningún objeto Retro concede."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Monster pages no longer show a grade table full of dashes."
+msgstr "Las páginas de monstruos ya no muestran una tabla de grados llena de guiones."
