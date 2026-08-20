@@ -6679,3 +6679,7 @@ msgstr "Dofus Retro: o assistente deixa de propor a remoção de PA e PM, que ne
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Monster pages no longer show a grade table full of dashes."
 msgstr "As páginas de monstros já não mostram uma tabela de graus cheia de traços."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Monster spell tooltips show the text, not the game's formatting codes."
+msgstr "As dicas de feitiços de monstros mostram o texto, e não os códigos de formatação do jogo."

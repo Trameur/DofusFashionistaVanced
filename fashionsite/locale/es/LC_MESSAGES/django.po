@@ -6703,3 +6703,7 @@ msgstr "Dofus Retro: el asistente ya no ofrece la quita de PA y PM, que ningún 
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Monster pages no longer show a grade table full of dashes."
 msgstr "Las páginas de monstruos ya no muestran una tabla de grados llena de guiones."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Monster spell tooltips show the text, not the game's formatting codes."
+msgstr "Las descripciones de hechizos de monstruos muestran el texto, no los códigos de formato del juego."

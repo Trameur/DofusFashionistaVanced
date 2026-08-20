@@ -6711,3 +6711,7 @@ msgstr "Dofus Retro: Der Assistent bietet keinen AP- und BP-Entzug mehr an, den 
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Monster pages no longer show a grade table full of dashes."
 msgstr "Monsterseiten zeigen keine Rangtabelle voller Striche mehr."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Monster spell tooltips show the text, not the game's formatting codes."
+msgstr "Die Zauber-Tooltips der Monster zeigen den Text statt der Formatierungscodes des Spiels."
