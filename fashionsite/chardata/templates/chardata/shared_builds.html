@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 
+{% load localized_class %}
 {% load i18n %}
 {% load ads %}
 {% load static_s3 %}
@@ -192,7 +193,7 @@
                         {% endif %}
                         <div class="build-info-row">
                             <span class="build-label">{% trans "Class" %}:</span>
-                            <span class="build-value">{{ build.char.char_class }}</span>
+                            <span class="build-value">{{ build.char.char_class|localized_class }}</span>
                         </div>
                         <div class="build-info-row">
                             <span class="build-label">{% trans "Level" %}:</span>

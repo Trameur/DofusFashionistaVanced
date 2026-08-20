@@ -1,4 +1,5 @@
 {% extends 'chardata/base.html' %}
+{% load localized_class %}
 {% load i18n %}
 {% load static_s3 %}
 {% load version_url %}
@@ -126,7 +127,7 @@
                     {% if b.build_name_translated %}· {{ b.build_name_translated }}{% endif %}
                 </div>
                 <div class="profile-build-meta">
-                    {{ b.char.char_class }} · {% trans "lvl" %} {{ b.char.level }}
+                    {{ b.char.char_class|localized_class }} · {% trans "lvl" %} {{ b.char.level }}
                     · <span class="fm-st fm-st-like" aria-hidden="true"></span> {{ b.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true"></span> {{ b.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true"></span> {{ b.view_count }}
                 </div>
             </a>

@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 
+{% load localized_class %}
 {% load get_range %}
 {% load i18n %}
 {% load static_s3 %}
@@ -97,7 +98,7 @@ var compareTooManyBuildsError = "{{ too_many_builds_error|escapejs }}";
                     <input type="checkbox" class="compare-build-choice" value="{{ build.link }}">
                     <span>
                         <span class="compare-build-name">{{ build.name }}</span>
-                        <span class="compare-build-meta">{{ build.char_class }} &middot; {% trans "level" %} {{ build.level }} &middot; {{ build.build }}</span>
+                        <span class="compare-build-meta">{{ build.char_class|localized_class }} &middot; {% trans "level" %} {{ build.level }} &middot; {{ build.build }}</span>
                     </span>
                 </label>
                 {% endfor %}

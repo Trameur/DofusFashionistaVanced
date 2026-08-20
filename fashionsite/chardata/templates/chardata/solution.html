@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 
+{% load localized_class %}
 {% load i18n %}
 {% load ads %}
 {% load l10n %}
@@ -18,8 +19,8 @@
 
 {% block og_meta %}
 {% if link_shared %}
-    <meta property="og:title" content="{{ char.char_name|default:char.name }} · {{ char.char_class }} {% trans 'lvl' %} {{ char.level }}">
-    <meta property="og:description" content="{{ char.char_class }} {% trans 'build optimized on Dofus Fashionista. Like it, comment it, copy it.' %}">
+    <meta property="og:title" content="{{ char.char_name|default:char.name }} · {{ char.char_class|localized_class }} {% trans 'lvl' %} {{ char.level }}">
+    <meta property="og:description" content="{{ char.char_class|localized_class }} {% trans 'build optimized on Dofus Fashionista. Like it, comment it, copy it.' %}">
     <meta property="og:type" content="article">
     {% if class_avatar %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ class_avatar }}">{% endif %}
     <meta name="twitter:card" content="summary">
@@ -89,12 +90,12 @@
             {% endif %}
         </div>
         {% endif %}
-        <img src="{{ class_avatar }}" alt="{{ char.char_class }}" class="char-banner-avatar"
+        <img src="{{ class_avatar }}" alt="{{ char.char_class|localized_class }}" class="char-banner-avatar"
              {% if character_look %}style="display:none;"{% endif %}>
         <div class="char-banner-info">
             <div class="char-banner-name">{{ char.char_name|default:char.name }}</div>
             <div class="char-banner-meta">
-                {{ char.char_class }} · {% trans "level" %} {{ char.level }}
+                {{ char.char_class|localized_class }} · {% trans "level" %} {{ char.level }}
                 {% if owner_alias %}· {% trans "by" %} {{ owner_alias }}{% endif %}
             </div>
             {% if share_text %}

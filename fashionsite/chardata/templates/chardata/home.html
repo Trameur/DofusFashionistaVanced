@@ -1,4 +1,5 @@
 {% extends 'chardata/base.html' %}
+{% load localized_class %}
 {% load i18n %}
 {% load ads %}
 
@@ -92,11 +93,11 @@
         <div class="featured-builds-grid">
             {% for fb in featured_builds %}
             <a class="featured-build-card" href="{{ fb.link }}">
-                <img src="{{ fb.avatar }}" alt="{{ fb.char_class }}" class="featured-build-avatar" width="52" height="52" loading="lazy" decoding="async">
+                <img src="{{ fb.avatar }}" alt="{{ fb.char_class|localized_class }}" class="featured-build-avatar" width="52" height="52" loading="lazy" decoding="async">
                 <div class="featured-build-info">
                     <div class="featured-build-name">{{ fb.name }}</div>
                     <div class="featured-build-meta">
-                        {{ fb.char_class }} · {% trans "lvl" %} {{ fb.level }}
+                        {{ fb.char_class|localized_class }} · {% trans "lvl" %} {{ fb.level }}
                     </div>
                     <div class="featured-build-stats">
                         <span class="fm-st fm-st-like" aria-hidden="true"></span> {{ fb.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true"></span> {{ fb.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true"></span> {{ fb.view_count }}
