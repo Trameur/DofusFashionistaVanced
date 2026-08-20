@@ -5585,22 +5585,38 @@ class MonsterWeakestElementTests(TestCase):
             set())
 
     def test_monster_page_marks_weakest_element(self):
+        # Both class names are also in the page's own inline stylesheet, which
+        # ships unconditionally, so a bare substring passed even when nothing
+        # was marked. Match the markup instead.
         from chardata import encyclopedia_view
         url = encyclopedia_view.get_monster_link(261, 'Crocodyl', 'dofus3')
         html = self.client.get(url).content.decode('utf-8')
-        self.assertIn('monster-weak', html)
-        self.assertIn('monster-weakest-hint', html)
+        self.assertIn('class="monster-weak"', html)
+        self.assertIn('<p class="monster-weakest-hint">', html)
 
-    def test_a_monster_the_game_gives_no_health_shows_a_dash(self):
-        # The Arakne carries 0 life points in the game's own data. {# #} is
-        # single-line only, so a multi-line one leaks into the page.
+    def test_a_grade_with_no_health_renders_a_dash_not_a_zero(self):
+        # This used to lean on Arakne id 246, which carried 0 life points. That
+        # row was a DofusDB shell and the scrapers now drop it, so the cell is
+        # exercised against the real template instead of against bad data.
+        import io
+        import os
+        import re
+
+        from django.conf import settings
+        from django.template import Context, Template
+
+        path = os.path.join(settings.BASE_DIR, 'chardata', 'templates',
+                            'chardata', 'encyclopedia_monster.html')
+        source = io.open(path, encoding='utf-8').read()
+        match = re.search(r'<td>\{% if g\.hp %\}.*?</td>', source)
+        self.assertTrue(match, 'the life points cell lost its zero guard')
+        cell = Template(match.group(0))
+        self.assertEqual(cell.render(Context({'g': {'hp': 0}})), '<td>-</td>')
+        self.assertEqual(cell.render(Context({'g': {'hp': None}})), '<td>-</td>')
+        self.assertEqual(cell.render(Context({'g': {'hp': 90}})), '<td>90</td>')
+
+        # {# #} is single-line only, so a multi-line one leaks into the page.
         from chardata import encyclopedia_view
-        blank = self.client.get(
-            encyclopedia_view.get_monster_link(246, 'Arakne', 'dofus3')
-        ).content.decode('utf-8')
-        self.assertRegex(blank, r'<td>\s*-\s*</td>')
-        self.assertNotRegex(blank, r'<td>\s*0\s*</td>')
-        self.assertNotIn('{#', blank)
         real = self.client.get(
             encyclopedia_view.get_monster_link(31, 'Tofu', 'dofus3')
         ).content.decode('utf-8')
@@ -5785,6 +5801,26 @@ class ChangelogLazyTests(TestCase):
     def test_changelog_content_is_translated(self):
         resp = self.client.get('/changelog-content/', HTTP_ACCEPT_LANGUAGE='fr')
         self.assertContains(resp, 'Toutes les versions')
+
+    def test_newest_changelog_entry_is_translated_everywhere(self):
+        # Asserting one old string let a fresh entry ship untranslated: the
+        # newest title is the one nobody has had time to forget.
+        import re
+
+        def first_title(lang):
+            resp = self.client.get('/changelog-content/',
+                                   HTTP_ACCEPT_LANGUAGE=lang)
+            self.assertEqual(resp.status_code, 200)
+            titles = re.findall(r'class="cl-title">([^<]+)<',
+                                resp.content.decode('utf-8'))
+            self.assertTrue(titles, 'no changelog title in %s' % lang)
+            return titles[0]
+
+        english = first_title('en')
+        for lang in ('fr', 'es', 'pt', 'de'):
+            self.assertNotEqual(first_title(lang), english,
+                                'newest changelog title untranslated in %s'
+                                % lang)
 
 
 class SetupMobileHooksTests(TestCase):
@@ -10838,6 +10874,44 @@ class EncyclopediaMonsterPageTests(TestCase):
         body = resp.content.decode('utf-8')
         self.assertIn('id="monster-stats"', body)
         self.assertIn('<td>%d</td>' % d2_rows[0][1], body)
+
+    def test_no_version_stores_an_unusable_grade_row(self):
+        # A row with no level or no life points is not a grade: it renders as
+        # dashes and drags the published range down. Every source has produced
+        # one. DofusDB keeps unused duplicates of real monsters (id 246
+        # Arachnee, all grades level 1 with 0 hp, while the real one is id 52
+        # at 16-20); the Touch backend ships placeholders; the Retro bestiary
+        # built its grade set as a union over every stat, which gave Tofu Royal
+        # a sixth grade at 0 hp and a 0-5000 range. The AP and MP columns held
+        # -1 and -100 sentinels on four versions, published raw.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        for game_version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            conn = sqlite3.connect(get_items_db_path(game_version))
+            try:
+                if not conn.execute(
+                        "SELECT 1 FROM sqlite_master "
+                        "WHERE type = 'table' AND name = 'monster_grades'"
+                        ).fetchone():
+                    continue
+                total = conn.execute(
+                    'SELECT COUNT(*) FROM monster_grades').fetchone()[0]
+                bad = conn.execute(
+                    'SELECT monster_ankama_id, grade, level, life_points, '
+                    'action_points, movement_points FROM monster_grades '
+                    'WHERE life_points IS NULL OR life_points <= 0 '
+                    'OR level IS NULL OR level <= 0 '
+                    # -1 and -100 are the client's way of saying a creature
+                    # does not move. 0 AP or 0 MP is a real creature.
+                    'OR action_points < 0 OR movement_points < 0 '
+                    'LIMIT 5').fetchall()
+            finally:
+                conn.close()
+            self.assertGreater(total, 0,
+                               'no monster grades stored for %s' % game_version)
+            self.assertFalse(bad, '%s stores empty grade rows, first few: %s'
+                                  % (game_version, bad[:3]))
 
     def test_monster_hub_shows_level_ranges_per_version(self):
         # The level span comes from each version's own monster_grades table.
@@ -16882,6 +16956,65 @@ class RebuildCheckTests(SimpleTestCase):
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         return module
+
+    def test_the_two_sides_build_the_same_keys(self):
+        # The half that answers "did a row id move" compares a dict built from
+        # the committed .dump against one built from the live sqlite file. Its
+        # regex used to be end-anchored and captured `removed` instead of
+        # `ankama_id` once the `skin` column arrived, so every dump key read
+        # ('NULL', name) against a live ('44', name): the two sets never
+        # intersected and the answer was a structural 0, not a measurement.
+        module = self._module()
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        committed_counts, committed_items = module.read_committed('dofus3')
+        if committed_counts is None:
+            self.skipTest('the committed dofus3 dump is not readable here')
+        _live_counts, live_items = module.read_db(get_items_db_path('dofus3'))
+
+        self.assertTrue(committed_items, 'no items parsed out of the dump')
+        shared = set(committed_items) & set(live_items)
+        self.assertGreater(
+            len(shared), 0.9 * len(live_items),
+            'the dump and the db disagree on %d of %d item keys, so the '
+            'moved-id question cannot be answered'
+            % (len(live_items) - len(shared), len(live_items)))
+
+    def test_a_moved_row_id_is_detected(self):
+        # Guard the guard: give it a database where one row really moved.
+        import shutil
+        import sqlite3
+        import tempfile
+
+        module = self._module()
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        _counts, committed_items = module.read_committed('dofus3')
+        if committed_items is None:
+            self.skipTest('the committed dofus3 dump is not readable here')
+
+        handle, path = tempfile.mkstemp(suffix='.db')
+        os.close(handle)
+        try:
+            shutil.copy(get_items_db_path('dofus3'), path)
+            connection = sqlite3.connect(path)
+            try:
+                free = connection.execute(
+                    'SELECT MAX(id) + 1 FROM items').fetchone()[0]
+                victim = connection.execute(
+                    'SELECT id FROM items ORDER BY id LIMIT 1').fetchone()[0]
+                connection.execute('UPDATE items SET id = ? WHERE id = ?',
+                                   (free, victim))
+                connection.commit()
+            finally:
+                connection.close()
+            _live_counts, live_items = module.read_db(path)
+        finally:
+            os.unlink(path)
+
+        moved = [key for key in set(committed_items) & set(live_items)
+                 if committed_items[key] != live_items[key]]
+        self.assertEqual(len(moved), 1, 'a moved row id went unnoticed')
 
     def test_it_covers_every_version(self):
         module = self._module()

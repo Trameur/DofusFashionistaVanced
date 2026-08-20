@@ -63,6 +63,64 @@ def committed_bytes(path, rev='HEAD'):
         return None
 
 
+def _items_columns(text):
+    """Column names of the items table, in order, from the dump's own schema.
+
+    Reading the schema rather than counting from the end is the point: the old
+    parser guessed a position, the `skin` column arrived, and the guess landed
+    on `removed` without anyone noticing.
+    """
+    start = text.find('CREATE TABLE "items" (')
+    if start < 0:
+        return []
+    body = text[start + len('CREATE TABLE "items" ('):text.find(');', start)]
+    names = []
+    for piece in body.split(','):
+        piece = piece.strip()
+        if not piece or piece.upper().startswith('FOREIGN KEY'):
+            continue
+        names.append(piece.split()[0].strip('`"'))
+    return names
+
+
+def _unquote(value):
+    """A dumped text field keeps its quotes and doubles any apostrophe."""
+    if len(value) >= 2 and value.startswith("'") and value.endswith("'"):
+        return value[1:-1].replace("''", "'")
+    return value
+
+
+def _sql_values(payload):
+    """Split an INSERT payload on its top-level commas.
+
+    Item names carry commas and doubled quotes, so str.split is not enough.
+    """
+    values, buffer, quoted, i = [], [], False, 0
+    while i < len(payload):
+        char = payload[i]
+        if quoted:
+            if char == "'":
+                if payload[i + 1:i + 2] == "'":
+                    buffer.append("''")
+                    i += 2
+                    continue
+                quoted = False
+            buffer.append(char)
+        elif char == "'":
+            quoted = True
+            buffer.append(char)
+        elif char == ',':
+            values.append(''.join(buffer))
+            buffer = []
+        elif char == ')':
+            break
+        else:
+            buffer.append(char)
+        i += 1
+    values.append(''.join(buffer))
+    return values
+
+
 def read_committed(version, rev='HEAD'):
     """{table: row count} and {(ankama_id, name): id} as that revision has them."""
     raw = committed_bytes(COMMITTED[version], rev)
@@ -73,18 +131,17 @@ def read_committed(version, rev='HEAD'):
         counts = {}
         for table, _first in INSERT.findall(text):
             counts[table] = counts.get(table, 0) + 1
+        columns = _items_columns(text)
         items = {}
         for line in text.splitlines():
             if not line.startswith('INSERT INTO "items" VALUES('):
                 continue
-            fields = line.split('VALUES(', 1)[1]
-            parts = fields.split(",'", 1)
-            if len(parts) != 2:
+            values = _sql_values(line.split('VALUES(', 1)[1])
+            if len(values) != len(columns):
                 continue
-            row_id = int(parts[0])
-            name = parts[1].split("',", 1)[0]
-            ankama = re.findall(r",(\d+|NULL),'?\w*'?,\d*,?\d*\);?$", fields)
-            items[(ankama[0] if ankama else None, name)] = row_id
+            row = dict(zip(columns, values))
+            items[(_unquote(row['ankama_id']), _unquote(row['name']))] = \
+                int(row['id'])
         return counts, items
 
     handle, temp = tempfile.mkstemp(suffix='.db')
