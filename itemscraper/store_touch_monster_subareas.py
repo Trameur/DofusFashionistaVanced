@@ -122,6 +122,11 @@ def main():
     conn.commit()
     conn.close()
     print('stored %d subarea rows for %d touch monsters' % (stored, len(matched)))
+    # The pipeline's load-db rebuilds the db from the dump.
+    sys.path.insert(0, CURRENT_DIR)
+    from store_item_obtainment import _save_db_to_dump
+    _save_db_to_dump(DB_PATH, 'touch')
+    print('touch dump refreshed')
     return 0
 
 

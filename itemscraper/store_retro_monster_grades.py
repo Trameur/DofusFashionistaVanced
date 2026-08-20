@@ -230,9 +230,16 @@ def main():
             # ended up with a sixth grade at 0 hp, which dragged its published
             # range down to 0-5000 instead of 4600-5000. A row we cannot fill
             # is worse than no row.
-            if not row[3]:
+            if not row[2] or not row[3]:
                 empty += 1
                 continue
+            # A negative AP or MP is the client's way of saying a creature does
+            # not move, not a value a player ever sees. Store the absence and
+            # let the page print a dash.
+            row = list(row)
+            for i in (4, 5):
+                if row[i] is not None and row[i] < 0:
+                    row[i] = None
             cursor.execute(
                 'INSERT OR REPLACE INTO monster_grades VALUES '
                 '(?,?,?,?,?,?,?,?,?,?,?,?,?)', row)
@@ -240,7 +247,7 @@ def main():
     conn.commit()
     conn.close()
     print('stored %d grade rows for %d retro monsters '
-          '(%d dropped: no life points)' % (stored, matched, empty))
+          '(%d dropped: no level or life points)' % (stored, matched, empty))
 
     # The pipeline's load-db rebuilds the db from the dump.
     sys.path.insert(0, CURRENT_DIR)

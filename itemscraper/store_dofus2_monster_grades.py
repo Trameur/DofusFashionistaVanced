@@ -76,7 +76,7 @@ def main():
 
     known = {row[0] for row in
              cursor.execute('SELECT DISTINCT monster_ankama_id FROM monster_names')}
-    stored = skipped = 0
+    stored = skipped = empty = 0
     for monster in monsters:
         if not isinstance(monster, dict):
             continue
@@ -89,6 +89,17 @@ def main():
         for grade in monster.get('grades') or []:
             row = [monster_id, grade.get('grade')]
             row.extend(grade.get(field) for field in GRADE_FIELDS)
+            # The 2.73 archive carries the same empty shells the later versions
+            # do. A row with no level or no life points renders as dashes.
+            if not row[2] or not row[3]:
+                empty += 1
+                continue
+            # -1 and -100 turn up in the AP and MP columns: the client's
+            # way of saying a creature does not move, not a value a player
+            # ever sees. Store the absence and let the page print a dash.
+            for i in (4, 5):
+                if row[i] is not None and row[i] < 0:
+                    row[i] = None
             cursor.execute(
                 'INSERT OR REPLACE INTO monster_grades VALUES (%s)'
                 % ','.join('?' * len(row)), row)
@@ -100,7 +111,8 @@ def main():
     conn.close()
     _save_db_to_dump(get_items_db_path(GAME_VERSION), GAME_VERSION)
     print('[dofus2] monster_grades: %d rows for %d monsters (%d archive entries '
-          'this version does not name)' % (stored, count, skipped))
+          'this version does not name, %d empty rows dropped)'
+          % (stored, count, skipped, empty))
     return 0
 
 

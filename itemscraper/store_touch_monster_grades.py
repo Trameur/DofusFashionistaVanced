@@ -82,12 +82,24 @@ def main():
         )
         """)
 
-    stored = 0
+    stored = empty = 0
     for monster in monsters.values():
         monster_id = monster.get('id')
         for grade in monster.get('grades') or []:
             row = [monster_id, grade.get('grade')]
             row.extend(grade.get(source) for source, _column in GRADE_FIELDS)
+            # The backend ships placeholder monsters whose grades carry no life
+            # points, and some no level either. They rendered as a table of
+            # dashes. A row we cannot fill is worse than no row.
+            if not row[2] or not row[3]:
+                empty += 1
+                continue
+            # -1 and -100 turn up in the AP and MP columns: the client's
+            # way of saying a creature does not move, not a value a player
+            # ever sees. Store the absence and let the page print a dash.
+            for i in (4, 5):
+                if row[i] is not None and row[i] < 0:
+                    row[i] = None
             cursor.execute(
                 'INSERT OR REPLACE INTO monster_grades VALUES (%s)'
                 % ','.join('?' * len(row)), row)
@@ -96,7 +108,13 @@ def main():
     count = cursor.execute(
         'SELECT COUNT(DISTINCT monster_ankama_id) FROM monster_grades').fetchone()[0]
     conn.close()
-    print('stored %d grade rows for %d monsters' % (stored, count))
+    print('stored %d grade rows for %d monsters, %d empty dropped'
+          % (stored, count, empty))
+    # The pipeline's load-db rebuilds the db from the dump.
+    sys.path.insert(0, CURRENT_DIR)
+    from store_item_obtainment import _save_db_to_dump
+    _save_db_to_dump(DB_PATH, 'touch')
+    print('touch dump refreshed')
     return 0
 
 

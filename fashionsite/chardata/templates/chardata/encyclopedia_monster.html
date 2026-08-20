@@ -125,8 +125,9 @@ html.fm-dark .monster-grades td.monster-weak { color: #74e074; }
                         <td>{{ g.level }}</td>
                         {# No creature has zero health: 0 means the game has no value. #}
                         <td>{% if g.hp %}{{ g.hp }}{% else %}-{% endif %}</td>
-                        <td>{{ g.ap }}</td>
-                        <td>{{ g.mp }}</td>
+                        {# 0 AP or 0 MP is a real creature; no value is not. #}
+                        <td>{% if g.ap is None %}-{% else %}{{ g.ap }}{% endif %}</td>
+                        <td>{% if g.mp is None %}-{% else %}{{ g.mp }}{% endif %}</td>
                         <td{% if 'earth' in g.weakest %} class="monster-weak"{% endif %}>{{ g.earth }}%</td>
                         <td{% if 'fire' in g.weakest %} class="monster-weak"{% endif %}>{{ g.fire }}%</td>
                         <td{% if 'water' in g.weakest %} class="monster-weak"{% endif %}>{{ g.water }}%</td>

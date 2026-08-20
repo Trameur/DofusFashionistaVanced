@@ -100,7 +100,7 @@ def main():
         )
         """)
 
-    stored = matched = 0
+    stored = matched = empty = 0
     for monster_id, grades in iter_monster_grades(BASES[args.game_version]):
         if monster_id not in known_ids:
             continue
@@ -110,6 +110,19 @@ def main():
             row.extend(grade.get(field) for field in GRADE_FIELDS)
             if row[1] is None:
                 continue
+            # DofusDB keeps unused duplicates of real monsters, all grades at
+            # level 1 with no life points: Arachnee is both id 52 (16-20,
+            # 90-120 hp) and id 246 (empty). Storing the empty one published a
+            # grade table of dashes. A row we cannot fill is worse than no row.
+            if not row[2] or not row[3]:
+                empty += 1
+                continue
+            # -1 and -100 turn up in the AP and MP columns: the client's
+            # way of saying a creature does not move, not a value a player
+            # ever sees. Store the absence and let the page print a dash.
+            for i in (4, 5):
+                if row[i] is not None and row[i] < 0:
+                    row[i] = None
             cursor.execute(
                 'INSERT OR REPLACE INTO monster_grades VALUES (%s)'
                 % ','.join('?' * len(row)), row)
@@ -120,7 +133,8 @@ def main():
     sys.path.insert(0, CURRENT_DIR)
     from store_item_obtainment import _save_db_to_dump
     _save_db_to_dump(db_path, args.game_version)
-    print('stored %d grade rows for %d monsters' % (stored, matched))
+    print('stored %d grade rows for %d monsters, %d empty dropped'
+          % (stored, matched, empty))
     return 0
 
 
