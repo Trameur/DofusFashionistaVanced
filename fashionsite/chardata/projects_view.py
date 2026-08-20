@@ -57,6 +57,8 @@ def duplicate_project(request):
         proj_id_to_copy = json.loads(project_id_json)
     except (ValueError, TypeError):
         return HttpResponseText('error')
+    # get_char_or_raise is what every other route on someone's own build uses.
+    get_char_or_raise(request, proj_id_to_copy)
     worked = _unchecked_duplicate_project(request, proj_id_to_copy)
     if worked:
         return HttpResponseText('ok')
@@ -67,6 +69,10 @@ def duplicate_my_project(request, char_id):
     if request.user is None or request.user.is_anonymous:
         raise PermissionDenied
 
+    # "my" was the only thing saying so: the id came straight off the URL and
+    # nothing checked the owner. A stranger's build is duplicate_someones_
+    # project's business, and only when it is shared by link.
+    get_char_or_raise(request, char_id)
     worked = _unchecked_duplicate_project(request, char_id)
     if worked:
         return HttpResponseRedirect(version_reverse(request, 'load_projects'))

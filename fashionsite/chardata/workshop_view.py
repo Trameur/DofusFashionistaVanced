@@ -197,14 +197,32 @@ def _solution_item_ids(char):
     return item_ids
 
 
+def _readable_char(request, char_id):
+    """The build if the caller may read it, else None.
+
+    Their own, or one its owner shared by link: the solution page these two
+    routes serve is also the page a shared build is read on. Both take a bare
+    integer id, and ids are sequential, so without this a signed-in visitor
+    could walk them into someone's unshared build. Answering 404 rather than
+    403 keeps the id itself quiet.
+    """
+    from chardata.models import Char
+    from chardata.util import char_belongs_to_user
+    try:
+        char = Char.objects.get(id=char_id)
+    except Char.DoesNotExist:
+        return None
+    if char_belongs_to_user(request, char) or char.link_shared:
+        return char
+    return None
+
+
 @login_required
 @require_POST
 def add_solution_to_workshop(request, char_id):
     """Bulk-add every equipped item of a solved Char to the user's workshop."""
-    from chardata.models import Char
-    try:
-        char = Char.objects.get(id=char_id)
-    except Char.DoesNotExist:
+    char = _readable_char(request, char_id)
+    if char is None:
         return JsonResponse({'error': _('Build not found')}, status=404)
 
     game_version = char.game_version or 'dofus3'
@@ -230,10 +248,8 @@ def solution_ingredients(request, char_id):
     """JSON shopping list of recipe ingredients for a build's solution (one of
     each equipped item). Drives the 'crafting ingredients' panel on the
     solution page."""
-    from chardata.models import Char
-    try:
-        char = Char.objects.get(id=char_id)
-    except Char.DoesNotExist:
+    char = _readable_char(request, char_id)
+    if char is None:
         return JsonResponse({'error': _('Build not found')}, status=404)
 
     game_version = char.game_version or 'dofus3'

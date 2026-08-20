@@ -2161,6 +2161,138 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class ClassNameIsTranslatedTests(SimpleTestCase):
+    """Char.char_class stores the English name and a template variable is never
+    translated on its way out, so a Spanish player read "Clase: Sacrier" on a
+    page whose own title already said "Sacrogrito". Thirteen of nineteen class
+    names differ in Spanish, ten in German, six in French and in Portuguese."""
+
+    def test_the_filter_gives_each_language_its_own_name(self):
+        from django.template import Context, Template
+        from django.utils import translation
+
+        template = Template('{% load localized_class %}'
+                            '{{ name|localized_class }}')
+
+        def rendered(name, language):
+            with translation.override(language):
+                return template.render(Context({'name': name}))
+
+        for name, language, expected in (('Sacrier', 'fr', 'Sacrieur'),
+                                         ('Sacrier', 'es', 'Sacr\u00f3grito'),
+                                         ('Rogue', 'es', 'Tymador'),
+                                         ('Rogue', 'de', 'Halsabschneider'),
+                                         ('Sacrier', 'en', 'Sacrier')):
+            with self.subTest(name=name, language=language):
+                self.assertEqual(rendered(name, language), expected)
+
+        # A class the map does not know must still print, not vanish.
+        self.assertEqual(rendered('Not A Class', 'fr'), 'Not A Class')
+
+    def test_no_template_prints_the_class_name_raw(self):
+        # The structural half: a new page that forgets the filter is the way
+        # this comes back. data-build-cls is matched against the English name
+        # in JS, so it is the one place that must stay raw.
+        import glob
+        import io as _io
+        import os
+        import re
+
+        here = os.path.dirname(os.path.abspath(__file__))
+        pattern = re.compile(r'\{\{\s*[\w.]*char_class\s*\}\}')
+        offenders = []
+        for path in glob.glob(os.path.join(here, 'templates', 'chardata',
+                                           '*.html')):
+            with _io.open(path, encoding='utf-8') as handle:
+                for number, line in enumerate(handle, 1):
+                    if 'data-build-cls' in line:
+                        continue
+                    if pattern.search(line):
+                        offenders.append('%s:%d'
+                                         % (os.path.basename(path), number))
+        self.assertFalse(offenders,
+                         'these print the English class name to a reader: %s'
+                         % ', '.join(offenders))
+
+
+class BuildIdIsNotAPasswordTests(TestCase):
+    """Char ids are sequential integers, so a route that takes one and does not
+    ask whose build it is hands every private build to anyone with an account.
+    Four of them did: both duplicate routes, and the two workshop routes that
+    read a solution's items and its craft ingredients."""
+
+    def _minimal_solution(self):
+        import pickle as _pickle
+        from fashionistapulp.modelresult import ModelResultMinimal
+        input_ = {'options': {'ap_exo': False, 'mp_exo': False},
+                  'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        return _pickle.dumps(ModelResultMinimal({}, input_, {}))
+
+    def _make_char(self, owner, name, link_shared=False):
+        from chardata.models import Char
+        return Char.objects.create(
+            name=name, char_name=name.lower().replace(' ', '-'),
+            char_class='Iop', char_build='Damage', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=self._minimal_solution(),
+            owner=owner, link_shared=link_shared, game_version='dofus3')
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        self.victim = User.objects.create_user(
+            'idor-victim', 'victim@test.local', 'pw-42-solid')
+        self.attacker = User.objects.create_user(
+            'idor-attacker', 'attacker@test.local', 'pw-42-solid')
+        self.private = self._make_char(self.victim, 'Private Build')
+        self.shared = self._make_char(self.victim, 'Shared Build',
+                                      link_shared=True)
+
+    def test_duplicating_by_id_cannot_take_someone_elses_build(self):
+        from chardata.models import Char
+        self.client.force_login(self.attacker)
+        before = Char.objects.filter(owner=self.attacker).count()
+
+        resp = self.client.get('/duplicatemyproject/%d/' % self.private.id)
+        self.assertEqual(resp.status_code, 403)
+        self.client.post('/duplicateproject/',
+                         {'project_id': str(self.private.id)})
+
+        self.assertEqual(Char.objects.filter(owner=self.attacker).count(),
+                         before, 'a copy of a private build reached the '
+                                 'attacker account')
+
+    def test_duplicating_my_own_build_still_works(self):
+        from chardata.models import Char
+        mine = self._make_char(self.attacker, 'My Build')
+        self.client.force_login(self.attacker)
+        before = Char.objects.filter(owner=self.attacker).count()
+        resp = self.client.get('/duplicatemyproject/%d/' % mine.id)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(Char.objects.filter(owner=self.attacker).count(),
+                         before + 1)
+
+    def test_the_workshop_routes_refuse_a_private_build(self):
+        self.client.force_login(self.attacker)
+        for path in ('/workshop/solutioningredients/%d/' % self.private.id,):
+            with self.subTest(path=path):
+                self.assertEqual(self.client.get(path).status_code, 404)
+        resp = self.client.post(
+            '/workshop/addsolution/%d/' % self.private.id)
+        self.assertEqual(resp.status_code, 404)
+
+    def test_the_workshop_routes_still_serve_a_shared_build(self):
+        # The solution page of a shared build is exactly where these are called
+        # from, so the fix must not close that door.
+        self.client.force_login(self.attacker)
+        resp = self.client.get(
+            '/workshop/solutioningredients/%d/' % self.shared.id)
+        self.assertEqual(resp.status_code, 200)
+        resp = self.client.post('/workshop/addsolution/%d/' % self.shared.id)
+        self.assertEqual(resp.status_code, 200)
+
+
 class ChooseCompareSetsPickerTests(TestCase):
     """The comparison chooser should expose saved builds from the current
     version without leaking private ids from other users."""
