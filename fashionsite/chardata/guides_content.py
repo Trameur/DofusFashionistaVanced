@@ -8,7 +8,7 @@ URLs so the version namespace does not matter.
 from __future__ import annotations
 
 ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'pets-mounts-and-shields', 'building-on-a-budget', 'inventory-and-your-own-rolls', 'gearing-a-healer',
-         'best-turn-damage', 'transcendence-runes',
+         'best-turn-damage', 'transcendence-runes', 'pvp-resistance',
          'versions-explained']
 
 
@@ -17,6 +17,209 @@ GUIDES = {
     # Retro (1.29 branch) crit is a 1/X fraction that Agility improves and that
     # stops at 1/2; update 2.29 turned crit into an additive percentage that
     # Agility does not touch, reaching 100% and never falling under 1%.
+    # Measured on our own item databases: Retro has 76 items granting PvP
+    # resistance, 74 of them shields, none above level 50; Touch has two level
+    # 1 shields; Dofus 3, the beta and Dofus 2 have none at all.
+    'pvp-resistance': {
+        'published': '2026-08-20',
+        'version_groups': {'retro': 'retro'},
+        'i18n_by_group': {
+            'modern': {
+                'en': {
+                    'title': 'PvP resistance in modern Dofus: no item grants it',
+                    'desc': 'In Dofus 3, the beta and Dofus 2, not one item gives PvP-specific resistance. What that means for your build, and the single exception on Dofus Touch.',
+                    'lead': 'PvP resistance is a stat the game still knows about, but on the modern versions no piece of gear hands it to you. Here is what to do with that.',
+                    'body': '''
+<h2>Nothing in the catalogue gives it</h2>
+<p>We checked every item in Dofus 3, in the beta and in Dofus 2: <strong>not a single one grants PvP-specific resistance</strong>. The stat exists in the game data, and the optimizer knows the ten lines it would occupy, but no hat, cloak, shield or ring anywhere in those versions puts a point into it.</p>
+<p>So on the modern versions, the resistances you read on your build are the resistances you take, in a duel exactly as against a monster. There is no second set of numbers to chase.</p>
+
+<h2>The one exception is on Dofus Touch</h2>
+<p>Dofus Touch keeps <strong>two level 1 shields</strong> that still carry the old PvP lines. They are a leftover rather than a plan: nothing else in the version grants the stat, and at level 1 they matter to nobody building seriously.</p>
+
+<h2>Do not copy Retro advice here</h2>
+<p>Dofus Retro is a different story, and PvP guides written for it circulate widely. There, 76 items grant PvP resistance and the stat is worth planning around at low level. None of that transfers. If you are reading a PvP guide, check which version it was written for before you buy anything.</p>
+<p>On the modern versions, build your resistances the ordinary way and read our guide on resistance to see how the percentage and the flat lines stack.</p>
+''',
+                },
+                'fr': {
+                    'title': 'La résistance PvP dans le Dofus moderne : aucun objet n’en donne',
+                    'desc': "Sur Dofus 3, la bêta et Dofus 2, aucun objet ne donne de résistance spécifique au PvP. Ce que ça change pour ton build, et la seule exception sur Dofus Touch.",
+                    'lead': "La résistance PvP est une stat que le jeu connaît encore, mais sur les versions modernes aucun équipement ne t’en donne. Voici quoi en faire.",
+                    'body': '''
+<h2>Rien dans le catalogue n’en donne</h2>
+<p>Nous avons vérifié chaque objet de Dofus 3, de la bêta et de Dofus 2 : <strong>pas un seul ne donne de résistance spécifique au PvP</strong>. La stat existe bien dans les données du jeu, et l’optimiseur connaît les dix lignes qu’elle occuperait, mais aucun chapeau, cape, bouclier ou anneau de ces versions n’y met le moindre point.</p>
+<p>Sur les versions modernes, les résistances affichées sur ton build sont donc celles que tu encaisses, en duel comme face à un monstre. Il n’y a pas un second jeu de chiffres à courir après.</p>
+
+<h2>La seule exception est sur Dofus Touch</h2>
+<p>Dofus Touch conserve <strong>deux boucliers de niveau 1</strong> qui portent encore les anciennes lignes PvP. C’est un reliquat plus qu’un choix : rien d’autre dans la version ne donne cette stat, et au niveau 1 ils ne pèsent sur aucun build sérieux.</p>
+
+<h2>Ne recopie pas les conseils Retro ici</h2>
+<p>Dofus Retro est une autre histoire, et les guides PvP écrits pour lui circulent beaucoup. Là-bas, 76 objets donnent de la résistance PvP et la stat mérite qu’on la planifie à bas niveau. Rien de tout ça ne se transpose. Quand tu lis un guide PvP, vérifie pour quelle version il a été écrit avant d’acheter quoi que ce soit.</p>
+<p>Sur les versions modernes, monte tes résistances normalement, et lis notre guide sur la résistance pour voir comment les lignes en pourcentage et les lignes fixes s’additionnent.</p>
+''',
+                },
+                'es': {
+                    'title': 'La resistencia PvP en el Dofus moderno: ningún objeto la da',
+                    'desc': 'En Dofus 3, la beta y Dofus 2 no hay ni un objeto que dé resistencia específica al PvP. Qué significa para tu build, y la única excepción en Dofus Touch.',
+                    'lead': 'La resistencia PvP es una característica que el juego sigue conociendo, pero en las versiones modernas ningún equipo te la da. Esto es lo que conviene hacer.',
+                    'body': '''
+<h2>Nada en el catálogo la da</h2>
+<p>Hemos revisado todos los objetos de Dofus 3, de la beta y de Dofus 2: <strong>ni uno solo da resistencia específica al PvP</strong>. La característica existe en los datos del juego, y el optimizador conoce las diez líneas que ocuparía, pero ningún sombrero, capa, escudo o anillo de esas versiones le pone un punto.</p>
+<p>En las versiones modernas, las resistencias que ves en tu build son las que recibes, tanto en duelo como contra un monstruo. No hay un segundo conjunto de números que perseguir.</p>
+
+<h2>La única excepción está en Dofus Touch</h2>
+<p>Dofus Touch conserva <strong>dos escudos de nivel 1</strong> que todavía llevan las viejas líneas de PvP. Son un resto, no un plan: nada más en la versión da la característica, y a nivel 1 no le importan a nadie que construya en serio.</p>
+
+<h2>No copies aquí los consejos de Retro</h2>
+<p>Dofus Retro es otra historia, y las guías de PvP escritas para él circulan mucho. Allí 76 objetos dan resistencia PvP y la característica merece planificarse a nivel bajo. Nada de eso se traslada. Si lees una guía de PvP, comprueba para qué versión se escribió antes de comprar nada.</p>
+<p>En las versiones modernas sube tus resistencias de la forma habitual y lee nuestra guía sobre la resistencia para ver cómo se suman las líneas en porcentaje y las fijas.</p>
+''',
+                },
+                'pt': {
+                    'title': 'A resistência PvP no Dofus moderno: nenhum item a dá',
+                    'desc': 'No Dofus 3, na beta e no Dofus 2 não há um único item que dê resistência específica ao PvP. O que isso muda no teu build, e a única exceção no Dofus Touch.',
+                    'lead': 'A resistência PvP é uma característica que o jogo ainda conhece, mas nas versões modernas nenhum equipamento ta dá. Eis o que fazer com isso.',
+                    'body': '''
+<h2>Nada no catálogo a dá</h2>
+<p>Verificámos todos os itens do Dofus 3, da beta e do Dofus 2: <strong>nem um só dá resistência específica ao PvP</strong>. A característica existe nos dados do jogo, e o otimizador conhece as dez linhas que ocuparia, mas nenhum chapéu, capa, escudo ou anel dessas versões lhe põe um ponto.</p>
+<p>Nas versões modernas, as resistências que vês no teu build são as que levas, tanto em duelo como contra um monstro. Não há um segundo conjunto de números para perseguir.</p>
+
+<h2>A única exceção está no Dofus Touch</h2>
+<p>O Dofus Touch mantém <strong>dois escudos de nível 1</strong> que ainda carregam as antigas linhas de PvP. São um resto, não um plano: nada mais na versão dá a característica, e ao nível 1 não pesam em nenhum build sério.</p>
+
+<h2>Não copies aqui os conselhos do Retro</h2>
+<p>O Dofus Retro é outra história, e os guias de PvP escritos para ele circulam muito. Lá, 76 itens dão resistência PvP e a característica merece ser planeada a nível baixo. Nada disso se transfere. Se estás a ler um guia de PvP, confirma para que versão foi escrito antes de comprares seja o que for.</p>
+<p>Nas versões modernas sobe as tuas resistências da forma normal e lê o nosso guia sobre a resistência para veres como se somam as linhas em percentagem e as fixas.</p>
+''',
+                },
+                'de': {
+                    'title': 'PvP-Resistenz im modernen Dofus: kein Gegenstand gibt sie',
+                    'desc': 'In Dofus 3, der Beta und Dofus 2 gibt kein Gegenstand PvP-Resistenz. Was das für deinen Build bedeutet, und die Ausnahme in Dofus Touch.',
+                    'lead': 'PvP-Resistenz ist ein Wert, den das Spiel weiterhin kennt, aber in den modernen Versionen gibt ihn dir keine Ausrüstung. Das solltest du damit anfangen.',
+                    'body': '''
+<h2>Nichts im Katalog gibt sie</h2>
+<p>Wir haben jeden Gegenstand in Dofus 3, in der Beta und in Dofus 2 geprüft: <strong>kein einziger gibt PvP-spezifische Resistenz</strong>. Der Wert steht in den Spieldaten, und das Tool kennt die zehn Zeilen, die er belegen würde, aber kein Hut, Umhang, Schild oder Ring dieser Versionen setzt einen Punkt hinein.</p>
+<p>In den modernen Versionen sind die Resistenzen auf deinem Build also genau die, die du abbekommst, im Duell wie gegen ein Monster. Es gibt keinen zweiten Satz Zahlen, hinter dem du herlaufen musst.</p>
+
+<h2>Die einzige Ausnahme steht in Dofus Touch</h2>
+<p>Dofus Touch behält <strong>zwei Schilde auf Stufe 1</strong>, die noch die alten PvP-Zeilen tragen. Das ist ein Überbleibsel und kein Plan: nichts anderes in der Version gibt den Wert, und auf Stufe 1 spielen sie für keinen ernsthaften Build eine Rolle.</p>
+
+<h2>Übernimm hier keine Retro-Ratschläge</h2>
+<p>Dofus Retro ist eine andere Geschichte, und dafür geschriebene PvP-Guides kursieren viel. Dort geben 76 Gegenstände PvP-Resistenz, und auf niedriger Stufe lohnt es sich, den Wert einzuplanen. Nichts davon lässt sich übertragen. Wenn du einen PvP-Guide liest, prüfe zuerst, für welche Version er geschrieben wurde.</p>
+<p>Baue in den modernen Versionen deine Resistenzen ganz normal auf und lies unseren Guide zur Resistenz, um zu sehen, wie sich prozentuale und feste Zeilen addieren.</p>
+''',
+                },
+            },
+            'retro': {
+                'en': {
+                    'title': 'PvP resistance in Dofus Retro: a shield stat, and only to level 50',
+                    'desc': 'Dofus Retro is the only version whose gear grants PvP resistance. Of the 76 items that give it, 74 are shields, and not one is above level 50.',
+                    'lead': 'PvP resistance is its own stat, separate from the resistance you already carry. In Dofus Retro a small, very lopsided set of items grants it, and the shape of that set decides how you can use it.',
+                    'body': '''
+<h2>It is a stat of its own</h2>
+<p>PvP resistance does not replace your ordinary resistance and does not show up in the same line. It sits beside it, and it only counts against other players. That is why a build can look identical in the resistance rows and still behave differently in a duel.</p>
+<p>Because it is separate, it is easy to forget: your build page adds it up quietly, and unless you go looking you never see how much of it your gear carries.</p>
+
+<h2>Almost all of it is on shields</h2>
+<p>We went through the whole Retro item database. <strong>76 items grant PvP resistance, and 74 of them are shields.</strong> The other two are one cloak and one ring. No hat, no amulet, no belt, no boots, no weapon anywhere in the version gives a single point.</p>
+<p>That changes how you plan. PvP resistance is not something you spread across a build the way you spread fire resistance: it is one slot, and the choice is which shield you carry.</p>
+
+<h2>Nothing above level 50</h2>
+<p>Every one of those 76 items sits between level 1 and level 50, and the largest single line we found is 55. Past level 50 the stat simply stops being handed out, so a high level character cannot build for it at all.</p>
+<p>In practice that makes PvP resistance a low level concern. If you fight in the early brackets it is worth a shield slot; if you are levelling past it, the stat quietly leaves your build and never comes back.</p>
+
+<h2>Seeing it on your own build</h2>
+<p>Our comparison page can fold PvP resistance into the resistance rows when the builds you are comparing actually carry some, so you can see what a PvP shield really buys you against a plain one. The option only appears when at least one of the compared builds has the stat, which on Retro means one of them is wearing one of those 76 items.</p>
+''',
+                },
+                'fr': {
+                    'title': 'La résistance PvP en Dofus Retro : une stat de bouclier, et seulement jusqu’au niveau 50',
+                    'desc': 'Dofus Retro est la seule version dont l’équipement donne de la résistance PvP : sur 76 objets, 74 sont des boucliers, et aucun ne dépasse le niveau 50.',
+                    'lead': "La résistance PvP est une stat à part, distincte de la résistance que tu portes déjà. En Dofus Retro, un petit ensemble d’objets très déséquilibré en donne, et la forme de cet ensemble décide de ce que tu peux en faire.",
+                    'body': '''
+<h2>C’est une stat à part entière</h2>
+<p>La résistance PvP ne remplace pas ta résistance ordinaire et n’apparaît pas sur la même ligne. Elle se place à côté, et elle ne compte que face aux autres joueurs. C’est pour ça que deux builds peuvent afficher les mêmes lignes de résistance et se comporter différemment en duel.</p>
+<p>Comme elle est séparée, on l’oublie facilement : ta page de build l’additionne discrètement, et sans aller la chercher tu ne vois jamais combien ton équipement en porte.</p>
+
+<h2>Presque tout est sur les boucliers</h2>
+<p>Nous avons parcouru toute la base d’objets Retro. <strong>76 objets donnent de la résistance PvP, et 74 sont des boucliers.</strong> Les deux autres sont une cape et un anneau. Aucun chapeau, aucune amulette, aucune ceinture, aucune botte, aucune arme de la version n’en donne le moindre point.</p>
+<p>Ça change la façon de planifier. La résistance PvP ne se répartit pas sur un build comme la résistance feu : c’est un seul emplacement, et toute la question est de savoir quel bouclier tu portes.</p>
+
+<h2>Rien au-dessus du niveau 50</h2>
+<p>Ces 76 objets se situent tous entre le niveau 1 et le niveau 50, et la plus grosse ligne que nous ayons trouvée vaut 55. Passé le niveau 50, la stat cesse simplement d’être distribuée, donc un personnage haut niveau ne peut pas construire autour d’elle.</p>
+<p>En pratique, c’est donc une affaire de bas niveau. Si tu te bats dans les premières tranches, elle mérite un emplacement de bouclier ; si tu montes au-delà, la stat quitte discrètement ton build et n’y revient jamais.</p>
+
+<h2>La voir sur ton propre build</h2>
+<p>Notre page de comparaison peut intégrer la résistance PvP dans les lignes de résistance quand les builds comparés en portent vraiment, pour que tu voies ce qu’un bouclier PvP t’apporte face à un bouclier ordinaire. L’option n’apparaît que si au moins un des builds comparés a la stat, ce qui en Retro veut dire qu’il porte un de ces 76 objets.</p>
+''',
+                },
+                'es': {
+                    'title': 'La resistencia PvP en Dofus Retro: una característica de escudo, y solo hasta nivel 50',
+                    'desc': 'Dofus Retro es la única versión cuyo equipo da resistencia PvP. De los 76 objetos que la dan, 74 son escudos, y ninguno pasa del nivel 50.',
+                    'lead': 'La resistencia PvP es una característica aparte, distinta de la resistencia que ya llevas. En Dofus Retro la da un conjunto de objetos pequeño y muy desequilibrado, y la forma de ese conjunto decide cómo puedes usarla.',
+                    'body': '''
+<h2>Es una característica propia</h2>
+<p>La resistencia PvP no sustituye a tu resistencia normal y no aparece en la misma línea. Va al lado, y solo cuenta frente a otros jugadores. Por eso dos builds pueden mostrar las mismas líneas de resistencia y comportarse distinto en un duelo.</p>
+<p>Al estar separada se olvida con facilidad: tu página de build la suma en silencio y, si no la buscas, nunca ves cuánta lleva tu equipo.</p>
+
+<h2>Casi todo está en los escudos</h2>
+<p>Recorrimos toda la base de objetos de Retro. <strong>76 objetos dan resistencia PvP, y 74 son escudos.</strong> Los otros dos son una capa y un anillo. Ningún sombrero, amuleto, cinturón, bota ni arma de la versión da un solo punto.</p>
+<p>Eso cambia la planificación. La resistencia PvP no se reparte por el build como la resistencia de fuego: es una sola ranura, y toda la cuestión es qué escudo llevas.</p>
+
+<h2>Nada por encima del nivel 50</h2>
+<p>Esos 76 objetos están todos entre el nivel 1 y el 50, y la línea más alta que encontramos vale 55. Pasado el nivel 50 la característica deja de repartirse, así que un personaje de nivel alto no puede construir alrededor de ella.</p>
+<p>En la práctica es un asunto de nivel bajo. Si peleas en los primeros tramos merece una ranura de escudo; si sigues subiendo, la característica abandona tu build sin ruido y no vuelve.</p>
+
+<h2>Verla en tu propio build</h2>
+<p>Nuestra página de comparación puede sumar la resistencia PvP a las líneas de resistencia cuando los builds comparados la llevan de verdad, para que veas qué te aporta un escudo PvP frente a uno normal. La opción solo aparece si al menos uno de los builds comparados tiene la característica, lo que en Retro significa que lleva uno de esos 76 objetos.</p>
+''',
+                },
+                'pt': {
+                    'title': 'A resistência PvP no Dofus Retro: uma característica de escudo, e só até ao nível 50',
+                    'desc': 'O Dofus Retro é a única versão cujo equipamento dá resistência PvP. Dos 76 itens que a dão, 74 são escudos, e nenhum passa do nível 50.',
+                    'lead': 'A resistência PvP é uma característica à parte, distinta da resistência que já levas. No Dofus Retro dá-a um conjunto de itens pequeno e muito desequilibrado, e a forma desse conjunto decide o que podes fazer com ela.',
+                    'body': '''
+<h2>É uma característica por si só</h2>
+<p>A resistência PvP não substitui a tua resistência normal e não aparece na mesma linha. Fica ao lado, e só conta contra outros jogadores. É por isso que dois builds podem mostrar as mesmas linhas de resistência e comportar-se de forma diferente num duelo.</p>
+<p>Por estar separada esquece-se com facilidade: a tua página de build soma-a em silêncio e, se não a procurares, nunca vês quanta o teu equipamento carrega.</p>
+
+<h2>Quase tudo está nos escudos</h2>
+<p>Percorremos toda a base de itens do Retro. <strong>76 itens dão resistência PvP, e 74 são escudos.</strong> Os outros dois são uma capa e um anel. Nenhum chapéu, amuleto, cinto, bota ou arma da versão dá um único ponto.</p>
+<p>Isso muda o planeamento. A resistência PvP não se espalha pelo build como a resistência de fogo: é uma única ranhura, e toda a questão é saber que escudo levas.</p>
+
+<h2>Nada acima do nível 50</h2>
+<p>Esses 76 itens estão todos entre o nível 1 e o 50, e a maior linha que encontrámos vale 55. Passado o nível 50 a característica deixa simplesmente de ser distribuída, por isso uma personagem de nível alto não pode construir à volta dela.</p>
+<p>Na prática é um assunto de nível baixo. Se lutas nos primeiros escalões vale uma ranhura de escudo; se continuas a subir, a característica sai do teu build sem ruído e não volta.</p>
+
+<h2>Vê-la no teu próprio build</h2>
+<p>A nossa página de comparação pode somar a resistência PvP às linhas de resistência quando os builds comparados a levam mesmo, para veres o que um escudo PvP te dá face a um normal. A opção só aparece se pelo menos um dos builds comparados tiver a característica, o que no Retro significa que leva um daqueles 76 itens.</p>
+''',
+                },
+                'de': {
+                    'title': 'PvP-Resistenz in Dofus Retro: ein Schildwert, und nur bis Stufe 50',
+                    'desc': 'Dofus Retro ist die einzige Version, deren Ausrüstung PvP-Resistenz gibt: von 76 Gegenständen sind 74 Schilde, keiner über Stufe 50.',
+                    'lead': 'PvP-Resistenz ist ein eigener Wert, getrennt von der Resistenz, die du ohnehin trägst. In Dofus Retro gibt ihn eine kleine, sehr einseitige Gruppe von Gegenständen, und deren Zuschnitt entscheidet, was du damit anfangen kannst.',
+                    'body': '''
+<h2>Ein Wert für sich</h2>
+<p>PvP-Resistenz ersetzt deine gewöhnliche Resistenz nicht und steht nicht in derselben Zeile. Sie steht daneben und zählt nur gegen andere Spieler. Deshalb können zwei Builds in den Resistenzzeilen gleich aussehen und sich im Duell trotzdem unterschiedlich verhalten.</p>
+<p>Weil sie getrennt geführt wird, vergisst man sie leicht: deine Build-Seite zählt sie still zusammen, und wenn du nicht danach suchst, siehst du nie, wie viel davon deine Ausrüstung trägt.</p>
+
+<h2>Fast alles steckt in Schilden</h2>
+<p>Wir sind die gesamte Retro-Gegenstandsdatenbank durchgegangen. <strong>76 Gegenstände geben PvP-Resistenz, und 74 davon sind Schilde.</strong> Die anderen beiden sind ein Umhang und ein Ring. Kein Hut, kein Amulett, kein Gürtel, keine Stiefel und keine Waffe der Version geben einen einzigen Punkt.</p>
+<p>Das ändert die Planung. PvP-Resistenz verteilt sich nicht über den Build wie Feuerresistenz: es ist ein einziger Platz, und die ganze Frage lautet, welchen Schild du trägst.</p>
+
+<h2>Nichts über Stufe 50</h2>
+<p>Alle 76 Gegenstände liegen zwischen Stufe 1 und Stufe 50, und die größte Einzelzeile, die wir gefunden haben, beträgt 55. Über Stufe 50 wird der Wert schlicht nicht mehr vergeben, ein Charakter auf hoher Stufe kann also gar nicht darauf bauen.</p>
+<p>In der Praxis ist das eine Sache der niedrigen Stufen. Wer in den frühen Klassen kämpft, dem ist ein Schildplatz dafür etwas wert; wer darüber hinaus levelt, dem verlässt der Wert leise den Build und kommt nicht zurück.</p>
+
+<h2>Sie im eigenen Build sehen</h2>
+<p>Unsere Vergleichsseite kann PvP-Resistenz in die Resistenzzeilen einrechnen, wenn die verglichenen Builds tatsächlich welche tragen, damit du siehst, was ein PvP-Schild gegenüber einem gewöhnlichen wirklich bringt. Die Option erscheint nur, wenn mindestens einer der verglichenen Builds den Wert hat, in Retro also einen dieser 76 Gegenstände trägt.</p>
+''',
+                },
+            },
+        },
+    },
     'critical-hits': {
         'published': '2026-07-22',
         'version_groups': {'retro': 'retro'},
