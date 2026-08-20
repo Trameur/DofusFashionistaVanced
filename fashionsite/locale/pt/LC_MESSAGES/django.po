@@ -6655,3 +6655,7 @@ msgstr "Cada item forjável de um build abre diretamente na bancada de forja."
 #: .\chardata\templates\chardata\changelog_content.html:11
 msgid "A comparison can now show each build with its class buffs on."
 msgstr "Uma comparação pode agora mostrar cada build com os seus buffs de classe."
+
+#: .\chardata\templates\chardata\changelog_content.html:12
+msgid "A new guide on PvP resistance, which only Dofus Retro really has."
+msgstr "Um novo guia sobre a resistência PvP, que só existe mesmo no Dofus Retro."

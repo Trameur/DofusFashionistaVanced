@@ -6679,3 +6679,7 @@ msgstr "Cada objeto forjable de un build se abre directamente en el taller de fo
 #: .\chardata\templates\chardata\changelog_content.html:11
 msgid "A comparison can now show each build with its class buffs on."
 msgstr "Una comparación puede mostrar ahora cada build con sus buffs de clase."
+
+#: .\chardata\templates\chardata\changelog_content.html:12
+msgid "A new guide on PvP resistance, which only Dofus Retro really has."
+msgstr "Una nueva guía sobre la resistencia PvP, que solo existe de verdad en Dofus Retro."

@@ -6687,3 +6687,7 @@ msgstr "Jeder schmiedbare Gegenstand eines Builds öffnet sich direkt in der Sch
 #: .\chardata\templates\chardata\changelog_content.html:11
 msgid "A comparison can now show each build with its class buffs on."
 msgstr "Ein Vergleich kann jetzt jeden Build mit seinen Klassenbuffs zeigen."
+
+#: .\chardata\templates\chardata\changelog_content.html:12
+msgid "A new guide on PvP resistance, which only Dofus Retro really has."
+msgstr "Ein neuer Guide zur PvP-Resistenz, die es nur in Dofus Retro wirklich gibt."
