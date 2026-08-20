@@ -188,6 +188,7 @@ html.fm-modern .menu_link:hover, html.fm-modern .menu-collapse-link:hover{
   background:var(--fm-accent-soft) !important; border-left-color:var(--fm-accent) !important; transform:translateX(2px);
 }
 html.fm-modern .menu_link_top{ font-weight:700; }
+html.fm-modern .build-vote-row{ color:var(--fm-muted); }
 html.fm-modern .nav-search input, html.fm-modern .nav-search button{
   color:var(--fm-text) !important; background:var(--fm-surface-2) !important;
   border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-xs) !important;
