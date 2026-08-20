@@ -64,21 +64,12 @@ VERSION_WEIGHT_TUNING = {
 
 ALL_ASPECTS = set(ALL_ASPECTS_LIST)
 
-# The stats an aspect exists to raise, for the aspects tied to a stat a version
-# may not have. Ticking one whose stats are all zeroed changes nothing, so the
-# wizard stops offering it: no Retro item carries pushback damage, and no Touch
-# item carries trap damage. AP and MP removal stay on Retro, where the tuning
-# sends them to wisdom instead.
-ASPECT_STATS = {
-    'aprape': ('apred', 'wis'),
-    'mprape': ('mpred', 'wis'),
-    'pushback': ('pshdam',),
-    'trap': ('trapdam', 'trapdamper'),
-}
-
-# The stat the aspect is actually about. AP removal also leans on wisdom, and
-# wisdom is alive in every version, so asking for the whole tuple to be zeroed
-# kept AP and MP removal on the Retro list although no Retro item grants either.
+# The stat an aspect exists to raise, for the aspects tied to a stat a version
+# may not have. Ticking one whose stat is zeroed changes nothing, so the wizard
+# stops offering it. Keyed on the core stat alone: AP removal also leans on
+# wisdom, and wisdom is alive everywhere, so asking for a whole tuple to be
+# zeroed kept AP and MP removal on the Retro list although no Retro item grants
+# either.
 ASPECT_CORE_STAT = {
     'aprape': 'apred',
     'mprape': 'mpred',
