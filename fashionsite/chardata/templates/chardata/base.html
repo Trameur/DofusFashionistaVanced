@@ -417,7 +417,10 @@
                     align-items: center;
                     margin: 10px 5px;
                     padding: 10px 20px;
-                    background-color: #3a4a8e; /* Discord's brand color */
+                    /* A third-party sheet we cannot read (jQuery UI, served
+                       cross-origin) strips this, leaving white text on the light
+                       page at 1.28:1. */
+                    background-color: #3a4a8e !important;
                     color: #ffffff !important;
                     text-decoration: none;
                     font-weight: bold;
