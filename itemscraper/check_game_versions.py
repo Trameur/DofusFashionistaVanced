@@ -70,11 +70,15 @@ def main():
     ]
     moved = []
     for name, shown, live, watched in checks:
-        same = live == (watched if watched is not None else shown)
+        compared = watched if watched is not None else shown
+        same = live == compared
         if not same:
             moved.append((name, live))
-        print('%-8s ours %-12s live %-40s %s'
-              % (name, shown, live, 'ok' if same else 'MOVED'))
+        # Print what was compared. Showing the frozen public number beside a
+        # different live build, followed by ok, reads as a contradiction.
+        print('%-8s ours %-40s live %-40s %s%s'
+              % (name, compared, live, 'ok' if same else 'MOVED',
+                 '' if watched is None else '   (public number %s)' % shown))
 
     for name, repo in (('dofus3', 'dofus3-main'), ('beta', 'dofus3-beta')):
         tag = _json(TAGS % repo)[0]['name']
