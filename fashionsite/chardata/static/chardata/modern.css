@@ -188,6 +188,12 @@ html.fm-modern .menu_link:hover, html.fm-modern .menu-collapse-link:hover{
   background:var(--fm-accent-soft) !important; border-left-color:var(--fm-accent) !important; transform:translateX(2px);
 }
 html.fm-modern .menu_link_top{ font-weight:700; }
+html.fm-modern .nav-search input, html.fm-modern .nav-search button{
+  color:var(--fm-text) !important; background:var(--fm-surface-2) !important;
+  border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-xs) !important;
+}
+html.fm-modern .nav-search input::placeholder{ color:var(--fm-muted); }
+html.fm-modern .nav-search button:hover{ background:var(--fm-accent-soft) !important; }
 /* Premium line-icons in the nav (theme-agnostic: inherits text color). */
 .menu_link .mi{ display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; margin-right:9px; vertical-align:-3px; flex:0 0 auto; }
 .menu_link .mi svg{ display:block; width:16px; height:16px; }

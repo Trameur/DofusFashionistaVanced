@@ -286,6 +286,12 @@
                             </div>
                             <div>
                                 <a class="menu_link menu_link_bottom" href="{% game_url 'encyclopedia' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v15H7.5A2.5 2.5 0 0 0 5 19.5z"/><path d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19"/></svg></span>{% trans "Encyclopedia" %}</a>
+                            </div>
+                            <div>
+                                <form class="nav-search" role="search" method="get" action="{% game_url 'encyclopedia' %}">
+                                    <input type="search" name="q" autocomplete="off" placeholder="{% trans "Search a set or item" %}" aria-label="{% trans "Search a set or item" %}">
+                                    <button type="submit">{% trans "Search" %}</button>
+                                </form>
               </div>
           </div>
           <div class="space"></div>

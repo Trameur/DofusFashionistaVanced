@@ -16123,6 +16123,32 @@ class LoadItemDbFailsLoudlyTests(SimpleTestCase):
         self.assertEqual([], glob.glob(pattern))
 
 
+class NavSearchTests(TestCase):
+    """A reader landing on a guide or an item page from a search engine had no
+    way to look anything up without first finding the encyclopedia index."""
+
+    def test_the_field_submits_into_the_encyclopedia_of_the_version(self):
+        import re
+        for path, expected in (('/', '/encyclopedia/'),
+                               ('/retro/', '/retro/encyclopedia/'),
+                               ('/touch/', '/touch/encyclopedia/')):
+            resp = self.client.get(path)
+            self.assertEqual(resp.status_code, 200, path)
+            # The page ships minified with attributes sorted, so read the tag
+            # first and pull the action out of it rather than assume an order.
+            tag = re.search(r'<form[^>]*nav-search[^>]*>',
+                            resp.content.decode('utf-8'))
+            self.assertIsNotNone(tag, path)
+            action = re.search(r'action="([^"]+)"', tag.group(0))
+            self.assertIsNotNone(action, path)
+            self.assertEqual(expected, action.group(1))
+
+    def test_the_query_name_is_the_one_the_encyclopedia_reads(self):
+        resp = self.client.get('/encyclopedia/', {'q': 'Amulet'})
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('name="q"', self.client.get('/').content.decode('utf-8'))
+
+
 class ItemDbWrapperReportsFailureTests(SimpleTestCase):
     """load_item_db.py exits non-zero and run_root_script hands the code back,
     but the wrapper between them used to drop it: the pipelines load, modify

@@ -369,4 +369,13 @@ h2:first-letter{
     width: 80px;
 }
 
-
+.nav-search { display: flex; gap: 4px; padding: 4px 6px 6px; }
+.nav-search input { flex: 1 1 auto; min-width: 0; padding: 6px 8px; min-height: 34px;
+    color: #fff; background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.28); border-radius: 4px; }
+.nav-search input::placeholder { color: rgba(255,255,255,.65); }
+.nav-search input:focus { outline: 2px solid rgba(255,255,255,.55); outline-offset: 1px; }
+.nav-search button { padding: 6px 10px; min-height: 34px; cursor: pointer;
+    color: #fff; background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.28); border-radius: 4px; }
+.nav-search button:hover { background: rgba(255,255,255,.26); }
