@@ -3059,16 +3059,20 @@ class InertAspectsTests(TestCase):
         self.assertEqual([], inert_aspects('beta'))
         self.assertEqual([], inert_aspects('dofus2'))
         self.assertEqual(['trap'], inert_aspects('touch'))
-        self.assertEqual(['pushback'], inert_aspects('retro'))
+        # No Retro item grants pushback damage, AP removal or MP removal:
+        # measured 0 carriers each, against 251, 221 and 252 on Dofus 3.
+        self.assertEqual(['aprape', 'mprape', 'pushback'], inert_aspects('retro'))
 
     def test_no_item_carries_the_stats_behind_an_inert_aspect(self):
-        from chardata.smart_build import ASPECT_STATS, inert_aspects
+        from chardata.smart_build import ASPECT_CORE_STAT, inert_aspects
         from fashionistapulp.structure import get_structure
         for game_version in ('touch', 'retro'):
             structure = get_structure(game_version)
             items = structure.get_items_list(game_version == 'touch')
             for aspect in inert_aspects(game_version):
-                for key in ASPECT_STATS[aspect]:
+                # Only the defining stat: wisdom rides along with AP removal
+                # and is alive everywhere.
+                for key in [ASPECT_CORE_STAT[aspect]]:
                     with self.subTest(version=game_version, stat=key):
                         stat = structure.get_stat_by_key(key)
                         carried = [item.name for item in items
@@ -3079,11 +3083,14 @@ class InertAspectsTests(TestCase):
         from django.contrib.auth.models import User
         owner = User.objects.create_user('aspects', 'aspects@test.local', 'pw-42-solid')
         self.client.force_login(owner)
-        for prefix, expected in (('', '[]'), ('retro/', '["pushback"]'),
-                                 ('touch/', '["trap"]')):
+        import json
+        from chardata.smart_build import inert_aspects
+        for prefix, version in (('', 'dofus3'), ('retro/', 'retro'),
+                                ('touch/', 'touch')):
             with self.subTest(prefix=prefix):
                 body = self.client.get('/%ssetup/' % prefix).content.decode('utf-8')
-                self.assertIn('var inertAspects = %s' % expected, body)
+                self.assertIn('var inertAspects = %s'
+                              % json.dumps(inert_aspects(version)), body)
 
 
 class AspectParserTests(SimpleTestCase):

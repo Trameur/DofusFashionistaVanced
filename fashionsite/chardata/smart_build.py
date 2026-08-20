@@ -76,12 +76,22 @@ ASPECT_STATS = {
     'trap': ('trapdam', 'trapdamper'),
 }
 
+# The stat the aspect is actually about. AP removal also leans on wisdom, and
+# wisdom is alive in every version, so asking for the whole tuple to be zeroed
+# kept AP and MP removal on the Retro list although no Retro item grants either.
+ASPECT_CORE_STAT = {
+    'aprape': 'apred',
+    'mprape': 'mpred',
+    'pushback': 'pshdam',
+    'trap': 'trapdam',
+}
+
 
 def inert_aspects(game_version):
     """The aspects that cannot change a build in this version."""
     zeroed = set(VERSION_WEIGHT_TUNING.get(game_version, {}).get('zero_stats', ()))
-    return sorted(aspect for aspect, stats in ASPECT_STATS.items()
-                  if zeroed.issuperset(stats))
+    return sorted(aspect for aspect, stat in ASPECT_CORE_STAT.items()
+                  if stat in zeroed)
 
 ASPECT_TO_NAME = {
     'str': gettext_lazy('Strength'),
