@@ -1,8 +1,8 @@
 .solution-table {
-    color: #151515;
+    color: #DDD;
 }
 .item-exchange-stats, .item-exchange-comparison {
-    color: #151515;
+    color: #DDD;
 }
 .solution-item-expand-header, .solution-set-expand-header, .item-exchange-header {
     background-color: #212121;
@@ -78,4 +78,7 @@
 .solution-history-notice,
 .solution-history-panel-header {
     color: #DDD;
+}
+.solution-item-violates {
+    color: #ff5e5e;
 }

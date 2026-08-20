@@ -289,8 +289,8 @@
                             </div>
                             <div>
                                 <form class="nav-search" role="search" method="get" action="{% game_url 'encyclopedia' %}">
-                                    <input type="search" name="q" autocomplete="off" placeholder="{% trans "Search a set or item" %}" aria-label="{% trans "Search a set or item" %}">
-                                    <button type="submit">{% trans "Search" %}</button>
+                                    <input type="search" name="q" autocomplete="off" placeholder="{% trans "Search" %}" aria-label="{% trans "Search a set or item" %}">
+                                    <button type="submit" aria-label="{% trans "Search" %}"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button>
                                 </form>
               </div>
           </div>

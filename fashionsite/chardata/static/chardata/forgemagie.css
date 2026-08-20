@@ -310,6 +310,8 @@
     color: #b26a00;
     font-weight: 600;
 }
-html.fm-dark .fm-exo-line td {
+html.fm-dark .fm-exo-line td,
+html.fm-dark .fm-warn,
+html.fm-dark .fm-sim-history .fm-sim-h-sn {
     color: #e0a458;
 }

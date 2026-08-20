@@ -247,7 +247,7 @@
         </button>
     </div>
     {% elif link_shared %}
-    <div align="center" style="margin-top: 15px; color: #888;">
+    <div align="center" style="margin-top: 15px; color: var(--fm-muted, #6a5f47);">
         <span class="fm-st fm-st-like" aria-hidden="true"></span> <span id="like_count">{{ like_count }}</span> {% trans "Likes" %} | 
         <span class="fm-st fm-st-fav" aria-hidden="true"></span> <span id="favorite_count">{{ favorite_count }}</span> {% trans "Favorites" %}
     </div>
@@ -1522,7 +1522,7 @@
             $.each(itemViolates, function(key, value) {
                 if (value == true) {
                     itemTitle = $("#item-name-" + key);
-                    itemTitle.css('color', '#AA0000');
+                    itemTitle.addClass('solution-item-violates');
                 }
             });
 

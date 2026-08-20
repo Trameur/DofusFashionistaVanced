@@ -199,6 +199,12 @@
 .encyclopedia-card-stat-negative {
     color: #ad3025;
 }
+/* Same lightened red the set caps already use: #ad3025 sits at 2.43:1 on the
+   dark surface, so a minus line was unreadable on every card. */
+.dark-theme-active .encyclopedia-card-stat-negative,
+html.fm-dark .encyclopedia-card-stat-negative {
+    color: #f0837a;
+}
 .encyclopedia-card a,
 .encyclopedia-page-link {
     text-decoration: underline;
