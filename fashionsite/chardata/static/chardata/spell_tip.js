@@ -152,4 +152,34 @@
         }
         return html + '</span>';
     };
+
+    // A tooltip nothing points at is announced to nobody: role="tooltip" alone
+    // puts no text in front of a screen reader. Give each panel an id and name
+    // it from its trigger. Ids are handed out here rather than in the template
+    // so the three include sites and the panels the comparison page builds at
+    // runtime all get one, and no two collide.
+    var panelCount = 0;
+    window.linkSpellTipPanels = function (root) {
+        var scope = root || document;
+        var tips = scope.querySelectorAll('.spell-tip');
+        for (var i = 0; i < tips.length; i++) {
+            var tip = tips[i];
+            if (tip.getAttribute('aria-describedby')) { continue; }
+            var panel = tip.querySelector('.spell-tip-panel');
+            if (!panel) { continue; }
+            if (!panel.id) {
+                panelCount += 1;
+                panel.id = 'spell-tip-panel-' + panelCount;
+            }
+            tip.setAttribute('aria-describedby', panel.id);
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            window.linkSpellTipPanels();
+        });
+    } else {
+        window.linkSpellTipPanels();
+    }
 }());

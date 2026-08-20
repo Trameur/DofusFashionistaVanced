@@ -2010,6 +2010,41 @@ class CompareSetsPreviewTests(TestCase):
     def _compare(self, first, second, prefix=''):
         return self.client.get('%s/compare_sets/%d/%d/' % (prefix, first.pk, second.pk))
 
+    def test_the_stat_grid_has_headers_and_keeps_its_numbers(self):
+        # The grid had no header cell at all, so a number was announced with no
+        # stat and no column. Worse, the wrapper carrying the tooltip used
+        # role="button", which makes its children presentational: the value the
+        # cell exists to show was replaced by the bare stat name.
+        import re
+
+        body = self._compare(self._shared_char('one', 'Iop'),
+                             self._shared_char('two', 'Sram')
+                             ).content.decode('utf-8')
+        # The minifier sorts attributes, so match the cell then its attribute.
+        headers = re.findall(r'<th\b[^>]*>', body)
+        self.assertTrue(headers, 'the comparison grid has no header cell')
+        self.assertTrue(any('scope="col"' in cell for cell in headers),
+                        'no column header in %d th cells' % len(headers))
+        self.assertTrue(any('scope="row"' in cell for cell in headers),
+                        'no row header in %d th cells' % len(headers))
+        self.assertNotIn('spell-tip" tabindex="0" role="button"', body)
+
+    def test_an_item_icon_answers_to_the_keyboard(self):
+        # The popup is the only way on this page to read what a piece gives,
+        # and a mouse was the only way to open it.
+        import re
+
+        body = self._compare(self._shared_char('one', 'Iop'),
+                             self._shared_char('two', 'Sram')
+                             ).content.decode('utf-8')
+        icons = [tag for tag in re.findall(r'<img\b[^>]*>', body)
+                 if 'solution-items-icon' in tag]
+        self.assertTrue(icons, 'no item icon on the comparison page')
+        for tag in icons:
+            self.assertIn('tabindex="0"', tag)
+            self.assertIn('role="button"', tag)
+        self.assertIn('keydown', body)
+
     def test_each_compared_set_gets_its_own_canvas(self):
         resp = self._compare(self._shared_char('one', 'Iop'),
                              self._shared_char('two', 'Sram'))

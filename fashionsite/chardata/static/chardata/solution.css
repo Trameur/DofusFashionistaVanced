@@ -191,6 +191,13 @@
     margin-left: 4px;
 }
 
+/* The stat name is a row header so a screen reader can announce a number with
+   its stat, but a th is bold and centred by default and this cell was neither. */
+.solution-stat-summary-line th[scope="row"] {
+    font-weight: normal;
+    text-align: left;
+}
+
 .solution-inline-stat-line {
     display: inline-flex;
     align-items: center;

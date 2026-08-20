@@ -10,9 +10,9 @@
             <img alt="" class="solution-stat-summary-icon" src="{% static icon %}">
         {% endif %}
     </td>
-    <td>
+    <th scope="row">
         <span class="solution-stat-summary-name">{{stat_name}}</span>
-    </td>
+    </th>
     {% for char_id in char_ids %}
     <td name="stat_value_{{stat_key}}_{{char_id}}" class="solution-stat-summary-value-cell">
     </td>

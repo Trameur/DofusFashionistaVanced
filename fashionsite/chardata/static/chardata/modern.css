@@ -747,9 +747,9 @@ html.fm-modern .solution-stat-summary-mode-option-container input:checked + .che
 html.fm-modern .solution-stat-summary-mode-option-container label:hover .checkbox-text{ border-color:var(--fm-accent-line); }
 /* rows: zebra + tabular bold values + muted names */
 html.fm-modern .solution-stat-table{ background:var(--fm-surface-2) !important; }
-html.fm-modern .solution-stat-summary-line, html.fm-modern .solution-stat-summary-line td{ background:transparent !important; }
+html.fm-modern .solution-stat-summary-line, html.fm-modern .solution-stat-summary-line td, html.fm-modern .solution-stat-summary-line th{ background:transparent !important; }
 html.fm-modern .solution-stat-summary-line:nth-child(even){ background:rgba(128,110,70,.08) !important; }
-html.fm-modern .solution-stat-summary-line td{ padding:3px 7px !important; }
+html.fm-modern .solution-stat-summary-line td, html.fm-modern .solution-stat-summary-line th{ padding:3px 7px !important; }
 /* the stat panel background is theme-swapped (light in light theme, dark in dark),
    so its text must be theme-relative. */
 html.fm-modern .solution-stat-summary-name{ color:var(--fm-muted) !important; font-size:12px; }

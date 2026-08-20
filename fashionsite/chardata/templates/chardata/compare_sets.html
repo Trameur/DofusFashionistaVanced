@@ -93,7 +93,7 @@
                             <div class="solution-item-icon-container" align="center">
                             {% if item %}
                                 {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
-                                <img alt="{{item.localized_name}}" src="{{ item.file }}" class="solution-items-icon"  title="{{item.localized_name}}" align="middle" id="{{item.id}}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                                <img alt="{{item.localized_name}}" src="{{ item.file }}" class="solution-items-icon" tabindex="0" role="button" title="{{item.localized_name}}" align="middle" id="{{item.id}}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                             {% endif %}
                             </div>
                         {% endfor %}
@@ -149,13 +149,13 @@
                 <td>
                 </td>
                 {% for char_id in char_ids_cols %}
-                <td align="center" width="60"><b>
+                <th scope="col" align="center" width="60"><b>
                     {% if char_id == 'diff' %}
                         {% trans "Diff" %}
                     {% else %}
                         {% blocktrans with n=forloop.counter %}Set {{n}}{% endblocktrans %}
                     {% endif %}
-                </b></td>
+                </b></th>
                 {% endfor %}
             </tr>
 
@@ -508,11 +508,20 @@ function updateAllStats(allCharIds) {
             var cell = $("td[name=stat_value_" + statKey + "_" + charId + "]");
             var statName = cell.closest("tr")
                                .find(".solution-stat-summary-name").text();
-            cell.wrapInner('<span class="spell-tip" tabindex="0" role="button"></span>');
-            cell.children(".spell-tip").attr("aria-label", statName)
+            // No role="button" and no aria-label here: both would replace
+            // the number this cell exists to show. Focusable is enough to
+            // reach the panel, and linkSpellTipPanels names it.
+            cell.wrapInner('<span class="spell-tip" tabindex="0"></span>');
+            cell.children(".spell-tip")
                 .append(window.statTipPanelHtml(statName, lines));
         });
     });
+    if (window.linkSpellTipPanels) {
+        window.linkSpellTipPanels();
+    } else if (window.console) {
+        // Degrading quietly is how a fix becomes a lie: say it out loud.
+        console.warn('stat tip panels not linked: spell_tip.js did not load');
+    }
 }
 
 function getCompareNumber(stats, key) {
@@ -751,9 +760,20 @@ $(document).ready(function() {
     $("input[name='total_mode']").change(updateStatsTable);
     $("input[name='pvp_resists_added']").change(updateStatsTable);
     $('#apply_buffs_toggle').change(updateStatsTable);
+    function openItemStats(icon) {
+        if ($(icon).prop('id') != 'None') {
+            getItemStats($(icon).prop('id'));
+        }
+    }
     $(".solution-items-icon").click(function() {
-        if ($(this).prop('id') != 'None') {
-            getItemStats($(this).prop('id'));
+        openItemStats(this);
+    });
+    // The popup was the only way on this page to read what a piece gives, and
+    // a mouse was the only way to open it.
+    $(".solution-items-icon").keydown(function(event) {
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+            event.preventDefault();
+            openItemStats(this);
         }
     });
 

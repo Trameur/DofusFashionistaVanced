@@ -147,7 +147,9 @@
      compound has no other way to fit. */
   .solution-stat-summary .solution-stat-table td,
   .solution-stat-summary .solution-stat-table th,
-  .solution-stat-summary .solution-stat-table .solution-stat-summary-line td {
+  .solution-stat-summary .solution-stat-table th,
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-line td,
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-line th {
     padding-left: 3px !important; padding-right: 3px !important;
   }
   .solution-stat-summary .solution-stat-table .solution-stat-summary-value-cell {
@@ -157,7 +159,8 @@
   .solution-stat-summary .solution-stat-table .solution-stat-summary-value-header {
     font-size: 9px !important; letter-spacing: 0 !important;
   }
-  .solution-stat-summary .solution-stat-table .solution-stat-summary-line td:nth-child(2) {
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-line td:nth-child(2),
+  .solution-stat-summary .solution-stat-table .solution-stat-summary-line th:nth-child(2) {
     overflow-wrap: anywhere; hyphens: auto;
   }
 
