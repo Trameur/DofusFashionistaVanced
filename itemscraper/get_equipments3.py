@@ -636,6 +636,12 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                 name = item[name_key]
                 f.write(f"INSERT INTO item_names VALUES({item_id}, '{lang}', '{escape_single_quotes(name)}');\n")
 
+    # Every encyclopedia page resolves a localized name with a correlated
+    # subquery on (item, language), twice per row: once for the reader and once
+    # for the English fallback. Without this the drop-preview query is 10 ms
+    # instead of 0.3 ms.
+    f.write("""CREATE INDEX IF NOT EXISTS idx_item_names_item ON item_names (item, language);\n""")
+
     f.write("""CREATE TABLE set_names (item_set INTEGER, language text, name text, FOREIGN KEY(item_set) REFERENCES sets(id));\n""")
 
     for item in original_sets:

@@ -134,6 +134,10 @@ def store_drops(drops_path, game_version="dofus3"):
         cursor.execute("CREATE INDEX idx_resource_drops_res ON resource_drops (resource_ankama_id)")
         cursor.execute(
             "CREATE INDEX idx_monster_names_id ON monster_names (monster_ankama_id)")
+        # Not this script's table, but this script is what a rebuild runs and
+        # the index is what makes the drop previews above cheap to read back.
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_item_names_item ON item_names (item, language)")
         conn.commit()
         print("[%s] item_drops: %d rows / %d items; resource_drops: %d rows / %d resources; "
               "monster_names: %d rows (%d monsters)"

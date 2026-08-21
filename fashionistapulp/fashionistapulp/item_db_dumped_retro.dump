@@ -125118,6 +125118,7 @@ CREATE INDEX idx_resource_drops_res ON resource_drops (resource_ankama_id);
 CREATE INDEX idx_monster_names_id ON monster_names (monster_ankama_id);
 CREATE INDEX idx_item_craft_jobs_item ON item_craft_jobs (item);
 CREATE INDEX idx_job_names_id ON job_names (job_ankama_id);
+CREATE INDEX idx_item_names_item ON item_names (item, language);
 DELETE FROM "sqlite_sequence";
 INSERT INTO "sqlite_sequence" VALUES('item_types',10);
 INSERT INTO "sqlite_sequence" VALUES('stats',64);
