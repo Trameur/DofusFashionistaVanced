@@ -51,8 +51,10 @@ VERSION_WEIGHT_TUNING = {
                        'respermee', 'resperran', 'resperwea'),
     },
     'retro': {
+        # Dodge and Lock both arrived with Dofus 2.0: no 1.29 item and no 1.29
+        # set bonus carries either, measured 0 and 0 in items_retro.db.
         'zero_stats': ('cridam', 'apred', 'mpred', 'apres', 'mpres',
-                       'lock', 'pshdam', 'pshres', 'crires',
+                       'lock', 'dodge', 'pshdam', 'pshres', 'crires',
                        'permedam', 'perrandam', 'perweadam', 'perspedam',
                        'respermee', 'resperran', 'resperwea'),
         'res_per_factor': lambda level_pct: 2 + 4 * level_pct,

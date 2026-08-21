@@ -2196,6 +2196,164 @@ class SharedBuildCompareIdTests(TestCase):
             get_char_possibly_encoded_or_raise(req, 's' + encode_char_id(char.id))
 
 
+class WeightedStatsExistInTheirVersionTests(TestCase):
+    """VERSION_WEIGHT_TUNING says zero_stats holds the stats no item of that
+    version's pool carries. Retro listed Lock but not Dodge, although both
+    arrived with Dofus 2.0 and neither is on a single 1.29 item, so the solver
+    was handed a weight of 80 for a stat no Retro gear can give, and that stray
+    weight propped up Agility through max(agi, (dodge + lock) / 10)."""
+
+    # A weight on a stat the model derives is not a phantom. HP is one:
+    # modelresult computes it as vit + level * 5 + 50 + flat, and smart_build
+    # sets w['hp'] = w['vit'], so it is meaningful even where no item gives
+    # flat HP. The exclusion is named here rather than hidden in the query.
+    DERIVED_STATS = {'hp'}
+
+    def _carriers(self, game_version, key):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+
+        stat = get_structure(game_version).get_stat_by_key(key)
+        if stat is None:
+            return None
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        try:
+            return conn.execute(
+                'SELECT (SELECT COUNT(*) FROM stats_of_item WHERE stat = ?) '
+                '+ (SELECT COUNT(*) FROM set_bonus WHERE stat = ?)',
+                (stat.id, stat.id)).fetchone()[0]
+        finally:
+            conn.close()
+
+    def test_no_version_weights_a_stat_none_of_its_items_carry(self):
+        # Only a stat that some OTHER version's gear does carry counts: one
+        # that no version carries says nothing about version rules, it says
+        # something about the scrapers. % Weapon Resist is in that second
+        # group, zero on all five, and is deliberately not asserted on here.
+        from types import SimpleNamespace
+
+        from chardata.smart_build import _set_weights
+
+        versions = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+        for game_version in versions:
+            weights = _set_weights(
+                SimpleNamespace(char_class='Iop', level=200,
+                                game_version=game_version),
+                {'str'}, apply=False)
+            phantom = []
+            for key, weight in sorted(weights.items()):
+                if not weight or key in self.DERIVED_STATS:
+                    continue
+                here = self._carriers(game_version, key)
+                if here is None or here:
+                    continue
+                elsewhere = any(self._carriers(other, key)
+                                for other in versions if other != game_version)
+                if elsewhere:
+                    phantom.append(key)
+            self.assertFalse(
+                phantom,
+                '%s weights %s, which no %s item or set bonus carries though '
+                'another version does. Add to VERSION_WEIGHT_TUNING[%r]'
+                '["zero_stats"]. Derived stats skipped: %s.'
+                % (game_version, ', '.join(phantom), game_version,
+                   game_version, sorted(self.DERIVED_STATS)))
+
+
+class DefaultExclusionsAreStoredOnceTests(TestCase):
+    """Twelve ankama ids were in both the global default list and the dofus3
+    one, five in the touch one, and the two were concatenated as they were. The
+    item went in twice, un-forbidding removed one copy, and locking it then
+    handed the solver x >= 1 and p <= 0 at once: the player got /infeasible/."""
+
+    def _char(self, game_version):
+        from django.contrib.auth.models import User
+        from django.test import RequestFactory
+        from chardata.coaching_view import create_build
+        user = User.objects.create_user('excl-%s' % game_version,
+                                        '%s@test.local' % game_version,
+                                        'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = user
+        return create_build(request, 'Iop', 200, {'str'}, game_version)
+
+    def test_a_new_build_never_forbids_the_same_item_twice(self):
+        import collections
+        from chardata.lock_forbid import get_all_exclusions_ids
+
+        for game_version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            with self.subTest(game_version=game_version):
+                stored = get_all_exclusions_ids(self._char(game_version))
+                repeated = [item_id for item_id, count
+                            in collections.Counter(stored).items() if count > 1]
+                self.assertFalse(repeated,
+                                 '%s stores %d item(s) twice: %s'
+                                 % (game_version, len(repeated),
+                                    repeated[:5]))
+
+    def test_un_forbidding_leaves_no_copy_behind(self):
+        # Builds made before the list was de-duplicated still carry the pair,
+        # so removal has to take every copy, not one.
+        from chardata.lock_forbid import (get_all_exclusions_ids,
+                                          remove_items_from_exclusions,
+                                          set_exclusions_list_and_check_inclusions)
+
+        char = self._char('dofus3')
+        stored = get_all_exclusions_ids(char)
+        self.assertTrue(stored, 'no default exclusions to work with')
+        victim = stored[0]
+        set_exclusions_list_and_check_inclusions(char, stored + [victim])
+        self.assertEqual(get_all_exclusions_ids(char).count(victim), 2)
+
+        remove_items_from_exclusions(char, [victim])
+        self.assertNotIn(victim, get_all_exclusions_ids(char))
+
+
+class NewProjectStartsFullyScrolledTests(TestCase):
+    """A new project is seeded as if the character were fully scrolled, but 100
+    is only Dofus 3's maximum. Touch stops at 150 since the Dedale update and
+    Retro at 101. Both creation paths wrote a flat 100, so a new Touch build
+    started 50 points short in each of the six characteristics and a Retro one
+    1 point short, which on Retro also moves the cost tiers because
+    scrolls_push_cost_curve('retro') feeds the scrolled base into the curve."""
+
+    def _seeded(self, char):
+        from chardata.models import CharBaseStats
+        return sorted(CharBaseStats.objects.filter(char=char)
+                      .values_list('scrolled_value', flat=True))
+
+    def test_each_version_is_seeded_to_its_own_maximum(self):
+        from django.contrib.auth.models import User
+        from django.test import RequestFactory
+        from fashionistapulp.dofus_constants import max_scroll_for_version
+        from chardata.coaching_view import create_build
+
+        user = User.objects.create_user('scrollseed', 's@test.local',
+                                        'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = user
+        for game_version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            with self.subTest(game_version=game_version):
+                expected = max_scroll_for_version(game_version)
+                char = create_build(request, 'Iop', 200, {'str'}, game_version)
+                seeded = self._seeded(char)
+                self.assertTrue(seeded, 'no base stats seeded for %s'
+                                        % game_version)
+                self.assertEqual(set(seeded), {expected},
+                                 '%s seeded %s, its maximum is %d'
+                                 % (game_version, sorted(set(seeded)),
+                                    expected))
+
+    def test_the_two_odd_versions_really_differ_from_the_rest(self):
+        # Guard the guard: if max_scroll_for_version ever returns 100 for
+        # everything, the test above passes while saying nothing.
+        from fashionistapulp.dofus_constants import max_scroll_for_version
+        self.assertEqual(max_scroll_for_version('touch'), 150)
+        self.assertEqual(max_scroll_for_version('retro'), 101)
+        self.assertEqual(max_scroll_for_version('dofus3'), 100)
+
+
 class ClassNameIsTranslatedTests(SimpleTestCase):
     """Char.char_class stores the English name and a template variable is never
     translated on its way out, so a Spanish player read "Clase: Sacrier" on a
