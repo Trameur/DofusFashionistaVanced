@@ -453,7 +453,10 @@ def get_default_exclusions(char):
     item_ids = []
     for ankama_id in ankama_ids:
         item = s.get_item_by_ankama_id(ankama_id)
-        if item is not None:
+        # Twelve ids are in both lists on dofus3, five on touch. Stored twice,
+        # the item could never be un-forbidden: the removal below drops one
+        # occurrence and the survivor made a locked slot infeasible.
+        if item is not None and item.id not in item_ids:
             item_ids.append(item.id)
     return item_ids
 
@@ -619,11 +622,12 @@ def add_items_to_exclusions(char, item_ids):
 def remove_items_from_exclusions(char, item_ids):
     exclusions = get_all_exclusions_ids(char)
 
-    changed = False
-    for item_id in item_ids:
-        if item_id in exclusions:
-            exclusions.remove(item_id)
-            changed = True
+    # Every copy, not one: builds created before the list was de-duplicated
+    # still carry the item twice, and one survivor is enough to break them.
+    unwanted = set(item_ids)
+    kept = [item_id for item_id in exclusions if item_id not in unwanted]
+    changed = len(kept) != len(exclusions)
+    exclusions = kept
 
     if changed:
         _save_exclusion_list(char, exclusions)
