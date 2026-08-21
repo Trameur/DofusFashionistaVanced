@@ -6751,3 +6751,19 @@ msgstr "Les pages de monstres n’affichent plus un tableau de grades rempli de 
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Monster spell tooltips show the text, not the game's formatting codes."
 msgstr "Les infobulles de sorts de monstres affichent le texte, sans les codes de mise en forme du jeu."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Show this piece on the preview"
+msgstr "Afficher cette pièce sur l'aperçu"
+
+#: .\chardata\templates\chardata\base.html
+msgid "Create optimized Dofus %(version)s equipment sets automatically based on your character's needs."
+msgstr "Créez automatiquement des panoplies Dofus %(version)s optimisées selon les besoins de votre personnage."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Create optimized Dofus equipment sets automatically based on your character's needs."
+msgstr "Créez automatiquement des panoplies Dofus optimisées selon les besoins de votre personnage."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Please configure the <a href=\"%(error_link)s\">%(page)s</a> page before running the application."
+msgstr "Configurez la page <a href=\"%(error_link)s\">%(page)s</a> avant de lancer le calcul."

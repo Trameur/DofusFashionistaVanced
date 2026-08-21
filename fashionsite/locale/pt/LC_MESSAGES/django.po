@@ -6683,3 +6683,19 @@ msgstr "As páginas de monstros já não mostram uma tabela de graus cheia de tr
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Monster spell tooltips show the text, not the game's formatting codes."
 msgstr "As dicas de feitiços de monstros mostram o texto, e não os códigos de formatação do jogo."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Show this piece on the preview"
+msgstr "Mostrar esta peça na pré-visualização"
+
+#: .\chardata\templates\chardata\base.html
+msgid "Create optimized Dofus %(version)s equipment sets automatically based on your character's needs."
+msgstr "Crie automaticamente equipamentos de Dofus %(version)s otimizados para as necessidades da sua personagem."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Create optimized Dofus equipment sets automatically based on your character's needs."
+msgstr "Crie automaticamente equipamentos de Dofus otimizados para as necessidades da sua personagem."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Please configure the <a href=\"%(error_link)s\">%(page)s</a> page before running the application."
+msgstr "Configure a página <a href=\"%(error_link)s\">%(page)s</a> antes de lançar o cálculo."

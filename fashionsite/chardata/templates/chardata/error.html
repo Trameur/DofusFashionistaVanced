@@ -4,19 +4,19 @@
 
 {% load static_s3 %}
 
-{% block title %}{% trans "The Dofus Fashionista" %}: Error{% endblock %}
+{% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Error" %}{% endblock %}
 
 {% block main %}
   {% load static_s3 %}
 
-    <h1 align="center"> Error</h1>
+    <h1 align="center">{% trans "Error" %}</h1>
     <table>
     <tr>
     <td><img alt="" src="{% static "chardata/designs/myError.png" %}"></img>
     </td>
     <td>
     <p>
-        Please configure the <a href={{error_link}}>{{error}}</a> page before running the application.<br>
+        {% blocktrans with page=error %}Please configure the <a href="{{ error_link }}">{{ page }}</a> page before running the application.{% endblocktrans %}<br>
     </p>
 </td>
 </tr>

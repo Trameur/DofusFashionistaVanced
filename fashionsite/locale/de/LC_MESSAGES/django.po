@@ -6715,3 +6715,19 @@ msgstr "Monsterseiten zeigen keine Rangtabelle voller Striche mehr."
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "Monster spell tooltips show the text, not the game's formatting codes."
 msgstr "Die Zauber-Tooltips der Monster zeigen den Text statt der Formatierungscodes des Spiels."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Show this piece on the preview"
+msgstr "Dieses Teil in der Vorschau zeigen"
+
+#: .\chardata\templates\chardata\base.html
+msgid "Create optimized Dofus %(version)s equipment sets automatically based on your character's needs."
+msgstr "Erstelle automatisch optimierte Ausrüstungen für Dofus %(version)s nach den Anforderungen deines Charakters."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Create optimized Dofus equipment sets automatically based on your character's needs."
+msgstr "Erstelle automatisch optimierte Ausrüstungen für Dofus nach den Anforderungen deines Charakters."
+
+#: .\chardata\templates\chardata\base.html
+msgid "Please configure the <a href=\"%(error_link)s\">%(page)s</a> page before running the application."
+msgstr "Richte die Seite <a href=\"%(error_link)s\">%(page)s</a> ein, bevor du die Berechnung startest."

@@ -18,7 +18,7 @@
     {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{{ request.path }}">{% endblock %}
     {% block og_meta %}
     <meta property="og:title" content="Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista - {% trans "Equipment Set Optimizer" %}">
-    <meta property="og:description" content="Create optimized Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} equipment sets automatically based on your character's needs.">
+    <meta property="og:description" content="{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Create optimized Dofus {{ version }} equipment sets automatically based on your character's needs.{% endblocktrans %}{% else %}{% blocktrans %}Create optimized Dofus equipment sets automatically based on your character's needs.{% endblocktrans %}{% endif %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dofusfashionista.gg{{ request.path }}">
     <meta property="og:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">

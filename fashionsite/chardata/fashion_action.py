@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from django.utils.translation import gettext_lazy
 from django.conf import settings
 from django.http import HttpResponseRedirect
 import pickle
@@ -73,7 +74,7 @@ def fashion(request, char_id, spells=False):
         load_error = True
     if load_error:
         return error(request,
-                     'characteristics weights',
+                     gettext_lazy('Characteristics Weights'),
                      version_reverse(request, 'stats', char_id),
                      char_id,
                      char)
