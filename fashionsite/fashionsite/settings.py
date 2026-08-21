@@ -365,6 +365,10 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'fashionista-cache',
+        # LocMemCache defaults to 300 entries and culls a third when it fills.
+        # The shared-build meta alone can ask for more than that in one
+        # request, so the six hour TTL was recomputing constantly.
+        'OPTIONS': {'MAX_ENTRIES': 5000},
     }
 }
 

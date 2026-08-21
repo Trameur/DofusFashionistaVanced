@@ -95,19 +95,25 @@ def get_base_stats_by_attr(request, char_id):
                 base_stats_by_attr[element_name] = basestats[0].total_value
     return base_stats_by_attr
 
-def get_stats(char):
-    stats = {element_name: 0 for element_name, _ in STATS_NAMES}
+def get_stats_and_scrolled(char):
+    """Spent points and scrolled values, from one read of the rows.
+
+    The two used to be separate functions issuing byte-identical SQL, so every
+    build card on the gallery cost two queries instead of one.
+    """
+    spent = {element_name: 0 for element_name, _ in STATS_NAMES}
+    scrolled = {element_name: 0 for element_name, _ in STATS_NAMES}
     for bs in CharBaseStats.objects.filter(char=char):
-        if bs.stat in stats:
-            stats[bs.stat] = bs.total_value - bs.scrolled_value
-    return stats
+        if bs.stat in spent:
+            spent[bs.stat] = bs.total_value - bs.scrolled_value
+            scrolled[bs.stat] = bs.scrolled_value
+    return spent, scrolled
+
+def get_stats(char):
+    return get_stats_and_scrolled(char)[0]
 
 def get_scrolled_stats(char):
-    stats = {element_name: 0 for element_name, _ in STATS_NAMES}
-    for bs in CharBaseStats.objects.filter(char=char):
-        if bs.stat in stats:
-            stats[bs.stat] = bs.scrolled_value
-    return stats
+    return get_stats_and_scrolled(char)[1]
 
 def safe_int(val, default=None):
     try:
