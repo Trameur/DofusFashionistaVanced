@@ -71,10 +71,29 @@ def _build_db_file(target_path, dumped_db_path):
 def main():
     parser = argparse.ArgumentParser(description="Load item dump into SQLite database")
     parser.add_argument("--game-version", default="dofus3", help="Game version (dofus3, beta, retro, touch)")
+    parser.add_argument("--force", action="store_true",
+                        help="rebuild even when the database is already current")
     args = parser.parse_args()
 
     items_db_path = get_items_db_path(args.game_version)
     dumped_db_path = get_items_dump_path(args.game_version)
+
+    # structure.py runs this on import, so every process pays it. That is a
+    # second per run on its own, but under `manage.py test --parallel` it is
+    # worse than slow: four workers each build a temp copy and each call
+    # os.replace onto the same file, and Windows refuses the rename while
+    # another process holds the target open ("[WinError 5]"). A database
+    # already newer than its dump has nothing to gain from being rebuilt from
+    # it, and rebuilding risks discarding one a scraper just wrote. Say so
+    # rather than skipping in silence.
+    if not args.force and os.path.exists(items_db_path):
+        try:
+            if os.path.getmtime(items_db_path) >= os.path.getmtime(dumped_db_path):
+                print("Database %s is newer than its dump, nothing to import"
+                      % items_db_path)
+                return
+        except OSError:
+            pass
 
     # Build into a private temp file, then atomically move it into place.
     # structure.py rebuilds this DB on import, so every Gunicorn worker rebuilds

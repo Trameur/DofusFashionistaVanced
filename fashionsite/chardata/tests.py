@@ -50,6 +50,37 @@ import subprocess
 import tempfile
 import unittest
 
+
+def itemscraper_module(name):
+    """Un module de itemscraper, charge par son chemin.
+
+    `from itemscraper.x import y` dependait du chemin de recherche, donc de la
+    facon dont la suite est lancee : sous --parallel les workers ne le
+    resolvaient pas et deux tests tombaient en ModuleNotFoundError. Le charger
+    par fichier ne depend de rien.
+    """
+    import importlib.util
+    import sys
+
+    if name in sys.modules:
+        return sys.modules[name]
+    repo_root = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    path = os.path.join(repo_root, 'itemscraper', '%s.py' % name)
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    # Enregistre AVANT d'executer : un @dataclass defini dans le module lit
+    # sys.modules[cls.__module__] pendant sa creation, et sans cette ligne il
+    # y trouve None.
+    sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        del sys.modules[name]
+        raise
+    return module
+
+
 from django.utils import translation
 from django.utils.translation import gettext
 
@@ -3737,7 +3768,8 @@ class RetroApMpLossTests(SimpleTestCase):
     have always printed."""
 
     def test_a_hat_keeps_the_mp_it_costs(self):
-        from itemscraper.get_equipments_retro import decode_stats
+        _get_equipments_retro = itemscraper_module('get_equipments_retro')
+        decode_stats = _get_equipments_retro.decode_stats
         # Abracaska, the way its own ISTA line reads: 6f=+1 AP, 7f=-1 MP,
         # 7d=Vitality 21 to 35.
         stats, hits = decode_stats('6f#1##0d0+1,7f#1##0d0+1,7d#15#23#1d15+20')
@@ -3746,12 +3778,14 @@ class RetroApMpLossTests(SimpleTestCase):
         self.assertEqual([], hits)
 
     def test_boots_keep_the_ap_they_cost(self):
-        from itemscraper.get_equipments_retro import decode_stats
+        _get_equipments_retro = itemscraper_module('get_equipments_retro')
+        decode_stats = _get_equipments_retro.decode_stats
         stats, _hits = decode_stats('834#1##0d0+1,f1#6#14#1d15+5')
         self.assertIn([-1, -1, 'AP'], stats)
 
     def test_a_weapon_takes_ap_off_the_target(self):
-        from itemscraper.get_equipments_retro import decode_stats
+        _get_equipments_retro = itemscraper_module('get_equipments_retro')
+        decode_stats = _get_equipments_retro.decode_stats
         # Abraton: 65 = "PA perdus a la cible", flat, plus its water hit.
         stats, hits = decode_stats('65#1##0d0+1,60#5#a#1d6+4', is_weapon=True)
         self.assertIn([1, 1, '(removes ap)'], hits)
@@ -7077,7 +7111,8 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
                 self.assertEqual(5, every_language)
 
     def test_an_effect_row_reads_the_way_the_client_prints_it(self):
-        from itemscraper.store_monster_spells import render_effect
+        _store_monster_spells = itemscraper_module('store_monster_spells')
+        render_effect = _store_monster_spells.render_effect
         self.assertEqual('13 à 16 dommages Eau',
                          render_effect('#1{{~1~2 à }}#2 dommages Eau', 13, 16))
         self.assertEqual('20% des PV max',
@@ -12482,9 +12517,12 @@ class CharacterLookTests(TestCase):
         import sqlite3
         from fashionistapulp.fashionista_config import (get_fashionista_path,
                                                         get_items_db_path)
-        from itemscraper.item_skin_margins import MIN_MARGIN
-        from itemscraper.store_item_skins import (flat_name, names_index,
-                                                  same_item)
+        _item_skin_margins = itemscraper_module('item_skin_margins')
+        MIN_MARGIN = _item_skin_margins.MIN_MARGIN
+        _store_item_skins = itemscraper_module('store_item_skins')
+        flat_name = _store_item_skins.flat_name
+        names_index = _store_item_skins.names_index
+        same_item = _store_item_skins.same_item
         scraper = os.path.join(get_fashionista_path(), 'itemscraper')
 
         def load(name):
@@ -14224,7 +14262,8 @@ class SkinMatchMarginTests(SimpleTestCase):
         return by_type
 
     def _floors(self):
-        from itemscraper.item_skin_margins import MIN_MARGIN
+        _item_skin_margins = itemscraper_module('item_skin_margins')
+        MIN_MARGIN = _item_skin_margins.MIN_MARGIN
         return MIN_MARGIN
 
     def test_each_floor_is_the_one_the_labels_support(self):
@@ -14879,7 +14918,8 @@ class MonsterSpellTests(TestCase):
         # The dump writes one entry per monster grade, each
         # "<spell grade>,<level id>". Only the grade is meaningful.
         from chardata.encyclopedia_view import _monster_spells
-        from itemscraper.store_monster_spells import parse_grade_mapping
+        _store_monster_spells = itemscraper_module('store_monster_spells')
+        parse_grade_mapping = _store_monster_spells.parse_grade_mapping
         self.assertEqual(parse_grade_mapping('1,54;1,56;1,58;1,60;1,62'),
                          [1, 1, 1, 1, 1])
         self.assertEqual(parse_grade_mapping('3,54;4,56'), [3, 4])
@@ -15334,7 +15374,9 @@ class PortalsStackTenTimesTests(SimpleTestCase):
     def test_the_text_only_speaks_where_the_levels_are_silent(self):
         # A rank that says max_stack 1 is saying the spell does not stack, and
         # that beats the prose.
-        from itemscraper import generate_damage_spells as module
+        # itemscraper/itemscraper/ est un paquet a part entiere, donc
+        # `from itemscraper import x` y cherche x et ne le trouve pas.
+        module = itemscraper_module('generate_damage_spells')
         text = {'description_fr': 'cumulable 4 fois',
                 'description_en': 'stackable 4 times'}
         silent = dict(text, levels=[{'max_stack': -1}, {'max_stack': -1}])
@@ -15355,7 +15397,9 @@ class StateGatedBlocksTests(SimpleTestCase):
     the blocks were unlabelled."""
 
     def test_a_block_carries_the_state_its_mask_names(self):
-        from itemscraper import generate_damage_spells as module
+        # itemscraper/itemscraper/ est un paquet a part entiere, donc
+        # `from itemscraper import x` y cherche x et ne le trouve pas.
+        module = itemscraper_module('generate_damage_spells')
         spell = {'ankama_id': 1, 'name_en': 'Probe',
                  'level_requirements': [1],
                  'damage_templates': {'normal': [
@@ -15369,7 +15413,9 @@ class StateGatedBlocksTests(SimpleTestCase):
 
     def test_two_states_printing_the_same_numbers_stay_one_block(self):
         # Naming them would print the same table twice under two headings.
-        from itemscraper import generate_damage_spells as module
+        # itemscraper/itemscraper/ est un paquet a part entiere, donc
+        # `from itemscraper import x` y cherche x et ne le trouve pas.
+        module = itemscraper_module('generate_damage_spells')
         row = {'element': 'FIRE', 'ranges': ['10-12']}
         spell = {'ankama_id': 1, 'name_en': 'Probe',
                  'level_requirements': [1],
@@ -16937,7 +16983,9 @@ class LoadItemDbFailsLoudlyTests(SimpleTestCase):
         module = importlib.import_module('load_item_db')
         with mock.patch.object(module, '_build_db_file',
                                side_effect=RuntimeError('sqlite3 import failed')):
-            with mock.patch.object(sys, 'argv', ['load_item_db.py']):
+            # --force : le sujet est l'echec de l'import, pas le moment ou
+            # il est tente, et sans lui main() decide qu'il n'y a rien a faire.
+            with mock.patch.object(sys, 'argv', ['load_item_db.py', '--force']):
                 with self.assertRaises(SystemExit) as caught:
                     module.main()
         self.assertNotEqual(0, caught.exception.code)
@@ -16952,7 +17000,7 @@ class LoadItemDbFailsLoudlyTests(SimpleTestCase):
         pattern = '%s.tmp.%d' % (get_items_db_path('dofus3'), os.getpid())
         with mock.patch.object(module, '_build_db_file',
                                side_effect=RuntimeError('sqlite3 import failed')):
-            with mock.patch.object(sys, 'argv', ['load_item_db.py']):
+            with mock.patch.object(sys, 'argv', ['load_item_db.py', '--force']):
                 with self.assertRaises(SystemExit):
                     module.main()
         self.assertEqual([], glob.glob(pattern))
