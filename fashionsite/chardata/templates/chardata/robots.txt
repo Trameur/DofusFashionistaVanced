@@ -11,7 +11,11 @@ User-agent: *
 # the version-prefixed copies (/beta/…, /dofus2/…, /retro/…, /touch/…).
 
 # Keep the public "create a project" landing, block the per-project editors.
+# Every version has its own landing and the sitemap submits all five, so the
+# Allow has to cover the prefixed ones too: */setup/ alone was telling crawlers
+# to skip four pages we ask them to index.
 Allow: /setup/$
+Allow: /*/setup/$
 Disallow: /setup/
 Disallow: */setup/
 
