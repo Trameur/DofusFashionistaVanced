@@ -9831,6 +9831,76 @@ class OwnedOrItemStaysEquippableTests(TestCase):
                          'an unowned group must stay out of the pool')
 
 
+class ACapIsWhatTheSheetShowsTests(TestCase):
+    """13 AP of gear is equippable on Dofus 3 and the sheet reads 12; Retro has
+    no cap and reads 13. The model used to bound the stat variable at the cap
+    and tie that same variable to the gear, which made the cap a rule about
+    what could be WORN: the solver spent a slot on a -1 AP weapon to get back
+    under 12, and answered Infeasible when no such piece existed."""
+
+    def test_the_shown_total_never_passes_the_cap(self):
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        from fashionistapulp.modelresult import ModelResult
+        from fashionistapulp.dofus_constants import get_stat_maximum
+
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        ap_key = 'ap'
+        cap = get_stat_maximum('dofus3')['AP']
+
+        # Six pieces carrying AP, more than the cap allows to show.
+        wearing = []
+        for type_name, slot in (('Hat', 'hat'), ('Cloak', 'cloak'),
+                                ('Belt', 'belt'), ('Boots', 'boots'),
+                                ('Amulet', 'amulet'), ('Ring', 'ring1')):
+            for item in structure.get_unique_items_by_type_and_level(
+                    type_name, 200):
+                stats = {structure.get_stat_by_id(sid).key: value
+                         for sid, value in item.stats}
+                if stats.get(ap_key, 0) >= 1:
+                    wearing.append((slot, item))
+                    break
+
+        self.assertGreaterEqual(len(wearing), 4,
+                                'not enough AP pieces to build the case')
+
+        result = ModelResult({'options': {'ap_exo': False, 'mp_exo': False,
+                                          'range_exo': False},
+                              'base_stats_by_attr': {'AP': 7},
+                              'char_level': 200}, None)
+        for slot, item in wearing:
+            result.add_item_at_slot(item, slot)
+
+        gear = result.get_stats_gear()[ap_key]
+        shown = result.get_stats_total()[ap_key]
+        self.assertGreater(gear + 7, cap,
+                           'the case does not exceed the cap, so it proves '
+                           'nothing')
+        self.assertEqual(shown, cap,
+                         'the sheet shows %s AP where the game shows %s'
+                         % (shown, cap))
+
+    def test_retro_has_no_cap_so_nothing_is_clamped(self):
+        from fashionistapulp.dofus_constants import get_stat_maximum
+        self.assertNotIn('AP', get_stat_maximum('retro'))
+        self.assertEqual(get_stat_maximum('dofus3')['AP'], 12)
+
+    def test_the_model_lets_the_gear_pass_the_cap(self):
+        # The variable the gear is tied to must not carry the cap any more.
+        import re
+
+        repo_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        path = os.path.join(repo_root, 'fashionistapulp', 'fashionistapulp',
+                            'model.py')
+        with io.open(path, encoding='utf-8') as handle:
+            source = handle.read()
+        self.assertIn("head = 'total' if stat.name in self.stat_maximum", source,
+                      'the gear sum is tied to the capped variable again')
+        self.assertIn('def create_stat_cap_constraints', source)
+
+
 class OwnedExoCountsOnlyWhenWornTests(TestCase):
     """Two different things used to be merged into one. The wizard option means
     "assume I have an AP exo somewhere" and adds +1 whatever the build wears.

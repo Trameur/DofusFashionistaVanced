@@ -165,6 +165,11 @@ class Model:
         for stat in self.stats_list:
             if stat.name in self.stat_maximum:
                 self.problem.setup_variable('stat', stat.id, None, self.stat_maximum[stat.name])
+                # What the gear actually adds up to, which the cap does not
+                # limit: 13 AP of gear is equippable and the sheet reads 12.
+                self.problem.setup_variable('total', stat.id, None, None)
+                # 1 when the total is over the cap, so the stat sits at the cap.
+                self.problem.setup_variable('capped', stat.id, 0, 1)
             else:
                 self.problem.setup_variable('stat', stat.id, None, None)
 
@@ -688,6 +693,7 @@ class Model:
         self.create_set_constraints()
         self.create_set_max_cap_constraints()
         self.create_stat_total_constraints()
+        self.create_stat_cap_constraints()
         self.create_exo_constraints()
         self.create_condition_contraints()
         self.create_minimum_stat_constraints()
@@ -1121,7 +1127,10 @@ class Model:
 
     def create_stat_total_constraints(self):
         for stat in self.stats_list:
-            matrix = [(-1, 'stat', stat.id)]
+            # A capped stat splits in two: 'total' is what the gear gives and
+            # 'stat' is what the character reads, min(cap, total).
+            head = 'total' if stat.name in self.stat_maximum else 'stat'
+            matrix = [(-1, head, stat.id)]
             for item in self.items_list:
                 for stat_id, value in item.stats:
                     if stat_id == stat.id:
@@ -1140,6 +1149,38 @@ class Model:
                 matrix.append((1, 'exo', stat.id))
             restriction = self.problem.restriction_eq(0, matrix)
             self.restrictions.stat_total_constraints[stat.name] = restriction
+
+    _CAP_BIG_M = 100000
+
+    def create_stat_cap_constraints(self):
+        """stat = min(cap, total), the way the game reads a capped stat.
+
+        The cap used to bound the variable the gear was tied to, which made it
+        a rule about what could be worn: the solver spent a slot on a -1 AP
+        weapon to get back under 12, and called a legal build impossible when
+        no such piece existed. Four inequalities and one binary say the real
+        thing instead. capped = 0 pins stat to total, capped = 1 pins it to the
+        cap, and only one of the two is ever feasible.
+        """
+        big_m = self._CAP_BIG_M
+        for stat in self.stats_list:
+            if stat.name not in self.stat_maximum:
+                continue
+            cap = self.stat_maximum[stat.name]
+            constraints = [
+                # stat <= total
+                self.problem.restriction_lt_eq(
+                    0, [(1, 'stat', stat.id), (-1, 'total', stat.id)]),
+                # stat >= total unless the cap is what binds
+                self.problem.restriction_lt_eq(
+                    0, [(1, 'total', stat.id), (-1, 'stat', stat.id),
+                        (-big_m, 'capped', stat.id)]),
+                # stat >= cap when the cap is what binds
+                self.problem.restriction_lt_eq(
+                    big_m - cap, [(big_m, 'capped', stat.id),
+                                  (-1, 'stat', stat.id)]),
+            ]
+            self.restrictions.stat_cap_constraints[stat.name] = constraints
 
     def create_exo_constraints(self):
         """The exo point exists only if something gives it.

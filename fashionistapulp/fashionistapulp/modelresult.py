@@ -23,10 +23,11 @@ from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_N
                              calculate_damage, SLOT_NAME_TO_TYPE)
 from .item_flags import flag_lines
 from .spell_text import fold_spell_blocks
-from .structure import get_structure
+from .structure import get_structure, get_current_game_version
 from .translation import get_supported_language
 from .violation import Violation
-from fashionistapulp.dofus_constants import STAT_NAME_TO_KEY
+from fashionistapulp.dofus_constants import (STAT_NAME_TO_KEY,
+                                             get_stat_maximum)
 
 RELEVANT_INPUT = ['options', 'base_stats_by_attr', 'char_level', 'origin']
 
@@ -248,6 +249,14 @@ class ModelResult():
                                          + self.stats_total['cha']
                                          + self.stats_total['agi'])
             self.stats_total['hp'] = self.stats_total['vit'] + self.input['char_level'] * 5 + 50 + self.stats_total['hp']
+            # The gear may add up past the cap; the character reads the cap.
+            # Retro has no cap at all, and get_stat_maximum omits the keys
+            # there, so nothing is clamped on that version.
+            for stat_name, cap in get_stat_maximum(
+                    get_current_game_version()).items():
+                key = STAT_NAME_TO_KEY.get(stat_name)
+                if key in self.stats_total and self.stats_total[key] > cap:
+                    self.stats_total[key] = cap
             # Apply active set caps (e.g. 6-piece Cire Momore caps MP/Summon/Range)
             for result_set in self.sets:
                 for stat_key, _stat_name, max_cap in result_set.get_max_caps():
