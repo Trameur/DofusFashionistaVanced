@@ -582,11 +582,15 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
 }
 
 /* error/500 image+text tables stack on mobile -- but NOT data tables that
-   legitimately contain item icons (solution / smithmagic / encyclopedia / spells) */
+   legitimately contain item icons (solution / smithmagic / encyclopedia /
+   spells / the project list).
+   The cell rule takes DIRECT children only. Written as a descendant it reached
+   every td of every nested table, which flattened the four compared builds on
+   /compare_sets/ into one unlabelled column at any width under 900px. */
 @media (max-width: 900px){
   html.fm-modern .maincontent table td img{ max-width:100% !important; height:auto !important; }
-  html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(#spells-table){ display:block; width:100% !important; }
-  html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(#spells-table) td{ display:block; width:100% !important; text-align:center; }
+  html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(.load-project-table):not(#spells-table){ display:block; width:100% !important; }
+  html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(.load-project-table):not(#spells-table) > tbody > tr > td{ display:block; width:100% !important; text-align:center; }
   /* Solution: keep two side-by-side columns on mobile (items | stats), per responsive.css 55/45 */
   html.fm-modern .solution-table{ display:table !important; width:100% !important; }
   html.fm-modern .solution-table > tbody{ display:table-row-group !important; }
