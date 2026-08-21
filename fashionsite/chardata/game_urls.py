@@ -107,7 +107,6 @@ urlpatterns = [
     re_path(r'^remove/(?P<char_id>\d+)/', item_exchange.remove_item, name='remove'),
 
     re_path(r'^infeasible/(?P<char_id>\d+)/', views.infeasible, name='infeasible'),
-    re_path(r'^error/(?P<char_id>\d+)/', util_views.error, name='error'),
 
     re_path(r'^about/', views.about, name='about'),
     re_path(r'^faq/', views.faq, name='faq'),

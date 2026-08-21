@@ -1557,6 +1557,10 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
     return default_data
 
 
+# More ordering rows than a reader will ever open by hand.
+MAX_ORDER_ROWS = 12
+
+
 def encyclopedia(request):
     structure = get_structure()
     language = get_supported_language()
@@ -1608,7 +1612,11 @@ def encyclopedia(request):
         try:
             parsed_rows = json.loads(order_rows_json)
             if isinstance(parsed_rows, list):
-                for row in parsed_rows:
+                # The repeated-parameter form of this feature is capped by
+                # DATA_UPLOAD_MAX_NUMBER_FIELDS; this one was not, and the page
+                # renders a full stat select per row, so 880 empty objects in
+                # an 8 KB URL asked the server for 9 MB of HTML.
+                for row in parsed_rows[:MAX_ORDER_ROWS]:
                     if not isinstance(row, dict):
                         continue
                     order_keys.append(str(row.get('key', '')).strip())

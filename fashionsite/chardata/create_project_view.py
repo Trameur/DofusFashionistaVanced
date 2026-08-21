@@ -229,7 +229,10 @@ def _get_state_from_post(request):
             aspects_set.add(aspect)
     return {'proj_name': request.POST.get('project', 'NoName'),
             'char_name': request.POST.get('charname', 'NoName'),
-            'char_level': safe_int(request.POST.get('level', 200), 200),
+            # Clamped like the sibling path in coaching_view.create_build:
+        # the value goes straight onto an IntegerField.
+        'char_level': max(1, min(safe_int(request.POST.get('level', 200),
+                                          200), 230)),
             'char_class': request.POST.get('class', 'NoName'),
             'char_build_aspects_set': aspects_set,
             'where_to_go': where_to_go}

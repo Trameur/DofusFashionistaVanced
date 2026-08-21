@@ -658,7 +658,6 @@ urlpatterns = [
     re_path(r'^remove/(?P<char_id>\d+)/', item_exchange.remove_item, name='remove'),
 
     re_path(r'^infeasible/(?P<char_id>\d+)/', views.infeasible, name='infeasible'),
-    re_path(r'^error/(?P<char_id>\d+)/', util_views.error, name='error'),
     re_path(r'^changelog-content/$', util_views.changelog_content,
             name='changelog_content'),
     re_path(r'^guides/$', guides_view.guides, name='guides'),

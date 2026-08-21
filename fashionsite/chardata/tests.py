@@ -9831,6 +9831,97 @@ class OwnedOrItemStaysEquippableTests(TestCase):
                          'an unowned group must stay out of the pool')
 
 
+class PublicEntryPointsSurviveNonsenseTests(TestCase):
+    """Every 500 this site has had was on a public URL and was found by a
+    player. These four were not reachable from any link, which is why the page
+    sweep never walked into them."""
+
+    def test_the_dead_error_route_is_gone(self):
+        # util_views.error takes five arguments and the URLconf could supply
+        # one, so it raised before its first line for any value, on all five
+        # version prefixes. Nothing linked to it and nothing reversed it.
+        for prefix in ('', '/beta', '/dofus2', '/retro', '/touch'):
+            with self.subTest(prefix=prefix or '/'):
+                self.assertEqual(
+                    self.client.get('%s/error/1/' % prefix).status_code, 404)
+
+    def test_the_api_page_number_cannot_become_a_bad_offset(self):
+        # page_size was clamped and page only had a floor, and the value lands
+        # in a slice that the ORM inlines as a literal SQL OFFSET.
+        for page in ('999999999999999999', '99999999999999999999', '-5',
+                     'abc'):
+            with self.subTest(page=page):
+                resp = self.client.get(
+                    '/api/v1/shared-builds/?page=%s' % page)
+                self.assertEqual(resp.status_code, 200)
+
+    def test_a_wild_level_does_not_reach_the_integer_field(self):
+        # The sibling path, coaching_view.create_build, clamps the same value.
+        for level in ('99999999999999999999', '-99999999999999999999', '0'):
+            with self.subTest(level=level):
+                resp = self.client.post('/createproject/', {
+                    'project': 'p-%s' % level[:6], 'charname': 'c',
+                    'level': level, 'class': 'Iop'})
+                self.assertIn(resp.status_code, (200, 302))
+
+    def test_the_order_rows_parameter_is_bounded(self):
+        # Each row draws a full stat select, so an 8 KB URL asked for 9 MB.
+        import json
+
+        control = len(self.client.get('/encyclopedia/').content)
+        payload = json.dumps([{} for _ in range(880)])
+        resp = self.client.get('/encyclopedia/',
+                               {'order_rows_json': payload})
+        self.assertEqual(resp.status_code, 200)
+        self.assertLess(
+            len(resp.content), control * 3,
+            'the page grew to %d bytes from a %d byte parameter'
+            % (len(resp.content), len(payload)))
+
+
+class MobileStackingStaysOutOfDataTablesTests(SimpleTestCase):
+    """The rule that stacks an image-and-text table on a phone said so in its
+    own comment, then used a descendant combinator and reached every cell of
+    every nested table. Under 900px the four builds compared side by side
+    collapsed into one unlabelled column."""
+
+    def _modern_css(self):
+        import io as _io
+        import os
+        here = os.path.dirname(os.path.abspath(__file__))
+        with _io.open(os.path.join(here, 'static', 'chardata', 'modern.css'),
+                      encoding='utf-8') as handle:
+            return handle.read()
+
+    def test_the_cell_rule_takes_direct_children_only(self):
+        css = self._modern_css()
+        stacking = [line for line in css.split('\n')
+                    if ':has(img)' in line and 'display:block' in line
+                    and ' td{' in line]
+        self.assertTrue(stacking, 'the stacking rule is gone entirely')
+        for line in stacking:
+            self.assertIn('> tbody > tr > td{', line,
+                          'a descendant combinator reaches nested tables: %s'
+                          % line.strip()[:110])
+
+    def test_the_project_list_is_treated_as_a_data_table(self):
+        self.assertIn('not(.load-project-table)', self._modern_css())
+
+
+class RobotsAgreesWithTheSitemapTests(TestCase):
+    """robots.txt blocked */setup/ while sitemap-pages.xml submitted the four
+    version-prefixed setup pages, which answer 200 and say index, follow."""
+
+    def test_every_setup_page_the_sitemap_submits_is_allowed(self):
+        robots = self.client.get('/robots.txt').content.decode('utf-8')
+        self.assertIn('Allow: /setup/$', robots)
+        self.assertIn('Allow: /*/setup/$', robots)
+        for prefix in ('', '/beta', '/dofus2', '/retro', '/touch'):
+            with self.subTest(prefix=prefix or '/'):
+                resp = self.client.get('%s/setup/' % prefix)
+                self.assertEqual(resp.status_code, 200)
+
+
 class ACapIsWhatTheSheetShowsTests(TestCase):
     """13 AP of gear is equippable on Dofus 3 and the sheet reads 12; Retro has
     no cap and reads 13. The model used to bound the stat variable at the cap

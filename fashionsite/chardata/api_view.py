@@ -83,12 +83,18 @@ def api_meta(request):
     })
 
 
+# Far past any real gallery, and small enough to stay a valid OFFSET.
+MAX_PAGE = 100000
+
+
 @require_GET
 @cache_page(60)
 def api_shared_builds(request):
     game_version = request.GET.get('game_version', 'dofus3')
     try:
-        page = max(1, int(request.GET.get('page', 1)))
+        # A ceiling as well as a floor: the value becomes a literal SQL OFFSET
+        # and a big enough one is not an integer the database will take.
+        page = max(1, min(int(request.GET.get('page', 1)), MAX_PAGE))
     except (TypeError, ValueError):
         page = 1
     try:
