@@ -49,6 +49,25 @@ class Model:
     _EXO_STAT_KEYS = {'ap', 'mp', 'range'}
 
     def _apply_stat_overrides(self, stat_overrides):
+        # The piece keeps its catalogue AP, MP and Range: the extra point is an
+        # exo, and an exo is worth one point for the whole build, so it is a
+        # variable of its own rather than part of the piece. Remember which
+        # pieces carry one, they are what makes that point available.
+        self._exo_carriers = {key: set() for key in self._EXO_STAT_KEYS}
+        for item_id, item_overrides in stat_overrides.items():
+            for stat_id, recorded in item_overrides.items():
+                stat = self.structure.get_stat_by_id(stat_id)
+                if not stat or stat.key not in self._EXO_STAT_KEYS:
+                    continue
+                catalogue = 0
+                for other_id, value in self.structure.get_item_by_id(
+                        item_id).stats if self.structure.get_item_by_id(
+                            item_id) else ():
+                    if other_id == stat_id:
+                        catalogue = value
+                if recorded > catalogue:
+                    self._exo_carriers[stat.key].add(item_id)
+
         new_items_list = []
         for item in self.items_list:
             item_overrides = stat_overrides.get(item.id)
@@ -153,6 +172,11 @@ class Model:
             stat = self.structure.get_stat_by_id(stat_id)
             if stat and stat.name in self.stat_maximum:
                 self.problem.setup_variable('overage', stat_id, 0, self.stat_maximum[stat.name])
+
+        # One exo point per stat for the whole build, wherever it comes from.
+        for stat in self.stats_list:
+            if stat.key in self._EXO_STAT_KEYS:
+                self.problem.setup_variable('exo', stat.id, 0, 1)
 
     def create_stat_points_variables(self):
         self.stat_count = len(self.stats_list)
@@ -664,6 +688,7 @@ class Model:
         self.create_set_constraints()
         self.create_set_max_cap_constraints()
         self.create_stat_total_constraints()
+        self.create_exo_constraints()
         self.create_condition_contraints()
         self.create_minimum_stat_constraints()
         self.create_advanced_minimum_stat_constraints()
@@ -1111,20 +1136,52 @@ class Model:
             # overage absorbs excess when a set cap drives the stat below the character's base
             if stat.id in self._capped_stat_ids:
                 matrix.append((-1, 'overage', stat.id))
+            if stat.key in self._EXO_STAT_KEYS:
+                matrix.append((1, 'exo', stat.id))
             restriction = self.problem.restriction_eq(0, matrix)
             self.restrictions.stat_total_constraints[stat.name] = restriction
+
+    def create_exo_constraints(self):
+        """The exo point exists only if something gives it.
+
+        exo <= (1 when the option is on) + the pieces worn that carry one. The
+        right hand side starts at 0 and modify_exo_constraints raises it once
+        the options are known. A piece that carries an exo can still be worn
+        without it counting: the variable simply stays at 0.
+        """
+        carriers = getattr(self, '_exo_carriers', None) or {}
+        for stat in self.stats_list:
+            if stat.key not in self._EXO_STAT_KEYS:
+                continue
+            matrix = [(1, 'exo', stat.id)]
+            for item in self.items_list:
+                if item.id in carriers.get(stat.key, ()):
+                    matrix.append((-1, 'p', item.id))
+            self.restrictions.exo_constraints[stat.key] = (
+                self.problem.restriction_lt_eq(0, matrix))
+
+    def modify_exo_constraints(self, options):
+        for stat in self.stats_list:
+            if stat.key not in self._EXO_STAT_KEYS:
+                continue
+            restriction = self.restrictions.exo_constraints.get(stat.key)
+            if restriction is None:
+                continue
+            option = options.get('%s_exo' % stat.key)
+            # mp_exo can hold 'gelano', which is not this point: that choice
+            # swaps in Gelano (#1), which carries the MP itself. Counting it
+            # here as well would give the build two.
+            restriction.changeRHS(1 if option is True else 0)
 
     def modify_stat_total_constraints(self, base_stats_by_attr, options):
         for stat in self.stats_list:
             restriction = self.restrictions.stat_total_constraints[stat.name]
+            # The exo point is not part of the character's base any more: it
+            # is the 'exo' variable, so that owning one on a piece and ticking
+            # the option cannot add up to two.
             value = base_stats_by_attr.get(stat.name, 0)
-            if stat.key == 'ap' and options['ap_exo']:
-                value += 1
-            elif stat.key == 'range' and options['range_exo']:
-                value += 1
-            elif stat.key == 'mp' and options['mp_exo'] == True:
-                value += 1
             restriction.changeRHS(-value)
+        self.modify_exo_constraints(options)
 
     def create_minimum_stat_constraints(self):
         dependencies = {'Dodge': [['Agility'],[0.1]],

@@ -36,6 +36,7 @@ class Restrictions:
         self.or_item_count_constraints = {}
         self.or_branch_constraints = {}
         self.stat_total_constraints = {}
+        self.exo_constraints = {}
         self.minimum_stat_constraints = {}
         self.advanced_minimum_stat_constraints = {}
         self.first_stats_points_constraints = {}

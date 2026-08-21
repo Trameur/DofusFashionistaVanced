@@ -208,11 +208,20 @@ class ModelResult():
             for result_set in self.sets:
                 for stat_key, stat_value in result_set.get_bonus().items():
                     self.stats_gear[stat_key] += stat_value
-            if self.input['options']['ap_exo']:
+            # One point per stat for the whole build, from the option or from
+            # a worn piece that carries one, never from both and never twice.
+            worn_exos = set()
+            for result_item in self.item_list:
+                if result_item.item_added:
+                    worn_exos.update(getattr(result_item, 'exo_overrides', {}))
+            options = self.input['options']
+            if options['ap_exo'] or 'ap' in worn_exos:
                 self.stats_gear['ap'] += 1
-            if 'range_exo' in self.input['options'] and self.input['options']['range_exo']:
+            if ('range_exo' in options and options['range_exo']) or 'range' in worn_exos:
                 self.stats_gear['range'] += 1
-            if self.input['options']['mp_exo'] == True:
+            # 'gelano' is not this point: that choice swaps in Gelano (#1),
+            # whose own MP is already in the sum above.
+            if options['mp_exo'] is True or 'mp' in worn_exos:
                 self.stats_gear['mp'] += 1
         return self.stats_gear
         

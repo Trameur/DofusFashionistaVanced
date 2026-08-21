@@ -9831,6 +9831,108 @@ class OwnedOrItemStaysEquippableTests(TestCase):
                          'an unowned group must stay out of the pool')
 
 
+class OwnedExoCountsOnlyWhenWornTests(TestCase):
+    """Two different things used to be merged into one. The wizard option means
+    "assume I have an AP exo somewhere" and adds +1 whatever the build wears.
+    An exo recorded on one owned item means that item gives the point, so it
+    counts only when the item is equipped. Recording one used to switch the
+    option on, which handed every build a free AP, including builds that do not
+    and cannot wear the item."""
+
+    def test_a_recorded_exo_marks_the_piece_that_carries_it(self):
+        # The piece keeps its catalogue AP: the extra point is worth one for
+        # the whole build, so it is a variable of its own and the piece is only
+        # what makes it available.
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.model import Model
+
+        structure = get_structure('dofus3')
+        hat = next(item for item
+                   in structure.get_unique_items_by_type_and_level('Hat', 200)
+                   if not item.removed and not any(
+                       structure.get_stat_by_id(sid).key == 'ap'
+                       for sid, _value in item.stats))
+        ap_id = structure.get_stat_by_key('ap').id
+
+        model = Model.__new__(Model)
+        model.structure = structure
+        model.items_list = [hat]
+        model._apply_stat_overrides({hat.id: {ap_id: 1}})
+
+        self.assertNotIn(ap_id, dict(model.items_list[0].stats),
+                         'the exo was baked into the piece, so two exo pieces '
+                         'worn together would give the build two points')
+        self.assertIn(hat.id, model._exo_carriers['ap'],
+                      'nothing records that this piece can provide the point')
+
+    def test_two_exo_pieces_worn_together_still_give_one_point(self):
+        # Several exo pieces can be worn; AP, MP and Range gain one point each
+        # whatever their number, and a piece worn beyond that is worn without
+        # its exo counting.
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.modelresult import ModelResult
+
+        structure = get_structure('dofus3')
+        hats = [item for item
+                in structure.get_unique_items_by_type_and_level('Hat', 200)
+                if not item.removed][:1]
+        belts = [item for item
+                 in structure.get_unique_items_by_type_and_level('Belt', 200)
+                 if not item.removed][:1]
+        ap_id = structure.get_stat_by_key('ap').id
+        overrides = {hats[0].id: {ap_id: 99}, belts[0].id: {ap_id: 99}}
+
+        result = ModelResult({'options': {'ap_exo': False, 'mp_exo': False,
+                                          'range_exo': False},
+                              'base_stats_by_attr': {}, 'char_level': 200},
+                             None)
+        result.add_item_at_slot(hats[0], 'hat', overrides)
+        result.add_item_at_slot(belts[0], 'belt', overrides)
+
+        carried = sum(dict(item.stats).get(ap_id, 0)
+                      for item in (hats[0], belts[0]))
+        self.assertEqual(result.get_stats_gear()['ap'], carried + 1,
+                         'two exo pieces gave the build more than one point')
+
+    def test_recording_an_exo_does_not_switch_the_option_on(self):
+        from django.contrib.auth.models import User
+        from django.test import RequestFactory
+        from fashionistapulp.structure import (set_current_game_version,
+                                               get_structure)
+        from chardata.coaching_view import create_build
+        from chardata.models import InventoryFolder, InventoryItem
+        from chardata.options import get_options, set_options
+
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        hat = next(item for item
+                   in structure.get_unique_items_by_type_and_level('Hat', 200)
+                   if not item.removed)
+
+        owner = User.objects.create_user('ownedexo', 'oe@test.local',
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+
+        folder = InventoryFolder.objects.create(user=owner, name='inv',
+                                                game_version='dofus3')
+        InventoryItem.objects.create(folder=folder, item_id=hat.id,
+                                     custom_stats='{"ap": 1}')
+        options = get_options(char)
+        options['ap_exo'] = False
+        options['inventory_mode'] = 'mixed'
+        options['inventory_folder'] = folder.id
+        set_options(char, options)
+
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+
+        self.assertFalse(get_options(char)['ap_exo'],
+                         'an exo recorded on one hat turned on the option that '
+                         'gives every build a free AP')
+
+
 class GelanoExoInventoryTests(TestCase):
     """MP exo "only Gelano" must equip the +1 AP +1 MP Gelano, not the plain one."""
 

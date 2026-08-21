@@ -36,7 +36,6 @@ from chardata.util_views import error
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.model_pool import create_model, borrow_model, return_model
-from fashionistapulp.structure import get_structure
 
 
 if not settings.DEBUG:
@@ -90,21 +89,11 @@ def fashion(request, char_id, spells=False):
     # Manual per-project overrides win over the inventory rolls.
     stat_overrides = get_effective_stat_overrides(char)
 
-    if stat_overrides:
-        structure = get_structure()
-        _EXO_KEY_TO_OPTION = {'ap': 'ap_exo', 'mp': 'mp_exo', 'range': 'range_exo'}
-        for item_id, item_overrides in stat_overrides.items():
-            item_obj = structure.get_item_by_id(item_id)
-            base_stats_dict = {sid: val for sid, val in item_obj.stats} if item_obj else {}
-            for stat_id, value in item_overrides.items():
-                stat = structure.get_stat_by_id(stat_id)
-                if stat and stat.key in _EXO_KEY_TO_OPTION:
-                    base_val = base_stats_dict.get(stat_id, 0)
-                    option_key = _EXO_KEY_TO_OPTION[stat.key]
-                    # The option can hold a specific choice like 'gelano', not
-                    # just a bool.
-                    if value > base_val and not model_options[option_key]:
-                        model_options[option_key] = True
+    # An exo recorded on an owned item used to switch the global option on,
+    # which adds +1 to the character whether or not the item is worn. The point
+    # now rides on the item itself (Model._apply_stat_overrides), so it counts
+    # only when the solver equips it. The option stays what the wizard means by
+    # it: assume an exo somewhere, on every build.
 
     base_stats_by_attr = get_base_stats_by_attr(request, char_id)
 
