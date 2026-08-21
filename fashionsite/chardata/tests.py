@@ -3648,6 +3648,38 @@ class StatSourcesTests(TestCase):
             for line in lines:
                 self.assertEqual({'label', 'value', 'kind'}, set(line))
 
+    def test_what_takes_away_is_listed_under_what_gives(self):
+        # Le tri portait sur abs(), donc un -15 se glissait entre un +20 et un
+        # +15. Une ligne qui retire du stat se lit en bas, et le plafond d'une
+        # panoplie reste apres tout le reste.
+        from chardata.solution_result import stat_sources
+
+        class Item(object):
+            def __init__(self, name, stats):
+                self.item_added = True
+                self.localized_name = name
+                self.stats = stats
+
+        class Result(object):
+            input = {'options': {'ap_exo': False, 'mp_exo': False},
+                     'base_stats_by_attr': {}, 'char_level': 1}
+            sets = []
+
+            def __init__(self):
+                self.item_list = [Item('Vingt', {'vit': 20}),
+                                  Item('Moins quinze', {'vit': -15}),
+                                  Item('Quinze', {'vit': 15}),
+                                  Item('Dix', {'vit': 10})]
+
+            def get_stats_total(self):
+                return {'vit': 30}
+
+            def get_stats_gear(self):
+                return {'vit': 30}
+
+        lines = stat_sources(Result())['vit']
+        self.assertEqual([line['value'] for line in lines], [20, 15, 10, -15])
+
     def test_something_that_is_not_a_result_is_refused(self):
         # Handing it the wrapper instead of the result would empty the panel on
         # every build, and a quiet {} would look like a build with no gear.
@@ -3687,9 +3719,12 @@ class StatSourcesTests(TestCase):
                             for line in payload['vit']))
 
     def test_the_biggest_contributor_comes_first(self):
+        # Par valeur signee : ce qui donne le plus en tete, ce qui retire en
+        # bas. Trier sur abs() glissait un -15 entre un +20 et un +15.
         _result, sources = self._check('dofus3')
         for lines in sources.values():
-            values = [abs(line['value']) for line in lines]
+            values = [line['value'] for line in lines
+                      if line['kind'] != 'cap']
             self.assertEqual(sorted(values, reverse=True), values)
 
 

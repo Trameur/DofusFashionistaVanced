@@ -262,8 +262,10 @@ def stat_sources(model_result):
                 add(stat_key, name, -over, 'cap')
 
     for lines in sources.values():
+        # Par valeur signee, pas par grandeur : trier sur abs() mettait un -15
+        # entre un +20 et un +15, la ou ce qui retire du stat se lit en bas.
         lines.sort(key=lambda line: (line['kind'] == 'cap',
-                                     -abs(line['value']), line['label']))
+                                     -line['value'], line['label']))
     return sources
 
 
