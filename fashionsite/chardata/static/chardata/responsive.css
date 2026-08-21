@@ -209,6 +209,13 @@
   .maincontent div[style*="width: 400px"],
   .maincontent div[style*="width:400px"] { width: auto !important; max-width: 100% !important; }
 
+  /* Contact: three tables pinned at 450px inline, and the decorative image
+     beside them. A table keeps max(specified, min-content), so the right half
+     of the form sat outside the screen with overflow-x:hidden over it. */
+  img[src*="myContact"] { display: none !important; }
+  .maincontent table[style*="width: 450px"],
+  .maincontent table[style*="width:450px"] { width: auto !important; max-width: 100% !important; }
+
   /* Smithmagic (forgemagie): the wide rune table scrolls instead of being clipped */
   .fm-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
   .fm-table { table-layout: fixed; width: 100% !important; }
