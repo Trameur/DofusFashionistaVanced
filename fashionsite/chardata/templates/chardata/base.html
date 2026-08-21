@@ -20,7 +20,8 @@
     <meta property="og:title" content="Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista - {% trans "Equipment Set Optimizer" %}">
     <meta property="og:description" content="{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Create optimized Dofus {{ version }} equipment sets automatically based on your character's needs.{% endblocktrans %}{% else %}{% blocktrans %}Create optimized Dofus equipment sets automatically based on your character's needs.{% endblocktrans %}{% endif %}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dofusfashionista.gg{{ request.path }}">
+    {# A paginated canonical carries ?page=N: naming another URL here lied. #}
+    {% block og_url %}<meta property="og:url" content="{% if canonical_url %}{{ canonical_url }}{% else %}https://dofusfashionista.gg{{ request.path }}{% endif %}">{% endblock %}
     <meta property="og:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">

@@ -7,6 +7,7 @@
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Frequently Asked Questions" %}{% endblock %}
 {# Version-prefixed copies are duplicates -> canonical to the global page. #}
 {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'faq' %}">{% endblock %}
+{% block og_url %}<meta property="og:url" content="https://dofusfashionista.gg{% url 'faq' %}">{% endblock %}
 
 {% block meta_description %}{% trans "Answers to common questions about the Dofus Fashionista: how the automatic set optimizer works, sharing builds, supported Dofus versions, accounts and more." %}{% endblock %}
 

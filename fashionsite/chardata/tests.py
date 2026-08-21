@@ -9879,6 +9879,69 @@ class PublicEntryPointsSurviveNonsenseTests(TestCase):
             % (len(resp.content), len(payload)))
 
 
+class OgUrlAgreesWithTheCanonicalTests(TestCase):
+    """og:url used request.path, which drops the query string, while a
+    paginated encyclopedia canonical carries ?page=N and a version-prefixed
+    static page points its canonical at the unprefixed copy. The two tags on
+    one page named two different URLs."""
+
+    PAGES = ('/about/', '/faq/', '/guides/', '/license/', '/privacy/',
+             '/support/', '/', '/contact/', '/encyclopedia/?page=2',
+             '/encyclopedia/monsters/?page=3')
+
+    def test_the_two_tags_name_the_same_url_on_every_version(self):
+        import re
+
+        # The minifier sorts attributes alphabetically, in the test client too:
+        # href lands before rel and content before property, so the tag is
+        # matched first and the attribute read out of it.
+        href = re.compile(r'href="([^"]*)"')
+        content = re.compile(r'content="([^"]*)"')
+
+        checked = 0
+        for prefix in ('', '/retro', '/beta', '/dofus2', '/touch'):
+            for page in self.PAGES:
+                url = prefix + page
+                resp = self.client.get(url)
+                if resp.status_code != 200:
+                    continue
+                head = resp.content.decode('utf-8').split('</head>')[0]
+
+                found = None
+                for element in re.findall(r'<link[^>]*>', head):
+                    if 'rel="canonical"' in element:
+                        match = href.search(element)
+                        if match:
+                            found = match.group(1)
+                        break
+
+                shown = None
+                for element in re.findall(r'<meta[^>]*>', head):
+                    if 'property="og:url"' in element:
+                        match = content.search(element)
+                        if match:
+                            shown = match.group(1)
+                        break
+
+                if not found or not shown:
+                    continue
+                checked += 1
+                with self.subTest(url=url):
+                    self.assertEqual(found, shown)
+        self.assertGreater(checked, 20,
+                           'only %d pages carried both tags' % checked)
+
+    def test_no_template_comment_leaks_into_the_page(self):
+        # {# #} is single-line only. A two-line one ships as text, and on
+        # base.html it closed </head> early, which is how og:url ended up in
+        # the body. The monster page has the same guard; the shell had none.
+        for url in ('/', '/about/', '/faq/', '/encyclopedia/', '/contact/'):
+            with self.subTest(url=url):
+                body = self.client.get(url).content.decode('utf-8')
+                self.assertNotIn('{#', body)
+                self.assertNotIn('#}', body)
+
+
 class MobileStackingStaysOutOfDataTablesTests(SimpleTestCase):
     """The rule that stacks an image-and-text table on a phone said so in its
     own comment, then used a descendant combinator and reached every cell of

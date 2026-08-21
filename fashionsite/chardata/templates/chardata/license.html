@@ -6,6 +6,7 @@
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "License & Copyright Information" %}{% endblock %}
 {# Version-prefixed copies are duplicates -> canonical to the global page. #}
 {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'license_page' %}">{% endblock %}
+{% block og_url %}<meta property="og:url" content="https://dofusfashionista.gg{% url 'license_page' %}">{% endblock %}
 
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
