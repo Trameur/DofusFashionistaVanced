@@ -41,7 +41,8 @@ from chardata.version_compat import (filter_classes_for_version,
                                      class_exists_in_version)
 
 logger = logging.getLogger(__name__)
-from fashionistapulp.dofus_constants import STATS_NAMES, CHARACTER_CLASSES
+from fashionistapulp.dofus_constants import (STATS_NAMES, CHARACTER_CLASSES,
+                                             max_scroll_for_version)
 from chardata.themes import get_questionmark_URL
 
 
@@ -192,12 +193,13 @@ def create_project(request):
 
     char.save()
 
+    full_scroll = max_scroll_for_version(char.game_version)
     for element_name, _ in STATS_NAMES:
         basestats = CharBaseStats()
         basestats.char = char
         basestats.stat = element_name
-        basestats.scrolled_value = 100
-        basestats.total_value = 100
+        basestats.scrolled_value = full_scroll
+        basestats.total_value = full_scroll
         basestats.save()
     
     if request.user.is_anonymous:

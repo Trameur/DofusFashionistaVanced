@@ -21,7 +21,8 @@ from chardata.smart_build import set_char_aspects
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.util import set_response, version_reverse
 from chardata.version_compat import class_exists_in_version, filter_classes_for_version
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES, STATS_NAMES
+from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
+                                             max_scroll_for_version)
 
 
 CLASS_DEFAULT_ELEMENT = {
@@ -136,9 +137,11 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
                        'shields': shields})
     char.save()
 
+    full_scroll = max_scroll_for_version(char.game_version)
     for stat_name, _localized in STATS_NAMES:
         CharBaseStats.objects.create(char=char, stat=stat_name,
-                                     scrolled_value=100, total_value=100)
+                                     scrolled_value=full_scroll,
+                                     total_value=full_scroll)
 
     if request.user.is_anonymous:
         remember_anon_char(request, char)
