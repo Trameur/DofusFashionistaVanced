@@ -137,7 +137,9 @@ def get_available_options(structure=None):
             prysmaradite = True
         if 'Trophy' in getattr(it, 'flags', ()):
             has_trophy = True
-        if it.name:
+        # The slot, not the name alone: Dofus 2 has a Rhineetle Helmet and no
+        # Rhineetle to ride, and it was offering the mount because of the hat.
+        if it.name and s.get_type_name_by_id(it.type) == 'Pet':
             for token in mounts:
                 if not mounts[token] and token in it.name:
                     mounts[token] = True

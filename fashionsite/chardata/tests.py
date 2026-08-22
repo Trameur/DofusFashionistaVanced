@@ -7219,6 +7219,54 @@ class NoUntranslatedTagIsShippedTests(SimpleTestCase):
                          module.clean_display_name('[wip] Coiffe de test'))
 
 
+class MountOptionsMatchTheVersionTests(SimpleTestCase):
+    """A mount option must have a mount behind it. The three families were
+    detected by name over every item, so Dofus 2, which has a Rhineetle Helmet
+    and nothing to ride, was offering the Rhineetle mount because of the hat."""
+
+    EXPECTED = {
+        'dofus3': {'dragoturkey': True, 'seemyool': True, 'rhineetle': True},
+        'beta': {'dragoturkey': True, 'seemyool': True, 'rhineetle': True},
+        # The Dofus 2 source publishes the certificates, which carry no stats,
+        # and not the mounts themselves.
+        'dofus2': {'dragoturkey': False, 'seemyool': False, 'rhineetle': False},
+        # 1.29 has Dragodindes and neither of the two later families.
+        'retro': {'dragoturkey': True, 'seemyool': False, 'rhineetle': False},
+        # Touch forked from 2.14, before Seemyools and Rhineetles.
+        'touch': {'dragoturkey': True, 'seemyool': False, 'rhineetle': False},
+    }
+
+    def test_each_version_offers_the_mounts_it_has(self):
+        from chardata.options import get_available_options
+        from fashionistapulp.structure import get_structure
+        for version, expected in self.EXPECTED.items():
+            available = get_available_options(get_structure(version))
+            with self.subTest(version=version):
+                self.assertEqual(
+                    expected, {key: available[key] for key in expected})
+                self.assertEqual(any(expected.values()), available['any_mount'])
+
+    def test_an_offered_family_has_a_mount_in_the_pet_slot(self):
+        import sqlite3
+        from chardata.options import get_available_options
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        for version in self.EXPECTED:
+            available = get_available_options(get_structure(version))
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                for token in ('Dragoturkey', 'Seemyool', 'Rhineetle'):
+                    ridable = conn.execute(
+                        "SELECT COUNT(*) FROM items i JOIN item_types t "
+                        "ON t.id = i.type WHERE t.name = 'Pet' AND i.name LIKE ?",
+                        ('%' + token + '%',)).fetchone()[0]
+                    with self.subTest(version=version, token=token):
+                        self.assertEqual(bool(ridable),
+                                         available[token.lower()])
+            finally:
+                conn.close()
+
+
 class ANamelessMonsterIsNotAPageTests(SimpleTestCase):
     """A monster whose every name is a raw text id has no name behind it in any
     language, so it has nothing to put on a page or in the sitemap."""
