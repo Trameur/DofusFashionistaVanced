@@ -1901,6 +1901,35 @@ class WhichSpellsPushTests(SimpleTestCase):
                                 '%s: half the roster cannot push' % version)
 
 
+class WeirdItemWeightsSurviveASparseWeightsDictTests(SimpleTestCase):
+    """One line in the objective read objective_values.get('pshdam') with no
+    default, unlike every line beside it, so a weights dict that names a combat
+    stat and not pushback crashed the solver setup."""
+
+    def test_a_weights_dict_without_pushback_does_not_crash(self):
+        from fashionistapulp.model import Model
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        for version in ('dofus3', 'beta'):
+            set_current_game_version(version)
+            model = Model.__new__(Model)
+            model.structure = get_structure(version)
+
+            class Collector(object):
+                def __init__(self):
+                    self.calls = []
+
+                def add_to_of(self, *args):
+                    self.calls.append(args)
+
+            model.problem = Collector()
+            with self.subTest(version=version):
+                model.add_weird_item_weights_to_objective_funcion(
+                    {'str': 100}, 200)
+                self.assertTrue(model.problem.calls)
+
+
 class AWaitingDamageRowIsNotTurnDamageTests(SimpleTestCase):
     """Noa hits for Air and leaves a state; its second row lands only if that
     target later suffers pushback damage. The turn simulator counted both rows
@@ -1926,6 +1955,23 @@ class AWaitingDamageRowIsNotTurnDamageTests(SimpleTestCase):
                 noa = self._noa(version)
                 self.assertIsNotNone(noa, 'Noa is missing from %s' % version)
                 self.assertEqual({1: 'pushback'}, noa.conditional)
+
+    def test_pilfer_waits_the_same_way_noa_does(self):
+        # Same class, same wording: "removes the state if the target suffers
+        # pushback damage". It was counting both rows as landed.
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from fashionistapulp.structure import set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        for version in ('dofus3', 'beta'):
+            set_current_game_version(version)
+            found = None
+            for group in get_damage_spells_for_version(version).values():
+                for spell in group:
+                    if getattr(spell, 'name', '') == 'Pilfer':
+                        found = spell
+            with self.subTest(version=version):
+                self.assertIsNotNone(found, 'Pilfer is missing from %s' % version)
+                self.assertEqual({1: 'pushback'}, found.conditional)
 
     def test_the_simulator_counts_only_what_the_cast_lands(self):
         from chardata.spell_combo import Castable

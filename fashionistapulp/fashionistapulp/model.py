@@ -427,7 +427,7 @@ class Model:
         #At the start of each turn, the caster randomly teleports to an adjacent cell. If the move is impossible, they earn a +10% chance of critical hits and +80 Pushback Damage for 1 turn.
         self.problem.add_to_of('p', 
                                self.structure.get_item_by_name("Dodge's Audacity").id, 
-                               objective_values.get('dodge', 0) * 50 + objective_values.get('ch', 0) * 5 + objective_values.get('pshdam') * 40)
+                               objective_values.get('dodge', 0) * 50 + objective_values.get('ch', 0) * 5 + objective_values.get('pshdam', 0) * 40)
         
         #Adding more weight to Lady Jhessica's Courage equivalent to 25 Lock
         #At end of their turn, the bearer removes 100 Dodge from adjacent enemies for 1 turn.

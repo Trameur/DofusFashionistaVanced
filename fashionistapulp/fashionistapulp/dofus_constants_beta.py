@@ -2632,7 +2632,8 @@ DAMAGE_SPELLS = {
             [['33-37'], ['23-25']],
             [['40-44'], ['28-30']],
             [AIR, AIR],
-        ), is_linked=(2, 'Turbine'), casting={'ap': [4], 'per_turn': [2], 'crit': [15]}, spell_id=13823),
+        ), is_linked=(2, 'Turbine'), casting={'ap': [4], 'per_turn': [2], 'crit': [15]}, spell_id=13823,
+           conditional={1: 'pushback'}),
         Spell('Capstan', [155], Effects(
             [['29-33']],
             [['35-40']],
