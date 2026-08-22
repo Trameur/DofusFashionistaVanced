@@ -48,6 +48,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -181,6 +195,20 @@
     1,
     1
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      2,
@@ -240,6 +268,16 @@
    "per_turn": [
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -854,6 +892,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -1098,6 +1150,12 @@
    "per_turn": [
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -1190,6 +1248,16 @@
    "per_turn": [
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -1576,6 +1644,12 @@
    "per_turn": [
     2
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -1625,6 +1699,16 @@
    "per_turn": [
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -1908,6 +1992,16 @@
     "fr": "Balise Tactique",
     "pt": "Baliza Tática"
    },
+   "push": [
+    {
+     "cells": 2,
+     "damaging": false
+    },
+    {
+     "cells": 2,
+     "damaging": false
+    }
+   ],
    "range": [
     [
      1,
@@ -2327,6 +2421,16 @@
    "per_turn": [
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -3643,6 +3747,16 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -4283,6 +4397,12 @@
    "per_turn": [
     1
    ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -4371,6 +4491,12 @@
    },
    "per_turn": [
     1
+   ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -4550,6 +4676,12 @@
    "per_turn": [
     2
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -4639,6 +4771,12 @@
    "per_turn": [
     2
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -4727,6 +4865,12 @@
    },
    "per_turn": [
     2
+   ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -4918,6 +5062,20 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -5485,6 +5643,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -5671,6 +5843,20 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -6259,6 +6445,16 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -6368,6 +6564,16 @@
    "per_turn": [
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -6966,6 +7172,12 @@
    "per_turn": [
     3
    ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -7235,6 +7447,12 @@
    ],
    "per_turn": [
     3
+   ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -7537,6 +7755,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -7719,6 +7951,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -7846,6 +8092,20 @@
     1,
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -8161,6 +8421,20 @@
     1,
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -9106,6 +9380,12 @@
    },
    "per_turn": [
     1
+   ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -10832,6 +11112,16 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -11878,6 +12168,12 @@
    },
    "per_turn": [
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -13202,6 +13498,16 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -13638,6 +13944,16 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -13943,6 +14259,12 @@
    ],
    "per_turn": [
     2
+   ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -14689,6 +15011,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -15324,6 +15660,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -15392,6 +15742,20 @@
     3,
     3,
     3
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -15462,6 +15826,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -15530,6 +15908,20 @@
     3,
     3,
     3
+   ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -16363,6 +16755,12 @@
    "per_turn": [
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -16593,6 +16991,12 @@
    "per_turn": [
     2
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -16684,6 +17088,12 @@
    },
    "per_turn": [
     1
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -16958,6 +17368,12 @@
     "fr": "Récursivité",
     "pt": "Recursividade"
    },
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -17142,6 +17558,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -17205,6 +17635,20 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -17329,6 +17773,20 @@
     "fr": "Charge Héroïque",
     "pt": "Carga Heroica"
    },
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 5,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -17648,6 +18106,20 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -18405,6 +18877,16 @@
     1,
     1
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      2,
@@ -18566,6 +19048,16 @@
     "fr": "Parade",
     "pt": "Parada"
    },
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -18675,6 +19167,16 @@
    "per_turn": [
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -19147,6 +19649,12 @@
    },
    "per_turn": [
     1
+   ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -19829,6 +20337,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      2,
@@ -20272,6 +20794,20 @@
     1,
     1
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -20464,6 +21000,20 @@
     1,
     1
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -20570,6 +21120,16 @@
    "per_turn": [
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -21023,6 +21583,16 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -21377,6 +21947,12 @@
    },
    "per_turn": [
     1
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -22160,6 +22736,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -22474,6 +23064,20 @@
     1,
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -23683,6 +24287,12 @@
    "per_turn": [
     1
    ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -24048,6 +24658,12 @@
     "fr": "Coup pour Coup",
     "pt": "Dar o Troco"
    },
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -24714,6 +25330,20 @@
     "fr": "Appui",
     "pt": "Apoio"
    },
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -25413,6 +26043,16 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -25566,6 +26206,16 @@
     "fr": "Grimace",
     "pt": "Careta"
    },
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -25621,6 +26271,16 @@
     "fr": "Carnavalo",
     "pt": "Carnaval"
    },
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -25738,6 +26398,16 @@
    "per_turn": [
     3,
     3
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -26159,6 +26829,12 @@
     "fr": "Masque de l'Hystérique",
     "pt": "Máscara do Histérico"
    },
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -26343,6 +27019,12 @@
    "per_turn": [
     1
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -26388,6 +27070,12 @@
    },
    "per_turn": [
     2
+   ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -27026,6 +27714,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -27508,6 +28210,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -27635,6 +28351,20 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -28643,6 +29373,12 @@
    "per_turn": [
     1
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -28734,6 +29470,12 @@
    },
    "per_turn": [
     1
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -29980,6 +30722,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 4,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -30043,6 +30799,20 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -30227,6 +30997,16 @@
    "per_turn": [
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -30761,6 +31541,16 @@
    "per_turn": [
     1,
     2
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -31950,6 +32740,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -32259,6 +33063,20 @@
     1,
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -32676,6 +33494,16 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -32730,6 +33558,16 @@
    "per_turn": [
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -33625,6 +34463,12 @@
    "per_turn": [
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -33753,6 +34597,12 @@
    },
    "per_turn": [
     1
+   ],
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -34245,6 +35095,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -34304,6 +35168,20 @@
     2,
     2
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -34362,6 +35240,20 @@
     1,
     1,
     1
+   ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": false
+    },
+    {
+     "cells": 3,
+     "damaging": false
+    },
+    {
+     "cells": 3,
+     "damaging": false
+    }
    ],
    "range": [
     [
@@ -34495,6 +35387,20 @@
     2,
     2,
     2
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    },
+    {
+     "cells": 1,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -34909,6 +35815,20 @@
     "fr": "Rémission",
     "pt": "Remissão"
    },
+   "push": [
+    {
+     "cells": 4,
+     "damaging": true
+    },
+    {
+     "cells": 5,
+     "damaging": true
+    },
+    {
+     "cells": 6,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      0,
@@ -36978,6 +37898,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    },
+    {
+     "cells": 2,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -38011,6 +38945,12 @@
    },
    "per_turn": [
     2
+   ],
+   "push": [
+    {
+     "cells": 1,
+     "damaging": true
+    }
    ],
    "range": [
     [
@@ -41135,6 +42075,20 @@
     3,
     3
    ],
+   "push": [
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    },
+    {
+     "cells": 3,
+     "damaging": true
+    }
+   ],
    "range": [
     [
      1,
@@ -42310,6 +43264,16 @@
     "fr": "Dérobade",
     "pt": "Escapatória"
    },
+   "push": [
+    {
+     "cells": 2,
+     "damaging": false
+    },
+    {
+     "cells": 2,
+     "damaging": false
+    }
+   ],
    "range": [
     [
      0,
@@ -42935,6 +43899,12 @@
    ],
    "per_turn": [
     3
+   ],
+   "push": [
+    {
+     "cells": 2,
+     "damaging": true
+    }
    ],
    "range": [
     [

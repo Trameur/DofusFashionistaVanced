@@ -1849,6 +1849,42 @@ class WhichSpellsPushTests(SimpleTestCase):
             with self.subTest(version=version):
                 self.assertNotIn(23735, pushing_spell_ids(version))
 
+    def test_the_modern_list_comes_from_the_client_effects(self):
+        # dofus3 and the beta carry the push per rank, straight from effect 5
+        # and its variants; the other three have no spell level in their source
+        # and fall back to the description.
+        from chardata.spell_reference import get_spell_reference, push_cells
+        for version in ('dofus3', 'beta'):
+            reference = get_spell_reference(version)
+            with_push = [entry for entries in reference.values()
+                         for entry in entries or [] if entry.get('push')]
+            with self.subTest(version=version):
+                self.assertGreater(len(with_push), 50)
+                for entry in with_push[:20]:
+                    for rank in entry['push']:
+                        if rank:
+                            self.assertIn('cells', rank)
+                            self.assertIn('damaging', rank)
+        # The Steamer's own numbers, as the client states them.
+        for spell_id, cells in ((13822, 4), (13865, 3), (13824, 2)):
+            with self.subTest(spell_id=spell_id):
+                self.assertEqual(cells, push_cells('dofus3', spell_id))
+
+    def test_a_push_the_game_calls_harmless_is_not_counted(self):
+        # Effect 1103 pushes "without damage"; a spell whose only push is that
+        # one must not be treated as a source of pushback damage.
+        from chardata.spell_reference import get_spell_reference, pushing_spell_ids
+        pushing = pushing_spell_ids('dofus3')
+        harmless_only = []
+        for entries in get_spell_reference('dofus3').values():
+            for entry in entries or []:
+                ranks = [r for r in entry.get('push') or [] if r]
+                if ranks and not any(r['damaging'] for r in ranks):
+                    harmless_only.append(entry['id'])
+        for spell_id in harmless_only:
+            with self.subTest(spell_id=spell_id):
+                self.assertNotIn(spell_id, pushing)
+
     def test_every_version_answers_and_none_claims_everything(self):
         from chardata.spell_reference import (get_spell_reference,
                                               pushing_spell_ids)

@@ -92,6 +92,37 @@ def _drop_empty(spell):
     return {key: value for key, value in spell.items() if value not in (None, {})}
 
 
+# The client's own push effects. 1103 is stated as dealing no damage; the rest
+# damage the target when it stops against an obstacle.
+PUSH_EFFECT_IDS = {5: True, 1021: True, 4002: True, 1103: False}
+
+
+def _push_per_rank(levels):
+    """[{'cells': n, 'damaging': bool}, ...], one per rank, None when it never
+    pushes. A rank that both pushes and pushes-without-damage keeps the larger
+    damaging push: that is the branch a damage model cares about."""
+    out = []
+    for level in levels:
+        best = None
+        for effect in level.get('effects') or []:
+            damaging = PUSH_EFFECT_IDS.get(effect.get('effect_id'))
+            if damaging is None:
+                continue
+            cells = (effect.get('dice') or {}).get('min') or 0
+            if not cells:
+                continue
+            candidate = {'cells': cells, 'damaging': bool(damaging)}
+            if best is None:
+                best = candidate
+            elif candidate['damaging'] and not best['damaging']:
+                best = candidate
+            elif candidate['damaging'] == best['damaging'] \
+                    and candidate['cells'] > best['cells']:
+                best = candidate
+        out.append(best)
+    return out if any(out) else None
+
+
 def read_modern(path):
     """dofus3 and beta: the transformed class-spell dump carries it all."""
     with open(path, encoding='utf-8') as handle:
@@ -120,6 +151,7 @@ def read_modern(path):
                 'cooldown': _rank_values(levels, 'min_cast_interval'),
                 'crit': _rank_values(levels, 'critical_hit_probability'),
                 'stacks': _rank_values(levels, 'max_stack'),
+                'push': _push_per_rank(levels),
                 'variant': variant,
             }))
         if spells:

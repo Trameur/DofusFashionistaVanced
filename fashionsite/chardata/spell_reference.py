@@ -37,22 +37,46 @@ def reference_by_spell_id(game_version, char_class):
 
 _PUSHING_CACHE = {}
 
-# Ankama's own wording for a push, in the two languages the reference always
-# carries. A push is not damage on its own: it only hurts when the target hits
-# an obstacle, and the damage scales with the push distance left over. So this
-# says which spells CAN cause pushback damage, never that they will.
-# "pushback damage" and "dommages de poussee" are deliberately absent: those
-# phrases describe SUFFERING the damage, and matching them flagged Noa itself,
-# whose whole text is about a target that gets pushed by something else.
+
+def pushing_spell_ids(game_version):
+    """Spell ids that push a target hard enough to hurt it on an obstacle.
+
+    From the client's own effects, carried in the reference as `push`: effect 5
+    and its forced variants damage on collision, effect 1103 is stated as
+    pushing without damage. Reading the description text instead was a proxy
+    and a leaky one, it put Noa in this list because its text names the damage
+    it waits for.
+    """
+    if game_version in _PUSHING_CACHE:
+        return _PUSHING_CACHE[game_version]
+    found = set()
+    carries_effects = False
+    for entries in (get_spell_reference(game_version) or {}).values():
+        for entry in entries or []:
+            if entry.get('id') is None:
+                continue
+            if entry.get('push'):
+                carries_effects = True
+            for rank in entry.get('push') or []:
+                if rank and rank.get('damaging') and rank.get('cells'):
+                    found.add(entry['id'])
+                    break
+    if not carries_effects:
+        found = _pushing_from_descriptions(game_version)
+    _PUSHING_CACHE[game_version] = found
+    return found
+
+
+# Only dofus3 and the beta are built from the client's own effects. The Dofus 2
+# archive carries no spell level at all, and Retro and Touch come from other
+# readers, so for those three the description is all there is. It cannot say a
+# distance and it cannot tell a damaging push from a harmless one.
 _PUSH_WORDS_EN = ('repels', 'pushes back', 'pushes the target back',
                   'pushes targets back')
 _PUSH_WORDS_FR = ('repousse', 'repoussent')
 
 
-def pushing_spell_ids(game_version):
-    """Spell ids whose own description says the spell pushes a target."""
-    if game_version in _PUSHING_CACHE:
-        return _PUSHING_CACHE[game_version]
+def _pushing_from_descriptions(game_version):
     found = set()
     for entries in (get_spell_reference(game_version) or {}).values():
         for entry in entries or []:
@@ -64,8 +88,25 @@ def pushing_spell_ids(game_version):
             if (any(word in english for word in _PUSH_WORDS_EN)
                     or any(word in french for word in _PUSH_WORDS_FR)):
                 found.add(entry['id'])
-    _PUSHING_CACHE[game_version] = found
     return found
+
+
+def push_cells(game_version, spell_id, rank_index=-1):
+    """Cells that spell pushes at that rank, 0 when it does not push or the
+    push is one the game states deals no damage."""
+    for entries in (get_spell_reference(game_version) or {}).values():
+        for entry in entries or []:
+            if entry.get('id') != spell_id:
+                continue
+            ranks = entry.get('push') or []
+            if not ranks:
+                return 0
+            index = rank_index if -len(ranks) <= rank_index < len(ranks) else -1
+            rank = ranks[index]
+            if not rank or not rank.get('damaging'):
+                return 0
+            return rank.get('cells') or 0
+    return 0
 
 
 def get_spell_states(game_version):
