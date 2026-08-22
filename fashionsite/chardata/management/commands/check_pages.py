@@ -64,6 +64,31 @@ HOSTILE = (
 
 API = ('/api/v1/shared-builds/', '/api/v1/tier-list/')
 
+# Per-build routes, without their version prefix, taking the build id. These
+# are only reachable once you have a build, so an anonymous walk never sees
+# them, and they carry most of the logic a user meets. The *post routes expect
+# a POST: answering 405 or redirecting is right, a 500 is not.
+BUILD_PATHS = (
+    '/project/%s/', '/setup/%s/', '/stats/%s/', '/min_stats/%s/',
+    '/options/%s/', '/exclusions/%s/', '/inclusions/%s/', '/wizard/%s/',
+    '/solution/%s/', '/spells/%s/', '/fashion/%s/', '/infeasible/%s/',
+    '/best_combo/%s/', '/exchange/%s/', '/itemadd/%s/', '/itemexchange/%s/',
+    '/getsharinglink/%s/', '/loadproject/%s/', '/initbasestats/%s/',
+    '/wizardgetsliders/%s/', '/workshop/solutioningredients/%s/',
+    '/statspost/%s/', '/minstatspost/%s/', '/optionspost/%s/',
+    '/exclusionspost/%s/', '/inclusionspost/%s/', '/wizardpost/%s/',
+    '/save_char/%s/', '/saveproject/%s/', '/setcharcolors/%s/',
+    '/setchargender/%s/', '/setcharhidden/%s/', '/setitemforbidden/%s/',
+    '/setitemlocked/%s/', '/setitemstatoverride/%s/', '/setslotlockempty/%s/',
+)
+
+# What a build page gets sent that its own form never would.
+BUILD_HOSTILE = ('', '?slot=%00', '?item=abc', '?value=-999999999999')
+
+# Builds to walk per version. Two is enough to catch a view that only works on
+# the shape of one stored solution.
+BUILDS_PER_VERSION = 2
+
 
 class Command(BaseCommand):
     help = 'Walk every public page and report anything that answers 500.'
@@ -89,6 +114,45 @@ class Command(BaseCommand):
                 'the char table is not readable (%s: %s). Run this with '
                 '--settings=fashionsite.settings_dev.'
                 % (type(error).__name__, str(error)[:90]))
+
+    def _walk_build_pages(self, versions, language, findings):
+        """The per-build routes, as the owner and as a stranger.
+
+        `force_login` needs no password, so this reads the database it is given
+        and writes nothing to it. With no build stored it says so rather than
+        reporting a clean run it never made."""
+        from chardata.models import Char
+
+        walked = 0
+        stranger = Client()
+        for version in versions:
+            prefix = '' if version == 'dofus3' else '/' + version
+            builds = list(Char.objects.filter(game_version=version)
+                          .select_related('owner')[:BUILDS_PER_VERSION])
+            if not builds:
+                self.stdout.write('no %s build stored, its pages were not '
+                                  'walked' % version)
+                continue
+            for char in builds:
+                owner = Client()
+                if char.owner_id:
+                    owner.force_login(char.owner)
+                for route in BUILD_PATHS:
+                    for query in BUILD_HOSTILE:
+                        path = prefix + (route % char.id) + query
+                        for client in (owner, stranger):
+                            walked += 1
+                            try:
+                                code = client.get(path, headers={
+                                    'accept-language': language}).status_code
+                            except Exception as error:        # noqa: BLE001
+                                findings.append(
+                                    (path, language, '%s: %s'
+                                     % (type(error).__name__, str(error)[:90])))
+                                continue
+                            if code >= 500:
+                                findings.append((path, language, code))
+        return walked
 
     def handle(self, *args, **options):
         self._require_a_readable_database()
@@ -135,6 +199,8 @@ class Command(BaseCommand):
                           '?game_version=nope'):
                 visit(path + query, languages[0])
 
+        walked += self._walk_build_pages(versions, languages[0], findings)
+
         # A link the site offers has to open. Three of this week's defects were
         # links that led somewhere else or nowhere at all.
         followed = 0
@@ -165,8 +231,21 @@ class Command(BaseCommand):
                 self.stdout.write('   %-52s %s' % (href[:52], what))
         if findings:
             self.stdout.write('%d answered 500 or raised:' % len(findings))
+            # One broken view shows up once per build, per query string and per
+            # client, which buries the next one. Group by route and reason.
+            grouped = {}
             for path, language, what in findings:
-                self.stdout.write('   %-46s %-3s %s' % (path[:46], language, what))
+                key = (re.sub(r'/\d+/', '/<id>/', path.split('?')[0]),
+                       language, str(what))
+                grouped.setdefault(key, 0)
+                grouped[key] += 1
+            for (route, language, what), times in list(grouped.items())[:20]:
+                self.stdout.write('   %-46s %-3s %s%s'
+                                  % (route[:46], language, what,
+                                     '' if times == 1 else ' (x%d)' % times))
+            if len(grouped) > 20:
+                self.stdout.write('   ... and %d more route(s)'
+                                  % (len(grouped) - 20))
         if findings or dead:
             raise SystemExit(1)
         self.stdout.write('no page answered 500, every link opens')
