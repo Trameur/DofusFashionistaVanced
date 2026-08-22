@@ -443,16 +443,25 @@ def _sitemap_pages(base_url):
     blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
     try:
         from chardata import guides_content
-        for slug in guides_content.ordered_slugs():
-            published = guides_content.GUIDES[slug].get('published')
+        for key in guides_content.ordered_slugs():
+            published = guides_content.GUIDES[key].get('published')
             lastmod = ('\n    <lastmod>%s</lastmod>' % published) if published else ''
-            # A per-version guide is a distinct page per game version.
-            for version in guides_content.canonical_versions(slug):
-                prefix = '' if version == 'dofus3' else '/%s' % version
-                blocks.append('  <url>\n    <loc>%s%s/guides/%s/</loc>%s\n'
-                              '    <changefreq>monthly</changefreq>\n'
-                              '    <priority>0.7</priority>\n  </url>'
-                              % (base_url, prefix, slug, lastmod))
+            # One URL per language. The slug names the language, so the
+            # French and Spanish guides are pages of their own rather than
+            # the same page served twice. Submitting only the English slug
+            # is what kept 128 of the 160 written guide pages out of the
+            # index: a crawler sends no Accept-Language, so it only ever
+            # saw the English text.
+            slugs = sorted(set(guides_content.alternate_slugs(key).values())
+                           or {key})
+            for slug in slugs:
+                # A per-version guide is a distinct page per game version.
+                for version in guides_content.canonical_versions(key):
+                    prefix = '' if version == 'dofus3' else '/%s' % version
+                    blocks.append('  <url>\n    <loc>%s%s/guides/%s/</loc>%s\n'
+                                  '    <changefreq>monthly</changefreq>\n'
+                                  '    <priority>0.7</priority>\n  </url>'
+                                  % (base_url, prefix, slug, lastmod))
     except Exception:
         pass
 

@@ -39,11 +39,16 @@ from django.utils import translation
 
 from fashionistapulp.translation import SUPPORTED_LANGUAGES
 
-# Order used to break ties when several languages slugify to the same string
-# (item names are often identical in English and German). English last: it is
-# the historical default, so preferring another language here would silently
-# move existing English URLs.
-_TIE_BREAK_ORDER = ['fr', 'es', 'pt', 'de', 'en']
+# Order used to break ties when several languages slugify to the same string.
+# That is not a rare case: proper nouns are frequently left untranslated, so a
+# monster called Crocodyl is Crocodyl in five languages and its slug names all
+# of them.
+#
+# English first, because an ambiguous slug has to keep answering exactly as it
+# did before this change: English is the historical default and the URL that is
+# already indexed. Putting it last -- as this list first did -- silently served
+# Portuguese on every such page.
+_TIE_BREAK_ORDER = ['en', 'fr', 'es', 'pt', 'de']
 
 # Query flag letting a visitor look at a language other than their own without
 # being bounced back. Without it, a user whose profile says French could never
@@ -148,6 +153,32 @@ def redirect_target_for_user(request, url_language, alternates):
     if not target or target.endswith(request.path):
         return None
     return target
+
+
+class RestoreLanguageMiddleware(object):
+    """Puts the thread's language back the way it was after each request.
+
+    A view that reads its language from the URL calls translation.activate(),
+    which changes state for the whole thread and outlives the request: nothing
+    resets it, and LocaleMiddleware activates a language per request without
+    ever deactivating one. Anything running afterwards without setting a
+    language of its own -- a management command, a template rendered outside a
+    request, the next test in a suite -- would inherit a language it never
+    asked for, and silently render in it.
+
+    Must sit first in MIDDLEWARE so it wraps everything, including
+    LocaleMiddleware.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        previous = translation.get_language()
+        try:
+            return self.get_response(request)
+        finally:
+            translation.activate(previous)
 
 
 def mark_varies_on_cookie(response):

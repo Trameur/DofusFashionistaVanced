@@ -10,11 +10,15 @@ are ever linked, don't create duplicate content.
 import re
 
 from django.http import Http404
+from django.shortcuts import redirect
 from django.urls import reverse, NoReverseMatch
+from django.utils import translation
 from django.utils.translation import get_language
 
 from chardata.util import set_response
 from chardata import guides_content
+from chardata.url_language import (mark_varies_on_cookie,
+                                   redirect_target_for_user)
 
 # The bodies are written with plain site paths ("/setup/"). Read under a
 # version, those paths land on Dofus 3: a Retro reader following "build it
@@ -88,16 +92,37 @@ def guides(request, char_id=0):
 
 
 def guide(request, slug, char_id=0):
-    language = get_language() or 'en'
     game_version = getattr(request, 'game_version', 'dofus3')
-    data = guides_content.get_guide(slug, language, game_version)
+
+    # The slug names the language. Resolving it here is what lets a crawler --
+    # which sends no Accept-Language -- reach anything but the English text.
+    key, url_language = guides_content.resolve_slug(slug)
+    if key is None:
+        # An unknown slug may still be a guide key from before the localised
+        # slugs existed; keep serving it rather than 404ing a live URL.
+        key, url_language = slug, get_language() or 'en'
+    if url_language != (get_language() or 'en'):
+        translation.activate(url_language)
+
+    data = guides_content.get_guide(key, url_language, game_version)
     if data is None:
         raise Http404("Unknown guide")
+
     # Version-specific guides (e.g. critical hits) are canonical at their own
     # system's URL; plain guides stay canonical at the global /guides/ URL.
-    canonical_version = guides_content.guide_canonical_version(slug, game_version)
+    canonical_version = guides_content.guide_canonical_version(key, game_version)
     canonical_url = 'https://dofusfashionista.gg' + _guide_url(
-        canonical_version, slug)
+        canonical_version, data['slug'])
+    alternate_urls = {
+        language: 'https://dofusfashionista.gg' + _guide_url(
+            canonical_version, other_slug)
+        for language, other_slug in data['alternates'].items()
+    }
+
+    redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
+    if redirect_to:
+        return mark_varies_on_cookie(redirect(redirect_to))
+
     body_top, body_rest = split_body(
         add_version_prefix(data.get('body'), game_version))
     return set_response(
@@ -110,6 +135,7 @@ def guide(request, slug, char_id=0):
          'guide_body_top': body_top,
          'guide_body_rest': body_rest,
          'canonical_url': canonical_url,
+         'alternate_urls': alternate_urls,
          'other_guides': [g for g in guides_content.list_guides(
-                              language, game_version)
-                          if g['slug'] != slug]})
+                              url_language, game_version)
+                          if g['key'] != key]})

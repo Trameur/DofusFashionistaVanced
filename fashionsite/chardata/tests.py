@@ -4128,6 +4128,11 @@ class GuidesContentTests(TestCase):
             self.assertIn(resp.status_code, (200, 301, 302), href)
 
     def test_content_is_translated_per_language(self):
+        # Each language has its own URL, and the slug is what selects it. No
+        # Accept-Language is sent on purpose: a crawler sends none either, and
+        # this used to be the reason it only ever saw the English guides.
+        from chardata import guides_content
+
         cases = {
             'fr': 'ton premier stuff',
             'es': 'tu primer build',
@@ -4135,12 +4140,23 @@ class GuidesContentTests(TestCase):
             'de': 'dein erstes',
         }
         for lang, needle in cases.items():
-            with translation.override(lang):
-                resp = self.client.get('/guides/getting-started/',
-                                       headers={'accept-language': lang})
+            slug = guides_content.slug_for('getting-started', lang)
+            resp = self.client.get('/guides/%s/' % slug)
             html = resp.content.decode('utf-8', 'replace').lower()
             with self.subTest(lang=lang):
+                self.assertEqual(resp.status_code, 200)
                 self.assertIn(needle, html, msg='%s title missing' % lang)
+
+    def test_the_english_guide_url_stays_english(self):
+        # The English slugs are the ones already indexed. Whatever the browser
+        # asks for, they must keep answering exactly as they did.
+        for header in ('fr', 'es', 'pt', 'de'):
+            with self.subTest(accept_language=header):
+                resp = self.client.get('/guides/getting-started/',
+                                       headers={'accept-language': header})
+                self.assertEqual(resp.status_code, 200)
+                html = resp.content.decode('utf-8', 'replace').lower()
+                self.assertIn('your first dofus build', html)
 
     def test_non_english_guides_use_native_accents(self):
         # Real fr/es/pt/de prose always carries accented letters; an
@@ -12285,11 +12301,19 @@ class EncyclopediaResourcePageTests(TestCase):
             'pt': 'Lã de Gobball',
             'de': 'Fresssackwolle',
         }
+        # Resource 384 has a distinct name in all four, so each one has its
+        # own URL. No Accept-Language is sent: the slug alone decides.
+        resource_slugs = {
+            'fr': 'laine-de-bouftou',
+            'es': 'lana-de-jalato',
+            'pt': 'la-de-gobball',
+            'de': 'fresssackwolle',
+        }
         for language, expected_name in expected_names.items():
             with self.subTest(language=language):
                 resp = self.client.get(
-                    '/retro/encyclopedia/resource/resources/384-laine-de-bouftou/',
-                    HTTP_ACCEPT_LANGUAGE=language)
+                    '/retro/encyclopedia/resource/resources/384-%s/'
+                    % resource_slugs[language])
                 self.assertEqual(resp.status_code, 200)
                 body = resp.content.decode('utf-8')
                 self.assertIn(expected_resource_names[language], body)
@@ -13054,31 +13078,77 @@ class EncyclopediaMonsterPageTests(TestCase):
             cached = encyclopedia_view._get_monster_version_links(101, 'retro', 'fr')
         self.assertEqual(first, cached)
 
+    # Each localised name is its own URL and serves its own language.
+    # Retro only stores monster names in English, French and Spanish -- 774 of
+    # each, and none in German or Portuguese -- so those two have no monster
+    # URL on this version at all. That is upstream data, not a choice here.
+    RETRO_MONSTER_SLUGS = {
+        'fr': 'bouftou',
+        'es': 'jalato',
+    }
+
     def test_retro_monster_page_localizes_drops_for_supported_languages(self):
         expected_drops = {
             'fr': ('Laine de Bouftou', 'Marteau du Bouftou'),
             'es': ('Lana de jalató', 'Martillo del jalató'),
-            'pt': ('Lã de Gobball', 'Martelo do Gobball'),
-            'de': ('Fresssackwolle', 'Hammer des Fresssacks'),
         }
         for language, (resource_name, item_name) in expected_drops.items():
             with self.subTest(language=language):
-                resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
-                                       HTTP_ACCEPT_LANGUAGE=language)
+                # No Accept-Language: the URL alone must decide, exactly as it
+                # does for a crawler.
+                resp = self.client.get(
+                    '/retro/encyclopedia/monster/101-%s/'
+                    % self.RETRO_MONSTER_SLUGS[language])
                 self.assertEqual(resp.status_code, 200)
                 body = resp.content.decode('utf-8')
                 self.assertIn(resource_name, body)
                 self.assertIn(item_name, body)
 
+    def test_an_english_slug_answers_in_english_whatever_the_browser_asks(self):
+        # The point of reading the language from the URL: one URL, one
+        # language, no matter what the visitor's browser sends. Googlebot sends
+        # nothing at all, and used to receive English on every localised URL.
+        for header in ('pt', 'fr', 'es', 'de'):
+            with self.subTest(accept_language=header):
+                resp = self.client.get(
+                    '/retro/encyclopedia/monster/101-gobball/',
+                    HTTP_ACCEPT_LANGUAGE=header)
+                self.assertEqual(resp.status_code, 200)
+                self.assertIn('Gobball Wool', resp.content.decode('utf-8'))
+
+    def test_german_monster_page_localizes_section_labels(self):
+        # Retro stores no German monster names, so this lives on Dofus 3,
+        # where all five languages are present.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from chardata.official_site import get_monster_link
+        from django.utils import translation as dj_translation
+
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            row = conn.execute(
+                "SELECT monster_ankama_id, name FROM monster_names "
+                "WHERE language = 'de' AND monster_ankama_id = 36").fetchone()
+        finally:
+            conn.close()
+        self.assertIsNotNone(row, 'no German name for monster 36 on dofus3')
+        monster_id, german_name = row
+
+        with dj_translation.override('de'):
+            path = get_monster_link(monster_id, german_name, 'dofus3')
+        body = self.client.get(path).content.decode('utf-8')
+        self.assertIn('Gedroppte Ressourcen', body)
+        self.assertIn('Gedroppte Gegenstände', body)
+
     def test_retro_monster_page_localizes_section_labels(self):
         expected_labels = {
             'fr': ('Ressources droppées', 'Objets droppés'),
-            'de': ('Gedroppte Ressourcen', 'Gedroppte Gegenstände'),
         }
         for language, labels in expected_labels.items():
             with self.subTest(language=language):
-                resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
-                                       HTTP_ACCEPT_LANGUAGE=language)
+                resp = self.client.get(
+                    '/retro/encyclopedia/monster/101-%s/'
+                    % self.RETRO_MONSTER_SLUGS[language])
                 self.assertEqual(resp.status_code, 200)
                 body = resp.content.decode('utf-8')
                 for label in labels:

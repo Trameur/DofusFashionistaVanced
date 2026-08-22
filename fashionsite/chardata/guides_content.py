@@ -12,6 +12,8 @@ ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-
          'versions-explained', 'lock-and-dodge']
 
 
+from chardata.guides_slugs import GUIDE_SLUGS
+
 GUIDES = {
     # ------------------------------------------------------------------ #
     # Lock and dodge are opposed stats on the modern branch and do not exist at
@@ -5266,29 +5268,85 @@ def list_guides(language_code, game_version='dofus3'):
     """Return [{slug, title, desc}] in display order for a language/version."""
     lang = _lang(language_code)
     out = []
-    for slug in ordered_slugs():
-        block = _guide_block(GUIDES[slug], lang, game_version)
+    for key in ordered_slugs():
+        block = _guide_block(GUIDES[key], lang, game_version)
         out.append({
-            'slug': slug,
+            # `key` identifies the guide, `slug` is what goes in the URL and
+            # differs per language. Comparing the two would silently break the
+            # "other guides" list on every non-English page.
+            'key': key,
+            'slug': slug_for(key, lang),
             'title': block['title'],
             'desc': block['desc'],
         })
     return out
 
 
+# --- one URL slug per guide and language ------------------------------------
+#
+# A guide used to live at a single English slug, and its language came from
+# Accept-Language. Crawlers send no such header, so Google only ever saw the
+# English text of all 32 guides and never the other 128 translations.
+#
+# The slug now names the language, exactly as it does in the encyclopedia.
+# The English slug is unchanged, so URLs already indexed do not move.
+
+_SLUG_INDEX = None
+
+
+def _slug_index():
+    """Localised slug -> (guide key, language), built once."""
+    global _SLUG_INDEX
+    if _SLUG_INDEX is None:
+        index = {}
+        for key, per_language in GUIDE_SLUGS.items():
+            for language, slug in per_language.items():
+                index[slug] = (key, language)
+        _SLUG_INDEX = index
+    return _SLUG_INDEX
+
+
+def resolve_slug(slug):
+    """(guide key, language) for a URL slug, or (None, None) if unknown."""
+    return _slug_index().get(slug, (None, None))
+
+
+def slug_for(key, language_code):
+    """URL slug of a guide in one language.
+
+    Falls back to the guide key -- which is the English slug -- so a guide
+    added without its five slugs still resolves instead of 404ing.
+    """
+    return GUIDE_SLUGS.get(key, {}).get(_lang(language_code)) or key
+
+
+def alternate_slugs(key):
+    """{language: slug} for every language a guide is published in."""
+    return dict(GUIDE_SLUGS.get(key, {}))
+
+
 def _version_specific_slugs():
     return [slug for slug in GUIDES if 'i18n_by_group' in GUIDES[slug]]
 
 
-def _localize_body_links(body, game_version):
-    """Point body links to version-specific guides at the current version; links
-    to plain guides stay on /guides/."""
-    if game_version == 'dofus3':
-        return body
-    for slug in _version_specific_slugs():
+def _localize_body_links(body, game_version, language_code='en'):
+    """Rewrite the guide links inside a body.
+
+    Bodies are written with English slugs. On a French page those links have to
+    point at the French URLs, or every internal link leaves the language --
+    which also tells Google the translations are not connected to each other.
+    """
+    lang = _lang(language_code)
+    for key in ordered_slugs():
+        target = slug_for(key, lang)
+        prefix = ''
+        if game_version != 'dofus3' and key in _version_specific_slugs():
+            prefix = '/%s' % game_version
+        if target == key and not prefix:
+            continue
         body = body.replace(
-            'href="/guides/%s/"' % slug,
-            'href="/%s/guides/%s/"' % (game_version, slug))
+            'href="/guides/%s/"' % key,
+            'href="%s/guides/%s/"' % (prefix, target))
     return body
 
 
@@ -5299,9 +5357,15 @@ def get_guide(slug, language_code, game_version='dofus3'):
         return None
     lang = _lang(language_code)
     block = _guide_block(guide, lang, game_version)
-    data = {'slug': slug, 'published': guide['published']}
+    data = {
+        'key': slug,
+        'slug': slug_for(slug, lang),
+        'published': guide['published'],
+        'language': lang,
+        'alternates': alternate_slugs(slug),
+    }
     data.update(block)
-    data['body'] = _localize_body_links(data['body'], game_version)
+    data['body'] = _localize_body_links(data['body'], game_version, lang)
     return data
 
 

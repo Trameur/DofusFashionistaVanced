@@ -163,6 +163,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 MIDDLEWARE = [
+    # First on purpose: it wraps every other layer, LocaleMiddleware included,
+    # so a request that picks its language from the URL cannot leave that
+    # language active for whatever runs next on the same thread.
+    'chardata.url_language.RestoreLanguageMiddleware',
     # Emits the SECURE_* headers configured above (hsts, nosniff, referrer-policy).
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.gzip.GZipMiddleware',

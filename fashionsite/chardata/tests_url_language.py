@@ -79,14 +79,28 @@ class LanguageFromSlugTest(TestCase):
         self.assertIsNone(language_from_slug(TWIGGY_SWORD, '', normalise))
         self.assertIsNone(language_from_slug(TWIGGY_SWORD, None, normalise))
 
-    def test_identical_names_resolve_deterministically(self):
-        # Item names are often the same in English and German. Whatever we
-        # pick, it must be the same on every request: a canonical that moves
-        # between requests is what caused the original problem.
-        names = {'en': 'Gelano', 'de': 'Gelano', 'fr': 'Gelano'}
+    def test_an_ambiguous_slug_answers_in_english(self):
+        """Proper nouns are usually left untranslated, so this is the common
+        case, not an edge one. Such a URL must keep answering exactly as it did
+        before the language was read from the slug -- in English, which is both
+        the historical default and the indexed URL. An earlier tie-break put
+        English last and served Portuguese on every monster whose name does not
+        change between languages."""
+        names = {'en': 'Crocodyl', 'de': 'Crocodyl', 'fr': 'Crocodyl',
+                 'es': 'Crocodyl', 'pt': 'Crocodyl'}
+        self.assertEqual(language_from_slug(names, 'crocodyl', normalise), 'en')
+
+    def test_an_ambiguous_slug_without_english_is_still_deterministic(self):
+        names = {'de': 'Gelano', 'fr': 'Gelano'}
         first = language_from_slug(names, 'gelano', normalise)
         self.assertEqual(first, language_from_slug(names, 'gelano', normalise))
         self.assertIn(first, names)
+
+    def test_a_translated_name_still_wins_over_english(self):
+        # Ambiguity only decides when the slug matches several languages.
+        names = {'en': 'Twiggy Sword', 'fr': 'Epee de Boisaille'}
+        self.assertEqual(
+            language_from_slug(names, 'epee-de-boisaille', normalise), 'fr')
 
     def test_missing_translation_is_skipped(self):
         names = dict(TWIGGY_SWORD, pt=None)
