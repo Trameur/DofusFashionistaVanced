@@ -542,3 +542,64 @@ class LocalisedSitemapTest(TestCase):
 
     def test_an_unknown_section_is_404(self):
         self.assertEqual(self.client.get('/sitemap-nope-xx.xml').status_code, 404)
+
+
+class InternalLinksStayInLanguageTest(TestCase):
+    """A localised page whose links point back at English URLs sends every
+    visitor -- and every crawler -- straight out of the language it just
+    reached, and tells Google the translations are unrelated pages."""
+
+    FRENCH = '/encyclopedia/item/equipment/44-epee-de-boisaille/'
+    SPANISH = '/encyclopedia/item/equipment/44-espada-de-maderucha/'
+
+    @staticmethod
+    def _encyclopedia_links(html):
+        return set(re.findall(r'href="(/(?:[a-z0-9]+/)?encyclopedia/[^"]*)"', html))
+
+    @staticmethod
+    def _without_hreflang(html):
+        """Drops the alternate block, which names the other languages on
+        purpose. Stripping only the attribute leaves the tag and its href
+        behind, which reads as an English link that is not one."""
+        return re.sub(r'<link[^>]*hreflang[^>]*>', '', html)
+
+    def test_a_french_page_does_not_link_to_the_english_item(self):
+        response = self.client.get(self.FRENCH)
+        self.assertEqual(response.status_code, 200)
+        body = self._without_hreflang(response.content.decode('utf-8'))
+        self.assertNotIn(
+            '44-twiggy-sword', body,
+            'the French item page links to the English URL outside hreflang')
+
+    def test_links_on_a_spanish_page_answer_in_spanish(self):
+        body = self._without_hreflang(
+            self.client.get(self.SPANISH).content.decode('utf-8'))
+        checked = 0
+        fugues = []
+        for path in sorted(self._encyclopedia_links(body))[:12]:
+            response = self.client.get(path)
+            if response.status_code != 200:
+                continue
+            declared = re.search(
+                r'<html[^>]*lang="([^"]+)"',
+                response.content.decode('utf-8'))
+            self.assertIsNotNone(declared, path)
+            if declared.group(1).split('-')[0] != 'es':
+                fugues.append((path, declared.group(1)))
+            checked += 1
+        self.assertTrue(checked, 'no internal encyclopedia link to check')
+
+        # Hub pages sit at a fixed path with no name to localise, so they have
+        # no URL of their own per language and answer in English to a crawler.
+        # Everything reached from an entity page -- other items, sets, monsters
+        # -- must stay in the language. This assertion is a guard against a new
+        # leak, not an acceptance of the known one.
+        HUBS = ('/encyclopedia/', '/encyclopedia/sets/',
+                '/encyclopedia/monsters/')
+        inattendues = [
+            (path, lang) for path, lang in fugues
+            if not any(path.endswith(hub) for hub in HUBS)
+        ]
+        self.assertFalse(
+            inattendues,
+            'these entity links leave Spanish: %s' % inattendues)
