@@ -42,6 +42,7 @@ import collections
 import io
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -64,6 +65,31 @@ FILES = (
 )
 
 LANGS = ('fr', 'en', 'es', 'pt')
+
+# Wakfu has no German locale: across all 8405 items the titles carry fr/en/es/pt
+# and nothing else, and wakfu.com declares no German alternate. Game data
+# therefore falls back to English for German readers. Everything the site says
+# in its own voice stays translated in five languages; this is only the data.
+FALLBACK = {'de': 'en'}
+
+# A line's characteristic is named in its own template, "[#charac HP]" and the
+# like, for 57 of the 63 actions equipment uses. The six that do not:
+#
+#   39, 40  "charac passee en parametre": the characteristic is a parameter,
+#           params[4], and only two values appear. Both read against Ankama's
+#           own rendering on 2026-08-22 rather than guessed: Furnace Eye
+#           (27584) passes 121 and renders "7% Armor received", Power Helmet
+#           (27700) passes 120 and renders "10% Armor given".
+#   304     applies a named state; the name joins to states.json.
+#   400     "NullEffect", literally nothing.
+#   1020    an internal regulation effect, one use.
+#   2001    harvesting quantity, a job stat rather than a fighting one.
+CHARACTERISTIC_IN_PARAM = {39: 1, 40: -1}
+CHARACTERISTIC_BY_ID = {120: 'ARMOR_GIVEN_PERCENT',
+                        121: 'ARMOR_RECEIVED_PERCENT'}
+STATE_ACTION = 304
+IGNORED_ACTIONS = (400, 1020)
+JOB_ACTIONS = (2001,)
 
 # A slot the optimizer would have to fill. PET, MOUNT and COSTUME are carried
 # through as data but are not gear in the sense the solver means.
@@ -128,6 +154,32 @@ def load(target, name):
         return json.load(handle)
 
 
+def characteristic(action_id, description, params):
+    """(stat key, value) for one line, or (None, reason) when it is not a stat."""
+    if action_id in IGNORED_ACTIONS:
+        return None, 'empty'
+    if action_id in JOB_ACTIONS:
+        return None, 'job'
+    if action_id == STATE_ACTION:
+        return None, 'state'
+    sign = CHARACTERISTIC_IN_PARAM.get(action_id)
+    if sign is not None:
+        named = int(params[4]) if len(params) > 4 else None
+        key = CHARACTERISTIC_BY_ID.get(named)
+        if key is None:
+            return None, 'characteristic %s not named' % named
+        return key, sign * (params[0] if params else 0)
+    found = re.search(r'\[#charac ([A-Z_]+)\]', description or '')
+    if not found:
+        return None, 'no characteristic in the template'
+    # A template that opens with "-" is the losing half of a pair: action 168
+    # is "-[#1]% Critical Hit" against 150's "[#1]% Critical Hit".
+    negative = (description or '').lstrip().startswith('-') or '] -[#1]' in (
+        description or '')
+    value = params[0] if params else 0
+    return found.group(1), -value if negative else value
+
+
 def titles(node):
     """The four languages, as plain strings, with the plural template kept.
 
@@ -135,7 +187,11 @@ def titles(node):
     name is displayed, not here: this dump stays faithful to the source.
     """
     body = node or {}
-    return {lang: body.get(lang) for lang in LANGS if body.get(lang)}
+    out = {lang: body.get(lang) for lang in LANGS if body.get(lang)}
+    for missing, instead in FALLBACK.items():
+        if out.get(instead):
+            out[missing] = out[instead]
+    return out
 
 
 def decode(target):
@@ -146,12 +202,15 @@ def decode(target):
              for row in load(target, 'itemTypes.json')}
     equipment = {row['definition']['id']: row
                  for row in load(target, 'equipmentItemTypes.json')}
+    states = {row['definition']['id']: row for row in load(target, 'states.json')}
 
     report = {'items': len(items), 'actions': len(actions),
               'item_types': len(types), 'equipment_types': len(equipment),
               'by_position': collections.Counter(),
               'by_rarity': collections.Counter(),
               'unknown_actions': collections.Counter(),
+              'stats': collections.Counter(),
+              'not_a_stat': collections.Counter(),
               'languages': collections.Counter(),
               'sets': set()}
 
@@ -176,11 +235,22 @@ def decode(target):
             action = actions.get(action_id)
             if action is None:
                 report['unknown_actions'][action_id] += 1
-            lines.append({
-                'action': action_id,
-                'params': spec.get('params') or [],
-                'template': titles((action or {}).get('description')),
-            })
+            params = spec.get('params') or []
+            english = ((action or {}).get('description') or {}).get('en')
+            key, value = characteristic(action_id, english, params)
+            line = {'action': action_id, 'params': params,
+                    'template': titles((action or {}).get('description'))}
+            if key:
+                line['stat'] = key
+                line['value'] = value
+                report['stats'][key] += 1
+            else:
+                line['not_a_stat'] = value
+                report['not_a_stat'][value] += 1
+                if action_id == STATE_ACTION and params:
+                    state = states.get(int(params[0])) or {}
+                    line['state'] = titles(state.get('title'))
+            lines.append(line)
 
         for position in positions:
             report['by_position'][position] += 1
@@ -241,6 +311,10 @@ def main(argv=None):
           % (report['actions'], len(report['unknown_actions'])))
     print('sets named by an item: %d (no set file is published)'
           % report['sets'])
+    print('stat lines named: %d across %d characteristics'
+          % (sum(report['stats'].values()), len(report['stats'])))
+    for reason, count in report['not_a_stat'].most_common():
+        print('   not a stat: %-34s %d' % (reason, count))
     print('languages: %s' % dict(report['languages']))
     print('by slot:')
     for position, count in sorted(report['by_position'].items()):
