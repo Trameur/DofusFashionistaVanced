@@ -24,10 +24,13 @@ from fashionistapulp.structure import get_structure
 def stats(request, char_id):
     char = get_char_or_raise(request, char_id)
         
+    from chardata.stat_availability import stats_not_worth_offering
+    game_version = getattr(request, 'game_version', 'dofus3')
     return set_response(request,
                         'chardata/stats.html',
                         {'char_id': char_id,
                          'advanced': True,
+                         'unavailable_stats': stats_not_worth_offering(game_version),
                          'default_weights_json': json.dumps(get_stats_weights(char))},
                         char)
 
@@ -35,8 +38,17 @@ def stats(request, char_id):
 def stats_post(request, char_id):
     char = get_char_or_raise(request, char_id)
 
+    from chardata.stat_availability import stats_not_worth_offering
+    game_version = getattr(request, 'game_version', 'dofus3')
+    hidden = stats_not_worth_offering(game_version)
+    # A hidden row posts nothing, and reading it as 0 would quietly wipe a
+    # weight the reader set before, or on another page. Keep what is stored.
+    stored = get_stats_weights(char)
     stats_weight = {}
     for stat in get_structure().get_stats_list():
+        if stat.key in hidden:
+            stats_weight[stat.key] = stored.get(stat.key, 0)
+            continue
         stats_weight[stat.key] = safe_int(request.POST.get('weight_%s' % stat.key, 0), 0)
     set_stats_weights(char, stats_weight)
     

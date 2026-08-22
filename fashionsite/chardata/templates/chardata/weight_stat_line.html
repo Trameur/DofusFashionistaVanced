@@ -1,6 +1,8 @@
 {% load static_s3 %}
 {% load chardata_stat_icons %}
 {% stat_icon_path stat_key as resolved_icon %}
+{% comment %}A weight on a stat this version cannot give moves nothing.{% endcomment %}
+{% if stat_key not in unavailable_stats %}
 <tr class="weight-stat-line">
     <td class="weight-stat-icon-cell {% if stat_key == 'vit' %}upper-left-cell{% endif %}
                                      {% if stat_key == 'resperran' %}bottom-left-cell{% endif %}" >
@@ -19,3 +21,4 @@
         </input>
     </td>
 </tr>
+{% endif %}

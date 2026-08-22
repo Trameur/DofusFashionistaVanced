@@ -1901,6 +1901,82 @@ class WhichSpellsPushTests(SimpleTestCase):
                                 '%s: half the roster cannot push' % version)
 
 
+class AWeightOnlyShowsWhenItCanChangeTheAnswerTests(TestCase):
+    """Retro offered eighteen weights that steer nothing: not one item and not
+    one set bonus in 1.29 carries pushback damage, lock, dodge, critical
+    damage, or the AP and MP reduction lines. The control was wired to nothing.
+
+    Measured per version, never hand-listed, and left alone on dofus3 and the
+    beta where model.py can still route such a weight through a named item."""
+
+    def test_the_set_is_measured_not_written_down(self):
+        from chardata.stat_availability import stats_with_no_source
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'dofus2', 'touch', 'retro'):
+            missing = stats_with_no_source(version)
+            connection = sqlite3.connect(
+                'file:%s?mode=ro' % get_items_db_path(version), uri=True)
+            try:
+                granted = set()
+                for table in ('stats_of_item', 'set_bonus'):
+                    granted.update(row[0] for row in connection.execute(
+                        'SELECT DISTINCT stat FROM "%s" WHERE value <> 0' % table))
+            finally:
+                connection.close()
+            by_key = {stat.key: stat.id
+                      for stat in get_structure(version).get_stats_list()}
+            with self.subTest(version=version):
+                for key in missing:
+                    self.assertNotIn(by_key[key], granted)
+                for key, stat_id in by_key.items():
+                    if stat_id in granted:
+                        self.assertNotIn(key, missing)
+
+    def test_retro_hides_the_pushback_and_lock_weights(self):
+        from chardata.stat_availability import stats_not_worth_offering
+        hidden = stats_not_worth_offering('retro')
+        for key in ('pshdam', 'pshres', 'lock', 'dodge', 'cridam', 'crires'):
+            with self.subTest(stat=key):
+                self.assertIn(key, hidden)
+
+    def test_dofus3_hides_nothing_because_a_named_item_can_route_it(self):
+        from chardata.stat_availability import stats_not_worth_offering
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                self.assertEqual(frozenset(), stats_not_worth_offering(version))
+
+    def test_touch_keeps_the_weights_it_has_items_for(self):
+        from chardata.stat_availability import stats_not_worth_offering
+        hidden = stats_not_worth_offering('touch')
+        for key in ('pshdam', 'lock', 'dodge'):
+            with self.subTest(stat=key):
+                self.assertNotIn(key, hidden)
+
+    def test_a_hidden_weight_is_not_wiped_when_the_page_is_saved(self):
+        import re
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from chardata.stats_weights import get_stats_weights, set_stats_weights
+        user = User.objects.create_user('weigher', 'w@test.local', 'pw-1234')
+        self.client.force_login(user)
+        created = self.client.post('/retro/createproject/', {
+            'char_name': 'keep', 'char_class': 'Iop', 'char_level': '200',
+            'where_to_go': 'solution'})
+        found = re.search(r'/(\d+)/', created.headers.get('Location', ''))
+        self.assertIsNotNone(found)
+        char_id = int(found.group(1))
+        char = Char.objects.get(id=char_id)
+        weights = get_stats_weights(char)
+        weights['pshdam'] = 77
+        set_stats_weights(char, weights)
+        self.client.post('/retro/statspost/%s/' % char_id, {'weight_str': '10'})
+        after = get_stats_weights(Char.objects.get(id=char_id))
+        self.assertEqual(77, after.get('pshdam'))
+        self.assertEqual(10, after.get('str'))
+
+
 class WeirdItemWeightsSurviveASparseWeightsDictTests(SimpleTestCase):
     """One line in the objective read objective_values.get('pshdam') with no
     default, unlike every line beside it, so a weights dict that names a combat
