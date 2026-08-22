@@ -97,10 +97,30 @@ def _drop_empty(spell):
 PUSH_EFFECT_IDS = {5: True, 1021: True, 4002: True, 1103: False}
 
 
+def _state_requirement(target_mask):
+    """The state a row needs, from the client's own target mask.
+
+    '*E5282' means the state must be present, '*e5282' that it must be absent.
+    Torrent and Froth carry both branches at once: they push at High Tide and
+    attract at Low, so recording the push without its gate credits the Steamer
+    a push it only makes half the time.
+    """
+    for token in (target_mask or '').split(','):
+        token = token.strip()
+        if len(token) < 3 or not token.startswith('*'):
+            continue
+        flag, digits = token[1], token[2:]
+        if flag not in 'Ee' or not digits.isdigit():
+            continue
+        return {'state': int(digits), 'present': flag == 'E'}
+    return None
+
+
 def _push_per_rank(levels):
-    """[{'cells': n, 'damaging': bool}, ...], one per rank, None when it never
-    pushes. A rank that both pushes and pushes-without-damage keeps the larger
-    damaging push: that is the branch a damage model cares about."""
+    """[{'cells': n, 'damaging': bool, 'needs': {...}}, ...], one per rank,
+    None when it never pushes. A rank that both pushes and pushes-without-damage
+    keeps the larger damaging push: that is the branch a damage model cares
+    about."""
     out = []
     for level in levels:
         best = None
@@ -112,6 +132,9 @@ def _push_per_rank(levels):
             if not cells:
                 continue
             candidate = {'cells': cells, 'damaging': bool(damaging)}
+            needs = _state_requirement(effect.get('target_mask'))
+            if needs:
+                candidate['needs'] = needs
             if best is None:
                 best = candidate
             elif candidate['damaging'] and not best['damaging']:

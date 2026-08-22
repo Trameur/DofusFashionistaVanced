@@ -4495,7 +4495,11 @@
    "push": [
     {
      "cells": 4,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": false,
+      "state": 5597
+     }
     }
    ],
    "range": [
@@ -15912,15 +15916,27 @@
    "push": [
     {
      "cells": 4,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 5282
+     }
     },
     {
      "cells": 4,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 5282
+     }
     },
     {
      "cells": 4,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 5282
+     }
     }
    ],
    "range": [
@@ -16994,7 +17010,11 @@
    "push": [
     {
      "cells": 3,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 5282
+     }
     }
    ],
    "range": [
@@ -26274,11 +26294,19 @@
    "push": [
     {
      "cells": 4,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
     },
     {
      "cells": 4,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 100
+     }
     }
    ],
    "range": [
@@ -32743,15 +32771,27 @@
    "push": [
     {
      "cells": 2,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 3531
+     }
     },
     {
      "cells": 2,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 3531
+     }
     },
     {
      "cells": 2,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 3531
+     }
     }
    ],
    "range": [
@@ -33497,11 +33537,19 @@
    "push": [
     {
      "cells": 1,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 498
+     }
     },
     {
      "cells": 1,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 498
+     }
     }
    ],
    "range": [
@@ -34466,7 +34514,11 @@
    "push": [
     {
      "cells": 2,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": true,
+      "state": 3531
+     }
     }
    ],
    "range": [
@@ -43903,7 +43955,11 @@
    "push": [
     {
      "cells": 2,
-     "damaging": true
+     "damaging": true,
+     "needs": {
+      "present": false,
+      "state": 6052
+     }
     }
    ],
    "range": [

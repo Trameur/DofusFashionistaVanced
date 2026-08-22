@@ -1870,6 +1870,44 @@ class WhichSpellsPushTests(SimpleTestCase):
             with self.subTest(spell_id=spell_id):
                 self.assertEqual(cells, push_cells('dofus3', spell_id))
 
+    def test_a_push_the_tide_gates_says_so(self):
+        # Torrent pushes four cells at High Tide and attracts six at Low; Froth
+        # does the same with three and five. Recording the cells without the
+        # gate credits the Steamer a push it makes half the time.
+        from chardata.spell_reference import push_info, state_name
+        for spell_id, cells in ((13822, 4), (13825, 3)):
+            info = push_info('dofus3', spell_id)
+            with self.subTest(spell_id=spell_id):
+                self.assertIsNotNone(info)
+                self.assertEqual(cells, info['cells'])
+                self.assertEqual({'state': 5282, 'present': True},
+                                 info.get('needs'))
+                self.assertEqual('High Tide',
+                                 state_name('dofus3', 5282, 'en'))
+
+    def test_an_ungated_push_carries_no_gate(self):
+        from chardata.spell_reference import push_info
+        for spell_id in (13865, 13824, 13876):
+            with self.subTest(spell_id=spell_id):
+                self.assertIsNone(push_info('dofus3', spell_id).get('needs'))
+
+    def test_the_state_that_gates_a_push_is_shipped_with_a_name(self):
+        # The states file only ever collected states gating a DAMAGE row, so
+        # the Tide was missing and the gate could not be named.
+        from chardata.spell_reference import get_spell_reference, state_name
+        for version in ('dofus3', 'beta'):
+            wanted = set()
+            for entries in get_spell_reference(version).values():
+                for entry in entries or []:
+                    for rank in entry.get('push') or []:
+                        if rank and rank.get('needs'):
+                            wanted.add(rank['needs']['state'])
+            with self.subTest(version=version):
+                self.assertTrue(wanted, '%s: no gated push at all' % version)
+                for state_id in wanted:
+                    self.assertTrue(state_name(version, state_id, 'en'),
+                                    'state %s has no name' % state_id)
+
     def test_a_push_the_game_calls_harmless_is_not_counted(self):
         # Effect 1103 pushes "without damage"; a spell whose only push is that
         # one must not be treated as a source of pushback damage.

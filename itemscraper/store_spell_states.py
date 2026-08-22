@@ -46,8 +46,18 @@ SOURCE = {
 _STATE_TOKEN = re.compile(r'\*?([eE])(\d+)')
 
 
+# The client gates a row on a state through the target mask: '*E5282' means the
+# state is present, '*e5282' that it is absent.
+_MASK_STATE = re.compile(r'\*([Ee])(\d+)')
+
+# The rows that move a target. Their gate matters as much as a damage row's:
+# the Steamer's Torrent pushes at High Tide and attracts at Low, and a page that
+# cannot name the Tide cannot say which.
+_MOVEMENT_EFFECT_IDS = {5, 6, 1021, 1103, 4002}
+
+
 def state_ids_in_use(spells_path):
-    """Every state id a damage row of the archive is gated on."""
+    """Every state id a damage row or a movement row of the archive is gated on."""
     with open(spells_path, encoding='utf-8') as handle:
         spells = json.load(handle)
     found = set()
@@ -59,6 +69,13 @@ def state_ids_in_use(spells_path):
                 if not group:
                     continue
                 for _sign, state_id in _STATE_TOKEN.findall(group):
+                    found.add(int(state_id))
+        for level in spell.get('levels') or []:
+            for effect in level.get('effects') or []:
+                if effect.get('effect_id') not in _MOVEMENT_EFFECT_IDS:
+                    continue
+                for _flag, state_id in _MASK_STATE.findall(
+                        effect.get('target_mask') or ''):
                     found.add(int(state_id))
     return found
 

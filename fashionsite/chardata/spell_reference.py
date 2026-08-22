@@ -91,6 +91,26 @@ def _pushing_from_descriptions(game_version):
     return found
 
 
+def push_info(game_version, spell_id, rank_index=-1):
+    """The push a spell makes at that rank, or None.
+
+    {'cells': n, 'damaging': bool} and, when the client gates it on a state,
+    'needs': {'state': id, 'present': bool}. The Steamer's Torrent pushes four
+    cells at High Tide and attracts six at Low; reading the cells without the
+    gate credits it a push it makes half the time.
+    """
+    for entries in (get_spell_reference(game_version) or {}).values():
+        for entry in entries or []:
+            if entry.get('id') != spell_id:
+                continue
+            ranks = entry.get('push') or []
+            if not ranks:
+                return None
+            index = rank_index if -len(ranks) <= rank_index < len(ranks) else -1
+            return ranks[index]
+    return None
+
+
 def push_cells(game_version, spell_id, rank_index=-1):
     """Cells that spell pushes at that rank, 0 when it does not push or the
     push is one the game states deals no damage."""

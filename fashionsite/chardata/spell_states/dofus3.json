@@ -1,4 +1,11 @@
 {
+ "100": {
+  "de": "Hänselchen klein",
+  "en": "Cowardly",
+  "es": "Eskérdikat",
+  "fr": "Pleutre",
+  "pt": "Covarde"
+ },
  "1049": {
   "de": "Feu des Ténèbres",
   "en": "Feu des Ténèbres",
@@ -342,6 +349,13 @@
   "fr": "Thermolacté",
   "pt": "Termolácteo"
  },
+ "157": {
+  "de": "Unerschütterlich",
+  "en": "Unshakable",
+  "es": "Inquebrantable",
+  "fr": "Inébranlable",
+  "pt": "Inabalável"
+ },
  "1625": {
   "de": "Marqueur Frappe Cardinale",
   "en": "Marqueur Frappe Cardinale",
@@ -369,6 +383,13 @@
   "es": "Fulminado",
   "fr": "Foudroyé",
   "pt": "Fulminado"
+ },
+ "176": {
+  "de": "Frittiert",
+  "en": "Small Fry",
+  "es": "Ahogado",
+  "fr": "Friture",
+  "pt": "Fritura"
  },
  "177": {
   "de": "Krakelig",
@@ -748,6 +769,13 @@
   "fr": "Proie",
   "pt": "Presa"
  },
+ "2663": {
+  "de": "Ausgeschalteter Reiter",
+  "en": "Neutralised Horseman",
+  "es": "Jinete Neutralizado",
+  "fr": "Cavalier neutralisé",
+  "pt": "Cavaleiro Neutralizado"
+ },
  "268": {
   "de": "Duell",
   "en": "Duel",
@@ -979,6 +1007,13 @@
   "fr": "Gueule de Bois",
   "pt": "Ressaca"
  },
+ "3601": {
+  "de": "Flamboyance 1",
+  "en": "Flamboyance 1",
+  "es": "Flamboyance 1",
+  "fr": "Flamboyance 1",
+  "pt": "Flamboyance 1"
+ },
  "3602": {
   "de": "Flamboyance 2",
   "en": "Flamboyance 2",
@@ -1048,6 +1083,48 @@
   "es": "Holmgang",
   "fr": "Holmgang",
   "pt": "Holmgang"
+ },
+ "3612": {
+  "de": "Charge Héroïque 1",
+  "en": "Charge Héroïque 1",
+  "es": "Charge Héroïque 1",
+  "fr": "Charge Héroïque 1",
+  "pt": "Charge Héroïque 1"
+ },
+ "3613": {
+  "de": "Charge Héroïque 2",
+  "en": "Charge Héroïque 2",
+  "es": "Charge Héroïque 2",
+  "fr": "Charge Héroïque 2",
+  "pt": "Charge Héroïque 2"
+ },
+ "3614": {
+  "de": "Charge Héroïque 3",
+  "en": "Charge Héroïque 3",
+  "es": "Charge Héroïque 3",
+  "fr": "Charge Héroïque 3",
+  "pt": "Charge Héroïque 3"
+ },
+ "3615": {
+  "de": "Charge Héroïque 4",
+  "en": "Charge Héroïque 4",
+  "es": "Charge Héroïque 4",
+  "fr": "Charge Héroïque 4",
+  "pt": "Charge Héroïque 4"
+ },
+ "3616": {
+  "de": "Charge Héroïque 5",
+  "en": "Charge Héroïque 5",
+  "es": "Charge Héroïque 5",
+  "fr": "Charge Héroïque 5",
+  "pt": "Charge Héroïque 5"
+ },
+ "3646": {
+  "de": "Jormun_MARQUEUR_cible",
+  "en": "Jormun_MARQUEUR_cible",
+  "es": "Jormun_MARQUEUR_cible",
+  "fr": "Jormun_MARQUEUR_cible",
+  "pt": "Jormun_MARQUEUR_cible"
  },
  "3666": {
   "de": "Oligarchie 1",
@@ -1223,6 +1300,13 @@
   "es": "Locura 6",
   "fr": "Folie 6",
   "pt": "Loucura 6"
+ },
+ "4056": {
+  "de": "Ausgangssperre",
+  "en": "Curfew",
+  "es": "Toque de Queda",
+  "fr": "Couvre-feu",
+  "pt": "Toque de Recolher"
  },
  "406": {
   "de": "Wahnsinn 7",
@@ -1644,6 +1728,13 @@
   "fr": "Glyphes déclenchés",
   "pt": "Transumância"
  },
+ "5282": {
+  "de": "Flut",
+  "en": "High Tide",
+  "es": "Marea Alta",
+  "fr": "Marée Haute",
+  "pt": "Maré Alta"
+ },
  "5309": {
   "de": "Harmattan",
   "en": "Harmattan",
@@ -1664,6 +1755,13 @@
   "es": "Atrapado como un Milubo",
   "fr": "Piégé comme un Mulou",
   "pt": "Enrascado feito um Milobo"
+ },
+ "533": {
+  "de": "Goules 1",
+  "en": "Goules 1",
+  "es": "Goules 1",
+  "fr": "Goules 1",
+  "pt": "Goules 1"
  },
  "5343": {
   "de": "Entfettet",
@@ -1699,6 +1797,13 @@
   "es": "Bendición de Ugah",
   "fr": "Bénédiction d'Ougah",
   "pt": "Bênção de Ugah"
+ },
+ "5380": {
+  "de": "Souffrance 6+",
+  "en": "Souffrance 6+",
+  "es": "Souffrance 6+",
+  "fr": "Souffrance 6+",
+  "pt": "Souffrance 6+"
  },
  "5409": {
   "de": "Infiziert (Ziel)",
@@ -2008,6 +2113,20 @@
   "fr": "Tromperie Terre 5 PA",
   "pt": "Enganação de Terra 5 PA"
  },
+ "5597": {
+  "de": "Kopf",
+  "en": "Tails",
+  "es": "Cruz",
+  "fr": "Pile",
+  "pt": "Coroa"
+ },
+ "5598": {
+  "de": "Zahl",
+  "en": "Heads",
+  "es": "Cara",
+  "fr": "Face",
+  "pt": "Cara"
+ },
  "56": {
   "de": "Unverwundbar",
   "en": "Invulnerable",
@@ -2197,6 +2316,13 @@
   "fr": "Surcharge Runique",
   "pt": "Sobrecarga Rúnica"
  },
+ "6052": {
+  "de": "Double invoqué",
+  "en": "Double invoqué",
+  "es": "Double invoqué",
+  "fr": "Double invoqué",
+  "pt": "Double invoqué"
+ },
  "6137": {
   "de": "Sables du Temps (cible)",
   "en": "Sables du Temps (cible)",
@@ -2231,6 +2357,13 @@
   "es": "Bébé",
   "fr": "Bébé",
   "pt": "Bébé"
+ },
+ "6275": {
+  "de": "Supervizœuf - Phase 2",
+  "en": "Supervizœuf - Phase 2",
+  "es": "Supervizœuf - Phase 2",
+  "fr": "Supervizœuf - Phase 2",
+  "pt": "Supervizœuf - Phase 2"
  },
  "6283": {
   "de": "Phase I",
@@ -2484,6 +2617,20 @@
   "fr": "Rune (rang 3)",
   "pt": "Rune (rang 3)"
  },
+ "6972": {
+  "de": "Manifestation (cible)",
+  "en": "Manifestation (cible)",
+  "es": "Manifestation (cible)",
+  "fr": "Manifestation (cible)",
+  "pt": "Manifestation (cible)"
+ },
+ "6976": {
+  "de": "Flèche Évasive (mêlée)",
+  "en": "Flèche Évasive (mêlée)",
+  "es": "Flèche Évasive (mêlée)",
+  "fr": "Flèche Évasive (mêlée)",
+  "pt": "Flèche Évasive (mêlée)"
+ },
  "6980": {
   "de": "Surcharge Runique (rang 2)",
   "en": "Surcharge Runique (rang 2)",
@@ -2532,6 +2679,13 @@
   "es": "Flèche Boomerang (nouvelle cible)",
   "fr": "Flèche Boomerang (nouvelle cible)",
   "pt": "Flèche Boomerang (nouvelle cible)"
+ },
+ "7119": {
+  "de": "Flèche Assaillante (mêlée)",
+  "en": "Flèche Assaillante (mêlée)",
+  "es": "Flèche Assaillante (mêlée)",
+  "fr": "Flèche Assaillante (mêlée)",
+  "pt": "Flèche Assaillante (mêlée)"
  },
  "7120": {
   "de": "Pfeil der Abschaffung I",
@@ -2589,6 +2743,13 @@
   "fr": "Fil du Destin",
   "pt": "Fio do Destino"
  },
+ "74": {
+  "de": "Zombie",
+  "en": "Zombie",
+  "es": "Zombi",
+  "fr": "Zombi",
+  "pt": "Zumbi"
+ },
  "742": {
   "de": "Zorn des Schicksals",
   "en": "Wrath of Destiny",
@@ -2609,6 +2770,13 @@
   "es": "Incurable",
   "fr": "Insoignable",
   "pt": "Incurável"
+ },
+ "798": {
+  "de": "Alptraum des Tynrils",
+  "en": "Tynrils' Nightmare",
+  "es": "Pesadilla de los Tynriles",
+  "fr": "Cauchemar des Tynrils",
+  "pt": "Pesadelo dos Tynrils"
  },
  "8": {
   "de": "Getragen",
@@ -2777,6 +2945,27 @@
   "es": "Indesplazable",
   "fr": "Indéplaçable",
   "pt": "Irremovível"
+ },
+ "981": {
+  "de": "AT.Julith [2] 2 cases",
+  "en": "AT.Julith [2] 2 cases",
+  "es": "AT.Julith [2] 2 cases",
+  "fr": "AT.Julith [2] 2 cases",
+  "pt": "AT.Julith [2] 2 cases"
+ },
+ "982": {
+  "de": "AT.Julith [2] 1 case",
+  "en": "AT.Julith [2] 1 case",
+  "es": "AT.Julith [2] 1 case",
+  "fr": "AT.Julith [2] 1 case",
+  "pt": "AT.Julith [2] 1 case"
+ },
+ "983": {
+  "de": "AT.Julith [2] 0 case",
+  "en": "AT.Julith [2] 0 case",
+  "es": "AT.Julith [2] 0 case",
+  "fr": "AT.Julith [2] 0 case",
+  "pt": "AT.Julith [2] 0 case"
  },
  "99": {
   "de": "Berserker",
