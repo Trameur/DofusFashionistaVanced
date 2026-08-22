@@ -3140,6 +3140,51 @@ class ContactFormTests(TestCase):
         resp = self.client.get('/send/')
         self.assertEqual(resp.status_code, 302)
 
+    def _post(self, **fields):
+        from unittest import mock
+        self.enterContext(mock.patch('chardata.contact_view.recaptcha_ok',
+                                     return_value=True))
+        payload = {'topic': 'Bug report', 'message': 'The optimizer ate my hat.',
+                   'email': 'player@test.local', 'name': 'A player'}
+        payload.update(fields)
+        return self.client.post('/send/', payload)
+
+    def test_an_empty_submission_is_not_mailed(self):
+        # Four of these reached the inbox as "Fashionista Form:" with an empty
+        # body, because the view read POST directly and never validated it.
+        from django.core import mail
+        for blank in ({'topic': ''}, {'message': ''},
+                      {'topic': '   ', 'message': '  '}):
+            with self.subTest(blank=blank):
+                response = self._post(**blank)
+                self.assertEqual(302, response.status_code)
+                self.assertIn('nomessage', response.url)
+                self.assertEqual([], mail.outbox)
+
+    def test_an_oversized_field_is_not_mailed(self):
+        from django.core import mail
+        for oversized in ({'topic': 'x' * 201}, {'name': 'x' * 101},
+                          {'email': 'x' * 250 + '@test.local'},
+                          {'message': 'x' * 10001}):
+            with self.subTest(field=list(oversized)[0]):
+                response = self._post(**oversized)
+                self.assertIn('nomessage', response.url)
+                self.assertEqual([], mail.outbox)
+
+    def test_an_unusable_address_is_flagged_not_dropped(self):
+        from django.core import mail
+        response = self._post(email='not-an-email')
+        self.assertIn('thankyou', response.url)
+        self.assertEqual(1, len(mail.outbox))
+        self.assertIn('not-an-email (not a usable address)', mail.outbox[0].body)
+
+    def test_a_missing_name_and_address_say_so(self):
+        from django.core import mail
+        response = self._post(name='', email='')
+        self.assertIn('thankyou', response.url)
+        self.assertIn('(no name given)', mail.outbox[0].body)
+        self.assertIn('(no address given)', mail.outbox[0].body)
+
 
 class AuthenticatedPagesSmokeTests(TestCase):
 

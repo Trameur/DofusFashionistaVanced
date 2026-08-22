@@ -16,6 +16,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.urls import reverse
@@ -32,14 +34,41 @@ def contact(request):
                         'chardata/contacts.html',
                         {'form': ContactForm()})
 
+# ContactForm declares every field required and this view never used it, so an
+# empty submission arrived as "Fashionista Form:" with an empty body.
+MAX_SUBJECT = 200
+MAX_NAME = 100
+MAX_EMAIL = 254
+MAX_MESSAGE = 10000  # the textarea's own maxlength
+
+NO_NAME = '(no name given)'
+NO_ADDRESS = '(no address given)'
+
+
 def send_email(request):
     if request.method != 'POST':
         return HttpResponseRedirect(version_reverse(request, 'contact'))
 
-    subject = request.POST.get('topic', '')
-    message = request.POST.get('message', '')
-    from_email = request.POST.get('email', '')
-    name = request.POST.get('name', '')
+    subject = request.POST.get('topic', '').strip()
+    message = request.POST.get('message', '').strip()
+    from_email = request.POST.get('email', '').strip()
+    name = request.POST.get('name', '').strip()
+
+    if not subject or not message:
+        return HttpResponseRedirect(version_reverse(request, 'nomessage'))
+    if (len(subject) > MAX_SUBJECT or len(message) > MAX_MESSAGE
+            or len(name) > MAX_NAME or len(from_email) > MAX_EMAIL):
+        return HttpResponseRedirect(version_reverse(request, 'nomessage'))
+
+    # A typo in the address is no reason to drop somebody's message; say in the
+    # mail itself that there is no way to answer it.
+    reply_to = NO_ADDRESS
+    if from_email:
+        reply_to = from_email
+        try:
+            validate_email(from_email)
+        except ValidationError:
+            reply_to = '%s (not a usable address)' % from_email
 
     if not settings.DEBUG and not recaptcha_ok(request):
         return HttpResponseRedirect(reverse('nomessage'))
@@ -47,7 +76,7 @@ def send_email(request):
     try:
         send_mail(
             "Fashionista Form: " + subject,
-            message + "\n\nfrom: " + name + "\n" + from_email,
+            message + "\n\nfrom: " + (name or NO_NAME) + "\n" + reply_to,
             'DofusFashionistaVanced@gmail.com',
             ['DofusFashionistaVanced@gmail.com']
         )

@@ -3972,8 +3972,6 @@ msgid "Your message could not be sent."
 msgstr ""
 
 #: .\chardata\templates\chardata\nomessage.html:15
-msgid "Please check the captcha and try again."
-msgstr ""
 
 #: .\chardata\templates\chardata\nomessage.html:17
 #: .\chardata\templates\chardata\thankyou.html:17
@@ -6123,4 +6121,8 @@ msgstr ""
 
 #: .\fashionsite\urls.py:129
 msgid "Dofus Fashionista needs a connection to optimize builds. Reconnect and try again."
+msgstr ""
+
+#: .\chardata\templates\chardata\nomessage.html:15
+msgid "Please check that the subject and the message are filled in, and that the captcha is done, then try again."
 msgstr ""
