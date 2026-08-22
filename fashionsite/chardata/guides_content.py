@@ -9,10 +9,397 @@ from __future__ import annotations
 
 ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'pets-mounts-and-shields', 'building-on-a-budget', 'inventory-and-your-own-rolls', 'gearing-a-healer',
          'best-turn-damage', 'transcendence-runes', 'pvp-resistance',
-         'versions-explained']
+         'versions-explained', 'lock-and-dodge']
 
 
 GUIDES = {
+    # ------------------------------------------------------------------ #
+    # Lock and dodge are opposed stats on the modern branch and do not exist at
+    # all in 1.29. Counted on our own catalogues: Dofus 3 has 549 items with
+    # lock and 606 with dodge, Dofus 2 has 476 and 520, Touch 339 and 453 with
+    # nothing above 32, Retro none of either.
+    'lock-and-dodge': {
+        'published': '2026-08-22',
+        'version_groups': {'retro': 'retro', 'touch': 'touch'},
+        'i18n_by_group': {
+            'modern': {
+                'en': {
+                    'title': 'Lock and dodge: what the gear really gives',
+                    'desc': 'Counted on the Dofus 3 catalogue: 549 items carry lock, 606 carry dodge, and 121 of them take dodge away. What to plan, and what to check.',
+                    'lead': 'Lock keeps an enemy beside you, dodge gets you out. Both are ordinary lines on ordinary gear, and the catalogue is far less generous with them than people assume.',
+                    'body': '''
+<h2>What the check actually is</h2>
+<p>When you try to leave a cell next to an enemy, the game compares your <strong>dodge</strong> against their <strong>lock</strong>. Fail and the escape costs you movement points, then action points once the movement is gone. Nobody is ever fully locked or fully free: it is a comparison between two numbers, so a point of lock is only worth what the people you fight put into dodge.</p>
+<p>That is why the two stats belong in the same guide. Building lock without knowing what dodge is available is building against a number you never looked at.</p>
+
+<h2>What the catalogue gives, counted</h2>
+<p>We counted every item in the Dofus 3 database: <strong>549 carry lock</strong> and <strong>606 carry dodge</strong>. That sounds like plenty until you look at the sizes.</p>
+<ul>
+<li>The best <strong>worn</strong> lock line is <strong>+20</strong>, on Count Harebourg&#39;s Hat and on Kroks, both level 200.</li>
+<li>Above that you are in trophy territory: Major Stickler and Major Obstructor give <strong>+32</strong> at level 150.</li>
+<li>Dodge reaches further: <strong>+40</strong> on the Ebony Dofus at level 180 and on Meriana&#39;s Clairvoyance at level 200.</li>
+<li>Pets are the outlier on both sides, at <strong>+50</strong>.</li>
+</ul>
+<p>So a serious lock build is assembled from many small lines, not from two big ones. Read our guide on <a href="/guides/reading-an-item/">reading an item</a> if those numbers on a tooltip do not mean much to you yet, and the guide on <a href="/guides/dofus-and-trophies/">dofuses and trophies</a> for the slots that carry the largest of them.</p>
+
+<h2>The lines that take it away</h2>
+<p>This is the part players miss. <strong>80 items remove lock and 121 remove dodge</strong>, and the negatives are bigger than the positives: Lady Jhessica&#39;s Courage costs <strong>60 dodge</strong> and Death-Defying costs <strong>50</strong>, against a best case of +40.</p>
+<p>If you never asked for dodge, nothing warned you that a belt was quietly taking more of it than any item in the game could give back. Set a minimum and the optimizer has to respect it; leave it unset and it is free to spend that number on something else.</p>
+
+<h2>You will rarely get both</h2>
+<p>Only <strong>20 items in the whole Dofus 3 catalogue give lock and dodge at once</strong>. The two are treated as opposite intentions, and gear is built that way. Decide which side of the check you want to win before you start, because trying to hold both usually means holding neither.</p>
+
+<h2>How to ask for it</h2>
+<p>Put a minimum on Lock or on Dodge in your build and let the solver find the pieces. It searches the whole catalogue at once, which is exactly the job you do not want to do by hand across 549 items. <a href="/setup/">Start a build</a> and set the minimum before you look at the result.</p>
+<p>One warning if you play more than one version: these numbers are Dofus 3&#39;s. Dofus Touch caps every one of these lines at 32, and Dofus Retro has none of them at all. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why advice does not travel between them.</p>
+''',
+                },
+                'fr': {
+                    'title': 'Tacle et fuite : ce que l\'équipement donne vraiment',
+                    'desc': 'Compté sur le catalogue Dofus 3 : 549 objets donnent du tacle, 606 de la fuite, et 121 en retirent. Ce qu\'il faut prévoir, et ce qu\'il faut vérifier.',
+                    'lead': 'Le tacle retient un ennemi contre toi, la fuite te fait sortir. Ce sont deux lignes ordinaires sur de l\'équipement ordinaire, et le catalogue est bien moins généreux qu\'on ne le croit.',
+                    'body': '''
+<h2>Ce que le jeu compare vraiment</h2>
+<p>Quand tu quittes une case adjacente à un ennemi, le jeu oppose ta <strong>fuite</strong> à son <strong>tacle</strong>. Si tu rates, sortir te coûte des points de mouvement, puis des points d&#39;action une fois les PM épuisés. Personne n&#39;est jamais totalement tacle ni totalement libre : c&#39;est une comparaison entre deux nombres, donc un point de tacle ne vaut que ce que les gens d&#39;en face mettent en fuite.</p>
+<p>C&#39;est pour ça que les deux stats tiennent dans le même guide. Monter du tacle sans savoir ce que la fuite peut atteindre, c&#39;est se préparer contre un chiffre qu&#39;on n&#39;a jamais regardé.</p>
+
+<h2>Ce que le catalogue donne, compté</h2>
+<p>Nous avons compté chaque objet de la base Dofus 3 : <strong>549 portent du tacle</strong> et <strong>606 de la fuite</strong>. Ça paraît beaucoup, jusqu&#39;à ce qu&#39;on regarde les montants.</p>
+<ul>
+<li>La meilleure ligne de tacle <strong>portée</strong> est de <strong>+20</strong>, sur le Chapeau du Comte Harebourg et sur les Krocs, tous deux niveau 200.</li>
+<li>Au-dessus, on est chez les trophées : Majeur Colleur et Majeur Obstructeur donnent <strong>+32</strong> au niveau 150.</li>
+<li>La fuite monte plus haut : <strong>+40</strong> sur le Dofus Ebène au niveau 180 et sur la Clairvoyance de Meriana au niveau 200.</li>
+<li>Les familiers font exception des deux côtés, à <strong>+50</strong>.</li>
+</ul>
+<p>Un vrai build tacle s&#39;assemble donc à partir de beaucoup de petites lignes, pas de deux grosses. Lis notre guide sur <a href="/guides/reading-an-item/">la lecture d&#39;un objet</a> si ces chiffres sur une infobulle ne te parlent pas encore, et celui sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> pour les emplacements qui portent les plus grosses.</p>
+
+<h2>Les lignes qui en retirent</h2>
+<p>C&#39;est la partie qu&#39;on oublie. <strong>80 objets retirent du tacle et 121 de la fuite</strong>, et les négatifs sont plus gros que les positifs : le Courage de Lady Jhessica coûte <strong>60 de fuite</strong> et l&#39;Increvable <strong>50</strong>, face à un meilleur cas de +40.</p>
+<p>Si tu n&#39;as jamais demandé de fuite, rien ne t&#39;a prévenu qu&#39;une ceinture t&#39;en prenait discrètement plus que n&#39;importe quel objet du jeu ne peut t&#39;en rendre. Pose un minimum et l&#39;optimiseur doit le respecter ; laisse-le vide et il est libre de dépenser ce chiffre ailleurs.</p>
+
+<h2>Tu auras rarement les deux</h2>
+<p>Seuls <strong>20 objets de tout le catalogue Dofus 3 donnent du tacle et de la fuite en même temps</strong>. Le jeu traite les deux comme des intentions opposées, et l&#39;équipement est construit comme ça. Choisis de quel côté de la comparaison tu veux gagner avant de commencer, parce que vouloir tenir les deux revient le plus souvent à ne tenir ni l&#39;un ni l&#39;autre.</p>
+
+<h2>Comment le demander</h2>
+<p>Mets un minimum sur Tacle ou sur Fuite dans ton build et laisse le solveur trouver les pièces. Il fouille tout le catalogue d&#39;un coup, ce qui est exactement le travail que tu n&#39;as pas envie de faire à la main sur 549 objets. <a href="/setup/">Commence un build</a> et pose le minimum avant de regarder le résultat.</p>
+<p>Un avertissement si tu joues sur plusieurs versions : ces chiffres sont ceux de Dofus 3. Dofus Touch plafonne chacune de ces lignes à 32, et Dofus Rétro n&#39;en a aucune. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les conseils ne voyagent pas de l&#39;une à l&#39;autre.</p>
+''',
+                },
+                'es': {
+                    'title': 'Placaje y huida: lo que el equipo da de verdad',
+                    'desc': 'Contado en el catálogo de Dofus 3: 549 objetos dan placaje, 606 dan huida y 121 la quitan. Qué planear y qué comprobar antes de comprar.',
+                    'lead': 'El placaje retiene a un enemigo a tu lado, la huida te saca de ahí. Son líneas corrientes en equipo corriente, y el catálogo es mucho menos generoso de lo que se cree.',
+                    'body': '''
+<h2>Qué compara el juego</h2>
+<p>Cuando intentas dejar una casilla contigua a un enemigo, el juego enfrenta tu <strong>huida</strong> a su <strong>placaje</strong>. Si fallas, salir te cuesta puntos de movimiento y, una vez agotados, puntos de acción. Nadie está nunca del todo placado ni del todo libre: es una comparación entre dos números, así que un punto de placaje vale lo que los demás pongan en huida.</p>
+<p>Por eso las dos estadísticas van en la misma guía. Subir placaje sin saber cuánta huida existe es prepararse contra una cifra que nunca miraste.</p>
+
+<h2>Lo que da el catálogo, contado</h2>
+<p>Contamos cada objeto de la base de Dofus 3: <strong>549 llevan placaje</strong> y <strong>606 llevan huida</strong>. Parece mucho hasta que miras las cantidades.</p>
+<ul>
+<li>La mejor línea de placaje <strong>que se lleva puesta</strong> es <strong>+20</strong>, en el Sombrero del Conde Harebourg y en las Krocs, ambos de nivel 200.</li>
+<li>Por encima ya son trofeos: Placador Mayor y Obstructor Mayor dan <strong>+32</strong> a nivel 150.</li>
+<li>La huida llega más lejos: <strong>+40</strong> en el Dofus Ébano de nivel 180 y en la Clarividencia de Meriana de nivel 200.</li>
+<li>Las mascotas son la excepción por ambos lados, con <strong>+50</strong>.</li>
+</ul>
+<p>Un build de placaje serio se arma con muchas líneas pequeñas, no con dos grandes. Lee nuestra guía sobre <a href="/guides/reading-an-item/">leer un objeto</a> si esas cifras aún no te dicen nada, y la de <a href="/guides/dofus-and-trophies/">dofus y trofeos</a> para las ranuras que llevan las mayores.</p>
+
+<h2>Las líneas que lo quitan</h2>
+<p>Esta es la parte que se pasa por alto. <strong>80 objetos quitan placaje y 121 quitan huida</strong>, y los negativos son mayores que los positivos: el Valor de Lady Jhessica cuesta <strong>60 de huida</strong> y el Indomable <strong>50</strong>, frente a un máximo de +40.</p>
+<p>Si nunca pediste huida, nada te avisó de que un cinturón te quitaba en silencio más de la que cualquier objeto del juego puede devolverte. Pon un mínimo y el optimizador tiene que respetarlo; déjalo vacío y podrá gastar esa cifra en otra cosa.</p>
+
+<h2>Rara vez tendrás las dos</h2>
+<p>Solo <strong>20 objetos de todo el catálogo de Dofus 3 dan placaje y huida a la vez</strong>. El juego las trata como intenciones opuestas y el equipo está hecho así. Decide de qué lado de la comparación quieres ganar antes de empezar, porque querer las dos suele acabar sin ninguna.</p>
+
+<h2>Cómo pedirlo</h2>
+<p>Pon un mínimo en Placaje o en Huida y deja que el solucionador encuentre las piezas. Recorre el catálogo entero de una vez, que es justo el trabajo que no quieres hacer a mano sobre 549 objetos. <a href="/setup/">Empieza un build</a> y fija el mínimo antes de mirar el resultado.</p>
+<p>Un aviso si juegas en varias versiones: estas cifras son las de Dofus 3. Dofus Touch limita todas estas líneas a 32, y Dofus Retro no tiene ninguna. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> explica por qué los consejos no viajan entre ellas.</p>
+''',
+                },
+                'pt': {
+                    'title': 'Placagem e fuga: o que o equipamento dá mesmo',
+                    'desc': 'Contado no catálogo do Dofus 3: 549 itens dão placagem, 606 dão fuga e 121 tiram. O que planejar e o que conferir antes de comprar.',
+                    'lead': 'A placagem segura um inimigo ao teu lado, a fuga te tira de lá. São linhas comuns em equipamento comum, e o catálogo é bem menos generoso do que se imagina.',
+                    'body': '''
+<h2>O que o jogo compara</h2>
+<p>Quando você tenta deixar uma casa vizinha a um inimigo, o jogo opõe a sua <strong>fuga</strong> à <strong>placagem</strong> dele. Se falhar, sair custa pontos de movimento e, depois que eles acabam, pontos de ação. Ninguém fica totalmente placado nem totalmente livre: é uma comparação entre dois números, então um ponto de placagem vale o que os outros colocarem em fuga.</p>
+<p>É por isso que as duas estatísticas cabem no mesmo guia. Subir placagem sem saber quanta fuga existe é se preparar contra um número que você nunca olhou.</p>
+
+<h2>O que o catálogo dá, contado</h2>
+<p>Contamos cada item da base do Dofus 3: <strong>549 têm placagem</strong> e <strong>606 têm fuga</strong>. Parece muito até você olhar os valores.</p>
+<ul>
+<li>A melhor linha de placagem <strong>vestível</strong> é <strong>+20</strong>, no Chapéu do Conde Harebourg e nas Krocs, ambos de nível 200.</li>
+<li>Acima disso já são troféus: Placador Maior e Obstrutor Maior dão <strong>+32</strong> no nível 150.</li>
+<li>A fuga vai mais longe: <strong>+40</strong> no Dofus Ébano de nível 180 e na Clarividência de Meriana de nível 200.</li>
+<li>Os mascotes são a exceção dos dois lados, com <strong>+50</strong>.</li>
+</ul>
+<p>Um build de placagem sério é montado com muitas linhas pequenas, não com duas grandes. Leia nosso guia sobre <a href="/guides/reading-an-item/">ler um item</a> se esses números ainda não dizem nada, e o de <a href="/guides/dofus-and-trophies/">dofus e troféus</a> para os espaços que carregam as maiores.</p>
+
+<h2>As linhas que tiram</h2>
+<p>Essa é a parte que passa despercebida. <strong>80 itens tiram placagem e 121 tiram fuga</strong>, e os negativos são maiores que os positivos: a Coragem de Lady Jhessica custa <strong>60 de fuga</strong> e o Indomável <strong>50</strong>, contra um máximo de +40.</p>
+<p>Se você nunca pediu fuga, nada avisou que um cinto estava tirando em silêncio mais do que qualquer item do jogo consegue devolver. Ponha um mínimo e o otimizador precisa respeitá-lo; deixe vazio e ele fica livre para gastar esse número em outra coisa.</p>
+
+<h2>Você raramente terá as duas</h2>
+<p>Apenas <strong>20 itens de todo o catálogo do Dofus 3 dão placagem e fuga ao mesmo tempo</strong>. O jogo trata as duas como intenções opostas, e o equipamento é feito assim. Decida de que lado da comparação você quer vencer antes de começar, porque querer as duas costuma terminar sem nenhuma.</p>
+
+<h2>Como pedir</h2>
+<p>Coloque um mínimo em Placagem ou em Fuga e deixe o solucionador achar as peças. Ele varre o catálogo inteiro de uma vez, que é exatamente o trabalho que você não quer fazer à mão em 549 itens. <a href="/setup/">Comece um build</a> e defina o mínimo antes de olhar o resultado.</p>
+<p>Um aviso se você joga em mais de uma versão: estes números são do Dofus 3. O Dofus Touch limita todas essas linhas a 32, e o Dofus Retro não tem nenhuma. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> explica por que os conselhos não viajam entre elas.</p>
+''',
+                },
+                'de': {
+                    'title': 'Fesseln und Ausweichen: was die Ausrüstung gibt',
+                    'desc': 'Im Dofus-3-Katalog gezählt: 549 Gegenstände geben Fesseln, 606 geben Ausweichen und 121 nehmen es weg. Was du planen und was du prüfen solltest.',
+                    'lead': 'Fesseln hält einen Gegner neben dir fest, Ausweichen bringt dich heraus. Beides sind gewöhnliche Zeilen auf gewöhnlicher Ausrüstung, und der Katalog ist damit viel sparsamer als gedacht.',
+                    'body': '''
+<h2>Was das Spiel wirklich vergleicht</h2>
+<p>Wenn du ein Feld neben einem Gegner verlassen willst, stellt das Spiel dein <strong>Ausweichen</strong> gegen sein <strong>Fesseln</strong>. Misslingt es, kostet dich der Ausbruch Bewegungspunkte und danach Aktionspunkte. Niemand ist je ganz gefesselt oder ganz frei: es ist ein Vergleich zweier Zahlen, also ist ein Punkt Fesseln nur so viel wert, wie die anderen in Ausweichen stecken.</p>
+<p>Deshalb gehören die beiden Werte in denselben Leitfaden. Fesseln zu bauen, ohne zu wissen, wie hoch Ausweichen überhaupt gehen kann, heißt gegen eine Zahl zu planen, die du nie angesehen hast.</p>
+
+<h2>Was der Katalog hergibt, gezählt</h2>
+<p>Wir haben jeden Gegenstand der Dofus-3-Datenbank gezählt: <strong>549 tragen Fesseln</strong>, <strong>606 tragen Ausweichen</strong>. Das klingt nach viel, bis man die Höhe ansieht.</p>
+<ul>
+<li>Die beste <strong>getragene</strong> Fesseln-Zeile ist <strong>+20</strong>, auf dem Hut des Grafen Harebourg und auf den Krocs, beide Stufe 200.</li>
+<li>Darüber beginnt das Trophäengebiet: Großer Klammerer und Großer Blockierer geben <strong>+32</strong> auf Stufe 150.</li>
+<li>Ausweichen reicht weiter: <strong>+40</strong> auf dem Ebenholz-Dofus (Stufe 180) und auf Merianas Weitblick (Stufe 200).</li>
+<li>Begleiter sind auf beiden Seiten die Ausnahme, mit <strong>+50</strong>.</li>
+</ul>
+<p>Ein ernst gemeinter Fesseln-Build entsteht also aus vielen kleinen Zeilen, nicht aus zwei großen. Lies unseren Leitfaden zum <a href="/guides/reading-an-item/">Lesen eines Gegenstands</a>, falls dir diese Zahlen noch wenig sagen, und den zu <a href="/guides/dofus-and-trophies/">Dofus und Trophäen</a> für die Plätze mit den größten davon.</p>
+
+<h2>Die Zeilen, die es wegnehmen</h2>
+<p>Das übersehen die meisten. <strong>80 Gegenstände nehmen Fesseln und 121 nehmen Ausweichen</strong>, und die Minuswerte sind größer als die Pluswerte: Lady Jhessicas Mut kostet <strong>60 Ausweichen</strong> und der Unverwüstliche <strong>50</strong>, gegen bestenfalls +40.</p>
+<p>Wenn du nie nach Ausweichen gefragt hast, hat dich nichts gewarnt, dass ein Gürtel dir still mehr davon nimmt, als irgendein Gegenstand im Spiel zurückgeben kann. Setz ein Minimum, dann muss der Optimierer es einhalten; lass es leer, und er darf diese Zahl anderswo ausgeben.</p>
+
+<h2>Beides bekommst du selten</h2>
+<p>Nur <strong>20 Gegenstände im ganzen Dofus-3-Katalog geben Fesseln und Ausweichen zugleich</strong>. Das Spiel behandelt sie als gegensätzliche Absichten, und die Ausrüstung ist so gebaut. Entscheide vorher, welche Seite des Vergleichs du gewinnen willst, denn wer beides halten will, hält meist keines von beiden.</p>
+
+<h2>Wie du danach fragst</h2>
+<p>Setz ein Minimum auf Fesseln oder auf Ausweichen und lass den Löser die Teile finden. Er durchsucht den ganzen Katalog auf einmal, genau die Arbeit, die du bei 549 Gegenständen nicht von Hand machen willst. <a href="/setup/">Starte einen Build</a> und setz das Minimum, bevor du auf das Ergebnis schaust.</p>
+<p>Ein Hinweis, falls du mehrere Versionen spielst: das sind die Zahlen von Dofus 3. Dofus Touch deckelt jede dieser Zeilen bei 32, und Dofus Retro hat keine davon. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> erklärt, warum Ratschläge nicht zwischen ihnen wandern.</p>
+''',
+                },
+            },
+            'touch': {
+                'en': {
+                    'title': 'Lock and dodge on Dofus Touch: everything stops at 32',
+                    'desc': 'Counted on the Touch catalogue: 339 items carry lock, 453 carry dodge, and not one line anywhere goes above 32. Do not copy Dofus 3 numbers here.',
+                    'lead': 'Touch has both stats, but its ceiling is much lower than the modern one, and the biggest lines are trophies rather than gear you wear.',
+                    'body': '''
+<h2>The same check, a smaller catalogue</h2>
+<p>Leaving a cell next to an enemy puts your <strong>dodge</strong> against their <strong>lock</strong>, and failing costs you movement points and then action points. That part works as it does on the modern versions. The numbers do not.</p>
+
+<h2>Nothing goes above 32</h2>
+<p>We counted every item in the Touch database: <strong>339 carry lock</strong> and <strong>453 carry dodge</strong>, and <strong>not one line in either direction exceeds 32</strong>.</p>
+<ul>
+<li>The ceiling is trophy-shaped: Major Stickler at level 150 and Major Obstructor at level 175 give <strong>+32 lock</strong>; Major Vagabond at 150 and Major Deserter at 175 give <strong>+32 dodge</strong>.</li>
+<li>The best lock you can actually wear is <strong>+20</strong>, on Count Harebourg&#39;s Hat and on Bethel&#39;s Panties, both level 200.</li>
+<li>The best worn dodge is smaller still, at <strong>+16</strong>.</li>
+</ul>
+<p>Dofus 3 reaches +40 dodge on the Ebony Dofus and on a pair of level 200 boots. Touch has neither. A guide that tells you to aim for forty on Touch is quoting a version you are not playing.</p>
+
+<h2>Trophies decide this fight</h2>
+<p>Because the worn lines are so small, the trophy slots carry most of the decision on Touch, and they cut both ways: the same trophies that give 32 on one side take 32 off the other. Our guide on <a href="/guides/dofus-and-trophies/">dofuses and trophies</a> covers how those slots work.</p>
+<p>Only <strong>12 Touch items give lock and dodge at once</strong>, so here too you are choosing a side rather than covering both.</p>
+
+<h2>How to ask for it</h2>
+<p>Set a minimum on Lock or Dodge and let the solver pick from the Touch catalogue rather than from someone else&#39;s. <a href="/touch/setup/">Start a Touch build</a> and set it before you read the result. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why the two catalogues drifted apart.</p>
+''',
+                },
+                'fr': {
+                    'title': 'Tacle et fuite sur Dofus Touch : tout plafonne à 32',
+                    'desc': 'Compté sur le catalogue Touch : 339 objets donnent du tacle, 453 de la fuite, et aucune ligne ne dépasse 32. Ne recopie pas les chiffres de Dofus 3.',
+                    'lead': 'Touch a bien les deux stats, mais son plafond est très inférieur à celui du moderne, et les plus grosses lignes sont des trophées, pas de l\'équipement porté.',
+                    'body': '''
+<h2>La même comparaison, un catalogue plus petit</h2>
+<p>Quitter une case adjacente à un ennemi oppose ta <strong>fuite</strong> à son <strong>tacle</strong>, et un échec te coûte des points de mouvement puis des points d&#39;action. Ça, ça marche comme sur les versions modernes. Les chiffres, non.</p>
+
+<h2>Rien ne dépasse 32</h2>
+<p>Nous avons compté chaque objet de la base Touch : <strong>339 portent du tacle</strong> et <strong>453 de la fuite</strong>, et <strong>aucune ligne, dans un sens comme dans l&#39;autre, ne dépasse 32</strong>.</p>
+<ul>
+<li>Le plafond a une forme de trophée : Majeur Colleur au niveau 150 et Majeur Obstructeur au niveau 175 donnent <strong>+32 de tacle</strong> ; Majeur Vagabond au 150 et Majeur Déserteur au 175 donnent <strong>+32 de fuite</strong>.</li>
+<li>Le meilleur tacle réellement portable est <strong>+20</strong>, sur le Chapeau du Comte Harebourg et sur la Culotte de Bethel, tous deux niveau 200.</li>
+<li>La meilleure fuite portée est plus petite encore, à <strong>+16</strong>.</li>
+</ul>
+<p>Dofus 3 atteint +40 de fuite sur le Dofus Ebène et sur des bottes niveau 200. Touch n&#39;a ni l&#39;un ni l&#39;autre. Un guide qui te dit de viser quarante sur Touch cite une version que tu ne joues pas.</p>
+
+<h2>Les trophées décident</h2>
+<p>Comme les lignes portées sont si faibles, ce sont les emplacements de trophées qui portent l&#39;essentiel du choix sur Touch, et ils coupent des deux côtés : les trophées qui donnent 32 d&#39;un côté en retirent 32 de l&#39;autre. Notre guide sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> explique comment ces emplacements fonctionnent.</p>
+<p>Seuls <strong>12 objets Touch donnent tacle et fuite en même temps</strong> : là aussi, on choisit un camp plutôt que de couvrir les deux.</p>
+
+<h2>Comment le demander</h2>
+<p>Pose un minimum sur Tacle ou sur Fuite et laisse le solveur choisir dans le catalogue Touch, pas dans celui d&#39;une autre version. <a href="/touch/setup/">Commence un build Touch</a> et pose-le avant de lire le résultat. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les deux catalogues ont divergé.</p>
+''',
+                },
+                'es': {
+                    'title': 'Placaje y huida en Dofus Touch: todo se detiene en 32',
+                    'desc': 'Contado en el catálogo de Touch: 339 objetos dan placaje, 453 dan huida y ninguna línea pasa de 32. No copies aquí las cifras de Dofus 3.',
+                    'lead': 'Touch tiene las dos estadísticas, pero su techo es mucho más bajo que el moderno, y las líneas mayores son trofeos, no equipo que se lleva puesto.',
+                    'body': '''
+<h2>La misma comparación, un catálogo más pequeño</h2>
+<p>Salir de una casilla contigua a un enemigo enfrenta tu <strong>huida</strong> a su <strong>placaje</strong>, y fallar cuesta puntos de movimiento y luego de acción. Eso funciona igual que en las versiones modernas. Las cifras no.</p>
+
+<h2>Nada pasa de 32</h2>
+<p>Contamos cada objeto de la base de Touch: <strong>339 llevan placaje</strong> y <strong>453 llevan huida</strong>, y <strong>ninguna línea, en ningún sentido, pasa de 32</strong>.</p>
+<ul>
+<li>El techo tiene forma de trofeo: Placador Mayor de nivel 150 y Obstructor Mayor de nivel 175 dan <strong>+32 de placaje</strong>; Vagabundo Mayor de 150 y Desertor Mayor de 175 dan <strong>+32 de huida</strong>.</li>
+<li>El mejor placaje que puedes llevar puesto es <strong>+20</strong>, en el Sombrero del Conde Harebourg y en las Bragas de Bethel, ambos de nivel 200.</li>
+<li>La mejor huida vestible es aún menor, <strong>+16</strong>.</li>
+</ul>
+<p>Dofus 3 llega a +40 de huida en el Dofus Ébano y en unas botas de nivel 200. Touch no tiene ninguno de los dos. Una guía que te diga que apuntes a cuarenta en Touch está citando una versión que no juegas.</p>
+
+<h2>Los trofeos deciden</h2>
+<p>Como las líneas vestibles son tan pequeñas, en Touch son las ranuras de trofeo las que cargan con casi toda la decisión, y cortan por los dos lados: los mismos trofeos que dan 32 en un sentido quitan 32 en el otro. Nuestra guía sobre <a href="/guides/dofus-and-trophies/">dofus y trofeos</a> explica cómo funcionan esas ranuras.</p>
+<p>Solo <strong>12 objetos de Touch dan placaje y huida a la vez</strong>: también aquí se elige bando en vez de cubrir los dos.</p>
+
+<h2>Cómo pedirlo</h2>
+<p>Pon un mínimo en Placaje o en Huida y deja que el solucionador elija del catálogo de Touch y no del de otra versión. <a href="/touch/setup/">Empieza un build de Touch</a> y fíjalo antes de leer el resultado. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> explica por qué los dos catálogos se separaron.</p>
+''',
+                },
+                'pt': {
+                    'title': 'Placagem e fuga no Dofus Touch: tudo para em 32',
+                    'desc': 'Contado no catálogo do Touch: 339 itens dão placagem, 453 dão fuga e nenhuma linha passa de 32. Não copie aqui os números do Dofus 3.',
+                    'lead': 'O Touch tem as duas estatísticas, mas o teto dele é bem mais baixo que o moderno, e as maiores linhas são troféus, não equipamento vestido.',
+                    'body': '''
+<h2>A mesma comparação, um catálogo menor</h2>
+<p>Sair de uma casa vizinha a um inimigo opõe a sua <strong>fuga</strong> à <strong>placagem</strong> dele, e falhar custa pontos de movimento e depois de ação. Isso funciona como nas versões modernas. Os números, não.</p>
+
+<h2>Nada passa de 32</h2>
+<p>Contamos cada item da base do Touch: <strong>339 têm placagem</strong> e <strong>453 têm fuga</strong>, e <strong>nenhuma linha, em nenhum sentido, passa de 32</strong>.</p>
+<ul>
+<li>O teto tem formato de troféu: Placador Maior no nível 150 e Obstrutor Maior no 175 dão <strong>+32 de placagem</strong>; Vagabundo Maior no 150 e Desertor Maior no 175 dão <strong>+32 de fuga</strong>.</li>
+<li>A melhor placagem realmente vestível é <strong>+20</strong>, no Chapéu do Conde Harebourg e na Calcinha de Bethel, ambos de nível 200.</li>
+<li>A melhor fuga vestível é menor ainda, <strong>+16</strong>.</li>
+</ul>
+<p>O Dofus 3 chega a +40 de fuga no Dofus Ébano e em botas de nível 200. O Touch não tem nenhum dos dois. Um guia que manda mirar quarenta no Touch está citando uma versão que você não joga.</p>
+
+<h2>Os troféus decidem</h2>
+<p>Como as linhas vestíveis são tão pequenas, no Touch são os espaços de troféu que carregam quase toda a decisão, e eles cortam dos dois lados: os mesmos troféus que dão 32 de um lado tiram 32 do outro. Nosso guia sobre <a href="/guides/dofus-and-trophies/">dofus e troféus</a> explica como esses espaços funcionam.</p>
+<p>Apenas <strong>12 itens do Touch dão placagem e fuga ao mesmo tempo</strong>: aqui também se escolhe um lado em vez de cobrir os dois.</p>
+
+<h2>Como pedir</h2>
+<p>Coloque um mínimo em Placagem ou em Fuga e deixe o solucionador escolher no catálogo do Touch, não no de outra versão. <a href="/touch/setup/">Comece um build do Touch</a> e defina antes de ler o resultado. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> explica por que os dois catálogos se afastaram.</p>
+''',
+                },
+                'de': {
+                    'title': 'Fesseln und Ausweichen auf Dofus Touch: alles endet bei 32',
+                    'desc': 'Im Touch-Katalog gezählt: 339 Gegenstände geben Fesseln, 453 geben Ausweichen, und keine Zeile geht über 32. Übernimm hier keine Dofus-3-Zahlen.',
+                    'lead': 'Touch hat beide Werte, aber seine Obergrenze liegt weit unter der modernen, und die größten Zeilen sind Trophäen statt getragener Ausrüstung.',
+                    'body': '''
+<h2>Derselbe Vergleich, ein kleinerer Katalog</h2>
+<p>Ein Feld neben einem Gegner zu verlassen stellt dein <strong>Ausweichen</strong> gegen sein <strong>Fesseln</strong>, und ein Fehlschlag kostet Bewegungspunkte und danach Aktionspunkte. Das funktioniert wie auf den modernen Versionen. Die Zahlen nicht.</p>
+
+<h2>Nichts geht über 32</h2>
+<p>Wir haben jeden Gegenstand der Touch-Datenbank gezählt: <strong>339 tragen Fesseln</strong>, <strong>453 tragen Ausweichen</strong>, und <strong>keine Zeile geht in irgendeine Richtung über 32</strong>.</p>
+<ul>
+<li>Die Obergrenze hat Trophäenform: Großer Klammerer auf Stufe 150 und Großer Blockierer auf Stufe 175 geben <strong>+32 Fesseln</strong>; Großer Vagabund auf 150 und Großer Deserteur auf 175 geben <strong>+32 Ausweichen</strong>.</li>
+<li>Das beste tatsächlich tragbare Fesseln ist <strong>+20</strong>, auf dem Hut des Grafen Harebourg und auf Bethels Höschen, beide Stufe 200.</li>
+<li>Das beste getragene Ausweichen ist noch kleiner, <strong>+16</strong>.</li>
+</ul>
+<p>Dofus 3 erreicht +40 Ausweichen auf dem Ebenholz-Dofus und auf Stiefeln der Stufe 200. Touch hat weder das eine noch das andere. Ein Leitfaden, der dir auf Touch vierzig empfiehlt, zitiert eine Version, die du nicht spielst.</p>
+
+<h2>Trophäen entscheiden</h2>
+<p>Weil die getragenen Zeilen so klein sind, tragen auf Touch die Trophäenplätze fast die ganze Entscheidung, und sie schneiden nach beiden Seiten: dieselben Trophäen, die 32 geben, nehmen 32 auf der anderen Seite. Unser Leitfaden zu <a href="/guides/dofus-and-trophies/">Dofus und Trophäen</a> erklärt, wie diese Plätze arbeiten.</p>
+<p>Nur <strong>12 Touch-Gegenstände geben Fesseln und Ausweichen zugleich</strong>: auch hier wählst du eine Seite, statt beide abzudecken.</p>
+
+<h2>Wie du danach fragst</h2>
+<p>Setz ein Minimum auf Fesseln oder Ausweichen und lass den Löser aus dem Touch-Katalog wählen, nicht aus dem einer anderen Version. <a href="/touch/setup/">Starte einen Touch-Build</a> und setz es, bevor du das Ergebnis liest. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> erklärt, warum die beiden Kataloge auseinandergelaufen sind.</p>
+''',
+                },
+            },
+            'retro': {
+                'en': {
+                    'title': 'Lock and dodge do not exist in Dofus Retro',
+                    'desc': 'We checked all of the 1.29 catalogue: not one item grants lock or dodge. Any plan built on those two stats simply does not transfer to Retro.',
+                    'lead': 'The two stats that decide whether you can walk away from an enemy on the modern versions are absent from 1.29 entirely, and no piece of gear carries them.',
+                    'body': '''
+<h2>Not a small roster: none at all</h2>
+<p>We went through every item in the Dofus Retro database looking for lock and for dodge. The count is <strong>zero on both</strong>. Not a hat, not a shield, not a dofus, at any level.</p>
+<p>This is worth stating plainly because it is not what you would guess from a low number. A stat that appears on three items is rare. A stat that appears on none is a mechanic the version does not sell you.</p>
+
+<h2>What that means for a Retro build</h2>
+<p>Any advice built around holding an enemy in place with gear, or buying your way out of a lock, comes from the modern branch. On 1.29 there is no line to buy and nothing to optimize, so the optimizer here does not weight those two stats at all. If you have seen them discussed for Retro, the guide had the wrong version in mind.</p>
+<p>What is left is the ordinary business of positioning and reach: where you stand, and how far your spells go. Our guide on <a href="/guides/ap-mp-range-caps/">action points, movement and range</a> covers the stats that do decide those on Retro.</p>
+
+<h2>Why the versions differ this much</h2>
+<p>1.29 was frozen before the modern branch introduced these two stats, so the difference is not a balance choice anyone made for Retro: the mechanic simply arrived later and Retro never received it. That is the same reason several other stats you may be looking for are missing here. Our guide on <a href="/guides/versions-explained/">the versions</a> explains which ones, and why copying a build across versions goes wrong.</p>
+<p>Ready to build for the version you actually play? <a href="/retro/setup/">Start a Retro build</a> and the tool will only offer you what 1.29 has.</p>
+''',
+                },
+                'fr': {
+                    'title': 'Le tacle et la fuite n\'existent pas sur Dofus Rétro',
+                    'desc': 'Nous avons vérifié tout le catalogue 1.29 : aucun objet ne donne de tacle ni de fuite. Un plan bâti sur ces deux stats ne se transpose pas au Rétro.',
+                    'lead': 'Les deux stats qui décident si tu peux t\'éloigner d\'un ennemi sur les versions modernes sont totalement absentes de 1.29, et aucun équipement ne les porte.',
+                    'body': '''
+<h2>Pas un petit choix : aucun</h2>
+<p>Nous avons parcouru chaque objet de la base Dofus Rétro à la recherche de tacle et de fuite. Le compte est de <strong>zéro des deux côtés</strong>. Ni un chapeau, ni un bouclier, ni un dofus, à aucun niveau.</p>
+<p>Ça mérite d&#39;être dit franchement, parce que ce n&#39;est pas ce qu&#39;on devine devant un petit nombre. Une stat présente sur trois objets est rare. Une stat présente sur aucun est une mécanique que la version ne te vend pas.</p>
+
+<h2>Ce que ça change pour un build Rétro</h2>
+<p>Tout conseil qui consiste à retenir un ennemi avec de l&#39;équipement, ou à acheter de quoi sortir d&#39;un tacle, vient de la branche moderne. Sur 1.29 il n&#39;y a aucune ligne à acheter et rien à optimiser, donc l&#39;optimiseur ne pondère pas ces deux stats ici. Si tu les as vues discutées pour le Rétro, le guide avait la mauvaise version en tête.</p>
+<p>Reste le travail ordinaire de placement et de portée : où tu te tiens, et jusqu&#39;où vont tes sorts. Notre guide sur <a href="/guides/ap-mp-range-caps/">les points d&#39;action, de mouvement et la portée</a> couvre les stats qui décident vraiment de ça sur Rétro.</p>
+
+<h2>Pourquoi les versions divergent autant</h2>
+<p>1.29 a été figée avant que la branche moderne n&#39;introduise ces deux stats : la différence n&#39;est donc pas un choix d&#39;équilibrage fait pour le Rétro, la mécanique est simplement arrivée plus tard et le Rétro ne l&#39;a jamais reçue. C&#39;est la même raison pour laquelle plusieurs autres stats que tu cherches peut-être manquent ici. Notre guide sur <a href="/guides/versions-explained/">les versions</a> dit lesquelles, et pourquoi recopier un build d&#39;une version à l&#39;autre tourne mal.</p>
+<p>Prêt à monter un build pour la version que tu joues vraiment ? <a href="/retro/setup/">Commence un build Rétro</a> et l&#39;outil ne te proposera que ce que 1.29 possède.</p>
+''',
+                },
+                'es': {
+                    'title': 'El placaje y la huida no existen en Dofus Retro',
+                    'desc': 'Revisamos todo el catálogo de 1.29: ningún objeto da placaje ni huida. Cualquier plan basado en esas dos estadísticas no se traslada al Retro.',
+                    'lead': 'Las dos estadísticas que deciden si puedes alejarte de un enemigo en las versiones modernas están completamente ausentes de 1.29, y ningún equipo las lleva.',
+                    'body': '''
+<h2>No es una lista corta: no hay ninguno</h2>
+<p>Recorrimos cada objeto de la base de Dofus Retro buscando placaje y huida. La cuenta es <strong>cero por ambos lados</strong>. Ni un sombrero, ni un escudo, ni un dofus, a ningún nivel.</p>
+<p>Vale la pena decirlo con claridad, porque no es lo que uno supone ante una cifra baja. Una estadística que aparece en tres objetos es rara. Una que no aparece en ninguno es una mecánica que la versión no te vende.</p>
+
+<h2>Qué significa para un build de Retro</h2>
+<p>Cualquier consejo sobre retener a un enemigo con equipo, o comprar la salida de un placaje, viene de la rama moderna. En 1.29 no hay línea que comprar ni nada que optimizar, así que aquí el optimizador no pondera esas dos estadísticas. Si las has visto discutidas para Retro, esa guía tenía otra versión en mente.</p>
+<p>Queda el trabajo corriente de colocación y alcance: dónde te pones y hasta dónde llegan tus hechizos. Nuestra guía sobre <a href="/guides/ap-mp-range-caps/">puntos de acción, de movimiento y alcance</a> cubre las estadísticas que sí deciden eso en Retro.</p>
+
+<h2>Por qué las versiones difieren tanto</h2>
+<p>1.29 quedó congelada antes de que la rama moderna introdujera estas dos estadísticas, así que la diferencia no es una decisión de equilibrio tomada para Retro: la mecánica llegó después y Retro nunca la recibió. Es la misma razón por la que faltan aquí otras estadísticas que quizá busques. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> dice cuáles y por qué copiar un build de una versión a otra sale mal.</p>
+<p>¿Listo para montar un build de la versión que juegas de verdad? <a href="/retro/setup/">Empieza un build de Retro</a> y la herramienta solo te ofrecerá lo que 1.29 tiene.</p>
+''',
+                },
+                'pt': {
+                    'title': 'Placagem e fuga não existem no Dofus Retro',
+                    'desc': 'Conferimos todo o catálogo do 1.29: nenhum item dá placagem ou fuga. Qualquer plano montado sobre essas duas estatísticas não se transfere ao Retro.',
+                    'lead': 'As duas estatísticas que decidem se você consegue se afastar de um inimigo nas versões modernas estão totalmente ausentes do 1.29, e nenhum equipamento as carrega.',
+                    'body': '''
+<h2>Não é uma lista curta: não há nenhum</h2>
+<p>Percorremos cada item da base do Dofus Retro atrás de placagem e de fuga. A conta é <strong>zero dos dois lados</strong>. Nem um chapéu, nem um escudo, nem um dofus, em nível nenhum.</p>
+<p>Vale dizer com clareza, porque não é o que se imagina diante de um número baixo. Uma estatística que aparece em três itens é rara. Uma que não aparece em nenhum é uma mecânica que a versão não te vende.</p>
+
+<h2>O que isso muda num build de Retro</h2>
+<p>Todo conselho sobre segurar um inimigo com equipamento, ou comprar a saída de uma placagem, vem do ramo moderno. No 1.29 não há linha para comprar nem nada para otimizar, então aqui o otimizador não pondera essas duas estatísticas. Se você as viu discutidas para o Retro, aquele guia tinha outra versão em mente.</p>
+<p>Resta o trabalho comum de posicionamento e alcance: onde você fica e até onde vão os seus feitiços. Nosso guia sobre <a href="/guides/ap-mp-range-caps/">pontos de ação, de movimento e alcance</a> cobre as estatísticas que realmente decidem isso no Retro.</p>
+
+<h2>Por que as versões diferem tanto</h2>
+<p>O 1.29 foi congelado antes de o ramo moderno introduzir essas duas estatísticas, então a diferença não é uma escolha de equilíbrio feita para o Retro: a mecânica chegou depois e o Retro nunca a recebeu. É o mesmo motivo pelo qual faltam aqui outras estatísticas que você talvez procure. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> diz quais e por que copiar um build de uma versão para outra dá errado.</p>
+<p>Pronto para montar um build da versão que você realmente joga? <a href="/retro/setup/">Comece um build de Retro</a> e a ferramenta só vai oferecer o que o 1.29 tem.</p>
+''',
+                },
+                'de': {
+                    'title': 'Fesseln und Ausweichen gibt es in Dofus Retro nicht',
+                    'desc': 'Wir haben den gesamten 1.29-Katalog geprüft: kein Gegenstand gibt Fesseln oder Ausweichen. Jeder Plan auf diesen zwei Werten lässt sich nicht übertragen.',
+                    'lead': 'Die beiden Werte, die auf den modernen Versionen entscheiden, ob du dich von einem Gegner lösen kannst, fehlen in 1.29 vollständig, und keine Ausrüstung trägt sie.',
+                    'body': '''
+<h2>Keine kurze Liste, sondern gar keine</h2>
+<p>Wir sind jeden Gegenstand der Dofus-Retro-Datenbank auf Fesseln und Ausweichen durchgegangen. Das Ergebnis ist <strong>null auf beiden Seiten</strong>. Kein Hut, kein Schild, kein Dofus, auf keiner Stufe.</p>
+<p>Das gehört klar gesagt, denn es ist nicht das, was man bei einer kleinen Zahl vermutet. Ein Wert auf drei Gegenständen ist selten. Ein Wert auf keinem ist eine Mechanik, die diese Version dir nicht verkauft.</p>
+
+<h2>Was das für einen Retro-Build heißt</h2>
+<p>Jeder Rat, einen Gegner mit Ausrüstung festzuhalten oder sich aus einer Fessel freizukaufen, stammt aus dem modernen Zweig. In 1.29 gibt es keine Zeile zu kaufen und nichts zu optimieren, deshalb gewichtet der Optimierer diese beiden Werte hier gar nicht. Wenn du sie für Retro diskutiert gesehen hast, hatte der Leitfaden die falsche Version im Sinn.</p>
+<p>Es bleibt die gewöhnliche Arbeit von Stellung und Reichweite: wo du stehst und wie weit deine Zauber gehen. Unser Leitfaden zu <a href="/guides/ap-mp-range-caps/">Aktionspunkten, Bewegungspunkten und Reichweite</a> behandelt die Werte, die das auf Retro tatsächlich entscheiden.</p>
+
+<h2>Warum die Versionen so weit auseinander liegen</h2>
+<p>1.29 wurde eingefroren, bevor der moderne Zweig diese beiden Werte einführte. Der Unterschied ist also keine Balance-Entscheidung für Retro: die Mechanik kam später, und Retro hat sie nie bekommen. Aus demselben Grund fehlen hier einige weitere Werte, die du vielleicht suchst. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> nennt sie und erklärt, warum ein Build von einer Version zur anderen schiefgeht.</p>
+<p>Bereit, für die Version zu bauen, die du wirklich spielst? <a href="/retro/setup/">Starte einen Retro-Build</a>, und das Werkzeug bietet dir nur an, was 1.29 hat.</p>
+''',
+                },
+            },
+        },
+    },
     # ------------------------------------------------------------------ #
     # Retro (1.29 branch) crit is a 1/X fraction that Agility improves and that
     # stops at 1/2; update 2.29 turned crit into an additive percentage that
