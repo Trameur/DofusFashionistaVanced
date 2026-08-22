@@ -273,6 +273,20 @@
             {% endif %}
         </div>
         {% endif %}
+        {% if similar_items %}
+        <div class="encyclopedia-section">
+            <b>{{ similar_items_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for other in similar_items %}
+                <li class="craft-item">
+                    <img class="craft-icon" src="{{ other.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                    <span><a href="{{ other.url }}">{{ other.name }}</a>
+                    <span class="item-level">{{ t.item_level }} {{ other.level }}</span></span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         {% ad_unit 'encyclopedia_inline' %}
     </div>
 </div>

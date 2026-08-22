@@ -69,6 +69,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Recipe',
         'dropped_by_label': 'Dropped by',
         'show_more_drops_label': 'Show more',
+        'similar_items_label': 'Other items of this type and level',
         'craft_job_label': 'Crafted by',
         'no_recipe': 'No recipe available.',
         'recipe_unknown_ingredient': 'Unknown ingredient',
@@ -131,6 +132,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Recette',
         'dropped_by_label': 'Droppé par',
         'show_more_drops_label': 'Voir plus',
+        'similar_items_label': 'Autres objets du même type et niveau',
         'craft_job_label': 'Fabriqué par',
         'no_recipe': 'Aucune recette disponible.',
         'recipe_unknown_ingredient': 'Ingrédient inconnu',
@@ -193,6 +195,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Receta',
         'dropped_by_label': 'Soltado por',
         'show_more_drops_label': 'Ver más',
+        'similar_items_label': 'Otros objetos del mismo tipo y nivel',
         'craft_job_label': 'Fabricado por',
         'no_recipe': 'No hay receta disponible.',
         'recipe_unknown_ingredient': 'Ingrediente desconocido',
@@ -255,6 +258,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Receita',
         'dropped_by_label': 'Dropado por',
         'show_more_drops_label': 'Ver mais',
+        'similar_items_label': 'Outros itens do mesmo tipo e nível',
         'craft_job_label': 'Fabricado por',
         'no_recipe': 'Receita não disponível.',
         'recipe_unknown_ingredient': 'Ingrediente desconhecido',
@@ -317,6 +321,7 @@ LOCALIZED_UI = {
         'recipe_label': 'Rezept',
         'dropped_by_label': 'Beute von',
         'show_more_drops_label': 'Mehr anzeigen',
+        'similar_items_label': 'Andere Gegenstände dieser Art und Stufe',
         'craft_job_label': 'Hergestellt von',
         'no_recipe': 'Kein Rezept verfügbar.',
         'recipe_unknown_ingredient': 'Unbekannte Zutat',
@@ -732,6 +737,49 @@ def _get_light_index(structure, language):
     _light_index_cache[key] = entries
     return entries
 
+
+SIMILAR_ITEMS_SHOWN = 6
+
+
+def _get_similar_items(structure, language, game_version, item, limit=None):
+    """Items of the same slot at the nearest levels, for the reader who wants
+    to know what else that slot offers before settling."""
+    limit = limit or SIMILAR_ITEMS_SHOWN
+    from chardata.lock_forbid import get_default_exclusions
+    hidden = set(get_default_exclusions(None))
+    slot = structure.get_type_name_by_id(item.type)
+    here = (item.ankama_type or '', item.ankama_id)
+    level = item.level or 0
+    candidates = []
+    for entry in _get_light_index(structure, language):
+        other = entry['item']
+        if entry['raw_type_name'] != slot:
+            continue
+        if ((other.ankama_type or ''), other.ankama_id) == here:
+            continue
+        if not other.ankama_id or not other.ankama_type:
+            continue
+        if other.id in hidden:
+            continue
+        candidates.append((abs((entry['level'] or 0) - level),
+                           -(entry['level'] or 0), entry['name'] or '', entry))
+    candidates.sort(key=lambda row: row[:3])
+
+    out = []
+    for _distance, _negative_level, _name, entry in candidates[:limit]:
+        other = entry['item']
+        link = get_item_link(other.ankama_type, other.ankama_id,
+                             entry['name'] or other.name,
+                             game_version=game_version)
+        if not link:
+            continue
+        out.append({
+            'name': entry['name'] or other.name,
+            'level': entry['level'],
+            'url': link,
+            'image_url': static(get_image_url(slot, other.name, game_version)),
+        })
+    return out
 
 def _get_item_group_key(item):
     ankama_type = (item.ankama_type or '').strip().lower()
@@ -2168,6 +2216,9 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'other_versions': _other_versions_with_item(
                 game_version, representative_item.ankama_type,
                 representative_item.ankama_id, localized_name),
+            'similar_items': _get_similar_items(
+                structure, language, game_version, representative_item),
+            'similar_items_label': t['similar_items_label'],
         },
     )
 

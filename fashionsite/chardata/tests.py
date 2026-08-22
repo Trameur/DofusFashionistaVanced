@@ -7219,6 +7219,68 @@ class NoUntranslatedTagIsShippedTests(SimpleTestCase):
                          module.clean_display_name('[wip] Coiffe de test'))
 
 
+class SimilarItemsOnAnItemPageTests(TestCase):
+    """An item page ends on what else that slot offers nearby, which is the
+    question the reader has next. It must not suggest a piece the project hides
+    by default, and it must never suggest the item you are already reading."""
+
+    def test_a_suggestion_is_the_same_slot_and_never_the_item_itself(self):
+        from chardata.encyclopedia_view import _get_similar_items
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            structure = get_structure(version)
+            item = structure.get_item_by_ankama_id(8452) or next(
+                i for i in structure.get_items_list() if i.ankama_id)
+            slot = structure.get_type_name_by_id(item.type)
+            similar = _get_similar_items(structure, 'en', version, item)
+            with self.subTest(version=version):
+                self.assertTrue(similar, 'no suggestion for %s' % version)
+                names = [row['name'] for row in similar]
+                self.assertEqual(len(names), len(set(names)))
+                for row in similar:
+                    self.assertIn('/encyclopedia/item/', row['url'])
+                for other in structure.get_items_list():
+                    if other.name in names:
+                        self.assertEqual(
+                            slot, structure.get_type_name_by_id(other.type),
+                            '%s: %s is not a %s' % (version, other.name, slot))
+
+    def test_no_suggestion_is_an_item_hidden_by_default(self):
+        from chardata.encyclopedia_view import _get_similar_items
+        from chardata.lock_forbid import get_default_exclusions
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        checked = 0
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            set_current_game_version(version)
+            structure = get_structure(version)
+            hidden = set(get_default_exclusions(None))
+            if not hidden:
+                continue
+            by_name = {}
+            for item in structure.get_items_list():
+                by_name.setdefault(item.name, []).append(item.id)
+            for item_id in list(hidden)[:6]:
+                item = structure.get_item_by_id(item_id)
+                if item is None:
+                    continue
+                checked += 1
+                suggested = _get_similar_items(structure, 'en', version, item)
+                offered = set()
+                for row in suggested:
+                    offered.update(by_name.get(row['name'], []))
+                with self.subTest(version=version, item=item.name):
+                    self.assertEqual(set(), offered & hidden)
+        self.assertTrue(checked, 'no hidden item was exercised')
+
+    def test_the_section_renders_on_the_page(self):
+        response = self.client.get('/encyclopedia/item/equipment/8452-x/',
+                                   HTTP_ACCEPT_LANGUAGE='en', follow=True)
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, 'Other items of this type and level')
+
+
 class MountOptionsMatchTheVersionTests(SimpleTestCase):
     """A mount option must have a mount behind it. The three families were
     detected by name over every item, so Dofus 2, which has a Rhineetle Helmet
