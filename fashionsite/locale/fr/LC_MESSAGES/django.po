@@ -6801,3 +6801,15 @@ msgstr "si toute la poussée se termine contre un obstacle, et seulement dans l'
 #: .\chardata\templates\chardata\spells.html:66
 msgid "Count pushback damage, assuming half of each push is stopped"
 msgstr "Compter les dommages de poussée, en supposant que la moitié de chaque poussée est bloquée"
+
+#: .\chardata\spells_view.py:449
+msgid "at the start of a turn"
+msgstr "au début d'un tour"
+
+#: .\chardata\spells_view.py:449
+msgid "at the end of a turn"
+msgstr "à la fin d'un tour"
+
+#: .\chardata\templates\chardata\spells.html:53
+msgid "Lands later, not in the total above:"
+msgstr "Arrive plus tard, pas dans le total ci-dessus :"

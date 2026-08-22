@@ -241,7 +241,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force,
                                       castable_spells, combat_ap,
-                                      conditional_extras, stacks_in_force)
+                                      conditional_extras, delayed_damage,
+                                      delayed_moments, stacks_in_force)
     stats = dict(solution.get_stats_total())
     for stat, delta in buffs_in_force(char.char_class, char.level,
                                       game_version, buff_state,
@@ -264,9 +265,19 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         return None
     language = get_supported_language()
     by_name = {spell.name: spell for spell in spells}
+    # A poison is the spell's damage and belongs in what the search compares,
+    # but it is not what the turn puts on the target now, so the panel counts
+    # it apart instead of letting it read as burst.
+    later = delayed_damage(stats, spells, order, standing=standing,
+                           game_version=game_version)
+    moments = delayed_moments(spells, order)
+    times_cast = {}
+    for name, _damage in order:
+        times_cast[name] = times_cast.get(name, 0) + 1
     casts = []
     running = 0
     for name, damage in order:
+        damage -= (later.get(name, 0) / times_cast[name]) if name in later else 0
         running += damage
         castable = by_name[name]
         if castable.is_spell:
@@ -281,6 +292,16 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'ap': castable.cost,
                       'damage': int(round(damage)),
                       'running': int(round(running))})
+    late = []
+    for name in sorted(later):
+        castable = by_name[name]
+        late.append({
+            'name': (_localized_spell_name(name, language, game_version)
+                     if castable.is_spell else castable.weapon.localized_name),
+            'damage': int(round(later[name])),
+            'label': ', '.join(str(_DELAYED_LABELS.get(when, when))
+                               for when in moments.get(name, [])),
+        })
     extras = []
     for name, trigger, damage in conditional_extras(
             stats, spells, order, standing=standing,
@@ -294,10 +315,12 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'label': str(_CONDITIONAL_LABELS.get(trigger, trigger)),
         })
     return {'casts': casts,
+            'later': late,
+            'later_total': int(round(sum(later.values()))),
             'pushback': bool(pushback),
             'can_push': any(getattr(spell, 'push_cells', 0)
                             for spell in spells),
-            'total': int(round(total)),
+            'total': int(round(total - sum(later.values()))),
             'ap_used': sum(cast['ap'] for cast in casts),
             'ap_available': ap,
             'conditional': extras}
@@ -327,6 +350,9 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest['conditional'] = {
         str(index): str(_CONDITIONAL_LABELS.get(trigger, trigger))
         for index, trigger in (getattr(spell, 'conditional', None) or {}).items()}
+    web_digest['delayed'] = {
+        str(index): str(_DELAYED_LABELS.get(when, when))
+        for index, when in (getattr(spell, 'delayed', None) or {}).items()}
     web_digest['buff_scaling'] = spell.buff_scaling
     return web_digest
 
@@ -450,6 +476,11 @@ def _localized_aggregate_label(label, game_version=None):
 # What a waiting damage row is waiting for, in the reader's words. Lazy: this
 # dict is built at import, and gettext there would freeze the first language
 # the process happened to serve.
+_DELAYED_LABELS = {
+    'turn_begin': _lazy('at the start of a turn'),
+    'turn_end': _lazy('at the end of a turn'),
+}
+
 _CONDITIONAL_LABELS = {
     'pushback': _lazy('only when the target suffers pushback damage'),
     'pushback into an obstacle':

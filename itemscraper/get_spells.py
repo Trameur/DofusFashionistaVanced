@@ -411,6 +411,11 @@ class SpellTransformer:
                             row["best_element_group"] = best_group
                         if state_group is not None:
                             row["state_group"] = state_group
+                        # "I" is on cast. Anything else is the game saying this
+                        # damage waits for something: Pilfer's second row reads
+                        # PD|XPD, pushback damage, and Tyrannical Arrow's poison
+                        # reads TE, end of turn.
+                        row["triggers"] = effect.get("triggers")
                         row["situation"] = situation
                         rows.append(row)
                     else:

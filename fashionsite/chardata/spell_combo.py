@@ -155,8 +155,18 @@ class Castable(object):
                     if index in waiting_rows
                     and (effect.min_dam or effect.max_dam)]
 
+        def late_at(rows):
+            """The rows that land, but not now, with when each does."""
+            effects = rows[level_index] if level_index < len(rows) else []
+            return [(effect, (spell.delayed or {})[index])
+                    for index, effect in enumerate(effects)
+                    if index in (getattr(spell, 'delayed', None) or {})
+                    and (effect.min_dam or effect.max_dam)]
+
         self.waiting_plain = waiting_at(digest.non_crit_dams)
         self.waiting_crit = waiting_at(digest.crit_dams)
+        self.delayed_plain = late_at(digest.non_crit_dams)
+        self.delayed_crit = late_at(digest.crit_dams)
         # Filled in by castable_spells, which knows the version.
         self.pushes = False
         self.push_cells = 0
@@ -428,6 +438,70 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
                       * multiplier)
             if gained:
                 out.append((name, trigger, gained * counts[name]))
+    return out
+
+
+def delayed_damage(stats, spells, order, crit=False, standing=None,
+                   game_version=None):
+    """{spell name: damage} the turn deals, but at the start or end of a turn.
+
+    Still part of what a cast is worth, so the search keeps scoring it; the
+    panel reports it apart rather than letting a poison read as burst.
+    """
+    if not order:
+        return {}
+    by_name = {spell.name: spell for spell in spells}
+    standing = standing or {}
+
+    # Walked in order, not folded: the search scored each cast with the buffs
+    # standing when it landed, and a poison subtracted from the total has to be
+    # worth what that same cast was worth, or the rows stop adding up.
+    out = {}
+    seen = {}
+    for name, _damage in order:
+        castable = by_name.get(name)
+        rows = getattr(castable, 'delayed_crit' if crit else 'delayed_plain',
+                       None) or []
+        if rows:
+            buffed = dict(stats)
+            for other_name, times in seen.items():
+                other = by_name.get(other_name)
+                if other is None or not other.buffs:
+                    continue
+                already = min(standing.get(other_name, 0), other.stacks)
+                reached = min(already + times, other.stacks)
+                if reached <= already:
+                    continue
+                was = other.buff_deltas(already) if already else {}
+                for stat, value in other.buff_deltas(reached).items():
+                    buffed[stat] = (buffed.get(stat, 0) + value
+                                    - was.get(stat, 0))
+            multiplier = final_multiplier(buffed)
+            for effect, _when in rows:
+                gained = (_average(calculate_damage([copy.copy(effect)],
+                                                    buffed, crit,
+                                                    castable.is_spell))
+                          * multiplier)
+                if gained:
+                    out[name] = out.get(name, 0.0) + gained
+        seen[name] = seen.get(name, 0) + 1
+    return out
+
+
+def delayed_moments(spells, order, crit=False):
+    """{spell name: [when, ...]} for the rows a cast leaves for later."""
+    by_name = {spell.name: spell for spell in spells}
+    out = {}
+    for name, _damage in order or []:
+        castable = by_name.get(name)
+        rows = getattr(castable, 'delayed_crit' if crit else 'delayed_plain',
+                       None) or []
+        moments = []
+        for _effect, when in rows:
+            if when not in moments:
+                moments.append(when)
+        if moments:
+            out[name] = moments
     return out
 
 

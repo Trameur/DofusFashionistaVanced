@@ -57,9 +57,51 @@ ALWAYS_BUFF_TOKENS = {"buff_final", "buff_finalheals"}
 # the target suffers pushback damage"). Keyed by Ankama spell id, so a version
 # that lacks the spell simply gets nothing, and a regeneration cannot drop it.
 # A test checks each description still says it.
+# What the client says a damage row waits for. "I" is on cast; the rest name a
+# moment or an event, and a row that names one does not land with the cast.
+# Two kinds, because they are not the same promise: a poison at the start or
+# end of a turn is certain and merely late, while a row waiting on pushback
+# damage only happens if something pushes.
+DELAYED_TRIGGERS = {
+    'TB': 'turn_begin',
+    'TE': 'turn_end',
+}
+CONDITIONAL_TRIGGERS = {
+    frozenset(('PD',)): 'pushback',
+    frozenset(('PD', 'XPD')): 'pushback',
+    frozenset(('XPD',)): 'pushback',
+}
+
+
+def _trigger_tokens(triggers):
+    """(delayed token, conditional token) for one row's trigger string."""
+    codes = {code for code in str(triggers or '').split('|') if code}
+    if not codes or codes == {'I'}:
+        return None, None
+    if len(codes) == 1:
+        delayed = DELAYED_TRIGGERS.get(next(iter(codes)))
+        if delayed:
+            return delayed, None
+    return None, CONDITIONAL_TRIGGERS.get(frozenset(codes))
+
+
+def _rows_that_wait(normal_rows):
+    """{index: token} twice over, read from the rows the client wrote."""
+    delayed, conditional = {}, {}
+    for index, row in enumerate(normal_rows):
+        late, gated = _trigger_tokens(row.get("triggers"))
+        if late:
+            delayed[index] = late
+        elif gated:
+            conditional[index] = gated
+    return delayed, conditional
+
+
 CONDITIONAL_ROWS = {
+    # Pilfer is not here: the client marks its row PD|XPD and the rule above
+    # reads it. Noa has the same mechanic and the same wording in all five
+    # languages, but its row is marked "I", so it needs saying by hand.
     23735: {1: "pushback"},   # Forgelance, Noa
-    13823: {1: "pushback"},   # Foggernaut, Pilfer
 }
 
 BUFF_SORT_ORDER = {
@@ -121,6 +163,7 @@ class SpellEntry:
     buff_scaling: Optional[Dict[str, Any]] = None
     casting: Optional[Dict[str, List[int]]] = None
     conditional: Optional[Dict[int, str]] = None
+    delayed: Optional[Dict[int, str]] = None
 
 
 def _parse_damage_literal(literal: str) -> tuple[int, int]:
@@ -1293,6 +1336,7 @@ def convert_spell(
 
     best_element_groups = _extract_best_element_groups(normal_rows)
     base_row_count = len(normal_rows)
+    _waiting_rows = _rows_that_wait(normal_rows)
 
     non_crit: List[List[str]] = [
         [str(value) for value in row.get("ranges", [])]
@@ -1388,7 +1432,9 @@ def convert_spell(
         order=order,
         ankama_id=ankama_id,
         casting=_casting(spell, len(level_requirements)),
-        conditional=_conditional_rows(ankama_id, elements),
+        conditional=_conditional_rows(ankama_id, elements,
+                                      _waiting_rows[1]),
+        delayed=_waiting_rows[0] or None,
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
@@ -1563,9 +1609,10 @@ def render_block(spells_by_class: Mapping[str, List[SpellEntry]]) -> str:
     return "\n".join(lines)
 
 
-def _conditional_rows(ankama_id, elements):
+def _conditional_rows(ankama_id, elements, from_data=None):
     """The rows this spell leaves for later, checked against what it emits."""
-    wanted = CONDITIONAL_ROWS.get(ankama_id)
+    wanted = dict(from_data or {})
+    wanted.update(CONDITIONAL_ROWS.get(ankama_id) or {})
     if not wanted:
         return None
     for index in wanted:
@@ -1615,6 +1662,8 @@ def render_spell(entry: SpellEntry) -> List[str]:
         extra_args.append(f"spell_id={entry.ankama_id}")
     if entry.conditional:
         extra_args.append(f"conditional={entry.conditional!r}")
+    if entry.delayed:
+        extra_args.append(f"delayed={entry.delayed!r}")
     if extra_args:
         closing += ", " + ", ".join(extra_args)
     closing += ")"

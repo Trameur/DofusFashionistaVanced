@@ -2308,6 +2308,30 @@ class AWaitingDamageRowIsNotTurnDamageTests(SimpleTestCase):
         self.assertEqual({'1': 'only when the target suffers pushback damage'},
                          digest['conditional'])
 
+    def test_the_row_that_waits_is_labelled_where_it_is_drawn(self):
+        # Two air rows of nearly the same size, and nothing said which was
+        # which. The label goes under the row it belongs to, so the index the
+        # digest carries has to reach the function that draws that row.
+        page = io.open(os.path.join(os.path.dirname(__file__), 'templates',
+                                    'chardata', 'spells.html'),
+                       encoding='utf-8').read()
+        self.assertIn('function writeDamageLine(element, minDam, maxDam, '
+                      'heals, steals, table,', page)
+        self.assertIn("(spell.conditional || {})[String(i)]", page)
+        self.assertIn("|| (spell.delayed || {})[String(i)]", page)
+        self.assertIn("class='waiting-row'", page)
+
+    def test_the_card_says_when_a_poison_lands(self):
+        from chardata.spells_view import _create_spell_web_digest
+        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+        from fashionistapulp.structure import set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        fire = next(spell for spell in DAMAGE_SPELLS['Sadida']
+                    if spell.name == 'Bush Fire')
+        digest = _create_spell_web_digest(fire, 'dofus3')
+        self.assertEqual({'1': 'at the end of a turn'}, digest['delayed'])
+
 
 class ValuesWrittenIntoJavascriptTests(TestCase):
     """Autoescape protects html and does nothing for a javascript string, and
@@ -16635,6 +16659,87 @@ class SpellComboTests(SimpleTestCase):
                                       language=language):
                         self.assertIn(word, text)
         self.assertGreaterEqual(seen, 2, 'no annotated spell was checked')
+
+    def test_a_poison_is_not_counted_as_damage_landing_now(self):
+        # Bush Fire burns at the end of a turn. The turn used to add it to the
+        # burst, so a Sadida read as hitting harder than any turn can.
+        from chardata.spell_combo import (best_turn, castable_spells,
+                                          delayed_damage)
+        spells = castable_spells('Sadida', 200, 'dofus3')
+        burning = [spell for spell in spells if spell.delayed_plain]
+        self.assertTrue(burning, 'no Sadida spell reads as late')
+        total, order = best_turn(self._stats(ap=10), spells, 10,
+                                 game_version='dofus3')
+        later = delayed_damage(self._stats(ap=10), spells, order,
+                               game_version='dofus3')
+        self.assertTrue(later, [name for name, _ in order])
+        self.assertGreater(total - sum(later.values()), 0)
+        for name, value in later.items():
+            with self.subTest(spell=name):
+                self.assertGreater(value, 0)
+
+    def test_the_late_part_is_never_worth_more_than_the_cast(self):
+        # It is subtracted from the turn, so scoring it with buffs the cast
+        # never saw would leave a cast reading as negative damage. An Ouginak
+        # buffs before Vertebra, which is the case that catches it.
+        from chardata.spell_combo import (best_turn, castable_spells,
+                                          delayed_damage)
+        stats = self._stats(ap=12)
+        checked = 0
+        for char_class in ('Ouginak', 'Sadida', 'Cra', 'Sram', 'Eliotrope'):
+            spells = castable_spells(char_class, 200, 'dofus3')
+            total, order = best_turn(stats, spells, 12, game_version='dofus3')
+            later = delayed_damage(stats, spells, order,
+                                   game_version='dofus3')
+            if not later:
+                continue
+            checked += 1
+            scored = {}
+            for name, damage in order:
+                scored[name] = scored.get(name, 0.0) + damage
+            for name, late in later.items():
+                with self.subTest(char_class=char_class, spell=name):
+                    self.assertLessEqual(round(late, 6),
+                                         round(scored[name], 6))
+            self.assertGreaterEqual(total - sum(later.values()), 0)
+        self.assertTrue(checked, 'no class with a late row was exercised')
+
+    def test_what_lands_late_is_read_from_the_client_not_a_list(self):
+        # The client marks every damage row: "I" on cast, "TB" at the start of
+        # a turn, "TE" at the end. Twenty-two spells carry one, and a hand list
+        # would have found two.
+        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+        late = [spell for spells in DAMAGE_SPELLS.values()
+                for spell in spells if getattr(spell, 'delayed', None)]
+        self.assertGreaterEqual(len(late), 15)
+        for spell in late:
+            for index, when in spell.delayed.items():
+                with self.subTest(spell=spell.name):
+                    self.assertIn(when, ('turn_begin', 'turn_end'))
+                    self.assertLess(index, len(spell.effects.elements))
+        # And a plain damage spell carries nothing.
+        iop = {spell.name: spell for spell in DAMAGE_SPELLS['Iop']}
+        self.assertFalse(getattr(iop['Power'], 'delayed', None) or {})
+        self.assertFalse(getattr(iop['Strengthstorm'], 'delayed', None) or {})
+
+    def test_a_trigger_the_client_does_not_explain_is_left_alone(self):
+        module = itemscraper_module('generate_damage_spells')
+        self.assertEqual((None, None), module._trigger_tokens('I'))
+        self.assertEqual((None, None), module._trigger_tokens(''))
+        self.assertEqual((None, None), module._trigger_tokens('CC'))
+        self.assertEqual(('turn_end', None), module._trigger_tokens('TE'))
+        self.assertEqual(('turn_begin', None), module._trigger_tokens('TB'))
+        self.assertEqual((None, 'pushback'), module._trigger_tokens('PD|XPD'))
+
+    def test_the_row_pilfer_holds_back_now_comes_from_the_data(self):
+        # It reads PD|XPD, the client's own words for pushback damage, so the
+        # hand list no longer has to carry it.
+        module = itemscraper_module('generate_damage_spells')
+        self.assertNotIn(13823, module.CONDITIONAL_ROWS)
+        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+        pilfer = next(spell for spell in DAMAGE_SPELLS['Foggernaut']
+                      if spell.spell_id == 13823)
+        self.assertEqual({1: 'pushback'}, pilfer.conditional)
 
     def test_a_class_that_boosts_pushback_damage_carries_it_as_a_buff(self):
         # Ankama's own description: "Increases the target's Power and pushback

@@ -6733,3 +6733,15 @@ msgstr "se todo o empurrão terminar contra um obstáculo, e só no estado que o
 #: .\chardata\templates\chardata\spells.html:66
 msgid "Count pushback damage, assuming half of each push is stopped"
 msgstr "Contar os danos de empurrão, supondo que metade de cada empurrão é bloqueada"
+
+#: .\chardata\spells_view.py:449
+msgid "at the start of a turn"
+msgstr "no início de um turno"
+
+#: .\chardata\spells_view.py:449
+msgid "at the end of a turn"
+msgstr "no fim de um turno"
+
+#: .\chardata\templates\chardata\spells.html:53
+msgid "Lands later, not in the total above:"
+msgstr "Chega mais tarde, não no total acima:"

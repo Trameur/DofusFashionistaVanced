@@ -32,7 +32,8 @@
          data-damage-label="{% trans "damage" %}"
          data-ap-label="{% blocktrans with ap="__ap__" %}{{ ap }} AP{% endblocktrans %}"
          data-ap-note="{% blocktrans with used="__used__" available="__available__" %}{{ used }} of {{ available }} AP used.{% endblocktrans %}"
-         data-conditional-title="{% trans "Not in the total, it depends on the fight:" %}">
+         data-conditional-title="{% trans "Not in the total, it depends on the fight:" %}"
+         data-later-title="{% trans "Lands later, not in the total above:" %}">
         <span class="best-combo-busy" aria-hidden="true"></span>
         <div class="best-combo-head">
             <span class="best-combo-title">{% trans "Best combo this turn" %}</span>
@@ -49,6 +50,18 @@
             </li>
             {% endfor %}
         </ol>
+        <div class="best-combo-later"{% if not best_combo.later %} hidden{% endif %}>
+            <span class="best-combo-later-title">{% trans "Lands later, not in the total above:" %}</span>
+            <ul class="best-combo-later-rows">
+                {% for extra in best_combo.later %}
+                <li>
+                    <span class="best-combo-name">{{ extra.name }}</span>
+                    <span class="best-combo-damage">+{{ extra.damage }}</span>
+                    <span class="best-combo-conditional-label">{{ extra.label }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
         <div class="best-combo-conditional"{% if not best_combo.conditional %} hidden{% endif %}>
             <span class="best-combo-conditional-title">{% trans "Not in the total, it depends on the fight:" %}</span>
             <ul class="best-combo-conditional-rows">
@@ -824,14 +837,17 @@
                 }
                 writeDamageLine(finalDamage[i].element, finalDamage[i].min_dam,
                                 finalDamage[i].max_dam, finalDamage[i].heals,
-                                finalDamage[i].steals, table);
+                                finalDamage[i].steals, table,
+                                (spell.conditional || {})[String(i)]
+                                || (spell.delayed || {})[String(i)]);
             }
         }
         appendScalingBuffRows(spell, table);
         return table;
     }
     
-    function writeDamageLine(element, minDam, maxDam, heals, steals, table) {
+    function writeDamageLine(element, minDam, maxDam, heals, steals, table,
+                            waitsFor) {
         var line = $("<tr></tr>");
         var cell = $("<td align='center'></td>");
         table.append(line);
@@ -848,6 +864,13 @@
         str += format[1];
         str += "</span>";
         cell.append(str);
+        if (waitsFor) {
+            var note = $("<tr></tr>");
+            var noteCell = $("<td align='center' class='waiting-row'></td>");
+            noteCell.text(waitsFor);
+            table.append(note);
+            note.append(noteCell);
+        }
     }
 
     function appendScalingBuffRows(spell, table) {
@@ -1355,6 +1378,22 @@
                     $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
                     $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
                     list.append(line);
+                });
+                var later = panel.find('.best-combo-later');
+                var lateRows = combo.later || [];
+                var lateList = later.find('.best-combo-later-rows').empty();
+                later.attr('hidden', lateRows.length ? null : 'hidden');
+                later.find('.best-combo-later-title')
+                     .text(panel.data('later-title'));
+                $.each(lateRows, function(i, extra) {
+                    var line = $("<li></li>");
+                    $("<span class='best-combo-name'></span>")
+                        .text(extra.name).appendTo(line);
+                    $("<span class='best-combo-damage'></span>")
+                        .text('+' + extra.damage).appendTo(line);
+                    $("<span class='best-combo-conditional-label'></span>")
+                        .text(extra.label).appendTo(line);
+                    lateList.append(line);
                 });
                 var conditional = panel.find('.best-combo-conditional');
                 var extras = combo.conditional || [];

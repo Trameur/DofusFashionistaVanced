@@ -227,6 +227,7 @@
 /* Damage the turn makes reachable without landing it. It borrows the cast row
    layout so the numbers line up under the ones above, and states no colour of
    its own: an inherited one survives both themes. */
+.best-combo-later,
 .best-combo-conditional {
     margin: 6px 0 0 0;
     padding: 6px 0 0 0;
@@ -236,8 +237,27 @@
     font-size: .9em;
 }
 
+.best-combo-later[hidden],
 .best-combo-conditional[hidden] {
     display: none;
+}
+
+.best-combo-later-title {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.best-combo-later-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.best-combo-later-rows li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 2px 0;
 }
 
 .best-combo-conditional-title {
@@ -262,6 +282,13 @@
     flex: 1 1 auto;
     min-width: 0;
     opacity: .8;
+}
+
+/* Under a damage row that does not land with the cast. */
+.waiting-row {
+    font-size: .8em;
+    opacity: .8;
+    padding-bottom: 2px;
 }
 
 .best-combo-pushback {

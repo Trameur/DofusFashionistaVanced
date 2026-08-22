@@ -6765,3 +6765,15 @@ msgstr "wenn der ganze Schub gegen ein Hindernis endet, und nur in dem Zustand, 
 #: .\chardata\templates\chardata\spells.html:66
 msgid "Count pushback damage, assuming half of each push is stopped"
 msgstr "Schubschaden mitzählen, wobei die Hälfte jedes Schubs gestoppt wird"
+
+#: .\chardata\spells_view.py:449
+msgid "at the start of a turn"
+msgstr "zu Beginn einer Runde"
+
+#: .\chardata\spells_view.py:449
+msgid "at the end of a turn"
+msgstr "am Ende einer Runde"
+
+#: .\chardata\templates\chardata\spells.html:53
+msgid "Lands later, not in the total above:"
+msgstr "Trifft später ein, nicht im Gesamtwert oben:"

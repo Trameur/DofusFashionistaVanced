@@ -6154,3 +6154,15 @@ msgstr ""
 #: .\chardata\templates\chardata\spells.html:66
 msgid "Count pushback damage, assuming half of each push is stopped"
 msgstr ""
+
+#: .\chardata\spells_view.py:449
+msgid "at the start of a turn"
+msgstr ""
+
+#: .\chardata\spells_view.py:449
+msgid "at the end of a turn"
+msgstr ""
+
+#: .\chardata\templates\chardata\spells.html:53
+msgid "Lands later, not in the total above:"
+msgstr ""
