@@ -351,10 +351,15 @@ class EncyclopediaItemPageTest(TestCase):
                          'the Spanish URL served %d different pages: %s'
                          % (len(titles), titles))
 
-    def test_unknown_slug_still_resolves_by_id(self):
-        # Old shared links carry stale slugs; they must keep working.
-        response = self._fetch('/encyclopedia/item/equipment/44-whatever-slug/')
+    def test_a_stale_slug_still_reaches_the_page(self):
+        # Old shared links carry slugs from before a rename. They must keep
+        # working -- now by redirecting to the canonical URL, which also stops
+        # each item answering on an unbounded set of invented slugs.
+        response = self.client.get(
+            '/encyclopedia/item/equipment/44-whatever-slug/', follow=True)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.redirect_chain,
+                         [('/encyclopedia/item/equipment/44-twiggy-sword/', 301)])
 
 
 class LocalisedSlugPagesTest(TestCase):
@@ -487,3 +492,42 @@ class LocalisedSlugPagesTest(TestCase):
             '/encyclopedia/item/equipment/44-twiggy-sword/'
         ).content.decode('utf-8')
         self.assertIn('hreflang=', html)
+
+
+class GarbageSlugTest(TestCase):
+    """A slug that names no language is not a page.
+
+    Without this, every item answers on any string at all -- an unbounded set
+    of URLs serving one page. The canonical groups them, but crawl budget is
+    still spent on them and they still get shared.
+    """
+
+    CANONICAL = '/encyclopedia/item/equipment/44-twiggy-sword/'
+
+    def test_an_invented_slug_redirects_permanently(self):
+        response = self.client.get(
+            '/encyclopedia/item/equipment/44-total-garbage-seo-spam/')
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response['Location'], self.CANONICAL)
+
+    def test_the_redirect_target_answers(self):
+        # A 301 is cached forever; pointing one at a 404 would be permanent.
+        response = self.client.get(
+            '/encyclopedia/item/equipment/44-anything/', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_the_canonical_url_does_not_redirect(self):
+        self.assertEqual(self.client.get(self.CANONICAL).status_code, 200)
+
+    def test_a_localised_slug_is_never_redirected(self):
+        # It names a language, so it is a legitimate page of its own.
+        for path in ('/encyclopedia/item/equipment/44-epee-de-boisaille/',
+                     '/encyclopedia/item/equipment/44-espada-de-maderucha/'):
+            with self.subTest(path=path):
+                self.assertEqual(self.client.get(path).status_code, 200)
+
+    def test_redirecting_twice_lands_on_the_same_place(self):
+        # Guards against a loop: the target of a redirect must be stable.
+        first = self.client.get('/encyclopedia/item/equipment/44-zzz/')
+        second = self.client.get(first['Location'])
+        self.assertEqual(second.status_code, 200)

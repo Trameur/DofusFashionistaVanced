@@ -2126,11 +2126,13 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         lang: structure.get_item_name_in_language(matched_item, lang)
         for lang in SUPPORTED_LANGUAGES
     }
-    url_language = language_from_slug(item_names_by_language, slug,
-                                      _normalized_slug)
+    slug_language = language_from_slug(item_names_by_language, slug,
+                                       _normalized_slug)
+    url_language = slug_language
     if url_language is None:
-        # An unrecognised slug is not a reason to change behaviour: keep
-        # whatever the request negotiated, exactly as before.
+        # An unrecognised slug is not a reason to change the language: keep
+        # whatever the request negotiated. Whether it is also worth redirecting
+        # is decided further down, once the canonical path is known.
         url_language = language
     elif url_language != language:
         translation.activate(url_language)
@@ -2221,6 +2223,13 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         {lang: structure.get_item_name_in_language(representative_item, lang)
          for lang in SUPPORTED_LANGUAGES},
         'https://dofusfashionista.gg')
+
+    # A slug naming no language at all is not a page: without this, every
+    # item answers on any string anyone cares to invent, each serving the same
+    # content. Only this case redirects -- a slug that does name a language is
+    # a legitimate page and is served as it stands.
+    if slug_language is None and canonical_path and request.path != canonical_path:
+        return redirect(canonical_path, permanent=True)
 
     # A signed-in visitor who chose a language is sent to their own version, so
     # a Spanish link shared with a French account still lands on French.
