@@ -6108,3 +6108,19 @@ msgstr "Tap or hover a stat in your build to see which pieces make it."
 #: chardata/templates/chardata/changelog_content.html
 msgid "Smithmagic: odds, rune order and losses reworked from what players measure."
 msgstr "Smithmagic: odds, rune order and losses reworked from what players measure."
+
+#: .\chardata\templates\chardata\contacts.html:107
+msgid "Join our Discord!"
+msgstr ""
+
+#: .\fashionsite\urls.py:129
+msgid "Offline - Dofus Fashionista"
+msgstr ""
+
+#: .\fashionsite\urls.py:129
+msgid "You are offline"
+msgstr ""
+
+#: .\fashionsite\urls.py:129
+msgid "Dofus Fashionista needs a connection to optimize builds. Reconnect and try again."
+msgstr ""

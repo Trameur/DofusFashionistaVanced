@@ -235,6 +235,23 @@ class TranslationRegressionTests(SimpleTestCase):
             self.assertEqual(LightSetConditionLine(None, 1).text, 'Bonus de panoplies < 2')
             self.assertEqual(LightSetConditionLine(None, 2).text, 'Bonus de panoplies < 3')
 
+    def test_the_offline_page_speaks_the_reader_s_language(self):
+        # It lived as a raw HTML string in urls.py, outside every catalogue.
+        expected = {'fr': 'Tu es hors connexion', 'es': 'Estás sin conexión',
+                    'pt': 'Você está sem conexão', 'de': 'Du bist offline'}
+        for language, text in expected.items():
+            with translation.override(language):
+                self.assertEqual(gettext('You are offline'), text)
+
+    def test_the_discord_call_to_action_is_translated(self):
+        expected = {'fr': 'Rejoins notre Discord !',
+                    'es': '¡Únete a nuestro Discord!',
+                    'pt': 'Entra no nosso Discord!',
+                    'de': 'Tritt unserem Discord bei!'}
+        for language, text in expected.items():
+            with translation.override(language):
+                self.assertEqual(gettext('Join our Discord!'), text)
+
     def test_german_mp_is_bp_not_member_of_parliament(self):
         with translation.override('de'):
             self.assertEqual(gettext('MP'), 'BP')

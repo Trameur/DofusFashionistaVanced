@@ -6755,3 +6755,19 @@ msgstr "Configurez la page <a href=\"%(error_link)s\">%(page)s</a> avant de lanc
 
 
 
+
+#: .\chardata\templates\chardata\contacts.html:107
+msgid "Join our Discord!"
+msgstr "Rejoins notre Discord !"
+
+#: .\fashionsite\urls.py:129
+msgid "Offline - Dofus Fashionista"
+msgstr "Hors connexion - Dofus Fashionista"
+
+#: .\fashionsite\urls.py:129
+msgid "You are offline"
+msgstr "Tu es hors connexion"
+
+#: .\fashionsite\urls.py:129
+msgid "Dofus Fashionista needs a connection to optimize builds. Reconnect and try again."
+msgstr "Dofus Fashionista a besoin d'une connexion pour optimiser tes équipements. Reconnecte-toi et réessaie."

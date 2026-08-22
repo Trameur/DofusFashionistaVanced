@@ -22,6 +22,8 @@ from django.contrib import admin
 from django.views.generic import RedirectView, TemplateView
 from django.http import Http404, HttpResponse
 from django.views.static import serve
+from django.utils.html import escape
+from django.utils.translation import get_language, gettext as _
 import os
 from chardata import home_view, login_view, views, projects_view, base_stats_view, create_project_view, \
     stats_weights_view, min_stats_view, options_view, inclusions_view, exclusions_view, wizard_view, \
@@ -123,14 +125,19 @@ self.addEventListener('fetch', function(e) {
     return HttpResponse(sw, content_type='application/javascript')
 
 def offline_view(request):
+    # The service worker caches this page at install time, so it is served in
+    # the language the visitor had then.
     return HttpResponse(
-        "<!doctype html><html><head><meta charset='utf-8'>"
+        "<!doctype html><html lang='%s'><head><meta charset='utf-8'>"
         "<meta name='viewport' content='width=device-width, initial-scale=1'>"
-        "<title>Offline - Dofus Fashionista</title></head>"
+        "<title>%s</title></head>"
         "<body style='font-family:sans-serif;text-align:center;padding:40px;'>"
-        "<h1>You are offline</h1>"
-        "<p>Dofus Fashionista needs a connection to optimize builds. "
-        "Reconnect and try again.</p></body></html>",
+        "<h1>%s</h1><p>%s</p></body></html>"
+        % (escape(get_language() or 'en'),
+           escape(_('Offline - Dofus Fashionista')),
+           escape(_('You are offline')),
+           escape(_('Dofus Fashionista needs a connection to optimize builds. '
+                    'Reconnect and try again.'))),
         content_type='text/html')
 
 # --- Sitemap ---------------------------------------------------------------
