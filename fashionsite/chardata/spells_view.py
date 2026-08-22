@@ -236,7 +236,8 @@ def _weapon_castable(solution):
     return castable if castable.alternatives else None
 
 
-def _best_combo(char, solution, game_version, buff_state=None, levels=None):
+def _best_combo(char, solution, game_version, buff_state=None, levels=None,
+                pushback=False):
     """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force,
                                       castable_spells, combat_ap,
@@ -257,7 +258,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     standing = stacks_in_force(char.char_class, char.level, game_version,
                                buff_state)
     total, order = best_turn(stats, spells, ap, standing=standing,
-                             game_version=game_version)
+                             game_version=game_version, pushback=pushback,
+                             caster_level=char.level)
     if not order:
         return None
     language = get_supported_language()
@@ -282,7 +284,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     extras = []
     for name, trigger, damage in conditional_extras(
             stats, spells, order, standing=standing,
-            game_version=game_version, caster_level=char.level):
+            game_version=game_version, caster_level=char.level,
+            pushback=pushback):
         castable = by_name[name]
         extras.append({
             'name': (_localized_spell_name(name, language, game_version)
@@ -291,6 +294,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
             'label': str(_CONDITIONAL_LABELS.get(trigger, trigger)),
         })
     return {'casts': casts,
+            'pushback': bool(pushback),
+            'can_push': any(getattr(spell, 'push_cells', 0)
+                            for spell in spells),
             'total': int(round(total)),
             'ap_used': sum(cast['ap'] for cast in casts),
             'ap_available': ap,
@@ -357,7 +363,8 @@ def _best_combo_response(request, char):
     game_version = getattr(request, 'game_version', 'dofus3')
     return JsonResponse({'best_combo': _best_combo(
         char, solution, game_version, posted('buff_state'),
-        posted('spell_levels'))})
+        posted('spell_levels'),
+        request.POST.get('pushback') == 'true')})
 
 
 def spells(request, char_id=0):

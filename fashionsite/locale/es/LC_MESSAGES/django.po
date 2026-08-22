@@ -5849,7 +5849,7 @@ msgstr "Mejor combo este turno"
 
 #: .\chardata\templates\chardata\spells.html:32
 msgid "damage"
-msgstr "de dano"
+msgstr "de daño"
 
 #: .\chardata\templates\chardata\spells.html:39
 #, python-format
@@ -5937,7 +5937,7 @@ msgstr "(trampas)"
 
 #: .\chardata\templates\chardata\spells.html:745
 msgid "Final Damage"
-msgstr "Dano final"
+msgstr "Daño final"
 
 #: .\chardata\templates\chardata\spells.html:747
 msgid "Final Heals"
@@ -6753,3 +6753,7 @@ msgstr "si todo el empuje acaba contra un obstáculo"
 #: .\chardata\spells_view.py:449
 msgid "if the whole push lands against an obstacle, and only at the state the spell needs"
 msgstr "si todo el empuje acaba contra un obstáculo, y solo en el estado que el hechizo necesita"
+
+#: .\chardata\templates\chardata\spells.html:66
+msgid "Count pushback damage, assuming half of each push is stopped"
+msgstr "Contar los daños de empuje, suponiendo que la mitad de cada empuje queda bloqueada"

@@ -23,6 +23,7 @@ import copy
 from fashionistapulp.dofus_constants import (NEUTRAL, calculate_damage,
                                              get_stat_maximum)
 
+from chardata.pushback import pushback_damage
 from chardata.spell_buffs import (_buff_value, _decide_spell_level,
                                   get_damage_spells_for_version)
 from chardata.spell_variants import variant_of
@@ -361,7 +362,7 @@ def _variant_partners(spells, game_version):
 
 
 def conditional_extras(stats, spells, order, crit=False, standing=None,
-                       game_version=None, caster_level=0):
+                       game_version=None, caster_level=0, pushback=False):
     """[(spell name, trigger, damage)] a waiting row could add to this turn.
 
     Never part of the total: a push only damages a target that hits an
@@ -407,8 +408,7 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
     for name in sorted(set(cast_names)):
         castable = by_name.get(name)
         cells = getattr(castable, 'push_cells', 0)
-        if cells and caster_level:
-            from chardata.pushback import pushback_damage
+        if cells and caster_level and not pushback:
             dealt = pushback_damage(caster_level,
                                     buffed.get('pshdam', 0) or 0,
                                     cells, target_resistance=-stripped,
@@ -431,7 +431,27 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
     return out
 
 
-def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None):
+# How much of a push is stopped, when the reader asks the turn to count it.
+# The panel has no map, so it takes the case the push is aimed at something:
+# an obstacle somewhere in the pushed distance, at a uniformly random cell,
+# leaves half the distance unspent on average. Aimed at open ground a push is
+# worth nothing, and against a wall right behind the target it is worth twice
+# this; the conditional line below the turn still reports that upper case.
+PUSH_STOPPED_ON_AVERAGE = 0.5
+
+
+def push_value(castable, stats, game_version, caster_level):
+    """What one cast's push is worth on average, 0 when it cannot be told."""
+    cells = getattr(castable, 'push_cells', 0)
+    if not cells or not caster_level:
+        return 0.0
+    dealt = pushback_damage(caster_level, stats.get('pshdam', 0) or 0, cells,
+                            game_version=game_version)
+    return (dealt or 0.0) * PUSH_STOPPED_ON_AVERAGE
+
+
+def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
+              pushback=False, caster_level=0):
     """(total, [(spell name, damage), ...]) for the best order fitting the AP.
 
     `standing` is {spell name: stacks} for the buffs the reader already ticked,
@@ -452,7 +472,8 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None):
     scores = {}
 
     def damage_of(spell, counts):
-        if not spell.alternatives:
+        if not spell.alternatives and not (pushback
+                                           and getattr(spell, 'push_cells', 0)):
             return 0.0
         key = (spell.name,
                tuple(min(counts[index], spells[index].stacks)
@@ -495,19 +516,21 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None):
                     best_seen = gained
             return best_seen
 
+        pushed = (push_value(spell, buffed, game_version, caster_level)
+                  if pushback else 0.0)
         if crit:
-            return scored(spell.alternatives, True)
+            return scored(spell.alternatives, True) + pushed
         # What a cast is worth on average: the critical line lands as often as
         # the rate says, the normal line the rest of the time.
         odds = crit_chance(getattr(spell, 'crit_rate', 0), buffed, game_version)
         plain = scored(getattr(spell, 'plain_alternatives', spell.alternatives),
                        False)
         if not odds:
-            return plain
+            return plain + pushed
         critical = scored(getattr(spell, 'crit_alternatives', None) or [], True)
         if not critical:
-            return plain
-        return plain * (1 - odds) + critical * odds
+            return plain + pushed
+        return plain * (1 - odds) + critical * odds + pushed
 
     best = {}
     # Past its own cap a cast changes nothing for what follows: the buff is at

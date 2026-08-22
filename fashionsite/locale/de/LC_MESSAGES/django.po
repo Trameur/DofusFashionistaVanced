@@ -6761,3 +6761,7 @@ msgstr "wenn der ganze Schub gegen ein Hindernis endet"
 #: .\chardata\spells_view.py:449
 msgid "if the whole push lands against an obstacle, and only at the state the spell needs"
 msgstr "wenn der ganze Schub gegen ein Hindernis endet, und nur in dem Zustand, den der Zauber verlangt"
+
+#: .\chardata\templates\chardata\spells.html:66
+msgid "Count pushback damage, assuming half of each push is stopped"
+msgstr "Schubschaden mitzählen, wobei die Hälfte jedes Schubs gestoppt wird"

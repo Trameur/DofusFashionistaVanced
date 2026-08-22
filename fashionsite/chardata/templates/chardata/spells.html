@@ -61,6 +61,10 @@
                 {% endfor %}
             </ul>
         </div>
+        <label class="best-combo-pushback"{% if not best_combo.can_push %} hidden{% endif %}>
+            <input type="checkbox" id="best-combo-pushback"{% if best_combo.pushback %} checked{% endif %}>
+            <span>{% trans "Count pushback damage, assuming half of each push is stopped" %}</span>
+        </label>
         <p class="best-combo-note">
             <span class="best-combo-ap-note">{% blocktrans with used=best_combo.ap_used available=best_combo.ap_available %}{{ used }} of {{ available }} AP used.{% endblocktrans %}</span>
             {% trans "One turn on a single target: average damage, self buffs and critical hit rate included." %}
@@ -1280,11 +1284,14 @@
     // shows.
     function comboPayload() {
         return {buff_state: JSON.stringify(byCanonicalName(buffState)),
-                spell_levels: JSON.stringify(byCanonicalName(spellLevel))};
+                spell_levels: JSON.stringify(byCanonicalName(spellLevel)),
+                pushback: $("#best-combo-pushback").prop('checked') ? 'true'
+                                                                   : 'false'};
     }
 
     function comboSignature(payload) {
-        return payload.buff_state + '|' + payload.spell_levels;
+        return payload.buff_state + '|' + payload.spell_levels + '|'
+               + payload.pushback;
     }
 
     // The page opens on the state the panel was rendered for, so the first
@@ -1559,6 +1566,10 @@
         });
         recalculateDamages();
         markComboRendered();
+
+        $("#best-combo-pushback").on('change', function() {
+            refreshBestCombo();
+        });
 
         $("#all-buffs-button").on('click', function() {
             fullyBuff();

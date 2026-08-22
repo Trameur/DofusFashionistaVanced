@@ -16607,6 +16607,108 @@ class SpellComboTests(SimpleTestCase):
         by_name = {spell.name: spell for spell in spells}
         return sum(by_name[name].cost for name, _damage in order)
 
+    def test_a_held_back_row_still_matches_what_the_game_says(self):
+        # The rule is not in the client's structured data: effect 950 leaves a
+        # state and a script consumes it. Ankama states it in the description,
+        # so the annotation is checked against that description in all five
+        # languages, and goes stale loudly rather than quietly.
+        from chardata.spell_reference import get_spell_reference
+        module = itemscraper_module('generate_damage_spells')
+        words = {'en': 'pushback damage', 'fr': 'dommages de pouss',
+                 'es': 'daños de empuje', 'pt': 'danos de empurr',
+                 'de': 'schubsschaden'}
+        self.assertTrue(module.CONDITIONAL_ROWS)
+        seen = 0
+        for version in ('dofus3', 'beta'):
+            found = {entry['id']: entry
+                     for entries in get_spell_reference(version).values()
+                     for entry in entries or []
+                     if entry.get('id') is not None}
+            for spell_id in module.CONDITIONAL_ROWS:
+                entry = found.get(spell_id)
+                if entry is None:
+                    continue
+                seen += 1
+                for language, word in words.items():
+                    text = (entry['description'].get(language) or '').lower()
+                    with self.subTest(version=version, spell=spell_id,
+                                      language=language):
+                        self.assertIn(word, text)
+        self.assertGreaterEqual(seen, 2, 'no annotated spell was checked')
+
+    def test_a_class_that_boosts_pushback_damage_carries_it_as_a_buff(self):
+        # Ankama's own description: "Increases the target's Power and pushback
+        # damage." The model used to keep the Power and drop the rest.
+        from chardata.spell_combo import castable_spells
+        for char_class, name in (('Iop', 'Power'),
+                                 ('Cra', 'Powerful Shots'),
+                                 ('Masqueraider', 'Bocciara')):
+            with self.subTest(spell=name):
+                spells = castable_spells(char_class, 200, 'dofus3')
+                spell = next(s for s in spells if s.name == name)
+                self.assertGreater(spell.buff_deltas(spell.stacks)
+                                   .get('pshdam', 0), 0)
+
+    def test_a_push_is_worth_nothing_unless_the_reader_asks(self):
+        from chardata.spell_combo import best_turn
+        spells = self._spells('Foggernaut')
+        stats = self._stats(pshdam=200)
+        plain, _order = best_turn(stats, spells, 8, game_version='dofus3',
+                                  caster_level=200)
+        counted, _order = best_turn(stats, spells, 8, game_version='dofus3',
+                                    caster_level=200, pushback=True)
+        self.assertGreater(counted, plain)
+
+    def test_a_pushback_build_boosts_before_it_pushes(self):
+        # What the turn is asked for: the buff that raises pushback damage
+        # lands before the spell that pushes, never after it.
+        from chardata.spell_combo import best_turn
+        spells = self._spells('Masqueraider')
+        by_name = {spell.name: spell for spell in spells}
+        _total, order = best_turn(self._stats(pshdam=300), spells, 8,
+                                  game_version='dofus3', caster_level=200,
+                                  pushback=True)
+        names = [name for name, _damage in order]
+        pushes = [i for i, name in enumerate(names)
+                  if getattr(by_name[name], 'push_cells', 0)]
+        boosts = [i for i, name in enumerate(names)
+                  if by_name[name].buff_deltas(by_name[name].stacks)
+                                  .get('pshdam', 0)]
+        self.assertTrue(pushes, 'no push in the turn: %s' % names)
+        self.assertTrue(boosts, 'no pushback boost in the turn: %s' % names)
+        self.assertLess(max(boosts), min(pushes),
+                        'a boost lands after a push: %s' % names)
+
+    def test_a_push_is_scored_on_the_pushback_damage_standing_when_it_lands(self):
+        from chardata.spell_combo import push_value
+        spells = self._spells('Foggernaut')
+        pusher = next(s for s in spells if getattr(s, 'push_cells', 0))
+        poor = push_value(pusher, {'pshdam': 0}, 'dofus3', 200)
+        rich = push_value(pusher, {'pshdam': 300}, 'dofus3', 200)
+        self.assertGreater(rich, poor)
+        self.assertGreater(poor, 0)
+
+    def test_a_version_without_the_published_formula_counts_no_push(self):
+        # Retro still rolls a die for it, so the panel invents nothing there.
+        from chardata.spell_combo import push_value
+        spells = self._spells('Foggernaut')
+        pusher = next(s for s in spells if getattr(s, 'push_cells', 0))
+        self.assertEqual(0.0, push_value(pusher, {'pshdam': 300}, 'retro', 200))
+
+    def test_what_the_turn_counts_is_not_reported_a_second_time(self):
+        from chardata.spell_combo import best_turn, conditional_extras
+        spells = self._spells('Foggernaut')
+        stats = self._stats(pshdam=200)
+        _total, order = best_turn(stats, spells, 8, game_version='dofus3',
+                                  caster_level=200, pushback=True)
+        triggers = [trigger for _name, trigger, _damage in conditional_extras(
+            stats, spells, order, game_version='dofus3', caster_level=200,
+            pushback=True)]
+        self.assertFalse([t for t in triggers if 'obstacle' in t], triggers)
+        loose = [trigger for _name, trigger, _damage in conditional_extras(
+            stats, spells, order, game_version='dofus3', caster_level=200)]
+        self.assertTrue([t for t in loose if 'obstacle' in t], loose)
+
     def test_a_turn_never_spends_more_ap_than_it_has(self):
         from chardata.spell_combo import best_turn
         spells = self._spells()

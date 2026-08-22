@@ -6150,3 +6150,7 @@ msgstr ""
 #: .\chardata\spells_view.py:449
 msgid "if the whole push lands against an obstacle, and only at the state the spell needs"
 msgstr ""
+
+#: .\chardata\templates\chardata\spells.html:66
+msgid "Count pushback damage, assuming half of each push is stopped"
+msgstr ""

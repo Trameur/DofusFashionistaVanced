@@ -41,10 +41,26 @@ STAT_BUFF_CHARACTERISTICS = {
     15: "buff_int",
     25: "buff_pow",
     49: "buff_finalheals",
+    # Characteristic 84 is Pushback Damage: effect 414 reads "+X Pushback
+    # Damage" in the client's own strings, and seven spells grant it beside
+    # their main effect (Iop Power, Cra Powerful Shots, Masqueraider masks...).
+    84: "buff_pshdam",
     107: "buff_final",
 }
 
 ALWAYS_BUFF_TOKENS = {"buff_final", "buff_finalheals"}
+
+# A damage row that does not land with the cast. The client's structured data
+# does not carry it: the state that holds the damage is applied by effect 950
+# and consumed by a script, so the only place the game states the rule is the
+# spell description, which says it in all five languages ("removes the state if
+# the target suffers pushback damage"). Keyed by Ankama spell id, so a version
+# that lacks the spell simply gets nothing, and a regeneration cannot drop it.
+# A test checks each description still says it.
+CONDITIONAL_ROWS = {
+    23735: {1: "pushback"},   # Forgelance, Noa
+    13823: {1: "pushback"},   # Foggernaut, Pilfer
+}
 
 BUFF_SORT_ORDER = {
     "buff_str": 0,
@@ -53,8 +69,9 @@ BUFF_SORT_ORDER = {
     "buff_agi": 3,
     "buff_vit": 4,
     "buff_pow": 5,
-    "buff_final": 6,
-    "buff_finalheals": 7,
+    "buff_pshdam": 6,
+    "buff_final": 7,
+    "buff_finalheals": 8,
 }
 
 BASE_CLASSES = [
@@ -103,6 +120,7 @@ class SpellEntry:
     aggregates: Optional[List[Tuple[str, List[int]]]] = None
     buff_scaling: Optional[Dict[str, Any]] = None
     casting: Optional[Dict[str, List[int]]] = None
+    conditional: Optional[Dict[int, str]] = None
 
 
 def _parse_damage_literal(literal: str) -> tuple[int, int]:
@@ -1370,6 +1388,7 @@ def convert_spell(
         order=order,
         ankama_id=ankama_id,
         casting=_casting(spell, len(level_requirements)),
+        conditional=_conditional_rows(ankama_id, elements),
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
@@ -1544,6 +1563,21 @@ def render_block(spells_by_class: Mapping[str, List[SpellEntry]]) -> str:
     return "\n".join(lines)
 
 
+def _conditional_rows(ankama_id, elements):
+    """The rows this spell leaves for later, checked against what it emits."""
+    wanted = CONDITIONAL_ROWS.get(ankama_id)
+    if not wanted:
+        return None
+    for index in wanted:
+        if index >= len(elements):
+            raise RuntimeError(
+                "spell %s has no row %d to hold back" % (ankama_id, index))
+        if str(elements[index]).strip("'\"").startswith("buff"):
+            raise RuntimeError(
+                "row %d of spell %s is a buff, not damage" % (index, ankama_id))
+    return dict(wanted)
+
+
 def render_spell(entry: SpellEntry) -> List[str]:
     indent = " " * 8
     literal_levels = pprint.pformat(entry.level_requirements)
@@ -1579,6 +1613,8 @@ def render_spell(entry: SpellEntry) -> List[str]:
         # The audits match spells by id; the hand-written defaults have no id
         # and stay name-based.
         extra_args.append(f"spell_id={entry.ankama_id}")
+    if entry.conditional:
+        extra_args.append(f"conditional={entry.conditional!r}")
     if extra_args:
         closing += ", " + ", ".join(extra_args)
     closing += ")"
