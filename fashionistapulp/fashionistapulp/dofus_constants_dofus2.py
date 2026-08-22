@@ -316,7 +316,7 @@ WEIRD_CONDITIONS = list(WEIRD_CONDITION_TO_ID.keys())
 class Spell:
     def __init__(self, name, level_req, effects, aggregates=[],
                  is_linked=None, stacks=1, special=None, buff_scaling=None,
-                 spell_id=None, casting=None):
+                 spell_id=None, casting=None, conditional=None):
         # Ankama spell id, injected from the 2.73.3.9 archive (see the
         # DAMAGE_SPELLS header note); None where the name is ambiguous
         # in the archive or the spec is hand-written.
@@ -332,6 +332,10 @@ class Spell:
         self.buff_scaling = buff_scaling
         # {'ap': [...], 'per_turn': [...], ...}, one value per spell level.
         self.casting = casting
+        # {row index: what has to happen first}, for a row the cast does not
+        # land by itself. Noa's second row waits for the target to suffer
+        # pushback damage; counting it with the cast overstates the turn.
+        self.conditional = conditional or {}
 
     def ap_cost(self, level_index=-1):
         """AP a cast costs at that spell level, or None if it is not known."""

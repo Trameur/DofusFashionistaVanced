@@ -117,10 +117,15 @@ class Castable(object):
         self.buffs = [effect for effect in self.effects
                       if effect.element.startswith('buff')]
 
+        # A row that waits on something the cast does not do: Noa leaves a
+        # state and only lands its second row if the target is later pushed.
+        waiting = set(getattr(spell, 'conditional', None) or {})
+
         def landed(effects):
             """The damage a cast can land, one list per alternative."""
             hits = [(index, effect) for index, effect in enumerate(effects)
-                    if not effect.element.startswith('buff')]
+                    if not effect.element.startswith('buff')
+                    and index not in waiting]
             # Aggregate rows are alternatives, one per stack or element; a cast
             # lands one. First group = nothing built up.
             groups = _element_alternatives(digest.aggregates, effects)

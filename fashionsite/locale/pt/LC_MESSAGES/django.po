@@ -6713,3 +6713,7 @@ msgstr "Vamos te responder em %(known_email)s."
 #: .\chardata\templates\chardata\contacts.html:52
 msgid "Write under another name or address"
 msgstr "Escrever com outro nome ou outro endereço"
+
+#: .\chardata\spells_view.py:430
+msgid "only when the target suffers pushback damage"
+msgstr "apenas se o alvo sofrer danos de empurrão"

@@ -6134,3 +6134,7 @@ msgstr ""
 #: .\chardata\templates\chardata\contacts.html:52
 msgid "Write under another name or address"
 msgstr ""
+
+#: .\chardata\spells_view.py:430
+msgid "only when the target suffers pushback damage"
+msgstr ""

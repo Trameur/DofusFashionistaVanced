@@ -31,6 +31,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _lazy
 from fashionistapulp.translation import get_supported_language
 
 from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL,
@@ -305,6 +306,9 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
         get_localized_spell_name(spell.is_linked[1], current_language)
     ) if spell.is_linked else None
     web_digest['special'] = spell.special
+    web_digest['conditional'] = {
+        str(index): str(_CONDITIONAL_LABELS.get(trigger, trigger))
+        for index, trigger in (getattr(spell, 'conditional', None) or {}).items()}
     web_digest['buff_scaling'] = spell.buff_scaling
     return web_digest
 
@@ -422,6 +426,14 @@ def _localized_aggregate_label(label, game_version=None):
                                 _localized_aggregate_label(rest, game_version))
         return stack
     return _(label)
+
+
+# What a waiting damage row is waiting for, in the reader's words. Lazy: this
+# dict is built at import, and gettext there would freeze the first language
+# the process happened to serve.
+_CONDITIONAL_LABELS = {
+    'pushback': _lazy('only when the target suffers pushback damage'),
+}
 
 
 def convert_aggregates(aggregates, game_version=None):

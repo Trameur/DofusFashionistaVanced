@@ -1696,6 +1696,79 @@ class ResetMailThrottleTests(TestCase):
         self.assertEqual(1, len(mail.outbox))
 
 
+class AWaitingDamageRowIsNotTurnDamageTests(SimpleTestCase):
+    """Noa hits for Air and leaves a state; its second row lands only if that
+    target later suffers pushback damage. The turn simulator counted both rows
+    as if the cast had landed them, which overstates the turn by a whole row,
+    and the spell page showed two identical Air lines with nothing to tell them
+    apart."""
+
+    def _noa(self, version='dofus3'):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from fashionistapulp.structure import set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version(version)
+        spells = get_damage_spells_for_version(version)
+        for group in spells.values():
+            for spell in group:
+                if getattr(spell, 'name', '') == 'Noa':
+                    return spell
+        return None
+
+    def test_noa_declares_which_row_waits(self):
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                noa = self._noa(version)
+                self.assertIsNotNone(noa, 'Noa is missing from %s' % version)
+                self.assertEqual({1: 'pushback'}, noa.conditional)
+
+    def test_the_simulator_counts_only_what_the_cast_lands(self):
+        from chardata.spell_combo import Castable
+        noa = self._noa()
+        for level_index in (0, 1):
+            castable = Castable(noa, level_index, crit=False)
+            with self.subTest(level_index=level_index):
+                # Two rows on the spell, one of them landed by the cast.
+                self.assertEqual(2, len(castable.effects))
+                self.assertEqual(1, len(castable.hits))
+                self.assertEqual(castable.effects[0].min_dam,
+                                 castable.hits[0].min_dam)
+
+    def test_a_spell_with_no_condition_still_counts_every_row(self):
+        from chardata.spell_combo import Castable
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from fashionistapulp.structure import set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        checked = 0
+        for group in get_damage_spells_for_version('dofus3').values():
+            for spell in group:
+                if spell.conditional or spell.aggregates:
+                    continue
+                rows = spell.get_effects_digest().non_crit_dams
+                if not rows or len(rows[0]) < 2:
+                    continue
+                castable = Castable(spell, 0, crit=False)
+                hitting = [row for row in castable.effects
+                           if not row.element.startswith('buff')
+                           and (row.min_dam or row.max_dam)]
+                checked += 1
+                self.assertEqual(len(hitting), len(castable.hits), spell.name)
+                if checked >= 12:
+                    return
+        self.assertTrue(checked, 'no multi-row spell was exercised')
+
+    def test_the_page_says_what_the_row_waits_for(self):
+        from chardata.spells_view import _create_spell_web_digest
+        from fashionistapulp.structure import set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        noa = self._noa()
+        digest = _create_spell_web_digest(noa, 'dofus3')
+        self.assertEqual({'1': 'only when the target suffers pushback damage'},
+                         digest['conditional'])
+
+
 class ValuesWrittenIntoJavascriptTests(TestCase):
     """Autoescape protects html and does nothing for a javascript string, and
     |safe turns it off entirely. /email_confirmed/ echoed its url segment into

@@ -18,7 +18,6 @@ from collections import Counter
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404
-from django.utils.html import escape
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 import json
@@ -573,7 +572,7 @@ def get_sharing_link(request, sets_params):
         char = get_object_or_404(Char, pk=char_id)
         if char.game_version != getattr(request, 'game_version', 'dofus3'):
             return _get_text_error_response(
-                _('Project %s is not in this game version.') % escape(char_str[:120]))
+                _('Project %s is not in this game version.') % char_str[:120])
         if char_belongs_to_user(request, char):
             # Share it, if still not shared.
             if not char.link_shared:
@@ -585,7 +584,7 @@ def get_sharing_link(request, sets_params):
                 raise PermissionDenied
             if not char.link_shared:
                 return _get_text_error_response(
-                    _('Project %s is not shared.') % escape(char_str[:120]))
+                    _('Project %s is not shared.') % char_str[:120])
         char_ids.append(char_id)
 
     return HttpResponseText(_generate_share_compare_link(
@@ -650,8 +649,11 @@ def compare_set_search_proj_name(request):
     return JsonResponse(char_list, safe=False)
 
 def _get_text_error_response(cause):
+    # text/plain, printed by the page with .text() and .val(). Neither decodes
+    # an entity, so anything escaped for html here reaches the reader as the
+    # entity itself: a share link carrying two parameters showed "&amp;".
     return HttpResponseText('Error: %s' % cause)
 
 
 def _rejected_link_error(message, raw_link):
-    return _get_text_error_response(message % escape(raw_link[:120]))
+    return _get_text_error_response(message % raw_link[:120])
