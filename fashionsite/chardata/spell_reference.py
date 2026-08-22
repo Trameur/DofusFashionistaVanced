@@ -111,6 +111,25 @@ def push_info(game_version, spell_id, rank_index=-1):
     return None
 
 
+def strips_pushback_resist(game_version, spell_id, rank_index=-1):
+    """Pushback resistance this spell takes off its target at that rank.
+
+    A push against a target whose resistance is gone hits harder: the formula
+    subtracts that resistance, so removing 60 of it is worth 60 pushback damage
+    for that push. Corrosion and Brass Rain are the Steamer's two.
+    """
+    for entries in (get_spell_reference(game_version) or {}).values():
+        for entry in entries or []:
+            if entry.get('id') != spell_id:
+                continue
+            ranks = entry.get('strips_pushback_resist') or []
+            if not ranks:
+                return 0
+            index = rank_index if -len(ranks) <= rank_index < len(ranks) else -1
+            return ranks[index] or 0
+    return 0
+
+
 def push_cells(game_version, spell_id, rank_index=-1):
     """Cells that spell pushes at that rank, 0 when it does not push or the
     push is one the game states deals no damage."""

@@ -160,6 +160,7 @@ class Castable(object):
         self.pushes = False
         self.push_cells = 0
         self.push_needs_state = None
+        self.strips_pushback_resist = 0
         self.plain_alternatives = at_level(digest.non_crit_dams)
         self.crit_alternatives = at_level(digest.crit_dams)
         self.alternatives = (self.crit_alternatives if crit
@@ -313,7 +314,8 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     `levels` is {spell name: rank index}; without it every spell is read at the
     highest rank the character level allows.
     """
-    from chardata.spell_reference import push_info, pushing_spell_ids
+    from chardata.spell_reference import (push_info, pushing_spell_ids,
+                                          strips_pushback_resist)
     by_class = get_damage_spells_for_version(game_version)
     pushing = pushing_spell_ids(game_version)
     spells = by_class.get(char_class, [])
@@ -329,6 +331,8 @@ def castable_spells(char_class, char_level, game_version, crit=False,
         info = push_info(game_version, spell.spell_id, level_index) or {}
         castable.push_cells = info.get('cells') or 0 if info.get('damaging') else 0
         castable.push_needs_state = (info.get('needs') or {}).get('state')
+        castable.strips_pushback_resist = strips_pushback_resist(
+            game_version, spell.spell_id, level_index)
         out.append(castable)
     return out
 
@@ -393,6 +397,12 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
             buffed[stat] = buffed.get(stat, 0) + value - was.get(stat, 0)
     multiplier = final_multiplier(buffed)
 
+    # A turn that strips the target's pushback resistance first makes every
+    # push in it hurt more: the formula subtracts that resistance, so taking 60
+    # off is worth 60 pushback damage for the pushes that follow.
+    stripped = max([getattr(by_name.get(name), 'strips_pushback_resist', 0) or 0
+                    for name in cast_names] or [0])
+
     out = []
     for name in sorted(set(cast_names)):
         castable = by_name.get(name)
@@ -401,7 +411,8 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
             from chardata.pushback import pushback_damage
             dealt = pushback_damage(caster_level,
                                     buffed.get('pshdam', 0) or 0,
-                                    cells, game_version=game_version)
+                                    cells, target_resistance=-stripped,
+                                    game_version=game_version)
             if dealt:
                 trigger = ('pushback into an obstacle at a state'
                            if getattr(castable, 'push_needs_state', None)

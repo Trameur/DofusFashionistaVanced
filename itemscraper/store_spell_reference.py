@@ -116,6 +116,27 @@ def _state_requirement(target_mask):
     return None
 
 
+# Effect 417 takes pushback resistance off the target. Checked against Ankama's
+# own wording on all ten spells that carry it: nine say they reduce it and the
+# tenth, Break-In, says it steals it, which is the same for the target. The
+# target masks are not read: their grammar is undocumented and guessing at it
+# is how a spell ends up in its own trigger list.
+PUSHBACK_RESIST_REMOVED = 417
+
+
+def _target_pushback_resist_per_rank(levels):
+    """How much pushback resistance the target loses, per rank, or None."""
+    out = []
+    for level in levels:
+        worst = 0
+        for effect in level.get('effects') or []:
+            if effect.get('effect_id') != PUSHBACK_RESIST_REMOVED:
+                continue
+            worst = max(worst, (effect.get('dice') or {}).get('min') or 0)
+        out.append(worst or None)
+    return out if any(out) else None
+
+
 def _push_per_rank(levels):
     """[{'cells': n, 'damaging': bool, 'needs': {...}}, ...], one per rank,
     None when it never pushes. A rank that both pushes and pushes-without-damage
@@ -175,6 +196,7 @@ def read_modern(path):
                 'crit': _rank_values(levels, 'critical_hit_probability'),
                 'stacks': _rank_values(levels, 'max_stack'),
                 'push': _push_per_rank(levels),
+                'strips_pushback_resist': _target_pushback_resist_per_rank(levels),
                 'variant': variant,
             }))
         if spells:

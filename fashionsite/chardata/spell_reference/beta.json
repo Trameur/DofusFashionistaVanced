@@ -3019,6 +3019,11 @@
     -1,
     -1
    ],
+   "strips_pushback_resist": [
+    10,
+    10,
+    10
+   ],
    "variant": 41
   },
   {
@@ -6805,6 +6810,10 @@
     2,
     2
    ],
+   "strips_pushback_resist": [
+    30,
+    40
+   ],
    "variant": 449
   },
   {
@@ -8321,6 +8330,11 @@
     1,
     1,
     1
+   ],
+   "strips_pushback_resist": [
+    20,
+    40,
+    60
    ],
    "variant": 81
   },
@@ -16349,6 +16363,10 @@
     1,
     1
    ],
+   "strips_pushback_resist": [
+    40,
+    60
+   ],
    "variant": 307
   },
   {
@@ -19360,6 +19378,9 @@
    "stacks": [
     2
    ],
+   "strips_pushback_resist": [
+    40
+   ],
    "variant": 525
   },
   {
@@ -21270,6 +21291,10 @@
    "stacks": [
     2,
     2
+   ],
+   "strips_pushback_resist": [
+    30,
+    40
    ],
    "variant": 149
   },
@@ -28902,6 +28927,10 @@
     1,
     1
    ],
+   "strips_pushback_resist": [
+    40,
+    60
+   ],
    "variant": 584
   },
   {
@@ -31841,6 +31870,9 @@
    "stacks": [
     2
    ],
+   "strips_pushback_resist": [
+    60
+   ],
    "variant": 376
   },
   {
@@ -32530,6 +32562,11 @@
     2,
     2,
     2
+   ],
+   "strips_pushback_resist": [
+    20,
+    30,
+    40
    ],
    "variant": 206
   },
@@ -43828,6 +43865,9 @@
    ],
    "stacks": [
     2
+   ],
+   "strips_pushback_resist": [
+    30
    ],
    "variant": 295
   },

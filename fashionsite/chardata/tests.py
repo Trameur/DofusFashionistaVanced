@@ -1762,6 +1762,63 @@ class TheTurnPanelShowsTheWaitingRowTests(TestCase):
         self.assertContains(page, 'best-combo-conditional')
 
 
+class StrippingPushbackResistanceHelpsThePushTests(SimpleTestCase):
+    """The formula subtracts the target's pushback resistance, so a turn that
+    strips it first makes every push after it hurt more. Corrosion is the
+    Steamer's, and this is the "boost then push" shape the class is built on."""
+
+    def _steamer(self):
+        from chardata.spell_combo import castable_spells
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 300, 'agi': 300, 'pow': 100, 'ap': 12,
+                      'pshdam': 100})
+        return stats, castable_spells('Foggernaut', 200, 'dofus3')
+
+    def _push_value(self, stats, spells, order):
+        from chardata.spell_combo import conditional_extras
+        rows = [row for row in conditional_extras(
+            stats, spells, order, game_version='dofus3', caster_level=200)
+            if 'obstacle' in row[1]]
+        return rows[0][2] if rows else 0.0
+
+    def test_corrosion_before_a_push_is_worth_its_whole_strip(self):
+        stats, spells = self._steamer()
+        alone = self._push_value(stats, spells, [('Torrent', 0.0)])
+        after = self._push_value(stats, spells,
+                                 [('Corrosion', 0.0), ('Torrent', 0.0)])
+        # Torrent pushes 4 cells and Corrosion strips 60: 60 * 4 / 4.
+        self.assertAlmostEqual(60.0, after - alone)
+
+    def test_the_strip_is_read_from_the_client_not_a_hand_list(self):
+        from chardata.spell_reference import strips_pushback_resist
+        self.assertEqual(60, strips_pushback_resist('dofus3', 13866))
+        self.assertEqual(40, strips_pushback_resist('dofus3', 13866, 0))
+        self.assertEqual(0, strips_pushback_resist('dofus3', 13822))
+
+    def test_ten_spells_strip_it_and_ankama_says_so_for_each(self):
+        # Nine descriptions say they reduce it; the tenth says it steals it,
+        # which is the same thing for the target.
+        from chardata.spell_reference import get_spell_reference
+        found = []
+        for entries in get_spell_reference('dofus3').values():
+            for entry in entries or []:
+                if entry.get('strips_pushback_resist'):
+                    found.append((entry.get('description') or {}).get('en', ''))
+        self.assertEqual(10, len(found))
+        for text in found:
+            with self.subTest(text=text[:40]):
+                self.assertIn('pushback resistance', text.lower())
+
+    def test_a_turn_with_no_push_gains_nothing_from_stripping(self):
+        stats, spells = self._steamer()
+        self.assertEqual(0.0, self._push_value(stats, spells,
+                                               [('Corrosion', 0.0)]))
+
+
 class WhatAPushIsWorthTests(SimpleTestCase):
     """Ankama's 2.17 formula, with the three things it needs and we do not
     have stated rather than invented: the board, the target's resistance and
