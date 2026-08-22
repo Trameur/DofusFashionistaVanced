@@ -6717,3 +6717,7 @@ msgstr "Escrever com outro nome ou outro endereço"
 #: .\chardata\spells_view.py:430
 msgid "only when the target suffers pushback damage"
 msgstr "apenas se o alvo sofrer danos de empurrão"
+
+#: .\chardata\templates\chardata\spells.html:34
+msgid "Not in the total, it depends on the fight:"
+msgstr "Fora do total, depende do combate:"

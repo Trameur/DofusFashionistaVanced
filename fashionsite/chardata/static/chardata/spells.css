@@ -224,6 +224,46 @@
     opacity: .75;
 }
 
+/* Damage the turn makes reachable without landing it. It borrows the cast row
+   layout so the numbers line up under the ones above, and states no colour of
+   its own: an inherited one survives both themes. */
+.best-combo-conditional {
+    margin: 6px 0 0 0;
+    padding: 6px 0 0 0;
+    border-top: 1px solid currentColor;
+    border-image: linear-gradient(to right, currentColor, transparent) 1;
+    opacity: .8;
+    font-size: .9em;
+}
+
+.best-combo-conditional[hidden] {
+    display: none;
+}
+
+.best-combo-conditional-title {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.best-combo-conditional-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.best-combo-conditional-rows li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 2px 0;
+}
+
+.best-combo-conditional-label {
+    flex: 1 1 auto;
+    min-width: 0;
+    opacity: .8;
+}
+
 .best-combo-note {
     margin: 8px 0 0 0;
     font-size: .85em;

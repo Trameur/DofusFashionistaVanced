@@ -1696,6 +1696,72 @@ class ResetMailThrottleTests(TestCase):
         self.assertEqual(1, len(mail.outbox))
 
 
+class TheTurnPanelShowsTheWaitingRowTests(TestCase):
+    """Reporting it in the payload is no use if the panel never draws it."""
+
+    def test_the_panel_carries_the_block_and_hides_it_when_empty(self):
+        from django.template import Context, Template
+        from django.utils import translation
+        source = ('{% load i18n %}'
+                  '<div class="best-combo-conditional"'
+                  '{% if not best_combo.conditional %} hidden{% endif %}>'
+                  '<span class="best-combo-conditional-title">'
+                  '{% trans "Not in the total, it depends on the fight:" %}</span>'
+                  '<ul class="best-combo-conditional-rows">'
+                  '{% for extra in best_combo.conditional %}<li>'
+                  '<span class="best-combo-name">{{ extra.name }}</span>'
+                  '<span class="best-combo-damage">+{{ extra.damage }}</span>'
+                  '<span class="best-combo-conditional-label">{{ extra.label }}</span>'
+                  '</li>{% endfor %}</ul></div>')
+        template = Template(source)
+        empty = template.render(Context({'best_combo': {'conditional': []}}))
+        self.assertIn('hidden', empty)
+        filled = template.render(Context({'best_combo': {'conditional': [
+            {'name': 'Noa', 'damage': 168, 'label': 'when pushed'}]}}))
+        self.assertNotIn('hidden', filled)
+        self.assertIn('+168', filled)
+        self.assertIn('Noa', filled)
+
+    def test_the_heading_is_translated(self):
+        from django.utils import translation
+        expected = {'fr': 'Hors du total', 'es': 'Fuera del total',
+                    'pt': 'Fora do total', 'de': 'Nicht im Gesamtwert'}
+        for language, start in expected.items():
+            with translation.override(language):
+                with self.subTest(language=language):
+                    self.assertTrue(
+                        gettext('Not in the total, it depends on the fight:')
+                        .startswith(start))
+
+    def test_the_trigger_label_is_translated(self):
+        from django.utils import translation
+        from chardata.spells_view import _CONDITIONAL_LABELS
+        expected = {'fr': 'seulement si la cible subit des dommages de poussée',
+                    'es': 'solo si el objetivo sufre daños de empuje',
+                    'pt': 'apenas se o alvo sofrer danos de empurrão',
+                    'de': 'nur wenn das Ziel Schubschaden erleidet'}
+        for language, text in expected.items():
+            with translation.override(language):
+                with self.subTest(language=language):
+                    self.assertEqual(text, str(_CONDITIONAL_LABELS['pushback']))
+
+    def test_the_spells_page_draws_the_block(self):
+        import re
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('forge', 'forge@test.local', 'pw-1234')
+        self.client.force_login(user)
+        created = self.client.post('/createproject/', {
+            'char_name': 'noa', 'char_class': 'Forgelance',
+            'char_level': '200', 'where_to_go': 'solution'})
+        found = re.search(r'/(\d+)/', created.headers.get('Location', ''))
+        self.assertIsNotNone(found, 'could not create a Forgelance build')
+        char_id = found.group(1)
+        self.client.get('/solution/%s/' % char_id, follow=True)
+        page = self.client.get('/spells/%s/' % char_id, follow=True)
+        self.assertEqual(200, page.status_code)
+        self.assertContains(page, 'best-combo-conditional')
+
+
 class AWaitingRowIsReportedNotCountedTests(SimpleTestCase):
     """Once the turn contains a spell that can push, Noa's waiting row becomes
     reachable and the page says what it would be worth. It stays out of the

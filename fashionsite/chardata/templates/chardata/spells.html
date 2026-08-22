@@ -31,7 +31,8 @@
          data-combo-url="{% if encoded_char_id %}{% game_url 'best_combo_linked' encoded_char_id %}{% else %}{% game_url 'best_combo' char_id %}{% endif %}"
          data-damage-label="{% trans "damage" %}"
          data-ap-label="{% blocktrans with ap="__ap__" %}{{ ap }} AP{% endblocktrans %}"
-         data-ap-note="{% blocktrans with used="__used__" available="__available__" %}{{ used }} of {{ available }} AP used.{% endblocktrans %}">
+         data-ap-note="{% blocktrans with used="__used__" available="__available__" %}{{ used }} of {{ available }} AP used.{% endblocktrans %}"
+         data-conditional-title="{% trans "Not in the total, it depends on the fight:" %}">
         <span class="best-combo-busy" aria-hidden="true"></span>
         <div class="best-combo-head">
             <span class="best-combo-title">{% trans "Best combo this turn" %}</span>
@@ -48,6 +49,18 @@
             </li>
             {% endfor %}
         </ol>
+        <div class="best-combo-conditional"{% if not best_combo.conditional %} hidden{% endif %}>
+            <span class="best-combo-conditional-title">{% trans "Not in the total, it depends on the fight:" %}</span>
+            <ul class="best-combo-conditional-rows">
+                {% for extra in best_combo.conditional %}
+                <li>
+                    <span class="best-combo-name">{{ extra.name }}</span>
+                    <span class="best-combo-damage">+{{ extra.damage }}</span>
+                    <span class="best-combo-conditional-label">{{ extra.label }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
         <p class="best-combo-note">
             <span class="best-combo-ap-note">{% blocktrans with used=best_combo.ap_used available=best_combo.ap_available %}{{ used }} of {{ available }} AP used.{% endblocktrans %}</span>
             {% trans "One turn on a single target: average damage, self buffs and critical hit rate included." %}
@@ -1335,6 +1348,20 @@
                     $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
                     $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
                     list.append(line);
+                });
+                var conditional = panel.find('.best-combo-conditional');
+                var extras = combo.conditional || [];
+                var rows = conditional.find('.best-combo-conditional-rows').empty();
+                conditional.attr('hidden', extras.length ? null : 'hidden');
+                conditional.find('.best-combo-conditional-title')
+                           .text(panel.data('conditional-title'));
+                $.each(extras, function(i, extra) {
+                    var line = $("<li></li>");
+                    $("<span class='best-combo-name'></span>").text(extra.name).appendTo(line);
+                    $("<span class='best-combo-damage'></span>").text('+' + extra.damage).appendTo(line);
+                    $("<span class='best-combo-conditional-label'></span>")
+                        .text(extra.label).appendTo(line);
+                    rows.append(line);
                 });
                 panel.find('.best-combo-ap-note')
                      .text(panel.data('ap-note')
