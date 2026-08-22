@@ -329,6 +329,7 @@ def _sitemap_encyclopedia_monsters(base_url):
         return cached['xml']
     try:
         import sqlite3
+        from chardata.encyclopedia_view import has_display_name
         from chardata.official_site import get_monster_link
         from fashionistapulp.fashionista_config import get_items_db_path
         rows = []
@@ -387,6 +388,8 @@ def _sitemap_encyclopedia_monsters(base_url):
                     ORDER BY n.monster_ankama_id
                     """ % (' UNION ALL '.join(drop_sources), substantial))
                 for monster_id, name in cursor.fetchall():
+                    if not has_display_name({'en': name}):
+                        continue
                     link = get_monster_link(monster_id, name or '', game_version=game_version)
                     if not link or link in seen:
                         continue

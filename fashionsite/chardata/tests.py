@@ -7197,6 +7197,32 @@ class NoUntranslatedTagIsShippedTests(SimpleTestCase):
                          module.clean_display_name('[wip] Coiffe de test'))
 
 
+class ANamelessMonsterIsNotAPageTests(SimpleTestCase):
+    """A monster whose every name is a raw text id has no name behind it in any
+    language, so it has nothing to put on a page or in the sitemap."""
+
+    def test_the_placeholder_is_not_taken_for_a_name(self):
+        from chardata.encyclopedia_view import has_display_name
+        self.assertFalse(has_display_name({'en': 'UNKNOWN_TEXT_ID_7222'}))
+        self.assertFalse(has_display_name({'en': '[UNKNOWN_TEXT_ID_0]'}))
+        self.assertFalse(has_display_name({}))
+        self.assertFalse(has_display_name({'en': ''}))
+        self.assertTrue(has_display_name({'en': '', 'fr': 'Bouftou'}))
+
+    def test_no_listed_monster_shows_a_raw_text_id(self):
+        from chardata.encyclopedia_view import _get_monster_index
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            named = [entry['name'] for entry in _get_monster_index(version, 'en')]
+            with self.subTest(version=version):
+                self.assertTrue(named, 'no monster listed for %s' % version)
+                self.assertEqual(
+                    [], [name for name in named if 'UNKNOWN_TEXT_ID' in name])
+                # Dropping the placeholder without dropping the monster would
+                # list it as "#7953", which reads no better.
+                self.assertEqual(
+                    [], [name for name in named if name.startswith('#')])
+
+
 class WeaponsSharingANameTests(SimpleTestCase):
     """Retro and Touch let different weapons carry one name where Dofus 3 numbers
     its duplicates, but the "(#1)" and "(#2)" branches are one item, one weapon."""
@@ -14878,6 +14904,7 @@ class MonsterSitemapTests(SimpleTestCase):
 
     def test_a_page_with_one_drop_but_stats_and_spells_is_worth_indexing(self):
         import sqlite3
+        from chardata.encyclopedia_view import has_display_name
         from fashionistapulp.fashionista_config import get_items_db_path
         submitted = self._submitted()
         drops = self._counts()
@@ -14890,9 +14917,16 @@ class MonsterSitemapTests(SimpleTestCase):
                        WHERE g.monster_ankama_id = s.monster_ankama_id) >= 2
                 GROUP BY s.monster_ankama_id
                 HAVING COUNT(DISTINCT s.spell_ankama_id) >= 2""")}
+            # Content is not the only rule: a monster with no name in any
+            # language has nothing to put on a page either.
+            named = set()
+            for monster_id, language, name in conn.execute(
+                    'SELECT monster_ankama_id, language, name FROM monster_names'):
+                if has_display_name({language: name}):
+                    named.add(monster_id)
         finally:
             conn.close()
-        with_content = [m for m in thin if m in rich]
+        with_content = [m for m in thin if m in rich and m in named]
         self.assertGreater(len(with_content), 1000)
         missing = [m for m in with_content if m not in submitted]
         self.assertEqual(missing, [], 'thin-but-rich pages left out')

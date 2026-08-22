@@ -368,6 +368,17 @@ def _normalized_text(value):
     return strip_accents(value).lower().strip()
 
 
+# Upstream ships a raw text id where a name is missing entirely. Unlike the
+# "[!]" note, it is not a French fallback: there is no name behind it in any
+# language, so there is nothing to put on a page.
+_PLACEHOLDER_NAME = re.compile(r'^\[?UNKNOWN_TEXT_ID', re.IGNORECASE)
+
+
+def has_display_name(names):
+    return any(name and not _PLACEHOLDER_NAME.match(name.strip())
+               for name in (names or {}).values())
+
+
 def _normalized_slug(value):
     if not value:
         return ''
@@ -2658,6 +2669,8 @@ def _build_monster_core(game_version):
 
         dropped_monster_ids = sorted(set(resource_counts) | set(item_counts))
         for monster_id in dropped_monster_ids:
+            if not has_display_name(monster_names.get(monster_id)):
+                continue
             pieces = set()
             pieces.update(monster_aliases.get(monster_id, ()))
             pieces.update(resource_aliases.get(monster_id, ()))
