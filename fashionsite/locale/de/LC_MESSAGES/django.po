@@ -6753,3 +6753,11 @@ msgstr "nur wenn das Ziel Schubschaden erleidet"
 #: .\chardata\templates\chardata\spells.html:34
 msgid "Not in the total, it depends on the fight:"
 msgstr "Nicht im Gesamtwert, das hängt vom Kampf ab:"
+
+#: .\chardata\spells_view.py:449
+msgid "if the whole push lands against an obstacle"
+msgstr "wenn der ganze Schub gegen ein Hindernis endet"
+
+#: .\chardata\spells_view.py:449
+msgid "if the whole push lands against an obstacle, and only at the state the spell needs"
+msgstr "wenn der ganze Schub gegen ein Hindernis endet, und nur in dem Zustand, den der Zauber verlangt"

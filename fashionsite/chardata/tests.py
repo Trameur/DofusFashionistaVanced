@@ -1762,6 +1762,72 @@ class TheTurnPanelShowsTheWaitingRowTests(TestCase):
         self.assertContains(page, 'best-combo-conditional')
 
 
+class WhatAPushIsWorthTests(SimpleTestCase):
+    """Ankama's 2.17 formula, with the three things it needs and we do not
+    have stated rather than invented: the board, the target's resistance and
+    the rounding."""
+
+    def test_the_published_formula(self):
+        from chardata.pushback import pushback_damage
+        # (200/2 + 0 + 32) * 4 / 4
+        self.assertAlmostEqual(132.0, pushback_damage(200, 0, 4))
+        # (200/2 + 100 + 32) * 4 / 4
+        self.assertAlmostEqual(232.0, pushback_damage(200, 100, 4))
+        # The target's resistance is subtracted.
+        self.assertAlmostEqual(132.0, pushback_damage(200, 100, 4,
+                                                      target_resistance=100))
+        # A shorter push is worth proportionally less.
+        self.assertAlmostEqual(66.0, pushback_damage(200, 0, 2))
+
+    def test_the_divisor_doubles_per_body_in_the_way(self):
+        # /4 is the target hitting a wall, /8 the fighter used as the wall.
+        from chardata.pushback import pushback_damage
+        self.assertAlmostEqual(132.0, pushback_damage(200, 0, 4, intermediates=0))
+        self.assertAlmostEqual(66.0, pushback_damage(200, 0, 4, intermediates=1))
+        self.assertAlmostEqual(33.0, pushback_damage(200, 0, 4, intermediates=2))
+
+    def test_retro_gets_nothing_rather_than_another_game_s_number(self):
+        from chardata.pushback import pushback_damage, uses_the_published_formula
+        self.assertFalse(uses_the_published_formula('retro'))
+        self.assertIsNone(pushback_damage(200, 0, 4, game_version='retro'))
+        for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+            with self.subTest(version=version):
+                self.assertTrue(uses_the_published_formula(version))
+                self.assertGreater(
+                    pushback_damage(200, 0, 4, game_version=version), 0)
+
+    def test_a_push_of_nothing_is_worth_nothing(self):
+        from chardata.pushback import pushback_damage
+        self.assertEqual(0.0, pushback_damage(200, 100, 0))
+        self.assertEqual(0.0, pushback_damage(200, 100, -3))
+
+    def test_a_diagonal_push_covers_half_the_ground_rounded_up(self):
+        from chardata.pushback import diagonal_cells
+        self.assertEqual(2, diagonal_cells(4))
+        self.assertEqual(2, diagonal_cells(3))
+        self.assertEqual(1, diagonal_cells(2))
+        self.assertEqual(1, diagonal_cells(1))
+        self.assertEqual(0, diagonal_cells(0))
+
+    def test_a_steamer_turn_prices_its_push(self):
+        from chardata.spell_combo import castable_spells, conditional_extras
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 300, 'int': 300, 'cha': 300, 'agi': 300,
+                      'pow': 100, 'ap': 12, 'pshdam': 100})
+        spells = castable_spells('Foggernaut', 200, 'dofus3')
+        torrent = next(c for c in spells if c.name == 'Torrent')
+        self.assertEqual(4, torrent.push_cells)
+        extras = conditional_extras(stats, spells, [('Torrent', 0.0)],
+                                    game_version='dofus3', caster_level=200)
+        pushes = [row for row in extras if 'obstacle' in row[1]]
+        self.assertEqual(1, len(pushes))
+        self.assertAlmostEqual(232.0, pushes[0][2])
+
+
 class AWaitingRowIsReportedNotCountedTests(SimpleTestCase):
     """Once the turn contains a spell that can push, Noa's waiting row becomes
     reachable and the page says what it would be worth. It stays out of the

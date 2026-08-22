@@ -158,6 +158,8 @@ class Castable(object):
         self.waiting_crit = waiting_at(digest.crit_dams)
         # Filled in by castable_spells, which knows the version.
         self.pushes = False
+        self.push_cells = 0
+        self.push_needs_state = None
         self.plain_alternatives = at_level(digest.non_crit_dams)
         self.crit_alternatives = at_level(digest.crit_dams)
         self.alternatives = (self.crit_alternatives if crit
@@ -311,7 +313,7 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     `levels` is {spell name: rank index}; without it every spell is read at the
     highest rank the character level allows.
     """
-    from chardata.spell_reference import pushing_spell_ids
+    from chardata.spell_reference import push_info, pushing_spell_ids
     by_class = get_damage_spells_for_version(game_version)
     pushing = pushing_spell_ids(game_version)
     spells = by_class.get(char_class, [])
@@ -324,6 +326,9 @@ def castable_spells(char_class, char_level, game_version, crit=False,
         if not castable.cost or (not castable.hits and not castable.buffs):
             continue
         castable.pushes = spell.spell_id in pushing
+        info = push_info(game_version, spell.spell_id, level_index) or {}
+        castable.push_cells = info.get('cells') or 0 if info.get('damaging') else 0
+        castable.push_needs_state = (info.get('needs') or {}).get('state')
         out.append(castable)
     return out
 
@@ -352,7 +357,7 @@ def _variant_partners(spells, game_version):
 
 
 def conditional_extras(stats, spells, order, crit=False, standing=None,
-                       game_version=None):
+                       game_version=None, caster_level=0):
     """[(spell name, trigger, damage)] a waiting row could add to this turn.
 
     Never part of the total: a push only damages a target that hits an
@@ -391,6 +396,17 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
     out = []
     for name in sorted(set(cast_names)):
         castable = by_name.get(name)
+        cells = getattr(castable, 'push_cells', 0)
+        if cells and caster_level:
+            from chardata.pushback import pushback_damage
+            dealt = pushback_damage(caster_level,
+                                    buffed.get('pshdam', 0) or 0,
+                                    cells, game_version=game_version)
+            if dealt:
+                trigger = ('pushback into an obstacle at a state'
+                           if getattr(castable, 'push_needs_state', None)
+                           else 'pushback into an obstacle')
+                out.append((name, trigger, dealt * counts[name]))
         rows = getattr(castable, 'waiting_crit' if crit else 'waiting_plain',
                        None) or []
         for effect, trigger in rows:

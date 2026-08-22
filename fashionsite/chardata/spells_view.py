@@ -282,7 +282,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     extras = []
     for name, trigger, damage in conditional_extras(
             stats, spells, order, standing=standing,
-            game_version=game_version):
+            game_version=game_version, caster_level=char.level):
         castable = by_name[name]
         extras.append({
             'name': (_localized_spell_name(name, language, game_version)
@@ -445,6 +445,11 @@ def _localized_aggregate_label(label, game_version=None):
 # the process happened to serve.
 _CONDITIONAL_LABELS = {
     'pushback': _lazy('only when the target suffers pushback damage'),
+    'pushback into an obstacle':
+        _lazy('if the whole push lands against an obstacle'),
+    'pushback into an obstacle at a state':
+        _lazy('if the whole push lands against an obstacle, and only at the '
+              'state the spell needs'),
 }
 
 

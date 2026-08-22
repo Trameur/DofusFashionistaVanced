@@ -6789,3 +6789,11 @@ msgstr "seulement si la cible subit des dommages de poussée"
 #: .\chardata\templates\chardata\spells.html:34
 msgid "Not in the total, it depends on the fight:"
 msgstr "Hors du total, ça dépend du combat :"
+
+#: .\chardata\spells_view.py:449
+msgid "if the whole push lands against an obstacle"
+msgstr "si toute la poussée se termine contre un obstacle"
+
+#: .\chardata\spells_view.py:449
+msgid "if the whole push lands against an obstacle, and only at the state the spell needs"
+msgstr "si toute la poussée se termine contre un obstacle, et seulement dans l'état que le sort demande"
