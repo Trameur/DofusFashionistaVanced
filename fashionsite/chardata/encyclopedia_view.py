@@ -22,6 +22,10 @@ from fashionistapulp.item_flags import flag_lines
 from fashionistapulp.spell_text import fold_spell_blocks
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
+
+from chardata.url_language import (build_alternate_urls, language_from_slug,
+                                   mark_varies_on_cookie,
+                                   redirect_target_for_user)
 from chardata.stat_range import format_stat_range, get_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from chardata.translation_util import localized_stat_name, LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
@@ -2094,6 +2098,27 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             ankama_type, target_ankama_id, slug, language, game_version)
         return _encyclopedia_missing_response(request, 'item', requested_name)
 
+    # The slug already names the language: /44-epee-de-boisaille/ is the French
+    # page and nothing else. Taking the language from it, rather than from
+    # Accept-Language, is what lets a crawler -- which sends no such header --
+    # see anything but English. Before this, every localised URL served English
+    # to Googlebot and declared a canonical pointing at the English slug, so
+    # each one announced itself as a duplicate.
+    item_names_by_language = {
+        lang: structure.get_item_name_in_language(matched_item, lang)
+        for lang in SUPPORTED_LANGUAGES
+    }
+    url_language = language_from_slug(item_names_by_language, slug,
+                                      _normalized_slug)
+    if url_language is None:
+        # An unrecognised slug is not a reason to change behaviour: keep
+        # whatever the request negotiated, exactly as before.
+        url_language = language
+    elif url_language != language:
+        translation.activate(url_language)
+        language = url_language
+        t = _ui_text()
+
     group_key = _get_item_group_key(matched_item)
     grouped_variants = [
         item for item in structure.get_concatenated_items_lists()
@@ -2167,6 +2192,26 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                                    representative_item.ankama_id, localized_name,
                                    game_version=game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
+
+    # One absolute URL per language, for the hreflang block. Each is built with
+    # that language active because get_item_link derives a localised category
+    # segment from get_language().
+    alternate_urls = build_alternate_urls(
+        lambda name: get_item_link(representative_item.ankama_type,
+                                   representative_item.ankama_id, name,
+                                   game_version=game_version),
+        {lang: structure.get_item_name_in_language(representative_item, lang)
+         for lang in SUPPORTED_LANGUAGES},
+        'https://dofusfashionista.gg')
+
+    # A signed-in visitor who chose a language is sent to their own version, so
+    # a Spanish link shared with a French account still lands on French.
+    # Anonymous visitors -- every crawler among them -- are never redirected,
+    # which is what keeps one URL bound to one language for indexing.
+    redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
+    if redirect_to:
+        return mark_varies_on_cookie(redirect(redirect_to))
+
     encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
@@ -2183,6 +2228,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             't': t,
             'drop_conditions_label': _monster_ui_text()['drop_conditions_label'],
             'canonical_url': canonical_url,
+            'alternate_urls': alternate_urls,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'item': {
                 'name': localized_name,
