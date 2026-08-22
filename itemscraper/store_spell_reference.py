@@ -167,10 +167,104 @@ def _push_per_rank(levels):
     return out if any(out) else None
 
 
+from version_tags import latest_tag  # noqa: E402
+
+SUMMON_EFFECT_ID = 181
+
+
+def _monsters_by_id(raw_dir):
+    """The client's monster table, flattened to {id: entry}."""
+    path = os.path.join(raw_dir, 'monsters.json')
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding='utf-8') as handle:
+        data = json.load(handle)
+    found = {}
+
+    def walk(node):
+        if isinstance(node, dict):
+            if isinstance(node.get('id'), int) and 'spells' in node:
+                found[node['id']] = node
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value)
+
+    walk(data)
+    return found
+
+
+def _spell_ids_of(monster):
+    array = (monster.get('spells') or {})
+    if isinstance(array, str):
+        return []
+    return [int(value) for value in (array.get('Array') or [])
+            if isinstance(value, int)]
+
+
+def _summon_push_per_rank(levels, monsters, pushes_by_spell):
+    """{'least': n, 'most': n} the thing this spell places can push, per rank.
+
+    Tacturret carries no push of its own; the turret it summons does, through
+    Barycentre, whose own text says the push "increases based on the level of
+    evolution". Its three rows are 2, 4 and 6 cells, so a single number would
+    either flatter a fresh turret or rob an evolved one.
+    """
+    out = []
+    for level in levels:
+        least = most = 0
+        for effect in level.get('effects') or []:
+            if effect.get('effect_id') != SUMMON_EFFECT_ID:
+                continue
+            monster = monsters.get((effect.get('dice') or {}).get('min'))
+            if not monster:
+                continue
+            for spell_id in _spell_ids_of(monster):
+                spread = pushes_by_spell.get(spell_id)
+                if not spread:
+                    continue
+                least = min(least or spread[0], spread[0])
+                most = max(most, spread[1])
+        out.append({'least': least, 'most': most} if most else None)
+    return out if any(out) else None
+
+
+def _pushes_by_spell(spells):
+    """{spell id: (least, most)} cells, for every spell that pushes damagingly.
+
+    Both ends, because one spell can carry several push rows: a summon that
+    grows keeps them all on one spell rather than on several ranks.
+    """
+    out = {}
+    for spell in spells:
+        cells = []
+        for level in spell.get('levels') or []:
+            for effect in level.get('effects') or []:
+                if not PUSH_EFFECT_IDS.get(effect.get('effect_id')):
+                    continue
+                value = (effect.get('dice') or {}).get('min') or 0
+                if value:
+                    cells.append(value)
+        if cells:
+            out[spell.get('ankama_id')] = (min(cells), max(cells))
+    return out
+
+
 def read_modern(path):
     """dofus3 and beta: the transformed class-spell dump carries it all."""
     with open(path, encoding='utf-8') as handle:
         classes = json.load(handle)
+    # The push a summon performs lives on the summon's own spell, so the whole
+    # spell dump and the monster table are both needed to see it.
+    raw_dir = os.path.join(CURRENT_DIRECTORY, 'raw', latest_tag(os.path.join(CURRENT_DIRECTORY, 'raw')))
+    monsters = _monsters_by_id(raw_dir)
+    every_spell = []
+    dump = os.path.join(CURRENT_DIRECTORY, 'transformed_spells.json')
+    if monsters and os.path.exists(dump):
+        with open(dump, encoding='utf-8') as handle:
+            every_spell = json.load(handle)
+    pushes_by_spell = _pushes_by_spell(every_spell)
     out = {}
     for class_name, block in classes.items():
         spells = []
@@ -197,6 +291,8 @@ def read_modern(path):
                 'stacks': _rank_values(levels, 'max_stack'),
                 'push': _push_per_rank(levels),
                 'strips_pushback_resist': _target_pushback_resist_per_rank(levels),
+                'summon_push': _summon_push_per_rank(levels, monsters,
+                                                     pushes_by_spell),
                 'variant': variant,
             }))
         if spells:

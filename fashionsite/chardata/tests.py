@@ -1762,6 +1762,58 @@ class TheTurnPanelShowsTheWaitingRowTests(TestCase):
         self.assertContains(page, 'best-combo-conditional')
 
 
+class ASpellThatPlacesAPusherTests(SimpleTestCase):
+    """Tacturret carries no push effect and read as non-pushing. The push is on
+    the turret it summons: effect 181 places monster 5837, whose spell
+    Barycentre repels 2, 4 or 6 cells as the turret evolves."""
+
+    def test_tacturret_places_something_that_pushes(self):
+        from chardata.spell_reference import summon_push
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                self.assertEqual({'least': 2, 'most': 6},
+                                 summon_push(version, 13831))
+
+    def test_the_range_is_kept_because_the_turret_grows(self):
+        # Barycentre's own text: the push "increases based on the level of
+        # evolution". One number would flatter a fresh turret or rob an evolved
+        # one, so both ends are recorded.
+        from chardata.spell_reference import summon_push
+        spread = summon_push('dofus3', 13831)
+        self.assertLess(spread['least'], spread['most'])
+
+    def test_a_summon_that_always_pushes_the_same_says_so(self):
+        # An Osamodas Tofu pushes 2 whatever happens, a Wyrmling 1, so both
+        # ends match and the range collapses honestly.
+        from chardata.spell_reference import summon_push
+        for spell_id, cells in ((31115, 2), (31129, 1)):
+            with self.subTest(spell_id=spell_id):
+                self.assertEqual({'least': cells, 'most': cells},
+                                 summon_push('dofus3', spell_id))
+
+    def test_a_spell_that_places_nothing_has_no_summon_push(self):
+        from chardata.spell_reference import summon_push
+        for spell_id in (13822, 13865, 13866):
+            with self.subTest(spell_id=spell_id):
+                self.assertIsNone(summon_push('dofus3', spell_id))
+
+    def test_the_turret_push_is_not_added_to_a_turn(self):
+        # It happens on the turret's turn. conditional_extras must ignore it.
+        from chardata.spell_combo import castable_spells, conditional_extras
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'agi': 300, 'ap': 12, 'pshdam': 100})
+        spells = castable_spells('Foggernaut', 200, 'dofus3')
+        if not any(c.name == 'Tacturret' for c in spells):
+            self.skipTest('Tacturret is not a damage spell in the model')
+        extras = conditional_extras(stats, spells, [('Tacturret', 0.0)],
+                                    game_version='dofus3', caster_level=200)
+        self.assertEqual([], [row for row in extras if 'obstacle' in row[1]])
+
+
 class StrippingPushbackResistanceHelpsThePushTests(SimpleTestCase):
     """The formula subtracts the target's pushback resistance, so a turn that
     strips it first makes every push after it hurt more. Corrosion is the

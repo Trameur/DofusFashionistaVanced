@@ -111,6 +111,26 @@ def push_info(game_version, spell_id, rank_index=-1):
     return None
 
 
+def summon_push(game_version, spell_id, rank_index=-1):
+    """{'least': n, 'most': n} the thing this spell places can push, or None.
+
+    Tacturret reads as non-pushing because the push is not on it: it summons a
+    turret whose own spell, Barycentre, pushes 2, 4 or 6 cells depending on how
+    far the turret has evolved. It pushes on the turret's turn, not the
+    caster's, so this is something to say, never something to add to a turn.
+    """
+    for entries in (get_spell_reference(game_version) or {}).values():
+        for entry in entries or []:
+            if entry.get('id') != spell_id:
+                continue
+            ranks = entry.get('summon_push') or []
+            if not ranks:
+                return None
+            index = rank_index if -len(ranks) <= rank_index < len(ranks) else -1
+            return ranks[index]
+    return None
+
+
 def strips_pushback_resist(game_version, spell_id, rank_index=-1):
     """Pushback resistance this spell takes off its target at that rank.
 
