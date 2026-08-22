@@ -30,9 +30,15 @@ import logging
 logger = logging.getLogger(__name__)
 
 def contact(request):
+    # Empty for an anonymous reader, and for an account that carries no address
+    # of its own; the template falls back to the two plain fields there.
+    known_email = ''
+    if request.user.is_authenticated:
+        known_email = (request.user.email or '').strip()
     return set_response(request,
                         'chardata/contacts.html',
-                        {'form': ContactForm()})
+                        {'form': ContactForm(),
+                         'known_email': known_email})
 
 # ContactForm declares every field required and this view never used it, so an
 # empty submission arrived as "Fashionista Form:" with an empty body.

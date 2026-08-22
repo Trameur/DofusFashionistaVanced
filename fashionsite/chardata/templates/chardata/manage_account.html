@@ -140,7 +140,7 @@ $.ajaxSetup({
        
 var alias = {{useraliasjson | safe}};
 var name = {{user_social_name | safe}};
-var email = "{{user.email}}";
+var email = "{{ user.email|escapejs }}";
 var notify_comments = {{notify_comments_json | safe}};
 var email_language = {{email_language_json | safe}};
 var preview_size = {{preview_size_json | safe}};
@@ -174,7 +174,7 @@ $(document).ready(function() {
         validate_password();
     });
     $("#login-register").click(function() {
-        var username = "{{user.username}}";
+        var username = "{{ user.username|escapejs }}";
         var password = $("#login-password").val();
         var newPassword = $("#password").val();
         changePassword(username, password, newPassword);

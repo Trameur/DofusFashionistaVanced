@@ -180,7 +180,7 @@ function onRegisterCaptcha(token) {
 
 $(document).ready(function() {
     {% if prefilled_user %}
-    $("#login-username").val("{{ prefilled_user | safe }}");
+    $("#login-username").val("{{ prefilled_user|escapejs }}");
     {% endif %}
 
     $(".trigger-enter").keypress(function(event) {

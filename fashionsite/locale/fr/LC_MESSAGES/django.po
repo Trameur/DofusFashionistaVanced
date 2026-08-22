@@ -6773,3 +6773,11 @@ msgstr "Dofus Fashionista a besoin d'une connexion pour optimiser tes équipemen
 #: .\chardata\templates\chardata\nomessage.html:15
 msgid "Please check that the subject and the message are filled in, and that the captcha is done, then try again."
 msgstr "Vérifie que le sujet et le message sont remplis, et que le captcha est validé, puis réessaie."
+
+#: .\chardata\templates\chardata\contacts.html:52
+msgid "We will reply to %(known_email)s."
+msgstr "Nous te répondrons à %(known_email)s."
+
+#: .\chardata\templates\chardata\contacts.html:52
+msgid "Write under another name or address"
+msgstr "Écrire sous un autre nom ou une autre adresse"

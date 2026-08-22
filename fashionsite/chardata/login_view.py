@@ -23,7 +23,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.mail import send_mail, BadHeaderError
 from django.core.validators import validate_email
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.db import IntegrityError
 from django.core.signing import (BadSignature, SignatureExpired,
                                  TimestampSigner)
@@ -236,6 +236,10 @@ def confirm_email(request, username, confirmation_token):
                                         args=(username, 'no')))
 
 def email_confirmed_page(request, username, already_confirmed):
+    # The url segment is echoed back into the page, so only echo a name that
+    # exists: this route takes no token and anyone can put anything in it.
+    if not User.objects.filter(username=username).exists():
+        raise Http404
     return _login_page_generic(request, True, username, 0, already_confirmed)
 
 def check_if_taken(request):

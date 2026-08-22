@@ -35,15 +35,15 @@ GUIDES = {
 <h2>What the catalogue gives, counted</h2>
 <p>We counted every item in the Dofus 3 database: <strong>549 carry lock</strong> and <strong>606 carry dodge</strong>. That sounds like plenty until you look at the sizes.</p>
 <ul>
-<li>The best <strong>worn</strong> lock line is <strong>+20</strong>, on Count Harebourg&#39;s Hat and on Kroks, both level 200.</li>
+<li>The best <strong>worn</strong> lock line is <strong>+20</strong>, on Count Harebourg's Hat and on Kroks, both level 200.</li>
 <li>Above that you are in trophy territory: Major Stickler and Major Obstructor give <strong>+32</strong> at level 150.</li>
-<li>Dodge reaches further: <strong>+40</strong> on the Ebony Dofus at level 180 and on Meriana&#39;s Clairvoyance at level 200.</li>
+<li>Dodge reaches further: <strong>+40</strong> on the Ebony Dofus at level 180 and on Meriana's Clairvoyance at level 200.</li>
 <li>Pets are the outlier on both sides, at <strong>+50</strong>.</li>
 </ul>
 <p>So a serious lock build is assembled from many small lines, not from two big ones. Read our guide on <a href="/guides/reading-an-item/">reading an item</a> if those numbers on a tooltip do not mean much to you yet, and the guide on <a href="/guides/dofus-and-trophies/">dofuses and trophies</a> for the slots that carry the largest of them.</p>
 
 <h2>The lines that take it away</h2>
-<p>This is the part players miss. <strong>80 items remove lock and 121 remove dodge</strong>, and the negatives are bigger than the positives: Lady Jhessica&#39;s Courage costs <strong>60 dodge</strong> and Death-Defying costs <strong>50</strong>, against a best case of +40.</p>
+<p>This is the part players miss. <strong>80 items remove lock and 121 remove dodge</strong>, and the negatives are bigger than the positives: Lady Jhessica's Courage costs <strong>60 dodge</strong> and Death-Defying costs <strong>50</strong>, against a best case of +40.</p>
 <p>If you never asked for dodge, nothing warned you that a belt was quietly taking more of it than any item in the game could give back. Set a minimum and the optimizer has to respect it; leave it unset and it is free to spend that number on something else.</p>
 
 <h2>You will rarely get both</h2>
@@ -51,7 +51,7 @@ GUIDES = {
 
 <h2>How to ask for it</h2>
 <p>Put a minimum on Lock or on Dodge in your build and let the solver find the pieces. It searches the whole catalogue at once, which is exactly the job you do not want to do by hand across 549 items. <a href="/setup/">Start a build</a> and set the minimum before you look at the result.</p>
-<p>One warning if you play more than one version: these numbers are Dofus 3&#39;s. Dofus Touch caps every one of these lines at 32, and on Dofus Retro no item carries them at all: Agility decides tackling there. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why advice does not travel between them.</p>
+<p>One warning if you play more than one version: these numbers are Dofus 3's. Dofus Touch caps every one of these lines at 32, and on Dofus Retro no item carries them at all: Agility decides tackling there. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why advice does not travel between them.</p>
 ''',
                 },
                 'fr': {
@@ -60,29 +60,29 @@ GUIDES = {
                     'lead': 'Le tacle retient un ennemi contre toi, la fuite te fait sortir. Ce sont deux lignes ordinaires sur de l\'équipement ordinaire, et le catalogue est bien moins généreux qu\'on ne le croit.',
                     'body': '''
 <h2>Ce que le jeu compare vraiment</h2>
-<p>Quand tu quittes une case adjacente à un ennemi, le jeu oppose ta <strong>fuite</strong> à son <strong>tacle</strong>. Si tu rates, sortir te coûte des points de mouvement, puis des points d&#39;action une fois les PM épuisés. Personne n&#39;est jamais totalement tacle ni totalement libre : c&#39;est une comparaison entre deux nombres, donc un point de tacle ne vaut que ce que les gens d&#39;en face mettent en fuite.</p>
-<p>C&#39;est pour ça que les deux stats tiennent dans le même guide. Monter du tacle sans savoir ce que la fuite peut atteindre, c&#39;est se préparer contre un chiffre qu&#39;on n&#39;a jamais regardé.</p>
+<p>Quand tu quittes une case adjacente à un ennemi, le jeu oppose ta <strong>fuite</strong> à son <strong>tacle</strong>. Si tu rates, sortir te coûte des points de mouvement, puis des points d'action une fois les PM épuisés. Personne n'est jamais totalement tacle ni totalement libre : c'est une comparaison entre deux nombres, donc un point de tacle ne vaut que ce que les gens d'en face mettent en fuite.</p>
+<p>C'est pour ça que les deux stats tiennent dans le même guide. Monter du tacle sans savoir ce que la fuite peut atteindre, c'est se préparer contre un chiffre qu'on n'a jamais regardé.</p>
 
 <h2>Ce que le catalogue donne, compté</h2>
-<p>Nous avons compté chaque objet de la base Dofus 3 : <strong>549 portent du tacle</strong> et <strong>606 de la fuite</strong>. Ça paraît beaucoup, jusqu&#39;à ce qu&#39;on regarde les montants.</p>
+<p>Nous avons compté chaque objet de la base Dofus 3 : <strong>549 portent du tacle</strong> et <strong>606 de la fuite</strong>. Ça paraît beaucoup, jusqu'à ce qu'on regarde les montants.</p>
 <ul>
 <li>La meilleure ligne de tacle <strong>portée</strong> est de <strong>+20</strong>, sur le Chapeau du Comte Harebourg et sur les Krocs, tous deux niveau 200.</li>
 <li>Au-dessus, on est chez les trophées : Majeur Colleur et Majeur Obstructeur donnent <strong>+32</strong> au niveau 150.</li>
 <li>La fuite monte plus haut : <strong>+40</strong> sur le Dofus Ebène au niveau 180 et sur la Clairvoyance de Meriana au niveau 200.</li>
 <li>Les familiers font exception des deux côtés, à <strong>+50</strong>.</li>
 </ul>
-<p>Un vrai build tacle s&#39;assemble donc à partir de beaucoup de petites lignes, pas de deux grosses. Lis notre guide sur <a href="/guides/reading-an-item/">la lecture d&#39;un objet</a> si ces chiffres sur une infobulle ne te parlent pas encore, et celui sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> pour les emplacements qui portent les plus grosses.</p>
+<p>Un vrai build tacle s'assemble donc à partir de beaucoup de petites lignes, pas de deux grosses. Lis notre guide sur <a href="/guides/reading-an-item/">la lecture d'un objet</a> si ces chiffres sur une infobulle ne te parlent pas encore, et celui sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> pour les emplacements qui portent les plus grosses.</p>
 
 <h2>Les lignes qui en retirent</h2>
-<p>C&#39;est la partie qu&#39;on oublie. <strong>80 objets retirent du tacle et 121 de la fuite</strong>, et les négatifs sont plus gros que les positifs : le Courage de Lady Jhessica coûte <strong>60 de fuite</strong> et l&#39;Increvable <strong>50</strong>, face à un meilleur cas de +40.</p>
-<p>Si tu n&#39;as jamais demandé de fuite, rien ne t&#39;a prévenu qu&#39;une ceinture t&#39;en prenait discrètement plus que n&#39;importe quel objet du jeu ne peut t&#39;en rendre. Pose un minimum et l&#39;optimiseur doit le respecter ; laisse-le vide et il est libre de dépenser ce chiffre ailleurs.</p>
+<p>C'est la partie qu'on oublie. <strong>80 objets retirent du tacle et 121 de la fuite</strong>, et les négatifs sont plus gros que les positifs : le Courage de Lady Jhessica coûte <strong>60 de fuite</strong> et l'Increvable <strong>50</strong>, face à un meilleur cas de +40.</p>
+<p>Si tu n'as jamais demandé de fuite, rien ne t'a prévenu qu'une ceinture t'en prenait discrètement plus que n'importe quel objet du jeu ne peut t'en rendre. Pose un minimum et l'optimiseur doit le respecter ; laisse-le vide et il est libre de dépenser ce chiffre ailleurs.</p>
 
 <h2>Tu auras rarement les deux</h2>
-<p>Seuls <strong>20 objets de tout le catalogue Dofus 3 donnent du tacle et de la fuite en même temps</strong>. Le jeu traite les deux comme des intentions opposées, et l&#39;équipement est construit comme ça. Choisis de quel côté de la comparaison tu veux gagner avant de commencer, parce que vouloir tenir les deux revient le plus souvent à ne tenir ni l&#39;un ni l&#39;autre.</p>
+<p>Seuls <strong>20 objets de tout le catalogue Dofus 3 donnent du tacle et de la fuite en même temps</strong>. Le jeu traite les deux comme des intentions opposées, et l'équipement est construit comme ça. Choisis de quel côté de la comparaison tu veux gagner avant de commencer, parce que vouloir tenir les deux revient le plus souvent à ne tenir ni l'un ni l'autre.</p>
 
 <h2>Comment le demander</h2>
-<p>Mets un minimum sur Tacle ou sur Fuite dans ton build et laisse le solveur trouver les pièces. Il fouille tout le catalogue d&#39;un coup, ce qui est exactement le travail que tu n&#39;as pas envie de faire à la main sur 549 objets. <a href="/setup/">Commence un build</a> et pose le minimum avant de regarder le résultat.</p>
-<p>Un avertissement si tu joues sur plusieurs versions : ces chiffres sont ceux de Dofus 3. Dofus Touch plafonne chacune de ces lignes à 32, et sur Dofus Rétro aucun objet n&#39;en porte : c&#39;est l&#39;Agilité qui y décide du tacle. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les conseils ne voyagent pas de l&#39;une à l&#39;autre.</p>
+<p>Mets un minimum sur Tacle ou sur Fuite dans ton build et laisse le solveur trouver les pièces. Il fouille tout le catalogue d'un coup, ce qui est exactement le travail que tu n'as pas envie de faire à la main sur 549 objets. <a href="/setup/">Commence un build</a> et pose le minimum avant de regarder le résultat.</p>
+<p>Un avertissement si tu joues sur plusieurs versions : ces chiffres sont ceux de Dofus 3. Dofus Touch plafonne chacune de ces lignes à 32, et sur Dofus Rétro aucun objet n'en porte : c'est l'Agilité qui y décide du tacle. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les conseils ne voyagent pas de l'une à l'autre.</p>
 ''',
                 },
                 'es': {
@@ -192,7 +192,7 @@ GUIDES = {
 <p>We counted every item in the Touch database: <strong>339 carry lock</strong> and <strong>453 carry dodge</strong>, and <strong>not one line in either direction exceeds 32</strong>.</p>
 <ul>
 <li>The ceiling is trophy-shaped: Major Stickler at level 150 and Major Obstructor at level 175 give <strong>+32 lock</strong>; Major Vagabond at 150 and Major Deserter at 175 give <strong>+32 dodge</strong>.</li>
-<li>The best lock you can actually wear is <strong>+20</strong>, on Count Harebourg&#39;s Hat and on Bethel&#39;s Panties, both level 200.</li>
+<li>The best lock you can actually wear is <strong>+20</strong>, on Count Harebourg's Hat and on Bethel's Panties, both level 200.</li>
 <li>The best worn dodge is smaller still, at <strong>+16</strong>.</li>
 </ul>
 <p>Dofus 3 reaches +40 dodge on the Ebony Dofus and on a pair of level 200 boots. Touch has neither. A guide that tells you to aim for forty on Touch is quoting a version you are not playing.</p>
@@ -202,7 +202,7 @@ GUIDES = {
 <p>Only <strong>12 Touch items give lock and dodge at once</strong>, so here too you are choosing a side rather than covering both.</p>
 
 <h2>How to ask for it</h2>
-<p>Set a minimum on Lock or Dodge and let the solver pick from the Touch catalogue rather than from someone else&#39;s. <a href="/touch/setup/">Start a Touch build</a> and set it before you read the result. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why the two catalogues drifted apart.</p>
+<p>Set a minimum on Lock or Dodge and let the solver pick from the Touch catalogue rather than from someone else's. <a href="/touch/setup/">Start a Touch build</a> and set it before you read the result. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why the two catalogues drifted apart.</p>
 ''',
                 },
                 'fr': {
@@ -211,23 +211,23 @@ GUIDES = {
                     'lead': 'Touch a bien les deux stats, mais son plafond est très inférieur à celui du moderne, et les plus grosses lignes sont des trophées, pas de l\'équipement porté.',
                     'body': '''
 <h2>La même comparaison, un catalogue plus petit</h2>
-<p>Quitter une case adjacente à un ennemi oppose ta <strong>fuite</strong> à son <strong>tacle</strong>, et un échec te coûte des points de mouvement puis des points d&#39;action. Ça, ça marche comme sur les versions modernes. Les chiffres, non.</p>
+<p>Quitter une case adjacente à un ennemi oppose ta <strong>fuite</strong> à son <strong>tacle</strong>, et un échec te coûte des points de mouvement puis des points d'action. Ça, ça marche comme sur les versions modernes. Les chiffres, non.</p>
 
 <h2>Rien ne dépasse 32</h2>
-<p>Nous avons compté chaque objet de la base Touch : <strong>339 portent du tacle</strong> et <strong>453 de la fuite</strong>, et <strong>aucune ligne, dans un sens comme dans l&#39;autre, ne dépasse 32</strong>.</p>
+<p>Nous avons compté chaque objet de la base Touch : <strong>339 portent du tacle</strong> et <strong>453 de la fuite</strong>, et <strong>aucune ligne, dans un sens comme dans l'autre, ne dépasse 32</strong>.</p>
 <ul>
 <li>Le plafond a une forme de trophée : Majeur Colleur au niveau 150 et Majeur Obstructeur au niveau 175 donnent <strong>+32 de tacle</strong> ; Majeur Vagabond au 150 et Majeur Déserteur au 175 donnent <strong>+32 de fuite</strong>.</li>
 <li>Le meilleur tacle réellement portable est <strong>+20</strong>, sur le Chapeau du Comte Harebourg et sur la Culotte de Bethel, tous deux niveau 200.</li>
 <li>La meilleure fuite portée est plus petite encore, à <strong>+16</strong>.</li>
 </ul>
-<p>Dofus 3 atteint +40 de fuite sur le Dofus Ebène et sur des bottes niveau 200. Touch n&#39;a ni l&#39;un ni l&#39;autre. Un guide qui te dit de viser quarante sur Touch cite une version que tu ne joues pas.</p>
+<p>Dofus 3 atteint +40 de fuite sur le Dofus Ebène et sur des bottes niveau 200. Touch n'a ni l'un ni l'autre. Un guide qui te dit de viser quarante sur Touch cite une version que tu ne joues pas.</p>
 
 <h2>Les trophées décident</h2>
-<p>Comme les lignes portées sont si faibles, ce sont les emplacements de trophées qui portent l&#39;essentiel du choix sur Touch, et ils coupent des deux côtés : les trophées qui donnent 32 d&#39;un côté en retirent 32 de l&#39;autre. Notre guide sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> explique comment ces emplacements fonctionnent.</p>
+<p>Comme les lignes portées sont si faibles, ce sont les emplacements de trophées qui portent l'essentiel du choix sur Touch, et ils coupent des deux côtés : les trophées qui donnent 32 d'un côté en retirent 32 de l'autre. Notre guide sur <a href="/guides/dofus-and-trophies/">les dofus et les trophées</a> explique comment ces emplacements fonctionnent.</p>
 <p>Seuls <strong>12 objets Touch donnent tacle et fuite en même temps</strong> : là aussi, on choisit un camp plutôt que de couvrir les deux.</p>
 
 <h2>Comment le demander</h2>
-<p>Pose un minimum sur Tacle ou sur Fuite et laisse le solveur choisir dans le catalogue Touch, pas dans celui d&#39;une autre version. <a href="/touch/setup/">Commence un build Touch</a> et pose-le avant de lire le résultat. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les deux catalogues ont divergé.</p>
+<p>Pose un minimum sur Tacle ou sur Fuite et laisse le solveur choisir dans le catalogue Touch, pas dans celui d'une autre version. <a href="/touch/setup/">Commence un build Touch</a> et pose-le avant de lire le résultat. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les deux catalogues ont divergé.</p>
 ''',
                 },
                 'es': {
@@ -336,19 +336,19 @@ GUIDES = {
                     'body': '''
 <h2>Aucun équipement n\'en porte</h2>
 <p>Nous avons parcouru toute la base Dofus Rétro à la recherche de tacle et de fuite, dans les objets et dans les bonus de panoplie, qui viennent de deux sources différentes. Le compte est de <strong>zéro partout</strong>. Ni un chapeau, ni un bouclier, ni un dofus, à aucun niveau, et aucun bonus de panoplie non plus.</p>
-<p>Ça mérite d&#39;être dit franchement : une stat portée par trois objets est simplement rare, une stat portée par aucun ne s&#39;achète pas.</p>
+<p>Ça mérite d'être dit franchement : une stat portée par trois objets est simplement rare, une stat portée par aucun ne s'achète pas.</p>
 
-<h2>Mais la mécanique existe, et c&#39;est l&#39;Agilité qui la mène</h2>
-<p>Ne confonds pas catalogue vide et mécanique absente. En 1.29 tu peux tacler et être taclé, et ce qui le décide, c&#39;est l&#39;<strong>Agilité</strong>, mise en balance avec celle du personnage en face. C&#39;est une opposition entre deux caractéristiques et non entre deux lignes d&#39;équipement, et c&#39;est bien pour ça qu&#39;aucun objet n&#39;a besoin d&#39;en porter.</p>
-<p>La conséquence pratique est l&#39;inverse du conseil moderne : sur Rétro tu ne cherches pas des pièces à tacle, tu décides ce que ton build met en Agilité. C&#39;est la même caractéristique qui nourrit tes dommages Air et tes coups critiques en 1.29, donc la décision se joue rarement sur le seul tacle.</p>
+<h2>Mais la mécanique existe, et c'est l'Agilité qui la mène</h2>
+<p>Ne confonds pas catalogue vide et mécanique absente. En 1.29 tu peux tacler et être taclé, et ce qui le décide, c'est l'<strong>Agilité</strong>, mise en balance avec celle du personnage en face. C'est une opposition entre deux caractéristiques et non entre deux lignes d'équipement, et c'est bien pour ça qu'aucun objet n'a besoin d'en porter.</p>
+<p>La conséquence pratique est l'inverse du conseil moderne : sur Rétro tu ne cherches pas des pièces à tacle, tu décides ce que ton build met en Agilité. C'est la même caractéristique qui nourrit tes dommages Air et tes coups critiques en 1.29, donc la décision se joue rarement sur le seul tacle.</p>
 
 <h2>Ce que ça change quand tu lis un guide</h2>
-<p>Tout conseil qui consiste à acheter de quoi sortir d&#39;un tacle, ou à empiler de petites lignes de tacle sur sept emplacements, vient de la branche moderne. Ça ne se transpose pas. Si un build te donne un objectif chiffré de tacle, vérifie pour quelle version il a été écrit avant de dépenser un kama.</p>
-<p>Sur ton build ici, les valeurs de tacle et de fuite viennent de ton Agilité, exactement pour cette raison. Notre guide sur <a href="/guides/ap-mp-range-caps/">les points d&#39;action, de mouvement et la portée</a> couvre les autres stats qui décident d&#39;un tour en Rétro.</p>
+<p>Tout conseil qui consiste à acheter de quoi sortir d'un tacle, ou à empiler de petites lignes de tacle sur sept emplacements, vient de la branche moderne. Ça ne se transpose pas. Si un build te donne un objectif chiffré de tacle, vérifie pour quelle version il a été écrit avant de dépenser un kama.</p>
+<p>Sur ton build ici, les valeurs de tacle et de fuite viennent de ton Agilité, exactement pour cette raison. Notre guide sur <a href="/guides/ap-mp-range-caps/">les points d'action, de mouvement et la portée</a> couvre les autres stats qui décident d'un tour en Rétro.</p>
 
 <h2>Pourquoi les versions divergent autant</h2>
-<p>1.29 a été figée avant que la branche moderne ne transforme le tacle en deux stats que l&#39;équipement peut donner. Ce n&#39;est pas la mécanique qui est arrivée plus tard, c&#39;est son étiquette de prix. C&#39;est la même raison pour laquelle plusieurs autres stats que tu cherches peut-être manquent ici. Notre guide sur <a href="/guides/versions-explained/">les versions</a> dit lesquelles, et pourquoi recopier un build d&#39;une version à l&#39;autre tourne mal.</p>
-<p><a href="/retro/setup/">Commence un build Rétro</a> et l&#39;outil ne te proposera que ce que 1.29 possède.</p>
+<p>1.29 a été figée avant que la branche moderne ne transforme le tacle en deux stats que l'équipement peut donner. Ce n'est pas la mécanique qui est arrivée plus tard, c'est son étiquette de prix. C'est la même raison pour laquelle plusieurs autres stats que tu cherches peut-être manquent ici. Notre guide sur <a href="/guides/versions-explained/">les versions</a> dit lesquelles, et pourquoi recopier un build d'une version à l'autre tourne mal.</p>
+<p><a href="/retro/setup/">Commence un build Rétro</a> et l'outil ne te proposera que ce que 1.29 possède.</p>
 ''',
                 },
                 'es': {

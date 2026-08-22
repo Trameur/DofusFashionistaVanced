@@ -49,6 +49,11 @@
         <form name="theform" action="{% game_url 'send_email' %}" method="post" id="theform">
             {% csrf_token %}
             
+            {% if known_email %}
+            <p class="text" id="contact-reply-to">{% blocktrans %}We will reply to {{ known_email }}.{% endblocktrans %}</p>
+            <details id="contact-identity">
+            <summary class="text">{% trans "Write under another name or address" %}</summary>
+            {% endif %}
             <table style="width: 450px;">
             <tr>
             <td class='input-stat-name' style="width: 130px;">
@@ -63,10 +68,13 @@
                 {% trans "Email" %}: <label style="font-size: 11px; vertical-align: top;">({% trans "optional" %})</label>
             </td>
             <td style="vertical-align: top;">
-                <input type="text" name="email" class="pretty-input" {% if user and user.email %} value="{{ user.email }}" {% else %} value="" {% endif %} id="Email" style="width:250px;" />
+                <input type="text" name="email" class="pretty-input" value="{{ known_email }}" id="Email" style="width:250px;" />
             </td>
             </tr>
             </table>
+            {% if known_email %}
+            </details>
+            {% endif %}
             <table style="width: 450px;">
             <tr>
             <td class='input-stat-name' style="width: 80px;">

@@ -1696,6 +1696,81 @@ class ResetMailThrottleTests(TestCase):
         self.assertEqual(1, len(mail.outbox))
 
 
+class ValuesWrittenIntoJavascriptTests(TestCase):
+    """Autoescape protects html and does nothing for a javascript string, and
+    |safe turns it off entirely. /email_confirmed/ echoed its url segment into
+    one, with no token and no lookup, so a crafted link closed the string and
+    ran what followed."""
+
+    XSS = 'x");alert(1);//'
+
+    def test_a_crafted_name_cannot_reach_the_confirmation_page(self):
+        from urllib.parse import quote
+        response = self.client.get('/email_confirmed/%s/no/'
+                                   % quote(self.XSS, safe=''))
+        self.assertEqual(404, response.status_code)
+        # The 404 page echoes the path into its canonical link and its version
+        # links, autoescaped, which is safe: the same probe with quote-breaking
+        # payloads injects nothing. What must not survive is the prefill line,
+        # which put the segment inside a javascript string.
+        self.assertNotIn('#login-username', response.content.decode('utf-8'))
+
+    def test_a_real_name_reaches_javascript_as_itself(self):
+        import json
+        import re
+        from urllib.parse import quote
+        from django.contrib.auth.models import User
+        name = "o'brien&sons"
+        User.objects.create_user(name, 'ob@test.local', 'pw-1234')
+        response = self.client.get('/email_confirmed/%s/no/'
+                                   % quote(name, safe=''))
+        self.assertEqual(200, response.status_code)
+        body = response.content.decode('utf-8')
+        found = re.search(r'\$\("#login-username"\)\.val\("(.*?)"\);', body)
+        self.assertIsNotNone(found, 'the prefill line is gone')
+        # What javascript would read back has to be the username, not its html
+        # escaping: the old page handed "o&#x27;brien" to the login form.
+        self.assertEqual(name, json.loads('"%s"' % found.group(1)))
+
+    def test_the_account_page_hands_javascript_the_real_username(self):
+        import json
+        import re
+        from django.contrib.auth.models import User
+        from chardata.models import UserAlias
+        name = "o'brien&sons"
+        user = User.objects.create_user(name, "o'b@test.local", 'pw-1234')
+        UserAlias(user=user, alias='ob').save()
+        self.client.force_login(user)
+        body = self.client.get('/manageaccount/').content.decode('utf-8')
+        for variable, expected in (('username', name), ('email', "o'b@test.local")):
+            found = re.search(r'var %s = "(.*?)";' % variable, body)
+            with self.subTest(variable=variable):
+                self.assertIsNotNone(found)
+                self.assertEqual(expected, json.loads('"%s"' % found.group(1)))
+
+    def test_no_template_writes_a_user_value_into_javascript_unescaped(self):
+        import glob
+        import re
+        here = os.path.dirname(os.path.abspath(__file__))
+        script = re.compile(r'<script[^>]*>(.*?)</script>', re.S | re.I)
+        # Values that carry whatever a person typed.
+        risky = re.compile(r'\{\{\s*((?:[\w.]*(?:username|useralias|alias)'
+                           r'|user\.email)[^}]*?)\s*\}\}')
+        offenders = []
+        for path in glob.glob(os.path.join(here, 'templates', '**', '*.html'),
+                              recursive=True):
+            with io.open(path, encoding='utf-8') as handle:
+                text = handle.read()
+            for block in script.finditer(text):
+                for found in risky.finditer(block.group(1)):
+                    expression = found.group(1)
+                    if 'escapejs' in expression or 'json_script' in expression:
+                        continue
+                    offenders.append('%s: {{ %s }}'
+                                     % (os.path.basename(path), expression))
+        self.assertEqual([], offenders)
+
+
 class LoginThrottleTests(TestCase):
     """Nothing limited how many passwords could be tried against an account.
     Both the login and the change-password endpoints authenticate whatever is
@@ -3177,6 +3252,42 @@ class ContactFormTests(TestCase):
         self.assertIn('thankyou', response.url)
         self.assertEqual(1, len(mail.outbox))
         self.assertIn('not-an-email (not a usable address)', mail.outbox[0].body)
+
+    def test_a_signed_in_reader_is_not_asked_for_their_address(self):
+        from django.contrib.auth.models import User
+        from chardata.models import UserAlias
+        user = User.objects.create_user('Freuzz', 'freuzz@test.local', 'pw-1234')
+        alias = UserAlias(user=user, alias='Freuzz')
+        alias.save()
+        self.client.force_login(user)
+        response = self.client.get('/contact/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertContains(response, 'We will reply to freuzz@test.local.')
+        self.assertContains(response, 'id="contact-identity"')
+        # Folded away, never removed: the reader can still answer elsewhere.
+        self.assertContains(response, 'value="freuzz@test.local"')
+        self.assertContains(response, 'value="Freuzz"')
+
+    def test_an_anonymous_reader_still_gets_the_plain_fields(self):
+        response = self.client.get('/contact/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertNotContains(response, 'id="contact-identity"')
+        self.assertNotContains(response, 'We will reply to')
+
+    def test_an_account_with_no_address_still_gets_the_plain_fields(self):
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('Sanmail', '', 'pw-1234')
+        self.client.force_login(user)
+        response = self.client.get('/contact/', HTTP_ACCEPT_LANGUAGE='en')
+        self.assertNotContains(response, 'id="contact-identity"')
+        self.assertNotContains(response, 'We will reply to')
+
+    def test_the_folded_address_is_still_what_gets_mailed(self):
+        from django.contrib.auth.models import User
+        from django.core import mail
+        user = User.objects.create_user('Freuzz', 'freuzz@test.local', 'pw-1234')
+        self.client.force_login(user)
+        response = self._post(email='freuzz@test.local', name='Freuzz')
+        self.assertIn('thankyou', response.url)
+        self.assertIn('freuzz@test.local', mail.outbox[0].body)
 
     def test_a_missing_name_and_address_say_so(self):
         from django.core import mail
@@ -9096,9 +9207,15 @@ class WeaponTypeDisplayTests(TestCase):
     line without a type prefix. evolve_result_item reads the global game version."""
 
     def _damage_head(self, item_name):
-        from fashionistapulp.structure import get_structure
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
         from fashionistapulp.modelresult import ModelResultItem
         from chardata.solution_result import evolve_result_item
+        # evolve_result_item reads the process-wide version, so state it here:
+        # under --parallel a neighbour in the same worker leaves it elsewhere
+        # and the item comes back with no damage text at all.
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
         item = get_structure('dofus3').get_item_by_name(item_name)
         self.assertIsNotNone(item, 'missing test fixture item %r' % item_name)
         result_item = ModelResultItem(item)
