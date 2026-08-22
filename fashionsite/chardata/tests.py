@@ -10022,7 +10022,8 @@ class SmithmagicOddsTests(TestCase):
              'isOnePercentThrow', 'lineCeiling', 'wouldExceedCap',
              'totalItemWeight', 'passFactorRuneLimit', 'passFactorFill',
              'belowNaturalMin', 'passFactorWeight', 'passFactorSink',
-             'chancesFor')
+             'chancesFor', 'lossPool', 'pointsThatFit', 'pointsAboveMin',
+             'pickLossLine')
 
     def _function(self, source, name):
         start = source.index('\n        function %s(' % name) + 1
@@ -10112,6 +10113,90 @@ class SmithmagicOddsTests(TestCase):
         self.assertLessEqual(read['vitality'], 0.25)
         self.assertGreaterEqual(read['spellDamage'], 0.08)
         self.assertLessEqual(read['spellDamage'], 0.12)
+
+    def test_a_one_percent_line_has_no_neutral_success_at_all(self):
+        # FenixAP asked whether an SN can happen on those lines. It cannot:
+        # this simulator has three outcomes and on a 1% line only two are
+        # reachable.
+        read = self._run(
+            "var session = {rows: rows, sink: 0};"
+            "var out = {};"
+            "['summon', 'ap', 'mp'].forEach(function (key) {"
+            "    if (!config.stats[key]) { return; }"
+            "    var row = {key: key, value: 0, min: 0, max: 0,"
+            "               target: 0, exo: true};"
+            "    rows.push(row);"
+            "    out[key] = chancesFor(row, config.stats[key].tiers[0]);"
+            "});"
+            "console.log(JSON.stringify(out));")
+        self.assertTrue(read, 'no one-percent line was exercised')
+        for key, chances in read.items():
+            with self.subTest(stat=key):
+                self.assertAlmostEqual(0.01, chances['sc'], places=6)
+                self.assertEqual(0, chances['sn'])
+                self.assertAlmostEqual(0.99, chances['ec'], places=6)
+
+    def test_the_sink_stops_paying_at_a_quarter(self):
+        # It scales with how much of the rune the sink covers and then stops,
+        # however deep the sink gets.
+        read = self._run(
+            "var exo = {key: 'perspedam', value: 0, min: 0, max: 0,"
+            "           target: 0, exo: true};"
+            "rows.push(exo);"
+            "var tier = config.stats.perspedam.tiers[0];"
+            "var session = {rows: rows, sink: 0};"
+            "var out = {};"
+            "[0, 0.25, 0.5, 1, 2, 10].forEach(function (share) {"
+            "    session.sink = tier.weight * share;"
+            "    out[String(share)] = chancesFor(exo, tier).sc;"
+            "});"
+            "console.log(JSON.stringify(out));")
+        dry = read['0']
+        self.assertGreater(dry, 0)
+        self.assertLess(read['0.25'], read['0.5'])
+        self.assertLess(read['0.5'], read['1'])
+        for share in ('1', '2', '10'):
+            with self.subTest(share=share):
+                self.assertAlmostEqual(1.25, read[share] / dry, places=6)
+
+    def test_a_critical_failure_spares_the_line_being_raised(self):
+        # FenixAP asked that the line you are raising drop less often than the
+        # rest. It carries a quarter of their weight in the draw.
+        page = io.open(self.PAGE, encoding='utf-8').read()
+        share = re.search(r'thrownLineShare:\s*([0-9.]+)', page)
+        self.assertIsNotNone(share, 'the workbench no longer spares the line')
+        self.assertAlmostEqual(0.25, float(share.group(1)))
+
+    def test_a_loss_is_drawn_among_the_lines_not_taken_from_the_heaviest(self):
+        # It used to be the heaviest line the rune could reach, every single
+        # throw, which ate the crit line of a Volkorne 100% of the time.
+        read = self._run(
+            "var session = {rows: rows, sink: 0};"
+            "var thrown = 0;"  # the line being raised: it resists, not escapes
+            "var pool = lossPool(-1);"
+            "var counts = {};"
+            "var trials = 20000;"
+            "for (var i = 0; i < trials; i++) {"
+            "    var pick = pickLossLine(pool, thrown);"
+            "    var key = session.rows[pick].key;"
+            "    counts[key] = (counts[key] || 0) + 1;"
+            "}"
+            "console.log(JSON.stringify({counts: counts, trials: trials,"
+            "                            pool: pool.length,"
+            "                            thrown: session.rows[thrown].key}));")
+        counts = read['counts']
+        trials = float(read['trials'])
+        self.assertGreater(read['pool'], 1, 'the ring offers a single line')
+        self.assertGreater(len(counts), 1,
+                           'every loss still lands on one line: %s' % counts)
+        heaviest = max(counts.values()) / trials
+        self.assertLess(heaviest, 0.95,
+                        'one line still takes nearly every loss: %s' % counts)
+        # And the line being raised is the one it spares.
+        spared = counts.get(read['thrown'], 0) / trials
+        even = 1.0 / read['pool']
+        self.assertLess(spared, even,
+                        'the thrown line is not spared: %s' % counts)
 
     def test_a_sink_makes_the_same_throw_easier(self):
         read = self._run(
