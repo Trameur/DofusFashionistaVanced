@@ -5351,8 +5351,19 @@ def _localize_body_links(body, game_version, language_code='en'):
 
 
 def get_guide(slug, language_code, game_version='dofus3'):
-    """Return {slug, title, desc, lead, body} or None if slug unknown."""
+    """Return {key, slug, title, desc, lead, body} or None if slug unknown.
+
+    Accepts either the guide key or any of its localised slugs. list_guides()
+    hands back localised slugs, so a caller chaining the two would otherwise
+    get None for every non-English guide -- a trap worth closing rather than
+    documenting.
+    """
     guide = GUIDES.get(slug)
+    if not guide:
+        key, _language = resolve_slug(slug)
+        if key is not None:
+            slug = key
+            guide = GUIDES.get(key)
     if not guide:
         return None
     lang = _lang(language_code)

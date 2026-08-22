@@ -187,3 +187,30 @@ class GuideSitemapTest(TestCase):
             len(distinct), 5 * len(guides_content.ordered_slugs()),
             'expected one sitemap entry per guide and language, got %d'
             % len(distinct))
+
+
+class GetGuideAcceptsEitherNameTest(TestCase):
+    """list_guides() hands back localised slugs and get_guide() used to take
+    only keys, so chaining them returned None for every non-English guide."""
+
+    def test_a_localised_slug_is_accepted(self):
+        for language in LANGUAGES:
+            with self.subTest(language=language):
+                slug = guides_content.slug_for('lock-and-dodge', language)
+                data = guides_content.get_guide(slug, language)
+                self.assertIsNotNone(data, slug)
+                self.assertEqual(data['key'], 'lock-and-dodge')
+
+    def test_the_key_is_still_accepted(self):
+        data = guides_content.get_guide('lock-and-dodge', 'fr')
+        self.assertIsNotNone(data)
+        self.assertEqual(data['key'], 'lock-and-dodge')
+
+    def test_chaining_list_guides_into_get_guide_works(self):
+        for entry in guides_content.list_guides('fr', 'dofus3'):
+            self.assertIsNotNone(
+                guides_content.get_guide(entry['slug'], 'fr', 'dofus3'),
+                entry['slug'])
+
+    def test_an_unknown_name_is_still_none(self):
+        self.assertIsNone(guides_content.get_guide('not-a-guide', 'fr'))
