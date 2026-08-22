@@ -1871,7 +1871,7 @@ def encyclopedia(request):
     )
 
 
-def encyclopedia_set(request, set_id):
+def encyclopedia_set(request, set_id, slug=None):
     structure = get_structure()
     language = get_supported_language()
     t = _ui_text()
@@ -1887,10 +1887,27 @@ def encyclopedia_set(request, set_id):
         return response
 
     game_version = getattr(request, 'game_version', 'dofus3')
+
+    # The slug names the language, exactly as it does for items.
+    url_language = language_from_slug(item_set.localized_names, slug,
+                                      _normalized_slug)
+    if url_language is None:
+        url_language = language
+    elif url_language != language:
+        translation.activate(url_language)
+        language = url_language
+        t = _ui_text()
+
     set_name = (item_set.localized_names.get(language)
                 or item_set.localized_names.get('en') or item_set.name)
     canonical_path = get_set_link(set_id, set_name, game_version=game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/sets/')
+    alternate_urls = build_alternate_urls(
+        lambda name: get_set_link(set_id, name, game_version=game_version),
+        item_set.localized_names, 'https://dofusfashionista.gg')
+    redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
+    if redirect_to:
+        return mark_varies_on_cookie(redirect(redirect_to))
     encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
@@ -1906,6 +1923,7 @@ def encyclopedia_set(request, set_id):
             'char_id': 0,
             't': t,
             'canonical_url': canonical_url,
+            'alternate_urls': alternate_urls,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'set_name': set_name,
             'set_items': _get_set_items(structure, item_set, language, game_version),
@@ -2544,6 +2562,28 @@ def _drop_conditions_text(conditions, ui):
     return '%s %s' % (ui['drop_conditions_player_level'], ', '.join(parts))
 
 
+def _get_monster_names_by_language(cursor, monster_id):
+    """Every stored name of a monster, keyed by language.
+
+    Needed to tell which language a URL slug names: two localised slugs are
+    the same monster in two languages, and each must serve its own.
+    See chardata.url_language.
+    """
+    cursor.execute(
+        "SELECT language, name FROM monster_names WHERE monster_ankama_id = ?",
+        (monster_id,))
+    return {row[0]: row[1] for row in cursor.fetchall() if row[1]}
+
+
+def _get_resource_names_by_language(cursor, ankama_id, subtype):
+    """Every stored name of a crafting ingredient, keyed by language."""
+    cursor.execute(
+        "SELECT language, name FROM item_recipe_ingredient_names "
+        "WHERE ingredient_ankama_id = ? AND ingredient_subtype = ?",
+        (ankama_id, subtype))
+    return {row[0]: row[1] for row in cursor.fetchall() if row[1]}
+
+
 def _get_monster_display_name(cursor, monster_id, language):
     cursor.execute(
         "SELECT name FROM monster_names WHERE monster_ankama_id = ? AND language = ? LIMIT 1",
@@ -3169,6 +3209,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
         return _monster_not_found_response(request, slug=slug)
 
     monster_name = None
+    monster_names_by_language = {}
+    url_language = language
     resource_drops = []
     item_drops = []
     grades = []
@@ -3184,6 +3226,21 @@ def encyclopedia_monster(request, monster_id, slug=None):
         if (monster_name == '#%s' % target_monster_id
                 or not has_display_name({language: monster_name})):
             return _monster_not_found_response(request, target_monster_id, slug)
+
+        # The slug names the language, exactly as it does for items.
+        monster_names_by_language = _get_monster_names_by_language(
+            cursor, target_monster_id)
+        url_language = language_from_slug(monster_names_by_language, slug,
+                                          _normalized_slug)
+        if url_language is None:
+            url_language = language
+        elif url_language != language:
+            translation.activate(url_language)
+            language = url_language
+            t = _ui_text()
+            mt = _monster_ui_text()
+            monster_name = _get_monster_display_name(
+                cursor, target_monster_id, language)
 
         # Per-grade stats, stored per version from that version's own source
         # (touch: the backend Monsters table).
@@ -3307,6 +3364,12 @@ def encyclopedia_monster(request, monster_id, slug=None):
         target_monster_id, game_version, language)
     canonical_path = get_monster_link(target_monster_id, monster_name, game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/monsters/')
+    alternate_urls = build_alternate_urls(
+        lambda name: get_monster_link(target_monster_id, name, game_version),
+        monster_names_by_language, 'https://dofusfashionista.gg')
+    redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
+    if redirect_to:
+        return mark_varies_on_cookie(redirect(redirect_to))
     encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
     monsters_url = _absolute_versioned_url('/encyclopedia/monsters/', game_version)
     breadcrumb_jsonld = _breadcrumb_jsonld([
@@ -3328,6 +3391,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             't': t,
             'mt': mt,
             'canonical_url': canonical_url,
+            'alternate_urls': alternate_urls,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'monster': {
                 'id': target_monster_id,
@@ -3359,6 +3423,8 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
         return redirect(version_reverse(request, 'encyclopedia'))
 
     resource_name = None
+    resource_names_by_language = {}
+    url_language = language
     used_in = []
     drops = []
     conn = None
@@ -3381,6 +3447,19 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                 row = cursor.fetchone()
             if row is not None:
                 resource_name = row[0]
+
+            # The slug names the language, exactly as it does for items.
+            resource_names_by_language = _get_resource_names_by_language(
+                cursor, target_ankama_id, subtype)
+            slug_language = language_from_slug(
+                resource_names_by_language, slug, _normalized_slug)
+            if slug_language is not None and slug_language != language:
+                translation.activate(slug_language)
+                language = slug_language
+                url_language = slug_language
+                t = _ui_text()
+                resource_name = (resource_names_by_language.get(language)
+                                 or resource_name)
 
         cursor.execute(
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_recipes'")
@@ -3468,6 +3547,13 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
 
     canonical_path = get_resource_link(subtype, target_ankama_id, resource_name, game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
+    alternate_urls = build_alternate_urls(
+        lambda name: get_resource_link(subtype, target_ankama_id, name,
+                                       game_version),
+        resource_names_by_language, 'https://dofusfashionista.gg')
+    redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
+    if redirect_to:
+        return mark_varies_on_cookie(redirect(redirect_to))
     encyclopedia_url = _absolute_versioned_url('/encyclopedia/', game_version)
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
@@ -3489,6 +3575,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             't': t,
             'drop_conditions_label': _monster_ui_text()['drop_conditions_label'],
             'canonical_url': canonical_url,
+            'alternate_urls': alternate_urls,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'resource': {
                 'name': resource_name,

@@ -341,3 +341,135 @@ class EncyclopediaItemPageTest(TestCase):
         # Old shared links carry stale slugs; they must keep working.
         response = self._fetch('/encyclopedia/item/equipment/44-whatever-slug/')
         self.assertEqual(response.status_code, 200)
+
+
+class LocalisedSlugPagesTest(TestCase):
+    """The same rule, applied to monsters, resources and sets.
+
+    Fixtures are discovered from the item database rather than hard-coded, so
+    these keep working when the game data is refreshed.
+    """
+
+    @staticmethod
+    def _conn():
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        return sqlite3.connect(get_items_db_path('dofus3'))
+
+    @staticmethod
+    def _localised_path(builder, name, lang):
+        from django.utils import translation as dj_translation
+        with dj_translation.override(lang):
+            return builder(name)
+
+    def _assert_page_is_self_canonical(self, path, expected_fragment):
+        response = self.client.get(path)  # no Accept-Language: a crawler
+        self.assertEqual(response.status_code, 200, path)
+        html = response.content.decode('utf-8')
+        canonical = re.search(r'<link[^>]*rel="canonical"[^>]*>', html)
+        self.assertIsNotNone(canonical, 'no canonical on %s' % path)
+        self.assertIn(path, canonical.group(0),
+                      '%s declares a canonical elsewhere: %s'
+                      % (path, canonical.group(0)))
+        self.assertIn(expected_fragment.lower(), html.lower(),
+                      '%s does not contain %r' % (path, expected_fragment))
+
+    def test_monster_pages_serve_the_language_named_by_the_slug(self):
+        from chardata.official_site import get_monster_link
+        conn = self._conn()
+        try:
+            row = conn.execute("""
+                SELECT f.monster_ankama_id, e.name, f.name
+                FROM monster_names f
+                JOIN monster_names e
+                  ON e.monster_ankama_id = f.monster_ankama_id AND e.language='en'
+                WHERE f.language='fr' AND f.name <> e.name AND length(f.name) > 5
+                ORDER BY f.monster_ankama_id LIMIT 1
+            """).fetchone()
+        finally:
+            conn.close()
+        self.assertIsNotNone(row, 'no bilingual monster in the database')
+        monster_id, name_en, name_fr = row
+
+        for lang, name in (('en', name_en), ('fr', name_fr)):
+            path = self._localised_path(
+                lambda n: get_monster_link(monster_id, n, 'dofus3'), name, lang)
+            self._assert_page_is_self_canonical(path, name)
+
+    def test_resource_pages_serve_the_language_named_by_the_slug(self):
+        from chardata.official_site import get_resource_link
+        conn = self._conn()
+        try:
+            rows = conn.execute("""
+                SELECT f.ingredient_ankama_id, f.ingredient_subtype, e.name, f.name
+                FROM item_recipe_ingredient_names f
+                JOIN item_recipe_ingredient_names e
+                  ON e.ingredient_ankama_id = f.ingredient_ankama_id
+                 AND e.ingredient_subtype = f.ingredient_subtype AND e.language='en'
+                WHERE f.language='fr' AND f.name <> e.name AND length(f.name) > 5
+                ORDER BY f.ingredient_ankama_id LIMIT 60
+            """).fetchall()
+        finally:
+            conn.close()
+
+        # Many resources have no recipe and legitimately 404. Walk candidates
+        # until one is actually published, then assert strictly on it -- a
+        # test that skips every candidate would pass while proving nothing.
+        checked = 0
+        for ankama_id, subtype, name_en, name_fr in rows:
+            path_en = self._localised_path(
+                lambda n: get_resource_link(subtype, ankama_id, n, 'dofus3'),
+                name_en, 'en')
+            if self.client.get(path_en).status_code != 200:
+                continue
+            self._assert_page_is_self_canonical(path_en, name_en)
+            path_fr = self._localised_path(
+                lambda n: get_resource_link(subtype, ankama_id, n, 'dofus3'),
+                name_fr, 'fr')
+            self._assert_page_is_self_canonical(path_fr, name_fr)
+            checked += 1
+            if checked == 2:
+                break
+        self.assertTrue(checked, 'no published bilingual resource to check')
+
+    def test_set_pages_serve_the_language_named_by_the_slug(self):
+        from fashionistapulp.structure import get_structure
+        from chardata.official_site import get_set_link
+
+        structure = get_structure()
+        candidates = [
+            item_set for item_set in structure.sets_dict.values()
+            if (getattr(item_set, 'localized_names', None) or {}).get('fr')
+            and item_set.localized_names.get('en')
+            and item_set.localized_names['fr'] != item_set.localized_names['en']
+        ]
+        self.assertTrue(candidates, 'no bilingual set in the structure')
+
+        checked = 0
+        for item_set in candidates:
+            paths = {
+                lang: self._localised_path(
+                    lambda n: get_set_link(item_set.id, n,
+                                           game_version='dofus3'),
+                    item_set.localized_names[lang], lang)
+                for lang in ('en', 'fr')
+            }
+            if self.client.get(paths['en']).status_code != 200:
+                continue
+            # The set slug used to sit in a non-capturing group, so the view
+            # never saw it and every localised set URL served one language.
+            for lang, path in paths.items():
+                self._assert_page_is_self_canonical(
+                    path, item_set.localized_names[lang])
+            checked += 1
+            if checked == 2:
+                break
+        self.assertTrue(checked, 'no published bilingual set to check')
+
+    def test_every_localised_page_type_emits_hreflang(self):
+        # Regression guard: the hreflang block lives in base.html, so a view
+        # that forgets to pass alternate_urls silently emits nothing.
+        html = self.client.get(
+            '/encyclopedia/item/equipment/44-twiggy-sword/'
+        ).content.decode('utf-8')
+        self.assertIn('hreflang=', html)
