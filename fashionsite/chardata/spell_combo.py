@@ -119,13 +119,13 @@ class Castable(object):
 
         # A row that waits on something the cast does not do: Noa leaves a
         # state and only lands its second row if the target is later pushed.
-        waiting = set(getattr(spell, 'conditional', None) or {})
+        waiting_rows = set(getattr(spell, 'conditional', None) or {})
 
         def landed(effects):
             """The damage a cast can land, one list per alternative."""
             hits = [(index, effect) for index, effect in enumerate(effects)
                     if not effect.element.startswith('buff')
-                    and index not in waiting]
+                    and index not in waiting_rows]
             # Aggregate rows are alternatives, one per stack or element; a cast
             # lands one. First group = nothing built up.
             groups = _element_alternatives(digest.aggregates, effects)
@@ -146,6 +146,18 @@ class Castable(object):
         def at_level(rows):
             return landed(rows[level_index] if level_index < len(rows) else [])
 
+        def waiting_at(rows):
+            """The rows the cast leaves for later, with what each waits for."""
+            effects = rows[level_index] if level_index < len(rows) else []
+            return [(effect, (spell.conditional or {})[index])
+                    for index, effect in enumerate(effects)
+                    if index in waiting_rows
+                    and (effect.min_dam or effect.max_dam)]
+
+        self.waiting_plain = waiting_at(digest.non_crit_dams)
+        self.waiting_crit = waiting_at(digest.crit_dams)
+        # Filled in by castable_spells, which knows the version.
+        self.pushes = False
         self.plain_alternatives = at_level(digest.non_crit_dams)
         self.crit_alternatives = at_level(digest.crit_dams)
         self.alternatives = (self.crit_alternatives if crit
@@ -299,7 +311,9 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     `levels` is {spell name: rank index}; without it every spell is read at the
     highest rank the character level allows.
     """
+    from chardata.spell_reference import pushing_spell_ids
     by_class = get_damage_spells_for_version(game_version)
+    pushing = pushing_spell_ids(game_version)
     spells = by_class.get(char_class, [])
     out = []
     for spell in spells:
@@ -309,6 +323,7 @@ def castable_spells(char_class, char_level, game_version, crit=False,
         castable = Castable(spell, level_index, crit)
         if not castable.cost or (not castable.hits and not castable.buffs):
             continue
+        castable.pushes = spell.spell_id in pushing
         out.append(castable)
     return out
 
@@ -334,6 +349,59 @@ def _variant_partners(spells, game_version):
             partners[index] = frozenset(other for other in indices
                                         if other != index)
     return partners
+
+
+def conditional_extras(stats, spells, order, crit=False, standing=None,
+                       game_version=None):
+    """[(spell name, trigger, damage)] a waiting row could add to this turn.
+
+    Never part of the total: a push only damages a target that hits an
+    obstacle, and how hard depends on the push distance left over. This says
+    the row is now reachable and what it would be worth, and leaves the board
+    to the reader.
+    """
+    if not order:
+        return []
+    by_name = {spell.name: spell for spell in spells}
+    cast_names = [name for name, _damage in order]
+    triggers = set()
+    if any(getattr(by_name.get(name), 'pushes', False) for name in cast_names):
+        triggers.add('pushback')
+    if not triggers:
+        return []
+
+    counts = {}
+    for name in cast_names:
+        counts[name] = counts.get(name, 0) + 1
+    buffed = dict(stats)
+    standing = standing or {}
+    for name, times in counts.items():
+        other = by_name.get(name)
+        if other is None or not other.buffs:
+            continue
+        already = min(standing.get(name, 0), other.stacks)
+        reached = min(already + times, other.stacks)
+        if reached <= already:
+            continue
+        was = other.buff_deltas(already) if already else {}
+        for stat, value in other.buff_deltas(reached).items():
+            buffed[stat] = buffed.get(stat, 0) + value - was.get(stat, 0)
+    multiplier = final_multiplier(buffed)
+
+    out = []
+    for name in sorted(set(cast_names)):
+        castable = by_name.get(name)
+        rows = getattr(castable, 'waiting_crit' if crit else 'waiting_plain',
+                       None) or []
+        for effect, trigger in rows:
+            if trigger not in triggers:
+                continue
+            gained = (_average(calculate_damage([copy.copy(effect)], buffed,
+                                                crit, castable.is_spell))
+                      * multiplier)
+            if gained:
+                out.append((name, trigger, gained * counts[name]))
+    return out
 
 
 def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None):

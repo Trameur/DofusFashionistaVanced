@@ -1696,6 +1696,65 @@ class ResetMailThrottleTests(TestCase):
         self.assertEqual(1, len(mail.outbox))
 
 
+class AWaitingRowIsReportedNotCountedTests(SimpleTestCase):
+    """Once the turn contains a spell that can push, Noa's waiting row becomes
+    reachable and the page says what it would be worth. It stays out of the
+    total: a push only damages a target that hits an obstacle, and by how much
+    depends on the push distance left over, which the simulator cannot know."""
+
+    def _setup(self):
+        from chardata.spell_combo import castable_spells
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version('dofus3')
+        stats = {stat.key: 0 for stat in get_structure('dofus3').get_stats_list()}
+        stats.update({'str': 300, 'int': 300, 'cha': 300, 'agi': 300,
+                      'pow': 100, 'dam': 30, 'ap': 12})
+        return stats, castable_spells('Forgelance', 200, 'dofus3')
+
+    def test_noa_alone_reports_nothing(self):
+        from chardata.spell_combo import conditional_extras
+        stats, spells = self._setup()
+        self.assertEqual([], conditional_extras(stats, spells,
+                                                [('Noa', 0.0)],
+                                                game_version='dofus3'))
+
+    def test_noa_beside_a_pusher_reports_the_row(self):
+        from chardata.spell_combo import conditional_extras
+        stats, spells = self._setup()
+        pusher = next(c.name for c in spells if c.pushes)
+        extras = conditional_extras(stats, spells,
+                                    [('Noa', 0.0), (pusher, 0.0)],
+                                    game_version='dofus3')
+        self.assertEqual(1, len(extras))
+        name, trigger, damage = extras[0]
+        self.assertEqual('Noa', name)
+        self.assertEqual('pushback', trigger)
+        self.assertGreater(damage, 0)
+
+    def test_a_turn_with_no_waiting_row_reports_nothing(self):
+        from chardata.spell_combo import best_turn, conditional_extras
+        stats, spells = self._setup()
+        _total, order = best_turn(stats, spells, 12, game_version='dofus3')
+        self.assertTrue(order)
+        if any(name == 'Noa' for name, _ in order):
+            self.skipTest('the best turn happens to cast Noa')
+        self.assertEqual([], conditional_extras(stats, spells, order,
+                                                game_version='dofus3'))
+
+    def test_the_extra_never_enters_the_total(self):
+        from chardata.spell_combo import best_turn, conditional_extras
+        stats, spells = self._setup()
+        total, order = best_turn(stats, spells, 12, game_version='dofus3')
+        counted = sum(damage for _name, damage in order)
+        self.assertAlmostEqual(total, counted, places=6)
+        for _name, _trigger, damage in conditional_extras(
+                stats, spells, order, game_version='dofus3'):
+            self.assertGreater(damage, 0)
+            self.assertNotAlmostEqual(total, counted + damage, places=6)
+
+
 class WhichSpellsPushTests(SimpleTestCase):
     """Noa's second row waits for the target to suffer pushback damage, and a
     push only hurts when the target hits an obstacle: the damage scales with

@@ -240,7 +240,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
     """Best cast order for one turn, or None when there is nothing to say."""
     from chardata.spell_combo import (best_turn, buffs_in_force,
                                       castable_spells, combat_ap,
-                                      stacks_in_force)
+                                      conditional_extras, stacks_in_force)
     stats = dict(solution.get_stats_total())
     for stat, delta in buffs_in_force(char.char_class, char.level,
                                       game_version, buff_state,
@@ -279,10 +279,22 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None):
                       'ap': castable.cost,
                       'damage': int(round(damage)),
                       'running': int(round(running))})
+    extras = []
+    for name, trigger, damage in conditional_extras(
+            stats, spells, order, standing=standing,
+            game_version=game_version):
+        castable = by_name[name]
+        extras.append({
+            'name': (_localized_spell_name(name, language, game_version)
+                     if castable.is_spell else castable.weapon.localized_name),
+            'damage': int(round(damage)),
+            'label': str(_CONDITIONAL_LABELS.get(trigger, trigger)),
+        })
     return {'casts': casts,
             'total': int(round(total)),
             'ap_used': sum(cast['ap'] for cast in casts),
-            'ap_available': ap}
+            'ap_available': ap,
+            'conditional': extras}
 
 
 def _create_spell_web_digest(spell, game_version='dofus3'):
