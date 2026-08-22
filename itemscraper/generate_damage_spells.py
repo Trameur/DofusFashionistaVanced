@@ -164,6 +164,7 @@ class SpellEntry:
     casting: Optional[Dict[str, List[int]]] = None
     conditional: Optional[Dict[int, str]] = None
     delayed: Optional[Dict[int, str]] = None
+    delayed_crit: Optional[Dict[int, str]] = None
 
 
 def _parse_damage_literal(literal: str) -> tuple[int, int]:
@@ -1337,6 +1338,11 @@ def convert_spell(
     best_element_groups = _extract_best_element_groups(normal_rows)
     base_row_count = len(normal_rows)
     _waiting_rows = _rows_that_wait(normal_rows)
+    # A critical hit is a different row list: Sentence writes three rows for a
+    # normal hit and four for a critical one, and its third is immediate where
+    # the normal third is not. Reading the normal map against it labelled the
+    # wrong row.
+    _waiting_crit = _rows_that_wait(crit_rows) if crit_rows else None
 
     non_crit: List[List[str]] = [
         [str(value) for value in row.get("ranges", [])]
@@ -1435,6 +1441,9 @@ def convert_spell(
         conditional=_conditional_rows(ankama_id, elements,
                                       _waiting_rows[1]),
         delayed=_waiting_rows[0] or None,
+        delayed_crit=(_waiting_crit[0]
+                      if _waiting_crit is not None
+                      and _waiting_crit[0] != _waiting_rows[0] else None),
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
@@ -1664,6 +1673,8 @@ def render_spell(entry: SpellEntry) -> List[str]:
         extra_args.append(f"conditional={entry.conditional!r}")
     if entry.delayed:
         extra_args.append(f"delayed={entry.delayed!r}")
+    if entry.delayed_crit is not None:
+        extra_args.append(f"delayed_crit={entry.delayed_crit!r}")
     if extra_args:
         closing += ", " + ", ".join(extra_args)
     closing += ")"

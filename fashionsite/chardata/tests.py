@@ -2317,9 +2317,12 @@ class AWaitingDamageRowIsNotTurnDamageTests(SimpleTestCase):
                        encoding='utf-8').read()
         self.assertIn('function writeDamageLine(element, minDam, maxDam, '
                       'heals, steals, table,', page)
-        self.assertIn("(spell.conditional || {})[String(i)]", page)
-        self.assertIn("|| (spell.delayed || {})[String(i)]", page)
+        self.assertIn('whatRowWaitsFor(spell, i, isCrit)', page)
+        self.assertIn("(spell.conditional || {})[String(index)] "
+                      "|| late[String(index)]", page)
         self.assertIn("class='waiting-row'", page)
+        # The aggregate branch draws its own rows and used to drop the label.
+        self.assertIn('whatRowWaitsFor(spell, instanceRows[0],', page)
 
     def test_the_card_says_when_a_poison_lands(self):
         from chardata.spells_view import _create_spell_web_digest
@@ -16678,6 +16681,71 @@ class SpellComboTests(SimpleTestCase):
             with self.subTest(spell=name):
                 self.assertGreater(value, 0)
 
+    def test_no_turn_reads_as_negative_damage(self):
+        # A Sram's Epidemic is two identical rows in one aggregate group: the
+        # turn scores one and the panel used to take both back out, so the
+        # total read -306. Swept rather than spot-checked, because the first
+        # version of the guard above ran only at level 200 with 12 AP and saw
+        # none of it.
+        from chardata.spell_combo import (best_turn, castable_spells,
+                                          delayed_damage)
+        checked = 0
+        for char_class in ('Sram', 'Eliotrope', 'Xelor', 'Pandawa', 'Sadida',
+                           'Eniripsa', 'Enutrof', 'Cra', 'Ouginak',
+                           'Osamodas'):
+            for level in (130, 150, 200):
+                spells = castable_spells(char_class, level, 'dofus3')
+                for ap in (4, 6, 8, 11):
+                    stats = self._stats(ap=ap)
+                    total, order = best_turn(stats, spells, ap,
+                                             game_version='dofus3')
+                    later = delayed_damage(stats, spells, order,
+                                           game_version='dofus3')
+                    checked += 1
+                    with self.subTest(char_class=char_class, level=level,
+                                      ap=ap):
+                        self.assertGreaterEqual(total - sum(later.values()),
+                                                0)
+                        for value in later.values():
+                            self.assertGreaterEqual(value, 0)
+        self.assertGreater(checked, 100)
+
+    def test_a_push_the_game_gates_on_a_state_is_not_counted(self):
+        # Torrent repels at High Tide and attracts at Low Tide, so counting it
+        # would credit a push it makes half the time. It stays on the
+        # conditional line, with its gate named, toggle or no toggle.
+        from chardata.spell_combo import (castable_spells, conditional_extras,
+                                          push_value)
+        spells = castable_spells('Foggernaut', 200, 'dofus3')
+        gated = [spell for spell in spells
+                 if getattr(spell, 'push_needs_state', None)]
+        self.assertTrue(gated, 'no gated push to exercise')
+        for spell in gated:
+            with self.subTest(spell=spell.name):
+                self.assertEqual(0.0, push_value(spell, {'pshdam': 300},
+                                                 'dofus3', 200))
+        order = [(spell.name, 0.0) for spell in gated]
+        labels = [trigger for _name, trigger, _damage in conditional_extras(
+            self._stats(), spells, order, game_version='dofus3',
+            caster_level=200, pushback=True)]
+        self.assertTrue([t for t in labels if 'at a state' in t], labels)
+
+    def test_a_critical_hit_reads_its_own_rows(self):
+        # Sentence writes three rows for a normal hit and four for a critical
+        # one, and its third is immediate where the normal third is not.
+        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+        sentence = next(spell for spell in DAMAGE_SPELLS['Iop']
+                        if spell.spell_id == 13147)
+        self.assertEqual({1: 'turn_end', 2: 'turn_end'}, sentence.delayed)
+        self.assertEqual({1: 'turn_end', 3: 'turn_end'},
+                         sentence.delayed_crit)
+        # Only a spell whose critical rows really differ carries one: the
+        # seven poisons with no critical hit at all get nothing.
+        different = [spell for spells in DAMAGE_SPELLS.values()
+                     for spell in spells
+                     if getattr(spell, 'delayed_crit', None) is not None]
+        self.assertEqual(['Sentence'], sorted(s.name for s in different))
+
     def test_the_late_part_is_never_worth_more_than_the_cast(self):
         # It is subtracted from the turn, so scoring it with buffs the cast
         # never saw would leave a cast reading as negative damage. An Ouginak
@@ -16768,7 +16836,11 @@ class SpellComboTests(SimpleTestCase):
         # What the turn is asked for: the buff that raises pushback damage
         # lands before the spell that pushes, never after it.
         from chardata.spell_combo import best_turn
-        spells = self._spells('Masqueraider')
+        # A Cra at 8 AP: Powerful Shots lifts pushback damage, Assailing Arrow
+        # spends it. A Masqueraider used to serve here, but its second push is
+        # gated on a state, so the turn no longer counts it and the case stopped
+        # proving anything.
+        spells = self._spells('Cra')
         by_name = {spell.name: spell for spell in spells}
         _total, order = best_turn(self._stats(pshdam=300), spells, 8,
                                   game_version='dofus3', caster_level=200,

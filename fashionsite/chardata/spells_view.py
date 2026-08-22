@@ -353,6 +353,13 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     web_digest['delayed'] = {
         str(index): str(_DELAYED_LABELS.get(when, when))
         for index, when in (getattr(spell, 'delayed', None) or {}).items()}
+    # A critical hit can carry a different row list; when it does, the card
+    # labels its block from that one.
+    crit_delayed = getattr(spell, 'delayed_crit', None)
+    web_digest['delayed_crit'] = (
+        {str(index): str(_DELAYED_LABELS.get(when, when))
+         for index, when in crit_delayed.items()}
+        if crit_delayed is not None else None)
     web_digest['buff_scaling'] = spell.buff_scaling
     return web_digest
 

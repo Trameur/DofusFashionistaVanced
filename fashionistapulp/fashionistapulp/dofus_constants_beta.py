@@ -315,7 +315,7 @@ class Spell:
     def __init__(self, name, level_req, effects, aggregates=[],
                  is_linked=None, stacks=1, special=None, buff_scaling=None,
                  spell_id=None, casting=None, conditional=None,
-                 delayed=None):
+                 delayed=None, delayed_crit=None):
         self.name = name
         self.level_req = level_req
         self.effects = effects
@@ -339,6 +339,9 @@ class Spell:
         # still the spell's damage, so it stays in what a cast is worth and is
         # only reported apart.
         self.delayed = delayed or {}
+        # A critical hit can carry a different row list, so it gets its own
+        # map when the two disagree.
+        self.delayed_crit = delayed_crit if delayed_crit is not None else None
 
     def ap_cost(self, level_index=-1):
         """AP a cast costs at that spell level, or None if it is not known."""
@@ -3321,7 +3324,7 @@ DAMAGE_SPELLS = {
             [['11-14', '13-16'], ['23-26', '23-26'], ['0-0', '26-30']],
             [['15-18', '15-18'], ['27-31', '27-31'], ['0-0', '17-20'], ['0-0', '32-36']],
             [FIRE, FIRE, FIRE],
-        ), is_linked=(2, 'Concentration'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [1, 1], 'crit': [5, 5]}, spell_id=13147, delayed={1: 'turn_end', 2: 'turn_end'}),
+        ), is_linked=(2, 'Concentration'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [1, 1], 'crit': [5, 5]}, spell_id=13147, delayed={1: 'turn_end', 2: 'turn_end'}, delayed_crit={1: 'turn_end', 3: 'turn_end'}),
         Spell('Destructive Ring', [130, 197], Effects(
             [['22-25', '24-28']],
             [['26-30', '29-34']],

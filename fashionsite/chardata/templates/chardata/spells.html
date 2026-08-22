@@ -710,6 +710,12 @@
                && rawHit.element.indexOf('buff') == -1;
     }
 
+    function whatRowWaitsFor(spell, index, isCrit) {
+        var late = (isCrit && spell.delayed_crit) ? spell.delayed_crit
+                                                  : (spell.delayed || {});
+        return (spell.conditional || {})[String(index)] || late[String(index)];
+    }
+
     function getHits(spell, damage, isCrit) {
         var finalDamage = calculateFinalDamage(spell, damage, isCrit);
         var table = $("<table width='100%'></table>");
@@ -721,6 +727,7 @@
                 
                 //itera dentro do segundo vetor de cada tupla
                 var damageInstances = [];
+                var instanceRows = [];
                 for (var j = 0; j < aggregates[i][1].length; j++) {
                     var hit = aggregates[i][1][j];
                     if (hit < finalDamage.length) {
@@ -732,6 +739,7 @@
                             continue;
                         }
                         damageInstances.push(damageHit);
+                        instanceRows.push(hit);
                     }
                 }
 
@@ -763,7 +771,9 @@
                 
                 if (damageInstances.length === 1) {
                     writeDamageLine(damageInstances[0].element, damageInstances[0].min_dam,
-                                    damageInstances[0].max_dam, healing, allSteals, table);
+                                    damageInstances[0].max_dam, healing, allSteals, table,
+                                    whatRowWaitsFor(spell, instanceRows[0],
+                                                    isCrit));
                 } else {
                     var line2 = $("<tr></tr>");
                     var cell2 = $("<td align='center'></td>");
@@ -838,8 +848,7 @@
                 writeDamageLine(finalDamage[i].element, finalDamage[i].min_dam,
                                 finalDamage[i].max_dam, finalDamage[i].heals,
                                 finalDamage[i].steals, table,
-                                (spell.conditional || {})[String(i)]
-                                || (spell.delayed || {})[String(i)]);
+                                whatRowWaitsFor(spell, i, isCrit));
             }
         }
         appendScalingBuffRows(spell, table);

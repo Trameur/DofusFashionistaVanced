@@ -155,18 +155,35 @@ class Castable(object):
                     if index in waiting_rows
                     and (effect.min_dam or effect.max_dam)]
 
-        def late_at(rows):
+        def late_at(rows, critical=False):
             """The rows that land, but not now, with when each does."""
             effects = rows[level_index] if level_index < len(rows) else []
-            return [(effect, (spell.delayed or {})[index])
+            when_by_row = getattr(spell, 'delayed', None) or {}
+            if critical:
+                own = getattr(spell, 'delayed_crit', None)
+                if own is not None:
+                    when_by_row = own
+            return [(effect, when_by_row[index])
                     for index, effect in enumerate(effects)
-                    if index in (getattr(spell, 'delayed', None) or {})
+                    if index in when_by_row
                     and (effect.min_dam or effect.max_dam)]
+
+        def late_by_effect(rows, critical=False):
+            return {id(effect): when
+                    for effect, when in late_at(rows, critical)}
 
         self.waiting_plain = waiting_at(digest.non_crit_dams)
         self.waiting_crit = waiting_at(digest.crit_dams)
         self.delayed_plain = late_at(digest.non_crit_dams)
-        self.delayed_crit = late_at(digest.crit_dams)
+        self.delayed_crit = late_at(digest.crit_dams, critical=True)
+        # Which of the rows the cast is scored on are late, by identity. A
+        # spell with aggregates is scored on one group only, so reading the
+        # late rows off the whole list took damage out of a total that never
+        # held it: a Sram's Epidemic scored 306 and had 612 subtracted.
+        self.late_by_effect = {}
+        self.late_by_effect.update(late_by_effect(digest.non_crit_dams))
+        self.late_by_effect.update(late_by_effect(digest.crit_dams,
+                                                  critical=True))
         # Filled in by castable_spells, which knows the version.
         self.pushes = False
         self.push_cells = 0
@@ -418,7 +435,11 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
     for name in sorted(set(cast_names)):
         castable = by_name.get(name)
         cells = getattr(castable, 'push_cells', 0)
-        if cells and caster_level and not pushback:
+        gated = getattr(castable, 'push_needs_state', None)
+        # With the turn counting its pushes, only the ones it counted stop
+        # being reported here; a gated push is never counted, so it keeps its
+        # line and its caveat.
+        if cells and caster_level and (not pushback or gated):
             dealt = pushback_damage(caster_level,
                                     buffed.get('pshdam', 0) or 0,
                                     cells, target_resistance=-stripped,
@@ -477,13 +498,44 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
                     buffed[stat] = (buffed.get(stat, 0) + value
                                     - was.get(stat, 0))
             multiplier = final_multiplier(buffed)
-            for effect, _when in rows:
-                gained = (_average(calculate_damage([copy.copy(effect)],
-                                                    buffed, crit,
-                                                    castable.is_spell))
-                          * multiplier)
-                if gained:
-                    out[name] = out.get(name, 0.0) + gained
+            late = getattr(castable, 'late_by_effect', None) or {}
+
+            def worth(alternatives, critical):
+                """(scored, late) for the alternative the search would take.
+
+                Scored the way _damage_of scores it, on one alternative and
+                blended by the same crit odds, so what is taken out of the
+                turn is exactly what went into it.
+                """
+                best = (0.0, 0.0)
+                for alternative in alternatives or []:
+                    total = 0.0
+                    delayed = 0.0
+                    for effect in alternative:
+                        value = (_average(calculate_damage([copy.copy(effect)],
+                                                           buffed, critical,
+                                                           castable.is_spell))
+                                 * multiplier)
+                        total += value
+                        if id(effect) in late:
+                            delayed += value
+                    if total > best[0]:
+                        best = (total, delayed)
+                return best
+
+            if crit:
+                gained = worth(castable.alternatives, True)[1]
+            else:
+                odds = crit_chance(getattr(castable, 'crit_rate', 0), buffed,
+                                   game_version)
+                plain = worth(getattr(castable, 'plain_alternatives', None)
+                              or castable.alternatives, False)[1]
+                critical = (worth(getattr(castable, 'crit_alternatives', None),
+                                  True)[1] if odds else 0.0)
+                gained = (plain * (1 - odds) + critical * odds
+                          if critical else plain)
+            if gained:
+                out[name] = out.get(name, 0.0) + gained
         seen[name] = seen.get(name, 0) + 1
     return out
 
@@ -518,6 +570,11 @@ def push_value(castable, stats, game_version, caster_level):
     """What one cast's push is worth on average, 0 when it cannot be told."""
     cells = getattr(castable, 'push_cells', 0)
     if not cells or not caster_level:
+        return 0.0
+    # Torrent pushes at High Tide and pulls at Low Tide. Counting it in the
+    # turn would credit a push it makes half the time, so it stays on the
+    # conditional line below, where its gate is named.
+    if getattr(castable, 'push_needs_state', None):
         return 0.0
     dealt = pushback_damage(caster_level, stats.get('pshdam', 0) or 0, cells,
                             game_version=game_version)
