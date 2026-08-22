@@ -16681,6 +16681,40 @@ class SpellComboTests(SimpleTestCase):
             with self.subTest(spell=name):
                 self.assertGreater(value, 0)
 
+    def test_touch_reads_its_own_trigger_field(self):
+        # Touch is a different game with a different backend, and it marks its
+        # rows the same way: Poison insidieux is a start-of-turn Air poison and
+        # Flechette Empoisonnee damages over several turns. Neither landed on
+        # the turn it was cast, and both were counted as if they had.
+        from fashionistapulp.dofus_constants_touch_spells import (
+            TOUCH_DAMAGE_SPELLS)
+        late = {spell.name: spell.delayed
+                for spells in TOUCH_DAMAGE_SPELLS.values()
+                for spell in spells if getattr(spell, 'delayed', None)}
+        self.assertEqual({'Flèche Empoisonnée': {0: 'turn_begin'},
+                          'Poison insidieux': {0: 'turn_begin'}}, late)
+
+    def test_no_touch_turn_reads_as_negative_damage(self):
+        from chardata.spell_combo import (best_turn, castable_spells,
+                                          delayed_damage)
+        from fashionistapulp.structure import get_structure
+        keys = [stat.key for stat in get_structure('touch').get_stats_list()]
+        checked = 0
+        for char_class in ('Sram', 'Cra', 'Sadida', 'Osamodas', 'Xelor'):
+            spells = castable_spells(char_class, 200, 'touch')
+            for ap in (4, 7, 10):
+                stats = {key: 0 for key in keys}
+                stats.update({'ap': ap, 'str': 300, 'int': 300, 'cha': 300,
+                              'agi': 300})
+                total, order = best_turn(stats, spells, ap,
+                                         game_version='touch')
+                later = delayed_damage(stats, spells, order,
+                                       game_version='touch')
+                checked += 1
+                with self.subTest(char_class=char_class, ap=ap):
+                    self.assertGreaterEqual(total - sum(later.values()), 0)
+        self.assertGreaterEqual(checked, 15)
+
     def test_no_turn_reads_as_negative_damage(self):
         # A Sram's Epidemic is two identical rows in one aggregate group: the
         # turn scores one and the panel used to take both back out, so the

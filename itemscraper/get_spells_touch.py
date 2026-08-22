@@ -105,12 +105,28 @@ def fetch_table(data_url, cls, lang='fr'):
                          timeout=180).json()
 
 
+# Touch marks every row with when it lands, the same way the modern client
+# does: "I" on cast, "TB" at the start of a turn, "TE" at the end. Poison
+# insidieux and Toxines are Sram poisons that never landed on the turn they
+# were cast, and the panel counted them as if they had.
+DELAYED_TRIGGERS = {'TB': 'turn_begin', 'TE': 'turn_end'}
+
+
+def when_it_lands(triggers):
+    """The moment a row waits for, or None when it lands with the cast."""
+    codes = {code for code in str(triggers or '').split('|') if code}
+    if len(codes) != 1:
+        return None
+    return DELAYED_TRIGGERS.get(next(iter(codes)))
+
+
 def collect_damage(effect_list):
-    """One effect list -> {element: (min, max)} for elemental damage hits.
+    """One effect list -> {element: (min, max, when)} for elemental damage hits.
 
     A spell level can carry several lines of the same element: state-dependent
     branches (targetMask '#A,E<state>' or 'v50') and damage/steal pairs. The
-    strongest line per element (by midpoint) wins."""
+    strongest line per element (by midpoint) wins, and carries its own moment:
+    the line the reader is shown is the line whose timing is reported."""
     out = {}
     for e in (effect_list or []):
         eid = e.get('effectId')
@@ -122,7 +138,7 @@ def collect_damage(effect_list):
             elem = DAMAGE_EFFECTS[eid]
             prev = out.get(elem)
             if prev is None or lo + hi > prev[0] + prev[1]:
-                out[elem] = (lo, hi)
+                out[elem] = (lo, hi, when_it_lands(e.get('triggers')))
     return out
 
 
@@ -164,14 +180,26 @@ def decode_spell(spell, spell_levels):
                 elements.append(elem)
     if not elements:
         return None
+
+    def when_by_row(per_level):
+        """{row index: moment}, and only when every rank that has it agrees."""
+        late = {}
+        for index, elem in enumerate(elements):
+            moments = {level[elem][2] for level in per_level if elem in level}
+            if len(moments) == 1:
+                moment = moments.pop()
+                if moment:
+                    late[index] = moment
+        return late
+
     non_crit, crit = [], []
     for elem in elements:
         nc_row, cr_row = [], []
         for i in range(len(per_nc)):
             n = per_nc[i].get(elem)
             c = per_cr[i].get(elem) or n
-            nc_row.append('%d-%d' % n if n else '0-0')
-            cr_row.append('%d-%d' % c if c else '0-0')
+            nc_row.append('%d-%d' % (n[0], n[1]) if n else '0-0')
+            cr_row.append('%d-%d' % (c[0], c[1]) if c else '0-0')
         non_crit.append(nc_row)
         crit.append(cr_row)
     return {
@@ -187,6 +215,10 @@ def decode_spell(spell, spell_levels):
         'casting': {key: [level[key] for level in casting_levels]
                     for key in CASTING_FIELDS
                     if any(level[key] for level in casting_levels)} or None,
+        'delayed': when_by_row(per_nc) or None,
+        'delayed_crit': (when_by_row(per_cr)
+                         if when_by_row(per_cr) != when_by_row(per_nc)
+                         else None),
     }
 
 
@@ -250,6 +282,13 @@ def emit_module(by_class, spell_names, path):
             # chardata/spell_reference/touch.json.
             if s.get('id') is not None:
                 tail.append("spell_id=%d" % s['id'])
+            # repr, not json: the row index is an int on the Spell and a
+            # json key would be the string "0", which never matches.
+            if s.get('delayed'):
+                tail.append("delayed=%r" % (dict(sorted(s['delayed'].items())),))
+            if s.get('delayed_crit') is not None:
+                tail.append("delayed_crit=%r"
+                            % (dict(sorted(s['delayed_crit'].items())),))
             lines.append("        )%s)," % (", " + ", ".join(tail) if tail else ""))
         lines.append("    ],")
     lines.append("    'default': [],")
