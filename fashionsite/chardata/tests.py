@@ -1696,6 +1696,50 @@ class ResetMailThrottleTests(TestCase):
         self.assertEqual(1, len(mail.outbox))
 
 
+class WhichSpellsPushTests(SimpleTestCase):
+    """Noa's second row waits for the target to suffer pushback damage, and a
+    push only hurts when the target hits an obstacle: the damage scales with
+    the push distance left over. So this list says which spells CAN cause it,
+    never that a given cast will. It is read from Ankama's own description."""
+
+    def test_a_spell_that_repels_is_in_the_list(self):
+        from chardata.spell_reference import (get_spell_reference,
+                                              pushing_spell_ids)
+        pushing = pushing_spell_ids('dofus3')
+        by_name = {}
+        for entries in get_spell_reference('dofus3').values():
+            for entry in entries or []:
+                name = (entry.get('name') or {}).get('en')
+                if name and entry.get('id') is not None:
+                    by_name.setdefault(name, entry['id'])
+        for name in ('Retreat Arrow', 'Piercing Arrow', 'Bullying'):
+            with self.subTest(spell=name):
+                self.assertIn(by_name.get(name), pushing)
+
+    def test_noa_itself_does_not_push(self):
+        # Its text is about a target that something ELSE pushes; matching the
+        # words "pushback damage" put the spell in its own trigger list.
+        from chardata.spell_reference import pushing_spell_ids
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                self.assertNotIn(23735, pushing_spell_ids(version))
+
+    def test_every_version_answers_and_none_claims_everything(self):
+        from chardata.spell_reference import (get_spell_reference,
+                                              pushing_spell_ids)
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            reference = get_spell_reference(version)
+            total = sum(len(entries or []) for entries in reference.values())
+            pushing = pushing_spell_ids(version)
+            with self.subTest(version=version):
+                if not total:
+                    self.assertEqual(set(), pushing)
+                    continue
+                self.assertTrue(pushing, '%s: no spell pushes at all' % version)
+                self.assertLess(len(pushing), total // 2,
+                                '%s: half the roster cannot push' % version)
+
+
 class AWaitingDamageRowIsNotTurnDamageTests(SimpleTestCase):
     """Noa hits for Air and leaves a state; its second row lands only if that
     target later suffers pushback damage. The turn simulator counted both rows

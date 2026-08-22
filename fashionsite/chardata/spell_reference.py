@@ -35,6 +35,39 @@ def reference_by_spell_id(game_version, char_class):
             if entry.get('id') is not None}
 
 
+_PUSHING_CACHE = {}
+
+# Ankama's own wording for a push, in the two languages the reference always
+# carries. A push is not damage on its own: it only hurts when the target hits
+# an obstacle, and the damage scales with the push distance left over. So this
+# says which spells CAN cause pushback damage, never that they will.
+# "pushback damage" and "dommages de poussee" are deliberately absent: those
+# phrases describe SUFFERING the damage, and matching them flagged Noa itself,
+# whose whole text is about a target that gets pushed by something else.
+_PUSH_WORDS_EN = ('repels', 'pushes back', 'pushes the target back',
+                  'pushes targets back')
+_PUSH_WORDS_FR = ('repousse', 'repoussent')
+
+
+def pushing_spell_ids(game_version):
+    """Spell ids whose own description says the spell pushes a target."""
+    if game_version in _PUSHING_CACHE:
+        return _PUSHING_CACHE[game_version]
+    found = set()
+    for entries in (get_spell_reference(game_version) or {}).values():
+        for entry in entries or []:
+            if entry.get('id') is None:
+                continue
+            description = entry.get('description') or {}
+            english = (description.get('en') or '').lower()
+            french = (description.get('fr') or '').lower()
+            if (any(word in english for word in _PUSH_WORDS_EN)
+                    or any(word in french for word in _PUSH_WORDS_FR)):
+                found.add(entry['id'])
+    _PUSHING_CACHE[game_version] = found
+    return found
+
+
 def get_spell_states(game_version):
     """{state id: {lang: name}} for one version, empty when the source has none.
 
