@@ -66,7 +66,12 @@ def itemscraper_module(name):
         return sys.modules[name]
     repo_root = os.path.dirname(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    path = os.path.join(repo_root, 'itemscraper', '%s.py' % name)
+    scraper_dir = os.path.join(repo_root, 'itemscraper')
+    # Ces scripts s'importent entre eux par leur nom court, ce qui marche quand
+    # on les lance mais pas quand on les charge par chemin.
+    if scraper_dir not in sys.path:
+        sys.path.insert(0, scraper_dir)
+    path = os.path.join(scraper_dir, '%s.py' % name)
     spec = importlib.util.spec_from_file_location(name, path)
     module = importlib.util.module_from_spec(spec)
     # Enregistre AVANT d'executer : un @dataclass defini dans le module lit
@@ -7221,6 +7226,24 @@ class ANamelessMonsterIsNotAPageTests(SimpleTestCase):
                 # list it as "#7953", which reads no better.
                 self.assertEqual(
                     [], [name for name in named if name.startswith('#')])
+
+
+class ANamelessMonsterPageIsGoneTests(TestCase):
+    """Taking it out of the list and the sitemap is not enough: the url is
+    still crawlable, and it used to answer with the placeholder as its title."""
+
+    def test_the_page_of_a_nameless_monster_answers_404(self):
+        response = self.client.get(
+            '/encyclopedia/monster/7953-unknown-text-id-7222/',
+            HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(404, response.status_code)
+        self.assertNotIn(b'UNKNOWN_TEXT_ID', response.content)
+
+    def test_a_named_monster_still_has_its_page(self):
+        response = self.client.get('/encyclopedia/monster/8252-willorque/',
+                                   HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(200, response.status_code)
+        self.assertIn(b'Willorque', response.content)
 
 
 class WeaponsSharingANameTests(SimpleTestCase):

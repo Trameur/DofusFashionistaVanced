@@ -371,7 +371,9 @@ def _normalized_text(value):
 # Upstream ships a raw text id where a name is missing entirely. Unlike the
 # "[!]" note, it is not a French fallback: there is no name behind it in any
 # language, so there is nothing to put on a page.
-_PLACEHOLDER_NAME = re.compile(r'^\[?UNKNOWN_TEXT_ID', re.IGNORECASE)
+# The separators are loose because a slug turns it back into words:
+# "unknown-text-id-7222" reads "Unknown text id 7222".
+_PLACEHOLDER_NAME = re.compile(r'^\[?UNKNOWN[ _-]?TEXT[ _-]?ID', re.IGNORECASE)
 
 
 def has_display_name(names):
@@ -880,6 +882,8 @@ def _resolve_missing_monster_name(monster_id, slug, language, current_game_versi
     if current_name and not current_name.startswith('#'):
         return current_name
     fallback = _humanize_missing_slug(slug, '#%s' % monster_id)
+    if not has_display_name({language: fallback}):
+        fallback = '#%s' % monster_id
     for game_version, _label in ACTIVE_GAME_VERSIONS:
         if game_version == current_game_version:
             continue
@@ -890,7 +894,8 @@ def _resolve_missing_monster_name(monster_id, slug, language, current_game_versi
             if not _db_table_exists(cursor, 'monster_names'):
                 continue
             name = _get_monster_display_name(cursor, monster_id, language)
-            if name and not name.startswith('#'):
+            if (name and not name.startswith('#')
+                    and has_display_name({language: name})):
                 return name
         except Exception:
             continue
@@ -3077,6 +3082,11 @@ def encyclopedia_monster(request, monster_id, slug=None):
         if not _db_table_exists(cursor, 'monster_names'):
             return _monster_not_found_response(request, target_monster_id, slug)
         monster_name = _get_monster_display_name(cursor, target_monster_id, language)
+        # No name in any language, or none stored at all: nothing to show but
+        # the upstream placeholder, or our own "#7953".
+        if (monster_name == '#%s' % target_monster_id
+                or not has_display_name({language: monster_name})):
+            return _monster_not_found_response(request, target_monster_id, slug)
 
         # Per-grade stats, stored per version from that version's own source
         # (touch: the backend Monsters table).
