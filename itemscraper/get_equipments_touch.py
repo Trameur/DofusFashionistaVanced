@@ -19,8 +19,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from untranslated_tag import clean_display_name  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # typeId -> (slot w_type, weapon subtype or None). Weapon subtypes must match
@@ -259,7 +265,7 @@ def decode_conditions(criteria: str):
 def loc_name(tables_by_lang, lang, item_id, fallback):
     rec = (tables_by_lang.get(lang) or {}).get(item_id)
     if rec and rec.get('nameId'):
-        return rec['nameId']
+        return clean_display_name(rec['nameId'])
     return fallback
 
 

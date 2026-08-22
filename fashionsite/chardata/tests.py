@@ -7144,6 +7144,59 @@ class ANamedSpellSaysWhatItDoesTests(SimpleTestCase):
                 self.assertEqual([], tagged[:5])
 
 
+class NoUntranslatedTagIsShippedTests(SimpleTestCase):
+    """"[!]" means the upstream had no translation and fell back to French. It
+    is a note to the translator, and it used to reach readers of the four other
+    languages through item names, set names, monster names and spell texts, and
+    from there the page titles and the sitemap."""
+
+    def test_no_stored_display_string_carries_the_tag(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        untranslated_tag = itemscraper_module('untranslated_tag')
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            conn = sqlite3.connect(get_items_db_path(version))
+            try:
+                tagged = untranslated_tag.tagged_rows(conn)
+            finally:
+                conn.close()
+            with self.subTest(version=version):
+                self.assertEqual(
+                    [], ['%s.%s: %s' % (table, column, value)
+                         for table, column, _rowid, value in tagged[:5]])
+
+    def test_no_shipped_spell_asset_carries_the_tag(self):
+        chardata_dir = os.path.dirname(os.path.abspath(__file__))
+        checked = 0
+        for folder in ('spell_states', 'spell_reference'):
+            for path in glob.glob(os.path.join(chardata_dir, folder, '*.json')):
+                with io.open(path, encoding='utf-8') as handle:
+                    body = handle.read()
+                checked += 1
+                with self.subTest(asset=os.path.basename(path), folder=folder):
+                    self.assertNotIn('[!]', body)
+                    self.assertNotIn('[wip', body.lower())
+        self.assertTrue(checked, 'no spell asset was read')
+
+    def test_the_tag_is_stripped_and_the_rest_is_kept(self):
+        clean = itemscraper_module('untranslated_tag').clean_display_name
+        self.assertEqual('Willorque', clean('[!] Willorque'))
+        self.assertEqual('Anneau de Ghaston', clean('[!]Anneau de Ghaston'))
+        self.assertEqual('Bouftou', clean('Bouftou'))
+        self.assertEqual('', clean(''))
+        self.assertIsNone(clean(None))
+
+    def test_only_a_description_loses_the_unfinished_note(self):
+        # "[wip]" on an item name is what the default-exclusion guard reads.
+        module = itemscraper_module('untranslated_tag')
+        self.assertEqual('Vous perdez des PdV.',
+                         module.clean_description('[wip]Vous perdez des PdV.'))
+        self.assertEqual('Vous perdez des PdV.',
+                         module.clean_description('[!] [wip]Vous perdez des PdV.'))
+        self.assertEqual('[wip] Coiffe de test',
+                         module.clean_display_name('[wip] Coiffe de test'))
+
+
 class WeaponsSharingANameTests(SimpleTestCase):
     """Retro and Touch let different weapons carry one name where Dofus 3 numbers
     its duplicates, but the "(#1)" and "(#2)" branches are one item, one weapon."""

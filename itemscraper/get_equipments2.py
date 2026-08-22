@@ -18,8 +18,13 @@ import argparse
 import json
 from copy import deepcopy
 import os
+import sys
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, current_directory)
+
+# Icon filenames are normalized separately (get_equipments4/image_store).
+from untranslated_tag import clean_display_name  # noqa: E402
 
 _parser = argparse.ArgumentParser(description="Transform downloaded equipment JSON files")
 _parser.add_argument("--work-dir", default=None, help="Directory to read/write JSON files (default: script directory)")
@@ -201,11 +206,6 @@ def effect_row(eff):
     return [taken[0], taken[-1], hit] if taken else [lo, hi, hit]
 
 
-def clean_display_name(name):
-    # "[!]" is dofusdude's unavailable-language tag. Icon filenames are
-    # normalized separately (get_equipments4/image_store).
-    return name.replace("[!]", "").strip()
-
 def parse_conditions(tree):
     """
     Recursive function to traverse the condition tree
@@ -334,13 +334,10 @@ for item in equipment_data['en']['items']:
             )
             if lang_item:
                 original_name = lang_item['name']
-                if lang == "en":
-                    cleaned_name = clean_display_name(original_name)
-                    if original_name != cleaned_name:
-                        print(f"Modified name for {lang_name_key}: '{original_name}' -> '{cleaned_name}'")
-                    transformed_item[lang_name_key] = cleaned_name
-                else:
-                    transformed_item[lang_name_key] = original_name
+                cleaned_name = clean_display_name(original_name)
+                if original_name != cleaned_name:
+                    print(f"Modified name for {lang_name_key}: '{original_name}' -> '{cleaned_name}'")
+                transformed_item[lang_name_key] = cleaned_name
             else:
                 transformed_item[lang_name_key] = None
     if "type" in item:

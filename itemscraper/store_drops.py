@@ -23,6 +23,7 @@ import sqlite3  # noqa: E402
 
 from store_item_obtainment import (  # noqa: E402
     _load_db_from_dump, _save_db_to_dump, get_items_db_path)
+from untranslated_tag import clean_display_name  # noqa: E402
 
 LANGUAGES = ("en", "fr", "es", "pt", "de")
 
@@ -117,7 +118,8 @@ def store_drops(drops_path, game_version="dofus3"):
                     names = m.get("names") or {}
                     for lang in LANGUAGES:
                         if names.get(lang):
-                            name_rows.append((mid, lang, names[lang]))
+                            name_rows.append(
+                                (mid, lang, clean_display_name(names[lang])))
 
         cursor.executemany(
             "INSERT INTO item_drops (item, monster_ankama_id, rate, conditions) "

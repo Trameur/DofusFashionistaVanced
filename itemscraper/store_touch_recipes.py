@@ -27,6 +27,7 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
     if path not in sys.path:
         sys.path.append(path)
 
+from untranslated_tag import clean_description  # noqa: E402  (sys.path set above)
 from store_item_obtainment import (  # noqa: E402  (sys.path set above)
     get_items_db_path, _ensure_tables, _open_items_db, _save_db_to_dump,
     _resolve_item_id, _table_exists)
@@ -107,7 +108,7 @@ def _store_descriptions(cursor):
         for lang, desc in (descriptions.get(ankama_id) or {}).items():
             cursor.execute(
                 "INSERT OR REPLACE INTO item_descriptions(item, language, description) "
-                "VALUES (?, ?, ?)", (item_id, lang, desc))
+                "VALUES (?, ?, ?)", (item_id, lang, clean_description(desc)))
             stored += 1
         if ankama_id in weights:
             cursor.execute("INSERT OR REPLACE INTO item_extra_info(item, pods) VALUES (?, ?)",

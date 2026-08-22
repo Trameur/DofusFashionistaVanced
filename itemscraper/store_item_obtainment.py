@@ -11,6 +11,10 @@ CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(CURRENT_DIRECTORY)
 if PROJECT_ROOT not in sys.path:
     sys.path.append(PROJECT_ROOT)
+if CURRENT_DIRECTORY not in sys.path:
+    sys.path.append(CURRENT_DIRECTORY)
+
+from untranslated_tag import clean_description  # noqa: E402
 
 try:
     fashionista_config = importlib.import_module('fashionistapulp.fashionista_config')
@@ -285,7 +289,7 @@ def _store_item_data(cursor, item_id, language, entry, ingredient_name_map):
     if description is not None:
         cursor.execute(
             "INSERT OR REPLACE INTO item_descriptions(item, language, description) VALUES (?, ?, ?)",
-            (item_id, language, description),
+            (item_id, language, clean_description(description)),
         )
 
     if language == 'en':

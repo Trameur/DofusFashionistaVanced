@@ -33,6 +33,7 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
         sys.path.append(path)
 
 import fashionista_version  # noqa: E402
+from untranslated_tag import clean_description  # noqa: E402
 
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'fashionsite', 'chardata',
@@ -63,7 +64,8 @@ def clean_text(text):
     """The game's own words, with the client's markup taken out."""
     if not text:
         return ''
-    cleaned = _SPELL_REFERENCE.sub(lambda match: match.group(1), text)
+    cleaned = clean_description(text)
+    cleaned = _SPELL_REFERENCE.sub(lambda match: match.group(1), cleaned)
     cleaned = _SPRITE.sub('', cleaned)
     cleaned = _RICH_TEXT.sub('', cleaned)
     cleaned = _SPACES.sub(' ', cleaned)

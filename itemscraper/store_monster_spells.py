@@ -33,6 +33,7 @@ if CURRENT_DIR not in sys.path:
     sys.path.append(CURRENT_DIR)
 
 from version_tags import latest_tag as _latest_tag  # noqa: E402  (sys.path set above)
+from untranslated_tag import clean_description, clean_display_name  # noqa: E402
 
 RAW_ROOT = os.path.join(CURRENT_DIR, 'raw')
 DB_FILES = {
@@ -277,9 +278,10 @@ def main():
                 continue
             cursor.execute(
                 'INSERT OR REPLACE INTO monster_spell_names VALUES (?, ?, ?, ?)',
-                (spell_id, language, name,
-                 spell_description(spell, levels, effects, labels[language],
-                                   monster_names[language])))
+                (spell_id, language, clean_display_name(name),
+                 clean_description(
+                     spell_description(spell, levels, effects, labels[language],
+                                       monster_names[language]))))
             named += 1
         for level_id in (spell.get('spellLevels') or {}).get('Array') or []:
             level = levels.get(level_id)
