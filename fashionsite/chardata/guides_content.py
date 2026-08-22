@@ -51,7 +51,7 @@ GUIDES = {
 
 <h2>How to ask for it</h2>
 <p>Put a minimum on Lock or on Dodge in your build and let the solver find the pieces. It searches the whole catalogue at once, which is exactly the job you do not want to do by hand across 549 items. <a href="/setup/">Start a build</a> and set the minimum before you look at the result.</p>
-<p>One warning if you play more than one version: these numbers are Dofus 3&#39;s. Dofus Touch caps every one of these lines at 32, and Dofus Retro has none of them at all. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why advice does not travel between them.</p>
+<p>One warning if you play more than one version: these numbers are Dofus 3&#39;s. Dofus Touch caps every one of these lines at 32, and on Dofus Retro no item carries them at all: Agility decides tackling there. Our guide on <a href="/guides/versions-explained/">the versions</a> explains why advice does not travel between them.</p>
 ''',
                 },
                 'fr': {
@@ -82,7 +82,7 @@ GUIDES = {
 
 <h2>Comment le demander</h2>
 <p>Mets un minimum sur Tacle ou sur Fuite dans ton build et laisse le solveur trouver les pièces. Il fouille tout le catalogue d&#39;un coup, ce qui est exactement le travail que tu n&#39;as pas envie de faire à la main sur 549 objets. <a href="/setup/">Commence un build</a> et pose le minimum avant de regarder le résultat.</p>
-<p>Un avertissement si tu joues sur plusieurs versions : ces chiffres sont ceux de Dofus 3. Dofus Touch plafonne chacune de ces lignes à 32, et Dofus Rétro n&#39;en a aucune. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les conseils ne voyagent pas de l&#39;une à l&#39;autre.</p>
+<p>Un avertissement si tu joues sur plusieurs versions : ces chiffres sont ceux de Dofus 3. Dofus Touch plafonne chacune de ces lignes à 32, et sur Dofus Rétro aucun objet n&#39;en porte : c&#39;est l&#39;Agilité qui y décide du tacle. Notre guide sur <a href="/guides/versions-explained/">les versions</a> explique pourquoi les conseils ne voyagent pas de l&#39;une à l&#39;autre.</p>
 ''',
                 },
                 'es': {
@@ -113,7 +113,7 @@ GUIDES = {
 
 <h2>Cómo pedirlo</h2>
 <p>Pon un mínimo en Placaje o en Huida y deja que el solucionador encuentre las piezas. Recorre el catálogo entero de una vez, que es justo el trabajo que no quieres hacer a mano sobre 549 objetos. <a href="/setup/">Empieza un build</a> y fija el mínimo antes de mirar el resultado.</p>
-<p>Un aviso si juegas en varias versiones: estas cifras son las de Dofus 3. Dofus Touch limita todas estas líneas a 32, y Dofus Retro no tiene ninguna. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> explica por qué los consejos no viajan entre ellas.</p>
+<p>Un aviso si juegas en varias versiones: estas cifras son las de Dofus 3. Dofus Touch limita todas estas líneas a 32, y en Dofus Retro ningún objeto las lleva: allí la Agilidad decide el placaje. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> explica por qué los consejos no viajan entre ellas.</p>
 ''',
                 },
                 'pt': {
@@ -144,7 +144,7 @@ GUIDES = {
 
 <h2>Como pedir</h2>
 <p>Coloque um mínimo em Placagem ou em Fuga e deixe o solucionador achar as peças. Ele varre o catálogo inteiro de uma vez, que é exatamente o trabalho que você não quer fazer à mão em 549 itens. <a href="/setup/">Comece um build</a> e defina o mínimo antes de olhar o resultado.</p>
-<p>Um aviso se você joga em mais de uma versão: estes números são do Dofus 3. O Dofus Touch limita todas essas linhas a 32, e o Dofus Retro não tem nenhuma. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> explica por que os conselhos não viajam entre elas.</p>
+<p>Um aviso se você joga em mais de uma versão: estes números são do Dofus 3. O Dofus Touch limita todas essas linhas a 32, e no Dofus Retro nenhum item as carrega: lá a Agilidade decide a placagem. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> explica por que os conselhos não viajam entre elas.</p>
 ''',
                 },
                 'de': {
@@ -175,7 +175,7 @@ GUIDES = {
 
 <h2>Wie du danach fragst</h2>
 <p>Setz ein Minimum auf Fesseln oder auf Ausweichen und lass den Löser die Teile finden. Er durchsucht den ganzen Katalog auf einmal, genau die Arbeit, die du bei 549 Gegenständen nicht von Hand machen willst. <a href="/setup/">Starte einen Build</a> und setz das Minimum, bevor du auf das Ergebnis schaust.</p>
-<p>Ein Hinweis, falls du mehrere Versionen spielst: das sind die Zahlen von Dofus 3. Dofus Touch deckelt jede dieser Zeilen bei 32, und Dofus Retro hat keine davon. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> erklärt, warum Ratschläge nicht zwischen ihnen wandern.</p>
+<p>Ein Hinweis, falls du mehrere Versionen spielst: das sind die Zahlen von Dofus 3. Dofus Touch deckelt jede dieser Zeilen bei 32, und auf Dofus Retro trägt sie kein Gegenstand: dort entscheidet die Flinkheit das Fesseln. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> erklärt, warum Ratschläge nicht zwischen ihnen wandern.</p>
 ''',
                 },
             },
@@ -308,93 +308,113 @@ GUIDES = {
             },
             'retro': {
                 'en': {
-                    'title': 'Lock and dodge do not exist in Dofus Retro',
-                    'desc': 'We checked all of the 1.29 catalogue: not one item grants lock or dodge. Any plan built on those two stats simply does not transfer to Retro.',
-                    'lead': 'The two stats that decide whether you can walk away from an enemy on the modern versions are absent from 1.29 entirely, and no piece of gear carries them.',
+                    'title': 'Tackling in Dofus Retro comes from Agility',
+                    'desc': 'Not one item in the 1.29 catalogue carries a lock or dodge line. The mechanic is still there: Agility decides it, compared against the other character.',
+                    'lead': 'Retro has tackling, but nothing sells it to you. There is no line to buy on a hat, only a characteristic to raise.',
                     'body': '''
-<h2>Not a small roster: none at all</h2>
-<p>We went through every item in the Dofus Retro database looking for lock and for dodge. The count is <strong>zero on both</strong>. Not a hat, not a shield, not a dofus, at any level.</p>
-<p>This is worth stating plainly because it is not what you would guess from a low number. A stat that appears on three items is rare. A stat that appears on none is a mechanic the version does not sell you.</p>
+<h2>No gear carries it: none at all</h2>
+<p>We went through the whole Dofus Retro database looking for lock and for dodge, in the items and in the set bonuses, which come from two different sources. The count is <strong>zero everywhere</strong>. Not a hat, not a shield, not a dofus, at any level, and not one set bonus either.</p>
+<p>That is worth stating plainly, because a stat carried by three items is merely rare, while a stat carried by none is not something you can shop for.</p>
 
-<h2>What that means for a Retro build</h2>
-<p>Any advice built around holding an enemy in place with gear, or buying your way out of a lock, comes from the modern branch. On 1.29 there is no line to buy and nothing to optimize, so the optimizer here does not weight those two stats at all. If you have seen them discussed for Retro, the guide had the wrong version in mind.</p>
-<p>What is left is the ordinary business of positioning and reach: where you stand, and how far your spells go. Our guide on <a href="/guides/ap-mp-range-caps/">action points, movement and range</a> covers the stats that do decide those on Retro.</p>
+<h2>But the mechanic exists, and Agility runs it</h2>
+<p>Do not read the empty catalogue as an empty mechanic. In 1.29 you can tackle and be tackled, and what decides it is <strong>Agility</strong>, weighed against the Agility of the character opposite you. It is an opposed check between two characteristics rather than two gear lines, which is why no item needs to carry one.</p>
+<p>The practical consequence is the opposite of the modern advice: on Retro you do not hunt for lock pieces, you decide how much Agility your build is worth. That is the same characteristic that feeds your Air damage and your critical hits in 1.29, so the decision is rarely about tackling alone.</p>
+
+<h2>What that means when you read a guide</h2>
+<p>Any advice about buying your way out of a lock, or stacking small lock lines across seven slots, comes from the modern branch. It does not transfer. If a build tells you to reach a lock figure, check which version it was written for before you spend a kama.</p>
+<p>On your build here, the lock and dodge figures come from your Agility for exactly that reason. Our guide on <a href="/guides/ap-mp-range-caps/">action points, movement and range</a> covers the other stats that decide how a Retro turn goes.</p>
 
 <h2>Why the versions differ this much</h2>
-<p>1.29 was frozen before the modern branch introduced these two stats, so the difference is not a balance choice anyone made for Retro: the mechanic simply arrived later and Retro never received it. That is the same reason several other stats you may be looking for are missing here. Our guide on <a href="/guides/versions-explained/">the versions</a> explains which ones, and why copying a build across versions goes wrong.</p>
-<p>Ready to build for the version you actually play? <a href="/retro/setup/">Start a Retro build</a> and the tool will only offer you what 1.29 has.</p>
+<p>1.29 was frozen before the modern branch turned tackling into a pair of stats gear could grant. The mechanic did not arrive later, its price tag did. That is the same reason several other stats you may be looking for are missing here. Our guide on <a href="/guides/versions-explained/">the versions</a> explains which ones, and why copying a build across versions goes wrong.</p>
+<p><a href="/retro/setup/">Start a Retro build</a> and the tool will only offer you what 1.29 has.</p>
 ''',
                 },
                 'fr': {
-                    'title': 'Le tacle et la fuite n\'existent pas sur Dofus Rétro',
-                    'desc': 'Nous avons vérifié tout le catalogue 1.29 : aucun objet ne donne de tacle ni de fuite. Un plan bâti sur ces deux stats ne se transpose pas au Rétro.',
-                    'lead': 'Les deux stats qui décident si tu peux t\'éloigner d\'un ennemi sur les versions modernes sont totalement absentes de 1.29, et aucun équipement ne les porte.',
+                    'title': 'Sur Dofus Rétro, le tacle vient de l\'Agilité',
+                    'desc': 'Aucun objet du catalogue 1.29 ne porte de ligne de tacle ou de fuite. La mécanique existe pourtant : c\'est l\'Agilité qui la décide, face à celle d\'en face.',
+                    'lead': 'Le Rétro a bien le tacle, mais personne ne te le vend. Il n\'y a pas de ligne à acheter sur un chapeau, seulement une caractéristique à monter.',
                     'body': '''
-<h2>Pas un petit choix : aucun</h2>
-<p>Nous avons parcouru chaque objet de la base Dofus Rétro à la recherche de tacle et de fuite. Le compte est de <strong>zéro des deux côtés</strong>. Ni un chapeau, ni un bouclier, ni un dofus, à aucun niveau.</p>
-<p>Ça mérite d&#39;être dit franchement, parce que ce n&#39;est pas ce qu&#39;on devine devant un petit nombre. Une stat présente sur trois objets est rare. Une stat présente sur aucun est une mécanique que la version ne te vend pas.</p>
+<h2>Aucun équipement n\'en porte</h2>
+<p>Nous avons parcouru toute la base Dofus Rétro à la recherche de tacle et de fuite, dans les objets et dans les bonus de panoplie, qui viennent de deux sources différentes. Le compte est de <strong>zéro partout</strong>. Ni un chapeau, ni un bouclier, ni un dofus, à aucun niveau, et aucun bonus de panoplie non plus.</p>
+<p>Ça mérite d&#39;être dit franchement : une stat portée par trois objets est simplement rare, une stat portée par aucun ne s&#39;achète pas.</p>
 
-<h2>Ce que ça change pour un build Rétro</h2>
-<p>Tout conseil qui consiste à retenir un ennemi avec de l&#39;équipement, ou à acheter de quoi sortir d&#39;un tacle, vient de la branche moderne. Sur 1.29 il n&#39;y a aucune ligne à acheter et rien à optimiser, donc l&#39;optimiseur ne pondère pas ces deux stats ici. Si tu les as vues discutées pour le Rétro, le guide avait la mauvaise version en tête.</p>
-<p>Reste le travail ordinaire de placement et de portée : où tu te tiens, et jusqu&#39;où vont tes sorts. Notre guide sur <a href="/guides/ap-mp-range-caps/">les points d&#39;action, de mouvement et la portée</a> couvre les stats qui décident vraiment de ça sur Rétro.</p>
+<h2>Mais la mécanique existe, et c&#39;est l&#39;Agilité qui la mène</h2>
+<p>Ne confonds pas catalogue vide et mécanique absente. En 1.29 tu peux tacler et être taclé, et ce qui le décide, c&#39;est l&#39;<strong>Agilité</strong>, mise en balance avec celle du personnage en face. C&#39;est une opposition entre deux caractéristiques et non entre deux lignes d&#39;équipement, et c&#39;est bien pour ça qu&#39;aucun objet n&#39;a besoin d&#39;en porter.</p>
+<p>La conséquence pratique est l&#39;inverse du conseil moderne : sur Rétro tu ne cherches pas des pièces à tacle, tu décides ce que ton build met en Agilité. C&#39;est la même caractéristique qui nourrit tes dommages Air et tes coups critiques en 1.29, donc la décision se joue rarement sur le seul tacle.</p>
+
+<h2>Ce que ça change quand tu lis un guide</h2>
+<p>Tout conseil qui consiste à acheter de quoi sortir d&#39;un tacle, ou à empiler de petites lignes de tacle sur sept emplacements, vient de la branche moderne. Ça ne se transpose pas. Si un build te donne un objectif chiffré de tacle, vérifie pour quelle version il a été écrit avant de dépenser un kama.</p>
+<p>Sur ton build ici, les valeurs de tacle et de fuite viennent de ton Agilité, exactement pour cette raison. Notre guide sur <a href="/guides/ap-mp-range-caps/">les points d&#39;action, de mouvement et la portée</a> couvre les autres stats qui décident d&#39;un tour en Rétro.</p>
 
 <h2>Pourquoi les versions divergent autant</h2>
-<p>1.29 a été figée avant que la branche moderne n&#39;introduise ces deux stats : la différence n&#39;est donc pas un choix d&#39;équilibrage fait pour le Rétro, la mécanique est simplement arrivée plus tard et le Rétro ne l&#39;a jamais reçue. C&#39;est la même raison pour laquelle plusieurs autres stats que tu cherches peut-être manquent ici. Notre guide sur <a href="/guides/versions-explained/">les versions</a> dit lesquelles, et pourquoi recopier un build d&#39;une version à l&#39;autre tourne mal.</p>
-<p>Prêt à monter un build pour la version que tu joues vraiment ? <a href="/retro/setup/">Commence un build Rétro</a> et l&#39;outil ne te proposera que ce que 1.29 possède.</p>
+<p>1.29 a été figée avant que la branche moderne ne transforme le tacle en deux stats que l&#39;équipement peut donner. Ce n&#39;est pas la mécanique qui est arrivée plus tard, c&#39;est son étiquette de prix. C&#39;est la même raison pour laquelle plusieurs autres stats que tu cherches peut-être manquent ici. Notre guide sur <a href="/guides/versions-explained/">les versions</a> dit lesquelles, et pourquoi recopier un build d&#39;une version à l&#39;autre tourne mal.</p>
+<p><a href="/retro/setup/">Commence un build Rétro</a> et l&#39;outil ne te proposera que ce que 1.29 possède.</p>
 ''',
                 },
                 'es': {
-                    'title': 'El placaje y la huida no existen en Dofus Retro',
-                    'desc': 'Revisamos todo el catálogo de 1.29: ningún objeto da placaje ni huida. Cualquier plan basado en esas dos estadísticas no se traslada al Retro.',
-                    'lead': 'Las dos estadísticas que deciden si puedes alejarte de un enemigo en las versiones modernas están completamente ausentes de 1.29, y ningún equipo las lleva.',
+                    'title': 'En Dofus Retro el placaje sale de la Agilidad',
+                    'desc': 'Ningún objeto del catálogo de 1.29 lleva una línea de placaje o de huida. La mecánica existe igual: la decide la Agilidad, frente a la del rival.',
+                    'lead': 'Retro sí tiene placaje, pero nadie te lo vende. No hay línea que comprar en un sombrero, solo una característica que subir.',
                     'body': '''
-<h2>No es una lista corta: no hay ninguno</h2>
-<p>Recorrimos cada objeto de la base de Dofus Retro buscando placaje y huida. La cuenta es <strong>cero por ambos lados</strong>. Ni un sombrero, ni un escudo, ni un dofus, a ningún nivel.</p>
-<p>Vale la pena decirlo con claridad, porque no es lo que uno supone ante una cifra baja. Una estadística que aparece en tres objetos es rara. Una que no aparece en ninguno es una mecánica que la versión no te vende.</p>
+<h2>Ningún equipo lo lleva</h2>
+<p>Recorrimos toda la base de Dofus Retro buscando placaje y huida, en los objetos y en los bonus de conjunto, que vienen de dos fuentes distintas. La cuenta es <strong>cero en todas partes</strong>. Ni un sombrero, ni un escudo, ni un dofus, a ningún nivel, y ningún bonus de conjunto tampoco.</p>
+<p>Vale la pena decirlo claro: una estadística que llevan tres objetos es rara, una que no lleva ninguno no se compra.</p>
 
-<h2>Qué significa para un build de Retro</h2>
-<p>Cualquier consejo sobre retener a un enemigo con equipo, o comprar la salida de un placaje, viene de la rama moderna. En 1.29 no hay línea que comprar ni nada que optimizar, así que aquí el optimizador no pondera esas dos estadísticas. Si las has visto discutidas para Retro, esa guía tenía otra versión en mente.</p>
-<p>Queda el trabajo corriente de colocación y alcance: dónde te pones y hasta dónde llegan tus hechizos. Nuestra guía sobre <a href="/guides/ap-mp-range-caps/">puntos de acción, de movimiento y alcance</a> cubre las estadísticas que sí deciden eso en Retro.</p>
+<h2>Pero la mecánica existe, y la manda la Agilidad</h2>
+<p>No confundas catálogo vacío con mecánica ausente. En 1.29 puedes placar y ser placado, y lo decide la <strong>Agilidad</strong>, puesta frente a la del personaje que tienes delante. Es una oposición entre dos características y no entre dos líneas de equipo, y por eso ningún objeto necesita llevarla.</p>
+<p>La consecuencia práctica es la contraria del consejo moderno: en Retro no buscas piezas de placaje, decides cuánta Agilidad merece tu build. Es la misma característica que alimenta tu daño de Aire y tus golpes críticos en 1.29, así que la decisión rara vez se juega solo en el placaje.</p>
+
+<h2>Qué cambia al leer una guía</h2>
+<p>Cualquier consejo sobre comprar la salida de un placaje, o apilar pequeñas líneas de placaje en siete ranuras, viene de la rama moderna. No se traslada. Si un build te da una cifra de placaje que alcanzar, comprueba para qué versión se escribió antes de gastar una kama.</p>
+<p>En tu build de aquí, las cifras de placaje y huida salen de tu Agilidad justamente por eso. Nuestra guía sobre <a href="/guides/ap-mp-range-caps/">puntos de acción, de movimiento y alcance</a> cubre las demás estadísticas que deciden un turno en Retro.</p>
 
 <h2>Por qué las versiones difieren tanto</h2>
-<p>1.29 quedó congelada antes de que la rama moderna introdujera estas dos estadísticas, así que la diferencia no es una decisión de equilibrio tomada para Retro: la mecánica llegó después y Retro nunca la recibió. Es la misma razón por la que faltan aquí otras estadísticas que quizá busques. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> dice cuáles y por qué copiar un build de una versión a otra sale mal.</p>
-<p>¿Listo para montar un build de la versión que juegas de verdad? <a href="/retro/setup/">Empieza un build de Retro</a> y la herramienta solo te ofrecerá lo que 1.29 tiene.</p>
+<p>1.29 quedó congelada antes de que la rama moderna convirtiera el placaje en dos estadísticas que el equipo puede dar. No llegó después la mecánica, llegó su etiqueta de precio. Es la misma razón por la que faltan aquí otras estadísticas que quizá busques. Nuestra guía sobre <a href="/guides/versions-explained/">las versiones</a> dice cuáles y por qué copiar un build de una versión a otra sale mal.</p>
+<p><a href="/retro/setup/">Empieza un build de Retro</a> y la herramienta solo te ofrecerá lo que 1.29 tiene.</p>
 ''',
                 },
                 'pt': {
-                    'title': 'Placagem e fuga não existem no Dofus Retro',
-                    'desc': 'Conferimos todo o catálogo do 1.29: nenhum item dá placagem ou fuga. Qualquer plano montado sobre essas duas estatísticas não se transfere ao Retro.',
-                    'lead': 'As duas estatísticas que decidem se você consegue se afastar de um inimigo nas versões modernas estão totalmente ausentes do 1.29, e nenhum equipamento as carrega.',
+                    'title': 'No Dofus Retro a placagem vem da Agilidade',
+                    'desc': 'Nenhum item do catálogo do 1.29 carrega uma linha de placagem ou de fuga. A mecânica existe assim mesmo: quem decide é a Agilidade, contra a do adversário.',
+                    'lead': 'O Retro tem placagem, mas ninguém te vende. Não há linha para comprar num chapéu, só uma característica para subir.',
                     'body': '''
-<h2>Não é uma lista curta: não há nenhum</h2>
-<p>Percorremos cada item da base do Dofus Retro atrás de placagem e de fuga. A conta é <strong>zero dos dois lados</strong>. Nem um chapéu, nem um escudo, nem um dofus, em nível nenhum.</p>
-<p>Vale dizer com clareza, porque não é o que se imagina diante de um número baixo. Uma estatística que aparece em três itens é rara. Uma que não aparece em nenhum é uma mecânica que a versão não te vende.</p>
+<h2>Nenhum equipamento carrega</h2>
+<p>Percorremos toda a base do Dofus Retro atrás de placagem e de fuga, nos itens e nos bônus de conjunto, que vêm de duas fontes diferentes. A conta é <strong>zero em tudo</strong>. Nem um chapéu, nem um escudo, nem um dofus, em nível nenhum, e nenhum bônus de conjunto também.</p>
+<p>Vale dizer com clareza: uma estatística que três itens carregam é rara, uma que nenhum carrega não se compra.</p>
 
-<h2>O que isso muda num build de Retro</h2>
-<p>Todo conselho sobre segurar um inimigo com equipamento, ou comprar a saída de uma placagem, vem do ramo moderno. No 1.29 não há linha para comprar nem nada para otimizar, então aqui o otimizador não pondera essas duas estatísticas. Se você as viu discutidas para o Retro, aquele guia tinha outra versão em mente.</p>
-<p>Resta o trabalho comum de posicionamento e alcance: onde você fica e até onde vão os seus feitiços. Nosso guia sobre <a href="/guides/ap-mp-range-caps/">pontos de ação, de movimento e alcance</a> cobre as estatísticas que realmente decidem isso no Retro.</p>
+<h2>Mas a mecânica existe, e quem manda é a Agilidade</h2>
+<p>Não confunda catálogo vazio com mecânica ausente. No 1.29 você pode placar e ser placado, e quem decide é a <strong>Agilidade</strong>, comparada com a do personagem à sua frente. É uma disputa entre duas características e não entre duas linhas de equipamento, e é por isso que nenhum item precisa carregar uma.</p>
+<p>A consequência prática é o contrário do conselho moderno: no Retro você não caça peças de placagem, você decide quanta Agilidade o seu build merece. É a mesma característica que alimenta o seu dano de Ar e os seus golpes críticos no 1.29, então a decisão raramente é só sobre placagem.</p>
+
+<h2>O que muda ao ler um guia</h2>
+<p>Todo conselho sobre comprar a saída de uma placagem, ou empilhar pequenas linhas de placagem em sete espaços, vem do ramo moderno. Não se transfere. Se um build te dá um número de placagem para alcançar, confira para que versão ele foi escrito antes de gastar uma kama.</p>
+<p>No seu build aqui, os valores de placagem e fuga saem da sua Agilidade exatamente por isso. Nosso guia sobre <a href="/guides/ap-mp-range-caps/">pontos de ação, de movimento e alcance</a> cobre as outras estatísticas que decidem um turno no Retro.</p>
 
 <h2>Por que as versões diferem tanto</h2>
-<p>O 1.29 foi congelado antes de o ramo moderno introduzir essas duas estatísticas, então a diferença não é uma escolha de equilíbrio feita para o Retro: a mecânica chegou depois e o Retro nunca a recebeu. É o mesmo motivo pelo qual faltam aqui outras estatísticas que você talvez procure. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> diz quais e por que copiar um build de uma versão para outra dá errado.</p>
-<p>Pronto para montar um build da versão que você realmente joga? <a href="/retro/setup/">Comece um build de Retro</a> e a ferramenta só vai oferecer o que o 1.29 tem.</p>
+<p>O 1.29 foi congelado antes de o ramo moderno transformar a placagem em duas estatísticas que o equipamento pode dar. Não foi a mecânica que chegou depois, foi a etiqueta de preço dela. É o mesmo motivo pelo qual faltam aqui outras estatísticas que você talvez procure. Nosso guia sobre <a href="/guides/versions-explained/">as versões</a> diz quais e por que copiar um build de uma versão para outra dá errado.</p>
+<p><a href="/retro/setup/">Comece um build de Retro</a> e a ferramenta só vai oferecer o que o 1.29 tem.</p>
 ''',
                 },
                 'de': {
-                    'title': 'Fesseln und Ausweichen gibt es in Dofus Retro nicht',
-                    'desc': 'Wir haben den gesamten 1.29-Katalog geprüft: kein Gegenstand gibt Fesseln oder Ausweichen. Jeder Plan auf diesen zwei Werten lässt sich nicht übertragen.',
-                    'lead': 'Die beiden Werte, die auf den modernen Versionen entscheiden, ob du dich von einem Gegner lösen kannst, fehlen in 1.29 vollständig, und keine Ausrüstung trägt sie.',
+                    'title': 'In Dofus Retro kommt das Fesseln aus der Flinkheit',
+                    'desc': 'Kein Gegenstand im 1.29-Katalog trägt eine Fesseln- oder Ausweichen-Zeile. Die Mechanik gibt es trotzdem: die Flinkheit entscheidet sie, gegen die des Gegners.',
+                    'lead': 'Retro hat das Fesseln, aber niemand verkauft es dir. Es gibt keine Zeile auf einem Hut zu kaufen, nur einen Wert zu steigern.',
                     'body': '''
-<h2>Keine kurze Liste, sondern gar keine</h2>
-<p>Wir sind jeden Gegenstand der Dofus-Retro-Datenbank auf Fesseln und Ausweichen durchgegangen. Das Ergebnis ist <strong>null auf beiden Seiten</strong>. Kein Hut, kein Schild, kein Dofus, auf keiner Stufe.</p>
-<p>Das gehört klar gesagt, denn es ist nicht das, was man bei einer kleinen Zahl vermutet. Ein Wert auf drei Gegenständen ist selten. Ein Wert auf keinem ist eine Mechanik, die diese Version dir nicht verkauft.</p>
+<h2>Keine Ausrüstung trägt es</h2>
+<p>Wir sind die ganze Dofus-Retro-Datenbank auf Fesseln und Ausweichen durchgegangen, in den Gegenständen und in den Set-Boni, die aus zwei verschiedenen Quellen stammen. Das Ergebnis ist <strong>überall null</strong>. Kein Hut, kein Schild, kein Dofus, auf keiner Stufe, und auch kein Set-Bonus.</p>
+<p>Das gehört klar gesagt: ein Wert auf drei Gegenständen ist selten, ein Wert auf keinem ist nichts, wonach man einkaufen kann.</p>
 
-<h2>Was das für einen Retro-Build heißt</h2>
-<p>Jeder Rat, einen Gegner mit Ausrüstung festzuhalten oder sich aus einer Fessel freizukaufen, stammt aus dem modernen Zweig. In 1.29 gibt es keine Zeile zu kaufen und nichts zu optimieren, deshalb gewichtet der Optimierer diese beiden Werte hier gar nicht. Wenn du sie für Retro diskutiert gesehen hast, hatte der Leitfaden die falsche Version im Sinn.</p>
-<p>Es bleibt die gewöhnliche Arbeit von Stellung und Reichweite: wo du stehst und wie weit deine Zauber gehen. Unser Leitfaden zu <a href="/guides/ap-mp-range-caps/">Aktionspunkten, Bewegungspunkten und Reichweite</a> behandelt die Werte, die das auf Retro tatsächlich entscheiden.</p>
+<h2>Die Mechanik gibt es aber, und die Flinkheit führt sie</h2>
+<p>Verwechsle den leeren Katalog nicht mit einer fehlenden Mechanik. In 1.29 kannst du fesseln und gefesselt werden, und entschieden wird das von der <strong>Flinkheit</strong>, gegen die der Figur dir gegenüber. Es ist ein Vergleich zweier Werte und nicht zweier Ausrüstungszeilen, und genau deshalb muss kein Gegenstand eine tragen.</p>
+<p>Die praktische Folge ist das Gegenteil des modernen Rats: auf Retro jagst du keine Fesseln-Teile, du entscheidest, wie viel Flinkheit dein Build wert ist. Das ist derselbe Wert, der in 1.29 deinen Luftschaden und deine kritischen Treffer speist, also hängt die Entscheidung selten am Fesseln allein.</p>
+
+<h2>Was das beim Lesen eines Leitfadens ändert</h2>
+<p>Jeder Rat, sich aus einer Fessel freizukaufen oder kleine Fesseln-Zeilen über sieben Plätze zu stapeln, stammt aus dem modernen Zweig. Er lässt sich nicht übertragen. Wenn ein Build dir eine Fesseln-Zahl als Ziel nennt, prüfe vor dem ersten Kama, für welche Version er geschrieben wurde.</p>
+<p>In deinem Build hier stammen die Fesseln- und Ausweichen-Zahlen genau deshalb aus deiner Flinkheit. Unser Leitfaden zu <a href="/guides/ap-mp-range-caps/">Aktionspunkten, Bewegungspunkten und Reichweite</a> behandelt die übrigen Werte, die eine Retro-Runde entscheiden.</p>
 
 <h2>Warum die Versionen so weit auseinander liegen</h2>
-<p>1.29 wurde eingefroren, bevor der moderne Zweig diese beiden Werte einführte. Der Unterschied ist also keine Balance-Entscheidung für Retro: die Mechanik kam später, und Retro hat sie nie bekommen. Aus demselben Grund fehlen hier einige weitere Werte, die du vielleicht suchst. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> nennt sie und erklärt, warum ein Build von einer Version zur anderen schiefgeht.</p>
-<p>Bereit, für die Version zu bauen, die du wirklich spielst? <a href="/retro/setup/">Starte einen Retro-Build</a>, und das Werkzeug bietet dir nur an, was 1.29 hat.</p>
+<p>1.29 wurde eingefroren, bevor der moderne Zweig das Fesseln in zwei Werte verwandelte, die Ausrüstung geben kann. Nicht die Mechanik kam später, sondern ihr Preisschild. Aus demselben Grund fehlen hier einige weitere Werte, die du vielleicht suchst. Unser Leitfaden zu <a href="/guides/versions-explained/">den Versionen</a> nennt sie und erklärt, warum ein Build von einer Version zur anderen schiefgeht.</p>
+<p><a href="/retro/setup/">Starte einen Retro-Build</a>, und das Werkzeug bietet dir nur an, was 1.29 hat.</p>
 ''',
                 },
             },
