@@ -37,13 +37,15 @@ from chardata.url_language import (KEEP_LANGUAGE_PARAM, build_alternate_urls,
 
 BASE = 'https://dofusfashionista.gg'
 
-# The real item 44, in the five supported languages.
+# Item 44, read from the item database rather than written from memory: two
+# of these were guessed wrong at first, and a fixture that invents its data
+# proves nothing about the code it exercises.
 TWIGGY_SWORD = {
     'en': 'Twiggy Sword',
-    'fr': 'Epee de Boisaille',
+    'fr': 'Épée de Boisaille',
     'es': 'Espada de maderucha',
-    'pt': 'Espada de Galhinho',
-    'de': 'Zweigschwert',
+    'pt': 'Espada de graveto',
+    'de': 'Hölzernes Schwert',
 }
 
 
@@ -531,3 +533,56 @@ class GarbageSlugTest(TestCase):
         first = self.client.get('/encyclopedia/item/equipment/44-zzz/')
         second = self.client.get(first['Location'])
         self.assertEqual(second.status_code, 200)
+
+
+class LocalisedSitemapTest(TestCase):
+    """The localised pages exist and are self-canonical, but nothing makes
+    Google find them: /encyclopedia/ is a fixed path, so a crawler only ever
+    sees its English form, which links only to English item URLs. They have to
+    be submitted."""
+
+    def test_the_index_lists_a_file_per_submitted_language(self):
+        xml = self.client.get('/sitemap.xml').content.decode('utf-8')
+        for language in ('fr', 'es', 'pt'):
+            for section in ('items', 'sets', 'resources', 'monsters'):
+                self.assertIn('sitemap-%s-%s.xml' % (section, language), xml)
+
+    def test_german_is_served_but_not_submitted(self):
+        # No measured German audience. The pages answer and hreflang points at
+        # them, which is enough to be found; submitting 40 000 more URLs is not
+        # worth the crawl budget until the numbers say otherwise.
+        xml = self.client.get('/sitemap.xml').content.decode('utf-8')
+        self.assertNotIn('sitemap-items-de.xml', xml)
+        self.assertEqual(
+            self.client.get(
+                '/encyclopedia/item/equipment/44-holzernes-schwert/').status_code,
+            200)
+
+    def test_the_english_sections_keep_their_names(self):
+        # Already submitted to Search Console; renaming them would lose their
+        # history for nothing.
+        xml = self.client.get('/sitemap.xml').content.decode('utf-8')
+        for section in ('pages', 'items', 'sets', 'resources', 'monsters'):
+            self.assertIn('sitemap-%s.xml' % section, xml)
+
+    def test_a_localised_section_answers_and_carries_that_language(self):
+        response = self.client.get('/sitemap-items-fr.xml')
+        self.assertEqual(response.status_code, 200)
+        xml = response.content.decode('utf-8')
+        self.assertIn('<loc>', xml)
+        self.assertIn('/44-epee-de-boisaille/', xml)
+
+    def test_each_language_gets_different_urls(self):
+        french = self.client.get('/sitemap-items-fr.xml').content.decode('utf-8')
+        spanish = self.client.get('/sitemap-items-es.xml').content.decode('utf-8')
+        self.assertNotEqual(french, spanish)
+        self.assertIn('/44-espada-de-maderucha/', spanish)
+        self.assertNotIn('/44-espada-de-maderucha/', french)
+
+    def test_a_localised_section_stays_under_the_google_limit(self):
+        xml = self.client.get('/sitemap-items-es.xml').content.decode('utf-8')
+        self.assertLess(xml.count('<loc>'), 50000,
+                        'Google refuses a sitemap over 50000 urls')
+
+    def test_an_unknown_section_is_404(self):
+        self.assertEqual(self.client.get('/sitemap-nope-xx.xml').status_code, 404)

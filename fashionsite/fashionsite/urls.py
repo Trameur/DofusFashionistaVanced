@@ -23,6 +23,7 @@ from django.views.generic import RedirectView, TemplateView
 from django.http import Http404, HttpResponse
 from django.views.static import serve
 from django.utils.html import escape
+from django.utils import translation
 from django.utils.translation import get_language, gettext as _
 import os
 from chardata import home_view, login_view, views, projects_view, base_stats_view, create_project_view, \
@@ -143,6 +144,17 @@ def offline_view(request):
 # --- Sitemap ---------------------------------------------------------------
 import time as _sitemap_time
 
+# One cache entry per (section, language): the same builder now produces a
+# different document per language, so a single slot would serve French XML
+# for a Spanish request.
+_SITEMAP_CACHES = {}
+
+
+def _sitemap_cache(section, language):
+    return _SITEMAP_CACHES.setdefault((section, language),
+                                      {'ts': 0.0, 'xml': ''})
+
+
 _SITEMAP_ITEM_CACHE = {'ts': 0.0, 'xml': ''}
 _SITEMAP_ITEM_TTL = 6 * 3600
 
@@ -152,10 +164,10 @@ def _sitemap_url(loc, changefreq, priority):
             '    <priority>%s</priority>\n  </url>') % (loc, changefreq, priority)
 
 
-def _sitemap_encyclopedia_items(base_url):
+def _sitemap_encyclopedia_items(base_url, language='en'):
     """<url> block for encyclopedia item pages in every game version."""
     now = _sitemap_time.time()
-    cached = _SITEMAP_ITEM_CACHE
+    cached = _sitemap_cache('items', language)
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
         return cached['xml']
     try:
@@ -176,7 +188,7 @@ def _sitemap_encyclopedia_items(base_url):
                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_names'")
                 has_item_names = cursor.fetchone() is not None
                 name_join_sql = (
-                    "LEFT JOIN item_names en ON en.item = i.id AND en.language = 'en'"
+                    "LEFT JOIN item_names en ON en.item = i.id AND en.language = ?"
                     if has_item_names else '')
                 localized_name_sql = 'COALESCE(en.name, i.name)' if has_item_names else 'i.name'
                 cursor.execute(
@@ -192,10 +204,12 @@ def _sitemap_encyclopedia_items(base_url):
                     JOIN items i ON i.id = ri.item_id
                     %s
                     ORDER BY i.ankama_type, i.ankama_id
-                    """ % (localized_name_sql, name_join_sql))
+                    """ % (localized_name_sql, name_join_sql),
+                    (language,) if has_item_names else ())
                 for ankama_type, ankama_id, name in cursor.fetchall():
-                    link = get_item_link(ankama_type, ankama_id, name or '',
-                                         game_version=game_version)
+                    with translation.override(language):
+                        link = get_item_link(ankama_type, ankama_id, name or '',
+                                             game_version=game_version)
                     if not link or link in seen:
                         continue
                     seen.add(link)
@@ -213,10 +227,10 @@ def _sitemap_encyclopedia_items(base_url):
 _SITEMAP_SET_CACHE = {'ts': 0.0, 'xml': ''}
 
 
-def _sitemap_encyclopedia_sets(base_url):
+def _sitemap_encyclopedia_sets(base_url, language='en'):
     """<url> block for encyclopedia set pages in every game version."""
     now = _sitemap_time.time()
-    cached = _SITEMAP_SET_CACHE
+    cached = _sitemap_cache('sets', language)
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
         return cached['xml']
     try:
@@ -229,7 +243,9 @@ def _sitemap_encyclopedia_sets(base_url):
             for set_id, item_set in structure.sets_dict.items():
                 if not getattr(item_set, 'items', None):
                     continue
-                set_name = item_set.localized_names.get('en') or item_set.name
+                set_name = (item_set.localized_names.get(language)
+                            or item_set.localized_names.get('en')
+                            or item_set.name)
                 if not set_name:
                     continue
                 link = get_set_link(set_id, set_name, game_version=game_version)
@@ -251,10 +267,10 @@ def _sitemap_encyclopedia_sets(base_url):
 _SITEMAP_RESOURCE_CACHE = {'ts': 0.0, 'xml': ''}
 
 
-def _sitemap_encyclopedia_resources(base_url):
+def _sitemap_encyclopedia_resources(base_url, language='en'):
     """<url> block for encyclopedia ingredient pages in every game version."""
     now = _sitemap_time.time()
-    cached = _SITEMAP_RESOURCE_CACHE
+    cached = _sitemap_cache('resources', language)
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
         return cached['xml']
     try:
@@ -305,9 +321,9 @@ def _sitemap_encyclopedia_resources(base_url):
                       ON u.ankama_id = n.ingredient_ankama_id
                      AND u.subtype = n.ingredient_subtype
                     %s
-                    WHERE n.language = 'en' AND (u.uses >= 2%s)
+                    WHERE n.language = '%s' AND (u.uses >= 2%s)
                     ORDER BY n.ingredient_subtype, n.ingredient_ankama_id
-                    """ % (drop_join, drop_criterion))
+                    """ % (drop_join, language, drop_criterion))
                 for ankama_id, subtype, name in cursor.fetchall():
                     link = get_resource_link(subtype, ankama_id, name or '',
                                              game_version=game_version)
@@ -328,10 +344,10 @@ def _sitemap_encyclopedia_resources(base_url):
 _SITEMAP_MONSTER_CACHE = {'ts': 0.0, 'xml': ''}
 
 
-def _sitemap_encyclopedia_monsters(base_url):
+def _sitemap_encyclopedia_monsters(base_url, language='en'):
     """<url> block for monster encyclopedia pages in every game version."""
     now = _sitemap_time.time()
-    cached = _SITEMAP_MONSTER_CACHE
+    cached = _sitemap_cache('monsters', language)
     if cached['xml'] and (now - cached['ts'] < _SITEMAP_ITEM_TTL):
         return cached['xml']
     try:
@@ -384,7 +400,7 @@ def _sitemap_encyclopedia_monsters(base_url):
                            COALESCE(
                                (SELECT name FROM monster_names
                                 WHERE monster_ankama_id = n.monster_ankama_id
-                                  AND language = 'en'
+                                  AND language = '%s'
                                 LIMIT 1),
                                (SELECT name FROM monster_names
                                 WHERE monster_ankama_id = n.monster_ankama_id
@@ -393,7 +409,8 @@ def _sitemap_encyclopedia_monsters(base_url):
                     FROM dropped_monsters n
                     WHERE n.drops >= 2 %s
                     ORDER BY n.monster_ankama_id
-                    """ % (' UNION ALL '.join(drop_sources), substantial))
+                    """ % (' UNION ALL '.join(drop_sources), language,
+                           substantial))
                 for monster_id, name in cursor.fetchall():
                     if not has_display_name({'en': name}):
                         continue
@@ -495,13 +512,42 @@ def _sitemap_pages(base_url):
 
 
 # One file per section: Google refuses a sitemap over 50000 urls.
-SITEMAP_SECTIONS = (
-    ('pages', _sitemap_pages),
+_LOCALISED_BUILDERS = (
     ('items', _sitemap_encyclopedia_items),
     ('sets', _sitemap_encyclopedia_sets),
     ('resources', _sitemap_encyclopedia_resources),
     ('monsters', _sitemap_encyclopedia_monsters),
 )
+
+# Languages submitted beyond English. One file each, rather than one big file,
+# so Search Console reports coverage per language: whether Spanish indexes is
+# the question worth answering, and a merged file cannot answer it.
+#
+# Chosen from measured audience, not from what is translated. Analytics over 30
+# days: Spanish 789 users (Colombia 417, Chile 161, Spain 141, Mexico 70),
+# French 438, Portuguese 217 (Brazil). German appears nowhere in the top seven
+# countries, so its pages stay served and stay linked by hreflang -- which is
+# enough for Google to find them -- but submitting 40 000 more URLs for an
+# audience that has not shown up would be asking for crawl budget we have no
+# reason to spend. Add 'de' here the day the numbers justify it.
+_SITEMAP_LANGUAGES = ('fr', 'es', 'pt')
+
+
+def _localised_section(builder, language):
+    def build(base_url):
+        return builder(base_url, language=language)
+    return build
+
+
+# The English sections keep their names, so the sitemaps already submitted to
+# Search Console are untouched.
+SITEMAP_SECTIONS = ((
+    ('pages', _sitemap_pages),
+) + _LOCALISED_BUILDERS + tuple(
+    ('%s-%s' % (section, language), _localised_section(builder, language))
+    for language in _SITEMAP_LANGUAGES
+    for section, builder in _LOCALISED_BUILDERS
+))
 SITEMAP_BASE = 'https://dofusfashionista.gg'
 
 
@@ -539,7 +585,7 @@ urlpatterns = [
         name='favicon'),
     re_path(r'^\.well-known/appspecific/com\.chrome\.devtools\.json$', chrome_devtools_view),
     re_path(r'^sitemap\.xml$', sitemap_view, name='sitemap'),
-    re_path(r'^sitemap-(?P<section>[a-z]+)\.xml$', sitemap_section_view,
+    re_path(r'^sitemap-(?P<section>[a-z-]+)\.xml$', sitemap_section_view,
             name='sitemap_section'),
     # Staff-only dashboard, gated in the view; 404 for everyone else.
     re_path(r'^admin-tools/$', admin_tools_view.admin_tools, name='admin_tools'),
