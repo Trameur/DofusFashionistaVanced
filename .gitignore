@@ -69,3 +69,9 @@ data_assets_itemsdataroot.asset.bundle
 itemscraper/skin_features.pkl
 itemscraper/item_skins_topk.json
 itemscraper/item_skins_new.json
+
+# Ankama's Wakfu game data. Mirrored locally by itemscraper/get_items_wakfu.py
+# and deliberately never committed: the WAKFU DATA USE LICENSE grants personal
+# use and forbids transferring the data on, so a public repository is out.
+itemscraper/wakfu_raw/
+itemscraper/transformed_wakfu.json
