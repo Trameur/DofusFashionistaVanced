@@ -76,9 +76,7 @@ itemscraper/item_skins_new.json
 itemscraper/wakfu_raw/
 itemscraper/transformed_wakfu.json
 
-# Secrets d'execution : jeton du bot Discord, cles d'API. Jamais versionne.
-# Sans cette regle, un `git add -A` publie le jeton et donne le controle
-# du serveur Discord a qui lit le depot.
+# Local environment variables. Never committed.
 .env
 .env.*
 !.env.example
