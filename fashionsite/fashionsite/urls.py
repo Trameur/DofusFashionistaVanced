@@ -428,8 +428,14 @@ def _sitemap_encyclopedia_monsters(base_url, language='en'):
         seen = set()
         for game_version in dofus_versions():
             version_prefix = '' if game_version == 'dofus3' else '/%s' % game_version
+            # The hub carries its language in a url prefix, so a translated one
+            # is a different url and _sitemap_pages already submits all of
+            # them. Emitting it here regardless of language put the English hub
+            # in the French, Spanish and Portuguese sitemaps too -- the same
+            # url submitted four times, and one entry per translated sitemap
+            # that was not in that sitemap's language.
             list_link = '%s/encyclopedia/monsters/' % version_prefix
-            if list_link not in seen:
+            if language == 'en' and list_link not in seen:
                 seen.add(list_link)
                 rows.append(_sitemap_url(base_url + list_link, 'weekly', '0.7'))
 

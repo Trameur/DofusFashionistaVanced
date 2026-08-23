@@ -1329,3 +1329,48 @@ class SubmittedHubCanonicalIgnoresTheBrowserTests(TestCase):
                       '%s is not served in Spanish' % path)
         self.assertIn('https://dofusfashionista.gg/es/encyclopedia/', html,
                       'a Spanish page links to a hub that is not Spanish')
+
+
+class ALanguageSitemapOnlyHoldsThatLanguageTests(TestCase):
+    """A translated sitemap must not submit another language's url.
+
+    Entity urls carry their language in the slug, so they look unprefixed and
+    that is correct. Hub urls carry it in a path prefix, and the monster
+    sitemap emitted its hub for every language: /encyclopedia/monsters/ --
+    the English one -- appeared in the French, Spanish and Portuguese sitemaps
+    as well as its own. The same url submitted four times, telling Google the
+    translated sitemaps contain a page they do not.
+    """
+
+    HUB = '/encyclopedia/monsters/'
+
+    def _locations(self, name):
+        xml = self.client.get('/sitemap-%s.xml' % name).content.decode('utf-8')
+        return re.findall(r'<loc>([^<]+)</loc>', xml)
+
+    def test_no_translated_sitemap_submits_an_unprefixed_hub(self):
+        for language in ('fr', 'es', 'pt'):
+            for location in self._locations('monsters-%s' % language):
+                path = location.replace('https://dofusfashionista.gg', '')
+                if path.endswith(self.HUB):
+                    self.assertTrue(
+                        path.startswith('/%s/' % language),
+                        'the %s sitemap submits %s, which is not in %s'
+                        % (language, path, language))
+
+    def test_the_english_sitemap_still_submits_its_hub(self):
+        """Removing it everywhere would drop the English hub entirely: no other
+        sitemap submits the unprefixed one."""
+        paths = [l.replace('https://dofusfashionista.gg', '')
+                 for l in self._locations('monsters')]
+        self.assertIn(self.HUB, paths)
+
+    def test_a_hub_is_submitted_once_and_only_once(self):
+        counted = {}
+        for name in ('monsters', 'monsters-fr', 'monsters-es', 'monsters-pt',
+                     'pages'):
+            for location in self._locations(name):
+                if location.endswith(self.HUB):
+                    counted[location] = counted.get(location, 0) + 1
+        repeated = {url: n for url, n in counted.items() if n > 1}
+        self.assertEqual(repeated, {}, 'submitted more than once: %s' % repeated)
