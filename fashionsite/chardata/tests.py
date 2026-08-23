@@ -1562,6 +1562,27 @@ class CanonicalUrlTests(TestCase):
         self.assertEqual(self._canonical('/retro/'),
                          'https://dofusfashionista.gg/retro/')
 
+    def test_a_version_page_that_copies_the_live_one_points_at_it(self):
+        """The other half of the rule above. A version page is its own page
+        when it shows something else -- data, name or art. When it shows
+        exactly the live page, claiming to be a second one is what fills an
+        index with duplicates."""
+        from chardata.official_site import get_item_link
+        from chardata.version_content import (repeats_the_live_version,
+                                              _cached_signatures)
+        for (ankama_type, ankama_id), (_d, name, _k) in sorted(
+                _cached_signatures('dofus2').items()):
+            if not repeats_the_live_version('dofus2', ankama_type, ankama_id):
+                continue
+            variant = get_item_link(ankama_type, ankama_id, name, 'dofus2')
+            live = get_item_link(ankama_type, ankama_id, name, 'dofus3')
+            if not variant or self.client.get(variant).status_code != 200:
+                continue
+            self.assertEqual(self._canonical(variant),
+                             'https://dofusfashionista.gg' + live)
+            return
+        self.skipTest('no dofus2 item currently copies the live version')
+
     def test_version_prefixed_encyclopedia_pages_keep_self_canonical(self):
         # Encyclopedia data, items, recipes and calculations differ by version.
         self.assertEqual(self._canonical('/retro/encyclopedia/'),
@@ -1577,14 +1598,21 @@ class CanonicalUrlTests(TestCase):
         self.assertEqual(self._canonical('/touch/encyclopedia/set/1/'),
                          'https://dofusfashionista.gg%s'
                          % get_set_link(1, touch_set_name, 'touch'))
+        # An item whose Dofus 2 page really differs. Taking the first one that
+        # renders picked item 44, which carries identical data, name and art on
+        # both versions -- so it rightly points at the live page instead, and
+        # the rule under test does not apply to it.
+        from chardata.version_content import repeats_the_live_version
         s = get_structure('dofus2')
         it = None
         for cand in s.get_concatenated_items_lists():
             if (cand and not cand.removed and getattr(cand, 'ankama_id', None)
-                    and getattr(cand, 'ankama_type', None)):
+                    and getattr(cand, 'ankama_type', None)
+                    and not repeats_the_live_version(
+                        'dofus2', cand.ankama_type, cand.ankama_id)):
                 it = cand
                 break
-        self.assertIsNotNone(it, 'no renderable dofus2 item found')
+        self.assertIsNotNone(it, 'no diverging dofus2 item found')
         canon = self._canonical('/dofus2/encyclopedia/item/%s/%s-x/'
                                 % (it.ankama_type, it.ankama_id))
         self.assertTrue(canon.startswith('https://dofusfashionista.gg/dofus2/encyclopedia/item/'),
@@ -16693,6 +16721,67 @@ class ComboReadsWhatThePageSendsTests(SimpleTestCase):
                 got = {c.name: c.effects for c
                        in castable_spells('Iop', 200, 'dofus3', levels=silly)}
                 self.assertEqual(plain['Pressure'], got['Pressure'])
+
+
+class WakfuStatCatalogueTests(SimpleTestCase):
+    """Wakfu's gear vocabulary, checked against the build on disk.
+
+    A Wakfu patch that invents a characteristic must fail here rather than have
+    the importer drop the line without a word.
+    """
+
+    DUMP = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), 'itemscraper', 'transformed_wakfu.json')
+
+    def _stats_in_the_data(self):
+        if not os.path.exists(self.DUMP):
+            self.skipTest('no Wakfu build decoded; run '
+                          'itemscraper/get_items_wakfu.py')
+        with io.open(self.DUMP, encoding='utf-8') as handle:
+            dump = json.load(handle)
+        found = set()
+        for item in dump['equipment']:
+            for line in item['lines']:
+                if line.get('stat'):
+                    found.add(line['stat'])
+        return found, dump['version']
+
+    def test_every_stat_the_data_carries_is_in_the_catalogue(self):
+        from fashionistapulp.wakfu_stats import WAKFU_STATS
+        found, version = self._stats_in_the_data()
+        self.assertTrue(found, 'the decoded build carries no stats at all')
+        self.assertEqual(set(), found - set(WAKFU_STATS),
+                         'build %s carries stats the catalogue does not name'
+                         % version)
+
+    def test_the_catalogue_claims_nothing_the_game_does_not_sell(self):
+        # The other direction, so a typo cannot sit in the catalogue unnoticed.
+        # Control is the one exception and it is named as such.
+        from fashionistapulp.wakfu_stats import (NOT_ON_GEAR_TODAY,
+                                                 WAKFU_STATS)
+        found, _version = self._stats_in_the_data()
+        self.assertEqual(set(NOT_ON_GEAR_TODAY), set(WAKFU_STATS) - found)
+
+    def test_the_spread_assumption_is_declared_not_hidden(self):
+        # "232 Mastery with 2 elements" never says which two. What the planner
+        # assumes about that has to live in one named place.
+        from fashionistapulp.wakfu_stats import (MASTERY, RESISTANCE,
+                                                 SPREAD_LANDS_WHERE_THE_BUILD_WANTS,
+                                                 SPREAD_MASTERY,
+                                                 SPREAD_RESISTANCE,
+                                                 WAKFU_STATS)
+        self.assertTrue(SPREAD_LANDS_WHERE_THE_BUILD_WANTS)
+        self.assertEqual(MASTERY, WAKFU_STATS[SPREAD_MASTERY])
+        self.assertEqual(RESISTANCE, WAKFU_STATS[SPREAD_RESISTANCE])
+
+    def test_wakfu_has_none_of_dofus_characteristics(self):
+        # The two games share a universe and not one statistic name.
+        from fashionistapulp.wakfu_stats import WAKFU_STATS
+        for dofus_only in ('str', 'int', 'cha', 'agi', 'pow', 'vit', 'pshdam',
+                           'perspedam', 'cridam'):
+            with self.subTest(stat=dofus_only):
+                self.assertNotIn(dofus_only, WAKFU_STATS)
+                self.assertNotIn(dofus_only.upper(), WAKFU_STATS)
 
 
 class GameVersionRegistryTests(SimpleTestCase):
