@@ -21,41 +21,37 @@ import discord_api  # noqa: E402
 
 GUILD = '1188892643766321173'
 
-#: Discord colours are integers. Amber for support, green for a shipped idea,
-#: red-brown for bug hunting, blue for the people others should ask.
+#: Two roles, not three, and both displayed the same way. A role named after a
+#: rank -- "Référent" -- reads as standing above the others, when what these
+#: people did was contribute in two different ways: they found what was wrong,
+#: or they asked for something that now exists. Whoever did both carries both
+#: badges, which says more than any title could, and says it without putting
+#: anyone underneath.
 ROLES = [
-    {
-        'name': 'Référent',
-        'color': 0x3E7CB1,
-        'hoist': True,
-        'why': "knows one version or one system deeply enough that the owner "
-               "builds from what they say",
-        'members': {
-            'FenixAP': "co-designed the smithmagic simulator across five long "
-                       "reports: missing runes, densities, impossible rolls, "
-                       "probability curves, transcendence rules. The owner "
-                       "wrote that he had never done smithmagic in his life "
-                       "and was learning from the tool.",
-            'Keysouke': "two years of precise reports that turned into "
-                        "features: locking an empty slot, unifying HP and "
-                        "Vitality, minimum stats at 0, the level edit no "
-                        "longer resetting AP/MP/Range. Also flagged the 3.7 "
-                        "characteristics overhaul before it landed.",
-            'Andromeda': "two messages, four real Touch defects: the proxy "
-                         "url change, shields gaining stats by feeding, "
-                         "equip conditions ignored, rune weights. All fixed "
-                         "within a fortnight.",
-            'AD#1938': "the Retro reference: base stat tiers, scrolls not "
-                       "counted in the tiers, the Divhugalch and the ice "
-                       "Dofus that do not exist there.",
-        },
-    },
     {
         'name': 'Chasseur de bugs',
         'color': 0xA84C3C,
-        'hoist': False,
+        'hoist': True,
         'why': "reported a defect that was reproduced and fixed",
         'members': {
+            'FenixAP': "five long reports on the smithmagic simulator: runes "
+                       "missing from the list, wrong densities, a rune that "
+                       "does not exist, impossible rolls being offered, "
+                       "probabilities off. Plus the base characteristic cost "
+                       "counting double, and fire heal lines read as fire "
+                       "damage. The owner had never done smithmagic and "
+                       "learnt it from these.",
+            'Keysouke': "the 50% resistance cap ignored in the minimum "
+                        "characteristics, prospecting not scaling with Chance, "
+                        "the Cire Momore set's MP ceiling, wild mounts "
+                        "carrying 22% resistance that does not exist in game, "
+                        "editing a level resetting AP/MP/Range.",
+            'Andromeda': "four Touch defects in two messages: the proxy url "
+                         "change, shields that gain their stats by feeding, "
+                         "equip conditions ignored, rune weights out of date.",
+            'AD#1938': "Retro: base stat tiers wrong, scrolls not counted in "
+                       "them, the Divhugalch and the ice Dofus offered where "
+                       "they cannot be obtained.",
             'Trak_age': "Touch: the worn koulosse staff removing AP instead "
                         "of granting it, trophies ignoring the set-bonus "
                         "condition, pets without stats, the scroll arithmetic.",
@@ -82,7 +78,7 @@ ROLES = [
     {
         'name': 'Idée en ligne',
         'color': 0x3F8F5E,
-        'hoist': False,
+        'hoist': True,
         'why': "suggested something that is running on the site today",
         'members': {
             'Keysouke': "locking an empty slot, and unifying HP with Vitality "
@@ -93,6 +89,8 @@ ROLES = [
                         "be compared. Shipped as the build score.",
             'Trak_age': "picking a project from the list instead of pasting "
                         "a url into the comparison tool.",
+            'FenixAP': "asked whether the generator could suggest the best "
+                       "transcendence rune for each item. They went in."
         },
     },
 ]
