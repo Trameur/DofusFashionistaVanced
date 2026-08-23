@@ -28,8 +28,15 @@ try:
 except ModuleNotFoundError:
     fashionista_config = importlib.import_module('fashionistapulp.fashionistapulp.fashionista_config')
 
+try:
+    game_versions = importlib.import_module('fashionistapulp.game_versions')
+except ModuleNotFoundError:
+    game_versions = importlib.import_module(
+        'fashionistapulp.fashionistapulp.game_versions')
+
 get_items_db_path = fashionista_config.get_items_db_path
 get_items_dump_path = fashionista_config.get_items_dump_path
+version_keys = game_versions.version_keys
 
 
 def _sanitize_dump_sql(sql_script):
@@ -70,7 +77,11 @@ def _build_db_file(target_path, dumped_db_path):
 
 def main():
     parser = argparse.ArgumentParser(description="Load item dump into SQLite database")
-    parser.add_argument("--game-version", default="dofus3", help="Game version (dofus3, beta, retro, touch)")
+    # From the registry rather than a hand-written list that had already gone
+    # stale twice: it named neither dofus2 nor wakfu.
+    parser.add_argument("--game-version", default="dofus3",
+                        choices=version_keys(include_experimental=True),
+                        help="Which version's db/dump pair to build")
     parser.add_argument("--force", action="store_true",
                         help="rebuild even when the database is already current")
     args = parser.parse_args()

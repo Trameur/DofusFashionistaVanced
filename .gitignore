@@ -75,3 +75,7 @@ itemscraper/item_skins_new.json
 # use and forbids transferring the data on, so a public repository is out.
 itemscraper/wakfu_raw/
 itemscraper/transformed_wakfu.json
+# The same data again, once it has been loaded into a database. Every Dofus
+# version tracks its db and its dump; these two must not follow that habit.
+fashionistapulp/fashionistapulp/items_wakfu.db
+fashionistapulp/fashionistapulp/item_db_dumped_wakfu.dump
