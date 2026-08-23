@@ -6777,3 +6777,7 @@ msgstr "am Ende einer Runde"
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"
 msgstr "Trifft später ein, nicht im Gesamtwert oben:"
+
+#: .\chardata\templates\chardata\support.html:33
+msgid "There is no advertising on the site, and I would like to keep it that way. Donations are what pays for the server."
+msgstr "Auf der Seite gibt es keine Werbung, und das soll auch so bleiben. Spenden bezahlen den Server."

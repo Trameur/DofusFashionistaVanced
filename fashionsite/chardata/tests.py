@@ -21058,3 +21058,57 @@ class DonationButtonTests(TestCase):
         for link in (getattr(settings, 'SUPPORT_LINKS', []) or []):
             self.assertNotIn('href="%s"' % link['url'], html,
                              'a raw donation link escapes the counter')
+
+
+class SupportPageFramingTests(TestCase):
+    """The donation ask, in the reader's own language.
+
+    A translated catalogue that never reaches the page is worth nothing, and
+    that failure is silent: gettext falls back to English and the page still
+    renders. So this asserts on what a Spanish reader actually receives, not on
+    the presence of an entry in a .po file.
+
+    The wording says the site carries no advertising and that donations pay the
+    server. It names no amount: what advertising would have earned is the
+    owner's business, not the reader's. And it frames the absence of ads as
+    what donations buy for everyone, rather than as a reward for those who pay
+    -- the mechanism DofusLab uses in the same game, and the only one the
+    evidence supports here.
+    """
+
+    PHRASES = {
+        'fr': 'aucune publicité sur le site',
+        'es': 'ninguna publicidad en la web',
+        'pt': 'nenhuma publicidade no site',
+        'de': 'keine Werbung',
+    }
+
+    def test_each_language_reads_it_in_its_own_words(self):
+        for langue, attendu in self.PHRASES.items():
+            page = self.client.get('/%s/support/' % langue)
+            if page.status_code == 404:
+                page = self.client.get('/support/', HTTP_ACCEPT_LANGUAGE=langue)
+            self.assertEqual(page.status_code, 200, langue)
+            html = page.content.decode('utf-8')
+            self.assertIn(attendu, html,
+                          'the %s reader gets no translated donation ask' % langue)
+
+    def test_english_still_says_it(self):
+        html = self.client.get(
+            '/support/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        self.assertIn('no advertising on the site', html)
+
+    def test_no_amount_is_ever_shown(self):
+        """The owner asked for no figure. A number here would also date badly
+        and invite the reader to weigh their gift against it."""
+        for langue in list(self.PHRASES) + ['en']:
+            html = self.client.get(
+                '/support/', HTTP_ACCEPT_LANGUAGE=langue).content.decode('utf-8')
+            debut = html.find('support-intro')
+            bloc = html[debut:debut + 1600] if debut != -1 else ''
+            for interdit in ('10 €', '10€', '€10', '10 EUR'):
+                self.assertNotIn(interdit, bloc, langue)
+
+    def test_the_donation_link_is_still_counted(self):
+        html = self.client.get('/support/').content.decode('utf-8')
+        self.assertIn('/out/donate/0/', html)

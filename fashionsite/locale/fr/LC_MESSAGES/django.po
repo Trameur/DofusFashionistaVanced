@@ -6813,3 +6813,7 @@ msgstr "à la fin d'un tour"
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"
 msgstr "Arrive plus tard, pas dans le total ci-dessus :"
+
+#: .\chardata\templates\chardata\support.html:33
+msgid "There is no advertising on the site, and I would like to keep it that way. Donations are what pays for the server."
+msgstr "Il n'y a aucune publicité sur le site, et j'aimerais que ça reste ainsi. Ce sont les dons qui paient le serveur."
