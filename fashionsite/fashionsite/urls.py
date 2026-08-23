@@ -194,6 +194,7 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
         from chardata.official_site import get_item_link
         from fashionistapulp.fashionista_config import get_items_db_path
         from fashionistapulp.game_versions import dofus_versions
+        from chardata.version_content import repeats_the_live_version
         seen = set()
         rows = []
         for game_version in dofus_versions():
@@ -235,6 +236,12 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
                     """ % (localized_name_sql, name_join_sql),
                     (language,) if has_item_names else ())
                 for item_id, ankama_type, ankama_id, name, english in cursor.fetchall():
+                    # A variant that repeats the live version canonicalises to
+                    # it, so submitting it asks Google to fetch a page in order
+                    # to be told to read another one.
+                    if repeats_the_live_version(game_version, ankama_type,
+                                                ankama_id):
+                        continue
                     names = dict(names_by_item.get(item_id) or {})
                     names['en'] = english
                     # Two languages sharing a name share a url, and the view

@@ -1052,3 +1052,75 @@ class HubAlternatesTest(TestCase):
             path = loc.replace('https://dofusfashionista.gg', '')
             with self.subTest(path=path):
                 self.assertEqual(self.client.get(path).status_code, 200, path)
+
+
+class RepeatedVersionVariantTest(TestCase):
+    """A version variant only claims to be its own page when it says something
+    the live one does not.
+
+    Measured across the catalogues: 3796 of beta's 3826 items are identical to
+    Dofus 3, against 531 of 3314 for Dofus 2 and roughly fifty for Touch and
+    Retro. Counting stats alone put Dofus 2 at 81.8%, which would have merged
+    away some three thousand pages that differ only by their recipe -- so the
+    comparison covers recipes and set bonuses too.
+    """
+
+    LIVE = '/encyclopedia/item/equipment/44-twiggy-sword/'
+    BETA = '/beta/encyclopedia/item/equipment/44-twiggy-sword/'
+
+    @staticmethod
+    def _canonical(html):
+        tag = re.search(r'<link[^>]*rel="canonical"[^>]*>', html)
+        return re.search(r'href="([^"]+)"', tag.group(0)).group(1) if tag else None
+
+    def test_the_measurement_still_holds(self):
+        from chardata.version_content import repeats_the_live_version
+        self.assertTrue(repeats_the_live_version('beta', 'equipment', 44))
+        self.assertFalse(repeats_the_live_version('dofus3', 'equipment', 44))
+
+    def test_a_repeating_variant_points_at_the_live_page(self):
+        html = self.client.get(self.BETA).content.decode('utf-8')
+        self.assertEqual(
+            self._canonical(html),
+            'https://dofusfashionista.gg' + self.LIVE)
+
+    def test_the_variant_still_answers(self):
+        # It canonicalises elsewhere; it is not withdrawn. A reader on the beta
+        # branch still needs the page.
+        self.assertEqual(self.client.get(self.BETA).status_code, 200)
+
+    def test_the_live_page_stays_its_own_canonical(self):
+        html = self.client.get(self.LIVE).content.decode('utf-8')
+        self.assertEqual(
+            self._canonical(html),
+            'https://dofusfashionista.gg' + self.LIVE)
+
+    def test_a_variant_that_differs_keeps_its_own_canonical(self):
+        from chardata.version_content import repeats_the_live_version
+        from chardata.official_site import get_item_link
+        from fashionistapulp.structure import get_structure
+
+        structure = get_structure()
+        divergent = None
+        for item in structure.get_concatenated_items_lists():
+            if item.ankama_id and not repeats_the_live_version(
+                    'retro', item.ankama_type, item.ankama_id):
+                path = get_item_link(item.ankama_type, item.ankama_id,
+                                     item.name, game_version='retro')
+                if path and self.client.get(path).status_code == 200:
+                    divergent = path
+                    break
+        self.assertIsNotNone(divergent, 'no divergent retro item to check')
+        canonical = self._canonical(
+            self.client.get(divergent).content.decode('utf-8'))
+        # Asserting the property, not a url built here: an item can be named
+        # differently in a version -- item 44 is "Powerful Twiggy Sword" on
+        # Retro -- so its canonical rightly carries the Retro name.
+        self.assertIsNotNone(canonical)
+        self.assertIn('/retro/', canonical,
+                      'a divergent variant must stay on its own version')
+
+    def test_a_repeating_variant_is_not_submitted(self):
+        xml = self.client.get('/sitemap-items.xml').content.decode('utf-8')
+        self.assertNotIn(self.BETA, xml)
+        self.assertIn(self.LIVE, xml)

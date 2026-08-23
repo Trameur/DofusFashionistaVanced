@@ -2229,9 +2229,20 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         variant_items=grouped_variants)
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
+    # A version whose data matches the live one shows the same page. Saying
+    # so is the difference between one page and two identical ones; the
+    # comparison is on the data, so the day beta diverges its pages become
+    # canonical in their own right with nothing to change.
+    from chardata.version_content import repeats_the_live_version
+    canonical_version = game_version
+    if repeats_the_live_version(game_version,
+                                representative_item.ankama_type,
+                                representative_item.ankama_id):
+        canonical_version = 'dofus3'
+
     canonical_path = get_item_link(representative_item.ankama_type,
                                    representative_item.ankama_id, localized_name,
-                                   game_version=game_version)
+                                   game_version=canonical_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
 
     # One absolute URL per language, for the hreflang block. Each is built with
@@ -2240,7 +2251,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     alternate_urls = build_alternate_urls(
         lambda name: get_item_link(representative_item.ankama_type,
                                    representative_item.ankama_id, name,
-                                   game_version=game_version),
+                                   game_version=canonical_version),
         {lang: structure.get_item_name_in_language(representative_item, lang)
          for lang in SUPPORTED_LANGUAGES},
         'https://dofusfashionista.gg')
