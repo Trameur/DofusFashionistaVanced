@@ -159,6 +159,9 @@
     <section class="admin-panel admin-panel-off" data-panel="pages">
         {% if dash.pages.collecting_since %}
         <p class="admin-note">Counting since {{ dash.pages.collecting_since }}. Ids in a path are folded into a placeholder, and nothing about the visitor is stored.</p>
+        {% if dash.pages.includes_robots %}
+        <p class="admin-note"><strong>Crawlers are excluded only since {{ dash.pages.robots_excluded_since }}.</strong> Anything counted before that date includes them, and cannot be corrected: the user agent was never stored. Pick a period starting after that date to read a number you can trust.</p>
+        {% endif %}
         <h2 class="admin-section-title">Page reads {{ dash.filters.unit_word }}</h2>
         {{ charts.pages_per_week|safe }}
         <div class="admin-two">

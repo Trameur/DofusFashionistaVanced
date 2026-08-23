@@ -630,8 +630,15 @@ def solution_linked(request, char_name, encoded_char_id):
                        exc_info=True)
         raise Http404
 
-    # Increment view count only once per IP per 24 hours
+    # Increment view count only once per IP per 24 hours, and only for a
+    # reader. Nothing filtered crawlers here, and a crawler fetching a shared
+    # build was counted exactly like a person reading it -- once per address,
+    # and the big crawlers hold thousands of addresses. The number shown under
+    # a build was therefore mostly machines, which is what made it look odd.
+    from chardata.middleware import looks_like_a_robot
     try:
+        if looks_like_a_robot(request):
+            return _solution(request, char.pk, True, encoded_char_id, char=char)
         ip_address = get_client_ip(request)
         if ip_address:  # Only track if we can get an IP
             twenty_four_hours_ago = timezone.now() - timedelta(hours=24)

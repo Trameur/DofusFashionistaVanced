@@ -202,6 +202,12 @@ class PageHitMiddleware:
     def count(self, request, response):
         if request.method != 'GET' or response.status_code != 200:
             return
+        # A page hit counted a crawler like a reader from the start. The
+        # numbers before this change are inflated and cannot be corrected --
+        # the user agent was never stored -- but from here they mean what they
+        # say.
+        if looks_like_a_robot(request):
+            return
         if not response.get('Content-Type', '').startswith('text/html'):
             return
         path = request.path_info

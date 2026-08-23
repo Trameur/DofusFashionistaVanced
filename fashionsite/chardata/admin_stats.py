@@ -10,6 +10,7 @@ from django.utils import timezone
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.encoded_char_id import encode_char_id
+
 from chardata.models import (BuildComment, BuildVote, Char, PageHit,
                              SolutionMemoryHits, UserAlias)
 
@@ -343,6 +344,14 @@ def _engagement(shared):
     return bands
 
 
+#: The day PageHitMiddleware started skipping crawlers. Everything counted
+#: before is inflated -- a crawler was counted exactly like a reader, and the
+#: user agent was never stored, so the old rows cannot be corrected. Naming the
+#: date lets the page say which of its numbers can be trusted instead of
+#: presenting two different things as one.
+ROBOTS_EXCLUDED_SINCE = datetime.date(2026, 8, 24)
+
+
 def pages(period, version):
     hits = PageHit.objects.filter(day__gte=period.start, day__lte=period.end)
     hits = _for_version(hits, version)
@@ -358,6 +367,8 @@ def pages(period, version):
                        for r in per_version],
         'per_week': period.series(buckets),
         'collecting_since': PageHit.objects.order_by('day').values_list('day', flat=True).first(),
+        'robots_excluded_since': ROBOTS_EXCLUDED_SINCE,
+        'includes_robots': period.start < ROBOTS_EXCLUDED_SINCE,
     }
 
 

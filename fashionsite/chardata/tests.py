@@ -5462,17 +5462,57 @@ class SharedSolutionPageTests(TestCase):
             minimal_solution=_pickle.dumps(minimal),
             owner=owner, link_shared=True, game_version='dofus3')
 
+    #: The test client sends no user agent, and a caller without one is read
+    #: as a robot -- rightly, since every browser sends one. A test about
+    #: readers has to look like a reader.
+    NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+               '(KHTML, like Gecko) Chrome/126.0 Safari/537.36')
+
     def test_shared_page_renders_and_counts_one_view(self):
         from chardata.models import Char
         from chardata.encoded_char_id import encode_char_id
         build = self._shared_build()
         before = Char.objects.get(pk=build.pk).modified_time
-        resp = self.client.get('/s/star/%s/' % encode_char_id(build.pk))
+        resp = self.client.get('/s/star/%s/' % encode_char_id(build.pk),
+                               HTTP_USER_AGENT=self.NAVIGATEUR)
         self.assertEqual(resp.status_code, 200)
         after = Char.objects.get(pk=build.pk)
         self.assertEqual(after.view_count, 1)
         self.assertEqual(after.modified_time, before,
                          'a mere view must not touch modified_time')
+
+    def test_a_crawler_reading_a_build_is_not_a_view(self):
+        """The number under a shared build counted machines like people.
+
+        Nothing filtered here, and the large crawlers hold thousands of
+        addresses, so the per-address limit did almost nothing against them.
+        That is what made the counts look wrong.
+        """
+        from chardata.models import BuildView, Char
+        from chardata.encoded_char_id import encode_char_id
+        build = self._shared_build()
+        url = '/s/star/%s/' % encode_char_id(build.pk)
+        for agent in ('Mozilla/5.0 (compatible; Googlebot/2.1; '
+                      '+http://www.google.com/bot.html)',
+                      'GPTBot/1.2', 'Mozilla/5.0 (compatible; AhrefsBot/7.0)',
+                      'facebookexternalhit/1.1', 'python-requests/2.31.0'):
+            reponse = self.client.get(url, HTTP_USER_AGENT=agent)
+            self.assertEqual(reponse.status_code, 200,
+                             'a crawler must still be served the page')
+        self.assertEqual(Char.objects.get(pk=build.pk).view_count, 0)
+        self.assertEqual(BuildView.objects.count(), 0,
+                         'a crawler left a row behind')
+
+    def test_the_page_still_answers_a_crawler(self):
+        """Not counting them is not the same as refusing them: the page has to
+        stay indexable."""
+        from chardata.encoded_char_id import encode_char_id
+        build = self._shared_build()
+        reponse = self.client.get(
+            '/s/star/%s/' % encode_char_id(build.pk),
+            HTTP_USER_AGENT='Mozilla/5.0 (compatible; Googlebot/2.1)')
+        self.assertEqual(reponse.status_code, 200)
+        self.assertIn(b'<html', reponse.content[:2000].lower())
 
     def test_shared_page_shows_weighted_build_score_without_saving(self):
         import pickle as _pickle
