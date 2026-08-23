@@ -1648,6 +1648,40 @@ class VersionSwitcherPathTests(SimpleTestCase):
         self.assertEqual(self._base_path('/retro/s/name/AbCdEf_/', 'retro'), '/')
 
 
+class AdsDoNotDependOnTheLanguagePrefixTests(SimpleTestCase):
+    """Whatever the ad settings say, they must say the same in every language.
+
+    ads() recognises a page by its path prefix, and the language work put a
+    prefix in front of every translated url. /es/guides/ matched neither the
+    version test nor any ad path, so the same page carried ads in English and
+    none in Spanish. The assertions compare the two answers rather than pinning
+    a value, because whether ads are on at all is a setting the owner changes.
+    """
+
+    PAIRS = (('/', '/es/'),
+             ('/encyclopedia/', '/es/encyclopedia/'),
+             ('/guides/', '/fr/guides/'),
+             ('/sharedbuilds/', '/pt/sharedbuilds/'))
+
+    def _ads(self, path, game_version='dofus3'):
+        from types import SimpleNamespace
+        from chardata.context_processors import ads
+        return ads(SimpleNamespace(path_info=path, game_version=game_version))
+
+    def test_a_translated_page_is_treated_like_its_english_twin(self):
+        for english, translated in self.PAIRS:
+            self.assertEqual(
+                self._ads(english)['ads_allowed'],
+                self._ads(translated)['ads_allowed'],
+                '%s and %s disagree on whether ads are allowed'
+                % (english, translated))
+
+    def test_the_language_prefix_does_not_hide_the_version_either(self):
+        self.assertEqual(
+            self._ads('/beta/encyclopedia/', 'beta')['ads_allowed'],
+            self._ads('/es/beta/encyclopedia/', 'beta')['ads_allowed'])
+
+
 class VersionSwitcherInEveryLanguageTests(TestCase):
     """Every link the switcher offers has to answer, in every language.
 

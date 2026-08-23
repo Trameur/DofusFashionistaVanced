@@ -152,8 +152,14 @@ def ads(request):
     if not config.get('enabled', True):
         return {'ads_allowed': False, 'ads_enabled': False, 'ad_slots': {}}
     client = config.get('client', DEFAULT_AD_CLIENT)
-    path = _without_version(request.path_info,
-                            getattr(request, 'game_version', 'dofus3'))
+    # The language prefix sits in front of the version (/es/beta/guides/), so it
+    # has to come off before either the version or any ad path prefix can be
+    # recognised. Every translated page otherwise fell through all of them and
+    # carried no ad at all -- the same page paying on /guides/ and not on
+    # /es/guides/.
+    from chardata.url_language import split_language_prefix
+    _language_prefix, path = split_language_prefix(request.path_info)
+    path = _without_version(path, getattr(request, 'game_version', 'dofus3'))
     slots = config.get('slots') or {}
     opted_in = any(path.startswith(prefix) and slots.get(key)
                    for prefix, key in OPTIONAL_AD_PATHS.items())
