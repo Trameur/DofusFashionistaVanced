@@ -43,6 +43,7 @@ import datetime
 import io
 import glob
 import json
+from django.utils import timezone
 import os
 import sys
 import re
@@ -20748,3 +20749,204 @@ class ActionEndpointsRefuseGetTests(TestCase):
         has to get past it and be handled -- whatever the view then answers."""
         for path in self.POST_ONLY:
             self.assertNotEqual(self.client.post(path).status_code, 405, path)
+
+
+class ArrivalSourceTests(SimpleTestCase):
+    """Telling a visit from outside apart from a click inside the site.
+
+    The whole point of the measurement: 77 % of this site's search clicks are
+    people typing its own name, so the open question is who ever hears of it.
+    Counting internal clicks as provenances would bury that answer under the
+    site's own navigation.
+    """
+
+    def _request(self, path='/', referrer=None, host='dofusfashionista.gg', **params):
+        from django.test import RequestFactory
+        extra = {'HTTP_HOST': host}
+        if referrer is not None:
+            extra['HTTP_REFERER'] = referrer
+        return RequestFactory().get(path, data=params, **extra)
+
+    def _source(self, **kwargs):
+        from chardata.middleware import arrival_source
+        return arrival_source(self._request(**kwargs))
+
+    def test_a_click_inside_the_site_is_not_a_provenance(self):
+        """Django's default referrer policy is same-origin, so an internal
+        click DOES carry a referrer -- which is what makes this separable."""
+        for referrer in ('https://dofusfashionista.gg/encyclopedia/',
+                         'https://www.dofusfashionista.gg/guides/',
+                         'https://dofusfashionista.gg/'):
+            self.assertIsNone(self._source(referrer=referrer), referrer)
+
+    def test_no_referrer_at_all_is_a_direct_arrival(self):
+        self.assertEqual(self._source(), ('direct', 'none', ''))
+
+    def test_a_search_engine_is_recognised_as_such(self):
+        for referrer, attendu in (
+                ('https://www.google.com/', 'google'),
+                ('https://google.fr/search?q=dofus', 'google'),
+                ('https://www.bing.com/search?q=x', 'bing'),
+                ('https://duckduckgo.com/', 'duckduckgo'),
+                ('https://search.brave.com/', 'search')):
+            source, medium, _ = self._source(referrer=referrer)
+            self.assertEqual(medium, 'organic', referrer)
+            self.assertEqual(source, attendu, referrer)
+
+    def test_an_ai_assistant_gets_its_own_line(self):
+        """They already send more visitors here than every social network
+        together, so losing them among referrals would hide the one channel
+        that grew on its own."""
+        for referrer in ('https://chatgpt.com/', 'https://perplexity.ai/'):
+            source, medium, _ = self._source(referrer=referrer)
+            self.assertEqual(medium, 'assistant', referrer)
+            self.assertIn(source, ('chatgpt.com', 'perplexity.ai'))
+
+    def test_anything_else_is_a_referral(self):
+        source, medium, _ = self._source(referrer='https://www.youtube.com/watch?v=x')
+        self.assertEqual((source, medium), ('youtube.com', 'referral'))
+
+    def test_utm_wins_over_the_referrer(self):
+        """A link handed to a creator is the only way to tell apart two visits
+        a browser reports identically."""
+        got = self._source(referrer='https://www.youtube.com/', utm_source='torrente',
+                           utm_medium='video', utm_campaign='sets-es')
+        self.assertEqual(got, ('torrente', 'video', 'sets-es'))
+
+    def test_utm_alone_still_names_a_medium(self):
+        source, medium, campaign = self._source(utm_source='discord')
+        self.assertEqual((source, medium, campaign), ('discord', 'utm', ''))
+
+    def test_nothing_longer_than_its_column(self):
+        """A referrer is sender-controlled: it must not be able to make the
+        insert fail, which would lose the count for everyone that day."""
+        got = self._source(utm_source='s' * 400, utm_medium='m' * 400,
+                           utm_campaign='c' * 400)
+        self.assertEqual([len(x) for x in got], [100, 40, 60])
+        source, _medium, _campaign = self._source(
+            referrer='https://%s.com/' % ('h' * 300))
+        self.assertLessEqual(len(source), 100)
+
+    def test_a_broken_referrer_never_raises(self):
+        for referrer in ('', 'not a url', 'https://', '//', 'javascript:x',
+                         'https://:@/', 'http://user@host:99/x'):
+            try:
+                self._source(referrer=referrer)
+            except Exception as erreur:
+                self.fail('referrer %r raised %r' % (referrer, erreur))
+
+
+class ArrivalCountingTests(TestCase):
+    """The counter itself: aggregated by day, and holding nothing personal."""
+
+    def test_an_arrival_is_counted_once_per_day_and_source(self):
+        from chardata.models import VisitSource
+        for _ in range(3):
+            self.client.get('/', HTTP_REFERER='https://www.google.com/')
+        rows = VisitSource.objects.filter(source='google')
+        self.assertEqual(rows.count(), 1,
+                         'one row per day and source, not one per visit')
+        self.assertEqual(rows.first().count, 3)
+
+    HOST = 'dofusfashionista.gg'
+
+    def test_browsing_the_site_does_not_inflate_the_count(self):
+        from django.db.models import Sum
+        from chardata.models import VisitSource
+        self.client.get('/', HTTP_HOST=self.HOST,
+                        HTTP_REFERER='https://www.google.com/')
+        for path in ('/encyclopedia/', '/guides/', '/'):
+            self.client.get(path, HTTP_HOST=self.HOST,
+                            HTTP_REFERER='https://dofusfashionista.gg/')
+        self.assertEqual(
+            VisitSource.objects.aggregate(n=Sum('count'))['n'], 1)
+
+    def test_the_www_form_of_our_own_host_is_still_our_own_host(self):
+        """Old links still point at www, which 301s to the apex. If the two
+        spellings did not compare equal, every one of those readers would be
+        filed as a referral from the site to itself."""
+        from django.db.models import Sum
+        from chardata.models import VisitSource
+        self.client.get('/encyclopedia/', HTTP_HOST=self.HOST,
+                        HTTP_REFERER='https://www.dofusfashionista.gg/')
+        self.client.get('/encyclopedia/', HTTP_HOST='www.' + self.HOST,
+                        HTTP_REFERER='https://dofusfashionista.gg/')
+        self.assertIsNone(VisitSource.objects.aggregate(n=Sum('count'))['n'])
+
+    def test_the_country_comes_from_cloudflare_when_it_is_there(self):
+        from chardata.models import VisitSource
+        self.client.get('/', HTTP_REFERER='https://www.google.com/',
+                        HTTP_CF_IPCOUNTRY='co')
+        self.assertEqual(VisitSource.objects.first().country, 'CO')
+
+    def test_no_column_can_hold_an_address_or_an_identifier(self):
+        """The rule that keeps this out of consent-banner territory: the table
+        cannot describe a person even in principle."""
+        from chardata.models import VisitSource
+        champs = {f.name for f in VisitSource._meta.get_fields()}
+        for interdit in ('ip', 'ip_address', 'address', 'user', 'session',
+                         'visitor', 'user_agent', 'cookie', 'fingerprint'):
+            self.assertNotIn(interdit, champs)
+
+    def test_counting_never_breaks_the_page(self):
+        """A statistic is worth less than a page that answers."""
+        from unittest import mock
+        with mock.patch('chardata.middleware.record_arrival',
+                        side_effect=RuntimeError('boom')):
+            self.assertEqual(self.client.get('/').status_code, 200)
+
+
+class ProvenanceViewTests(TestCase):
+    """The page that reads the measurement. Admin-only, like the rest."""
+
+    URL = '/admin-provenance/'
+
+    def _admin(self):
+        from django.contrib.auth.models import User
+        user = User.objects.create_user('boss', 'boss@example.com', 'x')
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+        return user
+
+    def test_a_visitor_cannot_read_it(self):
+        self.assertEqual(self.client.get(self.URL).status_code, 404)
+
+    def test_a_signed_in_reader_cannot_read_it_either(self):
+        from django.contrib.auth.models import User
+        User.objects.create_user('reader', 'r@example.com', 'x')
+        self.client.login(username='reader', password='x')
+        self.assertEqual(self.client.get(self.URL).status_code, 404)
+
+    def test_the_admin_reads_it(self):
+        self.client.force_login(self._admin())
+        self.assertEqual(self.client.get(self.URL).status_code, 200)
+
+    def test_it_answers_before_any_data_exists(self):
+        """The first person to open it will do so on an empty table."""
+        self.client.force_login(self._admin())
+        page = self.client.get(self.URL)
+        self.assertEqual(page.status_code, 200)
+        self.assertIn('Aucune', page.content.decode('utf-8'))
+
+    def test_it_reports_what_was_counted(self):
+        from chardata.models import VisitSource
+        VisitSource.objects.create(day=timezone.localdate(), source='youtube.com',
+                                   medium='referral', language='es',
+                                   country='CO', count=7)
+        self.client.force_login(self._admin())
+        html = self.client.get(self.URL).content.decode('utf-8')
+        self.assertIn('youtube.com', html)
+        self.assertIn('7', html)
+
+    def test_the_support_rate_is_the_number_it_exists_for(self):
+        """Visits are already known; the share of readers willing to pay is
+        not, and it is what decides whether courting creators is worth it."""
+        from chardata.models import SupportClick, VisitSource
+        today = timezone.localdate()
+        VisitSource.objects.create(day=today, source='google', medium='organic',
+                                   count=1000)
+        SupportClick.objects.create(day=today, language='fr', count=5)
+        self.client.force_login(self._admin())
+        html = self.client.get(self.URL).content.decode('utf-8')
+        self.assertIn('0.5', html)

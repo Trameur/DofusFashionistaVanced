@@ -1,0 +1,83 @@
+{% extends "chardata/base.html" %}
+{% comment %}
+Admin-only. Reads the VisitSource table, which holds a count per day and per
+provenance -- no address, no cookie, no visitor. Deliberately plain: it is an
+instrument the owner reads once a week, not a page anyone else ever sees.
+{% endcomment %}
+
+{% block title %}Provenance{% endblock %}
+{% block canonical %}{% endblock %}
+{% block meta_robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+
+{% block main %}
+<div style="max-width:900px;margin:0 auto;padding:24px 16px">
+
+  <h1 style="margin:0 0 4px">Provenance des lecteurs</h1>
+  <p style="color:#777;margin:0 0 24px">
+    Comptage anonyme, une ligne par jour et par provenance.
+    {% if first_day %}Depuis le {{ first_day }}, jusqu'au {{ today }}.
+    {% else %}<strong>Aucune donnée pour l'instant</strong> : la mesure commence au premier déploiement.{% endif %}
+  </p>
+
+  {% for p in periods %}
+  <h2 style="margin:28px 0 6px">{{ p.days }} derniers jours</h2>
+  <p style="margin:0 0 10px;color:#777">
+    {{ p.total }} arrivée{{ p.total|pluralize }}.
+    {% if p.total %}
+      Clics « soutenir » : {{ p.support_clicks }} , soit <strong>{{ p.support_rate }} %</strong>.
+    {% else %}
+      Clics « soutenir » : {{ p.support_clicks }}.
+    {% endif %}
+  </p>
+
+  {% if p.rows %}
+  <div style="overflow-x:auto">
+  <table style="border-collapse:collapse;width:100%;font-size:14px">
+    <thead>
+      <tr style="text-align:left;border-bottom:2px solid #ccc">
+        <th style="padding:6px 10px">Source</th>
+        <th style="padding:6px 10px">Canal</th>
+        <th style="padding:6px 10px;text-align:right">Arrivées</th>
+        <th style="padding:6px 10px;text-align:right">Part</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in p.rows %}
+      <tr style="border-bottom:1px solid #eee">
+        <td style="padding:5px 10px">{{ r.source }}</td>
+        <td style="padding:5px 10px;color:#777">{{ r.medium }}</td>
+        <td style="padding:5px 10px;text-align:right;font-variant-numeric:tabular-nums">{{ r.visits }}</td>
+        <td style="padding:5px 10px;text-align:right;color:#777;font-variant-numeric:tabular-nums">{{ r.share }} %</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% if p.hidden %}<p style="color:#999;font-size:13px">et {{ p.hidden }} autre{{ p.hidden|pluralize }} source{{ p.hidden|pluralize }}.</p>{% endif %}
+  {% else %}
+  <p style="color:#999">Rien encore.</p>
+  {% endif %}
+  {% endfor %}
+
+  <h2 style="margin:32px 0 6px">Pays · 30 jours</h2>
+  {% if by_country %}
+  <p style="margin:0">
+    {% for c in by_country %}<span style="display:inline-block;margin:0 14px 6px 0">
+      <strong>{{ c.country }}</strong> <span style="color:#777">{{ c.visits }}</span></span>{% endfor %}
+  </p>
+  {% else %}
+  <p style="color:#999">Aucun pays reçu , Cloudflare n'envoie peut-être pas l'en-tête.</p>
+  {% endif %}
+
+  <h2 style="margin:28px 0 6px">Langue servie · 30 jours</h2>
+  {% if by_language %}
+  <p style="margin:0">
+    {% for l in by_language %}<span style="display:inline-block;margin:0 14px 6px 0">
+      <strong>{{ l.language }}</strong> <span style="color:#777">{{ l.visits }}</span></span>{% endfor %}
+  </p>
+  {% else %}
+  <p style="color:#999">Rien encore.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

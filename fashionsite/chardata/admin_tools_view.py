@@ -13,6 +13,7 @@ from collections import defaultdict
 from datetime import timedelta
 
 from django.http import Http404, JsonResponse
+from django.shortcuts import render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
@@ -239,3 +240,66 @@ def admin_comment_action(request):
 
     return JsonResponse({'success': True, 'comment_id': comment.id,
                          'deleted': comment.deleted, 'action': action})
+
+
+def provenance(request):
+    """Where the readers of the last 7 and 30 days came from.
+
+    The site has always known how many people come and nothing at all about how
+    they found it -- and 77 % of its search clicks are people typing its own
+    name, so "how they found it" is the only question that matters for growth.
+    This reads the table VisitSourceMiddleware fills, which holds a count per
+    day and per provenance and nothing about any person.
+
+    Admin-only, like every other page here: it is an instrument for the owner,
+    not a public dashboard.
+    """
+    _require_admin(request)
+
+    from django.db.models import Sum
+    from chardata.models import SupportClick, VisitSource
+
+    today = timezone.localdate()
+
+    def over(days):
+        since = today - timedelta(days=days - 1)
+        rows = (VisitSource.objects.filter(day__gte=since)
+                .values('source', 'medium')
+                .annotate(visits=Sum('count')).order_by('-visits'))
+        rows = list(rows)
+        total = sum(r['visits'] for r in rows) or 0
+        for r in rows:
+            r['share'] = round(100.0 * r['visits'] / total, 1) if total else 0.0
+        clicks = (SupportClick.objects.filter(day__gte=since)
+                  .aggregate(n=Sum('count'))['n']) or 0
+        return {
+            'days': days,
+            'rows': rows[:40],
+            'hidden': max(0, len(rows) - 40),
+            'total': total,
+            'support_clicks': clicks,
+            # The number the whole instrument exists to produce. Below the
+            # threshold written down in advance, courting content creators is
+            # not worth the evenings it would cost.
+            'support_rate': round(100.0 * clicks / total, 3) if total else None,
+        }
+
+    by_country = (VisitSource.objects
+                  .filter(day__gte=today - timedelta(days=29))
+                  .exclude(country='')
+                  .values('country').annotate(visits=Sum('count'))
+                  .order_by('-visits')[:12])
+    by_language = (VisitSource.objects
+                   .filter(day__gte=today - timedelta(days=29))
+                   .exclude(language='')
+                   .values('language').annotate(visits=Sum('count'))
+                   .order_by('-visits')[:8])
+
+    return render(request, 'chardata/provenance.html', {
+        'periods': [over(7), over(30)],
+        'by_country': list(by_country),
+        'by_language': list(by_language),
+        'first_day': (VisitSource.objects.order_by('day')
+                      .values_list('day', flat=True).first()),
+        'today': today,
+    })

@@ -319,6 +319,66 @@ from django.dispatch import receiver
 from django.utils import translation as _translation
 
 
+class VisitSource(models.Model):
+    """Where a reader came from, counted per day. No ip, no cookie, no id.
+
+    The site knows how many people come and not one thing about how they got
+    here: 77% of its search clicks are people typing its own name, which means
+    the growth question is not "does Google rank us" but "who ever hears of
+    us". Answering that needs the referrer, and nothing else -- so nothing else
+    is stored.
+
+    Rows are aggregated by day the way PageHit is, so the table stays small and
+    holds no trace of an individual. Storing no identifier and no address is
+    also what keeps this out of consent-banner territory: these are anonymous
+    statistics kept for the site's own operator alone.
+
+    Only ARRIVALS are counted -- a request whose referrer is absent or on
+    another host. Clicking from one page of the site to the next is not a
+    provenance, and counting it would drown the signal.
+    """
+    day = models.DateField(db_index=True)
+    #: 'google', 'youtube.com', 'discord', or whatever utm_source was given.
+    source = models.CharField(max_length=100)
+    #: 'organic', 'referral', 'none' for a bare arrival, or utm_medium.
+    medium = models.CharField(max_length=40)
+    campaign = models.CharField(max_length=60, blank=True)
+    language = models.CharField(max_length=10, blank=True)
+    #: Cloudflare's CF-IPCountry when it is in front; blank otherwise.
+    country = models.CharField(max_length=2, blank=True)
+    count = models.BigIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('day', 'source', 'medium', 'campaign', 'language',
+                           'country')
+
+    def __str__(self):
+        return '%s %s/%s %s' % (self.day, self.source, self.medium, self.count)
+
+
+class SupportClick(models.Model):
+    """How many readers asked how to support the site, per day and language.
+
+    The one number nobody has: what share of an audience would pay. Traffic is
+    already known and worth less than half a cent a visit, so measuring more of
+    it teaches nothing. This measures intent instead, and it is what decides
+    whether the hours it would take to court content creators are worth
+    spending at all.
+
+    A click, not a payment: the page it leads to takes no money and promises no
+    price. Counted per day like everything else here, with no visitor attached.
+    """
+    day = models.DateField(db_index=True)
+    language = models.CharField(max_length=10, blank=True)
+    count = models.BigIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('day', 'language')
+
+    def __str__(self):
+        return '%s %s %s' % (self.day, self.language, self.count)
+
+
 @receiver(user_logged_in)
 def _remember_language_on_login(sender, request, user, **kwargs):
     """Backfill the notification-email language; an explicit choice is never

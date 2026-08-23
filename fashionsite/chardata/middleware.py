@@ -2,7 +2,7 @@
 import re
 
 from django.db.models import F
-from django.utils import timezone
+from django.utils import timezone, translation
 
 from fashionistapulp.structure import set_current_game_version
 
@@ -75,6 +75,79 @@ def normalise_path(path, version):
     return '/'.join(parts)[:200]
 
 
+#: Hosts whose visit is a search result rather than a link someone placed.
+_SEARCH_HOSTS = ('google.', 'bing.', 'duckduckgo.', 'brave.', 'ecosia.',
+                 'yandex.', 'qwant.', 'baidu.', 'yahoo.', 'startpage.',
+                 'mojeek.', 'lycos.')
+
+#: Assistants that fetch a page because a reader asked them to. They already
+#: send this site more visitors than every social network combined, so they
+#: deserve their own line rather than being lost among referrals.
+_ASSISTANT_HOSTS = ('chatgpt.com', 'chat.openai.com', 'perplexity.ai',
+                    'claude.ai', 'copilot.microsoft.com', 'gemini.google.com')
+
+
+def _host_of(url):
+    """The bare host of a url, without scheme, port, or leading www."""
+    host = url.split('//', 1)[-1].split('/', 1)[0].split('?', 1)[0]
+    host = host.split('@')[-1].split(':', 1)[0].lower().strip('.')
+    return host[4:] if host.startswith('www.') else host
+
+
+def arrival_source(request):
+    """(source, medium, campaign) when a request is an arrival, else None.
+
+    An arrival is a request that did not come from a link on this site. The
+    distinction rests on Django's default referrer policy, `same-origin`: a
+    click from one page here to the next carries a referrer on this host, while
+    a visitor who typed the address or opened a bookmark carries none. So an
+    absent referrer really does mean "came straight here", and a referrer on
+    another host really is a link somebody placed somewhere.
+
+    A `utm_source` in the query string wins over the referrer: it is what a
+    link handed to a content creator carries, and it is the only way to tell
+    apart two visits that a browser reports identically.
+    """
+    given = (request.GET.get('utm_source') or '').strip()
+    if given:
+        return (given[:100].lower(),
+                (request.GET.get('utm_medium') or 'utm').strip()[:40].lower(),
+                (request.GET.get('utm_campaign') or '').strip()[:60].lower())
+
+    referrer = (request.META.get('HTTP_REFERER') or '').strip()
+    if not referrer:
+        return ('direct', 'none', '')
+
+    host = _host_of(referrer)
+    if not host or host == _host_of(request.get_host()):
+        return None  # a click inside the site is not a provenance
+
+    if any(host.startswith(s) or ('.' + s) in host for s in _SEARCH_HOSTS):
+        return (host.split('.', 1)[0][:100], 'organic', '')
+    if host in _ASSISTANT_HOSTS:
+        return (host[:100], 'assistant', '')
+    return (host[:100], 'referral', '')
+
+
+def record_arrival(request):
+    """Count one arrival, aggregated by day. Stores nothing about the person."""
+    found = arrival_source(request)
+    if found is None:
+        return
+    source, medium, campaign = found
+    from chardata.models import VisitSource
+    key = {
+        'day': timezone.localdate(),
+        'source': source, 'medium': medium, 'campaign': campaign,
+        'language': (translation.get_language() or '')[:10],
+        # Cloudflare puts the country in front of us; 'XX' when it cannot tell.
+        'country': (request.META.get('HTTP_CF_IPCOUNTRY') or '')[:2].upper(),
+    }
+    updated = VisitSource.objects.filter(**key).update(count=F('count') + 1)
+    if not updated:
+        VisitSource.objects.get_or_create(defaults={'count': 1}, **key)
+
+
 class PageHitMiddleware:
     """One counter per page per day. Never breaks the request it counts."""
 
@@ -104,3 +177,4 @@ class PageHitMiddleware:
         updated = PageHit.objects.filter(**key).update(count=F('count') + 1)
         if not updated:
             PageHit.objects.get_or_create(defaults={'count': 1}, **key)
+        record_arrival(request)

@@ -131,6 +131,8 @@ Disallow: */feed/
 
 # Staff-only tools
 Disallow: /admin-tools/
+Disallow: /admin-provenance/
+Disallow: */admin-provenance/
 Disallow: /admin-comment-action/
 
 # Account / auth
