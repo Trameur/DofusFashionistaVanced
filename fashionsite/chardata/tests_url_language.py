@@ -1164,3 +1164,42 @@ class RepeatedVersionVariantTest(TestCase):
         from chardata.version_content import repeats_the_live_version
         self.assertFalse(repeats_the_live_version('dofus3', 'equipment', 44))
         self.assertFalse(repeats_the_live_version(None, 'equipment', 44))
+
+
+class PageHitPathTest(TestCase):
+    """One page counts as one page, whatever prefixes its url carries.
+
+    Versions were already collapsed. Languages were not, so the same page
+    would have split across five rows the moment prefixed urls went live --
+    and /es/dofus2/encyclopedia/ was worse: with the version no longer at the
+    front, "dofus2" was mistaken for an id.
+    """
+
+    def test_prefixes_collapse_to_one_shape(self):
+        from chardata.middleware import normalise_path
+        for path, version in (('/encyclopedia/', 'dofus3'),
+                              ('/dofus2/encyclopedia/', 'dofus2'),
+                              ('/es/encyclopedia/', 'dofus3'),
+                              ('/es/dofus2/encyclopedia/', 'dofus2'),
+                              ('/pt/retro/encyclopedia/', 'retro')):
+            with self.subTest(path=path):
+                self.assertEqual(normalise_path(path, version),
+                                 '/encyclopedia/')
+
+    def test_the_home_page_stays_the_home_page(self):
+        from chardata.middleware import normalise_path
+        for path in ('/', '/es/', '/fr/'):
+            with self.subTest(path=path):
+                self.assertEqual(normalise_path(path, 'dofus3'), '/')
+
+    def test_a_localised_slug_is_kept(self):
+        # The slug names the page; only the prefixes are noise.
+        from chardata.middleware import normalise_path
+        self.assertEqual(
+            normalise_path('/fr/guides/tacle-et-fuite/', 'dofus3'),
+            '/guides/tacle-et-fuite/')
+
+    def test_shared_builds_still_collapse(self):
+        from chardata.middleware import normalise_path
+        self.assertEqual(
+            normalise_path('/s/Ocra/MzUzV.JJqQ__/', 'dofus3'), '/s/<build>/')

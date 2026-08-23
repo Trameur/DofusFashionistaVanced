@@ -53,6 +53,18 @@ class GameVersionMiddleware:
 
 
 def normalise_path(path, version):
+    """The shape of a page, for counting hits: ids, versions and languages
+    collapsed so one page is one row.
+
+    The language prefix has to go for the same reason the version one does:
+    /es/encyclopedia/ and /encyclopedia/ are the same page seen twice, and
+    keeping them apart splits every page's history across five rows -- while
+    /es/dofus2/encyclopedia/ was worse still, since "dofus2" no longer sat at
+    the front and got mistaken for an id.
+    """
+    parts = path.lstrip('/').split('/', 1)
+    if parts and parts[0] in _language_prefixes():
+        path = '/' + (parts[1] if len(parts) > 1 else '')
     if version != 'dofus3' and path.startswith('/' + version):
         path = path[len(version) + 1:] or '/'
     if HIT_SHARED.match(path):
