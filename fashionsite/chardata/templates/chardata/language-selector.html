@@ -6,12 +6,12 @@
         <form action="/i18n/setlang/" method="post" id="language-selector">
         {% csrf_token %}
             <input type="hidden" name="language" value="{{LANGUAGE_CODE}}" id="language-input">
-            {# Where to land after switching. Path only: set_language
-               refuses a destination whose host is not the current one,
-               and alternate_urls are absolute on the production domain. On a page whose language lives in
-               its url -- an item, a guide -- coming back to the same url would
-               simply re-impose the language that url names, so the flag would
-               do nothing at all for a visitor who is not signed in. #}
+            {% comment %}Where to land after switching. On a page whose language
+            lives in its url -- an item, a guide -- coming back to the same url
+            would simply re-impose the language that url names, so the flag
+            would do nothing at all for a visitor who is not signed in. Path
+            only: set_language refuses a destination whose host is not the
+            current one, and alternate_urls are absolute.{% endcomment %}
             <input type="hidden" name="next" value="" id="language-next">
             {% if LANGUAGE_CODE == 'pt' %}
             <img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" id="flag" title="{% trans 'Portuguese' %}" width="24" height="24"></img>
