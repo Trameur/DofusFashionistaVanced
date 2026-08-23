@@ -81,6 +81,8 @@ itemscraper/transformed_wakfu.json
 .env.*
 !.env.example
 
-# Community data pulled from Discord. Names and message excerpts of real
-# people: kept local, never in the repository.
 discordbot/contributions.json
+
+fashionistapulp/fashionistapulp/items_wakfu.db
+fashionistapulp/fashionistapulp/item_db_dumped_wakfu.dump
+

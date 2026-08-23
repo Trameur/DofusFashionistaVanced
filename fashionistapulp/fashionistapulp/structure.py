@@ -33,9 +33,11 @@ from .dofus_constants import (DamageDigest, DAMAGE_TYPES, NEUTRAL,
 from .dofus_stat import Stat
 from .fashion_util import normalize_name, strip_accents
 from .fashionista_config import (get_items_db_path, load_items_db_from_dump)
+from .game_versions import get_game_version
 from .item import Item
 from .set import Set
 from .translation import NON_EN_LANGUAGES
+from .wakfu_db import ITEM_RARITY_TABLE, STAT_ELEMENT_COUNT_TABLE
 from .weapon import Weapon, WeaponType
 from django.templatetags.i18n import language
 from django.utils.translation import gettext as _
@@ -128,6 +130,8 @@ class Structure:
         self.read_weapon_types_table()
         self.read_set_names_table()
         self.read_stats_of_item_table()
+        self.read_item_rarity_table()
+        self.read_stat_element_count_table()
         self.read_min_stat_to_equip_table()
         self.read_max_stat_to_equip_table()
         self.read_or_conditions_table()
@@ -327,6 +331,44 @@ class Structure:
             if has_range and entry[3] is not None and entry[4] is not None:
                 item.stat_ranges[stat_id] = (entry[3], entry[4])
             
+    def read_item_rarity_table(self):
+        """Wakfu's rarity tier. No Dofus version has the table at all."""
+        if not self._table_exists(ITEM_RARITY_TABLE):
+            return
+        c = self.conn.cursor()
+        for item_id, rarity in c.execute(
+                'SELECT item, rarity FROM %s' % ITEM_RARITY_TABLE):
+            item = self.get_item_by_id(item_id)
+            if item is not None:
+                item.rarity = rarity
+
+    def read_stat_element_count_table(self):
+        """How many elements a Wakfu mastery line spreads over.
+
+        The table names the line it qualifies rather than trusting the order
+        `stats_of_item` comes back in, so the two can be checked against each
+        other. Them disagreeing means the build is half-written, and a planner
+        that quietly values the wrong line is worse than one that refuses to
+        start.
+        """
+        if not self._table_exists(STAT_ELEMENT_COUNT_TABLE):
+            return
+        c = self.conn.cursor()
+        for item_id, line, stat_id, value, elements in c.execute(
+                'SELECT item, line, stat, value, elements FROM %s'
+                ' ORDER BY item, line' % STAT_ELEMENT_COUNT_TABLE):
+            item = self.get_item_by_id(item_id)
+            if item is None:
+                raise ValueError(
+                    '%s names item %s, which no items row carries'
+                    % (STAT_ELEMENT_COUNT_TABLE, item_id))
+            if (stat_id, value) not in item.stats:
+                raise ValueError(
+                    '%s line %s of item %s reads stat %s = %s, which is not a '
+                    'stat that item carries'
+                    % (STAT_ELEMENT_COUNT_TABLE, line, item_id, stat_id, value))
+            item.element_spread.append((stat_id, value, elements))
+
     def insert_turquoises(self):
         for value in range(11, 20 + 1):
             if ("Turquoise Dofus (#%d)" % value) not in self.dt_items_dict_name:
@@ -347,6 +389,12 @@ class Structure:
                 item.stats.append((stat_id, value))   
                 
     def insert_gelanos(self):
+        # The Gelano is a Dofus ring, synthesized because the scrapers cannot
+        # see its exo branch. A game that has no Ring type has no Gelano, and
+        # inserting one gave it a null type that separate_items then looked up
+        # by name.
+        if not get_game_version(self.game_version).dofus:
+            return
         for old_id, name in GELANO_DEPLOYED_IDS.get(self.game_version, {}).items():
             self.legacy_item_ids.setdefault(old_id, GELANO_IDS[name])
         if not self.get_set_by_name('Jellix Set', True):
@@ -767,8 +815,16 @@ class Structure:
         self.dt_sets_list = list(self.dt_sets_dict.values())
         self.stats_list = list(self.stat_dict.values())
         self.types_list = list(self.types_dict.values())
-        self.stats_list_names_sorted = [stat.name for stat in
-            sorted(self.stats_list, key=lambda stat: STAT_ORDER[stat.key])]
+        if get_game_version(self.game_version).dofus:
+            self.stats_list_names_sorted = [stat.name for stat in
+                sorted(self.stats_list, key=lambda stat: STAT_ORDER[stat.key])]
+        else:
+            # STAT_ORDER is the order a Dofus character sheet reads and it
+            # names none of Wakfu's characteristics. A game gets its own
+            # order, which here is the one its data was written in.
+            self.stats_list_names_sorted = [
+                stat.name for stat in sorted(self.stats_list,
+                                             key=lambda stat: stat.id)]
 
     def _is_item_available(self, item):
         return not item.removed

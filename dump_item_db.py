@@ -18,17 +18,20 @@
 
 import argparse
 import os
-import platform
 import subprocess
 import sqlite3
 import sys
 
 from fashionistapulp.fashionista_config import get_items_db_path, get_items_dump_path
+from fashionistapulp.game_versions import version_keys
 
 def main():
     parser = argparse.ArgumentParser(description="Dump an items db to its SQL dump file")
+    # From the registry, so a version added there needs no edit here. The list
+    # used to be written out by hand and had gone stale: Wakfu was refused by a
+    # script that dumps whatever tables it is given.
     parser.add_argument("--game-version", default="dofus3",
-                        choices=("dofus3", "beta", "dofus2", "touch", "retro"),
+                        choices=version_keys(include_experimental=True),
                         help="Which version's db/dump pair to use (default dofus3; "
                              "the argument used to be silently ignored)")
     args = parser.parse_args()
@@ -81,33 +84,16 @@ def _write_dump(items_db_path, target_path):
     """Write the SQL dump of items_db_path into target_path."""
     print(f"Dumping database from {items_db_path} to {target_path}")
 
-    if platform.system() == 'Windows':
-        # Vérifier si sqlite3.exe est disponible dans le PATH
-        try:
-            subprocess.run(["sqlite3", "--version"],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE,
-                           check=True)
-            sqlite_available = True
-        except (subprocess.SubprocessError, FileNotFoundError):
-            sqlite_available = False
-
-        if sqlite_available:
-            # Utiliser sqlite3 en ligne de commande si disponible
-            with open(target_path, 'w', encoding='utf-8') as f:
-                subprocess.run(["sqlite3", items_db_path, ".dump"],
-                               stdout=f,
-                               stderr=subprocess.PIPE,
-                               text=True,
-                               check=True)
-        else:
-            _iterdump_to(items_db_path, target_path)
-    else:
-        # Méthode originale pour Linux/macOS, dont le code de retour etait
-        # ignore: sqlite3 pouvait echouer et laisser un dump vide.
+    # The command line tool when it is there, the standard library when it is
+    # not. Only Windows had the fallback, and the machine the pipelines run on
+    # is the one with no sqlite3 on its PATH: there the dump raised
+    # FileNotFoundError and the whole update stopped.
+    try:
         with open(target_path, 'w', encoding='utf-8') as f:
             subprocess.run(['sqlite3', items_db_path, '.dump'],
-                           stdout=f, check=True)
+                           stdout=f, stderr=subprocess.PIPE, check=True)
+    except (OSError, subprocess.SubprocessError):
+        _iterdump_to(items_db_path, target_path)
 
 
 if __name__ == '__main__':

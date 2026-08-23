@@ -47,6 +47,12 @@ class Item:
         self.weird_conditions = {'light_set': False, 'prysmaradite': False}
         self.removed = False
         self.dofus_touch = False
+        # Wakfu only, and None everywhere else: a tier from 0 to 7 that is
+        # neither a statistic nor a yes-or-no mark. See wakfu_db.py.
+        self.rarity = None
+        # Wakfu only: [(stat, value, how many elements the line spreads over)]
+        # for the mastery lines whose elements the game data never names.
+        self.element_spread = []
 
     def __repr__(self):
         return '[%d]%s' % (self.id, self.name)

@@ -17110,6 +17110,203 @@ class WakfuSlotRuleTests(SimpleTestCase):
                          'the build uses a slot nothing declares')
 
 
+class WakfuItemDatabaseTests(SimpleTestCase):
+    """The two facts a Wakfu item carries that no Dofus database has room for.
+
+    Ankama's Wakfu data is never committed, so the database built below is a
+    small hand-written one in the shape the schema defines. It carries no game
+    data: one made-up hat, so that the readers can be shown finding the two
+    tables, ignoring them where they do not exist, and refusing a build whose
+    two halves disagree.
+    """
+
+    ITEM = 7
+
+    def _schema_of(self, version):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path(version))
+        try:
+            return [row[0] for row in conn.execute(
+                'SELECT sql FROM sqlite_master'
+                " WHERE sql IS NOT NULL AND name NOT LIKE 'sqlite_%'")]
+        finally:
+            conn.close()
+
+    def _wakfu_db(self, directory, element_lines=((1, 232, 2),)):
+        import sqlite3
+        from fashionistapulp.wakfu_db import create_tables
+        path = os.path.join(directory, 'items_wakfu.db')
+        conn = sqlite3.connect(path)
+        for statement in self._schema_of('dofus3'):
+            conn.execute(statement)
+        create_tables(conn)
+        conn.execute("INSERT INTO item_types (id, name) VALUES (1, 'HEAD')")
+        conn.execute('INSERT INTO stats (id, name, key) VALUES'
+                     " (1, 'Mastery', 'DMG_IN_PERCENT'), (2, 'Health', 'HP')")
+        conn.execute('INSERT INTO items (id, name, level, type, item_set,'
+                     ' ankama_id, ankama_type, removed, dofustouch) VALUES'
+                     " (?, 'Test Helmet', 65, 1, NULL, ?, 'equipment', 0, 0)",
+                     (self.ITEM, self.ITEM))
+        conn.execute('INSERT INTO stats_of_item (item, stat, value)'
+                     ' VALUES (?, 1, 232), (?, 2, 300)',
+                     (self.ITEM, self.ITEM))
+        conn.execute('INSERT INTO item_rarity (item, rarity) VALUES (?, 4)',
+                     (self.ITEM,))
+        for line, (stat, value, elements) in enumerate(element_lines):
+            conn.execute('INSERT INTO stat_element_count'
+                         ' (item, line, stat, value, elements)'
+                         ' VALUES (?, ?, ?, ?, ?)',
+                         (self.ITEM, line, stat, value, elements))
+        conn.commit()
+        conn.close()
+        return path
+
+    def _structure_over(self, path):
+        from unittest import mock
+        from fashionistapulp import structure as structure_module
+        with mock.patch.object(structure_module, 'get_items_db_path',
+                               return_value=path):
+            return structure_module.Structure('wakfu')
+
+    def test_the_two_tables_are_read_off_a_wakfu_database(self):
+        with tempfile.TemporaryDirectory() as directory:
+            structure = self._structure_over(self._wakfu_db(directory))
+        item = structure.get_item_by_id(self.ITEM)
+        self.assertEqual(4, item.rarity)
+        self.assertEqual([(1, 232, 2)], item.element_spread)
+
+    def test_more_than_one_spread_line_keeps_them_apart(self):
+        # The whole reason the count cannot live in stats_of_item: two mastery
+        # lines on one item are the same stat with different element counts.
+        lines = ((1, 232, 2), (1, 90, 1))
+        with tempfile.TemporaryDirectory() as directory:
+            path = self._wakfu_db(directory, element_lines=lines)
+            import sqlite3
+            conn = sqlite3.connect(path)
+            conn.execute('INSERT INTO stats_of_item (item, stat, value)'
+                         ' VALUES (?, 1, 90)', (self.ITEM,))
+            conn.commit()
+            conn.close()
+            structure = self._structure_over(path)
+        item = structure.get_item_by_id(self.ITEM)
+        self.assertEqual([(1, 232, 2), (1, 90, 1)], item.element_spread)
+
+    def test_an_element_line_the_item_does_not_carry_is_refused(self):
+        # A half-written build, where the mastery line names a value no
+        # stats_of_item row carries. A planner that valued the wrong line here
+        # would answer a question about gear the player cannot own.
+        with tempfile.TemporaryDirectory() as directory:
+            path = self._wakfu_db(directory, element_lines=((1, 999, 2),))
+            with self.assertRaises(ValueError) as caught:
+                self._structure_over(path)
+        self.assertIn('stat_element_count', str(caught.exception))
+
+    def test_a_dofus_database_has_neither_table_and_still_reads(self):
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.wakfu_db import (ITEM_RARITY_TABLE,
+                                              STAT_ELEMENT_COUNT_TABLE)
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        for version in ('dofus3', 'retro'):
+            with self.subTest(version=version):
+                conn = sqlite3.connect(get_items_db_path(version))
+                try:
+                    present = {row[0] for row in conn.execute(
+                        "SELECT name FROM sqlite_master WHERE type = 'table'")}
+                finally:
+                    conn.close()
+                self.assertNotIn(ITEM_RARITY_TABLE, present)
+                self.assertNotIn(STAT_ELEMENT_COUNT_TABLE, present)
+                item = get_structure(version).get_available_items_list()[0]
+                self.assertIsNone(item.rarity)
+                self.assertEqual([], item.element_spread)
+
+    def test_no_dofus_ring_is_invented_for_a_game_that_has_no_rings(self):
+        # The Gelano is synthesized because the Dofus scrapers cannot see its
+        # exo branch. Wakfu has no Gelano and no Ring type, so the synthetic
+        # ring used to arrive with a null type that separate_items looked up.
+        with tempfile.TemporaryDirectory() as directory:
+            structure = self._structure_over(self._wakfu_db(directory))
+        names = {item.name for item in structure.get_items_list()}
+        names.update(item.name for item in structure.get_items_list(True))
+        self.assertEqual({'Test Helmet'}, names)
+        self.assertEqual([], structure.get_sets_list(True))
+        self.assertEqual([], structure.get_sets_list(False))
+
+    def test_both_db_scripts_know_every_version_the_registry_knows(self):
+        # Both scripts wrote the list of versions out by hand and both lists
+        # had gone stale, so a version the registry declares could not be
+        # dumped or loaded at all.
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        from fashionistapulp.game_versions import version_keys
+        root = get_fashionista_path()
+        env = dict(os.environ,
+                   PYTHONPATH=os.path.join(root, 'fashionistapulp'))
+        for script in ('dump_item_db.py', 'load_item_db.py'):
+            with self.subTest(script=script):
+                done = subprocess.run(
+                    [sys.executable, os.path.join(root, script),
+                     '--game-version', 'not-a-game'],
+                    env=env, capture_output=True, text=True)
+                self.assertNotEqual(0, done.returncode)
+                said = done.stderr + done.stdout
+                for key in version_keys(include_experimental=True):
+                    self.assertIn("'%s'" % key, said)
+
+    def test_the_two_tables_survive_a_dump_and_a_reload(self):
+        # The dump is the shape a database is rebuilt from, and a table it
+        # drops is a table the site never sees again. Reloaded the way
+        # load_item_db.py reloads it, from the dump's own SQL.
+        import importlib
+        import sqlite3
+        from fashionistapulp.wakfu_db import (ITEM_RARITY_TABLE,
+                                              STAT_ELEMENT_COUNT_TABLE)
+        dumper = importlib.import_module('dump_item_db')
+        loader = importlib.import_module('load_item_db')
+        with tempfile.TemporaryDirectory() as directory:
+            source = self._wakfu_db(directory)
+            dump = os.path.join(directory, 'wakfu.dump')
+            dumper._write_dump(source, dump)
+            with io.open(dump, encoding='utf-8') as handle:
+                sql = loader._sanitize_dump_sql(handle.read())
+            for table in (ITEM_RARITY_TABLE, STAT_ELEMENT_COUNT_TABLE):
+                self.assertIn(table, sql, '%s is not in the dump' % table)
+            rebuilt = os.path.join(directory, 'rebuilt.db')
+            connection = sqlite3.connect(rebuilt)
+            connection.executescript(sql)
+            connection.commit()
+            connection.close()
+            structure = self._structure_over(rebuilt)
+        item = structure.get_item_by_id(self.ITEM)
+        self.assertEqual(4, item.rarity)
+        self.assertEqual([(1, 232, 2)], item.element_spread)
+
+    def test_the_wakfu_database_and_its_dump_are_never_committed(self):
+        # Ankama's licence grants personal use and forbids passing the data
+        # on. Every Dofus version tracks its database and its dump, so without
+        # a rule the Wakfu pair would be committed the day it is built.
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        from fashionistapulp.game_versions import GAME_VERSIONS
+        root = get_fashionista_path()
+        if not os.path.isdir(os.path.join(root, '.git')):
+            self.skipTest('not a git checkout')
+        wakfu = GAME_VERSIONS['wakfu']
+        for name in (wakfu.db_file, wakfu.dump_file):
+            path = os.path.join('fashionistapulp', 'fashionistapulp', name)
+            with self.subTest(path=path):
+                ignored = subprocess.run(
+                    ['git', 'check-ignore', '-q', path],
+                    cwd=root, capture_output=True)
+                self.assertEqual(0, ignored.returncode,
+                                 '%s is not ignored' % path)
+                tracked = subprocess.run(
+                    ['git', 'ls-files', '--error-unmatch', path],
+                    cwd=root, capture_output=True)
+                self.assertNotEqual(0, tracked.returncode,
+                                    '%s is tracked' % path)
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 
