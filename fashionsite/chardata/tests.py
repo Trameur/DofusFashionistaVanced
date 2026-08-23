@@ -14750,11 +14750,25 @@ class AdminDashboardTests(TestCase):
 
     def test_reading_a_page_is_counted_without_anything_about_the_reader(self):
         from chardata.models import PageHit
-        self.client.get('/about/')
-        self.client.get('/about/')
+        # A caller with no user agent is read as a crawler, and crawlers are no
+        # longer counted. This test is about a reader, so it looks like one.
+        navigateur = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                      'AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/126.0 Safari/537.36')
+        self.client.get('/about/', HTTP_USER_AGENT=navigateur)
+        self.client.get('/about/', HTTP_USER_AGENT=navigateur)
         hit = PageHit.objects.filter(path='/about/').first()
         self.assertIsNotNone(hit)
         self.assertEqual(hit.count, 2)
+
+    def test_a_crawler_reading_a_page_is_not_counted(self):
+        """The bias that made the page numbers look wrong: a crawler was
+        counted exactly like a reader."""
+        from chardata.models import PageHit
+        for agent in ('Mozilla/5.0 (compatible; Googlebot/2.1)', 'GPTBot/1.2',
+                      'python-requests/2.31.0'):
+            self.client.get('/about/', HTTP_USER_AGENT=agent)
+        self.assertFalse(PageHit.objects.filter(path='/about/').exists())
         self.assertEqual([f.name for f in PageHit._meta.get_fields()],
                          ['id', 'day', 'path', 'game_version', 'count'])
 
