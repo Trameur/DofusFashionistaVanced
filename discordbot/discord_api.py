@@ -99,6 +99,26 @@ def get(made, path, **params):
     raise RuntimeError('%s: still rate limited after %d tries' % (path, _MAX_TRIES))
 
 
+def write(made, methode, path, **corps):
+    """PUT/POST/PATCH, honouring rate limits like get() does.
+
+    Discord's write buckets are much tighter than its read ones: assigning a
+    dozen roles in a loop hits 429 immediately, and a 429 that is not waited
+    out is simply a lost assignment.
+    """
+    for _essai in range(_MAX_TRIES):
+        answer = made.request(methode, API + path,
+                              json=corps or None, timeout=30)
+        if answer.status_code == 429:
+            wait = min(float(answer.headers.get('Retry-After', 1) or 1), _MAX_WAIT)
+            time.sleep(wait)
+            continue
+        # Discord asks for a pause between writes even when it does not say so.
+        time.sleep(0.6)
+        return answer
+    return answer
+
+
 def channels(made, guild_id):
     """Every channel of the guild, as {name: id} for text channels."""
     found = get(made, '/guilds/%s/channels' % guild_id)
