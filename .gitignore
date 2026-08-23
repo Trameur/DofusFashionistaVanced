@@ -80,3 +80,7 @@ itemscraper/transformed_wakfu.json
 .env
 .env.*
 !.env.example
+
+# Community data pulled from Discord. Names and message excerpts of real
+# people: kept local, never in the repository.
+discordbot/contributions.json
