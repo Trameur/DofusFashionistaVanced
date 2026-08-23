@@ -408,11 +408,17 @@
                     fashionista
                 </a>
                 
-                <!-- Ko-fi Donation Button -->
-                <div class="kofi-widget-wrapper">
-                    <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-                    <script type='text/javascript'>kofiwidget2.init('{% trans "Support Fashionista" %}', '#f57873', 'T6T81MWTYO');kofiwidget2.draw();</script>
-                </div>
+                {% comment %}
+                Un lien, plus un widget. Le script de Ko-fi etait charge sur
+                chacune des 68 000 pages vues mensuelles, et le clic restait
+                invisible : le bouton etait dessine par un tiers, donc le site
+                n'a jamais su si quiconque le touchait. Le lien passe par
+                /out/donate/, qui compte puis redirige, et la page perd une
+                requete externe au passage.
+                {% endcomment %}
+                <a href="{% url 'donate' %}" class="kofi-donate-btn" rel="nofollow noopener">
+                    {% trans "Support Fashionista" %}
+                </a>
                 
             </div>
             <style>
@@ -444,10 +450,25 @@
                     width: 26px;
                 }
                 
-                .kofi-widget-wrapper {
-                    display: inline-block;
+                .kofi-donate-btn {
+                    display: inline-flex;
+                    align-items: center;
                     margin: 10px 5px 23px 5px;
+                    padding: 10px 20px;
                     vertical-align: middle;
+                    /* Same !important as the Discord button next to it: a
+                       cross-origin sheet we cannot read strips these. The coral
+                       is Ko-fi's own, darkened from #f57873 which gave white
+                       text only 2.8:1; this reads the same and passes 4.8:1. */
+                    background-color: #c9483f !important;
+                    color: #ffffff !important;
+                    text-decoration: none;
+                    font-weight: bold;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
+                }
+                .kofi-donate-btn:hover {
+                    background-color: #a93a32 !important;
                 }
             </style>
         </div>

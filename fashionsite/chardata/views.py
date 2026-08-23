@@ -17,7 +17,7 @@
 import json
 
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
 
@@ -191,6 +191,43 @@ def support(request, char_id=0):
                          'user': request.user,
                          'char_id': char_id,
                          'support_links': support_links})
+
+
+def donate(request, index='0'):
+    """Counts the click, then hands the reader over to the donation page.
+
+    The Ko-fi button has always been there and has always been invisible: a
+    third-party widget draws it, so the site never learned whether anyone even
+    reaches for it. That number is the one thing worth knowing here -- with
+    3 000 monthly readers and one donation received so far, the share who would
+    give is the variable that decides whether any of this deserves more work.
+
+    The destination comes from settings, never from the query string. Taking a
+    url from a visitor would make this an open redirect: a link that looks like
+    it goes to this site and lands anywhere, which is exactly what phishing
+    wants and what search engines punish.
+
+    Counting is wrapped: a statistics table that will not write must never cost
+    a donation.
+    """
+    links = getattr(settings, 'SUPPORT_LINKS', []) or []
+    try:
+        target = links[int(index)]['url']
+    except (IndexError, ValueError, KeyError, TypeError):
+        raise Http404
+
+    try:
+        from django.db.models import F
+        from django.utils import timezone as _tz
+        from django.utils import translation as _tr
+        from chardata.models import SupportClick
+        key = {'day': _tz.localdate(), 'language': (_tr.get_language() or '')[:10]}
+        if not SupportClick.objects.filter(**key).update(count=F('count') + 1):
+            SupportClick.objects.get_or_create(defaults={'count': 1}, **key)
+    except Exception:
+        pass
+
+    return HttpResponseRedirect(target)
 
 
 def set_language_and_remember(request):

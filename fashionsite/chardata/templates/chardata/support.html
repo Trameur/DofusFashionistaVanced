@@ -37,7 +37,9 @@
         <div class="support-section-title">{% trans "Donate" %}</div>
         <div class="support-donate-links">
             {% for link in support_links %}
-            <a class="support-donate-link" href="{{ link.url }}" target="_blank" rel="noopener noreferrer">
+            {% comment %}Passe par /out/donate/ pour que le clic soit compte ; la
+            destination vient des reglages, jamais de l'URL.{% endcomment %}
+            <a class="support-donate-link" href="/out/donate/{{ forloop.counter0 }}/" target="_blank" rel="nofollow noopener noreferrer">
                 {{ link.label }}
             </a>
             {% endfor %}

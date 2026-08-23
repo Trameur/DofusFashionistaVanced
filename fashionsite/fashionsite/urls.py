@@ -841,6 +841,11 @@ urlpatterns = [
     re_path(r'^faq/', views.faq, name='faq'),
     re_path(r'^privacy/', views.privacy, name='privacy'),
     re_path(r'^support/', views.support, name='support'),
+    # Compte le clic puis renvoie vers Ko-fi. L'adresse vient des reglages,
+    # jamais de la requete : une redirection ouverte serait un cadeau au
+    # hameconnage et une penalite chez Google.
+    re_path(r'^out/donate/$', views.donate, name='donate'),
+    re_path(r'^out/donate/(?P<index>\d+)/$', views.donate, name='donate_indexed'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
             encyclopedia_view.encyclopedia_item,
             name='encyclopedia_item'),

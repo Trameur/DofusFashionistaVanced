@@ -44,6 +44,7 @@ import io
 import glob
 import json
 from django.utils import timezone
+from django.conf import settings
 import os
 import sys
 import re
@@ -837,8 +838,20 @@ class PublicRouteSmokeTests(TestCase):
                 for link in href.findall(html[start:start + 60000] if start != -1 else ''):
                     targets.setdefault(link, '%s/guides/%s/' % (prefix, slug))
         self.assertGreater(len(targets), 20, 'the guide bodies carry no links')
+        # A link that leaves the site on purpose is not a page that is gone.
+        # /out/donate/ counts a click and hands the reader to Ko-fi, so it can
+        # never answer 200 -- but it must land on an address the settings
+        # declare, which is a stricter thing to ask than "answers 200".
+        sorties = {l['url'] for l in (getattr(settings, 'SUPPORT_LINKS', []) or [])}
         dead = []
         for link, seen_on in sorted(targets.items()):
+            reponse = self.client.get(link)
+            cible = reponse['Location'] if reponse.status_code in (301, 302) else ''
+            if '://' in cible and 'dofusfashionista.gg' not in cible:
+                if cible not in sorties:
+                    dead.append('%s leaves for %s, which no setting declares '
+                                '(on %s)' % (link, cible, seen_on))
+                continue
             if self.client.get(link, follow=True).status_code != 200:
                 dead.append('%s (on %s)' % (link, seen_on))
         self.assertEqual([], dead)
@@ -20950,3 +20963,98 @@ class ProvenanceViewTests(TestCase):
         self.client.force_login(self._admin())
         html = self.client.get(self.URL).content.decode('utf-8')
         self.assertIn('0.5', html)
+
+
+class DonateRedirectTests(TestCase):
+    """The donation link, counted on its way out.
+
+    The Ko-fi button existed for a long time and taught the site nothing: a
+    third-party widget drew it, so nobody could tell whether a single reader
+    ever reached for it. With 3 000 monthly readers and one donation received,
+    that share is the number that decides whether any of this is worth more
+    work.
+    """
+
+    URL = '/out/donate/'
+
+    def _kofi(self):
+        links = getattr(settings, 'SUPPORT_LINKS', []) or []
+        return links[0]['url'] if links else None
+
+    def test_it_sends_the_reader_to_the_donation_page(self):
+        page = self.client.get(self.URL)
+        self.assertEqual(page.status_code, 302)
+        self.assertEqual(page['Location'], self._kofi())
+
+    def test_it_counts_the_click(self):
+        from chardata.models import SupportClick
+        for _ in range(3):
+            self.client.get(self.URL)
+        self.assertEqual(SupportClick.objects.count(), 1, 'one row per day')
+        self.assertEqual(SupportClick.objects.first().count, 3)
+
+    def test_it_counts_the_language_the_reader_was_served(self):
+        from chardata.models import SupportClick
+        self.client.get('/es/encyclopedia/')
+        self.client.get(self.URL, HTTP_ACCEPT_LANGUAGE='es')
+        self.assertTrue(SupportClick.objects.exists())
+
+    def test_a_visitor_cannot_choose_the_destination(self):
+        """An open redirect is a link that looks like this site and lands
+        anywhere. It is what phishing wants, and search engines punish it."""
+        for tentative in ('?url=https://evil.example/',
+                          '?to=https://evil.example/',
+                          '?next=https://evil.example/',
+                          '?redirect=//evil.example/'):
+            page = self.client.get(self.URL + tentative)
+            self.assertEqual(page.status_code, 302, tentative)
+            self.assertEqual(page['Location'], self._kofi(),
+                             'the query string moved the destination: %s' % tentative)
+
+    def test_an_unknown_link_is_not_found(self):
+        for index in ('7', '99', '0000000'):
+            self.assertEqual(
+                self.client.get('/out/donate/%s/' % index).status_code,
+                404 if int(index) >= len(getattr(settings, 'SUPPORT_LINKS', []))
+                else 302, index)
+
+    def test_a_broken_counter_never_costs_a_donation(self):
+        """A statistic is worth far less than the donation it would block."""
+        from unittest import mock
+        with mock.patch('chardata.models.SupportClick.objects') as faux:
+            faux.filter.side_effect = RuntimeError('boom')
+            page = self.client.get(self.URL)
+        self.assertEqual(page.status_code, 302)
+        self.assertEqual(page['Location'], self._kofi())
+
+    def test_crawlers_are_told_to_stay_out(self):
+        """A crawler following the link would count as a reader reaching for
+        the button, which is the one thing the number must not include."""
+        import urllib.robotparser as rp
+        body = self.client.get('/robots.txt').content.decode('utf-8')
+        parser = rp.RobotFileParser()
+        parser.parse(body.splitlines())
+        self.assertFalse(parser.can_fetch('Googlebot', self.URL))
+
+
+class DonationButtonTests(TestCase):
+    """What the page actually shows, and what it no longer loads."""
+
+    def test_no_page_loads_the_third_party_widget_anymore(self):
+        """It was fetched on every one of 68 000 monthly page views, and drew a
+        button whose clicks nobody could see."""
+        for path in ('/', '/encyclopedia/', '/guides/', '/support/'):
+            html = self.client.get(path).content.decode('utf-8')
+            self.assertNotIn('ko-fi.com/cdn', html, path)
+            self.assertNotIn('kofiwidget', html, path)
+
+    def test_the_button_is_still_there_and_goes_through_the_counter(self):
+        html = self.client.get('/').content.decode('utf-8')
+        self.assertIn('/out/donate/', html)
+
+    def test_the_support_page_routes_its_links_too(self):
+        html = self.client.get('/support/').content.decode('utf-8')
+        self.assertIn('/out/donate/0/', html)
+        for link in (getattr(settings, 'SUPPORT_LINKS', []) or []):
+            self.assertNotIn('href="%s"' % link['url'], html,
+                             'a raw donation link escapes the counter')
