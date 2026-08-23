@@ -10804,6 +10804,57 @@ class RobotsTxtTests(TestCase):
         _, body = self._parser()
         self.assertIn('Sitemap: https://dofusfashionista.gg/sitemap.xml', body)
 
+    #: The list Cloudflare's managed robots.txt used to prepend. It reached the
+    #: apex only, so www answered with the managed stub alone and none of the
+    #: rules above were ever seen there. Serving them ourselves makes both
+    #: hostnames answer the same thing -- and makes it testable, which the
+    #: managed file was not.
+    TRAINING_CRAWLERS = ('Amazonbot', 'Applebot-Extended', 'Bytespider',
+                         'CCBot', 'ClaudeBot', 'Google-Extended', 'GPTBot',
+                         'meta-externalagent')
+
+    #: Fetch a page because a reader asked for them, and send that reader back.
+    #: Blocking these would cost visits, so they must stay welcome.
+    READER_ASSISTANTS = ('ChatGPT-User', 'Claude-User', 'PerplexityBot',
+                         'OAI-SearchBot')
+
+    def test_training_crawlers_are_blocked(self):
+        p, _ = self._parser()
+        for agent in self.TRAINING_CRAWLERS:
+            self.assertFalse(
+                p.can_fetch(agent, '/encyclopedia/item/equipment/44-x/'),
+                'robots.txt must block the training crawler %s' % agent)
+
+    def test_reader_assistants_stay_welcome(self):
+        """Blocking a crawler that carries a reader here costs visits."""
+        p, _ = self._parser()
+        for agent in self.READER_ASSISTANTS:
+            self.assertTrue(
+                p.can_fetch(agent, '/encyclopedia/item/equipment/44-x/'),
+                '%s brings readers and must not be blocked' % agent)
+
+    def test_search_engines_are_untouched_by_the_ai_rules(self):
+        """The blocked names share prefixes with the engines that matter.
+
+        `Google-Extended` trains models; `Googlebot` sends visitors. A parser
+        matching on a prefix would read the first rule as covering the second
+        and deindex the site, so the distinction is asserted rather than
+        assumed.
+        """
+        p, _ = self._parser()
+        for agent in ('Googlebot', 'Googlebot-Image', 'Bingbot',
+                      'Mediapartners-Google'):
+            self.assertTrue(p.can_fetch(agent, '/encyclopedia/'),
+                            '%s must keep crawling the public content' % agent)
+
+    def test_content_signal_is_declared(self):
+        """A machine-readable reservation of rights under article 4 of the EU
+        directive 2019/790, and the site's answer to the question the training
+        crawlers do not ask."""
+        _, body = self._parser()
+        self.assertIn('Content-Signal: search=yes,ai-train=no,use=reference',
+                      body)
+
 
 class SolutionSlotGuardTests(TestCase):
     """A slot the game does not have is a bad request, not a server error."""
@@ -16782,6 +16833,72 @@ class WakfuStatCatalogueTests(SimpleTestCase):
             with self.subTest(stat=dofus_only):
                 self.assertNotIn(dofus_only, WAKFU_STATS)
                 self.assertNotIn(dofus_only.upper(), WAKFU_STATS)
+
+
+class WakfuSlotRuleTests(SimpleTestCase):
+    """What Wakfu lets a character wear at once, checked against the build."""
+
+    DUMP = WakfuStatCatalogueTests.DUMP
+
+    def _dump(self):
+        if not os.path.exists(self.DUMP):
+            self.skipTest('no Wakfu build decoded; run '
+                          'itemscraper/get_items_wakfu.py')
+        with io.open(self.DUMP, encoding='utf-8') as handle:
+            return json.load(handle)
+
+    def test_a_two_handed_weapon_blocks_the_off_hand(self):
+        from fashionistapulp.wakfu_slots import BLOCKED_BY_TWO_HANDED
+        dump = self._dump()
+        blocking = [item for item in dump['equipment'] if item['two_handed']]
+        self.assertGreater(len(blocking), 100, 'no two-handed weapon found')
+        for item in blocking:
+            with self.subTest(item=item['id']):
+                self.assertIn(BLOCKED_BY_TWO_HANDED, item['disables'])
+                self.assertEqual(['FIRST_WEAPON'], item['positions'])
+        # And nothing else claims to block a slot.
+        for item in dump['equipment']:
+            if item['disables']:
+                self.assertTrue(item['two_handed'], item['id'])
+
+    def test_the_two_exclusive_groups_are_separate(self):
+        # Ankama's own wording: "only one Item with this property equipped at a
+        # time", said twice for two independent properties. An item may be
+        # legendary without being exclusive, so this is not a rarity rule.
+        from fashionistapulp.wakfu_slots import EXCLUSIVE_PROPERTIES
+        dump = self._dump()
+        groups = {}
+        for item in dump['equipment']:
+            if item['exclusive']:
+                groups.setdefault(item['exclusive'], []).append(item)
+        self.assertEqual(sorted(EXCLUSIVE_PROPERTIES.values()),
+                         sorted(groups))
+        for group, items in groups.items():
+            with self.subTest(group=group):
+                self.assertGreater(len(items), 50)
+                # They are spread across slots, so the rule cannot be modelled
+                # as "one weapon" or "one ring".
+                self.assertGreater(len({item['positions'][0]
+                                        for item in items if item['positions']}),
+                                   5)
+        # Exclusivity is a property, not a rarity: check the two really are
+        # different questions rather than assuming it.
+        exclusive_rarities = {item['rarity'] for item in dump['equipment']
+                              if item['exclusive']}
+        shared_rarities = {item['rarity'] for item in dump['equipment']
+                           if not item['exclusive']}
+        self.assertTrue(exclusive_rarities & shared_rarities,
+                        'every exclusive item has a rarity nothing else has, '
+                        'so the rule could just be read off the rarity')
+
+    def test_every_gear_slot_the_data_uses_is_declared(self):
+        from fashionistapulp.wakfu_slots import NOT_GEAR, SLOTS
+        dump = self._dump()
+        seen = set()
+        for item in dump['equipment']:
+            seen.update(item['positions'])
+        self.assertEqual(set(), seen - set(SLOTS) - set(NOT_GEAR),
+                         'the build uses a slot nothing declares')
 
 
 class GameVersionRegistryTests(SimpleTestCase):

@@ -48,6 +48,11 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__))), 'fashionistapulp'))
+from fashionistapulp.wakfu_slots import (blocks_the_off_hand,  # noqa: E402
+                                         exclusivity_of)
+
 CDN = 'https://wakfu.cdn.ankama.com/gamedata'
 ICON = 'https://static.ankama.com/wakfu/portal/game/item/%d/%s.png'
 ICON_SIZES = (21, 64, 115)
@@ -221,6 +226,8 @@ def decode(target):
               'unknown_actions': collections.Counter(),
               'stats': collections.Counter(),
               'element_spread': collections.Counter(),
+              'two_handed': 0,
+              'exclusive': collections.Counter(),
               'not_a_stat': collections.Counter(),
               'languages': collections.Counter(),
               'sets': set()}
@@ -277,8 +284,19 @@ def decode(target):
         if parameters.get('itemSetId'):
             report['sets'].add(parameters['itemSetId'])
 
+        # The two rules that decide whether a set of items can be worn at
+        # once, both read from Ankama's own tables rather than restated here.
+        two_handed = blocks_the_off_hand(disabled)
+        exclusive = exclusivity_of(base.get('properties') or [])
+        if two_handed:
+            report['two_handed'] += 1
+        if exclusive:
+            report['exclusive'][exclusive] += 1
+
         out.append({
             'id': base.get('id'),
+            'two_handed': two_handed,
+            'exclusive': exclusive,
             'level': base.get('level'),
             'name': titles(item.get('title')),
             'type_id': type_id,
@@ -341,6 +359,8 @@ def main(argv=None):
         mark = '' if position in GEAR_POSITIONS else '   (not gear)'
         print('   %-16s %5d%s' % (position, count, mark))
     print('by rarity: %s' % dict(sorted(report['by_rarity'].items())))
+    print('two-handed weapons that block the off hand: %d' % report['two_handed'])
+    print('one-at-a-time items: %s' % dict(report['exclusive']))
     print('\nwrote %s' % args.dump)
     return 0
 
