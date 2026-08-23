@@ -175,9 +175,10 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
         import sqlite3
         from chardata.official_site import get_item_link
         from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.game_versions import dofus_versions
         seen = set()
         rows = []
-        for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+        for game_version in dofus_versions():
             conn = sqlite3.connect(get_items_db_path(game_version))
             try:
                 cursor = conn.cursor()
@@ -247,9 +248,10 @@ def _sitemap_encyclopedia_sets(base_url, language='en'):
     try:
         from chardata import encyclopedia_view
         from chardata.official_site import get_set_link
+        from fashionistapulp.game_versions import dofus_versions
         rows = []
         seen = set()
-        for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+        for game_version in dofus_versions():
             structure = encyclopedia_view.get_structure(game_version)
             for set_id, item_set in structure.sets_dict.items():
                 if not getattr(item_set, 'items', None):
@@ -294,9 +296,10 @@ def _sitemap_encyclopedia_resources(base_url, language='en'):
         import sqlite3
         from chardata.official_site import get_resource_link
         from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.game_versions import dofus_versions
         rows = []
         seen = set()
-        for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+        for game_version in dofus_versions():
             conn = sqlite3.connect(get_items_db_path(game_version))
             try:
                 cursor = conn.cursor()
@@ -384,9 +387,10 @@ def _sitemap_encyclopedia_monsters(base_url, language='en'):
         from chardata.encyclopedia_view import has_display_name
         from chardata.official_site import get_monster_link
         from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.game_versions import dofus_versions
         rows = []
         seen = set()
-        for game_version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+        for game_version in dofus_versions():
             version_prefix = '' if game_version == 'dofus3' else '/%s' % game_version
             list_link = '%s/encyclopedia/monsters/' % version_prefix
             if list_link not in seen:
