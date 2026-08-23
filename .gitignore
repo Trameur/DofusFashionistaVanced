@@ -75,3 +75,10 @@ itemscraper/item_skins_new.json
 # use and forbids transferring the data on, so a public repository is out.
 itemscraper/wakfu_raw/
 itemscraper/transformed_wakfu.json
+
+# Secrets d'execution : jeton du bot Discord, cles d'API. Jamais versionne.
+# Sans cette regle, un `git add -A` publie le jeton et donne le controle
+# du serveur Discord a qui lit le depot.
+.env
+.env.*
+!.env.example
