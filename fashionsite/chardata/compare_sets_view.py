@@ -607,6 +607,7 @@ def _generate_share_compare_link(request, char_ids, query_string=''):
         url = '%s?%s' % (url, query_string)
     return url
 
+@require_POST
 def get_item_stats(request):
     item_id = request.POST.get('itemId', None)
     if item_id == '':

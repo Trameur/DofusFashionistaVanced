@@ -38,6 +38,7 @@ import requests as http_requests
 from chardata.models import UserAlias
 from chardata.util import set_response, HttpResponseText, recaptcha_ok
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST
 
 logger = logging.getLogger(__name__)
 
@@ -242,6 +243,7 @@ def email_confirmed_page(request, username, already_confirmed):
         raise Http404
     return _login_page_generic(request, True, username, 0, already_confirmed)
 
+@require_POST
 def check_if_taken(request):
     username = request.POST.get('username', None)
     users = User.objects.filter(username__iexact=username)
@@ -249,6 +251,7 @@ def check_if_taken(request):
         return HttpResponseText('username-error')
     return HttpResponseText('ok')
   
+@require_POST
 def local_login(request):
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)
@@ -278,6 +281,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(safe_url)
         
+@require_POST
 def change_password(request):
     username = request.POST.get('username', None)
     password = request.POST.get('password', None)

@@ -20688,3 +20688,63 @@ class AnAmbiguousAnkamaIdNeverCollapsesAPageTests(SimpleTestCase):
                 len(gardes) > len(uniques) * 0.9,
                 '%s kept only %d of its %d unshared ids'
                 % (version, len(gardes), len(uniques)))
+
+
+class ActionEndpointsRefuseGetTests(TestCase):
+    """An action endpoint must say no to GET rather than answer emptily.
+
+    Search Console reported 683 Soft 404s. Crawlers reach these urls -- they
+    are Disallow'd on the apex, but www served a permissive robots.txt -- ask
+    for them with GET, and got 200 with a two-byte body. Google reads a 200
+    carrying nothing as a Soft 404, keeps the url in its index of things to
+    re-check, and comes back. A 405 is an answer it accepts and stops asking.
+
+    Every one of these is called with $.post by the site's own JavaScript, so
+    closing GET costs no reader anything. The list is explicit rather than
+    derived from robots.txt: some disallowed paths legitimately answer GET,
+    and a test that guesses would fail for the wrong reason.
+    """
+
+    #: Measured on production: each answered GET with 200 and a body of 2 to
+    #: 339 bytes.
+    POST_ONLY = ('/local_login/', '/check_username/', '/change_password/',
+                 '/get_item_stats_compare/', '/getitemdetails/',
+                 '/saveprojecttouser/', '/understandbuild/')
+
+    #: Registered only when DEBUG, so production answers 404 and no crawler
+    #: ever sees them. They are listed to keep that true: moving one out of the
+    #: DEBUG block would publish an editor for the item catalogue.
+    DEBUG_ONLY = ('/choose_item/', '/delete_item/', '/delete_set/',
+                  '/update_item/', '/update_set/', '/edit_item/')
+
+    def test_get_is_refused(self):
+        for path in self.POST_ONLY:
+            self.assertEqual(self.client.get(path).status_code, 405, path)
+
+    def test_the_catalogue_editors_stay_out_of_production(self):
+        for path in self.DEBUG_ONLY:
+            self.assertEqual(self.client.get(path).status_code, 404, path)
+
+    def test_no_action_endpoint_answers_200_with_an_empty_body(self):
+        """The exact shape Google files as a Soft 404."""
+        for path in self.POST_ONLY:
+            page = self.client.get(path)
+            if page.status_code == 200:
+                self.assertGreater(
+                    len(page.content), 3000,
+                    '%s answers 200 with %d bytes, which reads as a Soft 404'
+                    % (path, len(page.content)))
+
+    def test_the_version_prefixed_copies_refuse_it_too(self):
+        """Each endpoint answers under every game version, and crawlers found
+        the prefixed copies too (/touch/saveprojecttouser/ was reported)."""
+        for prefix in ('/beta', '/dofus2', '/retro', '/touch'):
+            for path in ('/saveprojecttouser/', '/getitemdetails/'):
+                url = prefix + path
+                self.assertEqual(self.client.get(url).status_code, 405, url)
+
+    def test_post_still_reaches_the_view(self):
+        """405 must come from the method check, not from the url dying: a POST
+        has to get past it and be handled -- whatever the view then answers."""
+        for path in self.POST_ONLY:
+            self.assertNotEqual(self.client.post(path).status_code, 405, path)

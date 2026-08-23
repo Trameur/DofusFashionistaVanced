@@ -20,6 +20,7 @@ from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.translation import get_language
+from django.views.decorators.http import require_POST
 import json
 
 from chardata.aspect_parser import parse_aspects
@@ -254,12 +255,14 @@ def _get_aspect_checklist(aspect_list):
     aspect_checklist = {aspect: aspect in aspect_list for aspect in ALL_ASPECTS}
     return aspect_checklist
 
+@require_POST
 def understand_build_post(request):
     build_line = request.POST.get('build_line', '')
     aspects = parse_aspects(build_line)
     
     return JsonResponse(_get_aspect_checklist(aspects))
 
+@require_POST
 def save_project_to_user(request, char_id=None):
     if request.user is None or request.user.is_anonymous:
         return HttpResponseText('ok')

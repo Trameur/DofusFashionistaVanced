@@ -30,6 +30,7 @@ from static_s3.templatetags.static_s3 import static
 from fashionistapulp.translation import get_supported_language
 from chardata.themes import get_ajax_loader_URL
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST
 
 
 def inclusions(request, char_id):
@@ -75,6 +76,7 @@ def inclusions(request, char_id):
                          'stat_overrides_json': json.dumps(stat_overrides_json)},
                         char)
 
+@require_POST
 def get_item_details(request):
     item_id = request.POST.get('item', None)
 

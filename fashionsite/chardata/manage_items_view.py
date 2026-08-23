@@ -98,6 +98,7 @@ def update_set_post(request):
         _insert_set(s)
         return HttpResponseText('ok')
 
+@require_POST
 def delete_item_post(request):
     item_id = safe_int(request.POST.get('itemId', None))
     if not item_id:
@@ -109,6 +110,7 @@ def delete_item_post(request):
         
     return HttpResponseText('ok')
 
+@require_POST
 def delete_set_post(request):
     set_id = safe_int(request.POST.get('setId', None))
     if not set_id:
@@ -156,6 +158,7 @@ def edit_item_search_sets(request):
                 set_list.append('[DT] %d %s' % (s.id, s.name) if s.dofus_touch else '%d %s' % (s.id, s.name))
     return HttpResponseJson(json.dumps(set_list))
     
+@require_POST
 def choose_item(request):
     structure = get_structure()
     
