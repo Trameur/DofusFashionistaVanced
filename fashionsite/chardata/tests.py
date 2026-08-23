@@ -44,6 +44,7 @@ import io
 import glob
 import json
 import os
+import sys
 import re
 import shutil
 import subprocess
@@ -10854,6 +10855,83 @@ class RobotsTxtTests(TestCase):
         _, body = self._parser()
         self.assertIn('Content-Signal: search=yes,ai-train=no,use=reference',
                       body)
+
+
+class DataPipelineImportsTests(SimpleTestCase):
+    """The item pipeline must keep resolving its own paths.
+
+    fashionista_config is imported under two different names: the site puts
+    <repo>/fashionistapulp on sys.path (manage.py) and sees
+    `fashionistapulp.fashionista_config`, while every data pipeline sets
+    PYTHONPATH to the repo root (update_data.py) and sees
+    `fashionistapulp.fashionistapulp.fashionista_config`. Code that only ever
+    runs under the second layout is invisible to the rest of this suite, so a
+    change can break every scraper while the whole suite stays green -- which is
+    what happened when the version registry replaced the _DB_FILES and
+    _DUMP_FILES dicts and two call sites kept reaching for them. Nothing failed
+    loudly: the site kept serving the item database it already had, and each
+    game patch would have made the encyclopedia quietly more wrong.
+
+    Running a subprocess is the only way to observe that layout from here.
+    """
+
+    REPO = os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))))
+    NL = chr(10)
+
+    def _run_as_pipeline(self, lines, extra_path=()):
+        import subprocess
+        chemins = (self.REPO,) + tuple(extra_path)
+        prologue = ['import sys'] + [
+            'sys.path.insert(0, %r)' % p for p in reversed(chemins)]
+        return subprocess.run(
+            [sys.executable, '-c', self.NL.join(prologue + list(lines))],
+            capture_output=True, text=True, cwd=self.REPO)
+
+    def test_config_resolves_every_version_in_the_pipeline_layout(self):
+        done = self._run_as_pipeline([
+            'from fashionistapulp.fashionistapulp.game_versions'
+            ' import GAME_VERSIONS',
+            'from fashionistapulp.fashionistapulp.fashionista_config'
+            ' import get_items_db_path, get_items_dump_path',
+            'for key in sorted(GAME_VERSIONS):',
+            '    get_items_db_path(key)',
+            '    get_items_dump_path(key)',
+        ])
+        self.assertEqual(
+            done.returncode, 0,
+            'fashionista_config is unusable from a data pipeline:' + self.NL
+            + done.stdout + done.stderr)
+
+    def test_the_scrapers_resolve_every_version(self):
+        """store_item_obtainment feeds some 28 other scraper modules, so when
+        it cannot resolve a path none of them can either."""
+        done = self._run_as_pipeline([
+            'import store_item_obtainment as s',
+            'from fashionistapulp.fashionistapulp.game_versions'
+            ' import GAME_VERSIONS',
+            'for key in sorted(GAME_VERSIONS):',
+            '    assert s.get_items_db_path(key).endswith(".db"), key',
+            '    assert s.get_items_dump_path(key).endswith(".dump"), key',
+        ], extra_path=(os.path.join(self.REPO, 'itemscraper'),))
+        self.assertEqual(
+            done.returncode, 0,
+            'the item scrapers cannot resolve their paths:' + self.NL
+            + done.stdout + done.stderr)
+
+    def test_an_unknown_version_is_refused_rather_than_silently_dofus3(self):
+        """Both getters used to answer an unknown name with Dofus 3's own
+        database, so a typo served another game's items under the wrong name."""
+        done = self._run_as_pipeline([
+            'from fashionistapulp.fashionistapulp.fashionista_config'
+            ' import get_items_db_path',
+            'try:',
+            '    get_items_db_path("no-such-version")',
+            'except KeyError:',
+            '    raise SystemExit(0)',
+            'raise SystemExit("an unknown version was accepted")',
+        ])
+        self.assertEqual(done.returncode, 0, done.stdout + done.stderr)
 
 
 class SolutionSlotGuardTests(TestCase):

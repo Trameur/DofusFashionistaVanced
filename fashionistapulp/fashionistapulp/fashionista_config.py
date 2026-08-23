@@ -62,11 +62,11 @@ def get_items_db_path(game_version='dofus3'):
     # Both of these used to answer an unknown version with Dofus 3's own
     # database, so a typo served another game's items under the wrong name and
     # nothing said a word. The registry raises instead.
-    from fashionistapulp.game_versions import get_game_version
+    from .game_versions import get_game_version
     return _data_path(get_game_version(game_version).db_file)
 
 def get_items_dump_path(game_version='dofus3'):
-    from fashionistapulp.game_versions import get_game_version
+    from .game_versions import get_game_version
     return _data_path(get_game_version(game_version).dump_file)
 
 def get_constants_module(game_version='dofus3'):

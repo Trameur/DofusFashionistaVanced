@@ -24,14 +24,37 @@ except ModuleNotFoundError:
 # Resolved against the repo holding this script: the global config points at
 # one fixed checkout, which breaks worktrees.
 
+try:
+    game_versions = importlib.import_module('fashionistapulp.game_versions')
+except ModuleNotFoundError:
+    game_versions = importlib.import_module(
+        'fashionistapulp.fashionistapulp.game_versions')
+
+
+def _data_file_name(game_version, attribute):
+    """The file the registry names for this version.
+
+    These two functions used to read `_DB_FILES` / `_DUMP_FILES` straight out of
+    fashionista_config. Those dicts are gone -- the registry replaced them -- so
+    every itemscraper step raised AttributeError the moment it resolved a path,
+    and item data could no longer be refreshed for any version. Nothing failed
+    loudly: the site kept serving the database it already had.
+
+    The paths stay anchored on PROJECT_ROOT rather than delegating to
+    fashionista_config, which points at one fixed checkout and would break
+    worktrees. Only the file name comes from the registry.
+    """
+    return getattr(game_versions.get_game_version(game_version), attribute)
+
+
 def get_items_db_path(game_version='dofus3'):
-    db_file = fashionista_config._DB_FILES.get(game_version, 'items.db')
-    return os.path.join(PROJECT_ROOT, 'fashionistapulp', 'fashionistapulp', db_file)
+    return os.path.join(PROJECT_ROOT, 'fashionistapulp', 'fashionistapulp',
+                        _data_file_name(game_version, 'db_file'))
 
 
 def get_items_dump_path(game_version='dofus3'):
-    dump_file = fashionista_config._DUMP_FILES.get(game_version, 'item_db_dumped.dump')
-    return os.path.join(PROJECT_ROOT, 'fashionistapulp', 'fashionistapulp', dump_file)
+    return os.path.join(PROJECT_ROOT, 'fashionistapulp', 'fashionistapulp',
+                        _data_file_name(game_version, 'dump_file'))
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
