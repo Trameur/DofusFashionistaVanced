@@ -17252,7 +17252,13 @@ class WakfuItemDatabaseTests(SimpleTestCase):
                 self.assertNotEqual(0, done.returncode)
                 said = done.stderr + done.stdout
                 for key in version_keys(include_experimental=True):
-                    self.assertIn("'%s'" % key, said)
+                    # Matched as a whole word rather than as "'dofus3'",
+                    # because the quotes are argparse's and argparse changed
+                    # them: up to Python 3.12 the refusal reads "choose from
+                    # 'dofus3', 'beta'" and from 3.13 it reads "choose from
+                    # dofus3, beta". Both name the version, which is the only
+                    # thing this guard is about.
+                    self.assertRegex(said, r'\b%s\b' % re.escape(key))
 
     def test_the_two_tables_survive_a_dump_and_a_reload(self):
         # The dump is the shape a database is rebuilt from, and a table it
