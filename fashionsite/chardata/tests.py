@@ -20620,3 +20620,71 @@ class NoEmDashInCodeTests(SimpleTestCase):
             offenders, [],
             'em/en dash found in first-party sources (use ., :, , or '
             'parentheses): %s' % offenders)
+
+
+class AnAmbiguousAnkamaIdNeverCollapsesAPageTests(SimpleTestCase):
+    """One ankama id can cover several pages, so it cannot answer for them.
+
+    Pets and mounts ship one row per stat variant under a single ankama id --
+    'Bow Meow', 'Bow Meow (+80 Strength)', ... -- each a page of its own. The
+    signature map is keyed on (type, id), so one variant chosen by read order
+    used to answer for all of its siblings. Declaring a page a copy costs its
+    indexing; missing a copy costs a little crawl budget. So an ambiguous id
+    must resolve to 'not a copy', which is what dropping it achieves.
+    """
+
+    VERSIONS = ('dofus3', 'beta', 'dofus2', 'retro', 'touch')
+
+    def _rows_per_key(self, version):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect(get_items_db_path(version))
+        try:
+            return dict(((at, aid), n) for at, aid, n in conn.execute(
+                'SELECT ankama_type, ankama_id, COUNT(*) FROM items '
+                'WHERE ankama_id IS NOT NULL AND COALESCE(removed, 0) = 0 '
+                'GROUP BY ankama_type, ankama_id'))
+        finally:
+            conn.close()
+
+    def test_no_id_with_several_rows_survives_in_the_signatures(self):
+        from chardata.version_content import _cached_signatures
+        for version in self.VERSIONS:
+            signatures = _cached_signatures(version)
+            if not signatures:
+                continue
+            partages = [key for key, n in self._rows_per_key(version).items()
+                        if n > 1]
+            restants = [key for key in partages if key in signatures]
+            self.assertEqual(
+                restants, [],
+                '%s keeps %d ambiguous ids, e.g. %s'
+                % (version, len(restants), restants[:3]))
+
+    def test_a_shared_id_is_never_called_a_copy(self):
+        from chardata.version_content import repeats_the_live_version
+        for version in ('retro', 'touch'):
+            partages = [key for key, n in self._rows_per_key(version).items()
+                        if n > 1]
+            if not partages:
+                continue
+            for ankama_type, ankama_id in partages[:20]:
+                self.assertFalse(
+                    repeats_the_live_version(version, ankama_type, ankama_id),
+                    '%s %s/%s covers several pages and cannot be judged as one'
+                    % (version, ankama_type, ankama_id))
+
+    def test_an_unshared_id_is_still_judged_normally(self):
+        """The guard must not switch the whole mechanism off."""
+        from chardata.version_content import _cached_signatures
+        for version in ('beta', 'dofus2'):
+            uniques = [key for key, n in self._rows_per_key(version).items()
+                       if n == 1]
+            signatures = _cached_signatures(version)
+            if not signatures or not uniques:
+                continue
+            gardes = [key for key in uniques if key in signatures]
+            self.assertTrue(
+                len(gardes) > len(uniques) * 0.9,
+                '%s kept only %d of its %d unshared ids'
+                % (version, len(gardes), len(uniques)))

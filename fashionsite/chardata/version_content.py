@@ -92,6 +92,19 @@ def _signatures(version):
             type_names = dict(cursor.execute('SELECT id, name FROM item_types'))
 
         signatures = {}
+        # An ankama id is not unique: pets and mounts ship one row per stat
+        # variant -- 'Bow Meow', 'Bow Meow (+80 Strength)', and so on -- each
+        # its own page under its own slug. Measured on the catalogues, 110 ids
+        # in Touch and 48 in Retro carry several rows, up to eleven.
+        #
+        # Keyed on (type, id) alone, the last row read would win and answer for
+        # all of its siblings, so one arbitrary variant could declare ten real
+        # pages copies of the live version. Nothing does today -- Touch and
+        # Retro collapse nothing at all -- but the answer would be a coin toss
+        # the day it mattered. An ambiguous id is dropped instead, which routes
+        # it to the same 'unknown, so not a copy' path an unreadable catalogue
+        # takes: doubt is resolved in the page's favour, as everywhere here.
+        ambiguous = set()
         for item_id, ankama_type, ankama_id, level, kind, item_set, name in cursor.execute(
                 'SELECT id, ankama_type, ankama_id, level, type, item_set, name '
                 'FROM items WHERE ankama_id IS NOT NULL '
@@ -100,11 +113,16 @@ def _signatures(version):
                             stats.get(item_id, []),
                             recipes.get(item_id, []),
                             bonuses.get(item_set, [])))
-            signatures[(ankama_type, ankama_id)] = (
+            key = (ankama_type, ankama_id)
+            if key in signatures:
+                ambiguous.add(key)
+            signatures[key] = (
                 hashlib.sha1(payload.encode('utf-8')).hexdigest(),
                 name,
                 type_names.get(kind, ''),
             )
+        for key in ambiguous:
+            del signatures[key]
         return signatures
     finally:
         conn.close()
