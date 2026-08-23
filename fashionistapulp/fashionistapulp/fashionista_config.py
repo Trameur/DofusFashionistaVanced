@@ -54,29 +54,20 @@ def get_fashionista_path():
     
     return path
 
-_DB_FILES = {
-    'dofus3': 'items.db',
-    'touch': 'items_touch.db',
-    'beta': 'items_beta.db',
-    'retro': 'items_retro.db',
-    'dofus2': 'items_dofus2.db',
-}
-
-_DUMP_FILES = {
-    'dofus3': 'item_db_dumped.dump',
-    'touch': 'item_db_dumped_touch.dump',
-    'beta': 'item_db_dumped_beta.dump',
-    'retro': 'item_db_dumped_retro.dump',
-    'dofus2': 'item_db_dumped_dofus2.dump',
-}
+def _data_path(file_name):
+    return os.path.join(get_fashionista_path(), 'fashionistapulp',
+                        'fashionistapulp', file_name)
 
 def get_items_db_path(game_version='dofus3'):
-    db_file = _DB_FILES.get(game_version, 'items.db')
-    return os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', db_file)
+    # Both of these used to answer an unknown version with Dofus 3's own
+    # database, so a typo served another game's items under the wrong name and
+    # nothing said a word. The registry raises instead.
+    from fashionistapulp.game_versions import get_game_version
+    return _data_path(get_game_version(game_version).db_file)
 
 def get_items_dump_path(game_version='dofus3'):
-    dump_file = _DUMP_FILES.get(game_version, 'item_db_dumped.dump')
-    return os.path.join(get_fashionista_path(), 'fashionistapulp', 'fashionistapulp', dump_file)
+    from fashionistapulp.game_versions import get_game_version
+    return _data_path(get_game_version(game_version).dump_file)
 
 def get_constants_module(game_version='dofus3'):
     from fashionistapulp.fashionistapulp import dofus_constants

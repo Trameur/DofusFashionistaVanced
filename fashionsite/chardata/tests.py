@@ -16683,6 +16683,69 @@ class ComboReadsWhatThePageSendsTests(SimpleTestCase):
                 self.assertEqual(plain['Pressure'], got['Pressure'])
 
 
+class GameVersionRegistryTests(SimpleTestCase):
+    """The one list of games, and the silent fallback it replaced.
+
+    `get_items_db_path` used to answer an unknown version with Dofus 3's own
+    database, so a typo served another game's items under the wrong name and
+    nothing said a word.
+    """
+
+    def test_an_unknown_version_is_named_not_swallowed(self):
+        from fashionistapulp.fashionista_config import (get_items_db_path,
+                                                        get_items_dump_path)
+        for asking in ('dofus4', 'wakfoo', '', None):
+            for reader in (get_items_db_path, get_items_dump_path):
+                with self.subTest(asking=asking, reader=reader.__name__):
+                    with self.assertRaises(KeyError) as caught:
+                        reader(asking)
+                    self.assertIn('unknown game version', str(caught.exception))
+
+    def test_every_version_still_reads_the_file_it_always_read(self):
+        # The registry moved these names; it must not have changed one.
+        import os
+        from fashionistapulp.fashionista_config import (get_items_db_path,
+                                                        get_items_dump_path)
+        expected = {
+            'dofus3': ('items.db', 'item_db_dumped.dump'),
+            'beta': ('items_beta.db', 'item_db_dumped_beta.dump'),
+            'dofus2': ('items_dofus2.db', 'item_db_dumped_dofus2.dump'),
+            'touch': ('items_touch.db', 'item_db_dumped_touch.dump'),
+            'retro': ('items_retro.db', 'item_db_dumped_retro.dump'),
+        }
+        for version, (db_file, dump_file) in expected.items():
+            with self.subTest(version=version):
+                self.assertEqual(db_file,
+                                 os.path.basename(get_items_db_path(version)))
+                self.assertEqual(dump_file,
+                                 os.path.basename(get_items_dump_path(version)))
+
+    def test_the_registry_holds_every_version_the_site_serves(self):
+        # The point of the registry is that nothing declares this list twice.
+        # settings still names them for the footer, so the two must agree.
+        from django.conf import settings
+        from fashionistapulp.game_versions import version_keys
+        self.assertEqual(sorted(settings.SITE_VERSIONS),
+                         sorted(version_keys()))
+
+    def test_wakfu_is_declared_and_reaches_no_reader(self):
+        # It has no data yet and nothing may link to it, but the pipeline that
+        # will build its data needs somewhere to write.
+        from fashionistapulp.game_versions import (GAME_VERSIONS,
+                                                   dofus_versions,
+                                                   version_keys)
+        wakfu = GAME_VERSIONS['wakfu']
+        self.assertTrue(wakfu.experimental)
+        self.assertFalse(wakfu.dofus)
+        self.assertNotIn('wakfu', version_keys())
+        self.assertIn('wakfu', version_keys(include_experimental=True))
+        self.assertNotIn('wakfu', dofus_versions())
+        for key in dofus_versions():
+            with self.subTest(version=key):
+                self.assertTrue(GAME_VERSIONS[key].dofus)
+                self.assertFalse(GAME_VERSIONS[key].experimental)
+
+
 class SpellComboTests(SimpleTestCase):
     """The best order of casts in a turn: a buff cast first changes what every
     later cast is worth."""
