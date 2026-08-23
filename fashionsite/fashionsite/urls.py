@@ -700,7 +700,7 @@ urlpatterns = [
     # Staff-only dashboard, gated in the view; 404 for everyone else.
     re_path(r'^admin-tools/$', admin_tools_view.admin_tools, name='admin_tools'),
     re_path(r'^admin-comment-action/$', admin_tools_view.admin_comment_action, name='admin_comment_action'),
-    re_path(r'^admin-provenance/$', admin_tools_view.provenance, name='provenance'),
+    re_path(r'^admin-tools/provenance/$', admin_tools_view.provenance, name='provenance'),
     re_path(r'^admin-ads-action/$', admin_tools_view.admin_ads_action, name='admin_ads_action'),
     re_path(r'^manifest\.webmanifest$', manifest_view, name='manifest'),
     re_path(r'^sw\.js$', service_worker_view, name='service_worker'),

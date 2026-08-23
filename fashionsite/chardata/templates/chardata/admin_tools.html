@@ -9,7 +9,8 @@
 <div class="admin-tools text">
     <h1 class="admin-title">Admin tools
         <span class="admin-generated">data {{ dash.generated }} &middot;
-            <a href="{{ dash.filters.refresh_url }}">refresh</a></span>
+            <a href="{{ dash.filters.refresh_url }}">refresh</a> &middot;
+            <a href="{% url 'provenance' %}">provenance</a></span>
     </h1>
 
     <div class="admin-filters" id="admin-filters">

@@ -21055,10 +21055,20 @@ class ArrivalSourceTests(SimpleTestCase):
 class ArrivalCountingTests(TestCase):
     """The counter itself: aggregated by day, and holding nothing personal."""
 
+    #: The test client sends no user agent, and a caller without one is
+    #: counted as a robot -- correctly, since every browser sends one. These
+    #: tests are about readers, so they have to look like readers.
+    NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                  'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36')
+
+    def client_get(self, chemin, **extra):
+        extra.setdefault('HTTP_USER_AGENT', self.NAVIGATEUR)
+        return self.client.get(chemin, **extra)
+
     def test_an_arrival_is_counted_once_per_day_and_source(self):
         from chardata.models import VisitSource
         for _ in range(3):
-            self.client.get('/', HTTP_REFERER='https://www.google.com/')
+            self.client_get('/', HTTP_REFERER='https://www.google.com/')
         rows = VisitSource.objects.filter(source='google')
         self.assertEqual(rows.count(), 1,
                          'one row per day and source, not one per visit')
@@ -21069,10 +21079,10 @@ class ArrivalCountingTests(TestCase):
     def test_browsing_the_site_does_not_inflate_the_count(self):
         from django.db.models import Sum
         from chardata.models import VisitSource
-        self.client.get('/', HTTP_HOST=self.HOST,
+        self.client_get('/', HTTP_HOST=self.HOST,
                         HTTP_REFERER='https://www.google.com/')
         for path in ('/encyclopedia/', '/guides/', '/'):
-            self.client.get(path, HTTP_HOST=self.HOST,
+            self.client_get(path, HTTP_HOST=self.HOST,
                             HTTP_REFERER='https://dofusfashionista.gg/')
         self.assertEqual(
             VisitSource.objects.aggregate(n=Sum('count'))['n'], 1)
@@ -21083,15 +21093,15 @@ class ArrivalCountingTests(TestCase):
         filed as a referral from the site to itself."""
         from django.db.models import Sum
         from chardata.models import VisitSource
-        self.client.get('/encyclopedia/', HTTP_HOST=self.HOST,
+        self.client_get('/encyclopedia/', HTTP_HOST=self.HOST,
                         HTTP_REFERER='https://www.dofusfashionista.gg/')
-        self.client.get('/encyclopedia/', HTTP_HOST='www.' + self.HOST,
+        self.client_get('/encyclopedia/', HTTP_HOST='www.' + self.HOST,
                         HTTP_REFERER='https://dofusfashionista.gg/')
         self.assertIsNone(VisitSource.objects.aggregate(n=Sum('count'))['n'])
 
     def test_the_country_comes_from_cloudflare_when_it_is_there(self):
         from chardata.models import VisitSource
-        self.client.get('/', HTTP_REFERER='https://www.google.com/',
+        self.client_get('/', HTTP_REFERER='https://www.google.com/',
                         HTTP_CF_IPCOUNTRY='co')
         self.assertEqual(VisitSource.objects.first().country, 'CO')
 
@@ -21109,13 +21119,13 @@ class ArrivalCountingTests(TestCase):
         from unittest import mock
         with mock.patch('chardata.middleware.record_arrival',
                         side_effect=RuntimeError('boom')):
-            self.assertEqual(self.client.get('/').status_code, 200)
+            self.assertEqual(self.client_get('/').status_code, 200)
 
 
 class ProvenanceViewTests(TestCase):
     """The page that reads the measurement. Admin-only, like the rest."""
 
-    URL = '/admin-provenance/'
+    URL = '/admin-tools/provenance/'
 
     def _admin(self):
         from django.contrib.auth.models import User
@@ -21386,3 +21396,84 @@ class SignInWithGoogleWorksTests(TestCase):
                     fautifs.append('%s links to %s, which answers 405 to a GET'
                                    % (page, href))
         self.assertEqual([], fautifs)
+
+
+class CrawlersAreNotReadersTests(TestCase):
+    """A count that includes crawlers answers a question nobody asked.
+
+    Measured on the first day in production: 62 130 arrivals for a site with
+    about 3 000 monthly readers, 61 539 of them from the United States, all
+    filed as "direct". A crawler sends no referrer, so every one of them landed
+    in that bucket and buried the six real rows underneath it.
+    """
+
+    LECTEURS = (
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+        '(KHTML, like Gecko) Chrome/126.0 Safari/537.36',
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) '
+        'AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1',
+        'Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0',
+    )
+
+    ROBOTS = (
+        'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+        'Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)',
+        'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)',
+        'GPTBot/1.2', 'ClaudeBot/1.0', 'CCBot/2.0', 'Bytespider',
+        'curl/8.7.1', 'Wget/1.21', 'python-requests/2.31.0',
+        'Go-http-client/2.0', 'okhttp/4.12.0', 'Scrapy/2.11',
+        'facebookexternalhit/1.1', 'HeadlessChrome/126.0',
+        '',
+    )
+
+    def _compte(self):
+        from django.db.models import Sum
+        from chardata.models import VisitSource
+        return VisitSource.objects.aggregate(n=Sum('count'))['n'] or 0
+
+    def test_a_crawler_is_not_counted(self):
+        for agent in self.ROBOTS:
+            self.client.get('/', HTTP_USER_AGENT=agent)
+        self.assertEqual(self._compte(), 0,
+                         'crawlers reached the arrival count')
+
+    def test_a_reader_still_is(self):
+        for agent in self.LECTEURS:
+            self.client.get('/', HTTP_USER_AGENT=agent)
+        self.assertEqual(self._compte(), len(self.LECTEURS))
+
+    def test_the_direct_bucket_is_where_they_would_have_landed(self):
+        """The specific failure: no referrer means 'direct', and no crawler
+        sends one."""
+        from chardata.models import VisitSource
+        self.client.get('/', HTTP_USER_AGENT=self.ROBOTS[0])
+        self.assertFalse(VisitSource.objects.filter(source='direct').exists())
+        self.client.get('/', HTTP_USER_AGENT=self.LECTEURS[0])
+        self.assertTrue(VisitSource.objects.filter(source='direct').exists())
+
+    def test_a_browser_name_containing_bot_is_not_caught_by_accident(self):
+        """The pattern must not swallow a reader. 'Bot' has to appear as a
+        word or a path, not inside another one."""
+        from chardata.middleware import looks_like_a_robot
+        from django.test import RequestFactory
+        for agent in ('Mozilla/5.0 Botswana Browser/3.0',
+                      'Mozilla/5.0 (Linux) Abbotsford/2.1'):
+            faux = RequestFactory().get('/', HTTP_USER_AGENT=agent)
+            self.assertFalse(looks_like_a_robot(faux), agent)
+
+    def test_the_purge_command_reports_before_it_deletes(self):
+        from io import StringIO
+        from django.core.management import call_command
+        from django.utils import timezone
+        from chardata.models import VisitSource
+        VisitSource.objects.create(day=timezone.localdate(), source='direct',
+                                   medium='none', count=62102)
+        sortie = StringIO()
+        call_command('purge_bot_arrivals', '--before', '2999-01-01', stdout=sortie)
+        self.assertIn('62102', sortie.getvalue())
+        self.assertIn('dry run', sortie.getvalue())
+        self.assertEqual(VisitSource.objects.count(), 1, 'a dry run deleted')
+
+        call_command('purge_bot_arrivals', '--before', '2999-01-01', '--apply',
+                     stdout=StringIO())
+        self.assertEqual(VisitSource.objects.count(), 0)

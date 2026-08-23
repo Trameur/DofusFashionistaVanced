@@ -94,6 +94,41 @@ def _host_of(url):
     return host[4:] if host.startswith('www.') else host
 
 
+#: What a crawler calls itself. Not a complete list -- no such list exists --
+#: but it catches the ones that actually arrive here. A bot is free to lie
+#: about its name; the ones that matter do not bother, because they want to be
+#: recognised.
+_ROBOT = re.compile(
+    r'bot|bot/|robot|crawl|spider|scrap|slurp|fetch|monitor|uptime|'
+    r'pingdom|lighthouse|headless|phantom|selenium|puppeteer|playwright|'
+    r'curl/|wget|python-requests|python-urllib|aiohttp|httpx|okhttp|'
+    r'go-http-client|java/|libwww|scrapy|axios|node-fetch|guzzle|'
+    r'ahrefs|semrush|mj12|dotbot|petal|bytespider|gptbot|claudebot|ccbot|'
+    r'amazonbot|applebot|google-extended|meta-external|yandex|baidu|sogou|'
+    r'exabot|seznam|dataprovider|feed|rss|preview|validator|archiver|'
+    # Link-preview fetchers: they load the page to build the little card shown
+    # when someone shares the url in a chat. facebookexternalhit does not call
+    # itself a bot, and it was the one that slipped through.
+    r'externalhit|whatsapp|telegram|discord|slack|embedly|skypeuri|'
+    r'flipboard|nuzzel|vkshare|tumblr|snapchat|pinterest',
+    re.I)
+
+
+def looks_like_a_robot(request):
+    """True when the caller announces itself as something other than a reader.
+
+    Without this the count is meaningless: on the first day it recorded 62 130
+    arrivals for a site with 3 000 monthly readers, 61 539 of them from the
+    United States, all filed as "direct" -- because a crawler sends no referrer
+    and every one of them landed in that bucket.
+
+    An empty user agent counts as a robot too. Every browser sends one; a
+    client that does not is a script.
+    """
+    agent = request.META.get('HTTP_USER_AGENT') or ''
+    return not agent.strip() or bool(_ROBOT.search(agent))
+
+
 def arrival_source(request):
     """(source, medium, campaign) when a request is an arrival, else None.
 
@@ -131,6 +166,8 @@ def arrival_source(request):
 
 def record_arrival(request):
     """Count one arrival, aggregated by day. Stores nothing about the person."""
+    if looks_like_a_robot(request):
+        return
     found = arrival_source(request)
     if found is None:
         return
