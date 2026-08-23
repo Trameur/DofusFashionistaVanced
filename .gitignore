@@ -82,6 +82,7 @@ itemscraper/transformed_wakfu.json
 !.env.example
 
 discordbot/contributions.json
+discordbot/messages.txt
 
 fashionistapulp/fashionistapulp/items_wakfu.db
 fashionistapulp/fashionistapulp/item_db_dumped_wakfu.dump
