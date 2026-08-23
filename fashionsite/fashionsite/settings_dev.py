@@ -166,7 +166,7 @@ MIDDLEWARE = [
     'chardata.middleware.GameVersionMiddleware',
     'chardata.middleware.PageHitMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'chardata.url_language.PrefixOptionalLocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

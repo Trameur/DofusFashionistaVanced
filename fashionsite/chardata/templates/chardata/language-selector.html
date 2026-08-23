@@ -6,6 +6,13 @@
         <form action="/i18n/setlang/" method="post" id="language-selector">
         {% csrf_token %}
             <input type="hidden" name="language" value="{{LANGUAGE_CODE}}" id="language-input">
+            {# Where to land after switching. Path only: set_language
+               refuses a destination whose host is not the current one,
+               and alternate_urls are absolute on the production domain. On a page whose language lives in
+               its url -- an item, a guide -- coming back to the same url would
+               simply re-impose the language that url names, so the flag would
+               do nothing at all for a visitor who is not signed in. #}
+            <input type="hidden" name="next" value="" id="language-next">
             {% if LANGUAGE_CODE == 'pt' %}
             <img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" id="flag" title="{% trans 'Portuguese' %}" width="24" height="24"></img>
             {% endif %}
@@ -24,19 +31,19 @@
         </form>
         <div id="other-flags">
             {% if LANGUAGE_CODE != 'pt' %}
-            <img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" id="flag-pt" class="flag-choose" title="{% trans 'Portuguese' %}" width="24" height="24"></img><br>
+            <img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" id="flag-pt" class="flag-choose" data-next="{{ alternate_urls.pt|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'Portuguese' %}" width="24" height="24"></img><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'en' %}
-            <img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" id="flag-en" class="flag-choose" title="{% trans 'English' %}" width="24" height="24"></img><br>
+            <img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" id="flag-en" class="flag-choose" data-next="{{ alternate_urls.en|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'English' %}" width="24" height="24"></img><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'fr' %}
-            <img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" id="flag-fr" class="flag-choose" title="{% trans 'French' %}" width="24" height="24"></img><br>
+            <img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" id="flag-fr" class="flag-choose" data-next="{{ alternate_urls.fr|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'French' %}" width="24" height="24"></img><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'es' %}
-            <img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" id="flag-es" class="flag-choose" title="{% trans 'Spanish' %}" width="24" height="24"></img><br>
+            <img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" id="flag-es" class="flag-choose" data-next="{{ alternate_urls.es|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'Spanish' %}" width="24" height="24"></img><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'de' %}
-            <img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" id="flag-de" class="flag-choose" title="{% trans 'German' %}" width="50" height="37"></img><br>
+            <img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" id="flag-de" class="flag-choose" data-next="{{ alternate_urls.de|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'German' %}" width="50" height="37"></img><br>
             {% endif %}
         </div>
     </div>

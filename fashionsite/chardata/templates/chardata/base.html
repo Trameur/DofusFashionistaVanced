@@ -518,6 +518,11 @@ outside every column so nothing they do can move the page.{% endcomment %}
  
     function chooseLanguage(language){
         $("#language-input").val(language);
+        // Pages that carry their language in the url publish where the same
+        // page lives in each of the others. Without it Django comes back to
+        // the url we are on, whose slug names the language we are leaving.
+        var next = $("#flag-" + language).data("next") || "";
+        $("#language-next").val(next);
         $("#language-selector").submit();
     }
     

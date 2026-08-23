@@ -12,6 +12,7 @@ import re
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse, NoReverseMatch
+from django.conf import settings
 from django.utils import translation
 from django.utils.translation import get_language
 
@@ -43,14 +44,22 @@ def add_version_prefix(html, game_version):
 
 
 def _guide_url(version, slug):
-    """Reverse the single-guide URL under a version's namespace (dofus3 = the
-    unprefixed default)."""
-    if version != 'dofus3':
-        try:
-            return reverse('%s:guide' % version, args=[slug])
-        except NoReverseMatch:
-            pass
-    return reverse('guide', args=[slug])
+    """Url of one guide, always built without a language prefix.
+
+    A guide's slug already names its language -- /guides/tacle-et-fuite/ is the
+    French page and says so -- so a prefix on top would be a second url for one
+    page. Since the version includes moved under i18n_patterns, reverse() adds
+    that prefix from whatever language happens to be active, which made every
+    versioned guide declare a canonical no sitemap contains: 44 of the 256 urls
+    in sitemap-pages.xml stopped being their own canonical.
+    """
+    with translation.override(settings.LANGUAGE_CODE):
+        if version != 'dofus3':
+            try:
+                return reverse('%s:guide' % version, args=[slug])
+            except NoReverseMatch:
+                pass
+        return reverse('guide', args=[slug])
 
 
 # The guides run from 1600 to 4200 characters. At 3000 only two of the

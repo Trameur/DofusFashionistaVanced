@@ -846,3 +846,102 @@ class UnprefixedUrlsKeepNegotiatingTest(TestCase):
                         '/encyclopedia/item/equipment/44-espada-de-maderucha/',
                         HTTP_ACCEPT_LANGUAGE=header),
                     'es')
+
+
+class EverySubmittedPageIsItsOwnCanonicalTest(TestCase):
+    """The check that would have caught the versioned guides.
+
+    An adversarial review found 44 of the 256 urls in sitemap-pages.xml
+    declaring a canonical no sitemap contained: guides under a version prefix
+    built their url with reverse() while a non-default language was active, so
+    /retro/guides/coups-critiques/ named /fr/retro/guides/... as canonical.
+    Telling Google a submitted page is a copy of an unsubmitted one is exactly
+    the defect this whole change set exists to remove.
+
+    Earlier tests only looked at dofus3, which is where the blind spot was.
+    """
+
+    @staticmethod
+    def _canonical(html):
+        tag = re.search(r'<link[^>]*rel="canonical"[^>]*>', html)
+        if tag is None:
+            return None
+        href = re.search(r'href="([^"]+)"', tag.group(0))
+        return href.group(1) if href else None
+
+    def test_every_url_in_the_pages_sitemap_is_its_own_canonical(self):
+        xml = self.client.get('/sitemap-pages.xml').content.decode('utf-8')
+        locations = re.findall(r'<loc>([^<]+)</loc>', xml)
+        self.assertTrue(locations, 'the pages sitemap submits nothing')
+
+        divergentes = []
+        for location in locations:
+            path = location.replace('https://dofusfashionista.gg', '')
+            response = self.client.get(path)
+            if response.status_code != 200:
+                divergentes.append((path, response.status_code))
+                continue
+            canonical = self._canonical(response.content.decode('utf-8'))
+            if canonical != location:
+                divergentes.append((path, canonical))
+        self.assertFalse(
+            divergentes,
+            '%d submitted pages are not their own canonical: %s'
+            % (len(divergentes), divergentes[:6]))
+
+
+class LanguageSelectorTest(TestCase):
+    """The flag has to work for a visitor who is not signed in.
+
+    On a page whose language lives in its url, coming back to the same url
+    re-imposes the language being left, so the selector did nothing at all on
+    the encyclopedia and the guides -- the two largest families of pages.
+    Signed-in visitors were carried by the profile redirect and hid it.
+    """
+
+    PAGES = ('/guides/getting-started/',
+             '/encyclopedia/item/equipment/44-twiggy-sword/')
+
+    @staticmethod
+    def _destination(html, language):
+        """The flag's destination, whatever order the minifier left the
+        attributes in -- it sorts them alphabetically, so data-next comes
+        before id and any fixed-order pattern silently finds nothing."""
+        for tag in re.findall(r'<img[^>]*>', html):
+            if 'id="flag-%s"' % language not in tag:
+                continue
+            found = re.search(r'data-next="([^"]*)"', tag)
+            return found.group(1) if found else None
+        return None
+
+    def test_the_flags_say_where_each_language_lives(self):
+        for page in self.PAGES:
+            with self.subTest(page=page):
+                html = self.client.get(page).content.decode('utf-8')
+                for language in ('fr', 'es', 'pt'):
+                    destination = self._destination(html, language)
+                    self.assertTrue(
+                        destination, 'no destination on the %s flag of %s'
+                        % (language, page))
+                    self.assertTrue(
+                        destination.startswith('/'),
+                        'the destination must be a path, not %r -- '
+                        'set_language refuses another host' % destination)
+
+    def test_each_destination_answers_in_its_own_language(self):
+        for page in self.PAGES:
+            html = self.client.get(page).content.decode('utf-8')
+            for language in ('fr', 'es', 'pt'):
+                destination = self._destination(html, language)
+                self.assertTrue(destination)
+                with self.subTest(page=page, language=language):
+                    response = self.client.get(destination)
+                    self.assertEqual(response.status_code, 200, destination)
+                    declared = re.search(
+                        r'<html[^>]*lang="([^"]+)"',
+                        response.content.decode('utf-8'))
+                    self.assertEqual(declared.group(1).split('-')[0], language)
+
+    def test_the_form_carries_a_next_field(self):
+        html = self.client.get(self.PAGES[0]).content.decode('utf-8')
+        self.assertIn('name="next"', html)
