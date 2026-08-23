@@ -4,8 +4,9 @@ import re
 import sqlite3
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.conf import settings
 from django.shortcuts import redirect
-from django.utils.translation import gettext as _
+from django.utils.translation import get_language, gettext as _
 from django.utils import translation
 
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
@@ -614,10 +615,22 @@ def _breadcrumb_jsonld(crumbs):
 
 
 def _absolute_versioned_url(path, game_version='dofus3'):
+    """Absolute url of a hub page, in the language being served.
+
+    Hubs have no name to localise, so they carry their language in a prefix.
+    Without this the breadcrumb of a Spanish item page pointed at the English
+    hub, and every crawler following it left Spanish on the first click.
+
+    Only the default version is prefixed: that is the only one whose hubs are
+    published per language.
+    """
     if not path.startswith('/'):
         path = '/%s' % path
     if game_version and game_version != 'dofus3':
-        path = '/%s%s' % (game_version, path)
+        return 'https://dofusfashionista.gg/%s%s' % (game_version, path)
+    language = get_language()
+    if language and language != settings.LANGUAGE_CODE:
+        path = '/%s%s' % (language, path)
     return 'https://dofusfashionista.gg%s' % path
 
 

@@ -589,16 +589,15 @@ class InternalLinksStayInLanguageTest(TestCase):
             checked += 1
         self.assertTrue(checked, 'no internal encyclopedia link to check')
 
-        # Hub pages sit at a fixed path with no name to localise, so they have
-        # no URL of their own per language and answer in English to a crawler.
-        # Everything reached from an entity page -- other items, sets, monsters
-        # -- must stay in the language. This assertion is a guard against a new
-        # leak, not an acceptance of the known one.
-        HUBS = ('/encyclopedia/', '/encyclopedia/sets/',
-                '/encyclopedia/monsters/')
+        # Hubs on the default version now carry a language prefix, so nothing
+        # there may leak. Version-prefixed hubs (/dofus2/encyclopedia/) are the
+        # one case still unpublished per language: stacking two prefixes needs
+        # its own pass. Narrowed to exactly that, so a new leak anywhere else
+        # fails here.
+        VERSIONS = ('/beta/', '/dofus2/', '/retro/', '/touch/')
         inattendues = [
             (path, lang) for path, lang in fugues
-            if not any(path.endswith(hub) for hub in HUBS)
+            if not path.startswith(VERSIONS)
         ]
         self.assertFalse(
             inattendues,
@@ -660,3 +659,55 @@ class SubmittedUrlsAnswerTest(TestCase):
                     self.client.get('/sitemap-%s.xml' % name).status_code, 200,
                     'the index names sitemap-%s.xml, which does not answer'
                     % name)
+
+
+class HubLanguagePrefixTest(TestCase):
+    """Pages with no name of their own carry their language in a prefix.
+
+    Everything else takes it from the entity name. A hub has no name, so
+    without a prefix it exists only in English -- and the breadcrumb of a
+    Spanish item page sent every reader and every crawler straight back to
+    English on the first click.
+    """
+
+    HUBS = ('/', '/guides/', '/encyclopedia/', '/encyclopedia/sets/',
+            '/encyclopedia/monsters/')
+
+    def test_the_english_urls_are_exactly_where_they_were(self):
+        # prefix_default_language=False. Nothing already indexed may move.
+        for hub in self.HUBS:
+            with self.subTest(hub=hub):
+                self.assertEqual(self.client.get(hub).status_code, 200)
+
+    def test_each_hub_gains_a_url_per_language(self):
+        for hub in self.HUBS:
+            for language in ('fr', 'es', 'pt', 'de'):
+                with self.subTest(hub=hub, language=language):
+                    self.assertEqual(
+                        self.client.get('/%s%s' % (language, hub)).status_code,
+                        200)
+
+    def test_a_prefixed_hub_answers_in_that_language(self):
+        for language in ('fr', 'es', 'pt'):
+            with self.subTest(language=language):
+                html = self.client.get(
+                    '/%s/encyclopedia/' % language).content.decode('utf-8')
+                declared = re.search(r'<html[^>]*lang="([^"]+)"', html)
+                self.assertIsNotNone(declared)
+                self.assertEqual(declared.group(1).split('-')[0], language)
+
+    def test_the_breadcrumb_of_a_spanish_item_stays_spanish(self):
+        # The finding that motivated this: /encyclopedia/ was the one link on
+        # a Spanish page that left Spanish.
+        html = self.client.get(
+            '/encyclopedia/item/equipment/44-espada-de-maderucha/'
+        ).content.decode('utf-8')
+        self.assertIn('/es/encyclopedia/', html)
+
+    def test_an_entity_url_never_takes_a_prefix(self):
+        # Entities carry their language in the name; a prefix on top would be
+        # a second URL for one page.
+        self.assertEqual(
+            self.client.get(
+                '/es/encyclopedia/item/equipment/44-espada-de-maderucha/'
+            ).status_code, 404)

@@ -14,6 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, path, re_path
 from django.views.i18n import JavaScriptCatalog
 from django.conf import settings
@@ -651,7 +652,6 @@ urlpatterns = [
             character_assets.parts_manifest_view, name='character_parts'),
     re_path(r'^character/parts/(?P<skin_id>\d+)/atlas\.webp$',
             character_assets.atlas_view, name='character_atlas'),
-    re_path(r'^$', home_view.home, name='home'),
     re_path(r'^random/$', home_view.random_build, name='random_build'),
 
     # Public read-only REST API (no auth, CORS open, cached 60s)
@@ -760,26 +760,21 @@ urlpatterns = [
     re_path(r'^infeasible/(?P<char_id>\d+)/', views.infeasible, name='infeasible'),
     re_path(r'^changelog-content/$', util_views.changelog_content,
             name='changelog_content'),
-    re_path(r'^guides/$', guides_view.guides, name='guides'),
     re_path(r'^guides/(?P<slug>[a-z0-9-]+)/$', guides_view.guide, name='guide'),
     re_path(r'^about/', views.about, name='about'),
     re_path(r'^license/', views.license_page, name='license_page'),
     re_path(r'^faq/', views.faq, name='faq'),
     re_path(r'^privacy/', views.privacy, name='privacy'),
     re_path(r'^support/', views.support, name='support'),
-    re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia, name='encyclopedia'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
             encyclopedia_view.encyclopedia_item,
             name='encyclopedia_item'),
     re_path(r'^encyclopedia/resource/(?P<subtype>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
             encyclopedia_view.encyclopedia_resource,
             name='encyclopedia_resource'),
-    re_path(r'^encyclopedia/monsters/$', encyclopedia_view.encyclopedia_monsters,
-            name='encyclopedia_monsters'),
     re_path(r'^encyclopedia/monster/(?P<monster_id>\d+)-(?P<slug>[^/]*)/$',
             encyclopedia_view.encyclopedia_monster,
             name='encyclopedia_monster'),
-    re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets, name='encyclopedia_sets'),
     re_path(r'^encyclopedia/set/(?P<set_id>\d+)(?:-(?P<slug>[^/]+))?/$', encyclopedia_view.encyclopedia_set,
             name='encyclopedia_set'),
     re_path(r'^forgemagie/$', forgemagie_view.forgemagie, name='forgemagie'),
@@ -869,6 +864,30 @@ urlpatterns += [
     path('retro/', include(_game_urls, namespace='retro')),
     path('touch/', include(_game_urls, namespace='touch')),
 ]
+
+# Pages with no name of their own to localise. Everything else carries its
+# language in the entity name -- /encyclopedia/item/equipment/44-espada-de-
+# maderucha/ is the Spanish page and says so -- but a hub has no name, so the
+# language goes in a prefix instead.
+#
+# prefix_default_language=False keeps every English URL exactly where it is:
+# /encyclopedia/ still answers at /encyclopedia/, and /es/encyclopedia/ is
+# added beside it. Nothing already indexed moves.
+#
+# Only the default version's hubs for now. A version-prefixed hub would stack
+# two prefixes (/es/dofus2/encyclopedia/) and needs its own pass.
+urlpatterns += i18n_patterns(
+    re_path(r'^$', home_view.home, name='home'),
+    re_path(r'^guides/$', guides_view.guides, name='guides'),
+    re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia,
+            name='encyclopedia'),
+    re_path(r'^encyclopedia/monsters/$',
+            encyclopedia_view.encyclopedia_monsters,
+            name='encyclopedia_monsters'),
+    re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets,
+            name='encyclopedia_sets'),
+    prefix_default_language=False,
+)
 
 handler403 = views.forbidden
 handler404 = views.not_found
