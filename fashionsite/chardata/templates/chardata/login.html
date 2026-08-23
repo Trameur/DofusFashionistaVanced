@@ -74,7 +74,30 @@
     <div align="center">
         <!-- <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="{% static "chardata/fb_login.png" %}" alt='{{_("Login with Facebook")|escapejs}}'></a> 
         <br> -->
-        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"><img src="{% static "chardata/google_login.png" %}" alt='{{_("Login with Google")|escapejs}}'></a>
+        {% comment %}
+        A form, not a link. social_django 6 decorates its begin view with
+        @require_POST, so a GET now answers 405 with an empty body -- which is
+        exactly the blank page a signing-in reader sees. The change came with a
+        dependency upgrade, not with anything on this side, and it is a
+        deliberate hardening: a GET to that url could be triggered from another
+        site and start an authentication the reader never asked for.
+        {% endcomment %}
+        <form method="post" action="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="google-login-form">
+            {% csrf_token %}
+            <button type="submit" class="google-login-button">
+                <img src="{% static "chardata/google_login.png" %}" alt='{{_("Login with Google")|escapejs}}'>
+            </button>
+        </form>
+        <style>
+            /* The button carries the image and nothing else, so it has to look
+               like the image did: no chrome, no padding, same cursor. */
+            .google-login-form { display: inline; }
+            .google-login-button {
+                background: none; border: 0; padding: 0; margin: 0;
+                cursor: pointer; line-height: 0;
+            }
+            .google-login-button img { display: block; }
+        </style>
         <br>
         <br>
         <span class="big-text">{% blocktrans %}We only use your Google account to sign you in, so you can save and share your projects. Nothing is ever posted on your behalf.{% endblocktrans %}</span>

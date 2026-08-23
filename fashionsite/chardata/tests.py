@@ -21309,3 +21309,74 @@ class SupportPageFramingTests(TestCase):
     def test_the_donation_link_is_still_counted(self):
         html = self.client.get('/support/').content.decode('utf-8')
         self.assertIn('/out/donate/0/', html)
+
+
+class SignInWithGoogleWorksTests(TestCase):
+    """The Google button has to send what the library will accept.
+
+    social_django 6 decorates its begin view with @require_POST. A plain link
+    therefore answers 405 with an empty body -- and an empty body is a blank
+    page, which is exactly what a reader trying to sign in reported seeing.
+    Nothing on this side changed; a dependency upgrade did, and the hardening
+    is sound: a GET to that url can be triggered from another site and start
+    an authentication nobody asked for.
+
+    The last test is the general one. It walks the pages that carry links and
+    fails if any <a href> points at a view that only accepts POST, so the next
+    library to tighten a method is caught here rather than by a reader.
+    """
+
+    OAUTH = '/login/google-oauth2/'
+
+    def test_the_begin_view_refuses_a_get(self):
+        """Pinned deliberately: if a future upgrade relaxes this, the form
+        below becomes unnecessary and this test says so."""
+        self.assertEqual(self.client.get(self.OAUTH).status_code, 405)
+
+    def test_the_login_page_posts_instead_of_linking(self):
+        html = self.client.get('/login_page/').content.decode('utf-8')
+        self.assertIn(self.OAUTH, html, 'the Google button vanished')
+        self.assertNotIn('<a href="%s' % self.OAUTH, html,
+                         'the Google button is a link again, which answers 405')
+        bloc = html[max(0, html.find(self.OAUTH) - 400):html.find(self.OAUTH) + 400]
+        self.assertIn('method="post"', bloc.lower(),
+                      'the Google button is not inside a POST form')
+        self.assertIn('csrfmiddlewaretoken', html,
+                      'a POST without a CSRF token is refused by Django')
+
+    def test_the_button_survives_in_every_language(self):
+        for langue in ('fr', 'es', 'pt', 'de', 'en'):
+            html = self.client.get(
+                '/login_page/', HTTP_ACCEPT_LANGUAGE=langue).content.decode('utf-8')
+            self.assertIn(self.OAUTH, html, langue)
+            self.assertIn('csrfmiddlewaretoken', html, langue)
+
+    def test_no_page_links_to_a_view_that_only_takes_post(self):
+        """The general rule, so the next one is caught here."""
+        import re
+        from django.urls import resolve
+
+        pages = ('/', '/login_page/', '/support/', '/encyclopedia/', '/guides/',
+                 '/sharedbuilds/', '/about/', '/faq/')
+        fautifs = []
+        for page in pages:
+            reponse = self.client.get(page)
+            if reponse.status_code != 200:
+                continue
+            html = reponse.content.decode('utf-8')
+            for href in set(re.findall(r'<a\b[^>]*href="(/[^"#?]*)', html)):
+                try:
+                    vue = resolve(href).func
+                except Exception:
+                    continue
+                autorisees = getattr(vue, 'allowed_methods', None) or \
+                    getattr(getattr(vue, 'view_class', None), 'http_method_names', None)
+                if autorisees and 'GET' not in {m.upper() for m in autorisees}:
+                    fautifs.append('%s links to %s' % (page, href))
+                    continue
+                # A require_POST view keeps its wrapper; asking it with GET is
+                # the only reliable way to know from the outside.
+                if self.client.get(href).status_code == 405:
+                    fautifs.append('%s links to %s, which answers 405 to a GET'
+                                   % (page, href))
+        self.assertEqual([], fautifs)
