@@ -88,6 +88,16 @@ CHARACTERISTIC_IN_PARAM = {39: 1, 40: -1}
 CHARACTERISTIC_BY_ID = {120: 'ARMOR_GIVEN_PERCENT',
                         121: 'ARMOR_RECEIVED_PERCENT'}
 STATE_ACTION = 304
+
+# "232 Mastery with 2 elements" and its resistance twin. The value is params[0]
+# and the NUMBER of elements is params[2]; which elements is not in the data at
+# all, because it is a property of the copy in a player's hands rather than of
+# the item. 5255 gear lines carry the mastery form, the second most common line
+# in the game, so nothing about Wakfu can be modelled without deciding what
+# they are worth. That decision is not made here: the count is recorded and the
+# question is left to whoever writes the model.
+ELEMENT_COUNT_ACTIONS = {1068: 'mastery', 1069: 'resistance'}
+ELEMENT_COUNT_PARAM = 2
 IGNORED_ACTIONS = (400, 1020)
 JOB_ACTIONS = (2001,)
 
@@ -210,6 +220,7 @@ def decode(target):
               'by_rarity': collections.Counter(),
               'unknown_actions': collections.Counter(),
               'stats': collections.Counter(),
+              'element_spread': collections.Counter(),
               'not_a_stat': collections.Counter(),
               'languages': collections.Counter(),
               'sets': set()}
@@ -243,6 +254,12 @@ def decode(target):
             if key:
                 line['stat'] = key
                 line['value'] = value
+                spread = ELEMENT_COUNT_ACTIONS.get(action_id)
+                if spread and len(params) > ELEMENT_COUNT_PARAM:
+                    line['elements'] = int(params[ELEMENT_COUNT_PARAM])
+                    line['spread'] = spread
+                    report['element_spread'][
+                        '%s in %d' % (spread, line['elements'])] += 1
                 report['stats'][key] += 1
             else:
                 line['not_a_stat'] = value
@@ -315,6 +332,9 @@ def main(argv=None):
           % (sum(report['stats'].values()), len(report['stats'])))
     for reason, count in report['not_a_stat'].most_common():
         print('   not a stat: %-34s %d' % (reason, count))
+    print('lines spread over elements the data does not name:')
+    for spread, count in sorted(report['element_spread'].items()):
+        print('   %-22s %5d' % (spread, count))
     print('languages: %s' % dict(report['languages']))
     print('by slot:')
     for position, count in sorted(report['by_position'].items()):
