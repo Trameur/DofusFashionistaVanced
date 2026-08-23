@@ -1227,3 +1227,105 @@ class PrivatePagesStayOutOfSearchTest(TestCase):
         xml = self.client.get('/sitemap-pages.xml').content.decode('utf-8')
         self.assertIn('<loc>https://dofusfashionista.gg/setup/</loc>', xml)
         self.assertEqual(self.client.get('/setup/').status_code, 200)
+
+
+class SubmittedHubCanonicalIgnoresTheBrowserTests(TestCase):
+    """A submitted url must name itself, whatever language the browser asks for.
+
+    Hub pages answer on two urls -- /encyclopedia/ and /es/encyclopedia/ -- and
+    the unprefixed one is served in whatever language the reader negotiated. Its
+    canonical used to be built from that served language, so a Spanish reader's
+    copy of /encyclopedia/ declared /es/encyclopedia/ canonical while the same
+    <head> listed /encyclopedia/ as the English alternate and the x-default: a
+    submitted url contradicting its own hreflang block.
+
+    EverySubmittedPageIsItsOwnCanonicalTest cannot see this -- it sends no
+    Accept-Language, so English stays active and every canonical is
+    self-referential. This one varies the header, which is the whole point.
+    """
+
+    HUBS = ('/encyclopedia/', '/encyclopedia/sets/', '/encyclopedia/monsters/')
+    HEADERS = ('fr', 'es', 'pt', 'de', 'es-ES,es;q=0.9', '')
+
+    def _canonical(self, html):
+        tag = re.search(r'<link[^>]*canonical[^>]*>', html)
+        self.assertIsNotNone(tag, 'no canonical tag at all')
+        href = re.search(r'href="([^"]+)"', tag.group(0))
+        self.assertIsNotNone(href, tag.group(0))
+        return href.group(1)
+
+    def test_an_unprefixed_hub_stays_its_own_canonical(self):
+        for hub in self.HUBS:
+            attendu = 'https://dofusfashionista.gg%s' % hub
+            for header in self.HEADERS:
+                page = self.client.get(hub, HTTP_ACCEPT_LANGUAGE=header)
+                self.assertEqual(page.status_code, 200, hub)
+                self.assertEqual(
+                    self._canonical(page.content.decode('utf-8')), attendu,
+                    '%s served with Accept-Language %r names another url'
+                    % (hub, header))
+
+    def test_a_prefixed_hub_stays_its_own_canonical(self):
+        for prefix in ('/fr', '/es', '/pt'):
+            for hub in self.HUBS:
+                path = prefix + hub
+                attendu = 'https://dofusfashionista.gg%s' % path
+                for header in ('en', 'de', ''):
+                    page = self.client.get(path, HTTP_ACCEPT_LANGUAGE=header)
+                    self.assertEqual(page.status_code, 200, path)
+                    self.assertEqual(
+                        self._canonical(page.content.decode('utf-8')), attendu,
+                        '%s served with Accept-Language %r names another url'
+                        % (path, header))
+
+    def test_the_canonical_never_contradicts_the_hreflang_block(self):
+        """Whatever the canonical names, the page must be listed under that
+        same url in its own alternates."""
+        for header in ('es', 'fr', ''):
+            html = self.client.get(
+                '/encyclopedia/', HTTP_ACCEPT_LANGUAGE=header
+            ).content.decode('utf-8')
+            canonical = self._canonical(html)
+            alternates = {}
+            for tag in re.findall(r'<link[^>]*hreflang[^>]*>', html):
+                lang = re.search(r'hreflang="([^"]+)"', tag)
+                href = re.search(r'href="([^"]+)"', tag)
+                if lang and href:
+                    alternates.setdefault(href.group(1), set()).add(lang.group(1))
+            self.assertIn(canonical, alternates,
+                          'canonical %s is not among the alternates' % canonical)
+            self.assertIn(
+                'en', alternates[canonical],
+                'the unprefixed hub is listed as %s in its own hreflang block '
+                'while canonicalising to %s'
+                % (sorted(alternates[canonical]), canonical))
+
+    def test_breadcrumbs_still_follow_the_language_of_the_page(self):
+        """The canonical follows the url; links must keep following the page.
+
+        Fixing one by breaking the other would send a Spanish reader to the
+        English hub on the first click -- the very thing the language prefix on
+        hub urls exists to prevent.
+
+        The Spanish url is read off the English page's own hreflang block
+        rather than spelled out here: an invented slug would test a 404.
+        """
+        english = self.client.get(
+            '/encyclopedia/item/equipment/44-twiggy-sword/')
+        self.assertEqual(english.status_code, 200)
+        spanish_url = None
+        for tag in re.findall(r'<link[^>]*hreflang="es"[^>]*>',
+                              english.content.decode('utf-8')):
+            href = re.search(r'href="([^"]+)"', tag)
+            if href:
+                spanish_url = href.group(1)
+        self.assertIsNotNone(spanish_url, 'the item page declares no es alternate')
+
+        path = spanish_url.replace('https://dofusfashionista.gg', '')
+        page = self.client.get(path)
+        self.assertEqual(page.status_code, 200, path)
+        html = page.content.decode('utf-8')
+        self.assertIn('<html lang="es"', html,
+                      '%s is not served in Spanish' % path)
+        self.assertIn('https://dofusfashionista.gg/es/encyclopedia/', html,
+                      'a Spanish page links to a hub that is not Spanish')

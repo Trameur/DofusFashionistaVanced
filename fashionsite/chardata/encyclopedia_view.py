@@ -622,7 +622,7 @@ def _breadcrumb_jsonld(crumbs):
     return payload.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
 
 
-def _absolute_versioned_url(path, game_version='dofus3'):
+def _absolute_versioned_url(path, game_version='dofus3', language=None):
     """Absolute url of a hub page, in the language being served.
 
     Hubs have no name to localise, so they carry their language in a prefix.
@@ -638,7 +638,8 @@ def _absolute_versioned_url(path, game_version='dofus3'):
         path = '/%s%s' % (game_version, path)
     # Language first: that is the order i18n_patterns produces, and a
     # breadcrumb disagreeing with it would name a url that does not exist.
-    language = get_language()
+    if language is None:
+        language = get_language()
     if language and language != settings.LANGUAGE_CODE:
         path = '/%s%s' % (language, path)
     return 'https://dofusfashionista.gg%s' % path
@@ -646,8 +647,22 @@ def _absolute_versioned_url(path, game_version='dofus3'):
 
 def _paginated_canonical(request, path, game_version, page_obj):
     """Canonical url for a list page: itself, except for a filtered or sorted
-    view, which points at the plain list."""
-    url = _absolute_versioned_url(path, game_version)
+    view, which points at the plain list.
+
+    The language is read off the requested url, not off the language being
+    served. A hub answers on both /encyclopedia/ and /es/encyclopedia/, so a
+    Spanish reader whose browser asks for the first gets Spanish text at an
+    unprefixed url -- and that same <head> declares /encyclopedia/ to be the
+    English alternate and the x-default. Taking the language from
+    get_language() there made the page name /es/encyclopedia/ as its canonical
+    while claiming to be the English one: a submitted url contradicting its own
+    hreflang block. Links and breadcrumbs still follow the served language,
+    which is what a reader wants; only the canonical follows the url.
+    """
+    from chardata.url_language import split_language_prefix
+    prefix, _rest = split_language_prefix(request.path_info)
+    url = _absolute_versioned_url(path, game_version,
+                                  language=prefix.lstrip('/') or settings.LANGUAGE_CODE)
     filters = {key for key in request.GET if key != 'page'}
     number = getattr(page_obj, 'number', 1) or 1
     if filters or number <= 1:
