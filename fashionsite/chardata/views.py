@@ -193,6 +193,10 @@ def support(request, char_id=0):
                          'support_links': support_links})
 
 
+#: Where a donation link may sit. Closed on purpose: see donate().
+DONATION_SOURCES = frozenset({'support', 'solution', 'footer'})
+
+
 def donate(request, index='0'):
     """Counts the click, then hands the reader over to the donation page.
 
@@ -221,7 +225,14 @@ def donate(request, index='0'):
         from django.utils import timezone as _tz
         from django.utils import translation as _tr
         from chardata.models import SupportClick
-        key = {'day': _tz.localdate(), 'language': (_tr.get_language() or '')[:10]}
+        # Read from a closed list, never from the query as given. A visitor
+        # cannot invent a label, which keeps the table small and the values
+        # comparable; anything unexpected is filed as 'other' rather than
+        # rejected, because a miscounted click is better than a lost donation.
+        demande = (request.GET.get('from') or 'support').strip().lower()
+        source = demande if demande in DONATION_SOURCES else 'other'
+        key = {'day': _tz.localdate(), 'language': (_tr.get_language() or '')[:10],
+               'source': source}
         if not SupportClick.objects.filter(**key).update(count=F('count') + 1):
             SupportClick.objects.get_or_create(defaults={'count': 1}, **key)
     except Exception:

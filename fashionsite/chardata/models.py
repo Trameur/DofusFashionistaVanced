@@ -370,10 +370,14 @@ class SupportClick(models.Model):
     """
     day = models.DateField(db_index=True)
     language = models.CharField(max_length=10, blank=True)
+    #: Which page the reader was on. The whole question is whether asking at
+    #: the moment the tool just did its work beats asking on a page nobody
+    #: visits, and that cannot be answered by one undifferentiated total.
+    source = models.CharField(max_length=20, default='support')
     count = models.BigIntegerField(default=0)
 
     class Meta:
-        unique_together = ('day', 'language')
+        unique_together = ('day', 'language', 'source')
 
     def __str__(self):
         return '%s %s %s' % (self.day, self.language, self.count)

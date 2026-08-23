@@ -6749,3 +6749,11 @@ msgstr "Chega mais tarde, não no total acima:"
 #: .\chardata\templates\chardata\support.html:33
 msgid "There is no advertising on the site, and I would like to keep it that way. Donations are what pays for the server."
 msgstr "Não há nenhuma publicidade no site, e gostaria que continuasse assim. São as doações que pagam o servidor."
+
+#: .\chardata\templates\chardata\solution.html:182
+msgid "This calculation ran on a server paid for by donations. The site stays free, and carries no advertising."
+msgstr "Este cálculo correu num servidor pago por doações. O site continua gratuito e sem publicidade."
+
+#: .\chardata\templates\chardata\solution.html:182
+msgid "Support it"
+msgstr "Apoiar"

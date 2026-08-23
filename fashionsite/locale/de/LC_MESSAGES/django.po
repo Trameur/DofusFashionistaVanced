@@ -6781,3 +6781,11 @@ msgstr "Trifft später ein, nicht im Gesamtwert oben:"
 #: .\chardata\templates\chardata\support.html:33
 msgid "There is no advertising on the site, and I would like to keep it that way. Donations are what pays for the server."
 msgstr "Auf der Seite gibt es keine Werbung, und das soll auch so bleiben. Spenden bezahlen den Server."
+
+#: .\chardata\templates\chardata\solution.html:182
+msgid "This calculation ran on a server paid for by donations. The site stays free, and carries no advertising."
+msgstr "Diese Berechnung lief auf einem Server, den Spenden bezahlen. Die Seite bleibt kostenlos und werbefrei."
+
+#: .\chardata\templates\chardata\solution.html:182
+msgid "Support it"
+msgstr "Unterstützen"

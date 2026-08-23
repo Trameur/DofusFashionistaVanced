@@ -50,7 +50,7 @@
             {% for link in support_links %}
             {% comment %}Passe par /out/donate/ pour que le clic soit compte ; la
             destination vient des reglages, jamais de l'URL.{% endcomment %}
-            <a class="support-donate-link" href="/out/donate/{{ forloop.counter0 }}/" target="_blank" rel="nofollow noopener noreferrer">
+            <a class="support-donate-link" href="/out/donate/{{ forloop.counter0 }}/?from=support" target="_blank" rel="nofollow noopener noreferrer">
                 {{ link.label }}
             </a>
             {% endfor %}

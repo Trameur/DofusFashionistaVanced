@@ -21531,3 +21531,103 @@ class CrawlersAreNotReadersTests(TestCase):
         call_command('purge_bot_arrivals', '--before', '2999-01-01', '--apply',
                      stdout=StringIO())
         self.assertEqual(VisitSource.objects.count(), 0)
+
+
+class AskingAtTheMomentOfValueTests(TestCase):
+    """Where the donation is asked for, and whether the placement can be told
+    apart afterwards.
+
+    The ask lived on /support/, a page almost nobody opens. It now also sits on
+    the result page, right after the tool has done the thing people came for.
+    Which of the two works is the number nobody has, and one undifferentiated
+    total could never produce it -- hence the source on every click.
+
+    Nothing is locked and nothing is removed: the promise "free and always
+    will be" is published and translated, and it still holds.
+    """
+
+    NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                  '(KHTML, like Gecko) Chrome/126.0 Safari/537.36')
+
+    def _shared_build(self):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        # A fresh owner per call: the language test builds five pages in one
+        # test, and a reused username fails the unique constraint.
+        rang = User.objects.count()
+        owner = User.objects.create_user('owner%d' % rang,
+                                         'o%d@example.com' % rang, 'x')
+        # Same shape as SharedSolutionPageTests: get_solution() rejects
+        # anything else and the view answers 404, which looks like a template
+        # problem and is not one.
+        input_ = {'options': {'ap_exo': False, 'mp_exo': False},
+                  'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        return Char.objects.create(
+            name='Etoile', char_name='star', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({}, input_, {})),
+            owner=owner, link_shared=True, game_version='dofus3')
+
+    def _result_page(self, langue='en'):
+        from chardata.encoded_char_id import encode_char_id
+        build = self._shared_build()
+        return self.client.get(
+            '/s/star/%s/' % encode_char_id(build.pk),
+            HTTP_USER_AGENT=self.NAVIGATEUR,
+            HTTP_ACCEPT_LANGUAGE=langue).content.decode('utf-8')
+
+    def test_the_result_page_carries_the_ask(self):
+        html = self._result_page()
+        self.assertIn('/out/donate/?from=solution', html)
+        self.assertIn('no advertising', html)
+
+    def test_it_speaks_the_reader_s_language(self):
+        for langue, attendu in (('fr', 'payé par des dons'),
+                                ('es', 'pagado con donaciones'),
+                                ('pt', 'pago por doações'),
+                                ('de', 'Spenden bezahlen')):
+            self.assertIn(attendu, self._result_page(langue), langue)
+
+    def test_nothing_was_locked_away(self):
+        """The ask must not have taken anything with it: the build still
+        renders in full."""
+        from chardata.encoded_char_id import encode_char_id
+        build = self._shared_build()
+        page = self.client.get('/s/star/%s/' % encode_char_id(build.pk),
+                               HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(page.status_code, 200)
+        self.assertNotIn(b'paywall', page.content.lower())
+        self.assertNotIn(b'subscribe', page.content.lower())
+
+    def test_each_placement_is_counted_apart(self):
+        from chardata.models import SupportClick
+        for source in ('solution', 'support', 'footer'):
+            self.client.get('/out/donate/?from=%s' % source,
+                            HTTP_USER_AGENT=self.NAVIGATEUR)
+        comptes = dict(SupportClick.objects.values_list('source', 'count'))
+        self.assertEqual(comptes, {'solution': 1, 'support': 1, 'footer': 1})
+
+    def test_an_invented_placement_is_filed_apart_not_trusted(self):
+        """A visitor cannot grow the table by inventing labels, and a click is
+        never lost over one."""
+        from chardata.models import SupportClick
+        for invente in ('../etc', 'x' * 500, 'DROP TABLE', ''):
+            reponse = self.client.get('/out/donate/?from=%s' % invente,
+                                      HTTP_USER_AGENT=self.NAVIGATEUR)
+            self.assertEqual(reponse.status_code, 302, invente)
+        sources = set(SupportClick.objects.values_list('source', flat=True))
+        self.assertTrue(sources <= {'other', 'support'}, sources)
+
+    def test_the_destination_never_moves(self):
+        """from= labels a counter. It must never reach the redirect."""
+        from django.conf import settings
+        attendu = (getattr(settings, 'SUPPORT_LINKS', []) or [{}])[0].get('url')
+        for essai in ('solution', 'https://evil.example/', 'other'):
+            reponse = self.client.get('/out/donate/?from=%s' % essai,
+                                      HTTP_USER_AGENT=self.NAVIGATEUR)
+            self.assertEqual(reponse['Location'], attendu, essai)
