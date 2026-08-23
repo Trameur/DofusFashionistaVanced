@@ -392,11 +392,19 @@ def has_display_name(names):
 
 
 def _normalized_slug(value):
-    if not value:
-        return ''
-    normalized = _normalized_text(value)
-    normalized = re.sub(r'[^a-z0-9]+', '-', normalized)
-    return normalized.strip('-')
+    """Slug of a name, built by the same function that builds the urls.
+
+    These were two functions with two rules: official_site._slugify_name drops
+    "'s" and this one did not, so an item called "Coldbruela's Boots" was
+    published at /…-coldbruelas/ and looked up as "coldbruela-s-boots". The
+    lookup found nothing, the page fell back to the negotiated language, and a
+    crawler -- sending no header -- read English on a url submitted as Spanish.
+
+    One function now decides both, so a url can no longer be built one way and
+    resolved another.
+    """
+    from chardata.official_site import _slugify_name
+    return _slugify_name(value, '')
 
 
 def _localized_label(label, language):

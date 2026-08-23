@@ -7,8 +7,10 @@
 {% block title %}{% trans "Dofus build guides & tips" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% trans "Plain-language guides to building characters in Dofus: how to make your first set, how the optimizer works, what every stat is worth, and the differences between Dofus 3, Beta, Dofus 2, Retro and Touch." %}{% endblock %}
 {# Global page; keep a single canonical even if linked from a versioned context. #}
-{% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'guides' %}">{% endblock %}
-{% block og_url %}<meta property="og:url" content="https://dofusfashionista.gg{% url 'guides' %}">{% endblock %}
+{# game_url, not url: the list is filtered by game version, so /beta/guides/
+   is its own page. Naming the unversioned one here told Google it was a copy. #}
+{% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% game_url 'guides' %}">{% endblock %}
+{% block og_url %}<meta property="og:url" content="https://dofusfashionista.gg{% game_url 'guides' %}">{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">

@@ -156,6 +156,46 @@ def redirect_target_for_user(request, url_language, alternates):
     return target
 
 
+# Routes published once per language, under a prefix. Everything else either
+# carries its language in a name -- an item, a guide -- or has no per-language
+# url at all: /es/faq/ does not exist, and announcing it in hreflang would
+# point Google at a 404, which is worse than announcing nothing.
+PREFIXED_PAGE_NAMES = frozenset({
+    'home', 'guides', 'encyclopedia', 'encyclopedia_sets',
+    'encyclopedia_monsters',
+})
+
+SITE_URL = 'https://dofusfashionista.gg'
+
+
+def strip_language_prefix(path):
+    """The path without its language prefix, if it has one."""
+    parts = path.lstrip('/').split('/', 1)
+    codes = {code for code, _name in settings.LANGUAGES}
+    if parts and parts[0] in codes:
+        return '/' + (parts[1] if len(parts) > 1 else '')
+    return path
+
+
+def prefixed_page_alternates(request):
+    """{language: absolute url} for a page whose language lives in a prefix.
+
+    Empty for every other page, so a caller can hand the result straight to the
+    template: no entry means no hreflang block, which is the right answer for a
+    page that has no translation of its own url.
+    """
+    match = getattr(request, 'resolver_match', None)
+    if match is None or match.url_name not in PREFIXED_PAGE_NAMES:
+        return {}
+
+    path = strip_language_prefix(request.path)
+    alternates = {}
+    for code, _name in settings.LANGUAGES:
+        prefix = '' if code == settings.LANGUAGE_CODE else '/%s' % code
+        alternates[code] = '%s%s%s' % (SITE_URL, prefix, path)
+    return alternates
+
+
 class PrefixOptionalLocaleMiddleware(LocaleMiddleware):
     """Keeps negotiating the language on urls that carry no prefix.
 

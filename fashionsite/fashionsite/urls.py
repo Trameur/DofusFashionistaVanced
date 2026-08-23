@@ -538,6 +538,24 @@ def _sitemap_pages(base_url):
         blocks.append(_sitemap_url(base_url + path, freq, prio))
 
     blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
+
+    # The hubs, once per language. They answer and link to each other by
+    # hreflang, but nothing submitted them, so Google had no reason to
+    # look: an entry point that cannot be found is not an entry point.
+    from fashionistapulp.game_versions import dofus_versions
+    hub_paths = ('/', '/guides/', '/encyclopedia/',
+                 '/encyclopedia/sets/', '/encyclopedia/monsters/')
+    for language in _SITEMAP_LANGUAGES:
+        for hub in hub_paths:
+            blocks.append(_sitemap_url(
+                '%s/%s%s' % (base_url, language, hub), 'weekly', '0.7'))
+        for version_slug in dofus_versions():
+            if version_slug == 'dofus3':
+                continue
+            for hub in hub_paths:
+                blocks.append(_sitemap_url(
+                    '%s/%s/%s%s' % (base_url, language, version_slug, hub),
+                    'weekly', '0.6'))
     try:
         from chardata import guides_content
         for key in guides_content.ordered_slugs():

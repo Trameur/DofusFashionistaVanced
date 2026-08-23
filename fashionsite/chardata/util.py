@@ -151,6 +151,15 @@ def get_alias(user):
     return None
     
 def set_response(request, path, params, char=None):
+    # A view that knows its own translations has already put them here --
+    # an item page, a guide. What is left are the pages published under a
+    # language prefix, which nothing else would announce as translations
+    # of each other.
+    if 'alternate_urls' not in params:
+        from chardata.url_language import prefixed_page_alternates
+        alternates = prefixed_page_alternates(request)
+        if alternates:
+            params['alternate_urls'] = alternates
     params['debug_mode'] = settings.DEBUG
     params['language'] = get_language()
     params['experiments'] = settings.EXPERIMENTS

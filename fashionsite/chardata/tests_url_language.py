@@ -563,10 +563,17 @@ class InternalLinksStayInLanguageTest(TestCase):
         behind, which reads as an English link that is not one."""
         return re.sub(r'<link[^>]*hreflang[^>]*>', '', html)
 
+    @staticmethod
+    def _without_language_selector(html):
+        """Drops the flag destinations. The English flag naming the English
+        url is the selector working, not a link leaving the language."""
+        return re.sub(r'<img[^>]*data-next[^>]*>', '', html)
+
     def test_a_french_page_does_not_link_to_the_english_item(self):
         response = self.client.get(self.FRENCH)
         self.assertEqual(response.status_code, 200)
-        body = self._without_hreflang(response.content.decode('utf-8'))
+        body = self._without_language_selector(
+            self._without_hreflang(response.content.decode('utf-8')))
         self.assertNotIn(
             '44-twiggy-sword', body,
             'the French item page links to the English URL outside hreflang')
@@ -945,3 +952,103 @@ class LanguageSelectorTest(TestCase):
     def test_the_form_carries_a_next_field(self):
         html = self.client.get(self.PAGES[0]).content.decode('utf-8')
         self.assertIn('name="next"', html)
+
+
+class OneSlugFunctionTest(TestCase):
+    """The url a page is published at and the slug it is looked up by must be
+    produced by the same rule.
+
+    They were not: official_site._slugify_name drops "'s" and
+    encyclopedia_view._normalized_slug did not. An item called "Coldbruela's
+    Boots" was published at /...-coldbruela-boots/ and looked up as
+    "coldbruela-s-boots", so the lookup found nothing, the page fell back to
+    the negotiated language, and a crawler read English on a url submitted as
+    Spanish. Roughly 46 urls were affected -- few, but the invariant "one url,
+    one language" was simply false for them.
+    """
+
+    def test_the_two_agree_on_every_name_in_the_database(self):
+        import sqlite3
+        from chardata.encyclopedia_view import _normalized_slug
+        from chardata.official_site import _slugify_name
+        from fashionistapulp.fashionista_config import get_items_db_path
+
+        conn = sqlite3.connect(get_items_db_path('dofus3'))
+        try:
+            names = [row[0] for row in conn.execute(
+                'SELECT name FROM item_names UNION '
+                'SELECT name FROM monster_names UNION '
+                'SELECT name FROM items').fetchall() if row[0]]
+        finally:
+            conn.close()
+        self.assertGreater(len(names), 1000, 'no names to check')
+
+        divergentes = [
+            name for name in names
+            if _slugify_name(name, 'x') != (_normalized_slug(name) or 'x')
+        ]
+        self.assertFalse(
+            divergentes,
+            '%d names build one url and resolve to another: %s'
+            % (len(divergentes), divergentes[:5]))
+
+    def test_a_possessive_name_round_trips(self):
+        from chardata.encyclopedia_view import _normalized_slug
+        from chardata.official_site import _slugify_name
+
+        published = _slugify_name("Coldbruela's Boots", 'item')
+        self.assertEqual(_normalized_slug("Coldbruela's Boots"), published)
+        # And the published slug resolves to itself, so a second pass over an
+        # already-slugified url cannot drift.
+        self.assertEqual(_normalized_slug(published), published)
+
+
+class HubAlternatesTest(TestCase):
+    """A hub that answers in five languages but says so nowhere is only half
+    published: Google has no way to know the five are the same page, and no
+    sitemap invited it to look."""
+
+    def test_a_hub_announces_its_translations(self):
+        for path in ('/encyclopedia/', '/es/encyclopedia/',
+                     '/retro/encyclopedia/monsters/', '/fr/guides/'):
+            with self.subTest(path=path):
+                html = self.client.get(path).content.decode('utf-8')
+                for language in ('en', 'fr', 'es', 'pt', 'de'):
+                    self.assertIn('hreflang="%s"' % language, html, path)
+
+    def test_the_announced_urls_answer_in_that_language(self):
+        html = self.client.get('/es/encyclopedia/').content.decode('utf-8')
+        # Parsed tag by tag: the minifier sorts attributes, so hreflang and
+        # href arrive in either order and a fixed-order pattern finds nothing.
+        pairs = []
+        for tag in re.findall(r'<link\b[^>]*hreflang=[^>]*>', html):
+            code = re.search(r'hreflang="([^"]+)"', tag)
+            href = re.search(r'href="([^"]+)"', tag)
+            if code and href and code.group(1) != 'x-default':
+                pairs.append((code.group(1), href.group(1)))
+        self.assertTrue(pairs, 'no alternates on the Spanish hub')
+        for language, url in pairs:
+            path = url.replace('https://dofusfashionista.gg', '')
+            with self.subTest(language=language, path=path):
+                response = self.client.get(path)
+                self.assertEqual(response.status_code, 200, path)
+                declared = re.search(r'<html[^>]*lang="([^"]+)"',
+                                     response.content.decode('utf-8'))
+                self.assertEqual(declared.group(1).split('-')[0], language)
+
+    def test_a_page_with_no_translated_url_announces_none(self):
+        # /faq/ lives outside i18n_patterns, so /es/faq/ does not exist.
+        # Pointing hreflang at a 404 is worse than pointing at nothing.
+        html = self.client.get('/faq/').content.decode('utf-8')
+        self.assertNotIn('hreflang=', html)
+        self.assertEqual(self.client.get('/es/faq/').status_code, 404)
+
+    def test_every_hub_submitted_answers(self):
+        xml = self.client.get('/sitemap-pages.xml').content.decode('utf-8')
+        hubs = [loc for loc in re.findall(r'<loc>([^<]+)</loc>', xml)
+                if re.search(r'\.gg/(fr|es|pt)(/|$)', loc)]
+        self.assertTrue(hubs, 'no localised hub is submitted')
+        for loc in hubs:
+            path = loc.replace('https://dofusfashionista.gg', '')
+            with self.subTest(path=path):
+                self.assertEqual(self.client.get(path).status_code, 200, path)
