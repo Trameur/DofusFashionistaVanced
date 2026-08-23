@@ -87,17 +87,24 @@ def _signatures(version):
                     'FROM set_bonus ORDER BY item_set, num_pieces_used, stat'):
                 bonuses.setdefault(set_id, []).append((pieces, stat, value))
 
+        type_names = {}
+        if _table_exists(cursor, 'item_types'):
+            type_names = dict(cursor.execute('SELECT id, name FROM item_types'))
+
         signatures = {}
-        for item_id, ankama_type, ankama_id, level, kind, item_set in cursor.execute(
-                'SELECT id, ankama_type, ankama_id, level, type, item_set '
+        for item_id, ankama_type, ankama_id, level, kind, item_set, name in cursor.execute(
+                'SELECT id, ankama_type, ankama_id, level, type, item_set, name '
                 'FROM items WHERE ankama_id IS NOT NULL '
                 'AND COALESCE(removed, 0) = 0'):
             payload = repr((level, kind, item_set,
                             stats.get(item_id, []),
                             recipes.get(item_id, []),
                             bonuses.get(item_set, [])))
-            signatures[(ankama_type, ankama_id)] = hashlib.sha1(
-                payload.encode('utf-8')).hexdigest()
+            signatures[(ankama_type, ankama_id)] = (
+                hashlib.sha1(payload.encode('utf-8')).hexdigest(),
+                name,
+                type_names.get(kind, ''),
+            )
         return signatures
     finally:
         conn.close()
@@ -121,15 +128,40 @@ def _cached_signatures(version):
 def repeats_the_live_version(game_version, ankama_type, ankama_id):
     """True when this version's item page says what the Dofus 3 page says.
 
-    False whenever the answer is not certain -- an unknown item, an unreadable
+    The picture counts, and counts most. This is a gear *appearance*
+    optimizer: two pages carrying the same numbers but a different render are
+    two different pages to the people who come here, whatever a text
+    comparison would conclude. Measured on the catalogues, the picture is what
+    separates them nearly everywhere --
+
+        beta    3358 of the 3796 that match on data carry another picture
+        touch     48 of 48                          -- every one of them
+        retro     51 of 51                          -- every one of them
+        dofus2     1 of 531
+
+    -- so a comparison that skipped it would have merged 3458 pages that show
+    a different item. It is checked with the same function that renders the
+    page, so the two cannot drift apart.
+
+    False whenever the answer is not certain: an unknown item, an unreadable
     catalogue. Claiming a page is a copy when it is not costs its indexing,
-    while missing a duplicate costs only some crawl budget, so the doubt is
+    while missing a duplicate costs only some crawl budget, so doubt is
     resolved in the page's favour.
     """
     if not game_version or game_version == 'dofus3':
         return False
+
     key = (ankama_type, ankama_id)
     live = _cached_signatures('dofus3').get(key)
-    if live is None:
+    mine = _cached_signatures(game_version).get(key)
+    if live is None or mine is None:
         return False
-    return _cached_signatures(game_version).get(key) == live
+
+    live_digest, live_name, live_type = live
+    digest, name, type_name = mine
+    if digest != live_digest or name != live_name:
+        return False
+
+    from chardata.image_store import get_image_url
+    return (get_image_url(type_name, name, game_version)
+            == get_image_url(live_type, live_name, 'dofus3'))

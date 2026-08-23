@@ -1055,72 +1055,112 @@ class HubAlternatesTest(TestCase):
 
 
 class RepeatedVersionVariantTest(TestCase):
-    """A version variant only claims to be its own page when it says something
-    the live one does not.
+    """A version variant only claims to be its own page when it shows
+    something the live one does not.
 
-    Measured across the catalogues: 3796 of beta's 3826 items are identical to
-    Dofus 3, against 531 of 3314 for Dofus 2 and roughly fifty for Touch and
-    Retro. Counting stats alone put Dofus 2 at 81.8%, which would have merged
-    away some three thousand pages that differ only by their recipe -- so the
-    comparison covers recipes and set bonuses too.
+    The picture decides, and it decides almost everywhere. This is a gear
+    *appearance* optimizer: two pages carrying identical numbers and a
+    different render are two different pages to the people who come here.
+
+        matching on data      after counting the picture
+        beta    3796    ->    38
+        dofus2   531    ->    530
+        touch     48    ->    0
+        retro     51    ->    0
+
+    Comparing data alone would have merged 3458 pages into a page showing a
+    different item -- every Touch and Retro one among them. Fixtures are found
+    in the catalogues rather than written down here, so the tests keep meaning
+    something after a game update.
     """
-
-    LIVE = '/encyclopedia/item/equipment/44-twiggy-sword/'
-    BETA = '/beta/encyclopedia/item/equipment/44-twiggy-sword/'
 
     @staticmethod
     def _canonical(html):
         tag = re.search(r'<link[^>]*rel="canonical"[^>]*>', html)
         return re.search(r'href="([^"]+)"', tag.group(0)).group(1) if tag else None
 
-    def test_the_measurement_still_holds(self):
-        from chardata.version_content import repeats_the_live_version
-        self.assertTrue(repeats_the_live_version('beta', 'equipment', 44))
-        self.assertFalse(repeats_the_live_version('dofus3', 'equipment', 44))
+    @staticmethod
+    def _picture(html):
+        for tag in re.findall(r'<img[^>]*>', html):
+            if '/items/' in tag or '/pets/' in tag:
+                found = re.search(r'src="([^"]+)"', tag)
+                if found:
+                    return found.group(1)
+        return None
 
-    def test_a_repeating_variant_points_at_the_live_page(self):
-        html = self.client.get(self.BETA).content.decode('utf-8')
-        self.assertEqual(
-            self._canonical(html),
-            'https://dofusfashionista.gg' + self.LIVE)
+    @staticmethod
+    def _copies(version):
+        from chardata.version_content import (repeats_the_live_version,
+                                              _cached_signatures)
+        return [(key, value) for key, value in _cached_signatures(version).items()
+                if repeats_the_live_version(version, *key)]
 
-    def test_the_variant_still_answers(self):
-        # It canonicalises elsewhere; it is not withdrawn. A reader on the beta
-        # branch still needs the page.
-        self.assertEqual(self.client.get(self.BETA).status_code, 200)
-
-    def test_the_live_page_stays_its_own_canonical(self):
-        html = self.client.get(self.LIVE).content.decode('utf-8')
-        self.assertEqual(
-            self._canonical(html),
-            'https://dofusfashionista.gg' + self.LIVE)
-
-    def test_a_variant_that_differs_keeps_its_own_canonical(self):
-        from chardata.version_content import repeats_the_live_version
+    def _pair(self, version):
+        """A variant judged a copy, with its live counterpart. None if there
+        is no such item that both versions actually publish."""
         from chardata.official_site import get_item_link
-        from fashionistapulp.structure import get_structure
+        for (ankama_type, ankama_id), (_digest, name, _kind) in self._copies(version):
+            variant = get_item_link(ankama_type, ankama_id, name,
+                                    game_version=version)
+            live = get_item_link(ankama_type, ankama_id, name,
+                                 game_version='dofus3')
+            if not variant or not live:
+                continue
+            if (self.client.get(variant).status_code == 200
+                    and self.client.get(live).status_code == 200):
+                return variant, live
+        return None
 
-        structure = get_structure()
-        divergent = None
-        for item in structure.get_concatenated_items_lists():
-            if item.ankama_id and not repeats_the_live_version(
-                    'retro', item.ankama_type, item.ankama_id):
-                path = get_item_link(item.ankama_type, item.ankama_id,
-                                     item.name, game_version='retro')
-                if path and self.client.get(path).status_code == 200:
-                    divergent = path
-                    break
-        self.assertIsNotNone(divergent, 'no divergent retro item to check')
-        canonical = self._canonical(
-            self.client.get(divergent).content.decode('utf-8'))
-        # Asserting the property, not a url built here: an item can be named
-        # differently in a version -- item 44 is "Powerful Twiggy Sword" on
-        # Retro -- so its canonical rightly carries the Retro name.
-        self.assertIsNotNone(canonical)
-        self.assertIn('/retro/', canonical,
-                      'a divergent variant must stay on its own version')
+    def test_a_page_called_a_copy_shows_the_same_picture(self):
+        """End to end, because a helper agreeing with itself proves nothing.
 
-    def test_a_repeating_variant_is_not_submitted(self):
+        Rendered html is compared, so a mistake in resolving the item type --
+        which is what picks the picture directory -- cannot hide here.
+        """
+        pair = self._pair('beta') or self._pair('dofus2')
+        self.assertIsNotNone(pair, 'no variant judged a copy to check')
+        variant, live = pair
+        self.assertEqual(
+            self._picture(self.client.get(variant).content.decode('utf-8')),
+            self._picture(self.client.get(live).content.decode('utf-8')),
+            '%s is called a copy of %s but shows another picture'
+            % (variant, live))
+
+    def test_a_copy_points_at_the_live_page(self):
+        pair = self._pair('beta') or self._pair('dofus2')
+        self.assertIsNotNone(pair, 'no variant judged a copy to check')
+        variant, live = pair
+        self.assertEqual(
+            self._canonical(self.client.get(variant).content.decode('utf-8')),
+            'https://dofusfashionista.gg' + live)
+
+    def test_a_copy_still_answers(self):
+        # It points elsewhere; it is not withdrawn. A reader on that branch
+        # still needs the page.
+        pair = self._pair('beta') or self._pair('dofus2')
+        self.assertIsNotNone(pair)
+        self.assertEqual(self.client.get(pair[0]).status_code, 200)
+
+    def test_a_copy_is_not_submitted(self):
+        pair = self._pair('beta') or self._pair('dofus2')
+        self.assertIsNotNone(pair)
+        variant, live = pair
         xml = self.client.get('/sitemap-items.xml').content.decode('utf-8')
-        self.assertNotIn(self.BETA, xml)
-        self.assertIn(self.LIVE, xml)
+        self.assertNotIn('<loc>https://dofusfashionista.gg%s</loc>' % variant, xml)
+        self.assertIn('<loc>https://dofusfashionista.gg%s</loc>' % live, xml)
+
+    def test_a_different_picture_alone_makes_a_different_page(self):
+        # Every Touch and Retro item matching on data carries its own render,
+        # so none of them may be called a copy.
+        for version in ('touch', 'retro'):
+            with self.subTest(version=version):
+                copies = self._copies(version)
+                self.assertFalse(
+                    copies,
+                    '%s pages called copies despite their own art: %s'
+                    % (version, [key for key, _ in copies[:3]]))
+
+    def test_the_live_page_is_never_a_copy_of_itself(self):
+        from chardata.version_content import repeats_the_live_version
+        self.assertFalse(repeats_the_live_version('dofus3', 'equipment', 44))
+        self.assertFalse(repeats_the_live_version(None, 'equipment', 44))
