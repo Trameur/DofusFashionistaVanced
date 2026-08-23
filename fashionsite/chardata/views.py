@@ -101,6 +101,13 @@ def forbidden(request, exception=None, char_id=0):
     return response
                          
 def not_found(request, exception=None, char_id=0):
+    # A 404 means url resolution failed, so the middleware hook that restores
+    # the reader's language never ran -- it only fires once a url has matched.
+    # Without this the error page is the one page on the site that ignores the
+    # language the visitor asked for.
+    from chardata.url_language import negotiate_language_for_unmatched_path
+    negotiate_language_for_unmatched_path(request)
+
     response = set_response(request, 
                         'chardata/404.html', 
                         {'request': request,

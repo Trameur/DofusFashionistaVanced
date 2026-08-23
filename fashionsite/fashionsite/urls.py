@@ -160,6 +160,24 @@ _SITEMAP_ITEM_CACHE = {'ts': 0.0, 'xml': ''}
 _SITEMAP_ITEM_TTL = 6 * 3600
 
 
+def _served_in(names, language):
+    """True when a url built from these names is served in `language`.
+
+    Replays the view's own decision with the view's own function, so the
+    sitemap cannot claim a language the page will not answer in. Two languages
+    sharing a name share a url, and only one of them can have it.
+    """
+    if language == 'en':
+        return True
+    name = names.get(language)
+    if not name:
+        return False
+    from chardata.encyclopedia_view import _normalized_slug
+    from chardata.url_language import language_from_slug
+    return language_from_slug(names, _normalized_slug(name),
+                              _normalized_slug) == language
+
+
 def _sitemap_url(loc, changefreq, priority):
     return ('  <url>\n    <loc>%s</loc>\n    <changefreq>%s</changefreq>\n'
             '    <priority>%s</priority>\n  </url>') % (loc, changefreq, priority)
@@ -193,6 +211,14 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
                     "LEFT JOIN item_names en ON en.item = i.id AND en.language = ?"
                     if has_item_names else '')
                 localized_name_sql = 'COALESCE(en.name, i.name)' if has_item_names else 'i.name'
+                names_by_item = {}
+                if has_item_names:
+                    cursor.execute(
+                        'SELECT item, language, name FROM item_names')
+                    for item_id, lang, localised in cursor.fetchall():
+                        if localised:
+                            names_by_item.setdefault(item_id, {})[lang] = localised
+
                 cursor.execute(
                     """
                     WITH representative_items AS (
@@ -201,27 +227,24 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
                         WHERE ankama_id IS NOT NULL AND ankama_type IS NOT NULL
                         GROUP BY ankama_type, ankama_id
                     )
-                    SELECT i.ankama_type, i.ankama_id, %s AS localized_name, i.name
+                    SELECT i.id, i.ankama_type, i.ankama_id, %s AS localized_name, i.name
                     FROM representative_items ri
                     JOIN items i ON i.id = ri.item_id
                     %s
                     ORDER BY i.ankama_type, i.ankama_id
                     """ % (localized_name_sql, name_join_sql),
                     (language,) if has_item_names else ())
-                for ankama_type, ankama_id, name, english in cursor.fetchall():
+                for item_id, ankama_type, ankama_id, name, english in cursor.fetchall():
+                    names = dict(names_by_item.get(item_id) or {})
+                    names['en'] = english
+                    # Two languages sharing a name share a url, and the view
+                    # gives it to one of them. Filing it under the other would
+                    # promise Google a page it will never be served.
+                    if not _served_in(names, language):
+                        continue
                     with translation.override(language):
                         link = get_item_link(ankama_type, ankama_id, name or '',
                                              game_version=game_version)
-                    if language != 'en':
-                        # An untranslated name gives the English URL, which
-                        # answers in English. Filing it under another language
-                        # would promise Google a page that is not there.
-                        with translation.override('en'):
-                            english_link = get_item_link(
-                                ankama_type, ankama_id, english or '',
-                                game_version=game_version)
-                        if link == english_link:
-                            continue
                     if not link or link in seen:
                         continue
                     seen.add(link)
@@ -261,15 +284,13 @@ def _sitemap_encyclopedia_sets(base_url, language='en'):
                             or item_set.name)
                 if not set_name:
                     continue
+                names = dict(item_set.localized_names or {})
+                names.setdefault('en', item_set.name)
+                if not _served_in(names, language):
+                    continue
                 link = get_set_link(set_id, set_name, game_version=game_version)
                 if not link:
                     continue
-                if language != 'en':
-                    english_name = (item_set.localized_names.get('en')
-                                    or item_set.name)
-                    if link == get_set_link(set_id, english_name,
-                                            game_version=game_version):
-                        continue
                 if link in seen:
                     continue
                 seen.add(link)
@@ -349,16 +370,24 @@ def _sitemap_encyclopedia_resources(base_url, language='en'):
                     WHERE n.language = '%s' AND (u.uses >= 2%s)
                     ORDER BY n.ingredient_subtype, n.ingredient_ankama_id
                     """ % (drop_join, language, drop_criterion))
-                for ankama_id, subtype, name, english in cursor.fetchall():
+                rows_resources = cursor.fetchall()
+                names_by_resource = {}
+                cursor.execute(
+                    'SELECT ingredient_ankama_id, ingredient_subtype, language,'
+                    ' name FROM item_recipe_ingredient_names')
+                for res_id, res_subtype, lang, localised in cursor.fetchall():
+                    if localised:
+                        names_by_resource.setdefault(
+                            (res_id, res_subtype), {})[lang] = localised
+
+                for ankama_id, subtype, name, english in rows_resources:
+                    names = dict(names_by_resource.get((ankama_id, subtype)) or {})
+                    if english:
+                        names['en'] = english
+                    if not _served_in(names, language):
+                        continue
                     link = get_resource_link(subtype, ankama_id, name or '',
                                              game_version=game_version)
-                    if language != 'en' and link == get_resource_link(
-                            subtype, ankama_id, english or '',
-                            game_version=game_version):
-                        # Untranslated name, so the English URL -- which
-                        # answers in English. Filing it under another language
-                        # would promise a page that is not there.
-                        continue
                     if not link or link in seen:
                         continue
                     seen.add(link)
@@ -448,11 +477,22 @@ def _sitemap_encyclopedia_monsters(base_url, language='en'):
                     ORDER BY n.monster_ankama_id
                     """ % (' UNION ALL '.join(drop_sources), language,
                            substantial))
-                for monster_id, name, english in cursor.fetchall():
+                # Read out before the cursor is reused for the name lookup.
+                rows_monsters = cursor.fetchall()
+                names_by_monster = {}
+                cursor.execute(
+                    'SELECT monster_ankama_id, language, name FROM monster_names')
+                for monster_id, lang, localised in cursor.fetchall():
+                    if localised:
+                        names_by_monster.setdefault(monster_id, {})[lang] = localised
+
+                for monster_id, name, english in rows_monsters:
                     if not has_display_name({'en': name}):
                         continue
-                    if language != 'en' and english and name == english:
-                        # Untranslated name, so the English URL. See above.
+                    names = dict(names_by_monster.get(monster_id) or {})
+                    if english:
+                        names['en'] = english
+                    if not _served_in(names, language):
                         continue
                     link = get_monster_link(monster_id, name or '', game_version=game_version)
                     if not link or link in seen:

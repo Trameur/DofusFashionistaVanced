@@ -795,3 +795,54 @@ class VersionAndLanguageMatrixTest(TestCase):
                     self.assertEqual(
                         url, self._path(version, language, '/encyclopedia/'))
                     self.assertEqual(self.client.get(url).status_code, 200)
+
+
+class UnprefixedUrlsKeepNegotiatingTest(TestCase):
+    """Two properties that have to hold at once, and nearly did not.
+
+    Django forces the default language on every unprefixed url as soon as
+    i18n_patterns is used with prefix_default_language=False. Adding prefixes
+    for the hub pages therefore turned the whole site English for readers --
+    /faq/, /setup/, every solution page -- while the tests for the encyclopedia
+    stayed green, because those pages take their language from the slug.
+    """
+
+    def _lang_of(self, path, **headers):
+        html = self.client.get(path, **headers).content.decode('utf-8')
+        declared = re.search(r'<html[^>]*lang="([^"]+)"', html)
+        self.assertIsNotNone(declared, path)
+        return declared.group(1).split('-')[0]
+
+    def test_a_reader_keeps_the_language_their_browser_asks_for(self):
+        for path in ('/faq/', '/about/', '/encyclopedia/', '/guides/'):
+            for language in ('fr', 'es', 'pt'):
+                with self.subTest(path=path, language=language):
+                    self.assertEqual(
+                        self._lang_of(path, HTTP_ACCEPT_LANGUAGE=language),
+                        language)
+
+    def test_a_crawler_always_gets_the_default_language(self):
+        # No Accept-Language, no cookie: exactly Googlebot. The url stays
+        # deterministic for indexing without forcing English on readers.
+        for path in ('/faq/', '/about/', '/encyclopedia/', '/guides/'):
+            with self.subTest(path=path):
+                self.assertEqual(self._lang_of(path), 'en')
+
+    def test_a_prefixed_url_ignores_the_header_entirely(self):
+        for language in ('fr', 'es', 'pt'):
+            for header in ('en', 'de', 'fr'):
+                with self.subTest(language=language, header=header):
+                    self.assertEqual(
+                        self._lang_of('/%s/encyclopedia/' % language,
+                                      HTTP_ACCEPT_LANGUAGE=header),
+                        language)
+
+    def test_an_entity_url_ignores_the_header_too(self):
+        # These carry the language in the slug, so no header may move them.
+        for header in ('en', 'fr', 'de'):
+            with self.subTest(header=header):
+                self.assertEqual(
+                    self._lang_of(
+                        '/encyclopedia/item/equipment/44-espada-de-maderucha/',
+                        HTTP_ACCEPT_LANGUAGE=header),
+                    'es')

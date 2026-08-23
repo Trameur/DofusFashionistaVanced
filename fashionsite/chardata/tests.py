@@ -12453,7 +12453,19 @@ class EncyclopediaMonsterPageTests(TestCase):
         body = resp.content.decode('utf-8')
         self.assertIn('Bouftou', body)
         self.assertIn('/retro/encyclopedia/monster/101-', body)
-        self.assertIn('https://dofusfashionista.gg/retro/encyclopedia/monsters/', body)
+        # Served in French, so the canonical names the French url -- which now
+        # exists. A crawler sends no Accept-Language, gets English here, and
+        # reads this page as its own canonical.
+        self.assertIn(
+            'https://dofusfashionista.gg/fr/retro/encyclopedia/monsters/', body)
+
+    def test_the_retro_monster_hub_is_its_own_canonical_for_a_crawler(self):
+        resp = self.client.get('/retro/encyclopedia/monsters/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(
+            '<link href="https://dofusfashionista.gg/retro/encyclopedia/'
+            'monsters/" rel="canonical"/>',
+            resp.content.decode('utf-8'))
 
     def test_monsters_list_renders_for_every_supported_version(self):
         for path in (

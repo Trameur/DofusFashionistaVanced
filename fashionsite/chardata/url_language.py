@@ -35,6 +35,7 @@ callbacks or the service worker.
 """
 
 from django.conf import settings
+from django.middleware.locale import LocaleMiddleware
 from django.utils import translation
 
 from fashionistapulp.translation import SUPPORTED_LANGUAGES
@@ -153,6 +154,67 @@ def redirect_target_for_user(request, url_language, alternates):
     if not target or target.endswith(request.path):
         return None
     return target
+
+
+class PrefixOptionalLocaleMiddleware(LocaleMiddleware):
+    """Keeps negotiating the language on urls that carry no prefix.
+
+    Django forces settings.LANGUAGE_CODE on any unprefixed path as soon as
+    i18n_patterns is used with prefix_default_language=False:
+
+        if not language_from_path and i18n_patterns_used
+                and not prefixed_default_language:
+            language = settings.LANGUAGE_CODE
+
+    Adding language prefixes for the hub pages therefore turned the entire
+    site English for everyone -- /faq/, /setup/, /workshop/, every solution
+    page -- for an audience that is mostly Spanish, French and Portuguese.
+
+    The two needs only look opposed. A crawler is anonymous and sends no
+    Accept-Language, so ordinary negotiation already hands it the default
+    language: unprefixed urls stay deterministic for indexing while readers
+    keep the language they asked for. And where determinism has to be
+    guaranteed rather than inferred -- the encyclopedia and the guides -- the
+    language comes from the url itself, never from a header.
+    """
+
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        """Re-negotiates once the url has already been matched.
+
+        Django's forcing is not arbitrary: i18n_patterns ties url *matching* to
+        the active language, so with French active the resolver demands
+        /fr/encyclopedia/ and /encyclopedia/ stops resolving at all. The
+        default language therefore has to stay active while the url is being
+        matched.
+
+        process_view runs after matching succeeded, which is the first moment
+        the language can change without breaking resolution. A url that names
+        its language is left alone -- it has already decided.
+        """
+        if translation.get_language_from_path(request.path_info):
+            return None
+
+        language = translation.get_language_from_request(
+            request, check_path=False)
+        if language and language != translation.get_language():
+            translation.activate(language)
+            request.LANGUAGE_CODE = translation.get_language()
+        return None
+
+
+def negotiate_language_for_unmatched_path(request):
+    """Restores the reader's language on a path that never matched a url.
+
+    PrefixOptionalLocaleMiddleware does this in process_view, which Django only
+    calls once a url has resolved. A 404 has none, so the error page would
+    otherwise always be in the default language.
+    """
+    if translation.get_language_from_path(request.path_info):
+        return
+    language = translation.get_language_from_request(request, check_path=False)
+    if language and language != translation.get_language():
+        translation.activate(language)
+        request.LANGUAGE_CODE = translation.get_language()
 
 
 class RestoreLanguageMiddleware(object):

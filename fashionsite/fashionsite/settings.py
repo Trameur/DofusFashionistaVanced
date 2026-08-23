@@ -174,7 +174,9 @@ MIDDLEWARE = [
     'chardata.middleware.GameVersionMiddleware',
     'chardata.middleware.PageHitMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    # Ours: Django would otherwise force the default language on every
+    # url without a prefix, which turned the whole site English.
+    'chardata.url_language.PrefixOptionalLocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
