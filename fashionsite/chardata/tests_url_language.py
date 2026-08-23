@@ -603,3 +603,60 @@ class InternalLinksStayInLanguageTest(TestCase):
         self.assertFalse(
             inattendues,
             'these entity links leave Spanish: %s' % inattendues)
+
+
+class SubmittedUrlsAnswerTest(TestCase):
+    """Every URL in a sitemap is a promise to Google.
+
+    161 404 URLs are submitted once the localised sections are live. A 404
+    among them burns crawl budget and reads as a quality signal.
+
+    Deliberately narrow: building a section costs a scan of five game
+    databases, so this samples the item sections -- 20 466 URLs each, by far
+    the largest -- rather than every combination. The other sections share the
+    same builder and the same code path.
+    """
+
+    SAMPLE = 4
+
+    @staticmethod
+    def _locations(xml):
+        return re.findall(r'<loc>https?://[^/]+([^<]+)</loc>', xml)
+
+    def _sample(self, path):
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 200, path)
+        locations = self._locations(response.content.decode('utf-8'))
+        self.assertTrue(locations, '%s submits nothing' % path)
+        step = max(1, len(locations) // self.SAMPLE)
+        return locations[::step][:self.SAMPLE]
+
+    def test_submitted_item_urls_answer_in_the_language_they_are_filed_under(self):
+        for language in ('en', 'fr', 'es', 'pt'):
+            name = 'items' if language == 'en' else 'items-%s' % language
+            with self.subTest(language=language):
+                for location in self._sample('/sitemap-%s.xml' % name):
+                    response = self.client.get(location)
+                    self.assertEqual(
+                        response.status_code, 200,
+                        '%s submits %s which does not answer'
+                        % (name, location))
+                    declared = re.search(
+                        r'<html[^>]*lang="([^"]+)"',
+                        response.content.decode('utf-8'))
+                    self.assertIsNotNone(declared, location)
+                    self.assertEqual(
+                        declared.group(1).split('-')[0], language,
+                        '%s is filed under %s but answers in %s'
+                        % (location, language, declared.group(1)))
+
+    def test_the_index_only_names_sections_that_exist(self):
+        xml = self.client.get('/sitemap.xml').content.decode('utf-8')
+        named = re.findall(r'/sitemap-([a-z-]+)\.xml', xml)
+        self.assertTrue(named)
+        for name in named:
+            with self.subTest(section=name):
+                self.assertEqual(
+                    self.client.get('/sitemap-%s.xml' % name).status_code, 200,
+                    'the index names sitemap-%s.xml, which does not answer'
+                    % name)

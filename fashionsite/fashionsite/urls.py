@@ -199,17 +199,27 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
                         WHERE ankama_id IS NOT NULL AND ankama_type IS NOT NULL
                         GROUP BY ankama_type, ankama_id
                     )
-                    SELECT i.ankama_type, i.ankama_id, %s AS localized_name
+                    SELECT i.ankama_type, i.ankama_id, %s AS localized_name, i.name
                     FROM representative_items ri
                     JOIN items i ON i.id = ri.item_id
                     %s
                     ORDER BY i.ankama_type, i.ankama_id
                     """ % (localized_name_sql, name_join_sql),
                     (language,) if has_item_names else ())
-                for ankama_type, ankama_id, name in cursor.fetchall():
+                for ankama_type, ankama_id, name, english in cursor.fetchall():
                     with translation.override(language):
                         link = get_item_link(ankama_type, ankama_id, name or '',
                                              game_version=game_version)
+                    if language != 'en':
+                        # An untranslated name gives the English URL, which
+                        # answers in English. Filing it under another language
+                        # would promise Google a page that is not there.
+                        with translation.override('en'):
+                            english_link = get_item_link(
+                                ankama_type, ankama_id, english or '',
+                                game_version=game_version)
+                        if link == english_link:
+                            continue
                     if not link or link in seen:
                         continue
                     seen.add(link)
@@ -251,6 +261,12 @@ def _sitemap_encyclopedia_sets(base_url, language='en'):
                 link = get_set_link(set_id, set_name, game_version=game_version)
                 if not link:
                     continue
+                if language != 'en':
+                    english_name = (item_set.localized_names.get('en')
+                                    or item_set.name)
+                    if link == get_set_link(set_id, english_name,
+                                            game_version=game_version):
+                        continue
                 if link in seen:
                     continue
                 seen.add(link)
@@ -315,7 +331,12 @@ def _sitemap_encyclopedia_resources(base_url, language='en'):
                         FROM item_recipes
                         GROUP BY 1, 2
                     )
-                    SELECT DISTINCT n.ingredient_ankama_id, n.ingredient_subtype, n.name
+                    SELECT DISTINCT n.ingredient_ankama_id, n.ingredient_subtype, n.name,
+                           (SELECT name FROM item_recipe_ingredient_names e
+                             WHERE e.ingredient_ankama_id = n.ingredient_ankama_id
+                               AND e.ingredient_subtype = n.ingredient_subtype
+                               AND e.language = 'en'
+                             LIMIT 1)
                     FROM item_recipe_ingredient_names n
                     JOIN usage_counts u
                       ON u.ankama_id = n.ingredient_ankama_id
@@ -324,9 +345,16 @@ def _sitemap_encyclopedia_resources(base_url, language='en'):
                     WHERE n.language = '%s' AND (u.uses >= 2%s)
                     ORDER BY n.ingredient_subtype, n.ingredient_ankama_id
                     """ % (drop_join, language, drop_criterion))
-                for ankama_id, subtype, name in cursor.fetchall():
+                for ankama_id, subtype, name, english in cursor.fetchall():
                     link = get_resource_link(subtype, ankama_id, name or '',
                                              game_version=game_version)
+                    if language != 'en' and link == get_resource_link(
+                            subtype, ankama_id, english or '',
+                            game_version=game_version):
+                        # Untranslated name, so the English URL -- which
+                        # answers in English. Filing it under another language
+                        # would promise a page that is not there.
+                        continue
                     if not link or link in seen:
                         continue
                     seen.add(link)
@@ -405,14 +433,21 @@ def _sitemap_encyclopedia_monsters(base_url, language='en'):
                                (SELECT name FROM monster_names
                                 WHERE monster_ankama_id = n.monster_ankama_id
                                 LIMIT 1)
-                           )
+                           ),
+                           (SELECT name FROM monster_names
+                             WHERE monster_ankama_id = n.monster_ankama_id
+                               AND language = 'en'
+                             LIMIT 1)
                     FROM dropped_monsters n
                     WHERE n.drops >= 2 %s
                     ORDER BY n.monster_ankama_id
                     """ % (' UNION ALL '.join(drop_sources), language,
                            substantial))
-                for monster_id, name in cursor.fetchall():
+                for monster_id, name, english in cursor.fetchall():
                     if not has_display_name({'en': name}):
+                        continue
+                    if language != 'en' and english and name == english:
+                        # Untranslated name, so the English URL. See above.
                         continue
                     link = get_monster_link(monster_id, name or '', game_version=game_version)
                     if not link or link in seen:
