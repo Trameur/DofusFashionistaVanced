@@ -711,3 +711,87 @@ class HubLanguagePrefixTest(TestCase):
             self.client.get(
                 '/es/encyclopedia/item/equipment/44-espada-de-maderucha/'
             ).status_code, 404)
+
+
+class VersionAndLanguageMatrixTest(TestCase):
+    """Every game version behaves like every other one.
+
+    The rule cannot hold on the default version only: /encyclopedia/ answers in
+    five languages, so /dofus2/encyclopedia/ has to as well, or the site says
+    two different things depending on which version a reader is on.
+    """
+
+    VERSIONS = ('dofus3', 'beta', 'dofus2', 'retro', 'touch')
+    LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
+    HUBS = ('/', '/encyclopedia/', '/encyclopedia/sets/',
+            '/encyclopedia/monsters/', '/guides/')
+
+    @staticmethod
+    def _path(version, language, hub):
+        path = hub if version == 'dofus3' else '/%s%s' % (version, hub)
+        # Language first: that is the order i18n_patterns builds.
+        return path if language == 'en' else '/%s%s' % (language, path)
+
+    def test_every_version_answers_in_every_language(self):
+        for version in self.VERSIONS:
+            for language in self.LANGUAGES:
+                for hub in self.HUBS:
+                    path = self._path(version, language, hub)
+                    with self.subTest(path=path):
+                        self.assertEqual(
+                            self.client.get(path).status_code, 200, path)
+
+    def test_the_page_answers_in_the_language_its_url_names(self):
+        for version in self.VERSIONS:
+            for language in self.LANGUAGES:
+                path = self._path(version, language, '/encyclopedia/')
+                with self.subTest(path=path):
+                    html = self.client.get(path).content.decode('utf-8')
+                    declared = re.search(r'<html[^>]*lang="([^"]+)"', html)
+                    self.assertIsNotNone(declared, path)
+                    self.assertEqual(declared.group(1).split('-')[0], language,
+                                     path)
+
+    def test_the_version_survives_a_language_prefix(self):
+        """GameVersionMiddleware read the opening segment to find the version.
+        With a language in front it found 'es', so every translated page fell
+        back to the default version and served the wrong game's data."""
+        from chardata.middleware import GameVersionMiddleware
+
+        for version in self.VERSIONS:
+            for language in self.LANGUAGES:
+                path = self._path(version, language, '/encyclopedia/')
+                with self.subTest(path=path):
+                    seen = {}
+
+                    def capture(request, seen=seen):
+                        seen['version'] = request.game_version
+                        from django.http import HttpResponse
+                        return HttpResponse('')
+
+                    from django.test import RequestFactory
+                    GameVersionMiddleware(capture)(RequestFactory().get(path))
+                    self.assertEqual(seen['version'], version, path)
+
+    def test_english_urls_did_not_move(self):
+        # prefix_default_language=False. Every English url stays put.
+        for version in self.VERSIONS:
+            for hub in self.HUBS:
+                path = hub if version == 'dofus3' else '/%s%s' % (version, hub)
+                with self.subTest(path=path):
+                    self.assertEqual(self.client.get(path).status_code, 200)
+
+    def test_reverse_gives_the_url_that_answers(self):
+        from django.urls import reverse
+        from django.utils import translation
+
+        for version in self.VERSIONS:
+            for language in self.LANGUAGES:
+                name = ('encyclopedia' if version == 'dofus3'
+                        else '%s:encyclopedia' % version)
+                with self.subTest(version=version, language=language):
+                    with translation.override(language):
+                        url = reverse(name)
+                    self.assertEqual(
+                        url, self._path(version, language, '/encyclopedia/'))
+                    self.assertEqual(self.client.get(url).status_code, 200)

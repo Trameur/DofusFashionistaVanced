@@ -862,12 +862,6 @@ urlpatterns += staticfiles_urlpatterns()
 # Version-specific routes: same views, game_version set by middleware. The URL
 # namespace is what makes reverse('beta:setup') give /beta/setup/.
 _game_urls = ('chardata.game_urls', 'chardata')
-urlpatterns += [
-    path('beta/', include(_game_urls, namespace='beta')),
-    path('dofus2/', include(_game_urls, namespace='dofus2')),
-    path('retro/', include(_game_urls, namespace='retro')),
-    path('touch/', include(_game_urls, namespace='touch')),
-]
 
 # Pages with no name of their own to localise. Everything else carries its
 # language in the entity name -- /encyclopedia/item/equipment/44-espada-de-
@@ -890,6 +884,20 @@ urlpatterns += i18n_patterns(
             name='encyclopedia_monsters'),
     re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets,
             name='encyclopedia_sets'),
+
+    # The other game versions, inside the same block so the rule holds for all
+    # of them: /dofus2/encyclopedia/ in English, /es/dofus2/encyclopedia/ in
+    # Spanish. reverse() restores the prefix, so {% game_url %} and
+    # version_reverse() need no change.
+    #
+    # Entity routes come along, which is what we want rather than a problem:
+    # /dofus2/encyclopedia/set/123/ carries no name, so today its language
+    # comes from Accept-Language -- a header no crawler sends. Prefixed, it is
+    # decided by the URL like everything else.
+    path('beta/', include(_game_urls, namespace='beta')),
+    path('dofus2/', include(_game_urls, namespace='dofus2')),
+    path('retro/', include(_game_urls, namespace='retro')),
+    path('touch/', include(_game_urls, namespace='touch')),
     prefix_default_language=False,
 )
 

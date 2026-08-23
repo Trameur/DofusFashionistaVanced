@@ -8,6 +8,21 @@ from fashionistapulp.structure import set_current_game_version
 
 GAME_VERSION_PREFIXES = {'beta', 'retro', 'touch', 'dofus2'}
 
+_LANGUAGE_PREFIXES = None
+
+
+def _language_prefixes():
+    """Language codes that can open a path, from settings.LANGUAGES.
+
+    Read once: the set never changes at runtime, and this sits on every
+    request.
+    """
+    global _LANGUAGE_PREFIXES
+    if _LANGUAGE_PREFIXES is None:
+        from django.conf import settings
+        _LANGUAGE_PREFIXES = {code for code, _name in settings.LANGUAGES}
+    return _LANGUAGE_PREFIXES
+
 # Not pages anyone reads.
 HIT_SKIP = re.compile(r'^/(static|media|api|admin|admin-tools|admin-comment-action|'
                       r'jsi18n|sw\.js|ads\.txt|manifest|favicon|character/)')
@@ -22,8 +37,13 @@ class GameVersionMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        parts = request.path_info.lstrip('/').split('/', 1)
-        if parts[0] in GAME_VERSION_PREFIXES:
+        # The language prefix comes first (/es/dofus2/...), so the version is
+        # not always the opening segment. Reading the first segment blindly
+        # made every translated page fall back to the default version.
+        parts = request.path_info.lstrip('/').split('/')
+        if parts and parts[0] in _language_prefixes():
+            parts = parts[1:]
+        if parts and parts[0] in GAME_VERSION_PREFIXES:
             version = parts[0]
         else:
             version = 'dofus3'

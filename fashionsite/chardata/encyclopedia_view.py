@@ -627,7 +627,9 @@ def _absolute_versioned_url(path, game_version='dofus3'):
     if not path.startswith('/'):
         path = '/%s' % path
     if game_version and game_version != 'dofus3':
-        return 'https://dofusfashionista.gg/%s%s' % (game_version, path)
+        path = '/%s%s' % (game_version, path)
+    # Language first: that is the order i18n_patterns produces, and a
+    # breadcrumb disagreeing with it would name a url that does not exist.
     language = get_language()
     if language and language != settings.LANGUAGE_CODE:
         path = '/%s%s' % (language, path)
