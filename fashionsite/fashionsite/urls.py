@@ -539,7 +539,6 @@ def _sitemap_pages(base_url):
         ('/encyclopedia/sets/', 'weekly', '0.8'),
         ('/forgemagie/', 'weekly', '0.8'),
         # /workshop/ is behind the login: a crawler only gets the /login/ redirect.
-        ('/loadprojects/', 'weekly', '0.5'),
     ]
     for path, freq, prio in static_paths:
         blocks.append(_sitemap_url(base_url + path, freq, prio))

@@ -1203,3 +1203,27 @@ class PageHitPathTest(TestCase):
         from chardata.middleware import normalise_path
         self.assertEqual(
             normalise_path('/s/Ocra/MzUzV.JJqQ__/', 'dofus3'), '/s/<build>/')
+
+
+class PrivatePagesStayOutOfSearchTest(TestCase):
+    """A page that is empty unless you are signed in is not content.
+
+    /loadprojects/ was submitted to the sitemap and drew 3795 impressions for
+    4 clicks over ninety days: Google ranked, and readers found nothing. Its
+    per-project siblings are already disallowed in robots.txt; the plural
+    escaped because the rule reads */loadproject/ and this one carries an s.
+    """
+
+    def test_the_project_list_is_not_indexable(self):
+        html = self.client.get('/loadprojects/').content.decode('utf-8')
+        self.assertIn('noindex', html)
+
+    def test_it_is_no_longer_submitted(self):
+        xml = self.client.get('/sitemap-pages.xml').content.decode('utf-8')
+        self.assertNotIn('/loadprojects/', xml)
+
+    def test_the_public_landing_is_still_submitted(self):
+        # /setup/ is the public "create a project" page and must stay.
+        xml = self.client.get('/sitemap-pages.xml').content.decode('utf-8')
+        self.assertIn('<loc>https://dofusfashionista.gg/setup/</loc>', xml)
+        self.assertEqual(self.client.get('/setup/').status_code, 200)

@@ -33,6 +33,13 @@ def load_projects(request, char_id=0):
     return load_projects_error(request, error=None)
 
 def load_projects_error(request, error):
+    """The signed-in visitor's own projects.
+
+    Anonymous visitors see an empty list, so there is nothing here to index --
+    yet it was submitted to the sitemap and drew 3795 impressions for 4 clicks.
+    noindex rather than robots.txt: the page is already in the index, and a
+    disallow would stop Google ever reading the instruction to drop it.
+    """
     game_version = getattr(request, 'game_version', 'dofus3')
     chars = []
     if request.user is not None and not request.user.is_anonymous:
@@ -52,6 +59,7 @@ def load_projects_error(request, error):
                         'chardata/load_projects.html',
                         {'chars': [WrappedChar(char) for char in chars],
                          'char_id': 0,
+                         'noindex': True,
                          'has_projects': has_projects,
                          'compare_preselect': request.GET.get('compare') or '',
                          'needle': json.dumps(get_needle_URL(request)),
