@@ -168,13 +168,24 @@ PREFIXED_PAGE_NAMES = frozenset({
 SITE_URL = 'https://dofusfashionista.gg'
 
 
-def strip_language_prefix(path):
-    """The path without its language prefix, if it has one."""
+def split_language_prefix(path):
+    """(prefix, rest): ('/es', '/guides/') for '/es/guides/', ('', path) if none.
+
+    One place answers what a language prefix looks like. A caller that needs the
+    prefix back -- the version switcher has to put it in front of the version it
+    offers -- would otherwise re-derive it, and two answers to the same question
+    is how a url ends up built one way and resolved another.
+    """
     parts = path.lstrip('/').split('/', 1)
     codes = {code for code, _name in settings.LANGUAGES}
     if parts and parts[0] in codes:
-        return '/' + (parts[1] if len(parts) > 1 else '')
-    return path
+        return '/' + parts[0], '/' + (parts[1] if len(parts) > 1 else '')
+    return '', path
+
+
+def strip_language_prefix(path):
+    """The path without its language prefix, if it has one."""
+    return split_language_prefix(path)[1]
 
 
 def prefixed_page_alternates(request):

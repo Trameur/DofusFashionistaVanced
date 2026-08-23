@@ -61,7 +61,14 @@ _VERSION_SWITCH_NUMERIC_SAFE_PREFIXES = ('encyclopedia/',)
 
 
 def game_version(request):
-    path = request.path_info
+    # The language prefix comes first: /es/beta/encyclopedia/ answers and
+    # /beta/es/encyclopedia/ does not, because the version routes live inside
+    # i18n_patterns. So it has to come off before a version prefix is looked
+    # for, and go back in FRONT of whichever version the reader picks. Without
+    # this the switcher offered four dead links on every translated page, and
+    # the Dofus 3 tab pointed at the page you were already on.
+    from chardata.url_language import split_language_prefix
+    language_prefix, path = split_language_prefix(request.path_info)
     base_path = path
     stripped = path.lstrip('/')
     gv = getattr(request, 'game_version', 'dofus3')
@@ -86,6 +93,7 @@ def game_version(request):
         'current_game_version_label': _GAME_VERSION_LABELS.get(gv, 'Dofus 3'),
         'current_game_version_seo': _GAME_VERSION_SEO_WORDS.get(gv, ''),
         'active_game_versions': ACTIVE_GAME_VERSIONS,
+        'version_switch_language_prefix': language_prefix,
         'version_switch_base_path': base_path,
         'api_base': api_base,
     }

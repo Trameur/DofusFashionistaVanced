@@ -1,9 +1,9 @@
 <div class="version-selector">
     {% for version_key, version_label in active_game_versions %}
         {% if version_key == 'dofus3' %}
-            <a href="{{ version_switch_base_path }}" class="version-link {% if current_game_version == version_key %}active{% endif %}">{{ version_label }}</a>
+            <a href="{{ version_switch_language_prefix }}{{ version_switch_base_path }}" class="version-link {% if current_game_version == version_key %}active{% endif %}">{{ version_label }}</a>
         {% else %}
-            <a href="/{{ version_key }}{{ version_switch_base_path }}" class="version-link {% if current_game_version == version_key %}active{% endif %}">{{ version_label }}</a>
+            <a href="{{ version_switch_language_prefix }}/{{ version_key }}{{ version_switch_base_path }}" class="version-link {% if current_game_version == version_key %}active{% endif %}">{{ version_label }}</a>
         {% endif %}
     {% endfor %}
 </div>

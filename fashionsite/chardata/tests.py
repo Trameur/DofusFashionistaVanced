@@ -1648,6 +1648,89 @@ class VersionSwitcherPathTests(SimpleTestCase):
         self.assertEqual(self._base_path('/retro/s/name/AbCdEf_/', 'retro'), '/')
 
 
+class VersionSwitcherInEveryLanguageTests(TestCase):
+    """Every link the switcher offers has to answer, in every language.
+
+    The version routes live inside i18n_patterns, so the only form that
+    resolves is /<language>/<version>/<path>: /es/beta/encyclopedia/ answers
+    and /beta/es/encyclopedia/ does not. The switcher built the second one,
+    because it stripped a version prefix and had never been told a language
+    prefix could sit in front of it -- four dead tabs on every translated page,
+    and a Dofus 3 tab that pointed back at the page you were already on.
+
+    context_processors.py is not touched by the language work at all, which is
+    how this survived: the defect lives in the file that was not changed. So
+    this test walks the rendered page and follows what it actually offers,
+    rather than asserting on a string the switcher is expected to build.
+    """
+
+    HUBS = ('/', '/encyclopedia/', '/guides/')
+    LANGUAGE_PREFIXES = ('', '/fr', '/es', '/pt')
+
+    def _offered_links(self, html):
+        block = html.split('version-selector')[-1].split('</div>')[0]
+        return [href for href in re.findall(r'href="([^"]+)"', block)]
+
+    def test_every_link_the_switcher_offers_answers(self):
+        for prefix in self.LANGUAGE_PREFIXES:
+            for hub in self.HUBS:
+                path = (prefix + hub) if prefix else hub
+                page = self.client.get(path)
+                self.assertEqual(page.status_code, 200, path)
+                offered = self._offered_links(page.content.decode('utf-8'))
+                self.assertTrue(offered, 'no version switcher on %s' % path)
+                for href in offered:
+                    self.assertEqual(
+                        self.client.get(href).status_code, 200,
+                        '%s offers %s, which does not answer' % (path, href))
+
+    def test_the_switcher_keeps_the_reader_in_their_language(self):
+        page = self.client.get('/es/encyclopedia/')
+        for href in self._offered_links(page.content.decode('utf-8')):
+            self.assertTrue(href.startswith('/es/'),
+                            'switching version dropped the language: %s' % href)
+
+    def test_the_current_version_tab_leaves_the_current_version(self):
+        """On /es/dofus2/... the Dofus 3 tab used to link to /es/dofus2/...,
+        so the one tab meant to take you back to the live game did nothing."""
+        page = self.client.get('/es/dofus2/encyclopedia/')
+        self.assertEqual(page.status_code, 200)
+        offered = self._offered_links(page.content.decode('utf-8'))
+        self.assertIn('/es/encyclopedia/', offered)
+
+
+class VersionSwitcherLanguagePrefixTests(SimpleTestCase):
+    """The path arithmetic behind the switcher, without rendering anything."""
+
+    def _context(self, path, game_version='dofus3'):
+        from types import SimpleNamespace
+        from chardata.context_processors import game_version as processor
+        return processor(SimpleNamespace(path_info=path,
+                                         game_version=game_version))
+
+    def test_the_language_is_taken_off_and_handed_back_separately(self):
+        got = self._context('/es/encyclopedia/')
+        self.assertEqual(got['version_switch_language_prefix'], '/es')
+        self.assertEqual(got['version_switch_base_path'], '/encyclopedia/')
+
+    def test_language_and_version_both_come_off(self):
+        got = self._context('/pt/retro/encyclopedia/', 'retro')
+        self.assertEqual(got['version_switch_language_prefix'], '/pt')
+        self.assertEqual(got['version_switch_base_path'], '/encyclopedia/')
+
+    def test_an_unprefixed_path_is_unchanged(self):
+        got = self._context('/retro/encyclopedia/', 'retro')
+        self.assertEqual(got['version_switch_language_prefix'], '')
+        self.assertEqual(got['version_switch_base_path'], '/encyclopedia/')
+
+    def test_a_build_page_still_falls_back_to_home_in_that_language(self):
+        """A build exists in one version only, so the switcher goes home --
+        but the reader's language must survive the trip."""
+        got = self._context('/fr/retro/s/name/AbCdEf_/', 'retro')
+        self.assertEqual(got['version_switch_language_prefix'], '/fr')
+        self.assertEqual(got['version_switch_base_path'], '/')
+
+
 class RegistrationTests(TestCase):
     """Username uniqueness must be case-insensitive, like MySQL's unique index."""
 
