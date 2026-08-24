@@ -22347,6 +22347,31 @@ class PagesSayInSearchWhatTheyAreForTests(TestCase):
         self.assertIn('stuff', titre.lower())
         self.assertIn('optimiseur', descr)
 
+    def test_every_page_that_gets_impressions_leads_with_its_keyword(self):
+        """Measured in Search Console: /sharedbuilds/ takes 716 impressions a
+        month for five clicks, /smartbuild/ 185 for five. All three announced
+        themselves as "The Dofus Fashionista: X", so the half Google truncates
+        was the half that said what the page is.
+        """
+        for chemin, debut in (('/sharedbuilds/', 'Community Dofus Builds'),
+                              ('/quickstart/', 'Build a Dofus Set in 3 Clicks'),
+                              ('/smartbuild/', 'Dofus Build from a Sentence'),
+                              ('/encyclopedia/', 'Dofus Item Encyclopedia')):
+            titre, _ = self._head(chemin)
+            self.assertTrue(titre.startswith(debut), '%s -> %r' % (chemin, titre))
+            self.assertIn('Dofus Fashionista', titre, chemin)
+
+    def test_the_encyclopedia_heading_stayed_short(self):
+        """The keyword belongs in the title tag alone. The same string is the
+        h1 and the breadcrumb on a dozen pages, and lengthening it there would
+        have turned every crumb into "Dofus Item Encyclopedia > ...".
+        """
+        import re
+        html = self.client.get('/encyclopedia/').content.decode('utf-8')
+        h1 = re.search(r'<h1[^>]*>([^<]*)</h1>', html)
+        self.assertIsNotNone(h1)
+        self.assertEqual(h1.group(1).strip(), 'Encyclopedia')
+
     def test_the_site_name_is_still_there_and_still_last(self):
         """Dropping it entirely would cost the brand searches, which are 77 per
         cent of the clicks this site gets."""

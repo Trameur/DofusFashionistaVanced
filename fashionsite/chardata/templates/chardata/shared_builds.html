@@ -6,7 +6,12 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Shared Builds" %}{% endblock %}
+{% comment %}
+716 impressions par mois pour cinq clics : la page s'annoncait "The Dofus
+Fashionista: Shared Builds". Google tronque, donc la moitie coupee doit etre
+celle qui est identique sur toutes les pages, pas celle qui dit quoi.
+{% endcomment %}
+{% block title %}{% trans "Community Dofus Builds" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
 {% block meta_description %}{% trans "Browse community Dofus builds shared by players: optimized equipment sets by class and level, with full stats. Find inspiration and build your own." %}{% endblock %}
 
@@ -210,9 +215,16 @@
                     {% if build.preview_items %}
                     <div class="build-preview-items">
                         {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
+                        {% comment %}
+                        Cette page appelle 314 vignettes d'objets et 283 icones
+                        de stats, soit environ un megaoctet et demi qu'un
+                        navigateur telechargeait d'un seul coup. Les dimensions
+                        sont celles que le CSS impose deja : les poser ici evite
+                        que la page saute pendant le chargement.
+                        {% endcomment %}
                         {% for item in build.preview_items %}
                         <div class="build-preview-item" title="{{ item.name }}">
-                            <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}" width="36" height="36" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                         </div>
                         {% endfor %}
                     </div>
@@ -223,7 +235,7 @@
                         {% for stat in build.compact_stats %}
                         <div class="build-compact-stat"{% if stat.label %} title="{{ stat.label }}: {{ stat.value }}"{% endif %}>
                             {% if stat.icon_url %}
-                            <img src="{{ stat.icon_url }}" alt="{{ stat.label }}">
+                            <img src="{{ stat.icon_url }}" alt="{{ stat.label }}" width="16" height="16" loading="lazy" decoding="async">
                             {% endif %}
                             <span class="build-compact-stat-value">{{ stat.value }}</span>
                         </div>

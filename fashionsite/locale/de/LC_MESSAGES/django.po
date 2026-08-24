@@ -6873,3 +6873,19 @@ msgstr "%(count)s Teile: %(stats)s."
 #: .\chardata\encyclopedia_view.py
 msgid "%(name)s: a Dofus %(kind)s used in %(count)s crafting recipes."
 msgstr "%(name)s: %(kind)s aus Dofus, in %(count)s Rezepten verwendet."
+
+#: .\chardata\templates\chardata\shared_builds.html
+msgid "Community Dofus Builds"
+msgstr "Von Spielern geteilte Dofus-Builds"
+
+#: .\chardata\templates\chardata\coaching.html
+msgid "Build a Dofus Set in 3 Clicks"
+msgstr "Ein Dofus-Set in 3 Klicks"
+
+#: .\chardata\templates\chardata\encyclopedia.html
+msgid "Dofus Item Encyclopedia"
+msgstr "Dofus-Gegenstandsenzyklopädie"
+
+#: .\chardata\templates\chardata\smart_build.html
+msgid "Dofus Build from a Sentence"
+msgstr "Ein Dofus-Build aus einem Satz"

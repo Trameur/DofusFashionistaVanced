@@ -4,7 +4,8 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% block title %}{{ t.title }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{# t.title sert de h1 et de fil d Ariane : le mot-cle va ici seulement. #}
+{% block title %}{% trans "Dofus Item Encyclopedia" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Browse the full Dofus encyclopedia: items, sets, monsters, drops, stats, effects, equip conditions and recipes for each game version." %}{% endblock %}
 
