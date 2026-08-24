@@ -18507,6 +18507,50 @@ class WakfuSpellTablesHoldOnlyWhatVariesTests(SimpleTestCase):
         # call half the game conditional.
         self.assertGreater(counted[0], counted[1] * 2)
 
+    def test_the_classes_are_balanced_against_each_other(self):
+        """Ankama's own balancing, used as a check on the reading.
+
+        Eighteen classes designed separately should not be able to hit for
+        wildly different amounts per action point, and they do not: the best
+        spell of each lands between 36 and 60 damage per AP at level 245, a
+        spread of 1.49 against the median.
+
+        Read wrongly, that spread explodes. Summing every damage row of a
+        spell put the Cra at 181 per AP, three times its nearest neighbour,
+        because the Fleche d'immolation lists 60, 121 and 181 and those are
+        ALTERNATIVES. The base is the first row that is not conditional.
+
+        WHY THIS IS WORTH A TEST OF ITS OWN. The four-language check cannot
+        catch that class of mistake: all four languages list the same three
+        figures, so all four agree, and agreement between them proves the
+        reading is CONSISTENT and not that it is RIGHT. This one compares the
+        reading against the game instead.
+        """
+        conn = self._conn()
+        try:
+            best = {}
+            for wakfu_class, ap, base in conn.execute(
+                    'SELECT s.class, s.ap,'
+                    ' (SELECT e.value FROM spell_effects e'
+                    '   WHERE e.spell = s.id AND e.level = 245'
+                    '   AND e.kind = "damage" AND e.conditional = 0'
+                    '   AND e.is_percent = 0 ORDER BY e.position LIMIT 1)'
+                    ' FROM spells s WHERE s.ap > 0'):
+                if not base:
+                    continue
+                best[wakfu_class] = max(best.get(wakfu_class, 0), base / ap)
+        finally:
+            conn.close()
+        self.assertGreater(len(best), 15, 'most classes have no damage spell')
+        ranked = sorted(best.values())
+        median = ranked[len(ranked) // 2]
+        spread = ranked[-1] / median
+        self.assertLess(spread, 2.0,
+                        'one class hits %.1fx the median per AP, which is a '
+                        'reading that adds up rows the game does not: %s'
+                        % (spread, sorted(best.items(),
+                                          key=lambda kv: -kv[1])[:3]))
+
     def test_german_reads_english_like_every_other_wakfu_table(self):
         conn = self._conn()
         try:

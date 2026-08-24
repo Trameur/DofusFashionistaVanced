@@ -139,6 +139,31 @@ SPREAD_RESISTANCE = 'RES_IN_PERCENT'
 # Stated so that a page can say it out loud rather than quietly assuming it.
 SPREAD_LANDS_WHERE_THE_BUILD_WANTS = True
 
+# WHAT AN ACTION POINT BUYS, measured rather than guessed, because it is the
+# only honest way to put a number on AP beside a number on mastery.
+#
+# For each of the eighteen classes, the best spell's base damage divided by
+# its AP cost, at spell level 245. Base means the FIRST row that is not
+# conditional: a spell's figures are alternatives as often as they are
+# additions, and adding them up put one class at three times its neighbours.
+#
+#     lowest   36.2      median   40.3      highest   60.0
+#
+# Eighteen classes designed separately landing within half again of the
+# median is what Ankama's own balancing looks like, and it is the check that
+# the reading is right rather than merely consistent between languages.
+#
+# So one AP is worth about FORTY damage at the top level, and a weight set
+# that prices an AP at less than that is a weight set that will not take one.
+# It is a measurement of the game and not a preference, which is why it sits
+# here and not in the solver: the solver takes whatever weights it is given.
+DAMAGE_PER_AP_AT_245 = 40
+
+# It is level 245 and nothing else. Spell damage grows roughly linearly with
+# the level, so a character at 100 buys proportionally less with an AP, and
+# nothing here has measured that curve.
+DAMAGE_PER_AP_MEASURED_AT = 245
+
 # WHAT A CHARACTER MAY CARRY OUT OF COMBAT. These caps bind hard and the
 # optimizer is wrong without them.
 #
