@@ -18,6 +18,12 @@ from the builds and losing them costs nothing but the run. Reading every build
 takes on the order of a quarter of an hour, which is why this is a command and
 not something a page does while somebody waits.
 
+HOW OFTEN: monthly is plenty, and there is no reason to automate it. Measured
+on the live site, about 180 builds are calculated a day against an index of
+161 476, so a share of 14.0 % reads 13.98 % after a day, 13.89 % after a
+week and 13.54 % after a month. Putting this in the entrypoint would cost a
+quarter of an hour of downtime on every deploy to correct a second decimal.
+
 A build whose solution cannot be read is skipped and counted, never dropped in
 silence: a rebuild that quietly indexed half the site would leave item pages
 looking as though nobody wears the item.
@@ -40,7 +46,7 @@ class Command(BaseCommand):
             help='stop after this many builds; 0 reads them all')
         parser.add_argument(
             '--shared-only', action='store_true',
-            help='rebuild only the named public builds, leaving the counts alone')
+            help='rebuild only the public builds, leave the counts alone')
 
     def handle(self, *args, **options):
         from fashionistapulp.structure import get_structure
