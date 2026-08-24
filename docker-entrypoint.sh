@@ -61,6 +61,19 @@ python manage.py collectstatic --noinput
 echo "Baking character bodies and heads..."
 python manage.py prebake_characters || echo "no character bundles, preview off"
 
+# Les vues portent une adresse IP, gardee pour ne compter qu'une visite par
+# adresse et par 24 h. La commande qui les efface existe depuis 2020 et rien ne
+# l'appelait : la table en comptait 156 249 pour une retention annoncee d'un
+# jour. Ici elle passe a chaque demarrage, et la vue elle-meme elague au fil de
+# l'eau, ce qui couvre les longues periodes sans deploiement.
+echo "Dropping view records older than a day..."
+python manage.py cleanup_old_views || echo "view cleanup skipped"
+
+# Les sessions expirees ne sont supprimees par personne non plus : 110 193
+# lignes, 29 Mo, dont aucune n'est plus lisible.
+echo "Dropping expired sessions..."
+python manage.py clearsessions || echo "session cleanup skipped"
+
 echo "Starting Gunicorn server..."
 # On small instances, 2 workers is usually more stable than 3.
 GUNICORN_WORKERS="${GUNICORN_WORKERS:-2}"

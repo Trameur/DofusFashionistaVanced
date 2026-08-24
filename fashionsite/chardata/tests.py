@@ -5503,6 +5503,49 @@ class SharedSolutionPageTests(TestCase):
         self.assertEqual(BuildView.objects.count(), 0,
                          'a crawler left a row behind')
 
+    def test_a_view_drops_the_addresses_that_have_passed_the_day(self):
+        """The rows carry an IP address and were never deleted.
+
+        cleanup_old_views has existed since 2020 and nothing ever called it:
+        no cron, nothing in the entrypoint. The table held 156 249 rows for a
+        retention the code itself puts at 24 hours, so every address a reader
+        left was kept indefinitely. Pruning here keeps the promise between two
+        deployments, which on this site are weeks apart.
+        """
+        from datetime import timedelta
+        from django.utils import timezone
+        from chardata.models import BuildView, Char
+        from chardata.encoded_char_id import encode_char_id
+        build = self._shared_build()
+        autre = Char.objects.create(
+            name='Voisin', char_name='star', char_class='Iop',
+            char_build='build', level=200, minimum_stats=b'',
+            minimum_crits=b'', stats_weight=b'', options=b'', inclusions=b'',
+            exclusions=b'', minimal_solution=build.minimal_solution,
+            link_shared=True, owner=build.owner)
+
+        vieille = BuildView.objects.create(build=build, ip_address='10.0.0.1')
+        recente = BuildView.objects.create(build=build, ip_address='10.0.0.2')
+        voisine = BuildView.objects.create(build=autre, ip_address='10.0.0.3')
+        vieux = timezone.now() - timedelta(hours=30)
+        BuildView.objects.filter(pk__in=[vieille.pk, voisine.pk]).update(
+            viewed_at=vieux)
+
+        reponse = self.client.get('/s/star/%s/' % encode_char_id(build.pk),
+                                  HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 200)
+
+        self.assertFalse(BuildView.objects.filter(pk=vieille.pk).exists(),
+                         'an address older than a day survived the visit')
+        # Celle du jour porte la limite par adresse : la supprimer ferait
+        # recompter le meme lecteur a chaque rafraichissement.
+        self.assertTrue(BuildView.objects.filter(pk=recente.pk).exists(),
+                        'the day-old row that enforces the limit was dropped')
+        # Et le menage reste borne au build visite, sinon une page tres lue
+        # balaierait la table entiere a chaque visite.
+        self.assertTrue(BuildView.objects.filter(pk=voisine.pk).exists(),
+                        'the visit reached rows of another build')
+
     def test_the_page_still_answers_a_crawler(self):
         """Not counting them is not the same as refusing them: the page has to
         stay indexable."""

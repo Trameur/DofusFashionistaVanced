@@ -653,6 +653,15 @@ def solution_linked(request, char_name, encoded_char_id):
             if not recent_view:
                 # Record the view
                 BuildView.objects.create(build=char, ip_address=ip_address)
+                # Et jeter celles de ce build qui ont passe la journee. La
+                # commande de nettoyage ne tournait nulle part, si bien que
+                # 156 249 adresses etaient conservees pour une retention
+                # annoncee de 24 h. Elaguer ici garde la table a jour entre
+                # deux deploiements, sur l'index qui sert deja juste au-dessus
+                # et pour ce seul build.
+                BuildView.objects.filter(
+                    build=char,
+                    viewed_at__lt=twenty_four_hours_ago).delete()
                 # char.save() would rewrite every blob column and bump
                 # modified_time (auto_now) on every view.
                 Char.objects.filter(pk=char.pk).update(view_count=F('view_count') + 1)
