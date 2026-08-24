@@ -9,7 +9,7 @@
 {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'privacy' %}">{% endblock %}
 {% block og_url %}<meta property="og:url" content="https://dofusfashionista.gg{% url 'privacy' %}">{% endblock %}
 
-{% block meta_description %}{% trans "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google AdSense and Analytics, consent, and your privacy rights." %}{% endblock %}
+{% block meta_description %}{% if ads_allowed %}{% trans "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google AdSense and Analytics, consent, and your privacy rights." %}{% else %}{% trans "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google Analytics, and your privacy rights." %}{% endif %}{% endblock %}
 
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
@@ -34,21 +34,44 @@
 <h2>{% trans "Cookies and local storage" %}</h2>
 <p>{% blocktrans %}We use a small number of cookies and browser-local storage to make the site work: a session cookie when you are logged in, and preferences such as your chosen theme, language and interface options. Third-party services described below may also set their own cookies.{% endblocktrans %}</p>
 
+{% comment %}
+Cette page decrivait une regie publicitaire, des cookies de ciblage et un
+consentement EEE qui n'existaient pas : la publicite est coupee, et deux autres
+pages du site affirmaient deja le contraire. Tout ce qui parle de publicite est
+donc conditionne a ads_allowed, le meme drapeau qui pose le chargeur AdSense.
+La politique redevient exacte des que la publicite revient, sans qu'il faille y
+repenser, et rien n'a ete supprime.
+{% endcomment %}
+{% if ads_allowed %}
 <h2>{% trans "Advertising and third-party services" %}</h2>
 <p>{% blocktrans %}To keep the Dofus Fashionista free we display ads and use a few third-party services:{% endblocktrans %}</p>
+{% else %}
+<h2>{% trans "Third-party services" %}</h2>
+<p>{% blocktrans %}The site uses a few third-party services:{% endblocktrans %}</p>
+{% endif %}
 <ul>
-    <li>{% blocktrans %}<b>Google AdSense.</b> Google and its partners use cookies to serve ads based on your prior visits to this and other websites. You can learn how Google uses data from sites that use its services at <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">policies.google.com/technologies/partner-sites</a>, and manage ad personalization at <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer">My Ad Center</a>.{% endblocktrans %}</li>
+    {% if ads_allowed %}
+<li>{% blocktrans %}<b>Google AdSense.</b> Google and its partners use cookies to serve ads based on your prior visits to this and other websites. You can learn how Google uses data from sites that use its services at <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">policies.google.com/technologies/partner-sites</a>, and manage ad personalization at <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer">My Ad Center</a>.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Consent (EEA, UK and Switzerland).</b> If you visit from a region that requires it, a Google-certified consent message lets you accept or refuse the use of cookies for personalized advertising before any non-essential cookies are set.{% endblocktrans %}</li>
-    <li>{% blocktrans %}<b>Google Analytics.</b> We use Analytics to understand, in aggregate, how the site is used so we can improve it.{% endblocktrans %}</li>
+{% endif %}
+<li>{% blocktrans %}<b>Google Analytics.</b> We use Analytics to understand, in aggregate, how the site is used so we can improve it.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Google Sign-In.</b> Optional authentication, as described above.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Hosting and infrastructure.</b> The site is hosted on a dedicated server and served through a content-delivery network that processes requests on our behalf.{% endblocktrans %}</li>
 </ul>
 
 <h2>{% trans "How we use your data" %}</h2>
+{% if ads_allowed %}
 <p>{% blocktrans %}We use the information above only to operate and improve the site, provide your saved builds and account, display advertising that funds the service, respond to your messages, and keep the site secure. We do not sell your personal data.{% endblocktrans %}</p>
+{% else %}
+<p>{% blocktrans %}We use the information above only to operate and improve the site, provide your saved builds and account, respond to your messages, and keep the site secure. We do not sell your personal data.{% endblocktrans %}</p>
+{% endif %}
 
 <h2>{% trans "Your rights and choices" %}</h2>
+{% if ads_allowed %}
 <p>{% blocktrans %}You can view and edit your projects at any time while logged in, and you can request deletion of your account and associated data by contacting us. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data. You can also control advertising cookies through the consent message and through your Google Ad settings.{% endblocktrans %}</p>
+{% else %}
+<p>{% blocktrans %}You can view and edit your projects at any time while logged in, and you can request deletion of your account and associated data by contacting us. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data.{% endblocktrans %}</p>
+{% endif %}
 
 <h2>{% trans "Data retention" %}</h2>
 <p>{% blocktrans %}We keep account and build data for as long as your account is active or as needed to provide the service. If you delete your account, the associated data is removed.{% endblocktrans %}</p>

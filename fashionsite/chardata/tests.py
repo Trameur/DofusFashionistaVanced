@@ -21327,6 +21327,143 @@ class DonationButtonTests(TestCase):
                              'a raw donation link escapes the counter')
 
 
+class AFailedAdSettingReadServesNoAdsTests(TestCase):
+    """A database hiccup must not put advertising back on.
+
+    What holds ads off is a stored setting, and a read that failed used to be
+    filed as a setting that was absent: the same empty dict, then cached as one
+    for the whole TTL. The defaults underneath say ads on, since no adsense key
+    in gen_config leaves enabled at True and client at DEFAULT_AD_CLIENT. One
+    hiccup while the cache was cold was therefore enough to serve AdSense on
+    every page that allows it, for as long as the cache held, with nothing
+    written anywhere to say so.
+    """
+
+    def setUp(self):
+        from django.core.cache import cache
+        from chardata.context_processors import AD_SETTING_KEY
+        cache.delete(AD_SETTING_KEY)
+
+    def _lecture_qui_echoue(self):
+        from unittest import mock
+        from django.db import OperationalError
+        from chardata.models import SiteSetting
+        return mock.patch.object(
+            SiteSetting.objects, 'filter',
+            side_effect=OperationalError('the database is unreachable'))
+
+    def test_a_read_that_fails_serves_no_ads(self):
+        from chardata.context_processors import ad_config
+        with self._lecture_qui_echoue():
+            config = ad_config()
+        self.assertFalse(config.get('enabled', True),
+                         'a failed read left advertising switched on')
+
+    def test_a_read_that_fails_is_not_remembered_as_an_answer(self):
+        """Caching the failure is what made it last: the next request would
+        have taken the empty dict for a real setting."""
+        from chardata.context_processors import ad_config
+        with self._lecture_qui_echoue() as faux:
+            ad_config()
+            ad_config()
+        self.assertEqual(faux.call_count, 2,
+                         'the failure was cached, so the database was never '
+                         'asked again')
+
+    def test_no_page_carries_ad_code_while_the_read_fails(self):
+        with self._lecture_qui_echoue():
+            page = self.client.get('/support/', HTTP_USER_AGENT='Mozilla/5.0')
+        self.assertEqual(page.status_code, 200)
+        self.assertNotIn(b'pagead2.googlesyndication', page.content)
+        self.assertNotIn(b'google-adsense-account', page.content)
+
+    def test_the_failure_is_said_out_loud(self):
+        """Failing shut is silent by nature, and json.loads sits inside the
+        same try: a row saved with broken JSON would cost the ads and one
+        query per request for good. Something has to name it."""
+        from chardata.context_processors import ad_config
+        with self._lecture_qui_echoue():
+            with self.assertLogs('chardata.context_processors', 'WARNING') as journal:
+                ad_config()
+        self.assertTrue(any('ad setting could not be read' in ligne
+                            for ligne in journal.output), journal.output)
+
+    def test_a_setting_that_is_merely_absent_still_reads_normally(self):
+        """Only the failure is treated apart. No row at all remains what it
+        always was: the defaults."""
+        from chardata.context_processors import ad_config
+        from chardata.models import SiteSetting
+        SiteSetting.objects.filter(key='adsense').delete()
+        self.assertIsInstance(ad_config(), dict)
+
+
+class PrivacyPolicyDescribesWhatActuallyHappensTests(TestCase):
+    """A privacy policy may only describe processing that happens.
+
+    This one described an ad network, targeting cookies and an EEA consent
+    message while none of it ran: no AdSense loader is served, and two other
+    pages of the site said the opposite in five languages. A policy that
+    invents a treatment is worse than a vague one, because a reader in the EEA
+    reads it to decide something.
+
+    Every advertising claim now hangs on ads_allowed, the same flag that puts
+    the AdSense loader on the page. Nothing was deleted: turn ads back on and
+    the policy describes them again, without anyone having to remember.
+    """
+
+    NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                  '(KHTML, like Gecko) Chrome/126.0 Safari/537.36')
+    SANS_PUB = {'enabled': False, 'client': '', 'slots': {}, 'auto': False}
+    AVEC_PUB = {'enabled': True, 'client': 'ca-pub-0000000000000000',
+                'slots': {}, 'auto': True}
+
+    # Le titre de section et la meta description comptent autant que le corps :
+    # la meta part aux moteurs de recherche et aux apercus partages.
+    CLAUSES = ('we display ads', 'AdSense', 'Consent (EEA',
+               'advertising that funds the service',
+               'control advertising cookies')
+
+    def _policy(self, pubs, langue='en'):
+        from unittest import mock
+        with mock.patch('chardata.context_processors.ad_config',
+                        return_value=dict(pubs)):
+            reponse = self.client.get('/privacy/',
+                                      HTTP_USER_AGENT=self.NAVIGATEUR,
+                                      HTTP_ACCEPT_LANGUAGE=langue)
+        self.assertEqual(reponse.status_code, 200)
+        return reponse.content.decode('utf-8')
+
+    def test_it_claims_no_advertising_while_none_is_served(self):
+        page = self._policy(self.SANS_PUB)
+        for clause in self.CLAUSES:
+            self.assertNotIn(clause, page,
+                             'the policy still describes advertising: %s' % clause)
+
+    def test_it_describes_advertising_again_the_moment_it_returns(self):
+        page = self._policy(self.AVEC_PUB)
+        for clause in self.CLAUSES:
+            self.assertIn(clause, page,
+                          'ads are served and the policy hides %s' % clause)
+
+    def test_the_translated_policy_is_held_to_the_same_rule(self):
+        for langue, publicite in (('fr', 'publicité'), ('es', 'publicidad'),
+                                  ('pt', 'publicidade'), ('de', 'Werbung')):
+            sans = self._policy(self.SANS_PUB, langue)
+            self.assertNotIn(publicite, sans, langue)
+            self.assertNotIn('AdSense', sans, langue)
+            self.assertIn(publicite, self._policy(self.AVEC_PUB, langue), langue)
+
+    def test_what_is_true_either_way_never_moves(self):
+        """Analytics really is loaded, and the account sections do not depend
+        on advertising. Guarding must not have taken them along."""
+        for pubs in (self.SANS_PUB, self.AVEC_PUB):
+            page = self._policy(pubs)
+            for garde in ('Google Analytics', 'Google Sign-In',
+                          'Hosting and infrastructure',
+                          'We do not sell your personal data'):
+                self.assertIn(garde, page, garde)
+
+
 class SupportPageFramingTests(TestCase):
     """The donation ask, in the reader's own language.
 
@@ -21335,49 +21472,63 @@ class SupportPageFramingTests(TestCase):
     renders. So this asserts on what a Spanish reader actually receives, not on
     the presence of an entry in a .po file.
 
-    The wording says the site carries no advertising and that donations pay the
-    server. It names no amount: what advertising would have earned is the
-    owner's business, not the reader's. And it frames the absence of ads as
-    what donations buy for everyone, rather than as a reward for those who pay
-    -- the mechanism DofusLab uses in the same game, and the only one the
-    evidence supports here.
+    The wording says two things, and both are checked in every language: the
+    site carries no advertising, and the server has been paid for out of the
+    owner's own pocket since 2023. It names no amount. Donations are never
+    said to pay for the server, because they do not: one donation has been
+    received, and the sentence that claimed otherwise was removed.
+
+    The no-advertising half is only said while there are no ads, so the page is
+    rendered here under an ad configuration the test states rather than under
+    whatever the environment happens to carry.
     """
 
+    SANS_PUB = {'enabled': False, 'client': '', 'slots': {}, 'auto': False}
+
     PHRASES = {
-        'fr': 'aucune publicité sur le site',
-        'es': 'ninguna publicidad en la web',
-        'pt': 'nenhuma publicidade no site',
-        'de': 'keine Werbung',
+        'fr': ('aucune publicité sur le site', 'sort de ma poche depuis 2023'),
+        'es': ('ninguna publicidad en la web', 'sale de mi bolsillo desde 2023'),
+        'pt': ('nenhuma publicidade no site', 'sai do meu bolso desde 2023'),
+        'de': ('keine Werbung', 'aus eigener Tasche'),
     }
 
-    def test_each_language_reads_it_in_its_own_words(self):
-        for langue, attendu in self.PHRASES.items():
-            page = self.client.get('/%s/support/' % langue)
+    def _support_page(self, langue, chemin=None):
+        from unittest import mock
+        with mock.patch('chardata.context_processors.ad_config',
+                        return_value=dict(self.SANS_PUB)):
+            page = self.client.get(chemin or '/%s/support/' % langue)
             if page.status_code == 404:
                 page = self.client.get('/support/', HTTP_ACCEPT_LANGUAGE=langue)
+            return page
+
+    def test_each_language_reads_it_in_its_own_words(self):
+        for langue, attendues in self.PHRASES.items():
+            page = self._support_page(langue)
             self.assertEqual(page.status_code, 200, langue)
             html = page.content.decode('utf-8')
-            self.assertIn(attendu, html,
-                          'the %s reader gets no translated donation ask' % langue)
+            for attendu in attendues:
+                self.assertIn(attendu, html,
+                              'the %s reader is missing "%s"' % (langue, attendu))
 
     def test_english_still_says_it(self):
-        html = self.client.get(
-            '/support/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        html = self._support_page(
+            'en', chemin='/support/').content.decode('utf-8')
         self.assertIn('no advertising on the site', html)
+        self.assertIn('out of my own pocket since 2023', html)
 
     def test_no_amount_is_ever_shown(self):
         """The owner asked for no figure. A number here would also date badly
         and invite the reader to weigh their gift against it."""
         for langue in list(self.PHRASES) + ['en']:
-            html = self.client.get(
-                '/support/', HTTP_ACCEPT_LANGUAGE=langue).content.decode('utf-8')
+            html = self._support_page(
+                langue, chemin='/support/').content.decode('utf-8')
             debut = html.find('support-intro')
             bloc = html[debut:debut + 1600] if debut != -1 else ''
             for interdit in ('10 €', '10€', '€10', '10 EUR'):
                 self.assertNotIn(interdit, bloc, langue)
 
     def test_the_donation_link_is_still_counted(self):
-        html = self.client.get('/support/').content.decode('utf-8')
+        html = self._support_page('en', chemin='/support/').content.decode('utf-8')
         self.assertIn('/out/donate/0/', html)
 
 
@@ -21573,24 +21724,97 @@ class AskingAtTheMomentOfValueTests(TestCase):
             minimal_solution=_pickle.dumps(ModelResultMinimal({}, input_, {})),
             owner=owner, link_shared=True, game_version='dofus3')
 
-    def _result_page(self, langue='en'):
+    # La configuration publicitaire est ambiante, et par defaut le depot autorise
+    # la publicite sur /s/ : la production n'en est exempte que par un reglage
+    # enregistre a l'execution. Les pages sont donc rendues sous une
+    # configuration que le test enonce, jamais sous celle qui traine.
+    SANS_PUB = {'enabled': False, 'client': '', 'slots': {}, 'auto': False}
+    AVEC_PUB = {'enabled': True, 'client': 'ca-pub-0000000000000000',
+                'slots': {}, 'auto': True}
+
+    def _result_page(self, langue='en', pubs=None):
+        from unittest import mock
         from chardata.encoded_char_id import encode_char_id
         build = self._shared_build()
-        return self.client.get(
-            '/s/star/%s/' % encode_char_id(build.pk),
-            HTTP_USER_AGENT=self.NAVIGATEUR,
-            HTTP_ACCEPT_LANGUAGE=langue).content.decode('utf-8')
+        with mock.patch('chardata.context_processors.ad_config',
+                        return_value=dict(pubs or self.SANS_PUB)):
+            return self.client.get(
+                '/s/star/%s/' % encode_char_id(build.pk),
+                HTTP_USER_AGENT=self.NAVIGATEUR,
+                HTTP_ACCEPT_LANGUAGE=langue).content.decode('utf-8')
+
+    def test_the_no_ads_claim_cannot_outlive_the_ads_staying_off(self):
+        """Saying "no ads" has to stop being said the moment there are ads.
+
+        The AdSense loader hangs on ads_allowed, which /s/ and /support/ are
+        granted by default and which needs no slot id. Unguarded, turning ads
+        back on would have left the most read page of the site claiming there
+        were none, in five languages.
+        """
+        avec = self._result_page(pubs=self.AVEC_PUB)
+        self.assertIn('pagead2.googlesyndication', avec,
+                      'the probe never turned ads on, so it proves nothing')
+        self.assertNotIn('No ads', avec)
+        # Le reste de la demande survit : seule l'affirmation invalide tombe.
+        self.assertIn('out of my own pocket since 2023', avec)
+        self.assertIn('/out/donate/?from=solution', avec)
+
+        sans = self._result_page()
+        self.assertNotIn('pagead2.googlesyndication', sans)
+        self.assertIn('No ads, no subscription', sans)
+
+    def test_the_support_page_is_held_to_the_same_claim(self):
+        from unittest import mock
+        for pubs, sans_pub in ((self.SANS_PUB, True), (self.AVEC_PUB, False)):
+            with mock.patch('chardata.context_processors.ad_config',
+                            return_value=dict(pubs)):
+                html = self.client.get(
+                    '/support/',
+                    HTTP_USER_AGENT=self.NAVIGATEUR).content.decode('utf-8')
+            self.assertEqual('There is no advertising on the site' in html,
+                             sans_pub, 'pubs=%s' % (pubs,))
+            self.assertIn('out of my own pocket since 2023', html)
 
     def test_the_result_page_carries_the_ask(self):
         html = self._result_page()
         self.assertIn('/out/donate/?from=solution', html)
-        self.assertIn('no advertising', html)
+        self.assertIn('No ads, no subscription', html)
+
+    def test_the_ask_comes_after_the_result_not_before_it(self):
+        """The ask sat between the share buttons and the gear, so it was read
+        before the reader had been given anything. It belongs below the closing
+        of the two-column result: the set on the left, the stats on the right.
+
+        This is the whole point of the placement, so it is the thing to guard.
+        """
+        import re as _re
+        # Les scripts de bas de page citent ces memes classes ; seules comptent
+        # celles du corps rendu.
+        corps = _re.sub(r'(?s)<script.*?</script>', '', self._result_page())
+        demande = corps.index('solution-support-button')
+        for colonne in ('solution-item-summary', 'solution-stat-summary'):
+            self.assertGreater(
+                demande, corps.rindex(colonne),
+                'the ask precedes the end of %s, so it is made before the set '
+                'has been shown' % colonne)
+
+    def test_the_ask_never_claims_donations_pay_the_server(self):
+        """They do not. The server has been paid for out of pocket since 2023,
+        against a single donation, so any sentence saying otherwise is false
+        and must not come back.
+        """
+        for langue in ('en', 'fr', 'es', 'pt', 'de'):
+            html = self._result_page(langue)
+            for faux in ('paid for by donations', 'payé par des dons',
+                         'pagado con donaciones', 'pago por doações',
+                         'Spenden bezahlen'):
+                self.assertNotIn(faux, html, '%s / %s' % (langue, faux))
 
     def test_it_speaks_the_reader_s_language(self):
-        for langue, attendu in (('fr', 'payé par des dons'),
-                                ('es', 'pagado con donaciones'),
-                                ('pt', 'pago por doações'),
-                                ('de', 'Spenden bezahlen')):
+        for langue, attendu in (('fr', 'sort de ma poche depuis 2023'),
+                                ('es', 'sale de mi bolsillo desde 2023'),
+                                ('pt', 'sai do meu bolso desde 2023'),
+                                ('de', 'aus eigener Tasche')):
             self.assertIn(attendu, self._result_page(langue), langue)
 
     def test_nothing_was_locked_away(self):

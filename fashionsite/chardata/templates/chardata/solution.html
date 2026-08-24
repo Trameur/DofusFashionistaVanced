@@ -255,25 +255,6 @@
     {% endif %}
     {% endif %}
 
-    {% comment %}
-    L'appel au don, au moment ou l'outil vient de faire son travail, et non sur
-    une page que personne ne visite. Rien n'est verrouille et rien n'est retire :
-    la promesse "free and always will be" est publiee et traduite, elle tient.
-    Le parametre from= sert uniquement a savoir quel emplacement fonctionne ; il
-    est valide contre une liste fermee cote serveur et ne peut pas changer la
-    destination.
-    {% endcomment %}
-    <p class="solution-support-note">
-        {% trans "This calculation ran on a server paid for by donations. The site stays free, and carries no advertising." %}
-        <a href="/out/donate/?from=solution" target="_blank" rel="nofollow noopener">{% trans "Support it" %}</a>
-    </p>
-    <style>
-        .solution-support-note {
-            text-align: center; font-size: 0.85em; opacity: 0.62;
-            margin: 18px auto 4px; max-width: 46em; line-height: 1.5;
-        }
-        .solution-support-note a { text-decoration: underline; }
-    </style>
 
     {% ad_unit 'solution' %}
 
@@ -584,6 +565,31 @@
         </table>
     </td>
     </tr></table>
+
+    {% comment %}
+    L'appel au soutien, place juste apres le tableau du resultat : le lecteur a
+    vu son stuff et ses stats, la demande arrive une fois la valeur livree et
+    non avant. Rien n'est verrouille et rien n'est retire : la promesse
+    "free and always will be" est publiee et traduite, elle tient.
+    Le parametre from= sert uniquement a savoir quel emplacement fonctionne ; il
+    est valide contre une liste fermee cote serveur et ne peut pas changer la
+    destination.
+    {% endcomment %}
+    <aside class="solution-support">
+        <p class="solution-support-text">
+            {% comment %}
+            ads_allowed, et non ads_enabled : c'est lui qui pose le chargeur
+            AdSense et le placement automatique, et il est accorde a /s/ sans
+            qu'aucun slot soit configure. Sans cette garde, activer la
+            publicite ferait affirmer le contraire a la page la plus lue du
+            site, dans cinq langues.
+            {% endcomment %}
+            {% if not ads_allowed %}<strong>{% trans "No ads, no subscription." %}</strong>{% endif %}
+            {% blocktrans %}The server has come out of my own pocket since 2023. If this set was useful, you can help cover it.{% endblocktrans %}
+        </p>
+        <a class="solution-support-button" href="{% url 'donate' %}?from=solution"
+           target="_blank" rel="nofollow noopener">{% trans "Support Fashionista" %}</a>
+    </aside>
     <div id="blanket" style="display:none;"></div>
     <div id="popUpDiv" style="display:none;">
         <div class="removing-div"></div>

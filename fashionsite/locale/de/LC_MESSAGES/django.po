@@ -6778,14 +6778,38 @@ msgstr "am Ende einer Runde"
 msgid "Lands later, not in the total above:"
 msgstr "Trifft später ein, nicht im Gesamtwert oben:"
 
-#: .\chardata\templates\chardata\support.html:33
-msgid "There is no advertising on the site, and I would like to keep it that way. Donations are what pays for the server."
-msgstr "Auf der Seite gibt es keine Werbung, und das soll auch so bleiben. Spenden bezahlen den Server."
+#: .\chardata\templates\chardata\support.html:44
+msgid "There is no advertising on the site, and I would like to keep it that way. The server has come out of my own pocket since 2023."
+msgstr "Auf der Seite gibt es keine Werbung, und das soll auch so bleiben. Den Server bezahle ich seit 2023 aus eigener Tasche."
 
-#: .\chardata\templates\chardata\solution.html:182
-msgid "This calculation ran on a server paid for by donations. The site stays free, and carries no advertising."
-msgstr "Diese Berechnung lief auf einem Server, den Spenden bezahlen. Die Seite bleibt kostenlos und werbefrei."
+#: .\chardata\templates\chardata\support.html:47
+msgid "The server has come out of my own pocket since 2023."
+msgstr "Den Server bezahle ich seit 2023 aus eigener Tasche."
 
-#: .\chardata\templates\chardata\solution.html:182
-msgid "Support it"
-msgstr "Unterstützen"
+#: .\chardata\templates\chardata\solution.html:580
+msgid "No ads, no subscription."
+msgstr "Keine Werbung, kein Abo."
+
+#: .\chardata\templates\chardata\solution.html:581
+msgid "The server has come out of my own pocket since 2023. If this set was useful, you can help cover it."
+msgstr "Den Server bezahle ich seit 2023 aus eigener Tasche. Wenn dieses Set nützlich war, können Sie helfen, ihn zu finanzieren."
+
+#: .\chardata\templates\chardata\privacy.html
+msgid "Third-party services"
+msgstr "Drittanbieterdienste"
+
+#: .\chardata\templates\chardata\privacy.html
+msgid "The site uses a few third-party services:"
+msgstr "Die Website nutzt einige Drittanbieterdienste:"
+
+#: .\chardata\templates\chardata\privacy.html
+msgid "We use the information above only to operate and improve the site, provide your saved builds and account, respond to your messages, and keep the site secure. We do not sell your personal data."
+msgstr "Wir verwenden die oben genannten Informationen ausschließlich, um die Website zu betreiben und zu verbessern, Ihre gespeicherten Builds und Ihr Konto bereitzustellen, auf Ihre Nachrichten zu antworten und die Website sicher zu halten. Wir verkaufen Ihre personenbezogenen Daten nicht."
+
+#: .\chardata\templates\chardata\privacy.html
+msgid "You can view and edit your projects at any time while logged in, and you can request deletion of your account and associated data by contacting us. Depending on where you live, you may have rights to access, correct, delete or object to the processing of your personal data."
+msgstr "Sie können Ihre Projekte jederzeit einsehen und bearbeiten, solange Sie angemeldet sind, und Sie können die Löschung Ihres Kontos und der zugehörigen Daten beantragen, indem Sie uns kontaktieren. Je nach Wohnort haben Sie möglicherweise das Recht, auf Ihre personenbezogenen Daten zuzugreifen, sie zu berichtigen, zu löschen oder ihrer Verarbeitung zu widersprechen."
+
+#: .\chardata\templates\chardata\privacy.html
+msgid "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google Analytics, and your privacy rights."
+msgstr "Wie der Dofus Fashionista mit Ihren Daten umgeht: Konten, gespeicherte Builds, Cookies, Google Analytics und Ihre Datenschutzrechte."

@@ -35,13 +35,20 @@
         {% comment %}
         Le cadrage vient de ce que font les outils comparables : DofusLab, meme
         jeu, ne donne rien a ses donateurs et demande simplement de l'aider a
-        rester sans publicite. L'absence de publicite n'est pas une recompense
-        reservee a ceux qui paient, c'est ce que les dons financent pour tout
-        le monde. Aucun chiffre ici : le montant que la publicite rapporterait
-        ne regarde pas le lecteur.
+        rester sans publicite. L'absence de publicite n'est financee par
+        personne : elle sort de la poche du proprietaire, qui paie le serveur
+        depuis 2023 contre un seul don recu. Ne pas ecrire que les dons paient
+        le serveur, ce serait faux. Aucun chiffre ici non plus : le montant que
+        la publicite rapporterait ne regarde pas le lecteur.
+        La phrase sur l'absence de publicite est conditionnee a ads_allowed,
+        pour qu'elle cesse d'etre affirmee le jour ou la publicite revient.
         {% endcomment %}
         <p class="support-intro">
-            {% trans "There is no advertising on the site, and I would like to keep it that way. Donations are what pays for the server." %}
+            {% if not ads_allowed %}
+            {% trans "There is no advertising on the site, and I would like to keep it that way. The server has come out of my own pocket since 2023." %}
+            {% else %}
+            {% trans "The server has come out of my own pocket since 2023." %}
+            {% endif %}
         </p>
 
         {% if support_links %}

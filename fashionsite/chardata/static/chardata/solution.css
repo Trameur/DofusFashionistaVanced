@@ -470,3 +470,55 @@
     font-size: 18px;
     font-weight: bold;
 }
+
+/* L'appel au soutien, sous le resultat.
+   Il ne prend pas le brun de .button-generic : ce brun est celui des commandes
+   de l'outil (Expand All, Partager, Annuler), et une demande deguisee en
+   commande se fait cliquer par erreur. Il reprend le corail deja utilise pour
+   le soutien dans le pied de page, avec la geometrie de cette page-ci.
+   Le cadre est en gris neutre translucide, donc valable en theme clair comme
+   en theme sombre sans regle par theme. Aucune police n'est declaree ici : le
+   bloc herite celle de la page (Segoe UI, Roboto, Helvetica Neue, Arial), pour
+   se lire comme le reste du resultat et non comme un encart rapporte. */
+.solution-support {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px 20px;
+    max-width: 46em;
+    margin: 26px auto 10px;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(128, 128, 128, 0.35);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.35);
+}
+
+.solution-support-text {
+    flex: 1 1 22em;
+    min-width: 0;
+    margin: 0;
+    font-size: 0.92em;
+    line-height: 1.55;
+}
+
+.solution-support-button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    /* 44px est le minimum utilisable au doigt ; sans cela le bouton tombait a
+       38px sur mobile, ou se trouve une bonne part des lecteurs. */
+    min-height: 44px;
+    padding: 9px 20px;
+    border-radius: 10px;
+    background-color: #c9483f !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+
+.solution-support-button:hover,
+.solution-support-button:focus {
+    background-color: #b23c34 !important;
+}

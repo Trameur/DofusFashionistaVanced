@@ -1,8 +1,11 @@
 import json
+import logging
 import re
 
 from django.core.cache import cache
 from django.db.models import Sum
+
+logger = logging.getLogger(__name__)
 
 
 def site_stats(request):
@@ -138,7 +141,16 @@ def ad_config():
             row = SiteSetting.objects.filter(key=AD_SETTING_KEY).first()
             stored = json.loads(row.value) if row and row.value else {}
         except Exception:
-            stored = {}
+            # A read that failed is not a setting that is absent, though
+            # both used to be filed as the same empty dict and cached as one.
+            # The defaults underneath say ads on: with no adsense key in
+            # gen_config, enabled stays True and client falls back to
+            # DEFAULT_AD_CLIENT. One hiccup on a cold cache was enough to serve
+            # ads again everywhere they are allowed, for the whole TTL, in
+            # silence. So serve none, cache nothing, read again next request,
+            # and say it: json.loads is inside this try, so a row saved with
+            # broken JSON is a standing state, not a passing one.
+            return {'enabled': False}
         cache.set(AD_SETTING_KEY, stored, AD_SETTING_TTL)
     slots = dict(config.get('slots') or {})
     slots.update({k: v for k, v in (stored.get('slots') or {}).items() if v})
