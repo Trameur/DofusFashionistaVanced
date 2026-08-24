@@ -64,6 +64,13 @@ would then disagree with the game a player is reading it beside. German is the
 one language Wakfu has never had; it falls back to English, like every other
 Wakfu string.
 
+THE PICTURE a piece of gear shows is Ankama's `gfxId`, and it is not the item
+id: 7785 pieces of gear share 3928 drawings, so the artwork is stored once
+under the gfx id and this table says which item points at which. The `skin`
+column the shared schema already has is a different thing, a small animation
+number Dofus uses, and putting a seven-digit gfx id in it would have been a
+quiet lie.
+
 Nothing about doubling lives here. Whether two copies of one ring may be worn
 is a rule of the game and sits in `game_versions.rings_can_double`, which is
 also why storing the real names was safe: the model used to read that rule off
@@ -77,6 +84,7 @@ ITEM_RARITY_TABLE = 'item_rarity'
 STAT_ELEMENT_COUNT_TABLE = 'stat_element_count'
 ITEM_TYPE_POSITION_TABLE = 'item_type_position'
 ITEM_TYPE_NAME_TABLE = 'item_type_names'
+ITEM_PICTURE_TABLE = 'item_picture'
 
 SCHEMA = (
     """CREATE TABLE item_rarity
@@ -96,6 +104,9 @@ SCHEMA = (
              (item_type INTEGER, language TEXT, name TEXT,
               PRIMARY KEY (item_type, language),
               FOREIGN KEY(item_type) REFERENCES item_types(id))""",
+    """CREATE TABLE item_picture
+             (item INTEGER PRIMARY KEY, gfx INTEGER,
+              FOREIGN KEY(item) REFERENCES items(id))""",
 )
 
 # Ankama writes a name once and lets the client pick the ending:

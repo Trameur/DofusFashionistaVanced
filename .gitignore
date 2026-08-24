@@ -84,6 +84,16 @@ itemscraper/transformed_wakfu.json
 discordbot/contributions.json
 discordbot/messages.txt
 
+# Everything Wakfu derived from Ankama's own servers. None of it is committed
+# yet, and losing it costs nothing: the scripts beside it rebuild the whole
+# chain from scratch in about twenty minutes, and the round trip through the
+# dump has been checked table for table.
+#
+# Whether it SHOULD be committed is a decision for Thibaud and not a technical
+# one. The repository already ships 188 MB of Ankama's Dofus artwork, so the
+# practice exists; publishing Wakfu's is still the kind of thing he decides,
+# and until he does, the reversible state is this one.
 fashionistapulp/fashionistapulp/items_wakfu.db
 fashionistapulp/fashionistapulp/item_db_dumped_wakfu.dump
+fashionsite/chardata/static/chardata/items/wakfu/
 

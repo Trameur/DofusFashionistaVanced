@@ -37,7 +37,8 @@ from .game_versions import get_game_version
 from .item import Item
 from .set import Set
 from .translation import NON_EN_LANGUAGES
-from .wakfu_db import ITEM_RARITY_TABLE, STAT_ELEMENT_COUNT_TABLE
+from .wakfu_db import (ITEM_PICTURE_TABLE, ITEM_RARITY_TABLE,
+                       STAT_ELEMENT_COUNT_TABLE)
 from .weapon import Weapon, WeaponType
 from django.templatetags.i18n import language
 from django.utils.translation import gettext as _
@@ -136,6 +137,7 @@ class Structure:
             self.read_set_names_table()
             self.read_stats_of_item_table()
             self.read_item_rarity_table()
+            self.read_item_picture_table()
             self.read_stat_element_count_table()
             self.read_min_stat_to_equip_table()
             self.read_max_stat_to_equip_table()
@@ -348,6 +350,21 @@ class Structure:
             item = self.get_item_by_id(item_id)
             if item is not None:
                 item.rarity = rarity
+
+    def read_item_picture_table(self):
+        """Which drawing a Wakfu item shows. No Dofus version has the table.
+
+        Half the gear shares its artwork with something else, so the picture is
+        named by Ankama's gfx id and not by the item.
+        """
+        if not self._table_exists(ITEM_PICTURE_TABLE):
+            return
+        c = self.conn.cursor()
+        for item_id, gfx in c.execute(
+                'SELECT item, gfx FROM %s' % ITEM_PICTURE_TABLE):
+            item = self.get_item_by_id(item_id)
+            if item is not None:
+                item.picture = gfx
 
     def read_stat_element_count_table(self):
         """How many elements a Wakfu mastery line spreads over.

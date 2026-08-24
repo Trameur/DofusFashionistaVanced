@@ -21,6 +21,7 @@ from django.conf import settings
 from django.contrib.staticfiles import finders
 
 from fashionistapulp.fashion_util import normalize_name, safe_icon_name
+from fashionistapulp.game_versions import get_game_version
 from fashionistapulp.structure import get_current_game_version
 
 
@@ -45,7 +46,16 @@ def list_static_dir(path):
     return os.listdir(directory)
 
 
+# Named for Retro, which was the first version with no artwork of its own; it
+# now stands for any game whose picture is missing, Wakfu included. The name is
+# kept because the site refers to it by that name in several places.
 RETRO_PLACEHOLDER = 'chardata/QuestionMark-lighttheme.png'
+
+# Wakfu artwork is stored under Ankama's gfx id rather than the item's name:
+# half the gear shares a drawing, and a name is a different string in each of
+# the five languages. 64 is the size Ankama serves closest to the 60 the site
+# shows.
+_PICTURE_PATH = 'chardata/items/%s/64/%d.webp'
 
 # Variant items from the data pipeline ("Nomoon 2", "Animagi (GM)", "Boune (+80
 # Agility)") reuse the base item's artwork; only the base icon exists on disk.
@@ -59,9 +69,24 @@ def _icon_path(type_dir, name, version_dir=None):
     return 'chardata/%s/60x60/%s-60-60.png' % (type_dir, fname)
 
 
-def get_image_url(type, name, game_version=None):
+def get_image_url(type, name, game_version=None, picture=None):
+    """The static path of an item's icon.
+
+    `picture` is Ankama's gfx id, which only the games that store their
+    artwork that way have; passing it for a Dofus version changes nothing.
+    """
     if game_version is None:
         game_version = get_current_game_version()
+    # A game that is not Dofus must never end up on a Dofus 3 icon. The names
+    # collide across games, so the fallback at the end of this function would
+    # have shown a Dofus item under a Wakfu one's name: a page that looks
+    # right and belongs to another game.
+    if not get_game_version(game_version).dofus:
+        if picture:
+            path = _PICTURE_PATH % (game_version, picture)
+            if _static_exists(path):
+                return path
+        return RETRO_PLACEHOLDER
     type_dir = 'items' if type != 'Pet' else 'pets'
     base_name = _VARIANT_SUFFIX.sub('', name)
     dofus3_path = _icon_path(type_dir, name)

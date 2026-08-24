@@ -17647,6 +17647,74 @@ class WakfuTypesAreAnkamasOwnTests(SimpleTestCase):
                          % len(orphans))
 
 
+class ArtworkNeverCrossesFromAnotherGameTests(SimpleTestCase):
+    """A game that is not Dofus must never borrow a Dofus icon.
+
+    `get_image_url` ends by falling back to the Dofus 3 icon of the same NAME,
+    which is right for Beta and Dofus 2 where the art is the same game's, and
+    wrong for anything else. 148 item names exist in both the Dofus 3 and the
+    Wakfu catalogues, from Adventurer Hat to Bitter Hammer, so this was not a
+    theoretical hole: it was 148 pictures of the wrong game's item, shown
+    without a word.
+    """
+
+    def test_a_wakfu_item_falls_back_to_the_placeholder(self):
+        from chardata.image_store import RETRO_PLACEHOLDER, get_image_url
+        found = get_image_url('Hat', 'Adventurer Hat', 'wakfu')
+        self.assertEqual(RETRO_PLACEHOLDER, found)
+        self.assertNotIn('60x60', found)
+
+    def test_a_wakfu_item_uses_its_own_drawing_when_there_is_one(self):
+        from unittest.mock import patch
+        from chardata.image_store import get_image_url
+        with patch('chardata.image_store._static_exists', return_value=True):
+            found = get_image_url('Ring', 'Adventurer Hat', 'wakfu',
+                                  picture=1032022)
+        self.assertEqual('chardata/items/wakfu/64/1032022.webp', found)
+
+    def test_a_missing_drawing_is_not_a_dofus_one(self):
+        from unittest.mock import patch
+        from chardata.image_store import RETRO_PLACEHOLDER, get_image_url
+        with patch('chardata.image_store._static_exists', return_value=False):
+            found = get_image_url('Ring', 'Adventurer Hat', 'wakfu',
+                                  picture=999999999)
+        self.assertEqual(RETRO_PLACEHOLDER, found)
+
+    def test_the_dofus_versions_are_untouched(self):
+        from chardata.image_store import get_image_url
+        # Beta and Dofus 2 legitimately show Dofus 3 art; the guard above must
+        # not have taken that away from them.
+        for version in ('dofus3', 'beta', 'dofus2'):
+            with self.subTest(version=version):
+                found = get_image_url('Hat', 'Adventurer Hat', version)
+                self.assertIn('60x60', found)
+        # And a picture id changes nothing for a game that has no such thing.
+        self.assertEqual(get_image_url('Hat', 'Adventurer Hat', 'dofus3'),
+                         get_image_url('Hat', 'Adventurer Hat', 'dofus3',
+                                       picture=1032022))
+
+    def test_the_names_really_do_collide(self):
+        # If this ever stops being true the guard above still holds, but the
+        # reason it was written would have gone: the number is the point.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built')
+        shared = None
+        names = {}
+        for version in ('dofus3', 'wakfu'):
+            conn = sqlite3.connect('file:%s?mode=ro' % get_items_db_path(version),
+                                   uri=True)
+            try:
+                names[version] = {row[0] for row in
+                                  conn.execute('SELECT name FROM items')}
+            finally:
+                conn.close()
+        shared = names['dofus3'] & names['wakfu']
+        self.assertIn('Adventurer Hat', shared)
+        self.assertGreater(len(shared), 100)
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 

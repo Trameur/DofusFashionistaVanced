@@ -22,8 +22,24 @@ import subprocess
 import sqlite3
 import sys
 
-from fashionistapulp.fashionista_config import get_items_db_path, get_items_dump_path
-from fashionistapulp.game_versions import version_keys
+# Both spellings, the way load_item_db.py already does it: which one resolves
+# depends on whether PYTHONPATH names the repository root, the package root, or
+# as the test suite does, both. This script used to work under only one of them
+# while its own sibling worked under all three.
+import importlib
+
+try:
+    _config = importlib.import_module('fashionistapulp.fashionista_config')
+    _versions = importlib.import_module('fashionistapulp.game_versions')
+except ModuleNotFoundError:
+    _config = importlib.import_module(
+        'fashionistapulp.fashionistapulp.fashionista_config')
+    _versions = importlib.import_module(
+        'fashionistapulp.fashionistapulp.game_versions')
+
+get_items_db_path = _config.get_items_db_path
+get_items_dump_path = _config.get_items_dump_path
+version_keys = _versions.version_keys
 
 def main():
     parser = argparse.ArgumentParser(description="Dump an items db to its SQL dump file")

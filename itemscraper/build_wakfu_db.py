@@ -163,6 +163,11 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
         counts['items'] += 1
         if set_id:
             counts['items in a set'] += 1
+        if item.get('gfx_id'):
+            conn.execute('INSERT INTO item_picture (item, gfx) VALUES (?, ?)',
+                         (item_id, item['gfx_id']))
+        else:
+            counts['no picture'] += 1
 
         for language in LANGUAGES:
             name = item['name'].get(language)

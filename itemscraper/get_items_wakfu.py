@@ -26,6 +26,21 @@ WHAT THE DATA DOES NOT CARRY, so that nobody looks for it here:
 - Sets. 1105 items name an `itemSetId` and 210 distinct sets exist, but no set
   file is published. The official encyclopedia uses the same ids.
 - German. Wakfu has no German locale at all; titles carry fr/en/es/pt only.
+- Classes, spells, monsters, zones. Probed against build 1.92.1.60 on
+  2026-08-24: `classes.json`, `breeds.json`, `characteristics.json`,
+  `aptitudes.json`, `spells.json`, `jobs.json`, `monsters.json` and
+  `zones.json` all answer 403, so the feed is about ITEMS and CRAFTING and
+  nothing else. A Wakfu character model has to find its class data elsewhere.
+
+WHAT IS PUBLISHED BESIDE THE ITEMS, and is not mirrored yet because nothing
+reads it: recipes.json (520 KB), recipeIngredients.json (2.3 MB),
+recipeResults.json (477 KB), recipeCategories.json, blueprints.json,
+harvestLoots.json, collectibleResources.json, resourceTypes.json and
+jobsItems.json (6.2 MB). The shared schema already has `item_recipes` and
+`item_recipe_ingredient_names` waiting for them.
+
+- Item pictures. They are not in this feed either, but Ankama serves them at
+  static.ankama.com; see get_item_images_wakfu.py.
 
 LICENCE: the data is published under Ankama's "WAKFU DATA USE LICENSE" for
 personal, non-commercial use, and requires the notice
