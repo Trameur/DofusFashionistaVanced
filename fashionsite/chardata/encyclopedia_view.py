@@ -788,6 +788,68 @@ def _get_light_index(structure, language):
 SIMILAR_ITEMS_SHOWN = 6
 
 
+def _set_seo_description(set_name, set_items, set_bonuses):
+    """What a set page answers in a search result.
+
+    It said "all the items in this Dofus set and the panoply bonuses per number
+    of pieces", which is the shape of the page and not the set. A reader
+    searching a set name wants to know how many pieces it has, at what level,
+    and what wearing them all gives.
+    """
+    morceaux = []
+    niveaux = [i.get('level') for i in (set_items or []) if i.get('level')]
+    if set_items and niveaux:
+        bas, haut = min(niveaux), max(niveaux)
+        if bas == haut:
+            morceaux.append(_('%(name)s: %(count)s items, level %(level)s.') % {
+                'name': set_name, 'count': len(set_items), 'level': bas})
+        else:
+            morceaux.append(
+                _('%(name)s: %(count)s items, levels %(low)s to %(high)s.') % {
+                    'name': set_name, 'count': len(set_items),
+                    'low': bas, 'high': haut})
+
+    # Le bonus le plus complet, celui qu'on cherche en cherchant une panoplie.
+    complet = None
+    for bonus in (set_bonuses or []):
+        if not complet or (bonus.get('num_pieces') or 0) > (complet.get('num_pieces') or 0):
+            complet = bonus
+    fortes = []
+    for ligne in ((complet or {}).get('lines') or []):
+        if ligne.get('value') and ligne.get('name'):
+            fortes.append('%s %s' % (ligne['value'], ligne['name']))
+        if len(fortes) >= 3:
+            break
+
+    while fortes:
+        essai = morceaux + [_('%(count)s pieces: %(stats)s.') % {
+            'count': complet.get('num_pieces'), 'stats': ', '.join(fortes)}]
+        texte = ' '.join(essai)
+        if len(texte) <= DESCRIPTION_BUDGET or len(fortes) <= 1:
+            return texte
+        fortes.pop()
+    return ' '.join(morceaux)
+
+
+def _resource_seo_description(resource_name, kind_label, used_in):
+    """What a resource page answers.
+
+    It said "which Dofus items are crafted with X. Find every item that uses
+    this ingredient", a promise twice over. The count is the answer, and it is
+    the thing a reader is weighing when they search an ingredient name.
+    """
+    if not used_in:
+        return ''
+    return _('%(name)s: a Dofus %(kind)s used in %(count)s crafting recipes.') % {
+        'name': resource_name, 'kind': (kind_label or '').lower() or 'resource',
+        'count': len(used_in)}
+
+
+# Ce qu'un moteur affiche avant de couper. Ce n'est pas une limite dure et elle
+# varie, mais au-dela la fin de la phrase ne se lit plus.
+DESCRIPTION_BUDGET = 155
+
+
 def _item_seo_description(item, item_set_name, stat_lines, popularity):
     """What a search result shows instead of a promise.
 
@@ -813,7 +875,7 @@ def _item_seo_description(item, item_set_name, stat_lines, popularity):
                 'name': item['name'], 'type': item['type_name'],
                 'level': item['level']})
 
-    # Les trois plus grosses lignes, celles qui font choisir un objet.
+    # Les plus grosses lignes, celles qui font choisir un objet.
     fortes = []
     for ligne in (stat_lines or []):
         valeur = ligne.get('amount_text') or ligne.get('value')
@@ -822,14 +884,26 @@ def _item_seo_description(item, item_set_name, stat_lines, popularity):
             fortes.append('%s %s' % (valeur, nom))
         if len(fortes) >= 3:
             break
-    if fortes:
-        morceaux.append('%s.' % ', '.join(fortes))
 
+    usage = ''
     if popularity and popularity.get('share'):
-        morceaux.append(_('Worn in %(share)s of the builds that can equip it.')
-                        % {'share': popularity['share']})
+        usage = _('Worn in %(share)s of the builds that can equip it.') % {
+            'share': popularity['share']}
 
-    return ' '.join(morceaux)
+    # Un moteur coupe autour de 155 caracteres, et la phrase d'usage est la
+    # derniere : c'est donc elle qui saute la premiere, alors qu'elle est la
+    # seule qu'aucun wiki ni l'encyclopedie officielle ne peut ecrire. Ce sont
+    # les stats qui cedent, une a une, jamais elle.
+    while True:
+        assemble = list(morceaux)
+        if fortes:
+            assemble.append('%s.' % ', '.join(fortes))
+        if usage:
+            assemble.append(usage)
+        texte = ' '.join(assemble)
+        if len(texte) <= DESCRIPTION_BUDGET or len(fortes) <= 1:
+            return texte
+        fortes.pop()
 
 
 def _get_popularity(ankama_id, game_version):
@@ -2128,6 +2202,9 @@ def encyclopedia_set(request, set_id, slug=None):
         (set_name, canonical_url),
     ])
 
+    _set_items = _get_set_items(structure, item_set, language, game_version)
+    _set_bonuses = _get_set_bonuses(structure, item_set, language)
+
     return set_response(
         request,
         'chardata/encyclopedia_set.html',
@@ -2139,8 +2216,10 @@ def encyclopedia_set(request, set_id, slug=None):
             'alternate_urls': alternate_urls,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'set_name': set_name,
-            'set_items': _get_set_items(structure, item_set, language, game_version),
-            'set_bonuses': _get_set_bonuses(structure, item_set, language),
+            'set_items': _set_items,
+            'set_bonuses': _set_bonuses,
+            'seo_description': _set_seo_description(
+                set_name, _set_items, _set_bonuses),
             'other_versions': _other_versions_with_set(game_version, set_id, language),
         },
     )
@@ -3822,6 +3901,8 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             },
             'resource_image': resource_image,
             'used_in': used_in,
+            'seo_description': _resource_seo_description(
+                resource_name, kind_label, used_in),
             'drops': drops,
             'other_versions': _other_versions_with_resource(
                 game_version, subtype, target_ankama_id, resource_name),

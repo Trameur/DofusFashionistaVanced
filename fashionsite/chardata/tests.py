@@ -18214,6 +18214,60 @@ class ARejectedLinkCannotCarryMarkupBackTests(TestCase):
         self.assertIn('dofusfashionista.gg/s/abc123', body)
 
 
+def _without_scripts(markup):
+    """The page as rendered, minus every script element, by parsing it.
+
+    Tags and attributes are kept, because the tests that use this look for
+    class names and compare where they appear. Only what a script contains
+    goes, so that a class named in a footer script does not answer for one in
+    the body.
+    """
+    from html.parser import HTMLParser
+
+    class _Strip(HTMLParser):
+        def __init__(self):
+            HTMLParser.__init__(self, convert_charrefs=False)
+            self.parts = []
+            self.quiet = 0
+
+        def _keep(self, text):
+            if not self.quiet:
+                self.parts.append(text)
+
+        def handle_starttag(self, tag, attrs):
+            if tag == 'script':
+                self.quiet += 1
+            else:
+                self._keep(self.get_starttag_text())
+
+        def handle_startendtag(self, tag, attrs):
+            if tag != 'script':
+                self._keep(self.get_starttag_text())
+
+        def handle_endtag(self, tag):
+            if tag == 'script':
+                self.quiet = max(0, self.quiet - 1)
+            else:
+                self._keep('</%s>' % tag)
+
+        def handle_data(self, data):
+            self._keep(data)
+
+        def handle_entityref(self, name):
+            self._keep('&%s;' % name)
+
+        def handle_charref(self, name):
+            self._keep('&#%s;' % name)
+
+        def handle_comment(self, data):
+            self._keep('<!--%s-->' % data)
+
+    reader = _Strip()
+    reader.feed(markup)
+    reader.close()
+    return ''.join(reader.parts)
+
+
 def _local_links(markup):
     """Every href on a page that points inside the site, without a fragment.
 
@@ -22256,6 +22310,59 @@ class PagesSayInSearchWhatTheyAreForTests(TestCase):
             self.assertGreater(titre.index('Dofus Fashionista'), 5, chemin)
 
 
+class SetAndResourcePagesAnswerTooTests(TestCase):
+    """The same rule, on the rest of the encyclopedia.
+
+    A set page said "all the items in this Dofus set and the panoply bonuses
+    per number of pieces", a resource page said "find every item that uses this
+    ingredient": both described the page and neither said anything about the
+    thing. Together they are around 8 600 URLs.
+    """
+
+    SET = '/encyclopedia/set/256/'
+    RESOURCE = '/encyclopedia/resource/resources/32079-dream-reflection/'
+    ANCIENNE_SET = 'all the items in this Dofus set'
+    ANCIENNE_RES = 'Find every item that uses this ingredient'
+
+    def _description(self, chemin):
+        import re
+        html = self.client.get(chemin).content.decode('utf-8')
+        m = (re.search(r'name="description" content="([^"]*)"', html)
+             or re.search(r'content="([^"]*)" name="description"', html))
+        return m.group(1) if m else ''
+
+    def test_a_set_says_how_many_pieces_and_at_what_level(self):
+        descr = self._description(self.SET)
+        self.assertNotIn(self.ANCIENNE_SET, descr)
+        self.assertIn('items', descr)
+        self.assertIn('level', descr)
+
+    def test_a_set_says_what_wearing_it_all_gives(self):
+        """The reason somebody searches a set name."""
+        self.assertIn('pieces:', self._description(self.SET))
+
+    def test_a_resource_says_how_many_recipes_use_it(self):
+        descr = self._description(self.RESOURCE)
+        self.assertNotIn(self.ANCIENNE_RES, descr)
+        self.assertIn('recipes', descr)
+
+    def test_none_of_them_outgrows_what_a_result_shows(self):
+        from chardata.encyclopedia_view import DESCRIPTION_BUDGET
+        for chemin in (self.SET, self.RESOURCE):
+            self.assertLessEqual(len(self._description(chemin)),
+                                 DESCRIPTION_BUDGET + 20, chemin)
+
+    def test_a_set_with_nothing_to_say_falls_back(self):
+        """An empty set would otherwise get an empty description, which is
+        worse than the old promise."""
+        from chardata.encyclopedia_view import _set_seo_description
+        self.assertEqual(_set_seo_description('X', [], []), '')
+
+    def test_a_resource_used_nowhere_falls_back(self):
+        from chardata.encyclopedia_view import _resource_seo_description
+        self.assertEqual(_resource_seo_description('X', 'Resource', []), '')
+
+
 class ItemPagesAnswerInTheSearchResultTests(TestCase):
     """The snippet has to answer, not announce.
 
@@ -23059,7 +23166,7 @@ class SupportPageFramingTests(TestCase):
 
     The wording says two things, and both are checked in every language: the
     site carries no advertising, and the server has been paid for out of the
-    owner's own pocket since 2023. It names no amount. Donations are never
+    owner's own pocket, and built in their spare time. It names no amount. Donations are never
     said to pay for the server, because they do not: one donation has been
     received, and the sentence that claimed otherwise was removed.
 
@@ -23071,10 +23178,10 @@ class SupportPageFramingTests(TestCase):
     SANS_PUB = {'enabled': False, 'client': '', 'slots': {}, 'auto': False}
 
     PHRASES = {
-        'fr': ('aucune publicité sur le site', 'sort de ma poche depuis 2023'),
-        'es': ('ninguna publicidad en la web', 'sale de mi bolsillo desde 2023'),
-        'pt': ('nenhuma publicidade no site', 'sai do meu bolso desde 2023'),
-        'de': ('keine Werbung', 'aus eigener Tasche'),
+        'fr': ('aucune publicité sur le site', 'de ma poche et je développe'),
+        'es': ('ninguna publicidad en la web', 'de mi bolsillo y desarrollo'),
+        'pt': ('nenhuma publicidade no site', 'do meu bolso e desenvolvo'),
+        'de': ('keine Werbung', 'bezahle ich selbst und entwickle'),
     }
 
     def _support_page(self, langue, chemin=None):
@@ -23099,7 +23206,7 @@ class SupportPageFramingTests(TestCase):
         html = self._support_page(
             'en', chemin='/support/').content.decode('utf-8')
         self.assertIn('no advertising on the site', html)
-        self.assertIn('out of my own pocket since 2023', html)
+        self.assertIn('for the server myself and build this in my spare time', html)
 
     def test_no_amount_is_ever_shown(self):
         """The owner asked for no figure. A number here would also date badly
@@ -23340,7 +23447,7 @@ class AskingAtTheMomentOfValueTests(TestCase):
                       'the probe never turned ads on, so it proves nothing')
         self.assertNotIn('No ads', avec)
         # Le reste de la demande survit : seule l'affirmation invalide tombe.
-        self.assertIn('out of my own pocket since 2023', avec)
+        self.assertIn('for the server myself and build this in my spare time', avec)
         self.assertIn('/out/donate/?from=solution', avec)
 
         sans = self._result_page()
@@ -23357,7 +23464,7 @@ class AskingAtTheMomentOfValueTests(TestCase):
                     HTTP_USER_AGENT=self.NAVIGATEUR).content.decode('utf-8')
             self.assertEqual('There is no advertising on the site' in html,
                              sans_pub, 'pubs=%s' % (pubs,))
-            self.assertIn('out of my own pocket since 2023', html)
+            self.assertIn('for the server myself and build this in my spare time', html)
 
     def test_the_result_page_carries_the_ask(self):
         html = self._result_page()
@@ -23371,10 +23478,12 @@ class AskingAtTheMomentOfValueTests(TestCase):
 
         This is the whole point of the placement, so it is the thing to guard.
         """
-        import re as _re
         # Les scripts de bas de page citent ces memes classes ; seules comptent
-        # celles du corps rendu.
-        corps = _re.sub(r'(?s)<script.*?</script>', '', self._result_page())
+        # celles du corps rendu. Retirees en analysant la page et non par
+        # motif : une expression reguliere ne sait pas lire du balisage, elle
+        # rate un <SCRIPT> en majuscules et se laisse tromper par la meme
+        # suite de caracteres a l'interieur d'un attribut.
+        corps = _without_scripts(self._result_page())
         demande = corps.index('solution-support-button')
         for colonne in ('solution-item-summary', 'solution-stat-summary'):
             self.assertGreater(
@@ -23395,10 +23504,10 @@ class AskingAtTheMomentOfValueTests(TestCase):
                 self.assertNotIn(faux, html, '%s / %s' % (langue, faux))
 
     def test_it_speaks_the_reader_s_language(self):
-        for langue, attendu in (('fr', 'sort de ma poche depuis 2023'),
-                                ('es', 'sale de mi bolsillo desde 2023'),
-                                ('pt', 'sai do meu bolso desde 2023'),
-                                ('de', 'aus eigener Tasche')):
+        for langue, attendu in (('fr', 'de ma poche et je développe'),
+                                ('es', 'de mi bolsillo y desarrollo'),
+                                ('pt', 'do meu bolso e desenvolvo'),
+                                ('de', 'bezahle ich selbst und entwickle')):
             self.assertIn(attendu, self._result_page(langue), langue)
 
     def test_nothing_was_locked_away(self):

@@ -6,7 +6,7 @@
 
 {% block title %}{{ resource.name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ resource.kind_label }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this ingredient and optimize your build with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% if seo_description %}{{ seo_description }}{% else %}{% blocktrans with resource_name=resource.name %}Which Dofus items are crafted with {{ resource_name }}. Find every item that uses this ingredient and optimize your build with the Dofus Fashionista.{% endblocktrans %}{% endif %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 

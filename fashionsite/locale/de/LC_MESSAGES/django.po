@@ -6779,20 +6779,20 @@ msgid "Lands later, not in the total above:"
 msgstr "Trifft später ein, nicht im Gesamtwert oben:"
 
 #: .\chardata\templates\chardata\support.html:44
-msgid "There is no advertising on the site, and I would like to keep it that way. The server has come out of my own pocket since 2023."
-msgstr "Auf der Seite gibt es keine Werbung, und das soll auch so bleiben. Den Server bezahle ich seit 2023 aus eigener Tasche."
+msgid "There is no advertising on the site, and I would like to keep it that way. I pay for the server myself and build this in my spare time."
+msgstr "Auf der Seite gibt es keine Werbung, und das soll auch so bleiben. Den Server bezahle ich selbst und entwickle das hier in meiner Freizeit."
 
 #: .\chardata\templates\chardata\support.html:47
-msgid "The server has come out of my own pocket since 2023."
-msgstr "Den Server bezahle ich seit 2023 aus eigener Tasche."
+msgid "I pay for the server myself and build this in my spare time."
+msgstr "Den Server bezahle ich selbst und entwickle das hier in meiner Freizeit."
 
 #: .\chardata\templates\chardata\solution.html:580
 msgid "No ads, no subscription."
 msgstr "Keine Werbung, kein Abo."
 
 #: .\chardata\templates\chardata\solution.html:581
-msgid "The server has come out of my own pocket since 2023. If this set was useful, you can help cover it."
-msgstr "Den Server bezahle ich seit 2023 aus eigener Tasche. Wenn dieses Set nützlich war, können Sie helfen, ihn zu finanzieren."
+msgid "I pay for the server myself and build this in my spare time. If this set was useful, you can chip in."
+msgstr "Den Server bezahle ich selbst und entwickle das hier in meiner Freizeit. Wenn dieses Set nützlich war, können Sie etwas beisteuern."
 
 #: .\chardata\templates\chardata\privacy.html
 msgid "Third-party services"
@@ -6857,3 +6857,19 @@ msgstr "%(name)s: %(type)s, Stufe %(level)s."
 #: .\chardata\encyclopedia_view.py
 msgid "Worn in %(share)s of the builds that can equip it."
 msgstr "In %(share)s der Builds getragen, die ihn anlegen können."
+
+#: .\chardata\encyclopedia_view.py
+msgid "%(name)s: %(count)s items, level %(level)s."
+msgstr "%(name)s: %(count)s Gegenstände, Stufe %(level)s."
+
+#: .\chardata\encyclopedia_view.py
+msgid "%(name)s: %(count)s items, levels %(low)s to %(high)s."
+msgstr "%(name)s: %(count)s Gegenstände, Stufen %(low)s bis %(high)s."
+
+#: .\chardata\encyclopedia_view.py
+msgid "%(count)s pieces: %(stats)s."
+msgstr "%(count)s Teile: %(stats)s."
+
+#: .\chardata\encyclopedia_view.py
+msgid "%(name)s: a Dofus %(kind)s used in %(count)s crafting recipes."
+msgstr "%(name)s: %(kind)s aus Dofus, in %(count)s Rezepten verwendet."

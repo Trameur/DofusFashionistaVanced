@@ -6,7 +6,7 @@
 
 {% block title %}{{ set_name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.set_label }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans with set_name=set_name %}{{ set_name }}: all the items in this Dofus set and the panoply bonuses per number of pieces. Build and optimize this set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% if seo_description %}{{ seo_description }}{% else %}{% blocktrans with set_name=set_name %}{{ set_name }}: all the items in this Dofus set and the panoply bonuses per number of pieces. Build and optimize this set with the Dofus Fashionista.{% endblocktrans %}{% endif %}{% endblock %}
 
 {# Version-prefixed set pages are canonical because each game version has distinct set data. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
