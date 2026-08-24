@@ -36,7 +36,8 @@ class GameVersion:
     """One playable game, and where its data lives."""
 
     def __init__(self, key, label, db_file, dump_file, prefix=None,
-                 seo_word='', experimental=False, dofus=True):
+                 seo_word='', experimental=False, dofus=True,
+                 rings_can_double=True):
         self.key = key
         self.label = label
         self.db_file = db_file
@@ -50,6 +51,13 @@ class GameVersion:
         # Wakfu is not a Dofus version: other stats, other slots, other rules.
         # Nothing that assumes Dofus should read a version with this false.
         self.dofus = dofus
+        # Whether a build may wear two copies of one setless ring. Dofus 2 and
+        # 3 allow it, Retro 1.29 never has. It lives here because it is a rule
+        # of the game and not a property of an item: the model used to read it
+        # off the item type being NAMED 'Ring', which happens to be the English
+        # name of a Wakfu type too, so giving Wakfu its real type names would
+        # have silently granted it a Dofus rule.
+        self.rings_can_double = rings_can_double
 
     def __repr__(self):
         return '<GameVersion %s>' % self.key
@@ -66,13 +74,19 @@ GAME_VERSIONS = {
         GameVersion('touch', 'Touch', 'items_touch.db',
                     'item_db_dumped_touch.dump', seo_word='Touch'),
         GameVersion('retro', 'Retro', 'items_retro.db',
-                    'item_db_dumped_retro.dump', seo_word='Retro'),
+                    'item_db_dumped_retro.dump', seo_word='Retro',
+                    rings_can_double=False),
         # Wakfu has no data yet and nothing may link to it. It is declared here
         # so the pipeline that builds its data has somewhere to write, and so
         # that every guard which walks the versions can see it coming.
+        # Wakfu wears one copy until somebody proves otherwise: no item, no
+        # item type and no Ankama source says whether the game allows a
+        # doubled ring, and refusing a legal double only costs a slightly
+        # worse build where allowing an illegal one hands out a build the game
+        # will not wear.
         GameVersion('wakfu', 'Wakfu', 'items_wakfu.db',
                     'item_db_dumped_wakfu.dump', seo_word='Wakfu',
-                    experimental=True, dofus=False),
+                    experimental=True, dofus=False, rings_can_double=False),
     )
 }
 

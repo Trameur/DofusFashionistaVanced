@@ -17155,26 +17155,32 @@ class WakfuSlotRuleTests(SimpleTestCase):
                         'so the rule could just be read off the rarity')
 
     def test_no_wakfu_item_can_be_worn_twice(self):
-        # `model.create_item_number_variables` lets a build take two copies of
-        # an item only when its type is NAMED 'Ring'. Wakfu files rings under
-        # LEFT_HAND and RIGHT_HAND, so nothing there is doublable and every
-        # item is capped at one, which is the safe answer while the question is
-        # open: no Ankama source says whether the game allows a doubled ring.
+        # Whether a build may wear two copies of one setless ring is a rule of
+        # the game, and no Ankama source says what Wakfu's is: no item and no
+        # item type carries a uniqueness mark, and the devblogs that set the
+        # equipment rules are silent. So Wakfu wears one copy, which is the
+        # safe way to be wrong.
         #
-        # That safety rests on a name rather than on a rule anyone wrote, so
-        # the name is held here. Renaming a Wakfu slot to 'Ring' would silently
-        # legalise doubles.
+        # This used to be held by a name. The model doubled a ring when its
+        # type was NAMED 'Ring', Wakfu filed its rings under LEFT_HAND, and the
+        # safety was an accident. It is not one any more, and the assertion
+        # below shows why the accident could not have survived: 'Ring' is
+        # exactly what Ankama calls the Wakfu type.
         from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.game_versions import (GAME_VERSIONS,
+                                                   get_game_version)
         from fashionistapulp.structure import get_structure
-        from fashionistapulp.wakfu_slots import SLOTS
-        self.assertNotIn('Ring', SLOTS)
-        # And the name really is the live one, so the check above is not
-        # asserting against a string the code stopped using.
-        self.assertIn('Ring', set(get_structure('dofus3').types_dict.values()))
+        self.assertFalse(get_game_version('wakfu').rings_can_double)
+        self.assertFalse(get_game_version('retro').rings_can_double)
+        self.assertTrue(get_game_version('dofus3').rings_can_double)
+        # Every version answers the question, so a new one cannot be added
+        # without someone deciding.
+        for key, version in GAME_VERSIONS.items():
+            with self.subTest(version=key):
+                self.assertIsInstance(version.rings_can_double, bool)
         if not os.path.exists(get_items_db_path('wakfu')):
             self.skipTest('no Wakfu database built')
-        wakfu = get_structure('wakfu')
-        self.assertNotIn('Ring', set(wakfu.types_dict.values()))
+        self.assertIn('Ring', set(get_structure('wakfu').types_dict.values()))
 
     def test_every_gear_slot_the_data_uses_is_declared(self):
         from fashionistapulp.wakfu_slots import NOT_GEAR, SLOTS
@@ -17521,6 +17527,91 @@ class WakfuSetsComeFromTheItemsTests(SimpleTestCase):
         # The number Ankama's own set page prints. If this ever starts
         # matching, they fixed their roll-up and this comment is the history.
         self.assertNotEqual(63, total)
+
+
+class WakfuTypesAreAnkamasOwnTests(SimpleTestCase):
+    """The 24 item types a Wakfu player recognises, and where each is worn.
+
+    Filing items under the twelve POSITIONS was the first attempt and it threw
+    away real information: a Needle and a two-handed Axe both became
+    FIRST_WEAPON. The database now holds Ankama's own types, and
+    `item_type_position` says where each goes; a type with two rows there is a
+    type that fills two slots, which is the number Dofus writes out by hand.
+    """
+
+    def _wakfu(self):
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built; run '
+                          'itemscraper/get_items_wakfu.py then '
+                          'itemscraper/build_wakfu_db.py')
+        return get_structure('wakfu')
+
+    def _positions(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        conn = sqlite3.connect('file:%s?mode=ro' % get_items_db_path('wakfu'),
+                               uri=True)
+        try:
+            rows = conn.execute('SELECT item_type, position'
+                                ' FROM item_type_position').fetchall()
+        finally:
+            conn.close()
+        places = {}
+        for type_id, position in rows:
+            places.setdefault(type_id, set()).add(position)
+        return places
+
+    def test_ankamas_plural_template_never_reaches_a_reader(self):
+        # Ankama writes one string and lets the client choose the ending.
+        # Unresolved, a page would show "Anneau{[~1]?x:}".
+        from fashionistapulp.wakfu_db import singular
+        self.assertEqual('Anneau', singular('Anneau{[~1]?x:}'))
+        self.assertEqual('Amulet', singular('Amulet{[~1]?s:}'))
+        self.assertEqual('Sword (One-handed)',
+                         singular('Sword{[~1]?s:} (One-handed)'))
+        # Portuguese picks a different word, not just a different ending.
+        self.assertEqual('Anel', singular('An{[~1]?éis:el}'))
+        # A name with no template is its own singular.
+        self.assertEqual('Bottes', singular('Bottes'))
+        # Anything unrecognised is left alone rather than mangled, so a caller
+        # can spot it by looking for a brace.
+        exotic = '{[99>3]?:{[0<3]?:{[~3]?([#3]%):}'
+        self.assertEqual(exotic, singular(exotic))
+
+    def test_every_type_is_named_and_placed(self):
+        wakfu = self._wakfu()
+        from fashionistapulp.wakfu_slots import SLOTS
+        places = self._positions()
+        self.assertGreater(len(wakfu.types_dict), 20)
+        for type_id, name in wakfu.types_dict.items():
+            with self.subTest(type=name):
+                self.assertNotIn('{', name)
+                self.assertTrue(name.strip())
+                self.assertIn(type_id, places)
+                self.assertEqual(set(), places[type_id] - set(SLOTS))
+
+    def test_a_ring_fills_two_slots_and_nothing_else_does(self):
+        wakfu = self._wakfu()
+        places = self._positions()
+        two_slots = {wakfu.types_dict[type_id]
+                     for type_id, positions in places.items()
+                     if len(positions) > 1}
+        self.assertEqual({'Ring'}, two_slots)
+        ring = wakfu.get_type_id_by_name('Ring')
+        from fashionistapulp.wakfu_slots import BOTH_HANDS
+        self.assertEqual(set(BOTH_HANDS), places[ring])
+
+    def test_no_item_is_filed_under_a_type_that_is_not_there(self):
+        wakfu = self._wakfu()
+        known = set(wakfu.types_dict)
+        orphans = sorted({(item.name, item.type)
+                          for item in wakfu.get_concatenated_items_lists()
+                          if item.type not in known})
+        self.assertEqual([], orphans[:5],
+                         '%d items point at a type that is not there'
+                         % len(orphans))
 
 
 class GameVersionRegistryTests(SimpleTestCase):

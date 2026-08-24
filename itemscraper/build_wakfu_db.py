@@ -38,7 +38,7 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), 'fashionistapulp'))
-from fashionistapulp.wakfu_db import create_tables  # noqa: E402
+from fashionistapulp.wakfu_db import create_tables, singular  # noqa: E402
 from fashionistapulp.wakfu_slots import RARITIES, SLOTS  # noqa: E402
 from fashionistapulp.wakfu_stats import WAKFU_STATS  # noqa: E402
 
@@ -92,14 +92,31 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
     for statement in dofus_schema():
         conn.execute(statement)
     create_tables(conn)
+    counts = collections.Counter()
 
-    # The two vocabularies, as rows. Sorted so a rebuild gives the same ids and
-    # a diff of two builds says something.
-    slot_ids = {}
-    for number, slot in enumerate(sorted(GEAR), start=1):
-        slot_ids[slot] = number
+    # The item types, under Ankama's own ids and names, with the positions each
+    # one fills beside them. A Ring has two rows there and everything else has
+    # one, which is the slot count Dofus keeps by hand in
+    # TYPE_NAME_TO_SLOT_NUMBER.
+    types = {}
+    for item in dump['equipment']:
+        positions = sorted(p for p in item['positions'] if p in GEAR)
+        if not positions:
+            continue
+        name = singular((item.get('type_name') or {}).get('en') or '')
+        types.setdefault(item['type_id'], (name, positions))
+    for type_id, (name, positions) in sorted(types.items()):
+        # A brace here means Ankama used a plural form this build has never
+        # seen. Better to stop than to print "Anneau{[~1]?x:}" at a reader.
+        if '{' in name or not name:
+            raise ValueError('type %d has no usable name: %r' % (type_id, name))
         conn.execute('INSERT INTO item_types (id, name) VALUES (?, ?)',
-                     (number, slot))
+                     (type_id, name))
+        for position in positions:
+            conn.execute('INSERT INTO item_type_position (item_type, position)'
+                         ' VALUES (?, ?)', (type_id, position))
+    counts['item types'] = len(types)
+
     stat_ids = {}
     for number, key in enumerate(sorted(WAKFU_STATS), start=1):
         stat_ids[key] = number
@@ -114,15 +131,14 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
             conn.execute('INSERT INTO set_names (item_set, language, name)'
                          ' VALUES (?, ?, ?)', (set_id, language, name))
 
-    counts = collections.Counter()
     for item in dump['equipment']:
         positions = [p for p in item['positions'] if p in GEAR]
         if not positions:
             counts['not gear'] += 1
             continue
-        # A ring names both hands; the slot it is filed under is the first one
-        # the game lists, and the model reads `item_flags` to know it fits the
-        # other hand too.
+        # The item points at its type; where that type is worn is one join
+        # away in item_type_position, so nothing about the slot is copied onto
+        # the item and the two can never disagree.
         item_id = item['id']
         # A set the encyclopedia no longer has a page for keeps its items
         # and simply goes unnamed, rather than the items losing their set.
@@ -135,7 +151,7 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
             ' ankama_type, removed, dofustouch, skin)'
             ' VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, NULL)',
             (item_id, item['name'].get('en'), item['level'],
-             slot_ids[positions[0]], set_id, item_id, positions[0]))
+             item['type_id'], set_id, item_id, 'equipment'))
         counts['items'] += 1
         if set_id:
             counts['items in a set'] += 1

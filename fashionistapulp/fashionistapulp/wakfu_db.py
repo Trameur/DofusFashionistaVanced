@@ -40,16 +40,34 @@ buys a reader that can check the two tables still agree, which structure.py
 does: a line that names a stat and value no `stats_of_item` row carries is a
 build where the two halves have drifted apart, and it fails loudly there.
 
-ONE QUESTION THE IMPORTER STILL HAS TO ANSWER, written down rather than
-guessed: `items.type` is one column and a Wakfu ring declares two positions,
-LEFT_HAND and RIGHT_HAND, on the same item type. Whether `item_types` holds the
-twelve positions or Ankama's own item types, and where the second hand then
-goes, is not settled here. wakfu_slots.BOTH_HANDS states the fact; nothing in
-this file depends on which way it is stored.
+THE POSITIONS A TYPE FILLS answer the question this file used to leave open:
+`items.type` is one column and a Wakfu ring declares two positions, LEFT_HAND
+and RIGHT_HAND, on the same item type.
+
+`item_types` holds ANKAMA'S OWN TYPES, the 25 a player recognises, and this
+table says where each one goes. Filing items under the twelve positions
+instead was the first attempt and it loses real information: a Needle
+(one-handed) and an Axe (two-handed) are not the same kind of thing, and a
+site that lets a reader filter by type would offer them one bucket called
+FIRST_WEAPON.
+
+The slot COUNT falls out of the rows rather than being stored: a Ring has two
+rows, everything else has one. That is what Dofus keeps in the hand-written
+`TYPE_NAME_TO_SLOT_NUMBER`, derived here instead, because Ankama publishes it
+in `equipmentItemTypes.json` and a published fact should never be retyped.
+
+Nothing about doubling lives here. Whether two copies of one ring may be worn
+is a rule of the game and sits in `game_versions.rings_can_double`, which is
+also why storing the real names was safe: the model used to read that rule off
+a type being NAMED 'Ring', and 'Ring' is exactly what Wakfu calls one of the
+types this table now holds.
 """
+
+import re
 
 ITEM_RARITY_TABLE = 'item_rarity'
 STAT_ELEMENT_COUNT_TABLE = 'stat_element_count'
+ITEM_TYPE_POSITION_TABLE = 'item_type_position'
 
 SCHEMA = (
     """CREATE TABLE item_rarity
@@ -61,7 +79,35 @@ SCHEMA = (
               PRIMARY KEY (item, line),
               FOREIGN KEY(item) REFERENCES items(id),
               FOREIGN KEY(stat) REFERENCES stats(id))""",
+    """CREATE TABLE item_type_position
+             (item_type INTEGER, position TEXT,
+              PRIMARY KEY (item_type, position),
+              FOREIGN KEY(item_type) REFERENCES item_types(id))""",
 )
+
+# Ankama writes a name once and lets the client pick the ending:
+# "Anneau{[~1]?x:}" is Anneau or Anneaux, "An{[~1]?eis:el}" is anel or aneis.
+# The general form is {[~N]?A:B}, meaning A when the quantity differs from N
+# and B when it equals it. A page shows one item, so the quantity is 1.
+PLURAL_TEMPLATE = re.compile(r'\{\[~(\d+)\]\?([^:{}]*):([^:{}]*)\}')
+
+
+def singular(text):
+    """Ankama's name for one of a thing, with the plural template resolved.
+
+    Either the whole string resolves or nothing is touched. The stat line
+    templates carry far richer forms, nested and testing the line's own
+    parameters, and a partial pass over one of those turns
+    "{[99>3]?:{[0<3]?:{[~3]?([#3]%):}" into a shorter piece of nonsense that
+    still looks like a name. Names are simple, so a leftover brace means this
+    was not a name and the caller gets its string back unchanged, able to tell
+    the two apart by looking for that brace.
+    """
+    def pick(found):
+        equal_count, differs, equals = found.groups()
+        return equals if equal_count == '1' else differs
+    resolved = PLURAL_TEMPLATE.sub(pick, text or '')
+    return text if '{' in resolved else resolved
 
 
 def create_tables(conn):

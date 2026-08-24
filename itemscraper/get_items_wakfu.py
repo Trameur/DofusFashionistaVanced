@@ -226,6 +226,7 @@ def decode(target):
               'unknown_actions': collections.Counter(),
               'stats': collections.Counter(),
               'element_spread': collections.Counter(),
+              'no_stat_lines': 0,
               'two_handed': 0,
               'exclusive': collections.Counter(),
               'not_a_stat': collections.Counter(),
@@ -239,6 +240,11 @@ def decode(target):
         parameters = base.get('baseParameters') or {}
         effects = definition.get('equipEffects') or []
         if not effects:
+            # Ankama really does publish gear with an empty equipEffects: the
+            # four nation rings, every cosmetic set. Nothing a build can use,
+            # so they are dropped, but the count is said out loud because the
+            # hole is otherwise invisible and it is 136 items wide.
+            report['no_stat_lines'] += 1
             continue
         type_id = parameters.get('itemTypeId')
         slot = equipment.get(type_id) or {}
@@ -300,7 +306,13 @@ def decode(target):
             'level': base.get('level'),
             'name': titles(item.get('title')),
             'type_id': type_id,
-            'type_name': titles((types.get(type_id) or {}).get('title')),
+            # The equipment file first: it is the one that defines a gear
+            # type, and itemTypes.json does not carry all of them. Type 480,
+            # the Torch, is named only in the equipment file, so reading the
+            # general one alone left five accessories with no type at all.
+            'type_name': titles(((equipment.get(type_id)
+                                  or types.get(type_id)
+                                  or {}).get('title'))),
             'positions': positions,
             'disables': disabled,
             'rarity': parameters.get('rarity'),
@@ -361,6 +373,8 @@ def main(argv=None):
     print('by rarity: %s' % dict(sorted(report['by_rarity'].items())))
     print('two-handed weapons that block the off hand: %d' % report['two_handed'])
     print('one-at-a-time items: %s' % dict(report['exclusive']))
+    print('gear Ankama ships with no stat line at all, dropped: %d'
+          % report['no_stat_lines'])
     print('\nwrote %s' % args.dump)
     return 0
 

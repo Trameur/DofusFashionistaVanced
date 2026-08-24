@@ -19,6 +19,7 @@
 import logging
 from copy import deepcopy
 
+from .game_versions import get_game_version
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal
@@ -128,7 +129,11 @@ class Model:
     
     def create_item_number_variables(self):
         # Dofus 2/3 allow two copies of a setless ring; Retro 1.29 never allows the same ring twice.
-        rings_can_double = self.structure.game_version != 'retro'
+        # The rule comes from the version registry rather than from the type's
+        # displayed name: 'Ring' is also what Wakfu calls one of its own types,
+        # so a name test would have handed Wakfu a Dofus rule the moment its
+        # items were filed under their real names.
+        rings_can_double = get_game_version(self.structure.game_version).rings_can_double
         for item in self.items_list:
             doublable = (rings_can_double
                          and self.structure.get_type_name_by_id(item.type) == 'Ring'
