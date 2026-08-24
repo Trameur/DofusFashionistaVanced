@@ -17977,22 +17977,48 @@ class WakfuGearReachesFarPastAnyCapTests(SimpleTestCase):
                 total, _single = self._ceiling(key)
                 self.assertGreater(total, 10)
 
-    def test_nothing_pretends_to_know_the_cap(self):
-        # A guessed cap is worse than no cap, because a number in the code
-        # stops anyone asking. If a real one is ever measured in the game, it
-        # arrives as an input to the solver and this guard is what gets edited,
-        # deliberately, by whoever knows the answer.
-        from fashionistapulp import wakfu_stats
-        self.assertTrue(wakfu_stats.AP_AND_MP_CAP_IS_UNKNOWN)
-        for name in dir(wakfu_stats):
-            if 'CAP' in name or 'MAX' in name or 'LIMIT' in name:
-                with self.subTest(name=name):
-                    value = getattr(wakfu_stats, name)
-                    # bool is an int in python, so the flag saying the cap is
-                    # unknown would otherwise trip this guard itself.
-                    self.assertFalse(
-                        isinstance(value, int) and not isinstance(value, bool),
-                        '%s looks like a cap somebody wrote down' % name)
+    def test_every_cap_is_below_what_gear_can_buy(self):
+        # A cap that gear cannot reach would be decoration. Each of these is
+        # passed by equipment alone, which is what makes the optimizer need it.
+        from fashionistapulp.wakfu_stats import (BASE_VALUES,
+                                                 OUT_OF_COMBAT_CAPS)
+        self.assertEqual({'AP', 'MP', 'WP'}, set(OUT_OF_COMBAT_CAPS))
+        self.assertEqual(set(OUT_OF_COMBAT_CAPS), set(BASE_VALUES))
+        for name, cap in OUT_OF_COMBAT_CAPS.items():
+            with self.subTest(stat=name):
+                gear, _single = self._ceiling(name.lower())
+                # The cap is on the total, base included. Gear alone leaves the
+                # WP cap untouched, which is what makes this the right sum.
+                self.assertGreater(
+                    BASE_VALUES[name] + gear, cap,
+                    '%s: a character can reach %d and the cap is %d, so the '
+                    'cap binds nothing and one of the two numbers is wrong'
+                    % (name, BASE_VALUES[name] + gear, cap))
+
+    def test_the_critical_hit_floor_is_a_rule_the_catalogue_needs(self):
+        # The floor comes from a fan site, so the thing it explains is checked
+        # here against Ankama's own data: items with negative critical hit
+        # exist in quantity, and one of them is worse on its own than the whole
+        # allowance, which is why the rule has to be about the total.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.wakfu_stats import CRITICAL_HIT_FLOOR_PERCENT
+        self.assertLess(CRITICAL_HIT_FLOOR_PERCENT, 0)
+        path = get_items_db_path('wakfu')
+        if not os.path.exists(path):
+            self.skipTest('no Wakfu database built; run update_data_wakfu.py')
+        conn = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        try:
+            worst = conn.execute(
+                'SELECT MIN(s.value), COUNT(*) FROM stats_of_item s'
+                ' JOIN stats t ON t.id = s.stat'
+                ' WHERE t.key = "ferocity" AND s.value < 0').fetchone()
+        finally:
+            conn.close()
+        self.assertGreater(worst[1], 50, 'no gear sells negative critical hit')
+        self.assertLess(worst[0], CRITICAL_HIT_FLOOR_PERCENT,
+                        'no single item passes the floor on its own, so the '
+                        'rule could have been about one piece')
 
 
 class GameVersionRegistryTests(SimpleTestCase):

@@ -116,37 +116,72 @@ SPREAD_RESISTANCE = 'RES_IN_PERCENT'
 # Stated so that a page can say it out loud rather than quietly assuming it.
 SPREAD_LANDS_WHERE_THE_BUILD_WANTS = True
 
-# THE CAP ON AP AND MP IS NOT SETTLED, AND IT BINDS HARD. Nothing here holds a
-# number, on purpose: guessing one would be worse than having none.
+# WHAT A CHARACTER MAY CARRY OUT OF COMBAT. These caps bind hard and the
+# optimizer is wrong without them.
 #
 # Measured on build 1.92.1.60, taking the best item in each of the twelve slots
 # and ignoring the relic and epic limits, so these are ceilings and not builds:
 #
-#     AP    +18   best single item +3
-#     MP    +15   best single item +2
-#     WP    +16   best single item +2
-#     RANGE +14   best single item +2
+#     AP    +18 from gear   best single item +3
+#     MP    +15             best single item +2
+#     WP    +16             best single item +2
+#     RANGE +14             best single item +2
 #
-# A character starts with a handful of AP, so gear alone reaches roughly three
-# times whatever the cap turns out to be. An optimizer that does not know the
-# cap will therefore spend EVERY slot buying AP that the game refuses to grant,
-# and the build it returns will be wrong in a way no test of the data can see.
+# Gear alone therefore passes every cap below by a wide margin. An optimizer
+# that did not know them would spend EVERY slot buying AP the game refuses to
+# grant, and the build it returned would be wrong in a way no check of the data
+# could catch.
+OUT_OF_COMBAT_CAPS = {
+    'AP': 16,
+    'MP': 8,
+    'WP': 20,
+}
+
+# What a character has before a single piece of gear. The cap applies to the
+# TOTAL, so these are what make it bind: gear alone would leave the WP cap
+# untouched, and 6 + 16 passes it.
 #
-# What is known and what is not:
+#     AP  6 + 18 from gear = 24, capped at 16
+#     MP  3 + 15           = 18, capped at 8
+#     WP  6 + 16           = 22, capped at 20
+BASE_VALUES = {
+    'AP': 6,
+    'MP': 3,
+    'WP': 6,
+}
+
+# The floor on critical hit, which is an EQUIP condition and not a cap: 87
+# items in 1.92 carry a negative % critical hit, from -2 to -20, and they pay
+# for it with more of everything else. A character may not go below this total,
+# so those items have to be bought back with critical hit from elsewhere. The
+# Weakened Kel'Dwa alone is -20, which is why the rule is about the total and
+# not about one piece.
+CRITICAL_HIT_FLOOR_PERCENT = -9
+
+# WHERE THESE NUMBERS COME FROM, because they are not in Ankama's data and the
+# history matters. The cap has been raised twice, so any source must be dated:
 #
-# - The devblog that introduced the rule, 2013-07-17, says 12 AP and 7 MP, and
-#   says the limit applies OUTSIDE combat only, gains during a fight being
-#   unlimited. That article is thirteen years old and other things it promises
-#   have since been reversed, so it cannot be trusted on its own.
-# - Ankama's own forum carries a thread titled "Limite PA PM 14Pa 8PM", which
-#   is exactly the shape of a later change. The forum answers a scripted
-#   request with 202 and an empty body, so it cannot be read from here to find
-#   out whether that title is a question or an answer.
+#   2013-07-17  Ankama devblog "Les nouvelles regles d'equipement": 12 AP, 7 MP,
+#               and it states the limit applies OUT OF COMBAT only.
+#   2016-11-06  Ankama forum, thread 401578: "c'est limite a 14 PA de toute
+#               facon". So 12 was already gone.
+#   2019-01-03  Ankama forum, thread 416086: 14 AP and 8 MP, with the base
+#               values 6 AP and 3 MP spelled out piece by piece.
+#   2026-06-01  methodwakfu.com, "Informations generales": 16 AP, 8 MP, 20 WP,
+#               and the -9 % critical hit floor. It names what exceeds the caps
+#               IN combat: the Osamodas' Piqure motivante (+2 AP), the Steamer's
+#               Moderateur d'energie (+1 MP), the Engouement velocity bonus
+#               (+2 AP), the Maniement:Bouclier sublimation (+1 MP).
 #
-# Settling it takes five seconds in front of the game and no amount of reading.
-# Until somebody does, the solver must treat the cap as an input it is given,
-# never a constant it knows.
-AP_AND_MP_CAP_IS_UNKNOWN = True
+# The last one is a fan site, which this project uses only as a last resort:
+# the caps are enforced by the client and appear in no file Ankama publishes.
+# It is dated, it is the reference site for Wakfu theorycraft, and its critical
+# hit rule was checked here against Ankama's own catalogue rather than taken on
+# trust. IF THESE NUMBERS EVER REACH A PAGE, THE SITE MUST BE CREDITED.
+#
+# In combat there is no cap: spells, passives, velocity bonuses and
+# sublimations all push past it, which is why the dictionary above says out of
+# combat in its name.
 
 
 def stats_of_kind(kind):
