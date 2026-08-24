@@ -24367,3 +24367,67 @@ class NoSourceFileHidesAControlCharacterTests(SimpleTestCase):
                         coupables.append('%s:%s carries a %s'
                                          % (nom, ligne, appellation))
         self.assertEqual([], sorted(coupables))
+
+
+class SupportClicksCanBeReadWithoutAQueryTests(TestCase):
+    """The table counted for weeks and nothing could read it.
+
+    A measurement that needs a hand-written query to consult is a measurement
+    nobody consults, which is the same as not having taken it. What the block
+    was built to answer is whether asking right after the tool did its work
+    beats asking on a page almost nobody opens, and only a breakdown by source
+    answers that -- a single total cannot.
+    """
+
+    def _appel(self, **options):
+        from io import StringIO
+        from django.core.management import call_command
+        sortie = StringIO()
+        call_command('report_support_clicks', stdout=sortie, **options)
+        return sortie.getvalue()
+
+    def _clic(self, source, count, langue='fr', recul=0):
+        from datetime import timedelta
+        from django.utils import timezone
+        from chardata.models import SupportClick
+        SupportClick.objects.create(
+            day=timezone.localdate() - timedelta(days=recul),
+            language=langue, source=source, count=count)
+
+    def test_it_separates_the_sources(self):
+        self._clic('solution', 30)
+        self._clic('footer', 10)
+        texte = self._appel()
+        self.assertIn('solution', texte)
+        self.assertIn('footer', texte)
+        # 30 sur 40, la part est ce qui rend les deux comparables.
+        self.assertIn('75.0 %', texte)
+        self.assertIn('25.0 %', texte)
+
+    def test_it_says_so_when_nothing_was_counted(self):
+        """An empty table and a table of zeroes read the same on screen.
+
+        Printing empty headings would be read as a result: nobody clicked.
+        The other explanation -- the block is not where you think it is --
+        has to stay on the table.
+        """
+        texte = self._appel()
+        self.assertIn('no click recorded', texte)
+        self.assertNotIn('by source', texte)
+
+    def test_it_only_looks_back_as_far_as_asked(self):
+        self._clic('solution', 5, recul=0)
+        self._clic('solution', 99, recul=40)
+        texte = self._appel(days=7)
+        self.assertIn('5 clicks', texte)
+        self.assertNotIn('104', texte)
+
+    def test_it_does_not_let_a_click_pass_for_a_donation(self):
+        """The distinction the whole measurement rests on.
+
+        One donation has ever been received. Reading this table as revenue
+        would turn a click into money it is not, and the page it leads to is
+        the only thing that knows.
+        """
+        self._clic('solution', 3)
+        self.assertIn('not donations', self._appel())
