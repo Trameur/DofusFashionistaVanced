@@ -2552,9 +2552,9 @@ class ValuesWrittenIntoJavascriptTests(TestCase):
         import glob
         import re
         here = os.path.dirname(os.path.abspath(__file__))
-        script = re.compile(r'<script[^>]*>(.*?)</script>', re.S | re.I)
+        script = re.compile(r'<script\b[^>]*>(.*?)</script>', re.S | re.I)
         # Values that carry whatever a person typed.
-        risky = re.compile(r'\{\{\s*((?:[\w.]*(?:username|useralias|alias)'
+        risky = re.compile(r'\{\{\s*((?:[\w.]*\b(?:username|useralias|alias)\b'
                            r'|user\.email)[^}]*?)\s*\}\}')
         offenders = []
         for path in glob.glob(os.path.join(here, 'templates', '**', '*.html'),
@@ -23773,6 +23773,23 @@ class CrawlersAreNotReadersTests(TestCase):
             faux = RequestFactory().get('/', HTTP_USER_AGENT=agent)
             self.assertFalse(looks_like_a_robot(faux), agent)
 
+    def test_a_name_ending_in_bot_is_caught_without_a_slash(self):
+        """The first alternative of the pattern was dead for months.
+
+        It read `bot` followed by a byte that renders as nothing: 0x08, a
+        backspace, where a word boundary was meant. No user agent contains a
+        backspace, so that branch never matched and only the crawlers naming
+        themselves `bot/` or by brand were caught. Most real ones do both, so
+        the loss was small -- but a pattern that cannot fire says nothing about
+        what it lets through.
+        """
+        from chardata.middleware import looks_like_a_robot
+        from django.test import RequestFactory
+        for agent in ('SomeRandomBot', 'Mozilla/5.0 (compatible; NewBot)',
+                      'InternalMonitorBot 1.2'):
+            faux = RequestFactory().get('/', HTTP_USER_AGENT=agent)
+            self.assertTrue(looks_like_a_robot(faux), agent)
+
     def test_the_purge_command_reports_before_it_deletes(self):
         from io import StringIO
         from django.core.management import call_command
@@ -24118,3 +24135,47 @@ class TheThemeSelectorWorksWithoutAMouseTests(TestCase):
         """
         page = self._accueil()
         self.assertEqual(page.count('<form'), page.count('</form>'))
+
+
+class NoSourceFileHidesAControlCharacterTests(SimpleTestCase):
+    """Three patterns in this repository were silently dead at once.
+
+    Each was written as a word boundary inside a non-raw string, generated
+    from a nested script, and each came out as 0x08 -- a backspace, which no
+    input contains. A test could not fire, a security check could not fire,
+    and the crawler filter lost its first alternative. All three read as
+    perfectly ordinary source in a terminal, because a terminal prints nothing
+    for a backspace; only repr() and `cat -A` showed them.
+
+    The point is not the byte. It is that a pattern which cannot match makes
+    an assertion of absence pass forever, so the failure hides in the one
+    place nobody rereads: something already green.
+    """
+
+    SUFFIXES = ('.py', '.js', '.html', '.css', '.sh')
+    #: Ce que personne n'ecrit volontairement dans du code source.
+    INTERDITS = {8: 'backspace', 11: 'vertical tab', 12: 'form feed',
+                 7: 'bell', 0: 'null'}
+
+    def test_no_python_or_template_carries_one(self):
+        import os
+        racine = os.path.dirname(os.path.abspath(__file__))
+        coupables = []
+        for dossier, sous, fichiers in os.walk(racine):
+            sous[:] = [d for d in sous if d not in ('__pycache__', 'node_modules')]
+            for nom in fichiers:
+                if not nom.endswith(self.SUFFIXES):
+                    continue
+                chemin = os.path.join(dossier, nom)
+                try:
+                    with io.open(chemin, encoding='utf-8') as f:
+                        texte = f.read()
+                except (UnicodeDecodeError, OSError):
+                    continue
+                for code, appellation in self.INTERDITS.items():
+                    if chr(code) in texte:
+                        ligne = texte[:texte.index(chr(code))].count(
+                            chr(10)) + 1
+                        coupables.append('%s:%s carries a %s'
+                                         % (nom, ligne, appellation))
+        self.assertEqual([], sorted(coupables))
