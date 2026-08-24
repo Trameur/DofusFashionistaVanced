@@ -17,6 +17,7 @@ Steps:
     data/spells    get_spells_wakfu.py      -> wakfu_raw/<build>/spells_<lang>.json
     items/build-db build_wakfu_db.py        -> items_wakfu.db
     items/recipes  build_wakfu_recipes.py   -> the four crafting tables
+    items/spells   build_wakfu_spells.py    -> the four spell tables
     item-images    get_item_images_wakfu.py -> static/chardata/items/wakfu/64/
     items/dump     dump_item_db.py          -> item_db_dumped_wakfu.dump
 
@@ -40,6 +41,9 @@ So: WHICH TABLES BELONG TO WHOM.
     build_wakfu_recipes.py owns, and rewrites on every run:
         item_recipes, item_recipe_ingredient_names, item_craft_jobs,
         job_names
+
+    build_wakfu_spells.py owns, and rewrites on every run:
+        spells, spell_names, spell_effects, spell_text
 
     Nothing else writes to items_wakfu.db today. A future step that does MUST
     be added to this file between items/build-db and items/dump, and MUST name
@@ -177,6 +181,7 @@ def main(argv=None):
     built = step('items/build-db', [PY, 'itemscraper/build_wakfu_db.py'])
     if built:
         step('items/recipes', [PY, 'itemscraper/build_wakfu_recipes.py'])
+        step('items/spells', [PY, 'itemscraper/build_wakfu_spells.py'])
 
     if not args.skip_images:
         step('item-images', [PY, 'itemscraper/get_item_images_wakfu.py'])

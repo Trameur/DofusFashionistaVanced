@@ -71,6 +71,28 @@ column the shared schema already has is a different thing, a small animation
 number Dofus uses, and putting a seven-digit gfx id in it would have been a
 quiet lie.
 
+THE SPELLS get four tables of their own because Ankama publishes no spell file
+at all: the CDN answers 403 for spells.json and the encyclopedia is where they
+live. Wakfu is the only version here whose spells are DATA rather than a
+hand-written python constant, which is why they need a schema and the Dofus
+versions do not.
+
+The shape of those four is a measurement and not a guess. A spell page offers
+245 levels for every field, so the obvious import writes 245 rows per spell.
+Measured across all 715 spells: THE AP, MP AND WP COSTS AND THE RANGE DO NOT
+VARY WITH THE LEVEL. Not rarely, never, on any spell. Only the damage moves,
+and only for 280 of the 715. So the cost sits on the spell, once, and only the
+figures are stored per level: 715 rows where the obvious import would write
+175 175.
+
+`spell_text` keeps the sentence once per spell and per language rather than
+once per level, because 708 of the 715 carry a single template across their
+whole range and only the numbers inside it move.
+
+`spell_effects.is_percent` is there for two spells, Entaille and Sang Brulant,
+which read "Dommage : 10 %" of the caster's health. Stored as a flat 10 they
+would sit in the data looking like the feeblest hit in the game.
+
 Nothing about doubling lives here. Whether two copies of one ring may be worn
 is a rule of the game and sits in `game_versions.rings_can_double`, which is
 also why storing the real names was safe: the model used to read that rule off
@@ -107,6 +129,22 @@ SCHEMA = (
     """CREATE TABLE item_picture
              (item INTEGER PRIMARY KEY, gfx INTEGER,
               FOREIGN KEY(item) REFERENCES items(id))""",
+    """CREATE TABLE spells
+             (id INTEGER PRIMARY KEY, class INTEGER, element TEXT,
+              ap INTEGER, mp INTEGER, wp INTEGER, range TEXT)""",
+    """CREATE TABLE spell_names
+             (spell INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (spell, language),
+              FOREIGN KEY(spell) REFERENCES spells(id))""",
+    """CREATE TABLE spell_effects
+             (spell INTEGER, level INTEGER, position INTEGER, kind TEXT,
+              element TEXT, value INTEGER, is_percent INTEGER,
+              PRIMARY KEY (spell, level, position),
+              FOREIGN KEY(spell) REFERENCES spells(id))""",
+    """CREATE TABLE spell_text
+             (spell INTEGER, language TEXT, normal TEXT, critical TEXT,
+              PRIMARY KEY (spell, language),
+              FOREIGN KEY(spell) REFERENCES spells(id))""",
 )
 
 # Ankama writes a name once and lets the client pick the ending:

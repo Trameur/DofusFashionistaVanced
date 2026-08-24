@@ -248,13 +248,30 @@ def _words_before(items, at):
     run dropped those rows in French, Spanish and Portuguese while English,
     which puts its label after the image, kept them: the two languages then
     disagreed on a number, which is how it was found.
+
+    NO IMAGE STOPS THE WALK, and the reason is not laziness. Ankama stacks
+    several element images against one figure when the element is decided at
+    cast time: the Ouginak's Collisions regenerantes reads
+
+        Soin <img FIRE><img WATER><img AIR> : 8 par PA du sort
+        - L element du soin depend du sort
+
+    so the three images and the single "8" are ONE row, and stopping at the
+    first of them left it with no label at all. Decorations sit in the middle
+    too, "sur les <img ally> allies", and they belong to no row.
+
+    The walk stops at the first word that SAYS something, which is what keeps
+    it from reaching into the row before. "Dommage <img FIRE> : 98 Soin <img
+    WATER> : 53" gave the heal both words otherwise, and a row labelled
+    "Dommage Soin" counts as damage and as healing at once.
     """
     words = []
+    known = DAMAGE_WORDS | HEAL_WORDS
     for kind, value in reversed(items[:at]):
-        if kind != 'text':
-            break
+        if kind == 'element':
+            continue
         words = WORDS.findall(value) + words
-        if len(words) >= 3:
+        if {word.lower() for word in words} & known or len(words) >= 3:
             break
     return ' '.join(words[-3:])
 

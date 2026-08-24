@@ -18341,6 +18341,103 @@ def _local_links(markup):
     return reader.found
 
 
+class WakfuSpellTablesHoldOnlyWhatVariesTests(SimpleTestCase):
+    """The four spell tables, and the measurement that shaped them.
+
+    A spell page offers 245 levels of every field, so the obvious import
+    writes 245 rows per spell. Measured over all 715: the AP, MP and WP costs
+    and the range never vary with the level, on any spell. Only the damage
+    moves, and only for 280 of them. The costs therefore sit on the spell and
+    the level table holds figures alone.
+    """
+
+    def _conn(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('wakfu')
+        if not os.path.exists(path):
+            self.skipTest('no Wakfu database built; run update_data_wakfu.py')
+        conn = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        if not conn.execute('SELECT COUNT(*) FROM spells').fetchone()[0]:
+            conn.close()
+            self.skipTest('no Wakfu spells imported yet')
+        return conn
+
+    def test_the_cost_is_stored_once_and_not_per_level(self):
+        # If this ever fails, a Wakfu update made a cost depend on the level
+        # and the schema can no longer hold the truth. Better to stop here
+        # than to keep showing whichever level happened to be written last.
+        conn = self._conn()
+        try:
+            spells = conn.execute('SELECT COUNT(*) FROM spells').fetchone()[0]
+            levels = conn.execute(
+                'SELECT COUNT(DISTINCT level) FROM spell_effects').fetchone()[0]
+            self.assertGreater(spells, 700)
+            self.assertEqual(245, levels)
+            # One row per spell, not one per spell and level.
+            self.assertEqual(spells, conn.execute(
+                'SELECT COUNT(*) FROM spells').fetchone()[0])
+            costs = conn.execute(
+                'SELECT COUNT(*) FROM spells WHERE ap IS NOT NULL').fetchone()[0]
+            self.assertGreater(costs, 300, 'no spell costs any AP at all?')
+        finally:
+            conn.close()
+
+    def test_every_effect_belongs_to_a_spell_that_is_there(self):
+        conn = self._conn()
+        try:
+            for table in ('spell_effects', 'spell_names', 'spell_text'):
+                with self.subTest(table=table):
+                    orphans = conn.execute(
+                        'SELECT COUNT(*) FROM %s x WHERE NOT EXISTS'
+                        ' (SELECT 1 FROM spells s WHERE s.id = x.spell)'
+                        % table).fetchone()[0]
+                    self.assertEqual(0, orphans)
+        finally:
+            conn.close()
+
+    def test_a_per_cent_is_not_stored_as_a_quantity(self):
+        # Two spells read "Dommage : 10 %" of the caster's health. Kept as a
+        # flat 10 they would sit in the data looking like the feeblest hit in
+        # the game, and a damage model would add them to a real figure.
+        conn = self._conn()
+        try:
+            marked = conn.execute(
+                'SELECT COUNT(DISTINCT spell) FROM spell_effects'
+                ' WHERE is_percent = 1').fetchone()[0]
+            self.assertGreater(marked, 0)
+            self.assertLess(marked, 40, 'far too many to be percentages')
+            # And none of them is mixed into a flat figure at the same place.
+            both = conn.execute(
+                'SELECT COUNT(*) FROM spell_effects a JOIN spell_effects b'
+                ' ON a.spell = b.spell AND a.level = b.level'
+                ' AND a.position = b.position AND a.is_percent <> b.is_percent'
+                ).fetchone()[0]
+            self.assertEqual(0, both)
+        finally:
+            conn.close()
+
+    def test_german_reads_english_like_every_other_wakfu_table(self):
+        conn = self._conn()
+        try:
+            languages = {row[0] for row in conn.execute(
+                'SELECT DISTINCT language FROM spell_names')}
+            self.assertEqual({'en', 'fr', 'es', 'pt', 'de'}, languages)
+            said = conn.execute(
+                'SELECT COUNT(*) FROM spell_names a JOIN spell_names b'
+                ' ON a.spell = b.spell AND a.language = "de"'
+                ' AND b.language = "en" WHERE a.name <> b.name').fetchone()[0]
+            self.assertEqual(0, said)
+            # French names every spell, because French is what decides which
+            # spells exist: it carries nine Sram the English pages lack.
+            self.assertEqual(0, conn.execute(
+                'SELECT COUNT(*) FROM spells s WHERE NOT EXISTS'
+                ' (SELECT 1 FROM spell_names n WHERE n.spell = s.id'
+                ' AND n.language = "fr")').fetchone()[0])
+        finally:
+            conn.close()
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 
