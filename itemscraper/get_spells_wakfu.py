@@ -74,8 +74,12 @@ BROWSER = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
            ' (KHTML, like Gecko) Chrome/120 Safari/537.36')
 PACE = 0.35
 
+# The class slug can be EMPTY. The Ouginak, class 15, links its spells as
+# ".../classes/15-/6260-emeute" on Ankama's own page, so the slug part has to
+# be allowed to be nothing at all. Requiring one character silently lost every
+# spell of that class, and only that class.
 SPELL_LINK = re.compile(
-    r'<a href="(/[a-z]{2}/mmorpg/[^"/]+/[^"/]+/(\d+)-[a-z0-9\-]+/(\d+)-[a-z0-9\-]+)"'
+    r'<a href="(/[a-z]{2}/mmorpg/[^"/]+/[^"/]+/(\d+)-[a-z0-9\-]*/(\d+)-[a-z0-9\-]*)"'
     r'[^>]*class="ak-elementary-spell[^"]*"[^>]*title="([^"]*)"')
 ELEMENT_BLOCK = re.compile(r'class="ak-elementary-spell-([a-z]+)"')
 BIG_SCRIPT = re.compile(r'<script type="application/json">\s*(\{"store_PA".*?)</script>',
@@ -108,13 +112,31 @@ def elements_and_damage(markup):
 
 
 def spell_links(page, language):
-    """[(url, spell id, name, element)] for one class page."""
+    """[(url, spell id, name, element)] for one class page.
+
+    Only the ELEMENTAL spells have an element. They sit between
+    `ak-spells-element-line` and the first `ak-spell-list-row`; everything
+    after that is passives and specialties, which carry the same link class and
+    no element at all. Splitting the whole page on the element markers gave
+    every passive the last element seen, which was wrong for 24 of the Iop's
+    40 spells and looked entirely plausible.
+    """
+    start = page.find('ak-spells-element-line')
+    end = page.find('ak-spell-list-row', start + 1 if start >= 0 else 0)
+    elemental = page[start:end] if start >= 0 and end > start else ''
+
     found = []
-    for block in re.split(r'(?=class="ak-elementary-spell-)', page):
+    for block in re.split(r'(?=class="ak-elementary-spell-)', elemental):
         element = ELEMENT_BLOCK.search(block)
         element = element.group(1).upper() if element else None
+        # Ankama names the same element two ways on one page: the block says
+        # WIND and the damage image says AIR. AIR is what the item data uses,
+        # so that is the one kept.
+        element = 'AIR' if element == 'WIND' else element
         for url, _class_id, spell_id, name in SPELL_LINK.findall(block):
             found.append((url, int(spell_id), html.unescape(name), element))
+    for url, _class_id, spell_id, name in SPELL_LINK.findall(page):
+        found.append((url, int(spell_id), html.unescape(name), None))
     # The same spell can be linked twice; keep the first sighting of each.
     seen, unique = set(), []
     for entry in found:
@@ -139,20 +161,34 @@ def read_spell(reader, url, report):
         report['store that is not json'] += 1
         return None
 
+    # The levels come from every store that has any, not from store_PA alone.
+    # A spell that costs no AP publishes store_PA as an empty LIST while
+    # store_MP, store_WP and normalEffect all carry their 245 levels: keying on
+    # store_PA lost every passive and every MP-cost spell, half the catalogue,
+    # and the loss looked like a page that simply had no data.
+    def keyed(name):
+        value = store.get(name)
+        return value if isinstance(value, dict) else {}
+
+    numbered = set()
+    for name in ('store_PA', 'store_PM', 'store_PW', 'store_PO',
+                 'normalEffect', 'criticalEffect'):
+        numbered.update(key for key in keyed(name) if key.isdigit())
+
     levels = {}
-    for level in sorted(map(int, store.get('store_PA') or {})):
+    for level in sorted(map(int, numbered)):
         key = str(level)
-        normal = (store.get('normalEffect') or {}).get(key) or ''
-        critical = (store.get('criticalEffect') or {}).get(key) or ''
+        normal = keyed('normalEffect').get(key) or ''
+        critical = keyed('criticalEffect').get(key) or ''
         damage = elements_and_damage(normal)
         crit_damage = elements_and_damage(critical)
         if not damage:
             report['level with no damage figure'] += 1
         levels[level] = {
-            'ap': (store.get('store_PA') or {}).get(key),
-            'mp': (store.get('store_PM') or {}).get(key),
-            'wp': (store.get('store_PW') or {}).get(key),
-            'range': (store.get('store_PO') or {}).get(key),
+            'ap': keyed('store_PA').get(key),
+            'mp': keyed('store_PM').get(key),
+            'wp': keyed('store_PW').get(key),
+            'range': keyed('store_PO').get(key),
             'damage': damage,
             'critical_damage': crit_damage,
             'normal': strip(normal),
