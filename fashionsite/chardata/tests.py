@@ -19124,21 +19124,54 @@ class SpellComboTests(SimpleTestCase):
             caster_level=200, pushback=True)]
         self.assertTrue([t for t in labels if 'at a state' in t], labels)
 
-    def test_a_critical_hit_reads_its_own_rows(self):
-        # Sentence writes three rows for a normal hit and four for a critical
-        # one, and its third is immediate where the normal third is not.
+    def test_a_critical_hit_reads_the_same_rows(self):
+        """Sentence used to write three rows normally and four on a critical.
+
+        That was never the game. Ankama renumbers an effect's `order` between
+        grades, the transform keyed a row by that order, and one Fire line
+        became two: one frozen at its grade 1 value, one empty there. The
+        critical side split one row further than the normal side, which is
+        where the asymmetry came from, and `delayed_crit` existed to carry it.
+        Since the transform merges those rows, no spell differs at all.
+        """
         from fashionistapulp.dofus_constants import DAMAGE_SPELLS
         sentence = next(spell for spell in DAMAGE_SPELLS['Iop']
                         if spell.spell_id == 13147)
-        self.assertEqual({1: 'turn_end', 2: 'turn_end'}, sentence.delayed)
-        self.assertEqual({1: 'turn_end', 3: 'turn_end'},
-                         sentence.delayed_crit)
-        # Only a spell whose critical rows really differ carries one: the
-        # seven poisons with no critical hit at all get nothing.
+        self.assertEqual({1: 'turn_end'}, sentence.delayed)
+        self.assertIsNone(sentence.delayed_crit)
+        self.assertEqual(2, len(sentence.effects.non_crit_ranges))
         different = [spell for spells in DAMAGE_SPELLS.values()
                      for spell in spells
                      if getattr(spell, 'delayed_crit', None) is not None]
-        self.assertEqual(['Sentence'], sorted(s.name for s in different))
+        self.assertEqual([], sorted(s.name for s in different))
+
+    def test_no_spell_counts_a_row_it_replaced(self):
+        """The split showed up twice over, and both tells are pinned here.
+
+        A critical hit reads the same number of rows as a normal one, and no
+        row is dead at one grade while another of the same spell carries its
+        value. Ten dofus3 spells failed the second one, Slow-Down Arrow reading
+        28-30 plus 32-34 at its top grade where the game deals 32-34.
+        """
+        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+        uneven, split = [], []
+        for spells in DAMAGE_SPELLS.values():
+            for spell in spells:
+                rows = spell.effects.non_crit_ranges
+                crit = spell.effects.crit_ranges
+                if crit is not None and len(crit) != len(rows):
+                    uneven.append(spell.name)
+                if spell.aggregates or not rows or not isinstance(rows[0], list):
+                    # Aggregate rows are alternatives, one per stack or case,
+                    # so a row empty at a grade is how the spell is written.
+                    continue
+                for row in rows:
+                    if (any(r.min_dam == 0 and r.max_dam == 0 for r in row)
+                            and any(r.max_dam for r in row)):
+                        split.append(spell.name)
+                        break
+        self.assertEqual([], sorted(set(uneven)))
+        self.assertEqual([], sorted(set(split)))
 
     def test_the_late_part_is_never_worth_more_than_the_cast(self):
         # It is subtracted from the turn, so scoring it with buffs the cast

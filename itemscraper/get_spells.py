@@ -440,6 +440,8 @@ class SpellTransformer:
                     continue
                 _register_row(element_token)
 
+        rows = self._merge_rows_ankama_renumbered(rows)
+
         for row in rows:
             last_value: Optional[str] = None
             for i, value in enumerate(row["ranges"]):
@@ -448,6 +450,46 @@ class SpellTransformer:
                 else:
                     last_value = value
         return rows
+
+    @staticmethod
+    def _merge_rows_ankama_renumbered(
+            rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """One damage line split in two because its `order` changed by grade.
+
+        A row is keyed by the effect's order, which is what keeps two hits of
+        the same element apart within a grade. Ankama renumbers that order
+        between grades: Slow-Down Arrow's single Water line is order 3 at grade
+        1 and order 2 at grade 2, so it became two rows. The fill below then
+        froze the first at its grade 1 value and left the second at zero there,
+        and every reader summed both: the spell dealt 28-30 plus 32-34 at its
+        top grade instead of 32-34. Ten dofus3 spells read that way.
+
+        Two rows merge only when they describe the same hit AND never carry a
+        value at the same grade. A spell that genuinely gains a line keeps both
+        rows, because its first row still has a value at the grade where the
+        second appears. This runs before the fill, while None still means the
+        grade had no such effect at all.
+        """
+        merged: List[Dict[str, Any]] = []
+        seen: List[tuple] = []
+        for row in rows:
+            signature = (row.get("element"), row.get("steals"),
+                         row.get("heals"), row.get("triggers"),
+                         row.get("situation"), row.get("state_group"),
+                         row.get("best_element_group"))
+            filled = {i for i, value in enumerate(row["ranges"])
+                      if value is not None}
+            for position, (other_signature, other_filled) in enumerate(seen):
+                if other_signature != signature or (other_filled & filled):
+                    continue
+                for i in filled:
+                    merged[position]["ranges"][i] = row["ranges"][i]
+                seen[position] = (other_signature, other_filled | filled)
+                break
+            else:
+                merged.append(row)
+                seen.append((signature, filled))
+        return merged
 
     def _infer_stack_cap(self, spell_entry: Mapping[str, Any]) -> Optional[int]:
         descriptions: List[str] = []
