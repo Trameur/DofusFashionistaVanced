@@ -1,0 +1,64 @@
+{% extends "chardata/base.html" %}
+{% load version_url %}
+{% load static_s3 %}
+{% load i18n %}
+
+{% block title %}{% trans "What Dofus Players Actually Wear" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+
+{% block meta_description %}{% blocktrans with n=builds_counted %}The gear Dofus players really equip, counted over {{ n }} calculated builds: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one.{% endblocktrans %}{% endblock %}
+
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/encyclopedia_detail.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "chardata/most_used.css" %}">
+{% endblock %}
+
+{% block main %}
+<div class="maincolumn">
+<div class="maincontent">
+
+    <h1 class="most-used-title">{% trans "What Dofus players actually wear" %}</h1>
+
+    {% comment %}
+    La methode est imprimee sur la page, et ce n'est pas de la modestie : un
+    pourcentage dont le denominateur est cache est un pourcentage que personne
+    ne peut contester, ce qui est l'inverse du but. La part est calculee sur les
+    builds qui POUVAIENT porter l'objet, sinon un objet de niveau 20 paraitrait
+    delaisse par la seule faute que la plupart des builds sont niveau 200.
+    {% endcomment %}
+    <p class="most-used-method">
+        {% blocktrans with n=builds_counted %}Counted over {{ n }} builds calculated on this site. For each item, the share is of the builds that could equip it, meaning those at or above its level. Nothing about who built them is stored or shown.{% endblocktrans %}
+    </p>
+
+    {% if slots %}
+    {% for slot in slots %}
+    <div class="most-used-slot">
+        <h2 class="most-used-slot-title">{{ slot.label }}</h2>
+        <ol class="most-used-list">
+            {% for item in slot.items %}
+            <li class="most-used-item">
+                <img class="most-used-icon" src="{{ item.image_url }}" alt="" width="40" height="40" loading="lazy" decoding="async">
+                <span class="most-used-name"><a href="{{ item.url }}">{{ item.name }}</a></span>
+                <span class="most-used-level">{{ t.item_level }} {{ item.level }}</span>
+                <span class="most-used-share">{{ item.share }}</span>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+    {% endfor %}
+    {% else %}
+    {% comment %}
+    L'index est reconstruit par une commande. Tant qu'il n'a pas tourne, la page
+    dit qu'elle n'a rien plutot que d'afficher un classement vide.
+    {% endcomment %}
+    <p class="most-used-method">{% trans "The usage counts have not been built yet." %}</p>
+    {% endif %}
+
+    <div class="most-used-cta">
+        <a class="most-used-btn" href="{% game_url 'setup' %}">{% trans "Build a set of your own" %}</a>
+    </div>
+
+</div>
+</div>
+{% endblock %}

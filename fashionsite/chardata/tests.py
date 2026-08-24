@@ -22706,6 +22706,73 @@ class ItemPagesAnswerInTheSearchResultTests(TestCase):
         self.assertIn("qui peuvent l'équiper", descr)
 
 
+class TheMostWornGearPageTests(TestCase):
+    """The one page no wiki and no official encyclopedia can write.
+
+    They publish the same numbers from the same game files; none of them sees
+    what people put on. This site has 161 476 calculated builds and showed
+    nothing of what they say. Its real external links number about 227, of
+    which 216 come from Reddit: a page worth citing is the only lever that
+    moves a ranking, and this is the only thing the site has that nobody else
+    can copy.
+    """
+
+    CHEMIN = '/encyclopedia/most-used/'
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
+
+    def _rangs(self, ankama_id=26066, builds=1400, eligible=10000):
+        from chardata.models import ItemPopularity
+        return ItemPopularity.objects.create(
+            ankama_id=ankama_id, game_version='dofus3',
+            builds=builds, eligible=eligible)
+
+    def _page(self):
+        reponse = self.client.get(self.CHEMIN, HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 200)
+        return reponse.content.decode('utf-8')
+
+    def test_it_names_the_gear_and_its_share(self):
+        self._rangs()
+        page = self._page()
+        self.assertIn('14.0 %', page)
+        self.assertIn('/encyclopedia/item/', page)
+
+    def test_it_prints_the_method_rather_than_the_number_alone(self):
+        """A percentage whose denominator is hidden is one nobody can argue
+        with, which is the opposite of what this page is for."""
+        self._rangs()
+        page = self._page()
+        self.assertIn('could equip it', page)
+        self.assertIn('10000', page)
+
+    def test_it_says_nothing_about_who_built_them(self):
+        self._rangs()
+        self.assertIn('Nothing about who built them', self._page())
+
+    def test_an_item_with_no_publishable_share_is_left_out(self):
+        """Under thirty wearers the share is noise, and a leaderboard of noise
+        is worse than a short one."""
+        self._rangs(builds=3, eligible=10000)
+        page = self._page()
+        self.assertNotIn('most-used-item', page)
+
+    def test_an_empty_index_says_so_rather_than_showing_a_blank_board(self):
+        page = self._page()
+        self.assertIn('have not been built yet', page)
+        self.assertNotIn('most-used-item', page)
+
+    def test_the_page_is_in_the_sitemap(self):
+        """A page nobody links to and nobody submits is a page nobody reads."""
+        plan = self.client.get('/sitemap-pages.xml').content.decode('utf-8')
+        self.assertIn('/encyclopedia/most-used/', plan)
+
+    def test_it_invites_the_reader_to_the_tool(self):
+        self._rangs()
+        page = self._page()
+        self.assertIn('Build a set of your own', page)
+        self.assertIn('/setup/', page)
+
+
 class ItemPopularityNeverPrintsSomethingFalseTests(TestCase):
     """A percentage published on 3 436 pages has to be defensible.
 

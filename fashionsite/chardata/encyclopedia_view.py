@@ -2225,6 +2225,87 @@ def encyclopedia_set(request, set_id, slug=None):
     )
 
 
+# Combien d'objets par emplacement sur la page des plus portes. Dix tient sur
+# un ecran de telephone sans replier, et au-dela la queue n'apprend plus rien.
+MOST_USED_PER_SLOT = 10
+
+
+def encyclopedia_most_used(request):
+    """What players actually wear, counted over every build ever calculated.
+
+    This is the one page no wiki and no official encyclopedia can write. They
+    publish the same numbers, taken from the same game files; none of them sees
+    what people put on. This site has 161 476 calculated builds and never
+    showed what they say.
+
+    The share is of the builds that COULD wear the item, meaning those at or
+    above its level, so a level 20 item is not made to look unloved by the fact
+    that most builds are level 200. The method is printed on the page: a number
+    whose denominator is hidden is a number nobody can argue with, which is the
+    opposite of what this is for.
+    """
+    structure = get_structure()
+    language = get_supported_language()
+    game_version = getattr(request, 'game_version', 'dofus3')
+    from chardata.models import ItemPopularity
+
+    try:
+        lignes = list(ItemPopularity.objects.filter(game_version=game_version))
+    except Exception:
+        lignes = []
+
+    par_slot = {}
+    couverture = 0
+    for ligne in lignes:
+        couverture = max(couverture, ligne.eligible or 0)
+        part = ligne.share
+        if part is None:
+            continue
+        item = structure.get_item_by_ankama_id(ligne.ankama_id)
+        if item is None:
+            continue
+        type_name = structure.get_type_name_by_id(item.type)
+        if not type_name:
+            continue
+        nom = structure.get_item_name_in_language(item, language) or item.name
+        lien = get_item_link(item.ankama_type, item.ankama_id, nom,
+                             game_version=game_version)
+        if not lien:
+            continue
+        par_slot.setdefault(type_name, []).append({
+            'name': nom,
+            'level': item.level,
+            'url': lien,
+            'image_url': static(get_image_url(type_name, item.name, game_version)),
+            'share': '%.1f %%' % part,
+            'builds': ligne.builds,
+        })
+
+    slots = []
+    for type_name in TYPE_NAMES:
+        objets = par_slot.get(type_name)
+        if not objets:
+            continue
+        objets.sort(key=lambda o: -float(o['share'].replace(' %', '')))
+        slots.append({
+            'label': _localized_label(type_name, language),
+            'items': objets[:MOST_USED_PER_SLOT],
+        })
+
+    return set_response(
+        request,
+        'chardata/encyclopedia_most_used.html',
+        {
+            'request': request,
+            'char_id': 0,
+            't': _ui_text(),
+            'slots': slots,
+            'builds_counted': couverture,
+            'canonical_url': 'https://dofusfashionista.gg%s' % request.path,
+        },
+    )
+
+
 SET_SORTS = ('name', 'level')
 
 

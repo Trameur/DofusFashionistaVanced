@@ -543,6 +543,7 @@ def _sitemap_pages(base_url):
         ('/choose_compare_sets/', 'weekly', '0.7'),
         ('/encyclopedia/', 'daily', '0.9'),
         ('/encyclopedia/sets/', 'weekly', '0.8'),
+        ('/encyclopedia/most-used/', 'weekly', '0.7'),
         ('/forgemagie/', 'weekly', '0.8'),
         # /workshop/ is behind the login: a crawler only gets the /login/ redirect.
     ]
@@ -958,6 +959,8 @@ urlpatterns += i18n_patterns(
     re_path(r'^encyclopedia/monsters/$',
             encyclopedia_view.encyclopedia_monsters,
             name='encyclopedia_monsters'),
+    re_path(r'^encyclopedia/most-used/$', encyclopedia_view.encyclopedia_most_used,
+            name='encyclopedia_most_used'),
     re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets,
             name='encyclopedia_sets'),
 

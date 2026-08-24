@@ -6925,3 +6925,27 @@ msgstr "Encyclopédie des objets Dofus"
 #: .\chardata\templates\chardata\smart_build.html
 msgid "Dofus Build from a Sentence"
 msgstr "Un build Dofus décrit en une phrase"
+
+#: .\chardata\templates\chardata\encyclopedia_most_used.html
+msgid "What Dofus Players Actually Wear"
+msgstr "Ce que les joueurs de Dofus portent vraiment"
+
+#: .\chardata\templates\chardata\encyclopedia_most_used.html
+msgid "What Dofus players actually wear"
+msgstr "Ce que les joueurs de Dofus portent vraiment"
+
+#: .\chardata\templates\chardata\encyclopedia_most_used.html
+msgid "The gear Dofus players really equip, counted over %(n)s calculated builds: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one."
+msgstr "L'équipement que les joueurs de Dofus portent réellement, compté sur %(n)s builds calculés : le chapeau, la cape, l'anneau, l'arme et le dofus les plus portés, avec la part de builds qui les utilisent."
+
+#: .\chardata\templates\chardata\encyclopedia_most_used.html
+msgid "Counted over %(n)s builds calculated on this site. For each item, the share is of the builds that could equip it, meaning those at or above its level. Nothing about who built them is stored or shown."
+msgstr "Compté sur %(n)s builds calculés sur ce site. Pour chaque objet, la part porte sur les builds qui pouvaient l'équiper, c'est-à-dire ceux de niveau supérieur ou égal au sien. Rien sur qui les a créés n'est conservé ni affiché."
+
+#: .\chardata\templates\chardata\encyclopedia_most_used.html
+msgid "The usage counts have not been built yet."
+msgstr "Les comptes d'utilisation n'ont pas encore été construits."
+
+#: .\chardata\templates\chardata\encyclopedia_most_used.html
+msgid "Build a set of your own"
+msgstr "Créer votre propre stuff"
