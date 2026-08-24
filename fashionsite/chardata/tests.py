@@ -17154,6 +17154,28 @@ class WakfuSlotRuleTests(SimpleTestCase):
                         'every exclusive item has a rarity nothing else has, '
                         'so the rule could just be read off the rarity')
 
+    def test_no_wakfu_item_can_be_worn_twice(self):
+        # `model.create_item_number_variables` lets a build take two copies of
+        # an item only when its type is NAMED 'Ring'. Wakfu files rings under
+        # LEFT_HAND and RIGHT_HAND, so nothing there is doublable and every
+        # item is capped at one, which is the safe answer while the question is
+        # open: no Ankama source says whether the game allows a doubled ring.
+        #
+        # That safety rests on a name rather than on a rule anyone wrote, so
+        # the name is held here. Renaming a Wakfu slot to 'Ring' would silently
+        # legalise doubles.
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.wakfu_slots import SLOTS
+        self.assertNotIn('Ring', SLOTS)
+        # And the name really is the live one, so the check above is not
+        # asserting against a string the code stopped using.
+        self.assertIn('Ring', set(get_structure('dofus3').types_dict.values()))
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built')
+        wakfu = get_structure('wakfu')
+        self.assertNotIn('Ring', set(wakfu.types_dict.values()))
+
     def test_every_gear_slot_the_data_uses_is_declared(self):
         from fashionistapulp.wakfu_slots import NOT_GEAR, SLOTS
         dump = self._dump()
