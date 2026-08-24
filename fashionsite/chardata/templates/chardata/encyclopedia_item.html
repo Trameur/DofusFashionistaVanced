@@ -3,6 +3,7 @@
 {% load static_s3 %}
 {% load i18n %}
 {% load ads %}
+{% load localized_class %}
 
 {% block title %}{{ item.name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
@@ -282,6 +283,28 @@
                     <img class="craft-icon" src="{{ other.image_url }}" alt="" width="32" height="32" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
                     <span><a href="{{ other.url }}">{{ other.name }}</a>
                     <span class="item-level">{{ t.item_level }} {{ other.level }}</span></span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% if builds_using %}
+        {% comment %}
+        La seule chose que cette encyclopedie peut dire et qu'Ankama, DofusDB et
+        les wikis ne peuvent pas : ils publient les memes chiffres tires des
+        memes fichiers de jeu, et aucun ne sait ce que les gens portent
+        vraiment. C'est aussi ce que la meta description de cette page promet
+        depuis toujours sans que la page l'ait jamais tenu.
+        Lu dans un index reconstruit par reindex_builds_by_item, jamais dans les
+        builds eux-memes : les depickler prend douze secondes.
+        {% endcomment %}
+        <div class="encyclopedia-section">
+            <b>{{ builds_using_label }}</b>
+            <ul class="encyclopedia-list">
+                {% for build in builds_using %}
+                <li class="craft-item">
+                    <span><a href="{{ build.url }}">{{ build.name }}</a>
+                    <span class="item-level">{{ build.char_class|localized_class }} {{ t.item_level }} {{ build.level }}</span></span>
                 </li>
                 {% endfor %}
             </ul>

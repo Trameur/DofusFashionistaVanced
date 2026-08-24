@@ -21955,6 +21955,121 @@ class DonationButtonTests(TestCase):
                              'a raw donation link escapes the counter')
 
 
+class EncyclopediaNamesTheBuildsThatWearAnItemTests(TestCase):
+    """The one thing this encyclopedia knows that no other one does.
+
+    Ankama, DofusDB and the wikis publish the same numbers, taken from the same
+    game files. None of them knows what people actually put on. This site does,
+    from 3 361 shared builds, and never showed it -- while promising it in the
+    meta description of every item page since the encyclopedia existed.
+
+    The index is derived data, rebuilt from the builds, so these tests build it
+    the way the command does rather than trusting a table somebody filled.
+    """
+
+    NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                  '(KHTML, like Gecko) Chrome/126.0 Safari/537.36')
+    SANS_PUB = {'enabled': False, 'client': '', 'slots': {}, 'auto': False}
+    OBJET = '/encyclopedia/item/equipment/26066-nightmare-dofus/'
+    ANKAMA_OBJET = 26066
+
+    def _build(self, alias, vues=0, partage=True, supprime=False):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        entree = {'options': {}, 'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        return Char.objects.create(
+            name=alias, char_name=alias, char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({}, entree, {})),
+            owner=User.objects.create_user(alias, '%s@example.com' % alias, 'x'),
+            link_shared=partage, deleted=supprime, view_count=vues,
+            game_version='dofus3')
+
+    def _index(self, build):
+        from chardata.models import ItemInSharedBuild
+        return ItemInSharedBuild.objects.create(
+            ankama_id=self.ANKAMA_OBJET, game_version='dofus3', char=build)
+
+    def _page(self, chemin=None):
+        from unittest import mock
+        with mock.patch('chardata.context_processors.ad_config',
+                        return_value=dict(self.SANS_PUB)):
+            reponse = self.client.get(chemin or self.OBJET,
+                                      HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 200)
+        return reponse.content.decode('utf-8')
+
+    def test_the_page_names_a_build_that_wears_the_item(self):
+        self._index(self._build('porteur'))
+        page = self._page()
+        self.assertIn('porteur', page)
+        self.assertIn('Builds wearing this item', page)
+
+    def test_a_page_with_no_such_build_shows_no_empty_heading(self):
+        """An empty section is worse than none: it tells the reader the site
+        has nothing, on a page whose whole point is that it has something."""
+        page = self._page()
+        self.assertNotIn('Builds wearing this item', page)
+
+    def test_a_build_that_stopped_being_shared_is_not_named(self):
+        """The index is rebuilt periodically, so it always lags the builds.
+        The page has to check, not trust it."""
+        self._index(self._build('retire', partage=False))
+        self.assertNotIn('retire', self._page())
+
+    def test_a_deleted_build_is_not_named(self):
+        self._index(self._build('efface', supprime=True))
+        self.assertNotIn('efface', self._page())
+
+    def test_the_most_read_builds_come_first(self):
+        for alias, vues in (('discret', 1), ('populaire', 900), ('moyen', 50)):
+            self._index(self._build(alias, vues=vues))
+        page = self._page()
+        self.assertLess(page.index('populaire'), page.index('moyen'))
+        self.assertLess(page.index('moyen'), page.index('discret'))
+
+    def test_the_reader_is_told_in_their_own_language(self):
+        self._index(self._build('porteur'))
+        self.assertIn('Builds qui portent cet objet', self._page(
+            '/encyclopedia/item/equipment/26066-dofus-du-cauchemar/'))
+
+    def test_rebuilding_the_index_replaces_it_rather_than_adding_to_it(self):
+        """Derived data. A rebuild that appended would keep naming builds that
+        stopped wearing the item, and nobody would ever see the drift."""
+        from io import StringIO
+        from django.core.management import call_command
+        from chardata.models import ItemInSharedBuild
+        self._index(self._build('perime'))
+        self.assertEqual(ItemInSharedBuild.objects.count(), 1)
+        sortie = StringIO()
+        call_command('reindex_builds_by_item', stdout=sortie)
+        self.assertEqual(ItemInSharedBuild.objects.count(), 0,
+                         'the stale row survived the rebuild')
+        self.assertIn('builds read', sortie.getvalue())
+
+    def test_the_rebuild_says_how_many_builds_it_could_not_read(self):
+        """A rebuild that silently indexed half the site would leave item pages
+        looking as though nobody wears the item."""
+        from io import StringIO
+        from django.core.management import call_command
+        sortie = StringIO()
+        call_command('reindex_builds_by_item', stdout=sortie)
+        self.assertIn('unreadable', sortie.getvalue())
+
+    def test_the_block_comes_before_the_invitation_to_the_tool(self):
+        """Content first, then the ask. The other way round asks before it has
+        given anything."""
+        self._index(self._build('porteur'))
+        page = self._page()
+        self.assertLess(page.index('Builds wearing this item'),
+                        page.index('encyclopedia-cta'))
+
+
 class EncyclopediaPagesInviteTheReaderToTheToolTests(TestCase):
     """The encyclopedia is nearly every URL the site has, and it never said
     what the site is for.

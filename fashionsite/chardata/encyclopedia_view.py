@@ -75,6 +75,7 @@ LOCALIZED_UI = {
         'dropped_by_label': 'Dropped by',
         'show_more_drops_label': 'Show more',
         'similar_items_label': 'Other items of this type and level',
+        'builds_using_label': 'Builds wearing this item',
         'craft_job_label': 'Crafted by',
         'no_recipe': 'No recipe available.',
         'recipe_unknown_ingredient': 'Unknown ingredient',
@@ -138,6 +139,7 @@ LOCALIZED_UI = {
         'dropped_by_label': 'Droppé par',
         'show_more_drops_label': 'Voir plus',
         'similar_items_label': 'Autres objets du même type et niveau',
+        'builds_using_label': 'Builds qui portent cet objet',
         'craft_job_label': 'Fabriqué par',
         'no_recipe': 'Aucune recette disponible.',
         'recipe_unknown_ingredient': 'Ingrédient inconnu',
@@ -201,6 +203,7 @@ LOCALIZED_UI = {
         'dropped_by_label': 'Soltado por',
         'show_more_drops_label': 'Ver más',
         'similar_items_label': 'Otros objetos del mismo tipo y nivel',
+        'builds_using_label': 'Builds que llevan este objeto',
         'craft_job_label': 'Fabricado por',
         'no_recipe': 'No hay receta disponible.',
         'recipe_unknown_ingredient': 'Ingrediente desconocido',
@@ -264,6 +267,7 @@ LOCALIZED_UI = {
         'dropped_by_label': 'Dropado por',
         'show_more_drops_label': 'Ver mais',
         'similar_items_label': 'Outros itens do mesmo tipo e nível',
+        'builds_using_label': 'Builds que usam este item',
         'craft_job_label': 'Fabricado por',
         'no_recipe': 'Receita não disponível.',
         'recipe_unknown_ingredient': 'Ingrediente desconhecido',
@@ -327,6 +331,7 @@ LOCALIZED_UI = {
         'dropped_by_label': 'Beute von',
         'show_more_drops_label': 'Mehr anzeigen',
         'similar_items_label': 'Andere Gegenstände dieser Art und Stufe',
+        'builds_using_label': 'Builds mit diesem Gegenstand',
         'craft_job_label': 'Hergestellt von',
         'no_recipe': 'Kein Rezept verfügbar.',
         'recipe_unknown_ingredient': 'Unbekannte Zutat',
@@ -781,6 +786,47 @@ def _get_light_index(structure, language):
 
 
 SIMILAR_ITEMS_SHOWN = 6
+
+
+def _get_builds_using(ankama_id, game_version, limit=6):
+    """The shared builds that wear this item, most read first.
+
+    This is the one thing the encyclopedia can say that Ankama and the wikis
+    cannot: they publish the same numbers from the same game files, and none
+    of them knows what people actually put on. It is also what the page's own
+    meta description has been promising since it existed.
+
+    Read from an index rebuilt by reindex_builds_by_item, never from the
+    builds themselves: unpickling 3 361 solutions takes twelve seconds and has
+    no business happening while somebody waits for a page.
+    """
+    from chardata.encoded_char_id import encode_char_id
+    from chardata.models import ItemInSharedBuild
+    try:
+        lignes = (ItemInSharedBuild.objects
+                  .filter(ankama_id=ankama_id, game_version=game_version)
+                  .select_related('char')
+                  .order_by('-char__view_count', '-char__modified_time')
+                  [:limit * 3])
+    except Exception:
+        # The block is a bonus. A page that cannot show it still has to render.
+        return []
+    builds = []
+    for ligne in lignes:
+        build = ligne.char
+        if build is None or build.deleted or not build.link_shared:
+            continue
+        builds.append({
+            'url': '/s/%s/%s/' % (build.char_name or 'shared',
+                                  encode_char_id(int(build.id))),
+            'name': build.char_name or build.name,
+            'char_class': build.char_class,
+            'level': build.level,
+            'views': build.view_count,
+        })
+        if len(builds) >= limit:
+            break
+    return builds
 
 
 def _get_similar_items(structure, language, game_version, item, limit=None):
@@ -2335,6 +2381,9 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'similar_items': _get_similar_items(
                 structure, language, game_version, representative_item),
             'similar_items_label': t['similar_items_label'],
+            'builds_using': _get_builds_using(representative_item.ankama_id,
+                                              game_version),
+            'builds_using_label': t['builds_using_label'],
         },
     )
 

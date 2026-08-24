@@ -383,6 +383,35 @@ class SupportClick(models.Model):
         return '%s %s %s' % (self.day, self.language, self.count)
 
 
+class ItemInSharedBuild(models.Model):
+    """Which shared builds wear a given item.
+
+    The encyclopedia has promised "Discover builds using X" in its meta
+    description on every item page since it existed, and no page has ever
+    carried a single one. This is the index that makes the promise true.
+
+    It also answers the one thing the encyclopedia could never answer better
+    than Ankama or a wiki: they all publish the same numbers, taken from the
+    same game files, and none of them knows what people actually wear. That
+    knowledge exists here and nowhere else.
+
+    Derived data, rebuilt from the builds themselves by reindex_builds_by_item,
+    so it is never the source of truth and can be thrown away at any time. The
+    whole rebuild reads 3 361 shared builds in about 12 seconds.
+    """
+    ankama_id = models.IntegerField()
+    game_version = models.CharField(max_length=20, default='dofus3')
+    char = models.ForeignKey(Char, on_delete=models.CASCADE)
+
+    class Meta:
+        # The lookup is always (ankama_id, game_version), which this covers as
+        # a prefix, so it needs no index of its own.
+        unique_together = ('ankama_id', 'game_version', 'char')
+
+    def __str__(self):
+        return '%s %s -> %s' % (self.game_version, self.ankama_id, self.char_id)
+
+
 @receiver(user_logged_in)
 def _remember_language_on_login(sender, request, user, **kwargs):
     """Backfill the notification-email language; an explicit choice is never
