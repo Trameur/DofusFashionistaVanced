@@ -167,16 +167,14 @@ def choose_item(request):
     item_name = None
     if item_reference:
         if '[DT]' in item_reference:
-            item_reference = item_reference.split(' ', 2)
+            _, raw_id, item_name = reference_parts(item_reference, 3)
             if item_id == None:
-                item_id = safe_int(item_reference[1])
-            item_name = item_reference[2]
+                item_id = safe_int(raw_id)
             dofus_touch = True
         else:
-            item_reference = item_reference.split(' ', 1)
+            raw_id, item_name = reference_parts(item_reference, 2)
             if item_id == None:
-                item_id = safe_int(item_reference[0])
-            item_name = item_reference[1]
+                item_id = safe_int(raw_id)
             dofus_touch = False
     
     
@@ -184,7 +182,8 @@ def choose_item(request):
 
     if item_id:
         item = structure.get_item_by_id(item_id)
-        dofus_touch = item.dofus_touch
+        if item:
+            dofus_touch = item.dofus_touch
         
     if not item and item_name:
         item = structure.get_item_by_name(item_name, dofus_touch)
@@ -248,17 +247,29 @@ def choose_item(request):
     result = {'item': item_stats, 'or_items': or_items}
     return HttpResponseJson(json.dumps(result))        
 
+def reference_parts(reference, pieces):
+    """Read a "<id> <name>" reference without raising on anything else.
+
+    These two endpoints answer the item manager's own JavaScript, so the field
+    is always there in normal use. It is not there when a crawler sends a bare
+    GET, and it has no space when a name is one word; both used to raise and
+    mail the admins a 500 apiece. A reference that cannot be read now yields
+    Nones, which the views already treat as "no such item".
+    """
+    parts = (reference or '').split(' ', pieces - 1)
+    return parts + [None] * (pieces - len(parts))
+
+
+@require_POST
 def choose_set(request):
     structure = get_structure()
     set_stats = {}
     
     
     set_id = safe_int(request.POST.get('id', None))
-    set_reference = request.POST.get('name', None)
-    set_reference = set_reference.split(' ', 1)
+    raw_id, set_name = reference_parts(request.POST.get('name', None), 2)
     if set_id == None:
-        set_id = safe_int(set_reference[0])
-    set_name = set_reference[1]
+        set_id = safe_int(raw_id)
     
     
     s = None
@@ -346,11 +357,9 @@ def _convert_json_item_to_item(json_item):
     if json_item['set']:
         item_set = json_item['set']
         if '[DT]' in item_set:
-            set_reference = item_set.split(' ', 2)
-            item.set = safe_int(set_reference[1])
+            item.set = safe_int(reference_parts(item_set, 3)[1])
         else:
-            set_reference = item_set.split(' ', 2)
-            item.set = safe_int(set_reference[0])
+            item.set = safe_int(reference_parts(item_set, 3)[0])
             logger.debug('%s', item.set)
     
     item.weird_conditions = json_item['weird_conditions']

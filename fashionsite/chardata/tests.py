@@ -22482,8 +22482,10 @@ class ActionEndpointsRefuseGetTests(TestCase):
     #: Registered only when DEBUG, so production answers 404 and no crawler
     #: ever sees them. They are listed to keep that true: moving one out of the
     #: DEBUG block would publish an editor for the item catalogue.
-    DEBUG_ONLY = ('/choose_item/', '/delete_item/', '/delete_set/',
-                  '/update_item/', '/update_set/', '/edit_item/')
+    DEBUG_ONLY = ('/choose_item/', '/choose_set/', '/delete_item/',
+                  '/delete_set/', '/update_item/', '/update_set/',
+                  '/edit_item/', '/edit_set/', '/edit_item_search_item/',
+                  '/edit_item_search_sets/')
 
     def test_get_is_refused(self):
         for path in self.POST_ONLY:
@@ -22516,6 +22518,71 @@ class ActionEndpointsRefuseGetTests(TestCase):
         has to get past it and be handled -- whatever the view then answers."""
         for path in self.POST_ONLY:
             self.assertNotEqual(self.client.post(path).status_code, 405, path)
+
+
+class TheCatalogueEditorSurvivesAReferenceItCannotReadTests(TestCase):
+    """A request without a usable reference used to be a 500 and an admin mail.
+
+    Both endpoints read a "<id> <name>" string out of the POST and split it
+    without looking. No field at all raised AttributeError, and a name with no
+    space raised IndexError. The routes live behind DEBUG so production never
+    served them, but every local run gets crawled and those 500s land in the
+    error mailbox that is read every day.
+
+    Called directly rather than through the client, because the urls are not
+    registered while the tests run -- which is the point of the DEBUG_ONLY
+    guard in ActionEndpointsRefuseGetTests.
+    """
+
+    def _asked(self, view, **fields):
+        from django.test import RequestFactory
+        from chardata import manage_items_view
+        request = RequestFactory().post('/', fields)
+        return json.loads(getattr(manage_items_view, view)(request).content)
+
+    def _got(self, view):
+        from django.test import RequestFactory
+        from chardata import manage_items_view
+        request = RequestFactory().get('/')
+        return getattr(manage_items_view, view)(request).status_code
+
+    def test_a_bare_get_is_refused_rather_than_answered(self):
+        # choose_item already carried @require_POST and choose_set did not,
+        # which is the whole reason a crawler reached the body at all.
+        self.assertEqual(405, self._got('choose_set'))
+        self.assertEqual(405, self._got('choose_item'))
+
+    def test_a_set_asked_for_with_no_reference_answers_nothing(self):
+        self.assertEqual({}, self._asked('choose_set'))
+
+    def test_an_item_asked_for_with_no_reference_answers_nothing(self):
+        self.assertEqual({}, self._asked('choose_item'))
+
+    def test_a_one_word_reference_answers_nothing(self):
+        # 'Gelano' has no space, so the old code indexed past the split.
+        self.assertEqual({}, self._asked('choose_set', name='Gelano'))
+        self.assertEqual({}, self._asked('choose_item', name='Gelano'))
+        self.assertEqual({}, self._asked('choose_item', name='[DT]'))
+
+    def test_an_id_no_item_carries_answers_nothing(self):
+        # The id was looked up and the miss dereferenced straight away.
+        self.assertEqual({}, self._asked('choose_item', id='999999999'))
+
+    def test_a_real_set_is_still_found(self):
+        from fashionistapulp.structure import get_structure
+        wanted = sorted(get_structure().sets_dict.values(),
+                        key=lambda item_set: item_set.id)[0]
+        answer = self._asked('choose_set',
+                             name='%d %s' % (wanted.id, wanted.name))
+        self.assertEqual(wanted.name, answer['set']['name'])
+        self.assertEqual(wanted.id, answer['set']['id'])
+
+    def test_a_real_set_is_still_found_by_its_id_alone(self):
+        from fashionistapulp.structure import get_structure
+        wanted = sorted(get_structure().sets_dict.values(),
+                        key=lambda item_set: item_set.id)[0]
+        answer = self._asked('choose_set', id=str(wanted.id))
+        self.assertEqual(wanted.name, answer['set']['name'])
 
 
 class ArrivalSourceTests(SimpleTestCase):
