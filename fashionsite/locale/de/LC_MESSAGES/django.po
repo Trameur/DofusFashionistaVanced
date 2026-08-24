@@ -4692,6 +4692,10 @@ msgstr ""
 "Einwilligungsmeldung und über Ihre Google-Anzeigeneinstellungen steuern."
 
 #: .\chardata\templates\chardata\privacy.html:52
+#: chardata/templates/chardata/privacy.html
+msgid "To count a build’s views once per reader rather than once per refresh, we store the visitor’s address alongside that build and delete it after twenty-four hours. Nothing links it to an account."
+msgstr "Um die Aufrufe eines Builds einmal pro Leser statt einmal pro Neuladen zu zählen, speichern wir die Adresse der Besucherin oder des Besuchers neben diesem Build und löschen sie nach vierundzwanzig Stunden. Nichts verbindet sie mit einem Konto."
+
 msgid "Data retention"
 msgstr "Datenspeicherung"
 

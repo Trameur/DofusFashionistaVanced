@@ -24527,3 +24527,57 @@ class SupportClicksCanBeReadWithoutAQueryTests(TestCase):
         """
         self._clic('solution', 3)
         self.assertIn('not donations', self._appel())
+
+
+class ThePolicySaysWhatTheCodeDoesTests(TestCase):
+    """The retention promise and the code that keeps it, tied together.
+
+    The page listed account data and server logs and said nothing about the
+    address kept beside a build to count its views. That silence was survivable
+    while the rows were deleted after a day; they were not, because the command
+    that deletes them was never called by anything.
+
+    Both halves are now true, and both are tested: this class checks the page
+    still makes the promise, and
+    SharedSolutionPageTests.test_a_view_drops_the_addresses_that_have_passed_the_day
+    checks the code still keeps it. Removing either one fails a test.
+    """
+
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
+
+    def test_the_policy_states_the_view_address_retention(self):
+        page = self.client.get('/privacy/', HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(page.status_code, 200)
+        texte = page.content.decode('utf-8')
+        self.assertIn('twenty-four hours', texte)
+        # Dire qu'on garde une adresse sans dire ce qu'on en fait ne vaut rien.
+        self.assertIn('once per reader', texte)
+
+    def test_the_retention_the_policy_states_is_the_one_in_the_code(self):
+        """Twenty-four hours in prose, twenty-four hours in the query.
+
+        A policy quoting one duration over code enforcing another is the way
+        this kind of promise rots: both read fine on their own.
+        """
+        import inspect
+        from chardata import solution_view
+        source = inspect.getsource(solution_view)
+        self.assertIn('timedelta(hours=24)', source)
+        from chardata.management.commands import cleanup_old_views
+        self.assertIn('timedelta(hours=24)',
+                      inspect.getsource(cleanup_old_views))
+
+    def test_the_page_answers_in_every_language_it_offers(self):
+        """A legal page that falls back to English is not translated.
+
+        The sentence was added in five languages at once; a missing catalogue
+        entry would show the English string inside an otherwise French page.
+        """
+        attendu = {'fr': 'vingt-quatre heures', 'es': 'veinticuatro horas',
+                   'pt': 'vinte e quatro horas',
+                   'de': 'vierundzwanzig Stunden'}
+        for langue, phrase in attendu.items():
+            page = self.client.get('/privacy/', HTTP_ACCEPT_LANGUAGE=langue,
+                                   HTTP_USER_AGENT=self.NAVIGATEUR)
+            self.assertEqual(page.status_code, 200, langue)
+            self.assertIn(phrase, page.content.decode('utf-8'), langue)

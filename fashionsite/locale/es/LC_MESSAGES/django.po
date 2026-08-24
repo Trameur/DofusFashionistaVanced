@@ -4680,6 +4680,10 @@ msgstr ""
 "configuración de tus anuncios de Google."
 
 #: .\chardata\templates\chardata\privacy.html:52
+#: chardata/templates/chardata/privacy.html
+msgid "To count a build’s views once per reader rather than once per refresh, we store the visitor’s address alongside that build and delete it after twenty-four hours. Nothing links it to an account."
+msgstr "Para contar las visitas de un build una vez por lector y no una vez por recarga, guardamos la dirección del visitante junto a ese build y la borramos a las veinticuatro horas. Nada la vincula a una cuenta."
+
 msgid "Data retention"
 msgstr "Conservación de los datos"
 
