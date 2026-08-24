@@ -26,6 +26,14 @@ WHAT THE DATA DOES NOT CARRY, so that nobody looks for it here:
 - Sets. 1105 items name an `itemSetId` and 210 distinct sets exist, but no set
   file is published. The official encyclopedia uses the same ids.
 - German. Wakfu has no German locale at all; titles carry fr/en/es/pt only.
+- Equip conditions. A raw item carries exactly six keys, `definition` with
+  `item`, `useEffects`, `useCriticalEffects` and `equipEffects`, plus `title`
+  and `description`. There is no condition field of any kind, so
+  `min_stat_to_equip` and `max_stat_to_equip` stay empty for Wakfu and that is
+  correct rather than missing. The one rule that looks like a condition, the
+  refusal to equip below -9 % critical hit, is a single global limit the
+  client applies to the character total; see wakfu_stats.py. 87 items sell
+  stats in exchange for negative critical hit, down to -20 on one of them.
 - Classes, spells, monsters, zones. Probed against build 1.92.1.60 on
   2026-08-24: `classes.json`, `breeds.json`, `characteristics.json`,
   `aptitudes.json`, `spells.json`, `jobs.json`, `monsters.json` and
