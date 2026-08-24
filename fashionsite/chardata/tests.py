@@ -18863,6 +18863,52 @@ class NothingWritesOutTheVersionsByHandTests(SimpleTestCase):
             with self.subTest(command=command.__name__):
                 self.assertEqual(expected, command.VERSIONS)
 
+    #: Maps that have to name every version the site serves. Each holds real
+    #: per-version data, a colour or a directory or a ruleset, so the VALUE has
+    #: to be written by hand; what must not be is WHICH versions exist. Add a
+    #: sixth version, forget one of these, and it falls back to something
+    #: plausible without saying so. That is what this catches.
+    PER_VERSION_MAPS = (
+        ('chardata.admin_tools_view', 'VERSION_COLOURS'),
+        ('chardata.context_processors', '_GAME_VERSION_SEO_WORDS'),
+        ('chardata.encyclopedia_view', '_INGREDIENT_ICON_DIRS'),
+        ('chardata.forgemagie_data', '_RULESET_BY_VERSION'),
+        ('chardata.smart_build', 'VERSION_WEIGHT_TUNING'),
+        ('fashionistapulp.structure', 'GELANO_DEPLOYED_IDS'),
+    )
+
+    def test_every_map_keyed_by_version_names_the_ones_served(self):
+        import importlib
+        from fashionistapulp.game_versions import version_keys
+        served = set(version_keys())
+        for module_name, attribute in self.PER_VERSION_MAPS:
+            with self.subTest(mapping='%s.%s' % (module_name, attribute)):
+                mapping = getattr(importlib.import_module(module_name),
+                                  attribute)
+                self.assertEqual(
+                    [], sorted(served - set(mapping)),
+                    '%s does not name every version the site serves'
+                    % attribute)
+
+    def test_the_footer_names_a_data_version_for_each(self):
+        from django.conf import settings
+        from fashionistapulp.game_versions import version_keys
+        self.assertEqual(
+            [], sorted(set(version_keys()) - set(settings.SITE_VERSIONS)),
+            'the footer would show no data version for these')
+
+    def test_the_rebuild_tools_name_every_version(self):
+        from fashionistapulp.game_versions import dofus_versions
+        expected = set(dofus_versions())
+        for parts, attribute in (
+                (('itemscraper', 'check_rebuild.py'), 'COMMITTED'),
+                (('itemscraper', 'store_weapon_uses_per_turn.py'), 'WORK_DIR')):
+            with self.subTest(script=parts[-1]):
+                mapping = getattr(self._module(parts), attribute)
+                self.assertEqual([], sorted(expected - set(mapping)),
+                                 '%s in %s misses a version' % (attribute,
+                                                                parts[-1]))
+
 
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.

@@ -30,6 +30,8 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.test import RequestFactory, TestCase
 
+from fashionistapulp.game_versions import version_keys
+
 from chardata.url_language import (KEEP_LANGUAGE_PARAM, build_alternate_urls,
                                    explicit_user_language, language_from_slug,
                                    mark_varies_on_cookie,
@@ -733,7 +735,7 @@ class VersionAndLanguageMatrixTest(TestCase):
     two different things depending on which version a reader is on.
     """
 
-    VERSIONS = ('dofus3', 'beta', 'dofus2', 'retro', 'touch')
+    VERSIONS = tuple(version_keys())
     LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
     HUBS = ('/', '/encyclopedia/', '/encyclopedia/sets/',
             '/encyclopedia/monsters/', '/guides/')

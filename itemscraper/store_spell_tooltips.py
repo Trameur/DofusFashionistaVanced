@@ -22,10 +22,12 @@ import sys
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(CURRENT_DIRECTORY)
-for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
+for path in (PROJECT_ROOT, CURRENT_DIRECTORY,
+             os.path.join(PROJECT_ROOT, 'fashionistapulp')):
     if path not in sys.path:
         sys.path.append(path)
 
+from fashionistapulp.game_versions import dofus_versions  # noqa: E402
 from store_item_obtainment import (  # noqa: E402
     get_items_db_path, _open_items_db, _save_db_to_dump, _resolve_item_id,
     _table_exists)
@@ -275,7 +277,7 @@ def store(game_version, tooltips):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3',
-                        choices=['dofus3', 'beta', 'dofus2', 'retro', 'touch'])
+                        choices=dofus_versions())
     parser.add_argument('--tag', default=None,
                         help='archive under itemscraper/raw to read')
     args = parser.parse_args(argv)

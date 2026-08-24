@@ -28,11 +28,13 @@ import sys
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(CURRENT_DIRECTORY)
-for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
+for path in (PROJECT_ROOT, CURRENT_DIRECTORY,
+             os.path.join(PROJECT_ROOT, 'fashionistapulp')):
     if path not in sys.path:
         sys.path.append(path)
 
 import fashionista_version  # noqa: E402
+from fashionistapulp.game_versions import dofus_versions  # noqa: E402
 from untranslated_tag import clean_description  # noqa: E402
 
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
@@ -485,7 +487,7 @@ def build(game_version, tag=None):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--game-version', default='dofus3',
-                        choices=('dofus3', 'beta', 'dofus2', 'touch', 'retro'))
+                        choices=tuple(dofus_versions()))
     parser.add_argument('--tag', default=None)
     args = parser.parse_args()
 

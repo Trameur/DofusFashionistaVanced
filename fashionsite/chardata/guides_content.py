@@ -12,6 +12,8 @@ ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-
          'versions-explained', 'lock-and-dodge']
 
 
+from fashionistapulp.game_versions import version_keys
+
 from chardata.guides_slugs import GUIDE_SLUGS
 
 GUIDES = {
@@ -5257,7 +5259,7 @@ def canonical_versions(slug):
     if not guide or 'i18n_by_group' not in guide:
         return ['dofus3']
     seen = []
-    for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+    for version in version_keys():
         canonical = guide_canonical_version(slug, version)
         if canonical not in seen:
             seen.append(canonical)
