@@ -6931,6 +6931,10 @@ msgid "What Dofus Players Actually Wear"
 msgstr "Ce que les joueurs de Dofus portent vraiment"
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
+#: chardata/templates/chardata/encyclopedia.html
+msgid "What players actually wear"
+msgstr "Ce que les joueurs portent vraiment"
+
 msgid "What Dofus players actually wear"
 msgstr "Ce que les joueurs de Dofus portent vraiment"
 

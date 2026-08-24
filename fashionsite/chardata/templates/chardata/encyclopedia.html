@@ -22,7 +22,11 @@
 <div class="encyclopedia-page text" id="encyclopedia-page">
     <h1 class="encyclopedia-title">{{ t.title }}</h1>
     <p class="encyclopedia-subtitle small-explain">{{ t.subtitle }}</p>
-    <p align="center" style="margin: 6px 0 10px;"><a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_sets' %}">{% trans "Browse sets (panoplies)" %} &gt;</a> &nbsp; <a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_monsters' %}">{{ mt.monsters_label }} &gt;</a></p>
+    <p align="center" style="margin: 6px 0 10px;"><a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_sets' %}">{% trans "Browse sets (panoplies)" %} &gt;</a> &nbsp; <a class="encyclopedia-page-link" href="{% game_url 'encyclopedia_monsters' %}">{{ mt.monsters_label }} &gt;</a> &nbsp; {% if current_game_version == 'dofus3' %}{% comment %}
+    Sans prefixe de version, et volontairement : les autres versions comptent
+    25, 17, 10 et 1 build indexes, donc zero part publiable. Une route par
+    version donnerait quatre pages vides et presque identiques.
+    {% endcomment %}<a class="encyclopedia-page-link" href="{% url 'encyclopedia_most_used' %}">{% trans "What players actually wear" %} &gt;</a>{% endif %}</p>
 
     <form method="get" class="encyclopedia-filter-box brown-box">
         <input type="hidden" name="order_rows_json" id="order-rows-json" value="">

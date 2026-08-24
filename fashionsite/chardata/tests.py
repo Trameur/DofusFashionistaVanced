@@ -22799,6 +22799,35 @@ class TheMostWornGearPageTests(TestCase):
         self.assertIn('Build a set of your own', page)
         self.assertIn('/setup/', page)
 
+    def test_the_encyclopedia_hub_leads_to_it(self):
+        """A page nothing links to is a page a crawler barely visits.
+
+        It shipped in the sitemap with zero inbound links, which submits an
+        address without giving any reason to walk to it. The hub is where a
+        reader already browsing items would look for it.
+        """
+        carrefour = self.client.get(
+            '/encyclopedia/', HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(carrefour.status_code, 200)
+        self.assertIn(self.CHEMIN, carrefour.content.decode('utf-8'))
+
+    def test_the_other_game_versions_do_not_get_an_empty_copy(self):
+        """Beta, Retro, Touch and Dofus 2 have 25, 17, 10 and 1 build indexed.
+
+        Not one share passes the wearer threshold, so a route per version
+        would publish four near-identical pages saying they have nothing to
+        show. The hub link is guarded for the same reason, so nothing on the
+        site points at an address that answers 404.
+        """
+        for prefixe in ('/beta', '/dofus2', '/retro', '/touch'):
+            reponse = self.client.get(prefixe + self.CHEMIN,
+                                      HTTP_USER_AGENT=self.NAVIGATEUR)
+            self.assertEqual(reponse.status_code, 404, prefixe)
+            carrefour = self.client.get(prefixe + '/encyclopedia/',
+                                        HTTP_USER_AGENT=self.NAVIGATEUR)
+            self.assertNotIn(self.CHEMIN,
+                             carrefour.content.decode('utf-8'), prefixe)
+
 
 class ItemPopularityNeverPrintsSomethingFalseTests(TestCase):
     """A percentage published on 3 436 pages has to be defensible.
