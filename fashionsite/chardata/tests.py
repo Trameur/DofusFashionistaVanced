@@ -17437,6 +17437,70 @@ class LevelRangeFollowsTheGameTests(SimpleTestCase):
                     self.assertIn((stat_id, value), item.stats)
 
 
+class WakfuSetsComeFromTheItemsTests(SimpleTestCase):
+    """Wakfu publishes no set file, so the names are recovered and the totals
+    are computed.
+
+    The encyclopedia has the names under the same ids the items carry, and it
+    also prints a set total that is stale: its Gobball page claims 63 HP where
+    the eight members sum to 65, which the individual item pages confirm. So
+    the name is taken and the total never is.
+    """
+
+    def _wakfu(self):
+        import os
+        from fashionistapulp.fashionista_config import get_items_db_path
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built; run get_items_wakfu.py, '
+                          'get_sets_wakfu.py then build_wakfu_db.py')
+        from fashionistapulp.structure import get_structure
+        return get_structure('wakfu')
+
+    def test_a_set_is_named_in_every_language_the_site_serves(self):
+        wakfu = self._wakfu()
+        self.assertGreater(len(wakfu.sets_dict), 100)
+        for item_set in wakfu.sets_dict.values():
+            with self.subTest(item_set=item_set.id):
+                names = item_set.localized_names
+                for language in ('en', 'fr', 'es', 'pt', 'de'):
+                    self.assertTrue(names.get(language), language)
+                # Wakfu has no German: it reads English, deliberately.
+                self.assertEqual(names['en'], names['de'])
+
+    def test_no_item_points_at_a_set_that_is_not_there(self):
+        # Three sets have lost their encyclopedia page. Their items keep their
+        # stats and simply lose the link, rather than pointing at nothing.
+        wakfu = self._wakfu()
+        known = set(wakfu.sets_dict)
+        # Named rather than asserted against the dict itself: assertIn would
+        # print all 195 sets and their addresses, which is a failure nobody
+        # can read.
+        orphans = sorted({(item.name, item.set)
+                          for item in wakfu.get_concatenated_items_lists()
+                          if getattr(item, 'set', None)
+                          and item.set not in known})
+        self.assertEqual([], orphans[:5],
+                         '%d items point at a set that is not there'
+                         % len(orphans))
+
+    def test_the_gobball_total_is_computed_not_copied(self):
+        wakfu = self._wakfu()
+        gobball = wakfu.sets_dict.get(41)
+        self.assertIsNotNone(gobball, 'set 41 is missing')
+        self.assertEqual('Gobball Set', gobball.localized_names['en'])
+        hp = [stat.id for stat in wakfu.get_stats_list()
+              if stat.key == 'hp'][0]
+        members = [item for item in wakfu.get_concatenated_items_lists()
+                   if getattr(item, 'set', None) == 41]
+        self.assertEqual(8, len(members))
+        total = sum(value for member in members
+                    for stat_id, value in member.stats if stat_id == hp)
+        self.assertEqual(65, total)
+        # The number Ankama's own set page prints. If this ever starts
+        # matching, they fixed their roll-up and this comment is the history.
+        self.assertNotEqual(63, total)
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 

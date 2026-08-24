@@ -16,13 +16,13 @@ Two facts have nowhere to sit in that schema, so `wakfu_db.py` adds one small
 table each, and both exist only here: the rarity tier, and how many elements a
 mastery line spreads over. See that module for why neither fits `stats_of_item`.
 
-WHAT THIS DOES NOT WRITE, so nobody hunts for it:
+Sets are filled from what `get_sets_wakfu.py` recovered, because the CDN
+publishes no set file: only the NAME comes from the encyclopedia, never the
+bonus total it prints, which is stale. A set whose page has gone (three of
+them) keeps its items and simply has no name to show.
 
-- Sets. Items carry `itemSetId` and the CDN publishes no set file at all, so
-  `sets` stays empty and `items.item_set` stays null until the names are
-  recovered from the encyclopedia.
-- German. Wakfu has no German locale; `get_items_wakfu.py` already falls the
-  German name back to English, and that is what lands here.
+German is absent from Wakfu entirely; `get_items_wakfu.py` and
+`get_sets_wakfu.py` both fall it back to English, and that is what lands here.
 """
 
 from __future__ import annotations
@@ -72,9 +72,19 @@ def stat_name(key):
     return key.replace('_PERCENT', '').replace('_', ' ').title()
 
 
-def build(dump_path, db_path):
+def read_sets(out_dir, version):
+    """{set id: {language: name}} from get_sets_wakfu.py, or nothing yet."""
+    path = Path(out_dir) / version / 'sets.json'
+    if not path.exists():
+        return {}
+    with io.open(path, encoding='utf-8') as handle:
+        return {int(key): names for key, names in json.load(handle).items()}
+
+
+def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
     with io.open(dump_path, encoding='utf-8') as handle:
         dump = json.load(handle)
+    sets = read_sets(out_dir, dump['version'])
 
     if db_path.exists():
         db_path.unlink()
@@ -96,6 +106,14 @@ def build(dump_path, db_path):
         conn.execute('INSERT INTO stats (id, name, key) VALUES (?, ?, ?)',
                      (number, stat_name(key), key.lower()))
 
+    for set_id, names in sorted(sets.items()):
+        conn.execute('INSERT INTO sets (id, name, ankama_id, dofustouch)'
+                     ' VALUES (?, ?, ?, 0)',
+                     (set_id, names.get('en'), set_id))
+        for language, name in sorted(names.items()):
+            conn.execute('INSERT INTO set_names (item_set, language, name)'
+                         ' VALUES (?, ?, ?)', (set_id, language, name))
+
     counts = collections.Counter()
     for item in dump['equipment']:
         positions = [p for p in item['positions'] if p in GEAR]
@@ -106,13 +124,21 @@ def build(dump_path, db_path):
         # the game lists, and the model reads `item_flags` to know it fits the
         # other hand too.
         item_id = item['id']
+        # A set the encyclopedia no longer has a page for keeps its items
+        # and simply goes unnamed, rather than the items losing their set.
+        set_id = item.get('set_id')
+        if set_id and set_id not in sets:
+            counts['set with no page'] += 1
+            set_id = None
         conn.execute(
             'INSERT INTO items (id, name, level, type, item_set, ankama_id,'
             ' ankama_type, removed, dofustouch, skin)'
-            ' VALUES (?, ?, ?, ?, NULL, ?, ?, 0, 0, NULL)',
+            ' VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, NULL)',
             (item_id, item['name'].get('en'), item['level'],
-             slot_ids[positions[0]], item_id, positions[0]))
+             slot_ids[positions[0]], set_id, item_id, positions[0]))
         counts['items'] += 1
+        if set_id:
+            counts['items in a set'] += 1
 
         for language in LANGUAGES:
             name = item['name'].get(language)
@@ -169,13 +195,15 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dump', default='itemscraper/transformed_wakfu.json')
     parser.add_argument('--db', default=str(WAKFU_DB))
+    parser.add_argument('--out', default='itemscraper/wakfu_raw',
+                        help='where get_sets_wakfu.py wrote the set names')
     args = parser.parse_args(argv)
 
     dump_path = Path(args.dump)
     if not dump_path.exists():
         parser.error('%s is missing; run itemscraper/get_items_wakfu.py first'
                      % dump_path)
-    counts = build(dump_path, Path(args.db))
+    counts = build(dump_path, Path(args.db), args.out)
     print('wrote %s' % args.db)
     for name, count in sorted(counts.items()):
         print('   %-28s %6d' % (name, count))
