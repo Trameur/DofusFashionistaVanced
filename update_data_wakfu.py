@@ -14,6 +14,7 @@ update_data.py and its siblings beyond the shape of this file.
 Steps:
     data/mirror    get_items_wakfu.py       -> wakfu_raw/<build>/ + transformed_wakfu.json
     data/sets      get_sets_wakfu.py        -> wakfu_raw/<build>/sets.json
+    data/spells    get_spells_wakfu.py      -> wakfu_raw/<build>/spells_<lang>.json
     items/build-db build_wakfu_db.py        -> items_wakfu.db
     items/recipes  build_wakfu_recipes.py   -> the four crafting tables
     item-images    get_item_images_wakfu.py -> static/chardata/items/wakfu/64/
@@ -47,7 +48,12 @@ So: WHICH TABLES BELONG TO WHOM.
 
 data/sets sits between the mirror and the build because it needs the decoded
 dump to know which set ids exist, and the build needs its output to name them.
-The crafting files are mirrored by data/mirror but nothing decodes them yet.
+
+data/spells writes into the MIRROR and touches no table, so it is not in the
+ownership list above and its position does not matter for safety. It is here
+so that one command still rebuilds everything Wakfu. It only fetches spells it
+does not already have, which is what makes it affordable at all: a first run
+is 715 pages of half a megabyte per language, a second is 18.
 """
 
 from __future__ import annotations
@@ -138,6 +144,8 @@ def main(argv=None):
                         help='reuse the local mirror instead of asking the CDN')
     parser.add_argument('--skip-sets', action='store_true',
                         help='reuse the set names already recovered')
+    parser.add_argument('--skip-spells', action='store_true',
+                        help='reuse the spells already collected')
     args = parser.parse_args(argv)
 
     started = time.time()
@@ -159,6 +167,10 @@ def main(argv=None):
         step('data/mirror', [PY, 'itemscraper/get_items_wakfu.py'])
     if not args.skip_sets:
         step('data/sets', [PY, 'itemscraper/get_sets_wakfu.py'])
+    if not args.skip_spells:
+        for language in ('fr', 'en'):
+            step('data/spells %s' % language,
+                 [PY, 'itemscraper/get_spells_wakfu.py', '--lang', language])
 
     # Everything below writes into items_wakfu.db, and this step deletes it
     # first. Nothing that fills a table may move above this line.

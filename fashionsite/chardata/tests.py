@@ -18021,6 +18021,153 @@ class WakfuGearReachesFarPastAnyCapTests(SimpleTestCase):
                         'rule could have been about one piece')
 
 
+class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
+    """The 715 spells, checked against the shape Ankama publishes them in.
+
+    Ankama's data feed has no spells at all: classes.json and spells.json both
+    answer 403. The encyclopedia has every one of them, and a spell page embeds
+    all 245 levels at once, so one fetch is one spell.
+    """
+
+    HARVEST = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), 'itemscraper', 'wakfu_raw', '1.92.1.60',
+        'spells_fr.json')
+    _cache = {}
+
+    def _spells(self):
+        # The harvest is 68 MB a language, so it is read once per process and
+        # shared, not once per test.
+        return self._harvest('fr')
+
+    def test_every_class_is_there_with_a_full_book(self):
+        # 18 classes, ids 1 to 19 with 17 missing, and none of them thin. The
+        # Ouginak once came back with nothing at all because Ankama links its
+        # spells under an empty slug, and a class with zero spells looked
+        # exactly like a class that simply has none.
+        spells = self._spells()
+        by_class = {}
+        for spell in spells.values():
+            by_class.setdefault(spell['class'], 0)
+            by_class[spell['class']] += 1
+        self.assertEqual(18, len(by_class))
+        self.assertNotIn(17, by_class)
+        for class_id, count in sorted(by_class.items()):
+            with self.subTest(wakfu_class=class_id):
+                self.assertGreater(count, 25)
+
+    def test_a_spell_carries_all_of_its_levels(self):
+        # The level selector runs 1 to 245 and everything is already in the
+        # page. Building the level list from the AP cost alone lost every
+        # spell that costs none, which was half of them.
+        spells = self._spells()
+        for spell in list(spells.values())[:40]:
+            with self.subTest(spell=spell['name']):
+                levels = spell['levels']
+                self.assertEqual(245, len(levels))
+                self.assertIn('1', levels)
+                self.assertIn('245', levels)
+
+    def test_damage_grows_with_the_level(self):
+        spells = self._spells()
+        checked = 0
+        for spell in spells.values():
+            first = spell['levels']['1']['damage']
+            last = spell['levels']['245']['damage']
+            if not first or not last or len(first) != len(last):
+                continue
+            checked += 1
+            with self.subTest(spell=spell['name']):
+                self.assertGreater(sum(v for _e, v in last),
+                                   sum(v for _e, v in first))
+        self.assertGreater(checked, 100, 'almost no spell had damage to check')
+
+    # A full book is 715 spells in French and 710 in English. Anything much
+    # smaller is a run that was interrupted or a deliberately limited one, and
+    # asserting completeness against it would fail for a reason that says
+    # nothing about the code.
+    A_FULL_BOOK = 700
+
+    def _harvest(self, language):
+        path = self.HARVEST.replace('spells_fr.json', 'spells_%s.json' % language)
+        if not os.path.exists(path):
+            self.skipTest('no Wakfu spells collected in %s; run '
+                          'itemscraper/get_spells_wakfu.py --lang %s'
+                          % (language, language))
+        if language not in self._cache:
+            with io.open(path, encoding='utf-8') as handle:
+                self._cache[language] = json.load(handle)
+        book = self._cache[language]
+        if len(book) < self.A_FULL_BOOK:
+            self.skipTest('the %s harvest holds %d spells, not a full book'
+                          % (language, len(book)))
+        return book
+
+    def test_the_numbers_are_the_same_in_both_languages(self):
+        # A damage figure is not a translation, so the two harvests must agree
+        # on every spell they share. They did not, once: French writes
+        # "Dommages : 32 supplementaires" and English "damage: additional 32",
+        # and a pattern that wanted a digit straight after the colon read one
+        # and dropped the other. One spell out of 706 was enough to see it, and
+        # it looked like Ankama contradicting itself rather than a parser
+        # reading only French.
+        french, english = self._harvest('fr'), self._harvest('en')
+        shared = sorted(set(french) & set(english), key=int)
+        self.assertGreater(len(shared), 600)
+        disagree = []
+        for spell_id in shared:
+            for level in ('1', '100', '245'):
+                left = french[spell_id]['levels'][level]
+                right = english[spell_id]['levels'][level]
+                if left['damage'] != right['damage']:
+                    disagree.append((french[spell_id]['name'], level,
+                                     left['damage'], right['damage']))
+                    break
+                if left['ap'] != right['ap'] or left['range'] != right['range']:
+                    disagree.append((french[spell_id]['name'], level,
+                                     left['ap'], right['ap']))
+                    break
+        self.assertEqual([], disagree[:5],
+                         '%d spells read differently in the two languages'
+                         % len(disagree))
+
+    def test_only_the_sram_has_a_different_book_per_language(self):
+        # Ankama's own inconsistency, not this project's: the French pages
+        # carry a reworked Sram, nine spells the English pages have never
+        # heard of, while English still lists four the French dropped. Every
+        # other class matches spell for spell. Pinned so that the day it is
+        # fixed, or spreads to another class, somebody notices.
+        french, english = self._harvest('fr'), self._harvest('en')
+        classes = set()
+        for spell_id in set(french) ^ set(english):
+            book = french if spell_id in french else english
+            classes.add(book[spell_id]['class'])
+        self.assertEqual({4}, classes)
+
+    def test_a_branch_disagrees_with_its_damage_only_over_light(self):
+        # Light is a real fifth damage element that no gear sells, and eight
+        # Huppermage spells sit in an elemental branch while dealing it. A
+        # check that simply demanded branch == damage would call Ankama wrong.
+        from fashionistapulp.wakfu_stats import DAMAGE_ELEMENTS_NO_GEAR_SELLS
+        spells = self._spells()
+        odd = []
+        lit = set()
+        for spell in spells.values():
+            elements = {element for element, _value
+                        in spell['levels']['245']['damage']}
+            if 'LIGHT' in elements:
+                lit.add(spell['class'])
+            if not spell['element'] or not elements:
+                continue
+            if spell['element'] not in elements:
+                if elements <= set(DAMAGE_ELEMENTS_NO_GEAR_SELLS):
+                    continue
+                odd.append((spell['name'], spell['element'], sorted(elements)))
+        self.assertEqual([], odd[:5])
+        self.assertGreater(len(lit), 5,
+                           'light turned out to be one class only, so it is '
+                           'not the general mechanic this assumes')
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 
@@ -21979,6 +22126,61 @@ class DonationButtonTests(TestCase):
         for link in (getattr(settings, 'SUPPORT_LINKS', []) or []):
             self.assertNotIn('href="%s"' % link['url'], html,
                              'a raw donation link escapes the counter')
+
+
+class PagesSayInSearchWhatTheyAreForTests(TestCase):
+    """What a page calls itself in a result list decides whether it is opened.
+
+    Measured in Search Console over 28 days: /setup/ ranks sixth on "dofus set
+    builder", takes 2 143 impressions and gets 16 clicks. /loadprojects/ takes
+    1 690 impressions and gets 3. Both announced themselves as "The Dofus
+    Fashionista: Project Details" and "...: Load a Project", and both fell back
+    to the same site-wide description, so neither said anything to somebody
+    reading ten results.
+
+    The site name goes last because Google truncates, and the half that gets
+    cut has to be the half that is the same on every page.
+    """
+
+    GENERIQUE = 'Get Dofus sets created automatically'
+
+    def _head(self, chemin, langue='en'):
+        import re
+        html = self.client.get(chemin, HTTP_ACCEPT_LANGUAGE=langue).content.decode('utf-8')
+        titre = re.search(r'<title>([^<]*)</title>', html)
+        # Le minifieur reordonne les attributs, donc on cherche les deux sens.
+        descr = (re.search(r'name="description" content="([^"]*)"', html)
+                 or re.search(r'content="([^"]*)" name="description"', html))
+        return (titre.group(1) if titre else ''), (descr.group(1) if descr else '')
+
+    def test_the_set_builder_names_itself_before_the_site(self):
+        titre, _ = self._head('/setup/')
+        self.assertTrue(titre.startswith('Dofus Set Builder'), titre)
+        self.assertNotIn('Project Details', titre)
+
+    def test_the_set_builder_has_a_description_of_its_own(self):
+        _, descr = self._head('/setup/')
+        self.assertNotIn(self.GENERIQUE, descr)
+        self.assertIn('class', descr)
+
+    def test_the_saved_sets_page_says_what_it_holds(self):
+        titre, descr = self._head('/loadprojects/')
+        self.assertTrue(titre.startswith('Your Saved Dofus Sets'), titre)
+        self.assertNotIn('Load a Project', titre)
+        self.assertNotIn(self.GENERIQUE, descr)
+
+    def test_a_french_reader_reads_it_in_french(self):
+        titre, descr = self._head('/setup/', 'fr')
+        self.assertIn('stuff', titre.lower())
+        self.assertIn('optimiseur', descr)
+
+    def test_the_site_name_is_still_there_and_still_last(self):
+        """Dropping it entirely would cost the brand searches, which are 77 per
+        cent of the clicks this site gets."""
+        for chemin in ('/setup/', '/loadprojects/'):
+            titre, _ = self._head(chemin)
+            self.assertIn('Dofus Fashionista', titre, chemin)
+            self.assertGreater(titre.index('Dofus Fashionista'), 5, chemin)
 
 
 class ItemPopularityNeverPrintsSomethingFalseTests(TestCase):

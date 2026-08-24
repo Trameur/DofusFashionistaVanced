@@ -43,9 +43,32 @@ encyclopedia, up to and including the level 170 one. How a roll is chosen in
 1.92 is not settled here, and nothing in this file depends on it.
 """
 
-# The four elements, in the order Ankama uses to break ties. Confirmed by an
-# Ankama developer on their forum, 2017-08-29, for chromatic damage.
+# The four elements gear can buy, in the order Ankama uses to break ties.
+# Confirmed by an Ankama developer on their forum, 2017-08-29, for chromatic
+# damage.
 ELEMENTS = ('FIRE', 'WATER', 'EARTH', 'AIR')
+
+# A FIFTH DAMAGE ELEMENT EXISTS AND NO GEAR TOUCHES IT. Ankama's own
+# actions.json declares action 1083 "Dommage : Lumiere" and 1084 "Soin :
+# Lumiere", both marked [el6], beside action 1 "Dommage : Neutre" marked [el0].
+# Not one item in 1.92 uses any of the four: of the 71 actions the file
+# declares, items use 63, and these are among the eight left over.
+#
+# The spells do use it. 39 of the 715 spells collected from the encyclopedia
+# deal Light damage, spread over 12 of the 18 classes, so this is a general
+# mechanic and not one class's quirk. The Huppermage is simply the class where
+# it shows most: eight of its spells sit in a fire, water, earth or air branch
+# and deal Light, which is why a spell's branch and its damage element
+# genuinely disagree there and no parser is at fault.
+#
+# What it means for a damage model: Light damage cannot be raised by any of the
+# four elemental masteries, because none exists for it, and cannot be reduced
+# by any elemental resistance either. Whatever scales it, gear is not it.
+#
+# Kept here rather than in ELEMENTS because a build has nothing to spend on it.
+# Zero items carrying a stat proves that no gear sells it, never that the game
+# lacks the mechanic.
+DAMAGE_ELEMENTS_NO_GEAR_SELLS = ('LIGHT', 'NEUTRAL')
 
 # What a stat is for, which is what decides how the model may treat it.
 PRIMARY = 'primary'          # the resources a turn spends
