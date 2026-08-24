@@ -37,6 +37,7 @@ import re
 
 from django.core.management.base import BaseCommand, CommandError
 from django.test import Client
+from fashionistapulp.game_versions import dofus_versions
 
 # How many distinct internal links to follow. The listing pages link to a
 # thousand items between them; the budget is a runaway guard, not a sample,
@@ -44,7 +45,11 @@ from django.test import Client
 LINK_BUDGET = 2000
 _HREF = re.compile(r'href="(/[^"#?]*)"')
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+# The Dofus versions, from the registry rather than a list written out
+# by hand. A version added there and missed here is a version this
+# quietly skips, which is the whole failure the registry exists to end.
+# Wakfu is not among them: it is not a Dofus version.
+VERSIONS = tuple(dofus_versions())
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 
 # Public routes, without their version prefix.

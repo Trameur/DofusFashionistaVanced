@@ -93,6 +93,14 @@ whole range and only the numbers inside it move.
 which read "Dommage : 10 %" of the caster's health. Stored as a flat 10 they
 would sit in the data looking like the feeblest hit in the game.
 
+`spell_effects.conditional` says whether a row lands on a plain cast. A spell's
+figures are NOT a sum: the Cra's Fleche d'immolation lists 60, 121 and 181, and
+those are alternatives, while the Iop's Bastonnade says 250 "a la place" of 83.
+Adding them up put one class at three times the damage per AP of its nearest
+neighbour, which is what made the question worth asking. Ankama marks a
+conditional row with ": -" before it, and punctuation is the same in every
+language, which is why this is read from the markup and not from words.
+
 Nothing about doubling lives here. Whether two copies of one ring may be worn
 is a rule of the game and sits in `game_versions.rings_can_double`, which is
 also why storing the real names was safe: the model used to read that rule off
@@ -139,6 +147,7 @@ SCHEMA = (
     """CREATE TABLE spell_effects
              (spell INTEGER, level INTEGER, position INTEGER, kind TEXT,
               element TEXT, value INTEGER, is_percent INTEGER,
+              conditional INTEGER,
               PRIMARY KEY (spell, level, position),
               FOREIGN KEY(spell) REFERENCES spells(id))""",
     """CREATE TABLE spell_text

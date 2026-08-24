@@ -45,6 +45,14 @@ HERE = Path(__file__).resolve().parent.parent
 
 # French decides which spells exist and what they do; see the docstring.
 AUTHORITY = 'fr'
+
+# The same vocabulary the harvester uses to tell a damage row from a heal.
+DAMAGE_WORDS = frozenset((
+    'dommage', 'dommages', 'damage', 'damages',
+    'dano', 'danos', 'daño', 'daños'))
+HEAL_WORDS = frozenset((
+    'soin', 'soins', 'heal', 'heals', 'healing',
+    'cura', 'curas', 'curação', 'curación'))
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 FALLBACK = {'de': 'en'}
 
@@ -126,30 +134,33 @@ def build(db_path, raw_dir):
                 counts['names'] += 1
 
             for level, row in sorted(levels.items(), key=lambda kv: int(kv[0])):
+                # Straight from `rows`, which carries the label, the per cent
+                # sign and whether the row is conditional. Reading the derived
+                # `damage` and `healing` lists instead would lose both marks,
+                # and a build shown the sum of alternatives is a build shown a
+                # number the game never deals.
                 position = 0
-                for kind in ('damage', 'healing'):
-                    for element, value in row[kind]:
-                        conn.execute(
-                            'INSERT INTO spell_effects (spell, level, position,'
-                            ' kind, element, value, is_percent)'
-                            ' VALUES (?, ?, ?, ?, ?, ?, 0)',
-                            (int(spell_id), int(level), position, kind,
-                             element, value))
-                        position += 1
-                        counts['effects'] += 1
-                # A per cent is not a quantity of damage, so it is kept apart
-                # rather than added to one. `rows` carries the sign.
-                for label, element, value, unit in row.get('rows') or ():
-                    if unit != '%':
+                for label, element, value, unit, conditional in (
+                        row.get('rows') or ()):
+                    words = {word.lower() for word in label.split()}
+                    if words & DAMAGE_WORDS:
+                        kind = 'damage'
+                    elif words & HEAL_WORDS:
+                        kind = 'healing'
+                    else:
+                        counts['row labelled %s, not stored' % label.lower()] += 1
                         continue
                     conn.execute(
                         'INSERT INTO spell_effects (spell, level, position,'
-                        ' kind, element, value, is_percent)'
-                        ' VALUES (?, ?, ?, ?, ?, ?, 1)',
-                        (int(spell_id), int(level), position, 'damage',
-                         element, value))
+                        ' kind, element, value, is_percent, conditional)'
+                        ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                        (int(spell_id), int(level), position, kind,
+                         element, value, 1 if unit == '%' else 0,
+                         1 if conditional else 0))
                     position += 1
-                    counts['effects given as a per cent'] += 1
+                    counts['effects'] += 1
+                    counts['effects that only land sometimes'] += bool(conditional)
+                    counts['effects given as a per cent'] += unit == '%'
         conn.commit()
     finally:
         conn.close()

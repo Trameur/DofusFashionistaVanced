@@ -44,8 +44,13 @@ from django.test import Client
 from fashionistapulp.dofus_constants import SLOTS, SLOT_NAME_TO_TYPE
 from fashionistapulp.modelresult import ModelResultMinimal
 from fashionistapulp.structure import get_structure, set_current_game_version
+from fashionistapulp.game_versions import dofus_versions
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+# The Dofus versions, from the registry rather than a list written out
+# by hand. A version added there and missed here is a version this
+# quietly skips, which is the whole failure the registry exists to end.
+# Wakfu is not among them: it is not a Dofus version.
+VERSIONS = tuple(dofus_versions())
 
 # What the page sends, and what nothing sends on purpose. The search terms are
 # the interesting half: a term is what pulls an odd item onto page 1.

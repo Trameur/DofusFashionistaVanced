@@ -63,6 +63,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+import hashlib
 import html
 import http.cookiejar
 from html.parser import HTMLParser
@@ -159,6 +160,24 @@ HEAL_WORDS = frozenset((
     'soin', 'soins', 'heal', 'heals', 'healing',
     'cura', 'curas', 'curação', 'curación'))
 SELECTOR_MAX = re.compile(r'class="ak-level-selector-max"[^>]*>\s*(\d+)')
+
+
+def fingerprint():
+    """What produced a harvest, so two of them can be told apart.
+
+    A harvest of four languages takes over an hour and rewrites them one after
+    another, so for most of that hour one file was read by a different version
+    of this script than the rest. Comparing them then says nothing about
+    Ankama and everything about the clock.
+
+    An earlier attempt used the SHAPE of a row as the fingerprint, and it
+    worked until the day a change altered what the parser decided without
+    altering what it stored. The whole source is hashed instead: any change at
+    all gives a new fingerprint, which is the honest answer, since any change
+    at all may alter a reading.
+    """
+    with io.open(__file__, 'rb') as handle:
+        return hashlib.sha256(handle.read()).hexdigest()[:16]
 
 
 def opener():
@@ -276,6 +295,63 @@ def _words_before(items, at):
     return ' '.join(words[-3:])
 
 
+# Ankama introduces a conditional row with ": -", and punctuation is the same
+# in every language. "Si la cible est Bastonne : - Dommage <img> : 250" is a
+# row that only lands sometimes; "Se rapproche de la cible Dommage <img> : 121"
+# always does.
+#
+# The label may sit between the colon and the image, as it does in French, so
+# it is allowed for and skipped: what must end the run is the colon and the
+# dash, not the word.
+#
+# At most THREE words may stand between the dash and the figure, which is as
+# many as a label ever has. Allowing thirty characters of anything let "form:
+# - Moves closer to the target Damage" read as a condition, and English then
+# disagreed with French about a spell that always lands.
+#
+# How much may stand between them depends on WHERE the label is. English
+# writes "<img> Damage: 90", so its label is on the far side and NOTHING
+# should sit between the dash and the image; allowing three words there read
+# "form: - Switches places <img> Damage: 90" as a condition. French and
+# Portuguese write "- Dommage <img> : 90", so the label itself stands in the
+# gap and must be allowed for. Portuguese also doubles the colon, "Dano: :
+# 90", so the label may end with one.
+INTRODUCED_BARE = re.compile(r":\s*-\s*$")
+INTRODUCED = re.compile(
+    r":\s*-\s*(?:[A-Za-zÀ-ÿ']{2,20}\s+){0,2}[A-Za-zÀ-ÿ']{0,20}\s*:?\s*$")
+
+# How far back to look for it. Long enough to cross a bold marker and a target
+# icon, short enough not to reach the row before.
+INTRODUCTION_REACH = 60
+
+
+def _is_conditional(items, at, label_after=None):
+    """Whether the row at `at` only lands when something else is true.
+
+    Read from the punctuation and not from the words. A first attempt looked
+    for "Si", "If", "Cuando" and their friends anywhere before the figure, and
+    the four languages disagreed on 59 spells out of 286: Portuguese says
+    "Troca de lugar" for switching places, and "lugar" was in the list as the
+    Spanish for "instead". A marker word can appear by accident. Punctuation
+    does not translate.
+
+    The ": -" is not always in the run of text next to the figure. Ankama puts
+    a bold marker or a target icon in the middle of it, so "current hour:" and
+    "- " arrive as two separate runs with an image between them. Reading only
+    the nearest run missed those, in one language and not the other, which is
+    how it was found.
+    """
+    tail = ''
+    for kind, value in reversed(items[:at]):
+        if kind == 'element':
+            continue
+        tail = value + tail
+        if len(tail) >= INTRODUCTION_REACH:
+            break
+    pattern = INTRODUCED_BARE if label_after else INTRODUCED
+    return bool(pattern.search(tail))
+
+
 def _pick_label(before, after):
     """Which side of the image says what the number is.
 
@@ -328,8 +404,9 @@ def effect_rows(markup, report=None):
         if not figure:
             continue
         label = _pick_label(_words_before(items, at), figure.group(1))
-        out.append((label, value,
-                    int(figure.group(2)), figure.group(3) or ''))
+        out.append((label, value, int(figure.group(2)),
+                    figure.group(3) or '',
+                    _is_conditional(items, at, figure.group(1))))
     return out
 
 
@@ -341,7 +418,7 @@ def of_kind(rows, words, report=None, kind=''):
     three. It stays in `rows`, with its sign, for whoever wants it.
     """
     out = []
-    for label, element, value, unit in rows:
+    for label, element, value, unit, _conditional in rows:
         said = {word for word in re.split(r'\s+', label.lower()) if word}
         if unit == '%':
             if report is not None and kind == 'damage' and (said & words):
@@ -544,6 +621,11 @@ def main(argv=None):
     spells = collect(args.lang, classes, args.limit, report, known)
     path.write_text(json.dumps(spells, ensure_ascii=False, indent=1,
                                sort_keys=True), encoding='utf-8')
+    # Beside the harvest, never inside it: a reader that walks the spells must
+    # not have to know about a key that is not one.
+    (target / ('spells_%s.meta.json' % args.lang)).write_text(
+        json.dumps({'parser': fingerprint(), 'spells': len(spells)},
+                   indent=1, sort_keys=True), encoding='utf-8')
     print('wrote %s' % path)
     for name, count in sorted(report.items()):
         print('   %-34s %6d' % (name, count))

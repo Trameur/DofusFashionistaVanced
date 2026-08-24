@@ -41,8 +41,13 @@ for path in (PROJECT_ROOT, CURRENT_DIR, os.path.join(PROJECT_ROOT, 'fashionistap
         sys.path.append(path)
 
 from fashionistapulp.fashionista_config import get_items_db_path  # noqa: E402
+from fashionistapulp.game_versions import dofus_versions
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
+# The Dofus versions, from the registry rather than a list written out
+# by hand. A version added there and missed here is a version this
+# quietly skips, which is the whole failure the registry exists to end.
+# Wakfu is not among them: it is not a Dofus version.
+VERSIONS = tuple(dofus_versions())
 # dofus3 keeps its committed copy in the dump and builds items.db from it.
 COMMITTED = {
     'dofus3': 'fashionistapulp/fashionistapulp/item_db_dumped.dump',

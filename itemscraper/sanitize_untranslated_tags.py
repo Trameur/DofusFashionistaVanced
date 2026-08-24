@@ -19,8 +19,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from store_item_obtainment import (  # noqa: E402
     _load_db_from_dump, _save_db_to_dump, get_items_db_path)
 from untranslated_tag import strip_tag_everywhere, tagged_rows  # noqa: E402
+from fashionistapulp.game_versions import dofus_versions  # noqa: E402
 
-VERSIONS = ('dofus3', 'beta', 'dofus2', 'retro', 'touch')
+# The Dofus versions, from the registry rather than a list written out
+# by hand. A version added there and missed here is a version this
+# quietly skips, which is the whole failure the registry exists to end.
+# Wakfu is not among them: it is not a Dofus version.
+VERSIONS = tuple(dofus_versions())
 
 
 def main():

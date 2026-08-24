@@ -18122,30 +18122,39 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                           % (language, len(book)))
         return book
 
-    def _same_parser(self, left, right):
+    def _stamp(self, language):
+        """What produced a harvest, from the file the harvester writes beside it."""
+        path = self.HARVEST.replace('spells_fr.json',
+                                    'spells_%s.meta.json' % language)
+        if not os.path.exists(path):
+            return None
+        with io.open(path, encoding='utf-8') as handle:
+            return json.load(handle).get('parser')
+
+    def _same_parser(self, left, right, languages=('fr', 'en')):
         """Refuse to compare two harvests that were not read the same way.
 
-        Collecting four languages takes over an hour, so for most of that hour
-        one file is new and another is old. Comparing them then says nothing
-        about Ankama and everything about the clock, which is exactly the
-        failure that cost two sessions an afternoon.
+        Collecting four languages takes over an hour and rewrites them one
+        after another, so for most of that hour one file was read by a
+        different version of the harvester than the rest. Comparing them then
+        says nothing about Ankama and everything about the clock.
 
-        Nothing needs stamping to tell them apart: the shape of a row IS the
-        fingerprint. A row gained a fourth field, the per cent sign, when the
-        parser learned that "Dommage : 10 %" is not ten damage.
+        The first version of this used the SHAPE of a row as the fingerprint,
+        which needed nothing stamping and worked until a change altered what
+        the parser DECIDED without altering what it stored: the conditional
+        mark moved and every row still had five fields. The harvester now
+        writes a hash of its own source beside each harvest, so any change at
+        all shows, which is the honest answer since any change at all may move
+        a reading.
         """
-        def shape(book):
-            for spell in book.values():
-                for level in spell['levels'].values():
-                    for row in level.get('rows') or ():
-                        return len(row)
-            return 0
-
-        here, there = shape(left), shape(right)
+        here, there = (self._stamp(language) for language in languages)
+        if here is None or there is None:
+            self.skipTest('a harvest carries no parser stamp; re-run '
+                          'get_spells_wakfu.py for %s and %s' % languages)
         if here != there:
-            self.skipTest('the two harvests were read by different parsers, '
-                          '%d fields against %d; re-run get_spells_wakfu.py '
-                          'for both before comparing them' % (here, there))
+            self.skipTest('%s and %s were read by different parsers, %s '
+                          'against %s; re-run both before comparing them'
+                          % (languages[0], languages[1], here, there))
 
     def test_the_numbers_are_the_same_in_both_languages(self):
         # A damage figure is not a translation, so the two harvests must agree
@@ -18174,6 +18183,60 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                     break
         self.assertEqual([], disagree[:5],
                          '%d spells read differently in the two languages'
+                         % len(disagree))
+
+    def test_the_four_languages_agree_on_which_rows_are_conditional(self):
+        """Whether a row lands is not a translation either.
+
+        A spell's figures are not a sum. The Cra's Fleche d'immolation lists
+        60, 121 and 181 and those are alternatives; the Iop's Bastonnade says
+        250 "a la place" of 83. Adding them up put one class at three times
+        the damage per AP of its nearest neighbour.
+
+        The first attempt at telling them apart looked for "Si", "If",
+        "Cuando" and their friends. The four languages disagreed on 59 spells
+        out of 286, and the reason was not a missing word: Portuguese says
+        "Troca de lugar" for switching places, and "lugar" was in the list as
+        the Spanish for "instead". A marker word can turn up by accident.
+
+        Ankama introduces a conditional row with ": -", and punctuation does
+        not translate. This holds the four harvests to that.
+        """
+        books = {language: self._harvest(language)
+                 for language in ('fr', 'en', 'es', 'pt')}
+        french = books['fr']
+        # All FOUR, not just the two the older check covered: a harvest of
+        # four languages rewrites them one after another, so for most of an
+        # hour one of them is older than the rest.
+        for language in ('en', 'es', 'pt'):
+            self._same_parser(french, books[language], ('fr', language))
+        if not any(len(row) > 4
+                   for spell in french.values()
+                   for level in spell['levels'].values()
+                   for row in level.get('rows') or ()):
+            self.skipTest('this harvest predates the conditional mark')
+
+        def flags(book, spell_id):
+            rows = book[spell_id]['levels']['245'].get('rows') or ()
+            return tuple(bool(row[4]) for row in rows if len(row) > 4)
+
+        disagree, marked = [], 0
+        for spell_id in sorted(set(french) & set(books['en']), key=int):
+            here = flags(french, spell_id)
+            marked += sum(here)
+            for language in ('en', 'es', 'pt'):
+                if spell_id not in books[language]:
+                    continue
+                theirs = flags(books[language], spell_id)
+                if theirs != here:
+                    disagree.append((french[spell_id]['name'], language,
+                                     here, theirs))
+                    break
+        self.assertGreater(marked, 20,
+                           'nothing was marked conditional, so nothing was '
+                           'tested')
+        self.assertEqual([], disagree[:5],
+                         '%d spells read differently in two languages'
                          % len(disagree))
 
     def test_only_the_sram_has_a_different_book_per_language(self):
@@ -18417,6 +18480,33 @@ class WakfuSpellTablesHoldOnlyWhatVariesTests(SimpleTestCase):
         finally:
             conn.close()
 
+    def test_a_conditional_row_is_marked_and_most_are_not(self):
+        # A spell that only ever hits under a condition exists, and so does a
+        # spell whose every row lands: if the mark were stuck at one value it
+        # would be worth nothing, so both are required to be there.
+        conn = self._conn()
+        try:
+            # A database built before the mark existed should say so rather
+            # than raise: the same reason the harvests carry their own
+            # fingerprint.
+            columns = {row[1] for row in
+                       conn.execute('PRAGMA table_info(spell_effects)')}
+            if 'conditional' not in columns:
+                self.skipTest('this database predates the conditional mark')
+            counted = dict(conn.execute(
+                'SELECT conditional, COUNT(*) FROM spell_effects'
+                ' GROUP BY conditional').fetchall())
+        finally:
+            conn.close()
+        self.assertEqual({0, 1}, set(counted),
+                         'the conditional mark never varies: %s' % counted)
+        # Most rows land on a plain cast: 80 850 against 23 275 when this was
+        # written. The margin is deliberately loose, because a threshold that
+        # the real figures barely clear fails one day for a reason that says
+        # nothing. What it catches is a reading that has drifted far enough to
+        # call half the game conditional.
+        self.assertGreater(counted[0], counted[1] * 2)
+
     def test_german_reads_english_like_every_other_wakfu_table(self):
         conn = self._conn()
         try:
@@ -18560,6 +18650,60 @@ class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
                 wearing = [item.name for item in worn.values()
                            if flag in (item.flags or ())]
                 self.assertLessEqual(len(wearing), 1, wearing)
+
+
+class NothingWritesOutTheVersionsByHandTests(SimpleTestCase):
+    """The tools that walk every Dofus version must ask the registry.
+
+    A list written out by hand is a list that goes stale, and the failure is
+    silent: the tool runs, reports success, and simply never looked at the
+    version somebody added. That is the whole reason `game_versions.py` exists,
+    and it only helps where it is used.
+
+    Wakfu is deliberately not in any of these. It is not a Dofus version, and
+    `dofus_versions()` says so.
+    """
+
+    ROOT = os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))))
+    WALKERS = (
+        ('itemscraper', 'check_rebuild.py'),
+        ('itemscraper', 'sanitize_untranslated_tags.py'),
+    )
+
+    def _module(self, parts):
+        import importlib.util
+        import sys
+        path = os.path.join(self.ROOT, *parts)
+        folder = os.path.dirname(path)
+        added = folder not in sys.path
+        if added:
+            sys.path.insert(0, folder)
+        try:
+            spec = importlib.util.spec_from_file_location(parts[-1][:-3], path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            return module
+        finally:
+            if added:
+                sys.path.remove(folder)
+
+    def test_the_scrapers_ask_the_registry(self):
+        from fashionistapulp.game_versions import dofus_versions
+        expected = tuple(dofus_versions())
+        self.assertEqual(5, len(expected))
+        self.assertNotIn('wakfu', expected)
+        for parts in self.WALKERS:
+            with self.subTest(script=parts[-1]):
+                self.assertEqual(expected, self._module(parts).VERSIONS)
+
+    def test_the_management_commands_ask_the_registry(self):
+        from chardata.management.commands import check_actions, check_pages
+        from fashionistapulp.game_versions import dofus_versions
+        expected = tuple(dofus_versions())
+        for command in (check_actions, check_pages):
+            with self.subTest(command=command.__name__):
+                self.assertEqual(expected, command.VERSIONS)
 
 
 class GameVersionRegistryTests(SimpleTestCase):
