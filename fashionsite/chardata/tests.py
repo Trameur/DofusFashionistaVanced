@@ -18067,19 +18067,39 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                 self.assertIn('1', levels)
                 self.assertIn('245', levels)
 
-    def test_damage_grows_with_the_level(self):
+    def test_damage_never_shrinks_with_the_level(self):
+        """What the game guarantees, which is not what I first assumed.
+
+        The first version of this demanded that every spell hit harder at 245
+        than at 1, and seven failed. Six of them were right to: they are
+        PASSIVES with a flat figure, "Dommage : 1", "Dommage : 0", and a level
+        does not change them. Asking them to grow was asking the game to be
+        something else.
+
+        Measured on the French harvest: 287 spells deal damage, 279 grow and
+        the rest hold still. So the rule is that damage never goes DOWN, and
+        that almost all of it goes up, which still catches a level table read
+        backwards or a parser that binds the wrong number.
+        """
         spells = self._spells()
-        checked = 0
+        checked = grew = 0
         for spell in spells.values():
             first = spell['levels']['1']['damage']
             last = spell['levels']['245']['damage']
             if not first or not last or len(first) != len(last):
                 continue
             checked += 1
+            low = sum(v for _e, v in first)
+            high = sum(v for _e, v in last)
+            if high > low:
+                grew += 1
             with self.subTest(spell=spell['name']):
-                self.assertGreater(sum(v for _e, v in last),
-                                   sum(v for _e, v in first))
+                self.assertGreaterEqual(high, low,
+                                        'hits softer at 245 than at 1')
         self.assertGreater(checked, 100, 'almost no spell had damage to check')
+        self.assertGreater(grew, checked * 9 // 10,
+                           'only %d of %d spells grow with the level, which is '
+                           'too few to be the passives' % (grew, checked))
 
     # A full book is 715 spells in French and 710 in English. Anything much
     # smaller is a run that was interrupted or a deliberately limited one, and
@@ -18102,6 +18122,31 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                           % (language, len(book)))
         return book
 
+    def _same_parser(self, left, right):
+        """Refuse to compare two harvests that were not read the same way.
+
+        Collecting four languages takes over an hour, so for most of that hour
+        one file is new and another is old. Comparing them then says nothing
+        about Ankama and everything about the clock, which is exactly the
+        failure that cost two sessions an afternoon.
+
+        Nothing needs stamping to tell them apart: the shape of a row IS the
+        fingerprint. A row gained a fourth field, the per cent sign, when the
+        parser learned that "Dommage : 10 %" is not ten damage.
+        """
+        def shape(book):
+            for spell in book.values():
+                for level in spell['levels'].values():
+                    for row in level.get('rows') or ():
+                        return len(row)
+            return 0
+
+        here, there = shape(left), shape(right)
+        if here != there:
+            self.skipTest('the two harvests were read by different parsers, '
+                          '%d fields against %d; re-run get_spells_wakfu.py '
+                          'for both before comparing them' % (here, there))
+
     def test_the_numbers_are_the_same_in_both_languages(self):
         # A damage figure is not a translation, so the two harvests must agree
         # on every spell they share. They did not, once: French writes
@@ -18111,6 +18156,7 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
         # it looked like Ankama contradicting itself rather than a parser
         # reading only French.
         french, english = self._harvest('fr'), self._harvest('en')
+        self._same_parser(french, english)
         shared = sorted(set(french) & set(english), key=int)
         self.assertGreater(len(shared), 600)
         disagree = []

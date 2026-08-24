@@ -122,14 +122,25 @@ BIG_SCRIPT = re.compile(r'<script type="application/json">\s*(\{"store_PA".*?)</
 # The pattern must never cross a tag. An earlier one let the element bind to a
 # colon further down the line, so the Iop's Posture came back dealing 500 in
 # three elements when it grants 25 armour and its element images mark STATES.
+ELEMENT_IMAGE = re.compile(r'element/([A-Za-z]+)\.png')
+
+# What follows an element image: an optional label, the colon, then the number.
 # The label can be SEVERAL words, and taking only the last one reads three
 # languages and misses the fourth: Portuguese writes "Dano de <image> : 101"
-# and "Cura de <image> : 33", so the last word is "de" and says nothing. Up to
-# three words are captured and every one of them is tested.
-EFFECT_ROW = re.compile(
-    r'((?:[A-Za-zÀ-ÿ\']{2,20}\s+){0,2}[A-Za-zÀ-ÿ\']{2,20})\s*(?:</?\w[^>]*>\s*)*'
-    r'<img src="[^"]*element/([A-Za-z]+)\.png"[^>]*>\s*(?:</\w+>\s*)*'
-    r':\s*[^\d<:]{0,24}?(-?\d+)')
+# and "Cura de <image> : 33", so the last word is "de" and says nothing. A few
+# words may also stand between the colon and the number, and which ones depends
+# on the language again: "Dommages : 32 supplementaires" against "damage:
+# additional 32".
+WORDS = re.compile(r"[A-Za-zÀ-ÿ']{2,20}")
+#
+# A trailing per cent sign changes what the number IS. "Dommage : 10 % des PV
+# courants du lanceur" is not ten damage, and recorded as ten it would sit in
+# the data looking like the smallest hit in the game. Two spells do this,
+# Entaille and Sang brulant, and both were found by a test asking why their
+# damage did not grow with the level rather than by anything visible.
+FIGURE = re.compile(
+    r"\s*((?:[A-Za-zÀ-ÿ']{2,20}\s+){0,2}[A-Za-zÀ-ÿ']{2,20})?\s*:"
+    r"\s*[^\d:]{0,24}?(-?\d+)\s*(%)?")
 
 # The six that are elements. The other fifteen images in that directory are
 # decoration: enemy, caster, ally and fighter mark who a clause applies to,
@@ -197,21 +208,128 @@ def strip(markup):
     return re.sub(r'\s+', ' ', ''.join(reader.parts)).strip()
 
 
+class _Tokens(HTMLParser):
+    """An effect line as a flat run of text and element images."""
+
+    def __init__(self):
+        HTMLParser.__init__(self, convert_charrefs=True)
+        self.items = []
+        self.quiet = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'script':
+            self.quiet += 1
+            return
+        if tag != 'img' or self.quiet:
+            return
+        found = ELEMENT_IMAGE.search(dict(attrs).get('src') or '')
+        if found:
+            self.items.append(('element', found.group(1)))
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+
+    def handle_endtag(self, tag):
+        if tag == 'script' and self.quiet:
+            self.quiet -= 1
+
+    def handle_data(self, data):
+        if not self.quiet:
+            self.items.append(('text', data))
+
+
+def _words_before(items, at):
+    """The last words of the text just before position `at`.
+
+    Walks back over SEVERAL runs of text, because a tag can cut a label in
+    two. French writes "Dommages supplementaires <img> : 1" with the second
+    word inside its own element, so the run touching the image holds only
+    "supplementaires", which is an adjective and matches nothing. Reading one
+    run dropped those rows in French, Spanish and Portuguese while English,
+    which puts its label after the image, kept them: the two languages then
+    disagreed on a number, which is how it was found.
+    """
+    words = []
+    for kind, value in reversed(items[:at]):
+        if kind != 'text':
+            break
+        words = WORDS.findall(value) + words
+        if len(words) >= 3:
+            break
+    return ' '.join(words[-3:])
+
+
+def _pick_label(before, after):
+    """Which side of the image says what the number is.
+
+    Not both at once, which was the first attempt and was worse than either:
+    in English "<img FIRE> Damage: 65 <img LIGHT> Healing: 26", the words
+    before the second image are "Damage", so joining the two sides labelled a
+    HEAL as damage as well and it was counted twice.
+
+    So the side that says something wins, and the join is only the last
+    resort, for the case that needs it: French writes "Dommages <img>
+    supplementaires : 30", where neither side alone is a word this knows.
+    """
+    for candidate in (after, before, '%s %s' % (before or '', after or '')):
+        words = {word.lower() for word in WORDS.findall(candidate or '')}
+        if words & DAMAGE_WORDS or words & HEAL_WORDS:
+            return ' '.join(WORDS.findall(candidate))
+    return ' '.join(WORDS.findall(after or before or ''))
+
+
 def effect_rows(markup, report=None):
-    """[(label, element, value)] for every figure attached to an element."""
+    """[(label, element, value)] for every figure attached to an element.
+
+    THE ORDER IS NOT THE SAME IN EVERY LANGUAGE, which is why this walks the
+    fragment instead of matching a shape. French, Spanish and Portuguese put
+    the label first:
+
+        Dommage <img FIRE> : 65
+
+    English puts the image first and the label after it:
+
+        <img FIRE> Damage: 65
+
+    A pattern written for one silently returned nothing for the other, and
+    "nothing" reads as a spell that deals no damage: 287 English spells out of
+    706 came back harmless before this was found, by a test that compares the
+    two languages rather than by anything visible in either one alone.
+    """
+    reader = _Tokens()
+    reader.feed(markup or '')
+    reader.close()
+    items = reader.items
+
     out = []
-    for label, element, value in EFFECT_ROW.findall(markup or ''):
-        if element not in ELEMENTS_IN_IMAGES:
+    for at, (kind, value) in enumerate(items):
+        if kind != 'element' or value not in ELEMENTS_IN_IMAGES:
             continue
-        out.append((label.strip(), element, int(value)))
+        after = items[at + 1][1] if at + 1 < len(items) \
+            and items[at + 1][0] == 'text' else ''
+        figure = FIGURE.match(after)
+        if not figure:
+            continue
+        label = _pick_label(_words_before(items, at), figure.group(1))
+        out.append((label, value,
+                    int(figure.group(2)), figure.group(3) or ''))
     return out
 
 
 def of_kind(rows, words, report=None, kind=''):
-    """The [(element, value)] of the rows one of whose label words matches."""
+    """The [(element, value)] of the rows one of whose label words matches.
+
+    A row whose figure is a PER CENT is left out: it is not a quantity of
+    damage and adding it to one would be adding ten to a hundred and sixty
+    three. It stays in `rows`, with its sign, for whoever wants it.
+    """
     out = []
-    for label, element, value in rows:
+    for label, element, value, unit in rows:
         said = {word for word in re.split(r'\s+', label.lower()) if word}
+        if unit == '%':
+            if report is not None and kind == 'damage' and (said & words):
+                report['damage given as a per cent'] += 1
+            continue
         if said & words:
             out.append((element, value))
         elif report is not None and kind == 'damage' and not (said & HEAL_WORDS):
