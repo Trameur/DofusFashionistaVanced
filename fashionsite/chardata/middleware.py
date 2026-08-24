@@ -118,9 +118,9 @@ def looks_like_a_robot(request):
     """True when the caller announces itself as something other than a reader.
 
     Without this the count is meaningless: on the first day it recorded 62 130
-    arrivals for a site with 3 000 monthly readers, 61 539 of them from the
-    United States, all filed as "direct" -- because a crawler sends no referrer
-    and every one of them landed in that bucket.
+    arrivals for a site measured at about 16 page views a day, 61 539 of them
+    from the United States, all filed as "direct" -- because a crawler sends no
+    referrer and every one of them landed in that bucket.
 
     An empty user agent counts as a robot too. Every browser sends one; a
     client that does not is a script.
