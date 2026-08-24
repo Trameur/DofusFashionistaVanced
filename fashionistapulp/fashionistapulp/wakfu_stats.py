@@ -116,6 +116,38 @@ SPREAD_RESISTANCE = 'RES_IN_PERCENT'
 # Stated so that a page can say it out loud rather than quietly assuming it.
 SPREAD_LANDS_WHERE_THE_BUILD_WANTS = True
 
+# THE CAP ON AP AND MP IS NOT SETTLED, AND IT BINDS HARD. Nothing here holds a
+# number, on purpose: guessing one would be worse than having none.
+#
+# Measured on build 1.92.1.60, taking the best item in each of the twelve slots
+# and ignoring the relic and epic limits, so these are ceilings and not builds:
+#
+#     AP    +18   best single item +3
+#     MP    +15   best single item +2
+#     WP    +16   best single item +2
+#     RANGE +14   best single item +2
+#
+# A character starts with a handful of AP, so gear alone reaches roughly three
+# times whatever the cap turns out to be. An optimizer that does not know the
+# cap will therefore spend EVERY slot buying AP that the game refuses to grant,
+# and the build it returns will be wrong in a way no test of the data can see.
+#
+# What is known and what is not:
+#
+# - The devblog that introduced the rule, 2013-07-17, says 12 AP and 7 MP, and
+#   says the limit applies OUTSIDE combat only, gains during a fight being
+#   unlimited. That article is thirteen years old and other things it promises
+#   have since been reversed, so it cannot be trusted on its own.
+# - Ankama's own forum carries a thread titled "Limite PA PM 14Pa 8PM", which
+#   is exactly the shape of a later change. The forum answers a scripted
+#   request with 202 and an empty body, so it cannot be read from here to find
+#   out whether that title is a question or an answer.
+#
+# Settling it takes five seconds in front of the game and no amount of reading.
+# Until somebody does, the solver must treat the cap as an input it is given,
+# never a constant it knows.
+AP_AND_MP_CAP_IS_UNKNOWN = True
+
 
 def stats_of_kind(kind):
     return sorted(key for key, purpose in WAKFU_STATS.items()

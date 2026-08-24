@@ -17924,6 +17924,77 @@ class WakfuCraftingReadsTheWayTheSiteJoinsItTests(SimpleTestCase):
             conn.close()
 
 
+class WakfuGearReachesFarPastAnyCapTests(SimpleTestCase):
+    """Why a Wakfu optimizer cannot be written without knowing the AP cap.
+
+    Gear alone reaches roughly three times whatever the cap turns out to be, so
+    a solver that does not know it would spend every slot buying AP the game
+    refuses to grant, and return a build that is wrong in a way no check of the
+    data could see. The cap itself is not settled: a 2013 devblog says 12 AP
+    and 7 MP, Ankama's forum carries a thread whose title says 14 and 8, and
+    the forum answers a scripted request with 202 and nothing in it.
+    """
+
+    def _ceiling(self, key):
+        import collections
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('wakfu')
+        if not os.path.exists(path):
+            self.skipTest('no Wakfu database built; run update_data_wakfu.py')
+        conn = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        try:
+            stat = conn.execute('SELECT id FROM stats WHERE key = ?',
+                                (key,)).fetchone()
+            self.assertIsNotNone(stat, key)
+            places = collections.defaultdict(set)
+            for type_id, position in conn.execute(
+                    'SELECT item_type, position FROM item_type_position'):
+                places[type_id].add(position)
+            best = collections.defaultdict(int)
+            for type_id, value in conn.execute(
+                    'SELECT i.type, s.value FROM items i'
+                    ' JOIN stats_of_item s ON s.item = i.id'
+                    ' WHERE s.stat = ?', (stat[0],)):
+                for position in places[type_id]:
+                    best[position] = max(best[position], value)
+        finally:
+            conn.close()
+        return sum(best.values()), max(best.values() or [0])
+
+    def test_gear_alone_passes_every_cap_anyone_has_claimed(self):
+        # The highest figure any source names is 14 AP and 8 MP. Gear beats
+        # both by a wide margin, which is the whole point: the cap binds, so
+        # the solver has to be told it.
+        total, single = self._ceiling('ap')
+        self.assertGreater(total, 14, 'AP from gear no longer beats any cap')
+        self.assertGreaterEqual(single, 3)
+        total, single = self._ceiling('mp')
+        self.assertGreater(total, 8, 'MP from gear no longer beats any cap')
+        self.assertGreaterEqual(single, 2)
+        for key in ('wp', 'range'):
+            with self.subTest(stat=key):
+                total, _single = self._ceiling(key)
+                self.assertGreater(total, 10)
+
+    def test_nothing_pretends_to_know_the_cap(self):
+        # A guessed cap is worse than no cap, because a number in the code
+        # stops anyone asking. If a real one is ever measured in the game, it
+        # arrives as an input to the solver and this guard is what gets edited,
+        # deliberately, by whoever knows the answer.
+        from fashionistapulp import wakfu_stats
+        self.assertTrue(wakfu_stats.AP_AND_MP_CAP_IS_UNKNOWN)
+        for name in dir(wakfu_stats):
+            if 'CAP' in name or 'MAX' in name or 'LIMIT' in name:
+                with self.subTest(name=name):
+                    value = getattr(wakfu_stats, name)
+                    # bool is an int in python, so the flag saying the cap is
+                    # unknown would otherwise trip this guard itself.
+                    self.assertFalse(
+                        isinstance(value, int) and not isinstance(value, bool),
+                        '%s looks like a cap somebody wrote down' % name)
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 

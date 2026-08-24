@@ -30,7 +30,31 @@ WHAT THE DATA DOES NOT CARRY, so that nobody looks for it here:
   2026-08-24: `classes.json`, `breeds.json`, `characteristics.json`,
   `aptitudes.json`, `spells.json`, `jobs.json`, `monsters.json` and
   `zones.json` all answer 403, so the feed is about ITEMS and CRAFTING and
-  nothing else. A Wakfu character model has to find its class data elsewhere.
+  nothing else.
+
+  THE ENCYCLOPEDIA HAS THEM, though, and that is where a character model will
+  have to look. Probed the same day, with the cookie jar that get_sets_wakfu.py
+  already uses:
+
+      /fr/mmorpg/encyclopedie/classes            the 18 classes, Ankama's ids
+      /fr/mmorpg/encyclopedie/classes/8-iop      one class, WITH ITS SPELLS
+      /fr/mmorpg/encyclopedie/monstres           the bestiary
+      /fr/mmorpg/encyclopedie/ressources         the resources
+
+  A class page carries every spell in full: AP cost, minimum and maximum range,
+  the damage on a normal hit and on a critical, the states it applies, and the
+  level it unlocks at. The Iop's Celestial Sword reads 2 AP, range 1 to 4,
+  65 damage, 82 on a critical. That is the whole input a damage model needs,
+  from Ankama, for a game whose CDN publishes no spell at all.
+
+  Class ids are the game's own and run 1 to 19 with 17 missing:
+  1 feca, 2 osamodas, 3 enutrof, 4 sram, 5 xelor, 6 ecaflip, 7 eniripsa,
+  8 iop, 9 cra, 10 sadida, 11 sacrieur, 12 pandawa, 13 roublard, 14 zobal,
+  15 ouginak, 16 steamer, 18 eliotrope, 19 huppermage.
+
+  The forum, unlike the encyclopedia, is unreachable: it answers a scripted
+  request with 202 and an empty body, cookie jar or not. So official DEVELOPER
+  statements that live only in forum threads cannot be read from here.
 
 WHAT IS PUBLISHED BESIDE THE ITEMS. The crafting files ARE mirrored, by the
 list below, even though nothing decodes them yet: recipes.json,
