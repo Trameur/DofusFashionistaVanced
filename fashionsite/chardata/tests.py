@@ -18686,6 +18686,59 @@ class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
         for item in worn.values():
             self.assertLessEqual(item.level, 1)
 
+    def test_the_spread_lines_are_what_a_fire_build_buys(self):
+        """Three quarters of the catalogue is a line that names no element.
+
+        A Wakfu item says "272 Mastery with 3 elements" and never which three:
+        they belong to the copy a player holds. 5 729 pieces carry such a line
+        and only 25 name fire mastery outright, so a solver that valued only
+        the named ones could see 25 items out of 7 617 and would dress a fire
+        build out of almost nothing.
+        """
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        structure = self._structure()
+        conn = sqlite3.connect('file:%s?mode=ro' % get_items_db_path('wakfu'),
+                               uri=True)
+        try:
+            named, spread = (conn.execute(
+                'SELECT COUNT(DISTINCT s.item) FROM stats_of_item s'
+                ' JOIN stats t ON t.id = s.stat WHERE t.key = ?',
+                (key,)).fetchone()[0]
+                for key in ('dmg_fire_percent', 'dmg_in_percent'))
+        finally:
+            conn.close()
+        self.assertGreater(spread, named * 50,
+                           'the spread lines stopped being the whole game')
+
+        build, worn = self._build(self.BINDS, {'dmg_fire_percent': 1})
+        self.assertIsNotNone(worn)
+        carrying = [item for item in worn.values() if item.element_spread]
+        self.assertGreater(len(carrying), len(worn) * 2 // 3,
+                           'a fire build took gear that names no element')
+        landing = build.where_the_spread_lands(worn)
+        self.assertGreater(landing['dmg_fire_percent'], 0)
+
+    def test_wanting_one_element_beats_wanting_three(self):
+        # The trade the game is built on: a line over three elements feeds
+        # three, so asking for three takes those items, and asking for one
+        # takes whatever carries the most of it. Specialising must therefore
+        # yield MORE of the one element, or the spread is being valued wrong.
+        one, worn_one = self._build(self.BINDS, {'dmg_fire_percent': 1})
+        three, worn_three = self._build(
+            self.BINDS, {'dmg_fire_percent': 1, 'dmg_water_percent': 1,
+                         'dmg_earth_percent': 1})
+        self.assertIsNotNone(worn_one)
+        self.assertIsNotNone(worn_three)
+        fire_alone = one.where_the_spread_lands(worn_one)['dmg_fire_percent']
+        fire_shared = three.where_the_spread_lands(worn_three)['dmg_fire_percent']
+        self.assertGreater(fire_alone, 0)
+        self.assertGreaterEqual(fire_alone, fire_shared)
+        # And spreading must buy the other two, which specialising does not.
+        self.assertGreater(
+            three.where_the_spread_lands(worn_three)['dmg_earth_percent'],
+            one.where_the_spread_lands(worn_one)['dmg_earth_percent'])
+
     def test_at_most_one_relic_and_one_epic(self):
         build, worn = self._build(self.BINDS, {'hp': 1, 'ap': 200, 'mp': 150})
         self.assertIsNotNone(worn)

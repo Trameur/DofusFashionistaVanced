@@ -70,6 +70,16 @@ from .wakfu_stats import BASE_VALUES, CRITICAL_HIT_FLOOR_PERCENT, \
 # The categories of LP variable. `w` is "this item, worn in this slot".
 WORN = 'w'
 
+# Which weights a line that spreads over N elements may land on. The generic
+# mastery line can become any of the four elemental masteries, and the generic
+# resistance line any of the four resistances; nothing else spreads.
+SPREAD_FAMILIES = {
+    'dmg_in_percent': ('dmg_fire_percent', 'dmg_water_percent',
+                       'dmg_earth_percent', 'dmg_air_percent'),
+    'res_in_percent': ('res_fire_percent', 'res_water_percent',
+                       'res_earth_percent', 'res_air_percent'),
+}
+
 
 class WakfuBuild:
     """One question put to the solver: the best set at a level, under weights.
@@ -125,9 +135,53 @@ class WakfuBuild:
         return sum(value for stat_id, value in item.stats
                    if stat_id == stat.id)
 
+    def _key_of(self, stat_id):
+        stat = self.structure.get_stat_by_id(stat_id)
+        return stat.key if stat is not None else None
+
+    def _spread_worth(self, stat_id, elements):
+        """What one point of a line that spreads over `elements` is worth.
+
+        THE MOST COMMON DAMAGE LINE IN THE GAME reads "272 Mastery with 3
+        elements", and 5 716 of the 7 617 pieces of gear carry one. The
+        catalogue never says WHICH elements: they belong to the copy a player
+        holds, not to the item, so a planner has to decide.
+
+        It decides that they land where the build wants, which is what
+        wakfu_stats.SPREAD_LANDS_WHERE_THE_BUILD_WANTS states and what every
+        Wakfu planner does: a player chasing a build seeks the roll they want.
+        So a line over three elements is worth its value times the three
+        largest element weights the build asked for.
+
+        Valuing it as a plain stat instead, which is what this did until now,
+        made three quarters of the catalogue invisible to anyone asking for
+        fire damage.
+        """
+        key = self._key_of(stat_id)
+        family = SPREAD_FAMILIES.get(key)
+        if family is None:
+            return self.weights.get(key, 0)
+        wanted = sorted((self.weights.get(name, 0) for name in family),
+                        reverse=True)
+        return sum(wanted[:max(0, elements)])
+
     def _worth(self, item):
-        return sum(weight * self._stat_value(item, key)
-                   for key, weight in self.weights.items() if weight)
+        """What this piece is worth to the build, spread lines included."""
+        spread = list(item.element_spread or ())
+        # A spread line is also an ordinary row of `stats`, so it is taken out
+        # of the plain sum before being valued its own way. Counting both
+        # would pay for it twice.
+        separately = collections.Counter((stat_id, value)
+                                         for stat_id, value, _e in spread)
+        total = 0
+        for stat_id, value in item.stats:
+            if separately[(stat_id, value)]:
+                separately[(stat_id, value)] -= 1
+                continue
+            total += self.weights.get(self._key_of(stat_id), 0) * value
+        for stat_id, value, elements in spread:
+            total += value * self._spread_worth(stat_id, elements)
+        return total
 
     def build(self):
         self.problem = LpProblem2()
@@ -266,6 +320,26 @@ class WakfuBuild:
             if (chosen.get(name) or 0) > 0.5:
                 worn[position] = item
         return worn
+
+    def where_the_spread_lands(self, worn):
+        """{stat key: total} for the elements a build's spread lines feed.
+
+        The catalogue is almost entirely spread lines: 5 729 pieces carry one
+        and only 25 name fire mastery outright, so a build's elemental
+        mastery is nearly all decided by where these land. This says where,
+        under the assumption the planner makes, which a page showing a build
+        has to state out loud rather than leave the reader to discover.
+        """
+        landing = collections.Counter()
+        for item in worn.values():
+            for stat_id, value, elements in item.element_spread or ():
+                family = SPREAD_FAMILIES.get(self._key_of(stat_id))
+                if family is None:
+                    continue
+                wanted = sorted(family, key=lambda name: -self.weights.get(name, 0))
+                for name in wanted[:max(0, elements)]:
+                    landing[name] += value
+        return landing
 
     def totals(self, worn):
         """What a set adds up to, base values included."""
