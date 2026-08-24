@@ -99,7 +99,7 @@ def _host_of(url):
 #: about its name; the ones that matter do not bother, because they want to be
 #: recognised.
 _ROBOT = re.compile(
-    r'bot|bot/|robot|crawl|spider|scrap|slurp|fetch|monitor|uptime|'
+    r'bot\b|bot/|robot|crawl|spider|scrap|slurp|fetch|monitor|uptime|'
     r'pingdom|lighthouse|headless|phantom|selenium|puppeteer|playwright|'
     r'curl/|wget|python-requests|python-urllib|aiohttp|httpx|okhttp|'
     r'go-http-client|java/|libwww|scrapy|axios|node-fetch|guzzle|'
