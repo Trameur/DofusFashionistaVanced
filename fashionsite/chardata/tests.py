@@ -17746,15 +17746,25 @@ class TheWakfuPipelineSaysWhatItOwnsTests(SimpleTestCase):
     def test_the_documented_owner_list_is_the_real_one(self):
         import re
         doc = io.open(self.ORCHESTRATOR, encoding='utf-8').read()
-        block = doc.split('rewrites on every run:')[1].split('Nothing else')[0]
-        documented = set(re.findall(r'[a-z_]{4,}', block))
-        builder = io.open(self.BUILDER, encoding='utf-8').read()
-        written = set(re.findall(r'INSERT INTO ([a-z_]+)', builder))
-        self.assertTrue(written, 'the builder writes nothing at all?')
-        self.assertEqual(written, documented,
-                         'the orchestrator names %s but the builder writes %s'
-                         % (sorted(documented - written),
-                            sorted(written - documented)))
+        blocks = re.findall(
+            r'(\w+\.py) owns, and rewrites on every run:\n(.*?)\n\n',
+            doc, re.S)
+        self.assertTrue(blocks, 'the orchestrator names no owner at all')
+        for script, block in blocks:
+            with self.subTest(script=script):
+                documented = set(re.findall(r'[a-z_]{4,}', block))
+                source = io.open(os.path.join(self.ROOT, 'itemscraper', script),
+                                 encoding='utf-8').read()
+                written = set(re.findall(r'INSERT INTO ([a-z_]+)', source))
+                self.assertTrue(written, '%s writes nothing at all?' % script)
+                self.assertEqual(
+                    written, documented,
+                    '%s: the orchestrator names %s but the script writes %s'
+                    % (script, sorted(documented - written),
+                       sorted(written - documented)))
+        # Every writer named is also a step that actually runs.
+        for script, _ in blocks:
+            self.assertIn(script, doc.split('Steps:')[1][:600], script)
 
     def test_the_build_step_comes_before_everything_that_writes(self):
         # A step that fills a table and runs before the build has its work
@@ -17779,6 +17789,139 @@ class TheWakfuPipelineSaysWhatItOwnsTests(SimpleTestCase):
         self.assertTrue(said('2 errors and 0 missing'))
         # The zero has to be a count of its own word, not the tail of another.
         self.assertTrue(said('casino missing'))
+
+
+class WakfuCraftingReadsTheWayTheSiteJoinsItTests(SimpleTestCase):
+    """The four crafting tables, checked through the joins the site performs.
+
+    Nothing here trusts the importer's own counters. Every assertion below is
+    the query a page runs, because a row that is written but never resolves is
+    a recipe line that renders as "Unknown ingredient #29826" on a page that
+    still answers 200.
+    """
+
+    def _conn(self):
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        path = get_items_db_path('wakfu')
+        if not os.path.exists(path):
+            self.skipTest('no Wakfu database built; run update_data_wakfu.py')
+        conn = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+        if not conn.execute('SELECT COUNT(*) FROM item_recipes').fetchone()[0]:
+            conn.close()
+            self.skipTest('no Wakfu recipes imported yet')
+        return conn
+
+    def test_every_ingredient_line_resolves_to_a_name(self):
+        # The join is on two columns and by bare equality: the site never
+        # normalises the subtype, so writing one spelling into item_recipes
+        # and another into the names table gives a silent orphan.
+        conn = self._conn()
+        try:
+            orphans = conn.execute(
+                'SELECT r.item, r.position, r.ingredient_ankama_id,'
+                ' r.ingredient_subtype FROM item_recipes r'
+                ' WHERE NOT EXISTS (SELECT 1 FROM item_recipe_ingredient_names n'
+                ' WHERE n.ingredient_ankama_id = r.ingredient_ankama_id'
+                ' AND n.ingredient_subtype = r.ingredient_subtype'
+                ' AND n.language = "en") LIMIT 5').fetchall()
+        finally:
+            conn.close()
+        self.assertEqual([], orphans)
+
+    def test_positions_are_dense_and_start_at_zero(self):
+        # (item, position) is the primary key and position is the only ORDER BY
+        # the item page has. Ankama's own ingredientOrder has gaps, repeats and
+        # does not always start at zero, so storing it would drop ingredients.
+        conn = self._conn()
+        try:
+            broken = conn.execute(
+                'SELECT item, MIN(position), MAX(position), COUNT(*)'
+                ' FROM item_recipes GROUP BY item'
+                ' HAVING MIN(position) <> 0 OR MAX(position) <> COUNT(*) - 1'
+                ' LIMIT 5').fetchall()
+        finally:
+            conn.close()
+        self.assertEqual([], broken)
+
+    def test_every_craftable_item_names_a_job_the_site_can_show(self):
+        conn = self._conn()
+        try:
+            # Job 1 is Ankama's "Base" workbench placeholder and the craft line
+            # filters it out, so a real job mapped onto it would show nothing.
+            self.assertEqual(
+                0, conn.execute('SELECT COUNT(*) FROM item_craft_jobs'
+                                ' WHERE job_ankama_id = 1').fetchone()[0])
+            unnamed = conn.execute(
+                'SELECT DISTINCT j.job_ankama_id FROM item_craft_jobs j'
+                ' WHERE NOT EXISTS (SELECT 1 FROM job_names n'
+                ' WHERE n.job_ankama_id = j.job_ankama_id'
+                ' AND n.language = "fr")').fetchall()
+            self.assertEqual([], unnamed)
+            # Every item with a recipe says who makes it, and the other way.
+            self.assertEqual(
+                [], conn.execute(
+                    'SELECT DISTINCT r.item FROM item_recipes r WHERE NOT EXISTS'
+                    ' (SELECT 1 FROM item_craft_jobs j WHERE j.item = r.item)'
+                    ' LIMIT 5').fetchall())
+        finally:
+            conn.close()
+
+    def test_german_carries_the_english_text_like_every_wakfu_table(self):
+        # Wakfu has never had a German locale. Every other Wakfu name table in
+        # this database puts the English text under 'de'; these two must not be
+        # the exception, because the resource page has no fallback of its own.
+        conn = self._conn()
+        try:
+            for table, key in (('item_recipe_ingredient_names',
+                                'ingredient_ankama_id'),
+                               ('job_names', 'job_ankama_id')):
+                with self.subTest(table=table):
+                    said = conn.execute(
+                        'SELECT COUNT(*) FROM %s a JOIN %s b ON a.%s = b.%s'
+                        ' AND a.language = "de" AND b.language = "en"'
+                        ' WHERE a.name <> b.name'
+                        % (table, table, key, key)).fetchone()[0]
+                    self.assertEqual(0, said)
+                    languages = {row[0] for row in conn.execute(
+                        'SELECT DISTINCT language FROM %s' % table)}
+                    self.assertEqual({'en', 'fr', 'es', 'pt', 'de'}, languages)
+        finally:
+            conn.close()
+
+    def test_an_upgrade_consumes_the_rarity_below_and_not_itself(self):
+        # The fact that decided these recipes belong on the site at all. It
+        # reads like "craftable only by consuming a copy of itself", and it is
+        # not: the ingredient is a DIFFERENT item, one rarity lower, that
+        # happens to share the name. Zero recipes consume their own product.
+        conn = self._conn()
+        try:
+            eats_itself = conn.execute(
+                'SELECT r.item FROM item_recipes r JOIN items i ON i.id = r.item'
+                ' WHERE r.ingredient_ankama_id = i.ankama_id LIMIT 5').fetchall()
+            self.assertEqual([], eats_itself)
+            product = conn.execute(
+                'SELECT id, ankama_id FROM items WHERE name = "Glaivus Shushu"'
+                ' AND id IN (SELECT item FROM item_recipes)').fetchone()
+            self.assertIsNotNone(product)
+            same_name = conn.execute(
+                'SELECT n.name, r.ingredient_ankama_id FROM item_recipes r'
+                ' JOIN item_recipe_ingredient_names n'
+                ' ON n.ingredient_ankama_id = r.ingredient_ankama_id'
+                ' AND n.ingredient_subtype = r.ingredient_subtype'
+                ' AND n.language = "en"'
+                ' WHERE r.item = ? AND n.name = "Glaivus Shushu"',
+                (product[0],)).fetchall()
+            self.assertEqual(1, len(same_name))
+            self.assertNotEqual(product[1], same_name[0][1])
+            # And it really is the tier below, not a coincidence of naming.
+            tiers = conn.execute(
+                'SELECT (SELECT rarity FROM item_rarity WHERE item = ?),'
+                ' (SELECT rarity FROM item_rarity WHERE item = ?)',
+                (product[0], same_name[0][1])).fetchone()
+            self.assertEqual(tiers[0], tiers[1] + 1)
+        finally:
+            conn.close()
 
 
 class GameVersionRegistryTests(SimpleTestCase):
@@ -21651,9 +21794,9 @@ class DonateRedirectTests(TestCase):
 
     The Ko-fi button existed for a long time and taught the site nothing: a
     third-party widget drew it, so nobody could tell whether a single reader
-    ever reached for it. With 3 000 monthly readers and one donation received,
-    that share is the number that decides whether any of this is worth more
-    work.
+    ever reached for it. Against a measured 16 page views a day and one donation
+    received, that share is the number that decides whether any of this is worth
+    more work.
     """
 
     URL = '/out/donate/'
@@ -22210,9 +22353,9 @@ class SignInWithGoogleWorksTests(TestCase):
 class CrawlersAreNotReadersTests(TestCase):
     """A count that includes crawlers answers a question nobody asked.
 
-    Measured on the first day in production: 62 130 arrivals for a site with
-    about 3 000 monthly readers, 61 539 of them from the United States, all
-    filed as "direct". A crawler sends no referrer, so every one of them landed
+    Measured on the first day in production: 62 130 arrivals for a site that
+    PageHit puts at about 16 page views a day, 61 539 of them from the United
+    States, all filed as "direct". A crawler sends no referrer, so every one of them landed
     in that bucket and buried the six real rows underneath it.
     """
 

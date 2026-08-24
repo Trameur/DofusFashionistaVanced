@@ -15,6 +15,7 @@ Steps:
     data/mirror    get_items_wakfu.py       -> wakfu_raw/<build>/ + transformed_wakfu.json
     data/sets      get_sets_wakfu.py        -> wakfu_raw/<build>/sets.json
     items/build-db build_wakfu_db.py        -> items_wakfu.db
+    items/recipes  build_wakfu_recipes.py   -> the four crafting tables
     item-images    get_item_images_wakfu.py -> static/chardata/items/wakfu/64/
     items/dump     dump_item_db.py          -> item_db_dumped_wakfu.dump
 
@@ -35,11 +36,14 @@ So: WHICH TABLES BELONG TO WHOM.
         item_type_position, item_rarity, item_picture, stats,
         stats_of_item, stat_element_count, sets, set_names
 
-    Nothing else writes to items_wakfu.db today. A future step that does, the
-    crafting recipes being the obvious candidate, MUST be added to this file
-    between items/build-db and items/dump, and MUST name the tables it owns
-    right here. A writer that is not in this list is a writer whose work does
-    not survive.
+    build_wakfu_recipes.py owns, and rewrites on every run:
+        item_recipes, item_recipe_ingredient_names, item_craft_jobs,
+        job_names
+
+    Nothing else writes to items_wakfu.db today. A future step that does MUST
+    be added to this file between items/build-db and items/dump, and MUST name
+    the tables it owns right here. A writer that is not in this list is a
+    writer whose work does not survive the next rebuild.
 
 data/sets sits between the mirror and the build because it needs the decoded
 dump to know which set ids exist, and the build needs its output to name them.
@@ -159,6 +163,8 @@ def main(argv=None):
     # Everything below writes into items_wakfu.db, and this step deletes it
     # first. Nothing that fills a table may move above this line.
     built = step('items/build-db', [PY, 'itemscraper/build_wakfu_db.py'])
+    if built:
+        step('items/recipes', [PY, 'itemscraper/build_wakfu_recipes.py'])
 
     if not args.skip_images:
         step('item-images', [PY, 'itemscraper/get_item_images_wakfu.py'])
