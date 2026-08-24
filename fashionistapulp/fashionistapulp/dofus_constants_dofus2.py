@@ -2320,14 +2320,14 @@ DAMAGE_SPELLS = {
             [WATER],
         ), is_linked=(1, 'Black Ice'), spell_id=12990),
         Spell('Dirt Floor', [55, 122, 189], Effects(
-            [['19-22', '25-29', '25-29'], ['0-0', '0-0', '29-33']],
+            [['19-22', '25-29', '29-33']],
             None,
-            [EARTH, EARTH],
+            [EARTH],
         ), is_linked=(1, 'Refuge'), spell_id=12987),
         Spell('Scorched Dirt', [60, 127, 194], Effects(
-            [['22-25', '27-30', '27-30'], ['0-0', '0-0', '30-34']],
+            [['22-25', '27-30', '30-34']],
             None,
-            [FIRE, FIRE],
+            [FIRE],
         ), is_linked=(1, 'Lookout'), spell_id=12985),
         Spell('Silbo', [70, 137], Effects(
             [['13-15', '17-19']],
@@ -2475,7 +2475,7 @@ DAMAGE_SPELLS = {
         ), is_linked=(1, 'Pilfer'), spell_id=13874),
         Spell('Trident', [45, 112, 174], Effects(
             [['18-20', '23-26', '28-32']],
-            [['21-24', '21-24', '21-24'], ['0-0', '28-32', '34-38']],
+            [['21-24', '28-32', '34-38']],
             [AIR],
         ), is_linked=(1, 'Capstan'), spell_id=13824),
         Spell('Backwash', [50, 117, 184], Effects(
@@ -2639,9 +2639,9 @@ DAMAGE_SPELLS = {
             [EARTH],
         ), is_linked=(1, 'Avalanche'), spell_id=2987),
         Spell('Astral Blade', [20, 87, 154], Effects(
-            [['18-20', '18-20', '18-20'], ['0-0', '23-26', '29-32']],
-            [['22-24', '22-24', '22-24'], ['0-0', '28-31', '35-38']],
-            [AIR, AIR],
+            [['18-20', '23-26', '29-32']],
+            [['22-24', '28-31', '35-38']],
+            [AIR],
         ), is_linked=(1, 'Deflagration'), spell_id=13679),
         Spell('Sun Lance', [30, 97, 164], Effects(
             [['18-20', '23-26', '29-32']],
@@ -3014,9 +3014,9 @@ DAMAGE_SPELLS = {
             ['buff_pow'],
         ), spell_id=13143),
         Spell('Sentence', [125, 192], Effects(
-            [['11-14', '13-16'], ['23-26', '23-26'], ['0-0', '26-30']],
-            [['15-18', '15-18'], ['27-31', '27-31'], ['0-0', '17-20'], ['0-0', '32-36']],
-            [FIRE, FIRE, FIRE],
+            [['11-14', '13-16'], ['23-26', '26-30']],
+            [['15-18', '17-20'], ['27-31', '32-36']],
+            [FIRE, FIRE],
         ), is_linked=(2, 'Concentration')),
         Spell('Destructive Ring', [130, 197], Effects(
             [['22-25', '24-28']],
@@ -3697,9 +3697,9 @@ DAMAGE_SPELLS = {
             [WATER, WATER],
         ), is_linked=(1, 'Pandjiu'), spell_id=12794),
         Spell('Fiery Breath', [95, 162], Effects(
-            [['31-34', '31-34'], ['0-0', '38-42']],
-            [['37-40', '37-40'], ['0-0', '46-50']],
-            [FIRE, FIRE],
+            [['31-34', '38-42']],
+            [['37-40', '46-50']],
+            [FIRE],
         ), is_linked=(2, 'Hangover')),
         Spell('Distillation', [100, 167], Effects(
             [['10-13', '13-16'],
@@ -3979,7 +3979,7 @@ DAMAGE_SPELLS = {
         ), is_linked=(1, 'Nervousness'), spell_id=12725),
         Spell('Stase', [1, 69, 136], Effects(
             [['12-14', '16-19', '20-24']],
-            [['15-17', '20-23', '20-23'], ['0-0', '0-0', '25-29']],
+            [['15-17', '20-23', '25-29']],
             [WATER],
             steals=[True],
         ), is_linked=(1, 'Excruciating Pain'), spell_id=12728),
@@ -4014,10 +4014,10 @@ DAMAGE_SPELLS = {
             [NEUTRAL],
         ), spell_id=12738),
         Spell('Dissolution', [55, 122, 189], Effects(
-            [['16-19', '16-19', '16-19'], ['0-0', '21-25', '25-29']],
-            [['20-23', '20-23', '20-23'], ['0-0', '26-30', '30-35']],
-            [WATER, WATER],
-            steals=[True, True],
+            [['16-19', '21-25', '25-29']],
+            [['20-23', '26-30', '30-35']],
+            [WATER],
+            steals=[True],
         ), is_linked=(1, 'Carnage'), spell_id=12757),
         Spell('Desolation', [60, 127, 194], Effects(
             [['19-22', '23-27', '26-30']],
@@ -4559,9 +4559,9 @@ DAMAGE_SPELLS = {
  ('Stack 3', [3]),
  ('Stack 4', [4])], stacks=3, is_linked=(1, 'Hand'), spell_id=13254),
         Spell('Gear', [20, 87, 154], Effects(
-            [['14-16', '18-20', '18-20'], ['0-0', '0-0', '22-24']],
-            [['17-19', '21-23', '21-23'], ['0-0', '0-0', '26-29']],
-            [EARTH, EARTH],
+            [['14-16', '18-20', '22-24']],
+            [['17-19', '21-23', '26-29']],
+            [EARTH],
         ), is_linked=(1, 'Dropper')),
         Spell('Dark Ray', [30, 97, 164], Effects(
             [['20-22', '27-30', '31-34'],

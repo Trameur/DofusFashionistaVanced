@@ -19145,17 +19145,22 @@ class SpellComboTests(SimpleTestCase):
                      if getattr(spell, 'delayed_crit', None) is not None]
         self.assertEqual([], sorted(s.name for s in different))
 
-    def test_no_spell_counts_a_row_it_replaced(self):
-        """The split showed up twice over, and both tells are pinned here.
+    #: dofus2 keeps two, and neither can be settled from data this project
+    #: holds. Its archives ship no spell level data at all, so its block is the
+    #: 2.73 content frozen at the time and cannot be regenerated; the nine
+    #: spells whose rows were byte-identical to dofus3's took dofus3's merged
+    #: rows instead. Persecuting Arrow is not one of them, its dofus2 numbers
+    #: are a different spell entirely (10-12 where dofus3 deals 30-34), and
+    #: Friendship Word is identical to dofus3, where the same rows carry
+    #: `aggregates` and are alternatives rather than a split.
+    ROWS_DOFUS2_CANNOT_SETTLE = {
+        'uneven': ['Persecuting Arrow'],
+        'split': ['Friendship Word'],
+    }
 
-        A critical hit reads the same number of rows as a normal one, and no
-        row is dead at one grade while another of the same spell carries its
-        value. Ten dofus3 spells failed the second one, Slow-Down Arrow reading
-        28-30 plus 32-34 at its top grade where the game deals 32-34.
-        """
-        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+    def _rows_that_replaced_another(self, book):
         uneven, split = [], []
-        for spells in DAMAGE_SPELLS.values():
+        for spells in book.values():
             for spell in spells:
                 rows = spell.effects.non_crit_ranges
                 crit = spell.effects.crit_ranges
@@ -19170,8 +19175,31 @@ class SpellComboTests(SimpleTestCase):
                             and any(r.max_dam for r in row)):
                         split.append(spell.name)
                         break
-        self.assertEqual([], sorted(set(uneven)))
-        self.assertEqual([], sorted(set(split)))
+        return sorted(set(uneven)), sorted(set(split))
+
+    def test_no_spell_counts_a_row_it_replaced(self):
+        """The split showed up twice over, and both tells are pinned here.
+
+        A critical hit reads the same number of rows as a normal one, and no
+        row is dead at one grade while another of the same spell carries its
+        value. Ten dofus3 spells failed the second one, Slow-Down Arrow reading
+        28-30 plus 32-34 at its top grade where the game deals 32-34.
+        """
+        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+        uneven, split = self._rows_that_replaced_another(DAMAGE_SPELLS)
+        self.assertEqual([], uneven)
+        self.assertEqual([], split)
+
+    def test_the_other_versions_count_no_replaced_row_either(self):
+        from fashionistapulp import dofus_constants_beta, dofus_constants_dofus2
+        uneven, split = self._rows_that_replaced_another(
+            dofus_constants_beta.DAMAGE_SPELLS)
+        self.assertEqual([], uneven, 'beta')
+        self.assertEqual([], split, 'beta')
+        uneven, split = self._rows_that_replaced_another(
+            dofus_constants_dofus2.DAMAGE_SPELLS)
+        self.assertEqual(self.ROWS_DOFUS2_CANNOT_SETTLE['uneven'], uneven)
+        self.assertEqual(self.ROWS_DOFUS2_CANNOT_SETTLE['split'], split)
 
     def test_the_late_part_is_never_worth_more_than_the_cast(self):
         # It is subtracted from the turn, so scoring it with buffs the cast
