@@ -855,11 +855,13 @@ def _get_builds_using(ankama_id, game_version, limit=6):
     return builds
 
 
-# Les stats que le jeu distribue au compte-gouttes et autour desquelles un
-# build se construit. Elles priment sur le niveau : seuls six anneaux de tout
-# le jeu portent du PA, aucun a moins de vingt niveaux du Gelano, donc une
-# fenetre de niveau appliquee a celles-ci cacherait exactement ce que le
-# lecteur est venu chercher.
+# Les stats autour desquelles un build se construit. Elles ne sont pas rares
+# dans le catalogue, 1 624 objets sur 3 826 en portent une, mais elles le sont
+# souvent DANS UN EMPLACEMENT : six anneaux de tout le jeu donnent du PA, et
+# aucun a moins de vingt niveaux du Gelano. C'est pourquoi elles filtrent, et
+# pourquoi la fenetre de niveau ne s'ouvre que si le filtre ne laisse personne
+# dedans, au lieu de s'ouvrir d'office comme dans la premiere version : celle-la
+# la faisait sauter pour 42 pour cent du catalogue.
 RARE_STATS = {4: 'ap', 5: 'mp', 19: 'range', 18: 'summon'}
 
 # Au-dela, deux objets ne se comparent plus utilement. La similarite decroit
@@ -868,8 +870,16 @@ RARE_STATS = {4: 'ap', 5: 'mp', 19: 'range', 18: 'summon'}
 LEVEL_WINDOW = 10
 
 
-def _stat_ids(item):
-    return {stat_id for stat_id, _value in (getattr(item, 'stats', None) or [])}
+def _stat_ids(item, positive_only=False):
+    """The stats an item carries. Optionally only those it grants.
+
+    A ring that costs a point of range carries stat 19 exactly as one that
+    gives it, and grouping the two together would answer "what else has range"
+    with the items that take it away.
+    """
+    lignes = getattr(item, 'stats', None) or []
+    return {stat_id for stat_id, value in lignes
+            if not positive_only or (value or 0) > 0}
 
 
 def _get_similar_items(structure, language, game_version, item, limit=None):
@@ -879,10 +889,10 @@ def _get_similar_items(structure, language, game_version, item, limit=None):
     60 ring whose whole point is the AP it carries, and the ring page offered
     twenty-five rings of the same level, not one of which carried any.
 
-    So a rare stat is a filter, not a bonus: an item that gives AP is compared
-    to the others that give AP, at any level, because there are six of them in
-    the game. Everything else is compared within ten levels, and similarity
-    falls off with the distance rather than stopping at the edge.
+    So a rare stat filters: an item that grants AP is compared to the others
+    that grant AP. The level window still applies first, because for most
+    slots there are plenty of them nearby; it opens only when the filter
+    leaves nobody inside it, which is what happens to the six AP rings.
 
     Fewer results, or none, is the honest answer when nothing is alike.
     """
@@ -893,9 +903,9 @@ def _get_similar_items(structure, language, game_version, item, limit=None):
     here = (item.ankama_type or '', item.ankama_id)
     level = item.level or 0
     mine = _stat_ids(item)
-    rare = mine & set(RARE_STATS)
+    rare = _stat_ids(item, positive_only=True) & set(RARE_STATS)
 
-    scored = []
+    dedans, dehors = [], []
     for entry in _get_light_index(structure, language):
         other = entry['item']
         if entry['raw_type_name'] != slot:
@@ -906,26 +916,27 @@ def _get_similar_items(structure, language, game_version, item, limit=None):
             continue
         if other.id in hidden:
             continue
-
-        theirs = _stat_ids(other)
-        if rare and not rare <= theirs:
+        if rare and not rare <= _stat_ids(other, positive_only=True):
             continue
+
         distance = abs((entry['level'] or 0) - level)
-        if not rare and distance > LEVEL_WINDOW:
-            continue
-
-        # A shared stat is worth more than a close level, and a shared rare
-        # stat more than any of it.
+        # Une stat partagee vaut plus qu'un niveau proche, et le niveau ne
+        # departage que des objets deja comparables.
         proximity = max(0.0, 1.0 - distance / float(LEVEL_WINDOW))
-        score = (len(rare & theirs) * 10
-                 + len(mine & theirs)
-                 + proximity * 2)
-        scored.append((-score, distance, entry['name'] or '', entry))
+        score = len(mine & _stat_ids(other)) + proximity * 2
+        (dedans if distance <= LEVEL_WINDOW else dehors).append(
+            (-score, distance, entry['name'] or '', entry))
 
-    scored.sort(key=lambda row: row[:3])
+    dedans.sort(key=lambda row: row[:3])
+    # La fenetre ne s'ouvre que pour un objet a stat rare, et seulement si elle
+    # ne s'est pas remplie. Ce qui vient de loin passe apres tout ce qui vient
+    # de pres.
+    if rare and len(dedans) < limit:
+        dehors.sort(key=lambda row: (row[1], row[2]))
+        dedans.extend(dehors[:limit - len(dedans)])
 
     out = []
-    for _score, _distance, _name, entry in scored[:limit]:
+    for _score, _distance, _name, entry in dedans[:limit]:
         other = entry['item']
         link = get_item_link(other.ankama_type, other.ankama_id,
                              entry['name'] or other.name,
@@ -939,6 +950,7 @@ def _get_similar_items(structure, language, game_version, item, limit=None):
             'image_url': static(get_image_url(slot, other.name, game_version)),
         })
     return out
+
 def _get_item_group_key(item):
     ankama_type = (item.ankama_type or '').strip().lower()
     if item.ankama_id and ankama_type:

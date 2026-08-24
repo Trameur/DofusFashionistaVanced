@@ -174,30 +174,15 @@ def save_project(request, char_id=0):
 
     return JsonResponse(_get_state_from_char(char))
 
-def _wanted_item_from_post(request, game_version):
-    """Same check as _wanted_item, on the field the form carries back."""
-    brut = (request.POST.get('lock_item') or '').strip()
-    if not brut:
-        return None
-    try:
-        ankama_id = int(brut)
-    except (TypeError, ValueError, OverflowError):
-        return None
-    try:
-        from fashionistapulp.structure import get_structure
-        item = get_structure(game_version).get_item_by_ankama_id(ankama_id)
-    except Exception:
-        return None
-    return ankama_id if item is not None else None
-
-
-def _wanted_item(request, game_version):
+def _checked_item(brut, game_version):
     """The Ankama id of an item the reader asked to build around, or None.
 
     Checked against the catalogue rather than trusted: it arrives in a query
-    string, and it is about to decide what gets locked onto a character.
+    string, then in a form field, and it is about to decide what gets locked
+    onto a character. Written once and called on both, so the two can never
+    come apart.
     """
-    brut = (request.GET.get('item') or '').strip()
+    brut = (brut or '').strip()
     if not brut:
         return None
     try:
@@ -210,6 +195,14 @@ def _wanted_item(request, game_version):
     except Exception:
         return None
     return ankama_id if item is not None else None
+
+
+def _wanted_item_from_post(request, game_version):
+    return _checked_item(request.POST.get('lock_item'), game_version)
+
+
+def _wanted_item(request, game_version):
+    return _checked_item(request.GET.get('item'), game_version)
 
 
 def create_project(request):
@@ -259,11 +252,19 @@ def create_project(request):
         try:
             from fashionistapulp.structure import get_structure
             from chardata.build_import import apply_ankama_ids
-            apply_ankama_ids(char, get_structure(char.game_version), [voulu])
+            rapport = apply_ankama_ids(
+                char, get_structure(char.game_version), [voulu])
+            if rapport['rejected']:
+                # Le cas courant : un objet au-dessus du niveau choisi par le
+                # lecteur. Le projet se cree quand meme, mais l'objet n'y est
+                # pas, et cela doit se lire quelque part.
+                logger.info('build-around item %s not locked on char %s: %s',
+                            voulu, char.id, rapport['rejected'])
         except Exception:
             # Un projet qui se cree vaut mieux qu'une erreur : le lecteur
             # verrouillera l'objet lui-meme si cela a echoue.
-            pass
+            logger.warning('build-around item %s could not be applied',
+                           voulu, exc_info=True)
     
     if state['where_to_go'] == 'wizard':
         return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))

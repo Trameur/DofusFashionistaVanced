@@ -406,17 +406,28 @@ class ItemPopularity(models.Model):
     class Meta:
         unique_together = ('ankama_id', 'game_version')
 
+    # Sous ce nombre de porteurs, la part est du bruit plutot qu'un signal.
+    ENOUGH_WEARERS = 30
+
     @property
     def share(self):
         """Percentage of the builds that could wear it and did, or None.
 
-        None rather than zero when nothing is comparable: a share computed on
-        a handful of builds says nothing, and printing 0 percent would read as
-        a fact rather than as an absence of one.
+        None whenever printing the number would say something false. Guarding
+        the denominator alone was not enough and hid nothing where it mattered:
+        1 219 of the 3 436 item pages carried "worn in 70 builds, 0.0 % of
+        those that could equip it", a sentence that contradicts itself in its
+        own second half. The noise was in the numerator, and in the rounding.
+
+        The count alone is always true, so it is what remains when the share
+        is dropped.
         """
-        if not self.eligible or self.eligible < 30:
+        if not self.eligible or self.builds < self.ENOUGH_WEARERS:
             return None
-        return 100.0 * self.builds / self.eligible
+        part = 100.0 * self.builds / self.eligible
+        # Ce qui s'arrondirait a "0.0 %" n'est pas une part, c'est un zero
+        # accompagne d'un compte qui dit le contraire.
+        return None if round(part, 1) < 0.1 else part
 
     def __str__(self):
         return '%s %s: %s/%s' % (self.game_version, self.ankama_id,

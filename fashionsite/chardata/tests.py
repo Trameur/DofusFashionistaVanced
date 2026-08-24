@@ -21981,6 +21981,73 @@ class DonationButtonTests(TestCase):
                              'a raw donation link escapes the counter')
 
 
+class ItemPopularityNeverPrintsSomethingFalseTests(TestCase):
+    """A percentage published on 3 436 pages has to be defensible.
+
+    The first version guarded the denominator and let the numerator through:
+    1 219 of them read "worn in 70 builds, 0.0 % of those that could equip it",
+    a sentence whose two halves contradict each other. The count is always
+    true, so it is what remains when the share is dropped.
+    """
+
+    def _pop(self, builds, eligible):
+        from chardata.models import ItemPopularity
+        return ItemPopularity(ankama_id=1, game_version='dofus3',
+                              builds=builds, eligible=eligible)
+
+    def test_a_share_that_rounds_to_zero_is_not_printed(self):
+        self.assertIsNone(self._pop(70, 141969).share)
+
+    def test_too_few_wearers_is_not_a_share(self):
+        self.assertIsNone(self._pop(5, 10000).share)
+
+    def test_an_empty_denominator_is_not_a_share(self):
+        self.assertIsNone(self._pop(40, 0).share)
+
+    def test_a_real_share_is_printed(self):
+        part = self._pop(1400, 10000).share
+        self.assertIsNotNone(part)
+        self.assertAlmostEqual(part, 14.0, places=6)
+
+    def test_the_page_falls_back_to_the_count_alone(self):
+        """Dropping the share must not drop the sentence: the count is the
+        part that was never in doubt."""
+        from chardata.encyclopedia_view import _get_popularity
+        from chardata.models import ItemPopularity
+        ItemPopularity.objects.create(ankama_id=26066, game_version='dofus3',
+                                      builds=70, eligible=141969)
+        vu = _get_popularity(26066, 'dofus3')
+        self.assertEqual(vu['builds'], 70)
+        self.assertIsNone(vu['share'])
+
+    def test_a_partial_pass_leaves_the_counts_alone(self):
+        """On the shared builds only, a level 200 item compares against 625
+        builds instead of 48 522. That share is still above the threshold, so
+        it would print a credible number computed on one percent of the data.
+        """
+        from io import StringIO
+        from django.core.management import call_command
+        from chardata.models import ItemPopularity
+        ItemPopularity.objects.create(ankama_id=26066, game_version='dofus3',
+                                      builds=1400, eligible=10000)
+        sortie = StringIO()
+        call_command('reindex_builds_by_item', shared_only=True, stdout=sortie)
+        garde = ItemPopularity.objects.filter(ankama_id=26066).first()
+        self.assertIsNotNone(garde, 'the partial pass wiped the counts')
+        self.assertEqual(garde.builds, 1400)
+        self.assertIn('the usage counts were left untouched', sortie.getvalue())
+        self.assertNotIn('counted items', sortie.getvalue())
+
+    def test_a_full_pass_does_rebuild_them(self):
+        from io import StringIO
+        from django.core.management import call_command
+        from chardata.models import ItemPopularity
+        ItemPopularity.objects.create(ankama_id=26066, game_version='dofus3',
+                                      builds=1400, eligible=10000)
+        call_command('reindex_builds_by_item', stdout=StringIO())
+        self.assertIsNone(ItemPopularity.objects.filter(ankama_id=26066).first())
+
+
 class SimilarItemsAnswerTheQuestionAskedTests(TestCase):
     """What else could go in this slot, for this build.
 

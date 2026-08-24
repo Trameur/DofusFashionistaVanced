@@ -40,7 +40,7 @@ class Command(BaseCommand):
             help='stop after this many builds; 0 reads them all')
         parser.add_argument(
             '--shared-only', action='store_true',
-            help='rebuild only the named public builds, skipping the counts')
+            help='rebuild only the named public builds, leaving the counts alone')
 
     def handle(self, *args, **options):
         from fashionistapulp.structure import get_structure
@@ -82,22 +82,36 @@ class Command(BaseCommand):
                     lignes.append(ItemInSharedBuild(
                         ankama_id=ankama_id, game_version=version, char=build))
 
-        comptes = self._eligible_par_objet(get_structure, portes, niveaux)
+        # Une passe partielle ne peut pas produire une part honnete : sur les
+        # seuls builds partages, un objet niveau 200 se compare a 625 builds
+        # au lieu de 48 522, ce qui reste au-dessus du seuil et affiche donc un
+        # pourcentage credible calcule sur un pour cent des donnees. Un chiffre
+        # faux indiscernable d'un vrai est pire que pas de chiffre.
+        complet = not options['shared_only'] and not options['limit']
+        comptes = (self._eligible_par_objet(get_structure, portes, niveaux)
+                   if complet else [])
 
         with transaction.atomic():
             ItemInSharedBuild.objects.all().delete()
             ItemInSharedBuild.objects.bulk_create(lignes, batch_size=1000,
                                                   ignore_conflicts=True)
-            ItemPopularity.objects.all().delete()
-            ItemPopularity.objects.bulk_create(comptes, batch_size=1000,
-                                               ignore_conflicts=True)
+            if complet:
+                ItemPopularity.objects.all().delete()
+                ItemPopularity.objects.bulk_create(comptes, batch_size=1000,
+                                                   ignore_conflicts=True)
 
         self.stdout.write('builds read      : %d' % lus)
         self.stdout.write('unreadable       : %d' % illisibles)
         self.stdout.write('named public     : %d rows' % len(lignes))
-        self.stdout.write('counted items    : %d' % len(comptes))
-        self.stdout.write(self.style.SUCCESS(
-            'the encyclopedia can now say who wears an item, and how many do.'))
+        if complet:
+            self.stdout.write('counted items    : %d' % len(comptes))
+            self.stdout.write(self.style.SUCCESS(
+                'the encyclopedia can now say who wears an item, and how many '
+                'do.'))
+        else:
+            self.stdout.write(self.style.WARNING(
+                'partial pass: the usage counts were left untouched, since '
+                'they would have been computed on a subset.'))
 
     def _eligible_par_objet(self, get_structure, portes, niveaux):
         """How many builds could have worn each item, meaning those at or
