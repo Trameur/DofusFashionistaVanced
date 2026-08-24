@@ -24032,3 +24032,89 @@ class TheLanguageSelectorWorksWithoutAMouseTests(TestCase):
         self.assertIn('aria-haspopup="true"', balise.group(0))
         # Ferme au chargement, et le script le passe a true a l'ouverture.
         self.assertIn('aria-expanded="false"', balise.group(0))
+
+
+class TheThemeSelectorWorksWithoutAMouseTests(TestCase):
+    """The same defect as the flags, in the control right next to them.
+
+    Four <div> carrying a jQuery .click(): the one that opens the menu and the
+    three that pick a theme. None could be focused, so a visitor navigating
+    with a keyboard could not switch to the dark theme at all. The classes
+    carry every bit of the styling, so the elements become <button> without
+    the page changing.
+    """
+
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
+    CHOIX = ('theme-light', 'theme-dark', 'theme-auto')
+
+    def _accueil(self):
+        reponse = self.client.get('/', HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 200)
+        return reponse.content.decode('utf-8')
+
+    @staticmethod
+    def _porteur(page, attribut, valeur):
+        """Balise ouvrante portant cet attribut, quel que soit l'ordre.
+
+        Le minifieur trie les attributs, donc un motif qui suppose l'ordre ne
+        trouve rien et fait passer un test negatif sans rien garder.
+        """
+        import re
+        for balise in re.findall(r'<[a-z]+[^>]*>', page):
+            if '%s="%s"' % (attribut, valeur) in balise:
+                return balise
+        return None
+
+    def test_the_control_that_opens_the_menu_is_a_button(self):
+        page = self._accueil()
+        balise = self._porteur(page, 'aria-haspopup', 'true')
+        self.assertIsNotNone(balise)
+        # Les drapeaux en ont un aussi : on veut celui du theme.
+        balise = None
+        import re
+        for candidat in re.findall(r'<[a-z]+[^>]*>', page):
+            if 'current-theme' in candidat:
+                balise = candidat
+                break
+        self.assertIsNotNone(balise)
+        self.assertTrue(balise.startswith('<button'), balise)
+        self.assertIn('aria-expanded="false"', balise)
+
+    def test_every_theme_choice_is_a_button(self):
+        page = self._accueil()
+        for identifiant in self.CHOIX:
+            balise = self._porteur(page, 'id', identifiant)
+            self.assertIsNotNone(balise, identifiant)
+            self.assertTrue(balise.startswith('<button'), balise)
+            self.assertIn('type="button"', balise, identifiant)
+
+    def test_no_div_is_left_acting_as_a_theme_control(self):
+        """The regression this exists to stop, and it has been seen red.
+
+        Putting the <div> back and watching this fail is the only thing that
+        proves the test looks at anything: a pattern that can never match
+        makes an assertion of absence pass forever.
+        """
+        import re
+        page = self._accueil()
+        # Sur le jeton exact, pas sur la sous-chaine : le conteneur s'appelle
+        # base-theme-selector-div et contient "theme-selector" sans etre une
+        # commande. Premiere version rouge pour cette seule raison.
+        coupables = []
+        for balise in re.findall(r'<div[^>]*>', page):
+            jetons = set()
+            for valeur in re.findall(r'class="([^"]*)"',
+                                     balise.replace(chr(39), chr(34))):
+                jetons.update(valeur.split())
+            if jetons & {'theme-selector', 'current-theme'}:
+                coupables.append(balise)
+        self.assertEqual(coupables, [])
+
+    def test_the_selector_opens_no_form_it_does_not_close(self):
+        """It shipped with a </form> and no <form> above it.
+
+        Harmless in a browser, which drops the stray tag, and exactly the kind
+        of leftover that makes the next person doubt the markup around it.
+        """
+        page = self._accueil()
+        self.assertEqual(page.count('<form'), page.count('</form>'))

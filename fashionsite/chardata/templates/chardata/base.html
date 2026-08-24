@@ -726,6 +726,7 @@ outside every column so nothing they do can move the page.{% endcomment %}
         $("#blanket-theme").click(function() {
             toggleBlanket('blanket-theme');
             toggleBlanket('other-themes');
+            $(".current-theme").attr("aria-expanded", "false");
         });
         $("#flag").click(function() {
             popup(0, 'other-flags', 'blanket-language');
@@ -733,6 +734,7 @@ outside every column so nothing they do can move the page.{% endcomment %}
         });
         $(".current-theme").click(function() {
             popup(0, 'other-themes', 'blanket-theme');
+            $(".current-theme").attr("aria-expanded", "true");
         });
         {% if not advanced %}
             var menu = $("#menu-collapse");

@@ -273,6 +273,26 @@ h2:first-letter{
     margin-top: 5px;
 }
 
+/* Meme correctif que les drapeaux : ces commandes sont des <button>, seuls
+   elements qu'un clavier atteint sans qu'on lui ajoute un role invente. Un
+   bouton n'herite ni la police ni la couleur et s'affiche en ligne, la ou un
+   div s'empile : sans ces trois lignes les trois choix se rangeraient cote a
+   cote dans une police differente. Le fond reste aux classes de theme, qui le
+   posent deja pour le clair comme pour le sombre. */
+button.current-theme,
+button.theme-selector {
+    font-family: inherit;
+    font-size: inherit;
+    display: block;
+    border: 0;
+}
+
+button.current-theme:focus-visible,
+button.theme-selector:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
 .flag-choose, #flag, #current-theme, .current-theme, .theme-selector {
     cursor: pointer;
 }

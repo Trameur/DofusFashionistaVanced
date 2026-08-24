@@ -1,11 +1,19 @@
 {% load i18n %}
 {% load static_s3 %}
+{% comment %}
+Les quatre commandes etaient des <div> portant un .click() jQuery : aucune
+n'etait atteignable au clavier, pas plus celle qui ouvre le menu que les trois
+qui choisissent. Ce sont des <button> depuis. Les classes portent tout le
+style, donc l'apparence ne bouge pas ; seules la police, la couleur et
+l'empilement doivent etre rendus a la main, un bouton n'heritant ni des deux
+premieres ni ne s'empilant comme un bloc.
+{% endcomment %}
 <div class="base-theme-selector-div" id="theme-div">
-        <div class='auto-current current-theme'> {% trans "Theme" %} </div>
-    </form>
+        <button type="button" class='auto-current current-theme'
+                aria-haspopup="true" aria-expanded="false"> {% trans "Theme" %} </button>
     <div id="other-themes">
-        <div class='lighttheme-selector theme-selector' id='theme-light'> {% trans "Light Theme" %}</div>
-        <div class='darktheme-selector theme-selector' id='theme-dark'> {% trans "Dark Theme" %} </div>
-        <div class='auto-selector theme-selector' id='theme-auto'> {% trans "Auto" %} </div>
+        <button type="button" class='lighttheme-selector theme-selector' id='theme-light'> {% trans "Light Theme" %}</button>
+        <button type="button" class='darktheme-selector theme-selector' id='theme-dark'> {% trans "Dark Theme" %} </button>
+        <button type="button" class='auto-selector theme-selector' id='theme-auto'> {% trans "Auto" %} </button>
     </div>
 </div>
