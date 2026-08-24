@@ -788,6 +788,50 @@ def _get_light_index(structure, language):
 SIMILAR_ITEMS_SHOWN = 6
 
 
+def _item_seo_description(item, item_set_name, stat_lines, popularity):
+    """What a search result shows instead of a promise.
+
+    The old description said the page had "stats, effects, equip conditions and
+    craft recipe": it described the KIND of page, in the abstract, and said
+    nothing about the item. Measured over 28 days, item pages rank fifth to
+    eighth on their own item name and take zero clicks, while the Fandom wiki
+    ranks above with a description that answers the question in the snippet:
+    "Belteen is a Belt and part of the Whale Set. Crafted by a Shoemaker..."
+
+    So this one answers too, from the data the page already has. The last
+    sentence is the part no wiki and no official encyclopedia can write, since
+    none of them knows what people actually wear.
+    """
+    morceaux = []
+    if item.get('type_name') and item.get('level'):
+        if item_set_name:
+            morceaux.append(_('%(name)s: %(type)s, level %(level)s, %(set)s.') % {
+                'name': item['name'], 'type': item['type_name'],
+                'level': item['level'], 'set': item_set_name})
+        else:
+            morceaux.append(_('%(name)s: %(type)s, level %(level)s.') % {
+                'name': item['name'], 'type': item['type_name'],
+                'level': item['level']})
+
+    # Les trois plus grosses lignes, celles qui font choisir un objet.
+    fortes = []
+    for ligne in (stat_lines or []):
+        valeur = ligne.get('amount_text') or ligne.get('value')
+        nom = ligne.get('name')
+        if valeur and nom:
+            fortes.append('%s %s' % (valeur, nom))
+        if len(fortes) >= 3:
+            break
+    if fortes:
+        morceaux.append('%s.' % ', '.join(fortes))
+
+    if popularity and popularity.get('share'):
+        morceaux.append(_('Worn in %(share)s of the builds that can equip it.')
+                        % {'share': popularity['share']})
+
+    return ' '.join(morceaux)
+
+
 def _get_popularity(ankama_id, game_version):
     """How many builds wear this item, and what share of those that could.
 
@@ -2417,6 +2461,21 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         (localized_name, canonical_url),
     ])
 
+    # Extraits avant le retour parce que la description de recherche les
+    # consomme : elle est construite a partir de ce que la page affiche deja,
+    # jamais a cote.
+    _item_contexte = {
+        'name': localized_name,
+        'or_name': representative_item.or_name,
+        'level': representative_item.level,
+        'type_name': localized_type_name,
+        'ankama_id': representative_item.ankama_id,
+        'ankama_type': representative_item.ankama_type,
+        'image_url': static(get_image_url(
+            type_name, representative_item.name, game_version)),
+    }
+    _popularite = _get_popularity(representative_item.ankama_id, game_version)
+
     return set_response(
         request,
         'chardata/encyclopedia_item.html',
@@ -2428,16 +2487,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'canonical_url': canonical_url,
             'alternate_urls': alternate_urls,
             'breadcrumb_jsonld': breadcrumb_jsonld,
-            'item': {
-                'name': localized_name,
-                'or_name': representative_item.or_name,
-                'level': representative_item.level,
-                'type_name': localized_type_name,
-                'ankama_id': representative_item.ankama_id,
-                'ankama_type': representative_item.ankama_type,
-                'image_url': static(get_image_url(
-                    type_name, representative_item.name, game_version)),
-            },
+            'item': _item_contexte,
             'item_set_name': item_set.localized_names.get(language) if item_set else None,
             'item_set_id': item_set.id if item_set else None,
             'item_set_url': get_set_link(
@@ -2466,8 +2516,10 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'builds_using': _get_builds_using(representative_item.ankama_id,
                                               game_version),
             'builds_using_label': t['builds_using_label'],
-            'item_popularity': _get_popularity(representative_item.ankama_id,
-                                               game_version),
+            'item_popularity': _popularite,
+            'seo_description': _item_seo_description(
+                _item_contexte, item_set.localized_names.get(language)
+                if item_set else None, stat_lines, _popularite),
         },
     )
 

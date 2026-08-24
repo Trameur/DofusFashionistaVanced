@@ -6821,3 +6821,31 @@ msgstr "Llevado en %(n)s builds."
 #: .\chardata\templates\chardata\encyclopedia_item.html
 msgid "Build a set around it"
 msgstr "Crear un conjunto con él"
+
+#: .\chardata\templates\chardata\projdetails.html
+msgid "Dofus Set Builder"
+msgstr "Creador de conjuntos de Dofus"
+
+#: .\chardata\templates\chardata\projdetails.html
+msgid "Tell the optimizer your class, your level and what you want from your set. It picks the gear for you, on every version of Dofus. No account needed to try."
+msgstr "Dile al optimizador tu clase, tu nivel y lo que quieres de tu conjunto. Él elige el equipo por ti, en todas las versiones de Dofus. No hace falta cuenta para probar."
+
+#: .\chardata\templates\chardata\load_projects.html
+msgid "Your Saved Dofus Sets"
+msgstr "Tus conjuntos de Dofus guardados"
+
+#: .\chardata\templates\chardata\load_projects.html
+msgid "Find the Dofus sets you have already built and pick up where you left off."
+msgstr "Encuentra los conjuntos de Dofus que ya has creado y continúa donde lo dejaste."
+
+#: .\chardata\encyclopedia_view.py
+msgid "%(name)s: %(type)s, level %(level)s, %(set)s."
+msgstr "%(name)s: %(type)s, nivel %(level)s, %(set)s."
+
+#: .\chardata\encyclopedia_view.py
+msgid "%(name)s: %(type)s, level %(level)s."
+msgstr "%(name)s: %(type)s, nivel %(level)s."
+
+#: .\chardata\encyclopedia_view.py
+msgid "Worn in %(share)s of the builds that can equip it."
+msgstr "Llevado en el %(share)s de los builds que pueden equiparlo."

@@ -4,7 +4,12 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Load a Project" %}{% endblock %}
+{% comment %}
+1 690 impressions par mois pour trois clics : la page se presentait comme
+"Load a Project", ce qui ne dit rien a qui cherche.
+{% endcomment %}
+{% block title %}{% trans "Your Saved Dofus Sets" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block meta_description %}{% blocktrans %}Find the Dofus sets you have already built and pick up where you left off.{% endblocktrans %}{% endblock %}
 
 {% block main %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">

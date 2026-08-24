@@ -7,7 +7,16 @@
 
 {% block title %}{{ item.name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endblock %}
+{% comment %}
+La description construite depuis les donnees de l'objet, pas une promesse de
+page. L'ancienne annoncait "stats, effects, equip conditions and craft recipe",
+c'est-a-dire le GENRE de la page : les fiches sortent cinquieme a huitieme sur
+le nom de leur propre objet et prennent zero clic, pendant que le wiki Fandom
+passe devant avec une description qui repond dans le resultat.
+La derniere phrase est celle qu'aucun wiki ni l'encyclopedie officielle ne peut
+ecrire, puisque aucun ne sait ce que les gens portent.
+{% endcomment %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% if seo_description %}{{ seo_description }}{% else %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endif %}{% endblock %}
 
 {# Version-prefixed item pages are canonical because each game version has distinct item data. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
@@ -15,7 +24,7 @@
 {# Item-specific social preview (name + icon) instead of the generic site card. #}
 {% block og_meta %}
     <meta property="og:title" content="{{ item.name }} · {{ t.title }}">
-    <meta property="og:description" content="{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}">
+    <meta property="og:description" content="{% if seo_description %}{{ seo_description }}{% else %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endif %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ canonical_url }}">
     <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ item.image_url }}">
