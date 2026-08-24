@@ -6781,3 +6781,7 @@ msgstr "Você pode visualizar e editar seus projetos a qualquer momento enquanto
 #: .\chardata\templates\chardata\privacy.html
 msgid "How Dofus Fashionista handles your data: accounts, saved builds, cookies, Google Analytics, and your privacy rights."
 msgstr "Como o Dofus Fashionista trata seus dados: contas, builds salvos, cookies, Google Analytics e seus direitos de privacidade."
+
+#: .\chardata\templates\chardata\encyclopedia_item.html:300
+msgid "Looking for a set built around %(item_name)s?"
+msgstr "Procura um conjunto construído em torno de %(item_name)s?"

@@ -21884,6 +21884,75 @@ class DonationButtonTests(TestCase):
                              'a raw donation link escapes the counter')
 
 
+class EncyclopediaPagesInviteTheReaderToTheToolTests(TestCase):
+    """The encyclopedia is nearly every URL the site has, and it never said
+    what the site is for.
+
+    A reader arriving from a search engine on an item page found the optimizer
+    only in the navigation menu. The guides carry two invitations inside their
+    own text; the 152 000 encyclopedia pages carried none, so the traffic that
+    does arrive learns nothing about the thing the site does best.
+
+    The labels already existed and were already translated, so this adds one
+    sentence and no new obligation to the catalogues.
+    """
+
+    NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                  '(KHTML, like Gecko) Chrome/126.0 Safari/537.36')
+    SANS_PUB = {'enabled': False, 'client': '', 'slots': {}, 'auto': False}
+    OBJET = '/encyclopedia/item/equipment/26066-nightmare-dofus/'
+
+    def _page(self, chemin=None):
+        from unittest import mock
+        with mock.patch('chardata.context_processors.ad_config',
+                        return_value=dict(self.SANS_PUB)):
+            reponse = self.client.get(chemin or self.OBJET,
+                                      HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 200, chemin or self.OBJET)
+        return reponse.content.decode('utf-8')
+
+    def test_an_item_page_points_at_the_optimizer(self):
+        page = self._page()
+        self.assertIn('encyclopedia-cta', page)
+        self.assertIn('Looking for a set built around', page)
+        self.assertIn('/setup/', page)
+        self.assertIn('/quickstart/', page)
+
+    def test_the_invitation_sits_after_the_item_it_talks_about(self):
+        """Asked before the reader has seen the stats, it is an interruption."""
+        page = self._page()
+        self.assertGreater(page.index('encyclopedia-cta'),
+                           page.index('encyclopedia-section'))
+
+    def test_it_keeps_the_reader_in_the_game_version_they_were_reading(self):
+        """A reader on a beta page sent to the live optimizer would silently
+        lose the version they came for."""
+        page = self._page('/beta' + self.OBJET)
+        debut = page.index('encyclopedia-cta')
+        bloc = page[debut:debut + 700]
+        self.assertIn('/beta/setup/', bloc)
+        self.assertIn('/beta/quickstart/', bloc)
+
+    def test_the_reader_is_invited_in_their_own_language(self):
+        """The encyclopedia takes its language from the URL, not from a header:
+        each language has its own translated slug."""
+        for chemin, attendu in (
+                ('/encyclopedia/item/equipment/26066-dofus-du-cauchemar/',
+                 'Vous cherchez un'),
+                ('/encyclopedia/item/equipment/26066-dofus-des-alptraums/',
+                 'Suchen Sie ein Set')):
+            self.assertIn(attendu, self._page(chemin), chemin)
+
+    def test_the_invitation_is_a_link_and_not_a_form(self):
+        """A crawler follows an <a href>. The language selector is a POST form
+        and is invisible to one, which is the mistake not to repeat here."""
+        page = self._page()
+        debut = page.index('encyclopedia-cta')
+        bloc = page[debut:debut + 700]
+        self.assertIn('<a ', bloc)
+        self.assertNotIn('<form', bloc)
+
+
 class ImportingASetFromAnkamaIdsTests(TestCase):
     """Bringing a set in from somewhere else, without trusting names.
 

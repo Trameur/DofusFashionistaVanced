@@ -287,6 +287,22 @@
             </ul>
         </div>
         {% endif %}
+        {% comment %}
+        Une fiche d'objet ne disait nulle part que le site sait calculer un set.
+        Le seul lien vers l'outil etait celui du menu, alors que les guides, eux,
+        en portent deux dans leur contenu. Or l'encyclopedie represente la quasi
+        totalite des URL du site : un lecteur venu de Google y arrivait sans
+        jamais apprendre ce que fait l'outil.
+        Les deux libelles existent deja et sont traduits dans les cinq langues,
+        et game_url garde la version de jeu courante.
+        {% endcomment %}
+        <div class="encyclopedia-cta">
+            <p class="encyclopedia-cta-line">{% blocktrans with item_name=item.name %}Looking for a set built around {{ item_name }}?{% endblocktrans %}</p>
+            <div class="encyclopedia-cta-buttons">
+                <a class="encyclopedia-cta-btn" href="{% game_url 'setup' %}">{% trans "Create a project" %}</a>
+                <a class="encyclopedia-cta-btn encyclopedia-cta-btn-ghost" href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>
+            </div>
+        </div>
         {% ad_unit 'encyclopedia_inline' %}
     </div>
 </div>
