@@ -12465,8 +12465,12 @@ class EncyclopediaCacheWarmupTests(SimpleTestCase):
             subdir = ev._MONSTER_IMAGE_DIRS.get(version)
             if subdir is not None:
                 self.assertIn(subdir, ev._monster_image_ids_cache)
-            self.assertIn(ev._INGREDIENT_ICON_DIRS[version],
-                          ev._ingredient_icon_ids_cache)
+            # Like the monster directory two lines up: a version with no
+            # ingredient icons of its own has nothing to warm, and a bare
+            # index here would fail on the version before the page did.
+            subdir = ev._INGREDIENT_ICON_DIRS.get(version)
+            if subdir is not None:
+                self.assertIn(subdir, ev._ingredient_icon_ids_cache)
             self.assertIn(version, ev._version_item_keys_cache)
             self.assertIn(version, ev._version_resource_keys_cache)
             self.assertIn(version, ev._resource_search_index_cache)
@@ -17713,6 +17717,68 @@ class ArtworkNeverCrossesFromAnotherGameTests(SimpleTestCase):
         shared = names['dofus3'] & names['wakfu']
         self.assertIn('Adventurer Hat', shared)
         self.assertGreater(len(shared), 100)
+
+
+class TheWakfuPipelineSaysWhatItOwnsTests(SimpleTestCase):
+    """update_data_wakfu.py is the only thing that makes a Wakfu rebuild safe.
+
+    build_wakfu_db.py deletes items_wakfu.db and writes it again from nothing,
+    so it owns every row in that database and anything else that fills a table
+    has to run after it. That order lives in one place, the orchestrator, and
+    its docstring names the tables. A docstring that drifts from the code is
+    worse than none, because the next person will trust it, so the two are
+    held equal here.
+    """
+
+    ROOT = os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))))
+    ORCHESTRATOR = os.path.join(ROOT, 'update_data_wakfu.py')
+    BUILDER = os.path.join(ROOT, 'itemscraper', 'build_wakfu_db.py')
+
+    def _orchestrator(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            'update_data_wakfu_under_test', self.ORCHESTRATOR)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_the_documented_owner_list_is_the_real_one(self):
+        import re
+        doc = io.open(self.ORCHESTRATOR, encoding='utf-8').read()
+        block = doc.split('rewrites on every run:')[1].split('Nothing else')[0]
+        documented = set(re.findall(r'[a-z_]{4,}', block))
+        builder = io.open(self.BUILDER, encoding='utf-8').read()
+        written = set(re.findall(r'INSERT INTO ([a-z_]+)', builder))
+        self.assertTrue(written, 'the builder writes nothing at all?')
+        self.assertEqual(written, documented,
+                         'the orchestrator names %s but the builder writes %s'
+                         % (sorted(documented - written),
+                            sorted(written - documented)))
+
+    def test_the_build_step_comes_before_everything_that_writes(self):
+        # A step that fills a table and runs before the build has its work
+        # deleted by the build, silently, and the dump then publishes the loss.
+        source = io.open(self.ORCHESTRATOR, encoding='utf-8').read()
+        build_at = source.index("step('items/build-db'")
+        dump_at = source.index("step('items/dump'")
+        self.assertLess(build_at, dump_at)
+        for earlier in ("step('data/mirror'", "step('data/sets'"):
+            self.assertLess(source.index(earlier), build_at, earlier)
+
+    def test_a_zero_count_is_not_a_warning(self):
+        # "0 unresolved" is the good news. The filter used to shout about it,
+        # which is how a run with nothing wrong ends up looking alarming and
+        # then ignored.
+        said = self._orchestrator()._is_notice
+        self.assertFalse(said('stat vocabulary: 71 actions, 0 unresolved'))
+        self.assertFalse(said('0 missing'))
+        self.assertFalse(said('no error'))
+        self.assertTrue(said('stat vocabulary: 71 actions, 3 unresolved'))
+        self.assertTrue(said('set with no page   15'))
+        self.assertTrue(said('2 errors and 0 missing'))
+        # The zero has to be a count of its own word, not the tail of another.
+        self.assertTrue(said('casino missing'))
 
 
 class GameVersionRegistryTests(SimpleTestCase):

@@ -32,12 +32,15 @@ WHAT THE DATA DOES NOT CARRY, so that nobody looks for it here:
   `zones.json` all answer 403, so the feed is about ITEMS and CRAFTING and
   nothing else. A Wakfu character model has to find its class data elsewhere.
 
-WHAT IS PUBLISHED BESIDE THE ITEMS, and is not mirrored yet because nothing
-reads it: recipes.json (520 KB), recipeIngredients.json (2.3 MB),
-recipeResults.json (477 KB), recipeCategories.json, blueprints.json,
-harvestLoots.json, collectibleResources.json, resourceTypes.json and
-jobsItems.json (6.2 MB). The shared schema already has `item_recipes` and
-`item_recipe_ingredient_names` waiting for them.
+WHAT IS PUBLISHED BESIDE THE ITEMS. The crafting files ARE mirrored, by the
+list below, even though nothing decodes them yet: recipes.json,
+recipeResults.json, recipeIngredients.json, recipeCategories.json and
+jobsItems.json. Mirroring them now is the point, because a build goes
+unreachable two versions later. The shared schema already has `item_recipes`,
+`item_recipe_ingredient_names`, `item_craft_jobs` and `job_names` waiting.
+
+Still not mirrored, because nothing has even measured them: blueprints.json,
+harvestLoots.json, collectibleResources.json and resourceTypes.json.
 
 - Item pictures. They are not in this feed either, but Ankama serves them at
   static.ankama.com; see get_item_images_wakfu.py.
@@ -75,6 +78,11 @@ UA = 'DofusFashionista/wakfu-import (+https://dofusfashionista.gg)'
 
 # The files the equipment needs. The rest of the feed (recipes, jobs, harvest)
 # is left alone until something asks for it.
+# Everything this project reads out of a build. The crafting half is mirrored
+# even though nothing decodes it yet, and that is deliberate: a build older
+# than the current one and its predecessor answers 403, so a file that is not
+# mirrored TODAY may be unreachable by the time somebody wants it. The mirror
+# is the only thing that keeps a build reproducible.
 FILES = (
     'items.json',
     'itemTypes.json',
@@ -82,6 +90,13 @@ FILES = (
     'itemProperties.json',
     'actions.json',
     'states.json',
+    # Crafting. 5616 recipes, one product each, 34832 ingredient lines, 14
+    # jobs, and the resources that are not gear and are named nowhere else.
+    'recipes.json',
+    'recipeResults.json',
+    'recipeIngredients.json',
+    'recipeCategories.json',
+    'jobsItems.json',
 )
 
 LANGS = ('fr', 'en', 'es', 'pt')

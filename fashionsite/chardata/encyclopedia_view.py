@@ -1139,10 +1139,13 @@ def _recipe_lookups(cursor, recipe_rows, language, has_recipe_names_table):
 
 
 def _ingredient_icon_url(game_version, ankama_id):
-    if ankama_id in _ingredient_icon_ids(game_version):
-        subdir = _INGREDIENT_ICON_DIRS[game_version]
-        return static('chardata/resources/%s60x60/%d-60-60.png' % (subdir, ankama_id))
-    return None
+    # Read once, with .get(): a version with no icon directory of its own is a
+    # real case, and the same dictionary was being read twice here, tolerantly
+    # above and with a bare index below.
+    subdir = _INGREDIENT_ICON_DIRS.get(game_version)
+    if subdir is None or ankama_id not in _ingredient_icon_ids(game_version):
+        return None
+    return static('chardata/resources/%s60x60/%d-60-60.png' % (subdir, ankama_id))
 
 
 # Monster artwork per version: dofus3/beta share the modern renders, touch has
