@@ -6,6 +6,15 @@
 
 {% block title %}{{ profile_display_name }} · Dofus Fashionista{% endblock %}
 
+{% comment %}
+Sous un prefixe de version et sans build a montrer, cette page est un
+quasi-doublon de celle sans prefixe. La vue le detecte et pose alors
+canonical_url ; sinon on garde le canonique de base.html, qui pointe sur
+l'adresse demandee, parce qu'une variante qui porte de vrais builds est
+bien une page distincte.
+{% endcomment %}
+{% block canonical %}{% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}">{% else %}{{ block.super }}{% endif %}{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'chardata/forms.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">

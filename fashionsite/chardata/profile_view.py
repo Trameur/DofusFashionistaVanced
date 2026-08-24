@@ -21,6 +21,7 @@ from chardata.encoded_char_id import encode_char_id
 from chardata.models import BuildVote, Char, UserAlias, UserFollow
 from chardata.shared_builds_view import translate_build_name
 from chardata.util import set_response, version_reverse
+from chardata.url_language import SITE_URL
 
 
 logger = logging.getLogger(__name__)
@@ -102,9 +103,24 @@ def user_profile(request, alias):
             is_following = UserFollow.objects.filter(
                 follower=request.user, followed=target).exists()
 
+    # Le meme profil est servi sous chaque prefixe de version, et la liste des
+    # builds y est filtree par version. Sur 32 variantes versionnees mesurees en
+    # production, 32 etaient vides pendant que la page sans prefixe portait 2 a
+    # 7 builds : autant de quasi-doublons se declarant chacun canonique. Google
+    # les repliait deja de lui-meme, ce qu'il compte comme "canonique choisi
+    # different de celui du site". Quand la variante n'a rien a montrer, on dit
+    # ce qui est vrai : la page qui compte est celle sans prefixe.
+    versionnee = game_version != 'dofus3'
+    vide = not builds
+    canonique = None
+    if versionnee and vide:
+        canonique = '%s/user/%s/' % (SITE_URL, alias)
+
     return set_response(request, 'chardata/user_profile.html', {
         'profile_user': target,
         'profile_display_name': _display_name(target),
+        'canonical_url': canonique,
+        'noindex': bool(canonique),
         'builds': builds,
         'total_likes_received': total_likes_received,
         'total_favorites_received': total_favorites_received,

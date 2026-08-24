@@ -24849,3 +24849,79 @@ class AMissingEntityAnswersLikeOneTests(TestCase):
         # si bien que le controle passait aussi quand la page etait fausse.
         self.assertIn('unavailable in this version', page)
         self.assertIn('/encyclopedia/', page)
+
+
+class AnEmptyProfileVariantDoesNotClaimToBeItsOwnPageTests(TestCase):
+    """One profile was served at five addresses, each its own canonical.
+
+    The builds are filtered by game version, so /retro/user/x/ is a different
+    page from /user/x/ in principle. In practice it is empty: on 32 versioned
+    variants measured in production, 32 showed nothing while the unprefixed
+    page carried between two and seven builds. Five near-identical pages each
+    declaring itself the original is what Google files under 'duplicate, we
+    picked a different canonical than you' -- 2 820 pages of it.
+
+    So the empty ones now say what is true, and the ones that carry builds are
+    left alone, because those really are distinct pages.
+    """
+
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        from chardata.models import UserAlias
+        self.proprio = User.objects.create_user(
+            'batisseur', 'b@test.local', 'pw-42-solid')
+        UserAlias(user=self.proprio, alias='batisseur').save()
+
+    def _build(self, version):
+        import pickle as _pickle
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        entree = {'options': {'ap_exo': False, 'mp_exo': False},
+                  'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        return Char.objects.create(
+            name='Stuff %s' % version, char_name='batisseur',
+            char_class='Iop', char_build='build', level=200,
+            game_version=version, link_shared=True,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({}, entree, {})),
+            owner=self.proprio)
+
+    def _tete(self, chemin):
+        import re
+        reponse = self.client.get(chemin, HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 200, chemin)
+        page = reponse.content.decode('utf-8')
+        robots = re.search(r'<meta[^>]*name="robots"[^>]*>', page)
+        canonique = re.search(r'<link[^>]*rel="canonical"[^>]*>', page)
+        lire = lambda b, a: (re.search(r'%s="([^"]*)"' % a, b.group(0)).group(1)
+                             if b else None)
+        return lire(robots, 'content'), lire(canonique, 'href')
+
+    def test_an_empty_versioned_variant_points_at_the_real_page(self):
+        self._build('dofus3')
+        robots, canonique = self._tete('/retro/user/batisseur/')
+        self.assertEqual('noindex, follow', robots)
+        self.assertTrue(canonique.endswith('/user/batisseur/'), canonique)
+        self.assertNotIn('/retro/', canonique)
+
+    def test_the_unprefixed_profile_stays_its_own(self):
+        self._build('dofus3')
+        robots, canonique = self._tete('/user/batisseur/')
+        self.assertEqual('index, follow', robots)
+        self.assertTrue(canonique.endswith('/user/batisseur/'), canonique)
+
+    def test_a_versioned_variant_with_builds_is_left_alone(self):
+        """The case that makes the fix a fix and not a blanket rule.
+
+        A player who really did share Retro builds has a Retro profile worth
+        its own address, and folding it into the Dofus 3 one would hide it.
+        """
+        self._build('dofus3')
+        self._build('retro')
+        robots, canonique = self._tete('/retro/user/batisseur/')
+        self.assertEqual('index, follow', robots)
+        self.assertIn('/retro/', canonique)
