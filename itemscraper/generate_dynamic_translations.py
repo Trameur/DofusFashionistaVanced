@@ -29,7 +29,17 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(CURRENT_DIR)
 sys.path.insert(0, os.path.join(ROOT, 'fashionistapulp'))
 
-DBS = ['items.db', 'items_beta.db', 'items_dofus2.db', 'items_touch.db', 'items_retro.db']
+from fashionistapulp.game_versions import GAME_VERSIONS, dofus_versions
+
+# The Dofus versions only, from the registry rather than a list written out by
+# hand that goes stale the day a version is added.
+#
+# Wakfu is deliberately not here. Its type and stat names are Ankama's own and
+# the data carries them in French, Spanish and Portuguese already, so asking a
+# translator for them would invent a second set of words for things the game
+# has already named. They are stored beside the items instead; German is the
+# one language Wakfu has never had, and it falls back to English.
+DBS = [GAME_VERSIONS[key].db_file for key in dofus_versions()]
 OUT = os.path.join(ROOT, 'fashionsite', 'chardata', 'dynamic_translations.py')
 
 HEADER = '''\

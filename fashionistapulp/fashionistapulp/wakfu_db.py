@@ -56,6 +56,14 @@ rows, everything else has one. That is what Dofus keeps in the hand-written
 `TYPE_NAME_TO_SLOT_NUMBER`, derived here instead, because Ankama publishes it
 in `equipmentItemTypes.json` and a published fact should never be retyped.
 
+THE TYPE NAMES come with the data in the four languages Wakfu is played in,
+so they are stored the way item and set names are, rather than going through
+gettext like the Dofus type names do. Asking a translator for "Anneau" would
+invent a second word for something Ankama has already named, and the site
+would then disagree with the game a player is reading it beside. German is the
+one language Wakfu has never had; it falls back to English, like every other
+Wakfu string.
+
 Nothing about doubling lives here. Whether two copies of one ring may be worn
 is a rule of the game and sits in `game_versions.rings_can_double`, which is
 also why storing the real names was safe: the model used to read that rule off
@@ -68,6 +76,7 @@ import re
 ITEM_RARITY_TABLE = 'item_rarity'
 STAT_ELEMENT_COUNT_TABLE = 'stat_element_count'
 ITEM_TYPE_POSITION_TABLE = 'item_type_position'
+ITEM_TYPE_NAME_TABLE = 'item_type_names'
 
 SCHEMA = (
     """CREATE TABLE item_rarity
@@ -82,6 +91,10 @@ SCHEMA = (
     """CREATE TABLE item_type_position
              (item_type INTEGER, position TEXT,
               PRIMARY KEY (item_type, position),
+              FOREIGN KEY(item_type) REFERENCES item_types(id))""",
+    """CREATE TABLE item_type_names
+             (item_type INTEGER, language TEXT, name TEXT,
+              PRIMARY KEY (item_type, language),
               FOREIGN KEY(item_type) REFERENCES item_types(id))""",
 )
 

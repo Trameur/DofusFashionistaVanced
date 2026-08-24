@@ -17603,6 +17603,39 @@ class WakfuTypesAreAnkamasOwnTests(SimpleTestCase):
         from fashionistapulp.wakfu_slots import BOTH_HANDS
         self.assertEqual(set(BOTH_HANDS), places[ring])
 
+    def test_every_type_is_named_in_the_languages_wakfu_is_played_in(self):
+        # Ankama names its own types, so the site says the word the player is
+        # reading in the game rather than one a translator picked for it. The
+        # game has never had German, which falls back to English.
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_items_db_path
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built')
+        conn = sqlite3.connect('file:%s?mode=ro' % get_items_db_path('wakfu'),
+                               uri=True)
+        try:
+            rows = conn.execute('SELECT item_type, language, name'
+                                ' FROM item_type_names').fetchall()
+            types = [row[0] for row in
+                     conn.execute('SELECT id FROM item_types').fetchall()]
+        finally:
+            conn.close()
+        names = {}
+        for type_id, language, name in rows:
+            names.setdefault(type_id, {})[language] = name
+        for type_id in types:
+            with self.subTest(type=type_id):
+                said = names.get(type_id, {})
+                self.assertEqual({'en', 'fr', 'es', 'pt', 'de'}, set(said))
+                for language, name in said.items():
+                    self.assertNotIn('{', name, language)
+                    self.assertTrue(name.strip(), language)
+                self.assertEqual(said['en'], said['de'])
+        # And they are real translations rather than English copied five
+        # times: a fallback everywhere would pass every check above.
+        translated = sum(1 for said in names.values() if said['fr'] != said['en'])
+        self.assertGreater(translated, len(types) * 3 // 4)
+
     def test_no_item_is_filed_under_a_type_that_is_not_there(self):
         wakfu = self._wakfu()
         known = set(wakfu.types_dict)

@@ -103,15 +103,23 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
         positions = sorted(p for p in item['positions'] if p in GEAR)
         if not positions:
             continue
-        name = singular((item.get('type_name') or {}).get('en') or '')
-        types.setdefault(item['type_id'], (name, positions))
-    for type_id, (name, positions) in sorted(types.items()):
+        names = {language: singular(text)
+                 for language, text in (item.get('type_name') or {}).items()}
+        types.setdefault(item['type_id'], (names, positions))
+    for type_id, (names, positions) in sorted(types.items()):
         # A brace here means Ankama used a plural form this build has never
         # seen. Better to stop than to print "Anneau{[~1]?x:}" at a reader.
-        if '{' in name or not name:
-            raise ValueError('type %d has no usable name: %r' % (type_id, name))
+        for language, name in sorted(names.items()):
+            if '{' in name or not name.strip():
+                raise ValueError('type %d has no usable %s name: %r'
+                                 % (type_id, language, name))
+        if not names.get('en'):
+            raise ValueError('type %d is not named in english' % type_id)
         conn.execute('INSERT INTO item_types (id, name) VALUES (?, ?)',
-                     (type_id, name))
+                     (type_id, names['en']))
+        for language, name in sorted(names.items()):
+            conn.execute('INSERT INTO item_type_names (item_type, language,'
+                         ' name) VALUES (?, ?, ?)', (type_id, language, name))
         for position in positions:
             conn.execute('INSERT INTO item_type_position (item_type, position)'
                          ' VALUES (?, ?)', (type_id, position))
