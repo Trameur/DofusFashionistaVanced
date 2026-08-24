@@ -38,7 +38,7 @@ from .item import Item
 from .set import Set
 from .translation import NON_EN_LANGUAGES
 from .wakfu_db import (ITEM_PICTURE_TABLE, ITEM_RARITY_TABLE,
-                       STAT_ELEMENT_COUNT_TABLE)
+                       ITEM_TYPE_POSITION_TABLE, STAT_ELEMENT_COUNT_TABLE)
 from .weapon import Weapon, WeaponType
 from django.templatetags.i18n import language
 from django.utils.translation import gettext as _
@@ -137,6 +137,7 @@ class Structure:
             self.read_set_names_table()
             self.read_stats_of_item_table()
             self.read_item_rarity_table()
+            self.read_item_type_position_table()
             self.read_item_picture_table()
             self.read_stat_element_count_table()
             self.read_min_stat_to_equip_table()
@@ -340,6 +341,28 @@ class Structure:
             if has_range and entry[3] is not None and entry[4] is not None:
                 item.stat_ranges[stat_id] = (entry[3], entry[4])
             
+    def read_item_type_position_table(self):
+        """Where each Wakfu item type is worn. No Dofus version has it.
+
+        Dofus keeps the same fact in a hand-written dictionary,
+        TYPE_NAME_TO_SLOT_NUMBER, because its ten types never change. Wakfu has
+        twenty-four and Ankama publishes them, so they are read rather than
+        retyped, and the COUNT falls out of the rows: a Ring has two, one per
+        hand, and everything else has one.
+        """
+        self.type_positions = []
+        if not self._table_exists(ITEM_TYPE_POSITION_TABLE):
+            return
+        c = self.conn.cursor()
+        self.type_positions = [
+            (type_id, position) for type_id, position in c.execute(
+                'SELECT item_type, position FROM %s ORDER BY item_type,'
+                ' position' % ITEM_TYPE_POSITION_TABLE)]
+
+    def get_type_positions(self):
+        """[(type id, position)], empty for every version but Wakfu."""
+        return getattr(self, 'type_positions', [])
+
     def read_item_rarity_table(self):
         """Wakfu's rarity tier. No Dofus version has the table at all."""
         if not self._table_exists(ITEM_RARITY_TABLE):

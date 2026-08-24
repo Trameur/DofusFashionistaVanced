@@ -18438,6 +18438,103 @@ class WakfuSpellTablesHoldOnlyWhatVariesTests(SimpleTestCase):
             conn.close()
 
 
+class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
+    """The first Wakfu builds, checked against the rules they must not break.
+
+    Every assertion here is a rule measured earlier against Ankama's own data,
+    not a preference: the twelve slots, the two hands, the two exclusive
+    groups, the three caps and the floor on critical hit.
+
+    Level 100 is used wherever a cap has to bind. It is the lowest level where
+    gear can reach one, and it solves in under a second where level 245 takes
+    five.
+    """
+
+    BINDS = 100
+
+    def _structure(self):
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built; run update_data_wakfu.py')
+        return get_structure('wakfu')
+
+    def _build(self, level, weights, forbidden=()):
+        from fashionistapulp.wakfu_model import WakfuBuild
+        build = WakfuBuild(self._structure(), level, weights, forbidden)
+        return build, build.build().solve()
+
+    def test_a_build_wears_one_item_per_slot_and_no_item_twice(self):
+        from fashionistapulp.wakfu_slots import SLOTS
+        build, worn = self._build(50, {'hp': 1, 'ap': 200, 'mp': 150})
+        self.assertIsNotNone(worn, 'no legal set at all at level 50')
+        self.assertEqual(set(), set(worn) - set(SLOTS))
+        # A dict keyed by slot cannot hold two items in one slot, so the real
+        # question is whether one ITEM was placed in two of them.
+        ids = [item.id for item in worn.values()]
+        self.assertEqual(len(ids), len(set(ids)), 'an item is worn twice')
+        for item in worn.values():
+            self.assertLessEqual(item.level, 50)
+
+    def test_no_build_passes_a_cap_and_pushing_reaches_it(self):
+        # A cap that could not be reached would prove nothing, so each one is
+        # pushed as hard as the weights allow and then checked from below.
+        from fashionistapulp.wakfu_stats import OUT_OF_COMBAT_CAPS
+        reached = 0
+        for name, cap in OUT_OF_COMBAT_CAPS.items():
+            with self.subTest(stat=name):
+                build, worn = self._build(self.BINDS, {name.lower(): 10000})
+                self.assertIsNotNone(worn)
+                total = build.totals(worn)[name.lower()]
+                self.assertLessEqual(total, cap,
+                                     '%s reached %d, past its cap of %d'
+                                     % (name, total, cap))
+                reached += total == cap
+        self.assertGreater(reached, 0,
+                           'no cap was reachable, so none of them was tested')
+
+    def test_the_critical_hit_floor_holds(self):
+        # Negative critical hit buys other stats, so a solver told to want it
+        # will take every such item it can. -9 % in total is where the game
+        # stops it.
+        from fashionistapulp.wakfu_stats import CRITICAL_HIT_FLOOR_PERCENT
+        build, worn = self._build(self.BINDS, {'hp': 1, 'ferocity': -1000})
+        self.assertIsNotNone(worn)
+        total = build.totals(worn)['ferocity']
+        self.assertGreaterEqual(total, CRITICAL_HIT_FLOOR_PERCENT)
+        self.assertEqual(CRITICAL_HIT_FLOOR_PERCENT, total,
+                         'the floor was never reached, so it was not tested')
+
+    def test_a_two_handed_weapon_leaves_the_off_hand_empty(self):
+        # Forced by forbidding every one-handed first weapon, so the solver
+        # has to take a two-handed one or nothing at all.
+        structure = self._structure()
+        places = {}
+        for type_id, position in structure.get_type_positions():
+            places.setdefault(type_id, []).append(position)
+        one_handed = {item.id for item in structure.get_items_list()
+                      if 'FIRST_WEAPON' in places.get(item.type, ())
+                      and 'two_handed' not in (item.flags or ())}
+        self.assertGreater(len(one_handed), 100)
+        build, worn = self._build(self.BINDS, {'hp': 1, 'ap': 200},
+                                  forbidden=one_handed)
+        self.assertIsNotNone(worn)
+        weapon = worn.get('FIRST_WEAPON')
+        self.assertIsNotNone(weapon, 'no weapon was taken, so nothing is shown')
+        self.assertIn('two_handed', weapon.flags)
+        self.assertNotIn('SECOND_WEAPON', worn,
+                         'a two-handed weapon left the off hand filled')
+
+    def test_at_most_one_relic_and_one_epic(self):
+        build, worn = self._build(self.BINDS, {'hp': 1, 'ap': 200, 'mp': 150})
+        self.assertIsNotNone(worn)
+        for flag in ('relic', 'epic'):
+            with self.subTest(flag=flag):
+                wearing = [item.name for item in worn.values()
+                           if flag in (item.flags or ())]
+                self.assertLessEqual(len(wearing), 1, wearing)
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 
