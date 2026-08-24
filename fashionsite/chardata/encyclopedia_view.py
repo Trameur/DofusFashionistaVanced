@@ -2244,9 +2244,9 @@ def encyclopedia_most_used(request):
     whose denominator is hidden is a number nobody can argue with, which is the
     opposite of what this is for.
     """
-    structure = get_structure()
-    language = get_supported_language()
     game_version = getattr(request, 'game_version', 'dofus3')
+    structure = get_structure(game_version)
+    language = get_supported_language()
     from chardata.models import ItemPopularity
 
     try:
