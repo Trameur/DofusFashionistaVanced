@@ -22,6 +22,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 import json
 import jsonpickle
+import re
 from urllib.parse import urlencode, urlparse
 
 from chardata.character_assets import asset_formats, asset_token
@@ -656,5 +657,14 @@ def _get_text_error_response(cause):
     return HttpResponseText('Error: %s' % cause)
 
 
+# What may be echoed back out of what the reader typed. A share link is a URL,
+# and a URL cannot hold these characters unencoded, so removing them costs
+# nothing real and takes away the only way the echo could start markup. The
+# response says text/plain and now also says nosniff, but a value that cannot
+# open a tag is safe whatever a browser decides to do with the bytes.
+_CANNOT_BE_ECHOED = re.compile(r'[<>"\'\x00-\x1f\x7f]')
+
+
 def _rejected_link_error(message, raw_link):
-    return _get_text_error_response(message % raw_link[:120])
+    safe = _CANNOT_BE_ECHOED.sub('', raw_link or '')[:120]
+    return _get_text_error_response(message % safe)

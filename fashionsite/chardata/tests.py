@@ -18168,6 +18168,79 @@ class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
                            'not the general mechanic this assumes')
 
 
+class ARejectedLinkCannotCarryMarkupBackTests(TestCase):
+    """The compare page echoes the link a reader pasted when it refuses it.
+
+    Echoing what someone typed is how a page ends up running their markup.
+    Two things stop it here and both are checked: the value cannot hold a
+    character that opens a tag, and the response tells the browser not to
+    decide for itself what kind of document it is looking at.
+    """
+
+    ATTACK = '<script>alert(1)</script>'
+
+    def _refuse(self, links):
+        return self.client.post('/choose_compare_sets_post/',
+                                {'links': json.dumps(links)})
+
+    def test_the_echo_cannot_open_a_tag(self):
+        answer = self._refuse(['https://example.com/%s' % self.ATTACK,
+                               'https://example.com/also-bad'])
+        body = answer.content.decode('utf-8')
+        self.assertNotIn('<', body)
+        self.assertNotIn('>', body)
+        # The WORD survives, and that is fine: "scriptalert(1)/script" is
+        # ordinary text once it cannot open a tag. Asserting the word were
+        # gone would be asking the echo to censor rather than to be safe.
+        self.assertIn('scriptalert(1)', body)
+
+    def test_the_browser_is_told_not_to_guess(self):
+        # The header comes from Django's SecurityMiddleware, not from the
+        # response class, so what this really holds in place is the setting.
+        # Turning SECURE_CONTENT_TYPE_NOSNIFF off would leave every echo in
+        # the site relying on the stripping alone.
+        from django.conf import settings
+        self.assertTrue(settings.SECURE_CONTENT_TYPE_NOSNIFF)
+        answer = self._refuse(['nonsense one', 'nonsense two'])
+        self.assertEqual('nosniff', answer['X-Content-Type-Options'])
+        self.assertTrue(answer['Content-Type'].startswith('text/plain'))
+
+    def test_a_real_link_still_reads_back(self):
+        # The whole point of the echo is telling the reader which of their
+        # links was refused, so stripping must not eat an ordinary url.
+        answer = self._refuse(['https://dofusfashionista.gg/s/abc123',
+                               'https://dofusfashionista.gg/s/def456'])
+        body = answer.content.decode('utf-8')
+        self.assertIn('dofusfashionista.gg/s/abc123', body)
+
+
+def _local_links(markup):
+    """Every href on a page that points inside the site, without a fragment.
+
+    Parsed rather than matched. A pattern over markup cannot tell a real
+    attribute from the same characters inside another one, which is the whole
+    reason this reads a rendered page with a parser instead.
+    """
+    from html.parser import HTMLParser
+
+    class _Links(HTMLParser):
+        def __init__(self):
+            HTMLParser.__init__(self, convert_charrefs=True)
+            self.found = set()
+
+        def handle_starttag(self, tag, attrs):
+            if tag != 'a':
+                return
+            href = dict(attrs).get('href') or ''
+            if href.startswith('/'):
+                self.found.add(href.split('#')[0].split('?')[0])
+
+    reader = _Links()
+    reader.feed(markup)
+    reader.close()
+    return reader.found
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 
@@ -22183,6 +22256,84 @@ class PagesSayInSearchWhatTheyAreForTests(TestCase):
             self.assertGreater(titre.index('Dofus Fashionista'), 5, chemin)
 
 
+class ItemPagesAnswerInTheSearchResultTests(TestCase):
+    """The snippet has to answer, not announce.
+
+    Measured over 28 days: item pages rank fifth to eighth on their own item
+    name and take zero clicks. "belteen" 278 impressions position 6.8, zero
+    clicks; "putchup" 67, zero; "strichhat" 37, zero. Above them the Fandom
+    wiki answers in its own snippet, "Belteen is a Belt and part of the Whale
+    Set. Crafted by a Shoemaker...", while this site said "Belteen: Dofus
+    stats, effects, equip conditions and craft recipe", which describes the
+    kind of page and not the item.
+
+    The last sentence is the one no wiki and no official encyclopedia can
+    write, because none of them knows what people actually wear.
+    """
+
+    BELTEEN = '/encyclopedia/item/equipment/15699-belteen/'
+    ANCIENNE = 'Dofus stats, effects, equip conditions and craft recipe'
+
+    def _description(self, chemin, langue='en'):
+        import re
+        html = self.client.get(chemin, HTTP_ACCEPT_LANGUAGE=langue).content.decode('utf-8')
+        m = (re.search(r'name="description" content="([^"]*)"', html)
+             or re.search(r'content="([^"]*)" name="description"', html))
+        return m.group(1) if m else ''
+
+    def test_it_says_what_the_item_is(self):
+        descr = self._description(self.BELTEEN)
+        self.assertIn('Belteen', descr)
+        self.assertIn('Belt', descr)
+        self.assertIn('200', descr)
+        self.assertNotIn(self.ANCIENNE, descr)
+
+    def test_it_names_the_set_the_item_belongs_to(self):
+        """The wiki's snippet leads with it, and it is what a reader searching
+        an item name is usually after."""
+        self.assertIn('Whale Set', self._description(self.BELTEEN))
+
+    def test_it_carries_the_stats_that_make_someone_pick_an_item(self):
+        descr = self._description(self.BELTEEN)
+        self.assertIn('Vitality', descr)
+
+    def test_it_says_the_one_thing_no_wiki_can_say(self):
+        from chardata.models import ItemPopularity
+        ItemPopularity.objects.create(ankama_id=15699, game_version='dofus3',
+                                      builds=1400, eligible=10000)
+        self.assertIn('14.0 %', self._description(self.BELTEEN))
+
+    def test_without_the_count_it_still_answers(self):
+        """The popularity index is rebuilt periodically and may be empty. The
+        description must not depend on it."""
+        descr = self._description(self.BELTEEN)
+        self.assertNotIn('Worn in', descr)
+        self.assertIn('Belt', descr)
+
+    def test_it_falls_back_rather_than_going_blank(self):
+        """An item with no type or level would otherwise get an empty
+        description, which is worse than the old promise."""
+        from chardata.encyclopedia_view import _item_seo_description
+        vide = _item_seo_description({'name': 'X'}, None, [], None)
+        self.assertEqual(vide, '')
+
+    def test_a_french_reader_reads_it_in_french(self):
+        """L'encyclopedie prend sa langue de l'URL et non de l'en-tete, chaque
+        langue ayant son propre slug traduit. La fonction est donc eprouvee
+        sous bascule, ce qui teste la traduction sans dependre du slug."""
+        from django.utils import translation
+        from chardata.encyclopedia_view import _item_seo_description
+        objet = {'name': 'Belteen', 'type_name': 'Ceinture', 'level': 200}
+        with translation.override('fr'):
+            descr = _item_seo_description(
+                objet, 'Panoplie de la Baleine',
+                [{'name': 'Vitalité', 'value': 350}],
+                {'builds': 1400, 'share': '14.0 %'})
+        self.assertIn('niveau 200', descr)
+        self.assertIn('Panoplie de la Baleine', descr)
+        self.assertIn("qui peuvent l'équiper", descr)
+
+
 class ItemPopularityNeverPrintsSomethingFalseTests(TestCase):
     """A percentage published on 3 436 pages has to be defensible.
 
@@ -23008,7 +23159,6 @@ class SignInWithGoogleWorksTests(TestCase):
 
     def test_no_page_links_to_a_view_that_only_takes_post(self):
         """The general rule, so the next one is caught here."""
-        import re
         from django.urls import resolve
 
         pages = ('/', '/login_page/', '/support/', '/encyclopedia/', '/guides/',
@@ -23019,7 +23169,7 @@ class SignInWithGoogleWorksTests(TestCase):
             if reponse.status_code != 200:
                 continue
             html = reponse.content.decode('utf-8')
-            for href in set(re.findall(r'<a\b[^>]*href="(/[^"#?]*)', html)):
+            for href in _local_links(html):
                 try:
                     vue = resolve(href).func
                 except Exception:

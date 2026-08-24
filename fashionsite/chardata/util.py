@@ -258,8 +258,25 @@ def get_char_id_possibly_encoded(char_id_possibly_encoded):
         return int(char_id_possibly_encoded), False
 
 class HttpResponseText(HttpResponse):
+    """Plain text.
+
+    Several of these carry back a string the reader typed, an unusable share
+    link for instance, so that the page can show them what was rejected. That
+    only stays safe while the browser is told not to decide for itself what
+    kind of document it is looking at: without nosniff it may read the bytes,
+    conclude they look like markup and render them.
+
+    The header is NOT set here. Django's SecurityMiddleware puts it on every
+    response because SECURE_CONTENT_TYPE_NOSNIFF is on, and setting it twice
+    would only hide which of the two is doing the work. A test holds the
+    setting in place, and the view that echoes a link also strips anything
+    that could open a tag, so neither guarantee is load-bearing alone.
+    """
+
     def __init__(self, text, **kwargs):
-        return HttpResponse.__init__(self, text, content_type='text/plain; charset=utf-8', **kwargs)
+        HttpResponse.__init__(self, text,
+                              content_type='text/plain; charset=utf-8',
+                              **kwargs)
 
 class HttpResponseJson(HttpResponse):
     def __init__(self, text, **kwargs):

@@ -65,6 +65,7 @@ import argparse
 import collections
 import html
 import http.cookiejar
+from html.parser import HTMLParser
 import io
 import json
 import re
@@ -153,11 +154,43 @@ def opener():
     return built
 
 
+class _Readable(HTMLParser):
+    """The text of a fragment, by parsing it rather than by pattern.
+
+    Written with a parser on purpose. Cutting tags out with a regexp is the
+    classic way to be wrong about markup, because a pattern cannot tell a real
+    tag from the same characters inside an attribute, and a `<script>` that
+    does not close the way the pattern expects survives the cut. Ankama's
+    effect lines embed script tags carrying tooltip JSON, so this is not
+    hypothetical here.
+    """
+
+    SILENT = ('script', 'style')
+
+    def __init__(self):
+        HTMLParser.__init__(self, convert_charrefs=True)
+        self.parts = []
+        self.quiet = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.SILENT:
+            self.quiet += 1
+
+    def handle_endtag(self, tag):
+        if tag in self.SILENT and self.quiet:
+            self.quiet -= 1
+
+    def handle_data(self, data):
+        if not self.quiet:
+            self.parts.append(data)
+
+
 def strip(markup):
     """The readable text of an effect line, images and tooltips removed."""
-    text = re.sub(r'<script.*?</script>', ' ', markup or '', flags=re.S)
-    text = re.sub(r'<[^>]+>', ' ', text)
-    return re.sub(r'\s+', ' ', html.unescape(text)).strip()
+    reader = _Readable()
+    reader.feed(markup or '')
+    reader.close()
+    return re.sub(r'\s+', ' ', ''.join(reader.parts)).strip()
 
 
 def effect_rows(markup, report=None):
