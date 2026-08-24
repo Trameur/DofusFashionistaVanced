@@ -17367,6 +17367,76 @@ class WakfuItemDatabaseTests(SimpleTestCase):
                                     '%s is tracked' % path)
 
 
+class LevelRangeFollowsTheGameTests(SimpleTestCase):
+    """The item buckets used to be written 1..200, which is Dofus's range.
+
+    Wakfu runs 0 to 245 and had 1502 items outside it, a fifth of its
+    catalogue, so `separate_items` raised a KeyError on the first level-0 item.
+    Reading the range off the data leaves the five Dofus versions exactly where
+    they were, and this says so in both directions.
+    """
+
+    def test_no_dofus_version_moved(self):
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            with self.subTest(version=version):
+                structure = get_structure(version)
+                self.assertEqual(1, structure._level_floor)
+                self.assertEqual(200, structure._level_ceiling)
+
+    def test_every_item_lands_in_a_bucket(self):
+        # The guard that would have caught the KeyError before it was hit.
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'retro'):
+            structure = get_structure(version)
+            items = list(structure.get_concatenated_items_lists())
+            self.assertTrue(items)
+            for item in items:
+                if item.level not in structure.types:
+                    self.fail('%s item %s is level %s, outside %s..%s'
+                              % (version, item.name, item.level,
+                                 structure._level_floor,
+                                 structure._level_ceiling))
+
+    def test_wakfu_brings_its_own_levels_stats_and_slots(self):
+        import os
+        from fashionistapulp.fashionista_config import get_items_db_path
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built; run '
+                          'itemscraper/get_items_wakfu.py then '
+                          'itemscraper/build_wakfu_db.py')
+        from fashionistapulp.structure import get_structure
+        from fashionistapulp.wakfu_stats import WAKFU_STATS
+        wakfu = get_structure('wakfu')
+        self.assertEqual(0, wakfu._level_floor)
+        self.assertGreater(wakfu._level_ceiling, 200)
+        items = list(wakfu.get_concatenated_items_lists())
+        self.assertGreater(len(items), 5000)
+        for item in items:
+            self.assertIn(item.level, wakfu.types)
+        # Its own vocabulary, not Dofus's: no stat key is shared.
+        keys = {stat.key for stat in wakfu.get_stats_list()}
+        self.assertEqual({key.lower() for key in WAKFU_STATS}, keys)
+        for dofus_only in ('str', 'int', 'agi', 'pow', 'vit'):
+            self.assertNotIn(dofus_only, keys)
+
+    def test_a_spread_line_keeps_its_element_count_all_the_way(self):
+        import os
+        from fashionistapulp.fashionista_config import get_items_db_path
+        if not os.path.exists(get_items_db_path('wakfu')):
+            self.skipTest('no Wakfu database built')
+        from fashionistapulp.structure import get_structure
+        wakfu = get_structure('wakfu')
+        spread = [item for item in wakfu.get_concatenated_items_lists()
+                  if getattr(item, 'element_spread', None)]
+        self.assertGreater(len(spread), 1000)
+        for item in spread:
+            for stat_id, value, elements in item.element_spread:
+                with self.subTest(item=item.name):
+                    self.assertIn(elements, (1, 2, 3))
+                    self.assertIn((stat_id, value), item.stats)
+
+
 class GameVersionRegistryTests(SimpleTestCase):
     """The one list of games, and the silent fallback it replaced.
 

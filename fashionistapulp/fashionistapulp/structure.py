@@ -839,14 +839,25 @@ class Structure:
     def _is_or_item_available(self, item):
         return not item.removed
 
-    def separate_items(self):     
+    def separate_items(self):
+        # The buckets cover the levels this game actually has. Written as
+        # 1..200 for years, which is Dofus's range and only Dofus's: every
+        # item of all five Dofus versions sits inside it, so reading the range
+        # off the data leaves them untouched, while Wakfu runs 0 to 245 and had
+        # 1502 items outside it, a fifth of its catalogue.
+        levels = {item.level for item in itertools.chain(
+            self.items_list, self.dt_items_list)}
+        self._level_floor = min([1] + [level for level in levels])
+        self._level_ceiling = max([200] + [level for level in levels])
+        span = range(self._level_floor, self._level_ceiling + 1)
+
         self.types = {}
-        for x in range(1, 201):
+        for x in span:
             self.types[x] = {}
             for t in self.types_list:
                 self.types[x][t] = []
         self.dt_types = {}
-        for x in range(1, 201):
+        for x in span:
             self.dt_types[x] = {}
             for t in self.types_list:
                 self.dt_types[x][t] = []
@@ -900,16 +911,19 @@ class Structure:
                     self.types[item.level][self.get_type_name_by_id(item.type)].append(item)
                 item.or_name = item.name
 
+        # A level carries everything the levels below it carry.
+        climbing = range(self._level_floor + 1, self._level_ceiling + 1)
         for t in self.types_list:
-            for level in range(2, 200 + 1):
+            for level in climbing:
                 self.types[level][t] = self.types[level][t] + self.types[level-1][t]
         for t in self.types_list:
-            for level in range(2, 200 + 1):
+            for level in climbing:
                 self.dt_types[level][t] = self.dt_types[level][t] + self.dt_types[level-1][t]
      
         self._unique_items_ids_with_type = {}
         for t in self.types_list:
-            for item in self.get_unique_items_by_type_and_level(t, 200, False):
+            for item in self.get_unique_items_by_type_and_level(
+                    t, self._level_ceiling, False):
                 self._unique_items_ids_with_type[item.id] = t
         self._dt_unique_items_ids_with_type = {}
         for t in self.types_list:
