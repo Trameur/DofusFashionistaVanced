@@ -24581,3 +24581,79 @@ class ThePolicySaysWhatTheCodeDoesTests(TestCase):
                                    HTTP_USER_AGENT=self.NAVIGATEUR)
             self.assertEqual(page.status_code, 200, langue)
             self.assertIn(phrase, page.content.decode('utf-8'), langue)
+
+
+class AMissingEntityAnswersLikeOneTests(TestCase):
+    """152 235 urls are submitted and Ankama renames things.
+
+    So this path gets walked, and it was sending three contradictory signals
+    at once: the status said gone, the robots tag said index me, and the
+    canonical named the encyclopedia hub -- which asks Google to fold a dead
+    address into a live page rather than drop it.
+
+    The set case was worse than the others: it rendered the whole hub, 206 kB
+    and five hundred items, under a 404.
+    """
+
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
+    ABSENTS = (
+        ('item', '/encyclopedia/item/equipment/99999999-rien/'),
+        ('set', '/encyclopedia/set/99999999-rien/'),
+        ('monster', '/encyclopedia/monster/99999999-rien/'),
+        ('resource', '/encyclopedia/resource/resources/99999999-rien/'),
+    )
+
+    def _page(self, url):
+        reponse = self.client.get(url, HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 404, url)
+        return reponse.content.decode('utf-8')
+
+    @staticmethod
+    def _attribut(page, motif, attribut):
+        import re
+        balise = re.search(motif, page)
+        if balise is None:
+            return None
+        trouve = re.search(r'%s="([^"]*)"' % attribut, balise.group(0))
+        return trouve.group(1) if trouve else None
+
+    def test_none_of_them_asks_to_be_indexed(self):
+        for genre, url in self.ABSENTS:
+            page = self._page(url)
+            robots = self._attribut(page, r'<meta[^>]*name="robots"[^>]*>',
+                                    'content')
+            self.assertEqual('noindex, follow', robots, genre)
+
+    def test_none_of_them_points_its_canonical_elsewhere(self):
+        """A canonical is 'this is the same page as that one'.
+
+        On an address that no longer answers, naming the hub asks for the two
+        to be merged. The only true statement left is the address itself.
+        """
+        for genre, url in self.ABSENTS:
+            page = self._page(url)
+            canonique = self._attribut(
+                page, r'<link[^>]*rel="canonical"[^>]*>', 'href')
+            self.assertIsNotNone(canonique, genre)
+            self.assertTrue(canonique.endswith(url),
+                            '%s: %s' % (genre, canonique))
+
+    def test_a_missing_set_no_longer_serves_the_whole_encyclopedia(self):
+        """The hub is 206 kB of items; the answer here is one sentence."""
+        page = self._page('/encyclopedia/set/99999999-rien/')
+        carrefour = self.client.get('/encyclopedia/',
+                                    HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(carrefour.status_code, 200)
+        self.assertLess(len(page),
+                        len(carrefour.content.decode('utf-8')) / 2,
+                        'the missing set still answers with the hub')
+
+    def test_it_still_tells_the_reader_where_to_go(self):
+        """Correct signals for a crawler must not make a dead end for a
+        person: the page names what was asked for and links back."""
+        page = self._page('/encyclopedia/set/99999999-rien/')
+        # Sur la phrase, pas sur l'adresse : le carrefour rendu sous 404
+        # contenait deja l'identifiant demande, dans son propre canonique,
+        # si bien que le controle passait aussi quand la page etait fausse.
+        self.assertIn('unavailable in this version', page)
+        self.assertIn('/encyclopedia/', page)

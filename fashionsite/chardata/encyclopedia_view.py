@@ -94,6 +94,8 @@ LOCALIZED_UI = {
         'missing_resource_title': 'Resource unavailable in this version',
         'missing_item_message': 'The item %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own items, drops and data.',
         'missing_monster_message': 'The monster %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own monsters, drops and data.',
+        'missing_set_title': 'Set unavailable in this version',
+        'missing_set_message': 'The set %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own sets, items and bonuses.',
         'missing_resource_message': 'The resource %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own resources, drops and data.',
         'missing_back_to_encyclopedia': 'Back to this version encyclopedia',
         'also_in_label': 'Also in',
@@ -158,6 +160,8 @@ LOCALIZED_UI = {
         'missing_resource_title': 'Ressource indisponible dans cette version',
         'missing_item_message': "L'objet %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres objets, drops et données.",
         'missing_monster_message': "Le monstre %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres monstres, drops et données.",
+        'missing_set_title': 'Panoplie indisponible dans cette version',
+        'missing_set_message': "La panoplie %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres panoplies, objets et bonus.",
         'missing_resource_message': "La ressource %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres ressources, drops et données.",
         'missing_back_to_encyclopedia': "Retourner à l'encyclopédie de cette version",
         'also_in_label': 'Aussi sur',
@@ -222,6 +226,8 @@ LOCALIZED_UI = {
         'missing_resource_title': 'Recurso no disponible en esta versión',
         'missing_item_message': 'El objeto %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios objetos, drops y datos.',
         'missing_monster_message': 'El monstruo %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios monstruos, drops y datos.',
+        'missing_set_title': 'Conjunto no disponible en esta versión',
+        'missing_set_message': 'El conjunto %(name)s no existe en la enciclopedia %(version)s. Cada versión de Dofus tiene sus propios conjuntos, objetos y bonus.',
         'missing_resource_message': 'El recurso %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios recursos, drops y datos.',
         'missing_back_to_encyclopedia': 'Volver a la enciclopedia de esta versión',
         'also_in_label': 'También en',
@@ -286,6 +292,8 @@ LOCALIZED_UI = {
         'missing_resource_title': 'Recurso indisponível nesta versão',
         'missing_item_message': 'O item %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios itens, drops e dados.',
         'missing_monster_message': 'O monstro %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios monstros, drops e dados.',
+        'missing_set_title': 'Conjunto indisponível nesta versão',
+        'missing_set_message': 'O conjunto %(name)s não existe na enciclopédia %(version)s. Cada versão de Dofus tem os seus próprios conjuntos, itens e bónus.',
         'missing_resource_message': 'O recurso %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios recursos, drops e dados.',
         'missing_back_to_encyclopedia': 'Voltar para a enciclopédia desta versão',
         'also_in_label': 'Também em',
@@ -350,6 +358,8 @@ LOCALIZED_UI = {
         'missing_resource_title': 'Ressource in dieser Version nicht verfügbar',
         'missing_item_message': 'Der Gegenstand %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Gegenstände, Drops und Daten.',
         'missing_monster_message': 'Das Monster %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Monster, Drops und Daten.',
+        'missing_set_title': 'Set in dieser Version nicht verfügbar',
+        'missing_set_message': 'Das Set %(name)s existiert in der %(version)s-Enzyklopädie nicht. Jede Dofus-Version hat ihre eigenen Sets, Gegenstände und Boni.',
         'missing_resource_message': 'Die Ressource %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Ressourcen, Drops und Daten.',
         'missing_back_to_encyclopedia': 'Zur Enzyklopädie dieser Version',
         'also_in_label': 'Auch in',
@@ -1303,6 +1313,7 @@ def _encyclopedia_missing_response(request, kind, requested_name):
             'char_id': 0,
             't': t,
             'canonical_url': canonical_url,
+            'noindex': True,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'missing': {
                 'title': title,
@@ -2169,9 +2180,10 @@ def encyclopedia_set(request, set_id, slug=None):
     if set_id is not None:
         item_set = structure.sets_dict.get(set_id) or structure.dt_sets_dict.get(set_id)
     if item_set is None:
-        response = encyclopedia(request)
-        response.status_code = 404
-        return response
+        # Rendait tout le carrefour, 206 Ko et 500 objets, avec son canonique
+        # et son "index, follow", sous un statut 404. La page d'absence dit la
+        # meme chose en une phrase et pointe vers la bonne suite.
+        return _encyclopedia_missing_response(request, 'set', slug or set_id)
 
     game_version = getattr(request, 'game_version', 'dofus3')
 

@@ -7,7 +7,11 @@
 
 {% block meta_description %}{{ missing.message }}{% endblock %}
 
-{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+{% comment %}Pas de canonique vers le carrefour : sur une page qui repond
+404, il dirait que cette adresse est un doublon de l'encyclopedie, ce
+qui est faux et consoliderait vers elle une page qui doit simplement
+disparaitre. Celui de base.html pointe sur l'adresse demandee, ce qui
+est la seule chose vraie ici.{% endcomment %}
 
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
