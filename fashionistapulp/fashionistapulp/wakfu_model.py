@@ -79,11 +79,19 @@ class WakfuBuild:
     the objective; it is not forbidden.
     """
 
-    def __init__(self, structure, level, weights, forbidden=()):
+    def __init__(self, structure, level, weights, forbidden=(),
+                 full_set=True):
         self.structure = structure
         self.level = level
         self.weights = dict(weights)
         self.forbidden = set(forbidden)
+        # A slot that adds nothing to the objective is one the solver is
+        # INDIFFERENT to, and an indifferent solver leaves it empty. Asked for
+        # nothing but AP, it returned five items and called it optimal, which
+        # it was, and useless: a character wears something everywhere. So a
+        # slot with anything to put in it is filled, and the answer falls back
+        # to the loose form if that turns out to be impossible.
+        self.full_set = full_set
         self.problem = None
         self._placements = []
         self._by_item = {}
@@ -146,13 +154,26 @@ class WakfuBuild:
                 for item, position in placements]
 
     def _one_item_per_slot(self):
-        """One item in each of the twelve slots, and the two hands are two."""
+        """One item in each of the twelve slots, and the two hands are two.
+
+        Exactly one, not at most one, unless the caller asked otherwise: see
+        `full_set`. A slot with no candidate at all, which happens at very low
+        levels, is left out rather than made impossible.
+        """
         by_slot = collections.defaultdict(list)
         for item, position in self._placements:
             by_slot[position].append((item, position))
         for position in SLOTS:
-            if by_slot[position]:
-                self.problem.restriction_lt_eq(1, self._parcels(by_slot[position]))
+            if not by_slot[position]:
+                continue
+            parcels = self._parcels(by_slot[position])
+            if self.full_set and position != 'SECOND_WEAPON':
+                # The off hand is the exception, and the game says so: a
+                # two-handed weapon empties it, so demanding it be filled
+                # would forbid every two-handed weapon in the game.
+                self.problem.restriction_eq(1, parcels)
+            else:
+                self.problem.restriction_lt_eq(1, parcels)
 
     def _one_copy_of_an_item(self):
         """A ring may go in either hand, but only one of them at a time."""
@@ -220,10 +241,22 @@ class WakfuBuild:
     # -- the answer -------------------------------------------------------
 
     def solve(self):
-        """{position: item} for the best legal set, or None when there is none."""
+        """{position: item} for the best legal set, or None when there is none.
+
+        Filling every slot can make a question impossible where leaving one
+        empty would not: a cap is an upper bound, so an item forced into a
+        slot can push a build past it. Rather than answer nothing, the loose
+        form is tried once before giving up, and `full_set` then says which
+        answer this is.
+        """
         if self.problem is None:
             self.build()
         self.problem.run()
+        if self.problem.get_status() != 'Optimal' and self.full_set:
+            self.full_set = False
+            self.problem = None
+            self.build()
+            self.problem.run()
         if self.problem.get_status() != 'Optimal':
             return None
         chosen = self.problem.get_result()

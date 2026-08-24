@@ -18525,6 +18525,33 @@ class TheWakfuSolverObeysTheGameTests(SimpleTestCase):
         self.assertNotIn('SECOND_WEAPON', worn,
                          'a two-handed weapon left the off hand filled')
 
+    def test_every_slot_is_filled_even_when_it_adds_nothing(self):
+        """A set of five pieces is optimal arithmetic and not a build.
+
+        Asked for nothing but AP, the solver first returned five items and
+        stopped: the other seven slots added nothing to the objective, so it
+        was indifferent to them. A character wears something everywhere.
+
+        The off hand is the one slot that may stay empty, because a two-handed
+        weapon empties it, and demanding it be filled would forbid every
+        two-handed weapon in the game.
+        """
+        from fashionistapulp.wakfu_slots import SLOTS
+        build, worn = self._build(self.BINDS, {'ap': 10000})
+        self.assertIsNotNone(worn)
+        self.assertTrue(build.full_set, 'fell back to the loose form')
+        missing = set(SLOTS) - set(worn) - {'SECOND_WEAPON'}
+        self.assertEqual(set(), missing)
+
+    def test_a_level_one_character_still_gets_an_answer(self):
+        # Most slots have nothing to put in them at level 1, and demanding
+        # they be filled would make the question impossible rather than small.
+        build, worn = self._build(1, {'hp': 1})
+        self.assertIsNotNone(worn, 'no set at all at level 1')
+        self.assertGreater(len(worn), 3)
+        for item in worn.values():
+            self.assertLessEqual(item.level, 1)
+
     def test_at_most_one_relic_and_one_epic(self):
         build, worn = self._build(self.BINDS, {'hp': 1, 'ap': 200, 'mp': 150})
         self.assertIsNotNone(worn)
