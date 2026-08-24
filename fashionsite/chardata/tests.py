@@ -21675,6 +21675,196 @@ class DonationButtonTests(TestCase):
                              'a raw donation link escapes the counter')
 
 
+class ImportingASetFromAnkamaIdsTests(TestCase):
+    """Bringing a set in from somewhere else, without trusting names.
+
+    The item table carries Ankama's own id on every item, so an import joins
+    on an integer. Names are translated, repeated across versions and edited
+    between patches: matching on them is how an importer quietly puts the
+    wrong ring on someone.
+
+    The other half of the contract is that nothing disappears quietly. An
+    import that reports success while having thrown away three items is worse
+    than one that fails, so every id that does not land comes back with its
+    reason.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        from fashionistapulp.structure import Structure
+        cls.structure = Structure()
+
+    # Un chapeau, deux anneaux distincts, et un identifiant qui n'existe pas.
+    CHAPEAU = 8248
+    ANNEAU_A = 17998
+    ANNEAU_B = 2469
+    INEXISTANT = 999999
+
+    def _plan(self, ids):
+        from chardata.build_import import plan_ankama_ids
+        return plan_ankama_ids(self.structure, ids)
+
+    def test_each_item_lands_on_the_slot_its_type_calls_for(self):
+        places, rejetes = self._plan([self.CHAPEAU, self.ANNEAU_A])
+        self.assertEqual([slot for slot, _ in places], ['hat', 'ring1'])
+        self.assertEqual(rejetes, [])
+
+    def test_two_rings_fill_both_hands_in_order(self):
+        places, _ = self._plan([self.ANNEAU_A, self.ANNEAU_B])
+        self.assertEqual([slot for slot, _ in places], ['ring1', 'ring2'])
+
+    def test_a_ring_too_many_is_reported_and_not_dropped(self):
+        """Only two hands. A third ring is a set the game does not allow, and
+        saying so beats keeping an arbitrary two."""
+        from chardata.build_import import NO_FREE_SLOT
+        troisieme = next(
+            i for i in (768, 849, 850, 851, 852)
+            if self.structure.get_item_by_ankama_id(i) is not None)
+        places, rejetes = self._plan(
+            [self.ANNEAU_A, self.ANNEAU_B, troisieme])
+        self.assertEqual(len(places), 2)
+        self.assertEqual(rejetes, [(troisieme, NO_FREE_SLOT)])
+
+    def test_an_id_the_catalogue_does_not_know_comes_back_named(self):
+        from chardata.build_import import UNKNOWN_ITEM
+        places, rejetes = self._plan([self.CHAPEAU, self.INEXISTANT])
+        self.assertEqual(len(places), 1)
+        self.assertEqual(rejetes, [(self.INEXISTANT, UNKNOWN_ITEM)])
+
+    def test_nothing_that_was_handed_in_ever_vanishes(self):
+        """The invariant that matters: every id given comes back either placed
+        or rejected. Never neither."""
+        from chardata.build_import import ALREADY_PLACED
+        donnes = [self.CHAPEAU, self.ANNEAU_A, self.INEXISTANT,
+                  self.CHAPEAU, 'pas un nombre', None]
+        places, rejetes = self._plan(donnes)
+        rendus = len(places) + len(rejetes)
+        self.assertEqual(rendus, len(donnes),
+                         'places=%r rejetes=%r' % (places, rejetes))
+        self.assertIn((self.CHAPEAU, ALREADY_PLACED), rejetes)
+
+    def test_the_join_is_on_the_ankama_id_and_not_on_a_name(self):
+        """A name would be translated, repeated and edited between patches."""
+        item = self.structure.get_item_by_ankama_id(self.ANNEAU_B)
+        self.assertIsNotNone(item)
+        self.assertEqual(item.ankama_id, self.ANNEAU_B)
+
+    # Un anneau qui n'appartient a aucune panoplie : le seul cas ou le jeu
+    # accepte deux exemplaires du meme objet, et seulement dans les versions
+    # dont le registre dit que les anneaux se doublent.
+    ANNEAU_SANS_PANOPLIE = 103
+
+    def test_the_same_setless_ring_fills_both_hands_where_the_game_allows_it(self):
+        """The rule is the solver's own, not one invented here: model.py grants
+        a second copy to a ring that belongs to no set."""
+        places, rejetes = self._plan(
+            [self.ANNEAU_SANS_PANOPLIE, self.ANNEAU_SANS_PANOPLIE])
+        self.assertEqual([slot for slot, _ in places], ['ring1', 'ring2'])
+        self.assertEqual(rejetes, [])
+
+    def test_retro_refuses_the_double_its_solver_would_answer_infeasible(self):
+        """rings_can_double is False for retro, and a doubled ring there is not
+        a worse set, it is no set at all."""
+        from chardata.build_import import ALREADY_PLACED, plan_ankama_ids
+        places, rejetes = plan_ankama_ids(
+            self.structure,
+            [self.ANNEAU_SANS_PANOPLIE, self.ANNEAU_SANS_PANOPLIE],
+            game_version='retro')
+        self.assertEqual(len(places), 1)
+        self.assertEqual(rejetes,
+                         [(self.ANNEAU_SANS_PANOPLIE, ALREADY_PLACED)])
+
+    def test_a_ring_with_a_set_is_never_doubled(self):
+        from chardata.build_import import ALREADY_PLACED
+        anneau = self.structure.get_item_by_ankama_id(self.ANNEAU_A)
+        self.assertIsNotNone(getattr(anneau, 'set', None),
+                             'this test needs a ring that belongs to a set')
+        places, rejetes = self._plan([self.ANNEAU_A, self.ANNEAU_A])
+        self.assertEqual(len(places), 1)
+        self.assertEqual(rejetes, [(self.ANNEAU_A, ALREADY_PLACED)])
+
+    def test_an_item_the_character_could_not_wear_is_refused_by_name(self):
+        """Left in, the solver answers Infeasible and the reader never learns
+        which item caused it."""
+        from chardata.build_import import ABOVE_CHAR_LEVEL, plan_ankama_ids
+        chapeau = self.structure.get_item_by_ankama_id(self.CHAPEAU)
+        places, rejetes = plan_ankama_ids(
+            self.structure, [self.CHAPEAU], char_level=chapeau.level - 1)
+        self.assertEqual(places, [])
+        self.assertEqual(rejetes, [(self.CHAPEAU, ABOVE_CHAR_LEVEL)])
+
+    def test_an_id_that_cannot_even_be_a_number_still_comes_back(self):
+        """float('inf') raises OverflowError, not ValueError. It used to leave
+        by way of a traceback, which breaks the one promise this module makes.
+        """
+        from chardata.build_import import UNKNOWN_ITEM
+        for tordu in (float('inf'), float('nan'), None, 'x', [], object()):
+            places, rejetes = self._plan([tordu])
+            self.assertEqual(places, [], repr(tordu))
+            self.assertEqual(len(rejetes), 1, repr(tordu))
+            self.assertEqual(rejetes[0][1], UNKNOWN_ITEM, repr(tordu))
+
+    def _char(self, alias='proprio'):
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        entree = {'options': {}, 'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        return Char.objects.create(
+            name='Etoile', char_name='star', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({}, entree, {})),
+            owner=User.objects.create_user(alias, '%s@example.com' % alias, 'x'),
+            link_shared=False, game_version='dofus3')
+
+    def test_planning_writes_nothing(self):
+        """The plan is shown to a reader before anything is imposed, so it
+        must not have imposed it already."""
+        from chardata.lock_forbid import get_inclusions_dict
+        char = self._char()
+        avant = dict(get_inclusions_dict(char))
+        self._plan([self.CHAPEAU, self.ANNEAU_A])
+        self.assertEqual(dict(get_inclusions_dict(char)), avant)
+
+    def test_an_import_replaces_the_set_it_does_not_settle_on_top_of_it(self):
+        """The first version of this module merged, and merging was wrong
+        twice over: the hat of the previous build stayed locked underneath the
+        new one, and a lone imported ring landed in a hand that still held its
+        own copy, which retro answers with Infeasible.
+        """
+        from chardata.build_import import apply_ankama_ids
+        from chardata.lock_forbid import get_inclusions_dict
+        char = self._char()
+
+        apply_ankama_ids(char, self.structure,
+                         [self.CHAPEAU, self.ANNEAU_A, self.ANNEAU_B])
+        premier = {s: v for s, v in get_inclusions_dict(char).items() if v != ''}
+        self.assertEqual(sorted(premier), ['hat', 'ring1', 'ring2'])
+
+        # Un second import d'un seul anneau : tout le reste doit disparaitre.
+        rapport = apply_ankama_ids(char, self.structure, [self.ANNEAU_B])
+        second = {s: v for s, v in get_inclusions_dict(char).items() if v != ''}
+        self.assertEqual(sorted(second), ['ring1'],
+                         'the previous build survived underneath: %r' % second)
+        self.assertEqual(len(rapport['placed']), 1)
+        self.assertEqual(rapport['rejected'], [])
+
+    def test_an_import_never_leaves_the_same_ring_in_both_hands(self):
+        """Merging produced exactly that, and it is the shape the solver
+        cannot answer at all in retro."""
+        from chardata.build_import import apply_ankama_ids
+        from chardata.lock_forbid import get_inclusions_dict
+        char = self._char()
+        apply_ankama_ids(char, self.structure, [self.ANNEAU_A, self.ANNEAU_B])
+        apply_ankama_ids(char, self.structure, [self.ANNEAU_B])
+        portes = [v for v in get_inclusions_dict(char).values() if v != '']
+        self.assertEqual(len(portes), len(set(portes)), portes)
+
+
 class AFailedAdSettingReadServesNoAdsTests(TestCase):
     """A database hiccup must not put advertising back on.
 
