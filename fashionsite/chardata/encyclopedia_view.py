@@ -788,6 +788,32 @@ def _get_light_index(structure, language):
 SIMILAR_ITEMS_SHOWN = 6
 
 
+def _get_popularity(ankama_id, game_version):
+    """How many builds wear this item, and what share of those that could.
+
+    Counted over every build ever calculated, not only the public ones, which
+    is what makes it worth printing: 142 043 against 1 980. A count says
+    nothing about who, so it can be drawn from private builds where a link
+    never could.
+
+    None when the answer would be noise: fewer than thirty comparable builds
+    is not a share, and printing one would read as a fact.
+    """
+    from chardata.models import ItemPopularity
+    try:
+        ligne = ItemPopularity.objects.filter(
+            ankama_id=ankama_id, game_version=game_version).first()
+    except Exception:
+        return None
+    if ligne is None or not ligne.builds:
+        return None
+    part = ligne.share
+    return {
+        'builds': ligne.builds,
+        'share': None if part is None else '%.1f %%' % part,
+    }
+
+
 def _get_builds_using(ankama_id, game_version, limit=6):
     """The shared builds that wear this item, most read first.
 
@@ -829,16 +855,47 @@ def _get_builds_using(ankama_id, game_version, limit=6):
     return builds
 
 
+# Les stats que le jeu distribue au compte-gouttes et autour desquelles un
+# build se construit. Elles priment sur le niveau : seuls six anneaux de tout
+# le jeu portent du PA, aucun a moins de vingt niveaux du Gelano, donc une
+# fenetre de niveau appliquee a celles-ci cacherait exactement ce que le
+# lecteur est venu chercher.
+RARE_STATS = {4: 'ap', 5: 'mp', 19: 'range', 18: 'summon'}
+
+# Au-dela, deux objets ne se comparent plus utilement. La similarite decroit
+# jusque-la au lieu de s'arreter net, pour qu'un ecart de deux niveaux pese
+# plus qu'un ecart de neuf.
+LEVEL_WINDOW = 10
+
+
+def _stat_ids(item):
+    return {stat_id for stat_id, _value in (getattr(item, 'stats', None) or [])}
+
+
 def _get_similar_items(structure, language, game_version, item, limit=None):
-    """Items of the same slot at the nearest levels, for the reader who wants
-    to know what else that slot offers before settling."""
+    """Items of the same slot that a reader could actually swap this one for.
+
+    Sorting by level alone answered the wrong question. The Gelano is a level
+    60 ring whose whole point is the AP it carries, and the ring page offered
+    twenty-five rings of the same level, not one of which carried any.
+
+    So a rare stat is a filter, not a bonus: an item that gives AP is compared
+    to the others that give AP, at any level, because there are six of them in
+    the game. Everything else is compared within ten levels, and similarity
+    falls off with the distance rather than stopping at the edge.
+
+    Fewer results, or none, is the honest answer when nothing is alike.
+    """
     limit = limit or SIMILAR_ITEMS_SHOWN
     from chardata.lock_forbid import get_default_exclusions
     hidden = set(get_default_exclusions(None))
     slot = structure.get_type_name_by_id(item.type)
     here = (item.ankama_type or '', item.ankama_id)
     level = item.level or 0
-    candidates = []
+    mine = _stat_ids(item)
+    rare = mine & set(RARE_STATS)
+
+    scored = []
     for entry in _get_light_index(structure, language):
         other = entry['item']
         if entry['raw_type_name'] != slot:
@@ -849,12 +906,26 @@ def _get_similar_items(structure, language, game_version, item, limit=None):
             continue
         if other.id in hidden:
             continue
-        candidates.append((abs((entry['level'] or 0) - level),
-                           -(entry['level'] or 0), entry['name'] or '', entry))
-    candidates.sort(key=lambda row: row[:3])
+
+        theirs = _stat_ids(other)
+        if rare and not rare <= theirs:
+            continue
+        distance = abs((entry['level'] or 0) - level)
+        if not rare and distance > LEVEL_WINDOW:
+            continue
+
+        # A shared stat is worth more than a close level, and a shared rare
+        # stat more than any of it.
+        proximity = max(0.0, 1.0 - distance / float(LEVEL_WINDOW))
+        score = (len(rare & theirs) * 10
+                 + len(mine & theirs)
+                 + proximity * 2)
+        scored.append((-score, distance, entry['name'] or '', entry))
+
+    scored.sort(key=lambda row: row[:3])
 
     out = []
-    for _distance, _negative_level, _name, entry in candidates[:limit]:
+    for _score, _distance, _name, entry in scored[:limit]:
         other = entry['item']
         link = get_item_link(other.ankama_type, other.ankama_id,
                              entry['name'] or other.name,
@@ -868,7 +939,6 @@ def _get_similar_items(structure, language, game_version, item, limit=None):
             'image_url': static(get_image_url(slot, other.name, game_version)),
         })
     return out
-
 def _get_item_group_key(item):
     ankama_type = (item.ankama_type or '').strip().lower()
     if item.ankama_id and ankama_type:
@@ -2384,6 +2454,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'builds_using': _get_builds_using(representative_item.ankama_id,
                                               game_version),
             'builds_using_label': t['builds_using_label'],
+            'item_popularity': _get_popularity(representative_item.ankama_id,
+                                               game_version),
         },
     )
 

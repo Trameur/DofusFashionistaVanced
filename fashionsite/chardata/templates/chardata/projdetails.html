@@ -31,6 +31,7 @@
         {% endif %}
     
         <form id="main_form" action="{% game_url 'create_project' %}" method="post">
+        {% if lock_item %}<input type="hidden" name="lock_item" value="{{ lock_item }}">{% endif %}
             {% csrf_token %}
                 <table class='register'>
                   <tr class='register-line'>

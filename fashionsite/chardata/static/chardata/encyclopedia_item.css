@@ -75,3 +75,12 @@
 .encyclopedia-cta-btn-ghost:focus {
     background: rgba(128, 128, 128, 0.12);
 }
+
+/* Le compte d'usage. Il ouvre la section sur les builds, donc il porte le
+   trait de separation et la liste qui suit n'en a pas besoin. */
+.encyclopedia-popularity {
+    margin: 26px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(128, 128, 128, 0.3);
+    font-size: .95em;
+}

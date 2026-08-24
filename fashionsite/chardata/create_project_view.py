@@ -81,9 +81,16 @@ def setup(request, char_id=0):
     game_version = getattr(request, 'game_version', 'dofus3')
     classes = filter_classes_for_version(_get_class_to_name().keys(), game_version)
 
+    # Un objet apporte depuis sa fiche d'encyclopedie, pour que le bouton
+    # "chercher un set autour de cet objet" fasse ce qu'il dit au lieu d'ouvrir
+    # un projet vide. Valide ici contre le catalogue : ce qui arrive ensuite
+    # dans create_project vient d'un formulaire, donc du lecteur.
+    lock_item = _wanted_item(request, game_version)
+
     return set_response(request,
                         'chardata/projdetails.html',
                         {'classes': sorted(classes),
+                         'lock_item': lock_item,
                          'free_versions': _free_versions_for_anon(request),
                          'class_to_name': _get_class_to_name(),
                          'can_create': can_create,
@@ -167,6 +174,44 @@ def save_project(request, char_id=0):
 
     return JsonResponse(_get_state_from_char(char))
 
+def _wanted_item_from_post(request, game_version):
+    """Same check as _wanted_item, on the field the form carries back."""
+    brut = (request.POST.get('lock_item') or '').strip()
+    if not brut:
+        return None
+    try:
+        ankama_id = int(brut)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    try:
+        from fashionistapulp.structure import get_structure
+        item = get_structure(game_version).get_item_by_ankama_id(ankama_id)
+    except Exception:
+        return None
+    return ankama_id if item is not None else None
+
+
+def _wanted_item(request, game_version):
+    """The Ankama id of an item the reader asked to build around, or None.
+
+    Checked against the catalogue rather than trusted: it arrives in a query
+    string, and it is about to decide what gets locked onto a character.
+    """
+    brut = (request.GET.get('item') or '').strip()
+    if not brut:
+        return None
+    try:
+        ankama_id = int(brut)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    try:
+        from fashionistapulp.structure import get_structure
+        item = get_structure(game_version).get_item_by_ankama_id(ankama_id)
+    except Exception:
+        return None
+    return ankama_id if item is not None else None
+
+
 def create_project(request):
     state = _get_state_from_post(request)
 
@@ -205,6 +250,20 @@ def create_project(request):
     
     if request.user.is_anonymous:
         remember_anon_char(request, char)
+
+    # L'objet vient d'une fiche d'encyclopedie. apply_ankama_ids refuse de
+    # lui-meme un identifiant inconnu ou un objet au-dessus du niveau du
+    # personnage, et remplace le set plutot que de s'ajouter dessous.
+    voulu = _wanted_item_from_post(request, char.game_version)
+    if voulu is not None:
+        try:
+            from fashionistapulp.structure import get_structure
+            from chardata.build_import import apply_ankama_ids
+            apply_ankama_ids(char, get_structure(char.game_version), [voulu])
+        except Exception:
+            # Un projet qui se cree vaut mieux qu'une erreur : le lecteur
+            # verrouillera l'objet lui-meme si cela a echoue.
+            pass
     
     if state['where_to_go'] == 'wizard':
         return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))

@@ -383,6 +383,46 @@ class SupportClick(models.Model):
         return '%s %s %s' % (self.day, self.language, self.count)
 
 
+class ItemPopularity(models.Model):
+    """How often an item is actually worn, across every build ever calculated.
+
+    The named builds on an item page can only ever be the public ones, 1 980
+    of them. This counts all 142 043, which is what makes the number worth
+    printing: it is the one thing this site knows and Ankama, DofusDB and the
+    wikis do not, since they all publish the same numbers from the same game
+    files and none of them sees what people put on.
+
+    Nothing identifying is stored, not the owner, not the build: only how many
+    wore it. `eligible` is the number of builds that could have worn it at all,
+    meaning those at or above its level. Dividing by every build instead would
+    make a level 20 item look unpopular for the sole reason that most builds
+    are level 200.
+    """
+    ankama_id = models.IntegerField()
+    game_version = models.CharField(max_length=20, default='dofus3')
+    builds = models.IntegerField(default=0)
+    eligible = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = ('ankama_id', 'game_version')
+
+    @property
+    def share(self):
+        """Percentage of the builds that could wear it and did, or None.
+
+        None rather than zero when nothing is comparable: a share computed on
+        a handful of builds says nothing, and printing 0 percent would read as
+        a fact rather than as an absence of one.
+        """
+        if not self.eligible or self.eligible < 30:
+            return None
+        return 100.0 * self.builds / self.eligible
+
+    def __str__(self):
+        return '%s %s: %s/%s' % (self.game_version, self.ankama_id,
+                                 self.builds, self.eligible)
+
+
 class ItemInSharedBuild(models.Model):
     """Which shared builds wear a given item.
 

@@ -21981,6 +21981,143 @@ class DonationButtonTests(TestCase):
                              'a raw donation link escapes the counter')
 
 
+class SimilarItemsAnswerTheQuestionAskedTests(TestCase):
+    """What else could go in this slot, for this build.
+
+    Sorting by level alone answered the wrong question. The Gelano is a level
+    60 ring whose whole point is the AP it carries, and the page offered
+    twenty-five rings of the same level, not one of which carried any: six
+    rings in the entire game give AP, and the nearest sits twenty levels away.
+
+    So a rare stat filters rather than scores, and the level window is dropped
+    for it. Everything else stays within ten levels, with similarity falling
+    off across them rather than stopping at the edge.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        from fashionistapulp.structure import get_structure
+        cls.structure = get_structure('dofus3')
+
+    GELANO = 2469          # anneau, 1 PA, niveau 60
+    DOFUS_CAUCHEMAR = 26066  # niveau 180, aucune stat rare
+
+    def _similar(self, ankama_id):
+        from chardata.encyclopedia_view import _get_similar_items
+        item = self.structure.get_item_by_ankama_id(ankama_id)
+        self.assertIsNotNone(item)
+        return item, _get_similar_items(self.structure, 'en', 'dofus3', item)
+
+    def _rare(self, ankama_id):
+        from chardata.encyclopedia_view import RARE_STATS, _stat_ids
+        return _stat_ids(self.structure.get_item_by_ankama_id(ankama_id)) & set(RARE_STATS)
+
+    def test_a_ring_with_ap_is_only_compared_to_rings_with_ap(self):
+        from chardata.encyclopedia_view import _stat_ids
+        rare = self._rare(self.GELANO)
+        self.assertTrue(rare, 'this test needs an item carrying a rare stat')
+        _item, voisins = self._similar(self.GELANO)
+        self.assertTrue(voisins, 'the six AP rings should not all be hidden')
+        for v in voisins:
+            autre = next(i for i in self.structure.items_dict_ankama.values()
+                         if i.name == v['name'])
+            self.assertTrue(rare <= _stat_ids(autre),
+                            '%s carries no %s' % (v['name'], rare))
+
+    def test_a_rare_stat_outranks_the_level_window(self):
+        """The nearest AP ring is twenty levels away. A window would have
+        hidden every one of them."""
+        item, voisins = self._similar(self.GELANO)
+        ecarts = [abs((v['level'] or 0) - (item.level or 0)) for v in voisins]
+        self.assertTrue(any(e > 10 for e in ecarts),
+                        'the window was applied to a rare stat: %s' % ecarts)
+
+    def test_an_ordinary_item_stays_within_ten_levels(self):
+        item, voisins = self._similar(self.DOFUS_CAUCHEMAR)
+        self.assertFalse(self._rare(self.DOFUS_CAUCHEMAR))
+        self.assertTrue(voisins)
+        for v in voisins:
+            self.assertLessEqual(abs((v['level'] or 0) - (item.level or 0)), 10,
+                                 v['name'])
+
+    def test_the_item_never_suggests_itself(self):
+        item, voisins = self._similar(self.GELANO)
+        self.assertNotIn(item.name, [v['name'] for v in voisins])
+
+    def test_showing_nothing_is_allowed(self):
+        """Fewer results, or none, is the honest answer when nothing is alike.
+        The old rule always filled the list, which is how it filled it wrong."""
+        from chardata.encyclopedia_view import _get_similar_items
+        for item in list(self.structure.items_dict_ankama.values())[:60]:
+            voisins = _get_similar_items(self.structure, 'en', 'dofus3', item)
+            self.assertIsInstance(voisins, list)
+
+
+class BuildingASetAroundAnItemTests(TestCase):
+    """The button said "Create a project" and opened an empty one.
+
+    A reader on the page of an item wants a set with that item in it, and the
+    two clicks between the two were the whole distance between an encyclopedia
+    visit and a use of the tool.
+    """
+
+    GELANO = 2469
+
+    def setUp(self):
+        # Un anonyme ne peut pas creer de projet, donc un test anonyme ne
+        # teste que la porte fermee.
+        from django.contrib.auth.models import User
+        self.client.force_login(
+            User.objects.create_user('batisseur', 'b@example.com', 'x'))
+
+    def test_the_encyclopedia_button_carries_the_item(self):
+        from unittest import mock
+        SANS_PUB = {'enabled': False, 'client': '', 'slots': {}, 'auto': False}
+        with mock.patch('chardata.context_processors.ad_config',
+                        return_value=dict(SANS_PUB)):
+            page = self.client.get(
+                '/encyclopedia/item/equipment/26066-nightmare-dofus/',
+                HTTP_USER_AGENT='Mozilla/5.0').content.decode('utf-8')
+        self.assertIn('/setup/?item=26066', page)
+
+    def test_an_invented_item_is_refused_rather_than_carried(self):
+        """It arrives in a query string and decides what gets locked onto a
+        character."""
+        for invente in ('999999', 'abc', '../etc', ''):
+            page = self.client.get('/setup/?item=%s' % invente).content.decode('utf-8')
+            self.assertNotIn('name="lock_item"', page, invente)
+
+    def test_a_real_item_reaches_the_form(self):
+        page = self.client.get('/setup/?item=%d' % self.GELANO).content.decode('utf-8')
+        # Le minifieur reordonne les attributs, donc on ne suppose pas l'ordre.
+        self.assertIn('name="lock_item"', page)
+        self.assertIn('value="%d"' % self.GELANO, page)
+
+    def test_creating_the_project_locks_the_item_on_the_character(self):
+        from chardata.lock_forbid import get_inclusions_dict
+        from chardata.models import Char
+        reponse = self.client.post('/createproject/', {
+            'project': 'Autour du Gelano', 'charname': 'star',
+            'level': '200', 'class': 'Iop', 'byhand': '1',
+            'lock_item': str(self.GELANO)})
+        self.assertIn(reponse.status_code, (302, 301), reponse.status_code)
+        char = Char.objects.order_by('-id').first()
+        self.assertIsNotNone(char)
+        portes = [v for v in get_inclusions_dict(char).values() if v != '']
+        self.assertTrue(portes, 'the item was not locked onto the character')
+
+    def test_a_forged_item_in_the_form_never_reaches_the_character(self):
+        from chardata.lock_forbid import get_inclusions_dict
+        from chardata.models import Char
+        self.client.post('/createproject/', {
+            'project': 'Forge', 'charname': 'star', 'level': '200',
+            'class': 'Iop', 'byhand': '1', 'lock_item': '999999'})
+        char = Char.objects.order_by('-id').first()
+        self.assertIsNotNone(char)
+        self.assertEqual([v for v in get_inclusions_dict(char).values() if v != ''], [])
+
+
 class EncyclopediaNamesTheBuildsThatWearAnItemTests(TestCase):
     """The one thing this encyclopedia knows that no other one does.
 

@@ -6817,3 +6817,15 @@ msgstr "Wie der Dofus Fashionista mit Ihren Daten umgeht: Konten, gespeicherte B
 #: .\chardata\templates\chardata\encyclopedia_item.html:300
 msgid "Looking for a set built around %(item_name)s?"
 msgstr "Suchen Sie ein Set rund um %(item_name)s?"
+
+#: .\chardata\templates\chardata\encyclopedia_item.html
+msgid "Worn in %(n)s builds, %(part)s of those that could equip it."
+msgstr "In %(n)s Builds getragen, %(part)s derer, die ihn anlegen können."
+
+#: .\chardata\templates\chardata\encyclopedia_item.html
+msgid "Worn in %(n)s builds."
+msgstr "In %(n)s Builds getragen."
+
+#: .\chardata\templates\chardata\encyclopedia_item.html
+msgid "Build a set around it"
+msgstr "Ein Set darum bauen"

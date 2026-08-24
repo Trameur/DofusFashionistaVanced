@@ -288,6 +288,21 @@
             </ul>
         </div>
         {% endif %}
+        {% if item_popularity %}
+        {% comment %}
+        Compte tire de TOUS les builds calcules, pas seulement des publics :
+        142 043 contre 1 980. Un compte est anonyme la ou un lien ne l'est pas,
+        donc il peut venir des builds prives. La part n'est affichee que si elle
+        repose sur assez de builds comparables ; sinon on ne donne que le compte.
+        {% endcomment %}
+        <p class="encyclopedia-popularity">
+            {% if item_popularity.share %}
+            {% blocktrans with n=item_popularity.builds part=item_popularity.share %}Worn in {{ n }} builds, {{ part }} of those that could equip it.{% endblocktrans %}
+            {% else %}
+            {% blocktrans with n=item_popularity.builds %}Worn in {{ n }} builds.{% endblocktrans %}
+            {% endif %}
+        </p>
+        {% endif %}
         {% if builds_using %}
         {% comment %}
         La seule chose que cette encyclopedie peut dire et qu'Ankama, DofusDB et
@@ -322,7 +337,7 @@
         <div class="encyclopedia-cta">
             <p class="encyclopedia-cta-line">{% blocktrans with item_name=item.name %}Looking for a set built around {{ item_name }}?{% endblocktrans %}</p>
             <div class="encyclopedia-cta-buttons">
-                <a class="encyclopedia-cta-btn" href="{% game_url 'setup' %}">{% trans "Create a project" %}</a>
+                <a class="encyclopedia-cta-btn" href="{% game_url 'setup' %}?item={{ item.ankama_id }}">{% trans "Build a set around it" %}</a>
                 <a class="encyclopedia-cta-btn encyclopedia-cta-btn-ghost" href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>
             </div>
         </div>
