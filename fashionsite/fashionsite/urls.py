@@ -552,6 +552,14 @@ def _sitemap_pages(base_url):
 
     blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
 
+    # The most-worn page, once per language. Not folded into hub_paths below:
+    # that loop also emits a /beta/, /dofus2/, /retro/ and /touch/ variant of
+    # every path it is given, and this page has no route under those prefixes.
+    for language in _SITEMAP_LANGUAGES:
+        blocks.append(_sitemap_url(
+            '%s/%s/encyclopedia/most-used/' % (base_url, language),
+            'weekly', '0.6'))
+
     # The hubs, once per language. They answer and link to each other by
     # hreflang, but nothing submitted them, so Google had no reason to
     # look: an entry point that cannot be found is not an entry point.

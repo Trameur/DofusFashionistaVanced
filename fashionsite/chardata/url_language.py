@@ -162,7 +162,7 @@ def redirect_target_for_user(request, url_language, alternates):
 # point Google at a 404, which is worse than announcing nothing.
 PREFIXED_PAGE_NAMES = frozenset({
     'home', 'guides', 'encyclopedia', 'encyclopedia_sets',
-    'encyclopedia_monsters',
+    'encyclopedia_monsters', 'encyclopedia_most_used',
 })
 
 SITE_URL = 'https://dofusfashionista.gg'

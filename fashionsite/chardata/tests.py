@@ -22799,6 +22799,34 @@ class TheMostWornGearPageTests(TestCase):
         self.assertIn('Build a set of your own', page)
         self.assertIn('/setup/', page)
 
+    def test_each_language_says_where_the_others_are(self):
+        """Five urls serve this page and Google must be told they are one page.
+
+        The hub link resolves to /fr/encyclopedia/most-used/ for a French
+        reader, so the prefixed urls get crawled whether or not they were
+        submitted. Without hreflang between them, five near-identical pages
+        compete with each other instead of pooling.
+        """
+        self._rangs()
+        for prefixe in ('', '/fr', '/es', '/pt', '/de'):
+            page = self.client.get(prefixe + self.CHEMIN,
+                                   HTTP_USER_AGENT=self.NAVIGATEUR)
+            self.assertEqual(page.status_code, 200, prefixe)
+            texte = page.content.decode('utf-8')
+            for langue in ('en', 'fr', 'es', 'pt', 'de'):
+                attendu = 'hreflang="%s"' % langue
+                self.assertIn(attendu, texte, '%s: %s' % (prefixe, attendu))
+            # Chaque url est canonique d'elle-meme, sinon quatre des cinq
+            # renvoient leur classement vers une page qui n'est pas la leur.
+            # Le minifieur trie les attributs, donc on ne suppose pas l'ordre.
+            import re as _re
+            attendue = 'https://dofusfashionista.gg%s%s' % (prefixe,
+                                                            self.CHEMIN)
+            balise = _re.search(
+                r'<link[^>]*rel="canonical"[^>]*>', texte)
+            self.assertIsNotNone(balise, prefixe)
+            self.assertIn('href="%s"' % attendue, balise.group(0), prefixe)
+
     def test_the_encyclopedia_hub_leads_to_it(self):
         """A page nothing links to is a page a crawler barely visits.
 
