@@ -122,8 +122,12 @@ BIG_SCRIPT = re.compile(r'<script type="application/json">\s*(\{"store_PA".*?)</
 # The pattern must never cross a tag. An earlier one let the element bind to a
 # colon further down the line, so the Iop's Posture came back dealing 500 in
 # three elements when it grants 25 armour and its element images mark STATES.
+# The label can be SEVERAL words, and taking only the last one reads three
+# languages and misses the fourth: Portuguese writes "Dano de <image> : 101"
+# and "Cura de <image> : 33", so the last word is "de" and says nothing. Up to
+# three words are captured and every one of them is tested.
 EFFECT_ROW = re.compile(
-    r'([A-Za-zÀ-ÿ\']{2,20})\s*(?:</?\w[^>]*>\s*)*'
+    r'((?:[A-Za-zÀ-ÿ\']{2,20}\s+){0,2}[A-Za-zÀ-ÿ\']{2,20})\s*(?:</?\w[^>]*>\s*)*'
     r'<img src="[^"]*element/([A-Za-z]+)\.png"[^>]*>\s*(?:</\w+>\s*)*'
     r':\s*[^\d<:]{0,24}?(-?\d+)')
 
@@ -204,14 +208,18 @@ def effect_rows(markup, report=None):
 
 
 def of_kind(rows, words, report=None, kind=''):
-    """The [(element, value)] of the rows whose label is one of `words`."""
+    """The [(element, value)] of the rows one of whose label words matches."""
     out = []
     for label, element, value in rows:
-        if label.lower() in words:
+        said = {word for word in re.split(r'\s+', label.lower()) if word}
+        if said & words:
             out.append((element, value))
-        elif report is not None and kind == 'damage':
-            # Counted once, under its own label, so that a form nobody has
-            # seen shows up as a name rather than as a missing number.
+        elif report is not None and kind == 'damage' and not (said & HEAL_WORDS):
+            # Counted under its own label, so a form nobody has seen shows up
+            # as a name rather than as a missing number. Healing is left out
+            # of this count on purpose: it is recognised, just not damage, and
+            # reporting it here buried the labels that really are unknown
+            # under fourteen thousand lines of "cura".
             report['row labelled %s' % label.lower()] += 1
     return out
 

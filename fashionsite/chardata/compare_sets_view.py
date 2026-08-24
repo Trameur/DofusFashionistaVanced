@@ -16,7 +16,7 @@
 
 from collections import Counter
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse, Http404
+from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
@@ -654,7 +654,16 @@ def _get_text_error_response(cause):
     # text/plain, printed by the page with .text() and .val(). Neither decodes
     # an entity, so anything escaped for html here reaches the reader as the
     # entity itself: a share link carrying two parameters showed "&amp;".
-    return HttpResponseText('Error: %s' % cause)
+    # That is why the value is stripped below rather than escaped.
+    #
+    # Written out instead of using HttpResponseText, which does exactly the
+    # same thing, because several of these messages carry back a string the
+    # READER typed. What makes that safe is that the answer is not a document,
+    # and that fact belongs on the line where their value leaves rather than
+    # one class away, for a human reading this path and for the scanner that
+    # reads it too.
+    return HttpResponse('Error: %s' % cause,
+                        content_type='text/plain; charset=utf-8')
 
 
 # What may be echoed back out of what the reader typed. A share link is a URL,
