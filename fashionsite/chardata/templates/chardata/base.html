@@ -719,6 +719,9 @@ outside every column so nothing they do can move the page.{% endcomment %}
         $("#blanket-language").click(function() {
             toggleBlanket('blanket-language');
             toggleBlanket('other-flags');
+            // Annoncer un menu ouvert quand il vient de se fermer est pire
+            // que de ne rien annoncer du tout.
+            $("#flag").attr("aria-expanded", "false");
         });
         $("#blanket-theme").click(function() {
             toggleBlanket('blanket-theme');
@@ -726,6 +729,7 @@ outside every column so nothing they do can move the page.{% endcomment %}
         });
         $("#flag").click(function() {
             popup(0, 'other-flags', 'blanket-language');
+            $("#flag").attr("aria-expanded", "true");
         });
         $(".current-theme").click(function() {
             popup(0, 'other-themes', 'blanket-theme');

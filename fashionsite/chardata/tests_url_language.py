@@ -566,8 +566,13 @@ class InternalLinksStayInLanguageTest(TestCase):
     @staticmethod
     def _without_language_selector(html):
         """Drops the flag destinations. The English flag naming the English
-        url is the selector working, not a link leaving the language."""
-        return re.sub(r'<img[^>]*data-next[^>]*>', '', html)
+        url is the selector working, not a link leaving the language.
+
+        Keyed on data-next rather than on the tag: the flags moved from <img>
+        to <button> so a keyboard could reach them, and the destination is
+        what identifies the selector either way.
+        """
+        return re.sub(r'<[a-z]+[^>]*data-next[^>]*>', '', html)
 
     def test_a_french_page_does_not_link_to_the_english_item(self):
         response = self.client.get(self.FRENCH)
@@ -913,8 +918,14 @@ class LanguageSelectorTest(TestCase):
     def _destination(html, language):
         """The flag's destination, whatever order the minifier left the
         attributes in -- it sorts them alphabetically, so data-next comes
-        before id and any fixed-order pattern silently finds nothing."""
-        for tag in re.findall(r'<img[^>]*>', html):
+        before id and any fixed-order pattern silently finds nothing.
+
+        Element-agnostic on purpose. The flags were <img> carrying a click
+        handler, which no keyboard could reach; they are <button> now, and a
+        helper naming the tag would have failed for a change that fixed
+        something rather than broke it.
+        """
+        for tag in re.findall(r'<[a-z]+[^>]*>', html):
             if 'id="flag-%s"' % language not in tag:
                 continue
             found = re.search(r'data-next="([^"]*)"', tag)

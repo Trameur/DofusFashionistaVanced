@@ -23964,3 +23964,71 @@ class AskingAtTheMomentOfValueTests(TestCase):
             reponse = self.client.get('/out/donate/?from=%s' % essai,
                                       HTTP_USER_AGENT=self.NAVIGATEUR)
             self.assertEqual(reponse['Location'], attendu, essai)
+
+
+class TheLanguageSelectorWorksWithoutAMouseTests(TestCase):
+    """Five flags decided the language and none of them could be focused.
+
+    They were <img> elements carrying a jQuery .click(), which is a control
+    only a pointing device can reach: no tab stop, no Enter, no Space, nothing
+    a screen reader announces as actionable. The whole chain was affected, the
+    flag that opens the menu included, so a keyboard visitor could not even
+    open it. A <button> gives all of that natively and needs no ARIA to say
+    what a real button already is.
+    """
+
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
+    LANGUES = ('en', 'fr', 'es', 'pt', 'de')
+
+    def _accueil(self):
+        reponse = self.client.get('/', HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 200)
+        return reponse.content.decode('utf-8')
+
+    def _balise(self, page, identifiant):
+        """Ouvrante de l'element portant cet id, quel que soit l'ordre.
+
+        Le minifieur trie les attributs et met tout sur une ligne, donc une
+        assertion qui suppose un ordre passe le jour ou on l'ecrit et casse au
+        suivant sans que rien ait change pour le lecteur.
+        """
+        import re
+        return re.search(r'<(\w+)[^>]* id="%s"[^>]*>' % identifiant, page)
+
+    def test_the_flag_that_opens_the_menu_is_a_button(self):
+        balise = self._balise(self._accueil(), 'flag')
+        self.assertIsNotNone(balise)
+        self.assertEqual(balise.group(1), 'button')
+        self.assertIn('type="button"', balise.group(0))
+
+    def test_every_flag_that_picks_a_language_is_a_button(self):
+        page = self._accueil()
+        trouves = 0
+        for langue in self.LANGUES:
+            balise = self._balise(page, 'flag-%s' % langue)
+            if balise is None:
+                continue    # la langue courante n'a pas de drapeau de choix
+            trouves += 1
+            self.assertEqual(balise.group(1), 'button', langue)
+            # data-next porte la destination, et le script la lit par cet id :
+            # la deplacer sur le bouton sans l'emporter casserait le choix.
+            self.assertIn('data-next=', balise.group(0), langue)
+        self.assertEqual(trouves, 4)
+
+    def test_no_image_is_left_acting_as_a_control(self):
+        """The regression this class exists to stop.
+
+        An <img id="flag-fr"> is what the selector used to be, and it is what
+        a well-meaning edit would put back: it renders identically and only
+        fails for people who are not using a mouse.
+        """
+        import re
+        page = self._accueil()
+        self.assertEqual(
+            re.findall(r'<img[^>]* id="flag[^"]*"', page), [])
+
+    def test_it_says_whether_the_menu_is_open(self):
+        balise = self._balise(self._accueil(), 'flag')
+        self.assertIn('aria-haspopup="true"', balise.group(0))
+        # Ferme au chargement, et le script le passe a true a l'ouverture.
+        self.assertIn('aria-expanded="false"', balise.group(0))

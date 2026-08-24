@@ -114,7 +114,11 @@ html.fm-modern .version-selector{ height:34px; box-sizing:border-box; display:in
 html.fm-modern .base-language-selector-div{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; padding:0 10px; cursor:pointer; transition:background .16s,border-color .16s; }
 html.fm-modern .base-language-selector-div:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
 html.fm-modern #language-selector{ display:flex; align-items:center; margin:0; }
-html.fm-modern #flag{ width:22px !important; height:22px !important; border-radius:4px; display:block; cursor:pointer; }
+/* #flag porte desormais le <button> qui ouvre le menu, pas l'image : la
+   taille doit descendre sur l'image, sinon le bouton bride un drapeau plus
+   grand que lui. */
+html.fm-modern #flag{ display:block; cursor:pointer; }
+html.fm-modern #flag .flag-current{ width:22px !important; height:22px !important; border-radius:4px; }
 /* theme: clean pill (override classic dark-brown 'current') */
 html.fm-modern .current-theme, html.fm-modern .auto-current{
   background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;

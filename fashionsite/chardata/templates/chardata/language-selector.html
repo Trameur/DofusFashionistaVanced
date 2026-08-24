@@ -14,36 +14,36 @@
             current one, and alternate_urls are absolute.{% endcomment %}
             <input type="hidden" name="next" value="" id="language-next">
             {% if LANGUAGE_CODE == 'pt' %}
-            <img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" id="flag" title="{% trans 'Portuguese' %}" width="24" height="24"></img>
+            <button type="button" class="flag-btn" id="flag" aria-haspopup="true" aria-expanded="false" title="{% trans 'Portuguese' %}" aria-label="{% trans 'Change language' %}"><img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" class="flag-current" width="24" height="24"></button>
             {% endif %}
             {% if LANGUAGE_CODE == 'en' %}
-            <img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" id="flag" title="{% trans 'English' %}" width="24" height="24"></img>
+            <button type="button" class="flag-btn" id="flag" aria-haspopup="true" aria-expanded="false" title="{% trans 'English' %}" aria-label="{% trans 'Change language' %}"><img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" class="flag-current" width="24" height="24"></button>
             {% endif %}
             {% if LANGUAGE_CODE == 'fr' %}
-            <img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" id="flag" title="{% trans 'French' %}" width="24" height="24"></img>
+            <button type="button" class="flag-btn" id="flag" aria-haspopup="true" aria-expanded="false" title="{% trans 'French' %}" aria-label="{% trans 'Change language' %}"><img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" class="flag-current" width="24" height="24"></button>
             {% endif %}
             {% if LANGUAGE_CODE == 'es' %}
-            <img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" id="flag" title="{% trans 'Spanish' %}" width="24" height="24"></img>
+            <button type="button" class="flag-btn" id="flag" aria-haspopup="true" aria-expanded="false" title="{% trans 'Spanish' %}" aria-label="{% trans 'Change language' %}"><img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" class="flag-current" width="24" height="24"></button>
             {% endif %}
             {% if LANGUAGE_CODE == 'de' %}
-            <img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" id="flag" title="{% trans 'German' %}" width="50" height="37"></img>
+            <button type="button" class="flag-btn" id="flag" aria-haspopup="true" aria-expanded="false" title="{% trans 'German' %}" aria-label="{% trans 'Change language' %}"><img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" class="flag-current" width="50" height="37"></button>
             {% endif %}
         </form>
         <div id="other-flags">
             {% if LANGUAGE_CODE != 'pt' %}
-            <img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" id="flag-pt" class="flag-choose" data-next="{{ alternate_urls.pt|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'Portuguese' %}" width="24" height="24"></img><br>
+            <button type="button" class="flag-btn" id="flag-pt" data-next="{{ alternate_urls.pt|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'Portuguese' %}"><img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" class="flag-choose" width="24" height="24"></button><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'en' %}
-            <img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" id="flag-en" class="flag-choose" data-next="{{ alternate_urls.en|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'English' %}" width="24" height="24"></img><br>
+            <button type="button" class="flag-btn" id="flag-en" data-next="{{ alternate_urls.en|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'English' %}"><img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" class="flag-choose" width="24" height="24"></button><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'fr' %}
-            <img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" id="flag-fr" class="flag-choose" data-next="{{ alternate_urls.fr|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'French' %}" width="24" height="24"></img><br>
+            <button type="button" class="flag-btn" id="flag-fr" data-next="{{ alternate_urls.fr|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'French' %}"><img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" class="flag-choose" width="24" height="24"></button><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'es' %}
-            <img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" id="flag-es" class="flag-choose" data-next="{{ alternate_urls.es|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'Spanish' %}" width="24" height="24"></img><br>
+            <button type="button" class="flag-btn" id="flag-es" data-next="{{ alternate_urls.es|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'Spanish' %}"><img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" class="flag-choose" width="24" height="24"></button><br>
             {% endif %}
             {% if LANGUAGE_CODE != 'de' %}
-            <img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" id="flag-de" class="flag-choose" data-next="{{ alternate_urls.de|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'German' %}" width="50" height="37"></img><br>
+            <button type="button" class="flag-btn" id="flag-de" data-next="{{ alternate_urls.de|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'German' %}"><img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" class="flag-choose" width="50" height="37"></button><br>
             {% endif %}
         </div>
     </div>

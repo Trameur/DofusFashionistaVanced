@@ -291,6 +291,37 @@ h2:first-letter{
     z-index:5000;
 }
 
+/* Les drapeaux etaient des <img> portant un .click() jQuery : au clavier, rien
+   ne les atteignait, ni celui qui ouvre le menu ni les cinq qui choisissent.
+   Ce sont des <button> depuis, ce qui donne le focus, Entree et Espace sans
+   une ligne de script. Reste a leur retirer l'apparence de bouton, que la
+   maquette n'attend pas. */
+.flag-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Un focus qu'on ne voit pas ne sert qu'au lecteur d'ecran : le contour est
+   ce qui rend le selecteur utilisable a l'oeil et au clavier a la fois. */
+.flag-btn:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+/* de.png fait 50x37 la ou les quatre autres font 24x24, comme pour
+   .flag-choose plus haut. */
+.flag-current {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
  #current-theme {
     margin-top: -1px;
     z-index:5000;

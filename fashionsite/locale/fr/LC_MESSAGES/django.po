@@ -4003,6 +4003,10 @@ msgstr "Portugais"
 #: .\chardata\templates\chardata\language-selector.html:13
 #: .\chardata\templates\chardata\language-selector.html:30
 #: .\chardata\templates\chardata\manage_account.html:58
+#: chardata/templates/chardata/language-selector.html
+msgid "Change language"
+msgstr "Changer de langue"
+
 msgid "English"
 msgstr "Anglais"
 
