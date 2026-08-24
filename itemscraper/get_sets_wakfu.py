@@ -19,10 +19,24 @@ Three things learned the hard way, all of them in the code below:
   a cookie jar for the run is enough; nothing is sent that a browser would not.
 - It resets the connection when hammered, so requests are paced and the answers
   are cached. A second run costs nothing.
-- ONLY THE NAME IS TAKEN. The set page also prints a bonus total, and that
-  total is stale: set 41 claims +63 HP and +1 Control while its eight items sum
-  to 65 HP and no Control, which the item pages confirm. Set totals are
-  computed from the items, never read here.
+- ONLY THE NAME IS TAKEN, BECAUSE A WAKFU SET GRANTS NOTHING FOR WEARING IT.
+  Measured on twelve sets from level 11 to 200: the block a set page prints,
+  "Bonus / Malus cumules", is the SUM of its members' own item pages, and no
+  set page carries the per-piece-count bonus Dofus has. Set 41 was checked
+  stat by stat: its eight item pages add up to exactly the 63 HP, 2 AP, 10
+  Dodge, 4 % critical, 1 Control, 82 mastery and 5 resistance the set page
+  shows. So the total is a roll-up, and there is nothing there to read.
+
+- WHERE THAT ROLL-UP DISAGREES WITH THIS PROJECT, THE ENCYCLOPEDIA IS THE ODD
+  ONE OUT. Set 41 sums to 65 HP here because its belt reads 8 HP in the game
+  data and "6 HP and 1 Control" on its encyclopedia page. Forty items were
+  sampled against their item pages and four differ, three of them belts, always
+  the same way: a Control line the client data has no action for, paid with
+  about a third of the item's level in HP (2 at level 6, 10 at 32, 20 at 65, 57
+  at 170). The Control line is also the only line the page renders with no
+  action tag beside it. Ankama's actions.json declares 71 actions and not one
+  is Control, so the live feed cannot express that line at all; the item pages
+  are read as an older revision, and the client data is what is kept.
 
 German is absent from Wakfu entirely, so it falls back to English, exactly as
 the item names do.

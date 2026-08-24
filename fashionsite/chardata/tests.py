@@ -17513,13 +17513,18 @@ class LevelRangeFollowsTheGameTests(SimpleTestCase):
 
 
 class WakfuSetsComeFromTheItemsTests(SimpleTestCase):
-    """Wakfu publishes no set file, so the names are recovered and the totals
-    are computed.
+    """Wakfu publishes no set file, and a Wakfu set grants nothing for being
+    worn.
 
-    The encyclopedia has the names under the same ids the items carry, and it
-    also prints a set total that is stale: its Gobball page claims 63 HP where
-    the eight members sum to 65, which the individual item pages confirm. So
-    the name is taken and the total never is.
+    The encyclopedia has the names under the same ids the items carry, so the
+    names are recovered from there. The total it prints beside them is a
+    ROLL-UP of the members' own item pages, not a bonus: twelve sets from level
+    11 to 200 were measured and none carries the per-piece-count bonus Dofus
+    has. Set 41's eight item pages add up to exactly the total its set page
+    shows, stat by stat.
+
+    Where that roll-up and this project disagree, the encyclopedia is the odd
+    one out; get_sets_wakfu.py holds the measurement and the reason.
     """
 
     def _wakfu(self):
@@ -17571,9 +17576,22 @@ class WakfuSetsComeFromTheItemsTests(SimpleTestCase):
         total = sum(value for member in members
                     for stat_id, value in member.stats if stat_id == hp)
         self.assertEqual(65, total)
-        # The number Ankama's own set page prints. If this ever starts
-        # matching, they fixed their roll-up and this comment is the history.
+        # Ankama's set page prints 63, because its belt reads 8 HP in the game
+        # data and "6 HP and 1 Control" on its own item page. The client data
+        # is what is kept, so this total stays 2 above theirs.
         self.assertNotEqual(63, total)
+
+    def test_no_set_grants_anything_for_wearing_it(self):
+        # A Dofus set pays for 2, 3, 4 pieces and the solver chases those
+        # bonuses. Wakfu has none, so `set_bonus` is empty on purpose and the
+        # solver must not be taught otherwise from a page total that is only a
+        # sum of the pieces already counted.
+        wakfu = self._wakfu()
+        wearing = sorted(item_set.id for item_set in wakfu.sets_dict.values()
+                         if getattr(item_set, 'bonus', None))
+        self.assertEqual([], wearing[:5],
+                         '%d Wakfu sets claim a bonus for being worn'
+                         % len(wearing))
 
 
 class WakfuTypesAreAnkamasOwnTests(SimpleTestCase):

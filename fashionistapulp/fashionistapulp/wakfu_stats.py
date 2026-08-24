@@ -119,11 +119,14 @@ WAKFU_STATS = {
     'WISDOM': SECONDARY,
     'PROSPECTION': SECONDARY,
     # Real in the game and on nothing gear sells in 1.92: zero equipment lines
-    # grant it. Kept because a stat missing from the catalogue is a stat the
-    # importer would drop the day a patch puts it on an item, and because
-    # absence from the data has never proved absence from the game. The
-    # encyclopedia's Gobball set page even claims a Control bonus that none of
-    # its eight items carry.
+    # grant it, and actions.json does not declare an action for it either.
+    # Kept because a stat missing from the catalogue is a stat the importer
+    # would drop the day a patch puts it on an item, and because absence from
+    # the data has never proved absence from the game. Gear DID sell it: four
+    # of forty sampled item pages still show a Control line, three of them
+    # belts, each paying about a third of its level in HP for it. Those pages
+    # are an older revision, not a set bonus and not an import bug; see
+    # get_sets_wakfu.py, where the whole measurement is written down.
     'CONTROL': SECONDARY,
 }
 
