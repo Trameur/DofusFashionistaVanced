@@ -11,3 +11,28 @@ Set_bonus will crawl through all the sets and colect the items/bonus for each se
 Rosetta needs the whole site to be running. It collects the names of items in all other languages (the other scrapers do only English).
 
 Class_items will collect class items, the ID's of the items need to be input by hand.
+
+Never rebuild an item database while a test suite is running.
+
+build_wakfu_db.py deletes items_wakfu.db before writing it, and the suite opens
+that same file through structure.py. Rebuilding under a running suite gives it
+a missing or half-written database, which shows up as failures that do not
+reproduce.
+
+Two suites CAN run at the same time. This was measured rather than assumed, and
+the belief that they could not was wrong: Django gives an in-memory test
+database the name file:memorydb_default?mode=memory&cache=shared, and
+cache=shared shares between connections OF ONE PROCESS, never between
+processes. A parent that creates a table on that URI and holds the connection
+open sees it; a child process opening the same URI sees nothing. So two
+manage.py test runs under settings_test are blind to each other.
+
+What they do share is files on disk: the item databases, and the working tree
+itself, since the suite imports the files as they are and not as they were
+committed. So the rule is about writes, not about suites: while a suite runs,
+do not rebuild a database and do not edit a tracked file.
+
+Running the suite WITHOUT --settings=fashionsite.settings_test is a different
+trap: it falls back to MySQL, where two runs really do collide over the same
+test_fashionista database, and reports around a hundred failures that say
+nothing about the code.
