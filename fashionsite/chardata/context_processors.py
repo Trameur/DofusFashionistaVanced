@@ -150,6 +150,8 @@ def ad_config():
             # silence. So serve none, cache nothing, read again next request,
             # and say it: json.loads is inside this try, so a row saved with
             # broken JSON is a standing state, not a passing one.
+            logger.warning('the stored ad setting could not be read, so no '
+                           'advertising is served', exc_info=True)
             return {'enabled': False}
         cache.set(AD_SETTING_KEY, stored, AD_SETTING_TTL)
     slots = dict(config.get('slots') or {})
