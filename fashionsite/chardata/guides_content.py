@@ -3491,14 +3491,14 @@ GUIDES = {
         'i18n': {
             'en': {
                 'title': 'How much resistance you actually need',
-                'desc': "Percent resistance caps at 50% in every Dofus version, so stacking more is usually wasted. Fixed vs percent, the cap, and when surplus still helps.",
+                'desc': "No, 100% resistance is not reachable in Dofus: percent resist hard-caps at 50%, so nothing makes you immune. Fixed vs percent, and when surplus helps.",
                 'lead': "Resistance is the most misunderstood defensive stat in Dofus. More is not always better, and there is a hard ceiling that quietly wastes anything you stack past it.",
                 'body': '''
 <h2>Two kinds of resistance</h2>
 <p>Dofus has two separate defensive stats with the same name. <strong>Fixed</strong> (linear) resistance subtracts a flat amount from every hit you take. <strong>Percent</strong> resistance reduces the damage by a percentage. They stack, and the fixed part is applied first, then the percentage. Fixed resistance shines against lots of small hits; percent shines against big ones. Most gear gives percent, which is where the confusion starts.</p>
 
 <h2>The 50% ceiling</h2>
-<p>Percent elemental resistance is <strong>hard-capped at 50%</strong> for players, and this is true in every version of the game: Dofus 3, the beta, Dofus 2, Dofus Touch and Dofus Retro (1.29) alike. Once an element sits at 50%, more percent resistance in that element does nothing against normal damage. So a set that reads +65% Fire resist is really only using 50 of it. The optimizer knows this and will not waste your build chasing percent resist past the useful ceiling, which is why it sometimes stops adding resist gear that looks like it should help.</p>
+<p>Percent elemental resistance is <strong>hard-capped at 50%</strong> for players, and this is true in every version of the game: Dofus 3, the beta, Dofus 2, Dofus Touch and Dofus Retro (1.29) alike. Once an element sits at 50%, more percent resistance in that element does nothing against normal damage. So a set that reads +65% Fire resist is really only using 50 of it. The optimizer knows this and will not waste your build chasing percent resist past the useful ceiling, which is why it sometimes stops adding resist gear that looks like it should help. This is also the answer to the question players ask most often about resistance: <strong>100% is not reachable</strong>, and no amount of percent resist ever makes you immune to an element.</p>
 
 <h2>When surplus still helps</h2>
 <p>There is one situation where stacking past 50% pays off: <strong>vulnerability</strong>. In PvP, and with some monster mechanics, your resistances get lowered by debuffs. A buffer above 50% keeps you sitting at the cap even after a -10% vulnerability, so competitive PvP players deliberately overstack one or two elements. Fixed resistance, by contrast, has no cap at all, so every point of it is always doing something, especially against chip damage and multi-hit spells.</p>
@@ -3511,14 +3511,14 @@ GUIDES = {
             },
             'fr': {
                 'title': 'De combien de résistance tu as vraiment besoin',
-                'desc': "La résistance en pourcentage plafonne à 50 % dans toutes les versions : au-delà c'est gaspillé. Fixe vs pourcentage, le plafond, et quand le surplus sert.",
+                'desc': "Non, les 100 % de résistance sont impossibles sur Dofus : le pourcentage plafonne à 50 %, rien ne rend immunisé. Fixe vs pourcentage, et le surplus.",
                 'lead': "La résistance est la stat défensive la plus mal comprise de Dofus. Plus n'est pas toujours mieux, et il y a un plafond dur qui gaspille en silence tout ce que tu empiles au-delà.",
                 'body': '''
 <h2>Deux types de résistance</h2>
 <p>Dofus a deux stats défensives distinctes qui portent le même nom. La résistance <strong>fixe</strong> (linéaire) retire un montant fixe à chaque coup que tu prends. La résistance en <strong>pourcentage</strong> réduit les dégâts d'un certain pourcentage. Elles se cumulent, et la partie fixe s'applique d'abord, le pourcentage ensuite. La fixe brille contre plein de petits coups ; le pourcentage brille contre les gros. La plupart du stuff donne du pourcentage, et c'est là que naît la confusion.</p>
 
 <h2>Le plafond de 50 %</h2>
-<p>La résistance élémentaire en pourcentage est <strong>plafonnée à 50 %</strong> pour les joueurs, et c'est vrai dans toutes les versions du jeu : Dofus 3, la bêta, Dofus 2, Dofus Touch et Dofus Retro (1.29) pareil. Une fois un élément à 50 %, ajouter du pourcentage dans cet élément ne fait plus rien contre les dégâts normaux. Donc un stuff affiché +65 % de résistance Feu n'en utilise réellement que 50. L'optimiseur le sait et ne gaspille pas ton build à courir après du pourcentage au-delà du plafond utile : c'est pour ça qu'il arrête parfois de mettre des items resist qui semblent utiles.</p>
+<p>La résistance élémentaire en pourcentage est <strong>plafonnée à 50 %</strong> pour les joueurs, et c'est vrai dans toutes les versions du jeu : Dofus 3, la bêta, Dofus 2, Dofus Touch et Dofus Retro (1.29) pareil. Une fois un élément à 50 %, ajouter du pourcentage dans cet élément ne fait plus rien contre les dégâts normaux. Donc un stuff affiché +65 % de résistance Feu n'en utilise réellement que 50. L'optimiseur le sait et ne gaspille pas ton build à courir après du pourcentage au-delà du plafond utile : c'est pour ça qu'il arrête parfois de mettre des items resist qui semblent utiles. C'est aussi la réponse à la question qu'on pose le plus souvent sur la résistance : <strong>les 100 % sont hors d'atteinte</strong>, et aucun pourcentage ne rend immunisé à un élément.</p>
 
 <h2>Quand le surplus sert encore</h2>
 <p>Il y a une situation où dépasser 50 % paie : la <strong>vulnérabilité</strong>. En PvP, et avec certaines mécaniques de monstres, tes résistances sont baissées par des debuffs. Un buffer au-dessus de 50 % te maintient au plafond même après une vulnérabilité de -10 %, donc les joueurs de PvP compétitif sur-empilent volontairement un ou deux éléments. La résistance fixe, elle, n'a aucun plafond : chaque point sert toujours à quelque chose, surtout contre les dégâts qui grignotent et les sorts multi-coups.</p>
@@ -3531,14 +3531,14 @@ GUIDES = {
             },
             'es': {
                 'title': 'Cuánta resistencia necesitas de verdad',
-                'desc': "La resistencia en porcentaje tiene tope del 50 % en todas las versiones: acumular más suele ser inútil. Fija vs porcentaje y cuándo el excedente ayuda.",
+                'desc': "No, el 100 % de resistencia no existe en Dofus: el porcentaje tiene tope del 50 %, nada te hace inmune. Fija vs porcentaje y cuándo sirve el excedente.",
                 'lead': "La resistencia es la stat defensiva peor entendida de Dofus. Más no siempre es mejor, y hay un techo duro que desperdicia en silencio todo lo que apiles por encima.",
                 'body': '''
 <h2>Dos tipos de resistencia</h2>
 <p>Dofus tiene dos stats defensivas distintas con el mismo nombre. La resistencia <strong>fija</strong> (lineal) resta una cantidad fija a cada golpe que recibes. La resistencia en <strong>porcentaje</strong> reduce el daño en un porcentaje. Se acumulan, y la parte fija se aplica primero y el porcentaje después. La fija brilla contra muchos golpes pequeños; el porcentaje brilla contra los grandes. La mayoría del equipo da porcentaje, y ahí empieza la confusión.</p>
 
 <h2>El techo del 50 %</h2>
-<p>La resistencia elemental en porcentaje tiene un <strong>tope del 50 %</strong> para los jugadores, y esto vale en todas las versiones del juego: Dofus 3, la beta, Dofus 2, Dofus Touch y Dofus Retro (1.29) igual. Una vez que un elemento está al 50 %, más porcentaje en ese elemento no hace nada contra el daño normal. Así que un equipo que pone +65 % de resistencia de Fuego solo usa 50 de verdad. El optimizador lo sabe y no desperdicia tu build persiguiendo porcentaje por encima del techo útil: por eso a veces deja de añadir equipo de resistencia que parece que debería ayudar.</p>
+<p>La resistencia elemental en porcentaje tiene un <strong>tope del 50 %</strong> para los jugadores, y esto vale en todas las versiones del juego: Dofus 3, la beta, Dofus 2, Dofus Touch y Dofus Retro (1.29) igual. Una vez que un elemento está al 50 %, más porcentaje en ese elemento no hace nada contra el daño normal. Así que un equipo que pone +65 % de resistencia de Fuego solo usa 50 de verdad. El optimizador lo sabe y no desperdicia tu build persiguiendo porcentaje por encima del techo útil: por eso a veces deja de añadir equipo de resistencia que parece que debería ayudar. Es también la respuesta a la pregunta más frecuente sobre la resistencia: <strong>el 100 % es inalcanzable</strong>, y ningún porcentaje te hace inmune a un elemento.</p>
 
 <h2>Cuándo el excedente sí ayuda</h2>
 <p>Hay una situación en la que pasar del 50 % compensa: la <strong>vulnerabilidad</strong>. En PvP, y con algunas mecánicas de monstruos, tus resistencias bajan por debuffs. Un margen por encima del 50 % te mantiene en el tope incluso tras una vulnerabilidad de -10 %, así que en el PvP competitivo se sobreacumulan a propósito uno o dos elementos. La resistencia fija, en cambio, no tiene tope: cada punto siempre hace algo, sobre todo contra el daño que desgasta y los hechizos de varios golpes.</p>
@@ -3551,14 +3551,14 @@ GUIDES = {
             },
             'pt': {
                 'title': 'Quanta resistência você realmente precisa',
-                'desc': "A resistência em porcentagem tem teto de 50% em todas as versões: acumular mais é desperdício. Fixa vs porcentagem e quando o excedente ajuda.",
+                'desc': "Não, 100% de resistência não dá em Dofus: a porcentagem tem teto de 50%, nada te deixa imune. Fixa vs porcentagem e quando o excedente ajuda.",
                 'lead': "A resistência é a stat defensiva mais mal compreendida de Dofus. Mais nem sempre é melhor, e existe um teto rígido que desperdiça em silêncio tudo o que você empilha além dele.",
                 'body': '''
 <h2>Dois tipos de resistência</h2>
 <p>Dofus tem duas stats defensivas distintas com o mesmo nome. A resistência <strong>fixa</strong> (linear) subtrai um valor fixo de cada golpe que você recebe. A resistência em <strong>porcentagem</strong> reduz o dano por uma porcentagem. Elas se somam, e a parte fixa é aplicada primeiro, a porcentagem depois. A fixa brilha contra muitos golpes pequenos; a porcentagem brilha contra os grandes. A maioria do equipamento dá porcentagem, e é aí que começa a confusão.</p>
 
 <h2>O teto de 50%</h2>
-<p>A resistência elemental em porcentagem tem <strong>teto de 50%</strong> para os jogadores, e isso vale em todas as versões do jogo: Dofus 3, o beta, Dofus 2, Dofus Touch e Dofus Retro (1.29) igual. Quando um elemento está em 50%, mais porcentagem nesse elemento não faz nada contra o dano normal. Então um equipamento que mostra +65% de resistência de Fogo só usa 50 de verdade. O otimizador sabe disso e não desperdiça seu build atrás de porcentagem além do teto útil: é por isso que às vezes ele para de adicionar equipamento de resistência que parece que deveria ajudar.</p>
+<p>A resistência elemental em porcentagem tem <strong>teto de 50%</strong> para os jogadores, e isso vale em todas as versões do jogo: Dofus 3, o beta, Dofus 2, Dofus Touch e Dofus Retro (1.29) igual. Quando um elemento está em 50%, mais porcentagem nesse elemento não faz nada contra o dano normal. Então um equipamento que mostra +65% de resistência de Fogo só usa 50 de verdade. O otimizador sabe disso e não desperdiça seu build atrás de porcentagem além do teto útil: é por isso que às vezes ele para de adicionar equipamento de resistência que parece que deveria ajudar. Essa também é a resposta à pergunta mais comum sobre resistência: <strong>100% é inalcançável</strong>, e nenhuma porcentagem deixa você imune a um elemento.</p>
 
 <h2>Quando o excedente ainda ajuda</h2>
 <p>Há uma situação em que passar de 50% compensa: a <strong>vulnerabilidade</strong>. No PvP, e com algumas mecânicas de monstros, suas resistências são reduzidas por debuffs. Uma margem acima de 50% te mantém no teto mesmo depois de uma vulnerabilidade de -10%, então no PvP competitivo os jogadores sobrecarregam de propósito um ou dois elementos. A resistência fixa, por outro lado, não tem teto: cada ponto sempre faz algo, principalmente contra o dano que corrói e feitiços de vários golpes.</p>
@@ -3571,14 +3571,14 @@ GUIDES = {
             },
             'de': {
                 'title': 'Wie viel Resistenz du wirklich brauchst',
-                'desc': "Prozent-Resistenz ist in jeder Dofus-Version bei 50% gedeckelt, mehr stapeln bringt meist nichts. Fest vs Prozent, die Grenze und wann Überschuss doch hilft.",
+                'desc': "Nein, 100% Resistenz gibt es in Dofus nicht: Prozent-Resistenz ist bei 50% gedeckelt, nichts macht immun. Fest vs Prozent und wann Überschuss hilft.",
                 'lead': "Resistenz ist der am meisten missverstandene Verteidigungswert in Dofus. Mehr ist nicht immer besser, und es gibt eine harte Grenze, die alles darüber leise verschwendet.",
                 'body': '''
 <h2>Zwei Arten von Resistenz</h2>
 <p>Dofus hat zwei getrennte Verteidigungswerte mit demselben Namen. <strong>Feste</strong> (lineare) Resistenz zieht von jedem Treffer einen festen Betrag ab. <strong>Prozentuale</strong> Resistenz senkt den Schaden um einen Prozentsatz. Sie stapeln sich, und der feste Teil wird zuerst angewendet, der Prozentsatz danach. Feste Resistenz glänzt gegen viele kleine Treffer; Prozent glänzt gegen große. Die meiste Ausrüstung gibt Prozent, und da fängt die Verwirrung an.</p>
 
 <h2>Die 50%-Grenze</h2>
-<p>Prozentuale Elementarresistenz ist für Spieler <strong>hart bei 50% gedeckelt</strong>, und das gilt in jeder Version des Spiels: Dofus 3, der Beta, Dofus 2, Dofus Touch und Dofus Retro (1.29) gleichermaßen. Sobald ein Element bei 50% liegt, bringt mehr Prozent in diesem Element gegen normalen Schaden nichts. Eine Ausrüstung mit +65% Feuerresistenz nutzt also wirklich nur 50 davon. Der Optimierer weiß das und verschwendet dein Build nicht damit, Prozent-Resistenz über die nützliche Grenze zu jagen, weshalb er manchmal aufhört, Resistenz-Ausrüstung hinzuzufügen, die zu helfen scheint.</p>
+<p>Prozentuale Elementarresistenz ist für Spieler <strong>hart bei 50% gedeckelt</strong>, und das gilt in jeder Version des Spiels: Dofus 3, der Beta, Dofus 2, Dofus Touch und Dofus Retro (1.29) gleichermaßen. Sobald ein Element bei 50% liegt, bringt mehr Prozent in diesem Element gegen normalen Schaden nichts. Eine Ausrüstung mit +65% Feuerresistenz nutzt also wirklich nur 50 davon. Der Optimierer weiß das und verschwendet dein Build nicht damit, Prozent-Resistenz über die nützliche Grenze zu jagen, weshalb er manchmal aufhört, Resistenz-Ausrüstung hinzuzufügen, die zu helfen scheint. Das ist zugleich die Antwort auf die häufigste Frage zur Resistenz: <strong>100% sind nicht erreichbar</strong>, und keine Prozent-Resistenz macht je immun gegen ein Element.</p>
 
 <h2>Wann Überschuss doch hilft</h2>
 <p>Es gibt eine Situation, in der ein Stapeln über 50% sich lohnt: <strong>Verwundbarkeit</strong>. Im PvP und bei manchen Monster-Mechaniken werden deine Resistenzen durch Debuffs gesenkt. Ein Puffer über 50% hält dich selbst nach einer -10%-Verwundbarkeit an der Grenze, deshalb stapeln kompetitive PvP-Spieler bewusst ein oder zwei Elemente über. Feste Resistenz dagegen hat gar keine Grenze, also tut jeder Punkt davon immer etwas, besonders gegen Dauerschaden und Mehrfachtreffer-Zauber.</p>

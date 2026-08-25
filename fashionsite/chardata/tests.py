@@ -25166,3 +25166,53 @@ class AnEmptyProfileVariantDoesNotClaimToBeItsOwnPageTests(TestCase):
         robots, canonique = self._tete('/retro/user/batisseur/')
         self.assertEqual('index, follow', robots)
         self.assertIn('/retro/', canonique)
+
+
+class TheResistanceGuideAnswersTheQuestionItRanksForTests(SimpleTestCase):
+    """576 impressions in 28 days, position 8, and not one click.
+
+    Search Console gives the queries, and 47 of them ask the same thing in
+    slightly different words: does 100% resistance in Dofus mean zero damage.
+    The guide held the answer -- percent resist is capped at 50%, so 100% is
+    unreachable -- but never wrote the number the reader was searching for.
+    A snippet about a 50% ceiling does not look like an answer to someone who
+    typed 100.
+
+    The number is in the description and in the body now, in all five
+    languages. This test exists because that is the kind of wording a later
+    edit tidies away without knowing what it was for.
+    """
+
+    LANGUES = ('en', 'fr', 'es', 'pt', 'de')
+    GUIDE = 'resistance-explained'
+
+    def _guide(self, langue):
+        from chardata import guides_content
+        return guides_content.GUIDES[self.GUIDE]['i18n'][langue]
+
+    def test_every_language_names_the_number_that_is_searched_for(self):
+        for langue in self.LANGUES:
+            page = self._guide(langue)
+            self.assertIn('100', page['desc'], langue)
+            self.assertIn('100', page['body'], langue)
+
+    def test_every_language_still_states_the_real_cap(self):
+        """Naming 100 without the 50 would answer nothing.
+
+        The whole reason 100% is out of reach is the cap, so a description
+        that dropped it would be a hook with no payoff.
+        """
+        for langue in self.LANGUES:
+            page = self._guide(langue)
+            self.assertIn('50', page['desc'], langue)
+
+    def test_the_descriptions_stay_short_enough_to_be_shown_whole(self):
+        """Google truncates around 160 characters.
+
+        The answer sits at the front for that reason; a description that grew
+        past the limit would have its point cut off.
+        """
+        for langue in self.LANGUES:
+            longueur = len(self._guide(langue)['desc'])
+            self.assertLessEqual(longueur, 160, '%s: %s' % (langue, longueur))
+            self.assertGreaterEqual(longueur, 90, langue)
