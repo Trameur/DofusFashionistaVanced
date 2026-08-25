@@ -53,10 +53,26 @@ VERSION_WEIGHT_TUNING = {
     'retro': {
         # Dodge and Lock both arrived with Dofus 2.0: no 1.29 item and no 1.29
         # set bonus carries either, measured 0 and 0 in items_retro.db.
+        #
+        # The five elemental damage lines joined them on 2026-08-25, and not
+        # because the game changed: they were only ever carried by twelve
+        # weapons whose OWN HIT the transform stored as a flat bonus, because a
+        # fixed-damage weapon writes '0d0+Z' where a rolled one writes
+        # '1d15+30'. Those twelve now carry their damage as a hit, which is
+        # what Solomonk shows, and no 1.29 item carries a flat elemental damage
+        # line at all: 42 such stat rows became 43 hit rows, the extra one an
+        # earth steal that used to be dropped outright.
+        #
+        # ALL FIVE, not the two the guard named. It weighs an Iop built on
+        # Strength, which only ever weights earth and neutral, so fire, water
+        # and air were carrier-less too and it simply was not looking at them.
+        # A neighbouring session measured that and it is the reason this list
+        # is not two entries long.
         'zero_stats': ('cridam', 'apred', 'mpred', 'apres', 'mpres',
                        'lock', 'dodge', 'pshdam', 'pshres', 'crires',
                        'permedam', 'perrandam', 'perweadam', 'perspedam',
-                       'respermee', 'resperran', 'resperwea'),
+                       'respermee', 'resperran', 'resperwea',
+                       'neutdam', 'earthdam', 'firedam', 'waterdam', 'airdam'),
         'res_per_factor': lambda level_pct: 2 + 4 * level_pct,
         'wis_base': 4,
         'wis_rape_floor': 12,

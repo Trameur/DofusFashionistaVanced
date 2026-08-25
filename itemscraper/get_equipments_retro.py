@@ -304,13 +304,6 @@ def _hex(x):
         return None
 
 
-def _is_die_roll(dice):
-    """ISTA dice field 'XdY+Z' is a real roll when Y>0 (weapon hit); a flat bonus
-    is encoded as '0d0+Z'."""
-    m = re.match(r'\s*(\d+)d(\d+)', dice or '')
-    return bool(m) and int(m.group(2)) > 0
-
-
 def decode_spell_lines(ista_string, spell_names_by_lang):
     """ISTA string -> {language: [read lines]} for the spell modifiers."""
     lines = {}
@@ -387,7 +380,19 @@ def decode_stats(ista_string, is_weapon=False):
             hit_label = '(heals)'
         else:
             hit_label = None
-        if is_weapon and hit_label is not None and _is_die_roll(dice):
+        # Le de ne decide PAS s'il s'agit du coup de l'arme. Une arme dont les
+        # degats sont fixes ecrit '0d0+Z', et Solomonk l'affiche a la meme
+        # place et dans la meme forme qu'un coup ordinaire :
+        #     Famufoke Sword   Dommages : 23 a 50 (neutre)
+        #     Sick Axe         Vole 10 PDV (terre) / Dommages : 30 (neutre)
+        #     Hurrian Hammer   Dommages : 1 (neutre)
+        # Mesure qui tranche : sur les 4343 armes Retro, ZERO ne porte a la
+        # fois une ligne elementaire plate et un vrai coup, et DOUZE n'ont que
+        # la ligne plate. Si c'etait un bonus, on verrait des armes avec les
+        # deux. Ces douze n'avaient donc aucun degat pour le solveur, et une
+        # de leurs lignes se promenait en bonus fantome : la Sick Axe de
+        # niveau 162 ne frappait pas et donnait +30 dommages neutres.
+        if is_weapon and hit_label is not None:
             lo = jmin if jmin is not None else jmax
             hi = jmax if jmax is not None else jmin
             if hi is not None:

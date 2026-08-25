@@ -3348,6 +3348,94 @@ class CompareSetsPreviewTests(TestCase):
         self.assertNotIn('character_preview.js', body)
 
 
+class ARetroWeaponWithFixedDamageStillHitsTests(SimpleTestCase):
+    """Twelve 1.29 weapons dealt nothing, because their damage does not roll.
+
+    The ISTA line of a weapon whose damage is fixed reads '0d0+Z' where a
+    rolled one reads '1d15+30', and the transform read the die as the test of
+    whether the line was the weapon's hit at all. So a fixed hit became a flat
+    characteristic bonus: the level 162 Sick Axe struck for nothing and handed
+    out +30 neutral damage instead.
+
+    What settled it, because the shape alone could have gone either way: on the
+    4343 Retro weapons, ZERO carry both a flat elemental line AND a real hit,
+    while twelve carry only the flat line. A bonus would have appeared beside a
+    roll at least once. Solomonk shows them in the same place and the same form
+    as any hit, "Dommages : 30 (neutre)" against "Dommages : 23 a 50 (neutre)".
+    """
+
+    ELEMENTAL_DAMAGE = ('neutdam', 'earthdam', 'firedam', 'waterdam', 'airdam')
+
+    def _retro(self):
+        from fashionistapulp.fashionista_config import get_items_db_path
+        import sqlite3
+        path = get_items_db_path('retro')
+        if not os.path.exists(path):
+            self.skipTest('no Retro database built')
+        return sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+
+    def test_the_fixed_hit_is_a_hit(self):
+        conn = self._retro()
+        try:
+            row = conn.execute(
+                "SELECT id FROM items WHERE name = 'Sick Axe'").fetchone()
+            self.assertIsNotNone(row, 'Sick Axe is missing from Retro')
+            hits = conn.execute(
+                'SELECT min_value, max_value, steals, element FROM weapon_hits'
+                ' WHERE item = ? ORDER BY element', (row[0],)).fetchall()
+            # Solomonk: "Vole 10 PDV (terre)" and "Dommages : 30 (neutre)".
+            self.assertEqual([(10, 10, 1, 'earth'), (30, 30, 0, 'neut')], hits)
+        finally:
+            conn.close()
+
+    def test_no_retro_weapon_keeps_its_damage_as_a_bonus(self):
+        conn = self._retro()
+        try:
+            marks = ','.join('?' * len(self.ELEMENTAL_DAMAGE))
+            carried = conn.execute(
+                'SELECT i.name, s.key FROM stats_of_item v'
+                ' JOIN items i ON i.id = v.item JOIN stats s ON s.id = v.stat'
+                ' JOIN item_types t ON t.id = i.type'
+                " WHERE t.name = 'Weapon' AND s.key IN (%s)"
+                ' AND COALESCE(i.removed, 0) = 0' % marks,
+                self.ELEMENTAL_DAMAGE).fetchall()
+            self.assertEqual([], sorted(carried)[:5],
+                             '%d weapons still carry their hit as a bonus'
+                             % len(carried))
+        finally:
+            conn.close()
+
+    def test_all_five_are_declared_carrier_less_for_retro(self):
+        """The other guard weighs an Iop on Strength, so it only ever named
+        earth and neutral. Fire, water and air are just as carrier-less now and
+        it was not looking at them."""
+        from chardata.smart_build import VERSION_WEIGHT_TUNING
+        zeroed = set(VERSION_WEIGHT_TUNING['retro']['zero_stats'])
+        self.assertEqual([], sorted(set(self.ELEMENTAL_DAMAGE) - zeroed))
+
+    def test_the_weapons_left_without_a_hit_carry_no_damage_line(self):
+        """Eleven remain, and each is a craft tool or has no entry at all.
+
+        A weapon with no hit AND an elemental line would be one this pass
+        missed, which is the thing worth failing on.
+        """
+        conn = self._retro()
+        try:
+            marks = ','.join('?' * len(self.ELEMENTAL_DAMAGE))
+            stragglers = conn.execute(
+                'SELECT i.name FROM items i JOIN item_types t ON t.id = i.type'
+                " WHERE t.name = 'Weapon' AND COALESCE(i.removed, 0) = 0"
+                ' AND NOT EXISTS (SELECT 1 FROM weapon_hits w'
+                '                 WHERE w.item = i.id)'
+                ' AND EXISTS (SELECT 1 FROM stats_of_item v'
+                '             JOIN stats s ON s.id = v.stat'
+                '             WHERE v.item = i.id AND s.key IN (%s))' % marks,
+                self.ELEMENTAL_DAMAGE).fetchall()
+            self.assertEqual([], stragglers)
+        finally:
+            conn.close()
+
+
 class APagedHubKeepsItsPageWhenALinkAddsNoiseTests(TestCase):
     """A shared link brings tracking parameters, and they are not filters.
 
