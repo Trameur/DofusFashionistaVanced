@@ -25373,3 +25373,90 @@ class TheResistanceGuideAnswersTheQuestionItRanksForTests(SimpleTestCase):
             longueur = len(self._guide(langue)['desc'])
             self.assertLessEqual(longueur, 160, '%s: %s' % (langue, longueur))
             self.assertGreaterEqual(longueur, 90, langue)
+
+
+class ADescriptionAnswersRatherThanAnnouncesTests(TestCase):
+    """The failure this whole site kept repeating, in one guard.
+
+    Item pages used to say "Dofus stats, effects, equip conditions and craft
+    recipe": the shape of the page, not the item. Measured over 28 days, the
+    encyclopedia took 122 clicks on 33 300 impressions -- 0.4 % -- while the
+    Fandom wiki ranked above with a snippet that answered.
+
+    A sentence that answers carries something specific: the item's own name,
+    and a number. A sentence that announces carries neither, and reads the
+    same whichever page it sits on. That is the whole test.
+    """
+
+    #: Un echantillon fixe : le tirage doit etre le meme d'une execution a
+    #: l'autre, sinon un echec ne se reproduit pas.
+    OBJETS = (44, 15699, 694, 26066, 7115)
+
+    def _structure(self):
+        from fashionistapulp.structure import get_structure
+        return get_structure('dofus3')
+
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
+
+    def _description(self, ankama_id):
+        """Ce que la PAGE sert, pas ce qu'une fonction rend.
+
+        Le constructeur de description prend des lignes de stats que la vue
+        assemble ailleurs ; l'appeler a vide testerait une phrase que personne
+        ne voit. La page rendue est la seule chose qu'un lecteur et un moteur
+        recoivent vraiment.
+        """
+        import re
+        from chardata.encyclopedia_view import get_item_link
+        item = self._structure().get_item_by_ankama_id(ankama_id)
+        self.assertIsNotNone(item, ankama_id)
+        url = get_item_link(item.ankama_type, item.ankama_id, item.name,
+                            game_version='dofus3')
+        self.assertTrue(url, ankama_id)
+        reponse = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
+                                  HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(reponse.status_code, 200, url)
+        page = reponse.content.decode('utf-8')
+        balise = re.search(r'<meta[^>]*name="description"[^>]*>', page)
+        self.assertIsNotNone(balise, url)
+        trouve = re.search(r'content="([^"]*)"', balise.group(0))
+        self.assertIsNotNone(trouve, url)
+        return item, trouve.group(1)
+
+    def test_every_sampled_description_names_its_own_item(self):
+        """A sentence that fits any page is a sentence about no page."""
+        for ankama_id in self.OBJETS:
+            item, desc = self._description(ankama_id)
+            self.assertIn(item.name, desc, ankama_id)
+
+    def test_every_sampled_description_carries_a_number(self):
+        """The level, a stat, a count -- something a reader can check.
+
+        This is what separates an answer from an announcement, and it is the
+        cheapest signal of the difference: the old wording had no digit in it
+        at all.
+        """
+        import re
+        for ankama_id in self.OBJETS:
+            _item, desc = self._description(ankama_id)
+            self.assertTrue(re.search(r'[0-9]', desc),
+                            '%s: %r' % (ankama_id, desc))
+
+    def test_none_of_them_describes_the_page_instead_of_the_item(self):
+        """The exact wording that cost 33 300 impressions their clicks.
+
+        Kept verbatim rather than paraphrased: this is the sentence to
+        recognise if it ever comes back, in this form or a close one.
+        """
+        interdits = ('stats, effects, equip conditions',
+                     'Find every item', 'Discover builds',
+                     'all the items in this Dofus set')
+        for ankama_id in self.OBJETS:
+            _item, desc = self._description(ankama_id)
+            for phrase in interdits:
+                self.assertNotIn(phrase, desc, '%s: %s' % (ankama_id, phrase))
+
+    def test_they_stay_inside_what_a_result_shows(self):
+        for ankama_id in self.OBJETS:
+            _item, desc = self._description(ankama_id)
+            self.assertLessEqual(len(desc), 165, '%s: %s' % (ankama_id, len(desc)))
