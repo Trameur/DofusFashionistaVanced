@@ -27,8 +27,25 @@
     builds qui POUVAIENT porter l'objet, sinon un objet de niveau 20 paraitrait
     delaisse par la seule faute que la plupart des builds sont niveau 200.
     {% endcomment %}
+    {% comment %}
+    Le chiffre qui porte la page, avant la methode. Une page de statistiques
+    qu'on ouvre sans rien retenir n'est pas citee, et celui-la sort des donnees :
+    le jour ou un autre objet passe devant, la phrase change toute seule.
+    {% endcomment %}
+    {% if headline %}
+    <p class="most-used-headline">
+        {% blocktrans with nom=headline.name part=headline.share %}{{ part }} of the builds that can equip it wear the same one: {{ nom }}.{% endblocktrans %}
+    </p>
+    {% endif %}
+
     <p class="most-used-method">
         {% blocktrans with n=builds_counted %}Counted over {{ n }} builds calculated on this site. For each item, the share is of the builds that could equip it, meaning those at or above its level. Nothing about who built them is stored or shown.{% endblocktrans %}
+        {% comment %}
+        La date n'apparait que si la commande d'indexation l'a ecrite. Dater la
+        table avec le jour ou quelqu'un ouvre la page serait un chiffre invente
+        sur une page dont tout l'interet est qu'on puisse la verifier.
+        {% endcomment %}
+        {% if computed_on %}{% blocktrans with jour=computed_on %}Counts last rebuilt on {{ jour }}.{% endblocktrans %}{% endif %}
     </p>
 
     {% if slots %}

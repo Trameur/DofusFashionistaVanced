@@ -17,6 +17,17 @@
     line-height: 1.5;
 }
 
+/* Le chiffre qu'on retient : plus gros que la methode, et juste sous le titre.
+   C'est la phrase qu'un article reprend, donc elle doit se lire d'abord. */
+.most-used-headline {
+    max-width: 46em;
+    margin: 0 auto 10px;
+    text-align: center;
+    font-size: 1.18em;
+    line-height: 1.4;
+    font-weight: bold;
+}
+
 .most-used-slot {
     max-width: 46em;
     margin: 0 auto 26px;

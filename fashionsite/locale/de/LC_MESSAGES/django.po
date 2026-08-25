@@ -6948,6 +6948,14 @@ msgstr "Was Dofus-Spieler wirklich tragen"
 msgid "What players actually wear"
 msgstr "Was Spieler wirklich tragen"
 
+#: chardata/templates/chardata/encyclopedia_most_used.html
+msgid "%(part)s of the builds that can equip it wear the same one: %(nom)s."
+msgstr "%(part)s der Builds, die ihn tragen können, tragen denselben: %(nom)s."
+
+#: chardata/templates/chardata/encyclopedia_most_used.html
+msgid "Counts last rebuilt on %(jour)s."
+msgstr "Zählungen zuletzt neu berechnet am %(jour)s."
+
 msgid "What Dofus players actually wear"
 msgstr "Was Dofus-Spieler wirklich tragen"
 

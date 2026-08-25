@@ -32,6 +32,7 @@ import collections
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.utils import timezone
 
 from chardata.models import Char, ItemInSharedBuild, ItemPopularity
 from chardata.solution import get_solution
@@ -105,6 +106,14 @@ class Command(BaseCommand):
                 ItemPopularity.objects.all().delete()
                 ItemPopularity.objects.bulk_create(comptes, batch_size=1000,
                                                    ignore_conflicts=True)
+                # Une page de statistiques sans date n'est pas citable : on ne
+                # peut pas ecrire "58 % en aout 2026" si le site ne dit pas
+                # quand il a compte. Range dans la table cle-valeur qui existe
+                # deja, plutot que dans une colonne et une migration.
+                from chardata.models import SiteSetting
+                SiteSetting.objects.update_or_create(
+                    key='item_popularity_computed_at',
+                    defaults={'value': timezone.now().date().isoformat()})
 
         self.stdout.write('builds read      : %d' % lus)
         self.stdout.write('unreadable       : %d' % illisibles)

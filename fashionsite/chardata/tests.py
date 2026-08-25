@@ -23590,7 +23590,9 @@ class TheMostWornGearPageTests(TestCase):
         self._rangs()
         page = self._page()
         self.assertIn('could equip it', page)
-        self.assertIn('10000', page)
+        # Le denominateur, avec son separateur : c'est le meme controle qu'a
+        # l'origine, sur la forme lisible que la page affiche depuis.
+        self.assertIn('10 000', page)
 
     def test_it_says_nothing_about_who_built_them(self):
         self._rangs()
@@ -23618,6 +23620,58 @@ class TheMostWornGearPageTests(TestCase):
         page = self._page()
         self.assertIn('Build a set of your own', page)
         self.assertIn('/setup/', page)
+
+    def test_it_leads_with_the_figure_worth_quoting(self):
+        """A statistics page nobody remembers is a page nobody links to.
+
+        The strongest share sits above the method, and it is computed rather
+        than written down: the day another item overtakes it, the sentence
+        follows on its own.
+        """
+        self._rangs(ankama_id=26066, builds=1400, eligible=10000)
+        self._rangs(ankama_id=694, builds=9000, eligible=10000)
+        page = self._page()
+        # Assertion d'abord, index ensuite : str.index leve une exception, et un
+        # test qui casse par erreur plutot que par echec cache ce qu'il voulait
+        # dire. Vu en le cassant expres : il tombait bien, mais en ERROR.
+        self.assertIn('most-used-headline', page,
+                      'the page leads with the method and no figure')
+        self.assertLess(page.index('most-used-headline'),
+                        page.index('most-used-method'),
+                        'the figure must come before the method')
+        # 9000 sur 10000, la part la plus forte des deux posees ci-dessus.
+        entete = page[page.index('most-used-headline'):]
+        self.assertIn('90.0 %', entete[:400])
+
+    def test_the_build_count_is_readable(self):
+        """141990 is a dump; 141 990 is a number.
+
+        On a page whose whole worth is that its figures can be checked, an
+        unseparated six-digit count reads as raw output.
+        """
+        self._rangs(builds=1400, eligible=141990)
+        page = self._page()
+        self.assertNotIn('141990', page)
+        self.assertIn('141 990', page)
+
+    def test_it_says_when_the_counts_were_rebuilt(self):
+        from chardata.models import SiteSetting
+        SiteSetting.objects.create(key='item_popularity_computed_at',
+                                   value='2026-08-25')
+        self._rangs()
+        self.assertIn('2026-08-25', self._page())
+
+    def test_it_invents_no_date_when_nothing_recorded_one(self):
+        """The guard that matters more than the date itself.
+
+        Dating the table with the moment a reader opens the page would be a
+        made-up number on the one page that exists because its numbers can be
+        checked. Absent is the honest answer.
+        """
+        self._rangs()
+        page = self._page()
+        self.assertNotIn('last rebuilt', page)
+        self.assertNotIn('2026-', page)
 
     def test_each_language_says_where_the_others_are(self):
         """Five urls serve this page and Google must be told they are one page.

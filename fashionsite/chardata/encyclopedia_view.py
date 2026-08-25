@@ -2242,6 +2242,22 @@ def encyclopedia_set(request, set_id, slug=None):
 MOST_USED_PER_SLOT = 10
 
 
+def _popularity_computed_on():
+    """The day the counts were last rebuilt, or None if nothing recorded it.
+
+    None rather than today: dating a table with the moment someone happened to
+    open the page would be a made-up number on a page whose whole worth is
+    that its numbers can be checked.
+    """
+    try:
+        from chardata.models import SiteSetting
+        ligne = SiteSetting.objects.filter(
+            key='item_popularity_computed_at').first()
+        return ligne.value if ligne and ligne.value else None
+    except Exception:
+        return None
+
+
 def encyclopedia_most_used(request):
     """What players actually wear, counted over every build ever calculated.
 
@@ -2293,12 +2309,20 @@ def encyclopedia_most_used(request):
             'builds': ligne.builds,
         })
 
+    # Ce qu'un lecteur pressé retient, et ce qu'un article cite. Calcule sur
+    # les donnees, jamais fige : le jour ou un autre objet passe devant, la
+    # phrase suit.
+    tete = None
     slots = []
     for type_name in TYPE_NAMES:
         objets = par_slot.get(type_name)
         if not objets:
             continue
         objets.sort(key=lambda o: -float(o['share'].replace(' %', '')))
+        premier = objets[0]
+        if tete is None or (float(premier['share'].replace(' %', ''))
+                            > float(tete['share'].replace(' %', ''))):
+            tete = premier
         slots.append({
             'label': _localized_label(type_name, language),
             'items': objets[:MOST_USED_PER_SLOT],
@@ -2312,7 +2336,9 @@ def encyclopedia_most_used(request):
             'char_id': 0,
             't': _ui_text(),
             'slots': slots,
-            'builds_counted': couverture,
+            'builds_counted': '{:,}'.format(couverture).replace(',', ' '),
+            'computed_on': _popularity_computed_on(),
+            'headline': tete,
             'canonical_url': 'https://dofusfashionista.gg%s' % request.path,
         },
     )
