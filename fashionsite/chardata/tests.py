@@ -25460,3 +25460,101 @@ class ADescriptionAnswersRatherThanAnnouncesTests(TestCase):
         for ankama_id in self.OBJETS:
             _item, desc = self._description(ankama_id)
             self.assertLessEqual(len(desc), 165, '%s: %s' % (ankama_id, len(desc)))
+
+
+class TheViewCleanupDoesNotHoldTheTableTests(TestCase):
+    """This command now runs while the server is starting.
+
+    Nothing had ever called it, so its first run in production has 156 914
+    rows to remove. One statement of that size holds a lock on the table for
+    its whole duration, and that duration lands inside the maintenance window
+    of a deploy. Batches give the lock back between passes.
+    """
+
+    def _vues(self, combien, age_heures):
+        from datetime import timedelta
+        from django.utils import timezone
+        import pickle as _pickle
+        from django.contrib.auth.models import User
+        from chardata.models import BuildView, Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        entree = {'options': {}, 'origin': 'generated', 'char_level': 200,
+                  'base_stats_by_attr': {}, 'locked_equips': {}}
+        proprio = User.objects.create_user(
+            'menage%s' % age_heures, 'm%s@test.local' % age_heures, 'pw-42-x')
+        build = Char.objects.create(
+            name='Menage', char_name='m', char_class='Iop', char_build='b',
+            level=200, minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal({}, entree, {})),
+            link_shared=False, owner=proprio)
+        crees = [BuildView.objects.create(build=build,
+                                          ip_address='10.0.%d.%d'
+                                          % (age_heures, i % 250))
+                 for i in range(combien)]
+        BuildView.objects.filter(pk__in=[v.pk for v in crees]).update(
+            viewed_at=timezone.now() - timedelta(hours=age_heures))
+        return build
+
+    def _menage(self, taille_de_lot=None):
+        from io import StringIO
+        from django.core.management import call_command
+        from chardata.management.commands import cleanup_old_views
+        ancienne = cleanup_old_views.Command.TAILLE_DE_LOT
+        if taille_de_lot:
+            cleanup_old_views.Command.TAILLE_DE_LOT = taille_de_lot
+        try:
+            sortie = StringIO()
+            call_command('cleanup_old_views', stdout=sortie)
+            return sortie.getvalue()
+        finally:
+            cleanup_old_views.Command.TAILLE_DE_LOT = ancienne
+
+    def test_it_clears_more_rows_than_one_batch_holds(self):
+        """The case the single statement used to be: far more than a batch."""
+        from chardata.models import BuildView
+        self._vues(25, age_heures=30)
+        sortie = self._menage(taille_de_lot=4)
+        self.assertIn('25', sortie)
+        self.assertEqual(0, BuildView.objects.count())
+
+    def test_it_really_deletes_in_several_statements(self):
+        """The mechanism, not the outcome.
+
+        Written after the first version of this class passed unchanged against
+        the single-statement command: both remove the same rows, so a test on
+        what is left cannot see the difference. What the change is for is the
+        lock, and the lock is held per statement -- so the statements are what
+        has to be counted.
+        """
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        self._vues(25, age_heures=30)
+        with CaptureQueriesContext(connection) as requetes:
+            self._menage(taille_de_lot=4)
+        suppressions = [r['sql'] for r in requetes.captured_queries
+                        if r['sql'].lstrip().upper().startswith('DELETE')]
+        self.assertGreaterEqual(
+            len(suppressions), 5,
+            'twenty-five rows in batches of four must take more than one '
+            'statement, and took %d' % len(suppressions))
+
+    def test_it_leaves_the_rows_that_still_enforce_the_limit(self):
+        from chardata.models import BuildView
+        self._vues(6, age_heures=30)
+        self._vues(4, age_heures=2)
+        self._menage(taille_de_lot=2)
+        # Les quatre du jour portent la limite une visite par adresse : les
+        # perdre ferait recompter les memes lecteurs.
+        self.assertEqual(4, BuildView.objects.count())
+
+    def test_it_stops_instead_of_looping_forever(self):
+        """The guard on the loop, not on the data.
+
+        This command runs before Gunicorn. A filter that stopped matching what
+        it deletes would spin here and the server would never come up, which
+        is worse than leaving old rows behind.
+        """
+        from chardata.management.commands import cleanup_old_views
+        self.assertLessEqual(cleanup_old_views.Command.PASSES_MAX, 10000)
+        self.assertGreaterEqual(cleanup_old_views.Command.PASSES_MAX, 10)
