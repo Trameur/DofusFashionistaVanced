@@ -3348,6 +3348,97 @@ class CompareSetsPreviewTests(TestCase):
         self.assertNotIn('character_preview.js', body)
 
 
+class APagedHubKeepsItsPageWhenALinkAddsNoiseTests(TestCase):
+    """A shared link brings tracking parameters, and they are not filters.
+
+    The canonical of a list page is itself, except for a filtered or sorted
+    view, which points at the plain list. "Filtered" was read as "carries any
+    query key other than page", so /encyclopedia/?page=2&utm_source=reddit
+    declared itself to be page 1: every link shared from Reddit, Facebook or an
+    ad told Google that the page it pointed at was a duplicate of the first
+    one. It is the commonest duplication case on the web and the one dimension
+    neither pass had tested, because ?page=2 alone was right and
+    ?utm_source=x alone was right too.
+    """
+
+    HUBS = ('/encyclopedia/', '/encyclopedia/sets/', '/encyclopedia/monsters/')
+    NOISE = 'utm_source=reddit&utm_medium=social&fbclid=abc123&gclid=xyz'
+
+    def _canonical(self, url):
+        import re
+        page = self.client.get(url)
+        self.assertEqual(200, page.status_code, url)
+        body = page.content.decode('utf-8')
+        tags = [tag for tag in re.findall(r'<link[^>]*>', body)
+                if 'rel="canonical"' in tag]
+        self.assertEqual(1, len(tags), url)
+        href = re.search(r'href="([^"]+)"', tags[0])
+        self.assertIsNotNone(href, tags[0])
+        return href.group(1)
+
+    def test_noise_does_not_send_a_page_back_to_the_first(self):
+        for hub in self.HUBS:
+            with self.subTest(hub=hub):
+                clean = self._canonical(hub + '?page=2')
+                self.assertTrue(clean.endswith('?page=2'), clean)
+                self.assertEqual(clean,
+                                 self._canonical('%s?page=2&%s'
+                                                 % (hub, self.NOISE)))
+
+    def test_a_real_filter_still_points_at_the_plain_list(self):
+        # The rule this protects: a filtered view is a subset of the list and
+        # must not compete with it.
+        for hub, query in ((self.HUBS[0], 'q=epee'),
+                           (self.HUBS[0], 'stat1=ap&stat1_min=4'),
+                           (self.HUBS[1], 'sort=level'),
+                           (self.HUBS[2], 'weak=fire')):
+            with self.subTest(hub=hub, query=query):
+                canonical = self._canonical('%s?page=2&%s' % (hub, query))
+                self.assertTrue(canonical.endswith(hub), canonical)
+
+    def test_every_key_the_hubs_read_is_named_as_a_filter(self):
+        """The list of filters is written out, so it can go stale.
+
+        A filter added to a view without being named would keep ?page=N on a
+        filtered url, which is milder than dropping the page but still wrong.
+        This reads the view's own source rather than trusting the list.
+        """
+        import ast
+        from chardata.encyclopedia_view import _is_filter
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        source_path = os.path.join(get_fashionista_path(), 'fashionsite',
+                                   'chardata', 'encyclopedia_view.py')
+        with open(source_path, encoding='utf-8') as handle:
+            source = handle.read()
+        tree = ast.parse(source)
+        wanted = ('encyclopedia', 'encyclopedia_sets', 'encyclopedia_monsters')
+        read = set()
+        for node in ast.walk(tree):
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            if node.name not in wanted:
+                continue
+            for call in ast.walk(node):
+                if not isinstance(call, ast.Call):
+                    continue
+                if not isinstance(call.func, ast.Attribute):
+                    continue
+                if call.func.attr not in ('get', 'getlist'):
+                    continue
+                target = call.func.value
+                if not (isinstance(target, ast.Attribute)
+                        and target.attr == 'GET'):
+                    continue
+                if call.args and isinstance(call.args[0], ast.Constant) \
+                        and isinstance(call.args[0].value, str):
+                    read.add(call.args[0].value)
+        self.assertIn('q', read, 'the source was not read at all')
+        unnamed = sorted(key for key in read
+                         if key != 'page' and not _is_filter(key))
+        self.assertEqual([], unnamed,
+                         'these change the page but count as noise')
+
+
 class ASharedSpellPageIsIndexedUnderOneUrlTests(TestCase):
     """The route captures a name the view never reads.
 

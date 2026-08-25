@@ -660,6 +660,34 @@ def _absolute_versioned_url(path, game_version='dofus3', language=None):
     return 'https://dofusfashionista.gg%s' % path
 
 
+#: Query keys the three paginated hubs actually read. Everything else in the
+#: query string is noise a link picked up on the way -- utm_source, fbclid,
+#: gclid -- and noise must not decide what the page declares itself to be.
+#: A test holds this set against what the views really read, so a filter added
+#: without being listed here fails loudly rather than quietly.
+_FILTER_KEYS = frozenset((
+    # /encyclopedia/
+    'q', 'type', 'min_level', 'max_level', 'stat_key', 'stat_min',
+    'order_rows_json', 'order_key', 'order_dir', 'order_stat',
+    'order_direction',
+    # /encyclopedia/sets/ and /encyclopedia/monsters/
+    'sort', 'drop_kind', 'weak',
+))
+#: The item hub also numbers its stat filters: stat1, stat1_min, stat2...
+_FILTER_PREFIX = 'stat'
+
+
+def _is_filter(key):
+    if key in _FILTER_KEYS:
+        return True
+    if not key.startswith(_FILTER_PREFIX):
+        return False
+    rest = key[len(_FILTER_PREFIX):]
+    if rest.endswith('_min'):
+        rest = rest[:-len('_min')]
+    return rest.isdigit()
+
+
 def _paginated_canonical(request, path, game_version, page_obj):
     """Canonical url for a list page: itself, except for a filtered or sorted
     view, which points at the plain list.
@@ -678,7 +706,12 @@ def _paginated_canonical(request, path, game_version, page_obj):
     prefix, _rest = split_language_prefix(request.path_info)
     url = _absolute_versioned_url(path, game_version,
                                   language=prefix.lstrip('/') or settings.LANGUAGE_CODE)
-    filters = {key for key in request.GET if key != 'page'}
+    # Not "everything that is not page": a link shared on Reddit arrives with
+    # utm_source and fbclid, and counting those as filters made
+    # /encyclopedia/?page=2&utm_source=reddit declare itself to be page 1.
+    # Google then reads the shared page as a duplicate of the first one and
+    # the content of page 2 stops standing on its own.
+    filters = {key for key in request.GET if key != 'page' and _is_filter(key)}
     number = getattr(page_obj, 'number', 1) or 1
     if filters or number <= 1:
         return url
