@@ -1,4 +1,5 @@
 {% extends 'chardata/base.html' %}
+{% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}">{% endblock %}
 
 {% load i18n %}
 {% load static_s3 %}

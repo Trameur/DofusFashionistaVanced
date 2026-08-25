@@ -3348,6 +3348,94 @@ class CompareSetsPreviewTests(TestCase):
         self.assertNotIn('character_preview.js', body)
 
 
+class ASharedSpellPageIsIndexedUnderOneUrlTests(TestCase):
+    """The route captures a name the view never reads.
+
+    /spells_linked/ANYTHING/<id>/ serves the same page, and the template
+    canonicalised each spelling to itself, so a build that gets renamed keeps
+    answering 200 under its old name and the one page is indexed twice. /s/
+    was given `shared_build_path` for exactly this and this page was left
+    behind. Google already knows these urls: they turn up in Search Console.
+    """
+
+    def _char(self, **overrides):
+        from chardata.models import Char
+        fields = dict(
+            name='Shared build', char_name='hero', char_class='Iop',
+            char_build='build', level=200,
+            minimum_stats=b'', minimum_crits=b'', stats_weight=b'',
+            options=b'', inclusions=b'', exclusions=b'',
+            link_shared=True, game_version='dofus3')
+        fields.update(overrides)
+        return Char.objects.create(**fields)
+
+    def test_the_requested_spelling_never_reaches_the_canonical(self):
+        from chardata.spells_view import spells_linked_path
+        char = self._char()
+        self.assertEqual('/spells_linked/hero/abc/',
+                         spells_linked_path(char, 'abc'))
+
+    def test_a_build_with_no_name_falls_back_to_the_linked_word(self):
+        # base.html links /spells_linked/shared/<id>/ for a nameless build, so
+        # the canonical has to be that same url and not a third spelling.
+        from chardata.spells_view import spells_linked_path
+        char = self._char(char_name='')
+        self.assertEqual('/spells_linked/shared/abc/',
+                         spells_linked_path(char, 'abc'))
+
+    def test_another_version_keeps_its_prefix(self):
+        from chardata.spells_view import spells_linked_path
+        char = self._char(game_version='retro')
+        self.assertEqual('/retro/spells_linked/hero/abc/',
+                         spells_linked_path(char, 'abc'))
+
+    def test_a_name_that_needs_escaping_is_escaped(self):
+        from chardata.spells_view import spells_linked_path
+        char = self._char(char_name='deux mots/et')
+        self.assertEqual('/spells_linked/deux%20mots%2Fet/abc/',
+                         spells_linked_path(char, 'abc'))
+
+    def test_every_spelling_answers_with_the_same_canonical(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        import re
+        from django.contrib.auth.models import User
+        from django.test import RequestFactory
+        from chardata.coaching_view import create_build
+        from chardata.encoded_char_id import encode_char_id
+        from chardata.spells_view import spells_linked_path
+        owner = User.objects.create_user('canon', 'canon@t.local', 'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 50, {'str'}, 'dofus3')
+        char.name = char.char_name = 'Sonde'
+        char.save()
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        char.link_shared = True
+        char.save()
+        self.client.logout()
+
+        encoded = encode_char_id(int(char.id))
+        wanted = 'https://dofusfashionista.gg' + spells_linked_path(char, encoded)
+        for slug in ('Sonde', 'un-tout-autre-nom', 'shared'):
+            url = '/spells_linked/%s/%s/' % (slug, encoded)
+            with self.subTest(slug=slug):
+                page = self.client.get(url)
+                self.assertEqual(200, page.status_code)
+                # The minifier sorts attributes, so href comes before rel:
+                # read the tag first and its href second, never the pair in
+                # one pattern.
+                body = page.content.decode('utf-8')
+                tags = [tag for tag in re.findall(r'<link[^>]*>', body)
+                        if 'rel="canonical"' in tag]
+                self.assertEqual(1, len(tags), url)
+                href = re.search(r'href="([^"]+)"', tags[0])
+                self.assertIsNotNone(href, tags[0])
+                self.assertEqual(wanted, href.group(1))
+
+
 class SharedBuildCompareIdTests(TestCase):
     """A shared build's comparison id is 's' + encode_char_id(id); the bare
     encoded form is not a valid build id."""

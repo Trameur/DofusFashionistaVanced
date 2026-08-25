@@ -89,6 +89,12 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          'crit_is_fraction': game_version == 'retro',
                          'char_stats_json': stats_json,
                          'best_combo': _best_combo(char, solution, game_version),
+                         # Only a shared build has a public url to name; an
+                         # owner reading their own would otherwise point at a
+                         # page that refuses everyone else.
+                         'canonical_path': (
+                             spells_linked_path(char, encoded_char_id)
+                             if char.link_shared and encoded_char_id else ''),
                          'no_class_spells': len(class_spells) == 0},
                         char)
 
@@ -403,6 +409,27 @@ def _best_combo_response(request, char):
 def spells(request, char_id=0):
     char = get_char_or_raise(request, char_id)
     return _spells(request, char, False, char_id)
+
+def spells_linked_path(char, encoded_char_id):
+    """The one url a shared build's spell page should be indexed under.
+
+    The route captures a name and the view never reads it, so
+    /spells_linked/ANYTHING/<id>/ serves the same page, and the template
+    canonicalised each of them to itself. A build that is renamed keeps
+    answering 200 under its old name, which is how a single page ends up
+    indexed twice. `/s/` was given `shared_build_path` for exactly this and
+    this page was left behind.
+
+    The slug is the one base.html emits, so the canonical IS the link the site
+    hands out rather than a third spelling.
+    """
+    from urllib.parse import quote
+    prefix = ('' if char.game_version in (None, '', 'dofus3')
+              else '/' + char.game_version)
+    slug = char.char_name or 'shared'
+    return '%s/spells_linked/%s/%s/' % (
+        prefix, quote(str(slug).encode('utf-8'), safe=''), encoded_char_id)
+
 
 def spells_linked(request, char_name, encoded_char_id):
     char_id = decode_char_id(encoded_char_id)
