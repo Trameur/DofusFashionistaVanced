@@ -36,6 +36,16 @@ Each stat entry:
   giving +3. The rune's weight is bonus * density.
 - approx: True when the density is a best guess taken from the modern
   values (only affects stats without runes).
+
+  ON RETRO THE SIX APPROXIMATED DENSITIES APPLY TO NOTHING, measured
+  2026-08-25: neutdam, earthdam, firedam, waterdam, airdam and dodge are
+  carried by zero items and zero set bonuses in items_retro.db. Five of them
+  looked carried until that day, by twelve weapons whose OWN HIT the transform
+  had stored as a flat bonus; those hits went back where they belong. So no
+  Retro result rests on a modern figure, and there is no Retro source to go
+  looking for. That is only true while the count stays at zero: a 1.29 update
+  putting one of these on gear would make the guess matter again, and
+  ARetroWeaponWithFixedDamageStillHitsTests fails when it does.
 """
 
 # Per-stat weight of over/exo bonuses cannot exceed this in every version.

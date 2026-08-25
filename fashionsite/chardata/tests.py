@@ -3413,6 +3413,32 @@ class ARetroWeaponWithFixedDamageStillHitsTests(SimpleTestCase):
         zeroed = set(VERSION_WEIGHT_TUNING['retro']['zero_stats'])
         self.assertEqual([], sorted(set(self.ELEMENTAL_DAMAGE) - zeroed))
 
+    def test_the_approximated_retro_densities_apply_to_nothing(self):
+        """forgemagie_data marks six Retro densities as a modern best guess.
+
+        None of the six is carried by a Retro item or set bonus, so no result
+        rests on the guess and there is no source to hunt for. The day one of
+        them lands on gear the guess starts to matter, and this is where that
+        gets noticed.
+        """
+        conn = self._retro()
+        try:
+            keys = self.ELEMENTAL_DAMAGE + ('dodge',)
+            marks = ','.join('?' * len(keys))
+            carried = conn.execute(
+                'SELECT s.key FROM stats_of_item v JOIN stats s'
+                ' ON s.id = v.stat JOIN items i ON i.id = v.item'
+                ' WHERE s.key IN (%s) AND COALESCE(i.removed, 0) = 0'
+                ' UNION SELECT s.key FROM set_bonus b JOIN stats s'
+                ' ON s.id = b.stat WHERE s.key IN (%s)' % (marks, marks),
+                keys + keys).fetchall()
+            self.assertEqual([], sorted(carried),
+                             'a Retro item now carries one of these, so its '
+                             'density needs a Retro source instead of a '
+                             'modern guess')
+        finally:
+            conn.close()
+
     def test_the_weapons_left_without_a_hit_carry_no_damage_line(self):
         """Eleven remain, and each is a craft tool or has no entry at all.
 
