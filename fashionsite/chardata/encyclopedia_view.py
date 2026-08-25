@@ -33,6 +33,48 @@ from chardata.translation_util import localized_stat_name, LOCALIZED_ELEMENTS, L
 from static_s3.templatetags.static_s3 import static
 
 
+#: One page in ten stays linked from every list page. Without it the pagination
+#: was a chain: page 1 of the 99-page encyclopedia offered 2, 3, 4 and 99 and
+#: nothing else, so the middle of the list sat twelve clicks from the first page
+#: and twelve hops still reached only 71 of the 99. A crawler spends its budget
+#: by depth, and the items on those pages are the ones the site exists to show.
+PAGINATION_STRIDE = 10
+
+#: Pages either side of the current one that stay linked, so a reader stepping
+#: through the list keeps a local view as well as the long jumps.
+PAGINATION_NEIGHBOURS = 3
+
+
+def pagination_items(page, stride=PAGINATION_STRIDE,
+                     neighbours=PAGINATION_NEIGHBOURS):
+    """Page numbers to render for `page`, with None where pages were skipped.
+
+    The caller renders an int as a link (or as the current page) and None as an
+    ellipsis. Returning the gaps rather than recomputing them in the template
+    puts the marker where pages were actually dropped, instead of at two fixed
+    positions that stopped meaning anything once the stride was added.
+
+    With the defaults every page is at most three clicks from the first: one to
+    the nearest multiple of ten, which is never more than five away, then at
+    most two more through the neighbours of that page.
+    """
+    total = page.paginator.num_pages
+    shown = {1, total, page.number}
+    shown.update(n for n in range(page.number - neighbours,
+                                  page.number + neighbours + 1)
+                 if 1 <= n <= total)
+    shown.update(range(stride, total + 1, stride))
+
+    rendered = []
+    previous = 0
+    for number in sorted(shown):
+        if number > previous + 1:
+            rendered.append(None)
+        rendered.append(number)
+        previous = number
+    return rendered
+
+
 LOCALIZED_UI = {
     'en': {
         'title': 'Encyclopedia',
@@ -2189,6 +2231,7 @@ def encyclopedia(request):
             'canonical_url': _paginated_canonical(
                 request, '/encyclopedia/', game_version, page_obj),
             'items_page': page_obj,
+            'page_links': pagination_items(page_obj),
             'items_count': len(filtered_items),
             'resource_results': resource_results,
             'monster_results': monster_results,
@@ -2506,6 +2549,7 @@ def encyclopedia_sets(request):
                 (_('Sets'), sets_canonical),
             ]),
             'sets_page': sets_page,
+            'page_links': pagination_items(sets_page),
             'search_text': search_text,
             'sets_count': len(sets),
             'sort_key': sort_key,
@@ -3556,6 +3600,7 @@ def encyclopedia_monsters(request):
                 (mt['monsters_label'], monsters_canonical),
             ]),
             'monsters_page': page_obj,
+            'page_links': pagination_items(page_obj),
             'monsters_count': len(monsters),
             'search_text': search_text,
             'drop_kind': drop_kind,

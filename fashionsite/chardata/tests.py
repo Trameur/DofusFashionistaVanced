@@ -25896,3 +25896,91 @@ class TheViewCleanupDoesNotHoldTheTableTests(TestCase):
         from chardata.management.commands import cleanup_old_views
         self.assertLessEqual(cleanup_old_views.Command.PASSES_MAX, 10000)
         self.assertGreaterEqual(cleanup_old_views.Command.PASSES_MAX, 10)
+
+
+class PaginationReachesEveryPageTests(TestCase):
+    """Page 1 of the 99-page encyclopedia linked 2, 3, 4 and 99 and nothing
+    else. The middle of the list was twelve clicks from the first page, and
+    twelve hops still reached only 71 of the 99: every hop offered three new
+    neighbours and the two ends it already had. Depth is how a crawler spends
+    its budget, and those pages hold the items the site exists to show."""
+
+    def _page(self, number, total):
+        from types import SimpleNamespace
+        return SimpleNamespace(number=number,
+                               paginator=SimpleNamespace(num_pages=total))
+
+    def _links(self, number, total):
+        from chardata.encyclopedia_view import pagination_items
+        return {n for n in pagination_items(self._page(number, total))
+                if n and n != number}
+
+    def _distances(self, total):
+        seen = {1: 0}
+        edge = [1]
+        while edge:
+            nxt = []
+            for here in edge:
+                for there in self._links(here, total):
+                    if there not in seen:
+                        seen[there] = seen[here] + 1
+                        nxt.append(there)
+            edge = nxt
+        return seen
+
+    def test_every_page_is_three_clicks_from_the_first(self):
+        for total in (99, 85, 100, 101, 250):
+            distances = self._distances(total)
+            missing = [n for n in range(1, total + 1) if n not in distances]
+            self.assertFalse(
+                missing,
+                'over %d pages these are unreachable from page 1: %s'
+                % (total, missing[:12]))
+            worst = max(distances.values())
+            self.assertLessEqual(
+                worst, 3,
+                'over %d pages the furthest page is %d clicks from the first; '
+                'pages at that depth: %s'
+                % (total, worst,
+                   sorted(n for n, d in distances.items() if d == worst)[:8]))
+
+    def test_short_lists_are_unchanged(self):
+        # Nine pages of sets never reach a multiple of ten, so the stride adds
+        # nothing there and the bar keeps the shape it had.
+        self.assertEqual(self._links(1, 9), {2, 3, 4, 9})
+
+    def test_gaps_mark_where_pages_were_dropped(self):
+        # The old template printed the ellipsis at two fixed positions, which
+        # stopped meaning anything as soon as the shown pages changed. A gap is
+        # a fact about the list, so it is computed from it.
+        from chardata.encyclopedia_view import pagination_items
+        rendered = pagination_items(self._page(50, 99))
+        self.assertIsNotNone(rendered[0], 'a gap cannot open the bar')
+        self.assertIsNotNone(rendered[-1], 'a gap cannot close the bar')
+        numbers = [n for n in rendered if n]
+        self.assertEqual(numbers, sorted(set(numbers)), 'pages must be unique '
+                         'and in order')
+        for before, after in zip(rendered, rendered[1:]):
+            if before is None or after is None:
+                continue
+            self.assertEqual(after, before + 1,
+                             'pages %d and %d are not consecutive and no gap '
+                             'is marked between them' % (before, after))
+
+    def test_the_encyclopedia_page_actually_renders_the_long_jumps(self):
+        # The helper being right proves nothing about the page: the template
+        # has to use it. This is the half that would have stayed silent.
+        import re
+        response = self.client.get('/encyclopedia/',
+                                   HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode('utf-8', 'replace')
+        linked = {int(n) for n in
+                  re.findall(r'href="\?[^"]*page=(\d+)"', html)}
+        if not linked:
+            self.skipTest('this build has a single page of items')
+        stride = max(n for n in linked if n % 10 == 0) if any(
+            n % 10 == 0 for n in linked) else 0
+        self.assertTrue(
+            stride, 'page 1 links %s and no multiple of ten, so the long '
+            'jumps are not on the page' % sorted(linked)[:8])

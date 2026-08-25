@@ -86,13 +86,13 @@
         {% if sets_page.has_previous %}
         <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ sets_page.previous_page_number }}">&lt;</a>
         {% endif %}
-        {% for page_num in sets_page.paginator.page_range %}
-            {% if page_num == sets_page.number %}
-                <span class="encyclopedia-page-link encyclopedia-page-link-current">{{ page_num }}</span>
-            {% elif page_num == 1 or page_num == sets_page.paginator.num_pages or page_num >= sets_page.number|add:"-3" and page_num <= sets_page.number|add:"3" %}
-                <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ page_num }}">{{ page_num }}</a>
-            {% elif page_num == 2 or page_num == sets_page.paginator.num_pages|add:"-1" %}
+        {% for page_num in page_links %}
+            {% if not page_num %}
                 <span class="encyclopedia-page-gap">…</span>
+            {% elif page_num == sets_page.number %}
+                <span class="encyclopedia-page-link encyclopedia-page-link-current">{{ page_num }}</span>
+            {% else %}
+                <a class="encyclopedia-page-link" href="?{{ page_query_prefix }}page={{ page_num }}">{{ page_num }}</a>
             {% endif %}
         {% endfor %}
         {% if sets_page.has_next %}
