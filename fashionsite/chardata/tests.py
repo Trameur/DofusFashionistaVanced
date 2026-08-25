@@ -2156,6 +2156,104 @@ class AWaitingRowIsReportedNotCountedTests(SimpleTestCase):
             self.assertNotAlmostEqual(total, counted + damage, places=6)
 
 
+class AStatePayloadIsNotTurnDamageTests(SimpleTestCase):
+    """Eight spells that hit now and pay out later, only if something happens.
+
+    Ankama writes them all the same way: "inflicts <element> damage and applies
+    the <state> state on the targeted enemy: - inflicts <element> damage IF
+    <event>". The client marks BOTH rows "I", so the turn counted the state's
+    payout as landed. Measured before declaring anything: all eight had the
+    turn counting two rows where the cast lands one.
+
+    Both rows carry the same element, so holding back the wrong one would be
+    invisible in the numbers. Row 1 is settled per spell by a signal and never
+    by the order alone: four of them steal HP on row 0, which a state's payout
+    never does; three carry the cast's "a,A" target mask on row 0 and the bare
+    "A" on row 1, the shape Noa already showed; and Fob's row 1 carries the
+    area zone its sentence names.
+
+    Coup de Grisou (13368) has the same sentence and is deliberately NOT here:
+    its two rows are identical in element, damage, trigger, mask and zone, so
+    nothing in the data says which one waits.
+    """
+
+    #: ankama id -> (token, does row 0 steal)
+    HELD_BACK = {
+        12859: ('critical_hit', True),
+        12880: ('no_critical_hit', True),
+        14311: ('healed', True),
+        12882: ('displaced', True),
+        13353: ('ap_removal', False),
+        13363: ('mp_removal', False),
+        13352: ('range_removal', False),
+        14651: ('telefragged', False),
+    }
+
+    NOT_SETTLED = 13368
+
+    def _spells(self, version):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from fashionistapulp.structure import set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version(version)
+        return {spell.spell_id: spell
+                for group in get_damage_spells_for_version(version).values()
+                for spell in group if getattr(spell, 'spell_id', None)}
+
+    def test_each_one_names_the_row_that_waits(self):
+        for version in ('dofus3', 'beta'):
+            found = self._spells(version)
+            for spell_id, (token, _steals) in self.HELD_BACK.items():
+                with self.subTest(version=version, spell=spell_id):
+                    spell = found.get(spell_id)
+                    self.assertIsNotNone(spell, spell_id)
+                    self.assertEqual({1: token}, spell.conditional)
+
+    def test_the_signal_that_settled_row_one_is_still_there(self):
+        # If Ankama ever reorders these rows, the steal moves and this fails
+        # rather than the planner quietly holding back the cast's own hit.
+        found = self._spells('dofus3')
+        for spell_id, (_token, steals) in self.HELD_BACK.items():
+            with self.subTest(spell=spell_id):
+                effects = found[spell_id].effects
+                self.assertEqual(2, len(effects.non_crit_ranges))
+                self.assertEqual(effects.elements[0], effects.elements[1])
+                if steals:
+                    self.assertEqual([True, False], list(effects.steals))
+
+    def test_the_turn_counts_the_cast_and_not_the_payout(self):
+        from chardata.spell_combo import Castable
+        found = self._spells('dofus3')
+        for spell_id in self.HELD_BACK:
+            spell = found[spell_id]
+            for level_index in range(len(spell.level_req)):
+                with self.subTest(spell=spell_id, level_index=level_index):
+                    castable = Castable(spell, level_index, crit=False)
+                    self.assertEqual(2, len(castable.effects))
+                    self.assertEqual(1, len(castable.hits))
+
+    def test_the_one_the_data_cannot_settle_is_left_alone(self):
+        found = self._spells('dofus3')
+        spell = found.get(self.NOT_SETTLED)
+        self.assertIsNotNone(spell, self.NOT_SETTLED)
+        self.assertEqual({}, spell.conditional,
+                         'Coup de Grisou was annotated without a signal '
+                         'saying which of its two rows waits')
+
+    def test_every_rule_is_written_in_the_five_languages(self):
+        from django.utils import translation
+        from chardata.spells_view import _CONDITIONAL_LABELS
+        for _spell_id, (token, _steals) in self.HELD_BACK.items():
+            rendered = {}
+            for language in ('en', 'fr', 'es', 'pt', 'de'):
+                with translation.override(language):
+                    rendered[language] = str(_CONDITIONAL_LABELS[token])
+            with self.subTest(rule=token):
+                self.assertEqual(
+                    5, len(set(rendered.values())),
+                    'a language fell back to English: %s' % rendered)
+
+
 class PersecutingArrowWaitsForTheTargetToBreakSightTests(SimpleTestCase):
     """Its second row lands next turn, and only sometimes.
 
@@ -19103,6 +19201,43 @@ class SpellComboTests(SimpleTestCase):
             'out_of_sight': {'en': 'line of sight', 'fr': 'ligne de vue',
                              'es': 'línea de visión',
                              'pt': 'linha de vis', 'de': 'sichtlinie'},
+            'critical_hit': {
+                'en': 'lands a critical hit',
+                'fr': 'effectue un coup critique',
+                'es': 'un golpe crítico', 'pt': 'um golpe crítico',
+                'de': 'kritischen treffer landet'},
+            'no_critical_hit': {
+                'en': 'not landed a critical hit',
+                'fr': "n'a pas effectué de coup critique",
+                'es': 'no ha asestado un golpe',
+                'pt': 'não tiver realizado nenhum golpe',
+                'de': 'keinen kritischen treffer'},
+            'healed': {'en': 'is healed', 'fr': 'est soignée',
+                       'es': 'es curado', 'pt': 'for curado',
+                       'de': 'geheilt wird'},
+            'displaced': {'en': 'switches places',
+                          'fr': 'échange de position',
+                          'es': 'intercambia posición',
+                          'pt': 'trocar de lugar',
+                          'de': 'die position tauscht'},
+            'ap_removal': {'en': 'attempted ap reduction',
+                           'fr': 'tentative de retrait de pa',
+                           'es': 'intento de retirada de pa',
+                           'pt': 'tentativa de retirada de pa',
+                           'de': 'ap zu entziehen'},
+            'mp_removal': {'en': 'attempted mp reduction',
+                           'fr': 'tentative de retrait de pm',
+                           'es': 'intento de retirada de pm',
+                           'pt': 'tentativa de retirada de pm',
+                           'de': 'bp zu entziehen'},
+            'range_removal': {'en': 'range reduction',
+                              'fr': 'retrait de portée',
+                              'es': 'retirada de alcance',
+                              'pt': 'retirada de alcance',
+                              'de': 'reichweite entzogen'},
+            'telefragged': {'en': 'telefrag', 'fr': 'téléfrag',
+                            'es': 'telefrag', 'pt': 'telefrag',
+                            'de': 'telefra'},
         }
         self.assertTrue(module.CONDITIONAL_ROWS)
         declared = {trigger for rows in module.CONDITIONAL_ROWS.values()
@@ -19126,7 +19261,8 @@ class SpellComboTests(SimpleTestCase):
                         with self.subTest(version=version, spell=spell_id,
                                           rule=trigger, language=language):
                             self.assertIn(word, said)
-        self.assertGreaterEqual(seen, 2, 'no annotated spell was checked')
+        self.assertGreaterEqual(seen, 18,
+                                'no annotated spell was checked')
 
     def test_a_poison_is_not_counted_as_damage_landing_now(self):
         # Bush Fire burns at the end of a turn. The turn used to add it to the

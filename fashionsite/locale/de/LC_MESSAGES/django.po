@@ -6762,6 +6762,40 @@ msgstr ""
 "in der nächsten Runde, und nur wenn sich das Ziel nicht in "
 "Sichtlinie des Zaubernden befindet"
 
+msgid "only if the target lands a critical hit"
+msgstr "nur wenn das Ziel einen kritischen Treffer landet"
+
+msgid "at the end of the target's turn, and only if it landed no critical hit"
+msgstr ""
+"am Ende der Runde des Ziels, und nur wenn es keinen kritischen "
+"Treffer gelandet hat"
+
+msgid "only if the target is healed"
+msgstr "nur wenn das Ziel geheilt wird"
+
+msgid ""
+"only if the target attracts, repels, switches places or deals "
+"pushback damage"
+msgstr ""
+"nur wenn das Ziel heranzieht, zurückstößt, die Position tauscht oder "
+"Schubsschaden verursacht"
+
+msgid "only if the target is hit by an attempted AP reduction"
+msgstr "nur wenn versucht wird, dem Ziel AP zu entziehen"
+
+msgid "only if the target is hit by an attempted MP reduction"
+msgstr "nur wenn versucht wird, dem Ziel BP zu entziehen"
+
+msgid "only if the target suffers a Range reduction"
+msgstr "nur wenn dem Ziel Reichweite entzogen wird"
+
+msgid ""
+"at the end of the caster's next turn, and only if the target has "
+"Telefrag"
+msgstr ""
+"am Ende der nächsten Runde des Zaubernden, und nur wenn sich das "
+"Ziel im Zustand Telefrag befindet"
+
 msgid "only when the target suffers pushback damage"
 msgstr "nur wenn das Ziel Schubschaden erleidet"
 

@@ -6141,6 +6141,34 @@ msgid ""
 "line of sight"
 msgstr ""
 
+msgid "only if the target lands a critical hit"
+msgstr ""
+
+msgid "at the end of the target's turn, and only if it landed no critical hit"
+msgstr ""
+
+msgid "only if the target is healed"
+msgstr ""
+
+msgid ""
+"only if the target attracts, repels, switches places or deals "
+"pushback damage"
+msgstr ""
+
+msgid "only if the target is hit by an attempted AP reduction"
+msgstr ""
+
+msgid "only if the target is hit by an attempted MP reduction"
+msgstr ""
+
+msgid "only if the target suffers a Range reduction"
+msgstr ""
+
+msgid ""
+"at the end of the caster's next turn, and only if the target has "
+"Telefrag"
+msgstr ""
+
 msgid "only when the target suffers pushback damage"
 msgstr ""
 

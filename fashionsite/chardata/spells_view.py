@@ -498,6 +498,20 @@ _CONDITIONAL_LABELS = {
     'out_of_sight':
         _lazy("on the following turn, and only if the target is out of the "
               "caster's line of sight"),
+    'critical_hit': _lazy("only if the target lands a critical hit"),
+    'no_critical_hit':
+        _lazy("at the end of the target's turn, and only if it landed no "
+              "critical hit"),
+    'healed': _lazy("only if the target is healed"),
+    'displaced':
+        _lazy("only if the target attracts, repels, switches places or "
+              "deals pushback damage"),
+    'ap_removal': _lazy("only if the target is hit by an attempted AP reduction"),
+    'mp_removal': _lazy("only if the target is hit by an attempted MP reduction"),
+    'range_removal': _lazy("only if the target suffers a Range reduction"),
+    'telefragged':
+        _lazy("at the end of the caster's next turn, and only if the "
+              "target has Telefrag"),
 }
 
 

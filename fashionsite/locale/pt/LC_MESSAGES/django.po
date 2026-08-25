@@ -6730,6 +6730,40 @@ msgstr ""
 "no turno seguinte, e apenas se o alvo estiver fora da linha de visão "
 "do lançador"
 
+msgid "only if the target lands a critical hit"
+msgstr "apenas se o alvo efetuar um golpe crítico"
+
+msgid "at the end of the target's turn, and only if it landed no critical hit"
+msgstr ""
+"no fim do turno do alvo, e apenas se ele não tiver realizado nenhum "
+"golpe crítico"
+
+msgid "only if the target is healed"
+msgstr "apenas se o alvo for curado"
+
+msgid ""
+"only if the target attracts, repels, switches places or deals "
+"pushback damage"
+msgstr ""
+"apenas se o alvo atrair, empurrar, trocar de lugar ou infligir danos "
+"de empurrão"
+
+msgid "only if the target is hit by an attempted AP reduction"
+msgstr "apenas se o alvo sofrer uma tentativa de retirada de PA"
+
+msgid "only if the target is hit by an attempted MP reduction"
+msgstr "apenas se o alvo sofrer uma tentativa de retirada de PM"
+
+msgid "only if the target suffers a Range reduction"
+msgstr "apenas se o alvo sofrer uma retirada de alcance"
+
+msgid ""
+"at the end of the caster's next turn, and only if the target has "
+"Telefrag"
+msgstr ""
+"no fim do próximo turno do lançador, e apenas se o alvo estiver "
+"Telefrag"
+
 msgid "only when the target suffers pushback damage"
 msgstr "apenas se o alvo sofrer danos de empurrão"
 

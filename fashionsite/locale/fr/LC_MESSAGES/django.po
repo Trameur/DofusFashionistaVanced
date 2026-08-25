@@ -6798,6 +6798,40 @@ msgstr ""
 "au tour suivant, et seulement si la cible est hors de la ligne de "
 "vue du lanceur"
 
+msgid "only if the target lands a critical hit"
+msgstr "seulement si la cible effectue un coup critique"
+
+msgid "at the end of the target's turn, and only if it landed no critical hit"
+msgstr ""
+"à la fin du tour de la cible, et seulement si elle n'a pas effectué "
+"de coup critique"
+
+msgid "only if the target is healed"
+msgstr "seulement si la cible est soignée"
+
+msgid ""
+"only if the target attracts, repels, switches places or deals "
+"pushback damage"
+msgstr ""
+"seulement si la cible attire, repousse, échange de position ou "
+"occasionne des dommages de poussée"
+
+msgid "only if the target is hit by an attempted AP reduction"
+msgstr "seulement si la cible subit une tentative de retrait de PA"
+
+msgid "only if the target is hit by an attempted MP reduction"
+msgstr "seulement si la cible subit une tentative de retrait de PM"
+
+msgid "only if the target suffers a Range reduction"
+msgstr "seulement si la cible subit un retrait de Portée"
+
+msgid ""
+"at the end of the caster's next turn, and only if the target has "
+"Telefrag"
+msgstr ""
+"à la fin du prochain tour du lanceur, et seulement si la cible est "
+"Téléfrag"
+
 msgid "only when the target suffers pushback damage"
 msgstr "seulement si la cible subit des dommages de poussée"
 

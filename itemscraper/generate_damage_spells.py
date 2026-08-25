@@ -108,6 +108,22 @@ CONDITIONAL_ROWS = {
     # one as landed: a whole row of Air damage the cast may never deal, and
     # never this turn. Row 1 is the plain Air row; row 0 is the steal.
     32433: {1: "out_of_sight"},   # Cra, Persecuting Arrow
+    # Eight more of the same shape, all written the same way by
+    # Ankama: "inflicts <element> damage and applies the <state>
+    # state on the targeted enemy: - inflicts <element> damage IF
+    # <event>". The first row is the cast's own hit and the second
+    # is what the state pays out later, which the client marks "I"
+    # on both. Measured before declaring: all eight had the turn
+    # counting both rows. Row 1 rather than row 0 is settled per
+    # spell by a signal, never by the order alone.
+    12859: {1: "critical_hit"},   # Ecaflip, Fate of Ecaflip: row 0 steals HP, which a state's payload never does
+    12880: {1: "no_critical_hit"},   # Ecaflip, Misfortune: row 0 steals HP, which a state's payload never does
+    14311: {1: "healed"},   # Ecaflip, Peril: row 0 steals HP, which a state's payload never does
+    12882: {1: "displaced"},   # Ecaflip, Cheek: row 0 steals HP, which a state's payload never does
+    13353: {1: "ap_removal"},   # Enutrof, Hard Cash: row 0 carries the a,A mask the cast uses, row 1 the bare A
+    13363: {1: "mp_removal"},   # Enutrof, Placer Mining: row 0 carries the a,A mask the cast uses, row 1 the bare A
+    13352: {1: "range_removal"},   # Enutrof, Collapse: row 0 carries the a,A mask the cast uses, row 1 the bare A
+    14651: {1: "telefragged"},   # Xelor, Fob: row 1 carries the area zone the sentence names, row 0 a single cell
 }
 
 BUFF_SORT_ORDER = {

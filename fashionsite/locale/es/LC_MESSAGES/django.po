@@ -6754,6 +6754,40 @@ msgstr ""
 "en el turno siguiente, y solo si el objetivo está fuera de la línea "
 "de visión del lanzador"
 
+msgid "only if the target lands a critical hit"
+msgstr "solo si el objetivo asesta un golpe crítico"
+
+msgid "at the end of the target's turn, and only if it landed no critical hit"
+msgstr ""
+"al final del turno del objetivo, y solo si no ha asestado ningún "
+"golpe crítico"
+
+msgid "only if the target is healed"
+msgstr "solo si el objetivo es curado"
+
+msgid ""
+"only if the target attracts, repels, switches places or deals "
+"pushback damage"
+msgstr ""
+"solo si el objetivo atrae, repele, intercambia posición u ocasiona "
+"daños de empuje"
+
+msgid "only if the target is hit by an attempted AP reduction"
+msgstr "solo si el objetivo sufre un intento de retirada de PA"
+
+msgid "only if the target is hit by an attempted MP reduction"
+msgstr "solo si el objetivo sufre un intento de retirada de PM"
+
+msgid "only if the target suffers a Range reduction"
+msgstr "solo si el objetivo sufre una retirada de alcance"
+
+msgid ""
+"at the end of the caster's next turn, and only if the target has "
+"Telefrag"
+msgstr ""
+"al final del próximo turno del lanzador, y solo si el objetivo tiene "
+"Telefrag"
+
 msgid "only when the target suffers pushback damage"
 msgstr "solo si el objetivo sufre daños de empuje"
 
