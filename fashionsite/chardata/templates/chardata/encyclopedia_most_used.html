@@ -5,7 +5,7 @@
 
 {% block title %}{% trans "What Dofus Players Actually Wear" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% blocktrans with n=builds_counted %}The gear Dofus players really equip, counted over {{ n }} calculated builds: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one.{% endblocktrans %}{% endblock %}
+{% block meta_description %}{% if slots %}{% blocktrans with n=builds_counted %}The gear Dofus players really equip, counted over {{ n }} calculated builds: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one.{% endblocktrans %}{% else %}{% trans "The gear Dofus players really equip: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one." %}{% endif %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
@@ -38,6 +38,14 @@
     </p>
     {% endif %}
 
+    {% comment %}
+    La methode ne se dit que s'il y a quelque chose a expliquer. Sans index,
+    la page annoncait "compte sur 0 builds" JUSTE AVANT de dire que les
+    comptes n'existent pas encore : deux phrases qui se contredisent, et
+    c'est exactement l'etat de la production entre le deploiement et la
+    premiere reconstruction.
+    {% endcomment %}
+    {% if slots %}
     <p class="most-used-method">
         {% blocktrans with n=builds_counted %}Counted over {{ n }} builds calculated on this site. For each item, the share is of the builds that could equip it, meaning those at or above its level. Nothing about who built them is stored or shown.{% endblocktrans %}
         {% comment %}
@@ -47,6 +55,7 @@
         {% endcomment %}
         {% if computed_on %}{% blocktrans with jour=computed_on %}Counts last rebuilt on {{ jour }}.{% endblocktrans %}{% endif %}
     </p>
+    {% endif %}
 
     {% if slots %}
     {% for slot in slots %}

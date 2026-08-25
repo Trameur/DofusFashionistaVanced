@@ -6924,6 +6924,10 @@ msgstr "%(part)s das builds que podem equipá-lo usam o mesmo: %(nom)s."
 msgid "Counts last rebuilt on %(jour)s."
 msgstr "Contagens refeitas em %(jour)s."
 
+#: chardata/templates/chardata/encyclopedia_most_used.html
+msgid "The gear Dofus players really equip: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one."
+msgstr "O equipamento que os jogadores de Dofus usam mesmo: o chapéu, a capa, o anel, a arma e o dofus mais usados, com a proporção de builds que os usam."
+
 msgid "What Dofus players actually wear"
 msgstr "O que os jogadores de Dofus usam mesmo"
 

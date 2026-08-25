@@ -23661,6 +23661,24 @@ class TheMostWornGearPageTests(TestCase):
         self._rangs()
         self.assertIn('2026-08-25', self._page())
 
+    def test_with_no_counts_it_stops_claiming_to_have_counted(self):
+        """The state production sits in between a deploy and the first index.
+
+        The page used to say "counted over 0 builds calculated on this site"
+        and then, two sentences later, that the counts had not been built yet.
+        Both were printed together, and the first is the kind of sentence a
+        reader remembers about a page whose whole worth is trustworthy
+        figures.
+        """
+        page = self._page()
+        self.assertIn('have not been built yet', page)
+        self.assertNotIn('Counted over', page)
+        self.assertNotIn('builds calculated on this site', page)
+        # Et la balise que Google montrerait : elle annoncait "counted over 0
+        # calculated builds", trouve en cassant ce test expres.
+        self.assertNotIn('counted over 0', page)
+        self.assertNotIn('over {{ n }}', page)
+
     def test_it_invents_no_date_when_nothing_recorded_one(self):
         """The guard that matters more than the date itself.
 
