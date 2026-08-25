@@ -711,7 +711,16 @@ def _paginated_canonical(request, path, game_version, page_obj):
     # /encyclopedia/?page=2&utm_source=reddit declare itself to be page 1.
     # Google then reads the shared page as a duplicate of the first one and
     # the content of page 2 stops standing on its own.
-    filters = {key for key in request.GET if key != 'page' and _is_filter(key)}
+    # Et une valeur vide ne filtre rien. Le champ de recherche du site est
+    # un formulaire GET : le soumettre vide produit ?q= , et
+    # /encyclopedia/?page=3&q= sert alors EXACTEMENT les memes 39 objets que
+    # ?page=3 tout en se declarant doublon de la page 1, qui en montre
+    # d'autres. Meme defaut que le bruit de suivi, une couche plus bas :
+    # un parametre qui ne change pas ce qui est servi ne doit pas changer
+    # ce que la page dit d'elle-meme.
+    filters = {key for key, valeur in request.GET.lists()
+               if key != 'page' and _is_filter(key)
+               and any((v or '').strip() for v in valeur)}
     number = getattr(page_obj, 'number', 1) or 1
     if filters or number <= 1:
         return url

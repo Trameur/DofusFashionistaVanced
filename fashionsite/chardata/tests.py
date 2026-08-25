@@ -8106,6 +8106,33 @@ class PaginatedCanonicalTests(TestCase):
             self._canonical('/retro/encyclopedia/?page=2').startswith(
                 'https://dofusfashionista.gg/retro/encyclopedia/'))
 
+    def test_an_empty_filter_does_not_fold_the_page_away(self):
+        """The search box is a GET form, so submitting it empty gives ?q=.
+
+        Measured: /encyclopedia/?page=3&q= serves the same thirty-nine items
+        as ?page=3, to the fingerprint, and used to name /encyclopedia/ as its
+        canonical -- a page showing different items. The tracking-noise fix
+        below counts a named parameter as a filter whatever it holds, and an
+        empty one holds nothing.
+        """
+        for chemin in ('/encyclopedia/', '/encyclopedia/sets/',
+                       '/encyclopedia/monsters/'):
+            for vide in ('&q=', '&q=%20%20'):
+                with self.subTest(chemin=chemin, vide=vide):
+                    self.assertTrue(
+                        self._canonical(chemin + '?page=3' + vide)
+                        .endswith('?page=3'),
+                        'an empty filter erased the page on %s' % chemin)
+
+    def test_a_filter_that_holds_something_still_folds_it(self):
+        """The other half: without this, nothing distinguishes the two.
+
+        A real filter is a subset of the list and must not compete with it;
+        only the empty case changed.
+        """
+        self.assertEqual('https://dofusfashionista.gg/encyclopedia/',
+                         self._canonical('/encyclopedia/?page=3&q=epee'))
+
 
 class PreviewArtBelongsToTheItemTests(SimpleTestCase):
     """Dofus 2 and Touch have no art of their own: they borrow the Dofus 3 piece,
