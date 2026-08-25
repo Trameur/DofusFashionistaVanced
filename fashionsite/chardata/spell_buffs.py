@@ -18,6 +18,9 @@
 
 """Server-side equivalent of the spells page "Fully Buff" button."""
 
+import re
+import unicodedata
+
 from fashionistapulp.dofus_constants import DAMAGE_SPELLS
 
 # Final-damage multipliers, not characteristics: no row in the solution summary.
@@ -35,9 +38,76 @@ def get_damage_spells_for_version(game_version):
         from fashionistapulp.dofus_constants_beta import DAMAGE_SPELLS as BETA_DAMAGE_SPELLS
         return BETA_DAMAGE_SPELLS
     if game_version == 'dofus2':
-        from fashionistapulp.dofus_constants_dofus2 import DAMAGE_SPELLS as DOFUS2_DAMAGE_SPELLS
-        return DOFUS2_DAMAGE_SPELLS
+        return _dofus2_damage_spells()
     return DAMAGE_SPELLS
+
+
+_DOFUS2_CACHE = None
+
+
+def _flattened(name):
+    """A name stripped to letters and digits, so punctuation cannot decide."""
+    text = unicodedata.normalize('NFKD', name or '')
+    text = ''.join(char for char in text if not unicodedata.combining(char))
+    return re.sub(r'[^a-z0-9]', '', text.lower())
+
+
+def _dofus2_damage_spells():
+    """Dofus 2 spells only: its committed block still holds Dofus 3 ones.
+
+    2.73 ships no spell level data, so `generate_damage_spells` can never run
+    for this version; its DAMAGE_SPELLS was bootstrapped from Dofus 3 and
+    frozen. Measured on the committed block: 274 of its 497 class spells are
+    not in the 2.73 archive, and 269 of those are Dofus 3 spells. Osamodas was
+    the plainest case, 22 of its 25 belonging to the Dofus 3 revamp, so a
+    Dofus 2 player was offered Bear Cry and Song of the Phoenix while Animal
+    Blessing and Geyser were missing. Every class has exactly 22 spells in
+    2.73; the page was showing between 17 and 34.
+
+    The archive DOES name every 2.73 class spell, which is what
+    spell_reference/dofus2.json carries, so that file decides. A spell it does
+    not name is dropped here rather than in the literal, which stays as
+    generated. Nothing is lost from the page: it already fills in from the
+    reference what the model does not cover, so the reader gets the real 22,
+    with damage on the ones this project can compute and Ankama's own text on
+    the rest.
+
+    A class the reference does not know keeps its list, because a blank class
+    would be a worse answer than an inherited one.
+    """
+    global _DOFUS2_CACHE
+    if _DOFUS2_CACHE is not None:
+        return _DOFUS2_CACHE
+    from chardata.spell_reference import get_spell_reference
+    from fashionistapulp.dofus_constants_dofus2 import (
+        DAMAGE_SPELLS as DOFUS2_DAMAGE_SPELLS)
+    reference = get_spell_reference('dofus2')
+    if not reference:
+        _DOFUS2_CACHE = DOFUS2_DAMAGE_SPELLS
+        return _DOFUS2_CACHE
+    kept = {}
+    for class_name, spells in DOFUS2_DAMAGE_SPELLS.items():
+        entries = reference.get(class_name)
+        if class_name == 'default' or not entries:
+            kept[class_name] = spells
+            continue
+        known = {entry['id'] for entry in entries
+                 if entry.get('id') is not None}
+        named = {_flattened((entry.get('name') or {}).get(language))
+                 for entry in entries for language in ('en', 'fr')}
+        named.discard('')
+        # The id decides whenever the spell carries one; 326 of the 497 do.
+        # Names are the fallback for the rest, and only the fallback: the
+        # archive calls one Eliotrope spell "Insult" in English and "Affront"
+        # in French, and matching across languages kept a SECOND spell that
+        # happens to be named Affront in English.
+        kept[class_name] = [
+            spell for spell in spells
+            if (getattr(spell, 'spell_id', None) in known
+                if getattr(spell, 'spell_id', None) is not None
+                else _flattened(spell.name) in named)]
+    _DOFUS2_CACHE = kept
+    return kept
 
 
 def _spell_is_buff(spell):

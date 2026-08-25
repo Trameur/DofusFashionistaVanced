@@ -2156,6 +2156,94 @@ class AWaitingRowIsReportedNotCountedTests(SimpleTestCase):
             self.assertNotAlmostEqual(total, counted + damage, places=6)
 
 
+class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
+    """Its committed block is Dofus 3 content, and most of it is not Dofus 2.
+
+    2.73 ships no spell level data, so generate_damage_spells can never run
+    for this version and its DAMAGE_SPELLS was bootstrapped from Dofus 3 and
+    frozen. Measured on the committed literal: 274 of its 497 class spells are
+    absent from the 2.73 archive and 269 of those are Dofus 3 spells. Osamodas
+    was the plainest case, 22 of its 25 belonging to the Dofus 3 revamp, so the
+    page offered a Dofus 2 player Bear Cry and Song of the Phoenix and hid
+    Animal Blessing and Geyser.
+
+    The archive names every 2.73 class spell, so spell_reference/dofus2.json
+    decides and the accessor drops the rest. The literal is left as generated:
+    a version whose data cannot be rebuilt is a version whose file should not
+    be hand-edited.
+    """
+
+    #: What 2.73 gives every class. A class that stops matching this is a
+    #: reference that changed, and the numbers below go with it.
+    SPELLS_PER_CLASS = 22
+
+    def _reference(self):
+        from chardata.spell_reference import get_spell_reference
+        book = get_spell_reference('dofus2')
+        self.assertTrue(book, 'no Dofus 2 spell reference to check against')
+        return book
+
+    def test_every_class_carries_the_same_count_in_the_archive(self):
+        # The premise of everything below: the archive is complete, not a
+        # sample. Eighteen classes agreeing on 22 is what says so.
+        for class_name, entries in self._reference().items():
+            with self.subTest(char_class=class_name):
+                self.assertEqual(self.SPELLS_PER_CLASS, len(entries))
+
+    def test_no_class_is_served_a_spell_the_archive_does_not_name(self):
+        from chardata.spell_buffs import (_flattened,
+                                          get_damage_spells_for_version)
+        reference = self._reference()
+        served = get_damage_spells_for_version('dofus2')
+        for class_name, spells in served.items():
+            if class_name == 'default':
+                continue
+            entries = reference.get(class_name)
+            if not entries:
+                continue
+            named = {_flattened((entry.get('name') or {}).get(language))
+                     for entry in entries for language in ('en', 'fr')}
+            named.discard('')
+            intruders = sorted(spell.name for spell in spells
+                               if _flattened(spell.name) not in named)
+            with self.subTest(char_class=class_name):
+                self.assertEqual([], intruders[:5],
+                                 '%d spells from another game' % len(intruders))
+
+    def test_the_page_still_shows_every_spell_the_class_has(self):
+        # Dropping a spell must not leave a hole: the page fills in from the
+        # reference what the model does not cover.
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spell_reference import reference_by_spell_id
+        served = get_damage_spells_for_version('dofus2')
+        for class_name in self._reference():
+            model = served.get(class_name) or []
+            entries = reference_by_spell_id('dofus2', class_name)
+            shown = {getattr(spell, 'spell_id', None) for spell in model}
+            filled = [entry for spell_id, entry in entries.items()
+                      if spell_id not in shown]
+            with self.subTest(char_class=class_name):
+                self.assertEqual(self.SPELLS_PER_CLASS,
+                                 len(model) + len(filled))
+
+    def test_the_other_versions_are_untouched(self):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+        from fashionistapulp import dofus_constants_beta
+        self.assertIs(DAMAGE_SPELLS,
+                      get_damage_spells_for_version('dofus3'))
+        self.assertIs(dofus_constants_beta.DAMAGE_SPELLS,
+                      get_damage_spells_for_version('beta'))
+
+    def test_the_items_every_class_can_wear_are_kept(self):
+        # 'default' holds the Dofus and trophies, which no class list names.
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from fashionistapulp.dofus_constants_dofus2 import DAMAGE_SPELLS
+        self.assertEqual(len(DAMAGE_SPELLS.get('default') or []),
+                         len(get_damage_spells_for_version('dofus2')
+                             .get('default') or []))
+
+
 class AStatePayloadIsNotTurnDamageTests(SimpleTestCase):
     """Eight spells that hit now and pay out later, only if something happens.
 
@@ -15705,12 +15793,17 @@ class Dofus2SpellsAgainstItsArchiveTests(SimpleTestCase):
     describe.
     """
 
-    # Listed for Dofus 2 with neither a spell id nor a name the 2.73 archive
-    # knows, and given by the modern game to that same class. The Osamodas was
-    # reworked after 2.73, which is why it carries most of them. Removing them
-    # would leave those classes far short of the spells they really had, so
-    # they are pinned here until there is a source to rebuild the list from.
-    NOT_IN_2_73 = {
+    # These USED to be served for Dofus 2: listed with neither a spell id nor
+    # a name the 2.73 archive knows, and given by the modern game to that same
+    # class. They were pinned rather than removed on the reasoning that
+    # "removing them would leave those classes far short of the spells they
+    # really had", and that reasoning was wrong: the page already fills in from
+    # spell_reference/dofus2.json whatever the model does not cover. Measured
+    # before changing anything, the page was showing 671 spells across the 18
+    # classes where 2.73 has 396, both catalogues at once. The accessor now
+    # drops what the archive does not name and the count is 22 per class, so
+    # this set records what leaked rather than what is allowed to.
+    LEAKED_BEFORE = {
         ('Eliotrope', 'Cataclysm'),
         ('Huppermage', 'Asteroid'), ('Huppermage', 'Avalanche'),
         ('Huppermage', 'Sublimation'), ('Huppermage', 'Telluric Lances'),
@@ -15760,7 +15853,7 @@ class Dofus2SpellsAgainstItsArchiveTests(SimpleTestCase):
                     strangers.append((class_name, spell.name, spell_id))
         self.assertEqual(strangers, [])
 
-    def test_no_new_modern_spell_leaks_into_the_dofus_2_list(self):
+    def test_no_modern_spell_leaks_into_the_dofus_2_list(self):
         from chardata.spell_buffs import get_damage_spells_for_version
         _ids, names = self._archive()
         listed = get_damage_spells_for_version('dofus2')
@@ -15773,15 +15866,23 @@ class Dofus2SpellsAgainstItsArchiveTests(SimpleTestCase):
                     continue
                 if spell.name not in names:
                     unknown.add((class_name, spell.name))
-        self.assertEqual(unknown, self.NOT_IN_2_73)
+        self.assertEqual(set(), unknown)
 
-    def test_the_pinned_ones_are_all_modern_spells_of_that_class(self):
+    def test_the_ones_that_leaked_are_gone_from_the_list(self):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        served = {(class_name, spell.name)
+                  for class_name, bucket
+                  in get_damage_spells_for_version('dofus2').items()
+                  for spell in bucket}
+        self.assertEqual(set(), served & self.LEAKED_BEFORE)
+
+    def test_the_ones_that_leaked_are_all_modern_spells_of_that_class(self):
         # If one were not, it would be a 2.73 spell the archive simply renamed,
-        # and pinning it here would be wrong.
+        # and dropping it would have cost Dofus 2 a spell it really has.
         from chardata.spell_buffs import get_damage_spells_for_version
         modern = {name: {spell.name for spell in bucket} for name, bucket
                   in get_damage_spells_for_version('dofus3').items()}
-        for class_name, spell_name in sorted(self.NOT_IN_2_73):
+        for class_name, spell_name in sorted(self.LEAKED_BEFORE):
             with self.subTest(spell=spell_name):
                 self.assertIn(spell_name, modern.get(class_name, set()))
 
@@ -21442,14 +21543,16 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
 
     def test_every_spell_icon_the_pages_ask_for_is_on_disk(self):
         # The url is built from the spell name without touching the disk, so a
-        # rename serves a 404. Dofus 2 ships no icon for Tormenting Arrow.
+        # rename serves a 404. Dofus 2 used to need an exception for Tormenting
+        # Arrow; that spell is in neither the 2.73 archive nor the modern game
+        # and is no longer served, so nothing is allowed to be missing now.
         from urllib.parse import unquote
         from chardata.spell_buffs import get_damage_spells_for_version
         from chardata.spells_view import _spell_image_url
         from fashionistapulp.fashionista_config import get_fashionista_path
         static = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
                               'static')
-        allowed = {'dofus2': {'Tormenting Arrow'}}
+        allowed = {}
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             names = set()
             for spells in get_damage_spells_for_version(version).values():
