@@ -663,7 +663,7 @@ DAMAGE_SPELLS = {
             [['36-41', '41-46'], ['36-41', '41-46']],
             [AIR, AIR],
             steals=[True, False],
-        ), is_linked=(2, 'Abolition Arrow'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1], 'crit': [15, 15]}, spell_id=32433),
+        ), is_linked=(2, 'Abolition Arrow'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1], 'crit': [15, 15]}, spell_id=32433, conditional={1: 'out_of_sight'}),
         Spell('Frozen Arrow', [1, 67, 133], Effects(
             [['12-14', '16-19', '21-24']],
             [['15-17', '20-23', '25-29']],

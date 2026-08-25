@@ -102,6 +102,12 @@ CONDITIONAL_ROWS = {
     # reads it. Noa has the same mechanic and the same wording in all five
     # languages, but its row is marked "I", so it needs saying by hand.
     23735: {1: "pushback"},   # Forgelance, Noa
+    # Persecuting Arrow steals HP now and, in all five languages, "inflicts
+    # Air damage on the following turn if the target isn't in the caster's
+    # line of sight". Both its rows read "I", so the turn counted the second
+    # one as landed: a whole row of Air damage the cast may never deal, and
+    # never this turn. Row 1 is the plain Air row; row 0 is the steal.
+    32433: {1: "out_of_sight"},   # Cra, Persecuting Arrow
 }
 
 BUFF_SORT_ORDER = {

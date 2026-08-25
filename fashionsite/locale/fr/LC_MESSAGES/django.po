@@ -6791,6 +6791,13 @@ msgid "Write under another name or address"
 msgstr "Écrire sous un autre nom ou une autre adresse"
 
 #: .\chardata\spells_view.py:430
+msgid ""
+"on the following turn, and only if the target is out of the caster's "
+"line of sight"
+msgstr ""
+"au tour suivant, et seulement si la cible est hors de la ligne de "
+"vue du lanceur"
+
 msgid "only when the target suffers pushback damage"
 msgstr "seulement si la cible subit des dommages de poussée"
 

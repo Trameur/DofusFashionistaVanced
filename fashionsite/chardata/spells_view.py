@@ -495,6 +495,9 @@ _CONDITIONAL_LABELS = {
     'pushback into an obstacle at a state':
         _lazy('if the whole push lands against an obstacle, and only at the '
               'state the spell needs'),
+    'out_of_sight':
+        _lazy("on the following turn, and only if the target is out of the "
+              "caster's line of sight"),
 }
 
 

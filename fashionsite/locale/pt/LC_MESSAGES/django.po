@@ -6723,6 +6723,13 @@ msgid "Write under another name or address"
 msgstr "Escrever com outro nome ou outro endereço"
 
 #: .\chardata\spells_view.py:430
+msgid ""
+"on the following turn, and only if the target is out of the caster's "
+"line of sight"
+msgstr ""
+"no turno seguinte, e apenas se o alvo estiver fora da linha de visão "
+"do lançador"
+
 msgid "only when the target suffers pushback damage"
 msgstr "apenas se o alvo sofrer danos de empurrão"
 

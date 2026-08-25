@@ -2156,6 +2156,96 @@ class AWaitingRowIsReportedNotCountedTests(SimpleTestCase):
             self.assertNotAlmostEqual(total, counted + damage, places=6)
 
 
+class PersecutingArrowWaitsForTheTargetToBreakSightTests(SimpleTestCase):
+    """Its second row lands next turn, and only sometimes.
+
+    All five languages say the same thing: "Steals HP in the Air element.
+    Inflicts Air damage on the following turn if the target isn't in the
+    caster's line of sight." Both rows are marked "I" in the client, so the
+    turn simulator counted the second as landed, which overstates a Cra turn by
+    a whole row of Air damage the cast may never deal, and never this turn.
+
+    Like Noa, the rule is stated by Ankama's own sentence rather than by a
+    trigger code, so the generator carries it by spell id and this test holds
+    the sentence to it.
+    """
+
+    ANKAMA_ID = 32433
+
+    #: What each language must still say for the rule above to be theirs. Two
+    #: fragments per language, because "line of sight" alone appears on other
+    #: spells and "following turn" alone appears on every poison.
+    SAYS_IT = {
+        'en': ('following turn', 'line of sight'),
+        'fr': ('tour suivant', 'ligne de vue'),
+        'es': ('siguiente turno', 'línea de visión'),
+        'pt': ('turno seguinte', 'linha de visão'),
+        'de': ('nächsten Runde', 'Sichtlinie'),
+    }
+
+    def _entry(self, version):
+        from chardata.spell_reference import get_spell_reference
+        for entries in get_spell_reference(version).values():
+            for entry in entries or []:
+                if entry.get('id') == self.ANKAMA_ID:
+                    return entry
+        return None
+
+    def _spell(self, version):
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from fashionistapulp.structure import set_current_game_version
+        self.addCleanup(set_current_game_version, 'dofus3')
+        set_current_game_version(version)
+        for group in get_damage_spells_for_version(version).values():
+            for spell in group:
+                if getattr(spell, 'spell_id', None) == self.ANKAMA_ID:
+                    return spell
+        return None
+
+    def test_ankama_still_says_the_rule_in_every_language(self):
+        for version in ('dofus3', 'beta'):
+            entry = self._entry(version)
+            self.assertIsNotNone(entry, version)
+            for language, fragments in self.SAYS_IT.items():
+                with self.subTest(version=version, language=language):
+                    text = (entry.get('description') or {}).get(language) or ''
+                    for fragment in fragments:
+                        self.assertIn(fragment, text)
+
+    def test_the_second_row_is_the_one_held_back(self):
+        for version in ('dofus3', 'beta'):
+            with self.subTest(version=version):
+                spell = self._spell(version)
+                self.assertIsNotNone(spell, version)
+                self.assertEqual({1: 'out_of_sight'}, spell.conditional)
+                # Row 0 is the steal the cast lands now, row 1 the plain Air
+                # damage that waits. Same element, so only `steals` tells them
+                # apart and holding back the wrong one would be invisible.
+                self.assertEqual([True, False], list(spell.effects.steals))
+
+    def test_the_turn_counts_only_the_steal(self):
+        from chardata.spell_combo import Castable
+        spell = self._spell('dofus3')
+        for level_index in (0, 1):
+            castable = Castable(spell, level_index, crit=False)
+            with self.subTest(level_index=level_index):
+                self.assertEqual(2, len(castable.effects))
+                self.assertEqual(1, len(castable.hits))
+                self.assertTrue(castable.hits[0].steals)
+
+    def test_the_label_is_written_in_the_five_languages(self):
+        from django.utils import translation
+        from chardata.spells_view import _CONDITIONAL_LABELS
+        rendered = {}
+        for language in ('en', 'fr', 'es', 'pt', 'de'):
+            with translation.override(language):
+                rendered[language] = str(_CONDITIONAL_LABELS['out_of_sight'])
+        self.assertEqual(5, len(set(rendered.values())),
+                         'a language fell back to English: %s' % rendered)
+        self.assertIn('ligne de vue', rendered['fr'])
+        self.assertIn('Sichtlinie', rendered['de'])
+
+
 class WhichSpellsPushTests(SimpleTestCase):
     """Noa's second row waits for the target to suffer pushback damage, and a
     push only hurts when the target hits an obstacle: the damage scales with
@@ -19001,26 +19091,41 @@ class SpellComboTests(SimpleTestCase):
         # languages, and goes stale loudly rather than quietly.
         from chardata.spell_reference import get_spell_reference
         module = itemscraper_module('generate_damage_spells')
-        words = {'en': 'pushback damage', 'fr': 'dommages de pouss',
-                 'es': 'daños de empuje', 'pt': 'danos de empurr',
-                 'de': 'schubsschaden'}
+        # One vocabulary per rule, not one for the table: it holds two now.
+        # Noa and Pilfer wait on pushback damage, Persecuting Arrow on the
+        # target leaving the caster's line of sight. A third rule added
+        # without its words fails on the check below rather than passing on
+        # somebody else's sentence.
+        words = {
+            'pushback': {'en': 'pushback damage', 'fr': 'dommages de pouss',
+                         'es': 'daños de empuje', 'pt': 'danos de empurr',
+                         'de': 'schubsschaden'},
+            'out_of_sight': {'en': 'line of sight', 'fr': 'ligne de vue',
+                             'es': 'línea de visión',
+                             'pt': 'linha de vis', 'de': 'sichtlinie'},
+        }
         self.assertTrue(module.CONDITIONAL_ROWS)
+        declared = {trigger for rows in module.CONDITIONAL_ROWS.values()
+                    for trigger in rows.values()}
+        self.assertEqual([], sorted(declared - set(words)),
+                         'a held-back row names a rule with no words to check')
         seen = 0
         for version in ('dofus3', 'beta'):
             found = {entry['id']: entry
                      for entries in get_spell_reference(version).values()
                      for entry in entries or []
                      if entry.get('id') is not None}
-            for spell_id in module.CONDITIONAL_ROWS:
+            for spell_id, rows in module.CONDITIONAL_ROWS.items():
                 entry = found.get(spell_id)
                 if entry is None:
                     continue
                 seen += 1
-                for language, word in words.items():
-                    text = (entry['description'].get(language) or '').lower()
-                    with self.subTest(version=version, spell=spell_id,
-                                      language=language):
-                        self.assertIn(word, text)
+                for trigger in set(rows.values()):
+                    for language, word in words[trigger].items():
+                        said = (entry['description'].get(language) or '').lower()
+                        with self.subTest(version=version, spell=spell_id,
+                                          rule=trigger, language=language):
+                            self.assertIn(word, said)
         self.assertGreaterEqual(seen, 2, 'no annotated spell was checked')
 
     def test_a_poison_is_not_counted_as_damage_landing_now(self):
