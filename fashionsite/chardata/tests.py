@@ -3348,6 +3348,121 @@ class CompareSetsPreviewTests(TestCase):
         self.assertNotIn('character_preview.js', body)
 
 
+class SharedBuildsAreReachableInAFewClicksTests(TestCase):
+    """Its pagination was First / Previous / Next / Last and nothing else.
+
+    Measured on the real page before touching it: 83 pages, and page 1 linked
+    only to 2 and to 83. Page 42 was FORTY-ONE clicks away whichever end you
+    started from, which is another way of saying that most shared builds were
+    not reachable at all, by a reader or by a crawler.
+
+    It now renders the same page list the encyclopedia does: every tenth page,
+    the neighbours of the current one, the first and the last. The depth below
+    is walked rather than reasoned about, because the point is what a reader
+    can actually reach.
+    """
+
+    #: What the helper promises: one hop to a multiple of ten, then at most two
+    #: through that page's neighbours.
+    DEEPEST = 3
+
+    #: Sizes to walk. The live list was 83 pages on 2026-08-25; the others are
+    #: there so the promise does not hold for one number by luck.
+    SIZES = (11, 20, 47, 83, 99, 250, 1000)
+
+    def _reachable(self, total):
+        """{page: clicks from the first}, walked through what is rendered."""
+        from chardata.pagination import pagination_items
+
+        class _Paginator(object):
+            num_pages = total
+
+        class _Page(object):
+            paginator = _Paginator()
+
+            def __init__(self, number):
+                self.number = number
+
+        seen = {1: 0}
+        edge = [1]
+        while edge:
+            following = []
+            for number in edge:
+                if seen[number] >= self.DEEPEST:
+                    continue
+                for reached in pagination_items(_Page(number)):
+                    if reached and reached not in seen:
+                        seen[reached] = seen[number] + 1
+                        following.append(reached)
+            edge = following
+        return seen
+
+    def test_every_page_is_within_three_clicks_of_the_first(self):
+        """Walked, not reasoned about: the point is what a reader can reach.
+
+        Before this, /sharedbuilds/ rendered First / Previous / Next / Last and
+        nothing else, so page 1 linked only to 2 and to 83 and page 42 was
+        forty-one clicks from either end.
+        """
+        for total in self.SIZES:
+            with self.subTest(pages=total):
+                seen = self._reachable(total)
+                missing = sorted(set(range(1, total + 1)) - set(seen))
+                self.assertEqual([], missing[:10],
+                                 '%d of %d pages need more than %d clicks'
+                                 % (len(missing), total, self.DEEPEST))
+
+    def test_the_first_page_alone_does_not_reach_everything(self):
+        """So the walk above is measuring depth and not a list of every page.
+
+        If one page linked to all the others the check would pass for a reason
+        that has nothing to do with depth.
+        """
+        from chardata.pagination import pagination_items
+
+        class _Paginator(object):
+            num_pages = 83
+
+        class _Page(object):
+            number = 1
+            paginator = _Paginator()
+
+        first = {n for n in pagination_items(_Page()) if n}
+        self.assertLess(len(first), 83)
+
+    def test_the_page_list_reaches_the_template(self):
+        """The view can be right while the template ignores it."""
+        page = self.client.get('/sharedbuilds/')
+        self.assertEqual(200, page.status_code)
+        numbers = page.context.get('page_links')
+        if not numbers:
+            self.skipTest('no shared builds to paginate here')
+        body = page.content.decode('utf-8')
+        current = page.context['page_obj'].number
+        # The page you are on is rendered as text, not as a link to itself.
+        linked = [n for n in numbers if n and n != current][:6]
+        if not linked:
+            self.skipTest('a single page has nothing to link to')
+        for number in linked:
+            with self.subTest(number=number):
+                self.assertIn('page=%d' % number, body)
+
+    def test_a_gap_is_rendered_where_pages_were_dropped(self):
+        from chardata.pagination import pagination_items
+
+        class _Paginator(object):
+            num_pages = 83
+
+        class _Page(object):
+            number = 1
+            paginator = _Paginator()
+
+        numbers = pagination_items(_Page())
+        self.assertIn(None, numbers, 'no gap marked in %s' % numbers)
+        self.assertEqual(1, numbers[0])
+        self.assertEqual(83, numbers[-1])
+
+
 class ARetroWeaponWithFixedDamageStillHitsTests(SimpleTestCase):
     """Twelve 1.29 weapons dealt nothing, because their damage does not roll.
 
@@ -25911,7 +26026,7 @@ class PaginationReachesEveryPageTests(TestCase):
                                paginator=SimpleNamespace(num_pages=total))
 
     def _links(self, number, total):
-        from chardata.encyclopedia_view import pagination_items
+        from chardata.pagination import pagination_items
         return {n for n in pagination_items(self._page(number, total))
                 if n and n != number}
 
@@ -25953,7 +26068,7 @@ class PaginationReachesEveryPageTests(TestCase):
         # The old template printed the ellipsis at two fixed positions, which
         # stopped meaning anything as soon as the shown pages changed. A gap is
         # a fact about the list, so it is computed from it.
-        from chardata.encyclopedia_view import pagination_items
+        from chardata.pagination import pagination_items
         rendered = pagination_items(self._page(50, 99))
         self.assertIsNotNone(rendered[0], 'a gap cannot open the bar')
         self.assertIsNotNone(rendered[-1], 'a gap cannot close the bar')

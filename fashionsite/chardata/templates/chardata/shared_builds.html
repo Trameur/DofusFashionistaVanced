@@ -329,7 +329,16 @@ celle qui est identique sur toutes les pages, pas celle qui dit quoi.
                 <span class="disabled">{% trans "Previous" %}</span>
             {% endif %}
             
-            <span class="current">{% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}</span>
+            {% for number in page_links %}
+                {% if not number %}
+                <span class="pagination-gap">&hellip;</span>
+                {% elif number == page_obj.number %}
+                <span class="current">{{ number }}</span>
+                {% else %}
+                <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ number }}">{{ number }}</a>
+                {% endif %}
+            {% endfor %}
+            <span class="pagination-count">{% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}</span>
             
             {% if page_obj.has_next %}
                 <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>

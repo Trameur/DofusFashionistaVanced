@@ -28,6 +28,7 @@ import pickle
 from chardata.translation_util import localized_stat_name
 from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
 from chardata.min_stats import get_min_stats_digested_by_key
+from chardata.pagination import pagination_items
 from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
 from chardata.image_store import get_image_url
@@ -595,6 +596,13 @@ def shared_builds(request):
     params = {
         'builds': builds_data,
         'page_obj': builds_page,
+        # Premier / Precedent / Suivant / Dernier laissait la page 42 sur 83 a
+        # QUARANTE ET UN clics, et c'etait le pire cas: parcours en largeur sur
+        # les liens que le gabarit rendait, moyenne 20,7 clics sur les 83
+        # pages. Depuis la premiere on n'atteignait que la 2 et la 83.
+        # `pagination_items` garde une page sur dix plus les voisines, ce qui
+        # met chaque page a trois clics de la premiere.
+        'page_links': pagination_items(builds_page),
         'all_classes': all_classes,
         'aspect_to_name': json.dumps(aspect_to_name),
         'aspect_layout': json.dumps(aspect_layout),
