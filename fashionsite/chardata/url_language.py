@@ -207,6 +207,46 @@ def prefixed_page_alternates(request):
     return alternates
 
 
+def hreflang_alternates(request, canonical_url):
+    """The alternates a prefixed page may publish, or {} when they would lie.
+
+    A page that lists its translations has to name itself among them, at the
+    same url its canonical gives. Google reads the group through that
+    self-reference and drops the whole thing when it is missing, so publishing
+    a group that contradicts the canonical is worth less than publishing none.
+
+    Where it went wrong: the alternates are built from request.path, which has
+    no query string, while a paginated list is canonical at ?page=N. Page 7
+    therefore declared itself to be page 7 and, one line below, that its own
+    English version was page 1.
+
+    The obvious repair -- carry ?page=N into every alternate -- is wrong here,
+    and measuring said so before it was written: the lists are ordered by the
+    translated name, so page 7 in English and page 7 in French hold 4 of the
+    same 39 items, English and Spanish 1 of 39. They are two different slices
+    of one catalogue, not one page in two languages. Claiming otherwise would
+    trade a contradiction for an untruth.
+
+    So a slice publishes nothing, which is the truth about it: no group, no
+    error, and the canonical still names it correctly. Only this branch is
+    concerned -- an item or a guide carries its language in its slug and builds
+    its own alternates, and reading a prefix there would find none and suppress
+    a block that is perfectly correct.
+    """
+    alternates = prefixed_page_alternates(request)
+    if not alternates or not canonical_url:
+        # No canonical in the context means the template falls back to
+        # SITE_URL + request.path, which is exactly the alternate for this
+        # language: nothing to disagree about.
+        return alternates
+
+    prefix, _rest = split_language_prefix(request.path)
+    language = prefix.lstrip('/') or settings.LANGUAGE_CODE
+    if alternates.get(language) != canonical_url:
+        return {}
+    return alternates
+
+
 class PrefixOptionalLocaleMiddleware(LocaleMiddleware):
     """Keeps negotiating the language on urls that carry no prefix.
 

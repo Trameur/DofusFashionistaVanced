@@ -156,10 +156,21 @@ def set_response(request, path, params, char=None):
     # language prefix, which nothing else would announce as translations
     # of each other.
     if 'alternate_urls' not in params:
-        from chardata.url_language import prefixed_page_alternates
+        from chardata.url_language import (hreflang_alternates,
+                                           prefixed_page_alternates)
         alternates = prefixed_page_alternates(request)
         if alternates:
             params['alternate_urls'] = alternates
+            # Two things read these, and only one of them may be silenced.
+            # The hreflang block has to be true, and on a paginated slice it
+            # cannot be. The flags in the language selector still need a
+            # destination there, so they keep the full set.
+            params['hreflang_urls'] = hreflang_alternates(
+                request, params.get('canonical_url'))
+    # A page that built its own alternates -- an item, a guide -- publishes
+    # them as they are: its language lives in its slug, and it already names
+    # itself among them.
+    params.setdefault('hreflang_urls', params.get('alternate_urls') or {})
     params['debug_mode'] = settings.DEBUG
     params['language'] = get_language()
     params['experiments'] = settings.EXPERIMENTS

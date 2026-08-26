@@ -16,9 +16,9 @@
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
     <meta name="robots" content="{% block meta_robots %}{% if noindex %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
     {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{{ request.path }}">{% endblock %}
-    {% block hreflang %}{% if alternate_urls %}{# Each localised slug is its own page; without these Google reads them as duplicates. #}
-    {% for lang, alt_url in alternate_urls.items %}<link rel="alternate" hreflang="{{ lang }}" href="{{ alt_url }}">
-    {% endfor %}{% if alternate_urls.en %}<link rel="alternate" hreflang="x-default" href="{{ alternate_urls.en }}">{% endif %}{% endif %}{% endblock %}
+    {% block hreflang %}{% if hreflang_urls %}{# Each localised slug is its own page; without these Google reads them as duplicates. Not alternate_urls: a paginated slice keeps its flags but publishes no group, because page 7 in another language is not this page. #}
+    {% for lang, alt_url in hreflang_urls.items %}<link rel="alternate" hreflang="{{ lang }}" href="{{ alt_url }}">
+    {% endfor %}{% if hreflang_urls.en %}<link rel="alternate" hreflang="x-default" href="{{ hreflang_urls.en }}">{% endif %}{% endif %}{% endblock %}
     {% block og_meta %}
     <meta property="og:title" content="Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista - {% trans "Equipment Set Optimizer" %}">
     <meta property="og:description" content="{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Create optimized Dofus {{ version }} equipment sets automatically based on your character's needs.{% endblocktrans %}{% else %}{% blocktrans %}Create optimized Dofus equipment sets automatically based on your character's needs.{% endblocktrans %}{% endif %}">

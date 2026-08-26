@@ -1393,3 +1393,104 @@ class ALanguageSitemapOnlyHoldsThatLanguageTests(TestCase):
                     counted[location] = counted.get(location, 0) + 1
         repeated = {url: n for url, n in counted.items() if n > 1}
         self.assertEqual(repeated, {}, 'submitted more than once: %s' % repeated)
+
+
+class HreflangNamesTheCanonicalTests(TestCase):
+    """A page listing its translations has to name itself among them.
+
+    Google reads an hreflang group through that self-reference and drops the
+    whole group when it is missing, so a group contradicting the canonical is
+    worth less than no group at all. /encyclopedia/?page=7 was canonical at
+    ?page=7 and, one line below, named /encyclopedia/ as its own English
+    version: 768 pages in English, 3840 across the five languages.
+
+    Carrying ?page=N into every alternate would have been the wrong repair.
+    The lists are ordered by the translated name, so page 7 in English and
+    page 7 in French share 4 of their 39 items, English and Spanish 1 of 39.
+    A slice publishes nothing instead, which is the truth about it.
+    """
+
+    NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
+
+    #: Pages whose alternates are true. The filtered-and-paginated one is here
+    #: on purpose: its canonical falls back to the bare list, so it agrees
+    #: today -- and the day either half changes, this is where it is caught.
+    NAMES_ITSELF = (
+        '/',
+        '/guides/',
+        '/encyclopedia/',
+        '/encyclopedia/sets/',
+        '/encyclopedia/monsters/',
+        '/encyclopedia/?q=sword&page=2',
+        '/fr/encyclopedia/',
+        '/de/guides/',
+        '/retro/encyclopedia/',
+        '/fr/retro/encyclopedia/',
+        '/encyclopedia/item/equipment/44-twiggy-sword/',
+        '/guides/resistance-explained/',
+    )
+
+    #: Slices of a list. Every game version has its own, and every language.
+    PUBLISHES_NOTHING = (
+        '/encyclopedia/?page=7',
+        '/encyclopedia/sets/?page=3',
+        '/encyclopedia/monsters/?page=5',
+        '/fr/encyclopedia/?page=7',
+        '/retro/encyclopedia/?page=3',
+    )
+
+    def _head(self, url):
+        response = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
+                                   HTTP_USER_AGENT=self.NAVIGATEUR)
+        self.assertEqual(response.status_code, 200,
+                         '%s answered %s' % (url, response.status_code))
+        html = response.content.decode('utf-8', 'replace')
+        canonical = re.search(r'<link[^>]*canonical[^>]*>', html)
+        canonical = (re.search(r'href="([^"]*)"', canonical.group(0)).group(1)
+                     if canonical else None)
+        alternates = {}
+        for tag in re.finditer(r'<link[^>]*hreflang="([^"]+)"[^>]*>', html):
+            alternates[tag.group(1)] = re.search(
+                r'href="([^"]*)"', tag.group(0)).group(1)
+        return canonical, alternates
+
+    def test_a_published_group_contains_the_canonical(self):
+        # Read as "the canonical is one of the alternates" rather than by
+        # deriving which language this url is: on an item page the language
+        # lives in the slug, not in a prefix, and deriving it from the path
+        # would call a French page English.
+        checked = 0
+        wrong = []
+        for url in self.NAMES_ITSELF:
+            canonical, alternates = self._head(url)
+            self.assertTrue(alternates, '%s publishes no group at all' % url)
+            checked += 1
+            named = [lang for lang, alt in alternates.items()
+                     if alt == canonical and lang != 'x-default']
+            if not named:
+                wrong.append((url, canonical, sorted(alternates.values())[:3]))
+        self.assertFalse(
+            wrong, 'these pages declare translations without naming '
+            'themselves: %s' % wrong[:4])
+        self.assertEqual(checked, len(self.NAMES_ITSELF))
+
+    def test_a_slice_of_a_list_publishes_no_group(self):
+        for url in self.PUBLISHES_NOTHING:
+            _canonical, alternates = self._head(url)
+            self.assertFalse(
+                alternates,
+                '%s is one slice of a list; the same page number in another '
+                'language is a different set of items, so it may not claim '
+                'them as translations: %s' % (url, sorted(alternates)))
+
+    def test_a_slice_keeps_its_language_flags(self):
+        # The alternates feed two things and only the group may be silenced.
+        # A reader on page 7 still has to be able to switch language.
+        for url in self.PUBLISHES_NOTHING:
+            response = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
+                                       HTTP_USER_AGENT=self.NAVIGATEUR)
+            html = response.content.decode('utf-8', 'replace')
+            flags = re.findall(r'id="flag-([a-z]{2})"', html)
+            self.assertEqual(
+                len(flags), 4,
+                '%s offers %s instead of four language flags' % (url, flags))
