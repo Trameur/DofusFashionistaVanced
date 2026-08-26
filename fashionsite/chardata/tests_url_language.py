@@ -586,8 +586,14 @@ class InternalLinksStayInLanguageTest(TestCase):
             'the French item page links to the English URL outside hreflang')
 
     def test_links_on_a_spanish_page_answer_in_spanish(self):
-        body = self._without_hreflang(
-            self.client.get(self.SPANISH).content.decode('utf-8'))
+        # Le selecteur est retire ici comme il l'est deja au-dessus. Ses
+        # drapeaux sont devenus des ancres, parce qu'un bouton n'est pas un
+        # lien et qu'aucun robot ne suivait les quatre : /fr/, /es/, /pt/ et
+        # /de/ ne recevaient aucun lien interne de nulle part. C'est le seul
+        # endroit d'une page ou sortir de sa langue est le but, et le compter
+        # comme une fuite ferait mentir l'un des deux invariants.
+        body = self._without_language_selector(self._without_hreflang(
+            self.client.get(self.SPANISH).content.decode('utf-8')))
         checked = 0
         fugues = []
         for path in sorted(self._encyclopedia_links(body))[:12]:

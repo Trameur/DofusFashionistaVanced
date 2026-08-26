@@ -30,20 +30,44 @@
             {% endif %}
         </form>
         <div id="other-flags">
+        {% comment %}A flag is a link when we know where the same page
+        lives in the other language, and a button when we do not. It used
+        to be a button in both cases, and a button is not a link: a
+        crawler followed none of them, so /fr/, /es/, /pt/ and /de/ got no
+        internal link from the site at all. Three of the four are carried
+        by their own sitemap; German has none by choice, so hreflang was
+        the only thing naming it anywhere.
+
+        The click still posts the form, because the language cookie is
+        what makes the choice stick. The href is what a crawler reads and
+        what a reader without javascript follows -- and where no
+        alternate url exists, /setup/ and /support/ among them, an <a>
+        without href would be neither a link nor focusable, which is why
+        the button stays there.{% endcomment %}
             {% if LANGUAGE_CODE != 'pt' %}
-            <button type="button" class="flag-btn" id="flag-pt" data-next="{{ alternate_urls.pt|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'Portuguese' %}"><img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" class="flag-choose" width="24" height="24"></button><br>
+            {% with cible=alternate_urls.pt|default_if_none:''|cut:'https://dofusfashionista.gg' %}
+            {% if cible %}<a href="{{ cible }}" class="flag-btn" id="flag-pt" data-next="{{ cible }}" title="{% trans 'Portuguese' %}"><img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" class="flag-choose" width="24" height="24"></a>{% else %}<button type="button" class="flag-btn" id="flag-pt" data-next="" title="{% trans 'Portuguese' %}"><img alt="{% trans 'Portuguese' %}" src="{% static 'chardata/pt.png' %}" class="flag-choose" width="24" height="24"></button>{% endif %}<br>
+            {% endwith %}
             {% endif %}
             {% if LANGUAGE_CODE != 'en' %}
-            <button type="button" class="flag-btn" id="flag-en" data-next="{{ alternate_urls.en|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'English' %}"><img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" class="flag-choose" width="24" height="24"></button><br>
+            {% with cible=alternate_urls.en|default_if_none:''|cut:'https://dofusfashionista.gg' %}
+            {% if cible %}<a href="{{ cible }}" class="flag-btn" id="flag-en" data-next="{{ cible }}" title="{% trans 'English' %}"><img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" class="flag-choose" width="24" height="24"></a>{% else %}<button type="button" class="flag-btn" id="flag-en" data-next="" title="{% trans 'English' %}"><img alt="{% trans 'English' %}" src="{% static 'chardata/en.png' %}" class="flag-choose" width="24" height="24"></button>{% endif %}<br>
+            {% endwith %}
             {% endif %}
             {% if LANGUAGE_CODE != 'fr' %}
-            <button type="button" class="flag-btn" id="flag-fr" data-next="{{ alternate_urls.fr|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'French' %}"><img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" class="flag-choose" width="24" height="24"></button><br>
+            {% with cible=alternate_urls.fr|default_if_none:''|cut:'https://dofusfashionista.gg' %}
+            {% if cible %}<a href="{{ cible }}" class="flag-btn" id="flag-fr" data-next="{{ cible }}" title="{% trans 'French' %}"><img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" class="flag-choose" width="24" height="24"></a>{% else %}<button type="button" class="flag-btn" id="flag-fr" data-next="" title="{% trans 'French' %}"><img alt="{% trans 'French' %}" src="{% static 'chardata/fr.png' %}" class="flag-choose" width="24" height="24"></button>{% endif %}<br>
+            {% endwith %}
             {% endif %}
             {% if LANGUAGE_CODE != 'es' %}
-            <button type="button" class="flag-btn" id="flag-es" data-next="{{ alternate_urls.es|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'Spanish' %}"><img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" class="flag-choose" width="24" height="24"></button><br>
+            {% with cible=alternate_urls.es|default_if_none:''|cut:'https://dofusfashionista.gg' %}
+            {% if cible %}<a href="{{ cible }}" class="flag-btn" id="flag-es" data-next="{{ cible }}" title="{% trans 'Spanish' %}"><img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" class="flag-choose" width="24" height="24"></a>{% else %}<button type="button" class="flag-btn" id="flag-es" data-next="" title="{% trans 'Spanish' %}"><img alt="{% trans 'Spanish' %}" src="{% static 'chardata/es.png' %}" class="flag-choose" width="24" height="24"></button>{% endif %}<br>
+            {% endwith %}
             {% endif %}
             {% if LANGUAGE_CODE != 'de' %}
-            <button type="button" class="flag-btn" id="flag-de" data-next="{{ alternate_urls.de|default_if_none:''|cut:'https://dofusfashionista.gg' }}" title="{% trans 'German' %}"><img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" class="flag-choose" width="50" height="37"></button><br>
+            {% with cible=alternate_urls.de|default_if_none:''|cut:'https://dofusfashionista.gg' %}
+            {% if cible %}<a href="{{ cible }}" class="flag-btn" id="flag-de" data-next="{{ cible }}" title="{% trans 'German' %}"><img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" class="flag-choose" width="50" height="37"></a>{% else %}<button type="button" class="flag-btn" id="flag-de" data-next="" title="{% trans 'German' %}"><img alt="{% trans 'German' %}" src="{% static 'chardata/de.png' %}" class="flag-choose" width="50" height="37"></button>{% endif %}<br>
+            {% endwith %}
             {% endif %}
         </div>
     </div>

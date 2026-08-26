@@ -188,8 +188,16 @@ def decode_effects(possible_effects, effects, is_weapon):
             continue
         name, sign = resolved
         # get_equipments3 keeps the max on a positive stat and stat[0] on a
-        # negative one, so both ends carry the sign.
-        stats.append([sign * lo, sign * hi, name])
+        # negative one, so a negative pair has to be ordered furthest-from-zero
+        # first. Writing [sign*lo, sign*hi] as it comes gave [-1, -100] for a
+        # malus of -1 to -100 and the db kept -1, the SOFTEST end: the
+        # optimiser thought the piece cost 1 point where it can cost 100. The
+        # other four versions already store the hard end. 313 rows moved when
+        # this landed, none added and none lost.
+        first, second = sign * lo, sign * hi
+        if first < 0 or second < 0:
+            first, second = min(first, second), max(first, second)
+        stats.append([first, second, name])
     return stats, hits
 
 

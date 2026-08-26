@@ -159,6 +159,13 @@ class GuidePageTest(TestCase):
         # English and tells Google the translations are unrelated.
         html = self._fetch(guides_content.slug_for(self.KEY, 'fr'))
         body = html.split('<main')[-1] if '<main' in html else html
+        # The language selector is the one control whose whole job is to leave
+        # the page's language, so it is not a leak. Its flags became links
+        # because a button is not one and no crawler followed them, which left
+        # /fr/, /es/, /pt/ and /de/ with no internal link anywhere on the site.
+        # Keyed on data-next, which identifies the selector whatever tag it
+        # wears -- it has already been <img>, then <button>, now <a>.
+        body = re.sub(r'<[a-z]+[^>]*data-next[^>]*>', '', body)
         english_only = [
             key for key in guides_content.ordered_slugs()
             if 'href="/guides/%s/"' % key in body

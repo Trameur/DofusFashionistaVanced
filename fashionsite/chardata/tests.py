@@ -25345,7 +25345,17 @@ class TheLanguageSelectorWorksWithoutAMouseTests(TestCase):
         self.assertEqual(balise.group(1), 'button')
         self.assertIn('type="button"', balise.group(0))
 
-    def test_every_flag_that_picks_a_language_is_a_button(self):
+    def test_every_flag_that_picks_a_language_can_be_reached(self):
+        """Un controle atteignable au clavier, pas une balise en particulier.
+
+        Ce test exigeait <button>, ce qui etait le mecanisme et non la
+        propriete. Le drapeau est devenu <a> la ou la page sait ou vit sa
+        traduction, parce qu'un bouton n'est pas un lien et qu'aucun robot ne
+        suivait les quatre. Une ancre est focalisable et s'active a Entree
+        exactement comme un bouton -- a une condition, qu'elle porte un href :
+        sans lui elle sort de l'ordre de tabulation, et le defaut d'origine
+        reviendrait sous un autre nom.
+        """
         page = self._accueil()
         trouves = 0
         for langue in self.LANGUES:
@@ -25353,7 +25363,14 @@ class TheLanguageSelectorWorksWithoutAMouseTests(TestCase):
             if balise is None:
                 continue    # la langue courante n'a pas de drapeau de choix
             trouves += 1
-            self.assertEqual(balise.group(1), 'button', langue)
+            self.assertIn(balise.group(1), ('button', 'a'), langue)
+            if balise.group(1) == 'a':
+                import re
+                href = re.search(r' href="([^"]*)"', balise.group(0))
+                self.assertTrue(
+                    href and href.group(1),
+                    '%s : une ancre sans href n\'est ni un lien ni un arret '
+                    'de tabulation' % langue)
             # data-next porte la destination, et le script la lit par cet id :
             # la deplacer sur le bouton sans l'emporter casserait le choix.
             self.assertIn('data-next=', balise.group(0), langue)

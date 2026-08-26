@@ -89,13 +89,26 @@ def main():
     pet_type = cursor.execute("SELECT id FROM item_types WHERE name = 'Pet'").fetchone()[0]
     stat_id_by_name = {name: sid for sid, name in cursor.execute("SELECT id, name FROM stats")}
 
+    # item_drops does not exist yet on a from-scratch rebuild. This step runs
+    # BEFORE drops/store on purpose, because store_drops attaches a drop to
+    # every internal row of an ankama id and a variant created afterwards would
+    # keep none. So on a fresh db the table is simply absent, and the two
+    # statements that touch it raised "no such table: item_drops", took the
+    # whole transaction down with them and left the 228 pet variants
+    # unwritten: 3146 Touch items instead of 3374. The order is right; this
+    # script has to cope with the table not being there yet.
+    has_drops = cursor.execute(
+        "SELECT 1 FROM sqlite_master WHERE type = 'table'"
+        " AND name = 'item_drops'").fetchone() is not None
+
     # Drop the variants of a previous run.
     cursor.execute("DELETE FROM stats_of_item WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM item_names WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM items WHERE id >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM item_descriptions WHERE item >= ?", (VARIANT_ID_BASE,))
     cursor.execute("DELETE FROM item_extra_info WHERE item >= ?", (VARIANT_ID_BASE,))
-    cursor.execute("DELETE FROM item_drops WHERE item >= ?", (VARIANT_ID_BASE,))
+    if has_drops:
+        cursor.execute("DELETE FROM item_drops WHERE item >= ?", (VARIANT_ID_BASE,))
 
     next_id = VARIANT_ID_BASE
     created = 0
@@ -149,9 +162,11 @@ def main():
                         "INSERT INTO item_names(item, language, name) VALUES (?, ?, ?)",
                         (variant_id, lang,
                          _variant_name(base, _label(stat_name, lang), value, is_percent)))
-                # Descriptions, pods and drops are written before this step
-                # runs, so copy the pet's. Without the drops a maxed variant
-                # shows no "Dropped by" while the pet it is made from does.
+                # Descriptions and pods are written before this step runs, so
+                # copy the pet's. Drops are only there on a rerun over an
+                # existing db; on a fresh one drops/store fills them in after
+                # us. Without them a maxed variant shows no "Dropped by" while
+                # the pet it is made from does.
                 cursor.execute(
                     "INSERT OR REPLACE INTO item_descriptions(item, language, description)"
                     " SELECT ?, language, description FROM item_descriptions"
@@ -160,10 +175,12 @@ def main():
                     "INSERT OR REPLACE INTO item_extra_info(item, pods)"
                     " SELECT ?, pods FROM item_extra_info WHERE item = ?",
                     (variant_id, pet_id))
-                cursor.execute(
-                    "INSERT INTO item_drops(item, monster_ankama_id, rate, conditions)"
-                    " SELECT ?, monster_ankama_id, rate, conditions FROM item_drops"
-                    " WHERE item = ?", (variant_id, pet_id))
+                if has_drops:
+                    cursor.execute(
+                        "INSERT INTO item_drops(item, monster_ankama_id, rate,"
+                        " conditions) SELECT ?, monster_ankama_id, rate,"
+                        " conditions FROM item_drops WHERE item = ?",
+                        (variant_id, pet_id))
                 created += 1
 
     conn.commit()

@@ -668,19 +668,28 @@ outside every column so nothing they do can move the page.{% endcomment %}
     }
     
     function setFlags() {
-        $("#flag-en").click(function() {
+        // The flags carry an href now, so a crawler and a reader without
+        // javascript both reach the other language. With javascript the click
+        // has to post the form instead of following the link: the cookie set
+        // by /i18n/setlang/ is what makes the choice outlive this page.
+        $("#flag-en").click(function(e) {
+            e.preventDefault();
             chooseLanguage('en');
         });
-        $("#flag-pt").click(function() {
+        $("#flag-pt").click(function(e) {
+            e.preventDefault();
             chooseLanguage('pt');
         });
-        $("#flag-fr").click(function() {
+        $("#flag-fr").click(function(e) {
+            e.preventDefault();
             chooseLanguage('fr');
         });
-        $("#flag-es").click(function() {
+        $("#flag-es").click(function(e) {
+            e.preventDefault();
             chooseLanguage('es');
         });
-        $("#flag-de").click(function() {
+        $("#flag-de").click(function(e) {
+            e.preventDefault();
             chooseLanguage('de');
         });
     }
