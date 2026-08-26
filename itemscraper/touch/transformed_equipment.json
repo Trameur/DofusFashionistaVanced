@@ -971,8 +971,8 @@
                 "Range"
             ],
             [
-                -11,
                 -40,
+                -11,
                 "Strength"
             ],
             [
@@ -1249,8 +1249,8 @@
                 "Range"
             ],
             [
-                -1,
                 -20,
+                -1,
                 "Strength"
             ],
             [
@@ -1555,8 +1555,8 @@
                 "Critical Hits"
             ],
             [
-                -11,
                 -20,
+                -11,
                 "Strength"
             ],
             [
@@ -4275,8 +4275,8 @@
                 "Critical Hits"
             ],
             [
-                -1,
                 -20,
+                -1,
                 "Intelligence"
             ],
             [
@@ -4533,8 +4533,8 @@
                 "Vitality"
             ],
             [
-                -1,
                 -10,
+                -1,
                 "Strength"
             ],
             [
@@ -5591,8 +5591,8 @@
                 "Intelligence"
             ],
             [
-                -21,
                 -25,
+                -21,
                 "Wisdom"
             ],
             [
@@ -5620,8 +5620,8 @@
                 "Agility"
             ],
             [
-                -21,
                 -25,
+                -21,
                 "Wisdom"
             ],
             [
@@ -5953,8 +5953,8 @@
                 "Chance"
             ],
             [
-                -21,
                 -40,
+                -21,
                 "Wisdom"
             ],
             [
@@ -6001,8 +6001,8 @@
                 "Intelligence"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Vitality"
             ]
         ],
@@ -6025,8 +6025,8 @@
                 "Agility"
             ],
             [
-                -2,
                 -6,
+                -2,
                 "Chance"
             ]
         ],
@@ -6515,8 +6515,8 @@
                 "Strength"
             ],
             [
-                -21,
                 -25,
+                -21,
                 "Wisdom"
             ],
             [
@@ -6945,8 +6945,8 @@
                 "Agility"
             ],
             [
-                -1,
                 -10,
+                -1,
                 "Strength"
             ],
             [
@@ -7579,13 +7579,13 @@
                 "AP"
             ],
             [
-                -1,
                 -300,
+                -1,
                 "Intelligence"
             ],
             [
-                -1,
                 -300,
+                -1,
                 "Strength"
             ],
             [
@@ -7594,13 +7594,13 @@
                 "Vitality"
             ],
             [
-                -1,
                 -300,
+                -1,
                 "Chance"
             ],
             [
-                -1,
                 -300,
+                -1,
                 "Agility"
             ]
         ],
@@ -7865,8 +7865,8 @@
                 "Vitality"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Strength"
             ],
             [
@@ -7875,8 +7875,8 @@
                 "Intelligence"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Chance"
             ],
             [
@@ -9017,8 +9017,8 @@
                 "Damage"
             ],
             [
-                -1,
                 -20,
+                -1,
                 "Vitality"
             ],
             [
@@ -9112,8 +9112,8 @@
                 "Critical Hits"
             ],
             [
-                -1,
                 -20,
+                -1,
                 "Vitality"
             ],
             [
@@ -9262,8 +9262,8 @@
                 "Vitality"
             ],
             [
-                -1,
                 -2,
+                -1,
                 "Range"
             ],
             [
@@ -10387,8 +10387,8 @@
                 "Agility"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Intelligence"
             ],
             [
@@ -12099,8 +12099,8 @@
         "w_type": "Weapon",
         "stats": [
             [
-                -11,
                 -20,
+                -11,
                 "Agility"
             ],
             [
@@ -12184,13 +12184,13 @@
                 "Damage"
             ],
             [
-                -1,
                 -30,
+                -1,
                 "Strength"
             ],
             [
-                -1,
                 -30,
+                -1,
                 "Intelligence"
             ]
         ],
@@ -14125,8 +14125,8 @@
                 "Fire Resist"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Agility"
             ]
         ],
@@ -14282,8 +14282,8 @@
                 "Neutral Resist"
             ],
             [
-                -1,
                 -30,
+                -1,
                 "Wisdom"
             ]
         ],
@@ -14422,8 +14422,8 @@
                 "Agility"
             ],
             [
-                -6,
                 -15,
+                -6,
                 "Wisdom"
             ],
             [
@@ -17405,8 +17405,8 @@
                 "Range"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "Dodge"
             ],
             [
@@ -20504,8 +20504,8 @@
                 "% Water Resist"
             ],
             [
-                -5,
                 -8,
+                -5,
                 "% Fire Resist"
             ],
             [
@@ -20943,23 +20943,23 @@
         "w_type": "Boots",
         "stats": [
             [
-                -21,
                 -50,
+                -21,
                 "Intelligence"
             ],
             [
-                -21,
                 -50,
+                -21,
                 "Agility"
             ],
             [
-                -21,
                 -50,
+                -21,
                 "Chance"
             ],
             [
-                -21,
                 -50,
+                -21,
                 "Strength"
             ],
             [
@@ -30116,8 +30116,8 @@
                 "Intelligence"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Strength"
             ],
             [
@@ -34120,8 +34120,8 @@
                 "Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Prospecting"
             ],
             [
@@ -35200,8 +35200,8 @@
                 "% Water Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "AP Loss Resist"
             ],
             [
@@ -39834,8 +39834,8 @@
                 "Critical Hits"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "% Water Resist"
             ],
             [
@@ -40740,23 +40740,23 @@
                 "Vitality"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Strength"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Agility"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Intelligence"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Chance"
             ],
             [
@@ -40819,23 +40819,23 @@
                 "Vitality"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Strength"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Intelligence"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Agility"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Chance"
             ],
             [
@@ -40883,18 +40883,18 @@
                 "Vitality"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Strength"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Intelligence"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Chance"
             ],
             [
@@ -40903,8 +40903,8 @@
                 "Heals"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Agility"
             ],
             [
@@ -40947,23 +40947,23 @@
         "w_type": "Weapon",
         "stats": [
             [
-                -1,
                 -100,
+                -1,
                 "Intelligence"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Agility"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Chance"
             ],
             [
-                -1,
                 -100,
+                -1,
                 "Strength"
             ],
             [
@@ -41165,8 +41165,8 @@
                 "% Air Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Lock"
             ],
             [
@@ -41368,8 +41368,8 @@
                 "Agility"
             ],
             [
-                -2,
                 -3,
+                -2,
                 "% Earth Resist"
             ],
             [
@@ -42633,8 +42633,8 @@
                 "Vitality"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Lock"
             ],
             [
@@ -43281,8 +43281,8 @@
                 "Summon"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Air Resist"
             ],
             [
@@ -45509,13 +45509,13 @@
                 "Damage"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "% Water Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "% Earth Resist"
             ]
         ],
@@ -45716,8 +45716,8 @@
                 "% Water Resist"
             ],
             [
-                -4,
                 -7,
+                -4,
                 "% Earth Resist"
             ],
             [
@@ -45864,8 +45864,8 @@
                 "% Water Resist"
             ],
             [
-                -4,
                 -7,
+                -4,
                 "% Air Resist"
             ]
         ],
@@ -46558,8 +46558,8 @@
                 "Prospecting"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "% Air Resist"
             ]
         ],
@@ -50801,13 +50801,13 @@
         "w_type": "Weapon",
         "stats": [
             [
-                -51,
                 -150,
+                -51,
                 "Initiative"
             ],
             [
-                -21,
                 -40,
+                -21,
                 "Strength"
             ],
             [
@@ -51426,18 +51426,18 @@
                 "Wisdom"
             ],
             [
-                -31,
                 -50,
+                -31,
                 "Intelligence"
             ],
             [
-                -31,
                 -50,
+                -31,
                 "Chance"
             ],
             [
-                -31,
                 -50,
+                -31,
                 "Agility"
             ],
             [
@@ -53598,8 +53598,8 @@
                 "Intelligence"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Agility"
             ],
             [
@@ -53618,8 +53618,8 @@
                 "Prospecting"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "% Air Resist"
             ],
             [
@@ -54507,8 +54507,8 @@
                 "Wisdom"
             ],
             [
-                -101,
                 -150,
+                -101,
                 "Vitality"
             ],
             [
@@ -54576,8 +54576,8 @@
                 "Wisdom"
             ],
             [
-                -101,
                 -150,
+                -101,
                 "Vitality"
             ],
             [
@@ -54645,8 +54645,8 @@
                 "Wisdom"
             ],
             [
-                -101,
                 -150,
+                -101,
                 "Vitality"
             ],
             [
@@ -54714,8 +54714,8 @@
                 "Wisdom"
             ],
             [
-                -101,
                 -150,
+                -101,
                 "Vitality"
             ],
             [
@@ -54783,13 +54783,13 @@
                 "Chance"
             ],
             [
-                -26,
                 -40,
+                -26,
                 "Agility"
             ],
             [
-                -26,
                 -40,
+                -26,
                 "Intelligence"
             ],
             [
@@ -55044,8 +55044,8 @@
                 "Prospecting"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "% Neutral Resist"
             ],
             [
@@ -55192,13 +55192,13 @@
                 "% Water Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Air Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Earth Resist"
             ],
             [
@@ -56503,28 +56503,28 @@
                 "Initiative"
             ],
             [
-                -1,
                 -5,
+                -1,
                 "% Air Resist"
             ],
             [
-                -1,
                 -5,
+                -1,
                 "% Water Resist"
             ],
             [
-                -1,
                 -5,
+                -1,
                 "% Fire Resist"
             ],
             [
-                -1,
                 -5,
+                -1,
                 "% Earth Resist"
             ],
             [
-                -1,
                 -5,
+                -1,
                 "% Neutral Resist"
             ]
         ],
@@ -57579,8 +57579,8 @@
                 "% Water Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "MP Reduction"
             ],
             [
@@ -58702,8 +58702,8 @@
                 "Prospecting"
             ],
             [
-                -301,
                 -400,
+                -301,
                 "Initiative"
             ],
             [
@@ -59962,8 +59962,8 @@
                 "Neutral Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Lock"
             ],
             [
@@ -62203,8 +62203,8 @@
                 "Wisdom"
             ],
             [
-                -1,
                 -20,
+                -1,
                 "Intelligence"
             ]
         ],
@@ -66194,8 +66194,8 @@
                 "Air Resist"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Dodge"
             ],
             [
@@ -69234,8 +69234,8 @@
                 "Strength"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Critical Hits"
             ],
             [
@@ -69361,8 +69361,8 @@
                 "Agility"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Wisdom"
             ],
             [
@@ -70928,8 +70928,8 @@
                 "% Water Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Lock"
             ]
         ],
@@ -71357,8 +71357,8 @@
                 "Lock"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Dodge"
             ],
             [
@@ -71762,8 +71762,8 @@
                 "Lock"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Dodge"
             ],
             [
@@ -72330,8 +72330,8 @@
                 "Lock"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Dodge"
             ],
             [
@@ -72404,8 +72404,8 @@
                 "Lock"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Dodge"
             ],
             [
@@ -72861,8 +72861,8 @@
                 "% Water Resist"
             ],
             [
-                -5,
                 -7,
+                -5,
                 "Pushback Damage"
             ],
             [
@@ -73197,8 +73197,8 @@
                 "Pushback Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Critical Resist"
             ]
         ],
@@ -73236,8 +73236,8 @@
                 "Wisdom"
             ],
             [
-                -1,
                 -2,
+                -1,
                 "Critical Hits"
             ],
             [
@@ -73437,8 +73437,8 @@
                 "% Water Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Dodge"
             ]
         ],
@@ -73534,8 +73534,8 @@
                 "% Earth Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Lock"
             ],
             [
@@ -73618,8 +73618,8 @@
                 "% Earth Resist"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Lock"
             ]
         ],
@@ -73849,8 +73849,8 @@
                 "Water Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Neutral Damage"
             ],
             [
@@ -74430,8 +74430,8 @@
                 "% Air Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Lock"
             ],
             [
@@ -74915,8 +74915,8 @@
                 "% Earth Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Lock"
             ],
             [
@@ -75109,8 +75109,8 @@
                 "% Air Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Lock"
             ],
             [
@@ -75193,8 +75193,8 @@
                 "Dodge"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Pushback Damage"
             ]
         ],
@@ -76051,8 +76051,8 @@
                 "Initiative"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Critical Damage"
             ]
         ],
@@ -76135,8 +76135,8 @@
                 "% Fire Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Critical Damage"
             ],
             [
@@ -77014,8 +77014,8 @@
                 "% Fire Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "AP Loss Resist"
             ],
             [
@@ -77024,8 +77024,8 @@
                 "AP Reduction"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Lock"
             ],
             [
@@ -77123,8 +77123,8 @@
                 "AP Reduction"
             ],
             [
-                -5,
                 -7,
+                -5,
                 "AP Loss Resist"
             ],
             [
@@ -77133,8 +77133,8 @@
                 "MP Reduction"
             ],
             [
-                -5,
                 -7,
+                -5,
                 "MP Loss Resist"
             ]
         ],
@@ -77508,8 +77508,8 @@
                 "Wisdom"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "Critical Hits"
             ],
             [
@@ -77543,8 +77543,8 @@
                 "AP Reduction"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "Dodge"
             ],
             [
@@ -77719,8 +77719,8 @@
                 "MP Loss Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "MP Reduction"
             ]
         ],
@@ -77783,8 +77783,8 @@
                 "Fire Damage"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Dodge"
             ],
             [
@@ -78002,8 +78002,8 @@
                 "Lock"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Dodge"
             ]
         ],
@@ -79145,8 +79145,8 @@
                 "% Air Resist"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "AP Reduction"
             ],
             [
@@ -79761,8 +79761,8 @@
                 "MP Loss Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Dodge"
             ],
             [
@@ -80269,8 +80269,8 @@
                 "% Neutral Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "AP Loss Resist"
             ],
             [
@@ -80756,8 +80756,8 @@
                 "AP Loss Resist"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Pushback Resist"
             ],
             [
@@ -80859,18 +80859,18 @@
                 "Pushback Damage"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "MP Loss Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Lock"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Dodge"
             ]
         ],
@@ -82627,8 +82627,8 @@
                 "Dodge"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Pushback Damage"
             ],
             [
@@ -82749,8 +82749,8 @@
                 "Dodge"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Pushback Damage"
             ]
         ],
@@ -83253,8 +83253,8 @@
                 "AP Loss Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "MP Loss Resist"
             ],
             [
@@ -83433,8 +83433,8 @@
                 "% Water Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "Lock"
             ],
             [
@@ -83502,8 +83502,8 @@
                 "Critical Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "Lock"
             ],
             [
@@ -87204,8 +87204,8 @@
                 "MP Reduction"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Lock"
             ]
         ],
@@ -89960,8 +89960,8 @@
                 "% Water Resist"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "AP Reduction"
             ],
             [
@@ -91051,8 +91051,8 @@
                 "MP"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "Lock"
             ]
         ],
@@ -91169,8 +91169,8 @@
                 "Water Damage"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Fire Resist"
             ],
             [
@@ -93106,8 +93106,8 @@
         "w_type": "Cloak",
         "stats": [
             [
-                -251,
                 -300,
+                -251,
                 "Vitality"
             ],
             [
@@ -93287,8 +93287,8 @@
                 "Water Damage"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "% Fire Resist"
             ],
             [
@@ -94462,8 +94462,8 @@
                 "Fire Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "MP Reduction"
             ],
             [
@@ -94472,8 +94472,8 @@
                 "Dodge"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Critical Resist"
             ]
         ],
@@ -94556,8 +94556,8 @@
                 "% Earth Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "MP Reduction"
             ],
             [
@@ -94566,8 +94566,8 @@
                 "Dodge"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Critical Resist"
             ]
         ],
@@ -94645,8 +94645,8 @@
                 "% Air Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "MP Reduction"
             ],
             [
@@ -94655,8 +94655,8 @@
                 "Dodge"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Critical Resist"
             ],
             [
@@ -94757,8 +94757,8 @@
                 "Critical Resist"
             ],
             [
-                -6,
                 -8,
+                -6,
                 "MP Reduction"
             ],
             [
@@ -95004,13 +95004,13 @@
                 "Dodge"
             ],
             [
-                -16,
                 -25,
+                -16,
                 "Critical Damage"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Critical Hits"
             ]
         ],
@@ -95083,8 +95083,8 @@
                 "MP Loss Resist"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Critical Damage"
             ]
         ],
@@ -95152,8 +95152,8 @@
                 "Dodge"
             ],
             [
-                -16,
                 -25,
+                -16,
                 "Critical Damage"
             ]
         ],
@@ -95231,8 +95231,8 @@
                 "AP Loss Resist"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Critical Damage"
             ],
             [
@@ -95325,8 +95325,8 @@
                 "Dodge"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Critical Damage"
             ],
             [
@@ -95404,8 +95404,8 @@
                 "% Air Resist"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Critical Damage"
             ],
             [
@@ -95498,13 +95498,13 @@
                 "% Air Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "MP Loss Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Lock"
             ],
             [
@@ -95587,13 +95587,13 @@
                 "% Water Resist"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "MP Loss Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "Lock"
             ],
             [
@@ -95676,13 +95676,13 @@
                 "% Fire Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "MP Loss Resist"
             ],
             [
-                -6,
                 -8,
+                -6,
                 "Lock"
             ],
             [
@@ -95740,8 +95740,8 @@
                 "Summon"
             ],
             [
-                -301,
                 -400,
+                -301,
                 "Initiative"
             ],
             [
@@ -95765,8 +95765,8 @@
                 "Fire Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "AP Loss Resist"
             ],
             [
@@ -95775,8 +95775,8 @@
                 "MP Loss Resist"
             ],
             [
-                -10,
                 -14,
+                -10,
                 "Dodge"
             ],
             [
@@ -95839,8 +95839,8 @@
                 "Range"
             ],
             [
-                -301,
                 -400,
+                -301,
                 "Initiative"
             ],
             [
@@ -95869,8 +95869,8 @@
                 "% Air Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "AP Loss Resist"
             ],
             [
@@ -95879,8 +95879,8 @@
                 "Lock"
             ],
             [
-                -8,
                 -12,
+                -8,
                 "Dodge"
             ],
             [
@@ -95933,8 +95933,8 @@
                 "AP"
             ],
             [
-                -201,
                 -300,
+                -201,
                 "Initiative"
             ],
             [
@@ -95958,13 +95958,13 @@
                 "Earth Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "AP Loss Resist"
             ],
             [
-                -12,
                 -16,
+                -12,
                 "Dodge"
             ],
             [
@@ -96017,28 +96017,28 @@
                 "Prospecting"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Neutral Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Earth Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Fire Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Water Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Air Damage"
             ],
             [
@@ -96106,28 +96106,28 @@
                 "Initiative"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Neutral Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Earth Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Fire Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Water Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Air Damage"
             ],
             [
@@ -96165,23 +96165,23 @@
                 "Vitality"
             ],
             [
-                -71,
                 -100,
+                -71,
                 "Strength"
             ],
             [
-                -71,
                 -100,
+                -71,
                 "Intelligence"
             ],
             [
-                -71,
                 -100,
+                -71,
                 "Chance"
             ],
             [
-                -71,
                 -100,
+                -71,
                 "Agility"
             ],
             [
@@ -96235,8 +96235,8 @@
                 "Lock"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Critical Damage"
             ],
             [
@@ -96344,8 +96344,8 @@
                 "Critical Damage"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Critical Resist"
             ]
         ],
@@ -96395,8 +96395,8 @@
                 "Air Damage"
             ],
             [
-                -6,
                 -8,
+                -6,
                 "Dodge"
             ],
             [
@@ -98767,8 +98767,8 @@
                 "% Neutral Resist"
             ],
             [
-                -2,
                 -3,
+                -2,
                 "AP Loss Resist"
             ],
             [
@@ -99119,8 +99119,8 @@
                 "Lock"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Pushback Resist"
             ],
             [
@@ -99186,8 +99186,8 @@
                 "Range"
             ],
             [
-                -301,
                 -400,
+                -301,
                 "Initiative"
             ],
             [
@@ -99510,8 +99510,8 @@
                 "AP Loss Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "% Water Resist"
             ]
         ],
@@ -99579,8 +99579,8 @@
                 "MP Reduction"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "% Fire Resist"
             ]
         ],
@@ -99648,8 +99648,8 @@
                 "AP Reduction"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "% Air Resist"
             ]
         ],
@@ -99717,8 +99717,8 @@
                 "MP Loss Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "% Earth Resist"
             ]
         ],
@@ -99776,8 +99776,8 @@
                 "% Fire Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "% Water Resist"
             ]
         ],
@@ -99835,8 +99835,8 @@
                 "% Water Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "% Fire Resist"
             ]
         ],
@@ -99894,8 +99894,8 @@
                 "% Earth Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "% Air Resist"
             ]
         ],
@@ -99953,8 +99953,8 @@
                 "% Air Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "% Earth Resist"
             ]
         ],
@@ -100430,8 +100430,8 @@
                 "Wisdom"
             ],
             [
-                -6,
                 -8,
+                -6,
                 "Critical Hits"
             ],
             [
@@ -100896,8 +100896,8 @@
                 "Earth Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Dodge"
             ],
             [
@@ -100955,8 +100955,8 @@
                 "Range"
             ],
             [
-                -201,
                 -300,
+                -201,
                 "Initiative"
             ],
             [
@@ -101064,8 +101064,8 @@
                 "Lock"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Critical Damage"
             ]
         ],
@@ -101746,8 +101746,8 @@
                 "% Water Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "MP Reduction"
             ],
             [
@@ -101835,8 +101835,8 @@
                 "% Earth Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Pushback Resist"
             ]
         ],
@@ -101889,8 +101889,8 @@
                 "AP"
             ],
             [
-                -301,
                 -400,
+                -301,
                 "Initiative"
             ],
             [
@@ -101983,28 +101983,28 @@
                 "Earth Damage"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Neutral Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Earth Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Fire Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Water Resist"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "% Air Resist"
             ],
             [
@@ -102052,8 +102052,8 @@
                 "Critical Hits"
             ],
             [
-                -401,
                 -500,
+                -401,
                 "Initiative"
             ],
             [
@@ -102121,8 +102121,8 @@
                 "Neutral Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "MP Loss Resist"
             ],
             [
@@ -102634,8 +102634,8 @@
                 "Prospecting"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Earth Damage"
             ],
             [
@@ -102713,8 +102713,8 @@
                 "Prospecting"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Earth Damage"
             ],
             [
@@ -102792,8 +102792,8 @@
                 "Prospecting"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Earth Damage"
             ],
             [
@@ -103123,8 +103123,8 @@
                 "% Fire Resist"
             ],
             [
-                -6,
                 -8,
+                -6,
                 "AP Loss Resist"
             ],
             [
@@ -103286,8 +103286,8 @@
                 "% Air Resist"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Pushback Damage"
             ],
             [
@@ -103360,8 +103360,8 @@
                 "Critical Damage"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Critical Resist"
             ]
         ],
@@ -103449,8 +103449,8 @@
                 "Critical Damage"
             ],
             [
-                -16,
                 -25,
+                -16,
                 "Critical Resist"
             ]
         ],
@@ -103523,8 +103523,8 @@
                 "AP Loss Resist"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Critical Resist"
             ]
         ],
@@ -103557,8 +103557,8 @@
                 "Wisdom"
             ],
             [
-                -5,
                 -7,
+                -5,
                 "Critical Hits"
             ],
             [
@@ -103720,8 +103720,8 @@
                 "% Earth Resist"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Critical Damage"
             ]
         ],
@@ -103789,8 +103789,8 @@
                 "MP Loss Resist"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Dodge"
             ],
             [
@@ -103830,8 +103830,8 @@
                 "Wisdom"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Heals"
             ],
             [
@@ -104130,8 +104130,8 @@
                 "Wisdom"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Critical Hits"
             ],
             [
@@ -104222,8 +104222,8 @@
         "w_type": "Weapon",
         "stats": [
             [
-                -11,
                 -20,
+                -11,
                 "Agility"
             ],
             [
@@ -104281,8 +104281,8 @@
                 "Range"
             ],
             [
-                -301,
                 -400,
+                -301,
                 "Initiative"
             ],
             [
@@ -104407,8 +104407,8 @@
                 "Air Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "% Neutral Resist"
             ],
             [
@@ -104570,8 +104570,8 @@
                 "% Neutral Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Lock"
             ],
             [
@@ -104634,8 +104634,8 @@
                 "Summon"
             ],
             [
-                -301,
                 -400,
+                -301,
                 "Initiative"
             ],
             [
@@ -104654,8 +104654,8 @@
                 "% Air Resist"
             ],
             [
-                -6,
                 -8,
+                -6,
                 "MP Loss Resist"
             ],
             [
@@ -104740,8 +104740,8 @@
                 "Air Resist"
             ],
             [
-                -6,
                 -8,
+                -6,
                 "AP Loss Resist"
             ],
             [
@@ -104755,8 +104755,8 @@
                 "Pushback Resist"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Critical Resist"
             ],
             [
@@ -104794,8 +104794,8 @@
                 "Wisdom"
             ],
             [
-                -6,
                 -9,
+                -6,
                 "Critical Hits"
             ],
             [
@@ -104928,8 +104928,8 @@
                 "Water Resist"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Dodge"
             ],
             [
@@ -105037,8 +105037,8 @@
                 "AP Reduction"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Dodge"
             ],
             [
@@ -105299,8 +105299,8 @@
                 "Critical Hits"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Critical Damage"
             ],
             [
@@ -105516,8 +105516,8 @@
                 "MP"
             ],
             [
-                -301,
                 -500,
+                -301,
                 "Initiative"
             ]
         ],
@@ -105585,8 +105585,8 @@
                 "MP Reduction"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "AP Loss Resist"
             ],
             [
@@ -105827,8 +105827,8 @@
                 "% Air Resist"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "MP Loss Resist"
             ]
         ],
@@ -106059,8 +106059,8 @@
                 "% Fire Resist"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "AP Loss Resist"
             ],
             [
@@ -106215,8 +106215,8 @@
                 "Critical Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Dodge"
             ],
             [
@@ -110018,8 +110018,8 @@
                 "Prospecting"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Dodge"
             ],
             [
@@ -110087,8 +110087,8 @@
                 "Wisdom"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "Dodge"
             ],
             [
@@ -110161,8 +110161,8 @@
                 "Prospecting"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "Dodge"
             ],
             [
@@ -110230,8 +110230,8 @@
         "w_type": "Ring",
         "stats": [
             [
-                -6,
                 -10,
+                -6,
                 "Intelligence"
             ]
         ],
@@ -110788,8 +110788,8 @@
                 "Power"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "Lock"
             ],
             [
@@ -110888,8 +110888,8 @@
                 "Chance"
             ],
             [
-                -10,
                 -12,
+                -10,
                 "Lock"
             ],
             [
@@ -112611,8 +112611,8 @@
                 "MP Reduction"
             ],
             [
-                -9,
                 -12,
+                -9,
                 "Dodge"
             ],
             [
@@ -112772,8 +112772,8 @@
                 "Wisdom"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Dodge"
             ],
             [
@@ -112966,13 +112966,13 @@
                 "Chance"
             ],
             [
-                -16,
                 -25,
+                -16,
                 "Wisdom"
             ],
             [
-                -3,
                 -5,
+                -3,
                 "Critical Hits"
             ],
             [
@@ -113025,8 +113025,8 @@
                 "Lock"
             ],
             [
-                -2,
                 -3,
+                -2,
                 "Dodge"
             ]
         ],
@@ -113173,8 +113173,8 @@
                 "Vitality"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Strength"
             ],
             [
@@ -113183,13 +113183,13 @@
                 "Chance"
             ],
             [
-                -16,
                 -25,
+                -16,
                 "Wisdom"
             ],
             [
-                -3,
                 -5,
+                -3,
                 "Critical Hits"
             ],
             [
@@ -113295,8 +113295,8 @@
                 "Strength"
             ],
             [
-                -101,
                 -150,
+                -101,
                 "Initiative"
             ],
             [
@@ -113426,8 +113426,8 @@
                 "Wisdom"
             ],
             [
-                -5,
                 -8,
+                -5,
                 "MP Reduction"
             ],
             [
@@ -113614,13 +113614,13 @@
                 "Water Resist"
             ],
             [
-                -5,
                 -8,
+                -5,
                 "% Fire Resist"
             ],
             [
-                -5,
                 -8,
+                -5,
                 "% Water Resist"
             ],
             [
@@ -114058,8 +114058,8 @@
                 "Range"
             ],
             [
-                -101,
                 -200,
+                -101,
                 "Initiative"
             ],
             [
@@ -114216,8 +114216,8 @@
                 "% Fire Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "AP Reduction"
             ],
             [
@@ -114482,8 +114482,8 @@
                 "Chance"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Critical Resist"
             ],
             [
@@ -115025,8 +115025,8 @@
         "w_type": "Hat",
         "stats": [
             [
-                -31,
                 -50,
+                -31,
                 "Vitality"
             ],
             [
@@ -115183,8 +115183,8 @@
                 "Pushback Resist"
             ],
             [
-                -3,
                 -5,
+                -3,
                 "Lock"
             ]
         ],
@@ -115781,8 +115781,8 @@
                 "% Air Resist"
             ],
             [
-                -5,
                 -8,
+                -5,
                 "AP Loss Resist"
             ],
             [
@@ -115870,8 +115870,8 @@
                 "MP"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "AP Loss Resist"
             ]
         ],
@@ -116323,8 +116323,8 @@
                 "Fire Resist"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "AP Loss Resist"
             ]
         ],
@@ -117914,8 +117914,8 @@
                 "Range"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "AP Loss Resist"
             ],
             [
@@ -118270,8 +118270,8 @@
                 "Wisdom"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Lock"
             ],
             [
@@ -119849,8 +119849,8 @@
                 "% Fire Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "MP Loss Resist"
             ],
             [
@@ -121684,8 +121684,8 @@
                 "% Fire Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "AP Loss Resist"
             ],
             [
@@ -122023,8 +122023,8 @@
                 "Wisdom"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Lock"
             ],
             [
@@ -122417,8 +122417,8 @@
                 "Prospecting"
             ],
             [
-                -11,
                 -20,
+                -11,
                 "Dodge"
             ]
         ],
@@ -122488,8 +122488,8 @@
                 "% Air Resist"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Critical Damage"
             ],
             [
@@ -122562,8 +122562,8 @@
                 "% Air Resist"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Critical Damage"
             ],
             [
@@ -122682,8 +122682,8 @@
                 "Chance"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Pushback Resist"
             ],
             [
@@ -122798,8 +122798,8 @@
                 "Range"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Critical Damage"
             ],
             [
@@ -123281,8 +123281,8 @@
                 "AP Reduction"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Heals"
             ],
             [
@@ -123725,8 +123725,8 @@
         "w_type": "Cloak",
         "stats": [
             [
-                -201,
                 -300,
+                -201,
                 "Initiative"
             ],
             [
@@ -125299,8 +125299,8 @@
                 "Prospecting"
             ],
             [
-                -3,
                 -5,
+                -3,
                 "Dodge"
             ],
             [
@@ -125630,8 +125630,8 @@
                 "Earth Damage"
             ],
             [
-                -8,
                 -14,
+                -8,
                 "Neutral Damage"
             ],
             [
@@ -125645,8 +125645,8 @@
                 "% Fire Resist"
             ],
             [
-                -4,
                 -7,
+                -4,
                 "MP Loss Resist"
             ],
             [
@@ -125729,8 +125729,8 @@
                 "Earth Damage"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Neutral Damage"
             ],
             [
@@ -125867,8 +125867,8 @@
                 "Prospecting"
             ],
             [
-                -8,
                 -11,
+                -8,
                 "Neutral Damage"
             ],
             [
@@ -125907,8 +125907,8 @@
                 "AP"
             ],
             [
-                -4,
                 -7,
+                -4,
                 "AP Loss Resist"
             ]
         ],
@@ -125964,8 +125964,8 @@
                 "Prospecting"
             ],
             [
-                -4,
                 -5,
+                -4,
                 "Lock"
             ],
             [
@@ -127079,8 +127079,8 @@
         "w_type": "Cloak",
         "stats": [
             [
-                -101,
                 -300,
+                -101,
                 "Initiative"
             ],
             [
@@ -127114,8 +127114,8 @@
                 "Wisdom"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Lock"
             ],
             [
@@ -127823,8 +127823,8 @@
                 "Critical Hits"
             ],
             [
-                -5,
                 -7,
+                -5,
                 "Dodge"
             ],
             [
@@ -128014,8 +128014,8 @@
                 "Dodge"
             ],
             [
-                -21,
                 -30,
+                -21,
                 "Pushback Resist"
             ],
             [
@@ -128148,8 +128148,8 @@
         "w_type": "Boots",
         "stats": [
             [
-                -151,
                 -300,
+                -151,
                 "Initiative"
             ],
             [
@@ -128168,8 +128168,8 @@
                 "Agility"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Lock"
             ],
             [
@@ -128598,8 +128598,8 @@
                 "% Air Resist"
             ],
             [
-                -5,
                 -8,
+                -5,
                 "MP Reduction"
             ],
             [
@@ -128687,8 +128687,8 @@
                 "Critical Hits"
             ],
             [
-                -201,
                 -300,
+                -201,
                 "Initiative"
             ]
         ],
@@ -129025,8 +129025,8 @@
                 "Summon"
             ],
             [
-                -151,
                 -200,
+                -151,
                 "Initiative"
             ],
             [
@@ -129193,8 +129193,8 @@
                 "Critical Hits"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "MP Loss Resist"
             ]
         ],
@@ -129287,8 +129287,8 @@
                 "% Air Resist"
             ],
             [
-                -6,
                 -8,
+                -6,
                 "MP Loss Resist"
             ]
         ],
@@ -130838,8 +130838,8 @@
                 "% Neutral Resist"
             ],
             [
-                -2,
                 -3,
+                -2,
                 "% Fire Resist"
             ],
             [
@@ -130917,8 +130917,8 @@
                 "% Water Resist"
             ],
             [
-                -2,
                 -3,
+                -2,
                 "% Fire Resist"
             ],
             [
@@ -130981,8 +130981,8 @@
                 "% Neutral Resist"
             ],
             [
-                -2,
                 -3,
+                -2,
                 "% Fire Resist"
             ],
             [
@@ -131340,8 +131340,8 @@
                 "Neutral Damage"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Pushback Damage"
             ],
             [
@@ -131424,8 +131424,8 @@
                 "Neutral Damage"
             ],
             [
-                -21,
                 -25,
+                -21,
                 "Pushback Damage"
             ],
             [
@@ -131498,8 +131498,8 @@
                 "Dodge"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Pushback Damage"
             ],
             [
@@ -131602,8 +131602,8 @@
                 "% Air Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "MP Reduction"
             ],
             [
@@ -131681,8 +131681,8 @@
                 "% Air Resist"
             ],
             [
-                -4,
                 -6,
+                -4,
                 "MP Reduction"
             ],
             [
@@ -131750,8 +131750,8 @@
                 "% Air Resist"
             ],
             [
-                -3,
                 -4,
+                -3,
                 "MP Reduction"
             ],
             [
@@ -132041,8 +132041,8 @@
                 "% Fire Resist"
             ],
             [
-                -5,
                 -8,
+                -5,
                 "AP Loss Resist"
             ],
             [
@@ -132169,8 +132169,8 @@
                 "Chance"
             ],
             [
-                -16,
                 -20,
+                -16,
                 "Pushback Resist"
             ],
             [
@@ -132670,8 +132670,8 @@
                 "AP Loss Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Critical Hits"
             ],
             [
@@ -133029,8 +133029,8 @@
                 "MP"
             ],
             [
-                -11,
                 -15,
+                -11,
                 "Critical Resist"
             ]
         ],
@@ -133656,8 +133656,8 @@
                 "% Neutral Resist"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "AP Loss Resist"
             ],
             [
@@ -135367,8 +135367,8 @@
                 "% Water Resist"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "AP Loss Resist"
             ],
             [
@@ -135684,8 +135684,8 @@
                 "Lock"
             ],
             [
-                -3,
                 -7,
+                -3,
                 "Dodge"
             ],
             [
@@ -136372,8 +136372,8 @@
                 "Chance"
             ],
             [
-                -7,
                 -10,
+                -7,
                 "Pushback Resist"
             ],
             [
@@ -136886,8 +136886,8 @@
                 "Agility"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Pushback Damage"
             ],
             [
@@ -136901,8 +136901,8 @@
                 "Prospecting"
             ],
             [
-                -9,
                 -12,
+                -9,
                 "Lock"
             ],
             [
@@ -136977,11 +136977,11 @@
     {
         "ankama_id": 19961,
         "ankama_type": "equipment",
-        "name_en": "[!] Bague de Boufbowl (Attaquant Bleu)",
+        "name_en": "Bague de Boufbowl (Attaquant Bleu)",
         "name_fr": "Bague de Boufbowl (Attaquant Bleu)",
-        "name_es": "[!] Bague de Boufbowl (Attaquant Bleu)",
-        "name_pt": "[!] Bague de Boufbowl (Attaquant Bleu)",
-        "name_de": "[!] Bague de Boufbowl (Attaquant Bleu)",
+        "name_es": "Bague de Boufbowl (Attaquant Bleu)",
+        "name_pt": "Bague de Boufbowl (Attaquant Bleu)",
+        "name_de": "Bague de Boufbowl (Attaquant Bleu)",
         "level": 1,
         "w_type": "Ring",
         "stats": [],
@@ -136990,11 +136990,11 @@
     {
         "ankama_id": 19963,
         "ankama_type": "equipment",
-        "name_en": "[!] Bague de Boufbowl (Attaquant Rouge)",
+        "name_en": "Bague de Boufbowl (Attaquant Rouge)",
         "name_fr": "Bague de Boufbowl (Attaquant Rouge)",
-        "name_es": "[!] Bague de Boufbowl (Attaquant Rouge)",
-        "name_pt": "[!] Bague de Boufbowl (Attaquant Rouge)",
-        "name_de": "[!] Bague de Boufbowl (Attaquant Rouge)",
+        "name_es": "Bague de Boufbowl (Attaquant Rouge)",
+        "name_pt": "Bague de Boufbowl (Attaquant Rouge)",
+        "name_de": "Bague de Boufbowl (Attaquant Rouge)",
         "level": 1,
         "w_type": "Ring",
         "stats": [],
@@ -137003,11 +137003,11 @@
     {
         "ankama_id": 19965,
         "ankama_type": "equipment",
-        "name_en": "[!] Bague de Boufbowl (Défenseur Bleu)",
+        "name_en": "Bague de Boufbowl (Défenseur Bleu)",
         "name_fr": "Bague de Boufbowl (Défenseur Bleu)",
-        "name_es": "[!] Bague de Boufbowl (Défenseur Bleu)",
-        "name_pt": "[!] Bague de Boufbowl (Défenseur Bleu)",
-        "name_de": "[!] Bague de Boufbowl (Défenseur Bleu)",
+        "name_es": "Bague de Boufbowl (Défenseur Bleu)",
+        "name_pt": "Bague de Boufbowl (Défenseur Bleu)",
+        "name_de": "Bague de Boufbowl (Défenseur Bleu)",
         "level": 1,
         "w_type": "Ring",
         "stats": [],
@@ -137016,11 +137016,11 @@
     {
         "ankama_id": 19967,
         "ankama_type": "equipment",
-        "name_en": "[!] Bague de Boufbowl (Défenseur Rouge)",
+        "name_en": "Bague de Boufbowl (Défenseur Rouge)",
         "name_fr": "Bague de Boufbowl (Défenseur Rouge)",
-        "name_es": "[!] Bague de Boufbowl (Défenseur Rouge)",
-        "name_pt": "[!] Bague de Boufbowl (Défenseur Rouge)",
-        "name_de": "[!] Bague de Boufbowl (Défenseur Rouge)",
+        "name_es": "Bague de Boufbowl (Défenseur Rouge)",
+        "name_pt": "Bague de Boufbowl (Défenseur Rouge)",
+        "name_de": "Bague de Boufbowl (Défenseur Rouge)",
         "level": 1,
         "w_type": "Ring",
         "stats": [],
@@ -137029,11 +137029,11 @@
     {
         "ankama_id": 19995,
         "ankama_type": "equipment",
-        "name_en": "[!] Samy Bague de Boufbowl (test)",
+        "name_en": "Samy Bague de Boufbowl (test)",
         "name_fr": "Samy Bague de Boufbowl (test)",
-        "name_es": "[!] Samy Bague de Boufbowl (test)",
-        "name_pt": "[!] Samy Bague de Boufbowl (test)",
-        "name_de": "[!] Samy Bague de Boufbowl (test)",
+        "name_es": "Samy Bague de Boufbowl (test)",
+        "name_pt": "Samy Bague de Boufbowl (test)",
+        "name_de": "Samy Bague de Boufbowl (test)",
         "level": 1,
         "w_type": "Ring",
         "stats": [],
@@ -137232,8 +137232,8 @@
                 "Prospecting"
             ],
             [
-                -6,
                 -10,
+                -6,
                 "Dodge"
             ],
             [
