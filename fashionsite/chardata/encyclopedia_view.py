@@ -3536,7 +3536,12 @@ def encyclopedia_monsters(request):
         }
         for value in MONSTER_DROP_FILTERS
     ]
-    # dofus2 has no source for per-grade stats, so it gets no level sort.
+    # Read from the data rather than from the version name, which is why this
+    # corrected itself the day dofus2 got its grades: all 1 335 of its monsters
+    # now carry a level and 1 002 an announced weakness, 75.1%, the best of the
+    # four versions. The comment here used to say dofus2 had no source for
+    # per-grade stats and that it therefore got no level sort; only the prose
+    # was stale, never the code.
     has_levels = any(entry['level_min'] is not None
                      for entry in _get_monster_index(game_version, language))
     sort_options = [

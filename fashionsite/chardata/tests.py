@@ -8315,6 +8315,44 @@ class MonsterWeakestElementTests(TestCase):
         self.assertIn('class="monster-weak"', html)
         self.assertIn('<p class="monster-weakest-hint">', html)
 
+    def test_dofus2_shows_monster_resistances_like_the_others(self):
+        """The guide told readers dofus2 had none, and that stopped being true.
+
+        `monster-weaknesses` said "Dofus 2 is the exception here: we have no
+        reliable monster stats for that version, so its bestiary does not show
+        resistances", and encyclopedia_view carried "dofus2 has no source for
+        per-grade stats, so it gets no level sort". Both were written before the
+        data arrived. Measured on the index the page itself builds:
+
+            dofus2  1 335 monsters, **1 335** with a level, 1 002 with an
+                    announced weakness, **75.1%**, the best of the four
+            dofus3  5 051 monsters, 4 947 with a level, 2 563 weaknesses, 50.7%
+            touch     983 / 983 / 700, 71.2%   retro 774 / 750 / 381, 49.2%
+
+        The code was never gated on the version name -- `has_levels` reads the
+        data -- so it corrected itself the day the grades landed and only the
+        prose stayed behind. A sentence in five languages kept sending dofus2
+        readers away from a feature that works better for them than for anyone
+        else.
+        """
+        from chardata import encyclopedia_view
+        index = encyclopedia_view._get_monster_index('dofus2', 'fr')
+        self.assertGreater(len(index), 1000, msg=(
+            'only %d dofus2 monsters: the claim below would pass for the wrong '
+            'reason' % len(index)))
+        with_level = [entry for entry in index
+                      if entry.get('level_min') is not None]
+        weaknesses = [entry for entry in index if entry.get('weakest_element')]
+        self.assertEqual(len(index), len(with_level))
+        self.assertGreater(len(weaknesses), len(index) // 2)
+
+        entry = next(item for item in index if item.get('weakest_element'))
+        url = encyclopedia_view.get_monster_link(
+            entry['id'], entry['name'], 'dofus2')
+        html = self.client.get(url).content.decode('utf-8')
+        self.assertIn('class="monster-weak"', html)
+        self.assertIn('<p class="monster-weakest-hint">', html)
+
     def test_a_grade_with_no_health_renders_a_dash_not_a_zero(self):
         # This used to lean on Arakne id 246, which carried 0 life points. That
         # row was a DofusDB shell and the scrapers now drop it, so the cell is
@@ -13677,15 +13715,54 @@ class PostLengthGuardTests(TestCase):
 
 
 class MonsterWeaknessGuideTests(SimpleTestCase):
-    """Dofus 2 ships no monster stats, so the guide keeps the caveat."""
+    """The guide told dofus2 readers the feature was not for them.
 
-    def test_every_language_keeps_the_dofus2_caveat(self):
+    Its body carried, in all five languages, "Dofus 2 is the exception here: we
+    have no reliable monster stats for that version, so its bestiary does not
+    show resistances", and this class asserted that the sentence was present --
+    its own docstring read "Dofus 2 ships no monster stats, so the guide keeps
+    the caveat".
+
+    The claim stopped being true. Measured on the index the page builds itself:
+    dofus2 has 1 335 monsters, **all 1 335 with a level** and 1 002 with an
+    announced weakness, **75.1%**, the best of the four versions against 50.7%
+    on dofus3, 71.2% on Touch and 49.2% on Retro. Four artefacts defended the
+    sentence at once: the copy in five languages, a comment in
+    encyclopedia_view, this docstring, and this assertion. The code never did:
+    `has_levels` reads the data and not the version name, so it corrected itself
+    the day the grades landed.
+
+    What replaced the sentence is the limitation that IS real: a card names no
+    weakness when the monster's grades disagree, and the page then marks each
+    grade rather than guess a summary.
+    """
+
+    # The claim that must be gone, and the real caveat that must be there, one
+    # marker per language: five bodies, five wordings, no shared string.
+    GONE = {'en': 'no reliable monster stats',
+            'fr': "pas de stats de monstres fiables",
+            'es': 'no tenemos estad', 'pt': 'temos estat',
+            'de': 'keine verl'}
+    CAVEAT = {'en': 'grades disagree', 'fr': "ne s'accordent pas",
+              'es': 'no coinciden', 'pt': 'discordam', 'de': 'uneinig sind'}
+
+    def _blocks(self):
         from chardata import guides_content
         blocks = guides_content.GUIDES['monster-weaknesses']['i18n']
         self.assertEqual(sorted(blocks), ['de', 'en', 'es', 'fr', 'pt'])
-        for lang, block in blocks.items():
+        return blocks
+
+    def test_no_language_still_calls_dofus2_the_exception(self):
+        for lang, block in self._blocks().items():
             with self.subTest(lang=lang):
-                self.assertIn('Dofus 2', block['body'])
+                self.assertNotIn(self.GONE[lang], block['body'])
+
+    def test_every_language_carries_the_caveat_that_is_true(self):
+        for lang, block in self._blocks().items():
+            with self.subTest(lang=lang):
+                # The control: without it, a body emptied of everything would
+                # satisfy the assertion above perfectly.
+                self.assertIn(self.CAVEAT[lang], block['body'])
 
 
 class CriticalHitCeilingTests(SimpleTestCase):
