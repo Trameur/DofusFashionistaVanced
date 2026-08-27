@@ -7,7 +7,9 @@ instrument the owner reads once a week, not a page anyone else ever sees.
 
 {% block title %}Provenance{% endblock %}
 {% block canonical %}{% endblock %}
-{% block meta_robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{# Le bloc remplit un attribut content= : une balise complete ici donnait #}
+{# content="<meta name=" et la page ne portait plus aucune directive. #}
+{% block meta_robots %}noindex, nofollow{% endblock %}
 
 {% block main %}
 <div style="max-width:900px;margin:0 auto;padding:24px 16px">
