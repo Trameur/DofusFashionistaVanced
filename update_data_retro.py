@@ -255,6 +255,15 @@ def main() -> None:
         PY, "store_retro_monster_subareas.py",
     ], cwd=ITEMSCRAPER)
 
+    # Solomonk answers fr, en and es; the page falls back to French for
+    # the other two, so a Portuguese reader of a Retro monster page read
+    # French place names. Ankama's own map file has them in five
+    # languages. MUST stay after monsters/subareas: that step rebuilds
+    # the table and would drop these rows.
+    step("monsters/subarea-langs", [
+        PY, "store_retro_subarea_languages.py",
+    ], cwd=ITEMSCRAPER)
+
     # Monster artworks straight from the official 1.29 client (Cytrus CDN,
     # clips/artworks/big). Existing WebPs are skipped; without java/ffdec/
     # resvg on the machine the script warns and leaves the committed art.
