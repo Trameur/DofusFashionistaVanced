@@ -191,7 +191,7 @@
     <div class='add-banner'>
     <div class='everything'>
     
-        <div class='banner' ALIGN=CENTER "position:relative; z-index:1">
+        <div class='banner' role="banner" ALIGN=CENTER "position:relative; z-index:1">
           <br>   
           {% if current_game_version == 'beta' %}
           <a href="{% game_url 'home' %}"><img src="{% static "chardata/fashionista_banner_fading_beta.webp" %}" alt="Dofus Fashionista" width="2560" height="500" fetchpriority="high"></img></a>
@@ -239,7 +239,7 @@
        {% endif %}
         </div>
         <button type="button" class="mobile-nav-toggle" aria-expanded="false" aria-controls="main-sidebar" onclick="toggleMobileNav(this)">{% trans "Menu" %}<span class="chev">&#9662;</span></button>
-        <div class="sidebar" id="main-sidebar" background="#00ff00">
+        <div class="sidebar" id="main-sidebar" role="navigation" background="#00ff00">
           <div class="mini-menu">
               <div><a class="menu_link menu_link_top" href="{% game_url 'home' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/></svg></span>{% trans "Home" %}</a></div>
               <div><a class="menu_link menu_link_middle"  href="{% game_url 'about' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg></span>{% trans "Help & About" %}</a></div>
@@ -371,7 +371,7 @@
           {% include "chardata/sidebar-stats.html" %}
         </div>
 
-        <div class="maincolumn">
+        <div class="maincolumn" role="main">
         {% if not home %}
             <div class="maincontent" >
                 {% include "chardata/main-header.html" with char=char %}
@@ -385,7 +385,7 @@
         {% comment %}Only a project can start a solve: the buttons that show this screen all sit under the same test.{% endcomment %}
         {% if char_id and char_id != 0 %}{% include "chardata/loading.html" with char=char language=language %}{% endif %}
             {% ad_unit 'footer' %}
-            <div align="center" class="footer">
+            <div align="center" class="footer" role="contentinfo">
                 {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>
                 <!-- General Site Links -->

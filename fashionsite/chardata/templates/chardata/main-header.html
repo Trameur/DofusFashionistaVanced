@@ -4,7 +4,7 @@
 {% if char %}
   <div class="proj_info">
     <div style="display: table-cell; {% if is_guest or char_id and not user.is_anonymous %}width: 680px;{% else %}width: 840px;{% endif %}">
-    <table style="width: 100%;">
+    <table style="width: 100%;" role="presentation">
       <tr>
         <td><b>{% trans "Project Name" %}</b> {{char.name}}</td>
         <td><b>{% trans "Build" %}</b> {{char.char_build}} {{wrapped_char.class_string}}</td>

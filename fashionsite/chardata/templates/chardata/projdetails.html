@@ -39,7 +39,7 @@ Elle s'y annoncait "Project Details".
         <form id="main_form" action="{% game_url 'create_project' %}" method="post">
         {% if lock_item %}<input type="hidden" name="lock_item" value="{{ lock_item }}">{% endif %}
             {% csrf_token %}
-                <table class='register'>
+                <table class='register' role="presentation">
                   <tr class='register-line'>
                     <td class='input-name'><label for="input-char-name">{% trans "Character Name" %}</label></td> 
                     <td align="left"><input class='input-value pretty-input change-modifies-state' id="input-char-name" name="charname" maxlength="50" /></td>
@@ -74,9 +74,9 @@ Elle s'y annoncait "Project Details".
 
             <table id="table-checkboxes" class="build-boxes-section">
                 <tr>
-                    <td class="build-boxes-column build-boxes-title build-boxes-title-elements">{% trans "Elements" %}</td>
-                    <td class="build-boxes-column build-boxes-title build-boxes-title-options">{% trans "Options" %}</td>
-                    <td class="build-boxes-column build-boxes-title build-boxes-title-focus" colspan="2">{% trans "Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to 2)</span>" %}</td>
+                    <th scope="col" class="build-boxes-column build-boxes-title build-boxes-title-elements">{% trans "Elements" %}</th>
+                    <th scope="col" class="build-boxes-column build-boxes-title build-boxes-title-options">{% trans "Options" %}</th>
+                    <th scope="col" class="build-boxes-column build-boxes-title build-boxes-title-focus" colspan="2">{% trans "Focus on, sacrificing other stats <span id='aspect_limit_text'>(up to 2)</span>" %}</th>
                 </tr>
                 <tr>
                     <td id="table-checkboxes-column-0" class="build-boxes-column build-boxes-element-column"></td>
@@ -98,7 +98,7 @@ Elle s'y annoncait "Project Details".
             </div>
         </form>
     {% else %}
-        <table>
+        <table role="presentation">
         <tr>
         <td><img alt="" src="{% static "chardata/designs/myDown4.png" %}"></img>
         </td>

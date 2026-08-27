@@ -211,6 +211,9 @@ select, .pretty-input {
 
 .build-boxes-title{
     text-align: center;
+    /* Ces cellules sont des <th> depuis qu elles annoncent leur colonne. */
+    /* La graisse par defaut de th changerait le rendu, pas la semantique. */
+    font-weight: inherit;
 }
 
 .build-boxes-element-column {
