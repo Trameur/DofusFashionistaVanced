@@ -6871,12 +6871,16 @@ msgid "Looking for a set built around %(item_name)s?"
 msgstr "Suchen Sie ein Set rund um %(item_name)s?"
 
 #: .\chardata\templates\chardata\encyclopedia_item.html
-msgid "Worn in %(n)s builds, %(part)s of those that could equip it."
-msgstr "In %(n)s Builds getragen, %(part)s derer, die ihn anlegen können."
+msgid "Worn in %(n)s build, %(part)s of those that could equip it."
+msgid_plural "Worn in %(n)s builds, %(part)s of those that could equip it."
+msgstr[0] "In %(n)s Build getragen, %(part)s derer, die ihn anlegen können."
+msgstr[1] "In %(n)s Builds getragen, %(part)s derer, die ihn anlegen können."
 
 #: .\chardata\templates\chardata\encyclopedia_item.html
-msgid "Worn in %(n)s builds."
-msgstr "In %(n)s Builds getragen."
+msgid "Worn in %(n)s build."
+msgid_plural "Worn in %(n)s builds."
+msgstr[0] "In %(n)s Build getragen."
+msgstr[1] "In %(n)s Builds getragen."
 
 #: .\chardata\templates\chardata\encyclopedia_item.html
 msgid "Build a set around it"

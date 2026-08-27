@@ -305,10 +305,16 @@ ecrire, puisque aucun ne sait ce que les gens portent.
         repose sur assez de builds comparables ; sinon on ne donne que le compte.
         {% endcomment %}
         <p class="encyclopedia-popularity">
+            {% comment %}
+            Compte au singulier comme au pluriel : 365 objets sont portes dans
+            exactement un build, 169 sur la version principale, et la page
+            annoncait "Worn in 1 builds". La chaine etant traduite, la faute
+            existait dans les cinq langues.
+            {% endcomment %}
             {% if item_popularity.share %}
-            {% blocktrans with n=item_popularity.builds part=item_popularity.share %}Worn in {{ n }} builds, {{ part }} of those that could equip it.{% endblocktrans %}
+            {% blocktrans count n=item_popularity.builds with part=item_popularity.share %}Worn in {{ n }} build, {{ part }} of those that could equip it.{% plural %}Worn in {{ n }} builds, {{ part }} of those that could equip it.{% endblocktrans %}
             {% else %}
-            {% blocktrans with n=item_popularity.builds %}Worn in {{ n }} builds.{% endblocktrans %}
+            {% blocktrans count n=item_popularity.builds %}Worn in {{ n }} build.{% plural %}Worn in {{ n }} builds.{% endblocktrans %}
             {% endif %}
         </p>
         {% endif %}

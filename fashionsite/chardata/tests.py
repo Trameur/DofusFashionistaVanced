@@ -24353,6 +24353,62 @@ class ItemPopularityNeverPrintsSomethingFalseTests(TestCase):
         self.assertEqual(vu['builds'], 70)
         self.assertIsNone(vu['share'])
 
+    def test_one_build_is_not_written_as_several(self):
+        """365 items are worn in exactly one build, 169 of them on dofus3.
+
+        The sentence was a single string with the number substituted in, so
+        every one of those pages read "Worn in 1 builds". Translated, so the
+        same fault stood in the five languages -- about 1 825 pages of a page
+        family whose whole worth is that its numbers can be checked.
+        """
+        from django.utils import translation
+        from django.utils.translation import ngettext
+
+        singulier = 'Worn in %(n)s build.'
+        pluriel = 'Worn in %(n)s builds.'
+        for langue in ('en', 'fr', 'es', 'pt', 'de'):
+            with self.subTest(langue=langue), translation.override(langue):
+                un = ngettext(singulier, pluriel, 1) % {'n': 1}
+                deux = ngettext(singulier, pluriel, 2) % {'n': 2}
+                self.assertNotEqual(
+                    un, deux,
+                    '%s renders one and two the same way: %r' % (langue, un))
+                # Un catalogue sans regle de pluriel rendrait la forme plurielle
+                # pour n=1, ce qui est exactement la faute d'origine.
+                self.assertNotIn(
+                    'builds', un.split('%s' % 1)[-1],
+                    '%s still says "builds" for a single one: %r'
+                    % (langue, un))
+                # Et sans les deux formes au catalogue, ngettext retombe sur la
+                # source anglaise : les assertions ci-dessus passeraient toutes
+                # les deux sur une page francaise affichant de l'anglais.
+                if langue != 'en':
+                    self.assertNotIn(
+                        'Worn in', un,
+                        '%s fell back to the English source, so the catalogue '
+                        'lost its plural forms: %r' % (langue, un))
+
+    def test_the_page_says_one_build_in_the_singular(self):
+        """The template has to ask for the plural form, not just the catalogue
+        have one: a blocktrans without a count block never calls ngettext."""
+        import re
+
+        from chardata.models import ItemPopularity
+        ItemPopularity.objects.create(ankama_id=26066, game_version='dofus3',
+                                      builds=1, eligible=141969)
+        rendu = self.client.get(
+            '/encyclopedia/item/equipment/26066-makabrafire-belt/',
+            HTTP_ACCEPT_LANGUAGE='en')
+        if rendu.status_code != 200:
+            self.skipTest('this catalogue has no item 26066')
+        html = rendu.content.decode('utf-8', 'replace')
+        bloc = re.search(r'class="encyclopedia-popularity">(.*?)</p>',
+                         html, re.S)
+        self.assertIsNotNone(bloc, 'the page prints no popularity at all')
+        texte = re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', bloc.group(1)))
+        self.assertIn('1 build', texte)
+        self.assertNotIn('1 builds', texte)
+
     def test_a_partial_pass_leaves_the_counts_alone(self):
         """On the shared builds only, a level 200 item compares against 625
         builds instead of 48 522. That share is still above the threshold, so
