@@ -132,6 +132,31 @@ class EveryListDeclaresWhereItSitsTests(TestCase):
                 self.assertEqual(trails[0]['itemListElement'][-1]['item'],
                                  canonical)
 
+    def test_the_most_used_page_declares_its_trail_too(self):
+        """The page that carries the quotable number was the last of the family
+        without one. It is not in HUBS because it exists only on the default
+        game version -- the others have 25, 17, 10 and 1 build behind them, and
+        a ranking built on seventeen would be an invented authority.
+        """
+        for url in ('/encyclopedia/most-used/', '/fr/encyclopedia/most-used/',
+                    '/de/encyclopedia/most-used/'):
+            with self.subTest(page=url):
+                html = self._page(url)
+                trails = _breadcrumbs(html)
+                self.assertTrue(trails, '%s declares no trail' % url)
+                steps = trails[0]['itemListElement']
+                self.assertEqual(len(steps), 3, 'expected site > hub > page')
+                self.assertEqual(steps[-1]['item'], self._canonical(html))
+                # L'etape du milieu doit rester dans la langue de la page :
+                # renvoyer le lecteur allemand au carrefour anglais serait dire
+                # a Google que les deux pages sont le meme document.
+                prefix = url.split('/')[1] if url.startswith(
+                    ('/fr/', '/de/', '/es/', '/pt/')) else ''
+                if prefix:
+                    self.assertIn('/%s/encyclopedia/' % prefix,
+                                  steps[1]['item'],
+                                  'the middle step leaves %s' % prefix)
+
     def test_the_trail_speaks_the_language_of_the_page(self):
         # A French page whose trail reads "Encyclopedia" tells Google the two
         # are the same document in one place and different in another.

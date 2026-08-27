@@ -2383,18 +2383,31 @@ def encyclopedia_most_used(request):
             'items': objets[:MOST_USED_PER_SLOT],
         })
 
+    t_ui = _ui_text()
     return set_response(
         request,
         'chardata/encyclopedia_most_used.html',
         {
             'request': request,
             'char_id': 0,
-            't': _ui_text(),
+            't': t_ui,
             'slots': slots,
             'builds_counted': '{:,}'.format(couverture).replace(',', ' '),
             'computed_on': _popularity_computed_on(),
             'headline': tete,
             'canonical_url': 'https://dofusfashionista.gg%s' % request.path,
+            # La derniere page de la famille sans trace declaree, et c'est
+            # celle qui porte le chiffre citable. Le libelle reutilise le titre
+            # de la page, deja traduit dans les cinq langues : une chaine neuve
+            # aurait fait passer les catalogues par makemessages, qui les
+            # reecrit en entier.
+            'breadcrumb_jsonld': _breadcrumb_jsonld([
+                ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+                (t_ui.get('title') or 'Encyclopedia',
+                 _absolute_versioned_url('/encyclopedia/', 'dofus3')),
+                (str(_('What Dofus Players Actually Wear')),
+                 'https://dofusfashionista.gg%s' % request.path),
+            ]),
         },
     )
 
