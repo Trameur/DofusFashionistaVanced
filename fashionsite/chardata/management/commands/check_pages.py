@@ -39,6 +39,13 @@ from django.core.management.base import BaseCommand, CommandError
 from django.test import Client
 from fashionistapulp.game_versions import dofus_versions
 
+#: Ce que dit une base non migree, en SQLite comme en MySQL. Une table absente
+#: fait echouer d'un coup toutes les pages qui la touchent, et le rapport les
+#: compte alors comme autant de liens casses : cinquante defauts a l'ecran pour
+#: une seule migration oubliee.
+_MISSING_SCHEMA = re.compile(
+    r"no such table|no such column|Unknown column|doesn't exist", re.I)
+
 # How many distinct internal links to follow. The listing pages link to a
 # thousand items between them; the budget is a runaway guard, not a sample,
 # and the command says how many it left out when it bites.
@@ -229,6 +236,17 @@ class Command(BaseCommand):
                           % (followed, len(links),
                              '' if followed == len(links)
                              else ' (budget %d)' % LINK_BUDGET))
+        schema = [str(what) for _href, what in dead
+                  if _MISSING_SCHEMA.search(str(what))]
+        schema += [str(what) for _path, _language, what in findings
+                   if _MISSING_SCHEMA.search(str(what))]
+        if schema:
+            self.stdout.write(
+                'DATABASE NOT MIGRATED: %d of the failures below come from a '
+                'missing table or column, not from the site. Run migrate '
+                'against these same settings, then read this report again.'
+                % len(schema))
+            self.stdout.write('   first one: %s' % schema[0][:110])
         if dead:
             self.stdout.write('%d link(s) the site offers that do not open:'
                               % len(dead))
