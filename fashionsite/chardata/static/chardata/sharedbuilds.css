@@ -247,6 +247,11 @@
     align-items: center;
     gap: 10px;
     margin: 30px 0;
+    /* Passee de 5 a 27-30 elements le jour ou une page sur dix a ete
+       gardee : sans retour a la ligne la rangee fait 1016 px dans une
+       fenetre de 375 px, et overflow-x: hidden la coupe au lieu de la
+       faire defiler. */
+    flex-wrap: wrap;
 }
 
 .pagination a, .pagination span {
