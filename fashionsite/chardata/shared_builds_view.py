@@ -29,6 +29,7 @@ from chardata.translation_util import localized_stat_name
 from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.pagination import pagination_items
+from chardata.url_language import SITE_URL
 from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
 from chardata.image_store import get_image_url
@@ -279,6 +280,53 @@ def translate_build_name(build_name):
     
     # Single word that wasn't found
     return build_name
+
+#: Query parameters that change WHICH builds are listed. One of them makes the
+#: page a view of the list rather than a place in it, so it points at the plain
+#: list instead of claiming a page number of its own. Aspects arrive one
+#: parameter per aspect, check_str and its nine siblings, so they are matched by
+#: prefix.
+#:
+#: Deliberately a closed list rather than "anything that is not page": a link
+#: shared on Reddit arrives carrying utm_source, and treating that as a filter
+#: would make the shared page declare itself a duplicate of the first one.
+_FILTER_PARAMS = frozenset({
+    'char_class', 'min_level', 'max_level', 'order_by', 'search',
+    'user_search', 'show_liked', 'show_favorited', 'hide_invalid', 'tag',
+})
+_ASPECT_PREFIX = 'check_'
+
+
+def _canonical_url(request, page_obj):
+    """The url this page wants Google to keep: itself, page number included.
+
+    Every page of this list named /sharedbuilds/ as its canonical, because the
+    template published no canonical of its own and the default in base.html is
+    built from request.path, which has no query string. So 82 of the 83 pages
+    declared themselves duplicates of the first while asking to be indexed --
+    and the builds that only appear on those pages are discovered through them.
+
+    A filtered view is a different matter and still points at the plain list:
+    the same builds in another order, or a subset, is not a page worth indexing
+    on its own.
+
+    Built from request.path rather than from the literal /sharedbuilds/. The
+    list is published once per game version, and the sitemap submits all five:
+    writing the address down made /retro/sharedbuilds/ and its three siblings
+    declare the default version as their canonical, which is four submitted
+    pages disowning themselves. The fallback this replaces used request.path,
+    and that part of it was right.
+    """
+    filtered = any(
+        (key in _FILTER_PARAMS or key.startswith(_ASPECT_PREFIX))
+        and any((value or '').strip() for value in values)
+        for key, values in request.GET.lists() if key != 'page')
+    address = SITE_URL + request.path
+    number = getattr(page_obj, 'number', 1) or 1
+    if filtered or number <= 1:
+        return address
+    return '%s?page=%d' % (address, number)
+
 
 def shared_builds(request):
     """Display a page with all shared builds, with search and filter options."""
@@ -603,6 +651,7 @@ def shared_builds(request):
         # `pagination_items` garde une page sur dix plus les voisines, ce qui
         # met chaque page a trois clics de la premiere.
         'page_links': pagination_items(builds_page),
+        'canonical_url': _canonical_url(request, builds_page),
         'all_classes': all_classes,
         'aspect_to_name': json.dumps(aspect_to_name),
         'aspect_layout': json.dumps(aspect_layout),
