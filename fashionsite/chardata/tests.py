@@ -13219,6 +13219,55 @@ class VersionSpecificGuideTests(TestCase):
             self.assertIn(
                 'https://dofusfashionista.gg/guides/getting-started/', head)
 
+    def test_the_versions_the_guides_call_percent_free_still_are(self):
+        """The guides tell Retro and Touch readers to push flat damage only.
+
+        Those two carry no percent-damage stat at all, which is why the retro
+        variant of game-modes says "push flat damage" where the modern one says
+        "flat and percent", and why stats-explained calls the family a Dofus 2
+        era feature. The advice is right today and would go quietly wrong the
+        day Ankama put one of those stats on a Retro item.
+
+        Pinned on the data rather than on the prose: a guard that grepped the
+        guides for "percent damage" would fire on stats-explained, which names
+        the family precisely to say it is absent. What the guides depend on is
+        the count being zero, so that is what is watched.
+        """
+        import sqlite3
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        percent = ('% Melee Damage', '% Ranged Damage', '% Spell Damage',
+                   '% Weapon Damage')
+        expected = {'dofus3': True, 'dofus2': True,
+                    'retro': False, 'touch': False}
+        root = os.path.join(get_fashionista_path(), 'fashionistapulp',
+                            'fashionistapulp')
+        for version, carries in expected.items():
+            name = 'items.db' if version == 'dofus3' else 'items_%s.db' % version
+            conn = sqlite3.connect(
+                'file:%s?mode=ro' % os.path.join(root, name).replace(os.sep, '/'),
+                uri=True)
+            try:
+                marks = ','.join('?' * len(percent))
+                total = conn.execute(
+                    'SELECT COUNT(*) FROM stats_of_item WHERE stat IN'
+                    ' (SELECT id FROM stats WHERE name IN (%s))' % marks,
+                    percent).fetchone()[0]
+                known = conn.execute(
+                    'SELECT COUNT(*) FROM stats WHERE name IN (%s)' % marks,
+                    percent).fetchone()[0]
+            finally:
+                conn.close()
+            with self.subTest(version=version):
+                # Without this the query would answer zero for a version whose
+                # stat table simply spells the names differently, and zero is
+                # exactly what the test is looking for.
+                self.assertEqual(len(percent), known,
+                                 'the stat names moved, the count means nothing')
+                if carries:
+                    self.assertGreater(total, 0, version)
+                else:
+                    self.assertEqual(0, total, version)
+
     def test_kolossium_appears_only_in_the_game_modes_guide(self):
         # Kolossium/Kolizeum is a modern-only ranked mode; only the version-aware
         # game-modes guide may name it, every other guide says "competitive PvP".
