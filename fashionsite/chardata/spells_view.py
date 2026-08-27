@@ -539,6 +539,7 @@ _CONDITIONAL_LABELS = {
     'telefragged':
         _lazy("at the end of the caster's next turn, and only if the "
               "target has Telefrag"),
+    'on_ally': _lazy("only on an ally, never on an enemy"),
 }
 
 

@@ -130,6 +130,13 @@ _MODERN_CONDITIONAL_ROWS = {
     13363: {1: "mp_removal"},   # Enutrof, Placer Mining: row 0 carries the a,A mask the cast uses, row 1 the bare A
     13352: {1: "range_removal"},   # Enutrof, Collapse: row 0 carries the a,A mask the cast uses, row 1 the bare A
     14651: {1: "telefragged"},   # Xelor, Fob: row 1 carries the area zone the sentence names, row 0 a single cell
+    # Extraction, and it is the target mask rather than a trigger that says so:
+    # row 0 is masked 'A', enemies, and row 1 'a', allies. All five languages
+    # spell it out, "the health steal is reduced by half on allies", and the
+    # numbers agree to the letter, 28-30 against 14-15 at the top grade. Both
+    # rows counted, so a cast read as 42-45 where it steals 28-30 from an
+    # enemy: half again too much, in the damage shown and in the best combo.
+    13433: {1: "on_ally"},   # Rogue, Extraction
 }
 
 CONDITIONAL_ROWS_BY_VERSION = {
@@ -137,10 +144,15 @@ CONDITIONAL_ROWS_BY_VERSION = {
     # The beta is the same client one patch ahead, and every one of the ten
     # generates there unchanged.
     "beta": _MODERN_CONDITIONAL_ROWS,
-    # Nothing has been established against the 2.73 client yet. Empty asserts
-    # nothing false; the rows a 2.73 spell holds back still have to be read
-    # from its own descriptions, spell by spell, the way the modern ones were.
-    "dofus2": {},
+    # Almost nothing has been established against the 2.73 client yet, and an
+    # empty table asserts nothing false: the rows a 2.73 spell holds back still
+    # have to be read from its own descriptions, spell by spell, the way the
+    # modern ones were. Extraction is the one that has been, and it is written
+    # identically in all three: same id, same two rows, row 0 masked 'A' and
+    # row 1 'a', same halved numbers, same sentence in five languages.
+    "dofus2": {
+        13433: {1: "on_ally"},   # Rogue, Extraction
+    },
 }
 
 CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION["dofus3"]

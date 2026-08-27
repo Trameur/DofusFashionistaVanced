@@ -3758,7 +3758,7 @@ DAMAGE_SPELLS = {
             [['20-22', '26-28', '32-36'], ['10-11', '13-14', '16-18']],
             [FIRE, FIRE],
             steals=[True, True],
-        ), is_linked=(1, 'Cadence'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'per_target': [1, 1, 1], 'crit': [25, 25, 25]}, spell_id=13433),
+        ), is_linked=(1, 'Cadence'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'per_target': [1, 1, 1], 'crit': [25, 25, 25]}, spell_id=13433, conditional={1: 'on_ally'}),
         Spell('Boomerang Daggers', [65, 131, 198], Effects(
             [['12-14', '14-16', '16-18'], ['12-14', '14-16', '16-18']],
             [['14-16', '17-19', '19-21'], ['14-16', '17-19', '19-21']],

@@ -19846,19 +19846,27 @@ class SpellComboTests(SimpleTestCase):
             'telefragged': {'en': 'telefrag', 'fr': 'téléfrag',
                             'es': 'telefrag', 'pt': 'telefrag',
                             'de': 'telefra'},
+            'on_ally': {'en': 'on allies', 'fr': 'sur les alliés',
+                        'es': 'en los aliados', 'pt': 'nos aliados',
+                        'de': 'bei verbündeten'},
         }
         self.assertTrue(module.CONDITIONAL_ROWS)
-        declared = {trigger for rows in module.CONDITIONAL_ROWS.values()
+        declared = {trigger
+                    for table in module.CONDITIONAL_ROWS_BY_VERSION.values()
+                    for rows in table.values()
                     for trigger in rows.values()}
         self.assertEqual([], sorted(declared - set(words)),
                          'a held-back row names a rule with no words to check')
         seen = 0
-        for version in ('dofus3', 'beta'):
+        # dofus2 has its own table: reading it against the modern one would
+        # check the 2.73 descriptions for rules nobody claimed about 2.73.
+        for version in ('dofus3', 'beta', 'dofus2'):
             found = {entry['id']: entry
                      for entries in get_spell_reference(version).values()
                      for entry in entries or []
                      if entry.get('id') is not None}
-            for spell_id, rows in module.CONDITIONAL_ROWS.items():
+            for spell_id, rows in module.CONDITIONAL_ROWS_BY_VERSION[
+                    version].items():
                 entry = found.get(spell_id)
                 if entry is None:
                     continue
@@ -19871,6 +19879,42 @@ class SpellComboTests(SimpleTestCase):
                             self.assertIn(word, said)
         self.assertGreaterEqual(seen, 18,
                                 'no annotated spell was checked')
+
+    def test_a_row_that_only_reaches_an_ally_is_not_part_of_the_cast(self):
+        """Extraction, and the signal is the target mask rather than a trigger.
+
+        Its two rows carry the same element and the same trigger; what tells
+        them apart is that row 0 is masked 'A', enemies, and row 1 'a', allies.
+        Word of Recovery, which only heals, is masked 'a' alone and Pressure,
+        which strikes, 'a,A': the letter is the game saying who can be reached.
+        The numbers agree with the sentence to the letter, 28-30 against 14-15
+        at the top grade, half exactly.
+
+        Both rows were counted, so a cast read as 42-45 where it steals 28-30
+        from an enemy. Half again too much, in the damage shown and in what
+        the best combo picks, in all three versions at once.
+
+        A mask is NOT read as a general rule here. Fulminating Arrow is masked
+        'a,F50000' and plainly damages enemies, so a flag beside the letter
+        undoes the reading, and one counter-example is enough to keep the rule
+        out of the generator until it is proved.
+        """
+        from chardata.spell_buffs import get_damage_spells_for_version
+        for version in ('dofus3', 'beta', 'dofus2'):
+            with self.subTest(version=version):
+                spell = next(
+                    (s for group in
+                     get_damage_spells_for_version(version).values()
+                     for s in group
+                     if getattr(s, 'spell_id', None) == 13433), None)
+                self.assertIsNotNone(spell, 'Extraction is missing')
+                self.assertEqual({1: 'on_ally'}, spell.conditional)
+                rows = spell.effects.non_crit_ranges
+                self.assertEqual(2, len(rows))
+                enemy = rows[0][-1]
+                ally = rows[1][-1]
+                self.assertEqual(enemy.min_dam, ally.min_dam * 2)
+                self.assertEqual(enemy.max_dam, ally.max_dam * 2)
 
     def test_a_poison_is_not_counted_as_damage_landing_now(self):
         # Bush Fire burns at the end of a turn. The turn used to add it to the

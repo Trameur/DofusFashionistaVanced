@@ -4144,7 +4144,7 @@ DAMAGE_SPELLS = {
             [['20-22', '26-28', '32-36'], ['10-11', '13-14', '16-18']],
             [FIRE, FIRE],
             steals=[True, True],
-        ), is_linked=(1, 'Cadence'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [25, 25, 25]}, spell_id=13433),
+        ), is_linked=(1, 'Cadence'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [25, 25, 25]}, spell_id=13433, conditional={1: 'on_ally'}),
         Spell('Musket', [70, 137], Effects(
             [['15-17', '19-21']],
             [['18-20', '23-25']],

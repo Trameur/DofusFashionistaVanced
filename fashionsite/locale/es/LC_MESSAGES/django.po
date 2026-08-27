@@ -6765,6 +6765,9 @@ msgstr ""
 msgid "only if the target is healed"
 msgstr "solo si el objetivo es curado"
 
+msgid "only on an ally, never on an enemy"
+msgstr "solo en un aliado, nunca en un enemigo"
+
 msgid ""
 "only if the target attracts, repels, switches places or deals "
 "pushback damage"
