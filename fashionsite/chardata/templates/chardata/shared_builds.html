@@ -37,6 +37,20 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
     <p class="text" align="center">
         {% trans "Browse and discover builds shared by the community. Click on any build to view details." %}
     </p>
+
+    {% comment %}
+    Cette page est CALCULEE a partir des builds ci-dessous, et rien ne la
+    reliait depuis ici : son seul lien entrant venait du carrefour de l'encyclopedie.
+    Meme condition que la : la page n'a pas de route sous un prefixe de version,
+    et les autres versions comptent 25, 17, 10 et 1 build indexes, donc zero part
+    publiable. La chaine est celle deja traduite pour le carrefour, donc aucun
+    catalogue n'a bouge.
+    {% endcomment %}
+    {% if current_game_version == 'dofus3' %}
+    <p class="text" align="center" style="margin-top: -6px;">
+        <a class="sharedbuilds-page-link" href="{% url 'encyclopedia_most_used' %}">{% trans "What players actually wear" %} &gt;</a>
+    </p>
+    {% endif %}
     
     {% if filters.tag %}
     <p style="text-align: center; margin-bottom: 12px;">

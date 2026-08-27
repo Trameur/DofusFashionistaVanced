@@ -438,3 +438,9 @@ html.fm-dark .results-count,
 html.fm-dark .text {
     color: #A8A8A8;
 }
+/* Le lien vers la page des objets les plus portes. Meme sobriete que son
+   jumeau cote encyclopedie : souligne, rien d'autre. */
+.sharedbuilds-page-link {
+    display: inline-block;
+    text-decoration: underline;
+}
