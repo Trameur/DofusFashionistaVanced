@@ -24,12 +24,13 @@
     <meta property="og:title" content="{{ char.char_name|default:char.name }} · {{ char.char_class|localized_class }} {% trans 'lvl' %} {{ char.level }}">
     <meta property="og:description" content="{{ char.char_class|localized_class }} {% trans 'build optimized on Dofus Fashionista. Like it, comment it, copy it.' %}">
     <meta property="og:type" content="article">
-    {% if class_avatar %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ class_avatar }}">{% endif %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ og_image }}">
     <meta name="twitter:card" content="summary">
 {% else %}
     <meta property="og:title" content="{% if link_shared %}{{ seo_class }} {{ char.level }} - Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %}{% else %}{% trans "The Dofus Fashionista" %} - {% trans "Equipment Set Optimizer" %}{% endif %}">
     <meta property="og:description" content="{% blocktrans %}Create optimized Dofus equipment sets automatically based on your character's needs.{% endblocktrans %}">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ og_image }}">
     <meta name="twitter:card" content="summary">
 {% endif %}
 {% endblock %}

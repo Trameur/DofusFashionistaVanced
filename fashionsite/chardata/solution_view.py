@@ -267,6 +267,27 @@ def get_class_avatar(char):
     return static('chardata/designs/wizard/%s/myWizard%s%d.png' % (cls, cls, idx))
 
 
+_OG_CARD = 'chardata/og-card.jpg'
+
+
+def get_og_image(char):
+    """The picture a social preview should use, which is not always the avatar.
+
+    A class with no artwork -- Forgelance is the only one -- falls back to a
+    16x16 question mark. On the page that is a discreet placeholder. As a
+    preview it is illegible and below every documented minimum: Facebook states
+    200x200 as the smallest image it accepts and a Twitter summary card asks
+    144x144, so the link renders with no picture at all rather than a small one.
+
+    The generic card is 1200x630 and always renders, so a class without art
+    gets that instead. The avatar itself is 260x260 and clears both thresholds,
+    which is why the eighteen classes that have one keep it.
+    """
+    if (char.char_class or '') in _CLASS_AVATAR_DIRS:
+        return get_class_avatar(char)
+    return static(_OG_CARD)
+
+
 def _get_stat_filter_options():
     structure = get_structure()
     used_stat_keys = structure.get_used_stat_keys()
@@ -508,6 +529,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'owner_alias': get_alias(char.owner),
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
               'class_avatar': class_avatar,
+              'og_image': get_og_image(char),
               'character_look': json.dumps(character_look) if character_look else '',
               'character_colors': parse_colors(char.colors, _default_colors(char)) if character_look else [],
               'character_pieces': _preview_pieces(char, character_look) if character_look else [],
