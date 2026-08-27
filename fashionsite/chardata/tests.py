@@ -20713,7 +20713,10 @@ class SpellReferenceTests(TestCase):
     costs, not how far it reaches, not what the game says it does, and it left
     out every spell that neither hurts nor buffs."""
 
-    NUMBERED = ('dofus3', 'beta', 'touch', 'retro')
+    #: dofus2 joined the day its spell levels were fetched from Ankama's own
+    #: CDN. It was the odd one out for as long as we read only the dofusdude
+    #: mirror, which publishes 52 files for 2.73.3.14 and no spell_levels.json.
+    NUMBERED = ('dofus3', 'beta', 'touch', 'retro', 'dofus2')
 
     def test_every_version_carries_its_class_spells(self):
         from chardata.spell_reference import get_spell_reference
@@ -20743,15 +20746,46 @@ class SpellReferenceTests(TestCase):
                     self.assertTrue(all(cost > 0 for cost in spell['ap']
                                         if cost is not None), spell['name'])
 
-    def test_dofus2_says_what_it_has_and_no_more(self):
-        # Its archive ships no spell level, so inventing one would be a lie.
+    def test_a_cooldown_dofus2_does_not_state_is_a_cooldown_it_does_not_have(self):
+        """This said the opposite: no Dofus 2 spell was allowed to state a cast.
+
+        The reason given was that its archive ships no spell level, so stating
+        one would be inventing it. That was true of the dofusdude mirror and
+        never of the game, and the whole reference now carries the numbers.
+
+        What is worth pinning instead is the shape of what is MISSING. Only 138
+        of the 418 state a cooldown, a third, where 345 state a stack limit. A
+        third could mean the field is absent for the rest, and a legitimate
+        absence reads exactly like a broken one. It is legitimate: the key sits
+        on all 31874 level rows of the dump and is simply zero on 25446 of
+        them, and the spells that do carry one are the ones that carry one in
+        the game -- Invisibility, Word of Recovery, Bribery -- with the value
+        falling as the rank rises, which invented data does not do.
+        """
         from chardata.spell_reference import get_spell_reference
-        spells = [spell for block in get_spell_reference('dofus2').values()
-                  for spell in block]
-        self.assertTrue(spells)
-        self.assertFalse([spell for spell in spells if spell.get('ap')])
+        blocks = get_spell_reference('dofus2')
+        spells = [spell for block in blocks.values() for spell in block]
+        self.assertEqual(418, len(spells))
         self.assertTrue([spell for spell in spells
                          if spell['description'].get('fr')])
+
+        with_cooldown = [spell for spell in spells if spell.get('cooldown')]
+        self.assertGreater(len(with_cooldown), 100)
+        self.assertLess(len(with_cooldown), len(spells) / 2)
+
+        by_name = {(spell['name'] or {}).get('en'): spell for spell in spells}
+        for name in ('Invisibility', 'Word of Recovery', 'Bribery'):
+            with self.subTest(spell=name):
+                self.assertTrue(by_name[name].get('cooldown'), name)
+        for name in ('Backlash', 'Languor', 'Nimbus'):
+            with self.subTest(spell=name):
+                self.assertFalse(by_name[name].get('cooldown'), name)
+        # It never rises with the rank. A cooldown read off the wrong rank, or
+        # off another spell, would not hold that.
+        for spell in with_cooldown:
+            ranks = [value for value in spell['cooldown'] if value is not None]
+            with self.subTest(spell=(spell['name'] or {}).get('en')):
+                self.assertEqual(ranks, sorted(ranks, reverse=True))
 
     def test_a_damage_spell_is_tied_to_what_the_game_says(self):
         from chardata.spell_buffs import get_damage_spells_for_version

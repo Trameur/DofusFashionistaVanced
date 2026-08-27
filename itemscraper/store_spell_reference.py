@@ -308,13 +308,25 @@ def read_modern(path):
 
 
 def read_dofus2(tag):
-    """The 2.73 archive has the spells and the five languages, but not one
-    spell level, so the numbers stay out."""
+    """The 2.73 archive, with its cast numbers when the dump carries them.
+
+    It used to say the archive had no spell level at all, which was true of the
+    dofusdude mirror and not of the game: download_d2o_tables.py fetches
+    SpellLevels from Ankama's CDN, and the orchestrator runs it before this.
+    An older dump without the table still reads, names only, the way this did
+    for as long as nobody had gone to look.
+    """
     root = os.path.join(CURRENT_DIRECTORY, 'raw', tag)
 
     def load(name):
         with open(os.path.join(root, name), encoding='utf-8') as handle:
             return json.load(handle)
+
+    def load_optional(name):
+        try:
+            return load(name)
+        except FileNotFoundError:
+            return None
 
     texts = {}
     for lang in LANGUAGES:
@@ -323,6 +335,8 @@ def read_dofus2(tag):
         texts[lang] = {str(key): value for key, value in table.items()}
     spells = {str(row['id']): row for row in load('spells.json')}
     types = {str(row['id']): row for row in load('spell_types.json')}
+    rows = load_optional('spell_levels.json') or []
+    levels = {str(row['id']): row for row in rows}
 
     def text(lang, text_id):
         return texts.get(lang, {}).get(str(text_id)) or ''
@@ -338,6 +352,10 @@ def read_dofus2(tag):
             if spell is None:
                 continue
             type_row = types.get(str(spell.get('typeId'))) or {}
+            # Same field names as Touch: both clients read the same Ankama
+            # model, and only the transport differs.
+            ranks = [levels.get(str(level_id)) or {}
+                     for level_id in (spell.get('spellLevels') or [])]
             found.append(_drop_empty({
                 'id': spell.get('id'),
                 'name': {lang: text(lang, spell.get('nameId'))
@@ -346,6 +364,15 @@ def read_dofus2(tag):
                                 for lang in LANGUAGES},
                 'kind': {lang: text(lang, type_row.get('longNameId'))
                          for lang in LANGUAGES},
+                'levels': _rank_values(ranks, 'minPlayerLevel') or [],
+                'ap': _rank_values(ranks, 'apCost'),
+                'range': [[rank.get('minRange'), rank.get('range')]
+                          for rank in ranks] or None,
+                'per_turn': _rank_values(ranks, 'maxCastPerTurn'),
+                'per_target': _rank_values(ranks, 'maxCastPerTarget'),
+                'cooldown': _rank_values(ranks, 'minCastInterval'),
+                'crit': _rank_values(ranks, 'criticalHitProbability'),
+                'stacks': _rank_values(ranks, 'maxStack'),
             }))
         if found:
             out[class_name] = found
