@@ -41,8 +41,36 @@ SPELLS_STATIC = (Path(__file__).resolve().parent.parent / 'fashionsite' / 'chard
 # 96-100 elemental damage, 91-95 elemental steals (same hit, heals the caster).
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
+
+# Characteristic effects, read since 2026-08-27.
+#
+# This generator used to read only the ten ids above, so every self-buff and
+# every characteristic steal a Touch spell grants was dropped on the floor. The
+# Touch table held ZERO buff rows, which looked like "Touch has no such spells"
+# and was really "this file never asked". Swept against the live Touch backend:
+# 23 class spells out of 330 carry one, among them the Iop's own "Puissance" at
+# +400 and four Sram spells that steal a characteristic.
+#
+# A steal is modelled as a self-buff, exactly as the Dofus 2 and 3 tables
+# already model Furrow's Intelligence theft: the caster ends the cast with the
+# characteristic, which is what a build optimizer needs to know. Bonus ids
+# (118/119/123/126/138) and steal ids (266-271) both verified against the live
+# effects endpoint, keeping every description that begins with "Vole".
+CHARACTERISTIC_EFFECTS = {
+    138: 'buff_pow',
+    118: 'buff_str', 119: 'buff_agi', 123: 'buff_cha', 126: 'buff_int',
+    271: 'buff_str', 268: 'buff_agi', 266: 'buff_cha', 269: 'buff_int',
+    270: 'buff_wis', 267: 'buff_vit',
+}
+ROW_EFFECTS = dict(DAMAGE_EFFECTS)
+ROW_EFFECTS.update(CHARACTERISTIC_EFFECTS)
+
 ELEMENT_TOKEN_TO_CONST = {'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER',
                           'air': 'AIR', 'neutral': 'NEUTRAL'}
+# Buff rows are written as plain quoted strings in the module, the way the
+# Dofus 2 and 3 tables write them, not as element constants.
+ELEMENT_TOKEN_TO_CONST.update(
+    {token: repr(token) for token in CHARACTERISTIC_EFFECTS.values()})
 
 # Touch breed id -> Fashionista class name (the 15 Touch classes).
 CLASS_ID_TO_NAME = {
@@ -125,7 +153,11 @@ def when_it_lands(triggers):
 
 
 def collect_damage(effect_list):
-    """One effect list -> {element: (min, max, when)} for elemental damage hits.
+    """One effect list -> {row token: (min, max, when)}.
+
+    Rows are the elemental damage hits plus the characteristic buffs and
+    steals; the token is an element name for the first and a 'buff_<stat>'
+    pseudo-element for the second.
 
     A spell level can carry several lines of the same element: state-dependent
     branches (targetMask '#A,E<state>' or 'v50') and damage/steal pairs. The
@@ -134,12 +166,12 @@ def collect_damage(effect_list):
     out = {}
     for e in (effect_list or []):
         eid = e.get('effectId')
-        if eid in DAMAGE_EFFECTS:
+        if eid in ROW_EFFECTS:
             lo = e.get('diceNum') or 0
             hi = e.get('diceSide') or 0
             if hi < lo:                      # diceSide==0 (or < min) => fixed hit
                 hi = lo
-            elem = DAMAGE_EFFECTS[eid]
+            elem = ROW_EFFECTS[eid]
             prev = out.get(elem)
             if prev is None or lo + hi > prev[0] + prev[1]:
                 out[elem] = (lo, hi, when_it_lands(e.get('triggers')))
@@ -154,7 +186,11 @@ CASTING_FIELDS = {'ap': 'apCost', 'per_turn': 'maxCastPerTurn',
 
 
 def decode_spell(spell, spell_levels):
-    """Touch spell -> damage-spell dict, or None if it deals no elemental damage."""
+    """Touch spell -> damage-spell dict, or None if it carries no row at all.
+
+    A spell that only buffs a characteristic and deals no damage is kept: the
+    Dofus 2 and 3 tables keep theirs, and the optimizer needs the Iop's
+    "Puissance" even though it hits nobody."""
     per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
     casting_levels = []
     for lid in (spell.get('spellLevels') or []):
