@@ -84,6 +84,16 @@ RETRO_DAMAGE_SPELLS = {
             [["11-13", "12-14", "13-15", "14-16", "15-17", "19-21"]],
             [WATER],
         ), casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [4, 4, 4, 4, 4, 4], "crit": [40, 40, 40, 40, 40, 40]}, spell_id=168),
+        Spell("Tir Critique", [1, 1, 1, 1, 1, 100], Effects(
+            [["10-10", "15-15", "20-20", "25-25", "30-30", "50-50"]],
+            [["10-10", "15-15", "20-20", "25-25", "30-30", "50-50"]],
+            ['buff_pow'],
+        ), casting={"ap": [2, 2, 2, 2, 2, 2], "cooldown": [5, 5, 5, 5, 5, 5], "crit": [40, 40, 40, 40, 40, 40]}, spell_id=162),
+        Spell("Tir Puissant", [1, 1, 1, 1, 1, 100], Effects(
+            [["110-110", "120-120", "130-130", "140-140", "150-150", "250-250"]],
+            [["130-130", "140-140", "150-150", "160-160", "170-170", "290-290"]],
+            ['buff_pow'],
+        ), casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [6, 6, 6, 6, 6, 6], "crit": [40, 40, 40, 40, 40, 40]}, spell_id=166),
     ],
     "Ecaflip": [
         Spell("Bluff", [1, 1, 1, 1, 1, 100], Effects(
@@ -91,6 +101,11 @@ RETRO_DAMAGE_SPELLS = {
             [["25-25", "28-28", "33-33", "40-40", "50-50", "55-55"], ["25-25", "28-28", "33-33", "40-40", "50-50", "55-55"]],
             [WATER, AIR],
         ), casting={"ap": [4, 4, 4, 4, 4, 3], "crit": [50, 50, 50, 50, 50, 50]}, spell_id=109),
+        Spell("Contrecoup", [1, 1, 1, 1, 1, 100], Effects(
+            [["40-80", "60-120", "80-160", "100-200", "120-200", "140-250"]],
+            [["40-80", "60-120", "80-160", "100-200", "120-200", "140-250"]],
+            ['buff_vit'],
+        ), casting={"ap": [2, 2, 2, 2, 2, 2], "cooldown": [3, 3, 3, 3, 3, 3]}, spell_id=111),
         Spell("Destin d'Ecaflip", [1, 1, 1, 1, 1, 100], Effects(
             [["1-20", "4-23", "7-26", "10-29", "13-37", "13-37"]],
             [["13-75", "13-75", "13-75", "13-75", "13-75", "13-75"]],
@@ -126,6 +141,21 @@ RETRO_DAMAGE_SPELLS = {
             [["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"], ["11-20", "11-25", "11-30", "11-35", "12-41", "12-41"]],
             [WATER, EARTH, AIR, FIRE],
         ), casting={"ap": [6, 6, 6, 6, 5, 4], "crit": [2, 2, 2, 2, 2, 2]}, spell_id=114),
+        Spell("Roue de la Fortune", [1, 1, 1, 1, 1, 100], Effects(
+            [["100-100", "100-100", "100-100", "100-100", "100-100", "100-100"]],
+            [["200-200", "200-200", "200-200", "200-200", "200-200", "200-200"]],
+            ['buff_pow'],
+        ), casting={"ap": [6, 5, 4, 3, 2, 2], "cooldown": [5, 5, 5, 5, 5, 4], "crit": [50, 50, 50, 50, 50, 50]}, spell_id=106),
+        Spell("Roulette", [1, 1, 1, 1, 1, 100], Effects(
+            [["400-400", "400-400", "400-400", "400-400", "400-400", "400-400"], ["400-400", "400-400", "400-400", "400-400", "400-400", "400-400"], ["400-400", "400-400", "400-400", "400-400", "400-400", "400-400"], ["400-400", "400-400", "400-400", "400-400", "400-400", "400-400"]],
+            [["500-500", "500-500", "500-500", "500-500", "500-500", "500-500"], ["500-500", "500-500", "500-500", "500-500", "500-500", "500-500"], ["500-500", "500-500", "500-500", "500-500", "500-500", "500-500"], ["500-500", "500-500", "500-500", "500-500", "500-500", "500-500"]],
+            ['buff_agi', 'buff_cha', 'buff_int', 'buff_str'],
+        ), casting={"ap": [1, 1, 1, 1, 1, 1], "cooldown": [6, 5, 4, 3, 2, 1], "crit": [75, 70, 65, 60, 55, 50], "per_target": [0, 0, 0, 0, 0, 2]}, spell_id=101),
+        Spell("Réflexes", [1, 1, 1, 1, 1, 100], Effects(
+            [["15-35", "20-45", "25-55", "30-65", "45-90", "65-135"]],
+            [["20-60", "25-75", "30-90", "35-105", "50-140", "70-210"]],
+            ['buff_agi'],
+        ), casting={"ap": [6, 5, 4, 3, 2, 2], "cooldown": [6, 6, 6, 6, 6, 6], "crit": [50, 50, 50, 50, 50, 50]}, spell_id=118),
         Spell("Topkaj", [1, 1, 1, 1, 1, 100], Effects(
             [["8-20", "10-22", "12-24", "16-28", "18-30", "19-31"]],
             [["12-24", "14-26", "16-28", "18-30", "20-32", "22-34"]],
@@ -155,6 +185,16 @@ RETRO_DAMAGE_SPELLS = {
         ), casting={"ap": [4, 4, 4, 4, 4, 4], "crit": [50, 50, 50, 50, 50, 45], "per_turn": [2, 2, 2, 2, 2, 2]}, spell_id=134),
     ],
     "Enutrof": [
+        Spell("Chance", [1, 1, 1, 1, 1, 100], Effects(
+            [["11-20", "21-30", "31-40", "41-50", "51-60", "61-70"]],
+            [["31-31", "51-51", "71-71", "91-91", "111-111", "120-120"]],
+            ['buff_cha'],
+        ), casting={"ap": [4, 4, 4, 4, 3, 2], "cooldown": [6, 6, 6, 6, 6, 6], "crit": [50, 50, 50, 50, 50, 50]}, spell_id=42),
+        Spell("Cupidité", [1, 1, 1, 1, 1, 100], Effects(
+            [["50-50", "60-60", "70-70", "80-80", "100-100", "150-150"], ["50-50", "60-60", "70-70", "80-80", "100-100", "150-150"]],
+            [["100-100", "110-110", "120-120", "130-130", "150-150", "200-200"], ["100-100", "110-110", "120-120", "130-130", "150-150", "200-200"]],
+            ['buff_int', 'buff_str'],
+        ), casting={"ap": [4, 4, 4, 4, 4, 3], "cooldown": [6, 6, 6, 6, 6, 6], "crit": [50, 50, 50, 50, 50, 50]}, spell_id=52),
         Spell("Désinvocation", [1, 1, 1, 1, 1, 100], Effects(
             [["31-50", "31-60", "31-70", "31-80", "51-110", "71-130"]],
             [["81-81", "91-91", "101-101", "111-111", "121-121", "130-130"]],
@@ -279,16 +319,31 @@ RETRO_DAMAGE_SPELLS = {
             [["3-4", "3-4", "3-4", "5-6", "6-7", "6-10"]],
             [NEUTRAL],
         ), casting={"ap": [4, 4, 3, 3, 3, 2], "crit": [50, 50, 50, 45, 40, 40]}, spell_id=143),
+        Spell("Mutilation", [1, 1, 1, 1, 1, 100], Effects(
+            [["20-20", "25-25", "30-30", "35-35", "40-40", "50-50"]],
+            [["35-35", "35-35", "40-40", "45-45", "50-50", "60-60"]],
+            ['buff_pow'],
+        ), casting={"ap": [3, 3, 3, 3, 2, 2], "crit": [50, 50, 50, 50, 50, 45], "per_target": [4, 4, 4, 4, 4, 5]}, spell_id=149),
         Spell("Pression", [1, 1, 1, 1, 1, 100], Effects(
             [["5-9", "6-10", "6-10", "7-11", "8-12", "9-13"]],
             [["7-11", "8-12", "8-12", "9-13", "10-14", "11-15"]],
             [EARTH],
         ), casting={"ap": [5, 5, 4, 4, 3, 2], "crit": [40, 40, 40, 40, 40, 40]}, spell_id=141),
+        Spell("Puissance", [1, 1, 1, 1, 1, 100], Effects(
+            [["20-20", "32-32", "45-45", "55-55", "70-70", "100-100"]],
+            [["20-20", "32-32", "45-45", "55-55", "70-70", "100-100"]],
+            ['buff_pow'],
+        ), casting={"ap": [6, 6, 6, 6, 5, 4], "cooldown": [5, 5, 5, 5, 6, 5], "crit": [50, 50, 50, 50, 50, 50]}, spell_id=153),
         Spell("Tempête de Puissance", [1, 1, 1, 1, 1, 100], Effects(
             [["21-25", "24-28", "27-31", "31-35", "36-40", "36-40"]],
             [["26-30", "29-33", "32-36", "36-40", "41-45", "41-45"]],
             [FIRE],
         ), casting={"ap": [4, 4, 4, 3, 3, 3], "crit": [50, 50, 50, 50, 50, 45], "per_turn": [3, 3, 3, 3, 3, 3]}, spell_id=156),
+        Spell("Vitalité", [1, 1, 1, 1, 1, 100], Effects(
+            [["81-90", "91-110", "101-130", "121-150", "151-180", "251-300"]],
+            [["110-110", "130-130", "150-150", "175-175", "200-200", "350-350"]],
+            ['buff_vit'],
+        ), casting={"ap": [4, 4, 4, 4, 4, 3], "cooldown": [5, 5, 5, 5, 5, 5], "crit": [45, 45, 45, 45, 45, 45]}, spell_id=155),
     ],
     "Osamodas": [
         Spell("Corbeau", [1, 1, 1, 1, 1, 100], Effects(
@@ -296,6 +351,11 @@ RETRO_DAMAGE_SPELLS = {
             [["3-5", "4-6", "5-7", "6-8", "7-9", "12-12"]],
             [FIRE],
         ), casting={"ap": [3, 3, 3, 3, 3, 3], "crit": [45, 45, 45, 45, 45, 45]}, spell_id=24),
+        Spell("Crocs du Mulou", [1, 1, 1, 1, 1, 100], Effects(
+            [["60-60", "65-65", "70-70", "75-75", "80-80", "100-100"]],
+            [["70-70", "80-80", "90-90", "100-100", "110-110", "120-120"]],
+            ['buff_pow'],
+        ), casting={"ap": [2, 2, 2, 2, 2, 2], "cooldown": [6, 6, 6, 6, 6, 4], "crit": [40, 40, 40, 40, 40, 40]}, spell_id=29),
         Spell("Fouet", [1, 1, 1, 1, 1, 100], Effects(
             [["51-55", "71-75", "91-95", "111-115", "151-155", "301-305"]],
             [["101-110", "141-150", "181-190", "221-230", "301-310", "601-610"]],
@@ -316,8 +376,18 @@ RETRO_DAMAGE_SPELLS = {
             [["6-11", "7-12", "8-13", "9-14", "11-16", "24-24"]],
             [FIRE],
         ), casting={"ap": [5, 5, 5, 4, 4, 4], "crit": [50, 50, 50, 50, 45, 45]}, spell_id=21),
+        Spell("Résistance Naturelle", [1, 1, 1, 1, 1, 100], Effects(
+            [["81-90", "91-110", "101-130", "121-150", "151-180", "201-250"]],
+            [["110-110", "130-130", "150-150", "175-175", "200-200", "275-275"]],
+            ['buff_vit'],
+        ), casting={"ap": [6, 5, 4, 3, 2, 1], "cooldown": [10, 8, 6, 4, 3, 3], "crit": [40, 40, 40, 40, 40, 40]}, spell_id=32),
     ],
     "Pandawa": [
+        Spell("Colère de Zatoïshwan", [1, 1, 1, 1, 1, 100], Effects(
+            [["100-100", "110-110", "120-120", "130-130", "140-140", "200-200"]],
+            [["100-100", "110-110", "120-120", "130-130", "140-140", "200-200"]],
+            ['buff_pow'],
+        ), casting={"ap": [6, 6, 6, 6, 6, 6], "cooldown": [6, 6, 6, 6, 6, 6], "crit": [45, 45, 45, 45, 45, 45]}, spell_id=701),
         Spell("Flasque Explosive", [1, 1, 1, 1, 1, 100], Effects(
             [["6-15", "6-17", "8-19", "9-23", "11-25", "16-30"]],
             [["9-18", "11-20", "13-24", "16-30", "21-35", "26-40"]],
@@ -434,6 +504,11 @@ RETRO_DAMAGE_SPELLS = {
             [["41-60", "46-65", "66-85", "101-120", "131-150", "131-150"]],
             [EARTH],
         ), casting={"ap": [5, 5, 5, 5, 5, 4], "crit": [90, 90, 90, 90, 90, 90], "per_turn": [2, 2, 2, 2, 2, 2]}, spell_id=76),
+        Spell("Concentration de Chakra", [1, 1, 1, 1, 1, 100], Effects(
+            [["20-20", "30-30", "40-40", "50-50", "60-60", "80-80"]],
+            [["25-25", "40-40", "55-55", "70-70", "85-85", "110-110"]],
+            ['buff_str'],
+        ), casting={"ap": [4, 4, 4, 4, 4, 3], "cooldown": [6, 6, 6, 6, 6, 6], "crit": [50, 50, 50, 50, 50, 50]}, spell_id=62),
         Spell("Coup Sournois", [1, 1, 1, 1, 1, 100], Effects(
             [["2-6", "3-7", "4-8", "6-10", "8-12", "12-16"]],
             [["5-9", "6-10", "7-11", "9-13", "11-15", "17-21"]],
@@ -571,6 +646,13 @@ RETRO_SPELL_NAMES = {
   "fr": "Bulle",
   "pt": "Bolha"
  },
+ "Chance": {
+  "de": "Glück",
+  "en": "Fortune",
+  "es": "Suerte",
+  "fr": "Chance",
+  "pt": "Sorte"
+ },
  "Colère de Iop": {
   "de": "Iops Wut",
   "en": "Iop's Wrath",
@@ -578,12 +660,33 @@ RETRO_SPELL_NAMES = {
   "fr": "Colère de Iop",
   "pt": "Cólera de Iop"
  },
+ "Colère de Zatoïshwan": {
+  "de": "Zatoïshwans Zorn",
+  "en": "Zatoishwan's Wrath",
+  "es": "Ira de Zatoishwan",
+  "fr": "Colère de Zatoïshwan",
+  "pt": "Ira de Zatoishwan"
+ },
  "Concentration": {
   "de": "Konzentration",
   "en": "Concentration",
   "es": "Concentración",
   "fr": "Concentration",
   "pt": "Concentração"
+ },
+ "Concentration de Chakra": {
+  "de": "Chakra konzentrieren",
+  "en": "Chakra Concentration",
+  "es": "Concentración de Chakra",
+  "fr": "Concentration de Chakra",
+  "pt": "Concentração de Chakra"
+ },
+ "Contrecoup": {
+  "de": "Nachwirkung",
+  "en": "Repercussion",
+  "es": "Contragolpe",
+  "fr": "Contrecoup",
+  "pt": "Repercussão"
  },
  "Corbeau": {
   "de": "Rabe",
@@ -605,6 +708,20 @@ RETRO_SPELL_NAMES = {
   "es": "Corte",
   "fr": "Couper",
   "pt": "Corte"
+ },
+ "Crocs du Mulou": {
+  "de": "Fangzähne des WuWulfs",
+  "en": "Fangs of Boowolf",
+  "es": "Colmillos del Mediulubo",
+  "fr": "Crocs du Mulou",
+  "pt": "Caninos de Boolobo"
+ },
+ "Cupidité": {
+  "de": "Gier",
+  "en": "Greed",
+  "es": "Codicia",
+  "fr": "Cupidité",
+  "pt": "Ambição"
  },
  "Destin d'Ecaflip": {
   "de": "Ecaflips Schicksal",
@@ -956,6 +1073,13 @@ RETRO_SPELL_NAMES = {
   "fr": "Mot Vampirique",
   "pt": "Palavra do Poder: Absorção"
  },
+ "Mutilation": {
+  "de": "Gemetzel",
+  "en": "Mutilation",
+  "es": "Mutilación",
+  "fr": "Mutilation",
+  "pt": "Mutilação"
+ },
  "Oeil de Taupe": {
   "de": "Maulwurfssicht",
   "en": "Bat's Eye",
@@ -1033,6 +1157,13 @@ RETRO_SPELL_NAMES = {
   "fr": "Pression",
   "pt": "Pressão"
  },
+ "Puissance": {
+  "de": "Macht",
+  "en": "Power",
+  "es": "Potencia",
+  "fr": "Puissance",
+  "pt": "Poder"
+ },
  "Rayon Obscur": {
   "de": "Dunkelstrahl",
   "en": "Dark Ray",
@@ -1082,12 +1213,40 @@ RETRO_SPELL_NAMES = {
   "fr": "Ronces Multiples",
   "pt": "Sarça Múltipla"
  },
+ "Roue de la Fortune": {
+  "de": "Glücksrad",
+  "en": "Wheel of Fortune",
+  "es": "Rueda de la Fortuna",
+  "fr": "Roue de la Fortune",
+  "pt": "Roda da Fortuna"
+ },
  "Roulage de Pelle": {
   "de": "Herumwirbelnde Schaufel",
   "en": "Shovel Kiss",
   "es": "Jarabe de Pala",
   "fr": "Roulage de Pelle",
   "pt": "Beijo da Pá"
+ },
+ "Roulette": {
+  "de": "Roulette",
+  "en": "Roulette",
+  "es": "Ruleta",
+  "fr": "Roulette",
+  "pt": "Roleta"
+ },
+ "Réflexes": {
+  "de": "Reflexe",
+  "en": "Reflex",
+  "es": "Reflejos",
+  "fr": "Réflexes",
+  "pt": "Reflexo"
+ },
+ "Résistance Naturelle": {
+  "de": "Natürliche Abwehrkräfte",
+  "en": "Natural Defence",
+  "es": "Resistencia Natural",
+  "fr": "Résistance Naturelle",
+  "pt": "Resistência Natural"
  },
  "Sablier de Xélor": {
   "de": "Sanduhr von Xélor",
@@ -1124,6 +1283,20 @@ RETRO_SPELL_NAMES = {
   "fr": "Tempête de Puissance",
   "pt": "Tempestade de Poder"
  },
+ "Tir Critique": {
+  "de": "Zielschuss",
+  "en": "Critical Shooting",
+  "es": "Disparo Crítico",
+  "fr": "Tir Critique",
+  "pt": "Tiro Crítico"
+ },
+ "Tir Puissant": {
+  "de": "Powerschuss",
+  "en": "Powerful Shooting",
+  "es": "Disparo Potente",
+  "fr": "Tir Puissant",
+  "pt": "Tiro Poderoso"
+ },
  "Topkaj": {
   "de": "Topkaj",
   "en": "Topkaj",
@@ -1158,5 +1331,12 @@ RETRO_SPELL_NAMES = {
   "es": "Viento Envenenado",
   "fr": "Vent Empoisonné",
   "pt": "Vento Envenenado"
+ },
+ "Vitalité": {
+  "de": "Vitalität",
+  "en": "Vitality",
+  "es": "Vitalidad",
+  "fr": "Vitalité",
+  "pt": "Vitalidade"
  }
 }

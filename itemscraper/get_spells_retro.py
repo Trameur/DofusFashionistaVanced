@@ -22,6 +22,41 @@ from pathlib import Path
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 
+# Characteristic effects, read since 2026-08-27.
+#
+# This file used to read only the ten ids above, so the class self-buffs of
+# 1.29 were dropped and the table held zero buff rows. That reads as "Retro has
+# no such spells" and was really "this file never asked": the Iop's own
+# "Puissance" and "Vitalite", the Ecaflip's "Roulette", the Enutrof's "Chance"
+# were all absent.
+#
+# NOTHING HERE IS COPIED FROM THE MODERN TABLE. 1.29 numbers its effects its own
+# way, and 138 is the proof: Dofus 3 reads it "X Puissance" while 1.29 reads it
+# "Augmente les dommages de #1 a #2%". Each id below was taken from Ankama's own
+# effects_fr.json in retro_raw, with the label it carries there:
+#     118  "+#1 a #2 en force"                    -> buff_str
+#     119  "+#1 a #2 en agilite"                  -> buff_agi
+#     123  "+#1 a #2 a la chance"                 -> buff_cha
+#     126  "+#1 a #2 en intelligence"             -> buff_int
+#     125  "+#1 a #2 en vitalite"                 -> buff_vit
+#     138  "Augmente les dommages de #1 a #2%"    -> buff_pow
+#
+# 138 maps to buff_pow because the stat the Fashionista calls Power IS that
+# effect on Retro; the site has shown it under Ankama's own wording, "% de
+# dommages", since bb3dbcd11. Same internal stat, different label per version.
+#
+# LEFT OUT ON PURPOSE, each for want of a buff key the model does not have:
+# 112 "+X de dommages" (flat Damage), 111 "+X PA", 128 "+X PM", 117 "+X a la
+# portee", 115 "+X aux coups critiques", 178 "+X de soins". 23 further class
+# spells carry only those, among them the Cra's "Maitrise de l'Arc" and the
+# Ecaflip's "Odorat". Adding them means deciding whether a full self-buff may
+# hand a build AP and MP, which is a question for the four versions at once,
+# not a Retro detail.
+CHARACTERISTIC_EFFECTS = {118: 'buff_str', 119: 'buff_agi', 123: 'buff_cha',
+                          126: 'buff_int', 125: 'buff_vit', 138: 'buff_pow'}
+ROW_EFFECTS = dict(DAMAGE_EFFECTS)
+ROW_EFFECTS.update(CHARACTERISTIC_EFFECTS)
+
 # Standard Dofus class id -> Fashionista class name (Retro = the original 12).
 CLASS_ID_TO_NAME = {
     1: 'Feca', 2: 'Osamodas', 3: 'Enutrof', 4: 'Sram', 5: 'Xelor', 6: 'Ecaflip',
@@ -43,15 +78,18 @@ def dice_range(d):
 
 
 def _collect(effect_list):
-    """One effect list -> {element_token: (min, max)}. A level can carry several
-    lines of one element (conditional branches, damage/steal pairs); the
-    strongest by midpoint wins."""
+    """One effect list -> {row token: (min, max)}.
+
+    Rows are the elemental damage hits plus the characteristic buffs; the token
+    is an element name for the first and a 'buff_<stat>' pseudo-element for the
+    second. A level can carry several lines of one token (conditional branches,
+    damage/steal pairs); the strongest by midpoint wins."""
     out = {}
     for e in (effect_list or []):
-        if isinstance(e, list) and len(e) >= 2 and e[-1] in DAMAGE_EFFECTS:
+        if isinstance(e, list) and len(e) >= 2 and e[-1] in ROW_EFFECTS:
             rng = dice_range(e[0])
             if rng:
-                elem = DAMAGE_EFFECTS[e[-1]]
+                elem = ROW_EFFECTS[e[-1]]
                 prev = out.get(elem)
                 if prev is None or rng[0] + rng[1] > prev[0] + prev[1]:
                     out[elem] = rng
@@ -68,7 +106,11 @@ def decode_level(level_arr):
         return {}
     a, b = _collect(level_arr[-2]), _collect(level_arr[-1])
     result = {}
-    for elem in ('water', 'earth', 'air', 'fire', 'neutral'):
+    # The five elements first, in their historical order, then whatever buff
+    # rows the level carries, sorted so the generated module is stable.
+    tokens = list(('water', 'earth', 'air', 'fire', 'neutral'))
+    tokens += sorted((set(a) | set(b)) - set(tokens))
+    for elem in tokens:
         ra, rb = a.get(elem), b.get(elem)
         if not ra and not rb:
             continue
@@ -104,7 +146,11 @@ def decode_casting(level_arr):
 
 
 def decode_spell(spell):
-    """Retro spell record -> damage-spell dict, or None if it deals no damage."""
+    """Retro spell record -> damage-spell dict, or None if it carries no row.
+
+    A spell that only buffs a characteristic and deals no damage is kept: the
+    Dofus 2, 3 and Touch tables keep theirs, and a build optimizer needs the
+    Iop's "Puissance" even though it hits nobody."""
     per_level = []
     elements = []
     casting_levels = []
@@ -149,6 +195,10 @@ ELEMENT_TOKEN_TO_CONST = {
     'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER', 'air': 'AIR',
     'neutral': 'NEUTRAL',
 }
+# Buff rows are written as plain quoted strings, the way the Dofus 2, 3
+# and Touch tables write them, not as element constants.
+ELEMENT_TOKEN_TO_CONST.update(
+    {token: repr(token) for token in CHARACTERISTIC_EFFECTS.values()})
 
 
 def _level_req(n):
