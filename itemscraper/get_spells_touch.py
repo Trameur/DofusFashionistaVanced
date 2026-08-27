@@ -65,6 +65,30 @@ CHARACTERISTIC_EFFECTS = {
 ROW_EFFECTS = dict(DAMAGE_EFFECTS)
 ROW_EFFECTS.update(CHARACTERISTIC_EFFECTS)
 
+# Spells whose characteristic line provably does not reach the caster.
+#
+# The line carries a target mask and the mask alphabet is not published: `C` is
+# the caster, established on Touch by two single-line spells whose text says
+# "du lanceur", and the rest of the letters resist measurement. Two filtering
+# rules were built on the alphabet and both were refuted, each one costing a
+# value that is right today.
+#
+# What is NOT ambiguous is Ankama's own sentence when a spell carries a single
+# characteristic line: what the text says about the beneficiary can only be
+# about that line. Four spells fall there, and the quoted sentence is what
+# settles each one. Reading a description is first hand; guessing a letter is
+# not.
+#
+# The quote is not decoration. _check_still_says below refuses to generate when
+# a description no longer contains it, so a spell Ankama rewrites raises the
+# question again instead of keeping an exclusion nobody rechecks.
+NOT_A_SELF_BUFF = {
+    52: 'augmente la puissance de tous les alli',          # Enutrof Cupidite
+    9919: 'puissance des invocations',                     # Osamodas Crocs du Mulou
+    3215: 'Sur un alli',                                   # Foggernaut Evolution
+    9685: 'bonus Puissance sur les alli',                  # Osamodas Fouet
+}
+
 ELEMENT_TOKEN_TO_CONST = {'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER',
                           'air': 'AIR', 'neutral': 'NEUTRAL'}
 # Buff rows are written as plain quoted strings in the module, the way the
@@ -185,6 +209,28 @@ CASTING_FIELDS = {'ap': 'apCost', 'per_turn': 'maxCastPerTurn',
                   'crit': 'criticalHitProbability'}
 
 
+def _check_still_says(spell):
+    """The exclusion's own evidence, verified at generation time.
+
+    A quoted sentence in a table is a claim about a file nobody rereads. This
+    reads it back: if Ankama has rewritten the description, the quote no longer
+    matches and generating stops rather than carrying an exclusion whose reason
+    has quietly expired.
+    """
+    quote = NOT_A_SELF_BUFF.get(spell.get('id'))
+    if quote is None:
+        return False
+    text = spell.get('descriptionId') or ''
+    if isinstance(text, dict):
+        text = text.get('fr') or ''
+    if quote.lower() not in str(text).lower():
+        raise SystemExit(
+            'spell %s no longer says %r; its buff was excluded on that '
+            'sentence and the exclusion has to be decided again'
+            % (spell.get('id'), quote))
+    return True
+
+
 def decode_spell(spell, spell_levels):
     """Touch spell -> damage-spell dict, or None if it carries no row at all.
 
@@ -199,6 +245,12 @@ def decode_spell(spell, spell_levels):
             continue
         nc = collect_damage(lv.get('effects'))
         cr = collect_damage(lv.get('criticalEffect'))
+        if _check_still_says(spell):
+            # Ankama's own sentence says this buff goes to allies, summons or
+            # a turret. Dropping the row leaves whatever damage the spell also
+            # deals, which is what a Touch player casting it actually gets.
+            nc = {k: v for k, v in nc.items() if not k.startswith('buff_')}
+            cr = {k: v for k, v in cr.items() if not k.startswith('buff_')}
         per_nc.append(nc)
         per_cr.append(cr)
         levels_req.append(max(1, int(lv.get('minPlayerLevel') or 1)))

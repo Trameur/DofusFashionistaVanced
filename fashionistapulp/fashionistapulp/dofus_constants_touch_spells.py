@@ -225,11 +225,6 @@ TOUCH_DAMAGE_SPELLS = {
             [["200-200", "210-210", "230-230", "240-240", "250-250", "400-400"]],
             ['buff_pow'],
         ), casting={"ap": [2, 2, 2, 2, 2, 2], "cooldown": [4, 4, 4, 4, 4, 4]}, spell_id=42),
-        Spell("Cupidité", [95, 95, 95, 95, 145, 195], Effects(
-            [["75-75", "90-90", "100-100", "110-110", "125-125", "190-190"]],
-            [["90-90", "100-100", "110-110", "125-125", "140-140", "200-200"]],
-            ['buff_pow'],
-        ), casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [4, 4, 4, 4, 4, 4], "crit": [5, 5, 5, 5, 5, 5]}, spell_id=52),
         Spell("Désinvocation", [90, 90, 90, 90, 140, 190], Effects(
             [["21-24", "22-25", "23-26", "24-27", "27-30", "31-34"]],
             [["25-28", "26-29", "27-30", "28-31", "31-34", "35-38"]],
@@ -389,11 +384,6 @@ TOUCH_DAMAGE_SPELLS = {
             [["25-29", "26-30", "27-31", "28-32", "31-35", "34-38"]],
             [FIRE],
         ), casting={"ap": [4, 4, 4, 4, 4, 4], "crit": [20, 20, 20, 20, 20, 20], "per_turn": [2, 2, 2, 2, 2, 2]}, spell_id=3209),
-        Spell("Évolution", [13, 13, 13, 13, 63, 113], Effects(
-            [["90-90", "100-100", "110-110", "120-120", "130-130", "200-200"]],
-            [["90-90", "100-100", "110-110", "120-120", "130-130", "200-200"]],
-            ['buff_pow'],
-        ), casting={"ap": [2, 2, 2, 2, 2, 2], "cooldown": [2, 2, 2, 2, 0, 0], "per_turn": [0, 0, 0, 0, 1, 1]}, spell_id=3215),
     ],
     "Iop": [
         Spell("Colère de Iop", [95, 95, 95, 95, 145, 195], Effects(
@@ -520,16 +510,6 @@ TOUCH_DAMAGE_SPELLS = {
             [["23-25", "24-26", "25-27", "26-28", "29-31", "32-34"]],
             [AIR],
         ), casting={"ap": [3, 3, 3, 3, 3, 3], "crit": [15, 15, 15, 15, 15, 15], "per_turn": [1, 1, 1, 1, 1, 1]}, spell_id=9661),
-        Spell("Crocs du Mulou", [73, 73, 73, 73, 123, 173], Effects(
-            [["130-130", "140-140", "160-160", "180-180", "200-200", "250-250"]],
-            [["150-150", "160-160", "180-180", "200-200", "230-230", "300-300"]],
-            ['buff_pow'],
-        ), casting={"ap": [2, 2, 2, 2, 2, 2], "cooldown": [3, 3, 3, 3, 3, 2], "crit": [5, 5, 5, 5, 5, 5]}, spell_id=9919),
-        Spell("Fouet", [100, 100, 100, 100, 150, 200], Effects(
-            [["30-30", "45-45", "60-60", "75-75", "100-100", "150-150"]],
-            [["30-30", "45-45", "60-60", "75-75", "100-100", "150-150"]],
-            ['buff_pow'],
-        ), stacks=2, casting={"ap": [3, 3, 3, 3, 3, 2], "per_turn": [1, 1, 1, 1, 2, 2]}, spell_id=9685),
         Spell("Frappe du Craqueleur", [37, 37, 37, 37, 87, 137], Effects(
             [["23-27", "25-29", "27-31", "29-33", "33-37", "37-41"]],
             [["28-32", "30-34", "32-36", "34-38", "37-41", "41-45"]],
@@ -1128,20 +1108,6 @@ TOUCH_SPELL_NAMES = {
   "fr": "Courant",
   "pt": "Corrente"
  },
- "Crocs du Mulou": {
-  "de": "Fangzähne des WuWulfs",
-  "en": "Fangs of Boowolf",
-  "es": "Colmillos de Milubo",
-  "fr": "Crocs du Mulou",
-  "pt": "Presas do Milobo"
- },
- "Cupidité": {
-  "de": "Gier",
-  "en": "Greed",
-  "es": "Codicia",
-  "fr": "Cupidité",
-  "pt": "Ambição"
- },
  "Dagues Boomerang": {
   "de": "Boomerangdolch",
   "en": "Boomerang Daggers",
@@ -1379,13 +1345,6 @@ TOUCH_SPELL_NAMES = {
   "es": "Madurez",
   "fr": "Force de l'Age",
   "pt": "Flor da Idade"
- },
- "Fouet": {
-  "de": "Peitsche",
-  "en": "Whip",
-  "es": "Látigo",
-  "fr": "Fouet",
-  "pt": "Chicote"
  },
  "Fournaise": {
   "de": "Schmelzofen",
@@ -2177,12 +2136,5 @@ TOUCH_SPELL_NAMES = {
   "es": "Vórtex",
   "fr": "Vortex",
   "pt": "Vórtex"
- },
- "Évolution": {
-  "de": "Evolution",
-  "en": "Evolution",
-  "es": "Evolución",
-  "fr": "Évolution",
-  "pt": "Evolução"
  }
 }
