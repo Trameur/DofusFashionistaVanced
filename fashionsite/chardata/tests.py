@@ -22758,6 +22758,63 @@ class VersionStatNameTests(SimpleTestCase):
                     offenders.append('%s asks for the shared "%s"'
                                      % (os.path.basename(path), name))
         self.assertEqual(sorted(set(offenders)), [])
+        self._no_renaming_version_renders_a_percent_of(overridden)
+
+    def _no_renaming_version_renders_a_percent_of(self, overridden):
+        """The measurement the exclusion above rests on, asserted.
+
+        The exclusion was written with its number beside it, "Retro and Touch
+        carry zero percent-Power rows against 105 on Dofus 3", and the number
+        was right. Reading the characteristic buffs of the Retro spells later
+        the same day gave Retro such a row, and the comment stayed reassuring
+        while it stopped being true. An exclusion justified by a measurement
+        has to carry the measurement, because what invalidates it is usually
+        our own next commit.
+
+        The buff tokens are read out of the page rather than listed here, so a
+        sixth branch written tomorrow arrives covered.
+        """
+        import re
+        from django.utils.translation import gettext
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.translation_util import localized_stat_name
+        from fashionistapulp.fashionista_config import get_fashionista_path
+
+        page_path = os.path.join(
+            get_fashionista_path(), 'fashionsite', 'chardata', 'templates',
+            'chardata', 'spells.html')
+        with open(page_path, encoding='utf-8') as handle:
+            page = handle.read()
+        marks = [(m.group(1), m.end()) for m in
+                 re.finditer(r'element\s*==\s*"(buff_[a-z_]+)"', page)]
+        self.assertGreater(len(marks), 10,
+                           'no buff branch read: the pattern is wrong, so an '
+                           'empty answer here would mean nothing')
+
+        offenders = []
+        for name in overridden:
+            wanted = re.compile(r'%\s*\{%\s*trans\s*["\']'
+                                + re.escape(name) + r'["\']')
+            pasting = set()
+            for index, (token, end) in enumerate(marks):
+                stop = marks[index + 1][1] if index + 1 < len(marks) else len(page)
+                if wanted.search(page[end:stop]):
+                    pasting.add(token)
+            if not pasting:
+                continue
+            shared = gettext(name)
+            for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+                if str(localized_stat_name(name, version)) == shared:
+                    continue
+                for spells in get_damage_spells_for_version(version).values():
+                    for spell in spells:
+                        for element in (spell.effects.elements or []):
+                            if str(element) in pasting:
+                                offenders.append(
+                                    '%s renames "%s" and %s grants %s'
+                                    % (version, name, spell.name, element))
+        self.assertEqual(sorted(set(offenders)), [],
+                         'the exclusion for "% <stat>" no longer holds')
 
     def test_every_buff_a_spell_grants_has_a_name_on_the_page(self):
         """A buff token with no branch prints a bare number.
