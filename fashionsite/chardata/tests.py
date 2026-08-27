@@ -17416,11 +17416,17 @@ class CombatApTests(SimpleTestCase):
                                                castable.hits[0].max_dam))
 
     def test_dofus2_counts_the_same_damage_once_too(self):
-        # Dofus 2 ships no spell level data, so its block is hand-carried.
+        # Both spells carry exactly one damage row at their top grade in
+        # Ankama's own 2.73 SpellLevels table, mask 'A', so one hit is the
+        # whole of what a cast deals and any second one would be a row read
+        # twice. The pair used to be Exploding Arrow and Friendship Word, from
+        # the frozen block; 2.73 gives Exploding Arrow three rows, two of them
+        # 14-17 under different target masks, so it can no longer say anything
+        # about counting once.
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spell_combo import Castable
-        wanted = {'Cra': (13085, 14, 17), 'Eliotrope': (14593, 26, 29)}
+        wanted = {'Cra': (13047, 23, 27), 'Eliotrope': (14575, 26, 28)}
         for char_class, (spell_id, low, high) in wanted.items():
             spells = get_damage_spells_for_version('dofus2').get(char_class, [])
             spell = next((s for s in spells if s.spell_id == spell_id), None)
@@ -17549,9 +17555,14 @@ class FinalDamageReachesTheTurnTests(SimpleTestCase):
                     self.assertTrue(off and on)
                     self.assertGreater(on['total'], off['total'])
 
-    def test_dofus2_has_no_turn_to_lift(self):
-        # The Dofus 2 archive ships no casting block, so no spell there states
-        # an AP cost.
+    def test_dofus2_has_a_turn_to_lift_like_the_others(self):
+        # This said the opposite until 2.73 got its own spell levels: with a
+        # frozen block and no casting data, no Dofus 2 spell stated an AP cost
+        # and the version had no turn at all. The table Ankama publishes for
+        # 2.73.3.14 carries the cast numbers, so every served spell now has
+        # one and the combo works here as it does elsewhere. Asserting on all
+        # of them rather than a count, so a spell losing its casting block
+        # cannot hide behind the others.
         from chardata.spell_buffs import get_damage_spells_for_version
         from chardata.spell_combo import castable_spells
         spells = [spell
@@ -17560,8 +17571,9 @@ class FinalDamageReachesTheTurnTests(SimpleTestCase):
                   if char_class != 'default'
                   for spell in bucket]
         self.assertTrue(spells)
-        self.assertEqual([], [spell.name for spell in spells if spell.casting])
-        self.assertEqual([], castable_spells('Eliotrope', 200, 'dofus2'))
+        self.assertEqual([], [spell.name for spell in spells
+                              if not spell.casting])
+        self.assertTrue(castable_spells('Eliotrope', 200, 'dofus2'))
 
     def test_retro_and_touch_have_no_such_buff_to_lose(self):
         for version in ('retro', 'touch'):
@@ -17682,13 +17694,24 @@ class PortalsStackTenTimesTests(SimpleTestCase):
         full = _best_combo(char, solution, 'dofus3', {'Portal': 'n10'})
         self.assertAlmostEqual(plain['total'] * 1.2, full['total'], delta=1)
 
-    def test_dofus2_keeps_its_own_portal(self):
-        # The Dofus 2 archive ships no spell levels, and its Portail text
-        # carries neither the final damage line nor the stacking wording.
+    def test_dofus2_has_no_portal_to_stack(self):
+        # Portal deals damage in Dofus 3 and none at all in 2.73, so it is an
+        # Eliotrope spell there without being a damage spell: the reference
+        # names it, the model does not carry it, and the page fills it in from
+        # Ankama's own text. The frozen block used to hand it Dofus 3's rows,
+        # which is why this test could ask about its stacking at all.
+        import json
+        import os
         from chardata.spell_buffs import get_damage_spells_for_version
         spells = {spell.name: spell for spell
                   in get_damage_spells_for_version('dofus2')['Eliotrope']}
-        self.assertEqual(1, spells['Portal'].stacks or 1)
+        self.assertNotIn('Portal', spells)
+        path = os.path.join(os.path.dirname(__file__), 'spell_reference',
+                            'dofus2.json')
+        with open(path, encoding='utf-8') as handle:
+            reference = json.load(handle)
+        self.assertIn('Portal', [(entry.get('name') or {}).get('en')
+                                 for entry in reference['Eliotrope']])
 
     def test_the_text_only_speaks_where_the_levels_are_silent(self):
         # A rank that says max_stack 1 is saying the spell does not stack, and
@@ -19922,19 +19945,6 @@ class SpellComboTests(SimpleTestCase):
                      if getattr(spell, 'delayed_crit', None) is not None]
         self.assertEqual([], sorted(s.name for s in different))
 
-    #: dofus2 keeps two, and neither can be settled from data this project
-    #: holds. Its archives ship no spell level data at all, so its block is the
-    #: 2.73 content frozen at the time and cannot be regenerated; the nine
-    #: spells whose rows were byte-identical to dofus3's took dofus3's merged
-    #: rows instead. Persecuting Arrow is not one of them, its dofus2 numbers
-    #: are a different spell entirely (10-12 where dofus3 deals 30-34), and
-    #: Friendship Word is identical to dofus3, where the same rows carry
-    #: `aggregates` and are alternatives rather than a split.
-    ROWS_DOFUS2_CANNOT_SETTLE = {
-        'uneven': ['Persecuting Arrow'],
-        'split': ['Friendship Word'],
-    }
-
     def _rows_that_replaced_another(self, book):
         uneven, split = [], []
         for spells in book.values():
@@ -19973,10 +19983,29 @@ class SpellComboTests(SimpleTestCase):
             dofus_constants_beta.DAMAGE_SPELLS)
         self.assertEqual([], uneven, 'beta')
         self.assertEqual([], split, 'beta')
+        # dofus2 kept two exceptions, Persecuting Arrow and Friendship Word,
+        # for as long as its block was the frozen Dofus 3 content: neither
+        # could be settled from data this project held. Regenerated from
+        # Ankama's 2.73 spell levels both settle, and one different case takes
+        # their place.
+        #
+        # The Ebony Dofus is written by Ankama as five grades that all sit at
+        # minimum level 1 and each carry ONE element: 96 water, 99 fire, 98
+        # air, 97 earth, 100 neutral, all 14-16. They are element variants of
+        # a single spell, not a progression, and read as a progression they
+        # build a triangle where the fire row is 0-0 until grade 2 and the
+        # neutral row until grade 5. Dofus 3 escapes it only because its own
+        # lookup fails and falls back to LEGACY_DEFAULT_SPELLS.
+        #
+        # It is left as one named exception rather than patched here. 55
+        # spells of the archive have this shape and 55 of Dofus 3's have it
+        # too, so the rule that reads them belongs in the generator and has to
+        # be proved against all three versions, not slipped in for the one
+        # spell that reaches a page.
         uneven, split = self._rows_that_replaced_another(
             dofus_constants_dofus2.DAMAGE_SPELLS)
-        self.assertEqual(self.ROWS_DOFUS2_CANNOT_SETTLE['uneven'], uneven)
-        self.assertEqual(self.ROWS_DOFUS2_CANNOT_SETTLE['split'], split)
+        self.assertEqual([], uneven, 'dofus2')
+        self.assertEqual(['Ebony Dofus'], split, 'dofus2')
 
     def test_the_late_part_is_never_worth_more_than_the_cast(self):
         # It is subtracted from the turn, so scoring it with buffs the cast
@@ -21987,7 +22016,15 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         from fashionistapulp.fashionista_config import get_fashionista_path
         static = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
                               'static')
-        allowed = {}
+        # These three are 2.73 spells Dofus 3 dropped, so their icon id is not
+        # in the shared pool and store_dofus2_spell_icons has nothing to copy.
+        # The 2.73 client's own art was checked and does not have them either:
+        # content/gfx/spells/spells0*.d2p holds 156 files across its six linked
+        # archives, animation art rather than the small icon, and none is named
+        # for any of these ids. Listed one by one so a fourth cannot join them
+        # unnoticed.
+        allowed = {'dofus2': {'Geyser', 'Repulsive Fang',
+                              'Woolly Sledgehammer'}}
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             names = set()
             for spells in get_damage_spells_for_version(version).values():

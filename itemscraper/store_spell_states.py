@@ -13,8 +13,10 @@ files for the name Ankama gives it in each language.
 Only the states a damage row actually names are kept, so the file holds a few
 hundred entries instead of the six thousand the datacenter ships.
 
-dofus3 and beta only. The 2.73 archive ships no spell_states.json, and Retro
-and Touch build no state-gated rows.
+Retro and Touch build no state-gated rows, so they have nothing to name. Dofus 2
+was left out on the grounds that its archive shipped no spell_states.json, which
+was true of the dofusdude mirror and not of the game: download_d2o_tables.py
+fetches the table from Ankama's CDN, 5399 rows for 2.73.3.14.
 """
 from __future__ import annotations
 
@@ -41,6 +43,8 @@ SOURCE = {
                fashionista_version.FASHIONISTA_VERSION),
     'beta': ('transformed_spells_beta.json',
              fashionista_version.FASHIONISTA_BETA_VERSION),
+    'dofus2': ('transformed_spells_dofus2.json',
+               fashionista_version.FASHIONISTA_DOFUS2_VERSION),
 }
 
 _STATE_TOKEN = re.compile(r'\*?([eE])(\d+)')
@@ -88,8 +92,17 @@ def read_states(tag, wanted):
         with open(os.path.join(root, name), encoding='utf-8') as handle:
             return json.load(handle)
 
+    # Dofus 3 dumps are Unity-serialised, the Dofus 2 one a plain list, and
+    # they file their strings under different keys. Nothing else differs: the
+    # field names survived the port.
+    raw_states = load('spell_states.json')
+    if isinstance(raw_states, list):
+        records = [{'data': row} for row in raw_states]
+    else:
+        records = raw_states['references']['RefIds']
+
     name_ids = {}
-    for reference in load('spell_states.json')['references']['RefIds']:
+    for reference in records:
         data = reference.get('data') or {}
         try:
             state_id = int(data.get('id'))
@@ -100,7 +113,8 @@ def read_states(tag, wanted):
 
     texts = {}
     for lang in LANGUAGES:
-        texts[lang] = load('%s.json' % lang)['entries']
+        payload = load('%s.json' % lang)
+        texts[lang] = payload.get('entries') or payload['texts']
 
     states = {}
     for state_id, name_id in name_ids.items():

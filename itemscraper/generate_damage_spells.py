@@ -97,7 +97,13 @@ def _rows_that_wait(normal_rows):
     return delayed, conditional
 
 
-CONDITIONAL_ROWS = {
+# Every entry below is a statement about ONE version's client rows, so it
+# cannot be shared: 12882 is Cheek in Dofus 3 and Nerve in 2.73, 14651 is Fob
+# and Embalming, and four of the ten do not exist in 2.73 at all. Read against
+# the wrong version, a row index either names a row that is not there (the
+# generator stops, which is how this was found) or, worse, silently holds back
+# a row the cast really does deal.
+_MODERN_CONDITIONAL_ROWS = {
     # Pilfer is not here: the client marks its row PD|XPD and the rule above
     # reads it. Noa has the same mechanic and the same wording in all five
     # languages, but its row is marked "I", so it needs saying by hand.
@@ -125,6 +131,19 @@ CONDITIONAL_ROWS = {
     13352: {1: "range_removal"},   # Enutrof, Collapse: row 0 carries the a,A mask the cast uses, row 1 the bare A
     14651: {1: "telefragged"},   # Xelor, Fob: row 1 carries the area zone the sentence names, row 0 a single cell
 }
+
+CONDITIONAL_ROWS_BY_VERSION = {
+    "dofus3": _MODERN_CONDITIONAL_ROWS,
+    # The beta is the same client one patch ahead, and every one of the ten
+    # generates there unchanged.
+    "beta": _MODERN_CONDITIONAL_ROWS,
+    # Nothing has been established against the 2.73 client yet. Empty asserts
+    # nothing false; the rows a 2.73 spell holds back still have to be read
+    # from its own descriptions, spell by spell, the way the modern ones were.
+    "dofus2": {},
+}
+
+CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION["dofus3"]
 
 BUFF_SORT_ORDER = {
     "buff_str": 0,
@@ -295,6 +314,12 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         type=Path,
         default=Path("fashionistapulp/fashionistapulp/dofus_constants.py"),
         help="Path to dofus_constants.py",
+    )
+    parser.add_argument(
+        "--game-version",
+        default="dofus3",
+        choices=sorted(CONDITIONAL_ROWS_BY_VERSION),
+        help="Which client the by-hand conditional rows were read from",
     )
     return parser.parse_args(argv)
 
@@ -1730,7 +1755,9 @@ def update_constants_file(path: Path, block: str) -> None:
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
+    global CONDITIONAL_ROWS
     args = parse_args(argv)
+    CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION[args.game_version]
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)

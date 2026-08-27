@@ -3709,6 +3709,536 @@
    }
   }
  ],
+ "Forgelance": [
+  {
+   "description": {
+    "de": "Zieht die Ziele heran und fügt den Gegnern im Wirkungsbereich Wasserschaden zu.",
+    "en": "Attracts targets and inflicts Water damage on enemies in an area of effect.",
+    "es": "Atrae a los objetivos y ocasiona daños de agua a los enemigos en zona.",
+    "fr": "Attire les cibles et occasionne des dommages Eau aux ennemis en zone.",
+    "pt": "Atrai os alvos e inflige danos de água aos inimigos em zona."
+   },
+   "id": 23393,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Dreizack des Meeres",
+    "en": "Biting Trident",
+    "es": "Al Tridente",
+    "fr": "Trident de la Mer",
+    "pt": "Tridente do Mar"
+   }
+  },
+  {
+   "description": {
+    "de": "Fügt Gegnern Erdschaden zu und zieht die Ziele ins Zentrum des Wirkungsbereichs.\nHat keine Wirkung auf den Zaubernden.\nDer Schaden verringert sich nicht mit der Entfernung.\n\nFalls der Zaubernde Unbewaffnet ist, ist die Reichweite des Zaubers unendlich und die Wirkungen werden nur rund um den Wurfspeer ausgelöst.",
+    "en": "Inflicts Earth damage on enemies and attracts the targets up to the centre in an area of effect.\nDoes not affect the caster.\nDamage does not decrease with distance.\n\nIf the caster is Disarmed: the spell's range is infinite, and the effects can only be applied around the caster's Lance.",
+    "es": "Ocasiona daños de tierra a los enemigos y atrae a los objetivos hasta el centro en zona.\nNo afecta al lanzador.\nLos daños no disminuyen con la distancia.\n\nSi el lanzador está desarmado: el alcance del hechizo es infinito, y los efectos pueden aplicarse solamente alrededor de la lanza.",
+    "fr": "Occasionne des dommages Terre aux ennemis et attire les cibles jusqu'au centre en zone.\nN'affecte pas le lanceur.\nLes dommages ne diminuent pas avec la distance.\n\nSi le lanceur est Désarmé : la portée du sort est infinie et les effets peuvent être appliqués uniquement autour de sa Lance.",
+    "pt": "Inflige danos de terra aos inimigos e atrai os alvos para o centro da zona.\nNão afeta o lançador.\nOs danos não diminuem com a distância.\n\nSe o lançador estiver Desarmado: o alcance é infinito e os efeitos só podem ser aplicados ao redor da Lança."
+   },
+   "id": 23736,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Zusammenbruch",
+    "en": "Collapse",
+    "es": "Colapso",
+    "fr": "Effondrement",
+    "pt": "Colapso"
+   }
+  },
+  {
+   "description": {
+    "de": "Fügt den Gegnern Feuerschaden zu und stößt die Ziele im Wirkungsbereich zurück.",
+    "en": "Inflicts Fire damage on enemies and repels targets in an area of effect.",
+    "es": "Ocasiona daños de fuego a los enemigos y repele a los objetivos en zona.",
+    "fr": "Occasionne des dommages Feu aux ennemis et repousse les cibles en zone.\n\nLes dommages des Lances Incendiaires sont augmentés pour chaque ennemi touché.",
+    "pt": "Inflige danos de fogo aos inimigos e afasta os alvos em zona."
+   },
+   "id": 23754,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Brennender Stoßdegen",
+    "en": "Burning Estoc",
+    "es": "Estocada Ardiente",
+    "fr": "Estoc Brûlant",
+    "pt": "Estoque Ardente"
+   }
+  },
+  {
+   "description": {
+    "de": "Fügt Gegnern Luftschaden zu und stößt die Ziele im Wirkungsbereich zurück.",
+    "en": "Inflicts Air damage on enemies and repels targets in an area of effect.",
+    "es": "Ocasiona daños de aire a los enemigos y repele a los objetivos en zona.",
+    "fr": "Occasionne des dommages Air aux ennemis et repousse les cibles en zone.",
+    "pt": "Inflige danos de ar aos inimigos e afasta os alvos em zona."
+   },
+   "id": 23741,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Einen Schwung Erz",
+    "en": "Brass Volley",
+    "es": "Golpiza de Bronce",
+    "fr": "Volée d'Airain",
+    "pt": "Saraivada de Bronze"
+   }
+  },
+  {
+   "description": {
+    "de": "Beschwört den Wurfspeer oder ruft ihn zurück.\n\nDie AP-Kosten des Zaubers werden erstattet.",
+    "en": "Summons or recalls the Lance.\n\nThe spell's AP cost is reimbursed.",
+    "es": "Invoca o llama a la lanza.\n\nEl coste en PA del hechizo se devuelve.",
+    "fr": "Invoque la Lance.\n\nSi le lanceur est Désarmé : rappelle sa Lance.\nSur la Lance : rend également 1 PA au lanceur.",
+    "pt": "Invoca ou chama de volta a Lança.\n\nReembolsa o custo em PA do feitiço."
+   },
+   "id": 23801,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Epilog",
+    "en": "Epilogue",
+    "es": "Epílogo",
+    "fr": "Épilogue",
+    "pt": "Epílogo"
+   }
+  },
+  {
+   "description": {
+    "de": "Bringt den Zaubernden näher an das Ziel heran. Falls der Zaubernde mit ihm in Kontakt kommt: Fügt Gegnern Schaden in seinem besten Angriffselement zu und stößt das Ziel zurück.\nFalls das Ziel der Wurfspeer ist, wird der Wurfspeer auch zurückgerufen.\n\nDer Stoß ist entsprechend des Abstands zwischen dem Zaubernden und dem Ziel noch größer.",
+    "en": "Moves the caster closer to the target. If the caster ends up adjacent, inflicts damage in the caster's best attack element on enemies and repels the target.\nIf the target is the Lance, also recalls the Lance.\n\nPushback increases with the distance between the caster and the target.",
+    "es": "Acerca el lanzador al objetivo. Si el lanzador llega a su contacto, ocasiona daños con su mejor elemento de ataque a los enemigos y repele al objetivo.\nSi el objetivo es la lanza, también la llama.\n\nEl empuje es mayor según la distancia entre el lanzador y el objetivo.",
+    "fr": "Rapproche le lanceur de la cible. Si le lanceur arrive à son contact, occasionne des dommages dans son meilleur élément d'attaque aux ennemis et repousse la cible.\nSi la cible est la Lance, la rappelle également.\n\nLa poussée est plus importante selon la distance entre le lanceur et la cible.",
+    "pt": "Aproxima o lançador do alvo. Se o lançador entrar em contato com ele, inflige danos em seu melhor elemento de ataque aos inimigos e empurra o alvo.\nSe o alvo for a Lança, também a chama.\n\nO empurrão aumenta de acordo com a distância entre o lançador e o alvo."
+   },
+   "id": 23824,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Heldenhafter Angriff",
+    "en": "Heroic Charge",
+    "es": "Carga Heroica",
+    "fr": "Charge Héroïque",
+    "pt": "Carga Heroica"
+   }
+  },
+  {
+   "description": {
+    "de": "Fügt Gegnern im Wirkungsbereich Wasserschaden zu und beschwört den Wurfspeer.",
+    "en": "Inflicts Water damage on enemies in an area of effect and summons the Lance.",
+    "es": "Ocasiona daños de agua a los enemigos en zona e invoca a la lanza.",
+    "fr": "Occasionne des dommages Eau aux ennemis en zone et invoque la Lance.",
+    "pt": "Inflige danos de água nos inimigos em zona e invoca a Lança."
+   },
+   "id": 23432,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Wurfspeer des Sees",
+    "en": "Lance of the Lake",
+    "es": "Lanza del Lago",
+    "fr": "Lance du Lac",
+    "pt": "Lança do Lago"
+   }
+  },
+  {
+   "description": {
+    "de": "Fügt Gegnern im Wirkungsbereich Erdschaden zu und beschwört den Wurfspeer.\nDer Schaden verringert sich nicht mit der Entfernung.",
+    "en": "Inflicts Earth damage on enemies in an area of effect and summons the Lance.\nDamage does not decrease with distance.",
+    "es": "Ocasiona daños de tierra a los enemigos en zona e invoca a la lanza.\nLos daños no disminuyen con la distancia.",
+    "fr": "Occasionne des dommages Terre aux ennemis en zone et invoque la Lance.\nLes dommages ne diminuent pas avec la distance.",
+    "pt": "Inflige danos de terra aos inimigos em zona e invoca a Lança.\nOs danos não diminuem com a distância."
+   },
+   "id": 23719,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Steinschleuder",
+    "en": "Slingshot",
+    "es": "Lanzapiedras",
+    "fr": "Lance-Pierre",
+    "pt": "Catapulta"
+   }
+  },
+  {
+   "description": {
+    "de": "Schützt Verbündete im Wirkungsbereich mit einem Schild und erhöht ihre Schubsresistenz im Wirkungsbereich.\nDer Schild ist beim Zaubernden stärker.\n\nFalls der Zaubernde Unbewaffnet ist, ist die Reichweite des Zaubers unendlich und die Wirkungen werden nur rund um den Wurfspeer ausgelöst.",
+    "en": "Applies a shield around allies and increases their Pushback Resistance in an area of effect.\nThe shield is greater on the caster.\n\nIf the caster is Disarmed: the spell's range is infinite, and the effects can only be applied around the caster's Lance.",
+    "es": "Aplica un escudo a los aliados y aumenta sus resistencias de empuje en zona.\nEl escudo es mayor para el lanzador.\n\nSi el lanzador está desarmado: el alcance del hechizo es infinito, y los efectos pueden aplicarse solamente alrededor de la lanza.",
+    "fr": "Applique un bouclier sur les alliés et augmente leurs Résistances Poussée en zone.\nLe bouclier est plus important sur le lanceur.\n\nSi le lanceur est Désarmé : la portée du sort est infinie et les effets peuvent être appliqués uniquement autour de sa Lance.",
+    "pt": "Aplica um escudo nos aliados e aumenta as resistências a empurrão em zona.\nO escudo é maior no lançador.\n\nSe o lançador estiver Desarmado: o alcance é infinito e os efeitos só podem ser aplicados ao redor da Lança."
+   },
+   "id": 23330,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Phalanx",
+    "en": "Phalanx",
+    "es": "Falange",
+    "fr": "Phalange",
+    "pt": "Falange"
+   }
+  },
+  {
+   "description": {
+    "de": "Verursacht Feuerschaden bei Gegnern im Wirkungsbereich.\nBeschwört den Wurfspeer, wenn das Feld frei ist oder wird.\n\nDer Schaden des Zaubers wird mit jedem Wirken erhöht.",
+    "en": "Inflicts Fire damage on enemies in an area of effect.\nSummons the Lance if the cell is or becomes free.\n\nThe spell's damage is increased after each casting.",
+    "es": "Ocasiona daños de fuego a los enemigos en zona.\nInvoca a la lanza si la casilla está o queda libre.\n\nLos daños del hechizo aumentan después de cada lanzamiento.",
+    "fr": "Occasionne des dommages Feu et plante une Lance Incendiaire sur la cible.\nSi la case est ou devient libre, invoque la Lance.",
+    "pt": "Inflige danos de fogo aos inimigos em zona.\nInvoca a Lança se a célula estiver ou ficar livre.\n\nOs danos do feitiço aumentam após cada lançamento."
+   },
+   "id": 23263,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Flammender Wurfspeer",
+    "en": "Fire Lance",
+    "es": "Lanza de Incendios",
+    "fr": "Lance à Incendie",
+    "pt": "Lança Incendiária"
+   }
+  },
+  {
+   "description": {
+    "de": "Fügt Gegnern Luftschaden zu und stößt das Ziel zurück.\nFalls das ausgewählte Feld frei ist oder wird, wird der Wurfspeer beschworen.",
+    "en": "Inflicts Air damage on enemies and repels the target.\nIf the targeted cell is or becomes free, summons the Lance.",
+    "es": "Ocasiona daños de aire a los enemigos y repele al objetivo.\nSi la casilla objetivo está o queda libre, invoca a la lanza.",
+    "fr": "Occasionne des dommages Air aux ennemis et repousse la cible.\nSi la case ciblée est ou devient libre, invoque la Lance.",
+    "pt": "Inflige danos de ar aos inimigos e empurra o alvo.\nSe a célula estiver ou ficar livre, invoca a Lança."
+   },
+   "id": 23734,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Wurfspeer von Myr",
+    "en": "No Myr Javelin",
+    "es": "Jabalina Keatina",
+    "fr": "Javeline de Myr",
+    "pt": "Dardo de Tyro"
+   }
+  },
+  {
+   "description": {
+    "de": "Teleportiert den Zaubernden auf das erste freie Feld zwischen ihm und dem Ziel, teleportiert ihn symmetrisch zum Ziel und verursacht Wasserschaden bei Gegnern auf gerader Linie bis zum anvisierten Ziel.\n\nBeim Wurfspeer: Ruft den Wurfspeer zurück, bevor die Wirkungen angewendet werden.\n\nSymmetrische Teleportation wird nur angewendet, falls der Zaubernde in Nahkampfentfernung mit seinem Ziel teleportiert wird.",
+    "en": "Teleports the caster to the first available cell between them and the target, teleports the caster symmetrically in relation to the target and inflicts Water damage on enemies in a line up to the targeted cell.\n\nOn the Lance: recalls the Lance before applying the effects.\n\nThe caster is only teleported symmetrically if they are teleported adjacent to the target.",
+    "es": "Teletransporta al lanzador a la primera casilla disponible entre este y el objetivo, lo teletransporta simétricamente respecto del objetivo y ocasiona daños de agua a los enemigos en línea hasta la casilla objetivo.\n\nEn la lanza: llama a la lanza antes de aplicar los efectos.\n\nLa teletransportación simétrica se aplica solo si el lanzador se teletransporta al contacto con su objetivo.",
+    "fr": "Téléporte le lanceur sur la première case disponible entre la cible et lui, le téléporte symétriquement par rapport à cette dernière et occasionne des dommages Eau aux ennemis en ligne jusqu'à la case ciblée.\n\nSur la Lance : rappelle la Lance avant d'appliquer les effets.\n\nLa téléportation symétrique est appliquée uniquement si le lanceur est téléporté au contact de sa cible.",
+    "pt": "Teletransporta o lançador para a primeira célula disponível entre o alvo e ele, teletransporta-o simetricamente em relação ao alvo e inflige danos de água aos inimigos em linha até a célula visada.\n\nNa lança: chama a lança de volta antes de aplicar os efeitos.\n\nO teletransporte simétrico só é aplicado quando o lançador é teletransportado em contato com o alvo."
+   },
+   "id": 23434,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Balestraff",
+    "en": "Balestra",
+    "es": "Balestra",
+    "fr": "Balestra",
+    "pt": "Balestra"
+   }
+  },
+  {
+   "description": {
+    "de": "Tauscht den Platz mit dem Ziel und fügt den Gegnern Erdschaden zu.\nFalls das Ziel der Wurfspeer ist, wird der Wurfspeer auch zurückgerufen.",
+    "en": "Switches places with the target and inflicts Earth damage on enemies.\nIf the target is the Lance, also recalls the Lance.",
+    "es": "Intercambia posición con el objetivo y ocasiona daños de tierra a los enemigos.\nSi el objetivo es la lanza, también la llama.",
+    "fr": "Échange de position avec la cible et occasionne des dommages Terre aux ennemis.\nSi la cible est la Lance, la rappelle également.",
+    "pt": "Troca de posição com o alvo e inflige danos de terra aos inimigos.\nSe o alvo for a Lança, também a chama."
+   },
+   "id": 23726,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Tonferse",
+    "en": "Earthen Weakness",
+    "es": "Talón de Barro",
+    "fr": "Talon d'Argile",
+    "pt": "Calcanhar de Argila"
+   }
+  },
+  {
+   "description": {
+    "de": "Teleportiert den Zaubernden auf das anvisierte Feld, entzieht den Gegnern Lebenspunkte im besten Angriffselement des Zaubernden und verringert den Endschaden, den sie in gerader Linie bis zum anvisierten Feld verursachen.",
+    "en": "Teleports the caster to the targeted cell, steals health from enemies in the caster's best attack element, and reduces those enemies' final damage inflicted in a line up to the targeted cell.",
+    "es": "Teletransporta al lanzador a la casilla objetivo, roba vida con el mejor elemento de ataque del lanzador a los enemigos y reduce a estos los daños finales ocasionados en línea hasta la casilla objetivo.",
+    "fr": "Téléporte le lanceur sur la case ciblée, vole de la vie dans le meilleur élément d'attaque du lanceur aux ennemis et réduit leurs dommages finaux occasionnés en ligne jusqu'à la case ciblée.",
+    "pt": "Teletransporta o lançador para a célula visada, rouba vida no melhor elemento de ataque do lançador dos inimigos e reduz os danos finais infligidos em linha reta até a célula visada."
+   },
+   "id": 23823,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Kyrja",
+    "en": "Kyrja",
+    "es": "Kyrja",
+    "fr": "Kyrja",
+    "pt": "Kyrja"
+   }
+  },
+  {
+   "description": {
+    "de": "Tauscht die Position mit dem Ziel und fügt Gegnern im Wirkungsbereich Feuerschaden zu.",
+    "en": "Switches places with the target and inflicts Fire damage on enemies in an area of effect.",
+    "es": "Intercambia posición con el objetivo y ocasiona daños de fuego a los enemigos en zona.",
+    "fr": "Invoque la Lance, rapproche le lanceur de sa Lance et occasionne des dommages Feu aux ennemis en ligne jusqu'à la case ciblée et dans un demi-cercle de 2 cases.\n\nPlante une Lance Incendiaire sur les ennemis touchés.",
+    "pt": "Troca de posição com o alvo e inflige danos de fogo aos inimigos em zona."
+   },
+   "id": 23747,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Mahlstrom",
+    "en": "Maelstrom",
+    "es": "Maelstrom",
+    "fr": "Maelstrom",
+    "pt": "Maelstrom"
+   }
+  },
+  {
+   "description": {
+    "de": "Verkürzt die Dauer von Wirkungen auf Gegner und erhöht die Schlagkraft von Verbündeten im Wirkungsbereich.\n\nFalls der Zaubernde Unbewaffnet ist, ist die Reichweite des Zaubers unendlich und die Wirkungen werden nur rund um den Wurfspeer ausgelöst.",
+    "en": "Reduces the duration of effects on enemies and increases allies' Power in an area of effect.\n\nIf the caster is Disarmed: the spell's range is infinite, and the effects can only be applied around the caster's Lance.",
+    "es": "Reduce la duración de los efectos en los enemigos y aumenta la potencia de los aliados en zona.\n\nSi el lanzador está desarmado: el alcance del hechizo es infinito, y los efectos pueden aplicarse solamente alrededor de la lanza.",
+    "fr": "Réduit la durée des effets sur les ennemis et augmente la Puissance des alliés en zone.\n\nSi le lanceur est Désarmé : la portée du sort est infinie et les effets peuvent être appliqués uniquement autour de sa Lance.",
+    "pt": "Reduz a duração dos efeitos nos inimigos e aumenta a potência dos aliados em zona.\n\nSe o lançador estiver Desarmado: o alcance é infinito e os efeitos só podem ser aplicados ao redor da Lança."
+   },
+   "id": 23841,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Eiserner Auftakt",
+    "en": "Iron Prelude",
+    "es": "Preludio al Hierro",
+    "fr": "Prélude au Fer",
+    "pt": "Prelúdio do Ferro"
+   }
+  },
+  {
+   "description": {
+    "de": "Beschwört den Wurfspeer, fügt Gegnern Luftschaden zu und stößt die Ziele in einer Linie bis zum ausgewählten Feld zurück.",
+    "en": "Summons the Lance, inflicts Air damage on enemies and repels targets in a line up to the targeted cell.",
+    "es": "Invoca a la lanza, ocasiona daños de aire a los enemigos y repele a los objetivos en línea hasta la casilla objetivo.",
+    "fr": "Invoque la Lance, occasionne des dommages Air aux ennemis et repousse les cibles en ligne jusqu'à la case ciblée.",
+    "pt": "Invoca a Lança, inflige danos de ar aos inimigos e empurra os alvos em linha reta até a célula visada."
+   },
+   "id": 23729,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Wurfspeer-Zyklon",
+    "en": "Cyclone Lancer",
+    "es": "Lanza Ciclón",
+    "fr": "Lance-Cyclone",
+    "pt": "Lança-Ciclone"
+   }
+  },
+  {
+   "description": {
+    "de": "Heilt den Zaubernden und seine Verbündeten und erhöht ihre BP im Wirkungsbereich.\nBeim Zaubernden ist die Heilwirkung größer.\n\nWenn der Zaubernde Unbewaffnet ist, wird auch sein Wurfspeer zurückgerufen.",
+    "en": "Heals the caster and their allies and increases all their MP in an area of effect.\nHealing is greater on the caster.\n\nIf the caster is Disarmed, also recalls their Lance.",
+    "es": "Cura al lanzador y sus aliados, y aumenta sus PM en zona.\nLas curas son mayores en el lanzador.\n\nSi el lanzador está desarmado, llama también a la lanza.",
+    "fr": "Soigne le lanceur et ses alliés et augmente leurs PM en zone.\nLes soins sont plus importants sur le lanceur.\n\nSi le lanceur est Désarmé, rappelle également sa Lance.",
+    "pt": "Cura o lançador e seus aliados e aumenta seus PM em zona.\nAs curas são maiores no lançador.\n\nSe o lançador estiver Desarmado, também chama de volta a Lança."
+   },
+   "id": 23826,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Ritterlichkeit",
+    "en": "Chivalry",
+    "es": "Caballería",
+    "fr": "Chevalerie",
+    "pt": "Cavalaria"
+   }
+  },
+  {
+   "description": {
+    "de": "Teleportiert den Wurfspeer auf das erste freie Feld zwischen ihm und dem Zaubernden und fügt den Gegnern in gerader Linie bis zum anvisierten Feld Wasserschaden zu.\n\nBeim Zaubernden: Ruft den Wurfspeer zurück und fügt Gegnern im Umkreis von 2 Feldern um sie und den Zaubernden herum Wasserschaden zu.\n\nDer Schaden verringert sich nicht mit der Entfernung, reduziert sich aber, wenn der Zaubernde das Ziel ist.\nDie Wirkung wird nur einmal pro gewirktem Zauber angewendet.",
+    "en": "Teleports the Lance to the first available cell between it and the caster and inflicts Water damage on enemies in a line up to the targeted cell.\n\nOn the caster: recalls their Lance and inflicts Water damage on enemies in a 2-cell circle around it and the caster.\n\nThe damage does not decrease with distance and is less if the target is the caster.\nThe effects are applied only once per casting.",
+    "es": "Teletransporta a la lanza a la primera casilla disponible entre el lanzador y esta, y ocasiona daños de agua a los enemigos en línea hasta la casilla objetivo.\n\nSobre el lanzador: llama a la lanza y ocasiona daños de agua a los enemigos en un círculo de 2 casillas alrededor de esta y del lanzador.\n\nLos daños no disminuyen con la distancia, y son más débiles si el objetivo es el lanzador.\nLos efectos solo se aplican una única vez por lanzamiento.",
+    "fr": "Téléporte la Lance sur la première case disponible entre le lanceur et elle et occasionne des dommages Eau aux ennemis en ligne jusqu'à la case ciblée.\n\nSur le lanceur : rappelle sa Lance et occasionne des dommages Eau aux ennemis dans un cercle de 2 cases autour d'elle et du lanceur.\n\nLes dommages ne diminuent pas avec la distance, et sont plus faibles si la cible est le lanceur.\nLes effets ne sont appliqués qu'une seule fois par lancer.",
+    "pt": "Teletransporta a Lança para a primeira célula disponível entre o lançador e ela e inflige danos de água aos inimigos em linha até a célula visada.\n\nNo lançador: chama de volta a Lança e inflige danos de água aos inimigos em um círculo de 2 células ao redor dela e do lançador.\n\nOs danos não diminuem com a distância e são mais fracos se o alvo for o lançador.\nOs efeitos só são aplicadas uma vez por lançamento."
+   },
+   "id": 23268,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Jormun",
+    "en": "Jormun",
+    "es": "Jormun",
+    "fr": "Jormun",
+    "pt": "Jormun"
+   }
+  },
+  {
+   "description": {
+    "de": "Beschwört den Wurfspeer und wirkt den Zustand „Stanzer“:\n• Ermöglicht dem Wurfspeer zu blocken.\n• Erhöht Blocken und Vitalität des Wurfspeers.\n• Versetzt den Wurfspeer und Ziele in seiner Nahkampfentfernung in den Zustand „Unverrückbar“.\nBei der Zerstörung des Wurfspeers werden die Wirkungen aufgehoben.\n\nDie Effekte können nicht entzaubert werden.",
+    "en": "Summons the Lance and applies the Puncheon state to it:\n• Allows the Lance to lock.\n• Increases the Lance's Lock and Vitality.\n• Applies the Unmovable state to the Lance and targets adjacent to it.\nThe effects are removed when the Lance is destroyed.\n\nThe effects cannot be unbewitched.",
+    "es": "Invoca a la lanza y le aplica el estado Punzón:\n• Permite a la lanza placar.\n• Aumenta el placaje y la vitalidad de la lanza.\n• Aplica el estado Indesplazable a la lanza y a los objetivos en contacto con ella.\nLos efectos se retiran cuando la lanza se destruye.\n\nLos efectos no se pueden desembrujar.",
+    "fr": "Invoque la Lance en lui appliquant l'état Poinçon :\n• Permet à la Lance de tacler.\n• Augmente le Tacle et la Vitalité de la Lance.\n• Applique l'état Indéplaçable sur la Lance et les cibles à son contact.\nLes effets sont retirés à la destruction de la Lance.\n\nLes effets ne peuvent pas être désenvoûtés.",
+    "pt": "Invoca a Lança e aplica a ela o estado Puntura:\n• Permite que a Lança bloqueie.\n• Aumenta o bloqueio e a vitalidade da Lança.\n• Aplica o estado Irremovível na Lança e nos alvos em contato com ela.\nOs efeitos passam quando a Lança é destruída.\n\nOs efeitos não podem ser retirados."
+   },
+   "id": 23401,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Stanzer",
+    "en": "Puncheon",
+    "es": "Punzón",
+    "fr": "Poinçon",
+    "pt": "Puntura"
+   }
+  },
+  {
+   "description": {
+    "de": "Erhöht die Schlagkraft des Zaubernden für jeden Gegner im Wirkungsbereich und fügt ihnen Erdschaden im Wirkungsbereich zu.\n\nFalls der Zaubernde Unbewaffnet ist, ist die Reichweite des Zaubers unendlich und die Wirkungen werden nur rund um den Wurfspeer ausgelöst.\n\nDer Schaden hat keine Wirkung auf den Zaubernden.",
+    "en": "Increases the caster's Power for each enemy in the area of effect and inflicts Earth damage on the enemies in an area of effect.\n\nIf the caster is Disarmed: the spell's range is infinite, and the effects can only be applied around the caster's Lance.\n\nThe damage does not affect the caster.",
+    "es": "Aumenta la potencia del lanzador por cada enemigo que haya en la zona de efecto y les ocasiona daños de tierra en zona.\n\nSi el lanzador está desarmado: el alcance del hechizo es infinito, y los efectos pueden aplicarse solamente alrededor de la lanza.\n\nLos daños no afectan al lanzador.",
+    "fr": "Augmente la Puissance du lanceur pour chaque ennemi dans la zone d'effet et leur occasionne des dommages Terre en zone.\n\nSi le lanceur est Désarmé : la portée du sort est infinie et les effets peuvent être appliqués uniquement autour de sa Lance.\n\nLes dommages n'affectent pas le lanceur.",
+    "pt": "Aumenta a potência do lançador a cada inimigo na zona de efeito e inflige a eles danos de terra em zona.\n\nSe o lançador estiver Desarmado: o alcance é infinito e os efeitos só podem ser aplicados ao redor da Lança.\n\nOs danos não afetam o lançador."
+   },
+   "id": 23738,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Erde der Mitte",
+    "en": "Middle Earth",
+    "es": "Tierra Media",
+    "fr": "Terre du Milieu",
+    "pt": "Terra do Meio"
+   }
+  },
+  {
+   "description": {
+    "de": "Wirkt den Zustand „Sonnenfinsternis“ beim Zaubernden:\n• Entwaffnet, wenn auf den Zaubernden gewirkt.\n• Wirkt einen Schild auf den Zaubernden und seine Verbündeten im Umkreis von 3 Feldern um ihn herum.\n• Entzieht allen ihre Reichweite.\n\nBei der nächsten Runde auf dem anvisierten Feld:\n• Wenn der Zaubernde auf dem Feld steht, wird der Zauber „Sichel von Mani“ gewirkt.\n• Andernfalls wird der Zauber „Scheibe von Sigel“ gewirkt.\n\nDer Reichweitenverlust kann nicht entzaubert werden.",
+    "en": "Applies the Eclipse state on the caster:\n• Disarms the caster.\n• Applies a shield on the caster and their allies in a 3-cell circle around the caster.\n• Reduces everyone's Range.\n\nOn the targeted cell on the following turn:\n• If the cell is occupied by the caster, casts the Mani's Crescent spell.\n• Otherwise, casts the Sigel's Disc spell.\n\nThe Range removal cannot be unbewitched.",
+    "es": "Aplica el estado Eclipse al lanzador:\n• Desarma al lanzador.\n• Aplica un escudo al lanzador y sus aliados en un círculo de 3 casillas a su alrededor.\n• Retira alcance a todo el mundo.\n\nEn el siguiente turno en la casilla objetivo:\n• Si la casilla está ocupada por el lanzador, lanza el hechizo Medialuna de Mani.\n• Si no, lanza el hechizo Disco de Sigel.\n\nLa retirada de alcance no se puede desembrujar.",
+    "fr": "Applique l'état Éclipse sur le lanceur :\n• Désarme sur le lanceur.\n• Applique un bouclier sur le lanceur et ses alliés dans un cercle de 3 cases autour de lui.\n• Retire de la Portée à tout le monde.\n\nAu tour suivant sur la case ciblée :\n• Si la case est occupée par le lanceur, lance le sort Croissant de Mani.\n• Sinon, lance le sort Disque de Sigel.\n\nLe retrait de Portée ne peut pas être désenvoûté.",
+    "pt": "Aplica o estado Eclipse no lançador:\n• Desarma o lançador.\n• Aplica um escudo no lançador e nos aliados em um círculo de 3 células ao redor dele.\n• Retira alcance de todo mundo.\n\nNo turno seguinte, na célula visada:\n• Se a célula estiver ocupada pelo lançador, lança o feitiço Crescente de Mani.\n• Caso contrário, lança o feitiço Disco de Sigel.\n\nA retirada de alcance não pode ser desfeita."
+   },
+   "id": 23834,
+   "kind": {
+    "de": "Speerschmied",
+    "en": "Forgelance",
+    "es": "Forjalanza",
+    "fr": "Forgelance",
+    "pt": "Forjalança"
+   },
+   "name": {
+    "de": "Sonnenfinsternis",
+    "en": "Eclipse",
+    "es": "Eclipse",
+    "fr": "Éclipse",
+    "pt": "Eclipse"
+   }
+  }
+ ],
  "Huppermage": [
   {
    "description": {

@@ -18,6 +18,7 @@ Pipeline steps:
     item-images         get_equipments4.py    -> static item images (shared with dofus3)
     monsters/grades     store_dofus2_monster_grades.py -> monster_grades in items_dofus2.db
     spells/download     download_raw_data.py  -> itemscraper/raw/<version>/
+    spells/d2o-tables   download_d2o_tables.py -> raw/<version>/spell_levels.json (Ankama CDN)
     spells/transform    get_spells.py         -> itemscraper/transformed_spells_dofus2.json
     spells/constants    generate_damage_spells.py -> dofus_constants_dofus2.py
     spell-icons         store_dofus2_spell_icons.py -> spells/dofus2/ (the renamed ones)
@@ -238,14 +239,37 @@ def main() -> None:
             "--filter", "pt.json",
             "--filter", "de.json",
         ])
-        # NO spells/transform + spells/constants here: the dofus2 archives
-        # (2.73.3.7 and 2.73.3.9 are the only ones) ship no spell level
-        # data at all, so get_spells/generate_damage_spells can never run
-        # for this version. The committed DAMAGE_SPELLS block is the 2.73
-        # content Dofus 3 launched with, with spell ids injected from the
-        # archive names (see dofus_constants_dofus2.py header).
-        # The archive does name every class spell and describe it, which is
-        # what the reference carries; the numbers stay empty for this version.
+        # The dofusdude mirror publishes 52 files for 2.73.3.14 and none of
+        # them is spell_levels.json, which is why this version had no spell
+        # numbers of its own for so long. Ankama's CDN carries the table for
+        # that exact version, so we fetch it ourselves and decode it: 31874
+        # rows, and the same reader reproduces the mirror's spells.json on all
+        # 15655 records field for field, which is what says the two are
+        # interchangeable.
+        step("spells/d2o-tables", [
+            PY, "download_d2o_tables.py",
+            "--game-version", "dofus2",
+            "--tag", version,
+            "SpellLevels", "SpellVariants",
+        ], cwd=ITEMSCRAPER)
+        step("spells/transform", [
+            PY, "-m", "itemscraper.get_spells",
+            "--tag", version,
+            "--output", "itemscraper/transformed_spells_dofus2.json",
+            "--class-output", "itemscraper/transformed_class_spells_dofus2.json",
+            # NOT the shared transformed_spell_names.json: 2.73 writes a
+            # non-breaking space in 181 German strings that Dofus 3 writes
+            # plain, and merging would have a Dofus 2 rebuild quietly change
+            # what the Dofus 3 pages say.
+            "--names-output", "itemscraper/transformed_spell_names_dofus2.json",
+        ])
+        step("spells/constants", [
+            PY, "-m", "itemscraper.generate_damage_spells",
+            "--game-version", "dofus2",
+            "--class-json", "itemscraper/transformed_class_spells_dofus2.json",
+            "--spells-json", "itemscraper/transformed_spells_dofus2.json",
+            "--constants", "fashionistapulp/fashionistapulp/dofus_constants_dofus2.py",
+        ])
         step("spells/reference", [
             PY, "itemscraper/store_spell_reference.py",
             "--game-version", "dofus2",

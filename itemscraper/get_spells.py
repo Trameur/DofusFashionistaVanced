@@ -75,6 +75,12 @@ def _load_json(path: Path) -> Dict[str, Any]:
 
 def _load_datacenter_table(path: Path) -> Dict[int, Dict[str, Any]]:
     data = _load_json(path)
+    # Dofus 3 dumps are Unity-serialised, Dofus 2 ones a plain list of records:
+    # the two clients are different programs and only the field names survived
+    # the port. Every reader below works off the same {id: record} either way.
+    if isinstance(data, list):
+        return {int(record["id"]): record
+                for record in data if record.get("id") is not None}
     refs = {ref["rid"]: ref["data"] for ref in data.get("references", {}).get("RefIds", [])}
     keys = data.get("objectsById", {}).get("m_keys", {}).get("Array", [])
     values = data.get("objectsById", {}).get("m_values", {}).get("Array", [])
@@ -103,7 +109,10 @@ def _load_translations(root: Path, languages: Sequence[str]) -> Dict[str, Dict[s
         if not path.exists():
             raise FileNotFoundError(f"Missing localisation file: {path}")
         data = _load_json(path)
+        # Dofus 3 files their strings under "entries", Dofus 2 under "texts".
         entries = data.get("entries")
+        if entries is None:
+            entries = data.get("texts")
         if not isinstance(entries, Mapping):
             raise ValueError(f"Unexpected language payload format in {path}")
         translations[lang] = {str(key): value for key, value in entries.items()}

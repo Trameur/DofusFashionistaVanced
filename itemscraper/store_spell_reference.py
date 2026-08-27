@@ -47,7 +47,12 @@ CLASS_ID_TO_NAME = {
     6: 'Ecaflip', 7: 'Eniripsa', 8: 'Iop', 9: 'Cra', 10: 'Sadida',
     11: 'Sacrier', 12: 'Pandawa', 13: 'Rogue', 14: 'Masqueraider',
     15: 'Foggernaut', 16: 'Eliotrope', 17: 'Huppermage', 18: 'Ouginak',
-    19: 'Forgelance',
+    # 20, not 19: breeds.json skips 19 in 2.73.3.14 and in every Dofus 3 dump
+    # alike. Written as 19, this matched no race at all and read_dofus2 dropped
+    # Forgelance without a word, so the Dofus 2 reference carried 18 classes
+    # where the game has 19 and a Forgelance player got nothing. Dofus 3 and
+    # the beta were spared only because read_modern never looks here.
+    20: 'Forgelance',
 }
 
 

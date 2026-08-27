@@ -27,6 +27,9 @@ itemscraper/transformed_class_spells.json
 itemscraper/transformed_class_spells_beta.json
 itemscraper/transformed_spells_beta.json
 itemscraper/transformed_spell_names_beta.json
+itemscraper/transformed_class_spells_dofus2.json
+itemscraper/transformed_spells_dofus2.json
+itemscraper/transformed_spell_names_dofus2.json
 /daily_reports
 itemscraper/transformed_spells.json
 itemscraper/transformed_drops.json
