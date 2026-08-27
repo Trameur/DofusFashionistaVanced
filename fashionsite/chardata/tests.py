@@ -15253,6 +15253,37 @@ class StatRangeTests(TestCase):
         action_points = structure.get_stat_by_key('ap').id
         self.assertNotIn(action_points, item.stat_ranges)
 
+    def test_retro_characteristics_carry_their_range_too(self):
+        """Retro was the only version storing a single value.
+
+        1.29 carries `#min#max` on characteristics as well as on weapon hits,
+        but get_equipments_retro collapsed them onto jmax, so every Retro item
+        was stored at its BEST roll with both ends thrown away. The shipped
+        databases held 18 560 ranges on dofus3, 16 423 on dofus2, 14 106 on
+        Touch and ZERO on Retro, with the same columns everywhere. The
+        encyclopedia therefore never said "151 to 300" on a Retro item, and the
+        forgemagie workbench got `min: None` for every stat, so it could not say
+        how low one rolls. 12 646 ranges landed, 70.1% of the 18 047 rows,
+        against 80.5% on dofus3.
+
+        The two ends must also keep the convention be410d3a5 set on Touch: the
+        stored value is the best roll on a bonus and the HARD end on a malus.
+        """
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('retro')
+        vitality = structure.get_stat_by_key('vit').id
+
+        bonus = structure.get_item_by_name('Moowish Belt')
+        self.assertIsNotNone(bonus, msg='the Retro item this test names is gone')
+        self.assertEqual((151, 300), bonus.stat_ranges[vitality])
+        self.assertIn((vitality, 300), bonus.stats)
+
+        # A malus keeps the hard end as its value, not the gentler one.
+        malus = structure.get_item_by_name('Fwell Sword')
+        self.assertIsNotNone(malus, msg='the Retro item this test names is gone')
+        self.assertEqual((-8, -4), malus.stat_ranges[vitality])
+        self.assertIn((vitality, -8), malus.stats)
+
     def test_the_item_page_shows_the_range_in_each_language(self):
         expected = {'en': '201 to 250', 'fr': '201 à 250', 'es': '201 a 250',
                     'pt': '201 a 250', 'de': '201 bis 250'}
@@ -15278,19 +15309,53 @@ class StatRangeTests(TestCase):
                 self.assertEqual(resp.status_code, 200)
                 self.assertContains(resp, text)
 
-    def test_retro_has_no_stat_range_because_the_game_has_none(self):
-        # In Dofus Retro 1.29 equipment stats are fixed; the only ranged lines in
-        # the source are weapon damage, which is not an item stat.
+    def test_retro_shows_its_stat_ranges_like_the_other_versions(self):
+        """This test used to assert the opposite, and its reason was wrong.
+
+        It read: "In Dofus Retro 1.29 equipment stats are fixed; the only ranged
+        lines in the source are weapon damage, which is not an item stat", and
+        it asserted zero. The claim is false. Ankama's own
+        `retro_raw/itemstats_fr.json` carries `#min#max` on characteristics as
+        well: Vitality 1321 ranges against 759 fixed, Wisdom 1202 against 514,
+        Strength 1042 against 540, about 12 630 in all.
+
+        They never reached the database because get_equipments_retro collapsed
+        them onto jmax. Two sessions and this test reached the same wrong
+        conclusion the same way: by looking at `transformed_equipment.json`,
+        which held only the 4 589 weapon ranges, instead of at the source. A
+        stage that conserves what it is given proves nothing about what was
+        thrown away before it.
+
+        12 646 ranges now land, 70.1% of the 18 047 rows, against 80.5% on
+        dofus3, 83.3% on dofus2 and 81.2% on Touch.
+        """
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         conn = sqlite3.connect(get_items_db_path('retro'))
         try:
             ranged = conn.execute(
                 'SELECT COUNT(*) FROM stats_of_item '
-                'WHERE min_value IS NOT NULL').fetchone()[0]
+                'WHERE min_value IS NOT NULL AND max_value IS NOT NULL '
+                'AND min_value <> max_value').fetchone()[0]
+            outside = conn.execute(
+                'SELECT COUNT(*) FROM stats_of_item '
+                'WHERE min_value IS NOT NULL AND max_value IS NOT NULL '
+                'AND (value < min_value OR value > max_value)').fetchone()[0]
         finally:
             conn.close()
-        self.assertEqual(ranged, 0)
+        self.assertGreater(ranged, 10000)
+        # The count alone cannot tell a recovered range from a shifted one: a
+        # rebuild that moved item ids would report the same 12 646 and store
+        # values belonging to other rows.
+        self.assertEqual(0, outside)
+
+        # An item whose Vitality rolls 151 to 300 says so on its page.
+        resp = self.client.get('/retro/encyclopedia/item/equipment/2807-x/',
+                               HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, '151 à 300')
+
+        # And one whose Strength is fixed still shows a bare number.
         resp = self.client.get('/retro/encyclopedia/item/equipment/44-x/',
                                HTTP_ACCEPT_LANGUAGE='fr')
         self.assertEqual(resp.status_code, 200)
@@ -15330,11 +15395,27 @@ class StatRangeInThePickerTests(TestCase):
                               if line.range_text]
                     self.assertIn(text, ranges)
 
-    def test_retro_items_carry_no_range_because_the_game_has_none(self):
-        lines = self._stat_lines('Adventurer Hat', version='retro')
+    def test_retro_items_carry_their_range_in_the_picker_too(self):
+        """This test used to assert the opposite, under the same wrong reason.
+
+        It was named `..._because_the_game_has_none` and asserted an empty list,
+        exactly like its twin in StatRangeTests. Both were true measurements of
+        a database that had lost the data before reaching it: 1.29 carries
+        `#min#max` on characteristics and get_equipments_retro collapsed them
+        onto jmax.
+
+        The Adili Sword holds all three cases at once, which is why it is named
+        here rather than the level 1 hat the old test used (its five stats all
+        roll, so it could not show the fixed case):
+            Strength  40, rolling 21 to 40  -> a bonus reads its best roll
+            Agility  -10, rolling -10 to -9 -> a malus reads its HARD end
+            Intelligence 5, no range        -> a fixed stat shows no range
+        """
+        lines = self._stat_lines('Adili Sword', version='retro')
         self.assertTrue(lines)
-        self.assertEqual([line.range_text for line in lines.values()
-                          if line.range_text], [])
+        self.assertEqual('21 to 40', lines['40 Strength'].range_text)
+        self.assertEqual('-10 to -9', lines['-10 Agility'].range_text)
+        self.assertIsNone(lines['5 Intelligence'].range_text)
 
     def test_the_encyclopedia_and_the_picker_use_the_same_formatter(self):
         from chardata import encyclopedia_view

@@ -413,11 +413,35 @@ def decode_stats(ista_string, is_weapon=False):
         if eid not in EFFECT_MAP:
             continue
         name, sign = EFFECT_MAP[eid]
-        value = jmax if jmax not in (None, 0) else jmin
-        if value is None:
+        # 1.29 carries the roll range on characteristics too, not only on weapon
+        # hits: `#min#max` is read into jmin/jmax at the top of this loop, and
+        # the weapon branch above keeps both ends. This branch used to collapse
+        # them (`stats.append([v, v, name])`, v built from jmax alone), so every
+        # Retro characteristic was stored at its BEST roll and both ends were
+        # lost. Retro was the only version without them: the shipped databases
+        # carry 18 560 ranges on dofus3, 16 423 on dofus2, 14 106 on Touch and
+        # ZERO on Retro, with the same columns everywhere. Measured in the
+        # source: about 12 600 land, Vitality 1321, Wisdom 1202, Strength 1042.
+        #
+        # What it cost the reader: the encyclopedia never said "11 to 15", and
+        # the forgemagie workbench received `min: None` for every stat, so it
+        # could not say how low a stat rolls.
+        #
+        # Order matters and get_equipments3 does the rest: it stores the higher
+        # end as the value EXCEPT on a negative stat, where it takes stat[0].
+        # Emitting [min, max] therefore gives the best roll on a bonus and the
+        # hard end on a malus (-8 out of -8..-4), the convention be410d3a5
+        # established on Touch.
+        hi = jmax if jmax not in (None, 0) else None
+        lo = jmin if jmin is not None else None
+        if hi is None and lo is None:
             continue
-        v = sign * value
-        stats.append([v, v, name])
+        if hi is None:
+            hi = lo
+        if lo is None:
+            lo = hi
+        low_end, high_end = sign * lo, sign * hi
+        stats.append([min(low_end, high_end), max(low_end, high_end), name])
     return stats, hits
 
 
