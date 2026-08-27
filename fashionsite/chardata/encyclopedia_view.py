@@ -2189,6 +2189,17 @@ def encyclopedia(request):
             'mt': _monster_ui_text(),
             'canonical_url': _paginated_canonical(
                 request, '/encyclopedia/', game_version, page_obj),
+            # The hub was the only page of its family without one: its sets and
+            # its monsters both declare a trail, and so does every item page
+            # below it. A declared trail is what Google prints in place of the
+            # bare url in a result, and this is the page with the most
+            # impressions and the worst click rate on the site.
+            'breadcrumb_jsonld': _breadcrumb_jsonld([
+                ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
+                (t.get('title') or 'Encyclopedia',
+                 _paginated_canonical(request, '/encyclopedia/', game_version,
+                                      page_obj)),
+            ]),
             'items_page': page_obj,
             'page_links': pagination_items(page_obj),
             'items_count': len(filtered_items),

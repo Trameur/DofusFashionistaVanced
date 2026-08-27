@@ -652,6 +652,20 @@ def shared_builds(request):
         # met chaque page a trois clics de la premiere.
         'page_links': pagination_items(builds_page),
         'canonical_url': _canonical_url(request, builds_page),
+        # The trail Google prints in place of the bare url. Two levels because
+        # the list sits directly under the site: claiming a third would be
+        # inventing a section that does not exist.
+        'breadcrumb_jsonld': json.dumps({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            'itemListElement': [
+                {'@type': 'ListItem', 'position': 1,
+                 'name': 'Dofus Fashionista', 'item': SITE_URL + '/'},
+                {'@type': 'ListItem', 'position': 2,
+                 'name': str(_('Community Dofus Builds')),
+                 'item': _canonical_url(request, builds_page)},
+            ],
+        }, ensure_ascii=False),
         'all_classes': all_classes,
         'aspect_to_name': json.dumps(aspect_to_name),
         'aspect_layout': json.dumps(aspect_layout),

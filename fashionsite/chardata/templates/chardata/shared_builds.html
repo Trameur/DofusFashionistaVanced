@@ -20,6 +20,7 @@ doublons de la premiere tout en demandant a etre indexees. Les builds qui
 n'apparaissent que sur ces pages-la se decouvrent par elles.
 {% endcomment %}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+{% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
 {% block meta_description %}{% trans "Browse community Dofus builds shared by players: optimized equipment sets by class and level, with full stats. Find inspiration and build your own." %}{% endblock %}
 

@@ -11,6 +11,7 @@
 
 {# Version-prefixed encyclopedia hubs are canonical because each game version has distinct data. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+{% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
