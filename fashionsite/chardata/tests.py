@@ -13076,11 +13076,18 @@ class PostLengthGuardTests(TestCase):
         from smtplib import SMTPException
         from unittest import mock
         from django.contrib.auth.models import User
-        with mock.patch('chardata.login_view.send_mail',
-                        side_effect=SMTPException('boom')):
-            resp = self.client.post('/register/', {'username': 'ghostuser',
-                                                   'password': 'pw-42-solid',
-                                                   'email': 'ghost@test.local'})
+        # La vue journalise la panne, ce qui est le bon comportement en
+        # production -- mais laisse libre, cette pile d'appel atterrit dans
+        # le journal d'une suite VERTE et apprend au lecteur que le mot
+        # Traceback ne veut rien dire ici. Captee, elle devient ce que ce
+        # test verifie aussi : l'echec doit etre TRACE, pas seulement annule.
+        with self.assertLogs('chardata.login_view', level='ERROR') as journal:
+            with mock.patch('chardata.login_view.send_mail',
+                            side_effect=SMTPException('boom')):
+                resp = self.client.post('/register/', {'username': 'ghostuser',
+                                                       'password': 'pw-42-solid',
+                                                       'email': 'ghost@test.local'})
+        self.assertIn('Registration email could not be sent', journal.output[0])
         self.assertEqual(resp.status_code, 200)
         self.assertTemplateUsed(resp, 'chardata/recover_password.html')
         self.assertFalse(User.objects.filter(username='ghostuser').exists())
@@ -21838,6 +21845,8 @@ class DumpItemDbFallbackTests(SimpleTestCase):
             shutil.rmtree(workdir, ignore_errors=True)
 
     def test_a_failed_dump_exits_non_zero_and_leaves_no_temp(self):
+        import contextlib
+        import io
         import glob
         import importlib
         import sys
@@ -21848,8 +21857,16 @@ class DumpItemDbFallbackTests(SimpleTestCase):
         with mock.patch.object(module, '_write_dump',
                                side_effect=RuntimeError('sqlite3 died')):
             with mock.patch.object(sys, 'argv', ['dump_item_db.py']):
-                with self.assertRaises(SystemExit) as caught:
-                    module.main()
+                # Le script imprime son echec sur la sortie standard. Laisse
+                # libre, ce "Error during database..." atterrit dans le journal
+                # d'une suite VERTE, ou il apprend au lecteur que le mot Error
+                # ne veut rien dire ici. Capte, il devient ce que ce test
+                # verifie : la classe s'appelle echouer BRUYAMMENT.
+                sortie = io.StringIO()
+                with contextlib.redirect_stdout(sortie):
+                    with self.assertRaises(SystemExit) as caught:
+                        module.main()
+        self.assertIn('sqlite3 died', sortie.getvalue())
         self.assertNotEqual(0, caught.exception.code)
         self.assertEqual([], glob.glob(pattern))
 
@@ -21859,6 +21876,8 @@ class LoadItemDbFailsLoudlyTests(SimpleTestCase):
     code: the pipelines mark the step failed on a non-zero one."""
 
     def test_a_failed_import_exits_non_zero(self):
+        import contextlib
+        import io
         import importlib
         import sys
         from unittest import mock
@@ -21868,11 +21887,21 @@ class LoadItemDbFailsLoudlyTests(SimpleTestCase):
             # --force : le sujet est l'echec de l'import, pas le moment ou
             # il est tente, et sans lui main() decide qu'il n'y a rien a faire.
             with mock.patch.object(sys, 'argv', ['load_item_db.py', '--force']):
-                with self.assertRaises(SystemExit) as caught:
-                    module.main()
+                # Le script imprime son echec sur la sortie standard. Laisse
+                # libre, ce "Error during database..." atterrit dans le journal
+                # d'une suite VERTE, ou il apprend au lecteur que le mot Error
+                # ne veut rien dire ici. Capte, il devient ce que ce test
+                # verifie : la classe s'appelle echouer BRUYAMMENT.
+                sortie = io.StringIO()
+                with contextlib.redirect_stdout(sortie):
+                    with self.assertRaises(SystemExit) as caught:
+                        module.main()
+        self.assertIn('sqlite3 import failed', sortie.getvalue())
         self.assertNotEqual(0, caught.exception.code)
 
     def test_the_temp_file_does_not_survive_a_failure(self):
+        import contextlib
+        import io
         import glob
         import importlib
         import sys
@@ -21883,8 +21912,16 @@ class LoadItemDbFailsLoudlyTests(SimpleTestCase):
         with mock.patch.object(module, '_build_db_file',
                                side_effect=RuntimeError('sqlite3 import failed')):
             with mock.patch.object(sys, 'argv', ['load_item_db.py', '--force']):
-                with self.assertRaises(SystemExit):
-                    module.main()
+                # Le script imprime son echec sur la sortie standard. Laisse
+                # libre, ce "Error during database..." atterrit dans le journal
+                # d'une suite VERTE, ou il apprend au lecteur que le mot Error
+                # ne veut rien dire ici. Capte, il devient ce que ce test
+                # verifie : la classe s'appelle echouer BRUYAMMENT.
+                sortie = io.StringIO()
+                with contextlib.redirect_stdout(sortie):
+                    with self.assertRaises(SystemExit):
+                        module.main()
+        self.assertIn('sqlite3 import failed', sortie.getvalue())
         self.assertEqual([], glob.glob(pattern))
 
 
