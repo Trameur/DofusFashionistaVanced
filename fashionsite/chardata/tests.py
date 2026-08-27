@@ -22563,35 +22563,56 @@ class StatNamesReachTheModelTests(SimpleTestCase):
 
 
 class VersionStatNameTests(SimpleTestCase):
-    """Dofus 3 and Dofus 2 have a trap characteristic and call it Power; Retro's
+    """Two stats the versions do not agree on, and the same reason both times.
+
+    Dofus 3 and Dofus 2 have a trap characteristic and call it Power; Retro's
     effect 226 is a plain percentage, "+X% de dommages aux pieges" in its own
     lang files. One shared name called it Power everywhere, which said the wrong
-    thing about what it does on Retro, and the Panoplignon is a trap set."""
+    thing about what it does on Retro, and the Panoplignon is a trap set.
 
-    # From itemscraper/retro_raw/effects_<lang>.json, effect 226.
-    RETRO = {'fr': '% de dommages aux pièges',
-             'es': '% de daños con las trampas',
-             'pt': '% de dano para armadilhas',
-             'de': '% Schaden durch Fallen'}
+    Power itself is the same case one stat over, and it took longer to see
+    because it is a headline stat: Retro's effect 138 reads "Augmente les
+    dommages de X%" where Dofus 3 reads "X Puissance". Both feed the model's
+    `pow` and that is right, 1.29 adds the percentage into the same multiplier
+    as the characteristic. What was wrong was the label: a Retro player reading
+    "Power 10" on an item whose tooltip says "Augmente les dommages de 10%" had
+    nothing to connect them by.
+    """
 
-    def test_retro_words_the_percent_trap_stat_its_own_way(self):
+    # From itemscraper/retro_raw/effects_<lang>.json: effect 226 for the trap
+    # stat, effect 138 for Power. The label is the sentence brought down to a
+    # stat name, which is how the trap one was already worded.
+    RETRO = {
+        '% Trap Damage': {'fr': '% de dommages aux pièges',
+                          'es': '% de daños con las trampas',
+                          'pt': '% de dano para armadilhas',
+                          'de': '% Schaden durch Fallen'},
+        'Power': {'fr': '% de dommages',
+                  'es': '% de daños',
+                  'pt': '% de dano',
+                  'de': '% Schaden'},
+    }
+
+    def test_retro_words_these_stats_its_own_way(self):
         from django.utils import translation
         from chardata.translation_util import localized_stat_name
-        for language, wanted in self.RETRO.items():
-            with self.subTest(language=language), translation.override(language):
-                self.assertEqual(localized_stat_name('% Trap Damage', 'retro'),
-                                 wanted)
+        for stat, wanted_by_language in self.RETRO.items():
+            for language, wanted in wanted_by_language.items():
+                with self.subTest(stat=stat, language=language), \
+                        translation.override(language):
+                    self.assertEqual(localized_stat_name(stat, 'retro'), wanted)
 
     def test_the_other_versions_keep_the_shared_name(self):
         from django.utils import translation
         from chardata.translation_util import localized_stat_name
         with translation.override('fr'):
-            shared = localized_stat_name('% Trap Damage', 'dofus3')
-            self.assertNotEqual(shared, self.RETRO['fr'])
-            for version in ('dofus3', 'beta', 'dofus2', 'touch'):
-                with self.subTest(version=version):
-                    self.assertEqual(
-                        localized_stat_name('% Trap Damage', version), shared)
+            for stat, wanted_by_language in self.RETRO.items():
+                shared = localized_stat_name(stat, 'dofus3')
+                self.assertNotEqual(shared, wanted_by_language['fr'], stat)
+                for version in ('dofus3', 'beta', 'dofus2', 'touch'):
+                    with self.subTest(stat=stat, version=version):
+                        self.assertEqual(
+                            localized_stat_name(stat, version), shared)
 
     def test_a_stat_with_no_override_is_translated_as_before(self):
         from django.utils import translation

@@ -28,6 +28,14 @@ from django.utils.translation import pgettext
 # so only the pairs listed here may go through it.
 VERSION_STAT_NAMES = {
     ('retro', '% Trap Damage'),
+    # Same argument one stat over, and it took longer to notice because this
+    # one is a headline stat. Retro's effect 138 is "Augmente les dommages de
+    # X%", a plain percentage, where Dofus 3 and Dofus 2 read "X Puissance", a
+    # characteristic. Both land in the model's `pow`, which is right -- 1.29
+    # adds that percentage to the characteristic in the same multiplier -- but
+    # a Retro player reading "Power 10" on an item whose tooltip says
+    # "Augmente les dommages de 10%" has no way to connect the two.
+    ('retro', 'Power'),
 }
 
 

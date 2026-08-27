@@ -6057,6 +6057,10 @@ msgctxt "retro"
 msgid "% Trap Damage"
 msgstr "% Trap Damage"
 
+msgctxt "retro"
+msgid "Power"
+msgstr "% Damage"
+
 #: .\chardata\templates\chardata\changelog_content.html:0
 msgid "Gear you can actually wear"
 msgstr "Gear you can actually wear"
