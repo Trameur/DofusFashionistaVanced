@@ -62,7 +62,21 @@
 <p>{% trans "The Dofus Fashionista uses Google OAuth to authenticate users. This means that the Dofus Fashionista does not store your password. However, the Dofus Fashionista does store your email address and your Google ID." %}</p>
 <p>{% trans "If you prefer not to use Google OAuth, you can still use the Dofus Fashionista. You can create an account with a username and password. The Dofus Fashionista stores your password in an encrypted form." %}</p>
 <p>{% trans "The Dofus Fashionista also stores the characters you create. This information is used to provide the services of the Dofus Fashionista." %}</p>
+{% comment %}
+Cette phrase affirmait AdSense et une banniere de consentement sans
+condition, alors que la publicite est coupee et qu'aucune banniere n'est
+servie : /license/ contredisait /privacy/ et /support/ de la meme
+production. La regle existait deja et etait ecrite dans privacy.html ;
+c'est la page qu'elle avait manquee, parce que la garde n'interrogeait que
+/privacy/ et /support/.
+
+Pas de branche `else` : la divulgation complete, dans les deux etats, vit
+sur /privacy/, que le pied de page de chaque page relie. Une seconde
+redaction du meme traitement est ce qui a produit la contradiction.
+{% endcomment %}
+{% if ads_allowed %}
 <p>{% trans "The Dofus Fashionista uses Google services (Analytics, AdSense, OAuth) to improve user experience, display relevant ads, and provide authentication. These services may collect anonymous usage data. You can manage your consent preferences through the privacy settings banner." %}</p>
+{% endif %}
 </p>
 </td>
 </tr>
