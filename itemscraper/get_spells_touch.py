@@ -56,9 +56,25 @@ DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral
 # characteristic, which is what a build optimizer needs to know. Bonus ids
 # (118/119/123/126/138) and steal ids (266-271) both verified against the live
 # effects endpoint, keeping every description that begins with "Vole".
+# The bonus and the steal of the same characteristic are two ids, and this
+# table carried both for Strength, Agility, Chance and Intelligence while
+# Wisdom and Vitality had only their steal. Not a decision: the table was
+# transcribed from what one sweep happened to meet, and no Touch spell in that
+# sweep granted plain Wisdom. Enutrof's "Lancer de Pieces" does, and it was
+# missing for that reason alone.
+#
+# 124 and 125 read "+X Sagesse" and "+X Vitalite" on the effects endpoint, in
+# POINTS. They are not 1033 and 1078, which carry Vitality as a PERCENTAGE
+# under the same word; wiring one of those to buff_vit would credit -40 points
+# where the game means -40 per cent, and nothing would go red.
+#
+# Measured on 2026-08-27: 124 is carried by one Touch spell, mask `C`, whose
+# description says "donne de la Sagesse au lanceur"; 125 by none today. 125 is
+# here to close the asymmetry that caused the miss rather than to fix a spell.
 CHARACTERISTIC_EFFECTS = {
     138: 'buff_pow',
     118: 'buff_str', 119: 'buff_agi', 123: 'buff_cha', 126: 'buff_int',
+    124: 'buff_wis', 125: 'buff_vit',
     271: 'buff_str', 268: 'buff_agi', 266: 'buff_cha', 269: 'buff_int',
     270: 'buff_wis', 267: 'buff_vit',
 }
