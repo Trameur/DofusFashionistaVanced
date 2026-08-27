@@ -5834,14 +5834,40 @@ class CheckPagesCommandTests(TestCase):
         from io import StringIO
         from django.core.management import call_command
         out = StringIO()
-        call_command('check_pages', only='retro', languages='fr,de', stdout=out)
+        # Seme quelques temoins : sans personnages en base la commande ne
+        # visite que les pages statiques -- 53 pages au lieu de 629 le meme
+        # jour -- et rend exactement le meme "aucun 500". La profondeur du
+        # balayage etait une variable silencieuse jusqu'a ce qu'elle soit dite.
+        call_command('check_pages', only='retro', languages='fr,de', seed=6,
+                     stdout=out)
         printed = out.getvalue()
         self.assertIn('no page answered 500', printed)
+        self.assertIn('6 character(s) in the database', printed)
         walked = int(printed.split('pages walked:')[1].split()[0])
         self.assertGreater(walked, 30, printed)
         # and it follows what those pages link to
         followed = int(printed.split('internal links followed:')[1].split()[0])
         self.assertGreater(followed, 20, printed)
+
+    def test_an_empty_database_is_reported_as_a_shallow_walk(self):
+        """A green obtained on 53 pages reads the same as one on 629.
+
+        The depth used to depend on whatever a throwaway file outside the
+        repository happened to hold: ninety characters made the walk cover
+        the build and solution pages, none made it skip them, and both
+        printed "no page answered 500".
+        """
+        from io import StringIO
+        from django.core.management import call_command
+        out = StringIO()
+        with self.assertRaises(SystemExit):
+            call_command('check_pages', only='retro', languages='fr',
+                         stdout=out)
+        printed = out.getvalue()
+        self.assertIn('SHALLOW', printed)
+        self.assertIn('0 character(s) in the database', printed)
+        # Et il ne doit pas se taire sur ce qu il a quand meme couvert.
+        self.assertIn('pages walked:', printed)
 
     def test_it_fails_when_a_page_breaks(self):
         from io import StringIO

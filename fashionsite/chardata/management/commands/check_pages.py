@@ -46,6 +46,21 @@ from fashionistapulp.game_versions import dofus_versions
 _MISSING_SCHEMA = re.compile(
     r"no such table|no such column|Unknown column|doesn't exist", re.I)
 
+#: Sous ce nombre de personnages en base, le balayage ne visite plus que les
+#: pages statiques : 53 pages sur retro/en au lieu de 629 le meme jour. Le
+#: rapport rendrait exactement le meme "aucun 500" sur un douzieme du terrain,
+#: et un vert obtenu sur 53 pages est indiscernable d'un vert sur 629.
+#: Le plancher est bas exprès : six temoins suffisent a faire passer la
+#: marche de 53 a 341 pages, mesure. Ce qu'il attrape est le decor VIDE,
+#: pas un decor maigre.
+MIN_CHARACTERS = 5
+#: Au-dela, ce n'est plus un decor de developpement : la production en porte
+#: deux cent quarante mille. --seed refuse d'ecrire dans une base pareille.
+SEED_REFUSES_ABOVE = 1000
+#: Les classes semees, prises courtes et variees plutot que toutes : le but est
+#: d'ouvrir des pages, pas de reproduire le catalogue.
+SEED_CLASSES = ('Iop', 'Cra', 'Eniripsa', 'Sacrier', 'Xelor', 'Sadida')
+
 # How many distinct internal links to follow. The listing pages link to a
 # thousand items between them; the budget is a runaway guard, not a sample,
 # and the command says how many it left out when it bites.
@@ -107,6 +122,15 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--only', help='one game version')
+        parser.add_argument(
+            '--seed', type=int, default=0,
+            help='create N shared witness characters first, so the '
+                 'walk has pages to walk; refused on a database that '
+                 'is not a development fixture')
+        parser.add_argument(
+            '--allow-shallow', action='store_true',
+            help='report on a database too small to be worth walking '
+                 'instead of failing')
         parser.add_argument('--languages', default=','.join(LANGUAGES),
                             help='comma separated, default all five')
 
@@ -166,8 +190,71 @@ class Command(BaseCommand):
                                 findings.append((path, language, code))
         return walked
 
+    def _seed_characters(self, count):
+        """Create shared witness characters so the walk has pages to walk.
+
+        The depth of this report used to depend on whatever a throwaway file
+        outside the repository happened to hold. Ninety characters made it walk
+        629 pages on one version; none made it walk 53, and both said "no page
+        answered 500". Seeding here makes the depth a decision rather than an
+        accident.
+        """
+        import pickle
+
+        from django.contrib.auth.models import User
+
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+
+        already = Char.objects.count()
+        if already > SEED_REFUSES_ABOVE:
+            raise CommandError(
+                'this database already holds %d characters, which is not a '
+                'development fixture; refusing to write witnesses into it'
+                % already)
+        owner, _created = User.objects.get_or_create(
+            username='check-pages-witness',
+            defaults={'email': 'witness@localhost'})
+        base = {'options': {'ap_exo': False, 'mp_exo': False},
+                'origin': 'generated', 'char_level': 200,
+                'base_stats_by_attr': {'Vitality': 0, 'Wisdom': 0,
+                                       'Strength': 0, 'Intelligence': 0,
+                                       'Chance': 0, 'Agility': 0},
+                'locked_equips': {}}
+        faits = 0
+        for index in range(count):
+            game_version = VERSIONS[index % len(VERSIONS)]
+            try:
+                hat = next(
+                    item for item
+                    in get_structure(game_version)
+                    .get_unique_items_by_type_and_level('Hat', 200)
+                    if not item.removed)
+            except StopIteration:
+                # Une version sans chapeau de ce niveau n'est pas une erreur du
+                # semis : on la saute et le compte final le dira.
+                continue
+            Char.objects.create(
+                name='witness %d' % index, char_name='witness %d' % index,
+                char_class=SEED_CLASSES[index % len(SEED_CLASSES)],
+                char_build='Str', level=200, minimum_stats=b'',
+                minimum_crits=b'', stats_weight=pickle.dumps({'vit': 1}),
+                options=b'', inclusions=b'', exclusions=b'',
+                minimal_solution=pickle.dumps(
+                    ModelResultMinimal({'hat': hat.id}, base, {})),
+                owner=owner, link_shared=True, game_version=game_version)
+            faits += 1
+        self.stdout.write('seeded %d witness character(s) over %d version(s)'
+                          % (faits, len(VERSIONS)))
+        return faits
+
     def handle(self, *args, **options):
         self._require_a_readable_database()
+        from chardata.models import Char
+        if options['seed']:
+            self._seed_characters(options['seed'])
+        characters = Char.objects.count()
         client = Client()
         versions = [v for v in VERSIONS if not options['only']
                     or v == options['only']]
@@ -231,6 +318,12 @@ class Command(BaseCommand):
             if code >= 400:
                 dead.append((href, code))
 
+        # Ce que ce rapport a couvert, avant ce qu'il a trouve. Un vert
+        # obtenu sur 53 pages est indiscernable d'un vert sur 629 si la
+        # profondeur n'est pas dite.
+        self.stdout.write('depth: %d version/language pair(s), '
+                          '%d character(s) in the database'
+                          % (len(versions) * len(languages), characters))
         self.stdout.write('pages walked: %d' % walked)
         self.stdout.write('internal links followed: %d of %d found%s'
                           % (followed, len(links),
@@ -270,5 +363,16 @@ class Command(BaseCommand):
                 self.stdout.write('   ... and %d more route(s)'
                                   % (len(grouped) - 20))
         if findings or dead:
+            raise SystemExit(1)
+        if characters < MIN_CHARACTERS and not options['allow_shallow']:
+            # Un vert sur un terrain vide n'est pas un vert, c'est une
+            # absence de terrain. Le dire ici plutot que de laisser le
+            # lecteur croire a une couverture qu'on n'a pas eue.
+            self.stdout.write(
+                'SHALLOW: %d character(s) in the database, under %d. The '
+                'walk skipped the build and solution pages entirely and '
+                'still reports no failure. Run again with --seed 20, or '
+                'with --allow-shallow if a static-only walk is what you '
+                'wanted.' % (characters, MIN_CHARACTERS))
             raise SystemExit(1)
         self.stdout.write('no page answered 500, every link opens')
