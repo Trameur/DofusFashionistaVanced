@@ -22,10 +22,9 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-# What this source publishes, not what the game has. Retro's own client files
-# carry German and Portuguese for items, sets and jobs, but solomonk.fr answers
-# only fr, en and es; the other two redirect. So the German and Portuguese
-# monster names have no source, and the encyclopedia falls back to English.
+# What this source publishes, not what the game has: solomonk.fr answers only
+# fr, en and es and redirects the other two. German and Portuguese are not
+# lost for all that -- they come from Ankama's own files below.
 LANGUAGES: Sequence[str] = ("fr", "en", "es")
 DEFAULT_OUTPUT = Path("itemscraper/transformed_drops_retro.json")
 
@@ -147,8 +146,122 @@ def _fetch_language(lang: str, delay: float, max_pages: int,
     return monsters
 
 
+# Ankama's own Retro lang files, the ones the client downloads. Solomonk answers
+# only fr, en and es, and the note that used to sit here concluded from that
+# that the German and Portuguese monster names "have no source". They do: the
+# manifest publishes 38 categories including `monsters`, in all five languages,
+# and 772 of the 774 monsters this scraper knows are in it. The claim was true
+# of Solomonk and got generalised to every source without asking Ankama.
+ANKAMA_LANGUAGES: Sequence[str] = ("pt", "de")
+ANKAMA_CDN = "https://dofusretro.cdn.ankama.com/lang"
+# The file carries over fifteen hundred monsters. Far below that means the
+# payload key moved, not that Ankama lost its bestiary -- and an empty result
+# reads exactly like "this language has none", which is what sent the previous
+# reader down the wrong path.
+MIN_ANKAMA_NAMES = 800
+
+
+def _ankama_manifest(lang: str) -> Dict[str, str]:
+    """{category: version} parsed from versions_<lang>.txt."""
+    request = Request("%s/versions_%s.txt" % (ANKAMA_CDN, lang),
+                      headers={"User-Agent": USER_AGENT})
+    with urlopen(request, timeout=60) as response:
+        body = response.read().decode("utf-8", "replace")
+    versions: Dict[str, str] = {}
+    for entry in body.split("=", 1)[-1].split("|"):
+        parts = entry.split(",")
+        if len(parts) == 3:
+            versions[parts[0].strip()] = parts[2].strip()
+    return versions
+
+
+def ankama_monster_names(languages: Sequence[str] = ANKAMA_LANGUAGES,
+                         delay: float = 0.2) -> Dict[int, Dict[str, str]]:
+    """Monster names from Ankama's files, as {monster_ankama_id: {lang: name}}.
+
+    Reuses the parser download_retro_langs.py already depends on, so the SWF
+    format is decoded in one place rather than two.
+    """
+    try:
+        from retro_swf_parser import parse_lang_swf
+    except ImportError:  # when run as a module
+        from itemscraper.retro_swf_parser import parse_lang_swf
+
+    names: Dict[int, Dict[str, str]] = {}
+    for lang in languages:
+        time.sleep(delay)
+        version = _ankama_manifest(lang).get("monsters")
+        if not version:
+            raise RuntimeError(
+                "no `monsters` category in the %s manifest: the CDN layout "
+                "moved, the names did not disappear" % lang)
+        request = Request("%s/swf/monsters_%s_%s.swf"
+                          % (ANKAMA_CDN, lang, version),
+                          headers={"User-Agent": USER_AGENT})
+        with urlopen(request, timeout=120) as response:
+            data = response.read()
+        entries = (parse_lang_swf(data) or {}).get("M") or {}
+        found = 0
+        for raw_id, entry in entries.items():
+            name = entry.get("n") if isinstance(entry, dict) else None
+            if not name:
+                continue
+            try:
+                monster_id = int(raw_id)
+            except (TypeError, ValueError):
+                continue
+            names.setdefault(monster_id, {})[lang] = name
+            found += 1
+        # An assertion on the question and not on the answer: a moved key gives
+        # an empty dict, and an empty dict is indistinguishable from a language
+        # that genuinely has no names.
+        if found < MIN_ANKAMA_NAMES:
+            raise RuntimeError(
+                "only %d %s monster names parsed, expected at least %d: the "
+                "payload key moved" % (found, lang, MIN_ANKAMA_NAMES))
+        print("  ankama %s: %d monster names" % (lang, found))
+    return names
+
+
+def merge_ankama_names(index: Dict[str, Any],
+                       languages: Sequence[str] = ANKAMA_LANGUAGES) -> int:
+    """Add the Ankama-only languages to an index Solomonk already filled.
+
+    Only monsters the index already knows are touched: this adds languages to
+    existing entries, it never invents a monster the drop tables never saw.
+    """
+    extra = ankama_monster_names(languages)
+    ajoutes = 0
+    for monsters in index.values():
+        for monster in monsters:
+            noms = monster.get("names")
+            if not isinstance(noms, dict):
+                continue
+            for lang, name in (extra.get(monster.get("monster_ankama_id"))
+                               or {}).items():
+                if not noms.get(lang):
+                    noms[lang] = name
+                    ajoutes += 1
+    return ajoutes
+
+
+def count_named(index: Dict[str, Any],
+                languages: Sequence[str]) -> Dict[str, int]:
+    """How many distinct monsters carry a name in each language."""
+    par_langue: Dict[str, set] = {lang: set() for lang in languages}
+    for monsters in index.values():
+        for monster in monsters:
+            noms = monster.get("names") or {}
+            for lang in languages:
+                if noms.get(lang):
+                    par_langue[lang].add(monster.get("monster_ankama_id"))
+    return {lang: len(ids) for lang, ids in par_langue.items()}
+
+
 def build_drops_index(languages: Sequence[str] = LANGUAGES,
-                      delay: float = 0.1, max_pages: int = 400) -> Dict[str, Any]:
+                      delay: float = 0.1, max_pages: int = 400,
+                      ankama_languages: Sequence[str] = ANKAMA_LANGUAGES
+                      ) -> Dict[str, Any]:
     per_lang = {lang: _fetch_language(lang, delay, max_pages) for lang in languages}
     primary = languages[0]  # fr: authoritative for the drop tables
 
@@ -156,6 +269,16 @@ def build_drops_index(languages: Sequence[str] = LANGUAGES,
     for lang in languages:
         for monster_id, info in per_lang[lang].items():
             names_by_monster.setdefault(monster_id, {})[lang] = info["name"]
+
+    # The two languages this source cannot serve, from Ankama. Only
+    # monsters Solomonk already named are touched: this adds a language
+    # to an entry, it never invents a monster the drop tables never saw.
+    if ankama_languages:
+        for monster_id, extra in ankama_monster_names(
+                ankama_languages).items():
+            if monster_id in names_by_monster:
+                for lang, name in extra.items():
+                    names_by_monster[monster_id].setdefault(lang, name)
 
     # item_ankama_id -> {monster_ankama_id: rate}
     index: Dict[int, Dict[int, float]] = {}
@@ -196,7 +319,31 @@ def main() -> int:
                         help="safety cap on pages fetched per language")
     parser.add_argument("--min-pairs", type=int, default=MIN_PAIRS,
                         help="fail rather than write a suspiciously empty index")
+    parser.add_argument("--enrich-only", type=Path, default=None,
+                        help="add the languages Solomonk cannot serve to an "
+                             "existing index, without rescraping it")
     args = parser.parse_args()
+
+    if args.enrich_only:
+        with args.enrich_only.open(encoding="utf-8") as fh:
+            index = json.load(fh)
+        toutes = tuple(args.languages) + tuple(ANKAMA_LANGUAGES)
+        avant = count_named(index, toutes)
+        merge_ankama_names(index)
+        apres = count_named(index, toutes)
+        # Le compte par langue et pas en tout : un total qui monte
+        # peut cacher une langue restee vide.
+        for lang in toutes:
+            print("  %s: %d -> %d monsters named"
+                  % (lang, avant[lang], apres[lang]))
+        if any(apres[lang] <= avant[lang] for lang in ANKAMA_LANGUAGES):
+            print("ERROR: no language gained a name; nothing written.")
+            return 1
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        with args.output.open("w", encoding="utf-8") as fh:
+            json.dump(index, fh, ensure_ascii=False)
+        print("enriched -> %s" % args.output)
+        return 0
 
     index = build_drops_index(args.languages, args.delay, args.max_pages)
     total_pairs = sum(len(v) for v in index.values())
