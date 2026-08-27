@@ -36,7 +36,7 @@
     </nav>
 
     <div class="encyclopedia-item-card brown-box">
-        <div class="encyclopedia-item-name">{% if resource_image %}<img class="resource-icon" src="{{ resource_image }}" alt="" width="40" height="40" decoding="async" onerror="this.style.display='none'">{% endif %}{{ resource.name }}</div>
+        <h1 class="encyclopedia-item-name">{% if resource_image %}<img class="resource-icon" src="{{ resource_image }}" alt="" width="40" height="40" decoding="async" onerror="this.style.display='none'">{% endif %}{{ resource.name }}</h1>
         <div class="encyclopedia-item-meta">{{ resource.kind_label }}</div>
         {% if other_versions %}
         <div class="encyclopedia-item-meta encyclopedia-other-versions">{{ t.also_in_label }}:

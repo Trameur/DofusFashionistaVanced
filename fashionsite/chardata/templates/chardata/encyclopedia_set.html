@@ -27,7 +27,7 @@
 <style>
 .encyclopedia-item { padding: 12px; }
 .encyclopedia-item-card { border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 8px; padding: 12px; box-sizing: border-box; }
-.encyclopedia-set-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 4px; }
+.encyclopedia-set-title { font-size: 1.35rem; font-weight: 700; margin: 0 0 4px 0; }
 .encyclopedia-set-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 8px; }
 .encyclopedia-set-item { display: flex; gap: 10px; align-items: center; border: 1px solid rgba(61, 32, 13, 0.2); border-radius: 6px; padding: 8px; text-decoration: none; }
 .encyclopedia-set-item img { width: 48px; height: 48px; flex: 0 0 auto; }
@@ -77,7 +77,7 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
     </nav>
 
     <div class="encyclopedia-item-card brown-box">
-        <div class="encyclopedia-set-title">{{ set_name }}</div>
+        <h1 class="encyclopedia-set-title">{{ set_name }}</h1>
 
         {% if other_versions %}
         <div class="encyclopedia-item-meta encyclopedia-other-versions">{{ t.also_in_label }}:

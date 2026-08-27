@@ -22,6 +22,9 @@
 .encyclopedia-item-name {
     font-size: 1.25rem;
     font-weight: 700;
+    /* <h1> depuis que la fiche annonce son titre : la marge par defaut
+       du navigateur changerait le rendu, pas la semantique. */
+    margin: 0;
 }
 .encyclopedia-item-meta {
     opacity: 0.9;

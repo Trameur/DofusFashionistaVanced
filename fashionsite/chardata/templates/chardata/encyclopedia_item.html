@@ -51,7 +51,7 @@ ecrire, puisque aucun ne sait ce que les gens portent.
             {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
             <img src="{{ item.image_url }}" alt="{{ item.name }}" width="60" height="60" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             <div>
-                <div class="encyclopedia-item-name">{{ item.name }}</div>
+                <h1 class="encyclopedia-item-name">{{ item.name }}</h1>
                 <div class="encyclopedia-item-meta">{{ item.type_name }} | {{ t.item_level }} {{ item.level }}</div>
         {% if other_versions %}
         <div class="encyclopedia-item-meta encyclopedia-other-versions">{{ t.also_in_label }}:
