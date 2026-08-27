@@ -12268,6 +12268,55 @@ class RobotsAgreesWithTheSitemapTests(TestCase):
                 resp = self.client.get('%s/setup/' % prefix)
                 self.assertEqual(resp.status_code, 200)
 
+    def test_nothing_the_sitemap_submits_is_blocked(self):
+        """The pair the class is named for, checked in the other direction.
+
+        Reading the file and reading the sitemap are two answers to the same
+        question, and a rule added to save crawl budget is exactly the kind
+        that shuts a door nobody meant to shut. Parsed with the standard
+        library rather than by matching strings: the file has ninety Disallow
+        lines and a wildcard among them is not something to reason about.
+        """
+        import re
+        import urllib.robotparser
+
+        parser = urllib.robotparser.RobotFileParser()
+        parser.parse(self.client.get('/robots.txt')
+                     .content.decode('utf-8').splitlines())
+
+        index = self.client.get('/sitemap.xml').content.decode('utf-8')
+        blocked = []
+        checked = 0
+        for sitemap in re.findall(r'<loc>([^<]+)</loc>', index):
+            path = re.sub(r'^https?://[^/]+', '', sitemap)
+            body = self.client.get(path).content.decode('utf-8')
+            # A sample per file: reading 151 905 urls here would trade a
+            # useful guard for a slow one.
+            for url in re.findall(r'<loc>([^<]+)</loc>', body)[:25]:
+                checked += 1
+                if not parser.can_fetch('Googlebot', url):
+                    blocked.append(url)
+        self.assertFalse(
+            blocked, '%d submitted urls are blocked by robots.txt: %s'
+            % (len(blocked), blocked[:5]))
+        self.assertGreater(checked, 100, 'checked only %d urls' % checked)
+
+    def test_the_random_build_redirect_is_not_crawled(self):
+        """It answers a different build every time, so there is nothing to
+        index and nothing stable to return to. The builds it points at are
+        submitted by name in sitemap-pages.xml, so blocking it costs no
+        discovery."""
+        import urllib.robotparser
+
+        parser = urllib.robotparser.RobotFileParser()
+        parser.parse(self.client.get('/robots.txt')
+                     .content.decode('utf-8').splitlines())
+        for prefix in ('', '/beta', '/dofus2', '/retro', '/touch', '/fr'):
+            with self.subTest(prefix=prefix or '/'):
+                self.assertFalse(parser.can_fetch(
+                    'Googlebot',
+                    'https://dofusfashionista.gg%s/random/' % prefix))
+
 
 class ACapIsWhatTheSheetShowsTests(TestCase):
     """13 AP of gear is equippable on Dofus 3 and the sheet reads 12; Retro has

@@ -66,6 +66,13 @@ Disallow: */setup/
 
 Disallow: /understandbuild/
 
+# A different build every time it is asked, so there is nothing here to index
+# and nothing stable to come back to. It is not a discovery path either: the
+# 1 980 shared builds are submitted by name in sitemap-pages.xml, each with its
+# own lastmod. Crawling this only produces redirect entries in Search Console.
+Disallow: /random/
+Disallow: */random/
+
 # Project workflow (solver, wizard, edition, per-project pages)
 Disallow: */wizard/
 Disallow: */wizardpost/
