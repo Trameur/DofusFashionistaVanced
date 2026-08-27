@@ -26,6 +26,13 @@ try:
 except ModuleNotFoundError:
     from version_tags import version_key
 
+# Ahead of the import, not in a fallback: the repo root holds a `fashionistapulp`
+# directory that shadows the package as a namespace one, so a first attempt binds
+# the wrong `fashionistapulp` in sys.modules and no retry can undo it.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "fashionistapulp"))
+
+from fashionistapulp.reserved_filenames import safe_asset_stem  # noqa: E402
+
 
 DEFAULT_RAW_ROOT = Path("itemscraper/raw")
 DEFAULT_OUTPUT = Path("itemscraper/spell_images")
@@ -310,7 +317,10 @@ def sanitize_spell_name(name: str, fallback: str) -> str:
     cleaned = WHITESPACE_RE.sub(" ", cleaned).strip()
     if not cleaned:
         cleaned = fallback
-    return cleaned
+    # The Sram's Con is the one spell whose name Windows reserves, and git
+    # cannot index the file at all: `git add` reports "no such file" on a name
+    # Python has just written. spells_view escapes it the same way.
+    return safe_asset_stem(cleaned)
 
 
 def select_filename(record: SpellIconRecord, seen: Dict[str, int]) -> str:

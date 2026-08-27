@@ -29,6 +29,10 @@ CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
 FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 UA = "Dofus/2 CFNetwork"
 WEB_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'fashionistapulp'))
+
+from fashionistapulp.reserved_filenames import safe_asset_stem  # noqa: E402
+
 # Spell icons live on the assets CDN, prefixed "sort_".
 SPELL_ICON_URL = "%s/gfx/spells/sort_%s.png"
 SPELLS_STATIC = (Path(__file__).resolve().parent.parent / 'fashionsite' / 'chardata'
@@ -81,7 +85,7 @@ def download_spell_images(by_class, spells, assets_url):
             icon_id = (spells.get(str(s['id'])) or {}).get('iconId')
             if icon_id is None:
                 continue
-            safe = re.sub(r'[\\/*?:"<>|]', '', name).strip()
+            safe = safe_asset_stem(re.sub(r'[\\/*?:"<>|]', '', name).strip())
             dest = SPELLS_STATIC / ('%s.png' % safe)
             try:
                 r = session.get(SPELL_ICON_URL % (assets_url, icon_id),

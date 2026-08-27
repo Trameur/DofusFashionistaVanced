@@ -33,6 +33,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT / 'fashionistapulp') not in sys.path:
+    sys.path.insert(0, str(ROOT / 'fashionistapulp'))
+from fashionistapulp.reserved_filenames import safe_asset_stem  # noqa: E402
+
 CONSTANTS = ROOT / 'fashionistapulp' / 'fashionistapulp' / 'dofus_constants_dofus2.py'
 POOL = ROOT / 'itemscraper' / 'spell_images' / '96'
 SHARED = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata' / 'spells'
@@ -102,7 +106,10 @@ def main():
     written = borrowed = unnamed = no_icon = 0
     missing = []
     for name in sorted(wanted):
-        if (SHARED / ('%s.png' % name)).exists():
+        # Windows reserves a handful of stems and git cannot index a file named
+        # after one, so the page asks for the escaped name and so must this.
+        stem = safe_asset_stem(name)
+        if (SHARED / ('%s.png' % stem)).exists():
             borrowed += 1
             continue
         ids = by_name.get(name)
@@ -117,7 +124,7 @@ def main():
             missing.append('%s (icon %s absent from the pool)' % (name, ids[0]))
             continue
         for directory in STATIC_DIRS:
-            shutil.copy2(source, directory / ('%s.png' % name))
+            shutil.copy2(source, directory / ('%s.png' % stem))
         written += 1
 
     print('dofus2 spell icons: %d written, %d served by the shared directory,'

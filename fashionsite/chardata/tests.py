@@ -22135,6 +22135,58 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
             with self.subTest(version=version):
                 self.assertEqual(missing, sorted(allowed.get(version, set())))
 
+    def test_no_spell_icon_is_on_the_disk_without_being_committed(self):
+        """On the disk is not what gets deployed; in the repository is.
+
+        Con.png, the Sram's Con, sat on the scraper's disk and in .gitignore
+        four times over, because Windows reserves that stem whatever the
+        extension and git cannot index such a file at all: `git add` answers
+        "no such file" on a name Python has just written. The guard above was
+        green the whole time, because it asks os.path.exists and the file was
+        right there, while production answered 404 on the address.
+
+        So this asks the other question. Anything the pages request that
+        exists here and is not committed will never reach a deploy, and the
+        version that finds it first is whoever runs the scraper.
+        """
+        import subprocess
+        from urllib.parse import unquote
+        from chardata.spell_buffs import get_damage_spells_for_version
+        from chardata.spells_view import _spell_image_url
+        from fashionistapulp.fashionista_config import get_fashionista_path
+
+        root = get_fashionista_path()
+        listing = subprocess.run(
+            ['git', 'ls-files', '-z', '--',
+             'fashionsite/chardata/static/chardata/spells'],
+            cwd=root, capture_output=True)
+        if listing.returncode != 0:
+            self.skipTest('git is not available to say what is committed')
+        committed = {path for path in
+                     listing.stdout.decode('utf-8').split('\0') if path}
+        self.assertGreater(len(committed), 500,
+                           'git listed almost nothing: the query is wrong, '
+                           'not the repository')
+
+        static = os.path.join(root, 'fashionsite', 'chardata', 'static')
+        uncommitted = set()
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            for spells in get_damage_spells_for_version(version).values():
+                for spell in spells:
+                    name = (spell.get('name') if isinstance(spell, dict)
+                            else getattr(spell, 'name', None))
+                    if not name:
+                        continue
+                    relative = (unquote(_spell_image_url(name, version))
+                                .split('/static/', 1)[-1])
+                    on_disk = os.path.join(static,
+                                           relative.replace('/', os.sep))
+                    if not os.path.exists(on_disk):
+                        continue          # the guard above owns that case
+                    if 'fashionsite/chardata/static/' + relative not in committed:
+                        uncommitted.add(relative)
+        self.assertEqual(sorted(uncommitted), [])
+
     def test_the_retro_placeholder_covers_no_more_items_than_it_has_to(self):
         # Retro falls back to a question mark when the 1.29 client carries no
         # clip, and that file always exists, so the guard above cannot see it.

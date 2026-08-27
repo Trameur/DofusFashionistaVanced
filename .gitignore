@@ -4,7 +4,6 @@
 *.mo
 *.bak
 itemscraper/retro_raw/
-fashionsite/staticfiles/chardata/spells/Con.png
 /logs
 /itemscraper/raw
 /itemscraper/raw_retro
@@ -15,7 +14,6 @@ itemscraper/spell_images
 itemscraper/skins_dofus3
 itemscraper/skins_touch
 itemscraper/icons_touch
-fashionsite/chardata/static/chardata/spells/Con.png
 docker/gen_config*.json
 docker/certs/
 .discord_token
@@ -42,8 +40,6 @@ itemscraper/transformed_craft_jobs_beta.json
 itemscraper/transformed_craft_jobs_touch.json
 itemscraper/transformed_craft_jobs_dofus2.json
 itemscraper/transformed_craft_jobs_retro.json
-fashionsite/staticfiles/chardata/spells/beta/Con.png
-fashionsite/chardata/static/chardata/spells/beta/Con.png
 /docs
 
 # Local dev / test artifacts (not for the repo)

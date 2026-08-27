@@ -32,6 +32,7 @@ from django.shortcuts import get_object_or_404
 from static_s3.templatetags.static_s3 import static
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy as _lazy
+from fashionistapulp.reserved_filenames import safe_asset_stem
 from fashionistapulp.translation import get_supported_language
 
 from fashionistapulp.dofus_constants import (DAMAGE_TYPES, NEUTRAL,
@@ -218,13 +219,21 @@ def _dofus2_spell_icon_names():
 
 
 def _spell_image_url(spell_name, game_version):
+    # The Sram's Con is the one spell whose name Windows reserves, and it
+    # reserves it whatever the extension. Git cannot index such a file at all:
+    # `git add` answers "no such file" on a name Python has just written. So
+    # Con.png was ignored rather than fixed, never reached a deploy, and the
+    # spell showed a broken icon while the file sat on the scraper's disk. The
+    # scrapers write the escaped stem and the page has to ask for the same one,
+    # which is why the rule lives in fashionistapulp rather than in either.
+    stem = safe_asset_stem(spell_name)
     if game_version in ('beta', 'retro', 'touch'):
         spell_dir = 'chardata/spells/%s/' % game_version
-    elif game_version == 'dofus2' and spell_name in _dofus2_spell_icon_names():
+    elif game_version == 'dofus2' and stem in _dofus2_spell_icon_names():
         spell_dir = 'chardata/spells/dofus2/'
     else:
         spell_dir = 'chardata/spells/'
-    return static(spell_dir + spell_name + '.png')
+    return static(spell_dir + stem + '.png')
 
 
 def _weapon_castable(solution):

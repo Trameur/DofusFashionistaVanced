@@ -39,6 +39,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(ROOT / 'fashionistapulp'))
+
+from fashionistapulp.reserved_filenames import safe_asset_stem  # noqa: E402
 
 DEST = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata' / 'spells' / 'retro'
 LANG_SPELLS = Path(__file__).resolve().parent / 'retro_raw' / 'spells_fr.json'
@@ -156,7 +159,7 @@ def compose_missing(missing, java, ffdec_jar, resvg_exe):
         white.putalpha(m.split()[3])
         out.paste(white, (SIZE // 2 - m.width // 2, SIZE // 2 - m.height // 2),
                   white)
-        out.save(DEST / ('%s.png' % name))
+        out.save(DEST / ('%s.png' % safe_asset_stem(name)))
         written += 1
         print('  %s: composed (up %d)' % (name, info['up']))
     print('composed=%d failed=%d' % (written, failed))
