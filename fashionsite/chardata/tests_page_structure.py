@@ -201,6 +201,30 @@ class EveryPageHasAShapeTests(TestCase):
         self.assertIn('flex-wrap: wrap', regle,
                       'a flex row of %d items with no wrapping' % combien)
 
+    def test_the_flagship_page_is_reachable_from_more_than_one_hub(self):
+        """One inbound link is one template edit away from none.
+
+        The page counting what players wear is the one thing here no wiki can
+        copy, and it hung off a single link on the encyclopedia hub -- itself
+        inside an {% if %}. It is computed from the shared builds, whose own hub
+        did not mention it.
+
+        The count is what this asserts, not the identity of the hubs: naming
+        them would turn a linking rule into a spelling rule, and the day a third
+        hub links to it the test would still say two.
+        """
+        cible = '/encyclopedia/most-used/'
+        depuis = []
+        for carrefour in CARREFOURS:
+            if cible in carrefour:
+                continue
+            if cible in self._html(carrefour):
+                depuis.append(carrefour)
+        self.assertGreaterEqual(
+            len(depuis), 2,
+            'only %d hub(s) link to the most-worn page: %s' % (len(depuis),
+                                                              depuis))
+
     def test_a_table_is_either_data_or_declared_decorative(self):
         """A layout table is announced with its row and column count.
 
