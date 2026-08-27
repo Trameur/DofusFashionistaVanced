@@ -22736,17 +22736,76 @@ class VersionStatNameTests(SimpleTestCase):
                 for match in shared.finditer(body):
                     # "% {% trans 'Power' %}" is a percentage OF the stat, not
                     # the stat: a spell that grants +20% Power. Substituting
-                    # Retro's own label there would read "% % Damage". It never
-                    # renders for Retro or Touch anyway, both carry zero
-                    # percent-Power buff rows against 105 on Dofus 3, so the
-                    # exclusion is measured rather than convenient. The "%}"
-                    # of a preceding tag must not count as that percent.
+                    # Retro's own label there would read "% % Damage".
+                    #
+                    # The exclusion was first justified by "Retro and Touch
+                    # carry zero percent-Power buff rows against 105 on Dofus
+                    # 3". Reading the characteristic buffs of the Retro spells
+                    # later the same day made that false, and the plain
+                    # buff_pow row started showing "Puissance" to a reader
+                    # whose game says "% de dommages". That branch now takes
+                    # its suffix from POWER_SUFFIX, which the template builds
+                    # with the stat_name tag.
+                    #
+                    # What is left behind this exclusion is the five
+                    # category-restricted variants, buff_pow_weapon and its
+                    # siblings, which no version outside Dofus 3, the beta and
+                    # Dofus 2 emits at all. The "%}" of a preceding tag must
+                    # not count as that percent.
                     before = body[:match.start()].rstrip()
                     if before.endswith('%') and not before.endswith('%}'):
                         continue
                     offenders.append('%s asks for the shared "%s"'
                                      % (os.path.basename(path), name))
         self.assertEqual(sorted(set(offenders)), [])
+
+    def test_every_buff_a_spell_grants_has_a_name_on_the_page(self):
+        """A buff token with no branch prints a bare number.
+
+        Reading the characteristic buffs of the Touch and Retro spells brought
+        two tokens the page had never seen, buff_vit and buff_wis. There is no
+        error for that: getTextFormatForHit falls through and the row renders
+        "251 - 300", which on a damage page reads as damage. The Iop's Vitality
+        spell looked like a hit for 251 to 300.
+
+        Grown from the five tables rather than from a list, so a token added by
+        a future scrape is watched the day it is added. It fails on the token
+        itself, not on a count, because one unnamed buff is already a wrong
+        page.
+        """
+        import re
+        from fashionistapulp.fashionista_config import get_fashionista_path
+        from chardata.spell_buffs import get_damage_spells_for_version
+
+        path = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
+                            'templates', 'chardata', 'spells.html')
+        with open(path, encoding='utf-8') as handle:
+            page = handle.read()
+        named = set(re.findall(r'element\s*==\s*"(buff_[a-z_]+)"', page))
+        self.assertGreater(len(named), 10,
+                           'almost no buff branch found: the pattern is wrong, '
+                           'not the page')
+
+        # Two tokens are deliberately nameless: they multiply final damage
+        # rather than granting a characteristic, and spell_buffs drops them
+        # from the summary for the same reason.
+        without_a_row = {'buff_final', 'buff_finalheals'}
+
+        missing = set()
+        for version in ('dofus3', 'beta', 'dofus2', 'touch', 'retro'):
+            spells_by_class = get_damage_spells_for_version(version)
+            for spells in spells_by_class.values():
+                for spell in spells:
+                    for element in (spell.effects.elements or []):
+                        token = str(element)
+                        if not token.startswith('buff_'):
+                            continue
+                        if token in without_a_row or token in named:
+                            continue
+                        missing.add('%s (%s / %s)'
+                                    % (token, version, spell.name))
+        self.assertEqual(sorted(missing), [],
+                         'these buff rows would print a bare number')
 
     def test_a_stat_with_no_override_is_translated_as_before(self):
         from django.utils import translation

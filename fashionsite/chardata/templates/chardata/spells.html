@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load static_s3 %}
 {% load version_url %}
+{% load stat_names %}
 
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Spells Damage" %}{% endblock %}
 
@@ -928,15 +929,30 @@
         return value !== undefined && value !== null && value !== 0;
     }
     
+    // The Power suffix, as THIS version writes it.
+    //
+    // "% {% trans 'Power' %}" is a percentage OF the stat, and it was left
+    // alone on 2026-08-27 because Retro and Touch carried zero rows using it,
+    // against 105 on Dofus 3. Reading the characteristic buffs of the Retro
+    // spells the same day made that measurement false: Retro now has a
+    // buff_pow row, and it was showing "Puissance" to a reader whose game
+    // calls it "% de dommages".
+    //
+    // Where the version renames Power, its own label replaces the whole
+    // construct rather than being pasted after a "%": Retro's name already
+    // carries the percent, and "+100% % de dommages" is what pasting gives.
+    {% percent_of_stat_name "Power" as power_suffix %}
+    var POWER_SUFFIX = "{{ power_suffix|escapejs }}";
+
     function getTextFormatForHit(element, heals, steals) {
         if (heals === true) {
             return ["<span>{% trans 'Heals' %}</span> ", ""];
         } else if (steals === true) {
             return ["<span>{% trans 'Steals' %}</span> ", ""];
         } else if (element == "buff_pow") {
-            return ["+", "% {% trans 'Power' %}"];
+            return ["+", POWER_SUFFIX];
         } else if (element == "buff_depow") {
-            return ["<span class='fire'>-", "% {% trans 'Power' %}</span>"];
+            return ["<span class='fire'>-", POWER_SUFFIX + "</span>"];
         } else if (element == "buff_pow_weapon") {
             return ["+", "% {% trans 'Power' %} {% trans '(weapons)' %}"];
         } else if (element == "buff_pow_spell") {
@@ -957,6 +973,10 @@
             return ["+", " {% trans 'Chance' %}"];
         } else if (element == "buff_agi") {
             return ["+", " {% trans 'Agility' %}"];
+        } else if (element == "buff_vit") {
+            return ["+", " {% trans 'Vitality' %}"];
+        } else if (element == "buff_wis") {
+            return ["+", " {% trans 'Wisdom' %}"];
         } else if (element == "buff_pshdam") {
             return ["+", " {% trans 'Pushback Damage' %}"];
         } else if (element == "buff_heals") {
