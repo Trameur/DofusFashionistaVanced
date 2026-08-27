@@ -48,6 +48,11 @@ STAT_BUFF_CHARACTERISTICS = {
     107: "buff_final",
 }
 
+# These two skip the bonus_type test in _stat_buff_token because the client
+# leaves bonus_type at 0 for characteristics 107 and 49 even when the effect
+# raises them: 41 of the 44 rows carrying those two read 0, so requiring a
+# positive bonus_type would drop nearly all of them. The sign lives in the
+# effect's own label instead, which is what the minus test below reads.
 ALWAYS_BUFF_TOKENS = {"buff_final", "buff_finalheals"}
 
 # Spells whose characteristic rows the caster does not reliably get. The mask
@@ -1009,6 +1014,22 @@ def _stat_buff_token(effect: Mapping[str, Any]) -> Optional[str]:
         return None
 
     description = (metadata.get("description") or {}).get("en", "").lower()
+
+    # Ankama writes the sign into the effect's own label, and writes it
+    # DIFFERENTLY per client. Both forms carry characteristic 107, and
+    # buff_final skips the bonus_type test below, so a REDUCTION came out as a
+    # positive buff row:
+    #     dofus3, beta   "#1% final damage" raises, "-#1% final damage" lowers
+    #     dofus2         "Increases final damage inflicted by #1%" raises,
+    #                    "Reduces final damage inflicted by #1%" lowers
+    # Reading only the minus fixed 14 rows on dofus3 and the beta and left
+    # ELEVEN standing on dofus2, whose client spells the reduction out in words
+    # instead. The plainest case is the Forgelance's Kyrja: it lowers the
+    # ENEMIES' final damage, and the caster was credited with +10% of his own.
+    label = description.strip()
+    if label.startswith("-") or label.startswith("reduces"):
+        return None
+
     if token in ALWAYS_BUFF_TOKENS:
         return token
     if "steals" in description:

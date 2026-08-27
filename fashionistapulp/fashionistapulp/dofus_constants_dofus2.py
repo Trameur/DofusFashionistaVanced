@@ -1451,7 +1451,7 @@ DAMAGE_SPELLS = {
             [['150', '200']],
             None,
             ['buff_pow'],
-        ), is_linked=(1, 'Conflagration'), casting={'ap': [2, 2], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=14591),
+        ), casting={'ap': [2, 2], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=14591),
         Spell('Bullying', [40, 107, 174], Effects(
             [['14-16', '18-20', '23-25']],
             [['17-19', '22-24', '28-30']],
@@ -1519,11 +1519,6 @@ DAMAGE_SPELLS = {
             [['30-35']],
             [EARTH],
         ), is_linked=(2, 'Sinecure'), casting={'ap': [3], 'per_turn': [3], 'per_target': [2], 'crit': [15]}, spell_id=14620),
-        Spell('Conflagration', [180], Effects(
-            [['20']],
-            None,
-            ['buff_final'],
-        ), is_linked=(2, 'Focus'), casting={'ap': [2], 'per_turn': [2], 'per_target': [1]}, spell_id=14622),
         Spell('Insolence', [175], Effects(
             [['25-28'], ['25-28']],
             [['30-34'], ['30-34']],
@@ -2590,8 +2585,7 @@ DAMAGE_SPELLS = {
              ['18-20', '24-27', '28-32'],
              ['18-20', '24-27', '28-32'],
              ['18-20', '24-27', '28-32'],
-             ['18-20', '24-27', '28-32'],
-             ['10', '10', '10']],
+             ['18-20', '24-27', '28-32']],
             [['21-24', '29-33', '34-38'],
              ['21-24', '29-33', '34-38'],
              ['21-24', '29-33', '34-38'],
@@ -2599,10 +2593,9 @@ DAMAGE_SPELLS = {
              ['21-24', '29-33', '34-38'],
              ['21-24', '29-33', '34-38'],
              ['21-24', '29-33', '34-38'],
-             ['21-24', '29-33', '34-38'],
-             ['10', '10', '10']],
-            [EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, 'buff_final'],
-            steals=[True, True, True, True, True, True, True, True, False],
+             ['21-24', '29-33', '34-38']],
+            [EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR],
+            steals=[True, True, True, True, True, True, True, True],
         ), aggregates=[('Hit in best element', [0]),
  ('', [1]),
  ('', [2]),
@@ -2610,8 +2603,7 @@ DAMAGE_SPELLS = {
  ('Hit in best element', [4]),
  ('', [5]),
  ('', [6]),
- ('', [7]),
- ('', [8])], is_linked=(1, 'Vajra'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3], 'crit': [15, 15, 15]}, spell_id=23823),
+ ('', [7])], is_linked=(1, 'Vajra'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3], 'crit': [15, 15, 15]}, spell_id=23823),
         Spell('Heroic Charge', [10, 77, 144], Effects(
             [['17-20', '23-27', '29-33'],
              ['17-20', '23-27', '29-33'],
@@ -3226,11 +3218,6 @@ DAMAGE_SPELLS = {
             [['38-43']],
             [FIRE],
         ), is_linked=(2, 'Capering'), casting={'ap': [3], 'per_turn': [1], 'crit': [20]}, spell_id=14682),
-        Spell('Transfiguration', [200], Effects(
-            [['20']],
-            None,
-            ['buff_final'],
-        ), is_linked=(2, 'Carnavalo'), casting={'ap': [2], 'cooldown': [5]}, spell_id=18650),
         Spell('Carnavalo', [90, 157], Effects(
             [['19-23', '24-28'],
              ['19-23', '24-28'],
@@ -3256,7 +3243,7 @@ DAMAGE_SPELLS = {
  ('Hit in best element', [4]),
  ('', [5]),
  ('', [6]),
- ('', [7])], is_linked=(1, 'Transfiguration'), casting={'ap': [3, 3], 'cooldown': [5, 5], 'crit': [15, 15]}, spell_id=18651),
+ ('', [7])], casting={'ap': [3, 3], 'cooldown': [5, 5], 'crit': [15, 15]}, spell_id=18651),
         Spell('Catalepsy', [1, 67, 133], Effects(
             [['13-15', '18-20', '23-25']],
             [['16-18', '22-24', '28-30']],
@@ -4502,11 +4489,6 @@ DAMAGE_SPELLS = {
             [['41-46']],
             [WATER],
         ), is_linked=(2, 'Time Theft'), casting={'ap': [5], 'per_turn': [3], 'per_target': [2], 'crit': [25]}, spell_id=13290),
-        Spell('Conservation', [145], Effects(
-            [['20']],
-            None,
-            ['buff_final'],
-        ), casting={'ap': [2], 'cooldown': [4]}, spell_id=13291),
         Spell('Temporal Suspension', [150], Effects(
             [['25-29']],
             [['30-35']],

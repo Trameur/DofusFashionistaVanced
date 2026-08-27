@@ -2503,6 +2503,66 @@ class RetroBuffsBelongToTheCasterTests(SimpleTestCase):
                 'so the caster must not be credited with it' % name))
 
 
+class ASignedEffectLabelIsNotABonusTests(SimpleTestCase):
+    """A minus in Ankama's own effect label means the effect subtracts.
+
+    `buff_final` and `buff_finalheals` skip the bonus_type test in
+    _stat_buff_token, and for a good reason: the client leaves bonus_type at 0
+    for characteristics 107 and 49 even when the effect raises them, on 41 of
+    the 44 rows that carry them, so requiring a positive bonus_type would drop
+    nearly all of them. The sign lives in the label instead: "#1% final damage"
+    raises it, "-#1% final damage" lowers it.
+
+    Nothing read that minus, so four spells shipped a REDUCTION as a positive
+    buff row on dofus3 and the beta. The plainest is the Forgelance's Kyrja: it
+    lowers the ENEMIES' final damage, and the caster was credited with +10% of
+    his own. 14 rows of the 288 emitted. dofus2 has no negative label at all,
+    which is why its table did not move -- an independent confirmation of the
+    count rather than a version left out.
+
+    Decadence keeps its row on purpose: it carries a positive label too
+    ("augmente ses dommages finaux ... mais les reduit au tour suivant"), so
+    what is wrong with it is who receives it, not the sign. That is the target
+    question, which the mask cannot answer (see reference-spell-target-mask).
+    """
+
+    REDUCERS = {23823: 'Kyrja', 13667: 'Stalagmite', 18650: 'Transfiguration'}
+    # Sacrier Fury: "augmente les dommages finaux du lanceur", label with no
+    # minus, mask C. The control lives inside the assertion because a table
+    # that had dropped every final-damage row would satisfy the rest perfectly.
+    KEEPS_ITS_BONUS = 12723
+
+    TABLES = (
+        ('dofus3', 'fashionistapulp.dofus_constants'),
+        ('beta', 'fashionistapulp.dofus_constants_beta'),
+        ('dofus2', 'fashionistapulp.dofus_constants_dofus2'),
+    )
+
+    def test_no_reduction_is_shipped_as_a_final_damage_bonus(self):
+        import importlib
+        for version, module_name in self.TABLES:
+            table = getattr(importlib.import_module(module_name),
+                            'DAMAGE_SPELLS')
+            buffs = {}
+            for spells in table.values():
+                for spell in spells:
+                    tokens = [token for token in (spell.effects.elements or [])
+                              if isinstance(token, str)
+                              and token.startswith('buff_')]
+                    if tokens:
+                        buffs[getattr(spell, 'spell_id', None)] = tokens
+            with self.subTest(version=version):
+                self.assertIn('buff_final',
+                              buffs.get(self.KEEPS_ITS_BONUS, []), msg=(
+                                  'the Sacrier Fury should keep its final '
+                                  'damage bonus on %s: its label carries no '
+                                  'minus' % version))
+                for spell_id, name in self.REDUCERS.items():
+                    self.assertEqual([], buffs.get(spell_id, []), msg=(
+                        '%s (%s) lowers final damage, so %s must not ship it '
+                        'as a bonus' % (name, spell_id, version)))
+
+
 class TheRandomSpellIsNotABuffOnAnyVersionTests(SimpleTestCase):
     """The Ecaflip's Roulette was credited to the caster on all five versions,
     and on the three modern ones it carried SIX rows at once.

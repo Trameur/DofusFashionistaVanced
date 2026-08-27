@@ -2735,16 +2735,14 @@ DAMAGE_SPELLS = {
             [['18-20', '24-27', '28-32'],
              ['18-20', '24-27', '28-32'],
              ['18-20', '24-27', '28-32'],
-             ['18-20', '24-27', '28-32'],
-             ['10', '10', '10']],
+             ['18-20', '24-27', '28-32']],
             [['21-24', '29-33', '34-38'],
              ['21-24', '29-33', '34-38'],
              ['21-24', '29-33', '34-38'],
-             ['21-24', '29-33', '34-38'],
-             ['10', '10', '10']],
-            [EARTH, FIRE, WATER, AIR, 'buff_final'],
-            steals=[True, True, True, True, False],
-        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3]), ('', [4])], is_linked=(1, 'Vajra'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3], 'crit': [25, 25, 25]}, spell_id=23823),
+             ['21-24', '29-33', '34-38']],
+            [EARTH, FIRE, WATER, AIR],
+            steals=[True, True, True, True],
+        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], is_linked=(1, 'Vajra'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3], 'crit': [25, 25, 25]}, spell_id=23823),
         Spell('Muspel', [55, 122, 189], Effects(
             [['18-21', '24-28', '28-32'],
              ['26-29', '34-38', '40-44'],
@@ -2886,9 +2884,9 @@ DAMAGE_SPELLS = {
             [FIRE],
         ), is_linked=(1, 'Telluric Lances'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13666),
         Spell('Stalagmite', [1, 69, 136], Effects(
-            [['17-19', '23-25', '29-32'], ['4', '4', '4']],
-            [['21-23', '27-30', '35-38'], ['4', '4', '4']],
-            [WATER, 'buff_final'],
+            [['17-19', '23-25', '29-32']],
+            [['21-23', '27-30', '35-38']],
+            [WATER],
         ), is_linked=(1, 'Celestial Wave'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13667),
         Spell('Runification', [5, 72, 139], Effects(
             [['9', '12', '15'],
@@ -3450,7 +3448,7 @@ DAMAGE_SPELLS = {
  ('Hit in best element', [4]),
  ('', [5]),
  ('', [6]),
- ('', [7])], is_linked=(1, 'Transfiguration'), casting={'ap': [3, 3], 'cooldown': [5, 5], 'crit': [15, 15]}, spell_id=18651),
+ ('', [7])], casting={'ap': [3, 3], 'cooldown': [5, 5], 'crit': [15, 15]}, spell_id=18651),
         Spell('Picada', [95, 162], Effects(
             [['20-22', '25-28']],
             [['23-26', '30-33']],
@@ -3518,11 +3516,6 @@ DAMAGE_SPELLS = {
             None,
             ['buff_pow'],
         ), casting={'ap': [2], 'cooldown': [3]}, spell_id=13426),
-        Spell('Transfiguration', [200], Effects(
-            [['20']],
-            None,
-            ['buff_final'],
-        ), is_linked=(2, 'Carnavalo'), casting={'ap': [2], 'cooldown': [5]}, spell_id=18650),
     ],
     'Osamodas': [
         Spell('Crobak Call', [1, 66, 132], Effects(
