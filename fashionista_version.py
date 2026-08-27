@@ -11,13 +11,15 @@ FASHIONISTA_TOUCH_VERSION = "1.73"
 # never moves. Retro stays "1.48" and Touch "1.73" in the footer while their
 # real build changes with every content patch, so those two are watched here
 # instead. Update them when the matching pipeline is re-run.
-WATCHED_RETRO_BUILD = "1.49.0.5616.438-085f62d"
+WATCHED_RETRO_BUILD = "1.49.1.5632.439-348db46"
 WATCHED_TOUCH_ASSETS = "3.2.12_cLlB,151J4Vd.fZX3eoz-xHi7Tx6Mw*3"
 
-# Retro item data comes from the lang CDN, not from the client build: 1.49.0
-# shipped with these lang versions unchanged, and a full re-scrape gave a
-# byte-identical dump. The categories the item pipeline reads are watched here
-# so a lang publish is caught even when the build string stands still.
+# Retro item data comes from the lang CDN, not from the client build, and that
+# is now measured twice rather than argued: 1.49.0 and then 1.49.1 both shipped
+# with every lang version below standing still, and a full re-scrape of each
+# gave a byte-identical database -- 39 tables, content compared row by row, not
+# a count. So a Retro build string that moves says nothing about the items, and
+# the categories the item pipeline reads are what to watch.
 WATCHED_RETRO_LANG = {
     'items': '1260',
     'itemstats': '1259',
