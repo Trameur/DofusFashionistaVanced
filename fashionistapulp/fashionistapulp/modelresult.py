@@ -250,8 +250,14 @@ class ModelResult():
                                          + self.stats_total['agi'])
             self.stats_total['hp'] = self.stats_total['vit'] + self.input['char_level'] * 5 + 50 + self.stats_total['hp']
             # The gear may add up past the cap; the character reads the cap.
-            # Retro has no cap at all, and get_stat_maximum omits the keys
-            # there, so nothing is clamped on that version.
+            # Only AP/MP/Range are omitted on Retro, which never got Ankama's
+            # PA/PM/PO limitation. Summon and the five percent resists are in
+            # the base dict, so they ARE clamped on every version including
+            # Retro. Their 53 is a deliberately loose raw bound, not the
+            # in-game rule: the effective 50% ceiling on summed percent
+            # resistance lives in model.py's capped_resist variables, and the
+            # few points above it are the buffer that keeps a build at 50%
+            # under a vulnerability debuff.
             for stat_name, cap in get_stat_maximum(
                     get_current_game_version()).items():
                 key = STAT_NAME_TO_KEY.get(stat_name)
