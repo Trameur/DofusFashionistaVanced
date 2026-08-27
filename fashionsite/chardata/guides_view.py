@@ -18,6 +18,8 @@ from django.utils.translation import get_language
 
 from chardata.util import set_response
 from chardata import guides_content
+from chardata.encyclopedia_view import _absolute_versioned_url
+from chardata.url_language import split_language_prefix
 from chardata.url_language import (mark_varies_on_cookie,
                                    redirect_target_for_user)
 
@@ -91,12 +93,24 @@ def split_body(body):
 def guides(request, char_id=0):
     language = get_language() or 'en'
     game_version = getattr(request, 'game_version', 'dofus3')
+    # Le canonique se lit dans l'URL, pas dans l'en-tete du navigateur.
+    # `{% game_url %}` passait par reverse(), qui ajoute le prefixe de la
+    # langue ACTIVE : servi a un lecteur francais, /guides/ se declarait
+    # copie de /fr/guides/ tout en restant le x-default et le membre
+    # anglais de son propre groupe hreflang. Une page ne peut pas etre les
+    # deux, et un canonique qui change avec un en-tete n'est pas un
+    # canonique. Les fiches de guides, elles, tiraient deja le leur de leur
+    # slug : seul le carrefour suivait le navigateur.
+    prefixe, _reste = split_language_prefix(request.path_info)
+    canonical_url = _absolute_versioned_url(
+        '/guides/', game_version, language=prefixe.lstrip('/'))
     return set_response(
         request,
         'chardata/guides.html',
         {'request': request,
          'user': request.user,
          'char_id': char_id,
+         'canonical_url': canonical_url,
          'guides': guides_content.list_guides(language, game_version)})
 
 
