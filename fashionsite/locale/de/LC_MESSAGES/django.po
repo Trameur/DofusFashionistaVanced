@@ -6989,3 +6989,7 @@ msgstr "Die Nutzungszahlen wurden noch nicht erstellt."
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "Build a set of your own"
 msgstr "Ein eigenes Set bauen"
+
+#: .\chardata\templates\chardata\base.html
+msgid "Skip to content"
+msgstr "Zum Inhalt springen"

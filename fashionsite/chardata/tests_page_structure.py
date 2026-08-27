@@ -97,6 +97,47 @@ class EveryPageHasAShapeTests(TestCase):
                          'these pages declare no such landmark: %s'
                          % manquants[:6])
 
+    def test_every_page_offers_a_way_past_the_sidebar(self):
+        """A keyboard reader without a screen reader has no landmark to jump to.
+
+        The roles added alongside this help software that understands them; a
+        reader who simply cannot hold a mouse tabs through the whole sidebar on
+        every page. The link stays off-screen until it takes focus, so it is
+        invisible to a mouse and changes nothing on screen.
+
+        The target is checked as well as the link: one that points at an id
+        which does not exist moves focus nowhere, and is worse than none
+        because it looks like the problem was handled.
+        """
+        casses, vues = [], 0
+        for chemin in self._pages():
+            html = self._html(chemin)
+            lien = re.search('<a class="skip-link" href="#([^"]+)"', html)
+            vues += 1
+            if lien is None:
+                casses.append((chemin, 'no skip link'))
+            elif ('id="%s"' % lien.group(1)) not in html:
+                casses.append((chemin, 'points at #%s which is absent'
+                               % lien.group(1)))
+        self.assertFalse(casses, 'these pages cannot be skipped past: %s'
+                         % casses[:4])
+        self.assertGreaterEqual(vues, len(CARREFOURS) + len(FAMILLES))
+
+    def test_the_skip_link_speaks_the_language_of_the_page(self):
+        # Un lien d'evitement en anglais sur une page francaise est lu par une
+        # synthese vocale francaise, qui prononce l'anglais avec les regles du
+        # francais : le lecteur entend une bouillie a la premiere tabulation.
+        anglais = 'Skip to content'
+        for prefixe in ('fr', 'es', 'pt', 'de'):
+            chemin = '/%s/encyclopedia/' % prefixe
+            with self.subTest(langue=prefixe):
+                html = self._html(chemin)
+                lien = re.search(
+                    '<a class="skip-link"[^>]*>(.*?)</a>', html, re.S)
+                self.assertIsNotNone(lien, '%s has no skip link' % chemin)
+                self.assertNotEqual(lien.group(1).strip(), anglais,
+                                    '%s offers the English wording' % chemin)
+
     def test_a_table_is_either_data_or_declared_decorative(self):
         """A layout table is announced with its row and column count.
 

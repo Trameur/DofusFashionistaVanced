@@ -6957,3 +6957,7 @@ msgstr "As contagens de utilização ainda não foram construídas."
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "Build a set of your own"
 msgstr "Crie o seu próprio conjunto"
+
+#: .\chardata\templates\chardata\base.html
+msgid "Skip to content"
+msgstr "Ir para o conteúdo"

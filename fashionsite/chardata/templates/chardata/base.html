@@ -188,6 +188,7 @@
     </script>
 </head>
 <body class='body-base'>
+    <a class="skip-link" href="#main-content">{% trans "Skip to content" %}</a>
     <div class='add-banner'>
     <div class='everything'>
     
@@ -371,7 +372,7 @@
           {% include "chardata/sidebar-stats.html" %}
         </div>
 
-        <div class="maincolumn" role="main">
+        <div class="maincolumn" role="main" id="main-content">
         {% if not home %}
             <div class="maincontent" >
                 {% include "chardata/main-header.html" with char=char %}

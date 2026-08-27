@@ -6206,3 +6206,7 @@ msgstr ""
 #: .\chardata\templates\chardata\spells.html:53
 msgid "Lands later, not in the total above:"
 msgstr ""
+
+#: .\chardata\templates\chardata\base.html
+msgid "Skip to content"
+msgstr ""
