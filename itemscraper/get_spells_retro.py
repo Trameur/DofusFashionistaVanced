@@ -57,6 +57,103 @@ CHARACTERISTIC_EFFECTS = {118: 'buff_str', 119: 'buff_agi', 123: 'buff_cha',
 ROW_EFFECTS = dict(DAMAGE_EFFECTS)
 ROW_EFFECTS.update(CHARACTERISTIC_EFFECTS)
 
+# Two class spells carry characteristic effects the caster does not reliably
+# get, and this scraper has no target test at all.
+#
+# The 1.29 target field (slot 5 of a level) IS a run of two-character codes,
+# one per effect line, and the codes align exactly: 56 buff lines, 56 codes, no
+# leftovers. But the codes do NOT settle the question. "Resistance Naturelle",
+# whose own sentence says it raises the vitality OF SUMMONS, wears the same
+# `Pa` as "Chance", which raises the caster's own. Reading the field would have
+# looked principled and let both through.
+#
+# So the exclusion is named, with the sentence Ankama writes, and the generator
+# refuses to run if that sentence goes away rather than silently going back to
+# crediting the player. Measured 2026-08-27 on the 252 class spells (21 per
+# class): 15 carry a buff, 13 of them legitimately.
+#
+# Neither spell existed in the shipped table before 19b29e9bf, which is the
+# commit that added Retro buffs: excluding them restores what the pages had,
+# it does not take anything away from a reader.
+NOT_A_SELF_BUFF = {
+    # Ecaflip, Roulette: ONE random effect among many, on random targets. The
+    # data lists the alternatives as four separate lines, so reading them as
+    # granted together handed the caster +400 Strength, Chance, Intelligence
+    # AND Agility at once, +500 on a critical, at every rank.
+    101: 'sur vos adversaires',
+    # Sadida, Resistance Naturelle: the sentence names summons and allies, and
+    # never the caster.
+    32: 'des invocations',
+    # Osamodas, Crocs du Mulou: same sentence as above, and the same spell was
+    # already excluded on Touch for the same reason under id 9919.
+    29: 'des invocations',
+}
+
+# A buff whose sentence names somebody other than the caster and which is NOT
+# in the table above has to be settled here, with the words that settle it.
+#
+# This exists because a hand-written exclusion list goes stale in silence:
+# Ankama adds spells, nobody re-derives the list, and the new one is credited
+# to the player without a word. So the generator screens every buff it is about
+# to keep and stops on anything unaccounted for.
+SOMEBODY_ELSE = ('invocation', 'alli', 'adversaire', 'ennemi',
+                 'autres personnages')
+
+BUFFS_THE_CASTER_TOO = {
+    # Enutrof, Cupidite. "tous les joueurs" is every player, the caster
+    # included, so he does receive it -- and refusing a buff the game says he
+    # gets would be the opposite error, erasing a real mechanic. Note this is
+    # NOT the same call as Touch's spell 52, whose own sentence there reads
+    # "la puissance de tous les allies" and names no player: different words,
+    # different version, different answer.
+    52: 'tous les joueurs',
+    # Iop, Puissance. Names the caster first, the ally second.
+    153: 'le lanceur ou un alli',
+}
+
+
+def _not_a_self_buff(spell, spell_id):
+    """True when this spell's buff rows are not the caster's.
+
+    Checks that Ankama still writes the sentence the exclusion rests on. A
+    hand-written list that stops being read is worse than no list: it keeps
+    excluding a spell whose meaning has changed, and says nothing about it.
+    """
+    quote = NOT_A_SELF_BUFF.get(spell_id)
+    if quote is None:
+        return False
+    text = str(spell.get('d') or '')
+    if quote.lower() not in text.lower():
+        raise SystemExit(
+            'retro spell %s no longer says %r; re-read its description before '
+            'trusting this exclusion' % (spell_id, quote))
+    return True
+
+
+def _screen_kept_buff(spell, spell_id):
+    """Stop the build if a KEPT buff's sentence names somebody else.
+
+    Runs on what the generator is about to write, not on a list someone
+    maintains, so a spell Ankama adds tomorrow cannot be credited to the player
+    in silence: the run fails and names the spell and the words that flagged it.
+    """
+    text = str(spell.get('d') or '')
+    lowered = text.lower()
+    named = [word for word in SOMEBODY_ELSE if word in lowered]
+    if not named:
+        return
+    quote = BUFFS_THE_CASTER_TOO.get(spell_id)
+    if quote is None:
+        raise SystemExit(
+            'retro spell %s (%s) keeps a characteristic buff and its own '
+            'description names %s. Settle it in NOT_A_SELF_BUFF or in '
+            'BUFFS_THE_CASTER_TOO before regenerating. Ankama wrote: %r'
+            % (spell_id, spell.get('n'), '/'.join(named), text[:160]))
+    if quote.lower() not in lowered:
+        raise SystemExit(
+            'retro spell %s no longer says %r; re-read it before trusting that '
+            'the caster is among those it buffs' % (spell_id, quote))
+
 # Standard Dofus class id -> Fashionista class name (Retro = the original 12).
 CLASS_ID_TO_NAME = {
     1: 'Feca', 2: 'Osamodas', 3: 'Enutrof', 4: 'Sram', 5: 'Xelor', 6: 'Ecaflip',
@@ -145,12 +242,13 @@ def decode_casting(level_arr):
     return out
 
 
-def decode_spell(spell):
+def decode_spell(spell, spell_id=None):
     """Retro spell record -> damage-spell dict, or None if it carries no row.
 
     A spell that only buffs a characteristic and deals no damage is kept: the
     Dofus 2, 3 and Touch tables keep theirs, and a build optimizer needs the
     Iop's "Puissance" even though it hits nobody."""
+    drop_buffs = _not_a_self_buff(spell, spell_id)
     per_level = []
     elements = []
     casting_levels = []
@@ -158,6 +256,9 @@ def decode_spell(spell):
         if lv not in spell:
             continue
         decoded = decode_level(spell[lv])
+        if drop_buffs:
+            decoded = {token: value for token, value in decoded.items()
+                       if not token.startswith('buff_')}
         per_level.append(decoded)
         casting_levels.append(decode_casting(spell[lv]))
         for elem in decoded:
@@ -260,7 +361,10 @@ def build(spells_root, classes_root):
             spell = spells_root.get(str(spell_id))
             if not isinstance(spell, dict):
                 continue
-            decoded = decode_spell(spell)
+            decoded = decode_spell(spell, spell_id)
+            if decoded and any(str(token).startswith('buff_')
+                               for token in decoded.get('elements') or []):
+                _screen_kept_buff(spell, spell_id)
             if decoded:
                 decoded['id'] = spell_id
                 damage_spells.append(decoded)

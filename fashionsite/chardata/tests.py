@@ -2445,6 +2445,64 @@ class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
                              .get('default') or []))
 
 
+class RetroBuffsBelongToTheCasterTests(SimpleTestCase):
+    """Three Retro class spells buff somebody else, and the scraper had no
+    target test at all.
+
+    The 1.29 target field does not settle it, which is why these are named
+    rather than derived: it is a run of two-character codes, one per effect
+    line, and they align exactly (56 buff lines, 56 codes, no leftovers) -- but
+    "Resistance Naturelle", whose own sentence says it raises the vitality OF
+    SUMMONS, wears the same `Pa` as "Chance", which raises the caster's own.
+    Reading the field would have looked principled and let both through.
+
+    The three are named in get_spells_retro.NOT_A_SELF_BUFF with the sentence
+    Ankama writes, and the generator refuses to run if that sentence goes away.
+    It also screens every buff it KEEPS: a spell whose description names
+    summons, allies or enemies and which is settled nowhere stops the build, so
+    a spell Ankama adds later cannot be credited to the player in silence.
+
+    Measured 2026-08-27 over the 252 class spells, 21 per class: 15 carried a
+    buff, 12 of them the caster's. None of the three was in the table before
+    19b29e9bf, the commit that added Retro buffs, so this takes nothing from a
+    reader; it undoes an over-credit that commit introduced, the worst being
+    +400 Strength, Chance, Intelligence AND Agility at once, +500 on a
+    critical, from one spell that fires a single random effect.
+    """
+
+    NOT_THE_CASTER = ('Roulette', 'Résistance Naturelle', 'Crocs du Mulou')
+    # The positive control lives inside the assertion rather than beside it: a
+    # table that lost every buff row would satisfy the exclusions perfectly.
+    STILL_THE_CASTER = {'Chance': 'buff_cha', 'Puissance': 'buff_pow',
+                        'Vitalité': 'buff_vit', 'Réflexes': 'buff_agi'}
+
+    @staticmethod
+    def _buff_rows():
+        from fashionistapulp.dofus_constants_retro_spells import (
+            RETRO_DAMAGE_SPELLS)
+        rows = {}
+        for spells in RETRO_DAMAGE_SPELLS.values():
+            for spell in spells:
+                tokens = sorted(
+                    token for token in (spell.effects.elements or [])
+                    if isinstance(token, str) and token.startswith('buff_'))
+                if tokens:
+                    rows[spell.name] = tokens
+        return rows
+
+    def test_a_spell_that_buffs_summons_is_not_credited_to_the_player(self):
+        rows = self._buff_rows()
+        for name, token in self.STILL_THE_CASTER.items():
+            self.assertIn(token, rows.get(name, []), msg=(
+                '%s should still carry %s; without this control the test below '
+                'would pass on a table that had lost every buff row'
+                % (name, token)))
+        for name in self.NOT_THE_CASTER:
+            self.assertNotIn(name, rows, msg=(
+                '%s grants its characteristic to summons or to random targets, '
+                'so the caster must not be credited with it' % name))
+
+
 class AStatePayloadIsNotTurnDamageTests(SimpleTestCase):
     """Eight spells that hit now and pay out later, only if something happens.
 
