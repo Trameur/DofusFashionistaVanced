@@ -11,8 +11,15 @@ FASHIONISTA_TOUCH_VERSION = "1.73"
 # never moves. Retro stays "1.48" and Touch "1.73" in the footer while their
 # real build changes with every content patch, so those two are watched here
 # instead. Update them when the matching pipeline is re-run.
+#
+# A Touch bundle that moves does not have to mean new gear either. 3.2.13
+# changed two item descriptions out of the French fallback and added one item,
+# out of 13517, and all three are ornaments: their typeId sits at 182 to 185,
+# where every entry is level 1 with at most two effects, against the varied
+# levels and up to six effects of the real cloaks and shields. The database
+# came out identical, 39 tables compared by content.
 WATCHED_RETRO_BUILD = "1.49.1.5632.439-348db46"
-WATCHED_TOUCH_ASSETS = "3.2.12_cLlB,151J4Vd.fZX3eoz-xHi7Tx6Mw*3"
+WATCHED_TOUCH_ASSETS = "3.2.13_miqAldppdZIIl0c_i,HlUFqPb44FCiSO"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
 # is now measured twice rather than argued: 1.49.0 and then 1.49.1 both shipped
