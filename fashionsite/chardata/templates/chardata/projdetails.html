@@ -10,8 +10,8 @@ Le mot-cle en tete : Google tronque les titres, et cette page sort en sixieme
 position sur "dofus set builder" avec 217 impressions par mois pour sept clics.
 Elle s'y annoncait "Project Details".
 {% endcomment %}
-{% block title %}{% trans "Dofus Set Builder" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
-{% block meta_description %}{% blocktrans %}Tell the optimizer your class, your level and what you want from your set. It picks the gear for you, on every version of Dofus. No account needed to try.{% endblocktrans %}{% endblock %}
+{% block title %}{% trans "Dofus Set Builder" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans %}Tell the optimizer your class, your level and what you want from your set. It picks the gear for you, on every version of Dofus. No account needed to try.{% endblocktrans %}{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">

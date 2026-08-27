@@ -11,7 +11,7 @@
 Fashionista: Shared Builds". Google tronque, donc la moitie coupee doit etre
 celle qui est identique sur toutes les pages, pas celle qui dit quoi.
 {% endcomment %}
-{% block title %}{% trans "Community Dofus Builds" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block title %}{% trans "Community Dofus Builds" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
 {% comment %}
 Sans ce bloc, base.html fabrique le canonique a partir de request.path, qui ne
@@ -22,7 +22,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
-{% block meta_description %}{% trans "Browse community Dofus builds shared by players: optimized equipment sets by class and level, with full stats. Find inspiration and build your own." %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Browse community Dofus builds shared by players: optimized equipment sets by class and level, with full stats. Find inspiration and build your own." %}{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
