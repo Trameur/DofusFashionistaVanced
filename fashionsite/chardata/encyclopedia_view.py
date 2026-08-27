@@ -1343,10 +1343,14 @@ def _encyclopedia_missing_response(request, kind, requested_name):
     }
     encyclopedia_url = version_reverse(request, 'encyclopedia')
     canonical_url = _absolute_versioned_url('/encyclopedia/', game_version)
+    # Deux entrees, pas trois : la feuille portait EXACTEMENT l'URL du
+    # carrefour, donc le fil disait que la page est son propre parent. Une
+    # feuille ne peut pas pointer ailleurs qu'elle-meme, et cette page-la
+    # n'a pas d'adresse a elle -- l'objet demande n'existe pas dans cette
+    # version. Le fil s'arrete donc au carrefour, ce qui est vrai.
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
         (t.get('title') or 'Encyclopedia', canonical_url),
-        (title, canonical_url),
     ])
     response = set_response(
         request,
