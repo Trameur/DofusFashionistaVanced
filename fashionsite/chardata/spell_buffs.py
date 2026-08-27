@@ -53,16 +53,17 @@ def _flattened(name):
 
 
 def _dofus2_damage_spells():
-    """Dofus 2 spells only: its committed block still holds Dofus 3 ones.
+    """Dofus 2 spells a Dofus 2 player can still cast.
 
-    2.73 ships no spell level data, so `generate_damage_spells` can never run
-    for this version; its DAMAGE_SPELLS was bootstrapped from Dofus 3 and
-    frozen. Measured on the committed block: 274 of its 497 class spells are
-    not in the 2.73 archive, and 269 of those are Dofus 3 spells. Osamodas was
-    the plainest case, 22 of its 25 belonging to the Dofus 3 revamp, so a
-    Dofus 2 player was offered Bear Cry and Song of the Phoenix while Animal
-    Blessing and Geyser were missing. Every class has exactly 22 spells in
-    2.73; the page was showing between 17 and 34.
+    This was written when the committed block was Dofus 3 content bootstrapped
+    for want of 2.73 spell levels, and 274 of its 497 class spells were absent
+    from the 2.73 archive. That is over: the block is generated from 2.73 now.
+
+    The filter still earns its place, for a different reason. The breeds table
+    lists spells the game retired years ago, so the generated block holds 526
+    class spells where a 2.73 player can cast 278: the Cra's Burning Arrows and
+    Raining Arrows are in the data and in nobody's spell book. The reference is
+    what the game shows a player, so it decides.
 
     The archive DOES name every 2.73 class spell, which is what
     spell_reference/dofus2.json carries, so that file decides. A spell it does

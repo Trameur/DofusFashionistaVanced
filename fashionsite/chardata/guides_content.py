@@ -4120,9 +4120,11 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # The Dofus 2 archives carry no spell level table, so there is no best turn
-    # to compute there. Retro never got the AP/MP/range limitation, so its turn
-    # is not capped at 12 AP.
+    # Dofus 2 has its own best turn since its spell levels were fetched from
+    # Ankama's CDN rather than the mirror that omits them: a level 200 Iop gets
+    # 16 usable spells there against 31 on Dofus 3. Its block used to explain
+    # why there was no panel at all. Retro never got the AP/MP/range
+    # limitation, so its turn is not capped at 12 AP.
     'best-turn-damage': {
         'published': '2026-08-12',
         'version_groups': {'dofus2': 'dofus2', 'retro': 'retro'},
@@ -4231,88 +4233,103 @@ GUIDES = {
             },
             'dofus2': {
                 'en': {
-                    'title': 'Why Dofus 2 builds have no best-turn panel',
-                    'desc': 'The best-turn damage panel is missing on Dofus 2, and it is not an oversight: the Dofus 2 archives ship no spell level table at all.',
-                    'lead': 'If you are on Dofus 2 and the spells page shows no best-turn total, nothing is broken. The data that panel needs does not exist in the Dofus 2 release.',
+                    'title': 'How Dofus 2 got its best-turn panel',
+                    'desc': 'The best-turn damage panel now runs on Dofus 2, with Dofus 2 numbers rather than borrowed ones.',
+                    'lead': 'This page used to explain why Dofus 2 had no best-turn total. It has one now, and the numbers behind it are its own.',
                     'body': '''
-<h2>What is missing</h2>
-<p>To search a turn, the tool needs every spell at every rank: its AP cost, its damage rolls, how often it can be cast. On Dofus 3 that gives a level 200 Iop 31 usable spells. The same read on Dofus 2 returns <strong>zero</strong>, because the Dofus 2 archives carry no spell level table.</p>
+<h2>What changed</h2>
+<p>To search a turn, the tool needs every spell at every rank: its AP cost, its damage rolls, how often it can be cast. That table was missing for Dofus 2, so the panel had nothing to search and stayed away. It is there now. A level 200 Iop has 16 usable spells on Dofus 2, against 31 on Dofus 3, and the panel orders them into the turn that hits hardest for the action points you have.</p>
 
-<h2>Why we do not fake it</h2>
-<p>We could copy the Dofus 3 numbers over and print a total. We will not: Dofus 2 is its own game, its spells were balanced separately, and a plausible number from the wrong version is worse than no number. The panel stays away rather than lie.</p>
+<h2>Why it took so long</h2>
+<p>We were reading a mirror of the game data, and that mirror publishes the Dofus 2 spells without their ranks. It was easy to conclude the game did not have them. Ankama publishes the table itself, and once we went to the source rather than the copy, every rank was there.</p>
 
-<h2>What still works on Dofus 2</h2>
-<p>Everything that comes from item data is intact: the optimizer, the encyclopedia, set bonuses, the workshop. Lock your AP and MP to the breakpoints your combo needs and build around them, exactly as the <a href="/guides/ap-mp-range-caps/">caps guide</a> describes. You lose the turn readout, not the build.</p>
+<h2>Why we did not fake it in the meantime</h2>
+<p>We could have copied the Dofus 3 numbers over and printed a total years ago. We did not: Dofus 2 is its own game, its spells were balanced separately, and a plausible number from the wrong version is worse than no number. What you read now is what the Dofus 2 client itself carries.</p>
 
-<p><em>Want the panel? It runs on Dofus 3, the beta, Touch and Retro. <a href="/guides/versions-explained/">Here is what separates the versions.</a></em></p>
+<h2>How to use it</h2>
+<p>Read the turn against the action points you actually expect to have, not the maximum. Lock your AP and MP to the breakpoints your combo needs and build around them, exactly as the <a href="/guides/ap-mp-range-caps/">caps guide</a> describes: a total that assumes an AP you never reach is a total for somebody else.</p>
+
+<p><em>The panel now runs on every version the site covers. <a href="/guides/versions-explained/">Here is what separates them.</a></em></p>
 ''',
                 },
                 'fr': {
-                    'title': "Pourquoi les builds Dofus 2 n'ont pas de panneau meilleur combo",
-                    'desc': "Le panneau du meilleur tour est absent sur Dofus 2, et ce n'est pas un oubli : les archives de Dofus 2 ne contiennent aucune table de niveaux de sorts.",
-                    'lead': "Si tu es sur Dofus 2 et que la page des sorts n'affiche aucun total de tour, rien n'est cassé. La donnée dont ce panneau a besoin n'existe pas dans la release Dofus 2.",
+                    'title': 'Comment Dofus 2 a eu son panneau meilleur tour',
+                    'desc': 'Le panneau du meilleur tour fonctionne maintenant sur Dofus 2, avec les chiffres de Dofus 2 et pas ceux du voisin.',
+                    'lead': "Cette page expliquait pourquoi Dofus 2 n'avait pas de total de tour. Il en a un, et les chiffres derrière sont les siens.",
                     'body': '''
-<h2>Ce qui manque</h2>
-<p>Pour chercher un tour, l'outil a besoin de chaque sort à chaque rang : son coût en PA, ses jets de dégâts, sa fréquence de lancer. Sur Dofus 3, ça donne 31 sorts utilisables pour un Iop niveau 200. La même lecture sur Dofus 2 renvoie <strong>zéro</strong>, parce que les archives de Dofus 2 ne portent aucune table de niveaux de sorts.</p>
+<h2>Ce qui a changé</h2>
+<p>Pour chercher un tour, l'outil a besoin de chaque sort à chaque rang : son coût en PA, ses jets de dégâts, sa fréquence de lancer. Cette table manquait pour Dofus 2, donc le panneau n'avait rien à chercher et s'abstenait. Elle est là. Un Iop niveau 200 dispose de 16 sorts utilisables sur Dofus 2, contre 31 sur Dofus 3, et le panneau les ordonne en le tour qui tape le plus fort pour les points d'action que tu as.</p>
 
-<h2>Pourquoi on ne bricole pas</h2>
-<p>On pourrait recopier les chiffres de Dofus 3 et afficher un total. On ne le fera pas : Dofus 2 est un jeu à part, ses sorts ont été équilibrés séparément, et un chiffre crédible venu de la mauvaise version est pire que pas de chiffre. Le panneau s'abstient plutôt que de mentir.</p>
+<h2>Pourquoi ça a pris si longtemps</h2>
+<p>Nous lisions un miroir des données du jeu, et ce miroir publie les sorts de Dofus 2 sans leurs rangs. Il était facile d'en conclure que le jeu ne les avait pas. Ankama publie la table lui-même, et le jour où nous sommes allés à la source plutôt qu'à la copie, tous les rangs y étaient.</p>
 
-<h2>Ce qui marche quand même sur Dofus 2</h2>
-<p>Tout ce qui vient des objets est intact : l'optimiseur, l'encyclopédie, les bonus de panoplie, l'atelier. Verrouille tes PA et tes PM aux paliers dont ton combo a besoin et construis autour, exactement comme le décrit <a href="/guides/ap-mp-range-caps/">le guide des plafonds</a>. Tu perds la lecture du tour, pas le build.</p>
+<h2>Pourquoi on n'a pas bricolé en attendant</h2>
+<p>On aurait pu recopier les chiffres de Dofus 3 et afficher un total depuis des années. On ne l'a pas fait : Dofus 2 est un jeu à part, ses sorts ont été équilibrés séparément, et un chiffre crédible venu de la mauvaise version est pire que pas de chiffre. Ce que tu lis maintenant, c'est ce que porte le client Dofus 2 lui-même.</p>
 
-<p><em>Tu veux le panneau ? Il tourne sur Dofus 3, la bêta, Touch et Retro. <a href="/guides/versions-explained/">Voilà ce qui sépare les versions.</a></em></p>
+<h2>Comment s'en servir</h2>
+<p>Lis le tour avec les points d'action que tu auras vraiment, pas avec le maximum. Verrouille tes PA et tes PM aux paliers dont ton combo a besoin et construis autour, exactement comme le décrit <a href="/guides/ap-mp-range-caps/">le guide des plafonds</a> : un total qui suppose un PA que tu n'atteins jamais est un total pour quelqu'un d'autre.</p>
+
+<p><em>Le panneau tourne maintenant sur toutes les versions couvertes par le site. <a href="/guides/versions-explained/">Voici ce qui les sépare.</a></em></p>
 ''',
                 },
                 'es': {
-                    'title': 'Por qué las builds de Dofus 2 no tienen panel de mejor turno',
-                    'desc': 'El panel del mejor turno falta en Dofus 2, y no es un descuido: los archivos de Dofus 2 no incluyen ninguna tabla de niveles de hechizos.',
-                    'lead': 'Si estás en Dofus 2 y la página de hechizos no muestra ningún total de turno, no hay nada roto. El dato que ese panel necesita no existe en la release de Dofus 2.',
+                    'title': 'Cómo Dofus 2 consiguió su panel de mejor turno',
+                    'desc': 'El panel de daño del mejor turno ya funciona en Dofus 2, con cifras propias de Dofus 2 y no prestadas.',
+                    'lead': 'Esta página explicaba por qué Dofus 2 no tenía total de turno. Ya lo tiene, y las cifras que hay detrás son suyas.',
                     'body': '''
-<h2>Qué falta</h2>
-<p>Para buscar un turno, la herramienta necesita cada hechizo en cada rango: su coste en PA, sus tiradas de daño, cuántas veces se puede lanzar. En Dofus 3 eso da 31 hechizos utilizables para un Iop de nivel 200. La misma lectura en Dofus 2 devuelve <strong>cero</strong>, porque los archivos de Dofus 2 no llevan ninguna tabla de niveles de hechizos.</p>
+<h2>Qué ha cambiado</h2>
+<p>Para buscar un turno, la herramienta necesita cada hechizo en cada rango: su coste en PA, sus tiradas de daño y cuántas veces puede lanzarse. Esa tabla faltaba en Dofus 2, así que el panel no tenía nada que buscar y se mantenía al margen. Ya está. Un Yopuka de nivel 200 tiene 16 hechizos utilizables en Dofus 2, frente a 31 en Dofus 3, y el panel los ordena en el turno que más pega con los puntos de acción que tengas.</p>
 
-<h2>Por qué no lo inventamos</h2>
-<p>Podríamos copiar las cifras de Dofus 3 y enseñar un total. No lo haremos: Dofus 2 es un juego aparte, sus hechizos se equilibraron por separado, y una cifra creíble sacada de la versión equivocada es peor que ninguna cifra. El panel se abstiene en vez de mentir.</p>
+<h2>Por qué ha tardado tanto</h2>
+<p>Leíamos un espejo de los datos del juego, y ese espejo publica los hechizos de Dofus 2 sin sus rangos. Era fácil concluir que el juego no los tenía. Ankama publica la tabla por su cuenta, y en cuanto fuimos a la fuente en lugar de a la copia, todos los rangos estaban ahí.</p>
 
-<h2>Qué sigue funcionando en Dofus 2</h2>
-<p>Todo lo que viene de los objetos está intacto: el optimizador, la enciclopedia, los bonos de conjunto, el taller. Bloquea tus PA y PM en los umbrales que tu combo necesita y construye alrededor, tal como explica <a href="/guides/ap-mp-range-caps/">la guía de límites</a>. Pierdes la lectura del turno, no la build.</p>
+<h2>Por qué no lo falseamos mientras tanto</h2>
+<p>Podríamos haber copiado las cifras de Dofus 3 y mostrar un total hace años. No lo hicimos: Dofus 2 es un juego aparte, sus hechizos se equilibraron por separado, y una cifra creíble venida de la versión equivocada es peor que ninguna cifra. Lo que lees ahora es lo que lleva el propio cliente de Dofus 2.</p>
 
-<p><em>¿Quieres el panel? Funciona en Dofus 3, la beta, Touch y Retro. <a href="/guides/versions-explained/">Esto separa a las versiones.</a></em></p>
+<h2>Cómo usarlo</h2>
+<p>Lee el turno con los puntos de acción que vayas a tener de verdad, no con el máximo. Bloquea tus PA y PM en los umbrales que tu combo necesita y construye alrededor, tal y como explica la <a href="/guides/ap-mp-range-caps/">guía de topes</a>: un total que da por hecho un PA que nunca alcanzas es un total para otra persona.</p>
+
+<p><em>El panel funciona ya en todas las versiones que cubre el sitio. <a href="/guides/versions-explained/">Esto es lo que las diferencia.</a></em></p>
 ''',
                 },
                 'pt': {
-                    'title': 'Porque as builds de Dofus 2 não têm painel de melhor turno',
-                    'desc': 'O painel do melhor turno falta no Dofus 2, e não é um esquecimento: os arquivos do Dofus 2 não trazem nenhuma tabela de níveis de feitiços.',
-                    'lead': 'Se estás no Dofus 2 e a página de feitiços não mostra nenhum total de turno, não está nada avariado. O dado de que esse painel precisa não existe na release do Dofus 2.',
+                    'title': 'Como o Dofus 2 ganhou o painel de melhor turno',
+                    'desc': 'O painel de dano do melhor turno já funciona no Dofus 2, com números do próprio Dofus 2 e não emprestados.',
+                    'lead': 'Esta página explicava por que o Dofus 2 não tinha total de turno. Agora tem, e os números por trás dele são os seus.',
                     'body': '''
-<h2>O que falta</h2>
-<p>Para procurar um turno, a ferramenta precisa de cada feitiço em cada patamar: o custo em PA, os valores de dano, quantas vezes pode ser lançado. No Dofus 3 isso dá 31 feitiços utilizáveis para um Iop de nível 200. A mesma leitura no Dofus 2 devolve <strong>zero</strong>, porque os arquivos do Dofus 2 não trazem tabela de níveis de feitiços.</p>
+<h2>O que mudou</h2>
+<p>Para procurar um turno, a ferramenta precisa de cada feitiço em cada patamar: o custo em PA, as rolagens de dano e quantas vezes pode ser lançado. Essa tabela faltava no Dofus 2, então o painel não tinha o que procurar e ficava de fora. Agora está lá. Um Iop de nível 200 tem 16 feitiços utilizáveis no Dofus 2, contra 31 no Dofus 3, e o painel os organiza no turno que bate mais forte com os pontos de ação que você tem.</p>
 
-<h2>Porque não inventamos</h2>
-<p>Podíamos copiar os números do Dofus 3 e mostrar um total. Não o faremos: o Dofus 2 é um jogo à parte, os seus feitiços foram equilibrados em separado, e um número credível tirado da versão errada é pior do que número nenhum. O painel abstém-se em vez de mentir.</p>
+<h2>Por que demorou tanto</h2>
+<p>Líamos um espelho dos dados do jogo, e esse espelho publica os feitiços do Dofus 2 sem os patamares. Era fácil concluir que o jogo não os tinha. A Ankama publica a tabela por conta própria, e assim que fomos à fonte em vez da cópia, todos os patamares estavam lá.</p>
 
-<h2>O que continua a funcionar no Dofus 2</h2>
-<p>Tudo o que vem dos itens está intacto: o otimizador, a enciclopédia, os bónus de conjunto, a oficina. Trava os teus PA e PM nos patamares de que o teu combo precisa e constrói à volta disso, tal como descreve <a href="/guides/ap-mp-range-caps/">o guia dos limites</a>. Perdes a leitura do turno, não a build.</p>
+<h2>Por que não inventamos nada nesse meio-tempo</h2>
+<p>Poderíamos ter copiado os números do Dofus 3 e mostrado um total há anos. Não fizemos: o Dofus 2 é um jogo à parte, seus feitiços foram equilibrados separadamente, e um número convincente vindo da versão errada é pior do que número nenhum. O que você lê agora é o que o próprio cliente do Dofus 2 carrega.</p>
 
-<p><em>Queres o painel? Corre no Dofus 3, na beta, no Touch e no Retro. <a href="/guides/versions-explained/">É isto que separa as versões.</a></em></p>
+<h2>Como usar</h2>
+<p>Leia o turno com os pontos de ação que você realmente terá, não com o máximo. Trave seus PA e PM nos patamares de que o seu combo precisa e monte em volta deles, exatamente como descreve o <a href="/guides/ap-mp-range-caps/">guia dos limites</a>: um total que pressupõe um PA que você nunca alcança é um total para outra pessoa.</p>
+
+<p><em>O painel agora funciona em todas as versões que o site cobre. <a href="/guides/versions-explained/">Veja o que as separa.</a></em></p>
 ''',
                 },
                 'de': {
-                    'title': 'Warum Dofus-2-Builds kein Bester-Zug-Panel haben',
-                    'desc': 'Das Bester-Zug-Panel fehlt auf Dofus 2, und das ist kein Versehen: Die Dofus-2-Archive enthalten gar keine Zauberstufen-Tabelle.',
-                    'lead': 'Wenn du auf Dofus 2 bist und die Zauberseite keine Zugsumme zeigt, ist nichts kaputt. Die Daten, die dieses Panel braucht, gibt es im Dofus-2-Release nicht.',
+                    'title': 'Wie Dofus 2 sein Bester-Zug-Panel bekam',
+                    'desc': 'Das Schadenspanel für den besten Zug läuft jetzt auch auf Dofus 2, mit eigenen Zahlen statt geliehenen.',
+                    'lead': 'Diese Seite erklärte, warum Dofus 2 keine Zugsumme hatte. Es hat jetzt eine, und die Zahlen dahinter sind seine eigenen.',
                     'body': '''
-<h2>Was fehlt</h2>
-<p>Um einen Zug zu durchsuchen, braucht das Werkzeug jeden Zauber auf jeder Stufe: AP-Kosten, Schadenswürfe, wie oft er gewirkt werden darf. Auf Dofus 3 ergibt das für einen Iop auf Stufe 200 31 nutzbare Zauber. Dieselbe Abfrage auf Dofus 2 liefert <strong>null</strong>, weil die Dofus-2-Archive keine Zauberstufen-Tabelle enthalten.</p>
+<h2>Was sich geändert hat</h2>
+<p>Um einen Zug zu suchen, braucht das Werkzeug jeden Zauber auf jeder Stufe: seine AP-Kosten, seine Schadenswürfe und wie oft er gewirkt werden darf. Diese Tabelle fehlte für Dofus 2, also hatte das Panel nichts zu durchsuchen und blieb weg. Jetzt ist sie da. Ein Iop auf Stufe 200 hat in Dofus 2 16 nutzbare Zauber, in Dofus 3 dagegen 31, und das Panel ordnet sie zu dem Zug, der mit deinen Aktionspunkten am härtesten trifft.</p>
 
-<h2>Warum wir nichts erfinden</h2>
-<p>Wir könnten die Zahlen von Dofus 3 übernehmen und eine Summe anzeigen. Wir tun es nicht: Dofus 2 ist ein eigenes Spiel, seine Zauber wurden getrennt ausbalanciert, und eine glaubwürdige Zahl aus der falschen Version ist schlimmer als keine Zahl. Das Panel schweigt lieber, als zu lügen.</p>
+<h2>Warum es so lange gedauert hat</h2>
+<p>Wir lasen einen Spiegel der Spieldaten, und dieser Spiegel veröffentlicht die Zauber von Dofus 2 ohne ihre Stufen. Daraus ließ sich leicht schließen, das Spiel habe sie nicht. Ankama veröffentlicht die Tabelle selbst, und sobald wir zur Quelle statt zur Kopie gegangen sind, war jede Stufe da.</p>
 
-<h2>Was auf Dofus 2 weiterhin geht</h2>
-<p>Alles, was aus den Itemdaten kommt, ist intakt: der Optimierer, die Enzyklopädie, die Set-Boni, die Werkstatt. Lege AP und BP auf die Schwellen fest, die dein Combo braucht, und baue darum herum, genau wie es <a href="/guides/ap-mp-range-caps/">der Leitfaden zu den Obergrenzen</a> beschreibt. Du verlierst die Zuganzeige, nicht den Build.</p>
+<h2>Warum wir in der Zwischenzeit nichts erfunden haben</h2>
+<p>Wir hätten die Zahlen von Dofus 3 übernehmen und seit Jahren eine Summe anzeigen können. Haben wir nicht: Dofus 2 ist ein eigenes Spiel, seine Zauber wurden getrennt ausbalanciert, und eine glaubwürdige Zahl aus der falschen Version ist schlimmer als gar keine. Was du jetzt liest, trägt der Dofus-2-Client selbst.</p>
 
-<p><em>Du willst das Panel? Es läuft auf Dofus 3, der Beta, Touch und Retro. <a href="/guides/versions-explained/">Das unterscheidet die Versionen.</a></em></p>
+<h2>So nutzt du es</h2>
+<p>Lies den Zug mit den Aktionspunkten, die du wirklich haben wirst, nicht mit dem Maximum. Sperre deine AP und BP auf die Schwellen, die dein Kombo braucht, und baue darum herum, genau wie es der <a href="/guides/ap-mp-range-caps/">Grenzwerte-Leitfaden</a> beschreibt: eine Summe, die ein AP voraussetzt, das du nie erreichst, ist eine Summe für jemand anderen.</p>
+
+<p><em>Das Panel läuft jetzt auf jeder Version, die die Seite abdeckt. <a href="/guides/versions-explained/">Das unterscheidet sie.</a></em></p>
 ''',
                 },
             },

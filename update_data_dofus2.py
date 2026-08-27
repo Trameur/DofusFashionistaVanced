@@ -208,8 +208,8 @@ def main() -> None:
             str(ITEMSCRAPER / "dofus2"),
         ], cwd=ITEMSCRAPER)
         # What the spells an item names actually do, for the tooltip on the
-        # extra lines. The 2.73 archive ships no spell levels but it does ship
-        # the spell text, so this one works where spells/constants cannot.
+        # extra lines. It reads the spell text, so it needs no spell level and
+        # worked here for years before spells/constants could run at all.
         step("spells/tooltips", [
             PY, "-m", "itemscraper.store_spell_tooltips",
             "--game-version", "dofus2", "--tag", version,

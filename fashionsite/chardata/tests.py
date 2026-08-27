@@ -2159,9 +2159,9 @@ class AWaitingRowIsReportedNotCountedTests(SimpleTestCase):
 class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
     """Its committed block is Dofus 3 content, and most of it is not Dofus 2.
 
-    2.73 ships no spell level data, so generate_damage_spells can never run
-    for this version and its DAMAGE_SPELLS was bootstrapped from Dofus 3 and
-    frozen. Measured on the committed literal: 274 of its 497 class spells are
+    That was the state until 2.73 got its spell levels from Ankama's own CDN:
+    generate_damage_spells could not run, and its DAMAGE_SPELLS had been
+    bootstrapped from Dofus 3 and frozen. Measured on that literal: 274 of its 497 class spells are
     absent from the 2.73 archive and 269 of those are Dofus 3 spells. Osamodas
     was the plainest case, 22 of its 25 belonging to the Dofus 3 revamp, so the
     page offered a Dofus 2 player Bear Cry and Song of the Phoenix and hid
@@ -2462,8 +2462,9 @@ class WhichSpellsPushTests(SimpleTestCase):
 
     def test_the_modern_list_comes_from_the_client_effects(self):
         # dofus3 and the beta carry the push per rank, straight from effect 5
-        # and its variants; the other three have no spell level in their source
-        # and fall back to the description.
+        # and its variants; the other three fall back to the description. Not
+        # for want of spell levels any more, Dofus 2 has those: their readers
+        # take the cast numbers off a rank and do not read its effect list.
         from chardata.spell_reference import get_spell_reference, push_cells
         for version in ('dofus3', 'beta'):
             reference = get_spell_reference(version)

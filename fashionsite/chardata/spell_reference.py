@@ -3,8 +3,9 @@
 its range and how often a turn allows it.
 
 One file per version under spell_reference/, written by
-itemscraper/store_spell_reference.py. Dofus 2 is the poor relation: its archive
-ships no spell level, so its entries carry the text and nothing else.
+itemscraper/store_spell_reference.py. All five versions state the cast. Dofus 2
+was the poor relation for as long as we read the dofusdude mirror, which
+publishes its spells without their ranks; Ankama's own CDN has the table.
 """
 import json
 import os
@@ -67,10 +68,11 @@ def pushing_spell_ids(game_version):
     return found
 
 
-# Only dofus3 and the beta are built from the client's own effects. The Dofus 2
-# archive carries no spell level at all, and Retro and Touch come from other
-# readers, so for those three the description is all there is. It cannot say a
-# distance and it cannot tell a damaging push from a harmless one.
+# Only dofus3 and the beta are built from the client's own effects. Dofus 2,
+# Retro and Touch come from other readers, so for those three the description
+# is all there is here. It cannot say a distance and it cannot tell a damaging
+# push from a harmless one. Dofus 2 does carry its spell levels now, which is a
+# different question: they state what a cast COSTS, not what a push does.
 _PUSH_WORDS_EN = ('repels', 'pushes back', 'pushes the target back',
                   'pushes targets back')
 _PUSH_WORDS_FR = ('repousse', 'repoussent')

@@ -15,8 +15,8 @@ source has:
   dofus3, beta  the datacenter class-spell dump: everything
   touch         the production proxy: everything
   retro         the 1.29 lang files: everything
-  dofus2        the 2.73 archive ships no spell level at all, so names,
-                descriptions and types only
+  dofus2        the 2.73 archive plus SpellLevels from Ankama's CDN, which
+                download_d2o_tables.py fetches: everything
 """
 from __future__ import annotations
 
