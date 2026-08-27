@@ -103,6 +103,43 @@ NOT_A_SELF_BUFF = {
     9919: 'puissance des invocations',                     # Osamodas Crocs du Mulou
     3215: 'Sur un alli',                                   # Foggernaut Evolution
     9685: 'bonus Puissance sur les alli',                  # Osamodas Fouet
+    # Ecaflip Roulette. The caster IS among the targets, which is why the mask
+    # says nothing useful here: what disqualifies it is that the spell fires ONE
+    # random effect, so the Power row is a possible outcome and not a thing the
+    # caster gets by casting it. The same spell was wrong on Retro for the same
+    # reason, where it granted four characteristics at once.
+    7449: 'effet al',
+}
+
+# The four exclusions above were found by reading spells one at a time, which
+# works once and then stops: Ankama adds spells, nobody re-derives the list, and
+# the new one is credited to the player without a word. Roulette was found by
+# screening instead, months after the list was written.
+#
+# So the generator screens every buff it is about to KEEP. If the spell's own
+# description names summons, allies or enemies and the spell is settled nowhere,
+# the run stops. It is deliberately noisy: 8 of the 20 kept buffs trip it, and
+# seven of those are legitimate. Being made to answer for eight spells once is
+# the price of not missing the ninth.
+SOMEBODY_ELSE = ('invocation', 'alli', 'adversaire', 'ennemi')
+
+BUFFS_THE_CASTER_TOO = {
+    # Cra, Maitrise de l'Arc: buffs allies AND the caster, him the most.
+    5523: 'plus important sur le lanceur',
+    # Iop, Puissance: the caster gets it in full when he targets himself.
+    8137: 'le lanceur gagne',
+    # Ecaflip, Perception: the caster gets the full bonus, allies get less.
+    7463: 'plus faible sur les alli',
+    # Rogue, Dernier Souffle: names the caster before the allies.
+    2810: 'Puissance du lanceur',
+    # Xelor, Vortex: the caster may be the target, one turn later.
+    9737: 'Si le lanceur est cibl',
+    # Xelor, Poussiere Temporelle: STEALS Wisdom, so the caster gains it. The
+    # word "adversaires" belongs to the theft, not to the beneficiary.
+    8031: 'vole de la Sagesse aux adversaires',
+    # Sram, Larcin: same shape, an Intelligence theft. "ennemis" belongs to the
+    # damage half of the sentence.
+    8747: "l'Intelligence",
 }
 
 ELEMENT_TOKEN_TO_CONST = {'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER',
@@ -247,6 +284,40 @@ def _check_still_says(spell):
     return True
 
 
+def _description_of(spell):
+    text = spell.get('descriptionId') or ''
+    if isinstance(text, dict):
+        text = text.get('fr') or ''
+    return str(text)
+
+
+def _screen_kept_buff(spell):
+    """Stop the run if a KEPT buff's own sentence names somebody else.
+
+    Runs on what the generator is about to write rather than on a list somebody
+    maintains, so a spell added after this was written cannot be credited to
+    the caster in silence: the run fails, names the spell and the words that
+    flagged it, and quotes Ankama.
+    """
+    text = _description_of(spell)
+    lowered = text.lower()
+    named = [word for word in SOMEBODY_ELSE if word in lowered]
+    if not named:
+        return
+    spell_id = spell.get('id')
+    quote = BUFFS_THE_CASTER_TOO.get(spell_id)
+    if quote is None:
+        raise SystemExit(
+            'touch spell %s (%s) keeps a characteristic buff and its own '
+            'description names %s. Settle it in NOT_A_SELF_BUFF or in '
+            'BUFFS_THE_CASTER_TOO before regenerating. Ankama wrote: %r'
+            % (spell_id, spell.get('nameId'), '/'.join(named), text[:160]))
+    if quote.lower() not in lowered:
+        raise SystemExit(
+            'touch spell %s no longer says %r; re-read it before trusting that '
+            'the caster is among those it buffs' % (spell_id, quote))
+
+
 def decode_spell(spell, spell_levels):
     """Touch spell -> damage-spell dict, or None if it carries no row at all.
 
@@ -343,6 +414,9 @@ def build(breeds, spells, spell_levels):
                 continue
             seen.add(sid)
             decoded = decode_spell(spell, spell_levels)
+            if decoded and any(str(token).startswith('buff_')
+                               for token in decoded.get('elements') or []):
+                _screen_kept_buff(spell)
             if decoded:
                 damage_spells.append(decoded)
         by_class[app_name] = damage_spells

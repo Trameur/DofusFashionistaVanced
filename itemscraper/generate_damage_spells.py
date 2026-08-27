@@ -50,6 +50,25 @@ STAT_BUFF_CHARACTERISTICS = {
 
 ALWAYS_BUFF_TOKENS = {"buff_final", "buff_finalheals"}
 
+# Spells whose characteristic rows the caster does not reliably get. The mask
+# does not answer here: the caster IS among Roulette's targets, so any rule
+# built on who is targeted keeps it. What disqualifies it is that only ONE of
+# its rows happens.
+#
+# The quote is checked at generation time by _not_a_self_buff below, so a
+# description Ankama rewrites raises the question again instead of leaving an
+# exclusion nobody rechecks.
+NOT_A_SELF_BUFF = {
+    # Ecaflip, Roulette. Ankama: "Applique un effet aleatoire sur tout le
+    # monde." The data lists the alternatives as six separate buff rows, and
+    # reading them as granted together handed an Ecaflip +400 Strength,
+    # Intelligence, Chance AND Agility at once, plus Pushback Damage and final
+    # heals, for a 1 AP spell. The solver believes this table, so the advice
+    # was wrong and not only the summary. The same spell was wrong on Retro
+    # (four characteristics) and on Touch (Power), found there first.
+    12840: "effet al",
+}
+
 # A damage row that does not land with the cast. The client's structured data
 # does not carry it: the state that holds the damage is applied by effect 950
 # and consumed by a script, so the only place the game states the rule is the
@@ -898,7 +917,31 @@ def _is_player_breed(breed_id: Any) -> bool:
     return 1 <= value <= 19
 
 
+def _not_a_self_buff(spell: Mapping[str, Any]) -> bool:
+    """True when this spell's characteristic rows are not the caster's.
+
+    Verifies the sentence the exclusion rests on, in Ankama's own words, rather
+    than trusting a spell id written down once.
+    """
+    try:
+        ankama_id = int(spell.get("ankama_id"))
+    except (TypeError, ValueError):
+        return False
+    quote = NOT_A_SELF_BUFF.get(ankama_id)
+    if quote is None:
+        return False
+    text = str(spell.get("description_fr") or "")
+    if quote.lower() not in text.lower():
+        raise SystemExit(
+            "spell %s no longer says %r; its buff rows were dropped on that "
+            "sentence and the exclusion has to be decided again"
+            % (ankama_id, quote))
+    return True
+
+
 def _extract_stat_buff_rows(spell: Mapping[str, Any], level_count: int) -> List[Dict[str, Any]]:
+    if _not_a_self_buff(spell):
+        return []
     levels = spell.get("levels") or []
     if not levels or level_count <= 0:
         return []

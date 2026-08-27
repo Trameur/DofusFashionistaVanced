@@ -832,16 +832,6 @@ DAMAGE_SPELLS = {
         ), is_linked=(1, 'Covering Fire'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=13069),
     ],
     'Ecaflip': [
-        Spell('Roulette', [40, 107, 174], Effects(
-            [['100', '200', '400'],
-             ['100', '200', '400'],
-             ['100', '200', '400'],
-             ['100', '200', '400'],
-             ['40', '60', '100'],
-             ['40', '60', '100']],
-            None,
-            ['buff_str', 'buff_int', 'buff_cha', 'buff_agi', 'buff_pshdam', 'buff_finalheals'],
-        ), casting={'ap': [1, 1, 1], 'per_turn': [1, 1, 1]}, spell_id=12840),
         Spell('Feline Spirit', [65, 131, 198], Effects(
             [['19-21', '26-29', '31-34']],
             [['26', '35', '41']],

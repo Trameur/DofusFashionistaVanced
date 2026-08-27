@@ -2503,6 +2503,105 @@ class RetroBuffsBelongToTheCasterTests(SimpleTestCase):
                 'so the caster must not be credited with it' % name))
 
 
+class TheRandomSpellIsNotABuffOnAnyVersionTests(SimpleTestCase):
+    """The Ecaflip's Roulette was credited to the caster on all five versions,
+    and on the three modern ones it carried SIX rows at once.
+
+    Ankama's own reference says "Applique un effet aleatoire sur tout le monde"
+    (spell 12840). The data lists the alternatives as separate rows, so reading
+    them as granted together handed an Ecaflip +400 Strength, Intelligence,
+    Chance AND Agility, plus Pushback Damage and final heals, from a 1 AP
+    spell. The solver reads this table, so the recommendation itself was built
+    on those points, not just the summary beside it.
+
+    The mask cannot decide this one: the caster IS among the targets, so every
+    rule about who is targeted keeps it. What disqualifies it is that only one
+    of the rows happens. The spell keeps its page either way, filled in from
+    chardata/spell_reference (checked: id 12840 is in all five files).
+    """
+
+    TABLES = (
+        ('dofus3', 'fashionistapulp.dofus_constants', 'DAMAGE_SPELLS'),
+        ('beta', 'fashionistapulp.dofus_constants_beta', 'DAMAGE_SPELLS'),
+        ('dofus2', 'fashionistapulp.dofus_constants_dofus2', 'DAMAGE_SPELLS'),
+    )
+    ROULETTE = 12840
+
+    def test_no_modern_version_credits_the_caster_with_the_random_rows(self):
+        import importlib
+        for version, module_name, symbol in self.TABLES:
+            table = getattr(importlib.import_module(module_name), symbol)
+            carriers = [spell
+                        for spells in table.values() for spell in spells
+                        if any(str(token).startswith('buff_')
+                               for token in (spell.effects.elements or []))]
+            with self.subTest(version=version):
+                # The control: without it, a table that had lost every buff row
+                # would satisfy the assertion below perfectly.
+                self.assertGreater(len(carriers), 20, msg=(
+                    '%s carries only %d buff spells, so the check below would '
+                    'pass for the wrong reason' % (version, len(carriers))))
+                self.assertEqual([], [
+                    spell.name for spell in carriers
+                    if getattr(spell, 'spell_id', None) == self.ROULETTE], msg=(
+                        '%s credits the caster with rows from a spell that '
+                        'fires one random effect' % version))
+
+
+class TouchBuffsBelongToTheCasterTests(SimpleTestCase):
+    """The Ecaflip's Roulette fires ONE random effect, so its Power row is an
+    outcome and not something a caster gets by casting it.
+
+    Its four predecessors in get_spells_touch.NOT_A_SELF_BUFF were found by
+    reading all 330 Touch class spells one at a time, hours before this test
+    was written. That reading was exhaustive for the question it was asking --
+    who receives the buff -- and Roulette answers that one correctly, because
+    the caster IS among its targets. It fails a question nobody had asked yet:
+    is the buff certain. So the list was written by looking at the right place
+    and missed one anyway.
+
+    The generator now screens every buff it keeps and stops on any whose own
+    description names summons, allies or enemies and which is settled nowhere.
+    It is deliberately noisy: 8 of the 20 kept buffs trip it and 7 are
+    legitimate, each settled with the sentence that settles it and re-read on
+    every run. The same word screen does NOT transfer to dofus3/dofus2, where
+    it flags 39 of 58: those descriptions name enemies because they describe
+    the damage in the same sentence.
+    """
+
+    NOT_THE_CASTER = ('Roulette',)
+    # Inside the assertion, not beside it: a table that had lost every buff row
+    # would satisfy the exclusion perfectly.
+    STILL_THE_CASTER = {'Puissance': 'buff_pow', 'Bulle': 'buff_cha',
+                        'Lancer de Pièces': 'buff_wis'}
+
+    @staticmethod
+    def _buff_rows():
+        from fashionistapulp.dofus_constants_touch_spells import (
+            TOUCH_DAMAGE_SPELLS)
+        rows = {}
+        for spells in TOUCH_DAMAGE_SPELLS.values():
+            for spell in spells:
+                tokens = sorted(
+                    token for token in (spell.effects.elements or [])
+                    if isinstance(token, str) and token.startswith('buff_'))
+                if tokens:
+                    rows[spell.name] = tokens
+        return rows
+
+    def test_a_random_effect_is_not_a_buff_the_caster_can_count_on(self):
+        rows = self._buff_rows()
+        for name, token in self.STILL_THE_CASTER.items():
+            self.assertIn(token, rows.get(name, []), msg=(
+                '%s should still carry %s; without this control the test below '
+                'would pass on a table that had lost every buff row'
+                % (name, token)))
+        for name in self.NOT_THE_CASTER:
+            self.assertNotIn(name, rows, msg=(
+                '%s fires one random effect, so the caster must not be '
+                'credited with the buff it may or may not roll' % name))
+
+
 class AStatePayloadIsNotTurnDamageTests(SimpleTestCase):
     """Eight spells that hit now and pay out later, only if something happens.
 

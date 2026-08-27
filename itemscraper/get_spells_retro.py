@@ -81,8 +81,9 @@ NOT_A_SELF_BUFF = {
     # granted together handed the caster +400 Strength, Chance, Intelligence
     # AND Agility at once, +500 on a critical, at every rank.
     101: 'sur vos adversaires',
-    # Sadida, Resistance Naturelle: the sentence names summons and allies, and
-    # never the caster.
+    # Osamodas, Resistance Naturelle: the sentence names summons and allies,
+    # and never the caster. (Osamodas, not Sadida: checked in
+    # chardata/spell_reference/retro.json, whose `name` is a dict of languages.)
     32: 'des invocations',
     # Osamodas, Crocs du Mulou: same sentence as above, and the same spell was
     # already excluded on Touch for the same reason under id 9919.

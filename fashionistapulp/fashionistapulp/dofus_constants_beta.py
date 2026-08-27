@@ -940,16 +940,6 @@ DAMAGE_SPELLS = {
             [['23', '30', '37']],
             [FIRE],
         ), is_linked=(1, 'Fate of Ecaflip'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=12870),
-        Spell('Roulette', [40, 107, 174], Effects(
-            [['100', '200', '400'],
-             ['100', '200', '400'],
-             ['100', '200', '400'],
-             ['100', '200', '400'],
-             ['40', '60', '100'],
-             ['40', '60', '100']],
-            None,
-            ['buff_str', 'buff_int', 'buff_cha', 'buff_agi', 'buff_pshdam', 'buff_finalheals'],
-        ), casting={'ap': [1, 1, 1], 'per_turn': [1, 1, 1]}, spell_id=12840),
         Spell('Belote', [45, 112, 179], Effects(
             [['17-19', '22-25', '27-30']],
             [['23', '30', '36']],
