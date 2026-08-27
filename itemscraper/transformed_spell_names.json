@@ -1161,6 +1161,13 @@
     "fr": "A-Gyō",
     "pt": "A-Gyō"
   },
+  "AP Bonus": {
+    "de": "AP-Bonus",
+    "en": "AP Bonus",
+    "es": "Bonus de PA",
+    "fr": "Bonus PA",
+    "pt": "Bônus de PA"
+  },
   "AP Reduction": {
     "de": "AP-Entzug",
     "en": "AP Reduction",
@@ -16239,6 +16246,13 @@
     "fr": "Frappe critique",
     "pt": "Soco Crítico"
   },
+  "Critical Bonus": {
+    "de": "Bonus auf kritische Treffer",
+    "en": "Critical Bonus",
+    "es": "Bonus de Críticos",
+    "fr": "Bonus Critiques",
+    "pt": "Bônus Críticos"
+  },
   "Critical Bugg": {
     "de": "Kritischer Bog",
     "en": "Critical Bugg",
@@ -27354,6 +27368,13 @@
     "es": "Fin Ishim",
     "fr": "Fin'Ishime",
     "pt": "Fin'Ixirrim"
+  },
+  "Final Damage Bonus": {
+    "de": "Endschaden-Bonus",
+    "en": "Final Damage Bonus",
+    "es": "Bonus de Daños Finales",
+    "fr": "Bonus Dommages Finaux",
+    "pt": "Bônus de Danos Finais"
   },
   "Final Destination": {
     "de": "Final Destination",
@@ -42818,6 +42839,13 @@
     "fr": "FOLIE !",
     "pt": "LOUCURA!"
   },
+  "MP Bonus": {
+    "de": "BP-Bonus",
+    "en": "MP Bonus",
+    "es": "Bonus de PM",
+    "fr": "Bonus PM",
+    "pt": "Bônus de PM"
+  },
   "MP Reduction": {
     "de": "BP-Entzug",
     "en": "MP Reduction",
@@ -51604,11 +51632,11 @@
     "pt": "Grito Penetrante"
   },
   "Piercing Shot": {
-    "de": "Durchdringender Schuss",
+    "de": "Durchbohrender Schuss",
     "en": "Piercing Shot",
-    "es": "Tiro Perforante",
-    "fr": "Tir Perforant",
-    "pt": "Tiro Penetrante"
+    "es": "Tiro Penetrante",
+    "fr": "Tir Perçant",
+    "pt": "Tiro Perfurante"
   },
   "Piercing Shots": {
     "de": "Durchbohrende Schüsse",
@@ -57153,6 +57181,13 @@
     "es": "Resistencias",
     "fr": "Résistances",
     "pt": "Resistências"
+  },
+  "Resistances Bonus": {
+    "de": "Resistenz-Bonus",
+    "en": "Resistances Bonus",
+    "es": "Bonus de Resistencias",
+    "fr": "Bonus Résistances",
+    "pt": "Bônus de Resistências"
   },
   "Resistant Acclaim": {
     "de": "Resistenzfördernder Jubel",
@@ -79372,6 +79407,13 @@
     "fr": "Arquebuse Trahison",
     "pt": "[!] Arquebuse Trahison"
   },
+  "[!] Aspiration": {
+    "de": "[!] Aspiration",
+    "en": "[!] Aspiration",
+    "es": "[!] Aspiration",
+    "fr": "Aspiration",
+    "pt": "[!] Aspiration"
+  },
   "[!] Assaut trahison": {
     "de": "[!] Assaut trahison",
     "en": "[!] Assaut trahison",
@@ -79630,6 +79672,13 @@
     "es": "[!] Branchiche",
     "fr": "Branchiche",
     "pt": "[!] Branchiche"
+  },
+  "[!] Brasier": {
+    "de": "[!] Brasier",
+    "en": "[!] Brasier",
+    "es": "[!] Brasier",
+    "fr": "Brasier",
+    "pt": "[!] Brasier"
   },
   "[!] Bribe de Sadida": {
     "de": "[!] Bribe de Sadida",
@@ -79910,6 +79959,13 @@
     "es": "[!] Choix d'Archétype",
     "fr": "Choix d'Archétype",
     "pt": "[!] Choix d'Archétype"
+  },
+  "[!] Colère": {
+    "de": "[!] Colère",
+    "en": "[!] Colère",
+    "es": "[!] Colère",
+    "fr": "Colère",
+    "pt": "[!] Colère"
   },
   "[!] Combinaison": {
     "de": "[!] Combinaison",
@@ -81934,6 +81990,13 @@
     "fr": "Passif famille",
     "pt": "[!] Passif famille"
   },
+  "[!] Passif monstres": {
+    "de": "[!] Passif monstres",
+    "en": "[!] Passif monstres",
+    "es": "[!] Passif monstres",
+    "fr": "Passif monstres",
+    "pt": "[!] Passif monstres"
+  },
   "[!] Passifagressif": {
     "de": "[!] Passifagressif",
     "en": "[!] Passifagressif",
@@ -82704,6 +82767,13 @@
     "fr": "Salissure",
     "pt": "[!] Salissure"
   },
+  "[!] Saut": {
+    "de": "[!] Saut",
+    "en": "[!] Saut",
+    "es": "[!] Saut",
+    "fr": "Saut",
+    "pt": "[!] Saut"
+  },
   "[!] Sauvez-le !": {
     "de": "[!] Sauvez-le !",
     "en": "[!] Sauvez-le !",
@@ -83060,6 +83130,13 @@
     "es": "[!] Switch",
     "fr": "Switch",
     "pt": "[!] Switch"
+  },
+  "[!] Séisme": {
+    "de": "[!] Séisme",
+    "en": "[!] Séisme",
+    "es": "[!] Séisme",
+    "fr": "Séisme",
+    "pt": "[!] Séisme"
   },
   "[!] TP CR A frise": {
     "de": "Teleportation des Spielers auf den Fries",

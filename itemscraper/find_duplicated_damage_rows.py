@@ -4,8 +4,15 @@ Ankama sometimes rewrites a spell and leaves its damage row in the data twice.
 Nothing in a single archive tells that from a spell that really hits twice, but
 two archives do: a patch that doubles the rows while leaving the AP cost and the
 value of each row alone did not double the damage, it duplicated the row. The
-four Huppermage elemental basics are the case this was written for, and they are
-the only ones in 4360 spells between 3.5.17.26 and 3.6.8.8.
+four Huppermage elemental basics are the case this was written for.
+
+It only sees as far back as the oldest archive that carries spell_levels.json,
+and until 2026-08-27 that was 3.5.17.26. Giving Dofus 2 its own spell levels
+put 2.73.3.14 in reach and three more spells came out: Epidemic, Commotion and
+the Ouginak's Vertebra. Only Vertebra changed what a page shows, from two rows
+of 32-36 to one, and Ankama's own words settle it -- "applies a start-of-turn
+Water poison", one poison, where the data carried the same row twice under the
+same mask, zone, state and value.
 
 Run it as a module over every archive under itemscraper/raw and commit the
 result; the constants generator reads it so the page counts those rows once.

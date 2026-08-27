@@ -296,11 +296,16 @@ def main() -> None:
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     if do_images:
+        # 'class' and not 'damage': this run writes into the SHARED directory,
+        # the one dofus2, retro and touch fall back to, and a spell page lists
+        # the whole class book rather than only what deals damage. Asking for
+        # the damage spells while pruning against them left 552 icons where the
+        # pages name 849. Beta is not in the same position, it owns spells/beta.
         step("spell-images", [
             PY, "-m", "itemscraper.download_spell_images",
             "--version", version,
             "--size", "96",
-            "--scope", "damage",
+            "--scope", "class",
             "--prune",
         ])
 

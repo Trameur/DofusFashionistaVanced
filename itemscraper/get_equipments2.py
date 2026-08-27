@@ -517,7 +517,14 @@ for item in set_data['en']["sets"]:
         for lang in LANGUAGES:
             lang_name_key = f"name_{lang}"
             lang_item = next((i for i in set_data[lang]['sets'] if i['ankama_id'] == item['ankama_id']), None)
-            transformed_item[lang_name_key] = lang_item['name'] if lang_item else None
+            # Set names went through raw where item names are cleaned above,
+            # so an upstream "[!]" reached the page: 3.6.10.11 tagged the
+            # French Panoplie d'apparat de la loterie Ivoire and the rebuild
+            # shipped the tag. sanitize_untranslated_tags.py exists to correct
+            # a stored version, but it cannot stop the next rebuild writing it
+            # again, which is why the cleaning belongs here.
+            transformed_item[lang_name_key] = (
+                clean_display_name(lang_item['name']) if lang_item else None)
     if "items" in item:
         transformed_item["items"] = item["items"]
     if "effects" in item:

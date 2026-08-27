@@ -61881,11 +61881,11 @@
     },
     {
         "ankama_id": 1104,
-        "name_en": "[!] Panoplie d'apparat de la loterie Ivoire",
+        "name_en": "Panoplie d'apparat de la loterie Ivoire",
         "name_fr": "Panoplie d'apparat de la loterie Ivoire",
-        "name_es": "[!] Panoplie d'apparat de la loterie Ivoire",
-        "name_pt": "[!] Panoplie d'apparat de la loterie Ivoire",
-        "name_de": "[!] Panoplie d'apparat de la loterie Ivoire",
+        "name_es": "Panoplie d'apparat de la loterie Ivoire",
+        "name_pt": "Panoplie d'apparat de la loterie Ivoire",
+        "name_de": "Panoplie d'apparat de la loterie Ivoire",
         "items": 4,
         "equipment_ids": [
             34558,

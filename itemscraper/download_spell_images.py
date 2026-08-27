@@ -363,17 +363,65 @@ def copy_spell_icons(
     return stats, produced
 
 
-def prune_stale_icons(destination_dir: Path, expected_files: Set[str]) -> int:
+#: Every version whose pages read the shared spell directory. dofus3 owns it
+#: and the other four fall back to it, so what one run produces is never the
+#: whole of what the directory has to hold.
+SHARED_ICON_VERSIONS = ("dofus3", "beta", "dofus2", "retro", "touch")
+
+#: The versions whose constants expose DAMAGE_SPELLS under that name. Retro and
+#: touch keep theirs under RETRO_DAMAGE_SPELLS / TOUCH_DAMAGE_SPELLS in modules
+#: of their own, and their class spells come from the reference below anyway.
+CONSTANTS_BY_VERSION = {
+    "dofus3": Path("fashionistapulp/fashionistapulp/dofus_constants.py"),
+    "beta": Path("fashionistapulp/fashionistapulp/dofus_constants_beta.py"),
+    "dofus2": Path("fashionistapulp/fashionistapulp/dofus_constants_dofus2.py"),
+}
+
+
+def names_the_pages_can_ask_for() -> Set[str]:
+    """Every spell name any version's pages can put an icon behind.
+
+    The class reference is what a spell page lists, and DAMAGE_SPELLS carries
+    a few the reference does not: the Ebony Dofus is a default spell rather
+    than a class one, which is how it went missing.
+    """
+    names: Set[str] = set()
+    for version in SHARED_ICON_VERSIONS:
+        names |= load_class_spell_names(version)
+        path = CONSTANTS_BY_VERSION.get(version)
+        if path is None or not path.exists():
+            continue
+        try:
+            names |= load_damage_spell_names(path)
+        except ValueError:
+            continue
+    return {sanitize_spell_name(name, name).casefold() for name in names}
+
+
+def prune_stale_icons(destination_dir: Path, expected_files: Set[str],
+                      protected: Set[str] | None = None) -> int:
+    """Delete icons no page can ask for.
+
+    `expected_files` is only what THIS run produced, and one run covers one
+    version at one scope. Pruning on that alone emptied the shared directory of
+    297 icons on 2026-08-27, every one of them still named by a page: 297 by
+    dofus3 itself, 134 by dofus2, 81 by touch, 44 by retro. The run had scope
+    'damage', 552 icons, against the 849 the pages list.
+    """
     removed = 0
     if not destination_dir.exists():
         return removed
+    protected = protected or set()
     for path in destination_dir.glob("*.png"):
-        if path.name not in expected_files:
-            try:
-                path.unlink()
-                removed += 1
-            except OSError:
-                continue
+        if path.name in expected_files:
+            continue
+        if path.stem.casefold() in protected:
+            continue
+        try:
+            path.unlink()
+            removed += 1
+        except OSError:
+            continue
     return removed
 
 
@@ -413,10 +461,13 @@ def main() -> int:
         overwrite=args.overwrite,
     )
     if args.prune:
+        protected = names_the_pages_can_ask_for()
         total_pruned = 0
         for dest in ordered_dests:
-            total_pruned += prune_stale_icons(dest, produced)
+            total_pruned += prune_stale_icons(dest, produced, protected)
         stats.pruned = total_pruned
+        print(f"Protected {len(protected)} spell names read from the five "
+              f"versions' references and constants.")
     dest_summary = ", ".join(str(path) for path in ordered_dests)
     print(
         f"Copied {stats.written}/{stats.processed} spell icons into {dest_summary} "
