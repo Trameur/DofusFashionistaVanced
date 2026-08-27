@@ -123,6 +123,18 @@ def parse_args() -> argparse.Namespace:
         help="Path to fashionistapulp's dofus_constants.py (source of DAMAGE_SPELLS).",
     )
     parser.add_argument(
+        "--game-version",
+        choices=sorted(SHARED_ICON_VERSIONS),
+        default="dofus3",
+        help=(
+            "Whose class spell list scope 'class' follows. main() read this "
+            "through getattr with a 'dofus3' fallback and the argument never "
+            "existed, so every run followed the Dofus 3 list whatever it was "
+            "given. No run could fetch an icon for a spell only another "
+            "version lists."
+        ),
+    )
+    parser.add_argument(
         "--scope",
         choices=AVAILABLE_SCOPES,
         default=DEFAULT_SCOPE,

@@ -338,6 +338,19 @@ def read_dofus2(tag):
     rows = load_optional('spell_levels.json') or []
     levels = {str(row['id']): row for row in rows}
 
+    # Ankama pairs a spell with the second form a player unlocks, and
+    # breeds.json lists only the first of each pair. Reading breedSpellsId
+    # alone gave this reference 418 spells where a 2.73 player casts 683, and
+    # spell_buffs.py drops every spell the reference does not name: 265 of the
+    # 543 in the model, about half of every class, damage tables and all. Each
+    # of those 265 has ranks and an access level in this very archive, so
+    # "in nobody's spell book" was never true of them.
+    partners = {}
+    for row in (load_optional('spell_variants.json') or []):
+        ids = row.get('spellIds') or []
+        if len(ids) >= 2:
+            partners.setdefault(row.get('breedId'), {})[ids[0]] = list(ids[1:])
+
     def text(lang, text_id):
         return texts.get(lang, {}).get(str(text_id)) or ''
 
@@ -347,7 +360,13 @@ def read_dofus2(tag):
         if not class_name:
             continue
         found = []
-        for variant in (breed.get('breedSpellsId') or []):
+        wanted = list(breed.get('breedSpellsId') or [])
+        for_this_breed = partners.get(breed.get('id')) or {}
+        for base in list(wanted):
+            for extra in for_this_breed.get(base, []):
+                if extra not in wanted:
+                    wanted.append(extra)
+        for variant in wanted:
             spell = spells.get(str(variant))
             if spell is None:
                 continue

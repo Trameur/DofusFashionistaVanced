@@ -2175,7 +2175,14 @@ class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
 
     #: What 2.73 gives every class. A class that stops matching this is a
     #: reference that changed, and the numbers below go with it.
-    SPELLS_PER_CLASS = 22
+    #:
+    #: 22 until 2026-08-27, and the comment below said nineteen classes
+    #: agreeing on 22 proved the archive complete. It proved it UNIFORM. The
+    #: reference walked breedSpellsId without following spell_variants.json, so
+    #: every class lost its second forms and every class lost them equally. A
+    #: consistency check is satisfied by a uniformly incomplete dataset, and
+    #: this one was satisfied for months.
+    SPELLS_PER_CLASS = 44
 
     def _reference(self):
         from chardata.spell_reference import get_spell_reference
@@ -2185,10 +2192,81 @@ class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
 
     def test_every_class_carries_the_same_count_in_the_archive(self):
         # The premise of everything below: the archive is complete, not a
-        # sample. Eighteen classes agreeing on 22 is what says so.
+        # sample. Classes agreeing among themselves does NOT say so, which is
+        # what the old comment here claimed and what let 22 stand: they agreed
+        # because they were all missing the same thing.
         for class_name, entries in self._reference().items():
             with self.subTest(char_class=class_name):
                 self.assertEqual(self.SPELLS_PER_CLASS, len(entries))
+
+    #: Above this, two references are one measurement rather than two.
+    #:
+    #: The first version of the test below corroborated the count against
+    #: dofus3 AND beta, and called that two witnesses. They carry 852 spell ids
+    #: out of 852 in common, byte for byte to within 22 bytes on 1.3 MB: one
+    #: file and its copy, which would agree just as calmly if their shared
+    #: reader were wrong. The mistake is the one this class had just been
+    #: repaired for, one storey up.
+    #:
+    #: Two calibration points exist and nothing between them: a copy sits at
+    #: 100.0%, and the one genuinely distinct pair, dofus2 against dofus3, at
+    #: 89.4%. This separates those two and is not a tuned margin. A future pair
+    #: landing in between is a question for a person, not for this number.
+    SAME_MEASUREMENT_ABOVE = 0.99
+
+    def _spell_ids(self, book):
+        return {spell.get('id') for block in book.values()
+                for spell in block if spell.get('id')}
+
+    def test_the_count_is_the_one_an_independent_source_gives_too(self):
+        """The corroboration the count was missing, from a source that differs.
+
+        Dofus 3 builds its reference from the transformed class-spell dump,
+        where this one reads the 2.73 archive and follows spell_variants.json.
+        No file and no code in common, so agreement on a per-class count is
+        evidence about the game rather than about a reader.
+
+        Dofus 3 carries one class more, the Forgelance, which Dofus 2 never had
+        and which has its own smaller book. The overlap is what has to match.
+
+        Independence is asserted here, not assumed: a corroboration whose two
+        halves turn out to be the same file proves only that the file is
+        self-consistent.
+        """
+        from chardata.spell_reference import get_spell_reference
+        ours = self._reference()
+        book = get_spell_reference('dofus3')
+        self.assertTrue(book, 'no dofus3 reference to corroborate with')
+
+        mine, theirs = self._spell_ids(ours), self._spell_ids(book)
+        self.assertTrue(mine and theirs, 'a reference carries no spell id')
+        overlap = len(mine & theirs) / float(min(len(mine), len(theirs)))
+        self.assertLess(overlap, self.SAME_MEASUREMENT_ABOVE,
+                        'dofus3 overlaps this reference at %.1f%%, so the two '
+                        'are one measurement and cannot corroborate each '
+                        'other' % (overlap * 100))
+
+        shared = sorted(set(ours) & set(book))
+        self.assertGreater(len(shared), 15,
+                           'almost no class in common with dofus3: the '
+                           'comparison would mean nothing')
+        for class_name in shared:
+            with self.subTest(char_class=class_name):
+                self.assertEqual(self.SPELLS_PER_CLASS, len(book[class_name]))
+
+    def test_the_beta_reference_still_matches_the_dofus3_one(self):
+        """A regression control on the modern reader, not a corroboration.
+
+        Both come out of the same code on the same dump and are expected to
+        stay identical; the day they diverge, one of them has been touched.
+        That is worth pinning. It is not evidence about any count, and the test
+        above refuses to use it as such.
+        """
+        from chardata.spell_reference import get_spell_reference
+        modern, beta = (get_spell_reference('dofus3'),
+                        get_spell_reference('beta'))
+        self.assertTrue(modern and beta)
+        self.assertEqual(self._spell_ids(modern), self._spell_ids(beta))
 
     def test_no_class_is_served_a_spell_the_archive_does_not_name(self):
         from chardata.spell_buffs import (_flattened,
@@ -20878,19 +20956,26 @@ class SpellReferenceTests(TestCase):
         one would be inventing it. That was true of the dofusdude mirror and
         never of the game, and the whole reference now carries the numbers.
 
-        What is worth pinning instead is the shape of what is MISSING. Only 138
-        of the 418 state a cooldown, a third, where 345 state a stack limit. A
-        third could mean the field is absent for the rest, and a legitimate
-        absence reads exactly like a broken one. It is legitimate: the key sits
-        on all 31874 level rows of the dump and is simply zero on 25446 of
-        them, and the spells that do carry one are the ones that carry one in
-        the game -- Invisibility, Word of Recovery, Bribery -- with the value
-        falling as the rank rises, which invented data does not do.
+        What is worth pinning instead is the shape of what is MISSING. Only a
+        third state a cooldown where most state a stack limit. A third could
+        mean the field is absent for the rest, and a legitimate absence reads
+        exactly like a broken one. It is legitimate: the key sits on all 31874
+        level rows of the dump and is simply zero on 25446 of them, and the
+        spells that do carry one are the ones that carry one in the game --
+        Invisibility, Word of Recovery, Bribery -- with the value falling as
+        the rank rises, which invented data does not do.
+
+        The total was 418 until 2026-08-27, half the book: the reference walked
+        breedSpellsId and never followed spell_variants.json. The proportions
+        above were measured on that half and are stated as proportions now,
+        because a count pinned to a number is a count that has to be edited
+        every time the population is corrected, and until it is edited it
+        asserts the old defect.
         """
         from chardata.spell_reference import get_spell_reference
         blocks = get_spell_reference('dofus2')
         spells = [spell for block in blocks.values() for spell in block]
-        self.assertEqual(418, len(spells))
+        self.assertEqual(836, len(spells))
         self.assertTrue([spell for spell in spells
                          if spell['description'].get('fr')])
 
@@ -22298,15 +22383,42 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         from fashionistapulp.fashionista_config import get_fashionista_path
         static = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
                               'static')
-        # These three are 2.73 spells Dofus 3 dropped, so their icon id is not
-        # in the shared pool and store_dofus2_spell_icons has nothing to copy.
-        # The 2.73 client's own art was checked and does not have them either:
+        # These are 2.73 spells Dofus 3 dropped, so their icon id is not in the
+        # shared pool and store_dofus2_spell_icons has nothing to copy. The
+        # 2.73 client's own art was checked and does not have them either:
         # content/gfx/spells/spells0*.d2p holds 156 files across its six linked
         # archives, animation art rather than the small icon, and none is named
-        # for any of these ids. Listed one by one so a fourth cannot join them
-        # unnoticed.
-        allowed = {'dofus2': {'Geyser', 'Repulsive Fang',
-                              'Woolly Sledgehammer'}}
+        # for any of these ids. Listed one by one so a sixteenth cannot join
+        # them unnoticed.
+        #
+        # Three of them until 2026-08-27, and twelve more that day. Not because
+        # the art moved: because _dofus2_damage_spells was dropping 265 of the
+        # 543 spells the model carries, so the pages never asked for their
+        # icons. Making the reference follow spell_variants.json brought them
+        # back, and 71 icons came due at once. 59 of the 71 had their id in the
+        # pool and were fetched; these keep the id the 2.73 lang gives them,
+        # written beside each name, and no source anywhere has it.
+        #
+        # Serving a spell without its icon is the lesser fault here: the other
+        # option hid 265 spells and their damage tables from every Dofus 2
+        # reader.
+        allowed = {'dofus2': {
+            'Aquaculture',        # icon 12785
+            'Batra',              # icon 12800
+            'Constriction',       # icon 12794
+            'Cross Scale',        # icon 12791
+            'Gambol',             # icon 12798
+            'Geyser',
+            'Gobball Fleece',     # icon 12797
+            'Morph',              # icon 12556
+            'Nature Preserve',    # icon 12978
+            'Repulsive Fang',     # icon 12787
+            'Tectonic Breach',    # icon 12558
+            'Telluric Blade',     # icon 12559
+            'Tormenting Arrow',   # icon 13039
+            'Virus',              # icon 12288
+            'Woolly Sledgehammer',  # icon 12779
+        }}
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             names = set()
             for spells in get_damage_spells_for_version(version).values():

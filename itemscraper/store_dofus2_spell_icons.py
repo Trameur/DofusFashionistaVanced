@@ -59,6 +59,32 @@ def damage_spell_names():
     return names
 
 
+REFERENCE = (ROOT / 'fashionsite' / 'chardata' / 'spell_reference'
+             / 'dofus2.json')
+
+
+def reference_spell_names():
+    """Every Dofus 2 class spell a page can put an icon behind.
+
+    DAMAGE_SPELLS is not that population. The page lists the whole class book
+    from spell_reference/dofus2.json, damage or not, and it asks for an icon
+    for each. While the reference walked breedSpellsId without following
+    spell_variants.json it named 418 spells and the two sets happened to
+    overlap; the day it followed them and reached 836, twelve spells arrived on
+    the page with no icon and no run could have fetched them.
+
+    Reading the reference rather than the literal means this tool covers
+    whatever the page covers, without anyone remembering to widen it.
+    """
+    if not REFERENCE.exists():
+        return set()
+    with REFERENCE.open(encoding='utf-8') as handle:
+        classes = json.load(handle)
+    return {(spell.get('name') or {}).get('en', '').strip()
+            for block in classes.values() for spell in block
+            if (spell.get('name') or {}).get('en')}
+
+
 def icons_by_name(raw_dir):
     """Spell name -> the icon ids the Dofus 2 release gives it."""
     with open(raw_dir / 'spells.json', encoding='utf-8') as fh:
@@ -98,7 +124,9 @@ def main():
               'the committed icons stay as they are.' % pool)
         return
 
-    wanted = damage_spell_names()
+    wanted = damage_spell_names() | reference_spell_names()
+    print('%d noms a couvrir (DAMAGE_SPELLS + reference de classe)'
+          % len(wanted))
     by_name = icons_by_name(raw_dir)
     for directory in STATIC_DIRS:
         directory.mkdir(parents=True, exist_ok=True)

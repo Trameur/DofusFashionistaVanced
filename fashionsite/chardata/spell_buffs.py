@@ -59,19 +59,22 @@ def _dofus2_damage_spells():
     for want of 2.73 spell levels, and 274 of its 497 class spells were absent
     from the 2.73 archive. That is over: the block is generated from 2.73 now.
 
-    The filter still earns its place, for a different reason. The breeds table
-    lists spells the game retired years ago, so the generated block holds 526
-    class spells where a 2.73 player can cast 278: the Cra's Burning Arrows and
-    Raining Arrows are in the data and in nobody's spell book. The reference is
-    what the game shows a player, so it decides.
+    Its second justification was wrong, and cost half of every class. It read
+    "the breeds table lists spells the game retired years ago, the Cra's
+    Burning Arrows and Raining Arrows are in the data and in nobody's spell
+    book". Measured against the 2.73 archive on 2026-08-27: the filter dropped
+    265 of 543 spells, **all 265 the second member of a spell_variants.json
+    pair, none outside one, and all 265 with ranks and an access level in that
+    same archive**. A spell with ranks and an access level is in a spell book.
+    They were missing from the reference because read_dofus2 walked
+    breedSpellsId and never followed the variants: 418 ids where a player casts
+    836. That is fixed at the source, and the reference now carries 44 spells
+    per class, the same figure dofus3 carries.
 
-    The archive DOES name every 2.73 class spell, which is what
-    spell_reference/dofus2.json carries, so that file decides. A spell it does
-    not name is dropped here rather than in the literal, which stays as
-    generated. Nothing is lost from the page: it already fills in from the
-    reference what the model does not cover, so the reader gets the real 22,
-    with damage on the ones this project can compute and Ankama's own text on
-    the rest.
+    So the filter keeps its place for its first reason only, and today it drops
+    nothing. A test asserts that rather than this docstring promising it: an
+    exclusion has to carry the measurement it rests on, because what
+    invalidates one is usually our own next commit.
 
     A class the reference does not know keeps its list, because a blank class
     would be a worse answer than an inherited one.
