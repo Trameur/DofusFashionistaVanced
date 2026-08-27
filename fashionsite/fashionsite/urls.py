@@ -633,9 +633,14 @@ def _sitemap_pages(base_url):
 
     for version_slug in ('beta', 'dofus2', 'retro', 'touch'):
         vbase = '%s/%s' % (base_url, version_slug)
+        # /guides/ manquait ici alors que la boucle des langues l'emet : les
+        # douze /{fr,es,pt}/{beta,dofus2,retro,touch}/guides/ etaient soumis
+        # et les quatre anglais ne l'etaient pas -- or l'anglais est le
+        # x-default ET le canonique de chacun de ces quatre groupes. Deux
+        # listes de carrefours, c'est un carrefour ajoute d'un seul cote.
         for sub, prio in (('/', '0.8'), ('/setup/', '0.7'), ('/sharedbuilds/', '0.7'),
                           ('/forgemagie/', '0.6'), ('/encyclopedia/', '0.8'),
-                          ('/encyclopedia/sets/', '0.7')):
+                          ('/encyclopedia/sets/', '0.7'), ('/guides/', '0.7')):
             blocks.append(_sitemap_url(vbase + sub, 'weekly', prio))
 
     try:
