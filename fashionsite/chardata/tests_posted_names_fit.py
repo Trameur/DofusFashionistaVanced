@@ -86,8 +86,13 @@ class PostedNamesFitTheirColumnTests(TestCase):
         """
         import ast
         import inspect
+        import textwrap
 
-        source = inspect.cleandoc(inspect.getsource(Char.save))
+        # `Char.save` est une METHODE, donc indentee : `cleandoc` desindente
+        # comme une prose et rend un source que `ast` refuse. `dedent` le
+        # fait comme du code. La premiere version visait une fonction de
+        # module, ou la difference ne se voyait pas.
+        source = textwrap.dedent(inspect.getsource(Char.save))
         self.assertIn('_meta.get_field', source,
                       'the limit is no longer read from the model')
         # Le docstring peut citer la longueur en l'expliquant ; seul le CODE ne
