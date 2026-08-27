@@ -1,6 +1,7 @@
 {% extends 'chardata/base.html' %}
 
 {% load i18n %}
+{% load stat_names %}
 {% load version_url %}
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "Characteristics Weights" %}{% endblock %}
 
@@ -27,7 +28,8 @@
             {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=_("Intelligence") stat_key="int" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=_("Chance") stat_key="cha" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("Agility") stat_key="agi" %}
-            {% include "chardata/weight_stat_line.html" with stat_name=_("Power") stat_key="pow" %}
+            {% stat_name "Power" as power_label %}
+            {% include "chardata/weight_stat_line.html" with stat_name=power_label stat_key="pow" %}
             {% include "chardata/weight_stat_line.html" with stat_name=_("% Melee Damage") stat_key="permedam" %}
             {% include "chardata/weight_stat_line.html" with stat_name=_("% Ranged Damage") stat_key="perrandam" %}
             {% include "chardata/weight_stat_line.html" with stat_name=_("% Weapon Damage") stat_key="perweadam" %}
@@ -52,7 +54,8 @@
             {% include "chardata/weight_stat_line.html" with stat_name=_("Pods") stat_key="pod" %}
             {% include "chardata/weight_stat_line.html" with stat_name=_("Reflects") stat_key="ref" %}
             {% include "chardata/weight_stat_line.html" with stat_name=_("Trap Damage") stat_key="trapdam" %}
-            {% include "chardata/weight_stat_line.html" with stat_name=_("% Trap Damage") stat_key="trapdamper" %}
+            {% stat_name "% Trap Damage" as trap_percent_label %}
+            {% include "chardata/weight_stat_line.html" with stat_name=trap_percent_label stat_key="trapdamper" %}
             <tr class="weight-stat-line"><td style="height: 20px; "></td><td></td><td></td></tr>
             {% include "chardata/weight_stat_line.html" with stat_name=_("Damage") stat_key="dam" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/Neutral.png" stat_name=_("Neutral Damage") stat_key="neutdam" %}

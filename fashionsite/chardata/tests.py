@@ -13219,6 +13219,61 @@ class VersionSpecificGuideTests(TestCase):
             self.assertIn(
                 'https://dofusfashionista.gg/guides/getting-started/', head)
 
+    def test_a_guide_naming_power_gives_the_reader_his_own_label(self):
+        """A guide may not send a reader to a row his weights page does not show.
+
+        Retro shows that stat under its own game's wording, "% Damage" and its
+        translations, since the tool stopped calling it Power there. The three
+        guides that name Power were written when every version agreed, and the
+        rename made them wrong the same day: they told a Retro reader to weight
+        a row he could no longer find. Nothing in the repository saw it, which
+        is the whole point of pinning it here.
+
+        Either way of being right passes: the version shows the word the guide
+        uses, or the guide also carries that version's own label somewhere in
+        the same page, which is the bridge.
+        """
+        import re
+        from django.utils import translation
+        from chardata.guides_content import GUIDES, get_guide
+        from chardata.translation_util import localized_stat_name
+        written = {'en': r'\bPower\b', 'fr': r'\bPuissance\b',
+                   'es': r'\bPotencia\b', 'pt': r'\bPotência\b',
+                   'de': r'\b(?:Power|Leistung)\b'}
+        versions = ('dofus3', 'beta', 'dofus2', 'retro', 'touch')
+        labels = {}
+        for version in versions:
+            for language in written:
+                with translation.override(language):
+                    labels[(version, language)] = str(
+                        localized_stat_name('Power', version))
+
+        # Counted per version and per language, not in total: a threshold met
+        # by four languages would hide a fifth that examined nothing.
+        seen = {key: 0 for key in labels}
+        offenders = []
+        for slug in GUIDES:
+            for version in versions:
+                for language, pattern in written.items():
+                    guide = get_guide(slug, language, version)
+                    blob = '%s %s %s' % (guide.get('title') or '',
+                                         guide.get('desc') or '',
+                                         guide.get('body') or '')
+                    seen[(version, language)] += 1
+                    if not re.search(pattern, blob):
+                        continue
+                    shown = labels[(version, language)]
+                    if re.search(pattern, shown) or shown in blob:
+                        continue
+                    offenders.append('%s/%s/%s says %s, the site shows %s'
+                                     % (slug, version, language,
+                                        re.search(pattern, blob).group(0), shown))
+        for key, count in seen.items():
+            with self.subTest(version=key[0], language=key[1]):
+                self.assertEqual(len(GUIDES), count,
+                                 'that pair examined %d guides' % count)
+        self.assertEqual(sorted(offenders), [])
+
     def test_the_versions_the_guides_call_percent_free_still_are(self):
         """The guides tell Retro and Touch readers to push flat damage only.
 
@@ -22613,6 +22668,59 @@ class VersionStatNameTests(SimpleTestCase):
                     with self.subTest(stat=stat, version=version):
                         self.assertEqual(
                             localized_stat_name(stat, version), shared)
+
+    def test_no_template_names_an_overridden_stat_the_shared_way(self):
+        """Renaming a stat in one helper is not renaming it.
+
+        `% Trap Damage` was overridden for Retro months ago and four surfaces
+        never heard: the weights page, the solution page, the comparison page
+        and the wizard slider all asked `{% trans %}` for the shared word. Power
+        was overridden the same way and inherited the same hole, so the item
+        pages said one thing and the page you actually set weights on said
+        another, and a guide that told a Retro reader which row to weight named
+        a row he could not find.
+
+        Grown from VERSION_STAT_NAMES rather than from a list: a third override
+        added tomorrow is watched the day it is added, which is the part that
+        failed both previous times.
+        """
+        import glob
+        import re
+        from chardata.translation_util import VERSION_STAT_NAMES
+        from fashionistapulp.fashionista_config import get_fashionista_path
+
+        templates = glob.glob(os.path.join(
+            get_fashionista_path(), 'fashionsite', 'chardata', 'templates',
+            'chardata', '*.html'))
+        self.assertGreater(len(templates), 20,
+                           'no templates found, the path is wrong')
+        overridden = sorted({name for _version, name in VERSION_STAT_NAMES})
+        self.assertTrue(overridden)
+
+        offenders = []
+        for name in overridden:
+            # Concatenated, not formatted: the pattern itself contains "{%",
+            # and %-formatting reads that as a format character.
+            quoted = re.escape(name)
+            shared = re.compile(
+                r'(?:\{%\s*trans\s*|_\()\s*["\']' + quoted + r'["\']')
+            for path in templates:
+                with open(path, encoding='utf-8') as handle:
+                    body = handle.read()
+                for match in shared.finditer(body):
+                    # "% {% trans 'Power' %}" is a percentage OF the stat, not
+                    # the stat: a spell that grants +20% Power. Substituting
+                    # Retro's own label there would read "% % Damage". It never
+                    # renders for Retro or Touch anyway, both carry zero
+                    # percent-Power buff rows against 105 on Dofus 3, so the
+                    # exclusion is measured rather than convenient. The "%}"
+                    # of a preceding tag must not count as that percent.
+                    before = body[:match.start()].rstrip()
+                    if before.endswith('%') and not before.endswith('%}'):
+                        continue
+                    offenders.append('%s asks for the shared "%s"'
+                                     % (os.path.basename(path), name))
+        self.assertEqual(sorted(set(offenders)), [])
 
     def test_a_stat_with_no_override_is_translated_as_before(self):
         from django.utils import translation

@@ -2,6 +2,7 @@
 
 {% load localized_class %}
 {% load i18n %}
+{% load stat_names %}
 {% load ads %}
 {% load l10n %}
 {% load static_s3 %}
@@ -433,7 +434,7 @@
             {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Chance stat_key="cha" base=True %}
             {% trans "Agility" as Agility %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Agility stat_key="agi" base=True %}
-            {% trans "Power" as Power %}
+            {% stat_name "Power" as Power %}
             {% include "chardata/solution_stat_line.html" with stat_name=Power stat_key="pow" %}
             {% comment %}% final damage (dommages finaux) is a Dofus 2.30+ stat, absent from Retro 1.29 and Dofus Touch.{% endcomment %}
             {% if current_game_version != 'retro' and current_game_version != 'touch' %}
@@ -487,7 +488,7 @@
             {% include "chardata/solution_stat_line.html" with stat_name=Reflects stat_key="ref" %}
             {% trans "Trap Damage" as Trap_Damage %}
             {% include "chardata/solution_stat_line.html" with stat_name=Trap_Damage stat_key="trapdam" %}
-            {% trans "% Trap Damage" as Per_Trap_Dam %}
+            {% stat_name "% Trap Damage" as Per_Trap_Dam %}
             {% include "chardata/solution_stat_line.html" with stat_name=Per_Trap_Dam stat_key="trapdamper" %}
             {% include "chardata/solution_stat_line_empty.html" %}
             {% trans "Damage" as Damage %}

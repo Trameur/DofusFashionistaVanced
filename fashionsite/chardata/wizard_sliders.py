@@ -16,6 +16,7 @@
 
 from django.utils.translation import pgettext
 from django.utils.translation import gettext as _
+from chardata.translation_util import localized_stat_name
 
 from chardata.smart_build import get_char_aspects, get_elements, param_for_build
 from chardata.stats_weights import get_stats_weights, set_stats_weights
@@ -40,7 +41,8 @@ def get_wizard_sliders(char):
             main_offense_slider.add_subslider(Slider(main_stat, _(STAT_KEY_TO_NAME[main_stat]),
                                                      False))
 
-    main_offense_slider.add_subslider(Slider('pow', _('Power'), False))
+    main_offense_slider.add_subslider(
+        Slider('pow', localized_stat_name('Power'), False))
     
     for dam_type in DAMAGE_TYPES:
         if DAMAGE_TYPE_TO_MAIN_STAT[dam_type] in elements:
