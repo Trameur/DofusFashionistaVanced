@@ -142,6 +142,42 @@ class ATranslationSetAgreesWithItselfTests(TestCase):
         self.assertGreaterEqual(pages, len(CARREFOURS),
                                 'only %d hub pages compared' % pages)
 
+    def test_a_page_declares_the_language_its_url_promises(self):
+        """The url says which language, so the document has to say the same.
+
+        On these families the language is not in a prefix but in the slug
+        itself, and the page is chosen by that slug alone. A document that
+        answers a Spanish url while declaring lang="en" tells a screen reader
+        to pronounce Spanish with English rules, and tells Google that the
+        translation it just followed is not one.
+
+        The alternates come from the page itself rather than from a list built
+        here: whatever the site claims as its Spanish version is exactly what
+        gets checked.
+        """
+        faux = []
+        verifiees = 0
+        for nom, carrefour, motif in FAMILLES:
+            lien = self._premier_lien(carrefour, motif)
+            if lien is None:
+                continue
+            for langue, chemin in sorted(self._ensemble(self._html(lien)).items()):
+                html = self._html(chemin)
+                declare = re.search('<html[^>]*lang="([^"]+)"', html)
+                verifiees += 1
+                vu = declare.group(1).split('-')[0] if declare else 'absent'
+                if vu != langue:
+                    faux.append((nom, chemin, langue, vu))
+        self.assertFalse(
+            faux, 'these pages declare a language their url does not promise '
+            '(family, page, promised, declared): %s' % faux[:4])
+        # Un ensemble vide fait sortir la boucle sans rien verifier, et zero
+        # incoherence sur zero page se lit comme une reussite.
+        self.assertGreaterEqual(
+            verifiees, 2 * len(FAMILLES),
+            'only %d localised pages checked over %d families'
+            % (verifiees, len(FAMILLES)))
+
     def test_a_page_that_declares_a_set_is_in_its_own_set(self):
         """A group whose member does not name itself is incomplete.
 
