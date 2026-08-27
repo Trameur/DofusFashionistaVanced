@@ -6210,3 +6210,10 @@ msgstr ""
 #: .\chardata\templates\chardata\base.html
 msgid "Skip to content"
 msgstr ""
+
+#: .\chardata\templates\chardata\infeasible.html
+#, python-format
+msgid ""
+"Lower these <a href=%(mins_link)s>minimums</a>, which ask for more than this "
+"version can reach:"
+msgstr ""

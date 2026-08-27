@@ -178,6 +178,129 @@ class EmailTemplateTranslationTests(SimpleTestCase):
                         % (os.path.basename(tpl), lang, msgid[:90])))
 
 
+class TemplateTranslationCoverageTests(SimpleTestCase):
+    """Every string a template asks for, in all four catalogs, translated.
+
+    The guard above walks only `templates/chardata/emails`, so a blocktrans
+    anywhere else fell back to English with nothing to say so. Widening it was
+    free on the day it was written because the population was already clean:
+    1388 string requests over 90 templates, and the single absence was the
+    string /infeasible/ had gained the same afternoon. Widening a guard over a
+    dirty population is a project; over a clean one it is just holding the line.
+
+    Three things it has to get right, each of which made the measuring script
+    lie before this was written:
+      - a literal % is stored %% in a python-format msgid, so
+        "100% translation coverage" reads as missing unless the key is
+        unescaped first;
+      - `{% trans '...' %}` with single quotes covers 156 tags here, and a
+        pattern that reads only double quotes answers cleanly about a
+        population it never looked at;
+      - a `count` blocktrans keeps its singular before `{% plural %}` and its
+        translation in msgstr_plural rather than msgstr.
+    """
+
+    LANGS = ('fr', 'es', 'pt', 'de')
+
+    BLOCK = re.compile(
+        r'\{%\s*blocktrans(?:late)?([^%]*)%\}(.*?)'
+        r'\{%\s*endblocktrans(?:late)?\s*%\}', re.DOTALL)
+    TRANS = re.compile(
+        r'''\{%\s*trans(?:late)?\s+(?:"((?:[^"\\]|\\.)*)"'''
+        r"""|'((?:[^'\\]|\\.)*)')""")
+    PLURAL = re.compile(r'\{%\s*plural\s*%\}')
+
+    # One witness per trap rather than one per catalog. A positive control that
+    # only exercises the easy case inspires exactly the confidence of a real
+    # one, which is what makes it dangerous: the percent witness is here
+    # because its absence is what let the script call a translated string
+    # missing.
+    WITNESSES = (
+        ('plain string',
+         'Remove or lower <a href=%(mins_link)s>minimum characteristics</a> '
+         'and raise their <a href=%(weights_link)s>weights</a> instead'),
+        ('literal percent',
+         '100% translation coverage for all 5 supported languages '
+         '(en, fr, de, es, pt)'),
+    )
+
+    @classmethod
+    def _msgids(cls, text):
+        for opts, body in cls.BLOCK.findall(text):
+            if 'count' in opts:
+                body = cls.PLURAL.split(body)[0]
+            renames = dict(re.findall(r'([\w.]+)\s+as\s+(\w+)', opts))
+            body = re.sub(
+                r'\{\{\s*([\w.]+)\s*\}\}',
+                lambda m: '%%(%s)s' % renames.get(m.group(1), m.group(1)), body)
+            if 'trimmed' in opts:
+                body = ' '.join(body.split())
+            yield body
+        for double, single in cls.TRANS.findall(text):
+            yield (double or single).replace('\\"', '"').replace("\\'", "'")
+
+    @staticmethod
+    def _translated(entry):
+        if entry.msgstr.strip():
+            return True
+        return any(v.strip() for v in (entry.msgstr_plural or {}).values())
+
+    def test_every_template_string_is_in_every_catalog(self):
+        try:
+            import polib
+        except ImportError:
+            self.skipTest('polib not installed')
+        site = os.path.join(os.path.dirname(__file__), '..')
+
+        catalogs = {}
+        for lang in self.LANGS:
+            entries = {}
+            for entry in polib.pofile(os.path.join(
+                    site, 'locale', lang, 'LC_MESSAGES', 'django.po')):
+                if entry.obsolete:
+                    continue
+                entries.setdefault(entry.msgid, entry)
+                if '%%' in entry.msgid:
+                    entries.setdefault(entry.msgid.replace('%%', '%'), entry)
+            catalogs[lang] = entries
+
+        for label, msgid in self.WITNESSES:
+            for lang in self.LANGS:
+                entry = catalogs[lang].get(msgid)
+                self.assertIsNotNone(entry, msg=(
+                    'witness %r is not found in %s, so this test cannot tell a '
+                    'clean catalog from a lookup that never matches'
+                    % (label, lang)))
+                self.assertTrue(self._translated(entry), msg=(
+                    'witness %r is untranslated in %s' % (label, lang)))
+
+        templates = []
+        for root, _dirs, files in os.walk(site):
+            if os.sep + 'templates' + os.sep not in root + os.sep:
+                continue
+            templates += [os.path.join(root, name) for name in files
+                          if name.endswith(('.html', '.txt'))]
+        self.assertGreater(len(templates), 50, msg=(
+            'only %d templates walked: a clean answer over a population this '
+            'small would mean nothing' % len(templates)))
+
+        for path in templates:
+            with open(path, encoding='utf-8') as fh:
+                text = fh.read()
+            for msgid in self._msgids(text):
+                if not msgid.strip():
+                    continue
+                for lang in self.LANGS:
+                    entry = catalogs[lang].get(msgid)
+                    self.assertIsNotNone(entry, msg=(
+                        '%s: no active %s msgid, so the page falls back to '
+                        'English. Resync the .po with the template: %r'
+                        % (os.path.basename(path), lang, msgid[:90])))
+                    self.assertTrue(self._translated(entry), msg=(
+                        '%s: %s translation is empty for %r'
+                        % (os.path.basename(path), lang, msgid[:90])))
+
+
 class BrandNameCatalogTests(SimpleTestCase):
     """Branding rule: "The Dofus Fashionista" in English only; every other
     language uses "Dofus Fashionista" (no "The")."""
@@ -3174,6 +3297,57 @@ class ProjectActionRobustnessTests(TestCase):
         set_min_stats(touch, {'AP': 17, 'MP': 7, 'Range': 11})
         stored = pickle.loads(touch.minimum_stats)
         self.assertEqual((stored['AP'], stored['MP'], stored['Range']), (12, 6, 6))
+
+    def test_a_minimum_above_the_cap_is_named_on_the_failure_page(self):
+        # The minimum field accepts max='9999' for any stat and set_min_stats
+        # clamps only AP/MP/Range, but model.py gives the LP variable the cap
+        # from get_stat_maximum for Summon and the five percent resists too. A
+        # 60% Fire Resist minimum therefore has no solution, and /infeasible/
+        # answered with five tips, none of which was the reason.
+        import pickle
+        from chardata.min_stats import minimums_above_their_cap
+        from chardata.translation_util import localized_stat_name
+
+        char = self._owned_char('overcap')
+        char.minimum_stats = pickle.dumps({'% Fire Resist': 60, 'Vitality': 500})
+        char.save()
+
+        over = minimums_above_their_cap(char)
+        self.assertEqual(['% Fire Resist'], [entry['name'] for entry in over])
+
+        resp = self.client.get('/infeasible/%d/' % char.pk)
+        self.assertEqual(200, resp.status_code)
+        body = resp.content.decode()
+        self.assertIn(str(localized_stat_name('% Fire Resist')), body)
+        self.assertIn('(%d)' % over[0]['max'], body)
+
+    def test_a_minimum_the_version_can_reach_is_not_named(self):
+        # A page that blames a minimum which is in fact reachable would send the
+        # reader to lower something that was never the problem.
+        import pickle
+        from chardata.min_stats import minimums_above_their_cap
+
+        char = self._owned_char('undercap')
+        char.minimum_stats = pickle.dumps({'% Fire Resist': 20, 'AP': 12})
+        char.save()
+        self.assertEqual([], minimums_above_their_cap(char))
+
+    def test_retro_is_not_told_seventeen_ap_is_out_of_its_reach(self):
+        # Retro never got Ankama's PA/PM/PO limitation, so get_stat_maximum
+        # omits those keys there. A build stored before the clamp existed can
+        # hold 17 AP; on Retro that is reachable and naming it would import a
+        # modern rule into a version that does not have it.
+        import pickle
+        from chardata.min_stats import minimums_above_their_cap
+
+        class _FakeChar:
+            def __init__(self, version):
+                self.game_version = version
+                self.minimum_stats = pickle.dumps({'AP': 17})
+
+        self.assertEqual([], minimums_above_their_cap(_FakeChar('retro')))
+        self.assertEqual([{'name': 'AP', 'max': 12}],
+                         minimums_above_their_cap(_FakeChar('dofus3')))
 
     def test_compare_sets_skips_missing_builds(self):
         resp = self.client.get('/compare_sets/99999999/88888888/')

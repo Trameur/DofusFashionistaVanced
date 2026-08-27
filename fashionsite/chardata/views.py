@@ -23,6 +23,7 @@ from django.utils.translation import get_language
 
 from chardata.model_wrappers import WrappedChar
 from chardata.anon_projects import get_anon_char_id
+from chardata.min_stats import minimums_above_their_cap
 from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.util import set_response, version_reverse
@@ -92,6 +93,7 @@ def infeasible(request, char_id=0):
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id,
+                         'over_cap': minimums_above_their_cap(char),
                          'mins_link': version_reverse(request, 'min_stats', char_id),
                          'weights_link': version_reverse(request, 'stats', char_id),
                          'lock_link': version_reverse(request, 'inclusions', char_id),

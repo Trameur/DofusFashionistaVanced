@@ -70,3 +70,25 @@ def get_min_stats_digested(char):
 def get_min_stats_digested_by_key(char):
     return convert_dict_index_name_to_key(get_min_stats_digested(char))
 
+def minimums_above_their_cap(char):
+    """The minimums this version can never reach, each with the value it stops at.
+
+    set_min_stats clamps AP/MP/Range when they are saved, but get_stat_maximum
+    also bounds Summon and the five percent resistances, and model.py gives the
+    LP variable that bound. A minimum above it has no solution, and the failure
+    page offered five tips, none of which was the reason.
+
+    The cap is read here instead of being named, so this stays right when the
+    number changes and version by version: Retro never got the PA/PM/PO
+    limitation, get_stat_maximum omits those keys there, and a 17 AP minimum is
+    not an offence on that version.
+    """
+    caps = get_stat_maximum(getattr(char, 'game_version', 'dofus3'))
+    over = []
+    for stat_name, value in get_min_stats_digested(char).items():
+        cap = caps.get(stat_name)
+        if cap is not None and isinstance(value, int) and value > cap:
+            over.append({'name': stat_name, 'max': cap})
+    over.sort(key=lambda entry: entry['name'])
+    return over
+

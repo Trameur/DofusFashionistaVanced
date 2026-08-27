@@ -3,6 +3,7 @@
 
 {% load i18n %}
 {% load static_s3 %}
+{% load stat_names %}
     
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "No set suggestion found" %}{% endblock %}
 
@@ -22,6 +23,9 @@
             <div class='infeasible-title'>{% blocktrans %}We could not find a set that fits all your needs{% endblocktrans %}<div>
             <div class='infeasible-body'>{% blocktrans %}Try one or more of the following tips and try again:{% endblocktrans %}
                 <ul>
+                    {% if over_cap %}
+                    <li>{% blocktrans %}Lower these <a href={{mins_link}}>minimums</a>, which ask for more than this version can reach:{% endblocktrans %} {% for entry in over_cap %}{% if not forloop.first %}, {% endif %}{% stat_name entry.name %} ({{ entry.max }}){% endfor %}</li>
+                    {% endif %}
                     <li>{% blocktrans %}Remove or lower <a href={{mins_link}}>minimum characteristics</a> and raise their <a href={{weights_link}}>weights</a> instead{% endblocktrans %}</li>
                     <li>{% blocktrans %}Check if you <a href={{lock_link}}>locked</a> an item with conditions that can't be met{% endblocktrans %}</li>
                     <li>{% blocktrans %}<a href={{lock_link}}>Unlock</a> some items{% endblocktrans %}</li>

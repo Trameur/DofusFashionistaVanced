@@ -6993,3 +6993,12 @@ msgstr "Ein eigenes Set bauen"
 #: .\chardata\templates\chardata\base.html
 msgid "Skip to content"
 msgstr "Zum Inhalt springen"
+
+#: .\chardata\templates\chardata\infeasible.html
+#, python-format
+msgid ""
+"Lower these <a href=%(mins_link)s>minimums</a>, which ask for more than this "
+"version can reach:"
+msgstr ""
+"Senken Sie diese <a href=%(mins_link)s>Mindestwerte</a>, die mehr verlangen, "
+"als diese Version erreichen kann:"

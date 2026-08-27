@@ -6985,3 +6985,12 @@ msgstr "Crea tu propio conjunto"
 #: .\chardata\templates\chardata\base.html
 msgid "Skip to content"
 msgstr "Ir al contenido"
+
+#: .\chardata\templates\chardata\infeasible.html
+#, python-format
+msgid ""
+"Lower these <a href=%(mins_link)s>minimums</a>, which ask for more than this "
+"version can reach:"
+msgstr ""
+"Disminuye estos <a href=%(mins_link)s>mínimos</a>, que piden más de lo que "
+"esta versión puede alcanzar:"

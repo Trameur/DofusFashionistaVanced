@@ -7029,3 +7029,12 @@ msgstr "Créer votre propre stuff"
 #: .\chardata\templates\chardata\base.html
 msgid "Skip to content"
 msgstr "Aller au contenu"
+
+#: .\chardata\templates\chardata\infeasible.html
+#, python-format
+msgid ""
+"Lower these <a href=%(mins_link)s>minimums</a>, which ask for more than this "
+"version can reach:"
+msgstr ""
+"Diminuez ces <a href=%(mins_link)s>caractéristiques minimales</a>, qui "
+"demandent plus que cette version ne peut atteindre :"
