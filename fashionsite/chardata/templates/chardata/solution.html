@@ -13,6 +13,8 @@
 
 {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}">{% endblock %}
 
+{% block structured_data %}{% if breadcrumb_jsonld %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endif %}{% endblock %}
+
 {% block preload %}{% for asset in character_preloads %}
 <link rel="preload" href="{{ asset.url }}" as="{{ asset.kind }}"{% if asset.kind == 'fetch' %} crossorigin{% endif %}>{% endfor %}
 {% endblock %}

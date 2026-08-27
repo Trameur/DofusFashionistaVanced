@@ -43,6 +43,7 @@ from chardata.comment_view import get_comments_for_build
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char, BuildVote, BuildView, SolutionGeneration
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
+from chardata.url_language import SITE_URL
 import chardata.smart_build
 from chardata.solution import get_solution, set_minimal_solution
 from chardata.stats_weights import get_stats_weights
@@ -515,6 +516,11 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_asset_formats': json.dumps(asset_formats()),
               'character_preloads': preload_links(character_look),
               'canonical_path': shared_build_path(char) if char.link_shared else '',
+              # Sous la MEME garde que le canonique : les deux moities du
+              # <head> repondent a la meme question, et une page privee ne
+              # doit pas publier un fil vers une adresse qu'elle nie.
+              'breadcrumb_jsonld': _shared_build_breadcrumb(
+                  char, seo_class, seo_build) if char.link_shared else '',
               'preview_box': preview_box_for(request.user) if character_look else None,
               'preview_boxes': json.dumps({percent: preview_box(percent)
                                            for percent in PREVIEW_SIZES}),
@@ -678,6 +684,36 @@ def _shared_build_slug(char):
     parts = [str(char.char_class or '').strip(), str(char.level or '').strip()]
     slug = '-'.join(p for p in parts if p).lower().replace(' ', '-')
     return slug or 'shared'
+
+
+def _shared_build_breadcrumb(char, seo_class, seo_build):
+    """The trail of a shared build: the site, the community list, the build.
+
+    No language prefix anywhere, because the leaf has none: shared_build_path
+    gives one address per build whatever language it is read in. Prefixing only
+    the middle step would make the trail change language halfway, which is worse
+    than leaving the hub's address alone -- its label is translated either way.
+
+    The leaf is named the way <title> names the page, class and build and level,
+    and never by char_name. That name is free text a visitor typed, and a
+    breadcrumb is what Google prints in place of the url: the title already
+    decided to keep that text out of the results, so this follows it.
+
+    Built by the encyclopedia's helper rather than by a second serialiser here.
+    It carries the escaping that keeps a name from closing the script tag, and a
+    hand-copied escape is exactly the kind that reads right and does nothing.
+    """
+    from chardata.encyclopedia_view import _breadcrumb_jsonld
+    prefix = ('' if char.game_version in (None, '', 'dofus3')
+              else '/' + char.game_version)
+    leaf = ' '.join(part for part in (seo_class, seo_build,
+                                      str(char.level or '')) if part)
+    return _breadcrumb_jsonld([
+        ('Dofus Fashionista', SITE_URL + '/'),
+        (str(_('Community Dofus Builds')),
+         '%s%s/sharedbuilds/' % (SITE_URL, prefix)),
+        (leaf, SITE_URL + shared_build_path(char)),
+    ])
 
 
 def shared_build_path(char):

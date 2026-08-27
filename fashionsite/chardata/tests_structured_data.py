@@ -167,3 +167,126 @@ class EveryListDeclaresWhereItSitsTests(TestCase):
         names = [step['name'] for step in trails[0]['itemListElement']]
         self.assertNotIn('Encyclopedia', names,
                          'the French hub declares an English trail: %s' % names)
+
+
+class ASharedBuildDeclaresItsTrailTests(TestCase):
+    """The richest pages on the site declared no structured data at all.
+
+    A shared build carries 5897 characters of median content against 1132 for
+    an item page, it is the only family that grows without anyone writing it,
+    and 2313 of them are submitted. Their list page got a trail; they had none.
+
+    The guard is the same one the canonical already uses, char.link_shared, so
+    that both halves of the <head> answer the same question. A private build
+    publishing a trail would advertise an address it refuses to serve.
+    """
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        self.owner = User.objects.create_user('trailowner', 'trail@test.local',
+                                              'pw-42-solid')
+        self.client.force_login(self.owner)
+
+    def _char(self, shared=True, game_version='dofus3', name='Ratatouille'):
+        import pickle as _pickle
+        from chardata.models import Char
+        from fashionistapulp.modelresult import ModelResultMinimal
+        from fashionistapulp.structure import get_structure
+        hat = next(item for item
+                   in get_structure(game_version)
+                   .get_unique_items_by_type_and_level('Hat', 200)
+                   # Pas de filtre sur skin : retro n'a aucun chapeau qui
+                   # en porte, et un fil d'Ariane ne depend pas du rendu 3D.
+                   if not item.removed)
+        return Char.objects.create(
+            name=name, char_name=name, char_class='Iop', char_build='Str',
+            level=200, minimum_stats=b'', minimum_crits=b'',
+            stats_weight=_pickle.dumps({'vit': 1}), options=b'',
+            inclusions=b'', exclusions=b'',
+            minimal_solution=_pickle.dumps(ModelResultMinimal(
+                {'hat': hat.id}, {'options': {'ap_exo': False, 'mp_exo': False},
+                                  'origin': 'generated', 'char_level': 200,
+                                  'base_stats_by_attr': {
+                                      'Vitality': 0, 'Wisdom': 0, 'Strength': 0,
+                                      'Intelligence': 0, 'Chance': 0,
+                                      'Agility': 0},
+                                  'locked_equips': {}}, {})),
+            owner=self.owner, link_shared=shared, game_version=game_version)
+
+    def _page(self, char):
+        from chardata.solution_view import shared_build_path
+        response = self.client.get(shared_build_path(char),
+                                   HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(response.status_code, 200)
+        return response.content.decode('utf-8', 'replace')
+
+    def _canonical(self, html):
+        tag = re.search(r'<link[^>]*canonical[^>]*>', html)
+        self.assertIsNotNone(tag, 'no canonical on the page')
+        return re.search(r'href="([^"]*)"', tag.group(0)).group(1)
+
+    def test_a_shared_build_ends_its_trail_on_itself(self):
+        html = self._page(self._char())
+        trails = _breadcrumbs(html)
+        self.assertTrue(trails, 'a shared build declares no trail')
+        steps = trails[0]['itemListElement']
+        self.assertEqual(len(steps), 3, 'expected site > community list > build')
+        self.assertEqual(steps[0]['item'], SITE + '/')
+        self.assertEqual(steps[-1]['item'], self._canonical(html),
+                         'the trail and the canonical name different pages')
+        self.assertEqual([step['position'] for step in steps], [1, 2, 3])
+
+    def test_the_middle_step_is_the_list_of_the_same_game_version(self):
+        # A retro build whose trail points at the dofus3 list sends every
+        # crawler that follows it out of the version it was reading.
+        for version in ('dofus3', 'retro', 'beta'):
+            with self.subTest(version=version):
+                char = self._char(game_version=version)
+                steps = _breadcrumbs(self._page(char))[0]['itemListElement']
+                prefix = '' if version == 'dofus3' else '/' + version
+                self.assertEqual(steps[1]['item'],
+                                 SITE + prefix + '/sharedbuilds/')
+
+    def test_a_private_build_declares_no_trail_at_all(self):
+        # The half that would stay silent: a trail printed on every page would
+        # pass every test above and still advertise an address the site denies.
+        # Asked through /s/, a private build answers 403 and renders nothing at
+        # all, so the guard has to be exercised where the owner really sees it,
+        # /solution/<id>/, which serves the same template.
+        from chardata.solution_view import shared_build_path
+        char = self._char(shared=False)
+        self.assertEqual(
+            self.client.get(shared_build_path(char)).status_code, 403,
+            'a private build was served at its shared address')
+        response = self.client.get('/solution/%d/' % char.id,
+                                   HTTP_ACCEPT_LANGUAGE='en')
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode('utf-8', 'replace')
+        self.assertFalse(_breadcrumbs(html),
+                         'a private build published a trail')
+        # Non-vacuite : la meme page, partagee, en publie un. Sans cela le test
+        # resterait vert si /solution/ cessait d'utiliser ce gabarit.
+        shared = self._char(name='Partage')
+        temoin = self.client.get('/solution/%d/' % shared.id,
+                                 HTTP_ACCEPT_LANGUAGE='en')
+        self.assertTrue(_breadcrumbs(temoin.content.decode('utf-8', 'replace')),
+                        'the same template published no trail when shared '
+                        'either: this test proves nothing')
+
+    def test_the_trail_does_not_carry_the_name_a_visitor_typed(self):
+        """char_name is free text and it lands in the url slug, but <title>
+        deliberately names the page by class, build and level instead. A
+        breadcrumb is printed by Google in place of the url, so it follows the
+        same decision -- otherwise the trail reintroduces in the results exactly
+        what the title kept out.
+        """
+        marqueur = 'ZZQuidamZZ'
+        char = self._char(name=marqueur)
+        steps = _breadcrumbs(self._page(char))[0]['itemListElement']
+        self.assertNotIn(marqueur, steps[-1]['name'],
+                         'the trail prints what the visitor typed: %s'
+                         % steps[-1]['name'])
+        # Et le nom doit tout de meme dire quelque chose : un fil vide passerait
+        # l'assertion ci-dessus sans rien nommer.
+        self.assertIn('200', steps[-1]['name'])
+        self.assertTrue(len(steps[-1]['name']) > 4, steps[-1]['name'])
