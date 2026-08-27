@@ -522,6 +522,30 @@ def _sitemap_encyclopedia_monsters(base_url, language='en'):
     return xml
 
 
+def _most_used_has_been_indexed():
+    """Whether the most-worn page has anything to show yet.
+
+    The table is filled by reindex_builds_by_item, which takes about a quarter
+    of an hour and is deliberately not in the container entrypoint: putting it
+    there would cost that quarter of an hour of downtime on every deploy to
+    correct a second decimal.
+
+    So between a deploy and that command there is a window where the page
+    answers honestly that the counts are not built. Submitting four URLs to it
+    during that window asks Google to look at the one moment there is nothing
+    to see. The page joins the sitemap by itself once the index exists.
+
+    A missing table is not an error here: before the migration has run there is
+    nothing to submit either, and a sitemap that raises is worse than a sitemap
+    that is one page short.
+    """
+    from django.db import DatabaseError
+    from chardata.models import ItemPopularity
+    try:
+        return ItemPopularity.objects.exists()
+    except DatabaseError:
+        return False
+
 def _sitemap_pages(base_url):
     """Static pages, feature pages, guides, per-version entry points and a
     sample of recently shared builds."""
@@ -543,7 +567,6 @@ def _sitemap_pages(base_url):
         ('/choose_compare_sets/', 'weekly', '0.7'),
         ('/encyclopedia/', 'daily', '0.9'),
         ('/encyclopedia/sets/', 'weekly', '0.8'),
-        ('/encyclopedia/most-used/', 'weekly', '0.7'),
         ('/forgemagie/', 'weekly', '0.8'),
         # /workshop/ is behind the login: a crawler only gets the /login/ redirect.
     ]
@@ -552,13 +575,20 @@ def _sitemap_pages(base_url):
 
     blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
 
-    # The most-worn page, once per language. Not folded into hub_paths below:
-    # that loop also emits a /beta/, /dofus2/, /retro/ and /touch/ variant of
-    # every path it is given, and this page has no route under those prefixes.
-    for language in _SITEMAP_LANGUAGES:
+    # The most-worn page, once without a prefix and once per language. Not
+    # folded into hub_paths below: that loop also emits a /beta/, /dofus2/,
+    # /retro/ and /touch/ variant of every path it is given, and this page has
+    # no route under those prefixes.
+    #
+    # _SITEMAP_LANGUAGES is three languages, so that is four URLs, and all
+    # four are held back until the index exists -- see the helper above.
+    if _most_used_has_been_indexed():
         blocks.append(_sitemap_url(
-            '%s/%s/encyclopedia/most-used/' % (base_url, language),
-            'weekly', '0.6'))
+            base_url + '/encyclopedia/most-used/', 'weekly', '0.7'))
+        for language in _SITEMAP_LANGUAGES:
+            blocks.append(_sitemap_url(
+                '%s/%s/encyclopedia/most-used/' % (base_url, language),
+                'weekly', '0.6'))
 
     # The hubs, once per language. They answer and link to each other by
     # hreflang, but nothing submitted them, so Google had no reason to
