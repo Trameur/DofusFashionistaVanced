@@ -97,7 +97,9 @@ class AFailedAdSettingReadSaysSoTests(TestCase):
         self.assertIn('cannot be read', page,
                       'the admin page shows an unchecked box and no reason')
         # Le piege nomme : la case est decochee, et l'enregistrer persiste.
-        self.assertIn('saving this form would make the outage permanent', page)
+        # Sans la premiere lettre : la phrase a change de casse quand le
+        # tiret cadratin en a ete retire, et le test a rougi pour ca seul.
+        self.assertIn('his form would make the outage permanent', page)
 
     def test_the_admin_page_stays_quiet_when_the_read_works(self):
         self._admin()
