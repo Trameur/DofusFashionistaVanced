@@ -73,6 +73,70 @@ def _load_json(path: Path) -> Dict[str, Any]:
         return json.load(fh)
 
 
+#: Elemental damage and elemental steals. A row carrying one of these is what
+#: makes a grade an element rather than a step.
+_ELEMENT_EFFECT_IDS = frozenset(range(91, 101))
+
+
+def _collapse_element_variants(levels: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Grades that are element choices rather than a progression, merged into one.
+
+    Ankama writes the Ebony Dofus as five grades that all sit at minimum level
+    1 and each carry ONE element, 14-16 in water, fire, air, earth and neutral.
+    They are the five faces of one item, not five ranks of a spell, and read as
+    ranks they build a triangle: the fire row is 0-0 until grade 2 and the
+    neutral row until grade 5, so the page shows an item that gets stronger as
+    the reader levels up, which it does not.
+
+    The conditions are deliberately narrow, because a spell that really does
+    gain an element per rank would look the same from one archive:
+
+      * every grade sits at the same minimum player level
+      * every grade carries exactly ONE elemental row
+      * those elements are all different from each other
+      * the non-elemental effects are identical across grades, so merging them
+        cannot lose or duplicate anything
+      * no grade carries a critical list, which would have to be merged too
+
+    47 spells match in the Dofus 3 data and 48 in 2.73, and only one of them
+    reaches a page: the Ebony Dofus on Dofus 2. The rest are monster spells the
+    site never lists, which is what makes this safe to apply everywhere.
+    """
+    if len(levels) < 2:
+        return levels
+    if len({level.get("min_player_level") for level in levels}) != 1:
+        return levels
+
+    elements: List[Any] = []
+    shared: Optional[tuple] = None
+    for level in levels:
+        if level.get("critical_effects"):
+            return levels
+        effects = level.get("effects") or []
+        rows = [effect for effect in effects
+                if (effect.get("effect_id") or 0) in _ELEMENT_EFFECT_IDS]
+        if len(rows) != 1:
+            return levels
+        rest = tuple(sorted(effect.get("effect_id") for effect in effects
+                            if (effect.get("effect_id") or 0)
+                            not in _ELEMENT_EFFECT_IDS))
+        if shared is None:
+            shared = rest
+        elif rest != shared:
+            return levels
+        elements.append(rows[0])
+    if len(set(id(row) for row in elements)) != len(elements):
+        return levels
+    if len({row.get("effect_id") for row in elements}) != len(elements):
+        return levels
+
+    merged = dict(levels[0])
+    kept = [effect for effect in (levels[0].get("effects") or [])
+            if (effect.get("effect_id") or 0) not in _ELEMENT_EFFECT_IDS]
+    merged["effects"] = kept + elements
+    return [merged]
+
+
 def _load_datacenter_table(path: Path) -> Dict[int, Dict[str, Any]]:
     data = _load_json(path)
     # Dofus 3 dumps are Unity-serialised, Dofus 2 ones a plain list of records:
@@ -333,7 +397,7 @@ class SpellTransformer:
                 continue
             converted_levels.append(self._convert_spell_level(level_data))
         converted_levels.sort(key=lambda lvl: (lvl.get("grade") or 0, lvl.get("level_id") or 0))
-        return converted_levels
+        return _collapse_element_variants(converted_levels)
 
     def _type_names(self, type_id: Any) -> Dict[str, Any]:
         names: Dict[str, Any] = {"type_id": type_id}

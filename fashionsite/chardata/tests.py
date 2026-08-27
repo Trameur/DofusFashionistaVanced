@@ -20077,29 +20077,16 @@ class SpellComboTests(SimpleTestCase):
             dofus_constants_beta.DAMAGE_SPELLS)
         self.assertEqual([], uneven, 'beta')
         self.assertEqual([], split, 'beta')
-        # dofus2 kept two exceptions, Persecuting Arrow and Friendship Word,
-        # for as long as its block was the frozen Dofus 3 content: neither
-        # could be settled from data this project held. Regenerated from
-        # Ankama's 2.73 spell levels both settle, and one different case takes
-        # their place.
-        #
-        # The Ebony Dofus is written by Ankama as five grades that all sit at
-        # minimum level 1 and each carry ONE element: 96 water, 99 fire, 98
-        # air, 97 earth, 100 neutral, all 14-16. They are element variants of
-        # a single spell, not a progression, and read as a progression they
-        # build a triangle where the fire row is 0-0 until grade 2 and the
-        # neutral row until grade 5. Dofus 3 escapes it only because its own
-        # lookup fails and falls back to LEGACY_DEFAULT_SPELLS.
-        #
-        # It is left as one named exception rather than patched here. 55
-        # spells of the archive have this shape and 55 of Dofus 3's have it
-        # too, so the rule that reads them belongs in the generator and has to
-        # be proved against all three versions, not slipped in for the one
-        # spell that reaches a page.
+        # dofus2 carried exceptions here for as long as its block was frozen
+        # Dofus 3 content, then one more of its own: the Ebony Dofus, which
+        # Ankama writes as five grades all at minimum level 1, each carrying
+        # one element, and which read as a progression built a triangle of
+        # zeros. get_spells collapses those grades now, so all three versions
+        # answer the same and the list is empty everywhere.
         uneven, split = self._rows_that_replaced_another(
             dofus_constants_dofus2.DAMAGE_SPELLS)
         self.assertEqual([], uneven, 'dofus2')
-        self.assertEqual(['Ebony Dofus'], split, 'dofus2')
+        self.assertEqual([], split, 'dofus2')
 
     def test_the_late_part_is_never_worth_more_than_the_cast(self):
         # It is subtracted from the turn, so scoring it with buffs the cast

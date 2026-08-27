@@ -3852,7 +3852,7 @@ DAMAGE_SPELLS = {
             [['32-36'], ['32-36']],
             [['38-43'], ['38-43']],
             [WATER, WATER],
-        ), stacks=2, is_linked=(2, 'Hunt'), casting={'ap': [4], 'per_turn': [2], 'per_target': [1], 'crit': [15]}, spell_id=13800, delayed={0: 'turn_begin', 1: 'turn_begin'}),
+        ), aggregates=[('', [0])], stacks=2, is_linked=(2, 'Hunt'), casting={'ap': [4], 'per_turn': [2], 'per_target': [1], 'crit': [15]}, spell_id=13800, delayed={0: 'turn_begin', 1: 'turn_begin'}),
         Spell('Humerus', [165], Effects(
             [['41-46']],
             [['49-55']],

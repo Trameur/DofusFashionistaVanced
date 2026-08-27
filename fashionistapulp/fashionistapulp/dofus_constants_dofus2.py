@@ -603,15 +603,11 @@ DAMAGE_SPELLS = {
             [['350']],
             ['buff_pow_weapon'],
         )),
-        Spell('Ebony Dofus', [1, 1, 1, 1, 1], Effects(
-            [['14-16', '14-16', '14-16', '14-16', '14-16'],
-             ['0-0', '14-16', '14-16', '14-16', '14-16'],
-             ['0-0', '0-0', '14-16', '14-16', '14-16'],
-             ['0-0', '0-0', '0-0', '14-16', '14-16'],
-             ['0-0', '0-0', '0-0', '0-0', '14-16']],
+        Spell('Ebony Dofus', [1], Effects(
+            [['14-16'], ['14-16'], ['14-16'], ['14-16'], ['14-16']],
             None,
             [WATER, FIRE, AIR, EARTH, NEUTRAL],
-        ), stacks=2, casting={'ap': [1, 1, 1, 1, 1]}, spell_id=18645, delayed={0: 'turn_begin', 1: 'turn_begin', 2: 'turn_begin', 3: 'turn_begin', 4: 'turn_begin'}),
+        ), stacks=2, casting={'ap': [1]}, spell_id=18645, delayed={0: 'turn_begin', 1: 'turn_begin', 2: 'turn_begin', 3: 'turn_begin', 4: 'turn_begin'}),
         Spell("Crocobur's Appetite", [1], Effects(
             [['16-20']],
             None,
