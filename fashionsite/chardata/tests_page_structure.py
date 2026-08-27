@@ -17,6 +17,9 @@ from django.test import TestCase
 
 CARREFOURS = ('/', '/encyclopedia/', '/encyclopedia/sets/',
               '/encyclopedia/monsters/', '/sharedbuilds/', '/guides/',
+              '/encyclopedia/most-used/',  # ni carrefour ni fiche : sans
+              # cette ligne la population du module ne la contenait pas, et le garde
+              # ecrit pour ELLE passait au vert sans jamais l'ouvrir.
               '/setup/')
 #: (carrefour, prefixe du lien de detail) -- les fiches sont trouvees, pas ecrites.
 FAMILLES = (('/encyclopedia/', '/encyclopedia/item/'),
@@ -137,6 +140,66 @@ class EveryPageHasAShapeTests(TestCase):
                 self.assertIsNotNone(lien, '%s has no skip link' % chemin)
                 self.assertNotEqual(lien.group(1).strip(), anglais,
                                     '%s offers the English wording' % chemin)
+
+    def test_no_page_opens_a_second_page_shell(self):
+        """base.html already opens the column and the content panel.
+
+        A child template that opens them again is drawn INSIDE the first: the
+        content shifts another 200 pixels right on a desktop and sits in a
+        second bordered, padded panel. Nothing errors, the page renders, and
+        only an eye on a wide screen notices -- which is why it survived.
+        """
+        doubles = []
+        for chemin in self._pages():
+            html = self._html(chemin)
+            for classe in ('maincolumn', 'maincontent'):
+                combien = html.count('class="%s' % classe)
+                if combien > 1:
+                    doubles.append((chemin, classe, combien))
+        self.assertFalse(doubles, 'these pages open a shell twice: %s'
+                         % doubles[:4])
+
+    def test_a_row_that_can_hold_thirty_items_is_allowed_to_wrap(self):
+        """The markup grew and the stylesheet did not.
+
+        Keeping one page in ten plus its neighbours took the pagination from
+        five children to twenty-seven, in a flex row with no wrapping. At 375
+        pixels the row is over a thousand wide, and overflow-x: hidden cuts it
+        instead of letting it scroll: the last pages become unreachable on a
+        phone.
+
+        The two halves are asserted together because the defect is exactly
+        their disagreement -- either alone looks fine.
+        """
+        import os
+        import re
+        from chardata.pagination import pagination_items
+
+        class _Paginator(object):
+            def __init__(self, n):
+                self.num_pages = n
+
+        class _Page(object):
+            def __init__(self, number, n):
+                self.number = number
+                self.paginator = _Paginator(n)
+
+        combien = len(pagination_items(_Page(42, 83)))
+        self.assertGreater(combien, 10,
+                           'pagination_items returned %d entries; this test no '
+                           'longer describes the markup' % combien)
+
+        chemin = os.path.join(os.path.dirname(os.path.dirname(
+            os.path.abspath(__file__))), 'chardata', 'static', 'chardata',
+            'sharedbuilds.css')
+        with open(chemin, encoding='utf-8') as fichier:
+            feuille = fichier.read()
+        debut = feuille.find('.pagination {')
+        self.assertNotEqual(-1, debut, 'no .pagination rule in sharedbuilds.css')
+        regle = feuille[debut:feuille.find('}', debut)]
+        self.assertIn('display: flex', regle)
+        self.assertIn('flex-wrap: wrap', regle,
+                      'a flex row of %d items with no wrapping' % combien)
 
     def test_a_table_is_either_data_or_declared_decorative(self):
         """A layout table is announced with its row and column count.
