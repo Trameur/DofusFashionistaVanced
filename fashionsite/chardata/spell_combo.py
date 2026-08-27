@@ -30,6 +30,28 @@ from chardata.spell_variants import variant_of
 
 MAX_CASTS = 8
 
+# Retro spells whose only possible target is a summon. Counting their damage in
+# a turn is counting damage the player cannot deal to the enemy he is facing:
+# the Osamodas' Fouet is 601 to 610 for ONE AP, and it made up 3829 of that
+# class's 5005 best turn, 76 per cent of it.
+#
+# Ankama's own sentence settles each one, and the guard in tests.py reads that
+# sentence back out of chardata/spell_reference, so a description Ankama
+# rewrites stops being covered by a decision nobody rechecks.
+#
+# No modern version needs an entry: theirs hit the enemy AND hit summons harder
+# ("les dommages sont plus importants sur les invocations"), which is a real
+# turn against a real target. Checked over dofus3, dofus2 and Touch, where 13,
+# 11 and 5 damage spells mention summons and every one of them also hits the
+# target.
+ONLY_HITS_A_SUMMON = {
+    'retro': {
+        30: 'punir une invocation',        # Osamodas, Fouet
+        46: 'aux invocations',             # Enutrof, Desinvocation
+        198: 'punissant une invocation',   # Sadida, Sacrifice Poupesque
+    },
+}
+
 # What a character starts a fight with, for a build saved before the site
 # stored its base characteristics.
 BASE_AP = 6
@@ -347,9 +369,12 @@ def castable_spells(char_class, char_level, game_version, crit=False,
     by_class = get_damage_spells_for_version(game_version)
     pushing = pushing_spell_ids(game_version)
     spells = by_class.get(char_class, [])
+    summon_only = ONLY_HITS_A_SUMMON.get(game_version) or {}
     out = []
     for spell in spells:
         if not spell.casting or char_level < spell.level_req[0]:
+            continue
+        if spell.spell_id in summon_only:
             continue
         level_index = _chosen_level(levels, spell, char_level)
         castable = Castable(spell, level_index, crit)

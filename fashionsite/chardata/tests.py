@@ -2503,6 +2503,76 @@ class RetroBuffsBelongToTheCasterTests(SimpleTestCase):
                 'so the caster must not be credited with it' % name))
 
 
+class ASummonOnlySpellIsNotATurnTests(SimpleTestCase):
+    """Three Retro spells reach nothing but a summon, and the best-turn panel
+    was counting their damage against the enemy the reader is facing.
+
+    The Osamodas' Fouet costs ONE AP for 601 to 610 damage and made up 3829 of
+    that class's 5005 best turn, 76 per cent of it. Taking the three out puts
+    all three classes back inside the band the other nine Retro classes occupy
+    (Osamodas 5005 to 1358, Enutrof 2421 to 1353, Sadida 2059 to 1734, against
+    1300 to 2400 elsewhere) -- corroboration, not the reason.
+
+    No modern version needs an entry, checked rather than assumed: dofus3,
+    dofus2 and Touch have 13, 11 and 5 damage spells that mention summons and
+    every one of them also hits the target, most of them saying "les dommages
+    sont plus importants sur les invocations". That is a real turn against a
+    real target.
+
+    The reason each is excluded is Ankama's own sentence, and this test reads
+    that sentence back out of chardata/spell_reference: a description Ankama
+    rewrites stops being covered by a decision nobody rechecked.
+    """
+
+    SUMMON_ONLY = {
+        30: ('Osamodas', 'punir une invocation'),
+        46: ('Enutrof', 'aux invocations'),
+        198: ('Sadida', 'punissant une invocation'),
+    }
+    # The control: a Retro spell that stays castable. Without it, a version
+    # returning no spell at all would satisfy every assertion below.
+    STILL_CASTABLE = ('Iop', 'Concentration')
+
+    def test_a_spell_that_only_reaches_a_summon_is_out_of_the_turn(self):
+        from chardata.spell_combo import ONLY_HITS_A_SUMMON, castable_spells
+        from chardata.spell_reference import get_spell_reference
+
+        self.assertEqual(set(self.SUMMON_ONLY),
+                         set(ONLY_HITS_A_SUMMON.get('retro') or {}),
+                         msg='this test and the module disagree on which '
+                             'spells are excluded')
+
+        described = {}
+        for entries in (get_spell_reference('retro') or {}).values():
+            for entry in entries:
+                described[entry.get('id')] = (
+                    (entry.get('description') or {}).get('fr') or '')
+        self.assertGreater(len(described), 200, msg=(
+            'only %d retro spells carry a description, so the quotes below '
+            'would be checked against nothing' % len(described)))
+
+        char_class, spell_name = self.STILL_CASTABLE
+        control = [spell.name
+                   for spell in castable_spells(char_class, 200, 'retro')]
+        self.assertIn(spell_name, control, msg=(
+            '%s should still be castable for a %s; without it this test would '
+            'pass on a version that returned no spell at all'
+            % (spell_name, char_class)))
+
+        for spell_id, (owner, quote) in self.SUMMON_ONLY.items():
+            with self.subTest(spell_id=spell_id):
+                self.assertIn(quote, described.get(spell_id, ''), msg=(
+                    'spell %s no longer says %r, so the reason it stays out of '
+                    'the turn no longer holds: read it again' % (spell_id, quote)))
+                castable = castable_spells(owner, 200, 'retro')
+                self.assertTrue(castable, msg='%s casts nothing at all' % owner)
+                self.assertNotIn(spell_id,
+                                 [spell.spell_id for spell in castable], msg=(
+                                     'spell %s only reaches a summon, so it '
+                                     'must not be in a %s turn'
+                                     % (spell_id, owner)))
+
+
 class ASignedEffectLabelIsNotABonusTests(SimpleTestCase):
     """A minus in Ankama's own effect label means the effect subtracts.
 
