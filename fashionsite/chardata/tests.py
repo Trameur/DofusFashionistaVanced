@@ -12396,8 +12396,16 @@ class RobotsAgreesWithTheSitemapTests(TestCase):
             path = re.sub(r'^https?://[^/]+', '', sitemap)
             body = self.client.get(path).content.decode('utf-8')
             # A sample per file: reading 151 905 urls here would trade a
-            # useful guard for a slow one.
-            for url in re.findall(r'<loc>([^<]+)</loc>', body)[:25]:
+            # useful guard for a slow one. But the sample is SPREAD, not
+            # the first 25: a sitemap is ordered, so its opening entries
+            # are the same static pages every time. The one url this
+            # guard did not catch -- a shared build named 'fashion',
+            # blocked by `Disallow: */fashion/` written for the solver
+            # endpoint -- sits well past the twenty-fifth line. Same
+            # cost, and the sample now touches the whole file.
+            toutes = re.findall(r'<loc>([^<]+)</loc>', body)
+            pas = max(1, len(toutes) // 25)
+            for url in toutes[::pas][:25]:
                 checked += 1
                 if not parser.can_fetch('Googlebot', url):
                     blocked.append(url)
