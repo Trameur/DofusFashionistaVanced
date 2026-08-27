@@ -6255,6 +6255,83 @@ class ApiListsOnlyOpenableBuildsTests(TestCase):
         body = self.client.get('/api/v1/tier-list/').content.decode('utf-8')
         self.assertNotIn('ApiSansSolution', body)
 
+    def test_every_endpoint_hands_out_a_url_and_the_same_one(self):
+        """The list used to answer with an id and no way to reach the page.
+
+        Only the detail view added `url`, so a consumer showing five builds had
+        to make six requests before it could link any of them. It will not: it
+        prints the names without links, and the one route to the gallery that
+        does not go through Google stays shut. The field is additive, so no
+        existing consumer breaks.
+
+        Building it in `_build_payload` rather than in each view is what keeps
+        the two from drifting, which is why this asserts they AGREE and not
+        merely that both are present.
+        """
+        import pickle
+        char = self._shared('ApiAvecSolution',
+                            pickle.dumps({'item_per_slot': {}}))
+        encoded = None
+
+        rows = self.client.get('/api/v1/shared-builds/').json()['results']
+        self.assertTrue(rows)
+        for row in rows:
+            with self.subTest(endpoint='list', row=row.get('name')):
+                self.assertIn('url', row)
+                self.assertTrue(row['url'].endswith('/%s/' % row['id']))
+            if row['name'] == 'ApiAvecSolution':
+                encoded = row['id']
+                listed = row['url']
+        self.assertIsNotNone(encoded)
+
+        detail = self.client.get('/api/v1/shared-builds/%s/' % encoded).json()
+        self.assertEqual(listed, detail['url'])
+
+        body = self.client.get('/api/v1/tier-list/').json()
+        entries = [entry for section in body['sections']
+                   for entry in section['top']]
+        self.assertTrue(entries, msg=(
+            'the tier list returned no build, so the check below would pass '
+            'for the wrong reason'))
+        for entry in entries:
+            with self.subTest(endpoint='tier-list', row=entry.get('name')):
+                self.assertIn('url', entry)
+
+    def test_the_url_does_not_follow_the_host_that_asked(self):
+        """A public API answers with the canonical address, not with the door.
+
+        ALLOWED_HOSTS carries nine entries in production: two domains with their
+        wildcards, two bare IPs, localhost, 127.0.0.1 and [::1]. An address
+        taken from `request.build_absolute_uri` therefore hands a consumer on
+        the old domain a link that redirects, and one on localhost a link that
+        works for nobody. The detail view did that before the field moved into
+        `_build_payload`.
+
+        It never leaked between callers: Django hashes the absolute URI into the
+        `cache_page` key, so each host already has its own entry (checked in
+        django/utils/cache.py, 6.0.8). This test does not assert isolation, it
+        asserts INDEPENDENCE -- three hosts, one address -- which is the
+        property wanted either way.
+        """
+        import pickle
+        from django.core.cache import cache
+        from chardata.url_language import SITE_URL
+
+        self._shared('ApiAvecSolution', pickle.dumps({'item_per_slot': {}}))
+        seen = set()
+        for host in ('dofusfashionista.gg', 'fashionistavanced.com',
+                     '178.105.48.220'):
+            cache.clear()
+            rows = self.client.get('/api/v1/shared-builds/',
+                                   HTTP_HOST=host).json()['results']
+            self.assertTrue(rows, msg='no build came back for host %s' % host)
+            for row in rows:
+                with self.subTest(host=host, row=row.get('name')):
+                    self.assertTrue(row['url'].startswith(SITE_URL))
+                seen.add(row['url'])
+        # Three hosts, one address each time: that is the whole point.
+        self.assertEqual(1, len(seen))
+
     def test_the_payload_carries_no_private_field(self):
         import pickle
         self._shared('ApiAvecSolution', pickle.dumps({'item_per_slot': {}}))

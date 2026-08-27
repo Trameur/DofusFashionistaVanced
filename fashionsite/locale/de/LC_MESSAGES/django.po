@@ -1670,8 +1670,8 @@ msgid "shared builds, paginated, most recently updated first"
 msgstr "geteilte Builds, seitenweise, zuletzt aktualisierte zuerst"
 
 #: .\chardata\templates\chardata\about.html:38
-msgid "one shared build, with its comment count and link"
-msgstr "ein geteilter Build, mit Kommentaranzahl und Link"
+msgid "one shared build, with its comment count"
+msgstr "ein geteilter Build, mit Kommentaranzahl"
 
 #: .\chardata\templates\chardata\about.html:39
 msgid ""

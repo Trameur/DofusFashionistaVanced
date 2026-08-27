@@ -20,6 +20,7 @@ from django.views.decorators.http import require_GET
 
 from chardata.encoded_char_id import encode_char_id, decode_char_id
 from chardata.models import BuildComment, BuildTag, Char, UserAlias
+from chardata.url_language import SITE_URL
 
 API_VERSION = 'v1'
 MAX_PAGE_SIZE = 100
@@ -44,6 +45,27 @@ def _creator(char, alias_map):
 
 
 def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
+    """One shared build, as all three endpoints render it.
+
+    `url` used to be added by the detail view alone, so the list and the tier
+    list answered with an id and no way to reach the page. A consumer showing
+    five builds had to make six requests before it could link any of them, and
+    it will not: it prints the names without links, and the one route to the
+    gallery that does not go through Google stays shut.
+
+    It is built from SITE_URL and not from `request.build_absolute_uri`, the way
+    shared_builds_view and profile_view already build theirs: a public API
+    should answer with the canonical address of a build, not with the door the
+    caller came in by. ALLOWED_HOSTS carries nine entries in production -- two
+    domains with their wildcards, two bare IPs, localhost, 127.0.0.1 and [::1]
+    -- so a request-derived address hands a consumer on the old domain a link
+    that redirects, and a consumer on localhost a link that works for nobody.
+
+    (It does not leak across callers: Django hashes `request.build_absolute_uri`
+    into the `cache_page` key, so every host already gets its own entry. Checked
+    in django/utils/cache.py, 6.0.8. The reason to fix it is the answer being
+    wrong for the caller who asked, not for the next one.)
+    """
     encoded = encode_char_id(int(char.id))
     payload = {
         'id': encoded,
@@ -59,6 +81,8 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
         'created_at': char.created_time.isoformat() if char.created_time else None,
         'modified_at': char.modified_time.isoformat() if char.modified_time else None,
     }
+    payload['url'] = '%s/s/%s/%s/' % (SITE_URL, char.char_name or 'shared',
+                                      encoded)
     if include_tags:
         if tags_by_char is None:
             tags = list(BuildTag.objects.filter(char=char).order_by('created_time')
@@ -167,7 +191,6 @@ def api_shared_build_detail(request, encoded_id):
 
     payload = _build_payload(char, alias_map)
     payload['comment_count'] = BuildComment.objects.filter(build=char, deleted=False).count()
-    payload['url'] = request.build_absolute_uri('/s/%s/%s/' % (char.char_name or 'shared', encoded_id))
     return _json(payload)
 
 

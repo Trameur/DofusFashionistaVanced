@@ -1663,8 +1663,8 @@ msgstr ""
 "builds compartilhados, paginados, os atualizados mais recentemente primeiro"
 
 #: .\chardata\templates\chardata\about.html:38
-msgid "one shared build, with its comment count and link"
-msgstr "um build compartilhado, com seu número de comentários e seu link"
+msgid "one shared build, with its comment count"
+msgstr "um build compartilhado, com seu número de comentários"
 
 #: .\chardata\templates\chardata\about.html:39
 msgid ""

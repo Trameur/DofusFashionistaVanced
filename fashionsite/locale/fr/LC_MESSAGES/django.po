@@ -1667,8 +1667,8 @@ msgid "shared builds, paginated, most recently updated first"
 msgstr "builds partagés, paginés, du plus récemment modifié au plus ancien"
 
 #: .\chardata\templates\chardata\about.html:38
-msgid "one shared build, with its comment count and link"
-msgstr "un build partagé, avec son nombre de commentaires et son lien"
+msgid "one shared build, with its comment count"
+msgstr "un build partagé, avec son nombre de commentaires"
 
 #: .\chardata\templates\chardata\about.html:39
 msgid ""
