@@ -24720,6 +24720,9 @@ class TheMostWornGearPageTests(TestCase):
 
     def test_the_page_is_in_the_sitemap(self):
         """A page nobody links to and nobody submits is a page nobody reads."""
+        # Le plan ne l'annonce que si l'index existe : sans cette ligne le test
+        # affirmerait le contraire de tests_sitemap_most_used.
+        self._rangs()
         plan = self.client.get('/sitemap-pages.xml').content.decode('utf-8')
         self.assertIn('/encyclopedia/most-used/', plan)
 
