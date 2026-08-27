@@ -145,6 +145,7 @@ def _ad_form():
     slots = config.get('slots') or {}
     return {'enabled': config.get('enabled', True),
             'auto': config.get('auto', True),
+            'read_failed': config.get('read_failed', False),
             'slots': [{'name': name, 'value': slots.get(name, '')}
                       for name in AD_SLOTS]}
 

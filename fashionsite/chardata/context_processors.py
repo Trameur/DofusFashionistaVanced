@@ -152,7 +152,15 @@ def ad_config():
             # broken JSON is a standing state, not a passing one.
             logger.warning('the stored ad setting could not be read, so no '
                            'advertising is served', exc_info=True)
-            return {'enabled': False}
+            # Le niveau reste warning, et c'est delibere : un JSON casse en
+            # base fait echouer CHAQUE requete, et mail_admins est en ERROR --
+            # remonter le niveau enverrait un courriel par page vue. La panne
+            # est donc signalee la ou on vient la chercher : read_failed
+            # remonte jusqu'a /admin-tools/, qui dit alors pourquoi la case
+            # est decochee. Sans ca la page montre une case decochee, et
+            # l'enregistrer PERSISTE l'extinction : une panne passagere
+            # devient definitive par un geste qui ne la concernait pas.
+            return {'enabled': False, 'read_failed': True}
         cache.set(AD_SETTING_KEY, stored, AD_SETTING_TTL)
     slots = dict(config.get('slots') or {})
     slots.update({k: v for k, v in (stored.get('slots') or {}).items() if v})

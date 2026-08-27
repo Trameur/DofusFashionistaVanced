@@ -269,6 +269,15 @@
     <section class="admin-panel admin-panel-off" data-panel="ads">
     <h2 class="admin-section-title">AdSense</h2>
     <form id="admin-ads-form" class="admin-ads">
+        {% if ad_config.read_failed %}
+        <p class="admin-note" style="color: #c9483f;">
+            <strong>The stored ad setting cannot be read, so no advertising is
+            served.</strong> The box below is unchecked because of that, not
+            because ads are off by choice &mdash; saving this form would make the
+            outage permanent. Look for &laquo;&nbsp;the stored ad setting could not
+            be read&nbsp;&raquo; in the container log first.
+        </p>
+        {% endif %}
         <label class="admin-ads-toggle">
             <input type="checkbox" name="enabled" value="1"
                    {% if ad_config.enabled %}checked{% endif %}>
