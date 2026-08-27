@@ -41,15 +41,15 @@ Elle s'y annoncait "Project Details".
             {% csrf_token %}
                 <table class='register'>
                   <tr class='register-line'>
-                    <td class='input-name'>{% trans "Character Name" %}</td> 
+                    <td class='input-name'><label for="input-char-name">{% trans "Character Name" %}</label></td> 
                     <td align="left"><input class='input-value pretty-input change-modifies-state' id="input-char-name" name="charname" maxlength="50" /></td>
                   </tr>  
                   <tr class='register-line'>
-                    <td class='input-name'>{% trans "Character Level" %}</td> 
+                    <td class='input-name'><label for="input-char-level">{% trans "Character Level" %}</label></td> 
                     <td align="left" style="padding: 0px 3px;"><input class='input-value pretty-input change-modifies-state' id="input-char-level" type="number" name="level" min="1" max="200" required="required" style="width: 40px;"/></td>
                   </tr>  
                   <tr class='register-line'>
-                    <td class='input-name'>{% trans "Character Class" %}</td> 
+                    <td class='input-name'><label for="select-char-class">{% trans "Character Class" %}</label></td> 
                     <td align="left"> 
                     <select name="class" class="change-modifies-state" id="select-char-class" required="required">
                         {% for c in classes %}
@@ -62,7 +62,7 @@ Elle s'y annoncait "Project Details".
                     </td>
                   </tr>  
                   <tr class='register-line'>
-                    <td class='input-name'>{% trans "Project Name" %}</td>
+                    <td class='input-name'><label for="input-proj-name">{% trans "Project Name" %}</label></td>
                     <td align="left"><input class='input-value pretty-input change-modifies-state' id="input-proj-name" name="project" maxlength="50" required="required"/></td>
                   </tr>
                   

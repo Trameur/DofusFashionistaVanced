@@ -51,15 +51,15 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
         <form method="get" action="{% game_url 'shared_builds' %}">
             <div class="filter-row">
                 <div class="filter-group">
-                    <label class="filter-label">{% trans "Search" %}</label>
-                    <input type="text" name="search" class="filter-input pretty-input"
+                    <label class="filter-label" for="filter-search">{% trans "Search" %}</label>
+                    <input type="text" name="search" id="filter-search" class="filter-input pretty-input"
                            placeholder="{% trans 'Project or character name' %}"
                            value="{{ filters.search }}">
                 </div>
                 
                 <div class="filter-group">
-                    <label class="filter-label">{% trans "User" %}</label>
-                    <input type="text" name="user_search" class="filter-input pretty-input" 
+                    <label class="filter-label" for="filter-user">{% trans "User" %}</label>
+                    <input type="text" name="user_search" id="filter-user" class="filter-input pretty-input" 
                            placeholder="{% trans 'Search by username' %}" 
                            value="{{ filters.user_search }}">
                 </div>
@@ -99,14 +99,14 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
             
             <div class="filter-row">
                 <div class="filter-group">
-                    <label class="filter-label">{% trans "Min Level" %}</label>
-                    <input type="number" name="min_level" class="filter-input pretty-input" 
+                    <label class="filter-label" for="filter-min-level">{% trans "Min Level" %}</label>
+                    <input type="number" name="min_level" id="filter-min-level" class="filter-input pretty-input" 
                            placeholder="1" min="1" max="200" value="{{ filters.min_level }}">
                 </div>
                 
                 <div class="filter-group">
-                    <label class="filter-label">{% trans "Max Level" %}</label>
-                    <input type="number" name="max_level" class="filter-input pretty-input" 
+                    <label class="filter-label" for="filter-max-level">{% trans "Max Level" %}</label>
+                    <input type="number" name="max_level" id="filter-max-level" class="filter-input pretty-input" 
                            placeholder="200" min="1" max="200" value="{{ filters.max_level }}">
                 </div>
                 

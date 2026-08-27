@@ -51,7 +51,7 @@
     </nav>
 
     <form class="encyclopedia-sets-search" method="get" action="{% game_url 'encyclopedia_sets' %}">
-        <input type="text" name="q" value="{{ search_text }}" placeholder="{% trans 'Search a set or item' %}">
+        <input type="text" name="q" value="{{ search_text }}" placeholder="{% trans 'Search a set or item' %}" aria-label="{% trans 'Search a set or item' %}">
         {% if sort_options %}
         <label class="encyclopedia-sets-sort">{{ t.sort_label }}
             <select name="sort">
