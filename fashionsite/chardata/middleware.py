@@ -110,7 +110,11 @@ _ROBOT = re.compile(
     # when someone shares the url in a chat. facebookexternalhit does not call
     # itself a bot, and it was the one that slipped through.
     r'externalhit|whatsapp|telegram|discord|slack|embedly|skypeuri|'
-    r'flipboard|nuzzel|vkshare|tumblr|snapchat|pinterest',
+    r'flipboard|nuzzel|vkshare|tumblr|snapchat|pinterest|'
+    # Tools that audit this very site. They walk every page in one pass, so a
+    # single run buries a month of real reading: one such sweep put 8 420 views
+    # into a day whose neighbours hold about thirty.
+    r'fashionistaaudit',
     re.I)
 
 
