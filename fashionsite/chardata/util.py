@@ -39,6 +39,27 @@ def version_reverse(request, url_name, *args, **kwargs):
             pass
     return reverse(url_name, args=args, kwargs=kwargs)
 
+def shared_build_path(build):
+    """L'adresse publique d'un build partage, prefixee par SA version de jeu.
+
+    Un build vit dans une seule version, et sa page n'existe que sous le
+    prefixe de cette version : `/touch/s/<nom>/<id>/` repond 200 la ou
+    `/s/<nom>/<id>/` repond 404. La forme sans prefixe etait ecrite en dur a
+    quatre endroits, dont le bloc « builds qui utilisent cet objet » des fiches
+    d'encyclopedie -- mesure le 28 aout 2026 sur quatre fiches Touch : les
+    HUIT liens affiches rendaient 404, et les memes prefixes rendaient 200.
+
+    On ne peut pas se servir de `version_reverse` ici : elle prefixe avec la
+    version de la REQUETE, alors qu'une page Dofus 3 ou une reponse d'API doit
+    pouvoir designer un build Touch. C'est la version du BUILD qui commande.
+    """
+    from chardata.encoded_char_id import encode_char_id
+    version = getattr(build, 'game_version', None) or 'dofus3'
+    prefixe = '' if version == 'dofus3' else '/' + version
+    return '%s/s/%s/%s/' % (prefixe, build.char_name or 'shared',
+                            encode_char_id(int(build.id)))
+
+
 def recaptcha_ok(request):
     secret = settings.GEN_CONFIGS.get('url_captcha_secret')
     answer = request.POST.get('g-recaptcha-response', '')

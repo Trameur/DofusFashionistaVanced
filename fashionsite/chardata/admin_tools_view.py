@@ -23,6 +23,7 @@ from chardata import admin_stats
 from chardata.encoded_char_id import encode_char_id
 from chardata.models import BuildComment, Char, CommentReport, SiteSetting
 from chardata.util import set_response, request_by_super_user
+from chardata.util import shared_build_path
 
 
 def _is_admin(request):
@@ -46,7 +47,7 @@ def _build_url(build):
     """Public shared-build URL, or None if the build isn't shared anymore."""
     if not build or not build.link_shared or build.deleted:
         return None
-    return '/s/%s/%s/' % (build.char_name or 'shared', encode_char_id(int(build.id)))
+    return shared_build_path(build)
 
 
 def admin_tools(request, char_id=0):

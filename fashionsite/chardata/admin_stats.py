@@ -4,6 +4,7 @@ import datetime
 from collections import Counter, OrderedDict
 
 from django.contrib.auth.models import User
+from chardata.util import shared_build_path
 from django.core.cache import cache
 from django.db.models import Count, Min, Q, Sum
 from django.utils import timezone
@@ -311,7 +312,7 @@ def community(period, version):
             'views': build.view_count,
             'comments': build.n_comments,
             'votes': build.n_votes,
-            'url': '/s/%s/%s/' % (build.char_name or 'shared', encode_char_id(int(build.id))),
+            'url': shared_build_path(build),
         })
     return {
         'comments': period.series(_by_bucket(_within(comments, 'created_time', period),

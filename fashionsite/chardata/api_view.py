@@ -13,6 +13,7 @@ because the data is already public. Cached for 60 s to absorb bursts.
 """
 
 from django.db.models import Count, Case, When, F, IntegerField, Value
+from chardata.util import shared_build_path
 from django.db.models.functions import Least
 from django.http import JsonResponse, Http404
 from django.views.decorators.cache import cache_page
@@ -81,8 +82,7 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
         'created_at': char.created_time.isoformat() if char.created_time else None,
         'modified_at': char.modified_time.isoformat() if char.modified_time else None,
     }
-    payload['url'] = '%s/s/%s/%s/' % (SITE_URL, char.char_name or 'shared',
-                                      encoded)
+    payload['url'] = SITE_URL + shared_build_path(char)
     if include_tags:
         if tags_by_char is None:
             tags = list(BuildTag.objects.filter(char=char).order_by('created_time')

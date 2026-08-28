@@ -17,6 +17,7 @@ from chardata.official_site import (
 from chardata.spell_tips import SpellTip, spell_tip_for
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
+from chardata.util import shared_build_path
 from fashionistapulp.dofus_constants import STAT_ORDER, TYPE_NAMES
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.fashion_util import is_same_item_name, strip_accents
@@ -1014,8 +1015,7 @@ def _get_builds_using(ankama_id, game_version, limit=6):
         if build is None or build.deleted or not build.link_shared:
             continue
         builds.append({
-            'url': '/s/%s/%s/' % (build.char_name or 'shared',
-                                  encode_char_id(int(build.id))),
+            'url': shared_build_path(build),
             'name': build.char_name or build.name,
             'char_class': build.char_class,
             'level': build.level,
