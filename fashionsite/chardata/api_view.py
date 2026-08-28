@@ -15,9 +15,9 @@ because the data is already public. Cached for 60 s to absorb bursts.
 from django.db.models import Count, Case, When, F, IntegerField, Value
 from chardata.util import shared_build_path
 from django.db.models.functions import Least
-from django.http import JsonResponse, Http404
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.cache import cache_page
-from django.views.decorators.http import require_GET
+from functools import wraps
 
 from chardata.encoded_char_id import encode_char_id, decode_char_id
 from chardata.models import BuildComment, BuildTag, Char, UserAlias
@@ -37,6 +37,49 @@ def _add_cors(response):
 
 def _json(data, status=200):
     return _add_cors(JsonResponse(data, status=status, json_dumps_params={'ensure_ascii': False}))
+
+
+def _api_endpoint(view):
+    """GET et OPTIONS, avec CORS sur CHAQUE reponse, refus compris.
+
+    `@require_GET` refusait OPTIONS par un 405 en HTML, sans un seul en-tete
+    Access-Control -- alors que la reponse 200 de la meme route annonce
+    `Access-Control-Allow-Methods: GET, OPTIONS`. L'API se contredisait dans
+    ses propres en-tetes.
+
+    Ce n'est pas theorique : un navigateur n'envoie de prevol que si la requete
+    n'est pas « simple ». Un bot Discord cote serveur ne voit donc rien, mais
+    un outil web qui pose le moindre en-tete -- Content-Type, un identifiant de
+    client, un jeton de proxy -- declenche le prevol, le prevol echoue, et la
+    requete n'a jamais lieu. Verifie en production le 28 aout 2026 : OPTIONS
+    /api/v1/shared-builds/ rendait 405, `Allow: GET`, zero en-tete CORS.
+
+    Le decorateur doit rester le PLUS EXTERIEUR : `cache_page` ne met en cache
+    que les GET, mais un OPTIONS qui le traverserait irait chercher une entree
+    qui n'a rien a voir avec lui.
+    """
+    @wraps(view)
+    def enveloppe(request, *args, **kwargs):
+        if request.method == 'OPTIONS':
+            return _add_cors(HttpResponse(status=204))
+        if request.method not in ('GET', 'HEAD'):
+            refus = _json({'error': 'method not allowed',
+                           'allowed': ['GET', 'OPTIONS']}, status=405)
+            refus['Allow'] = 'GET, OPTIONS'
+            return refus
+        return view(request, *args, **kwargs)
+    return enveloppe
+
+
+def _absent(quoi):
+    """Un 404 qui reste du JSON, et que le navigateur a le droit de lire.
+
+    `raise Http404` partait dans le gestionnaire d'erreur du site : 31 532
+    octets de HTML, Content-Type text/html, et aucun en-tete CORS -- donc un
+    consommateur navigateur ne peut meme pas distinguer « ce build n'existe
+    pas » d'une panne reseau.
+    """
+    return _json({'error': 'not found', 'resource': quoi}, status=404)
 
 
 def _creator(char, alias_map):
@@ -93,7 +136,7 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
     return payload
 
 
-@require_GET
+@_api_endpoint
 @cache_page(300)
 def api_meta(request):
     return _json({
@@ -111,7 +154,7 @@ def api_meta(request):
 MAX_PAGE = 100000
 
 
-@require_GET
+@_api_endpoint
 @cache_page(60)
 def api_shared_builds(request):
     game_version = request.GET.get('game_version', 'dofus3')
@@ -163,13 +206,13 @@ def api_shared_builds(request):
     })
 
 
-@require_GET
+@_api_endpoint
 @cache_page(60)
 def api_shared_build_detail(request, encoded_id):
     try:
         char_id = decode_char_id(encoded_id)
     except Exception:
-        raise Http404
+        return _absent('shared build')
     try:
         char = (Char.objects
                 .select_related('owner')
@@ -181,7 +224,7 @@ def api_shared_build_detail(request, encoded_id):
                 )
                 .get(id=char_id, link_shared=True, deleted=False))
     except Char.DoesNotExist:
-        raise Http404
+        return _absent('shared build')
 
     alias_map = {}
     if char.owner_id:
@@ -194,7 +237,7 @@ def api_shared_build_detail(request, encoded_id):
     return _json(payload)
 
 
-@require_GET
+@_api_endpoint
 @cache_page(60)
 def api_tier_list(request):
     game_version = request.GET.get('game_version', 'dofus3')
