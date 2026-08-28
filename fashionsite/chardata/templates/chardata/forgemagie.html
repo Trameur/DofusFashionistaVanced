@@ -66,7 +66,7 @@
             </div>
             <div class="fm-quality" id="fm-quality" style="display:none;"></div>
             <div class="fm-exo-row">
-                <span>{{ t.wb_add_exo }}:</span>
+                <label for="fm-exo-select">{{ t.wb_add_exo }}:</label>
                 <select class="pretty-input" id="fm-exo-select"></select>
                 <button type="button" class="button-thin" id="fm-exo-add">{{ t.wb_add }}</button>
             </div>
@@ -124,7 +124,7 @@
             <div class="fm-sim-controls">
                 <div class="fm-sim-suggestion" id="fm-sim-suggestion"></div>
                 <div class="fm-exo-row">
-                    <span>{{ t.sim_rune_label }}:</span>
+                    <label for="fm-sim-rune-select">{{ t.sim_rune_label }}:</label>
                     <select class="pretty-input" id="fm-sim-rune-select"></select>
                     <span id="fm-sim-chance" class="small-explain"></span>
                 </div>
@@ -144,7 +144,8 @@
                 <div class="fm-section-title" id="fm-trans-title"></div>
                 <div class="small-explain" id="fm-trans-intro"></div>
                 <div class="fm-exo-row">
-                    <select class="pretty-input" id="fm-trans-stat"></select>
+                    <select class="pretty-input" id="fm-trans-stat"
+                            aria-labelledby="fm-trans-title"></select>
                 </div>
                 <div id="fm-trans-options"></div>
                 <div class="small-explain fm-warn" id="fm-trans-msg"></div>

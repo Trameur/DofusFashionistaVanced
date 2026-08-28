@@ -53,11 +53,11 @@
 <div align="center">
     <table>
     <tr>
-        <td align="right"><span class="big-text" style="vertical-align: top;">{% trans "Username" %}: </span></td>
+        <td align="right"><label class="big-text" for="login-username" style="vertical-align: top;">{% trans "Username" %}: </label></td>
         <td align="left"><input class="pretty-input" type="text" id="login-username" name="username"> </td>
     </tr>
     <tr>
-        <td align="right"><span class="big-text" style="vertical-align: top;">{% trans "Password" %}: </span></td>
+        <td align="right"><label class="big-text" for="login-password" style="vertical-align: top;">{% trans "Password" %}: </label></td>
         <td align="left"><input class="pretty-input trigger-enter" type="password" id="login-password" name="password"> 
         <br>
         <label id="incorrect-password-error"></label></td>
@@ -122,24 +122,24 @@
             {% csrf_token %}
             <table>
             <tr>
-                <td align="right"><span class="big-text" style="vertical-align: top;">{% trans "Username" %}: </span></td>
+                <td align="right"><label class="big-text" for="register-username" style="vertical-align: top;">{% trans "Username" %}: </label></td>
                 <td align="left"><input class="pretty-input" type="text" name="username" id="register-username" size="30" maxlength="50">  
                 <br>
                 <label id="username-taken-error"></label></td>
             </tr>
             <tr>
                 <input type="hidden" name="password" id="password-actual">
-                <td align="right"><span class="big-text" style="vertical-align: top;">{% trans "Password" %}: </span></td>
+                <td align="right"><label class="big-text" for="password" style="vertical-align: top;">{% trans "Password" %}: </label></td>
                 <td align="left"><input class="pretty-input" type="password" size="30" id="password" > </td>
             </tr>
             <tr>
-                <td align="right"><span class="big-text" style="vertical-align: top;">{% trans "Confirm Password" %}: </span></td>
+                <td align="right"><label class="big-text" for="password-confirm" style="vertical-align: top;">{% trans "Confirm Password" %}: </label></td>
                 <td align="left"><input class="pretty-input" type="password" id="password-confirm" size="30"> 
                 <br>
                 <label id="password-error"></label></td>
             </tr>
             <tr>
-                <td align="right"><span class="big-text" style="vertical-align: top;">{% trans "Email" %}: </span></td>
+                <td align="right"><label class="big-text" for="email" style="vertical-align: top;">{% trans "Email" %}: </label></td>
                 <td align="left"><input class="pretty-input trigger-register" type="text" name="email" id="email" size="30" maxlength="254"> 
                 <br>
                 <label id="email-error"></label></td>

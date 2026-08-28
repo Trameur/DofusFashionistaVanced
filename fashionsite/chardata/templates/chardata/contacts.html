@@ -57,7 +57,7 @@
             <table style="width: 450px;">
             <tr>
             <td class='input-stat-name' style="width: 130px;">
-                {% trans "Name" %}: <label style="font-size: 11px; vertical-align: top;">({% trans "optional" %})</label>
+                <label for="name">{% trans "Name" %}:</label> <span style="font-size: 11px; vertical-align: top;">({% trans "optional" %})</span>
             </td>
             <td style="vertical-align: top;">
                 <input type="text" name="name" class="pretty-input" value="{% if useralias %}{{useralias}}{% else %}{{ user.get_full_name }}{% endif %}" id="name" style="width:250px;" />
@@ -65,7 +65,7 @@
             </tr>
             <tr>
             <td class='input-stat-name' style="width: 130px;">
-                {% trans "Email" %}: <label style="font-size: 11px; vertical-align: top;">({% trans "optional" %})</label>
+                <label for="Email">{% trans "Email" %}:</label> <span style="font-size: 11px; vertical-align: top;">({% trans "optional" %})</span>
             </td>
             <td style="vertical-align: top;">
                 <input type="text" name="email" class="pretty-input" value="{{ known_email }}" id="Email" style="width:250px;" />
@@ -78,7 +78,7 @@
             <table style="width: 450px;">
             <tr>
             <td class='input-stat-name' style="width: 80px;">
-                <br><label id="id_subject">{% trans "Subject" %}:</label>
+                <br><label id="id_subject" for="subject">{% trans "Subject" %}:</label>
             </td>
             <td>
                 <br><input name="topic" value="" class="pretty-input" autocomplete="off" required="required" id="subject" style="width:300px;" /><br>
@@ -88,8 +88,8 @@
             <table style="width: 450px;">
             <tr>
             <td class='input-stat-name'>
-                <br><label id="id_message">{% trans "Message" %}:</label><br>
-                <textarea name="message" class="pretty-input" required="required" rows="8" cols="47" maxlength="10000"></textarea>
+                <br><label id="id_message" for="message-field">{% trans "Message" %}:</label><br>
+                <textarea name="message" id="message-field" class="pretty-input" required="required" rows="8" cols="47" maxlength="10000"></textarea>
             </td>
             </tr>
             </table>

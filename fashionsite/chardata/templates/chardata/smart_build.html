@@ -39,7 +39,7 @@
 
 {% block main %}
     <div class="smart-wrap">
-        <h1>{% trans "Smart Build" %}</h1>
+        <h1 id="smart-title">{% trans "Smart Build" %}</h1>
         <p class="smart-intro">
             {% trans "Describe your character in plain words (class, level, element, playstyle), and we'll build it. Works in English, French, Spanish, Portuguese and German." %}
         </p>
@@ -58,6 +58,7 @@
         <form method="post" class="smart-form">
             {% csrf_token %}
             <input type="text" name="q" id="smart_q" class="smart-input pretty-input"
+                   aria-labelledby="smart-title"
                    value="{{ query }}" autofocus
                    placeholder="{% trans 'e.g. Iop 200 earth PvM' %}" required>
             <button type="submit" class="button-generic">{% trans "Build it" %}</button>

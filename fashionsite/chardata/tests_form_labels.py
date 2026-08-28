@@ -16,8 +16,19 @@ import re
 
 from django.test import TestCase
 
+#: Quatre pages ajoutees le 28 aout 2026, apres avoir mesure la production :
+#: vingt champs sur quarante-cinq n'avaient aucun nom accessible, et ce module
+#: n'en visitait aucun. Le formulaire de CONNEXION etait le pire -- six champs
+#: sur sept, les deux mots de passe compris : un lecteur d'ecran annoncait deux
+#: fois « zone de texte » sans dire laquelle recevait le mot de passe.
+#:
+#: Les libelles existaient et etaient traduits dans les quatre cas ; ils
+#: n'etaient simplement pas attaches. La meme phrase ouvre ce fichier, ecrite
+#: pour /setup/ il y a un jour : la faute ne se corrige pas une fois, elle se
+#: garde. D'ou l'ajout ici plutot qu'un second module a cote.
 PAGES = ('/', '/encyclopedia/', '/encyclopedia/sets/',
-         '/encyclopedia/monsters/', '/sharedbuilds/', '/setup/')
+         '/encyclopedia/monsters/', '/sharedbuilds/', '/setup/',
+         '/login_page/', '/contact/', '/forgemagie/', '/smartbuild/')
 NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
               '(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36')
 #: Ces types portent leur nom autrement : un bouton par sa valeur, une case a
