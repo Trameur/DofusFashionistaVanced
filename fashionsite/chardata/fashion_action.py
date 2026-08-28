@@ -140,7 +140,14 @@ def fashion(request, char_id, spells=False):
                 stats = model.get_stats()
                 result = model.get_result_minimal()
             return_model(model)
-        MEMORY.put(model_input, (model.get_solved_status(), stats, result))
+        # `solved_status` et non `model.get_solved_status()` : le modele
+        # vient d etre remis dans la file partagee, et le relire ensuite
+        # est une lecture apres liberation. Avec les workers synchrones
+        # d aujourd hui rien ne peut s intercaler, donc la valeur est la
+        # meme -- mais un `--threads` ajoute a gunicorn armerait la course
+        # sans que personne relie les deux, et la memoire garderait le
+        # statut d une AUTRE requete.
+        MEMORY.put(model_input, (solved_status, stats, result))
 
     if result is None:
         return HttpResponseRedirect(version_reverse(request, 'infeasible', char.id))
