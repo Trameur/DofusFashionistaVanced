@@ -40,6 +40,7 @@ from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
+from fashionistapulp.modelresult import get_item_in_slot
 from fashionistapulp.structure import (get_current_game_version, get_structure,
                                        set_current_game_version)
 from fashionistapulp.translation import get_supported_language
@@ -91,7 +92,7 @@ def _get_preview_items(minimal_solution, structure, game_version):
         item_id = item_per_slot.get(slot)
         if item_id is None:
             continue
-        item = structure.get_item_by_id(item_id)
+        item = get_item_in_slot(structure, item_id, slot)
         if item is None:
             continue
         preview_items.append({
@@ -178,7 +179,7 @@ def _get_shared_build_meta(char):
             if item_id is None:
                 continue
 
-            item = structure.get_item_by_id(item_id)
+            item = get_item_in_slot(structure, item_id, slot)
             if item is None:
                 meta['has_missing_items'] = True
                 meta['has_outdated_slots'] = True

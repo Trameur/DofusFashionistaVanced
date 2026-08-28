@@ -11,6 +11,7 @@ from chardata.image_store import get_image_url
 from chardata.models import SolutionGeneration
 from chardata.solution import get_solution_from_blob
 from fashionistapulp.dofus_constants import SLOTS
+from fashionistapulp.modelresult import get_item_in_slot
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
@@ -63,7 +64,7 @@ def get_generation_preview_items(generation, limit=12):
         item_id = (getattr(minimal_solution, 'item_per_slot', {}) or {}).get(slot)
         if item_id is None:
             continue
-        item = structure.get_item_by_id(item_id)
+        item = get_item_in_slot(structure, item_id, slot)
         if item is None:
             continue
         preview_items.append({

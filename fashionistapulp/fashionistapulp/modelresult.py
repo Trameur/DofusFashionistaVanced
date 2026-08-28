@@ -118,6 +118,34 @@ class ModelResultMinimal():
         for stat in scrolled:
             self.input.get('base_stats_by_attr')[stat] = scrolled[stat]
 
+#: Ankama reclassified a number of pets as mounts, and the catalogue gives
+#: mounts an id space of their own -- MOUNT_ID_OFFSET + ankama_id instead of
+#: the bare ankama_id (itemscraper/get_equipments3.py). A build saved before
+#: that reclassification kept the old number, which designates nothing today,
+#: and its pet quietly vanished from the page.
+MOUNT_ID_OFFSET = 1000000
+
+
+def get_item_in_slot(structure, item_id, slot):
+    """The item a stored build meant for this slot, or None.
+
+    The fallback into the mount id space is accepted only when what it finds
+    is of the type the slot takes. A number that lands on something there by
+    coincidence is refused rather than shown as gear the author never chose.
+    """
+    item = structure.get_item_by_id(item_id)
+    if item is not None:
+        return item
+    if not isinstance(item_id, int):
+        return None
+    moved = structure.get_item_by_id(item_id + MOUNT_ID_OFFSET)
+    if moved is None:
+        return None
+    if structure.get_type_name_by_id(moved.type) != SLOT_NAME_TO_TYPE.get(slot):
+        return None
+    return moved
+
+
 def model_result_from_minimal(minimal, stat_overrides=None):
     structure = get_structure()
     if hasattr(minimal, 'stats'):
@@ -126,8 +154,10 @@ def model_result_from_minimal(minimal, stat_overrides=None):
         result = ModelResult(minimal.input)
 
     for slot, item_id in minimal.item_per_slot.items():
-        if item_id is not None and structure.get_item_by_id(item_id):
-            result.add_item_at_slot(structure.get_item_by_id(item_id), slot, stat_overrides)
+        item = (get_item_in_slot(structure, item_id, slot)
+                if item_id is not None else None)
+        if item is not None:
+            result.add_item_at_slot(item, slot, stat_overrides)
         else:
             if item_id is not None:
                 logger.warning('Missing item in structure for slot=%s item_id=%s', slot, item_id)
