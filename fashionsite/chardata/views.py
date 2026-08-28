@@ -26,7 +26,8 @@ from chardata.anon_projects import get_anon_char_id
 from chardata.min_stats import minimums_above_their_cap
 from chardata.models import Char
 from chardata.solution import get_solution
-from chardata.util import set_response, version_reverse
+from chardata.util import (get_char_or_raise, set_response,
+                           version_reverse)
 from chardata.themes import get_needle_URL
 
 
@@ -87,7 +88,13 @@ def load_a_project(request, char_id):
     return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
                                               
 def infeasible(request, char_id=0):
-    char = get_object_or_404(Char, pk=char_id)
+    # Cette page affiche le projet : son nom remonte dans l en-tete
+    # de base.html, et `over_cap` nomme les minimums du personnage.
+    # `get_object_or_404` la servait a qui connaissait un identifiant,
+    # anonyme compris, alors que /setup/ du meme personnage repondait
+    # 403. get_char_or_raise porte la meme regle que le reste du site,
+    # y compris pour un proprietaire anonyme (owns_anon_char).
+    char = get_char_or_raise(request, char_id)
     return set_response(request, 
                         'chardata/infeasible.html', 
                         {'request': request,
