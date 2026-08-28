@@ -1,10 +1,13 @@
 
+import logging
 import re
 
 from django.db.models import F
 from django.utils import timezone, translation
 
 from fashionistapulp.structure import set_current_game_version
+
+logger = logging.getLogger(__name__)
 
 GAME_VERSION_PREFIXES = {'beta', 'retro', 'touch', 'dofus2'}
 
@@ -200,7 +203,14 @@ class PageHitMiddleware:
         try:
             self.count(request, response)
         except Exception:
-            pass
+            # Swallowed on purpose: a counter must never take a page down.
+            # But swallowed silently, it can stop counting for days without
+            # anything saying so -- and a gap in the series is indistinguishable
+            # from a day nobody came. Warning, not error: this logger reaches
+            # mail_admins at ERROR, and a broken counter would mail on every
+            # request.
+            logger.warning('page hit not counted for %s', request.path_info,
+                           exc_info=True)
         return response
 
     def count(self, request, response):
