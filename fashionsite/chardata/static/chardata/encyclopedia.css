@@ -222,6 +222,24 @@ html.fm-dark .encyclopedia-card-stat-negative {
 .encyclopedia-page-link {
     display: inline-block;
 }
+/* Les numeros de page mesuraient 10 x 22 px dans une fenetre de 375, sans
+   padding : sur un telephone, toucher « 5 » plutot que « 6 » est un tirage au
+   sort. Le minimum publie est 24 x 24 px, et la pagination de /sharedbuilds/
+   le respecte deja (padding 8px 12px, mesuree a 51 x 78).
+   Mesure de la regle ci-dessous sur la page reelle avant de l'ecrire : les dix
+   elements passent de 10 x 22 a 24 x 30, aucun ne reste sous le seuil, et la
+   rangee tient encore sur UNE ligne -- 282 px de contenu pour 307 disponibles.
+   Un padding plus genereux (4px 8px) la faisait passer a deux lignes.
+   La regle vise les enfants directs, pas la classe : `encyclopedia-page-link`
+   sert aussi aux liens « Ouvrir les details » du corps de page, qui n'ont rien
+   a voir avec la pagination. */
+.encyclopedia-pagination > * {
+    min-width: 24px;
+    min-height: 24px;
+    padding: 4px 6px;
+    text-align: center;
+    box-sizing: border-box;
+}
 .encyclopedia-page-link-current {
     font-weight: 700;
 }
