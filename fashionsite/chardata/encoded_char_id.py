@@ -20,6 +20,7 @@ import base64
 import binascii
 import hashlib
 from django.conf import settings
+from django.utils.crypto import constant_time_compare
 
 SECRET_PART_1 = settings.GEN_CONFIGS['char_id_SECRET_PART_1']
 SECRET_PART_2 = settings.GEN_CONFIGS['char_id_SECRET_PART_2']
@@ -42,6 +43,10 @@ def decode_char_id(encoded_char_id):
     except (ValueError, binascii.Error):
         return None
     signature = half_decoded_id[-4:]
-    if signature != _sign(candidate_id):
+    # Comparaison en temps constant, comme le fait deja login_view pour le
+    # jeton de reinitialisation. Sur quatre octets et a travers le reseau la
+    # difference n est pas exploitable en pratique -- c est une question de
+    # coherence et de cout nul, pas une faille qu on referme.
+    if not constant_time_compare(signature, _sign(candidate_id)):
         return None
     return candidate_id

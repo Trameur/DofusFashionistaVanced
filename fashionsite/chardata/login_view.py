@@ -218,7 +218,12 @@ def check_your_email(request):
                         {'request': request})
 
 def confirm_email(request, username, confirmation_token):
-    if confirmation_token != _generate_token_for_user(username):
+    # Meme comparaison en temps constant que pour le jeton de
+    # reinitialisation, trois fonctions plus bas. Ce jeton n ouvre qu une
+    # action idempotente -- activer un compte -- donc la portee est faible ;
+    # l incoherence dans un meme fichier l etait moins.
+    if not constant_time_compare(confirmation_token,
+                                 _generate_token_for_user(username)):
         return HttpResponseText('invalid token')
     
     users = User.objects.filter(username=username)
