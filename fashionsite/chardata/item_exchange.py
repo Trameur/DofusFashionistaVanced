@@ -392,6 +392,11 @@ def switch_item(request, char_id):
     if item is None:
         # switch_item(None, slot) silently empties the slot.
         return HttpResponseBadRequest()
+    if structure.get_type_name_by_id(item.type) != SLOT_NAME_TO_TYPE[slot]:
+        # The picker only offers items of the slot's own type, and the solver
+        # only ever fills a slot with that type. Anything else builds gear the
+        # game cannot wear, and shared builds are public pages.
+        return HttpResponseBadRequest()
     result = get_solution(char)
     result.switch_item(item, slot,
                        get_effective_stat_overrides(char) or None)
