@@ -21,6 +21,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 from chardata.character_look import PREVIEW_SIZES, preview_is_on
 from chardata.models import UserAlias
@@ -60,6 +61,7 @@ def manage_account(request):
                          'preview_is_on': preview_is_on()})
 
 
+@require_POST
 def save_account(request):
     # The browser maxlength doesn't guard direct POSTs.
     form_alias = request.POST.get('alias', '')

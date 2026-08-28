@@ -23,6 +23,7 @@ from chardata.util import set_response, safe_int, get_char_or_raise, HttpRespons
 from fashionistapulp.dofus_constants import STAT_ORDER
 from fashionistapulp.structure import get_structure
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_POST
 from static_s3.templatetags.static_s3 import static
 
 
@@ -126,6 +127,7 @@ def min_stats(request, char_id):
                         char)
 
 
+@require_POST
 def min_stats_post(request, char_id):
     char = get_char_or_raise(request, char_id)
     structure = get_structure()

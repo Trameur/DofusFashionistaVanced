@@ -109,6 +109,7 @@ def get_item_details(request):
 
     return HttpResponseJson(json_response)
 
+@require_POST
 def inclusions_post(request, char_id):
     char = get_char_or_raise(request, char_id)
 
@@ -125,6 +126,7 @@ def inclusions_post(request, char_id):
 
     return HttpResponseJson(json.dumps(inclusions))
 
+@require_POST
 def set_item_stat_override_view(request, char_id):
     char = get_char_or_raise(request, char_id)
 

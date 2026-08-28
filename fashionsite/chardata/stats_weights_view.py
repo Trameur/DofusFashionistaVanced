@@ -18,6 +18,7 @@ import json
 
 from chardata.stats_weights import get_stats_weights, set_stats_weights
 from chardata.util import set_response, safe_int, get_char_or_raise, HttpResponseJson
+from django.views.decorators.http import require_POST
 from fashionistapulp.structure import get_structure
 
 
@@ -35,6 +36,7 @@ def stats(request, char_id):
                         char)
 
 
+@require_POST
 def stats_post(request, char_id):
     char = get_char_or_raise(request, char_id)
 

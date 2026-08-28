@@ -154,6 +154,7 @@ def _get_class_to_name():
             {str(v): k for k, v in LOCALIZED_CHARACTER_CLASSES.items()}
     return _memoized_class_to_name[language]
 
+@require_POST
 def save_project(request, char_id=0):
     char_id = int(char_id)
     char = get_char_or_raise(request, char_id)
@@ -205,6 +206,7 @@ def _wanted_item(request, game_version):
     return _checked_item(request.GET.get('item'), game_version)
 
 
+@require_POST
 def create_project(request):
     state = _get_state_from_post(request)
 

@@ -23,6 +23,7 @@ from chardata.lock_forbid import add_items_to_exclusions, remove_items_from_excl
 from chardata.options import get_options, set_options, DOFUS_OPTIONS,\
     get_dofus_not_for_char, get_available_options
 from chardata.util import safe_int, set_response, get_char_or_raise, HttpResponseJson
+from django.views.decorators.http import require_POST
 from fashionistapulp.structure import get_structure
 from chardata.views import forbidden
 
@@ -86,6 +87,7 @@ def options(request, char_id):
                         context,
                         char)
 
+@require_POST
 def options_post(request, char_id):
     char = get_char_or_raise(request, char_id)
 

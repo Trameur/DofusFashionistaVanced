@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from django.http import Http404, HttpResponseBadRequest, HttpResponseRedirect
+from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404
 from django.db.models import Count, F
 from django.core.cache import cache
@@ -767,6 +768,7 @@ def _item_id_for_name(structure, item_name):
     return branches[0].id if branches else None
 
 
+@require_POST
 def set_item_locked(request, char_id):
     char = get_char_or_raise(request, char_id)
         
@@ -788,6 +790,7 @@ def set_item_locked(request, char_id):
     
     return HttpResponseText('ok')
 
+@require_POST
 def set_char_gender(request, char_id):
     """Only the preview reads this, so nothing about the build changes."""
     char = get_char_or_raise(request, char_id)
@@ -798,6 +801,7 @@ def set_char_gender(request, char_id):
     return HttpResponseJson(json.dumps(look or {}))
 
 
+@require_POST
 def set_char_colors(request, char_id):
     """Preview only, never the build."""
     char = get_char_or_raise(request, char_id)
@@ -810,6 +814,7 @@ def set_char_colors(request, char_id):
     return HttpResponseJson(json.dumps(look or {}))
 
 
+@require_POST
 def set_char_hidden(request, char_id):
     """Which pieces the preview leaves off. The solution keeps them all."""
     char = get_char_or_raise(request, char_id)
@@ -820,6 +825,7 @@ def set_char_hidden(request, char_id):
     return HttpResponseJson(json.dumps(look or {}))
 
 
+@require_POST
 def set_item_forbidden(request, char_id):
     char = get_char_or_raise(request, char_id)
         
@@ -839,6 +845,7 @@ def set_item_forbidden(request, char_id):
 
     return HttpResponseText('ok')
 
+@require_POST
 def set_slot_lock_empty(request, char_id):
     char = get_char_or_raise(request, char_id)
 

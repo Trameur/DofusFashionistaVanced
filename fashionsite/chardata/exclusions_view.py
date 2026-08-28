@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from django.http import HttpResponseBadRequest
+from django.views.decorators.http import require_POST
 from django.utils.translation import gettext_lazy
 
 import json
@@ -85,6 +86,7 @@ def exclusions(request, char_id):
                         char)
 
 
+@require_POST
 def exclusions_post(request, char_id):
     char = get_char_or_raise(request, char_id)
     
