@@ -45,13 +45,23 @@ DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral
 # effect on Retro; the site has shown it under Ankama's own wording, "% de
 # dommages", since bb3dbcd11. Same internal stat, different label per version.
 #
-# LEFT OUT ON PURPOSE, each for want of a buff key the model does not have:
-# 112 "+X de dommages" (flat Damage), 111 "+X PA", 128 "+X PM", 117 "+X a la
-# portee", 115 "+X aux coups critiques", 178 "+X de soins". 23 further class
-# spells carry only those, among them the Cra's "Maitrise de l'Arc" and the
-# Ecaflip's "Odorat". Adding them means deciding whether a full self-buff may
-# hand a build AP and MP, which is a question for the four versions at once,
-# not a Retro detail.
+# LEFT OUT ON PURPOSE: 112 "+X de dommages" (flat Damage), 111 "+X PA", 128
+# "+X PM", 117 "+X a la portee", 115 "+X aux coups critiques", 178 "+X de
+# soins". 23 further class spells carry only those, among them the Cra's
+# "Maitrise de l'Arc" and the Ecaflip's "Odorat".
+#
+# NOT for want of a key: `dam`, `ap` and `mp` are all three in the 64-stat
+# structure of every version, Retro included, so 'buff_dam' would reach the
+# turn the way 'buff_str' does. Measured 2026-08-31 with get_structure.
+#
+# The reason is that no version credits a self-buff of that kind, so adding
+# one here would make Retro the only version that does. Counted the same day
+# over the four generated tables: zero buff_dam, zero buff_ap, zero buff_mp.
+# What they do carry is buff_pow, buff_str, buff_int, buff_cha, buff_agi,
+# buff_vit, buff_wis, buff_pshdam, buff_final and buff_finalheals.
+#
+# So it stays a question for the four versions at once, not a Retro detail:
+# whether a spell may hand a build AP, MP and flat Damage it does not wear.
 CHARACTERISTIC_EFFECTS = {118: 'buff_str', 119: 'buff_agi', 123: 'buff_cha',
                           126: 'buff_int', 125: 'buff_vit', 138: 'buff_pow'}
 ROW_EFFECTS = dict(DAMAGE_EFFECTS)

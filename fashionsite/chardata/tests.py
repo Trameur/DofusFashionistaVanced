@@ -12490,9 +12490,20 @@ class DataPipelineImportsTests(SimpleTestCase):
         chemins = (self.REPO,) + tuple(extra_path)
         prologue = ['import sys'] + [
             'sys.path.insert(0, %r)' % p for p in reversed(chemins)]
+        # The child must not inherit the PYTHONPATH the suite was launched with.
+        # <repo>/fashionistapulp is on it, and the inner fashionistapulp/ carries
+        # an __init__.py while the outer one does not: a regular package found
+        # there beats the namespace portion this prologue puts first, so the name
+        # binds to the inner package and fashionistapulp.fashionistapulp stops
+        # existing. All three tests below then failed under the suite's own
+        # documented command while the pipeline they guard was fine. A pipeline
+        # runs with no PYTHONPATH (see itemscraper/store_item_skins.py), so that
+        # is the environment they get.
+        env = dict(os.environ)
+        env.pop('PYTHONPATH', None)
         return subprocess.run(
             [sys.executable, '-c', self.NL.join(prologue + list(lines))],
-            capture_output=True, text=True, cwd=self.REPO)
+            capture_output=True, text=True, cwd=self.REPO, env=env)
 
     def test_config_resolves_every_version_in_the_pipeline_layout(self):
         done = self._run_as_pipeline([
