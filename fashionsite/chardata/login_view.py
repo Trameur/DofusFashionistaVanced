@@ -29,7 +29,6 @@ from django.core.signing import (BadSignature, SignatureExpired,
                                  TimestampSigner)
 from django.utils.crypto import constant_time_compare, salted_hmac
 from django.utils.http import url_has_allowed_host_and_scheme
-from smtplib import SMTPRecipientsRefused, SMTPException
 from social_django.models import UserSocialAuth
 import hashlib
 import logging
@@ -198,7 +197,10 @@ def register(request):
                     'account.') + '\n' + link,
                   _get_from_email(),
                   [email])
-    except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
+    # smtplib.SMTPException derive d'OSError, mais une connexion refusee
+    # ou un delai depasse remonte en OSError nu : sans lui, un serveur de
+    # courrier injoignable rendait 500 au lieu de cette page.
+    except (BadHeaderError, OSError):
         logger.exception('Registration email could not be sent to %s', email)
         user.delete()
         return set_response(request,
@@ -271,6 +273,14 @@ def local_login(request):
         else:
             return HttpResponseText('confirm-email')
     else:
+        # ModelBackend refuse un compte inactif AVANT de le rendre, donc la
+        # branche 'confirm-email' ci-dessus ne pouvait jamais etre atteinte :
+        # quelqu'un qui venait de s'inscrire sans cliquer le lien s'entendait
+        # dire que son mot de passe etait faux, et recommencait. Un mot de
+        # passe juste n'est pas un echec, donc il n'est pas compte.
+        pending = User.objects.filter(username=username, is_active=False).first()
+        if pending is not None and pending.check_password(password):
+            return HttpResponseText('confirm-email')
         note_login_failure(request, username)
         return HttpResponseText('invalid')
 
@@ -352,7 +362,10 @@ def _recover_password_page(request, email, from_register):
                         username=username, link=link),
                   _get_from_email(),
                   [email])
-    except (BadHeaderError, SMTPRecipientsRefused, SMTPException):
+    # smtplib.SMTPException derive d'OSError, mais une connexion refusee
+    # ou un delai depasse remonte en OSError nu : sans lui, un serveur de
+    # courrier injoignable rendait 500 au lieu de cette page.
+    except (BadHeaderError, OSError):
         logger.exception('Password recovery email could not be sent to %s', email)
         return set_response(request,
                             'chardata/recover_password.html',
