@@ -22,6 +22,25 @@ from pathlib import Path
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 
+# THE ONE DAMAGE FAMILY THIS FILE STILL CANNOT READ, screened 2026-08-31 over
+# the 252 class spells against Ankama's own effects_fr.json: 88 and 89,
+# "Dommages : #1 a #2% de la vie de l'attaquant" (fire and neutral), and 672,
+# which carries the neutral wording a second time. Seven class spells use them.
+#
+# Three are absent from the generated table for want of any other row: the
+# Eniripsa's "Mot Drainant" (123) and "Mot Stimulant" (126), and the Sacrieur's
+# "Punition" (446). Four are in it and lose only this row, so their damage is
+# understated: "Roue de la Fortune" (106), "Contrecoup" (111), "Mutilation"
+# (149) and "Furie" (447).
+#
+# Not an oversight and not a one-line fix: a row here is a fixed range baked in
+# per level, while these deal a share of the CASTER's health, which is a
+# property of the build and not of the spell. Carrying them means a new kind of
+# row that reaches the damage computation with the character's Vitality, and
+# then a first-hand answer on whether Power and Damage apply to it. Every other
+# unread id is a heal, a summon, a trap, a glyph, a state or a displacement.
+
+
 # Characteristic effects, read since 2026-08-27.
 #
 # This file used to read only the ten ids above, so the class self-buffs of
