@@ -27563,3 +27563,65 @@ class PaginationReachesEveryPageTests(TestCase):
         self.assertTrue(
             stride, 'page 1 links %s and no multiple of ten, so the long '
             'jumps are not on the page' % sorted(linked)[:8])
+
+
+class AnUnknownThemeCookieStillGetsRealStylesheetsTests(SimpleTestCase):
+    """The two theme cookies come from the visitor and become file names.
+
+    set_theme has always sanitised them on the way in. Nothing sanitised them
+    on the way out, so a `theme` cookie holding anything else made all eight
+    stylesheet paths point at files that do not exist: the site came back with
+    no styling at all, on every page, until the cookie was cleared. Renaming a
+    theme would have done that to everyone who had visited before the rename.
+    """
+
+    STATIC = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), 'static')
+
+    def _request(self, **cookies):
+        from django.test import RequestFactory
+        request = RequestFactory().get('/')
+        request.COOKIES.update(cookies)
+        return request
+
+    def test_an_invented_theme_falls_back_to_the_default(self):
+        from chardata.themes import get_theme
+        from fashionsite.settings import DEFAULT_THEME
+        for value in ('bluetheme', '', '../../etc/passwd', 'LIGHTTHEME'):
+            self.assertEqual(
+                get_theme(self._request(theme=value)), DEFAULT_THEME,
+                'the reader kept %r, which becomes a file name' % value)
+
+    def test_the_three_real_themes_still_come_back_untouched(self):
+        from chardata.themes import get_theme, ALLOWED_THEMES
+        for value in sorted(ALLOWED_THEMES):
+            self.assertEqual(get_theme(self._request(theme=value)), value)
+
+    def test_an_invented_theme_still_names_stylesheets_that_exist(self):
+        from chardata.themes import CSS_NAMES, get_css_for_theme, get_theme
+        request = self._request(theme='bluetheme')
+        sheets = get_css_for_theme(get_theme(request), request)
+        missing = [sheets[name] for name in CSS_NAMES
+                   if not os.path.isfile(os.path.join(
+                       self.STATIC, sheets[name].replace('/', os.sep)))]
+        self.assertEqual(
+            missing, [], '%d of the %d stylesheets a page loads point at '
+            'nothing, so it renders unstyled' % (len(missing), len(CSS_NAMES)))
+
+    def test_an_invented_current_auto_still_names_stylesheets_that_exist(self):
+        from chardata.themes import CSS_NAMES, get_css_for_theme
+        request = self._request(theme='auto', current_auto='chartreuse')
+        sheets = get_css_for_theme('auto', request)
+        missing = [sheets[name] for name in CSS_NAMES
+                   if not os.path.isfile(os.path.join(
+                       self.STATIC, sheets[name].replace('/', os.sep)))]
+        self.assertEqual(missing, [], 'the auto theme followed the cookie')
+
+    def test_the_two_real_auto_values_still_come_back_untouched(self):
+        from chardata.themes import CSS_NAMES, get_css_for_theme
+        for value in ('lighttheme', 'darktheme'):
+            request = self._request(theme='auto', current_auto=value)
+            sheets = get_css_for_theme('auto', request)
+            self.assertTrue(
+                sheets[CSS_NAMES[0]].endswith('_%s.css' % value),
+                'the reader dropped a value the writer allows: %r' % value)

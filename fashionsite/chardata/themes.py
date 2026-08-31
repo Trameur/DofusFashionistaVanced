@@ -19,15 +19,32 @@ from static_s3.templatetags.static_s3 import static
 
 CSS_NAMES = ['changelog', 'common', 'compare', 'exclusions', 'forms', 'home', 'solution', 'spells']
 
+# What the two theme cookies may hold. set_theme has sanitised them on the way
+# in since it was written; nothing sanitised them on the way out, and these
+# values become file names one line below. A `theme` cookie holding anything
+# else made all eight stylesheets point at files that do not exist, so the
+# visitor got the site with no styling at all and no way to guess why, on every
+# page, until the cookie was cleared. Renaming a theme would have done it to
+# everyone who had visited before the rename.
+#
+# They live here, next to the code that turns them into file names, and util.py
+# imports them, so the way in and the way out cannot drift apart.
+ALLOWED_THEMES = {'auto', 'lighttheme', 'darktheme'}
+ALLOWED_CURRENT_AUTO = {'lighttheme', 'darktheme'}
+
+
+def _cookie_choice(request, name, allowed, default):
+    """A cookie the visitor controls, kept to a value this code understands."""
+    value = request.COOKIES.get(name)
+    return value if value in allowed else default
+
 def get_css_for_theme(theme, request):
     theme_css = {}
     if theme == 'auto':
+        auto_theme = _cookie_choice(request, 'current_auto',
+                                    ALLOWED_CURRENT_AUTO, 'darktheme')
         for css in CSS_NAMES:
-            if 'current_auto' in request.COOKIES: 
-                auto_theme = request.COOKIES['current_auto']
-                theme_css[css] = "chardata/%s_%s.css" % (css, auto_theme)
-            else:
-                theme_css[css] = "chardata/%s_%s.css" % (css, 'darktheme')         
+            theme_css[css] = "chardata/%s_%s.css" % (css, auto_theme)
     else:
         for css in CSS_NAMES:
             theme_css[css] = "chardata/%s_%s.css" % (css, theme)
@@ -39,12 +56,10 @@ def get_css_for_theme(theme, request):
 def get_css_static_for_theme(theme, request):
     theme_css = {}
     if theme == 'auto':
+        auto_theme = _cookie_choice(request, 'current_auto',
+                                    ALLOWED_CURRENT_AUTO, 'darktheme')
         for css in CSS_NAMES:
-            if 'current_auto' in request.COOKIES: 
-                auto_theme = request.COOKIES['current_auto']
-                theme_css[css] = static("chardata/%s_%s.css" % (css, auto_theme))
-            else: 
-                theme_css[css] = static("chardata/%s_%s.css" % (css, 'darktheme'))
+            theme_css[css] = static("chardata/%s_%s.css" % (css, auto_theme))
             theme_css['%s%s' % (css, 'lighttheme')] = static("chardata/%s_%s.css" % (css, 'lighttheme'))
             theme_css['%s%s' % (css, 'darktheme')] = static("chardata/%s_%s.css" % (css, 'darktheme'))
     else:
@@ -53,10 +68,7 @@ def get_css_static_for_theme(theme, request):
     return theme_css
 
 def get_theme(request):
-    theme = DEFAULT_THEME;
-    if 'theme' in request.COOKIES:
-        theme = request.COOKIES['theme']
-    return theme
+    return _cookie_choice(request, 'theme', ALLOWED_THEMES, DEFAULT_THEME)
 
 def check_theme(request, response):
     if 'theme' not in request.COOKIES:

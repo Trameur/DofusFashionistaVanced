@@ -81,13 +81,10 @@ from chardata.models import Char, UserAlias, CharBaseStats
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.structure import get_structure
 from chardata.themes import get_css_for_theme, get_theme, check_theme,\
-    get_css_static_for_theme, get_ajax_loader_URL, get_all_images_URLs
+    get_css_static_for_theme, get_ajax_loader_URL, get_all_images_URLs,\
+    ALLOWED_THEMES, ALLOWED_CURRENT_AUTO
 from fashionsite.settings import DEFAULT_THEME
 import jsonpickle
-
-
-ALLOWED_THEMES = {'auto', 'lighttheme', 'darktheme'}
-ALLOWED_CURRENT_AUTO = {'lighttheme', 'darktheme'}
 
 
 def _sanitize_cookie_choice(value, allowed_values, default_value):
