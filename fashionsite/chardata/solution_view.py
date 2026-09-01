@@ -700,13 +700,53 @@ def solution_linked(request, char_name, encoded_char_id):
     
     return _solution(request, char.pk, True, encoded_char_id, char=char)
 
+# The words robots.txt refuses through its `Disallow: */word/` rules. That form
+# matches the word at any depth, and a build's name is a path segment of its own
+# public address, so a build named after an internal endpoint tells Google to
+# skip its own page -- the rule was written for /fashion/, not for /s/fashion/.
+# tests_a_build_name_cannot_hide_itself.py goes red if this drifts from the file.
+RESERVED_PATH_WORDS = frozenset((
+    'addtag', 'change_password', 'check_username', 'check_your_email',
+    'choose_item', 'choose_set', 'confirm_email', 'createproject',
+    'delete_item', 'delete_set', 'deletecomment', 'deleteprojects',
+    'do_recover_password', 'duplicatemyproject', 'duplicateproject',
+    'duplicatesomeonesproject', 'edit_item', 'edit_set', 'email_confirmed',
+    'exchange', 'exclusions', 'exclusionspost', 'fashion', 'feed',
+    'follow', 'get_compare_sharing_link', 'get_item_stats_compare',
+    'getitemdetails', 'getsharinglink', 'hidesharinglink', 'inclusions',
+    'inclusionspost', 'initbasestats', 'initbasestatspost', 'inventory',
+    'itemadd', 'itemexchange', 'loadproject', 'local_login', 'login',
+    'login_page', 'manageaccount', 'minstatspost', 'options',
+    'optionspost', 'out', 'postcomment', 'project', 'random', 'register',
+    'remove', 'removetag', 'reportcomment', 'save_char', 'saveaccount',
+    'saveproject', 'saveprojecttouser', 'send', 'setitemforbidden',
+    'setitemlocked', 'setitemstatoverride', 'setslotlockempty', 'setup',
+    'solution', 'spells', 'statspost', 'unfollow', 'update_item',
+    'update_set', 'votebuild', 'wizard', 'wizardgetsliders', 'wizardpost',
+    'workshop',
+))
+
+
+def _off_the_robots_rules(slug):
+    """The same slug, stepped aside when it lands exactly on a robots rule.
+
+    Only a whole segment collides: `Disallow: */fashion/` skips
+    /s/fashion/<id>/ and leaves /s/fashion-build/<id>/ alone. The name in the
+    path is decorative, so moving it costs the reader nothing and every older
+    link keeps working -- the view reads the id.
+    """
+    if slug.lower() in RESERVED_PATH_WORDS:
+        return slug + '-build'
+    return slug
+
+
 def _shared_build_slug(char):
     """The build's name, or its class and level when it has none."""
     if char.char_name:
-        return char.char_name
+        return _off_the_robots_rules(char.char_name)
     parts = [str(char.char_class or '').strip(), str(char.level or '').strip()]
     slug = '-'.join(p for p in parts if p).lower().replace(' ', '-')
-    return slug or 'shared'
+    return _off_the_robots_rules(slug or 'shared')
 
 
 def _shared_build_breadcrumb(char, seo_class, seo_build):
