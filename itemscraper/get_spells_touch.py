@@ -42,28 +42,39 @@ SPELLS_STATIC = (Path(__file__).resolve().parent.parent / 'fashionsite' / 'chard
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 
-# NINE DAMAGE SPELLS ARE MISSING FROM THIS TABLE, and the reason is one effect
-# id. Swept 2026-09-01 against the live backend: 330 class spells over the 15
-# classes carry 112 effect ids this file never reads, and exactly one of them
-# is a plain damage row.
+#: Ankama's "#1 a #2 (meilleur element)". It never names an element: it says
+#: the elemental rows beside it are the SAME hit landing in whichever element
+#: suits the caster, not several hits that add up.
+BEST_ELEMENT_EFFECT = 1200
+
+#: The label Dofus 3 writes on the first group of such a spell, kept identical
+#: so both tables read the same downstream.
+BEST_ELEMENT_LABEL = 'Hit in best element'
+
+# NINE DAMAGE SPELLS ARE STILL MISSING FROM THIS TABLE, and the reason is that
+# same effect id. Swept 2026-09-01 against the live backend: 330 class spells
+# over the 15 classes carry 112 effect ids this file never reads, and exactly
+# one of them is a plain damage row.
 #
 #   1200  "#1 a #2 (meilleur element)"    11 class spells, 9 of them ABSENT
 #
 # Absent because that row is their only damage: the Iop's "Epee Divine" and
 # "Intimidation", the Osamodas' "Fouet", the Sacrieur's "Punition" and
 # "Projection", the Cra's "Fleche Cinglante", the Masqueraider's "Carnavalo",
-# the Pandawa's "Flasque Explosive" and the Xelor's "Vol du Temps". The other
-# two, "Fanfaronnade" and "Embuscade", are in the table on their other rows and
-# merely lose this one.
+# the Pandawa's "Flasque Explosive" and the Xelor's "Vol du Temps".
 #
-# NOT a line to add to the dict above. Dofus 3 carries the same idea as one
-# damage row PER ELEMENT tied together in an `aggregates` group, which the
-# model then resolves to the caster's best element (spell_combo
-# ._element_alternatives). Touch states it as a SINGLE row with a special id,
-# and this generator's module has no aggregates field at all: 144 uses in
-# dofus_constants.py, zero in dofus_constants_touch_spells.py and zero in the
-# Retro one. Carrying it means expanding one row into five and emitting the
-# group, then a full Touch rebuild through update_data_touch.py.
+# They stay absent for now: the row names no element, so putting them in means
+# choosing which elements to invent for them, and nothing first-hand says
+# whether the four or the five are candidates.
+#
+# WHAT THE ID IS USED FOR HERE IS THE OPPOSITE PROBLEM. The other two spells,
+# "Fanfaronnade" and "Embuscade", carry it BESIDE named elemental rows holding
+# the same values, and they were already in the table as several rows with no
+# group: the model added them up, so Embuscade counted its 8-12 as fire AND
+# water AND earth, three times the hit the game lands. Dofus 3 writes the very
+# same shape, identical rows one per element, and groups them in `aggregates`
+# so the model resolves one hit in the best element. This file now writes that
+# group too, which is what emit_aggregates below is for.
 #
 # Two more unread ids, neither of them a damage row:
 #   293   "Augmente les degats de base du sort #1 de #3"   8 spells, all in the
@@ -349,6 +360,32 @@ def _screen_kept_buff(spell):
             'the caster is among those it buffs' % (spell_id, quote))
 
 
+def _says_best_element(level):
+    """Does this grade carry Ankama's best-element row?"""
+    for key in ('effects', 'criticalEffect'):
+        for row in (level.get(key) or []):
+            if isinstance(row, dict) and row.get('effectId') == BEST_ELEMENT_EFFECT:
+                return True
+    return False
+
+
+def emit_aggregates(best_element, elements):
+    """One group per row when the rows are alternatives, else None.
+
+    Written only for a spell whose rows are ALL elemental damage. A buff row is
+    not an alternative to a hit, and putting it in a group of its own would
+    make the model score the spell on the buff alone; a spell that mixes the
+    two therefore keeps the old shape and is left for a later pass. Two rows at
+    least, because one row is not a choice.
+    """
+    if not best_element or len(elements) < 2:
+        return None
+    if any(str(token).startswith('buff_') for token in elements):
+        return None
+    return [(BEST_ELEMENT_LABEL if index == 0 else '', [index])
+            for index in range(len(elements))]
+
+
 def decode_spell(spell, spell_levels):
     """Touch spell -> damage-spell dict, or None if it carries no row at all.
 
@@ -357,10 +394,12 @@ def decode_spell(spell, spell_levels):
     "Puissance" even though it hits nobody."""
     per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
     casting_levels = []
+    best_element = False
     for lid in (spell.get('spellLevels') or []):
         lv = spell_levels.get(str(lid))
         if not lv:
             continue
+        best_element = best_element or _says_best_element(lv)
         nc = collect_damage(lv.get('effects'))
         cr = collect_damage(lv.get('criticalEffect'))
         if _check_still_says(spell):
@@ -419,6 +458,8 @@ def decode_spell(spell, spell_levels):
         'elements': elements,
         'non_crit_ranges': non_crit,
         'crit_ranges': crit,
+        # Rows that are alternatives, not a sum. See emit_aggregates.
+        'aggregates': emit_aggregates(best_element, elements),
         # maxStack in the game data: the buff can accumulate.
         'stacks': max(stacks) if stacks else None,
         # A cast limit of 0 means no limit, so all-zero keys are dropped.
@@ -487,6 +528,8 @@ def emit_module(by_class, spell_names, path):
             lines.append("            %s," % json.dumps(s['crit_ranges']))
             lines.append("            [%s]," % elems)
             tail = []
+            if s.get('aggregates'):
+                tail.append("aggregates=%r" % (s['aggregates'],))
             if s.get('stacks'):
                 tail.append("stacks=%d" % s['stacks'])
             if s.get('casting'):

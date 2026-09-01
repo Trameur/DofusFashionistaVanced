@@ -27625,3 +27625,68 @@ class AnUnknownThemeCookieStillGetsRealStylesheetsTests(SimpleTestCase):
             self.assertTrue(
                 sheets[CSS_NAMES[0]].endswith('_%s.css' % value),
                 'the reader dropped a value the writer allows: %r' % value)
+
+
+class TouchBestElementSpellsLandOneHitTests(SimpleTestCase):
+    """Ankama's effect 1200 reads "#1 a #2 (meilleur element)".
+
+    A Touch spell carrying it beside named elemental rows holding the same
+    values is one hit that lands in whichever element suits the caster, not
+    several hits that add up. Both spells that carry it were in the table as
+    loose rows with no group, so the model summed them: Embuscade scored 121
+    per cast where the game lands 40, and Fanfaronnade 84 where it lands 28.
+
+    Dofus 3 writes the identical shape and groups it in `aggregates`; the Touch
+    generator now writes that group too. A rebuild that dropped it would put
+    the threefold count back, quietly.
+    """
+
+    def _touch(self, char_class, name):
+        from chardata.spell_combo import castable_spells
+        for castable in castable_spells(char_class, 200, 'touch'):
+            if castable.spell.name == name:
+                return castable
+        self.fail('%s has no spell named %r in the Touch table'
+                  % (char_class, name))
+
+    def test_each_element_is_an_alternative_and_not_a_second_hit(self):
+        for char_class, name in (('Foggernaut', 'Embuscade'),
+                                 ('Ecaflip', 'Fanfaronnade')):
+            castable = self._touch(char_class, name)
+            self.assertGreater(
+                len(castable.alternatives), 1,
+                '%s carries one alternative, so its rows are being added up'
+                % name)
+            for alternative in castable.alternatives:
+                self.assertEqual(
+                    1, len(alternative),
+                    '%s scores %d rows at once, and the game lands one'
+                    % (name, len(alternative)))
+
+    def test_the_alternatives_are_the_same_hit_in_different_elements(self):
+        for char_class, name in (('Foggernaut', 'Embuscade'),
+                                 ('Ecaflip', 'Fanfaronnade')):
+            castable = self._touch(char_class, name)
+            elements = {alt[0].element for alt in castable.alternatives}
+            self.assertEqual(
+                len(elements), len(castable.alternatives),
+                '%s repeats an element, so these are stacks and not a choice '
+                'of element' % name)
+            spreads = {(alt[0].min_dam, alt[0].max_dam)
+                       for alt in castable.alternatives}
+            self.assertEqual(
+                1, len(spreads),
+                '%s hits for different amounts per element, so it is not one '
+                'hit resolved to the best element: %s' % (name, sorted(spreads)))
+
+    def test_only_the_two_known_spells_carry_the_group(self):
+        """A rebuild that adds one is a spell nobody has looked at yet."""
+        from fashionistapulp.dofus_constants_touch_spells import TOUCH_DAMAGE_SPELLS
+        grouped = sorted(
+            spell.name
+            for spells in TOUCH_DAMAGE_SPELLS.values()
+            for spell in spells if getattr(spell, 'aggregates', None))
+        self.assertEqual(
+            ['Embuscade', 'Fanfaronnade'], grouped,
+            'the Touch table groups %s; when this changes, read Ankama on the '
+            'new spell before trusting the count' % grouped)
