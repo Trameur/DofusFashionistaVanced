@@ -594,8 +594,7 @@ def _sitemap_pages(base_url):
     # hreflang, but nothing submitted them, so Google had no reason to
     # look: an entry point that cannot be found is not an entry point.
     from fashionistapulp.game_versions import dofus_versions
-    hub_paths = ('/', '/guides/', '/encyclopedia/',
-                 '/encyclopedia/sets/', '/encyclopedia/monsters/')
+    hub_paths = HUB_PATHS
     for language in _SITEMAP_LANGUAGES:
         for hub in hub_paths:
             blocks.append(_sitemap_url(
@@ -686,6 +685,13 @@ _LOCALISED_BUILDERS = (
 # audience that has not shown up would be asking for crawl budget we have no
 # reason to spend. Add 'de' here the day the numbers justify it.
 _SITEMAP_LANGUAGES = ('fr', 'es', 'pt')
+
+#: The pages that have no name of their own to localise, so their language
+#: lives in a url prefix. Module level because tests_every_hub_speaks_every_
+#: language.py walks it: a hub added here and forgotten in i18n_patterns
+#: answers 404 under every prefix, which is how /fr/setup/ was lost.
+HUB_PATHS = ('/', '/setup/', '/guides/', '/encyclopedia/',
+             '/encyclopedia/sets/', '/encyclopedia/monsters/')
 
 
 def _localised_section(builder, language):
@@ -817,7 +823,6 @@ urlpatterns = [
     re_path(r'^initbasestats/(?P<char_id>\d+)/', base_stats_view.init_base_stats, name='init_base_stats'),
     re_path(r'^initbasestatspost/(?P<char_id>\d+)/', base_stats_view.init_base_stats_post, name='init_base_stats_post'),
 
-    re_path(r'^setup/$', create_project_view.setup, name='setup'),
     re_path(r'^quickstart/$', coaching_view.coaching, name='quickstart'),
     re_path(r'^smartbuild/$', nl_build_view.smart_build, name='smart_build'),
     re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
@@ -998,6 +1003,14 @@ _game_urls = ('chardata.game_urls', 'chardata')
 urlpatterns += i18n_patterns(
     re_path(r'^$', home_view.home, name='home'),
     re_path(r'^guides/$', guides_view.guides, name='guides'),
+    # The create-a-project landing is a hub like the others: it has no name
+    # of its own to localise, so its language belongs in a prefix. It was
+    # the only one left outside, and the gap showed: /fr/retro/setup/ and
+    # /es/retro/setup/ answer in their language, while /fr/setup/ answered
+    # 404 -- the translated set builder existed for every version except
+    # the one people actually play, in the market that sends the most
+    # impressions.
+    re_path(r'^setup/$', create_project_view.setup, name='setup'),
     re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia,
             name='encyclopedia'),
     re_path(r'^encyclopedia/monsters/$',
