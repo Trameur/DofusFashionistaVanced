@@ -113,6 +113,19 @@ def version_keys(include_experimental=False):
             if include_experimental or not GAME_VERSIONS[key].experimental]
 
 
+def prefixed_reader_versions():
+    """The versions a reader reaches under a url prefix: every reader-facing
+    one except the default, which lives at the site root.
+
+    Three modules wrote this list out by hand -- the sitemap hubs, the guide
+    body rewriter, and the reader list in context_processors. The comment on
+    the sitemap loop already records what two copies cost: a crossroads added
+    on one side only. An experimental version never appears here, because
+    version_keys() drops it.
+    """
+    return [key for key in version_keys() if key != DEFAULT_VERSION]
+
+
 def dofus_versions():
     """The versions that are Dofus, for rules that assume Dofus."""
     return [key for key in version_keys(include_experimental=True)

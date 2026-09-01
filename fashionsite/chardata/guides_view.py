@@ -19,6 +19,8 @@ from django.utils.translation import get_language
 from chardata.util import set_response
 from chardata import guides_content
 from chardata.encyclopedia_view import _absolute_versioned_url
+from fashionistapulp.game_versions import prefixed_reader_versions
+
 from chardata.url_language import split_language_prefix
 from chardata.url_language import (mark_varies_on_cookie,
                                    redirect_target_for_user)
@@ -27,7 +29,10 @@ from chardata.url_language import (mark_varies_on_cookie,
 # version, those paths land on Dofus 3: a Retro reader following "build it
 # here" left Retro without being told. Every path a body links to exists under
 # every prefix, so the fix is to carry the reader's version along.
-VERSION_PREFIXES = ('beta', 'dofus2', 'touch', 'retro')
+# Le registre repond : les versions que le lecteur atteint sous un
+# prefixe. Ecrite a la main, cette liste etait la quatrieme copie de la
+# meme reponse, et rien ne les comparait.
+VERSION_PREFIXES = tuple(prefixed_reader_versions())
 _BODY_LINK = re.compile(r'href="(/[^"]*)"')
 
 

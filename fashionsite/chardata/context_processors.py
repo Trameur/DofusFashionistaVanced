@@ -5,6 +5,8 @@ import re
 from django.core.cache import cache
 from django.db.models import Sum
 
+from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
+
 logger = logging.getLogger(__name__)
 
 
@@ -35,13 +37,14 @@ def site_stats(request):
     return stats
 
 
-ACTIVE_GAME_VERSIONS = [
-    ('dofus3', 'Dofus 3'),
-    ('beta', 'Beta'),
-    ('dofus2', 'Dofus 2'),
-    ('touch', 'Touch'),
-    ('retro', 'Retro'),
-]
+# The versions a reader may reach, derived from the registry instead of being
+# written out again. `version_keys()` already drops the experimental ones, which
+# is exactly the rule this list has to hold -- GameVersion.experimental is
+# documented as "invisible everywhere a reader could reach it". Kept by hand,
+# the two agreed only while somebody remembered both, and nothing checked:
+# tests_one_list_of_versions.py does now.
+ACTIVE_GAME_VERSIONS = [(key, GAME_VERSIONS[key].label)
+                        for key in version_keys()]
 
 _GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 

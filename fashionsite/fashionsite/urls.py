@@ -631,7 +631,8 @@ def _sitemap_pages(base_url):
     except Exception:
         pass
 
-    for version_slug in ('beta', 'dofus2', 'retro', 'touch'):
+    from fashionistapulp.game_versions import prefixed_reader_versions
+    for version_slug in prefixed_reader_versions():
         vbase = '%s/%s' % (base_url, version_slug)
         # /guides/ manquait ici alors que la boucle des langues l'emet : les
         # douze /{fr,es,pt}/{beta,dofus2,retro,touch}/guides/ etaient soumis
