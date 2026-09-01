@@ -72,7 +72,31 @@ NOT_A_SELF_BUFF = {
     # was wrong and not only the summary. The same spell was wrong on Retro
     # (four characteristics) and on Touch (Power), found there first.
     12840: "effet al",
+    # Huppermage, Elemental Drain. Ankama: "Vole des caracteristiques et de la
+    # vie selon l'etat elementaire sur l'ennemi cible." One state, so one
+    # characteristic. The four rows were read as granted together and one cast
+    # handed the caster 200 Strength, Intelligence, Chance AND Agility: 800
+    # points, measured 2026-09-01, where the game gives 200.
+    13672: "mentaire sur l'ennemi cibl",
+    # Eniripsa, Alchemical Word. The flask holds ONE element and the buff goes
+    # "selon le contenu", so again one characteristic of four. It also needs
+    # the flask summoned, filled, and then attacked by an ally, which no single
+    # turn does. Four rows at 150 came to 600 points a cast.
+    25802: "selon le contenu",
 }
+
+# LEFT IN ON PURPOSE, and each for a sentence of Ankama's own:
+#   Huppermage, Sublimation      "cumulable 4 fois", so the four really do add
+#                                up, one per element attacked with.
+#   Feca, Reinforced Protection  "selon ses armures elementaires actives", and
+#                                several armours can be active at once.
+#   Huppermage, Runification and Manifestation  "selon l'element de la rune"
+#                                reads like one, but the same sentence adds
+#                                "Sur le lanceur : declenche TOUTES ses runes
+#                                occupees". Both readings fit, and the damage
+#                                rows carry the same question: 928 of the
+#                                class's 1463 best turn hangs on it. That one
+#                                is a game question, not a data one.
 
 # A damage row that does not land with the cast. The client's structured data
 # does not carry it: the state that holds the damage is applied by effect 950

@@ -27752,3 +27752,50 @@ class RetroBluffIsOneRollNotTwoHitsTests(SimpleTestCase):
             len(set(rendus.values())), len(rendus),
             'two languages render the same string, so at least one catalog '
             'fell back to English: %s' % rendus)
+
+
+class OnlyOneElementalCharacteristicIsGrantedTests(SimpleTestCase):
+    """Two spells granted all four elemental characteristics at once.
+
+    Ankama says one. Elemental Drain steals "selon l'etat elementaire sur
+    l'ennemi cible", one state, and one cast credited 200 Strength,
+    Intelligence, Chance AND Agility: 800 points. Alchemical Word buffs "selon
+    le contenu" of a flask that holds one element, and came to 600. Both rows
+    are dropped now, the way the Ecaflip's Roulette was, because the table
+    cannot say which of the four the player will have.
+
+    The spells that really do grant several are left alone, and this checks
+    both halves: a later sweep must not generalise the exclusion.
+    """
+
+    def _castable(self, version, char_class, name):
+        from chardata.spell_combo import castable_spells
+        for castable in castable_spells(char_class, 200, version):
+            if castable.spell.name == name:
+                return castable
+        self.fail('%s/%s has no spell named %r' % (version, char_class, name))
+
+    ELEMENTAL = {'str', 'int', 'cha', 'agi'}
+
+    def test_the_two_exclusive_ones_grant_none(self):
+        for version in ('dofus3', 'beta'):
+            for char_class, name in (('Huppermage', 'Elemental Drain'),
+                                     ('Eniripsa', 'Alchemical Word')):
+                deltas = self._castable(version, char_class, name).buff_deltas(1)
+                granted = {k: v for k, v in deltas.items() if k in self.ELEMENTAL}
+                self.assertEqual(
+                    {}, granted,
+                    '%s on %s hands the caster %s, and Ankama gives one of the '
+                    'four' % (name, version, granted))
+
+    def test_the_spells_that_really_stack_keep_theirs(self):
+        """Sublimation says "cumulable 4 fois"; Reinforced Protection follows
+        the caster's active armours, and several can be active."""
+        for char_class, name in (('Huppermage', 'Sublimation'),
+                                 ('Feca', 'Reinforced Protection')):
+            deltas = self._castable('dofus3', char_class, name).buff_deltas(1)
+            granted = {k: v for k, v in deltas.items() if k in self.ELEMENTAL}
+            self.assertTrue(
+                granted,
+                '%s lost its characteristics; Ankama says it grants several'
+                % name)
