@@ -6637,6 +6637,9 @@ msgstr "CC"
 msgid "Hit in best element"
 msgstr "Coup dans le meilleur élément"
 
+msgid "Hit in one random element"
+msgstr "Coup dans un élément au hasard"
+
 msgid "%(count)s MP used this turn"
 msgstr "%(count)s PM utilisés ce tour"
 

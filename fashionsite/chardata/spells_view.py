@@ -468,6 +468,9 @@ def _convert_weapon_damage(base):
     
 
 _BEST_ELEMENT = 'Hit in best element'
+#: Retro's Bluff: Ankama says it hits "aleatoirement" in Air OR Water, so the
+#: reader has to be told the two rows are one roll and not two hits.
+_RANDOM_ELEMENT = 'Hit in one random element'
 _STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
 _MP_LABEL = re.compile(r'^(\d+) MP used this turn$')
 _STATE_LABEL = re.compile(r'^State (!?\d+(?:,!?\d+)*)$')
@@ -499,6 +502,8 @@ def _localized_aggregate_label(label, game_version=None):
     so they are translated by shape rather than one msgid per number."""
     if label == _BEST_ELEMENT:
         return _('Hit in best element')
+    if label == _RANDOM_ELEMENT:
+        return _('Hit in one random element')
     match = _MP_LABEL.match(label)
     if match:
         return _('%(count)s MP used this turn') % {'count': match.group(1)}

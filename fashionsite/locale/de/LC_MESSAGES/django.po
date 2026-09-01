@@ -6601,6 +6601,9 @@ msgstr "KT"
 msgid "Hit in best element"
 msgstr "Treffer im besten Element"
 
+msgid "Hit in one random element"
+msgstr "Treffer in einem zufälligen Element"
+
 msgid "%(count)s MP used this turn"
 msgstr "%(count)s BP in dieser Runde verbraucht"
 

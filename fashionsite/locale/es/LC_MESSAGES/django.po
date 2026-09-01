@@ -6593,6 +6593,9 @@ msgstr "GC"
 msgid "Hit in best element"
 msgstr "Golpe en el mejor elemento"
 
+msgid "Hit in one random element"
+msgstr "Golpe en un elemento al azar"
+
 msgid "%(count)s MP used this turn"
 msgstr "%(count)s PM usados este turno"
 

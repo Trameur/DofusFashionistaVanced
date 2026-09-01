@@ -86,6 +86,58 @@ CHARACTERISTIC_EFFECTS = {118: 'buff_str', 119: 'buff_agi', 123: 'buff_cha',
 ROW_EFFECTS = dict(DAMAGE_EFFECTS)
 ROW_EFFECTS.update(CHARACTERISTIC_EFFECTS)
 
+#: The label the group carries. spells_view translates it; keep the two in step.
+RANDOM_ELEMENT_LABEL = 'Hit in one random element'
+
+# ONE HIT, NOT TWO. Ankama on the Ecaflip's Bluff: "Le Bluff inflige
+# ALEATOIREMENT des degats d'Air OU d'Eau". The table listed its two rows
+# loose, with nothing saying they are the two faces of one roll, so the model
+# added them: 209 damage a cast where the game lands about half that.
+#
+# Named, not detected by shape, because 1.29 marks this nowhere. The shape
+# alone would be wrong: four other Retro spells carry several elemental rows
+# that ALL land, and Ankama says so in as many words -- "dommages Air et Feu"
+# (Fleche Persecutrice), "de type Feu et Eau" (Feu de Brousse), and Rekop's
+# "degats monstrueux de Feu, Terre, Eau et Air". Screened over the 252 class
+# spells on 2026-09-01: only three speak of chance at all, and the other two
+# (Roulette, Souillure) carry no elemental rows to group.
+#
+# The quote is checked at generation time, so a rewording stops the run
+# instead of quietly restoring the doubled count.
+ONE_ELEMENT_AT_RANDOM = {
+    109: "ou d'eau",                       # Ecaflip, Bluff
+}
+
+
+def _screen_random_element(spell, spell_id):
+    """Stop the run if the sentence no longer says one element OR the other."""
+    quote = ONE_ELEMENT_AT_RANDOM.get(spell_id)
+    if quote is None:
+        return
+    text = (spell.get('d') or '').lower()
+    if quote not in text:
+        raise SystemExit(
+            'retro spell %s no longer says %r, so nothing says its elemental '
+            'rows are one roll rather than several hits. Re-read Ankama '
+            'before regenerating. It now says: %r'
+            % (spell_id, quote, (spell.get('d') or '')[:160]))
+
+
+def emit_aggregates(spell_id, elements):
+    """One group per row when the rows are one roll, else None.
+
+    Only when every row is elemental damage: a buff row is not an alternative
+    to a hit, and giving it a group of its own would have the model score the
+    spell on the buff alone.
+    """
+    if spell_id not in ONE_ELEMENT_AT_RANDOM:
+        return None
+    if len(elements) < 2 or any(str(t).startswith('buff_') for t in elements):
+        return None
+    return [(RANDOM_ELEMENT_LABEL if index == 0 else '', [index])
+            for index in range(len(elements))]
+
+
 # Two class spells carry characteristic effects the caster does not reliably
 # get, and this scraper has no target test at all.
 #
@@ -279,6 +331,7 @@ def decode_spell(spell, spell_id=None):
     Dofus 2, 3 and Touch tables keep theirs, and a build optimizer needs the
     Iop's "Puissance" even though it hits nobody."""
     drop_buffs = _not_a_self_buff(spell, spell_id)
+    _screen_random_element(spell, spell_id)
     per_level = []
     elements = []
     casting_levels = []
@@ -311,6 +364,7 @@ def decode_spell(spell, spell_id=None):
         values = [level.get(key, 0) for level in casting_levels]
         if any(values):
             casting[key] = values
+    groupes = emit_aggregates(spell_id, elements)
     return {
         'name': spell.get('n') or '',
         'level_count': len(per_level),
@@ -318,6 +372,9 @@ def decode_spell(spell, spell_id=None):
         'non_crit_ranges': non_crit_ranges,
         'crit_ranges': crit_ranges,
         'casting': casting or None,
+        # Rows that are one roll, not a sum. Absent when there are
+        # none, so the json artefact keeps one line per real group.
+        **({'aggregates': groupes} if groupes else {}),
     }
 
 
@@ -363,6 +420,8 @@ def emit_module(by_class, spell_names, path):
             # The id ties the spell to what the game says about it, in
             # chardata/spell_reference/retro.json.
             tail = []
+            if s.get('aggregates'):
+                tail.append("aggregates=%r" % (s['aggregates'],))
             if s.get('casting'):
                 tail.append("casting=%s" % json.dumps(s['casting'],
                                                       sort_keys=True))

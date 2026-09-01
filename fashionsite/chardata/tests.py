@@ -27690,3 +27690,65 @@ class TouchBestElementSpellsLandOneHitTests(SimpleTestCase):
             ['Embuscade', 'Fanfaronnade'], grouped,
             'the Touch table groups %s; when this changes, read Ankama on the '
             'new spell before trusting the count' % grouped)
+
+
+class RetroBluffIsOneRollNotTwoHitsTests(SimpleTestCase):
+    """Ankama on the Ecaflip's Bluff, in 1.29: "Le Bluff inflige aleatoirement
+    des degats d'Air ou d'Eau."
+
+    One of the two lands. The table listed both rows loose, so the model added
+    them and scored 209 a cast where the game gives 104. Four other Retro
+    spells carry several elemental rows that all DO land, and Ankama says so in
+    as many words, so the shape alone never settled it: the generator names
+    this one and re-reads the sentence before every rebuild.
+    """
+
+    def _bluff(self):
+        from chardata.spell_combo import castable_spells
+        for castable in castable_spells('Ecaflip', 200, 'retro'):
+            if castable.spell.name == 'Bluff':
+                return castable
+        self.fail('the Retro Ecaflip has no spell named Bluff')
+
+    def test_air_and_water_are_the_two_faces_of_one_roll(self):
+        castable = self._bluff()
+        self.assertEqual(
+            2, len(castable.alternatives),
+            'Bluff carries %d alternative(s); with one, its two rows are being '
+            'added up' % len(castable.alternatives))
+        for alternative in castable.alternatives:
+            self.assertEqual(1, len(alternative),
+                             'Bluff scores both elements at once')
+        self.assertEqual(
+            {'water', 'air'},
+            {alt[0].element for alt in castable.alternatives})
+
+    def test_the_spells_that_really_hit_twice_keep_both_rows(self):
+        """The shape is not the rule: these land in every element they name."""
+        from chardata.spell_combo import castable_spells
+        for char_class, name in (('Cra', 'Fl\u00e8che Pers\u00e9cutrice'),
+                                 ('Sadida', 'Feu de Brousse'),
+                                 ('Ecaflip', 'Rekop')):
+            found = [c for c in castable_spells(char_class, 200, 'retro')
+                     if c.spell.name == name]
+            self.assertTrue(found, '%s has no %r' % (char_class, name))
+            castable = found[0]
+            self.assertEqual(
+                1, len(castable.alternatives),
+                '%s was turned into a choice of element, and Ankama says it '
+                'deals every one of them' % name)
+            self.assertGreater(len(castable.hits), 1)
+
+    def test_the_label_is_translated_everywhere(self):
+        from django.utils import translation
+        from chardata.spells_view import _localized_aggregate_label, _RANDOM_ELEMENT
+        rendus = {}
+        for langue in ('en', 'fr', 'es', 'pt', 'de'):
+            with translation.override(langue):
+                rendus[langue] = _localized_aggregate_label(_RANDOM_ELEMENT, 'retro')
+        for langue, texte in rendus.items():
+            self.assertTrue(texte, '%s renders nothing' % langue)
+        self.assertEqual(
+            len(set(rendus.values())), len(rendus),
+            'two languages render the same string, so at least one catalog '
+            'fell back to English: %s' % rendus)
