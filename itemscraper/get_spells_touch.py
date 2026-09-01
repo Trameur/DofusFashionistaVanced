@@ -42,6 +42,37 @@ SPELLS_STATIC = (Path(__file__).resolve().parent.parent / 'fashionsite' / 'chard
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 
+# NINE DAMAGE SPELLS ARE MISSING FROM THIS TABLE, and the reason is one effect
+# id. Swept 2026-09-01 against the live backend: 330 class spells over the 15
+# classes carry 112 effect ids this file never reads, and exactly one of them
+# is a plain damage row.
+#
+#   1200  "#1 a #2 (meilleur element)"    11 class spells, 9 of them ABSENT
+#
+# Absent because that row is their only damage: the Iop's "Epee Divine" and
+# "Intimidation", the Osamodas' "Fouet", the Sacrieur's "Punition" and
+# "Projection", the Cra's "Fleche Cinglante", the Masqueraider's "Carnavalo",
+# the Pandawa's "Flasque Explosive" and the Xelor's "Vol du Temps". The other
+# two, "Fanfaronnade" and "Embuscade", are in the table on their other rows and
+# merely lose this one.
+#
+# NOT a line to add to the dict above. Dofus 3 carries the same idea as one
+# damage row PER ELEMENT tied together in an `aggregates` group, which the
+# model then resolves to the caster's best element (spell_combo
+# ._element_alternatives). Touch states it as a SINGLE row with a special id,
+# and this generator's module has no aggregates field at all: 144 uses in
+# dofus_constants.py, zero in dofus_constants_touch_spells.py and zero in the
+# Retro one. Carrying it means expanding one row into five and emitting the
+# group, then a full Touch rebuild through update_data_touch.py.
+#
+# Two more unread ids, neither of them a damage row:
+#   293   "Augmente les degats de base du sort #1 de #3"   8 spells, all in the
+#         table already on other rows, so only a bonus is missed. The modern
+#         generator gives this id its own handling (MP_DAMAGE_EFFECT_ID).
+#   2812  "#1 a #2% Dommages aux sorts occasionnes"        the 16 "Exaltation"
+#         spells, one per class, all absent. A self-buff, so it belongs to the
+#         same four-version scope question as the AP, MP and flat Damage ids.
+
 # Characteristic effects, read since 2026-08-27.
 #
 # This generator used to read only the ten ids above, so every self-buff and
