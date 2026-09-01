@@ -62,7 +62,7 @@ class DatabaseSolutionMemory(object):
 
     def get(self, model_input):
         today = datetime.date.today()
-        input_hash = model_input.__hash__()
+        input_hash = model_input.cache_key()
         SolutionCounter.objects.get_or_create(
             input_hash=input_hash,
             defaults={'game_version': get_current_game_version()})
@@ -80,7 +80,7 @@ class DatabaseSolutionMemory(object):
             return read_char_blob(memoized_solution.stored, None, 'memoized solution')
         
     def put(self, model_input, result_tuple):
-        input_hash = model_input.__hash__()
+        input_hash = model_input.cache_key()
         SolutionCounter.objects.get_or_create(
             input_hash=input_hash,
             defaults={'game_version': get_current_game_version()})
