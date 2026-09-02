@@ -28,7 +28,7 @@ def _language_prefixes():
 
 # Not pages anyone reads.
 HIT_SKIP = re.compile(r'^/(static|media|api|admin|admin-tools|admin-comment-action|'
-                      r'jsi18n|sw\.js|ads\.txt|manifest|favicon|character/)')
+                      r'jsi18n|sw\.js|offline/|ads\.txt|manifest|favicon|character/)')
 # /s/<name>/<id>/ : the name varies per build, so drop the whole tail.
 HIT_SHARED = re.compile(r'^/s/.*$')
 # An id has a digit or mixed case. Route words are plain lowercase, keep them.
