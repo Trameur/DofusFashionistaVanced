@@ -153,7 +153,7 @@ def redirect_target_for_user(request, url_language, alternates):
     target = alternates.get(wanted)
     if not target or target.endswith(request.path):
         return None
-    return target
+    return site_relative(target)
 
 
 # Routes published once per language, under a prefix. Everything else either
@@ -166,6 +166,20 @@ PREFIXED_PAGE_NAMES = frozenset({
 })
 
 SITE_URL = 'https://dofusfashionista.gg'
+
+
+def site_relative(url):
+    """One of our own absolute urls reduced to a path; anything else untouched.
+
+    The hreflang alternates must be absolute, and they name the production
+    host. A redirect must not: a Location on that host sends a signed-in
+    visitor off whatever host is really serving them -- a developer off
+    localhost, a preview off its own domain -- and turns a move inside the
+    site into a cross-origin one.
+    """
+    if url.startswith(SITE_URL):
+        return url[len(SITE_URL):] or '/'
+    return url
 
 
 def split_language_prefix(path):
