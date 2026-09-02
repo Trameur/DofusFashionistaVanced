@@ -65,6 +65,16 @@ _CHAR_ID_RE = re.compile(r'/\d+/')
 _LINKED_PREFIXES = ('s/', 'spells_linked/')
 _VERSION_SWITCH_NUMERIC_SAFE_PREFIXES = ('encyclopedia/',)
 
+# An encyclopedia page ABOUT one thing: an item, a set, a monster, a resource.
+# Its id is not a shared identity across versions (see _other_versions_with_*
+# in encyclopedia_view), so prefixing the same path under every version
+# fabricated dead links: 63 of 160 header links on a sample of entity pages
+# answered 404, on every monster page sampled. The switcher now asks the page
+# for the link it already computed per version, and falls back to that
+# version's encyclopedia hub -- never to a page that does not exist.
+_VERSION_SWITCH_ENTITY_RE = re.compile(
+    r'^encyclopedia/(?:(?:item|resource)/[^/]+/|(?:set|monster)/)\d+')
+
 
 def game_version(request):
     # The language prefix comes first: /es/beta/encyclopedia/ answers and
@@ -101,6 +111,8 @@ def game_version(request):
         'active_game_versions': ACTIVE_GAME_VERSIONS,
         'version_switch_language_prefix': language_prefix,
         'version_switch_base_path': base_path,
+        'version_switch_is_entity': bool(
+            _VERSION_SWITCH_ENTITY_RE.match(base_stripped)),
         'api_base': api_base,
     }
 
