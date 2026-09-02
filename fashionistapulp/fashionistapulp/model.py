@@ -841,7 +841,14 @@ class Model:
         restriction.changeRHS(stat_points)
     
     def modify_forbidden_items_constraints(self, forbidden_equips, options):
-        new_forbid_list = forbidden_equips
+        # A copy, not the caller's own set. Forbidding one row of a split item
+        # adds its siblings below, and that used to land in the ModelInput the
+        # caller still holds. fashion_action reads the cache key before setup
+        # and writes it after, so the write went to a key the read had never
+        # asked for -- and, worse, to a counter born at zero, which put()
+        # refuses to store at all. A character who forbade Gelano therefore
+        # cached nothing, ever, and repaid the whole solve on every view.
+        new_forbid_list = set(forbidden_equips)
         
         or_items = self.structure.get_available_or_items()
         for _, or_item_items in or_items.items():
@@ -910,7 +917,11 @@ class Model:
             if len(members) < 2:
                 continue
             first = members[0]
-            doublable = (self.structure.game_version != 'retro'
+            # From the registry, like create_item_number_variables above:
+            # this line kept its own `!= 'retro'` when that one moved, and a
+            # version whose key is not 'retro' but whose rings_can_double is
+            # False would have received a ceiling of two here and one there.
+            doublable = (get_game_version(self.structure.game_version).rings_can_double
                          and self.structure.get_type_name_by_id(first.type) == 'Ring'
                          and first.set is None)
             restriction = self.problem.restriction_lt_eq(
