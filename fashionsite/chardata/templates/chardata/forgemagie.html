@@ -205,6 +205,7 @@
         </ul>
         <p>{{ t.how_sink }}</p>
         <p>{{ t.how_over }}</p>
+        <p>{{ t.how_malus }}</p>
         <p>{{ t.how_exo }}</p>
         <p>{{ t.how_rule20 }}</p>
         <p class="fm-warn">{{ t.how_sink_loss }}</p>
@@ -216,6 +217,36 @@
             {% endfor %}
         </ul>
     </div>
+
+    {% if documented_odds %}
+    <div class="fm-box brown-box fm-how">
+        <div class="fm-section-title big-text">{{ t.odds_title }}</div>
+        <p>{{ t.odds_intro }}</p>
+        <div class="fm-table-wrapper">
+            <table class="fm-table">
+                <thead>
+                    <tr>
+                        <th>{{ t.odds_col_case }}</th>
+                        <th>{{ t.odds_col_sc }}</th>
+                        <th>{{ t.odds_col_n }}</th>
+                        <th>{{ t.odds_col_ec }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in documented_odds %}
+                    <tr>
+                        <td>{{ row.label }}</td>
+                        <td class="fm-ok">{{ row.sc }}%</td>
+                        <td>{{ row.n }}%</td>
+                        <td class="fm-bad">{{ row.ec }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="small-explain">{{ t.odds_source }}</p>
+    </div>
+    {% endif %}
 
     <div class="fm-box brown-box">
         <div class="fm-section-title big-text">{{ t.ref_title }}</div>
@@ -1085,6 +1116,12 @@
             }
             var capValue = Math.floor((config.overCap + 0.001) / info.density);
             var maxRoll = row.exo ? 0 : row.max;
+            // A malus can be cancelled but never turned into a bonus (Ankama
+            // dev post, 1.27), so its line stops at 0. Without this the cap
+            // below let a -30 agility line be targeted at +101.
+            if (maxRoll < 0) {
+                return 0;
+            }
             return Math.max(maxRoll, capValue);
         }
 
