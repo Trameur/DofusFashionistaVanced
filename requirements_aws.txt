@@ -63,7 +63,7 @@ pyparsing==2.4.7
 pyrsistent==0.20.0
 pyserial==3.5
 PySocks==1.7.1
-python-daemon==2.3.0
+python-daemon==3.1.2
 python-dateutil==2.9.0.post0
 python-memcached==1.62
 python-social-auth==0.3.6
