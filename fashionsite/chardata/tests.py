@@ -11700,8 +11700,8 @@ class SmithmagicOddsTests(TestCase):
              'isOnePercentThrow', 'lineCeiling', 'wouldExceedCap',
              'totalItemWeight', 'passFactorRuneLimit', 'passFactorFill',
              'belowNaturalMin', 'passFactorWeight', 'passFactorSink',
-             'chancesFor', 'lossPool', 'pointsThatFit', 'pointsAboveMin',
-             'pickLossLine')
+             'documentedSplit', 'chancesFor', 'lossPool', 'pointsThatFit',
+             'pointsAboveMin', 'pickLossLine')
 
     def _function(self, source, name):
         start = source.index('\n        function %s(' % name) + 1

@@ -1220,6 +1220,40 @@
                        * Math.min(1, session.sink / tier.weight);
         }
 
+        // Retro is the one ruleset whose outcomes Ankama published. The
+        // factors above still decide how hard a throw is; what they no longer
+        // decide is how a success splits between critical and neutral. The
+        // 1.27 dev post gave the three outcomes at six points, and reading the
+        // split off that ladder keeps neutral under the 50% ceiling the same
+        // post states -- the fixed 40/60 share below put it at 59% on an easy
+        // throw, which no published figure allows.
+        //
+        // `pass` is 1 minus the critical failure rate, so it places the throw
+        // on the ladder directly. Between two rungs the split is linear, which
+        // keeps the three outcomes adding to exactly 1. The clamp at each end
+        // never fires in play -- chancesFor bounds pass to [0.02, 0.98] -- and
+        // is there so the function is total.
+        function documentedSplit(pass) {
+            var ladder = config.oddsLadder;
+            var easiest = ladder[0].ec;
+            var hardest = ladder[ladder.length - 1].ec;
+            var ec = Math.min(Math.max(1 - pass, easiest), hardest);
+            for (var i = 0; i < ladder.length - 1; i++) {
+                var a = ladder[i];
+                var b = ladder[i + 1];
+                if (ec <= b.ec + 0.000001) {
+                    var span = b.ec - a.ec;
+                    var k = span > 0 ? (ec - a.ec) / span : 0;
+                    k = Math.max(0, Math.min(1, k));
+                    return {sc: a.sc + k * (b.sc - a.sc),
+                            sn: a.n + k * (b.n - a.n),
+                            ec: ec};
+                }
+            }
+            var last = ladder[ladder.length - 1];
+            return {sc: last.sc, sn: last.n, ec: last.ec};
+        }
+
         function chancesFor(row, tier, extra) {
             if (isOnePercentThrow(row, tier)) {
                 return {sc: 0.01, sn: 0, ec: 0.99};
@@ -1237,6 +1271,9 @@
             // Rebuilding a line the item has not even rolled naturally costs
             // nothing: those successes are mostly critical, so nothing is lost
             // elsewhere on the way up.
+            if (config.oddsLadder && config.oddsLadder.length) {
+                return documentedSplit(pass);
+            }
             var scShare = belowNaturalMin(row, tier)
                 ? FM_ODDS.scShareBelowMin : FM_ODDS.scShare;
             return {sc: pass * scShare,

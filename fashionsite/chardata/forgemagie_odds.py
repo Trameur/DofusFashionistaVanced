@@ -32,6 +32,23 @@ NEUTRAL_CEILING = 50
 CRITICAL_SUCCESS_FLOOR = 1
 
 
+def get_odds_ladder(ruleset):
+    """The same published rows as fractions, ordered easiest to hardest.
+
+    DOCUMENTED_ODDS keeps the order the dev post used, which is the order the
+    page lists them in. A curve needs them monotone in difficulty instead, and
+    the critical failure rate is what orders them: 0, 7, 18, 35, 77, 99.
+
+    One source, two views. A ladder written out by hand would drift from the
+    table above the first time either was corrected.
+    """
+    return [{'sc': row['sc'] / 100.0,
+             'n': row['n'] / 100.0,
+             'ec': row['ec'] / 100.0}
+            for row in sorted(get_documented_odds(ruleset),
+                              key=lambda row: row['ec'])]
+
+
 def get_documented_odds(ruleset):
     """The published rows for this ruleset, empty when none were published.
 

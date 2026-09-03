@@ -27,7 +27,8 @@ from chardata.forgemagie_data import (
     get_fm_stats, get_no_stat_runes, get_one_percent_over_weight,
     get_ruleset,
 )
-from chardata.forgemagie_odds import get_documented_odds
+from chardata.forgemagie_odds import (get_documented_odds,
+                                     get_odds_ladder)
 from chardata.forgemagie_transcendance import get_transcendence_by_stat
 from chardata.image_store import get_image_url
 from chardata.stat_icons import get_stat_icon_path
@@ -1091,6 +1092,10 @@ def forgemagie(request):
     js_config = {
         'overCap': OVER_WEIGHT_CAP,
         'onePercentOverWeight': get_one_percent_over_weight(game_version),
+        # Empty for every ruleset but Retro. The simulator falls back to its
+        # own fitted split when it is, which is the honest thing to do where
+        # nothing was ever published.
+        'oddsLadder': get_odds_ladder(ruleset),
         'stats': stat_payload,
         'statOrder': _ordered_fm_stat_keys(structure, get_fm_stats(game_version)),
         'searchUrl': version_reverse(request, 'forgemagie_items'),
