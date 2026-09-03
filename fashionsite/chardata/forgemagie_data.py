@@ -21,7 +21,11 @@ Four rulesets cover the five game versions served by the site:
 - 'modern': Dofus 3 and its beta.
 - 'dofus2': the modern weights, but the smaller rune roster of the 2.x client.
 - 'touch': Dofus Touch, forked from Dofus 2.14. Wisdom weighs 1 per point
-  against the PC's 3.
+  against the PC's 3. Forking before 2.29 does NOT mean it kept the pre-2.29
+  weights: the Cri, So and Vi runes were read in the game's own smithmagic
+  interface on 2026-09-03 and give 10, 10 and 0.2, the modern figures. The
+  version note used to tell Touch readers the opposite, which were the Retro
+  column's numbers.
 - 'retro': Dofus 1.29. Smaller stat roster, older densities.
 
 Rune names are the ones each version's own item table publishes, checked
@@ -142,6 +146,9 @@ for _key in ('permedam', 'perrandam', 'perweadam', 'perspedam',
              'ref', 'trapdam', 'trapdamper'):
     del _TOUCH_STATS[_key]
 _TOUCH_STATS.update({
+    # These first three are the modern values, restated on purpose: Touch
+    # forked at 2.14 and the obvious guess is that it kept the pre-2.29 crit
+    # 30, heal 20 and Vi +3/+10/+30. It did not. Read in game 2026-09-03.
     'vit': _stat(0.2, 'Vi', [('', 5), ('Pa', 15), ('Ra', 50)]),
     'wis': _stat(1, 'Sa', _STANDARD_TIERS),
     'ch': _stat(10, 'Cri', [('', 1)]),

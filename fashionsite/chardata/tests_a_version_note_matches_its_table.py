@@ -79,16 +79,26 @@ class TheTouchNoteIsTrue(TestCase):
         self.assertIsNotNone(density('dofus3', 'ref'))
         self.assertIsNotNone(density('dofus3', 'perspedam'))
 
+    def test_the_three_weights_read_in_game_on_touch(self):
+        # Settled by looking, on 2026-09-03: the Cri, So and Vi runes in the
+        # game's own smithmagic interface give 10, 10 and 0.2. Forking at 2.14
+        # did not keep the pre-2.29 crit 30, heal 20 and Vi +3/+10/+30 -- those
+        # are the Retro column's, and the note used to hand them to Touch.
+        self.assertEqual(10, density('touch', 'ch'))
+        self.assertEqual(10, density('touch', 'heals'))
+        self.assertEqual(0.2, density('touch', 'vit'))
+        self.assertEqual([('', 5), ('Pa', 15), ('Ra', 50)],
+                         get_fm_stats('touch')['vit']['tiers'])
+        # Control: Retro really does hold the other three, so the reading
+        # above distinguishes the two columns instead of matching both.
+        self.assertEqual(30, density('retro', 'ch'))
+        self.assertEqual(20, density('retro', 'heals'))
+        self.assertEqual(0.25, density('retro', 'vit'))
+
     def test_the_note_no_longer_claims_the_retro_weights(self):
-        # The exact defect: crit 30, heal 20 and Vi +3/+10/+30 belong to
-        # Retro, and the Touch table has never held them.
         note = LOCALIZED_UI['en']['version_note_touch']
         self.assertNotIn('30', note)
         self.assertNotIn('Heal weighs 20', note)
-        self.assertEqual(10, density('touch', 'ch'))
-        self.assertEqual(10, density('touch', 'heals'))
-        self.assertEqual(30, density('retro', 'ch'))
-        self.assertEqual(20, density('retro', 'heals'))
 
     def test_every_language_says_the_same_thing(self):
         for language in LOCALIZED_UI:
