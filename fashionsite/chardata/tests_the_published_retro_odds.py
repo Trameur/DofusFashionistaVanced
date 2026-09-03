@@ -197,6 +197,13 @@ class TheSimulatorReadsThePublishedLadder(TestCase):
 
     version = 'retro'
 
+    def _ring_rows(self):
+        # The inherited helper looks up a Dofus 3 item by name, which depends
+        # on whichever game version another test left active. Neither driver
+        # below reads these rows -- EASY_THROW builds its own session -- so the
+        # dependency is dropped rather than worked around.
+        return []
+
     def _config(self):
         from chardata.forgemagie_data import (
             OVER_WEIGHT_CAP, get_fm_stats, get_one_percent_over_weight,

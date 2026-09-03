@@ -11739,7 +11739,10 @@ class SmithmagicOddsTests(TestCase):
 
     def _ring_rows(self):
         from fashionistapulp.structure import get_structure
-        structure = get_structure()
+        # Named, not defaulted: get_structure() returns whichever game version
+        # was last activated, so under --parallel a neighbour in the same
+        # worker could leave Retro active and the ring would not be found.
+        structure = get_structure('dofus3')
         item = structure.get_item_by_name('Rhineetle Ring')
         self.assertIsNotNone(item)
         ranges = getattr(item, 'stat_ranges', {}) or {}
