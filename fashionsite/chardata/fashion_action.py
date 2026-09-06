@@ -14,6 +14,8 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+import logging
+
 from django.utils.translation import gettext_lazy
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -41,7 +43,31 @@ from fashionistapulp.model_pool import create_model, borrow_model, return_model
 if not settings.DEBUG:
     create_model()
 
+logger = logging.getLogger(__name__)
+
 MEMORY = DatabaseSolutionMemory()
+
+
+def _warn_if_unproven(char, solved_status, proven):
+    """Say so when the solver ran out of time instead of closing the gap.
+
+    A set found in ninety seconds is still worth showing, and this does not
+    stop it being shown. What it stops is showing it SILENTLY. Every solver
+    runs with timeLimit=90, and PuLP reports a run CBC stopped on time as
+    'Optimal' all the same (LpProblem2.get_solution_status says how), so
+    without this line the two are the same event everywhere: in the code, in
+    the logs, and to anyone deciding whether the site may promise a proven
+    optimum on a public page.
+
+    Only fresh solves reach here. A cache hit returns the earlier answer
+    without re-solving, and counting it again would inflate the frequency.
+    """
+    if solved_status != 'Optimal' or proven:
+        return
+    logger.warning(
+        'solver stopped on time for char %s (%s): showing the best set it '
+        'found, which is not a proven optimum',
+        getattr(char, 'id', '?'), getattr(char, 'game_version', '?'))
 
 def get_options(request, char_id):
     char = get_char_or_raise(request, char_id)
@@ -128,6 +154,7 @@ def fashion(request, char_id, spells=False):
             model.setup(model_input)
             model.run(2)
             solved_status = model.get_solved_status()
+            proven = model.solution_is_proven()
             if solved_status == 'Optimal':
                 stats = model.get_stats()
                 result = model.get_result_minimal()
@@ -136,6 +163,9 @@ def fashion(request, char_id, spells=False):
             model.setup(model_input)
             model.run(2)
             solved_status = model.get_solved_status()
+            # Lu ici pour la meme raison que `solved_status` juste au-dessus :
+            # apres `return_model` le modele appartient a la file.
+            proven = model.solution_is_proven()
             if solved_status == 'Optimal':
                 stats = model.get_stats()
                 result = model.get_result_minimal()
@@ -147,6 +177,7 @@ def fashion(request, char_id, spells=False):
         # meme -- mais un `--threads` ajoute a gunicorn armerait la course
         # sans que personne relie les deux, et la memoire garderait le
         # statut d une AUTRE requete.
+        _warn_if_unproven(char, solved_status, proven)
         MEMORY.put(model_input, (solved_status, stats, result))
 
     if result is None:

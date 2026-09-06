@@ -17,7 +17,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 from .fashionista_config import get_fashionista_path
-from pulp import LpVariable, LpInteger, LpProblem, LpMaximize, LpStatus, value
+from pulp import (LpVariable, LpInteger, LpProblem, LpMaximize, LpStatus,
+                  LpSolution, LpSolutionOptimal, value)
 import logging
 import pulp
 import os
@@ -154,3 +155,25 @@ class LpProblem2:
         
     def get_status(self):
         return LpStatus[self.pulp_lp.status]
+
+    def get_solution_status(self):
+        """Did the solver PROVE this is the best set, or only find it?
+
+        `get_status` cannot answer that, and reading it as if it could is the
+        trap: PuLP maps a CBC run stopped by its own time limit back onto
+        LpStatusOptimal. In pulp/apis/coin_api.py, when CBC writes
+        "Stopped on time - objective value X", get_status turns
+        LpStatusNotSolved into LpStatusOptimal and files the truth in
+        `sol_status` instead. So `get_status() == 'Optimal'` is true both for a
+        closed gap and for the best set found before the clock ran out.
+
+        This returns the field that keeps them apart: "Optimal Solution Found"
+        when CBC closed the gap, "Solution Found" when it timed out holding an
+        incumbent. Every solver here runs with timeLimit=90, so the second case
+        is reachable on a hard search.
+        """
+        return LpSolution[self.pulp_lp.sol_status]
+
+    def solution_is_proven(self):
+        """True only when the solver closed the gap. See get_solution_status."""
+        return self.pulp_lp.sol_status == LpSolutionOptimal

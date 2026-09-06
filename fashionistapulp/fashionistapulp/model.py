@@ -1387,6 +1387,14 @@ class Model:
     def get_solved_status(self):
         return self.problem.get_status()
 
+    def get_solution_status(self):
+        """"Optimal Solution Found" or "Solution Found". Not the same question
+        as get_solved_status: see LpProblem2.get_solution_status."""
+        return self.problem.get_solution_status()
+
+    def solution_is_proven(self):
+        return self.problem.solution_is_proven()
+
 
 class ModelInput(object):
 

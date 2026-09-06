@@ -27802,3 +27802,69 @@ class OnlyOneElementalCharacteristicIsGrantedTests(SimpleTestCase):
                 granted,
                 '%s lost its characteristics; Ankama says it grants several'
                 % name)
+
+
+class ATimedOutSolveIsNotAProvenOptimumTests(SimpleTestCase):
+    """`get_status() == 'Optimal'` does not mean the solver proved anything.
+
+    PuLP's CBC reader maps a run stopped by its own time limit back onto
+    LpStatusOptimal: in pulp/apis/coin_api.py, when CBC writes "Stopped on
+    time - objective value X", get_status turns LpStatusNotSolved into
+    LpStatusOptimal and records the truth in sol_status instead. Every solver
+    in lpproblem.py runs with timeLimit=90, and fashion_action displays a set
+    on that status string alone, so before this the site could not tell a
+    closed gap from the best set found before the clock ran out, and said
+    nothing either way.
+    """
+
+    def _solved(self):
+        from fashionistapulp.lpproblem import LpProblem2
+        problem = LpProblem2()
+        problem.setup_variable('item', 'x', 0, 10)
+        problem.init_objective_function()
+        problem.add_to_of('item', 'x', 3)
+        problem.finish_objective_function()
+        problem.restriction_lt_eq(4, [(1, 'item', 'x')])
+        problem.run()
+        return problem
+
+    def test_a_solve_that_closes_the_gap_is_proven(self):
+        problem = self._solved()
+        self.assertEqual('Optimal', problem.get_status())
+        self.assertTrue(problem.solution_is_proven())
+        self.assertEqual('Optimal Solution Found', problem.get_solution_status())
+
+    def test_the_old_status_cannot_tell_a_timeout_apart(self):
+        """The reason the second accessor has to exist at all."""
+        from pulp import constants
+        problem = self._solved()
+        problem.pulp_lp.sol_status = constants.LpSolutionIntegerFeasible
+        self.assertEqual(
+            'Optimal', problem.get_status(),
+            'if this ever stops saying Optimal on a stopped run, PuLP changed '
+            'and the warning in fashion_action can be simplified')
+        self.assertFalse(problem.solution_is_proven())
+        self.assertEqual('Solution Found', problem.get_solution_status())
+
+    def test_the_site_says_so_when_it_ran_out_of_time(self):
+        from chardata import fashion_action
+
+        class FauxChar(object):
+            id = 4242
+            game_version = 'dofus3'
+
+        with self.assertLogs('chardata.fashion_action', level='WARNING') as pris:
+            fashion_action._warn_if_unproven(FauxChar(), 'Optimal', False)
+        self.assertIn('4242', pris.output[0])
+        self.assertIn('not a proven optimum', pris.output[0])
+
+    def test_it_stays_quiet_when_the_answer_was_proven(self):
+        from chardata import fashion_action
+
+        class FauxChar(object):
+            id = 1
+            game_version = 'dofus3'
+
+        with self.assertNoLogs('chardata.fashion_action', level='WARNING'):
+            fashion_action._warn_if_unproven(FauxChar(), 'Optimal', True)
+            fashion_action._warn_if_unproven(FauxChar(), 'Infeasible', False)
