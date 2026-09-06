@@ -1463,6 +1463,7 @@ GUIDES = {
                 'body': '''
 <h2>It's an optimization problem, not a list</h2>
 <p>When you set your sliders, you're handing the tool a <strong>score</strong> for every stat. Behind the scenes it then searches through thousands of legal item combinations and picks the one that racks up the highest total score, while respecting the hard rules of the game. That's a genuine mathematical optimization, the same family of math used for scheduling planes or packing trucks, just pointed at your Iop instead.</p>
+<p>And no, no language model chooses your gear. Your priorities become equations, and a solver searches every item you have not excluded for the best legal answer it can find. The Fashionista has worked that way since 2012, when it was still a desktop tool.</p>
 
 <h2>Why weighting beats raw stats</h2>
 <p>Say intelligence is worth 1 point to you and vitality 0.2. An item with +40 int and +100 vita scores 40 + 20 = 60. An item with +60 int and +30 vita scores 60 + 6 = 66, so it wins, even though it has less vita. Multiply that across twelve slots, set bonuses and dofus, and you get combinations no human bothers to check by hand. That's the whole point: you set the priorities, it does the boring part.</p>
@@ -1489,6 +1490,7 @@ GUIDES = {
                 'body': '''
 <h2>C'est un problème d'optimisation, pas une liste</h2>
 <p>Quand tu règles tes curseurs, tu donnes en fait un <strong>score</strong> à chaque carac. En coulisses, l'outil parcourt des milliers de combinaisons d'items valides et garde celle qui cumule le plus gros score total, tout en respectant les règles dures du jeu. C'est de la vraie optimisation mathématique, la même famille de maths qui sert à planifier des avions ou à remplir des camions, juste braquée sur ton Iop.</p>
+<p>Et non, aucun modèle de langage ne choisit ton stuff. Tes priorités deviennent des équations, et un solveur cherche la meilleure réponse légale qu'il puisse trouver parmi tous les objets que tu n'as pas exclus. Le Fashionista marche comme ça depuis 2012, à l'époque où c'était encore un logiciel à installer sur son PC.</p>
 
 <h2>Pourquoi pondérer bat les stats brutes</h2>
 <p>Mettons que l'intelligence vaut 1 point pour toi et la vita 0,2. Un item +40 intel et +100 vita marque 40 + 20 = 60. Un item +60 intel et +30 vita marque 60 + 6 = 66, donc il gagne, alors qu'il a moins de vita. Multiplie ça sur douze emplacements, les bonus de panoplie et les dofus, et tu obtiens des combinaisons que personne ne s'amuse à vérifier à la main. C'est tout l'intérêt : tu poses les priorités, lui fait la partie chiante.</p>
@@ -1515,6 +1517,7 @@ GUIDES = {
                 'body': '''
 <h2>Es un problema de optimización, no una lista</h2>
 <p>Cuando ajustas los deslizadores, en realidad le das una <strong>puntuación</strong> a cada característica. Por detrás, la herramienta recorre miles de combinaciones de ítems válidas y se queda con la que más puntúa en total, respetando las reglas duras del juego. Es optimización matemática de verdad, la misma familia de mates que sirve para planificar aviones o llenar camiones, solo que apuntando a tu Yopuka.</p>
+<p>Y no, ningún modelo de lenguaje elige tu equipo. Tus prioridades se convierten en ecuaciones y un solver recorre todos los objetos que no hayas excluido buscando la mejor respuesta válida que sea capaz de encontrar. El Fashionista funciona así desde 2012, cuando todavía era una herramienta de escritorio.</p>
 
 <h2>Por qué ponderar gana a las estadísticas en bruto</h2>
 <p>Pongamos que la inteligencia vale 1 punto para ti y la vitalidad 0,2. Un ítem con +40 inteligencia y +100 vita puntúa 40 + 20 = 60. Uno con +60 inteligencia y +30 vita puntúa 60 + 6 = 66, así que gana, aunque tenga menos vita. Multiplica eso por doce ranuras, bonus de panoplia y dofus, y salen combinaciones que nadie se pone a comprobar a mano. Esa es la gracia: tú pones las prioridades, ella hace lo aburrido.</p>
@@ -1541,6 +1544,7 @@ GUIDES = {
                 'body': '''
 <h2>É um problema de otimização, não uma lista</h2>
 <p>Quando você ajusta os controles, na real você dá uma <strong>pontuação</strong> pra cada atributo. Por trás, a ferramenta percorre milhares de combinações de itens válidas e fica com a que soma a maior pontuação total, respeitando as regras duras do jogo. É otimização matemática de verdade, a mesma família de matemática que serve pra planejar voos ou encher caminhões, só que apontada pro seu Iop.</p>
+<p>E não, nenhum modelo de linguagem escolhe o seu equipamento. Suas prioridades viram equações, e um solver procura, entre todos os itens que você não excluiu, a melhor resposta válida que conseguir encontrar. O Fashionista funciona assim desde 2012, quando ainda era um programa de desktop.</p>
 
 <h2>Por que ponderar ganha dos atributos crus</h2>
 <p>Digamos que inteligência vale 1 ponto pra você e vitalidade 0,2. Um item com +40 inteligência e +100 vita pontua 40 + 20 = 60. Um com +60 inteligência e +30 vita pontua 60 + 6 = 66, então ganha, mesmo tendo menos vita. Multiplica isso por doze slots, bônus de conjunto e dofus, e saem combinações que ninguém fica conferindo na mão. É essa a sacada: você define as prioridades, ela faz a parte chata.</p>
@@ -1567,6 +1571,7 @@ GUIDES = {
                 'body': '''
 <h2>Es ist ein Optimierungsproblem, keine Liste</h2>
 <p>Wenn du deine Regler einstellst, gibst du dem Tool im Grunde eine <strong>Punktzahl</strong> für jeden Wert. Im Hintergrund durchsucht es dann tausende erlaubte Item-Kombinationen und nimmt die mit der höchsten Gesamtpunktzahl, und hält sich dabei an die harten Regeln des Spiels. Das ist echte mathematische Optimierung, dieselbe Sorte Mathe, mit der man Flüge plant oder Lkw belädt, nur eben auf deinen Iop gerichtet.</p>
+<p>Und nein, kein Sprachmodell wählt deine Ausrüstung aus. Deine Prioritäten werden zu Gleichungen, und ein Solver durchsucht jeden Gegenstand, den du nicht ausgeschlossen hast, nach der besten zulässigen Lösung, die er finden kann. So arbeitet die Fashionista seit 2012, damals war sie noch ein Desktop-Tool.</p>
 
 <h2>Warum Gewichten besser ist als rohe Werte</h2>
 <p>Sagen wir, Intelligenz ist dir 1 Punkt wert und Vitalität 0,2. Ein Item mit +40 Int und +100 Vita kommt auf 40 + 20 = 60. Eins mit +60 Int und +30 Vita kommt auf 60 + 6 = 66, also gewinnt es, obwohl es weniger Vita hat. Rechne das über zwölf Plätze, Set-Boni und Dofus hoch, und du bekommst Kombinationen, die kein Mensch von Hand durchprobiert. Genau das ist der Punkt: Du setzt die Prioritäten, es macht den langweiligen Teil.</p>

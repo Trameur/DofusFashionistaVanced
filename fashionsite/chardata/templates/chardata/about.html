@@ -20,7 +20,15 @@
     <td><img alt="" src="{% static "chardata/designs/myVel.png" %}"></img>
     </td>
     <td class="big-text">
-    <p>{% trans "The Dofus Fashionista is a fan site about <a href='http://www.dofus.com'>Dofus</a>. It uses mathematical programming, a branch of <a href='http://en.wikipedia.org/wiki/Artificial_intelligence'>witchcraft</a>, to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 MP with as much Intelligence as possible) the player provides." %}</p>
+    {% comment %}
+       The old wording called the method "a branch of witchcraft" and linked the
+       joke to Wikipedia's Artificial intelligence article. The joke did not
+       survive translation: the French and Spanish catalogues dropped it and
+       stated flatly that the site uses "une intelligence artificielle" /
+       "inteligencia artificial", which is the opposite of what it does. The
+       link now points at the technique the solver actually runs.
+    {% endcomment %}
+    <p>{% trans "The Dofus Fashionista is a fan site about <a href='https://www.dofus.com'>Dofus</a>. It uses <a href='https://en.wikipedia.org/wiki/Integer_programming'>mathematical programming</a> to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 MP with as much Intelligence as possible) the player provides." %}</p>
     <p>{% trans "When a new project is created, the Wizard tries to figure what the character is about by reading the build and class specified. It then creates an initial configuration for the first run." %}</p>
     <p>{% trans "The outfit suggestion might not be what you were looking for. You can find, for example, the HP too low despite the good Agility. Tweaking can be done by going back to the wizard and playing with the sliders, or going hardcore and fiddling directly with the value the attributed to each stat." %}</p>
     <p>{% trans "If items that are too expensive or not available to you are suggested, you can always forbid them and ask for a new set." %}</p>
@@ -30,6 +38,21 @@
     <p>{% trans "The Dofus Fashionista is open source software. The code can be found in" %} <a href="https://github.com/Trameurs/DofusFashionistaVanced">GitHub</a>.</p>
     <p>{% blocktrans %}To report problems, suggest new features, or rant about the lack of skill of your kolo team, <a href="{{contact_url}}">contact us</a>.{% endblocktrans %}</p>
     <p><a href="{% game_url 'license_page' %}">{% trans "Copyright and License information" %}</a></p>
+
+    <h2 id="how-its-made">{% trans "How this site is made" %}</h2>
+    {% comment %}
+       Every clause here has to survive a reader with a terminal, so: the 2012
+       date is the Imps Village announcement (24 Feb 2012, under the handle
+       Kameghan), the site itself dates from 2014, and this is the fork. The
+       solver sentence says "every item you have not excluded" because
+       lock_forbid.DEFAULT_EXCLUSION_ANKAMA_IDS pre-filters the pool, and it
+       claims no proof of optimality: CBC runs with timeLimit=90 and PuLP 2.7.0
+       relabels a stopped run as Optimal, so the site cannot tell a proven
+       optimum from the best incumbent. It says "no language model", never
+       "no AI": the optional screenshot import runs tesseract.js.
+    {% endcomment %}
+    <p>{% trans "The Dofus Fashionista goes back to February 2012, when Kameghan released it as a desktop tool, and it has been a website since 2014. This site is the fork that keeps it running, up to date with the current game and its four other versions." %}</p>
+    <p>{% trans "Your set is not written by an AI. It is computed by a mathematical solver: your class, your level, your minimum stats and your priorities become equations and constraints, and the solver searches every item you have not excluded for the best combination it can find. It computes an answer, it does not generate one, and there is no language model anywhere in that path. The code is open source, so you can check for yourself." %}</p>
 
     <h2 id="api">{% trans "Public API" %}</h2>
     <p>{% trans "The site also offers a small read-only JSON API: no authentication, open CORS, responses cached for 60 seconds. It only exposes builds that their owners have shared publicly. Use it for Discord bots, stream overlays or fan sites." %}</p>

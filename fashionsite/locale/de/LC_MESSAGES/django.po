@@ -1579,19 +1579,8 @@ msgid "About"
 msgstr "Um"
 
 #: .\chardata\templates\chardata\about.html:22
-msgid ""
-"The Dofus Fashionista is a fan site about <a href='http://"
-"www.dofus.com'>Dofus</a>. It uses mathematical programming, a branch of <a "
-"href='http://en.wikipedia.org/wiki/Artificial_intelligence'>witchcraft</a>, "
-"to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 "
-"MP with as much Intelligence as possible) the player provides."
-msgstr ""
-"Die Dofus Fashionista ist eine Fanseite über <a href='http://"
-"www.dofus.com'>Dofus</a>. Es verwendet mathematische Programmierung, einen "
-"Zweig von <a href='http://en.wikipedia.org/wiki/"
-"Artificial_intelligence'>Hexerei</a>, um Satzvorschläge zu erstellen, die "
-"den Anforderungen des Spielers entsprechen (z. B. 12 AP, 6 MP mit so viel "
-"Intelligenz wie möglich)."
+msgid "The Dofus Fashionista is a fan site about <a href='https://www.dofus.com'>Dofus</a>. It uses <a href='https://en.wikipedia.org/wiki/Integer_programming'>mathematical programming</a> to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 MP with as much Intelligence as possible) the player provides."
+msgstr "Die Dofus Fashionista ist eine Fanseite rund um <a href='https://www.dofus.com'>Dofus</a>. Sie nutzt <a href='https://en.wikipedia.org/wiki/Integer_programming'>mathematische Optimierung</a>, um Set-Vorschläge zu erstellen, die den Vorgaben des Spielers entsprechen (z. B. 12 AP, 6 BP bei möglichst viel Intelligenz)."
 
 #: .\chardata\templates\chardata\about.html:23
 msgid ""
@@ -7005,3 +6994,18 @@ msgid ""
 msgstr ""
 "Senken Sie diese <a href=%(mins_link)s>Mindestwerte</a>, die mehr verlangen, "
 "als diese Version erreichen kann:"
+
+msgid "How this site is made"
+msgstr "Wie diese Seite gebaut ist"
+
+msgid "The Dofus Fashionista goes back to February 2012, when Kameghan released it as a desktop tool, and it has been a website since 2014. This site is the fork that keeps it running, up to date with the current game and its four other versions."
+msgstr "Die Dofus Fashionista gibt es seit Februar 2012, als Kameghan sie als Desktop-Tool veröffentlichte, und seit 2014 ist sie eine Website. Diese Seite ist der Fork, der sie am Leben und auf dem Stand des aktuellen Spiels und seiner vier weiteren Versionen hält."
+
+msgid "Your set is not written by an AI. It is computed by a mathematical solver: your class, your level, your minimum stats and your priorities become equations and constraints, and the solver searches every item you have not excluded for the best combination it can find. It computes an answer, it does not generate one, and there is no language model anywhere in that path. The code is open source, so you can check for yourself."
+msgstr "Ihr Set wird nicht von einer KI geschrieben. Es wird von einem echten mathematischen Solver berechnet: Ihre Klasse, Ihr Level, Ihre Mindestwerte und Ihre Prioritäten werden zu Gleichungen und Nebenbedingungen, und der Solver durchsucht jeden Gegenstand, den Sie nicht ausgeschlossen haben, nach der besten Kombination, die er finden kann. Er berechnet eine Antwort, er generiert keine, und nirgendwo auf diesem Weg steckt ein Sprachmodell. Der Code ist Open Source, Sie können also selbst nachsehen."
+
+msgid "Is this site made with AI?"
+msgstr "Ist diese Seite mit KI gemacht?"
+
+msgid "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item."
+msgstr "Nein. Ihr Set wird von einem mathematischen Solver berechnet und nicht von einem Sprachmodell geschrieben: Ihre Prioritäten werden zu Gleichungen, und der Solver durchsucht jeden Gegenstand, den Sie nicht ausgeschlossen haben, nach der besten Kombination, die er finden kann. Der Code ist Open Source, Sie können also selbst nachsehen, und die einzigen Bot-Commits in der Git-Historie sind Updates von Abhängigkeiten. Eine optionale Funktion nutzt tatsächlich Zeichenerkennung: Wenn Sie Ihr Inventar aus einem Screenshot importieren, läuft in Ihrem Browser eine Texterkennung, die Namen und Werte der Gegenstände herausliest, und Sie können jeden Wert bearbeiten, bevor er verwendet wird. Einen Gegenstand wählt sie nie aus."

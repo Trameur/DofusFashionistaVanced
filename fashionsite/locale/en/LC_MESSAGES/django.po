@@ -1549,13 +1549,8 @@ msgid "About"
 msgstr ""
 
 #: .\chardata\templates\chardata\about.html:22
-msgid ""
-"The Dofus Fashionista is a fan site about <a href='http://"
-"www.dofus.com'>Dofus</a>. It uses mathematical programming, a branch of <a "
-"href='http://en.wikipedia.org/wiki/Artificial_intelligence'>witchcraft</a>, "
-"to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 "
-"MP with as much Intelligence as possible) the player provides."
-msgstr ""
+msgid "The Dofus Fashionista is a fan site about <a href='https://www.dofus.com'>Dofus</a>. It uses <a href='https://en.wikipedia.org/wiki/Integer_programming'>mathematical programming</a> to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 MP with as much Intelligence as possible) the player provides."
+msgstr "The Dofus Fashionista is a fan site about <a href='https://www.dofus.com'>Dofus</a>. It uses <a href='https://en.wikipedia.org/wiki/Integer_programming'>mathematical programming</a> to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 MP with as much Intelligence as possible) the player provides."
 
 #: .\chardata\templates\chardata\about.html:23
 msgid ""
@@ -6220,3 +6215,18 @@ msgid ""
 "Lower these <a href=%(mins_link)s>minimums</a>, which ask for more than this "
 "version can reach:"
 msgstr ""
+
+msgid "How this site is made"
+msgstr "How this site is made"
+
+msgid "The Dofus Fashionista goes back to February 2012, when Kameghan released it as a desktop tool, and it has been a website since 2014. This site is the fork that keeps it running, up to date with the current game and its four other versions."
+msgstr "The Dofus Fashionista goes back to February 2012, when Kameghan released it as a desktop tool, and it has been a website since 2014. This site is the fork that keeps it running, up to date with the current game and its four other versions."
+
+msgid "Your set is not written by an AI. It is computed by a mathematical solver: your class, your level, your minimum stats and your priorities become equations and constraints, and the solver searches every item you have not excluded for the best combination it can find. It computes an answer, it does not generate one, and there is no language model anywhere in that path. The code is open source, so you can check for yourself."
+msgstr "Your set is not written by an AI. It is computed by a mathematical solver: your class, your level, your minimum stats and your priorities become equations and constraints, and the solver searches every item you have not excluded for the best combination it can find. It computes an answer, it does not generate one, and there is no language model anywhere in that path. The code is open source, so you can check for yourself."
+
+msgid "Is this site made with AI?"
+msgstr "Is this site made with AI?"
+
+msgid "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item."
+msgstr "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item."
