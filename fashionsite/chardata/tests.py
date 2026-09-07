@@ -7333,6 +7333,39 @@ class SolutionGenerationHistoryTests(TestCase):
         self.assertEqual(snap_row['score_delta'], snapshot_score - current_score)
         self.assertNotEqual(snap_row['score_delta'], 0)
 
+    def test_snapshot_view_keeps_an_older_current_generation_in_history(self):
+        import datetime
+        import pickle as _pickle
+        from django.utils import timezone
+        from chardata.models import SolutionGeneration
+        from fashionistapulp.modelresult import ModelResultMinimal
+
+        owner, char, hats = self._build_char_with_items()
+        now = timezone.now()
+        old = SolutionGeneration.objects.create(
+            char=char, game_version=char.game_version,
+            minimal_solution=_pickle.dumps(
+                ModelResultMinimal({'hat': hats[0].id}, self._base_input(), {})))
+        SolutionGeneration.objects.filter(pk=old.pk).update(
+            created_time=now - datetime.timedelta(days=1))
+        for idx in range(10):
+            generation = SolutionGeneration.objects.create(
+                char=char, game_version=char.game_version,
+                minimal_solution=_pickle.dumps(
+                    ModelResultMinimal({'hat': hats[(idx + 1) % len(hats)].id},
+                                       self._base_input(), {})))
+            SolutionGeneration.objects.filter(pk=generation.pk).update(
+                created_time=now - datetime.timedelta(minutes=idx))
+
+        self.client.force_login(owner)
+        resp = self.client.get('/solutiongeneration/%d/%d/' % (char.pk, old.pk))
+
+        self.assertEqual(resp.status_code, 200)
+        history = resp.context['generation_history']
+        old_row = next(row for row in history if row['id'] == old.id)
+        self.assertTrue(old_row['is_current_snapshot'])
+        self.assertEqual(len(history), 11)
+
     def test_generation_preview_uses_the_generation_game_version(self):
         import pickle as _pickle
         from django.contrib.auth.models import User

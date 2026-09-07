@@ -391,9 +391,12 @@ def _score_delta_text(delta):
 
 
 def _build_generation_history(request, char, current_generation=None, current_score=None):
-    generations = (SolutionGeneration.objects
-                   .filter(char=char, game_version=char.game_version)
-                   .order_by('-created_time', '-id')[:10])
+    generations = list(SolutionGeneration.objects
+                       .filter(char=char, game_version=char.game_version)
+                       .order_by('-created_time', '-id')[:10])
+    if current_generation is not None and not any(
+            generation.id == current_generation.id for generation in generations):
+        generations.append(current_generation)
     if current_score is None:
         try:
             current_score = calculate_project_build_score(char, get_solution(char))
