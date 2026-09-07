@@ -1022,6 +1022,72 @@ class PublicRouteSmokeTests(TestCase):
         self.assertIn('COMPARE_TRAY_CONFIG', html)
         self.assertIn('compare_tray.js', html)
 
+    def test_compare_cart_storage_is_per_game_version(self):
+        node = shutil.which('node')
+        if node is None:
+            self.skipTest('node is not installed')
+        js_path = os.path.join(os.path.dirname(__file__), 'static', 'chardata',
+                               'compare_tray.js')
+        with open(js_path, encoding='utf-8') as handle:
+            source = handle.read()
+        driver = r"""
+var vm = require('vm');
+var data = {};
+var clickHandler = null;
+global.localStorage = {
+  getItem: function (key) { return Object.prototype.hasOwnProperty.call(data, key) ? data[key] : null; },
+  setItem: function (key, value) { data[key] = String(value); }
+};
+global.window = {
+  COMPARE_TRAY_CONFIG: {apiBase: '/retro', i18n: {}},
+  matchMedia: function () { return {matches: false}; },
+  addEventListener: function () {},
+  location: {href: ''}
+};
+var fakeClassList = {add: function () {}, remove: function () {}, toggle: function () {}};
+global.document = {
+  readyState: 'complete',
+  body: {appendChild: function () {}},
+  createElement: function () { return {classList: fakeClassList}; },
+  getElementById: function () { return null; },
+  addEventListener: function (event, handler) {
+    if (event === 'click') { clickHandler = handler; }
+  }
+};
+global.setTimeout = function () { return 1; };
+global.clearTimeout = function () {};
+localStorage.setItem('ffCompareTray', JSON.stringify([
+  {id: '2', base: '/retro'},
+  {id: '9', base: '/dofus2'}
+]));
+localStorage.setItem('ffCompareTray:/dofus2', JSON.stringify([
+  {id: '9', base: '/dofus2'}
+]));
+vm.runInThisContext(source);
+window.FashionCompareTray.add({id: '3', name: 'Retro build', base: '/retro'});
+clickHandler({target: {closest: function (selector) { return selector === '.cc-go'; }}});
+console.log(JSON.stringify({
+  key: window.FashionCompareTray._storageKey(),
+  retro: JSON.parse(data['ffCompareTray:/retro']),
+  dofus2: JSON.parse(data['ffCompareTray:/dofus2']),
+  href: window.location.href
+}));
+"""
+        with tempfile.NamedTemporaryFile('w', suffix='.js', encoding='utf-8',
+                                         delete=False) as handle:
+            handle.write('var source = %s;\n%s' % (json.dumps(source), driver))
+            name = handle.name
+        try:
+            done = subprocess.run([node, name], capture_output=True, text=True)
+        finally:
+            os.unlink(name)
+        self.assertEqual(done.returncode, 0, done.stderr[-800:])
+        result = json.loads(done.stdout)
+        self.assertEqual(result['key'], 'ffCompareTray:/retro')
+        self.assertEqual([entry['id'] for entry in result['retro']], ['2', '3'])
+        self.assertEqual([entry['id'] for entry in result['dofus2']], ['9'])
+        self.assertEqual(result['href'], '/retro/compare_sets/2/3')
+
     def test_non_retro_item_hides_pet_feeding_section(self):
         # A duplicate variant of an item sits at id 100M + ankama_id, and the
         # "when fed" section belongs to Retro pets only.

@@ -16,18 +16,49 @@
             .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    function load() {
+    function normalizeBase(base) {
+        return String(base || '').replace(/\/+$/, '');
+    }
+
+    function currentBase() {
+        return normalizeBase(cfg.apiBase || '');
+    }
+
+    function storageKey() {
+        return KEY + ':' + currentBase();
+    }
+
+    function buildBase(build) {
+        if (build && build.base != null) {
+            return normalizeBase(build.base);
+        }
+        return currentBase();
+    }
+
+    function read(key) {
         try {
-            var arr = JSON.parse(localStorage.getItem(KEY) || '[]');
+            var arr = JSON.parse(localStorage.getItem(key) || '[]');
             return Array.isArray(arr) ? arr : [];
         } catch (e) {
             return [];
         }
     }
 
+    function load() {
+        var arr = read(storageKey());
+        if (!arr.length) {
+            arr = read(KEY).filter(function (build) {
+                return buildBase(build) === currentBase();
+            });
+        }
+        return arr.filter(function (build) {
+            return buildBase(build) === currentBase();
+        });
+    }
+
     function save(arr) {
         try {
-            localStorage.setItem(KEY, JSON.stringify(arr));
+            localStorage.setItem(storageKey(), JSON.stringify(arr));
         } catch (e) {}
     }
 
@@ -53,6 +84,7 @@
             flash(t.full || 'You can compare up to 4 builds');
             return;
         }
+        build.base = buildBase(build);
         arr.push(build);
         save(arr);
         render();
@@ -77,7 +109,7 @@
             flash(t.needTwo || 'Add at least 2 builds to compare');
             return;
         }
-        var base = arr[0].base != null ? arr[0].base : (cfg.apiBase || '');
+        var base = currentBase();
         var ids = arr.map(function (b) { return encodeURIComponent(b.id); });
         window.location.href = base + '/compare_sets/' + ids.join('/');
     }
@@ -201,5 +233,10 @@
         render();
     }
 
-    window.FashionCompareTray = {add: add, remove: remove, clear: clear};
+    window.FashionCompareTray = {
+        add: add,
+        remove: remove,
+        clear: clear,
+        _storageKey: storageKey
+    };
 })();
