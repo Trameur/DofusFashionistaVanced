@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""What each Dofus version is running, from its own source. Exits 1 if one moved.
+"""What each Dofus version is running, from its own source. Exits 1 if item data moved.
 
     python itemscraper/check_game_versions.py
 
-Dofus 3, the beta and Dofus 2 are watched on the version they publish. Retro
-and Touch never move theirs, 1.48 and 1.73, so they are watched on their real
-build instead: Retro's full Cytrus string and the asset bundle Touch's client
-config points at. Neither is a version number, and both live in
-fashionista_version.py as WATCHED_* so the footer keeps showing the short one.
+Dofus 3, the beta and Dofus 2 are watched on the version they publish. Touch
+does not publish a useful public version, so it is watched on the asset bundle
+its client config points at. Retro's public version and client build are not
+enough: its item data comes from the lang CDN, so the lang category versions are
+the release gate and the client build is only printed as a diagnostic.
 """
 from __future__ import annotations
 
@@ -56,15 +56,12 @@ def touch_assets():
 def main():
     import fashionista_version as ours
 
-    # Retro and Touch keep the same public number across content patches, so
-    # they are watched on their real build instead. Comparing only the public
-    # number let Retro 1.48.20 -> 1.48.21 through unnoticed.
+    # Touch keeps the same public number across content patches, so it is
+    # watched on its asset bundle. Retro is handled below through lang files.
     checks = [
         ('dofus3', ours.FASHIONISTA_VERSION, cytrus_version('dofus3'), None),
         ('beta', ours.FASHIONISTA_BETA_VERSION, cytrus_version('beta'), None),
         ('dofus2', ours.FASHIONISTA_DOFUS2_VERSION, cytrus_version('dofus2'), None),
-        ('retro', ours.FASHIONISTA_RETRO_VERSION, cytrus_version('retro'),
-         ours.WATCHED_RETRO_BUILD),
         ('touch', ours.FASHIONISTA_TOUCH_VERSION, touch_assets(),
          ours.WATCHED_TOUCH_ASSETS),
     ]
@@ -79,6 +76,12 @@ def main():
         print('%-8s ours %-40s live %-40s %s%s'
               % (name, compared, live, 'ok' if same else 'MOVED',
                  '' if watched is None else '   (public number %s)' % shown))
+
+    retro_build = cytrus_version('retro')
+    print('%-8s build %-40s live %-40s %s   (public number %s; item data watches lang)'
+          % ('retro', ours.WATCHED_RETRO_BUILD, retro_build,
+             'ok' if retro_build == ours.WATCHED_RETRO_BUILD else 'changed',
+             ours.FASHIONISTA_RETRO_VERSION))
 
     for name, repo in (('dofus3', 'dofus3-main'), ('beta', 'dofus3-beta')):
         tag = _json(TAGS % repo)[0]['name']
@@ -97,10 +100,12 @@ def main():
               'WATCHED_RETRO_LANG' % ', '.join(lang_moved))
 
     for name, live in moved:
-        if name in ('retro', 'touch'):
+        if name == 'touch':
             print('after re-scraping %s, set WATCHED_%s_%s = "%s"'
                   % (name, name.upper(),
-                     'ASSETS' if name == 'touch' else 'BUILD', live))
+                     'ASSETS', live))
+    if retro_build != ours.WATCHED_RETRO_BUILD and not lang_moved:
+        print('retro build moved but lang data is unchanged; no item re-scrape required')
     return 1 if moved else 0
 
 

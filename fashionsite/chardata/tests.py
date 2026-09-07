@@ -22305,14 +22305,14 @@ class GameVersionWatchTests(SimpleTestCase):
              check.retro_lang_versions,
              ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS) = saved
 
-    def test_a_retro_content_patch_is_not_silent(self):
-        # Retro's public version number does not move on a content patch; only
-        # its build string does.
+    def test_a_retro_build_patch_is_only_a_diagnostic(self):
+        # Retro item data is gated by lang versions below, not by the client
+        # build that mostly moves assets and packaging.
         import fashionista_version as ours
         self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
                                          ours.WATCHED_TOUCH_ASSETS), 0)
         self.assertEqual(self._run_check('1.48.99.9999.999-newer',
-                                         ours.WATCHED_TOUCH_ASSETS), 1)
+                                         ours.WATCHED_TOUCH_ASSETS), 0)
 
     def test_a_retro_lang_publish_is_not_silent(self):
         # The item data comes from the lang CDN: 1.49.0 moved the client build

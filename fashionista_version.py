@@ -7,10 +7,10 @@ FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.48"
 FASHIONISTA_TOUCH_VERSION = "1.73"
 
-# What the version watch compares for the two versions whose public number
-# never moves. Retro stays "1.48" and Touch "1.73" in the footer while their
-# real build changes with every content patch, so those two are watched here
-# instead. Update them when the matching pipeline is re-run.
+# What the version watch compares for versions whose public number is not the
+# release signal. Touch stays "1.73" in the footer while its asset bundle moves,
+# so the bundle is watched here. Retro's build is kept as last-seen diagnostics;
+# its item-data gate is WATCHED_RETRO_LANG below.
 #
 # A Touch bundle that moves does not have to mean new gear either. 3.2.13
 # changed two item descriptions out of the French fallback and added one item,
@@ -18,7 +18,7 @@ FASHIONISTA_TOUCH_VERSION = "1.73"
 # where every entry is level 1 with at most two effects, against the varied
 # levels and up to six effects of the real cloaks and shields. The database
 # came out identical, 39 tables compared by content.
-WATCHED_RETRO_BUILD = "1.49.1.5632.439-348db46"
+WATCHED_RETRO_BUILD = "1.49.2.5639.441-0b18f88"
 WATCHED_TOUCH_ASSETS = "3.2.13_miqAldppdZIIl0c_i,HlUFqPb44FCiSO"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
