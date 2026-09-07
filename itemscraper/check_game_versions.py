@@ -33,9 +33,9 @@ def _json(url):
         return json.load(response)
 
 
-def cytrus_version(game_version):
+def cytrus_version(game_version, raw=None):
     """Strips the client generation prefix."""
-    raw = cytrus_cdn.get_version(game_version)
+    raw = raw or cytrus_cdn.get_version(game_version)
     return raw.split('_', 1)[-1] if '_' in raw else raw
 
 
@@ -46,6 +46,21 @@ def retro_lang_versions():
     live = fetch_manifest('fr')
     return {name: str(live.get(name, 'missing'))
             for name in ours.WATCHED_RETRO_LANG}
+
+
+def retro_asset_sample(version=None):
+    """Current hashes for the representative Retro visual assets we render."""
+    import fashionista_version as ours
+    manifest = cytrus_cdn.download_manifest('retro', version=version)
+    live = {}
+    for name in sorted(ours.WATCHED_RETRO_ASSET_SAMPLE):
+        entry = cytrus_cdn.find_file(manifest, name)
+        live[name] = (
+            {'hash': entry['hash'], 'size': entry['size']}
+            if entry is not None
+            else {'hash': 'missing', 'size': 0}
+        )
+    return live
 
 
 def touch_assets():
@@ -77,7 +92,8 @@ def main():
               % (name, compared, live, 'ok' if same else 'MOVED',
                  '' if watched is None else '   (public number %s)' % shown))
 
-    retro_build = cytrus_version('retro')
+    retro_raw_build = cytrus_cdn.get_version('retro')
+    retro_build = cytrus_version('retro', retro_raw_build)
     print('%-8s build %-40s live %-40s %s   (public number %s; item data watches lang)'
           % ('retro', ours.WATCHED_RETRO_BUILD, retro_build,
              'ok' if retro_build == ours.WATCHED_RETRO_BUILD else 'changed',
@@ -99,13 +115,36 @@ def main():
         print('retro lang MOVED on %s, re-scrape retro and update '
               'WATCHED_RETRO_LANG' % ', '.join(lang_moved))
 
+    asset_moved = []
+    if retro_build != ours.WATCHED_RETRO_BUILD and not lang_moved:
+        live_assets = retro_asset_sample(retro_raw_build)
+        asset_moved = sorted(
+            name for name, expected in ours.WATCHED_RETRO_ASSET_SAMPLE.items()
+            if live_assets.get(name) != expected)
+        print('%-8s asset sample %s' % (
+            'retro', 'ok' if not asset_moved
+            else 'MOVED on %d file(s)' % len(asset_moved)))
+        for name in asset_moved:
+            expected = ours.WATCHED_RETRO_ASSET_SAMPLE[name]
+            live = live_assets.get(name, {'hash': 'missing', 'size': 0})
+            print('  %s expected %s/%s live %s/%s'
+                  % (name, expected['hash'], expected['size'],
+                     live['hash'], live['size']))
+        if asset_moved:
+            moved.append(('retro assets', '%d sample(s)' % len(asset_moved)))
+
     for name, live in moved:
         if name == 'touch':
             print('after re-scraping %s, set WATCHED_%s_%s = "%s"'
                   % (name, name.upper(),
                      'ASSETS', live))
     if retro_build != ours.WATCHED_RETRO_BUILD and not lang_moved:
-        print('retro build moved but lang data is unchanged; no item re-scrape required')
+        if asset_moved:
+            print('retro build moved and sampled visual assets changed; '
+                  'refresh Retro images before updating WATCHED_RETRO_BUILD')
+        else:
+            print('retro build moved but lang data and sampled visual assets '
+                  'are unchanged; no item re-scrape or image refresh required')
     return 1 if moved else 0
 
 

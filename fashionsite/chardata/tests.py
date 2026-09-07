@@ -22260,6 +22260,8 @@ class GameVersionWatchTests(SimpleTestCase):
         try:
             cytrus.get_version = lambda _v: '6.0_3.6.8.8'
             self.assertEqual(check_game_versions.cytrus_version('dofus3'), '3.6.8.8')
+            self.assertEqual(check_game_versions.cytrus_version(
+                'dofus3', '6.0_3.6.8.8'), '3.6.8.8')
             cytrus.get_version = lambda _v: '1.48.20.5560.432-aa78a86'
             self.assertEqual(check_game_versions.cytrus_version('retro'),
                              '1.48.20.5560.432-aa78a86')
@@ -22281,11 +22283,12 @@ class GameVersionWatchTests(SimpleTestCase):
             check_game_versions._json = original
 
 
-    def _run_check(self, retro_live, touch_live, lang_live=None):
+    def _run_check(self, retro_live, touch_live, lang_live=None,
+                   asset_live=None, asset_versions=None):
         import check_game_versions as check
         import fashionista_version as ours
         saved = (check.cytrus_cdn.get_version, check._json,
-                 check.retro_lang_versions,
+                 check.retro_lang_versions, check.retro_asset_sample,
                  ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS)
         live = {'dofus3': ours.FASHIONISTA_VERSION,
                 'beta': ours.FASHIONISTA_BETA_VERSION,
@@ -22293,16 +22296,26 @@ class GameVersionWatchTests(SimpleTestCase):
                 'retro': retro_live}
         lang = dict(ours.WATCHED_RETRO_LANG)
         lang.update(lang_live or {})
+        assets = {name: dict(meta)
+                  for name, meta in ours.WATCHED_RETRO_ASSET_SAMPLE.items()}
+        if asset_live:
+            for name, meta in asset_live.items():
+                assets[name] = dict(meta)
         try:
             check.cytrus_cdn.get_version = lambda version: live[version]
             check.retro_lang_versions = lambda: lang
+            def fake_retro_asset_sample(version=None):
+                if asset_versions is not None:
+                    asset_versions.append(version)
+                return assets
+            check.retro_asset_sample = fake_retro_asset_sample
             check._json = lambda url: (
                 [{'name': 'tag'}] if 'tags' in url
                 else {'assetsUrl': 'https://cdn/assets/' + touch_live})
             return check.main()
         finally:
             (check.cytrus_cdn.get_version, check._json,
-             check.retro_lang_versions,
+             check.retro_lang_versions, check.retro_asset_sample,
              ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS) = saved
 
     def test_a_retro_build_patch_is_only_a_diagnostic(self):
@@ -22322,6 +22335,24 @@ class GameVersionWatchTests(SimpleTestCase):
         self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
                                          ours.WATCHED_TOUCH_ASSETS,
                                          {'items': '9999'}), 1)
+
+    def test_a_retro_asset_sample_change_is_not_silent(self):
+        import fashionista_version as ours
+        changed = {name: dict(meta)
+                   for name, meta in ours.WATCHED_RETRO_ASSET_SAMPLE.items()}
+        first = next(iter(changed))
+        changed[first]['hash'] = 'changed'
+        self.assertEqual(self._run_check('1.48.99.9999.999-newer',
+                                         ours.WATCHED_TOUCH_ASSETS,
+                                         asset_live=changed), 1)
+
+    def test_a_retro_asset_sample_uses_the_full_manifest_version(self):
+        import fashionista_version as ours
+        seen = []
+        self.assertEqual(self._run_check('6.0_1.48.99.9999.999-newer',
+                                         ours.WATCHED_TOUCH_ASSETS,
+                                         asset_versions=seen), 0)
+        self.assertEqual(['6.0_1.48.99.9999.999-newer'], seen)
 
     def test_a_touch_asset_bundle_change_is_not_silent(self):
         import fashionista_version as ours
