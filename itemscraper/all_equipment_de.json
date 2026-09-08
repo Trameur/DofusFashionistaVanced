@@ -458380,7 +458380,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ewiger Alptraum:\n• Bonta-Schild: Wenn der Träger entzaubert oder gefesselt wird, erhält er 1 Runde lang 100 % seiner Stufe als Schild.\n• Brâk-Schlagkraft: Wenn der Träger Schubsschaden verursacht oder erleidet, erhält er 1 Runde lang 100 Schlagkraft. \n• Auge des Alptraums: Löst der Träger beide Wirkungen in derselben Runde aus, erhöht sich der von ihm verursachte und erlittene Schaden 1 Runde lang um 10 %.\n• Die Wirkungen können nur einmal pro Runde ausgelöst werden."
+                    "formatted": "{{spell,20981,1::Ewiger Alptraum}}:\n• Bonta-Schild: Wenn der Träger entzaubert oder gefesselt wird, erhält er 1 Runde lang 100 % seiner Stufe als Schild.\n• Brâk-Schlagkraft: Wenn der Träger Schubsschaden verursacht oder erleidet, erhält er 1 Runde lang 100 Schlagkraft.\n• Auge des Alptraums: Löst der Träger beide Wirkungen in derselben Runde aus, erhöht sich der von ihm verursachte und erlittene Schaden 1 Runde lang um 10 %.\n• Die Wirkungen können nur einmal pro Runde ausgelöst werden."
                 }
             ],
             "is_weapon": false,

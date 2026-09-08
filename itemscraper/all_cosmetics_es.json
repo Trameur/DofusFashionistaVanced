@@ -105744,7 +105744,7 @@
         },
         {
             "ankama_id": 34532,
-            "name": "[!] Ceinture Sadida",
+            "name": "Cinturón sadida",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -105754,7 +105754,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164317-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164317-128.png"
             },
-            "description": "[!] Cette ceinture à base de racines d'abraknyde et de feuilles de branche soignante est une version revisitée et stylisée de l'illustre ceinture luthe.",
+            "description": "Este cinturón, confeccionado con raíces de abráknido y hojas de rama curadora, es una versión renovada y estilizada del ilustre cintelación.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105774,7 +105774,7 @@
         },
         {
             "ankama_id": 34533,
-            "name": "[!] Ailes osseuses Sram",
+            "name": "Alas óseas sram",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -105784,7 +105784,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164319-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164319-128.png"
             },
-            "description": "[!] Ces ailes ne vous seront pas utiles pour voler, mais vous pourrez prendre à la volée un de ses os pour vous armer et mieux piller.",
+            "description": "Estas alas no te servirán para volar, pero podrás arrancar uno de sus huesos para armarte y despegar en el arte del saqueo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105804,7 +105804,7 @@
         },
         {
             "ankama_id": 34534,
-            "name": "[!] Attributs Ouginak",
+            "name": "Atributos uginak",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -105814,7 +105814,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164318-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164318-128.png"
             },
-            "description": "[!] Avec ce costume, vous excellerez dans l'art de donner la patte.",
+            "description": "Con este traje, destacarás de maravilla en el arte de dar la patita.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105834,7 +105834,7 @@
         },
         {
             "ankama_id": 34535,
-            "name": "[!] Ailes Eliotrope",
+            "name": "Alas selotropes",
             "type": {
                 "name": "Alas",
                 "id": 218
@@ -105844,7 +105844,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164320-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164320-128.png"
             },
-            "description": "[!] On dit que la taille des ailes d'un Eliotrope reflète son niveau de maîtrise du Wakfu.",
+            "description": "Se dice que el tamaño de las alas de un selotrop sí importa, pues es proporcional a su nivel de dominio del Wakfu.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105864,7 +105864,7 @@
         },
         {
             "ankama_id": 34536,
-            "name": "[!] Krozti",
+            "name": "Krozti",
             "type": {
                 "name": "Mascota de apariencia",
                 "id": 24
@@ -105874,7 +105874,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18947-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18947-128.png"
             },
-            "description": "[!] Krozti, et le dragon sera en vous.",
+            "description": "¡Krozti, despierta el dragón que hay en ti!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105907,7 +105907,7 @@
         },
         {
             "ankama_id": 34558,
-            "name": "[!] Dardikil",
+            "name": "Dardikil",
             "type": {
                 "name": "Mascota de apariencia",
                 "id": 24
@@ -105917,7 +105917,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18951-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18951-128.png"
             },
-            "description": "[!] Ce petit dragon va devenir votre phare au milieu de la nuit, votre lumière au bout du tunnel ! Un guide précieux empli de sagesse... qu'il ne faut pas non plus suivre tête baissée ! En effet, Dardikil est du genre blagueur, puisqu'il ne prend rien, mais alors rien au sérieux...",
+            "description": "¡Este pequeño dragón se convertirá en tu faro en plena noche, tu luz al final del túnel! Una guía valiosa llena de sabiduría... ¡que tampoco hay que seguir a ciegas! De hecho, Dardikil es de los que bromean, ya que no se toma nada pero nada en serio...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105950,7 +105950,7 @@
         },
         {
             "ankama_id": 34559,
-            "name": "[!] Égide de Sagesse",
+            "name": "Égida de la Sabiduría",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -105960,7 +105960,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82604-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82604-128.png"
             },
-            "description": "[!] Vous n'êtes pas du genre à prendre des vessies pour des lanternes, mais vous croyez fermement que ce bouclier rutilant peut vous aider à décrocher la lune. Devenez le phare de votre guilde : à votre tour, éclairez la lanterne de vos coéquipiers !",
+            "description": "No eres de los que confunden una vela con una linterna, pero crees firmemente que este escudo reluciente puede ayudarte a alcanzar la luna. Conviértete en el faro de tu gremio: ¡ahora te toca a ti iluminar el camino a tus compañeros!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105993,7 +105993,7 @@
         },
         {
             "ankama_id": 34560,
-            "name": "[!] Manteau de Lumière",
+            "name": "Abrigo de Luz",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -106003,7 +106003,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17707-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17707-128.png"
             },
-            "description": "[!] L'aura brumeuse de cette cape semble faire de vous un être tout-puissant qui, réchappé des limbes, reviendrait avec toutes les connaissances du Krosmoz en héritage... Ou alors vous sortez simplement d'un frigo ou d'une chambre froide. Sans trembler. Ce qui est un peu impressionnant aussi.",
+            "description": "El aura brumosa de esta capa parece convertirte en un ser todopoderoso que, tras escapar del limbo, regresaría con todo el conocimiento del Krosmoz como herencia... O quizá simplemente acabas de salir de una nevera o de una cámara frigorífica. Sin temblar. Lo cual también es bastante impresionante.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -106036,7 +106036,7 @@
         },
         {
             "ankama_id": 34561,
-            "name": "[!] Heaume de l'Aube",
+            "name": "Yelmo del Alba",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -106046,7 +106046,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16925-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16925-128.png"
             },
-            "description": "[!] Si ce n'était pas le cas jusque-là, cette coiffe vous permettra d'avoir la lumière à tous les étages et de devenir plus clairvoyant. Vos décisions seront plus sages. Votre regard sur le monde, plus distancé. Vous serez le/la premier(e) à profiter de vos lumières !",
+            "description": "Si hasta ahora no era el caso, este casco te permitirá tener más luces en todos los aspectos y ser más clarividente. Tus decisiones serán más acertadas. Tu perspectiva del mundo, más objetiva. ¡Serás el/la primero/a en disfrutar de tus nuevas luces!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -106104,6 +106104,393 @@
                     "ignore_int_max": true,
                     "formatted": "Compatible con 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34606,
+            "name": "Máscara de porceluna",
+            "type": {
+                "name": "Sombrero de apariencia",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16927-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16927-128.png"
+            },
+            "description": "Esta máscara resulta pesada de llevar, pero representa bien la fragilidad de una emoción que intentas ocultar. Sea cual sea tu estado de ánimo, te permite lucir un rostro sobrio y distinguido sin perder la compostura.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34607,
+            "name": "Capa de porceluna",
+            "type": {
+                "name": "Capa de apariencia",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17709-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17709-128.png"
+            },
+            "description": "Esta capa no es más que un jarrón transformado para poder llevarlo con mayor facilidad. Quien la lleve tendrá que andar con mucho cuidado si no quiere que acabe hecha añicos al menor golpe.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34608,
+            "name": "Escudo de porceluna",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82607-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82607-128.png"
+            },
+            "description": "Las juntas de oro de este escudo se han realzado deliberadamente para preservar su historia. En una época en la que cualquier objeto roto parece perder todo su valor, te recordará que reconocer tus debilidades a menudo es la forma de convertirlas en fortalezas.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34609,
+            "name": "Jalaluna",
+            "type": {
+                "name": "Mascotura de apariencia",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121188-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121188-128.png"
+            },
+            "description": "Una vez al año, sin que nadie pueda predecir cuándo, aparece una luna dorada en el cielo. Se le atribuyen numerosos efectos positivos, pero uno de los más extraños es, sin duda, el nacimiento de unos jalatós muy especiales: los jalalunas.\nCubiertos de una porcelana que no se puede esquilar y adornados con oro, a menudo se los considera criaturas de leyenda.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34610,
+            "name": "Anfayenza",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18955-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18955-128.png"
+            },
+            "description": "Anfayenza nació un día en el que hacía algo de fresco, y aquello le dejó alguna que otra secuela. Objeto de las burlas de los suyos, se pasará la vida soñando con ser de porcelana, como los demás...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34614,
+            "name": "Minichuelo krósmico",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18954-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18954-128.png"
+            },
+            "description": "¿Tienes un problema, un bug? ¿Un aventurero listillo te ha dado un 10% de tus kamas? ¡Que no cunda el pánico! No hace falta que contactes con el soporte de Ankama, ya que el minichuelo estará ahí para guiarte y secarte las lágrimas durante toda tu aventura por el Mundo de los Doce. Y este, además, es krósmico...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34622,
+            "name": "[!] Minimou",
+            "type": {
+                "name": "Mascota de apariencia",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18957-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18957-128.png"
+            },
+            "description": "[!] Il est mignon, même s'il est aussi parfois un peu trop lucide...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34623,
+            "name": "[!] Marmiclier",
+            "type": {
+                "name": "Escudo de apariencia",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82610-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82610-128.png"
+            },
+            "description": "[!] Il est optimisé pour de nombreux usages : chapeau de soirée, luge, lancer de disque ou bouclier. Il paraît même que sa propriétaire originale s'en servait même pour cuire des aliments... Quelle drôle d'idée !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Intercambiable:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Intercambiable: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34645,
+            "name": "Brazos de porceluna",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164327-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164327-128.png"
+            },
+            "description": "Estos brazos te darán un aspecto delicado y frágil, pero las apariencias engañan.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

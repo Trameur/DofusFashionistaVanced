@@ -61886,6 +61886,96 @@
             "pods": 0
         },
         {
+            "ankama_id": 32485,
+            "name": "Runa de Invocação de Joris",
+            "type": {
+                "name": "A Fonte: Herança dos Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12014-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12014-128.png"
+            },
+            "description": "Quando encontrar o ponto de ancoragem, consuma esta runa para invocar Joris para o seu lado.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Ganha x",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Ganha x1 Kiri Shigure"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32486,
+            "name": "Mapa da Fonte",
+            "type": {
+                "name": "A Fonte: Herança dos Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136150-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136150-128.png"
+            },
+            "description": "Ao que tudo indica, este pergaminho é um mapa da ilha da Fonte.",
+            "effects": [
+                {
+                    "int_minimum": 758,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32487,
+            "name": "Anotações de Joris",
+            "type": {
+                "name": "A Fonte: Herança dos Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24026-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24026-128.png"
+            },
+            "description": "Joris fez uma recapitulação nesta nota das indicações de Dardondakal para localizar as outras colunas.",
+            "effects": [
+                {
+                    "int_minimum": 756,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
             "ankama_id": 33553,
             "name": "Primeiro Auspício",
             "type": {
@@ -62928,6 +63018,21 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25140-128.png"
             },
             "description": "Não é o que você estava procurando e é menos simpático e polivalente que um baldinho de areia... Mas não se pode ter tudo!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34625,
+            "name": "Nota",
+            "type": {
+                "name": "A Fonte: Herança dos Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15809-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15809-128.png"
+            },
+            "description": "Aqui estão as coordenadas das quatro colunas:\n- a leste do Canal do Rasgabola\n- na entrada da Floresta das Máscaras\n- na Ilha da Coroa\n- ao norte do zaap do Litoral Sufokiano",
             "pods": 0
         }
     ]

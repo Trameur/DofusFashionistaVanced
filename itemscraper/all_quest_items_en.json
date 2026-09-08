@@ -61886,6 +61886,96 @@
             "pods": 0
         },
         {
+            "ankama_id": 32485,
+            "name": "Joris Summoning Rune",
+            "type": {
+                "name": "The Source: Legacy of the Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12014-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12014-128.png"
+            },
+            "description": "Once you've found the anchor point, consume this rune to summon Joris to your side.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Gainsx",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Gains 1x Kiri Shigure"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32486,
+            "name": "Map of the Source",
+            "type": {
+                "name": "The Source: Legacy of the Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136150-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136150-128.png"
+            },
+            "description": "This scroll appears to be a map of the island of the Source.",
+            "effects": [
+                {
+                    "int_minimum": 758,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32487,
+            "name": "Joris's Notes",
+            "type": {
+                "name": "The Source: Legacy of the Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24026-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24026-128.png"
+            },
+            "description": "This note from Joris summarises Dardondakal's instructions for locating the other columns.",
+            "effects": [
+                {
+                    "int_minimum": 756,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consult",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consult 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
             "ankama_id": 33553,
             "name": "First Auspice",
             "type": {
@@ -62928,6 +63018,21 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25140-128.png"
             },
             "description": "This isn't what you were looking for, and it isn't as nice and versatile as a sandy patty... But you can't always get what you want in life!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34625,
+            "name": "Note",
+            "type": {
+                "name": "The Source: Legacy of the Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15809-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15809-128.png"
+            },
+            "description": "The locations of several columns are listed in this note:\n- east of Bherb's Gully\n- at the entrance to the Forest of Masks\n- on the Isle of the Cwown\n- north of the Sufokian Shoreline zaap",
             "pods": 0
         }
     ]

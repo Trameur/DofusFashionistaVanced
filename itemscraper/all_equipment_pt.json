@@ -458380,7 +458380,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Eterno Pesadelo:\n• Escudo Bontariano: quando o portador é desencantado ou entravado, ele ganha em escudo o equivalente a 100% de seu nível durante 1 turno.\n• Potência Brakmariana: quando o portador inflige ou sofre danos de empurrão, ele ganha 100 de potência durante 1 turno. \n• Olho do Pesadelo: se o portador acionar os 2 efeitos no mesmo turno, os danos que ele infligir e sofrer aumentarão em 10% durante 1 turno.\n• Os efeitos só podem ser acionados uma vez por turno."
+                    "formatted": "{{spell,20981,1::Eterno Pesadelo}}:\n• Escudo Bontariano: quando o portador é desencantado ou entravado, ele ganha em escudo o equivalente a 100% de seu nível durante 1 turno.\n• Potência Brakmariana: quando o portador inflige ou sofre danos de empurrão, ele ganha 100 de potência durante 1 turno.\n• Olho do Pesadelo: se o portador acionar os 2 efeitos no mesmo turno, os danos que ele infligir e sofrer aumentarão em 10% durante 1 turno.\n• Os efeitos só podem ser acionados uma vez por turno."
                 }
             ],
             "is_weapon": false,

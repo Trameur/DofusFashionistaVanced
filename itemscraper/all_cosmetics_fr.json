@@ -106119,6 +106119,393 @@
                 }
             ],
             "pods": 1
+        },
+        {
+            "ankama_id": 34606,
+            "name": "Masque de Porcelune",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16927-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16927-128.png"
+            },
+            "description": "Ce masque est lourd à porter, mais représente bien la fragilité d'une émotion que vous cherchez à dissimuler. Peu importe votre humeur du jour, il vous permet d'afficher un visage sobre et distingué, tout en restant impassible.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34607,
+            "name": "Cape de Porcelune",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17709-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17709-128.png"
+            },
+            "description": "Cette cape n'est rien d'autre qu'un vase qui a été transformé pour pouvoir le porter plus facilement. Elle demande à son porteur, une grande vigilance sous peine de finir en morceaux au moindre choc.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34608,
+            "name": "Bouclier de Porcelune",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82607-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82607-128.png"
+            },
+            "description": "Les jointures en or de ce bouclier sont volontairement sublimées, afin d'en préserver l'histoire. À une époque où un objet brisé semble perdre toute valeur, il vous rappellera que reconnaître ses faiblesses c'est souvent en faire une force.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34609,
+            "name": "Bouflune",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121188-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121188-128.png"
+            },
+            "description": "Une fois par an, sans qu'on puisse prédire quand, une lune d'or apparait dans le ciel. Nombreux sont les bienfaits qui lui sont attribués, mais l'un des plus étranges est sans hésitation la naissance de Bouftous spéciaux : Les Bouflunes.\nDotés d'une porcelaine qui ne peut être tondue, et de parés d'or, ils sont souvent élevés au rang de mythe.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34610,
+            "name": "Amphaïence",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18955-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18955-128.png"
+            },
+            "description": "AmphaÏence est né un jour où la température était un peu fraîche, ce qui lui a laissé quelques séquelles. Moqué par les siens, il rêvera toute sa vie d'être en porcelaine, comme les autres...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34614,
+            "name": "Miniduk Krosmique",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18954-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18954-128.png"
+            },
+            "description": "Un problème, un bug ? Un aventurier malin vous a donné 10% de vos kamas ? Pas de panique ! Vous n'avez pas besoin de contacter le support Ankama car le Miniduk sera là pour vous guider mais aussi sécher vos larmes tout au long de votre aventure dans le Monde des Douze. En plus, celui-ci, il est krosmique...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34622,
+            "name": "Minimou",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18957-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18957-128.png"
+            },
+            "description": "Il est mignon, même s'il est aussi parfois un peu trop lucide...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34623,
+            "name": "Marmiclier",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82610-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82610-128.png"
+            },
+            "description": "Il est optimisé pour de nombreux usages : chapeau de soirée, luge, lancer de disque ou bouclier. Il paraît même que sa propriétaire originale s'en servait même pour cuire des aliments... Quelle drôle d'idée !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34645,
+            "name": "Bras de Porcelune",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164327-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164327-128.png"
+            },
+            "description": "Ces bras vous feront paraître délicat et fragile, mais tout ceci n'est qu'apparence.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
         }
     ]
 }

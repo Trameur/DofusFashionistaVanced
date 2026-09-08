@@ -14751,7 +14751,13 @@ class EncyclopediaMonsterPageTests(TestCase):
         self.assertEqual(version_links['dofus3']['resource_count'], 3)
         self.assertEqual(version_links['dofus3']['item_count'], 2)
         self.assertEqual(version_links['touch']['resource_count'], 4)
-        self.assertEqual(version_links['touch']['item_count'], 1)
+        # 9 since Touch 3.3.4 (2026-09-08), and the eight new ones are real:
+        # Ankama attached them to monster 101 itself, all under one quest
+        # criteria, "Sc=13000&Sc!13003". The scrape keeps that condition in
+        # item_drops.conditions. Whether a quest-gated drop should be listed
+        # beside an unconditional one is a display question, open, not a reason
+        # to hold the count at what 3.2.13 happened to publish.
+        self.assertEqual(version_links['touch']['item_count'], 9)
 
     def test_monster_version_links_only_include_versions_with_drops(self):
         resp = self.client.get('/retro/encyclopedia/monster/101-bouftou/',
@@ -27998,3 +28004,146 @@ class ATimedOutSolveIsNotAProvenOptimumTests(SimpleTestCase):
         with self.assertNoLogs('chardata.fashion_action', level='WARNING'):
             fashion_action._warn_if_unproven(FauxChar(), 'Optimal', True)
             fashion_action._warn_if_unproven(FauxChar(), 'Infeasible', False)
+
+
+class TheCompareTrayCanActuallyBeEmptiedTests(SimpleTestCase):
+    """Clearing the tray has to clear it, even for a reader who predates the
+    per-version split.
+
+    The tray moved from one shared key to `ffCompareTray:<base>` on 2026-09-07,
+    and load() fell back to the old key whenever the new list was EMPTY. Since
+    save() only ever writes the versioned key, Clear wrote [] and the next
+    render read the old list straight back: for anyone who had used the tray in
+    the two and a half months it shipped unversioned, it could never be emptied
+    again. The test that came with the split only ever added builds, which is
+    why it stayed green.
+    """
+
+    def _drive(self, actions):
+        """Run the real compare_tray.js under node and return its stored tray."""
+        node = shutil.which('node')
+        if node is None:
+            self.skipTest('node is not installed')
+        js_path = os.path.join(os.path.dirname(__file__), 'static', 'chardata',
+                               'compare_tray.js')
+        with open(js_path, encoding='utf-8') as handle:
+            source = handle.read()
+        driver = r"""
+var vm = require('vm');
+var data = {};
+global.localStorage = {
+  getItem: function (key) { return Object.prototype.hasOwnProperty.call(data, key) ? data[key] : null; },
+  setItem: function (key, value) { data[key] = String(value); }
+};
+global.window = {
+  COMPARE_TRAY_CONFIG: {apiBase: '/retro', i18n: {}},
+  matchMedia: function () { return {matches: false}; },
+  addEventListener: function () {},
+  location: {href: ''}
+};
+var fakeClassList = {add: function () {}, remove: function () {}, toggle: function () {}};
+global.document = {
+  readyState: 'complete',
+  body: {appendChild: function () {}},
+  createElement: function () { return {classList: fakeClassList}; },
+  getElementById: function () { return null; },
+  addEventListener: function () {}
+};
+global.setTimeout = function () { return 1; };
+global.clearTimeout = function () {};
+// A reader from before the split: their tray lives under the shared key only.
+localStorage.setItem('ffCompareTray', JSON.stringify([
+  {id: '2', base: '/retro'},
+  {id: '5', base: '/retro'}
+]));
+vm.runInThisContext(source);
+var tray = window.FashionCompareTray;
+ACTIONS
+// Adding one build afterwards is how we read the tray back: whatever is
+// stored now is what the next render would show.
+tray.add({id: '7', name: 'Fresh build', base: '/retro'});
+console.log(JSON.stringify(JSON.parse(data['ffCompareTray:/retro']).map(function (b) { return b.id; })));
+"""
+        driver = driver.replace('ACTIONS', actions)
+        with tempfile.NamedTemporaryFile('w', suffix='.js', encoding='utf-8',
+                                         delete=False) as handle:
+            handle.write('var source = %s;\n%s' % (json.dumps(source), driver))
+            name = handle.name
+        try:
+            done = subprocess.run([node, name], capture_output=True, text=True)
+        finally:
+            os.unlink(name)
+        self.assertEqual(done.returncode, 0, done.stderr[-800:])
+        return json.loads(done.stdout)
+
+    def test_clear_empties_a_tray_that_predates_the_split(self):
+        self.assertEqual(
+            ['7'], self._drive('tray.clear();'),
+            'Clear left the old builds in the tray, so the reader cannot empty '
+            'it at all')
+
+    def test_removing_the_last_build_does_not_bring_them_all_back(self):
+        self.assertEqual(
+            ['7'], self._drive("tray.remove('2'); tray.remove('5');"),
+            'removing the last build resurrected the whole legacy list')
+
+    def test_a_tray_that_was_never_touched_is_still_carried_over(self):
+        """The fallback still has to work: this is a migration, not a wipe."""
+        self.assertEqual(['2', '5', '7'], self._drive(''))
+
+
+class TouchStillHasItsGermanNamesTests(SimpleTestCase):
+    """Touch dropped German, and asking for it returns English.
+
+    config.json answers serverLanguages ["en", "es", "fr", "pt"] and
+    failoverLanguage "en", so the data API hands back English for `de` with no
+    error and no marker. A rebuild that trusts it overwrites every German name
+    with its English text: on 2026-09-08 that was 16 190 of them, and every
+    step of the pipeline still reported ok.
+
+    The scrapers now read serverLanguages before refreshing a language. This
+    guards the outcome rather than that plumbing: if the German files ever go
+    flat again, whatever the cause, this is what says so.
+    """
+
+    RAW = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        'itemscraper', 'touch_raw')
+
+    #: Measured on the restored files, 2026-09-08. Well under the real counts
+    #: (2202 monsters, 13145 items) so Ankama adding or renaming things cannot
+    #: trip it, but far above the zero a flattened file would give.
+    PLANCHER = {'Monsters': 1500, 'Items': 9000, 'ItemSets': 200}
+
+    def _noms(self, table, langue):
+        chemin = os.path.join(self.RAW, '%s_%s.json' % (table, langue))
+        if not os.path.isfile(chemin):
+            self.skipTest('%s is not in this checkout' % chemin)
+        with open(chemin, encoding='utf-8') as handle:
+            return {cle: (rec.get('nameId') or '')
+                    for cle, rec in json.load(handle).items()}
+
+    def test_the_german_touch_names_are_not_the_english_ones(self):
+        for table, plancher in sorted(self.PLANCHER.items()):
+            allemand = self._noms(table, 'de')
+            anglais = self._noms(table, 'en')
+            communs = set(allemand) & set(anglais)
+            distincts = sum(1 for cle in communs
+                            if allemand[cle] and allemand[cle] != anglais[cle])
+            self.assertGreaterEqual(
+                distincts, plancher,
+                '%s_de.json carries only %d names that differ from English, '
+                'out of %d shared ids. Touch answers a language it no longer '
+                'serves with English, so this is what a rebuild that ignored '
+                'serverLanguages looks like.'
+                % (table, distincts, len(communs)))
+
+    def test_a_known_monster_still_reads_in_german(self):
+        """Three names anyone can check against the game."""
+        allemand = self._noms('Monsters', 'de')
+        for monster_id, attendu in (('31', 'Blaue Larve'),
+                                    ('36', 'Fresssack'),
+                                    ('37', 'Krachler')):
+            self.assertEqual(
+                attendu, allemand.get(monster_id),
+                'monster %s should still read %r in German' % (monster_id, attendu))

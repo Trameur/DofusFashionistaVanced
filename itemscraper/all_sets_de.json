@@ -122250,7 +122250,7 @@
         },
         {
             "ankama_id": 1104,
-            "name": "[!] Panoplie d'apparat de la loterie Ivoire",
+            "name": "Prunkset der Elfenbein-Lotterie",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -122260,6 +122260,34 @@
                 34559,
                 34560,
                 34561
+            ]
+        },
+        {
+            "ankama_id": 1108,
+            "name": "Porzelluna-Prunkset",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34606,
+                34607,
+                34608,
+                34609,
+                34610,
+                34645
+            ]
+        },
+        {
+            "ankama_id": 1110,
+            "name": "Prunkset von Welsh und Shedar",
+            "items": 2,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34622,
+                34623
             ]
         }
     ]

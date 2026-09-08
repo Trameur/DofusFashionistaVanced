@@ -105744,7 +105744,7 @@
         },
         {
             "ankama_id": 34532,
-            "name": "[!] Ceinture Sadida",
+            "name": "Sadida-Gürtel",
             "type": {
                 "name": "Kleidung",
                 "id": 16
@@ -105754,7 +105754,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164317-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164317-128.png"
             },
-            "description": "[!] Cette ceinture à base de racines d'abraknyde et de feuilles de branche soignante est une version revisitée et stylisée de l'illustre ceinture luthe.",
+            "description": "Dieser Gürtel aus Astaknydenwurzeln und Blättern des Heilerastes ist eine überarbeitete und stilisierte Version des berühmten Düpier-Gürtels.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105774,7 +105774,7 @@
         },
         {
             "ankama_id": 34533,
-            "name": "[!] Ailes osseuses Sram",
+            "name": "Sram-Skelettflügel",
             "type": {
                 "name": "Flügel",
                 "id": 218
@@ -105784,7 +105784,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164319-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164319-128.png"
             },
-            "description": "[!] Ces ailes ne vous seront pas utiles pour voler, mais vous pourrez prendre à la volée un de ses os pour vous armer et mieux piller.",
+            "description": "Mit diesen Flügeln hebst du zwar nicht ab, aber du kannst dir einen Knochen herausbrechen, um dich zu bewaffnen und auf Beutezug zu gehen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105804,7 +105804,7 @@
         },
         {
             "ankama_id": 34534,
-            "name": "[!] Attributs Ouginak",
+            "name": "Ouginak-Attribute",
             "type": {
                 "name": "Kleidung",
                 "id": 16
@@ -105814,7 +105814,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164318-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164318-128.png"
             },
-            "description": "[!] Avec ce costume, vous excellerez dans l'art de donner la patte.",
+            "description": "Mit dieser Kleidung wirst du die Kunst des Pfötchengebens beherrschen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105834,7 +105834,7 @@
         },
         {
             "ankama_id": 34535,
-            "name": "[!] Ailes Eliotrope",
+            "name": "Eliotrop-Flügel",
             "type": {
                 "name": "Flügel",
                 "id": 218
@@ -105844,7 +105844,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164320-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164320-128.png"
             },
-            "description": "[!] On dit que la taille des ailes d'un Eliotrope reflète son niveau de maîtrise du Wakfu.",
+            "description": "Angeblich lässt sich an der Größe der Flügel eines Eliotropen erkennen, wie gut er das Wakfu beherrscht.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105864,7 +105864,7 @@
         },
         {
             "ankama_id": 34536,
-            "name": "[!] Krozti",
+            "name": "Krozti",
             "type": {
                 "name": "Prunkvertrauter",
                 "id": 24
@@ -105874,7 +105874,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18947-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18947-128.png"
             },
-            "description": "[!] Krozti, et le dragon sera en vous.",
+            "description": "Krozti und der Drache wird in dir sein.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105907,7 +105907,7 @@
         },
         {
             "ankama_id": 34558,
-            "name": "[!] Dardikil",
+            "name": "Dardikil",
             "type": {
                 "name": "Prunkvertrauter",
                 "id": 24
@@ -105917,7 +105917,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18951-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18951-128.png"
             },
-            "description": "[!] Ce petit dragon va devenir votre phare au milieu de la nuit, votre lumière au bout du tunnel ! Un guide précieux empli de sagesse... qu'il ne faut pas non plus suivre tête baissée ! En effet, Dardikil est du genre blagueur, puisqu'il ne prend rien, mais alors rien au sérieux...",
+            "description": "Dieser kleine Drache wird euer Leuchtfeuer in der Nacht sein – euer Licht am Ende des Tunnels! Ein nützlicher Weggefährte, dessen Rat Gold wert ist ... dem ihr aber trotzdem nicht blind folgen solltet! Denn Dardikil ist ein echter Spaßvogel, der nichts, aber auch wirklich nichts ernst nimmt.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105950,7 +105950,7 @@
         },
         {
             "ankama_id": 34559,
-            "name": "[!] Égide de Sagesse",
+            "name": "Ägide der Weisheit",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -105960,7 +105960,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82604-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82604-128.png"
             },
-            "description": "[!] Vous n'êtes pas du genre à prendre des vessies pour des lanternes, mais vous croyez fermement que ce bouclier rutilant peut vous aider à décrocher la lune. Devenez le phare de votre guilde : à votre tour, éclairez la lanterne de vos coéquipiers !",
+            "description": "Ihr gehört zwar nicht zu denen, die sich leicht hinters Licht führen lassen. Trotzdem glaubt ihr felsenfest daran, dass ihr mit diesem strahlenden Schild Unmögliches vollbringen könnt. Werdet zum Leuchtfeuer eurer Gilde und lasst euren Kameraden ein Licht aufgehen!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105993,7 +105993,7 @@
         },
         {
             "ankama_id": 34560,
-            "name": "[!] Manteau de Lumière",
+            "name": "Lichtmantel",
             "type": {
                 "name": "Prunkumhang",
                 "id": 18
@@ -106003,7 +106003,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17707-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17707-128.png"
             },
-            "description": "[!] L'aura brumeuse de cette cape semble faire de vous un être tout-puissant qui, réchappé des limbes, reviendrait avec toutes les connaissances du Krosmoz en héritage... Ou alors vous sortez simplement d'un frigo ou d'une chambre froide. Sans trembler. Ce qui est un peu impressionnant aussi.",
+            "description": "Die neblige Aura dieses Umhangs lässt euch wie ein allmächtiges Wesen erscheinen, das der Vorhölle entkommen und mit dem gesamten Wissen des Krosmoz zurückkehrt ist ... Oder ihr kommt einfach gerade aus der Kühlkammer. Und das ohne zu zittern. Was zugegebenermaßen auch schon beeindruckend ist.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -106036,7 +106036,7 @@
         },
         {
             "ankama_id": 34561,
-            "name": "[!] Heaume de l'Aube",
+            "name": "Helm der Dämmerung",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -106046,7 +106046,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16925-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16925-128.png"
             },
-            "description": "[!] Si ce n'était pas le cas jusque-là, cette coiffe vous permettra d'avoir la lumière à tous les étages et de devenir plus clairvoyant. Vos décisions seront plus sages. Votre regard sur le monde, plus distancé. Vous serez le/la premier(e) à profiter de vos lumières !",
+            "description": "Falls euch bisher noch kein Licht aufgegangen ist, schafft dieser Helm Abhilfe. Er erleuchtet euer Oberstübchen und schärft euren Blick. Ihr werdet klügere Entscheidungen treffen. Euer Blick auf die Welt wird gelassener. Und von eurer Erleuchtung profitiert ihr natürlich als Erstes!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -106089,7 +106089,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82606-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82606-128.png"
             },
-            "description": "Die entfernten Geräusche eines Megafons reißen euch aus der Erstarrung. Es war nur ein Augenblick, doch er fühlte sich an wie ein Jahrzehnt. Euch erfasst eine sanfte Melancholie, eine Art Trance, die fast schon an Euphorie grenzt. Dieses Gefühl, das einen überkommt, wenn etwas Bedeutsames zu Ende geht. Fast so, als bekämt ihr alles, was ihr gegeben habt, hundertfach zurück. Das also ist die Macht von Zi ...",
+            "description": "Die entfernten Geräusche eines Megafons reißen euch aus der Erstarrung. Es war nur ein Augenblick, doch er fühlte sich an wie ein ganzes Jahrzehnt. Euch erfasst eine sanfte Melancholie, eine Art Trance, die fast schon an Euphorie grenzt. Dieses Gefühl, das einen überkommt, wenn etwas Bedeutsames zu Ende geht. Fast so, als bekämt ihr alles, was ihr gegeben habt, hundertfach zurück. Das also ist die Macht von Zi ...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -106104,6 +106104,393 @@
                     "ignore_int_max": true,
                     "formatted": "Kompatibel zu: 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34606,
+            "name": "Porzelluna-Maske",
+            "type": {
+                "name": "Prunkkopfbedeckung",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16927-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16927-128.png"
+            },
+            "description": "Diese Maske wiegt einiges, aber sie repräsentiert die Zerbrechlichkeit einer Emotion, die ihr zu verbergen versucht. Ungeachtet eurer tatsächlichen Stimmung könnt ihr damit ein neutrales und vornehmes Gesicht zur Schau tragen, ohne die geringste Regung zu zeigen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34607,
+            "name": "Porzelluna-Umhang",
+            "type": {
+                "name": "Prunkumhang",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17709-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17709-128.png"
+            },
+            "description": "Dieser Umhang ist nichts Anderes als eine Vase, die umgefertigt wurde, um sie leichter tragen zu können. Er verlangt seinem Träger äußerste Umsicht ab, da er bei der kleinsten Erschütterung in tausend Scherben zerspringen würde.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34608,
+            "name": "Porzelluna-Schild",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82607-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82607-128.png"
+            },
+            "description": "Die goldenen Fugen dieses Schildes sind absichtlich hervorgehoben, um darin die Vergangenheit zu bewahren. In einer Zeit, in der kaputt gleich wertlos bedeutet, erinnert dieser Schild euch daran, dass die Anerkennung der eigenen Schwächen häufig eine Stärke darstellt.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34609,
+            "name": "Mondfressack",
+            "type": {
+                "name": "Prunkreitbegleiter",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121188-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121188-128.png"
+            },
+            "description": "Einmal pro Jahr, wobei der genaue Tag nicht vorhersagbar ist, erscheint ein goldener Mond am Himmel. Viele wundersame Ereignisse werden ihm zugeschrieben, doch eine der seltsamsten ist zweifellos die Geburt einer besonderen Art von Fresssäcken: der Mondfressäcke.\nMit ihrer Porzellanhaut, die nicht geschoren werden kann, und ihren goldenen Verzierungen gelten sie als Mythos.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34610,
+            "name": "Amphayence",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18955-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18955-128.png"
+            },
+            "description": "Amphayence wurde an einem Tag mit ziemlich niedrigen Temperaturen geboren, was einige Folgen für sie hatte. Von seinen Artgenossen verspottet, wird er sein ganzes Leben lang davon träumen, wie die anderen aus Porzellan zu sein ...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34614,
+            "name": "Krosmischer Miniduk",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18954-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18954-128.png"
+            },
+            "description": "Gibt es ein Problem, einen Bug? Hat euch ein fieser Abenteuer 10 % eurer Kamas genommen? Bloß keine Panik! Ihr müsst euch gar nicht an den Support von Ankama wenden, denn der Miniduk hilft euch und trocknet eure Tränen auf eurem gesamten Abenteuer in der Welt der Zwölf. Und außerdem ist er krosmisch ...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34622,
+            "name": "[!] Minimou",
+            "type": {
+                "name": "Prunkvertrauter",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18957-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18957-128.png"
+            },
+            "description": "[!] Il est mignon, même s'il est aussi parfois un peu trop lucide...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34623,
+            "name": "[!] Marmiclier",
+            "type": {
+                "name": "Prunkschild",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82610-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82610-128.png"
+            },
+            "description": "[!] Il est optimisé pour de nombreux usages : chapeau de soirée, luge, lancer de disque ou bouclier. Il paraît même que sa propriétaire originale s'en servait même pour cuire des aliments... Quelle drôle d'idée !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Austauschbar:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Austauschbar: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34645,
+            "name": "Porzelluna-Arme",
+            "type": {
+                "name": "Kleidung",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164327-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164327-128.png"
+            },
+            "description": "Diese Arme lassen euch zart und zerbrechlich wirken, doch der Schein trügt.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

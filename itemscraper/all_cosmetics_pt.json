@@ -105744,7 +105744,7 @@
         },
         {
             "ankama_id": 34532,
-            "name": "[!] Ceinture Sadida",
+            "name": "Cinto Sadida",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -105754,7 +105754,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164317-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164317-128.png"
             },
-            "description": "[!] Cette ceinture à base de racines d'abraknyde et de feuilles de branche soignante est une version revisitée et stylisée de l'illustre ceinture luthe.",
+            "description": "Este cinto à base de raízes de Arvraknídeo e folhas de galho curativo é uma versão revisitada e estilizada do ilustre Cinto Atio.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105774,7 +105774,7 @@
         },
         {
             "ankama_id": 34533,
-            "name": "[!] Ailes osseuses Sram",
+            "name": "Asas Ossosas de Sram",
             "type": {
                 "name": "Asas",
                 "id": 218
@@ -105784,7 +105784,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164319-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164319-128.png"
             },
-            "description": "[!] Ces ailes ne vous seront pas utiles pour voler, mais vous pourrez prendre à la volée un de ses os pour vous armer et mieux piller.",
+            "description": "Estas asas não servem para voar, mas você pode pegar um dos ossinhos para se armar e pilhar melhor.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105804,7 +105804,7 @@
         },
         {
             "ankama_id": 34534,
-            "name": "[!] Attributs Ouginak",
+            "name": "Atributos de Kilorf",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -105814,7 +105814,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164318-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164318-128.png"
             },
-            "description": "[!] Avec ce costume, vous excellerez dans l'art de donner la patte.",
+            "description": "Com este traje, você vai brilhar na arte de dar a pata.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105834,7 +105834,7 @@
         },
         {
             "ankama_id": 34535,
-            "name": "[!] Ailes Eliotrope",
+            "name": "Asas de Eliotrope",
             "type": {
                 "name": "Asas",
                 "id": 218
@@ -105844,7 +105844,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164320-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164320-128.png"
             },
-            "description": "[!] On dit que la taille des ailes d'un Eliotrope reflète son niveau de maîtrise du Wakfu.",
+            "description": "Dizem que o tamanho das asas do Eliotrope reflete o domínio dele sobre o Wakfu.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105864,7 +105864,7 @@
         },
         {
             "ankama_id": 34536,
-            "name": "[!] Krozti",
+            "name": "Kroztilhos",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -105874,7 +105874,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18947-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18947-128.png"
             },
-            "description": "[!] Krozti, et le dragon sera en vous.",
+            "description": "Kroztilhos: desperte o dragão em você.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105907,7 +105907,7 @@
         },
         {
             "ankama_id": 34558,
-            "name": "[!] Dardikil",
+            "name": "Dardikil",
             "type": {
                 "name": "Mascote de aparência",
                 "id": 24
@@ -105917,7 +105917,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18951-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18951-128.png"
             },
-            "description": "[!] Ce petit dragon va devenir votre phare au milieu de la nuit, votre lumière au bout du tunnel ! Un guide précieux empli de sagesse... qu'il ne faut pas non plus suivre tête baissée ! En effet, Dardikil est du genre blagueur, puisqu'il ne prend rien, mais alors rien au sérieux...",
+            "description": "Este dragãozinho vai se tornar o seu farol na madrugada, sua luz no fim do túnel! Um guia precioso e repleto de sabedoria... mas que não deve ser seguido de olhos vendados! De fato, Dardikil é do tipo piadista, pois ele não leva nada, mas nada mesmo, a sério...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105950,7 +105950,7 @@
         },
         {
             "ankama_id": 34559,
-            "name": "[!] Égide de Sagesse",
+            "name": "Égide de Sabedoria",
             "type": {
                 "name": "Escudo de aparência",
                 "id": 19
@@ -105960,7 +105960,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82604-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82604-128.png"
             },
-            "description": "[!] Vous n'êtes pas du genre à prendre des vessies pour des lanternes, mais vous croyez fermement que ce bouclier rutilant peut vous aider à décrocher la lune. Devenez le phare de votre guilde : à votre tour, éclairez la lanterne de vos coéquipiers !",
+            "description": "Você não é do tipo que deixa os outros no escuro, mas acredita cegamente que este escudo deslumbrante pode te ajudar a alcançar as estrelas. Torne-se o farol da sua guilda: dê aquela luz para a sua equipe!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -105993,7 +105993,7 @@
         },
         {
             "ankama_id": 34560,
-            "name": "[!] Manteau de Lumière",
+            "name": "Casaco de Luz",
             "type": {
                 "name": "Capa de aparência",
                 "id": 18
@@ -106003,7 +106003,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17707-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17707-128.png"
             },
-            "description": "[!] L'aura brumeuse de cette cape semble faire de vous un être tout-puissant qui, réchappé des limbes, reviendrait avec toutes les connaissances du Krosmoz en héritage... Ou alors vous sortez simplement d'un frigo ou d'une chambre froide. Sans trembler. Ce qui est un peu impressionnant aussi.",
+            "description": "A aura nebulosa desta capa parece fazer de você um ser todo-poderoso que, após escapar do limbo, voltaria trazendo todos os conhecimentos do Krosmoz como herança... Ou talvez você só esteja saindo de uma geladeira ou de uma câmara fria. Sem tremer. O que também é meio impressionante.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -106036,7 +106036,7 @@
         },
         {
             "ankama_id": 34561,
-            "name": "[!] Heaume de l'Aube",
+            "name": "Elmo da Aurora",
             "type": {
                 "name": "Chapéu de aparência",
                 "id": 6
@@ -106046,7 +106046,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16925-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16925-128.png"
             },
-            "description": "[!] Si ce n'était pas le cas jusque-là, cette coiffe vous permettra d'avoir la lumière à tous les étages et de devenir plus clairvoyant. Vos décisions seront plus sages. Votre regard sur le monde, plus distancé. Vous serez le/la premier(e) à profiter de vos lumières !",
+            "description": "Se ainda não era o caso, este chapéu vai iluminar suas ideias e deixar sua visão muito mais aguçada. Suas decisões serão mais sábias. Seu olhar sobre o mundo será mais ponderado. E quem mais vai se beneficiar dessa iluminação será você mesmo!",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -106104,6 +106104,393 @@
                     "ignore_int_max": true,
                     "formatted": "Compatível com: 0"
                 },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34606,
+            "name": "Máscara de Porcelua",
+            "type": {
+                "name": "Chapéu de aparência",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/16927-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/16927-128.png"
+            },
+            "description": "Esta máscara é pesada, mas representa bem a fragilidade de uma emoção que você está tentando disfarçar. Pouco importa se você está de bom ou mau humor: ela ajuda a exibir um semblante sóbrio e distinto, enquanto permanece impassível.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34607,
+            "name": "Capa de Porcelua",
+            "type": {
+                "name": "Capa de aparência",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/17709-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/17709-128.png"
+            },
+            "description": "Esta capa não passa de uma vaso que foi transformado para ficar mais fácil de vestir. Ela exige que quem a veste fique muito alerta, senão pode acabar em cacos ao menor choque.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34608,
+            "name": "Escudo de Porcelua",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82607-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82607-128.png"
+            },
+            "description": "As juntas douradas deste escudo são sublimes de propósito, para preservar a sua história. Em um tempo em que um objeto quebrado parece perder todo o seu valor, ele lembra que reconhecer seus pontos fracos muitas vezes pode se tornar a sua força.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34609,
+            "name": "Papalua",
+            "type": {
+                "name": "Montascote de aparência",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/121188-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/121188-128.png"
+            },
+            "description": "Uma vez por ano, sem que se possa prever quando exatamente, uma lua dourada aparece no céu. Muitos benefícios são atribuídos a ela, mas o mais estranho é, sem sombra de dúvida, o nascimento de Papatudos especiais: os Papaluas.\nDotados de uma porcelana que não pode ser tosada e de ornamentos dourados, eles são frequentemente elevados à posição de mito.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34610,
+            "name": "Anfaiança",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18955-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18955-128.png"
+            },
+            "description": "Anfaiança nasceu em um dia em que a temperatura estava um pouco mais fresca, o que deixou algumas sequelas nele. Ridicularizado por seus semelhantes, seu grande sonho é ser de porcelana, como os outros...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34614,
+            "name": "Miniduk Krósmico",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18954-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18954-128.png"
+            },
+            "description": "Um problema, um bug? Um aventureiro safado te deu 10% dos seus kamas? Não entre em pânico! Não precisa procurar o suporte da Ankama: o Miniduk está aqui para guiar você e oferecer um ombro amigo nas suas aventuras pelo Mundo dos Doze. Ainda por cima, esse aí é krósmico...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34622,
+            "name": "[!] Minimou",
+            "type": {
+                "name": "Mascote de aparência",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/18957-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/18957-128.png"
+            },
+            "description": "[!] Il est mignon, même s'il est aussi parfois un peu trop lucide...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34623,
+            "name": "[!] Marmiclier",
+            "type": {
+                "name": "Escudo de aparência",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/82610-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/82610-128.png"
+            },
+            "description": "[!] Il est optimisé pour de nombreux usages : chapeau de soirée, luge, lancer de disque ou bouclier. Il paraît même que sa propriétaire originale s'en servait même pour cuire des aliments... Quelle drôle d'idée !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Trocável:",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Trocável: 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34645,
+            "name": "Braços de Porcelua",
+            "type": {
+                "name": "Traje",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/164327-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/164327-128.png"
+            },
+            "description": "Pode até parecer que estes braços deixam você com um aspecto frágil e delicado, mas é só impressão sua.",
+            "effects": [
                 {
                     "int_minimum": 0,
                     "int_maximum": 0,

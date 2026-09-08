@@ -1,7 +1,7 @@
 """Centralized version metadata for Dofus Fashionista."""
 from __future__ import annotations
 
-FASHIONISTA_VERSION = "3.6.10.11"
+FASHIONISTA_VERSION = "3.6.11.12"
 FASHIONISTA_BETA_VERSION = "3.6.7.7"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.48"
@@ -19,7 +19,7 @@ FASHIONISTA_TOUCH_VERSION = "1.73"
 # levels and up to six effects of the real cloaks and shields. The database
 # came out identical, 39 tables compared by content.
 WATCHED_RETRO_BUILD = "1.49.2.5639.441-0b18f88"
-WATCHED_TOUCH_ASSETS = "3.2.13_miqAldppdZIIl0c_i,HlUFqPb44FCiSO"
+WATCHED_TOUCH_ASSETS = "3.3.4_JQRGJCkoJZrlHn0XElOeOU3CuELSZK4T"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
 # is now measured twice rather than argued: 1.49.0 and then 1.49.1 both shipped

@@ -44,13 +44,27 @@
         }
     }
 
-    function load() {
-        var arr = read(storageKey());
-        if (!arr.length) {
-            arr = read(KEY).filter(function (build) {
-                return buildBase(build) === currentBase();
-            });
+    function stored(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            return null;
         }
+    }
+
+    function load() {
+        // An ABSENT versioned key means this reader predates the per-version
+        // split and their tray still lives under the old shared one. An EMPTY
+        // versioned key means they just emptied the tray. Branching on the
+        // parsed list being empty could not tell the two apart, so Clear, and
+        // removing the last build, wrote [] and then read the old list straight
+        // back on the next render. save() never writes the legacy key, so it
+        // never healed either: the tray could not be emptied at all.
+        var arr = stored(storageKey()) === null
+            ? read(KEY).filter(function (build) {
+                  return buildBase(build) === currentBase();
+              })
+            : read(storageKey());
         return arr.filter(function (build) {
             return buildBase(build) === currentBase();
         });
@@ -220,9 +234,12 @@
         }
     });
 
-    // Keep the cart in sync when builds are added from another tab.
+    // Keep the cart in sync when builds are added from another tab. Both keys:
+    // storageKey() is the only one save() writes, so matching KEY alone made
+    // this listener dead the day the tray went per-version, and KEY still has
+    // to be watched for a tab whose tray has not been migrated yet.
     window.addEventListener('storage', function (e) {
-        if (e.key === KEY) {
+        if (e.key === storageKey() || e.key === KEY) {
             render();
         }
     });

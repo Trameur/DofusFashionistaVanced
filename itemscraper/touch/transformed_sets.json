@@ -25000,5 +25000,770 @@
                 ]
             }
         ]
+    },
+    {
+        "ankama_id": 599,
+        "name_en": "Khardboard Set",
+        "name_fr": "Panoplie Ankarton",
+        "name_es": "Set Ankartón",
+        "name_pt": "Conjunto Ankartolina",
+        "name_de": "Panoplie Ankarton",
+        "equipment_ids": [
+            23871,
+            23873,
+            23875,
+            23877,
+            23879,
+            23881,
+            23883,
+            23885
+        ],
+        "stats_list": [
+            {
+                "effect_key": 2,
+                "effects": [
+                    [
+                        200,
+                        200,
+                        "Vitality"
+                    ],
+                    [
+                        70,
+                        70,
+                        "Strength"
+                    ],
+                    [
+                        70,
+                        70,
+                        "Intelligence"
+                    ],
+                    [
+                        70,
+                        70,
+                        "Chance"
+                    ],
+                    [
+                        70,
+                        70,
+                        "Agility"
+                    ],
+                    [
+                        10,
+                        10,
+                        "Wisdom"
+                    ],
+                    [
+                        5,
+                        5,
+                        "Critical Hits"
+                    ],
+                    [
+                        1,
+                        1,
+                        "Range"
+                    ],
+                    [
+                        1,
+                        1,
+                        "Summon"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Power"
+                    ]
+                ]
+            },
+            {
+                "effect_key": 3,
+                "effects": [
+                    [
+                        300,
+                        300,
+                        "Vitality"
+                    ],
+                    [
+                        100,
+                        100,
+                        "Strength"
+                    ],
+                    [
+                        100,
+                        100,
+                        "Intelligence"
+                    ],
+                    [
+                        100,
+                        100,
+                        "Chance"
+                    ],
+                    [
+                        100,
+                        100,
+                        "Agility"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Wisdom"
+                    ],
+                    [
+                        30,
+                        30,
+                        "Power"
+                    ],
+                    [
+                        10,
+                        10,
+                        "Critical Hits"
+                    ],
+                    [
+                        1,
+                        1,
+                        "AP"
+                    ],
+                    [
+                        1,
+                        1,
+                        "MP"
+                    ],
+                    [
+                        1,
+                        1,
+                        "Range"
+                    ],
+                    [
+                        1,
+                        1,
+                        "Summon"
+                    ],
+                    [
+                        5,
+                        5,
+                        "Neutral Damage"
+                    ],
+                    [
+                        5,
+                        5,
+                        "Earth Damage"
+                    ],
+                    [
+                        5,
+                        5,
+                        "Fire Damage"
+                    ],
+                    [
+                        5,
+                        5,
+                        "Water Damage"
+                    ],
+                    [
+                        5,
+                        5,
+                        "Air Damage"
+                    ],
+                    [
+                        2,
+                        2,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        2,
+                        2,
+                        "% Earth Resist"
+                    ],
+                    [
+                        2,
+                        2,
+                        "% Fire Resist"
+                    ],
+                    [
+                        2,
+                        2,
+                        "% Water Resist"
+                    ],
+                    [
+                        2,
+                        2,
+                        "% Air Resist"
+                    ]
+                ]
+            },
+            {
+                "effect_key": 4,
+                "effects": [
+                    [
+                        400,
+                        400,
+                        "Vitality"
+                    ],
+                    [
+                        150,
+                        150,
+                        "Strength"
+                    ],
+                    [
+                        150,
+                        150,
+                        "Intelligence"
+                    ],
+                    [
+                        150,
+                        150,
+                        "Chance"
+                    ],
+                    [
+                        150,
+                        150,
+                        "Agility"
+                    ],
+                    [
+                        40,
+                        40,
+                        "Wisdom"
+                    ],
+                    [
+                        50,
+                        50,
+                        "Power"
+                    ],
+                    [
+                        10,
+                        10,
+                        "Critical Hits"
+                    ],
+                    [
+                        1,
+                        1,
+                        "AP"
+                    ],
+                    [
+                        1,
+                        1,
+                        "MP"
+                    ],
+                    [
+                        2,
+                        2,
+                        "Range"
+                    ],
+                    [
+                        2,
+                        2,
+                        "Summon"
+                    ],
+                    [
+                        10,
+                        10,
+                        "Neutral Damage"
+                    ],
+                    [
+                        10,
+                        10,
+                        "Earth Damage"
+                    ],
+                    [
+                        10,
+                        10,
+                        "Fire Damage"
+                    ],
+                    [
+                        10,
+                        10,
+                        "Water Damage"
+                    ],
+                    [
+                        10,
+                        10,
+                        "Air Damage"
+                    ],
+                    [
+                        3,
+                        3,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        3,
+                        3,
+                        "% Earth Resist"
+                    ],
+                    [
+                        3,
+                        3,
+                        "% Fire Resist"
+                    ],
+                    [
+                        3,
+                        3,
+                        "% Water Resist"
+                    ],
+                    [
+                        3,
+                        3,
+                        "% Air Resist"
+                    ]
+                ]
+            },
+            {
+                "effect_key": 5,
+                "effects": [
+                    [
+                        500,
+                        500,
+                        "Vitality"
+                    ],
+                    [
+                        200,
+                        200,
+                        "Strength"
+                    ],
+                    [
+                        200,
+                        200,
+                        "Intelligence"
+                    ],
+                    [
+                        200,
+                        200,
+                        "Chance"
+                    ],
+                    [
+                        200,
+                        200,
+                        "Agility"
+                    ],
+                    [
+                        70,
+                        70,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        15,
+                        "Critical Hits"
+                    ],
+                    [
+                        2,
+                        2,
+                        "AP"
+                    ],
+                    [
+                        2,
+                        2,
+                        "Range"
+                    ],
+                    [
+                        2,
+                        2,
+                        "Summon"
+                    ],
+                    [
+                        15,
+                        15,
+                        "Earth Damage"
+                    ],
+                    [
+                        15,
+                        15,
+                        "Water Damage"
+                    ],
+                    [
+                        15,
+                        15,
+                        "Air Damage"
+                    ],
+                    [
+                        4,
+                        4,
+                        "% Earth Resist"
+                    ],
+                    [
+                        4,
+                        4,
+                        "% Fire Resist"
+                    ],
+                    [
+                        4,
+                        4,
+                        "% Air Resist"
+                    ],
+                    [
+                        4,
+                        4,
+                        "% Water Resist"
+                    ],
+                    [
+                        4,
+                        4,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        15,
+                        15,
+                        "Fire Damage"
+                    ],
+                    [
+                        15,
+                        15,
+                        "Neutral Damage"
+                    ],
+                    [
+                        2,
+                        2,
+                        "MP"
+                    ],
+                    [
+                        80,
+                        80,
+                        "Wisdom"
+                    ]
+                ]
+            },
+            {
+                "effect_key": 6,
+                "effects": [
+                    [
+                        650,
+                        650,
+                        "Vitality"
+                    ],
+                    [
+                        250,
+                        250,
+                        "Strength"
+                    ],
+                    [
+                        250,
+                        250,
+                        "Intelligence"
+                    ],
+                    [
+                        250,
+                        250,
+                        "Chance"
+                    ],
+                    [
+                        250,
+                        250,
+                        "Agility"
+                    ],
+                    [
+                        120,
+                        120,
+                        "Wisdom"
+                    ],
+                    [
+                        90,
+                        90,
+                        "Power"
+                    ],
+                    [
+                        15,
+                        15,
+                        "Critical Hits"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Earth Damage"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Water Damage"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Air Damage"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Fire Damage"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Neutral Damage"
+                    ],
+                    [
+                        3,
+                        3,
+                        "Summon"
+                    ],
+                    [
+                        5,
+                        5,
+                        "% Earth Resist"
+                    ],
+                    [
+                        5,
+                        5,
+                        "% Fire Resist"
+                    ],
+                    [
+                        5,
+                        5,
+                        "% Air Resist"
+                    ],
+                    [
+                        5,
+                        5,
+                        "% Water Resist"
+                    ],
+                    [
+                        5,
+                        5,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        2,
+                        2,
+                        "AP"
+                    ],
+                    [
+                        3,
+                        3,
+                        "Range"
+                    ],
+                    [
+                        2,
+                        2,
+                        "MP"
+                    ]
+                ]
+            },
+            {
+                "effect_key": 7,
+                "effects": [
+                    [
+                        1000,
+                        1000,
+                        "Vitality"
+                    ],
+                    [
+                        300,
+                        300,
+                        "Strength"
+                    ],
+                    [
+                        300,
+                        300,
+                        "Intelligence"
+                    ],
+                    [
+                        300,
+                        300,
+                        "Chance"
+                    ],
+                    [
+                        300,
+                        300,
+                        "Agility"
+                    ],
+                    [
+                        200,
+                        200,
+                        "Wisdom"
+                    ],
+                    [
+                        120,
+                        120,
+                        "Power"
+                    ],
+                    [
+                        40,
+                        40,
+                        "Earth Damage"
+                    ],
+                    [
+                        40,
+                        40,
+                        "Water Damage"
+                    ],
+                    [
+                        40,
+                        40,
+                        "Air Damage"
+                    ],
+                    [
+                        40,
+                        40,
+                        "Fire Damage"
+                    ],
+                    [
+                        40,
+                        40,
+                        "Neutral Damage"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Critical Hits"
+                    ],
+                    [
+                        7,
+                        7,
+                        "% Earth Resist"
+                    ],
+                    [
+                        7,
+                        7,
+                        "% Fire Resist"
+                    ],
+                    [
+                        7,
+                        7,
+                        "% Air Resist"
+                    ],
+                    [
+                        7,
+                        7,
+                        "% Water Resist"
+                    ],
+                    [
+                        7,
+                        7,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        3,
+                        3,
+                        "Summon"
+                    ],
+                    [
+                        3,
+                        3,
+                        "AP"
+                    ],
+                    [
+                        2,
+                        2,
+                        "MP"
+                    ],
+                    [
+                        3,
+                        3,
+                        "Range"
+                    ]
+                ]
+            },
+            {
+                "effect_key": 8,
+                "effects": [
+                    [
+                        2000,
+                        2000,
+                        "Vitality"
+                    ],
+                    [
+                        400,
+                        400,
+                        "Strength"
+                    ],
+                    [
+                        400,
+                        400,
+                        "Intelligence"
+                    ],
+                    [
+                        400,
+                        400,
+                        "Chance"
+                    ],
+                    [
+                        400,
+                        400,
+                        "Agility"
+                    ],
+                    [
+                        280,
+                        280,
+                        "Wisdom"
+                    ],
+                    [
+                        150,
+                        150,
+                        "Power"
+                    ],
+                    [
+                        60,
+                        60,
+                        "Earth Damage"
+                    ],
+                    [
+                        60,
+                        60,
+                        "Water Damage"
+                    ],
+                    [
+                        60,
+                        60,
+                        "Air Damage"
+                    ],
+                    [
+                        60,
+                        60,
+                        "Fire Damage"
+                    ],
+                    [
+                        60,
+                        60,
+                        "Neutral Damage"
+                    ],
+                    [
+                        20,
+                        20,
+                        "Critical Hits"
+                    ],
+                    [
+                        10,
+                        10,
+                        "% Earth Resist"
+                    ],
+                    [
+                        10,
+                        10,
+                        "% Fire Resist"
+                    ],
+                    [
+                        10,
+                        10,
+                        "% Air Resist"
+                    ],
+                    [
+                        10,
+                        10,
+                        "% Water Resist"
+                    ],
+                    [
+                        10,
+                        10,
+                        "% Neutral Resist"
+                    ],
+                    [
+                        3,
+                        3,
+                        "Summon"
+                    ],
+                    [
+                        3,
+                        3,
+                        "AP"
+                    ],
+                    [
+                        2,
+                        2,
+                        "MP"
+                    ],
+                    [
+                        3,
+                        3,
+                        "Range"
+                    ]
+                ]
+            }
+        ]
     }
 ]

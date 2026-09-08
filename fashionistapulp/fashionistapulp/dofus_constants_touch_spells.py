@@ -908,98 +908,98 @@ TOUCH_DAMAGE_SPELLS = {
 
 TOUCH_SPELL_NAMES = {
  "Absinthe": {
-  "de": "Absinth",
+  "de": "Absinthe",
   "en": "Absinthe",
   "es": "Absenta",
   "fr": "Absinthe",
   "pt": "Absinto"
  },
  "Afflux": {
-  "de": "Zustrom",
+  "de": "Influx",
   "en": "Influx",
   "es": "Aflujo",
   "fr": "Afflux",
   "pt": "Afluxo"
  },
  "Aiguille": {
-  "de": "Zeiger",
+  "de": "Hand",
   "en": "Hand",
   "es": "Aguja",
   "fr": "Aiguille",
   "pt": "Ponteiro"
  },
  "Ancrage": {
-  "de": "Verankern",
+  "de": "Anchor",
   "en": "Anchor",
   "es": "Anclaje",
   "fr": "Ancrage",
   "pt": "Ancoragem"
  },
  "Apathie": {
-  "de": "Apathie",
+  "de": "Apathy",
   "en": "Apathy",
   "es": "Apatía",
   "fr": "Apathie",
   "pt": "Apatia"
  },
  "Appeau": {
-  "de": "Lockvogel",
+  "de": "Decoy",
   "en": "Decoy",
   "es": "Reclamo",
   "fr": "Appeau",
   "pt": "Chamariz"
  },
  "Appui": {
-  "de": "Abspringen",
+  "de": "Reinforcement",
   "en": "Reinforcement",
   "es": "Apoyo",
   "fr": "Appui",
   "pt": "Apoio"
  },
  "Appât": {
-  "de": "Anlockung",
+  "de": "Lure",
   "en": "Lure",
   "es": "Carnaza",
   "fr": "Appât",
   "pt": "Engodo"
  },
  "Arnaque": {
-  "de": "Betrug",
+  "de": "Con",
   "en": "Con",
   "es": "Estafa",
   "fr": "Arnaque",
   "pt": "Trapaça"
  },
  "Assaut": {
-  "de": "Sturmangriff",
+  "de": "Assault",
   "en": "Assault",
   "es": "Asalto",
   "fr": "Assaut",
   "pt": "Assalto"
  },
  "Attaque Mortelle": {
-  "de": "Tödlicher Angriff",
+  "de": "Lethal Attack",
   "en": "Lethal Attack",
   "es": "Ataque Mortal",
   "fr": "Attaque Mortelle",
   "pt": "Ataque Mortal"
  },
  "Attaque Naturelle": {
-  "de": "Natürlicher Angriff",
+  "de": "Natural Attack",
   "en": "Natural Attack",
   "es": "Ataque Natural",
   "fr": "Attaque Naturelle",
   "pt": "Ataque Natural"
  },
  "Attaque Nuageuse": {
-  "de": "Nebelhafter Angriff",
+  "de": "Cloudy Attack",
   "en": "Cloudy Attack",
   "es": "Ataque Nuboso",
   "fr": "Attaque Nuageuse",
   "pt": "Ataque Nublado"
  },
  "Aveuglement": {
-  "de": "Blindheit",
+  "de": "Blindness",
   "en": "Blindness",
   "es": "Ceguera",
   "fr": "Aveuglement",
@@ -1013,364 +1013,364 @@ TOUCH_SPELL_NAMES = {
   "pt": "Blefe"
  },
  "Boliche": {
-  "de": "Impuls-Trick",
+  "de": "Boliche",
   "en": "Boliche",
   "es": "Boliche",
   "fr": "Boliche",
   "pt": "Boliche"
  },
  "Bourbier": {
-  "de": "Patschö",
+  "de": "Quagmire",
   "en": "Quagmire",
   "es": "Lodazal",
   "fr": "Bourbier",
   "pt": "Lamaçal"
  },
  "Bulle": {
-  "de": "Blase",
+  "de": "Bubble",
   "en": "Bubble",
   "es": "Pompa",
   "fr": "Bulle",
   "pt": "Bolha"
  },
  "Cabriole": {
-  "de": "Kabriolen",
+  "de": "Capering",
   "en": "Capering",
   "es": "Cabriola",
   "fr": "Cabriole",
   "pt": "Cabriola"
  },
  "Carnage": {
-  "de": "Abmetzeln",
+  "de": "Carnage",
   "en": "Carnage",
   "es": "Carnicería",
   "fr": "Carnage",
   "pt": "Carnificina"
  },
  "Chance": {
-  "de": "Glück",
+  "de": "Fortune",
   "en": "Fortune",
   "es": "Suerte",
   "fr": "Chance",
   "pt": "Sorte"
  },
  "Châtiment du Martyr": {
-  "de": "Bestrafung des Märtyrers",
+  "de": "Martyr Punishment",
   "en": "Martyr Punishment",
   "es": "Castigo del Mártir",
   "fr": "Châtiment du Martyr",
   "pt": "Castigo do Mártir"
  },
  "Coagulation": {
-  "de": "Gerinnung",
+  "de": "Coagulation",
   "en": "Coagulation",
   "es": "Coagulación",
   "fr": "Coagulation",
   "pt": "Coagulação"
  },
  "Colère de Iop": {
-  "de": "Iops Wut",
+  "de": "Iop's Wrath",
   "en": "Iop's Wrath",
   "es": "Ira de Yopuka",
   "fr": "Colère de Iop",
   "pt": "Ira de Iop"
  },
  "Concentration": {
-  "de": "Konzentration",
+  "de": "Concentration",
   "en": "Concentration",
   "es": "Concentración",
   "fr": "Concentration",
   "pt": "Concentração"
  },
  "Condensation": {
-  "de": "Kondensation",
+  "de": "Condensation",
   "en": "Condensation",
   "es": "Condensación",
   "fr": "Condensation",
   "pt": "Condensação"
  },
  "Coup Sournois": {
-  "de": "Tückischer Angriff",
+  "de": "Tricky Blow",
   "en": "Tricky Blow",
   "es": "Golpe Solapado",
   "fr": "Coup Sournois",
   "pt": "Golpe Dissimulador"
  },
  "Courant": {
-  "de": "Strömung",
+  "de": "Wakflip",
   "en": "Wakflip",
   "es": "Corriente",
   "fr": "Courant",
   "pt": "Corrente"
  },
  "Dagues Boomerang": {
-  "de": "Boomerangdolch",
+  "de": "Boomerang Daggers",
   "en": "Boomerang Daggers",
   "es": "Dagas Bumerán",
   "fr": "Dagues Boomerang",
   "pt": "Adagas Bumerangue"
  },
  "Dernier Souffle": {
-  "de": "Letzter Atemzug",
+  "de": "Last Breath",
   "en": "Last Breath",
   "es": "Último Aliento",
   "fr": "Dernier Souffle",
   "pt": "Último Suspiro"
  },
  "Destin d'Ecaflip": {
-  "de": "Ecaflips Schicksal",
+  "de": "Fate of Ecaflip",
   "en": "Fate of Ecaflip",
   "es": "Destino de Zurcarák",
   "fr": "Destin d'Ecaflip",
   "pt": "Destino de Ecaflip"
  },
  "Dissolution": {
-  "de": "Auflösung",
+  "de": "Dissolution",
   "en": "Dissolution",
   "es": "Disolución",
   "fr": "Dissolution",
   "pt": "Dissolução"
  },
  "Distance": {
-  "de": "Abstand",
+  "de": "Distance",
   "en": "Distance",
   "es": "Distancia",
   "fr": "Distance",
   "pt": "Distância"
  },
  "Décalage Horaire": {
-  "de": "Zeitverschiebung",
+  "de": "Jetlag",
   "en": "Jetlag",
   "es": "Desajuste Horario",
   "fr": "Décalage Horaire",
   "pt": "Fuso Horário"
  },
  "Désinvocation": {
-  "de": "Rückruf",
+  "de": "Unsummoning",
   "en": "Unsummoning",
   "es": "Desinvocación",
   "fr": "Désinvocation",
   "pt": "Desinvocação"
  },
  "Ecume": {
-  "de": "Gischt",
+  "de": "Froth",
   "en": "Froth",
   "es": "Espuma de Mar",
   "fr": "Ecume",
   "pt": "Espuma"
  },
  "Embuscade": {
-  "de": "Hinterhalt",
+  "de": "Ambush",
   "en": "Ambush",
   "es": "Emboscada",
   "fr": "Embuscade",
   "pt": "Emboscada"
  },
  "Epée Céleste": {
-  "de": "Himmlisches Schwert",
+  "de": "Celestial Sword",
   "en": "Celestial Sword",
   "es": "Espada Celeste",
   "fr": "Epée Céleste",
   "pt": "Espada Celestial"
  },
  "Epée Destructrice": {
-  "de": "Zerstörerisches Schwert",
+  "de": "Destructive Sword",
   "en": "Destructive Sword",
   "es": "Espada Destructora",
   "fr": "Epée Destructrice",
   "pt": "Espada Destrutiva"
  },
  "Epée de Iop": {
-  "de": "Iops Schwert",
+  "de": "Sword of Iop",
   "en": "Sword of Iop",
   "es": "Espada de Yopuka",
   "fr": "Epée de Iop",
   "pt": "Espada de Iop"
  },
  "Epée du Destin": {
-  "de": "Schicksalsschwert",
+  "de": "Sword of Fate",
   "en": "Sword of Fate",
   "es": "Espada del Destino",
   "fr": "Epée du Destin",
   "pt": "Espada do Destino"
  },
  "Epée du Jugement": {
-  "de": "Schwert der Verurteilung",
+  "de": "Sword of Judgment",
   "en": "Sword of Judgment",
   "es": "Espada del Juicio",
   "fr": "Epée du Jugement",
   "pt": "Espada do Julgamento"
  },
  "Espingole": {
-  "de": "Espingole",
+  "de": "Carbine",
   "en": "Carbine",
   "es": "Arcabuz",
   "fr": "Espingole",
   "pt": "Carabina"
  },
  "Esprit Félin": {
-  "de": "Katzengeist",
+  "de": "Feline Spirit",
   "en": "Feline Spirit",
   "es": "Espíritu Felino",
   "fr": "Esprit Félin",
   "pt": "Espírito Felino"
  },
  "Ethylo": {
-  "de": "Ethyllo",
+  "de": "Tipple",
   "en": "Tipple",
   "es": "Etilo",
   "fr": "Ethylo",
   "pt": "Beberricar"
  },
  "Extraction": {
-  "de": "Extrahieren",
+  "de": "Extraction",
   "en": "Extraction",
   "es": "Extracción",
   "fr": "Extraction",
   "pt": "Execução"
  },
  "Fanfaronnade": {
-  "de": "Prahlerei",
+  "de": "Bravado",
   "en": "Bravado",
   "es": "Fantasmada",
   "fr": "Fanfaronnade",
   "pt": "Fanfarronice"
  },
  "Flibuste": {
-  "de": "Bukanier",
+  "de": "Pilfer",
   "en": "Pilfer",
   "es": "Piratería",
   "fr": "Flibuste",
   "pt": "Pirataria"
  },
  "Flèche Aveuglante": {
-  "de": "Blendender Pfeil",
+  "de": "Blinding Arrow",
   "en": "Blinding Arrow",
   "es": "Flecha Cegante",
   "fr": "Flèche Aveuglante",
   "pt": "Flecha Cegante"
  },
  "Flèche Empoisonnée": {
-  "de": "Giftpfeil",
+  "de": "Poisoned Arrow",
   "en": "Poisoned Arrow",
   "es": "Flecha Envenenada",
   "fr": "Flèche Empoisonnée",
   "pt": "Flecha Envenenada"
  },
  "Flèche Enflammée": {
-  "de": "Flammenpfeil",
+  "de": "Burning Arrow",
   "en": "Burning Arrow",
   "es": "Flecha Flamígera",
   "fr": "Flèche Enflammée",
   "pt": "Flecha Flamejante"
  },
  "Flèche Explosive": {
-  "de": "Explosionspfeil",
+  "de": "Explosive Arrow",
   "en": "Explosive Arrow",
   "es": "Flecha Explosiva",
   "fr": "Flèche Explosive",
   "pt": "Flecha Explosiva"
  },
  "Flèche Harcelante": {
-  "de": "Plagender Pfeil",
+  "de": "Plaguing Arrow",
   "en": "Plaguing Arrow",
   "es": "Flecha Acosante",
   "fr": "Flèche Harcelante",
   "pt": "Flecha Inconveniente"
  },
  "Flèche Perforante": {
-  "de": "Durchdringender Pfeil",
+  "de": "Piercing Arrow",
   "en": "Piercing Arrow",
   "es": "Flecha Percutiente",
   "fr": "Flèche Perforante",
   "pt": "Flecha Perfurante"
  },
  "Flèche Punitive": {
-  "de": "Strafender Pfeil",
+  "de": "Punitive Arrow",
   "en": "Punitive Arrow",
   "es": "Flecha Castigadora",
   "fr": "Flèche Punitive",
   "pt": "Flecha Punitiva"
  },
  "Flèche d'Abolition": {
-  "de": "Pfeil der Abschaffung",
+  "de": "Abolition Arrow",
   "en": "Abolition Arrow",
   "es": "Flecha de Abolición",
   "fr": "Flèche d'Abolition",
   "pt": "Flecha de Abolição"
  },
  "Flèche de Barrage": {
-  "de": "Sperrpfeil",
+  "de": "Barricade Arrow",
   "en": "Barricade Arrow",
   "es": "Flecha de Pelea",
   "fr": "Flèche de Barrage",
   "pt": "Flecha de Barricada"
  },
  "Flèche de Concentration": {
-  "de": "Pfeil der Konzentration",
+  "de": "Concentration Arrow",
   "en": "Concentration Arrow",
   "es": "Flecha de Concentración",
   "fr": "Flèche de Concentration",
   "pt": "Flecha de Concentração"
  },
  "Flèche de Poursuite": {
-  "de": "Verfolgungspfeil",
+  "de": "Pursuit Arrow",
   "en": "Pursuit Arrow",
   "es": "Flecha de Persecución",
   "fr": "Flèche de Poursuite",
   "pt": "Flecha de Perseguição"
  },
  "Flèche de Recul": {
-  "de": "Rückstoßpfeil",
+  "de": "Retreat Arrow",
   "en": "Retreat Arrow",
   "es": "Flecha de Retroceso",
   "fr": "Flèche de Recul",
   "pt": "Flecha de Recuo"
  },
  "Flèche de Transfusion": {
-  "de": "Transfusionspfeil",
+  "de": "Transfusion Arrow",
   "en": "Transfusion Arrow",
   "es": "Flecha de Transfusión",
   "fr": "Flèche de Transfusion",
   "pt": "Flecha de Transfusão"
  },
  "Force de l'Age": {
-  "de": "Kraft des Alters",
+  "de": "Prime of Life",
   "en": "Prime of Life",
   "es": "Madurez",
   "fr": "Force de l'Age",
   "pt": "Flor da Idade"
  },
  "Fournaise": {
-  "de": "Schmelzofen",
+  "de": "Furnace",
   "en": "Furnace",
   "es": "Horno",
   "fr": "Fournaise",
   "pt": "Fornalha"
  },
  "Fourvoiement": {
-  "de": "Verirrung",
+  "de": "Mistake",
   "en": "Mistake",
   "es": "Karadura",
   "fr": "Fourvoiement",
   "pt": "Enganação"
  },
  "Foène": {
-  "de": "Lyster",
+  "de": "Trident",
   "en": "Trident",
   "es": "Tridente",
   "fr": "Foène",
   "pt": "Arpéu"
  },
  "Frappe du Craqueleur": {
-  "de": "Krachlerfaust",
+  "de": "Crackler Punch",
   "en": "Crackler Punch",
   "es": "Golpe del Crujidor",
   "fr": "Frappe du Craqueleur",
   "pt": "Golpe do Smagador"
  },
  "Fulgurance": {
-  "de": "Brillanz",
+  "de": "Light Speed",
   "en": "Light Speed",
   "es": "Fulgor",
   "fr": "Fulgurance",
@@ -1384,105 +1384,105 @@ TOUCH_SPELL_NAMES = {
   "pt": "Cólera"
  },
  "Furie": {
-  "de": "Raserei",
+  "de": "Fury",
   "en": "Fury",
   "es": "Furia",
   "fr": "Furie",
   "pt": "Fúria"
  },
  "Félintion": {
-  "de": "Felienchen",
+  "de": "Felintion",
   "en": "Felintion",
   "es": "Feliación",
   "fr": "Félintion",
   "pt": "Felinação"
  },
  "Gelure": {
-  "de": "Einfrieren",
+  "de": "Frostbite",
   "en": "Frostbite",
   "es": "Congelación",
   "fr": "Gelure",
   "pt": "Enregelamento"
  },
  "Gisement": {
-  "de": "Erzvorkommen",
+  "de": "Deposit",
   "en": "Deposit",
   "es": "Filón",
   "fr": "Gisement",
   "pt": "Jazida"
  },
  "Gnôle": {
-  "de": "Feuerwasser",
+  "de": "Hooch",
   "en": "Hooch",
   "es": "Orujo",
   "fr": "Gnôle",
   "pt": "Goró"
  },
  "Griffe Cinglante": {
-  "de": "Zupackende Kralle",
+  "de": "Lashing Claw",
   "en": "Lashing Claw",
   "es": "Garra Azotadora",
   "fr": "Griffe Cinglante",
   "pt": "Garra Fustigante"
  },
  "Griffe Corrosive": {
-  "de": "Korrosive Kralle",
+  "de": "Corrosive Claw",
   "en": "Corrosive Claw",
   "es": "Garra Corrosiva",
   "fr": "Griffe Corrosive",
   "pt": "Garra Corrosiva"
  },
  "Griffe Joueuse": {
-  "de": "Spielkralle",
+  "de": "Playful Claw",
   "en": "Playful Claw",
   "es": "Garra Juguetona",
   "fr": "Griffe Joueuse",
   "pt": "Garra Brincalhona"
  },
  "Griffe Spectrale": {
-  "de": "Geisterklaue",
+  "de": "Ghostly Claw",
   "en": "Ghostly Claw",
   "es": "Garra Espectral",
   "fr": "Griffe Spectrale",
   "pt": "Garra Espectral"
  },
  "Griffe de Ceangal": {
-  "de": "Klaue von Ceangal",
+  "de": "Claw of Ceangal",
   "en": "Claw of Ceangal",
   "es": "Garra de Ceangal",
   "fr": "Griffe de Ceangal",
   "pt": "Garra de Ceangal"
  },
  "Guet-Apens": {
-  "de": "Auflauern",
+  "de": "Waylaying",
   "en": "Waylaying",
   "es": "Zalagarda",
   "fr": "Guet-Apens",
   "pt": "Tocaia"
  },
  "Gueule de Bois": {
-  "de": "Brummschädel",
+  "de": "Hangover",
   "en": "Hangover",
   "es": "Resaca",
   "fr": "Gueule de Bois",
   "pt": "Porre"
  },
  "Herbe Folle": {
-  "de": "Wuchernde Gräser",
+  "de": "Wild Grass",
   "en": "Wild Grass",
   "es": "Hierba Loca",
   "fr": "Herbe Folle",
   "pt": "Erva Selvagem"
  },
  "Horloge": {
-  "de": "Uhrwerk",
+  "de": "Clock",
   "en": "Clock",
   "es": "Reloj",
   "fr": "Horloge",
   "pt": "Relógio"
  },
  "Hémostatique": {
-  "de": "Blutstiller",
+  "de": "Hemostatic",
   "en": "Hemostatic",
   "es": "Hemostático",
   "fr": "Hémostatique",
@@ -1496,245 +1496,245 @@ TOUCH_SPELL_NAMES = {
   "pt": "Jogo de Dados"
  },
  "Lancer de Pelle": {
-  "de": "Schaufelwurf",
+  "de": "Shovel Throwing",
   "en": "Shovel Throwing",
   "es": "Lanzamiento de Pala",
   "fr": "Lancer de Pelle",
   "pt": "Lançamento de Pá"
  },
  "Lancer de Pièces": {
-  "de": "Münzenwurf",
+  "de": "Coin Throwing",
   "en": "Coin Throwing",
   "es": "Lanzamiento de Monedas",
   "fr": "Lancer de Pièces",
   "pt": "Arremesso de Moedas"
  },
  "Langue Râpeuse": {
-  "de": "Raue Zunge",
+  "de": "Rough Tongue",
   "en": "Rough Tongue",
   "es": "Lengua Raspadora",
   "fr": "Langue Râpeuse",
   "pt": "Língua Áspera"
  },
  "Larcin": {
-  "de": "Dieberei",
+  "de": "Larceny",
   "en": "Larceny",
   "es": "Hurto",
   "fr": "Larcin",
   "pt": "Furto"
  },
  "Larme": {
-  "de": "Träne",
+  "de": "Tear",
   "en": "Tear",
   "es": "Lágrima",
   "fr": "Larme",
   "pt": "Lágrima"
  },
  "Liqueur": {
-  "de": "Likör",
+  "de": "Liqueur",
   "en": "Liqueur",
   "es": "Licor",
   "fr": "Liqueur",
   "pt": "Licor"
  },
  "Longue Vue": {
-  "de": "Fernrohr",
+  "de": "Periscope",
   "en": "Periscope",
   "es": "Avistamiento",
   "fr": "Longue Vue",
   "pt": "Luneta"
  },
  "Machination": {
-  "de": "Machenschaft",
+  "de": "Conspiracy",
   "en": "Conspiracy",
   "es": "Maquinación",
   "fr": "Machination",
   "pt": "Maquinação"
  },
  "Martelo": {
-  "de": "Einbläuen",
+  "de": "Martelo",
   "en": "Martelo",
   "es": "Martelo",
   "fr": "Martelo",
   "pt": "Martelo"
  },
  "Marée": {
-  "de": "Gezeiten",
+  "de": "Tide",
   "en": "Tide",
   "es": "Marea",
   "fr": "Marée",
   "pt": "Maré"
  },
  "Maîtrise de l'Arc": {
-  "de": "Meister des Bogens",
+  "de": "Bow Skill",
   "en": "Bow Skill",
   "es": "Dominio del Arco",
   "fr": "Maîtrise de l'Arc",
   "pt": "Domínio do Arco"
  },
  "Mise en Garde": {
-  "de": "Vorwarnung",
+  "de": "Reinforced Protection",
   "en": "Reinforced Protection",
   "es": "Posición Defensiva",
   "fr": "Mise en Garde",
   "pt": "Proteção Reforçada"
  },
  "Momification": {
-  "de": "Mumifizierung",
+  "de": "Mummification",
   "en": "Mummification",
   "es": "Momificación",
   "fr": "Momification",
   "pt": "Mumificação"
  },
  "Mot Accablant": {
-  "de": "Belastendes Wort",
+  "de": "Overwhelming Word",
   "en": "Overwhelming Word",
   "es": "Palabra Abrumadora",
   "fr": "Mot Accablant",
   "pt": "Palavra Arrasadora"
  },
  "Mot Chaleureux": {
-  "de": "Warmherziges Wort",
+  "de": "Heartwarming Word",
   "en": "Heartwarming Word",
   "es": "Palabra Cálida",
   "fr": "Mot Chaleureux",
   "pt": "Palavra Calorosa"
  },
  "Mot Concussif": {
-  "de": "Erschütterndes Wort",
+  "de": "Jarring Word",
   "en": "Jarring Word",
   "es": "Palabra Discordante",
   "fr": "Mot Concussif",
   "pt": "Palavra Concussora"
  },
  "Mot Dissuasif": {
-  "de": "Abschreckendes Wort",
+  "de": "Dissuasive Word",
   "en": "Dissuasive Word",
   "es": "Palabra Disuasoria",
   "fr": "Mot Dissuasif",
   "pt": "Palavra Dissuasiva"
  },
  "Mot Drainant": {
-  "de": "Entziehendes Wort",
+  "de": "Draining Word",
   "en": "Draining Word",
   "es": "Palabra Drenaje",
   "fr": "Mot Drainant",
   "pt": "Palavra Drenadora"
  },
  "Mot Marquant": {
-  "de": "Schlagendes Wort",
+  "de": "Striking Word",
   "en": "Striking Word",
   "es": "Palabra Memorable",
   "fr": "Mot Marquant",
   "pt": "Palavra Marcante"
  },
  "Mot Résonnant": {
-  "de": "Donnerndes Wort",
+  "de": "Resonating Word",
   "en": "Resonating Word",
   "es": "Palabra Resonante",
   "fr": "Mot Résonnant",
   "pt": "Palavra Ressoante"
  },
  "Mot Transperçant": {
-  "de": "Stechendes Wort",
+  "de": "Piercing Word",
   "en": "Piercing Word",
   "es": "Palabra Atravesadora",
   "fr": "Mot Transperçant",
   "pt": "Palavra Perfurante"
  },
  "Mot Troublant": {
-  "de": "Beunruhigendes Wort",
+  "de": "Unsettling Word",
   "en": "Unsettling Word",
   "es": "Palabra Perturbadora",
   "fr": "Mot Troublant",
   "pt": "Palavra Inquietante"
  },
  "Mot Vampirique": {
-  "de": "Vampirhaftes Wort",
+  "de": "Vampiric Word",
   "en": "Vampiric Word",
   "es": "Palabra Vampírica",
   "fr": "Mot Vampirique",
   "pt": "Palavra Vampírica"
  },
  "Mot Éreintant": {
-  "de": "Kräftezehrendes Wort",
+  "de": "Exhausting Word",
   "en": "Exhausting Word",
   "es": "Palabra Extenuante",
   "fr": "Mot Éreintant",
   "pt": "Palavra Exaustiva"
  },
  "Mot Étincelant": {
-  "de": "Gleißendes Wort",
+  "de": "Sparkling Word",
   "en": "Sparkling Word",
   "es": "Palabra Resplandeciente",
   "fr": "Mot Étincelant",
   "pt": "Palavra Cintilante"
  },
  "Oeil de Taupe": {
-  "de": "Maulwurfssicht",
+  "de": "Bat's Eye",
   "en": "Bat's Eye",
   "es": "Ojo de Topo",
   "fr": "Oeil de Taupe",
   "pt": "Olho de Toupeira"
  },
  "Pandatak": {
-  "de": "Pandattak",
+  "de": "Pandatak",
   "en": "Pandatak",
   "es": "Pandatak",
   "fr": "Pandatak",
   "pt": "Pandatak"
  },
  "Pelle Aveuglante": {
-  "de": "Blendende Schaufel",
+  "de": "Blinding Shovel",
   "en": "Blinding Shovel",
   "es": "Pala Cegadora",
   "fr": "Pelle Aveuglante",
   "pt": "Pá Cegante"
  },
  "Pelle Fantomatique": {
-  "de": "Phantomschaufel",
+  "de": "Ghostly Shovel",
   "en": "Ghostly Shovel",
   "es": "Pala Fantasmal",
   "fr": "Pelle Fantomatique",
   "pt": "Pá Espectral"
  },
  "Pelle Fragilisante": {
-  "de": "Schwächende Schaufel",
+  "de": "Weakening Shovel",
   "en": "Weakening Shovel",
   "es": "Pala Debilitadora",
   "fr": "Pelle Fragilisante",
   "pt": "Pá Enfraquecedora"
  },
  "Pelle Massacrante": {
-  "de": "Mörderschaufel",
+  "de": "Slaughtering Shovel",
   "en": "Slaughtering Shovel",
   "es": "Pala Masacrante",
   "fr": "Pelle Massacrante",
   "pt": "Pá Massacrante"
  },
  "Pelle du Jugement": {
-  "de": "Schaufel der Verurteilung",
+  "de": "Shovel of Judgment",
   "en": "Shovel of Judgment",
   "es": "Pala del Juicio",
   "fr": "Pelle du Jugement",
   "pt": "Pá do Julgamento"
  },
  "Pendule": {
-  "de": "Pendel",
+  "de": "Pendulum",
   "en": "Pendulum",
   "es": "Péndulo",
   "fr": "Pendule",
   "pt": "Pêndulo"
  },
  "Perception": {
-  "de": "Wahrnehmung",
+  "de": "Perception",
   "en": "Perception",
   "es": "Percepción",
   "fr": "Perception",
   "pt": "Percepção"
  },
  "Perfidie": {
-  "de": "Arglist",
+  "de": "Perfidy",
   "en": "Perfidy",
   "es": "Perfidia",
   "fr": "Perfidie",
@@ -1748,70 +1748,70 @@ TOUCH_SPELL_NAMES = {
   "pt": "Picada"
  },
  "Pied du Sacrieur": {
-  "de": "Sacrieurs Fuß",
+  "de": "Sacrier's Foot",
   "en": "Sacrier's Foot",
   "es": "Pie de Sacrógrito",
   "fr": "Pied du Sacrieur",
   "pt": "Pé do Sacrier"
  },
  "Pile ou Face": {
-  "de": "Kopf oder Zahl",
+  "de": "Heads or Tails",
   "en": "Heads or Tails",
   "es": "Cara o Cruz",
   "fr": "Pile ou Face",
   "pt": "Cara ou Coroa"
  },
  "Pillage": {
-  "de": "Plünderei",
+  "de": "Raiding",
   "en": "Raiding",
   "es": "Pillaje",
   "fr": "Pillage",
   "pt": "Saque"
  },
  "Poigne de Xélor": {
-  "de": "Faust von Xélor",
+  "de": "Xelor's Fist",
   "en": "Xelor's Fist",
   "es": "Agarre de Xelor",
   "fr": "Poigne de Xélor",
   "pt": "Punho de Xelor"
  },
  "Poison Paralysant": {
-  "de": "Lähmgift",
+  "de": "Paralysing Poison",
   "en": "Paralysing Poison",
   "es": "Veneno Paralizante",
   "fr": "Poison Paralysant",
   "pt": "Veneno Paralisante"
  },
  "Poison insidieux": {
-  "de": "Scheinangriff",
+  "de": "Insidious Poison",
   "en": "Insidious Poison",
   "es": "Veneno Insidioso",
   "fr": "Poison insidieux",
   "pt": "Ataque Enganador"
  },
  "Ponction": {
-  "de": "Punktion",
+  "de": "Puncture",
   "en": "Puncture",
   "es": "Punción",
   "fr": "Ponction",
   "pt": "Punção"
  },
  "Poursuite": {
-  "de": "Verfolgung",
+  "de": "Pursuit",
   "en": "Pursuit",
   "es": "Caza",
   "fr": "Poursuite",
   "pt": "Perseguição"
  },
  "Poussière Temporelle": {
-  "de": "Zeitstaub",
+  "de": "Temporal Dust",
   "en": "Temporal Dust",
   "es": "Polvo Temporal",
   "fr": "Poussière Temporelle",
   "pt": "Poeira Temporal"
  },
  "Pression": {
-  "de": "Druck",
+  "de": "Pressure",
   "en": "Pressure",
   "es": "Presión",
   "fr": "Pression",
@@ -1825,147 +1825,147 @@ TOUCH_SPELL_NAMES = {
   "pt": "Lei Seca"
  },
  "Puissance": {
-  "de": "Schlagkraft",
+  "de": "Power",
   "en": "Power",
   "es": "Potencia",
   "fr": "Puissance",
   "pt": "Potência"
  },
  "Pulsar": {
-  "de": "Quasar",
+  "de": "Pulsar",
   "en": "Pulsar",
   "es": "Púlsar",
   "fr": "Pulsar",
   "pt": "Pulsar"
  },
  "Ralentissement": {
-  "de": "Verlangsamen",
+  "de": "Slow Down",
   "en": "Slow Down",
   "es": "Ralentización",
   "fr": "Ralentissement",
   "pt": "Desaceleração"
  },
  "Rayon Obscur": {
-  "de": "Dunkelstrahl",
+  "de": "Dark Ray",
   "en": "Dark Ray",
   "es": "Rayo Oscuro",
   "fr": "Rayon Obscur",
   "pt": "Raio Obscuro"
  },
  "Remblai": {
-  "de": "Aufhäufen",
+  "de": "Mound",
   "en": "Mound",
   "es": "Terraplenado",
   "fr": "Remblai",
   "pt": "Aterro"
  },
  "Resquille": {
-  "de": "Prellen",
+  "de": "Deception",
   "en": "Deception",
   "es": "Colado",
   "fr": "Resquille",
   "pt": "Trapaça"
  },
  "Ressac": {
-  "de": "Brandung",
+  "de": "Backwash",
   "en": "Backwash",
   "es": "Resacón",
   "fr": "Ressac",
   "pt": "Ressaca"
  },
  "Retour du Bâton": {
-  "de": "Gegenangriff",
+  "de": "Backlash",
   "en": "Backlash",
   "es": "Puñalada",
   "fr": "Retour du Bâton",
   "pt": "Retrocesso"
  },
  "Ribote": {
-  "de": "Zecherei",
+  "de": "Debauchery",
   "en": "Debauchery",
   "es": "Jarana",
   "fr": "Ribote",
   "pt": "Esbórnia"
  },
  "Ronce": {
-  "de": "Ranken",
+  "de": "Bramble",
   "en": "Bramble",
   "es": "Zarza",
   "fr": "Ronce",
   "pt": "Sarça"
  },
  "Ronce Anesthésiante": {
-  "de": "Betäubende Ranke",
+  "de": "Anaesthetising Bramble",
   "en": "Anaesthetising Bramble",
   "es": "Zarza Anestésica",
   "fr": "Ronce Anesthésiante",
   "pt": "Sarça Anestesiante"
  },
  "Ronces Agressives": {
-  "de": "Aggressive Ranken",
+  "de": "Aggressive Bramble",
   "en": "Aggressive Bramble",
   "es": "Zarzas Agresivas",
   "fr": "Ronces Agressives",
   "pt": "Sarças Agressivas"
  },
  "Ronces Multiples": {
-  "de": "Rankengewirr",
+  "de": "Manifold Bramble",
   "en": "Manifold Bramble",
   "es": "Zarzas Múltiples",
   "fr": "Ronces Multiples",
   "pt": "Sarça Múltipla"
  },
  "Roulage de Pelle": {
-  "de": "Herumwirbelnde Schaufel",
+  "de": "Shovel Kiss",
   "en": "Shovel Kiss",
   "es": "Jarabe de Pala",
   "fr": "Roulage de Pelle",
   "pt": "Beijo da Pá"
  },
  "Réflexes": {
-  "de": "Reflexe",
+  "de": "Reflex",
   "en": "Reflex",
   "es": "Reflejos",
   "fr": "Réflexes",
   "pt": "Reflexos"
  },
  "Rétention": {
-  "de": "Aufhalten",
+  "de": "Retention",
   "en": "Retention",
   "es": "Retención",
   "fr": "Rétention",
   "pt": "Retenção"
  },
  "Sablier de Xélor": {
-  "de": "Sanduhr von Xélor",
+  "de": "Xelor's Sandglass",
   "en": "Xelor's Sandglass",
   "es": "Reloj de Arena de Xelor",
   "fr": "Sablier de Xélor",
   "pt": "Ampulheta de Xelor"
  },
  "Sacrifice Poupesque": {
-  "de": "Puppenhaftes Opfer",
+  "de": "Dolly Sacrifice",
   "en": "Dolly Sacrifice",
   "es": "Sacrificio Muñequero",
   "fr": "Sacrifice Poupesque",
   "pt": "Sacrifício Bonecal"
  },
  "Saignée Végétale": {
-  "de": "Pflanzenschröpfen",
+  "de": "Plant Bloodletting",
   "en": "Plant Bloodletting",
   "es": "Sangría Vegetal",
   "fr": "Saignée Végétale",
   "pt": "Sangria Vegetal"
  },
  "Sang Lié": {
-  "de": "Blutsbande",
+  "de": "Hot-Blooded",
   "en": "Hot-Blooded",
   "es": "Malasangre",
   "fr": "Sang Lié",
   "pt": "Sangue Vinculado"
  },
  "Saut Scission": {
-  "de": "Spaltsprung",
+  "de": "Scission Leap",
   "en": "Scission Leap",
   "es": "Saltochichón",
   "fr": "Saut Scission",
@@ -1979,21 +1979,21 @@ TOUCH_SPELL_NAMES = {
   "pt": "Aguardente"
  },
  "Secousse Temporelle": {
-  "de": "Zeitbeben",
+  "de": "Temporal Shake",
   "en": "Temporal Shake",
   "es": "Sacudida Temporal",
   "fr": "Secousse Temporelle",
   "pt": "Abalo Temporal"
  },
  "Selpâtre": {
-  "de": "Pater Sel",
+  "de": "Surge",
   "en": "Surge",
   "es": "Salitre",
   "fr": "Selpâtre",
   "pt": "Silatre"
  },
  "Sentence": {
-  "de": "Urteil",
+  "de": "Sentence",
   "en": "Sentence",
   "es": "Sentencia",
   "fr": "Sentence",
@@ -2007,42 +2007,42 @@ TOUCH_SPELL_NAMES = {
   "pt": "Shakê"
  },
  "Sillage": {
-  "de": "Nachbeben",
+  "de": "Choppy Wake",
   "en": "Choppy Wake",
   "es": "Estela",
   "fr": "Sillage",
   "pt": "Rastro"
  },
  "Souffle Alcoolisé": {
-  "de": "Alkoholatem",
+  "de": "Alcoholic Breath",
   "en": "Alcoholic Breath",
   "es": "Soplido Alcoholizado",
   "fr": "Souffle Alcoolisé",
   "pt": "Sopro Alcoolizado"
  },
  "Souffle Ardent": {
-  "de": "Brennender Hauch",
+  "de": "Burning Breath",
   "en": "Burning Breath",
   "es": "Soplido Ardiente",
   "fr": "Souffle Ardent",
   "pt": "Sopro Ardente"
  },
  "Sournoiserie": {
-  "de": "Heimtücke",
+  "de": "Deviousness",
   "en": "Deviousness",
   "es": "Engaño",
   "fr": "Sournoiserie",
   "pt": "Desvio"
  },
  "Substitution": {
-  "de": "Austausch",
+  "de": "Substitution",
   "en": "Substitution",
   "es": "Substitución",
   "fr": "Substitution",
   "pt": "Substituição"
  },
  "Tempête de Puissance": {
-  "de": "Sturm der Macht",
+  "de": "Strengthstorm",
   "en": "Strengthstorm",
   "es": "Tempestad de Potencia",
   "fr": "Tempête de Puissance",
@@ -2056,63 +2056,63 @@ TOUCH_SPELL_NAMES = {
   "pt": "Topkaj"
  },
  "Toupet": {
-  "de": "Dreistigkeit",
+  "de": "Nerve",
   "en": "Nerve",
   "es": "Osadía",
   "fr": "Toupet",
   "pt": "Ousadia"
  },
  "Tourbillon": {
-  "de": "Wirbelwind",
+  "de": "Whirlwind",
   "en": "Whirlwind",
   "es": "Torbellino",
   "fr": "Tourbillon",
   "pt": "Redemoinho"
  },
  "Tourmente": {
-  "de": "Donnerwetter",
+  "de": "Upheaval",
   "en": "Upheaval",
   "es": "Tormenta",
   "fr": "Tourmente",
   "pt": "Tormenta"
  },
  "Toxines": {
-  "de": "Giftstoffe",
+  "de": "Toxines",
   "en": "Toxines",
   "es": "Toxinas",
   "fr": "Toxines",
   "pt": "Toxinas"
  },
  "Tremblement": {
-  "de": "Beben",
+  "de": "Earthquake",
   "en": "Earthquake",
   "es": "Temblor",
   "fr": "Tremblement",
   "pt": "Tremor"
  },
  "Tromblon": {
-  "de": "Kartätsche",
+  "de": "Blunderbuss",
   "en": "Blunderbuss",
   "es": "Tromba",
   "fr": "Tromblon",
   "pt": "Bacamarte"
  },
  "Vague à Lame": {
-  "de": "Welle der Traurigkeit",
+  "de": "Melancholy",
   "en": "Melancholy",
   "es": "Ola Marejadora",
   "fr": "Vague à Lame",
   "pt": "Onda de Tristeza"
  },
  "Vapor": {
-  "de": "Vapor",
+  "de": "Vapour",
   "en": "Vapour",
   "es": "Vapor",
   "fr": "Vapor",
   "pt": "Vapor"
  },
  "Vent Empoisonné": {
-  "de": "Giftiger Windstrom",
+  "de": "Poisoned Wind",
   "en": "Poisoned Wind",
   "es": "Viento Envenenado",
   "fr": "Vent Empoisonné",

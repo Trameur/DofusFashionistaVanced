@@ -7612,7 +7612,7 @@
         "name_en": "Mad Boowolf Cloak",
         "name_fr": "Cape du Mulou Fou",
         "name_es": "Capa del Mediulubo Loco",
-        "name_pt": "Manto de Moolobo Louco",
+        "name_pt": "Capa do Milobo Louco",
         "name_de": "Umhang des tollwütigen WuWulfs",
         "level": 33,
         "w_type": "Cloak",
@@ -7825,7 +7825,7 @@
         "name_en": "Dazzling Cloak",
         "name_fr": "Cape Fulgurante",
         "name_es": "Capa Fulgurante",
-        "name_pt": "Manto Deslumbrante",
+        "name_pt": "Capa Fulgurante",
         "name_de": "Schillernder Umhang",
         "level": 55,
         "w_type": "Cloak",
@@ -45591,7 +45591,7 @@
         "name_en": "Moowolf Ring",
         "name_fr": "Anneau du Meulou",
         "name_es": "Anillo del maxilubo",
-        "name_pt": "Anel de Moolobo",
+        "name_pt": "Anel do Mulobo",
         "name_de": "MuWulfs-Ring",
         "level": 126,
         "w_type": "Ring",
@@ -45650,7 +45650,7 @@
         "name_en": "Moowolf Boots",
         "name_fr": "Bottes du Meulou",
         "name_es": "Botas de Maxilubo",
-        "name_pt": "Botas de Moolobo",
+        "name_pt": "Botas do Mulobo",
         "name_de": "MuWulf-Stiefel",
         "level": 131,
         "w_type": "Boots",
@@ -45754,7 +45754,7 @@
         "name_en": "Moowolf Cloak",
         "name_fr": "Cape du Meulou",
         "name_es": "Capa del Maxilubo",
-        "name_pt": "Capa de Moolobo",
+        "name_pt": "Capa do Mulobo",
         "name_de": "MuWulf-Mantel",
         "level": 139,
         "w_type": "Cloak",
@@ -45818,7 +45818,7 @@
         "name_en": "Moowolf Belt",
         "name_fr": "Ceinture du Meulou",
         "name_es": "Cinturón del Maxilubo",
-        "name_pt": "Cinto de Moolobo",
+        "name_pt": "Cinto do Mulobo",
         "name_de": "MuWulf-Gürtel",
         "level": 125,
         "w_type": "Belt",
@@ -45877,7 +45877,7 @@
         "name_en": "Moowolf Headgear",
         "name_fr": "Coiffe du Meulou",
         "name_es": "Casco del Maxilubo",
-        "name_pt": "Capacete Moolobo",
+        "name_pt": "Chapéu do Mulobo",
         "name_de": "MuWulf-Hut",
         "level": 141,
         "w_type": "Hat",
@@ -55819,7 +55819,7 @@
         "name_en": "Powerful Dazzling Cloak",
         "name_fr": "Puissante Cape Fulgurante",
         "name_es": "Poderosa capa fulgurante",
-        "name_pt": "Poderosa Capa Encantadora",
+        "name_pt": "Poderosa Capa Fulgurante",
         "name_de": "Mächtiger schillernder Umhang",
         "level": 110,
         "w_type": "Cloak",
@@ -94070,7 +94070,7 @@
         "name_en": "Boarhog",
         "name_fr": "Sakochère",
         "name_es": "Sakóquero",
-        "name_pt": "Sakoquero",
+        "name_pt": "Javóquero",
         "name_de": "Hauknotscha",
         "level": 60,
         "w_type": "Pet",
@@ -138087,13 +138087,372 @@
         "conditions": []
     },
     {
+        "ankama_id": 23841,
+        "ankama_type": "equipment",
+        "name_en": "Shield of Infinity",
+        "name_fr": "Bouclier de l'infini",
+        "name_es": "Escudo del infinito",
+        "name_pt": "Escudo do Infinito",
+        "name_de": "Bouclier de l'infini",
+        "level": 1,
+        "w_type": "Shield",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ],
+            [
+                750,
+                750,
+                "Vitality"
+            ],
+            [
+                200,
+                200,
+                "Power"
+            ],
+            [
+                20,
+                20,
+                "Prospecting"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23851,
+        "ankama_type": "equipment",
+        "name_en": "The Real Ivory Dofus",
+        "name_fr": "Le Vrai Dofus Ivoire",
+        "name_es": "El Auténtico Dofus Marfil",
+        "name_pt": "O Verdadeiro Dofus Marfim",
+        "name_de": "Le Vrai Dofus Ivoire",
+        "level": 1,
+        "w_type": "Dofus",
+        "stats": [
+            [
+                1,
+                1,
+                "Range"
+            ],
+            [
+                1,
+                1,
+                "MP"
+            ],
+            [
+                1,
+                1,
+                "AP"
+            ],
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23853,
+        "ankama_type": "equipment",
+        "name_en": "Gerbean Explorer",
+        "name_fr": "Gerbouille exploratrice",
+        "name_es": "Gerbilinda exploradora",
+        "name_pt": "Gerbela Exploradora",
+        "name_de": "Gerbouille exploratrice",
+        "level": 1,
+        "w_type": "Pet",
+        "stats": [
+            [
+                1,
+                1,
+                "AP"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23855,
+        "ankama_type": "equipment",
+        "name_en": "Boarhog Explorer",
+        "name_fr": "Sakochère explorateur",
+        "name_es": "Sakóquero explorador",
+        "name_pt": "Javóquero Explorador",
+        "name_de": "Sakochère explorateur",
+        "level": 1,
+        "w_type": "Pet",
+        "stats": [
+            [
+                1,
+                1,
+                "AP"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23871,
+        "ankama_type": "equipment",
+        "name_en": "Khardboard Celestial Brooch",
+        "name_fr": "La Broche Céleste Ankarton",
+        "name_es": "El Broche Celeste Ankartón",
+        "name_pt": "Broche Celestial Ankartolina",
+        "name_de": "La Broche Céleste Ankarton",
+        "level": 175,
+        "w_type": "Amulet",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23873,
+        "ankama_type": "equipment",
+        "name_en": "Khardboard Moowolf Belt",
+        "name_fr": "Ceinture du Meulou Ankarton",
+        "name_es": "Cinturón de Maxilubo Ankartón",
+        "name_pt": "Cinto do Mulobo Ankartolina",
+        "name_de": "Ceinture du Meulou Ankarton",
+        "level": 150,
+        "w_type": "Belt",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23875,
+        "ankama_type": "equipment",
+        "name_en": "Khardboard Dazzling Cloak",
+        "name_fr": "Cape Fulgurante Ankarton",
+        "name_es": "Capa Fulgurante Ankartón",
+        "name_pt": "Capa Fulgurante Ankartolina",
+        "name_de": "Cape Fulgurante Ankarton",
+        "level": 75,
+        "w_type": "Cloak",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23877,
+        "ankama_type": "equipment",
+        "name_en": "Khardboard Goultard",
+        "name_fr": "Goultard Ankarton",
+        "name_es": "Gúltar Ankartón",
+        "name_pt": "Gultar Ankartolina",
+        "name_de": "Goultard Ankarton",
+        "level": 50,
+        "w_type": "Weapon",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ],
+            [
+                3,
+                6,
+                "(Earth damage)"
+            ],
+            [
+                3,
+                6,
+                "(Fire damage)"
+            ],
+            [
+                3,
+                6,
+                "(Water damage)"
+            ],
+            [
+                3,
+                6,
+                "(Air damage)"
+            ]
+        ],
+        "conditions": [],
+        "weapon_type": "Sword",
+        "ap": 4,
+        "crit_chance": 30,
+        "crit_bonus": 3,
+        "uses_per_turn": 1
+    },
+    {
+        "ankama_id": 23879,
+        "ankama_type": "equipment",
+        "name_en": "Khardboard Getas",
+        "name_fr": "Geta Ankarton",
+        "name_es": "Geta Ankartón",
+        "name_pt": "Tamanca Ankartolina",
+        "name_de": "Geta Ankarton",
+        "level": 125,
+        "w_type": "Boots",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23881,
+        "ankama_type": "equipment",
+        "name_en": "Khardboard Bowisse's Shield",
+        "name_fr": "Bouclier de Bowisse Ankarton",
+        "name_es": "Escudo de Bowis Ankartón",
+        "name_pt": "Escudo de Bowis Ankartolina",
+        "name_de": "Bouclier de Bowisse Ankarton",
+        "level": 100,
+        "w_type": "Shield",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23883,
+        "ankama_type": "equipment",
+        "name_en": "Khardboard Gobball Headgear",
+        "name_fr": "Coiffe du Bouftou Ankarton",
+        "name_es": "Sombrero de jalató Ankartón",
+        "name_pt": "Chapéu do Papatudo Celestial Ankartolina",
+        "name_de": "Coiffe du Bouftou Ankarton",
+        "level": 50,
+        "w_type": "Hat",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23885,
+        "ankama_type": "equipment",
+        "name_en": "Khardboard Gelano",
+        "name_fr": "Gelano Ankarton",
+        "name_es": "Gelanillo Ankartón",
+        "name_pt": "Gelano Ankartolina",
+        "name_de": "Gelano Ankarton",
+        "level": 200,
+        "w_type": "Ring",
+        "stats": [
+            [
+                null,
+                null,
+                "Linked to the character"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23915,
+        "ankama_type": "equipment",
+        "name_en": "Piwinsult",
+        "name_fr": "Pioutrage",
+        "name_es": "Piofensa",
+        "name_pt": "Piultraje",
+        "name_de": "Pioutrage",
+        "level": 1,
+        "w_type": "Pet",
+        "stats": [
+            [
+                1,
+                1,
+                "AP"
+            ],
+            [
+                30,
+                30,
+                "Agility"
+            ],
+            [
+                30,
+                30,
+                "Intelligence"
+            ],
+            [
+                30,
+                30,
+                "Strength"
+            ],
+            [
+                30,
+                30,
+                "Chance"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 23917,
+        "ankama_type": "equipment",
+        "name_en": "Burninout",
+        "name_fr": "Kramtou",
+        "name_es": "Kemató",
+        "name_pt": "Krematudo",
+        "name_de": "Kramtou",
+        "level": 1,
+        "w_type": "Pet",
+        "stats": [
+            [
+                1,
+                1,
+                "AP"
+            ],
+            [
+                100,
+                100,
+                "Vitality"
+            ]
+        ],
+        "conditions": []
+    },
+    {
+        "ankama_id": 24053,
+        "ankama_type": "equipment",
+        "name_en": "Cocoa Dofus",
+        "name_fr": "Dofus Cacao",
+        "name_es": "Dofus cacao",
+        "name_pt": "Dofus Cacau",
+        "name_de": "Dofus Cacao",
+        "level": 6,
+        "w_type": "Dofus",
+        "stats": [],
+        "conditions": []
+    },
+    {
         "ankama_id": 3,
         "ankama_type": "mounts",
         "name_en": "Ebony Dragoturkey",
         "name_fr": "Dragodinde Ebène",
         "name_es": "Dragopavo ébano",
         "name_pt": "Dragoperu Ébano",
-        "name_de": "Ebenholz-Dracotruter",
+        "name_de": "Ebony Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138117,7 +138476,7 @@
         "name_fr": "Dragodinde Ebène et Ivoire",
         "name_es": "Dragopavo ébano y marfil",
         "name_pt": "Dragoperu Ébano e Marfim",
-        "name_de": "Ebenholz und Elfenbein-Dracotruter",
+        "name_de": "Ebony and Ivory Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138146,7 +138505,7 @@
         "name_fr": "Dragodinde Rousse",
         "name_es": "Dragopavo pelirrojo",
         "name_pt": "Dragoperu Ruivo",
-        "name_de": "Roter Dracotruter",
+        "name_de": "Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138165,7 +138524,7 @@
         "name_fr": "Dragodinde Ivoire et Rousse",
         "name_es": "Dragopavo marfil y pelirrojo",
         "name_pt": "Dragoperu Marfim e Ruivo",
-        "name_de": "Rot und Elfenbein-Dracotruter",
+        "name_de": "Ivory and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138189,7 +138548,7 @@
         "name_fr": "Dragodinde Ebène et Rousse",
         "name_es": "Dragopavo ébano y pelirrojo",
         "name_pt": "Dragoperu Ébano e Ruivo",
-        "name_de": "Rot und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138213,7 +138572,7 @@
         "name_fr": "Dragodinde Turquoise",
         "name_es": "Dragopavo turquesa",
         "name_pt": "Dragoperu Turquesa",
-        "name_de": "Türkis-Dracotruter",
+        "name_de": "Turquoise Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138237,7 +138596,7 @@
         "name_fr": "Dragodinde Ivoire",
         "name_es": "Dragopavo marfil",
         "name_pt": "Dragoperu Marfim",
-        "name_de": "Elfenbein-Dracotruter",
+        "name_de": "Ivory Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138261,7 +138620,7 @@
         "name_fr": "Dragodinde Indigo",
         "name_es": "Dragopavo índigo",
         "name_pt": "Dragoperu Índigo",
-        "name_de": "Indigo-Dracotruter",
+        "name_de": "Indigo Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138285,7 +138644,7 @@
         "name_fr": "Dragodinde Dorée",
         "name_es": "Dragopavo dorado",
         "name_pt": "Dragoperu Dourado",
-        "name_de": "Goldener Dracotruter",
+        "name_de": "Golden Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138309,7 +138668,7 @@
         "name_fr": "Dragodinde Pourpre",
         "name_es": "Dragopavo púrpura",
         "name_pt": "Dragoperu Púrpura",
-        "name_de": "Purpur-Dracotruter",
+        "name_de": "Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138333,7 +138692,7 @@
         "name_fr": "Dragodinde Amande",
         "name_es": "Dragopavo almendrado",
         "name_pt": "Dragoperu Amêndoa",
-        "name_de": "Mandel-Dracotruter",
+        "name_de": "Almond Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138357,7 +138716,7 @@
         "name_fr": "Dragodinde Emeraude",
         "name_es": "Dragopavo esmeralda",
         "name_pt": "Dragoperu Esmeralda",
-        "name_de": "Smaragd-Dracotruter",
+        "name_de": "Emerald Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138381,7 +138740,7 @@
         "name_fr": "Dragodinde Orchidée",
         "name_es": "Dragopavo orquídeo",
         "name_pt": "Dragoperu Orquídea",
-        "name_de": "Orchideen-Dracotruter",
+        "name_de": "Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138405,7 +138764,7 @@
         "name_fr": "Dragodinde Prune",
         "name_es": "Dragopavo ciruela",
         "name_pt": "Dragoperu Ameixa",
-        "name_de": "Pflaumen-Dracotruter",
+        "name_de": "Plum Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138429,7 +138788,7 @@
         "name_fr": "Dragodinde Amande et Dorée",
         "name_es": "Dragopavo almendrado y dorado",
         "name_pt": "Dragoperu Amêndoa e Dourado",
-        "name_de": "Gold und Mandel-Dracotruter",
+        "name_de": "Almond and Golden Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138463,7 +138822,7 @@
         "name_fr": "Dragodinde Amande et Ebène",
         "name_es": "Dragopavo almendrado y ébano",
         "name_pt": "Dragoperu Amêndoa e Ébano",
-        "name_de": "Ebenholz und Mandel-Dracotruter",
+        "name_de": "Almond and Ebony Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138497,7 +138856,7 @@
         "name_fr": "Dragodinde Amande et Emeraude",
         "name_es": "Dragopavo almendrado y esmeralda",
         "name_pt": "Dragoperu Amêndoa e Esmeralda",
-        "name_de": "Smaragd und Mandel-Dracotruter",
+        "name_de": "Almond and Emerald Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138531,7 +138890,7 @@
         "name_fr": "Dragodinde Amande et Indigo",
         "name_es": "Dragopavo almendrado e índigo",
         "name_pt": "Dragoperu Amêndoa e Índigo",
-        "name_de": "Indigo und Mandel-Dracotruter",
+        "name_de": "Almond and Indigo Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138565,7 +138924,7 @@
         "name_fr": "Dragodinde Amande et Ivoire",
         "name_es": "Dragopavo almendrado y marfil",
         "name_pt": "Dragoperu Amêndoa e Marfim",
-        "name_de": "Elfenbein und Mandel-Dracotruter",
+        "name_de": "Almond and Ivory Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138599,7 +138958,7 @@
         "name_fr": "Dragodinde Amande et Rousse",
         "name_es": "Dragopavo almendrado y pelirrojo",
         "name_pt": "Dragoperu Amêndoa e Ruivo",
-        "name_de": "Rot und Mandel-Dracotruter",
+        "name_de": "Almond and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138628,7 +138987,7 @@
         "name_fr": "Dragodinde Amande et Turquoise",
         "name_es": "Dragopavo almendrado y turquesa",
         "name_pt": "Dragoperu Amêndoa e Turquesa",
-        "name_de": "Türkis und Mandel-Dracotruter",
+        "name_de": "Almond and Turquoise Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138662,7 +139021,7 @@
         "name_fr": "Dragodinde Amande et Orchidée",
         "name_es": "Dragopavo almendrado y orquídeo",
         "name_pt": "Dragoperu Amêndoa e Orquídea",
-        "name_de": "Orchideen und Mandel-Dracotruter",
+        "name_de": "Almond and Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138696,7 +139055,7 @@
         "name_fr": "Dragodinde Amande et Pourpre",
         "name_es": "Dragopavo almendrado y púrpura",
         "name_pt": "Dragoperu Amêndoa e Púrpura",
-        "name_de": "Purpur und Mandel-Dracotruter",
+        "name_de": "Almond and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138730,7 +139089,7 @@
         "name_fr": "Dragodinde Dorée et Ebène",
         "name_es": "Dragopavo dorado y ébano",
         "name_pt": "Dragoperu Dourado e Ébano",
-        "name_de": "Gold und Ebenholz-Dracotruter",
+        "name_de": "Golden and Ebony Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138759,7 +139118,7 @@
         "name_fr": "Dragodinde Dorée et Emeraude",
         "name_es": "Dragopavo dorado y esmeralda",
         "name_pt": "Dragoperu Dourado e Esmeralda",
-        "name_de": "Gold und Smaragd-Dracotruter",
+        "name_de": "Golden and Emerald Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138788,7 +139147,7 @@
         "name_fr": "Dragodinde Dorée et Indigo",
         "name_es": "Dragopavo dorado e índigo",
         "name_pt": "Dragoperu Dourado e Índigo",
-        "name_de": "Gold und Indigo-Dracotruter",
+        "name_de": "Golden and Indigo Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138817,7 +139176,7 @@
         "name_fr": "Dragodinde Dorée et Ivoire",
         "name_es": "Dragopavo dorado y marfil",
         "name_pt": "Dragoperu Dourado e Marfim",
-        "name_de": "Gold und Elfenbein-Dracotruter",
+        "name_de": "Golden and Ivory Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138846,7 +139205,7 @@
         "name_fr": "Dragodinde Dorée et Rousse",
         "name_es": "Dragopavo dorado y pelirrojo",
         "name_pt": "Dragoperu Dourado e Ruivo",
-        "name_de": "Rotgoldener Dracotruter",
+        "name_de": "Golden and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138870,7 +139229,7 @@
         "name_fr": "Dragodinde Dorée et Turquoise",
         "name_es": "Dragopavo dorado y turquesa",
         "name_pt": "Dragoperu Dourado e Turquesa",
-        "name_de": "Gold und Türkis-Dracotruter",
+        "name_de": "Golden and Turquoise Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138899,7 +139258,7 @@
         "name_fr": "Dragodinde Dorée et Orchidée",
         "name_es": "Dragopavo dorado y orquídeo",
         "name_pt": "Dragoperu Dourado e Orquídea",
-        "name_de": "Gold und Orchideen-Dracotruter",
+        "name_de": "Golden and Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138928,7 +139287,7 @@
         "name_fr": "Dragodinde Dorée et Pourpre",
         "name_es": "Dragopavo dorado y púrpura",
         "name_pt": "Dragoperu Dourado e Púrpura",
-        "name_de": "Gold und Purpur-Dracotruter",
+        "name_de": "Golden and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138957,7 +139316,7 @@
         "name_fr": "Dragodinde Ebène et Emeraude",
         "name_es": "Dragopavo ébano y esmeralda",
         "name_pt": "Dragoperu Ébano e Esmeralda",
-        "name_de": "Smaragd und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Emerald Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -138986,7 +139345,7 @@
         "name_fr": "Dragodinde Ebène et Indigo",
         "name_es": "Dragopavo ébano e índigo",
         "name_pt": "Dragoperu Ébano e Índigo",
-        "name_de": "Indigo und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Indigo Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139015,7 +139374,7 @@
         "name_fr": "Dragodinde Ebène et Turquoise",
         "name_es": "Dragopavo ébano y turquesa",
         "name_pt": "Dragoperu Ébano e Turquesa",
-        "name_de": "Türkis und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Turquoise Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139044,7 +139403,7 @@
         "name_fr": "Dragodinde Ebène et Orchidée",
         "name_es": "Dragopavo ébano y orquídeo",
         "name_pt": "Dragoperu Ébano e Orquídea",
-        "name_de": "Orchideen und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139073,7 +139432,7 @@
         "name_fr": "Dragodinde Ebène et Pourpre",
         "name_es": "Dragopavo ébano y púrpura",
         "name_pt": "Dragoperu Ébano e Púrpura",
-        "name_de": "Purpur und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139102,7 +139461,7 @@
         "name_fr": "Dragodinde Emeraude et Indigo",
         "name_es": "Dragopavo esmeralda e índigo",
         "name_pt": "Dragoperu Esmeralda e Índigo",
-        "name_de": "Indigo und Smaragd-Dracotruter",
+        "name_de": "Emerald and Indigo Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139131,7 +139490,7 @@
         "name_fr": "Dragodinde Emeraude et Ivoire",
         "name_es": "Dragopavo esmeralda y marfil",
         "name_pt": "Dragoperu Esmeralda e Marfim",
-        "name_de": "Smaragd und Elfenbein-Dracotruter",
+        "name_de": "Emerald and Ivory Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139160,7 +139519,7 @@
         "name_fr": "Dragodinde Emeraude et Rousse",
         "name_es": "Dragopavo esmeralda y pelirrojo",
         "name_pt": "Dragoperu Esmeralda e Ruivo",
-        "name_de": "Rot und Smaragd-Dracotruter",
+        "name_de": "Emerald and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139184,7 +139543,7 @@
         "name_fr": "Dragodinde Emeraude et Turquoise",
         "name_es": "Dragopavo esmeralda y turquesa",
         "name_pt": "Dragoperu Esmeralda e Turquesa",
-        "name_de": "Smaragd und Türkis-Dracotruter",
+        "name_de": "Emerald and Turquoise Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139213,7 +139572,7 @@
         "name_fr": "Dragodinde Emeraude et Orchidée",
         "name_es": "Dragopavo esmeralda y orquídeo",
         "name_pt": "Dragoperu Esmeralda e Orquídea",
-        "name_de": "Smaragd und Orchideen-Dracotruter",
+        "name_de": "Emerald and Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139242,7 +139601,7 @@
         "name_fr": "Dragodinde Emeraude et Pourpre",
         "name_es": "Dragopavo esmeralda y púrpura",
         "name_pt": "Dragoperu Esmeralda e Púrpura",
-        "name_de": "Smaragd und Purpur-Dracotruter",
+        "name_de": "Emerald and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139271,7 +139630,7 @@
         "name_fr": "Dragodinde Indigo et Ivoire",
         "name_es": "Dragopavo índigo y marfil",
         "name_pt": "Dragoperu Índigo e Marfim",
-        "name_de": "Indigo und Elfenbein-Dracotruter",
+        "name_de": "Indigo and Ivory Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139300,7 +139659,7 @@
         "name_fr": "Dragodinde Indigo et Rousse",
         "name_es": "Dragopavo índigo y pelirrojo",
         "name_pt": "Dragoperu Índigo e Ruivo",
-        "name_de": "Rot und Indigo-Dracotruter",
+        "name_de": "Indigo and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139324,7 +139683,7 @@
         "name_fr": "Dragodinde Indigo et Turquoise",
         "name_es": "Dragopavo índigo y turquesa",
         "name_pt": "Dragoperu Índigo e Turquesa",
-        "name_de": "Türkis und Indigo-Dracotruter",
+        "name_de": "Indigo and Turquoise Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139353,7 +139712,7 @@
         "name_fr": "Dragodinde Indigo et Orchidée",
         "name_es": "Dragopavo índigo y orquídeo",
         "name_pt": "Dragoperu Índigo e Orquídea",
-        "name_de": "Indigo und Orchideen-Dracotruter",
+        "name_de": "Indigo and Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139382,7 +139741,7 @@
         "name_fr": "Dragodinde Indigo et Pourpre",
         "name_es": "Dragopavo índigo y púrpura",
         "name_pt": "Dragoperu Índigo e Púrpura",
-        "name_de": "Indigo und Purpur-Dracotruter",
+        "name_de": "Indigo and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139411,7 +139770,7 @@
         "name_fr": "Dragodinde Ivoire et Turquoise",
         "name_es": "Dragopavo marfil y turquesa",
         "name_pt": "Dragoperu Marfim e Turquesa",
-        "name_de": "Türkis und Elfenbein-Dracotruter",
+        "name_de": "Ivory and Turquoise Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139440,7 +139799,7 @@
         "name_fr": "Dragodinde Ivoire et Orchidée",
         "name_es": "Dragopavo marfil y orquídeo",
         "name_pt": "Dragoperu Marfim e Orquídea",
-        "name_de": "Elfenbein und Orchideen-Dracotruter",
+        "name_de": "Ivory and Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139469,7 +139828,7 @@
         "name_fr": "Dragodinde Ivoire et Pourpre",
         "name_es": "Dragopavo marfil y púrpura",
         "name_pt": "Dragoperu Marfim e Marfim",
-        "name_de": "Elfenbein und Purpur-Dracotruter",
+        "name_de": "Ivory and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139498,7 +139857,7 @@
         "name_fr": "Dragodinde Turquoise et Rousse",
         "name_es": "Dragopavo turquesa y pelirrojo",
         "name_pt": "Dragoperu Turquesa e Ruivo",
-        "name_de": "Rot und Türkis-Dracotruter",
+        "name_de": "Turquoise and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139522,7 +139881,7 @@
         "name_fr": "Dragodinde Orchidée et Rousse",
         "name_es": "Dragopavo orquídeo y pelirrojo",
         "name_pt": "Dragoperu Orquídea e Ruivo",
-        "name_de": "Rot und Orchideen-Dracotruter",
+        "name_de": "Orchid and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139546,7 +139905,7 @@
         "name_fr": "Dragodinde Pourpre et Rousse",
         "name_es": "Dragopavo púrpura y pelirrojo",
         "name_pt": "Dragoperu Púrpura e Ruivo",
-        "name_de": "Rot und Purpur-Dracotruter",
+        "name_de": "Crimson and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139570,7 +139929,7 @@
         "name_fr": "Dragodinde Turquoise et Orchidée",
         "name_es": "Dragopavo turquesa y orquídeo",
         "name_pt": "Dragoperu Turquesa e Orquídea",
-        "name_de": "Türkis und Orchideen-Dracotruter",
+        "name_de": "Turquoise and Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139599,7 +139958,7 @@
         "name_fr": "Dragodinde Turquoise et Pourpre",
         "name_es": "Dragopavo turquesa y púrpura",
         "name_pt": "Dragoperu Turquesa e Púrpura",
-        "name_de": "Türkis und Purpur-Dracotruter",
+        "name_de": "Turquoise and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139628,7 +139987,7 @@
         "name_fr": "Dragodinde Orchidée et Pourpre",
         "name_es": "Dragopavo orquídeo y púrpura",
         "name_pt": "Dragoperu Orquídea e Púrpura",
-        "name_de": "Purpur und Orchideen-Dracotruter",
+        "name_de": "Orchid and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139657,7 +140016,7 @@
         "name_fr": "Dragodinde Prune et Amande",
         "name_es": "Dragopavo ciruela y almendrado",
         "name_pt": "Dragoperu Ameixa e Amêndoa",
-        "name_de": "Pflaumen und Mandel-Dracotruter",
+        "name_de": "Plum and Almond Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139691,7 +140050,7 @@
         "name_fr": "Dragodinde Prune et Dorée",
         "name_es": "Dragopavo ciruela y dorado",
         "name_pt": "Dragoperu Ameixa e Dourado",
-        "name_de": "Goldener Pflaumen-Dracotruter",
+        "name_de": "Plum and Golden Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139720,7 +140079,7 @@
         "name_fr": "Dragodinde Prune et Ebène",
         "name_es": "Dragopavo ciruela y ébano",
         "name_pt": "Dragoperu Ameixa e Ébano",
-        "name_de": "Pflaumen und Ebenholz-Dracotruter",
+        "name_de": "Plum and Ebony Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139749,7 +140108,7 @@
         "name_fr": "Dragodinde Prune et Emeraude",
         "name_es": "Dragopavo ciruela y esmeralda",
         "name_pt": "Dragoperu Ameixa e Esmeralda",
-        "name_de": "Pflaumen und Smaragd-Dracotruter",
+        "name_de": "Plum and Emerald Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139778,7 +140137,7 @@
         "name_fr": "Dragodinde Prune et Indigo",
         "name_es": "Dragopavo ciruela e índigo",
         "name_pt": "Dragoperu Ameixa e Índigo",
-        "name_de": "Indigo und Pflaumen-Dracotruter",
+        "name_de": "Plum and Indigo Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139807,7 +140166,7 @@
         "name_fr": "Dragodinde Prune et Ivoire",
         "name_es": "Dragopavo ciruela y marfil",
         "name_pt": "Dragoperu Ameixa e Marfim",
-        "name_de": "Pflaumen und Elfenbein-Dracotruter",
+        "name_de": "Plum and Ivory Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139836,7 +140195,7 @@
         "name_fr": "Dragodinde Prune et Rousse",
         "name_es": "Dragopavo ciruela y pelirrojo",
         "name_pt": "Dragoperu Ameixa e Ruivo",
-        "name_de": "Rot und Pflaumen-Dracotruter",
+        "name_de": "Plum and Ginger Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139860,7 +140219,7 @@
         "name_fr": "Dragodinde Prune et Turquoise",
         "name_es": "Dragopavo ciruela y turquesa",
         "name_pt": "Dragoperu Ameixa e Turquesa",
-        "name_de": "Türkis und Pflaumen-Dracotruter",
+        "name_de": "Plum and Turquoise Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139889,7 +140248,7 @@
         "name_fr": "Dragodinde Prune et Orchidée",
         "name_es": "Dragopavo ciruela y orquídeo",
         "name_pt": "Dragoperu Ameixa e Orquídea",
-        "name_de": "Pflaumen und Orchideen-Dracotruter",
+        "name_de": "Plum and Orchid Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139918,7 +140277,7 @@
         "name_fr": "Dragodinde Prune et Pourpre",
         "name_es": "Dragopavo ciruela y púrpura",
         "name_pt": "Dragoperu Ameixa e Púrpura",
-        "name_de": "Purpur und Pflaumen-Dracotruter",
+        "name_de": "Plum and Crimson Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139947,7 +140306,7 @@
         "name_fr": "Dragodinde en armure",
         "name_es": "Dragopavo con armadura",
         "name_pt": "Dragoperu com armadura",
-        "name_de": "Gepanzerter Dracotruter",
+        "name_de": "Armoured Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -139991,7 +140350,7 @@
         "name_fr": "Dragodinde à Plumes",
         "name_es": "Dragopavo con plumas",
         "name_pt": "Dragoperu emplumado",
-        "name_de": "Befiederter Dracotruter",
+        "name_de": "Feathered Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -140015,7 +140374,7 @@
         "name_fr": "Dragodinde Royale",
         "name_es": "Dragopavo reales",
         "name_pt": "Dragoperu real",
-        "name_de": "Königliche Dracotruter",
+        "name_de": "Royal Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [
@@ -140059,7 +140418,7 @@
         "name_fr": "Dragodinde Armurivante",
         "name_es": "Dragopavo armaduvivo",
         "name_pt": "Dragoperu Armaduvivo",
-        "name_de": "Farbenfroh-Gepanzerter Dracotruter",
+        "name_de": "Armouralive Dragoturkey",
         "level": 60,
         "w_type": "Pet",
         "stats": [

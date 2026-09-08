@@ -107729,7 +107729,7 @@
         },
         {
             "ankama_id": 31508,
-            "name": "Set del Caballero Celestial",
+            "name": "Set cosmético del Caballero Celestial",
             "type": {
                 "name": "Set cosmético",
                 "id": 219
@@ -129371,7 +129371,7 @@
         },
         {
             "ankama_id": 34551,
-            "name": "[!] Panoplie du Gouffre",
+            "name": "Set cosmético de la sima",
             "type": {
                 "name": "Set cosmético",
                 "id": 219
@@ -129381,7 +129381,7 @@
                 "icon": "https://api.dofusdu.de/dofus3/v1/img/item/165214-64.png",
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/165214-128.png"
             },
-            "description": "[!] Une petite boîte remplie d'objets magnifiques.",
+            "description": "Una cajita llena de fantásticos objetos.",
             "effects": [
                 {
                     "int_minimum": 0,

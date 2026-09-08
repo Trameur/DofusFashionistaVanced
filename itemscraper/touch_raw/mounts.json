@@ -6,7 +6,7 @@
         "name_fr": "Dragodinde Ebène",
         "name_es": "Dragopavo ébano",
         "name_pt": "Dragoperu Ébano",
-        "name_de": "Ebenholz-Dracotruter",
+        "name_de": "Ebony Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -29,7 +29,7 @@
         "name_fr": "Dragodinde Ebène et Ivoire",
         "name_es": "Dragopavo ébano y marfil",
         "name_pt": "Dragoperu Ébano e Marfim",
-        "name_de": "Ebenholz und Elfenbein-Dracotruter",
+        "name_de": "Ebony and Ivory Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -57,7 +57,7 @@
         "name_fr": "Dragodinde Rousse",
         "name_es": "Dragopavo pelirrojo",
         "name_pt": "Dragoperu Ruivo",
-        "name_de": "Roter Dracotruter",
+        "name_de": "Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -75,7 +75,7 @@
         "name_fr": "Dragodinde Ivoire et Rousse",
         "name_es": "Dragopavo marfil y pelirrojo",
         "name_pt": "Dragoperu Marfim e Ruivo",
-        "name_de": "Rot und Elfenbein-Dracotruter",
+        "name_de": "Ivory and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -98,7 +98,7 @@
         "name_fr": "Dragodinde Ebène et Rousse",
         "name_es": "Dragopavo ébano y pelirrojo",
         "name_pt": "Dragoperu Ébano e Ruivo",
-        "name_de": "Rot und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -121,7 +121,7 @@
         "name_fr": "Dragodinde Turquoise",
         "name_es": "Dragopavo turquesa",
         "name_pt": "Dragoperu Turquesa",
-        "name_de": "Türkis-Dracotruter",
+        "name_de": "Turquoise Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -144,7 +144,7 @@
         "name_fr": "Dragodinde Ivoire",
         "name_es": "Dragopavo marfil",
         "name_pt": "Dragoperu Marfim",
-        "name_de": "Elfenbein-Dracotruter",
+        "name_de": "Ivory Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -167,7 +167,7 @@
         "name_fr": "Dragodinde Indigo",
         "name_es": "Dragopavo índigo",
         "name_pt": "Dragoperu Índigo",
-        "name_de": "Indigo-Dracotruter",
+        "name_de": "Indigo Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -190,7 +190,7 @@
         "name_fr": "Dragodinde Dorée",
         "name_es": "Dragopavo dorado",
         "name_pt": "Dragoperu Dourado",
-        "name_de": "Goldener Dracotruter",
+        "name_de": "Golden Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -213,7 +213,7 @@
         "name_fr": "Dragodinde Pourpre",
         "name_es": "Dragopavo púrpura",
         "name_pt": "Dragoperu Púrpura",
-        "name_de": "Purpur-Dracotruter",
+        "name_de": "Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -236,7 +236,7 @@
         "name_fr": "Dragodinde Amande",
         "name_es": "Dragopavo almendrado",
         "name_pt": "Dragoperu Amêndoa",
-        "name_de": "Mandel-Dracotruter",
+        "name_de": "Almond Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -259,7 +259,7 @@
         "name_fr": "Dragodinde Emeraude",
         "name_es": "Dragopavo esmeralda",
         "name_pt": "Dragoperu Esmeralda",
-        "name_de": "Smaragd-Dracotruter",
+        "name_de": "Emerald Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -282,7 +282,7 @@
         "name_fr": "Dragodinde Orchidée",
         "name_es": "Dragopavo orquídeo",
         "name_pt": "Dragoperu Orquídea",
-        "name_de": "Orchideen-Dracotruter",
+        "name_de": "Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -305,7 +305,7 @@
         "name_fr": "Dragodinde Prune",
         "name_es": "Dragopavo ciruela",
         "name_pt": "Dragoperu Ameixa",
-        "name_de": "Pflaumen-Dracotruter",
+        "name_de": "Plum Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -328,7 +328,7 @@
         "name_fr": "Dragodinde Amande et Dorée",
         "name_es": "Dragopavo almendrado y dorado",
         "name_pt": "Dragoperu Amêndoa e Dourado",
-        "name_de": "Gold und Mandel-Dracotruter",
+        "name_de": "Almond and Golden Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -361,7 +361,7 @@
         "name_fr": "Dragodinde Amande et Ebène",
         "name_es": "Dragopavo almendrado y ébano",
         "name_pt": "Dragoperu Amêndoa e Ébano",
-        "name_de": "Ebenholz und Mandel-Dracotruter",
+        "name_de": "Almond and Ebony Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -394,7 +394,7 @@
         "name_fr": "Dragodinde Amande et Emeraude",
         "name_es": "Dragopavo almendrado y esmeralda",
         "name_pt": "Dragoperu Amêndoa e Esmeralda",
-        "name_de": "Smaragd und Mandel-Dracotruter",
+        "name_de": "Almond and Emerald Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -427,7 +427,7 @@
         "name_fr": "Dragodinde Amande et Indigo",
         "name_es": "Dragopavo almendrado e índigo",
         "name_pt": "Dragoperu Amêndoa e Índigo",
-        "name_de": "Indigo und Mandel-Dracotruter",
+        "name_de": "Almond and Indigo Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -460,7 +460,7 @@
         "name_fr": "Dragodinde Amande et Ivoire",
         "name_es": "Dragopavo almendrado y marfil",
         "name_pt": "Dragoperu Amêndoa e Marfim",
-        "name_de": "Elfenbein und Mandel-Dracotruter",
+        "name_de": "Almond and Ivory Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -493,7 +493,7 @@
         "name_fr": "Dragodinde Amande et Rousse",
         "name_es": "Dragopavo almendrado y pelirrojo",
         "name_pt": "Dragoperu Amêndoa e Ruivo",
-        "name_de": "Rot und Mandel-Dracotruter",
+        "name_de": "Almond and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -521,7 +521,7 @@
         "name_fr": "Dragodinde Amande et Turquoise",
         "name_es": "Dragopavo almendrado y turquesa",
         "name_pt": "Dragoperu Amêndoa e Turquesa",
-        "name_de": "Türkis und Mandel-Dracotruter",
+        "name_de": "Almond and Turquoise Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -554,7 +554,7 @@
         "name_fr": "Dragodinde Amande et Orchidée",
         "name_es": "Dragopavo almendrado y orquídeo",
         "name_pt": "Dragoperu Amêndoa e Orquídea",
-        "name_de": "Orchideen und Mandel-Dracotruter",
+        "name_de": "Almond and Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -587,7 +587,7 @@
         "name_fr": "Dragodinde Amande et Pourpre",
         "name_es": "Dragopavo almendrado y púrpura",
         "name_pt": "Dragoperu Amêndoa e Púrpura",
-        "name_de": "Purpur und Mandel-Dracotruter",
+        "name_de": "Almond and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -620,7 +620,7 @@
         "name_fr": "Dragodinde Dorée et Ebène",
         "name_es": "Dragopavo dorado y ébano",
         "name_pt": "Dragoperu Dourado e Ébano",
-        "name_de": "Gold und Ebenholz-Dracotruter",
+        "name_de": "Golden and Ebony Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -648,7 +648,7 @@
         "name_fr": "Dragodinde Dorée et Emeraude",
         "name_es": "Dragopavo dorado y esmeralda",
         "name_pt": "Dragoperu Dourado e Esmeralda",
-        "name_de": "Gold und Smaragd-Dracotruter",
+        "name_de": "Golden and Emerald Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -676,7 +676,7 @@
         "name_fr": "Dragodinde Dorée et Indigo",
         "name_es": "Dragopavo dorado e índigo",
         "name_pt": "Dragoperu Dourado e Índigo",
-        "name_de": "Gold und Indigo-Dracotruter",
+        "name_de": "Golden and Indigo Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -704,7 +704,7 @@
         "name_fr": "Dragodinde Dorée et Ivoire",
         "name_es": "Dragopavo dorado y marfil",
         "name_pt": "Dragoperu Dourado e Marfim",
-        "name_de": "Gold und Elfenbein-Dracotruter",
+        "name_de": "Golden and Ivory Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -732,7 +732,7 @@
         "name_fr": "Dragodinde Dorée et Rousse",
         "name_es": "Dragopavo dorado y pelirrojo",
         "name_pt": "Dragoperu Dourado e Ruivo",
-        "name_de": "Rotgoldener Dracotruter",
+        "name_de": "Golden and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -755,7 +755,7 @@
         "name_fr": "Dragodinde Dorée et Turquoise",
         "name_es": "Dragopavo dorado y turquesa",
         "name_pt": "Dragoperu Dourado e Turquesa",
-        "name_de": "Gold und Türkis-Dracotruter",
+        "name_de": "Golden and Turquoise Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -783,7 +783,7 @@
         "name_fr": "Dragodinde Dorée et Orchidée",
         "name_es": "Dragopavo dorado y orquídeo",
         "name_pt": "Dragoperu Dourado e Orquídea",
-        "name_de": "Gold und Orchideen-Dracotruter",
+        "name_de": "Golden and Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -811,7 +811,7 @@
         "name_fr": "Dragodinde Dorée et Pourpre",
         "name_es": "Dragopavo dorado y púrpura",
         "name_pt": "Dragoperu Dourado e Púrpura",
-        "name_de": "Gold und Purpur-Dracotruter",
+        "name_de": "Golden and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -839,7 +839,7 @@
         "name_fr": "Dragodinde Ebène et Emeraude",
         "name_es": "Dragopavo ébano y esmeralda",
         "name_pt": "Dragoperu Ébano e Esmeralda",
-        "name_de": "Smaragd und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Emerald Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -867,7 +867,7 @@
         "name_fr": "Dragodinde Ebène et Indigo",
         "name_es": "Dragopavo ébano e índigo",
         "name_pt": "Dragoperu Ébano e Índigo",
-        "name_de": "Indigo und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Indigo Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -895,7 +895,7 @@
         "name_fr": "Dragodinde Ebène et Turquoise",
         "name_es": "Dragopavo ébano y turquesa",
         "name_pt": "Dragoperu Ébano e Turquesa",
-        "name_de": "Türkis und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Turquoise Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -923,7 +923,7 @@
         "name_fr": "Dragodinde Ebène et Orchidée",
         "name_es": "Dragopavo ébano y orquídeo",
         "name_pt": "Dragoperu Ébano e Orquídea",
-        "name_de": "Orchideen und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -951,7 +951,7 @@
         "name_fr": "Dragodinde Ebène et Pourpre",
         "name_es": "Dragopavo ébano y púrpura",
         "name_pt": "Dragoperu Ébano e Púrpura",
-        "name_de": "Purpur und Ebenholz-Dracotruter",
+        "name_de": "Ebony and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -979,7 +979,7 @@
         "name_fr": "Dragodinde Emeraude et Indigo",
         "name_es": "Dragopavo esmeralda e índigo",
         "name_pt": "Dragoperu Esmeralda e Índigo",
-        "name_de": "Indigo und Smaragd-Dracotruter",
+        "name_de": "Emerald and Indigo Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1007,7 +1007,7 @@
         "name_fr": "Dragodinde Emeraude et Ivoire",
         "name_es": "Dragopavo esmeralda y marfil",
         "name_pt": "Dragoperu Esmeralda e Marfim",
-        "name_de": "Smaragd und Elfenbein-Dracotruter",
+        "name_de": "Emerald and Ivory Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1035,7 +1035,7 @@
         "name_fr": "Dragodinde Emeraude et Rousse",
         "name_es": "Dragopavo esmeralda y pelirrojo",
         "name_pt": "Dragoperu Esmeralda e Ruivo",
-        "name_de": "Rot und Smaragd-Dracotruter",
+        "name_de": "Emerald and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1058,7 +1058,7 @@
         "name_fr": "Dragodinde Emeraude et Turquoise",
         "name_es": "Dragopavo esmeralda y turquesa",
         "name_pt": "Dragoperu Esmeralda e Turquesa",
-        "name_de": "Smaragd und Türkis-Dracotruter",
+        "name_de": "Emerald and Turquoise Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1086,7 +1086,7 @@
         "name_fr": "Dragodinde Emeraude et Orchidée",
         "name_es": "Dragopavo esmeralda y orquídeo",
         "name_pt": "Dragoperu Esmeralda e Orquídea",
-        "name_de": "Smaragd und Orchideen-Dracotruter",
+        "name_de": "Emerald and Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1114,7 +1114,7 @@
         "name_fr": "Dragodinde Emeraude et Pourpre",
         "name_es": "Dragopavo esmeralda y púrpura",
         "name_pt": "Dragoperu Esmeralda e Púrpura",
-        "name_de": "Smaragd und Purpur-Dracotruter",
+        "name_de": "Emerald and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1142,7 +1142,7 @@
         "name_fr": "Dragodinde Indigo et Ivoire",
         "name_es": "Dragopavo índigo y marfil",
         "name_pt": "Dragoperu Índigo e Marfim",
-        "name_de": "Indigo und Elfenbein-Dracotruter",
+        "name_de": "Indigo and Ivory Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1170,7 +1170,7 @@
         "name_fr": "Dragodinde Indigo et Rousse",
         "name_es": "Dragopavo índigo y pelirrojo",
         "name_pt": "Dragoperu Índigo e Ruivo",
-        "name_de": "Rot und Indigo-Dracotruter",
+        "name_de": "Indigo and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1193,7 +1193,7 @@
         "name_fr": "Dragodinde Indigo et Turquoise",
         "name_es": "Dragopavo índigo y turquesa",
         "name_pt": "Dragoperu Índigo e Turquesa",
-        "name_de": "Türkis und Indigo-Dracotruter",
+        "name_de": "Indigo and Turquoise Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1221,7 +1221,7 @@
         "name_fr": "Dragodinde Indigo et Orchidée",
         "name_es": "Dragopavo índigo y orquídeo",
         "name_pt": "Dragoperu Índigo e Orquídea",
-        "name_de": "Indigo und Orchideen-Dracotruter",
+        "name_de": "Indigo and Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1249,7 +1249,7 @@
         "name_fr": "Dragodinde Indigo et Pourpre",
         "name_es": "Dragopavo índigo y púrpura",
         "name_pt": "Dragoperu Índigo e Púrpura",
-        "name_de": "Indigo und Purpur-Dracotruter",
+        "name_de": "Indigo and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1277,7 +1277,7 @@
         "name_fr": "Dragodinde Ivoire et Turquoise",
         "name_es": "Dragopavo marfil y turquesa",
         "name_pt": "Dragoperu Marfim e Turquesa",
-        "name_de": "Türkis und Elfenbein-Dracotruter",
+        "name_de": "Ivory and Turquoise Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1305,7 +1305,7 @@
         "name_fr": "Dragodinde Ivoire et Orchidée",
         "name_es": "Dragopavo marfil y orquídeo",
         "name_pt": "Dragoperu Marfim e Orquídea",
-        "name_de": "Elfenbein und Orchideen-Dracotruter",
+        "name_de": "Ivory and Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1333,7 +1333,7 @@
         "name_fr": "Dragodinde Ivoire et Pourpre",
         "name_es": "Dragopavo marfil y púrpura",
         "name_pt": "Dragoperu Marfim e Marfim",
-        "name_de": "Elfenbein und Purpur-Dracotruter",
+        "name_de": "Ivory and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1361,7 +1361,7 @@
         "name_fr": "Dragodinde Turquoise et Rousse",
         "name_es": "Dragopavo turquesa y pelirrojo",
         "name_pt": "Dragoperu Turquesa e Ruivo",
-        "name_de": "Rot und Türkis-Dracotruter",
+        "name_de": "Turquoise and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1384,7 +1384,7 @@
         "name_fr": "Dragodinde Orchidée et Rousse",
         "name_es": "Dragopavo orquídeo y pelirrojo",
         "name_pt": "Dragoperu Orquídea e Ruivo",
-        "name_de": "Rot und Orchideen-Dracotruter",
+        "name_de": "Orchid and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1407,7 +1407,7 @@
         "name_fr": "Dragodinde Pourpre et Rousse",
         "name_es": "Dragopavo púrpura y pelirrojo",
         "name_pt": "Dragoperu Púrpura e Ruivo",
-        "name_de": "Rot und Purpur-Dracotruter",
+        "name_de": "Crimson and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1430,7 +1430,7 @@
         "name_fr": "Dragodinde Turquoise et Orchidée",
         "name_es": "Dragopavo turquesa y orquídeo",
         "name_pt": "Dragoperu Turquesa e Orquídea",
-        "name_de": "Türkis und Orchideen-Dracotruter",
+        "name_de": "Turquoise and Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1458,7 +1458,7 @@
         "name_fr": "Dragodinde Turquoise et Pourpre",
         "name_es": "Dragopavo turquesa y púrpura",
         "name_pt": "Dragoperu Turquesa e Púrpura",
-        "name_de": "Türkis und Purpur-Dracotruter",
+        "name_de": "Turquoise and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1486,7 +1486,7 @@
         "name_fr": "Dragodinde Orchidée et Pourpre",
         "name_es": "Dragopavo orquídeo y púrpura",
         "name_pt": "Dragoperu Orquídea e Púrpura",
-        "name_de": "Purpur und Orchideen-Dracotruter",
+        "name_de": "Orchid and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1514,7 +1514,7 @@
         "name_fr": "Dragodinde Prune et Amande",
         "name_es": "Dragopavo ciruela y almendrado",
         "name_pt": "Dragoperu Ameixa e Amêndoa",
-        "name_de": "Pflaumen und Mandel-Dracotruter",
+        "name_de": "Plum and Almond Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1547,7 +1547,7 @@
         "name_fr": "Dragodinde Prune et Dorée",
         "name_es": "Dragopavo ciruela y dorado",
         "name_pt": "Dragoperu Ameixa e Dourado",
-        "name_de": "Goldener Pflaumen-Dracotruter",
+        "name_de": "Plum and Golden Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1575,7 +1575,7 @@
         "name_fr": "Dragodinde Prune et Ebène",
         "name_es": "Dragopavo ciruela y ébano",
         "name_pt": "Dragoperu Ameixa e Ébano",
-        "name_de": "Pflaumen und Ebenholz-Dracotruter",
+        "name_de": "Plum and Ebony Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1603,7 +1603,7 @@
         "name_fr": "Dragodinde Prune et Emeraude",
         "name_es": "Dragopavo ciruela y esmeralda",
         "name_pt": "Dragoperu Ameixa e Esmeralda",
-        "name_de": "Pflaumen und Smaragd-Dracotruter",
+        "name_de": "Plum and Emerald Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1631,7 +1631,7 @@
         "name_fr": "Dragodinde Prune et Indigo",
         "name_es": "Dragopavo ciruela e índigo",
         "name_pt": "Dragoperu Ameixa e Índigo",
-        "name_de": "Indigo und Pflaumen-Dracotruter",
+        "name_de": "Plum and Indigo Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1659,7 +1659,7 @@
         "name_fr": "Dragodinde Prune et Ivoire",
         "name_es": "Dragopavo ciruela y marfil",
         "name_pt": "Dragoperu Ameixa e Marfim",
-        "name_de": "Pflaumen und Elfenbein-Dracotruter",
+        "name_de": "Plum and Ivory Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1687,7 +1687,7 @@
         "name_fr": "Dragodinde Prune et Rousse",
         "name_es": "Dragopavo ciruela y pelirrojo",
         "name_pt": "Dragoperu Ameixa e Ruivo",
-        "name_de": "Rot und Pflaumen-Dracotruter",
+        "name_de": "Plum and Ginger Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1710,7 +1710,7 @@
         "name_fr": "Dragodinde Prune et Turquoise",
         "name_es": "Dragopavo ciruela y turquesa",
         "name_pt": "Dragoperu Ameixa e Turquesa",
-        "name_de": "Türkis und Pflaumen-Dracotruter",
+        "name_de": "Plum and Turquoise Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1738,7 +1738,7 @@
         "name_fr": "Dragodinde Prune et Orchidée",
         "name_es": "Dragopavo ciruela y orquídeo",
         "name_pt": "Dragoperu Ameixa e Orquídea",
-        "name_de": "Pflaumen und Orchideen-Dracotruter",
+        "name_de": "Plum and Orchid Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1766,7 +1766,7 @@
         "name_fr": "Dragodinde Prune et Pourpre",
         "name_es": "Dragopavo ciruela y púrpura",
         "name_pt": "Dragoperu Ameixa e Púrpura",
-        "name_de": "Purpur und Pflaumen-Dracotruter",
+        "name_de": "Plum and Crimson Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1794,7 +1794,7 @@
         "name_fr": "Dragodinde en armure",
         "name_es": "Dragopavo con armadura",
         "name_pt": "Dragoperu com armadura",
-        "name_de": "Gepanzerter Dracotruter",
+        "name_de": "Armoured Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1837,7 +1837,7 @@
         "name_fr": "Dragodinde à Plumes",
         "name_es": "Dragopavo con plumas",
         "name_pt": "Dragoperu emplumado",
-        "name_de": "Befiederter Dracotruter",
+        "name_de": "Feathered Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1860,7 +1860,7 @@
         "name_fr": "Dragodinde Royale",
         "name_es": "Dragopavo reales",
         "name_pt": "Dragoperu real",
-        "name_de": "Königliche Dracotruter",
+        "name_de": "Royal Dragoturkey",
         "level": 60,
         "stats": [
             [
@@ -1903,7 +1903,7 @@
         "name_fr": "Dragodinde Armurivante",
         "name_es": "Dragopavo armaduvivo",
         "name_pt": "Dragoperu Armaduvivo",
-        "name_de": "Farbenfroh-Gepanzerter Dracotruter",
+        "name_de": "Armouralive Dragoturkey",
         "level": 60,
         "stats": [
             [

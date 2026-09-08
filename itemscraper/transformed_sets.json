@@ -61881,17 +61881,47 @@
     },
     {
         "ankama_id": 1104,
-        "name_en": "Panoplie d'apparat de la loterie Ivoire",
+        "name_en": "Ivory Lottery Ceremonial Set",
         "name_fr": "Panoplie d'apparat de la loterie Ivoire",
-        "name_es": "Panoplie d'apparat de la loterie Ivoire",
-        "name_pt": "Panoplie d'apparat de la loterie Ivoire",
-        "name_de": "Panoplie d'apparat de la loterie Ivoire",
+        "name_es": "Set cosmético de la lotería Marfil",
+        "name_pt": "Conjunto de Aparência da Loteria Marfim",
+        "name_de": "Prunkset der Elfenbein-Lotterie",
         "items": 4,
         "equipment_ids": [
             34558,
             34559,
             34560,
             34561
+        ]
+    },
+    {
+        "ankama_id": 1108,
+        "name_en": "Porcelunar Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Porcelune",
+        "name_es": "Set cosmético de porceluna",
+        "name_pt": "Conjunto de Aparência de Porcelua",
+        "name_de": "Porzelluna-Prunkset",
+        "items": 6,
+        "equipment_ids": [
+            34606,
+            34607,
+            34608,
+            34609,
+            34610,
+            34645
+        ]
+    },
+    {
+        "ankama_id": 1110,
+        "name_en": "Welsh and Shedar Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Welsh et Shedar",
+        "name_es": "Set cosmético de Welsh y Shedar",
+        "name_pt": "Conjunto de Aparência de Welsh e Shedar",
+        "name_de": "Prunkset von Welsh und Shedar",
+        "items": 2,
+        "equipment_ids": [
+            34622,
+            34623
         ]
     }
 ]

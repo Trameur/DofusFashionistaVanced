@@ -61886,6 +61886,96 @@
             "pods": 0
         },
         {
+            "ankama_id": 32485,
+            "name": "Runa de invocación de Joris",
+            "type": {
+                "name": "La fuente: el legado de los dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12014-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12014-128.png"
+            },
+            "description": "Cuando encuentres el punto de anclaje, consume esta runa para invocar a Joris a tu lado.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Gana x",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Gana x1 Kiri Shigure"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32486,
+            "name": "Mapa de la Fuente",
+            "type": {
+                "name": "La fuente: el legado de los dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136150-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136150-128.png"
+            },
+            "description": "Todo indica que este pergamino es un mapa de la isla de la Fuente.",
+            "effects": [
+                {
+                    "int_minimum": 758,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32487,
+            "name": "Notas de Joris",
+            "type": {
+                "name": "La fuente: el legado de los dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24026-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24026-128.png"
+            },
+            "description": "Joris ha anotado aquí las indicaciones de Dardondakal para localizar las demás columnas.",
+            "effects": [
+                {
+                    "int_minimum": 756,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consultar.",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consultar 0."
+                }
+            ],
+            "pods": 0
+        },
+        {
             "ankama_id": 33553,
             "name": "Primer auspicio",
             "type": {
@@ -62928,6 +63018,21 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25140-128.png"
             },
             "description": "No es lo que estabas buscando y no es tan guay ni tan polivalente como un pastel de arena... ¡Pero no se puede tener todo en esta vida!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34625,
+            "name": "Nota",
+            "type": {
+                "name": "La fuente: el legado de los dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15809-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15809-128.png"
+            },
+            "description": "En esta nota aparecen las ubicaciones de varias columnas:\n- al este de la Boca del Rasgabola\n- a la entrada del bosque de las máscaras\n- en el islote La Cowona\n- al norte del zaap de la ribera del golfo sufokeño",
             "pods": 0
         }
     ]

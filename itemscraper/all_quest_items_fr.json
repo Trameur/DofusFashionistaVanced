@@ -61886,6 +61886,96 @@
             "pods": 0
         },
         {
+            "ankama_id": 32485,
+            "name": "Rune d'invocation de Joris",
+            "type": {
+                "name": "La source - l'héritage des Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12014-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12014-128.png"
+            },
+            "description": "Lorsque vous aurez trouvé le lieu d'ancrage, consommez cette rune pour invoquer Joris à vos côtés.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Gagne x",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Gagne x1 Kiri Shigure"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32486,
+            "name": "Carte de la Source",
+            "type": {
+                "name": "La source - l'héritage des Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136150-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136150-128.png"
+            },
+            "description": "En toute vraisemblance, ce parchemin est une carte de l'île de la Source.",
+            "effects": [
+                {
+                    "int_minimum": 758,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consulter",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consulter 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32487,
+            "name": "Notes de Joris",
+            "type": {
+                "name": "La source - l'héritage des Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24026-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24026-128.png"
+            },
+            "description": "Joris a récapitulé sur cette note les indications de Dardondakal pour localiser les autres colonnes.",
+            "effects": [
+                {
+                    "int_minimum": 756,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Consulter",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Consulter 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
             "ankama_id": 33553,
             "name": "Premier Auspice",
             "type": {
@@ -62928,6 +63018,21 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25140-128.png"
             },
             "description": "Ce n'est pas ce que vous recherchiez et c'est moins sympa et polyvalent qu'un pâté de sable... Mais on n'a pas toujours ce que l'on veut dans la vie !",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34625,
+            "name": "Mémo",
+            "type": {
+                "name": "La source - l'héritage des Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15809-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15809-128.png"
+            },
+            "description": "Les localisations de plusieurs colonnes sont inscrites sur ce mémo :\n- à l'est du Goulet du Rasboul\n- à l'entrée de la forêt des masques\n- sur l'îlot de la couronne\n- au nord du zaap du rivage sufokien",
             "pods": 0
         }
     ]

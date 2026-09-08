@@ -48,10 +48,20 @@ def raw_path(lang):
 def download():
     sys.path.insert(0, CURRENT_DIR)
     import requests
-    from download_touch_data import resolve_data_url
+    from download_touch_data import resolve_data_url, served_languages
 
     data_url = resolve_data_url()
+    # Touch answers a language it no longer serves with its failover, English,
+    # and no marker. Refreshing on that answer overwrites a real translation
+    # with English: that is how the German names went, all at once, in the
+    # 2026-09-08 rebuild. An empty set means the config was unreadable, and
+    # then nothing is skipped.
+    served = served_languages()
     for lang in LANGUAGES:
+        if served and lang not in served:
+            print('%s: no longer served by Touch, keeping the file on disk'
+                  % lang)
+            continue
         response = requests.post(
             '%s/data/map' % data_url,
             json={'class': 'SubAreas', 'lang': lang},

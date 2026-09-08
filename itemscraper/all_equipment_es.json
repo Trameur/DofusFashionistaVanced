@@ -458380,7 +458380,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Pesadilla Eterna:\n• Escudo Bontariano: cuando el portador es desembrujado o trabado, gana un escudo del 100% de su nivel durante 1 turno.\n• Potencia Brakmariana: cuando el portador ocasiona o sufre daños de empuje, gana 100 de potencia durante 1 turno. \n• Ojo de Pesadilla: si el portador activa los 2 efectos en el mismo turno, los daños que ocasiona y sufre aumentan un 10% durante 1 turno.\n• Los efectos pueden activarse solo una vez por turno."
+                    "formatted": "{{spell,20981,1::Pesadilla Eterna}}:\n• Escudo Bontariano: cuando se desembruja o traba al portador, este gana el 100% de su nivel en escudo durante 1 turno.\n• Potencia Brakmariana: cuando el portador ocasiona o sufre daños de empuje, gana 100 de potencia durante 1 turno. \n• Ojo de Pesadilla: si el portador activa ambos efectos en el mismo turno, los daños que ocasiona y sufre aumentan un 10% durante 1 turno.\n• Los efectos pueden activarse solo una vez por turno."
                 }
             ],
             "is_weapon": false,

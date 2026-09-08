@@ -36,8 +36,36 @@ DEFAULT_CLASSES = [
     'Items', 'ItemSets', 'ItemTypes', 'Effects', 'Recipes', 'Breeds', 'Monsters',
 ]
 
-# Languages Touch serves (config.serverLanguages).
+# Languages this scraper knows how to ask for. Which of them Touch still
+# SERVES is read from the live config at run time, never assumed: see
+# served_languages below.
 ALL_LANGS = ['fr', 'en', 'es', 'pt', 'de']
+
+
+def served_languages(lang: str = 'fr') -> set:
+    """The languages Touch still serves, from its own config.
+
+    This is not a formality. Touch dropped German at some point before
+    2026-09-08: config.json now answers serverLanguages ["en", "es", "fr", "pt"]
+    and failoverLanguage "en", so asking the data API for `de` returns ENGLISH
+    with no error and no marker. Writing that answer into Monsters_de.json is
+    how 16 190 real German names (13 145 items, 2 202 monsters, 325 sets, 214
+    item types, 304 subareas) got replaced by their English text in a single
+    rebuild, silently, while every step reported ok.
+
+    An empty set means the config could not be read, and the caller must then
+    skip nothing rather than wipe everything on a network hiccup.
+    """
+    try:
+        resp = requests.get(f"{CONFIG_URL}?lang={lang}",
+                            headers={'User-Agent': USER_AGENT}, timeout=30)
+        resp.raise_for_status()
+        served = resp.json().get('serverLanguages')
+        return set(served) if served else set()
+    except Exception as exc:
+        print(f"  ! could not read serverLanguages ({exc}); "
+              f"keeping every language", file=sys.stderr)
+        return set()
 
 
 def resolve_data_url(lang: str = 'fr') -> str:
@@ -106,8 +134,16 @@ def main(argv=None):
     if args.all_langs:
         name_tables = [c for c in ('Items', 'ItemSets', 'ItemTypes', 'Monsters', 'Recipes')
                        if c in args.classes]
+        served = served_languages(args.lang)
         for lang in ALL_LANGS:
             if lang == args.lang:
+                continue
+            if served and lang not in served:
+                # Asking anyway would hand us the failover language and
+                # overwrite a real translation with it.
+                print(f"  ! {lang} is no longer in serverLanguages "
+                      f"({', '.join(sorted(served))}); keeping the "
+                      f"{lang} files already on disk", file=sys.stderr)
                 continue
             for cls in name_tables:
                 try:

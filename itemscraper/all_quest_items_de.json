@@ -61886,6 +61886,96 @@
             "pods": 0
         },
         {
+            "ankama_id": 32485,
+            "name": "Beschwörungsrune von Joris",
+            "type": {
+                "name": "Die Quelle – Das Erbe der Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/12014-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/12014-128.png"
+            },
+            "description": "Sobald ihr den Ankerpunkt gefunden habt, benutzt diese Rune, um Joris zu euch zu rufen.",
+            "effects": [
+                {
+                    "int_minimum": 1,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Erhalte x",
+                        "id": 260,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "Erhalte x1 Kiri Shigure"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32486,
+            "name": "Karte der Quelle",
+            "type": {
+                "name": "Die Quelle – Das Erbe der Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/136150-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/136150-128.png"
+            },
+            "description": "Allem Anschein nach handelt es sich bei dieser Schriftrolle um eine Karte der Insel der Quelle.",
+            "effects": [
+                {
+                    "int_minimum": 758,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 32487,
+            "name": "Joris‘ Notizen",
+            "type": {
+                "name": "Die Quelle – Das Erbe der Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/24026-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/24026-128.png"
+            },
+            "description": "Joris hat in diesen Notizen Dardondakals Hinweise zusammengefasst, um die anderen Säulen zu finden.",
+            "effects": [
+                {
+                    "int_minimum": 756,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "zu Rate ziehen",
+                        "id": 192,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": false,
+                    "ignore_int_max": true,
+                    "formatted": "0 zu Rate ziehen"
+                }
+            ],
+            "pods": 0
+        },
+        {
             "ankama_id": 33553,
             "name": "Erstes Vorzeichen",
             "type": {
@@ -62928,6 +63018,21 @@
                 "sd": "https://api.dofusdu.de/dofus3/v1/img/item/25140-128.png"
             },
             "description": "Das ist nicht das, wonach ihr gesucht habt, und außerdem deutlich unnützer als nasser Sand ... Aber man kann nicht immer alles haben!",
+            "pods": 0
+        },
+        {
+            "ankama_id": 34625,
+            "name": "Notiz",
+            "type": {
+                "name": "Die Quelle – Das Erbe der Dofus",
+                "id": 240
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3/v1/img/item/15809-64.png",
+                "sd": "https://api.dofusdu.de/dofus3/v1/img/item/15809-128.png"
+            },
+            "description": "In dieser Notiz sind die Standorte mehrerer Säulen vermerkt:\n– östlich des Shilf-Engpasses\n– am Eingang des Maskenwalds\n– auf dem Wa Wabbits Inselchen\n– nördlich des Zaaps am Ufer des Golfes von Sufokia",
             "pods": 0
         }
     ]
