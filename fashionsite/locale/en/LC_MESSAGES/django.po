@@ -6242,3 +6242,7 @@ msgstr ""
 #: .\chardata\templates\chardata\coaching.html:101
 msgid "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria."
 msgstr ""
+
+#: .\chardata\templates\chardata\coaching.html:107
+msgid "No magic. Just a lot of math."
+msgstr ""

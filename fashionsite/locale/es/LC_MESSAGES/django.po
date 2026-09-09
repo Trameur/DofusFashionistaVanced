@@ -7014,3 +7014,7 @@ msgstr "Más de diez años de theorycraft de Dofus"
 #: .\chardata\templates\chardata\coaching.html:101
 msgid "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria."
 msgstr "Optimización matemática, no un modelo de lenguaje. El solver compara los objetos reales de Dofus según sus criterios."
+
+#: .\chardata\templates\chardata\coaching.html:107
+msgid "No magic. Just a lot of math."
+msgstr "Nada de magia. Solo muchas matemáticas."

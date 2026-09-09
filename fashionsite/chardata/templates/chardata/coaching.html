@@ -98,12 +98,19 @@
             </div>
         </form>
 
-        {% comment %}It says "not a language model" and not "no AI". The claim
-        has to survive a reader who opens the network tab: the optional
-        inventory screenshot reader loads tesseract.js, so a blanket "no AI"
-        would be provably false and would discredit the true half. Nothing in
-        this path has a model of any kind: nl_parser imports re and unicodedata
-        and nothing else.{% endcomment %}
+        {% comment %}The headline never says "AI", on purpose. A badge reading
+        "0 AI - 0 LLM" was drawn first and dropped: it is cold, it reads like a
+        campaign slogan, and it walks straight into the trap of becoming the
+        anti-AI site. A line that does not name the thing cannot be read as
+        being against it, and the joke does the work instead.
+
+        The line under it says "not a language model" rather than "no AI",
+        because that one has to survive a reader who opens the network tab: the
+        optional inventory screenshot reader pulls tesseract.js into their own
+        browser. Nothing in THIS path has a model of any kind, and nothing in
+        the repository calls one at all: nl_parser imports re and unicodedata
+        and stops there.{% endcomment %}
+        <p class="solver-headline">{% trans "No magic. Just a lot of math." %}</p>
         <p class="solver-note">{% trans "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria." %}</p>
 
         <p class="coaching-intro" style="margin-top: 20px; font-size: 0.9em;">

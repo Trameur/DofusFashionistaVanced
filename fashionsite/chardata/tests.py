@@ -373,6 +373,55 @@ class TranslationRegressionTests(SimpleTestCase):
         },
     }
 
+    #: The pair that sits under every optimize button. A fuzzy or missing
+    #: entry would show the English one to a French reader with no error at
+    #: all, which is the whole failure mode this class exists for.
+    #:
+    #: The headline deliberately never says "AI". A badge reading "0 AI - 0
+    #: LLM" was drawn first and dropped as cold and campaign-like, and a line
+    #: that does not name the thing cannot be read as being against it.
+    LIGNES_SOLVEUR = {
+        'No magic. Just a lot of math.': {
+            'fr': 'Pas de magie, juste beaucoup de maths.',
+            'es': 'Nada de magia. Solo muchas matemáticas.',
+            'pt': 'Nada de magia. Só muita matemática.',
+            'de': 'Keine Magie. Nur sehr viel Mathematik.',
+        },
+        'Mathematical optimization, not a language model. The solver '
+        'compares real Dofus items against your criteria.': {
+            'fr': 'Optimisation mathématique, pas un modèle de langage. Le '
+                  'solveur compare les objets réels de Dofus selon vos '
+                  'critères.',
+            'es': 'Optimización matemática, no un modelo de lenguaje. El '
+                  'solver compara los objetos reales de Dofus según sus '
+                  'criterios.',
+            'pt': 'Otimização matemática, não um modelo de linguagem. O '
+                  'solver compara os itens reais de Dofus segundo os seus '
+                  'critérios.',
+            'de': 'Mathematische Optimierung, kein Sprachmodell. Der Solver '
+                  'vergleicht echte Dofus-Gegenstände nach Ihren Kriterien.',
+        },
+    }
+
+    def test_the_solver_lines_are_translated_in_every_language(self):
+        for msgid, attendus in self.LIGNES_SOLVEUR.items():
+            for langue, attendu in attendus.items():
+                with self.subTest(msgid=msgid[:40], langue=langue):
+                    with translation.override(langue):
+                        self.assertEqual(gettext(msgid), attendu)
+
+    def test_the_solver_headline_never_names_ai(self):
+        """It reassures without arguing. Naming the thing is what turns a
+        reassurance into a position, and the site is not campaigning."""
+        headline = 'No magic. Just a lot of math.'
+        for langue in ('en', 'fr', 'es', 'pt', 'de'):
+            with self.subTest(langue=langue):
+                with translation.override(langue):
+                    rendu = gettext(headline).lower()
+                for mot in (' ai ', 'llm', ' ia ', ' ki ',
+                            'intelligence artificielle'):
+                    self.assertNotIn(mot, ' %s ' % rendu)
+
     def test_the_2012_lineage_line_is_translated_in_every_language(self):
         for msgid, attendus in self.HERITAGE_2012.items():
             for langue, attendu in attendus.items():

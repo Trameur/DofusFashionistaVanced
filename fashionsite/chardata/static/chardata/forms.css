@@ -383,14 +383,23 @@ select, .pretty-input {
 }
 
 
-/* The line under an optimize button that says what does the work. Typography
-   only, and deliberately no colour and no opacity: it must inherit whatever
-   the four theme combinations already give the surrounding text. A colour of
-   its own would vanish in one of them, and dimming it would eat the contrast
-   margin, both of which happened while this was being built. */
+/* The two lines under an optimize button that say what does the work: a warm
+   headline that never names the thing it is reassuring about, and the factual
+   line beneath it. Typography only, and deliberately no colour and no opacity
+   on either: they must inherit whatever the four theme combinations already
+   give the surrounding text. A colour of their own would vanish in one of
+   them, and dimming them would eat the contrast margin, both of which
+   happened while this was being built. */
+.solver-headline {
+    max-width: 480px;
+    margin: 16px auto 0;
+    font-size: 1.02em;
+    font-weight: 600;
+    text-align: center;
+}
 .solver-note {
     max-width: 480px;
-    margin: 14px auto 0;
+    margin: 6px auto 0;
     font-size: 0.85em;
     line-height: 1.45;
     text-align: center;
