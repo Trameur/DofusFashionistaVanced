@@ -37,47 +37,26 @@ WATCHED_RETRO_LANG = {
     'spells': '1254',
 }
 
-# If Retro moves its client build while the lang data above stays fixed, these
-# representative visual assets tell us whether the committed Retro renders
-# need a refresh even though the item database does not.
-WATCHED_RETRO_ASSET_SAMPLE = {
-    'resources/app/retroclient/clips/items/1/1.swf': {
-        'hash': 'dd03c8a425ac1d3cd185955288ca5d82ff96ade3',
-        'size': 1651,
-    },
-    'resources/app/retroclient/clips/items/1/100.swf': {
-        'hash': '89cd4af75da7670df327259e78a4889373661890',
-        'size': 550,
-    },
-    'resources/app/retroclient/clips/items/16/1.swf': {
-        'hash': 'f5d1d94af51c2f8fbdedc232171dd06ae86c6294',
-        'size': 412,
-    },
-    'resources/app/retroclient/clips/items/22/1.swf': {
-        'hash': '28711c4f28507cc3bb4b2b52e2c05e2e83cf0b83',
-        'size': 1277,
-    },
-    'resources/app/retroclient/clips/spells/icons/up/1.swf': {
-        'hash': '6fee82b3c0bde91eadf0d48a930262eaed20ec3c',
-        'size': 748,
-    },
-    'resources/app/retroclient/clips/spells/icons/up/101.swf': {
-        'hash': '5f624431a12ff02e5e6424aa19cdcdea0ee20f2d',
-        'size': 884,
-    },
-    'resources/app/retroclient/clips/artworks/big/31.swf': {
-        'hash': 'd9f03880309cf9d30f264e9c1e68d83ddd14210b',
-        'size': 16967,
-    },
-    'resources/app/retroclient/clips/artworks/big/40.swf': {
-        'hash': '787815dcba9829f93cd5b7592e4401c7d3f4c743',
-        'size': 24051,
-    },
-    'resources/app/retroclient/clips/sprites/31.swf': {
-        'hash': '6c8debc9d76dadb88cc9e63eb607d9cc6e3ba18a',
-        'size': 191437,
-    },
-}
+# Whether the committed Retro renders need a refresh, over the WHOLE set the
+# four Retro renderers read, not a sample of it. 9428 clips at 1.49.3: items
+# 6862, sprites 1066, artworks 826, spell icons 674.
+#
+# It used to be nine hand-picked files, and they could not answer the question.
+# Three of the four Retro build transitions in this repo's history moved
+# rendered clips and the sample fired on 0 of 9 every time: its nine names are
+# ids 1, 31, 40, 100 and 101, the oldest content in a 2004 game, byte-identical
+# at every version. Worse, it looked each name UP, so an ADDED file was never a
+# key and could not be seen at all, and 38 of the 48 rendered changes in
+# 1.48.21 to 1.49.0 were pure additions.
+#
+# Reading all 9428 is the cheap option, not the expensive one: the sample
+# already downloaded this entire 6.9 MB manifest and kept nine entries, and its
+# nine lookups cost eight times the single pass that reads every one.
+#
+# NEVER type this by hand. `python itemscraper/check_game_versions.py
+# --emit-snapshot` reads the live manifest and prints the two lines below.
+WATCHED_RETRO_ASSET_DIGEST = "75d84aec73638cbe2010fe8d12f1c90a5f40250a"
+WATCHED_RETRO_ASSET_COUNT = 9428
 
 
 def get_version() -> str:

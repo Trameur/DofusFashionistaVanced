@@ -22333,40 +22333,59 @@ class GameVersionWatchTests(SimpleTestCase):
             check_game_versions._json = original
 
 
+    #: A stand-in watch set. The real one is 9428 entries read from a 6.9 MB
+    #: manifest, and a test that downloads it is a test that fails whenever
+    #: Ankama is down.
+    FAUX_CLIPS = {
+        'resources/app/retroclient/clips/items/1/1.swf': 'aaa 10',
+        'resources/app/retroclient/clips/sprites/31.swf': 'bbb 20',
+        'resources/app/retroclient/clips/artworks/big/31.swf': 'ccc 30',
+    }
+
     def _run_check(self, retro_live, touch_live, lang_live=None,
                    asset_live=None, asset_versions=None):
         import check_game_versions as check
         import fashionista_version as ours
-        saved = (check.cytrus_cdn.get_version, check._json,
-                 check.retro_lang_versions, check.retro_asset_sample,
-                 ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS)
+        saved = (check.cytrus_cdn.get_version, check.cytrus_cdn.download_manifest,
+                 check._json, check.retro_lang_versions, check.retro_asset_entries,
+                 ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
+                 ours.WATCHED_RETRO_ASSET_DIGEST, ours.WATCHED_RETRO_ASSET_COUNT)
         live = {'dofus3': ours.FASHIONISTA_VERSION,
                 'beta': ours.FASHIONISTA_BETA_VERSION,
                 'dofus2': ours.FASHIONISTA_DOFUS2_VERSION,
                 'retro': retro_live}
         lang = dict(ours.WATCHED_RETRO_LANG)
         lang.update(lang_live or {})
-        assets = {name: dict(meta)
-                  for name, meta in ours.WATCHED_RETRO_ASSET_SAMPLE.items()}
+        assets = dict(self.FAUX_CLIPS)
         if asset_live:
-            for name, meta in asset_live.items():
-                assets[name] = dict(meta)
+            assets.update(asset_live)
         try:
             check.cytrus_cdn.get_version = lambda version: live[version]
+            # main() downloads the manifest once and hands it around, so this
+            # has to be stubbed or the whole class hits the network.
+            check.cytrus_cdn.download_manifest = (
+                lambda game, version=None, platform='windows': b'faux')
             check.retro_lang_versions = lambda: lang
-            def fake_retro_asset_sample(version=None):
+            def fake_retro_asset_entries(version=None, manifest=None):
                 if asset_versions is not None:
                     asset_versions.append(version)
-                return assets
-            check.retro_asset_sample = fake_retro_asset_sample
+                return dict(assets)
+            check.retro_asset_entries = fake_retro_asset_entries
+            # The watch is measured against the UNCHANGED stand-in, so a test
+            # that changes nothing must come out ok.
+            ours.WATCHED_RETRO_ASSET_DIGEST = check.retro_asset_digest(
+                dict(self.FAUX_CLIPS))
+            ours.WATCHED_RETRO_ASSET_COUNT = len(self.FAUX_CLIPS)
             check._json = lambda url: (
                 [{'name': 'tag'}] if 'tags' in url
                 else {'assetsUrl': 'https://cdn/assets/' + touch_live})
             return check.main()
         finally:
-            (check.cytrus_cdn.get_version, check._json,
-             check.retro_lang_versions, check.retro_asset_sample,
-             ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS) = saved
+            (check.cytrus_cdn.get_version, check.cytrus_cdn.download_manifest,
+             check._json, check.retro_lang_versions, check.retro_asset_entries,
+             ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
+             ours.WATCHED_RETRO_ASSET_DIGEST,
+             ours.WATCHED_RETRO_ASSET_COUNT) = saved
 
     def test_a_retro_build_patch_is_only_a_diagnostic(self):
         # Retro item data is gated by lang versions below, not by the client
@@ -22386,23 +22405,30 @@ class GameVersionWatchTests(SimpleTestCase):
                                          ours.WATCHED_TOUCH_ASSETS,
                                          {'items': '9999'}), 1)
 
-    def test_a_retro_asset_sample_change_is_not_silent(self):
+    def test_a_changed_retro_clip_is_not_silent(self):
         import fashionista_version as ours
-        changed = {name: dict(meta)
-                   for name, meta in ours.WATCHED_RETRO_ASSET_SAMPLE.items()}
-        first = next(iter(changed))
-        changed[first]['hash'] = 'changed'
+        changed = {'resources/app/retroclient/clips/items/1/1.swf': 'zzz 10'}
         self.assertEqual(self._run_check('1.48.99.9999.999-newer',
                                          ours.WATCHED_TOUCH_ASSETS,
                                          asset_live=changed), 1)
 
-    def test_a_retro_asset_sample_uses_the_full_manifest_version(self):
+    def test_an_added_retro_clip_is_not_silent(self):
+        """The sample this replaced looked names UP, so it could not see one."""
+        import fashionista_version as ours
+        added = {'resources/app/retroclient/clips/artworks/big/9999.swf': 'new 5'}
+        self.assertEqual(self._run_check('1.48.99.9999.999-newer',
+                                         ours.WATCHED_TOUCH_ASSETS,
+                                         asset_live=added), 1)
+
+    def test_the_clips_are_read_even_when_the_build_stood_still(self):
+        """Gating the image question on the build silenced it on the content
+        patches where images matter most."""
         import fashionista_version as ours
         seen = []
-        self.assertEqual(self._run_check('6.0_1.48.99.9999.999-newer',
+        self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
                                          ours.WATCHED_TOUCH_ASSETS,
                                          asset_versions=seen), 0)
-        self.assertEqual(['6.0_1.48.99.9999.999-newer'], seen)
+        self.assertEqual(1, len(seen))
 
     def test_a_touch_asset_bundle_change_is_not_silent(self):
         import fashionista_version as ours
@@ -28158,3 +28184,91 @@ class TouchStillHasItsGermanNamesTests(SimpleTestCase):
             self.assertEqual(
                 attendu, allemand.get(monster_id),
                 'monster %s should still read %r in German' % (monster_id, attendu))
+
+
+class TheRetroAssetWatchSeesAddedFilesTests(SimpleTestCase):
+    """The watch it replaces could not, and that was most of what moved.
+
+    Until 2026-09-09 the Retro visual assets were watched through nine
+    hand-picked names, looked up one by one. A file that did not exist before
+    was never one of the keys, so an addition was invisible by construction.
+    Replayed over this repo's four Retro build transitions, the watch set now
+    reports 48 movements for 1.48.21 to 1.49.0 (30 artworks added, 10 changed,
+    8 items added), 2 for 1.49.0 to 1.49.1, 1 for 1.49.1 to 1.49.2 and nothing
+    for 1.49.2 to 1.49.3. The old sample fired on 0 of 9 in the first three.
+
+    These run on synthetic entry sets: the point is the shape of the
+    comparison, and a test that downloads a 6.9 MB manifest is a test that
+    fails when Ankama is down.
+    """
+
+    def _watch(self):
+        import importlib.util
+        chemin = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+            'itemscraper', 'check_game_versions.py')
+        if not os.path.isfile(chemin):
+            self.skipTest('check_game_versions.py is not in this checkout')
+        spec = importlib.util.spec_from_file_location('check_game_versions', chemin)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    CLIP = 'resources/app/retroclient/clips/%s'
+
+    def test_an_added_clip_is_reported(self):
+        watch = self._watch()
+        avant = {self.CLIP % 'items/1/1.swf': 'aaa 10'}
+        apres = dict(avant)
+        apres[self.CLIP % 'artworks/big/1234.swf'] = 'bbb 20'
+        report = watch.retro_asset_diff(avant, apres)
+        self.assertEqual(['artworks'], sorted(report))
+        self.assertEqual([self.CLIP % 'artworks/big/1234.swf'],
+                         report['artworks']['added'])
+
+    def test_a_removed_clip_is_reported(self):
+        watch = self._watch()
+        avant = {self.CLIP % 'items/1/1.swf': 'aaa 10',
+                 self.CLIP % 'sprites/31.swf': 'bbb 20'}
+        apres = {self.CLIP % 'items/1/1.swf': 'aaa 10'}
+        report = watch.retro_asset_diff(avant, apres)
+        self.assertEqual([self.CLIP % 'sprites/31.swf'],
+                         report['sprites']['removed'])
+
+    def test_a_changed_clip_is_reported(self):
+        watch = self._watch()
+        name = self.CLIP % 'spells/icons/up/101.swf'
+        report = watch.retro_asset_diff({name: 'aaa 10'}, {name: 'ccc 10'})
+        self.assertEqual([name], report['spells']['changed'])
+
+    def test_an_untouched_set_reports_nothing(self):
+        watch = self._watch()
+        entries = {self.CLIP % 'items/1/1.swf': 'aaa 10'}
+        self.assertEqual({}, watch.retro_asset_diff(entries, dict(entries)))
+
+    def test_the_digest_does_not_depend_on_insertion_order(self):
+        watch = self._watch()
+        un = {self.CLIP % 'items/1/1.swf': 'aaa 10',
+              self.CLIP % 'sprites/31.swf': 'bbb 20'}
+        deux = {self.CLIP % 'sprites/31.swf': 'bbb 20',
+                self.CLIP % 'items/1/1.swf': 'aaa 10'}
+        self.assertEqual(watch.retro_asset_digest(un),
+                         watch.retro_asset_digest(deux))
+        trois = dict(un)
+        trois[self.CLIP % 'items/1/1.swf'] = 'zzz 10'
+        self.assertNotEqual(watch.retro_asset_digest(un),
+                            watch.retro_asset_digest(trois))
+
+    def test_the_subtrees_no_renderer_reads_stay_out(self):
+        """sprites/accessories and sprites/chevauchor moved in 1.49.0 and
+        1.49.1 and nothing here draws them, so they must not raise an alarm."""
+        watch = self._watch()
+        for name, attendu in (
+                ('items/1/1.swf', 'items'),
+                ('spells/icons/up/101.swf', 'spells'),
+                ('artworks/big/31.swf', 'artworks'),
+                ('sprites/31.swf', 'sprites'),
+                ('sprites/accessories/12.swf', 'other'),
+                ('sprites/chevauchor/7.swf', 'other')):
+            self.assertEqual(attendu, watch.retro_asset_family(self.CLIP % name),
+                             name)
