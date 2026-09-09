@@ -28,6 +28,7 @@ import pickle
 logger = logging.getLogger(__name__)
 
 from chardata.translation_util import localized_stat_name
+from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
                                      MOUNT_SLOT, PREVIEW_SIZES, SLOT_TO_NODE,
                                      UNDRAWN_SLOTS, breed_colors,
@@ -93,6 +94,45 @@ _CHECKED_SLOTS = {'Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots', 'Shield'}
 #: Below this the sentence about the size of the search space is not worth
 #: saying: "more than 10 to the power of 2" is not an argument.
 _SEARCH_SPACE_MIN_EXPONENT = 6
+
+
+def _constraints_reached(char, solution):
+    """[{name, asked, reached, met}] for the minimums this project set.
+
+    ChatGPT asked for "11 AP tick, 6 MP tick" under the result, and it is the
+    one part of the panel the reader can check against their own build in a
+    glance. Both sides are read rather than recomputed: the minimums out of the
+    project, the totals out of the solution the page is already showing.
+
+    adv_mins is left out on purpose. It is a nested structure of per element
+    and per situation minimums, and flattening it into one line each would say
+    less than the stat table already below.
+    """
+    if solution is None:
+        return []
+    try:
+        minimums = get_min_stats_digested_by_key(char)
+        atteints = solution.get_stats_total()
+    except Exception:
+        logger.warning('could not read the minimums for char %s', char.id)
+        return []
+    lignes = []
+    for cle, demande in sorted(minimums.items()):
+        if cle == 'adv_mins':
+            continue
+        try:
+            demande = int(demande)
+        except (TypeError, ValueError):
+            continue
+        atteint = atteints.get(cle)
+        if atteint is None:
+            continue
+        atteint = int(round(atteint))
+        lignes.append({'name': localized_stat_name(cle),
+                       'asked': demande,
+                       'reached': atteint,
+                       'met': atteint >= demande})
+    return lignes
 
 
 def _search_space_exponent(pool):
@@ -517,6 +557,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         if snapshot_solution is None:
             raise Http404
 
+    solver_constraints = []
     if is_guest and char.link_shared and generation is None:
         solution_params = _get_shared_solution_params(char)
     else:
@@ -530,6 +571,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                          empty_slots,
                                          weights=get_stats_weights(char, persist=False))
         solution_params = solution_result.get_params()
+        solver_constraints = _constraints_reached(char, solution)
 
     # "Why this result?": what the solver can honestly say about its own
     # answer. Both facts are read with getattr and both default to None,
@@ -620,6 +662,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'current_solution_compare_id': char.id,
               'disable_solution_item_actions': is_generation_snapshot,
               'solver_proven': solver_proven,
+              'solver_constraints': solver_constraints,
               'solver_pool_total': solver_pool_total,
               'solver_space_exponent': solver_space_exponent,
               'solver_seconds': (None if solver_seconds is None

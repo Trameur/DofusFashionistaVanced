@@ -542,3 +542,20 @@
     font-size: 0.9em;
     line-height: 1.4;
 }
+
+/* One chip per minimum the project asked for. No text colour and no opacity,
+   like its neighbours: the theme sheets colour this panel. The missed state is
+   a translucent tint, which composites onto light and dark alike, and it never
+   carries the meaning alone: a missed chip also prints the value that was
+   asked for. */
+.solver-why-goal {
+    display: inline-block;
+    padding: 1px 9px;
+    margin: 2px 3px 2px 0;
+    border: 1px solid rgba(128, 128, 128, 0.45);
+    border-radius: 12px;
+    font-size: 0.95em;
+}
+.solver-why-goal-missed {
+    background: rgba(200, 60, 40, 0.18);
+}

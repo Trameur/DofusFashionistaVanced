@@ -29801,3 +29801,120 @@ class DofusBookImportPageTests(TestCase):
                                HTTP_ACCEPT_LANGUAGE='fr').content.decode('utf-8')
         self.assertIn('Importer un build DofusBook', page)
         self.assertIn('Lire ce lien', page)
+
+
+class ConstraintsReachedAreShownTests(TestCase):
+    """The minimums the project asked for, each with what the result reached.
+
+    ChatGPT asked for exactly this under the result, and it is the part of the
+    panel a reader can check against their own build at a glance. Both numbers
+    are read rather than recomputed for display: the minimums out of the
+    project, the totals out of the solution the page is already rendering.
+    """
+
+    def _char_with_minimum(self, stat_name='Vitality', value=1000):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from chardata.coaching_view import create_build
+        from chardata.min_stats import set_min_stats
+        owner = User.objects.create_user('mins', 'mins@test.local',
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+        set_min_stats(char, {stat_name: value})
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        return char
+
+    def test_the_minimum_and_what_was_reached_are_both_shown(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution import get_solution
+        from chardata.solution_view import _constraints_reached
+        char = self._char_with_minimum()
+        lignes = _constraints_reached(char, get_solution(char))
+        self.assertTrue(lignes, lignes)
+        vitalite = [l for l in lignes if l['asked'] == 1000]
+        self.assertEqual(1, len(vitalite), lignes)
+        # The solver only returns a set when every constraint holds, so a
+        # minimum it accepted must be met.
+        self.assertTrue(vitalite[0]['met'], vitalite)
+        self.assertGreaterEqual(vitalite[0]['reached'], 1000)
+
+    def test_the_chips_reach_the_page(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        char = self._char_with_minimum()
+        page = self.client.get('/solution/%d/' % char.pk).content.decode('utf-8')
+        self.assertIn('solver-why-goal', page)
+
+    def test_a_project_with_no_minimum_shows_no_chips(self):
+        """Nothing to say is said with nothing."""
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from chardata.coaching_view import create_build
+        from chardata.solution import get_solution
+        from chardata.solution_view import _constraints_reached
+        owner = User.objects.create_user('nomins', 'nomins@test.local',
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        self.assertEqual([], _constraints_reached(char, get_solution(char)))
+
+    def test_a_missed_minimum_is_shown_and_not_hidden(self):
+        """It should never happen, since the solver returns nothing when a
+        constraint cannot hold. Hiding it anyway would hide the only case
+        worth seeing."""
+        from chardata.solution_view import _constraints_reached
+
+        class FausseSolution(object):
+            def get_stats_total(self):
+                return {'vit': 800}
+
+        class FauxChar(object):
+            id = 1
+            minimum_stats = None
+            game_version = 'dofus3'
+
+        from chardata import solution_view
+        vrai = solution_view.get_min_stats_digested_by_key
+        solution_view.get_min_stats_digested_by_key = lambda char: {'vit': 1000}
+        self.addCleanup(setattr, solution_view,
+                        'get_min_stats_digested_by_key', vrai)
+        lignes = _constraints_reached(FauxChar(), FausseSolution())
+        self.assertEqual(1, len(lignes))
+        self.assertFalse(lignes[0]['met'])
+        self.assertEqual(800, lignes[0]['reached'])
+        self.assertEqual(1000, lignes[0]['asked'])
+
+    def test_the_advanced_minimums_are_left_out(self):
+        """adv_mins is a nested structure of per element and per situation
+        minimums; one flat line each would say less than the stat table already
+        below."""
+        from chardata.solution_view import _constraints_reached
+
+        class FausseSolution(object):
+            def get_stats_total(self):
+                return {'vit': 1200}
+
+        class FauxChar(object):
+            id = 1
+            minimum_stats = None
+            game_version = 'dofus3'
+
+        from chardata import solution_view
+        vrai = solution_view.get_min_stats_digested_by_key
+        solution_view.get_min_stats_digested_by_key = lambda char: {
+            'vit': 1000, 'adv_mins': {'anything': 1}}
+        self.addCleanup(setattr, solution_view,
+                        'get_min_stats_digested_by_key', vrai)
+        lignes = _constraints_reached(FauxChar(), FausseSolution())
+        self.assertEqual(['vit'], ['vit'] if len(lignes) == 1 else lignes)

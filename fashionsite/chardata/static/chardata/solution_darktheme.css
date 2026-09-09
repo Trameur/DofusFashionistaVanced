@@ -78,7 +78,8 @@
 .solution-history-notice,
 .solution-history-panel-header,
 .solver-why-title,
-.solver-why-line {
+.solver-why-line,
+.solver-why-goal {
     color: #DDD;
 }
 .solution-item-violates {

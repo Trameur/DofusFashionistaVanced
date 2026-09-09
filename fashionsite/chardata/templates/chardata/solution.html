@@ -375,6 +375,20 @@
         {% else %}
         <p class="solver-why-line">{% blocktrans with limit=solver_time_limit %}Best set found in {{ limit }} seconds. The solver ran out of time before it could prove that nothing beats it, so this is the best it reached, not a proof.{% endblocktrans %}</p>
         {% endif %}
+        {% comment %}The minimums this project set, each with what the result
+        actually reached. This is the one line the reader can check against
+        their own build at a glance, and it is why the panel is the opposite
+        of a black box: both numbers come from the project and from the
+        solution, neither is recomputed for display.
+
+        A minimum that was NOT reached is shown too. The solver only returns a
+        set when every constraint holds, so this should not happen, and hiding
+        it would be hiding the one case worth seeing.{% endcomment %}
+        {% if solver_constraints %}
+        <p class="solver-why-line">
+            {% for line in solver_constraints %}<span class="solver-why-goal{% if not line.met %} solver-why-goal-missed{% endif %}">{{ line.name }} {{ line.reached }}{% if not line.met %} / {{ line.asked }}{% endif %}</span>{% if not forloop.last %} {% endif %}{% endfor %}
+        </p>
+        {% endif %}
         {% comment %}The size of what it searched. The pool is counted from
         the solver's own constraints, so it is what the solver really had on
         offer after this project's exclusions and options, not a recount of
