@@ -4005,8 +4005,8 @@ msgid "Item and character images are property of"
 msgstr "Artikel- und Charakterbilder sind Eigentum von"
 
 #: .\chardata\templates\chardata\license.html:23
-msgid "Character images were generated with"
-msgstr "Charakterbilder wurden mit generiert"
+msgid "Character images were made with"
+msgstr "Die Charakterbilder wurden erstellt mit"
 
 #: .\chardata\templates\chardata\license.html:26
 msgid "Powered by:"
@@ -4498,17 +4498,8 @@ msgid "Last updated: June 2026"
 msgstr "Zuletzt aktualisiert: Juni 2026"
 
 #: .\chardata\templates\chardata\privacy.html:23
-msgid ""
-"The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site "
-"that automatically generates and optimizes equipment sets for the game "
-"Dofus. This page explains what data we collect, why, and the choices you "
-"have. We are not affiliated with Ankama Games."
-msgstr ""
-"Der Dofus Fashionista (\"wir\", \"die Website\") ist eine kostenlose, "
-"quelloffene Fan-Website, die automatisch Ausrüstungs-Sets für das Spiel "
-"Dofus erstellt und optimiert. Diese Seite erklärt, welche Daten wir "
-"erfassen, warum und welche Möglichkeiten Sie haben. Wir sind nicht mit "
-"Ankama Games verbunden."
+msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
+msgstr "Die Dofus Fashionista (\"wir\", \"die Website\") ist eine kostenlose Open-Source-Fanseite, die Ausrüstungssets für das Spiel Dofus automatisch optimiert. Diese Seite erklärt, welche Daten wir erheben, warum, und welche Wahl Sie haben. Wir sind nicht mit Ankama Games verbunden."
 
 #: .\chardata\templates\chardata\privacy.html:25
 msgid "Information we collect"
@@ -5224,7 +5215,7 @@ msgstr "erstellte Charaktere"
 
 #: .\chardata\templates\chardata\sidebar-stats.html:8
 msgid "solver runs"
-msgstr "generierte Sets"
+msgstr "Solver-Läufe"
 
 #: .\chardata\templates\chardata\sidebar-stats.html:9
 #: .\chardata\templates\chardata\user_profile.html:116
@@ -5376,12 +5367,8 @@ msgstr ""
 "Einige Gegenstände haben möglicherweise bessere Optionen für deinen Build:"
 
 #: .\chardata\templates\chardata\solution.html:149
-msgid ""
-"This is a saved generation. Restore it to edit it, or compare it with your "
-"current build."
-msgstr ""
-"Dies ist eine gespeicherte Generierung. Stelle sie wieder her, um sie zu "
-"bearbeiten, oder vergleiche sie mit deinem aktuellen Build."
+msgid "This is a saved solution. Restore it to edit it, or compare it with your current build."
+msgstr "Dies ist eine gespeicherte Lösung. Stellen Sie sie zum Bearbeiten wieder her, oder vergleichen Sie sie mit Ihrem aktuellen Build."
 
 #: .\chardata\templates\chardata\solution.html:154
 #, python-format
@@ -5408,12 +5395,8 @@ msgstr "Wenn Ihnen ein Gegenstand nicht gefällt, klicken Sie unter seinem Namen
 
 #: .\chardata\templates\chardata\solution.html:165
 #, python-format
-msgid ""
-"\n"
-"    This set was generated from scratch. Click the add (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) buttons to choose items and build a set for you."
-msgstr "\nDieses Set wurde von Grund auf neu erstellt. Klicken Sie auf die Schaltflächen „Hinzufügen“ (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Hinzufügen'>), um Gegenstände auszuwählen und ein Set für Sie zu erstellen."
+msgid "\n    This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose the items yourself."
+msgstr "\n    Dieses Set beginnt leer. Klicken Sie auf die Hinzufügen-Schaltflächen (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Hinzufügen'>), um die Gegenstände selbst zu wählen."
 
 #: .\chardata\templates\chardata\solution.html:183
 msgid "Compare with my other sets"

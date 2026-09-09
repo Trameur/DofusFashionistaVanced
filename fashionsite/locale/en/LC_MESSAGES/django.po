@@ -3651,7 +3651,7 @@ msgid "Item and character images are property of"
 msgstr ""
 
 #: .\chardata\templates\chardata\license.html:23
-msgid "Character images were generated with"
+msgid "Character images were made with"
 msgstr ""
 
 #: .\chardata\templates\chardata\license.html:26
@@ -4110,11 +4110,7 @@ msgid "Last updated: June 2026"
 msgstr ""
 
 #: .\chardata\templates\chardata\privacy.html:23
-msgid ""
-"The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site "
-"that automatically generates and optimizes equipment sets for the game "
-"Dofus. This page explains what data we collect, why, and the choices you "
-"have. We are not affiliated with Ankama Games."
+msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
 msgstr ""
 
 #: .\chardata\templates\chardata\privacy.html:25
@@ -4848,12 +4844,8 @@ msgid "Some items may have stronger options for your build:"
 msgstr ""
 
 #: .\chardata\templates\chardata\solution.html:149
-msgid ""
-"This is a saved generation. Restore it to edit it, or compare it with your "
-"current build."
-msgstr ""
-"This is a saved generation. Restore it to edit it, or compare it with your "
-"current build."
+msgid "This is a saved solution. Restore it to edit it, or compare it with your current build."
+msgstr "This is a saved solution. Restore it to edit it, or compare it with your current build."
 
 #: .\chardata\templates\chardata\solution.html:154
 #, python-format
@@ -4880,11 +4872,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\solution.html:165
 #, python-format
-msgid ""
-"\n"
-"    This set was generated from scratch. Click the add (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) buttons to choose items and build a set for you."
+msgid "\n    This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose the items yourself."
 msgstr ""
 
 #: .\chardata\templates\chardata\solution.html:183

@@ -1574,7 +1574,7 @@ msgstr "Sobre o site"
 
 #: .\chardata\templates\chardata\about.html:22
 msgid "The Dofus Fashionista is a fan site about <a href='https://www.dofus.com'>Dofus</a>. It uses <a href='https://en.wikipedia.org/wiki/Integer_programming'>mathematical programming</a> to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 MP with as much Intelligence as possible) the player provides."
-msgstr "O Dofus Fashionista é um fã-site sobre <a href='https://www.dofus.com'>Dofus</a>. Ele usa <a href='https://en.wikipedia.org/wiki/Integer_programming'>programação matemática</a> para gerar sugestões de sets que atendem aos requisitos (ex.: 12 PA, 6 PM com o máximo de Inteligência possível) informados pelo jogador."
+msgstr "O Dofus Fashionista é um fã-site sobre <a href='https://www.dofus.com'>Dofus</a>. Ele usa <a href='https://en.wikipedia.org/wiki/Integer_programming'>programação matemática</a> para encontrar sugestões de sets que atendem aos requisitos (ex.: 12 PA, 6 PM com o máximo de Inteligência possível) informados pelo jogador."
 
 #: .\chardata\templates\chardata\about.html:23
 msgid ""
@@ -3992,8 +3992,8 @@ msgid "Item and character images are property of"
 msgstr "As imagens de personagens e itens são propriedade da"
 
 #: .\chardata\templates\chardata\license.html:23
-msgid "Character images were generated with"
-msgstr "As imagens de personagens foram criadas através do site"
+msgid "Character images were made with"
+msgstr "As imagens de personagem foram feitas com"
 
 #: .\chardata\templates\chardata\license.html:26
 msgid "Powered by:"
@@ -4470,16 +4470,8 @@ msgid "Last updated: June 2026"
 msgstr "Última atualização: junho de 2026"
 
 #: .\chardata\templates\chardata\privacy.html:23
-msgid ""
-"The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site "
-"that automatically generates and optimizes equipment sets for the game "
-"Dofus. This page explains what data we collect, why, and the choices you "
-"have. We are not affiliated with Ankama Games."
-msgstr ""
-"O Dofus Fashionista (\"nós\", \"o site\") é um site de fãs gratuito e de "
-"código aberto que gera e otimiza automaticamente sets de equipamento para o "
-"jogo Dofus. Esta página explica quais dados coletamos, por quê, e as opções "
-"que você tem. Não somos afiliados à Ankama Games."
+msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
+msgstr "O Dofus Fashionista (\"nós\", \"o site\") é um fã-site gratuito e de código aberto que otimiza automaticamente equipamentos para o jogo Dofus. Esta página explica que dados recolhemos, porquê, e as escolhas que tem. Não somos afiliados à Ankama Games."
 
 #: .\chardata\templates\chardata\privacy.html:25
 msgid "Information we collect"
@@ -5187,7 +5179,7 @@ msgstr "personagens criados"
 
 #: .\chardata\templates\chardata\sidebar-stats.html:8
 msgid "solver runs"
-msgstr "sets gerados"
+msgstr "resoluções"
 
 #: .\chardata\templates\chardata\sidebar-stats.html:9
 #: .\chardata\templates\chardata\user_profile.html:116
@@ -5338,12 +5330,8 @@ msgid "Some items may have stronger options for your build:"
 msgstr "Alguns itens podem ter opções melhores para o seu build:"
 
 #: .\chardata\templates\chardata\solution.html:149
-msgid ""
-"This is a saved generation. Restore it to edit it, or compare it with your "
-"current build."
-msgstr ""
-"Esta é uma geração salva. Restaure para editar, ou compare com o seu build "
-"atual."
+msgid "This is a saved solution. Restore it to edit it, or compare it with your current build."
+msgstr "Esta é uma solução salva. Restaure-a para editá-la, ou compare-a com o seu build atual."
 
 #: .\chardata\templates\chardata\solution.html:154
 #, python-format
@@ -5380,12 +5368,8 @@ msgstr ""
 
 #: .\chardata\templates\chardata\solution.html:165
 #, python-format
-msgid ""
-"\n"
-"    This set was generated from scratch. Click the add (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) buttons to choose items and build a set for you."
-msgstr "\n    Este set foi criado manualmente. Clique nos botões adicionar (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Adicionar'>) para escolher os itens e criar um set para você."
+msgid "\n    This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose the items yourself."
+msgstr "\n    Este equipamento começa vazio. Clique nos botões de adicionar (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Adicionar'>) para escolher os itens você mesmo."
 
 #: .\chardata\templates\chardata\solution.html:183
 msgid "Compare with my other sets"

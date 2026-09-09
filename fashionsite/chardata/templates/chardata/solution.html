@@ -161,7 +161,7 @@
 
     {% if is_generation_snapshot %}
     <p class="text">
-        {% trans "This is a saved generation. Restore it to edit it, or compare it with your current build." %}
+        {% trans "This is a saved solution. Restore it to edit it, or compare it with your current build." %}
     </p>
     {% elif is_generated %}
     <p class="text">
@@ -178,7 +178,7 @@
     {% else %}
     <p class="text">
     {% blocktrans with add=add_item %}
-    This set was generated from scratch. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src={{add}} title='Add'>) buttons to choose items and build a set for you.{% endblocktrans %}
+    This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src={{add}} title='Add'>) buttons to choose the items yourself.{% endblocktrans %}
     </p>
     {% endif %}
 

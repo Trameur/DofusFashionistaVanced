@@ -1736,19 +1736,13 @@ msgstr "Publicité"
 
 #: .\chardata\templates\chardata\base.html:14
 #, python-format
-msgid ""
-"Get Dofus %(version)s sets created automatically, based on your specific "
-"needs."
-msgstr ""
-"Obtenez des panoplies Dofus %(version)s générées automatiquement, selon vos "
-"besoins précis."
+msgid "Get Dofus %(version)s sets created automatically, based on your specific needs."
+msgstr "Obtenez des panoplies Dofus %(version)s optimisées automatiquement, selon vos besoins précis."
 
 #: .\chardata\templates\chardata\base.html:14
 #: .\chardata\templates\chardata\solution.html:10
 msgid "Get Dofus sets created automatically, based on your specific needs."
-msgstr ""
-"Obtenez des panoplies Dofus générées automatiquement, selon vos besoins "
-"précis."
+msgstr "Obtenez des panoplies Dofus optimisées automatiquement, selon vos besoins précis."
 
 #: .\chardata\templates\chardata\base.html:20
 #: .\chardata\templates\chardata\home.html:4
@@ -1931,7 +1925,7 @@ msgstr "Moins"
 #: .\chardata\templates\chardata\solution.html:346
 #: .\chardata\templates\chardata\wizard.html:46
 msgid "Tailor a New Set"
-msgstr "Générer un nouvel équipement"
+msgstr "Créer un nouvel équipement"
 
 #: .\chardata\templates\chardata\base.html:282
 #: .\chardata\templates\chardata\solution.html:8
@@ -3135,7 +3129,7 @@ msgstr "Vous voulez un contrôle total sur chaque caractéristique ?"
 
 #: .\chardata\templates\chardata\coaching.html:103
 msgid "Use the full builder instead"
-msgstr "Utilisez plutôt le générateur complet"
+msgstr "Utilisez plutôt l’éditeur complet"
 
 #: .\chardata\templates\chardata\compare_sets.html:10
 #: .\chardata\templates\chardata\compare_sets.html:21
@@ -4026,8 +4020,8 @@ msgid "Item and character images are property of"
 msgstr "Les images des objets et personnages sont la propriété d'"
 
 #: .\chardata\templates\chardata\license.html:23
-msgid "Character images were generated with"
-msgstr "Les images des personnages sont créés grâce à"
+msgid "Character images were made with"
+msgstr "Les images de personnage ont été réalisées avec"
 
 #: .\chardata\templates\chardata\license.html:26
 msgid "Powered by:"
@@ -4514,17 +4508,8 @@ msgid "Last updated: June 2026"
 msgstr "Dernière mise à jour : juin 2026"
 
 #: .\chardata\templates\chardata\privacy.html:23
-msgid ""
-"The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site "
-"that automatically generates and optimizes equipment sets for the game "
-"Dofus. This page explains what data we collect, why, and the choices you "
-"have. We are not affiliated with Ankama Games."
-msgstr ""
-"Le Dofus Fashionista (« nous », « le site ») est un site de fans gratuit et "
-"open-source qui génère et optimise automatiquement des panoplies "
-"d'équipement pour le jeu Dofus. Cette page explique quelles données nous "
-"collectons, pourquoi, et les choix dont vous disposez. Nous ne sommes pas "
-"affiliés à Ankama Games."
+msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
+msgstr "Le Dofus Fashionista (\"nous\", \"le site\") est un fan-site gratuit et open source qui optimise automatiquement des panoplies pour le jeu Dofus. Cette page explique quelles données nous collectons, pourquoi, et les choix dont vous disposez. Nous ne sommes pas affiliés à Ankama Games."
 
 #: .\chardata\templates\chardata\privacy.html:25
 msgid "Information we collect"
@@ -5242,7 +5227,7 @@ msgstr "personnages créés"
 
 #: .\chardata\templates\chardata\sidebar-stats.html:8
 msgid "solver runs"
-msgstr "stuffs générés"
+msgstr "résolutions"
 
 #: .\chardata\templates\chardata\sidebar-stats.html:9
 #: .\chardata\templates\chardata\user_profile.html:116
@@ -5395,12 +5380,8 @@ msgstr ""
 "Certains objets pourraient avoir de meilleures options pour votre build :"
 
 #: .\chardata\templates\chardata\solution.html:149
-msgid ""
-"This is a saved generation. Restore it to edit it, or compare it with your "
-"current build."
-msgstr ""
-"C'est une génération sauvegardée. Restaure-la pour la modifier, ou compare-"
-"la à ton stuff actuel."
+msgid "This is a saved solution. Restore it to edit it, or compare it with your current build."
+msgstr "Ceci est une solution enregistrée. Restaurez-la pour la modifier, ou comparez-la avec votre build actuel."
 
 #: .\chardata\templates\chardata\solution.html:154
 #, python-format
@@ -5437,16 +5418,8 @@ msgstr ""
 
 #: .\chardata\templates\chardata\solution.html:165
 #, python-format
-msgid ""
-"\n"
-"    This set was generated from scratch. Click the add (<img "
-"style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Add'>) buttons to choose items and build a set for you."
-msgstr ""
-"\n"
-"    Ce stuff a été conçu à partir de rien. Cliquez sur le bouton ajouter "
-"(<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s "
-"title='Ajouter'>) pour choisir des équipements et créer votre propre stuff."
+msgid "\n    This set starts empty. Click the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons to choose the items yourself."
+msgstr "\n    Cet équipement part de zéro. Cliquez sur les boutons d’ajout (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Ajouter'>) pour choisir les objets vous-même."
 
 #: .\chardata\templates\chardata\solution.html:183
 msgid "Compare with my other sets"
@@ -6045,7 +6018,7 @@ msgstr "Sauvegarder"
 
 #: .\chardata\templates\chardata\state_engine_all_buttons.html:6
 msgid "Save and Tailor a New Set"
-msgstr "Sauvegarder et générer un nouvel équipement"
+msgstr "Sauvegarder et créer un nouvel équipement"
 
 #: .\chardata\templates\chardata\stats.html:17
 msgid "The value of each attribute point for this character."

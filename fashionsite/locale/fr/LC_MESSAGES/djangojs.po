@@ -348,12 +348,8 @@ msgstr "Vous ne pouvez pas équiper cet item."
 
 #: .\chardata\static\chardata\solution_popup.js:493
 #, javascript-format
-msgid ""
-" To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> "
-"and tailor a new set."
-msgstr ""
-" Pour trouver un équipement qui l'inclut, verrouillez le <a "
-"href=\"/inclusions/%s/\">ici</a> et générez un nouvel équipement."
+msgid " To find a set including it, lock it <a href=\"/inclusions/%s/\">here</a> and tailor a new set."
+msgstr " Pour trouver un équipement qui l’inclut, verrouillez-le <a href=\\\"/inclusions/%s/\\\">ici</a> et créez un nouvel équipement."
 
 #: .\chardata\static\chardata\solution_popup.js:501
 msgid ""
@@ -364,12 +360,8 @@ msgstr ""
 
 #: .\chardata\static\chardata\solution_popup.js:503
 #, javascript-format
-msgid ""
-" To find a set including it that fulfills these conditions, lock it <a "
-"href=\"/inclusions/%s/\">here</a> and tailor a new set."
-msgstr ""
-" Pour trouver un équipement qui l'inclut, verrouillez le <a "
-"href=\"/inclusions/%s/\">ici</a> et générez un nouvel équipement."
+msgid " To find a set including it that fulfills these conditions, lock it <a href=\"/inclusions/%s/\">here</a> and tailor a new set."
+msgstr " Pour trouver un équipement qui l’inclut et remplit ces conditions, verrouillez-le <a href=\\\"/inclusions/%s/\\\">ici</a> et créez un nouvel équipement."
 
 #: .\chardata\static\chardata\solution_popup.js:569
 msgid "There are no differences."

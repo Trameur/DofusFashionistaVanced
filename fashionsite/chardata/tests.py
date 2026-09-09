@@ -51,6 +51,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+import unicodedata
 import unittest
 
 
@@ -7513,7 +7514,7 @@ class SolutionGenerationHistoryTests(TestCase):
         snapshot_resp = self.client.get('/solutiongeneration/%d/%d/' % (char.pk, generation.pk))
         self.assertEqual(snapshot_resp.status_code, 200)
         self.assertContains(snapshot_resp, 'Viewing a saved solution')
-        self.assertContains(snapshot_resp, 'This is a saved generation')
+        self.assertContains(snapshot_resp, 'This is a saved solution')
 
         compare_resp = self.client.get('/compare_sets/%d/g%d/' % (char.pk, generation.pk))
         self.assertEqual(compare_resp.status_code, 200)
@@ -29296,3 +29297,89 @@ class WhyThisResultPanelTests(TestCase):
         char = self._solve()
         page = self._page(char, HTTP_ACCEPT_LANGUAGE='fr')
         self.assertIn('Pourquoi ce r\u00e9sultat', page)
+
+
+class NoTranslationSaysGeneratedOnItsOwnTests(SimpleTestCase):
+    """A translation must not reach for "generated" when the English does not.
+
+    The repositioning away from generative-product vocabulary was done once by
+    scanning English strings, and it missed everything in this class, because
+    no scan of English can find a word that only exists in the translation.
+    What it missed included the main button: the English said "Tailor a New
+    Set" and the French said "Generer un nouvel equipement", so the French
+    reader, who is most of the audience for a Dofus tool, had the generative
+    word on the primary call to action the whole time.
+
+    It also missed the meta descriptions, which are the text under the link in
+    a search engine, because they are wrapped across several lines in the .po
+    and the scan read line by line.
+
+    The changelog is exempt: it dates what shipped and when, and rewriting it
+    would be rewriting history.
+    """
+
+    #: language -> the generative verb family in that language.
+    MOTS = {
+        'fr': r'g\u00e9n\u00e9r[a-z\u00e9\u00e8]*',
+        'es': r'gener[ao]d[ao]s?|generaci\u00f3n\w*|generar\w*',
+        'pt': r'ger[ao]d[ao]s?|gera\u00e7\u00e3o|gera\u00e7\u00f5es|gerar\w*',
+        'de': r'generier[a-z]*|generierung\w*',
+    }
+    #: The Dofus characteristic, the ordinary adjectives and the generous
+    #: neighbour are not the generative vocabulary.
+    INNOCENTS = r'g\u00e9n\u00e9ral\w*|general\w*|generic\w*|g\u00e9n\u00e9reux|generoso|generous'
+
+    def test_no_translation_introduces_the_word(self):
+        try:
+            import polib
+        except ImportError:
+            self.skipTest('polib not installed')
+        anglais = re.compile(r'(?i)\b(generat[a-z]*|generation\w*)\b')
+        innocents = re.compile(r'(?i)\b(%s)\b' % self.INNOCENTS)
+        locale_dir = os.path.join(os.path.dirname(__file__), '..', 'locale')
+        for langue, mots in self.MOTS.items():
+            motif = re.compile(r'(?i)\b(%s)\b' % mots)
+            for po_path in glob.glob(os.path.join(
+                    locale_dir, langue, 'LC_MESSAGES', '*.po')):
+                po = polib.pofile(po_path)
+                coupables = []
+                for entree in po:
+                    if entree.obsolete or not entree.msgstr:
+                        continue
+                    source = innocents.sub(' ', entree.msgid)
+                    traduit = innocents.sub(' ', entree.msgstr)
+                    if motif.search(traduit) and not anglais.search(source):
+                        coupables.append(entree.msgid[:60])
+                with self.subTest(po=os.path.relpath(po_path, locale_dir)):
+                    self.assertEqual(coupables, [], msg=(
+                        '%s: %d translation(s) say "generated" where the '
+                        'English does not: %s'
+                        % (langue, len(coupables), coupables)))
+
+    def test_the_main_button_is_not_generative_in_any_language(self):
+        """The one that started this. It is the primary call to action on
+        every project page."""
+        interdits = ('generer', 'genere', 'generar', 'gerar', 'generier')
+        for langue in ('fr', 'es', 'pt', 'de'):
+            with self.subTest(langue=langue):
+                with translation.override(langue):
+                    rendu = gettext('Tailor a New Set')
+                self.assertNotEqual(rendu, 'Tailor a New Set', langue)
+                plie = unicodedata.normalize('NFKD', rendu.lower())
+                plie = ''.join(c for c in plie if not unicodedata.combining(c))
+                for interdit in interdits:
+                    self.assertNotIn(interdit, plie)
+
+    def test_the_meta_descriptions_are_not_generative(self):
+        """These are the words under the link in a search engine, so they are
+        the first thing anyone reads about the site."""
+        msgid = ('Get Dofus sets created automatically, based on your '
+                 'specific needs.')
+        for langue in ('fr', 'es', 'pt', 'de'):
+            with self.subTest(langue=langue):
+                with translation.override(langue):
+                    rendu = gettext(msgid)
+                plie = unicodedata.normalize('NFKD', rendu.lower())
+                plie = ''.join(c for c in plie if not unicodedata.combining(c))
+                for interdit in ('generee', 'generad', 'gerad', 'generier'):
+                    self.assertNotIn(interdit, plie)
