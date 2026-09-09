@@ -29226,7 +29226,7 @@ class WhyThisResultPanelTests(TestCase):
             self.skipTest('no pulp solver available')
         from chardata.solution import get_solver_facts
         char = self._solve()
-        proven, seconds = get_solver_facts(char.minimal_solution)
+        proven, seconds, _pool = get_solver_facts(char.minimal_solution)
         # `proven` must be a real boolean: False is an answer, and the
         # important one.
         self.assertIn(proven, (True, False))
@@ -29238,7 +29238,7 @@ class WhyThisResultPanelTests(TestCase):
             self.skipTest('no pulp solver available')
         from chardata.solution import get_solver_facts
         char = self._solve()
-        proven, _seconds = get_solver_facts(char.minimal_solution)
+        proven, _seconds, _pool = get_solver_facts(char.minimal_solution)
         page = self._page(char)
         self.assertIn('solver-why', page)
         if proven:
@@ -29383,3 +29383,132 @@ class NoTranslationSaysGeneratedOnItsOwnTests(SimpleTestCase):
                 plie = ''.join(c for c in plie if not unicodedata.combining(c))
                 for interdit in ('generee', 'generad', 'gerad', 'generier'):
                     self.assertNotIn(interdit, plie)
+
+
+class SearchSpaceShownIsTheOneTheSolverSawTests(TestCase):
+    """How big the search was, counted from the solver's own constraints.
+
+    Recounting the catalogue in the view would have been easier and would have
+    drifted: modify_forbidden_items_constraints is forty lines of shields,
+    trophies, dofus modes, mount families and prysmaradites, and a second copy
+    of that logic would eventually disagree with the first. Reading the right
+    hand sides the solver was actually given cannot disagree with it.
+    """
+
+    def _solve(self, forbid=None):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from chardata.coaching_view import create_build
+        owner = User.objects.create_user('space%s' % (forbid or 'none'),
+                                         'space@test.local', 'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        return char
+
+    def test_the_pool_is_what_the_solver_could_choose_from(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution import get_solver_facts
+        from fashionistapulp.structure import get_structure
+        char = self._solve()
+        _proven, _seconds, pool = get_solver_facts(char.minimal_solution)
+        self.assertTrue(pool, pool)
+        # Never more than the catalogue itself, and not a rounding of it
+        # either: a level 200 Iop cannot reach every item, and the default
+        # exclusions take more out.
+        structure = get_structure('dofus3')
+        self.assertLessEqual(sum(pool.values()), len(structure.items_dict))
+        self.assertGreater(sum(pool.values()), 1000)
+        for type_name in ('Hat', 'Cloak', 'Amulet', 'Belt', 'Boots', 'Ring',
+                          'Weapon'):
+            with self.subTest(type_name=type_name):
+                self.assertGreater(pool.get(type_name, 0), 0)
+
+    def test_forbidding_an_item_takes_it_out_of_the_pool(self):
+        """The number has to move when the player moves it, or it is
+        decoration."""
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.lock_forbid import (get_all_exclusions_en_names,
+                                          set_exclusions_list_by_name)
+        from chardata.solution import get_solver_facts
+        from fashionistapulp.structure import get_structure
+        char = self._solve()
+        _p, _s, avant = get_solver_facts(char.minimal_solution)
+        structure = get_structure('dofus3')
+        # The union, not a replacement: a new project already carries default
+        # exclusions, and handing over a bare list of five hats DELETES those,
+        # which put more hats on offer than before. The first version of this
+        # test did exactly that and read 377 where it expected 370.
+        deja = set(get_all_exclusions_en_names(char))
+        chapeaux = [item.name for item in structure.types[200]['Hat']
+                    if not item.removed and item.name not in deja][:5]
+        self.assertEqual(5, len(chapeaux))
+        set_exclusions_list_by_name(char, sorted(deja | set(chapeaux)))
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        _p2, _s2, apres = get_solver_facts(char.minimal_solution)
+        self.assertEqual(avant['Hat'] - 5, apres['Hat'],
+                         'forbidding five hats must remove five hats')
+
+    def test_the_exponent_counts_empty_slots_as_a_choice(self):
+        """Exactly k per type would make a player who forbids every dofus get
+        C(0, 6) = 0, and the whole product would collapse to zero possible
+        sets. Summing over 0..k says the truth and never collapses."""
+        from chardata.solution_view import _search_space_exponent
+        sans_dofus = {'Hat': 300, 'Cloak': 300, 'Amulet': 300, 'Belt': 300,
+                      'Boots': 300, 'Shield': 100, 'Weapon': 700,
+                      'Ring': 300, 'Pet': 400, 'Dofus': 0}
+        exposant = _search_space_exponent(sans_dofus)
+        self.assertIsNotNone(exposant)
+        self.assertGreater(exposant, 6)
+
+    def test_a_tiny_pool_says_nothing_rather_than_something_silly(self):
+        """"More than 10 to the power of 2" is not an argument."""
+        from chardata.solution_view import _search_space_exponent
+        self.assertIsNone(_search_space_exponent({'Hat': 2}))
+        self.assertIsNone(_search_space_exponent({}))
+        self.assertIsNone(_search_space_exponent(None))
+
+    def test_the_exponent_is_a_floor_and_never_overstates(self):
+        """The page says "more than 10 to the power of N", so N must be at
+        most the real log10, never above it."""
+        import math
+        from chardata.solution_view import _search_space_exponent
+        pool = {'Hat': 10, 'Cloak': 10, 'Amulet': 10, 'Belt': 10, 'Boots': 10,
+                'Shield': 10, 'Weapon': 10, 'Ring': 10, 'Pet': 10, 'Dofus': 10}
+        total = 1
+        from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT_NUMBER
+        for type_name, slots in TYPE_NAME_TO_SLOT_NUMBER.items():
+            n = pool.get(type_name, 0)
+            total *= sum(math.comb(n, k) for k in range(0, min(n, slots) + 1))
+        self.assertEqual(len(str(total)) - 1, _search_space_exponent(pool))
+        self.assertGreater(total, 10 ** _search_space_exponent(pool))
+
+    def test_the_page_shows_both_numbers(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution import get_solver_facts
+        char = self._solve()
+        _proven, _seconds, pool = get_solver_facts(char.minimal_solution)
+        page = self.client.get('/solution/%d/' % char.pk).content.decode('utf-8')
+        self.assertIn('%d items were on offer' % sum(pool.values()), page)
+        self.assertIn('10 to the power of', page)
+
+    def test_an_old_solution_shows_no_numbers(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        import pickle
+        char = self._solve()
+        minimal = pickle.loads(char.minimal_solution)
+        del minimal.candidate_pool
+        char.minimal_solution = pickle.dumps(minimal)
+        char.save()
+        page = self.client.get('/solution/%d/' % char.pk).content.decode('utf-8')
+        self.assertNotIn('items were on offer', page)
+        # The rest of the panel still shows: the facts are independent.
+        self.assertIn('solver-why', page)

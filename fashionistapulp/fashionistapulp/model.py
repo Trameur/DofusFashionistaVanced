@@ -1387,6 +1387,33 @@ class Model:
     def get_solved_status(self):
         return self.problem.get_status()
 
+    def get_candidate_pool(self):
+        """{type name: how many items the solver was free to choose from}.
+
+        Read from the restrictions themselves and not re-derived from the
+        inputs. modify_level_constraints and modify_forbidden_items_constraints
+        each set a per item right hand side to 0 or 1, so an item is a
+        candidate exactly when neither of them forced it to zero. The option
+        logic in the second is forty lines of shields, trophies, dofus modes,
+        mount families and prysmaradites; copying it here to recount would be
+        inviting the page and the solver to disagree about what was on offer.
+
+        Must be read before the model goes back to the pool, like
+        solution_is_proven: after return_model it belongs to the queue.
+        """
+        pool = {}
+        for item in self.items_list:
+            level = self.restrictions.level_constraints.get(item.id)
+            forbidden = self.restrictions.forbidden_items_constraints.get(item.id)
+            if level is None or forbidden is None:
+                continue
+            # PuLP stores a <= constraint's right hand side negated.
+            if -level.constant <= 0 or -forbidden.constant <= 0:
+                continue
+            type_name = self.structure.get_type_name_by_id(item.type)
+            pool[type_name] = pool.get(type_name, 0) + 1
+        return pool
+
     def get_solution_status(self):
         """"Optimal Solution Found" or "Solution Found". Not the same question
         as get_solved_status: see LpProblem2.get_solution_status."""

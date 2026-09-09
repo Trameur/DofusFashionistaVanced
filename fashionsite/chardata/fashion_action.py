@@ -159,6 +159,7 @@ def fashion(request, char_id, spells=False):
             model.run(2)
             solved_status = model.get_solved_status()
             proven = model.solution_is_proven()
+            pool = model.get_candidate_pool()
             if solved_status == 'Optimal':
                 stats = model.get_stats()
                 result = model.get_result_minimal()
@@ -170,6 +171,8 @@ def fashion(request, char_id, spells=False):
             # Lu ici pour la meme raison que `solved_status` juste au-dessus :
             # apres `return_model` le modele appartient a la file.
             proven = model.solution_is_proven()
+            # Lu ici pour la meme raison, et avant return_model.
+            pool = model.get_candidate_pool()
             if solved_status == 'Optimal':
                 stats = model.get_stats()
                 result = model.get_result_minimal()
@@ -190,6 +193,7 @@ def fashion(request, char_id, spells=False):
             # nothing at all rather than guessing.
             result.proven = proven
             result.solve_seconds = time.monotonic() - started
+            result.candidate_pool = pool
         MEMORY.put(model_input, (solved_status, stats, result))
 
     if result is None:

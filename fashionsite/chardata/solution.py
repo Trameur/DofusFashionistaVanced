@@ -44,11 +44,11 @@ def get_solution(char):
     return None
 
 def get_solver_facts(minimal_solution_blob):
-    """(proven, seconds), or (None, None) when the answer predates them.
+    """(proven, seconds, candidate pool), each None when it predates them.
 
     Read from the pickled minimal solution and not from the ModelResult the
     page works with: model_result_from_minimal builds a different object and
-    these two facts do not survive the trip, which is exactly how they came
+    these facts do not survive the trip, which is exactly how they came
     back missing the first time they were wired up.
 
     None means the solver never told us, and the panel then shows nothing.
@@ -56,13 +56,14 @@ def get_solver_facts(minimal_solution_blob):
     reader most needs, so the two must never be conflated.
     """
     if not minimal_solution_blob:
-        return None, None
+        return None, None, None
     try:
         minimal = pickle.loads(minimal_solution_blob)
     except Exception:
-        return None, None
+        return None, None, None
     return (getattr(minimal, 'proven', None),
-            getattr(minimal, 'solve_seconds', None))
+            getattr(minimal, 'solve_seconds', None),
+            getattr(minimal, 'candidate_pool', None))
 
 
 def set_solution(char, solution):

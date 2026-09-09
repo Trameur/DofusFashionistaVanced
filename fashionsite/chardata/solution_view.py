@@ -21,6 +21,7 @@ from django.db.models import Count, F
 from django.core.cache import cache
 import ipaddress
 import json
+import math
 import logging
 import pickle
 
@@ -60,7 +61,9 @@ from datetime import timedelta
 from chardata.solution_result import SolutionResult
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, HttpResponseJson, get_base_stats_by_attr, version_reverse
-from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER, TYPE_NAME_TO_SLOT
+from fashionistapulp.dofus_constants import (SLOTS, STAT_ORDER,
+                                             TYPE_NAME_TO_SLOT,
+                                             TYPE_NAME_TO_SLOT_NUMBER)
 
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.structure import get_structure
@@ -85,6 +88,35 @@ _UPGRADE_MAX_HINTS = 4
 # damage/AP and Dofus/Pet on unique effects, so a flat stat score means nothing
 # there.
 _CHECKED_SLOTS = {'Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots', 'Shield'}
+
+
+#: Below this the sentence about the size of the search space is not worth
+#: saying: "more than 10 to the power of 2" is not an argument.
+_SEARCH_SPACE_MIN_EXPONENT = 6
+
+
+def _search_space_exponent(pool):
+    """floor(log10) of the number of sets those candidates could form, or None.
+
+    Slots of one type are interchangeable, so two rings out of N is C(N, 2)
+    and not N squared, and a slot may be left empty, so it is the sum over
+    0..k rather than exactly k. That second point is not decoration: with
+    exactly k, a player who forbids every dofus gets C(0, 6) = 0 and the whole
+    product collapses to zero possible sets, which is absurd and would be
+    printed on the page.
+
+    The exponent rather than the number itself: this is a thirty-eight digit
+    integer, and nobody reads those.
+    """
+    if not pool:
+        return None
+    total = 1
+    for type_name, slots in TYPE_NAME_TO_SLOT_NUMBER.items():
+        available = pool.get(type_name, 0)
+        total *= sum(math.comb(available, taken)
+                     for taken in range(0, min(available, slots) + 1))
+    exponent = len(str(total)) - 1
+    return exponent if exponent >= _SEARCH_SPACE_MIN_EXPONENT else None
 
 
 def _resolve_structure_item(structure, name):
@@ -509,9 +541,11 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     # indistinguishable and the site would be claiming a proof it does not
     # have. This is the sentence no generative system can write about its own
     # output, which is exactly why it belongs on the page.
-    solver_proven, solver_seconds = get_solver_facts(
+    solver_proven, solver_seconds, solver_pool = get_solver_facts(
         generation.minimal_solution if generation is not None
         else char.minimal_solution)
+    solver_pool_total = None if solver_pool is None else sum(solver_pool.values())
+    solver_space_exponent = _search_space_exponent(solver_pool)
 
     vote_data = _get_live_vote_data(request, char)
     class_avatar = get_class_avatar(char)
@@ -586,6 +620,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'current_solution_compare_id': char.id,
               'disable_solution_item_actions': is_generation_snapshot,
               'solver_proven': solver_proven,
+              'solver_pool_total': solver_pool_total,
+              'solver_space_exponent': solver_space_exponent,
               'solver_seconds': (None if solver_seconds is None
                                  else round(solver_seconds, 1)),
               'solver_time_limit': SOLVER_TIME_LIMIT_SECONDS,

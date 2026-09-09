@@ -7000,3 +7000,13 @@ msgstr "Calculado em %(seconds)s s."
 #: .\chardata\templates\chardata\solution.html:358
 msgid "How the optimizer works"
 msgstr "Como o otimizador funciona"
+
+#: .\chardata\templates\chardata\solution.html:366
+#, python-format
+msgid "%(items)s items were on offer after your exclusions."
+msgstr "%(items)s itens estavam disponíveis após as suas exclusões."
+
+#: .\chardata\templates\chardata\solution.html:366
+#, python-format
+msgid "They can be arranged into more than 10 to the power of %(exponent)s different sets, and the solver did not try them one at a time."
+msgstr "Eles podem formar mais de 10 elevado a %(exponent)s equipamentos diferentes, e o solver não os testou um a um."

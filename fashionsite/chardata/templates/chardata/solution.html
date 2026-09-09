@@ -375,6 +375,13 @@
         {% else %}
         <p class="solver-why-line">{% blocktrans with limit=solver_time_limit %}Best set found in {{ limit }} seconds. The solver ran out of time before it could prove that nothing beats it, so this is the best it reached, not a proof.{% endblocktrans %}</p>
         {% endif %}
+        {% comment %}The size of what it searched. The pool is counted from
+        the solver's own constraints, so it is what the solver really had on
+        offer after this project's exclusions and options, not a recount of
+        the catalogue that could drift away from it.{% endcomment %}
+        {% if solver_pool_total %}
+        <p class="solver-why-line">{% blocktrans with items=solver_pool_total %}{{ items }} items were on offer after your exclusions.{% endblocktrans %}{% if solver_space_exponent %} {% blocktrans with exponent=solver_space_exponent %}They can be arranged into more than 10 to the power of {{ exponent }} different sets, and the solver did not try them one at a time.{% endblocktrans %}{% endif %}</p>
+        {% endif %}
         {% if solver_seconds is not None %}
         <p class="solver-why-line">{% blocktrans with seconds=solver_seconds %}Computed in {{ seconds }} s.{% endblocktrans %}</p>
         {% endif %}
