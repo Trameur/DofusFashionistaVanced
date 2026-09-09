@@ -28373,3 +28373,86 @@ class EverySpellIconOnDiskIsAskedForByItsRealNameTests(SimpleTestCase):
             self.assertEqual(attendu,
                              _reference_icon_name(entree, 'peu importe', version),
                              version)
+
+
+class ScreenshotStatParserNeverInventsANumberTests(SimpleTestCase):
+    """The screenshot reader used to turn an unreadable line into a number.
+
+    parseStatLine strips a leading junk group on purpose, because the stat icon
+    is often read as a digit: "4 50 Force" really is 50. But the same rule used
+    to fire on three groups or more and JOIN them, so a range whose separator
+    was misread came out as a single large number. The range guard only knows
+    the separators a, a-grave, to and bis, so "57 a-grave 76 Force" read as
+    "57 4 76 Force" produced 476, and "3 4 5 60 Force" produced 4560. Those
+    values do not stop there: parse_custom_stats clamps only to
+    [-9999, 99999] and get_inventory_stat_overrides turns them into solver
+    stat overrides, so the solver optimised around a roll the item never had.
+
+    The parser lives in a Django template, so it is extracted and run under
+    node. That is uglier than importing it, but the alternative is no test at
+    all: this file had none for any part of the screenshot reader.
+    """
+
+    GABARIT = os.path.join(os.path.dirname(__file__), 'templates', 'chardata',
+                           'inventory.html')
+    LEXIQUE = {'force': 'str', 'vitalite': 'vit'}
+
+    @staticmethod
+    def _extract(source, nom):
+        """The named function, by brace matching. No literal in either
+        function contains a brace, which the caller asserts."""
+        debut = source.index('function %s(' % nom)
+        ouvrante = source.index('{', debut)
+        profondeur = 0
+        for position in range(ouvrante, len(source)):
+            if source[position] == '{':
+                profondeur += 1
+            elif source[position] == '}':
+                profondeur -= 1
+                if profondeur == 0:
+                    return source[debut:position + 1]
+        raise AssertionError('unbalanced braces in %s' % nom)
+
+    def _parse(self, lines):
+        node = shutil.which('node')
+        if node is None:
+            self.skipTest('node not installed')
+        source = io.open(self.GABARIT, encoding='utf-8').read()
+        morceaux = [self._extract(source, 'ocrNormalize'),
+                    self._extract(source, 'parseStatLine')]
+        for morceau in morceaux:
+            self.assertTrue(morceau.endswith('}'), morceau[-40:])
+        self.assertIn('return key ?', morceaux[1])
+        script = '\n'.join(morceaux) + (
+            '\nconst lexicon = %s;\n'
+            'console.log(JSON.stringify(%s.map('
+            'l => parseStatLine(l, lexicon))));\n'
+            % (json.dumps(self.LEXIQUE), json.dumps(lines)))
+        dossier = tempfile.mkdtemp()
+        try:
+            chemin = os.path.join(dossier, 'parse.js')
+            io.open(chemin, 'w', encoding='utf-8').write(script)
+            sortie = subprocess.run([node, chemin], capture_output=True,
+                                    text=True, encoding='utf-8', timeout=60)
+            self.assertEqual(0, sortie.returncode, sortie.stderr)
+            return json.loads(sortie.stdout)
+        finally:
+            shutil.rmtree(dossier, ignore_errors=True)
+
+    def test_a_line_nobody_can_read_comes_back_unread(self):
+        lignes = [u'57 \u00e0 76 Force', u'57 4 76 Force', u'3 4 5 60 Force']
+        self.assertEqual([None, None, None], self._parse(lignes))
+
+    def test_the_stat_icon_read_as_a_digit_is_still_stripped(self):
+        """The behaviour the joining rule existed for, which must survive."""
+        self.assertEqual([{'key': 'str', 'value': 50},
+                          {'key': 'str', 'value': 38},
+                          {'key': 'str', 'value': -20}],
+                         self._parse([u'4 50 Force', u'38 Force',
+                                      u'-20 Force']))
+
+    def test_thousands_groups_are_still_one_number(self):
+        self.assertEqual([{'key': 'vit', 'value': 1000},
+                          {'key': 'vit', 'value': 1234567}],
+                         self._parse([u'1 000 Vitalite',
+                                      u'1 234 567 Vitalite']))

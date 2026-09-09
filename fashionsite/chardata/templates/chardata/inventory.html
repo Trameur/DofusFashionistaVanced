@@ -429,9 +429,20 @@
             if (!match) {
                 return null;
             }
-            // "1 000" / "1.000" are thousands (3-digit groups); anything else
-            // with several groups means the stat icon was read as a digit,
-            // so the first group is junk ("4 50 Force" → 50).
+            // "1 000" / "1.000" are thousands (3-digit groups); exactly two
+            // groups otherwise means the stat icon was read as a digit, so the
+            // first group is junk ("4 50 Force" → 50).
+            //
+            // Three or more groups that are not thousands used to be joined
+            // after dropping the first, which INVENTED a number. The range
+            // guard above only knows the separators a, à, to and bis, so an
+            // OCR that read the "à" of "57 à 76 Force" as a "4" got here as
+            // "57 4 76" and came out as 476; "3 4 5 60 Force" came out as
+            // 4560. Those values then travel: parse_custom_stats clamps only
+            // to [-9999, 99999] and get_inventory_stat_overrides turns them
+            // into solver stat overrides, so the solver optimised around a
+            // roll the item never had. A line nobody can read has to come back
+            // as unread, never as a plausible number.
             var sign = match[1].indexOf('-') !== -1 ? -1 : 1;
             var segments = match[1].replace(/[+\-]/g, ' ').trim()
                 .split(/[\s.,]+/).filter(function(s) { return s.length; });
@@ -440,8 +451,10 @@
                 digits = segments[0];
             } else if (segments.slice(1).every(function(s) { return s.length === 3; })) {
                 digits = segments.join('');
+            } else if (segments.length === 2) {
+                digits = segments[1];
             } else {
-                digits = segments.slice(1).join('');
+                return null;
             }
             var value = sign * parseInt(digits, 10);
             if (isNaN(value) || value === 0) {
