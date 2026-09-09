@@ -27,6 +27,11 @@ import platform
 
 logger = logging.getLogger(__name__)
 
+#: Seconds CBC is given before it hands back the best set it has found. Written
+#: once because the solution page quotes it to the reader: a second copy would
+#: let the page promise a limit the solver no longer uses.
+TIME_LIMIT_SECONDS = 90
+
 # Log platform details to confirm solver detection at import time
 logger.debug('System: %s', platform.system())
 logger.debug('Machine: %s', platform.machine())
@@ -45,7 +50,7 @@ if platform.system() == 'Windows':
         logger.debug('Found PuLP configuration at %s', pulp_cfg)
         # Use the default solver configured in the .pulp/pulp.cfg file
         try:
-            SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
+            SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=TIME_LIMIT_SECONDS)
             logger.debug('Using CBC solver from configuration')
         except Exception as e:
             logger.warning('Error loading solver from config: %s', e)
@@ -56,16 +61,16 @@ if platform.system() == 'Windows':
             cbc_path = os.path.join(get_fashionista_path(), 'solvers', 'cbc', 'bin', 'cbc.exe')
             if os.path.isfile(cbc_path):
                 logger.debug('Found CBC at %s', cbc_path)
-                SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
+                SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=TIME_LIMIT_SECONDS)
             else:
                 logger.debug('CBC not found at %s', cbc_path)
                 # Fall back to default solver
-                SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
+                SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=TIME_LIMIT_SECONDS)
                 logger.debug('Using default PuLP solver')
         except Exception as e:
             logger.warning('Error setting up solver: %s', e)
             # Last resort - use default solver with no specific configuration
-            SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
+            SOLVER = pulp.PULP_CBC_CMD(msg=False, timeLimit=TIME_LIMIT_SECONDS)
             logger.warning('Using minimal CBC solver')
 
 elif platform.system() == 'Linux' and ('arm' in platform.machine() or 'aarch64' in platform.machine()):
@@ -74,12 +79,12 @@ elif platform.system() == 'Linux' and ('arm' in platform.machine() or 'aarch64' 
     logger.debug('Detected ARM architecture. Using system-installed CBC at: %s', cbc_path)
     if not os.path.isfile(cbc_path):
         raise FileNotFoundError(f"CBC binary not found at {cbc_path}")
-    SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
+    SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=TIME_LIMIT_SECONDS)
 else:
     # On AWS / other x86_64 Linux. The vendored CBC binary aborts
     # ("terminate called after throwing an instance of 'CoinError'") on some
     # Retro models; PuLP's bundled CBC matches the MPS PuLP writes.
-    bundled_solver = pulp.PULP_CBC_CMD(msg=False, timeLimit=90)
+    bundled_solver = pulp.PULP_CBC_CMD(msg=False, timeLimit=TIME_LIMIT_SECONDS)
     if bundled_solver.available():
         SOLVER = bundled_solver
         logger.debug("Detected non-ARM Linux system. Using PuLP's bundled CBC.")
@@ -88,7 +93,7 @@ else:
         logger.debug('Detected non-ARM Linux system. Using project-specific CBC at: %s', cbc_path)
         if not os.path.isfile(cbc_path):
             raise FileNotFoundError(f"CBC binary not found at {cbc_path}")
-        SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=90)
+        SOLVER = pulp.COIN_CMD(path=cbc_path, timeLimit=TIME_LIMIT_SECONDS)
 
 # Confirm which solver is being used
 if hasattr(SOLVER, 'path'):
@@ -169,7 +174,7 @@ class LpProblem2:
 
         This returns the field that keeps them apart: "Optimal Solution Found"
         when CBC closed the gap, "Solution Found" when it timed out holding an
-        incumbent. Every solver here runs with timeLimit=90, so the second case
+        incumbent. Every solver here runs with TIME_LIMIT_SECONDS, so the second case
         is reachable on a hard search.
         """
         return LpSolution[self.pulp_lp.sol_status]

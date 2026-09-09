@@ -356,6 +356,32 @@
     {% endfor %}
     </div>
 
+    {% comment %}Why this result. It appears only when the solver actually
+    told us, which is why solver_proven is tested against None and not for
+    truthiness: False is an answer and a rather important one, while a
+    solution pickled before these facts existed carries neither and must show
+    nothing rather than a guess.
+
+    The distinction itself is the whole point. CBC runs with a time limit and
+    PuLP relabels a run it stopped as Optimal, so without sol_status the two
+    outcomes are the same event and the site would be claiming a proof it does
+    not have. Saying which one happened is the sentence no system that
+    generates text can write about its own output.{% endcomment %}
+    {% if solver_proven is not None %}
+    <div class="solver-why">
+        <div class="solver-why-title">{% trans "Why this result?" %}</div>
+        {% if solver_proven %}
+        <p class="solver-why-line">{% trans "Proven optimum. The solver checked that no other legal combination scores higher on your criteria." %}</p>
+        {% else %}
+        <p class="solver-why-line">{% blocktrans with limit=solver_time_limit %}Best set found in {{ limit }} seconds. The solver ran out of time before it could prove that nothing beats it, so this is the best it reached, not a proof.{% endblocktrans %}</p>
+        {% endif %}
+        {% if solver_seconds is not None %}
+        <p class="solver-why-line">{% blocktrans with seconds=solver_seconds %}Computed in {{ seconds }} s.{% endblocktrans %}</p>
+        {% endif %}
+        <p class="solver-why-line"><a href="{% game_url 'guide' 'how-it-works' %}">{% trans "How the optimizer works" %}</a></p>
+    </div>
+    {% endif %}
+
     {% if not is_guest and not is_generation_snapshot %}
     <div align="center">
 

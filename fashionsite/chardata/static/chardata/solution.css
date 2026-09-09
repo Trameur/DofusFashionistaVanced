@@ -522,3 +522,23 @@
 .solution-support-button:focus {
     background-color: #b23c34 !important;
 }
+
+/* "Why this result?". Borrowed from .solution-history-panel above so the two
+   read as the same kind of aside, and like it, no text colour of its own: the
+   theme sheets colour this page and a colour here would fight one of them. */
+.solver-why {
+    max-width: 1180px;
+    margin: 10px auto 16px;
+    padding: 10px 12px;
+    border: 1px solid rgba(61, 32, 13, 0.25);
+    border-radius: 6px;
+}
+.solver-why-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.solver-why-line {
+    margin: 2px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
+}

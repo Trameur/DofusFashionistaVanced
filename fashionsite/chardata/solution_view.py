@@ -46,7 +46,9 @@ from chardata.models import Char, BuildVote, BuildView, SolutionGeneration
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from chardata.url_language import SITE_URL
 import chardata.smart_build
-from chardata.solution import get_solution, set_minimal_solution
+from chardata.solution import (get_solution, get_solver_facts,
+                               set_minimal_solution)
+from fashionistapulp.lpproblem import TIME_LIMIT_SECONDS as SOLVER_TIME_LIMIT_SECONDS
 from chardata.stats_weights import get_stats_weights
 from chardata.solution_history import get_generation_preview_items, get_generation_solution
 from chardata.solution_scores import calculate_project_build_score
@@ -497,6 +499,20 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                          weights=get_stats_weights(char, persist=False))
         solution_params = solution_result.get_params()
 
+    # "Why this result?": what the solver can honestly say about its own
+    # answer. Both facts are read with getattr and both default to None,
+    # because every solution pickled before they existed carries neither and
+    # an absent fact must show nothing rather than a guess.
+    #
+    # `proven` is the one that matters. CBC runs with timeLimit=90 and PuLP
+    # relabels a stopped run as Optimal, so without sol_status the two are
+    # indistinguishable and the site would be claiming a proof it does not
+    # have. This is the sentence no generative system can write about its own
+    # output, which is exactly why it belongs on the page.
+    solver_proven, solver_seconds = get_solver_facts(
+        generation.minimal_solution if generation is not None
+        else char.minimal_solution)
+
     vote_data = _get_live_vote_data(request, char)
     class_avatar = get_class_avatar(char)
     character_look = get_character_look(
@@ -569,6 +585,10 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'current_solution_url': version_reverse(request, 'solution_2', char.id),
               'current_solution_compare_id': char.id,
               'disable_solution_item_actions': is_generation_snapshot,
+              'solver_proven': solver_proven,
+              'solver_seconds': (None if solver_seconds is None
+                                 else round(solver_seconds, 1)),
+              'solver_time_limit': SOLVER_TIME_LIMIT_SECONDS,
               'stat_filter_options_json': json.dumps(_get_stat_filter_options())}
               
     if char.link_shared:

@@ -7018,3 +7018,25 @@ msgstr "Optimización matemática, no un modelo de lenguaje. El solver compara l
 #: .\chardata\templates\chardata\coaching.html:107
 msgid "No magic. Just a lot of math."
 msgstr "Nada de magia. Solo muchas matemáticas."
+
+#: .\chardata\templates\chardata\solution.html:358
+msgid "Why this result?"
+msgstr "¿Por qué este resultado?"
+
+#: .\chardata\templates\chardata\solution.html:358
+msgid "Proven optimum. The solver checked that no other legal combination scores higher on your criteria."
+msgstr "Óptimo demostrado. El solver comprobó que ninguna otra combinación válida puntúa más según sus criterios."
+
+#: .\chardata\templates\chardata\solution.html:358
+#, python-format
+msgid "Best set found in %(limit)s seconds. The solver ran out of time before it could prove that nothing beats it, so this is the best it reached, not a proof."
+msgstr "Mejor conjunto encontrado en %(limit)s segundos. Al solver se le acabó el tiempo antes de poder demostrar que nada lo supera, así que es lo mejor que alcanzó, no una demostración."
+
+#: .\chardata\templates\chardata\solution.html:358
+#, python-format
+msgid "Computed in %(seconds)s s."
+msgstr "Calculado en %(seconds)s s."
+
+#: .\chardata\templates\chardata\solution.html:358
+msgid "How the optimizer works"
+msgstr "Cómo funciona el optimizador"

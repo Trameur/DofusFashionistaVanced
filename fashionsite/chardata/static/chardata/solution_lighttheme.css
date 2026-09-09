@@ -75,7 +75,9 @@
 }
 
 .solution-history-notice,
-.solution-history-panel-header {
+.solution-history-panel-header,
+.solver-why-title,
+.solver-why-line {
     color: #3D200D;
 }
 

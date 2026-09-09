@@ -15,6 +15,7 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 import logging
+import time
 
 from django.utils.translation import gettext_lazy
 from django.conf import settings
@@ -149,6 +150,9 @@ def fashion(request, char_id, spells=False):
     if memoized_result is not None:
         solved_status, stats, result = memoized_result
     else:
+        # Wall clock around the solve alone, so that the panel quoting it is
+        # not also quoting page rendering or database time.
+        started = time.monotonic()
         if stat_overrides:
             model = Model(stat_overrides=stat_overrides)
             model.setup(model_input)
@@ -178,6 +182,14 @@ def fashion(request, char_id, spells=False):
         # sans que personne relie les deux, et la memoire garderait le
         # statut d une AUTRE requete.
         _warn_if_unproven(char, solved_status, proven)
+        if result is not None:
+            # Carried on the result rather than in new columns: the result is
+            # pickled whole into char.minimal_solution, so these ride along
+            # with no migration. Every solution pickled before today lacks
+            # them, which is why the view reads them with getattr and shows
+            # nothing at all rather than guessing.
+            result.proven = proven
+            result.solve_seconds = time.monotonic() - started
         MEMORY.put(model_input, (solved_status, stats, result))
 
     if result is None:

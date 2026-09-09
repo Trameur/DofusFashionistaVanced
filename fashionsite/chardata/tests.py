@@ -29159,7 +29159,9 @@ class HowItWorksGuideSaysWhatTheSolverDoesTests(SimpleTestCase):
         incumbent and must not claim one."""
         from fashionistapulp import lpproblem
         source = io.open(lpproblem.__file__, encoding='utf-8').read()
-        self.assertIn('timeLimit=90', source.replace(' ', ''))
+        from fashionistapulp.lpproblem import TIME_LIMIT_SECONDS
+        self.assertEqual(90, TIME_LIMIT_SECONDS)
+        self.assertIn('timeLimit=TIME_LIMIT_SECONDS', source)
         promesses = ('the optimal set', 'le set optimal', 'guaranteed best',
                      'meilleur set possible garanti')
         for langue in self.LANGUES:
@@ -29167,3 +29169,130 @@ class HowItWorksGuideSaysWhatTheSolverDoesTests(SimpleTestCase):
             for promesse in promesses:
                 with self.subTest(langue=langue, promesse=promesse):
                     self.assertNotIn(promesse, corps)
+
+
+class WhyThisResultPanelTests(TestCase):
+    """The panel that says whether the answer is proved or merely the best
+    found in the time.
+
+    That distinction is the site's whole claim to honesty and it was, until
+    now, computed and thrown away: fashion_action read solution_is_proven()
+    only to write a log line. CBC runs with a time limit and PuLP relabels a
+    run it stopped as Optimal, so without sol_status the page cannot tell the
+    two apart and would be claiming a proof it does not have.
+
+    These read the PICKLED minimal solution and not what get_solution returns.
+    That is the trap this feature fell into first: get_solution rebuilds a
+    ModelResult through model_result_from_minimal, and the two facts do not
+    survive the trip.
+    """
+
+    def _solve(self):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from chardata.coaching_view import create_build
+        owner = User.objects.create_user('whyres', 'why@test.local',
+                                         'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
+        self.client.force_login(owner)
+        self.client.get('/fashion/%d/' % char.pk)
+        char.refresh_from_db()
+        return char
+
+    @staticmethod
+    def _rewrite(char, **champs):
+        """Change the stored facts the way an old or a stopped solve would."""
+        import pickle
+        minimal = pickle.loads(char.minimal_solution)
+        for nom, valeur in champs.items():
+            if valeur is None:
+                if hasattr(minimal, nom):
+                    delattr(minimal, nom)
+            else:
+                setattr(minimal, nom, valeur)
+        char.minimal_solution = pickle.dumps(minimal)
+        char.save()
+
+    def _page(self, char, **kwargs):
+        resp = self.client.get('/solution/%d/' % char.pk, **kwargs)
+        self.assertEqual(resp.status_code, 200)
+        return resp.content.decode('utf-8')
+
+    def test_the_solve_records_whether_it_proved_anything(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution import get_solver_facts
+        char = self._solve()
+        proven, seconds = get_solver_facts(char.minimal_solution)
+        # `proven` must be a real boolean: False is an answer, and the
+        # important one.
+        self.assertIn(proven, (True, False))
+        self.assertIsInstance(seconds, float)
+        self.assertGreater(seconds, 0)
+
+    def test_the_page_says_which_of_the_two_happened(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution import get_solver_facts
+        char = self._solve()
+        proven, _seconds = get_solver_facts(char.minimal_solution)
+        page = self._page(char)
+        self.assertIn('solver-why', page)
+        if proven:
+            self.assertIn('Proven optimum', page)
+            self.assertNotIn('not a proof', page)
+        else:
+            self.assertIn('not a proof', page)
+            self.assertNotIn('Proven optimum', page)
+
+    def test_an_old_solution_shows_no_panel_rather_than_a_guess(self):
+        """Every solution pickled before these facts existed carries neither,
+        and inventing one would be exactly the failure this panel exists to
+        avoid."""
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        char = self._solve()
+        self._rewrite(char, proven=None, solve_seconds=None)
+        self.assertNotIn('solver-why', self._page(char))
+
+    def test_false_is_shown_and_not_swallowed_as_missing(self):
+        """`if solver_proven` would hide the unproven case, which is the only
+        case the reader really needs to be told about."""
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        char = self._solve()
+        self._rewrite(char, proven=False)
+        page = self._page(char)
+        self.assertIn('solver-why', page)
+        self.assertIn('not a proof', page)
+        self.assertIn('90', page)
+
+    def test_the_page_quotes_the_solver_own_time_limit(self):
+        """Two copies of the number would let the page promise a limit the
+        solver no longer uses."""
+        from fashionistapulp.lpproblem import TIME_LIMIT_SECONDS
+        from chardata.solution_view import SOLVER_TIME_LIMIT_SECONDS
+        self.assertEqual(TIME_LIMIT_SECONDS, SOLVER_TIME_LIMIT_SECONDS)
+        source = io.open(os.path.join(
+            os.path.dirname(__file__), '..', '..', 'fashionistapulp',
+            'fashionistapulp', 'lpproblem.py'), encoding='utf-8').read()
+        self.assertNotIn('timeLimit=90', source)
+
+    def test_the_facts_do_not_survive_get_solution_which_is_why_they_are_read_raw(self):
+        """Named after what it measures: the reason the view reads the blob.
+        If some day the rebuilt ModelResult did carry them, this test failing
+        is the signal that the helper can be simplified."""
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        from chardata.solution import get_solution
+        char = self._solve()
+        self.assertIsNone(getattr(get_solution(char), 'proven', None))
+
+    def test_the_panel_is_translated(self):
+        if not _pulp_solver_available():
+            self.skipTest('no pulp solver available')
+        char = self._solve()
+        page = self._page(char, HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertIn('Pourquoi ce r\u00e9sultat', page)
