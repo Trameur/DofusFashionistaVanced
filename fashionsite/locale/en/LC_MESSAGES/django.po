@@ -3436,14 +3436,7 @@ msgid "Dofus theorycraft for everyone"
 msgstr ""
 
 #: .\chardata\templates\chardata\home.html:45
-msgid ""
-"Dofus Fashionista is a free theorycrafting tool. Tell it your class, level "
-"and what you want, and it instantly finds your best possible set. No "
-"spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a "
-"serious optimizer: fine-tune every stat, compare builds, and min-max across "
-"all five versions of the game: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro "
-"and Dofus Touch. Save your characters, share your builds, and become a "
-"better theorycrafter, fast."
+msgid "Dofus Fashionista is a free theorycrafting tool. Tell it your class, level and what you want, and it works out the best set it can find, usually in a few seconds. No spreadsheets, no three-hour item hunts. It's beginner-friendly, but also a serious optimizer: fine-tune every stat, compare builds, and min-max across all five versions of the game: Dofus 3, Dofus 3 Beta, Dofus 2, Dofus Retro and Dofus Touch. Save your characters, share your builds, and become a better theorycrafter, fast."
 msgstr ""
 
 #: .\chardata\templates\chardata\home.html:77
@@ -3490,12 +3483,7 @@ msgid "What is the Dofus Fashionista?"
 msgstr ""
 
 #: .\chardata\templates\chardata\home.html:160
-msgid ""
-"It's a free, automatic equipment optimizer for Dofus. Instead of dragging "
-"items into a spreadsheet and adding up the numbers yourself, you tell it "
-"your class, your level and what you actually care about (damage, AP and MP, "
-"survivability), and it searches thousands of legal item combinations to find "
-"the best set for your build. No login required to try it."
+msgid "It's a free, automatic equipment optimizer for Dofus. Instead of dragging items into a spreadsheet and adding up the numbers yourself, you tell it your class, your level and what you actually care about (damage, AP and MP, survivability), and a mathematical solver works out the best legal set it can find. No login required to try it."
 msgstr ""
 
 #: .\chardata\templates\chardata\home.html:162

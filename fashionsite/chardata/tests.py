@@ -29918,3 +29918,99 @@ class ConstraintsReachedAreShownTests(TestCase):
                         'get_min_stats_digested_by_key', vrai)
         lignes = _constraints_reached(FauxChar(), FausseSolution())
         self.assertEqual(['vit'], ['vit'] if len(lignes) == 1 else lignes)
+
+
+class NoPageOverclaimsWhatTheSolverDoesTests(SimpleTestCase):
+    """Le meme mensonge, cherche partout et plus seulement dans les guides.
+
+    Un garde-fou existait deja pour les guides et il a tenu. La page d'ACCUEIL,
+    elle, a continue de dire pendant tout ce temps que l'outil "searches
+    thousands of legal item combinations", dans les cinq langues, parce que
+    c'est un gabarit et pas un guide. Un garde qui ne couvre qu'un dossier
+    garde un dossier.
+
+    Ce que le solveur fait vraiment, mesure sur une resolution Dofus 3 reelle:
+    CBC ferme le probleme a la racine et rapporte `Enumerated nodes: 0`. Il ne
+    parcourt rien. Et il tourne avec TIME_LIMIT_SECONDS = 90, donc rien n'est
+    instantane et rien n'est garanti optimal: PuLP re-etiquette en Optimal un
+    run qu'il a stoppe, ce que la page de solution dit deja mot pour mot.
+    """
+
+    #: Les surfaces ou une affirmation peut atteindre un lecteur.
+    def _textes(self):
+        racine = os.path.dirname(__file__)
+        for dossier, _sous, fichiers in os.walk(os.path.join(racine,
+                                                             'templates')):
+            for f in fichiers:
+                if f.endswith('.html') and 'changelog' not in f:
+                    chemin = os.path.join(dossier, f)
+                    yield (os.path.basename(chemin),
+                           io.open(chemin, encoding='utf-8').read())
+        for module in ('inventory_view', 'forgemagie_view', 'encyclopedia_view'):
+            chemin = os.path.join(racine, '%s.py' % module)
+            if os.path.exists(chemin):
+                yield ('%s.py' % module,
+                       io.open(chemin, encoding='utf-8').read())
+
+    def test_no_page_says_the_solver_walks_the_combinations(self):
+        interdits = ('thousands of legal item combinations',
+                     'thousands of combinations',
+                     'milliers de combinaisons',
+                     'miles de combinaciones',
+                     'milhares de combina',
+                     'tausende erlaubte item-kombinationen')
+        coupables = []
+        for nom, texte in self._textes():
+            bas = texte.lower()
+            for interdit in interdits:
+                if interdit in bas:
+                    coupables.append((nom, interdit))
+        self.assertEqual(coupables, [], msg=(
+            'these say the solver walks combinations one by one, which is a '
+            'machine that does not exist: %s' % coupables))
+
+    def test_no_page_promises_an_instant_or_guaranteed_best(self):
+        """CBC a quatre-vingt-dix secondes et PuLP ne distingue pas un optimum
+        prouve du meilleur incumbent. Promettre l'un ou l'autre est faux."""
+        interdits = ('instantly finds', 'your best possible set',
+                     'the optimal set', 'guaranteed best',
+                     'trouve instantanement', 'meilleur set possible')
+        coupables = []
+        for nom, texte in self._textes():
+            bas = texte.lower()
+            for interdit in interdits:
+                if interdit in bas:
+                    coupables.append((nom, interdit))
+        self.assertEqual(coupables, [], msg=(
+            'these promise a speed or a proof the solver cannot give: %s'
+            % coupables))
+
+    def test_no_page_claims_the_text_never_leaves_the_browser(self):
+        """La phrase la plus dangereuse ecrite hier: "Nothing is downloaded and
+        nothing leaves your browser", sur la lecture de texte de l'inventaire.
+        Rien n'est telecharge, c'est vrai. Mais processText appelle
+        searchCandidates, qui envoie le nom de l'objet a ce serveur dans la
+        query string. Une promesse de vie privee doit etre exacte ou ne pas
+        exister."""
+        interdits = ('nothing leaves your browser',
+                     'rien ne sort de votre navigateur',
+                     'nada sale de su navegador',
+                     'nada sai do seu navegador',
+                     'nichts verl\u00e4sst ihren browser')
+        coupables = []
+        for nom, texte in self._textes():
+            bas = texte.lower()
+            for interdit in interdits:
+                if interdit in bas:
+                    coupables.append((nom, interdit))
+        self.assertEqual(coupables, [], msg=(
+            'the item name IS sent to this server to be looked up, so this '
+            'promise is false: %s' % coupables))
+
+    def test_the_sweep_actually_reads_something(self):
+        """Le plancher du temoin. Sans lui, un chemin casse rendrait zero
+        texte, zero faute, et un vert parfait qui ne garde rien."""
+        textes = list(self._textes())
+        self.assertGreater(len(textes), 50, len(textes))
+        self.assertTrue(any(nom == 'home.html' for nom, _t in textes))
+        self.assertTrue(any(nom == 'inventory_view.py' for nom, _t in textes))
