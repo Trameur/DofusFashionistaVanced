@@ -2409,7 +2409,7 @@ def encyclopedia_most_used(request):
                 ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
                 (t_ui.get('title') or 'Encyclopedia',
                  _absolute_versioned_url('/encyclopedia/', 'dofus3')),
-                (str(_('What Dofus Players Actually Wear')),
+                (str(_('The Most Used Dofus Items in Calculated Builds')),
                  'https://dofusfashionista.gg%s' % request.path),
             ]),
         },

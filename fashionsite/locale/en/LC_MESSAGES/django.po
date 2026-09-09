@@ -3208,9 +3208,7 @@ msgid "Do I need an account?"
 msgstr ""
 
 #: .\chardata\templates\chardata\faq.html:28
-msgid ""
-"No. Building and optimizing sets works without signing in. An account only "
-"lets you save your projects and share them with a link."
+msgid "No. Building and optimizing sets works without signing in. An account adds the rest: saving your projects and sharing them with a link, your inventory, the workshop, tags, comments, votes and following other players."
 msgstr ""
 
 #: .\chardata\templates\chardata\faq.html:30
@@ -4094,7 +4092,7 @@ msgid ""
 msgstr ""
 
 #: .\chardata\templates\chardata\privacy.html:21
-msgid "Last updated: June 2026"
+msgid "Last updated: September 2026"
 msgstr ""
 
 #: .\chardata\templates\chardata\privacy.html:23
@@ -4692,14 +4690,8 @@ msgid "shared builds"
 msgstr ""
 
 #: .\chardata\templates\chardata\smart_build.html:7
-msgid ""
-"Describe your Dofus build in plain words (like an agility Sram level 200 "
-"with 11 AP), and get a full optimized set in seconds with the Fashionista's "
-"smart build."
+msgid "Describe your Dofus build in plain words (like an agility Sram level 200 for PvP), and get a full optimized set in seconds with the Fashionista’s smart build."
 msgstr ""
-"Describe your Dofus build in plain words (like an agility Sram level 200 "
-"with 11 AP), and get a full optimized set in seconds with the Fashionista's "
-"smart build."
 
 #: .\chardata\templates\chardata\smart_build.html:44
 msgid ""
@@ -6317,4 +6309,12 @@ msgstr ""
 
 #: .\chardata\dofusbook_view.py
 msgid "Those items do not exist in that version of the game. Check the link."
+msgstr ""
+
+#: .\chardata\templates\chardata\privacy.html:57
+msgid "<b>Google reCAPTCHA.</b> The contact form and the sign-in page use reCAPTCHA to tell people apart from bots. Your browser loads it directly from Google, so Google receives your IP address and information about your browser, and may set its own cookies. We send your answer to Google to check it."
+msgstr ""
+
+#: .\chardata\templates\chardata\privacy.html:57
+msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the inventory page, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match."
 msgstr ""

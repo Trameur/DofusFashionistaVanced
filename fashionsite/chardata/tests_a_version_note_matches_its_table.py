@@ -13,6 +13,8 @@ So the claims each note makes are written out here, next to the table they
 are claims about. A note and a table that drift apart now fail rather than
 mislead.
 """
+import re
+
 from django.test import TestCase
 
 from chardata.forgemagie_data import get_fm_stats
@@ -134,3 +136,74 @@ class EveryRulesetHasANote(TestCase):
                 for language in LOCALIZED_UI:
                     self.assertIn(key, LOCALIZED_UI[language])
                     self.assertTrue(LOCALIZED_UI[language][key].strip())
+
+
+#: Le nom que porte chaque jeu de regles sur le site.
+#:
+#: `version_note_modern` n'est montree qu'a dofus3 et beta, parce que
+#: `_RULESET_BY_VERSION` envoie dofus2 sur son propre jeu de regles. Elle
+#: annoncait pourtant <<Dofus 2 / Dofus 3>>, alors que la table de Dofus 2
+#: differe: pas de rune Ra sur les resistances elementaires ni sur la
+#: resistance critique, pas de rune Pa sur les renvois. Un lecteur de Dofus 2
+#: ne voyait jamais cette note, et un lecteur de Dofus 3 lisait que ses
+#: chiffres valaient aussi pour un jeu qui ne les partage pas.
+_ETIQUETTE_DU_RULESET = {
+    'modern': 'Dofus 3',
+    'dofus2': 'Dofus 2',
+    'touch': 'Dofus Touch',
+    'retro': 'Dofus Retro',
+}
+
+#: <<forked from Dofus 2.14>> dans la note de Touch est une filiation datee,
+#: pas une revendication de couverture. Un numero de version derriere le nom
+#: distingue les deux sans avoir a lire la phrase.
+#:
+#: Le point, et pas un chiffre: l'etiquette <<Dofus 2>> a deja mange le 2, il
+#: ne reste que <<.14>>. Chercher un chiffre ici faisait rougir les notes
+#: anglaise et allemande, les deux seules qui ecrivent <<Dofus 2.14>> en toutes
+#: lettres la ou le francais, l'espagnol et le portugais disent <<la 2.14>>.
+_NUMERO_DE_VERSION = re.compile(r'^\.\d+')
+
+
+class ANoteNamesOnlyTheVersionsItIsShownTo(TestCase):
+
+    def test_no_note_claims_a_version_served_by_another_table(self):
+        coupables = []
+        for ruleset, etiquette in sorted(_ETIQUETTE_DU_RULESET.items()):
+            for langue in sorted(LOCALIZED_UI):
+                note = LOCALIZED_UI[langue].get('version_note_%s' % ruleset)
+                if not note:
+                    continue
+                for autre, nom in sorted(_ETIQUETTE_DU_RULESET.items()):
+                    if autre == ruleset:
+                        continue
+                    depart = 0
+                    while True:
+                        i = note.find(nom, depart)
+                        if i < 0:
+                            break
+                        depart = i + len(nom)
+                        suite = note[i + len(nom):]
+                        if _NUMERO_DE_VERSION.match(suite):
+                            continue
+                        # "Dofus 3" est un prefixe de "Dofus 3 Beta", et la
+                        # beta tourne bien sur la table moderne.
+                        if nom == 'Dofus 3' and suite.strip().startswith(
+                                ('Beta', 'B\u00eata')):
+                            continue
+                        coupables.append((ruleset, langue, nom))
+                        break
+        self.assertFalse(
+            coupables,
+            'these notes name a version that a different table serves, so '
+            'they promise numbers that do not apply: %s' % coupables)
+
+    def test_the_sweep_reads_all_five_languages_and_all_four_rulesets(self):
+        """Le plancher du temoin: une cle mal tapee rendrait None partout et
+        le test ci-dessus passerait sans avoir rien lu."""
+        lues = 0
+        for ruleset in _ETIQUETTE_DU_RULESET:
+            for langue in LOCALIZED_UI:
+                if LOCALIZED_UI[langue].get('version_note_%s' % ruleset):
+                    lues += 1
+        self.assertEqual(lues, 20, lues)

@@ -141,9 +141,24 @@ def _match_class(tokens):
     return None
 
 
+#: "level 200", "niveau 200", "lvl 200": un niveau annonce, pas un souhait.
+#:
+#: `level` est aussi un mot de style `farm` (pour "leveling", "level up"), si
+#: bien que la phrase la plus naturelle du monde, et celle que la page donne
+#: elle-meme en exemple, basculait tout le build en farm: sagesse et
+#: prospection, et l'element demande jete puisque `farm` ne le lit pas.
+#: Mesure faite le 10 septembre 2026: "an agility Sram level 200" rendait
+#: {'wis', 'pp'} en style farm, quand "agility Sram 200" rendait bien
+#: {'glasscannon', 'agi'}. Le mot est donc retire du texte une fois lu comme
+#: niveau, et seulement dans ce cas: "I want to level up", sans nombre
+#: derriere, reste du farm.
+_NIVEAU_ANNONCE = re.compile(
+    r'(?:niveau|level|nivel|lvl|niv|stufe)\s*[:.]?\s*(\d{1,3})')
+
+
 def _match_level(normalized_text):
     # Prefer a number near a level keyword, else any 1-3 digit number.
-    m = re.search(r'(?:niveau|level|nivel|lvl|niv|stufe)\s*[:.]?\s*(\d{1,3})', normalized_text)
+    m = _NIVEAU_ANNONCE.search(normalized_text)
     if m:
         return _clamp_level(int(m.group(1)))
     nums = re.findall(r'\b(\d{1,3})\b', normalized_text)
@@ -191,8 +206,12 @@ def parse_build_request(text):
     char_class = _match_class(tokens)
     level = _match_level(normalized)
     element = _match_element(tokens)
-    style = _match_style(tokens)
-    extra_aspects = _match_aspect_words(tokens)
+    # Le style et les focus se lisent sur le texte prive du niveau annonce :
+    # un mot deja compris comme niveau ne doit pas voter une seconde fois.
+    sans_niveau = set(re.findall(r'[a-z0-9]+',
+                                 _NIVEAU_ANNONCE.sub(' ', normalized)))
+    style = _match_style(sans_niveau)
+    extra_aspects = _match_aspect_words(sans_niveau)
 
     resolved_style = style or 'solo_pvm'
     aspects = set(_STYLE_BASE_ASPECTS.get(resolved_style, set()))

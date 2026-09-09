@@ -3456,12 +3456,8 @@ msgid "Do I need an account?"
 msgstr "Brauche ich ein Konto?"
 
 #: .\chardata\templates\chardata\faq.html:28
-msgid ""
-"No. Building and optimizing sets works without signing in. An account only "
-"lets you save your projects and share them with a link."
-msgstr ""
-"Nein. Sets bauen und optimieren geht ohne Anmeldung. Ein Konto dient nur "
-"dazu, deine Projekte zu speichern und per Link zu teilen."
+msgid "No. Building and optimizing sets works without signing in. An account adds the rest: saving your projects and sharing them with a link, your inventory, the workshop, tags, comments, votes and following other players."
+msgstr "Nein. Sets bauen und optimieren geht ohne Anmeldung. Ein Konto bringt den Rest: deine Projekte speichern und per Link teilen, dein Inventar, die Werkstatt, Tags, Kommentare, Bewertungen und anderen Spielern folgen."
 
 #: .\chardata\templates\chardata\faq.html:30
 msgid "Which Dofus version should I choose?"
@@ -4469,8 +4465,8 @@ msgstr ""
 "Datenschutzrechte."
 
 #: .\chardata\templates\chardata\privacy.html:21
-msgid "Last updated: June 2026"
-msgstr "Zuletzt aktualisiert: Juni 2026"
+msgid "Last updated: September 2026"
+msgstr "Zuletzt aktualisiert: September 2026"
 
 #: .\chardata\templates\chardata\privacy.html:23
 msgid "The Dofus Fashionista (\"we\", \"the site\") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games."
@@ -4648,8 +4644,8 @@ msgstr ""
 
 #: .\chardata\templates\chardata\privacy.html:52
 #: chardata/templates/chardata/privacy.html
-msgid "To count a build’s views once per reader rather than once per refresh, we store the visitor’s address alongside that build and delete it after twenty-four hours. Nothing links it to an account."
-msgstr "Um die Aufrufe eines Builds einmal pro Leser statt einmal pro Neuladen zu zählen, speichern wir die Adresse der Besucherin oder des Besuchers neben diesem Build und löschen sie nach vierundzwanzig Stunden. Nichts verbindet sie mit einem Konto."
+msgid "To count a build’s views once per reader rather than once per refresh, we store the visitor’s address alongside that build for twenty-four hours. It is deleted the next time that build is viewed after the day has passed, and in any case when the server restarts. Nothing links it to an account."
+msgstr "Um die Aufrufe eines Builds einmal pro Leser statt einmal pro Neuladen zu zählen, speichern wir die Adresse der Besucherin oder des Besuchers vierundzwanzig Stunden lang neben diesem Build. Sie wird beim nächsten Aufruf dieses Builds nach Ablauf dieser Frist gelöscht, spätestens beim Neustart des Servers. Nichts verbindet sie mit einem Konto."
 
 msgid "Data retention"
 msgstr "Datenspeicherung"
@@ -5198,14 +5194,8 @@ msgid "shared builds"
 msgstr "geteilte Sets"
 
 #: .\chardata\templates\chardata\smart_build.html:7
-msgid ""
-"Describe your Dofus build in plain words (like an agility Sram level 200 "
-"with 11 AP), and get a full optimized set in seconds with the Fashionista's "
-"smart build."
-msgstr ""
-"Beschreib dein Dofus-Build in Worten (etwa einen Agi-Sram Level 200 mit 11 "
-"AP), und erhalte in Sekunden ein komplettes, optimiertes Set mit dem Smart "
-"Build der Fashionista."
+msgid "Describe your Dofus build in plain words (like an agility Sram level 200 for PvP), and get a full optimized set in seconds with the Fashionista’s smart build."
+msgstr "Beschreib dein Dofus-Build in Worten (etwa einen Agi-Sram Level 200 für PvP), und erhalte in Sekunden ein komplettes, optimiertes Set mit dem Smart Build der Fashionista."
 
 #: .\chardata\templates\chardata\smart_build.html:44
 msgid ""
@@ -6901,13 +6891,13 @@ msgid "Dofus Build from a Sentence"
 msgstr "Ein Dofus-Build aus einem Satz"
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
-msgid "What Dofus Players Actually Wear"
-msgstr "Was Dofus-Spieler wirklich tragen"
+msgid "The Most Used Dofus Items in Calculated Builds"
+msgstr "Die meistgenutzten Dofus-Items in berechneten Builds"
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 #: chardata/templates/chardata/encyclopedia.html
-msgid "What players actually wear"
-msgstr "Was Spieler wirklich tragen"
+msgid "Most used items in builds"
+msgstr "Meistgenutzte Items in Builds"
 
 #: chardata/templates/chardata/encyclopedia_most_used.html
 msgid "%(part)s of the builds that can equip it wear the same one: %(nom)s."
@@ -6918,15 +6908,15 @@ msgid "Counts last rebuilt on %(jour)s."
 msgstr "Zählungen zuletzt neu berechnet am %(jour)s."
 
 #: chardata/templates/chardata/encyclopedia_most_used.html
-msgid "The gear Dofus players really equip: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one."
-msgstr "Die Ausrüstung, die Dofus-Spieler wirklich tragen: Hut, Umhang, Ring, Waffe und Dofus mit den höchsten Anteilen, samt Anteil der Builds, die sie nutzen."
+msgid "The gear that comes up most often in Fashionista builds: the most used hat, cloak, ring, weapon and dofus, with the share of builds that use each one."
+msgstr "Die Ausrüstung, die in Fashionista-Builds am häufigsten vorkommt: der meistgenutzte Hut, Umhang und Ring, die meistgenutzte Waffe und der meistgenutzte Dofus, jeweils mit dem Anteil der Builds."
 
-msgid "What Dofus players actually wear"
-msgstr "Was Dofus-Spieler wirklich tragen"
+msgid "The most used items in builds calculated here"
+msgstr "Die meistgenutzten Items in hier berechneten Builds"
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
-msgid "The gear Dofus players really equip, counted over %(n)s calculated builds: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one."
-msgstr "Die Ausrüstung, die Dofus-Spieler wirklich anlegen, gezählt über %(n)s berechnete Builds: der meistgetragene Hut, Umhang, Ring, die Waffe und der Dofus, mit dem Anteil der Builds, die sie nutzen."
+msgid "The gear that comes up most often in the %(n)s builds calculated on this site: the most used hat, cloak, ring, weapon and dofus, with the share of builds that use each one."
+msgstr "Die Ausrüstung, die in den %(n)s auf dieser Seite berechneten Builds am häufigsten vorkommt: der meistgenutzte Hut, Umhang und Ring, die meistgenutzte Waffe und der meistgenutzte Dofus, jeweils mit dem Anteil der Builds."
 
 #: .\chardata\templates\chardata\encyclopedia_most_used.html
 msgid "Counted over %(n)s builds calculated on this site. For each item, the share is of the builds that could equip it, meaning those at or above its level. Nothing about who built them is stored or shown."
@@ -7079,3 +7069,11 @@ msgstr "Dieser Build kam ohne Gegenstände zurück."
 #: .\chardata\dofusbook_view.py
 msgid "Those items do not exist in that version of the game. Check the link."
 msgstr "Diese Gegenstände gibt es in dieser Spielversion nicht. Prüfen Sie den Link."
+
+#: .\chardata\templates\chardata\privacy.html:57
+msgid "<b>Google reCAPTCHA.</b> The contact form and the sign-in page use reCAPTCHA to tell people apart from bots. Your browser loads it directly from Google, so Google receives your IP address and information about your browser, and may set its own cookies. We send your answer to Google to check it."
+msgstr "<b>Google reCAPTCHA.</b> Das Kontaktformular und die Anmeldeseite nutzen reCAPTCHA, um Menschen von Bots zu unterscheiden. Ihr Browser lädt es direkt bei Google, das dadurch Ihre IP-Adresse und Angaben zu Ihrem Browser erhält und eigene Cookies setzen kann. Wir senden Ihre Antwort zur Prüfung an Google."
+
+#: .\chardata\templates\chardata\privacy.html:57
+msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the inventory page, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match."
+msgstr "<b>Code-Bibliotheken.</b> Ein Teil des Codes, der die Seiten zum Laufen bringt, etwa jQuery auf jeder Seite und eine Bibliothek zum Auslesen von Text auf der Inventarseite, wird von Google Hosted Libraries und jsDelivr geladen statt von unserem eigenen Server, sodass diese Anbieter Ihre IP-Adresse erhalten. Jede dieser Dateien ist an einen Fingerabdruck gebunden, und Ihr Browser weigert sich, eine abweichende Kopie auszuführen."

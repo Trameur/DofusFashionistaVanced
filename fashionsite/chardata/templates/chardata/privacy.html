@@ -19,7 +19,7 @@
 
 <div class="big-text" style="max-width: 820px; margin: 0 auto; text-align: left;">
 
-<p><em>{% trans "Last updated: June 2026" %}</em></p>
+<p><em>{% trans "Last updated: September 2026" %}</em></p>
 
 <p>{% blocktrans %}The Dofus Fashionista ("we", "the site") is a free, open-source fan site that automatically optimizes equipment sets for the game Dofus. This page explains what data we collect, why, and the choices you have. We are not affiliated with Ankama Games.{% endblocktrans %}</p>
 
@@ -56,6 +56,8 @@ repenser, et rien n'a ete supprime.
 {% endif %}
 <li>{% blocktrans %}<b>Google Analytics.</b> We use Analytics to understand, in aggregate, how the site is used so we can improve it.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Google Sign-In.</b> Optional authentication, as described above.{% endblocktrans %}</li>
+    <li>{% blocktrans %}<b>Google reCAPTCHA.</b> The contact form and the sign-in page use reCAPTCHA to tell people apart from bots. Your browser loads it directly from Google, so Google receives your IP address and information about your browser, and may set its own cookies. We send your answer to Google to check it.{% endblocktrans %}</li>
+    <li>{% blocktrans %}<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the inventory page, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Hosting and infrastructure.</b> The site is hosted on a dedicated server and served through a content-delivery network that processes requests on our behalf.{% endblocktrans %}</li>
 </ul>
 
@@ -75,7 +77,7 @@ repenser, et rien n'a ete supprime.
 
 <h2>{% trans "Data retention" %}</h2>
 <p>{% blocktrans %}We keep account and build data for as long as your account is active or as needed to provide the service. If you delete your account, the associated data is removed.{% endblocktrans %}</p>
-<p>{% blocktrans %}To count a build’s views once per reader rather than once per refresh, we store the visitor’s address alongside that build and delete it after twenty-four hours. Nothing links it to an account.{% endblocktrans %}</p>
+<p>{% blocktrans %}To count a build’s views once per reader rather than once per refresh, we store the visitor’s address alongside that build for twenty-four hours. It is deleted the next time that build is viewed after the day has passed, and in any case when the server restarts. Nothing links it to an account.{% endblocktrans %}</p>
 
 <h2>{% trans "Children" %}</h2>
 <p>{% blocktrans %}The Dofus Fashionista is not directed to children under the age required to consent to online services in their country, and we do not knowingly collect their personal data.{% endblocktrans %}</p>

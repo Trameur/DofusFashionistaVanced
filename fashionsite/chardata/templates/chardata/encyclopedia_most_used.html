@@ -3,9 +3,9 @@
 {% load static_s3 %}
 {% load i18n %}
 
-{% block title %}{% trans "What Dofus Players Actually Wear" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block title %}{% trans "The Most Used Dofus Items in Calculated Builds" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% block meta_description %}{% if slots %}{% blocktrans with n=builds_counted %}The gear Dofus players really equip, counted over {{ n }} calculated builds: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one.{% endblocktrans %}{% else %}{% trans "The gear Dofus players really equip: the most worn hat, cloak, ring, weapon and dofus, with the share of builds that use each one." %}{% endif %}{% endblock %}
+{% block meta_description %}{% if slots %}{% blocktrans with n=builds_counted %}The gear that comes up most often in the {{ n }} builds calculated on this site: the most used hat, cloak, ring, weapon and dofus, with the share of builds that use each one.{% endblocktrans %}{% else %}{% trans "The gear that comes up most often in Fashionista builds: the most used hat, cloak, ring, weapon and dofus, with the share of builds that use each one." %}{% endif %}{% endblock %}
 
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 
@@ -18,7 +18,7 @@
 
 {% block main %}
 
-    <h1 class="most-used-title">{% trans "What Dofus players actually wear" %}</h1>
+    <h1 class="most-used-title">{% trans "The most used items in builds calculated here" %}</h1>
 
     {% comment %}
     La methode est imprimee sur la page, et ce n'est pas de la modestie : un
