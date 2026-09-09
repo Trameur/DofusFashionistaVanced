@@ -4797,6 +4797,17 @@ class ChooseCompareSetsPickerTests(TestCase):
         self.assertIn('Log in to pick from your builds, favorites and likes.', html)
         self.assertIn('Manual links', html)
 
+    def test_picker_styles_live_in_static_css(self):
+        resp = self.client.get('/choose_compare_sets/')
+        self.assertEqual(resp.status_code, 200)
+        html = resp.content.decode('utf-8')
+        self.assertIn('chardata/choose_compare_sets.css', html)
+        self.assertNotIn('.compare-picker {', html)
+        self.assertNotIn('grid-template-columns: repeat(auto-fit', html)
+        css = os.path.join(os.path.dirname(__file__), 'static', 'chardata',
+                           'choose_compare_sets.css')
+        self.assertTrue(os.path.exists(css))
+
     def test_post_rejects_too_many_links_with_visible_error(self):
         import json
         links = [
