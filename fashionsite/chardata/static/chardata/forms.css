@@ -382,3 +382,16 @@ select, .pretty-input {
     width: 0px;
 }
 
+
+/* The line under an optimize button that says what does the work. Typography
+   only, and deliberately no colour and no opacity: it must inherit whatever
+   the four theme combinations already give the surrounding text. A colour of
+   its own would vanish in one of them, and dimming it would eat the contrast
+   margin, both of which happened while this was being built. */
+.solver-note {
+    max-width: 480px;
+    margin: 14px auto 0;
+    font-size: 0.85em;
+    line-height: 1.45;
+    text-align: center;
+}

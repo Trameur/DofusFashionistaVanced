@@ -7010,3 +7010,7 @@ msgstr "Dofus Fashionista, optimización de equipos desde 2012"
 #: .\chardata\templates\chardata\home.html:47
 msgid "Over ten years of Dofus theorycraft"
 msgstr "Más de diez años de theorycraft de Dofus"
+
+#: .\chardata\templates\chardata\coaching.html:101
+msgid "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria."
+msgstr "Optimización matemática, no un modelo de lenguaje. El solver compara los objetos reales de Dofus según sus criterios."

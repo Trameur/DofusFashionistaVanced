@@ -64,6 +64,14 @@
             <button type="submit" class="button-generic">{% trans "Build it" %}</button>
         </form>
 
+        {% comment %}This page is a single text box with autofocus, a
+        placeholder and a button, which is exactly the shape of a generative
+        product, so it is the page that needs the sentence most. And here it is
+        literally true: nl_parser.py imports re and unicodedata and nothing
+        else, no network call, no weights. It is a keyword table in five
+        languages.{% endcomment %}
+        <p class="solver-note">{% trans "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria." %}</p>
+
         {% if interpretation and interpretation.class_name or interpretation.level or interpretation.aspect_labels %}
         <div class="smart-confirm">
             <p class="smart-confirm-title">

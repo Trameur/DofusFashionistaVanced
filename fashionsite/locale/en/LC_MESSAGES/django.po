@@ -6238,3 +6238,7 @@ msgstr ""
 #: .\chardata\templates\chardata\home.html:47
 msgid "Over ten years of Dofus theorycraft"
 msgstr ""
+
+#: .\chardata\templates\chardata\coaching.html:101
+msgid "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria."
+msgstr ""

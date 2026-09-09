@@ -98,6 +98,14 @@
             </div>
         </form>
 
+        {% comment %}It says "not a language model" and not "no AI". The claim
+        has to survive a reader who opens the network tab: the optional
+        inventory screenshot reader loads tesseract.js, so a blanket "no AI"
+        would be provably false and would discredit the true half. Nothing in
+        this path has a model of any kind: nl_parser imports re and unicodedata
+        and nothing else.{% endcomment %}
+        <p class="solver-note">{% trans "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria." %}</p>
+
         <p class="coaching-intro" style="margin-top: 20px; font-size: 0.9em;">
             {% trans "Want full control over every stat?" %}
             <a href="{% game_url 'setup' %}">{% trans "Use the full builder instead" %}</a>.
