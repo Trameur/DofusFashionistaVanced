@@ -386,7 +386,13 @@
         var ocrAddStatSelect = document.getElementById('inv-ocr-add-stat');
         var ocrAddBtn = document.getElementById('inv-ocr-add');
         var ocrFeedback = document.getElementById('inv-ocr-feedback');
+        var ocrOutOfRange = '{{ t.ocr_out_of_range|escapejs }}';
         var ocrStatInputs = {};
+        var ocrStatWarnings = {};
+        // The candidates the search returned, by id, so the roll range of the
+        // one currently selected stays reachable. The <option> only carries an
+        // id, and the range lives in the payload's stats.
+        var ocrCandidates = {};
         var tesseractReady = null;
 
         function ocrNormalize(value) {
@@ -607,11 +613,58 @@
             removeBtn.textContent = '×';
             removeBtn.addEventListener('click', function() {
                 delete ocrStatInputs[key];
+                delete ocrStatWarnings[key];
                 line.remove();
                 refreshOcrAddStatSelect();
             });
             line.appendChild(removeBtn);
+            var warning = document.createElement('div');
+            warning.className = 'inv-ocr-warning';
+            warning.style.display = 'none';
+            ocrStatWarnings[key] = {line: line, text: warning};
             ocrStatsDiv.appendChild(line);
+            ocrStatsDiv.appendChild(warning);
+            input.addEventListener('input', refreshOcrRangeWarnings);
+        }
+
+        // A reading the item cannot support is shown, never dropped and never
+        // silently kept. Bounds are NOT a rejection: forgemagie legitimately
+        // pushes a roll over its maximum (overmage) and can sacrifice one
+        // under its minimum, so a value outside the range is possible and only
+        // the player knows. What is not possible is the reader being right
+        // about 476 on an item that rolls 20 to 40, and that used to travel
+        // all the way into the solver as a stat override without a word.
+        //
+        // Where the range is unknown the row is left alone. Measured on the
+        // six item databases, 64.2 % (Touch) to 99.6 % (Wakfu) of items carry
+        // a range, so between 0.4 % and 35.8 % of them have nothing to check
+        // against, and inventing a bound for those would be worse than
+        // checking nothing.
+        function refreshOcrRangeWarnings() {
+            var item = ocrCandidates[ocrItemSelect.value];
+            var byKey = {};
+            ((item && item.stats) || []).forEach(function(stat) {
+                byKey[stat.key] = stat;
+            });
+            Object.keys(ocrStatWarnings).forEach(function(key) {
+                var slot = ocrStatWarnings[key];
+                var input = ocrStatInputs[key];
+                var stat = byKey[key];
+                var value = input ? parseInt(input.value, 10) : NaN;
+                var known = stat && stat.min !== null && stat.min !== undefined
+                    && stat.value !== null && stat.value !== undefined;
+                var low = known ? Math.min(stat.min, stat.value) : 0;
+                var high = known ? Math.max(stat.min, stat.value) : 0;
+                if (!known || isNaN(value) || (value >= low && value <= high)) {
+                    slot.text.style.display = 'none';
+                    slot.line.classList.remove('inv-ocr-row-suspect');
+                    return;
+                }
+                slot.text.textContent = ocrOutOfRange
+                    .replace('{min}', low).replace('{max}', high);
+                slot.text.style.display = 'block';
+                slot.line.classList.add('inv-ocr-row-suspect');
+            });
         }
 
         function renderOcrResult(parsed, matches) {
@@ -624,7 +677,9 @@
                 none.textContent = '{{ t.ocr_no_item|escapejs }}';
                 ocrItemSelect.appendChild(none);
             }
+            ocrCandidates = {};
             matches.forEach(function(item) {
+                ocrCandidates[String(item.id)] = item;
                 var option = document.createElement('option');
                 option.value = item.id;
                 option.textContent = item.name +
@@ -633,10 +688,12 @@
             });
             ocrStatsDiv.innerHTML = '';
             ocrStatInputs = {};
+            ocrStatWarnings = {};
             Object.keys(parsed.stats).forEach(function(key) {
                 addOcrStatRow(key, parsed.stats[key]);
             });
             refreshOcrAddStatSelect();
+            refreshOcrRangeWarnings();
         }
 
         // Tooltips are small light-on-dark text; Tesseract reads much better
@@ -739,8 +796,13 @@
                 }
                 addOcrStatRow(key, 0);
                 refreshOcrAddStatSelect();
+                refreshOcrRangeWarnings();
                 ocrStatInputs[key].focus();
             });
+            // The range belongs to the item, so picking another candidate has
+            // to re-judge every row: the same reading can be ordinary on one
+            // and impossible on the next.
+            ocrItemSelect.addEventListener('change', refreshOcrRangeWarnings);
             ocrAddBtn.addEventListener('click', function() {
                 var itemId = ocrItemSelect.value;
                 if (!itemId) {

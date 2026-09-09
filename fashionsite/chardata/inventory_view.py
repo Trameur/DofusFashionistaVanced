@@ -74,6 +74,7 @@ LOCALIZED_UI = {
         'ocr_stats': 'Detected stats',
         'ocr_add': 'Add to this folder',
         'to_forgemagie': 'Open in Smithmagic',
+        'ocr_out_of_range': 'Outside the encyclopedia range ({min} to {max}). Check this value.',
     },
     'fr': {
         'title': 'Mon Inventaire',
@@ -111,6 +112,7 @@ LOCALIZED_UI = {
         'ocr_stats': 'Stats détectées',
         'ocr_add': 'Ajouter dans ce dossier',
         'to_forgemagie': 'Ouvrir en forgemagie',
+        'ocr_out_of_range': 'Hors de la fourchette d’encyclopédie ({min} à {max}). Vérifiez cette valeur.',
     },
     'es': {
         'title': 'Mi Inventario',
@@ -148,6 +150,7 @@ LOCALIZED_UI = {
         'ocr_stats': 'Estadísticas detectadas',
         'ocr_add': 'Añadir a esta carpeta',
         'to_forgemagie': 'Abrir en forjamagia',
+        'ocr_out_of_range': 'Fuera del rango de la enciclopedia ({min} a {max}). Compruebe este valor.',
     },
     'pt': {
         'title': 'Meu Inventário',
@@ -185,6 +188,7 @@ LOCALIZED_UI = {
         'ocr_stats': 'Atributos detectados',
         'ocr_add': 'Adicionar a esta pasta',
         'to_forgemagie': 'Abrir na forjamagia',
+        'ocr_out_of_range': 'Fora do intervalo da enciclopédia ({min} a {max}). Verifique este valor.',
     },
     'de': {
         'title': 'Mein Inventar',
@@ -222,6 +226,7 @@ LOCALIZED_UI = {
         'ocr_stats': 'Erkannte Werte',
         'ocr_add': 'In diesen Ordner hinzufügen',
         'to_forgemagie': 'In der Schmiedemagie öffnen',
+        'ocr_out_of_range': 'Außerhalb der Enzyklopädie-Spanne ({min} bis {max}). Bitte prüfen.',
     },
 }
 

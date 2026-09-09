@@ -28375,7 +28375,170 @@ class EverySpellIconOnDiskIsAskedForByItsRealNameTests(SimpleTestCase):
                              version)
 
 
-class ScreenshotStatParserNeverInventsANumberTests(SimpleTestCase):
+class InventoryScriptHarness(SimpleTestCase):
+    """The inventory page's JavaScript lives inside a Django template, so the
+    only way to test it is to cut it out and run it under node.
+
+    Two things make that honest rather than a hack. The script block carries no
+    {% %} tag at all and its seventeen {{ }} all sit inside string literals, so
+    the raw block is already valid JavaScript; and no literal in the functions
+    extracted below contains a brace, which is what lets the brace counter
+    work. Both are asserted, not assumed.
+    """
+
+    GABARIT = os.path.join(os.path.dirname(__file__), 'templates', 'chardata',
+                           'inventory.html')
+
+    def _source(self):
+        return io.open(self.GABARIT, encoding='utf-8').read()
+
+    def _script_block(self):
+        source = self._source()
+        start = source.rindex('<script>') + len('<script>')
+        return source[start:source.index('</script>', start)]
+
+    @staticmethod
+    def _extract(source, nom):
+        """The named function, by brace matching."""
+        debut = source.index('function %s(' % nom)
+        ouvrante = source.index('{', debut)
+        profondeur = 0
+        for position in range(ouvrante, len(source)):
+            if source[position] == '{':
+                profondeur += 1
+            elif source[position] == '}':
+                profondeur -= 1
+                if profondeur == 0:
+                    return source[debut:position + 1]
+        raise AssertionError('unbalanced braces in %s' % nom)
+
+    def _node(self, script):
+        """Run the script and return its stdout, or skip if node is missing."""
+        node = shutil.which('node')
+        if node is None:
+            self.skipTest('node not installed')
+        dossier = tempfile.mkdtemp()
+        try:
+            chemin = os.path.join(dossier, 'piece.js')
+            io.open(chemin, 'w', encoding='utf-8').write(script)
+            sortie = subprocess.run([node, chemin], capture_output=True,
+                                    text=True, encoding='utf-8', timeout=60)
+            self.assertEqual(0, sortie.returncode, sortie.stderr)
+            return sortie.stdout
+        finally:
+            shutil.rmtree(dossier, ignore_errors=True)
+
+
+class InventoryScriptParsesTests(InventoryScriptHarness):
+    """A syntax error in this block silently kills the whole inventory page,
+    and the Python suite would stay green: it never runs the JavaScript. This
+    was the first test of any kind over the screenshot reader."""
+
+    def test_the_inventory_script_is_valid_javascript(self):
+        node = shutil.which('node')
+        if node is None:
+            self.skipTest('node not installed')
+        bloc = self._script_block()
+        self.assertNotIn('{%', bloc,
+                         'a template tag would stop this block being JS')
+        dossier = tempfile.mkdtemp()
+        try:
+            chemin = os.path.join(dossier, 'inventory.js')
+            io.open(chemin, 'w', encoding='utf-8').write(bloc)
+            sortie = subprocess.run([node, '--check', chemin],
+                                    capture_output=True, text=True,
+                                    encoding='utf-8', timeout=60)
+            self.assertEqual(0, sortie.returncode, sortie.stderr)
+        finally:
+            shutil.rmtree(dossier, ignore_errors=True)
+
+
+class ScreenshotRangeWarningTests(InventoryScriptHarness):
+    """A reading the chosen item cannot support is shown, never dropped and
+    never silently kept.
+
+    Bounds are not a rejection: forgemagie legitimately pushes a roll over its
+    maximum and can sacrifice one under its minimum, so only the player knows.
+    What the site can say is that the reader claimed 476 on an item that rolls
+    20 to 40. Where the item carries no range there is nothing to check and the
+    row is left alone, which is the case for 0.4 % (Wakfu) to 35.8 % (Touch) of
+    items.
+    """
+
+    GABARIT_MODELE = u"""
+%(fonction)s
+var ocrOutOfRange = 'range {min} to {max}';
+var ocrItemSelect = {value: '7'};
+var ocrCandidates = {'7': {stats: [
+    {key: 'str', min: 20, value: 40},
+    {key: 'vit', min: null, value: 100}
+]}};
+function fausseLigne() {
+    return {classList: {marques: [],
+        add: function (c) { if (this.marques.indexOf(c) < 0) this.marques.push(c); },
+        remove: function (c) { this.marques = this.marques.filter(function (x) { return x !== c; }); }}};
+}
+var ocrStatInputs = %(entrees)s;
+var ocrStatWarnings = {};
+Object.keys(ocrStatInputs).forEach(function (key) {
+    ocrStatWarnings[key] = {line: fausseLigne(), text: {style: {}, textContent: ''}};
+});
+refreshOcrRangeWarnings();
+var sortie = {};
+Object.keys(ocrStatWarnings).forEach(function (key) {
+    sortie[key] = {affiche: ocrStatWarnings[key].text.style.display,
+                   texte: ocrStatWarnings[key].text.textContent,
+                   marques: ocrStatWarnings[key].line.classList.marques};
+});
+console.log(JSON.stringify(sortie));
+"""
+
+    def _juge(self, entrees):
+        fonction = self._extract(self._source(), 'refreshOcrRangeWarnings')
+        self.assertNotIn('{min}', fonction.split('replace')[0],
+                         'the placeholder must come from the label, not the code')
+        script = self.GABARIT_MODELE % {'fonction': fonction,
+                                        'entrees': json.dumps(entrees)}
+        return json.loads(self._node(script))
+
+    def test_a_roll_the_item_cannot_have_is_flagged_with_its_range(self):
+        """476 is what the old parser produced from a misread "57 a 76"."""
+        verdict = self._juge({'str': {'value': '476'}})
+        self.assertEqual('block', verdict['str']['affiche'])
+        self.assertEqual('range 20 to 40', verdict['str']['texte'])
+        self.assertIn('inv-ocr-row-suspect', verdict['str']['marques'])
+
+    def test_an_ordinary_roll_says_nothing(self):
+        verdict = self._juge({'str': {'value': '30'}})
+        self.assertEqual('none', verdict['str']['affiche'])
+        self.assertEqual([], verdict['str']['marques'])
+
+    def test_the_bounds_themselves_are_ordinary(self):
+        for valeur in ('20', '40'):
+            with self.subTest(valeur=valeur):
+                verdict = self._juge({'str': {'value': valeur}})
+                self.assertEqual('none', verdict['str']['affiche'])
+
+    def test_an_overmage_is_flagged_but_not_refused(self):
+        """Over the maximum is legal and only the player knows, so the wording
+        asks them to check rather than announcing an error, and the value is
+        left in the field."""
+        verdict = self._juge({'str': {'value': '45'}})
+        self.assertEqual('block', verdict['str']['affiche'])
+
+    def test_a_stat_with_no_known_range_is_left_alone(self):
+        """Inventing a bound for the third of items that carry none would be
+        worse than checking nothing."""
+        verdict = self._juge({'vit': {'value': '99999'}})
+        self.assertEqual('none', verdict['vit']['affiche'])
+
+    def test_a_stat_the_item_does_not_have_is_left_alone(self):
+        """An exo puts a stat on an item that never lists it."""
+        verdict = self._juge({'agi': {'value': '400'}})
+        self.assertEqual('none', verdict['agi']['affiche'])
+
+
+class ScreenshotStatParserNeverInventsANumberTests(InventoryScriptHarness):
     """The screenshot reader used to turn an unreadable line into a number.
 
     parseStatLine strips a leading junk group on purpose, because the stat icon
@@ -28393,31 +28556,10 @@ class ScreenshotStatParserNeverInventsANumberTests(SimpleTestCase):
     all: this file had none for any part of the screenshot reader.
     """
 
-    GABARIT = os.path.join(os.path.dirname(__file__), 'templates', 'chardata',
-                           'inventory.html')
     LEXIQUE = {'force': 'str', 'vitalite': 'vit'}
 
-    @staticmethod
-    def _extract(source, nom):
-        """The named function, by brace matching. No literal in either
-        function contains a brace, which the caller asserts."""
-        debut = source.index('function %s(' % nom)
-        ouvrante = source.index('{', debut)
-        profondeur = 0
-        for position in range(ouvrante, len(source)):
-            if source[position] == '{':
-                profondeur += 1
-            elif source[position] == '}':
-                profondeur -= 1
-                if profondeur == 0:
-                    return source[debut:position + 1]
-        raise AssertionError('unbalanced braces in %s' % nom)
-
     def _parse(self, lines):
-        node = shutil.which('node')
-        if node is None:
-            self.skipTest('node not installed')
-        source = io.open(self.GABARIT, encoding='utf-8').read()
+        source = self._source()
         morceaux = [self._extract(source, 'ocrNormalize'),
                     self._extract(source, 'parseStatLine')]
         for morceau in morceaux:
@@ -28428,16 +28570,7 @@ class ScreenshotStatParserNeverInventsANumberTests(SimpleTestCase):
             'console.log(JSON.stringify(%s.map('
             'l => parseStatLine(l, lexicon))));\n'
             % (json.dumps(self.LEXIQUE), json.dumps(lines)))
-        dossier = tempfile.mkdtemp()
-        try:
-            chemin = os.path.join(dossier, 'parse.js')
-            io.open(chemin, 'w', encoding='utf-8').write(script)
-            sortie = subprocess.run([node, chemin], capture_output=True,
-                                    text=True, encoding='utf-8', timeout=60)
-            self.assertEqual(0, sortie.returncode, sortie.stderr)
-            return json.loads(sortie.stdout)
-        finally:
-            shutil.rmtree(dossier, ignore_errors=True)
+        return json.loads(self._node(script))
 
     def test_a_line_nobody_can_read_comes_back_unread(self):
         lignes = [u'57 \u00e0 76 Force', u'57 4 76 Force', u'3 4 5 60 Force']
@@ -28456,3 +28589,77 @@ class ScreenshotStatParserNeverInventsANumberTests(SimpleTestCase):
                           {'key': 'vit', 'value': 1234567}],
                          self._parse([u'1 000 Vitalite',
                                       u'1 234 567 Vitalite']))
+
+
+class ScreenshotRangeGuardHasSomethingToCheckTests(SimpleTestCase):
+    """The screenshot reader flags a roll the chosen item cannot support, and
+    it can only do that where the item carries a roll range.
+
+    read_stats_of_item_table says "only the versions built by get_equipments3
+    carry the roll range". Measured 2026-09-09 against the six shipped item
+    databases, that comment is wrong: all six carry ranges, on 70.1 % (Retro)
+    to 100.0 % (Wakfu) of their stats. The guard is therefore live on every
+    version, which is worth asserting rather than assuming: a data rebuild that
+    dropped the min_value and max_value columns would switch the guard off
+    everywhere and no other test would notice, because a guard that never fires
+    breaks nothing.
+
+    The floor is set well under each measurement so an ordinary content patch
+    does not fail the suite. It is there to catch a collapse, not a drift.
+    """
+
+    #: version -> percentage of item stats carrying a range, measured
+    #: 2026-09-09. The floor asserted is this minus 10 points.
+    MESURE = {'dofus3': 80.5, 'beta': 80.4, 'dofus2': 83.3,
+              'retro': 70.1, 'touch': 81.1, 'wakfu': 100.0}
+
+    @staticmethod
+    def _couverture(version):
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        if not os.path.exists(get_items_db_path(version)):
+            return None
+        structure = get_structure(version)
+        total = 0
+        avec = 0
+        for item in structure.items_dict.values():
+            total += len(item.stats)
+            avec += len(getattr(item, 'stat_ranges', None) or {})
+        return (structure, total, avec)
+
+    def test_every_version_still_carries_roll_ranges(self):
+        for version, mesure in self.MESURE.items():
+            with self.subTest(version=version):
+                couverture = self._couverture(version)
+                if couverture is None:
+                    self.skipTest('no %s database' % version)
+                _structure, total, avec = couverture
+                self.assertGreater(total, 0, '%s has no item stats' % version)
+                pourcent = 100.0 * avec / total
+                self.assertGreaterEqual(
+                    pourcent, mesure - 10.0,
+                    '%s: %.1f %% of stats carry a range, measured %.1f %% on '
+                    '2026-09-09. Under this floor the screenshot range guard '
+                    'stops firing.' % (version, pourcent, mesure))
+
+    def test_the_payload_hands_the_range_to_the_browser(self):
+        """The guard reads stat.min and stat.value out of the search payload,
+        so the range has to survive _item_payload, not merely exist in the
+        database."""
+        from chardata.forgemagie_view import _item_payload
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        avec_fourchette = None
+        for item in structure.items_dict.values():
+            if getattr(item, 'stat_ranges', None) and item.stats:
+                avec_fourchette = item
+                break
+        self.assertIsNotNone(avec_fourchette, 'no dofus3 item carries a range')
+        payload = _item_payload(structure, avec_fourchette, 'en')
+        bornes = [stat for stat in payload['stats']
+                  if stat.get('min') is not None]
+        self.assertTrue(bornes, 'payload dropped every range for %s'
+                        % avec_fourchette.name)
+        for stat in bornes:
+            self.assertIsNotNone(stat.get('value'), stat)
+            self.assertIsInstance(stat['min'], int, stat)

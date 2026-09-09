@@ -219,3 +219,18 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* A reading the chosen item cannot support. No colour of its own on the text:
+   the warning is carried by the words, and the tint is translucent so it
+   composites onto the light and the dark theme alike instead of picking a hue
+   that reads on one and vanishes on the other. */
+.inv-ocr-row-suspect {
+    background: rgba(200, 120, 0, 0.16);
+    border-radius: 6px;
+    padding: 2px 6px;
+}
+.inv-ocr-warning {
+    font-size: 0.86em;
+    line-height: 1.35;
+    margin: 2px 0 8px 6px;
+}
