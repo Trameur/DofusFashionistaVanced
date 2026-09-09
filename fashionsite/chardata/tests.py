@@ -29031,3 +29031,139 @@ class InventoryPageRendersBothEntrancesTests(TestCase):
         statut = page.index('id="inv-ocr-status"')
         self.assertLess(boite, statut)
         self.assertLess(statut, resultat)
+
+
+class HowItWorksGuideSaysWhatTheSolverDoesTests(SimpleTestCase):
+    """This guide is the page the repositioning points at, so every claim on
+    it is checked against the catalogue and the solver rather than trusted.
+
+    Two of them were wrong when this class was written, and both had shipped:
+    the guide said the tool walks through thousands of combinations and keeps
+    the best, and it said twelve equipment slots.
+    """
+
+    LANGUES = ('en', 'fr', 'es', 'pt', 'de')
+
+    @staticmethod
+    def _corps(langue):
+        from chardata.guides_content import GUIDES
+        return GUIDES['how-it-works']['i18n'][langue]['body']
+
+    @staticmethod
+    def _espace_de_recherche():
+        """How many ways the sixteen slots can be filled at level 200."""
+        import math
+        from fashionistapulp.dofus_constants import SLOTS
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        niveau = max(structure.types)
+        par_type = {nom: len([item for item in structure.types[niveau][nom]
+                              if not item.removed])
+                    for nom in structure.types[niveau]}
+        combinaisons = 1
+        for nom in ('Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Belt',
+                    'Boots', 'Pet'):
+            combinaisons *= par_type[nom]
+        # Two rings and six dofus are chosen from one pool each, and the same
+        # item cannot be worn twice.
+        combinaisons *= math.comb(par_type['Ring'], 2)
+        combinaisons *= math.comb(par_type['Dofus'], 6)
+        return len(SLOTS), par_type, combinaisons
+
+    def test_the_search_space_really_is_past_ten_to_the_thirty_seventh(self):
+        """The guide says "more than 10 to the power of 37". Measured
+        2026-09-09 it is 2.6 times that, so an ordinary content patch cannot
+        make the sentence false, but a collapse would and this would catch
+        it."""
+        _slots, _par_type, combinaisons = self._espace_de_recherche()
+        self.assertGreater(combinaisons, 10 ** 37,
+                           'the guide claims more than 10^37 and the '
+                           'catalogue now gives %d' % combinaisons)
+
+    def test_every_slot_really_has_over_a_hundred_candidates(self):
+        """The guide says "well over a hundred candidates for every single one
+        of them". Shields are the thinnest at 129."""
+        _slots, par_type, _combinaisons = self._espace_de_recherche()
+        maigre = min(par_type, key=lambda nom: par_type[nom])
+        self.assertGreater(par_type[maigre], 100,
+                           '%s has only %d' % (maigre, par_type[maigre]))
+
+    def test_the_game_really_has_sixteen_slots(self):
+        """It said twelve for as long as the guide existed."""
+        slots, _par_type, _combinaisons = self._espace_de_recherche()
+        self.assertEqual(16, slots)
+
+    def test_no_guide_claims_the_solver_walks_the_combinations(self):
+        """A MILP solver does not enumerate. Measured on a real Dofus 3 solve,
+        CBC closed the problem at the root and reported "Enumerated nodes: 0",
+        so a sentence about trying thousands of combinations describes a
+        machine that does not exist, and it is exactly the reproach aimed at
+        systems that produce a plausible answer."""
+        from chardata.guides_content import GUIDES
+        interdits = ('thousands of legal item combinations',
+                     'milliers de combinaisons',
+                     'miles de combinaciones',
+                     'milhares de combina',
+                     'tausende erlaubte item-kombinationen')
+        for slug, guide in GUIDES.items():
+            groupes = ([guide['i18n']] if 'i18n' in guide
+                       else list(guide['i18n_by_group'].values()))
+            for groupe in groupes:
+                for langue, contenu in groupe.items():
+                    corps = contenu['body'].lower()
+                    for interdit in interdits:
+                        with self.subTest(slug=slug, langue=langue):
+                            self.assertNotIn(interdit, corps)
+
+    def test_the_three_steps_come_before_the_technical_detail(self):
+        """ChatGPT's own point, and the right one: what you do first, why it
+        is trustworthy second, how it works third."""
+        premiers = {'en': 'In three steps', 'fr': 'En trois \u00e9tapes',
+                    'es': 'En tres pasos', 'pt': 'Em tr\u00eas passos',
+                    'de': 'In drei Schritten'}
+        rassurants = {'en': 'No magic', 'fr': 'Pas de magie',
+                      'es': 'Nada de magia', 'pt': 'Nada de magia',
+                      'de': 'Keine Magie'}
+        for langue in self.LANGUES:
+            with self.subTest(langue=langue):
+                corps = self._corps(langue)
+                titres = re.findall(r'<h2>(.*?)</h2>', corps)
+                self.assertGreaterEqual(len(titres), 6, titres)
+                self.assertIn(premiers[langue], titres[0])
+                self.assertIn(rassurants[langue], titres[1])
+
+    def test_the_guide_lists_what_the_reader_can_overrule(self):
+        """Every one of these exists on a solution item, checked in
+        solution_item.html: Lock, Forbid, Switch, Remove, Lock empty, plus the
+        roll override and the smithmagic link. A list of controls that did not
+        exist would be the worst kind of wrong on this page."""
+        gabarit = os.path.join(os.path.dirname(__file__), 'templates',
+                               'chardata', 'solution_item.html')
+        rendu = io.open(gabarit, encoding='utf-8').read()
+        for action in ('"Lock" context', '{% trans "Forbid" %}',
+                       '{% trans "Switch" %}', '{% trans "Remove" %}',
+                       '{% trans "Lock empty" %}'):
+            with self.subTest(action=action):
+                self.assertIn(action, rendu)
+        self.assertIn('stat-override-btn-sol-', rendu)
+        ateliers = {'en': 'smithmagic workbench', 'fr': 'atelier de forgemagie',
+                    'es': 'taller de forjamagia', 'pt': 'oficina de forjamagia',
+                    'de': 'schmiedemagie-werkstatt'}
+        for langue in self.LANGUES:
+            with self.subTest(langue=langue):
+                self.assertIn(ateliers[langue], self._corps(langue).lower())
+
+    def test_the_guide_never_promises_a_proven_optimum(self):
+        """CBC runs with timeLimit=90 and PuLP relabels a stopped run as
+        Optimal, so the site cannot tell a proved optimum from the best
+        incumbent and must not claim one."""
+        from fashionistapulp import lpproblem
+        source = io.open(lpproblem.__file__, encoding='utf-8').read()
+        self.assertIn('timeLimit=90', source.replace(' ', ''))
+        promesses = ('the optimal set', 'le set optimal', 'guaranteed best',
+                     'meilleur set possible garanti')
+        for langue in self.LANGUES:
+            corps = self._corps(langue).lower()
+            for promesse in promesses:
+                with self.subTest(langue=langue, promesse=promesse):
+                    self.assertNotIn(promesse, corps)

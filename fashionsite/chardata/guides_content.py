@@ -1461,12 +1461,24 @@ GUIDES = {
                 'desc': "Most build sites are a spreadsheet: you drag in items, they total the stats. The Fashionista works backwards, you say what you want and it finds the items.",
                 'lead': "Most build sites are a fancy spreadsheet: you drag items in, they add up the stats. The Fashionista works the other way round, you say what you want, it finds the items.",
                 'body': '''
+<h2>In three steps</h2>
+<p>There is no trick to learn. The whole tool is three moves.</p>
+<ul>
+<li><strong>You say what you want.</strong> Your class, your level, the stats that matter to you, and the numbers you refuse to go under: 11 AP, 6 MP, 3500 vitality, whatever the build needs.</li>
+<li><strong>The solver works it out.</strong> It reads the real item data of your version of the game and finds the best combination it can while respecting every condition you set.</li>
+<li><strong>You stay in charge.</strong> Lock what you already own, forbid what you will never farm, switch or remove anything you dislike, and run it again. What comes back is a starting point, not a verdict.</li>
+</ul>
+
+<h2>No magic, and nothing invented</h2>
+<p>No language model chooses your gear. Your priorities become equations and constraints, a solver searches the items you have not excluded, and every number it uses comes from the game's own data. The Fashionista has worked this way since February 2012, back when it was a program you installed, which is a good while before "generated" started meaning what it means today.</p>
+
 <h2>It's an optimization problem, not a list</h2>
-<p>When you set your sliders, you're handing the tool a <strong>score</strong> for every stat. Behind the scenes it then searches through thousands of legal item combinations and picks the one that racks up the highest total score, while respecting the hard rules of the game. That's a genuine mathematical optimization, the same family of math used for scheduling planes or packing trucks, just pointed at your Iop instead.</p>
-<p>And no, no language model chooses your gear. Your priorities become equations, and a solver searches every item you have not excluded for the best legal answer it can find. The Fashionista has worked that way since 2012, when it was still a desktop tool.</p>
+<p>When you set your sliders, you're handing the tool a <strong>score</strong> for every stat. It then looks for the highest-scoring set that still obeys the hard rules of the game. That's a genuine mathematical optimization, the same family of math used for scheduling planes or packing trucks, just pointed at your Iop instead.</p>
+<p>The size of that question is worth a moment. A character has sixteen slots to fill, and the catalogue offers well over a hundred candidates for every single one of them. Those sixteen slots can be filled in <strong>more than 10 to the power of 37</strong> different ways, a 1 followed by thirty-seven zeros. Nothing could try those one at a time, and this doesn't try: it works out which set wins without visiting them, the way you can prove the shortest route across a city without walking every street.</p>
+<p>It gets ninety seconds. Most builds are settled well inside that; a tangled one comes back with the best set found in the time rather than a proof, which is why the wording here is always <em>the best it can find</em>.</p>
 
 <h2>Why weighting beats raw stats</h2>
-<p>Say intelligence is worth 1 point to you and vitality 0.2. An item with +40 int and +100 vita scores 40 + 20 = 60. An item with +60 int and +30 vita scores 60 + 6 = 66, so it wins, even though it has less vita. Multiply that across twelve slots, set bonuses and dofus, and you get combinations no human bothers to check by hand. That's the whole point: you set the priorities, it does the boring part.</p>
+<p>Say intelligence is worth 1 point to you and vitality 0.2. An item with +40 int and +100 vita scores 40 + 20 = 60. An item with +60 int and +30 vita scores 60 + 6 = 66, so it wins, even though it has less vita. Multiply that across sixteen slots, set bonuses and dofus, and you get combinations no human bothers to check by hand. That's the whole point: you set the priorities, it does the boring part.</p>
 
 <h2>The rules it never breaks</h2>
 <p>Optimizing freely would be easy; optimizing <em>legally</em> is the hard bit. The solver keeps your build inside the lines:</p>
@@ -1476,6 +1488,18 @@ GUIDES = {
 <li>Minimum stats you demanded (say "at least 3000 HP").</li>
 <li>Items you forbade or locked, and conditions like level or class restrictions.</li>
 </ul>
+
+<h2>Every piece is yours to overrule</h2>
+<p>A solution is not handed down. On any item in it you can:</p>
+<ul>
+<li><strong>Lock</strong> it, so the next run has to keep it.</li>
+<li><strong>Forbid</strong> it, so the next run has to manage without it.</li>
+<li><strong>Switch</strong> it for another item of the same kind.</li>
+<li><strong>Remove</strong> it, or lock a slot empty so that nothing fills it.</li>
+<li>Correct its rolls, when the one you own is not the one listed.</li>
+<li>Send it to the smithmagic workbench to plan what you would rune onto it.</li>
+</ul>
+<p>Then run it again. That back and forth is the tool: you say what you did not like, it works around it.</p>
 
 <h2>Why the result sometimes surprises you</h2>
 <p>If the suggestion looks weird, it's usually telling you something: your weights are pulling against each other, or there simply isn't gear that hits everything at once. Drop a slider, raise another, forbid that one item you'll never farm, and re-run. After a couple of passes you'll have a set that's genuinely tuned to you, not a copy-paste meta build everyone else is wearing.</p>
@@ -1488,12 +1512,24 @@ GUIDES = {
                 'desc': "La plupart des sites de build sont un tableur : tu glisses, ça additionne. La Fashionista fait l'inverse : dis ce que tu veux, elle trouve les items.",
                 'lead': "La plupart des sites de build, c'est un tableur déguisé : tu glisses des items, ça additionne les stats. La Fashionista fait l'inverse, tu dis ce que tu veux, elle trouve les items.",
                 'body': '''
+<h2>En trois étapes</h2>
+<p>Il n'y a pas d'astuce à connaître. Tout l'outil tient en trois gestes.</p>
+<ul>
+<li><strong>Tu dis ce que tu veux.</strong> Ta classe, ton niveau, les stats qui comptent pour toi, et les seuils sous lesquels tu refuses de descendre : 11 PA, 6 PM, 3500 vita, ce dont ton build a besoin.</li>
+<li><strong>Le solveur cherche.</strong> Il lit les données réelles des objets de ta version du jeu et trouve la meilleure combinaison qu'il puisse, en respectant chacune de tes conditions.</li>
+<li><strong>Tu gardes la main.</strong> Verrouille ce que tu possèdes déjà, interdis ce que tu ne farmeras jamais, échange ou retire ce qui ne te plaît pas, et relance. Ce qui sort est un point de départ, pas un verdict.</li>
+</ul>
+
+<h2>Pas de magie, et rien d'inventé</h2>
+<p>Aucun modèle de langage ne choisit ton stuff. Tes priorités deviennent des équations et des contraintes, un solveur cherche parmi les objets que tu n'as pas exclus, et chaque nombre qu'il utilise vient des données du jeu. Le Fashionista marche comme ça depuis février 2012, à l'époque où c'était encore un logiciel à installer, soit un bon moment avant que le mot « généré » ne veuille dire ce qu'il veut dire aujourd'hui.</p>
+
 <h2>C'est un problème d'optimisation, pas une liste</h2>
-<p>Quand tu règles tes curseurs, tu donnes en fait un <strong>score</strong> à chaque carac. En coulisses, l'outil parcourt des milliers de combinaisons d'items valides et garde celle qui cumule le plus gros score total, tout en respectant les règles dures du jeu. C'est de la vraie optimisation mathématique, la même famille de maths qui sert à planifier des avions ou à remplir des camions, juste braquée sur ton Iop.</p>
-<p>Et non, aucun modèle de langage ne choisit ton stuff. Tes priorités deviennent des équations, et un solveur cherche la meilleure réponse légale qu'il puisse trouver parmi tous les objets que tu n'as pas exclus. Le Fashionista marche comme ça depuis 2012, à l'époque où c'était encore un logiciel à installer sur son PC.</p>
+<p>Quand tu règles tes curseurs, tu donnes en fait un <strong>score</strong> à chaque carac. Il cherche ensuite le set au plus gros score total qui respecte quand même les règles dures du jeu. C'est de la vraie optimisation mathématique, la même famille de maths qui sert à planifier des avions ou à remplir des camions, juste braquée sur ton Iop.</p>
+<p>La taille de la question mérite qu'on s'y arrête. Un personnage a seize emplacements à remplir, et le catalogue propose bien plus d'une centaine de candidats pour chacun d'eux. Ces seize emplacements peuvent être remplis de <strong>plus de 10 puissance 37</strong> façons différentes, un 1 suivi de trente-sept zéros. Rien ne pourrait les essayer une par une, et lui n'essaie pas : il détermine quel set gagne sans les visiter, comme on peut prouver le plus court chemin dans une ville sans parcourir chaque rue.</p>
+<p>Il a quatre-vingt-dix secondes. La plupart des builds sont réglés bien avant ; un build emmêlé rend le meilleur set trouvé dans le temps imparti plutôt qu'une preuve, et c'est pour ça que la formulation ici est toujours <em>la meilleure qu'il puisse trouver</em>.</p>
 
 <h2>Pourquoi pondérer bat les stats brutes</h2>
-<p>Mettons que l'intelligence vaut 1 point pour toi et la vita 0,2. Un item +40 intel et +100 vita marque 40 + 20 = 60. Un item +60 intel et +30 vita marque 60 + 6 = 66, donc il gagne, alors qu'il a moins de vita. Multiplie ça sur douze emplacements, les bonus de panoplie et les dofus, et tu obtiens des combinaisons que personne ne s'amuse à vérifier à la main. C'est tout l'intérêt : tu poses les priorités, lui fait la partie chiante.</p>
+<p>Mettons que l'intelligence vaut 1 point pour toi et la vita 0,2. Un item +40 intel et +100 vita marque 40 + 20 = 60. Un item +60 intel et +30 vita marque 60 + 6 = 66, donc il gagne, alors qu'il a moins de vita. Multiplie ça sur seize emplacements, les bonus de panoplie et les dofus, et tu obtiens des combinaisons que personne ne s'amuse à vérifier à la main. C'est tout l'intérêt : tu poses les priorités, lui fait la partie chiante.</p>
 
 <h2>Les règles qu'il ne casse jamais</h2>
 <p>Optimiser librement, c'est facile ; optimiser <em>légalement</em>, c'est le vrai boulot. Le solveur garde ton build dans les clous :</p>
@@ -1503,6 +1539,18 @@ GUIDES = {
 <li>Les stats minimales que t'as exigées (genre "au moins 3000 PV").</li>
 <li>Les items interdits ou verrouillés, et les conditions type niveau ou restriction de classe.</li>
 </ul>
+
+<h2>Chaque pièce reste la tienne</h2>
+<p>Une solution ne tombe pas d'en haut. Sur n'importe quel objet, tu peux :</p>
+<ul>
+<li>Le <strong>verrouiller</strong>, pour que la prochaine passe le garde.</li>
+<li>L'<strong>interdire</strong>, pour que la prochaine passe fasse sans.</li>
+<li>L'<strong>échanger</strong> contre un autre objet du même type.</li>
+<li>Le <strong>retirer</strong>, ou verrouiller l'emplacement vide pour que rien ne vienne le remplir.</li>
+<li>Corriger ses jets, quand celui que tu possèdes n'est pas celui listé.</li>
+<li>L'envoyer à l'atelier de forgemagie pour préparer ce que tu lui mettrais.</li>
+</ul>
+<p>Puis relance. C'est cet aller-retour, l'outil : tu dis ce qui ne t'a pas plu, il fait avec.</p>
 
 <h2>Pourquoi le résultat te surprend parfois</h2>
 <p>Si la proposition a l'air bizarre, en général elle te dit quelque chose : tes poids se tirent dessus, ou il n'existe tout simplement pas de stuff qui coche tout d'un coup. Baisse un curseur, monte un autre, interdis cet item que tu farmeras jamais, et relance. Au bout de deux-trois passes, t'as un set vraiment réglé pour toi, pas un build meta copié-collé que tout le monde porte.</p>
@@ -1515,12 +1563,24 @@ GUIDES = {
                 'desc': "La mayoría de las webs de builds son una hoja de cálculo: arrastras ítems y suman. La Fashionista hace lo contrario: dices qué quieres y encuentra los ítems.",
                 'lead': "La mayoría de las webs de builds son una hoja de cálculo con maquillaje: arrastras ítems y suman las estadísticas. La Fashionista hace lo contrario, tú dices qué quieres y ella encuentra los ítems.",
                 'body': '''
+<h2>En tres pasos</h2>
+<p>No hay truco que aprender. Toda la herramienta cabe en tres gestos.</p>
+<ul>
+<li><strong>Tú dices lo que quieres.</strong> Tu clase, tu nivel, las características que te importan y los mínimos por debajo de los que no piensas bajar: 11 PA, 6 PM, 3500 de vitalidad, lo que pida tu build.</li>
+<li><strong>El solver lo resuelve.</strong> Lee los datos reales de los objetos de tu versión del juego y encuentra la mejor combinación que puede, respetando cada una de tus condiciones.</li>
+<li><strong>Tú mandas.</strong> Bloquea lo que ya tienes, prohíbe lo que no vas a farmear nunca, cambia o quita lo que no te guste, y vuelve a lanzar. Lo que sale es un punto de partida, no un veredicto.</li>
+</ul>
+
+<h2>Nada de magia, y nada inventado</h2>
+<p>Ningún modelo de lenguaje elige tu equipo. Tus prioridades se convierten en ecuaciones y restricciones, un solver recorre los objetos que no hayas excluido, y cada número que usa sale de los datos del propio juego. El Fashionista funciona así desde febrero de 2012, cuando todavía era un programa que instalabas, bastante antes de que la palabra «generado» significara lo que significa hoy.</p>
+
 <h2>Es un problema de optimización, no una lista</h2>
-<p>Cuando ajustas los deslizadores, en realidad le das una <strong>puntuación</strong> a cada característica. Por detrás, la herramienta recorre miles de combinaciones de ítems válidas y se queda con la que más puntúa en total, respetando las reglas duras del juego. Es optimización matemática de verdad, la misma familia de mates que sirve para planificar aviones o llenar camiones, solo que apuntando a tu Yopuka.</p>
-<p>Y no, ningún modelo de lenguaje elige tu equipo. Tus prioridades se convierten en ecuaciones y un solver recorre todos los objetos que no hayas excluido buscando la mejor respuesta válida que sea capaz de encontrar. El Fashionista funciona así desde 2012, cuando todavía era una herramienta de escritorio.</p>
+<p>Cuando ajustas los deslizadores, en realidad le das una <strong>puntuación</strong> a cada característica. Luego busca el conjunto con la puntuación más alta que siga respetando las reglas duras del juego. Es optimización matemática de verdad, la misma familia de mates que sirve para planificar aviones o llenar camiones, solo que apuntando a tu Yopuka.</p>
+<p>Vale la pena detenerse en el tamaño de la pregunta. Un personaje tiene dieciséis ranuras que llenar, y el catálogo ofrece bastante más de cien candidatos para cada una. Esas dieciséis ranuras se pueden llenar de <strong>más de 10 elevado a 37</strong> maneras distintas, un 1 seguido de treinta y siete ceros. Nada podría probarlas una a una, y esto no lo intenta: averigua qué conjunto gana sin visitarlas, igual que se puede demostrar el camino más corto por una ciudad sin recorrer cada calle.</p>
+<p>Tiene noventa segundos. La mayoría de los builds se resuelven mucho antes; uno enredado devuelve el mejor conjunto encontrado en ese tiempo en vez de una demostración, y por eso aquí siempre se dice <em>la mejor que sea capaz de encontrar</em>.</p>
 
 <h2>Por qué ponderar gana a las estadísticas en bruto</h2>
-<p>Pongamos que la inteligencia vale 1 punto para ti y la vitalidad 0,2. Un ítem con +40 inteligencia y +100 vita puntúa 40 + 20 = 60. Uno con +60 inteligencia y +30 vita puntúa 60 + 6 = 66, así que gana, aunque tenga menos vita. Multiplica eso por doce ranuras, bonus de panoplia y dofus, y salen combinaciones que nadie se pone a comprobar a mano. Esa es la gracia: tú pones las prioridades, ella hace lo aburrido.</p>
+<p>Pongamos que la inteligencia vale 1 punto para ti y la vitalidad 0,2. Un ítem con +40 inteligencia y +100 vita puntúa 40 + 20 = 60. Uno con +60 inteligencia y +30 vita puntúa 60 + 6 = 66, así que gana, aunque tenga menos vita. Multiplica eso por dieciséis ranuras, bonus de panoplia y dofus, y salen combinaciones que nadie se pone a comprobar a mano. Esa es la gracia: tú pones las prioridades, ella hace lo aburrido.</p>
 
 <h2>Las reglas que nunca rompe</h2>
 <p>Optimizar libremente es fácil; optimizar <em>de forma legal</em> es lo difícil. El solucionador mantiene tu build dentro de las líneas:</p>
@@ -1530,6 +1590,18 @@ GUIDES = {
 <li>Las estadísticas mínimas que exigiste (por ejemplo "al menos 3000 PV").</li>
 <li>Los ítems que prohibiste o bloqueaste, y condiciones como nivel o restricción de clase.</li>
 </ul>
+
+<h2>Cada pieza sigue siendo tuya</h2>
+<p>Una solución no cae desde arriba. Sobre cualquier objeto puedes:</p>
+<ul>
+<li><strong>Bloquearlo</strong>, para que la siguiente pasada lo conserve.</li>
+<li><strong>Prohibirlo</strong>, para que la siguiente pasada se apañe sin él.</li>
+<li><strong>Cambiarlo</strong> por otro objeto del mismo tipo.</li>
+<li><strong>Quitarlo</strong>, o bloquear la ranura vacía para que nada la ocupe.</li>
+<li>Corregir sus tiradas, cuando el que tienes no es el que aparece listado.</li>
+<li>Mandarlo al taller de forjamagia para planear lo que le pondrías.</li>
+</ul>
+<p>Y vuelve a lanzar. Ese ida y vuelta es la herramienta: dices lo que no te gustó y ella se las arregla con eso.</p>
 
 <h2>Por qué el resultado a veces sorprende</h2>
 <p>Si la sugerencia parece rara, normalmente te está diciendo algo: tus pesos tiran unos contra otros, o simplemente no existe equipo que lo cumpla todo a la vez. Baja un deslizador, sube otro, prohíbe ese ítem que no vas a farmear nunca, y vuelve a lanzar. Tras un par de pasadas tendrás un set afinado para ti de verdad, no un build meta copiado que lleva todo el mundo.</p>
@@ -1542,12 +1614,24 @@ GUIDES = {
                 'desc': "A maioria dos sites de build é uma planilha: você arrasta itens e ela soma. A Fashionista faz o contrário, você diz o que quer e ela acha os itens.",
                 'lead': "A maioria dos sites de build é uma planilha disfarçada: você arrasta itens e ela soma os atributos. A Fashionista faz o contrário, você diz o que quer e ela acha os itens.",
                 'body': '''
+<h2>Em três passos</h2>
+<p>Não tem truque pra aprender. A ferramenta inteira cabe em três gestos.</p>
+<ul>
+<li><strong>Você diz o que quer.</strong> Sua classe, seu nível, os atributos que importam pra você e os mínimos abaixo dos quais você não desce: 11 PA, 6 PM, 3500 de vitalidade, o que o build precisar.</li>
+<li><strong>O solver resolve.</strong> Ele lê os dados reais dos itens da sua versão do jogo e acha a melhor combinação que consegue, respeitando cada uma das suas condições.</li>
+<li><strong>Você continua no comando.</strong> Trave o que você já tem, proíba o que nunca vai farmar, troque ou tire o que não gostar, e rode de novo. O que sai é um ponto de partida, não um veredito.</li>
+</ul>
+
+<h2>Nada de magia, e nada inventado</h2>
+<p>Nenhum modelo de linguagem escolhe o seu equipamento. Suas prioridades viram equações e restrições, um solver procura entre os itens que você não excluiu, e cada número que ele usa vem dos dados do próprio jogo. O Fashionista funciona assim desde fevereiro de 2012, quando ainda era um programa que você instalava, bem antes de a palavra "gerado" significar o que significa hoje.</p>
+
 <h2>É um problema de otimização, não uma lista</h2>
-<p>Quando você ajusta os controles, na real você dá uma <strong>pontuação</strong> pra cada atributo. Por trás, a ferramenta percorre milhares de combinações de itens válidas e fica com a que soma a maior pontuação total, respeitando as regras duras do jogo. É otimização matemática de verdade, a mesma família de matemática que serve pra planejar voos ou encher caminhões, só que apontada pro seu Iop.</p>
-<p>E não, nenhum modelo de linguagem escolhe o seu equipamento. Suas prioridades viram equações, e um solver procura, entre todos os itens que você não excluiu, a melhor resposta válida que conseguir encontrar. O Fashionista funciona assim desde 2012, quando ainda era um programa de desktop.</p>
+<p>Quando você ajusta os controles, na real você dá uma <strong>pontuação</strong> pra cada atributo. Depois ela procura o conjunto de maior pontuação que ainda respeita as regras duras do jogo. É otimização matemática de verdade, a mesma família de matemática que serve pra planejar voos ou encher caminhões, só que apontada pro seu Iop.</p>
+<p>Vale parar um instante no tamanho da pergunta. Um personagem tem dezesseis slots pra preencher, e o catálogo oferece bem mais de cem candidatos pra cada um. Esses dezesseis slots podem ser preenchidos de <strong>mais de 10 elevado a 37</strong> maneiras diferentes, um 1 seguido de trinta e sete zeros. Nada conseguiria testar isso um por um, e ela nem tenta: descobre qual conjunto vence sem visitar todos, do mesmo jeito que dá pra provar o caminho mais curto por uma cidade sem andar por cada rua.</p>
+<p>Ela tem noventa segundos. A maioria dos builds se resolve bem antes; um build embolado devolve o melhor conjunto achado nesse tempo em vez de uma prova, e por isso aqui se diz sempre <em>a melhor que ela conseguir encontrar</em>.</p>
 
 <h2>Por que ponderar ganha dos atributos crus</h2>
-<p>Digamos que inteligência vale 1 ponto pra você e vitalidade 0,2. Um item com +40 inteligência e +100 vita pontua 40 + 20 = 60. Um com +60 inteligência e +30 vita pontua 60 + 6 = 66, então ganha, mesmo tendo menos vita. Multiplica isso por doze slots, bônus de conjunto e dofus, e saem combinações que ninguém fica conferindo na mão. É essa a sacada: você define as prioridades, ela faz a parte chata.</p>
+<p>Digamos que inteligência vale 1 ponto pra você e vitalidade 0,2. Um item com +40 inteligência e +100 vita pontua 40 + 20 = 60. Um com +60 inteligência e +30 vita pontua 60 + 6 = 66, então ganha, mesmo tendo menos vita. Multiplica isso por dezesseis slots, bônus de conjunto e dofus, e saem combinações que ninguém fica conferindo na mão. É essa a sacada: você define as prioridades, ela faz a parte chata.</p>
 
 <h2>As regras que ela nunca quebra</h2>
 <p>Otimizar livremente é fácil; otimizar <em>de forma válida</em> é a parte difícil. O solucionador mantém seu build dentro das linhas:</p>
@@ -1557,6 +1641,18 @@ GUIDES = {
 <li>Os atributos mínimos que você exigiu (tipo "pelo menos 3000 PV").</li>
 <li>Os itens que você proibiu ou travou, e condições como nível ou restrição de classe.</li>
 </ul>
+
+<h2>Cada peça continua sendo sua</h2>
+<p>Uma solução não cai do céu. Em qualquer item dela você pode:</p>
+<ul>
+<li><strong>Travar</strong> o item, pra próxima rodada manter ele.</li>
+<li><strong>Proibir</strong> o item, pra próxima rodada se virar sem ele.</li>
+<li><strong>Trocar</strong> por outro item do mesmo tipo.</li>
+<li><strong>Tirar</strong> o item, ou travar o slot vazio pra nada ocupar ele.</li>
+<li>Corrigir os jets dele, quando o seu não é o que está listado.</li>
+<li>Mandar pra oficina de forjamagia pra planejar o que você colocaria nele.</li>
+</ul>
+<p>Aí roda de novo. Esse vai e vem é a ferramenta: você diz o que não curtiu, ela se ajeita.</p>
 
 <h2>Por que o resultado às vezes surpreende</h2>
 <p>Se a sugestão parece estranha, geralmente ela está te dizendo algo: seus pesos estão puxando um contra o outro, ou simplesmente não existe equipamento que cumpra tudo de uma vez. Abaixa um controle, sobe outro, proíbe aquele item que você nunca vai farmar, e roda de novo. Depois de duas ou três passadas você tem um set realmente ajustado pra você, não um build meta copiado que todo mundo usa.</p>
@@ -1569,12 +1665,24 @@ GUIDES = {
                 'desc': "Die meisten Build-Seiten sind eine Tabelle: Du ziehst Items rein, sie addiert. Die Fashionista macht es andersrum, du sagst was du willst, sie findet die Items.",
                 'lead': "Die meisten Build-Seiten sind eine hübsche Tabelle: Du ziehst Items rein, sie addiert die Werte. Die Fashionista macht es andersrum, du sagst, was du willst, sie findet die Items.",
                 'body': '''
+<h2>In drei Schritten</h2>
+<p>Es gibt keinen Trick zu lernen. Das ganze Werkzeug sind drei Handgriffe.</p>
+<ul>
+<li><strong>Du sagst, was du willst.</strong> Deine Klasse, dein Level, die Werte, die dir wichtig sind, und die Grenzen, unter die du nicht gehen willst: 11 AP, 6 BP, 3500 Vitalität, was dein Build eben braucht.</li>
+<li><strong>Der Solver rechnet.</strong> Er liest die echten Item-Daten deiner Spielversion und findet die beste Kombination, die er hinbekommt, und hält sich dabei an jede deiner Bedingungen.</li>
+<li><strong>Du behältst die Kontrolle.</strong> Sperre, was du schon besitzt, verbiete, was du nie farmen wirst, tausche oder entferne, was dir nicht passt, und rechne neu. Was herauskommt, ist ein Ausgangspunkt, kein Urteil.</li>
+</ul>
+
+<h2>Keine Magie, und nichts erfunden</h2>
+<p>Kein Sprachmodell wählt deine Ausrüstung. Deine Prioritäten werden zu Gleichungen und Nebenbedingungen, ein Solver durchsucht die Gegenstände, die du nicht ausgeschlossen hast, und jede Zahl, die er benutzt, stammt aus den Daten des Spiels selbst. So arbeitet die Fashionista seit Februar 2012, damals noch als Programm zum Installieren, also eine ganze Weile bevor das Wort „generiert“ bedeutete, was es heute bedeutet.</p>
+
 <h2>Es ist ein Optimierungsproblem, keine Liste</h2>
-<p>Wenn du deine Regler einstellst, gibst du dem Tool im Grunde eine <strong>Punktzahl</strong> für jeden Wert. Im Hintergrund durchsucht es dann tausende erlaubte Item-Kombinationen und nimmt die mit der höchsten Gesamtpunktzahl, und hält sich dabei an die harten Regeln des Spiels. Das ist echte mathematische Optimierung, dieselbe Sorte Mathe, mit der man Flüge plant oder Lkw belädt, nur eben auf deinen Iop gerichtet.</p>
-<p>Und nein, kein Sprachmodell wählt deine Ausrüstung aus. Deine Prioritäten werden zu Gleichungen, und ein Solver durchsucht jeden Gegenstand, den du nicht ausgeschlossen hast, nach der besten zulässigen Lösung, die er finden kann. So arbeitet die Fashionista seit 2012, damals war sie noch ein Desktop-Tool.</p>
+<p>Wenn du deine Regler einstellst, gibst du dem Tool im Grunde eine <strong>Punktzahl</strong> für jeden Wert. Dann sucht es das Set mit der höchsten Punktzahl, das sich trotzdem an die harten Regeln des Spiels hält. Das ist echte mathematische Optimierung, dieselbe Sorte Mathe, mit der man Flüge plant oder Lkw belädt, nur eben auf deinen Iop gerichtet.</p>
+<p>Die Größe dieser Frage ist einen Moment wert. Eine Figur hat sechzehn Plätze zu füllen, und der Katalog bietet für jeden einzelnen davon weit über hundert Kandidaten. Diese sechzehn Plätze lassen sich auf <strong>mehr als 10 hoch 37</strong> verschiedene Arten füllen, eine 1 mit siebenunddreißig Nullen. Nichts könnte die einzeln durchprobieren, und das versucht es auch nicht: Es ermittelt, welches Set gewinnt, ohne sie zu besuchen, so wie man den kürzesten Weg durch eine Stadt beweisen kann, ohne jede Straße abzulaufen.</p>
+<p>Es bekommt neunzig Sekunden. Die meisten Builds sind lange vorher fertig; ein verhedderter liefert das beste in der Zeit gefundene Set statt eines Beweises, und deshalb heißt es hier immer <em>die beste, die es finden kann</em>.</p>
 
 <h2>Warum Gewichten besser ist als rohe Werte</h2>
-<p>Sagen wir, Intelligenz ist dir 1 Punkt wert und Vitalität 0,2. Ein Item mit +40 Int und +100 Vita kommt auf 40 + 20 = 60. Eins mit +60 Int und +30 Vita kommt auf 60 + 6 = 66, also gewinnt es, obwohl es weniger Vita hat. Rechne das über zwölf Plätze, Set-Boni und Dofus hoch, und du bekommst Kombinationen, die kein Mensch von Hand durchprobiert. Genau das ist der Punkt: Du setzt die Prioritäten, es macht den langweiligen Teil.</p>
+<p>Sagen wir, Intelligenz ist dir 1 Punkt wert und Vitalität 0,2. Ein Item mit +40 Int und +100 Vita kommt auf 40 + 20 = 60. Eins mit +60 Int und +30 Vita kommt auf 60 + 6 = 66, also gewinnt es, obwohl es weniger Vita hat. Rechne das über sechzehn Plätze, Set-Boni und Dofus hoch, und du bekommst Kombinationen, die kein Mensch von Hand durchprobiert. Genau das ist der Punkt: Du setzt die Prioritäten, es macht den langweiligen Teil.</p>
 
 <h2>Die Regeln, die es nie bricht</h2>
 <p>Frei zu optimieren ist leicht; <em>regelkonform</em> zu optimieren ist die Kunst. Der Solver hält dein Build in der Spur:</p>
@@ -1584,6 +1692,18 @@ GUIDES = {
 <li>Die Mindestwerte, die du verlangt hast (etwa "mindestens 3000 LP").</li>
 <li>Items, die du verboten oder gesperrt hast, und Bedingungen wie Level oder Klassenbeschränkung.</li>
 </ul>
+
+<h2>Jedes Teil bleibt deins</h2>
+<p>Eine Lösung wird nicht von oben verordnet. Bei jedem Gegenstand darin kannst du:</p>
+<ul>
+<li>ihn <strong>sperren</strong>, damit der nächste Durchlauf ihn behält;</li>
+<li>ihn <strong>verbieten</strong>, damit der nächste Durchlauf ohne ihn auskommt;</li>
+<li>ihn gegen einen anderen Gegenstand derselben Art <strong>tauschen</strong>;</li>
+<li>ihn <strong>entfernen</strong> oder den Platz leer sperren, damit nichts nachrückt;</li>
+<li>seine Werte korrigieren, wenn deiner nicht der ist, der dort steht;</li>
+<li>ihn in die Schmiedemagie-Werkstatt schicken, um zu planen, was du auf ihn runen würdest.</li>
+</ul>
+<p>Und dann neu rechnen. Genau dieses Hin und Her ist das Werkzeug: Du sagst, was dir nicht gefiel, es arbeitet drumherum.</p>
 
 <h2>Warum dich das Ergebnis manchmal überrascht</h2>
 <p>Wenn der Vorschlag seltsam aussieht, sagt er dir meistens etwas: Deine Gewichte ziehen gegeneinander, oder es gibt schlicht keine Ausrüstung, die alles auf einmal trifft. Regler runter, anderen hoch, das Item verbieten, das du eh nie farmst, und neu rechnen. Nach zwei, drei Durchläufen hast du ein Set, das wirklich auf dich abgestimmt ist, kein kopiertes Meta-Build, das alle anderen tragen.</p>
@@ -2523,7 +2643,7 @@ GUIDES = {
                 'lead': "T'as deux sets et tu sais pas lequel porter. Plutôt que de loucher sur deux onglets, mets-les côte à côte et laisse les chiffres trancher.",
                 'body': '''
 <h2>Pourquoi comparer</h2>
-<p>Deux builds peuvent sembler proches et jouer complètement différemment. L'un a 200 vita de plus ; l'autre tape 8% plus fort. Juger ça à l'œil sur douze emplacements, c'est mission impossible. Le comparateur aligne les deux sets colonne par colonne pour que les compromis sautent aux yeux : pas de tableur, pas de devinette.</p>
+<p>Deux builds peuvent sembler proches et jouer complètement différemment. L'un a 200 vita de plus ; l'autre tape 8% plus fort. Juger ça à l'œil sur seize emplacements, c'est mission impossible. Le comparateur aligne les deux sets colonne par colonne pour que les compromis sautent aux yeux : pas de tableur, pas de devinette.</p>
 
 <h2>Comment le lancer</h2>
 <p>Sur n'importe quelle page de solution (la tienne ou un build partagé), clique sur <strong>Ajouter à la comparaison</strong>. Fais-le sur un deuxième build (ou un troisième, ou un quatrième) et ouvre le <a href="/choose_compare_sets/">comparateur</a>. Tu peux aussi coller directement des liens de partage. Ton panier reste en place pendant que tu navigues, donc tu collectes des candidats et tu compares tout d'un coup.</p>
