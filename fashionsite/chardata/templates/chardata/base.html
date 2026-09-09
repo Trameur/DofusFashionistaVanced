@@ -389,6 +389,14 @@
         {% if char_id and char_id != 0 %}{% include "chardata/loading.html" with char=char language=language %}{% endif %}
             {% ad_unit 'footer' %}
             <div align="center" class="footer" role="contentinfo">
+                {% comment %}The 2012 date is the lineage, not this fork's own
+                age: Kameghan announced the desktop tool on Imps Village on
+                24 Feb 2012 and the website followed in 2014. A reader who
+                wonders which is which gets the whole story in one click, so
+                the line links to the section of the About page that spells it
+                out rather than leaving the claim standing alone.{% endcomment %}
+                <a class="footer-heritage" href="{% game_url 'about' %}#how-its-made">{% trans "Dofus Fashionista, set optimization since 2012" %}</a>
+                <br>
                 {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>
                 <!-- General Site Links -->
@@ -425,6 +433,24 @@
                 
             </div>
             <style>
+                /* Deliberately NO opacity, and no colour of its own. It was
+                   drawn dimmed, which is the natural way to recess a signature
+                   line, and measured: the light theme's footer link is
+                   rgb(113,88,16) on rgb(228,230,188), which is 5.26:1 at full
+                   strength. That is already close to the 4.5:1 that 11px text
+                   needs, so there is no headroom at all. opacity 0.85 took it
+                   to 3.90 and opacity 0.9 to 4.30, both failing, on every page
+                   of the site for every light-theme reader. The uppercase, the
+                   letter-spacing and the smaller size recess it enough. */
+                .footer-heritage {
+                    text-transform: uppercase;
+                    letter-spacing: 0.06em;
+                    font-size: 0.88em;
+                    text-decoration: none;
+                }
+                .footer-heritage:hover, .footer-heritage:focus-visible {
+                    text-decoration: underline;
+                }
                 .discord-invite-btn {
                     display: inline-flex;
                     align-items: center;

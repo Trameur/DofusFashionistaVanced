@@ -353,6 +353,33 @@ class TranslationRegressionTests(SimpleTestCase):
             self.assertEqual(gettext('Charged 3 times'), 'Chargée 3 fois')
             self.assertEqual(gettext('Charged 12 times'), 'Chargée 12 fois')
 
+    #: The lineage line rides on the footer of every page and on the home
+    #: headline, so a fuzzy or missing entry ships the English one to a French
+    #: reader silently. gettext returns the msgid unchanged when an entry is
+    #: missing, which is exactly what an untranslated string looks like, so
+    #: asserting the translated text is the only way to see it.
+    HERITAGE_2012 = {
+        'Dofus Fashionista, set optimization since 2012': {
+            'fr': 'Dofus Fashionista, optimisation de stuffs depuis 2012',
+            'es': 'Dofus Fashionista, optimización de equipos desde 2012',
+            'pt': 'Dofus Fashionista, otimização de equipamentos desde 2012',
+            'de': 'Dofus Fashionista, Set-Optimierung seit 2012',
+        },
+        'Over ten years of Dofus theorycraft': {
+            'fr': 'Plus de dix ans de theorycraft Dofus',
+            'es': 'Más de diez años de theorycraft de Dofus',
+            'pt': 'Mais de dez anos de theorycraft de Dofus',
+            'de': 'Über zehn Jahre Dofus-Theorycraft',
+        },
+    }
+
+    def test_the_2012_lineage_line_is_translated_in_every_language(self):
+        for msgid, attendus in self.HERITAGE_2012.items():
+            for langue, attendu in attendus.items():
+                with self.subTest(msgid=msgid[:40], langue=langue):
+                    with translation.override(langue):
+                        self.assertEqual(gettext(msgid), attendu)
+
     def test_touch_set_bonus_condition_shows_lt_2(self):
         # Touch trophies cap at 1 set bonus, so their condition line reads
         # "< 2"; dofus3 and the beta stay "< 3".

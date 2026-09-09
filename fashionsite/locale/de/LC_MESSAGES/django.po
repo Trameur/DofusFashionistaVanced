@@ -7009,3 +7009,11 @@ msgstr "Ist diese Seite mit KI gemacht?"
 
 msgid "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item."
 msgstr "Nein. Ihr Set wird von einem mathematischen Solver berechnet und nicht von einem Sprachmodell geschrieben: Ihre Prioritäten werden zu Gleichungen, und der Solver durchsucht jeden Gegenstand, den Sie nicht ausgeschlossen haben, nach der besten Kombination, die er finden kann. Der Code ist Open Source, Sie können also selbst nachsehen, und die einzigen Bot-Commits in der Git-Historie sind Updates von Abhängigkeiten. Eine optionale Funktion nutzt tatsächlich Zeichenerkennung: Wenn Sie Ihr Inventar aus einem Screenshot importieren, läuft in Ihrem Browser eine Texterkennung, die Namen und Werte der Gegenstände herausliest, und Sie können jeden Wert bearbeiten, bevor er verwendet wird. Einen Gegenstand wählt sie nie aus."
+
+#: .\chardata\templates\chardata\base.html:398
+msgid "Dofus Fashionista, set optimization since 2012"
+msgstr "Dofus Fashionista, Set-Optimierung seit 2012"
+
+#: .\chardata\templates\chardata\home.html:47
+msgid "Over ten years of Dofus theorycraft"
+msgstr "Über zehn Jahre Dofus-Theorycraft"

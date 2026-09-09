@@ -6230,3 +6230,11 @@ msgstr "Is this site made with AI?"
 
 msgid "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item."
 msgstr "No. Your set is computed by a mathematical solver, not written by a language model: your priorities become equations and the solver searches every item you have not excluded for the best combination it can find. The code is open source, so you can check for yourself, and the only bot commits in its history are dependency updates. One optional feature does use character recognition: if you import your inventory from a screenshot, a text reader runs in your browser to pick out item names and stats, and you can edit every value before it is used. It never chooses an item."
+
+#: .\chardata\templates\chardata\base.html:398
+msgid "Dofus Fashionista, set optimization since 2012"
+msgstr ""
+
+#: .\chardata\templates\chardata\home.html:47
+msgid "Over ten years of Dofus theorycraft"
+msgstr ""
