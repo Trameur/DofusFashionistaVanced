@@ -52,6 +52,7 @@ import shutil
 import subprocess
 import tempfile
 import unicodedata
+import urllib.error
 import unittest
 
 
@@ -29512,3 +29513,160 @@ class SearchSpaceShownIsTheOneTheSolverSawTests(TestCase):
         self.assertNotIn('items were on offer', page)
         # The rest of the panel still shows: the facts are independent.
         self.assertIn('solver-why', page)
+
+
+class DofusBookLinkIsReadTests(SimpleTestCase):
+    """Reading a public DofusBook build from its link.
+
+    Everything asserted here was measured against their live site on
+    2026-09-09 and is then replayed from a stub, so the suite stays offline
+    and still describes what really happens.
+    """
+
+    LIEN = 'https://www.dofusbook.net/fr/stuff/7894460-zobal-m-200'
+
+    #: Two real items from build 7894460, with their real Ankama ids in the
+    #: field DofusBook calls `official`.
+    CHARGE = {
+        'stuff': {'name': 'Zobal M 200', 'character_level': 200,
+                  'character_class': 12},
+        'items': [{'official': 17998, 'name': 'Anneau Crustique'},
+                  {'official': 18000, 'name': 'Masque de Koutoulou'}],
+    }
+
+    def _opener(self, charge=None, erreur=None, attendu=None):
+        """Stands in for urlopen and checks what we would have sent."""
+        essai = self
+
+        class Reponse(object):
+            def __init__(self, contenu):
+                self.contenu = contenu
+
+            def read(self, *args):
+                return json.dumps(self.contenu).encode('utf-8')
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+        def ouvrir(request, timeout=None):
+            if attendu is not None:
+                essai.assertEqual(attendu, request.full_url)
+            # Their site answers 403 without a Referer on their own domain.
+            essai.assertTrue(request.get_header('Referer', '')
+                             .startswith('https://'))
+            essai.assertIn('Mozilla', request.get_header('User-agent', ''))
+            if erreur is not None:
+                raise erreur
+            return Reponse(charge if charge is not None else self.CHARGE)
+
+        return ouvrir
+
+    def test_the_host_decides_the_version_and_is_never_guessed(self):
+        """A build id is NOT unique across their hosts. Measured live: id
+        2558915 is a 404 on www, an 8 item level 21 build called "Bas Level"
+        on retro, and a 16 item level 170 build called "Feu eau" on touch.
+        Trying hosts until one answers would import a different player's build
+        from a different game."""
+        from chardata.dofusbook_import import HOSTS, parse_link
+        self.assertEqual(('www.dofusbook.net', '7894460'),
+                         parse_link(self.LIEN))
+        self.assertEqual(
+            ('retro.dofusbook.net', '2558915'),
+            parse_link('https://retro.dofusbook.net/fr/stuff/2558915-bas-level'))
+        self.assertEqual(
+            ('touch.dofusbook.net', '2558915'),
+            parse_link('https://touch.dofusbook.net/fr/stuff/2558915-feu-eau'))
+        self.assertEqual({'dofus3', 'retro', 'touch'}, set(HOSTS.values()))
+
+    def test_a_link_that_is_not_theirs_is_not_read(self):
+        from chardata.dofusbook_import import parse_link
+        for url in ('https://example.com/fr/stuff/7894460-x',
+                    'https://www.dofusbook.net/fr/stuff/',
+                    'pas une url', ''):
+            with self.subTest(url=url):
+                self.assertIsNone(parse_link(url))
+
+    def test_a_short_link_is_refused_and_not_followed(self):
+        """Their d-bk.net redirect target could not be verified, and the
+        catalogue cannot catch the mistake: a Retro build landing on www would
+        resolve all its items under dofus3 and import silently wrong. One
+        click to paste the full link beats that."""
+        from chardata.dofusbook_import import ImportError_, read_build
+        with self.assertRaises(ImportError_) as pris:
+            read_build('https://d-bk.net/abcdef')
+        self.assertEqual('short_link', pris.exception.reason)
+
+    def test_the_ankama_id_is_what_maps_the_items(self):
+        """Their `official` field is the Ankama id, which is what our own
+        catalogue is keyed on, so nothing is matched by name. Measured live:
+        16 of 16 items on this build."""
+        from chardata.dofusbook_import import read_build
+        from fashionistapulp.structure import get_structure
+        build = read_build(self.LIEN, opener=self._opener(
+            attendu='https://www.dofusbook.net/api/stuffs/x/public/7894460'))
+        self.assertEqual('dofus3', build['game_version'])
+        self.assertEqual('Zobal M 200', build['name'])
+        self.assertEqual(200, build['level'])
+        self.assertEqual([], build['missing'])
+        structure = get_structure('dofus3')
+        noms = [structure.get_item_by_id(i).name for i in build['item_ids']]
+        self.assertEqual(['Crustic Ring', 'Koutoulou Mask'], noms)
+
+    def test_the_class_is_left_for_the_player_to_pick(self):
+        """Their character_class is their own numbering, not Ankama's: build
+        7894460 is called "Zobal M 200" and carries character_class 12, where
+        12 is Pandawa in Ankama's order. Nothing in the payload names the
+        class, so guessing it would put the wrong class on the project."""
+        from chardata.dofusbook_import import read_build
+        build = read_build(self.LIEN, opener=self._opener())
+        self.assertTrue(build['class_is_unknown'])
+        self.assertNotIn('char_class', build)
+
+    def test_an_empty_item_list_is_refused(self):
+        """An unsupported x-lang answers 200 with items:[], so an empty build
+        is a suspicious answer and not an empty wardrobe."""
+        from chardata.dofusbook_import import ImportError_, read_build
+        with self.assertRaises(ImportError_) as pris:
+            read_build(self.LIEN, opener=self._opener(
+                charge={'stuff': {}, 'items': []}))
+        self.assertEqual('empty', pris.exception.reason)
+
+    def test_items_that_do_not_exist_here_stop_the_import(self):
+        from chardata.dofusbook_import import ImportError_, read_build
+        charge = {'stuff': {'name': 'x', 'character_level': 200},
+                  'items': [{'official': 999999901, 'name': 'a'},
+                            {'official': 999999902, 'name': 'b'},
+                            {'official': 17998, 'name': 'Anneau Crustique'}]}
+        with self.assertRaises(ImportError_) as pris:
+            read_build(self.LIEN, opener=self._opener(charge=charge))
+        self.assertEqual('wrong_version', pris.exception.reason)
+
+    def test_a_missing_build_says_so(self):
+        from chardata.dofusbook_import import ImportError_, read_build
+        erreur = urllib.error.HTTPError(self.LIEN, 404, 'Not Found', {}, None)
+        with self.assertRaises(ImportError_) as pris:
+            read_build(self.LIEN, opener=self._opener(erreur=erreur))
+        self.assertEqual('not_found', pris.exception.reason)
+
+    def test_their_site_being_down_is_not_our_crash(self):
+        from chardata.dofusbook_import import ImportError_, read_build
+        with self.assertRaises(ImportError_) as pris:
+            read_build(self.LIEN, opener=self._opener(
+                erreur=OSError('connection reset')))
+        self.assertEqual('unreachable', pris.exception.reason)
+
+    def test_the_catalogue_check_is_not_a_version_detector(self):
+        """Named after what it measures. A Retro build's items resolve under
+        retro, dofus3 AND touch, because low level items carry the same Ankama
+        id in every version. So the floor cannot tell versions apart and the
+        host stays the only thing that decides."""
+        from chardata.dofusbook_import import map_items
+        charge = {'items': [{'official': 311, 'name': 'Anneau du Bandit'}]}
+        resolus = {}
+        for version in ('dofus3', 'retro', 'touch'):
+            trouves, _manquants = map_items(charge, version)
+            resolus[version] = len(trouves)
+        self.assertEqual(1, len(set(resolus.values())), resolus)
