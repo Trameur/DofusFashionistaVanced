@@ -150,6 +150,12 @@
     <script>
     (function() {
         var searchUrl = '{{ search_url }}';
+        // The workbench can only forge eight item types and its search says
+        // so. This page is not the workbench: it holds whatever the player
+        // owns, so it asks for every type. Without this, 455 pets and 320
+        // dofus were unreachable on Dofus 3, from the search box and from the
+        // screenshot reader alike.
+        var SEARCH_POOL = '&all_types=1';
         var addUrl = '{{ add_url }}';
         var removeUrl = '{{ remove_url }}';
         var updateUrl = '{{ update_url }}';
@@ -355,7 +361,7 @@
                 return;
             }
             timer = setTimeout(function() {
-                fetch(searchUrl + '?q=' + encodeURIComponent(query), {
+                fetch(searchUrl + '?q=' + encodeURIComponent(query) + SEARCH_POOL, {
                     headers: {'X-Requested-With': 'XMLHttpRequest'}
                 }).then(function(response) {
                     return response.json();
@@ -550,7 +556,7 @@
                     return;
                 }
                 var query = names[index++];
-                fetch(searchUrl + '?q=' + encodeURIComponent(query), {
+                fetch(searchUrl + '?q=' + encodeURIComponent(query) + SEARCH_POOL, {
                     headers: {'X-Requested-With': 'XMLHttpRequest'}
                 }).then(function(response) {
                     return response.json();

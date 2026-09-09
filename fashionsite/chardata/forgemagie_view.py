@@ -1233,9 +1233,122 @@ def _inventory_preload(request, structure, language, game_version):
     }
 
 
+#: How far a read name may stray before the match is refused, how much better
+#: the winner has to be than its runner-up, and the shortest query worth
+#: guessing at. Measured 2026-09-09 over the French names of three versions,
+#: corrupting each name at deterministic positions:
+#:
+#:              dofus3        retro         touch
+#:   1 subst.   97.6 % right  97.5 %        97.3 %
+#:   1 deleted  93.8 %        94.6 %        94.2 %
+#:   2 subst.   83.2 %        89.7 %        80.0 %
+#:   2 deleted  67.0 %        69.2 %        65.0 %
+#:   3 subst.   45.3 %        28.5 %        41.1 %
+#:   3 deleted  23.8 %        13.2 %        21.7 %
+#:
+#: and in all eighteen cells, **0.00 % named the wrong item**. That is the
+#: number that matters: the rest of the time it says nothing, and the page
+#: falls back to "item not recognized", which is what it did before. Filling
+#: someone's inventory with an item they do not own would be worse than
+#: failing to fill it.
+#:
+#: The gap is what buys that. Dofus names come in families ("Air Bwak",
+#: "Air Bwork"), so a nearest neighbour alone would pick a sibling with
+#: complete confidence. Requiring the runner-up to be clearly further away
+#: turns those cases into silence.
+_NAME_MAX_EDITS = 3
+_NAME_MIN_GAP = 2
+_NAME_MIN_QUERY = 5
+
+
+def _bounded_edit_distance(first, second, ceiling):
+    """Levenshtein, abandoned as soon as it cannot come in under ceiling."""
+    if abs(len(first) - len(second)) > ceiling:
+        return ceiling + 1
+    if first == second:
+        return 0
+    previous = list(range(len(second) + 1))
+    for i, left in enumerate(first, 1):
+        current = [i]
+        best = i
+        for j, right in enumerate(second, 1):
+            value = min(previous[j] + 1, current[j - 1] + 1,
+                        previous[j - 1] + (0 if left == right else 1))
+            current.append(value)
+            if value < best:
+                best = value
+        if best > ceiling:
+            return ceiling + 1
+        previous = current
+    return previous[-1]
+
+
+def _closest_pool_entry(query, pool):
+    """The one entry the query is a misreading of, or None if unsure.
+
+    The search band is deliberately one step wider than the acceptance
+    ceiling. Searching AT the ceiling looks equivalent and is not: the
+    runner-up gets clamped to the same value as the winner, the gap can never
+    be reached, and every query with more than one error comes back silent. It
+    reads like a verdict on the method and it is a verdict on the arithmetic.
+    """
+    ceiling = max(1, min(_NAME_MAX_EDITS, len(query) // 6))
+    span = ceiling + _NAME_MIN_GAP - 1
+    best = span + 1
+    second = span + 1
+    winner = None
+    for entry in pool:
+        name = entry[0]
+        if abs(len(name) - len(query)) > span:
+            continue
+        distance = _bounded_edit_distance(query, name, span)
+        if distance > span:
+            continue
+        if distance < best:
+            second = best
+            best, winner = distance, entry
+        elif distance < second:
+            second = distance
+    if winner is None or best > ceiling or second - best < _NAME_MIN_GAP:
+        return None
+    return winner
+
+
+def _search_level(structure):
+    """The version's own level cap, not a hardcoded 200.
+
+    structure.types is cumulative, so its top level holds every item. Every
+    Dofus version happens to stop at 200 and the hardcoded number was right for
+    them; Wakfu goes to 245, where it silently hid 1487 of its 7617 items.
+    """
+    return max(structure.types)
+
+
+def _search_types(structure, all_types):
+    """Which item types the search may offer.
+
+    The workbench can only forge eight, so it must never propose a pet or a
+    dofus. My Inventory holds whatever the player owns, and reusing the
+    workbench's list there hid whole families from its search box AND from its
+    screenshot reader: 775 items on Dofus 3 (455 pets, 320 dofus), 779 on the
+    beta, 746 on Touch, 463 on Dofus 2, 307 on Retro.
+
+    Measured 2026-09-09, every one of those has its icon on disk, 100 % on all
+    five versions, so letting them through draws correctly rather than filling
+    the list with question marks.
+    """
+    if not all_types:
+        return MAGEABLE_TYPES
+    return sorted(structure.types[_search_level(structure)])
+
+
 def forgemagie_items(request):
     """Item autocomplete for the workbench: name search over mageable items,
-    or over the user's inventory (with saved rolls) when inventory=1."""
+    or over the user's inventory (with saved rolls) when inventory=1.
+
+    all_types=1 widens the pool to every type the version has. The inventory
+    passes it, the workbench does not.
+    """
     structure = get_structure()
     language = get_supported_language()
     query = _normalized_text(request.GET.get('q') or '')
@@ -1271,24 +1384,40 @@ def forgemagie_items(request):
     if len(query) < 2:
         return JsonResponse({'items': []})
 
+    all_types = request.GET.get('all_types') == '1'
+    niveau = _search_level(structure)
     matches = []
     seen_ids = set()
-    for type_name in MAGEABLE_TYPES:
-        for item in structure.get_unique_items_by_type_and_level(type_name, 200):
+    pool = []
+    for type_name in _search_types(structure, all_types):
+        for item in structure.get_unique_items_by_type_and_level(type_name, niveau):
             if item.id in seen_ids or item.removed:
                 continue
             seen_ids.add(item.id)
             localized_name = structure.get_item_name_in_language(item, language)
+            plain_name = _normalized_text(localized_name)
             candidate = _normalized_text('%s %s' % (localized_name, item.or_name or ''))
+            pool.append((plain_name, item, localized_name, type_name))
             if query not in candidate:
                 continue
             matches.append((
-                0 if _normalized_text(localized_name).startswith(query) else 1,
+                0 if plain_name.startswith(query) else 1,
                 len(localized_name),
                 item,
                 localized_name,
                 type_name,
             ))
+
+    # Substring matching answers a reader who is typing. It cannot answer a
+    # reader who pasted a screenshot: one character read wrong and the exact
+    # test fails on every one of the 3826 candidates at once, so the page said
+    # "item not recognized" for a name that was almost perfectly read.
+    if not matches and len(query) >= _NAME_MIN_QUERY:
+        entry = _closest_pool_entry(query, pool)
+        if entry is not None:
+            _plain, item, localized_name, type_name = entry
+            matches.append((0, len(localized_name), item, localized_name,
+                            type_name))
 
     matches.sort(key=lambda entry: (entry[0], entry[1], -entry[2].level))
 

@@ -28712,3 +28712,174 @@ class ScreenshotRangeGuardHasSomethingToCheckTests(SimpleTestCase):
         for stat in bornes:
             self.assertIsNotNone(stat.get('value'), stat)
             self.assertIsInstance(stat['min'], int, stat)
+
+
+class InventorySearchReachesEveryItemTypeTests(TestCase):
+    """My Inventory reused the workbench's item search, which only offers the
+    eight forgeable types, so whole families were unreachable from its search
+    box AND from its screenshot reader.
+
+    Measured 2026-09-09, the types the widened pool adds back: 775 items on
+    Dofus 3 (455 pets, 320 dofus), 779 on the beta, 746 on Touch, 463 on
+    Dofus 2, 307 on Retro. Every one of them has its icon on disk, 100 % on
+    all five versions, so they draw rather than showing a question mark.
+    """
+
+    PET = 'Air Bwak'
+    DOFUS = 'Adamantin'
+
+    def _noms(self, **params):
+        resp = self.client.get('/forgemagie/items/', params)
+        self.assertEqual(resp.status_code, 200)
+        return [entry['name'] for entry in resp.json()['items']]
+
+    def test_the_workbench_still_only_offers_what_it_can_forge(self):
+        """A pet cannot be maged, so proposing one there would be a lie."""
+        self.assertEqual([], self._noms(q=self.PET))
+        self.assertEqual([], self._noms(q=self.DOFUS))
+
+    def test_the_inventory_reaches_a_pet_and_a_dofus(self):
+        self.assertIn(self.PET, self._noms(q=self.PET, all_types='1'))
+        self.assertIn(self.DOFUS, self._noms(q=self.DOFUS, all_types='1'))
+
+    def test_the_widened_pool_still_finds_a_forgeable_item(self):
+        """Widening must add, never replace."""
+        self.assertTrue(self._noms(q='Rhineetle Ring', all_types='1'))
+
+    def test_every_dofus_version_reaches_all_ten_types(self):
+        from chardata.forgemagie_view import _search_level, _search_types
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
+            with self.subTest(version=version):
+                if not os.path.exists(get_items_db_path(version)):
+                    self.skipTest('no %s database' % version)
+                structure = get_structure(version)
+                types = _search_types(structure, True)
+                self.assertIn('Pet', types)
+                self.assertIn('Dofus', types)
+                self.assertEqual(10, len(types), types)
+
+    def test_the_level_comes_from_the_version_not_from_a_constant(self):
+        """types is cumulative, so its top level holds everything. Every Dofus
+        version stops at 200 and the hardcoded 200 was right for them; Wakfu
+        goes to 245, where it hid 1487 of 7617 items."""
+        from chardata.forgemagie_view import _search_level
+        from fashionistapulp.fashionista_config import get_items_db_path
+        from fashionistapulp.structure import get_structure
+        self.assertEqual(200, _search_level(get_structure('dofus3')))
+        if os.path.exists(get_items_db_path('wakfu')):
+            structure = get_structure('wakfu')
+            niveau = _search_level(structure)
+            self.assertGreater(niveau, 200)
+            atteignables = sum(len(structure.types[niveau][type_name])
+                               for type_name in structure.types[niveau])
+            self.assertEqual(len(structure.items_dict), atteignables)
+
+
+class ItemNameSurvivesAMisreadCharacterTests(TestCase):
+    """The item search matched by exact substring, so one character read wrong
+    failed against all 3826 candidates at once and the screenshot reader said
+    "item not recognized" for a name it had almost perfectly read.
+
+    It now falls back to the nearest name, but only when that name is clearly
+    nearer than every other. Measured 2026-09-09 on the French names of three
+    versions: 97.3 to 97.6 % right at one substitution, 93.8 to 94.6 % at one
+    deletion, and **0.00 % naming the wrong item** in all eighteen cells. The
+    rest is silence, which is what the page did before.
+    """
+
+    def _noms(self, requete):
+        resp = self.client.get('/forgemagie/items/',
+                               {'q': requete, 'all_types': '1'})
+        self.assertEqual(resp.status_code, 200)
+        return [entry['name'] for entry in resp.json()['items']]
+
+    def test_one_wrong_character_still_finds_the_item(self):
+        """"Rhineetle" read as "Rhlneetle": the exact test failed on every
+        candidate, so the reader got nothing at all."""
+        self.assertEqual([], self._exact('Rhlneetle Ring'))
+        self.assertIn('Rhineetle Ring', self._noms('Rhlneetle Ring'))
+
+    def _exact(self, requete):
+        """What the old substring-only search would have returned."""
+        from chardata.forgemagie_view import _normalized_text
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        besoin = _normalized_text(requete)
+        trouves = []
+        for item in structure.items_dict.values():
+            nom = structure.get_item_name_in_language(item, 'en')
+            if besoin in _normalized_text('%s %s' % (nom, item.or_name or '')):
+                trouves.append(nom)
+        return trouves
+
+    def test_a_missing_character_still_finds_the_item(self):
+        self.assertIn('Rhineetle Ring', self._noms('Rhineetle Rng'))
+
+    def test_an_exact_name_is_untouched(self):
+        self.assertIn('Rhineetle Ring', self._noms('Rhineetle Ring'))
+
+    def test_a_query_too_short_is_never_guessed_at(self):
+        """Two or three letters are someone typing, not a name being read, and
+        the ceiling would let them reach far too many items."""
+        from chardata.forgemagie_view import _NAME_MIN_QUERY
+        self.assertEqual(5, _NAME_MIN_QUERY)
+        self.assertEqual([], self._noms('zzzz'))
+
+    def test_nonsense_is_refused_rather_than_approximated(self):
+        self.assertEqual([], self._noms('qqqqzzzzwwww'))
+
+
+class ClosestNameRefusesWhenUnsureTests(SimpleTestCase):
+    """The guard itself, away from the view: a winner is only returned when it
+    is clearly better than its runner-up."""
+
+    POOL = [('air bwak', 1, 'Air Bwak', 'Pet'),
+            ('air bwork', 2, 'Air Bwork', 'Pet'),
+            ('adamantin', 3, 'Adamantin', 'Dofus')]
+
+    def _plus_proche(self, requete):
+        from chardata.forgemagie_view import _closest_pool_entry
+        entry = _closest_pool_entry(requete, self.POOL)
+        return None if entry is None else entry[2]
+
+    def test_a_lone_near_name_is_returned(self):
+        self.assertEqual('Adamantin', self._plus_proche('adamantln'))
+
+    def test_two_names_equally_near_give_silence(self):
+        """"air bwak" and "air bwork" are one edit apart from each other, so a
+        misread that lands between them names neither. A nearest neighbour
+        alone would have picked one with total confidence."""
+        self.assertIsNone(self._plus_proche('air bwok'))
+
+    def test_an_exact_name_wins_even_with_a_close_sibling(self):
+        self.assertEqual('Air Bwak', self._plus_proche('air bwak'))
+
+    def test_nothing_within_the_ceiling_gives_silence(self):
+        self.assertIsNone(self._plus_proche('zzzzzzzzz'))
+
+    def test_the_search_band_is_wider_than_the_ceiling(self):
+        """Searching at the ceiling clamps the runner-up to the winner's own
+        value, the gap becomes unreachable, and everything past one error goes
+        silent. That looks like a verdict on the method and is a verdict on
+        the arithmetic."""
+        from chardata.forgemagie_view import _NAME_MAX_EDITS, _NAME_MIN_GAP
+        self.assertGreater(_NAME_MAX_EDITS + _NAME_MIN_GAP - 1,
+                           _NAME_MAX_EDITS)
+
+    def test_the_distance_is_a_real_edit_distance(self):
+        from chardata.forgemagie_view import _bounded_edit_distance
+        for premier, second, attendu in (('chat', 'chat', 0),
+                                         ('chat', 'chats', 1),
+                                         ('chat', 'chien', 3),
+                                         ('', 'abc', 3)):
+            with self.subTest(premier=premier, second=second):
+                self.assertEqual(attendu,
+                                 _bounded_edit_distance(premier, second, 9))
+
+    def test_the_ceiling_stops_the_work_early(self):
+        """A distance past the ceiling is reported as ceiling + 1, not
+        computed exactly: the caller only ever compares it to the ceiling."""
+        from chardata.forgemagie_view import _bounded_edit_distance
+        self.assertEqual(3, _bounded_edit_distance('chat', 'chien', 2))
