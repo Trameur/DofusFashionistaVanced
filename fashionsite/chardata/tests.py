@@ -28272,3 +28272,77 @@ class TheRetroAssetWatchSeesAddedFilesTests(SimpleTestCase):
                 ('sprites/chevauchor/7.swf', 'other')):
             self.assertEqual(attendu, watch.retro_asset_family(self.CLIP % name),
                              name)
+
+
+class EverySpellIconOnDiskIsAskedForByItsRealNameTests(SimpleTestCase):
+    """Retro and Touch file their spell icons under the FRENCH name.
+
+    Both scrapers say so in their own docstrings, and this view said the
+    opposite: it asked for the English name on every version. Measured
+    2026-09-09, that missed 242 of 252 Retro spells and 303 of 330 Touch ones,
+    and 251 of those icons were sitting on disk under a name nobody asked for.
+    Every Retro and Touch spell page 404ed its icons, in all five languages.
+
+    This guards the outcome, not the rule: if a scraper ever changes the
+    language it files under, or a version is added, this goes red rather than
+    the pages going quietly blank.
+    """
+
+    RACINE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          'static', 'chardata', 'spells')
+
+    def _fichiers(self, version):
+        dossier = self.RACINE if version == 'dofus3' else os.path.join(
+            self.RACINE, version)
+        if not os.path.isdir(dossier):
+            self.skipTest('no spell icons for %s in this checkout' % version)
+        return {nom[:-4] for nom in os.listdir(dossier) if nom.endswith('.png')}
+
+    def _reference(self, version):
+        chemin = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              'spell_reference', '%s.json' % version)
+        if not os.path.isfile(chemin):
+            self.skipTest('no spell reference for %s' % version)
+        with open(chemin, encoding='utf-8') as handle:
+            return json.load(handle)
+
+    def test_no_icon_on_disk_is_asked_for_under_a_name_it_does_not_have(self):
+        from chardata.spells_view import _reference_icon_name
+        from fashionistapulp.reserved_filenames import safe_asset_stem
+        from fashionistapulp.game_versions import version_keys
+        verifiees = 0
+        for version in version_keys():
+            fichiers = self._fichiers(version)
+            demandes = set()
+            for spells in self._reference(version).values():
+                for spell in spells:
+                    noms = spell.get('name') or {}
+                    montre = (noms.get('fr') or noms.get('en')
+                              if isinstance(noms, dict) else noms) or ''
+                    if not montre:
+                        continue
+                    demandes.add(safe_asset_stem(
+                        _reference_icon_name(spell, montre, version)))
+            orphelines = fichiers - demandes
+            with self.subTest(version=version):
+                # An icon nobody asks for is either a spell that left the game
+                # or, as here, a naming convention the view got wrong.
+                self.assertLessEqual(
+                    len(orphelines), len(fichiers) // 10,
+                    '%s: %d of its %d spell icons are never asked for, e.g. %s'
+                    % (version, len(orphelines), len(fichiers),
+                       sorted(orphelines)[:4]))
+            verifiees += 1
+        self.assertGreaterEqual(verifiees, 5, 'only %d versions checked' % verifiees)
+
+    def test_the_icon_name_does_not_follow_the_reader(self):
+        """Whatever the language, one version asks for one file."""
+        from chardata.spells_view import _reference_icon_name
+        entree = {'name': {'en': 'Feca Shield', 'fr': 'Bouclier Feca',
+                           'es': 'Escudo Feca'}}
+        for version, attendu in (('dofus3', 'Feca Shield'),
+                                 ('retro', 'Bouclier Feca'),
+                                 ('touch', 'Bouclier Feca')):
+            self.assertEqual(attendu,
+                             _reference_icon_name(entree, 'peu importe', version),
+                             version)

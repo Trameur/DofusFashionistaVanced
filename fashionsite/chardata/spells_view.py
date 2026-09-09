@@ -122,8 +122,13 @@ def _create_reference_web_digest(entry, game_version):
             'canonical': name,
             'level': entry.get('levels') or [1],
             'stacks': None,
-            'image_url': _spell_image_url(_reference_icon_name(entry, name),
-                                          game_version),
+            # The two paths that draw a spell icon have to agree. The other one
+            # (in the cast list below) passes the damage table's own canonical
+            # name, which already is French on Retro and Touch and English
+            # elsewhere, and it has always worked. This one forced English and
+            # 404ed everything Retro and Touch had.
+            'image_url': _spell_image_url(
+                _reference_icon_name(entry, name, game_version), game_version),
             'hit_number': 0,
             'non_crit_dams': None,
             'crit_dams': None,
@@ -134,9 +139,34 @@ def _create_reference_web_digest(entry, game_version):
             'reference': _reference_digest(entry)}
 
 
-def _reference_icon_name(entry, shown_name):
-    """The icon file is named after the English spell name."""
-    return localized(entry, 'name', 'en') or shown_name
+#: The language each version's spell icons are FILED under, which is not always
+#: the language a reader is reading in and is not the same across versions.
+#: Measured 2026-09-09 over the shipped files and the spell reference:
+#:
+#:   dofus3   862 files, English    852 spells,   1 without an icon
+#:   beta     553 files, English    852 spells, 298 without one
+#:   dofus2    66 files, English    836 spells, 770 without one
+#:   retro    109 files, FRENCH     252 spells, 242 missed under English,
+#:                                              99 of them present in French
+#:   touch    179 files, FRENCH     330 spells, 303 missed under English,
+#:                                             152 of them present in French
+#:
+#: So 251 icons were on disk and asked for under a name they do not have, and
+#: every Retro and Touch spell page 404ed its icons in all five languages.
+#: Both scrapers say so in their own docstrings ("chardata/spells/touch/<French
+#: name>.png", "spells/retro/<name_fr>.png"); this file said the opposite, and
+#: the two comments had contradicted each other from the start.
+#:
+#: Whatever the language, it is FIXED per version: the icon a reader gets must
+#: not follow the language they read in, or every page would ask for a
+#: different file.
+SPELL_ICON_LANGUAGE = {'retro': 'fr', 'touch': 'fr'}
+
+
+def _reference_icon_name(entry, shown_name, game_version=None):
+    """The icon file's name, in the language that version files them under."""
+    langue = SPELL_ICON_LANGUAGE.get(game_version, 'en')
+    return localized(entry, 'name', langue) or shown_name
 
 
 def _create_weapon_web_digest(weapon):
