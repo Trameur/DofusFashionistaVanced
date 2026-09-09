@@ -265,7 +265,7 @@
     {% if is_generation_snapshot %}
     <div class="solution-history-notice">
         <div>
-            <strong>{% trans "Viewing saved generation" %}</strong>
+            <strong>{% trans "Viewing a saved solution" %}</strong>
             <span>{{ generation_created_time|date:"SHORT_DATETIME_FORMAT" }}</span>
         </div>
         <div class="solution-history-notice-actions">
@@ -281,7 +281,7 @@
     {% if generation_history %}
     <div class="solution-history-panel">
         <div class="solution-history-panel-header">
-            <strong>{% trans "Recent generations" %}</strong>
+            <strong>{% trans "Recent solutions" %}</strong>
         </div>
         <div class="solution-history-list">
             {% for generation in generation_history %}
@@ -306,7 +306,7 @@
                     {% endfor %}
                 </div>
                 <div class="solution-history-actions">
-                    {% trans "Saved generation" as saved_generation_label %}
+                    {% trans "Saved solution" as saved_generation_label %}
                     <a class="button-generic solution-history-link-button" href="{{ generation.view_url }}">{% trans "Open" %}</a>
                     <a class="button-generic solution-history-link-button" href="{{ generation.compare_with_current_url }}">{% trans "Compare with current" %}</a>
                     <button type="button" class="button-generic"

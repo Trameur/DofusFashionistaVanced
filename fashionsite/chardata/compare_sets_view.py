@@ -141,7 +141,7 @@ def _resolve_compare_build(request, char_str):
             link,
             True,
             False,
-            '%s - %s' % (char.name, _('Saved generation')))
+            '%s - %s' % (char.name, _('Saved solution')))
 
     char = get_char_possibly_encoded_or_raise(request, char_str)
     if char.game_version != game_version:
@@ -563,7 +563,7 @@ def get_sharing_link(request, sets_params):
     char_ids = []
     for char_str in char_strs:
         if char_str.startswith('g'):
-            return _get_text_error_response(_('Saved generations cannot be shared directly.'))
+            return _get_text_error_response(_('Saved solutions cannot be shared directly.'))
         try:
             char_id, was_encoded = get_char_id_possibly_encoded(char_str)
         except ValueError:

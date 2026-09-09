@@ -7224,7 +7224,7 @@ class SolutionGenerationHistoryTests(TestCase):
         resp = self.client.get('/solution/%d/' % char.pk)
 
         self.assertEqual(resp.status_code, 200)
-        self.assertContains(resp, 'Recent generations')
+        self.assertContains(resp, 'Recent solutions')
         self.assertContains(resp, 'g%d' % generation.pk)
         self.assertContains(resp, 'Compare with current')
 
@@ -7436,13 +7436,13 @@ class SolutionGenerationHistoryTests(TestCase):
 
         snapshot_resp = self.client.get('/solutiongeneration/%d/%d/' % (char.pk, generation.pk))
         self.assertEqual(snapshot_resp.status_code, 200)
-        self.assertContains(snapshot_resp, 'Viewing saved generation')
+        self.assertContains(snapshot_resp, 'Viewing a saved solution')
         self.assertContains(snapshot_resp, 'This is a saved generation')
 
         compare_resp = self.client.get('/compare_sets/%d/g%d/' % (char.pk, generation.pk))
         self.assertEqual(compare_resp.status_code, 200)
         self.assertEqual(compare_resp.context['char_ids'], [char.pk, 'g%d' % generation.pk])
-        self.assertContains(compare_resp, 'Saved generation')
+        self.assertContains(compare_resp, 'Saved solution')
 
         restore_resp = self.client.post('/restoregeneration/%d/%d/' % (char.pk, generation.pk))
         self.assertEqual(restore_resp.status_code, 302)

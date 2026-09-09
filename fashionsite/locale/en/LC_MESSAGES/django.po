@@ -77,8 +77,8 @@ msgstr ""
 #: .\chardata\compare_sets_view.py:133
 #: .\chardata\templates\chardata\solution.html:293
 #: .\chardata\templates\chardata\solution_item.html:24
-msgid "Saved generation"
-msgstr "Saved generation"
+msgid "Saved solution"
+msgstr "Saved solution"
 
 #: .\chardata\compare_sets_view.py:276 .\chardata\dynamic_translations.py:150
 #: .\chardata\exclusions_view.py:29 .\chardata\solution_view.py:114
@@ -149,8 +149,8 @@ msgid "%s is not shared"
 msgstr ""
 
 #: .\chardata\compare_sets_view.py:555
-msgid "Saved generations cannot be shared directly."
-msgstr "Saved generations cannot be shared directly."
+msgid "Saved solutions cannot be shared directly."
+msgstr "Saved solutions cannot be shared directly."
 
 #: .\chardata\compare_sets_view.py:565
 #, python-format
@@ -2907,7 +2907,7 @@ msgid "Playstyle"
 msgstr ""
 
 #: .\chardata\templates\chardata\coaching.html:96
-msgid "Generate my build"
+msgid "Optimize my build"
 msgstr ""
 
 #: .\chardata\templates\chardata\coaching.html:102
@@ -3742,7 +3742,7 @@ msgid "Build"
 msgstr ""
 
 #: .\chardata\templates\chardata\load_projects.html:37
-msgid "A set suggestion has been generated for this project."
+msgid "This project already has a solution."
 msgstr ""
 
 #: .\chardata\templates\chardata\load_projects.html:50
@@ -4932,8 +4932,8 @@ msgid "Unfavorite"
 msgstr ""
 
 #: .\chardata\templates\chardata\solution.html:252
-msgid "Viewing saved generation"
-msgstr "Viewing saved generation"
+msgid "Viewing a saved solution"
+msgstr "Viewing a saved solution"
 
 #: .\chardata\templates\chardata\solution.html:258
 #: .\chardata\templates\chardata\solution.html:306
@@ -4945,8 +4945,8 @@ msgid "Back to current build"
 msgstr "Back to current build"
 
 #: .\chardata\templates\chardata\solution.html:268
-msgid "Recent generations"
-msgstr "Recent generations"
+msgid "Recent solutions"
+msgstr "Recent solutions"
 
 #: .\chardata\templates\chardata\solution.html:277
 #: .\chardata\templates\chardata\solution.html:400

@@ -78,8 +78,8 @@ msgstr "Tu as déjà signalé ce commentaire"
 #: .\chardata\compare_sets_view.py:133
 #: .\chardata\templates\chardata\solution.html:293
 #: .\chardata\templates\chardata\solution_item.html:24
-msgid "Saved generation"
-msgstr "Génération sauvegardée"
+msgid "Saved solution"
+msgstr "Solution enregistrée"
 
 #: .\chardata\compare_sets_view.py:276 .\chardata\dynamic_translations.py:150
 #: .\chardata\exclusions_view.py:29 .\chardata\solution_view.py:114
@@ -150,9 +150,8 @@ msgid "%s is not shared"
 msgstr "%s n'est pas partagé"
 
 #: .\chardata\compare_sets_view.py:555
-msgid "Saved generations cannot be shared directly."
-msgstr ""
-"Les générations sauvegardées ne peuvent pas être partagées directement."
+msgid "Saved solutions cannot be shared directly."
+msgstr "Les solutions enregistrées ne peuvent pas être partagées directement."
 
 #: .\chardata\compare_sets_view.py:565
 #, python-format
@@ -3127,8 +3126,8 @@ msgid "Playstyle"
 msgstr "Style de jeu"
 
 #: .\chardata\templates\chardata\coaching.html:96
-msgid "Generate my build"
-msgstr "Générer mon build"
+msgid "Optimize my build"
+msgstr "Optimiser mon build"
 
 #: .\chardata\templates\chardata\coaching.html:102
 msgid "Want full control over every stat?"
@@ -4131,8 +4130,8 @@ msgid "Build"
 msgstr "Élément"
 
 #: .\chardata\templates\chardata\load_projects.html:37
-msgid "A set suggestion has been generated for this project."
-msgstr "Une suggestion d'équipement a été générée pour ce projet."
+msgid "This project already has a solution."
+msgstr "Ce projet a déjà une solution."
 
 #: .\chardata\templates\chardata\load_projects.html:50
 #: .\chardata\templates\chardata\shared_builds.html:298
@@ -5496,8 +5495,8 @@ msgid "Unfavorite"
 msgstr "Retirer Favori"
 
 #: .\chardata\templates\chardata\solution.html:252
-msgid "Viewing saved generation"
-msgstr "Génération sauvegardée"
+msgid "Viewing a saved solution"
+msgstr "Affichage d'une solution enregistrée"
 
 #: .\chardata\templates\chardata\solution.html:258
 #: .\chardata\templates\chardata\solution.html:306
@@ -5509,8 +5508,8 @@ msgid "Back to current build"
 msgstr "Retour au stuff actuel"
 
 #: .\chardata\templates\chardata\solution.html:268
-msgid "Recent generations"
-msgstr "Dernières générations"
+msgid "Recent solutions"
+msgstr "Dernières solutions"
 
 #: .\chardata\templates\chardata\solution.html:277
 #: .\chardata\templates\chardata\solution.html:400
