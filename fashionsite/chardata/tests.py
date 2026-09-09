@@ -28883,3 +28883,151 @@ class ClosestNameRefusesWhenUnsureTests(SimpleTestCase):
         computed exactly: the caller only ever compares it to the ceiling."""
         from chardata.forgemagie_view import _bounded_edit_distance
         self.assertEqual(3, _bounded_edit_distance('chat', 'chien', 2))
+
+
+class PastedTextNeedsNoModelTests(InventoryScriptHarness):
+    """Reading a screenshot pulls a 2 MB model from a CDN into the reader's
+    browser. Reading text costs nothing, and everything downstream never cared
+    where the text came from, so the same pipeline now has a second entrance.
+
+    The hint deliberately does not tell anyone to copy the text out of the
+    game: nothing establishes that a Dofus tooltip can be selected, and the
+    site is not going to claim it can.
+    """
+
+    def _lexique(self, langue):
+        from chardata.inventory_view import _ocr_stat_lexicon
+        from fashionistapulp.structure import get_structure
+        return _ocr_stat_lexicon(get_structure('dofus3'))[langue]
+
+    def _lire(self, lignes, langue):
+        source = self._source()
+        morceaux = [self._extract(source, 'ocrNormalize'),
+                    self._extract(source, 'parseStatLine')]
+        script = '\n'.join(morceaux) + (
+            '\nconst lexicon = %s;\n'
+            'console.log(JSON.stringify(%s.map('
+            'l => parseStatLine(l, lexicon))));\n'
+            % (json.dumps(self._lexique(langue)), json.dumps(lignes)))
+        return json.loads(self._node(script))
+
+    def test_the_example_we_show_people_actually_parses(self):
+        """The placeholder is an instruction. If it did not parse, the first
+        thing anyone tried would fail."""
+        from chardata.inventory_view import LOCALIZED_UI
+        for langue in ('en', 'fr', 'es', 'pt', 'de'):
+            with self.subTest(langue=langue):
+                lignes = LOCALIZED_UI[langue]['text_placeholder'].split('\n')
+                self.assertEqual(3, len(lignes), lignes)
+                lus = self._lire(lignes[1:], langue)
+                self.assertEqual([{'key': 'vit', 'value': 201},
+                                  {'key': 'str', 'value': 15}], lus)
+
+    def test_the_first_placeholder_line_is_the_item_name(self):
+        """It must NOT parse as a stat, or the name line would be eaten."""
+        from chardata.inventory_view import LOCALIZED_UI
+        for langue in ('en', 'fr', 'es', 'pt', 'de'):
+            with self.subTest(langue=langue):
+                premiere = LOCALIZED_UI[langue]['text_placeholder'].split('\n')[0]
+                self.assertEqual([None], self._lire([premiere], langue))
+
+    def test_the_hint_never_claims_the_game_can_be_copied(self):
+        """A Dofus tooltip is not known to be selectable. Saying otherwise
+        would send people looking for something that may not exist."""
+        from chardata.inventory_view import LOCALIZED_UI
+        interdits = ('in-game', 'in game', 'depuis le jeu', 'dans le jeu',
+                     'del juego', 'en el juego', 'do jogo', 'no jogo',
+                     'aus dem spiel', 'im spiel')
+        for langue in ('en', 'fr', 'es', 'pt', 'de'):
+            with self.subTest(langue=langue):
+                hint = LOCALIZED_UI[langue]['text_hint'].lower()
+                for interdit in interdits:
+                    self.assertNotIn(interdit, hint)
+
+    def test_the_text_path_loads_no_engine(self):
+        """The whole point. ensureTesseract and recognize belong to the
+        screenshot path and must not appear in the text one."""
+        source = self._source()
+        process_text = self._extract(source, 'processText')
+        self.assertNotIn('ensureTesseract', process_text)
+        self.assertNotIn('Tesseract', process_text)
+        self.assertIn('parseScreenshot', process_text)
+        self.assertIn('searchCandidates', process_text)
+
+    def test_the_result_panel_is_shared_by_both_entrances(self):
+        """It used to live inside the screenshot box, so hiding that box hid
+        the results with it and the text path would have had nowhere to draw."""
+        source = self._source()
+        debut = source.index('id="inv-ocr-box"')
+        fin = source.index('</div>', source.index('id="inv-ocr-status"'))
+        self.assertNotIn('id="inv-ocr-result"', source[debut:fin])
+        self.assertIn('id="inv-ocr-result"', source)
+
+
+class InventoryTemplateOnlyUsesLabelsThatExistTests(SimpleTestCase):
+    """This page reads its labels from a plain dict rather than through
+    gettext, so a mistyped key renders as an empty string and nothing
+    complains: no exception, no test failure, just a button with no text."""
+
+    def test_every_label_the_template_asks_for_exists(self):
+        from chardata.inventory_view import LOCALIZED_UI
+        chemin = os.path.join(os.path.dirname(__file__), 'templates',
+                              'chardata', 'inventory.html')
+        source = io.open(chemin, encoding='utf-8').read()
+        demandes = set(re.findall(r'\{\{\s*t\.([a-zA-Z_]+)', source))
+        self.assertGreater(len(demandes), 20, demandes)
+        manquantes = sorted(demandes - set(LOCALIZED_UI['en']))
+        self.assertEqual([], manquantes,
+                         'inventory.html asks for labels the dict does not '
+                         'have: %s' % manquantes)
+
+
+class InventoryPageRendersBothEntrancesTests(TestCase):
+    """The page had no rendering test of any kind, so a template that stopped
+    drawing the screenshot panel, or a label that came out empty, would have
+    shipped green.
+    """
+
+    def setUp(self):
+        from django.contrib.auth.models import User
+        from chardata.models import InventoryFolder
+        self.user = User.objects.create_user('inv', 'inv@test.local', 'x')
+        self.folder = InventoryFolder.objects.create(
+            user=self.user, name='Imagiro', game_version='dofus3')
+        self.client.force_login(self.user)
+
+    def _page(self, **params):
+        resp = self.client.get('/inventory/',
+                               dict({'folder': self.folder.id}, **params))
+        self.assertEqual(resp.status_code, 200)
+        return resp.content.decode('utf-8')
+
+    def test_both_entrances_are_on_the_page(self):
+        page = self._page()
+        self.assertIn('inv-ocr-toggle', page)
+        self.assertIn('inv-text-toggle', page)
+        self.assertIn('inv-text-input', page)
+
+    def test_the_labels_are_not_empty(self):
+        """A mistyped dict key renders as nothing at all, silently."""
+        from chardata.inventory_view import LOCALIZED_UI
+        page = self._page()
+        for cle in ('text_button', 'text_read', 'ocr_button'):
+            with self.subTest(cle=cle):
+                self.assertIn(LOCALIZED_UI['en'][cle], page)
+
+    def test_the_page_is_translated(self):
+        page = self.client.get('/inventory/', {'folder': self.folder.id},
+                               HTTP_ACCEPT_LANGUAGE='fr').content.decode('utf-8')
+        from chardata.inventory_view import LOCALIZED_UI
+        self.assertIn(LOCALIZED_UI['fr']['text_button'], page)
+
+    def test_the_result_panel_is_not_inside_the_screenshot_panel(self):
+        """Rendered, not just in the source: hiding one used to hide the
+        other, which would have left the text path nowhere to draw."""
+        page = self._page()
+        boite = page.index('id="inv-ocr-box"')
+        resultat = page.index('id="inv-ocr-result"')
+        statut = page.index('id="inv-ocr-status"')
+        self.assertLess(boite, statut)
+        self.assertLess(statut, resultat)

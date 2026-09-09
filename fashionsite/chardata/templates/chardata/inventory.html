@@ -67,6 +67,7 @@
 
             <div style="margin-top:8px;">
                 <button type="button" class="button-thin" id="inv-ocr-toggle"><span class="fm-ico fm-ico-camera" aria-hidden="true"></span> {{ t.ocr_button }}</button>
+                <button type="button" class="button-thin" id="inv-text-toggle">{{ t.text_button }}</button>
             </div>
             <div class="inv-ocr-box" id="inv-ocr-box" style="display:none;">
                 <p class="small-explain">{{ t.ocr_hint }}</p>
@@ -83,16 +84,39 @@
                     </label>
                     <span class="small-explain" id="inv-ocr-status"></span>
                 </div>
-                <div id="inv-ocr-result" style="display:none;">
-                    <div class="inv-section-title">{{ t.ocr_pick_item }}</div>
-                    <select class="pretty-input" id="inv-ocr-item-select"></select>
-                    <div class="inv-section-title" style="margin-top:8px;">{{ t.ocr_stats }}</div>
-                    <div id="inv-ocr-stats"></div>
-                    <div class="inv-editor-actions">
-                        <select class="pretty-input" id="inv-ocr-add-stat"></select>
-                        <button type="button" class="button-generic" id="inv-ocr-add">{{ t.ocr_add }}</button>
-                        <span class="inv-feedback" id="inv-ocr-feedback" style="display:none;">{{ t.item_added }}</span>
-                    </div>
+            </div>
+
+            {% comment %}The same pipeline, entered without a picture. Reading a
+            screenshot costs a 2 MB model downloaded from a CDN into the
+            reader's browser; reading text costs nothing at all, and everything
+            downstream (the language guess, the stat parser, the item search,
+            the roll editor and its range warnings) never cared where the text
+            came from. Only ensureTesseract and the recognize call did.
+
+            The hint deliberately does not say "copy it from the game": nothing
+            establishes that a Dofus tooltip can be selected, and the site is
+            not going to claim it can.{% endcomment %}
+            <div class="inv-ocr-box" id="inv-text-box" style="display:none;">
+                <p class="small-explain">{{ t.text_hint }}</p>
+                <textarea class="pretty-input" id="inv-text-input" rows="6"
+                          placeholder="{{ t.text_placeholder }}"></textarea>
+                <div class="inv-ocr-controls" style="margin-top:8px;">
+                    <button type="button" class="button-generic" id="inv-text-read">{{ t.text_read }}</button>
+                    <span class="small-explain" id="inv-text-status"></span>
+                </div>
+            </div>
+
+            {% comment %}Shared by both entry points, so it sits outside them
+            both. Inside the screenshot box it disappeared with it.{% endcomment %}
+            <div class="inv-ocr-box" id="inv-ocr-result" style="display:none;">
+                <div class="inv-section-title">{{ t.ocr_pick_item }}</div>
+                <select class="pretty-input" id="inv-ocr-item-select"></select>
+                <div class="inv-section-title" style="margin-top:8px;">{{ t.ocr_stats }}</div>
+                <div id="inv-ocr-stats"></div>
+                <div class="inv-editor-actions">
+                    <select class="pretty-input" id="inv-ocr-add-stat"></select>
+                    <button type="button" class="button-generic" id="inv-ocr-add">{{ t.ocr_add }}</button>
+                    <span class="inv-feedback" id="inv-ocr-feedback" style="display:none;">{{ t.item_added }}</span>
                 </div>
             </div>
 
@@ -381,6 +405,11 @@
 
         var ocrLexicon = JSON.parse(document.getElementById('inv-ocr-lexicon').textContent);
         var ocrToggle = document.getElementById('inv-ocr-toggle');
+        var textToggle = document.getElementById('inv-text-toggle');
+        var textBox = document.getElementById('inv-text-box');
+        var textInput = document.getElementById('inv-text-input');
+        var textRead = document.getElementById('inv-text-read');
+        var textStatus = document.getElementById('inv-text-status');
         var ocrBox = document.getElementById('inv-ocr-box');
         var ocrChoose = document.getElementById('inv-ocr-choose');
         var ocrFile = document.getElementById('inv-ocr-file');
@@ -766,6 +795,38 @@
                 });
             })['catch'](function() {
                 ocrStatus.textContent = '{{ t.ocr_failed|escapejs }}';
+            });
+        }
+
+        // Same pipeline, no picture and no model. Everything after the text
+        // exists (the language guess, parseStatLine, the item search, the roll
+        // editor and its range warnings) never cared where the text came from.
+        function processText(text) {
+            if (!text.trim()) {
+                textStatus.textContent = '';
+                ocrResult.style.display = 'none';
+                return;
+            }
+            textStatus.textContent = '';
+            var parsed = parseScreenshot(text);
+            searchCandidates(parsed.names, function(matches) {
+                renderOcrResult(parsed, matches);
+                if (!matches.length) {
+                    textStatus.textContent = '{{ t.ocr_no_item|escapejs }}';
+                }
+            });
+        }
+
+        if (textToggle) {
+            textToggle.addEventListener('click', function() {
+                var ferme = textBox.style.display === 'none';
+                textBox.style.display = ferme ? 'block' : 'none';
+                if (ferme) {
+                    textInput.focus();
+                }
+            });
+            textRead.addEventListener('click', function() {
+                processText(textInput.value);
             });
         }
 

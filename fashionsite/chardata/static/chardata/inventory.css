@@ -234,3 +234,13 @@
     line-height: 1.35;
     margin: 2px 0 8px 6px;
 }
+
+/* Sizing only. The colours come from .pretty-input, which both theme sheets
+   style by class rather than by element, so a textarea carrying that class is
+   themed like every other field on the page and adds no new contrast risk. */
+#inv-text-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: vertical;
+}
