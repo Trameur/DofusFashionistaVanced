@@ -7040,3 +7040,67 @@ msgstr "%(items)s Gegenstände standen nach Ihren Ausschlüssen zur Auswahl."
 #, python-format
 msgid "They can be arranged into more than 10 to the power of %(exponent)s different sets, and the solver did not try them one at a time."
 msgstr "Daraus lassen sich mehr als 10 hoch %(exponent)s verschiedene Sets bilden, und der Solver hat sie nicht einzeln durchprobiert."
+
+#: .\chardata\dofusbook_view.py
+msgid "Import a DofusBook build"
+msgstr "Einen DofusBook-Build importieren"
+
+#: .\chardata\dofusbook_view.py
+msgid "Paste a DofusBook link and get the same gear here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr "Fügen Sie einen DofusBook-Link ein und erhalten Sie hier dieselbe Ausrüstung, Stück für Stück. Es wird nichts neu optimiert, solange Sie nicht darum bitten."
+
+#: .\chardata\dofusbook_view.py
+msgid "Paste the link to a public DofusBook build and you get the same gear here, piece for piece."
+msgstr "Fügen Sie den Link eines öffentlichen DofusBook-Builds ein und Sie erhalten hier dieselbe Ausrüstung, Stück für Stück."
+
+#: .\chardata\dofusbook_view.py
+msgid "Read this link"
+msgstr "Diesen Link lesen"
+
+#: .\chardata\dofusbook_view.py
+msgid "Bring this build in"
+msgstr "Diesen Build übernehmen"
+
+#: .\chardata\dofusbook_view.py
+msgid "Your gear comes in exactly as it is. Nothing is re-optimized unless you ask for it afterwards."
+msgstr "Ihre Ausrüstung kommt genau so an, wie sie ist. Es wird nichts neu optimiert, solange Sie nicht danach fragen."
+
+#: .\chardata\dofusbook_view.py
+msgid "These items are not in our catalogue and will be left out:"
+msgstr "Diese Gegenstände sind nicht in unserem Katalog und bleiben draußen:"
+
+#: .\chardata\dofusbook_view.py
+msgid "Imported build"
+msgstr "Importierter Build"
+
+#: .\chardata\dofusbook_view.py
+msgid "That is not a DofusBook build link."
+msgstr "Das ist kein DofusBook-Build-Link."
+
+#: .\chardata\dofusbook_view.py
+msgid "Short d-bk.net links do not say which game the build belongs to. Open the link and paste the full address."
+msgstr "Kurze d-bk.net-Links sagen nicht, zu welchem Spiel der Build gehört. Öffnen Sie den Link und fügen Sie die vollständige Adresse ein."
+
+#: .\chardata\dofusbook_view.py
+msgid "DofusBook does not have a public build at that link."
+msgstr "DofusBook hat unter diesem Link keinen öffentlichen Build."
+
+#: .\chardata\dofusbook_view.py
+msgid "DofusBook refused the request."
+msgstr "DofusBook hat die Anfrage abgelehnt."
+
+#: .\chardata\dofusbook_view.py
+msgid "DofusBook could not be reached. Try again later."
+msgstr "DofusBook war nicht erreichbar. Versuchen Sie es später."
+
+#: .\chardata\dofusbook_view.py
+msgid "DofusBook answered something we could not read."
+msgstr "DofusBook hat etwas geantwortet, das wir nicht lesen konnten."
+
+#: .\chardata\dofusbook_view.py
+msgid "That build came back with no items."
+msgstr "Dieser Build kam ohne Gegenstände zurück."
+
+#: .\chardata\dofusbook_view.py
+msgid "Those items do not exist in that version of the game. Check the link."
+msgstr "Diese Gegenstände gibt es in dieser Spielversion nicht. Prüfen Sie den Link."

@@ -6266,3 +6266,67 @@ msgstr ""
 #, python-format
 msgid "They can be arranged into more than 10 to the power of %(exponent)s different sets, and the solver did not try them one at a time."
 msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Import a DofusBook build"
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Paste a DofusBook link and get the same gear here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Paste the link to a public DofusBook build and you get the same gear here, piece for piece."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Read this link"
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Bring this build in"
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Your gear comes in exactly as it is. Nothing is re-optimized unless you ask for it afterwards."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "These items are not in our catalogue and will be left out:"
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Imported build"
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "That is not a DofusBook build link."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Short d-bk.net links do not say which game the build belongs to. Open the link and paste the full address."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "DofusBook does not have a public build at that link."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "DofusBook refused the request."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "DofusBook could not be reached. Try again later."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "DofusBook answered something we could not read."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "That build came back with no items."
+msgstr ""
+
+#: .\chardata\dofusbook_view.py
+msgid "Those items do not exist in that version of the game. Check the link."
+msgstr ""

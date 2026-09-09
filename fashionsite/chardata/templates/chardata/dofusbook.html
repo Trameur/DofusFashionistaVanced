@@ -1,0 +1,88 @@
+{% extends "chardata/base.html" %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{% trans "Import a DofusBook build" %}{% endblock %}
+{% block meta_description %}{% trans "Paste a DofusBook link and get the same gear here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<style>
+    .import-wrap { max-width: 640px; margin: 36px auto; padding: 0 14px; text-align: center; }
+    .import-intro { margin-bottom: 20px; }
+    .import-form { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .import-input {
+        flex: 1; min-width: 260px; max-width: 460px;
+        padding: 10px 12px; font-size: 1.02em; box-sizing: border-box;
+    }
+    .import-error { color: #c33; margin: 12px 0; }
+    .import-found { margin: 20px 0 8px; }
+    .import-pieces { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+    .import-piece {
+        display: inline-block; padding: 3px 11px; font-size: 0.9em;
+        border: 1px solid rgba(128,128,128,0.4); border-radius: 12px;
+    }
+    .import-missing { font-size: 0.9em; margin-top: 6px; }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="import-wrap">
+    <h1>{% trans "Import a DofusBook build" %}</h1>
+    <p class="import-intro">{% trans "Paste the link to a public DofusBook build and you get the same gear here, piece for piece." %}</p>
+
+    {% if login_problem %}
+    <p class="import-error">
+        {% trans "Log in to save this build to your account." %}
+        <a href="{% url 'login_page' %}">{% trans "Log in" %}</a>
+    </p>
+    {% endif %}
+
+    {% if error %}
+    <p class="import-error">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" class="import-form">
+        {% csrf_token %}
+        <input type="text" name="url" class="import-input pretty-input"
+               value="{{ url }}" autofocus
+               placeholder="https://www.dofusbook.net/fr/stuff/..." required>
+        <button type="submit" class="button-generic">{% trans "Read this link" %}</button>
+    </form>
+
+    {% comment %}The gear is shown BEFORE anything is created, so the reader
+    sees what is about to happen and can walk away. And the class is asked
+    for rather than guessed: DofusBook's character_class is their own
+    numbering, not Ankama's, and nothing in their payload names it.{% endcomment %}
+    {% if confirm %}
+    <div class="import-found">
+        <p><strong>{{ build.name }}</strong> &middot; {{ version_label }}{% if build.level %} &middot; {% trans "Level" %} {{ build.level }}{% endif %}</p>
+        <div class="import-pieces">
+            {% for piece in pieces %}
+            <span class="import-piece">{{ piece.name }}</span>
+            {% endfor %}
+        </div>
+        {% if build.missing %}
+        <p class="import-missing">{% trans "These items are not in our catalogue and will be left out:" %} {{ build.missing|join:", " }}</p>
+        {% endif %}
+
+        <form method="post" class="import-form">
+            {% csrf_token %}
+            <input type="hidden" name="url" value="{{ url }}">
+            <input type="hidden" name="confirm" value="1">
+            <label>{% trans "Class" %}
+                <select name="char_class" class="pretty-input" required>
+                    {% for key, label in classes %}
+                    <option value="{{ key }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button type="submit" class="button-generic">{% trans "Bring this build in" %}</button>
+        </form>
+        <p class="import-missing">{% trans "Your gear comes in exactly as it is. Nothing is re-optimized unless you ask for it afterwards." %}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

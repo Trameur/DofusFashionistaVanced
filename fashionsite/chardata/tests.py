@@ -29670,3 +29670,134 @@ class DofusBookLinkIsReadTests(SimpleTestCase):
             trouves, _manquants = map_items(charge, version)
             resolus[version] = len(trouves)
         self.assertEqual(1, len(set(resolus.values())), resolus)
+
+
+class DofusBookImportPageTests(TestCase):
+    """Paste a link, see the gear, pick the class, get the build.
+
+    The network is never touched: read_build is replaced, since what it does
+    is covered by DofusBookLinkIsReadTests against a stub of their API.
+    """
+
+    LIEN = 'https://www.dofusbook.net/fr/stuff/7894460-zobal-m-200'
+
+    #: Two real Dofus 3 items, by our own ids.
+    def _build(self, version='dofus3', ids=None, missing=None, level=200):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure(version)
+        if ids is None:
+            # One per type: two hats is not a build, and the view now drops
+            # the overflow rather than crashing on it (see the slot guard).
+            ids = [next(item.id for item in structure.types[200][type_name]
+                        if not item.removed)
+                   for type_name in ('Hat', 'Cloak', 'Belt')]
+        return {'game_version': version, 'source_host': 'www.dofusbook.net',
+                'build_id': '7894460', 'name': 'Zobal M 200', 'level': level,
+                'item_ids': ids, 'missing': missing or [],
+                'class_is_unknown': True}
+
+    def _patch(self, build=None, erreur=None):
+        from chardata import dofusbook_view
+        from chardata.dofusbook_import import ImportError_
+        vrai = dofusbook_view.read_build
+
+        def faux(url, opener=None):
+            if erreur is not None:
+                raise ImportError_(erreur)
+            return build
+
+        dofusbook_view.read_build = faux
+        self.addCleanup(setattr, dofusbook_view, 'read_build', vrai)
+
+    def _url(self, version='dofus3'):
+        return ('/import/dofusbook/' if version == 'dofus3'
+                else '/%s/import/dofusbook/' % version)
+
+    def test_the_page_offers_one_field(self):
+        page = self.client.get(self._url()).content.decode('utf-8')
+        self.assertEqual(200, self.client.get(self._url()).status_code)
+        self.assertIn('name="url"', page)
+        self.assertIn('Read this link', page)
+
+    def test_a_link_that_is_not_theirs_says_so(self):
+        self._patch(erreur='not_a_link')
+        page = self.client.post(self._url(), {'url': 'https://example.com/x'})
+        self.assertContains(page, 'not a DofusBook build link')
+
+    def test_a_short_link_explains_why_it_is_refused(self):
+        """The reader deserves the reason, not a shrug: their short link does
+        not say which game the build belongs to."""
+        self._patch(erreur='short_link')
+        page = self.client.post(self._url(), {'url': 'https://d-bk.net/abcdef'})
+        self.assertContains(page, 'do not say which game')
+
+    def test_reading_a_link_creates_nothing_yet(self):
+        """The gear is shown first. Nothing exists until the reader says so."""
+        from chardata.models import Char
+        self._patch(build=self._build())
+        avant = Char.objects.count()
+        page = self.client.post(self._url(), {'url': self.LIEN})
+        self.assertContains(page, 'Zobal M 200')
+        self.assertContains(page, 'Bring this build in')
+        self.assertEqual(avant, Char.objects.count())
+
+    def test_the_class_is_asked_for_and_never_guessed(self):
+        """Their character_class is their own numbering, so the confirmation
+        step offers the list rather than picking one."""
+        self._patch(build=self._build())
+        page = self.client.post(self._url(), {'url': self.LIEN})
+        self.assertContains(page, 'name="char_class"')
+        self.assertContains(page, 'Iop')
+
+    def test_confirming_brings_the_gear_in_without_solving(self):
+        """The whole point of the feature. The reader asked for their build
+        back, not for another one."""
+        from chardata.models import Char
+        from chardata.solution import get_solution, get_solver_facts
+        build = self._build()
+        self._patch(build=build)
+        reponse = self.client.post(self._url(), {
+            'url': self.LIEN, 'confirm': '1', 'char_class': 'Iop'})
+        self.assertEqual(302, reponse.status_code)
+        char = Char.objects.order_by('-id').first()
+        self.assertEqual('Iop', char.char_class)
+        self.assertEqual('dofus3', char.game_version)
+        self.assertEqual('Zobal M 200', char.name)
+        # The gear is there.
+        solution = get_solution(char)
+        self.assertIsNotNone(solution)
+        portes = {item.name for items in solution.items.values()
+                  for item in items if getattr(item, 'item_added', False)}
+        self.assertTrue(portes, portes)
+        # And no solve happened: the panel's facts only exist after one.
+        proven, seconds, pool = get_solver_facts(char.minimal_solution)
+        self.assertIsNone(proven)
+        self.assertIsNone(seconds)
+        self.assertIsNone(pool)
+
+    def test_the_redirect_carries_the_builds_own_version(self):
+        """A build lives in one version and its page only exists under that
+        prefix. Importing a Retro link from the Dofus 3 site and handing back
+        an unprefixed URL would be handing back a 404."""
+        from fashionistapulp.fashionista_config import get_items_db_path
+        if not os.path.exists(get_items_db_path('retro')):
+            self.skipTest('no retro database')
+        self._patch(build=self._build(version='retro', level=21))
+        reponse = self.client.post(self._url(), {
+            'url': 'https://retro.dofusbook.net/fr/stuff/2558915-bas-level',
+            'confirm': '1', 'char_class': 'Iop'})
+        self.assertEqual(302, reponse.status_code)
+        self.assertTrue(reponse['Location'].startswith('/retro/solution/'),
+                        reponse['Location'])
+
+    def test_items_we_do_not_have_are_named_before_anything_is_created(self):
+        self._patch(build=self._build(missing=['Chapeau Inconnu']))
+        page = self.client.post(self._url(), {'url': self.LIEN})
+        self.assertContains(page, 'not in our catalogue')
+        self.assertContains(page, 'Chapeau Inconnu')
+
+    def test_the_page_is_translated(self):
+        page = self.client.get(self._url(),
+                               HTTP_ACCEPT_LANGUAGE='fr').content.decode('utf-8')
+        self.assertIn('Importer un build DofusBook', page)
+        self.assertIn('Lire ce lien', page)
