@@ -38,6 +38,23 @@ _EXTERNE = re.compile(
     r'<(script|link)\b[^>]*\b(?:src|href)\s*=\s*"(https?://[^"]+)"[^>]*>',
     re.I | re.S)
 
+#: Le meme chargement, ecrit en JavaScript. Un script cree avec
+#: createElement puis appendChild s'execute avec exactement les memes droits
+#: qu'une balise, et le motif ci-dessus ne le voit pas: il cherche un `<`.
+#:
+#: C'est ainsi que tesseract.js est entre sans empreinte et y est reste. Le
+#: test etait vert, le compte de ressources tierces disait treize, et la
+#: quatorzieme, la seule que la page de l'inventaire telechargeait chez un
+#: lecteur connecte, n'etait comptee nulle part. Un garde qui ne regarde qu'une
+#: forme d'ecriture garde une forme d'ecriture, pas une surface.
+_EXTERNE_JS = re.compile(
+    r'\.src\s*=\s*[\'"](https?://[^\'"]+)[\'"]', re.I)
+
+#: Combien de caracteres apres l'affectation on cherche `integrity` et
+#: `crossOrigin`. Les proprietes d'un meme element se posent a la suite; au
+#: dela, on serait en train de lire le reglage d'un autre script.
+_FENETRE_JS = 400
+
 #: Les origines qui n'executent rien et ne stylent rien : les declarer avec
 #: une empreinte n'aurait pas de sens.
 _SANS_OBJET = ('schema.org', 'www.w3.org', 'creativecommons.org')
@@ -87,6 +104,24 @@ def _ressources_tierces():
                 rel = re.search(r'\brel\s*=\s*"([^"]*)"', balise, re.I)
                 if not rel or 'stylesheet' not in rel.group(1).lower():
                     continue
+            trouve.append((os.path.basename(chemin), balise, url))
+        for m in _EXTERNE_JS.finditer(texte):
+            url = m.group(1)
+            if any(d in url for d in _SANS_OBJET):
+                continue
+            # Une pseudo-balise, pour que les quatre assertions ci-dessous
+            # jugent un script ecrit en JavaScript exactement comme un autre,
+            # sans qu'aucune ait a connaitre les deux formes.
+            suite = texte[m.end():m.end() + _FENETRE_JS]
+            # La VRAIE empreinte, pas un marqueur: le test qui exige sha384
+            # lit cette valeur, et lui donner un jeton la ferait echouer sur
+            # une balise pourtant correctement epinglee.
+            empreinte = re.search(r"""integrity\s*=\s*['"]([^'"]+)['"]""",
+                                  suite, re.I)
+            balise = '<script src="%s"%s%s>' % (
+                url,
+                ' integrity="%s"' % empreinte.group(1) if empreinte else '',
+                ' crossorigin="js"' if 'crossorigin' in suite.lower() else '')
             trouve.append((os.path.basename(chemin), balise, url))
     return trouve
 

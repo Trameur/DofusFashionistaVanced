@@ -447,8 +447,29 @@
                     resolve();
                     return;
                 }
+                // Pinned to an exact version and to its fingerprint. It used
+                // to ask for @5, a floating tag whose bytes change whenever
+                // they publish a 5.x, which cannot be pinned at all: the
+                // browser would refuse a legitimate update, silently, on
+                // everyone. An unpinned third-party script runs with every
+                // right this page has, on a page where the reader is logged
+                // in, so a compromised CDN would own the session.
+                //
+                // sha384 measured 2026-09-09 on the decoded bytes and
+                // corroborated from a SECOND origin, unpkg.com, which is
+                // different infrastructure and not the same file read twice:
+                // 66695 bytes and the same digest both times. jsDelivr answers
+                // Access-Control-Allow-Origin: *, checked before pinning
+                // anything, without which integrity would have BROKEN the load
+                // instead of guarding it.
+                //
+                // What this does NOT cover: tesseract.js then fetches its own
+                // worker, wasm core and language data at run time, and those
+                // requests are its own. Pinning them is not ours to do.
                 var script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+                script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+                script.integrity = 'sha384-GJqSu7vueQ9qN0E9yLPb3Wtpd7OrgK8KmYzC8T1IysG1bcvxvIO4qtYR/D3A991F';
+                script.crossOrigin = 'anonymous';
                 script.onload = function() { resolve(); };
                 script.onerror = function() {
                     tesseractReady = null;
