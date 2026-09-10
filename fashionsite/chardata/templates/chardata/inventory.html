@@ -71,6 +71,11 @@
             </div>
             <div class="inv-ocr-box" id="inv-ocr-box" style="display:none;">
                 <p class="small-explain">{{ t.ocr_hint }}</p>
+                {% comment %}Ce lecteur lit UN objet et l'ajoute a un dossier.
+                Depuis que l'import de texte lit un build entier depuis une
+                capture par piece, rien ici ne le disait, et un lecteur qui
+                voulait tout son stuff passait piece par piece.{% endcomment %}
+                <p class="small-explain"><a id="inv-ocr-whole-build" href="{% game_url 'text_build_import' %}">{{ t.ocr_whole_build }}</a></p>
                 <div class="inv-ocr-controls">
                     <button type="button" class="button-thin" id="inv-ocr-choose">{{ t.ocr_choose }}</button>
                     <input type="file" id="inv-ocr-file" accept="image/*" style="display:none;">
