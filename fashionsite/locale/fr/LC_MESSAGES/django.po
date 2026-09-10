@@ -7250,3 +7250,6 @@ msgstr "Optimum démontré"
 
 msgid "Best found at the time limit, not a proof"
 msgstr "Meilleur trouvé à la limite de temps, pas une preuve"
+
+msgid "solver answers"
+msgstr "réponses du solveur"

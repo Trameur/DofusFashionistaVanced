@@ -7226,3 +7226,6 @@ msgstr "Bewiesenes Optimum"
 
 msgid "Best found at the time limit, not a proof"
 msgstr "Bestes bis zum Zeitlimit, kein Beweis"
+
+msgid "solver answers"
+msgstr "Solver-Antworten"

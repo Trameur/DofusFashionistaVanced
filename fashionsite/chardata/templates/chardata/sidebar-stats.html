@@ -5,7 +5,17 @@
     <div class="sidebar-stats-version">
         <div class="sidebar-stats-version-name">{{ v.label }}</div>
         <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.characters }}</span> {% trans "characters created" %}</div>
-        <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.solver_runs }}</span> {% trans "solver runs" %}</div>
+        {% comment %}Le nombre est la somme des `get_count` de SolutionCounter,
+        et DatabaseSolutionMemory.get l'incremente AVANT de regarder la
+        memoire: une reponse servie depuis la memoire, sans faire tourner le
+        solveur, compte aussi. <<solver runs>> disait donc plus que le
+        chiffre. Une reponse de la memoire est bien une reponse du solveur,
+        calculee une premiere fois pour la meme demande, donc <<reponses du
+        solveur>> est vrai dans les deux cas. Le nombre n'a pas change: il
+        est cumule depuis 2016 et le remplacer par les seuls calculs
+        effectifs, comptes seulement depuis SolutionMemoryHits, effacerait
+        l'histoire du site.{% endcomment %}
+        <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.solver_runs }}</span> {% trans "solver answers" %}</div>
         <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.shared_builds }}</span> {% trans "shared builds" %}</div>
     </div>
     {% endfor %}

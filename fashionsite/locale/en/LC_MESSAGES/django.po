@@ -6467,3 +6467,6 @@ msgstr ""
 
 msgid "Best found at the time limit, not a proof"
 msgstr ""
+
+msgid "solver answers"
+msgstr ""
