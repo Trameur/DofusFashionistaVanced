@@ -69,7 +69,9 @@ class ThePageDescribesWhatItReadsTests(TestCase):
         page = self.client.get('/import/text/',
                                HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
         self.assertEqual(_meta(page, 'description'), _meta(page, 'og:description'))
-        self.assertEqual('Import a build from text', _meta(page, 'og:title'))
+        titre = re.search(r'<title>(.*?)</title>', page, re.S).group(1).strip()
+        self.assertTrue(titre.startswith('Import a build from text'), titre)
+        self.assertEqual(titre, _meta(page, 'og:title'))
         self.assertEqual('https://dofusfashionista.gg/import/text/',
                          _meta(page, 'og:url'))
 
@@ -82,13 +84,13 @@ class ThePageDescribesWhatItReadsTests(TestCase):
                                HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
         self.assertEqual('https://dofusfashionista.gg/touch/import/text/',
                          _meta(page, 'og:url'))
-        self.assertEqual('Import a build from text (Dofus Touch)',
-                         _meta(page, 'og:title'))
         self.assertEqual('Dofus Touch. ' + DESCRIPTION,
                          _meta(page, 'og:description'))
         self.assertEqual(_meta(page, 'description'), _meta(page, 'og:description'))
-        titre = re.search(r'<title>(.*?)</title>', page, re.S).group(1)
-        self.assertIn('(Dofus Touch)', titre)
+        titre = re.search(r'<title>(.*?)</title>', page, re.S).group(1).strip()
+        self.assertTrue(titre.startswith('Import a build from text (Dofus Touch)'),
+                        titre)
+        self.assertEqual(titre, _meta(page, 'og:title'))
 
     def test_the_description_speaks_the_language_of_the_reader(self):
         page = self.client.get('/import/text/',

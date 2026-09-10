@@ -1,4 +1,4 @@
-{% load i18n %}{% load static_s3 %}{% load ads %}{% get_current_language as LANGUAGE_CODE %}<!DOCTYPE html>
+{% load i18n %}{% load static_s3 %}{% load ads %}{% load capture %}{% get_current_language as LANGUAGE_CODE %}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:'en' }}">
 <head>
     <meta charset="utf-8">
@@ -11,7 +11,9 @@
     if(t==='auto'){var hr=new Date().getHours();t=(hr<6||hr>=18)?'darktheme':'lighttheme';}
     h.classList.add(t==='darktheme'?'fm-dark':'fm-light');}catch(e){}})();
     </script>
-    <meta name="description" content="{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}">
+    {# The title and the description are rendered once here and reused three times: the <title>, the meta description, and the Open Graph pair a chat shows under a pasted link. Before this, a page that did not override og_meta previewed as the site-wide sentence. #}
+    {% capture as page_title %}{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}{% endcapture %}{% capture as page_description %}{% block meta_description %}{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Get Dofus {{ version }} sets created automatically, based on your specific needs.{% endblocktrans %}{% else %}{% blocktrans %}Get Dofus sets created automatically, based on your specific needs.{% endblocktrans %}{% endif %}{% endblock %}{% endcapture %}
+    <meta name="description" content="{{ page_description }}">
     <meta name="author" content="Dofus Fashionista">
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
     <meta name="robots" content="{% block meta_robots %}{% if noindex %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
@@ -20,8 +22,8 @@
     {% for lang, alt_url in hreflang_urls.items %}<link rel="alternate" hreflang="{{ lang }}" href="{{ alt_url }}">
     {% endfor %}{% if hreflang_urls.en %}<link rel="alternate" hreflang="x-default" href="{{ hreflang_urls.en }}">{% endif %}{% endif %}{% endblock %}
     {% block og_meta %}
-    <meta property="og:title" content="Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista - {% trans "Equipment Set Optimizer" %}">
-    <meta property="og:description" content="{% if current_game_version_seo %}{% blocktrans with version=current_game_version_seo %}Create optimized Dofus {{ version }} equipment sets automatically based on your character's needs.{% endblocktrans %}{% else %}{% blocktrans %}Create optimized Dofus equipment sets automatically based on your character's needs.{% endblocktrans %}{% endif %}">
+    <meta property="og:title" content="{{ page_title }}">
+    <meta property="og:description" content="{{ page_description }}">
     <meta property="og:type" content="website">
     {# A paginated canonical carries ?page=N: naming another URL here lied. #}
     {% block og_url %}<meta property="og:url" content="{% if canonical_url %}{{ canonical_url }}{% else %}https://dofusfashionista.gg{{ request.path }}{% endif %}">{% endblock %}
@@ -33,7 +35,7 @@
     {% endblock %}
     {% block structured_data %}{% endblock %}
     {% block preload %}{% endblock %}
-    <title>{% block title %}Dofus{% if current_game_version_seo %} {{ current_game_version_seo }}{% endif %} Fashionista{% endblock %}</title>
+    <title>{{ page_title }}</title>
 
     {% load i18n %}
     {% load static_s3 %}

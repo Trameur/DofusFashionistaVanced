@@ -9,22 +9,10 @@ sinon Google recoit cinq resultats indiscernables et n'en garde qu'un.
 La page lit aussi des captures d'infobulle depuis le 10 septembre 2026
 (commit bf8015c50); la description disait <<collez les noms>> et rien
 d'autre, et le lien colle dans un salon portait la phrase generique du site.
-Les deux phrases sont les memes, pour qu'un moteur et un salon lisent la meme
-promesse.{% endcomment %}
+Un moteur et un salon lisent la meme promesse: base.html reprend le titre et
+la description de la page dans son bloc Open Graph.{% endcomment %}
 {% block title %}{% trans "Import a build from text" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% endblock %}
-{% load static %}
-{% block og_meta %}
-    <meta property="og:title" content="{% trans "Import a build from text" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %}">
-    <meta property="og:description" content="{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dofusfashionista.gg{{ request.path }}">
-    <meta property="og:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">
-{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
