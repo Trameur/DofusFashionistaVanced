@@ -955,10 +955,22 @@ def shared_build_path(char):
 
 
 def generate_link(request, char):
-    encoded_id = encode_char_id(int(char.id))
-    char_name = char.char_name or 'shared'
-    return request.build_absolute_uri(version_reverse(request, 'solution_linked',
-                                                      char_name, encoded_id))
+    """L'adresse CANONIQUE du build, pas la porte par laquelle on est entre.
+
+    Ce lien est fait pour etre colle sur un Discord ou un forum, donc il doit
+    valoir pour tout le monde. `request.build_absolute_uri` rendait l'hote de
+    l'appelant, et `ALLOWED_HOSTS` en compte neuf en production: mesure du 10
+    septembre 2026, le meme build sortait en
+    `http://178.105.48.220/s/...` depuis une IP et
+    `http://fashionistavanced.com/s/...` depuis l'ancien domaine, en `http`
+    dans les deux cas. `api_view`, `shared_builds_view` et `profile_view`
+    passaient deja par SITE_URL; cet endroit-ci, dont c'est pourtant le
+    metier, ne le faisait pas.
+
+    `shared_build_path` prefixe avec la version du BUILD et echappe son nom,
+    ce que la construction precedente ne faisait qu'a moitie.
+    """
+    return SITE_URL + shared_build_path(char)
 
 def _item_id_for_name(structure, item_name):
     """The id the lock and forbid lists store, or None if this version has no

@@ -52,11 +52,39 @@ def shared_build_path(build):
     On ne peut pas se servir de `version_reverse` ici : elle prefixe avec la
     version de la REQUETE, alors qu'une page Dofus 3 ou une reponse d'API doit
     pouvoir designer un build Touch. C'est la version du BUILD qui commande.
+
+    **Le nom est ECHAPPE**, et ce n'est pas de la coquetterie. `char_name`
+    arrive de `request.POST.get('charname')` sans aucune validation, donc il
+    porte ce que le joueur a tape. Mesure du 10 septembre 2026 sur la forme
+    non echappee :
+
+        <<Mon Cra>>  -> l'espace coupe le lien des qu'un salon le transforme
+                        en lien cliquable
+        <<Cra #1>>   -> le chemin s'arrete a `/s/Cra` et **l'identifiant du
+                        build part dans le fragment**
+        <<Cra?PvP>>  -> le chemin s'arrete a `/s/Cra` et l'identifiant part
+                        dans la chaine de requete
+        <<100% Cra>> -> `% C` n'est pas une sequence d'echappement valide
+
+    Quatre modules appellent cette fonction-ci: le champ `url` de l'API
+    publique, les liens <<builds qui utilisent cet objet>> des fiches
+    d'encyclopedie, et deux outils d'administration. Aucun d'eux ne se relit
+    depuis un navigateur, donc un lien casse n'y saute pas aux yeux.
+
+    `solution_view` en a une AUTRE, du meme nom, qui echappait deja et qui sert
+    la balise `canonical` et le fil d'Ariane. Deux fonctions homonymes dont une
+    seule etait correcte: c'est ce qui a fait durer la faute, et il a fallu
+    verifier laquelle chaque appelant importait plutot que de le supposer.
+
+    La route accepte l'echappement, son motif etant `(?P<char_name>.*)` et
+    Django decodant le chemin avant de router.
     """
+    from urllib.parse import quote
     from chardata.encoded_char_id import encode_char_id
     version = getattr(build, 'game_version', None) or 'dofus3'
     prefixe = '' if version == 'dofus3' else '/' + version
-    return '%s/s/%s/%s/' % (prefixe, build.char_name or 'shared',
+    return '%s/s/%s/%s/' % (prefixe,
+                            quote(build.char_name or 'shared', safe=''),
                             encode_char_id(int(build.id)))
 
 
