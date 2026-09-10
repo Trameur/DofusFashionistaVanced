@@ -7120,3 +7120,11 @@ msgstr "Importar mejor desde un enlace de DofusBook"
 #: .\chardata\templates\chardata\base.html:275
 msgid "No link? Paste your item names instead"
 msgstr "¿No tiene enlace? Pegue mejor los nombres de sus objetos"
+
+#: .\chardata\templates\chardata\text_build.html:78
+msgid "outside %(low)s to %(high)s, check it"
+msgstr "fuera de %(low)s a %(high)s, compruebélo"
+
+#: .\chardata\templates\chardata\text_build.html:78
+msgid "These rolls were left out, because the item does not carry that stat:"
+msgstr "Estos valores se han dejado fuera, porque el objeto no lleva esa característica:"

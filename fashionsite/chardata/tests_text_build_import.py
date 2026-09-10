@@ -47,22 +47,39 @@ class PastedTextBecomesABuildTests(SimpleTestCase):
         lu = read_items('\n'.join(noms), 'dofus3', 'en')
         self.assertEqual([m['name'] for m in lu['matched']], noms)
 
-    def test_a_whole_tooltip_can_be_pasted_and_the_stats_are_skipped(self):
+    def test_a_whole_tooltip_can_be_pasted_and_its_rolls_come_with_it(self):
         """Mesure du 10 septembre 2026: sur **7800 lignes** qui ne sont pas des
         noms d'objets (les etiquettes de stats des cinq langues, declinees en
         <<51 X>>, <<X 51>>, <<-12 X>>, plus les entetes d'infobulle usuelles),
-        prises sur Dofus 3, Retro et Touch, le contrat retenu en reconnait
-        **zero**. Le rappel sur 1800 vrais noms est de 98,8 %.
+        prises sur Dofus 3, Retro et Touch, aucune n'est prise pour un objet.
+
+        Elles ne sont pas perdues pour autant: une ligne de jet revient a la
+        piece qu'elle suit. Un import qui repose le stuff <<a l'identique>> et
+        jetterait les jets ne reposerait pas le meme stuff.
         """
         noms = _noms('dofus3', ('Hat', 'Cloak'))
         texte = '\n'.join([
-            noms[0], '51 Vitality', '30 Strength', 'Level 200',
-            noms[1], '-12 AP', 'Effects:', 'Conditions',
+            noms[0], '51 Vitality', 'Level 200',
+            noms[1], 'Effects:', 'Conditions',
         ])
         lu = read_items(texte, 'dofus3', 'en')
         self.assertEqual([m['name'] for m in lu['matched']], noms)
-        for parasite in ('51 Vitality', '30 Strength', 'Level 200', '-12 AP'):
+        # Le jet revient a la piece qu'il suit, pas a l'autre.
+        self.assertTrue(any(r['name'] == 'Vitality' and r['value'] == 51
+                            for r in lu['matched'][0]['rolls']),
+                        lu['matched'][0]['rolls'])
+        self.assertEqual([], lu['matched'][1]['rolls'])
+        # Et ce qui n'est ni un nom ni un jet reste signale.
+        for parasite in ('Level 200', 'Effects:', 'Conditions'):
             self.assertIn(parasite, lu['ignored'])
+
+    def test_a_roll_before_any_item_is_reported_not_guessed(self):
+        """Coller ses stats sans le nom au-dessus n'attache rien: on ne
+        devine pas a quelle piece elles appartenaient."""
+        lu = read_items('51 Vitality\n30 Strength', 'dofus3', 'en')
+        self.assertEqual([], lu['item_ids'])
+        self.assertEqual(2, lu['orphan_rolls'])
+        self.assertEqual(['51 Vitality', '30 Strength'], lu['ignored'])
 
     def test_a_stat_word_never_drags_an_item_in_by_substring(self):
         """La faute que le contrat par egalite supprime.
@@ -387,3 +404,283 @@ class AnImportedBuildIsNotCalledEmptyTests(TestCase):
                               'templates', 'chardata', 'solution.html')
         with open(chemin, encoding='utf-8') as f:
             return f.read()
+
+
+class ThePythonRollParserAgreesWithTheBrowserOneTests(TestCase):
+    """Deux implementations de la meme lecture, tenues a la meme table.
+
+    `parseStatLine` vit dans un gabarit et tourne chez le lecteur; son jumeau
+    Python sert l'import par texte. Porter une regle sans ce test, c'est se
+    garantir deux comportements dans six mois: la regle des groupes de
+    chiffres, qui a deja fabrique 476 et 4560 une fois, serait corrigee d'un
+    cote et pas de l'autre.
+
+    Les lignes ci-dessous ne sont pas decoratives. Chacune est un cas qui a
+    reellement casse: le separateur de fourchette mal lu, l'icone de stat lue
+    comme un chiffre, les groupes de milliers, le pourcentage, le signe.
+    """
+
+    LEXIQUE = {'force': 'str', 'vitalite': 'vit', 'critique': 'ch',
+               '% critique': 'ch'}
+
+    LIGNES = [
+        '38 Force',
+        '-20 Force',
+        '+15 Force',
+        '4 50 Force',
+        '1 000 Vitalite',
+        '1 234 567 Vitalite',
+        '57 \u00e0 76 Force',
+        '57 a 76 Force',
+        '57 to 76 Force',
+        '57 bis 76 Force',
+        '57 4 76 Force',
+        '3 4 5 60 Force',
+        '0 Force',
+        '10 % Critique',
+        '10% Critique',
+        'Force',
+        '',
+        '   ',
+        '12 Sagesse',
+        '1.000 Vitalite',
+        '-1 000 Vitalite',
+    ]
+
+    def _js(self):
+        """Le meme harnais que les tests du lecteur de captures.
+
+        Il est importe et non recopie: si l'extraction par comptage
+        d'accolades cesse de marcher, les deux familles de tests doivent
+        rougir ensemble, pas l'une sans l'autre.
+        """
+        import json
+        from chardata.tests import InventoryScriptHarness
+        # GABARIT est un attribut de CLASSE du harnais, donc on lie
+        # _source au harnais et seul _node a self, dont il utilise les
+        # assertions et skipTest.
+        source = InventoryScriptHarness._source(InventoryScriptHarness)
+        morceaux = [InventoryScriptHarness._extract(source, 'ocrNormalize'),
+                    InventoryScriptHarness._extract(source, 'parseStatLine')]
+        script = '\n'.join(morceaux) + (
+            '\nconst lexicon = %s;\n'
+            'console.log(JSON.stringify(%s.map('
+            'l => parseStatLine(l, lexicon))));\n'
+            % (json.dumps(self.LEXIQUE), json.dumps(self.LIGNES)))
+        return json.loads(InventoryScriptHarness._node(self, script))
+
+    def _python(self):
+        from chardata.text_build_import import _lit_ligne_de_stat
+        return [_lit_ligne_de_stat(ligne, self.LEXIQUE)
+                for ligne in self.LIGNES]
+
+    def test_both_readers_answer_the_same_thing_on_every_line(self):
+        cote_js = self._js()
+        cote_python = self._python()
+        self.assertEqual(len(self.LIGNES), len(cote_js))
+        divergences = []
+        for ligne, js, py in zip(self.LIGNES, cote_js, cote_python):
+            if js != py:
+                divergences.append((ligne, js, py))
+        self.assertFalse(
+            divergences,
+            'the browser reader and the server one disagree, so the same '
+            'paste gives two builds: %s' % divergences)
+
+    def test_the_table_still_covers_the_cases_that_broke(self):
+        """Un test d'accord qui ne compare que des lignes faciles est vert et
+        ne garde rien."""
+        lu = dict(zip(self.LIGNES, self._python()))
+        self.assertIsNone(lu['57 4 76 Force'], 'the 476 case came back')
+        self.assertIsNone(lu['3 4 5 60 Force'], 'the 4560 case came back')
+        self.assertIsNone(lu['57 \u00e0 76 Force'])
+        self.assertEqual({'key': 'str', 'value': 50}, lu['4 50 Force'])
+        self.assertEqual({'key': 'vit', 'value': 1000}, lu['1 000 Vitalite'])
+        self.assertEqual({'key': 'vit', 'value': 1234567},
+                         lu['1 234 567 Vitalite'])
+        self.assertEqual({'key': 'str', 'value': -20}, lu['-20 Force'])
+        self.assertIsNone(lu['0 Force'], 'a zero roll is not a roll')
+        self.assertIsNone(lu['Force'], 'a bare label is not a roll')
+
+
+class PastedRollsReachTheBuildTests(TestCase):
+    """Coller une infobulle doit rendre le stuff TEL QU'IL EST, jets compris.
+
+    Un import qui ramene les bons objets avec leurs valeurs de catalogue
+    rend un autre stuff que celui du joueur, et le solveur repartirait ensuite
+    de chiffres qui ne sont pas les siens.
+    """
+
+    def _objet_avec_stats(self, type_name='Hat'):
+        structure = get_structure('dofus3')
+        for item in structure.types[200][type_name]:
+            if not item.removed and item.stats:
+                return structure, item
+        raise AssertionError('no item with stats in %s' % type_name)
+
+    def _texte_infobulle(self, structure, item, valeur=None):
+        nom = structure.get_item_name_in_language(item, 'en')
+        stat_id, catalogue = item.stats[0]
+        stat = structure.get_stat_by_id(stat_id)
+        lu = catalogue if valeur is None else valeur
+        return nom, stat, lu, '%s\n%d %s' % (nom, lu, stat.name)
+
+    def test_the_rolls_are_written_on_the_build(self):
+        structure, item = self._objet_avec_stats()
+        _nom, stat, valeur, texte = self._texte_infobulle(structure, item, 7)
+        from chardata.models import Char
+        from chardata.lock_forbid import get_stat_overrides
+        self.client.post('/import/text/', {
+            'text': texte, 'confirm': '1', 'char_class': 'Iop',
+            'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        overrides = get_stat_overrides(char)
+        self.assertIn(item.id, overrides, overrides)
+        self.assertEqual(valeur, overrides[item.id][stat.id])
+
+    def test_a_build_with_no_rolls_pasted_carries_no_overrides(self):
+        """Le garde de l'autre cote: coller une simple liste de noms ne doit
+        pas inventer d'overrides."""
+        from chardata.models import Char
+        from chardata.lock_forbid import get_stat_overrides
+        self.client.post('/import/text/', {
+            'text': '\n'.join(_noms('dofus3', ('Hat', 'Cloak'))),
+            'confirm': '1', 'char_class': 'Iop', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        self.assertEqual({}, get_stat_overrides(char))
+
+    def test_a_roll_on_a_stat_the_item_lacks_is_never_written(self):
+        """`Model._apply_stat_overrides` AJOUTE la caracteristique a la piece
+        quand elle n'y figure pas. Ecrire un tel jet ferait naitre sur l'objet
+        une stat qu'il n'a jamais eue, et le solveur optimiserait autour."""
+        structure, item = self._objet_avec_stats()
+        portees = set(sid for sid, _v in item.stats)
+        absente = next(s for s in structure.get_stats_list()
+                       if s.id not in portees and s.name)
+        nom = structure.get_item_name_in_language(item, 'en')
+        from chardata.models import Char
+        from chardata.lock_forbid import get_stat_overrides
+        self.client.post('/import/text/', {
+            'text': '%s\n40 %s' % (nom, absente.name),
+            'confirm': '1', 'char_class': 'Iop', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        overrides = get_stat_overrides(char)
+        self.assertNotIn(absente.id, overrides.get(item.id, {}), overrides)
+
+    def test_the_preview_shows_the_rolls_and_what_it_left_out(self):
+        structure, item = self._objet_avec_stats()
+        portees = set(sid for sid, _v in item.stats)
+        absente = next(s for s in structure.get_stats_list()
+                       if s.id not in portees and s.name)
+        nom = structure.get_item_name_in_language(item, 'en')
+        stat_id, catalogue = item.stats[0]
+        stat = structure.get_stat_by_id(stat_id)
+        page = self.client.post('/import/text/', {
+            'text': '%s\n%d %s\n40 %s' % (nom, catalogue, stat.name,
+                                          absente.name)})
+        corps = page.content.decode('utf-8')
+        self.assertIn(stat.name, corps)
+        self.assertIn('does not carry that stat', corps)
+        self.assertIn(absente.name, corps)
+
+    def test_an_out_of_range_roll_is_kept_and_flagged(self):
+        """La forgemagie pousse legitimement un jet au-dessus de son maximum
+        et peut en sacrifier un sous son minimum. Seul le joueur sait, donc on
+        applique et on signale, jamais on refuse."""
+        from chardata.stat_range import get_stat_range
+        structure = get_structure('dofus3')
+        cible = None
+        for item in structure.types[200]['Hat']:
+            if item.removed or not item.stats:
+                continue
+            for stat_id, _v in item.stats:
+                if get_stat_range(item, stat_id):
+                    cible = (item, stat_id)
+                    break
+            if cible:
+                break
+        self.assertIsNotNone(cible, 'no Dofus 3 hat carries a roll range')
+        item, stat_id = cible
+        bas, _haut = get_stat_range(item, stat_id)
+        stat = structure.get_stat_by_id(stat_id)
+        nom = structure.get_item_name_in_language(item, 'en')
+        lu = read_items('%s\n%d %s' % (nom, bas - 1, stat.name),
+                        'dofus3', 'en')
+        jet = next(r for r in lu['matched'][0]['rolls']
+                   if r['name'] == stat.name)
+        self.assertTrue(jet['applied'], jet)
+        self.assertTrue(jet['out_of_range'], jet)
+        self.assertEqual(bas - 1, lu['overrides'][item.id][stat_id])
+
+    def test_the_pasted_roll_actually_changes_the_build_totals(self):
+        """La preuve que les jets servent a quelque chose.
+
+        Les ecrire dans `stat_overrides` ne prouve rien tout seul: la solution
+        est construite AVANT eux, par `_place_items`. Ce qui les fait compter,
+        c'est que `get_solution` repasse par `get_effective_stat_overrides` a
+        chaque lecture. Si ce chemin disparaissait, le build afficherait les
+        valeurs de catalogue et le dictionnaire dormirait sans que rien ne
+        rougisse.
+        """
+        from chardata.models import Char
+        from chardata.solution import get_solution
+        structure, item = self._objet_avec_stats()
+        stat_id, catalogue = item.stats[0]
+        stat = structure.get_stat_by_id(stat_id)
+        nom = structure.get_item_name_in_language(item, 'en')
+        vise = max(1, catalogue - 25)
+
+        self.client.post('/import/text/', {
+            'text': '%s\n%d %s' % (nom, vise, stat.name),
+            'confirm': '1', 'char_class': 'Iop', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        porte = next(i for i in get_solution(char).item_list
+                     if i.name != 'NoItem')
+        # ModelResultItem.stats est indexe par la CLE de la stat, pas par
+        # son id, et c'est la que l'override atterrit.
+        self.assertEqual(vise, porte.stats[stat.key],
+                         'the build shows the catalogue roll, not the pasted '
+                         'one')
+        self.assertNotEqual(catalogue, vise, 'the case proves nothing')
+
+
+class TheTextIsReadInItsOwnLanguageTests(SimpleTestCase):
+    """Le lecteur peut jouer en francais et lire le site en anglais.
+
+    La langue se deduit des JETS, qui sont un signal fiable: le lexique de
+    stats d'une langue reconnait ses propres lignes et pas celles des autres.
+    Le vivier de noms est ensuite construit dans cette langue-la. Sans jet
+    dans le texte il n'y a aucun signal, et la langue de l'interface gagne.
+    """
+
+    def setUp(self):
+        self.precedente = get_current_game_version()
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, self.precedente)
+
+    def _objet(self):
+        structure = get_structure('dofus3')
+        for item in structure.types[200]['Hat']:
+            if not item.removed and item.stats:
+                return structure, item
+        raise AssertionError('no hat with stats')
+
+    def test_a_french_paste_is_understood_by_an_english_reader(self):
+        structure, item = self._objet()
+        nom_fr = structure.get_item_name_in_language(item, 'fr')
+        nom_en = structure.get_item_name_in_language(item, 'en')
+        self.assertNotEqual(nom_fr, nom_en, 'the case proves nothing')
+        lu = read_items('%s\n400 Vitalite\n50 Sagesse' % nom_fr,
+                        'dofus3', 'en')
+        self.assertEqual('fr', lu['stat_language'])
+        self.assertEqual([nom_fr], [m['name'] for m in lu['matched']])
+        self.assertTrue(lu['matched'][0]['rolls'])
+
+    def test_without_any_roll_the_reader_language_still_decides(self):
+        """Le comportement d'avant, qui doit survivre: une liste de noms
+        anglais lue par un lecteur anglais."""
+        structure, item = self._objet()
+        nom_en = structure.get_item_name_in_language(item, 'en')
+        lu = read_items(nom_en, 'dofus3', 'en')
+        self.assertEqual('en', lu['stat_language'])
+        self.assertEqual([nom_en], [m['name'] for m in lu['matched']])

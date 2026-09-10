@@ -25,6 +25,7 @@ from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _solution_path)
+from chardata.lock_forbid import set_stat_overrides
 from chardata.text_build_import import MAX_LIGNES, read_items
 from chardata.util import set_response, safe_int
 from fashionistapulp.dofus_constants import CHARACTER_CLASSES
@@ -83,6 +84,7 @@ def text_build(request):
             'ignored_total': len(lu['ignored']),
             'truncated': lu['truncated'],
             'max_lines': MAX_LIGNES,
+            'refused_rolls': lu['refused_rolls'][:12],
             'level': niveau,
             'classes': _classes_for(version),
             'login_problem': is_anon_cant_create(request),
@@ -91,6 +93,13 @@ def text_build(request):
     char = create_build(request, char_class, niveau, set(), version,
                         name=_('Imported build'))
     _place_items(char, lu['item_ids'], origin='pasted_text')
-    logger.info('imported %d items from pasted text into char %s',
-                len(lu['item_ids']), char.id)
+    # Les jets APRES la pose des objets: `_place_items` appelle set_minimal_
+    # solution, qui ecrit sur le char, et ecrire les overrides avant se
+    # ferait ecraser. Un seul save pour tout le lot, la ou
+    # set_item_stat_override en fait un par caracteristique.
+    if lu['overrides']:
+        set_stat_overrides(char, lu['overrides'])
+    logger.info('imported %d items and %d rolled stats from pasted text '
+                'into char %s', len(lu['item_ids']),
+                sum(len(v) for v in lu['overrides'].values()), char.id)
     return HttpResponseRedirect(_solution_path(char))

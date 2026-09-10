@@ -6370,3 +6370,11 @@ msgstr ""
 #: .\chardata\templates\chardata\base.html:275
 msgid "No link? Paste your item names instead"
 msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:78
+msgid "outside %(low)s to %(high)s, check it"
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:78
+msgid "These rolls were left out, because the item does not carry that stat:"
+msgstr ""

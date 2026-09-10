@@ -19,12 +19,31 @@
     }
     .import-error { color: #c33; margin: 12px 0; }
     .import-found { margin: 20px 0 8px; }
-    .import-pieces { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
     .import-piece {
         display: inline-block; padding: 3px 11px; font-size: 0.9em;
         border: 1px solid rgba(128,128,128,0.4); border-radius: 12px;
     }
     .import-approx { font-style: italic; opacity: 0.8; }
+    .import-list { list-style: none; padding: 0; margin: 0 0 14px; text-align: left; }
+    .import-line { margin: 0 0 7px; }
+    .import-rolls { display: block; margin: 3px 0 0 10px; }
+    .import-roll {
+        display: inline-block; margin: 2px 4px 0 0; padding: 1px 8px;
+        font-size: 0.85em; border-radius: 10px;
+        border: 1px solid rgba(128,128,128,0.35);
+    }
+    /* Le repere est la bordure et le mot, jamais une couleur de texte: le
+       site a deux designs et deux themes, et un texte colore en dur passe
+       sous le contraste exige dans au moins un des quatre. Le texte herite
+       donc la couleur que la page lui donne deja, ce qui donne, mesure le
+       10 septembre 2026 dans les quatre combinaisons, 10,9 / 13,8 / 13,4 et
+       21,0 pour 1.
+
+       La bordure, elle, tombait a 2,78 sur le blanc du design classique
+       clair, sous les 3 pour 1 d'un element d'interface. Assombrie, elle
+       mesure 4,12 sur ce blanc et 4,43 sur le fond le plus sombre. */
+    .import-roll-odd { border-color: #a4741f; border-width: 2px; }
+    .import-warn { font-style: italic; }
     .import-missing { font-size: 0.9em; margin-top: 6px; }
     .import-ignored { font-size: 0.88em; opacity: 0.85; margin-top: 10px; text-align: left; }
     .import-ignored li { margin: 1px 0; }
@@ -67,11 +86,31 @@
     {% if confirm %}
     <div class="import-found">
         <p><strong>{{ version_label }}</strong></p>
-        <div class="import-pieces">
+        <ul class="import-list">
             {% for piece in matched %}
-            <span class="import-piece">{{ piece.name }}{% if piece.approximate %} <span class="import-approx">{% trans "closest match" %}</span>{% endif %}</span>
+            <li class="import-line">
+                <span class="import-piece">{{ piece.name }}{% if piece.approximate %} <span class="import-approx">{% trans "closest match" %}</span>{% endif %}</span>
+                {% if piece.rolls %}
+                <span class="import-rolls">
+                    {% for roll in piece.rolls %}{% if roll.applied %}<span class="import-roll{% if roll.out_of_range %} import-roll-odd{% endif %}">{{ roll.value }} {{ roll.name }}{% if roll.out_of_range %} <span class="import-warn">{% blocktrans with low=roll.low high=roll.high %}outside {{ low }} to {{ high }}, check it{% endblocktrans %}</span>{% endif %}</span>{% endif %}{% endfor %}
+                </span>
+                {% endif %}
+            </li>
             {% endfor %}
+        </ul>
+
+        {% comment %}Un jet sur une caracteristique que l'objet ne porte pas
+        n'est pas applique: le modele l'AJOUTERAIT a la piece, et le site
+        aurait fabrique une stat qui n'existe pas. On le dit plutot que de le
+        taire.{% endcomment %}
+        {% if refused_rolls %}
+        <div class="import-ignored">
+            <p>{% trans "These rolls were left out, because the item does not carry that stat:" %}</p>
+            <ul>
+                {% for roll in refused_rolls %}<li>{{ roll.name }}: {{ roll.value }} {{ roll.stat }}</li>{% endfor %}
+            </ul>
         </div>
+        {% endif %}
 
         {% if ignored %}
         <div class="import-ignored">

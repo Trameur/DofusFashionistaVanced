@@ -666,6 +666,23 @@ def remove_item_stat_override(char, item_id, stat_id):
     char.stat_overrides = pickle.dumps(overrides)
     char.save()
 
+def set_stat_overrides(char, overrides):
+    """Merge a whole {item_id: {stat_id: value}} map in one save.
+
+    `set_item_stat_override` writes the char once per stat, which is right for
+    a click and wasteful for an import that carries a hundred rolls.
+
+    It MERGES rather than replaces. Replacing is the shape that has already
+    cost this project once: `set_exclusions_list_by_name` replaces, and it
+    silently wiped the default exclusions of any build it touched. A caller
+    who wants a clean slate can clear first and say so.
+    """
+    fusion = get_stat_overrides(char)
+    for item_id, per_item in overrides.items():
+        fusion.setdefault(item_id, {}).update(per_item)
+    char.stat_overrides = pickle.dumps(fusion)
+    char.save()
+
 def clear_item_stat_overrides(char, item_id):
     overrides = get_stat_overrides(char)
     overrides.pop(item_id, None)
