@@ -272,6 +272,9 @@
               <div>
                 <a class="menu_link menu_link_middle" href="{% game_url 'random_build' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="8.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg></span>{% trans "Random Build" %}</a>
               </div>
+              <div>
+                <a class="menu_link menu_link_middle" href="{% game_url 'text_build_import' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>{% trans "Import a build" %}</a>
+              </div>
               {% if user.is_authenticated %}
               <div>
                 <a class="menu_link menu_link_middle" href="{% game_url 'feed' %}"><span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h4l2.5-7 3 14L16 12h4"/></svg></span>{% trans "My Feed" %}</a>

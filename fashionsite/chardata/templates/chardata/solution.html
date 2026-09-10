@@ -175,6 +175,14 @@
     
     {% blocktrans with lock=lock_item switch=switch_item delete=delete_item %}If you don't like an item, click the forbid ( <img style='position: relative; bottom: -3px; left: -2px;' src={{delete}} title='Forbid'> ) button under its name and <a href="{{run_again_link}}" class="rerun-button">run again</a>. If, on the contrary, you want to lock in an item for future sets for this char, click the lock (<img style='position: relative; bottom: -1px; left: 0px;' src={{lock}} title='Lock'>) button. You can also switch any item for another you like best by clicking the switch (<img class='solution-item-button' style='position: relative; bottom: -5px; left: 0px;' src={{switch}} title='Switch'>) button.{% endblocktrans %}
     </p>
+    {% comment %}Un build importe n'est ni une suggestion ni un set vide, et
+    la page n'avait que ces deux cas: elle annoncait <<This set starts empty>>
+    juste au-dessus des pieces qu'on venait de rapatrier.{% endcomment %}
+    {% elif is_imported %}
+    <p class="text">
+    {% blocktrans with add=add_item %}
+    This is the gear you brought in, exactly as it was. Nothing here was chosen by the solver. Change any piece yourself with the add (<img style='position: relative; bottom: -4px; left: 1px;' src={{add}} title='Add'>) buttons, or run the optimizer when you want a suggestion.{% endblocktrans %}
+    </p>
     {% else %}
     <p class="text">
     {% blocktrans with add=add_item %}

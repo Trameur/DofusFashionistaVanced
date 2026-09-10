@@ -22,6 +22,16 @@ import json
 
 logger = logging.getLogger(__name__)
 
+#: Les `origin` qui veulent dire <<le joueur a rapatrie ce stuff>>.
+#:
+#: Toute valeur autre que 'generated' suffit deja a ne PAS presenter le set
+#: comme une suggestion du solveur. Mais la page n'avait que deux cas, suggere
+#: ou vide, et un import n'est ni l'un ni l'autre: elle affichait <<This set
+#: starts empty>> juste au-dessus des pieces importees. La liste est donc
+#: explicite, pour qu'un nouvel import doive s'y inscrire plutot que de
+#: retomber en silence dans le mauvais des deux.
+IMPORT_ORIGINS = ('dofusbook', 'pasted_text')
+
 from chardata.forgemagie_data import MAGEABLE_TYPES
 from chardata.image_store import get_image_url
 from chardata.item_sources import acquisition_summary, attach_acquisition
@@ -151,7 +161,13 @@ class SolutionResult:
                   'item_violates': json.dumps(item_violates),
                   'options_json': json.dumps(r.input['options']),
                   'item_per_slot': item_per_slot,
-                  'is_generated': (r.input.get('origin', 'generated') == 'generated'),}
+                  'is_generated': (r.input.get('origin', 'generated') == 'generated'),
+                  # Un build importe n'est ni suggere ni vide, et la page
+                  # n'avait que ces deux cas: elle annoncait donc <<This set
+                  # starts empty>> au-dessus des quinze pieces qu'on venait de
+                  # rapatrier. Les deux imports passent par ici.
+                  'is_imported': (r.input.get('origin')
+                                  in IMPORT_ORIGINS),}
         return params
 
     def is_item_locked(self, result_item):

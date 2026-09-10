@@ -32,6 +32,7 @@
 <div class="import-wrap">
     <h1>{% trans "Import a DofusBook build" %}</h1>
     <p class="import-intro">{% trans "Paste the link to a public DofusBook build and you get the same gear here, piece for piece." %}</p>
+    <p class="import-intro"><a href="{% game_url 'text_build_import' %}">{% trans "No link? Paste your item names instead" %}</a></p>
 
     {% if login_problem %}
     <p class="import-error">

@@ -1,0 +1,110 @@
+{% extends "chardata/base.html" %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{% trans "Import a build from text" %}{% endblock %}
+{% block meta_description %}{% trans "Paste the names of your gear and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<style>
+    .import-wrap { max-width: 640px; margin: 36px auto; padding: 0 14px; text-align: center; }
+    .import-intro { margin-bottom: 20px; }
+    .import-form { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .import-area {
+        width: 100%; min-height: 190px; padding: 10px 12px;
+        font-size: 1em; box-sizing: border-box; resize: vertical;
+    }
+    .import-error { color: #c33; margin: 12px 0; }
+    .import-found { margin: 20px 0 8px; }
+    .import-pieces { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+    .import-piece {
+        display: inline-block; padding: 3px 11px; font-size: 0.9em;
+        border: 1px solid rgba(128,128,128,0.4); border-radius: 12px;
+    }
+    .import-approx { font-style: italic; opacity: 0.8; }
+    .import-missing { font-size: 0.9em; margin-top: 6px; }
+    .import-ignored { font-size: 0.88em; opacity: 0.85; margin-top: 10px; text-align: left; }
+    .import-ignored li { margin: 1px 0; }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="import-wrap">
+    <h1>{% trans "Import a build from text" %}</h1>
+    <p class="import-intro">{% trans "Paste the names of your gear, one per line. Anything that is not an item name is skipped, so you can paste more than just the names." %}</p>
+    <p class="import-intro"><a href="{% game_url 'dofusbook_import' %}">{% trans "Import from a DofusBook link instead" %}</a></p>
+
+    {% if login_problem %}
+    <p class="import-error">
+        {% trans "Log in to save this build to your account." %}
+        <a href="{% url 'login_page' %}">{% trans "Log in" %}</a>
+    </p>
+    {% endif %}
+
+    {% if error %}
+    <p class="import-error">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" class="import-form">
+        {% csrf_token %}
+        {% comment %}Le remplissage fantome ne donne PAS d'exemples d'objets.
+        Les noms sont traduits et propres a chaque version: un exemple ecrit
+        en dur nommerait, pour un lecteur Retro ou allemand, des objets qui
+        n'existent pas chez lui.{% endcomment %}
+        <textarea name="text" class="import-area pretty-input" autofocus
+                  placeholder="{% trans "One item name per line" %}" required>{{ text }}</textarea>
+        <button type="submit" class="button-generic">{% trans "Read this text" %}</button>
+    </form>
+
+    {% comment %}Same order as the DofusBook import, and for the same reason:
+    the gear is shown BEFORE anything is created, so the reader sees what is
+    about to happen and can walk away. A name the site had to guess at says so
+    on its own chip, because a build quietly wearing the wrong ring is worse
+    than one that says it was unsure.{% endcomment %}
+    {% if confirm %}
+    <div class="import-found">
+        <p><strong>{{ version_label }}</strong></p>
+        <div class="import-pieces">
+            {% for piece in matched %}
+            <span class="import-piece">{{ piece.name }}{% if piece.approximate %} <span class="import-approx">{% trans "closest match" %}</span>{% endif %}</span>
+            {% endfor %}
+        </div>
+
+        {% if ignored %}
+        <div class="import-ignored">
+            <p>{% trans "Lines that matched nothing and were left out:" %}</p>
+            <ul>
+                {% for line in ignored %}<li>{{ line }}</li>{% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if truncated %}
+        <p class="import-missing">{% blocktrans with n=max_lines %}Only the first {{ n }} lines were read.{% endblocktrans %}</p>
+        {% endif %}
+
+        <form method="post" class="import-form">
+            {% csrf_token %}
+            <input type="hidden" name="text" value="{{ text }}">
+            <input type="hidden" name="confirm" value="1">
+            <label>{% trans "Class" %}
+                <select name="char_class" class="pretty-input" required>
+                    {% for key, label in classes %}
+                    <option value="{{ key }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>{% trans "Level" %}
+                <input type="number" name="level" class="pretty-input"
+                       value="{{ level }}" min="1" max="200" style="width: 5.5em;">
+            </label>
+            <button type="submit" class="button-generic">{% trans "Bring this build in" %}</button>
+        </form>
+        <p class="import-missing">{% trans "Your gear comes in exactly as it is. Nothing is re-optimized unless you ask for it afterwards." %}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -6318,3 +6318,55 @@ msgstr ""
 #: .\chardata\templates\chardata\privacy.html:57
 msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the inventory page, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match."
 msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "Import a build from text"
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "Paste the names of your gear and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "Paste the names of your gear, one per line. Anything that is not an item name is skipped, so you can paste more than just the names."
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "One item name per line"
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "Read this text"
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "closest match"
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "Lines that matched nothing and were left out:"
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "Only the first %(n)s lines were read."
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:6
+msgid "No item in that text matched our catalogue for this version. Check the game version at the top, and that the item names are on their own lines."
+msgstr ""
+
+#: .\chardata\templates\chardata\solution.html:178
+msgid "\n    This is the gear you brought in, exactly as it was. Nothing here was chosen by the solver. Change any piece yourself with the add (<img style='position: relative; bottom: -4px; left: 1px;' src=%(add)s title='Add'>) buttons, or run the optimizer when you want a suggestion."
+msgstr ""
+
+#: .\chardata\templates\chardata\base.html:275
+msgid "Import a build"
+msgstr ""
+
+#: .\chardata\templates\chardata\base.html:275
+msgid "Import from a DofusBook link instead"
+msgstr ""
+
+#: .\chardata\templates\chardata\base.html:275
+msgid "No link? Paste your item names instead"
+msgstr ""

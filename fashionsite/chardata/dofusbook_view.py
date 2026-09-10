@@ -99,8 +99,15 @@ def _solution_path(char):
     return '%s/solution/%d/' % (prefixe, char.id)
 
 
-def _place_items(char, item_ids):
+def _place_items(char, item_ids, origin='dofusbook'):
     """Put the gear on the character without solving anything.
+
+    `origin` is stamped into the solution's input and read back by
+    `solution_result` as `is_generated`, which is what stops the page saying
+    the solver produced a set the solver never saw. Any value but 'generated'
+    gives that answer, so this parameter changes nothing for the reader; it
+    keeps the row from claiming a build came from DofusBook when it was
+    pasted in as text.
 
     from_item_id_list reads the catalogue through the thread local current
     version, so it is set to the BUILD's version here: importing a Retro link
@@ -136,7 +143,7 @@ def _place_items(char, item_ids):
             'options': get_char_options(char),
             'base_stats_by_attr': {},
             'char_level': char.level,
-            'origin': 'dofusbook',
+            'origin': origin,
         }
         solution = ModelResultMinimal.from_item_id_list(item_ids, entree, None)
         set_minimal_solution(char, solution)
