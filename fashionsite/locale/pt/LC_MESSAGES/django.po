@@ -7190,3 +7190,9 @@ msgstr "<b>Bibliotecas de código.</b> Parte do código que faz as páginas func
 
 msgid "<b>DofusBook.</b> When you paste a DofusBook link, our server fetches that build from dofusbook.net; when you open one of your builds on their site, our server first asks them which of its items they know. Both calls leave from our address and not from yours, so on those steps they do not receive your address. The link we then hand you carries the gear, the level and the characteristics of that build, and nothing that names you, and your browser only reaches their site if you click it."
 msgstr "<b>DofusBook.</b> Quando cola um link do DofusBook, o nosso servidor busca essa build no dofusbook.net; quando abre uma das suas builds no DofusBook, o nosso servidor pergunta primeiro quais dos itens dela eles conhecem. As duas chamadas saem do nosso endereço e não do seu, então nesses passos eles não recebem o seu endereço. O link que damos em seguida leva o equipamento, o nível e as características dessa build, e nada que o identifique, e o seu navegador só chega ao site deles se clicar nele."
+
+msgid "Proven optimum"
+msgstr "Ótimo comprovado"
+
+msgid "Best found at the time limit, not a proof"
+msgstr "Melhor encontrado no limite de tempo, não uma prova"

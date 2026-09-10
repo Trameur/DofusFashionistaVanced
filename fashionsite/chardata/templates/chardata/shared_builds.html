@@ -270,6 +270,25 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
                     <div class="build-acquisition">{{ build.acquisition_summary }}</div>
                     {% endif %}
 
+                    {% comment %}Le fait que porte tout le positionnement, sur la
+                    surface ou l'on decouvre les builds: le solveur a DEMONTRE
+                    l'optimum, ou il a rendu le meilleur set atteint a la
+                    limite de temps. Trois etats et jamais deux: True, False,
+                    et None pour une solution d'avant le fait, qui n'affiche
+                    rien plutot que de deviner. Teste contre None explicitement
+                    parce qu'un `{% if build.solver_proven %}` avalerait le
+                    False, qui est le cas que le lecteur a le plus besoin de
+                    voir.{% endcomment %}
+                    {% if build.solver_proven is True %}
+                    <div class="build-alerts">
+                        <span class="build-proof-badge" title="{% trans "Proven optimum. The solver checked that no other legal combination scores higher on your criteria." %}">{% trans "Proven optimum" %}</span>
+                    </div>
+                    {% elif build.solver_proven is False %}
+                    <div class="build-alerts">
+                        <span class="build-proof-badge build-proof-badge-limit">{% trans "Best found at the time limit, not a proof" %}</span>
+                    </div>
+                    {% endif %}
+
                     {% if build.has_outdated_slots or build.has_condition_issues %}
                     <div class="build-alerts">
                         {% if build.has_outdated_slots %}

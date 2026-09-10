@@ -147,6 +147,11 @@ def _get_shared_build_meta(char):
         # itself cannot exist, so the list must not link to it at all.
         'cannot_render': False,
         'public_score': 0,
+        # Whether the solver PROVED the optimum (True), handed back the best
+        # it reached at the time limit (False), or never said (None, a
+        # solution stored before the fact was recorded). The card shows the
+        # first two and nothing for the third: an absence is not a "no".
+        'solver_proven': None,
         'preview_items': [],
         'compact_stats': [],
         'acquisition_summary': '',
@@ -172,6 +177,10 @@ def _get_shared_build_meta(char):
             return meta
 
         item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
+        # Read off the pickle the card already opens for its previews, so the
+        # gallery pays nothing more for it. Same attribute get_solver_facts
+        # reads for the solution page and the API.
+        meta['solver_proven'] = getattr(minimal_solution, 'proven', None)
         meta['preview_items'] = _get_preview_items(
             minimal_solution, structure, game_version)
         acquisition_entries = []
@@ -598,6 +607,9 @@ def shared_builds(request):
             'link': link,
             'encoded_id': encoded_id,
             'public_score': build_meta.get('public_score', 0),
+            # .get and not [...]: a meta cached before this key existed lives
+            # on until its timeout, and must render as "unknown", not crash.
+            'solver_proven': build_meta.get('solver_proven'),
             'preview_items': build_meta['preview_items'],
             'compact_stats': build_meta['compact_stats'],
             'acquisition_summary': build_meta.get('acquisition_summary', ''),

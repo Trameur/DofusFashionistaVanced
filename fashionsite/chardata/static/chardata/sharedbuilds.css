@@ -331,6 +331,36 @@
     color: #8b1e1e;
 }
 
+/* The solver's verdict on a card. Unlike the alert badges above, the text
+   sets NO colour of its own: it inherits the card's, which is what is
+   contrast-audited on both themes, and the tint underneath is light enough
+   (0.16) not to move that ratio. Measured on 2026-09-10, text over the
+   composited tint: 16.87 / 10.31 (proven, light / dark) and 17.56 / 9.72.
+
+   The borders are OPAQUE on purpose. A translucent one has to be flattened
+   on the card before it means anything, and at 0.7 the green measured 3.00
+   on the light card and 2.12 on the dark one. Opaque, the green is 4.17 and
+   3.88, the grey 3.95 and 4.09, both sides of the 3 to 1 an edge needs.
+
+   The two verdicts differ by border and tint AND by their words: the colour
+   is never the only signal. */
+.build-proof-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #348c58;
+    background-color: rgba(43, 120, 73, 0.16);
+    color: inherit;
+}
+
+.build-proof-badge-limit {
+    border-color: #808080;
+    background-color: rgba(128, 128, 128, 0.16);
+}
+
 .no-builds {
     text-align: center;
     padding: 40px;

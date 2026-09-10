@@ -6461,3 +6461,9 @@ msgstr ""
 
 msgid "<b>DofusBook.</b> When you paste a DofusBook link, our server fetches that build from dofusbook.net; when you open one of your builds on their site, our server first asks them which of its items they know. Both calls leave from our address and not from yours, so on those steps they do not receive your address. The link we then hand you carries the gear, the level and the characteristics of that build, and nothing that names you, and your browser only reaches their site if you click it."
 msgstr ""
+
+msgid "Proven optimum"
+msgstr ""
+
+msgid "Best found at the time limit, not a proof"
+msgstr ""
