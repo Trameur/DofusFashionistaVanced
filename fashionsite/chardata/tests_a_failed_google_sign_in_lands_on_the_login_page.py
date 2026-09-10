@@ -131,6 +131,73 @@ class TheLoginPageSaysWhatHappenedTests(TestCase):
         self.assertNotIn(PHRASE, page)
 
 
+class TheProviderBeingUnreachableTakesTheSameDoorTests(SimpleTestCase):
+    """Second mail, 28 aout 2026, 13h43 UTC, un lecteur argentin: la poignee
+    de main TLS avec accounts.google.com depasse les 5 s de social_core, qui
+    leve `requests.ReadTimeout` tel quel. Ce n'est pas une exception
+    d'authentification, donc le rattrapage de la classe ci-dessus ne la
+    voyait pas, et la page etait encore une 500."""
+
+    def _requete_sociale(self):
+        requete = _requete()
+        # Ce que le decorateur `psa` pose sur la requete dans les vues
+        # sociales, et rien d'autre ne pose ailleurs.
+        requete.social_strategy = object()
+        return requete
+
+    def test_a_read_timeout_during_sign_in_redirects_with_the_flag(self):
+        import requests
+        with self.assertLogs(JOURNAL, level='ERROR') as journal:
+            reponse = _middleware().process_exception(
+                self._requete_sociale(),
+                requests.exceptions.ReadTimeout('accounts.google.com: '
+                                                'Read timed out.'))
+        self.assertEqual(302, reponse.status_code)
+        self.assertIn('/login_page/?%s=%s' % (SOCIAL_FAILED_PARAM,
+                                              SOCIAL_FAILED_VALUE),
+                      reponse['Location'])
+        ligne = '\n'.join(journal.output)
+        self.assertIn('ReadTimeout', ligne)
+        self.assertIn('google-oauth2', ligne)
+
+    def test_a_status_social_core_does_not_translate_takes_it_too(self):
+        """handle_http_errors ne traduit que 400, 401, 403 et 503; un 500 de
+        Google ressort en HTTPError nu."""
+        import requests
+        reponse_google = requests.Response()
+        reponse_google.status_code = 500
+        erreur = requests.exceptions.HTTPError('500 Server Error',
+                                               response=reponse_google)
+        with self.assertLogs(JOURNAL, level='ERROR'):
+            reponse = _middleware().process_exception(self._requete_sociale(),
+                                                      erreur)
+        self.assertEqual(302, reponse.status_code)
+        self.assertIn(SOCIAL_FAILED_PARAM + '=', reponse['Location'])
+
+    def test_a_network_error_outside_the_social_views_is_left_alone(self):
+        """Sans strategie sur la requete, ce n'est pas une connexion: la
+        panne reseau d'une autre page garde son traitement d'avant."""
+        import requests
+        self.assertIsNone(_middleware().process_exception(
+            _requete(), requests.exceptions.ReadTimeout('elsewhere')))
+
+
+class TheTimeoutCallbackItselfLandsOnTheLoginPageTests(TestCase):
+
+    def test_a_timed_out_callback_is_a_redirect_not_a_500(self):
+        import requests
+        with mock.patch('social_core.backends.oauth.BaseOAuth2.auth_complete',
+                        side_effect=requests.exceptions.ReadTimeout(
+                            'accounts.google.com: Read timed out.')):
+            with self.assertLogs(JOURNAL, level='ERROR'):
+                reponse = self.client.get('/complete/google-oauth2/',
+                                          {'state': 'x', 'code': 'y'})
+        self.assertEqual(302, reponse.status_code)
+        self.assertIn('/login_page/?%s=%s' % (SOCIAL_FAILED_PARAM,
+                                              SOCIAL_FAILED_VALUE),
+                      reponse['Location'])
+
+
 class TheSentenceIsInEveryCatalogueTests(SimpleTestCase):
 
     def test_four_native_translations_compiled(self):
