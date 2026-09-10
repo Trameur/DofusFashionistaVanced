@@ -32,6 +32,7 @@ from chardata.stat_range import get_stat_range
 from chardata.translation_util import localized_stat_name
 from fashionistapulp.dofus_constants import (STATS_NAMES,
                                             TYPE_NAME_TO_SLOT_NUMBER)
+from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
 from fashionistapulp.structure import get_structure
 
 #: En dessous, le rapprochement tolerant se tairait de toute facon, et une
@@ -107,9 +108,22 @@ def _entree_exacte(requete, pool):
 _PREFIXE_EMPLACEMENT = re.compile(
     r'^(%s)\s*:\s*(.+)$' % '|'.join(sorted(TYPE_NAME_TO_SLOT_NUMBER)), re.I)
 
-#: L'entete de l'export: <<Mon Cra - Cra lvl 200>>. Le titre est libre et peut
-#: contenir des tirets, donc on ancre sur la fin.
-_ENTETE = re.compile(r'-\s+(\S+)\s+lvl\s+(\d{1,3})\s*$', re.I)
+#: L'entete de l'export: <<Mon Cra - Cra lvl 200 - Retro>>. Le titre est libre
+#: et peut contenir des tirets, donc on ancre sur la fin.
+#:
+#: La version est FACULTATIVE dans le motif, et ce n'est pas une commodite:
+#: tous les textes exportes avant qu'on l'ajoute n'en ont pas, et une simple
+#: liste de noms tapee a la main non plus. Absente, elle veut dire <<la version
+#: de la page>>, qui est le comportement d'avant.
+_ENTETE = re.compile(
+    r'-\s+(\S+)\s+lvl\s+(\d{1,3})(?:\s+-\s+(.+?))?\s*$', re.I)
+
+#: Le libelle de chaque version vers sa cle. Les libelles viennent du registre
+#: et ne sont pas traduits, donc ils traversent les cinq langues.
+_VERSION_PAR_LIBELLE = {
+    GAME_VERSIONS[cle].label.lower(): cle
+    for cle in version_keys(include_experimental=True)
+}
 
 #: Les deux lignes de caracteristiques de base que l'export ajoute.
 #: <<Points:>> sont les points depenses en montant, <<Scrolls:>> les
@@ -290,6 +304,7 @@ def read_items(text, game_version, language):
 
     char_class = None
     char_level = None
+    version_lue = None
     points = {}
     parchos = {}
 
@@ -307,6 +322,9 @@ def read_items(text, game_version, language):
         m = _ENTETE.search(ligne)
         if m and char_class is None:
             char_class, char_level = m.group(1), int(m.group(2))
+            if m.group(3):
+                version_lue = _VERSION_PAR_LIBELLE.get(
+                    m.group(3).strip().lower())
             continue
 
         # Les stats ensuite: une ligne de jet n'est pas un candidat au nom, et
@@ -387,6 +405,10 @@ def read_items(text, game_version, language):
         'game_version': game_version,
         'stat_language': langue_lue,
         'char_class': char_class,
+        # La version que le TEXTE annonce, ou None s'il n'en annonce aucune.
+        # L'appelant compare avec la sienne: ce n'est pas a la lecture de
+        # decider ce qu'on fait d'un desaccord.
+        'stated_version': version_lue,
         'char_level': char_level,
         'base_points': points,
         'base_scrolled': parchos,

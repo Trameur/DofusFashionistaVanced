@@ -49,6 +49,16 @@ def _version(request):
     return getattr(request, 'game_version', None) or get_current_game_version()
 
 
+def _url_pour_version(cle):
+    """La meme page, sous le prefixe de l'autre version.
+
+    Meme regle que `_solution_path`: une version vit sous son prefixe, et
+    dofus3 n'en a pas.
+    """
+    prefixe = '' if cle == 'dofus3' else '/' + cle
+    return '%s/import/text/' % prefixe
+
+
 def _caracteristiques_pour_apercu(lu):
     """[{name, points, scrolled}] pour la liste montree avant la creation."""
     lignes = []
@@ -102,6 +112,29 @@ def text_build(request):
         })
 
     lu = read_items(texte, version, get_supported_language())
+
+    # Le texte dit de quelle version il vient, et ce n'est pas celle de la
+    # page. On ne cherche PAS ses objets dans le mauvais catalogue.
+    #
+    # Mesure du 10 septembre 2026: 1594 des 6269 noms Retro existent aussi en
+    # Dofus 3, et 482 d'entre eux y designent un objet d'un AUTRE NIVEAU
+    # (<<Amulet of the Valiant Heart>> passe de 41 a 200). Depuis Touch, 818
+    # sur 2618. Le lecteur aurait recu un build plausible qui n'est pas le
+    # sien, ce qui est le pire des resultats possibles.
+    annoncee = lu['stated_version']
+    if annoncee and annoncee != version:
+        return set_response(request, 'chardata/text_build.html', {
+            'text': texte,
+            'version_label': get_game_version(version).label,
+            'error': _('This build comes from %(source)s and you are on '
+                       '%(here)s. The same name can be a different item in '
+                       'each game, so nothing was read.')
+                     % {'source': get_game_version(annoncee).label,
+                        'here': get_game_version(version).label},
+            'other_version_url': _url_pour_version(annoncee),
+            'other_version_label': get_game_version(annoncee).label,
+            'login_problem': is_anon_cant_create(request),
+        })
 
     if not lu['item_ids']:
         return set_response(request, 'chardata/text_build.html', {

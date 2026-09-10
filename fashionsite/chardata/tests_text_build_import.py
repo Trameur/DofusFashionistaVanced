@@ -830,3 +830,100 @@ class TheSiteCanReadBackItsOwnExportTests(TestCase):
         autres = [o for o in options
                   if 'selected' in o and 'Cra' not in o]
         self.assertEqual([], autres, 'two classes are preselected')
+
+
+class AnExportNamesItsGameAndTheImportRefusesAnotherTests(TestCase):
+    """Un meme nom n'est pas un meme objet d'un jeu a l'autre.
+
+    Mesure du 10 septembre 2026, sur les catalogues livres:
+
+      depuis Retro, colles sur Dofus 3 : 1594 des 6269 noms existent aussi,
+      et **482 d'entre eux y designent un objet d'un AUTRE NIVEAU**
+      (<<Amulet of the Valiant Heart>> passe de 41 a 200,
+       <<Arachnamu>> de 20 a 40).
+      depuis Touch  : 818 sur 2618 reconnus changent de niveau.
+      depuis Dofus 2: 210 sur 3306.
+
+    L'export ne disait pas de quel jeu il venait, et l'import cherchait donc
+    dans le catalogue de la page. Le lecteur recevait un build plausible qui
+    n'etait pas le sien, ce qui est le pire resultat possible: rien ne lui
+    aurait signale l'erreur.
+    """
+
+    def _texte_exporte(self, version):
+        from chardata.models import Char
+        from chardata.solution import get_solution
+        from chardata.solution_view import _build_share_text
+        from django.test import RequestFactory
+
+        structure = get_structure(version)
+        noms = [structure.get_item_name_in_language(
+                    next(i for i in structure.types[200][t] if not i.removed),
+                    'en')
+                for t in ('Hat', 'Cloak')]
+        prefixe = '' if version == 'dofus3' else '/' + version
+        self.client.post('%s/import/text/' % prefixe,
+                         {'text': '\n'.join(noms), 'confirm': '1',
+                          'char_class': 'Cra', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        return _build_share_text(RequestFactory().get('/'), char,
+                                 get_solution(char)), noms
+
+    def test_the_export_says_which_game_it_belongs_to(self):
+        for version, libelle in (('dofus3', 'Dofus 3'), ('retro', 'Retro'),
+                                 ('touch', 'Touch')):
+            with self.subTest(version=version):
+                texte, _noms = self._texte_exporte(version)
+                self.assertIn(libelle, texte.split('\n')[0], texte)
+
+    def test_the_reader_gets_the_version_back(self):
+        texte, _noms = self._texte_exporte('retro')
+        lu = read_items(texte, 'retro', 'en')
+        self.assertEqual('retro', lu['stated_version'])
+
+    def test_a_retro_build_is_refused_on_the_dofus3_page(self):
+        texte, _noms = self._texte_exporte('retro')
+        page = self.client.post('/import/text/', {'text': texte})
+        self.assertContains(page, 'a different item in each game')
+        self.assertNotContains(page, 'Bring this build in')
+
+    def test_the_refusal_points_at_the_right_page(self):
+        texte, _noms = self._texte_exporte('retro')
+        page = self.client.post('/import/text/', {'text': texte})
+        self.assertContains(page, '/retro/import/text/')
+
+    def test_nothing_is_created_when_the_game_does_not_match(self):
+        from chardata.models import Char
+        texte, _noms = self._texte_exporte('retro')
+        avant = Char.objects.count()
+        self.client.post('/import/text/', {'text': texte, 'confirm': '1',
+                                           'char_class': 'Cra',
+                                           'level': '200'})
+        self.assertEqual(avant, Char.objects.count())
+
+    def test_the_same_game_is_read_normally(self):
+        texte, noms = self._texte_exporte('retro')
+        page = self.client.post('/retro/import/text/', {'text': texte})
+        self.assertContains(page, 'Bring this build in')
+        for nom in noms:
+            self.assertContains(page, nom)
+
+    def test_a_text_with_no_version_still_works(self):
+        """Tous les textes exportes avant ce lot n'en ont pas, et une liste
+        de noms tapee a la main non plus. Absente, la version veut dire
+        <<celle de la page>>, ce qui etait le comportement d'avant."""
+        noms = _noms('dofus3', ('Hat', 'Cloak'))
+        lu = read_items('\n'.join(noms), 'dofus3', 'en')
+        self.assertIsNone(lu['stated_version'])
+        page = self.client.post('/import/text/', {'text': '\n'.join(noms)})
+        self.assertContains(page, 'Bring this build in')
+
+    def test_an_old_export_without_its_version_still_works(self):
+        """La forme exacte que le site ecrivait avant ce lot."""
+        noms = _noms('dofus3', ('Hat', 'Cloak'))
+        ancien = 'Mon Cra - Cra lvl 187\n\nHat: %s\nCloak: %s' % tuple(noms)
+        lu = read_items(ancien, 'dofus3', 'en')
+        self.assertIsNone(lu['stated_version'])
+        self.assertEqual('Cra', lu['char_class'])
+        self.assertEqual(187, lu['char_level'])
+        self.assertEqual(2, len(lu['matched']))

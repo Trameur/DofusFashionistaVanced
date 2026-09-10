@@ -7115,3 +7115,11 @@ msgstr "Atributos encontrados no texto:"
 #: .\chardata\templates\chardata\text_build.html:104
 msgid "%(n)s scrolled"
 msgstr "%(n)s com pergaminhos"
+
+#: .\chardata\text_build_view.py:100
+msgid "This build comes from %(source)s and you are on %(here)s. The same name can be a different item in each game, so nothing was read."
+msgstr "Este build vem de %(source)s e você está em %(here)s. Um mesmo nome pode ser um item diferente em cada jogo, então nada foi lido."
+
+#: .\chardata\text_build_view.py:100
+msgid "Open the %(version)s import"
+msgstr "Abrir a importação de %(version)s"

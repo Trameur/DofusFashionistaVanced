@@ -67,6 +67,7 @@ from fashionistapulp.dofus_constants import (SLOTS, STAT_ORDER, STATS_NAMES,
                                              TYPE_NAME_TO_SLOT,
                                              TYPE_NAME_TO_SLOT_NUMBER,
                                              max_scroll_for_version)
+from fashionistapulp.game_versions import get_game_version
 
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.structure import get_structure
@@ -302,7 +303,20 @@ def _build_check(char, solution):
 def _build_share_text(request, char, solution):
     """Plain-text build summary for pasting into Discord / forums."""
     title = char.char_name or char.name or char.char_class or 'Build'
-    lines = ['%s - %s lvl %d' % (title, char.char_class, char.level), '']
+    # La version du jeu, en toutes lettres, parce que le texte voyage.
+    #
+    # Sans elle, un build Retro colle sur la page Dofus 3 etait cherche dans le
+    # catalogue Dofus 3. Mesure du 10 septembre 2026: 1594 des 6269 noms Retro
+    # existent aussi en Dofus 3, et 482 d'entre eux y designent un objet d'un
+    # AUTRE NIVEAU (<<Amulet of the Valiant Heart>> passe de 41 a 200). Depuis
+    # Touch c'est 818 sur 2618. Le lecteur recevait un build plausible qui
+    # n'etait pas le sien.
+    #
+    # Le libelle vient du registre et n'est pas traduit ('Dofus 3', 'Retro'),
+    # donc il traverse les cinq langues sans changer.
+    lines = ['%s - %s lvl %d - %s' % (title, char.char_class, char.level,
+                                      get_game_version(char.game_version).label),
+             '']
     for slot in _SHARE_SLOT_ORDER:
         for item in solution.items.get(slot, []):
             name = getattr(item, 'name', None)

@@ -7145,3 +7145,11 @@ msgstr "Im Text gefundene Werte:"
 #: .\chardata\templates\chardata\text_build.html:104
 msgid "%(n)s scrolled"
 msgstr "%(n)s per Seiten"
+
+#: .\chardata\text_build_view.py:100
+msgid "This build comes from %(source)s and you are on %(here)s. The same name can be a different item in each game, so nothing was read."
+msgstr "Dieser Build stammt aus %(source)s und Sie sind auf %(here)s. Derselbe Name kann in jedem Spiel ein anderes Item sein, daher wurde nichts gelesen."
+
+#: .\chardata\text_build_view.py:100
+msgid "Open the %(version)s import"
+msgstr "Den %(version)s-Import öffnen"

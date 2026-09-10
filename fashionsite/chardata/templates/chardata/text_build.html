@@ -64,7 +64,11 @@
     {% endif %}
 
     {% if error %}
-    <p class="import-error">{{ error }}</p>
+    <p class="import-error">{{ error }}
+        {% if other_version_url %}
+        <a href="{{ other_version_url }}">{% blocktrans with version=other_version_label %}Open the {{ version }} import{% endblocktrans %}</a>
+        {% endif %}
+    </p>
     {% endif %}
 
     <form method="post" class="import-form">
