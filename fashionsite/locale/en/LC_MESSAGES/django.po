@@ -6434,3 +6434,24 @@ msgstr ""
 
 msgid "DofusBook will show a full Vitality scroll: for a character of this level its link format cannot say anything else."
 msgstr ""
+
+msgid "Read tooltip screenshots"
+msgstr ""
+
+msgid "One screenshot per piece, tooltip visible. They are read inside your browser: no image leaves your machine."
+msgstr ""
+
+msgid "Choose images"
+msgstr ""
+
+msgid "Game language"
+msgstr ""
+
+msgid "Reading"
+msgstr ""
+
+msgid "Screenshots read. Check the text below, then read it."
+msgstr ""
+
+msgid "That image could not be read."
+msgstr ""

@@ -20,6 +20,10 @@ from django.views.decorators.http import require_POST
 
 from chardata.image_store import get_image_url
 from chardata.models import InventoryFolder, InventoryItem
+# Languages the screenshot reader supports, with their Tesseract model names.
+# Shared with the text import, which reads the same tooltips a whole build at
+# a time: two copies of this list would drift without anything going red.
+from chardata.screenshot_reader import OCR_LANGUAGES, language_options
 from chardata.stat_icons import get_stat_icon_path
 from chardata.util import safe_int, set_response, version_reverse
 from fashionistapulp.dofus_constants import STAT_ORDER
@@ -27,11 +31,6 @@ from fashionistapulp.fashion_util import strip_accents
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
-
-
-# Languages the screenshot reader supports, with their Tesseract model names.
-OCR_LANGUAGES = [('en', 'eng'), ('fr', 'fra'), ('es', 'spa'),
-                 ('pt', 'por'), ('de', 'deu')]
 
 
 MAX_FOLDERS_PER_VERSION = 30
@@ -499,9 +498,7 @@ def inventory(request):
         'editor_data': editor_data,
         'stat_options': _addable_stat_options(structure, language),
         'ocr_lexicon': _ocr_stat_lexicon(structure),
-        'ocr_languages': [{'code': code, 'tesseract': tess,
-                           'selected': code == language}
-                          for code, tess in OCR_LANGUAGES],
+        'ocr_languages': language_options(language),
         'search_url': version_reverse(request, 'forgemagie_items'),
         'add_url': version_reverse(request, 'inventory_add'),
         'remove_url': version_reverse(request, 'inventory_remove'),

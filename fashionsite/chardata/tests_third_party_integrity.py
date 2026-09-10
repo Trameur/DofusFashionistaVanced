@@ -178,9 +178,9 @@ class EveryThirdPartyResourceIsPinnedTests(SimpleTestCase):
                 'the scan no longer sees %s (%s), so that whole way of '
                 'writing a third-party load is unguarded' % (fichier, forme))
         self.assertGreaterEqual(
-            len(trouve), 9,
-            'only %d third-party resources found, down from the 9 measured on '
-            '2026-09-09; the scan has narrowed' % len(trouve))
+            len(trouve), 10,
+            'only %d third-party resources found, down from the 10 measured '
+            'on 2026-09-10; the scan has narrowed' % len(trouve))
 
     def test_no_third_party_script_or_stylesheet_runs_unpinned(self):
         nus = [(f, u) for f, b, u in _ressources_tierces()

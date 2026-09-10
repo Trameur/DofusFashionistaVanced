@@ -47,6 +47,23 @@
     .import-missing { font-size: 0.9em; margin-top: 6px; }
     .import-ignored { font-size: 0.88em; opacity: 0.85; margin-top: 10px; text-align: left; }
     .import-ignored li { margin: 1px 0; }
+    /* La bordure est opaque et non `rgba(128,128,128,0.4)` comme les puces
+       voisines. Une couche translucide doit etre APLATIE sur son fond avant
+       d'etre mesuree, sans quoi le chiffre ment. Aplatie, cette valeur mesure
+       1,60 / 1,76 / 1,58 / 1,76 dans les quatre combinaisons de design et de
+       theme, donc sous les 3 pour 1 attendus d'un element d'interface: la
+       boite n'avait pas de contour visible. Le meme gris a pleine opacite
+       mesure 3,95 / 4,62 / 3,78 / 4,49 et ne change pas de teinte d'un theme
+       a l'autre. */
+    .import-shots {
+        margin: 0 0 16px; padding: 12px 14px; text-align: left;
+        border: 1px solid #808080; border-radius: 8px;
+    }
+    .import-shots-controls {
+        display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+        margin-top: 8px;
+    }
+    .import-shots-status { font-size: 0.9em; }
 </style>
 {% endblock %}
 
@@ -70,6 +87,38 @@
         {% endif %}
     </p>
     {% endif %}
+
+    {% comment %}La moitie <<capture d'ecran>> du lot G, par l'entree qui
+    n'invente rien. Ce qui reste bloque est le lecteur de GRILLE: reconnaitre
+    les icones du panneau d'equipement demande la geometrie de ce panneau et
+    la polarite de son fond, et il n'existe ici aucune capture reelle sur
+    laquelle les mesurer. Une infobulle, elle, se lit deja: c'est exactement
+    le meme lecteur que celui de l'inventaire, et ce qui en sort est du texte,
+    que cette page sait deja transformer en build entier avec ses jets, ses
+    exos, sa classe et ses caracteristiques.
+
+    L'image ne quitte jamais le navigateur, et la phrase le dit sans
+    promettre plus: c'est verifiable par le lecteur dans son onglet
+    reseau.{% endcomment %}
+    <div class="import-shots">
+        <button type="button" class="button-thin" id="shot-toggle">{% trans "Read tooltip screenshots" %}</button>
+        <div id="shot-box" style="display:none;">
+            <p class="small-explain">{% trans "One screenshot per piece, tooltip visible. They are read inside your browser: no image leaves your machine." %}</p>
+            <div class="import-shots-controls">
+                <button type="button" class="button-thin" id="shot-choose">{% trans "Choose images" %}</button>
+                <input type="file" id="shot-file" accept="image/*" multiple style="display:none;">
+                <label>{% trans "Game language" %}
+                    <select class="pretty-input" id="shot-lang">
+                        {% for lang in ocr_languages %}
+                        <option value="{{ lang.code }}" data-tesseract="{{ lang.tesseract }}"
+                                {% if lang.selected %}selected{% endif %}>{{ lang.code }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <span class="import-shots-status" id="shot-status"></span>
+            </div>
+        </div>
+    </div>
 
     <form method="post" class="import-form">
         {% csrf_token %}
@@ -167,4 +216,154 @@
     </div>
     {% endif %}
 </div>
+
+{% trans "Reading" as msg_shot_reading %}
+{% trans "Screenshots read. Check the text below, then read it." as msg_shot_done %}
+{% trans "That image could not be read." as msg_shot_failed %}
+<script>
+(function () {
+    var toggle = document.getElementById('shot-toggle');
+    var box = document.getElementById('shot-box');
+    var choose = document.getElementById('shot-choose');
+    var file = document.getElementById('shot-file');
+    var lang = document.getElementById('shot-lang');
+    var status = document.getElementById('shot-status');
+    var area = document.querySelector('textarea[name="text"]');
+    if (!toggle || !area) {
+        return;
+    }
+    var MSG_READING = '{{ msg_shot_reading|escapejs }}';
+    var MSG_DONE = '{{ msg_shot_done|escapejs }}';
+    var MSG_FAILED = '{{ msg_shot_failed|escapejs }}';
+    var tesseractReady = null;
+
+    // Le meme chargement epingle que la page de l'inventaire, ecrit ici en
+    // toutes lettres et non tire d'une variable de contexte: l'audit des
+    // ressources tierces lit les gabarits a la recherche d'une affectation
+    // litterale de src, donc passer par une variable sortirait cette page de
+    // l'audit en ayant l'air de ranger. Un test verifie que les deux copies
+    // disent la meme chose.
+    //
+    // Ce commentaire a d'ailleurs fait rougir cet audit une premiere fois: il
+    // citait la forme exacte qu'il decrit, et un commentaire n'est pas moins
+    // du texte qu'une ligne de code pour une expression reguliere.
+    //
+    // sha384 mesuree le 2026-09-09 sur les octets decodes et recoupee depuis
+    // une SECONDE origine, unpkg.com.
+    function ensureTesseract() {
+        if (tesseractReady) {
+            return tesseractReady;
+        }
+        tesseractReady = new Promise(function (resolve, reject) {
+            if (window.Tesseract) {
+                resolve();
+                return;
+            }
+            var script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
+            script.integrity = 'sha384-GJqSu7vueQ9qN0E9yLPb3Wtpd7OrgK8KmYzC8T1IysG1bcvxvIO4qtYR/D3A991F';
+            script.crossOrigin = 'anonymous';
+            script.onload = function () { resolve(); };
+            script.onerror = function () {
+                tesseractReady = null;
+                reject(new Error('cdn'));
+            };
+            document.head.appendChild(script);
+        });
+        return tesseractReady;
+    }
+
+    // Une infobulle est du texte clair sur fond sombre et petit; Tesseract lit
+    // bien mieux de gros glyphes sombres sur fond clair. Meme preparation que
+    // l'inventaire, pour que ce qui a ete regle une fois vaille des deux
+    // cotes.
+    function preprocessImage(source) {
+        return new Promise(function (resolve) {
+            var url = URL.createObjectURL(source);
+            var img = new Image();
+            img.onload = function () {
+                try {
+                    var scale = 3;
+                    var canvas = document.createElement('canvas');
+                    canvas.width = img.width * scale;
+                    canvas.height = img.height * scale;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    var image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    var px = image.data;
+                    var total = 0;
+                    var i;
+                    var lum;
+                    for (i = 0; i < px.length; i += 4) {
+                        total += 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+                    }
+                    var invert = total / (px.length / 4) < 128;
+                    for (i = 0; i < px.length; i += 4) {
+                        lum = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+                        var value = invert ? 255 - lum : lum;
+                        px[i] = value;
+                        px[i + 1] = value;
+                        px[i + 2] = value;
+                    }
+                    ctx.putImageData(image, 0, 0);
+                    URL.revokeObjectURL(url);
+                    resolve(canvas.toDataURL('image/png'));
+                } catch (err) {
+                    URL.revokeObjectURL(url);
+                    resolve(source);
+                }
+            };
+            img.onerror = function () {
+                URL.revokeObjectURL(url);
+                resolve(source);
+            };
+            img.src = url;
+        });
+    }
+
+    // Une image apres l'autre, et pas toutes en meme temps: chaque lecture
+    // fait tourner un moteur wasm entier dans l'onglet, et seize en parallele
+    // se battraient pour le processeur en rendant le compteur inutile.
+    //
+    // Le compteur est fabrique en JavaScript et non rendu par le gabarit: un
+    // nombre ecrit par Django ressort <<1 234>> en francais et casse le
+    // script qui le relit.
+    function readAll(files) {
+        var model = lang.options[lang.selectedIndex].getAttribute('data-tesseract');
+        var pieces = [];
+        var chain = ensureTesseract();
+        Array.prototype.forEach.call(files, function (item, index) {
+            chain = chain.then(function () {
+                status.textContent = MSG_READING + ' ' + (index + 1) + '/' + files.length;
+                return preprocessImage(item);
+            }).then(function (prepared) {
+                return Tesseract.recognize(prepared, model);
+            }).then(function (result) {
+                pieces.push((result.data && result.data.text) || '');
+            });
+        });
+        return chain.then(function () {
+            // On AJOUTE au texte deja present plutot que de le remplacer: le
+            // lecteur peut avoir colle la moitie de son stuff a la main.
+            var texte = pieces.join('\n\n');
+            area.value = area.value.trim()
+                ? area.value.replace(/\s+$/, '') + '\n\n' + texte
+                : texte;
+            status.textContent = MSG_DONE;
+        })['catch'](function () {
+            status.textContent = MSG_FAILED;
+        });
+    }
+
+    toggle.addEventListener('click', function () {
+        box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    });
+    choose.addEventListener('click', function () { file.click(); });
+    file.addEventListener('change', function () {
+        if (file.files && file.files.length) {
+            readAll(file.files);
+        }
+    });
+})();
+</script>
 {% endblock %}

@@ -7184,3 +7184,24 @@ msgstr "Volver al build"
 
 msgid "DofusBook will show a full Vitality scroll: for a character of this level its link format cannot say anything else."
 msgstr "DofusBook mostrará los pergaminos de Vitalidad al máximo: para un personaje de este nivel, su formato de enlace no puede decir otra cosa."
+
+msgid "Read tooltip screenshots"
+msgstr "Leer capturas de descripciones"
+
+msgid "One screenshot per piece, tooltip visible. They are read inside your browser: no image leaves your machine."
+msgstr "Una captura por pieza, con la descripción visible. Se leen en tu navegador: ninguna imagen sale de tu equipo."
+
+msgid "Choose images"
+msgstr "Elegir imágenes"
+
+msgid "Game language"
+msgstr "Idioma del juego"
+
+msgid "Reading"
+msgstr "Leyendo"
+
+msgid "Screenshots read. Check the text below, then read it."
+msgstr "Capturas leídas. Revisa el texto de abajo y luego léelo."
+
+msgid "That image could not be read."
+msgstr "No se ha podido leer esa imagen."

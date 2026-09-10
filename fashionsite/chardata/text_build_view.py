@@ -27,6 +27,7 @@ from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _solution_path)
 from chardata.lock_forbid import set_stat_overrides
 from chardata.models import CharBaseStats
+from chardata.screenshot_reader import language_options
 from chardata.text_build_import import MAX_LIGNES, read_items
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, safe_int
@@ -99,13 +100,27 @@ def _ecrit_les_caracteristiques(char, points, parchos):
         ligne.save()
 
 
+def _reponse(request, params):
+    """La page, avec ce que ses deux entrees partagent.
+
+    Le lecteur de captures vit dans la meme page que la zone de texte et n'est
+    qu'une facon d'y ecrire, donc il est disponible sur les quatre etats de la
+    page: le premier affichage, les deux refus, et l'apercu. Ajouter la liste
+    des langues a un seul des quatre l'aurait fait disparaitre des qu'un
+    lecteur se trompe de version.
+    """
+    params.setdefault('ocr_languages',
+                      language_options(get_supported_language()))
+    return set_response(request, 'chardata/text_build.html', params)
+
+
 def text_build(request):
     """GET montre la zone de texte, POST la lit, confirmer cree le build."""
     texte = (request.POST.get('text') or '')[:MAX_CARACTERES]
     version = _version(request)
 
     if request.method != 'POST' or not texte.strip():
-        return set_response(request, 'chardata/text_build.html', {
+        return _reponse(request, {
             'text': '',
             'version_label': get_game_version(version).label,
             'login_problem': is_anon_cant_create(request),
@@ -123,7 +138,7 @@ def text_build(request):
     # sien, ce qui est le pire des resultats possibles.
     annoncee = lu['stated_version']
     if annoncee and annoncee != version:
-        return set_response(request, 'chardata/text_build.html', {
+        return _reponse(request, {
             'text': texte,
             'version_label': get_game_version(version).label,
             'error': _('This build comes from %(source)s and you are on '
@@ -137,7 +152,7 @@ def text_build(request):
         })
 
     if not lu['item_ids']:
-        return set_response(request, 'chardata/text_build.html', {
+        return _reponse(request, {
             'text': texte,
             'version_label': get_game_version(version).label,
             'error': _('No item in that text matched our catalogue for this '
@@ -158,7 +173,7 @@ def text_build(request):
                       lu['char_level'] or NIVEAU_PAR_DEFAUT)
 
     if not request.POST.get('confirm') or char_class not in CHARACTER_CLASSES:
-        return set_response(request, 'chardata/text_build.html', {
+        return _reponse(request, {
             'text': texte,
             'confirm': True,
             'version_label': get_game_version(version).label,

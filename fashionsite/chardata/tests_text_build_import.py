@@ -828,12 +828,22 @@ class TheSiteCanReadBackItsOwnExportTests(TestCase):
 
     def test_the_class_is_offered_preselected_when_the_text_names_it(self):
         """Sans jamais comparer deux attributs dans l'ordre: le gabarit est
-        minifie et les attributs y sont tries."""
+        minifie et les attributs y sont tries.
+
+        Le balayage porte sur la LISTE DES CLASSES et non sur la page: la page
+        en porte une seconde depuis que le lecteur de captures demande la
+        langue du jeu, et son option preselectionnee n'est pas une classe de
+        plus. Un garde qui lit la page entiere garde la page, pas la liste
+        qu'il croit surveiller.
+        """
         import re
         _char, texte, _noms = self._build_exporte()
         corps = self.client.post(
             '/import/text/', {'text': texte}).content.decode('utf-8')
-        options = re.findall(r'<option[^>]*>', corps)
+        liste = re.search(r'<select[^>]*name="char_class"[^>]*>(.*?)</select>',
+                          corps, re.S)
+        self.assertIsNotNone(liste, 'the class list is gone from the page')
+        options = re.findall(r'<option[^>]*>', liste.group(1))
         cra = [o for o in options if 'Cra' in o]
         self.assertTrue(cra, options[:3])
         self.assertTrue(any('selected' in o for o in cra), cra)
