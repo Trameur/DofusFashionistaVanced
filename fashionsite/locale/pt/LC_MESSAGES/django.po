@@ -7253,3 +7253,6 @@ msgstr "Dofus Retro e Touch: cada feitiço volta a mostrar seu ícone; 251 deles
 
 msgid "and %(count)d more"
 msgstr "e mais %(count)d"
+
+msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
+msgstr "A entrada com o Google não foi concluída. Você pode tentar de novo ou entrar com seu nome de usuário e senha."

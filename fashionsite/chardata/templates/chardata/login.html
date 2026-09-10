@@ -49,6 +49,9 @@
     <p align="center" class="big-text">{% trans "Thanks for confirming your email. Please type your password to enter." %}</p>
         {% endif %}
     {% endif %}
+    {% if social_failed %}
+    <p align="center" class="big-text" id="social-login-failed">{% trans "Signing in with Google did not go through. You can try again, or enter with your username and password." %}</p>
+    {% endif %}
     
 <div align="center">
     <table>

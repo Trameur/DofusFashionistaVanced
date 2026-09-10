@@ -133,14 +133,20 @@ def login_page(request, char_id=0):
     return _login_page_generic(request, False, None, char_id, False)
 
 def _login_page_generic(request, from_confirmation, prefilled_user, char_id, already_confirmed):
-    return set_response(request, 
+    from chardata.SocialAuthExceptionMiddleware import (SOCIAL_FAILED_PARAM,
+                                                        SOCIAL_FAILED_VALUE)
+    return set_response(request,
                         'chardata/login.html',
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id,
                          'from_confirmation': from_confirmation,
                          'prefilled_user': prefilled_user,
-                         'already_confirmed': already_confirmed == 'yes'})
+                         'already_confirmed': already_confirmed == 'yes',
+                         # Le retour d'une connexion Google qui n'a pas
+                         # abouti: le middleware y renvoie avec ce marqueur.
+                         'social_failed': (request.GET.get(SOCIAL_FAILED_PARAM)
+                                           == SOCIAL_FAILED_VALUE)})
 
 def register(request):
     if request.method != 'POST':

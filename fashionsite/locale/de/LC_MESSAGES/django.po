@@ -7283,3 +7283,6 @@ msgstr "Dofus Retro und Touch: jeder Zauber zeigt wieder sein Icon; 251 davon wu
 
 msgid "and %(count)d more"
 msgstr "und %(count)d weitere"
+
+msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
+msgstr "Die Anmeldung mit Google ist nicht durchgegangen. Du kannst es noch einmal versuchen oder dich mit Benutzername und Passwort anmelden."

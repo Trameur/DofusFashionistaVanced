@@ -6524,3 +6524,6 @@ msgstr ""
 
 msgid "and %(count)d more"
 msgstr ""
+
+msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
+msgstr ""

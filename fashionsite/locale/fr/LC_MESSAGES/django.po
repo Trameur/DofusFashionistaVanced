@@ -7307,3 +7307,6 @@ msgstr "Dofus Retro et Touch : chaque sort affiche de nouveau son icône ; 251 d
 
 msgid "and %(count)d more"
 msgstr "et %(count)d de plus"
+
+msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
+msgstr "La connexion avec Google n’a pas abouti. Vous pouvez réessayer, ou entrer avec votre nom d’utilisateur et votre mot de passe."

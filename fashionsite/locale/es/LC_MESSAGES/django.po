@@ -7274,3 +7274,6 @@ msgstr "Dofus Retro y Touch: cada hechizo vuelve a mostrar su icono; 251 de ello
 
 msgid "and %(count)d more"
 msgstr "y %(count)d más"
+
+msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
+msgstr "El inicio de sesión con Google no se completó. Puedes intentarlo de nuevo o entrar con tu nombre de usuario y contraseña."
