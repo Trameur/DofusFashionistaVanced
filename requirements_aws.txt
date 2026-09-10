@@ -50,7 +50,7 @@ Pillow==12.3.0
 ply==3.11
 prettytable==3.18.0
 prompt-toolkit==3.0.53
-protobuf==5.29.6
+protobuf==7.36.1
 PuLP==2.7.0
 pyasn1==0.6.4
 pyasn1-modules==0.4.2
