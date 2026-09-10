@@ -175,8 +175,13 @@ _PREFIXE_EMPLACEMENT = re.compile(
 #: tous les textes exportes avant qu'on l'ajoute n'en ont pas, et une simple
 #: liste de noms tapee a la main non plus. Absente, elle veut dire <<la version
 #: de la page>>, qui est le comportement d'avant.
+#: Le nom du build, s'il est la, COMMENCE et se termine sur un caractere
+#: qui n'est pas un espace. Mesure: avec `(.*\S)` seul, le `\s+` qui precede
+#: et le `.*` pouvaient tous deux prendre les espaces, et une ligne de 40 000
+#: espaces apres le tiret coutait 8 secondes; avec `\S` en tete, chaque
+#: partage echoue au premier caractere (py/polynomial-redos).
 _ENTETE = re.compile(
-    r'-\s+(\S+)\s+lvl\s+(\d{1,3})(?:\s+-\s+(.+?))?\s*$', re.I)
+    r'-\s+(\S+)\s+lvl\s+(\d{1,3})(?:\s+-\s+(\S(?:.*\S)?))?\s*$', re.I)
 
 #: Le libelle de chaque version vers sa cle. Les libelles viennent du registre
 #: et ne sont pas traduits, donc ils traversent les cinq langues.
@@ -190,9 +195,23 @@ _VERSION_PAR_LIBELLE = {
 #: parchotages. Le site garde les deux separement (`total_value` est leur
 #: somme, `scrolled_value` la seconde), donc les melanger ferait revenir un
 #: personnage different de celui qui est parti.
-_LIGNE_POINTS = re.compile(r'^\s*points\s*:\s*(.+)$', re.I)
-_LIGNE_PARCHOS = re.compile(r'^\s*scrolls\s*:\s*(.+)$', re.I)
-_UNE_CARACTERISTIQUE = re.compile(r'([A-Za-zÀ-ɏ ]+?)\s+(\d{1,4})')
+#: Apres le deux-points, le reste commence par un non-espace ou est vide:
+#: `\s*` et `(.+)` pouvaient tous deux prendre les espaces, et le moteur
+#: essayait chaque partage (py/polynomial-redos).
+_LIGNE_POINTS = re.compile(r'^\s*points\s*:\s*(\S.*)?$', re.I)
+_LIGNE_PARCHOS = re.compile(r'^\s*scrolls\s*:\s*(\S.*)?$', re.I)
+#: Un nom de caracteristique est des mots separes par des espaces et se
+#: termine sur une lettre: l'espace avant le nombre n'appartient qu'au
+#: `\s+` qui suit. La classe `[A-Za-z ]+?` contenait l'espace et le
+#: moteur pouvait le donner aux deux (py/polynomial-redos).
+#:
+#: Applique avec `match` sur le morceau depouille, pas avec `search`: une
+#: recherche repart de chaque position, et sur <<a a a a...>> (20 000 mots
+#: sans nombre) chaque depart refaisait tout le recul, 11,8 secondes
+#: mesurees. Le site ecrit lui-meme <<Vitality 101 / Strength 50>>, le nom
+#: est en tete de chaque morceau.
+_UNE_CARACTERISTIQUE = re.compile(
+    r'([A-Za-zÀ-ɏ]+(?: +[A-Za-zÀ-ɏ]+)*)\s+(\d{1,4})')
 
 
 def _lit_caracteristiques(reste):
@@ -200,7 +219,7 @@ def _lit_caracteristiques(reste):
     trouve = {}
     connus = {nom.lower(): nom for nom, _cle in STATS_NAMES}
     for morceau in reste.split('/'):
-        m = _UNE_CARACTERISTIQUE.search(morceau)
+        m = _UNE_CARACTERISTIQUE.match(morceau.strip())
         if not m:
             continue
         nom = connus.get(_ocr_normalize(m.group(1)))
@@ -218,7 +237,14 @@ def _lit_caracteristiques(reste):
 #: deux implementations, l'une sous node, l'autre ici: dupliquer une regle sans
 #: ce test, c'est se garantir deux comportements dans six mois.
 _PLAGE = re.compile(r'\d\s*(?:a|à|to|bis)\s*\d', re.I)
-_LIGNE_DE_STAT = re.compile(r'^[^0-9+\-]*?([+\-]?\s*\d[\d\s.,]*)\s*(%?)\s*(.+)$')
+#: Meme langage que le `parseStatLine` du gabarit, ecrit sans partage
+#: ambigu (py/polynomial-redos): les espaces apres un signe n'existent
+#: qu'apres un signe, les espaces DANS le nombre ne sont pris que s'ils
+#: precedent un chiffre, un point ou une virgule, et il n'y a qu'un seul
+#: `\s*` devant le libelle. Groupes: signe, nombre, pourcent, libelle.
+_LIGNE_DE_STAT = re.compile(
+    r'^[^0-9+\-]*?(?:([+\-])\s*)?(\d(?:[\d.,]|\s+(?=[\d.,]))*)'
+    r'(?:\s*(%))?\s*(.+)$')
 
 
 def _lit_ligne_de_stat(ligne, lexique):
@@ -236,10 +262,8 @@ def _lit_ligne_de_stat(ligne, lexique):
     m = _LIGNE_DE_STAT.match(ligne)
     if not m:
         return None
-    signe = -1 if '-' in m.group(1) else 1
-    groupes = [g for g in re.split(r'[\s.,]+',
-                                   re.sub(r'[+\-]', ' ', m.group(1)).strip())
-               if g]
+    signe = -1 if m.group(1) == '-' else 1
+    groupes = [g for g in re.split(r'[\s.,]+', m.group(2).strip()) if g]
     if len(groupes) == 1:
         chiffres = groupes[0]
     elif all(len(g) == 3 for g in groupes[1:]):
@@ -251,8 +275,8 @@ def _lit_ligne_de_stat(ligne, lexique):
     valeur = signe * int(chiffres)
     if valeur == 0:
         return None
-    etiquette = _ocr_normalize(m.group(3))
-    if m.group(2) == '%':
+    etiquette = _ocr_normalize(m.group(4))
+    if m.group(3) == '%':
         cle = lexique.get('% ' + etiquette) or lexique.get(etiquette)
     else:
         cle = lexique.get(etiquette) or lexique.get('% ' + etiquette)
@@ -394,11 +418,11 @@ def read_items(text, game_version, language):
         # chiffres et se feraient prendre pour des jets.
         m = _LIGNE_POINTS.match(ligne)
         if m:
-            points.update(_lit_caracteristiques(m.group(1)))
+            points.update(_lit_caracteristiques(m.group(1) or ''))
             continue
         m = _LIGNE_PARCHOS.match(ligne)
         if m:
-            parchos.update(_lit_caracteristiques(m.group(1)))
+            parchos.update(_lit_caracteristiques(m.group(1) or ''))
             continue
         m = _ENTETE.search(ligne)
         if m and char_class is None:

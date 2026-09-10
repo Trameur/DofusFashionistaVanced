@@ -7,6 +7,16 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # boto3 and botocore must move together: boto3 requires the botocore of
+    # its own version, and a bump of one alone fails on install (it happened
+    # on the 14/08 deploy) and fails the test that pins them together. One
+    # grouped pull request cannot split them.
+    groups:
+      aws-sdk:
+        patterns:
+          - "boto3"
+          - "botocore"
+    open-pull-requests-limit: 10
 
   # JavaScript dependencies (assumes package.json is at the root)
   - package-ecosystem: "npm"

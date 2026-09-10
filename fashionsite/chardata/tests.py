@@ -3461,7 +3461,10 @@ class ValuesWrittenIntoJavascriptTests(TestCase):
         import glob
         import re
         here = os.path.dirname(os.path.abspath(__file__))
-        script = re.compile(r'<script\b[^>]*>(.*?)</script>', re.S | re.I)
+        # `</script\s*>`: a closing tag may carry whitespace before its `>`,
+        # and a scan that stops only at the exact `</script>` would run past
+        # such a tag into the next block (CodeQL py/bad-tag-filter).
+        script = re.compile(r'<script\b[^>]*>(.*?)</script\s*>', re.S | re.I)
         # Values that carry whatever a person typed.
         risky = re.compile(r'\{\{\s*((?:[\w.]*\b(?:username|useralias|alias)\b'
                            r'|user\.email)[^}]*?)\s*\}\}')
