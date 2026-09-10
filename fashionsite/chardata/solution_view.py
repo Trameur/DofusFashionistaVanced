@@ -308,8 +308,13 @@ def _build_check(char, solution):
     }
 
 
-def _build_share_text(request, char, solution):
-    """Plain-text build summary for pasting into Discord / forums."""
+def _build_share_text(request, char, solution, facts=None):
+    """Plain-text build summary for pasting into Discord / forums.
+
+    `facts` is (proven, seconds) when the caller already read them, as the
+    solution page does for a generation snapshot; otherwise they are read
+    from the build's own pickle.
+    """
     title = char.char_name or char.name or char.char_class or 'Build'
     # La version du jeu, en toutes lettres, parce que le texte voyage.
     #
@@ -381,6 +386,31 @@ def _build_share_text(request, char, solution):
     except Exception:
         logger.exception('Failed to build base stats for share text (char %s)',
                          char.id)
+    # La preuve voyage avec le build. C'est la phrase de la section 2.3 du
+    # plan, celle qu'aucun systeme generatif ne peut ecrire sur sa propre
+    # sortie: le solveur a ferme le probleme, ou il a rendu la main a la
+    # limite de temps. Ce sont les deux phrases du panneau <<Pourquoi ce
+    # resultat ?>>, memes msgids, pour que la page et le texte colle ne
+    # puissent pas se contredire. Un pickle d'avant le fait ne porte rien,
+    # et le texte se tait plutot que de deviner: None n'est pas False.
+    try:
+        if facts is not None:
+            proven = facts[0]
+        else:
+            proven = get_solver_facts(char.minimal_solution)[0]
+        if proven is True:
+            lines += ['', _('Proven optimum. The solver checked that no '
+                            'other legal combination scores higher on '
+                            'your criteria.')]
+        elif proven is False:
+            lines += ['', _('Best set found in %(limit)s seconds. The '
+                            'solver ran out of time before it could prove '
+                            'that nothing beats it, so this is the best it '
+                            'reached, not a proof.')
+                      % {'limit': SOLVER_TIME_LIMIT_SECONDS}]
+    except Exception:
+        logger.exception('Failed to add the proof line to share text '
+                         '(char %s)', char.id)
     lines.append('')
     if char.link_shared:
         lines.append(generate_link(request, char))
@@ -666,7 +696,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     try:
         _sol_for_text = snapshot_solution if snapshot_solution is not None else get_solution(char)
         if _sol_for_text is not None:
-            share_text = _build_share_text(request, char, _sol_for_text)
+            share_text = _build_share_text(
+                request, char, _sol_for_text,
+                facts=(solver_proven, solver_seconds))
             build_check = _build_check(char, _sol_for_text)
             build_score = calculate_project_build_score(char, _sol_for_text)
     except Exception:

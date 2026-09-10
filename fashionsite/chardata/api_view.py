@@ -234,6 +234,20 @@ def api_shared_build_detail(request, encoded_id):
 
     payload = _build_payload(char, alias_map)
     payload['comment_count'] = BuildComment.objects.filter(build=char, deleted=False).count()
+    # The one fact no generative system can state about its own output, and
+    # the reason the "Why this result?" panel exists: whether the solver
+    # PROVED the optimum or handed back the best it reached at the time limit.
+    # On the detail only: it costs unpickling the stored solution, which the
+    # list does for no row. Three states, never conflated: True, False, and
+    # null for a solution stored before the fact was recorded.
+    from chardata.solution import get_solver_facts
+    from fashionistapulp.lpproblem import TIME_LIMIT_SECONDS
+    proven, seconds, _pool = get_solver_facts(char.minimal_solution)
+    payload['solver'] = {
+        'proven': proven,
+        'seconds': None if seconds is None else round(seconds, 1),
+        'time_limit_seconds': TIME_LIMIT_SECONDS,
+    }
     return _json(payload)
 
 
