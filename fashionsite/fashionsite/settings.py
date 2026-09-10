@@ -171,6 +171,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
+    # Pose Content-Security-Policy-Report-Only. Il ne bloque RIEN: il
+    # fait signaler au navigateur ce qu'une politique refuserait, et
+    # c'est ce qui produira la liste des origines reelles.
+    'chardata.csp.ContentSecurityPolicyReportOnlyMiddleware',
     'chardata.middleware.GameVersionMiddleware',
     'chardata.middleware.PageHitMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
