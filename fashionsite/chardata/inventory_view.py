@@ -192,7 +192,7 @@ LOCALIZED_UI = {
         'editor_add_stat': 'Adicionar um atributo…',
         'ocr_button': 'Adicionar a partir de uma captura de tela',
         'ocr_hint': 'Cole a imagem (Ctrl+V) ou escolha um arquivo - uma captura da janela do item funciona melhor. Os valores detectados podem ser editados antes de adicionar.',
-        'ocr_whole_build': 'Lendo uma build inteira e não um item só? A importação de texto aceita uma captura da descrição por peça.',
+        'ocr_whole_build': 'Lendo um build inteiro e não um item só? A importação de texto aceita uma captura da descrição por peça.',
         'ocr_choose': 'Escolher uma imagem…',
         'ocr_lang': 'Idioma da captura',
         'ocr_loading': 'Carregando o mecanismo de OCR…',

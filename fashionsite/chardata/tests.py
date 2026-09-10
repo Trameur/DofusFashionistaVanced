@@ -16922,8 +16922,8 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
         'de': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Name', 'Neutral',
                'Hammer', 'Ring', 'optional', 'E', 'W',
                'April', 'August', 'September', 'November',
-               'April 2023', 'April 2026', 'August 2026', 'November 2025',
-               'April - September 2025',
+               'April 2023', 'April 2026', 'August 2026', 'September 2026',
+               'November 2025', 'April - September 2025',
                ': - AP', 'AP: %(AP)d', '(%(weapon_type)s) AP: %(AP)d',
                '%(ap)s AP'},
     }
