@@ -1,0 +1,72 @@
+{% extends "chardata/base.html" %}
+{% load i18n %}
+{% load static_s3 %}
+{% load version_url %}
+
+{% block title %}{% trans "Open this build on DofusBook" %}{% endblock %}
+{% block meta_description %}{% trans "Send your gear to DofusBook with one link, and see beforehand exactly which pieces travel and which ones do not." %}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static css_files.forms %}" class="forms-css css-file">
+<style>
+    .export-wrap { max-width: 640px; margin: 36px auto; padding: 0 14px; text-align: center; }
+    .export-intro { margin-bottom: 20px; }
+    .export-error { color: #c33; margin: 12px 0; }
+    .export-pieces { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+    .export-piece {
+        display: inline-block; padding: 3px 11px; font-size: 0.9em;
+        border: 1px solid rgba(128,128,128,0.4); border-radius: 12px;
+    }
+    .export-note { font-size: 0.9em; margin-top: 6px; }
+    .export-go { margin: 22px 0 8px; }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="export-wrap">
+    <h1>{% trans "Open this build on DofusBook" %}</h1>
+    <p class="export-intro">
+        <strong>{{ char.char_name|default:char.name }}</strong> &middot; {{ version_label }} &middot; {% trans "Level" %} {{ char.level }}
+    </p>
+
+    {% if error %}
+    <p class="export-error">{{ error }}</p>
+    {% else %}
+
+    {% comment %}The two lists are the whole point of the page. Measured on
+    retro.dofusbook.net: three of sixteen Ankama ids in a real build are
+    absent from their catalogue and their page drops them without a word, so
+    the reader is told here, while the choice is still theirs.{% endcomment %}
+    {% if going %}
+    <p class="export-note">{% trans "These pieces travel:" %}</p>
+    <div class="export-pieces">
+        {% for name in going %}
+        <span class="export-piece">{{ name }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if staying %}
+    <p class="export-note">{% trans "DofusBook does not have these in its catalogue, so they stay here:" %} {{ staying|join:", " }}</p>
+    {% endif %}
+
+    {% if vitality_scroll_forced %}
+    <p class="export-note">{% trans "DofusBook will show a full Vitality scroll: for a character of this level its link format cannot say anything else." %}</p>
+    {% endif %}
+
+    {% if partial_scrolls %}
+    <p class="export-note">{% trans "DofusBook stores a scroll as 100 or nothing, so these do not travel in full:" %} {{ partial_scrolls|join:", " }}</p>
+    {% endif %}
+
+    <p class="export-note">{% trans "The build name, the class and your rolls do not travel: their link format has no room for them." %}</p>
+
+    <div class="export-go">
+        <a class="button-generic" href="{{ link }}" target="_blank" rel="noopener noreferrer">{% trans "Open on DofusBook" %}</a>
+    </div>
+    <p class="export-note">{% trans "Your build stays here, untouched. The link only fills a draft on their site." %}</p>
+    {% endif %}
+
+    <p class="export-note"><a href="{% game_url 'solution_2' char_id %}">{% trans "Back to the build" %}</a></p>
+</div>
+{% endblock %}

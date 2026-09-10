@@ -7148,3 +7148,39 @@ msgstr "Abrir la importación de %(version)s"
 #: .\chardata\templates\chardata\text_build.html:99
 msgid "read as an exo"
 msgstr "leído como un exo"
+
+msgid "DofusBook has no site for this version of the game."
+msgstr "DofusBook no tiene un sitio para esta versión del juego."
+
+msgid "This build has no gear to send."
+msgstr "Este build no tiene equipo que enviar."
+
+msgid "Open this build on DofusBook"
+msgstr "Abrir este build en DofusBook"
+
+msgid "Send your gear to DofusBook with one link, and see beforehand exactly which pieces travel and which ones do not."
+msgstr "Envía tu equipo a DofusBook con un solo enlace y comprueba de antemano qué piezas viajan y cuáles no."
+
+msgid "These pieces travel:"
+msgstr "Estas piezas viajan:"
+
+msgid "DofusBook does not have these in its catalogue, so they stay here:"
+msgstr "DofusBook no tiene estos objetos en su catálogo, así que se quedan aquí:"
+
+msgid "DofusBook stores a scroll as 100 or nothing, so these do not travel in full:"
+msgstr "DofusBook guarda los pergaminos como 100 o nada, así que estos no viajan completos:"
+
+msgid "The build name, the class and your rolls do not travel: their link format has no room for them."
+msgstr "El nombre del build, la clase y tus valores no viajan: su formato de enlace no tiene sitio para ellos."
+
+msgid "Open on DofusBook"
+msgstr "Abrir en DofusBook"
+
+msgid "Your build stays here, untouched. The link only fills a draft on their site."
+msgstr "Tu build se queda aquí, intacto. El enlace solo rellena un borrador en su sitio."
+
+msgid "Back to the build"
+msgstr "Volver al build"
+
+msgid "DofusBook will show a full Vitality scroll: for a character of this level its link format cannot say anything else."
+msgstr "DofusBook mostrará los pergaminos de Vitalidad al máximo: para un personaje de este nivel, su formato de enlace no puede decir otra cosa."

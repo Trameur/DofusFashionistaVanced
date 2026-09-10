@@ -7127,3 +7127,39 @@ msgstr "Abrir a importação de %(version)s"
 #: .\chardata\templates\chardata\text_build.html:99
 msgid "read as an exo"
 msgstr "lido como um exo"
+
+msgid "DofusBook has no site for this version of the game."
+msgstr "O DofusBook não tem um site para esta versão do jogo."
+
+msgid "This build has no gear to send."
+msgstr "Esta build não tem nenhum equipamento para enviar."
+
+msgid "Open this build on DofusBook"
+msgstr "Abrir esta build no DofusBook"
+
+msgid "Send your gear to DofusBook with one link, and see beforehand exactly which pieces travel and which ones do not."
+msgstr "Envie o seu equipamento para o DofusBook com um só link e veja de antemão exatamente que peças vão e quais ficam."
+
+msgid "These pieces travel:"
+msgstr "Estas peças vão:"
+
+msgid "DofusBook does not have these in its catalogue, so they stay here:"
+msgstr "O DofusBook não tem estes itens no seu catálogo, por isso ficam aqui:"
+
+msgid "DofusBook stores a scroll as 100 or nothing, so these do not travel in full:"
+msgstr "O DofusBook guarda o scrollado como 100 ou nada, por isso estes não vão por inteiro:"
+
+msgid "The build name, the class and your rolls do not travel: their link format has no room for them."
+msgstr "O nome da build, a classe e os seus valores não vão: o formato de link deles não tem espaço para isso."
+
+msgid "Open on DofusBook"
+msgstr "Abrir no DofusBook"
+
+msgid "Your build stays here, untouched. The link only fills a draft on their site."
+msgstr "A sua build fica aqui, intacta. O link apenas preenche um rascunho no site deles."
+
+msgid "Back to the build"
+msgstr "Voltar à build"
+
+msgid "DofusBook will show a full Vitality scroll: for a character of this level its link format cannot say anything else."
+msgstr "O DofusBook vai mostrar a Vitalidade totalmente scrollada: para uma personagem deste nível, o formato de link deles não consegue dizer outra coisa."

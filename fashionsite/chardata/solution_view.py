@@ -60,6 +60,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from datetime import timedelta
 from chardata.solution_result import SolutionResult
+from chardata import dofusbook_export
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, HttpResponseJson, get_base_stats_by_attr, \
     version_reverse, get_stats_and_scrolled
@@ -707,6 +708,13 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'seo_class': seo_class,
               'seo_build': seo_build,
               'share_text': share_text,
+              # Le lien vers DofusBook ne s'affiche que pour le
+              # proprietaire et pour les versions dont ils ont un
+              # site: dofus2 et beta n'en ont pas, et pointer vers
+              # www rendrait un catalogue qui n'est pas le leur.
+              'dofusbook_export': (not is_guest
+                                   and dofusbook_export.supports(
+                                       char.game_version)),
               'build_check': build_check,
               'build_score': build_score,
               'has_build_score': build_score is not None,

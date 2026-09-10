@@ -108,6 +108,10 @@
                         onclick="copyBuildText();">{% trans "Copy as text" %}</button>
                 <span id="copy_text_feedback" style="font-size: 0.8em; opacity: 0.8; margin-left: 6px;"></span>
                 <textarea id="build_share_text" style="position:absolute; left:-9999px; top:-9999px;" readonly tabindex="-1" aria-hidden="true">{{ share_text }}</textarea>
+                {% if dofusbook_export %}
+                <a href="{% game_url 'dofusbook_export' char_id %}" class="button-generic"
+                   style="font-size: 0.85em; padding: 2px 10px;">{% trans "Open on DofusBook" %}</a>
+                {% endif %}
             </div>
             {% endif %}
             <div class="char-banner-tags" id="char_tags_box">

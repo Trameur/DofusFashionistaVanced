@@ -6398,3 +6398,39 @@ msgstr ""
 #: .\chardata\templates\chardata\text_build.html:99
 msgid "read as an exo"
 msgstr ""
+
+msgid "DofusBook has no site for this version of the game."
+msgstr ""
+
+msgid "This build has no gear to send."
+msgstr ""
+
+msgid "Open this build on DofusBook"
+msgstr ""
+
+msgid "Send your gear to DofusBook with one link, and see beforehand exactly which pieces travel and which ones do not."
+msgstr ""
+
+msgid "These pieces travel:"
+msgstr ""
+
+msgid "DofusBook does not have these in its catalogue, so they stay here:"
+msgstr ""
+
+msgid "DofusBook stores a scroll as 100 or nothing, so these do not travel in full:"
+msgstr ""
+
+msgid "The build name, the class and your rolls do not travel: their link format has no room for them."
+msgstr ""
+
+msgid "Open on DofusBook"
+msgstr ""
+
+msgid "Your build stays here, untouched. The link only fills a draft on their site."
+msgstr ""
+
+msgid "Back to the build"
+msgstr ""
+
+msgid "DofusBook will show a full Vitality scroll: for a character of this level its link format cannot say anything else."
+msgstr ""
