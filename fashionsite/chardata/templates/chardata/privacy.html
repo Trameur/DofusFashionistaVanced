@@ -57,7 +57,20 @@ repenser, et rien n'a ete supprime.
 <li>{% blocktrans %}<b>Google Analytics.</b> We use Analytics to understand, in aggregate, how the site is used so we can improve it.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Google Sign-In.</b> Optional authentication, as described above.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Google reCAPTCHA.</b> The contact form and the sign-in page use reCAPTCHA to tell people apart from bots. Your browser loads it directly from Google, so Google receives your IP address and information about your browser, and may set its own cookies. We send your answer to Google to check it.{% endblocktrans %}</li>
-    <li>{% blocktrans %}<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the inventory page, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match.{% endblocktrans %}</li>
+    {% comment %}La phrase nommait <<la page de l'inventaire>>, et une
+    deuxieme page lit desormais une capture d'ecran. Une politique qui compte
+    les pages devient fausse a la page suivante, sans que rien ne l'annonce:
+    elle nomme donc ce que la page FAIT, ce qui reste vrai quel que soit leur
+    nombre. Un test refuse le retour de l'ancienne formule.{% endcomment %}
+    <li>{% blocktrans %}<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the pages that read a screenshot, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match.{% endblocktrans %}</li>
+    {% comment %}Ce que le site va CHERCHER chez un tiers, et non ce qu'il
+    charge dans la page: les deux autres entrees parlent de ce que le
+    navigateur telecharge, celle-ci de ce que notre serveur demande a la place
+    du lecteur. Chaque affirmation est mesuree dans
+    `tests_outbound_third_parties`: trois en-tetes partent, aucune ne porte
+    l'adresse du lecteur, et le lien rendu porte `rel="noreferrer"`.
+    {% endcomment %}
+    <li>{% blocktrans %}<b>DofusBook.</b> When you paste a DofusBook link, our server fetches that build from dofusbook.net; when you open one of your builds on their site, our server first asks them which of its items they know. Both calls leave from our address and not from yours, so on those steps they do not receive your address. The link we then hand you carries the gear, the level and the characteristics of that build, and nothing that names you, and your browser only reaches their site if you click it.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Hosting and infrastructure.</b> The site is hosted on a dedicated server and served through a content-delivery network that processes requests on our behalf.{% endblocktrans %}</li>
 </ul>
 
