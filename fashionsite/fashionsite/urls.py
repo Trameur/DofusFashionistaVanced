@@ -563,6 +563,10 @@ def _sitemap_pages(base_url):
         ('/setup/', 'weekly', '0.9'),
         ('/quickstart/', 'monthly', '0.7'),
         ('/smartbuild/', 'monthly', '0.7'),
+        # Public, no login, and the only page that reads a whole build from
+        # text or screenshots: it was never submitted, so nothing searching
+        # for it could find it.
+        ('/import/text/', 'monthly', '0.7'),
         ('/sharedbuilds/', 'daily', '0.9'),
         # /random/ only ever redirects, so it is not sitemap material.
         ('/choose_compare_sets/', 'weekly', '0.7'),
@@ -641,7 +645,8 @@ def _sitemap_pages(base_url):
         # listes de carrefours, c'est un carrefour ajoute d'un seul cote.
         for sub, prio in (('/', '0.8'), ('/setup/', '0.7'), ('/sharedbuilds/', '0.7'),
                           ('/forgemagie/', '0.6'), ('/encyclopedia/', '0.8'),
-                          ('/encyclopedia/sets/', '0.7'), ('/guides/', '0.7')):
+                          ('/encyclopedia/sets/', '0.7'), ('/guides/', '0.7'),
+                          ('/import/text/', '0.6')):
             blocks.append(_sitemap_url(vbase + sub, 'weekly', prio))
 
     try:

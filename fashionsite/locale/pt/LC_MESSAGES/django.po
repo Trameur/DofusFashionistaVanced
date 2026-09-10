@@ -7053,10 +7053,6 @@ msgid "Import a build from text"
 msgstr "Importar um build a partir de texto"
 
 #: .\chardata\templates\chardata\text_build.html:6
-msgid "Paste the names of your gear and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
-msgstr "Cole os nomes do seu equipamento e recupere o mesmo build aqui, peça por peça. Nada é reotimizado enquanto você não pedir."
-
-#: .\chardata\templates\chardata\text_build.html:6
 msgid "Paste the names of your gear, one per line. Anything that is not an item name is skipped, so you can paste more than just the names."
 msgstr "Cole os nomes do seu equipamento, um por linha. Tudo o que não for um nome de item é ignorado, então você pode colar mais do que apenas os nomes."
 
@@ -7256,3 +7252,6 @@ msgstr "e mais %(count)d"
 
 msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
 msgstr "A entrada com o Google não foi concluída. Você pode tentar de novo ou entrar com seu nome de usuário e senha."
+
+msgid "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr "Cole os nomes do seu equipamento, ou solte uma captura da descrição por peça, e recupere o mesmo build aqui, peça por peça. Nada é reotimizado enquanto você não pedir."
