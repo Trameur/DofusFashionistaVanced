@@ -221,3 +221,78 @@ class TheReportEndpointRecordsWithoutDrowningTests(TestCase):
         l'endpoint a lui-meme le jour ou quelque chose y deraille."""
         reponse = self._poste(self._rapport())
         self.assertNotIn('Content-Security-Policy-Report-Only', reponse)
+
+
+class AStatLabelIsANameNotAKeyTests(TestCase):
+    """`localized_stat_name` traduit un NOM ('AP', 'Vitality').
+
+    Une cle ('ap', 'vit') n'est dans aucun catalogue, donc elle ressort telle
+    quelle. Deux endroits lui passaient une cle: le panneau des contraintes de
+    la page de solution, qui affichait <<ap 12>> au lieu de <<PA 12>>, et les
+    libelles du texte partage, qui restaient anglais sur une page francaise.
+    """
+
+    def test_the_helper_translates_a_name_and_not_a_key(self):
+        """La mesure qui explique les deux fautes."""
+        from django.utils import translation
+        from chardata.translation_util import localized_stat_name
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        set_current_game_version('dofus3')
+        stat = get_structure('dofus3').get_stat_by_key('ap')
+        with translation.override('fr'):
+            self.assertEqual('ap', localized_stat_name('ap'),
+                             'a key would translate, and the bug would not '
+                             'exist')
+            self.assertEqual('PA', localized_stat_name(stat.name))
+
+    def test_the_shared_text_labels_follow_the_reader(self):
+        from django.test import RequestFactory
+        from django.utils import translation
+        from chardata.models import Char
+        from chardata.solution import get_solution
+        from chardata.solution_view import _build_share_text
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        item = next(i for i in structure.types[200]['Hat'] if not i.removed)
+        self.client.post('/import/text/', {
+            'text': structure.get_item_name_in_language(item, 'en'),
+            'confirm': '1', 'char_class': 'Cra', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        rendus = {}
+        for langue in ('en', 'fr'):
+            with translation.override(langue):
+                rendus[langue] = _build_share_text(
+                    RequestFactory().get('/'), char, get_solution(char))
+        self.assertIn('Vitality', rendus['en'])
+        self.assertIn('Vitalit\u00e9', rendus['fr'])
+        self.assertNotIn('Vitality', rendus['fr'])
+
+    def test_the_constraints_panel_shows_a_label_not_a_key(self):
+        """Le panneau ne s'affiche qu'avec des minimums, donc on interroge la
+        fonction qui le remplit plutot que d'en fabriquer un."""
+        from django.utils import translation
+        from chardata.models import Char
+        from chardata.min_stats import set_min_stats
+        from chardata.solution import get_solution
+        from chardata.solution_view import _constraints_reached
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        item = next(i for i in structure.types[200]['Hat'] if not i.removed)
+        self.client.post('/import/text/', {
+            'text': structure.get_item_name_in_language(item, 'en'),
+            'confirm': '1', 'char_class': 'Cra', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        # set_min_stats est indexe par NOM ('AP'), pas par cle ('ap'):
+        # la meme confusion que celle que ce test garde.
+        set_min_stats(char, {'AP': 1})
+        with translation.override('fr'):
+            lignes = _constraints_reached(char, get_solution(char))
+        self.assertTrue(lignes, 'no constraint came back, nothing is guarded')
+        noms = [l['name'] for l in lignes]
+        self.assertNotIn('ap', noms, 'the panel shows the raw stat key')
+        self.assertIn('PA', noms, noms)

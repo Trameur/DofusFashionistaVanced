@@ -55,11 +55,40 @@ MAX_OBJETS = sum(TYPE_NAME_TO_SLOT_NUMBER.values())
 EXO_STAT_KEYS = Model._EXO_STAT_KEYS
 
 
+#: Les langues dans lesquelles un nom d'objet peut arriver, et l'ordre dans
+#: lequel on les consulte apres celle du lecteur.
+LANGUES = ('en', 'fr', 'es', 'pt', 'de')
+
+
 def _pool(structure, language):
-    """(nom normalise, objet, nom affiche, type) pour tout le catalogue."""
+    """(vivier de la langue du lecteur, index exact par langue).
+
+    Deux structures et pas une, parce que les deux recherches n'ont ni le meme
+    cout ni le meme risque.
+
+    **Le vivier** sert au rapprochement TOLERANT, qui compare la ligne a
+    chaque entree. Mesure du 10 septembre 2026 sur Dofus 3: une ligne que rien
+    ne reconnait coute 9,1 ms contre 3826 entrees, et 45,5 ms si on y met les
+    cinq langues. A trois cents lignes collees, c'est treize secondes contre
+    trois. Le vivier reste donc dans la langue du lecteur: reparer une lettre
+    mal tapee est un service qu'on rend a quelqu'un qui ecrit dans SA langue.
+
+    **L'index exact** est un dictionnaire, donc gratuit, et il porte les cinq
+    langues plus le nom interne. C'est lui qui permet de relire un texte
+    partage par un joueur d'une autre langue.
+
+    Il est garde PAR LANGUE et non a plat, et ce n'est pas de la prudence
+    gratuite: mesure du meme jour, un nom normalise designe deux objets
+    DIFFERENTS d'une langue a l'autre 443 fois sur Retro et 215 fois sur
+    Touch. <<robotas>> est Bedazzling Boots dans une langue et Roboots dans
+    une autre, <<abracapa>> est Treecapa et Treecloak. Un index a plat aurait
+    rendu l'un pour l'autre, en silence.
+    """
     niveau = _search_level(structure)
     vus = set()
     pool = []
+    index = {langue: {} for langue in LANGUES}
+    index['_interne'] = {}
     for type_name in _search_types(structure, True):
         for item in structure.get_unique_items_by_type_and_level(type_name,
                                                                  niveau):
@@ -67,19 +96,24 @@ def _pool(structure, language):
                 continue
             vus.add(item.id)
             nom = structure.get_item_name_in_language(item, language)
-            pool.append((_normalized_text(nom), item, nom, type_name))
-            # Le nom INTERNE en plus du nom traduit: c'est celui que
-            # <<Copier en texte>> ecrit, dans toutes les langues. Sans lui, un
-            # lecteur francais ne pouvait pas relire un export du site.
-            # Mesure du 10 septembre 2026: le nom interne est le nom anglais
-            # sur 382 chapeaux Dofus 3 sur 382, et differe du francais sur 364.
+            entree = (_normalized_text(nom), item, nom, type_name)
+            pool.append(entree)
+            for langue in LANGUES:
+                cle = _normalized_text(
+                    structure.get_item_name_in_language(item, langue))
+                if cle:
+                    index[langue].setdefault(cle, entree)
+            # Le nom INTERNE: c'est celui que <<Copier en texte>> ecrivait
+            # avant qu'il ne passe au nom traduit, donc tous les textes deja
+            # partages le portent. Mesure du 10 septembre 2026: il vaut le nom
+            # anglais sur 382 chapeaux Dofus 3 sur 382.
             interne = _normalized_text(item.name)
-            if interne and interne != _normalized_text(nom):
-                pool.append((interne, item, nom, type_name))
-    return pool
+            if interne:
+                index['_interne'].setdefault(interne, entree)
+    return pool, index
 
 
-def _entree_exacte(requete, pool):
+def _entree_exacte(requete, index, language):
     """Le nom entier, pas une sous-chaine.
 
     L'autocompletion accepte une sous-chaine parce qu'elle repond a quelqu'un
@@ -93,11 +127,30 @@ def _entree_exacte(requete, pool):
     l'appelant, borne a trois corrections et a un ecart de deux avec le
     second candidat: il repare une lettre mal lue, il n'invente pas un objet
     a partir d'un mot commun.
+
+    **La langue du lecteur passe en premier, et un desaccord fait taire.** Un
+    meme nom normalise designe deux objets differents d'une langue a l'autre
+    443 fois sur Retro (<<robotas>>: Bedazzling Boots ou Roboots). Quand la
+    langue du lecteur ne tranche pas et que les autres se contredisent, on ne
+    choisit pas: rendre un objet plausible pris pour un autre est pire que
+    rendre une ligne non reconnue, que le joueur voit et corrige.
     """
-    for entree in pool:
-        if entree[0] == requete:
-            return entree
-    return None
+    trouve = index.get(language, {}).get(requete)
+    if trouve is not None:
+        return trouve
+    candidats = []
+    for autre in LANGUES + ('_interne',):
+        if autre == language:
+            continue
+        entree = index.get(autre, {}).get(requete)
+        if entree is not None:
+            candidats.append(entree)
+    if not candidats:
+        return None
+    premier = candidats[0]
+    if any(c[1].id != premier[1].id for c in candidats):
+        return None
+    return premier
 
 
 #: Ce que le bouton <<Copier en texte>> du site ecrit, et que le site ne
@@ -322,7 +375,7 @@ def read_items(text, game_version, language):
     # aucun signal: sa langue d'interface gagne, ce qui est le comportement
     # d'avant.
     langue_lue, lexique = _langue_du_texte(lignes, structure, language)
-    pool = _pool(structure, langue_lue)
+    pool, index = _pool(structure, langue_lue)
 
     #: La piece a laquelle les lignes de stats suivantes appartiennent. Une
     #: infobulle donne le nom puis ses jets, donc un nom reconnu ouvre une
@@ -376,7 +429,7 @@ def read_items(text, game_version, language):
         if len(requete) < MIN_LIGNE:
             ignored.append(ligne)
             continue
-        entree = _entree_exacte(requete, pool)
+        entree = _entree_exacte(requete, index, langue_lue)
         approche = False
         if entree is None:
             entree = _closest_pool_entry(requete, pool)

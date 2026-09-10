@@ -131,7 +131,14 @@ def _constraints_reached(char, solution):
         if atteint is None:
             continue
         atteint = int(round(atteint))
-        lignes.append({'name': localized_stat_name(cle),
+        # Le NOM de la stat, pas sa cle. `localized_stat_name` traduit un nom
+        # ('AP', 'Vitality'); une cle ('ap', 'vit') n'est dans aucun
+        # catalogue, donc elle ressortait telle quelle et le panneau affichait
+        # <<ap 12>> au lieu de <<PA 12>>.
+        stat = get_structure().get_stat_by_key(cle)
+        if stat is None:
+            continue
+        lignes.append({'name': localized_stat_name(stat.name),
                        'asked': demande,
                        'reached': atteint,
                        'met': atteint >= demande})
@@ -321,15 +328,26 @@ def _build_share_text(request, char, solution):
         for item in solution.items.get(slot, []):
             name = getattr(item, 'name', None)
             if getattr(item, 'item_added', False) and name and name != 'NoItem':
-                lines.append('%s: %s' % (slot, name))
+                # Le nom TRADUIT, pas le nom interne. Un joueur francais qui
+                # copiait son build obtenait <<Creaking Tree Hat>> a coller sur
+                # un Discord francais. L'import relit les cinq langues, plus le
+                # nom interne pour les textes deja partages, donc le tour
+                # complet survit au changement.
+                lines.append('%s: %s' % (slot,
+                                         getattr(item, 'localized_name', None)
+                                         or name))
     try:
         stats = solution.get_stats_total()
         chips = []
-        for key, label in [('ap', 'AP'), ('mp', 'MP'), ('range', 'Range'),
-                           ('vit', 'Vitality'), ('pow', 'Power')]:
+        structure = get_structure()
+        # Les libelles dans la langue du lecteur, comme les noms d'objets
+        # au-dessus: le texte entier est fait pour etre colle sur SON Discord.
+        for key in ('ap', 'mp', 'range', 'vit', 'pow'):
             value = stats.get(key, 0)
-            if value:
-                chips.append('%s %d' % (label, int(value)))
+            stat = structure.get_stat_by_key(key)
+            if value and stat is not None:
+                chips.append('%s %d' % (localized_stat_name(stat.name),
+                                        int(value)))
         if chips:
             lines += ['', ' / '.join(chips)]
     except Exception:

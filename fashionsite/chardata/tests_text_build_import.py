@@ -1033,3 +1033,122 @@ class APastedExoIsKeptAndCountedOnceTests(TestCase):
         from chardata.text_build_import import EXO_STAT_KEYS
         self.assertIs(EXO_STAT_KEYS, Model._EXO_STAT_KEYS)
         self.assertEqual({'ap', 'mp', 'range'}, set(EXO_STAT_KEYS))
+
+
+class TheSharedTextSpeaksTheReaderLanguageTests(TestCase):
+    """Un joueur francais qui copiait son build obtenait des noms anglais.
+
+    L'export ecrivait `item.name`, le nom interne, quelle que soit la langue.
+    Colle sur un Discord francais, ca donnait <<Creaking Tree Hat>> la ou le
+    joueur attendait <<Coiffe Ranshi>>.
+
+    Le corriger demande que l'import sache relire un nom dans n'importe
+    laquelle des cinq langues, parce qu'un texte partage voyage.
+    """
+
+    def _exporte(self, langue):
+        from chardata.models import Char
+        from chardata.solution import get_solution
+        from chardata.solution_view import _build_share_text
+        from django.test import RequestFactory
+        from django.utils import translation
+
+        structure = get_structure('dofus3')
+        item = next(i for i in structure.types[200]['Hat'] if not i.removed)
+        nom_en = structure.get_item_name_in_language(item, 'en')
+        self.client.post('/import/text/', {'text': nom_en, 'confirm': '1',
+                                           'char_class': 'Cra',
+                                           'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        with translation.override(langue):
+            texte = _build_share_text(RequestFactory().get('/'), char,
+                                      get_solution(char))
+        return texte, structure.get_item_name_in_language(item, langue)
+
+    def test_the_export_writes_the_name_in_the_reader_language(self):
+        texte, nom_fr = self._exporte('fr')
+        self.assertIn(nom_fr, texte, texte)
+
+    def test_a_french_export_is_read_on_the_german_site(self):
+        """Le cas qui justifie l'index multilingue: un texte partage voyage
+        d'un joueur a l'autre, et rien ne dit qu'ils lisent la meme langue."""
+        texte, nom_fr = self._exporte('fr')
+        lu = read_items(texte, 'dofus3', 'de')
+        self.assertEqual(1, len(lu['matched']), lu['ignored'])
+        # Rendu dans la langue du LECTEUR, pas dans celle du texte.
+        structure = get_structure('dofus3')
+        item = next(i for i in structure.types[200]['Hat'] if not i.removed)
+        self.assertEqual(structure.get_item_name_in_language(item, 'de'),
+                         lu['matched'][0]['name'])
+        self.assertNotEqual(nom_fr, lu['matched'][0]['name'])
+
+    def test_a_text_shared_before_this_change_still_reads(self):
+        """Tous les textes deja partages portent le nom INTERNE. L'index le
+        garde, sinon corriger l'export aurait casse ce qui circule deja."""
+        structure = get_structure('dofus3')
+        item = next(i for i in structure.types[200]['Hat'] if not i.removed)
+        ancien = 'Hat: %s' % item.name
+        for langue in ('fr', 'de', 'en'):
+            with self.subTest(langue=langue):
+                lu = read_items(ancien, 'dofus3', langue)
+                self.assertEqual(1, len(lu['matched']), lu['ignored'])
+
+
+class TwoLanguagesThatDisagreeMakeTheReaderChooseTests(SimpleTestCase):
+    """Un meme nom normalise designe deux objets DIFFERENTS d'une langue a
+    l'autre: 443 fois sur Retro, 215 sur Touch, et sur Dofus 3 <<robotas>>
+    est Bedazzling Boots dans une langue et Roboots dans une autre.
+
+    Un index a plat aurait rendu l'un pour l'autre, en silence. La langue du
+    lecteur tranche quand elle connait le nom; sinon, un desaccord entre les
+    autres langues fait taire l'import.
+    """
+
+    def setUp(self):
+        self.precedente = get_current_game_version()
+        set_current_game_version('dofus3')
+        self.addCleanup(set_current_game_version, self.precedente)
+
+    def _un_desaccord(self, version='dofus3'):
+        """(nom, langue absente) pour un nom que deux langues se disputent."""
+        from chardata.forgemagie_view import _normalized_text
+        from chardata.text_build_import import LANGUES, _pool
+        structure = get_structure(version)
+        _pool_lecteur, index = _pool(structure, 'en')
+        for langue in LANGUES:
+            for nom, entree in index[langue].items():
+                autres = [index[a].get(nom) for a in LANGUES if a != langue]
+                autres = [a for a in autres if a is not None]
+                if any(a[1].id != entree[1].id for a in autres):
+                    # Une langue qui ne connait PAS ce nom du tout.
+                    for candidate in LANGUES:
+                        if nom not in index[candidate]:
+                            return nom, candidate
+        return None, None
+
+    def test_such_a_disagreement_really_exists(self):
+        """Le plancher du temoin: sans desaccord reel, le test suivant
+        garderait une regle que rien ne declenche."""
+        nom, langue = self._un_desaccord()
+        self.assertIsNotNone(nom, 'no cross-language collision found')
+        self.assertIsNotNone(langue)
+
+    def test_the_import_refuses_rather_than_picking_one(self):
+        nom, langue = self._un_desaccord()
+        if nom is None:
+            self.skipTest('no cross-language collision to try')
+        lu = read_items(nom, 'dofus3', langue)
+        self.assertEqual([], lu['item_ids'],
+                         'the import picked one of two items that share this '
+                         'name across languages: %s' % lu['matched'])
+
+    def test_the_reader_own_language_still_decides(self):
+        """La regle ne doit pas rendre muet un nom que la langue du lecteur
+        connait parfaitement."""
+        structure = get_structure('dofus3')
+        item = next(i for i in structure.types[200]['Hat'] if not i.removed)
+        for langue in ('en', 'fr', 'de'):
+            with self.subTest(langue=langue):
+                nom = structure.get_item_name_in_language(item, langue)
+                lu = read_items(nom, 'dofus3', langue)
+                self.assertEqual(1, len(lu['matched']), lu['ignored'])
