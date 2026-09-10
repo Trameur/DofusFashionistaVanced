@@ -96,7 +96,11 @@
                 <span class="import-piece">{{ piece.name }}{% if piece.approximate %} <span class="import-approx">{% trans "closest match" %}</span>{% endif %}</span>
                 {% if piece.rolls %}
                 <span class="import-rolls">
-                    {% for roll in piece.rolls %}{% if roll.applied %}<span class="import-roll{% if roll.out_of_range %} import-roll-odd{% endif %}">{{ roll.value }} {{ roll.name }}{% if roll.out_of_range %} <span class="import-warn">{% blocktrans with low=roll.low high=roll.high %}outside {{ low }} to {{ high }}, check it{% endblocktrans %}</span>{% endif %}</span>{% endif %}{% endfor %}
+                    {% comment %}Un depassement de PA, PM ou portee est un exo,
+                    pas un jet: le modele ne l'ajoute pas a la piece, il la note
+                    porteuse. La piece le dit, parce que c'est une lecture et
+                    non une evidence.{% endcomment %}
+                    {% for roll in piece.rolls %}{% if roll.applied %}<span class="import-roll{% if roll.out_of_range %} import-roll-odd{% endif %}">{{ roll.value }} {{ roll.name }}{% if roll.exo %} <span class="import-warn">{% trans "read as an exo" %}</span>{% endif %}{% if roll.out_of_range %} <span class="import-warn">{% blocktrans with low=roll.low high=roll.high %}outside {{ low }} to {{ high }}, check it{% endblocktrans %}</span>{% endif %}</span>{% endif %}{% endfor %}
                 </span>
                 {% endif %}
             </li>

@@ -6394,3 +6394,7 @@ msgstr ""
 #: .\chardata\text_build_view.py:100
 msgid "Open the %(version)s import"
 msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:99
+msgid "read as an exo"
+msgstr ""

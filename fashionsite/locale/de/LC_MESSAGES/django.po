@@ -7153,3 +7153,7 @@ msgstr "Dieser Build stammt aus %(source)s und Sie sind auf %(here)s. Derselbe N
 #: .\chardata\text_build_view.py:100
 msgid "Open the %(version)s import"
 msgstr "Den %(version)s-Import öffnen"
+
+#: .\chardata\templates\chardata\text_build.html:99
+msgid "read as an exo"
+msgstr "als Exo gelesen"

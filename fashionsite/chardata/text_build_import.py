@@ -33,6 +33,7 @@ from chardata.translation_util import localized_stat_name
 from fashionistapulp.dofus_constants import (STATS_NAMES,
                                             TYPE_NAME_TO_SLOT_NUMBER)
 from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
+from fashionistapulp.model import Model
 from fashionistapulp.structure import get_structure
 
 #: En dessous, le rapprochement tolerant se tairait de toute facon, et une
@@ -46,6 +47,12 @@ MAX_LIGNES = 300
 
 #: Combien d'objets un build peut recevoir, tous types confondus.
 MAX_OBJETS = sum(TYPE_NAME_TO_SLOT_NUMBER.values())
+
+#: Les trois stats dont un depassement est un EXO et non une stat
+#: ajoutee a la piece. La liste vient du modele et n'est pas recopiee:
+#: elle decide de ce qu'on ecrit sur un build, et deux copies qui
+#: divergent feraient perdre des exos sans que rien ne rougisse.
+EXO_STAT_KEYS = Model._EXO_STAT_KEYS
 
 
 def _pool(structure, language):
@@ -225,12 +232,23 @@ def _langue_du_texte(lignes, structure, langue):
 def _jets_de_la_piece(structure, item, jets, game_version):
     """Ce qu'on applique a la piece, et ce qu'on refuse d'y appliquer.
 
-    **Un jet sur une stat que l'objet ne porte pas n'est PAS applique.** Le
-    modele, lui, l'ajouterait: `Model._apply_stat_overrides` ajoute la stat a
-    la piece quand elle n'y figure pas. Une ligne mal lue ferait donc naitre
-    sur l'objet une caracteristique qu'il n'a jamais eue, et le solveur
-    optimiserait autour. C'est exactement ce que le site promet de ne jamais
-    faire.
+    **Un jet sur une stat que l'objet ne porte pas n'est PAS applique**, sauf
+    pour les PA, les PM et la portee. Le modele ajoute la stat a la piece
+    quand elle n'y figure pas (`Model._apply_stat_overrides`), donc une ligne
+    mal lue ferait naitre sur l'objet une caracteristique qu'il n'a jamais eue
+    et le solveur optimiserait autour.
+
+    Les trois exceptions ne sont pas une tolerance, c'est le mecanisme des
+    EXOS. Pour `ap`, `mp` et `range`, le modele n'ajoute rien a la piece: il
+    la note porteuse d'exo (`_exo_carriers`) et `create_exo_constraints`
+    ecrit alors `exo <= option + pieces porteuses portees`. Refuser ces
+    lignes-la faisait donc perdre en silence l'exo que le joueur avait colle,
+    et l'exo est ce qui distingue un build fini d'un build presque fini.
+
+    Le nombre d'exos n'est pas plafonne ici: la contrainte n'a qu'une variable
+    par stat, donc deux pieces porteuses ne donnent toujours qu'un point. La
+    regle <<un point par stat pour tout le build>> est tenue par le modele,
+    pas par cette lecture.
 
     Un jet HORS FOURCHETTE, lui, est applique et signale. La forgemagie pousse
     legitimement un jet au-dessus de son maximum et peut en sacrifier un sous
@@ -243,14 +261,24 @@ def _jets_de_la_piece(structure, item, jets, game_version):
         stat = structure.get_stat_by_key(jet['key'])
         if stat is None:
             continue
+        exo = (jet['key'] in EXO_STAT_KEYS
+               and jet['value'] > portees.get(stat.id, 0))
         # Le nom de la stat dans la langue du lecteur ET dans les mots de
         # SA version: `stat.name` est le libelle interne, et l'afficher tel
         # quel mettait <<Vitality>> et <<MP>> sur une page francaise.
         detail = {'key': jet['key'], 'value': jet['value'],
                   'name': localized_stat_name(stat.name, game_version),
-                  'applied': False, 'out_of_range': False,
+                  'applied': False, 'out_of_range': False, 'exo': exo,
                   'low': None, 'high': None}
+        if stat.id not in portees and not exo:
+            lignes.append(detail)
+            continue
         if stat.id not in portees:
+            # Un exo pur: la piece ne porte pas la stat et le modele ne la lui
+            # ajoutera pas. Pas de fourchette a verifier non plus, il n'y a
+            # pas de jet de catalogue derriere.
+            detail['applied'] = True
+            appliques[stat.id] = jet['value']
             lignes.append(detail)
             continue
         plage = get_stat_range(item, stat.id)

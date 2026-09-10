@@ -556,7 +556,12 @@ class PastedRollsReachTheBuildTests(TestCase):
         structure, item = self._objet_avec_stats()
         portees = set(sid for sid, _v in item.stats)
         absente = next(s for s in structure.get_stats_list()
-                       if s.id not in portees and s.name)
+                       if s.id not in portees and s.name
+                       # Les PA, PM et portee sont maintenant appliques comme
+                       # des EXOS quand la piece ne les porte pas: le modele ne
+                       # les ajoute pas a l'objet. Le cas <<stat inventee>> se
+                       # teste donc sur une stat qui n'est pas de ceux-la.
+                       and s.key not in ('ap', 'mp', 'range'))
         nom = structure.get_item_name_in_language(item, 'en')
         from chardata.models import Char
         from chardata.lock_forbid import get_stat_overrides
@@ -571,7 +576,12 @@ class PastedRollsReachTheBuildTests(TestCase):
         structure, item = self._objet_avec_stats()
         portees = set(sid for sid, _v in item.stats)
         absente = next(s for s in structure.get_stats_list()
-                       if s.id not in portees and s.name)
+                       if s.id not in portees and s.name
+                       # Les PA, PM et portee sont maintenant appliques comme
+                       # des EXOS quand la piece ne les porte pas: le modele ne
+                       # les ajoute pas a l'objet. Le cas <<stat inventee>> se
+                       # teste donc sur une stat qui n'est pas de ceux-la.
+                       and s.key not in ('ap', 'mp', 'range'))
         nom = structure.get_item_name_in_language(item, 'en')
         stat_id, catalogue = item.stats[0]
         stat = structure.get_stat_by_id(stat_id)
@@ -927,3 +937,99 @@ class AnExportNamesItsGameAndTheImportRefusesAnotherTests(TestCase):
         self.assertEqual('Cra', lu['char_class'])
         self.assertEqual(187, lu['char_level'])
         self.assertEqual(2, len(lu['matched']))
+
+
+class APastedExoIsKeptAndCountedOnceTests(TestCase):
+    """Les PA, les PM et la portee ne sont pas des jets comme les autres.
+
+    Pour ces trois-la, `Model._apply_stat_overrides` n'ajoute RIEN a la piece:
+    il la note porteuse d'exo, et `create_exo_constraints` ecrit
+    `exo <= option + pieces porteuses portees`. Un jet de PA sur une piece qui
+    n'en porte pas est donc un exo parfaitement legitime, pas une stat
+    inventee.
+
+    L'import les refusait avec toutes les autres, et perdait donc en silence
+    l'exo que le joueur avait colle. Mesure du 10 septembre 2026, sur un build
+    dont l'option est a False: la piece seule fait passer le total de PA de
+    **0 a 1**.
+    """
+
+    def _piece_sans(self, cle):
+        structure = get_structure('dofus3')
+        for item in structure.types[200]['Hat']:
+            if item.removed or not item.stats:
+                continue
+            cles = {structure.get_stat_by_id(sid).key for sid, _v in item.stats}
+            if cle not in cles:
+                return structure, item
+        raise AssertionError('every hat carries %s' % cle)
+
+    def _total(self, texte, niveau):
+        from chardata.models import Char
+        from chardata.solution import get_solution
+        self.client.post('/import/text/', {'text': texte, 'confirm': '1',
+                                           'char_class': 'Iop',
+                                           'level': str(niveau)})
+        char = Char.objects.order_by('-id').first()
+        return char, get_solution(char).get_stats_total()
+
+    def test_an_exo_on_a_piece_that_lacks_the_stat_is_applied(self):
+        structure, item = self._piece_sans('ap')
+        nom = structure.get_item_name_in_language(item, 'en')
+        lu = read_items('%s\n1 AP' % nom, 'dofus3', 'en')
+        jet = lu['matched'][0]['rolls'][0]
+        self.assertTrue(jet['applied'], jet)
+        self.assertTrue(jet['exo'], jet)
+        self.assertEqual([], lu['refused_rolls'])
+
+    def test_the_exo_actually_reaches_the_build_total(self):
+        """Ecrire l'override ne prouve rien; le total affiche, oui.
+
+        Le niveau est 199 et non 200 parce que `create_build` allume
+        l'option `ap_exo` des 200: au-dessus de ce seuil, l'option donne deja
+        le point et la piece ne changerait rien. Le cas qui prouve quelque
+        chose est celui ou l'option est eteinte.
+        """
+        from chardata.options import get_options
+        structure, item = self._piece_sans('ap')
+        nom = structure.get_item_name_in_language(item, 'en')
+        char_sans, sans = self._total(nom, 199)
+        self.assertFalse(get_options(char_sans)['ap_exo'],
+                         'the option is on, the case proves nothing')
+        _char_avec, avec = self._total('%s\n1 AP' % nom, 199)
+        self.assertEqual(0, sans.get('ap', 0), sans)
+        self.assertEqual(1, avec.get('ap', 0), avec)
+
+    def test_the_option_and_the_piece_never_stack(self):
+        """Un point par stat pour tout le build. A 200 l'option est allumee,
+        donc la piece porteuse ne doit rien ajouter par-dessus."""
+        structure, item = self._piece_sans('ap')
+        nom = structure.get_item_name_in_language(item, 'en')
+        _c1, sans = self._total(nom, 200)
+        _c2, avec = self._total('%s\n1 AP' % nom, 200)
+        self.assertEqual(1, sans.get('ap', 0), sans)
+        self.assertEqual(1, avec.get('ap', 0),
+                         'the option and the piece stacked to two')
+
+    def test_a_stat_that_is_not_an_exo_is_still_refused(self):
+        """L'exception vaut pour trois cles, pas pour le reste: ailleurs le
+        modele AJOUTERAIT la caracteristique a la piece."""
+        structure, item = self._piece_sans('ap')
+        portees = set(sid for sid, _v in item.stats)
+        absente = next(s for s in structure.get_stats_list()
+                       if s.id not in portees and s.name
+                       and s.key not in ('ap', 'mp', 'range'))
+        nom = structure.get_item_name_in_language(item, 'en')
+        lu = read_items('%s\n40 %s' % (nom, absente.name), 'dofus3', 'en')
+        jet = lu['matched'][0]['rolls'][0]
+        self.assertFalse(jet['applied'], jet)
+        self.assertFalse(jet['exo'], jet)
+        self.assertEqual(1, len(lu['refused_rolls']), lu['refused_rolls'])
+
+    def test_the_three_exo_keys_come_from_the_model(self):
+        """Recopier la liste ici, c'est se garantir de perdre des exos le jour
+        ou le modele en ajoute ou en retire une."""
+        from fashionistapulp.model import Model
+        from chardata.text_build_import import EXO_STAT_KEYS
+        self.assertIs(EXO_STAT_KEYS, Model._EXO_STAT_KEYS)
+        self.assertEqual({'ap', 'mp', 'range'}, set(EXO_STAT_KEYS))
