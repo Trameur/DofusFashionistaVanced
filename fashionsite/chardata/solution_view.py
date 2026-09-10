@@ -418,6 +418,53 @@ def _build_share_text(request, char, solution, facts=None):
         lines.append('https://dofusfashionista.gg')
     return '\n'.join(lines)
 
+
+# Ce qu'un salon Discord ou un forum montre sous un lien colle: la
+# description Open Graph. Elle disait <<build Cra optimise sur Dofus
+# Fashionista. Aimez-le, commentez-le, copiez-le.>> pour tous les builds,
+# donc rien du build lui-meme, et rien du verdict du solveur, alors que le
+# lien est colle la ou les builds se discutent. Un salon ne lit pas la page:
+# il lit cette phrase.
+_OG_PIECES_MAX_CHARS = 200
+
+
+def _build_og_description(char, solution, proven):
+    """Classe, niveau, version, les pieces, et le verdict du solveur.
+
+    Les noms sont ceux de la langue de la page, comme dans le texte copie.
+    La liste des pieces est coupee a une frontiere de nom au-dela de
+    _OG_PIECES_MAX_CHARS, avec le compte de ce qui reste: une carte tronquee
+    au milieu d'un nom fait croire a un objet qui n'existe pas. Le verdict
+    reprend les deux msgids des badges de la galerie, pour que les trois
+    surfaces ne puissent pas se contredire, et se tait quand le pickle ne
+    porte rien: None n'est pas False.
+    """
+    names = []
+    for slot in _SHARE_SLOT_ORDER:
+        for item in solution.items.get(slot, []):
+            name = getattr(item, 'name', None)
+            if getattr(item, 'item_added', False) and name and name != 'NoItem':
+                names.append(getattr(item, 'localized_name', None) or name)
+    head = '%s %s %d, %s' % (
+        LOCALIZED_CHARACTER_CLASSES.get(char.char_class, char.char_class or ''),
+        _('lvl'), char.level, get_game_version(char.game_version).label)
+    kept = []
+    length = 0
+    for name in names:
+        extra = len(name) + (2 if kept else 0)
+        if kept and length + extra > _OG_PIECES_MAX_CHARS:
+            break
+        kept.append(name)
+        length += extra
+    if len(kept) < len(names):
+        kept.append(_('and %(count)d more') % {'count': len(names) - len(kept)})
+    sentence = head + (': ' + ', '.join(kept) if kept else '') + '.'
+    if proven is True:
+        sentence += ' ' + _('Proven optimum') + '.'
+    elif proven is False:
+        sentence += ' ' + _('Best found at the time limit, not a proof') + '.'
+    return sentence
+
 # Classes for which we ship 6 wizard avatars under chardata/designs/wizard/<class>/.
 _CLASS_AVATAR_DIRS = {'Cra', 'Ecaflip', 'Eliotrope', 'Eniripsa', 'Enutrof', 'Feca',
                       'Foggernaut', 'Huppermage', 'Iop', 'Masqueraider', 'Osamodas',
@@ -691,6 +738,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     seo_build = WrappedChar(char).build_string() if char.char_build else ''
 
     share_text = ''
+    og_description = ''
     build_check = None
     build_score = None
     try:
@@ -699,10 +747,20 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
             share_text = _build_share_text(
                 request, char, _sol_for_text,
                 facts=(solver_proven, solver_seconds))
+            # Seul un build partage a une adresse a coller; une page privee
+            # garde la phrase du site, elle n'est lue par aucun salon.
+            if char.link_shared:
+                try:
+                    og_description = _build_og_description(
+                        char, _sol_for_text, solver_proven)
+                except Exception:
+                    logger.exception('Failed to build the og description '
+                                     '(char %s)', char.id)
             build_check = _build_check(char, _sol_for_text)
             build_score = calculate_project_build_score(char, _sol_for_text)
     except Exception:
         share_text = ''
+        og_description = ''
         build_check = None
         build_score = None
 
@@ -740,6 +798,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'seo_class': seo_class,
               'seo_build': seo_build,
               'share_text': share_text,
+              'og_description': og_description,
               # Le lien vers DofusBook ne s'affiche que pour le
               # proprietaire et pour les versions dont ils ont un
               # site: dofus2 et beta n'en ont pas, et pointer vers

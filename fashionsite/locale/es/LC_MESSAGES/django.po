@@ -7271,3 +7271,6 @@ msgstr "La página de privacidad nombra a DofusBook entre lo que el servidor con
 
 msgid "Dofus Retro and Touch: every spell shows its icon again; 251 of them were asked for under the wrong name."
 msgstr "Dofus Retro y Touch: cada hechizo vuelve a mostrar su icono; 251 de ellos se pedían con un nombre equivocado."
+
+msgid "and %(count)d more"
+msgstr "y %(count)d más"

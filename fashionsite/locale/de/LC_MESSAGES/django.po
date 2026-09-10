@@ -7280,3 +7280,6 @@ msgstr "Die Datenschutzseite nennt DofusBook unter dem, was der Server abruft, u
 
 msgid "Dofus Retro and Touch: every spell shows its icon again; 251 of them were asked for under the wrong name."
 msgstr "Dofus Retro und Touch: jeder Zauber zeigt wieder sein Icon; 251 davon wurden unter dem falschen Namen angefragt."
+
+msgid "and %(count)d more"
+msgstr "und %(count)d weitere"
