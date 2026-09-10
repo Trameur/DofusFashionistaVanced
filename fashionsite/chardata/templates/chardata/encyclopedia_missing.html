@@ -31,6 +31,21 @@ est la seule chose vraie ici.{% endcomment %}
         <h1>{{ missing.title }}</h1>
         <p>{{ missing.message }}</p>
         <div class="encyclopedia-missing-meta">{{ missing.name }} - {{ missing.version_label }}</div>
+        {% comment %}Les versions qui PORTENT l'entite, avant le retour au
+        carrefour: c'est la reponse a la question que le lecteur se pose sur
+        cette page. La liste vient de la meme recherche que les liens de
+        version d'une vraie fiche, avec la meme regle d'identite (le nom
+        anglais tranche, jamais l'identifiant seul), et quand les candidats se
+        contredisent, rien n'est propose: un lien faux sous ce libelle serait
+        pire qu'aucun.{% endcomment %}
+        {% if missing.elsewhere %}
+        <div class="encyclopedia-missing-elsewhere">
+            <span class="encyclopedia-missing-elsewhere-label">{{ missing.elsewhere_label }}</span>
+            {% for other in missing.elsewhere %}
+            <a class="button-generic" href="{{ other.url }}">{{ other.label }}: {{ other.name }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
         <div class="encyclopedia-missing-actions">
             <a class="button-generic" href="{{ missing.encyclopedia_url }}">{{ missing.cta_label }}</a>
         </div>

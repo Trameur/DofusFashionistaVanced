@@ -1,5 +1,6 @@
 from collections import Counter, defaultdict
 import json
+import logging
 import re
 import sqlite3
 
@@ -100,6 +101,7 @@ LOCALIZED_UI = {
         'missing_set_message': 'The set %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own sets, items and bonuses.',
         'missing_resource_message': 'The resource %(name)s does not exist in the %(version)s encyclopedia. Each Dofus version has its own resources, drops and data.',
         'missing_back_to_encyclopedia': 'Back to this version encyclopedia',
+        'missing_available_in': 'It exists in:',
         'also_in_label': 'Also in',
     },
     'fr': {
@@ -166,6 +168,7 @@ LOCALIZED_UI = {
         'missing_set_message': "La panoplie %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres panoplies, objets et bonus.",
         'missing_resource_message': "La ressource %(name)s n'existe pas dans l'encyclopédie %(version)s. Chaque version de Dofus a ses propres ressources, drops et données.",
         'missing_back_to_encyclopedia': "Retourner à l'encyclopédie de cette version",
+        'missing_available_in': 'Il existe dans :',
         'also_in_label': 'Aussi sur',
     },
     'es': {
@@ -232,6 +235,7 @@ LOCALIZED_UI = {
         'missing_set_message': 'El conjunto %(name)s no existe en la enciclopedia %(version)s. Cada versión de Dofus tiene sus propios conjuntos, objetos y bonus.',
         'missing_resource_message': 'El recurso %(name)s no existe en la enciclopedia de %(version)s. Cada versión de Dofus tiene sus propios recursos, drops y datos.',
         'missing_back_to_encyclopedia': 'Volver a la enciclopedia de esta versión',
+        'missing_available_in': 'Existe en:',
         'also_in_label': 'También en',
     },
     'pt': {
@@ -298,6 +302,7 @@ LOCALIZED_UI = {
         'missing_set_message': 'O conjunto %(name)s não existe na enciclopédia %(version)s. Cada versão de Dofus tem os seus próprios conjuntos, itens e bónus.',
         'missing_resource_message': 'O recurso %(name)s não existe na enciclopédia de %(version)s. Cada versão de Dofus tem seus próprios recursos, drops e dados.',
         'missing_back_to_encyclopedia': 'Voltar para a enciclopédia desta versão',
+        'missing_available_in': 'Existe em:',
         'also_in_label': 'Também em',
     },
     'de': {
@@ -364,6 +369,7 @@ LOCALIZED_UI = {
         'missing_set_message': 'Das Set %(name)s existiert in der %(version)s-Enzyklopädie nicht. Jede Dofus-Version hat ihre eigenen Sets, Gegenstände und Boni.',
         'missing_resource_message': 'Die Ressource %(name)s existiert nicht in der Enzyklopädie für %(version)s. Jede Dofus-Version hat eigene Ressourcen, Drops und Daten.',
         'missing_back_to_encyclopedia': 'Zur Enzyklopädie dieser Version',
+        'missing_available_in': 'Gibt es in:',
         'also_in_label': 'Auch in',
     },
 }
@@ -1332,7 +1338,108 @@ def _resolve_missing_resource_name(subtype, ankama_id, slug, language,
     return fallback
 
 
-def _encyclopedia_missing_response(request, kind, requested_name):
+def _agreeing_candidates(candidates, slug):
+    """Keep the candidates that name the same entity.
+
+    A candidate is (game_version, english_name, payload). Ids are not a shared
+    identity across the Retro/modern split (the same id names different gear),
+    and there is no name in the CURRENT version to compare against, since it
+    lacks the entity. So the rule is: all candidates agree on the english name,
+    or the slug in the address decides between them, or nobody is linked. A
+    wrong link under an "it exists in" label would be worse than none.
+    """
+    if not candidates:
+        return []
+    premier = candidates[0][1]
+    if all(is_same_item_name(premier, nom) for _v, nom, _p in candidates):
+        return candidates
+    cible = _normalized_slug(slug or '')
+    if not cible:
+        return []
+    return [c for c in candidates
+            if _normalized_slug(c[1] or '') == cible]
+
+
+def _versions_carrying(kind, current_version, language, slug=None,
+                       ankama_type=None, ankama_id=None, monster_id=None,
+                       subtype=None, set_id=None):
+    """[{label, name, url}] for every other version that carries the entity
+    the current one lacks. Same sources as the cross-version links on a real
+    entity page, same identity rule, see `_agreeing_candidates`."""
+    candidates = []
+    try:
+        for game_version, label in ACTIVE_GAME_VERSIONS:
+            if game_version == current_version:
+                continue
+            if kind == 'item' and ankama_id:
+                target_types = _get_ankama_type_aliases(ankama_type)
+                structure = get_structure(game_version)
+                for item in structure.get_concatenated_items_lists():
+                    item_type = (item.ankama_type or '').strip().lower()
+                    if item.ankama_id == ankama_id and item_type in target_types:
+                        nom = structure.get_item_name_in_language(item, language)
+                        candidates.append((game_version, item.name, {
+                            'label': label,
+                            'name': nom or item.name,
+                            'url': get_item_link(item.ankama_type, ankama_id,
+                                                 nom or item.name,
+                                                 game_version=game_version),
+                        }))
+                        break
+            elif kind == 'monster' and monster_id:
+                entry = _get_monster_core_by_id(game_version).get(monster_id)
+                if entry is None:
+                    continue
+                names = entry.get('names') or {}
+                nom = names.get(language) or names.get('en')
+                if not nom:
+                    continue
+                candidates.append((game_version, names.get('en'), {
+                    'label': label,
+                    'name': nom,
+                    'url': get_monster_link(monster_id, nom, game_version),
+                }))
+            elif kind == 'resource' and ankama_id and subtype:
+                nom = _version_resource_keys(game_version).get((subtype, ankama_id))
+                if not nom:
+                    continue
+                candidates.append((game_version, nom, {
+                    'label': label,
+                    'name': nom,
+                    'url': get_resource_link(subtype, ankama_id, nom,
+                                             game_version),
+                }))
+            elif kind == 'set' and set_id:
+                structure = get_structure(game_version)
+                item_set = structure.sets_dict.get(set_id)
+                if item_set is None or not getattr(item_set, 'items', None):
+                    continue
+                en = item_set.localized_names.get('en') or item_set.name
+                nom = item_set.localized_names.get(language) or en
+                candidates.append((game_version, en, {
+                    'label': label,
+                    'name': nom,
+                    'url': get_set_link(set_id, nom, game_version),
+                }))
+    except Exception:
+        logging.getLogger(__name__).exception(
+            'could not list the versions carrying %s', kind)
+        return []
+    return [payload for _v, _nom, payload
+            in _agreeing_candidates(candidates, slug)]
+
+
+def _encyclopedia_missing_response(request, kind, requested_name,
+                                   elsewhere=None):
+    """The 404 for an entity this version does not carry.
+
+    `elsewhere` is the list of versions that DO carry it, built by
+    `_versions_carrying`. Measured on 2026-09-10: this page was 49 % of what
+    the crawling swarm hits, and a reader landing on it from a search result
+    was offered one thing, the hub of the version that lacks the entity. The
+    versions that have it are one lookup away, the same lookup the header
+    switcher already makes on an entity page, so they are named here.
+    """
     t = _ui_text()
     game_version = getattr(request, 'game_version', 'dofus3')
     version_label = _version_label(game_version)
@@ -1369,6 +1476,8 @@ def _encyclopedia_missing_response(request, kind, requested_name):
                 'version_label': version_label,
                 'encyclopedia_url': encyclopedia_url,
                 'cta_label': t['missing_back_to_encyclopedia'],
+                'elsewhere': elsewhere or [],
+                'elsewhere_label': t['missing_available_in'],
             },
         })
     response.status_code = 404
@@ -2242,7 +2351,11 @@ def encyclopedia_set(request, set_id, slug=None):
         # Rendait tout le carrefour, 206 Ko et 500 objets, avec son canonique
         # et son "index, follow", sous un statut 404. La page d'absence dit la
         # meme chose en une phrase et pointe vers la bonne suite.
-        return _encyclopedia_missing_response(request, 'set', slug or set_id)
+        return _encyclopedia_missing_response(
+            request, 'set', slug or set_id,
+            elsewhere=_versions_carrying(
+                'set', getattr(request, 'game_version', 'dofus3'),
+                language, slug=slug, set_id=set_id))
 
     game_version = getattr(request, 'game_version', 'dofus3')
 
@@ -2598,7 +2711,11 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     if matched_item is None:
         requested_name = _resolve_missing_item_name(
             ankama_type, target_ankama_id, slug, language, game_version)
-        return _encyclopedia_missing_response(request, 'item', requested_name)
+        return _encyclopedia_missing_response(
+            request, 'item', requested_name,
+            elsewhere=_versions_carrying(
+                'item', game_version, language, slug=slug,
+                ankama_type=ankama_type, ankama_id=target_ankama_id))
 
     # The slug already names the language: /44-epee-de-boisaille/ is the French
     # page and nothing else. Taking the language from it, rather than from
@@ -3615,7 +3732,11 @@ def _monster_not_found_response(request, monster_id=None, slug=None, current_nam
     else:
         requested_name = _resolve_missing_monster_name(
             monster_id, slug, language, game_version, current_name=current_name)
-    return _encyclopedia_missing_response(request, 'monster', requested_name)
+    return _encyclopedia_missing_response(
+        request, 'monster', requested_name,
+        elsewhere=_versions_carrying(
+            'monster', game_version, language, slug=slug,
+            monster_id=monster_id))
 
 
 def _resource_not_found_response(request, subtype, ankama_id, slug=None, current_name=None):
@@ -3623,7 +3744,11 @@ def _resource_not_found_response(request, subtype, ankama_id, slug=None, current
     game_version = getattr(request, 'game_version', 'dofus3')
     requested_name = _resolve_missing_resource_name(
         subtype, ankama_id, slug, language, game_version, current_name=current_name)
-    return _encyclopedia_missing_response(request, 'resource', requested_name)
+    return _encyclopedia_missing_response(
+        request, 'resource', requested_name,
+        elsewhere=_versions_carrying(
+            'resource', game_version, language, slug=slug,
+            subtype=subtype, ankama_id=ankama_id))
 
 
 def _grade_level_span(grades):

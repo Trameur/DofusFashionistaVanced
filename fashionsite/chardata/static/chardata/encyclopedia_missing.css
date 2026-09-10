@@ -12,5 +12,11 @@
 .encyclopedia-missing-card p { margin: 0 0 12px; }
 .encyclopedia-missing-meta { margin-bottom: 14px; opacity: 0.85; }
 .encyclopedia-missing-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Same row shape as the actions below it, so the reader sees one list of
+   places to go: the versions that have the entity, then the hub. The label
+   inherits the card's colour, which is what is contrast-audited on both
+   themes; nothing here sets a colour of its own. */
+.encyclopedia-missing-elsewhere { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
+.encyclopedia-missing-elsewhere-label { font-weight: bold; }
 .dark-theme-active .encyclopedia-missing-card { border-color: #5a5a5a; background: #1f1f1f; color: #f0f0f0; }
 .dark-theme-active .encyclopedia-missing a { color: #ffd8a8; }
