@@ -99,6 +99,15 @@
             {% endfor %}
         </ul>
 
+        {% if base_points %}
+        <div class="import-ignored">
+            <p>{% trans "Characteristics found in the text:" %}</p>
+            <ul>
+                {% for line in base_points %}<li>{{ line.name }}: {{ line.points }}{% if line.scrolled %} + {% blocktrans with n=line.scrolled %}{{ n }} scrolled{% endblocktrans %}{% endif %}</li>{% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         {% comment %}Un jet sur une caracteristique que l'objet ne porte pas
         n'est pas applique: le modele l'AJOUTERAIT a la piece, et le site
         aurait fabrique une stat qui n'existe pas. On le dit plutot que de le
@@ -129,10 +138,14 @@
             {% csrf_token %}
             <input type="hidden" name="text" value="{{ text }}">
             <input type="hidden" name="confirm" value="1">
+            {% comment %}La classe est pre-selectionnee quand le TEXTE la
+            porte, ce qui est le cas d'un build exporte par le site: son
+            entete dit <<Mon Cra - Cra lvl 200>>. C'est notre propre source,
+            donc ce n'est pas une devinette; le choix reste ouvert.{% endcomment %}
             <label>{% trans "Class" %}
                 <select name="char_class" class="pretty-input" required>
                     {% for key, label in classes %}
-                    <option value="{{ key }}">{{ label }}</option>
+                    <option value="{{ key }}"{% if key == char_class %} selected{% endif %}>{{ label }}</option>
                     {% endfor %}
                 </select>
             </label>

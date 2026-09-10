@@ -6378,3 +6378,11 @@ msgstr ""
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "These rolls were left out, because the item does not carry that stat:"
 msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:104
+msgid "Characteristics found in the text:"
+msgstr ""
+
+#: .\chardata\templates\chardata\text_build.html:104
+msgid "%(n)s scrolled"
+msgstr ""

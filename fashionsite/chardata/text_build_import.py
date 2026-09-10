@@ -30,7 +30,8 @@ from chardata.forgemagie_view import (_closest_pool_entry, _normalized_text,
 from chardata.inventory_view import _ocr_normalize, _ocr_stat_lexicon
 from chardata.stat_range import get_stat_range
 from chardata.translation_util import localized_stat_name
-from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT_NUMBER
+from fashionistapulp.dofus_constants import (STATS_NAMES,
+                                            TYPE_NAME_TO_SLOT_NUMBER)
 from fashionistapulp.structure import get_structure
 
 #: En dessous, le rapprochement tolerant se tairait de toute facon, et une
@@ -59,6 +60,14 @@ def _pool(structure, language):
             vus.add(item.id)
             nom = structure.get_item_name_in_language(item, language)
             pool.append((_normalized_text(nom), item, nom, type_name))
+            # Le nom INTERNE en plus du nom traduit: c'est celui que
+            # <<Copier en texte>> ecrit, dans toutes les langues. Sans lui, un
+            # lecteur francais ne pouvait pas relire un export du site.
+            # Mesure du 10 septembre 2026: le nom interne est le nom anglais
+            # sur 382 chapeaux Dofus 3 sur 382, et differe du francais sur 364.
+            interne = _normalized_text(item.name)
+            if interne and interne != _normalized_text(nom):
+                pool.append((interne, item, nom, type_name))
     return pool
 
 
@@ -81,6 +90,50 @@ def _entree_exacte(requete, pool):
         if entree[0] == requete:
             return entree
     return None
+
+
+#: Ce que le bouton <<Copier en texte>> du site ecrit, et que le site ne
+#: savait pas relire.
+#:
+#: Mesure du 10 septembre 2026: colle tel quel, un build exporte par le site
+#: rendait **zero objet reconnu**, les six lignes toutes ignorees. L'export
+#: prefixe chaque piece de son emplacement (<<Hat: Creaking Tree Hat>>), et
+#: l'import comparait la ligne entiere a un nom d'objet. Le rapprochement
+#: tolerant ne pouvait pas rattraper: retirer <<Hat: >> coute cinq corrections
+#: quand le plafond est a trois.
+#:
+#: Les emplacements sont ecrits en anglais interne par l'export, quelle que
+#: soit la langue du lecteur, donc la liste vient de la meme table que lui.
+_PREFIXE_EMPLACEMENT = re.compile(
+    r'^(%s)\s*:\s*(.+)$' % '|'.join(sorted(TYPE_NAME_TO_SLOT_NUMBER)), re.I)
+
+#: L'entete de l'export: <<Mon Cra - Cra lvl 200>>. Le titre est libre et peut
+#: contenir des tirets, donc on ancre sur la fin.
+_ENTETE = re.compile(r'-\s+(\S+)\s+lvl\s+(\d{1,3})\s*$', re.I)
+
+#: Les deux lignes de caracteristiques de base que l'export ajoute.
+#: <<Points:>> sont les points depenses en montant, <<Scrolls:>> les
+#: parchotages. Le site garde les deux separement (`total_value` est leur
+#: somme, `scrolled_value` la seconde), donc les melanger ferait revenir un
+#: personnage different de celui qui est parti.
+_LIGNE_POINTS = re.compile(r'^\s*points\s*:\s*(.+)$', re.I)
+_LIGNE_PARCHOS = re.compile(r'^\s*scrolls\s*:\s*(.+)$', re.I)
+_UNE_CARACTERISTIQUE = re.compile(r'([A-Za-zÀ-ɏ ]+?)\s+(\d{1,4})')
+
+
+def _lit_caracteristiques(reste):
+    """{nom interne: valeur} depuis <<Vitality 101 / Strength 50>>."""
+    trouve = {}
+    connus = {nom.lower(): nom for nom, _cle in STATS_NAMES}
+    for morceau in reste.split('/'):
+        m = _UNE_CARACTERISTIQUE.search(morceau)
+        if not m:
+            continue
+        nom = connus.get(_ocr_normalize(m.group(1)))
+        if nom is None:
+            continue
+        trouve[nom] = int(m.group(2))
+    return trouve
 
 
 #: Une ligne de stat, exactement comme la page de l'inventaire la lit.
@@ -235,8 +288,28 @@ def read_items(text, game_version, language):
     courante = None
     jets_orphelins = 0
 
+    char_class = None
+    char_level = None
+    points = {}
+    parchos = {}
+
     for ligne in lignes:
-        # Les stats d'abord: une ligne de jet n'est pas un candidat au nom, et
+        # Les lignes que le site ecrit lui-meme, en premier: elles portent des
+        # chiffres et se feraient prendre pour des jets.
+        m = _LIGNE_POINTS.match(ligne)
+        if m:
+            points.update(_lit_caracteristiques(m.group(1)))
+            continue
+        m = _LIGNE_PARCHOS.match(ligne)
+        if m:
+            parchos.update(_lit_caracteristiques(m.group(1)))
+            continue
+        m = _ENTETE.search(ligne)
+        if m and char_class is None:
+            char_class, char_level = m.group(1), int(m.group(2))
+            continue
+
+        # Les stats ensuite: une ligne de jet n'est pas un candidat au nom, et
         # la tester ici evite de la soumettre au catalogue pour rien.
         jet = _lit_ligne_de_stat(ligne, lexique)
         if jet is not None:
@@ -246,6 +319,12 @@ def read_items(text, game_version, language):
             else:
                 courante['jets_lus'].append(jet)
             continue
+
+        # <<Hat: Creaking Tree Hat>> est ce que l'export du site ecrit. Sans
+        # cette ligne, le site ne relisait pas son propre export.
+        emplacement = _PREFIXE_EMPLACEMENT.match(ligne)
+        if emplacement:
+            ligne = emplacement.group(2).strip()
 
         requete = _normalized_text(ligne)
         if len(requete) < MIN_LIGNE:
@@ -307,6 +386,10 @@ def read_items(text, game_version, language):
         'truncated': tronque,
         'game_version': game_version,
         'stat_language': langue_lue,
+        'char_class': char_class,
+        'char_level': char_level,
+        'base_points': points,
+        'base_scrolled': parchos,
         'overrides': overrides,
         'refused_rolls': refuses,
         'orphan_rolls': jets_orphelins,

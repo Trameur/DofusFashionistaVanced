@@ -61,10 +61,12 @@ from django.utils.translation import gettext_lazy
 from datetime import timedelta
 from chardata.solution_result import SolutionResult
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
-    HttpResponseText, HttpResponseJson, get_base_stats_by_attr, version_reverse
-from fashionistapulp.dofus_constants import (SLOTS, STAT_ORDER,
+    HttpResponseText, HttpResponseJson, get_base_stats_by_attr, \
+    version_reverse, get_stats_and_scrolled
+from fashionistapulp.dofus_constants import (SLOTS, STAT_ORDER, STATS_NAMES,
                                              TYPE_NAME_TO_SLOT,
-                                             TYPE_NAME_TO_SLOT_NUMBER)
+                                             TYPE_NAME_TO_SLOT_NUMBER,
+                                             max_scroll_for_version)
 
 from static_s3.templatetags.static_s3 import static
 from fashionistapulp.structure import get_structure
@@ -318,6 +320,34 @@ def _build_share_text(request, char, solution):
             lines += ['', ' / '.join(chips)]
     except Exception:
         logger.exception('Failed to build stats chips for share text (char %s)', char.id)
+    # Les caracteristiques de base, pour que le texte suffise a refaire le
+    # personnage et pas seulement son equipement. Les deux lignes restent
+    # separees parce que le site garde les deux nombres separement: les
+    # additionner rendrait un personnage different de celui qui est parti.
+    #
+    # Elles ne sortent que si elles portent quelque chose. Un build sans point
+    # depense n'a pas a trainer deux lignes de zeros dans un message Discord.
+    try:
+        spent, scrolled = get_stats_and_scrolled(char)
+        points = ['%s %d' % (nom, spent[nom])
+                  for nom, _cle in STATS_NAMES if spent.get(nom)]
+        if points:
+            lines.append('Points: %s' % ' / '.join(points))
+        # Les parchotages ne sortent que s'ils s'ecartent du defaut.
+        # `create_build` cree TOUT nouveau build entierement parchote, donc
+        # sortir la ligne systematiquement collerait six valeurs identiques a
+        # la fin de chaque message Discord pour ne rien apprendre a personne.
+        # Quand elle s'ecarte, elle sort en ENTIER: une ligne partielle
+        # laisserait le lecteur deviner si une stat absente vaut zero ou le
+        # defaut, et l'import doit pouvoir la relire sans supposer.
+        plein = max_scroll_for_version(char.game_version)
+        if any(scrolled.get(nom, 0) != plein for nom, _cle in STATS_NAMES):
+            lines.append('Scrolls: %s' % ' / '.join(
+                '%s %d' % (nom, scrolled.get(nom, 0))
+                for nom, _cle in STATS_NAMES))
+    except Exception:
+        logger.exception('Failed to build base stats for share text (char %s)',
+                         char.id)
     lines.append('')
     if char.link_shared:
         lines.append(generate_link(request, char))

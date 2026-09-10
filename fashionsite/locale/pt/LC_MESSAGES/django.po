@@ -7107,3 +7107,11 @@ msgstr "fora de %(low)s a %(high)s, confira"
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "These rolls were left out, because the item does not carry that stat:"
 msgstr "Estes valores ficaram de fora, porque o item não tem esse atributo:"
+
+#: .\chardata\templates\chardata\text_build.html:104
+msgid "Characteristics found in the text:"
+msgstr "Atributos encontrados no texto:"
+
+#: .\chardata\templates\chardata\text_build.html:104
+msgid "%(n)s scrolled"
+msgstr "%(n)s com pergaminhos"

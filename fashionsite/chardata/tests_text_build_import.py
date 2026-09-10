@@ -684,3 +684,149 @@ class TheTextIsReadInItsOwnLanguageTests(SimpleTestCase):
         lu = read_items(nom_en, 'dofus3', 'en')
         self.assertEqual('en', lu['stat_language'])
         self.assertEqual([nom_en], [m['name'] for m in lu['matched']])
+
+
+class TheSiteCanReadBackItsOwnExportTests(TestCase):
+    """Le bouton <<Copier en texte>> et la page d'import doivent se parler.
+
+    Mesure du 10 septembre 2026, avant ce lot: colle tel quel, un build
+    exporte par le site rendait **zero objet reconnu**, les six lignes toutes
+    ignorees. L'export prefixe chaque piece de son emplacement (<<Hat: ...>>)
+    et l'import comparait la ligne entiere a un nom d'objet; le rapprochement
+    tolerant ne pouvait rien, retirer <<Hat: >> coute cinq corrections quand le
+    plafond est a trois.
+
+    Le tour complet est ce qui compte, pas chaque moitie: on exporte un vrai
+    build par la vraie fonction, on colle le resultat dans la vraie page, et
+    on compare ce qui revient.
+    """
+
+    def _build_exporte(self, avec_caracteristiques=True):
+        """Un build cree par la vraie page, puis exporte par la vraie fonction.
+
+        Le build passe par `/import/text/` plutot que par `create_build`
+        directement: cette derniere veut une session, et emprunter le chemin
+        du site evite d'en fabriquer une pour les besoins du test.
+        """
+        from chardata.models import Char, CharBaseStats
+        from chardata.solution import get_solution
+        from chardata.solution_view import _build_share_text
+        from django.test import RequestFactory
+
+        structure = get_structure('dofus3')
+        noms = [structure.get_item_name_in_language(
+                    next(i for i in structure.types[200][t] if not i.removed),
+                    'en')
+                for t in ('Hat', 'Cloak', 'Belt')]
+        self.client.post('/import/text/', {'text': '\n'.join(noms),
+                                           'confirm': '1',
+                                           'char_class': 'Cra',
+                                           'level': '187'})
+        char = Char.objects.order_by('-id').first()
+        char.char_name = 'Mon Cra'
+        char.save()
+        if avec_caracteristiques:
+            for nom, points, parchos in (('Vitality', 101, 100),
+                                         ('Strength', 50, 0)):
+                ligne, _n = CharBaseStats.objects.get_or_create(
+                    char=char, stat=nom,
+                    defaults={'total_value': 0, 'scrolled_value': 0})
+                ligne.total_value = points + parchos
+                ligne.scrolled_value = parchos
+                ligne.save()
+        texte = _build_share_text(RequestFactory().get('/'), char,
+                                  get_solution(char))
+        return char, texte, noms
+
+    def test_the_export_is_read_back_as_the_same_gear(self):
+        _char, texte, noms = self._build_exporte()
+        lu = read_items(texte, 'dofus3', 'en')
+        self.assertEqual(sorted(noms),
+                         sorted(m['name'] for m in lu['matched']),
+                         'the site cannot read its own export: %s' % texte)
+
+    def test_a_french_reader_reads_the_same_export(self):
+        """L'export ecrit les noms INTERNES quelle que soit la langue. Sans le
+        nom interne au vivier, un lecteur francais ne relisait pas un texte
+        que le site venait de lui donner."""
+        _char, texte, noms = self._build_exporte()
+        lu = read_items(texte, 'dofus3', 'fr')
+        self.assertEqual(len(noms), len(lu['matched']), lu['ignored'])
+
+    def test_the_export_carries_the_class_and_the_level(self):
+        _char, texte, _noms = self._build_exporte()
+        lu = read_items(texte, 'dofus3', 'en')
+        self.assertEqual('Cra', lu['char_class'])
+        self.assertEqual(187, lu['char_level'])
+
+    def test_the_export_carries_the_base_characteristics(self):
+        _char, texte, _noms = self._build_exporte()
+        self.assertIn('Points:', texte)
+        lu = read_items(texte, 'dofus3', 'en')
+        self.assertEqual({'Vitality': 101, 'Strength': 50}, lu['base_points'])
+        # Strength a ete mis a zero parchotage, les quatre autres gardent le
+        # plein que create_build pose. La ligne sort donc, et en entier.
+        self.assertIn('Scrolls:', texte)
+        self.assertEqual(0, lu['base_scrolled']['Strength'])
+        self.assertEqual(100, lu['base_scrolled']['Vitality'])
+
+    def test_a_default_build_carries_neither_line(self):
+        """`create_build` cree TOUT build entierement parchote.
+
+        Sortir les parchotages systematiquement collerait six valeurs
+        identiques a la fin de chaque message Discord sans rien apprendre a
+        personne. La ligne ne sort donc que si elle s'ecarte du defaut, et le
+        tour reste exact: absente, elle veut dire <<le defaut>>, qui est
+        precisement ce que la creation repose.
+        """
+        _char, texte, _noms = self._build_exporte(avec_caracteristiques=False)
+        self.assertNotIn('Points:', texte)
+        self.assertNotIn('Scrolls:', texte)
+
+    def test_a_default_build_still_comes_back_fully_scrolled(self):
+        """L'autre moitie: si la ligne absente ne voulait pas dire le defaut,
+        le tour perdrait cent points de parchotage sur six stats."""
+        from chardata.models import Char
+        from chardata.util import get_stats_and_scrolled
+        _char, texte, _noms = self._build_exporte(avec_caracteristiques=False)
+        self.client.post('/import/text/', {'text': texte, 'confirm': '1',
+                                           'char_class': 'Cra',
+                                           'level': '187'})
+        revenu = Char.objects.order_by('-id').first()
+        _spent, scrolled = get_stats_and_scrolled(revenu)
+        self.assertEqual(100, scrolled['Vitality'])
+        self.assertEqual(100, scrolled['Agility'])
+
+    def test_the_whole_trip_gives_back_the_same_character(self):
+        """Le tour complet, par la vraie page."""
+        from chardata.models import Char
+        from chardata.util import get_stats_and_scrolled
+        _char, texte, noms = self._build_exporte()
+        avant = Char.objects.count()
+        self.client.post('/import/text/', {'text': texte, 'confirm': '1',
+                                           'char_class': 'Cra',
+                                           'level': '187'})
+        self.assertEqual(avant + 1, Char.objects.count())
+        revenu = Char.objects.order_by('-id').first()
+        self.assertEqual('Cra', revenu.char_class)
+        self.assertEqual(187, revenu.level)
+        spent, scrolled = get_stats_and_scrolled(revenu)
+        self.assertEqual(101, spent['Vitality'])
+        self.assertEqual(100, scrolled['Vitality'])
+        self.assertEqual(50, spent['Strength'])
+        self.assertEqual(0, scrolled['Strength'])
+
+    def test_the_class_is_offered_preselected_when_the_text_names_it(self):
+        """Sans jamais comparer deux attributs dans l'ordre: le gabarit est
+        minifie et les attributs y sont tries."""
+        import re
+        _char, texte, _noms = self._build_exporte()
+        corps = self.client.post(
+            '/import/text/', {'text': texte}).content.decode('utf-8')
+        options = re.findall(r'<option[^>]*>', corps)
+        cra = [o for o in options if 'Cra' in o]
+        self.assertTrue(cra, options[:3])
+        self.assertTrue(any('selected' in o for o in cra), cra)
+        autres = [o for o in options
+                  if 'selected' in o and 'Cra' not in o]
+        self.assertEqual([], autres, 'two classes are preselected')

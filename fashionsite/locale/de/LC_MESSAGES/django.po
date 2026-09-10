@@ -7137,3 +7137,11 @@ msgstr "außerhalb von %(low)s bis %(high)s, bitte prüfen"
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "These rolls were left out, because the item does not carry that stat:"
 msgstr "Diese Werte wurden ausgelassen, weil das Item diesen Wert nicht trägt:"
+
+#: .\chardata\templates\chardata\text_build.html:104
+msgid "Characteristics found in the text:"
+msgstr "Im Text gefundene Werte:"
+
+#: .\chardata\templates\chardata\text_build.html:104
+msgid "%(n)s scrolled"
+msgstr "%(n)s per Seiten"

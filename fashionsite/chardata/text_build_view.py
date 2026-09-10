@@ -26,9 +26,12 @@ from chardata.create_project_view import is_anon_cant_create
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _solution_path)
 from chardata.lock_forbid import set_stat_overrides
+from chardata.models import CharBaseStats
 from chardata.text_build_import import MAX_LIGNES, read_items
+from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, safe_int
-from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
+                                             max_scroll_for_version)
 from fashionistapulp.game_versions import get_game_version
 from fashionistapulp.structure import get_current_game_version
 from fashionistapulp.translation import get_supported_language
@@ -44,6 +47,46 @@ NIVEAU_PAR_DEFAUT = 200
 
 def _version(request):
     return getattr(request, 'game_version', None) or get_current_game_version()
+
+
+def _caracteristiques_pour_apercu(lu):
+    """[{name, points, scrolled}] pour la liste montree avant la creation."""
+    lignes = []
+    for nom, _cle in STATS_NAMES:
+        points = lu['base_points'].get(nom, 0)
+        parchos = lu['base_scrolled'].get(nom, 0)
+        if points or parchos:
+            lignes.append({'name': localized_stat_name(nom),
+                           'points': points, 'scrolled': parchos})
+    return lignes
+
+
+def _ecrit_les_caracteristiques(char, points, parchos):
+    """Les points depenses et les parchotages, tels que le site les garde.
+
+    `CharBaseStats.total_value` est la SOMME des deux et `scrolled_value` la
+    seconde: c'est `get_stats_and_scrolled` qui refait la soustraction. Ecrire
+    les points depenses dans `total_value` rendrait donc un personnage a qui
+    il manque exactement ses parchotages.
+
+    `create_build` a deja pose une ligne par caracteristique, donc on met a
+    jour plutot que de creer: deux lignes pour la meme stat feraient gagner la
+    premiere, en silence.
+    """
+    if not points and not parchos:
+        return
+    plafond = max_scroll_for_version(char.game_version)
+    for nom, _cle in STATS_NAMES:
+        depenses = max(0, points.get(nom, 0))
+        parcho = min(max(0, parchos.get(nom, 0)), plafond)
+        if not depenses and not parcho:
+            continue
+        ligne, _neuve = CharBaseStats.objects.get_or_create(
+            char=char, stat=nom,
+            defaults={'total_value': 0, 'scrolled_value': 0})
+        ligne.total_value = depenses + parcho
+        ligne.scrolled_value = parcho
+        ligne.save()
 
 
 def text_build(request):
@@ -71,8 +114,15 @@ def text_build(request):
             'login_problem': is_anon_cant_create(request),
         })
 
+    # La classe et le niveau viennent du texte QUAND il les porte, ce qui est
+    # le cas d'un build exporte par le site: son entete dit <<Mon Cra - Cra
+    # lvl 200>>. C'est une source de premiere main, la notre, donc les
+    # pre-remplir n'est pas les deviner. Le choix reste affiche et modifiable.
     char_class = request.POST.get('char_class') or ''
-    niveau = safe_int(request.POST.get('level'), NIVEAU_PAR_DEFAUT)
+    if not char_class and lu['char_class'] in CHARACTER_CLASSES:
+        char_class = lu['char_class']
+    niveau = safe_int(request.POST.get('level'),
+                      lu['char_level'] or NIVEAU_PAR_DEFAUT)
 
     if not request.POST.get('confirm') or char_class not in CHARACTER_CLASSES:
         return set_response(request, 'chardata/text_build.html', {
@@ -86,12 +136,15 @@ def text_build(request):
             'max_lines': MAX_LIGNES,
             'refused_rolls': lu['refused_rolls'][:12],
             'level': niveau,
+            'char_class': char_class,
+            'base_points': _caracteristiques_pour_apercu(lu),
             'classes': _classes_for(version),
             'login_problem': is_anon_cant_create(request),
         })
 
     char = create_build(request, char_class, niveau, set(), version,
                         name=_('Imported build'))
+    _ecrit_les_caracteristiques(char, lu['base_points'], lu['base_scrolled'])
     _place_items(char, lu['item_ids'], origin='pasted_text')
     # Les jets APRES la pose des objets: `_place_items` appelle set_minimal_
     # solution, qui ecrit sur le char, et ecrire les overrides avant se
