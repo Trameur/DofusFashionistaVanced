@@ -56,7 +56,23 @@ def refusal_reason(char):
     return 'no_solution' if meta.get('cannot_render') else None
 
 
-def refusal_sentence(reason):
+def missing_piece_names(char):
+    """[noms] des pieces disparues de ce build, dans la langue du lecteur.
+
+    Nommer coute une lecture du pickle, donc on ne la fait que pour la
+    raison qui en a besoin.
+    """
+    from chardata.char_blobs import read_char_blob
+    from chardata.legacy_missing import missing_names
+    from fashionistapulp.translation import get_supported_language
+    minimal = read_char_blob(getattr(char, 'minimal_solution', None), None,
+                             'minimal_solution', char)
+    if minimal is None:
+        return []
+    return missing_names(char, minimal, get_supported_language())
+
+
+def refusal_sentence(reason, names=None):
     """La phrase a montrer, traduite, ou une chaine vide.
 
     Les quatre disent ce qui se passe ET ce que l'auteur peut y faire. Une
@@ -64,6 +80,12 @@ def refusal_sentence(reason):
     """
     from django.utils.translation import gettext as _
     if reason == 'missing_items':
+        if names:
+            # Nommer les pieces, parce que <<certains de ses objets>> ne dit
+            # pas a l'auteur lesquels remplacer.
+            return _('Not shown in the gallery: our catalogue no longer has '
+                     '%(pieces)s. Replace what is missing and it comes '
+                     'back.') % {'pieces': ', '.join(names)}
         return _('Not shown in the gallery: some of its items are no longer '
                  'in the game. Replace them and it comes back.')
     if reason == 'outdated_slots':
@@ -75,3 +97,14 @@ def refusal_sentence(reason):
     if reason == 'no_solution':
         return _('Not shown in the gallery: this build has no saved gear yet.')
     return ''
+
+
+def sentence_for(char):
+    """La phrase complete a montrer a l'auteur de ce build, ou une chaine
+    vide. Un seul point de composition, pour que la liste des projets et la
+    page du build ne disent jamais deux choses differentes."""
+    reason = refusal_reason(char)
+    if reason is None:
+        return ''
+    names = missing_piece_names(char) if reason == 'missing_items' else None
+    return refusal_sentence(reason, names)

@@ -7335,3 +7335,6 @@ msgstr "Nicht in der Galerie: der Build hält seine eigenen Bedingungen nicht ei
 
 msgid "Not shown in the gallery: this build has no saved gear yet."
 msgstr "Nicht in der Galerie: dieser Build hat noch keine gespeicherte Ausrüstung."
+
+msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
+msgstr "Nicht in der Galerie: unser Katalog hat %(pieces)s nicht mehr. Ersetze, was fehlt, und er kommt zurück."

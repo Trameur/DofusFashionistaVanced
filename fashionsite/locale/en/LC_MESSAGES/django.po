@@ -6576,3 +6576,6 @@ msgstr ""
 
 msgid "Not shown in the gallery: this build has no saved gear yet."
 msgstr ""
+
+msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
+msgstr ""

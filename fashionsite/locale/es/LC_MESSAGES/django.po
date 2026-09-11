@@ -7326,3 +7326,6 @@ msgstr "No se muestra en la galería: el build no cumple sus propias condiciones
 
 msgid "Not shown in the gallery: this build has no saved gear yet."
 msgstr "No se muestra en la galería: este build aún no tiene equipo guardado."
+
+msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
+msgstr "No se muestra en la galería: nuestro catálogo ya no tiene %(pieces)s. Reemplaza lo que falta y vuelve a aparecer."

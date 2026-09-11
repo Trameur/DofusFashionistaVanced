@@ -1,0 +1,1852 @@
+{
+"dofus3": {
+"1": {
+"de": "Wilder Mandel-Dracotruter",
+"en": "Wild Almond Dragoturkey",
+"es": "Dragopavo almendrado salvaje",
+"fr": "Dragodinde Amande Sauvage",
+"pt": "Dragoperu amêndoa selvagem"
+},
+"10": {
+"de": "Roter Dracotruter",
+"en": "Ginger Dragoturkey",
+"es": "Dragopavo pelirrojo",
+"fr": "Dragodinde Rousse",
+"pt": "Dragoperu ruivo"
+},
+"100": {
+"de": "Smaragd-Seequagga",
+"en": "Emerald Seemyool",
+"es": "Mulagua esmeralda",
+"fr": "Muldo Emeraude",
+"pt": "Marmula esmeralda"
+},
+"101": {
+"de": "Gold und Purpur-Seequagga",
+"en": "Golden and Crimson Seemyool",
+"es": "Mulagua dorada y púrpura",
+"fr": "Muldo Doré et Pourpre",
+"pt": "Marmula dourada e púrpura"
+},
+"102": {
+"de": "Indigo und Purpur-Seequagga",
+"en": "Indigo and Crimson Seemyool",
+"es": "Mulagua índigo y púrpura",
+"fr": "Muldo Indigo et Pourpre",
+"pt": "Marmula índigo e púrpura"
+},
+"104": {
+"de": "Orchideen und Purpur-Seequagga",
+"en": "Orchid and Crimson Seemyool",
+"es": "Mulagua orquídea y púrpura",
+"fr": "Muldo Orchidée et Pourpre",
+"pt": "Marmula orquídea e púrpura"
+},
+"105": {
+"de": "Gold und Orchideen-Seequagga",
+"en": "Golden and Orchid Seemyool",
+"es": "Mulagua dorada y orquídea",
+"fr": "Muldo Doré et Orchidée",
+"pt": "Marmula dourada e orquídea"
+},
+"106": {
+"de": "Indigo und Orchideen-Seequagga",
+"en": "Indigo and Orchid Seemyool",
+"es": "Mulagua índigo y orquídea",
+"fr": "Muldo Indigo et Orchidée",
+"pt": "Marmula índigo e orquídea"
+},
+"107": {
+"de": "Ebenholz und Orchideen-Seequagga",
+"en": "Ebony and Orchid Seemyool",
+"es": "Mulagua ébano y orquídea",
+"fr": "Muldo Ebène et Orchidée",
+"pt": "Marmula ébano e orquídea"
+},
+"108": {
+"de": "Gold und Indigo-Seequagga",
+"en": "Golden and Indigo Seemyool",
+"es": "Mulagua dorada e índigo",
+"fr": "Muldo Doré et Indigo",
+"pt": "Marmula dourada e índigo"
+},
+"109": {
+"de": "Ebenholz und Indigo-Seequagga",
+"en": "Ebony and Indigo Seemyool",
+"es": "Mulagua ébano e índigo",
+"fr": "Muldo Ebène et Indigo",
+"pt": "Marmula ébano e índigo"
+},
+"11": {
+"de": "Rot und Elfenbein-Dracotruter",
+"en": "Ivory and Ginger Dragoturkey",
+"es": "Dragopavo marfil y pelirrojo",
+"fr": "Dragodinde Ivoire et Rousse",
+"pt": "Dragoperu marfim e ruivo"
+},
+"110": {
+"de": "Gold und Ebenholz-Seequagga",
+"en": "Golden and Ebony Seemyool",
+"es": "Mulagua dorada y ébano",
+"fr": "Muldo Doré et Ebène",
+"pt": "Marmula dourada e ébano"
+},
+"111": {
+"de": "Fuxrot und Purpur-Seequagga",
+"en": "Ginger and Crimson Seemyool",
+"es": "Mulagua roja y púrpura",
+"fr": "Muldo Roux et Pourpre",
+"pt": "Marmula ruiva e púrpura"
+},
+"113": {
+"de": "Fuxrot und Indigo-Seequagga",
+"en": "Ginger and Indigo Seemyool",
+"es": "Mulagua roja e índigo",
+"fr": "Muldo Roux et Indigo",
+"pt": "Marmula ruiva e índigo"
+},
+"114": {
+"de": "Fuxrot und Ebenholz-Seequagga",
+"en": "Ginger and Ebony Seemyool",
+"es": "Mulagua roja y ébano",
+"fr": "Muldo Roux et Ebène",
+"pt": "Marmula ruiva e ébano"
+},
+"115": {
+"de": "Fuxrot und Gold-Seequagga",
+"en": "Ginger and Golden Seemyool",
+"es": "Mulagua roja y dorada",
+"fr": "Muldo Roux et Doré",
+"pt": "Marmula ruiva e dourada"
+},
+"116": {
+"de": "Fuxrot und Mandel-Seequagga",
+"en": "Ginger and Almond Seemyool",
+"es": "Mulagua roja y almendrada",
+"fr": "Muldo Roux et Amande",
+"pt": "Marmula ruiva e amêndoa"
+},
+"117": {
+"de": "Purpur und Mandel-Seequagga",
+"en": "Crimson and Almond Seemyool",
+"es": "Mulagua púrpura y almendrada",
+"fr": "Muldo Pourpre et Amande",
+"pt": "Marmula púrpura e amêndoa"
+},
+"118": {
+"de": "Orchideen und Mandel-Seequagga",
+"en": "Orchid and Almond Seemyool",
+"es": "Mulagua orquídea y almendrada",
+"fr": "Muldo Orchidée et Amande",
+"pt": "Marmula orquídea e amêndoa"
+},
+"119": {
+"de": "Indigo und Mandel-Seequagga",
+"en": "Indigo and Almond Seemyool",
+"es": "Mulagua índigo y almendrada",
+"fr": "Muldo Indigo et Amande",
+"pt": "Marmula índigo e amêndoa"
+},
+"12": {
+"de": "Rot und Ebenholz-Dracotruter",
+"en": "Ebony and Ginger Dragoturkey",
+"es": "Dragopavo ébano y pelirrojo",
+"fr": "Dragodinde Ebène et Rousse",
+"pt": "Dragoperu ébano e ruivo"
+},
+"120": {
+"de": "Ebenholz und Mandel-Seequagga",
+"en": "Ebony and Almond Seemyool",
+"es": "Mulagua ébano y almendrada",
+"fr": "Muldo Ebène et Amande",
+"pt": "Marmula ébano e amêndoa"
+},
+"122": {
+"de": "Purpur und Elfenbein-Seequagga",
+"en": "Crimson and Ivory Seemyool",
+"es": "Mulagua púrpura y marfil",
+"fr": "Muldo Pourpre et Ivoire",
+"pt": "Marmula púrpura e marfim"
+},
+"123": {
+"de": "Orchideen und Elfenbein-Seequagga",
+"en": "Orchid and Ivory Seemyool",
+"es": "Mulagua orquídea y marfil",
+"fr": "Muldo Orchidée et Ivoire",
+"pt": "Marmula orquídea e marfim"
+},
+"124": {
+"de": "Indigo und Elfenbein-Seequagga",
+"en": "Indigo and Ivory Seemyool",
+"es": "Mulagua índigo y marfil",
+"fr": "Muldo Indigo et Ivoire",
+"pt": "Marmula índigo e marfim"
+},
+"125": {
+"de": "Ebenholz und Elfenbein-Seequagga",
+"en": "Ebony and Ivory Seemyool",
+"es": "Mulagua ébano y marfil",
+"fr": "Muldo Ebène et Ivoire",
+"pt": "Marmula ébano e marfim"
+},
+"126": {
+"de": "Gold und Elfenbein-Seequagga",
+"en": "Golden and Ivory Seemyool",
+"es": "Mulagua dorada y marfil",
+"fr": "Muldo Doré et Ivoire",
+"pt": "Marmula dourada e marfim"
+},
+"138": {
+"de": "Mandel und Elfenbein-Seequagga",
+"en": "Almond and Ivory Seemyool",
+"es": "Mulagua almendrada y marfil",
+"fr": "Muldo Amande et Ivoire",
+"pt": "Marmula amêndoa e marfim"
+},
+"139": {
+"de": "Türkis und Elfenbein-Seequagga",
+"en": "Turquoise and Ivory Seemyool",
+"es": "Mulagua turquesa y marfil",
+"fr": "Muldo Turquoise et Ivoire",
+"pt": "Marmula turquesa e marfim"
+},
+"141": {
+"de": "Türkis und Indigo-Seequagga",
+"en": "Turquoise and Indigo Seemyool",
+"es": "Mulagua turquesa e índigo",
+"fr": "Muldo Turquoise et Indigo",
+"pt": "Marmula turquesa e índigo"
+},
+"142": {
+"de": "Türkis und Ebenholz-Seequagga",
+"en": "Turquoise and Ebony Seemyool",
+"es": "Mulagua turquesa y ébano",
+"fr": "Muldo Turquoise et Ebène",
+"pt": "Marmula turquesa e ébano"
+},
+"143": {
+"de": "Türkis und Fuxrot-Seequagga",
+"en": "Turquoise and Ginger Seemyool",
+"es": "Mulagua turquesa y roja",
+"fr": "Muldo Turquoise et Roux",
+"pt": "Marmula turquesa e ruiva"
+},
+"144": {
+"de": "Türkis und Mandel-Seequagga",
+"en": "Turquoise and Almond Seemyool",
+"es": "Mulagua turquesa y almendrada",
+"fr": "Muldo Turquoise et Amande",
+"pt": "Marmula turquesa e amêndoa"
+},
+"145": {
+"de": "Türkis und Gold-Seequagga",
+"en": "Turquoise and Golden Seemyool",
+"es": "Mulagua turquesa y dorada",
+"fr": "Muldo Turquoise et Doré",
+"pt": "Marmula turquesa e dourada"
+},
+"14505": {
+"de": "Dracokart-Pokal",
+"en": "Dragokart Cup",
+"es": "Copa de Dragokart",
+"fr": "Coupe de Dragokart cassée",
+"pt": "Taça de Dragokart"
+},
+"146": {
+"de": "Purpur und Pflaumen-Seequagga",
+"en": "Plum and Crimson Seemyool",
+"es": "Mulagua ciruela y púrpura",
+"fr": "Muldo Prune et Pourpre",
+"pt": "Marmula ameixa e púrpura"
+},
+"148": {
+"de": "Pflaumen und Indigo-Seequagga",
+"en": "Plum and Indigo Seemyool",
+"es": "Mulagua ciruela e índigo",
+"fr": "Muldo Prune et Indigo",
+"pt": "Marmula ameixa e índigo"
+},
+"149": {
+"de": "Pflaumen und Ebenholz-Seequagga",
+"en": "Plum and Ebony Seemyool",
+"es": "Mulagua ciruela y ébano",
+"fr": "Muldo Prune et Ebène",
+"pt": "Marmula ameixa e ébano"
+},
+"15": {
+"de": "Türkis-Dracotruter",
+"en": "Turquoise Dragoturkey",
+"es": "Dragopavo turquesa",
+"fr": "Dragodinde Turquoise",
+"pt": "Dragoperu turquesa"
+},
+"150": {
+"de": "Pflaumen und Gold-Seequagga",
+"en": "Plum and Golden Seemyool",
+"es": "Mulagua ciruela y dorada",
+"fr": "Muldo Prune et Doré",
+"pt": "Marmula ameixa e dourada"
+},
+"151": {
+"de": "Pflaumen und Fuxrot-Seequagga",
+"en": "Plum and Ginger Seemyool",
+"es": "Mulagua ciruela y roja",
+"fr": "Muldo Prune et Roux",
+"pt": "Marmula ameixa e ruiva"
+},
+"152": {
+"de": "Pflaumen und Mandel-Seequagga",
+"en": "Plum and Almond Seemyool",
+"es": "Mulagua ciruela y almendrada",
+"fr": "Muldo Prune et Amande",
+"pt": "Marmula ameixa e amêndoa"
+},
+"154": {
+"de": "Pflaumen und Türkis-Seequagga",
+"en": "Plum and Turquoise Seemyool",
+"es": "Mulagua ciruela y turquesa",
+"fr": "Muldo Prune et Turquoise",
+"pt": "Marmula ameixa e turquesa"
+},
+"155": {
+"de": "Pflaumen und Smaragd-Seequagga",
+"en": "Plum and Emerald Seemyool",
+"es": "Mulagua ciruela y esmeralda",
+"fr": "Muldo Prune et Emeraude",
+"pt": "Marmula ameixa e esmeralda"
+},
+"16": {
+"de": "Elfenbein-Dracotruter",
+"en": "Ivory Dragoturkey",
+"es": "Dragopavo marfil",
+"fr": "Dragodinde Ivoire",
+"pt": "Dragoperu marfim"
+},
+"162": {
+"de": "Mandel und Smaragd-Seequagga",
+"en": "Almond and Emerald Seemyool",
+"es": "Mulagua almendrada y esmeralda",
+"fr": "Muldo Amande et Emeraude",
+"pt": "Marmula amêndoa e esmeralda"
+},
+"163": {
+"de": "Elfenbein und Smaragd-Seequagga",
+"en": "Ivory and Emerald Seemyool",
+"es": "Mulagua marfil y esmeralda",
+"fr": "Muldo Ivoire et Emeraude",
+"pt": "Marmula marfim e esmeralda"
+},
+"164": {
+"de": "Türkis und Smaragd-Seequagga",
+"en": "Turquoise and Emerald Seemyool",
+"es": "Mulagua turquesa y esmeralda",
+"fr": "Muldo Turquoise et Emeraude",
+"pt": "Marmula turquesa e esmeralda"
+},
+"167": {
+"de": "Wilder Gold-Seequagga",
+"en": "Wild Golden Seemyool",
+"es": "Mulagua dorada salvaje",
+"fr": "Muldo Doré Sauvage",
+"pt": "Marmula dourada selvagem"
+},
+"168": {
+"de": "Wilder Purpur-Seequagga",
+"en": "Wild Crimson Seemyool",
+"es": "Mulagua púrpura salvaje",
+"fr": "Muldo Pourpre Sauvage",
+"pt": "Marmula púrpura selvagem"
+},
+"169": {
+"de": "Wilder Indigo-Seequagga",
+"en": "Wild Indigo Seemyool",
+"es": "Mulagua índigo salvaje",
+"fr": "Muldo Indigo Sauvage",
+"pt": "Marmula índigo selvagem"
+},
+"17": {
+"de": "Indigo-Dracotruter",
+"en": "Indigo Dragoturkey",
+"es": "Dragopavo índigo",
+"fr": "Dragodinde Indigo",
+"pt": "Dragoperu índigo"
+},
+"170": {
+"de": "Wilder Ebenholz-Seequagga",
+"en": "Wild Ebony Seemyool",
+"es": "Mulagua ébano salvaje",
+"fr": "Muldo Ebène Sauvage",
+"pt": "Marmula ébano selvagem"
+},
+"171": {
+"de": "Wilder Orchideen-Seequagga",
+"en": "Wild Orchid Seemyool",
+"es": "Mulagua orquídea salvaje",
+"fr": "Muldo Orchidée Sauvage",
+"pt": "Marmula orquídea selvagem"
+},
+"172": {
+"de": "Wilder Purpur-Naskäfer",
+"en": "Wild Crimson Rhineetle",
+"es": "Vueloceronte púrpura salvaje",
+"fr": "Volkorne Pourpre Sauvage",
+"pt": "Vulkórnio Púrpura Selvagem"
+},
+"173": {
+"de": "Wilder Orchideen-Naskäfer",
+"en": "Wild Orchid Rhineetle",
+"es": "Vueloceronte orquídeo salvaje",
+"fr": "Volkorne Orchidée Sauvage",
+"pt": "Vulkórnio Orquídea Selvagem"
+},
+"174": {
+"de": "Wilder Indigo-Naskäfer",
+"en": "Wild Indigo Rhineetle",
+"es": "Vueloceronte índigo salvaje",
+"fr": "Volkorne Indigo Sauvage",
+"pt": "Vulkórnio Índigo Selvagem"
+},
+"175": {
+"de": "Wilder Ebenholz-Naskäfer",
+"en": "Wild Ebony Rhineetle",
+"es": "Vueloceronte ébano salvaje",
+"fr": "Volkorne Ebène Sauvage",
+"pt": "Vulkórnio Ébano Selvagem"
+},
+"176": {
+"de": "Indigo-Naskäfer",
+"en": "Indigo Rhineetle",
+"es": "Vueloceronte índigo",
+"fr": "Volkorne Indigo",
+"pt": "Vulkórnio Índigo"
+},
+"177": {
+"de": "Ebenholz-Naskäfer",
+"en": "Ebony Rhineetle",
+"es": "Vueloceronte ébano",
+"fr": "Volkorne Ebène",
+"pt": "Vulkórnio Ébano"
+},
+"178": {
+"de": "Purpur-Naskäfer",
+"en": "Crimson Rhineetle",
+"es": "Vueloceronte púrpura",
+"fr": "Volkorne Pourpre",
+"pt": "Vulkórnio Púrpura"
+},
+"179": {
+"de": "Orchideen-Naskäfer",
+"en": "Orchid Rhineetle",
+"es": "Vueloceronte orquídeo",
+"fr": "Volkorne Orchidée",
+"pt": "Vulkórnio Orquídea"
+},
+"18": {
+"de": "Goldener Dracotruter",
+"en": "Golden Dragoturkey",
+"es": "Dragopavo dorado",
+"fr": "Dragodinde Dorée",
+"pt": "Dragoperu dourado"
+},
+"182": {
+"de": "Elfenbein-Naskäfer",
+"en": "Ivory Rhineetle",
+"es": "Vueloceronte marfil",
+"fr": "Volkorne Ivoire",
+"pt": "Vulkórnio Marfim"
+},
+"184": {
+"de": "Pflaumen-Naskäfer",
+"en": "Plum Rhineetle",
+"es": "Vueloceronte ciruela",
+"fr": "Volkorne Prune",
+"pt": "Vulkórnio Ameixa"
+},
+"185": {
+"de": "Smaragd-Naskäfer",
+"en": "Emerald Rhineetle",
+"es": "Vueloceronte esmeralda",
+"fr": "Volkorne Emeraude",
+"pt": "Vulkórnio Esmeralda"
+},
+"186": {
+"de": "Gold-Naskäfer",
+"en": "Golden Rhineetle",
+"es": "Vueloceronte dorado",
+"fr": "Volkorne Doré",
+"pt": "Vulkórnio Dourado"
+},
+"187": {
+"de": "Jade-Naskäfer",
+"en": "Jade Rhineetle",
+"es": "Vueloceronte jade",
+"fr": "Volkorne Jade",
+"pt": "Vulkórnio Jade"
+},
+"189": {
+"de": "Saphir-Naskäfer",
+"en": "Sapphire Rhineetle",
+"es": "Vueloceronte zafiro",
+"fr": "Volkorne Saphir",
+"pt": "Vulkórnio Safira"
+},
+"19": {
+"de": "Purpur-Dracotruter",
+"en": "Crimson Dragoturkey",
+"es": "Dragopavo púrpura",
+"fr": "Dragodinde Pourpre",
+"pt": "Dragoperu púrpura"
+},
+"190": {
+"de": "Amethyst-Naskäfer",
+"en": "Amethyst Rhineetle",
+"es": "Vueloceronte amatista",
+"fr": "Volkorne Améthyste",
+"pt": "Vulkórnio Ametista"
+},
+"191": {
+"de": "Purpur- und Orchideen-Naskäfer",
+"en": "Crimson and Orchid Rhineetle",
+"es": "Vueloceronte púrpura y orquídeo",
+"fr": "Volkorne Pourpre et Orchidée",
+"pt": "Vulkórnio Púrpura e Orquídea"
+},
+"192": {
+"de": "Purpur- und Indigo-Naskäfer",
+"en": "Crimson and Indigo Rhineetle",
+"es": "Vueloceronte púrpura e índigo",
+"fr": "Volkorne Pourpre et Indigo",
+"pt": "Vulkórnio Púrpura e Índigo"
+},
+"193": {
+"de": "Purpur- und Ebenholz-Naskäfer",
+"en": "Crimson and Ebony Rhineetle",
+"es": "Vueloceronte púrpura y ébano",
+"fr": "Volkorne Pourpre et Ebène",
+"pt": "Vulkórnio Púrpura e Ébano"
+},
+"195": {
+"de": "Orchideen- und Ebenholz-Naskäfer",
+"en": "Orchid and Ebony Rhineetle",
+"es": "Vueloceronte orquídeo y ébano",
+"fr": "Volkorne Orchidée et Ebène",
+"pt": "Vulkórnio Orquídea e Ébano"
+},
+"196": {
+"de": "Indigo- und Ebenholz-Naskäfer",
+"en": "Indigo and Ebony Rhineetle",
+"es": "Vueloceronte índigo y ébano",
+"fr": "Volkorne Indigo et Ebène",
+"pt": "Vulkórnio Índigo e Ébano"
+},
+"197": {
+"de": "Mandel- und Purpur-Naskäfer",
+"en": "Almond and Crimson Rhineetle",
+"es": "Vueloceronte almendrado y púrpura",
+"fr": "Volkorne Amande et Pourpre",
+"pt": "Vulkórnio Amêndoa e Púrpura"
+},
+"198": {
+"de": "Mandel- und Orchideen-Naskäfer",
+"en": "Almond and Orchid Rhineetle",
+"es": "Vueloceronte almendrado y orquídeo",
+"fr": "Volkorne Amande et Orchidée",
+"pt": "Vulkórnio Amêndoa e Orquídea"
+},
+"199": {
+"de": "Mandel- und Indigo-Naskäfer",
+"en": "Almond and Indigo Rhineetle",
+"es": "Vueloceronte almendrado e índigo",
+"fr": "Volkorne Amande et Indigo",
+"pt": "Vulkórnio Amêndoa e Índigo"
+},
+"20": {
+"de": "Mandel-Dracotruter",
+"en": "Almond Dragoturkey",
+"es": "Dragopavo almendrado",
+"fr": "Dragodinde Amande",
+"pt": "Dragoperu amêndoa"
+},
+"205": {
+"de": "Fuchsrot- und Orchideen-Naskäfer",
+"en": "Ginger and Orchid Rhineetle",
+"es": "Vueloceronte pelirrojo y orquídeo",
+"fr": "Volkorne Roux et Orchidée",
+"pt": "Vulkórnio Escarlate e Orquídea"
+},
+"206": {
+"de": "Fuchsrot- und Indigo-Naskäfer",
+"en": "Ginger and Indigo Rhineetle",
+"es": "Vueloceronte pelirrojo e índigo",
+"fr": "Volkorne Roux et Indigo",
+"pt": "Vulkórnio Escarlate e Índigo"
+},
+"207": {
+"de": "Fuchsrot- und Ebenholz-Naskäfer",
+"en": "Ginger and Ebony Rhineetle",
+"es": "Vueloceronte pelirrojo y ébano",
+"fr": "Volkorne Roux et Ebène",
+"pt": "Vulkórnio Escarlate e Ébano"
+},
+"209": {
+"de": "Fuchsrot- und Türkis-Naskäfer",
+"en": "Ginger and Turquoise Rhineetle",
+"es": "Vueloceronte pelirrojo y turquesa",
+"fr": "Volkorne Roux et Turquoise",
+"pt": "Vulkórnio Escarlate e Turquesa"
+},
+"21": {
+"de": "Smaragd-Dracotruter",
+"en": "Emerald Dragoturkey",
+"es": "Dragopavo esmeralda",
+"fr": "Dragodinde Emeraude",
+"pt": "Dragoperu esmeralda"
+},
+"210": {
+"de": "Elfenbein- und Purpur-Naskäfer",
+"en": "Ivory and Crimson Rhineetle",
+"es": "Vueloceronte marfil y púrpura",
+"fr": "Volkorne Ivoire et Pourpre",
+"pt": "Vulkórnio Marfim e Púrpura"
+},
+"211": {
+"de": "Elfenbein- und Orchideen-Naskäfer",
+"en": "Ivory and Orchid Rhineetle",
+"es": "Vueloceronte marfil y orquídeo",
+"fr": "Volkorne Ivoire et Orchidée",
+"pt": "Vulkórnio Marfim e Orquídea"
+},
+"212": {
+"de": "Elfenbein- und Indigo-Naskäfer",
+"en": "Ivory and Indigo Rhineetle",
+"es": "Vueloceronte marfil e índigo",
+"fr": "Volkorne Ivoire et Indigo",
+"pt": "Vulkórnio Marfim e Índigo"
+},
+"213": {
+"de": "Elfenbein- und Ebenholz-Naskäfer",
+"en": "Ivory and Ebony Rhineetle",
+"es": "Vueloceronte marfil y ébano",
+"fr": "Volkorne Ivoire et Ebène",
+"pt": "Vulkórnio Marfim e Ébano"
+},
+"215": {
+"de": "Türkis- und Purpur-Naskäfer",
+"en": "Turquoise and Crimson Rhineetle",
+"es": "Vueloceronte turquesa y púrpura",
+"fr": "Volkorne Turquoise et Pourpre",
+"pt": "Vulkórnio Turquesa e Púrpura"
+},
+"216": {
+"de": "Türkis- und Orchideen-Naskäfer",
+"en": "Turquoise and Orchid Rhineetle",
+"es": "Vueloceronte turquesa y orquídeo",
+"fr": "Volkorne Turquoise et Orchidée",
+"pt": "Vulkórnio Turquesa e Orquídea"
+},
+"217": {
+"de": "Türkis- und Indigo-Naskäfer",
+"en": "Turquoise and Indigo Rhineetle",
+"es": "Vueloceronte turquesa e índigo",
+"fr": "Volkorne Turquoise et Indigo",
+"pt": "Vulkórnio Turquesa e Índigo"
+},
+"22": {
+"de": "Orchideen-Dracotruter",
+"en": "Orchid Dragoturkey",
+"es": "Dragopavo orquídeo",
+"fr": "Dragodinde Orchidée",
+"pt": "Dragoperu orquídea"
+},
+"221": {
+"de": "Pflaumen- und Indigo-Naskäfer",
+"en": "Plum and Indigo Rhineetle",
+"es": "Vueloceronte ciruela e índigo",
+"fr": "Volkorne Prune et Indigo",
+"pt": "Vulkórnio Ameixa e Índigo"
+},
+"222": {
+"de": "Pflaumen- und Ebenholz-Naskäfer",
+"en": "Plum and Ebony Rhineetle",
+"es": "Vueloceronte ciruela y ébano",
+"fr": "Volkorne Prune et Ebène",
+"pt": "Vulkórnio Ameixa e Ébano"
+},
+"223": {
+"de": "Pflaumen- und Mandel-Naskäfer",
+"en": "Plum and Almond Rhineetle",
+"es": "Vueloceronte ciruela y almendrado",
+"fr": "Volkorne Prune et Amande",
+"pt": "Vulkórnio Ameixa e Amêndoa"
+},
+"225": {
+"de": "Pflaumen- und Smaragd-Naskäfer",
+"en": "Plum and Emerald Rhineetle",
+"es": "Vueloceronte ciruela y esmeralda",
+"fr": "Volkorne Prune et Emeraude",
+"pt": "Vulkórnio Ameixa e Esmeralda"
+},
+"226": {
+"de": "Smaragd- und Purpur-Naskäfer",
+"en": "Emerald and Crimson Rhineetle",
+"es": "Vueloceronte esmeralda y púrpura",
+"fr": "Volkorne Emeraude et Pourpre",
+"pt": "Vulkórnio Esmeralda e Púrpura"
+},
+"227": {
+"de": "Smaragd- und Orchideen-Naskäfer",
+"en": "Emerald and Orchid Rhineetle",
+"es": "Vueloceronte esmeralda y orquídeo",
+"fr": "Volkorne Emeraude et Orchidée",
+"pt": "Vulkórnio Esmeralda e Orquídea"
+},
+"228": {
+"de": "Smaragd- und Indigo-Naskäfer",
+"en": "Emerald and Indigo Rhineetle",
+"es": "Vueloceronte esmeralda e índigo",
+"fr": "Volkorne Emeraude et Indigo",
+"pt": "Vulkórnio Esmeralda e Índigo"
+},
+"229": {
+"de": "Smaragd- und Ebenholz-Naskäfer",
+"en": "Emerald and Ebony Rhineetle",
+"es": "Vueloceronte esmeralda y ébano",
+"fr": "Volkorne Emeraude et Ebène",
+"pt": "Vulkórnio Esmeralda e Ébano"
+},
+"23": {
+"de": "Pflaumen-Dracotruter",
+"en": "Plum Dragoturkey",
+"es": "Dragopavo ciruela",
+"fr": "Dragodinde Prune",
+"pt": "Dragoperu ameixa"
+},
+"231": {
+"de": "Smaragd- und Fuchsrot-Naskäfer",
+"en": "Emerald and Ginger Rhineetle",
+"es": "Vueloceronte esmeralda y pelirrojo",
+"fr": "Volkorne Emeraude et Roux",
+"pt": "Vulkórnio Esmeralda e Escarlate"
+},
+"238": {
+"de": "Gold- und Ebenholz-Naskäfer",
+"en": "Golden and Ebony Rhineetle",
+"es": "Vueloceronte dorado y ébano",
+"fr": "Volkorne Doré et Ebène",
+"pt": "Vulkórnio Dourado e Ébano"
+},
+"239": {
+"de": "Jade- und Purpur-Naskäfer",
+"en": "Jade and Crimson Rhineetle",
+"es": "Vueloceronte jade y púrpura",
+"fr": "Volkorne Jade et Pourpre",
+"pt": "Vulkórnio Jade e Púrpura"
+},
+"240": {
+"de": "Jade- und Orchideen-Naskäfer",
+"en": "Jade and Orchid Rhineetle",
+"es": "Vueloceronte jade y orquídeo",
+"fr": "Volkorne Jade et Orchidée",
+"pt": "Vulkórnio Jade e Orquídea"
+},
+"242": {
+"de": "Jade- und Ebenholz-Naskäfer",
+"en": "Jade and Ebony Rhineetle",
+"es": "Vueloceronte jade y ébano",
+"fr": "Volkorne Jade et Ebène",
+"pt": "Vulkórnio Jade e Ébano"
+},
+"243": {
+"de": "Jade- und Mandel-Naskäfer",
+"en": "Jade and Almond Rhineetle",
+"es": "Vueloceronte jade y almendrado",
+"fr": "Volkorne Jade et Amande",
+"pt": "Vulkórnio Jade e Amêndoa"
+},
+"244": {
+"de": "Jade- und Fuchsrot-Naskäfer",
+"en": "Jade and Ginger Rhineetle",
+"es": "Vueloceronte jade y pelirrojo",
+"fr": "Volkorne Jade et Roux",
+"pt": "Vulkórnio Jade e Escarlate"
+},
+"245": {
+"de": "Jade- und Elfenbein-Naskäfer",
+"en": "Jade and Ivory Rhineetle",
+"es": "Vueloceronte jade y marfil",
+"fr": "Volkorne Jade et Ivoire",
+"pt": "Vulkórnio Jade e Marfim"
+},
+"246": {
+"de": "Jade- und Türkis-Naskäfer",
+"en": "Jade and Turquoise Rhineetle",
+"es": "Vueloceronte jade y turquesa",
+"fr": "Volkorne Jade et Turquoise",
+"pt": "Vulkórnio Jade e Turquesa"
+},
+"248": {
+"de": "Jade- und Smaragd-Naskäfer",
+"en": "Jade and Emerald Rhineetle",
+"es": "Vueloceronte jade y esmeralda",
+"fr": "Volkorne Jade et Emeraude",
+"pt": "Vulkórnio Jade e Esmeralda"
+},
+"249": {
+"de": "Jade- und Gold-Naskäfer",
+"en": "Jade and Golden Rhineetle",
+"es": "Vueloceronte jade y dorado",
+"fr": "Volkorne Jade et Doré",
+"pt": "Vulkórnio Jade e Dourado"
+},
+"252": {
+"de": "Jade- und Amethyst-Naskäfer",
+"en": "Jade and Amethyst Rhineetle",
+"es": "Vueloceronte jade y amatista",
+"fr": "Volkorne Jade et Améthyste",
+"pt": "Vulkórnio Jade e Ametista"
+},
+"253": {
+"de": "Rubin- und Purpur-Naskäfer",
+"en": "Ruby and Crimson Rhineetle",
+"es": "Vueloceronte rubí y púrpura",
+"fr": "Volkorne Rubis et Pourpre",
+"pt": "Vulkórnio Rubi e Púrpura"
+},
+"254": {
+"de": "Rubin- und Orchideen-Naskäfer",
+"en": "Ruby and Orchid Rhineetle",
+"es": "Vueloceronte rubí y orquídeo",
+"fr": "Volkorne Rubis et Orchidée",
+"pt": "Vulkórnio Rubi e Orquídea"
+},
+"256": {
+"de": "Rubin- und Ebenholz-Naskäfer",
+"en": "Ruby and Ebony Rhineetle",
+"es": "Vueloceronte rubí y ébano",
+"fr": "Volkorne Rubis et Ebène",
+"pt": "Vulkórnio Rubi e Ébano"
+},
+"257": {
+"de": "Rubin- und Mandel-Naskäfer",
+"en": "Ruby and Almond Rhineetle",
+"es": "Vueloceronte rubí y almendrado",
+"fr": "Volkorne Rubis et Amande",
+"pt": "Vulkórnio Rubi e Amêndoa"
+},
+"258": {
+"de": "Rubin- und Fuchsrot-Naskäfer",
+"en": "Ruby and Ginger Rhineetle",
+"es": "Vueloceronte rubí y pelirrojo",
+"fr": "Volkorne Rubis et Roux",
+"pt": "Vulkórnio Rubi e Escarlate"
+},
+"260": {
+"de": "Rubin- und Türkis-Naskäfer",
+"en": "Ruby and Turquoise Rhineetle",
+"es": "Vueloceronte rubí y turquesa",
+"fr": "Volkorne Rubis et Turquoise",
+"pt": "Vulkórnio Rubi e Turquesa"
+},
+"261": {
+"de": "Rubin- und Pflaumen-Naskäfer",
+"en": "Ruby and Plum Rhineetle",
+"es": "Vueloceronte rubí y ciruela",
+"fr": "Volkorne Rubis et Prune",
+"pt": "Vulkórnio Rubi e Ameixa"
+},
+"262": {
+"de": "Rubin- und Smaragd-Naskäfer",
+"en": "Ruby and Emerald Rhineetle",
+"es": "Vueloceronte rubí y esmeralda",
+"fr": "Volkorne Rubis et Emeraude",
+"pt": "Vulkórnio Rubi e Esmeralda"
+},
+"264": {
+"de": "Saphir- und Purpur-Naskäfer",
+"en": "Sapphire and Crimson Rhineetle",
+"es": "Vueloceronte zafiro y púrpura",
+"fr": "Volkorne Saphir et Pourpre",
+"pt": "Vulkórnio Safira e Púrpura"
+},
+"265": {
+"de": "Saphir- und Orchideen-Naskäfer",
+"en": "Sapphire and Orchid Rhineetle",
+"es": "Vueloceronte zafiro y orquídeo",
+"fr": "Volkorne Saphir et Orchidée",
+"pt": "Vulkórnio Safira e Orquídea"
+},
+"266": {
+"de": "Saphir- und Indigo-Naskäfer",
+"en": "Sapphire and Indigo Rhineetle",
+"es": "Vueloceronte zafiro e índigo",
+"fr": "Volkorne Saphir et Indigo",
+"pt": "Vulkórnio Safira e Índigo"
+},
+"268": {
+"de": "Saphir- und Mandel-Naskäfer",
+"en": "Sapphire and Almond Rhineetle",
+"es": "Vueloceronte zafiro y almendrado",
+"fr": "Volkorne Saphir et Amande",
+"pt": "Vulkórnio Safira e Amêndoa"
+},
+"269": {
+"de": "Saphir- und Fuchsrot-Naskäfer",
+"en": "Sapphire and Ginger Rhineetle",
+"es": "Vueloceronte zafiro y pelirrojo",
+"fr": "Volkorne Saphir et Roux",
+"pt": "Vulkórnio Safira e Escarlate"
+},
+"274": {
+"de": "Saphir- und Gold-Naskäfer",
+"en": "Sapphire and Golden Rhineetle",
+"es": "Vueloceronte zafiro y dorado",
+"fr": "Volkorne Saphir et Doré",
+"pt": "Vulkórnio Safira e Dourado"
+},
+"275": {
+"de": "Saphir- und Amethyst-Naskäfer",
+"en": "Sapphire and Amethyst Rhineetle",
+"es": "Vueloceronte zafiro y amatista",
+"fr": "Volkorne Saphir et Améthyste",
+"pt": "Vulkórnio Safira e Ametista"
+},
+"276": {
+"de": "Amethyst- und Purpur-Naskäfer",
+"en": "Amethyst and Crimson Rhineetle",
+"es": "Vueloceronte amatista y púrpura",
+"fr": "Volkorne Améthyste et Pourpre",
+"pt": "Vulkórnio Ametista e Púrpura"
+},
+"277": {
+"de": "Amethyst- und Orchideen-Naskäfer",
+"en": "Amethyst and Orchid Rhineetle",
+"es": "Vueloceronte amatista y orquídeo",
+"fr": "Volkorne Améthyste et Orchidée",
+"pt": "Vulkórnio Ametista e Orquídea"
+},
+"281": {
+"de": "Amethyst- und Fuchsrot-Naskäfer",
+"en": "Amethyst and Ginger Rhineetle",
+"es": "Vueloceronte amatista y pelirrojo",
+"fr": "Volkorne Améthyste et Roux",
+"pt": "Vulkórnio Ametista e Escarlate"
+},
+"282": {
+"de": "Amethyst- und Elfenbein-Naskäfer",
+"en": "Amethyst and Ivory Rhineetle",
+"es": "Vueloceronte amatista y marfil",
+"fr": "Volkorne Améthyste et Ivoire",
+"pt": "Vulkórnio Ametista e Marfim"
+},
+"283": {
+"de": "Amethyst- und Türkis-Naskäfer",
+"en": "Amethyst and Turquoise Rhineetle",
+"es": "Vueloceronte amatista y turquesa",
+"fr": "Volkorne Améthyste et Turquoise",
+"pt": "Vulkórnio Ametista e Turquesa"
+},
+"284": {
+"de": "Amethyst- und Pflaumen-Naskäfer",
+"en": "Amethyst and Plum Rhineetle",
+"es": "Vueloceronte amatista y ciruela",
+"fr": "Volkorne Améthyste et Prune",
+"pt": "Vulkórnio Ametista e Ameixa"
+},
+"285": {
+"de": "Amethyst- und Smaragd-Naskäfer",
+"en": "Amethyst and Emerald Rhineetle",
+"es": "Vueloceronte amatista y esmeralda",
+"fr": "Volkorne Améthyste et Emeraude",
+"pt": "Vulkórnio Ametista e Esmeralda"
+},
+"286": {
+"de": "Amethyst- und Gold-Naskäfer",
+"en": "Amethyst and Golden Rhineetle",
+"es": "Vueloceronte amatista y dorado",
+"fr": "Volkorne Améthyste et Doré",
+"pt": "Vulkórnio Ametista e Dourado"
+},
+"287": {
+"de": "Pflaumen- und Fuchsrot-Naskäfer",
+"en": "Plum and Ginger Rhineetle",
+"es": "Vueloceronte ciruela y pelirrojo",
+"fr": "Volkorne Prune et Roux",
+"pt": "Vulkórnio Ameixa e Escarlate"
+},
+"288": {
+"de": "Pflaumen- und Elfenbein-Naskäfer",
+"en": "Plum and Ivory Rhineetle",
+"es": "Vueloceronte ciruela y marfil",
+"fr": "Volkorne Prune et Ivoire",
+"pt": "Vulkórnio Ameixa e Marfim"
+},
+"289": {
+"de": "Rubin- und Saphir-Naskäfer",
+"en": "Ruby and Sapphire Rhineetle",
+"es": "Vueloceronte rubí y zafiro",
+"fr": "Volkorne Rubis et Saphir",
+"pt": "Vulkórnio Rubi e Safira"
+},
+"290": {
+"de": "Rubin- und Amethyst-Naskäfer",
+"en": "Ruby and Amethyst Rhineetle",
+"es": "Vueloceronte rubí y amatista",
+"fr": "Volkorne Rubis et Améthyste",
+"pt": "Vulkórnio Rubi e Ametista"
+},
+"291": {
+"de": "Gold- und Fuchsrot-Naskäfer",
+"en": "Golden and Ginger Rhineetle",
+"es": "Vueloceronte dorado y pelirrojo",
+"fr": "Volkorne Doré et Roux",
+"pt": "Vulkórnio Dourado e Escarlate"
+},
+"292": {
+"de": "Gold- und Mandel-Naskäfer",
+"en": "Golden and Almond Rhineetle",
+"es": "Vueloceronte dorado y almendrado",
+"fr": "Volkorne Doré et Amande",
+"pt": "Vulkórnio Dourado e Amêndoa"
+},
+"293": {
+"de": "Gold- und Elfenbein-Naskäfer",
+"en": "Golden and Ivory Rhineetle",
+"es": "Vueloceronte dorado y marfil",
+"fr": "Volkorne Doré et Ivoire",
+"pt": "Vulkórnio Dourado e Marfim"
+},
+"294": {
+"de": "Gold- und Türkis-Naskäfer",
+"en": "Golden and Turquoise Rhineetle",
+"es": "Vueloceronte dorado y turquesa",
+"fr": "Volkorne Doré et Turquoise",
+"pt": "Vulkórnio Dourado e Turquesa"
+},
+"295": {
+"de": "Gold- und Pflaumen-Naskäfer",
+"en": "Golden and Plum Rhineetle",
+"es": "Vueloceronte dorado y ciruela",
+"fr": "Volkorne Doré et Prune",
+"pt": "Vulkórnio Dourado e Ameixa"
+},
+"3": {
+"de": "Ebenholz-Dracotruter",
+"en": "Ebony Dragoturkey",
+"es": "Dragopavo ébano",
+"fr": "Dragodinde Ebène",
+"pt": "Dragoperu ébano"
+},
+"33": {
+"de": "Gold und Mandel-Dracotruter",
+"en": "Almond and Golden Dragoturkey",
+"es": "Dragopavo almendrado y dorado",
+"fr": "Dragodinde Amande et Dorée",
+"pt": "Dragoperu amêndoa e dourado"
+},
+"34": {
+"de": "Ebenholz und Mandel-Dracotruter",
+"en": "Almond and Ebony Dragoturkey",
+"es": "Dragopavo almendrado y ébano",
+"fr": "Dragodinde Amande et Ebène",
+"pt": "Dragoperu amêndoa e ébano"
+},
+"35": {
+"de": "Smaragd und Mandel-Dracotruter",
+"en": "Almond and Emerald Dragoturkey",
+"es": "Dragopavo almendrado y esmeralda",
+"fr": "Dragodinde Amande et Emeraude",
+"pt": "Dragoperu amêndoa e esmeralda"
+},
+"36": {
+"de": "Indigo und Mandel-Dracotruter",
+"en": "Almond and Indigo Dragoturkey",
+"es": "Dragopavo almendrado e índigo",
+"fr": "Dragodinde Amande et Indigo",
+"pt": "Dragoperu amêndoa e índigo"
+},
+"37": {
+"de": "Elfenbein und Mandel-Dracotruter",
+"en": "Almond and Ivory Dragoturkey",
+"es": "Dragopavo almendrado y marfil",
+"fr": "Dragodinde Amande et Ivoire",
+"pt": "Dragoperu amêndoa e marfim"
+},
+"38": {
+"de": "Rot und Mandel-Dracotruter",
+"en": "Almond and Ginger Dragoturkey",
+"es": "Dragopavo almendrado y pelirrojo",
+"fr": "Dragodinde Amande et Rousse",
+"pt": "Dragoperu amêndoa e ruivo"
+},
+"39": {
+"de": "Türkis und Mandel-Dracotruter",
+"en": "Almond and Turquoise Dragoturkey",
+"es": "Dragopavo almendrado y turquesa",
+"fr": "Dragodinde Amande et Turquoise",
+"pt": "Dragoperu amêndoa e turquesa"
+},
+"40": {
+"de": "Orchideen und Mandel-Dracotruter",
+"en": "Almond and Orchid Dragoturkey",
+"es": "Dragopavo almendrado y orquídeo",
+"fr": "Dragodinde Amande et Orchidée",
+"pt": "Dragoperu amêndoa e orquídea"
+},
+"41": {
+"de": "Purpur und Mandel-Dracotruter",
+"en": "Almond and Crimson Dragoturkey",
+"es": "Dragopavo almendrado y púrpura",
+"fr": "Dragodinde Amande et Pourpre",
+"pt": "Dragoperu amêndoa e púrpura"
+},
+"42": {
+"de": "Gold und Ebenholz-Dracotruter",
+"en": "Golden and Ebony Dragoturkey",
+"es": "Dragopavo dorado y ébano",
+"fr": "Dragodinde Dorée et Ebène",
+"pt": "Dragoperu dourado e ébano"
+},
+"43": {
+"de": "Gold und Smaragd-Dracotruter",
+"en": "Golden and Emerald Dragoturkey",
+"es": "Dragopavo dorado y esmeralda",
+"fr": "Dragodinde Dorée et Emeraude",
+"pt": "Dragoperu dourado e esmeralda"
+},
+"45": {
+"de": "Gold und Elfenbein-Dracotruter",
+"en": "Golden and Ivory Dragoturkey",
+"es": "Dragopavo dorado y marfil",
+"fr": "Dragodinde Dorée et Ivoire",
+"pt": "Dragoperu dourado e marfim"
+},
+"46": {
+"de": "Rot und Goldener Dracotruter",
+"en": "Golden and Ginger Dragoturkey",
+"es": "Dragopavo dorado y pelirrojo",
+"fr": "Dragodinde Dorée et Rousse",
+"pt": "Dragoperu dourado e ruivo"
+},
+"47": {
+"de": "Gold und Türkis-Dracotruter",
+"en": "Golden and Turquoise Dragoturkey",
+"es": "Dragopavo dorado y turquesa",
+"fr": "Dragodinde Dorée et Turquoise",
+"pt": "Dragoperu dourado e turquesa"
+},
+"48": {
+"de": "Gold und Orchideen-Dracotruter",
+"en": "Golden and Orchid Dragoturkey",
+"es": "Dragopavo dorado y orquídeo",
+"fr": "Dragodinde Dorée et Orchidée",
+"pt": "Dragoperu dourado e orquídea"
+},
+"50": {
+"de": "Smaragd und Ebenholz-Dracotruter",
+"en": "Ebony and Emerald Dragoturkey",
+"es": "Dragopavo ébano y esmeralda",
+"fr": "Dragodinde Ebène et Emeraude",
+"pt": "Dragoperu ébano e esmeralda"
+},
+"51": {
+"de": "Indigo und Ebenholz-Dracotruter",
+"en": "Ebony and Indigo Dragoturkey",
+"es": "Dragopavo ébano e índigo",
+"fr": "Dragodinde Ebène et Indigo",
+"pt": "Dragoperu ébano e índigo"
+},
+"52": {
+"de": "Türkis und Ebenholz-Dracotruter",
+"en": "Ebony and Turquoise Dragoturkey",
+"es": "Dragopavo ébano y turquesa",
+"fr": "Dragodinde Ebène et Turquoise",
+"pt": "Dragoperu ébano e turquesa"
+},
+"53": {
+"de": "Orchideen und Ebenholz-Dracotruter",
+"en": "Ebony and Orchid Dragoturkey",
+"es": "Dragopavo ébano y orquídeo",
+"fr": "Dragodinde Ebène et Orchidée",
+"pt": "Dragoperu ébano e orquídea"
+},
+"54": {
+"de": "Purpur und Ebenholz-Dracotruter",
+"en": "Ebony and Crimson Dragoturkey",
+"es": "Dragopavo ébano y púrpura",
+"fr": "Dragodinde Ebène et Pourpre",
+"pt": "Dragoperu ébano e púrpura"
+},
+"56": {
+"de": "Smaragd und Elfenbein-Dracotruter",
+"en": "Emerald and Ivory Dragoturkey",
+"es": "Dragopavo esmeralda y marfil",
+"fr": "Dragodinde Emeraude et Ivoire",
+"pt": "Dragoperu esmeralda e marfim"
+},
+"57": {
+"de": "Rot und Smaragd-Dracotruter",
+"en": "Emerald and Ginger Dragoturkey",
+"es": "Dragopavo esmeralda y pelirrojo",
+"fr": "Dragodinde Emeraude et Rousse",
+"pt": "Dragoperu esmeralda e ruivo"
+},
+"59": {
+"de": "Smaragd und Orchideen-Dracotruter",
+"en": "Emerald and Orchid Dragoturkey",
+"es": "Dragopavo esmeralda y orquídeo",
+"fr": "Dragodinde Emeraude et Orchidée",
+"pt": "Dragoperu esmeralda e orquídea"
+},
+"6": {
+"de": "Wilder roter Dracotruter",
+"en": "Wild Ginger Dragoturkey",
+"es": "Dragopavo pelirrojo salvaje",
+"fr": "Dragodinde Rousse Sauvage",
+"pt": "Dragoperu ruivo selvagem"
+},
+"60": {
+"de": "Smaragd und Purpur-Dracotruter",
+"en": "Emerald and Crimson Dragoturkey",
+"es": "Dragopavo esmeralda y púrpura",
+"fr": "Dragodinde Emeraude et Pourpre",
+"pt": "Dragoperu esmeralda e púrpura"
+},
+"61": {
+"de": "Indigo und Elfenbein-Dracotruter",
+"en": "Indigo and Ivory Dragoturkey",
+"es": "Dragopavo índigo y marfil",
+"fr": "Dragodinde Indigo et Ivoire",
+"pt": "Dragoperu índigo e marfim"
+},
+"63": {
+"de": "Türkis und Indigo-Dracotruter",
+"en": "Indigo and Turquoise Dragoturkey",
+"es": "Dragopavo índigo y turquesa",
+"fr": "Dragodinde Indigo et Turquoise",
+"pt": "Dragoperu índigo e turquesa"
+},
+"64": {
+"de": "Indigo und Orchideen-Dracotruter",
+"en": "Indigo and Orchid Dragoturkey",
+"es": "Dragopavo índigo y orquídeo",
+"fr": "Dragodinde Indigo et Orchidée",
+"pt": "Dragoperu índigo e orquídea"
+},
+"68": {
+"de": "Elfenbein und Purpur-Dracotruter",
+"en": "Ivory and Crimson Dragoturkey",
+"es": "Dragopavo marfil y púrpura",
+"fr": "Dragodinde Ivoire et Pourpre",
+"pt": "Dragoperu marfim e púrpura"
+},
+"69": {
+"de": "Rot und Türkis-Dracotruter",
+"en": "Turquoise and Ginger Dragoturkey",
+"es": "Dragopavo turquesa y pelirrojo",
+"fr": "Dragodinde Turquoise et Rousse",
+"pt": "Dragoperu turquesa e ruivo"
+},
+"6986": {
+"de": "Stinkender Schild des O'Stinkus Mons",
+"en": "Broken Mount Stinkky Shield",
+"es": "Escudo destrozado del Monte Puaj",
+"fr": "Bouclier du Mont Kipou brisé",
+"pt": "Escudo do Monte Kifed quebrado"
+},
+"7069": {
+"de": "Eingedellter Schild von Sidimot",
+"en": "Smashed Sidimote Shield",
+"es": "Escudo de Sidimote Abollado",
+"fr": "Bouclier de Sidimote enfoncé",
+"pt": "Escudo de Sidimote amassado"
+},
+"7070": {
+"de": "Aufgescheuerter Schild der Brigandiner",
+"en": "Scratched Imp Shield",
+"es": "Escudo de los salteadorillos rasgado",
+"fr": "Bouclier des Brigandins écorché",
+"pt": "Escudo dos Diabretes esfolado"
+},
+"7071": {
+"de": "Gespaltener Schild des Holzfällers",
+"en": "Cloven Lumberjack Shield",
+"es": "Escudo de leñador hendido",
+"fr": "Bouclier du Bûcheron fendu",
+"pt": "Escudo do Lenhador rachado"
+},
+"7072": {
+"de": "O Ftalmo Fetzen!",
+"en": "Torn Phtalmo",
+"es": "Ftalmo desprendido",
+"fr": "Ftalmo déchiré",
+"pt": "Ftalmo rasgado"
+},
+"7073": {
+"de": "Durchlöcherter Schild der Taverne",
+"en": "Pierced Inn Shield",
+"es": "Escudo taberna agujereado",
+"fr": "Bouclier Taverne percé",
+"pt": "Escudo da Taberna furado"
+},
+"7074": {
+"de": "Zerquetschter Herz-Quartschen",
+"en": "Wounded Heart Quarter",
+"es": "El Corazón Partido y Rompido",
+"fr": "Le Karde Cœur meurtri",
+"pt": "Coração Partido lacerado"
+},
+"7075": {
+"de": "Explodiewtew Schild des Bawbawen",
+"en": "Exploded Bawbawian Shield",
+"es": "Escudo del Báwbawo Explotado",
+"fr": "Bouclier du Bawbawe explosé",
+"pt": "Escudo do Báwbawo explodido"
+},
+"7076": {
+"de": "Verblichener Derma Tho",
+"en": "Wizened Derma Tho",
+"es": "Derma Thólobo Infectado",
+"fr": "Derma Tho flétri",
+"pt": "Derma Tho infectado"
+},
+"7077": {
+"de": "Schwammiger Spongischild",
+"en": "Sponghield",
+"es": "Escubob",
+"fr": "Bouclier en Mousse cassé",
+"pt": "Escudo de Esponja"
+},
+"7078": {
+"de": "Zerknitterter Schildfächer",
+"en": "Crumpled Fan Shield",
+"es": "Escudo ventiloso arrugado",
+"fr": "Bouclier Ventaille froissé",
+"pt": "Escudo Ventilador enrugado"
+},
+"7079": {
+"de": "Müder Schild des Sadida",
+"en": "Exhausted Sadida Shield",
+"es": "Escudo del sadida cansado",
+"fr": "Bouclier du Sadida fatigué",
+"pt": "Escudo do Sadida cansado"
+},
+"7080": {
+"de": "Schlüpfriger Schlüpferschild",
+"en": "Shield in Dirty Briefs",
+"es": "Escudo slip sucio",
+"fr": "Bouclier en Slip sali",
+"pt": "Escudo de Cueca sujo"
+},
+"7081": {
+"de": "Alter Schild von Captain Amakna",
+"en": "Aged Captain Amakna Shield",
+"es": "Escudo de Capitán Amakna Envejecido",
+"fr": "Bouclier du Captain Amakna vieilli",
+"pt": "Escudo do Capitão Amakna envelhecido"
+},
+"7082": {
+"de": "Gehörnter Kloom",
+"en": "Horned Kloome",
+"es": "Klum Arañado",
+"fr": "Kloume écorné",
+"pt": "Klum danificado"
+},
+"7083": {
+"de": "Schild der verdunsteten Assel",
+"en": "Vanished Asse Shield",
+"es": "Escudo Rano Evaporado",
+"fr": "Bouclier d'Asse évaporé",
+"pt": "Escudo de Mota evaporado"
+},
+"7084": {
+"de": "Verschleierter Fliegenschild",
+"en": "Warped Flying Shield",
+"es": "Escudo cometa estrellado",
+"fr": "Bouclier Volant voilé",
+"pt": "Escudo Voador empenado"
+},
+"7085": {
+"de": "Le Tschucks versunkener Schild",
+"en": "Scuttled LeChouque's Shield",
+"es": "Escudo de Le Chuko Hundido",
+"fr": "Bouclier du Chouque sabordé",
+"pt": "Escudo do Tchuke afundado"
+},
+"7086": {
+"de": "Vermooster Schild des Astaknyden",
+"en": "Mossy Treechnid Shield",
+"es": "Escudo abráknido liquenoso",
+"fr": "Bouclier Abraknyde lichené",
+"pt": "Escudo Arvraknídeo musgoso"
+},
+"7087": {
+"de": "Parasitenschild des Fresssacks",
+"en": "Flea-ridden Gobball Shield",
+"es": "Escudo de jalató plagado",
+"fr": "Bouclier du Bouftou parasité",
+"pt": "Escudo do Papatudo parasitado"
+},
+"7088": {
+"de": "Desertierter Bowissen-Schild",
+"en": "Abandoned Bowisse's Shield",
+"es": "Escudo de Bowis Desertado",
+"fr": "Bouclier de Bowisse déserté",
+"pt": "Escudo do Bowis desertado"
+},
+"7089": {
+"de": "Betrunkener Schild des Pandawa",
+"en": "Drunk Pandawa Shield",
+"es": "Escudo Pandawa Pedo",
+"fr": "Bouclier Pandawa bourré",
+"pt": "Escudo de Pandawa bêbado"
+},
+"7090": {
+"de": "Krachender Schild des Krachlers",
+"en": "Cracked Crackler Shield",
+"es": "Escudo de crujidor estallado",
+"fr": "Bouclier du Craqueleur craquelé",
+"pt": "Escudo do Smagador esmagado"
+},
+"7091": {
+"de": "Verstellte Feurige Scheibe",
+"en": "Wonky Fire Dial",
+"es": "Esfera de fuego desajustada",
+"fr": "Cadran de Feu déréglé",
+"pt": "Quadrante de Fogo desregulado"
+},
+"7092": {
+"de": "Verstellte Luftige Scheibe",
+"en": "Wonky Air Dial",
+"es": "Esfera de aire desajustada",
+"fr": "Cadran d'Air déréglé",
+"pt": "Quadrante de Ar desregulado"
+},
+"7093": {
+"de": "Verstellte Irdene Scheibe",
+"en": "Wonky Earth Dial",
+"es": "Esfera de tierra desajustada",
+"fr": "Cadran de Terre déréglé",
+"pt": "Quadrante de Terra desregulado"
+},
+"7094": {
+"de": "Verstellte Wäßrige Scheibe",
+"en": "Wonky Water Dial",
+"es": "Esfera de agua desajustada",
+"fr": "Cadran d'Eau déréglé",
+"pt": "Quadrante de Água desregulado"
+},
+"71": {
+"de": "Rot und Purpur-Dracotruter",
+"en": "Crimson and Ginger Dragoturkey",
+"es": "Dragopavo púrpura y pelirrojo",
+"fr": "Dragodinde Pourpre et Rousse",
+"pt": "Dragoperu púrpura e ruivo"
+},
+"72": {
+"de": "Türkis und Orchideen-Dracotruter",
+"en": "Turquoise and Orchid Dragoturkey",
+"es": "Dragopavo turquesa y orquídeo",
+"fr": "Dragodinde Turquoise et Orchidée",
+"pt": "Dragoperu turquesa e orquídea"
+},
+"7234": {
+"de": "Zerfressener Akwadala-Schild",
+"en": "Swallowed Akwadala Shield",
+"es": "Escudo Akwadala hundido",
+"fr": "Bouclier Akwadala englouti",
+"pt": "Escudo de Akwadala submerso"
+},
+"7235": {
+"de": "Begrabener Teradala-Schild",
+"en": "Buried Terrdala Shield",
+"es": "Escudo Tierradala enterrado",
+"fr": "Bouclier Terrdala enterré",
+"pt": "Escudo de Terradala enterrado"
+},
+"7236": {
+"de": "Verbrannter Feudala-Schild",
+"en": "Burnt Feudala Shield",
+"es": "Escudo Fuegodala quemado",
+"fr": "Bouclier Feudala brulé",
+"pt": "Escudo de Fogodala queimado"
+},
+"7237": {
+"de": "Entflogener Aerdala-Schild",
+"en": "Vanished Aerdala Shield",
+"es": "Escudo Airedala Volado",
+"fr": "Bouclier Aerdala envolé",
+"pt": "Escudo de Ardala desaparecido"
+},
+"73": {
+"de": "Türkis und Purpur-Dracotruter",
+"en": "Turquoise and Crimson Dragoturkey",
+"es": "Dragopavo turquesa y púrpura",
+"fr": "Dragodinde Turquoise et Pourpre",
+"pt": "Dragoperu turquesa e púrpura"
+},
+"74": {
+"de": "Wilder, goldener Dracotruter",
+"en": "Wild Golden Dragoturkey",
+"es": "Dragopavo dorado salvaje",
+"fr": "Dragodinde Dorée Sauvage",
+"pt": "Dragoperu dourado selvagem"
+},
+"76": {
+"de": "Purpur und Orchideen-Dracotruter",
+"en": "Orchid and Crimson Dragoturkey",
+"es": "Dragopavo orquídeo y púrpura",
+"fr": "Dragodinde Orchidée et Pourpre",
+"pt": "Dragoperu orquídea e púrpura"
+},
+"78": {
+"de": "Goldener Pflaumen-Dracotruter",
+"en": "Plum and Golden Dragoturkey",
+"es": "Dragopavo ciruela y dorado",
+"fr": "Dragodinde Prune et Dorée",
+"pt": "Dragoperu ameixa e dourado"
+},
+"79": {
+"de": "Pflaumen und Ebenholz-Dracotruter",
+"en": "Plum and Ebony Dragoturkey",
+"es": "Dragopavo ciruela y ébano",
+"fr": "Dragodinde Prune et Ebène",
+"pt": "Dragoperu ameixa e ébano"
+},
+"80": {
+"de": "Pflaumen und Smaragd-Dracotruter",
+"en": "Plum and Emerald Dragoturkey",
+"es": "Dragopavo ciruela y esmeralda",
+"fr": "Dragodinde Prune et Emeraude",
+"pt": "Dragoperu ameixa e esmeralda"
+},
+"82": {
+"de": "Indigo und Pflaumen-Dracotruter",
+"en": "Plum and Indigo Dragoturkey",
+"es": "Dragopavo ciruela e índigo",
+"fr": "Dragodinde Prune et Indigo",
+"pt": "Dragoperu ameixa e índigo"
+},
+"83": {
+"de": "Pflaumen und Elfenbein-Dracotruter",
+"en": "Plum and Ivory Dragoturkey",
+"es": "Dragopavo ciruela y marfil",
+"fr": "Dragodinde Prune et Ivoire",
+"pt": "Dragoperu ameixa e marfim"
+},
+"85": {
+"de": "Türkis und Pflaumen-Dracotruter",
+"en": "Plum and Turquoise Dragoturkey",
+"es": "Dragopavo ciruela y turquesa",
+"fr": "Dragodinde Prune et Turquoise",
+"pt": "Dragoperu ameixa e turquesa"
+},
+"86": {
+"de": "Pflaumen und Orchideen-Dracotruter",
+"en": "Plum and Orchid Dragoturkey",
+"es": "Dragopavo ciruela y orquídeo",
+"fr": "Dragodinde Prune et Orchidée",
+"pt": "Dragoperu ameixa e orquídea"
+},
+"87": {
+"de": "Purpur und Pflaumen-Dracotruter",
+"en": "Plum and Crimson Dragoturkey",
+"es": "Dragopavo ciruela y púrpura",
+"fr": "Dragodinde Prune et Pourpre",
+"pt": "Dragoperu ameixa e púrpura"
+},
+"88": {
+"de": "Gepanzerter Dracotruter",
+"en": "Armoured Dragoturkey",
+"es": "Dragopavo con armadura",
+"fr": "Dragodinde en armure",
+"pt": "Dragoperu com armadura"
+},
+"8855": {
+"de": "S'Teuer-Schild",
+"en": "Sharkal Shield",
+"es": "Escudo Fi'Squal",
+"fr": "Bouclier Fi'Squale cassé",
+"pt": "Escudo Sharkal"
+},
+"89": {
+"de": "Befiederter Dracotruter",
+"en": "Feathered Dragoturkey",
+"es": "Dragopavo con plumas",
+"fr": "Dragodinde à Plumes",
+"pt": "Dragoperu emplumado"
+},
+"9": {
+"de": "Ebenholz und Elfenbein-Dracotruter",
+"en": "Ebony and Ivory Dragoturkey",
+"es": "Dragopavo ébano y marfil",
+"fr": "Dragodinde Ebène et Ivoire",
+"pt": "Dragoperu ébano e marfim"
+},
+"90": {
+"de": "Orchideen-Seequagga",
+"en": "Orchid Seemyool",
+"es": "Mulagua orquídea",
+"fr": "Muldo Orchidée",
+"pt": "Marmula orquídea"
+},
+"9001": {
+"de": "Schild von Sidimot",
+"en": "Sidimote Shield",
+"es": "Escudo de Sidimote",
+"fr": "Bouclier de Sidimote cassé",
+"pt": "Escudo de Sidimote"
+},
+"9002": {
+"de": "O Ftalmo!",
+"en": "Phtalmo",
+"es": "Ftalmo",
+"fr": "Ftalmo cassé",
+"pt": "Phtalmo"
+},
+"9003": {
+"de": "Schild der Taverne",
+"en": "Inn Shield",
+"es": "Escudo taberna",
+"fr": "Bouclier Taverne cassé",
+"pt": "Escudo Taberna"
+},
+"9004": {
+"de": "Akwadala-Schild",
+"en": "Akwadala Shield",
+"es": "Escudo Akwadala",
+"fr": "Bouclier Akwadala cassé",
+"pt": "Escudo Akwadala"
+},
+"9005": {
+"de": "Schildfächer",
+"en": "Fan Shield",
+"es": "Escudo ventiloso",
+"fr": "Bouclier Ventaille cassé",
+"pt": "Escudo Ventilador"
+},
+"9006": {
+"de": "Schild des Sadida",
+"en": "Sadida Shield",
+"es": "Escudo del sadida",
+"fr": "Bouclier du Sadida cassé",
+"pt": "Escudo do Sadida"
+},
+"9007": {
+"de": "Schlüpferschild",
+"en": "Shield in Briefs",
+"es": "Escudo slip",
+"fr": "Bouclier en Slip cassé",
+"pt": "Escudo de cueca"
+},
+"9008": {
+"de": "Schild der Assel",
+"en": "Asse Shield",
+"es": "Escudo Rano",
+"fr": "Bouclier d'Asse cassé",
+"pt": "Escudo de Mota"
+},
+"9009": {
+"de": "Schild des Astaknyden",
+"en": "Treechnid Shield",
+"es": "Escudo abráknido",
+"fr": "Bouclier Abraknyde cassé",
+"pt": "Escudo de Arvraknídeo"
+},
+"9010": {
+"de": "Schild des Pandawa",
+"en": "Pandawa Shield",
+"es": "Escudo pandawa",
+"fr": "Bouclier Pandawa cassé",
+"pt": "Escudo Pandawa"
+},
+"9011": {
+"de": "Feurige Scheibe",
+"en": "Fire Dial",
+"es": "Esfera de fuego",
+"fr": "Cadran de Feu cassé",
+"pt": "Quadrante de Fogo"
+},
+"9012": {
+"de": "Luftige Scheibe",
+"en": "Air Dial",
+"es": "Esfera de aire",
+"fr": "Cadran d'Air cassé",
+"pt": "Quadrante de Ar"
+},
+"9013": {
+"de": "Irdene Scheibe",
+"en": "Earth Dial",
+"es": "Esfera de tierra",
+"fr": "Cadran de Terre cassé",
+"pt": "Quadrante de Terra"
+},
+"9014": {
+"de": "Wäßrige Scheibe",
+"en": "Water Dial",
+"es": "Esfera de agua",
+"fr": "Cadran d'Eau cassé",
+"pt": "Quadrante de Água"
+},
+"9015": {
+"de": "Schild des Holzfällers",
+"en": "Lumberjack Shield",
+"es": "Escudo de leñador",
+"fr": "Bouclier du Bûcheron cassé",
+"pt": "Escudo do Lenhador"
+},
+"9016": {
+"de": "Schild des O'Stinkus Mons",
+"en": "Mount Stinkky Shield",
+"es": "Escudo del Monte Puaj",
+"fr": "Bouclier du Mont Kipou cassé",
+"pt": "Escudo do Monte Kifed"
+},
+"9017": {
+"de": "Schild der Brigandiner",
+"en": "Imp Shield",
+"es": "Escudo de los salteadorillos",
+"fr": "Bouclier des Brigandins cassé",
+"pt": "Escudo dos Diabretes"
+},
+"9018": {
+"de": "Herz-Quartschen",
+"en": "Heart Quarter",
+"es": "El Corazón Partido",
+"fr": "Le Karde Cœur cassé",
+"pt": "Coração em Quatro"
+},
+"9019": {
+"de": "Schild des Bawbawen",
+"en": "Bawbawian Shield",
+"es": "Escudo del Báwbawo",
+"fr": "Bouclier du Bawbawe cassé",
+"pt": "Escudo do Báwbawo"
+},
+"9020": {
+"de": "Derma Tho",
+"en": "Derma Tho",
+"es": "Derma Thólobo",
+"fr": "Derma Tho cassé",
+"pt": "Derma Tho"
+},
+"9021": {
+"de": "Schild von Captain Amakna",
+"en": "Captain Amakna Shield",
+"es": "Escudo de Capitán Amakna",
+"fr": "Bouclier du Captain Amakna cassé",
+"pt": "Escudo do Capitão Amakna"
+},
+"9022": {
+"de": "Kloom",
+"en": "Kloome",
+"es": "Klum",
+"fr": "Kloume cassé",
+"pt": "Klum"
+},
+"9023": {
+"de": "Fliegenschild",
+"en": "Flying Shield",
+"es": "Escudo cometa",
+"fr": "Bouclier Volant cassé",
+"pt": "Escudo Voador"
+},
+"9024": {
+"de": "Le Tschucks Schild",
+"en": "LeChouque's Shield",
+"es": "Escudo de Le Chuko",
+"fr": "Bouclier du Chouque cassé",
+"pt": "Escudo do Tchuke"
+},
+"9025": {
+"de": "Schild des Fresssacks",
+"en": "Gobball Shield",
+"es": "Escudo de jalató",
+"fr": "Bouclier du Bouftou cassé",
+"pt": "Escudo do Papatudo"
+},
+"9026": {
+"de": "Bowissen-Schild",
+"en": "Bowisse's Shield",
+"es": "Escudo de Bowis",
+"fr": "Bouclier de Bowisse cassé",
+"pt": "Escudo de Bowis"
+},
+"9027": {
+"de": "Schild des Krachlers",
+"en": "Crackler Shield",
+"es": "Escudo de crujidor",
+"fr": "Bouclier du Craqueleur cassé",
+"pt": "Escudo do Smagador"
+},
+"9028": {
+"de": "Teradala-Schild",
+"en": "Terrdala Shield",
+"es": "Escudo Tierradala",
+"fr": "Bouclier Terrdala cassé",
+"pt": "Escudo Terradala"
+},
+"9029": {
+"de": "Feudala-Schild",
+"en": "Feudala Shield",
+"es": "Escudo Fuegodala",
+"fr": "Bouclier Feudala cassé",
+"pt": "Escudo Fogodala"
+},
+"9030": {
+"de": "Aerdala-Schild",
+"en": "Aerdala Shield",
+"es": "Escudo Airedala",
+"fr": "Bouclier Aerdala cassé",
+"pt": "Escudo Ardala"
+},
+"92": {
+"de": "Indigo-Seequagga",
+"en": "Indigo Seemyool",
+"es": "Mulagua índigo",
+"fr": "Muldo Indigo",
+"pt": "Marmula índigo"
+},
+"93": {
+"de": "Purpur-Seequagga",
+"en": "Crimson Seemyool",
+"es": "Mulagua púrpura",
+"fr": "Muldo Pourpre",
+"pt": "Marmula púrpura"
+},
+"94": {
+"de": "Gold-Seequagga",
+"en": "Golden Seemyool",
+"es": "Mulagua dorada",
+"fr": "Muldo Doré",
+"pt": "Marmula dourada"
+},
+"95": {
+"de": "Fuxrot-Seequagga",
+"en": "Ginger Seemyool",
+"es": "Mulagua roja",
+"fr": "Muldo Roux",
+"pt": "Marmula ruiva"
+},
+"96": {
+"de": "Mandel-Seequagga",
+"en": "Almond Seemyool",
+"es": "Mulagua almendrada",
+"fr": "Muldo Amande",
+"pt": "Marmula amêndoa"
+},
+"98": {
+"de": "Türkis-Seequagga",
+"en": "Turquoise Seemyool",
+"es": "Mulagua turquesa",
+"fr": "Muldo Turquoise",
+"pt": "Marmula turquesa"
+},
+"99": {
+"de": "Pflaumen-Seequagga",
+"en": "Plum Seemyool",
+"es": "Mulagua ciruela",
+"fr": "Muldo Prune",
+"pt": "Marmula ameixa"
+}
+}
+}

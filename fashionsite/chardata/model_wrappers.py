@@ -74,9 +74,8 @@ class WrappedChar(object):
         auteur n'en savait rien. La colonne lui disait meme <<Dans la
         galerie>>, ce qui etait faux trois fois sur quatre.
         """
-        from chardata.gallery_visibility import (refusal_reason,
-                                                 refusal_sentence)
-        return refusal_sentence(refusal_reason(self.char))
+        from chardata.gallery_visibility import sentence_for
+        return sentence_for(self.char)
 
     def class_string(self):
         return LOCALIZED_CHARACTER_CLASSES.get(self.char.char_class, '')
