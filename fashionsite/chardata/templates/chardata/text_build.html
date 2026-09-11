@@ -142,7 +142,7 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
                   placeholder="{% trans "One item name per line, or a build link" %}" required>{{ text }}</textarea>
         <button type="submit" class="button-generic">{% trans "Read this" %}</button>
     </form>
-    <p class="small-explain import-link-note">{% trans "Build links our server can read today: dofusbook.net." %}</p>
+    <p class="small-explain import-link-note">{% blocktrans with sites=link_sites %}Build links our server can read today: {{ sites }}.{% endblocktrans %}</p>
 
     {% comment %}Same order as the DofusBook import, and for the same reason:
     the gear is shown BEFORE anything is created, so the reader sees what is
@@ -156,6 +156,13 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
         <p class="import-link-read" id="import-link-read">{% blocktrans with name=link.name version=link.version_label %}Read from the link: {{ name }} ({{ version }}).{% endblocktrans %}{% if link.version_differs %} {% trans "The build will be created in that version." %}{% endif %}</p>
         {% if link.missing %}
         <p class="import-missing" id="import-link-missing">{% trans "These items are not in our catalogue and will be left out:" %} {{ link.missing|join:", " }}</p>
+        {% endif %}
+        {% comment %}Les exos d'un projet DofusCreator sont des increments
+        dans leur vocabulaire, sur une base que la page ne dit pas: les
+        appliquer serait deviner le jet dessous. Les pieces sont nommees
+        pour que le lecteur le sache avant, pas apres.{% endcomment %}
+        {% if link.fm_not_carried %}
+        <p class="import-missing" id="import-link-fm">{% trans "The forgemagie on these pieces does not travel yet and is left out:" %} {{ link.fm_not_carried|join:", " }}</p>
         {% endif %}
         {% endif %}
         <ul class="import-list">

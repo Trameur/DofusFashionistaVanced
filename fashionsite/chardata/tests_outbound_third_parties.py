@@ -19,7 +19,7 @@ import re
 
 from django.test import SimpleTestCase
 
-from chardata import dofusbook_export, dofusbook_import
+from chardata import dofusbook_export, dofusbook_import, dofuscreator_import
 
 #: Chaque hote que le serveur appelle pour le compte d'un lecteur, et le nom
 #: sous lequel la politique doit le designer. Une entree ici est une
@@ -30,6 +30,8 @@ _HOTE_ANNONCE = {
     'dofusbook.net': 'DofusBook',
     'retro.dofusbook.net': 'DofusBook',
     'touch.dofusbook.net': 'DofusBook',
+    'dofuscreator.com': 'DofusCreator',
+    'www.dofuscreator.com': 'DofusCreator',
     'www.google.com': 'reCAPTCHA',
 }
 
@@ -40,6 +42,7 @@ _HOTE_ANNONCE = {
 _APPELANTS = {
     'dofusbook_import.py': 'urlopen',
     'dofusbook_export.py': 'urlopen',
+    'dofuscreator_import.py': 'urlopen',
     'util.py': 'http_requests.post',
 }
 
@@ -71,7 +74,8 @@ def _hotes_appeles():
     les cles des deux rendrait dofus3, retro et touch, qui ne sont pas des
     hotes, et le test serait vert sans avoir rien lu.
     """
-    hotes = set(dofusbook_import.HOSTS) | set(dofusbook_export.HOSTS.values())
+    hotes = (set(dofusbook_import.HOSTS) | set(dofusbook_export.HOSTS.values())
+             | set(dofuscreator_import.HOSTS))
     chemin = os.path.join(_dossier(), 'util.py')
     with open(chemin, encoding='utf-8') as f:
         for adresse in re.findall(r'https://([a-z0-9.-]+)/recaptcha/',
@@ -88,6 +92,7 @@ class EveryHostTheServerCallsIsNamedTests(SimpleTestCase):
         hotes = _hotes_appeles()
         self.assertIn('www.dofusbook.net', hotes)
         self.assertIn('retro.dofusbook.net', hotes)
+        self.assertIn('dofuscreator.com', hotes)
         self.assertIn('www.google.com', hotes)
 
     def test_every_host_has_been_decided_about(self):
@@ -203,6 +208,19 @@ class TheOutgoingCallCarriesNoReaderTests(SimpleTestCase):
             self.assertEqual({'accept', 'referer', 'user-agent'},
                              set(vu['entetes']), nom)
 
+    def test_the_project_page_is_read_with_two_headers_and_no_referer(self):
+        """DofusCreator repond 200 a un GET nu avec un User-Agent de
+        navigateur (mesure du 11 septembre 2026): pas de Referer a
+        fabriquer, donc il n'en part pas."""
+        vu = self._capture(dofuscreator_import.fetch_project,
+                           'dofuscreator.com', '6e9f4')
+        self.assertEqual('https://dofuscreator.com/projet/6e9f4', vu['url'])
+        self.assertEqual('GET', vu['methode'])
+        self.assertIsNone(vu['corps'])
+        self.assertEqual({'accept', 'user-agent'}, set(vu['entetes']))
+        for entete in _ENTETES_QUI_TRAHISSENT:
+            self.assertNotIn(entete, vu['entetes'])
+
     def test_the_export_asks_about_items_and_sends_nothing_else(self):
         vu = self._capture(dofusbook_export.known_ankama_ids, 'retro',
                            [[11542]] + [[] for _ in range(9)])
@@ -263,6 +281,10 @@ class TheNewSentencesAreTranslatedTests(SimpleTestCase):
         'hand you carries the gear, the level and the characteristics of that '
         'build, and nothing that names you, and your browser only reaches '
         'their site if you click it.',
+        '<b>DofusCreator.</b> When you paste a link to a public DofusCreator '
+        'project, our server fetches that page from dofuscreator.com. The '
+        'call leaves from our address and not from yours, carries nothing '
+        'that names you, and only reads.',
         '<b>Code libraries.</b> Some of the code that makes the pages work, '
         'such as jQuery on every page and a text-reading library on the pages '
         'that read a screenshot, is fetched from Google Hosted Libraries and '

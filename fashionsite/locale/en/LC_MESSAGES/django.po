@@ -6473,9 +6473,6 @@ msgstr ""
 msgid "Read this"
 msgstr ""
 
-msgid "Build links our server can read today: dofusbook.net."
-msgstr ""
-
 msgid "Read from the link: %(name)s (%(version)s)."
 msgstr ""
 
@@ -6501,4 +6498,13 @@ msgid "That site answered something we could not read."
 msgstr ""
 
 msgid "Import it from a link, text or screenshots"
+msgstr ""
+
+msgid "Build links our server can read today: %(sites)s."
+msgstr ""
+
+msgid "The forgemagie on these pieces does not travel yet and is left out:"
+msgstr ""
+
+msgid "<b>DofusCreator.</b> When you paste a link to a public DofusCreator project, our server fetches that page from dofuscreator.com. The call leaves from our address and not from yours, carries nothing that names you, and only reads."
 msgstr ""

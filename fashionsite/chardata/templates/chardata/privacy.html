@@ -71,6 +71,10 @@ repenser, et rien n'a ete supprime.
     l'adresse du lecteur, et le lien rendu porte `rel="noreferrer"`.
     {% endcomment %}
     <li>{% blocktrans %}<b>DofusBook.</b> When you paste a DofusBook link, our server fetches that build from dofusbook.net; when you open one of your builds on their site, our server first asks them which of its items they know. Both calls leave from our address and not from yours, so on those steps they do not receive your address. The link we then hand you carries the gear, the level and the characteristics of that build, and nothing that names you, and your browser only reaches their site if you click it.{% endblocktrans %}</li>
+    {% comment %}Second site que le serveur va chercher pour un lecteur (11
+    septembre 2026): une page publique, en lecture seule, deux en-tetes
+    (User-Agent, Accept), mesure par tests_outbound_third_parties.{% endcomment %}
+    <li>{% blocktrans %}<b>DofusCreator.</b> When you paste a link to a public DofusCreator project, our server fetches that page from dofuscreator.com. The call leaves from our address and not from yours, carries nothing that names you, and only reads.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Hosting and infrastructure.</b> The site is hosted on a dedicated server and served through a content-delivery network that processes requests on our behalf.{% endblocktrans %}</li>
 </ul>
 

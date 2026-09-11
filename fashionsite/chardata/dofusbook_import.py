@@ -152,6 +152,40 @@ def map_items(payload, game_version):
     return trouves, manquants
 
 
+#: Their six base characteristics, in the order of our BASE_STATS
+#: (['vit', 'wis', 'str', 'int', 'cha', 'agi']): their `st` is
+#: ["vi", "sa", "fo", "in", "ch", "ag"], read off their bundle for the
+#: export and confirmed on the payload of build 7894460 on 2026-09-11:
+#: `stuff.stuffCarac` is {base_vi: 395, ..., scroll_vi: 100, ...}.
+THEIR_BASE_KEYS = ('vi', 'sa', 'fo', 'in', 'ch', 'ag')
+
+
+def base_stats(stuff):
+    """({our stat name: points spent}, {our stat name: scrolled}) from
+    `stuff.stuffCarac`, empty when the payload has none.
+
+    `base_*` is what the player invested and `scroll_*` the scroll, kept
+    apart because the site keeps them apart (CharBaseStats.scrolled_value
+    and total_value = both). A value that is not a whole number is dropped
+    rather than guessed. Thibaud, 2026-09-11: "l'import de dofusbook ne
+    prend pas bien en compte mes stats (base et parcho)"; measured, the
+    reader threw this block away.
+    """
+    from fashionistapulp.dofus_constants import STATS_NAMES
+    carac = stuff.get('stuffCarac') or {}
+    if not isinstance(carac, dict):
+        return {}, {}
+    points, parchos = {}, {}
+    for (nom, _cle), leur in zip(STATS_NAMES, THEIR_BASE_KEYS):
+        base = carac.get('base_' + leur)
+        parcho = carac.get('scroll_' + leur)
+        if isinstance(base, int) and not isinstance(base, bool) and base > 0:
+            points[nom] = base
+        if isinstance(parcho, int) and not isinstance(parcho, bool) and parcho > 0:
+            parchos[nom] = parcho
+    return points, parchos
+
+
 def read_build(url, opener=None):
     """Everything the caller needs to offer the player a build, or raise.
 
@@ -180,6 +214,7 @@ def read_build(url, opener=None):
 
     stuff = payload.get('stuff') or {}
     niveau = stuff.get('character_level')
+    points, parchos = base_stats(stuff)
     return {
         'game_version': game_version,
         'source_host': host,
@@ -188,6 +223,8 @@ def read_build(url, opener=None):
         'level': niveau if isinstance(niveau, int) and 1 <= niveau <= 200 else None,
         'item_ids': items,
         'missing': manquants,
+        'base_points': points,
+        'base_scrolled': parchos,
         # Their character_class is their own numbering and NOT Ankama's: build
         # 7894460 is called "Zobal M 200" and carries character_class 12,
         # where 12 is Pandawa in Ankama's order. Nothing in the payload names

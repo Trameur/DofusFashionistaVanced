@@ -29584,6 +29584,32 @@ class DofusBookLinkIsReadTests(SimpleTestCase):
             parse_link('https://touch.dofusbook.net/fr/stuff/2558915-feu-eau'))
         self.assertEqual({'dofus3', 'retro', 'touch'}, set(HOSTS.values()))
 
+    def test_the_base_stats_and_scrolls_are_read_from_stuffcarac(self):
+        """Their `stuff.stuffCarac`, read on build 7894460 on 2026-09-11:
+        base_* is what the player invested, scroll_* the scroll, in their
+        order vi, sa, fo, in, ch, ag which is ours."""
+        from chardata.dofusbook_import import base_stats
+        carac = {'scroll_vi': 100, 'scroll_sa': 100, 'scroll_fo': 100,
+                 'scroll_in': 100, 'scroll_ch': 100, 'scroll_ag': 100,
+                 'base_vi': 395, 'base_sa': 0, 'base_fo': 300, 'base_in': 0,
+                 'base_ch': 0, 'base_ag': 0}
+        points, parchos = base_stats({'stuffCarac': carac})
+        self.assertEqual({'Vitality': 395, 'Strength': 300}, points)
+        self.assertEqual({'Vitality': 100, 'Wisdom': 100, 'Strength': 100,
+                          'Intelligence': 100, 'Chance': 100, 'Agility': 100},
+                         parchos)
+        # Sans le bloc, rien; une valeur qui n'est pas un entier est laissee.
+        self.assertEqual(({}, {}), base_stats({}))
+        self.assertEqual(({}, {}), base_stats({'stuffCarac': None}))
+        self.assertEqual(({}, {}), base_stats({'stuffCarac': {'base_vi': '395',
+                                                               'scroll_vi': True}}))
+        charge = dict(self.CHARGE, stuff=dict(self.CHARGE['stuff'],
+                                              stuffCarac=carac))
+        from chardata.dofusbook_import import read_build
+        lu = read_build(self.LIEN, opener=self._opener(charge=charge))
+        self.assertEqual({'Vitality': 395, 'Strength': 300}, lu['base_points'])
+        self.assertEqual(100, lu['base_scrolled']['Agility'])
+
     def test_a_link_that_is_not_theirs_is_not_read(self):
         from chardata.dofusbook_import import parse_link
         for url in ('https://example.com/fr/stuff/7894460-x',
@@ -29698,7 +29724,84 @@ class LinkImportOnTheOnePageTests(TestCase):
         return {'game_version': version, 'source_host': 'www.dofusbook.net',
                 'build_id': '7894460', 'name': 'Zobal M 200', 'level': level,
                 'item_ids': ids, 'missing': missing or [],
+                # Les points investis et les parchotages de la vraie charge
+                # de 7894460 (stuffCarac, lu le 2026-09-11): 395 vitalite et
+                # 300 force investis, tout parchote a 100.
+                'base_points': {'Vitality': 395, 'Strength': 300},
+                'base_scrolled': {nom: 100 for nom in (
+                    'Vitality', 'Wisdom', 'Strength', 'Intelligence',
+                    'Chance', 'Agility')},
                 'class_is_unknown': True}
+
+    def test_the_stats_of_the_link_come_in_with_the_gear(self):
+        """Thibaud, 11 septembre 2026: <<l'import de dofusbook ne prend pas
+        bien en compte mes stats (base et parcho)>>. Mesure: read_build les
+        jetait. Ils sont montres avant, et ecrits tels que le site les garde
+        (total = investi + parchemin, scrolled = parchemin)."""
+        from chardata.models import Char, CharBaseStats
+        self._patch(build=self._build())
+        page = self.client.post(self._url(), {'text': self.LIEN})
+        self.assertContains(page, 'Vitality: 395')
+        self.assertContains(page, '100 scrolled')
+        self.client.post(self._url(), {'text': self.LIEN, 'confirm': '1',
+                                       'char_class': 'Iop', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        lignes = {l.stat: (l.total_value, l.scrolled_value)
+                  for l in CharBaseStats.objects.filter(char=char)}
+        self.assertEqual((495, 100), lignes['Vitality'])
+        self.assertEqual((400, 100), lignes['Strength'])
+        self.assertEqual((100, 100), lignes['Agility'])
+
+    def test_a_project_link_brings_its_class_and_names_the_fm_left_behind(self):
+        """Un lien DofusCreator porte la classe dans une numerotation que
+        l'on sait lire: elle est pre-selectionnee; ses exos par piece ne
+        voyagent pas et la page nomme les pieces avant creation."""
+        from chardata.models import Char
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        build = self._build()
+        build.update({'source_host': 'dofuscreator.com', 'build_id': '6e9f4',
+                      'name': 'MIAAW 420', 'char_class': 'Ecaflip',
+                      'class_is_unknown': False,
+                      'fm_not_carried': build['item_ids'][:2]})
+        self._patch(build=build)
+        lien = 'https://dofuscreator.com/projet/6e9f4'
+        page = self.client.post(self._url(), {'text': lien},
+                                HTTP_ACCEPT_LANGUAGE='en')
+        self.assertContains(page, 'import-link-fm')
+        nom = structure.get_item_name_in_language(
+            structure.get_item_by_id(build['item_ids'][0]), 'en')
+        self.assertContains(page, 'does not travel yet')
+        self.assertContains(page, nom)
+        # Le minifieur trie les attributs et retire les guillemets simples.
+        self.assertRegex(page.content.decode('utf-8'),
+                         r'<option[^>]*selected[^>]*value="?Ecaflip"?[^>]*>'
+                         r'|<option[^>]*value="?Ecaflip"?[^>]*selected[^>]*>')
+        self.client.post(self._url(), {'text': lien, 'confirm': '1',
+                                       'char_class': 'Ecaflip', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        self.assertEqual('Ecaflip', char.char_class)
+        self.assertEqual('MIAAW 420', char.name)
+
+    def test_the_note_under_the_field_lists_the_readable_sites(self):
+        page = self.client.get(self._url(), HTTP_ACCEPT_LANGUAGE='en'
+                               ).content.decode('utf-8')
+        self.assertIn('dofusbook.net, dofuscreator.com', page)
+
+    def test_a_points_line_in_the_text_wins_over_the_link(self):
+        """Une ligne Points: collee sous le lien est un choix explicite du
+        lecteur; le lien fournit le reste."""
+        from chardata.models import Char, CharBaseStats
+        self._patch(build=self._build())
+        texte = self.LIEN + '\nPoints: Vitality 100 / Wisdom 50'
+        self.client.post(self._url(), {'text': texte, 'confirm': '1',
+                                       'char_class': 'Iop', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        lignes = {l.stat: (l.total_value, l.scrolled_value)
+                  for l in CharBaseStats.objects.filter(char=char)}
+        self.assertEqual((200, 100), lignes['Vitality'])
+        self.assertEqual((150, 100), lignes['Wisdom'])
+        self.assertEqual((400, 100), lignes['Strength'])
 
     def _patch(self, build=None, erreur=None):
         from chardata import text_build_view

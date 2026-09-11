@@ -7232,9 +7232,6 @@ msgstr "Ein Gegenstandsname pro Zeile, oder ein Build-Link"
 msgid "Read this"
 msgstr "Das lesen"
 
-msgid "Build links our server can read today: dofusbook.net."
-msgstr "Build-Links, die unser Server heute lesen kann: dofusbook.net."
-
 msgid "Read from the link: %(name)s (%(version)s)."
 msgstr "Aus dem Link gelesen: %(name)s (%(version)s)."
 
@@ -7261,3 +7258,12 @@ msgstr "Diese Seite hat etwas geantwortet, das wir nicht lesen konnten."
 
 msgid "Import it from a link, text or screenshots"
 msgstr "Importiere ihn aus einem Link, Text oder Screenshots"
+
+msgid "Build links our server can read today: %(sites)s."
+msgstr "Build-Links, die unser Server heute lesen kann: %(sites)s."
+
+msgid "The forgemagie on these pieces does not travel yet and is left out:"
+msgstr "Die Schmiedemagie dieser Teile reist noch nicht mit und bleibt außen vor:"
+
+msgid "<b>DofusCreator.</b> When you paste a link to a public DofusCreator project, our server fetches that page from dofuscreator.com. The call leaves from our address and not from yours, carries nothing that names you, and only reads."
+msgstr "<b>DofusCreator.</b> Wenn du einen Link zu einem öffentlichen DofusCreator-Projekt einfügst, ruft unser Server diese Seite von dofuscreator.com ab. Der Aufruf geht von unserer Adresse aus und nicht von deiner, trägt nichts, was dich benennt, und liest nur."

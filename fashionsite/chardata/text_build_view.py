@@ -29,8 +29,8 @@ from django.utils.translation import gettext as _
 
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
-from chardata.dofusbook_import import (ImportError_, is_short_link,
-                                       parse_link, read_build)
+from chardata import build_link_import
+from chardata.dofusbook_import import ImportError_
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _preview, _solution_path)
 from chardata.lock_forbid import set_stat_overrides
@@ -42,7 +42,7 @@ from chardata.util import set_response, safe_int
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
                                              max_scroll_for_version)
 from fashionistapulp.game_versions import get_game_version
-from fashionistapulp.structure import get_current_game_version
+from fashionistapulp.structure import get_current_game_version, get_structure
 from fashionistapulp.translation import get_supported_language
 
 logger = logging.getLogger(__name__)
@@ -56,6 +56,10 @@ NIVEAU_PAR_DEFAUT = 200
 #: Une ligne qui n'est qu'une adresse. Un lien au milieu d'une phrase n'est
 #: pas un lien colle, c'est du texte.
 _LIGNE_LIEN = re.compile(r'^(?:https?://\S+|www\.\S+)$', re.I)
+
+#: La couture que les tests remplacent pour ne jamais toucher le reseau:
+#: le registre des lecteurs, un par site que le serveur sait lire.
+read_build = build_link_import.read
 
 
 def _version(request):
@@ -103,7 +107,7 @@ def separe_les_liens(texte):
     for ligne in texte.splitlines():
         candidat = ligne.strip()
         if _LIGNE_LIEN.match(candidat):
-            if parse_link(candidat) is not None or is_short_link(candidat):
+            if build_link_import.recognises(candidat):
                 lisibles.append(candidat)
             else:
                 illisibles.append(candidat)
@@ -163,6 +167,9 @@ def _reponse(request, params):
     """
     params.setdefault('ocr_languages',
                       language_options(get_supported_language()))
+    # Les sites que le serveur sait lire, sous le champ: une information,
+    # pas une enseigne, et elle suit le registre.
+    params.setdefault('link_sites', ', '.join(build_link_import.readable_sites()))
     return set_response(request, 'chardata/text_build.html', params)
 
 
@@ -267,15 +274,42 @@ def text_build(request):
     char_class = request.POST.get('char_class') or ''
     if not char_class and lu['char_class'] in CHARACTER_CLASSES:
         char_class = lu['char_class']
+    # Un lien qui nomme la classe dans une numerotation que l'on sait
+    # lire (DofusCreator, pas DofusBook) la pre-remplit; le choix reste.
+    if not char_class and build and build.get('char_class') in CHARACTER_CLASSES:
+        char_class = build['char_class']
     niveau_lu = lu['char_level'] or (build['level'] if build else None)
     niveau = safe_int(request.POST.get('level'), niveau_lu or NIVEAU_PAR_DEFAUT)
 
+    # Les caracteristiques: celles du lien d'abord (leur stuffCarac porte les
+    # points investis et les parchotages), celles du texte par-dessus quand
+    # il en porte (une ligne Points: ou Scrolls: collee est un choix
+    # explicite du lecteur). Thibaud, 11 septembre 2026: l'import d'un lien
+    # jetait ses stats de base et ses parchotages.
+    points = dict(build.get('base_points') or {}) if build else {}
+    points.update(lu['base_points'])
+    parchos = dict(build.get('base_scrolled') or {}) if build else {}
+    parchos.update(lu['base_scrolled'])
+    caracteristiques = dict(lu, base_points=points, base_scrolled=parchos)
+
     lien = None
     if build:
+        structure = get_structure(version)
+        langue = get_supported_language()
+        # Les pieces dont la forgemagie du lien reste derriere, nommees
+        # dans la langue du lecteur: un build qui arrive sans ses exos
+        # doit le dire avant, pas le laisser decouvrir.
+        sans_fm = []
+        for item_id in build.get('fm_not_carried') or []:
+            item = structure.get_item_by_id(item_id)
+            if item is not None:
+                sans_fm.append(structure.get_item_name_in_language(item, langue)
+                               or item.name)
         lien = {'name': build['name'],
                 'version_label': get_game_version(version).label,
                 'level': build['level'],
                 'missing': build['missing'],
+                'fm_not_carried': sans_fm,
                 'version_differs': version != version_page}
 
     if not request.POST.get('confirm') or char_class not in CHARACTER_CLASSES:
@@ -293,14 +327,14 @@ def text_build(request):
             'refused_rolls': lu['refused_rolls'][:12],
             'level': niveau,
             'char_class': char_class,
-            'base_points': _caracteristiques_pour_apercu(lu),
+            'base_points': _caracteristiques_pour_apercu(caracteristiques),
             'classes': _classes_for(version),
             'login_problem': is_anon_cant_create(request),
         })
 
     nom = (build['name'] if build and build['name'] else _('Imported build'))
     char = create_build(request, char_class, niveau, set(), version, name=nom)
-    _ecrit_les_caracteristiques(char, lu['base_points'], lu['base_scrolled'])
+    _ecrit_les_caracteristiques(char, points, parchos)
     # `origin` distingue dans la ligne stockee un build venu d'un lien d'un
     # build colle en texte; ni l'un ni l'autre n'est <<generated>>, donc la
     # page ne dira jamais que le solveur a produit ce qu'il n'a pas vu.
