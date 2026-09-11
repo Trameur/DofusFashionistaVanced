@@ -186,6 +186,80 @@ def base_stats(stuff):
     return points, parchos
 
 
+#: Their stat codes to our stat keys, read off the labels of their language
+#: file (fr-BM4Xwfip.js) and our STAT_NAME_TO_KEY on 2026-09-11. What is not
+#: here (deg, the "% final damage", pb, the weapon damage lines...) has no
+#: key on our side and is reported rather than dropped.
+FM_CODES = {
+    'vi': 'vit', 'sa': 'wis', 'fo': 'str', 'in': 'int', 'ch': 'cha', 'ag': 'agi',
+    'pa': 'ap', 'pm': 'mp', 'po': 'range', 'ic': 'summon', 'pp': 'pp',
+    'ii': 'init', 'so': 'heals', 'pd': 'pod', 'cc': 'ch', 'ec': 'cf',
+    'ta': 'lock', 'fu': 'dodge', 'epa': 'apres', 'epm': 'mpres',
+    'rpa': 'apred', 'rpm': 'mpred', 'rv': 'ref', 'pu': 'pow', 'dmg': 'dam',
+    'dnf': 'neutdam', 'dtf': 'earthdam', 'dff': 'firedam', 'def': 'waterdam',
+    'daf': 'airdam', 'dc': 'cridam', 'dp': 'pshdam', 'pi': 'trapdam',
+    'pip': 'trapdamper', 'dm': 'permedam', 'dd': 'perrandam',
+    'dw': 'perweadam', 'ds': 'perspedam',
+    'rn': 'neutres', 'rt': 'earthres', 'rf': 'fireres', 're': 'waterres',
+    'ra': 'airres', 'rnp': 'neutresper', 'rtp': 'earthresper',
+    'rfp': 'fireresper', 'rep': 'waterresper', 'rap': 'airresper',
+    'rc': 'crires', 'rp': 'pshres', 'rm': 'respermee', 'rd': 'resperran',
+    'rw': 'resperwea',
+}
+
+
+def item_rolls(payload, game_version):
+    """({our item id: [{'key', 'value'}]}, [(our item id, code, value) with no
+    key on our side]).
+
+    `fmItems` is keyed by their slot code (a1, ch, d6...), the value of a
+    slot is {stat code: FINAL value of the line}: their client replaces the
+    item's min and max with it, or adds the line when the item lacks it
+    (that is their exo). Measured on builds 23227661 (www) and 2541727
+    (retro) on 2026-09-11. The slot is joined to the item through
+    `stuff.stuffItem[slot]` (their item id) and `items[].official` (the
+    Ankama id), so a slot whose item we do not carry contributes nothing:
+    the item itself is already in `missing`.
+
+    A final value is exactly what our per-item overrides store, and whether
+    it is applied, flagged as out of range, or added as an exotic line when
+    the item lacks the stat is decided piece by piece by
+    text_build_import._jets_de_la_piece with lignes_ajoutees=True: the rule
+    of pasted text, minus the refusal that only guards against OCR misreads.
+    """
+    from fashionistapulp.structure import get_structure
+    structure = get_structure(game_version)
+    stuff = payload.get('stuff') or {}
+    par_emplacement = stuff.get('stuffItem') or {}
+    officiel_par_leur_id = {}
+    for entree in payload.get('items') or []:
+        try:
+            officiel_par_leur_id[str(entree.get('id'))] = int(entree.get('official'))
+        except (TypeError, ValueError):
+            continue
+    fm = payload.get('fmItems') or {}
+    rolls, sans_cle = {}, []
+    if not isinstance(fm, dict) or not isinstance(par_emplacement, dict):
+        return rolls, sans_cle
+    for slot, lignes in fm.items():
+        if not isinstance(lignes, dict) or not lignes:
+            continue
+        leur_id = par_emplacement.get(slot)
+        ankama = officiel_par_leur_id.get(str(leur_id)) if leur_id is not None else None
+        item = structure.items_dict_ankama.get(ankama) if ankama is not None else None
+        for code, valeur in lignes.items():
+            if not isinstance(valeur, int) or isinstance(valeur, bool):
+                continue
+            if item is None:
+                continue
+            cle = FM_CODES.get(code)
+            if cle is None or structure.get_stat_by_key(cle) is None:
+                sans_cle.append((item.id, code, valeur))
+                continue
+            rolls.setdefault(item.id, []).append({'key': cle, 'value': valeur})
+    return rolls, sans_cle
+
+
 def read_build(url, opener=None):
     """Everything the caller needs to offer the player a build, or raise.
 
@@ -215,6 +289,7 @@ def read_build(url, opener=None):
     stuff = payload.get('stuff') or {}
     niveau = stuff.get('character_level')
     points, parchos = base_stats(stuff)
+    rolls, sans_cle = item_rolls(payload, game_version)
     return {
         'game_version': game_version,
         'source_host': host,
@@ -225,6 +300,16 @@ def read_build(url, opener=None):
         'missing': manquants,
         'base_points': points,
         'base_scrolled': parchos,
+        'rolls': rolls,
+        'fm_unmapped': sans_cle,
+        # Their build-wide lines (fmGlobal, empty on every real build read
+        # so far) and the weapon forgemagie string (fmWeapon, 'de-85' on
+        # build 23227661, an element code we do not decode): nothing on
+        # our side holds them without naming a piece, so they are handed
+        # back to be named as not carried, never guessed onto an item.
+        'fm_global': dict((payload.get('fmGlobal') or {})
+                          if isinstance(payload.get('fmGlobal'), dict) else {}),
+        'fm_weapon': payload.get('fmWeapon') or None,
         # Their character_class is their own numbering and NOT Ankama's: build
         # 7894460 is called "Zobal M 200" and carries character_class 12,
         # where 12 is Pandawa in Ankama's order. Nothing in the payload names

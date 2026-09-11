@@ -164,6 +164,22 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
         {% if link.fm_not_carried %}
         <p class="import-missing" id="import-link-fm">{% trans "The forgemagie on these pieces does not travel yet and is left out:" %} {{ link.fm_not_carried|join:", " }}</p>
         {% endif %}
+        {% comment %}Ce que le lien porte en forgemagie et qu'aucune piece
+        d'ici ne recoit: la forgemagie de l'arme (un changement d'element,
+        que des overrides par caracteristique ne savent pas ecrire), les
+        lignes au niveau du build, et les codes sans caracteristique chez
+        nous. Nommes avant la creation, dans leurs mots quand il le faut,
+        plutot que perdus en silence. Les jets par piece, eux, sont sur
+        les puces des pieces, comme ceux d'un texte colle.{% endcomment %}
+        {% if link.fm_weapon %}
+        <p class="import-missing" id="import-link-fm-weapon">{% trans "The weapon forgemagie from the link is left out." %}</p>
+        {% endif %}
+        {% if link.fm_global %}
+        <p class="import-missing" id="import-link-fm-global">{% trans "These lines from the link belong to no piece and are left out:" %} {{ link.fm_global|join:", " }}</p>
+        {% endif %}
+        {% if link.fm_unmapped %}
+        <p class="import-missing" id="import-link-fm-unmapped">{% trans "These forgemagie lines could not be read and are left out:" %} {{ link.fm_unmapped|join:", " }}</p>
+        {% endif %}
         {% endif %}
         <ul class="import-list">
             {% for piece in matched %}
@@ -184,7 +200,9 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
 
         {% if base_points %}
         <div class="import-ignored">
-            <p>{% trans "Characteristics found in the text:" %}</p>
+            {% comment %}<<lues>> et non <<trouvees dans le texte>>:
+            depuis le 11 septembre 2026 elles viennent aussi du lien.{% endcomment %}
+            <p>{% trans "Characteristics read:" %}</p>
             <ul>
                 {% for line in base_points %}<li>{{ line.name }}: {{ line.points }}{% if line.scrolled %} + {% blocktrans with n=line.scrolled %}{{ n }} scrolled{% endblocktrans %}{% endif %}</li>{% endfor %}
             </ul>

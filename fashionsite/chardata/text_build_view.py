@@ -36,7 +36,8 @@ from chardata.dofusbook_view import (_classes_for, _place_items,
 from chardata.lock_forbid import set_stat_overrides
 from chardata.models import CharBaseStats
 from chardata.screenshot_reader import language_options
-from chardata.text_build_import import MAX_LIGNES, read_items
+from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
+                                        read_items)
 from chardata.translation_util import localized_stat_name
 from chardata.util import set_response, safe_int
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES, STATS_NAMES,
@@ -173,14 +174,61 @@ def _reponse(request, params):
     return set_response(request, 'chardata/text_build.html', params)
 
 
-def _pieces_du_lien(build):
-    """Les objets d'un lien, dans la forme des objets lus dans le texte.
+def _pieces_du_lien(build, structure, version):
+    """Les objets d'un lien, dans la forme des objets lus dans le texte, avec
+    la forgemagie que le lien porte piece par piece.
 
-    Leur identifiant Ankama a decide, rien n'est approximatif et aucun jet
-    ne voyage par un lien: la liste des jets est vide, pas devinee.
+    ([pieces], {item id: {stat id: valeur}}, [jets refuses]). Leur identifiant
+    Ankama a decide de la piece, rien n'est approximatif. Un jet du lien est
+    une valeur FINALE de ligne, exactement ce que nos overrides gardent, et
+    il passe par la meme regle qu'un jet colle (`_jets_de_la_piece`):
+    applique quand la piece porte la stat, exo pour les PA, PM et portee.
+    Une ligne sur une stat que la piece ne porte pas est AJOUTEE et non
+    refusee: un lien n'est pas une lecture d'OCR, c'est une forgemagie
+    exotique voulue (8 dommages critiques sur un arc qui n'en porte pas,
+    mesure sur le build 23227661). Thibaud, 11 septembre 2026: <<l'import
+    de dofusbook ne prend pas bien en compte ... les FM sur les items>>;
+    mesure, la liste des jets etait vide, pas lue.
     """
-    return [{'name': piece['name'], 'approximate': False, 'rolls': [],
-             'id': piece['id']} for piece in _preview(build)]
+    jets_par_piece = build.get('rolls') or {}
+    pieces, overrides, refuses = [], {}, []
+    for piece in _preview(build):
+        item = structure.get_item_by_id(piece['id'])
+        appliques, detail = _jets_de_la_piece(
+            structure, item, jets_par_piece.get(piece['id']) or [], version,
+            lignes_ajoutees=True)
+        pieces.append({'name': piece['name'], 'approximate': False,
+                       'rolls': detail, 'id': piece['id'],
+                       'out_of_range': any(d['out_of_range'] for d in detail)})
+        if appliques:
+            overrides[piece['id']] = appliques
+        for d in detail:
+            if not d['applied']:
+                refuses.append({'name': piece['name'], 'stat': d['name'],
+                                'value': d['value']})
+    return pieces, overrides, refuses
+
+
+def _forgemagie_laissee(build, structure, langue):
+    """Ce que le lien porte en forgemagie et qu'aucune piece d'ici ne peut
+    recevoir, en toutes lettres pour l'apercu: les lignes au niveau du
+    build (`fmGlobal`, jamais vu rempli sur un vrai build, rendu tel quel
+    dans leurs codes) et les lignes d'une piece dont le code n'a pas de
+    caracteristique chez nous (`deg` sur un Dofus Tachete Retro, mesure le
+    11 septembre 2026). La forgemagie de l'arme est un drapeau a part: c'est
+    un changement d'element, que des overrides par caracteristique ne
+    savent pas ecrire.
+    """
+    global_ = ['%s %d' % (code, valeur)
+               for code, valeur in sorted((build.get('fm_global') or {}).items())
+               if isinstance(valeur, int) and not isinstance(valeur, bool)]
+    sans_cle = []
+    for item_id, code, valeur in build.get('fm_unmapped') or []:
+        item = structure.get_item_by_id(item_id)
+        nom = ((structure.get_item_name_in_language(item, langue) or item.name)
+               if item is not None else str(item_id))
+        sans_cle.append('%s: %s %d' % (nom, code, valeur))
+    return global_, sans_cle
 
 
 def text_build(request):
@@ -293,9 +341,12 @@ def text_build(request):
     caracteristiques = dict(lu, base_points=points, base_scrolled=parchos)
 
     lien = None
+    pieces_du_lien, overrides_du_lien, refuses_du_lien = [], {}, []
     if build:
         structure = get_structure(version)
         langue = get_supported_language()
+        pieces_du_lien, overrides_du_lien, refuses_du_lien = _pieces_du_lien(
+            build, structure, version)
         # Les pieces dont la forgemagie du lien reste derriere, nommees
         # dans la langue du lecteur: un build qui arrive sans ses exos
         # doit le dire avant, pas le laisser decouvrir.
@@ -305,12 +356,25 @@ def text_build(request):
             if item is not None:
                 sans_fm.append(structure.get_item_name_in_language(item, langue)
                                or item.name)
+        fm_global, fm_sans_cle = _forgemagie_laissee(build, structure, langue)
         lien = {'name': build['name'],
                 'version_label': get_game_version(version).label,
                 'level': build['level'],
                 'missing': build['missing'],
                 'fm_not_carried': sans_fm,
+                'fm_global': fm_global,
+                'fm_weapon': bool(build.get('fm_weapon')),
+                'fm_unmapped': fm_sans_cle,
                 'version_differs': version != version_page}
+
+    # Les jets, meme regle que les caracteristiques: ceux du lien d'abord,
+    # ceux du texte par-dessus pour la meme piece, puisqu'une ligne collee
+    # est un choix explicite du lecteur.
+    overrides = {}
+    for source in (overrides_du_lien, lu['overrides']):
+        for item_id, par_piece in source.items():
+            overrides.setdefault(item_id, {}).update(par_piece)
+    refuses = refuses_du_lien + lu['refused_rolls']
 
     if not request.POST.get('confirm') or char_class not in CHARACTER_CLASSES:
         return _reponse(request, {
@@ -318,13 +382,13 @@ def text_build(request):
             'confirm': True,
             'version_label': get_game_version(version).label,
             'link': lien,
-            'matched': _pieces_du_lien(build) + lu['matched'] if build else lu['matched'],
+            'matched': pieces_du_lien + lu['matched'],
             'ignored': laissees[:12],
             'ignored_total': len(laissees),
             'unreadable_links': illisibles[:12],
             'truncated': lu['truncated'],
             'max_lines': MAX_LIGNES,
-            'refused_rolls': lu['refused_rolls'][:12],
+            'refused_rolls': refuses[:12],
             'level': niveau,
             'char_class': char_class,
             'base_points': _caracteristiques_pour_apercu(caracteristiques),
@@ -344,9 +408,9 @@ def text_build(request):
     # solution, qui ecrit sur le char, et ecrire les overrides avant se
     # ferait ecraser. Un seul save pour tout le lot, la ou
     # set_item_stat_override en fait un par caracteristique.
-    if lu['overrides']:
-        set_stat_overrides(char, lu['overrides'])
+    if overrides:
+        set_stat_overrides(char, overrides)
     logger.info('imported %d items (%d from a link) and %d rolled stats '
                 'into char %s', len(item_ids), len(ids_du_lien),
-                sum(len(v) for v in lu['overrides'].values()), char.id)
+                sum(len(v) for v in overrides.values()), char.id)
     return HttpResponseRedirect(_solution_path(char))

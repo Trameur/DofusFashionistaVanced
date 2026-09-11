@@ -306,7 +306,8 @@ def _langue_du_texte(lignes, structure, langue):
     return meilleure, lexiques.get(meilleure) or {}
 
 
-def _jets_de_la_piece(structure, item, jets, game_version):
+def _jets_de_la_piece(structure, item, jets, game_version,
+                      lignes_ajoutees=False):
     """Ce qu'on applique a la piece, et ce qu'on refuse d'y appliquer.
 
     **Un jet sur une stat que l'objet ne porte pas n'est PAS applique**, sauf
@@ -330,6 +331,18 @@ def _jets_de_la_piece(structure, item, jets, game_version):
     Un jet HORS FOURCHETTE, lui, est applique et signale. La forgemagie pousse
     legitimement un jet au-dessus de son maximum et peut en sacrifier un sous
     son minimum: seul le joueur sait, et le refuser serait faux.
+
+    `lignes_ajoutees`: pour une lecture STRUCTUREE (le lien d'un site de
+    builds, jamais du texte), une ligne sur une stat que l'objet ne porte
+    pas n'est pas une erreur de lecture mais une forgemagie exotique voulue
+    par le joueur, et leur client l'ajoute a la piece comme le fait notre
+    modele. Mesure sur le build DofusBook 23227661 le 11 septembre 2026,
+    recoupe avec leur propre table d'effets: 8 dommages critiques sur un
+    arc qui n'en porte pas, 2 coups critiques sur des bottes, 20 dommages
+    sur un Dofus Tachete (le bonus conditionnel de son sort, que le joueur
+    a modele en ligne). Refuser ces lignes rendait un build sans ses exos,
+    ce que Thibaud a nomme le jour meme. Elles sont appliquees et marquees
+    exo, sans fourchette puisqu'il n'y a pas de jet de catalogue derriere.
     """
     portees = dict(item.stats or ())
     appliques = {}
@@ -338,8 +351,9 @@ def _jets_de_la_piece(structure, item, jets, game_version):
         stat = structure.get_stat_by_key(jet['key'])
         if stat is None:
             continue
-        exo = (jet['key'] in EXO_STAT_KEYS
-               and jet['value'] > portees.get(stat.id, 0))
+        exo = ((jet['key'] in EXO_STAT_KEYS
+                and jet['value'] > portees.get(stat.id, 0))
+               or (lignes_ajoutees and stat.id not in portees))
         # Le nom de la stat dans la langue du lecteur ET dans les mots de
         # SA version: `stat.name` est le libelle interne, et l'afficher tel
         # quel mettait <<Vitality>> et <<MP>> sur une page francaise.

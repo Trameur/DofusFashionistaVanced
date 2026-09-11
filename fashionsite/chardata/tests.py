@@ -29610,6 +29610,75 @@ class DofusBookLinkIsReadTests(SimpleTestCase):
         self.assertEqual({'Vitality': 395, 'Strength': 300}, lu['base_points'])
         self.assertEqual(100, lu['base_scrolled']['Agility'])
 
+    #: Five of the sixteen pieces of build 23227661 (www, read 2026-09-11),
+    #: with their ids, Ankama ids and forgemagie exactly as their API hands
+    #: them back: `stuffItem` is {slot: their id}, `fmItems` {slot: {stat
+    #: code: final value}}, `fmWeapon` an element string, `fmGlobal` empty
+    #: on every real build read so far.
+    CHARGE_FM = {
+        'stuff': {'name': 'Terre Eau Air Transi Crit/RetPm',
+                  'character_level': 200,
+                  'stuffItem': {'a1': 6742, 'a2': 3173, 'am': 2805,
+                                'ar': 6743, 'd6': 5123, 'mo': None}},
+        'items': [{'id': 6742, 'official': 32234, 'name': 'Anneau de Culbutoeuf'},
+                  {'id': 3173, 'official': 15190, 'name': 'Bracelet du Piloztere'},
+                  {'id': 2805, 'official': 14094, 'name': 'Amulette du Strigide'},
+                  {'id': 6743, 'official': 32235, 'name': 'Arc de Culbutoeuf'},
+                  {'id': 5123, 'official': 7112, 'name': 'Dofus Tachete'}],
+        'fmItems': {'a1': {'pm': 1}, 'a2': {'pa': 1}, 'am': {'cc': 8},
+                    'ar': {'dc': 8}, 'd6': {'dmg': 20}, 'mo': {}},
+        'fmGlobal': {},
+        'fmWeapon': 'de-85',
+    }
+
+    def test_the_forgemagie_of_each_piece_is_read_through_its_slot(self):
+        """Thibaud, 2026-09-11: "l'import de dofusbook ne prend pas bien en
+        compte ... les FM sur les items". Measured on build 23227661 the
+        same day: `fmItems` is keyed by their slot code and holds the FINAL
+        value of each line, and the slot reaches the item through
+        `stuff.stuffItem` (their id) then `items[].official` (Ankama's).
+        Nothing is approximate: an exo MP on the ring, an exo AP on the
+        bracelet, 8 critical on the amulet, 8 critical damage on the bow,
+        20 damage on the Dofus."""
+        from chardata.dofusbook_import import item_rolls, read_build
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+
+        def de(ankama):
+            return structure.items_dict_ankama[ankama].id
+
+        rolls, sans_cle = item_rolls(self.CHARGE_FM, 'dofus3')
+        self.assertEqual({de(32234): [{'key': 'mp', 'value': 1}],
+                          de(15190): [{'key': 'ap', 'value': 1}],
+                          de(14094): [{'key': 'ch', 'value': 8}],
+                          de(32235): [{'key': 'cridam', 'value': 8}],
+                          de(7112): [{'key': 'dam', 'value': 20}]}, rolls)
+        self.assertEqual([], sans_cle)
+        build = read_build(self.LIEN,
+                           opener=self._opener(charge=self.CHARGE_FM))
+        self.assertEqual(rolls, build['rolls'])
+        self.assertEqual('de-85', build['fm_weapon'])
+        self.assertEqual({}, build['fm_global'])
+        self.assertEqual([], build['fm_unmapped'])
+
+    def test_a_line_with_no_stat_on_our_side_is_reported_not_dropped(self):
+        """Measured on Retro build 2541727 (2026-09-11): `d2: {deg: 10}` on
+        a Black-Spotted Dofus, a code with no characteristic here. It comes
+        back named with its piece, so the page can say it was left out. A
+        line on a piece we do not carry says nothing more: the piece is
+        already in `missing`."""
+        from chardata.dofusbook_import import item_rolls
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        charge = {'stuff': {'stuffItem': {'d6': 5123, 'ch': 99}},
+                  'items': [{'id': 5123, 'official': 7112, 'name': 'Dofus Tachete'},
+                            {'id': 99, 'official': 999999999, 'name': 'Nowhere'}],
+                  'fmItems': {'d6': {'deg': 10, 'dmg': 20}, 'ch': {'vi': 50}}}
+        rolls, sans_cle = item_rolls(charge, 'dofus3')
+        dofus = structure.items_dict_ankama[7112].id
+        self.assertEqual({dofus: [{'key': 'dam', 'value': 20}]}, rolls)
+        self.assertEqual([(dofus, 'deg', 10)], sans_cle)
+
     def test_a_link_that_is_not_theirs_is_not_read(self):
         from chardata.dofusbook_import import parse_link
         for url in ('https://example.com/fr/stuff/7894460-x',
@@ -29787,6 +29856,81 @@ class LinkImportOnTheOnePageTests(TestCase):
         page = self.client.get(self._url(), HTTP_ACCEPT_LANGUAGE='en'
                                ).content.decode('utf-8')
         self.assertIn('dofusbook.net, dofuscreator.com', page)
+
+    def test_the_rolls_of_the_link_land_on_the_pieces(self):
+        """Thibaud, 11 septembre 2026: <<les FM sur les items>>. Un jet du
+        lien suit la regle d'un jet colle: applique quand la piece porte la
+        stat, exo pour les PA, PM et portee. Une ligne sur une stat que la
+        piece ne porte pas est ajoutee comme exo et non refusee: un lien
+        n'est pas une lecture d'OCR (8 dommages critiques sur un arc qui
+        n'en porte pas, build 23227661 recoupe avec leur table d'effets).
+        Tout est montre sur la puce de la piece avant la creation et ecrit
+        dans les overrides du build a la confirmation, apres la pose des
+        objets."""
+        from chardata.lock_forbid import get_stat_overrides
+        from chardata.models import Char
+        from chardata.stat_range import get_stat_range
+        from chardata.translation_util import localized_stat_name
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        mp = structure.get_stat_by_key('mp').id
+        chapeau = next(item for item in structure.types[200]['Hat']
+                       if not item.removed and mp not in dict(item.stats))
+        stat_id, _valeur = next(iter(chapeau.stats))
+        stat = structure.get_stat_by_id(stat_id)
+        _bas, haut = get_stat_range(chapeau, stat_id)
+        ajoutee = next(cle for cle in ('pshdam', 'trapdam', 'summon', 'pod')
+                       if structure.get_stat_by_key(cle).id
+                       not in dict(chapeau.stats))
+        build = self._build()
+        build['item_ids'][0] = chapeau.id
+        build['rolls'] = {chapeau.id: [{'key': stat.key, 'value': haut},
+                                       {'key': 'mp', 'value': 1},
+                                       {'key': ajoutee, 'value': 7}]}
+        self._patch(build=build)
+        page = self.client.post(self._url(), {'text': self.LIEN},
+                                HTTP_ACCEPT_LANGUAGE='en')
+        self.assertContains(page, '%d %s' % (
+            haut, localized_stat_name(stat.name, 'dofus3')))
+        self.assertContains(page, 'read as an exo')
+        self.assertNotContains(page, 'because the item does not carry that stat')
+        self.assertContains(page, '7 %s' % localized_stat_name(
+            structure.get_stat_by_key(ajoutee).name, 'dofus3'))
+        self.assertEqual(2, page.content.decode('utf-8').count('read as an exo'))
+        self.client.post(self._url(), {'text': self.LIEN, 'confirm': '1',
+                                       'char_class': 'Iop', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        self.assertEqual({stat_id: haut, mp: 1,
+                          structure.get_stat_by_key(ajoutee).id: 7},
+                         get_stat_overrides(char)[chapeau.id])
+
+    def test_what_the_link_cannot_place_is_named_before_creation(self):
+        """La forgemagie de l'arme (un changement d'element), les lignes au
+        niveau du build et les codes sans caracteristique chez nous n'ont
+        pas de piece ou aller: la page les nomme avant, dans leurs mots
+        quand il le faut, au lieu de les perdre en silence. Et l'entete des
+        caracteristiques ne dit plus <<dans le texte>>."""
+        from django.utils.html import escape
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('dofus3')
+        build = self._build()
+        chapeau = build['item_ids'][0]
+        build.update({'fm_weapon': 'de-85', 'fm_global': {'pa': 1},
+                      'fm_unmapped': [(chapeau, 'deg', 10)]})
+        self._patch(build=build)
+        page = self.client.post(self._url(), {'text': self.LIEN},
+                                HTTP_ACCEPT_LANGUAGE='en')
+        nom = structure.get_item_name_in_language(
+            structure.get_item_by_id(chapeau), 'en')
+        for temoin in ('import-link-fm-weapon', 'weapon forgemagie',
+                       'import-link-fm-global', 'pa 1',
+                       'import-link-fm-unmapped', escape('%s: deg 10' % nom),
+                       'Characteristics read:'):
+            self.assertContains(page, temoin)
+        page = self.client.post(self._url(), {'text': self.LIEN},
+                                HTTP_ACCEPT_LANGUAGE='fr')
+        self.assertContains(page, 'reste de c\u00f4t\u00e9')
+        self.assertContains(page, 'Caract\u00e9ristiques lues')
 
     def test_a_points_line_in_the_text_wins_over_the_link(self):
         """Une ligne Points: collee sous le lien est un choix explicite du

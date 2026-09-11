@@ -7057,10 +7057,6 @@ msgid "These rolls were left out, because the item does not carry that stat:"
 msgstr "Estes valores ficaram de fora, porque o item não tem esse atributo:"
 
 #: .\chardata\templates\chardata\text_build.html:104
-msgid "Characteristics found in the text:"
-msgstr "Atributos encontrados no texto:"
-
-#: .\chardata\templates\chardata\text_build.html:104
 msgid "%(n)s scrolled"
 msgstr "%(n)s com pergaminhos"
 
@@ -7237,3 +7233,15 @@ msgstr "A forjamagia destas peças ainda não viaja e fica de fora:"
 
 msgid "<b>DofusCreator.</b> When you paste a link to a public DofusCreator project, our server fetches that page from dofuscreator.com. The call leaves from our address and not from yours, carries nothing that names you, and only reads."
 msgstr "<b>DofusCreator.</b> Quando você cola um link para um projeto público do DofusCreator, nosso servidor busca essa página em dofuscreator.com. A chamada sai do nosso endereço e não do seu, não carrega nada que identifique você, e apenas lê."
+
+msgid "Characteristics read:"
+msgstr "Atributos lidos:"
+
+msgid "The weapon forgemagie from the link is left out."
+msgstr "A forjamagia da arma do link fica de fora."
+
+msgid "These lines from the link belong to no piece and are left out:"
+msgstr "Estas linhas do link não pertencem a nenhuma peça e ficam de fora:"
+
+msgid "These forgemagie lines could not be read and are left out:"
+msgstr "Estas linhas de forjamagia não puderam ser lidas e ficam de fora:"

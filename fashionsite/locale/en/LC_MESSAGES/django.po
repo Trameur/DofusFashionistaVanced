@@ -6328,10 +6328,6 @@ msgid "These rolls were left out, because the item does not carry that stat:"
 msgstr ""
 
 #: .\chardata\templates\chardata\text_build.html:104
-msgid "Characteristics found in the text:"
-msgstr ""
-
-#: .\chardata\templates\chardata\text_build.html:104
 msgid "%(n)s scrolled"
 msgstr ""
 
@@ -6507,4 +6503,16 @@ msgid "The forgemagie on these pieces does not travel yet and is left out:"
 msgstr ""
 
 msgid "<b>DofusCreator.</b> When you paste a link to a public DofusCreator project, our server fetches that page from dofuscreator.com. The call leaves from our address and not from yours, carries nothing that names you, and only reads."
+msgstr ""
+
+msgid "Characteristics read:"
+msgstr ""
+
+msgid "The weapon forgemagie from the link is left out."
+msgstr ""
+
+msgid "These lines from the link belong to no piece and are left out:"
+msgstr ""
+
+msgid "These forgemagie lines could not be read and are left out:"
 msgstr ""
