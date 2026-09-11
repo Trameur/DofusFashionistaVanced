@@ -122,13 +122,35 @@ def _sanitize_cookie_choice(value, allowed_values, default_value):
 
 
 def get_base_stats_by_attr(request, char_id):
-    char = get_char_or_raise(request, char_id)
-    base_stats_by_attr = {}
-    base_stats_by_attr['AP'] = 7 if char.level >= 100 else 6
-    base_stats_by_attr['MP'] = 3
-    base_stats_by_attr['Prospecting'] = 100
-    base_stats_by_attr['Pods'] = 1000
-    base_stats_by_attr['Summon'] = 1
+    return base_stats_by_attr_for(get_char_or_raise(request, char_id))
+
+
+def character_own_stats(level):
+    """The five a character has whatever their gear and their points.
+
+    They depend on the level alone, so filling them costs no query, which is
+    what lets a build saved without them be repaired as it is read rather
+    than rewritten.
+    """
+    return {
+        'AP': 7 if level >= 100 else 6,
+        'MP': 3,
+        'Prospecting': 100,
+        'Pods': 1000,
+        'Summon': 1,
+    }
+
+
+def base_stats_by_attr_for(char):
+    """What the character brings of their own, before any gear.
+
+    Split out of `get_base_stats_by_attr` on 2026-09-11 so that a path
+    holding a char and no request can use the SAME numbers. The import path
+    passed an empty dict instead, and an imported build's sheet was short of
+    seven AP, three MP, a hundred prospecting, a thousand pods and one
+    summon.
+    """
+    base_stats_by_attr = dict(character_own_stats(char.level))
 
     for element_name, _ in STATS_NAMES:
         basestats = CharBaseStats.objects.filter(char=char, stat=element_name)

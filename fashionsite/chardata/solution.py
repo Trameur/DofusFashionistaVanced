@@ -21,8 +21,36 @@ from chardata.util import get_stats_and_scrolled
 from chardata.inventory_solver import get_effective_stat_overrides
 
 
+def _repair_character_base(char, minimal_solution):
+    """Fill the five the character has of their own, when they are missing.
+
+    A build imported before 2026-09-11 was saved with an EMPTY
+    `base_stats_by_attr`, so its sheet was short of seven AP, three MP, a
+    hundred prospecting, a thousand pods and one summon, and its "best combo
+    this turn" panel vanished because a turn with two AP has nothing to
+    cast. The cause is fixed where the build is placed; this repairs the
+    ones already saved, as they are read.
+
+    Nothing is rewritten in the database ([[no-retrofit-user-builds]]): the
+    five depend on the level alone, so this costs no query and no migration.
+    A solution that already carries them is left exactly as it is.
+    """
+    from chardata.util import character_own_stats
+    entree = getattr(minimal_solution, 'input', None)
+    if not isinstance(entree, dict):
+        return
+    base = entree.get('base_stats_by_attr')
+    if base is None:
+        base = entree['base_stats_by_attr'] = {}
+    if 'AP' in base:
+        return
+    for stat, value in character_own_stats(char.level).items():
+        base.setdefault(stat, value)
+
+
 def get_solution_from_minimal(char, minimal_solution, refresh_base_stats=True):
     if minimal_solution:
+        _repair_character_base(char, minimal_solution)
         if refresh_base_stats or not getattr(minimal_solution, 'stats', None):
             spent, scrolled = get_stats_and_scrolled(char)
             minimal_solution.update_base_stats(spent, scrolled)

@@ -24,6 +24,7 @@ class, so the player picks it on the confirmation step.
 import logging
 
 from chardata.solution import set_minimal_solution
+from chardata.util import base_stats_by_attr_for
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
                                              TYPE_NAME_TO_SLOT_NUMBER)
@@ -117,10 +118,17 @@ def _place_items(char, item_ids, origin='dofusbook'):
         # reads ap_exo and its neighbours straight out of this and raises
         # KeyError on anything it does not find.
         from chardata.options import get_options as get_char_options
+        # The character's own AP, MP, prospecting, pods and summon, from the
+        # same helper the solver path uses. An empty dict here cost an
+        # imported build seven AP on its sheet and took its "best combo this
+        # turn" panel away entirely, since a turn with two AP has nothing to
+        # cast. The six characteristics are refreshed on every read by
+        # `ModelResultMinimal.update_base_stats`, so they are not the
+        # question; these five are, because nothing else ever writes them.
         entree = {
             'locked_equips': {},
             'options': get_char_options(char),
-            'base_stats_by_attr': {},
+            'base_stats_by_attr': base_stats_by_attr_for(char),
             'char_level': char.level,
             'origin': origin,
         }

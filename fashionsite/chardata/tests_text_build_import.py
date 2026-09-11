@@ -1009,8 +1009,13 @@ class APastedExoIsKeptAndCountedOnceTests(TestCase):
         self.assertFalse(get_options(char_sans)['ap_exo'],
                          'the option is on, the case proves nothing')
         _char_avec, avec = self._total('%s\n1 AP' % nom, 199)
-        self.assertEqual(0, sans.get('ap', 0), sans)
-        self.assertEqual(1, avec.get('ap', 0), avec)
+        # L'ecart, et non la valeur absolue: depuis le 11 septembre 2026 le
+        # total porte aussi les PA que le personnage a de son propre chef
+        # (section 41), sept a partir du niveau 100 donc sept ici. Ecrire
+        # <<0>> mesurait en fait l'absence de cette base-la, pas la presence
+        # de l'exo.
+        self.assertEqual(7, sans.get('ap', 0), sans)
+        self.assertEqual(sans.get('ap', 0) + 1, avec.get('ap', 0), avec)
 
     def test_the_option_and_the_piece_never_stack(self):
         """Un point par stat pour tout le build. A 200 l'option est allumee,
@@ -1019,8 +1024,10 @@ class APastedExoIsKeptAndCountedOnceTests(TestCase):
         nom = structure.get_item_name_in_language(item, 'en')
         _c1, sans = self._total(nom, 200)
         _c2, avec = self._total('%s\n1 AP' % nom, 200)
-        self.assertEqual(1, sans.get('ap', 0), sans)
-        self.assertEqual(1, avec.get('ap', 0),
+        # Sept PA au personnage a ce niveau, plus le point de l'option: la
+        # piece porteuse ne doit rien ajouter par-dessus.
+        self.assertEqual(8, sans.get('ap', 0), sans)
+        self.assertEqual(sans.get('ap', 0), avec.get('ap', 0),
                          'the option and the piece stacked to two')
 
     def test_a_stat_that_is_not_an_exo_is_still_refused(self):
