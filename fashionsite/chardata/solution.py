@@ -19,6 +19,7 @@ from fashionistapulp.modelresult import model_result_from_minimal, ModelResultMi
 import pickle
 from chardata.util import get_stats_and_scrolled
 from chardata.inventory_solver import get_effective_stat_overrides
+from chardata.legacy_ids import repair_minimal_solution
 
 
 def _repair_character_base(char, minimal_solution):
@@ -51,6 +52,10 @@ def _repair_character_base(char, minimal_solution):
 def get_solution_from_minimal(char, minimal_solution, refresh_base_stats=True):
     if minimal_solution:
         _repair_character_base(char, minimal_solution)
+        # Les pieces que la migration de novembre 2025 a laissees dans
+        # l'ancienne numerotation, et qui designent donc aujourd'hui un
+        # autre objet. Reparees a la lecture, jamais reecrites.
+        repair_minimal_solution(char, minimal_solution)
         if refresh_base_stats or not getattr(minimal_solution, 'stats', None):
             spent, scrolled = get_stats_and_scrolled(char)
             minimal_solution.update_base_stats(spent, scrolled)

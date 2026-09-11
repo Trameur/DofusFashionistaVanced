@@ -40,6 +40,7 @@ from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
+from chardata.legacy_ids import repair_minimal_solution
 from fashionistapulp.modelresult import get_item_in_slot
 from fashionistapulp.structure import (get_current_game_version, get_structure,
                                        set_current_game_version)
@@ -169,6 +170,10 @@ def _get_shared_build_meta(char):
 
         try:
             minimal_solution = pickle.loads(char.minimal_solution)
+            # Meme reparation que sur la page du build: sans elle, la galerie
+            # continuerait d'ecarter un build que le reste du site montre
+            # entier.
+            repair_minimal_solution(char, minimal_solution)
         except Exception:
             meta['has_outdated_slots'] = True
             meta['is_invalid'] = True
