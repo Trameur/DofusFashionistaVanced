@@ -26,8 +26,12 @@ jamais touche, et un identifiant traduit qui ne conviendrait pas davantage
 est laisse tel quel. Rien n'est reecrit dans la base
 ([[no-retrofit-user-builds]]): la reparation vit le temps d'une lecture.
 
-Mesure de ce qu'elle rend: **152 builds partages redeviennent entiers** et
-364 autres s'ameliorent, sur les 1476 que la galerie ecartait.
+Depuis le 11 septembre 2026 elle repare une seconde chose: les montures que
+notre fournisseur de donnees a RENUMEROTEES. La Dragodinde Amande avait
+l'ankama 1 en novembre 2025 et porte aujourd'hui un numero au-dela de 33000;
+le catalogue les a toujours, sous d'autres nombres. 222 des 264 objets qui
+paraissaient disparus se retrouvent ainsi, par leur nom anglais exact et leur
+type, sans une seule ambiguite.
 
 Seul Dofus 3 est couvert. Les autres versions avaient leur propre
 numerotation, et le comptage n'a trouve qu'un seul build Touch ecarte: il n'y
@@ -40,6 +44,13 @@ import os
 _CHEMIN = os.path.join(os.path.dirname(__file__), 'legacy_item_ids.json')
 _TABLES = None
 
+#: L'espace d'identifiants des montures, le meme que `modelresult`.
+_MOUNT_ID_OFFSET = 1000000
+
+_CHEMIN_RENUMEROTES = os.path.join(os.path.dirname(__file__),
+                                   'legacy_renumbered_items.json')
+_RENUMEROTES = None
+
 
 def _tables():
     global _TABLES
@@ -47,6 +58,41 @@ def _tables():
         with open(_CHEMIN, encoding='utf-8') as fichier:
             _TABLES = json.load(fichier)
     return _TABLES
+
+
+def _renumerotes():
+    global _RENUMEROTES
+    if _RENUMEROTES is None:
+        with open(_CHEMIN_RENUMEROTES, encoding='utf-8') as fichier:
+            _RENUMEROTES = json.load(fichier)
+    return _RENUMEROTES
+
+
+def renumbered_item_id(game_version, item_id):
+    """L'objet d'aujourd'hui qui porte le nom de cette monture d'hier.
+
+    Notre fournisseur de donnees a RENUMEROTE les montures: la Dragodinde
+    Amande avait l'ankama 1 en novembre 2025 et porte aujourd'hui un numero
+    au-dela de 33000. Le catalogue les a toujours, sous d'autres nombres.
+
+    L'appariement se fait sur le nom anglais EXACT et le meme type, et
+    seulement quand un seul objet repond: 222 des 264 disparus s'y
+    retrouvent, zero ambiguite, et les 42 qui restent sont les versions
+    sauvages, que la source ne liste plus. Un appariement par nom est plus
+    faible qu'un appariement par numero, donc il ne sert qu'a REPARER: si
+    l'objet trouve ne convient pas a l'emplacement, rien n'est fait.
+
+    L'identifiant stocke peut etre l'ankama nu ou decale de l'espace des
+    montures, selon le jour ou le build a ete enregistre.
+    """
+    table = _renumerotes().get(game_version or '')
+    if not table or not isinstance(item_id, int):
+        return None
+    for candidat in (item_id, item_id - _MOUNT_ID_OFFSET):
+        trouve = table.get(str(candidat))
+        if trouve is not None:
+            return trouve
+    return None
 
 
 def ankama_id_of_legacy(game_version, item_id):
@@ -84,10 +130,15 @@ def repaired_slots(structure, game_version, item_per_slot):
             continue
         if _fits(structure, slot, get_item_in_slot(structure, item_id, slot)):
             continue
+        autre = None
         ankama = ankama_id_of_legacy(game_version, item_id)
-        if ankama is None:
-            continue
-        autre = structure.items_dict_ankama.get(ankama)
+        if ankama is not None:
+            autre = structure.items_dict_ankama.get(ankama)
+        if not _fits(structure, slot, autre):
+            # Seconde chance: une monture que la source a renumerotee, que
+            # notre catalogue a toujours sous un autre nombre.
+            neuf = renumbered_item_id(game_version, item_id)
+            autre = structure.get_item_by_id(neuf) if neuf is not None else None
         if not _fits(structure, slot, autre):
             continue
         corrige[slot] = autre.id

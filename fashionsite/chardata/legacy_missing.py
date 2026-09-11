@@ -7,10 +7,15 @@ Ce module les nomme, dans sa langue.
 
 Les noms viennent du catalogue du 4 novembre 2025 (`git show 02f18465a`), la
 derniere photo qui les portait, table `item_names` comprise: les cinq langues
-du site y sont. Mesure du 11 septembre 2026: **264 objets** que ce catalogue
-avait ne sont plus dans le notre, et ce sont 201 familiers et 63 boucliers.
-Les familiers sont les dragodindes, que notre source de donnees a cesse de
-lister comme equipement.
+du site y sont.
+
+**Attention a ce que cette table contient exactement.** 264 objets de ce
+catalogue-la n'ont plus le meme numero chez nous, mais 222 d'entre eux sont
+toujours dans notre catalogue sous un autre nombre, parce que notre
+fournisseur a renumerote les montures: ceux-la sont RENDUS au build par
+`legacy_ids.renumbered_item_id` et n'ont rien a faire ici. Ne restent ici que
+les **42** qui n'ont vraiment aucun equivalent aujourd'hui, et ce sont les
+versions sauvages des montures, que la source ne liste plus.
 
 Ne pas confondre avec ce que fait `legacy_ids`: la, on RETROUVE une piece mal
 numerotee; ici, la piece est vraiment absente et on se contente de la nommer,

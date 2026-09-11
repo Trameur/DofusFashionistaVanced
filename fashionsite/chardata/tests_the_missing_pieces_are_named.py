@@ -4,11 +4,15 @@
 La section 42 disait a l'auteur <<certains de ses objets n'existent plus dans
 le jeu>>. Il ne pouvait pas savoir LESQUELS, donc il ne pouvait rien y faire.
 
-Mesure du 11 septembre 2026: **264 objets** que le catalogue du 4 novembre
-2025 portait ne sont plus dans le notre, et ce sont 201 familiers et 63
-boucliers. Les familiers sont les dragodindes, que notre source de donnees a
-cesse de lister comme equipement. Leurs noms sont lus sur ce catalogue-la,
-table `item_names` comprise: les cinq langues du site y sont.
+264 objets du catalogue du 4 novembre 2025 n'ont plus le meme numero chez
+nous. **222 d'entre eux sont pourtant toujours la**, sous un autre nombre,
+parce que notre fournisseur a renumerote les montures: ceux-la sont RENDUS au
+build (section 45) et ne sont pas nommes ici. Ne restent ici que les **42**
+sans equivalent, les versions sauvages, que la source ne liste plus.
+
+Cette correction est venue le lendemain de la section 44, qui avait ecrit
+trop vite que les 264 avaient quitte notre catalogue. Leurs noms sont lus sur
+ce catalogue-la, table `item_names` comprise: les cinq langues du site y sont.
 
 La phrase dit <<notre catalogue>> et non <<le jeu>>: qu'un objet ait quitte
 notre catalogue ne prouve pas qu'il ait quitte le jeu
@@ -25,12 +29,18 @@ from chardata.models import Char
 
 class TheNamesComeFromTheLastCatalogueThatHadThemTests(SimpleTestCase):
 
-    #: Trois dragodindes, avec leur identifiant Ankama et leur nom francais,
-    #: lus sur le catalogue du 4 novembre 2025.
+    #: Trois montures SAUVAGES, avec leur identifiant Ankama et leur nom
+    #: francais, lus sur le catalogue du 4 novembre 2025.
+    #:
+    #: Sauvages exprès: la verification du lendemain a montre que notre
+    #: fournisseur avait RENUMEROTE les montures apprivoisees, que notre
+    #: catalogue a donc toujours (section 45). <<Dragodinde Ebene>> etait un
+    #: temoin ici le premier jour et n'en est plus un: elle est rendue au
+    #: build, pas nommee comme perdue. Seules les sauvages le restent.
     TEMOINS = (
         (1, 'Wild Almond Dragoturkey', 'Dragodinde Amande Sauvage'),
-        (3, 'Ebony Dragoturkey', 'Dragodinde Ebène'),
         (6, 'Wild Ginger Dragoturkey', 'Dragodinde Rousse Sauvage'),
+        (167, 'Wild Golden Seemyool', 'Muldo Doré Sauvage'),
     )
 
     def test_a_vanished_pet_still_has_a_name(self):
