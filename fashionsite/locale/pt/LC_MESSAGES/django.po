@@ -7267,3 +7267,21 @@ msgstr "Já tem um build?"
 
 msgid "Import it from text or screenshots"
 msgstr "Importe-o a partir de texto ou capturas de tela"
+
+msgid "From the encyclopedia to the solver"
+msgstr "Da enciclopédia ao solver"
+
+msgid "Every item and set page has a button that starts a quick build around it: the piece, or the whole set, is locked in and the solver fills the rest."
+msgstr "Cada página de item e de conjunto tem um botão que inicia um build rápido em volta dele: a peça, ou o conjunto inteiro, fica travada e o solver preenche o resto."
+
+msgid "The home page offers the import to a player who already has a build."
+msgstr "A página inicial oferece a importação a um jogador que já tem seu build."
+
+msgid "A link to any page pasted in a chat previews that page, and a shared build previews its class, its pieces and the solver's verdict."
+msgstr "Um link para qualquer página colado num chat mostra a prévia dessa página, e um build compartilhado mostra sua classe, suas peças e o veredito do solver."
+
+msgid "The import page says it reads screenshots too, and search engines are told about it."
+msgstr "A página de importação diz que também lê capturas de tela, e os mecanismos de busca são informados disso."
+
+msgid "A Google sign-in that fails or times out lands on the login page with an explanation, not on an error page."
+msgstr "Uma entrada com o Google que falha ou expira leva à página de login com uma explicação, não a uma página de erro."

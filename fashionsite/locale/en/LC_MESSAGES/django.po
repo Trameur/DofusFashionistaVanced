@@ -6538,3 +6538,21 @@ msgstr ""
 
 msgid "Import it from text or screenshots"
 msgstr ""
+
+msgid "From the encyclopedia to the solver"
+msgstr ""
+
+msgid "Every item and set page has a button that starts a quick build around it: the piece, or the whole set, is locked in and the solver fills the rest."
+msgstr ""
+
+msgid "The home page offers the import to a player who already has a build."
+msgstr ""
+
+msgid "A link to any page pasted in a chat previews that page, and a shared build previews its class, its pieces and the solver's verdict."
+msgstr ""
+
+msgid "The import page says it reads screenshots too, and search engines are told about it."
+msgstr ""
+
+msgid "A Google sign-in that fails or times out lands on the login page with an explanation, not on an error page."
+msgstr ""

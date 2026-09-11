@@ -50,7 +50,9 @@ class TheSeptemberEntryIsThereAndTranslatedTests(SimpleTestCase):
         entrees = _entrees()
         self.assertEqual(MOIS, entrees[0][0])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
-        self.assertEqual(3, len(de_ce_mois), [e[1] for e in de_ce_mois])
+        # Trois entrees le 10, une quatrieme le 11 pour les sections 23 a 30.
+        self.assertEqual(4, len(de_ce_mois), [e[1] for e in de_ce_mois])
+        self.assertEqual('From the encyclopedia to the solver', entrees[0][1])
 
     def test_every_sentence_of_this_month_is_translated_natively(self):
         """Chaque chaine, pas seulement le titre: une puce oubliee sort en
@@ -151,6 +153,26 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
                       io.open(os.path.join(settings.BASE_DIR, 'chardata',
                                            'encyclopedia_view.py'),
                               encoding='utf-8').read())
+
+    def test_the_fourth_entry_names_things_that_exist(self):
+        """Sections 23 a 30: chaque phrase de l'entree du 11 septembre est
+        adossee au code qui la porte."""
+        from chardata.coaching_view import included_item_for, included_set_for  # noqa
+        self.assertIn('encyclopedia-build-around',
+                      self._template('encyclopedia_item.html'))
+        self.assertIn('encyclopedia-build-around-set',
+                      self._template('encyclopedia_set.html'))
+        self.assertIn('home-import-build', self._template('home.html'))
+        base = self._template('base.html')
+        self.assertIn('{% load capture %}', base)
+        self.assertIn('{{ page_title }}', base)
+        from chardata.solution_view import _build_og_description  # noqa: F401
+        self.assertIn('screenshot', self._template('text_build.html'))
+        self.assertIn("('/import/text/', 'monthly', '0.7')",
+                      io.open(os.path.join(settings.BASE_DIR, 'fashionsite',
+                                           'urls.py'), encoding='utf-8').read())
+        from chardata.SocialAuthExceptionMiddleware import SOCIAL_FAILED_PARAM  # noqa
+        self.assertIn('social-login-failed', self._template('login.html'))
 
     def test_retro_and_touch_spell_icons_are_all_there(self):
         """251 icones: Retro 10 -> 109 sur 109, Touch 27 -> 179 sur 179
