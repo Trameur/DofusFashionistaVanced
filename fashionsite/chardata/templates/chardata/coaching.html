@@ -70,6 +70,12 @@
             sien, un objet ne se porte pas en dessous.{% endcomment %}
             <p class="coaching-intro" id="coaching-included-item">{% blocktrans with item=included_item.name level=included_item.level %}This build will keep {{ item }} (level {{ level }}): the solver fills the other slots around it.{% endblocktrans %}</p>
             <input type="hidden" name="item" value="{{ included_item.id }}">
+            {% elif included_set %}
+            {% comment %}Arrive de la page d'une panoplie: chaque piece
+            sera verrouillee dans son emplacement, et les niveaux commencent
+            a la piece la plus haute.{% endcomment %}
+            <p class="coaching-intro" id="coaching-included-set">{% blocktrans with set=included_set.name count_pieces=included_set.count level=included_set.level %}This build will keep the {{ count_pieces }} pieces of {{ set }} (level {{ level }}): the solver fills the other slots around them.{% endblocktrans %}</p>
+            <input type="hidden" name="set" value="{{ included_set.id }}">
             {% endif %}
             <label class="coaching-field">
                 <span class="coaching-field-label">{% trans "Class" %}</span>

@@ -6529,3 +6529,6 @@ msgstr ""
 
 msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
 msgstr ""
+
+msgid "This build will keep the %(count_pieces)s pieces of %(set)s (level %(level)s): the solver fills the other slots around them."
+msgstr ""

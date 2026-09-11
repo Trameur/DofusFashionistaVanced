@@ -80,6 +80,7 @@ LOCALIZED_UI = {
         'similar_items_label': 'Other items of this type and level',
         'builds_using_label': 'Builds wearing this item',
         'build_around_label': 'Build a set around this item',
+        'build_around_set_label': 'Build around this set',
         'craft_job_label': 'Crafted by',
         'no_recipe': 'No recipe available.',
         'recipe_unknown_ingredient': 'Unknown ingredient',
@@ -148,6 +149,7 @@ LOCALIZED_UI = {
         'similar_items_label': 'Autres objets du même type et niveau',
         'builds_using_label': 'Builds qui portent cet objet',
         'build_around_label': 'Construire un build autour de cet objet',
+        'build_around_set_label': 'Construire un build autour de cette panoplie',
         'craft_job_label': 'Fabriqué par',
         'no_recipe': 'Aucune recette disponible.',
         'recipe_unknown_ingredient': 'Ingrédient inconnu',
@@ -216,6 +218,7 @@ LOCALIZED_UI = {
         'similar_items_label': 'Otros objetos del mismo tipo y nivel',
         'builds_using_label': 'Builds que llevan este objeto',
         'build_around_label': 'Construir un build en torno a este objeto',
+        'build_around_set_label': 'Construir un build en torno a este conjunto',
         'craft_job_label': 'Fabricado por',
         'no_recipe': 'No hay receta disponible.',
         'recipe_unknown_ingredient': 'Ingrediente desconocido',
@@ -284,6 +287,7 @@ LOCALIZED_UI = {
         'similar_items_label': 'Outros itens do mesmo tipo e nível',
         'builds_using_label': 'Builds que usam este item',
         'build_around_label': 'Montar um build em torno deste item',
+        'build_around_set_label': 'Montar um build em torno deste conjunto',
         'craft_job_label': 'Fabricado por',
         'no_recipe': 'Receita não disponível.',
         'recipe_unknown_ingredient': 'Ingrediente desconhecido',
@@ -352,6 +356,7 @@ LOCALIZED_UI = {
         'similar_items_label': 'Andere Gegenstände dieser Art und Stufe',
         'builds_using_label': 'Builds mit diesem Gegenstand',
         'build_around_label': 'Einen Build um diesen Gegenstand herum bauen',
+        'build_around_set_label': 'Einen Build um dieses Set herum bauen',
         'craft_job_label': 'Hergestellt von',
         'no_recipe': 'Kein Rezept verfügbar.',
         'recipe_unknown_ingredient': 'Unbekannte Zutat',
@@ -2405,6 +2410,10 @@ def encyclopedia_set(request, set_id, slug=None):
             'alternate_urls': alternate_urls,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'set_name': set_name,
+            # L'identifiant que le demarrage rapide relit par
+            # get_set_by_id, meme priorite que la page (sets_dict avant
+            # dt_sets_dict), donc la meme panoplie.
+            'set_id': item_set.id,
             'set_items': _set_items,
             'set_bonuses': _set_bonuses,
             'seo_description': _set_seo_description(

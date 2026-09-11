@@ -7279,3 +7279,6 @@ msgstr "Pegue los nombres de su equipo, o suelte una captura de la descripción 
 
 msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
 msgstr "Este build conservará %(item)s (nivel %(level)s): el solver rellena los demás huecos a su alrededor."
+
+msgid "This build will keep the %(count_pieces)s pieces of %(set)s (level %(level)s): the solver fills the other slots around them."
+msgstr "Este build conservará las %(count_pieces)s piezas de %(set)s (nivel %(level)s): el solver rellena los demás huecos a su alrededor."

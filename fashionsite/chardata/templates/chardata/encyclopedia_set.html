@@ -33,6 +33,10 @@
 .encyclopedia-set-item img { width: 48px; height: 48px; flex: 0 0 auto; }
 .encyclopedia-set-item-name { font-weight: 600; }
 .encyclopedia-item-meta { opacity: 0.9; }
+/* The way from a set page to the solver: a block, so the button does not
+   wrap word by word like a run of inline text (53px wide, three lines). */
+.encyclopedia-build-around { margin-top: 8px; }
+.encyclopedia-build-around a { display: inline-block; }
 .encyclopedia-section { margin-top: 14px; }
 .encyclopedia-list { margin: 4px 0 0; padding-left: 20px; }
 .encyclopedia-list-stat { display: flex; align-items: center; gap: 8px; }
@@ -83,6 +87,13 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
         <div class="encyclopedia-item-meta encyclopedia-other-versions">{{ t.also_in_label }}:
             {% for ver in other_versions %}<a href="{{ ver.url }}">{{ ver.label }} ({{ ver.item_count }})</a>{% if not forloop.last %} | {% endif %}{% endfor %}
         </div>
+        {% endif %}
+        {% comment %}Comme la fiche d'objet (section 28 du plan): la page
+        d'une panoplie menait partout sauf au solveur. Le demarrage rapide de
+        la meme version verrouille chaque piece dans son emplacement.
+        {% endcomment %}
+        {% if set_items %}
+        <div class="encyclopedia-item-meta encyclopedia-build-around"><a class="button-thin" id="encyclopedia-build-around-set" href="{% game_url 'quickstart' %}?set={{ set_id }}">{{ t.build_around_set_label }}</a></div>
         {% endif %}
 
         <div class="encyclopedia-section">

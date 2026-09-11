@@ -116,6 +116,53 @@ def included_item_for(game_version, value, language=None):
             'slot': slot}
 
 
+def included_set_for(game_version, value, language=None):
+    """The panoply a set page asked the quick start to build around, or None.
+
+    Every piece of the set that is an equipment item of THIS game version
+    takes the first free slot of its type (two rings go to ring1 and ring2).
+    The level is the highest piece's: the lowest character that can wear
+    the whole set. None for anything that is not a set id of this version,
+    or a set with no wearable piece.
+    """
+    from django.utils import translation
+    from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE
+    from fashionistapulp.structure import get_structure
+    try:
+        set_id = int(value)
+    except (TypeError, ValueError):
+        return None
+    structure = get_structure(game_version)
+    item_set = structure.get_set_by_id(set_id)
+    if item_set is None:
+        return None
+    language = language or (translation.get_language() or 'en')[:2]
+    taken = set()
+    pieces = []
+    for item_id in getattr(item_set, 'items', None) or []:
+        item = structure.get_item_by_id(item_id)
+        if item is None or getattr(item, 'removed', False):
+            continue
+        type_name = structure.get_type_name_by_id(item.type)
+        slot = next((s for s, t in SLOT_NAME_TO_TYPE.items()
+                     if t == type_name and s not in taken), None)
+        if slot is None:
+            continue
+        taken.add(slot)
+        pieces.append({'id': item.id,
+                       'name': structure.get_item_name_in_language(item, language) or item.name,
+                       'level': item.level,
+                       'slot': slot})
+    if not pieces:
+        return None
+    names = getattr(item_set, 'localized_names', None) or {}
+    return {'id': item_set.id,
+            'name': names.get(language) or names.get('en') or item_set.name,
+            'level': max(piece['level'] for piece in pieces),
+            'count': len(pieces),
+            'pieces': pieces}
+
+
 def level_options_for(included_level):
     """(levels offered, level selected) for the quick start form.
 
@@ -141,8 +188,16 @@ def coaching(request):
     # A fiche of the encyclopedia sends its item along: the build will keep
     # it, so the levels below the item's are not offered.
     included = included_item_for(game_version, request.GET.get('item'))
-    level_options, selected_level = level_options_for(
-        included['level'] if included is not None else None)
+    # A set page sends its panoply the same way; one or the other, the
+    # item first when both are given.
+    included_set = (None if included is not None
+                    else included_set_for(game_version, request.GET.get('set')))
+    floor = None
+    if included is not None:
+        floor = included['level']
+    elif included_set is not None:
+        floor = included_set['level']
+    level_options, selected_level = level_options_for(floor)
 
     return set_response(request,
                         'chardata/coaching.html',
@@ -150,6 +205,7 @@ def coaching(request):
                          'level_options': level_options,
                          'selected_level': selected_level,
                          'included_item': included,
+                         'included_set': included_set,
                          'play_styles': PLAY_STYLES,
                          'login_problem': is_anon_cant_create(request)})
 
@@ -229,9 +285,21 @@ def _create_from_coaching(request, game_version):
     # above the character's level cannot be worn, so it is not locked, and
     # the form does not offer such a level anyway.
     included = included_item_for(game_version, request.POST.get('item'))
+    locked = {}
     if included is not None and included['level'] <= char.level:
+        locked[included['slot']] = included['id']
+    elif included is None:
+        # A whole panoply: every piece the character can wear, each in its
+        # own slot. The form starts its levels at the highest piece, so
+        # normally all of them; a level posted by hand below that keeps
+        # only the pieces that fit.
+        included_set = included_set_for(game_version, request.POST.get('set'))
+        if included_set is not None:
+            for piece in included_set['pieces']:
+                if piece['level'] <= char.level:
+                    locked[piece['slot']] = piece['id']
+    if locked:
         from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions
-        set_inclusions_dict_and_check_exclusions(
-            char, {included['slot']: included['id']})
+        set_inclusions_dict_and_check_exclusions(char, locked)
 
     return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))

@@ -7312,3 +7312,6 @@ msgstr "Collez les noms de votre stuff, ou déposez une capture d’infobulle pa
 
 msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
 msgstr "Ce build gardera %(item)s (niveau %(level)s) : le solveur remplit les autres emplacements autour."
+
+msgid "This build will keep the %(count_pieces)s pieces of %(set)s (level %(level)s): the solver fills the other slots around them."
+msgstr "Ce build gardera les %(count_pieces)s pièces de %(set)s (niveau %(level)s) : le solveur remplit les autres emplacements autour."
