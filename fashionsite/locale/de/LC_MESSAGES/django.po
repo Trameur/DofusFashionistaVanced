@@ -7323,3 +7323,15 @@ msgstr "Teilt sich einen Zauberbuch-Platz mit"
 
 msgid "A fight arms one of the two, so a turn holds one or the other."
 msgstr "Ein Kampf rüstet einen der beiden aus, ein Zug trägt also den einen oder den anderen."
+
+msgid "Not shown in the gallery: some of its items are no longer in the game. Replace them and it comes back."
+msgstr "Nicht in der Galerie: einige seiner Items gibt es im Spiel nicht mehr. Ersetze sie, und er kommt zurück."
+
+msgid "Not shown in the gallery: some pieces sit in a slot that no longer takes them. Open the build and place them again."
+msgstr "Nicht in der Galerie: einige Teile stecken in einem Platz, der sie nicht mehr aufnimmt. Öffne den Build und setze sie neu."
+
+msgid "Not shown in the gallery: the build does not meet its own conditions. Open it to see which ones."
+msgstr "Nicht in der Galerie: der Build hält seine eigenen Bedingungen nicht ein. Öffne ihn, um zu sehen welche."
+
+msgid "Not shown in the gallery: this build has no saved gear yet."
+msgstr "Nicht in der Galerie: dieser Build hat noch keine gespeicherte Ausrüstung."

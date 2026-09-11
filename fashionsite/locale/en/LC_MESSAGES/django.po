@@ -6564,3 +6564,15 @@ msgstr ""
 
 msgid "A fight arms one of the two, so a turn holds one or the other."
 msgstr ""
+
+msgid "Not shown in the gallery: some of its items are no longer in the game. Replace them and it comes back."
+msgstr ""
+
+msgid "Not shown in the gallery: some pieces sit in a slot that no longer takes them. Open the build and place them again."
+msgstr ""
+
+msgid "Not shown in the gallery: the build does not meet its own conditions. Open it to see which ones."
+msgstr ""
+
+msgid "Not shown in the gallery: this build has no saved gear yet."
+msgstr ""

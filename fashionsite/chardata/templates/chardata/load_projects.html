@@ -63,7 +63,13 @@
                           data-visibility-build="{{ wrapped_char.char.id }}"
                           data-visibility-state="{% if wrapped_char.char.link_shared %}public{% elif wrapped_char.char.auto_publish %}pending{% else %}private{% endif %}">
                           <div style="width: 170px;">
-                          <span class="visibility-state big-text">{% if wrapped_char.char.link_shared %}{% trans "In the gallery" %}{% elif wrapped_char.char.auto_publish %}{% trans "Public once it has gear" %}{% else %}{% trans "Private" %}{% endif %}</span>
+                          {% comment %}<<Dans la galerie>> etait faux trois
+                          fois sur quatre: la galerie ecarte 74,5 % des builds
+                          publies, et personne ne le disait a leur auteur. La
+                          raison prend la place de la promesse.{% endcomment %}
+                          {% with refus=wrapped_char.gallery_refusal %}
+                          <span class="visibility-state big-text">{% if refus %}{{ refus }}{% elif wrapped_char.char.link_shared %}{% trans "In the gallery" %}{% elif wrapped_char.char.auto_publish %}{% trans "Public once it has gear" %}{% else %}{% trans "Private" %}{% endif %}</span>
+                          {% endwith %}
                           <button type="button" class="button-thin visibility-toggle" style="font-size:0.82em; padding:3px 10px; white-space:nowrap;">{% if wrapped_char.char.link_shared or wrapped_char.char.auto_publish %}{% trans "Make private" %}{% else %}{% trans "Publish" %}{% endif %}</button>
                           </div>
                       </td>

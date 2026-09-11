@@ -67,6 +67,17 @@ class WrappedChar(object):
     def __init__(self, char):
         self.char = char
 
+    def gallery_refusal(self):
+        """Pourquoi la galerie n'affiche pas ce build, ou une chaine vide.
+
+        Compte du 11 septembre 2026: elle en ecarte 74,5 %, et jusqu'ici leur
+        auteur n'en savait rien. La colonne lui disait meme <<Dans la
+        galerie>>, ce qui etait faux trois fois sur quatre.
+        """
+        from chardata.gallery_visibility import (refusal_reason,
+                                                 refusal_sentence)
+        return refusal_sentence(refusal_reason(self.char))
+
     def class_string(self):
         return LOCALIZED_CHARACTER_CLASSES.get(self.char.char_class, '')
 

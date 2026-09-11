@@ -28,6 +28,9 @@ import pickle
 logger = logging.getLogger(__name__)
 
 from chardata.build_name import display_name
+from chardata.gallery_visibility import (
+    refusal_reason as _gallery_refusal_reason,
+    refusal_sentence as _gallery_refusal_sentence)
 from chardata.translation_util import localized_stat_name
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
@@ -779,6 +782,10 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'is_guest_json': json.dumps(is_guest),
               'encoded_char_id': encoded_char_id,
               'link_shared': char.link_shared,
+              # Pourquoi la galerie n'affiche pas ce build, quand c'est
+              # le cas. Elle en ecarte 74,5 % (mesure du 11 septembre
+              # 2026) et leur auteur n'en savait rien.
+              'gallery_refusal': gallery_refusal_sentence(char),
               'owner_alias': get_alias(char.owner),
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
               'class_avatar': class_avatar,
@@ -875,6 +882,11 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                             params,
                             char)
     return response
+
+
+def gallery_refusal_sentence(char):
+    """La phrase a montrer a l'auteur, ou une chaine vide."""
+    return _gallery_refusal_sentence(_gallery_refusal_reason(char))
 
 
 @require_POST

@@ -220,7 +220,15 @@
         visible tout seul des qu'il porte quelque chose, donc la page doit
         dire son etat en toutes lettres et pas seulement offrir un bouton
         dont le libelle se lit a l'envers.{% endcomment %}
+        {% comment %}La phrase d'etat dit <<Visible par tout le
+        monde>>, ce qui est faux quand la galerie ecarte le build. La
+        raison passe devant, calculee par le serveur parce qu'elle
+        depend de l'etat du catalogue et pas du bouton.{% endcomment %}
+        {% if gallery_refusal %}
+        <div><span id="gallery_refusal" class="small-explain">{{ gallery_refusal }}</span></div>
+        {% else %}
         <div><span id="link_sharing_state" class="small-explain"></span></div>
+        {% endif %}
     </div>
     <br>
     {% endif %}
