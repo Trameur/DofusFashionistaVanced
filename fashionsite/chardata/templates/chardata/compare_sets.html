@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 
+{% load build_display_name %}
 {% load get_item %}
 {% load get_range %}
 {% load i18n %}
@@ -58,7 +59,7 @@
                             <div align="left" style="padding-left: 7px; padding-right: 7px;">
                         {% for char in chars %}
                             <b>{% blocktrans with n=forloop.counter %}Set {{n}}{% endblocktrans %}</b>: 
-                            <a href="{{ links|get_item:char.id }}">{{ char.name }}</a><br>
+                            <a href="{{ links|get_item:char.id }}">{{ char|build_display_name }}</a><br>
                         {% endfor %}
                             </div>
                         </td>

@@ -374,11 +374,26 @@ $(document).ready(function() {
              saveButtonClicked);
     }
     
+    // Sans le nom du personnage, qui n'est pas obligatoire, ce champ valait
+    // " 199": une espace et un niveau. La classe choisie prend sa place, ce
+    // qui donne un nom que son auteur reconnait dans une galerie et qu'il
+    // reste libre de reecrire.
+    function proposedProjectName() {
+        var perso = $("#input-char-name").val() || "";
+        var classe = $("#select-char-class option:selected").text() || "";
+        var debut = (perso.trim() || classe.trim());
+        return (debut + " " + $("#input-char-level").val()).trim();
+    }
     $("#input-char-name").change(function() {
-        $("#input-proj-name").val($("#input-char-name").val()+" "+$("#input-char-level").val()).change();
+        $("#input-proj-name").val(proposedProjectName()).change();
     });
     $("#input-char-level").change(function() {
-        $("#input-proj-name").val($("#input-char-name").val()+" "+$("#input-char-level").val()).change();
+        $("#input-proj-name").val(proposedProjectName()).change();
+    });
+    $("#select-char-class").change(function() {
+        if (!$("#input-char-name").val()) {
+            $("#input-proj-name").val(proposedProjectName()).change();
+        }
     });
     $("#input-proj-name").change(function() {
         $("#proj-name-link").text($("#input-proj-name").val());

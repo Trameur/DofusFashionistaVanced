@@ -25,6 +25,7 @@ import jsonpickle
 import re
 from urllib.parse import urlencode, urlparse
 
+from chardata.build_name import display_name
 from chardata.character_assets import asset_formats, asset_token
 from chardata.character_look import get_character_look, preview_box_for
 from chardata.encoded_char_id import decode_char_id, encode_char_id
@@ -467,7 +468,7 @@ def _compare_picker_entries(request, chars):
             continue
         entries.append({
             'id': char.pk,
-            'name': char.name,
+            'name': display_name(char),
             'char_class': LOCALIZED_CHARACTER_CLASSES.get(char.char_class, char.char_class),
             'level': char.level,
             'build': char.char_build,

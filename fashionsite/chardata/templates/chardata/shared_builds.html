@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 
+{% load build_display_name %}
 {% load localized_class %}
 {% load i18n %}
 {% load ads %}
@@ -193,7 +194,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
                 <div class="build-card">
                     <div class="build-header">
                         <div>
-                            <h3 class="build-title">{{ build.char.name }}</h3>
+                            <h3 class="build-title">{{ build.char|build_display_name }}</h3>
                             {% if build.char.char_name %}
                                 <p class="build-char-name">{{ build.char.char_name }}</p>
                             {% endif %}
@@ -348,7 +349,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
                             style="font-size:0.82em; padding:3px 10px; margin:0 0 8px;"
                             data-compare-add
                             data-build-id="s{{ build.encoded_id }}"
-                            data-build-name="{{ build.char.char_name|default:build.char.name }}"
+                            data-build-name="{% if build.char.char_name %}{{ build.char.char_name }}{% else %}{{ build.char|build_display_name }}{% endif %}"
                             data-build-cls="{{ build.char.char_class }}"
                             data-build-level="{{ build.char.level }}"
                             data-build-base="{{ api_base }}">+ {% trans "Add to comparison" %}</button>

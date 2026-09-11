@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 
+{% load build_display_name %}
 {% load localized_class %}
 {% load i18n %}
 {% load stat_names %}
@@ -22,7 +23,7 @@
 
 {% block og_meta %}
 {% if link_shared %}
-    <meta property="og:title" content="{{ char.char_name|default:char.name }} · {{ char.char_class|localized_class }} {% trans 'lvl' %} {{ char.level }}">
+    <meta property="og:title" content="{% if char.char_name %}{{ char.char_name }}{% else %}{{ char|build_display_name }}{% endif %} · {{ char.char_class|localized_class }} {% trans 'lvl' %} {{ char.level }}">
     <meta property="og:description" content="{% if og_description %}{{ og_description }}{% else %}{{ char.char_class|localized_class }} {% trans 'build optimized on Dofus Fashionista. Like it, comment it, copy it.' %}{% endif %}">
     <meta property="og:type" content="article">
     <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ og_image }}">
@@ -97,7 +98,7 @@
         <img src="{{ class_avatar }}" alt="{{ char.char_class|localized_class }}" class="char-banner-avatar"
              {% if character_look %}style="display:none;"{% endif %}>
         <div class="char-banner-info">
-            <div class="char-banner-name">{{ char.char_name|default:char.name }}</div>
+            <div class="char-banner-name">{% if char.char_name %}{{ char.char_name }}{% else %}{{ char|build_display_name }}{% endif %}</div>
             <div class="char-banner-meta">
                 {{ char.char_class|localized_class }} · {% trans "level" %} {{ char.level }}
                 {% if owner_alias %}· {% trans "by" %} {{ owner_alias }}{% endif %}
@@ -200,7 +201,7 @@
             <button type="button" class="button-generic" style="margin-right: 5px;"
                     data-compare-add
                     data-build-id="{{ char_id }}"
-                    data-build-name="{{ char.char_name|default:char.name }}"
+                    data-build-name="{% if char.char_name %}{{ char.char_name }}{% else %}{{ char|build_display_name }}{% endif %}"
                     data-build-cls="{{ char.char_class }}"
                     data-build-level="{{ char.level }}"
                     data-build-avatar="{{ class_avatar }}"
@@ -246,7 +247,7 @@
             <button type="button" class="button-generic" style="margin-right: 5px;"
                     data-compare-add
                     data-build-id="s{{ encoded_char_id }}"
-                    data-build-name="{{ char.char_name|default:char.name }}"
+                    data-build-name="{% if char.char_name %}{{ char.char_name }}{% else %}{{ char|build_display_name }}{% endif %}"
                     data-build-cls="{{ char.char_class }}"
                     data-build-level="{{ char.level }}"
                     data-build-avatar="{{ class_avatar }}"
@@ -329,7 +330,7 @@
                     <button type="button" class="button-generic"
                             data-compare-add
                             data-build-id="{{ generation.compare_id }}"
-                            data-build-name="{{ char.char_name|default:char.name }} - {{ saved_generation_label }}"
+                            data-build-name="{% if char.char_name %}{{ char.char_name }}{% else %}{{ char|build_display_name }}{% endif %} - {{ saved_generation_label }}"
                             data-build-cls="{{ char.char_class }}"
                             data-build-level="{{ char.level }}"
                             data-build-avatar="{{ class_avatar }}"

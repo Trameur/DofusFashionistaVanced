@@ -29,6 +29,7 @@ from chardata.lock_forbid import (remove_invalid_inclusions, get_default_exclusi
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.anon_projects import (forget_anon_char, get_anon_char_id,
                                     get_anon_char_ids, remember_anon_char)
+from chardata.build_name import cleaned_at_creation
 from chardata.models import Char, CharBaseStats
 from chardata.options import set_options
 from chardata.smart_build import (get_char_aspects, set_char_aspects, ALL_ASPECTS,
@@ -324,7 +325,15 @@ def _get_state_from_post(request):
             'where_to_go': where_to_go}
 
 def _save_state_to_char(state, char):
-    char.name = state['proj_name']
+    # La page remplit ce champ toute seule avec le nom du personnage
+    # suivi du niveau, et le nom du personnage n'est pas obligatoire:
+    # un joueur qui pose seulement son niveau partait avec un projet
+    # nomme " 199". Mesure du 11 septembre 2026 sur la copie de
+    # production: 39 784 des 152 862 builds portent un nom de cette
+    # forme, et 404 des 1980 builds partages qui ont une solution.
+    char.name = cleaned_at_creation(state['proj_name'],
+                                    state.get('char_class'),
+                                    state.get('char_level'))
     char.char_name = state['char_name']
     char.level = state['char_level']
     requested_class = state['char_class']

@@ -1,4 +1,5 @@
 {% extends 'chardata/base.html' %}
+{% load build_display_name %}
 {% load localized_class %}
 {% load i18n %}
 {% load static_s3 %}
@@ -132,7 +133,7 @@ bien une page distincte.
             {% for b in builds %}
             <a class="profile-build-row" href="{{ b.link }}">
                 <div class="profile-build-name">
-                    {{ b.char.char_name|default:b.char.name }}
+                    {% if b.char.char_name %}{{ b.char.char_name }}{% else %}{{ b.char|build_display_name }}{% endif %}
                     {% if b.build_name_translated %}· {{ b.build_name_translated }}{% endif %}
                 </div>
                 <div class="profile-build-meta">

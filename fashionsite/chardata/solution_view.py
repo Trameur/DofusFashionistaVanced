@@ -27,6 +27,7 @@ import pickle
 
 logger = logging.getLogger(__name__)
 
+from chardata.build_name import display_name
 from chardata.translation_util import localized_stat_name
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.character_look import (CLASS_TO_BREED, DEFAULT_COLORS,
@@ -315,7 +316,10 @@ def _build_share_text(request, char, solution, facts=None):
     solution page does for a generation snapshot; otherwise they are read
     from the build's own pickle.
     """
-    title = char.char_name or char.name or char.char_class or 'Build'
+    # `display_name` plutot que `char.name`: un build sur cinq porte un
+    # nom que la page de creation a fabrique toute seule (" 199"), et
+    # ce texte-la est fait pour etre colle ailleurs.
+    title = char.char_name or display_name(char) or char.char_class or 'Build'
     # La version du jeu, en toutes lettres, parce que le texte voyage.
     #
     # Sans elle, un build Retro colle sur la page Dofus 3 etait cherche dans le

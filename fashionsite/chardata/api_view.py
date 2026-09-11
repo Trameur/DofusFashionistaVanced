@@ -13,6 +13,7 @@ because the data is already public. Cached for 60 s to absorb bursts.
 """
 
 from django.db.models import Count, Case, When, F, IntegerField, Value
+from chardata.build_name import display_name
 from chardata.util import shared_build_path
 from django.db.models.functions import Least
 from django.http import HttpResponse, JsonResponse
@@ -113,7 +114,9 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
     encoded = encode_char_id(int(char.id))
     payload = {
         'id': encoded,
-        'name': char.name,
+        # Jamais vide: un consommateur de cette API ecrit ce champ
+        # tel quel, et un build sur cinq n'a pas de nom lisible.
+        'name': display_name(char),
         'char_name': char.char_name,
         'char_class': char.char_class,
         'level': char.level,
