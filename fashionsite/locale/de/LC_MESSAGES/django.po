@@ -7315,3 +7315,6 @@ msgstr "Die Importseite sagt, dass sie auch Screenshots liest, und die Suchmasch
 
 msgid "A Google sign-in that fails or times out lands on the login page with an explanation, not on an error page."
 msgstr "Eine Google-Anmeldung, die fehlschlägt oder abläuft, führt mit einer Erklärung zur Anmeldeseite, nicht zu einer Fehlerseite."
+
+msgid "new entries"
+msgstr "Neues"

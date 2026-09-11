@@ -405,7 +405,10 @@
                 {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>
                 <!-- General Site Links -->
-                <a href="javascript:void(0)" onclick="openChangelog()">{% trans "Changelog" %}</a> &middot;
+                {% comment %}Le lien porte la cle de l'entree la plus recente;
+                changelog.js montre la marque tant que le navigateur n'a pas
+                ouvert le changelog sur cette cle-la (localStorage).{% endcomment %}
+                <a href="javascript:void(0)" onclick="openChangelog()" id="changelog-link" data-changelog-latest="{{ changelog_latest }}">{% trans "Changelog" %}<span class="changelog-new" id="changelog-new" hidden> ({% trans "new entries" %})</span></a> &middot;
                 <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &middot;
                 <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a> &middot;
                 <a href="{% game_url 'contact' %}">{% trans "Contact us" %}</a> &middot;

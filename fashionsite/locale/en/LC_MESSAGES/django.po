@@ -6556,3 +6556,6 @@ msgstr ""
 
 msgid "A Google sign-in that fails or times out lands on the login page with an explanation, not on an error page."
 msgstr ""
+
+msgid "new entries"
+msgstr ""

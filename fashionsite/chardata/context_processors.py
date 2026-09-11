@@ -212,3 +212,9 @@ def ads(request):
         'ad_publisher': client.replace('ca-', '', 1),
         'ad_slots': slots,
     }
+
+
+def changelog(request):
+    """The key of the newest changelog entry, for the footer mark."""
+    from chardata.changelog_state import newest_entry_key
+    return {'changelog_latest': newest_entry_key()}

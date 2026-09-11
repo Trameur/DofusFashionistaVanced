@@ -65,3 +65,7 @@ a, img {
     left: 8px;
     top: 8px;
 }
+
+/* The footer mark beside Changelog while the newest entry is one the reader
+   has not opened yet; the browser keeps the key it last opened on. */
+.changelog-new { font-size: 0.85em; }

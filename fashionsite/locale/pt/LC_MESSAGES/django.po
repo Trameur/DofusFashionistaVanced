@@ -7285,3 +7285,6 @@ msgstr "A página de importação diz que também lê capturas de tela, e os mec
 
 msgid "A Google sign-in that fails or times out lands on the login page with an explanation, not on an error page."
 msgstr "Uma entrada com o Google que falha ou expira leva à página de login com uma explicação, não a uma página de erro."
+
+msgid "new entries"
+msgstr "novidades"
