@@ -1131,7 +1131,8 @@
         function updateLinkSharing() {
             sayLinkSharingState();
             if (sharing) {
-                $.get(apiBase + '/getsharinglink/{{char_id}}/', {}, function(data) {
+                $.post(apiBase + '/getsharinglink/{{char_id}}/',
+                       {csrfmiddlewaretoken: '{{ csrf_token }}'}, function(data) {
                     $("#link_sharing_button").html('{% trans "Unshare" %}');
                     $("#link_sharing_url_text").show();
                     $("#link_sharing_url_text").val(data);
@@ -1141,7 +1142,8 @@
                 $("#link_sharing_button").html('{% trans "Get link to share" %}');
                 $("#link_sharing_url_text").hide();
                 $("#link_sharing_url_text").val("");
-                $.get(apiBase + '/hidesharinglink/{{char_id}}/', {}, function(data) {
+                $.post(apiBase + '/hidesharinglink/{{char_id}}/',
+                       {csrfmiddlewaretoken: '{{ csrf_token }}'}, function(data) {
                 });
             }
         }

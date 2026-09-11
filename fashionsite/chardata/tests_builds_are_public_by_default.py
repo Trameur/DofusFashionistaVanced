@@ -84,7 +84,10 @@ class OnlyADressedNewBuildIsPublishedTests(TestCase):
         proprietaire = User.objects.create_user('auteur', password='x')
         char = self._char(auto_publish=True, owner=proprietaire)
         self.client.force_login(proprietaire)
-        self.client.get('/hidesharinglink/%d/' % char.pk)
+        # POST depuis le 11 septembre 2026: un GET ne change plus rien,
+        # pour qu'une image posee sur une page etrangere ne publie pas
+        # le build d'un lecteur connecte.
+        self.client.post('/hidesharinglink/%d/' % char.pk)
         char.refresh_from_db()
         self.assertFalse(char.auto_publish)
         set_minimal_solution(char, _Solution({'Hat': 14063}))
@@ -94,7 +97,7 @@ class OnlyADressedNewBuildIsPublishedTests(TestCase):
         proprietaire = User.objects.create_user('auteur2', password='x')
         char = self._char(auto_publish=True, owner=proprietaire)
         self.client.force_login(proprietaire)
-        self.client.get('/getsharinglink/%d/' % char.pk)
+        self.client.post('/getsharinglink/%d/' % char.pk)
         char.refresh_from_db()
         self.assertTrue(char.link_shared)
         self.assertFalse(char.auto_publish)

@@ -7323,3 +7323,21 @@ msgstr "Les builds que vous publiez"
 
 msgid "A build you create while logged in is published the first time it has gear: it then appears in the build gallery, on the pages of the items it wears, and under your display name on your profile, and anyone holding its link can open it. You can turn that off for a build at any time from the build page, and you can untick the box on the creation page before you start. Builds made without an account are never published on their own, and builds created before 11 September 2026 keep the visibility they already had."
 msgstr "Un build que vous créez en étant connecté est publié la première fois qu’il porte un stuff : il apparaît alors dans la galerie des builds, sur les pages des objets qu’il porte, et sous votre nom affiché sur votre profil, et toute personne qui a son lien peut l’ouvrir. Vous pouvez le rendre privé à tout moment depuis la page du build, et vous pouvez décocher la case sur la page de création avant de commencer. Les builds faits sans compte ne sont jamais publiés d’eux-mêmes, et les builds créés avant le 11 septembre 2026 gardent la visibilité qu’ils avaient déjà."
+
+msgid "Visibility"
+msgstr "Visibilité"
+
+msgid "In the gallery"
+msgstr "Dans la galerie"
+
+msgid "Public once it has gear"
+msgstr "Public dès qu’il a un stuff"
+
+msgid "Private"
+msgstr "Privé"
+
+msgid "Make private"
+msgstr "Rendre privé"
+
+msgid "Publish"
+msgstr "Publier"

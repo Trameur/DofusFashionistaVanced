@@ -34,6 +34,14 @@
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Build" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Class" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;">{% trans "Level" %}</th>
+                  {% comment %}Depuis le 11 septembre 2026 un build neuf est
+                  public des qu'il porte un stuff. La liste des projets est
+                  le seul endroit d'ou l'auteur voit ses builds ensemble,
+                  donc c'est la que l'etat doit se lire et se changer, sans
+                  ouvrir chaque build l'un apres l'autre.{% endcomment %}
+                  {% if user.is_authenticated %}
+                  <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Visibility" %}</th>
+                  {% endif %}
                   <th class="load-project-header"></th>
                 </tr>
                 {% for wrapped_char in chars %}
@@ -45,6 +53,21 @@
                       <td class="load-project-cell"><div style="width: 170px" class='big-text'>{{wrapped_char.build_string}}</div></td>
                       <td class="load-project-cell"><div style="width: 80px" class='big-text'> {{wrapped_char.class_string}}</div></td>
                       <td class="load-project-cell level-cell" align="center"><div style="width: 20px;" class='big-text'>{{wrapped_char.char.level}}</div></td>
+                      {% if user.is_authenticated %}
+                      {% comment %}Trois etats et non deux: <<pas encore
+                      visible, et il le sera>> est celui que le nouveau
+                      defaut a cree, et c'est le seul que le lecteur ne peut
+                      pas deviner. Le taire reviendrait a publier sans
+                      prevenir.{% endcomment %}
+                      <td class="load-project-cell visibility-cell"
+                          data-visibility-build="{{ wrapped_char.char.id }}"
+                          data-visibility-state="{% if wrapped_char.char.link_shared %}public{% elif wrapped_char.char.auto_publish %}pending{% else %}private{% endif %}">
+                          <div style="width: 170px;">
+                          <span class="visibility-state big-text">{% if wrapped_char.char.link_shared %}{% trans "In the gallery" %}{% elif wrapped_char.char.auto_publish %}{% trans "Public once it has gear" %}{% else %}{% trans "Private" %}{% endif %}</span>
+                          <button type="button" class="button-thin visibility-toggle" style="font-size:0.82em; padding:3px 10px; white-space:nowrap;">{% if wrapped_char.char.link_shared or wrapped_char.char.auto_publish %}{% trans "Make private" %}{% else %}{% trans "Publish" %}{% endif %}</button>
+                          </div>
+                      </td>
+                      {% endif %}
                       <td class="load-project-cell">{% if wrapped_char.char.minimal_solution %}<button type="button" class="button-generic" style="font-size:0.82em; padding:3px 10px; white-space:nowrap;"
                               data-compare-add
                               data-build-id="{{ wrapped_char.char.id }}"
@@ -190,6 +213,46 @@ $(document).ready(function() {
 
     $("#button-duplicate-project").click(duplicateProj);
     $("#button-delete-project").click(confirmDelete);
+
+    {% trans "In the gallery" as msg_in_gallery %}
+    {% trans "Private" as msg_private %}
+    {% trans "Make private" as msg_make_private %}
+    {% trans "Publish" as msg_publish %}
+    (function () {
+        // Le bouton d'une ligne n'agit que sur le build de SA ligne: l'id
+        // est lu sur la cellule, jamais sur une variable partagee.
+        var cells = document.querySelectorAll('[data-visibility-build]');
+        Array.prototype.forEach.call(cells, function (cell) {
+            var bouton = cell.querySelector('.visibility-toggle');
+            var etat = cell.querySelector('.visibility-state');
+            if (!bouton || !etat) {
+                return;
+            }
+            bouton.addEventListener('click', function () {
+                var publier = cell.getAttribute('data-visibility-state') === 'private';
+                // Le prefixe de la version compte: la route refuse un
+                // build qui n'est pas dans la version courante, et
+                // cette liste est celle d'une version.
+                var route = '{{ api_base }}'
+                    + (publier ? '/getsharinglink/' : '/hidesharinglink/');
+                bouton.disabled = true;
+                $.post(route + cell.getAttribute('data-visibility-build') + '/',
+                       {csrfmiddlewaretoken: '{{ csrf_token }}'})
+                    .done(function () {
+                        cell.setAttribute('data-visibility-state',
+                                          publier ? 'public' : 'private');
+                        etat.textContent = publier
+                            ? '{{ msg_in_gallery|escapejs }}'
+                            : '{{ msg_private|escapejs }}';
+                        bouton.textContent = publier
+                            ? '{{ msg_make_private|escapejs }}'
+                            : '{{ msg_publish|escapejs }}';
+                    })
+                    .always(function () { bouton.disabled = false; });
+            });
+        });
+    })();
+
     
     {% if experiments.COMPARE_SETS %}
     $("#button-compare-projects").click(compareProjects);

@@ -873,7 +873,16 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     return response
 
 
+@require_POST
 def get_sharing_link(request, char_id):
+    """Publish a build. POST only, and the reason is measured.
+
+    Both of these answered a GET until 2026-09-11, and neither Django nor
+    anything else checks a token on a GET. So `<img src=".../getsharinglink/
+    123/">` on any page published build 123 as soon as its owner loaded that
+    page, and build ids are consecutive integers. The same door in reverse
+    hid a build and broke every link its author had shared.
+    """
     char = get_char_or_raise(request, char_id)
 
     char.link_shared = True
@@ -885,6 +894,7 @@ def get_sharing_link(request, char_id):
     return HttpResponseText(generate_link(request, char))
 
 
+@require_POST
 def hide_sharing_link(request, char_id):
     char = get_char_or_raise(request, char_id)
 

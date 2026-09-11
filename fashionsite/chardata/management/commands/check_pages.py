@@ -100,7 +100,11 @@ BUILD_PATHS = (
     '/options/%s/', '/exclusions/%s/', '/inclusions/%s/', '/wizard/%s/',
     '/solution/%s/', '/spells/%s/', '/fashion/%s/', '/infeasible/%s/',
     '/best_combo/%s/', '/exchange/%s/', '/itemadd/%s/', '/itemexchange/%s/',
-    '/getsharinglink/%s/', '/loadproject/%s/', '/initbasestats/%s/',
+    # Plus /getsharinglink/: ce n'est pas une page, c'est une action, et
+    # la parcourir PUBLIAIT le build temoin a chaque passage. Elle ne
+    # repond plus qu'a un POST depuis le 11 septembre 2026, donc la
+    # laisser ici ne rapporterait plus qu'un 405.
+    '/loadproject/%s/', '/initbasestats/%s/',
     '/wizardgetsliders/%s/', '/workshop/solutioningredients/%s/',
     '/statspost/%s/', '/minstatspost/%s/', '/optionspost/%s/',
     '/exclusionspost/%s/', '/inclusionspost/%s/', '/wizardpost/%s/',

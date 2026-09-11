@@ -55,14 +55,19 @@ _CHAMPS_SURVEILLES = (
 
 #: Les routes qui ecrivent sur un GET et qu'on NE PEUT PAS durcir seules.
 #:
-#: Deux seulement, et chacune porte sa raison : une regle elargie couvre la
-#: prochaine faute en silence, une exception nommee la laisse rougir. Ce sont
-#: deux DETTES, pas deux acquittements.
+#: Une seule depuis le 11 septembre 2026, et elle porte sa raison : une regle
+#: elargie couvre la prochaine faute en silence, une exception nommee la
+#: laisse rougir. C'est une DETTE, pas un acquittement, et la premiere a bien
+#: fini par etre payee.
 _TOLEREES = {
-    # Appelee en GET par le site lui-meme, solution.html:1060. Poser
-    # @require_POST sans changer le JavaScript casserait le partage : a
-    # corriger des deux cotes en meme temps.
-    '/getsharinglink/%s/': 'solution.html:1060 appelle en $.get',
+    # `/getsharinglink/` etait ici, avec sa raison : le site l'appelait en
+    # $.get, et poser @require_POST sans toucher au JavaScript aurait casse
+    # le partage. Dette payee le 11 septembre 2026 : les deux routes de
+    # visibilite sont en POST et les deux pages qui les appellent postent
+    # leur jeton. Ce qui restait ouvert en attendant n'etait pas theorique,
+    # une balise image sur une page etrangere publiait le build prive de
+    # tout lecteur connecte qui passait par la.
+    #
     # wizard_view.get_resetted_sliders appelle reapply_weights(char), donc
     # ecrit ; son appelant est en GET lui aussi.
     '/wizardgetsliders/%s/': 'get_resetted_sliders reapplique les poids en GET',
