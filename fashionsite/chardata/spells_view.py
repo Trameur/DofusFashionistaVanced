@@ -369,7 +369,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'image_url': image_url,
                       'ap': castable.cost,
                       'damage': int(round(damage)),
-                      'running': int(round(running))})
+                      'running': int(round(running)),
+                      'note': _cast_note(castable, name, later, damage)})
     late = []
     for name in sorted(later):
         castable = by_name[name]
@@ -402,6 +403,23 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'ap_used': sum(cast['ap'] for cast in casts),
             'ap_available': ap,
             'conditional': extras}
+
+
+def _cast_note(castable, name, later, damage):
+    """Pourquoi ce lancer n'affiche aucun degat, ou '' quand il en affiche.
+
+    Rien n'est devine: un sort dont toutes les lignes sont des buffs n'a rien
+    a poser lui-meme, et un sort dont les degats sont differes a les siens
+    dans le bloc du dessous. Un zero qu'on ne sait pas expliquer reste nu
+    plutot que de recevoir une phrase au hasard.
+    """
+    if int(round(damage)):
+        return ''
+    if name in later:
+        return str(_CAST_NOTES['delayed'])
+    if getattr(castable, 'buffs', None) and not getattr(castable, 'hits', None):
+        return str(_CAST_NOTES['buff'])
+    return ''
 
 
 def _create_spell_web_digest(spell, game_version='dofus3'):
@@ -596,6 +614,18 @@ def _localized_aggregate_label(label, game_version=None):
 _DELAYED_LABELS = {
     'turn_begin': _lazy('at the start of a turn'),
     'turn_end': _lazy('at the end of a turn'),
+}
+
+# Pourquoi un lancer du meilleur tour n'affiche aucun degat. Mesure du 12
+# septembre 2026 sur la copie de production: **77 des 200 tours proposes, soit
+# 38,5 %, contiennent au moins un lancer a zero**, et rien ne disait pourquoi.
+# Un zero sans un mot se lit comme une panne, alors que le solveur a raison de
+# depenser ce PA. Les deux seules raisons, lues dans la donnee et non
+# supposees: le sort ne porte que des lignes de buff, ou ses degats sont
+# differes et comptes dans le bloc du dessous.
+_CAST_NOTES = {
+    'buff': _lazy('no damage of its own, it raises the casts that follow'),
+    'delayed': _lazy('no damage now, its own lands later and is counted apart'),
 }
 
 _CONDITIONAL_LABELS = {

@@ -182,10 +182,23 @@
 }
 
 .best-combo-casts li {
+    padding: 3px 0;
+}
+
+.best-combo-cast-line {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 3px 0;
+}
+
+/* Pourquoi un lancer n'affiche aucun degat. Sous sa ligne et non dedans: le
+   nom du sort garde sa place, et une phrase n'est pas un nombre. Le retrait
+   aligne la note sur le nom, apres l'icone et son ecart. Aucune couleur en
+   propre, donc elle se lit dans les deux themes. */
+.best-combo-cast-note {
+    font-size: .8em;
+    opacity: .8;
+    padding-left: 34px;
 }
 
 .best-combo-icon {

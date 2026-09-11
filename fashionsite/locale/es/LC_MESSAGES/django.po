@@ -7335,3 +7335,9 @@ msgstr "Veneno en el elemento del ataque"
 
 msgid "only after attacking both in close combat and at range in the same turn"
 msgstr "solo tras atacar cuerpo a cuerpo y a distancia en el mismo turno"
+
+msgid "no damage of its own, it raises the casts that follow"
+msgstr "sin daño propio, aumenta los lanzamientos que siguen"
+
+msgid "no damage now, its own lands later and is counted apart"
+msgstr "sin daño ahora, el suyo cae más tarde y se cuenta aparte"

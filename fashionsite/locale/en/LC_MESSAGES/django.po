@@ -6585,3 +6585,9 @@ msgstr ""
 
 msgid "only after attacking both in close combat and at range in the same turn"
 msgstr ""
+
+msgid "no damage of its own, it raises the casts that follow"
+msgstr ""
+
+msgid "no damage now, its own lands later and is counted apart"
+msgstr ""

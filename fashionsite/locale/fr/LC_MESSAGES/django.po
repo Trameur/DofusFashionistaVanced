@@ -7368,3 +7368,9 @@ msgstr "Poison dans l'élément de l'attaque"
 
 msgid "only after attacking both in close combat and at range in the same turn"
 msgstr "seulement après avoir attaqué en mêlée et à distance dans le même tour"
+
+msgid "no damage of its own, it raises the casts that follow"
+msgstr "aucun dégât en propre, il grossit les lancers qui suivent"
+
+msgid "no damage now, its own lands later and is counted apart"
+msgstr "aucun dégât maintenant, le sien tombe plus tard et est compté à part"

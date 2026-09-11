@@ -44,11 +44,14 @@
         <ol class="best-combo-casts">
             {% for cast in best_combo.casts %}
             <li>
-                <img class="best-combo-icon" src="{{ cast.image_url }}" alt="{{ cast.name }}">
-                <span class="best-combo-name">{{ cast.name }}</span>
-                <span class="best-combo-ap">{% blocktrans with ap=cast.ap %}{{ ap }} AP{% endblocktrans %}</span>
-                <span class="best-combo-damage">{{ cast.damage }}</span>
-                <span class="best-combo-running">{{ cast.running }}</span>
+                <div class="best-combo-cast-line">
+                    <img class="best-combo-icon" src="{{ cast.image_url }}" alt="{{ cast.name }}">
+                    <span class="best-combo-name">{{ cast.name }}</span>
+                    <span class="best-combo-ap">{% blocktrans with ap=cast.ap %}{{ ap }} AP{% endblocktrans %}</span>
+                    <span class="best-combo-damage">{{ cast.damage }}</span>
+                    <span class="best-combo-running">{{ cast.running }}</span>
+                </div>
+                {% if cast.note %}<div class="best-combo-cast-note">{{ cast.note }}</div>{% endif %}
             </li>
             {% endfor %}
         </ol>
@@ -1413,7 +1416,9 @@
                      .text(combo.total + ' ' + panel.data('damage-label'));
                 var list = panel.find('.best-combo-casts').empty();
                 $.each(combo.casts, function(i, cast) {
-                    var line = $("<li></li>");
+                    var item = $("<li></li>");
+                    var line = $("<div class='best-combo-cast-line'></div>")
+                        .appendTo(item);
                     $("<img class='best-combo-icon'>")
                         .attr('src', cast.image_url).attr('alt', cast.name)
                         .appendTo(line);
@@ -1423,7 +1428,14 @@
                         .appendTo(line);
                     $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
                     $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
-                    list.append(line);
+                    // La note vient traduite du serveur, comme les etiquettes
+                    // des blocs du dessous: sans elle un zero se relit comme
+                    // une panne au premier rafraichissement.
+                    if (cast.note) {
+                        $("<div class='best-combo-cast-note'></div>")
+                            .text(cast.note).appendTo(item);
+                    }
+                    list.append(item);
                 });
                 var later = panel.find('.best-combo-later');
                 var lateRows = combo.later || [];
