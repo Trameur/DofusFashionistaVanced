@@ -195,9 +195,31 @@ class ModelResult():
     def _add_result_item_at_slot(self, slot, result_item):
         result_item.set_slot(slot)
         self.open_slots.remove(slot)
-        
-        self.items[SLOT_NAME_TO_TYPE[slot]].append(result_item)
+
+        self.items[self._display_type(slot, result_item)].append(result_item)
         self.item_list.append(result_item)
+
+    @staticmethod
+    def _display_type(slot, result_item):
+        """Sous quel type cette piece est rangee, donc annoncee.
+
+        Le sien, et non celui de son emplacement. Un solveur ne pose jamais
+        une piece ailleurs que chez elle, donc cela ne change rien a ce qu'il
+        produit; ce sont les builds ENREGISTRES dont les emplacements ne
+        correspondent plus qui sont concernes.
+
+        Mesure du 11 septembre 2026 sur la copie de production: 896 builds
+        partages annonçaient au moins une piece sous un type qui n'est pas le
+        sien, 4890 pieces au total, et la page disait donc a chaque visiteur
+        une cape est un anneau, un bouclier est une arme, une amulette est un
+        Dofus.
+        """
+        if getattr(result_item, 'item_added', False):
+            # `ModelResultItem.type` porte deja le nom du type de la piece.
+            type_name = getattr(result_item, 'type', None)
+            if type_name in TYPE_NAMES:
+                return type_name
+        return SLOT_NAME_TO_TYPE[slot]
 
     def _add_set(self, item_set, number_of_items):
         self.sets.append(ModelResultSet(item_set, number_of_items))

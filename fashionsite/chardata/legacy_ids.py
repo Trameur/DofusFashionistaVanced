@@ -146,6 +146,47 @@ def repaired_slots(structure, game_version, item_per_slot):
     return corrige if change else None
 
 
+def _reslot_mismatched(structure, par_slot):
+    """Repose une piece dont le type ne va pas avec son emplacement, quand un
+    emplacement du sien est libre.
+
+    Sans cela la page l'affiche sous le mauvais nom: mesure du 11 septembre
+    2026 sur de vrais builds partages, une cape annoncee comme un anneau, un
+    bouclier comme une arme, une amulette comme un Dofus. La page dit alors
+    quelque chose de faux a chaque visiteur.
+
+    On ne deplace jamais une piece qui va bien, et on ne prend jamais la
+    place d'une autre: s'il n'y a pas d'emplacement libre du bon type, la
+    piece reste ou elle est. L'ordre de parcours est fixe, pour que deux
+    lectures de la meme page rangent pareil.
+    """
+    from chardata.shared_builds_view import _get_valid_slots_for_type
+    from fashionistapulp.modelresult import get_item_in_slot
+    occupes = {slot for slot, iid in par_slot.items() if iid is not None}
+    change = False
+    for slot in sorted(par_slot, key=str):
+        item_id = par_slot.get(slot)
+        if item_id is None:
+            continue
+        item = get_item_in_slot(structure, item_id, slot)
+        if item is None:
+            continue
+        places = _get_valid_slots_for_type(
+            structure.get_type_name_by_id(item.type))
+        if not places or slot in places:
+            continue
+        libres = sorted(places - occupes)
+        if not libres:
+            continue
+        cible = libres[0]
+        par_slot[cible] = item_id
+        par_slot[slot] = None
+        occupes.discard(slot)
+        occupes.add(cible)
+        change = True
+    return change
+
+
 def repair_minimal_solution(char, minimal_solution):
     """Pose la reparation sur une solution stockee, en memoire seulement."""
     par_slot = getattr(minimal_solution, 'item_per_slot', None)
@@ -158,7 +199,13 @@ def repair_minimal_solution(char, minimal_solution):
     except Exception:
         return False
     corrige = repaired_slots(structure, game_version, par_slot)
-    if corrige is None:
+    change = corrige is not None
+    corrige = dict(corrige if change else par_slot)
+    # Puis les pieces qui, une fois retrouvees ou non, restent rangees sous
+    # un type qui n'est pas le leur.
+    if _reslot_mismatched(structure, corrige):
+        change = True
+    if not change:
         return False
     minimal_solution.item_per_slot = corrige
     return True
