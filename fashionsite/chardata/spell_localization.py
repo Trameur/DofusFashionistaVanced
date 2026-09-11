@@ -55,12 +55,33 @@ def _spell_name_map() -> Dict[str, Dict[str, str]]:
     return mapping
 
 
+#: Les sorts que nous nommons d'apres l'OBJET qui les donne, et non d'apres
+#: le sort lui-meme. Le client appelle l'attaque du Dofus Ebene "Ebony Black"
+#: ("Noir Ebene"), nous l'appelons par le Dofus qui la porte, donc la carte
+#: des noms du client ne connait pas notre etiquette et le lecteur francais
+#: lisait "Ebony Dofus". Les noms ci-dessous sont ceux de l'OBJET, relus dans
+#: notre catalogue le 11 septembre 2026; un test les y relit.
+NAMED_AFTER_THEIR_ITEM = {
+    "Ebony Dofus": {
+        "en": "Ebony Dofus",
+        "fr": "Dofus Ébène",
+        "es": "Dofus Ébano",
+        "pt": "Dofus Ébano",
+        "de": "Ebenholz-Dofus",
+    },
+}
+
+
 def get_localized_spell_name(name_en: str, language: str) -> str:
     if not isinstance(name_en, str) or not name_en:
         return name_en
 
     lang = (language or "en").split("-")[0].lower()
     localized = _spell_name_map().get(name_en)
+    if not localized:
+        # Le client ne connait pas cette etiquette: c'est l'objet qui lui
+        # donne son nom. Le client reste prioritaire s'il la reprend un jour.
+        localized = NAMED_AFTER_THEIR_ITEM.get(name_en)
     if not localized:
         return name_en
 

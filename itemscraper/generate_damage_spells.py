@@ -63,27 +63,59 @@ ALWAYS_BUFF_TOKENS = {"buff_final", "buff_finalheals"}
 # The quote is checked at generation time by _not_a_self_buff below, so a
 # description Ankama rewrites raises the question again instead of leaving an
 # exclusion nobody rechecks.
-NOT_A_SELF_BUFF = {
-    # Ecaflip, Roulette. Ankama: "Applique un effet aleatoire sur tout le
-    # monde." The data lists the alternatives as six separate buff rows, and
-    # reading them as granted together handed an Ecaflip +400 Strength,
-    # Intelligence, Chance AND Agility at once, plus Pushback Damage and final
-    # heals, for a 1 AP spell. The solver believes this table, so the advice
-    # was wrong and not only the summary. The same spell was wrong on Retro
-    # (four characteristics) and on Touch (Power), found there first.
-    12840: "effet al",
-    # Huppermage, Elemental Drain. Ankama: "Vole des caracteristiques et de la
-    # vie selon l'etat elementaire sur l'ennemi cible." One state, so one
-    # characteristic. The four rows were read as granted together and one cast
-    # handed the caster 200 Strength, Intelligence, Chance AND Agility: 800
-    # points, measured 2026-09-01, where the game gives 200.
-    13672: "mentaire sur l'ennemi cibl",
-    # Eniripsa, Alchemical Word. The flask holds ONE element and the buff goes
-    # "selon le contenu", so again one characteristic of four. It also needs
-    # the flask summoned, filled, and then attacked by an ally, which no single
-    # turn does. Four rows at 150 came to 600 points a cast.
-    25802: "selon le contenu",
+#: Chaque version est un jeu different, et sa phrase aussi: le meme
+#: identifiant ne designe pas toujours le meme sort, et le meme sort n'est pas
+#: toujours ecrit avec les memes mots. La table est donc par version.
+NOT_A_SELF_BUFF_BY_VERSION = {
+    # Relus le 11 septembre 2026 dans transformed_spells.json.
+    "dofus3": {
+        # Ecaflip, Roulette. Ankama: "Applique un effet aleatoire sur tout le
+        # monde." The data lists the alternatives as six separate buff rows,
+        # and reading them as granted together handed an Ecaflip +400
+        # Strength, Intelligence, Chance AND Agility at once, plus Pushback
+        # Damage and final heals, for a 1 AP spell. The solver believes this
+        # table, so the advice was wrong and not only the summary. The same
+        # spell was wrong on Retro (four characteristics) and on Touch
+        # (Power), found there first.
+        12840: "effet al",
+        # Huppermage, Elemental Drain. Ankama: "Vole des caracteristiques et
+        # de la vie selon l'etat elementaire sur l'ennemi cible." One state,
+        # so one characteristic. The four rows were read as granted together
+        # and one cast handed the caster 200 Strength, Intelligence, Chance
+        # AND Agility: 800 points, measured 2026-09-01, where the game gives
+        # 200.
+        13672: "mentaire sur l'ennemi cibl",
+        # Eniripsa, Alchemical Word. The flask holds ONE element and the buff
+        # goes "selon le contenu", so again one characteristic of four. It
+        # also needs the flask summoned, filled, and then attacked by an ally,
+        # which no single turn does. Four rows at 150 came to 600 points a
+        # cast. L'identifiant est partage avec <<Mot d'Amitie>>, qui ne porte
+        # pas la phrase: c'est la variante <<Mot Alchimique>> qui la porte.
+        25802: "selon le contenu",
+    },
+    # Relus le 11 septembre 2026 dans transformed_spells_beta.json: la
+    # beta ecrit les trois sorts mot pour mot comme Dofus 3.
+    "beta": {
+        12840: "effet al",
+        13672: "mentaire sur l'ennemi cibl",
+        25802: "selon le contenu",
+    },
+    # Relus le 11 septembre 2026 dans transformed_spells_dofus2.json.
+    "dofus2": {
+        12840: "effet al",
+        # Dofus 2 ecrit la meme chose autrement: "Vole des caracteristiques et
+        # occasionne des dommages selon l'etat elementaire DE l'ennemi cible",
+        # sans "et de la vie". Un seul etat, donc une caracteristique: la
+        # raison de l'exclusion tient, la phrase a change.
+        13672: "mentaire de l'ennemi cibl",
+        # 25802 n'y est PAS: dans ce client l'identifiant ne porte que <<Mot
+        # d'Amitie>>, qui invoque un Lapino. Aucun sort de Dofus 2 ne dit
+        # "selon le contenu", la variante <<Mot Alchimique>> n'y existe pas,
+        # et exclure sur ce numero y retirerait les lignes d'un autre sort.
+    },
 }
+
+NOT_A_SELF_BUFF = NOT_A_SELF_BUFF_BY_VERSION["dofus3"]
 
 # LEFT IN ON PURPOSE, and each for a sentence of Ankama's own:
 #   Huppermage, Sublimation      "cumulable 4 fois", so the four really do add
@@ -884,7 +916,21 @@ def _select_named_defaults(
     spell_lookup: Mapping[int, Mapping[str, Any]],
 ) -> List[SpellEntry]:
     lookup: Dict[str, List[Mapping[str, Any]]] = {}
+    by_ankama_id: Dict[int, Mapping[str, Any]] = {}
     for spell in all_spells:
+        try:
+            ankama_id = int(spell.get("ankama_id"))
+        except (TypeError, ValueError):
+            ankama_id = 0
+        if ankama_id:
+            # Plusieurs sorts partagent parfois un identifiant: 25802 porte a
+            # la fois <<Mot d'Amitie>> et sa variante <<Mot Alchimique>>. On
+            # garde celui qui a des lignes de degats plutot que le premier
+            # venu, sans quoi le choix depend de l'ordre du fichier.
+            connu = by_ankama_id.get(ankama_id)
+            if connu is None or (not connu.get("damage_templates")
+                                 and spell.get("damage_templates")):
+                by_ankama_id[ankama_id] = spell
         name = (spell.get("name_en") or "").strip().lower()
         if not name:
             continue
@@ -892,18 +938,47 @@ def _select_named_defaults(
 
     entries: List[SpellEntry] = []
     missing: List[str] = []
+    fell_back: List[str] = []
     for spec in DEFAULT_DAMAGE_SPELL_SPECS:
-        spell = _choose_default_candidate(lookup.get(spec.name.lower(), []), spec)
+        # L'identifiant d'abord, le nom ensuite. Le client de Dofus 3 a
+        # rebaptise l'attaque du Dofus Ebene en "Ebony Black": l'appariement
+        # par nom a echoue, le repli ci-dessous a servi les valeurs ecrites a
+        # la main, et personne ne l'a su. Un identifiant ne se renomme pas.
+        spell = by_ankama_id.get(spec.ankama_id) if spec.ankama_id else None
+        if spell is None:
+            spell = _choose_default_candidate(lookup.get(spec.name.lower(), []), spec)
         if spell:
             converted = convert_spell(spell, spell_lookup=spell_lookup)
             if converted:
+                converted = replace(converted, name=spec.name)
+                if spec.grades_are_charges:
+                    converted = _charged_grade_only(converted)
+                if spec.level_requirement:
+                    # La porte est celle de l'objet qui donne le sort, pas
+                    # celle que le client ecrit sur le sort lui-meme.
+                    converted = replace(
+                        converted,
+                        level_requirements=[spec.level_requirement]
+                        * len(converted.level_requirements),
+                    )
                 entries.append(converted)
                 continue
         legacy = LEGACY_DEFAULT_SPELLS.get(spec.name)
         if legacy:
+            # Un repli non declare est une donnee ecrite a la main que le jeu
+            # ne relit plus: il se dit, sinon il vieillit en silence.
+            if not spec.hand_written:
+                fell_back.append(spec.name)
             entries.append(deepcopy(legacy))
             continue
         missing.append(spec.name)
+    if fell_back:
+        print(
+            "Warning: hand-written values used for these default spells, the "
+            "client no longer lists them under that name or id: "
+            + ", ".join(fell_back),
+            file=sys.stderr,
+        )
     if missing:
         print(
             "Warning: the following default spells were not found in transformed_spells.json: "
@@ -911,6 +986,36 @@ def _select_named_defaults(
             file=sys.stderr,
         )
     return entries
+
+
+def _charged_grade_only(entry: SpellEntry) -> SpellEntry:
+    """Le dernier palier seul, quand les paliers sont des etats de charge.
+
+    Une ligne vide au dernier palier alors qu'elle porte une valeur ailleurs
+    voudrait dire que le dernier n'est PAS le plus charge: on s'arrete plutot
+    que de jeter des degats en silence.
+    """
+    grades = len(entry.level_requirements)
+    if grades < 2:
+        return entry
+    for rows in (entry.non_crit_ranges, entry.crit_ranges):
+        for row in rows or []:
+            dernier = _parse_damage_literal(str(row[-1]))
+            if dernier == (0, 0) and any(
+                    _parse_damage_literal(str(value)) != (0, 0) for value in row):
+                raise SystemExit(
+                    "%s: the last grade is not the fullest, so keeping it "
+                    "would drop damage. Read the spell again."
+                    % entry.name)
+    return replace(
+        entry,
+        level_requirements=entry.level_requirements[-1:],
+        non_crit_ranges=[[row[-1]] for row in entry.non_crit_ranges],
+        crit_ranges=([[row[-1]] for row in entry.crit_ranges]
+                     if entry.crit_ranges is not None else None),
+        casting=({cle: valeurs[-1:] for cle, valeurs in entry.casting.items()}
+                 if entry.casting else entry.casting),
+    )
 
 
 def _choose_default_candidate(
@@ -1854,10 +1959,51 @@ def update_constants_file(path: Path, block: str) -> None:
     print(f"Updated DAMAGE_SPELLS in {path}")
 
 
+#: Le suffixe que portent les fichiers d'une version. --game-version ne
+#: choisit que les lignes conditionnelles ecrites a la main, PAS les fichiers
+#: lus: demander dofus2 sans donner ses chemins regenerait le bloc de Dofus 2
+#: a partir des donnees de Dofus 3, sans une ligne d'avertissement.
+SUFFIX_BY_VERSION = {"dofus3": "", "beta": "_beta", "dofus2": "_dofus2"}
+
+
+def _paths_match_version(args: argparse.Namespace) -> Optional[str]:
+    """Le nom des fichiers lus dit-il la meme version que --game-version?"""
+    suffix = SUFFIX_BY_VERSION.get(args.game_version)
+    if suffix is None:
+        return None
+    for option, path in (("--class-json", args.class_json),
+                         ("--spells-json", args.spells_json)):
+        stem = Path(path).stem
+        found = ""
+        for candidate in SUFFIX_BY_VERSION.values():
+            if candidate and stem.endswith(candidate):
+                found = candidate
+        if found != suffix:
+            return (
+                "%s points at %s, which carries the data of %s, but "
+                "--game-version says %s. Pass the files of that version."
+                % (option, Path(path).name,
+                   _version_named(found), args.game_version)
+            )
+    return None
+
+
+def _version_named(suffix: str) -> str:
+    for version, candidate in SUFFIX_BY_VERSION.items():
+        if candidate == suffix:
+            return version
+    return "another version"
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    global CONDITIONAL_ROWS
+    global CONDITIONAL_ROWS, NOT_A_SELF_BUFF
     args = parse_args(argv)
+    mismatch = _paths_match_version(args)
+    if mismatch:
+        print("Error: " + mismatch, file=sys.stderr)
+        return 2
     CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION[args.game_version]
+    NOT_A_SELF_BUFF = NOT_A_SELF_BUFF_BY_VERSION[args.game_version]
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)

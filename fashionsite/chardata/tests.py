@@ -17037,8 +17037,9 @@ class SpellCastingCostTests(SimpleTestCase):
                           'per_target': [2, 2, 3], 'crit': [5, 5, 5]})
 
     def test_a_spell_the_client_never_described_says_so(self):
-        # The hand-written stand-ins (a pie, a weapon skill, a Dofus) are not
-        # castable spells.
+        # The hand-written stand-ins are not castable spells. There are two
+        # left, a pie and a weapon skill: the Ebony Dofus was one until its
+        # attack was read from the client by its id instead of its name.
         spells = {spell.name: spell for spell in self._spells('dofus3')}
         self.assertIsNone(spells['Weapon Skill'].casting)
         self.assertIsNone(spells['Weapon Skill'].ap_cost())
@@ -21209,10 +21210,14 @@ class SpellComboTests(SimpleTestCase):
         self.assertEqual([], split, 'beta')
         # dofus2 carried exceptions here for as long as its block was frozen
         # Dofus 3 content, then one more of its own: the Ebony Dofus, which
-        # Ankama writes as five grades all at minimum level 1, each carrying
-        # one element, and which read as a progression built a triangle of
-        # zeros. get_spells collapses those grades now, so all three versions
-        # answer the same and the list is empty everywhere.
+        # Ankama writes as grades each carrying one element, and which read as
+        # a progression built a triangle of zeros. get_spells collapses those
+        # grades now, so all three versions answer the same and the list is
+        # empty everywhere. The Dofus 3 client writes the same spell as NINE
+        # grades gaining one element each, which get_spells cannot collapse
+        # because its last four carry several rows. The spec calls those
+        # grades what they are, charge states, and the generator keeps the
+        # charged attack: one grade, five elements, no triangle.
         uneven, split = self._rows_that_replaced_another(
             dofus_constants_dofus2.DAMAGE_SPELLS)
         self.assertEqual([], uneven, 'dofus2')
