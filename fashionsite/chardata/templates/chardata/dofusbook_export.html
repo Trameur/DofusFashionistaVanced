@@ -59,7 +59,17 @@
     <p class="export-note">{% trans "DofusBook stores a scroll as 100 or nothing, so these do not travel in full:" %} {{ partial_scrolls|join:", " }}</p>
     {% endif %}
 
-    <p class="export-note">{% trans "The build name, the class and your rolls do not travel: their link format has no room for them." %}</p>
+    {% comment %}Depuis le 11 septembre 2026 la forgemagie voyage, en un
+    total par caracteristique: c'est la seule forme que leur lien porte, et
+    le dire evite que le lecteur cherche ses jets piece par piece de l'autre
+    cote. Ce qui ne passe pas est nomme juste apres.{% endcomment %}
+    {% if forge_travels %}
+    <p class="export-note" id="export-forge">{% trans "Your forgemagie travels as one total per characteristic: their link format holds nothing finer." %}</p>
+    {% endif %}
+    {% if forge_staying %}
+    <p class="export-note" id="export-forge-staying">{% trans "Their forgemagie field cannot hold these, so they stay here:" %} {{ forge_staying|join:", " }}</p>
+    {% endif %}
+    <p class="export-note">{% trans "The build name and the class do not travel: their link format has no room for them." %}</p>
 
     <div class="export-go">
         <a class="button-generic" href="{{ link }}" target="_blank" rel="noopener noreferrer">{% trans "Open on DofusBook" %}</a>

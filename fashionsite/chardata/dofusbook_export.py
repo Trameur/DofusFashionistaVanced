@@ -27,11 +27,16 @@ failure this feature exists to avoid, so the ids are checked against their
 `items/x/stuffer/` endpoint BEFORE the link is handed over, and what cannot
 travel is named on our page.
 
-**Two things are deliberately not encoded.**
-
-`fm`, their per-stat forgemagie total, stays at zero. Our jets are per item;
-theirs is one number per characteristic for the whole build, and turning one
-into the other would print a forgemagie the player never had.
+**The forgemagie, since 2026-09-11.** Their `fm` is one number per
+characteristic for the whole build, ours is a value per line per piece, so
+the total we write for a characteristic is the sum over the worn pieces of
+what the player has minus what their own catalogue gives that piece. Their
+number is taken from THEIR endpoint and not from ours, the way their `Pc`
+reads it (`max > 0 ? max : min` on every effect of type E), because the two
+catalogues do not always agree: measured on the Strigide amulet, their
+critical resistance line is -16 to -20 and ours holds -20, so computing the
+difference against our own maximum would have written four points of
+forgemagie nobody ever forged.
 
 A partial scroll stays at zero too, and this one is measurable rather than
 cautious: their decoder reads `t[0][p] >= 100 ? 100 : 0` as the scroll and
@@ -76,8 +81,26 @@ GROUPS = (
     ('Pet', ('fa',)),
 )
 
-#: How many stats their `fm` array carries, read off the loop bound in `Nc`.
+#: How many stats their `fm` array carries, read off the loop bound in `Nc`:
+#: `for (let p = 0; p < 51; p += 1)`. Their `ve` below holds 52 codes, so the
+#: last one is never read from a link.
 FM_LENGTH = 51
+
+#: Their `ve`, the characteristic each position of the `fm` array carries,
+#: copied from their desktop bundle (index-desktop-CIlE29DC.js) on
+#: 2026-09-11. The order is the whole mapping and nothing else states it, so
+#: a shifted copy would print the player's forgemagie on the wrong line.
+VE = ('vi', 'sa', 'fo', 'in', 'ch', 'ag', 'pa', 'pm', 'ii', 'pp', 'po', 'ic',
+      'rpa', 'epa', 'rpm', 'epm', 'cc', 'so', 'ta', 'fu', 'dmg', 'pu', 'dc',
+      'pd', 'dnf', 'dtf', 'dff', 'def', 'daf', 'rv', 'pi', 'pip', 'dp', 'ds',
+      'dw', 'dm', 'dd', 'rn', 'rnp', 'rt', 'rtp', 'rf', 'rfp', 're', 'rep',
+      'ra', 'rap', 'rc', 'rp', 'rd', 'rm', 'rw')
+
+#: The three positions their `Nc` bumps by one from the flag byte, which is
+#: how an exo travels. A per piece roll on one of them is turned into its
+#: bit and never into a forgemagie total: the game gives one exo point per
+#: characteristic for the whole build, so adding a second would be false.
+EXO_INDEXES = (6, 7, 10)
 
 #: The six base characteristics, in their order, which is also ours:
 #: BASE_STATS is ['vit', 'wis', 'str', 'int', 'cha', 'agi'] and their `st` is
@@ -90,6 +113,10 @@ EXO_AP = 4
 EXO_MP = 2
 EXO_RANGE = 1
 
+#: Which bit bumps which position, so a roll read as an exo travels as
+#: the flag their decoder expects and never as a forgemagie total.
+EXO_BIT_BY_INDEX = {6: EXO_AP, 7: EXO_MP, 10: EXO_RANGE}
+
 #: The scroll their format can hold, and the threshold its own decoder uses.
 SCROLL_STEP = 100
 
@@ -99,6 +126,61 @@ SCROLL_STEP = 100
 #: -100 Prospection, -1000 Pods", and those six numbers are exactly the six
 #: their `Gt(level, class)` returns.
 BASE_INDEXES = (0, 6, 7, 9, 11, 23)
+
+#: Index 10 (range) is in their subtracting branch too, but their naked
+#: character has no `po` at all and their code reads `(characterStats[...] ||
+#: 0)`, so the value subtracted there is zero and the index behaves like any
+#: other. It is left out of `character_base` rather than written as a zero
+#: that would look like a measurement.
+
+
+def index_by_stat_key():
+    """{our stat key: the position of that characteristic in their `fm`}.
+
+    Their codes are the ones the import already had to learn, so the table
+    is read from there rather than written twice; `VE` decides the position.
+    The last position is dropped because their loop stops before it, and a
+    characteristic of ours their `ve` does not name simply has no position:
+    the caller has to say so rather than pick a neighbour.
+    """
+    from chardata.dofusbook_import import FM_CODES
+    positions = {code: index for index, code in enumerate(VE[:FM_LENGTH])}
+    table = {}
+    for code, key in FM_CODES.items():
+        if code in positions:
+            table[key] = positions[code]
+    return table
+
+
+def carriable_forge(forge, scrolls=None):
+    """({position: total we can write}, [position we cannot]).
+
+    Two positions are refused, both measured on their own decoder:
+
+    - the six base characteristics share their field with the scroll
+      (`t[0][p] >= 100 ? 100 : 0`, the rest being the forgemagie), so a
+      negative total under a full scroll would read as no scroll at all, and
+      a total of a hundred or more without a scroll would invent one;
+    - the three exo positions are carried by the flag byte instead.
+    """
+    scrolls = scrolls or {}
+    garde, refuses = {}, []
+    for position, total in sorted(forge.items()):
+        if not total or position in EXO_INDEXES:
+            continue
+        if position < BASE_STAT_COUNT:
+            parchote = scrolls.get(position, 0) >= SCROLL_STEP
+            if position == 0:
+                # Vitality already carries the character's own HP, which is
+                # far above the hundred their scroll test looks at, so the
+                # sum stays on the right side of it.
+                garde[position] = total
+                continue
+            if total < 0 or (not parchote and total >= SCROLL_STEP):
+                refuses.append(position)
+                continue
+        garde[position] = total
+    return garde, refuses
 
 
 def character_base(level):
@@ -157,7 +239,19 @@ def _pack(value):
         raise TypeError('the payload carries no booleans')
     if isinstance(value, int):
         if value < 0:
-            raise ValueError('negative value in payload: %d' % value)
+            # A forgemagie can take a line BELOW its catalogue minimum, so a
+            # total is negative as often as it is positive and their decoder
+            # is the full msgpack. Only the scroll fields cannot hold one,
+            # and `carriable_forge` keeps them out before it gets here.
+            if value >= -0x20:
+                return bytes([0xe0 | (value + 0x20)])
+            if value >= -0x80:
+                return b'\xd0' + value.to_bytes(1, 'big', signed=True)
+            if value >= -0x8000:
+                return b'\xd1' + value.to_bytes(2, 'big', signed=True)
+            if value >= -0x80000000:
+                return b'\xd2' + value.to_bytes(4, 'big', signed=True)
+            raise ValueError('value too small for the payload: %d' % value)
         if value <= 0x7f:
             return bytes([value])
         if value <= 0xff:
@@ -215,22 +309,32 @@ def _vitality_field(base_pv, scrolled):
     return base_pv
 
 
-def payload(grouped, level, points=None, scrolls=None, exos=0):
-    """Their `stuff` parameter, ready to be put in a URL."""
+def payload(grouped, level, points=None, scrolls=None, exos=0, forge=None):
+    """Their `stuff` parameter, ready to be put in a URL.
+
+    `forge` is {position in their `ve`: total forgemagie on that
+    characteristic}, already filtered by `carriable_forge`. It is ADDED to
+    whatever the field already had to carry, because their decoder reads one
+    number and takes the scroll and the character's own base out of it.
+    """
     scrolls = scrolls or {}
     points = points or {}
+    forge = forge or {}
     base = character_base(int(level))
     fm = []
     spent = []
     for index in range(FM_LENGTH):
+        forgee = int(forge.get(index, 0))
         if index == 0:
-            fm.append(_vitality_field(base[0], scrolls.get(0, 0)))
+            fm.append(_vitality_field(base[0], scrolls.get(0, 0)) + forgee)
         elif index < BASE_STAT_COUNT:
-            # Their `t[0][p]` is scroll plus forgemagie on that stat. We never
-            # write forgemagie, so it is the scroll or nothing.
-            fm.append(SCROLL_STEP if scrolls.get(index, 0) >= SCROLL_STEP else 0)
+            # Their `t[0][p]` is the scroll PLUS the forgemagie on that stat,
+            # and their own decoder splits the two at a hundred.
+            parchemin = (SCROLL_STEP
+                         if scrolls.get(index, 0) >= SCROLL_STEP else 0)
+            fm.append(parchemin + forgee)
         else:
-            fm.append(base.get(index, 0))
+            fm.append(base.get(index, 0) + forgee)
     for index in range(BASE_STAT_COUNT):
         spent.append(max(0, int(points.get(index, 0))))
     counts = [len(groupe) for groupe in grouped]
@@ -248,7 +352,44 @@ def build_url(game_version, language, stuff):
 
 
 def known_ankama_ids(game_version, grouped, opener=None):
-    """The Ankama ids their catalogue answers with, out of the ones we ask.
+    """The Ankama ids their catalogue answers with, out of the ones we ask."""
+    return ids_of(stuffer_items(game_version, grouped, opener=opener))
+
+
+def ids_of(entries):
+    connus = set()
+    for entree in entries:
+        if isinstance(entree, dict) and entree.get('official') is not None:
+            connus.add(entree['official'])
+    return connus
+
+
+def their_line_values(entries):
+    """{ankama id: {their stat code: the number their sheet counts}}.
+
+    Read off their `Pc`: `const u = c.max > 0 ? c.max : c.min` over the
+    effects of type E, the same ones they add into `itemStats`. Their D lines
+    are the weapon's own damage and their O lines a spell, and neither lands
+    on a characteristic.
+    """
+    par_objet = {}
+    for entree in entries:
+        if not isinstance(entree, dict) or entree.get('official') is None:
+            continue
+        lignes = {}
+        for effet in entree.get('effects') or []:
+            if not isinstance(effet, dict) or effet.get('type') != 'E':
+                continue
+            haut, bas = effet.get('max'), effet.get('min')
+            valeur = haut if isinstance(haut, int) and haut > 0 else bas
+            if isinstance(valeur, int) and not isinstance(valeur, bool):
+                lignes[effet.get('name')] = valeur
+        par_objet[entree['official']] = lignes
+    return par_objet
+
+
+def stuffer_items(game_version, grouped, opener=None):
+    """Their own entry for each id we are about to send.
 
     Their endpoint wants `<slot code>-<ankama id>` pairs and answers with the
     items it knows, so the ones it drops are exactly the ones that would
@@ -264,7 +405,7 @@ def known_ankama_ids(game_version, grouped, opener=None):
         for code, ankama in zip(codes, groupe):
             paires.append('%s-%d' % (code, int(ankama)))
     if not paires:
-        return set()
+        return []
     url = 'https://%s/api/items/x/stuffer/%s' % (host, ','.join(paires))
     requete = urllib.request.Request(url, headers={
         'User-Agent': USER_AGENT,
@@ -283,11 +424,7 @@ def known_ankama_ids(game_version, grouped, opener=None):
         raise ExportError('unreachable')
     if not isinstance(charge, dict) or not isinstance(charge.get('data'), list):
         raise ExportError('unreadable')
-    connus = set()
-    for entree in charge['data']:
-        if isinstance(entree, dict) and entree.get('official') is not None:
-            connus.add(entree['official'])
-    return connus
+    return charge['data']
 
 
 def keep_known(grouped, connus):

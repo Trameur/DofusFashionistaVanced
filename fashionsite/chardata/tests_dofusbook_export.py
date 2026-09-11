@@ -7,8 +7,12 @@ without touching the network.
 """
 
 import base64
+import io
 import json
+import os
+import re
 
+from django.conf import settings
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
@@ -54,6 +58,21 @@ def unpack(octets, position=0):
         return int.from_bytes(octets[position:position + 2], 'big'), position + 2
     if tete == 0xce:
         return int.from_bytes(octets[position:position + 4], 'big'), position + 4
+    # A forgemagie takes a line below its catalogue minimum as often as above
+    # its maximum, so the payload carries negatives too. Their decoder is the
+    # whole msgpack; these four shapes are the ones ours writes.
+    if tete >= 0xe0:
+        # A negative fixint carries no payload byte: the head IS the value.
+        return tete - 0x100, position
+    if tete == 0xd0:
+        return int.from_bytes(octets[position:position + 1], 'big',
+                              signed=True), position + 1
+    if tete == 0xd1:
+        return int.from_bytes(octets[position:position + 2], 'big',
+                              signed=True), position + 2
+    if tete == 0xd2:
+        return int.from_bytes(octets[position:position + 4], 'big',
+                              signed=True), position + 4
     if 0x90 <= tete <= 0x9f:
         taille = tete & 0x0f
     elif tete == 0xdc:
@@ -137,10 +156,11 @@ class AScrollNeverBecomesForgemagieTests(SimpleTestCase):
         self.assertNotIn(150, list(fm))
         self.assertNotIn(101, list(fm))
 
-    def test_forgemagie_is_never_written(self):
-        """Our jets are per item and theirs is one total per characteristic;
-        turning one into the other would invent a number. Every index that is
-        not one of their six character bases stays at zero."""
+    def test_a_build_with_no_forgemagie_writes_none(self):
+        """The forgemagie travels since 2026-09-11, so the guard is no longer
+        that the field is always empty but that nothing fills it on its own:
+        a build with no rolls leaves every position at the character's own
+        base, which is what makes their panel show nothing."""
         fm = self._fm({})
         for index in range(dofusbook_export.FM_LENGTH):
             if index in dofusbook_export.BASE_INDEXES:
@@ -433,30 +453,44 @@ class TheExportPageSpeaksEveryLanguageTests(SimpleTestCase):
     and the .mo is what serves them: an entry marked fuzzy reads fine in the
     .po and is silently ignored here."""
 
-    CHAINES = (
-        'Open this build on DofusBook',
-        'These pieces travel:',
-        'DofusBook does not have these in its catalogue, so they stay here:',
-        'DofusBook stores a scroll as 100 or nothing, so these do not travel '
-        'in full:',
-        'The build name, the class and your rolls do not travel: their link '
-        'format has no room for them.',
-        'Open on DofusBook',
-        'Your build stays here, untouched. The link only fills a draft on '
-        'their site.',
-        'Back to the build',
+    #: The reasons never reach the template as literals, so they are named
+    #: here; everything the reader actually sees is READ OFF the template.
+    RAISONS = (
         'DofusBook has no site for this version of the game.',
         'This build has no gear to send.',
-        'DofusBook will show a full Vitality scroll: for a character of this '
-        'level its link format cannot say anything else.',
     )
+
+    #: The gettext of a template, `{% trans "..." %}` only. A hand written
+    #: copy of the page's strings answers the question of the day it was
+    #: written and goes stale silently: this list stayed behind on
+    #: 2026-09-11 when a sentence was replaced, and the suite blamed the new
+    #: page for a string it no longer carries.
+    MOTIF = re.compile(r'{%\s*trans\s+"((?:[^"\\]|\\.)*)"\s*%}')
+    GABARIT = ('fashionsite/chardata/templates/chardata/'
+               'dofusbook_export.html')
+
+    def chaines(self):
+        chemin = os.path.join(settings.BASE_DIR, '..', self.GABARIT)
+        texte = io.open(os.path.normpath(chemin), encoding='utf-8').read()
+        vues = []
+        for brut in self.MOTIF.findall(texte):
+            msgid = brut.replace('\\"', '"')
+            if msgid not in vues:
+                vues.append(msgid)
+        return vues
+
+    def test_the_template_is_read_and_not_a_copy_of_it(self):
+        """The scan is only worth something if it finds the page."""
+        vues = self.chaines()
+        self.assertGreaterEqual(len(vues), 12)
+        self.assertIn('Open on DofusBook', vues)
 
     def test_every_string_is_translated_in_the_four_other_languages(self):
         from django.utils.translation import gettext, override
         muettes = []
         for langue in ('fr', 'es', 'pt', 'de'):
             with override(langue):
-                for chaine in self.CHAINES:
+                for chaine in list(self.chaines()) + list(self.RAISONS):
                     if gettext(chaine) == chaine:
                         muettes.append((langue, chaine))
         self.assertEqual([], muettes)
@@ -474,3 +508,274 @@ class TheExportPageAnswersUnderBothUrlTablesTests(TestCase):
                          reverse('retro:dofusbook_export', args=[42]))
         self.assertEqual('/touch/export/dofusbook/42/',
                          reverse('touch:dofusbook_export', args=[42]))
+
+
+class TheirOwnNumbersAreTheBaselineTests(SimpleTestCase):
+    """A forgemagie total is a difference, so it is only as true as the
+    number it is measured against. That number has to be THEIRS: the two
+    catalogues do not always agree, and ours would print a forgemagie the
+    player never forged."""
+
+    #: Their own answer for two pieces of build 23227661, copied from
+    #: /api/items/x/stuffer/ on 2026-09-11.
+    LEURS = [
+        {'official': 14094, 'name': 'Amulette du Strigide', 'effects': [
+            {'id': 130, 'name': 'vi', 'type': 'E', 'min': 351, 'max': 400},
+            {'id': 200, 'name': 'cc', 'type': 'E', 'min': 4, 'max': 6},
+            {'id': 210, 'name': 'pa', 'type': 'E', 'min': 1, 'max': 1},
+            {'id': 430, 'name': 'rc', 'type': 'E', 'min': -16, 'max': -20},
+        ]},
+        {'official': 32235, 'name': 'Arc de Culbutoeuf', 'effects': [
+            {'id': 10, 'name': 'dn', 'type': 'D', 'min': 34, 'max': 41},
+            {'id': 130, 'name': 'vi', 'type': 'E', 'min': 351, 'max': 400},
+            {'id': 320, 'name': 'pp', 'type': 'E', 'min': 11, 'max': 15},
+        ]},
+        {'official': 7112, 'name': 'Dofus Tachete', 'effects': [
+            {'id': 430, 'name': 'rc', 'type': 'E', 'min': 30, 'max': 30},
+            {'id': 705, 'name': 'sp', 'type': 'O', 'min': 18888, 'max': 1},
+        ]},
+    ]
+
+    def test_a_line_counts_for_what_their_own_sheet_counts(self):
+        """Their `Pc` sums `c.max > 0 ? c.max : c.min` over the effects of
+        type E. The Strigide amulet is the case that matters: its critical
+        resistance runs from -16 to -20, so their sheet counts -16 while our
+        catalogue holds -20."""
+        valeurs = dofusbook_export.their_line_values(self.LEURS)
+        self.assertEqual(400, valeurs[14094]['vi'])
+        self.assertEqual(6, valeurs[14094]['cc'])
+        self.assertEqual(-16, valeurs[14094]['rc'])
+        self.assertEqual(30, valeurs[7112]['rc'])
+
+    def test_a_weapon_damage_line_and_a_spell_are_not_characteristics(self):
+        """Their D lines are the weapon's own damage and their O lines a
+        spell; neither lands on a characteristic, and reading one as a
+        baseline would make every total on that piece wrong."""
+        valeurs = dofusbook_export.their_line_values(self.LEURS)
+        self.assertNotIn('dn', valeurs[32235])
+        self.assertNotIn('sp', valeurs[7112])
+        self.assertEqual({'vi': 400, 'pp': 15}, valeurs[32235])
+
+    def test_the_ids_and_the_values_come_from_one_answer(self):
+        """Two calls would be two answers, and a piece known by the first and
+        missing from the second would export with no baseline at all."""
+        self.assertEqual({14094, 32235, 7112},
+                         dofusbook_export.ids_of(self.LEURS))
+
+
+class TheForgemagieTravelsAsOneTotalTests(SimpleTestCase):
+    """Thibaud, 2026-09-11: "l'export ne met pas bien les FM". Their `fm` is
+    one number per characteristic, and which number goes where is decided by
+    their `ve` array alone."""
+
+    def test_their_positions_are_the_ones_read_off_their_bundle(self):
+        """`ve` was copied from index-desktop-CIlE29DC.js on 2026-09-11, and
+        the positions their own decoder treats specially are the proof it is
+        not shifted: their `Nc` bumps 6, 7 and 10 from the flag byte and
+        their `Pc` subtracts the character's own base at 0, 6, 7, 9, 11 and
+        23."""
+        ve = dofusbook_export.VE
+        self.assertEqual(52, len(ve))
+        self.assertEqual(('pa', 'pm', 'po'), (ve[6], ve[7], ve[10]))
+        self.assertEqual(('vi', 'pp', 'ic', 'pd'),
+                         (ve[0], ve[9], ve[11], ve[23]))
+        self.assertEqual((6, 7, 10), dofusbook_export.EXO_INDEXES)
+        # Their loop is `p < 51`, so the last code is never read from a link.
+        self.assertEqual('rw', ve[dofusbook_export.FM_LENGTH])
+
+    def test_every_position_they_read_has_one_of_our_characteristics(self):
+        table = dofusbook_export.index_by_stat_key()
+        self.assertEqual(set(range(dofusbook_export.FM_LENGTH)),
+                         set(table.values()))
+        self.assertEqual(dofusbook_export.FM_LENGTH, len(table))
+        self.assertEqual(16, table['ch'])
+        self.assertEqual(22, table['cridam'])
+        self.assertEqual(20, table['dam'])
+
+    def test_what_their_array_cannot_name_is_left_without_a_position(self):
+        """Critical failure has no code in their `ve` at all, and the weapon
+        resistance percentage sits at the position their loop stops before.
+        Neither may borrow a neighbour."""
+        table = dofusbook_export.index_by_stat_key()
+        self.assertNotIn('cf', table)
+        self.assertNotIn('resperwea', table)
+
+    def _fm(self, forge, scrolls=None, level=200):
+        groupes = dofusbook_export.group_ankama_ids(BUILD)
+        charge = dofusbook_export.payload(groupes, level, scrolls=scrolls,
+                                          forge=forge)
+        return champs(charge)[0]
+
+    def test_a_total_lands_on_its_own_position_and_nowhere_else(self):
+        fm = self._fm({22: 8, 20: 20})
+        self.assertEqual(8, fm[22])
+        self.assertEqual(20, fm[20])
+        self.assertEqual(0, fm[21])
+        self.assertEqual(0, fm[19])
+
+    def test_a_total_is_added_to_the_base_their_decoder_takes_back(self):
+        """Their `Pc` subtracts the character's own value at six positions,
+        so a total written raw there would come out short by exactly that
+        base: 1000 pods less, 100 prospecting less."""
+        fm = self._fm({23: 50, 9: 7})
+        self.assertEqual(1050, fm[23])
+        self.assertEqual(107, fm[9])
+
+    def test_a_total_shares_the_field_with_the_scroll(self):
+        """For the six base characteristics their field is scroll plus
+        forgemagie, split at a hundred by their own decoder."""
+        fm = self._fm({1: 12}, scrolls={1: 100})
+        self.assertEqual(112, fm[1])
+        self.assertEqual(12, self._fm({1: 12})[1])
+
+    def test_a_negative_total_survives_the_round_trip(self):
+        """A forgemagie takes a line below its minimum as readily as above
+        its maximum, and their decoder is the whole msgpack."""
+        for valeur in (-1, -32, -33, -200, -40000):
+            with self.subTest(valeur=valeur):
+                self.assertEqual(valeur, self._fm({20: valeur})[20])
+
+    def test_the_vitality_field_still_hides_its_scroll_and_its_base(self):
+        fm = self._fm({0: 30}, scrolls={0: 100})
+        # 1050 of base HP at level 200, the 100 their decoder reads as the
+        # scroll, and the forgemagie on top.
+        self.assertEqual(1050 + 100 + 30, fm[0])
+
+    def test_a_base_characteristic_refuses_what_their_field_cannot_hold(self):
+        """Their decoder reads the scroll as `value >= 100 ? 100 : 0` and
+        keeps the rest. So under a full scroll a negative total would read as
+        NO scroll, and with no scroll a total of a hundred would invent one.
+        Both are refused and named rather than sent wrong."""
+        garde, refuses = dofusbook_export.carriable_forge(
+            {1: -12, 2: 120, 3: 40}, scrolls={1: 100, 2: 0, 3: 0})
+        self.assertEqual({3: 40}, garde)
+        self.assertEqual([1, 2], refuses)
+
+    def test_a_negative_total_is_fine_once_it_is_past_their_six(self):
+        garde, refuses = dofusbook_export.carriable_forge({20: -40})
+        self.assertEqual({20: -40}, garde)
+        self.assertEqual([], refuses)
+
+    def test_an_exo_never_travels_as_a_total(self):
+        """The game gives one exo point per characteristic for the whole
+        build and their format carries that as a single bit. Summing two
+        pieces into the field would print two points."""
+        garde, refuses = dofusbook_export.carriable_forge({6: 1, 7: 1, 10: 1})
+        self.assertEqual({}, garde)
+        self.assertEqual([], refuses)
+        self.assertEqual({6: dofusbook_export.EXO_AP,
+                          7: dofusbook_export.EXO_MP,
+                          10: dofusbook_export.EXO_RANGE},
+                         dofusbook_export.EXO_BIT_BY_INDEX)
+
+
+class ThePageSendsTheForgemagieItShowsTests(TestCase):
+    """From the build to the query string, with their own answer in the
+    middle. The unit tests above fix the arithmetic; this one checks that the
+    page actually asks for it and puts the result in the link."""
+
+    def _char(self):
+        from chardata.models import Char
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        set_current_game_version('dofus3')
+        structure = get_structure('dofus3')
+        item = next(i for i in structure.types[200]['Hat']
+                    if not i.removed and i.ankama_id)
+        self.client.post('/import/text/', {
+            'text': structure.get_item_name_in_language(item, 'en'),
+            'confirm': '1', 'char_class': 'Cra', 'level': '200'})
+        return Char.objects.order_by('-id').first(), item
+
+    def _page(self, char, entrees, langue='en'):
+        from unittest import mock
+
+        class Reponse(object):
+            def read(self, *args):
+                return json.dumps({'data': entrees}).encode('utf-8')
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+        with mock.patch('chardata.dofusbook_export.urllib.request.urlopen',
+                        return_value=Reponse()):
+            return self.client.get('/export/dofusbook/%d/' % char.id,
+                                   HTTP_ACCEPT_LANGUAGE=langue)
+
+    def _charge(self, page):
+        import urllib.parse
+        trouve = re.search(r'stuff=([^"&\'<> ]+)', page)
+        self.assertTrue(trouve, 'no link on the page')
+        return champs(urllib.parse.unquote(trouve.group(1)))
+
+    def test_a_roll_leaves_as_the_difference_with_their_own_number(self):
+        """The player's value minus what THEIR catalogue gives the same
+        piece, at the position their `ve` names. Their number is deliberately
+        one point off ours here: the total has to follow theirs, because
+        their page adds their own."""
+        from chardata.lock_forbid import set_stat_overrides
+        from fashionistapulp.structure import get_structure
+        char, item = self._char()
+        structure = get_structure('dofus3')
+        vitalite = structure.get_stat_by_key('vit')
+        critiques = structure.get_stat_by_key('cridam')
+        notre_max = dict(item.stats)[vitalite.id]
+        set_stat_overrides(char, {item.id: {vitalite.id: notre_max + 9,
+                                            critiques.id: 8}})
+        entrees = [{'official': item.ankama_id, 'effects': [
+            {'name': 'vi', 'type': 'E', 'min': 1, 'max': notre_max - 1}]}]
+        page = self._page(char, entrees).content.decode('utf-8')
+        fm, _points, _level, _flags, _counts, _ids = self._charge(page)
+        table = dofusbook_export.index_by_stat_key()
+        # Their number is one below ours, so the player's nine points of
+        # forgemagie read as ten from where their sheet starts.
+        self.assertEqual(1050 + 100 + 10, fm[table['vit']])
+        # A line their piece does not carry at all: the whole value travels.
+        self.assertEqual(8, fm[table['cridam']])
+        self.assertIn('one total per characteristic', page)
+
+    def test_a_roll_read_as_an_exo_travels_as_their_bit(self):
+        """One exo point per characteristic for the whole build is the game's
+        rule and their flag byte is how their format holds it. Two pieces
+        carrying the same exo must not arrive as two points."""
+        from chardata.lock_forbid import set_stat_overrides
+        from fashionistapulp.structure import get_structure
+        char, item = self._char()
+        structure = get_structure('dofus3')
+        pm = structure.get_stat_by_key('mp')
+        self.assertNotIn(pm.id, dict(item.stats))
+        set_stat_overrides(char, {item.id: {pm.id: 1}})
+        entrees = [{'official': item.ankama_id, 'effects': []}]
+        page = self._page(char, entrees).content.decode('utf-8')
+        fm, _points, _level, flags, _counts, _ids = self._charge(page)
+        self.assertEqual(dofusbook_export.EXO_MP,
+                         flags & dofusbook_export.EXO_MP)
+        # Their `Nc` adds the point itself; the field keeps the character's
+        # own three MP and nothing more.
+        self.assertEqual(3, fm[dofusbook_export.index_by_stat_key()['mp']])
+
+    def test_a_characteristic_their_field_cannot_hold_is_named(self):
+        """Critical failure has no position in their `ve` at all. The page
+        says so before the player leaves, in their language."""
+        from chardata.lock_forbid import set_stat_overrides
+        from fashionistapulp.structure import get_structure
+        char, item = self._char()
+        structure = get_structure('dofus3')
+        echec = structure.get_stat_by_key('cf')
+        set_stat_overrides(char, {item.id: {echec.id: 3}})
+        entrees = [{'official': item.ankama_id, 'effects': []}]
+        page = self._page(char, entrees).content.decode('utf-8')
+        self.assertIn('export-forge-staying', page)
+        self.assertIn('cannot hold these', page)
+        francaise = self._page(char, entrees, langue='fr').content.decode('utf-8')
+        self.assertIn('ne peut pas porter', francaise)
+
+    def test_a_build_with_no_roll_says_nothing_about_forgemagie(self):
+        char, item = self._char()
+        entrees = [{'official': item.ankama_id, 'effects': []}]
+        page = self._page(char, entrees).content.decode('utf-8')
+        self.assertNotIn('export-forge', page)
+        self.assertIn('The build name and the class do not travel', page)

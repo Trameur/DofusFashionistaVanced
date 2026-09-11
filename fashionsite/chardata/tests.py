@@ -29923,7 +29923,10 @@ class LinkImportOnTheOnePageTests(TestCase):
         nom = structure.get_item_name_in_language(
             structure.get_item_by_id(chapeau), 'en')
         for temoin in ('import-link-fm-weapon', 'weapon forgemagie',
-                       'import-link-fm-global', 'pa 1',
+                       # Nommee dans les mots du lecteur et non dans leur
+                       # code: un build que nous exportons revient avec sa
+                       # forgemagie exactement la (mesure du 11 septembre).
+                       'import-link-fm-global', '1 AP',
                        'import-link-fm-unmapped', escape('%s: deg 10' % nom),
                        'Characteristics read:'):
             self.assertContains(page, temoin)

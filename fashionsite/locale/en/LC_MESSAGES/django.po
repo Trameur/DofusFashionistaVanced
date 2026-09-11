@@ -6364,9 +6364,6 @@ msgstr ""
 msgid "DofusBook stores a scroll as 100 or nothing, so these do not travel in full:"
 msgstr ""
 
-msgid "The build name, the class and your rolls do not travel: their link format has no room for them."
-msgstr ""
-
 msgid "Open on DofusBook"
 msgstr ""
 
@@ -6454,9 +6451,6 @@ msgstr ""
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr ""
 
-msgid "Send your build to another build site straight from the solution page (Dofus 3, Retro and Touch)."
-msgstr ""
-
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr ""
 
@@ -6515,4 +6509,16 @@ msgid "These lines from the link belong to no piece and are left out:"
 msgstr ""
 
 msgid "These forgemagie lines could not be read and are left out:"
+msgstr ""
+
+msgid "Your forgemagie travels as one total per characteristic: their link format holds nothing finer."
+msgstr ""
+
+msgid "Their forgemagie field cannot hold these, so they stay here:"
+msgstr ""
+
+msgid "The build name and the class do not travel: their link format has no room for them."
+msgstr ""
+
+msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
 msgstr ""

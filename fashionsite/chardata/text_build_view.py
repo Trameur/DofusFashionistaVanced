@@ -209,6 +209,22 @@ def _pieces_du_lien(build, structure, version):
     return pieces, overrides, refuses
 
 
+def _nom_de_leur_code(structure, code):
+    """Leur code de caracteristique, dans les mots du lecteur.
+
+    Un build que nous avons exporte revient avec sa forgemagie dans leur
+    `fmGlobal`, en un total par caracteristique: la rendre telle quelle
+    donnait <<cc 6>>, qui ne veut rien dire pour qui n'a pas lu leur code.
+    Un code que nous ne connaissons pas reste tel quel plutot que d'etre
+    tu.
+    """
+    from chardata.dofusbook_import import FM_CODES
+    stat = structure.get_stat_by_key(FM_CODES.get(code) or '')
+    if stat is None:
+        return code
+    return localized_stat_name(stat.name, structure.game_version)
+
+
 def _forgemagie_laissee(build, structure, langue):
     """Ce que le lien porte en forgemagie et qu'aucune piece d'ici ne peut
     recevoir, en toutes lettres pour l'apercu: les lignes au niveau du
@@ -219,9 +235,11 @@ def _forgemagie_laissee(build, structure, langue):
     un changement d'element, que des overrides par caracteristique ne
     savent pas ecrire.
     """
-    global_ = ['%s %d' % (code, valeur)
-               for code, valeur in sorted((build.get('fm_global') or {}).items())
-               if isinstance(valeur, int) and not isinstance(valeur, bool)]
+    global_ = []
+    for code, valeur in sorted((build.get('fm_global') or {}).items()):
+        if not isinstance(valeur, int) or isinstance(valeur, bool):
+            continue
+        global_.append('%d %s' % (valeur, _nom_de_leur_code(structure, code)))
     sans_cle = []
     for item_id, code, valeur in build.get('fm_unmapped') or []:
         item = structure.get_item_by_id(item_id)

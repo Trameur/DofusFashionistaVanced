@@ -15,9 +15,15 @@ it came from us. So the ids are checked against their own endpoint first and
 the answer is shown here, where it can still change the player's mind.
 
 The other half of the page is the list of what their format cannot carry at
-all: the build name, the class and the per item jets. Saying it here is
-cheaper than letting the player discover it on their side and conclude our
-export is broken.
+all: the build name, the class, and the few characteristics their forgemagie
+field cannot hold. Saying it here is cheaper than letting the player discover
+it on their side and conclude our export is broken.
+
+Since 2026-09-11 the forgemagie itself travels. Ours is a value per line per
+piece and theirs one total per characteristic, so the total is the sum over
+the pieces that travel of what the player holds minus what THEIR catalogue
+gives the same piece. Thibaud, the same day: "l'export ne met pas bien les
+FM".
 """
 
 import logging
@@ -25,7 +31,9 @@ import logging
 from django.utils.translation import gettext as _
 
 from chardata import dofusbook_export
+from chardata.lock_forbid import get_stat_overrides
 from chardata.solution import get_solution
+from chardata.translation_util import localized_stat_name
 from chardata.util import (get_char_or_raise, get_stats_and_scrolled,
                            set_response)
 from fashionistapulp.dofus_constants import STATS_NAMES
@@ -141,6 +149,66 @@ def _partial_scrolls(char, scrolls):
     return noms
 
 
+def _forgemagie(char, structure, item_by_ankama, their_values):
+    """({position in their `fm`: total}, [our stat keys with no position],
+    the exo bits our rolls imply).
+
+    A roll on AP, MP or range is NOT summed: the game gives one exo point per
+    characteristic for the whole build and their format carries that as a
+    single bit, so two pieces carrying one would otherwise travel as two
+    points. It is the same rule our own model holds (`_exo_carriers`), just
+    written in their vocabulary.
+
+    A characteristic their `ve` does not name has nowhere to go: critical
+    failure and the weapon resistance percentage are the two, the second
+    because their loop stops one position before it. They are handed back to
+    be named rather than folded into a neighbour.
+    """
+    positions = dofusbook_export.index_by_stat_key()
+    overrides = get_stat_overrides(char) or {}
+    totaux, sans_place = {}, []
+    drapeaux = 0
+    for ankama, item_id in sorted(item_by_ankama.items()):
+        jets = overrides.get(item_id)
+        if not jets:
+            continue
+        leurs = their_values.get(ankama) or {}
+        for stat_id, valeur in sorted(jets.items()):
+            stat = structure.get_stat_by_id(stat_id)
+            if stat is None:
+                continue
+            position = positions.get(stat.key)
+            if position is None:
+                if stat.key not in sans_place:
+                    sans_place.append(stat.key)
+                continue
+            ecart = int(valeur) - int(leurs.get(dofusbook_export.VE[position], 0))
+            if not ecart:
+                continue
+            if position in dofusbook_export.EXO_INDEXES:
+                if ecart > 0:
+                    drapeaux |= dofusbook_export.EXO_BIT_BY_INDEX[position]
+                continue
+            totaux[position] = totaux.get(position, 0) + ecart
+    return totaux, sans_place, drapeaux
+
+
+def _named_stats(structure, game_version, keys):
+    noms = []
+    for key in keys:
+        stat = structure.get_stat_by_key(key)
+        if stat is not None:
+            noms.append(localized_stat_name(stat.name, game_version))
+    return noms
+
+
+def _keys_of_positions(positions, wanted):
+    par_position = {}
+    for key, position in positions.items():
+        par_position.setdefault(position, key)
+    return [par_position[p] for p in wanted if p in par_position]
+
+
 def dofusbook_export_page(request, char_id):
     char = get_char_or_raise(request, char_id)
     params = {
@@ -183,31 +251,49 @@ def dofusbook_export_page(request, char_id):
         return set_response(request, 'chardata/dofusbook_export.html', params)
 
     try:
-        connus = dofusbook_export.known_ankama_ids(char.game_version, groupes)
+        # One call answers both questions: which ids their catalogue holds,
+        # and what each of those items is worth on THEIR sheet, which is the
+        # only honest baseline for a forgemagie total.
+        leurs_entrees = dofusbook_export.stuffer_items(char.game_version,
+                                                       groupes)
     except dofusbook_export.ExportError as erreur:
         params['error'] = _reasons().get(erreur.reason,
                                          _reasons()['unreadable'])
         return set_response(request, 'chardata/dofusbook_export.html', params)
+    connus = dofusbook_export.ids_of(leurs_entrees)
+    leurs_valeurs = dofusbook_export.their_line_values(leurs_entrees)
 
     partants = []
+    item_par_ankama = {}
     for _slot, paires in retenus.items():
         for ankama, item in paires:
             if ankama in connus:
                 partants.append(_named(item))
+                item_par_ankama[ankama] = getattr(item, 'id', None)
             else:
                 restants.append(_named(item))
 
     connus_par_groupe = dofusbook_export.keep_known(groupes, connus)
     points, scrolls = _points_and_scrolls(char)
+    structure = get_structure(char.game_version)
+    totaux, sans_place, exos_des_jets = _forgemagie(
+        char, structure, item_par_ankama, leurs_valeurs)
+    forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls)
     charge = dofusbook_export.payload(connus_par_groupe, char.level,
                                       points=points, scrolls=scrolls,
-                                      exos=_exos(char))
+                                      exos=_exos(char) | exos_des_jets,
+                                      forge=forge)
     params.update({
         'link': dofusbook_export.build_url(char.game_version,
                                            get_supported_language(), charge),
         'going': sorted(partants),
         'staying': sorted(restants),
         'partial_scrolls': _partial_scrolls(char, scrolls),
+        'forge_travels': bool(forge),
+        'forge_staying': _named_stats(
+            structure, char.game_version,
+            sans_place + _keys_of_positions(
+                dofusbook_export.index_by_stat_key(), refusees)),
         # Only worth a sentence when it actually differs from the build.
         'vitality_scroll_forced': (
             dofusbook_export.vitality_scroll_is_forced(char.level)

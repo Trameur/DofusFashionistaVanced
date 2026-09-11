@@ -7147,9 +7147,6 @@ msgstr "DofusBook n’a pas ces objets dans son catalogue, ils restent ici :"
 msgid "DofusBook stores a scroll as 100 or nothing, so these do not travel in full:"
 msgstr "DofusBook enregistre un parchotage à 100 ou à rien, donc ceux-ci ne partent pas en entier :"
 
-msgid "The build name, the class and your rolls do not travel: their link format has no room for them."
-msgstr "Le nom du build, la classe et vos jets ne partent pas : leur format de lien n’a pas de place pour eux."
-
 msgid "Open on DofusBook"
 msgstr "Ouvrir sur DofusBook"
 
@@ -7237,9 +7234,6 @@ msgstr "nouveautés"
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importez un build entier : collez des noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez une capture d’infobulle par pièce. Les jets et les exos suivent."
 
-msgid "Send your build to another build site straight from the solution page (Dofus 3, Retro and Touch)."
-msgstr "Envoyez votre build vers un autre site de builds directement depuis la page de solution (Dofus 3, Retro et Touch)."
-
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Collez des noms d’objets, un lien de build ou des captures d’infobulle et retrouvez le même build ici, pièce par pièce. Rien n’est réoptimisé tant que vous ne le demandez pas."
 
@@ -7299,3 +7293,15 @@ msgstr "Ces lignes du lien n’appartiennent à aucune pièce et restent de côt
 
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr "Ces lignes de forgemagie n’ont pas pu être lues et restent de côté :"
+
+msgid "Your forgemagie travels as one total per characteristic: their link format holds nothing finer."
+msgstr "Votre forgemagie part en un total par caractéristique : leur format de lien ne porte rien de plus fin."
+
+msgid "Their forgemagie field cannot hold these, so they stay here:"
+msgstr "Leur champ de forgemagie ne peut pas porter ceux-ci, ils restent ici :"
+
+msgid "The build name and the class do not travel: their link format has no room for them."
+msgstr "Le nom du build et la classe ne partent pas : leur format de lien n’a pas de place pour eux."
+
+msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
+msgstr "Envoyez votre build vers un autre site de builds directement depuis la page de solution, forgemagie comprise (Dofus 3, Retro et Touch)."
