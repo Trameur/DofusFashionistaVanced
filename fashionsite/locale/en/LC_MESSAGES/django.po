@@ -6248,22 +6248,6 @@ msgid "They can be arranged into more than 10 to the power of %(exponent)s diffe
 msgstr ""
 
 #: .\chardata\dofusbook_view.py
-msgid "Import a DofusBook build"
-msgstr ""
-
-#: .\chardata\dofusbook_view.py
-msgid "Paste a DofusBook link and get the same gear here, piece for piece. Nothing is re-optimized unless you ask for it."
-msgstr ""
-
-#: .\chardata\dofusbook_view.py
-msgid "Paste the link to a public DofusBook build and you get the same gear here, piece for piece."
-msgstr ""
-
-#: .\chardata\dofusbook_view.py
-msgid "Read this link"
-msgstr ""
-
-#: .\chardata\dofusbook_view.py
 msgid "Bring this build in"
 msgstr ""
 
@@ -6280,15 +6264,7 @@ msgid "Imported build"
 msgstr ""
 
 #: .\chardata\dofusbook_view.py
-msgid "That is not a DofusBook build link."
-msgstr ""
-
-#: .\chardata\dofusbook_view.py
 msgid "Short d-bk.net links do not say which game the build belongs to. Open the link and paste the full address."
-msgstr ""
-
-#: .\chardata\dofusbook_view.py
-msgid "DofusBook does not have a public build at that link."
 msgstr ""
 
 #: .\chardata\dofusbook_view.py
@@ -6320,22 +6296,6 @@ msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such a
 msgstr ""
 
 #: .\chardata\templates\chardata\text_build.html:6
-msgid "Import a build from text"
-msgstr ""
-
-#: .\chardata\templates\chardata\text_build.html:6
-msgid "Paste the names of your gear, one per line. Anything that is not an item name is skipped, so you can paste more than just the names."
-msgstr ""
-
-#: .\chardata\templates\chardata\text_build.html:6
-msgid "One item name per line"
-msgstr ""
-
-#: .\chardata\templates\chardata\text_build.html:6
-msgid "Read this text"
-msgstr ""
-
-#: .\chardata\templates\chardata\text_build.html:6
 msgid "closest match"
 msgstr ""
 
@@ -6357,14 +6317,6 @@ msgstr ""
 
 #: .\chardata\templates\chardata\base.html:275
 msgid "Import a build"
-msgstr ""
-
-#: .\chardata\templates\chardata\base.html:275
-msgid "Import from a DofusBook link instead"
-msgstr ""
-
-#: .\chardata\templates\chardata\base.html:275
-msgid "No link? Paste your item names instead"
 msgstr ""
 
 #: .\chardata\templates\chardata\text_build.html:78
@@ -6488,9 +6440,6 @@ msgstr ""
 msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
 msgstr ""
 
-msgid "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
-msgstr ""
-
 msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
 msgstr ""
 
@@ -6498,9 +6447,6 @@ msgid "This build will keep the %(count_pieces)s pieces of %(set)s (level %(leve
 msgstr ""
 
 msgid "Already have a build?"
-msgstr ""
-
-msgid "Import it from text or screenshots"
 msgstr ""
 
 msgid "Every item and set page has a button that starts a quick build around it: the piece, or the whole set, is locked in and the solver fills the rest."
@@ -6513,4 +6459,46 @@ msgid "Import a whole build: paste item names, a link to a public build from ano
 msgstr ""
 
 msgid "Send your build to another build site straight from the solution page (Dofus 3, Retro and Touch)."
+msgstr ""
+
+msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr ""
+
+msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
+msgstr ""
+
+msgid "One item name per line, or a build link"
+msgstr ""
+
+msgid "Read this"
+msgstr ""
+
+msgid "Build links our server can read today: dofusbook.net."
+msgstr ""
+
+msgid "Read from the link: %(name)s (%(version)s)."
+msgstr ""
+
+msgid "The build will be created in that version."
+msgstr ""
+
+msgid "Links from sites we cannot read yet, left out:"
+msgstr ""
+
+msgid "We cannot read links from that site yet. Paste the item names instead."
+msgstr ""
+
+msgid "No public build at that link."
+msgstr ""
+
+msgid "That site refused our request."
+msgstr ""
+
+msgid "That site could not be reached. Try again later."
+msgstr ""
+
+msgid "That site answered something we could not read."
+msgstr ""
+
+msgid "Import it from a link, text or screenshots"
 msgstr ""

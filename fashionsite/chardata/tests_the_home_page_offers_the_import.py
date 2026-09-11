@@ -14,7 +14,7 @@ import re
 from django.test import SimpleTestCase, TestCase
 
 QUESTION = 'Already have a build?'
-LIEN = 'Import it from text or screenshots'
+LIEN = 'Import it from a link, text or screenshots'
 
 
 def _ancre(page):

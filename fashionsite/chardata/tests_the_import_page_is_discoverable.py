@@ -13,11 +13,12 @@ import re
 
 from django.test import SimpleTestCase, TestCase
 
-DESCRIPTION = ('Paste the names of your gear, or drop one tooltip screenshot '
-               'per piece, and get the same build here, piece for piece. '
-               'Nothing is re-optimized unless you ask for it.')
+DESCRIPTION = ('Paste item names, a build link or tooltip screenshots and get '
+               'the same build here, piece for piece. Nothing is re-optimized '
+               'unless you ask for it.')
 ANCIENNE = ('Paste the names of your gear and get the same build here, piece '
             'for piece. Nothing is re-optimized unless you ask for it.')
+TITRE = 'Import a build'
 
 
 def _meta(page, nom):
@@ -70,7 +71,7 @@ class ThePageDescribesWhatItReadsTests(TestCase):
                                HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
         self.assertEqual(_meta(page, 'description'), _meta(page, 'og:description'))
         titre = re.search(r'<title>(.*?)</title>', page, re.S).group(1).strip()
-        self.assertTrue(titre.startswith('Import a build from text'), titre)
+        self.assertTrue(titre.startswith('Import a build'), titre)
         self.assertEqual(titre, _meta(page, 'og:title'))
         self.assertEqual('https://dofusfashionista.gg/import/text/',
                          _meta(page, 'og:url'))
@@ -88,7 +89,7 @@ class ThePageDescribesWhatItReadsTests(TestCase):
                          _meta(page, 'og:description'))
         self.assertEqual(_meta(page, 'description'), _meta(page, 'og:description'))
         titre = re.search(r'<title>(.*?)</title>', page, re.S).group(1).strip()
-        self.assertTrue(titre.startswith('Import a build from text (Dofus Touch)'),
+        self.assertTrue(titre.startswith('Import a build (Dofus Touch)'),
                         titre)
         self.assertEqual(titre, _meta(page, 'og:title'))
 

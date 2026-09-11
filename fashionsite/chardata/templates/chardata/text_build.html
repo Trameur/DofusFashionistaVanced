@@ -11,8 +11,8 @@ La page lit aussi des captures d'infobulle depuis le 10 septembre 2026
 d'autre, et le lien colle dans un salon portait la phrase generique du site.
 Un moteur et un salon lisent la meme promesse: base.html reprend le titre et
 la description de la page dans son bloc Open Graph.{% endcomment %}
-{% block title %}{% trans "Import a build from text" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
-{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% endblock %}
+{% block title %}{% trans "Import a build" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
@@ -77,9 +77,13 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
 
 {% block main %}
 <div class="import-wrap">
-    <h1>{% trans "Import a build from text" %}</h1>
-    <p class="import-intro">{% trans "Paste the names of your gear, one per line. Anything that is not an item name is skipped, so you can paste more than just the names." %}</p>
-    <p class="import-intro"><a href="{% game_url 'dofusbook_import' %}">{% trans "Import from a DofusBook link instead" %}</a></p>
+    <h1>{% trans "Import a build" %}</h1>
+    {% comment %}Une seule porte, neutre (Thibaud, 11 septembre 2026):
+    noms, lien d'un autre site, captures, ou un melange. La note sous le
+    champ nomme les sites que le serveur sait lire, parce que c'est une
+    information et pas une enseigne: un lien d'un autre site est rendu
+    au lecteur dans la liste des lignes laissees.{% endcomment %}
+    <p class="import-intro">{% trans "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped." %}</p>
 
     {% if login_problem %}
     <p class="import-error">
@@ -135,9 +139,10 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
         en dur nommerait, pour un lecteur Retro ou allemand, des objets qui
         n'existent pas chez lui.{% endcomment %}
         <textarea name="text" class="import-area pretty-input" autofocus
-                  placeholder="{% trans "One item name per line" %}" required>{{ text }}</textarea>
-        <button type="submit" class="button-generic">{% trans "Read this text" %}</button>
+                  placeholder="{% trans "One item name per line, or a build link" %}" required>{{ text }}</textarea>
+        <button type="submit" class="button-generic">{% trans "Read this" %}</button>
     </form>
+    <p class="small-explain import-link-note">{% trans "Build links our server can read today: dofusbook.net." %}</p>
 
     {% comment %}Same order as the DofusBook import, and for the same reason:
     the gear is shown BEFORE anything is created, so the reader sees what is
@@ -147,6 +152,12 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
     {% if confirm %}
     <div class="import-found">
         <p><strong>{{ version_label }}</strong></p>
+        {% if link %}
+        <p class="import-link-read" id="import-link-read">{% blocktrans with name=link.name version=link.version_label %}Read from the link: {{ name }} ({{ version }}).{% endblocktrans %}{% if link.version_differs %} {% trans "The build will be created in that version." %}{% endif %}</p>
+        {% if link.missing %}
+        <p class="import-missing" id="import-link-missing">{% trans "These items are not in our catalogue and will be left out:" %} {{ link.missing|join:", " }}</p>
+        {% endif %}
+        {% endif %}
         <ul class="import-list">
             {% for piece in matched %}
             <li class="import-line">
@@ -182,6 +193,15 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
             <p>{% trans "These rolls were left out, because the item does not carry that stat:" %}</p>
             <ul>
                 {% for roll in refused_rolls %}<li>{{ roll.name }}: {{ roll.value }} {{ roll.stat }}</li>{% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if unreadable_links %}
+        <div class="import-ignored" id="import-unreadable-links">
+            <p>{% trans "Links from sites we cannot read yet, left out:" %}</p>
+            <ul>
+                {% for line in unreadable_links %}<li>{{ line }}</li>{% endfor %}
             </ul>
         </div>
         {% endif %}

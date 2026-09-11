@@ -179,7 +179,7 @@ class TheTextImportPageTests(TestCase):
         self.assertEqual(200, reponse.status_code)
         page = reponse.content.decode('utf-8')
         self.assertIn('name="text"', page)
-        self.assertIn('Read this text', page)
+        self.assertIn('Read this', page)
 
     def test_the_route_answers_under_a_version_prefix_too(self):
         """Le site a deux tables d'URL. Une route posee dans une seule rend
@@ -260,16 +260,16 @@ class TheTextImportPageSpeaksEveryLanguageTests(TestCase):
     """
 
     TEMOINS = {
-        'en': ('Import a build from text', 'Read this text',
-               'One item name per line'),
-        'fr': ('Importer un build depuis du texte', 'Lire ce texte',
-               'Un nom d\u2019objet par ligne'),
-        'es': ('Importar un build desde texto', 'Leer este texto',
-               'Un nombre de objeto por l\u00ednea'),
-        'pt': ('Importar um build a partir de texto', 'Ler este texto',
-               'Um nome de item por linha'),
-        'de': ('Einen Build aus Text importieren', 'Diesen Text lesen',
-               'Ein Item-Name pro Zeile'),
+        'en': ('Import a build', 'Read this',
+               'One item name per line, or a build link'),
+        'fr': ('Importer un build', 'Lire tout ça',
+               'Un nom d’objet par ligne, ou un lien de build'),
+        'es': ('Importar un build', 'Leer esto',
+               'Un nombre de objeto por línea, o un enlace de build'),
+        'pt': ('Importar um build', 'Ler isto',
+               'Um nome de item por linha, ou um link de build'),
+        'de': ('Build importieren', 'Das lesen',
+               'Ein Gegenstandsname pro Zeile, oder ein Build-Link'),
     }
 
     def test_every_language_gets_the_page_in_its_own_words(self):
@@ -309,14 +309,16 @@ class NoImportPageClaimsTheGameCanBeCopiedTests(SimpleTestCase):
         import os
         racine = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                               'templates', 'chardata')
-        for nom in ('text_build.html', 'dofusbook.html', 'inventory.html'):
+        for nom in ('text_build.html', 'inventory.html'):
             chemin = os.path.join(racine, nom)
             with open(chemin, encoding='utf-8') as f:
                 yield nom, f.read()
 
     def test_the_sweep_reads_the_pages_it_names(self):
+        # Deux pages depuis le 11 septembre 2026: la page qui ne prenait
+        # qu'un lien est fondue dans la page d'import unique.
         lues = list(self._pages())
-        self.assertEqual(3, len(lues))
+        self.assertEqual(2, len(lues))
         for _nom, corps in lues:
             self.assertGreater(len(corps), 500)
 

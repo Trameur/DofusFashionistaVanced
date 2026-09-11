@@ -23,39 +23,18 @@ class, so the player picks it on the confirmation step.
 
 import logging
 
-from django.http import HttpResponseRedirect
-from django.utils.translation import gettext as _
-
-from chardata.coaching_view import create_build
-from chardata.create_project_view import is_anon_cant_create
-from chardata.dofusbook_import import ImportError_, read_build
 from chardata.solution import set_minimal_solution
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
-from chardata.util import set_response
 from fashionistapulp.dofus_constants import (CHARACTER_CLASSES,
                                              TYPE_NAME_TO_SLOT_NUMBER)
-from fashionistapulp.game_versions import get_game_version
 from fashionistapulp.modelresult import ModelResultMinimal
 from fashionistapulp.structure import (get_structure, get_current_game_version,
                                        set_current_game_version)
 
 logger = logging.getLogger(__name__)
 
-
-def _reasons():
-    """One sentence per refusal the reader can actually hit."""
-    return {
-        'not_a_link': _('That is not a DofusBook build link.'),
-        'short_link': _('Short d-bk.net links do not say which game the build '
-                        'belongs to. Open the link and paste the full address.'),
-        'not_found': _('DofusBook does not have a public build at that link.'),
-        'refused': _('DofusBook refused the request.'),
-        'unreachable': _('DofusBook could not be reached. Try again later.'),
-        'unreadable': _('DofusBook answered something we could not read.'),
-        'empty': _('That build came back with no items.'),
-        'wrong_version': _('Those items do not exist in that version of the '
-                           'game. Check the link.'),
-    }
+# The refusals a link can earn live with the page that reads links now,
+# text_build_view._raisons_du_lien, worded for any site rather than one.
 
 
 def _classes_for(game_version):
@@ -152,40 +131,14 @@ def _place_items(char, item_ids, origin='dofusbook'):
 
 
 def dofusbook(request):
-    """The page. GET shows the field, POST reads the link, confirm creates."""
-    url = (request.POST.get('url') or '').strip()
+    """The old address of the link import, kept for the links that carry it.
 
-    if request.method != 'POST' or not url:
-        return set_response(request, 'chardata/dofusbook.html', {
-            'url': '',
-            'login_problem': is_anon_cant_create(request),
-        })
-
-    try:
-        build = read_build(url)
-    except ImportError_ as erreur:
-        return set_response(request, 'chardata/dofusbook.html', {
-            'url': url,
-            'error': _reasons().get(erreur.reason, _reasons()['unreadable']),
-            'login_problem': is_anon_cant_create(request),
-        })
-
-    char_class = request.POST.get('char_class') or ''
-    if not request.POST.get('confirm') or char_class not in CHARACTER_CLASSES:
-        return set_response(request, 'chardata/dofusbook.html', {
-            'url': url,
-            'confirm': True,
-            'build': build,
-            'version_label': get_game_version(build['game_version']).label,
-            'pieces': _preview(build),
-            'classes': _classes_for(build['game_version']),
-            'login_problem': is_anon_cant_create(request),
-        })
-
-    char = create_build(request, char_class, build['level'] or 200, set(),
-                        build['game_version'],
-                        name=build['name'] or _('Imported build'))
-    _place_items(char, build['item_ids'])
-    logger.info('imported dofusbook build %s from %s into char %s',
-                build['build_id'], build['source_host'], char.id)
-    return HttpResponseRedirect(_solution_path(char))
+    On 2026-09-11 the import became one page, site neutral (text_build_view):
+    a link pasted there is read the same way, next to item names and
+    screenshots. The page that only took a link is gone; its address sends
+    the reader to the one page, under the same game version.
+    """
+    from django.http import HttpResponsePermanentRedirect
+    from chardata.text_build_view import _url_pour_version
+    version = getattr(request, 'game_version', None) or get_current_game_version()
+    return HttpResponsePermanentRedirect(_url_pour_version(version))

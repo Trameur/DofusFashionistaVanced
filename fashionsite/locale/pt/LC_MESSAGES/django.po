@@ -6977,22 +6977,6 @@ msgid "They can be arranged into more than 10 to the power of %(exponent)s diffe
 msgstr "Eles podem formar mais de 10 elevado a %(exponent)s equipamentos diferentes, e o solver não os testou um a um."
 
 #: .\chardata\dofusbook_view.py
-msgid "Import a DofusBook build"
-msgstr "Importar um build do DofusBook"
-
-#: .\chardata\dofusbook_view.py
-msgid "Paste a DofusBook link and get the same gear here, piece for piece. Nothing is re-optimized unless you ask for it."
-msgstr "Cole um link do DofusBook e recupere o mesmo equipamento aqui, peça por peça. Nada é reotimizado enquanto você não pedir."
-
-#: .\chardata\dofusbook_view.py
-msgid "Paste the link to a public DofusBook build and you get the same gear here, piece for piece."
-msgstr "Cole o link de um build público do DofusBook e você recupera o mesmo equipamento aqui, peça por peça."
-
-#: .\chardata\dofusbook_view.py
-msgid "Read this link"
-msgstr "Ler este link"
-
-#: .\chardata\dofusbook_view.py
 msgid "Bring this build in"
 msgstr "Trazer este build"
 
@@ -7009,16 +6993,8 @@ msgid "Imported build"
 msgstr "Build importado"
 
 #: .\chardata\dofusbook_view.py
-msgid "That is not a DofusBook build link."
-msgstr "Isso não é um link de build do DofusBook."
-
-#: .\chardata\dofusbook_view.py
 msgid "Short d-bk.net links do not say which game the build belongs to. Open the link and paste the full address."
 msgstr "Os links curtos d-bk.net não dizem a que jogo o build pertence. Abra o link e cole o endereço completo."
-
-#: .\chardata\dofusbook_view.py
-msgid "DofusBook does not have a public build at that link."
-msgstr "O DofusBook não tem um build público nesse link."
 
 #: .\chardata\dofusbook_view.py
 msgid "DofusBook refused the request."
@@ -7049,22 +7025,6 @@ msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such a
 msgstr "<b>Bibliotecas de código.</b> Parte do código que faz as páginas funcionarem, como o jQuery em todas as páginas e uma biblioteca de leitura de texto na página de inventário, é carregada do Google Hosted Libraries e do jsDelivr em vez do nosso servidor, de modo que esses provedores recebem o seu endereço IP. Cada um desses arquivos tem uma impressão digital associada, e o seu navegador se recusa a executar uma cópia que não corresponda."
 
 #: .\chardata\templates\chardata\text_build.html:6
-msgid "Import a build from text"
-msgstr "Importar um build a partir de texto"
-
-#: .\chardata\templates\chardata\text_build.html:6
-msgid "Paste the names of your gear, one per line. Anything that is not an item name is skipped, so you can paste more than just the names."
-msgstr "Cole os nomes do seu equipamento, um por linha. Tudo o que não for um nome de item é ignorado, então você pode colar mais do que apenas os nomes."
-
-#: .\chardata\templates\chardata\text_build.html:6
-msgid "One item name per line"
-msgstr "Um nome de item por linha"
-
-#: .\chardata\templates\chardata\text_build.html:6
-msgid "Read this text"
-msgstr "Ler este texto"
-
-#: .\chardata\templates\chardata\text_build.html:6
 msgid "closest match"
 msgstr "o mais parecido"
 
@@ -7087,14 +7047,6 @@ msgstr "\n    Este é o equipamento que você trouxe, exatamente como estava. Na
 #: .\chardata\templates\chardata\base.html:275
 msgid "Import a build"
 msgstr "Importar um build"
-
-#: .\chardata\templates\chardata\base.html:275
-msgid "Import from a DofusBook link instead"
-msgstr "Importar antes a partir de um link do DofusBook"
-
-#: .\chardata\templates\chardata\base.html:275
-msgid "No link? Paste your item names instead"
-msgstr "Sem link? Cole antes os nomes dos seus itens"
 
 #: .\chardata\templates\chardata\text_build.html:78
 msgid "outside %(low)s to %(high)s, check it"
@@ -7217,9 +7169,6 @@ msgstr "e mais %(count)d"
 msgid "Signing in with Google did not go through. You can try again, or enter with your username and password."
 msgstr "A entrada com o Google não foi concluída. Você pode tentar de novo ou entrar com seu nome de usuário e senha."
 
-msgid "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
-msgstr "Cole os nomes do seu equipamento, ou solte uma captura da descrição por peça, e recupere o mesmo build aqui, peça por peça. Nada é reotimizado enquanto você não pedir."
-
 msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
 msgstr "Este build vai manter %(item)s (nível %(level)s): o solver preenche os outros espaços em volta dele."
 
@@ -7228,9 +7177,6 @@ msgstr "Este build vai manter as %(count_pieces)s peças de %(set)s (nível %(le
 
 msgid "Already have a build?"
 msgstr "Já tem um build?"
-
-msgid "Import it from text or screenshots"
-msgstr "Importe-o a partir de texto ou capturas de tela"
 
 msgid "Every item and set page has a button that starts a quick build around it: the piece, or the whole set, is locked in and the solver fills the rest."
 msgstr "Cada página de item e de conjunto tem um botão que inicia um build rápido em volta dele: a peça, ou o conjunto inteiro, fica travada e o solver preenche o resto."
@@ -7243,3 +7189,45 @@ msgstr "Importe um build inteiro: cole nomes de itens, um link para um build pú
 
 msgid "Send your build to another build site straight from the solution page (Dofus 3, Retro and Touch)."
 msgstr "Envie seu build para outro site de builds direto da página de solução (Dofus 3, Retro e Touch)."
+
+msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr "Cole nomes de itens, um link de build ou capturas da descrição e recupere o mesmo build aqui, peça por peça. Nada é reotimizado enquanto você não pedir."
+
+msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
+msgstr "Cole os nomes dos seus itens, um link para um build público de outro site de builds, ou solte capturas da descrição. Tudo o que não for um item é ignorado."
+
+msgid "One item name per line, or a build link"
+msgstr "Um nome de item por linha, ou um link de build"
+
+msgid "Read this"
+msgstr "Ler isto"
+
+msgid "Build links our server can read today: dofusbook.net."
+msgstr "Links de build que nosso servidor sabe ler hoje: dofusbook.net."
+
+msgid "Read from the link: %(name)s (%(version)s)."
+msgstr "Lido a partir do link: %(name)s (%(version)s)."
+
+msgid "The build will be created in that version."
+msgstr "O build será criado nessa versão."
+
+msgid "Links from sites we cannot read yet, left out:"
+msgstr "Links de sites que ainda não sabemos ler, deixados de fora:"
+
+msgid "We cannot read links from that site yet. Paste the item names instead."
+msgstr "Ainda não sabemos ler os links desse site. Cole os nomes dos itens no lugar."
+
+msgid "No public build at that link."
+msgstr "Não há nenhum build público nesse link."
+
+msgid "That site refused our request."
+msgstr "Esse site recusou nosso pedido."
+
+msgid "That site could not be reached. Try again later."
+msgstr "Não foi possível contatar esse site. Tente de novo mais tarde."
+
+msgid "That site answered something we could not read."
+msgstr "Esse site respondeu algo que não conseguimos ler."
+
+msgid "Import it from a link, text or screenshots"
+msgstr "Importe-o a partir de um link, texto ou capturas de tela"
