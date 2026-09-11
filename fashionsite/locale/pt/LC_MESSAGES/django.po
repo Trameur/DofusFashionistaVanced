@@ -7308,3 +7308,9 @@ msgstr "Não aparece na galeria: este build ainda não tem equipamento guardado.
 
 msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
 msgstr "Não aparece na galeria: o nosso catálogo já não tem %(pieces)s. Troque o que falta e ele volta."
+
+msgid "Poison in the element of the attack"
+msgstr "Veneno no elemento do ataque"
+
+msgid "only after attacking both in close combat and at range in the same turn"
+msgstr "apenas depois de atacar corpo a corpo e à distância no mesmo turno"

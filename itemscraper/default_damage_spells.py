@@ -1,7 +1,34 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Sequence
+from typing import Optional, Sequence
+
+
+@dataclass(frozen=True)
+class ItemEffect:
+    """Ce que l'OBJET dit de son effet, quand le sort cache ne le dit pas.
+
+    Le client range ces effets comme des sorts, avec des lignes de degats et
+    un cout en PA. La fiche de l'objet, elle, dit ce qui se passe vraiment. Le
+    Dofus Ebene en est l'exemple: le client lui donne cinq lignes de 16 et 1 PA,
+    et l'objet dit <<la prochaine attaque applique un poison de 16 DANS SON
+    ELEMENT>>. Cinq lignes lues comme simultanees, c'est 80 annonces la ou le
+    jeu en met 16.
+    """
+
+    #: Les lignes elementaires sont les faces d'un meme effet et une seule
+    #: tombe, donc elles s'annoncent comme des choix et non comme une somme.
+    element_alternatives: bool = False
+    #: Le nombre de cumuls que l'objet annonce, quand il n'est pas celui que
+    #: le client porte. Le Dofus Ebene cumule son POISON 2 fois; le 5 du
+    #: client est celui d'un autre effet, le bonus de 2%.
+    stacks: int = 0
+    #: Ce qui doit arriver pour que ces lignes tombent. La cle est nommee dans
+    #: `spells_view._CONDITIONAL_LABELS`, donc traduite.
+    conditional_trigger: str = ''
+    #: Faux quand le joueur ne lance jamais cet effet lui-meme: il n'a donc
+    #: pas de cout en PA a montrer.
+    cast_by_the_player: bool = True
 
 
 @dataclass(frozen=True)
@@ -41,6 +68,9 @@ class DefaultSpellSpec:
     #: fait ce travail en amont quand chaque palier ne porte qu'un element;
     #: ici les quatre derniers en portent plusieurs, donc il ne s'applique pas.
     grades_are_charges: bool = False
+    #: Ce que la fiche de l'objet dit de cet effet, quand elle contredit la
+    #: forme que le client donne au sort cache.
+    item_effect: Optional[ItemEffect] = None
 
 
 DEFAULT_DAMAGE_SPELL_SPECS: Sequence[DefaultSpellSpec] = (
@@ -60,8 +90,17 @@ DEFAULT_DAMAGE_SPELL_SPECS: Sequence[DefaultSpellSpec] = (
     DefaultSpellSpec("Perfidious Boomerang"),
     DefaultSpellSpec("Diamondine Boomerang"),
     DefaultSpellSpec("Weapon Skill", ankama_id=3506, hand_written=True),
+    # La fiche de l'objet, lue le 12 septembre 2026 dans notre catalogue, sur
+    # Dofus 3 comme sur Dofus 2: <<Declencher les 2 effets dans le tour permet
+    # a la prochaine attaque d'appliquer un poison de 16 DANS SON ELEMENT
+    # pendant 2 tours (cumulable 2 fois)>>. Un poison, un element, deux
+    # cumuls, et rien que le joueur lance.
     DefaultSpellSpec("Ebony Dofus", ankama_id=18645, level_requirement=180,
-                     grades_are_charges=True),
+                     grades_are_charges=True,
+                     item_effect=ItemEffect(element_alternatives=True,
+                                            stacks=2,
+                                            conditional_trigger='melee_and_ranged',
+                                            cast_by_the_player=False)),
     DefaultSpellSpec("Crocobur's Appetite"),
     DefaultSpellSpec("Pestilential Fog"),
     DefaultSpellSpec("Scurvion Toxicity"),

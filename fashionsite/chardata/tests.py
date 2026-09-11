@@ -16975,6 +16975,15 @@ class SpellCastingCostTests(SimpleTestCase):
     # spell level data, and retro/touch are decoded separately.
     VERSIONS = ('dofus3', 'beta')
 
+    #: The only spell that carries a client id and no AP cost, because the
+    #: player never casts it: the Ebony Dofus's item card says "the next
+    #: attack applies a 16 poison in its element", so the attack lays it. The
+    #: client does give that hidden spell a 1 AP cost, and showing it told the
+    #: reader they could spend an AP on something they cannot cast. Asserted
+    #: as an equality, not a subset: one more name here would mean a real
+    #: spell silently lost its cost.
+    NOT_CAST_BY_THE_PLAYER = ['Ebony Dofus']
+
     def _spells(self, version):
         from chardata.spell_buffs import get_damage_spells_for_version
         return [spell for spells in get_damage_spells_for_version(version).values()
@@ -17014,7 +17023,7 @@ class SpellCastingCostTests(SimpleTestCase):
             with self.subTest(version=version):
                 missing = [spell.name for spell in self._spells(version)
                            if spell.spell_id and not spell.casting]
-                self.assertEqual(missing, [], version)
+                self.assertEqual(self.NOT_CAST_BY_THE_PLAYER, missing, version)
 
     def test_a_cost_is_given_per_spell_level_and_is_never_free(self):
         for version in self.VERSIONS:
@@ -17037,9 +17046,11 @@ class SpellCastingCostTests(SimpleTestCase):
                           'per_target': [2, 2, 3], 'crit': [5, 5, 5]})
 
     def test_a_spell_the_client_never_described_says_so(self):
-        # The hand-written stand-ins are not castable spells. There are two
-        # left, a pie and a weapon skill: the Ebony Dofus was one until its
-        # attack was read from the client by its id instead of its name.
+        # The hand-written stand-ins are not castable spells. Two are left,
+        # a pie and a weapon skill: the Ebony Dofus's numbers are read from
+        # the client now. It carries no cast cost either, but for its own
+        # reason, which its own module holds: the player never casts it, the
+        # Dofus applies it to their next attack.
         spells = {spell.name: spell for spell in self._spells('dofus3')}
         self.assertIsNone(spells['Weapon Skill'].casting)
         self.assertIsNone(spells['Weapon Skill'].ap_cost())

@@ -64,12 +64,15 @@ class TheEbonyDofusCarriesItsAnkamaIdTests(SimpleTestCase):
                            if not sort.spell_id}
                 self.assertEqual(ECRITS_A_LA_MAIN, sans_id)
 
-    def test_it_costs_one_ap_and_lands_at_the_start_of_the_turn(self):
+    def test_it_lands_at_the_start_of_the_turn(self):
+        """Ce test demandait aussi 1 PA, lu dans le cout interne du sort
+        cache. La fiche de l'objet a tranche le lendemain: le joueur ne lance
+        jamais cette attaque, sa prochaine attaque l'applique. Le cout a donc
+        disparu, et c'est `tests_the_ebony_dofus_applies_a_poison` qui garde
+        son absence."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 sort = _sorts_partages(version)['Ebony Dofus']
-                self.assertEqual([1] * len(sort.level_req),
-                                 sort.casting.get('ap'))
                 self.assertTrue(sort.delayed)
                 self.assertEqual({'turn_begin'}, set(sort.delayed.values()))
 

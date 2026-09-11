@@ -7362,3 +7362,9 @@ msgstr "Pas montré dans la galerie : ce build n’a pas encore de stuff enregis
 
 msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
 msgstr "Pas montré dans la galerie : notre catalogue n’a plus %(pieces)s. Remplacez ce qui manque et il revient."
+
+msgid "Poison in the element of the attack"
+msgstr "Poison dans l'élément de l'attaque"
+
+msgid "only after attacking both in close combat and at range in the same turn"
+msgstr "seulement après avoir attaqué en mêlée et à distance dans le même tour"

@@ -621,7 +621,11 @@ DAMAGE_SPELLS = {
             [['16'], ['16'], ['16'], ['16'], ['16']],
             None,
             [WATER, FIRE, AIR, EARTH, NEUTRAL],
-        ), stacks=5, casting={'ap': [1]}, spell_id=18645, delayed={0: 'turn_begin', 1: 'turn_begin', 2: 'turn_begin', 3: 'turn_begin', 4: 'turn_begin'}),
+        ), aggregates=[('Poison in the element of the attack', [0]),
+ ('', [1]),
+ ('', [2]),
+ ('', [3]),
+ ('', [4])], stacks=2, spell_id=18645, conditional={0: 'melee_and_ranged', 1: 'melee_and_ranged', 2: 'melee_and_ranged', 3: 'melee_and_ranged', 4: 'melee_and_ranged'}, delayed={0: 'turn_begin', 1: 'turn_begin', 2: 'turn_begin', 3: 'turn_begin', 4: 'turn_begin'}),
         Spell("Crocobur's Appetite", [1], Effects(
             [['16-20']],
             None,

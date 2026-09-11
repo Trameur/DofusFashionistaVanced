@@ -32,6 +32,9 @@ ELEMENT_LITERAL = {
     "AIR": "AIR",
 }
 BEST_ELEMENT_LABEL = "Hit in best element"
+#: Le poison du Dofus Ebene tombe <<dans son element>>, celui de
+#: l'attaque qui l'applique: ni le meilleur, ni un tire au sort.
+ATTACK_ELEMENT_LABEL = "Poison in the element of the attack"
 
 STAT_BUFF_CHARACTERISTICS = {
     10: "buff_str",
@@ -953,6 +956,8 @@ def _select_named_defaults(
                 converted = replace(converted, name=spec.name)
                 if spec.grades_are_charges:
                     converted = _charged_grade_only(converted)
+                if spec.item_effect is not None:
+                    converted = _as_the_item_says(converted, spec.item_effect)
                 if spec.level_requirement:
                     # La porte est celle de l'objet qui donne le sort, pas
                     # celle que le client ecrit sur le sort lui-meme.
@@ -986,6 +991,36 @@ def _select_named_defaults(
             file=sys.stderr,
         )
     return entries
+
+
+def _as_the_item_says(entry: SpellEntry, effect) -> SpellEntry:
+    """Ce que la fiche de l'objet dit, par-dessus la forme du sort cache.
+
+    Le client range ces effets comme des sorts: des lignes de degats qui
+    s'additionnent et un cout en PA. Quand l'objet dit autre chose, c'est lui
+    qui a raison, parce que c'est lui que le joueur lit dans le jeu.
+    """
+    rows = [index for index, element in enumerate(entry.elements)
+            if not str(element).startswith("buff")]
+    changes: Dict[str, Any] = {}
+    if effect.element_alternatives and len(rows) > 1:
+        # Une ligne par groupe: c'est la forme que `_element_alternatives`
+        # reconnait comme <<une seule tombe>>, et sans elle la page les
+        # additionne.
+        changes["aggregates"] = [
+            (ATTACK_ELEMENT_LABEL if position == 0 else "", [index])
+            for position, index in enumerate(rows)]
+    if effect.stacks:
+        changes["stacks"] = effect.stacks
+    if effect.conditional_trigger:
+        conditional = dict(entry.conditional or {})
+        for index in rows:
+            conditional[index] = effect.conditional_trigger
+        changes["conditional"] = conditional
+    if not effect.cast_by_the_player:
+        # Pas de cout en PA a montrer pour ce que le joueur ne lance pas.
+        changes["casting"] = None
+    return replace(entry, **changes) if changes else entry
 
 
 def _charged_grade_only(entry: SpellEntry) -> SpellEntry:

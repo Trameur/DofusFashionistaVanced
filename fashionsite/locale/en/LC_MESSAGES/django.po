@@ -6579,3 +6579,9 @@ msgstr ""
 
 msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
 msgstr ""
+
+msgid "Poison in the element of the attack"
+msgstr ""
+
+msgid "only after attacking both in close combat and at range in the same turn"
+msgstr ""

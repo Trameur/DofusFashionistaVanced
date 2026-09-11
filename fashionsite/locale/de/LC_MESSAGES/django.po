@@ -7338,3 +7338,9 @@ msgstr "Nicht in der Galerie: dieser Build hat noch keine gespeicherte Ausrüstu
 
 msgid "Not shown in the gallery: our catalogue no longer has %(pieces)s. Replace what is missing and it comes back."
 msgstr "Nicht in der Galerie: unser Katalog hat %(pieces)s nicht mehr. Ersetze, was fehlt, und er kommt zurück."
+
+msgid "Poison in the element of the attack"
+msgstr "Gift im Element des Angriffs"
+
+msgid "only after attacking both in close combat and at range in the same turn"
+msgstr "nur nach einem Nahkampf- und einem Fernkampfangriff im selben Zug"

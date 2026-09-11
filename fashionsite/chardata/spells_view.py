@@ -534,6 +534,10 @@ _BEST_ELEMENT = 'Hit in best element'
 #: Retro's Bluff: Ankama says it hits "aleatoirement" in Air OR Water, so the
 #: reader has to be told the two rows are one roll and not two hits.
 _RANDOM_ELEMENT = 'Hit in one random element'
+#: Le Dofus Ebene: sa fiche dit <<la prochaine attaque applique un poison de
+#: 16 dans SON element>>. Un seul element tombe, celui de l'attaque, donc ses
+#: cinq lignes sont des faces et non une somme de 80.
+_ATTACK_ELEMENT = 'Poison in the element of the attack'
 _STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
 _MP_LABEL = re.compile(r'^(\d+) MP used this turn$')
 _STATE_LABEL = re.compile(r'^State (!?\d+(?:,!?\d+)*)$')
@@ -567,6 +571,8 @@ def _localized_aggregate_label(label, game_version=None):
         return _('Hit in best element')
     if label == _RANDOM_ELEMENT:
         return _('Hit in one random element')
+    if label == _ATTACK_ELEMENT:
+        return _('Poison in the element of the attack')
     match = _MP_LABEL.match(label)
     if match:
         return _('%(count)s MP used this turn') % {'count': match.group(1)}
@@ -611,6 +617,13 @@ _CONDITIONAL_LABELS = {
         _lazy("only if the target attracts, repels, switches places or "
               "deals pushback damage"),
     'ap_removal': _lazy("only if the target is hit by an attempted AP reduction"),
+    # Le Dofus Ebene: <<Lorsque le porteur attaque en melee, il gagne 2% de
+    # dommages a distance, et s'il attaque a distance, 2% en melee. Declencher
+    # les 2 effets dans le tour permet a la prochaine attaque d'appliquer un
+    # poison.>> Sans cette phrase, le lecteur croit le poison acquis.
+    'melee_and_ranged':
+        _lazy("only after attacking both in close combat and at range in the "
+              "same turn"),
     'mp_removal': _lazy("only if the target is hit by an attempted MP reduction"),
     'range_removal': _lazy("only if the target suffers a Range reduction"),
     'telefragged':
