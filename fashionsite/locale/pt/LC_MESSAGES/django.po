@@ -7261,3 +7261,9 @@ msgstr "Este build vai manter %(item)s (nível %(level)s): o solver preenche os 
 
 msgid "This build will keep the %(count_pieces)s pieces of %(set)s (level %(level)s): the solver fills the other slots around them."
 msgstr "Este build vai manter as %(count_pieces)s peças de %(set)s (nível %(level)s): o solver preenche os outros espaços em volta delas."
+
+msgid "Already have a build?"
+msgstr "Já tem um build?"
+
+msgid "Import it from text or screenshots"
+msgstr "Importe-o a partir de texto ou capturas de tela"

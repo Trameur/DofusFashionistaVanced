@@ -86,12 +86,22 @@
     {% endfor %}
 
     {% load version_url %}
-    <p align="center" class="home-intro" style="margin-top: 18px; opacity: 0.8;">
+    {% comment %}Sans opacite: a 0,8 les liens de cette ligne tombaient a
+    3,3:1 en classique clair et 3,6:1 en moderne clair (couleur de lien
+    melangee a 20 % de fond), sous les 4,5:1 que le lot B a refuses pour le
+    pied de page. Pleine force: 4,6:1 et 5,3:1, mesures du 11 septembre 2026.
+    {% endcomment %}
+    <p align="center" class="home-intro" style="margin-top: 18px;">
         {% trans "New to Dofus Fashionista?" %}
         <a href="{% game_url 'quickstart' %}">{% trans "Get a quick build in 3 clicks" %}</a>
         · <a href="{% game_url 'smart_build' %}">{% trans "Describe your build in words" %}</a>
         · <a href="{% game_url 'random_build' %}">{% trans "Discover a random build" %}</a>
         · <a href="{% url 'guides' %}">{% trans "Read the guides" %}</a>.
+        {% comment %}L'accueil ne proposait que des departs de zero. Un joueur
+        qui a deja son stuff entre par l'import (texte ou captures, section
+        9.10 du plan), et rien sur cette page ne le lui disait.{% endcomment %}
+        <br>{% trans "Already have a build?" %}
+        <a id="home-import-build" href="{% game_url 'text_build_import' %}">{% trans "Import it from text or screenshots" %}</a>.
     </p>
 
     {% comment %}Below the buttons, not above them: the whole point of this
