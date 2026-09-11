@@ -7308,3 +7308,9 @@ msgstr "Hacer privado"
 
 msgid "Publish"
 msgstr "Publicar"
+
+msgid "Shares a grimoire slot with"
+msgstr "Comparte una casilla de grimorio con"
+
+msgid "A fight arms one of the two, so a turn holds one or the other."
+msgstr "Un combate equipa uno de los dos, así que un turno lleva uno u otro."

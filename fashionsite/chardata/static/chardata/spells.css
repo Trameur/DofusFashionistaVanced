@@ -415,6 +415,17 @@
     white-space: pre-line;
 }
 
+/* La meme forme que la description du jeu juste au-dessus, et la meme
+   couleur heritee: un element neuf qui nomme sa propre couleur tombe au
+   noir du navigateur dans le design classique. */
+.spell-variant {
+    font-size: 12.5px;
+    font-style: italic;
+    line-height: 1.4;
+    opacity: 0.85;
+    padding: 0 6px 6px 6px;
+}
+
 .filter-group-break {
     display: inline-block;
     width: 12px;

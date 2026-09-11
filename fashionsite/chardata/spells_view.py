@@ -59,8 +59,10 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     spells_by_class = get_damage_spells_for_version(game_version)
     class_spells = spells_by_class.get(char_class, [])
     reference = reference_by_spell_id(game_version, char_class)
+    partenaires = _variant_partner_names(class_spells, game_version)
     for spell in class_spells + spells_by_class.get('default', []):
         web_digest = _create_spell_web_digest(spell, game_version)
+        web_digest['variant_partner'] = partenaires.get(spell.name)
         entry = reference.get(getattr(spell, 'spell_id', None))
         if entry is not None:
             web_digest['reference'] = _reference_digest(entry)
@@ -98,6 +100,37 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                              if char.link_shared and encoded_char_id else ''),
                          'no_class_spells': len(class_spells) == 0},
                         char)
+
+def _variant_partner_names(spells, game_version):
+    """{nom du sort: nom traduit de l'autre face}, vide sans variantes.
+
+    Un sort de classe de Dofus 3 vient par paire et un combat n'en arme
+    qu'une des deux, donc un tour tient l'une ou l'autre, jamais les deux.
+    C'est la meme source que celle dont le simulateur de tour se sert pour
+    interdire la paire (`spell_combo._variant_partners`), lue ici pour que
+    la page dise ce que le calcul fait deja. Dofus 2, Touch et Retro n'ont
+    jamais eu de variantes: la table est alors vide et rien ne s'affiche.
+    """
+    from chardata.spell_variants import variant_of
+    langue = get_supported_language()
+    par_variante = {}
+    for spell in spells:
+        variante = variant_of(game_version, getattr(spell, 'spell_id', None))
+        if variante is not None:
+            par_variante.setdefault(variante, []).append(spell)
+    noms = {}
+    for groupe in par_variante.values():
+        if len(groupe) != 2:
+            # Trois faces n'existent pas, et une seule face modelisee ne
+            # donne personne a nommer.
+            continue
+        premier, second = groupe
+        noms[premier.name] = _localized_spell_name(second.name, langue,
+                                                   game_version)
+        noms[second.name] = _localized_spell_name(premier.name, langue,
+                                                  game_version)
+    return noms
+
 
 def _reference_digest(entry):
     """What the game says about a spell, in the reader's language."""

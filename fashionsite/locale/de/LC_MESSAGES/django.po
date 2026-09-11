@@ -7317,3 +7317,9 @@ msgstr "Privat machen"
 
 msgid "Publish"
 msgstr "Veröffentlichen"
+
+msgid "Shares a grimoire slot with"
+msgstr "Teilt sich einen Zauberbuch-Platz mit"
+
+msgid "A fight arms one of the two, so a turn holds one or the other."
+msgstr "Ein Kampf rüstet einen der beiden aus, ein Zug trägt also den einen oder den anderen."

@@ -6558,3 +6558,9 @@ msgstr ""
 
 msgid "Publish"
 msgstr ""
+
+msgid "Shares a grimoire slot with"
+msgstr ""
+
+msgid "A fight arms one of the two, so a turn holds one or the other."
+msgstr ""

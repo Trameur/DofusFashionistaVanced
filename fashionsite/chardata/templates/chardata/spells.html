@@ -150,6 +150,10 @@
         every: 8,
         limit: 2
     }{% else %}null{% endif %};
+    {% trans "Shares a grimoire slot with" as msg_variant_with %}
+    {% trans "A fight arms one of the two, so a turn holds one or the other." as msg_variant_rule %}
+    var MSG_VARIANT_WITH = '{{ msg_variant_with|escapejs }}';
+    var MSG_VARIANT_RULE = '{{ msg_variant_rule|escapejs }}';
     var spellDigests = {{digests_json | safe}};
     var charStats = {{char_stats_json | safe}};
     // The hit types that move or drain instead of hurting, straight from the
@@ -506,6 +510,18 @@
             description_cell.text(spell.reference.description);
             line_description.append(description_cell);
             table.append(line_description);
+        }
+        // Les deux faces d'une variante se partagent une place dans le
+        // grimoire: le tour simule en tient compte depuis toujours, la page
+        // le taisait, et un lecteur comptait donc deux sorts la ou il n'en
+        // armera qu'un.
+        if (spell.variant_partner) {
+            var line_variant = $("<tr></tr>");
+            var variant_cell = $("<td class='spell-variant'></td>");
+            variant_cell.text(MSG_VARIANT_WITH + ' ' + spell.variant_partner
+                              + '. ' + MSG_VARIANT_RULE);
+            line_variant.append(variant_cell);
+            table.append(line_variant);
         }
         // A spell that neither hurts nor buffs has no damage table at all.
         if (!spell.non_crit_dams && !spell.crit_dams) {
