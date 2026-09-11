@@ -6526,3 +6526,6 @@ msgstr ""
 
 msgid "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr ""
+
+msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
+msgstr ""

@@ -7285,3 +7285,6 @@ msgstr "Die Anmeldung mit Google ist nicht durchgegangen. Du kannst es noch einm
 
 msgid "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Fügen Sie die Namen Ihrer Ausrüstung ein, oder legen Sie pro Teil einen Tooltip-Screenshot ab, und erhalten Sie hier denselben Build, Stück für Stück. Es wird nichts neu optimiert, solange Sie nicht darum bitten."
+
+msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
+msgstr "Dieser Build behält %(item)s (Stufe %(level)s): der Solver füllt die übrigen Plätze darum herum."

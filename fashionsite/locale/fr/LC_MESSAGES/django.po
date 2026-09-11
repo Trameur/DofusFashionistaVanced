@@ -7309,3 +7309,6 @@ msgstr "La connexion avec Google n’a pas abouti. Vous pouvez réessayer, ou en
 
 msgid "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Collez les noms de votre stuff, ou déposez une capture d’infobulle par pièce, et retrouvez le même build ici, pièce par pièce. Rien n’est réoptimisé tant que vous ne le demandez pas."
+
+msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
+msgstr "Ce build gardera %(item)s (niveau %(level)s) : le solveur remplit les autres emplacements autour."

@@ -7276,3 +7276,6 @@ msgstr "El inicio de sesión con Google no se completó. Puedes intentarlo de nu
 
 msgid "Paste the names of your gear, or drop one tooltip screenshot per piece, and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Pegue los nombres de su equipo, o suelte una captura de la descripción por pieza, y recupere el mismo build aquí, pieza por pieza. Nada se reoptimiza mientras no lo pida."
+
+msgid "This build will keep %(item)s (level %(level)s): the solver fills the other slots around it."
+msgstr "Este build conservará %(item)s (nivel %(level)s): el solver rellena los demás huecos a su alrededor."

@@ -62,6 +62,11 @@ ecrire, puisque aucun ne sait ce que les gens portent.
                 {% if item_set_name %}
                 <div class="encyclopedia-item-meta">{{ t.set_label }}: {% if item_set_url %}<a href="{{ item_set_url }}">{{ item_set_name }}</a>{% else %}{{ item_set_name }}{% endif %}</div>
                 {% endif %}
+                {% comment %}La fiche est la page la plus visitee du site et
+                elle ne menait nulle part vers le solveur. Le demarrage rapide
+                de la meme version recoit l'identifiant interne (celui des
+                inclusions) et verrouille l'objet dans le build.{% endcomment %}
+                <div class="encyclopedia-item-meta encyclopedia-build-around"><a class="button-thin" id="encyclopedia-build-around" href="{% game_url 'quickstart' %}?item={{ item.id }}">{{ t.build_around_label }}</a></div>
             </div>
         </div>
 

@@ -83,15 +83,73 @@ def _locale_class_options(game_version):
     return items
 
 
+def included_item_for(game_version, value, language=None):
+    """The item a fiche asked the quick start to build around, or None.
+
+    `value` is the `item` parameter: the item's internal id (the one the
+    inclusions store), as the fiche wrote it in its link. Anything that is
+    not an equipment item of THIS game version is None: an id typed by
+    hand, an id from another version (they do not agree), a removed item.
+    The slot is the first one of the item's type (a ring goes to ring1).
+    """
+    from django.utils import translation
+    from fashionistapulp.dofus_constants import SLOT_NAME_TO_TYPE
+    from fashionistapulp.structure import get_structure
+    try:
+        item_id = int(value)
+    except (TypeError, ValueError):
+        return None
+    structure = get_structure(game_version)
+    item = structure.get_item_by_id(item_id)
+    if item is None or getattr(item, 'removed', False):
+        return None
+    type_name = structure.get_type_name_by_id(item.type)
+    slot = next((s for s, t in SLOT_NAME_TO_TYPE.items() if t == type_name),
+                None)
+    if slot is None:
+        return None
+    language = language or (translation.get_language() or 'en')[:2]
+    return {'id': item.id,
+            'name': structure.get_item_name_in_language(item, language) or item.name,
+            'level': item.level,
+            'type_name': type_name,
+            'slot': slot}
+
+
+def level_options_for(included_level):
+    """(levels offered, level selected) for the quick start form.
+
+    Without an item: the defaults, 200 selected. With one: the item's own
+    level, the lowest that can wear it, then the defaults above it; 200
+    stays selected when it is offered, else that lowest level (no version
+    carries an item above 200 today, but the arithmetic does not depend on
+    it).
+    """
+    if included_level is None:
+        return DEFAULT_LEVELS, 200
+    levels = [lvl for lvl in DEFAULT_LEVELS if lvl >= included_level]
+    if included_level not in levels:
+        levels = sorted(levels + [included_level])
+    return levels, (200 if 200 in levels else levels[0])
+
+
 def coaching(request):
     game_version = getattr(request, 'game_version', 'dofus3')
     if request.method == 'POST':
         return _create_from_coaching(request, game_version)
 
+    # A fiche of the encyclopedia sends its item along: the build will keep
+    # it, so the levels below the item's are not offered.
+    included = included_item_for(game_version, request.GET.get('item'))
+    level_options, selected_level = level_options_for(
+        included['level'] if included is not None else None)
+
     return set_response(request,
                         'chardata/coaching.html',
                         {'class_options': _locale_class_options(game_version),
-                         'level_options': DEFAULT_LEVELS,
+                         'level_options': level_options,
+                         'selected_level': selected_level,
+                         'included_item': included,
                          'play_styles': PLAY_STYLES,
                          'login_problem': is_anon_cant_create(request)})
 
@@ -163,5 +221,17 @@ def _create_from_coaching(request, game_version):
 
     aspects = _style_aspects(style, char_class if char_class in CHARACTER_CLASSES else CHARACTER_CLASSES[0])
     char = create_build(request, char_class, char_level, aspects, game_version)
+
+    # The item the fiche asked for, locked into its slot. After create_build
+    # on purpose: that call seeds the default exclusions, and an item the
+    # reader explicitly asked for must win over a default that hides it,
+    # which is what set_inclusions_dict_and_check_exclusions does. An item
+    # above the character's level cannot be worn, so it is not locked, and
+    # the form does not offer such a level anyway.
+    included = included_item_for(game_version, request.POST.get('item'))
+    if included is not None and included['level'] <= char.level:
+        from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions
+        set_inclusions_dict_and_check_exclusions(
+            char, {included['slot']: included['id']})
 
     return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))

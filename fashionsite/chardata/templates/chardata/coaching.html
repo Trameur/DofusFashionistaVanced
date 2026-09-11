@@ -64,6 +64,13 @@
 
         <form method="post" id="coaching_form">
             {% csrf_token %}
+            {% if included_item %}
+            {% comment %}Arrive d'une fiche de l'encyclopedie: l'objet sera
+            verrouille dans le build, et la liste des niveaux commence au
+            sien, un objet ne se porte pas en dessous.{% endcomment %}
+            <p class="coaching-intro" id="coaching-included-item">{% blocktrans with item=included_item.name level=included_item.level %}This build will keep {{ item }} (level {{ level }}): the solver fills the other slots around it.{% endblocktrans %}</p>
+            <input type="hidden" name="item" value="{{ included_item.id }}">
+            {% endif %}
             <label class="coaching-field">
                 <span class="coaching-field-label">{% trans "Class" %}</span>
                 <select name="char_class" required>
@@ -77,7 +84,7 @@
                 <span class="coaching-field-label">{% trans "Level" %}</span>
                 <select name="char_level" required>
                     {% for lvl in level_options %}
-                    <option value="{{ lvl }}"{% if lvl == 200 %} selected{% endif %}>{{ lvl }}</option>
+                    <option value="{{ lvl }}"{% if lvl == selected_level %} selected{% endif %}>{{ lvl }}</option>
                     {% endfor %}
                 </select>
             </label>
