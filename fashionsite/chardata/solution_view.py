@@ -877,16 +877,23 @@ def get_sharing_link(request, char_id):
     char = get_char_or_raise(request, char_id)
 
     char.link_shared = True
+    # The author has now said what they want, so the default stops applying
+    # to this build: see Char.auto_publish.
+    char.auto_publish = False
     char.save()
-    
+
     return HttpResponseText(generate_link(request, char))
+
 
 def hide_sharing_link(request, char_id):
     char = get_char_or_raise(request, char_id)
 
     char.link_shared = False
+    # Same on the way back, and this direction is the one that matters: a
+    # build made private must stay private through every later solve.
+    char.auto_publish = False
     char.save()
-        
+
     return HttpResponseText('hid')
 
 def get_client_ip(request):

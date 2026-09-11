@@ -69,6 +69,25 @@ def get_solver_facts(minimal_solution_blob):
 def set_solution(char, solution):
     set_minimal_solution(char, ModelResultMinimal.from_model_result(solution))
 
+def wears_something(solution):
+    """Whether a solution actually dresses the character.
+
+    The one gate on publishing: an empty solution is a build nobody has
+    finished, and the gallery is not a list of empty drafts. Read from
+    `item_per_slot`, the same field the gallery reads to draw a build's
+    preview, so a build that would show as an empty frame there cannot get
+    in.
+    """
+    par_emplacement = getattr(solution, 'item_per_slot', None) or {}
+    return any(par_emplacement.values())
+
+
 def set_minimal_solution(char, solution):
     char.minimal_solution = pickle.dumps(solution)
+    # Public by default, from 2026-09-11: a build made by a logged in author
+    # becomes visible the first time it is dressed, unless somebody has
+    # already chosen. `auto_publish` is False on every build that existed
+    # before that day and on every guest build, so neither is touched here.
+    if char.auto_publish and not char.link_shared and wears_something(solution):
+        char.link_shared = True
     char.save()

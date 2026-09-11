@@ -6522,3 +6522,21 @@ msgstr ""
 
 msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
 msgstr ""
+
+msgid "Show this build in the gallery once it has gear"
+msgstr ""
+
+msgid "You can change this at any time from the build page."
+msgstr ""
+
+msgid "Visible to everyone: this build is in the gallery and anyone with the link can open it."
+msgstr ""
+
+msgid "Private: only you can open this build."
+msgstr ""
+
+msgid "Builds you publish"
+msgstr ""
+
+msgid "A build you create while logged in is published the first time it has gear: it then appears in the build gallery, on the pages of the items it wears, and under your display name on your profile, and anyone holding its link can open it. You can turn that off for a build at any time from the build page, and you can untick the box on the creation page before you start. Builds made without an account are never published on their own, and builds created before 11 September 2026 keep the visibility they already had."
+msgstr ""

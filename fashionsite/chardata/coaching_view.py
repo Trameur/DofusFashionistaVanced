@@ -12,7 +12,8 @@ import pickle
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _, gettext_lazy
 
-from chardata.create_project_view import is_anon_cant_create
+from chardata.create_project_view import (is_anon_cant_create,
+                                          wants_to_publish)
 from chardata.lock_forbid import get_default_exclusions, set_exclusions_list_and_check_inclusions
 from chardata.anon_projects import remember_anon_char
 from chardata.models import Char, CharBaseStats
@@ -233,6 +234,10 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     char.stats_weight = pickle.dumps({})
     char.options = pickle.dumps({})
     char.link_shared = False
+    # Same default as the creation page: published once it is dressed, for a
+    # logged in author only. This path has no form of its own (quick start,
+    # and the build import), so it takes the default as it stands.
+    char.auto_publish = wants_to_publish(request)
     char.game_version = game_version
 
     set_char_aspects(char, aspects, True, False)

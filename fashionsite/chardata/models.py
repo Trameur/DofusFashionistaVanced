@@ -34,6 +34,18 @@ class Char(models.Model):
     stats_weight = models.BinaryField()
     minimal_solution = models.BinaryField(default=b'')
     link_shared = models.BooleanField()
+    # Whether nobody has chosen this build's visibility yet, in which case it
+    # is published the first time it gets a solution. It is NOT "is public":
+    # `link_shared` is. Touching the switch, either way, clears it for good,
+    # so a build the author made private stays private through every later
+    # solve.
+    #
+    # Every row that existed on 2026-09-11 keeps the migration default of
+    # False and is therefore never published by this path. That is the whole
+    # point of a second field rather than a new meaning for the old one: a
+    # build made private years ago must not become public because the default
+    # changed today.
+    auto_publish = models.BooleanField(default=False)
     view_count = models.IntegerField(default=0)
     options = models.BinaryField()
     inclusions = models.BinaryField()

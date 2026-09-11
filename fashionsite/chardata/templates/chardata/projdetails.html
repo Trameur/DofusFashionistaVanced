@@ -88,6 +88,19 @@ Elle s'y annoncait "Project Details".
             </table>
             <br>
             
+            {% comment %}L'interrupteur est MONTRE et coche, il n'est pas
+            cache derriere un reglage: un build qui devient visible doit
+            l'annoncer avant, pas apres. Il n'apparait pas pour un visiteur
+            sans compte, parce que rien n'est publie dans ce cas et qu'une
+            case a cocher sans effet serait un mensonge poli.{% endcomment %}
+            {% if user.is_authenticated %}
+            <div id="publish-choice" style="margin-bottom: 10px;">
+                <input type="hidden" name="publish_choice" value="1">
+                <label><input type="checkbox" name="publish" value="on" checked id="publish-cb">
+                <span class='input-name'>{% trans "Show this build in the gallery once it has gear" %}</span></label>
+                <div class="small-explain">{% trans "You can change this at any time from the build page." %}</div>
+            </div>
+            {% endif %}
             <div id="submit-mode">
                 <input class='submit-button button-generic' name="byhand" type='submit' value="{{ _('Create a set by hand') }}" style='margin-right: 10px;' />
                 <input class='submit-button button-generic' name="wizard" type='submit' value="{{ _('Continue to Wizard') }}" style="margin-left: 10px;"/>

@@ -7305,3 +7305,21 @@ msgstr "Le nom du build et la classe ne partent pas : leur format de lien n’a 
 
 msgid "Send your build to another build site straight from the solution page, forgemagie included (Dofus 3, Retro and Touch)."
 msgstr "Envoyez votre build vers un autre site de builds directement depuis la page de solution, forgemagie comprise (Dofus 3, Retro et Touch)."
+
+msgid "Show this build in the gallery once it has gear"
+msgstr "Montrer ce build dans la galerie une fois qu’il a un stuff"
+
+msgid "You can change this at any time from the build page."
+msgstr "Vous pouvez changer d’avis à tout moment depuis la page du build."
+
+msgid "Visible to everyone: this build is in the gallery and anyone with the link can open it."
+msgstr "Visible par tout le monde : ce build est dans la galerie et n’importe qui avec le lien peut l’ouvrir."
+
+msgid "Private: only you can open this build."
+msgstr "Privé : vous seul pouvez ouvrir ce build."
+
+msgid "Builds you publish"
+msgstr "Les builds que vous publiez"
+
+msgid "A build you create while logged in is published the first time it has gear: it then appears in the build gallery, on the pages of the items it wears, and under your display name on your profile, and anyone holding its link can open it. You can turn that off for a build at any time from the build page, and you can untick the box on the creation page before you start. Builds made without an account are never published on their own, and builds created before 11 September 2026 keep the visibility they already had."
+msgstr "Un build que vous créez en étant connecté est publié la première fois qu’il porte un stuff : il apparaît alors dans la galerie des builds, sur les pages des objets qu’il porte, et sous votre nom affiché sur votre profil, et toute personne qui a son lien peut l’ouvrir. Vous pouvez le rendre privé à tout moment depuis la page du build, et vous pouvez décocher la case sur la page de création avant de commencer. Les builds faits sans compte ne sont jamais publiés d’eux-mêmes, et les builds créés avant le 11 septembre 2026 gardent la visibilité qu’ils avaient déjà."

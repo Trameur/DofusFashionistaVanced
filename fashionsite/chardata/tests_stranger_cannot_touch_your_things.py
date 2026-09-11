@@ -24,9 +24,15 @@ class AStrangerCannotTouchYourThings(TestCase):
         self.owner = User.objects.create_user('owner', 'o@x.test', 'pw')
         self.stranger = User.objects.create_user('stranger', 's@x.test', 'pw')
         self.client.force_login(self.owner)
+        # `publish_choice` sans `publish`, c'est-a-dire la case
+        # decochee telle qu'un navigateur la poste: le build reste prive,
+        # ce qui est le sujet de la moitie des tests de ce fichier. Depuis
+        # le 11 septembre 2026 un build neuf est publie des qu'il porte
+        # quelque chose, donc le dire est devenu necessaire.
         self.client.post('/createproject/', {
             'project': 'p', 'charname': 'Perso', 'level': '150',
-            'class': 'Iop', 'where_to_go': 'wizard'})
+            'class': 'Iop', 'where_to_go': 'wizard',
+            'publish_choice': '1'})
         self.char = Char.objects.order_by('-id').first()
         self.client.get('/solution/%d/' % self.char.id, follow=True)
         self.char.refresh_from_db()

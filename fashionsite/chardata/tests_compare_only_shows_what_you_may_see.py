@@ -34,9 +34,14 @@ class CompareOnlyShowsWhatYouMaySee(TestCase):
         self.second = self.a_build(OTHER)
 
     def a_build(self, name):
+        # La case de publication decochee, telle qu'un navigateur
+        # la poste: le champ cache seul. Sans elle, le build nomme
+        # <<secret>> ici serait public des sa premiere solution et les
+        # refus mesures plus bas ne refuseraient plus rien.
         self.client.post('/createproject/', {
             'project': name, 'charname': name, 'level': '150',
-            'class': 'Iop', 'where_to_go': 'wizard'})
+            'class': 'Iop', 'where_to_go': 'wizard',
+            'publish_choice': '1'})
         char = Char.objects.order_by('-id').first()
         self.client.get('/solution/%d/' % char.id, follow=True)
         char.refresh_from_db()

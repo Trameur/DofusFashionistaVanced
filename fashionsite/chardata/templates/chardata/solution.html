@@ -215,6 +215,11 @@
         <div style="display: inline-block;">
             <input type="text" id="link_sharing_url_text" value="" style="width: 350px; " class='pretty-input' readonly />
         </div>
+        {% comment %}Depuis le 11 septembre 2026 un build neuf devient
+        visible tout seul des qu'il porte quelque chose, donc la page doit
+        dire son etat en toutes lettres et pas seulement offrir un bouton
+        dont le libelle se lit a l'envers.{% endcomment %}
+        <div><span id="link_sharing_state" class="small-explain"></span></div>
     </div>
     <br>
     {% endif %}
@@ -1102,6 +1107,14 @@
 
         var link = {% if link_shared %}"{{initial_link}}"{% else %}null{% endif %};
         var sharing = {% if link_shared %}true{% else %}false{% endif %};
+        {% trans "Visible to everyone: this build is in the gallery and anyone with the link can open it." as msg_build_shared %}
+        {% trans "Private: only you can open this build." as msg_build_private %}
+        var MSG_SHARED = '{{ msg_build_shared|escapejs }}';
+        var MSG_PRIVATE = '{{ msg_build_private|escapejs }}';
+        function sayLinkSharingState() {
+            $("#link_sharing_state").text(sharing ? MSG_SHARED : MSG_PRIVATE);
+        }
+
         function initLinkSharing() {
             if (sharing) {
                 $("#link_sharing_button").html('{% trans "Unshare" %}');
@@ -1112,9 +1125,11 @@
                 $("#link_sharing_url_text").hide();
                 $("#link_sharing_url_text").val("");
             }
+            sayLinkSharingState();
         }
 
         function updateLinkSharing() {
+            sayLinkSharingState();
             if (sharing) {
                 $.get(apiBase + '/getsharinglink/{{char_id}}/', {}, function(data) {
                     $("#link_sharing_button").html('{% trans "Unshare" %}');

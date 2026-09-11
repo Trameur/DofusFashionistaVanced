@@ -206,6 +206,28 @@ def _wanted_item(request, game_version):
     return _checked_item(request.GET.get('item'), game_version)
 
 
+def wants_to_publish(request):
+    """Whether a build being created should be published once it is dressed.
+
+    Public by default for a logged in author, which is what the checkbox on
+    the creation page says and what unticking it turns off. A build made
+    without an account is never published by itself: its author has no page
+    to find it from and no account to make it private again, so the default
+    would publish something they cannot take back.
+    """
+    if request.user.is_anonymous:
+        return False
+    # An UNTICKED checkbox sends nothing at all, so the box being absent from
+    # the post says nothing by itself: the hidden field beside it is what
+    # tells us the page carried the box. Without it, unticking would have
+    # been read as the default and changed nothing.
+    if 'publish_choice' in request.POST:
+        return bool(request.POST.get('publish'))
+    # No box on that page at all (quick start, the build import), so the
+    # default applies.
+    return True
+
+
 @require_POST
 def create_project(request):
     state = _get_state_from_post(request)
@@ -217,6 +239,7 @@ def create_project(request):
     char.stats_weight = pickle.dumps({})
     char.options = pickle.dumps({})
     char.link_shared = False
+    char.auto_publish = wants_to_publish(request)
     char.game_version = getattr(request, 'game_version', 'dofus3')
 
     _save_state_to_char(state, char)
