@@ -7208,44 +7208,8 @@ msgstr "Sob cada solução, um painel diz se o resultado é um ótimo comprovado
 msgid "That verdict travels with the build: in the copied text, in the public API and as a badge on every card of the shared builds gallery."
 msgstr "Esse veredito viaja com o build: no texto copiado, na API pública e como selo em cada cartão da galeria de builds compartilhados."
 
-msgid "The buttons say optimize, not generate, and the footer says since 2012: the solver has never been a language model."
-msgstr "Os botões dizem otimizar, não gerar, e o rodapé diz desde 2012: o solver nunca foi um modelo de linguagem."
-
-msgid "The how-it-works guide is rewritten: three steps, what the solver really does, and the size of the search on Dofus 3, Touch, Dofus 2 and Retro."
-msgstr "O guia de como funciona foi reescrito: três passos, o que o solver faz de verdade e o tamanho da busca em Dofus 3, Touch, Dofus 2 e Retro."
-
-msgid "The sidebar counter now says solver answers, which is what it counts."
-msgstr "O contador da barra lateral agora diz respostas do solver, que é o que ele conta."
-
-msgid "An item, set, resource or monster unavailable in one version now lists the versions that have it, with its name there."
-msgstr "Um item, conjunto, recurso ou monstro indisponível em uma versão agora lista as versões que o têm, com o nome que ele tem lá."
-
 msgid "Your build, in and out"
 msgstr "Seu build, de ida e volta"
-
-msgid "Import a whole build from tooltip screenshots, one per piece: the rolls and exos on each piece are read too."
-msgstr "Importe um build inteiro a partir de capturas da descrição, uma por peça: os valores e os exos de cada peça também são lidos."
-
-msgid "Import from text reads item names in any of the five languages, and Copy as text writes them in yours."
-msgstr "A importação de texto lê os nomes dos itens em qualquer um dos cinco idiomas, e Copiar como texto os escreve no seu."
-
-msgid "Dofus 3, Retro and Touch: open your build on DofusBook, and the export names the pieces that stay behind."
-msgstr "Dofus 3, Retro e Touch: abra seu build no DofusBook, e a exportação nomeia as peças que ficam aqui."
-
-msgid "The inventory's screenshot box points to the whole-build import."
-msgstr "A caixa de capturas do inventário aponta para a importação de um build inteiro."
-
-msgid "A shared build's public link holds whatever the build is named."
-msgstr "O link público de um build compartilhado funciona, seja qual for o nome do build."
-
-msgid "Icons back, policy honest"
-msgstr "Ícones de volta, política honesta"
-
-msgid "The privacy page names DofusBook among what the server fetches, and every page that loads the text reader."
-msgstr "A página de privacidade nomeia o DofusBook entre o que o servidor consulta, e cada página que carrega o leitor de texto."
-
-msgid "Dofus Retro and Touch: every spell shows its icon again; 251 of them were asked for under the wrong name."
-msgstr "Dofus Retro e Touch: cada feitiço volta a mostrar seu ícone; 251 deles eram pedidos com o nome errado."
 
 msgid "and %(count)d more"
 msgstr "e mais %(count)d"
@@ -7268,23 +7232,14 @@ msgstr "Já tem um build?"
 msgid "Import it from text or screenshots"
 msgstr "Importe-o a partir de texto ou capturas de tela"
 
-msgid "From the encyclopedia to the solver"
-msgstr "Da enciclopédia ao solver"
-
 msgid "Every item and set page has a button that starts a quick build around it: the piece, or the whole set, is locked in and the solver fills the rest."
 msgstr "Cada página de item e de conjunto tem um botão que inicia um build rápido em volta dele: a peça, ou o conjunto inteiro, fica travada e o solver preenche o resto."
 
-msgid "The home page offers the import to a player who already has a build."
-msgstr "A página inicial oferece a importação a um jogador que já tem seu build."
-
-msgid "A link to any page pasted in a chat previews that page, and a shared build previews its class, its pieces and the solver's verdict."
-msgstr "Um link para qualquer página colado num chat mostra a prévia dessa página, e um build compartilhado mostra sua classe, suas peças e o veredito do solver."
-
-msgid "The import page says it reads screenshots too, and search engines are told about it."
-msgstr "A página de importação diz que também lê capturas de tela, e os mecanismos de busca são informados disso."
-
-msgid "A Google sign-in that fails or times out lands on the login page with an explanation, not on an error page."
-msgstr "Uma entrada com o Google que falha ou expira leva à página de login com uma explicação, não a uma página de erro."
-
 msgid "new entries"
 msgstr "novidades"
+
+msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
+msgstr "Importe um build inteiro: cole nomes de itens, um link para um build público de outro site de builds, ou solte uma captura da descrição por peça. Os valores e os exos vêm junto."
+
+msgid "Send your build to another build site straight from the solution page (Dofus 3, Retro and Touch)."
+msgstr "Envie seu build para outro site de builds direto da página de solução (Dofus 3, Retro e Touch)."
