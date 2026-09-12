@@ -7371,3 +7371,6 @@ msgstr "Piezas por encima del nivel del personaje"
 
 msgid "%(melee)s and %(ranged)s are not counted here: on most casts the caster chooses the range."
 msgstr "%(melee)s y %(ranged)s no se cuentan aquí: en la mayoría de los lanzamientos, quien lanza elige la distancia."
+
+msgid "at the most one turn on one target allows"
+msgstr "en el máximo que un turno permite sobre un objetivo"

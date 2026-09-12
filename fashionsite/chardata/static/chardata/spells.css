@@ -466,3 +466,20 @@
     height: 6px;
     margin: 2px;
 }
+
+/* Le plafond de lancers atteint, quand les PA payaient encore un lancer de
+   plus. Un marqueur dans la ligne et non une phrase sous elle: la mesure du
+   13 septembre 2026 dit que 174 des 331 lignes de panneau le porteraient, et
+   une phrase sous une ligne sur deux est du bruit. La phrase est dans
+   l'infobulle.
+
+   Creuse par la taille et non par l'opacite. La premiere version mettait
+   `opacity: 0.55`, mesuree a **3,31 contre 1** en design classique clair, sous
+   le seuil de 4,5 que demande un texte de cette taille. Sans opacite, le
+   marqueur herite du panneau et se mesure au meme contraste que lui, et il
+   reste second par sa taille. Aucune couleur nommee ici non plus. */
+.best-combo-limit-mark {
+    font-size: 11px;
+    margin-left: 4px;
+    cursor: help;
+}

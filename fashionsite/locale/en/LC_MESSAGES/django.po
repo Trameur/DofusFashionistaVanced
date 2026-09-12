@@ -6621,3 +6621,6 @@ msgstr ""
 
 msgid "%(melee)s and %(ranged)s are not counted here: on most casts the caster chooses the range."
 msgstr ""
+
+msgid "at the most one turn on one target allows"
+msgstr ""

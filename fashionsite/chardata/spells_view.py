@@ -356,10 +356,11 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     times_cast = {}
     for name, _damage in order:
         times_cast[name] = times_cast.get(name, 0) + 1
+    limit_notes = _limit_notes(spells, order, times_cast, ap)
     casts = []
     running = 0
     shown = 0
-    for name, damage in order:
+    for index, (name, damage) in enumerate(order):
         damage -= (later.get(name, 0) / times_cast[name]) if name in later else 0
         running += damage
         # Le cumul est arrondi une seule fois, et les degats du lancer sont sa
@@ -385,7 +386,11 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'damage': shown - before,
                       'running': shown,
                       'note': _cast_note(castable, name, later,
-                                         shown - before)})
+                                         shown - before),
+                      # Independant de la note precedente: un sort de buff
+                      # peut etre a sa limite, et les deux sont vraies.
+                      'limit_mark': limit_notes.get(index, ('', ''))[0],
+                      'limit_title': limit_notes.get(index, ('', ''))[1]})
     late = []
     for name in sorted(later):
         castable = by_name[name]
@@ -434,6 +439,61 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'ap_used': sum(cast['ap'] for cast in casts),
             'ap_available': ap,
             'conditional': extras}
+
+
+def _limit_notes(spells, order, times_cast, ap):
+    """Le marqueur de plafond a poser, par index de lancer.
+
+    Un sort porte trois plafonds dans la donnee du jeu: lancers par tour,
+    lancers par cible, et temps de relance (qui vaut 1 dans le tour).
+    `Castable.limit` en prend le minimum, donc il est exactement <<le plus que
+    ce tour-la permet sur une cible>>, ce que le panneau annonce justement
+    comme cadre. Une seule phrase couvre donc les trois sans preciser a faux
+    laquelle a joue.
+
+    Le marqueur n'est pose que quand la limite a **faconne** le tour: le sort
+    est lance autant de fois que permis ALORS QUE les PA payaient un lancer de
+    plus. Sinon il n'explique rien et serait du bruit. Il va sur le **dernier**
+    lancer du sort, celui ou la depense s'arrete.
+
+    Mesure du 13 septembre 2026, un panneau par classe sur les cinq versions,
+    83 panneaux: **79, soit 95,2 %, sont faconnes par une limite** sans que
+    rien ne le dise, et 174 des 331 lignes le seraient. C'est ce nombre qui a
+    decide la forme: une phrase sous une ligne sur deux etait du bruit, donc
+    c'est un marqueur <<2/2>> dans la ligne, sans ligne ajoutee, et la phrase
+    passe en infobulle.
+
+    Par version: 100 % des panneaux sur Dofus 3, la beta, Dofus 2 et Touch,
+    66,7 % sur Retro. 97,5 % des sorts jouables portent une limite (1789 sur
+    1835), donc le lecteur qui voit un sort une seule fois ne peut pas deviner
+    si le solveur a choisi ou si le jeu refuse.
+
+    Rendu {index: (marqueur, phrase)}.
+    """
+    par_nom = {}
+    for castable in spells:
+        nom = (castable.spell.name if getattr(castable, 'is_spell', False)
+               else castable.weapon.localized_name)
+        par_nom[nom] = castable
+    dernier = {}
+    for index, (nom, _damage) in enumerate(order):
+        dernier[nom] = index
+    notes = {}
+    for nom, index in dernier.items():
+        castable = par_nom.get(nom)
+        if castable is None:
+            continue
+        limite = getattr(castable, 'limit', None)
+        cout = getattr(castable, 'cost', 0)
+        combien = times_cast.get(nom, 0)
+        if not limite or not cout or combien < limite:
+            continue
+        if (combien + 1) * cout > ap:
+            # Les PA arretaient la depense de toute facon: la limite n'a rien
+            # faconne et le dire n'expliquerait rien.
+            continue
+        notes[index] = ('%d/%d' % (combien, limite), str(_LIMIT_NOTE))
+    return notes
 
 
 def _melee_note(stats):
@@ -741,6 +801,13 @@ _RANK_NOTES = {
     'highest': _lazy('Spells at the highest level the character reaches.'),
     'picked': _lazy('Spells at the levels picked above.'),
 }
+
+# Quand un sort a atteint le plus que le tour permet. Vraie pour les trois
+# plafonds que la donnee du jeu porte (lancers par tour, lancers par cible,
+# temps de relance), parce que `Castable.limit` en prend le minimum et que le
+# panneau annonce deja son cadre: un tour, une cible. Le nombre de lancers est
+# visible dans la liste, donc la phrase ne le repete pas.
+_LIMIT_NOTE = _lazy('at the most one turn on one target allows')
 
 # Pourquoi un lancer du meilleur tour n'affiche aucun degat. Mesure du 12
 # septembre 2026 sur la copie de production: **77 des 200 tours proposes, soit

@@ -7380,3 +7380,6 @@ msgstr "Teile über der Stufe des Charakters"
 
 msgid "%(melee)s and %(ranged)s are not counted here: on most casts the caster chooses the range."
 msgstr "%(melee)s und %(ranged)s werden hier nicht mitgerechnet: bei den meisten Zaubern wählt der Werfer die Entfernung."
+
+msgid "at the most one turn on one target allows"
+msgstr "am Maximum, das eine Runde auf ein Ziel erlaubt"

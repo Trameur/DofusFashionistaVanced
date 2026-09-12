@@ -47,6 +47,7 @@
                 <div class="best-combo-cast-line">
                     <img class="best-combo-icon" src="{{ cast.image_url }}" alt="{{ cast.name }}">
                     <span class="best-combo-name">{{ cast.name }}</span>
+                    {% if cast.limit_mark %}<span class="best-combo-limit-mark" title="{{ cast.limit_title }}">{{ cast.limit_mark }}</span>{% endif %}
                     <span class="best-combo-ap">{% blocktrans with ap=cast.ap %}{{ ap }} AP{% endblocktrans %}</span>
                     <span class="best-combo-damage">{{ cast.damage }}</span>
                     <span class="best-combo-running">{{ cast.running }}</span>
@@ -1456,6 +1457,14 @@
                         .attr('src', cast.image_url).attr('alt', cast.name)
                         .appendTo(line);
                     $("<span class='best-combo-name'></span>").text(cast.name).appendTo(line);
+                    // A la meme place que dans le gabarit, sinon les deux
+                    // chemins du panneau n'affichent pas la meme chose.
+                    if (cast.limit_mark) {
+                        $("<span class='best-combo-limit-mark'></span>")
+                            .text(cast.limit_mark)
+                            .attr('title', cast.limit_title || '')
+                            .appendTo(line);
+                    }
                     $("<span class='best-combo-ap'></span>")
                         .text(panel.data('ap-label').replace('__ap__', cast.ap))
                         .appendTo(line);
