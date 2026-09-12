@@ -17,7 +17,7 @@
 import logging
 
 from django.conf import settings
-from django.utils.translation import gettext as _
+from django.utils.translation import get_language, gettext as _
 import json
 
 logger = logging.getLogger(__name__)
@@ -40,6 +40,7 @@ from fashionistapulp.dofus_constants import NEUTRAL, STAT_ORDER,\
 from fashionistapulp.fashion_util import normalize_name
 from fashionistapulp.structure import get_structure, get_current_game_version
 from chardata.spell_tips import spell_tip_for
+from chardata.forgemagie_transcendance import rune_name
 from chardata.transcendence_advice import best_transcendence
 from chardata.stat_icons import get_stat_icon_path
 from chardata.stat_range import format_stat_range
@@ -386,9 +387,11 @@ def attach_transcendence(result_item, weights):
                               result_item.type)
     if rune is None:
         return
-    # Ankama names its runes in French in every client.
+    # Ankama renomme chaque rune dans chacun de ses clients: cette ligne
+    # disait le contraire, et servait donc le nom francais aux cinq langues.
+    # Les 81 noms des cinq tables du client 2.73 le demontent.
     result_item.transcendence = '%s: +%d %s' % (
-        rune['name_fr'], rune['bonus'],
+        rune_name(rune, get_language()), rune['bonus'],
         _(get_structure().get_stat_by_key(rune['stat_key']).name))
 
 

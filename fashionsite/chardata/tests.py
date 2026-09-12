@@ -12254,8 +12254,13 @@ class NoStatRuneTests(TestCase):
                     self.assertTrue(rows)
                     vit = [row for row in rows if row['key'] == 'vit']
                     self.assertEqual(len(vit), 1)
+                    # En anglais, Ankama nomme cette rune <<Tra Vit
+                    # Rune>>. La page servait <<Rune Ta Vi>> aux cinq
+                    # langues; ce test tient l'anglais par son nom anglais.
                     self.assertTrue(
-                        any('Rune Ta Vi' in cell for cell in vit[0]['runes']))
+                        any('Tra Vit Rune' in cell
+                            for cell in vit[0]['runes']),
+                        vit[0]['runes'][:3])
                 else:
                     self.assertEqual(rows, [])
 
@@ -12276,10 +12281,11 @@ class TranscendenceCatalogueTests(SimpleTestCase):
     def test_every_rune_carries_a_weight(self):
         runes = self._runes()
         self.assertEqual(len(runes), 81)
-        self.assertEqual([r['name_fr'] for r in runes if not r.get('weight')], [])
+        self.assertEqual(
+            [r['name']['fr'] for r in runes if not r.get('weight')], [])
 
     def test_the_ladder_and_its_exceptions(self):
-        by_name = {r['name_fr']: r for r in self._runes()}
+        by_name = {r['name']['fr']: r for r in self._runes()}
         expected = {
             'Rune Ta Vi': (50, 40), 'Rune Pata Vi': (75, 60),
             'Rune Rata Vi': (100, 80),
@@ -12340,7 +12346,8 @@ class TranscendenceAdviceTests(SimpleTestCase):
 
     def test_it_names_the_rune_the_build_values(self):
         rune = self._best({'vit': 1})
-        self.assertEqual((rune['name_fr'], rune['bonus']), ('Rune Ta Vi', 50))
+        self.assertEqual((rune['name']['fr'], rune['bonus']),
+                         ('Rune Ta Vi', 50))
 
     def test_a_maxed_line_leaves_no_room_for_its_rune(self):
         # 100 chance weighs 100, and the lightest Ta rune weighs 40.
@@ -12348,11 +12355,13 @@ class TranscendenceAdviceTests(SimpleTestCase):
 
     def test_the_cap_picks_the_tier_that_still_fits(self):
         # 5 critical hits weigh 50, so Ta Cri (40) fits and Pata Cri (80) does not.
-        self.assertEqual(self._best({'ch': 1})['name_fr'], 'Rune Ta Cri')
+        self.assertEqual(self._best({'ch': 1})['name']['fr'],
+                         'Rune Ta Cri')
 
     def test_an_empty_line_takes_the_biggest_rune(self):
         # Nothing on the line, so the whole ladder is legal.
-        self.assertEqual(self._best({'str': 1})['name_fr'], 'Rune Rata Fo')
+        self.assertEqual(self._best({'str': 1})['name']['fr'],
+                         'Rune Rata Fo')
 
     def test_a_stat_the_build_ignores_is_never_suggested(self):
         self.assertIsNone(self._best({'vit': 0, 'cha': 0}))

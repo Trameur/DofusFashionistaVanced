@@ -1877,7 +1877,7 @@
                 var tt = config.transT || {};
                 var weightWord = (tt.weight_word || '%s').replace('%s', r.weight);
                 var label = document.createElement('span');
-                label.textContent = r.name_fr + ' (+' + r.bonus + ' ' + entry.label +
+                label.textContent = r.name + ' (+' + r.bonus + ' ' + entry.label +
                     ' · ' + weightWord + ')';
                 opt.appendChild(label);
                 var blocked = session && !session.locked ? transcendenceBlock(r) : null;
@@ -1956,10 +1956,31 @@
             }
             session.rows[idx].value += rune.bonus;
             session.locked = true;
-            session.transRune = {name: rune.name_fr, stat: rune.stat_key,
-                bonus: rune.bonus, img: rune.img};
+            // L'identifiant en plus du nom: la session vit dans le
+            // navigateur et survit a un changement de langue, donc le
+            // nom qu'on y ecrit aujourd'hui serait relu demain dans une
+            // autre.
+            session.transRune = {id: rune.id, name: rune.name,
+                stat: rune.stat_key, bonus: rune.bonus, img: rune.img};
             saveSession();
             renderSession();
+        }
+
+        function transRuneName(stored) {
+            // Le nom courant de la rune verrouillee, retrouve par son
+            // identifiant. Une session enregistree avant que
+            // l'identifiant soit ecrit n'en a pas: elle garde alors le
+            // nom qu'elle porte.
+            var trans = config.transcendence || {};
+            for (var key in trans) {
+                var runes = trans[key].runes || [];
+                for (var i = 0; i < runes.length; i++) {
+                    if (runes[i].id === stored.id) {
+                        return runes[i].name;
+                    }
+                }
+            }
+            return stored.name || '';
         }
 
         function renderTranscendence() {
@@ -1982,7 +2003,8 @@
             if (session.locked && session.transRune) {
                 lockBox.style.display = 'block';
                 lockBox.textContent =
-                    '\u26d4 ' + (tt.locked || '%s').replace('%s', session.transRune.name);
+                    '\u26d4 ' + (tt.locked || '%s').replace(
+                        '%s', transRuneName(session.transRune));
             } else {
                 lockBox.style.display = 'none';
             }

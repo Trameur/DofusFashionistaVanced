@@ -16,6 +16,11 @@ Two ids live in this data and they are not the same. The json carries DofusDB's
 (`typeId=[211]`, rune id 20492 for Rune Ta Ine) while the resource table has its
 own (type 140, another id). Matching on the id would fail on all 81; the name is
 what both sides share, and it is also what a player types into the market.
+
+The catalogue now carries five names per rune, one per language the site
+serves, because Ankama renames every one of them (<<Rune Ta Ine>> is <<Tra Int
+Rune>> in English). The join here stays on the FRENCH one: the resource table
+read below is `all_resources_fr.json`.
 """
 import json
 import os
@@ -56,7 +61,7 @@ class TheTranscendenceRunesExist(SimpleTestCase):
 
     def test_the_page_names_no_rune_the_game_does_not_have(self):
         game = self.game_names()
-        invented = sorted({r['name_fr'] for r in self.runes} - game)
+        invented = sorted({r['name']['fr'] for r in self.runes} - game)
         self.assertEqual([], invented,
                          'the page would send a player looking for these on '
                          'the market, and the game has no such rune')
@@ -65,7 +70,7 @@ class TheTranscendenceRunesExist(SimpleTestCase):
         """The other half: a rune the game has and the page hides is a hole in
         the tool, and it would not show up in the check above."""
         game = self.game_names()
-        missing = sorted(game - {r['name_fr'] for r in self.runes})
+        missing = sorted(game - {r['name']['fr'] for r in self.runes})
         self.assertEqual([], missing)
 
     def test_the_count_it_announces_is_the_count_it_holds(self):

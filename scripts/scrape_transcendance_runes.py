@@ -80,6 +80,19 @@ EID2STAT = {
 RANK = {"Ta": 1, "Pata": 2, "Rata": 3}
 
 
+#: Les langues que le site sert. Ankama nomme chaque rune differemment dans
+#: chacune: "Rune Ta Ine" est "Tra Int Rune" en anglais et "Runa Ta Inte" en
+#: espagnol. Un lecteur qui cherche la rune dans son propre client ne trouve
+#: rien avec le nom francais.
+LANGUAGES = ("fr", "en", "es", "pt", "de")
+
+
+def _noms(item):
+    """The five names Ankama gives this rune, the reader's included."""
+    noms = item.get("name") or {}
+    return dict((langue, noms.get(langue) or "") for langue in LANGUAGES)
+
+
 def _get(path, params):
     url = "%s/%s?%s" % (API, path, urllib.parse.urlencode(params, doseq=True))
     with urllib.request.urlopen(url, timeout=30) as resp:
@@ -93,13 +106,16 @@ def fetch_runes():
         while total is None or skip < total:
             page = _get("items", {
                 "typeId": type_id, "$limit": 50, "$skip": skip, "$sort": "id",
-                "lang": "fr",
                 "$select[0]": "id", "$select[1]": "name", "$select[2]": "iconId",
                 "$select[3]": "level", "$select[4]": "effects",
                 "$select[5]": "possibleEffects",
             })
             total = page.get("total", 0)
             for it in page.get("data", []):
+                # The RANK read below is the FRENCH one on purpose: it is a
+                # key, not a label, and the other clients rename it (Spanish
+                # says Ta/Buta/Suta). Reading the reader's language here would
+                # leave every Spanish rune unmapped.
                 name = (it.get("name") or {}).get("fr") or ""
                 parts = name.split()
                 prefix = parts[1] if len(parts) > 1 else ""
@@ -121,7 +137,7 @@ def fetch_runes():
                     unmapped.add((it.get("id"), name + " [no weight]"))
                     continue
                 runes.append({
-                    "id": it["id"], "name_fr": name,
+                    "id": it["id"], "name": _noms(it),
                     "rank": RANK[prefix], "rank_label": prefix,
                     "stat_key": stat_key, "stat_label": stat_label,
                     "bonus": bonus_eff.get("from", 0),

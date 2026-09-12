@@ -5,7 +5,13 @@
  "runes": [
   {
    "id": 20492,
-   "name_fr": "Rune Ta Ine",
+   "name": {
+    "fr": "Rune Ta Ine",
+    "en": "Tra Int Rune",
+    "es": "Runa Ta Inte",
+    "pt": "Runa Ta Int",
+    "de": "Tra-Int-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "int",
@@ -17,7 +23,13 @@
   },
   {
    "id": 20556,
-   "name_fr": "Rune Pata Ine",
+   "name": {
+    "fr": "Rune Pata Ine",
+    "en": "Pa Tra Int Rune",
+    "es": "Runa Buta Inte",
+    "pt": "Runa Pata Int",
+    "de": "Pa-Tra-Int-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "int",
@@ -29,7 +41,13 @@
   },
   {
    "id": 20557,
-   "name_fr": "Rune Rata Ine",
+   "name": {
+    "fr": "Rune Rata Ine",
+    "en": "Ra Tra Int Rune",
+    "es": "Runa Suta Inte",
+    "pt": "Runa Rata Int",
+    "de": "Ra-Tra-Int-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "int",
@@ -41,7 +59,13 @@
   },
   {
    "id": 20558,
-   "name_fr": "Rune Ta Fo",
+   "name": {
+    "fr": "Rune Ta Fo",
+    "en": "Tra Str Rune",
+    "es": "Runa Ta Fu",
+    "pt": "Runa Ta For",
+    "de": "Tra-Kra-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "str",
@@ -53,7 +77,13 @@
   },
   {
    "id": 20559,
-   "name_fr": "Rune Pata Fo",
+   "name": {
+    "fr": "Rune Pata Fo",
+    "en": "Pa Tra Str Rune",
+    "es": "Runa Buta Fu",
+    "pt": "Runa Pata For",
+    "de": "Pa-Tra-Kra-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "str",
@@ -65,7 +95,13 @@
   },
   {
    "id": 20560,
-   "name_fr": "Rune Rata Fo",
+   "name": {
+    "fr": "Rune Rata Fo",
+    "en": "Ra Tra Str Rune",
+    "es": "Runa Suta Fu",
+    "pt": "Runa Rata For",
+    "de": "Ra-Tra-Kra-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "str",
@@ -77,7 +113,13 @@
   },
   {
    "id": 20561,
-   "name_fr": "Rune Ta Age",
+   "name": {
+    "fr": "Rune Ta Age",
+    "en": "Tra Agi Rune",
+    "es": "Runa Ta Agi",
+    "pt": "Runa Ta Agi",
+    "de": "Tra-Fli-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "agi",
@@ -89,7 +131,13 @@
   },
   {
    "id": 20562,
-   "name_fr": "Rune Pata Age",
+   "name": {
+    "fr": "Rune Pata Age",
+    "en": "Pa Tra Agi Rune",
+    "es": "Runa Buta Agi",
+    "pt": "Runa Pata Agi",
+    "de": "Pa-Tra-Fli-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "agi",
@@ -101,7 +149,13 @@
   },
   {
    "id": 20563,
-   "name_fr": "Rune Rata Age",
+   "name": {
+    "fr": "Rune Rata Age",
+    "en": "Ra Tra Agi Rune",
+    "es": "Runa Suta Agi",
+    "pt": "Runa Rata Agi",
+    "de": "Ra-Tra-Fli-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "agi",
@@ -113,7 +167,13 @@
   },
   {
    "id": 20564,
-   "name_fr": "Rune Ta Cha",
+   "name": {
+    "fr": "Rune Ta Cha",
+    "en": "Tra Cha Rune",
+    "es": "Runa Ta Sue",
+    "pt": "Runa Ta Sor",
+    "de": "Tra-Glü-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "cha",
@@ -125,7 +185,13 @@
   },
   {
    "id": 20565,
-   "name_fr": "Rune Pata Cha",
+   "name": {
+    "fr": "Rune Pata Cha",
+    "en": "Pa Tra Cha Rune",
+    "es": "Runa Buta Sue",
+    "pt": "Runa Pata Sor",
+    "de": "Pa-Tra-Glü-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "cha",
@@ -137,7 +203,13 @@
   },
   {
    "id": 20566,
-   "name_fr": "Rune Rata Cha",
+   "name": {
+    "fr": "Rune Rata Cha",
+    "en": "Ra Tra Cha Rune",
+    "es": "Runa Suta Sue",
+    "pt": "Runa Rata Sor",
+    "de": "Ra-Tra-Glü-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "cha",
@@ -149,7 +221,13 @@
   },
   {
    "id": 20567,
-   "name_fr": "Rune Ta Vi",
+   "name": {
+    "fr": "Rune Ta Vi",
+    "en": "Tra Vit Rune",
+    "es": "Runa Ta Vi",
+    "pt": "Runa Ta Vi",
+    "de": "Tra-Vi-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "vit",
@@ -161,7 +239,13 @@
   },
   {
    "id": 20568,
-   "name_fr": "Rune Pata Vi",
+   "name": {
+    "fr": "Rune Pata Vi",
+    "en": "Pa Tra Vit Rune",
+    "es": "Runa Buta Vi",
+    "pt": "Runa Pata Vi",
+    "de": "Pa-Tra-Vi-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "vit",
@@ -173,7 +257,13 @@
   },
   {
    "id": 20569,
-   "name_fr": "Rune Rata Vi",
+   "name": {
+    "fr": "Rune Rata Vi",
+    "en": "Ra Tra Vit Rune",
+    "es": "Runa Suta Vi",
+    "pt": "Runa Rata Vi",
+    "de": "Ra-Tra-Vi-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "vit",
@@ -185,7 +275,13 @@
   },
   {
    "id": 20570,
-   "name_fr": "Rune Ta Ini",
+   "name": {
+    "fr": "Rune Ta Ini",
+    "en": "Tra Ini Rune",
+    "es": "Runa Ta Ini",
+    "pt": "Runa Ta Ini",
+    "de": "Tra-Ini-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "init",
@@ -197,7 +293,13 @@
   },
   {
    "id": 20571,
-   "name_fr": "Rune Pata Ini",
+   "name": {
+    "fr": "Rune Pata Ini",
+    "en": "Pa Tra Ini Rune",
+    "es": "Runa Buta Ini",
+    "pt": "Runa Pata Ini",
+    "de": "Pa-Tra-Ini-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "init",
@@ -209,7 +311,13 @@
   },
   {
    "id": 20572,
-   "name_fr": "Rune Rata Ini",
+   "name": {
+    "fr": "Rune Rata Ini",
+    "en": "Ra Tra Ini Rune",
+    "es": "Runa Suta Ini",
+    "pt": "Runa Rata Ini",
+    "de": "Ra-Tra-Ini-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "init",
@@ -221,7 +329,13 @@
   },
   {
    "id": 20573,
-   "name_fr": "Rune Ta Pod",
+   "name": {
+    "fr": "Rune Ta Pod",
+    "en": "Tra Pod Rune",
+    "es": "Runa Ta Pod",
+    "pt": "Runa Ta Pod",
+    "de": "Tra-Pod-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "pod",
@@ -233,7 +347,13 @@
   },
   {
    "id": 20574,
-   "name_fr": "Rune Pata Pod",
+   "name": {
+    "fr": "Rune Pata Pod",
+    "en": "Pa Tra Pod Rune",
+    "es": "Runa Buta Pod",
+    "pt": "Runa Pata Pod",
+    "de": "Pa-Tra-Pod-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "pod",
@@ -245,7 +365,13 @@
   },
   {
    "id": 20575,
-   "name_fr": "Rune Rata Pod",
+   "name": {
+    "fr": "Rune Rata Pod",
+    "en": "Ra Tra Pod Rune",
+    "es": "Runa Suta Pod",
+    "pt": "Runa Rata Pod",
+    "de": "Ra-Tra-Pod-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "pod",
@@ -257,7 +383,13 @@
   },
   {
    "id": 20576,
-   "name_fr": "Rune Ta Pui",
+   "name": {
+    "fr": "Rune Ta Pui",
+    "en": "Tra Pow Rune",
+    "es": "Runa Ta Pot",
+    "pt": "Runa Ta Po",
+    "de": "Tra-Schla-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "pow",
@@ -269,7 +401,13 @@
   },
   {
    "id": 20577,
-   "name_fr": "Rune Pata Pui",
+   "name": {
+    "fr": "Rune Pata Pui",
+    "en": "Pa Tra Pow Rune",
+    "es": "Runa Buta Pot",
+    "pt": "Runa Pata Po",
+    "de": "Pa-Tra-Schla-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "pow",
@@ -281,7 +419,13 @@
   },
   {
    "id": 20578,
-   "name_fr": "Rune Rata Pui",
+   "name": {
+    "fr": "Rune Rata Pui",
+    "en": "Ra Tra Pow Rune",
+    "es": "Runa Suta Pot",
+    "pt": "Runa Rata Po",
+    "de": "Ra-Tra-Schla-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "pow",
@@ -293,7 +437,13 @@
   },
   {
    "id": 20579,
-   "name_fr": "Rune Ta Ré Pou",
+   "name": {
+    "fr": "Rune Ta Ré Pou",
+    "en": "Tra Psh Res Rune",
+    "es": "Runa Ta Re Emp",
+    "pt": "Runa Ta Res Emp",
+    "de": "Tra-Res-Schu-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "pshres",
@@ -305,7 +455,13 @@
   },
   {
    "id": 20580,
-   "name_fr": "Rune Pata Ré Pou",
+   "name": {
+    "fr": "Rune Pata Ré Pou",
+    "en": "Pa Tra Psh Res Rune",
+    "es": "Runa Buta Re Emp",
+    "pt": "Runa Pata Res Emp",
+    "de": "Pa-Tra-Res-Schu-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "pshres",
@@ -317,7 +473,13 @@
   },
   {
    "id": 20581,
-   "name_fr": "Rune Ta Ré Cri",
+   "name": {
+    "fr": "Rune Ta Ré Cri",
+    "en": "Tra Cri Res Rune",
+    "es": "Runa Ta Re Cri",
+    "pt": "Runa Ta Res Cri",
+    "de": "Tra-Res-Kri-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "crires",
@@ -329,7 +491,13 @@
   },
   {
    "id": 20582,
-   "name_fr": "Rune Pata Ré Cri",
+   "name": {
+    "fr": "Rune Pata Ré Cri",
+    "en": "Pa Tra Cri Res Rune",
+    "es": "Runa Buta Re Cri",
+    "pt": "Runa Pata Res Cri",
+    "de": "Pa-Tra-Res-Kri-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "crires",
@@ -341,7 +509,13 @@
   },
   {
    "id": 20583,
-   "name_fr": "Rune Ta Do Pou",
+   "name": {
+    "fr": "Rune Ta Do Pou",
+    "en": "Tra Psh Dam Rune",
+    "es": "Runa Ta Da Emp",
+    "pt": "Runa Ta Da Emp",
+    "de": "Tra-Schu-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "pshdam",
@@ -353,7 +527,13 @@
   },
   {
    "id": 20584,
-   "name_fr": "Rune Pata Do Pou",
+   "name": {
+    "fr": "Rune Pata Do Pou",
+    "en": "Pa Tra Psh Dam Rune",
+    "es": "Runa Buta Da Emp",
+    "pt": "Runa Pata Da Emp",
+    "de": "Pa-Tra-Schu-Scha-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "pshdam",
@@ -365,7 +545,13 @@
   },
   {
    "id": 20585,
-   "name_fr": "Rune Ta Do Cri",
+   "name": {
+    "fr": "Rune Ta Do Cri",
+    "en": "Tra Cri Dam Rune",
+    "es": "Runa Ta Da Cri",
+    "pt": "Runa Ta Da Cri",
+    "de": "Tra-Kri-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "cridam",
@@ -377,7 +563,13 @@
   },
   {
    "id": 20586,
-   "name_fr": "Rune Pata Do Cri",
+   "name": {
+    "fr": "Rune Pata Do Cri",
+    "en": "Pa Tra Cri Dam Rune",
+    "es": "Runa Buta Da Cri",
+    "pt": "Runa Pata Da Cri",
+    "de": "Pa-Tra-Kri-Scha-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "cridam",
@@ -389,7 +581,13 @@
   },
   {
    "id": 20596,
-   "name_fr": "Rune Ta Do Terre",
+   "name": {
+    "fr": "Rune Ta Do Terre",
+    "en": "Tra Earth Dam Rune",
+    "es": "Runa Ta Da Tierra",
+    "pt": "Runa Ta Da Terra",
+    "de": "Tra-Erd-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "earthdam",
@@ -401,7 +599,13 @@
   },
   {
    "id": 20597,
-   "name_fr": "Rune Pata Do Terre",
+   "name": {
+    "fr": "Rune Pata Do Terre",
+    "en": "Pa Tra Earth Dam Rune",
+    "es": "Runa Buta Da Tierra",
+    "pt": "Runa Pata Da Terra",
+    "de": "Pa-Tra-Erd-Scha-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "earthdam",
@@ -413,7 +617,13 @@
   },
   {
    "id": 20598,
-   "name_fr": "Rune Rata Do Terre",
+   "name": {
+    "fr": "Rune Rata Do Terre",
+    "en": "Ra Tra Earth Dam Rune",
+    "es": "Runa Suta Da Tierra",
+    "pt": "Runa Rata Da Terra",
+    "de": "Ra-Tra-Erd-Scha-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "earthdam",
@@ -425,7 +635,13 @@
   },
   {
    "id": 20599,
-   "name_fr": "Rune Ta Do Feu",
+   "name": {
+    "fr": "Rune Ta Do Feu",
+    "en": "Tra Fire Dam Rune",
+    "es": "Runa Ta Da Fuego",
+    "pt": "Runa Ta Da Fogo",
+    "de": "Tra-Feu-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "firedam",
@@ -437,7 +653,13 @@
   },
   {
    "id": 20600,
-   "name_fr": "Rune Pata Do Feu",
+   "name": {
+    "fr": "Rune Pata Do Feu",
+    "en": "Pa Tra Fire Dam Rune",
+    "es": "Runa Buta Da Fuego",
+    "pt": "Runa Pata Da Fogo",
+    "de": "Pa-Tra-Feu-Scha-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "firedam",
@@ -449,7 +671,13 @@
   },
   {
    "id": 20601,
-   "name_fr": "Rune Rata Do Feu",
+   "name": {
+    "fr": "Rune Rata Do Feu",
+    "en": "Ra Tra Fire Dam Rune",
+    "es": "Runa Suta Da Fuego",
+    "pt": "Runa Rata Da Fogo",
+    "de": "Ra-Tra-Feu-Scha-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "firedam",
@@ -461,7 +689,13 @@
   },
   {
    "id": 20602,
-   "name_fr": "Rune Ta Do Eau",
+   "name": {
+    "fr": "Rune Ta Do Eau",
+    "en": "Tra Water Dam Rune",
+    "es": "Runa Ta Da Agua",
+    "pt": "Runa Ta Da Água",
+    "de": "Tra-Was-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "waterdam",
@@ -473,7 +707,13 @@
   },
   {
    "id": 20603,
-   "name_fr": "Rune Pata Do Eau",
+   "name": {
+    "fr": "Rune Pata Do Eau",
+    "en": "Pa Tra Water Dam Rune",
+    "es": "Runa Buta Da Agua",
+    "pt": "Runa Pata Da Água",
+    "de": "Pa-Tra-Was-Scha-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "waterdam",
@@ -485,7 +725,13 @@
   },
   {
    "id": 20604,
-   "name_fr": "Rune Rata Do Eau",
+   "name": {
+    "fr": "Rune Rata Do Eau",
+    "en": "Ra Tra Water Dam Rune",
+    "es": "Runa Suta Da Agua",
+    "pt": "Runa Rata Da Água",
+    "de": "Ra-Tra-Was-Scha-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "waterdam",
@@ -497,7 +743,13 @@
   },
   {
    "id": 20605,
-   "name_fr": "Rune Ta Do Air",
+   "name": {
+    "fr": "Rune Ta Do Air",
+    "en": "Tra Air Dam Rune",
+    "es": "Runa Ta Da Aire",
+    "pt": "Runa Ta Da Ar",
+    "de": "Tra-Lu-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "airdam",
@@ -509,7 +761,13 @@
   },
   {
    "id": 20606,
-   "name_fr": "Rune Pata Do Air",
+   "name": {
+    "fr": "Rune Pata Do Air",
+    "en": "Pa Tra Air Dam Rune",
+    "es": "Runa Buta Da Aire",
+    "pt": "Runa Pata Da Ar",
+    "de": "Pa-Tra-Lu-Scha-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "airdam",
@@ -521,7 +779,13 @@
   },
   {
    "id": 20607,
-   "name_fr": "Rune Rata Do Air",
+   "name": {
+    "fr": "Rune Rata Do Air",
+    "en": "Ra Tra Air Dam Rune",
+    "es": "Runa Suta Da Aire",
+    "pt": "Runa Rata Da Ar",
+    "de": "Ra-Tra-Lu-Scha-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "airdam",
@@ -533,7 +797,13 @@
   },
   {
    "id": 20608,
-   "name_fr": "Rune Ta Do Neutre",
+   "name": {
+    "fr": "Rune Ta Do Neutre",
+    "en": "Tra Neutral Dam Rune",
+    "es": "Runa Ta Da Neutral",
+    "pt": "Runa Ta Da Neutro",
+    "de": "Tra-Neu-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "neutdam",
@@ -545,7 +815,13 @@
   },
   {
    "id": 20609,
-   "name_fr": "Rune Pata Do Neutre",
+   "name": {
+    "fr": "Rune Pata Do Neutre",
+    "en": "Pa Tra Neutral Dam Rune",
+    "es": "Runa Buta Da Neutral",
+    "pt": "Runa Pata Da Neutro",
+    "de": "Pa-Tra-Neu-Scha-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "neutdam",
@@ -557,7 +833,13 @@
   },
   {
    "id": 20610,
-   "name_fr": "Rune Rata Do Neutre",
+   "name": {
+    "fr": "Rune Rata Do Neutre",
+    "en": "Ra Tra Neutral Dam Rune",
+    "es": "Runa Suta Da Neutral",
+    "pt": "Runa Rata Da Neutro",
+    "de": "Ra-Tra-Neu-Scha-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "neutdam",
@@ -569,7 +851,13 @@
   },
   {
    "id": 20611,
-   "name_fr": "Rune Ta Ré Per Di",
+   "name": {
+    "fr": "Rune Ta Ré Per Di",
+    "en": "Tra Dis Res Per Rune",
+    "es": "Runa Ta Re Por Di",
+    "pt": "Runa Ta Res Por Di",
+    "de": "Tra-Res-Pro-Fern-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "resperran",
@@ -581,7 +869,13 @@
   },
   {
    "id": 20612,
-   "name_fr": "Rune Ta Ré Per Mé",
+   "name": {
+    "fr": "Rune Ta Ré Per Mé",
+    "en": "Tra Mel Res Per Rune",
+    "es": "Runa Ta Re Por Di",
+    "pt": "Runa Ta Res Por CaC",
+    "de": "Tra-Res-Pro-Nah-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "respermee",
@@ -593,7 +887,13 @@
   },
   {
    "id": 20613,
-   "name_fr": "Rune Ta Do Per So",
+   "name": {
+    "fr": "Rune Ta Do Per So",
+    "en": "Tra Spe Dam Per Rune",
+    "es": "Runa Ta Da Por He",
+    "pt": "Runa Ta Da Por Fe",
+    "de": "Tra-Pro-Zau-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "perspedam",
@@ -605,7 +905,13 @@
   },
   {
    "id": 20614,
-   "name_fr": "Rune Ta Do Per Ar",
+   "name": {
+    "fr": "Rune Ta Do Per Ar",
+    "en": "Tra Wep Dam Per Rune",
+    "es": "Runa Ta Da Por Ar",
+    "pt": "Runa Ta Da Por Arm",
+    "de": "Tra-Pro-Waf-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "perweadam",
@@ -617,7 +923,13 @@
   },
   {
    "id": 20615,
-   "name_fr": "Rune Ta Do Per Di",
+   "name": {
+    "fr": "Rune Ta Do Per Di",
+    "en": "Tra Dis Dam Per Rune",
+    "es": "Runa Ta Da Por Di",
+    "pt": "Runa Ta Da Por Di",
+    "de": "Tra-Pro-Fern-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "perrandam",
@@ -629,7 +941,13 @@
   },
   {
    "id": 20616,
-   "name_fr": "Rune Ta Do Per Mé",
+   "name": {
+    "fr": "Rune Ta Do Per Mé",
+    "en": "Tra Mel Dam Per Rune",
+    "es": "Runa Ta Da Por CC",
+    "pt": "Runa Ta Da Por CaC",
+    "de": "Tra-Pro-Nah-Scha-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "permedam",
@@ -641,7 +959,13 @@
   },
   {
    "id": 20617,
-   "name_fr": "Rune Ta Fui",
+   "name": {
+    "fr": "Rune Ta Fui",
+    "en": "Tra Dod Rune",
+    "es": "Runa Ta Hui",
+    "pt": "Runa Ta Fu",
+    "de": "Tra-Aus-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "dodge",
@@ -653,7 +977,13 @@
   },
   {
    "id": 20618,
-   "name_fr": "Rune Pata Fui",
+   "name": {
+    "fr": "Rune Pata Fui",
+    "en": "Pa Tra Dod Rune",
+    "es": "Runa Buta Hui",
+    "pt": "Runa Pata Fu",
+    "de": "Pa-Tra-Aus-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "dodge",
@@ -665,7 +995,13 @@
   },
   {
    "id": 20619,
-   "name_fr": "Rune Rata Fui",
+   "name": {
+    "fr": "Rune Rata Fui",
+    "en": "Ra Tra Dod Rune",
+    "es": "Runa Suta Hui",
+    "pt": "Runa Rata Fu",
+    "de": "Ra-Tra-Aus-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "dodge",
@@ -677,7 +1013,13 @@
   },
   {
    "id": 20620,
-   "name_fr": "Rune Ta Tac",
+   "name": {
+    "fr": "Rune Ta Tac",
+    "en": "Tra Loc Rune",
+    "es": "Runa Ta Pla",
+    "pt": "Runa Ta Blo",
+    "de": "Tra-Blo-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "lock",
@@ -689,7 +1031,13 @@
   },
   {
    "id": 20621,
-   "name_fr": "Rune Pata Tac",
+   "name": {
+    "fr": "Rune Pata Tac",
+    "en": "Pa Tra Loc Rune",
+    "es": "Runa Buta Pla",
+    "pt": "Runa Pata Blo",
+    "de": "Pa-Tra-Blo-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "lock",
@@ -701,7 +1049,13 @@
   },
   {
    "id": 20622,
-   "name_fr": "Rune Rata Tac",
+   "name": {
+    "fr": "Rune Rata Tac",
+    "en": "Ra Tra Loc Rune",
+    "es": "Runa Suta Pla",
+    "pt": "Runa Rata Blo",
+    "de": "Ra-Tra-Blo-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "lock",
@@ -713,7 +1067,13 @@
   },
   {
    "id": 20623,
-   "name_fr": "Rune Ta Ré Pa",
+   "name": {
+    "fr": "Rune Ta Ré Pa",
+    "en": "Tra Ap Res Rune",
+    "es": "Runa Ta Re PA",
+    "pt": "Runa Ta Res Pa",
+    "de": "Tra-Res-AP-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "apres",
@@ -725,7 +1085,13 @@
   },
   {
    "id": 20624,
-   "name_fr": "Rune Pata Ré Pa",
+   "name": {
+    "fr": "Rune Pata Ré Pa",
+    "en": "Pa Tra Ap Res Rune",
+    "es": "Runa Buta Re PA",
+    "pt": "Runa Pata Res Pa",
+    "de": "Pa-Tra-Res-AP-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "apres",
@@ -737,7 +1103,13 @@
   },
   {
    "id": 20625,
-   "name_fr": "Rune Rata Ré Pa",
+   "name": {
+    "fr": "Rune Rata Ré Pa",
+    "en": "Ra Tra Ap Res Rune",
+    "es": "Runa Suta Re PA",
+    "pt": "Runa Rata Res Pa",
+    "de": "Ra-Tra-Res-AP-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "apres",
@@ -749,7 +1121,13 @@
   },
   {
    "id": 20626,
-   "name_fr": "Rune Ta Ré Pme",
+   "name": {
+    "fr": "Rune Ta Ré Pme",
+    "en": "Tra Mp Res Rune",
+    "es": "Runa Ta Re PM",
+    "pt": "Runa Ta Res Pm",
+    "de": "Tra-Res-BP-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "mpres",
@@ -761,7 +1139,13 @@
   },
   {
    "id": 20627,
-   "name_fr": "Rune Pata Ré Pme",
+   "name": {
+    "fr": "Rune Pata Ré Pme",
+    "en": "Pa Tra Mp Res Rune",
+    "es": "Runa Buta Re PM",
+    "pt": "Runa Pata Res Pm",
+    "de": "Pa-Tra-Res-BP-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "mpres",
@@ -773,7 +1157,13 @@
   },
   {
    "id": 20628,
-   "name_fr": "Rune Rata Ré Pme",
+   "name": {
+    "fr": "Rune Rata Ré Pme",
+    "en": "Ra Tra Mp Res Rune",
+    "es": "Runa Suta Re PM",
+    "pt": "Runa Rata Res Pm",
+    "de": "Ra-Tra-Res-BP-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "mpres",
@@ -785,7 +1175,13 @@
   },
   {
    "id": 20629,
-   "name_fr": "Rune Ta Ret Pa",
+   "name": {
+    "fr": "Rune Ta Ret Pa",
+    "en": "Tra Ap Red Rune",
+    "es": "Runa Ta Ret PA",
+    "pt": "Runa Ta Ret Pa",
+    "de": "Tra-Res-AP-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "apred",
@@ -797,7 +1193,13 @@
   },
   {
    "id": 20630,
-   "name_fr": "Rune Pata Ret Pa",
+   "name": {
+    "fr": "Rune Pata Ret Pa",
+    "en": "Pa Tra Ap Red Rune",
+    "es": "Runa Buta Ret PA",
+    "pt": "Runa Pata Ret Pa",
+    "de": "Pa-Tra-Res-AP-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "apred",
@@ -809,7 +1211,13 @@
   },
   {
    "id": 20631,
-   "name_fr": "Rune Rata Ret Pa",
+   "name": {
+    "fr": "Rune Rata Ret Pa",
+    "en": "Ra Tra Ap Red Rune",
+    "es": "Runa Suta Ret PA",
+    "pt": "Runa Rata Ret Pa",
+    "de": "Ra-Tra-Res-AP-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "apred",
@@ -821,7 +1229,13 @@
   },
   {
    "id": 20632,
-   "name_fr": "Rune Ta Ret Pme",
+   "name": {
+    "fr": "Rune Ta Ret Pme",
+    "en": "Tra Mp Red Rune",
+    "es": "Runa Ta Ret PM",
+    "pt": "Runa Ta Ret Pm",
+    "de": "Tra-Res-BP-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "mpred",
@@ -833,7 +1247,13 @@
   },
   {
    "id": 20633,
-   "name_fr": "Rune Pata Ret Pme",
+   "name": {
+    "fr": "Rune Pata Ret Pme",
+    "en": "Pa Tra Mp Red Rune",
+    "es": "Runa Buta Ret PM",
+    "pt": "Runa Pata Ret Pm",
+    "de": "Pa-Tra-Res-BP-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "mpred",
@@ -845,7 +1265,13 @@
   },
   {
    "id": 20634,
-   "name_fr": "Rune Rata Ret Pme",
+   "name": {
+    "fr": "Rune Rata Ret Pme",
+    "en": "Ra Tra Mp Red Rune",
+    "es": "Runa Suta Ret PM",
+    "pt": "Runa Rata Ret Pm",
+    "de": "Ra-Tra-Res-BP-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "mpred",
@@ -857,7 +1283,13 @@
   },
   {
    "id": 20635,
-   "name_fr": "Rune Ta Ré Per Terre",
+   "name": {
+    "fr": "Rune Ta Ré Per Terre",
+    "en": "Tra Earth Res Per Rune",
+    "es": "Runa Ta Re Por Tierra",
+    "pt": "Runa Ta Res Por Terra",
+    "de": "Tra-Res-Pro-Erd-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "earthresper",
@@ -869,7 +1301,13 @@
   },
   {
    "id": 20636,
-   "name_fr": "Rune Ta Ré Per Feu",
+   "name": {
+    "fr": "Rune Ta Ré Per Feu",
+    "en": "Tra Fire Res Per Rune",
+    "es": "Runa Ta Re Por Fuego",
+    "pt": "Runa Ta Res Por Fogo",
+    "de": "Tra-Res-Pro-Feu-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "fireresper",
@@ -881,7 +1319,13 @@
   },
   {
    "id": 20637,
-   "name_fr": "Rune Ta Ré Per Eau",
+   "name": {
+    "fr": "Rune Ta Ré Per Eau",
+    "en": "Tra Water Res Per Rune",
+    "es": "Runa Ta Re Por Agua",
+    "pt": "Runa Ta Res Por Água",
+    "de": "Tra-Res-Pro-Was-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "waterresper",
@@ -893,7 +1337,13 @@
   },
   {
    "id": 20638,
-   "name_fr": "Rune Ta Ré Per Air",
+   "name": {
+    "fr": "Rune Ta Ré Per Air",
+    "en": "Tra Air Res Per Rune",
+    "es": "Runa Ta Re Por Aire",
+    "pt": "Runa Ta Res Por Ar",
+    "de": "Tra-Res-Pro-Lu-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "airresper",
@@ -905,7 +1355,13 @@
   },
   {
    "id": 20639,
-   "name_fr": "Rune Ta Ré Per Neutre",
+   "name": {
+    "fr": "Rune Ta Ré Per Neutre",
+    "en": "Tra Neutral Res Per Rune",
+    "es": "Runa Ta Re Por Neutral",
+    "pt": "Runa Ta Res Por Neutro",
+    "de": "Tra-Res-Pro-Neu-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "neutresper",
@@ -917,7 +1373,13 @@
   },
   {
    "id": 20640,
-   "name_fr": "Rune Ta Cri",
+   "name": {
+    "fr": "Rune Ta Cri",
+    "en": "Tra Cri Rune",
+    "es": "Runa Ta Cri",
+    "pt": "Runa Ta Cri",
+    "de": "Tra-Kri-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "ch",
@@ -929,7 +1391,13 @@
   },
   {
    "id": 20641,
-   "name_fr": "Rune Pata Cri",
+   "name": {
+    "fr": "Rune Pata Cri",
+    "en": "Pa Tra Cri Rune",
+    "es": "Runa Buta Cri",
+    "pt": "Runa Pata Cri",
+    "de": "Pa-Tra-Kri-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "ch",
@@ -941,7 +1409,13 @@
   },
   {
    "id": 20642,
-   "name_fr": "Rune Ta So",
+   "name": {
+    "fr": "Rune Ta So",
+    "en": "Tra Spe Rune",
+    "es": "Runa Ta He",
+    "pt": "Runa Ta Fe",
+    "de": "Tra-Zau-Rune"
+   },
    "rank": 1,
    "rank_label": "Ta",
    "stat_key": "heals",
@@ -953,7 +1427,13 @@
   },
   {
    "id": 20643,
-   "name_fr": "Rune Pata So",
+   "name": {
+    "fr": "Rune Pata So",
+    "en": "Pa Tra Spe Rune",
+    "es": "Runa Buta He",
+    "pt": "Runa Pata Fe",
+    "de": "Pa-Tra-Zau-Rune"
+   },
    "rank": 2,
    "rank_label": "Pata",
    "stat_key": "heals",
@@ -965,7 +1445,13 @@
   },
   {
    "id": 20644,
-   "name_fr": "Rune Rata So",
+   "name": {
+    "fr": "Rune Rata So",
+    "en": "Ra Tra Spe Rune",
+    "es": "Runa Suta He",
+    "pt": "Runa Rata Fe",
+    "de": "Ra-Tra-Zau-Rune"
+   },
    "rank": 3,
    "rank_label": "Rata",
    "stat_key": "heals",

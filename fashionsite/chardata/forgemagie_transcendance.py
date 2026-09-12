@@ -25,6 +25,24 @@ _PATH = os.path.join(os.path.dirname(__file__), 'forgemagie_transcendance.json')
 _ICON_PATH = 'chardata/runes_transcendance/%d.webp'
 _CACHE = None
 
+#: L'ordre de repli quand la langue du lecteur ne repond pas: l'anglais, puis
+#: le francais, qui est la langue dans laquelle Ankama cree ces objets.
+_REPLI = ('en', 'fr')
+
+
+def rune_name(rune, language):
+    """Le nom que le PROPRE client du lecteur donne a cette rune.
+
+    Ankama les renomme toutes, dans chacune des cinq langues: <<Rune Ta Ine>>
+    est <<Tra Int Rune>> en anglais et <<Runa Ta Inte>> en espagnol. Un
+    lecteur qui cherchait le nom francais dans son client ne trouvait rien.
+    """
+    noms = rune.get('name') or {}
+    for candidat in ((language or '').split('-')[0],) + _REPLI:
+        if candidat and noms.get(candidat):
+            return noms[candidat]
+    return ''
+
 
 def icon_url(icon_id):
     """Where the page reads a rune icon: our own domain, never DofusDB's."""
@@ -54,13 +72,18 @@ def get_transcendence_runes(game_version):
     return _load()['runes']
 
 
-def get_transcendence_by_stat(game_version):
-    """{stat_key: {'label': ..., 'runes': [rune, ...sorted by rank]}} for the UI."""
+def get_transcendence_by_stat(game_version, language):
+    """{stat_key: {'label': ..., 'runes': [rune, ...sorted by rank]}} for the UI.
+
+    Chaque rune est une COPIE dont `name` est le nom de la langue demandee et
+    non plus les cinq. Le cache est partage entre les requetes: y ecrire le nom
+    d'un lecteur le servirait au suivant, dans une autre langue.
+    """
     grouped = {}
     for rune in get_transcendence_runes(game_version):
         entry = grouped.setdefault(
             rune['stat_key'], {'label': rune['stat_label'], 'runes': []})
-        entry['runes'].append(rune)
+        entry['runes'].append(dict(rune, name=rune_name(rune, language)))
     for entry in grouped.values():
         entry['runes'].sort(key=lambda r: r['rank'])
     return grouped
