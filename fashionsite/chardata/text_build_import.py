@@ -154,6 +154,29 @@ def _entree_exacte(requete, index, language):
     return premier
 
 
+def _mots_traduits(msgids):
+    """Tous les mots que ces msgids donnent, dans les cinq langues plus le
+    msgid lui-meme.
+
+    Construit depuis les catalogues et non recopie: une traduction corrigee
+    est suivie sans que personne y pense. Et le msgid anglais y reste
+    toujours, parce que les textes deja colles sur un Discord le portent.
+    """
+    from django.utils.translation import gettext, override
+    mots = set()
+    for msgid in msgids:
+        if not msgid:
+            continue
+        mots.add(msgid)
+        for langue in LANGUES:
+            with override(langue):
+                mot = gettext(msgid)
+                if mot:
+                    mots.add(mot)
+    # Le plus long d'abord: un nom contenu dans un autre ne doit pas gagner.
+    return sorted(mots, key=len, reverse=True)
+
+
 #: Ce que le bouton <<Copier en texte>> du site ecrit, et que le site ne
 #: savait pas relire.
 #:
@@ -164,33 +187,20 @@ def _entree_exacte(requete, index, language):
 #: tolerant ne pouvait pas rattraper: retirer <<Hat: >> coute cinq corrections
 #: quand le plafond est a trois.
 #:
-#: Les emplacements sont ecrits en anglais interne par l'export, quelle que
-#: soit la langue du lecteur, donc la liste vient de la meme table que lui.
+#: L'export ecrit desormais l'emplacement dans la langue du lecteur
+#: (<<Coiffe: Masque d'Anerice>>), donc la liste porte les cinq langues. Sans
+#: cela, mesure du 12 septembre 2026: un texte francais revenait avec **6
+#: pieces sur 16**, les dix autres lignes ignorees.
 _PREFIXE_EMPLACEMENT = re.compile(
-    r'^(%s)\s*:\s*(.+)$' % '|'.join(sorted(TYPE_NAME_TO_SLOT_NUMBER)), re.I)
-
-#: Les cinq langues du site. Le texte partage est ecrit dans celle du lecteur,
-#: donc il se relit dans les cinq.
-_LANGUES = ('en', 'fr', 'es', 'pt', 'de')
+    r'^(%s)\s*:\s*(.+)$'
+    % '|'.join(re.escape(mot)
+               for mot in _mots_traduits(sorted(TYPE_NAME_TO_SLOT_NUMBER))),
+    re.I)
 
 
 def _mots_de_niveau():
-    """Le mot <<niveau>> de l'entete, dans les cinq langues.
-
-    Lu dans les catalogues et non recopie ici: si une traduction change, la
-    lecture suit sans que personne n'y pense. L'anglais y est de toute facon,
-    et il doit y rester: tous les textes deja colles sur un Discord portent
-    <<lvl>>, quelle que soit la langue de celui qui les a exportes.
-    """
-    from django.utils.translation import gettext, override
-    mots = {'lvl'}
-    for langue in _LANGUES:
-        with override(langue):
-            mot = gettext('lvl')
-            if mot:
-                mots.add(mot)
-    # Le plus long d'abord: <<niv.>> avant <<niv>> si les deux existaient.
-    return sorted(mots, key=len, reverse=True)
+    """Le mot <<niveau>> de l'entete, dans les cinq langues."""
+    return _mots_traduits(['lvl'])
 
 
 def _classes_par_nom():
@@ -205,7 +215,7 @@ def _classes_par_nom():
     par_nom = {}
     for interne in LOCALIZED_CHARACTER_CLASSES:
         par_nom[interne.lower()] = interne
-    for langue in _LANGUES:
+    for langue in LANGUES:
         with override(langue):
             for interne, nom in LOCALIZED_CHARACTER_CLASSES.items():
                 par_nom.setdefault(str(nom).lower(), interne)
@@ -247,8 +257,14 @@ _VERSION_PAR_LIBELLE = {
 #: Apres le deux-points, le reste commence par un non-espace ou est vide:
 #: `\s*` et `(.+)` pouvaient tous deux prendre les espaces, et le moteur
 #: essayait chaque partage (py/polynomial-redos).
-_LIGNE_POINTS = re.compile(r'^\s*points\s*:\s*(\S.*)?$', re.I)
-_LIGNE_PARCHOS = re.compile(r'^\s*scrolls\s*:\s*(\S.*)?$', re.I)
+#: Les deux mots sont ecrits dans la langue du lecteur (<<Points>>,
+#: <<Parchotage>>, <<Pergaminos>>, <<Gescrollt>>), donc lus dans les cinq.
+_LIGNE_POINTS = re.compile(
+    r'^\s*(?:%s)\s*:\s*(\S.*)?$'
+    % '|'.join(re.escape(mot) for mot in _mots_traduits(['Points'])), re.I)
+_LIGNE_PARCHOS = re.compile(
+    r'^\s*(?:%s)\s*:\s*(\S.*)?$'
+    % '|'.join(re.escape(mot) for mot in _mots_traduits(['Scrolls'])), re.I)
 #: Un nom de caracteristique est des mots separes par des espaces et se
 #: termine sur une lettre: l'espace avant le nombre n'appartient qu'au
 #: `\s+` qui suit. La classe `[A-Za-z ]+?` contenait l'espace et le
@@ -263,10 +279,33 @@ _UNE_CARACTERISTIQUE = re.compile(
     r'([A-Za-zÀ-ɏ]+(?: +[A-Za-zÀ-ɏ]+)*)\s+(\d{1,4})')
 
 
+def _caracteristiques_par_nom():
+    """{nom normalise: nom interne}, dans les cinq langues.
+
+    Les deux lignes portent les stats dans la langue du lecteur
+    (<<Vitalite 895 / Agilite 100>>), donc l'anglais seul n'en lisait aucune.
+    Les noms viennent des catalogues, comme partout ailleurs ici.
+    """
+    from django.utils.translation import override
+    par_nom = {}
+    for nom, _cle in STATS_NAMES:
+        par_nom[_ocr_normalize(nom)] = nom
+    for langue in LANGUES:
+        with override(langue):
+            for nom, _cle in STATS_NAMES:
+                par_nom.setdefault(_ocr_normalize(localized_stat_name(nom)),
+                                   nom)
+    return par_nom
+
+
+#: Construite une fois: elle ouvre les catalogues des cinq langues.
+_CARACTERISTIQUE_PAR_NOM = _caracteristiques_par_nom()
+
+
 def _lit_caracteristiques(reste):
     """{nom interne: valeur} depuis <<Vitality 101 / Strength 50>>."""
     trouve = {}
-    connus = {nom.lower(): nom for nom, _cle in STATS_NAMES}
+    connus = _CARACTERISTIQUE_PAR_NOM
     for morceau in reste.split('/'):
         m = _UNE_CARACTERISTIQUE.match(morceau.strip())
         if not m:

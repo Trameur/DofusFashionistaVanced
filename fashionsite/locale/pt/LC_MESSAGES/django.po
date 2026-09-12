@@ -7323,3 +7323,6 @@ msgstr "sem dano agora, o seu chega mais tarde e é contado à parte"
 
 msgid "What the character has without gear: scrolls and spent points."
 msgstr "O que a personagem tem sem equipamento: os seus pergaminhos e os pontos gastos."
+
+msgid "Scrolls"
+msgstr "Pergaminhos"

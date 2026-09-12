@@ -348,12 +348,15 @@ def _build_share_text(request, char, solution, facts=None):
         for item in solution.items.get(slot, []):
             name = getattr(item, 'name', None)
             if getattr(item, 'item_added', False) and name and name != 'NoItem':
-                # Le nom TRADUIT, pas le nom interne. Un joueur francais qui
-                # copiait son build obtenait <<Creaking Tree Hat>> a coller sur
-                # un Discord francais. L'import relit les cinq langues, plus le
-                # nom interne pour les textes deja partages, donc le tour
-                # complet survit au changement.
-                lines.append('%s: %s' % (slot,
+                # L'emplacement ET le nom, tous deux dans la langue du
+                # lecteur: le texte entier est fait pour etre colle sur SON
+                # Discord. Un joueur francais copiait <<Hat: Creaking Tree
+                # Hat>> pour un Discord francais.
+                #
+                # L'import relit les cinq langues des deux cotes, plus le nom
+                # interne et l'emplacement anglais pour les textes deja
+                # partages, donc le tour complet survit au changement.
+                lines.append('%s: %s' % (_(slot),
                                          getattr(item, 'localized_name', None)
                                          or name))
     try:
@@ -381,10 +384,10 @@ def _build_share_text(request, char, solution, facts=None):
     # depense n'a pas a trainer deux lignes de zeros dans un message Discord.
     try:
         spent, scrolled = get_stats_and_scrolled(char)
-        points = ['%s %d' % (nom, spent[nom])
+        points = ['%s %d' % (localized_stat_name(nom), spent[nom])
                   for nom, _cle in STATS_NAMES if spent.get(nom)]
         if points:
-            lines.append('Points: %s' % ' / '.join(points))
+            lines.append('%s: %s' % (_('Points'), ' / '.join(points)))
         # Les parchotages ne sortent que s'ils s'ecartent du defaut.
         # `create_build` cree TOUT nouveau build entierement parchote, donc
         # sortir la ligne systematiquement collerait six valeurs identiques a
@@ -394,9 +397,9 @@ def _build_share_text(request, char, solution, facts=None):
         # defaut, et l'import doit pouvoir la relire sans supposer.
         plein = max_scroll_for_version(char.game_version)
         if any(scrolled.get(nom, 0) != plein for nom, _cle in STATS_NAMES):
-            lines.append('Scrolls: %s' % ' / '.join(
-                '%s %d' % (nom, scrolled.get(nom, 0))
-                for nom, _cle in STATS_NAMES))
+            lines.append('%s: %s' % (_('Scrolls'), ' / '.join(
+                '%s %d' % (localized_stat_name(nom), scrolled.get(nom, 0))
+                for nom, _cle in STATS_NAMES)))
     except Exception:
         logger.exception('Failed to build base stats for share text (char %s)',
                          char.id)
