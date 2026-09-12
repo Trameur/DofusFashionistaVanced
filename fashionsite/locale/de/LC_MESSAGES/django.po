@@ -7383,3 +7383,6 @@ msgstr "%(melee)s und %(ranged)s werden hier nicht mitgerechnet: bei den meisten
 
 msgid "at the most one turn on one target allows"
 msgstr "am Maximum, das eine Runde auf ein Ziel erlaubt"
+
+msgid "Critical failure is not counted; this version is the only one that has it."
+msgstr "Kritischer Fehlschlag wird nicht mitgerechnet; nur diese Version kennt ihn."

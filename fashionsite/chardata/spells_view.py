@@ -427,6 +427,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             # Dite seulement quand le build porte une des deux stats: 9 builds
             # sur 10 ne sont pas concernes et n'ont pas besoin du bruit.
             'melee_note': _melee_note(stats),
+            # Dite seulement sur la version qui a la mecanique.
+            'crit_failure_note': (str(_CRIT_FAILURE_NOTE)
+                                  if game_version == 'retro' else ''),
             'later': late,
             'later_total': int(round(sum(later.values()))),
             'pushback': bool(pushback),
@@ -801,6 +804,26 @@ _RANK_NOTES = {
     'highest': _lazy('Spells at the highest level the character reaches.'),
     'picked': _lazy('Spells at the levels picked above.'),
 }
+
+# L'echec critique, que le calcul ne compte pas, dit sur la seule version qui
+# l'a. Dofus a retire la mecanique en 2.0: le lecteur d'objets moderne ne porte
+# que `critical_hit_probability` et `critical_hit_bonus`, quand le tableau `e`
+# d'une arme 1.29 porte `[twoHanded, _, crit_chance, crit_failure, maxRange,
+# minRange, ap, crit_bonus]`. Et aucun objet d'aucune des cinq versions ne vend
+# la stat Echec Critique.
+#
+# Mesure du 12 septembre 2026 sur la donnee 1.29 brute: **4361 armes portent un
+# taux d'echec**, 2376 a 1/40, 1112 a 1/30, 744 a 1/50, et une a 1/2. Cote
+# sorts, 240 des 252 sorts de classe sont a 1/100. Le lecteur Retro du site lit
+# ce champ et le jette, donc le nombre annonce est un majorant de 2 a 3 % sur
+# la plupart des armes.
+#
+# Pourquoi on ne le modelise PAS: un echec critique fait que l'action ne porte
+# pas, mais selon le sort il fait aussi perdre le reste des PA du tour, et la
+# donnee ne dit pas lesquels. Un ajustement calcule serait donc une invention
+# sur ce second point. On le dit, on ne le devine pas.
+_CRIT_FAILURE_NOTE = _lazy('Critical failure is not counted; this version is '
+                           'the only one that has it.')
 
 # Quand un sort a atteint le plus que le tour permet. Vraie pour les trois
 # plafonds que la donnee du jeu porte (lancers par tour, lancers par cible,

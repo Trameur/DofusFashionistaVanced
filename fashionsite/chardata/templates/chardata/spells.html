@@ -89,6 +89,7 @@
             <span class="best-combo-buff-note">{{ best_combo.buff_note }}</span>
             <span class="best-combo-rank-note">{{ best_combo.rank_note }}</span>
             <span class="best-combo-melee-note">{{ best_combo.melee_note }}</span>
+            <span class="best-combo-crit-failure-note">{{ best_combo.crit_failure_note }}</span>
         </p>
     </div>
     {% endif %}
@@ -1525,6 +1526,8 @@
                 // portee decide; le jour ou un sort en accordera, la phrase
                 // suivra sans qu'on y revienne.
                 panel.find('.best-combo-melee-note').text(combo.melee_note || '');
+                panel.find('.best-combo-crit-failure-note')
+                     .text(combo.crit_failure_note || '');
             });
     }
 

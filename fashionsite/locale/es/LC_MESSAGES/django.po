@@ -7374,3 +7374,6 @@ msgstr "%(melee)s y %(ranged)s no se cuentan aquí: en la mayoría de los lanzam
 
 msgid "at the most one turn on one target allows"
 msgstr "en el máximo que un turno permite sobre un objetivo"
+
+msgid "Critical failure is not counted; this version is the only one that has it."
+msgstr "El fallo crítico no se cuenta; esta versión es la única que lo tiene."
