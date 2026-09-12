@@ -7356,3 +7356,9 @@ msgstr "Was der Charakter ohne Ausrüstung hat: Schriftrollen und verteilte Punk
 
 msgid "Scrolls"
 msgstr "Gescrollt"
+
+msgid "Spells at the highest level the character reaches."
+msgstr "Zauber auf der höchsten Stufe, die der Charakter erreicht."
+
+msgid "Spells at the levels picked above."
+msgstr "Zauber auf den oben gewählten Stufen."

@@ -86,6 +86,7 @@
         <p class="best-combo-note">
             <span class="best-combo-ap-note">{% blocktrans with used=best_combo.ap_used available=best_combo.ap_available %}{{ used }} of {{ available }} AP used.{% endblocktrans %}</span>
             {% trans "One turn on a single target: average damage, self buffs and critical hit rate included." %}
+            <span class="best-combo-rank-note">{{ best_combo.rank_note }}</span>
         </p>
     </div>
     {% endif %}
@@ -1471,6 +1472,10 @@
                      .text(panel.data('ap-note')
                                 .replace('__used__', combo.ap_used)
                                 .replace('__available__', combo.ap_available));
+                // La phrase vient traduite du serveur et CHANGE quand le
+                // lecteur baisse un rang: la laisser figee dirait que les
+                // sorts sont au plus haut alors qu'il vient de choisir.
+                panel.find('.best-combo-rank-note').text(combo.rank_note || '');
             });
     }
 

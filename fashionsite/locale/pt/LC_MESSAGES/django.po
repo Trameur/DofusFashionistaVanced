@@ -7326,3 +7326,9 @@ msgstr "O que a personagem tem sem equipamento: os seus pergaminhos e os pontos 
 
 msgid "Scrolls"
 msgstr "Pergaminhos"
+
+msgid "Spells at the highest level the character reaches."
+msgstr "Feitiços no nível mais alto que a personagem alcança."
+
+msgid "Spells at the levels picked above."
+msgstr "Feitiços nos níveis escolhidos acima."

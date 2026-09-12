@@ -6597,3 +6597,9 @@ msgstr ""
 
 msgid "Scrolls"
 msgstr ""
+
+msgid "Spells at the highest level the character reaches."
+msgstr ""
+
+msgid "Spells at the levels picked above."
+msgstr ""

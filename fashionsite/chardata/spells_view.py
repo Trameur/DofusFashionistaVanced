@@ -393,7 +393,13 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'damage': int(round(damage)),
             'label': str(_CONDITIONAL_LABELS.get(trigger, trigger)),
         })
+    # Vrai tant que le lecteur n'a baisse aucun rang. Les armes n'en ont pas.
+    au_plus_haut = all(getattr(castable, 'at_highest_rank', True)
+                       for castable in spells
+                       if getattr(castable, 'is_spell', False))
     return {'casts': casts,
+            'rank_note': str(_RANK_NOTES['highest' if au_plus_haut
+                                         else 'picked']),
             'later': late,
             'later_total': int(round(sum(later.values()))),
             'pushback': bool(pushback),
@@ -614,6 +620,16 @@ def _localized_aggregate_label(label, game_version=None):
 _DELAYED_LABELS = {
     'turn_begin': _lazy('at the start of a turn'),
     'turn_end': _lazy('at the end of a turn'),
+}
+
+# Ce que le panneau suppose sur le RANG des sorts. Le total change beaucoup
+# avec lui: mesure du 12 septembre 2026 sur un Cra de niveau 200, 1728 degats
+# au rang le plus haut contre 1292 au rang 1, un quart d'ecart. Le panneau
+# disait deja <<un seul tour sur une cible, degats moyens, buffs personnels et
+# taux de critique compris>>; il ne disait pas celle-la, qui pese le plus.
+_RANK_NOTES = {
+    'highest': _lazy('Spells at the highest level the character reaches.'),
+    'picked': _lazy('Spells at the levels picked above.'),
 }
 
 # Pourquoi un lancer du meilleur tour n'affiche aucun degat. Mesure du 12

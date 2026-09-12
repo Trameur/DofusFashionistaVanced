@@ -7380,3 +7380,9 @@ msgstr "Ce que le personnage a sans √©quipement: ses parchemins et ses points d√
 
 msgid "Scrolls"
 msgstr "Parchotage"
+
+msgid "Spells at the highest level the character reaches."
+msgstr "Sorts au niveau le plus haut que le personnage atteint."
+
+msgid "Spells at the levels picked above."
+msgstr "Sorts aux niveaux choisis ci-dessus."

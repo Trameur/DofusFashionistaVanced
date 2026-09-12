@@ -7347,3 +7347,9 @@ msgstr "Lo que el personaje tiene sin equipo: sus pergaminos y sus puntos gastad
 
 msgid "Scrolls"
 msgstr "Pergaminos"
+
+msgid "Spells at the highest level the character reaches."
+msgstr "Hechizos al nivel más alto que alcanza el personaje."
+
+msgid "Spells at the levels picked above."
+msgstr "Hechizos a los niveles elegidos arriba."
