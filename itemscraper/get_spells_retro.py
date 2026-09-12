@@ -310,6 +310,13 @@ def decode_level(level_arr):
 CASTING_SLOTS = {'cooldown': 6, 'per_turn': 7, 'per_target': 8, 'ap': 18,
                  'crit': 15}
 
+# Slot 2 is the character level this rank asks for. Measured on 2026-09-12
+# over the 252 class spells of classes_fr.json: every class carries exactly the
+# ladder 1, 3, 6, 9, 13, 17, 21, 26, 31, 36, 42, 48, 54, 60, 70, 80, 90, 100,
+# its eighteen spell slots, plus 200 for the Dopeul summon, and rank 6 asks for
+# that level plus 100. So it is the level requirement and not a constant.
+LEVEL_REQ_SLOT = 2
+
 
 def decode_casting(level_arr):
     """The cast cost and limits of one spell level."""
@@ -335,6 +342,7 @@ def decode_spell(spell, spell_id=None):
     per_level = []
     elements = []
     casting_levels = []
+    level_reqs = []
     for lv in LEVELS:
         if lv not in spell:
             continue
@@ -344,6 +352,13 @@ def decode_spell(spell, spell_id=None):
                        if not token.startswith('buff_')}
         per_level.append(decoded)
         casting_levels.append(decode_casting(spell[lv]))
+        arr = spell[lv]
+        level_reqs.append(arr[LEVEL_REQ_SLOT]
+                          if isinstance(arr, list)
+                          and len(arr) > LEVEL_REQ_SLOT
+                          and isinstance(arr[LEVEL_REQ_SLOT], int)
+                          and not isinstance(arr[LEVEL_REQ_SLOT], bool)
+                          else None)
         for elem in decoded:
             if elem not in elements:
                 elements.append(elem)
@@ -368,6 +383,7 @@ def decode_spell(spell, spell_id=None):
     return {
         'name': spell.get('n') or '',
         'level_count': len(per_level),
+        'level_reqs': level_reqs,
         'elements': elements,
         'non_crit_ranges': non_crit_ranges,
         'crit_ranges': crit_ranges,
@@ -389,12 +405,32 @@ ELEMENT_TOKEN_TO_CONST.update(
     {token: repr(token) for token in CHARACTERISTIC_EFFECTS.values()})
 
 
-def _level_req(n):
-    """Character level per spell rank: rank 6 needs level 100, ranks 1-5 are
-    reachable at level 1 (Retro gates ranks by spell points, not level)."""
-    if n <= 1:
-        return [100]
-    return [1] * (n - 1) + [100]
+def _level_req(level_reqs, name=''):
+    """Character level per spell rank, read from the game and not invented.
+
+    Retro gates ranks 1 to 5 by spell points, so those share the level at
+    which the spell itself is learned, and rank 6 asks for that level plus
+    100: a spell learned at 36 reaches rank 6 at 136, not at 100.
+
+    This used to be written by hand as [1] * (n - 1) + [100]. Measured on
+    2026-09-12 over the module's 106 spells: 89 carried a base level of 1 where
+    the game asks 3 to 100, and all 106 announced rank 6 at level 100. A
+    level-1 character was handed 106 spells where the game gives 17, and a
+    level-100 one read every single spell at rank 6, which the game refuses to
+    all of them.
+    """
+    read = [value for value in level_reqs if value is not None]
+    if len(read) != len(level_reqs) or not read:
+        raise ValueError('no level requirement for %s: %s'
+                         % (name or '?', level_reqs))
+    # The game may write a rank that asks less than the one before it; the
+    # site's rank reader assumes a sequence that never goes back down.
+    floor = read[0]
+    out = []
+    for value in read:
+        floor = max(floor, value)
+        out.append(floor)
+    return out
 
 
 def emit_module(by_class, spell_names, path):
@@ -413,7 +449,7 @@ def emit_module(by_class, spell_names, path):
             elems = ", ".join(ELEMENT_TOKEN_TO_CONST[e] for e in s['elements'])
             lines.append("        Spell(%s, %s, Effects(" % (
                 json.dumps(s['name'], ensure_ascii=False),
-                _level_req(s['level_count'])))
+                _level_req(s['level_reqs'], s['name'])))
             lines.append("            %s," % json.dumps(s['non_crit_ranges']))
             lines.append("            %s," % json.dumps(s['crit_ranges']))
             lines.append("            [%s]," % elems)

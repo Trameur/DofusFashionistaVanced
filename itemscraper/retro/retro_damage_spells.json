@@ -3,6 +3,14 @@
   {
    "name": "Retour du bâton",
    "level_count": 6,
+   "level_reqs": [
+    48,
+    48,
+    48,
+    48,
+    48,
+    148
+   ],
    "elements": [
     "neutral"
    ],
@@ -57,6 +65,14 @@
   {
    "name": "Bulle",
    "level_count": 6,
+   "level_reqs": [
+    31,
+    31,
+    31,
+    31,
+    31,
+    131
+   ],
    "elements": [
     "water"
    ],
@@ -111,6 +127,14 @@
   {
    "name": "Attaque Nuageuse",
    "level_count": 6,
+   "level_reqs": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    113
+   ],
    "elements": [
     "fire"
    ],
@@ -157,6 +181,14 @@
   {
    "name": "Aveuglement",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "neutral"
    ],
@@ -211,6 +243,14 @@
   {
    "name": "Attaque Naturelle",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "fire"
    ],
@@ -259,6 +299,14 @@
   {
    "name": "Frappe du Craqueleur",
    "level_count": 6,
+   "level_reqs": [
+    54,
+    54,
+    54,
+    54,
+    54,
+    154
+   ],
    "elements": [
     "fire"
    ],
@@ -305,6 +353,14 @@
   {
    "name": "Griffe Cinglante",
    "level_count": 6,
+   "level_reqs": [
+    36,
+    36,
+    36,
+    36,
+    36,
+    136
+   ],
    "elements": [
     "water"
    ],
@@ -351,6 +407,14 @@
   {
    "name": "Corbeau",
    "level_count": 6,
+   "level_reqs": [
+    31,
+    31,
+    31,
+    31,
+    31,
+    131
+   ],
    "elements": [
     "fire"
    ],
@@ -397,6 +461,14 @@
   {
    "name": "Fouet",
    "level_count": 6,
+   "level_reqs": [
+    21,
+    21,
+    21,
+    21,
+    21,
+    121
+   ],
    "elements": [
     "neutral"
    ],
@@ -459,6 +531,14 @@
   {
    "name": "Griffe Spectrale",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "fire"
    ],
@@ -507,6 +587,14 @@
   {
    "name": "Pelle Massacrante",
    "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
    "elements": [
     "water"
    ],
@@ -561,6 +649,14 @@
   {
    "name": "Pelle du Jugement",
    "level_count": 6,
+   "level_reqs": [
+    60,
+    60,
+    60,
+    60,
+    60,
+    160
+   ],
    "elements": [
     "water"
    ],
@@ -607,6 +703,14 @@
   {
    "name": "Roulage de Pelle",
    "level_count": 6,
+   "level_reqs": [
+    36,
+    36,
+    36,
+    36,
+    36,
+    136
+   ],
    "elements": [
     "fire"
    ],
@@ -653,6 +757,14 @@
   {
    "name": "Cupidité",
    "level_count": 6,
+   "level_reqs": [
+    31,
+    31,
+    31,
+    31,
+    31,
+    131
+   ],
    "elements": [
     "buff_int",
     "buff_str"
@@ -724,6 +836,14 @@
   {
    "name": "Désinvocation",
    "level_count": 6,
+   "level_reqs": [
+    26,
+    26,
+    26,
+    26,
+    26,
+    126
+   ],
    "elements": [
     "air"
    ],
@@ -786,6 +906,14 @@
   {
    "name": "Force de l'Age",
    "level_count": 6,
+   "level_reqs": [
+    21,
+    21,
+    21,
+    21,
+    21,
+    121
+   ],
    "elements": [
     "air"
    ],
@@ -840,6 +968,14 @@
   {
    "name": "Remblai",
    "level_count": 6,
+   "level_reqs": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    113
+   ],
    "elements": [
     "earth"
    ],
@@ -886,6 +1022,14 @@
   {
    "name": "Chance",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "buff_cha"
    ],
@@ -940,6 +1084,14 @@
   {
    "name": "Pelle Fantomatique",
    "level_count": 6,
+   "level_reqs": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    103
+   ],
    "elements": [
     "fire"
    ],
@@ -986,6 +1138,14 @@
   {
    "name": "Lancer de Pièces",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "water"
    ],
@@ -1040,6 +1200,14 @@
   {
    "name": "Lancer de Pelle",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "earth"
    ],
@@ -1088,6 +1256,14 @@
   {
    "name": "Attaque Mortelle",
    "level_count": 6,
+   "level_reqs": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    190
+   ],
    "elements": [
     "earth"
    ],
@@ -1142,6 +1318,14 @@
   {
    "name": "Arnaque",
    "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
    "elements": [
     "air"
    ],
@@ -1196,6 +1380,14 @@
   {
    "name": "Concentration de Chakra",
    "level_count": 6,
+   "level_reqs": [
+    36,
+    36,
+    36,
+    36,
+    36,
+    136
+   ],
    "elements": [
     "buff_str"
    ],
@@ -1250,6 +1442,14 @@
   {
    "name": "Coup Sournois",
    "level_count": 6,
+   "level_reqs": [
+    9,
+    9,
+    9,
+    9,
+    9,
+    109
+   ],
    "elements": [
     "earth"
    ],
@@ -1296,6 +1496,14 @@
   {
    "name": "Fourvoiement",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "air"
    ],
@@ -1342,6 +1550,14 @@
   {
    "name": "Poison insidieux",
    "level_count": 6,
+   "level_reqs": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    103
+   ],
    "elements": [
     "air"
    ],
@@ -1396,6 +1612,14 @@
   {
    "name": "Sournoiserie",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "earth"
    ],
@@ -1444,6 +1668,14 @@
   {
    "name": "Frappe de Xélor",
    "level_count": 6,
+   "level_reqs": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    190
+   ],
    "elements": [
     "earth"
    ],
@@ -1498,6 +1730,14 @@
   {
    "name": "Horloge",
    "level_count": 6,
+   "level_reqs": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    180
+   ],
    "elements": [
     "water"
    ],
@@ -1544,6 +1784,14 @@
   {
    "name": "Poussière Temporelle",
    "level_count": 6,
+   "level_reqs": [
+    26,
+    26,
+    26,
+    26,
+    26,
+    126
+   ],
    "elements": [
     "fire"
    ],
@@ -1590,6 +1838,14 @@
   {
    "name": "Flétrissement",
    "level_count": 6,
+   "level_reqs": [
+    17,
+    17,
+    17,
+    17,
+    17,
+    117
+   ],
    "elements": [
     "air"
    ],
@@ -1636,6 +1892,14 @@
   {
    "name": "Rayon Obscur",
    "level_count": 6,
+   "level_reqs": [
+    9,
+    9,
+    9,
+    9,
+    9,
+    109
+   ],
    "elements": [
     "fire"
    ],
@@ -1682,6 +1946,14 @@
   {
    "name": "Sablier de Xélor",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "fire"
    ],
@@ -1736,6 +2008,14 @@
   {
    "name": "Gelure",
    "level_count": 6,
+   "level_reqs": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    103
+   ],
    "elements": [
     "air"
    ],
@@ -1790,6 +2070,14 @@
   {
    "name": "Aiguille",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "fire"
    ],
@@ -1838,6 +2126,14 @@
   {
    "name": "Destin d'Ecaflip",
    "level_count": 6,
+   "level_reqs": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    200
+   ],
    "elements": [
     "earth"
    ],
@@ -1884,6 +2180,14 @@
   {
    "name": "Rekop",
    "level_count": 6,
+   "level_reqs": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    190
+   ],
    "elements": [
     "water",
     "earth",
@@ -1981,6 +2285,14 @@
   {
    "name": "Griffe de Ceangal",
    "level_count": 6,
+   "level_reqs": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    180
+   ],
    "elements": [
     "earth"
    ],
@@ -2027,6 +2339,14 @@
   {
    "name": "Griffe Joueuse",
    "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
    "elements": [
     "earth"
    ],
@@ -2081,6 +2401,14 @@
   {
    "name": "Réflexes",
    "level_count": 6,
+   "level_reqs": [
+    60,
+    60,
+    60,
+    60,
+    60,
+    160
+   ],
    "elements": [
     "buff_agi"
    ],
@@ -2135,6 +2463,14 @@
   {
    "name": "Esprit Félin",
    "level_count": 6,
+   "level_reqs": [
+    48,
+    48,
+    48,
+    48,
+    48,
+    148
+   ],
    "elements": [
     "earth"
    ],
@@ -2189,6 +2525,14 @@
   {
    "name": "Roue de la Fortune",
    "level_count": 6,
+   "level_reqs": [
+    36,
+    36,
+    36,
+    36,
+    36,
+    136
+   ],
    "elements": [
     "buff_pow"
    ],
@@ -2243,6 +2587,14 @@
   {
    "name": "Langue Râpeuse",
    "level_count": 6,
+   "level_reqs": [
+    31,
+    31,
+    31,
+    31,
+    31,
+    131
+   ],
    "elements": [
     "fire"
    ],
@@ -2289,6 +2641,14 @@
   {
    "name": "Topkaj",
    "level_count": 6,
+   "level_reqs": [
+    26,
+    26,
+    26,
+    26,
+    26,
+    126
+   ],
    "elements": [
     "fire"
    ],
@@ -2335,6 +2695,14 @@
   {
    "name": "Tout ou rien",
    "level_count": 6,
+   "level_reqs": [
+    17,
+    17,
+    17,
+    17,
+    17,
+    117
+   ],
    "elements": [
     "neutral"
    ],
@@ -2389,6 +2757,14 @@
   {
    "name": "Contrecoup",
    "level_count": 6,
+   "level_reqs": [
+    9,
+    9,
+    9,
+    9,
+    9,
+    109
+   ],
    "elements": [
     "buff_vit"
    ],
@@ -2435,6 +2811,14 @@
   {
    "name": "Bluff",
    "level_count": 6,
+   "level_reqs": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    103
+   ],
    "elements": [
     "water",
     "air"
@@ -2512,6 +2896,14 @@
   {
    "name": "Pile ou Face",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "earth"
    ],
@@ -2560,6 +2952,14 @@
   {
    "name": "Mot Vampirique",
    "level_count": 6,
+   "level_reqs": [
+    42,
+    42,
+    42,
+    42,
+    42,
+    142
+   ],
    "elements": [
     "water"
    ],
@@ -2614,6 +3014,14 @@
   {
    "name": "Mot Blessant",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "air"
    ],
@@ -2660,6 +3068,14 @@
   {
    "name": "Mot Interdit",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "fire"
    ],
@@ -2708,6 +3124,14 @@
   {
    "name": "Colère de Iop",
    "level_count": 6,
+   "level_reqs": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    200
+   ],
    "elements": [
     "earth"
    ],
@@ -2762,6 +3186,14 @@
   {
    "name": "Epée de Iop",
    "level_count": 6,
+   "level_reqs": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    190
+   ],
    "elements": [
     "earth"
    ],
@@ -2816,6 +3248,14 @@
   {
    "name": "Concentration",
    "level_count": 6,
+   "level_reqs": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    180
+   ],
    "elements": [
     "earth"
    ],
@@ -2870,6 +3310,14 @@
   {
    "name": "Epée Céleste",
    "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
    "elements": [
     "air"
    ],
@@ -2916,6 +3364,14 @@
   {
    "name": "Tempête de Puissance",
    "level_count": 6,
+   "level_reqs": [
+    60,
+    60,
+    60,
+    60,
+    60,
+    160
+   ],
    "elements": [
     "fire"
    ],
@@ -2970,6 +3426,14 @@
   {
    "name": "Mutilation",
    "level_count": 6,
+   "level_reqs": [
+    54,
+    54,
+    54,
+    54,
+    54,
+    154
+   ],
    "elements": [
     "buff_pow"
    ],
@@ -3024,6 +3488,14 @@
   {
    "name": "Puissance",
    "level_count": 6,
+   "level_reqs": [
+    48,
+    48,
+    48,
+    48,
+    48,
+    148
+   ],
    "elements": [
     "buff_pow"
    ],
@@ -3078,6 +3550,14 @@
   {
    "name": "Epée du Jugement",
    "level_count": 6,
+   "level_reqs": [
+    42,
+    42,
+    42,
+    42,
+    42,
+    142
+   ],
    "elements": [
     "water",
     "air",
@@ -3158,6 +3638,14 @@
   {
    "name": "Vitalité",
    "level_count": 6,
+   "level_reqs": [
+    36,
+    36,
+    36,
+    36,
+    36,
+    136
+   ],
    "elements": [
     "buff_vit"
    ],
@@ -3212,6 +3700,14 @@
   {
    "name": "Couper",
    "level_count": 6,
+   "level_reqs": [
+    26,
+    26,
+    26,
+    26,
+    26,
+    126
+   ],
    "elements": [
     "fire"
    ],
@@ -3258,6 +3754,14 @@
   {
    "name": "Epée Destructrice",
    "level_count": 6,
+   "level_reqs": [
+    21,
+    21,
+    21,
+    21,
+    21,
+    121
+   ],
    "elements": [
     "fire"
    ],
@@ -3304,6 +3808,14 @@
   {
    "name": "Epée du destin",
    "level_count": 6,
+   "level_reqs": [
+    9,
+    9,
+    9,
+    9,
+    9,
+    109
+   ],
    "elements": [
     "fire"
    ],
@@ -3358,6 +3870,14 @@
   {
    "name": "Epée Divine",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "air"
    ],
@@ -3404,6 +3924,14 @@
   {
    "name": "Intimidation",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "neutral"
    ],
@@ -3450,6 +3978,14 @@
   {
    "name": "Pression",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "earth"
    ],
@@ -3498,6 +4034,14 @@
   {
    "name": "Flèche Explosive",
    "level_count": 6,
+   "level_reqs": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    190
+   ],
    "elements": [
     "fire"
    ],
@@ -3552,6 +4096,14 @@
   {
    "name": "Flèche Ralentissante",
    "level_count": 6,
+   "level_reqs": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    180
+   ],
    "elements": [
     "water"
    ],
@@ -3606,6 +4158,14 @@
   {
    "name": "Flèche Absorbante",
    "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
    "elements": [
     "air"
    ],
@@ -3660,6 +4220,14 @@
   {
    "name": "Flèche Destructrice",
    "level_count": 6,
+   "level_reqs": [
+    60,
+    60,
+    60,
+    60,
+    60,
+    160
+   ],
    "elements": [
     "earth"
    ],
@@ -3714,6 +4282,14 @@
   {
    "name": "Flèche Persécutrice",
    "level_count": 6,
+   "level_reqs": [
+    54,
+    54,
+    54,
+    54,
+    54,
+    154
+   ],
    "elements": [
     "air",
     "fire"
@@ -3785,6 +4361,14 @@
   {
    "name": "Flèche Cinglante",
    "level_count": 6,
+   "level_reqs": [
+    48,
+    48,
+    48,
+    48,
+    48,
+    148
+   ],
    "elements": [
     "earth"
    ],
@@ -3839,6 +4423,14 @@
   {
    "name": "Flèche Harcelante",
    "level_count": 6,
+   "level_reqs": [
+    42,
+    42,
+    42,
+    42,
+    42,
+    142
+   ],
    "elements": [
     "air"
    ],
@@ -3893,6 +4485,14 @@
   {
    "name": "Tir Puissant",
    "level_count": 6,
+   "level_reqs": [
+    36,
+    36,
+    36,
+    36,
+    36,
+    136
+   ],
    "elements": [
     "buff_pow"
    ],
@@ -3947,6 +4547,14 @@
   {
    "name": "Flèche Punitive",
    "level_count": 6,
+   "level_reqs": [
+    31,
+    31,
+    31,
+    31,
+    31,
+    131
+   ],
    "elements": [
     "earth"
    ],
@@ -4001,6 +4609,14 @@
   {
    "name": "Flèche d'Immobilisation",
    "level_count": 6,
+   "level_reqs": [
+    26,
+    26,
+    26,
+    26,
+    26,
+    126
+   ],
    "elements": [
     "water"
    ],
@@ -4055,6 +4671,14 @@
   {
    "name": "Tir Critique",
    "level_count": 6,
+   "level_reqs": [
+    21,
+    21,
+    21,
+    21,
+    21,
+    121
+   ],
    "elements": [
     "buff_pow"
    ],
@@ -4109,6 +4733,14 @@
   {
    "name": "Oeil de Taupe",
    "level_count": 6,
+   "level_reqs": [
+    17,
+    17,
+    17,
+    17,
+    17,
+    117
+   ],
    "elements": [
     "water"
    ],
@@ -4163,6 +4795,14 @@
   {
    "name": "Flèche d'Expiation",
    "level_count": 6,
+   "level_reqs": [
+    13,
+    13,
+    13,
+    13,
+    13,
+    113
+   ],
    "elements": [
     "water"
    ],
@@ -4217,6 +4857,14 @@
   {
    "name": "Flèche Enflammée",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "fire"
    ],
@@ -4271,6 +4919,14 @@
   {
    "name": "Flèche Glacée",
    "level_count": 6,
+   "level_reqs": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    103
+   ],
    "elements": [
     "fire"
    ],
@@ -4325,6 +4981,14 @@
   {
    "name": "Flèche Magique",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "fire"
    ],
@@ -4379,6 +5043,14 @@
   {
    "name": "Flèche Empoisonnée",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "neutral"
    ],
@@ -4433,6 +5105,14 @@
   {
    "name": "Flèche de Recul",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "air"
    ],
@@ -4489,6 +5169,14 @@
   {
    "name": "Feu de Brousse",
    "level_count": 6,
+   "level_reqs": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    180
+   ],
    "elements": [
     "water",
     "fire"
@@ -4552,6 +5240,14 @@
   {
    "name": "Herbe Folle",
    "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
    "elements": [
     "fire"
    ],
@@ -4606,6 +5302,14 @@
   {
    "name": "Ronces Agressives",
    "level_count": 6,
+   "level_reqs": [
+    60,
+    60,
+    60,
+    60,
+    60,
+    160
+   ],
    "elements": [
     "earth"
    ],
@@ -4660,6 +5364,14 @@
   {
    "name": "Vent Empoisonné",
    "level_count": 6,
+   "level_reqs": [
+    48,
+    48,
+    48,
+    48,
+    48,
+    148
+   ],
    "elements": [
     "neutral"
    ],
@@ -4722,6 +5434,14 @@
   {
    "name": "Ronces Multiples",
    "level_count": 6,
+   "level_reqs": [
+    36,
+    36,
+    36,
+    36,
+    36,
+    136
+   ],
    "elements": [
     "earth"
    ],
@@ -4776,6 +5496,14 @@
   {
    "name": "Tremblement",
    "level_count": 6,
+   "level_reqs": [
+    26,
+    26,
+    26,
+    26,
+    26,
+    126
+   ],
    "elements": [
     "fire"
    ],
@@ -4838,6 +5566,14 @@
   {
    "name": "Larme",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "water"
    ],
@@ -4884,6 +5620,14 @@
   {
    "name": "Sacrifice Poupesque",
    "level_count": 6,
+   "level_reqs": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    103
+   ],
    "elements": [
     "air"
    ],
@@ -4938,6 +5682,14 @@
   {
    "name": "Ronce",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "earth"
    ],
@@ -4994,6 +5746,14 @@
   {
    "name": "Furie",
    "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
    "elements": [
     "water"
    ],
@@ -5040,6 +5800,14 @@
   {
    "name": "Absorption",
    "level_count": 6,
+   "level_reqs": [
+    36,
+    36,
+    36,
+    36,
+    36,
+    136
+   ],
    "elements": [
     "fire"
    ],
@@ -5094,6 +5862,14 @@
   {
    "name": "Dissolution",
    "level_count": 6,
+   "level_reqs": [
+    17,
+    17,
+    17,
+    17,
+    17,
+    117
+   ],
    "elements": [
     "water"
    ],
@@ -5148,6 +5924,14 @@
   {
    "name": "Assaut",
    "level_count": 6,
+   "level_reqs": [
+    9,
+    9,
+    9,
+    9,
+    9,
+    109
+   ],
    "elements": [
     "air"
    ],
@@ -5194,6 +5978,14 @@
   {
    "name": "Pied du Sacrieur",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "earth"
    ],
@@ -5242,6 +6034,14 @@
   {
    "name": "Pandatak",
    "level_count": 6,
+   "level_reqs": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    180
+   ],
    "elements": [
     "earth"
    ],
@@ -5288,6 +6088,14 @@
   {
    "name": "Flasque Explosive",
    "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
    "elements": [
     "fire"
    ],
@@ -5342,6 +6150,14 @@
   {
    "name": "Colère de Zatoïshwan",
    "level_count": 6,
+   "level_reqs": [
+    60,
+    60,
+    60,
+    60,
+    60,
+    160
+   ],
    "elements": [
     "buff_pow"
    ],
@@ -5396,6 +6212,14 @@
   {
    "name": "Vague à Lame",
    "level_count": 6,
+   "level_reqs": [
+    54,
+    54,
+    54,
+    54,
+    54,
+    154
+   ],
    "elements": [
     "water"
    ],
@@ -5442,6 +6266,14 @@
   {
    "name": "Souffle Alcoolisé",
    "level_count": 6,
+   "level_reqs": [
+    6,
+    6,
+    6,
+    6,
+    6,
+    106
+   ],
    "elements": [
     "air"
    ],
@@ -5488,6 +6320,14 @@
   {
    "name": "Gueule de Bois",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "earth"
    ],
@@ -5534,6 +6374,14 @@
   {
    "name": "Poing Enflammé",
    "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
    "elements": [
     "fire"
    ],
