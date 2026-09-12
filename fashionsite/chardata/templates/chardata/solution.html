@@ -491,7 +491,7 @@
             {% if best_turn %}
             <tr class="solution-best-turn-row">
                 <td colspan="4">
-                    <div class="solution-build-score" title="{% trans "One turn on a single target: average damage, self buffs and critical hit rate included." %} {% trans "Spells at the highest level the character reaches." %}">
+                    <div class="solution-build-score" title="{{ best_turn_note }}">
                         <span class="solution-build-score-label">{% trans "Best turn" %}</span>
                         <span class="solution-build-score-value">
                             {% if encoded_char_id %}<a href="{% game_url 'spells_linked' char.char_name|default:'shared' encoded_char_id %}">{{ best_turn }}</a>{% else %}<a href="{% game_url 'spells' char_id %}">{{ best_turn }}</a>{% endif %}

@@ -1,10 +1,11 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Le panneau du meilleur tour dit a quel niveau il lit les sorts.
 
-Il disait deja ce qu'il suppose: <<un seul tour sur une cible, degats moyens,
-buffs personnels et taux de coup critique compris>>. Il taisait l'hypothese qui
-pese le plus: **chaque sort est lu au niveau le plus haut que le personnage
-atteint**, donc entierement monte.
+Il disait deja un seul tour sur une cible et des degats moyens. Il taisait
+l'hypothese qui pese le plus: **chaque sort est lu au niveau le plus haut que
+le personnage atteint**, donc entierement monte. L'autre phrase du panneau,
+celle qui parle des buffs, a ete corrigee plus tard: voir
+`tests_the_panel_no_longer_claims_buffs_it_never_applied`.
 
 Mesure du 12 septembre 2026 sur un Cra de niveau 200 de la copie de
 production: **1728 degats annonces au niveau le plus haut, 1292 au niveau 1**,

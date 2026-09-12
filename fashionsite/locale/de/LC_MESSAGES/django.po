@@ -7365,3 +7365,9 @@ msgstr "Zauber auf den oben gewählten Stufen."
 
 msgid "Best turn"
 msgstr "Beste Runde"
+
+msgid "One turn on a single target: average damage and critical hit rate included. Buffs cast in the turn count; none is assumed standing before it."
+msgstr "Eine Runde auf ein Ziel: durchschnittlicher Schaden und kritische Trefferrate eingerechnet. In der Runde gewirkte Buffs zählen; vorher wird keiner angenommen."
+
+msgid "One turn on a single target: average damage and critical hit rate included. Buffs cast in the turn count, on top of the ones ticked on this page."
+msgstr "Eine Runde auf ein Ziel: durchschnittlicher Schaden und kritische Trefferrate eingerechnet. In der Runde gewirkte Buffs zählen, zusätzlich zu den auf dieser Seite angehakten."

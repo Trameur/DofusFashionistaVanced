@@ -795,6 +795,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     # page. Mesure du 12 septembre 2026: 1980 builds partages, 37 ms le tour,
     # soit 73 secondes sur un cache froid. Ici c'est un seul calcul par page.
     best_turn = None
+    best_turn_note = ''
     try:
         # Import local: `spells_view` n'importe pas ce module aujourd'hui,
         # mais il tient la page voisine et les deux se citent souvent.
@@ -805,12 +806,21 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
             _combo = _best_combo(char, _sol_for_turn,
                                  getattr(request, 'game_version', 'dofus3'))
             best_turn = _combo['total'] if _combo else None
+            if _combo:
+                # Les memes phrases que les deux autres pages, mot pour mot.
+                # Deux pages qui annoncent le meme nombre et deux hypotheses
+                # differentes, c'est l'une des deux qui ment.
+                best_turn_note = ' '.join(
+                    part for part in (_combo.get('buff_note'),
+                                      _combo.get('rank_note')) if part)
     except Exception:
         logger.exception('Failed to build the best turn (char %s)', char.id)
         best_turn = None
+        best_turn_note = ''
 
     params = {'char_id': char_id,
               'best_turn': best_turn,
+              'best_turn_note': best_turn_note,
               'lock_item': static('chardata/lock-icon.png'),
               'switch_item': static('chardata/1412645636_Left-right.png'),
               'delete_item': static('chardata/delete-icon.png'),

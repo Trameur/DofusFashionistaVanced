@@ -139,8 +139,9 @@ class ItSaysWhatItAssumedTests(_AvecUnBuild):
         ligne = self._ligne('/solution/%d/' % char.id)
         titre = TITRE.search(ligne)
         self.assertIsNotNone(titre, 'aucune hypothese annoncee')
-        for phrase in ('One turn on a single target: average damage, self '
-                       'buffs and critical hit rate included.',
+        for phrase in ('One turn on a single target: average damage and '
+                       'critical hit rate included. Buffs cast in the turn '
+                       'count; none is assumed standing before it.',
                        'Spells at the highest level the character reaches.'):
             self.assertIn(gettext(phrase), titre.group(1))
 

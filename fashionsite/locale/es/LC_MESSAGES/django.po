@@ -7356,3 +7356,9 @@ msgstr "Hechizos a los niveles elegidos arriba."
 
 msgid "Best turn"
 msgstr "Mejor turno"
+
+msgid "One turn on a single target: average damage and critical hit rate included. Buffs cast in the turn count; none is assumed standing before it."
+msgstr "Un solo turno sobre un objetivo: daño medio y tasa de golpe crítico incluidos. Los buffs lanzados durante el turno cuentan; no se supone ninguno activo antes."
+
+msgid "One turn on a single target: average damage and critical hit rate included. Buffs cast in the turn count, on top of the ones ticked on this page."
+msgstr "Un solo turno sobre un objetivo: daño medio y tasa de golpe crítico incluidos. Los buffs lanzados durante el turno cuentan, además de los marcados en esta página."

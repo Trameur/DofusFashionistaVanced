@@ -118,9 +118,10 @@ class ItSaysWhatItAssumedTests(_AvecDeuxSets):
         note = NOTE.search(page)
         self.assertIsNotNone(note)
         texte = _texte(note.group(1))
-        self.assertIn(gettext('One turn on a single target: average damage, '
-                              'self buffs and critical hit rate included.'),
-                      texte)
+        self.assertIn(gettext('One turn on a single target: average damage '
+                              'and critical hit rate included. Buffs cast in '
+                              'the turn count; none is assumed standing '
+                              'before it.'), texte)
         self.assertIn(gettext('Spells at the highest level the character '
                               'reaches.'), texte)
 

@@ -261,10 +261,13 @@ def _best_turn_rows(builds, game_version):
             combo = None
         valeurs[build.id] = combo['total'] if combo else None
         if combo and not note:
-            # La meme phrase que la page des sorts, pour que les deux pages ne
-            # se contredisent pas. Ici le lecteur ne choisit aucun niveau, donc
-            # c'est toujours celle du niveau le plus haut.
-            note = combo.get('rank_note') or ''
+            # Les memes phrases que la page des sorts, mot pour mot, pour que
+            # les deux pages ne se contredisent pas. Ici le lecteur ne coche
+            # aucun buff et ne choisit aucun niveau: c'est donc toujours celle
+            # du niveau le plus haut, et celle qui dit qu'aucun buff n'est
+            # suppose actif avant le tour.
+            note = ' '.join(part for part in (combo.get('buff_note'),
+                                              combo.get('rank_note')) if part)
     # Diff = set 2 moins set 1, comme les deux autres tableaux de la page.
     diff = None
     if len(builds) == 2:

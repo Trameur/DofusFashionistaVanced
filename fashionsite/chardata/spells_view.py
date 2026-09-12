@@ -400,6 +400,10 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     return {'casts': casts,
             'rank_note': str(_RANK_NOTES['highest' if au_plus_haut
                                          else 'picked']),
+            # `standing` porte les buffs REELLEMENT en force, pas ceux que la
+            # page a postes: une case cochee sous le niveau requis n'en met
+            # aucun, et la phrase doit suivre ce qui a servi au calcul.
+            'buff_note': str(_BUFF_NOTES['on' if standing else 'off']),
             'later': late,
             'later_total': int(round(sum(later.values()))),
             'pushback': bool(pushback),
@@ -622,11 +626,27 @@ _DELAYED_LABELS = {
     'turn_end': _lazy('at the end of a turn'),
 }
 
+# Ce que le panneau suppose sur les BUFFS PERSONNELS. Il annoncait <<buffs
+# personnels compris>>, ce qui est faux par defaut: `_ticked_buffs` rend une
+# suite vide des que `buff_state` l'est, et la page ouvre sans aucune case
+# cochee. Seuls les buffs lances DANS le tour sont comptes, et ils paient
+# leur PA sur le meme budget. Mesure du 12 septembre 2026 sur six builds
+# partages: Enutrof 1682 sans buffs contre 3429 avec, Cra 2188 contre 3245,
+# Pandawa 930 contre 982. Jusqu'a 104 % d'ecart derriere une phrase qui
+# disait que c'etait deja compte.
+_BUFF_NOTES = {
+    'off': _lazy('One turn on a single target: average damage and critical '
+                 'hit rate included. Buffs cast in the turn count; none is '
+                 'assumed standing before it.'),
+    'on': _lazy('One turn on a single target: average damage and critical '
+                'hit rate included. Buffs cast in the turn count, on top of '
+                'the ones ticked on this page.'),
+}
+
 # Ce que le panneau suppose sur le RANG des sorts. Le total change beaucoup
 # avec lui: mesure du 12 septembre 2026 sur un Cra de niveau 200, 1728 degats
-# au rang le plus haut contre 1292 au rang 1, un quart d'ecart. Le panneau
-# disait deja <<un seul tour sur une cible, degats moyens, buffs personnels et
-# taux de critique compris>>; il ne disait pas celle-la, qui pese le plus.
+# au rang le plus haut contre 1292 au rang 1, un quart d'ecart. Elle se lit a
+# la suite de `_BUFF_NOTES`, qui dit l'autre hypothese du meme total.
 _RANK_NOTES = {
     'highest': _lazy('Spells at the highest level the character reaches.'),
     'picked': _lazy('Spells at the levels picked above.'),
