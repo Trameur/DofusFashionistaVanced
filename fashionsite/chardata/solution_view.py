@@ -842,7 +842,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                 # differentes, c'est l'une des deux qui ment.
                 best_turn_note = ' '.join(
                     part for part in (_combo.get('buff_note'),
-                                      _combo.get('rank_note')) if part)
+                                      _combo.get('rank_note'),
+                                      _combo.get('melee_note')) if part)
     except Exception:
         logger.exception('Failed to build the best turn (char %s)', char.id)
         best_turn = None

@@ -6618,3 +6618,6 @@ msgstr ""
 
 msgid "Pieces above this character's level"
 msgstr ""
+
+msgid "%(melee)s and %(ranged)s are not counted here: on most casts the caster chooses the range."
+msgstr ""

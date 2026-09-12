@@ -419,6 +419,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             # page a postes: une case cochee sous le niveau requis n'en met
             # aucun, et la phrase doit suivre ce qui a servi au calcul.
             'buff_note': str(_BUFF_NOTES['on' if standing else 'off']),
+            # Dite seulement quand le build porte une des deux stats: 9 builds
+            # sur 10 ne sont pas concernes et n'ont pas besoin du bruit.
+            'melee_note': _melee_note(stats),
             'later': late,
             'later_total': int(round(sum(later.values()))),
             'pushback': bool(pushback),
@@ -431,6 +434,19 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'ap_used': sum(cast['ap'] for cast in casts),
             'ap_available': ap,
             'conditional': extras}
+
+
+def _melee_note(stats):
+    """La phrase sur le % melee et le % distance, ou '' quand le build n'en
+    porte aucun.
+
+    Les libelles viennent du resume du build, pour que le lecteur relie la
+    phrase a la ligne qu'il y voit.
+    """
+    if not any(stats.get(cle) for cle in _UNCOUNTED_STATS):
+        return ''
+    return str(_MELEE_NOTE) % {'melee': _('% Melee Damage'),
+                               'ranged': _('% Ranged Damage')}
 
 
 def _cast_note(castable, name, later, damage):
@@ -672,6 +688,33 @@ _DELAYED_LABELS = {
     'turn_begin': _lazy('at the start of a turn'),
     'turn_end': _lazy('at the end of a turn'),
 }
+
+# Les deux stats que le calcul n'applique pas, dites seulement quand le build
+# en porte une. `calculate_damage` multiplie par le % degats de sort et par le
+# % degats d'arme, jamais par le % melee ni par le % distance. Le site les
+# affiche pourtant dans le resume du build, laisse leur donner un poids, les
+# optimise (`smart_build` leur attribue un poids selon une probabilite
+# d'attaque de melee allant de 0,1 pour un Cra a 0,7 pour un Sacrieur) et les
+# compte 35 dans le score public.
+#
+# Les appliquer serait pire que de les taire. Mesure du 12 septembre 2026 sur
+# la reference de sorts, qui porte la portee par rang: **86 % des sorts de
+# Dofus 3 ont une fenetre de portee allant de 1 a N**, donc c'est le lanceur
+# qui decide s'il frappe au contact ou a distance. Seuls 4,9 % sont a distance
+# seulement et 9,2 % au contact seulement. Trancher pour les 86 % restants
+# serait une invention.
+#
+# Ce que cela coute au lecteur, mesure sur les builds de la base locale: 6 sur
+# 63, soit 9,5 %, portent du % distance, et il y vaut **-12** (deux objets a
+# -6). Le panneau SURESTIME donc leurs degats, et rien ne le disait.
+#
+# La phrase reprend les libelles que le resume du build affiche, pour que le
+# lecteur relie les deux, plutot que d'inventer un vocabulaire.
+_MELEE_NOTE = _lazy('%(melee)s and %(ranged)s are not counted here: on most '
+                    'casts the caster chooses the range.')
+
+#: Les stats que le calcul laisse de cote.
+_UNCOUNTED_STATS = ('permedam', 'perrandam')
 
 # Ce que le panneau suppose sur les BUFFS PERSONNELS. Il annoncait <<buffs
 # personnels compris>>, ce qui est faux par defaut: `_ticked_buffs` rend une

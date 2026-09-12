@@ -7347,3 +7347,6 @@ msgstr "Exige o nível %(level)s"
 
 msgid "Pieces above this character's level"
 msgstr "Peças acima do nível do personagem"
+
+msgid "%(melee)s and %(ranged)s are not counted here: on most casts the caster chooses the range."
+msgstr "%(melee)s e %(ranged)s não são contados aqui: na maioria dos lançamentos, quem lança escolhe a distância."

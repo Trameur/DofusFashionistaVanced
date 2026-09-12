@@ -267,7 +267,9 @@ def _best_turn_rows(builds, game_version):
             # du niveau le plus haut, et celle qui dit qu'aucun buff n'est
             # suppose actif avant le tour.
             note = ' '.join(part for part in (combo.get('buff_note'),
-                                              combo.get('rank_note')) if part)
+                                              combo.get('rank_note'),
+                                              combo.get('melee_note'))
+                            if part)
     # Diff = set 2 moins set 1, comme les deux autres tableaux de la page.
     diff = None
     if len(builds) == 2:
