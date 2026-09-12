@@ -29,7 +29,8 @@ from chardata.forgemagie_view import (_closest_pool_entry, _normalized_text,
                                       _search_level, _search_types)
 from chardata.inventory_view import _ocr_normalize, _ocr_stat_lexicon
 from chardata.stat_range import get_stat_range
-from chardata.translation_util import localized_stat_name
+from chardata.translation_util import (LOCALIZED_CHARACTER_CLASSES,
+                                       localized_stat_name)
 from fashionistapulp.dofus_constants import (STATS_NAMES,
                                             TYPE_NAME_TO_SLOT_NUMBER)
 from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
@@ -168,20 +169,68 @@ def _entree_exacte(requete, index, language):
 _PREFIXE_EMPLACEMENT = re.compile(
     r'^(%s)\s*:\s*(.+)$' % '|'.join(sorted(TYPE_NAME_TO_SLOT_NUMBER)), re.I)
 
-#: L'entete de l'export: <<Mon Cra - Cra lvl 200 - Retro>>. Le titre est libre
-#: et peut contenir des tirets, donc on ancre sur la fin.
+#: Les cinq langues du site. Le texte partage est ecrit dans celle du lecteur,
+#: donc il se relit dans les cinq.
+_LANGUES = ('en', 'fr', 'es', 'pt', 'de')
+
+
+def _mots_de_niveau():
+    """Le mot <<niveau>> de l'entete, dans les cinq langues.
+
+    Lu dans les catalogues et non recopie ici: si une traduction change, la
+    lecture suit sans que personne n'y pense. L'anglais y est de toute facon,
+    et il doit y rester: tous les textes deja colles sur un Discord portent
+    <<lvl>>, quelle que soit la langue de celui qui les a exportes.
+    """
+    from django.utils.translation import gettext, override
+    mots = {'lvl'}
+    for langue in _LANGUES:
+        with override(langue):
+            mot = gettext('lvl')
+            if mot:
+                mots.add(mot)
+    # Le plus long d'abord: <<niv.>> avant <<niv>> si les deux existaient.
+    return sorted(mots, key=len, reverse=True)
+
+
+def _classes_par_nom():
+    """{nom de classe en minuscules: nom interne}, dans les cinq langues.
+
+    L'entete porte la classe dans la langue du lecteur (<<Cra - Crâ niv. 200>>
+    en francais, <<Ocra nvl 200>> en espagnol). Sans cette table, la classe
+    n'etait reconnue qu'en anglais et le lecteur devait la choisir a la main
+    apres avoir colle son propre texte.
+    """
+    from django.utils.translation import override
+    par_nom = {}
+    for interne in LOCALIZED_CHARACTER_CLASSES:
+        par_nom[interne.lower()] = interne
+    for langue in _LANGUES:
+        with override(langue):
+            for interne, nom in LOCALIZED_CHARACTER_CLASSES.items():
+                par_nom.setdefault(str(nom).lower(), interne)
+    return par_nom
+
+
+#: L'entete de l'export: <<Mon Cra - Cra lvl 200 - Retro>>, ou <<Mon Cra - Crâ
+#: niv. 200 - Retro>> pour un lecteur francais. Le titre est libre et peut
+#: contenir des tirets, donc on ancre sur la fin.
 #:
 #: La version est FACULTATIVE dans le motif, et ce n'est pas une commodite:
 #: tous les textes exportes avant qu'on l'ajoute n'en ont pas, et une simple
 #: liste de noms tapee a la main non plus. Absente, elle veut dire <<la version
 #: de la page>>, qui est le comportement d'avant.
+#:
 #: Le nom du build, s'il est la, COMMENCE et se termine sur un caractere
 #: qui n'est pas un espace. Mesure: avec `(.*\S)` seul, le `\s+` qui precede
 #: et le `.*` pouvaient tous deux prendre les espaces, et une ligne de 40 000
 #: espaces apres le tiret coutait 8 secondes; avec `\S` en tete, chaque
 #: partage echoue au premier caractere (py/polynomial-redos).
 _ENTETE = re.compile(
-    r'-\s+(\S+)\s+lvl\s+(\d{1,3})(?:\s+-\s+(\S(?:.*\S)?))?\s*$', re.I)
+    r'-\s+(\S+)\s+(?:%s)\s+(\d{1,3})(?:\s+-\s+(\S(?:.*\S)?))?\s*$'
+    % '|'.join(re.escape(mot) for mot in _mots_de_niveau()), re.I)
+
+_CLASSE_PAR_NOM = _classes_par_nom()
 
 #: Le libelle de chaque version vers sa cle. Les libelles viennent du registre
 #: et ne sont pas traduits, donc ils traversent les cinq langues.
@@ -440,7 +489,11 @@ def read_items(text, game_version, language):
             continue
         m = _ENTETE.search(ligne)
         if m and char_class is None:
-            char_class, char_level = m.group(1), int(m.group(2))
+            # Le nom interne, quelle que soit la langue de l'entete: la vue
+            # verifie `char_class in CHARACTER_CLASSES` et laissait tomber
+            # silencieusement un <<Crâ>> ou un <<Ocra>>.
+            char_class = _CLASSE_PAR_NOM.get(m.group(1).lower(), m.group(1))
+            char_level = int(m.group(2))
             if m.group(3):
                 version_lue = _VERSION_PAR_LIBELLE.get(
                     m.group(3).strip().lower())

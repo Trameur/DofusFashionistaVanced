@@ -320,7 +320,9 @@ def _build_share_text(request, char, solution, facts=None):
     # `display_name` plutot que `char.name`: un build sur cinq porte un
     # nom que la page de creation a fabrique toute seule (" 199"), et
     # ce texte-la est fait pour etre colle ailleurs.
-    title = char.char_name or display_name(char) or char.char_class or 'Build'
+    classe = LOCALIZED_CHARACTER_CLASSES.get(char.char_class,
+                                             char.char_class or '')
+    title = char.char_name or display_name(char) or classe or 'Build'
     # La version du jeu, en toutes lettres, parce que le texte voyage.
     #
     # Sans elle, un build Retro colle sur la page Dofus 3 etait cherche dans le
@@ -332,8 +334,15 @@ def _build_share_text(request, char, solution, facts=None):
     #
     # Le libelle vient du registre et n'est pas traduit ('Dofus 3', 'Retro'),
     # donc il traverse les cinq langues sans changer.
-    lines = ['%s - %s lvl %d - %s' % (title, char.char_class, char.level,
-                                      get_game_version(char.game_version).label),
+    #
+    # Le NOM DE CLASSE et le mot <<niveau>>, eux, se traduisent, comme les noms
+    # d'objets plus bas et comme l'apercu de partage quelques lignes plus loin
+    # le fait deja. Cette ligne etait la seule du texte restee en anglais: un
+    # lecteur francais copiait <<Cra lvl 200>> pendant que l'apercu de son
+    # propre lien annoncait <<Cra niv. 200>>. Selon la langue, 6 a 13 des 19
+    # classes portent un autre nom (Zobal, Roublard, Steamer, Sacrieur).
+    lines = ['%s - %s %s %d - %s' % (title, classe, _('lvl'), char.level,
+                                     get_game_version(char.game_version).label),
              '']
     for slot in _SHARE_SLOT_ORDER:
         for item in solution.items.get(slot, []):
