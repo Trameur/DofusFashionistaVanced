@@ -85,8 +85,14 @@
 /* Classic look: the build score row sits straight on the dark stat panel
    (#3D200D) where inherited text is the same brown; give it the pale
    stripe its neighbour summary lines use. The modern look restyles the
-   panel and needs neither rule. */
-html:not(.fm-modern) .solution-build-score {
+   panel and needs neither rule.
+
+   La ligne des pieces hors niveau est dans le meme cas, et la mesure l'a
+   prise en flagrant delit: texte #3D200D sur fond #3D200D, un rapport de
+   contraste de 1 contre 1, donc invisible. Elle prend le meme fond que sa
+   voisine plutot qu'une teinte nouvelle. */
+html:not(.fm-modern) .solution-build-score,
+html:not(.fm-modern) .solution-level-warning {
     background-color: #E4E6BC;
 }
 .solution-item-violates {

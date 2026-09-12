@@ -7398,3 +7398,6 @@ msgstr "Un seul tour sur une cible : dégâts moyens et taux de coup critique co
 
 msgid "Needs level %(level)s"
 msgstr "Demande le niveau %(level)s"
+
+msgid "Pieces above this character's level"
+msgstr "Pièces au-dessus du niveau du personnage"

@@ -7374,3 +7374,6 @@ msgstr "Eine Runde auf ein Ziel: durchschnittlicher Schaden und kritische Treffe
 
 msgid "Needs level %(level)s"
 msgstr "Benötigt Stufe %(level)s"
+
+msgid "Pieces above this character's level"
+msgstr "Teile über der Stufe des Charakters"

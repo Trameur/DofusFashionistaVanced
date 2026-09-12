@@ -254,6 +254,32 @@ def _build_check(char, solution):
     equipped_count = len(equipped_entries)
     char_level = char.level or 0
 
+    # Les pieces que le niveau du personnage ne permet pas. Le site connait
+    # deja la regle: `lock_forbid.remove_invalid_inclusions` ecarte tout objet
+    # dont `item.level > level` quand le niveau change, dans la meme requete.
+    # Il ne l'appliquait pas a la solution deja calculee, et baisser le niveau
+    # d'un projet ne relance pas le solveur: `_save_state_to_char` ecrit
+    # `char.level` et laisse l'equipement en place.
+    #
+    # Parcours verifie en HTTP le 12 septembre 2026 sur un build de niveau 200
+    # ramene a 30: les **seize pieces** restent, jusqu'au niveau 200, et rien
+    # ne le disait, ni sur la page du proprietaire, ni sur le lien partage, ni
+    # dans la galerie qui declarait le build valide.
+    #
+    # Greffe sur la boucle du dessus, donc sans cout: les pieces et le niveau
+    # sont deja en main.
+    above_level = []
+    if char_level:
+        for _slot, _item, structure_item in equipped_entries:
+            niveau = getattr(structure_item, 'level', None)
+            if niveau and niveau > char_level:
+                above_level.append({
+                    'name': structure.get_item_name_in_language(
+                        structure_item, get_supported_language()),
+                    'level': niveau,
+                })
+        above_level.sort(key=lambda piece: -piece['level'])
+
     suggestions = []
     if weights and char_level:
         rates_by_type = {}  # type_name -> sorted candidate scores (desc)
@@ -307,6 +333,10 @@ def _build_check(char, solution):
         'equipped_count': equipped_count,
         'suggestions': suggestions,
         'has_hints': bool(suggestions),
+        'above_level': above_level,
+        # La liste, telle que la page la montre: <<Neckross 200, Kroks 200>>.
+        'above_level_text': ', '.join(
+            '%s %s' % (piece['name'], piece['level']) for piece in above_level),
     }
 
 

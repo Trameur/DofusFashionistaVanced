@@ -7365,3 +7365,6 @@ msgstr "Un solo turno sobre un objetivo: daño medio y tasa de golpe crítico in
 
 msgid "Needs level %(level)s"
 msgstr "Requiere el nivel %(level)s"
+
+msgid "Pieces above this character's level"
+msgstr "Piezas por encima del nivel del personaje"

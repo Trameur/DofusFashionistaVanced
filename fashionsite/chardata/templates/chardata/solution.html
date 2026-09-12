@@ -488,6 +488,24 @@
                 <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell" title="{% trans "What the character has without gear: scrolls and spent points." %}">{% if is_guest %}{% trans "Base" %}{% else %}<a href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base" %}</a>{% endif %}</td>
                 <td class="solution-stat-summary-value-header solution-stat-summary-value-cell">Total</td>
             </tr>
+            {% comment %}
+            Baisser le niveau d'un projet ne relance pas le solveur: le
+            personnage garde un equipement que son niveau ne permet plus, et
+            rien ne le disait, ni ici, ni sur le lien partage, ni dans la
+            galerie qui declarait le build valide. Parcours verifie en HTTP le
+            12 septembre 2026 sur un build de 200 ramene a 30: seize pieces sur
+            seize, jusqu'au niveau 200.
+            {% endcomment %}
+            {% if build_check.above_level %}
+            <tr class="solution-level-warning-row">
+                <td colspan="4">
+                    <div class="solution-level-warning" title="{{ build_check.above_level_text }}">
+                        <span class="solution-level-warning-label">{% trans "Pieces above this character's level" %}</span>
+                        <span class="solution-level-warning-value">{{ build_check.above_level|length }}</span>
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
             {% if best_turn %}
             <tr class="solution-best-turn-row">
                 <td colspan="4">

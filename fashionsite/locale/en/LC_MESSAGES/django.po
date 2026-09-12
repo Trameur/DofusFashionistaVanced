@@ -6615,3 +6615,6 @@ msgstr ""
 
 msgid "Needs level %(level)s"
 msgstr ""
+
+msgid "Pieces above this character's level"
+msgstr ""

@@ -559,3 +559,31 @@
 .solver-why-goal-missed {
     background: rgba(200, 60, 40, 0.18);
 }
+
+/* Les pieces que le niveau du personnage ne permet pas. Exactement la forme
+   de la ligne du meilleur tour juste en dessous, bordure comprise, et le fond
+   pale du design classique clair lui est donne dans solution_lighttheme.css
+   par la meme regle: sans lui le texte brun herite tombe sur un panneau du
+   meme brun, mesure a 1,00 contre 1, et la ligne est invisible. Reprendre les
+   valeurs de la voisine plutot qu'en inventer garde les quatre combinaisons
+   d'accord, ce que la mesure confirme: 11,58 / 11,71 / 11,23 / 11,66. */
+.solution-level-warning {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 2px 0 4px;
+    padding: 6px 8px;
+    border: 1px solid rgba(61, 32, 13, 0.25);
+    border-radius: 4px;
+}
+
+.solution-level-warning-label {
+    font-weight: bold;
+}
+
+.solution-level-warning-value {
+    font-size: 18px;
+    font-weight: bold;
+}
