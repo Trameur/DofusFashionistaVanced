@@ -7410,3 +7410,6 @@ msgstr "au maximum que ce tour permet sur une cible"
 
 msgid "Critical failure is not counted; this version is the only one that has it."
 msgstr "L'échec critique n'est pas compté ; cette version est la seule à l'avoir."
+
+msgid "monster stats and artwork for Dofus 3 and the Beta, and the transcendence runes with their icons"
+msgstr "caractéristiques et illustrations des monstres pour Dofus 3 et la Beta, et les runes de transcendance avec leurs icônes"

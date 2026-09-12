@@ -13,8 +13,7 @@
    "bonus": 10,
    "weight": 40,
    "level": 104,
-   "icon_id": 78179,
-   "img": "https://api.dofusdb.fr/img/items/78179.png"
+   "icon_id": 78179
   },
   {
    "id": 20556,
@@ -26,8 +25,7 @@
    "bonus": 15,
    "weight": 60,
    "level": 126,
-   "icon_id": 78180,
-   "img": "https://api.dofusdb.fr/img/items/78180.png"
+   "icon_id": 78180
   },
   {
    "id": 20557,
@@ -39,8 +37,7 @@
    "bonus": 20,
    "weight": 80,
    "level": 148,
-   "icon_id": 78181,
-   "img": "https://api.dofusdb.fr/img/items/78181.png"
+   "icon_id": 78181
   },
   {
    "id": 20558,
@@ -52,8 +49,7 @@
    "bonus": 10,
    "weight": 40,
    "level": 104,
-   "icon_id": 78182,
-   "img": "https://api.dofusdb.fr/img/items/78182.png"
+   "icon_id": 78182
   },
   {
    "id": 20559,
@@ -65,8 +61,7 @@
    "bonus": 15,
    "weight": 60,
    "level": 126,
-   "icon_id": 78183,
-   "img": "https://api.dofusdb.fr/img/items/78183.png"
+   "icon_id": 78183
   },
   {
    "id": 20560,
@@ -78,8 +73,7 @@
    "bonus": 20,
    "weight": 80,
    "level": 148,
-   "icon_id": 78184,
-   "img": "https://api.dofusdb.fr/img/items/78184.png"
+   "icon_id": 78184
   },
   {
    "id": 20561,
@@ -91,8 +85,7 @@
    "bonus": 10,
    "weight": 40,
    "level": 104,
-   "icon_id": 78185,
-   "img": "https://api.dofusdb.fr/img/items/78185.png"
+   "icon_id": 78185
   },
   {
    "id": 20562,
@@ -104,8 +97,7 @@
    "bonus": 15,
    "weight": 60,
    "level": 126,
-   "icon_id": 78186,
-   "img": "https://api.dofusdb.fr/img/items/78186.png"
+   "icon_id": 78186
   },
   {
    "id": 20563,
@@ -117,8 +109,7 @@
    "bonus": 20,
    "weight": 80,
    "level": 148,
-   "icon_id": 78187,
-   "img": "https://api.dofusdb.fr/img/items/78187.png"
+   "icon_id": 78187
   },
   {
    "id": 20564,
@@ -130,8 +121,7 @@
    "bonus": 10,
    "weight": 40,
    "level": 104,
-   "icon_id": 78188,
-   "img": "https://api.dofusdb.fr/img/items/78188.png"
+   "icon_id": 78188
   },
   {
    "id": 20565,
@@ -143,8 +133,7 @@
    "bonus": 15,
    "weight": 60,
    "level": 126,
-   "icon_id": 78189,
-   "img": "https://api.dofusdb.fr/img/items/78189.png"
+   "icon_id": 78189
   },
   {
    "id": 20566,
@@ -156,8 +145,7 @@
    "bonus": 20,
    "weight": 80,
    "level": 148,
-   "icon_id": 78190,
-   "img": "https://api.dofusdb.fr/img/items/78190.png"
+   "icon_id": 78190
   },
   {
    "id": 20567,
@@ -169,8 +157,7 @@
    "bonus": 50,
    "weight": 40,
    "level": 124,
-   "icon_id": 78251,
-   "img": "https://api.dofusdb.fr/img/items/78251.png"
+   "icon_id": 78251
   },
   {
    "id": 20568,
@@ -182,8 +169,7 @@
    "bonus": 75,
    "weight": 60,
    "level": 146,
-   "icon_id": 78252,
-   "img": "https://api.dofusdb.fr/img/items/78252.png"
+   "icon_id": 78252
   },
   {
    "id": 20569,
@@ -195,8 +181,7 @@
    "bonus": 100,
    "weight": 80,
    "level": 168,
-   "icon_id": 78253,
-   "img": "https://api.dofusdb.fr/img/items/78253.png"
+   "icon_id": 78253
   },
   {
    "id": 20570,
@@ -208,8 +193,7 @@
    "bonus": 100,
    "weight": 40,
    "level": 104,
-   "icon_id": 78254,
-   "img": "https://api.dofusdb.fr/img/items/78254.png"
+   "icon_id": 78254
   },
   {
    "id": 20571,
@@ -221,8 +205,7 @@
    "bonus": 150,
    "weight": 60,
    "level": 126,
-   "icon_id": 78255,
-   "img": "https://api.dofusdb.fr/img/items/78255.png"
+   "icon_id": 78255
   },
   {
    "id": 20572,
@@ -234,8 +217,7 @@
    "bonus": 200,
    "weight": 80,
    "level": 148,
-   "icon_id": 78256,
-   "img": "https://api.dofusdb.fr/img/items/78256.png"
+   "icon_id": 78256
   },
   {
    "id": 20573,
@@ -247,8 +229,7 @@
    "bonus": 100,
    "weight": 40,
    "level": 104,
-   "icon_id": 78257,
-   "img": "https://api.dofusdb.fr/img/items/78257.png"
+   "icon_id": 78257
   },
   {
    "id": 20574,
@@ -260,8 +241,7 @@
    "bonus": 200,
    "weight": 60,
    "level": 126,
-   "icon_id": 78258,
-   "img": "https://api.dofusdb.fr/img/items/78258.png"
+   "icon_id": 78258
   },
   {
    "id": 20575,
@@ -273,8 +253,7 @@
    "bonus": 400,
    "weight": 80,
    "level": 148,
-   "icon_id": 78259,
-   "img": "https://api.dofusdb.fr/img/items/78259.png"
+   "icon_id": 78259
   },
   {
    "id": 20576,
@@ -286,8 +265,7 @@
    "bonus": 6,
    "weight": 40,
    "level": 124,
-   "icon_id": 78191,
-   "img": "https://api.dofusdb.fr/img/items/78191.png"
+   "icon_id": 78191
   },
   {
    "id": 20577,
@@ -299,8 +277,7 @@
    "bonus": 9,
    "weight": 60,
    "level": 146,
-   "icon_id": 78192,
-   "img": "https://api.dofusdb.fr/img/items/78192.png"
+   "icon_id": 78192
   },
   {
    "id": 20578,
@@ -312,8 +289,7 @@
    "bonus": 12,
    "weight": 80,
    "level": 168,
-   "icon_id": 78193,
-   "img": "https://api.dofusdb.fr/img/items/78193.png"
+   "icon_id": 78193
   },
   {
    "id": 20579,
@@ -325,8 +301,7 @@
    "bonus": 9,
    "weight": 60,
    "level": 166,
-   "icon_id": 78194,
-   "img": "https://api.dofusdb.fr/img/items/78194.png"
+   "icon_id": 78194
   },
   {
    "id": 20580,
@@ -338,8 +313,7 @@
    "bonus": 12,
    "weight": 80,
    "level": 188,
-   "icon_id": 78195,
-   "img": "https://api.dofusdb.fr/img/items/78195.png"
+   "icon_id": 78195
   },
   {
    "id": 20581,
@@ -351,8 +325,7 @@
    "bonus": 9,
    "weight": 60,
    "level": 166,
-   "icon_id": 78196,
-   "img": "https://api.dofusdb.fr/img/items/78196.png"
+   "icon_id": 78196
   },
   {
    "id": 20582,
@@ -364,8 +337,7 @@
    "bonus": 12,
    "weight": 80,
    "level": 188,
-   "icon_id": 78197,
-   "img": "https://api.dofusdb.fr/img/items/78197.png"
+   "icon_id": 78197
   },
   {
    "id": 20583,
@@ -377,8 +349,7 @@
    "bonus": 6,
    "weight": 60,
    "level": 166,
-   "icon_id": 78198,
-   "img": "https://api.dofusdb.fr/img/items/78198.png"
+   "icon_id": 78198
   },
   {
    "id": 20584,
@@ -390,8 +361,7 @@
    "bonus": 8,
    "weight": 80,
    "level": 188,
-   "icon_id": 78199,
-   "img": "https://api.dofusdb.fr/img/items/78199.png"
+   "icon_id": 78199
   },
   {
    "id": 20585,
@@ -403,8 +373,7 @@
    "bonus": 6,
    "weight": 60,
    "level": 166,
-   "icon_id": 78200,
-   "img": "https://api.dofusdb.fr/img/items/78200.png"
+   "icon_id": 78200
   },
   {
    "id": 20586,
@@ -416,8 +385,7 @@
    "bonus": 8,
    "weight": 80,
    "level": 188,
-   "icon_id": 78201,
-   "img": "https://api.dofusdb.fr/img/items/78201.png"
+   "icon_id": 78201
   },
   {
    "id": 20596,
@@ -429,8 +397,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 144,
-   "icon_id": 78202,
-   "img": "https://api.dofusdb.fr/img/items/78202.png"
+   "icon_id": 78202
   },
   {
    "id": 20597,
@@ -442,8 +409,7 @@
    "bonus": 4,
    "weight": 60,
    "level": 166,
-   "icon_id": 78203,
-   "img": "https://api.dofusdb.fr/img/items/78203.png"
+   "icon_id": 78203
   },
   {
    "id": 20598,
@@ -455,8 +421,7 @@
    "bonus": 6,
    "weight": 80,
    "level": 188,
-   "icon_id": 78204,
-   "img": "https://api.dofusdb.fr/img/items/78204.png"
+   "icon_id": 78204
   },
   {
    "id": 20599,
@@ -468,8 +433,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 144,
-   "icon_id": 78205,
-   "img": "https://api.dofusdb.fr/img/items/78205.png"
+   "icon_id": 78205
   },
   {
    "id": 20600,
@@ -481,8 +445,7 @@
    "bonus": 4,
    "weight": 60,
    "level": 166,
-   "icon_id": 78206,
-   "img": "https://api.dofusdb.fr/img/items/78206.png"
+   "icon_id": 78206
   },
   {
    "id": 20601,
@@ -494,8 +457,7 @@
    "bonus": 6,
    "weight": 80,
    "level": 188,
-   "icon_id": 78207,
-   "img": "https://api.dofusdb.fr/img/items/78207.png"
+   "icon_id": 78207
   },
   {
    "id": 20602,
@@ -507,8 +469,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 144,
-   "icon_id": 78208,
-   "img": "https://api.dofusdb.fr/img/items/78208.png"
+   "icon_id": 78208
   },
   {
    "id": 20603,
@@ -520,8 +481,7 @@
    "bonus": 4,
    "weight": 60,
    "level": 166,
-   "icon_id": 78209,
-   "img": "https://api.dofusdb.fr/img/items/78209.png"
+   "icon_id": 78209
   },
   {
    "id": 20604,
@@ -533,8 +493,7 @@
    "bonus": 6,
    "weight": 80,
    "level": 188,
-   "icon_id": 78210,
-   "img": "https://api.dofusdb.fr/img/items/78210.png"
+   "icon_id": 78210
   },
   {
    "id": 20605,
@@ -546,8 +505,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 144,
-   "icon_id": 78211,
-   "img": "https://api.dofusdb.fr/img/items/78211.png"
+   "icon_id": 78211
   },
   {
    "id": 20606,
@@ -559,8 +517,7 @@
    "bonus": 4,
    "weight": 60,
    "level": 166,
-   "icon_id": 78212,
-   "img": "https://api.dofusdb.fr/img/items/78212.png"
+   "icon_id": 78212
   },
   {
    "id": 20607,
@@ -572,8 +529,7 @@
    "bonus": 6,
    "weight": 80,
    "level": 188,
-   "icon_id": 78213,
-   "img": "https://api.dofusdb.fr/img/items/78213.png"
+   "icon_id": 78213
   },
   {
    "id": 20608,
@@ -585,8 +541,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 144,
-   "icon_id": 78214,
-   "img": "https://api.dofusdb.fr/img/items/78214.png"
+   "icon_id": 78214
   },
   {
    "id": 20609,
@@ -598,8 +553,7 @@
    "bonus": 4,
    "weight": 60,
    "level": 166,
-   "icon_id": 78215,
-   "img": "https://api.dofusdb.fr/img/items/78215.png"
+   "icon_id": 78215
   },
   {
    "id": 20610,
@@ -611,8 +565,7 @@
    "bonus": 6,
    "weight": 80,
    "level": 188,
-   "icon_id": 78216,
-   "img": "https://api.dofusdb.fr/img/items/78216.png"
+   "icon_id": 78216
   },
   {
    "id": 20611,
@@ -624,8 +577,7 @@
    "bonus": 1,
    "weight": 60,
    "level": 200,
-   "icon_id": 78217,
-   "img": "https://api.dofusdb.fr/img/items/78217.png"
+   "icon_id": 78217
   },
   {
    "id": 20612,
@@ -637,8 +589,7 @@
    "bonus": 1,
    "weight": 60,
    "level": 200,
-   "icon_id": 78218,
-   "img": "https://api.dofusdb.fr/img/items/78218.png"
+   "icon_id": 78218
   },
   {
    "id": 20613,
@@ -650,8 +601,7 @@
    "bonus": 1,
    "weight": 60,
    "level": 200,
-   "icon_id": 78219,
-   "img": "https://api.dofusdb.fr/img/items/78219.png"
+   "icon_id": 78219
   },
   {
    "id": 20614,
@@ -663,8 +613,7 @@
    "bonus": 1,
    "weight": 60,
    "level": 200,
-   "icon_id": 78220,
-   "img": "https://api.dofusdb.fr/img/items/78220.png"
+   "icon_id": 78220
   },
   {
    "id": 20615,
@@ -676,8 +625,7 @@
    "bonus": 1,
    "weight": 60,
    "level": 200,
-   "icon_id": 78221,
-   "img": "https://api.dofusdb.fr/img/items/78221.png"
+   "icon_id": 78221
   },
   {
    "id": 20616,
@@ -689,8 +637,7 @@
    "bonus": 1,
    "weight": 60,
    "level": 200,
-   "icon_id": 78222,
-   "img": "https://api.dofusdb.fr/img/items/78222.png"
+   "icon_id": 78222
   },
   {
    "id": 20617,
@@ -702,8 +649,7 @@
    "bonus": 4,
    "weight": 40,
    "level": 104,
-   "icon_id": 78223,
-   "img": "https://api.dofusdb.fr/img/items/78223.png"
+   "icon_id": 78223
   },
   {
    "id": 20618,
@@ -715,8 +661,7 @@
    "bonus": 6,
    "weight": 60,
    "level": 126,
-   "icon_id": 78224,
-   "img": "https://api.dofusdb.fr/img/items/78224.png"
+   "icon_id": 78224
   },
   {
    "id": 20619,
@@ -728,8 +673,7 @@
    "bonus": 8,
    "weight": 80,
    "level": 148,
-   "icon_id": 78225,
-   "img": "https://api.dofusdb.fr/img/items/78225.png"
+   "icon_id": 78225
   },
   {
    "id": 20620,
@@ -741,8 +685,7 @@
    "bonus": 4,
    "weight": 40,
    "level": 104,
-   "icon_id": 78226,
-   "img": "https://api.dofusdb.fr/img/items/78226.png"
+   "icon_id": 78226
   },
   {
    "id": 20621,
@@ -754,8 +697,7 @@
    "bonus": 6,
    "weight": 60,
    "level": 126,
-   "icon_id": 78227,
-   "img": "https://api.dofusdb.fr/img/items/78227.png"
+   "icon_id": 78227
   },
   {
    "id": 20622,
@@ -767,8 +709,7 @@
    "bonus": 8,
    "weight": 80,
    "level": 148,
-   "icon_id": 78228,
-   "img": "https://api.dofusdb.fr/img/items/78228.png"
+   "icon_id": 78228
   },
   {
    "id": 20623,
@@ -780,8 +721,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 104,
-   "icon_id": 78229,
-   "img": "https://api.dofusdb.fr/img/items/78229.png"
+   "icon_id": 78229
   },
   {
    "id": 20624,
@@ -793,8 +733,7 @@
    "bonus": 4,
    "weight": 60,
    "level": 126,
-   "icon_id": 78230,
-   "img": "https://api.dofusdb.fr/img/items/78230.png"
+   "icon_id": 78230
   },
   {
    "id": 20625,
@@ -806,8 +745,7 @@
    "bonus": 6,
    "weight": 80,
    "level": 148,
-   "icon_id": 78231,
-   "img": "https://api.dofusdb.fr/img/items/78231.png"
+   "icon_id": 78231
   },
   {
    "id": 20626,
@@ -819,8 +757,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 104,
-   "icon_id": 78232,
-   "img": "https://api.dofusdb.fr/img/items/78232.png"
+   "icon_id": 78232
   },
   {
    "id": 20627,
@@ -832,8 +769,7 @@
    "bonus": 4,
    "weight": 60,
    "level": 126,
-   "icon_id": 78233,
-   "img": "https://api.dofusdb.fr/img/items/78233.png"
+   "icon_id": 78233
   },
   {
    "id": 20628,
@@ -845,8 +781,7 @@
    "bonus": 6,
    "weight": 80,
    "level": 148,
-   "icon_id": 78234,
-   "img": "https://api.dofusdb.fr/img/items/78234.png"
+   "icon_id": 78234
   },
   {
    "id": 20629,
@@ -858,8 +793,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 104,
-   "icon_id": 78235,
-   "img": "https://api.dofusdb.fr/img/items/78235.png"
+   "icon_id": 78235
   },
   {
    "id": 20630,
@@ -871,8 +805,7 @@
    "bonus": 3,
    "weight": 60,
    "level": 126,
-   "icon_id": 78236,
-   "img": "https://api.dofusdb.fr/img/items/78236.png"
+   "icon_id": 78236
   },
   {
    "id": 20631,
@@ -884,8 +817,7 @@
    "bonus": 4,
    "weight": 80,
    "level": 148,
-   "icon_id": 78237,
-   "img": "https://api.dofusdb.fr/img/items/78237.png"
+   "icon_id": 78237
   },
   {
    "id": 20632,
@@ -897,8 +829,7 @@
    "bonus": 2,
    "weight": 40,
    "level": 104,
-   "icon_id": 78238,
-   "img": "https://api.dofusdb.fr/img/items/78238.png"
+   "icon_id": 78238
   },
   {
    "id": 20633,
@@ -910,8 +841,7 @@
    "bonus": 3,
    "weight": 60,
    "level": 126,
-   "icon_id": 78239,
-   "img": "https://api.dofusdb.fr/img/items/78239.png"
+   "icon_id": 78239
   },
   {
    "id": 20634,
@@ -923,8 +853,7 @@
    "bonus": 4,
    "weight": 80,
    "level": 148,
-   "icon_id": 78240,
-   "img": "https://api.dofusdb.fr/img/items/78240.png"
+   "icon_id": 78240
   },
   {
    "id": 20635,
@@ -936,8 +865,7 @@
    "bonus": 2,
    "weight": 80,
    "level": 188,
-   "icon_id": 78241,
-   "img": "https://api.dofusdb.fr/img/items/78241.png"
+   "icon_id": 78241
   },
   {
    "id": 20636,
@@ -949,8 +877,7 @@
    "bonus": 2,
    "weight": 80,
    "level": 188,
-   "icon_id": 78242,
-   "img": "https://api.dofusdb.fr/img/items/78242.png"
+   "icon_id": 78242
   },
   {
    "id": 20637,
@@ -962,8 +889,7 @@
    "bonus": 2,
    "weight": 80,
    "level": 188,
-   "icon_id": 78243,
-   "img": "https://api.dofusdb.fr/img/items/78243.png"
+   "icon_id": 78243
   },
   {
    "id": 20638,
@@ -975,8 +901,7 @@
    "bonus": 2,
    "weight": 80,
    "level": 188,
-   "icon_id": 78244,
-   "img": "https://api.dofusdb.fr/img/items/78244.png"
+   "icon_id": 78244
   },
   {
    "id": 20639,
@@ -988,8 +913,7 @@
    "bonus": 2,
    "weight": 80,
    "level": 188,
-   "icon_id": 78245,
-   "img": "https://api.dofusdb.fr/img/items/78245.png"
+   "icon_id": 78245
   },
   {
    "id": 20640,
@@ -1001,8 +925,7 @@
    "bonus": 1,
    "weight": 40,
    "level": 164,
-   "icon_id": 78246,
-   "img": "https://api.dofusdb.fr/img/items/78246.png"
+   "icon_id": 78246
   },
   {
    "id": 20641,
@@ -1014,8 +937,7 @@
    "bonus": 2,
    "weight": 80,
    "level": 188,
-   "icon_id": 78247,
-   "img": "https://api.dofusdb.fr/img/items/78247.png"
+   "icon_id": 78247
   },
   {
    "id": 20642,
@@ -1027,8 +949,7 @@
    "bonus": 4,
    "weight": 40,
    "level": 124,
-   "icon_id": 78248,
-   "img": "https://api.dofusdb.fr/img/items/78248.png"
+   "icon_id": 78248
   },
   {
    "id": 20643,
@@ -1040,8 +961,7 @@
    "bonus": 7,
    "weight": 60,
    "level": 146,
-   "icon_id": 78249,
-   "img": "https://api.dofusdb.fr/img/items/78249.png"
+   "icon_id": 78249
   },
   {
    "id": 20644,
@@ -1053,8 +973,7 @@
    "bonus": 10,
    "weight": 80,
    "level": 168,
-   "icon_id": 78250,
-   "img": "https://api.dofusdb.fr/img/items/78250.png"
+   "icon_id": 78250
   }
  ]
 }

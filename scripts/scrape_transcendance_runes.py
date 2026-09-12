@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2026 The Dofus Fashionista — LGPL (see COPYING.LESSER)
 """Scrape the full transcendence-rune catalogue from the DofusDB API and
-(optionally) mirror their icons locally.
+mirror their icons locally.
 
 Why this exists
 ---------------
@@ -14,12 +14,18 @@ whole roster so the smithmagic simulator can list them with real values + icons.
 Outputs
 -------
 - chardata/forgemagie_transcendance.json  (catalogue consumed by the simulator)
-- chardata/static/chardata/runes_transcendance/<iconId>.png  (with --images)
+- chardata/static/chardata/runes_transcendance/<iconId>.webp
+
+The icons are mirrored, not linked. The catalogue deliberately records no
+absolute URL: it carries `icon_id`, and the loader turns it into a path on our
+own domain. Writing the DofusDB address into the file once put it straight into
+the reader's browser, which then fetched 81 icons from a third party that the
+privacy policy did not name and that no guard could see, because both guards
+read source text and this address arrived from data.
 
 Usage
 -----
-    python scripts/scrape_transcendance_runes.py            # refresh the JSON
-    python scripts/scrape_transcendance_runes.py --images   # + download icons
+    python scripts/scrape_transcendance_runes.py   # refresh the JSON + icons
 
 Notes
 -----
@@ -29,10 +35,13 @@ Notes
   corruption type later, add its id to RUNE_TYPE_IDS below.
 """
 import argparse
+import io
 import json
 import os
 import urllib.parse
 import urllib.request
+
+from PIL import Image
 
 API = "https://api.dofusdb.fr"
 RUNE_TYPE_IDS = [211]  # 211 = "Rune de transcendance"
@@ -40,6 +49,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CHARDATA = os.path.normpath(os.path.join(HERE, "..", "fashionsite", "chardata"))
 OUT_JSON = os.path.join(CHARDATA, "forgemagie_transcendance.json")
 IMG_DIR = os.path.join(CHARDATA, "static", "chardata", "runes_transcendance")
+# DofusDB serves 128px PNGs; the page shows them at 28 CSS pixels. 96px webp is
+# what this site already stores its mirrored artwork as (chardata/monsters/96),
+# and it covers a 28px slot up to a 3x screen: 297 ko for the 81 icons instead
+# of 1017.
+ICON_PX = 96
 
 # Ankama effectId -> (Fashionista FM stat key, FR label). Mirrors the keys used
 # in forgemagie_data.py so transcendence runes line up with existing stats.
@@ -113,7 +127,7 @@ def fetch_runes():
                     "bonus": bonus_eff.get("from", 0),
                     "weight": weight_eff["value"],
                     "level": it.get("level"),
-                    "icon_id": icon, "img": "%s/img/items/%d.png" % (API, icon),
+                    "icon_id": icon,
                 })
             skip += 50
     runes.sort(key=lambda r: r["id"])
@@ -122,23 +136,40 @@ def fetch_runes():
     return runes
 
 
+def icon_source(icon_id):
+    """Where the icon is read from, once, by us -- never by a reader."""
+    return "%s/img/items/%d.png" % (API, icon_id)
+
+
 def download_images(runes):
     os.makedirs(IMG_DIR, exist_ok=True)
+    manquants = []
     for r in runes:
-        dest = os.path.join(IMG_DIR, "%d.png" % r["icon_id"])
+        dest = os.path.join(IMG_DIR, "%d.webp" % r["icon_id"])
         if os.path.exists(dest):
             continue
         try:
-            urllib.request.urlretrieve(r["img"], dest)
+            with urllib.request.urlopen(icon_source(r["icon_id"]),
+                                        timeout=30) as resp:
+                octets = resp.read()
+            image = Image.open(io.BytesIO(octets)).convert("RGBA")
+            image = image.resize((ICON_PX, ICON_PX), Image.LANCZOS)
+            image.save(dest, "WEBP", quality=90, method=6)
             print("img", r["icon_id"])
         except Exception as exc:  # noqa
+            manquants.append((r["icon_id"], exc))
             print("FAIL img", r["icon_id"], exc)
+    # An icon that never arrives leaves a rune with a broken image on the page,
+    # so say it at the end rather than letting it scroll past.
+    if manquants:
+        print("MISSING %d icon(s); the page will show a hole for each"
+              % len(manquants))
 
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--images", action="store_true", help="also download icons locally")
-    args = ap.parse_args()
+    # Kept so that the old `--images` invocation, still written in a shell
+    # history or a note somewhere, fails loudly instead of looking accepted.
+    argparse.ArgumentParser().parse_args()
     runes = fetch_runes()
     out = {
         "source": "DofusDB API typeId=%s (Rune de transcendance)" % RUNE_TYPE_IDS,
@@ -151,8 +182,7 @@ def main():
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     print("wrote %d runes -> %s" % (len(runes), OUT_JSON))
-    if args.images:
-        download_images(runes)
+    download_images(runes)
 
 
 if __name__ == "__main__":
