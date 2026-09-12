@@ -456,7 +456,7 @@ def _limit_notes(spells, order, times_cast, ap):
     plus. Sinon il n'explique rien et serait du bruit. Il va sur le **dernier**
     lancer du sort, celui ou la depense s'arrete.
 
-    Mesure du 13 septembre 2026, un panneau par classe sur les cinq versions,
+    Mesure du 12 septembre 2026, un panneau par classe sur les cinq versions,
     83 panneaux: **79, soit 95,2 %, sont faconnes par une limite** sans que
     rien ne le dise, et 174 des 331 lignes le seraient. C'est ce nombre qui a
     decide la forme: une phrase sous une ligne sur deux etait du bruit, donc

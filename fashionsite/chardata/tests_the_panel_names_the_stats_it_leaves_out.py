@@ -220,7 +220,7 @@ class TheNoteAppearsOnlyWhenItAppliesTests(_AvecDesBuilds):
         """Le panneau se rafraichit sans recharger et doit porter la phrase
         par ce chemin aussi.
 
-        Mesure du 13 septembre 2026: aucun sort des cinq versions n'accorde de
+        Mesure du 12 septembre 2026: aucun sort des cinq versions n'accorde de
         % melee ni de % distance, donc aujourd'hui un buff coche ne peut pas
         la faire apparaitre. Elle voyage quand meme avec les deux autres pour
         que le panneau n'ait qu'un seul chemin de rafraichissement.

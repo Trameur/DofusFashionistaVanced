@@ -7,7 +7,7 @@ prend le minimum, donc il est exactement <<le plus que ce tour-la permet sur
 une cible>>, ce que le panneau annonce deja comme cadre. Une seule phrase
 couvre les trois sans preciser a faux laquelle a joue.
 
-**Mesure du 13 septembre 2026**, un panneau par classe sur les cinq versions,
+**Mesure du 12 septembre 2026**, un panneau par classe sur les cinq versions,
 83 panneaux: **79, soit 95,2 %, sont faconnes par une limite** sans que rien
 ne le dise. Par version: 100 % sur Dofus 3, la beta, Dofus 2 et Touch, 66,7 %
 sur Retro. Et **97,5 % des sorts jouables portent une limite** (1789 sur
@@ -141,7 +141,7 @@ class ItFiresOnRealBuildsTests(TestCase):
         return _best_combo(_Char(), get_solution(char), 'dofus3')
 
     def test_most_classes_hit_a_cap_in_their_best_turn(self):
-        """Mesure du 13 septembre 2026: 95,2 % des panneaux. Sans cette part,
+        """Mesure du 12 septembre 2026: 95,2 % des panneaux. Sans cette part,
         le marqueur serait une decoration qui ne sort jamais."""
         from chardata.version_compat import filter_classes_for_version
         from fashionistapulp.dofus_constants import CHARACTER_CLASSES
