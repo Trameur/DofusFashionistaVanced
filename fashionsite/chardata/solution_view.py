@@ -781,7 +781,36 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         build_check = None
         build_score = None
 
+    # Le meilleur tour, sur la page ou le lecteur arrive depuis la galerie ou
+    # depuis un lien partage. Il etait a un clic de la, sur la page des sorts,
+    # et la section 55 vient de le mettre dans la comparaison: il manquait sur
+    # la page la plus lue des trois.
+    #
+    # Dans son propre try: un tour qui ne se calcule pas ne doit pas emporter
+    # le texte a copier ni le score, qui sont deja construits au-dessus.
+    #
+    # Il n'est PAS mis dans la metadonnee de la galerie, et ce n'est pas un
+    # oubli: le filtre <<cacher les builds invalides>> construit cette
+    # metadonnee pour TOUS les builds correspondants et non pour les 24 de la
+    # page. Mesure du 12 septembre 2026: 1980 builds partages, 37 ms le tour,
+    # soit 73 secondes sur un cache froid. Ici c'est un seul calcul par page.
+    best_turn = None
+    try:
+        # Import local: `spells_view` n'importe pas ce module aujourd'hui,
+        # mais il tient la page voisine et les deux se citent souvent.
+        from chardata.spells_view import _best_combo
+        _sol_for_turn = (snapshot_solution if snapshot_solution is not None
+                         else get_solution(char))
+        if _sol_for_turn is not None:
+            _combo = _best_combo(char, _sol_for_turn,
+                                 getattr(request, 'game_version', 'dofus3'))
+            best_turn = _combo['total'] if _combo else None
+    except Exception:
+        logger.exception('Failed to build the best turn (char %s)', char.id)
+        best_turn = None
+
     params = {'char_id': char_id,
+              'best_turn': best_turn,
               'lock_item': static('chardata/lock-icon.png'),
               'switch_item': static('chardata/1412645636_Left-right.png'),
               'delete_item': static('chardata/delete-icon.png'),

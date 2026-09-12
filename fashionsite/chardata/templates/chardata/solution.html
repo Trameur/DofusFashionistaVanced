@@ -488,6 +488,18 @@
                 <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell" title="{% trans "What the character has without gear: scrolls and spent points." %}">{% if is_guest %}{% trans "Base" %}{% else %}<a href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base" %}</a>{% endif %}</td>
                 <td class="solution-stat-summary-value-header solution-stat-summary-value-cell">Total</td>
             </tr>
+            {% if best_turn %}
+            <tr class="solution-best-turn-row">
+                <td colspan="4">
+                    <div class="solution-build-score" title="{% trans "One turn on a single target: average damage, self buffs and critical hit rate included." %} {% trans "Spells at the highest level the character reaches." %}">
+                        <span class="solution-build-score-label">{% trans "Best turn" %}</span>
+                        <span class="solution-build-score-value">
+                            {% if encoded_char_id %}<a href="{% game_url 'spells_linked' char.char_name|default:'shared' encoded_char_id %}">{{ best_turn }}</a>{% else %}<a href="{% game_url 'spells' char_id %}">{{ best_turn }}</a>{% endif %}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
             {% if has_build_score %}
             <tr class="solution-build-score-row">
                 <td colspan="4">
