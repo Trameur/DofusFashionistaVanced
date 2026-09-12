@@ -7341,3 +7341,6 @@ msgstr "Um único turno num alvo: dano médio e taxa de golpe crítico incluído
 
 msgid "One turn on a single target: average damage and critical hit rate included. Buffs cast in the turn count, on top of the ones ticked on this page."
 msgstr "Um único turno num alvo: dano médio e taxa de golpe crítico incluídos. Os buffs lançados durante o turno contam, além dos marcados nesta página."
+
+msgid "Needs level %(level)s"
+msgstr "Exige o nível %(level)s"

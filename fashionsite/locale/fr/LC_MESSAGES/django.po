@@ -7395,3 +7395,6 @@ msgstr "Un seul tour sur une cible : dégâts moyens et taux de coup critique co
 
 msgid "One turn on a single target: average damage and critical hit rate included. Buffs cast in the turn count, on top of the ones ticked on this page."
 msgstr "Un seul tour sur une cible : dégâts moyens et taux de coup critique compris. Les buffs lancés pendant le tour comptent, en plus de ceux cochés sur cette page."
+
+msgid "Needs level %(level)s"
+msgstr "Demande le niveau %(level)s"

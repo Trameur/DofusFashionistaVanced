@@ -61,7 +61,8 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     reference = reference_by_spell_id(game_version, char_class)
     partenaires = _variant_partner_names(class_spells, game_version)
     for spell in class_spells + spells_by_class.get('default', []):
-        web_digest = _create_spell_web_digest(spell, game_version)
+        web_digest = _create_spell_web_digest(spell, game_version,
+                                              char.level)
         web_digest['variant_partner'] = partenaires.get(spell.name)
         entry = reference.get(getattr(spell, 'spell_id', None))
         if entry is not None:
@@ -72,7 +73,8 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     shown = {getattr(spell, 'spell_id', None) for spell in class_spells}
     for spell_id, entry in reference.items():
         if spell_id not in shown:
-            digests.append(_create_reference_web_digest(entry, game_version))
+            digests.append(_create_reference_web_digest(entry, game_version,
+                                                       char.level))
     digests_json = jsonpickle.encode(digests, unpicklable=False)
     stats_json = jsonpickle.encode(solution.get_stats_total(), unpicklable=False)
     return set_response(request, 
@@ -145,15 +147,17 @@ def _reference_digest(entry):
             'crit': entry.get('crit')}
 
 
-def _create_reference_web_digest(entry, game_version):
+def _create_reference_web_digest(entry, game_version, char_level=None):
     """A spell that neither hurts nor buffs: the page still lists it, with what
     the game says and no damage table."""
     language = get_supported_language()
     name = localized(entry, 'name', language)
+    levels = entry.get('levels') or [1]
     return {'type': 'spell',
             'name': name,
             'canonical': name,
-            'level': entry.get('levels') or [1],
+            'level': levels,
+            **_reach(levels, char_level),
             'stacks': None,
             # The two paths that draw a spell icon have to agree. The other one
             # (in the cast list below) passes the damage table's own canonical
@@ -446,7 +450,35 @@ def _cast_note(castable, name, later, damage):
     return ''
 
 
-def _create_spell_web_digest(spell, game_version='dofus3'):
+def _reach(level_req, char_level):
+    """Ce que le personnage peut vraiment demander: le rang le plus haut que
+    son niveau atteint, et s'il a le sort du tout.
+
+    Decide ici et pas dans la page. Le serveur borne deja le rang qu'on lui
+    demande, dans `_chosen_level`, et la page posait un rond cliquable par rang
+    sans regarder le niveau: la table des degats obeissait au rond et le
+    panneau non, donc les deux se contredisaient et c'etait la table qui
+    montrait des degats hors de portee.
+
+    Mesure du 12 septembre 2026, tous les sorts de toutes les classes: sur un
+    personnage de niveau 1, **93,6 % des rangs offerts en Dofus 3 sont hors de
+    portee** (1057 sur 1129), 62,2 % a 100, et 0 % a 200. C'est ce zero a 200
+    qui explique que personne ne l'ait vu.
+
+    `char_level` a None veut dire <<l'appelant ne parle pas d'un niveau>>: la
+    page de comparaison decide par colonne, chaque build ayant le sien.
+    """
+    from chardata.spell_buffs import _decide_spell_level
+    levels = list(level_req or [1])
+    if char_level is None:
+        return {'available': True, 'highest_level': len(levels) - 1}
+    if char_level < levels[0]:
+        return {'available': False, 'highest_level': 0}
+    return {'available': True,
+            'highest_level': _decide_spell_level(levels, char_level)}
+
+
+def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     web_digest = {}
     digest = spell.get_effects_digest()
     current_language = get_supported_language()
@@ -455,6 +487,7 @@ def _create_spell_web_digest(spell, game_version='dofus3'):
     # 'name' is translated; the combo endpoint matches on the untranslated name.
     web_digest['canonical'] = spell.name
     web_digest['level'] = spell.level_req
+    web_digest.update(_reach(spell.level_req, char_level))
     web_digest['stacks'] = spell.stacks
     web_digest['image_url'] = _spell_image_url(spell.name, game_version)
     web_digest['hit_number'] = digest.hit_number

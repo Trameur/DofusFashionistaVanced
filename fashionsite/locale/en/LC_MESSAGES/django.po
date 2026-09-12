@@ -6612,3 +6612,6 @@ msgstr ""
 
 msgid "One turn on a single target: average damage and critical hit rate included. Buffs cast in the turn count, on top of the ones ticked on this page."
 msgstr ""
+
+msgid "Needs level %(level)s"
+msgstr ""

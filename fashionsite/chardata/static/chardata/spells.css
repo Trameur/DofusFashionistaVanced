@@ -451,3 +451,18 @@
     opacity: 0.6;
     padding: 2px 6px 0 6px;
 }
+
+/* Un rang que le niveau du personnage n'atteint pas. Pas de couleur nommee
+   ici: l'opacite multiplie celle que le theme a deja posee, donc les deux
+   themes et les deux designs suivent sans rien declarer de plus. Le niveau
+   requis est dans l'infobulle du rond. */
+.circle-container.level-out-of-reach {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.circle-container.level-out-of-reach:hover .level-circle {
+    width: 6px;
+    height: 6px;
+    margin: 2px;
+}

@@ -135,7 +135,8 @@
         
     </div>
     
-    <table id="spells-table" width="100%">
+    <table id="spells-table" width="100%"
+           data-out-of-reach="{% blocktrans with level="__level__" %}Needs level {{ level }}{% endblocktrans %}">
     <tr>
     <td class="spells-td" width="33%"> <div id="spells0"></div></td>
     <td class="spells-td" width="33%"> <div id="spells1"></div></td>
@@ -1022,6 +1023,25 @@
         }
     }
 
+    // Le serveur dit jusqu'ou le niveau va; la page ne le recalcule pas.
+    function isOutOfReach(spell, level) {
+        if (spell.type != 'spell') {
+            return false;
+        }
+        if (spell.available === false) {
+            return true;
+        }
+        return typeof spell.highest_level === 'number'
+               && level > spell.highest_level;
+    }
+
+    function outOfReachTitle(spell, level) {
+        var modele = $("#spells-table").data('out-of-reach') || '';
+        var requis = (spell.level && spell.level[level] !== undefined)
+                     ? spell.level[level] : '';
+        return modele.replace('__level__', requis);
+    }
+
     function createDot(i, text) {
         var margin = 0;
         if (text >= 10) {
@@ -1274,7 +1294,18 @@
                 levelCircle.addClass('level-circle-default-color');
                 levelNumber.addClass('level-number-default-color');
             }
-        
+
+            // Un rang que le niveau ne permet pas n'est pas propose: la table
+            // des degats obeissait au rond alors que le serveur bornait le
+            // rang du panneau, donc les deux se contredisaient et la table
+            // montrait des degats hors de portee. C'est le serveur qui decide,
+            // pour qu'il n'y ait pas deux regles.
+            if (isOutOfReach(spell, level)) {
+                dot.addClass('level-out-of-reach');
+                dot.attr('title', outOfReachTitle(spell, level));
+                return;
+            }
+
             dot.click(function(e) {
                 e.stopPropagation();
                 $(this).parent().find('.circle-container').removeClass('selected-level');
@@ -1554,18 +1585,11 @@
 
     function decideLevel(spell) {
         if (spell.type == 'spell') {
-            numLevels = spell.level.length;
-            if ({{char_level}} < spell.level[0] || numLevels == 1) {
-                return 0;
-            }
-            i = 0;
-            while (i < numLevels - 1) {
-                if ({{char_level}} >= spell.level[i] && {{char_level}} < spell.level[i+1]){
-                    return i;
-                }
-                i = i+1;
-            }
-            return i;
+            // Le rang le plus haut que le niveau atteint, decide par le
+            // serveur. Cette fonction en portait une copie en JavaScript, et
+            // deux copies d'une meme regle finissent par s'ecarter.
+            return typeof spell.highest_level === 'number'
+                   ? spell.highest_level : 0;
         } else if (spell.type == 'weapon') {
             return LEVEL_TO_ELEMENT.indexOf(spell.element_maged.charAt(0).toUpperCase());
         } else {
