@@ -19,6 +19,7 @@ import os
 import pickle
 import re
 import sys
+from functools import lru_cache
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(CURRENT_DIRECTORY)
@@ -49,6 +50,12 @@ def _items_of(payload):
     if isinstance(payload, dict):
         return payload.get('items') or list(payload.values())
     return []
+
+
+@lru_cache(maxsize=4096)
+def _names_it(name):
+    """Le nom, cherche comme un mot entier: voir _dofusdude_tooltips."""
+    return re.compile(r'(?<!\w)%s(?!\w)' % re.escape(name))
 
 
 def _clean(text):
@@ -111,6 +118,21 @@ def _dofusdude_tooltips(game_version, spells_by_id):
     int_minimum is a numeric field the API reuses, so the resolved name must
     also occur in the sentence. Dofus 2 numbers these effects 3 to 6 where
     Dofus 3 numbers them 205 to 242, so the effect id is no help.
+
+    An int_minimum of 0 is not a spell reference, it is an absent number. It
+    resolved to spell 0, which is Punch, the basic attack no item grants; the
+    name check then let it through in German and in German only, because
+    German calls Punch "Nahkampf" and that is also the plain word for close
+    combat. So a Dofus whose sentence says "Schaden im Fern- und Nahkampf"
+    carried an explanation of a spell it has nothing to do with.
+
+    The name check reads the name as a WORD too, and not as a run of letters.
+    Each guard catches most of it on its own and neither catches all: read as
+    a word, the name stops matching inside "Nahkampfschaden" on seven Dofus 3
+    items, seven beta ones and three of Dofus 2; the fourth Dofus 2 item says
+    "im Fern- und Nahkampf", where the word really does stand alone, and only
+    the zero check keeps it out. Together: 18 wrong rows gone, no right one
+    lost, and no item left explained in one language only.
     """
     directory = os.path.join(CURRENT_DIRECTORY, EQUIPMENT_DIR[game_version])
     tooltips = {}
@@ -125,12 +147,14 @@ def _dofusdude_tooltips(game_version, spells_by_id):
             if ankama_id is None:
                 continue
             for effect in item.get('effects') or []:
-                entry = (spells_by_id.get(effect.get('int_minimum'))
-                         or {}).get(lang)
+                spell_id = effect.get('int_minimum')
+                if not spell_id:
+                    continue
+                entry = (spells_by_id.get(spell_id) or {}).get(lang)
                 if not entry:
                     continue
                 name, description = entry
-                if name not in (effect.get('formatted') or ''):
+                if not _names_it(name).search(effect.get('formatted') or ''):
                     continue
                 (tooltips.setdefault(int(ankama_id), {})
                          .setdefault(lang, {}))[name] = description
