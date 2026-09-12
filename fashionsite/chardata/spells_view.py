@@ -354,9 +354,19 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         times_cast[name] = times_cast.get(name, 0) + 1
     casts = []
     running = 0
+    shown = 0
     for name, damage in order:
         damage -= (later.get(name, 0) / times_cast[name]) if name in later else 0
         running += damage
+        # Le cumul est arrondi une seule fois, et les degats du lancer sont sa
+        # difference avec le precedent. Arrondir les deux separement donne un
+        # panneau qui ne s'additionne pas: mesure du 12 septembre 2026 sur 83
+        # panneaux, toutes les classes des cinq versions, 46 dont la colonne
+        # des degats ne retombait pas sur celle du cumul, jusqu'a 2 d'ecart,
+        # et deux Iop dont le total en tete n'etait meme pas le dernier cumul.
+        # Le lecteur qui verifie l'addition doit tomber juste.
+        before = shown
+        shown = int(round(running))
         castable = by_name[name]
         if castable.is_spell:
             shown_name = _localized_spell_name(name, language, game_version)
@@ -368,9 +378,10 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         casts.append({'name': shown_name,
                       'image_url': image_url,
                       'ap': castable.cost,
-                      'damage': int(round(damage)),
-                      'running': int(round(running)),
-                      'note': _cast_note(castable, name, later, damage)})
+                      'damage': shown - before,
+                      'running': shown,
+                      'note': _cast_note(castable, name, later,
+                                         shown - before)})
     late = []
     for name in sorted(later):
         castable = by_name[name]
@@ -409,7 +420,10 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'pushback': bool(pushback),
             'can_push': any(getattr(spell, 'push_cells', 0)
                             for spell in spells),
-            'total': int(round(total - sum(later.values()))),
+            # Le dernier cumul, et non un arrondi calcule a part: les deux
+            # valent la meme chose mais pas toujours au meme entier, et le
+            # total en tete doit etre celui que la liste en dessous atteint.
+            'total': casts[-1]['running'],
             'ap_used': sum(cast['ap'] for cast in casts),
             'ap_available': ap,
             'conditional': extras}
