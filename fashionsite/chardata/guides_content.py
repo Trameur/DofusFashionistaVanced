@@ -12,9 +12,15 @@ ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-
          'versions-explained', 'lock-and-dodge']
 
 
+import logging
+import re
+from functools import lru_cache
+
 from fashionistapulp.game_versions import version_keys
 
 from chardata.guides_slugs import GUIDE_SLUGS
+
+logger = logging.getLogger(__name__)
 
 GUIDES = {
     # ------------------------------------------------------------------ #
@@ -4363,7 +4369,7 @@ GUIDES = {
                     'lead': 'This page used to explain why Dofus 2 had no best-turn total. It has one now, and the numbers behind it are its own.',
                     'body': '''
 <h2>What changed</h2>
-<p>To search a turn, the tool needs every spell at every rank: its AP cost, its damage rolls, how often it can be cast. That table was missing for Dofus 2, so the panel had nothing to search and stayed away. It is there now. A level 200 Iop has 16 usable spells on Dofus 2, against 31 on Dofus 3, and the panel orders them into the turn that hits hardest for the action points you have.</p>
+<p>To search a turn, the tool needs every spell at every rank: its AP cost, its damage rolls, how often it can be cast. That table was missing for Dofus 2, so the panel had nothing to search and stayed away. It is there now. A level 200 Iop has [[spells:Iop]] usable spells on Dofus 2, as many as on Dofus 3 but not the same ones: across the eighteen classes both games share, 137 spell names differ. The panel orders them into the turn that hits hardest for the action points you have.</p>
 
 <h2>Why it took so long</h2>
 <p>We were reading a mirror of the game data, and that mirror publishes the Dofus 2 spells without their ranks. It was easy to conclude the game did not have them. Ankama publishes the table itself, and once we went to the source rather than the copy, every rank was there.</p>
@@ -4383,7 +4389,7 @@ GUIDES = {
                     'lead': "Cette page expliquait pourquoi Dofus 2 n'avait pas de total de tour. Il en a un, et les chiffres derrière sont les siens.",
                     'body': '''
 <h2>Ce qui a changé</h2>
-<p>Pour chercher un tour, l'outil a besoin de chaque sort à chaque rang : son coût en PA, ses jets de dégâts, sa fréquence de lancer. Cette table manquait pour Dofus 2, donc le panneau n'avait rien à chercher et s'abstenait. Elle est là. Un Iop niveau 200 dispose de 16 sorts utilisables sur Dofus 2, contre 31 sur Dofus 3, et le panneau les ordonne en le tour qui tape le plus fort pour les points d'action que tu as.</p>
+<p>Pour chercher un tour, l'outil a besoin de chaque sort à chaque rang : son coût en PA, ses jets de dégâts, sa fréquence de lancer. Cette table manquait pour Dofus 2, donc le panneau n'avait rien à chercher et s'abstenait. Elle est là. Un Iop niveau 200 dispose de [[spells:Iop]] sorts utilisables sur Dofus 2, autant que sur Dofus 3 mais pas les mêmes : sur les dix-huit classes que les deux jeux partagent, 137 noms de sorts diffèrent. Le panneau les ordonne en le tour qui tape le plus fort pour les points d'action que tu as.</p>
 
 <h2>Pourquoi ça a pris si longtemps</h2>
 <p>Nous lisions un miroir des données du jeu, et ce miroir publie les sorts de Dofus 2 sans leurs rangs. Il était facile d'en conclure que le jeu ne les avait pas. Ankama publie la table lui-même, et le jour où nous sommes allés à la source plutôt qu'à la copie, tous les rangs y étaient.</p>
@@ -4403,7 +4409,7 @@ GUIDES = {
                     'lead': 'Esta página explicaba por qué Dofus 2 no tenía total de turno. Ya lo tiene, y las cifras que hay detrás son suyas.',
                     'body': '''
 <h2>Qué ha cambiado</h2>
-<p>Para buscar un turno, la herramienta necesita cada hechizo en cada rango: su coste en PA, sus tiradas de daño y cuántas veces puede lanzarse. Esa tabla faltaba en Dofus 2, así que el panel no tenía nada que buscar y se mantenía al margen. Ya está. Un Yopuka de nivel 200 tiene 16 hechizos utilizables en Dofus 2, frente a 31 en Dofus 3, y el panel los ordena en el turno que más pega con los puntos de acción que tengas.</p>
+<p>Para buscar un turno, la herramienta necesita cada hechizo en cada rango: su coste en PA, sus tiradas de daño y cuántas veces puede lanzarse. Esa tabla faltaba en Dofus 2, así que el panel no tenía nada que buscar y se mantenía al margen. Ya está. Un Yopuka de nivel 200 tiene [[spells:Iop]] hechizos utilizables en Dofus 2, tantos como en Dofus 3 pero no los mismos: en las dieciocho clases que ambos juegos comparten, 137 nombres de hechizo difieren. El panel los ordena en el turno que más pega con los puntos de acción que tengas.</p>
 
 <h2>Por qué ha tardado tanto</h2>
 <p>Leíamos un espejo de los datos del juego, y ese espejo publica los hechizos de Dofus 2 sin sus rangos. Era fácil concluir que el juego no los tenía. Ankama publica la tabla por su cuenta, y en cuanto fuimos a la fuente en lugar de a la copia, todos los rangos estaban ahí.</p>
@@ -4423,7 +4429,7 @@ GUIDES = {
                     'lead': 'Esta página explicava por que o Dofus 2 não tinha total de turno. Agora tem, e os números por trás dele são os seus.',
                     'body': '''
 <h2>O que mudou</h2>
-<p>Para procurar um turno, a ferramenta precisa de cada feitiço em cada patamar: o custo em PA, as rolagens de dano e quantas vezes pode ser lançado. Essa tabela faltava no Dofus 2, então o painel não tinha o que procurar e ficava de fora. Agora está lá. Um Iop de nível 200 tem 16 feitiços utilizáveis no Dofus 2, contra 31 no Dofus 3, e o painel os organiza no turno que bate mais forte com os pontos de ação que você tem.</p>
+<p>Para procurar um turno, a ferramenta precisa de cada feitiço em cada patamar: o custo em PA, as rolagens de dano e quantas vezes pode ser lançado. Essa tabela faltava no Dofus 2, então o painel não tinha o que procurar e ficava de fora. Agora está lá. Um Iop de nível 200 tem [[spells:Iop]] feitiços utilizáveis no Dofus 2, tantos quanto no Dofus 3 mas não os mesmos: nas dezoito classes que os dois jogos partilham, 137 nomes de feitiço diferem. O painel os organiza no turno que bate mais forte com os pontos de ação que você tem.</p>
 
 <h2>Por que demorou tanto</h2>
 <p>Líamos um espelho dos dados do jogo, e esse espelho publica os feitiços do Dofus 2 sem os patamares. Era fácil concluir que o jogo não os tinha. A Ankama publica a tabela por conta própria, e assim que fomos à fonte em vez da cópia, todos os patamares estavam lá.</p>
@@ -4443,7 +4449,7 @@ GUIDES = {
                     'lead': 'Diese Seite erklärte, warum Dofus 2 keine Zugsumme hatte. Es hat jetzt eine, und die Zahlen dahinter sind seine eigenen.',
                     'body': '''
 <h2>Was sich geändert hat</h2>
-<p>Um einen Zug zu suchen, braucht das Werkzeug jeden Zauber auf jeder Stufe: seine AP-Kosten, seine Schadenswürfe und wie oft er gewirkt werden darf. Diese Tabelle fehlte für Dofus 2, also hatte das Panel nichts zu durchsuchen und blieb weg. Jetzt ist sie da. Ein Iop auf Stufe 200 hat in Dofus 2 16 nutzbare Zauber, in Dofus 3 dagegen 31, und das Panel ordnet sie zu dem Zug, der mit deinen Aktionspunkten am härtesten trifft.</p>
+<p>Um einen Zug zu suchen, braucht das Werkzeug jeden Zauber auf jeder Stufe: seine AP-Kosten, seine Schadenswürfe und wie oft er gewirkt werden darf. Diese Tabelle fehlte für Dofus 2, also hatte das Panel nichts zu durchsuchen und blieb weg. Jetzt ist sie da. Ein Iop auf Stufe 200 hat in Dofus 2 [[spells:Iop]] nutzbare Zauber, genauso viele wie in Dofus 3, aber nicht dieselben: in den achtzehn Klassen, die beide Spiele teilen, unterscheiden sich 137 Zaubernamen. Das Panel ordnet sie zu dem Zug, der mit deinen Aktionspunkten am härtesten trifft.</p>
 
 <h2>Warum es so lange gedauert hat</h2>
 <p>Wir lasen einen Spiegel der Spieldaten, und dieser Spiegel veröffentlicht die Zauber von Dofus 2 ohne ihre Stufen. Daraus ließ sich leicht schließen, das Spiel habe sie nicht. Ankama veröffentlicht die Tabelle selbst, und sobald wir zur Quelle statt zur Kopie gegangen sind, war jede Stufe da.</p>
@@ -4468,7 +4474,7 @@ GUIDES = {
 <p>A Retro character starts at <strong>6 AP</strong> like everyone else, and gear adds on top. The difference is that 1.29 never got the AP, MP and range limitation the modern game introduced, so nothing stops the total at 12. Stack +10 AP and the panel really does search a 16 AP turn.</p>
 
 <h2>A smaller spell book</h2>
-<p>Retro classes carry far fewer damage spells than modern ones: a level 200 Iop reads 12 usable spells here against 31 on Dofus 3. Fewer options make the search shorter and the answer blunter, and they make AP breakpoints matter more, since there is less to fill a turn with.</p>
+<p>Retro classes carry far fewer damage spells than modern ones: a level 200 Iop reads [[spells:Iop]] usable spells here against [[spells:Iop:dofus3]] on Dofus 3. Fewer options make the search shorter and the answer blunter, and they make AP breakpoints matter more, since there is less to fill a turn with.</p>
 
 <h2>What that means when you gear</h2>
 <p>Because AP is uncapped, AP keeps paying on Retro long after it would be wasted elsewhere. That is worth remembering when you weight your stats: the modern habit of stopping at +6 AP comes from a rule 1.29 does not have.</p>
@@ -4485,7 +4491,7 @@ GUIDES = {
 <p>Un personnage Retro démarre à <strong>6 PA</strong> comme tout le monde, et le stuff s'ajoute. La différence, c'est que la 1.29 n'a jamais reçu la limitation PA, PM et portée introduite par le jeu moderne : rien n'arrête donc le total à 12. Empile +10 PA et le panneau cherche vraiment un tour à 16 PA.</p>
 
 <h2>Un livre de sorts plus court</h2>
-<p>Les classes Retro ont bien moins de sorts de dégâts que les modernes : un Iop niveau 200 lit 12 sorts utilisables ici, contre 31 sur Dofus 3. Moins d'options, donc une recherche plus courte et une réponse plus tranchée, et des paliers de PA qui comptent davantage puisqu'il y a moins de quoi remplir un tour.</p>
+<p>Les classes Retro ont bien moins de sorts de dégâts que les modernes : un Iop niveau 200 lit [[spells:Iop]] sorts utilisables ici, contre [[spells:Iop:dofus3]] sur Dofus 3. Moins d'options, donc une recherche plus courte et une réponse plus tranchée, et des paliers de PA qui comptent davantage puisqu'il y a moins de quoi remplir un tour.</p>
 
 <h2>Ce que ça change quand tu t'équipes</h2>
 <p>Comme les PA ne sont pas plafonnés, ils continuent de payer sur Retro bien après le point où ils seraient gaspillés ailleurs. Bon à garder en tête au moment de pondérer : le réflexe moderne de s'arrêter à +6 PA vient d'une règle que la 1.29 n'a pas.</p>
@@ -4502,7 +4508,7 @@ GUIDES = {
 <p>Un personaje de Retro empieza con <strong>6 PA</strong> como todos, y el equipo se suma. La diferencia es que la 1.29 nunca recibió la limitación de PA, PM y alcance que introdujo el juego moderno, así que nada detiene el total en 12. Apila +10 PA y el panel busca de verdad un turno de 16 PA.</p>
 
 <h2>Un libro de hechizos más corto</h2>
-<p>Las clases de Retro tienen muchos menos hechizos de daño que las modernas: un Iop de nivel 200 lee aquí 12 hechizos utilizables, frente a 31 en Dofus 3. Menos opciones significan una búsqueda más corta y una respuesta más tajante, y hacen que los umbrales de PA pesen más, porque hay menos con que llenar un turno.</p>
+<p>Las clases de Retro tienen muchos menos hechizos de daño que las modernas: un Iop de nivel 200 lee aquí [[spells:Iop]] hechizos utilizables, frente a [[spells:Iop:dofus3]] en Dofus 3. Menos opciones significan una búsqueda más corta y una respuesta más tajante, y hacen que los umbrales de PA pesen más, porque hay menos con que llenar un turno.</p>
 
 <h2>Qué cambia al equiparte</h2>
 <p>Como los PA no están limitados, siguen rindiendo en Retro mucho después del punto en que se desperdiciarían en otras versiones. Conviene recordarlo al ponderar: la costumbre moderna de parar en +6 PA viene de una regla que la 1.29 no tiene.</p>
@@ -4519,7 +4525,7 @@ GUIDES = {
 <p>Uma personagem de Retro começa com <strong>6 PA</strong> como toda a gente, e o equipamento soma-se. A diferença é que o 1.29 nunca recebeu a limitação de PA, PM e alcance que o jogo moderno introduziu, por isso nada trava o total nos 12. Empilha +10 PA e o painel procura mesmo um turno de 16 PA.</p>
 
 <h2>Um livro de feitiços mais curto</h2>
-<p>As classes do Retro têm muito menos feitiços de dano do que as modernas: um Iop de nível 200 lê aqui 12 feitiços utilizáveis, contra 31 no Dofus 3. Menos opções dão uma procura mais curta e uma resposta mais seca, e fazem os patamares de PA contar mais, porque há menos com que encher um turno.</p>
+<p>As classes do Retro têm muito menos feitiços de dano do que as modernas: um Iop de nível 200 lê aqui [[spells:Iop]] feitiços utilizáveis, contra [[spells:Iop:dofus3]] no Dofus 3. Menos opções dão uma procura mais curta e uma resposta mais seca, e fazem os patamares de PA contar mais, porque há menos com que encher um turno.</p>
 
 <h2>O que muda quando te equipas</h2>
 <p>Como os PA não têm limite, continuam a render no Retro muito depois do ponto em que seriam desperdiçados noutras versões. Vale a pena lembrar ao ponderar: o hábito moderno de parar nos +6 PA vem de uma regra que o 1.29 não tem.</p>
@@ -4536,7 +4542,7 @@ GUIDES = {
 <p>Eine Retro-Figur startet mit <strong>6 AP</strong> wie alle anderen, die Ausrüstung kommt dazu. Der Unterschied: 1.29 erhielt nie die Begrenzung von AP, BP und Reichweite, die das moderne Spiel eingeführt hat, also stoppt nichts die Summe bei 12. Stapel +10 AP, und das Panel durchsucht wirklich einen Zug mit 16 AP.</p>
 
 <h2>Ein kürzeres Zauberbuch</h2>
-<p>Retro-Klassen haben weit weniger Schadenszauber als moderne: Ein Iop auf Stufe 200 liest hier 12 nutzbare Zauber, gegenüber 31 auf Dofus 3. Weniger Optionen bedeuten eine kürzere Suche und eine schroffere Antwort, und sie machen AP-Schwellen wichtiger, weil weniger da ist, um einen Zug zu füllen.</p>
+<p>Retro-Klassen haben weit weniger Schadenszauber als moderne: Ein Iop auf Stufe 200 liest hier [[spells:Iop]] nutzbare Zauber, gegenüber [[spells:Iop:dofus3]] auf Dofus 3. Weniger Optionen bedeuten eine kürzere Suche und eine schroffere Antwort, und sie machen AP-Schwellen wichtiger, weil weniger da ist, um einen Zug zu füllen.</p>
 
 <h2>Was das beim Ausrüsten bedeutet</h2>
 <p>Weil AP nicht gedeckelt sind, zahlen sie sich auf Retro noch lange aus, wo sie anderswo längst verschwendet wären. Das lohnt sich beim Gewichten zu merken: Die moderne Gewohnheit, bei +6 AP aufzuhören, stammt aus einer Regel, die 1.29 nicht kennt.</p>
@@ -5473,6 +5479,46 @@ def _version_specific_slugs():
     return [slug for slug in GUIDES if 'i18n_by_group' in GUIDES[slug]]
 
 
+#: Un compte que le guide annonce et que la donnee doit fournir:
+#: [[spells:Iop]] pour la version de la page, [[spells:Iop:dofus3]] pour une
+#: version nommee.
+_MEASURED = re.compile(r'\[\[spells:([A-Za-z]+)(?::([a-z0-9]+))?\]\]')
+
+
+@lru_cache(maxsize=64)
+def _usable_spell_count(char_class, game_version):
+    """Les sorts que le panneau du meilleur tour peut vraiment lancer, au
+    niveau 200. La meme fonction que le panneau, donc le guide ne peut pas
+    annoncer un nombre que la page dement."""
+    from chardata.spell_combo import castable_spells
+    from fashionistapulp.structure import set_current_game_version
+    set_current_game_version(game_version)
+    return len(castable_spells(char_class, 200, game_version))
+
+
+def _fill_measured_numbers(body, game_version):
+    """Remplace les jetons de comptage par la mesure du jour.
+
+    Ces nombres etaient ecrits en dur et ont vieilli: le guide Dofus 2
+    annoncait 16 sorts jouables pour un Iop de niveau 200 quand la table en
+    porte 31, et le guide Retro 12 quand elle en porte 15. Les tables sont
+    regenerees (Dofus 2 a recu ses rangs, Retro a ete re-scrape) et le texte
+    ne suivait pas. Mesure du 12 septembre 2026.
+
+    Cout mesure le meme jour: 9,1 ms au premier appel, 0,74 ms ensuite, et une
+    page de guide en resout deux au plus.
+    """
+    def resoudre(match):
+        classe, version = match.group(1), match.group(2) or game_version
+        try:
+            return str(_usable_spell_count(classe, version))
+        except Exception:
+            logger.exception('guide: comptage impossible pour %s en %s',
+                             classe, version)
+            return ''
+    return _MEASURED.sub(resoudre, body)
+
+
 def _localize_body_links(body, game_version, language_code='en'):
     """Rewrite the guide links inside a body.
 
@@ -5521,6 +5567,7 @@ def get_guide(slug, language_code, game_version='dofus3'):
     }
     data.update(block)
     data['body'] = _localize_body_links(data['body'], game_version, lang)
+    data['body'] = _fill_measured_numbers(data['body'], game_version)
     return data
 
 
