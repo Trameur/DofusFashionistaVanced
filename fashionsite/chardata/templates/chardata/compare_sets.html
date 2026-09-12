@@ -276,6 +276,27 @@
                 </b></td>
                 {% endfor %}
             </tr>
+            {% if best_turn_by_char %}
+            <tr class="solution-stat-summary-line compare-best-turn-row">
+                <td class="solution-stat-summary-icon-cell"></td>
+                <td class="compare-spell-name-cell"><b>{% trans "Best turn" %}</b></td>
+                {% for char_id in char_ids_cols %}
+                <td align="center" class="solution-stat-summary-value-cell">
+                    {% if char_id == 'diff' %}
+                        {% if best_turn_diff is None %}-{% elif best_turn_diff < 0 %}<span class="red-text">{{ best_turn_diff }}</span>{% elif best_turn_diff > 0 %}<span class="green-text">{{ best_turn_diff }}</span>{% else %}0{% endif %}
+                    {% else %}
+                        {% with valeur=best_turn_by_char|get_item:char_id %}{% if valeur is None %}-{% else %}{{ valeur }}{% endif %}{% endwith %}
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            <tr class="compare-best-turn-note-row">
+                <td colspan="99" class="compare-best-turn-note">
+                    {% trans "One turn on a single target: average damage, self buffs and critical hit rate included." %}
+                    {{ best_turn_note }}
+                </td>
+            </tr>
+            {% endif %}
             {% for row in spell_preview_rows %}
             <tr class="solution-stat-summary-line compare-spell-row" data-spell-key="{{ row.key }}">
                 <td class="solution-stat-summary-icon-cell">

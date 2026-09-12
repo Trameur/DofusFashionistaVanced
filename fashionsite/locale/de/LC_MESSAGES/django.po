@@ -7362,3 +7362,6 @@ msgstr "Zauber auf der höchsten Stufe, die der Charakter erreicht."
 
 msgid "Spells at the levels picked above."
 msgstr "Zauber auf den oben gewählten Stufen."
+
+msgid "Best turn"
+msgstr "Beste Runde"

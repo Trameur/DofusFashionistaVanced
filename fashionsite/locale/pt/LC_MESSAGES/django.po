@@ -7332,3 +7332,6 @@ msgstr "Feitiços no nível mais alto que a personagem alcança."
 
 msgid "Spells at the levels picked above."
 msgstr "Feitiços nos níveis escolhidos acima."
+
+msgid "Best turn"
+msgstr "Melhor turno"

@@ -6603,3 +6603,6 @@ msgstr ""
 
 msgid "Spells at the levels picked above."
 msgstr ""
+
+msgid "Best turn"
+msgstr ""
