@@ -479,7 +479,13 @@
             <tr class="solution-stat-summary-line">
                 <td class="solution-stat-summary-icon-header"></td>
                 <td class="solution-stat-summary-name-header"></td>
-                <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell"><a href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base" %}</a></td>
+                {% comment %}
+                Le lien mene a la page de reglages, qui n'appartient qu'a
+                l'auteur: un visiteur qui cliquait <<Base>> sur un build
+                partage recevait un 403. Le menu du haut applique deja cette
+                regle, cette colonne l'avait ratee.
+                {% endcomment %}
+                <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell" title="{% trans "What the character has without gear: scrolls and spent points." %}">{% if is_guest %}{% trans "Base" %}{% else %}<a href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base" %}</a>{% endif %}</td>
                 <td class="solution-stat-summary-value-header solution-stat-summary-value-cell">Total</td>
             </tr>
             {% if has_build_score %}

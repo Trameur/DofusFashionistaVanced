@@ -7341,3 +7341,6 @@ msgstr "sin daño propio, aumenta los lanzamientos que siguen"
 
 msgid "no damage now, its own lands later and is counted apart"
 msgstr "sin daño ahora, el suyo cae más tarde y se cuenta aparte"
+
+msgid "What the character has without gear: scrolls and spent points."
+msgstr "Lo que el personaje tiene sin equipo: sus pergaminos y sus puntos gastados."
