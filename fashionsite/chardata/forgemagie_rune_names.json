@@ -1,0 +1,3169 @@
+{
+ "beta": {
+  "Rune Age": {
+   "de": "Fli-Rune",
+   "en": "Agi Rune",
+   "es": "Runa Agi",
+   "fr": "Rune Age",
+   "pt": "Runa Agi"
+  },
+  "Rune Cha": {
+   "de": "Glü-Rune",
+   "en": "Cha Rune",
+   "es": "Runa Sue",
+   "fr": "Rune Cha",
+   "pt": "Runa Sor"
+  },
+  "Rune Cri": {
+   "de": "Kri-Rune",
+   "en": "Cri Rune",
+   "es": "Runa Cri",
+   "fr": "Rune Cri",
+   "pt": "Runa Cri"
+  },
+  "Rune Do": {
+   "de": "Scha-Rune",
+   "en": "Dam Rune",
+   "es": "Runa Da",
+   "fr": "Rune Do",
+   "pt": "Runa Da"
+  },
+  "Rune Do Air": {
+   "de": "Lu-Scha-Rune",
+   "en": "Air Dam Rune",
+   "es": "Runa Da Aire",
+   "fr": "Rune Do Air",
+   "pt": "Runa Da Ar"
+  },
+  "Rune Do Cri": {
+   "de": "Kri-Scha-Rune",
+   "en": "Cri Dam Rune",
+   "es": "Runa Da Cri",
+   "fr": "Rune Do Cri",
+   "pt": "Runa Da Cri"
+  },
+  "Rune Do Eau": {
+   "de": "Was-Scha-Rune",
+   "en": "Water Dam Rune",
+   "es": "Runa Da Agua",
+   "fr": "Rune Do Eau",
+   "pt": "Runa Da Água"
+  },
+  "Rune Do Feu": {
+   "de": "Feu-Scha-Rune",
+   "en": "Fire Dam Rune",
+   "es": "Runa Da Fuego",
+   "fr": "Rune Do Feu",
+   "pt": "Runa Da Fogo"
+  },
+  "Rune Do Neutre": {
+   "de": "Neu-Scha-Rune",
+   "en": "Neutral Dam Rune",
+   "es": "Runa Da Neutral",
+   "fr": "Rune Do Neutre",
+   "pt": "Runa Da Neutro"
+  },
+  "Rune Do Per Ar": {
+   "de": "Pro-Waf-Scha-Rune",
+   "en": "Wep Dam Per Rune",
+   "es": "Runa Da Por Ar",
+   "fr": "Rune Do Per Ar",
+   "pt": "Runa Da Por Arm"
+  },
+  "Rune Do Per Di": {
+   "de": "Pro-Fern-Scha-Rune",
+   "en": "Dis Dam Per Rune",
+   "es": "Runa Da Por Di",
+   "fr": "Rune Do Per Di",
+   "pt": "Runa Da Por Di"
+  },
+  "Rune Do Per Mé": {
+   "de": "Pro-Nah-Scha-Rune",
+   "en": "Mel Dam Per Rune",
+   "es": "Runa Da Por CC",
+   "fr": "Rune Do Per Mé",
+   "pt": "Runa Da Por CaC"
+  },
+  "Rune Do Per So": {
+   "de": "Pro-Zau-Scha-Rune",
+   "en": "Spe Dam Per Rune",
+   "es": "Runa Da Por He",
+   "fr": "Rune Do Per So",
+   "pt": "Runa Da Por Fe"
+  },
+  "Rune Do Pi": {
+   "de": "Scha-Fa-Rune",
+   "en": "Trp Dam Rune",
+   "es": "Runa Da Tram",
+   "fr": "Rune Do Pi",
+   "pt": "Runa Da Ard"
+  },
+  "Rune Do Pou": {
+   "de": "Schu-Scha-Rune",
+   "en": "Psh Dam Rune",
+   "es": "Runa Da Emp",
+   "fr": "Rune Do Pou",
+   "pt": "Runa Da Emp"
+  },
+  "Rune Do Ren": {
+   "de": "Zurü-Scha-Rune",
+   "en": "Dam Ref Rune",
+   "es": "Runa Da Reen",
+   "fr": "Rune Do Ren",
+   "pt": "Runa Da Ref"
+  },
+  "Rune Do Terre": {
+   "de": "Erd-Scha-Rune",
+   "en": "Earth Dam Rune",
+   "es": "Runa Da Tierra",
+   "fr": "Rune Do Terre",
+   "pt": "Runa Da Terra"
+  },
+  "Rune Fo": {
+   "de": "Kra-Rune",
+   "en": "Str Rune",
+   "es": "Runa Fu",
+   "fr": "Rune Fo",
+   "pt": "Runa For"
+  },
+  "Rune Fui": {
+   "de": "Aus-Rune",
+   "en": "Dod Rune",
+   "es": "Runa Hui",
+   "fr": "Rune Fui",
+   "pt": "Runa Fu"
+  },
+  "Rune Ga Pa": {
+   "de": "Ge-AP-Rune",
+   "en": "Ap Ga Rune",
+   "es": "Runa Ga PA",
+   "fr": "Rune Ga Pa",
+   "pt": "Runa Ga Pa"
+  },
+  "Rune Ga Pme": {
+   "de": "Ge-BP-Rune",
+   "en": "Mp Ga Rune",
+   "es": "Runa Ga PM",
+   "fr": "Rune Ga Pme",
+   "pt": "Runa Ga Pm"
+  },
+  "Rune Ine": {
+   "de": "Int-Rune",
+   "en": "Int Rune",
+   "es": "Runa Inte",
+   "fr": "Rune Ine",
+   "pt": "Runa Int"
+  },
+  "Rune Ini": {
+   "de": "Ini-Rune",
+   "en": "Ini Rune",
+   "es": "Runa Ini",
+   "fr": "Rune Ini",
+   "pt": "Runa Ini"
+  },
+  "Rune Invo": {
+   "de": "Be-Rune",
+   "en": "Sum Rune",
+   "es": "Runa Invo",
+   "fr": "Rune Invo",
+   "pt": "Runa Inv"
+  },
+  "Rune Pa Age": {
+   "de": "Pa-Fli-Rune",
+   "en": "Pa Agi Rune",
+   "es": "Runa Bu Agi",
+   "fr": "Rune Pa Age",
+   "pt": "Runa Pa Agi"
+  },
+  "Rune Pa Cha": {
+   "de": "Pa-Glü-Rune",
+   "en": "Pa Cha Rune",
+   "es": "Runa Bu Sue",
+   "fr": "Rune Pa Cha",
+   "pt": "Runa Pa Sor"
+  },
+  "Rune Pa Do Air": {
+   "de": "Pa-Lu-Scha-Rune",
+   "en": "Pa Air Dam Rune",
+   "es": "Runa Bu Da Aire",
+   "fr": "Rune Pa Do Air",
+   "pt": "Runa Pa Da Ar"
+  },
+  "Rune Pa Do Cri": {
+   "de": "Pa-Kri-Scha-Rune",
+   "en": "Pa Cri Dam Rune",
+   "es": "Runa Bu Da Cri",
+   "fr": "Rune Pa Do Cri",
+   "pt": "Runa Pa Da Cri"
+  },
+  "Rune Pa Do Eau": {
+   "de": "Pa-Was-Scha-Rune",
+   "en": "Pa Water Dam Rune",
+   "es": "Runa Bu Da Agua",
+   "fr": "Rune Pa Do Eau",
+   "pt": "Runa Pa Da Água"
+  },
+  "Rune Pa Do Feu": {
+   "de": "Pa-Feu-Scha-Rune",
+   "en": "Pa Fire Dam Rune",
+   "es": "Runa Bu Da Fuego",
+   "fr": "Rune Pa Do Feu",
+   "pt": "Runa Pa Da Fogo"
+  },
+  "Rune Pa Do Neutre": {
+   "de": "Pa-Neu-Scha-Rune",
+   "en": "Pa Neutral Dam Rune",
+   "es": "Runa Bu Da Neutral",
+   "fr": "Rune Pa Do Neutre",
+   "pt": "Runa Pa Da Neutro"
+  },
+  "Rune Pa Do Pi": {
+   "de": "Pa-Scha-Fa-Rune",
+   "en": "Pa Trp Dam Rune",
+   "es": "Runa Bu Da Tram",
+   "fr": "Rune Pa Do Pi",
+   "pt": "Runa Pa Da Ard"
+  },
+  "Rune Pa Do Pou": {
+   "de": "Pa-Schu-Scha-Rune",
+   "en": "Pa Psh Dam Rune",
+   "es": "Runa Bu Da Emp",
+   "fr": "Rune Pa Do Pou",
+   "pt": "Runa Pa Da Emp"
+  },
+  "Rune Pa Do Ren": {
+   "de": "Pa-Zurü-Scha-Rune",
+   "en": "Pa Dam Ref Rune",
+   "es": "Runa Bu Da Reen",
+   "fr": "Rune Pa Do Ren",
+   "pt": "Runa Pa Da Ref"
+  },
+  "Rune Pa Do Terre": {
+   "de": "Pa-Erd-Scha-Rune",
+   "en": "Pa Earth Dam Rune",
+   "es": "Runa Bu Da Tierra",
+   "fr": "Rune Pa Do Terre",
+   "pt": "Runa Pa Da Terra"
+  },
+  "Rune Pa Fo": {
+   "de": "Pa-Kra-Rune",
+   "en": "Pa Str Rune",
+   "es": "Runa Bu Fu",
+   "fr": "Rune Pa Fo",
+   "pt": "Runa Pa For"
+  },
+  "Rune Pa Fui": {
+   "de": "Pa-Aus-Rune",
+   "en": "Pa Dod Rune",
+   "es": "Runa Bu Hui",
+   "fr": "Rune Pa Fui",
+   "pt": "Runa Pa Fu"
+  },
+  "Rune Pa Ine": {
+   "de": "Pa-Int-Rune",
+   "en": "Pa Int Rune",
+   "es": "Runa Bu Inte",
+   "fr": "Rune Pa Ine",
+   "pt": "Runa Pa Int"
+  },
+  "Rune Pa Ini": {
+   "de": "Pa-Ini-Rune",
+   "en": "Pa Ini Rune",
+   "es": "Runa Bu Ini",
+   "fr": "Rune Pa Ini",
+   "pt": "Runa Pa Ini"
+  },
+  "Rune Pa Per Pi": {
+   "de": "Pa-Pro-Fa-Rune",
+   "en": "Pa Trp Per Rune",
+   "es": "Runa Bu Por Tram",
+   "fr": "Rune Pa Per Pi",
+   "pt": "Runa Pa Por Ard"
+  },
+  "Rune Pa Pod": {
+   "de": "Pa-Pod-Rune",
+   "en": "Pa Pod Rune",
+   "es": "Runa Bu Pod",
+   "fr": "Rune Pa Pod",
+   "pt": "Runa Pa Pod"
+  },
+  "Rune Pa Prospe": {
+   "de": "Pa-Fi-Rune",
+   "en": "Pa Pp Rune",
+   "es": "Runa Bu Prospe",
+   "fr": "Rune Pa Prospe",
+   "pt": "Runa Pa Prospe"
+  },
+  "Rune Pa Pui": {
+   "de": "Pa-Pro-Scha-Rune",
+   "en": "Pa Pow Rune",
+   "es": "Runa Bu Pot",
+   "fr": "Rune Pa Pui",
+   "pt": "Runa Pa Po"
+  },
+  "Rune Pa Ret Pa": {
+   "de": "Pa-Ent-AP-Rune",
+   "en": "Pa Ap Red Rune",
+   "es": "Runa Bu Ret PA",
+   "fr": "Rune Pa Ret Pa",
+   "pt": "Runa Pa Ret Pa"
+  },
+  "Rune Pa Ret Pme": {
+   "de": "Pa-Ent-BP-Rune",
+   "en": "Pa Mp Red Rune",
+   "es": "Runa Bu Ret PM",
+   "fr": "Rune Pa Ret Pme",
+   "pt": "Runa Pa Ret Pm"
+  },
+  "Rune Pa Ré Air": {
+   "de": "Pa-Res-Lu-Rune",
+   "en": "Pa Air Res Rune",
+   "es": "Runa Bu Re Aire",
+   "fr": "Rune Pa Ré Air",
+   "pt": "Runa Pa Res Ar"
+  },
+  "Rune Pa Ré Cri": {
+   "de": "Pa-Res-Kri-Rune",
+   "en": "Pa Cri Res Rune",
+   "es": "Runa Bu Re Cri",
+   "fr": "Rune Pa Ré Cri",
+   "pt": "Runa Pa Res Cri"
+  },
+  "Rune Pa Ré Eau": {
+   "de": "Pa-Res-Was-Rune",
+   "en": "Pa Water Res Rune",
+   "es": "Runa Bu Re Agua",
+   "fr": "Rune Pa Ré Eau",
+   "pt": "Runa Pa Res Água"
+  },
+  "Rune Pa Ré Feu": {
+   "de": "Pa-Res-Feu-Rune",
+   "en": "Pa Fire Res Rune",
+   "es": "Runa Bu Re Fuego",
+   "fr": "Rune Pa Ré Feu",
+   "pt": "Runa Pa Res Fogo"
+  },
+  "Rune Pa Ré Neutre": {
+   "de": "Pa-Res-Neu-Rune",
+   "en": "Pa Neutral Res Rune",
+   "es": "Runa Bu Re Neutral",
+   "fr": "Rune Pa Ré Neutre",
+   "pt": "Runa Pa Res Neutro"
+  },
+  "Rune Pa Ré Pa": {
+   "de": "Pa-Res-AP-Rune",
+   "en": "Pa Ap Res Rune",
+   "es": "Runa Bu Re PA",
+   "fr": "Rune Pa Ré Pa",
+   "pt": "Runa Pa Res Pa"
+  },
+  "Rune Pa Ré Pme": {
+   "de": "Pa-Res-BP-Rune",
+   "en": "Pa Mp Res Rune",
+   "es": "Runa Bu Re PM",
+   "fr": "Rune Pa Ré Pme",
+   "pt": "Runa Pa Res Pm"
+  },
+  "Rune Pa Ré Pou": {
+   "de": "Pa-Res-Schu-Rune",
+   "en": "Pa Psh Res Rune",
+   "es": "Runa Bu Re Emp",
+   "fr": "Rune Pa Ré Pou",
+   "pt": "Runa Pa Res Emp"
+  },
+  "Rune Pa Ré Terre": {
+   "de": "Pa-Res-Erd-Rune",
+   "en": "Pa Earth Res Rune",
+   "es": "Runa Bu Re Tierra",
+   "fr": "Rune Pa Ré Terre",
+   "pt": "Runa Pa Res Terra"
+  },
+  "Rune Pa Sa": {
+   "de": "Pa-Wei-Rune",
+   "en": "Pa Wis Rune",
+   "es": "Runa Bu Sa",
+   "fr": "Rune Pa Sa",
+   "pt": "Runa Pa Sa"
+  },
+  "Rune Pa So": {
+   "de": "Pa-Zau-Rune",
+   "en": "Pa Hea Rune",
+   "es": "Runa Bu Cu",
+   "fr": "Rune Pa So",
+   "pt": "Runa Pa Cur"
+  },
+  "Rune Pa Tac": {
+   "de": "Pa-Blo-Rune",
+   "en": "Pa Loc Rune",
+   "es": "Runa Bu Pla",
+   "fr": "Rune Pa Tac",
+   "pt": "Runa Pa Blo"
+  },
+  "Rune Pa Vi": {
+   "de": "Pa-Vi-Rune",
+   "en": "Pa Vit Rune",
+   "es": "Runa Bu Vi",
+   "fr": "Rune Pa Vi",
+   "pt": "Runa Pa Vi"
+  },
+  "Rune Per Pi": {
+   "de": "Pro-Fa-Rune",
+   "en": "Trp Per Rune",
+   "es": "Runa Por Tram",
+   "fr": "Rune Per Pi",
+   "pt": "Runa Por Ard"
+  },
+  "Rune Po": {
+   "de": "Rei-Rune",
+   "en": "Range Rune",
+   "es": "Runa Al",
+   "fr": "Rune Po",
+   "pt": "Runa Al"
+  },
+  "Rune Pod": {
+   "de": "Pod-Rune",
+   "en": "Pod Rune",
+   "es": "Runa Pod",
+   "fr": "Rune Pod",
+   "pt": "Runa Pod"
+  },
+  "Rune Prospe": {
+   "de": "Fi-Rune",
+   "en": "Pp Rune",
+   "es": "Runa Prospe",
+   "fr": "Rune Prospe",
+   "pt": "Runa Prospe"
+  },
+  "Rune Pui": {
+   "de": "Pro-Scha-Rune",
+   "en": "Pow Rune",
+   "es": "Runa Pot",
+   "fr": "Rune Pui",
+   "pt": "Runa Po"
+  },
+  "Rune Ra Age": {
+   "de": "Ra-Fli-Rune",
+   "en": "Ra Agi Rune",
+   "es": "Runa Su Agi",
+   "fr": "Rune Ra Age",
+   "pt": "Runa Ra Agi"
+  },
+  "Rune Ra Cha": {
+   "de": "Ra-Glü-Rune",
+   "en": "Ra Cha Rune",
+   "es": "Runa Su Sue",
+   "fr": "Rune Ra Cha",
+   "pt": "Runa Ra Sor"
+  },
+  "Rune Ra Do Pou": {
+   "de": "Ra-Scha-Schu-Rune",
+   "en": "Ra Psh Dam Rune",
+   "es": "Runa Su Da Emp",
+   "fr": "Rune Ra Do Pou",
+   "pt": "Runa Ra Da Emp"
+  },
+  "Rune Ra Fo": {
+   "de": "Ra-Kra-Rune",
+   "en": "Ra Str Rune",
+   "es": "Runa Su Fu",
+   "fr": "Rune Ra Fo",
+   "pt": "Runa Ra For"
+  },
+  "Rune Ra Ine": {
+   "de": "Ra-Int-Rune",
+   "en": "Ra Int Rune",
+   "es": "Runa Su Inte",
+   "fr": "Rune Ra Ine",
+   "pt": "Runa Ra Int"
+  },
+  "Rune Ra Ini": {
+   "de": "Ra-Ini-Rune",
+   "en": "Ra Ini Rune",
+   "es": "Runa Su Ini",
+   "fr": "Rune Ra Ini",
+   "pt": "Runa Ra Ini"
+  },
+  "Rune Ra Per Pi": {
+   "de": "Ra-Pro-Fa-Rune",
+   "en": "Ra Trp Per Rune",
+   "es": "Runa Su Por Tram",
+   "fr": "Rune Ra Per Pi",
+   "pt": "Runa Ra Por Ard"
+  },
+  "Rune Ra Pod": {
+   "de": "Ra-Pod-Rune",
+   "en": "Ra Pod Rune",
+   "es": "Runa Su Pod",
+   "fr": "Rune Ra Pod",
+   "pt": "Runa Ra Pod"
+  },
+  "Rune Ra Pui": {
+   "de": "Ra-Pro-Scha-Rune",
+   "en": "Ra Pow Rune",
+   "es": "Runa Su Pot",
+   "fr": "Rune Ra Pui",
+   "pt": "Runa Ra Po"
+  },
+  "Rune Ra Ré Air": {
+   "de": "Ra-Res-Lu-Rune",
+   "en": "Ra Air Res Rune",
+   "es": "Runa Su Re Aire",
+   "fr": "Rune Ra Ré Air",
+   "pt": "Runa Ra Res Ar"
+  },
+  "Rune Ra Ré Cri": {
+   "de": "Ra-Res-Kri-Rune",
+   "en": "Ra Cri Res Rune",
+   "es": "Runa Su Re Cri",
+   "fr": "Rune Ra Ré Cri",
+   "pt": "Runa Ra Res Cri"
+  },
+  "Rune Ra Ré Eau": {
+   "de": "Ra-Res-Was-Rune",
+   "en": "Ra Water Res Rune",
+   "es": "Runa Su Re Agua",
+   "fr": "Rune Ra Ré Eau",
+   "pt": "Runa Ra Res Água"
+  },
+  "Rune Ra Ré Feu": {
+   "de": "Ra-Res-Feu-Rune",
+   "en": "Ra Fire Res Rune",
+   "es": "Runa Su Re Fuego",
+   "fr": "Rune Ra Ré Feu",
+   "pt": "Runa Ra Res Fogo"
+  },
+  "Rune Ra Ré Neutre": {
+   "de": "Ra-Res-Neu-Rune",
+   "en": "Ra Neutral Res Rune",
+   "es": "Runa Su Re Neutral",
+   "fr": "Rune Ra Ré Neutre",
+   "pt": "Runa Ra Res Neutro"
+  },
+  "Rune Ra Ré Pou": {
+   "de": "Ra-Res-Schu-Rune",
+   "en": "Ra Psh Res Rune",
+   "es": "Runa Su Re Emp",
+   "fr": "Rune Ra Ré Pou",
+   "pt": "Runa Ra Res Emp"
+  },
+  "Rune Ra Ré Terre": {
+   "de": "Ra-Res-Erd-Rune",
+   "en": "Ra Earth Res Rune",
+   "es": "Runa Su Re Tierra",
+   "fr": "Rune Ra Ré Terre",
+   "pt": "Runa Ra Res Terra"
+  },
+  "Rune Ra Sa": {
+   "de": "Ra-Wei-Rune",
+   "en": "Ra Wis Rune",
+   "es": "Runa Su Sa",
+   "fr": "Rune Ra Sa",
+   "pt": "Runa Ra Sa"
+  },
+  "Rune Ra Vi": {
+   "de": "Ra-Vi-Rune",
+   "en": "Ra Vit Rune",
+   "es": "Runa Su Vi",
+   "fr": "Rune Ra Vi",
+   "pt": "Runa Ra Vi"
+  },
+  "Rune Ret Pa": {
+   "de": "Ent-AP-Rune",
+   "en": "Ap Red Rune",
+   "es": "Runa Ret PA",
+   "fr": "Rune Ret Pa",
+   "pt": "Runa Ret Pa"
+  },
+  "Rune Ret Pme": {
+   "de": "Ent-BP-Rune",
+   "en": "Mp Red Rune",
+   "es": "Runa Ret PM",
+   "fr": "Rune Ret Pme",
+   "pt": "Runa Ret Pm"
+  },
+  "Rune Ré Air": {
+   "de": "Res-Lu-Rune",
+   "en": "Air Res Rune",
+   "es": "Runa Re Aire",
+   "fr": "Rune Ré Air",
+   "pt": "Runa Res Ar"
+  },
+  "Rune Ré Cri": {
+   "de": "Res-Kri-Rune",
+   "en": "Cri Res Rune",
+   "es": "Runa Re Cri",
+   "fr": "Rune Ré Cri",
+   "pt": "Runa Res Cri"
+  },
+  "Rune Ré Eau": {
+   "de": "Res-Was-Rune",
+   "en": "Water Res Rune",
+   "es": "Runa Re Agua",
+   "fr": "Rune Ré Eau",
+   "pt": "Runa Res Água"
+  },
+  "Rune Ré Feu": {
+   "de": "Res-Feu-Rune",
+   "en": "Fire Res Rune",
+   "es": "Runa Re Fuego",
+   "fr": "Rune Ré Feu",
+   "pt": "Runa Res Fogo"
+  },
+  "Rune Ré Neutre": {
+   "de": "Res-Neu-Rune",
+   "en": "Neutral Res Rune",
+   "es": "Runa Re Neutral",
+   "fr": "Rune Ré Neutre",
+   "pt": "Runa Res Neutro"
+  },
+  "Rune Ré Pa": {
+   "de": "Res-AP-Rune",
+   "en": "Ap Res Rune",
+   "es": "Runa Re PA",
+   "fr": "Rune Ré Pa",
+   "pt": "Runa Res Pa"
+  },
+  "Rune Ré Per Air": {
+   "de": "Res-Pro-Lu-Rune",
+   "en": "Air Res Per Rune",
+   "es": "Runa Re Aire Por",
+   "fr": "Rune Ré Per Air",
+   "pt": "Runa Res Por Ar"
+  },
+  "Rune Ré Per Di": {
+   "de": "Res-Pro-Fern-Rune",
+   "en": "Dis Res Per Rune",
+   "es": "Runa Re Por Di",
+   "fr": "Rune Ré Per Di",
+   "pt": "Runa Res Por Di"
+  },
+  "Rune Ré Per Eau": {
+   "de": "Res-Pro-Was-Rune",
+   "en": "Water Res Per Rune",
+   "es": "Runa Re Agua Por",
+   "fr": "Rune Ré Per Eau",
+   "pt": "Runa Res Por Água"
+  },
+  "Rune Ré Per Feu": {
+   "de": "Res-Pro-Feu-Rune",
+   "en": "Fire Res Per Rune",
+   "es": "Runa Re Fuego Por",
+   "fr": "Rune Ré Per Feu",
+   "pt": "Runa Res Por Fogo"
+  },
+  "Rune Ré Per Mé": {
+   "de": "Res-Pro-Nah-Rune",
+   "en": "Mel Res Per Rune",
+   "es": "Runa Re Por CC",
+   "fr": "Rune Ré Per Mé",
+   "pt": "Runa Res Por CaC"
+  },
+  "Rune Ré Per Neutre": {
+   "de": "Res-Pro-Neu-Rune",
+   "en": "Neutral Res Per Rune",
+   "es": "Runa Re Neutral Por",
+   "fr": "Rune Ré Per Neutre",
+   "pt": "Runa Res Por Neutro"
+  },
+  "Rune Ré Per Terre": {
+   "de": "Res-Pro-Erd-Rune",
+   "en": "Earth Res Per Rune",
+   "es": "Runa Re Tierra Por",
+   "fr": "Rune Ré Per Terre",
+   "pt": "Runa Res Por Terra"
+  },
+  "Rune Ré Pme": {
+   "de": "Res-BP-Rune",
+   "en": "Mp Res Rune",
+   "es": "Runa Re PM",
+   "fr": "Rune Ré Pme",
+   "pt": "Runa Res Pm"
+  },
+  "Rune Ré Pou": {
+   "de": "Res-Schu-Rune",
+   "en": "Psh Res Rune",
+   "es": "Runa Re Emp",
+   "fr": "Rune Ré Pou",
+   "pt": "Runa Res Emp"
+  },
+  "Rune Ré Terre": {
+   "de": "Res-Erd-Rune",
+   "en": "Earth Res Rune",
+   "es": "Runa Re Tierra",
+   "fr": "Rune Ré Terre",
+   "pt": "Runa Res Terra"
+  },
+  "Rune Sa": {
+   "de": "Wei-Rune",
+   "en": "Wis Rune",
+   "es": "Runa Sa",
+   "fr": "Rune Sa",
+   "pt": "Runa Sa"
+  },
+  "Rune So": {
+   "de": "Zau-Rune",
+   "en": "Hea Rune",
+   "es": "Runa Cu",
+   "fr": "Rune So",
+   "pt": "Runa Cur"
+  },
+  "Rune Tac": {
+   "de": "Blo-Rune",
+   "en": "Loc Rune",
+   "es": "Runa Pla",
+   "fr": "Rune Tac",
+   "pt": "Runa Blo"
+  },
+  "Rune Vi": {
+   "de": "Vi-Rune",
+   "en": "Vit Rune",
+   "es": "Runa Vi",
+   "fr": "Rune Vi",
+   "pt": "Runa Vi"
+  },
+  "Rune de Signature": {
+   "de": "Signier-Rune",
+   "en": "Signature Rune",
+   "es": "Runa de firma",
+   "fr": "Rune de Signature",
+   "pt": "Runa de assinatura"
+  },
+  "Rune de chasse": {
+   "de": "Jagdrune",
+   "en": "Hunting Rune",
+   "es": "Runa de caza",
+   "fr": "Rune de chasse",
+   "pt": "Runa de Caça"
+  }
+ },
+ "dofus2": {
+  "Rune Age": {
+   "de": "Fli-Rune",
+   "en": "Agi Rune",
+   "es": "Runa Agi",
+   "fr": "Rune Age",
+   "pt": "Runa Agi"
+  },
+  "Rune Cha": {
+   "de": "Glü-Rune",
+   "en": "Cha Rune",
+   "es": "Runa Sue",
+   "fr": "Rune Cha",
+   "pt": "Runa Sor"
+  },
+  "Rune Cri": {
+   "de": "Kri-Rune",
+   "en": "Cri Rune",
+   "es": "Runa Cri",
+   "fr": "Rune Cri",
+   "pt": "Runa Cri"
+  },
+  "Rune Do": {
+   "de": "Scha-Rune",
+   "en": "Dam Rune",
+   "es": "Runa Da",
+   "fr": "Rune Do",
+   "pt": "Runa Da"
+  },
+  "Rune Do Air": {
+   "de": "Lu-Scha-Rune",
+   "en": "Air Dam Rune",
+   "es": "Runa Da Aire",
+   "fr": "Rune Do Air",
+   "pt": "Runa Da Ar"
+  },
+  "Rune Do Cri": {
+   "de": "Kri-Scha-Rune",
+   "en": "Cri Dam Rune",
+   "es": "Runa Da Cri",
+   "fr": "Rune Do Cri",
+   "pt": "Runa Da Cri"
+  },
+  "Rune Do Eau": {
+   "de": "Was-Scha-Rune",
+   "en": "Water Dam Rune",
+   "es": "Runa Da Agua",
+   "fr": "Rune Do Eau",
+   "pt": "Runa Da Água"
+  },
+  "Rune Do Feu": {
+   "de": "Feu-Scha-Rune",
+   "en": "Fire Dam Rune",
+   "es": "Runa Da Fuego",
+   "fr": "Rune Do Feu",
+   "pt": "Runa Da Fogo"
+  },
+  "Rune Do Neutre": {
+   "de": "Neu-Scha-Rune",
+   "en": "Neutral Dam Rune",
+   "es": "Runa Da Neutral",
+   "fr": "Rune Do Neutre",
+   "pt": "Runa Da Neutro"
+  },
+  "Rune Do Per Ar": {
+   "de": "Pro-Waf-Scha-Rune",
+   "en": "Wep Dam Per Rune",
+   "es": "Runa Da Por Ar",
+   "fr": "Rune Do Per Ar",
+   "pt": "Runa Da Por Arm"
+  },
+  "Rune Do Per Di": {
+   "de": "Pro-Fern-Scha-Rune",
+   "en": "Dis Dam Per Rune",
+   "es": "Runa Da Por Di",
+   "fr": "Rune Do Per Di",
+   "pt": "Runa Da Por Di"
+  },
+  "Rune Do Per Mé": {
+   "de": "Pro-Nah-Scha-Rune",
+   "en": "Mel Dam Per Rune",
+   "es": "Runa Da Por CC",
+   "fr": "Rune Do Per Mé",
+   "pt": "Runa Da Por CaC"
+  },
+  "Rune Do Per So": {
+   "de": "Pro-Zau-Scha-Rune",
+   "en": "Spe Dam Per Rune",
+   "es": "Runa Da Por He",
+   "fr": "Rune Do Per So",
+   "pt": "Runa Da Por Fe"
+  },
+  "Rune Do Pi": {
+   "de": "Scha-Fa-Rune",
+   "en": "Trp Dam Rune",
+   "es": "Runa Da Tram",
+   "fr": "Rune Do Pi",
+   "pt": "Runa Da Ard"
+  },
+  "Rune Do Pou": {
+   "de": "Schu-Scha-Rune",
+   "en": "Psh Dam Rune",
+   "es": "Runa Da Emp",
+   "fr": "Rune Do Pou",
+   "pt": "Runa Da Emp"
+  },
+  "Rune Do Ren": {
+   "de": "Zurü-Scha-Rune",
+   "en": "Dam Ref Rune",
+   "es": "Runa Da Reen",
+   "fr": "Rune Do Ren",
+   "pt": "Runa Da Ref"
+  },
+  "Rune Do Terre": {
+   "de": "Erd-Scha-Rune",
+   "en": "Earth Dam Rune",
+   "es": "Runa Da Tierra",
+   "fr": "Rune Do Terre",
+   "pt": "Runa Da Terra"
+  },
+  "Rune Fo": {
+   "de": "Kra-Rune",
+   "en": "Str Rune",
+   "es": "Runa Fu",
+   "fr": "Rune Fo",
+   "pt": "Runa For"
+  },
+  "Rune Fui": {
+   "de": "Aus-Rune",
+   "en": "Dod Rune",
+   "es": "Runa Hui",
+   "fr": "Rune Fui",
+   "pt": "Runa Fu"
+  },
+  "Rune Ga Pa": {
+   "de": "Ge-AP-Rune",
+   "en": "Ap Ga Rune",
+   "es": "Runa Ga PA",
+   "fr": "Rune Ga Pa",
+   "pt": "Runa Ga Pa"
+  },
+  "Rune Ga Pme": {
+   "de": "Ge-BP-Rune",
+   "en": "Mp Ga Rune",
+   "es": "Runa Ga PM",
+   "fr": "Rune Ga Pme",
+   "pt": "Runa Ga Pm"
+  },
+  "Rune Ine": {
+   "de": "Int-Rune",
+   "en": "Int Rune",
+   "es": "Runa Inte",
+   "fr": "Rune Ine",
+   "pt": "Runa Int"
+  },
+  "Rune Ini": {
+   "de": "Ini-Rune",
+   "en": "Ini Rune",
+   "es": "Runa Ini",
+   "fr": "Rune Ini",
+   "pt": "Runa Ini"
+  },
+  "Rune Invo": {
+   "de": "Be-Rune",
+   "en": "Sum Rune",
+   "es": "Runa Invo",
+   "fr": "Rune Invo",
+   "pt": "Runa Inv"
+  },
+  "Rune Pa Age": {
+   "de": "Pa-Fli-Rune",
+   "en": "Pa Agi Rune",
+   "es": "Runa Bu Agi",
+   "fr": "Rune Pa Age",
+   "pt": "Runa Pa Agi"
+  },
+  "Rune Pa Cha": {
+   "de": "Pa-Glü-Rune",
+   "en": "Pa Cha Rune",
+   "es": "Runa Bu Sue",
+   "fr": "Rune Pa Cha",
+   "pt": "Runa Pa Sor"
+  },
+  "Rune Pa Do Air": {
+   "de": "Pa-Lu-Scha-Rune",
+   "en": "Pa Air Dam Rune",
+   "es": "Runa Bu Da Aire",
+   "fr": "Rune Pa Do Air",
+   "pt": "Runa Pa Da Ar"
+  },
+  "Rune Pa Do Cri": {
+   "de": "Pa-Kri-Scha-Rune",
+   "en": "Pa Cri Dam Rune",
+   "es": "Runa Bu Da Cri",
+   "fr": "Rune Pa Do Cri",
+   "pt": "Runa Pa Da Cri"
+  },
+  "Rune Pa Do Eau": {
+   "de": "Pa-Was-Scha-Rune",
+   "en": "Pa Water Dam Rune",
+   "es": "Runa Bu Da Agua",
+   "fr": "Rune Pa Do Eau",
+   "pt": "Runa Pa Da Água"
+  },
+  "Rune Pa Do Feu": {
+   "de": "Pa-Feu-Scha-Rune",
+   "en": "Pa Fire Dam Rune",
+   "es": "Runa Bu Da Fuego",
+   "fr": "Rune Pa Do Feu",
+   "pt": "Runa Pa Da Fogo"
+  },
+  "Rune Pa Do Neutre": {
+   "de": "Pa-Neu-Scha-Rune",
+   "en": "Pa Neutral Dam Rune",
+   "es": "Runa Bu Da Neutral",
+   "fr": "Rune Pa Do Neutre",
+   "pt": "Runa Pa Da Neutro"
+  },
+  "Rune Pa Do Pi": {
+   "de": "Pa-Scha-Fa-Rune",
+   "en": "Pa Trp Dam Rune",
+   "es": "Runa Bu Da Tram",
+   "fr": "Rune Pa Do Pi",
+   "pt": "Runa Pa Da Ard"
+  },
+  "Rune Pa Do Pou": {
+   "de": "Pa-Schu-Scha-Rune",
+   "en": "Pa Psh Dam Rune",
+   "es": "Runa Bu Da Emp",
+   "fr": "Rune Pa Do Pou",
+   "pt": "Runa Pa Da Emp"
+  },
+  "Rune Pa Do Terre": {
+   "de": "Pa-Erd-Scha-Rune",
+   "en": "Pa Earth Dam Rune",
+   "es": "Runa Bu Da Tierra",
+   "fr": "Rune Pa Do Terre",
+   "pt": "Runa Pa Da Terra"
+  },
+  "Rune Pa Fo": {
+   "de": "Pa-Kra-Rune",
+   "en": "Pa Str Rune",
+   "es": "Runa Bu Fu",
+   "fr": "Rune Pa Fo",
+   "pt": "Runa Pa For"
+  },
+  "Rune Pa Fui": {
+   "de": "Pa-Aus-Rune",
+   "en": "Pa Dod Rune",
+   "es": "Runa Bu Hui",
+   "fr": "Rune Pa Fui",
+   "pt": "Runa Pa Fu"
+  },
+  "Rune Pa Ine": {
+   "de": "Pa-Int-Rune",
+   "en": "Pa Int Rune",
+   "es": "Runa Bu Inte",
+   "fr": "Rune Pa Ine",
+   "pt": "Runa Pa Int"
+  },
+  "Rune Pa Ini": {
+   "de": "Pa-Ini-Rune",
+   "en": "Pa Ini Rune",
+   "es": "Runa Bu Ini",
+   "fr": "Rune Pa Ini",
+   "pt": "Runa Pa Ini"
+  },
+  "Rune Pa Per Pi": {
+   "de": "Pa-Pro-Fa-Rune",
+   "en": "Pa Trp Per Rune",
+   "es": "Runa Bu Por Tram",
+   "fr": "Rune Pa Per Pi",
+   "pt": "Runa Pa Por Ard"
+  },
+  "Rune Pa Pod": {
+   "de": "Pa-Pod-Rune",
+   "en": "Pa Pod Rune",
+   "es": "Runa Bu Pod",
+   "fr": "Rune Pa Pod",
+   "pt": "Runa Pa Pod"
+  },
+  "Rune Pa Prospe": {
+   "de": "Pa-Fi-Rune",
+   "en": "Pa Pp Rune",
+   "es": "Runa Bu Prospe",
+   "fr": "Rune Pa Prospe",
+   "pt": "Runa Pa Prospe"
+  },
+  "Rune Pa Pui": {
+   "de": "Pa-Pro-Scha-Rune",
+   "en": "Pa Pow Rune",
+   "es": "Runa Bu Pot",
+   "fr": "Rune Pa Pui",
+   "pt": "Runa Pa Po"
+  },
+  "Rune Pa Ret Pa": {
+   "de": "Pa-Ent-AP-Rune",
+   "en": "Pa Ap Red Rune",
+   "es": "Runa Bu Ret PA",
+   "fr": "Rune Pa Ret Pa",
+   "pt": "Runa Pa Ret Pa"
+  },
+  "Rune Pa Ret Pme": {
+   "de": "Pa-Ent-BP-Rune",
+   "en": "Pa Mp Red Rune",
+   "es": "Runa Bu Ret PM",
+   "fr": "Rune Pa Ret Pme",
+   "pt": "Runa Pa Ret Pm"
+  },
+  "Rune Pa Ré Air": {
+   "de": "Pa-Res-Lu-Rune",
+   "en": "Pa Air Res Rune",
+   "es": "Runa Bu Re Aire",
+   "fr": "Rune Pa Ré Air",
+   "pt": "Runa Pa Res Ar"
+  },
+  "Rune Pa Ré Cri": {
+   "de": "Pa-Res-Kri-Rune",
+   "en": "Pa Cri Res Rune",
+   "es": "Runa Bu Re Cri",
+   "fr": "Rune Pa Ré Cri",
+   "pt": "Runa Pa Res Cri"
+  },
+  "Rune Pa Ré Eau": {
+   "de": "Pa-Res-Was-Rune",
+   "en": "Pa Water Res Rune",
+   "es": "Runa Bu Re Agua",
+   "fr": "Rune Pa Ré Eau",
+   "pt": "Runa Pa Res Água"
+  },
+  "Rune Pa Ré Feu": {
+   "de": "Pa-Res-Feu-Rune",
+   "en": "Pa Fire Res Rune",
+   "es": "Runa Bu Re Fuego",
+   "fr": "Rune Pa Ré Feu",
+   "pt": "Runa Pa Res Fogo"
+  },
+  "Rune Pa Ré Neutre": {
+   "de": "Pa-Res-Neu-Rune",
+   "en": "Pa Neutral Res Rune",
+   "es": "Runa Bu Re Neutral",
+   "fr": "Rune Pa Ré Neutre",
+   "pt": "Runa Pa Res Neutro"
+  },
+  "Rune Pa Ré Pa": {
+   "de": "Pa-Res-AP-Rune",
+   "en": "Pa Ap Res Rune",
+   "es": "Runa Bu Re PA",
+   "fr": "Rune Pa Ré Pa",
+   "pt": "Runa Pa Res Pa"
+  },
+  "Rune Pa Ré Pme": {
+   "de": "Pa-Res-BP-Rune",
+   "en": "Pa Mp Res Rune",
+   "es": "Runa Bu Re PM",
+   "fr": "Rune Pa Ré Pme",
+   "pt": "Runa Pa Res Pm"
+  },
+  "Rune Pa Ré Pou": {
+   "de": "Pa-Res-Schu-Rune",
+   "en": "Pa Psh Res Rune",
+   "es": "Runa Bu Re Emp",
+   "fr": "Rune Pa Ré Pou",
+   "pt": "Runa Pa Res Emp"
+  },
+  "Rune Pa Ré Terre": {
+   "de": "Pa-Res-Erd-Rune",
+   "en": "Pa Earth Res Rune",
+   "es": "Runa Bu Re Tierra",
+   "fr": "Rune Pa Ré Terre",
+   "pt": "Runa Pa Res Terra"
+  },
+  "Rune Pa Sa": {
+   "de": "Pa-Wei-Rune",
+   "en": "Pa Wis Rune",
+   "es": "Runa Bu Sa",
+   "fr": "Rune Pa Sa",
+   "pt": "Runa Pa Sa"
+  },
+  "Rune Pa So": {
+   "de": "Pa-Zau-Rune",
+   "en": "Pa Hea Rune",
+   "es": "Runa Bu Cu",
+   "fr": "Rune Pa So",
+   "pt": "Runa Pa Cur"
+  },
+  "Rune Pa Tac": {
+   "de": "Pa-Blo-Rune",
+   "en": "Pa Loc Rune",
+   "es": "Runa Bu Pla",
+   "fr": "Rune Pa Tac",
+   "pt": "Runa Pa Blo"
+  },
+  "Rune Pa Vi": {
+   "de": "Pa-Vi-Rune",
+   "en": "Pa Vit Rune",
+   "es": "Runa Bu Vi",
+   "fr": "Rune Pa Vi",
+   "pt": "Runa Pa Vi"
+  },
+  "Rune Per Pi": {
+   "de": "Pro-Fa-Rune",
+   "en": "Trp Per Rune",
+   "es": "Runa Por Tram",
+   "fr": "Rune Per Pi",
+   "pt": "Runa Por Ard"
+  },
+  "Rune Po": {
+   "de": "Rei-Rune",
+   "en": "Range Rune",
+   "es": "Runa Al",
+   "fr": "Rune Po",
+   "pt": "Runa Al"
+  },
+  "Rune Pod": {
+   "de": "Pod-Rune",
+   "en": "Pod Rune",
+   "es": "Runa Pod",
+   "fr": "Rune Pod",
+   "pt": "Runa Pod"
+  },
+  "Rune Prospe": {
+   "de": "Fi-Rune",
+   "en": "Pp Rune",
+   "es": "Runa Prospe",
+   "fr": "Rune Prospe",
+   "pt": "Runa Prospe"
+  },
+  "Rune Pui": {
+   "de": "Pro-Scha-Rune",
+   "en": "Pow Rune",
+   "es": "Runa Pot",
+   "fr": "Rune Pui",
+   "pt": "Runa Po"
+  },
+  "Rune Ra Age": {
+   "de": "Ra-Fli-Rune",
+   "en": "Ra Agi Rune",
+   "es": "Runa Su Agi",
+   "fr": "Rune Ra Age",
+   "pt": "Runa Ra Agi"
+  },
+  "Rune Ra Cha": {
+   "de": "Ra-Glü-Rune",
+   "en": "Ra Cha Rune",
+   "es": "Runa Su Sue",
+   "fr": "Rune Ra Cha",
+   "pt": "Runa Ra Sor"
+  },
+  "Rune Ra Do Pou": {
+   "de": "Ra-Scha-Schu-Rune",
+   "en": "Ra Psh Dam Rune",
+   "es": "Runa Su Da Emp",
+   "fr": "Rune Ra Do Pou",
+   "pt": "Runa Ra Da Emp"
+  },
+  "Rune Ra Fo": {
+   "de": "Ra-Kra-Rune",
+   "en": "Ra Str Rune",
+   "es": "Runa Su Fu",
+   "fr": "Rune Ra Fo",
+   "pt": "Runa Ra For"
+  },
+  "Rune Ra Ine": {
+   "de": "Ra-Int-Rune",
+   "en": "Ra Int Rune",
+   "es": "Runa Su Inte",
+   "fr": "Rune Ra Ine",
+   "pt": "Runa Ra Int"
+  },
+  "Rune Ra Ini": {
+   "de": "Ra-Ini-Rune",
+   "en": "Ra Ini Rune",
+   "es": "Runa Su Ini",
+   "fr": "Rune Ra Ini",
+   "pt": "Runa Ra Ini"
+  },
+  "Rune Ra Per Pi": {
+   "de": "Ra-Pro-Fa-Rune",
+   "en": "Ra Trp Per Rune",
+   "es": "Runa Su Por Tram",
+   "fr": "Rune Ra Per Pi",
+   "pt": "Runa Ra Por Ard"
+  },
+  "Rune Ra Pod": {
+   "de": "Ra-Pod-Rune",
+   "en": "Ra Pod Rune",
+   "es": "Runa Su Pod",
+   "fr": "Rune Ra Pod",
+   "pt": "Runa Ra Pod"
+  },
+  "Rune Ra Pui": {
+   "de": "Ra-Pro-Scha-Rune",
+   "en": "Ra Pow Rune",
+   "es": "Runa Su Pot",
+   "fr": "Rune Ra Pui",
+   "pt": "Runa Ra Po"
+  },
+  "Rune Ra Ré Pou": {
+   "de": "Ra-Res-Schu-Rune",
+   "en": "Ra Psh Res Rune",
+   "es": "Runa Su Re Emp",
+   "fr": "Rune Ra Ré Pou",
+   "pt": "Runa Ra Res Emp"
+  },
+  "Rune Ra Sa": {
+   "de": "Ra-Wei-Rune",
+   "en": "Ra Wis Rune",
+   "es": "Runa Su Sa",
+   "fr": "Rune Ra Sa",
+   "pt": "Runa Ra Sa"
+  },
+  "Rune Ra Vi": {
+   "de": "Ra-Vi-Rune",
+   "en": "Ra Vit Rune",
+   "es": "Runa Su Vi",
+   "fr": "Rune Ra Vi",
+   "pt": "Runa Ra Vi"
+  },
+  "Rune Ret Pa": {
+   "de": "Ent-AP-Rune",
+   "en": "Ap Red Rune",
+   "es": "Runa Ret PA",
+   "fr": "Rune Ret Pa",
+   "pt": "Runa Ret Pa"
+  },
+  "Rune Ret Pme": {
+   "de": "Ent-BP-Rune",
+   "en": "Mp Red Rune",
+   "es": "Runa Ret PM",
+   "fr": "Rune Ret Pme",
+   "pt": "Runa Ret Pm"
+  },
+  "Rune Ré Air": {
+   "de": "Res-Lu-Rune",
+   "en": "Air Res Rune",
+   "es": "Runa Re Aire",
+   "fr": "Rune Ré Air",
+   "pt": "Runa Res Ar"
+  },
+  "Rune Ré Cri": {
+   "de": "Res-Kri-Rune",
+   "en": "Cri Res Rune",
+   "es": "Runa Re Cri",
+   "fr": "Rune Ré Cri",
+   "pt": "Runa Res Cri"
+  },
+  "Rune Ré Eau": {
+   "de": "Res-Was-Rune",
+   "en": "Water Res Rune",
+   "es": "Runa Re Agua",
+   "fr": "Rune Ré Eau",
+   "pt": "Runa Res Água"
+  },
+  "Rune Ré Feu": {
+   "de": "Res-Feu-Rune",
+   "en": "Fire Res Rune",
+   "es": "Runa Re Fuego",
+   "fr": "Rune Ré Feu",
+   "pt": "Runa Res Fogo"
+  },
+  "Rune Ré Neutre": {
+   "de": "Res-Neu-Rune",
+   "en": "Neutral Res Rune",
+   "es": "Runa Re Neutral",
+   "fr": "Rune Ré Neutre",
+   "pt": "Runa Res Neutro"
+  },
+  "Rune Ré Pa": {
+   "de": "Res-AP-Rune",
+   "en": "Ap Res Rune",
+   "es": "Runa Re PA",
+   "fr": "Rune Ré Pa",
+   "pt": "Runa Res Pa"
+  },
+  "Rune Ré Per Air": {
+   "de": "Res-Pro-Lu-Rune",
+   "en": "Air Res Per Rune",
+   "es": "Runa Re Aire Por",
+   "fr": "Rune Ré Per Air",
+   "pt": "Runa Res Por Ar"
+  },
+  "Rune Ré Per Di": {
+   "de": "Res-Pro-Fern-Rune",
+   "en": "Dis Res Per Rune",
+   "es": "Runa Re Por Di",
+   "fr": "Rune Ré Per Di",
+   "pt": "Runa Res Por Di"
+  },
+  "Rune Ré Per Eau": {
+   "de": "Res-Pro-Was-Rune",
+   "en": "Water Res Per Rune",
+   "es": "Runa Re Agua Por",
+   "fr": "Rune Ré Per Eau",
+   "pt": "Runa Res Por Água"
+  },
+  "Rune Ré Per Feu": {
+   "de": "Res-Pro-Feu-Rune",
+   "en": "Fire Res Per Rune",
+   "es": "Runa Re Fuego Por",
+   "fr": "Rune Ré Per Feu",
+   "pt": "Runa Res Por Fogo"
+  },
+  "Rune Ré Per Mé": {
+   "de": "Res-Pro-Nah-Rune",
+   "en": "Mel Res Per Rune",
+   "es": "Runa Re Por CC",
+   "fr": "Rune Ré Per Mé",
+   "pt": "Runa Res Por CaC"
+  },
+  "Rune Ré Per Neutre": {
+   "de": "Res-Pro-Neu-Rune",
+   "en": "Neutral Res Per Rune",
+   "es": "Runa Re Neutral Por",
+   "fr": "Rune Ré Per Neutre",
+   "pt": "Runa Res Por Neutro"
+  },
+  "Rune Ré Per Terre": {
+   "de": "Res-Pro-Erd-Rune",
+   "en": "Earth Res Per Rune",
+   "es": "Runa Re Tierra Por",
+   "fr": "Rune Ré Per Terre",
+   "pt": "Runa Res Por Terra"
+  },
+  "Rune Ré Pme": {
+   "de": "Res-BP-Rune",
+   "en": "Mp Res Rune",
+   "es": "Runa Re PM",
+   "fr": "Rune Ré Pme",
+   "pt": "Runa Res Pm"
+  },
+  "Rune Ré Pou": {
+   "de": "Res-Schu-Rune",
+   "en": "Psh Res Rune",
+   "es": "Runa Re Emp",
+   "fr": "Rune Ré Pou",
+   "pt": "Runa Res Emp"
+  },
+  "Rune Ré Terre": {
+   "de": "Res-Erd-Rune",
+   "en": "Earth Res Rune",
+   "es": "Runa Re Tierra",
+   "fr": "Rune Ré Terre",
+   "pt": "Runa Res Terra"
+  },
+  "Rune Sa": {
+   "de": "Wei-Rune",
+   "en": "Wis Rune",
+   "es": "Runa Sa",
+   "fr": "Rune Sa",
+   "pt": "Runa Sa"
+  },
+  "Rune So": {
+   "de": "Zau-Rune",
+   "en": "Hea Rune",
+   "es": "Runa Cu",
+   "fr": "Rune So",
+   "pt": "Runa Cur"
+  },
+  "Rune Tac": {
+   "de": "Blo-Rune",
+   "en": "Loc Rune",
+   "es": "Runa Pla",
+   "fr": "Rune Tac",
+   "pt": "Runa Blo"
+  },
+  "Rune Vi": {
+   "de": "Vi-Rune",
+   "en": "Vit Rune",
+   "es": "Runa Vi",
+   "fr": "Rune Vi",
+   "pt": "Runa Vi"
+  },
+  "Rune de Signature": {
+   "de": "Signier-Rune",
+   "en": "Signature Rune",
+   "es": "Runa de firma",
+   "fr": "Rune de Signature",
+   "pt": "Runa de assinatura"
+  },
+  "Rune de chasse": {
+   "de": "Jagdrune",
+   "en": "Hunting Rune",
+   "es": "Runa de caza",
+   "fr": "Rune de chasse",
+   "pt": "Runa de Caça"
+  }
+ },
+ "dofus3": {
+  "Rune Age": {
+   "de": "Fli-Rune",
+   "en": "Agi Rune",
+   "es": "Runa Agi",
+   "fr": "Rune Age",
+   "pt": "Runa Agi"
+  },
+  "Rune Cha": {
+   "de": "Glü-Rune",
+   "en": "Cha Rune",
+   "es": "Runa Sue",
+   "fr": "Rune Cha",
+   "pt": "Runa Sor"
+  },
+  "Rune Cri": {
+   "de": "Kri-Rune",
+   "en": "Cri Rune",
+   "es": "Runa Cri",
+   "fr": "Rune Cri",
+   "pt": "Runa Cri"
+  },
+  "Rune Do": {
+   "de": "Scha-Rune",
+   "en": "Dam Rune",
+   "es": "Runa Da",
+   "fr": "Rune Do",
+   "pt": "Runa Da"
+  },
+  "Rune Do Air": {
+   "de": "Lu-Scha-Rune",
+   "en": "Air Dam Rune",
+   "es": "Runa Da Aire",
+   "fr": "Rune Do Air",
+   "pt": "Runa Da Ar"
+  },
+  "Rune Do Cri": {
+   "de": "Kri-Scha-Rune",
+   "en": "Cri Dam Rune",
+   "es": "Runa Da Cri",
+   "fr": "Rune Do Cri",
+   "pt": "Runa Da Cri"
+  },
+  "Rune Do Eau": {
+   "de": "Was-Scha-Rune",
+   "en": "Water Dam Rune",
+   "es": "Runa Da Agua",
+   "fr": "Rune Do Eau",
+   "pt": "Runa Da Água"
+  },
+  "Rune Do Feu": {
+   "de": "Feu-Scha-Rune",
+   "en": "Fire Dam Rune",
+   "es": "Runa Da Fuego",
+   "fr": "Rune Do Feu",
+   "pt": "Runa Da Fogo"
+  },
+  "Rune Do Neutre": {
+   "de": "Neu-Scha-Rune",
+   "en": "Neutral Dam Rune",
+   "es": "Runa Da Neutral",
+   "fr": "Rune Do Neutre",
+   "pt": "Runa Da Neutro"
+  },
+  "Rune Do Per Ar": {
+   "de": "Pro-Waf-Scha-Rune",
+   "en": "Wep Dam Per Rune",
+   "es": "Runa Da Por Ar",
+   "fr": "Rune Do Per Ar",
+   "pt": "Runa Da Por Arm"
+  },
+  "Rune Do Per Di": {
+   "de": "Pro-Fern-Scha-Rune",
+   "en": "Dis Dam Per Rune",
+   "es": "Runa Da Por Di",
+   "fr": "Rune Do Per Di",
+   "pt": "Runa Da Por Di"
+  },
+  "Rune Do Per Mé": {
+   "de": "Pro-Nah-Scha-Rune",
+   "en": "Mel Dam Per Rune",
+   "es": "Runa Da Por CC",
+   "fr": "Rune Do Per Mé",
+   "pt": "Runa Da Por CaC"
+  },
+  "Rune Do Per So": {
+   "de": "Pro-Zau-Scha-Rune",
+   "en": "Spe Dam Per Rune",
+   "es": "Runa Da Por He",
+   "fr": "Rune Do Per So",
+   "pt": "Runa Da Por Fe"
+  },
+  "Rune Do Pi": {
+   "de": "Scha-Fa-Rune",
+   "en": "Trp Dam Rune",
+   "es": "Runa Da Tram",
+   "fr": "Rune Do Pi",
+   "pt": "Runa Da Ard"
+  },
+  "Rune Do Pou": {
+   "de": "Schu-Scha-Rune",
+   "en": "Psh Dam Rune",
+   "es": "Runa Da Emp",
+   "fr": "Rune Do Pou",
+   "pt": "Runa Da Emp"
+  },
+  "Rune Do Ren": {
+   "de": "Zurü-Scha-Rune",
+   "en": "Dam Ref Rune",
+   "es": "Runa Da Reen",
+   "fr": "Rune Do Ren",
+   "pt": "Runa Da Ref"
+  },
+  "Rune Do Terre": {
+   "de": "Erd-Scha-Rune",
+   "en": "Earth Dam Rune",
+   "es": "Runa Da Tierra",
+   "fr": "Rune Do Terre",
+   "pt": "Runa Da Terra"
+  },
+  "Rune Fo": {
+   "de": "Kra-Rune",
+   "en": "Str Rune",
+   "es": "Runa Fu",
+   "fr": "Rune Fo",
+   "pt": "Runa For"
+  },
+  "Rune Fui": {
+   "de": "Aus-Rune",
+   "en": "Dod Rune",
+   "es": "Runa Hui",
+   "fr": "Rune Fui",
+   "pt": "Runa Fu"
+  },
+  "Rune Ga Pa": {
+   "de": "Ge-AP-Rune",
+   "en": "Ap Ga Rune",
+   "es": "Runa Ga PA",
+   "fr": "Rune Ga Pa",
+   "pt": "Runa Ga Pa"
+  },
+  "Rune Ga Pme": {
+   "de": "Ge-BP-Rune",
+   "en": "Mp Ga Rune",
+   "es": "Runa Ga PM",
+   "fr": "Rune Ga Pme",
+   "pt": "Runa Ga Pm"
+  },
+  "Rune Ine": {
+   "de": "Int-Rune",
+   "en": "Int Rune",
+   "es": "Runa Inte",
+   "fr": "Rune Ine",
+   "pt": "Runa Int"
+  },
+  "Rune Ini": {
+   "de": "Ini-Rune",
+   "en": "Ini Rune",
+   "es": "Runa Ini",
+   "fr": "Rune Ini",
+   "pt": "Runa Ini"
+  },
+  "Rune Invo": {
+   "de": "Be-Rune",
+   "en": "Sum Rune",
+   "es": "Runa Invo",
+   "fr": "Rune Invo",
+   "pt": "Runa Inv"
+  },
+  "Rune Pa Age": {
+   "de": "Pa-Fli-Rune",
+   "en": "Pa Agi Rune",
+   "es": "Runa Bu Agi",
+   "fr": "Rune Pa Age",
+   "pt": "Runa Pa Agi"
+  },
+  "Rune Pa Cha": {
+   "de": "Pa-Glü-Rune",
+   "en": "Pa Cha Rune",
+   "es": "Runa Bu Sue",
+   "fr": "Rune Pa Cha",
+   "pt": "Runa Pa Sor"
+  },
+  "Rune Pa Do Air": {
+   "de": "Pa-Lu-Scha-Rune",
+   "en": "Pa Air Dam Rune",
+   "es": "Runa Bu Da Aire",
+   "fr": "Rune Pa Do Air",
+   "pt": "Runa Pa Da Ar"
+  },
+  "Rune Pa Do Cri": {
+   "de": "Pa-Kri-Scha-Rune",
+   "en": "Pa Cri Dam Rune",
+   "es": "Runa Bu Da Cri",
+   "fr": "Rune Pa Do Cri",
+   "pt": "Runa Pa Da Cri"
+  },
+  "Rune Pa Do Eau": {
+   "de": "Pa-Was-Scha-Rune",
+   "en": "Pa Water Dam Rune",
+   "es": "Runa Bu Da Agua",
+   "fr": "Rune Pa Do Eau",
+   "pt": "Runa Pa Da Água"
+  },
+  "Rune Pa Do Feu": {
+   "de": "Pa-Feu-Scha-Rune",
+   "en": "Pa Fire Dam Rune",
+   "es": "Runa Bu Da Fuego",
+   "fr": "Rune Pa Do Feu",
+   "pt": "Runa Pa Da Fogo"
+  },
+  "Rune Pa Do Neutre": {
+   "de": "Pa-Neu-Scha-Rune",
+   "en": "Pa Neutral Dam Rune",
+   "es": "Runa Bu Da Neutral",
+   "fr": "Rune Pa Do Neutre",
+   "pt": "Runa Pa Da Neutro"
+  },
+  "Rune Pa Do Pi": {
+   "de": "Pa-Scha-Fa-Rune",
+   "en": "Pa Trp Dam Rune",
+   "es": "Runa Bu Da Tram",
+   "fr": "Rune Pa Do Pi",
+   "pt": "Runa Pa Da Ard"
+  },
+  "Rune Pa Do Pou": {
+   "de": "Pa-Schu-Scha-Rune",
+   "en": "Pa Psh Dam Rune",
+   "es": "Runa Bu Da Emp",
+   "fr": "Rune Pa Do Pou",
+   "pt": "Runa Pa Da Emp"
+  },
+  "Rune Pa Do Ren": {
+   "de": "Pa-Zurü-Scha-Rune",
+   "en": "Pa Dam Ref Rune",
+   "es": "Runa Bu Da Reen",
+   "fr": "Rune Pa Do Ren",
+   "pt": "Runa Pa Da Ref"
+  },
+  "Rune Pa Do Terre": {
+   "de": "Pa-Erd-Scha-Rune",
+   "en": "Pa Earth Dam Rune",
+   "es": "Runa Bu Da Tierra",
+   "fr": "Rune Pa Do Terre",
+   "pt": "Runa Pa Da Terra"
+  },
+  "Rune Pa Fo": {
+   "de": "Pa-Kra-Rune",
+   "en": "Pa Str Rune",
+   "es": "Runa Bu Fu",
+   "fr": "Rune Pa Fo",
+   "pt": "Runa Pa For"
+  },
+  "Rune Pa Fui": {
+   "de": "Pa-Aus-Rune",
+   "en": "Pa Dod Rune",
+   "es": "Runa Bu Hui",
+   "fr": "Rune Pa Fui",
+   "pt": "Runa Pa Fu"
+  },
+  "Rune Pa Ine": {
+   "de": "Pa-Int-Rune",
+   "en": "Pa Int Rune",
+   "es": "Runa Bu Inte",
+   "fr": "Rune Pa Ine",
+   "pt": "Runa Pa Int"
+  },
+  "Rune Pa Ini": {
+   "de": "Pa-Ini-Rune",
+   "en": "Pa Ini Rune",
+   "es": "Runa Bu Ini",
+   "fr": "Rune Pa Ini",
+   "pt": "Runa Pa Ini"
+  },
+  "Rune Pa Per Pi": {
+   "de": "Pa-Pro-Fa-Rune",
+   "en": "Pa Trp Per Rune",
+   "es": "Runa Bu Por Tram",
+   "fr": "Rune Pa Per Pi",
+   "pt": "Runa Pa Por Ard"
+  },
+  "Rune Pa Pod": {
+   "de": "Pa-Pod-Rune",
+   "en": "Pa Pod Rune",
+   "es": "Runa Bu Pod",
+   "fr": "Rune Pa Pod",
+   "pt": "Runa Pa Pod"
+  },
+  "Rune Pa Prospe": {
+   "de": "Pa-Fi-Rune",
+   "en": "Pa Pp Rune",
+   "es": "Runa Bu Prospe",
+   "fr": "Rune Pa Prospe",
+   "pt": "Runa Pa Prospe"
+  },
+  "Rune Pa Pui": {
+   "de": "Pa-Pro-Scha-Rune",
+   "en": "Pa Pow Rune",
+   "es": "Runa Bu Pot",
+   "fr": "Rune Pa Pui",
+   "pt": "Runa Pa Po"
+  },
+  "Rune Pa Ret Pa": {
+   "de": "Pa-Ent-AP-Rune",
+   "en": "Pa Ap Red Rune",
+   "es": "Runa Bu Ret PA",
+   "fr": "Rune Pa Ret Pa",
+   "pt": "Runa Pa Ret Pa"
+  },
+  "Rune Pa Ret Pme": {
+   "de": "Pa-Ent-BP-Rune",
+   "en": "Pa Mp Red Rune",
+   "es": "Runa Bu Ret PM",
+   "fr": "Rune Pa Ret Pme",
+   "pt": "Runa Pa Ret Pm"
+  },
+  "Rune Pa Ré Air": {
+   "de": "Pa-Res-Lu-Rune",
+   "en": "Pa Air Res Rune",
+   "es": "Runa Bu Re Aire",
+   "fr": "Rune Pa Ré Air",
+   "pt": "Runa Pa Res Ar"
+  },
+  "Rune Pa Ré Cri": {
+   "de": "Pa-Res-Kri-Rune",
+   "en": "Pa Cri Res Rune",
+   "es": "Runa Bu Re Cri",
+   "fr": "Rune Pa Ré Cri",
+   "pt": "Runa Pa Res Cri"
+  },
+  "Rune Pa Ré Eau": {
+   "de": "Pa-Res-Was-Rune",
+   "en": "Pa Water Res Rune",
+   "es": "Runa Bu Re Agua",
+   "fr": "Rune Pa Ré Eau",
+   "pt": "Runa Pa Res Água"
+  },
+  "Rune Pa Ré Feu": {
+   "de": "Pa-Res-Feu-Rune",
+   "en": "Pa Fire Res Rune",
+   "es": "Runa Bu Re Fuego",
+   "fr": "Rune Pa Ré Feu",
+   "pt": "Runa Pa Res Fogo"
+  },
+  "Rune Pa Ré Neutre": {
+   "de": "Pa-Res-Neu-Rune",
+   "en": "Pa Neutral Res Rune",
+   "es": "Runa Bu Re Neutral",
+   "fr": "Rune Pa Ré Neutre",
+   "pt": "Runa Pa Res Neutro"
+  },
+  "Rune Pa Ré Pa": {
+   "de": "Pa-Res-AP-Rune",
+   "en": "Pa Ap Res Rune",
+   "es": "Runa Bu Re PA",
+   "fr": "Rune Pa Ré Pa",
+   "pt": "Runa Pa Res Pa"
+  },
+  "Rune Pa Ré Pme": {
+   "de": "Pa-Res-BP-Rune",
+   "en": "Pa Mp Res Rune",
+   "es": "Runa Bu Re PM",
+   "fr": "Rune Pa Ré Pme",
+   "pt": "Runa Pa Res Pm"
+  },
+  "Rune Pa Ré Pou": {
+   "de": "Pa-Res-Schu-Rune",
+   "en": "Pa Psh Res Rune",
+   "es": "Runa Bu Re Emp",
+   "fr": "Rune Pa Ré Pou",
+   "pt": "Runa Pa Res Emp"
+  },
+  "Rune Pa Ré Terre": {
+   "de": "Pa-Res-Erd-Rune",
+   "en": "Pa Earth Res Rune",
+   "es": "Runa Bu Re Tierra",
+   "fr": "Rune Pa Ré Terre",
+   "pt": "Runa Pa Res Terra"
+  },
+  "Rune Pa Sa": {
+   "de": "Pa-Wei-Rune",
+   "en": "Pa Wis Rune",
+   "es": "Runa Bu Sa",
+   "fr": "Rune Pa Sa",
+   "pt": "Runa Pa Sa"
+  },
+  "Rune Pa So": {
+   "de": "Pa-Zau-Rune",
+   "en": "Pa Hea Rune",
+   "es": "Runa Bu Cu",
+   "fr": "Rune Pa So",
+   "pt": "Runa Pa Cur"
+  },
+  "Rune Pa Tac": {
+   "de": "Pa-Blo-Rune",
+   "en": "Pa Loc Rune",
+   "es": "Runa Bu Pla",
+   "fr": "Rune Pa Tac",
+   "pt": "Runa Pa Blo"
+  },
+  "Rune Pa Vi": {
+   "de": "Pa-Vi-Rune",
+   "en": "Pa Vit Rune",
+   "es": "Runa Bu Vi",
+   "fr": "Rune Pa Vi",
+   "pt": "Runa Pa Vi"
+  },
+  "Rune Per Pi": {
+   "de": "Pro-Fa-Rune",
+   "en": "Trp Per Rune",
+   "es": "Runa Por Tram",
+   "fr": "Rune Per Pi",
+   "pt": "Runa Por Ard"
+  },
+  "Rune Po": {
+   "de": "Rei-Rune",
+   "en": "Range Rune",
+   "es": "Runa Al",
+   "fr": "Rune Po",
+   "pt": "Runa Al"
+  },
+  "Rune Pod": {
+   "de": "Pod-Rune",
+   "en": "Pod Rune",
+   "es": "Runa Pod",
+   "fr": "Rune Pod",
+   "pt": "Runa Pod"
+  },
+  "Rune Prospe": {
+   "de": "Fi-Rune",
+   "en": "Pp Rune",
+   "es": "Runa Prospe",
+   "fr": "Rune Prospe",
+   "pt": "Runa Prospe"
+  },
+  "Rune Pui": {
+   "de": "Pro-Scha-Rune",
+   "en": "Pow Rune",
+   "es": "Runa Pot",
+   "fr": "Rune Pui",
+   "pt": "Runa Po"
+  },
+  "Rune Ra Age": {
+   "de": "Ra-Fli-Rune",
+   "en": "Ra Agi Rune",
+   "es": "Runa Su Agi",
+   "fr": "Rune Ra Age",
+   "pt": "Runa Ra Agi"
+  },
+  "Rune Ra Cha": {
+   "de": "Ra-Glü-Rune",
+   "en": "Ra Cha Rune",
+   "es": "Runa Su Sue",
+   "fr": "Rune Ra Cha",
+   "pt": "Runa Ra Sor"
+  },
+  "Rune Ra Do Pou": {
+   "de": "Ra-Scha-Schu-Rune",
+   "en": "Ra Psh Dam Rune",
+   "es": "Runa Su Da Emp",
+   "fr": "Rune Ra Do Pou",
+   "pt": "Runa Ra Da Emp"
+  },
+  "Rune Ra Fo": {
+   "de": "Ra-Kra-Rune",
+   "en": "Ra Str Rune",
+   "es": "Runa Su Fu",
+   "fr": "Rune Ra Fo",
+   "pt": "Runa Ra For"
+  },
+  "Rune Ra Ine": {
+   "de": "Ra-Int-Rune",
+   "en": "Ra Int Rune",
+   "es": "Runa Su Inte",
+   "fr": "Rune Ra Ine",
+   "pt": "Runa Ra Int"
+  },
+  "Rune Ra Ini": {
+   "de": "Ra-Ini-Rune",
+   "en": "Ra Ini Rune",
+   "es": "Runa Su Ini",
+   "fr": "Rune Ra Ini",
+   "pt": "Runa Ra Ini"
+  },
+  "Rune Ra Per Pi": {
+   "de": "Ra-Pro-Fa-Rune",
+   "en": "Ra Trp Per Rune",
+   "es": "Runa Su Por Tram",
+   "fr": "Rune Ra Per Pi",
+   "pt": "Runa Ra Por Ard"
+  },
+  "Rune Ra Pod": {
+   "de": "Ra-Pod-Rune",
+   "en": "Ra Pod Rune",
+   "es": "Runa Su Pod",
+   "fr": "Rune Ra Pod",
+   "pt": "Runa Ra Pod"
+  },
+  "Rune Ra Pui": {
+   "de": "Ra-Pro-Scha-Rune",
+   "en": "Ra Pow Rune",
+   "es": "Runa Su Pot",
+   "fr": "Rune Ra Pui",
+   "pt": "Runa Ra Po"
+  },
+  "Rune Ra Ré Air": {
+   "de": "Ra-Res-Lu-Rune",
+   "en": "Ra Air Res Rune",
+   "es": "Runa Su Re Aire",
+   "fr": "Rune Ra Ré Air",
+   "pt": "Runa Ra Res Ar"
+  },
+  "Rune Ra Ré Cri": {
+   "de": "Ra-Res-Kri-Rune",
+   "en": "Ra Cri Res Rune",
+   "es": "Runa Su Re Cri",
+   "fr": "Rune Ra Ré Cri",
+   "pt": "Runa Ra Res Cri"
+  },
+  "Rune Ra Ré Eau": {
+   "de": "Ra-Res-Was-Rune",
+   "en": "Ra Water Res Rune",
+   "es": "Runa Su Re Agua",
+   "fr": "Rune Ra Ré Eau",
+   "pt": "Runa Ra Res Água"
+  },
+  "Rune Ra Ré Feu": {
+   "de": "Ra-Res-Feu-Rune",
+   "en": "Ra Fire Res Rune",
+   "es": "Runa Su Re Fuego",
+   "fr": "Rune Ra Ré Feu",
+   "pt": "Runa Ra Res Fogo"
+  },
+  "Rune Ra Ré Neutre": {
+   "de": "Ra-Res-Neu-Rune",
+   "en": "Ra Neutral Res Rune",
+   "es": "Runa Su Re Neutral",
+   "fr": "Rune Ra Ré Neutre",
+   "pt": "Runa Ra Res Neutro"
+  },
+  "Rune Ra Ré Pou": {
+   "de": "Ra-Res-Schu-Rune",
+   "en": "Ra Psh Res Rune",
+   "es": "Runa Su Re Emp",
+   "fr": "Rune Ra Ré Pou",
+   "pt": "Runa Ra Res Emp"
+  },
+  "Rune Ra Ré Terre": {
+   "de": "Ra-Res-Erd-Rune",
+   "en": "Ra Earth Res Rune",
+   "es": "Runa Su Re Tierra",
+   "fr": "Rune Ra Ré Terre",
+   "pt": "Runa Ra Res Terra"
+  },
+  "Rune Ra Sa": {
+   "de": "Ra-Wei-Rune",
+   "en": "Ra Wis Rune",
+   "es": "Runa Su Sa",
+   "fr": "Rune Ra Sa",
+   "pt": "Runa Ra Sa"
+  },
+  "Rune Ra Vi": {
+   "de": "Ra-Vi-Rune",
+   "en": "Ra Vit Rune",
+   "es": "Runa Su Vi",
+   "fr": "Rune Ra Vi",
+   "pt": "Runa Ra Vi"
+  },
+  "Rune Ret Pa": {
+   "de": "Ent-AP-Rune",
+   "en": "Ap Red Rune",
+   "es": "Runa Ret PA",
+   "fr": "Rune Ret Pa",
+   "pt": "Runa Ret Pa"
+  },
+  "Rune Ret Pme": {
+   "de": "Ent-BP-Rune",
+   "en": "Mp Red Rune",
+   "es": "Runa Ret PM",
+   "fr": "Rune Ret Pme",
+   "pt": "Runa Ret Pm"
+  },
+  "Rune Ré Air": {
+   "de": "Res-Lu-Rune",
+   "en": "Air Res Rune",
+   "es": "Runa Re Aire",
+   "fr": "Rune Ré Air",
+   "pt": "Runa Res Ar"
+  },
+  "Rune Ré Cri": {
+   "de": "Res-Kri-Rune",
+   "en": "Cri Res Rune",
+   "es": "Runa Re Cri",
+   "fr": "Rune Ré Cri",
+   "pt": "Runa Res Cri"
+  },
+  "Rune Ré Eau": {
+   "de": "Res-Was-Rune",
+   "en": "Water Res Rune",
+   "es": "Runa Re Agua",
+   "fr": "Rune Ré Eau",
+   "pt": "Runa Res Água"
+  },
+  "Rune Ré Feu": {
+   "de": "Res-Feu-Rune",
+   "en": "Fire Res Rune",
+   "es": "Runa Re Fuego",
+   "fr": "Rune Ré Feu",
+   "pt": "Runa Res Fogo"
+  },
+  "Rune Ré Neutre": {
+   "de": "Res-Neu-Rune",
+   "en": "Neutral Res Rune",
+   "es": "Runa Re Neutral",
+   "fr": "Rune Ré Neutre",
+   "pt": "Runa Res Neutro"
+  },
+  "Rune Ré Pa": {
+   "de": "Res-AP-Rune",
+   "en": "Ap Res Rune",
+   "es": "Runa Re PA",
+   "fr": "Rune Ré Pa",
+   "pt": "Runa Res Pa"
+  },
+  "Rune Ré Per Air": {
+   "de": "Res-Pro-Lu-Rune",
+   "en": "Air Res Per Rune",
+   "es": "Runa Re Aire Por",
+   "fr": "Rune Ré Per Air",
+   "pt": "Runa Res Por Ar"
+  },
+  "Rune Ré Per Di": {
+   "de": "Res-Pro-Fern-Rune",
+   "en": "Dis Res Per Rune",
+   "es": "Runa Re Por Di",
+   "fr": "Rune Ré Per Di",
+   "pt": "Runa Res Por Di"
+  },
+  "Rune Ré Per Eau": {
+   "de": "Res-Pro-Was-Rune",
+   "en": "Water Res Per Rune",
+   "es": "Runa Re Agua Por",
+   "fr": "Rune Ré Per Eau",
+   "pt": "Runa Res Por Água"
+  },
+  "Rune Ré Per Feu": {
+   "de": "Res-Pro-Feu-Rune",
+   "en": "Fire Res Per Rune",
+   "es": "Runa Re Fuego Por",
+   "fr": "Rune Ré Per Feu",
+   "pt": "Runa Res Por Fogo"
+  },
+  "Rune Ré Per Mé": {
+   "de": "Res-Pro-Nah-Rune",
+   "en": "Mel Res Per Rune",
+   "es": "Runa Re Por CC",
+   "fr": "Rune Ré Per Mé",
+   "pt": "Runa Res Por CaC"
+  },
+  "Rune Ré Per Neutre": {
+   "de": "Res-Pro-Neu-Rune",
+   "en": "Neutral Res Per Rune",
+   "es": "Runa Re Neutral Por",
+   "fr": "Rune Ré Per Neutre",
+   "pt": "Runa Res Por Neutro"
+  },
+  "Rune Ré Per Terre": {
+   "de": "Res-Pro-Erd-Rune",
+   "en": "Earth Res Per Rune",
+   "es": "Runa Re Tierra Por",
+   "fr": "Rune Ré Per Terre",
+   "pt": "Runa Res Por Terra"
+  },
+  "Rune Ré Pme": {
+   "de": "Res-BP-Rune",
+   "en": "Mp Res Rune",
+   "es": "Runa Re PM",
+   "fr": "Rune Ré Pme",
+   "pt": "Runa Res Pm"
+  },
+  "Rune Ré Pou": {
+   "de": "Res-Schu-Rune",
+   "en": "Psh Res Rune",
+   "es": "Runa Re Emp",
+   "fr": "Rune Ré Pou",
+   "pt": "Runa Res Emp"
+  },
+  "Rune Ré Terre": {
+   "de": "Res-Erd-Rune",
+   "en": "Earth Res Rune",
+   "es": "Runa Re Tierra",
+   "fr": "Rune Ré Terre",
+   "pt": "Runa Res Terra"
+  },
+  "Rune Sa": {
+   "de": "Wei-Rune",
+   "en": "Wis Rune",
+   "es": "Runa Sa",
+   "fr": "Rune Sa",
+   "pt": "Runa Sa"
+  },
+  "Rune So": {
+   "de": "Zau-Rune",
+   "en": "Hea Rune",
+   "es": "Runa Cu",
+   "fr": "Rune So",
+   "pt": "Runa Cur"
+  },
+  "Rune Tac": {
+   "de": "Blo-Rune",
+   "en": "Loc Rune",
+   "es": "Runa Pla",
+   "fr": "Rune Tac",
+   "pt": "Runa Blo"
+  },
+  "Rune Vi": {
+   "de": "Vi-Rune",
+   "en": "Vit Rune",
+   "es": "Runa Vi",
+   "fr": "Rune Vi",
+   "pt": "Runa Vi"
+  },
+  "Rune de Signature": {
+   "de": "Signier-Rune",
+   "en": "Signature Rune",
+   "es": "Runa de firma",
+   "fr": "Rune de Signature",
+   "pt": "Runa de assinatura"
+  },
+  "Rune de chasse": {
+   "de": "Jagdrune",
+   "en": "Hunting Rune",
+   "es": "Runa de caza",
+   "fr": "Rune de chasse",
+   "pt": "Runa de Caça"
+  }
+ },
+ "retro": {
+  "Rune Age": {
+   "de": "Age Rune",
+   "en": "Age Rune",
+   "es": "Runa Age",
+   "fr": "Rune Age",
+   "pt": "Runa Age"
+  },
+  "Rune Cha": {
+   "de": "Cha Rune",
+   "en": "Cha Rune",
+   "es": "Runa Cha",
+   "fr": "Rune Cha",
+   "pt": "Runa Cha"
+  },
+  "Rune Cri": {
+   "de": "Cri-Rune",
+   "en": "Cri Rune",
+   "es": "Runa Gri",
+   "fr": "Rune Cri",
+   "pt": "Runa Cri"
+  },
+  "Rune Do": {
+   "de": "Do-Rune",
+   "en": "Do Rune",
+   "es": "Runa Da",
+   "fr": "Rune Do",
+   "pt": "Runa Do"
+  },
+  "Rune Do Per": {
+   "de": "Do Per-Rune",
+   "en": "Do Per Rune",
+   "es": "Runa Da Per",
+   "fr": "Rune Do Per",
+   "pt": "Runa Do Per"
+  },
+  "Rune Do Ren": {
+   "de": "Do Ren-Rune",
+   "en": "Do Ren Rune",
+   "es": "Runa Da Ren",
+   "fr": "Rune Do Ren",
+   "pt": "Runa Do Ren"
+  },
+  "Rune Fo": {
+   "de": "Fo Rune",
+   "en": "Fo Rune",
+   "es": "Runa Fo",
+   "fr": "Rune Fo",
+   "pt": "Runa Fo"
+  },
+  "Rune Ga Pa": {
+   "de": "Ga Pa-Rune",
+   "en": "Ga Pa Rune",
+   "es": "Runa Ga Pa",
+   "fr": "Rune Ga Pa",
+   "pt": "Runa Ga Pa"
+  },
+  "Rune Ga Pme": {
+   "de": "Ga Pme Rune",
+   "en": "Ga Pme Rune",
+   "es": "Runa Ga Pme",
+   "fr": "Rune Ga Pme",
+   "pt": "Runa Ga Pme"
+  },
+  "Rune Gata Pa": {
+   "de": "Gata Pa-Rune",
+   "en": "Gata Pa Rune",
+   "es": "Runa Gata Pa",
+   "fr": "Rune Gata Pa",
+   "pt": "Runa Gata Pa"
+  },
+  "Rune Gata Pme": {
+   "de": "Gata Pme Rune",
+   "en": "Gata Pme Rune",
+   "es": "Runa Gata Pme",
+   "fr": "Rune Gata Pme",
+   "pt": "Runa Gata Pme"
+  },
+  "Rune Gata Po": {
+   "de": "Gata Pa-Rune",
+   "en": "Gata Pa Rune",
+   "es": "Runa Gata Pa",
+   "fr": "Rune Gata Po",
+   "pt": "Runa Gata Pa"
+  },
+  "Rune Ine": {
+   "de": "Ine Rune",
+   "en": "Ine Rune",
+   "es": "Runa Ine",
+   "fr": "Rune Ine",
+   "pt": "Runa Ine"
+  },
+  "Rune Ini": {
+   "de": "Ini-Rune",
+   "en": "Ini Rune",
+   "es": "Runa Ini",
+   "fr": "Rune Ini",
+   "pt": "Runa Ini"
+  },
+  "Rune Invo": {
+   "de": "Invo-Rune",
+   "en": "Summo Rune",
+   "es": "Runa Invo",
+   "fr": "Rune Invo",
+   "pt": "Runa Invo"
+  },
+  "Rune Pa Age": {
+   "de": "Pa Age Rune",
+   "en": "Pa Age Rune",
+   "es": "Runa Pa Age",
+   "fr": "Rune Pa Age",
+   "pt": "Runa Pa Age"
+  },
+  "Rune Pa Cha": {
+   "de": "Pa Cha Rune",
+   "en": "Pa Cha Rune",
+   "es": "Runa Pa Cha",
+   "fr": "Rune Pa Cha",
+   "pt": "Runa Pa Cha"
+  },
+  "Rune Pa Do Per": {
+   "de": "Pa Do Per Rune",
+   "en": "Pa Do Per Rune",
+   "es": "Runa Pa Do Per",
+   "fr": "Rune Pa Do Per",
+   "pt": "Runa Pa Do Per"
+  },
+  "Rune Pa Fo": {
+   "de": "Pa Fo Rune",
+   "en": "Pa Fo Rune",
+   "es": "Runa Pa Fo",
+   "fr": "Rune Pa Fo",
+   "pt": "Runa Pa Fo"
+  },
+  "Rune Pa Ine": {
+   "de": "Pa Ine Rune",
+   "en": "Pa Ine Rune",
+   "es": "Runa Pa Ine",
+   "fr": "Rune Pa Ine",
+   "pt": "Runa Pa Ine"
+  },
+  "Rune Pa Ini": {
+   "de": "Pa Ini-Rune",
+   "en": "Pa Ini Rune",
+   "es": "Runa Pa Ini",
+   "fr": "Rune Pa Ini",
+   "pt": "Runa Pa Ini"
+  },
+  "Rune Pa Pi": {
+   "de": "Pa Pi Rune",
+   "en": "Pa Pi Rune",
+   "es": "Runa Pa Pi",
+   "fr": "Rune Pa Pi",
+   "pt": "Runa Pa Pi"
+  },
+  "Rune Pa Pi Per": {
+   "de": "Pa Pi Per Rune",
+   "en": "Pa Pi Per Rune",
+   "es": "Runa Pa Pi Per",
+   "fr": "Rune Pa Pi Per",
+   "pt": "Runa Pa Pi Per"
+  },
+  "Rune Pa Pod": {
+   "de": "Pa Pod-Rune",
+   "en": "Pa Pod Rune",
+   "es": "Runa Pa Pod",
+   "fr": "Rune Pa Pod",
+   "pt": "Runa Pa Pod"
+  },
+  "Rune Pa Prospe": {
+   "de": "Pa Pro-Rune",
+   "en": "Pa Prospe Rune",
+   "es": "Runa Pa Prospe",
+   "fr": "Rune Pa Prospe",
+   "pt": "Runa da Prospecção"
+  },
+  "Rune Pa Sa": {
+   "de": "Pa Sa Rune",
+   "en": "Pa Sa Rune",
+   "es": "Runa Pa Sa",
+   "fr": "Rune Pa Sa",
+   "pt": "Runa Pa Sa"
+  },
+  "Rune Pa Vi": {
+   "de": "Pa Vi Rune",
+   "en": "Pa Vi Rune",
+   "es": "Runa Pa Vi",
+   "fr": "Rune Pa Vi",
+   "pt": "Runa Pa Vi"
+  },
+  "Rune Pi": {
+   "de": "Pi-Rune",
+   "en": "Pi Rune",
+   "es": "Runa Po",
+   "fr": "Rune Pi",
+   "pt": "Runa Pi"
+  },
+  "Rune Pi Per": {
+   "de": "Pi Per-Rune",
+   "en": "Pi Per Rune",
+   "es": "Runa Po Per",
+   "fr": "Rune Pi Per",
+   "pt": "Runa Pi Per"
+  },
+  "Rune Po": {
+   "de": "Rei-Rune",
+   "en": "Po Rune",
+   "es": "Runa Al",
+   "fr": "Rune Po",
+   "pt": "Runa Po"
+  },
+  "Rune Pod": {
+   "de": "Pod-Rune",
+   "en": "Pod Rune",
+   "es": "Runa Pod",
+   "fr": "Rune Pod",
+   "pt": "Runa Pod"
+  },
+  "Rune Prospe": {
+   "de": "Pro-Rune",
+   "en": "Prospe Rune",
+   "es": "Runa Prospe",
+   "fr": "Rune Prospe",
+   "pt": "Runa Prospe"
+  },
+  "Rune Ra Age": {
+   "de": "Ra Age Rune",
+   "en": "Ra Age Rune",
+   "es": "Runa Ra Age",
+   "fr": "Rune Ra Age",
+   "pt": "Runa Ra Age"
+  },
+  "Rune Ra Cha": {
+   "de": "Ra Cha Rune",
+   "en": "Ra Cha Rune",
+   "es": "Runa Ra Cha",
+   "fr": "Rune Ra Cha",
+   "pt": "Runa Ra Cha"
+  },
+  "Rune Ra Do Per": {
+   "de": "Ra Do Per Rune",
+   "en": "Ra Do Per Rune",
+   "es": "Runa Ra Do Per",
+   "fr": "Rune Ra Do Per",
+   "pt": "Runa Ra Do Per"
+  },
+  "Rune Ra Fo": {
+   "de": "Ra Fo Rune",
+   "en": "Ra Fo Rune",
+   "es": "Runa Ra Fo",
+   "fr": "Rune Ra Fo",
+   "pt": "Runa Ra Fo"
+  },
+  "Rune Ra Ine": {
+   "de": "Ra Ine Rune",
+   "en": "Ra Ine Rune",
+   "es": "Runa Ra Ine",
+   "fr": "Rune Ra Ine",
+   "pt": "Runa Ra Ine"
+  },
+  "Rune Ra Ini": {
+   "de": "Ra Ini-Rune",
+   "en": "Ra Ini Rune",
+   "es": "Runa Ra Ini",
+   "fr": "Rune Ra Ini",
+   "pt": "Runa Ra Ini"
+  },
+  "Rune Ra Pi Per": {
+   "de": "Ra Pi Per Rune",
+   "en": "Ra Pi Per Rune",
+   "es": "Runa Ra Pi Per",
+   "fr": "Rune Ra Pi Per",
+   "pt": "Runa Ra Pi Per"
+  },
+  "Rune Ra Pod": {
+   "de": "Ra Pod-Rune",
+   "en": "Ra Pod Rune",
+   "es": "Runa Ra Pod",
+   "fr": "Rune Ra Pod",
+   "pt": "Runa Ra Pod"
+  },
+  "Rune Ra Sa": {
+   "de": "Ra Sa Rune",
+   "en": "Ra Sa Rune",
+   "es": "Runa Ra Sa",
+   "fr": "Rune Ra Sa",
+   "pt": "Runa Ra Sa"
+  },
+  "Rune Ra Vi": {
+   "de": "Ra Vi Rune",
+   "en": "Ra Vi Rune",
+   "es": "Runa Ra Vi",
+   "fr": "Rune Ra Vi",
+   "pt": "Runa Ra Vi"
+  },
+  "Rune Ré Air": {
+   "de": "Re Lu-Rune",
+   "en": "Air Re Rune",
+   "es": "Runa Re Aire",
+   "fr": "Rune Ré Air",
+   "pt": "Runa Re Ar"
+  },
+  "Rune Ré Eau": {
+   "de": "Re Wa-Rune",
+   "en": "Water Re Rune",
+   "es": "Runa Re Agua",
+   "fr": "Rune Ré Eau",
+   "pt": "Runa Re Água"
+  },
+  "Rune Ré Feu": {
+   "de": "Re Feu-Rune",
+   "en": "Fire Re Rune",
+   "es": "Runa Re Fuego",
+   "fr": "Rune Ré Feu",
+   "pt": "Runa Re Fogo"
+  },
+  "Rune Ré Neutre": {
+   "de": "Re Neu-Rune",
+   "en": "Neutral Re Rune",
+   "es": "Runa Re Neutral",
+   "fr": "Rune Ré Neutre",
+   "pt": "Runa Re Neutro"
+  },
+  "Rune Ré Per Air": {
+   "de": "Re Per Lu-Rune",
+   "en": "Air Re Per Rune",
+   "es": "Runa Re Per Aire",
+   "fr": "Rune Ré Per Air",
+   "pt": "Runa Re Per Ar"
+  },
+  "Rune Ré Per Eau": {
+   "de": "Re Per Wa Rune",
+   "en": "Water Re Per Rune",
+   "es": "Runa Re Per Agua",
+   "fr": "Rune Ré Per Eau",
+   "pt": "Runa Re Per Água"
+  },
+  "Rune Ré Per Feu": {
+   "de": "Re Per Feu-Rune",
+   "en": "Fire Re Per Rune",
+   "es": "Runa Re Per Fuego",
+   "fr": "Rune Ré Per Feu",
+   "pt": "Runa Ré Per Fogo"
+  },
+  "Rune Ré Per Neutre": {
+   "de": "Re Per Neu-Rune",
+   "en": "Neutral Re Per Rune",
+   "es": "Runa Re Per Neutral",
+   "fr": "Rune Ré Per Neutre",
+   "pt": "Runa Re Per Neutro"
+  },
+  "Rune Ré Per Terre": {
+   "de": "Re Per Er-Rune",
+   "en": "Earth Re Per Rune",
+   "es": "Runa Re Per Tierra",
+   "fr": "Rune Ré Per Terre",
+   "pt": "Runa Re Per Terra"
+  },
+  "Rune Ré Terre": {
+   "de": "Re Er-Rune",
+   "en": "Earth Re Rune",
+   "es": "Runa Re Tierra",
+   "fr": "Rune Ré Terre",
+   "pt": "Runa Re Terra"
+  },
+  "Rune Sa": {
+   "de": "Sa Rune",
+   "en": "Sa Rune",
+   "es": "Runa Sa",
+   "fr": "Rune Sa",
+   "pt": "Runa Sa"
+  },
+  "Rune So": {
+   "de": "So-Rune",
+   "en": "So Rune",
+   "es": "Runa Cu",
+   "fr": "Rune So",
+   "pt": "Runa So"
+  },
+  "Rune Vi": {
+   "de": "Vi Rune",
+   "en": "Vi Rune",
+   "es": "Runa Vi",
+   "fr": "Rune Vi",
+   "pt": "Rune Vi"
+  },
+  "Rune Vie": {
+   "de": "Vie-Rune",
+   "en": "Vie Rune",
+   "es": "Runa Vida",
+   "fr": "Rune Vie",
+   "pt": "Runa Vie"
+  },
+  "Rune de chasse": {
+   "de": "Jagdrune",
+   "en": "Hunting Rune",
+   "es": "Runa de caza",
+   "fr": "Rune de chasse",
+   "pt": "Runa de Caça"
+  }
+ },
+ "touch": {
+  "Rune Age": {
+   "de": "Fli-Rune",
+   "en": "Agi Rune",
+   "es": "Runa Agi",
+   "fr": "Rune Age",
+   "pt": "Runa Agi"
+  },
+  "Rune Cha": {
+   "de": "Glü-Rune",
+   "en": "Cha Rune",
+   "es": "Runa Sue",
+   "fr": "Rune Cha",
+   "pt": "Runa Sor"
+  },
+  "Rune Cri": {
+   "de": "Kri-Rune",
+   "en": "Cri Rune",
+   "es": "Runa Cri",
+   "fr": "Rune Cri",
+   "pt": "Runa Cri"
+  },
+  "Rune Do": {
+   "de": "Scha-Rune",
+   "en": "Dam Rune",
+   "es": "Runa Da",
+   "fr": "Rune Do",
+   "pt": "Runa Da"
+  },
+  "Rune Do Air": {
+   "de": "Lu-Scha-Rune",
+   "en": "Air Dam Rune",
+   "es": "Runa Da Aire",
+   "fr": "Rune Do Air",
+   "pt": "Runa Da Ar"
+  },
+  "Rune Do Cri": {
+   "de": "Kri-Scha-Rune",
+   "en": "Cri Dam Rune",
+   "es": "Runa Da Cri",
+   "fr": "Rune Do Cri",
+   "pt": "Runa Da Cri"
+  },
+  "Rune Do Eau": {
+   "de": "Was-Scha-Rune",
+   "en": "Water Dam Rune",
+   "es": "Runa Da Agua",
+   "fr": "Rune Do Eau",
+   "pt": "Runa Da Água"
+  },
+  "Rune Do Feu": {
+   "de": "Feu-Scha-Rune",
+   "en": "Fire Dam Rune",
+   "es": "Runa Da Fuego",
+   "fr": "Rune Do Feu",
+   "pt": "Runa Da Fogo"
+  },
+  "Rune Do Neutre": {
+   "de": "Neu-Scha-Rune",
+   "en": "Neutral Dam Rune",
+   "es": "Runa Da Neutral",
+   "fr": "Rune Do Neutre",
+   "pt": "Runa Da Neutro"
+  },
+  "Rune Do Pou": {
+   "de": "Schu-Scha-Rune",
+   "en": "Psh Dam Rune",
+   "es": "Runa Da Emp",
+   "fr": "Rune Do Pou",
+   "pt": "Runa Da Emp"
+  },
+  "Rune Do Terre": {
+   "de": "Erd-Scha-Rune",
+   "en": "Earth Dam Rune",
+   "es": "Runa Da Tierra",
+   "fr": "Rune Do Terre",
+   "pt": "Runa Da Terra"
+  },
+  "Rune Fo": {
+   "de": "Kra-Rune",
+   "en": "Str Rune",
+   "es": "Runa Fu",
+   "fr": "Rune Fo",
+   "pt": "Runa For"
+  },
+  "Rune Fui": {
+   "de": "Aus-Rune",
+   "en": "Dod Rune",
+   "es": "Runa Hui",
+   "fr": "Rune Fui",
+   "pt": "Runa Fu"
+  },
+  "Rune Ga Pa": {
+   "de": "Ge-AP-Rune",
+   "en": "Ap Ga Rune",
+   "es": "Runa Ga PA",
+   "fr": "Rune Ga Pa",
+   "pt": "Runa Ga Pa"
+  },
+  "Rune Ga Pme": {
+   "de": "Ge-BP-Rune",
+   "en": "Mp Ga Rune",
+   "es": "Runa Ga PM",
+   "fr": "Rune Ga Pme",
+   "pt": "Runa Ga Pm"
+  },
+  "Rune Ine": {
+   "de": "Int-Rune",
+   "en": "Int Rune",
+   "es": "Runa Inte",
+   "fr": "Rune Ine",
+   "pt": "Runa Int"
+  },
+  "Rune Ini": {
+   "de": "Ini-Rune",
+   "en": "Ini Rune",
+   "es": "Runa Ini",
+   "fr": "Rune Ini",
+   "pt": "Runa Ini"
+  },
+  "Rune Invo": {
+   "de": "Be-Rune",
+   "en": "Sum Rune",
+   "es": "Runa Invo",
+   "fr": "Rune Invo",
+   "pt": "Runa Inv"
+  },
+  "Rune Pa Age": {
+   "de": "Pa-Fli-Rune",
+   "en": "Pa Agi Rune",
+   "es": "Runa Bu Agi",
+   "fr": "Rune Pa Age",
+   "pt": "Runa Pa Agi"
+  },
+  "Rune Pa Cha": {
+   "de": "Pa-Glü-Rune",
+   "en": "Pa Cha Rune",
+   "es": "Runa Bu Sue",
+   "fr": "Rune Pa Cha",
+   "pt": "Runa Pa Sor"
+  },
+  "Rune Pa Do Air": {
+   "de": "Pa-Lu-Scha-Rune",
+   "en": "Pa Air Dam Rune",
+   "es": "Runa Bu Da Aire",
+   "fr": "Rune Pa Do Air",
+   "pt": "Runa Pa Da Ar"
+  },
+  "Rune Pa Do Cri": {
+   "de": "Pa-Kri-Scha-Rune",
+   "en": "Pa Cri Dam Rune",
+   "es": "Runa Bu Da Cri",
+   "fr": "Rune Pa Do Cri",
+   "pt": "Runa Pa Da Cri"
+  },
+  "Rune Pa Do Eau": {
+   "de": "Pa-Was-Scha-Rune",
+   "en": "Pa Water Dam Rune",
+   "es": "Runa Bu Da Agua",
+   "fr": "Rune Pa Do Eau",
+   "pt": "Runa Pa Da Água"
+  },
+  "Rune Pa Do Feu": {
+   "de": "Pa-Feu-Scha-Rune",
+   "en": "Pa Fire Dam Rune",
+   "es": "Runa Bu Da Fuego",
+   "fr": "Rune Pa Do Feu",
+   "pt": "Runa Pa Da Fogo"
+  },
+  "Rune Pa Do Neutre": {
+   "de": "Pa-Neu-Scha-Rune",
+   "en": "Pa Neutral Dam Rune",
+   "es": "Runa Bu Da Neutral",
+   "fr": "Rune Pa Do Neutre",
+   "pt": "Runa Pa Da Neutro"
+  },
+  "Rune Pa Do Pou": {
+   "de": "Pa-Schu-Scha-Rune",
+   "en": "Pa Psh Dam Rune",
+   "es": "Runa Bu Da Emp",
+   "fr": "Rune Pa Do Pou",
+   "pt": "Runa Pa Da Emp"
+  },
+  "Rune Pa Do Terre": {
+   "de": "Pa-Erd-Scha-Rune",
+   "en": "Pa Earth Dam Rune",
+   "es": "Runa Bu Da Tierra",
+   "fr": "Rune Pa Do Terre",
+   "pt": "Runa Pa Da Terra"
+  },
+  "Rune Pa Fo": {
+   "de": "Pa-Kra-Rune",
+   "en": "Pa Str Rune",
+   "es": "Runa Bu Fu",
+   "fr": "Rune Pa Fo",
+   "pt": "Runa Pa For"
+  },
+  "Rune Pa Fui": {
+   "de": "Pa-Aus-Rune",
+   "en": "Pa Dod Rune",
+   "es": "Runa Bu Hui",
+   "fr": "Rune Pa Fui",
+   "pt": "Runa Pa Fu"
+  },
+  "Rune Pa Ine": {
+   "de": "Pa-Int-Rune",
+   "en": "Pa Int Rune",
+   "es": "Runa Bu Inte",
+   "fr": "Rune Pa Ine",
+   "pt": "Runa Pa Int"
+  },
+  "Rune Pa Ini": {
+   "de": "Pa-Ini-Rune",
+   "en": "Pa Ini Rune",
+   "es": "Runa Bu Ini",
+   "fr": "Rune Pa Ini",
+   "pt": "Runa Pa Ini"
+  },
+  "Rune Pa Pod": {
+   "de": "Pa-Pod-Rune",
+   "en": "Pa Pod Rune",
+   "es": "Runa Bu Pod",
+   "fr": "Rune Pa Pod",
+   "pt": "Runa Pa Pod"
+  },
+  "Rune Pa Prospe": {
+   "de": "Pa-Fi-Rune",
+   "en": "Pa Pp Rune",
+   "es": "Runa Bu Prospe",
+   "fr": "Rune Pa Prospe",
+   "pt": "Runa Pa Prospe"
+  },
+  "Rune Pa Pui": {
+   "de": "Pa-Pro-Scha-Rune",
+   "en": "Pa Pow Rune",
+   "es": "Runa Bu Pot",
+   "fr": "Rune Pa Pui",
+   "pt": "Runa Pa Po"
+  },
+  "Rune Pa Ret Pa": {
+   "de": "Pa-Ent-AP-Rune",
+   "en": "Pa Ap Red Rune",
+   "es": "Runa Bu Ret PA",
+   "fr": "Rune Pa Ret Pa",
+   "pt": "Runa Pa Ret Pa"
+  },
+  "Rune Pa Ret Pme": {
+   "de": "Pa-Ent-BP-Rune",
+   "en": "Pa Mp Red Rune",
+   "es": "Runa Bu Ret PM",
+   "fr": "Rune Pa Ret Pme",
+   "pt": "Runa Pa Ret Pm"
+  },
+  "Rune Pa Ré Air": {
+   "de": "Pa-Res-Lu-Rune",
+   "en": "Pa Air Res Rune",
+   "es": "Runa Bu Re Aire",
+   "fr": "Rune Pa Ré Air",
+   "pt": "Runa Pa Res Ar"
+  },
+  "Rune Pa Ré Cri": {
+   "de": "Pa-Res-Kri-Rune",
+   "en": "Pa Cri Res Rune",
+   "es": "Runa Bu Re Cri",
+   "fr": "Rune Pa Ré Cri",
+   "pt": "Runa Pa Res Cri"
+  },
+  "Rune Pa Ré Eau": {
+   "de": "Pa-Res-Was-Rune",
+   "en": "Pa Water Res Rune",
+   "es": "Runa Bu Re Agua",
+   "fr": "Rune Pa Ré Eau",
+   "pt": "Runa Pa Res Água"
+  },
+  "Rune Pa Ré Feu": {
+   "de": "Pa-Res-Feu-Rune",
+   "en": "Pa Fire Res Rune",
+   "es": "Runa Bu Re Fuego",
+   "fr": "Rune Pa Ré Feu",
+   "pt": "Runa Pa Res Fogo"
+  },
+  "Rune Pa Ré Neutre": {
+   "de": "Pa-Res-Neu-Rune",
+   "en": "Pa Neutral Res Rune",
+   "es": "Runa Bu Re Neutral",
+   "fr": "Rune Pa Ré Neutre",
+   "pt": "Runa Pa Res Neutro"
+  },
+  "Rune Pa Ré Pa": {
+   "de": "Pa-Res-AP-Rune",
+   "en": "Pa Ap Res Rune",
+   "es": "Runa Bu Re PA",
+   "fr": "Rune Pa Ré Pa",
+   "pt": "Runa Pa Res Pa"
+  },
+  "Rune Pa Ré Pme": {
+   "de": "Pa-Res-BP-Rune",
+   "en": "Pa Mp Res Rune",
+   "es": "Runa Bu Re PM",
+   "fr": "Rune Pa Ré Pme",
+   "pt": "Runa Pa Res Pm"
+  },
+  "Rune Pa Ré Pou": {
+   "de": "Pa-Res-Schu-Rune",
+   "en": "Pa Psh Res Rune",
+   "es": "Runa Bu Re Emp",
+   "fr": "Rune Pa Ré Pou",
+   "pt": "Runa Pa Res Emp"
+  },
+  "Rune Pa Ré Terre": {
+   "de": "Pa-Res-Erd-Rune",
+   "en": "Pa Earth Res Rune",
+   "es": "Runa Bu Re Tierra",
+   "fr": "Rune Pa Ré Terre",
+   "pt": "Runa Pa Res Terra"
+  },
+  "Rune Pa Sa": {
+   "de": "Pa-Wei-Rune",
+   "en": "Pa Wis Rune",
+   "es": "Runa Bu Sa",
+   "fr": "Rune Pa Sa",
+   "pt": "Runa Pa Sa"
+  },
+  "Rune Pa So": {
+   "de": "Pa-Zau-Rune",
+   "en": "Pa Hea Rune",
+   "es": "Runa Bu Cu",
+   "fr": "Rune Pa So",
+   "pt": "Runa Pa Cur"
+  },
+  "Rune Pa Tac": {
+   "de": "Pa-Blo-Rune",
+   "en": "Pa Loc Rune",
+   "es": "Runa Bu Pla",
+   "fr": "Rune Pa Tac",
+   "pt": "Runa Pa Blo"
+  },
+  "Rune Pa Vi": {
+   "de": "Pa-Vi-Rune",
+   "en": "Pa Vit Rune",
+   "es": "Runa Bu Vi",
+   "fr": "Rune Pa Vi",
+   "pt": "Runa Pa Vi"
+  },
+  "Rune Po": {
+   "de": "Rei-Rune",
+   "en": "Range Rune",
+   "es": "Runa Al",
+   "fr": "Rune Po",
+   "pt": "Runa Al"
+  },
+  "Rune Pod": {
+   "de": "Pod-Rune",
+   "en": "Pod Rune",
+   "es": "Runa Pod",
+   "fr": "Rune Pod",
+   "pt": "Runa Pod"
+  },
+  "Rune Prospe": {
+   "de": "Fi-Rune",
+   "en": "Pp Rune",
+   "es": "Runa Prospe",
+   "fr": "Rune Prospe",
+   "pt": "Runa Prospe"
+  },
+  "Rune Pui": {
+   "de": "Pro-Scha-Rune",
+   "en": "Pow Rune",
+   "es": "Runa Pot",
+   "fr": "Rune Pui",
+   "pt": "Runa Po"
+  },
+  "Rune Ra Age": {
+   "de": "Ra-Fli-Rune",
+   "en": "Ra Agi Rune",
+   "es": "Runa Su Agi",
+   "fr": "Rune Ra Age",
+   "pt": "Runa Ra Agi"
+  },
+  "Rune Ra Cha": {
+   "de": "Ra-Glü-Rune",
+   "en": "Ra Cha Rune",
+   "es": "Runa Su Sue",
+   "fr": "Rune Ra Cha",
+   "pt": "Runa Ra Sor"
+  },
+  "Rune Ra Fo": {
+   "de": "Ra-Kra-Rune",
+   "en": "Ra Str Rune",
+   "es": "Runa Su Fu",
+   "fr": "Rune Ra Fo",
+   "pt": "Runa Ra For"
+  },
+  "Rune Ra Ine": {
+   "de": "Ra-Int-Rune",
+   "en": "Ra Int Rune",
+   "es": "Runa Su Inte",
+   "fr": "Rune Ra Ine",
+   "pt": "Runa Ra Int"
+  },
+  "Rune Ra Ini": {
+   "de": "Ra-Ini-Rune",
+   "en": "Ra Ini Rune",
+   "es": "Runa Su Ini",
+   "fr": "Rune Ra Ini",
+   "pt": "Runa Ra Ini"
+  },
+  "Rune Ra Pod": {
+   "de": "Ra-Pod-Rune",
+   "en": "Ra Pod Rune",
+   "es": "Runa Su Pod",
+   "fr": "Rune Ra Pod",
+   "pt": "Runa Ra Pod"
+  },
+  "Rune Ra Pui": {
+   "de": "Ra-Prp-Scha-Rune",
+   "en": "Ra Pow Rune",
+   "es": "Runa Su Pot",
+   "fr": "Rune Ra Pui",
+   "pt": "Runa Ra Po"
+  },
+  "Rune Ra Sa": {
+   "de": "Ra-Wei-Rune",
+   "en": "Ra Wis Rune",
+   "es": "Runa Su Sa",
+   "fr": "Rune Ra Sa",
+   "pt": "Runa Ra Sa"
+  },
+  "Rune Ra Vi": {
+   "de": "Ra-Vi-Rune",
+   "en": "Ra Vit Rune",
+   "es": "Runa Su Vi",
+   "fr": "Rune Ra Vi",
+   "pt": "Runa Ra Vi"
+  },
+  "Rune Ret Pa": {
+   "de": "Ent-AP-Rune",
+   "en": "Ap Red Rune",
+   "es": "Runa Ret PA",
+   "fr": "Rune Ret Pa",
+   "pt": "Runa Ret Pa"
+  },
+  "Rune Ret Pme": {
+   "de": "Ent-BP-Rune",
+   "en": "Mp Red Rune",
+   "es": "Runa Ret PM",
+   "fr": "Rune Ret Pme",
+   "pt": "Runa Ret Pm"
+  },
+  "Rune Ré Air": {
+   "de": "Res-Lu-Rune",
+   "en": "Air Res Rune",
+   "es": "Runa Re Aire",
+   "fr": "Rune Ré Air",
+   "pt": "Runa Res Ar"
+  },
+  "Rune Ré Cri": {
+   "de": "Res-Kri-Rune",
+   "en": "Cri Res Rune",
+   "es": "Runa Re Cri",
+   "fr": "Rune Ré Cri",
+   "pt": "Runa Res Cri"
+  },
+  "Rune Ré Eau": {
+   "de": "Res-Was-Rune",
+   "en": "Water Res Rune",
+   "es": "Runa Re Agua",
+   "fr": "Rune Ré Eau",
+   "pt": "Runa Res Água"
+  },
+  "Rune Ré Feu": {
+   "de": "Res-Feu-Rune",
+   "en": "Fire Res Rune",
+   "es": "Runa Re Fuego",
+   "fr": "Rune Ré Feu",
+   "pt": "Runa Res Fogo"
+  },
+  "Rune Ré Neutre": {
+   "de": "Res-Neu-Rune",
+   "en": "Neutral Res Rune",
+   "es": "Runa Re Neutral",
+   "fr": "Rune Ré Neutre",
+   "pt": "Runa Res Neutro"
+  },
+  "Rune Ré Pa": {
+   "de": "Res-AP-Rune",
+   "en": "Ap Res Rune",
+   "es": "Runa Re PA",
+   "fr": "Rune Ré Pa",
+   "pt": "Runa Res Pa"
+  },
+  "Rune Ré Per Air": {
+   "de": "Res-Pro-Lu-Rune",
+   "en": "Air Res Per Rune",
+   "es": "Runa Re Aire Por",
+   "fr": "Rune Ré Per Air",
+   "pt": "Runa Res Por Ar"
+  },
+  "Rune Ré Per Eau": {
+   "de": "Re Per Wa Rune",
+   "en": "Water Res Per Rune",
+   "es": "Runa Re Agua Por",
+   "fr": "Rune Ré Per Eau",
+   "pt": "Runa Re Per Água"
+  },
+  "Rune Ré Per Feu": {
+   "de": "Res-Pro-Feu-Rune",
+   "en": "Fire Res Per Rune",
+   "es": "Runa Re Fuego Por",
+   "fr": "Rune Ré Per Feu",
+   "pt": "Runa Res Por Fogo"
+  },
+  "Rune Ré Per Neutre": {
+   "de": "Res-Pro-Neu-Rune",
+   "en": "Neutral Res Per Rune",
+   "es": "Runa Re Neutral Por",
+   "fr": "Rune Ré Per Neutre",
+   "pt": "Runa Res Por Neutro"
+  },
+  "Rune Ré Per Terre": {
+   "de": "Res-Pro-Erd-Rune",
+   "en": "Earth Res Per Rune",
+   "es": "Runa Re Tierra Por",
+   "fr": "Rune Ré Per Terre",
+   "pt": "Runa Res Por Terra"
+  },
+  "Rune Ré Pme": {
+   "de": "Res-BP-Rune",
+   "en": "Mp Res Rune",
+   "es": "Runa Re PM",
+   "fr": "Rune Ré Pme",
+   "pt": "Runa Res Pm"
+  },
+  "Rune Ré Pou": {
+   "de": "Res-Schu-Rune",
+   "en": "Psh Res Rune",
+   "es": "Runa Re Emp",
+   "fr": "Rune Ré Pou",
+   "pt": "Runa Res Emp"
+  },
+  "Rune Ré Terre": {
+   "de": "Res-Erd-Rune",
+   "en": "Earth Res Rune",
+   "es": "Runa Re Tierra",
+   "fr": "Rune Ré Terre",
+   "pt": "Runa Res Terra"
+  },
+  "Rune Sa": {
+   "de": "Wei-Rune",
+   "en": "Wis Rune",
+   "es": "Runa Sa",
+   "fr": "Rune Sa",
+   "pt": "Runa Sa"
+  },
+  "Rune So": {
+   "de": "Zau-Rune",
+   "en": "Hea Rune",
+   "es": "Runa Cu",
+   "fr": "Rune So",
+   "pt": "Runa Cur"
+  },
+  "Rune Tac": {
+   "de": "Blo-Rune",
+   "en": "Loc Rune",
+   "es": "Runa Pla",
+   "fr": "Rune Tac",
+   "pt": "Runa Blo"
+  },
+  "Rune Vi": {
+   "de": "Vi-Rune",
+   "en": "Vit Rune",
+   "es": "Runa Vi",
+   "fr": "Rune Vi",
+   "pt": "Runa Vi"
+  },
+  "Rune de chasse": {
+   "de": "Jagdrune",
+   "en": "Hunting Rune",
+   "es": "Runa de caza",
+   "fr": "Rune de chasse",
+   "pt": "Runa de Caça"
+  },
+  "Rune de fortification majeure": {
+   "de": "Große Verstärkungsrune",
+   "en": "Major Fortification Rune",
+   "es": "Runa de fortificación mayor",
+   "fr": "Rune de fortification majeure",
+   "pt": "Runa de Fortificação Maior"
+  },
+  "Rune de fortification mineure": {
+   "de": "Kleine Verstärkungsrune",
+   "en": "Minor Fortification Rune",
+   "es": "Runa de fortificación menor",
+   "fr": "Rune de fortification mineure",
+   "pt": "Runa de Fortificação Menor"
+  },
+  "Rune de fortification moyenne": {
+   "de": "Mittlere Verstärkungsrune",
+   "en": "Average Fortification Rune",
+   "es": "Runa de fortificación media",
+   "fr": "Rune de fortification moyenne",
+   "pt": "Runa de Fortificação Média"
+  }
+ }
+}

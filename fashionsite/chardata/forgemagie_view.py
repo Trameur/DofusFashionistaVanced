@@ -29,6 +29,7 @@ from chardata.forgemagie_data import (
 )
 from chardata.forgemagie_odds import (get_documented_odds,
                                      get_odds_ladder)
+from chardata.forgemagie_rune_names import rune_display_name
 from chardata.forgemagie_transcendance import get_transcendence_by_stat
 from chardata.image_store import get_image_url
 from chardata.stat_icons import get_stat_icon_path
@@ -842,9 +843,21 @@ def _format_weight(value):
 
 
 def _rune_full_name(rune, tier):
+    """La CLEF d'une rune: son nom francais, celui que le jeu lui donne.
+
+    C'est aussi ce qu'une session enregistre dans le navigateur du lecteur,
+    pour ses compteurs et ses prix saisis, donc elle ne suit pas la langue.
+    Ce qui est montre passe par `_rune_shown_name`.
+    """
     if tier:
         return 'Rune %s %s' % (tier, rune)
     return 'Rune %s' % rune
+
+
+def _rune_shown_name(game_version, rune, tier, language):
+    """Ce que le client du lecteur appelle cette rune."""
+    return rune_display_name(game_version,
+                             _rune_full_name(rune, tier), language)
 
 
 def _ordered_fm_stat_keys(structure, fm_stats):
@@ -882,7 +895,12 @@ def _build_stat_payload(structure, game_version, language):
             'rune': fm_stat['rune'],
             'tiers': [
                 {
-                    'name': _rune_full_name(fm_stat['rune'], tier),
+                    # `key` est ce que la session ecrit et relit; `name` est
+                    # ce qui s'affiche. Les separer garde les compteurs et les
+                    # prix saisis quand le lecteur change de langue.
+                    'key': _rune_full_name(fm_stat['rune'], tier),
+                    'name': _rune_shown_name(game_version, fm_stat['rune'],
+                                             tier, language),
                     'bonus': bonus,
                     'weight': round(bonus * fm_stat['density'], 2),
                 }
@@ -904,7 +922,8 @@ def _build_reference_rows(structure, game_version, language, t):
         if fm_stat['tiers']:
             rune_cells = [
                 '%s: +%d / %s' % (
-                    _rune_full_name(fm_stat['rune'], tier),
+                    _rune_shown_name(game_version, fm_stat['rune'], tier,
+                                     language),
                     bonus,
                     _format_weight(bonus * fm_stat['density']),
                 )

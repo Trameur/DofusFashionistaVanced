@@ -372,6 +372,28 @@
             return config.stats[key] || null;
         }
 
+        var runeNameCache = null;
+
+        function runeNameOf(key) {
+            // La session enregistre la clef francaise, que le jeu utilise
+            // aussi; ce qui s'affiche est le nom du client du lecteur. Une
+            // session ouverte en francais et relue en anglais montre donc
+            // l'anglais, et ses compteurs et ses prix restent les memes.
+            if (runeNameCache === null) {
+                runeNameCache = {};
+                var stats = config.stats || {};
+                for (var statKey in stats) {
+                    var tiers = (stats[statKey] || {}).tiers || [];
+                    for (var i = 0; i < tiers.length; i++) {
+                        if (tiers[i].key) {
+                            runeNameCache[tiers[i].key] = tiers[i].name;
+                        }
+                    }
+                }
+            }
+            return runeNameCache[key] || key;
+        }
+
         // Weight-based roll quality: current total FM weight vs the perfect
         // item's. Over/exo weight pushes past 100%.
         function rollQuality(entries) {
@@ -1489,9 +1511,9 @@
                 }
             }
             session.throws += 1;
-            session.runesUsed[tier.name] = (session.runesUsed[tier.name] || 0) + 1;
+            session.runesUsed[tier.key] = (session.runesUsed[tier.key] || 0) + 1;
             session.history.unshift({
-                rune: tier.name,
+                rune: tier.key,
                 outcome: outcome,
                 lost: lost,
                 sink: session.sink,
@@ -2292,7 +2314,8 @@
                     var line = document.createElement('div');
                     line.className = 'fm-rune-price-line';
                     var label = document.createElement('span');
-                    label.textContent = session.runesUsed[name] + '× ' + name;
+                    label.textContent = session.runesUsed[name] + '× ' +
+                        runeNameOf(name);
                     line.appendChild(label);
                     var priceInput = document.createElement('input');
                     priceInput.type = 'number';
@@ -2329,7 +2352,7 @@
                 badge.className = 'fm-sim-h-' + entry.outcome;
                 badge.textContent = '[' + entry.outcome.toUpperCase() + '] ';
                 line.appendChild(badge);
-                var text = entry.rune;
+                var text = runeNameOf(entry.rune);
                 if (entry.lost && entry.lost.length) {
                     text += ': ' + entry.lost.map(function(loss) {
                         return '-' + loss.points + ' ' + loss.name;
