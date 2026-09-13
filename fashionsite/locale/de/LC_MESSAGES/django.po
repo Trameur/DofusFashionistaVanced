@@ -1576,7 +1576,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\about.html:7
 msgid "About"
-msgstr "Um"
+msgstr "Info"
 
 #: .\chardata\templates\chardata\about.html:22
 msgid "The Dofus Fashionista is a fan site about <a href='https://www.dofus.com'>Dofus</a>. It uses <a href='https://en.wikipedia.org/wiki/Integer_programming'>mathematical programming</a> to come up with set suggestions that conform to requirements (e.g. 12 AP, 6 MP with as much Intelligence as possible) the player provides."
@@ -1861,7 +1861,7 @@ msgstr "Mein Feed"
 
 #: .\chardata\templates\chardata\base.html:215
 msgid "Compare sets"
-msgstr "Sätze vergleichen"
+msgstr "Sets vergleichen"
 
 #: .\chardata\templates\chardata\base.html:219
 msgid "Workshop"
@@ -1906,7 +1906,7 @@ msgstr "Optionen"
 #: .\chardata\templates\chardata\inclusions.html:5
 #: .\chardata\templates\chardata\inclusions.html:18
 msgid "Lock Items"
-msgstr "Elemente sperren"
+msgstr "Gegenstände sperren"
 
 #: .\chardata\templates\chardata\base.html:252
 #: .\chardata\templates\chardata\exclusions.html:7
@@ -3125,7 +3125,7 @@ msgstr "Nutzen Sie stattdessen den vollständigen Builder"
 #: .\chardata\templates\chardata\compare_sets.html:10
 #: .\chardata\templates\chardata\compare_sets.html:21
 msgid "Compare Sets"
-msgstr "Sätze vergleichen"
+msgstr "Sets vergleichen"
 
 #: .\chardata\templates\chardata\compare_sets.html:24
 msgid ""
@@ -3151,7 +3151,7 @@ msgstr "%(n)s festlegen"
 
 #: .\chardata\templates\chardata\compare_sets.html:74
 msgid "Change Sets"
-msgstr "Änderungssätze"
+msgstr "Sets ändern"
 
 #: .\chardata\templates\chardata\compare_sets.html:126
 msgid "With PvP resistances"
@@ -3506,7 +3506,7 @@ msgstr ""
 
 #: .\chardata\templates\chardata\faq.html:44
 msgid "Item A"
-msgstr "Punkt A"
+msgstr "Gegenstand A"
 
 #: .\chardata\templates\chardata\faq.html:45
 #: .\chardata\templates\chardata\faq.html:52
@@ -3520,29 +3520,15 @@ msgstr "Initiative"
 
 #: .\chardata\templates\chardata\faq.html:51
 msgid "Item B"
-msgstr "Punkt B"
+msgstr "Gegenstand B"
 
 #: .\chardata\templates\chardata\faq.html:59
-msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"10 points, equipment A will have a score of 2100 points, while equipment B "
-"will have a score of 1400 points, and the program will choose Item A."
-msgstr ""
-"Wenn Sie sagen, dass jede Intelligenz 10 Punkte und jede Initiative 10 "
-"Punkte wert ist, hat Ausrüstung A eine Punktzahl von 2100 Punkten, während "
-"Ausrüstung B eine Punktzahl von 1400 Punkten hat, und das Programm wählt "
-"Punkt A aus."
+msgid "If you say each intelligence is worth 10 points and each initiative is worth 10 points, equipment A will have a score of 2100 points, while equipment B will have a score of 1400 points, and the program will choose Item A."
+msgstr "Wenn Sie sagen, dass jede Intelligenz 10 Punkte und jede Initiative 10 Punkte wert ist, hat Ausrüstung A eine Punktzahl von 2100 Punkten, während Ausrüstung B eine Punktzahl von 1400 Punkten hat, und das Programm wählt Ausrüstung A aus."
 
 #: .\chardata\templates\chardata\faq.html:66
-msgid ""
-"If you say each intelligence is worth 10 points and each initiative is worth "
-"1 point, equipment A will have a score of 300 points, while equipment B will "
-"have a score of 500 points, and the program will choose Item B."
-msgstr ""
-"Wenn Sie sagen, dass jede Intelligenz 10 Punkte und jede Initiative 1 Punkt "
-"wert ist, erhält Ausrüstung A eine Punktzahl von 300 Punkten, während "
-"Ausrüstung B eine Punktzahl von 500 Punkten hat und das Programm Element B "
-"auswählt."
+msgid "If you say each intelligence is worth 10 points and each initiative is worth 1 point, equipment A will have a score of 300 points, while equipment B will have a score of 500 points, and the program will choose Item B."
+msgstr "Wenn Sie sagen, dass jede Intelligenz 10 Punkte und jede Initiative 1 Punkt wert ist, erhält Ausrüstung A eine Punktzahl von 300 Punkten, während Ausrüstung B eine Punktzahl von 500 Punkten hat und das Programm Ausrüstung B auswählt."
 
 #: .\chardata\templates\chardata\faq.html:68
 msgid ""
@@ -3834,12 +3820,8 @@ msgid "or just dive in and make a build."
 msgstr "oder leg einfach los und bau ein Build."
 
 #: .\chardata\templates\chardata\inclusions.html:20
-msgid ""
-"If you have any items that <b>must</b> be on the final set, lock them in "
-"here:"
-msgstr ""
-"Wenn Sie Gegenstände haben, die <b>im endgültigen Satz enthalten sein "
-"müssen</b>, sperren Sie sie hier ein:"
+msgid "If you have any items that <b>must</b> be on the final set, lock them in here:"
+msgstr "Wenn Sie Gegenstände haben, die <b>im endgültigen Set enthalten sein müssen</b>, sperren Sie sie hier ein:"
 
 #: .\chardata\templates\chardata\inclusions.html:21
 msgid ""
@@ -3892,17 +3874,13 @@ msgstr ""
 
 #: .\chardata\templates\chardata\infeasible.html:26
 #, python-format
-msgid ""
-"Check if you <a href=%(lock_link)s>locked</a> an item with conditions that "
-"can't be met"
-msgstr ""
-"Überprüfen Sie, ob Sie ein Element mit Bedingungen <a "
-"href=%(lock_link)s>gesperrt</a> haben, die nicht erfüllt werden können"
+msgid "Check if you <a href=%(lock_link)s>locked</a> an item with conditions that can't be met"
+msgstr "Überprüfen Sie, ob Sie einen Gegenstand mit Bedingungen <a href=%(lock_link)s>gesperrt</a> haben, die nicht erfüllt werden können"
 
 #: .\chardata\templates\chardata\infeasible.html:27
 #, python-format
 msgid "<a href=%(lock_link)s>Unlock</a> some items"
-msgstr "<a href=%(lock_link)s>Schalten Sie einige Elemente frei</a>"
+msgstr "<a href=%(lock_link)s>Entsperren Sie</a> einige Gegenstände"
 
 #: .\chardata\templates\chardata\infeasible.html:28
 #, python-format
@@ -4720,7 +4698,7 @@ msgstr "Charaktername"
 
 #: .\chardata\templates\chardata\projdetails.html:41
 msgid "Character Level"
-msgstr "Charakterebene"
+msgstr "Charakterstufe"
 
 #: .\chardata\templates\chardata\projdetails.html:45
 msgid "Character Class"
@@ -5030,11 +5008,11 @@ msgstr "bis zu 2"
 
 #: .\chardata\templates\chardata\shared_builds.html:86
 msgid "Min Level"
-msgstr "Min. Level"
+msgstr "Min. Stufe"
 
 #: .\chardata\templates\chardata\shared_builds.html:92
 msgid "Max Level"
-msgstr "Max. Level"
+msgstr "Max. Stufe"
 
 #: .\chardata\templates\chardata\shared_builds.html:98
 #: .\chardata\templates\chardata\shared_builds.html:99
@@ -5775,19 +5753,12 @@ msgstr "Dieses Set ansehen"
 
 #: .\chardata\templates\chardata\spells.html:19
 #, python-format
-msgid ""
-"How much damage %(charname)s's weapon and spells will deal with the "
-"suggested set. "
-msgstr ""
-"Wie viel Schaden verursachen die Waffen und Zauber von %(charname)s mit dem "
-"vorgeschlagenen Satz?"
+msgid "How much damage %(charname)s's weapon and spells will deal with the suggested set. "
+msgstr "Wie viel Schaden verursachen die Waffen und Zauber von %(charname)s mit dem vorgeschlagenen Set?"
 
 #: .\chardata\templates\chardata\spells.html:21
-msgid ""
-"How much damage your weapon and spells will deal with the suggested set."
-msgstr ""
-"Wie viel Schaden verursachen Ihre Waffen und Zauber mit dem vorgeschlagenen "
-"Satz?"
+msgid "How much damage your weapon and spells will deal with the suggested set."
+msgstr "Wie viel Schaden verursachen Ihre Waffen und Zauber mit dem vorgeschlagenen Set?"
 
 #: .\chardata\templates\chardata\spells.html:25
 msgid "Class spells aren't available for this class yet."
@@ -5817,7 +5788,7 @@ msgstr "Eine Runde auf ein Ziel: durchschnittlicher Schaden, eigene Buffs und kr
 
 #: .\chardata\templates\chardata\spells.html:57
 msgid "Fully Buff"
-msgstr "Vollständig poliert"
+msgstr "Volle Buffs"
 
 #: .\chardata\templates\chardata\spells.html:58
 msgid "Clean Buffs"
