@@ -7389,3 +7389,9 @@ msgstr "Kritischer Fehlschlag wird nicht mitgerechnet; nur diese Version kennt i
 
 msgid "monster stats and artwork for Dofus 3 and the Beta, and the transcendence runes with their icons"
 msgstr "Monsterwerte und Illustrationen für Dofus 3 und die Beta sowie die Transzendenzrunen mit ihren Symbolen"
+
+msgid "No critical hit"
+msgstr "Kein kritischer Treffer"
+
+msgid "This spell never lands one."
+msgstr "Dieser Zauber landet nie einen."

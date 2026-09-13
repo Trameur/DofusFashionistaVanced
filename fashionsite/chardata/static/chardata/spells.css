@@ -444,6 +444,14 @@
     width: 12px;
 }
 
+/* Ce qu'un sort dit quand il ne peut pas faire de coup critique. Plus
+   petit que les valeurs qu'il remplace, mais sans opacite: a 12 pixels
+   une opacite ferait retomber le contraste sous le seuil, comme au lot
+   64. */
+.no-crit-note {
+    font-size: 12px;
+}
+
 .hit-block-label {
     font-size: 11px;
     letter-spacing: 0.04em;

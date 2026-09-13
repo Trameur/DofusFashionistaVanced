@@ -7413,3 +7413,9 @@ msgstr "L'échec critique n'est pas compté ; cette version est la seule à l'av
 
 msgid "monster stats and artwork for Dofus 3 and the Beta, and the transcendence runes with their icons"
 msgstr "caractéristiques et illustrations des monstres pour Dofus 3 et la Beta, et les runes de transcendance avec leurs icônes"
+
+msgid "No critical hit"
+msgstr "Pas de coup critique"
+
+msgid "This spell never lands one."
+msgstr "Ce sort n'en fait jamais."

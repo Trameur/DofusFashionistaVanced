@@ -7380,3 +7380,9 @@ msgstr "El fallo crítico no se cuenta; esta versión es la única que lo tiene.
 
 msgid "monster stats and artwork for Dofus 3 and the Beta, and the transcendence runes with their icons"
 msgstr "características e ilustraciones de los monstruos para Dofus 3 y la Beta, y las runas de trascendencia con sus iconos"
+
+msgid "No critical hit"
+msgstr "Sin golpe crítico"
+
+msgid "This spell never lands one."
+msgstr "Este hechizo nunca lo consigue."

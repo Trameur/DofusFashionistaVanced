@@ -6630,3 +6630,9 @@ msgstr ""
 
 msgid "monster stats and artwork for Dofus 3 and the Beta, and the transcendence runes with their icons"
 msgstr ""
+
+msgid "No critical hit"
+msgstr ""
+
+msgid "This spell never lands one."
+msgstr ""

@@ -554,14 +554,30 @@
         table.append(line_crit_title);
         line_crit_title.append(crit_title_cell);
         crit_title_cell.append("<hr class='hr-crit'/>");
-        crit_title_cell.append("<div class='hit-block-label'>"
-                               + "{% trans 'Critical hit' %}</div>");
+        // Un sort auquel le jeu ne donne ni ligne critique ni taux de
+        // critique ne peut pas en faire. Le bloc imprimait quand meme
+        // son titre au-dessus d'une cellule vide: 58 des 534 sorts de
+        // Dofus 3, un sur neuf, montraient une etiquette sans rien
+        // dessous.
+        var can_crit = !!spell.crit_dams;
+        if (can_crit) {
+            crit_title_cell.append("<div class='hit-block-label'>"
+                                   + "{% trans 'Critical hit' %}</div>");
+        } else {
+            crit_title_cell.append("<div class='hit-block-label no-crit'>"
+                                   + "{% trans 'No critical hit' %}</div>");
+        }
 
         var line_crit_hit = $("<tr class='crit-hit-line'></tr>");
         var crit_hit_cell = $("<td class='crit-hit-cell'></td>");
         
         table.append(line_crit_hit);
         line_crit_hit.append(crit_hit_cell);
+        if (!can_crit) {
+            crit_hit_cell.append("<span class='no-crit-note'>"
+                                 + "{% trans 'This spell never lands one.' %}"
+                                 + "</span>");
+        }
         
         cells[spell.name] = {nonCrit: non_crit_cell, critTitle:crit_title_cell, crit:crit_hit_cell,
             normalLabel: line_normal_label, header: header};
