@@ -90,6 +90,40 @@ def _element_alternatives(aggregates, effects):
     return run if len(run) > 1 else None
 
 
+def _first_group_that_hurts(aggregates, hits):
+    """Le groupe d'agregats que le panneau doit lire, par son indice de ligne.
+
+    Le repli prenait toujours le premier groupe, parce qu'un sort a paliers
+    commence sans rien d'accumule. Mais un groupe fait **uniquement** de
+    lignes qui soignent n'est pas un palier vide: c'est la moitie alliee du
+    sort, et le jeu le dit dans ses propres mots. Peinture de Guerre:
+    <<occasionne des dommages Terre aux ennemis OU soigne les allies>>;
+    Pinceau Tribal et Mot Secret disent la meme chose.
+
+    Le panneau compte un tour sur **une cible**, donc il lit la moitie qui
+    frappe. Mesure du 20 septembre 2026 sur les 1923 sorts des cinq versions:
+    huit lancers retenaient un groupe qui ne frappe pas alors qu'un autre
+    groupe du meme lancer frappe, et **les huit** avaient un groupe retenu
+    fait uniquement de soins. Aucun ne l'etait pour une autre raison, ce qui
+    est ce qui autorise a nommer la regle par le soin et non par le zero:
+    sauter les groupes <<a zero>> effacerait un vrai zero.
+
+    Quand aucun groupe ne frappe, le premier est rendu comme avant: le sort
+    soigne, et c'est au panneau de le dire.
+    """
+    def frappe(indices):
+        return any(not getattr(effect, 'heals', False)
+                   for index, effect in hits
+                   if index in indices
+                   and (effect.min_dam or effect.max_dam))
+
+    for _label, indices in aggregates:
+        groupe = set(indices)
+        if frappe(groupe):
+            return groupe
+    return set(aggregates[0][1])
+
+
 class WeaponCastable(object):
     """The equipped weapon, offered to the turn the way a spell is: it costs its
     own AP and it hits. The damage formula scores it as a weapon, so % weapon
@@ -152,11 +186,12 @@ class Castable(object):
                     if not effect.element.startswith('buff')
                     and index not in waiting_rows]
             # Aggregate rows are alternatives, one per stack or element; a cast
-            # lands one. First group = nothing built up.
+            # lands one. First group = nothing built up, EXCEPT when it is the
+            # ally half of the cast: see `_first_group_that_hurts`.
             groups = _element_alternatives(digest.aggregates, effects)
             if groups is None:
-                groups = ([set(digest.aggregates[0][1])] if digest.aggregates
-                          else [None])
+                groups = ([_first_group_that_hurts(digest.aggregates, hits)]
+                          if digest.aggregates else [None])
             # A row the spell does not have at this level is stored as 0 to 0,
             # and the damage formula hands it the flat bonus anyway.
             out = []
