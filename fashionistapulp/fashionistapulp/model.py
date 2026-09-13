@@ -857,6 +857,17 @@ class Model:
                     for or_item in or_item_items:
                         new_forbid_list.add(or_item.id)
 
+        # And the rows the catalogue simply repeats. Ankama's file lists the
+        # Retro "Ecaflip Paw" eleven times and the Touch "Boracelet" twice,
+        # same values under another number, so forbidding one used to hand the
+        # piece straight back: a Retro reader left alone with the two
+        # "Snow Bow Meow (+40 Prospecting)" rows forbade the one he was given
+        # and got the other. 19 pieces in Retro and 2 in Touch, and the 39
+        # extra rows that used to survive the ban.
+        for item_id in tuple(new_forbid_list):
+            new_forbid_list.update(
+                self.structure.get_rows_of_the_same_item(item_id))
+
         for item in self.items_list:
             restriction = self.restrictions.forbidden_items_constraints.get(item.id, None)
             if ((item.id in new_forbid_list)

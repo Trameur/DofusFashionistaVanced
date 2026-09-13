@@ -87,6 +87,33 @@ GELANO_DEPLOYED_IDS = {
 }
 
 
+def _stable(value):
+    """A repr that does not depend on how a dict happened to be filled."""
+    if isinstance(value, dict):
+        return tuple(sorted((repr(k), _stable(v)) for k, v in value.items()))
+    if isinstance(value, (set, frozenset)):
+        return tuple(sorted(repr(entry) for entry in value))
+    if isinstance(value, (list, tuple)):
+        return tuple(_stable(entry) for entry in value)
+    return repr(value)
+
+
+def _what_makes_two_rows_one_item(item):
+    """Everything the game gives a piece, except its number.
+
+    The name stays in: without it the catalogue merges pieces that merely
+    carry no stats at all -- "Black Bow Wow" with "White Bow Meow", the eight
+    Initiate's weapons with each other. Measured on the five versions.
+    """
+    return (item.name, item.dofus_touch, item.level, item.type, item.set,
+            item.ankama_type, item.is_one_handed,
+            _stable(item.stats), _stable(item.stat_ranges),
+            _stable(item.min_stats_to_equip), _stable(item.max_stats_to_equip),
+            _stable(item.flags), _stable(item.or_conditions),
+            _stable(item.weird_conditions), _stable(item.element_spread),
+            _stable(item.spell_tooltips))
+
+
 def get_structure(game_version=None):
     global _structure_singletons
     if game_version is None:
@@ -121,6 +148,7 @@ class Structure:
     def __init__(self, game_version='dofus3'):
         self.game_version = game_version
         self._used_stat_keys = None
+        self._rows_of_the_same_item = {}
         self.legacy_item_ids = {}
         self.conn = sqlite3.connect(get_items_db_path(game_version))
         # A half-written catalogue makes one of these raise, and the
@@ -159,6 +187,7 @@ class Structure:
             self.read_item_names_table()
             self.post_process_item_names()
             self.post_process_set_names()
+            self.index_the_rows_that_are_one_item()
         
         finally:
             self.conn.close()
@@ -1035,6 +1064,35 @@ class Structure:
                         else:
                             self._unique_items_names_with_ids[lang][item_name] = item.id
     
+    def index_the_rows_that_are_one_item(self):
+        """Group the catalogue rows that are the very same piece.
+
+        Ankama's own item file lists some pieces more than once: Retro carries
+        eleven rows named "Ecaflip Paw" and two named "Tea Ring", Touch two
+        named "Boracelet". Same name, same level, same values, same conditions
+        -- only the number differs, and the number is what nobody sees.
+
+        The solver has to know, because a reader who forbids the piece gets it
+        straight back under the next number otherwise. Dofus 3, its beta and
+        Dofus 2 repeat nothing: this is a Retro and Touch trait.
+        """
+        rows_by_identity = {}
+        for item in self.get_concatenated_items_lists():
+            rows_by_identity.setdefault(
+                _what_makes_two_rows_one_item(item), []).append(item.id)
+        self._rows_of_the_same_item = {}
+        for item_ids in rows_by_identity.values():
+            if len(item_ids) < 2:
+                continue
+            group = frozenset(item_ids)
+            for item_id in item_ids:
+                self._rows_of_the_same_item[item_id] = group
+
+    def get_rows_of_the_same_item(self, item_id):
+        """Every row that is this piece, this one included; () when it is
+        the only row the catalogue gives it."""
+        return self._rows_of_the_same_item.get(item_id, ())
+
     def post_process_set_names(self):
         for item_set in itertools.chain(self.sets_list, self.dt_sets_list):
             item_set.localized_names['en'] = item_set.name
