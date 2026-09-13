@@ -631,12 +631,27 @@
         var mainStat = {neut: 'str', earth: 'str', fire: 'int', water: 'cha', air: 'agi'}
             [damageHit.element] || getBestElementKey(totalStats);
         var baseValue = (isMin ? damageHit.min_dam : damageHit.max_dam);
-        var multiplier = 100 + totalStats[mainStat];
-        if (!damageHit.heals) {
-            multiplier += totalStats['pow'];
-        }
+        // La meme regle que `dofus_constants.calculate_damage`, qui borne la
+        // caracteristique et la Puissance a zero avant de multiplier. La page
+        // ne les bornait pas, donc la fiche et le meilleur tour ne comptaient
+        // pas pareil des qu'une caracteristique etait negative, ce qui arrive
+        // des le bas niveau ou une piece porte un malus sur une base a zero.
+        //
+        // Mesure du 14 septembre 2026, un Cra Dofus 3 de niveau 30 a -20 en
+        // Force, Intelligence et Chance: 11 sorts sur 14 affichaient moins
+        // que ce que le meilleur tour comptait. Sur un build a -785, les
+        // fiches affichaient 0 pendant que le tour comptait 63.
+        // La Puissance d'arme se replie dans la Puissance avant la borne, et
+        // pas apres: c'est ce que fait `spell_combo` avant d'appeler la
+        // formule, et un soin ne la recoit donc pas. La page l'ajoutait a
+        // part, non bornee, et meme sur une ligne de soin.
+        var power = totalStats['pow'];
         if (spell.type == 'weapon' || spell.type == 'weapon_non_mageable') {
-            multiplier += totalStats['powweap'];
+            power += totalStats['powweap'];
+        }
+        var multiplier = 100 + Math.max(totalStats[mainStat], 0);
+        if (!damageHit.heals) {
+            multiplier += Math.max(power, 0);
         }
         var multipliedDamage = Math.floor(baseValue * multiplier / 100.0);
         
