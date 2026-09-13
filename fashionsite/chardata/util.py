@@ -108,6 +108,7 @@ from chardata.model_wrappers import WrappedChar
 from chardata.models import Char, UserAlias, CharBaseStats
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.structure import get_structure
+from fashionistapulp.translation import get_supported_language
 from chardata.themes import get_css_for_theme, get_theme, check_theme,\
     get_css_static_for_theme, get_ajax_loader_URL, get_all_images_URLs,\
     ALLOWED_THEMES, ALLOWED_CURRENT_AUTO
@@ -383,10 +384,16 @@ def get_picker_cache_key(char, item_type, search_term, order_by_stats,
     """
     char_id = getattr(char, 'id', char)
     stamp = getattr(char, 'modified_time', None)
-    raw = '%s|%s|%s|%s|%s|%s|%s' % (get_char_cache_epoch(char_id), char_id,
-                                    stamp.isoformat() if stamp else '',
-                                    item_type, search_term, order_by_stats,
-                                    stat_filters)
+    # The reader's language is part of the key because the search term is
+    # matched against the translated name: searching "Caracape" finds two
+    # Touch cloaks in English and one in French, where the other is called
+    # "Caparak". Without the language, whichever reader searched first handed
+    # his list to the next one, in his own language's spelling.
+    raw = '%s|%s|%s|%s|%s|%s|%s|%s' % (get_char_cache_epoch(char_id), char_id,
+                                       stamp.isoformat() if stamp else '',
+                                       item_type, search_term, order_by_stats,
+                                       stat_filters,
+                                       get_supported_language())
     return 'picker-%s' % hashlib.sha1(raw.encode('utf-8')).hexdigest()
 
 

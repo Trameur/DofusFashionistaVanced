@@ -406,7 +406,7 @@ function populateSwitchDiv(key, page, itemNames, char_id, searchTerm, callBack, 
 function checkIfViolationsAreFatal(item, violations, char_id) {
     var violationsAreFatal = false;
     if (violations != null) {
-        $.each(violations[item.name], function(key, violation) {
+        $.each(violations[item.id], function(key, violation) {
             violationsAreFatal |= violation.cant_equip;
         });
     }
@@ -419,10 +419,10 @@ function setItemViolations(item, violations, char_id) {
     var violationsAreFatal = false;
     var removedOnly = false;
     if (violations != null) {
-        $.each(violations[item.name], function(key, violation) {
+        $.each(violations[item.id], function(key, violation) {
             violationsAreFatal |= violation.cant_equip;
         });
-        $.each(violations[item.name], function(key, violation) {
+        $.each(violations[item.id], function(key, violation) {
             if (violation.is_red) {
                 violationsString += "<span class='item-exchange-violations-error'>";
             } else {
@@ -507,7 +507,7 @@ function setItemViolations(item, violations, char_id) {
             }
             violationsString += "</span><br>";
         });
-        if (violations[item.name].length > 0) {
+        if (violations[item.id].length > 0) {
             if (violationsAreFatal) {
                 violationsString += "<span class='item-exchange-violations-error'>";
                 violationsString += gettext("You cannot equip this item.");
@@ -589,7 +589,7 @@ function setConditionLines(item) {
 function createComparison(differences, item){
     var comparison = "";
     if (differences != null) {
-        $.each(differences[item.name], function(i, statLine) {
+        $.each(differences[item.id], function(i, statLine) {
             if (statLine.formatting.indexOf("#r") != -1) {
                 comparison += '<span class="solution-negative-stat-text">' + statLine.text + "</span>";
             } else {
@@ -697,8 +697,8 @@ function populateItems(items, violations, char_id, searchTerm, slot, differences
 
 function createWeaponHitDescription(weaponInfo, item){
     string = '';
-    if (weaponInfo[item.name].is_mageable && weaponInfo[item.name].element != 'neut'){
-        var ele = weaponInfo[item.name].element;
+    if (weaponInfo[item.id].is_mageable && weaponInfo[item.id].element != 'neut'){
+        var ele = weaponInfo[item.id].element;
         transRatingString = gettext("The average damage/AP of this weapon while %(element)s maged would be");
         d = {
             element: ele
@@ -707,22 +707,22 @@ function createWeaponHitDescription(weaponInfo, item){
     } else {
         string = gettext("The average damage/AP of this weapon would be");
     }
-    var rating = weaponInfo[item.name].rating.toFixed(1);
+    var rating = weaponInfo[item.id].rating.toFixed(1);
     if (rating < 0) {
         rating = 0 - rating;
     }
     string += ' <b>' + rating + '</b>.';
     string += '<br>';
-    if (weaponInfo[item.name].min_noncrit_dam > 0) {
+    if (weaponInfo[item.id].min_noncrit_dam > 0) {
         string += gettext('With the current set this weapon would hit ');
     } else {
         string += gettext('With the current set this weapon would <font color="#CC0000">heal</font> ');
     }
     
-    var minNoncritDam = weaponInfo[item.name].min_noncrit_dam;
-    var maxNoncritDam = weaponInfo[item.name].max_noncrit_dam;
-    var minCritDam = weaponInfo[item.name].min_crit_dam;
-    var maxCritDam = weaponInfo[item.name].max_crit_dam;
+    var minNoncritDam = weaponInfo[item.id].min_noncrit_dam;
+    var maxNoncritDam = weaponInfo[item.id].max_noncrit_dam;
+    var minCritDam = weaponInfo[item.id].min_crit_dam;
+    var maxCritDam = weaponInfo[item.id].max_crit_dam;
     if (minNoncritDam < 0) {
         minNoncritDam = 0 - minNoncritDam;
     }

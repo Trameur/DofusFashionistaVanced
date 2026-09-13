@@ -317,6 +317,13 @@ def get_items_to_exchange(request, char_id):
     max_page = math.ceil(len(items_to_exchange) / 10.0)
 
     items_to_return = items_to_exchange[(page - 1) * 10 : page * 10]
+    # Keyed by the piece's number, not its name. Ankama gives two different
+    # pieces the same name, and this window is per slot, so the pairs that
+    # matter are the ones sharing a type: 17 names on Touch and 40 on Retro,
+    # none at all on the three modern versions. Keyed by name, the second one
+    # overwrote the first and the reader read another item's numbers under the
+    # one he was looking at. 14 of the 17 Touch pairs carry genuinely
+    # different values; two cloaks called "Caracape" showed the same line.
     violations = {}
     differences = {}
     itemResults = []
@@ -336,12 +343,12 @@ def get_items_to_exchange(request, char_id):
                 vlist = []
                 for vio in check_if_violates(or_item, slot, char, effective_overrides):
                     vlist.append(vio)
-                violations[or_item.name] = vlist
-                differences[or_item.name] = _get_difference(or_item, slot, char,
-                                                            effective_overrides)
+                violations[or_item.id] = vlist
+                differences[or_item.id] = _get_difference(or_item, slot, char,
+                                                          effective_overrides)
                 if slot == 'weapon':
-                    weapon_info[or_item.name] = _get_weapon_info(or_item, char,
-                                                                 effective_overrides)
+                    weapon_info[or_item.id] = _get_weapon_info(or_item, char,
+                                                               effective_overrides)
         else:
             result_item = ModelResultItem(item, effective_overrides)
             result_item.set_slot(slot)
@@ -352,12 +359,12 @@ def get_items_to_exchange(request, char_id):
             vlist = []
             for vio in check_if_violates(item, slot, char, effective_overrides):
                 vlist.append(vio)
-            violations[item.name] = vlist
-            differences[item.name] = _get_difference(item, slot, char,
-                                                     effective_overrides)
+            violations[item.id] = vlist
+            differences[item.id] = _get_difference(item, slot, char,
+                                                   effective_overrides)
             if slot == 'weapon':
-                weapon_info[item.name] = _get_weapon_info(item, char,
-                                                          effective_overrides)
+                weapon_info[item.id] = _get_weapon_info(item, char,
+                                                        effective_overrides)
     
             
     # evolve_result_item only puts the slot placeholder in .file.
