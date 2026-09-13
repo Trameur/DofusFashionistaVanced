@@ -64,24 +64,37 @@ class TheLabelSaysAnswersTests(SimpleTestCase):
 
     def test_the_sidebar_no_longer_claims_solver_runs(self):
         corps = _gabarit()
-        self.assertNotIn('"solver runs"', corps)
-        self.assertIn('"solver answers"', corps)
+        # Vise le LIBELLE, pas le commentaire qui cite la formule fautive
+        # pour expliquer pourquoi elle a ete abandonnee.
+        self.assertNotIn('{% trans "solver runs" %}', corps)
+        self.assertNotIn('solver run{% plural %}', corps)
+        # Le libelle s'accorde en nombre depuis le lot 72: il n'est plus une
+        # chaine simple mais une paire singulier-pluriel.
+        self.assertIn('solver answer{% plural %}solver answers', corps)
 
     def test_the_label_is_translated_in_the_four_other_languages(self):
-        from django.utils.translation import gettext, override
+        from django.utils.translation import ngettext, override
         muettes = []
         for langue in ('fr', 'es', 'pt', 'de'):
             with override(langue):
-                if gettext('solver answers') == 'solver answers':
-                    muettes.append(langue)
+                # Ce que le lecteur recoit, et non l'ancienne entree simple
+                # que le gabarit n'emploie plus.
+                for nombre, attendu in ((1, 'solver answer'),
+                                        (2, 'solver answers')):
+                    if ngettext('solver answer', 'solver answers',
+                                nombre) == attendu:
+                        muettes.append((langue, nombre))
         self.assertEqual([], muettes)
 
     def test_no_translation_says_generated_on_its_own(self):
         """La derive que le lot A bis avait trouvee: l'anglais propre et la
         traduction qui dit <<genere>> toute seule."""
-        from django.utils.translation import gettext, override
+        from django.utils.translation import ngettext, override
         for langue in ('fr', 'es', 'pt', 'de'):
             with override(langue):
-                rendu = gettext('solver answers').lower()
-                self.assertNotIn('gener', rendu, (langue, rendu))
-                self.assertNotIn('generier', rendu, (langue, rendu))
+                for nombre in (1, 2):
+                    rendu = ngettext('solver answer', 'solver answers',
+                                     nombre).lower()
+                    self.assertNotIn('gener', rendu, (langue, nombre, rendu))
+                    self.assertNotIn('generier', rendu,
+                                     (langue, nombre, rendu))

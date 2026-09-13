@@ -11,7 +11,11 @@ logger = logging.getLogger(__name__)
 
 
 def site_stats(request):
-    stats = cache.get('site_stats_v2')
+    # v3: les compteurs portent aussi leur entier. Le gabarit accorde le nom
+    # avec le nombre, et une chaine formatee (<<1,234>>) ne peut pas choisir
+    # une forme de pluriel. Changer la clef evite de servir dix minutes une
+    # entree de l'ancienne forme, ou l'entier manquerait.
+    stats = cache.get('site_stats_v3')
     if stats is None:
         from django.contrib.auth.models import User
         from chardata.models import Char, SolutionCounter
@@ -26,14 +30,19 @@ def site_stats(request):
                 per_version.append({
                     'label': label,
                     'characters': f"{characters:,}",
+                    'characters_n': characters,
                     'solver_runs': f"{runs:,}",
+                    'solver_runs_n': runs,
                     'shared_builds': f"{shared:,}",
+                    'shared_builds_n': shared,
                 })
+        users = User.objects.count()
         stats = {
-            'stat_users': f"{User.objects.count():,}",
+            'stat_users': f"{users:,}",
+            'stat_users_n': users,
             'stat_per_version': per_version,
         }
-        cache.set('site_stats_v2', stats, 600)
+        cache.set('site_stats_v3', stats, 600)
     return stats
 
 

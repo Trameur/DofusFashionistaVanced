@@ -6636,3 +6636,23 @@ msgstr ""
 
 msgid "This spell never lands one."
 msgstr ""
+
+msgid "user"
+msgid_plural "users"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "character created"
+msgid_plural "characters created"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "solver answer"
+msgid_plural "solver answers"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "shared build"
+msgid_plural "shared builds"
+msgstr[0] ""
+msgstr[1] ""

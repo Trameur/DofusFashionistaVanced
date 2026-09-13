@@ -7419,3 +7419,23 @@ msgstr "Pas de coup critique"
 
 msgid "This spell never lands one."
 msgstr "Ce sort n'en fait jamais."
+
+msgid "user"
+msgid_plural "users"
+msgstr[0] "joueur"
+msgstr[1] "joueurs"
+
+msgid "character created"
+msgid_plural "characters created"
+msgstr[0] "personnage créé"
+msgstr[1] "personnages créés"
+
+msgid "solver answer"
+msgid_plural "solver answers"
+msgstr[0] "réponse du solveur"
+msgstr[1] "réponses du solveur"
+
+msgid "shared build"
+msgid_plural "shared builds"
+msgstr[0] "stuff partagé"
+msgstr[1] "stuffs partagés"

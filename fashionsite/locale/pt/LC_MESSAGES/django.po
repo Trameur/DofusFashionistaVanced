@@ -7365,3 +7365,23 @@ msgstr "Sem golpe crítico"
 
 msgid "This spell never lands one."
 msgstr "Este feitiço nunca o consegue."
+
+msgid "user"
+msgid_plural "users"
+msgstr[0] "jogador"
+msgstr[1] "jogadores"
+
+msgid "character created"
+msgid_plural "characters created"
+msgstr[0] "personagem criado"
+msgstr[1] "personagens criados"
+
+msgid "solver answer"
+msgid_plural "solver answers"
+msgstr[0] "resposta do solver"
+msgstr[1] "respostas do solver"
+
+msgid "shared build"
+msgid_plural "shared builds"
+msgstr[0] "set partilhado"
+msgstr[1] "sets partilhados"

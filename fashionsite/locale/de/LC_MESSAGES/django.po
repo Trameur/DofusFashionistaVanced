@@ -7395,3 +7395,23 @@ msgstr "Kein kritischer Treffer"
 
 msgid "This spell never lands one."
 msgstr "Dieser Zauber landet nie einen."
+
+msgid "user"
+msgid_plural "users"
+msgstr[0] "Spieler"
+msgstr[1] "Spieler"
+
+msgid "character created"
+msgid_plural "characters created"
+msgstr[0] "erstellter Charakter"
+msgstr[1] "erstellte Charaktere"
+
+msgid "solver answer"
+msgid_plural "solver answers"
+msgstr[0] "Solver-Antwort"
+msgstr[1] "Solver-Antworten"
+
+msgid "shared build"
+msgid_plural "shared builds"
+msgstr[0] "geteiltes Set"
+msgstr[1] "geteilte Sets"
