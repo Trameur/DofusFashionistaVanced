@@ -75,6 +75,11 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
         if spell_id not in shown:
             digests.append(_create_reference_web_digest(entry, game_version,
                                                        char.level))
+    # Import local, comme `solution_view` importe `_best_combo` d'ici: les
+    # deux vues se servent l'une de l'autre et aucune ne doit dependre de
+    # l'ordre de chargement.
+    from chardata.solution_view import pieces_above_the_character_level
+    hors_niveau = pieces_above_the_character_level(char, solution)
     digests_json = jsonpickle.encode(digests, unpicklable=False)
     stats_json = jsonpickle.encode(solution.get_stats_total(), unpicklable=False)
     return set_response(request, 
@@ -90,6 +95,12 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                              list(NON_ELEMENTAL_HIT_TYPES), unpicklable=False),
                          'char_id': char_id,
                          'char_level': char.level,
+                         # The build page says it right above the best turn,
+                         # and the best turn is the link that leads here.
+                         'pieces_above_level': hors_niveau,
+                         'pieces_above_level_text': ', '.join(
+                             '%s %s' % (piece['name'], piece['level'])
+                             for piece in hors_niveau),
                          # Retro states a critical rate as the X of 1/X.
                          'crit_is_fraction': game_version == 'retro',
                          'char_stats_json': stats_json,

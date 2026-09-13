@@ -181,6 +181,41 @@ def _resolve_structure_item(structure, name):
     return item
 
 
+def pieces_above_the_character_level(char, solution):
+    """The worn pieces this character's level does not allow, worst first.
+
+    One rule, one place: the build page shows the count right above the best
+    turn, and the best turn links to the spell page, which used to show the
+    same build's damage with nothing said. A level 30 build carrying thirteen
+    pieces up to level 100 announced 17981 damage there.
+
+    Cheap on purpose: it resolves the worn pieces and compares a number. The
+    rest of `_build_check`, which rates candidates per slot, is not.
+    """
+    char_level = char.level or 0
+    if not char_level:
+        return []
+    structure = get_structure()
+    above = []
+    for _slot, items in solution.items.items():
+        for item in items:
+            if not getattr(item, 'item_added', False):
+                continue
+            structure_item = _resolve_structure_item(
+                structure, getattr(item, 'name', None))
+            if structure_item is None:
+                continue
+            niveau = getattr(structure_item, 'level', None)
+            if niveau and niveau > char_level:
+                above.append({
+                    'name': structure.get_item_name_in_language(
+                        structure_item, get_supported_language()),
+                    'level': niveau,
+                })
+    above.sort(key=lambda piece: -piece['level'])
+    return above
+
+
 def _weighted_rate(structure, item, weights):
     """The item's stats weighted by the build's stat weights (mirrors
     item_exchange._rate, which orders the switch-item list)."""
@@ -266,19 +301,10 @@ def _build_check(char, solution):
     # ne le disait, ni sur la page du proprietaire, ni sur le lien partage, ni
     # dans la galerie qui declarait le build valide.
     #
-    # Greffe sur la boucle du dessus, donc sans cout: les pieces et le niveau
-    # sont deja en main.
-    above_level = []
-    if char_level:
-        for _slot, _item, structure_item in equipped_entries:
-            niveau = getattr(structure_item, 'level', None)
-            if niveau and niveau > char_level:
-                above_level.append({
-                    'name': structure.get_item_name_in_language(
-                        structure_item, get_supported_language()),
-                    'level': niveau,
-                })
-        above_level.sort(key=lambda piece: -piece['level'])
+    # La regle a quitte cette boucle pour vivre seule au-dessus: le panneau
+    # des sorts la dit lui aussi, et il ne doit pas payer le calcul de
+    # suggestions qui suit.
+    above_level = pieces_above_the_character_level(char, solution)
 
     suggestions = []
     if weights and char_level:

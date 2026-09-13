@@ -41,6 +41,13 @@
             <span class="best-combo-title">{% trans "Best combo this turn" %}</span>
             <span class="best-combo-total">{{ best_combo.total }} {% trans "damage" %}</span>
         </div>
+        {% if pieces_above_level %}
+        <div class="best-combo-level-warning"
+             title="{{ pieces_above_level_text }}">
+            <span class="best-combo-level-warning-label">{% trans "Pieces above this character's level" %}</span>
+            <span class="best-combo-level-warning-value">{{ pieces_above_level|length }}</span>
+        </div>
+        {% endif %}
         <ol class="best-combo-casts">
             {% for cast in best_combo.casts %}
             <li>

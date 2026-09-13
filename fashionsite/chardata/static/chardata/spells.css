@@ -175,6 +175,35 @@
     font-weight: bold;
 }
 
+/* Les pieces que le niveau du personnage ne permet pas. Sous le total, parce
+   que c'est ce total qu'elles rendent trompeur: un build de niveau 30 portant
+   treize pieces jusqu'au niveau 100 annoncait 17981 de degats sans rien dire.
+   La page du build le disait deja, juste au-dessus du lien qui mene ici.
+
+   Aucune couleur en propre: le panneau porte deja la sienne dans chacun des
+   quatre couples de theme et de design, et `currentColor` suit le texte, donc
+   la bordure ne peut pas se retrouver invisible sur un fond qu'elle ignore. */
+.best-combo-level-warning {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 0 0 8px;
+    padding: 6px 8px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+}
+
+.best-combo-level-warning-label {
+    font-weight: bold;
+}
+
+.best-combo-level-warning-value {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 .best-combo-casts {
     list-style: none;
     margin: 0;
