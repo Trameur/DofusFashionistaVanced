@@ -53,9 +53,9 @@ var compareTooManyBuildsError = "{{ too_many_builds_error|escapejs }}";
 
 <div class="compare-manual-title text">{% trans "Manual links" %}</div>
 <p class="text">{% blocktrans %}To compare projects that you own, type the project name or paste a link to the solution such as:{% endblocktrans %}<br>
-<span class="link-text">http://dofusfashionista.com/solution/12345/</span><br><br>
+<span class="link-text">{{ site_url }}{% game_url 'solution_2' 12345 %}</span><br><br>
 {% blocktrans %}To compare other people's projects paste the sharing link, for example:{% endblocktrans %}<br>
-<span class="link-text">http://dofusfashionista.com/s/xxLegolasxx/AbCdEf_/</span></p>
+<span class="link-text">{{ site_url }}{% game_url 'solution_linked' 'xxLegolasxx' 'AbCdEf_' %}</span></p>
 
 <div class="compare-link-div-outer">
 {% for i in 4|get_range %}

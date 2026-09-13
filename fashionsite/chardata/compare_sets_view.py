@@ -43,6 +43,7 @@ from chardata.spell_buffs import (compute_full_buff_stats,
 from chardata.spells_view import (_best_combo, _create_spell_web_digest,
                                   _create_weapon_web_digest)
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
+from chardata.url_language import SITE_URL
 from chardata.util import (set_response, get_char_possibly_encoded_or_raise, get_or_none,
                            HttpResponseText, char_belongs_to_user, get_char_id_possibly_encoded,
                            HttpResponseJson, version_reverse)
@@ -454,6 +455,12 @@ def _sort_items(solutions):
 def choose_compare_sets(request):
     params = {
         'compare_picker_sections': _build_compare_picker_sections(request),
+        # The page shows the reader the shape of a link to paste. It named
+        # `dofusfashionista.com`, which is not a host this site serves and is
+        # not in ALLOWED_HOSTS; the address is dofusfashionista.gg. The host
+        # now comes from the site's own canonical url and the path from the
+        # site's own routing, so neither can drift again.
+        'site_url': SITE_URL,
     }
              
     for i in range(4):
