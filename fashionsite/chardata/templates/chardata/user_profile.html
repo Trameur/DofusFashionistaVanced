@@ -94,8 +94,8 @@ bien une page distincte.
             <div>
                 <h2 class="profile-name">{{ profile_display_name }}</h2>
                 <div class="profile-meta">
-                    {{ follower_count }} {% trans "follower" %}{{ follower_count|pluralize }}
-                    · {{ following_count }} {% trans "following" %}
+                    {{ follower_count }} {% blocktrans count n=follower_count context "counter" %}follower{% plural %}followers{% endblocktrans %}
+                    · {{ following_count }} {% blocktrans count n=following_count context "counter" %}following{% plural %}following{% endblocktrans %}
                 </div>
             </div>
             <div class="profile-spacer"></div>
@@ -112,19 +112,19 @@ bien une page distincte.
         <div class="profile-stats">
             <div class="profile-stat">
                 <span class="fm-st fm-st-like" aria-hidden="true"></span> <span class="profile-stat-value">{{ total_likes_received }}</span>
-                {% trans "likes received" %}
+                {% blocktrans count n=total_likes_received %}like received{% plural %}likes received{% endblocktrans %}
             </div>
             <div class="profile-stat">
                 <span class="fm-st fm-st-fav" aria-hidden="true"></span> <span class="profile-stat-value">{{ total_favorites_received }}</span>
-                {% trans "favorites received" %}
+                {% blocktrans count n=total_favorites_received %}favorite received{% plural %}favorites received{% endblocktrans %}
             </div>
             <div class="profile-stat">
                 <span class="fm-st fm-st-view" aria-hidden="true"></span> <span class="profile-stat-value">{{ total_views }}</span>
-                {% trans "views" %}
+                {% blocktrans count n=total_views %}view{% plural %}views{% endblocktrans %}
             </div>
             <div class="profile-stat">
                 <span class="fm-st fm-st-builds" aria-hidden="true"></span> <span class="profile-stat-value">{{ builds|length }}</span>
-                {% trans "shared builds" %}
+                {% blocktrans count n=builds|length %}shared build{% plural %}shared builds{% endblocktrans %}
             </div>
         </div>
 

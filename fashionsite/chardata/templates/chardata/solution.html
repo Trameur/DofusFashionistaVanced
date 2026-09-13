@@ -279,8 +279,8 @@
     </div>
     {% elif link_shared %}
     <div align="center" class="build-vote-row" style="margin-top: 15px;">
-        <span class="fm-st fm-st-like" aria-hidden="true"></span> <span id="like_count">{{ like_count }}</span> {% trans "Likes" %} | 
-        <span class="fm-st fm-st-fav" aria-hidden="true"></span> <span id="favorite_count">{{ favorite_count }}</span> {% trans "Favorites" %}
+        <span class="fm-st fm-st-like" aria-hidden="true"></span> <span id="like_count">{{ like_count }}</span> {% blocktrans count n=like_count context "counter" %}Like{% plural %}Likes{% endblocktrans %} | 
+        <span class="fm-st fm-st-fav" aria-hidden="true"></span> <span id="favorite_count">{{ favorite_count }}</span> {% blocktrans count n=favorite_count context "counter" %}Favorite{% plural %}Favorites{% endblocktrans %}
     </div>
     {% endif %}
     {% endif %}

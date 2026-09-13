@@ -123,7 +123,7 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
             <b>{% trans "Set bonuses" %}</b>
             {% for group in set_bonuses %}
             <div class="encyclopedia-set-bonus-group">
-                <div class="encyclopedia-item-meta">{{ group.num_pieces }} {% trans "pieces" %}</div>
+                <div class="encyclopedia-item-meta">{{ group.num_pieces }} {% blocktrans count n=group.num_pieces context "counter" %}piece{% plural %}pieces{% endblocktrans %}</div>
                 <ul class="encyclopedia-list">
                     {% for line in group.lines %}
                     <li>

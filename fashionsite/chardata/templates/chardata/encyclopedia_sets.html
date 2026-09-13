@@ -66,7 +66,7 @@
 
     {% if sets_page.object_list %}
     {% ad_unit 'content_top' %}
-    <div class="encyclopedia-sets-meta">{{ sets_count }} {% trans "sets" %}</div>
+    <div class="encyclopedia-sets-meta">{{ sets_count }} {% blocktrans count n=sets_count context "counter" %}set{% plural %}sets{% endblocktrans %}</div>
     <div class="encyclopedia-sets-grid">
         {% for set_entry in sets_page.object_list %}
         <a href="{{ set_entry.url }}">
