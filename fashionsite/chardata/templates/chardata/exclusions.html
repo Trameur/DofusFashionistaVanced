@@ -65,6 +65,7 @@
            
     var allItems = {{all_items_json | safe}};
     var allItemsNames = {{all_items_names_json | safe}};
+    var idsByPlainName = {{ids_by_plain_name_json | safe}};
     var allSets = {{sets_with_items_json | safe}};
     var excludedItemsInput = {{exclusions | safe}};
 
@@ -91,18 +92,28 @@
         });
     }
     
+    // A door can close more than one piece: those the reader cannot tell
+    // apart share a single row rather than one he could not choose between.
+    function forbidEveryPieceBehind(label, ids) {
+        // A door that closes one piece is sent as a bare number; the brackets
+        // on every catalogue entry would cost kilobytes on each load.
+        $.each($.isArray(ids) ? ids : [ids], function (i, itemId) {
+            forbidItem({'id': itemId, 'name': label}, true);
+        });
+    }
+
     function onForbidButtonClick(event) {
         event.preventDefault();
         var itemName = $("#input-item-to-forbid").val();
         if (allItemsNames[itemName] == null) {
+            // A set is named by its pieces' plain names, not by their doors.
             items = allSets[itemName];
             $.each(items, function (i, item) {
-                var item_to_forbid = {'id': allItemsNames[item], 'name': item}
-                forbidItem(item_to_forbid, true);
+                forbidEveryPieceBehind(
+                    item, idsByPlainName[item] || allItemsNames[item] || []);
             });
         } else {
-            var item_to_forbid = {'id': allItemsNames[itemName], 'name': itemName}
-            forbidItem(item_to_forbid, true);
+            forbidEveryPieceBehind(itemName, allItemsNames[itemName]);
         }
     }
 

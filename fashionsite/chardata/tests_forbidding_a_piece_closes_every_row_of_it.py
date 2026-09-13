@@ -37,9 +37,13 @@ from django.test import SimpleTestCase
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-#: Ce que chaque version repetait le jour ou la regle a ete ecrite.
-#: (pieces repetees, lignes en trop)
-_REPETITIONS = {'dofus3': (0, 0), 'beta': (0, 0), 'dofus2': (0, 0),
+#: Ce que chaque version repete. (pieces repetees, lignes en trop)
+#:
+#: Les trois versions modernes etaient a (0, 0) le jour ou la regle a ete
+#: ecrite: leurs onze <<Ecaflip Paw>> portent des noms numerotes par Ankama,
+#: et le nom faisait alors partie de l'identite sans exception. La regle
+#: reconnait depuis cette numerotation, et les onze lignes sont une piece.
+_REPETITIONS = {'dofus3': (2, 11), 'beta': (2, 11), 'dofus2': (2, 11),
                 'touch': (2, 11), 'retro': (19, 28)}
 
 #: La piece Retro la plus repetee, et de combien de lignes.

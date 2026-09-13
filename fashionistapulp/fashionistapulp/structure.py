@@ -98,14 +98,34 @@ def _stable(value):
     return repr(value)
 
 
+#: Ankama numbers a repeated name rather than renaming it: the Dofus 3 file
+#: carries "Ecaflip Paw" through "Ecaflip Paw 11". Only a trailing number, and
+#: only when everything else about the two rows is identical.
+_A_NUMBER_ANKAMA_APPENDED = re.compile(r'^(.*?) \d{1,2}$')
+
+
+def _the_name_without_ankamas_number(name):
+    numbered = _A_NUMBER_ANKAMA_APPENDED.match(name or '')
+    return numbered.group(1) if numbered else name
+
+
 def _what_makes_two_rows_one_item(item):
     """Everything the game gives a piece, except its number.
 
     The name stays in: without it the catalogue merges pieces that merely
     carry no stats at all -- "Black Bow Wow" with "White Bow Meow", the eight
     Initiate's weapons with each other. Measured on the five versions.
+
+    The number Ankama appends to a repeated name does not: "Ecaflip Paw 2" is
+    the same ring as "Ecaflip Paw", and the French file calls both of them
+    "Patte d'Ecaflip". Stripping it reunites 2 pieces and 11 rows on each
+    modern version and nothing at all on Touch and Retro, which do not number.
+    A numbered name whose values differ keeps its own row: "Cocoa Dofus 2",
+    "Nomoon 2" and the 41 numbered Dofus 2 shields are all still their own
+    piece.
     """
-    return (item.name, item.dofus_touch, item.level, item.type, item.set,
+    return (_the_name_without_ankamas_number(item.name),
+            item.dofus_touch, item.level, item.type, item.set,
             item.ankama_type, item.is_one_handed,
             _stable(item.stats), _stable(item.stat_ranges),
             _stable(item.min_stats_to_equip), _stable(item.max_stats_to_equip),
@@ -1035,23 +1055,39 @@ class Structure:
         self._dt_unique_items_names_with_ids = {}
         self._unique_items_names_with_ids['en'] = {}
         self._dt_unique_items_names_with_ids['en'] = {}
+        # The same walk, without the overwriting. A name shared by two
+        # different pieces keeps both here, so a caller can tell the reader
+        # what separates them instead of silently dropping one.
+        self._unique_items_ids_by_name = {'en': {}}
+        self._dt_unique_items_ids_by_name = {'en': {}}
         for lang in NON_EN_LANGUAGES:
             self._unique_items_names_with_ids[lang] = {}
             self._dt_unique_items_names_with_ids[lang] = {}
+            self._unique_items_ids_by_name[lang] = {}
+            self._dt_unique_items_ids_by_name[lang] = {}
         for t in self.types_list:
             item_list = itertools.chain(self.get_unique_items_by_type_and_level(t, 200, False), 
                                         self.get_unique_items_by_type_and_level(t, 200, True))
             for item in item_list:
                 if item.dofus_touch:
                     self._dt_unique_items_names_with_ids['en'][item.name] = item.id
+                    self._dt_unique_items_ids_by_name['en'].setdefault(
+                        item.name, []).append(item.id)
                 else:
                     self._unique_items_names_with_ids['en'][item.name] = item.id
+                    self._unique_items_ids_by_name['en'].setdefault(
+                        item.name, []).append(item.id)
                 for lang in NON_EN_LANGUAGES:
                     if lang in item.localized_names:
+                        item_name = item.localized_names[lang]
                         if item.dofus_touch:
-                            self._dt_unique_items_names_with_ids[lang][item.localized_names[lang]] = item.id
+                            self._dt_unique_items_names_with_ids[lang][item_name] = item.id
+                            self._dt_unique_items_ids_by_name[lang].setdefault(
+                                item_name, []).append(item.id)
                         else:
-                            self._unique_items_names_with_ids[lang][item.localized_names[lang]] = item.id
+                            self._unique_items_names_with_ids[lang][item_name] = item.id
+                            self._unique_items_ids_by_name[lang].setdefault(
+                                item_name, []).append(item.id)
                     else:
                         item_name = self.get_or_name_in_language(item.name, lang, item.dofus_touch)
                         if item_name is None:
@@ -1061,8 +1097,12 @@ class Structure:
                                 item_name = '[!] %s' % item.name
                         if item.dofus_touch:
                             self._dt_unique_items_names_with_ids[lang][item_name] = item.id
+                            self._dt_unique_items_ids_by_name[lang].setdefault(
+                                item_name, []).append(item.id)
                         else:
                             self._unique_items_names_with_ids[lang][item_name] = item.id
+                            self._unique_items_ids_by_name[lang].setdefault(
+                                item_name, []).append(item.id)
     
     def index_the_rows_that_are_one_item(self):
         """Group the catalogue rows that are the very same piece.
@@ -1122,6 +1162,15 @@ class Structure:
         else:
             return self._unique_items_names_with_ids[language]
     
+    def get_all_unique_items_ids_by_name(self, language, dofus_touch=False):
+        """{name shown in that language: every piece id it covers}.
+
+        The map above keeps one id per name, so a name shared by two different
+        pieces loses one of them. This keeps both."""
+        if dofus_touch:
+            return self._dt_unique_items_ids_by_name[language]
+        return self._unique_items_ids_by_name[language]
+
     def get_set_names(self, language, dofus_touch=False):
         sets = self.get_sets_list(dofus_touch)
         set_names = [my_set.localized_names[language] for my_set in sets]
