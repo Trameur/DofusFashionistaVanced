@@ -7,7 +7,12 @@
     <table style="width: 100%;" role="presentation">
       <tr>
         <td><b>{% trans "Project Name" %}</b> {{char.name}}</td>
-        <td><b>{% trans "Build" %}</b> {{char.char_build}} {{wrapped_char.class_string}}</td>
+        {% comment %}La valeur TRADUITE, comme la liste des projets et la galerie
+        le font deja de leur cote. Cette ligne rendait `char_build` brut, donc
+        un nom interne: <<Str Glass Cannon>> la ou le titre de la meme page
+        dit <<Force Canon de verre>>. Mesure du 19 septembre 2026, sur les
+        cinq langues, y compris l'anglais ou <<Str>> se lit <<Strength>>.{% endcomment %}
+        <td><b>{% trans "Build" %}</b> {{wrapped_char.build_string}} {{wrapped_char.class_string}}</td>
       </tr>
       <tr>
 

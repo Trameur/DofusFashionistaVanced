@@ -4054,7 +4054,7 @@ msgstr "Personagem"
 #: .\chardata\templates\chardata\main-header.html:10
 #: .\chardata\templates\chardata\shared_builds.html:202
 msgid "Build"
-msgstr "Elemento"
+msgstr "Build"
 
 #: .\chardata\templates\chardata\load_projects.html:37
 msgid "This project already has a solution."

@@ -4072,13 +4072,13 @@ msgstr "Projekt"
 #: .\chardata\templates\chardata\load_projects.html:28
 #: .\chardata\templates\chardata\main-header.html:15
 msgid "Char"
-msgstr "Verkohlen"
+msgstr "Charakter"
 
 #: .\chardata\templates\chardata\load_projects.html:29
 #: .\chardata\templates\chardata\main-header.html:10
 #: .\chardata\templates\chardata\shared_builds.html:202
 msgid "Build"
-msgstr "Bauen"
+msgstr "Build"
 
 #: .\chardata\templates\chardata\load_projects.html:37
 msgid "This project already has a solution."
@@ -4106,7 +4106,7 @@ msgstr "Entfernen"
 #: .\chardata\templates\chardata\load_projects.html:64
 #: .\chardata\templates\chardata\main-header.html:31
 msgid "Duplicate"
-msgstr "Duplikat"
+msgstr "Duplizieren"
 
 #: .\chardata\templates\chardata\load_projects.html:69
 #, python-format
