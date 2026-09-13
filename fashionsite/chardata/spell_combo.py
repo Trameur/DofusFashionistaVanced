@@ -67,16 +67,57 @@ def combat_ap(total_ap, game_version):
     return min(total, cap) if cap else total
 
 
+def _run_that_hurts(runs, effects):
+    """La serie d'elements que le panneau doit lire, parmi celles du sort.
+
+    Un sort peut porter plusieurs series, une par grade de glyphe ou par etat,
+    et la premiere etait gardee. Mais Tout ou Rien en porte deux d'une autre
+    nature: quatre lignes qui **soignent**, une par element, puis quatre qui
+    **frappent**. Sa fiche dit les deux moities, <<Soigne les allies et
+    occasionne des dommages dans le meilleur element du lanceur aux ennemis en
+    zone>>, et le panneau compte un tour sur une cible ennemie.
+
+    Mesure du 20 septembre 2026 sur les 1923 sorts des cinq versions: 29
+    portent plusieurs series, et **un seul** commence par une serie qui ne
+    fait que soigner. La regle ne deplace donc que celui-la, sur ses trois
+    versions. Quand aucune serie ne frappe, la premiere est rendue comme
+    avant.
+    """
+    def frappe(run):
+        return any(not getattr(effects[index], 'heals', False)
+                   and (effects[index].min_dam or effects[index].max_dam)
+                   for groupe in run for index in groupe)
+
+    for run in runs:
+        if frappe(run):
+            return run
+    return runs[0]
+
+
 def _element_alternatives(aggregates, effects):
     """The groups of a best-element spell, or None when they are not that.
 
     The generator writes a best-element hit as one single-row group per element
     and a stacking spell as one group per stack; only a repeated element tells
     the two shapes apart. A spell can carry several such runs, one per glyph
-    grade or per state; the first one is kept.
+    grade or per state; the one that can hurt is kept, see `_run_that_hurts`.
+
+    **Un groupe fait uniquement de buffs n'est pas un element.** Vacarme porte
+    six lignes, dont deux qui frappent, et ses agregats sont `[[0], [5]]`: la
+    ligne 0 soigne et la ligne 5 est un `buff_final`. Les prendre pour deux
+    elements faisait croire a la forme <<meilleur element>> la ou il n'y en a
+    pas, et le repli qui sait lire la moitie qui frappe ne jouait jamais. Le
+    panneau depensait alors 3 PA pour zero. Mesure du 20 septembre 2026 sur
+    les 1923 sorts des cinq versions: treize portent un tel groupe, et sept
+    paires sort/version changent de forme une fois ces groupes ecartes.
     """
+    aggregates = [(label, indices) for label, indices in (aggregates or [])
+                  if not all(index < len(effects)
+                             and effects[index].element.startswith('buff')
+                             for index in indices)]
     if not aggregates or len(aggregates) < 2:
         return None
+    runs = []
     run = []
     seen = set()
     for _label, indices in aggregates:
@@ -84,10 +125,16 @@ def _element_alternatives(aggregates, effects):
             return None
         element = effects[indices[0]].element
         if element in seen:
-            break
+            if len(run) > 1:
+                runs.append(run)
+            run, seen = [], set()
         seen.add(element)
         run.append(set(indices))
-    return run if len(run) > 1 else None
+    if len(run) > 1:
+        runs.append(run)
+    if not runs:
+        return None
+    return _run_that_hurts(runs, effects)
 
 
 def _first_group_that_hurts(aggregates, hits):

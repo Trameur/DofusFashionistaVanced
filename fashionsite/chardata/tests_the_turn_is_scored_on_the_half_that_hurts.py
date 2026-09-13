@@ -99,6 +99,19 @@ def _soigne_entierement(lignes):
     return bool(lignes) and all(getattr(e, 'heals', False) for e in lignes)
 
 
+def _hits_sans_buffs(effets):
+    """Les lignes que la production donne a `_first_group_that_hurts`.
+
+    Une ligne `buff_...` porte un minimum et un maximum et ne soigne pas,
+    donc la laisser passerait pour une ligne qui frappe et ferait dire a
+    la regle le contraire de ce qu'elle fait. Le defaut est reste
+    invisible tant que `_element_alternatives` ecartait ces sorts plus
+    tot.
+    """
+    return [(index, effet) for index, effet in enumerate(effets)
+            if not effet.element.startswith('buff')]
+
+
 def _tous_les_sorts():
     for version in VERSIONS:
         for classe, sorts in get_damage_spells_for_version(version).items():
@@ -137,11 +150,11 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                 if not groupes:
                     continue
                 digest = sort.get_effects_digest()
+                effets_du_rang = (digest.non_crit_dams[rang]
+                                  if rang < len(digest.non_crit_dams)
+                                  else [])
                 retenu = _first_group_that_hurts(
-                    digest.aggregates,
-                    list(enumerate(digest.non_crit_dams[rang]
-                                   if rang < len(digest.non_crit_dams)
-                                   else [])))
+                    digest.aggregates, _hits_sans_buffs(effets_du_rang))
                 premier = set(digest.aggregates[0][1])
                 if retenu == premier:
                     continue
@@ -163,8 +176,8 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                 effets = rows[rang] if rang < len(rows) else []
                 if _element_alternatives(digest.aggregates, effets) is not None:
                     continue
-                retenu = _first_group_that_hurts(digest.aggregates,
-                                                 list(enumerate(effets)))
+                retenu = _first_group_that_hurts(
+                    digest.aggregates, _hits_sans_buffs(effets))
                 if retenu != set(digest.aggregates[0][1]):
                     bouges.add((version, classe, sort.name))
         self.assertEqual(
@@ -214,8 +227,8 @@ class AStackingCastStillStartsFromNothingBuiltUpTests(SimpleTestCase):
                 digest = sort.get_effects_digest()
                 rows = digest.non_crit_dams
                 effets = rows[rang] if rang < len(rows) else []
-                retenu = _first_group_that_hurts(digest.aggregates,
-                                                 list(enumerate(effets)))
+                retenu = _first_group_that_hurts(
+                    digest.aggregates, _hits_sans_buffs(effets))
                 with self.subTest(version=version, sort=sort.name, rang=rang):
                     self.assertEqual(set(digest.aggregates[0][1]), retenu)
                 gardes += 1

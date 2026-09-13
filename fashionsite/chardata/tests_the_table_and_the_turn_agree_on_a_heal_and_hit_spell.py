@@ -16,17 +16,19 @@ sa propre table ne montre pas. Les deux lisent donc desormais **la meme liste,
 calculee une fois cote serveur**: `rows_that_always_land`. Ce depot a paye
 trois copies d'une regle de niveau pour avoir oublie cette discipline.
 
-**Ce que le jeu dit.** Les 44 sorts touches portent tous, sans exception, les
+**Ce que le jeu dit.** Les sorts touches portent tous, sans exception, les
 deux moities dans leur fiche: <<Soigne les allies et occasionne des dommages X
-aux ennemis en zone>>. Verifie sur les quarante-quatre et non sur un
-echantillon, le 20 septembre 2026. Aucun ne dit <<autour de la cible>>.
+aux ennemis en zone>>. Verifie sur la population entiere et non sur un
+echantillon, le 20 septembre 2026, et le test le refait a chaque passage.
+Aucun ne dit <<autour de la cible>>.
 
 **Ce que la regle n'autorise pas, et c'est mesure.** Compter toutes les
-lignes hors groupe changerait **726** lancers au lieu de 193, et ce serait
-faux: la Fleche Explosive porte deux lignes de 9-11 Feu et sa fiche dit que
-la seconde touche <<les ennemis en zone **autour de la cible**>>. La compter
-doublerait les degats sur une cible unique. La regle ne lit ces lignes que
-lorsque le groupe retenu **ne fait que soigner**.
+lignes hors groupe changerait **726** lancers la ou la regle livree en
+changeait 193, et ce serait faux: la Fleche Explosive porte deux lignes de
+9-11 Feu et sa fiche dit que la seconde touche <<les ennemis en zone
+**autour de la cible**>>. La compter doublerait les degats sur une cible
+unique. La regle ne lit ces lignes que lorsque le groupe retenu **ne fait
+que soigner**.
 
 **L'etendue.** Sur les 10292 lancers des cinq versions, rangs et coups
 critiques compris, **193 changent**, tous de zero vers une valeur positive,
@@ -55,8 +57,11 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 #: Les versions qui portent des cas, mesurees le 20 septembre 2026.
 _VERSIONS_TOUCHEES = {'dofus3', 'beta', 'dofus2'}
 
-#: Combien de sorts distincts la regle touche, toutes versions confondues.
-_SORTS_TOUCHES = 44
+#: Combien de paires sort/version la regle touche. Elles etaient 44 le
+#: 20 septembre 2026; le lot 81 en a ajoute cinq, Vacarme sur trois
+#: versions et Cri de l'Ours sur deux, en rendant a ces sorts le chemin
+#: des paliers dont un groupe de buffs les avait ecartes.
+_SORTS_TOUCHES = 49
 
 #: Les mots du jeu. On lit la fiche, on ne recopie pas une traduction.
 _SOIGNE = re.compile(r'soigne', re.I)
