@@ -23,7 +23,8 @@ from fashionistapulp.game_versions import prefixed_reader_versions
 
 from chardata.url_language import split_language_prefix
 from chardata.url_language import (mark_varies_on_cookie,
-                                   redirect_target_for_user)
+                                   redirect_target_for_user,
+                                   SITE_URL)
 
 # The bodies are written with plain site paths ("/setup/"). Read under a
 # version, those paths land on Dofus 3: a Retro reader following "build it
@@ -139,15 +140,32 @@ def guide(request, slug, char_id=0):
     # Version-specific guides (e.g. critical hits) are canonical at their own
     # system's URL; plain guides stay canonical at the global /guides/ URL.
     canonical_version = guides_content.guide_canonical_version(key, game_version)
-    canonical_url = 'https://dofusfashionista.gg' + _guide_url(
+    canonical_url = SITE_URL + _guide_url(
         canonical_version, data['slug'])
     alternate_urls = {
-        language: 'https://dofusfashionista.gg' + _guide_url(
+        language: SITE_URL + _guide_url(
             canonical_version, other_slug)
         for language, other_slug in data['alternates'].items()
     }
 
-    redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
+    # Le canonique et les hreflang nomment la version canonique du guide, et
+    # c'est ce qu'il faut: une page, une adresse. La redirection qui emmene un
+    # lecteur connecte dans SA langue, elle, ne doit changer que la langue.
+    # Batie sur les memes adresses, elle sortait le lecteur de sa version:
+    # mesure du 14 septembre 2026, un compte en francais ouvrant les guides
+    # depuis un index allemand, espagnol ou portugais.
+    #
+    #     beta 32 guides sur 32 changeaient de version
+    #     dofus2 31, touch 29, retro 25
+    #
+    # Un lecteur qui lisait les guides Retro se retrouvait sur la page Dofus 3
+    # sans l'avoir demande.
+    redirect_alternates = {
+        language: SITE_URL + _guide_url(game_version, other_slug)
+        for language, other_slug in data['alternates'].items()
+    }
+    redirect_to = redirect_target_for_user(request, url_language,
+                                           redirect_alternates)
     if redirect_to:
         return mark_varies_on_cookie(redirect(redirect_to))
 
