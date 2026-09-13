@@ -19,7 +19,7 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils import translation
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, ngettext
 from django.views.decorators.http import require_POST
 
 from chardata.image_store import get_image_url
@@ -97,6 +97,33 @@ def _items_for_user(user, game_version):
     return items
 
 
+def _ingredients_payload(recipe, language):
+    """Ce que les deux endpoints rendent, la phrase comprise.
+
+    La phrase est batie ici et pas dans la page. Django accorde selon la
+    langue, et le francais met le singulier a zero: <<0 ingredient>>, pas
+    <<0 ingredients>>. Les deux pages choisissaient leur mot avec
+    `kinds === 1`, ce qui impose la regle anglaise a tout le monde.
+
+    `ngettext` cote page n'aurait rien donne: le catalogue JavaScript ne
+    porte pas ce mot, il aurait rendu l'anglais. Le serveur le sait, lui.
+    """
+    kinds = len(recipe['ingredients'])
+    total = sum(i['quantity'] for i in recipe['ingredients'])
+    with translation.override(language):
+        meta = ngettext(
+            '%(kinds)s ingredient · %(total)s total',
+            '%(kinds)s ingredients · %(total)s total',
+            kinds) % {'kinds': kinds, 'total': total}
+    return {
+        'ingredients': recipe['ingredients'],
+        'ingredient_kinds': kinds,
+        'ingredient_total_units': total,
+        'ingredients_meta': meta,
+        'recipes_available': recipe['recipes_available'],
+    }
+
+
 def _ingredients_for_workshop(user, game_version):
     """Aggregated recipe ingredients for everything currently in `user`'s
     workshop, multiplied by each item's quantity."""
@@ -112,15 +139,23 @@ def workshop(request):
     game_version = getattr(request, 'game_version', 'dofus3')
     items = _items_for_user(request.user, game_version)
     recipe = _ingredients_for_workshop(request.user, game_version)
+    charge = _ingredients_payload(recipe, get_supported_language())
     return set_response(request,
                         'chardata/workshop.html',
                         {'workshop_items': items,
                          'workshop_count': len(items),
-                         'workshop_total_units': sum(it['quantity'] for it in items),
-                         'ingredients': recipe['ingredients'],
-                         'ingredient_kinds': len(recipe['ingredients']),
-                         'ingredient_total_units': sum(i['quantity'] for i in recipe['ingredients']),
-                         'recipes_available': recipe['recipes_available']})
+                         'workshop_total_units': sum(
+                             it['quantity'] for it in items),
+                         'ingredients': charge['ingredients'],
+                         'ingredient_kinds': charge['ingredient_kinds'],
+                         'ingredient_total_units':
+                             charge['ingredient_total_units'],
+                         # La meme phrase que le JSON du
+                         # rafraichissement, pour que le premier rendu
+                         # et les suivants ne puissent pas differer.
+                         'ingredients_meta': charge['ingredients_meta'],
+                         'recipes_available':
+                             charge['recipes_available']})
 
 
 @login_required
@@ -130,12 +165,7 @@ def workshop_ingredients(request):
     reload."""
     game_version = getattr(request, 'game_version', 'dofus3')
     recipe = _ingredients_for_workshop(request.user, game_version)
-    return JsonResponse({
-        'ingredients': recipe['ingredients'],
-        'ingredient_kinds': len(recipe['ingredients']),
-        'ingredient_total_units': sum(i['quantity'] for i in recipe['ingredients']),
-        'recipes_available': recipe['recipes_available'],
-    })
+    return JsonResponse(_ingredients_payload(recipe, get_supported_language()))
 
 
 def _coerce_quantity(value, default=1):
@@ -285,9 +315,4 @@ def solution_ingredients(request, char_id):
         ((item_id, 1) for item_id in item_ids),
         get_supported_language(), game_version,
         unknown_label=_('Unknown ingredient'))
-    return JsonResponse({
-        'ingredients': recipe['ingredients'],
-        'ingredient_kinds': len(recipe['ingredients']),
-        'ingredient_total_units': sum(i['quantity'] for i in recipe['ingredients']),
-        'recipes_available': recipe['recipes_available'],
-    })
+    return JsonResponse(_ingredients_payload(recipe, get_supported_language()))

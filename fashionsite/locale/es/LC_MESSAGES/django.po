@@ -7457,3 +7457,10 @@ msgid "view"
 msgid_plural "views"
 msgstr[0] "visualización"
 msgstr[1] "visualizaciones"
+
+#: .\chardata\workshop_view.py:114
+#, python-format
+msgid "%(kinds)s ingredient · %(total)s total"
+msgid_plural "%(kinds)s ingredients · %(total)s total"
+msgstr[0] "%(kinds)s ingrediente · %(total)s en total"
+msgstr[1] "%(kinds)s ingredientes · %(total)s en total"

@@ -66,7 +66,9 @@ _NE_COMPTE_RIEN = {
     'build optimized on Dofus Fashionista. Like it, comment it, copy it.':
         'phrase de description',
     'damage': 'indenombrable',
-    'total': "etiquette de l'atelier, pas un nom comptable",
+    # <<total>> a quitte cette liste au lot 83: l'atelier ne compose plus
+    # sa phrase mot a mot, le serveur la rend entiere. Le test l'a dit
+    # lui-meme, une exemption qui ne correspond plus a rien echoue.
     # Le nom suit le TOTAL de la panoplie, et aucune n'a une seule piece:
     # tailles de 2 a 8 sur les cinq versions, mesure le 17 septembre 2026.
     'pieces': 'ratio x/y, dont le y est au moins 2 sur les cinq versions',

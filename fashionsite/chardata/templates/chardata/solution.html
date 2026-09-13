@@ -2108,9 +2108,6 @@
             $box.slideDown(120);
             if (solutionIngredientsLoaded) return;
 
-            var ingSingular = "{% trans 'ingredient' %}";
-            var ingPlural = "{% trans 'ingredients' %}";
-            var totalWord = "{% trans 'total' %}";
             $('#solution_ingredients_meta').text("{% trans 'Loading...' %}");
             $.get(apiBase + '/workshop/solutioningredients/{{ char_id }}/', function(resp) {
                 solutionIngredientsLoaded = true;
@@ -2119,10 +2116,8 @@
                     $('#solution_ingredients_meta').text("{% trans 'No recipe data for this build.' %}");
                     return;
                 }
-                var kinds = resp.ingredient_kinds;
                 $('#solution_ingredients_meta').text(
-                    kinds + ' ' + (kinds === 1 ? ingSingular : ingPlural)
-                    + ' · ' + resp.ingredient_total_units + ' ' + totalWord);
+                    resp.ingredients_meta);
                 resp.ingredients.forEach(function(ing) {
                     var $name = $('<span></span>').css('flex', '1');
                     if (ing.local_item_url) {
