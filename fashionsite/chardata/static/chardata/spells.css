@@ -439,6 +439,20 @@
     padding: 0 6px 6px 6px;
 }
 
+/* Pourquoi un sort ne montre aucun degat. Elle remplace un silence, donc
+   elle se lit plus franchement que la ligne de cout juste au-dessus: pas
+   d'opacite, comme `.no-crit-note`, ou a 12 pixels le contraste tomberait
+   sous le seuil. La couleur reste heritee, sans quoi le design classique
+   la ferait tomber au noir du navigateur. */
+.spell-out-of-reach {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 2px;
+    line-height: 1.35;
+    /* Les ronds de rang occupent le bas droit du meme en-tete. */
+    padding-right: 26px;
+}
+
 .filter-group-break {
     display: inline-block;
     width: 12px;

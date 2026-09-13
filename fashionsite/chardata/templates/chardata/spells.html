@@ -314,7 +314,8 @@
             return false;
         }
         if (levelFilter){
-            if (spell.level[0] > {{char_level}}){
+            // Le serveur a deja repondu. Voir `setVisible`.
+            if (spell.available === false){
                 return false;
             }
         }
@@ -503,6 +504,20 @@
             var meta = $("<div class='spell-meta'></div>");
             inner_title_cell.append(meta);
             metaCells[spell.name] = meta;
+        }
+        // Un sort que le niveau n'atteint pas repliait son bloc en silence.
+        // Le lecteur voyait une ligne vide sans pouvoir dire si le sort ne
+        // fait pas de degats, si le calcul avait echoue, ou si son
+        // personnage etait trop bas. La phrase existait deja, mais dans une
+        // infobulle posee sur un rond de douze pixels a 30% d'opacite, que
+        // nul doigt ne declenche. Mesure du 20 septembre 2026: a niveau 1,
+        // 86% des sorts de Dofus 3 se taisaient ainsi, 44% a niveau 100, et
+        // 0% a 200, ce qui est la raison pour laquelle aucune fixture ne
+        // l'a jamais vu.
+        if (spell.available === false && $.isArray(spell.level)) {
+            inner_title_cell.append(
+                $("<div class='spell-out-of-reach'></div>")
+                    .text(outOfReachText(spell.level[0])));
         }
 
         return table;
@@ -1054,11 +1069,15 @@
                && level > spell.highest_level;
     }
 
-    function outOfReachTitle(spell, level) {
+    function outOfReachText(requis) {
         var modele = $("#spells-table").data('out-of-reach') || '';
+        return modele.replace('__level__', requis);
+    }
+
+    function outOfReachTitle(spell, level) {
         var requis = (spell.level && spell.level[level] !== undefined)
                      ? spell.level[level] : '';
-        return modele.replace('__level__', requis);
+        return outOfReachText(requis);
     }
 
     function createDot(i, text) {
@@ -1353,7 +1372,13 @@
     }
     
     function setVisible(spell) {
-        if ({{char_level}} < spell.level[0]) {
+        // C'est le serveur qui dit si le niveau atteint le sort. Trois
+        // fonctions en portaient encore une copie JavaScript: celle-ci,
+        // `checkIfSpellToDisplay` et `fullyBuff`. Deux copies d'une meme
+        // regle finissent par s'ecarter, et c'est deja arrive ici:
+        // `decideLevel` et `isOutOfReach` avaient rendu la leur apres
+        // avoir contredit le serveur.
+        if (spell.available === false) {
             var spellCell = cells[spell.name];
             if (spellCell) {
                 cells[spell.name].header.trigger('click');
@@ -1685,7 +1710,8 @@
                 var doubleBuffSlot = checkIfDoubleBuffSlot(spell);
                 spellLevel[spell.name] = decideLevel(spell);
                 setDot(spell);
-                if ((spell.level[0] <= {{char_level}}) && (!doubleBuffSlot)) {
+                // Idem: un buff que le niveau n'atteint pas ne se lance pas.
+                if ((spell.available !== false) && (!doubleBuffSlot)) {
                     buffState[spell.name] = findBestBuff(spell);
                 } else {
                     buffState[spell.name] = "n0";
