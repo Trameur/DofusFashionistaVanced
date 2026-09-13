@@ -18,6 +18,7 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.utils import translation
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
@@ -32,6 +33,18 @@ from static_s3.templatetags.static_s3 import static
 
 logger = logging.getLogger(__name__)
 MAX_QUANTITY = 999
+
+
+def _localized_type(type_name, language):
+    """Le type d'un objet, dans la langue du lecteur.
+
+    Meme forme que dans `inventory_view`, `forgemagie_view` et
+    `encyclopedia_view`: la langue est passee, pas deduite de l'active.
+    """
+    if not type_name:
+        return ''
+    with translation.override(language):
+        return _(type_name)
 
 
 def _items_for_user(user, game_version):
@@ -64,7 +77,18 @@ def _items_for_user(user, game_version):
             'id': row.id,
             'item_id': row.item_id,
             'name': structure.get_item_name_in_language(item, language),
-            'type_name': type_name,
+            # Le type est lu par le lecteur, donc traduit; l'image est rangee
+            # sous le nom canonique et le garde. Cette page affichait
+            # <<Amulet>>, <<Weapon>>, <<Boots>> a cote d'un niveau traduit,
+            # dans les cinq langues. Les dix types sont deja dans
+            # `dynamic_translations`, et l'inventaire, la forgemagie et
+            # l'encyclopedie les traduisent deja: on emploie la meme source.
+            #
+            # Sous `language`, et pas sous la langue active, pour sortir de
+            # la meme langue que le nom de l'objet pose juste a cote:
+            # `get_supported_language` retombe sur l'anglais quand la langue
+            # active n'est pas des cinq, et les deux se separeraient alors.
+            'type_name': _localized_type(type_name, language),
             'level': item.level,
             'image_url': static(get_image_url(type_name, item.name)),
             'quantity': row.quantity,
