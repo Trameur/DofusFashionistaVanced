@@ -570,6 +570,29 @@ def _reach(level_req, char_level):
             'highest_level': _decide_spell_level(levels, char_level)}
 
 
+def _always_land_by_rank(spell, digest):
+    """{'non_crit': {rang: [indices]}, 'crit': {...}}, ou None s'il n'y en a.
+
+    Par rang ET par critique, parce que la forme varie vraiment: mesure du
+    20 septembre 2026, Mot Alchimique change entre le coup normal et le coup
+    critique sur deux de ses rangs, Coeur de Dragon sur un.
+    """
+    from chardata.spell_combo import rows_that_always_land
+    attente = getattr(spell, 'conditional', None) or {}
+    sortie = {}
+    for cle, rangs in (('non_crit', digest.non_crit_dams),
+                       ('crit', digest.crit_dams)):
+        par_rang = {}
+        for index, effets in enumerate(rangs or []):
+            lignes = rows_that_always_land(digest, effets, attente)
+            if not lignes:
+                continue
+            par_rang[str(index)] = list(lignes)
+        if par_rang:
+            sortie[cle] = par_rang
+    return sortie or None
+
+
 def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     web_digest = {}
     digest = spell.get_effects_digest()
@@ -587,6 +610,12 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     web_digest['crit_dams'] = _convert_spell_damage(digest.crit_dams)
     web_digest['aggregates'] = convert_aggregates(digest.aggregates,
                                                   game_version)
+    # Les lignes qui tombent toujours et que les groupes d'agregats laissent
+    # dehors. La page ne les recalcule pas: c'est le serveur qui decide, pour
+    # que la table des degats et le meilleur tour disent la meme chose du
+    # meme sort. Seuls 44 sorts en portent, donc la clef est absente partout
+    # ailleurs et ne coute rien aux 1900 autres.
+    web_digest['always_land'] = _always_land_by_rank(spell, digest)
     web_digest['is_linked'] = (
         spell.is_linked[0],
         get_localized_spell_name(spell.is_linked[1], current_language)

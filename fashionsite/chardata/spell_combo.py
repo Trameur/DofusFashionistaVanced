@@ -124,6 +124,68 @@ def _first_group_that_hurts(aggregates, hits):
     return set(aggregates[0][1])
 
 
+def rows_that_always_land(digest, effects, waiting_rows=()):
+    """Les lignes qui frappent et que le panneau doit lire en plus du groupe.
+
+    Rendue ici, et pas recalculee dans la page: la table des degats et le
+    meilleur tour doivent dire la meme chose du meme sort. La regle de niveau
+    a coute cette lecon cinq fois: `decideLevel` et `isOutOfReach` en
+    portaient une copie, rendue au serveur avant le lot 77, puis
+    `setVisible`, `checkIfSpellToDisplay` et `fullyBuff` en portaient une
+    chacune, rendues a ce lot-la.
+
+    Rend la liste vide dans tous les cas sauf un, celui que ce lot corrige:
+    le groupe retenu ne fait que soigner, et les lignes qui frappent sont
+    restees hors de tout groupe. Voir `_hitting_row_indexes_outside_every_group`
+    pour ce qui l'autorise et pour ce que cela n'autorise pas.
+    """
+    if _element_alternatives(digest.aggregates, effects) is not None:
+        return []
+    if not digest.aggregates:
+        return []
+    attente = set(waiting_rows or ())
+    hits = [(index, effect) for index, effect in enumerate(effects)
+            if not effect.element.startswith('buff') and index not in attente]
+    retenu = _first_group_that_hurts(digest.aggregates, hits)
+    dedans = [effect for index, effect in hits
+              if index in retenu and (effect.min_dam or effect.max_dam)]
+    if not dedans:
+        return []
+    if any(not getattr(effect, 'heals', False) for effect in dedans):
+        return []
+    return _hitting_row_indexes_outside_every_group(digest.aggregates, hits)
+
+
+def _hitting_row_indexes_outside_every_group(aggregates, hits):
+    """Les lignes qui frappent et que les groupes d'agregats ne couvrent pas.
+
+    Les groupes decrivent les paliers d'un sort qui empile: <<Stack 0>>,
+    <<Stack 1>>... Le generateur n'y met que la ligne qui empile, donc une
+    ligne restee dehors n'est pas une alternative.
+
+    **On ne les additionne pas au groupe retenu, et c'est mesure.** Ajouter
+    toutes les lignes hors groupe changerait 726 lancers, et les exemples
+    disent pourquoi ce serait faux: la Fleche Explosive porte deux lignes de
+    9-11 Feu, et sa fiche dit que la seconde touche <<les ennemis en zone
+    **autour de la cible**>>. La compter doublerait les degats sur une cible
+    unique.
+
+    Elles ne sont lues que dans un cas, celui que `landed` teste: le groupe
+    retenu ne fait que soigner. Les 44 sorts que cela touche disent tous la
+    meme chose dans leur fiche, verifie sur les quarante-quatre et non sur un
+    echantillon: <<Soigne les allies et occasionne des dommages X aux ennemis
+    en zone>>. Aucun ne dit <<autour de la cible>>, donc la cible du panneau
+    prend bien cette ligne.
+    """
+    couvertes = set()
+    for _label, indices in aggregates or []:
+        couvertes |= set(indices)
+    return [index for index, effect in hits
+            if index not in couvertes
+            and not getattr(effect, 'heals', False)
+            and (effect.min_dam or effect.max_dam)]
+
+
 class WeaponCastable(object):
     """The equipped weapon, offered to the turn the way a spell is: it costs its
     own AP and it hits. The damage formula scores it as a weapon, so % weapon
@@ -189,6 +251,7 @@ class Castable(object):
             # lands one. First group = nothing built up, EXCEPT when it is the
             # ally half of the cast: see `_first_group_that_hurts`.
             groups = _element_alternatives(digest.aggregates, effects)
+            par_paliers = groups is None and bool(digest.aggregates)
             if groups is None:
                 groups = ([_first_group_that_hurts(digest.aggregates, hits)]
                           if digest.aggregates else [None])
@@ -199,6 +262,12 @@ class Castable(object):
                 kept = [effect for index, effect in hits
                         if (wanted is None or index in wanted)
                         and (effect.min_dam or effect.max_dam)]
+                if par_paliers and kept and all(
+                        getattr(effect, 'heals', False) for effect in kept):
+                    dehors = rows_that_always_land(digest, effects,
+                                                   waiting_rows)
+                    if dehors:
+                        kept = [effects[index] for index in dehors]
                 if kept:
                     out.append(kept)
             return out

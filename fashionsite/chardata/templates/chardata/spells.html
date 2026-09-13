@@ -773,11 +773,28 @@
         return (spell.conditional || {})[String(index)] || late[String(index)];
     }
 
-    function getHits(spell, damage, isCrit) {
+    // Les lignes qui tombent toujours et que les groupes d'agregats
+    // laissent dehors. Le serveur les designe, la page ne les recalcule
+    // pas: la table des degats et le meilleur tour doivent dire la meme
+    // chose du meme sort, et ce depot a deja paye trois copies d'une
+    // regle de niveau pour l'avoir oublie. La clef n'existe que sur les
+    // 44 sorts concernes, donc ailleurs les groupes sortent tels quels.
+    function aggregatesWithRowsThatAlwaysLand(spell, isCrit, rank) {
+        var groups = spell.aggregates;
+        var extra = spell.always_land
+                    && spell.always_land[isCrit ? 'crit' : 'non_crit'];
+        var rows = extra && extra[String(rank)];
+        if (!rows || !rows.length) {
+            return groups;
+        }
+        return groups.concat([['', rows]]);
+    }
+
+    function getHits(spell, damage, isCrit, rank) {
         var finalDamage = calculateFinalDamage(spell, damage, isCrit);
         var table = $("<table width='100%'></table>");
         if (spell.aggregates != null){
-            aggregates = spell.aggregates;
+            aggregates = aggregatesWithRowsThatAlwaysLand(spell, isCrit, rank);
             
             //itera nas tuplas do aggregate
             for (var i = 0; i < aggregates.length; i++) {
@@ -1292,7 +1309,7 @@
         var crit_title_cell = cellsForSpell.critTitle;
         var crit_hit_cell = cellsForSpell.crit;
         non_crit_cell.empty();
-        non_crit_cell.append(getHits(spell, spell.non_crit_dams[spellLevel[spell.name]], false));
+        non_crit_cell.append(getHits(spell, spell.non_crit_dams[spellLevel[spell.name]], false, spellLevel[spell.name]));
         if (spell.crit_dams === null){
             crit_title_cell.hide();
             crit_hit_cell.hide();
@@ -1303,7 +1320,7 @@
             crit_hit_cell.show();
             cellsForSpell.normalLabel.show();
             crit_hit_cell.empty();
-            crit_hit_cell.append(getHits(spell, spell.crit_dams[spellLevel[spell.name]], true));
+            crit_hit_cell.append(getHits(spell, spell.crit_dams[spellLevel[spell.name]], true, spellLevel[spell.name]));
         }
     }
     
