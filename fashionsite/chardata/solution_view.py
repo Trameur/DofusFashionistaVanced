@@ -425,7 +425,7 @@ def _build_share_text(request, char, solution, facts=None):
         # Quand elle s'ecarte, elle sort en ENTIER: une ligne partielle
         # laisserait le lecteur deviner si une stat absente vaut zero ou le
         # defaut, et l'import doit pouvoir la relire sans supposer.
-        plein = max_scroll_for_version(char.game_version)
+        plein = max_scroll_for_version(char.game_version, char.level)
         if any(scrolled.get(nom, 0) != plein for nom, _cle in STATS_NAMES):
             lines.append('%s: %s' % (_('Scrolls'), ' / '.join(
                 '%s %d' % (localized_stat_name(nom), scrolled.get(nom, 0))

@@ -5202,26 +5202,42 @@ def tier_widths_after_scroll(caps_for_stat, scrolled):
     return widths
 
 
-def max_scroll_for_version(game_version):
-    """Highest a characteristic can be scrolled, per version.
+#: Touch gates its three top scroll tiers on PL>199, so a character reaches
+#: them only from level 200. The number is the game's own, plus one.
+TOUCH_HIGH_SCROLL_LEVEL = 200
 
-    Both odd numbers are read straight out of the game files, from the
-    condition each consumable carries (verified 2026-08-10):
 
-    Touch stops at 150. Its Dedale update (1.73, live June 2026) extends the
-    ladder past the Puissant scroll (cs>74&cs<100) with three more tiers, all
-    gated on PL>199: Superbe cs>99&cs<120, Grandiose cs>119&cs<140, Magnifique
-    cs>139&cs<150. Reading only the first of them says 120, which is wrong.
+def max_scroll_for_version(game_version, char_level=None):
+    """Highest a characteristic can be scrolled, per version and per level.
 
-    Retro stops at 101, one point above its scrolls. The Puissant parchemin is
+    Every number is read straight out of the game files, from the condition
+    each consumable carries (Touch re-read 2026-09-20 through the same data
+    proxy the scraper uses, Retro in itemscraper/retro_raw/items_fr.json):
+
+    Touch stops at 150 **from level 200 only**. Its Dedale update (1.73, live
+    June 2026) extends the ladder past the Puissant scroll (cs>74&cs<100) with
+    three more tiers, and all three carry PL>199: Superbe cs>99&cs<120,
+    Grandiose cs>119&cs<140, Magnifique cs>139&cs<150. The six tiers below 100
+    carry no level condition at all, so a Touch character under 200 stops at
+    100 like everyone else. Reading only the first tier says 120, which is
+    wrong; reading them without their PL term says 150 at every level, which
+    is wrong in the other direction and was what this returned.
+
+    Retro stops at 101, one point above its scrolls, **at any level**: its 61
+    characteristic-gated items carry no level term. The Puissant parchemin is
     gated Cs<100, so parchemins alone reach 100; six foods then carry the same
     permanent +1 under Cs<101, one per characteristic (Bifsteque de
     Dragoviande, Requin aux epices, Entrecote d'Ange, Viande de Fantome
     Cuisinee, Perche sautee, Plat de Filtounga).
 
     Every other version caps at 100.
+
+    `char_level` at None means "the caller is not talking about a character",
+    like `_reach` in spells_view: it answers what the version can ever reach.
     """
     if game_version == 'touch':
+        if char_level is not None and char_level < TOUCH_HIGH_SCROLL_LEVEL:
+            return 100
         return 150
     if game_version == 'retro':
         return 101

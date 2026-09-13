@@ -256,7 +256,7 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
                        'shields': shields})
     char.save()
 
-    full_scroll = max_scroll_for_version(char.game_version)
+    full_scroll = max_scroll_for_version(char.game_version, char.level)
     for stat_name, _localized in STATS_NAMES:
         CharBaseStats.objects.create(char=char, stat=stat_name,
                                      scrolled_value=full_scroll,

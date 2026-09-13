@@ -258,7 +258,7 @@ def create_project(request):
 
     char.save()
 
-    full_scroll = max_scroll_for_version(char.game_version)
+    full_scroll = max_scroll_for_version(char.game_version, char.level)
     for element_name, _ in STATS_NAMES:
         basestats = CharBaseStats()
         basestats.char = char

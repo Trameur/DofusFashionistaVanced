@@ -55,8 +55,9 @@ def init_base_stats_post(request, char_id):
 def _page(request, char_id, is_new_char):
     char = get_char_or_raise(request, char_id)
 
-    stats = _get_stats(char) 
-    stats['distrib'] = char.allow_points_distribution  
+    max_scroll = max_scroll_for_version(char.game_version, char.level)
+    stats = _clamped_to_what_the_game_allows(_get_stats(char), max_scroll)
+    stats['distrib'] = char.allow_points_distribution
 
     soft_caps = get_soft_caps_for(char.game_version, char.char_class)
     lower_soft_caps = {}
@@ -88,13 +89,13 @@ def _page(request, char_id, is_new_char):
                          'show_tiers': show_tiers,
                          'last_tier': last_tier,
                          'scrolls_push_curve': scrolls_push_cost_curve(char.game_version),
-                         'max_scroll': max_scroll_for_version(char.game_version),
+                         'max_scroll': max_scroll,
                          'theme': get_theme(request)},
                         char)
 
 def _post(request, char_id):
     char = get_char_or_raise(request, char_id)
-    max_scroll = max_scroll_for_version(char.game_version)
+    max_scroll = max_scroll_for_version(char.game_version, char.level)
 
     for element_name, abr in STATS_NAMES:
         basestats_list = CharBaseStats.objects.filter(char=char, stat=element_name)
@@ -122,6 +123,32 @@ def _post(request, char_id):
     char.save()
     
     return char
+
+def _clamped_to_what_the_game_allows(stats, max_scroll):
+    """Ramene un parchemin au-dessus de la borne du jeu, sans toucher aux
+    points que le joueur a distribues.
+
+    Ce n'est pas un choix de lecteur qu'on efface: le champ porte `max="100"`
+    depuis le tout premier commit du depot, donc personne n'a jamais pu taper
+    davantage. Les valeurs au-dessus viennent du semis du site, qui donnait a
+    tout personnage Touch le plafond de 150 que le jeu reserve au niveau 200,
+    et a tout personnage Retro un 101 que le champ refusait.
+
+    `total` comprend le parchemin, donc on le baisse d'autant: sans cela,
+    borner le parchemin seul offrirait au personnage les points ainsi
+    liberes, qu'il n'a jamais distribues.
+    """
+    ajuste = dict(stats)
+    for cle in [c for c in stats if c.startswith('scrolled_')]:
+        parchemin = stats[cle]
+        if parchemin <= max_scroll:
+            continue
+        abr = cle[len('scrolled_'):]
+        ajuste[cle] = max_scroll
+        ajuste['total_%s' % abr] = max(
+            0, stats.get('total_%s' % abr, 0) - (parchemin - max_scroll))
+    return ajuste
+
 
 def _get_stats(char):
     stats = {}
