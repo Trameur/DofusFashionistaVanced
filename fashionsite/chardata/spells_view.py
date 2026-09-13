@@ -392,12 +392,23 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'limit_mark': limit_notes.get(index, ('', ''))[0],
                       'limit_title': limit_notes.get(index, ('', ''))[1]})
     late = []
+    # Meme regle que l'echelle des lancers plus haut: le cumul est arrondi une
+    # seule fois et chaque ligne est sa difference avec la precedente.
+    # Arrondir chaque ligne et le total separement donnait un bloc qui ne
+    # s'additionne pas: mesure du 14 septembre 2026 sur 384 panneaux a deux
+    # lignes d'un Osamodas Dofus 2, 75 ou la somme des lignes depassait le
+    # total affiche (214 et 290 sous un total de 503).
+    cumul_differe = 0.0
+    montre_differe = 0
     for name in sorted(later):
         castable = by_name[name]
+        avant = montre_differe
+        cumul_differe += later[name]
+        montre_differe = int(round(cumul_differe))
         late.append({
             'name': (_localized_spell_name(name, language, game_version)
                      if castable.is_spell else castable.weapon.localized_name),
-            'damage': int(round(later[name])),
+            'damage': montre_differe - avant,
             'label': ', '.join(str(_DELAYED_LABELS.get(when, when))
                                for when in moments.get(name, [])),
         })
@@ -431,7 +442,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'crit_failure_note': (str(_CRIT_FAILURE_NOTE)
                                   if game_version == 'retro' else ''),
             'later': late,
-            'later_total': int(round(sum(later.values()))),
+            # Le dernier cumul, donc exactement la somme des lignes
+            # ci-dessus, et la meme valeur qu'un arrondi de la somme.
+            'later_total': montre_differe,
             'pushback': bool(pushback),
             'can_push': any(getattr(spell, 'push_cells', 0)
                             for spell in spells),
