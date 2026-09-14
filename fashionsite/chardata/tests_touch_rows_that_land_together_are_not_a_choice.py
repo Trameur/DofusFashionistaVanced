@@ -160,8 +160,14 @@ class TouchRowsThatLandTogetherAreNotAChoiceTests(SimpleTestCase):
         self.assertEqual(31, garde,
                          'the Dofus 3 groups moved, and this lot did not '
                          'touch them')
+        # Touch en groupe six depuis le meme jour, et ceux-la le meritent:
+        # leurs lignes sont fabriquees a partir de l'effet 1200, voir
+        # [[tests_a_touch_spell_whose_only_damage_is_best_element_shows_it]].
+        # Ce qui ne doit pas revenir, ce sont ces deux-ci.
         for spells in get_damage_spells_for_version('touch').values():
             for spell in spells:
+                if spell.name not in ENSEMBLE:
+                    continue
                 self.assertFalse(
                     [label for label, _indices in (spell.aggregates or [])
                      if label == 'Hit in best element'],

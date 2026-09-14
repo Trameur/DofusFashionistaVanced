@@ -51,21 +51,24 @@ BEST_ELEMENT_EFFECT = 1200
 #: so both tables read the same downstream.
 BEST_ELEMENT_LABEL = 'Hit in best element'
 
-# NINE DAMAGE SPELLS ARE STILL MISSING FROM THIS TABLE, and the reason is that
-# same effect id. Swept 2026-09-01 against the live backend: 330 class spells
-# over the 15 classes carry 112 effect ids this file never reads, and exactly
-# one of them is a plain damage row.
+# NINE DAMAGE SPELLS USED TO BE MISSING FROM THIS TABLE, and the reason was
+# that same effect id. Swept 2026-09-01 against the live backend: 330 class
+# spells over the 15 classes carry 112 effect ids this file never reads, and
+# exactly one of them is a plain damage row.
 #
-#   1200  "#1 a #2 (meilleur element)"    11 class spells, 9 of them ABSENT
+#   1200  "#1 a #2 (meilleur element)"    11 class spells
 #
-# Absent because that row is their only damage: the Iop's "Epee Divine" and
-# "Intimidation", the Osamodas' "Fouet", the Sacrieur's "Punition" and
-# "Projection", the Cra's "Fleche Cinglante", the Masqueraider's "Carnavalo",
-# the Pandawa's "Flasque Explosive" and the Xelor's "Vol du Temps".
+# Nine of them because that row is their only damage. They showed a card with
+# no damage at all, and the turn could not cast them.
 #
-# They stay absent for now: the row names no element, so putting them in means
-# choosing which elements to invent for them, and nothing first-hand says
-# whether the four or the five are candidates.
+# The row names no element, so reading it means writing one row per element,
+# and the question that held it back was which elements are candidates.
+# Settled 2026-09-14: the four that have a characteristic of their own. Neutral
+# is not one -- the damage formula reads it off Strength exactly as it reads
+# Earth (DAMAGE_TYPE_TO_MAIN_STAT), so a neutral face could never be the
+# caster's best on its own account, and Dofus 3's own generator writes the
+# same four. See BEST_ELEMENT_TOKENS and BEST_ELEMENT_IS_THE_WHOLE_HIT, which
+# also names the three of the nine that stay out and why.
 #
 # THE OTHER TWO SPELLS ARE NOT THAT CASE, and reading them as if they were
 # cost two thirds of each. "Fanfaronnade" and "Embuscade" carry the id BESIDE
@@ -284,7 +287,70 @@ def when_it_lands(triggers):
     return DELAYED_TRIGGERS.get(next(iter(codes)))
 
 
-def collect_damage(effect_list):
+#: The four elements a best-element hit can land in, in the order Dofus 3's
+#: own generator writes them. Neutral is not among them: it has no
+#: characteristic of its own, and the damage formula reads it off Strength
+#: exactly as it reads Earth, so a neutral face could never be the caster's
+#: best on its own account.
+BEST_ELEMENT_TOKENS = ('earth', 'fire', 'water', 'air')
+
+#: The Touch spells whose ONLY damage row is the best-element one, with the
+#: fragment of Ankama's own sentence that says the caster deals it to an
+#: enemy. Read back at generation time by `_best_element_is_the_whole_hit`.
+#:
+#: Before this table those nine spells showed a card with no damage at all:
+#: the row names no element, so reading it means writing one row per element,
+#: and nothing had been checked about which elements are candidates. Three of
+#: the nine stay out, and their reason is beside them.
+BEST_ELEMENT_IS_THE_WHOLE_HIT = {
+    5513: 'occasionne des dommages dans le meilleur ',   # Cra, Fleche Cinglante
+    5901: 'occasionne des dommages dans le meilleur ',   # Sacrieur, Punition
+    7987: 'occasionne des dommages dans le meilleur ',   # Xelor, Vol du Temps
+    8131: 'dommages en croix dans le meilleur ',         # Iop, Epee Divine
+    8133: 'occasionne des dommages dans le meilleur ',   # Iop, Intimidation
+    12433: 'occasionne des dommages dans le meilleur ',  # Sacrieur, Projection
+}
+
+# THREE OF THE NINE ARE LEFT OUT, each on Ankama's own sentence:
+#
+#   6997  Pandawa, Flasque Explosive. The damage is not the caster's: "la
+#         CIBLE infligera des dommages dans le meilleur element du lanceur
+#         autour de sa cellule d'arrivee lorsqu'elle est lancee", and the cast
+#         needs the state Porteur. A turn on one target does not model an
+#         entity being thrown.
+#   9685  Osamodas, Fouet. "Tue une invocation de classe du lanceur" first, so
+#         counting its damage assumes a summon to sacrifice, which the turn
+#         does not model. It also carries TWO best-element rows per grade
+#         (the second for an enemy summon), and nothing says which one a cast
+#         on a player lands.
+#   6095  Zobal, Carnavalo. Two rows per grade as well, the second for the
+#         state Psychopathe; the turn assumes no state standing, so picking
+#         one would be picking the state.
+#
+# Measured 14 September 2026 against the live Touch backend: 11 class spells
+# carry effect 1200, two of them beside named rows (see NAMED_ROWS_ALSO_LAND)
+# and nine alone. Six of those nine are read here.
+
+
+def _best_element_is_the_whole_hit(spell):
+    """True when Ankama's sentence says this spell's best-element row is
+    damage the caster deals, checked at generation time."""
+    quote = BEST_ELEMENT_IS_THE_WHOLE_HIT.get(spell.get('id'))
+    if quote is None:
+        return False
+    text = spell.get('descriptionId') or ''
+    if isinstance(text, dict):
+        text = text.get('fr') or ''
+    if quote.lower() not in str(text).lower():
+        raise SystemExit(
+            'touch spell %s no longer says %r, so nothing says its '
+            'best-element row is damage the caster deals. Re-read Ankama '
+            'before regenerating. It now says: %r'
+            % (spell.get('id'), quote, str(text)[:200]))
+    return True
+
+
+def collect_damage(effect_list, best_element_rows=False):
     """One effect list -> {row token: (min, max, when)}.
 
     Rows are the elemental damage hits plus the characteristic buffs and
@@ -298,12 +364,21 @@ def collect_damage(effect_list):
     out = {}
     for e in (effect_list or []):
         eid = e.get('effectId')
-        if eid in ROW_EFFECTS:
-            lo = e.get('diceNum') or 0
-            hi = e.get('diceSide') or 0
-            if hi < lo:                      # diceSide==0 (or < min) => fixed hit
-                hi = lo
-            elem = ROW_EFFECTS[eid]
+        if eid == BEST_ELEMENT_EFFECT and best_element_rows:
+            # One row per element, the way Dofus 3's generator writes such a
+            # hit: the effect names none, and the model needs a row to score.
+            # They are grouped as alternatives by emit_aggregates, so the
+            # four are the faces of one hit and not four hits.
+            tokens = BEST_ELEMENT_TOKENS
+        elif eid in ROW_EFFECTS:
+            tokens = (ROW_EFFECTS[eid],)
+        else:
+            continue
+        lo = e.get('diceNum') or 0
+        hi = e.get('diceSide') or 0
+        if hi < lo:                          # diceSide==0 (or < min) => fixed hit
+            hi = lo
+        for elem in tokens:
             prev = out.get(elem)
             if prev is None or lo + hi > prev[0] + prev[1]:
                 out[elem] = (lo, hi, when_it_lands(e.get('triggers')))
@@ -452,13 +527,16 @@ def decode_spell(spell, spell_levels):
     per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
     casting_levels = []
     best_element = False
+    # Ankama's sentence says this spell's only damage IS the best-element
+    # row, so it is read as one row per element instead of being dropped.
+    lire_le_meilleur = _best_element_is_the_whole_hit(spell)
     for lid in (spell.get('spellLevels') or []):
         lv = spell_levels.get(str(lid))
         if not lv:
             continue
         best_element = best_element or _says_best_element(lv)
-        nc = collect_damage(lv.get('effects'))
-        cr = collect_damage(lv.get('criticalEffect'))
+        nc = collect_damage(lv.get('effects'), lire_le_meilleur)
+        cr = collect_damage(lv.get('criticalEffect'), lire_le_meilleur)
         if _check_still_says(spell):
             # Ankama's own sentence says this buff goes to allies, summons or
             # a turret. Dropping the row leaves whatever damage the spell also

@@ -33,17 +33,19 @@ lisait deja la decoupe et en choisissait une face
 meme sort. Elles lisent maintenant la meme fonction, `element_runs`.
 
 **Portee, mesuree le 14 septembre 2026 sur les 1923 sorts des cinq
-versions.** 195 suites, sur 91 sorts, portent une des trois declarations du
-generateur. Touch en comptait deux de plus jusqu au 14 septembre au soir:
-l Embuscade et la Fanfaronnade y etaient groupees a tort, voir
-[[tests_touch_rows_that_land_together_are_not_a_choice]].
+versions.** 201 suites, sur 97 sorts, portent une des trois declarations du
+generateur. Les six de Touch ne sont pas les memes qu au premier releve:
+l Embuscade et la Fanfaronnade y etaient groupees a tort et en sont sorties
+([[tests_touch_rows_that_land_together_are_not_a_choice]]), et six sorts qui
+n affichaient aucun degat y sont entres
+([[tests_a_touch_spell_whose_only_damage_is_best_element_shows_it]]).
 
 | version | sorts |
 |---------|-------|
 | dofus3 | 32 |
 | beta | 32 |
 | dofus2 | 26 |
-| touch | 0 |
+| touch | 6 |
 | retro | 1 |
 
 86 autres suites, sur 23 sorts, n'en portent aucune: 30 sur Rekop (dix par
@@ -75,9 +77,9 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
 #: Ce que la mesure du 14 septembre 2026 a compte, version par version. Un
 #: sort qui sort de la portee, ou qui y entre, doit se voir ici.
-SORTS_DECLARES = {'dofus3': 32, 'beta': 32, 'dofus2': 26, 'touch': 0,
+SORTS_DECLARES = {'dofus3': 32, 'beta': 32, 'dofus2': 26, 'touch': 6,
                   'retro': 1}
-SUITES_DECLAREES = 195
+SUITES_DECLAREES = 201
 SUITES_NON_DECLAREES = 86
 
 

@@ -153,7 +153,7 @@ class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
 
     #: Mesure du 14 septembre 2026, au rang le plus haut de chaque sort.
     #: Touch et Retro n'ont pas zero par accident: leurs catalogues ne
-    #: portent que 2 et 1 sorts a plusieurs groupes, et les trois sont des
+    #: portent que 6 et 1 sorts a plusieurs groupes, et les sept sont des
     #: choix d'element (<<Hit in best element>>, <<Hit in one random
     #: element>>), que la regle laisse expres sans nom.
     NAMED_BY_VERSION = {'dofus3': 34, 'beta': 34, 'dofus2': 20,
@@ -200,12 +200,12 @@ class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
                     if aggregates and len(aggregates) > 1:
                         groups.append((game_version, castable.name,
                                        aggregates[0][0]))
-        # Un seul depuis le 14 septembre 2026, le Bluff de Retro. Les deux
-        # autres etaient l'Embuscade et la Fanfaronnade de Touch, groupees en
-        # <<meilleur element>> alors qu'Ankama dit que leurs lignes tombent
-        # ensemble; voir
-        # `tests_touch_rows_that_land_together_are_not_a_choice`.
-        self.assertEqual(1, len(groups), groups)
+        # Sept depuis le 14 septembre 2026: le Bluff de Retro, et six sorts
+        # Touch dont toute la frappe est <<dans le meilleur element>> et qui
+        # n affichaient aucun degat avant. L Embuscade et la Fanfaronnade,
+        # elles, en sont sorties: Ankama dit que leurs lignes tombent
+        # ensemble.
+        self.assertEqual(7, len(groups), groups)
         for _version, _name, first_label in groups:
             with self.subTest(label=first_label):
                 self.assertIn('element', first_label.lower())

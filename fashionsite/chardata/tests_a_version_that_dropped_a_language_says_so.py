@@ -17,7 +17,7 @@ c'est-a-dire l'anglais.
 
 | version | noms de sorts | dont l'allemand vaut l'anglais |
 |---------|---------------|--------------------------------|
-| touch | 174 | **174** |
+| touch | 180 | **180** |
 | retro | 106 | 4 |
 
 Les quatre de Retro sont des mots identiques dans les deux langues
@@ -48,7 +48,7 @@ class AVersionThatDroppedALanguageSaysSoTests(SimpleTestCase):
         from fashionistapulp.dofus_constants_touch_spells import (
             TOUCH_SPELL_NAMES)
         noms = list(TOUCH_SPELL_NAMES.values())
-        self.assertEqual(174, len(noms), len(noms))
+        self.assertEqual(180, len(noms), len(noms))
         anglais = [par_langue for par_langue in noms
                    if par_langue.get('de') == par_langue.get('en')]
         self.assertEqual(len(noms), len(anglais),
