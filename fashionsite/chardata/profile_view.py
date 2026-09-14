@@ -19,7 +19,7 @@ from django.views.decorators.http import require_POST
 
 from chardata.encoded_char_id import encode_char_id
 from chardata.models import BuildVote, Char, UserAlias, UserFollow
-from chardata.shared_builds_view import translate_build_name
+from chardata.model_wrappers import build_label
 from chardata.util import set_response, version_reverse
 from chardata.url_language import SITE_URL
 
@@ -78,7 +78,7 @@ def user_profile(request, alias):
             'like_count': b.like_count or 0,
             'favorite_count': b.favorite_count or 0,
             'view_count': b.view_count or 0,
-            'build_name_translated': translate_build_name(b.char_build or ''),
+            'build_name_translated': build_label(b.char_build),
         })
 
     total_likes_received = (BuildVote.objects
@@ -191,7 +191,7 @@ def feed(request):
                 'like_count': b.like_count or 0,
                 'favorite_count': b.favorite_count or 0,
                 'view_count': b.view_count or 0,
-                'build_name_translated': translate_build_name(b.char_build or ''),
+                'build_name_translated': build_label(b.char_build),
             })
 
     return set_response(request, 'chardata/feed.html', {

@@ -32,6 +32,8 @@ from chardata.pagination import pagination_items
 from chardata.url_language import SITE_URL
 from chardata.util import set_response, version_reverse
 from chardata.encoded_char_id import encode_char_id
+from chardata.model_wrappers import (build_label,
+                                     translate_build_name)
 from chardata.image_store import get_image_url
 from chardata.item_sources import (format_acquisition_counts,
                                    summarize_by_ankama_id)
@@ -246,55 +248,6 @@ def _get_shared_build_meta(char):
     finally:
         set_current_game_version(previous_game_version)
 
-def translate_build_name(build_name):
-    """Translate a build name that may contain multiple aspects separated by / or spaces"""
-    if not build_name:
-        return ''
-    
-    # First, try to match the entire string (e.g., "Glass Cannon" as a whole)
-    lookup_key = SHORT_NAME_TO_KEY.get(build_name, build_name.lower())
-    if lookup_key in ASPECT_TO_NAME:
-        return str(ASPECT_TO_NAME[lookup_key])
-    
-    # Handle slash-separated parts first (e.g., "Agi Glass Cannon/Pushback")
-    if '/' in build_name:
-        parts = build_name.split('/')
-        translated_parts = []
-        for part in parts:
-            part = part.strip()
-            if part:
-                # Recursively translate each part (which may contain spaces)
-                translated_parts.append(translate_build_name(part))
-        return '/'.join(translated_parts)
-    
-    # Handle space-separated parts (e.g., "Int Crit Glass Cannon")
-    # But we need to be smart about multi-word build types like "Glass Cannon"
-    if ' ' in build_name:
-        # Try to find multi-word matches first (longer matches first)
-        words = build_name.split(' ')
-        translated_parts = []
-        i = 0
-        while i < len(words):
-            # Try matching 2 words first (for "Glass Cannon", etc.)
-            matched = False
-            if i + 1 < len(words):
-                two_word = f"{words[i]} {words[i+1]}"
-                lookup_key = SHORT_NAME_TO_KEY.get(two_word, two_word.lower())
-                if lookup_key in ASPECT_TO_NAME:
-                    translated_parts.append(str(ASPECT_TO_NAME[lookup_key]))
-                    i += 2
-                    matched = True
-            
-            # If no 2-word match, try single word
-            if not matched:
-                lookup_key = SHORT_NAME_TO_KEY.get(words[i], words[i].lower())
-                translated_parts.append(str(ASPECT_TO_NAME.get(lookup_key, words[i])))
-                i += 1
-        
-        return ' '.join(translated_parts)
-    
-    # Single word that wasn't found
-    return build_name
 
 #: Query parameters that change WHICH builds are listed. One of them makes the
 #: page a view of the list rather than a place in it, so it points at the plain
@@ -594,17 +547,7 @@ def shared_builds(request):
         if char.owner:
             creator_name = alias_by_user_id.get(char.owner_id, char.owner.username)
 
-        focus_aspects = ['Vit', 'Glass Cannon', 'Dam', 'Heals', 'AP Red', 'MP Red',
-                        'Crit', 'Res', 'Leecher', 'PP', 'Pods', 'Traps', 'Summons',
-                        'Pushback', 'Non-Crit']
-        has_focus = any(focus in char.char_build for focus in focus_aspects if char.char_build)
-
-        if char.char_build and not has_focus:
-            build_name_translated = f"{translate_build_name(char.char_build)} {ASPECT_TO_NAME['balanced']}"
-        elif not char.char_build:
-            build_name_translated = str(ASPECT_TO_NAME['balanced'])
-        else:
-            build_name_translated = translate_build_name(char.char_build)
+        build_name_translated = build_label(char.char_build)
 
         build_meta = meta_by_id[char.id]
         builds_data.append({

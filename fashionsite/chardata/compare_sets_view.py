@@ -33,6 +33,7 @@ from chardata.character_look import get_character_look, preview_box_for
 from chardata.encoded_char_id import decode_char_id, encode_char_id
 from chardata.item_sources import acquisition_summary, attach_acquisition
 from chardata.models import BuildVote, Char, SolutionGeneration
+from chardata.model_wrappers import build_label
 from chardata.solution import get_solution
 from chardata.solution_history import get_generation_solution
 from chardata.solution_result import SolutionResult, evolve_result_item
@@ -535,7 +536,9 @@ def _compare_picker_entries(request, chars):
             'name': display_name(char),
             'char_class': LOCALIZED_CHARACTER_CLASSES.get(char.char_class, char.char_class),
             'level': char.level,
-            'build': char.char_build,
+            # La chaine interne ne se montre pas: le lecteur qui
+            # choisit entre deux builds lit le meme nom qu'ailleurs.
+            'build': build_label(char.char_build),
             'link': link,
         })
     return entries

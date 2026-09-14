@@ -59,8 +59,49 @@ def translate_build_name(build_name):
                 i += 1
         
         return ' '.join(translated_parts)
-    
+
     return build_name
+
+
+#: Les aspects qui viennent APRES l'element: un build qui en porte un n'est
+#: pas equilibre, et son nom se suffit.
+FOCUS_ASPECTS = ('Vit', 'Glass Cannon', 'Dam', 'Heals', 'AP Red', 'MP Red',
+                 'Crit', 'Res', 'Leecher', 'PP', 'Pods', 'Traps', 'Summons',
+                 'Pushback', 'Non-Crit')
+
+
+def build_label(char_build):
+    """Le nom du build, tel que le lecteur doit le lire, dans sa langue.
+
+    Une seule reponse pour toutes les pages. Elle etait ecrite trois fois et
+    les trois ne disaient pas la meme chose. Mesure du 14 septembre 2026, en
+    francais:
+
+    | char_build         | en-tete, projets, galerie | profil et feed     | choix a comparer   |
+    |--------------------|---------------------------|--------------------|--------------------|
+    | `Str`              | Force Equilibre           | Force              | **Str**            |
+    | `''`               | Equilibre                 | (rien)             | **(rien)**         |
+    | `Str Glass Cannon` | Force Canon de verre      | Force Canon de ... | **Str Glass Cannon** |
+    | `Cha/Agi`          | Chance/Agilite Equilibre  | Chance/Agilite     | **Cha/Agi**        |
+
+    La page qui sert a **choisir** entre deux builds rendait donc la chaine
+    interne, dans les cinq langues, l'anglais compris ou <<Str>> se lit
+    <<Strength>>. C'est la meme faute que le lot 76 a corrigee sur l'en-tete
+    de projet, sur les lecteurs qu'il n'avait pas parcourus.
+
+    `char_build` vide veut dire <<aucun aspect choisi>>, et le site appelle
+    cela <<Equilibre>> depuis toujours: c'est sa convention, pas une mesure du
+    stuff. Elle etait deja sur trois pages; elle est maintenant sur les
+    quatre, au lieu d'un vide et d'un separateur pendant.
+    """
+    if not char_build:
+        return str(ASPECT_TO_NAME['balanced'])
+    has_focus = any(focus in char_build for focus in FOCUS_ASPECTS)
+    translated = translate_build_name(char_build)
+    if has_focus:
+        return translated
+    return '%s %s' % (translated, ASPECT_TO_NAME['balanced'])
+
 
 class WrappedChar(object):
 
@@ -86,19 +127,4 @@ class WrappedChar(object):
     
     def build_string(self):
         """Return translated build type name(s)"""
-        build_name = self.char.char_build
-        
-        # Focus aspects are those that appear after the element (like Vit, Dam, Crit, etc.)
-        focus_aspects = ['Vit', 'Glass Cannon', 'Dam', 'Heals', 'AP Red', 'MP Red', 
-                        'Crit', 'Res', 'Leecher', 'PP', 'Pods', 'Traps', 'Summons', 
-                        'Pushback', 'Non-Crit']
-        
-        has_focus = any(focus in build_name for focus in focus_aspects if build_name)
-        
-        if build_name and not has_focus:
-            translated = translate_build_name(build_name)
-            return f"{translated} {ASPECT_TO_NAME['balanced']}"
-        elif not build_name:
-            return str(ASPECT_TO_NAME['balanced'])
-        else:
-            return translate_build_name(build_name)
+        return build_label(self.char.char_build)
