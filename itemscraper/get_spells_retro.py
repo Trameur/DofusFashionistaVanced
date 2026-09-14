@@ -278,26 +278,46 @@ def _collect(effect_list):
 def decode_level(level_arr):
     """Spell level array -> {element: (normal_range, crit_range)}.
 
-    The two effect lists are the normal and the critical effects, in no fixed
-    order; the crit is the higher roll.
+    The place of the two effect lists is FIXED in Ankama's file: the
+    second-to-last slot is the critical hit, the last one the normal hit. The
+    client indexes them by position, so it cannot be otherwise.
+
+    This used to read "in no fixed order; the crit is the higher roll", which
+    is a guess and not what the file says. Measured 14 September 2026 on the
+    2091 spells of Ankama's own Retro spell lang (VERSION 1254, the file in
+    retro_raw), the fixed place is what the data shows:
+
+      * 3554 spell levels cannot crit at all (slot 15, the X of 1/X, is 0).
+        Every single one of them leaves the second-to-last slot EMPTY and
+        fills the last one. Not one does the reverse. The list the game will
+        never read is the critical one.
+      * Of the 4186 element rows where both slots carry that element, 3786
+        are stronger in the second-to-last and 363 tie, which is the same
+        answer read from the other end.
+
+    The guess disagreed with the file on the remaining **37 rows**, where the
+    critical is not strictly the bigger roll -- a Retro critical is a fixed
+    value (`0d0+N`) against a normal that rolls dice, so it can sit inside the
+    normal range. Piqure rank 1 hits 1 to 5 and crits for exactly 3. Those 37
+    rows were published with their two columns swapped; four of them reach the
+    spells panel, on the Feca's Retour du baton and Attaque Nuageuse at ranks
+    1 and 2.
     """
     if not isinstance(level_arr, list) or len(level_arr) < 2:
         return {}
-    a, b = _collect(level_arr[-2]), _collect(level_arr[-1])
+    critical, normal = _collect(level_arr[-2]), _collect(level_arr[-1])
     result = {}
     # The five elements first, in their historical order, then whatever buff
     # rows the level carries, sorted so the generated module is stable.
     tokens = list(('water', 'earth', 'air', 'fire', 'neutral'))
-    tokens += sorted((set(a) | set(b)) - set(tokens))
+    tokens += sorted((set(critical) | set(normal)) - set(tokens))
     for elem in tokens:
-        ra, rb = a.get(elem), b.get(elem)
-        if not ra and not rb:
+        hit, crit = normal.get(elem), critical.get(elem)
+        if not hit and not crit:
             continue
-        if ra and rb:
-            normal, crit = (rb, ra) if ra[1] >= rb[1] else (ra, rb)
-        else:
-            normal = crit = (ra or rb)
-        result[elem] = (normal, crit)
+        # A spell that cannot crit carries no critical row; the panel then
+        # shows the same numbers on both sides, as it did before.
+        result[elem] = (hit or crit, crit or hit)
     return result
 
 
