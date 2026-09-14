@@ -5,7 +5,7 @@ Le bandeau est sur **toutes** les pages du site. Ses quatre compteurs posaient
 un nom fige au pluriel a cote d'un nombre, et disaient donc <<1 joueurs>>,
 <<1 personnages crees>>, <<1 reponses du solveur>>, <<1 stuffs partages>>.
 
-**Mesure du 16 septembre 2026**: sur les vingt combinaisons (quatre compteurs,
+**Mesure du 13 septembre 2026**: sur les vingt combinaisons (quatre compteurs,
 cinq langues), une seule etait juste pour un compte de un, l'allemand
 <<Spieler>>, et par accident: le mot est invariant. Les dix-neuf autres
 etaient fausses.
@@ -42,7 +42,7 @@ _COMPTEURS = {
     'build': ('shared build', 'shared builds'),
 }
 
-#: Ce que rend chaque langue pour zero, mesure le 16 septembre 2026. Le
+#: Ce que rend chaque langue pour zero, mesure le 13 septembre 2026. Le
 #: francais garde le singulier, les autres non.
 _ZERO_EST_SINGULIER = {'en': False, 'fr': True, 'es': False, 'pt': False,
                        'de': False}

@@ -5,7 +5,7 @@ Le lot 72 avait corrige les quatre compteurs du bandeau. Un balayage des 90
 gabarits en a trouve **neuf autres**, dont quatre que la recherche a la main
 avait manques parce qu'ils s'ecrivent autrement.
 
-**Mesure du 17 septembre 2026, avant le changement.** Le pire n'etait pas le
+**Mesure du 13 septembre 2026, avant le changement.** Le pire n'etait pas le
 compte de un: la page de profil appliquait le filtre `pluralize`, c'est-a-dire
 la morphologie **anglaise**, au resultat d'une traduction:
 
@@ -25,7 +25,7 @@ comptent rien: <<Page 3 of 12>>, <<lvl>>, deux phrases de description, le
 total d'unites de l'atelier, et <<degats>>, qui est indenombrable. Reste le
 ratio <<x/y pieces>> de la page de build: le nom y suit le **total** de la
 panoplie, et aucune panoplie n'a une seule piece, mesure sur les cinq versions
-le 17 septembre 2026 (les tailles vont de 2 a 8). Son pluriel est donc
+le 13 septembre 2026 (les tailles vont de 2 a 8). Son pluriel est donc
 toujours juste, et le faire varier serait un changement sans cause.
 
 **Le contexte de traduction.** Quatre de ces noms s'ecrivent comme un libelle
@@ -70,7 +70,7 @@ _NE_COMPTE_RIEN = {
     # sa phrase mot a mot, le serveur la rend entiere. Le test l'a dit
     # lui-meme, une exemption qui ne correspond plus a rien echoue.
     # Le nom suit le TOTAL de la panoplie, et aucune n'a une seule piece:
-    # tailles de 2 a 8 sur les cinq versions, mesure le 17 septembre 2026.
+    # tailles de 2 a 8 sur les cinq versions, mesure le 13 septembre 2026.
     'pieces': 'ratio x/y, dont le y est au moins 2 sur les cinq versions',
 }
 

@@ -14,7 +14,7 @@ builds de la base locale, 15 portaient des degats differes et **tous les 15
 n'avaient qu'une seule ligne**, ou l'ecart est impossible. Le premier examen
 avait donc rendu <<zero ecart>> sans rien prouver.
 
-**Mesure du 14 septembre 2026**, sur le cas qui atteint deux lignes, un
+**Mesure du 13 septembre 2026**, sur le cas qui atteint deux lignes, un
 Osamodas Dofus 2 oriente Chance: sur **384 panneaux a deux lignes, 75
 affichaient un total qui n'etait pas la somme des lignes au-dessus** (19,5 %).
 A 550 de Chance, les lignes disaient 214 et 290, soit 504, sous un total de
@@ -28,7 +28,7 @@ s'ajuste: 214 et 289 sous 503.
 
 from django.test import SimpleTestCase
 
-#: Les points mesures divergents le 14 septembre 2026, avec la Chance qui les
+#: Les points mesures divergents le 13 septembre 2026, avec la Chance qui les
 #: produit. Ce ne sont pas des valeurs choisies au hasard: chacun affichait un
 #: total faux avant le changement.
 _CHANCES_TEMOINS = (550, 557, 662, 669, 704, 711)

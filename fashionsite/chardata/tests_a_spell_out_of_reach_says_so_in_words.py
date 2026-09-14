@@ -16,7 +16,7 @@ pixels a 30% d'opacite**, qu'aucun doigt ne declenche et qu'aucun lecteur de
 la page ne voit.
 
 **Combien de lecteurs.** Part des sorts entierement hors de portee, mesuree le
-20 septembre 2026 sur les catalogues de chaque version:
+13 septembre 2026 sur les catalogues de chaque version:
 
 | version | niveau 1 | 30 | 100 | 199 | 200 |
 |---------|----------|----|-----|-----|-----|
@@ -53,7 +53,7 @@ LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 _PHRASE = 'Needs level %(level)s'
 
 #: Un sort Retro reel et son echelle, lus dans le module des degats le
-#: 20 septembre 2026. Un personnage de 30 ne l'a pas; un de 60 l'a.
+#: 13 septembre 2026. Un personnage de 30 ne l'a pas; un de 60 l'a.
 _DESTRUCTRICE = [60, 60, 60, 60, 60, 160]
 
 #: La part des sorts entierement hors de portee, par version, a niveau 1 et

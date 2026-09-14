@@ -26,7 +26,7 @@ rafraichissement, donc les deux ne peuvent plus differer.
 plurielle sur le meme msgid serait un doublon que msgfmt refuse. La phrase
 entiere est un msgid neuf, sur le modele exact du compteur d'objets voisin.
 
-Mesure du 20 septembre 2026:
+Mesure du 13 septembre 2026:
 
 | langue | 0 | 1 | 2 |
 |--------|---|---|---|

@@ -5,7 +5,7 @@ Le site formate ses nombres selon la langue du lecteur (`USE_L10N`). Rendu
 dans un script, un flottant sort donc en **<<0,909>>** en francais, et le
 script s'arrete la. Le filtre `unlocalize` l'en empeche.
 
-**Mesure du 18 septembre 2026**, faite en rendant la meme ligne deux fois:
+**Mesure du 13 septembre 2026**, faite en rendant la meme ligne deux fois:
 
     avec unlocalize   var drawScale = 0.909;
     sans              var drawScale = 0,909;

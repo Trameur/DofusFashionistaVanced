@@ -41,7 +41,7 @@ from fashionistapulp.structure import get_structure
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
-#: Ce que chaque type doit donner, mesure le 20 septembre 2026.
+#: Ce que chaque type doit donner, mesure le 13 septembre 2026.
 _TYPES_TRADUITS = {
     'Amulet': {'fr': 'Amulette', 'es': 'Amuleto', 'pt': 'Amuleto',
                'de': 'Amulett'},

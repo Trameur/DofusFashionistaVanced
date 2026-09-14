@@ -17,7 +17,7 @@ pour **zero**, sans note, et la table ne montrait que <<Soins 381 - 418>>.
 lignes qui soignent, une par element, puis quatre qui frappent. La fonction
 gardait la premiere serie, donc la moitie alliee.
 
-**Ce que le jeu dit**, fiches lues le 20 septembre 2026:
+**Ce que le jeu dit**, fiches lues le 13 septembre 2026:
 
 | sort | description |
 |------|-------------|
@@ -56,7 +56,7 @@ from chardata.spell_reference import reference_by_spell_id
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
 #: Ce que chaque sort deplace doit compter au rang 0, hors coup critique,
-#: avant tout equipement. Mesure du 20 septembre 2026.
+#: avant tout equipement. Mesure du 13 septembre 2026.
 _MOITIE_QUI_FRAPPE = {
     ('dofus3', 'Eniripsa', 'Commotion'): 48.0,
     ('beta', 'Eniripsa', 'Commotion'): 48.0,

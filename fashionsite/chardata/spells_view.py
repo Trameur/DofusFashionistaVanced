@@ -411,7 +411,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     # Meme regle que l'echelle des lancers plus haut: le cumul est arrondi une
     # seule fois et chaque ligne est sa difference avec la precedente.
     # Arrondir chaque ligne et le total separement donnait un bloc qui ne
-    # s'additionne pas: mesure du 14 septembre 2026 sur 384 panneaux a deux
+    # s'additionne pas: mesure du 13 septembre 2026 sur 384 panneaux a deux
     # lignes d'un Osamodas Dofus 2, 75 ou la somme des lignes depassait le
     # total affiche (214 et 290 sous un total de 503).
     cumul_differe = 0.0
@@ -611,7 +611,7 @@ def _always_land_by_rank(spell, digest):
     """{'non_crit': {rang: [indices]}, 'crit': {...}}, ou None s'il n'y en a.
 
     Par rang ET par critique, parce que la forme varie vraiment: mesure du
-    20 septembre 2026, Mot Alchimique change entre le coup normal et le coup
+    13 septembre 2026, Mot Alchimique change entre le coup normal et le coup
     critique sur deux de ses rangs, Coeur de Dragon sur un.
     """
     from chardata.spell_combo import rows_that_always_land

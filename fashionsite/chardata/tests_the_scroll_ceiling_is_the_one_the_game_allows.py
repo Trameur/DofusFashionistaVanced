@@ -7,12 +7,12 @@ rendait le premier mesurable sans discussion.
 
 **Le champ refusait sa propre valeur.** `chardata_line.html` portait
 `max="100"` en dur depuis le tout premier commit du depot (2020-07-11), alors
-que le semis donne 101 en Retro et 150 en Touch. Mesure du 20 septembre 2026:
+que le semis donne 101 en Retro et 150 en Touch. Mesure du 13 septembre 2026:
 sur un Cra Retro et sur un Iop Touch, **les six champs de chacun se
 declaraient invalides** (`validity.valid === false`), douze sur douze.
 
 **Touch donnait a tout le monde un plafond reserve au niveau 200.** Lu a la
-source le 20 septembre 2026, par le meme proxy de donnees que le scraper du
+source le 13 septembre 2026, par le meme proxy de donnees que le scraper du
 depot, sur les 13679 objets de la table Items: les six paliers qui menent a
 100 ne portent aucune condition de niveau (`Puissant Parchemin de Force`,
 `cs>74&cs<100`), et les **trois** qui menent de 100 a 150 portent toutes
@@ -52,7 +52,7 @@ from chardata.base_stats_view import _clamped_to_what_the_game_allows
 from fashionistapulp.dofus_constants import max_scroll_for_version
 
 #: Ce que chaque version autorise, sous le niveau 200 puis a partir de 200.
-#: Lu dans les fichiers du jeu le 20 septembre 2026, pas suppose.
+#: Lu dans les fichiers du jeu le 13 septembre 2026, pas suppose.
 _PLAFONDS = {
     'dofus3': (100, 100),
     'beta': (100, 100),
@@ -94,7 +94,7 @@ class TheCeilingFollowsTheVersionAndTheLevelTests(SimpleTestCase):
     def test_only_touch_changes_with_the_level(self):
         """Le plancher qui empeche d'etendre la porte a une version qui ne
         la demande pas. Les 61 objets Retro a condition de caracteristique
-        ne portent aucun terme de niveau, verifie le 20 septembre 2026."""
+        ne portent aucun terme de niveau, verifie le 13 septembre 2026."""
         bougent = [version for version, (bas, haut) in _PLAFONDS.items()
                    if bas != haut]
         self.assertEqual(['touch'], bougent)

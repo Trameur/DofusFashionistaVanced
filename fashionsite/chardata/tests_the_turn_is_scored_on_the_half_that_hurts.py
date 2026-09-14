@@ -11,7 +11,7 @@ table des degats de la meme page montrait pourtant les deux moities du sort,
 tour passe de 175 a **208**, dix-neuf pour cent de plus.
 
 **Ce que le jeu dit de ces sorts, dans ses propres mots** (fiche du client,
-lue le 20 septembre 2026):
+lue le 13 septembre 2026):
 
 | sort | description |
 |------|-------------|
@@ -25,7 +25,7 @@ ennemi: c'est la moitie qui frappe qu'il doit lire.
 **Pourquoi la regle se dit par le soin et non par le zero.** Le repli de
 `Castable` prenait toujours le premier groupe d'agregats, ce qui est juste
 pour un sort a paliers (<<premier groupe = rien d'accumule>>). Mesure du
-20 septembre 2026 sur les 1923 sorts des cinq versions: huit lancers
+13 septembre 2026 sur les 1923 sorts des cinq versions: huit lancers
 retenaient un groupe qui ne frappe pas alors qu'un autre groupe du meme
 lancer frappe, et **les huit** avaient un groupe retenu fait **uniquement**
 de lignes qui soignent. Aucun ne l'etait pour une autre raison. Sauter les
@@ -63,7 +63,7 @@ from chardata.spell_reference import reference_by_spell_id
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
 #: Les trois sorts et ce que le panneau doit leur compter au rang 0, hors
-#: coup critique, avant tout equipement. Mesure du 20 septembre 2026.
+#: coup critique, avant tout equipement. Mesure du 13 septembre 2026.
 _MOITIE_QUI_FRAPPE = {
     'Warpaint': 6.5,
     'Tribal Paintbrush': 16.5,

@@ -20,7 +20,7 @@ la seule forme de ce defaut qu'un lecteur peut remarquer:
 | page infeasible | <<ein Element ... gesperrt>> | <<einige Gegenstande>>, la puce suivante |
 
 **Le mot retenu n'est pas une preference.** C'est celui que le catalogue
-allemand emploie deja le plus pour cette notion, compte fait le 20 septembre
+allemand emploie deja le plus pour cette notion, compte fait le 13 septembre
 2026 sur les 1425 entrees traduites, en ne comptant que les entrees dont le
 msgid **anglais** porte la notion:
 
@@ -177,7 +177,7 @@ class EveryGermanLabelUsesTheWordTheSiteAlreadyUsesTests(SimpleTestCase):
                         '%d)' % (retenu, mauvais, notion, compte, reste))
 
     def test_the_recorded_counts_are_the_ones_measured(self):
-        """L'estampille de la mesure du 20 septembre 2026.
+        """L'estampille de la mesure du 13 septembre 2026.
 
         Elle tombe si l'un des mots retenus recule, ce que mon propre travail
         ulterieur est le plus a meme de provoquer.

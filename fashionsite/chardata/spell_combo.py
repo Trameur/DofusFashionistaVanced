@@ -77,7 +77,7 @@ def _run_that_hurts(runs, effects):
     occasionne des dommages dans le meilleur element du lanceur aux ennemis en
     zone>>, et le panneau compte un tour sur une cible ennemie.
 
-    Mesure du 20 septembre 2026 sur les 1923 sorts des cinq versions: 29
+    Mesure du 13 septembre 2026 sur les 1923 sorts des cinq versions: 29
     portent plusieurs series, et **un seul** commence par une serie qui ne
     fait que soigner. La regle ne deplace donc que celui-la, sur ses trois
     versions. Quand aucune serie ne frappe, la premiere est rendue comme
@@ -107,7 +107,7 @@ def _element_alternatives(aggregates, effects):
     ligne 0 soigne et la ligne 5 est un `buff_final`. Les prendre pour deux
     elements faisait croire a la forme <<meilleur element>> la ou il n'y en a
     pas, et le repli qui sait lire la moitie qui frappe ne jouait jamais. Le
-    panneau depensait alors 3 PA pour zero. Mesure du 20 septembre 2026 sur
+    panneau depensait alors 3 PA pour zero. Mesure du 13 septembre 2026 sur
     les 1923 sorts des cinq versions: treize portent un tel groupe, et sept
     paires sort/version changent de forme une fois ces groupes ecartes.
     """
@@ -148,7 +148,7 @@ def _first_group_that_hurts(aggregates, hits):
     Pinceau Tribal et Mot Secret disent la meme chose.
 
     Le panneau compte un tour sur **une cible**, donc il lit la moitie qui
-    frappe. Mesure du 20 septembre 2026 sur les 1923 sorts des cinq versions:
+    frappe. Mesure du 13 septembre 2026 sur les 1923 sorts des cinq versions:
     huit lancers retenaient un groupe qui ne frappe pas alors qu'un autre
     groupe du meme lancer frappe, et **les huit** avaient un groupe retenu
     fait uniquement de soins. Aucun ne l'etait pour une autre raison, ce qui

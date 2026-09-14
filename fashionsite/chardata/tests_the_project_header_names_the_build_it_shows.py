@@ -12,7 +12,7 @@ pendant que le titre de la **meme page** disait <<Iop Forca Glass Cannon
 
 **La valeur.** L'en-tete rendait `char.char_build`, la chaine interne, quand
 la liste des projets et la galerie passent toutes deux par `build_string()`,
-qui la traduit. Mesure du 19 septembre 2026:
+qui la traduit. Mesure du 13 septembre 2026:
 
 | interne | en | fr | de |
 |---------|----|----|----|
