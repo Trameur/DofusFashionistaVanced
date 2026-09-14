@@ -295,7 +295,13 @@ class WeaponCastable(object):
         self.name = weapon.name
         self.cost = weapon.ap
         # Most swords swing once a turn and most daggers twice, whatever the AP
-        # left. Retro alone never limited a weapon and leaves this empty.
+        # left. Retro alone never limited a weapon and leaves this empty, and
+        # that is Ankama's own file rather than our reading of the game: in the
+        # Retro client (items lang 1260) **every one of the 4363 weapons**
+        # carries exactly eight fields, `[twoHanded, _, crit_chance,
+        # crit_failure, maxRange, minRange, ap, crit_bonus]`, and none of them
+        # is a use count. Measured 14 September 2026, against 766 limited
+        # weapons in Dofus 3, 766 in the beta, 723 in Dofus 2 and 698 in Touch.
         self.limit = getattr(weapon, 'uses_per_turn', None)
         element = getattr(weapon, 'element_maged', None) or NEUTRAL
 
