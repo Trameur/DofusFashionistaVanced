@@ -94,6 +94,41 @@ def _run_that_hurts(runs, effects):
     return runs[0]
 
 
+def element_runs(aggregates, effects):
+    """Les suites de groupes qui sont les faces d'un seul coup, dans l'ordre.
+
+    Chaque suite est rendue telle que le generateur l'a ecrite, un couple
+    `(etiquette, indices)` par groupe, pour que la table puisse la fusionner
+    en une ligne et que le tour en choisisse une face. Les deux lisent donc
+    la meme decoupe, ce qui est ce qui les empeche de diverger.
+
+    La regle de decoupe et ce qu'elle ecarte sont dans
+    `_element_alternatives`, qui est son seul autre lecteur.
+    """
+    aggregates = [(label, indices) for label, indices in (aggregates or [])
+                  if not all(index < len(effects)
+                             and effects[index].element.startswith('buff')
+                             for index in indices)]
+    if len(aggregates) < 2:
+        return []
+    runs = []
+    run = []
+    seen = set()
+    for label, indices in aggregates:
+        if len(indices) != 1 or indices[0] >= len(effects):
+            return []
+        element = effects[indices[0]].element
+        if element in seen:
+            if len(run) > 1:
+                runs.append(run)
+            run, seen = [], set()
+        seen.add(element)
+        run.append((label, list(indices)))
+    if len(run) > 1:
+        runs.append(run)
+    return runs
+
+
 def _element_alternatives(aggregates, effects):
     """The groups of a best-element spell, or None when they are not that.
 
@@ -111,27 +146,8 @@ def _element_alternatives(aggregates, effects):
     les 1923 sorts des cinq versions: treize portent un tel groupe, et sept
     paires sort/version changent de forme une fois ces groupes ecartes.
     """
-    aggregates = [(label, indices) for label, indices in (aggregates or [])
-                  if not all(index < len(effects)
-                             and effects[index].element.startswith('buff')
-                             for index in indices)]
-    if not aggregates or len(aggregates) < 2:
-        return None
-    runs = []
-    run = []
-    seen = set()
-    for _label, indices in aggregates:
-        if len(indices) != 1 or indices[0] >= len(effects):
-            return None
-        element = effects[indices[0]].element
-        if element in seen:
-            if len(run) > 1:
-                runs.append(run)
-            run, seen = [], set()
-        seen.add(element)
-        run.append(set(indices))
-    if len(run) > 1:
-        runs.append(run)
+    runs = [[set(indices) for _label, indices in run]
+            for run in element_runs(aggregates, effects)]
     if not runs:
         return None
     return _run_that_hurts(runs, effects)

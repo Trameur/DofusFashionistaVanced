@@ -187,8 +187,19 @@ class TheCardSaysItInTheReaderLanguageTests(SimpleTestCase):
         self.assertIn('Poison', carte['aggregates'][0][0])
         self.assertIn('mêlée', carte['conditional']['0'])
 
-    def test_the_other_rows_carry_no_second_label(self):
-        """Une etiquette par groupe ferait lire cinq poisons au lieu d'un."""
+    def test_the_five_faces_are_one_poison_and_not_five(self):
+        """Cinq lignes etiquetees, ou cinq lignes empilees, feraient lire cinq
+        poisons la ou la fiche n'en applique qu'un.
+
+        Le garde demandait avant que les quatre lignes suivantes ne portent
+        pas de seconde etiquette, ce qui laissait passer la pile elle-meme.
+        Depuis que les faces d'un seul coup sont fusionnees
+        (`tests_a_hit_that_lands_in_one_element_is_drawn_once`), il n'y a plus
+        qu'un groupe: il porte les cinq lignes, et rien ne suit."""
         carte = self._carte('en')
-        self.assertEqual(['', '', '', ''],
-                         [groupe[0] for groupe in carte['aggregates'][1:]])
+        groupes = carte['aggregates']
+        self.assertEqual(1, len(groupes), groupes)
+        etiquette, lignes, forme = groupes[0]
+        self.assertTrue(etiquette)
+        self.assertEqual(5, len(lignes), lignes)
+        self.assertEqual('one', forme)

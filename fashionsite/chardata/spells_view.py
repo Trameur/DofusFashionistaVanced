@@ -645,8 +645,9 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     web_digest['hit_number'] = digest.hit_number
     web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)
     web_digest['crit_dams'] = _convert_spell_damage(digest.crit_dams)
-    web_digest['aggregates'] = convert_aggregates(digest.aggregates,
-                                                  game_version)
+    web_digest['aggregates'] = convert_aggregates(
+        digest.aggregates, game_version,
+        digest.non_crit_dams[0] if digest.non_crit_dams else None)
     # Les lignes qui tombent toujours et que les groupes d'agregats laissent
     # dehors. La page ne les recalcule pas: c'est le serveur qui decide, pour
     # que la table des degats et le meilleur tour disent la meme chose du
@@ -961,18 +962,95 @@ _CONDITIONAL_LABELS = {
 }
 
 
-def convert_aggregates(aggregates, game_version=None):
+#: Ce que le generateur ecrit quand il sait qu'une seule ligne du groupe
+#: tombe, et laquelle des deux formes la table doit rendre. `Stack N - ` peut
+#: preceder l'etiquette, c'est la meme declaration.
+_ONE_LANDS = {
+    _BEST_ELEMENT: 'best',
+    _RANDOM_ELEMENT: 'one',
+    _ATTACK_ELEMENT: 'one',
+}
+
+
+def _one_lands_kind(label):
+    match = _STACK_LABEL.match(label or '')
+    if match and match.group(2):
+        label = match.group(2)
+    return _ONE_LANDS.get(label)
+
+
+def _merge_faces_of_one_hit(aggregates, rows):
+    """Les faces d'un seul coup rendues comme un seul groupe.
+
+    Le generateur ecrit un coup <<dans le meilleur element>> comme un groupe
+    d'une ligne par element, et n'etiquette que le premier. La table empilait
+    donc les faces les unes sous les autres, sans rien qui dise qu'une seule
+    tombe: Scalpel, dont Ankama dit <<occasionne des dommages aux ennemis ou
+    soigne les allies dans le meilleur element>>, montrait **huit lignes** de
+    42-46 pour un seul lancer.
+
+    Le tour, lui, lisait deja la decoupe: `_element_alternatives` en choisit
+    une face. Les deux moities du panneau disaient donc deux choses du meme
+    sort. Elles lisent maintenant la meme fonction, `element_runs`.
+
+    Mesure du 14 septembre 2026 sur les 1923 sorts des cinq versions: **197
+    suites sur 93 sorts** portent une de ces trois declarations (32 sorts en
+    Dofus 3, 32 en beta, 26 en Dofus 2, 2 en Touch, 1 en Retro). 86 autres
+    suites, sur 23 sorts, n'en portent aucune: 30 sur Rekop, 21 sur Arcane
+    Torrent et 21 sur Knell, etiquetees par palier, et 14 sur les sorts
+    elementaires du Huppermage, etiquetees par etat. **Rien dans les donnees
+    ne dit si une seule de leurs lignes tombe**, donc elles sont laissees
+    telles quelles.
+    """
+    from chardata.spell_combo import element_runs
+    runs = element_runs(aggregates, rows)
+    head_of, merged_head = {}, {}
+    for run in runs:
+        kind = next((_one_lands_kind(label) for label, _indices in run
+                     if _one_lands_kind(label)), None)
+        if not kind:
+            continue
+        head = tuple(run[0][1])
+        for _label, indices in run:
+            head_of[tuple(indices)] = head
+        merged_head[head] = (
+            next((label for label, _indices in run if label), ''),
+            [index for _label, indices in run for index in indices],
+            kind)
+    merged, done = [], set()
+    for label, indices in aggregates:
+        head = head_of.get(tuple(indices))
+        if head is None:
+            merged.append((label, list(indices), None))
+            continue
+        if head in done:
+            continue
+        done.add(head)
+        merged.append(merged_head[head])
+    return merged
+
+
+def convert_aggregates(aggregates, game_version=None, rows=None):
+    """Les groupes tels que la page les lit.
+
+    `rows` sont les lignes de degats du sort; sans elles, aucune fusion n'est
+    tentee, ce qui est le cas de l'arme, dont les groupes sont batis a la
+    main juste au-dessus.
+    """
     if aggregates is None:
         return None
+    if rows:
+        merged = _merge_faces_of_one_hit(aggregates, rows)
+    else:
+        merged = [(label, list(indices), None) for label, indices in aggregates]
     new_aggr = []
-    for tup in aggregates:
-        lis = []
-        for ele in tup:
-            if isinstance(ele, str) and ele != '':
-                lis.append(_localized_aggregate_label(ele, game_version))
-            else:
-                lis.append(ele)
-        new_aggr.append(lis)
+    for label, indices, kind in merged:
+        entry = [_localized_aggregate_label(label, game_version)
+                 if isinstance(label, str) and label != '' else label,
+                 indices]
+        if kind:
+            entry.append(kind)
+        new_aggr.append(entry)
     if new_aggr == []:
         return None
     return new_aggr
