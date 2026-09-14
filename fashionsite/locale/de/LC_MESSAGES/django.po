@@ -422,7 +422,7 @@ msgstr "AP-Verlustresistenz"
 #: .\chardata\templates\chardata\stats.html:46
 #: .\chardata\translation_util.py:79 .\chardata\wizard_sliders.py:82
 msgid "AP Reduction"
-msgstr "AP-Reduktion"
+msgstr "AP-Entzug"
 
 #: .\chardata\dynamic_translations.py:63
 msgid "Add a temporary spell"
@@ -620,7 +620,7 @@ msgstr "Feuer"
 #: .\chardata\templates\chardata\stats.html:60
 #: .\chardata\translation_util.py:92
 msgid "Fire Damage"
-msgstr "Brandschaden"
+msgstr "Feuerschaden"
 
 #: .\chardata\dynamic_translations.py:97
 #: .\chardata\templates\chardata\compare_sets.html:202
@@ -647,7 +647,7 @@ msgstr "Feuerheilung"
 #: .\chardata\templates\chardata\solution.html:407
 #: .\chardata\translation_util.py:61
 msgid "HP"
-msgstr "PS"
+msgstr "LP"
 
 #: .\chardata\dynamic_translations.py:102 .\chardata\translation_util.py:113
 msgid "Hammer"
@@ -667,7 +667,7 @@ msgstr "Hut"
 #: .\chardata\templates\chardata\stats.html:65
 #: .\chardata\translation_util.py:97 .\chardata\wizard_sliders.py:91
 msgid "Heals"
-msgstr "Heilt"
+msgstr "Heilung"
 
 #: .\chardata\dynamic_translations.py:105
 msgid "Hunting Weapon"
@@ -707,7 +707,7 @@ msgstr "Mit dem Charakter verknüpft"
 #: .\chardata\templates\chardata\stats.html:44
 #: .\chardata\translation_util.py:77 .\chardata\wizard_sliders.py:76
 msgid "Lock"
-msgstr "Sperren"
+msgstr "Blocken"
 
 #: .\chardata\dynamic_translations.py:111 .\chardata\min_stats_view.py:99
 #: .\chardata\templates\chardata\compare_sets.html:161
@@ -725,7 +725,7 @@ msgstr "BP"
 #: .\chardata\templates\chardata\stats.html:49
 #: .\chardata\translation_util.py:82 .\chardata\wizard_sliders.py:80
 msgid "MP Loss Resist"
-msgstr "Resistenz gegen MP-Verlust"
+msgstr "Resistenz gegen BP-Verlust"
 
 #: .\chardata\dynamic_translations.py:113
 #: .\chardata\templates\chardata\compare_sets.html:174
@@ -733,7 +733,7 @@ msgstr "Resistenz gegen MP-Verlust"
 #: .\chardata\templates\chardata\stats.html:47
 #: .\chardata\translation_util.py:80 .\chardata\wizard_sliders.py:84
 msgid "MP Reduction"
-msgstr "MP-Reduzierung"
+msgstr "BP-Entzug"
 
 #: .\chardata\dynamic_translations.py:114 .\chardata\translation_util.py:125
 msgid "Magic Weapon"
@@ -785,7 +785,7 @@ msgstr "Spitzhacke"
 #: .\chardata\templates\chardata\stats.html:52
 #: .\chardata\translation_util.py:85
 msgid "Pods"
-msgstr "Schoten"
+msgstr "Pods"
 
 #: .\chardata\dynamic_translations.py:124
 #: .\chardata\templates\chardata\compare_sets.html:155
@@ -800,7 +800,7 @@ msgstr "Schoten"
 #: .\chardata\templates\chardata\stats.html:30
 #: .\chardata\translation_util.py:68 .\chardata\wizard_sliders.py:43
 msgid "Power"
-msgstr "Leistung"
+msgstr "Schlagkraft"
 
 #: .\chardata\dynamic_translations.py:125 .\chardata\smart_build.py:95
 #: .\chardata\templates\chardata\compare_sets.html:170
@@ -817,7 +817,7 @@ msgstr "Prospektion"
 #: .\chardata\templates\chardata\stats.html:64
 #: .\chardata\translation_util.py:96 .\chardata\wizard_sliders.py:55
 msgid "Pushback Damage"
-msgstr "Pushback-Schaden"
+msgstr "Schubsschaden"
 
 #: .\chardata\dynamic_translations.py:127
 #: .\chardata\templates\chardata\compare_sets.html:177
@@ -1253,7 +1253,7 @@ msgstr "Interner Serverfehler"
 
 #: .\chardata\smart_build.py:81
 msgid "Resists"
-msgstr "Widersteht"
+msgstr "Resistenzen"
 
 #: .\chardata\smart_build.py:82
 msgid "Omni-Elemental"
@@ -1261,7 +1261,7 @@ msgstr "Omnielementar"
 
 #: .\chardata\smart_build.py:83
 msgid "Leeching"
-msgstr "Blutegel"
+msgstr "Leveln"
 
 #: .\chardata\smart_build.py:84
 msgid "Linear Damage"
@@ -1303,7 +1303,7 @@ msgstr "Fallen"
 #: .\chardata\templates\chardata\stats.html:39
 #: .\chardata\translation_util.py:72 .\chardata\wizard_sliders.py:93
 msgid "Summons"
-msgstr "Ladung"
+msgstr "Beschwörungen"
 
 #: .\chardata\smart_build.py:94
 msgid "Pushback"
@@ -3022,7 +3022,7 @@ msgstr ""
 #: .\chardata\templates\chardata\choose_compare_sets.html:88
 msgid "Select 2 to 4 builds below, or paste solution/share links manually."
 msgstr ""
-"Waehle unten 2 bis 4 Builds aus oder fuege Loesungs-/Teilen-Links manuell "
+"Wähle unten 2 bis 4 Builds aus oder füge Lösungs-/Teilen-Links manuell "
 "ein."
 
 #: .\chardata\templates\chardata\choose_compare_sets.html:100
@@ -4344,7 +4344,7 @@ msgstr "Range Exo zulassen"
 #: .\chardata\templates\chardata\options.html:61
 #: .\chardata\templates\chardata\wizard_options.html:18
 msgid "Allow MP Exo"
-msgstr "MP Exo zulassen"
+msgstr "BP Exo zulassen"
 
 #: .\chardata\templates\chardata\options.html:63
 #: .\chardata\templates\chardata\wizard_options.html:20
@@ -4778,7 +4778,7 @@ msgid ""
 "PVPers should check this. Increases importance of AP/MP resists, critical "
 "resist and initiative. Decreases importance of prospecting to 0."
 msgstr ""
-"PVPers sollten dies überprüfen. Erhöht die Bedeutung von AP/MP-Resistenzen, "
+"PVPers sollten dies überprüfen. Erhöht die Bedeutung von AP/BP-Resistenzen, "
 "kritischem Widerstand und Initiative. Verringert die Bedeutung der "
 "Neukundengewinnung auf 0."
 
@@ -4853,7 +4853,7 @@ msgid ""
 "Disablers that want to focus on MP reduction rather than dealing damage "
 "should check this."
 msgstr ""
-"Disabler, die sich auf die MP-Reduzierung statt auf das Verursachen von "
+"Disabler, die sich auf den BP-Entzug statt auf das Verursachen von "
 "Schaden konzentrieren möchten, sollten dies überprüfen."
 
 #: .\chardata\templates\chardata\projdetails.html:148
@@ -4862,7 +4862,8 @@ msgid ""
 "all stats except wisdom. Wisdom will be high, but the rest won't be pretty. "
 "Disables trophies and Dofus."
 msgstr ""
-"Nur Blutegel sollten dies überprüfen. Dies wird allen Statistiken außer der "
+"Nur zum Leveln sollten Sie dies überprüfen. Dies wird allen "
+"Statistiken außer der "
 "Weisheit nur sehr wenig Bedeutung beimessen. Die Weisheit wird hoch sein, "
 "aber der Rest wird nicht schön sein. Deaktiviert Trophäen und Dofus."
 
@@ -4904,8 +4905,8 @@ msgid ""
 "Chars that deal significant pushback damage should check this. This "
 "increases the +Pushback Damage importance."
 msgstr ""
-"Charaktere, die erheblichen Pushback-Schaden verursachen, sollten dies "
-"überprüfen. Dies erhöht die Bedeutung von +Pushback-Schaden."
+"Charaktere, die erheblichen Schubsschaden verursachen, sollten dies "
+"überprüfen. Dies erhöht die Bedeutung von +Schubsschaden."
 
 #: .\chardata\templates\chardata\pw_recovery_email.html:6
 #: .\chardata\templates\chardata\pw_recovery_email.html:13
@@ -5049,7 +5050,7 @@ msgstr "Nur meine favorisierten Builds anzeigen"
 
 #: .\chardata\templates\chardata\shared_builds.html:140
 msgid "Hide invalid or outdated builds"
-msgstr "Ungueltige oder veraltete Builds ausblenden"
+msgstr "Ungültige oder veraltete Builds ausblenden"
 
 #: .\chardata\templates\chardata\shared_builds.html:146
 msgid "Apply Filters"
@@ -5086,7 +5087,7 @@ msgstr "Veraltete Slot-Belegung"
 
 #: .\chardata\templates\chardata\shared_builds.html:242
 msgid "Conditions not met"
-msgstr "Bedingungen nicht erfuellt"
+msgstr "Bedingungen nicht erfüllt"
 
 #: .\chardata\templates\chardata\shared_builds.html:250
 msgid "Views"
@@ -5653,7 +5654,7 @@ msgstr "Wert hinzufügen..."
 
 #: .\chardata\templates\chardata\solution.html:1276
 msgid "Add to inventory"
-msgstr "Zum Inventar hinzufuegen"
+msgstr "Zum Inventar hinzufügen"
 
 #: .\chardata\templates\chardata\solution.html:1545
 msgid "Done"
