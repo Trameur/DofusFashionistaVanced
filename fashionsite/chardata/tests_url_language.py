@@ -118,11 +118,13 @@ class AlternateUrlsTest(TestCase):
         return '/encyclopedia/item/equipment/44-%s/' % normalise(name)
 
     def test_one_url_per_language(self):
-        alternates = build_alternate_urls(self._builder, TWIGGY_SWORD, BASE)
+        alternates = build_alternate_urls(self._builder, TWIGGY_SWORD, BASE,
+                                          normalise)
         self.assertEqual(sorted(alternates), ['de', 'en', 'es', 'fr', 'pt'])
 
     def test_urls_are_absolute_and_localised(self):
-        alternates = build_alternate_urls(self._builder, TWIGGY_SWORD, BASE)
+        alternates = build_alternate_urls(self._builder, TWIGGY_SWORD, BASE,
+                                          normalise)
         self.assertEqual(
             alternates['fr'],
             BASE + '/encyclopedia/item/equipment/44-epee-de-boisaille/')
@@ -133,16 +135,34 @@ class AlternateUrlsTest(TestCase):
     def test_every_alternate_is_distinct(self):
         # Two languages pointing at one URL would tell Google they are the
         # same page, which is the bug this whole change exists to remove.
-        alternates = build_alternate_urls(self._builder, TWIGGY_SWORD, BASE)
+        alternates = build_alternate_urls(self._builder, TWIGGY_SWORD, BASE,
+                                          normalise)
         self.assertEqual(len(set(alternates.values())), len(alternates))
+
+    def test_two_languages_sharing_a_name_do_not_share_a_url(self):
+        """Le temoin qui manquait au test precedent.
+
+        Il disait deja que deux langues sur une adresse mentiraient a Google,
+        et le verifiait sur une epee dont les cinq noms different: il passait
+        sans que rien n'empeche le contraire. Mesure du 15 septembre 2026:
+        5135 adresses d'objets et 293 de panoplies annoncaient une langue que
+        leur url ne sert pas.
+        """
+        shared = dict(TWIGGY_SWORD, pt=TWIGGY_SWORD['es'])
+        alternates = build_alternate_urls(self._builder, shared, BASE,
+                                          normalise)
+        self.assertEqual(len(set(alternates.values())), len(alternates))
+        self.assertIn('es', alternates)
+        self.assertNotIn('pt', alternates)
 
     def test_language_without_a_name_is_omitted(self):
         alternates = build_alternate_urls(
-            self._builder, dict(TWIGGY_SWORD, de=None), BASE)
+            self._builder, dict(TWIGGY_SWORD, de=None), BASE, normalise)
         self.assertNotIn('de', alternates)
 
     def test_builder_returning_nothing_is_omitted(self):
-        alternates = build_alternate_urls(lambda name: None, TWIGGY_SWORD, BASE)
+        alternates = build_alternate_urls(lambda name: None, TWIGGY_SWORD,
+                                          BASE, normalise)
         self.assertEqual(alternates, {})
 
 

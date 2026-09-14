@@ -53,6 +53,15 @@ def served_languages(lang: str = 'fr') -> set:
     item types, 304 subareas) got replaced by their English text in a single
     rebuild, silently, while every step reported ok.
 
+    Re-read 2026-09-15, asking in fr, en and de: the answer is still
+    ["en", "es", "fr", "pt"] whichever language you ask in. What is left of
+    German in our Touch catalogue is the scrape from before the drop, and 152
+    of its 3390 item names are the English text that leaked in that day --
+    <<Plum and Indigo Dragoturkey>>, <<Turquoise Dragoturkey>>, <<Caraboots>>.
+    Dofus 3, for comparison, has 74 and they are proper nouns: Gelano, Kabuto,
+    Kaiser. Those 152 no longer claim a German address, because a German name
+    equal to the English one loses the slug to English.
+
     An empty set means the config could not be read, and the caller must then
     skip nothing rather than wipe everything on a network hiccup.
     """

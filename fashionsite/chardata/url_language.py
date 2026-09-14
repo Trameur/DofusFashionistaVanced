@@ -82,17 +82,52 @@ def language_from_slug(candidate_names, slug, normalise):
     return matches[0]
 
 
-def build_alternate_urls(url_builder, candidate_names, base_url):
+def address_serves_language(candidate_names, language, normalise):
+    """True when the url built from these names is served in `language`.
+
+    Replays the view's own decision with the view's own function: two
+    languages sharing a name share one url, and `language_from_slug` gives it
+    to exactly one of them.
+
+    English keeps its shortcut. It is first in `_TIE_BREAK_ORDER`, so it wins
+    every tie it is in, and a caller with no English name has nothing to
+    build a url from anyway.
+
+    This was written for the sitemap, which has always refused to file a url
+    under a language the page will not answer in. The page itself did not ask:
+    measured 15 September 2026 over the five versions, **5135 item addresses
+    and 293 set addresses** announced a language their url cannot serve --
+    2537 Portuguese, 1353 German, 643 French, 602 Spanish on the items alone.
+    `/encyclopedia/item/equipment/18659-escudo-de-esponja/` says
+    `<html lang="es">` and, four lines above, that it is the Portuguese
+    version of itself.
+    """
+    if language == 'en':
+        return True
+    name = candidate_names.get(language)
+    if not name:
+        return False
+    return language_from_slug(candidate_names, normalise(name),
+                              normalise) == language
+
+
+def build_alternate_urls(url_builder, candidate_names, base_url, normalise):
     """Absolute URL of the page in each language, for hreflang.
 
     `url_builder` is called once per language with that language active, so
     helpers deriving a localised path segment from get_language() produce the
     right URL without needing to be changed.
+
+    `normalise` is the caller's own slug function, and it is required rather
+    than optional: the languages a url cannot serve have to come out, and a
+    caller that could forget to ask would keep announcing them.
     """
     alternates = {}
     for lang in SUPPORTED_LANGUAGES:
         name = candidate_names.get(lang)
         if not name:
+            continue
+        if not address_serves_language(candidate_names, lang, normalise):
             continue
         with translation.override(lang):
             path = url_builder(name)

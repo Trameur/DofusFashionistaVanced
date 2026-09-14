@@ -165,19 +165,13 @@ _SITEMAP_ITEM_TTL = 6 * 3600
 def _served_in(names, language):
     """True when a url built from these names is served in `language`.
 
-    Replays the view's own decision with the view's own function, so the
-    sitemap cannot claim a language the page will not answer in. Two languages
-    sharing a name share a url, and only one of them can have it.
+    The rule itself lives in url_language beside `language_from_slug`, because
+    the page needs the same answer: it used to announce in hreflang the very
+    languages this function has always kept out of the sitemap.
     """
-    if language == 'en':
-        return True
-    name = names.get(language)
-    if not name:
-        return False
     from chardata.encyclopedia_view import _normalized_slug
-    from chardata.url_language import language_from_slug
-    return language_from_slug(names, _normalized_slug(name),
-                              _normalized_slug) == language
+    from chardata.url_language import address_serves_language
+    return address_serves_language(names, language, _normalized_slug)
 
 
 def _sitemap_url(loc, changefreq, priority):

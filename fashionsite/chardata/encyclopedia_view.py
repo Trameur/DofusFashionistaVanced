@@ -2385,7 +2385,8 @@ def encyclopedia_set(request, set_id, slug=None):
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/sets/')
     alternate_urls = build_alternate_urls(
         lambda name: get_set_link(set_id, name, game_version=game_version),
-        item_set.localized_names, 'https://dofusfashionista.gg')
+        item_set.localized_names, 'https://dofusfashionista.gg',
+        _normalized_slug)
     redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
     if redirect_to:
         return mark_varies_on_cookie(redirect(redirect_to))
@@ -2846,7 +2847,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                                    game_version=canonical_version),
         {lang: structure.get_item_name_in_language(representative_item, lang)
          for lang in SUPPORTED_LANGUAGES},
-        'https://dofusfashionista.gg')
+        'https://dofusfashionista.gg', _normalized_slug)
 
     # A signed-in visitor who chose a language is sent to their own version, so
     # a Spanish link shared with a French account still lands on French.
@@ -4023,7 +4024,8 @@ def encyclopedia_monster(request, monster_id, slug=None):
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/monsters/')
     alternate_urls = build_alternate_urls(
         lambda name: get_monster_link(target_monster_id, name, game_version),
-        monster_names_by_language, 'https://dofusfashionista.gg')
+        monster_names_by_language, 'https://dofusfashionista.gg',
+        _normalized_slug)
     redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
     if redirect_to:
         return mark_varies_on_cookie(redirect(redirect_to))
@@ -4207,7 +4209,8 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
     alternate_urls = build_alternate_urls(
         lambda name: get_resource_link(subtype, target_ankama_id, name,
                                        game_version),
-        resource_names_by_language, 'https://dofusfashionista.gg')
+        resource_names_by_language, 'https://dofusfashionista.gg',
+        _normalized_slug)
     redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
     if redirect_to:
         return mark_varies_on_cookie(redirect(redirect_to))
