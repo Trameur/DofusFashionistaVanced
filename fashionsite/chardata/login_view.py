@@ -35,7 +35,8 @@ import logging
 import requests as http_requests
 
 from chardata.models import UserAlias
-from chardata.util import set_response, HttpResponseText, recaptcha_ok
+from chardata.util import (HttpResponseText, recaptcha_ok,
+                           set_response, version_free_canonical)
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
@@ -140,6 +141,9 @@ def _login_page_generic(request, from_confirmation, prefilled_user, char_id, alr
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id,
+                         # Meme formulaire sous les cinq versions.
+                         'canonical_path': version_free_canonical(
+                             'login_page'),
                          'from_confirmation': from_confirmation,
                          'prefilled_user': prefilled_user,
                          'already_confirmed': already_confirmed == 'yes',

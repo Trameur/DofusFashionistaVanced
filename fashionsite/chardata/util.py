@@ -39,6 +39,28 @@ def version_reverse(request, url_name, *args, **kwargs):
             pass
     return reverse(url_name, args=args, kwargs=kwargs)
 
+def version_free_canonical(url_name):
+    """These pages are one document served under every game version, so the
+    canonical drops the version and keeps the language: /fr/retro/about/ is
+    canonical at /fr/about/.
+
+    The templates used to spell that with {% url %}, which put the canonical
+    in a third place -- beside `canonical_url` and `canonical_path` -- that
+    nothing else could read. The hreflang gate compared against the one it
+    could see, found nothing, and let a contradicting group through on the 80
+    version-prefixed copies of these pages.
+
+    **Which pages qualify is measured, not assumed.** Rendered under the five
+    versions on 14 September 2026 and compared body by body, footer excluded:
+    /about/, /faq/, /license/, /support/, /contact/, /login_page/ and
+    /smartbuild/ come out identical, and /quickstart/ does NOT -- Retro shows
+    seven classes fewer (no Eliotrope, Foggernaut, Forgelance, Huppermage,
+    Masqueraider, Ouginak, Rogue), so its version copies are their own pages
+    and keep their own canonical.
+    """
+    return reverse(url_name)
+
+
 def shared_build_path(build):
     """L'adresse publique d'un build partage, prefixee par SA version de jeu.
 

@@ -24,7 +24,8 @@ from django.urls import reverse
 from chardata.models import ContactForm
 from django.core.mail import send_mail, BadHeaderError
 from smtplib import SMTPException
-from chardata.util import set_response, version_reverse, recaptcha_ok
+from chardata.util import (recaptcha_ok, set_response,
+                           version_free_canonical, version_reverse)
 import logging
 
 logger = logging.getLogger(__name__)
@@ -38,6 +39,10 @@ def contact(request):
     return set_response(request,
                         'chardata/contacts.html',
                         {'form': ContactForm(),
+                         # Meme page sous les cinq versions: seule la ligne
+                         # de version du pied change. Canonique a l'adresse
+                         # sans version, comme /about/ et /faq/.
+                         'canonical_path': version_free_canonical('contact'),
                          'known_email': known_email})
 
 # ContactForm declares every field required and this view never used it, so an

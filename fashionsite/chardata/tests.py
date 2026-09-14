@@ -13065,8 +13065,8 @@ class OgUrlAgreesWithTheCanonicalTests(TestCase):
     one page named two different URLs."""
 
     PAGES = ('/about/', '/faq/', '/guides/', '/license/', '/privacy/',
-             '/support/', '/', '/contact/', '/encyclopedia/?page=2',
-             '/encyclopedia/monsters/?page=3')
+             '/support/', '/', '/contact/', '/login_page/', '/smartbuild/',
+             '/encyclopedia/?page=2', '/encyclopedia/monsters/?page=3')
 
     def test_the_two_tags_name_the_same_url_on_every_version(self):
         import re

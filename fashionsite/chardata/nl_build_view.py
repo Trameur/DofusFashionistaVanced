@@ -15,7 +15,8 @@ from chardata.create_project_view import is_anon_cant_create
 from chardata.nl_parser import parse_build_request
 from chardata.smart_build import ASPECT_TO_NAME, ALL_ASPECTS_LIST
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
-from chardata.util import set_response, version_reverse
+from chardata.util import (set_response, version_free_canonical,
+                           version_reverse)
 
 
 # Clicking a chip fills the box, so every example must itself parse to a class.
@@ -78,6 +79,7 @@ def smart_build(request):
 
         if not parsed['matched_class']:
             return set_response(request, 'chardata/smart_build.html', {
+                'canonical_path': version_free_canonical('smart_build'),
                 'query': query,
                 'error': _("Tell us which class, e.g. \"Iop 200 earth PvM\"."),
                 'interpretation': _interpretation(parsed, confirmed=False),
@@ -87,6 +89,7 @@ def smart_build(request):
 
         if not request.POST.get('confirm'):
             return set_response(request, 'chardata/smart_build.html', {
+                'canonical_path': version_free_canonical('smart_build'),
                 'query': query,
                 'interpretation': _interpretation(parsed, confirmed=True),
                 'confirm': True,
@@ -104,6 +107,9 @@ def smart_build(request):
         return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
 
     return set_response(request, 'chardata/smart_build.html', {
+        # Meme page sous les cinq versions: le corps ne change pas, seule
+        # la ligne de version du pied. Canonique a l adresse sans version.
+        'canonical_path': version_free_canonical('smart_build'),
         'query': '',
         'examples': _example_queries(),
         'login_problem': is_anon_cant_create(request),

@@ -28,6 +28,7 @@ from chardata.min_stats import minimums_above_their_cap
 from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.util import (get_char_or_raise, set_response,
+                           version_free_canonical,
                            version_reverse)
 from chardata.themes import get_needle_URL
 
@@ -151,20 +152,6 @@ def contact(request, char_id=0):
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id})
-
-def version_free_canonical(url_name):
-    """These pages are one document served under every game version, so the
-    canonical drops the version and keeps the language: /fr/retro/about/ is
-    canonical at /fr/about/.
-
-    The templates used to spell that with {% url %}, which put the canonical
-    in a third place -- beside `canonical_url` and `canonical_path` -- that
-    nothing else could read. The hreflang gate compared against the one it
-    could see, found nothing, and let a contradicting group through on the 80
-    version-prefixed copies of these pages.
-    """
-    return reverse(url_name)
-
 
 def about(request, char_id=0):
     language_code = (get_language() or settings.LANGUAGE_CODE or 'en').split('-')[0]

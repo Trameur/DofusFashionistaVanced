@@ -17,7 +17,12 @@
     <meta name="author" content="Dofus Fashionista">
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
     <meta name="robots" content="{% block meta_robots %}{% if noindex %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
-    {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{{ request.path }}">{% endblock %}
+    {% comment %}Une page qui sait quelle adresse elle revendique le dit par
+    `canonical_path`, et `canonical_the_page_will_render` lit la meme valeur
+    pour decider si le bloc hreflang peut etre publie. La laisser au seul
+    gabarit obligeait chaque page a redeclarer ce bloc, et le gardien ne
+    voyait alors rien.{% endcomment %}
+    {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}">{% endblock %}
     {% block hreflang %}{% if hreflang_urls %}{# Each localised slug is its own page; without these Google reads them as duplicates. Not alternate_urls: a paginated slice keeps its flags but publishes no group, because page 7 in another language is not this page. #}
     {% for lang, alt_url in hreflang_urls.items %}<link rel="alternate" hreflang="{{ lang }}" href="{{ alt_url }}">
     {% endfor %}{% if hreflang_urls.en %}<link rel="alternate" hreflang="x-default" href="{{ hreflang_urls.en }}">{% endif %}{% endif %}{% endblock %}
@@ -26,7 +31,11 @@
     <meta property="og:description" content="{{ page_description }}">
     <meta property="og:type" content="website">
     {# A paginated canonical carries ?page=N: naming another URL here lied. #}
-    {% block og_url %}<meta property="og:url" content="{% if canonical_url %}{{ canonical_url }}{% else %}https://dofusfashionista.gg{{ request.path }}{% endif %}">{% endblock %}
+    {% comment %}Les deux balises repondent a la meme question et doivent
+    donc lire la meme chose: canonical_url quand la vue donne une adresse
+    entiere, canonical_path quand elle renvoie la copie sans version vers la
+    page globale, l'adresse demandee sinon.{% endcomment %}
+    {% block og_url %}<meta property="og:url" content="{% if canonical_url %}{{ canonical_url }}{% else %}https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}{% endif %}">{% endblock %}
     <meta property="og:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
