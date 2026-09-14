@@ -184,7 +184,8 @@
                 putPointsButton.attr(
                     "title",
                     template(
-                        '{{_("Use %pointsUsed% points to increase to %newTotal% at %ratio%:1")|escapejs}}',
+                        {% trans "Use %pointsUsed% points to increase to %newTotal% at %ratio%:1" as trad_use_pointsused_points_to_increase_to_n %}
+                        '{{trad_use_pointsused_points_to_increase_to_n|escapejs}}',
                         {pointsUsed: pointsUsed, newTotal: action.newTotal, ratio: action.ratio}));
             }
         });
@@ -305,7 +306,8 @@
             }
         });
         if (!allValid) {
-            $("#base-stats-error-msg").text(template('{{_("Scrolled stats must be between 0 and %max%.")|escapejs}}', {max: maxScroll}));
+            {% trans "Scrolled stats must be between 0 and %max%." as trad_scrolled_stats_must_be_between_0_and_m %}
+            $("#base-stats-error-msg").text(template('{{trad_scrolled_stats_must_be_between_0_and_m|escapejs}}', {max: maxScroll}));
             return false;
         }
         $("#base-stats-error-msg").text("");

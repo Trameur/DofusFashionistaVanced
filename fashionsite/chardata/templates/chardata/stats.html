@@ -30,10 +30,14 @@
             {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("Agility") stat_key="agi" %}
             {% stat_name "Power" as power_label %}
             {% include "chardata/weight_stat_line.html" with stat_name=power_label stat_key="pow" %}
-            {% include "chardata/weight_stat_line.html" with stat_name=_("% Melee Damage") stat_key="permedam" %}
-            {% include "chardata/weight_stat_line.html" with stat_name=_("% Ranged Damage") stat_key="perrandam" %}
-            {% include "chardata/weight_stat_line.html" with stat_name=_("% Weapon Damage") stat_key="perweadam" %}
-            {% include "chardata/weight_stat_line.html" with stat_name=_("% Spells Damage") stat_key="perspedam" %}
+            {% trans "% Melee Damage" as trad_melee_damage %}
+            {% include "chardata/weight_stat_line.html" with stat_name=trad_melee_damage stat_key="permedam" %}
+            {% trans "% Ranged Damage" as trad_ranged_damage %}
+            {% include "chardata/weight_stat_line.html" with stat_name=trad_ranged_damage stat_key="perrandam" %}
+            {% trans "% Weapon Damage" as trad_weapon_damage %}
+            {% include "chardata/weight_stat_line.html" with stat_name=trad_weapon_damage stat_key="perweadam" %}
+            {% trans "% Spells Damage" as trad_spells_damage %}
+            {% include "chardata/weight_stat_line.html" with stat_name=trad_spells_damage stat_key="perspedam" %}
             <tr class="weight-stat-line"><td style="height: 20px;"</td><td></td><td></td></tr>
             {% include "chardata/weight_stat_line.html" with icon="chardata/AP.png" stat_name=_("AP") stat_key="ap" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/MP.png" stat_name=_("MP") stat_key="mp" %}
@@ -74,12 +78,18 @@
             {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=_("Water Resist") stat_key="waterres" classes="weight-linearres" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("Air Resist") stat_key="airres" classes="weight-linearres" %}
             <tr class="weight-stat-line"><td style="height: 20px;"></td><td></td><td></td></tr>
-            {% include "chardata/weight_aggregate_line.html" with name=_("All % Resists") id="aggregate-percentres" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Neutral.png" stat_name=_("% Neutral Resist") stat_key="neutresper" classes="weight-percentres" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Strength.png" stat_name=_("% Earth Resist") stat_key="earthresper" classes="weight-percentres" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=_("% Fire Resist") stat_key="fireresper" classes="weight-percentres" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=_("% Water Resist") stat_key="waterresper" classes="weight-percentres" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("% Air Resist") stat_key="airresper" classes="weight-percentres" %}
+            {% trans "All % Resists" as trad_all_resists %}
+            {% include "chardata/weight_aggregate_line.html" with name=trad_all_resists id="aggregate-percentres" %}
+            {% trans "% Neutral Resist" as trad_neutral_resist %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Neutral.png" stat_name=trad_neutral_resist stat_key="neutresper" classes="weight-percentres" %}
+            {% trans "% Earth Resist" as trad_earth_resist %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Strength.png" stat_name=trad_earth_resist stat_key="earthresper" classes="weight-percentres" %}
+            {% trans "% Fire Resist" as trad_fire_resist %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=trad_fire_resist stat_key="fireresper" classes="weight-percentres" %}
+            {% trans "% Water Resist" as trad_water_resist %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=trad_water_resist stat_key="waterresper" classes="weight-percentres" %}
+            {% trans "% Air Resist" as trad_air_resist %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=trad_air_resist stat_key="airresper" classes="weight-percentres" %}
             {% if current_game_version == 'retro' %}
             {# PVP resists exist on Retro gear (removed from Dofus 3). #}
             <tr class="weight-stat-line"><td style="height: 20px;"></td><td></td><td></td></tr>
@@ -88,16 +98,24 @@
             {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=_("Fire Resist (PvP)") stat_key="pvpfireres" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=_("Water Resist (PvP)") stat_key="pvpwaterres" %}
             {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("Air Resist (PvP)") stat_key="pvpairres" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Neutral.png" stat_name=_("% Neutral Resist (PvP)") stat_key="pvpneutresper" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Strength.png" stat_name=_("% Earth Resist (PvP)") stat_key="pvpearthresper" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=_("% Fire Resist (PvP)") stat_key="pvpfireresper" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=_("% Water Resist (PvP)") stat_key="pvpwaterresper" %}
-            {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=_("% Air Resist (PvP)") stat_key="pvpairresper" %}
+            {% trans "% Neutral Resist (PvP)" as trad_neutral_resist_pvp %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Neutral.png" stat_name=trad_neutral_resist_pvp stat_key="pvpneutresper" %}
+            {% trans "% Earth Resist (PvP)" as trad_earth_resist_pvp %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Strength.png" stat_name=trad_earth_resist_pvp stat_key="pvpearthresper" %}
+            {% trans "% Fire Resist (PvP)" as trad_fire_resist_pvp %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Intelligence.png" stat_name=trad_fire_resist_pvp stat_key="pvpfireresper" %}
+            {% trans "% Water Resist (PvP)" as trad_water_resist_pvp %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Chance.png" stat_name=trad_water_resist_pvp stat_key="pvpwaterresper" %}
+            {% trans "% Air Resist (PvP)" as trad_air_resist_pvp %}
+            {% include "chardata/weight_stat_line.html" with icon="chardata/Agility.png" stat_name=trad_air_resist_pvp stat_key="pvpairresper" %}
             {% endif %}
             <tr class="weight-stat-line"><td style="height: 20px;"></td><td></td><td></td></tr>
-            {% include "chardata/weight_stat_line.html" with stat_name=_("% Melee Resist") stat_key="respermee" %}
-            {% include "chardata/weight_stat_line.html" with stat_name=_("% Weapon Resist") stat_key="resperwea" %}
-            {% include "chardata/weight_stat_line.html" with stat_name=_("% Ranged Resist") stat_key="resperran" %}
+            {% trans "% Melee Resist" as trad_melee_resist %}
+            {% include "chardata/weight_stat_line.html" with stat_name=trad_melee_resist stat_key="respermee" %}
+            {% trans "% Weapon Resist" as trad_weapon_resist %}
+            {% include "chardata/weight_stat_line.html" with stat_name=trad_weapon_resist stat_key="resperwea" %}
+            {% trans "% Ranged Resist" as trad_ranged_resist %}
+            {% include "chardata/weight_stat_line.html" with stat_name=trad_ranged_resist stat_key="resperran" %}
         </table>
         <br>
         <div align="center">

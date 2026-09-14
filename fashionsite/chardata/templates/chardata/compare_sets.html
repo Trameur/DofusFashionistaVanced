@@ -224,11 +224,16 @@
     {% for char_id in char_ids_cols %}
     <td></td>
     {% endfor %}    
-            {% include "chardata/compare_stat_line.html" with icon="chardata/Neutral.png" stat_name=_("% Neutral Resist") stat_key="neutresper" char_ids=char_ids_cols %}
-            {% include "chardata/compare_stat_line.html" with icon="chardata/Strength.png" stat_name=_("% Earth Resist") stat_key="earthresper" char_ids=char_ids_cols %}
-            {% include "chardata/compare_stat_line.html" with icon="chardata/Intelligence.png" stat_name=_("% Fire Resist") stat_key="fireresper" char_ids=char_ids_cols %}
-            {% include "chardata/compare_stat_line.html" with icon="chardata/Chance.png" stat_name=_("% Water Resist") stat_key="waterresper" char_ids=char_ids_cols %}
-            {% include "chardata/compare_stat_line.html" with icon="chardata/Agility.png" stat_name=_("% Air Resist") stat_key="airresper" char_ids=char_ids_cols %}
+            {% trans "% Neutral Resist" as trad_neutral_resist %}
+            {% include "chardata/compare_stat_line.html" with icon="chardata/Neutral.png" stat_name=trad_neutral_resist stat_key="neutresper" char_ids=char_ids_cols %}
+            {% trans "% Earth Resist" as trad_earth_resist %}
+            {% include "chardata/compare_stat_line.html" with icon="chardata/Strength.png" stat_name=trad_earth_resist stat_key="earthresper" char_ids=char_ids_cols %}
+            {% trans "% Fire Resist" as trad_fire_resist %}
+            {% include "chardata/compare_stat_line.html" with icon="chardata/Intelligence.png" stat_name=trad_fire_resist stat_key="fireresper" char_ids=char_ids_cols %}
+            {% trans "% Water Resist" as trad_water_resist %}
+            {% include "chardata/compare_stat_line.html" with icon="chardata/Chance.png" stat_name=trad_water_resist stat_key="waterresper" char_ids=char_ids_cols %}
+            {% trans "% Air Resist" as trad_air_resist %}
+            {% include "chardata/compare_stat_line.html" with icon="chardata/Agility.png" stat_name=trad_air_resist stat_key="airresper" char_ids=char_ids_cols %}
             
         </table>
 
