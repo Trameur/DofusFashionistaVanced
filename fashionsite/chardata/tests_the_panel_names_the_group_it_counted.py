@@ -200,7 +200,12 @@ class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
                     if aggregates and len(aggregates) > 1:
                         groups.append((game_version, castable.name,
                                        aggregates[0][0]))
-        self.assertEqual(3, len(groups), groups)
+        # Un seul depuis le 14 septembre 2026, le Bluff de Retro. Les deux
+        # autres etaient l'Embuscade et la Fanfaronnade de Touch, groupees en
+        # <<meilleur element>> alors qu'Ankama dit que leurs lignes tombent
+        # ensemble; voir
+        # `tests_touch_rows_that_land_together_are_not_a_choice`.
+        self.assertEqual(1, len(groups), groups)
         for _version, _name, first_label in groups:
             with self.subTest(label=first_label):
                 self.assertIn('element', first_label.lower())

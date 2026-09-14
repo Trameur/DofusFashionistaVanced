@@ -67,14 +67,27 @@ BEST_ELEMENT_LABEL = 'Hit in best element'
 # choosing which elements to invent for them, and nothing first-hand says
 # whether the four or the five are candidates.
 #
-# WHAT THE ID IS USED FOR HERE IS THE OPPOSITE PROBLEM. The other two spells,
-# "Fanfaronnade" and "Embuscade", carry it BESIDE named elemental rows holding
-# the same values, and they were already in the table as several rows with no
-# group: the model added them up, so Embuscade counted its 8-12 as fire AND
-# water AND earth, three times the hit the game lands. Dofus 3 writes the very
-# same shape, identical rows one per element, and groups them in `aggregates`
-# so the model resolves one hit in the best element. This file now writes that
-# group too, which is what emit_aggregates below is for.
+# THE OTHER TWO SPELLS ARE NOT THAT CASE, and reading them as if they were
+# cost two thirds of each. "Fanfaronnade" and "Embuscade" carry the id BESIDE
+# named elemental rows holding the same values, and that was read as "those
+# rows ARE the best-element hit written out", the way Dofus 3 writes such a
+# spell. But Dofus 3 FABRICATES its rows from an effect that names no element,
+# while these rows are Ankama's own, and Ankama's own sentence lists them as
+# landing:
+#
+#   Ambush   "Inflicts Fire, Water and Earth damage AND damage in the
+#             caster's best element."
+#   Bravado  "Inflicts Air, Water, Earth AND best-element damage."
+#
+# Both sibling clients agree: Dofus 2 and Dofus 3 write Ambush as four rows
+# with no group, under the same sentence shape, and add them up. Grouping them
+# here showed one hit where the game lands three. See NAMED_ROWS_ALSO_LAND,
+# whose quotes are read back at generation time.
+#
+# The best-element hit itself is a FOURTH row this file does not record, so
+# both spells are still short of it. That is a gap, not a grouping: it belongs
+# with the nine absent spells above, and inventing a value for it would be
+# worse than leaving it out.
 #
 # Two more unread ids, neither of them a damage row:
 #   293   "Augmente les degats de base du sort #1 de #3"   8 spells, all in the
@@ -369,7 +382,46 @@ def _says_best_element(level):
     return False
 
 
-def emit_aggregates(best_element, elements):
+#: The Touch spells whose NAMED elemental rows land together with the
+#: best-element hit instead of being its faces, with Ankama's own sentence as
+#: the evidence. Checked at generation time by `_named_rows_also_land`.
+#:
+#: Carrying the best-element effect id beside named rows was read as "those
+#: rows ARE the best-element hit written out", the way Dofus 3 writes such a
+#: spell -- but Dofus 3 FABRICATES its rows from an effect that names no
+#: element, while these rows are Ankama's own. Its sentence lists them as
+#: landing, and both sibling clients agree: Dofus 2 and Dofus 3 write Ambush
+#: as four rows with no group and add them up, under the same sentence shape.
+#: Grouping them here showed one hit of three, roughly a third of the spell.
+NAMED_ROWS_ALSO_LAND = {
+    3218: 'Feu, Eau et Terre ainsi que',        # Foggernaut Embuscade
+    7612: 'Air, Eau, Terre et dans le meilleur',  # Ecaflip Fanfaronnade
+}
+
+
+def _named_rows_also_land(spell):
+    """True when Ankama's sentence says the named rows land with the best one.
+
+    Same device as `_check_still_says`: the quote is read back out of the
+    description, so a rewording stops the run instead of leaving a grouping
+    whose reason has quietly expired.
+    """
+    quote = NAMED_ROWS_ALSO_LAND.get(spell.get('id'))
+    if quote is None:
+        return False
+    text = spell.get('descriptionId') or ''
+    if isinstance(text, dict):
+        text = text.get('fr') or ''
+    if quote.lower() not in str(text).lower():
+        raise SystemExit(
+            'touch spell %s no longer says %r, so nothing says its named '
+            'elemental rows land beside the best-element hit. Re-read Ankama '
+            'before regenerating. It now says: %r'
+            % (spell.get('id'), quote, str(text)[:200]))
+    return True
+
+
+def emit_aggregates(best_element, elements, spell=None):
     """One group per row when the rows are alternatives, else None.
 
     Written only for a spell whose rows are ALL elemental damage. A buff row is
@@ -377,10 +429,15 @@ def emit_aggregates(best_element, elements):
     make the model score the spell on the buff alone; a spell that mixes the
     two therefore keeps the old shape and is left for a later pass. Two rows at
     least, because one row is not a choice.
+
+    And not written at all when Ankama says the named rows land together with
+    the best-element hit: see `NAMED_ROWS_ALSO_LAND`.
     """
     if not best_element or len(elements) < 2:
         return None
     if any(str(token).startswith('buff_') for token in elements):
+        return None
+    if spell is not None and _named_rows_also_land(spell):
         return None
     return [(BEST_ELEMENT_LABEL if index == 0 else '', [index])
             for index in range(len(elements))]
@@ -459,7 +516,7 @@ def decode_spell(spell, spell_levels):
         'non_crit_ranges': non_crit,
         'crit_ranges': crit,
         # Rows that are alternatives, not a sum. See emit_aggregates.
-        'aggregates': emit_aggregates(best_element, elements),
+        'aggregates': emit_aggregates(best_element, elements, spell),
         # maxStack in the game data: the buff can accumulate.
         'stacks': max(stacks) if stacks else None,
         # A cast limit of 0 means no limit, so all-zero keys are dropped.
