@@ -111,6 +111,11 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          'canonical_path': (
                              spells_linked_path(char, encoded_char_id)
                              if char.link_shared and encoded_char_id else ''),
+                         # Meme raison que la page du build : cette adresse
+                         # porte la version et pas la langue, donc ses cinq
+                         # formes sont canoniques a la meme et un groupe qui
+                         # les nommerait ne serait pas reciproque.
+                         'hreflang_urls': {},
                          'no_class_spells': len(class_spells) == 0},
                         char)
 

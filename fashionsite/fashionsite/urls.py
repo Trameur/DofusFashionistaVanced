@@ -1021,18 +1021,13 @@ _game_urls = ('chardata.game_urls', 'chardata')
 # under /fr/retro/ and 404 under /fr/. On the version people actually play,
 # the reader's own language stopped at the home page.
 #
-# The rule: a translated slug is the only thing in a path that names a
-# language. /encyclopedia/item/equipment/44-espada-de-maderucha/ is the
-# Spanish page and says so, so prefixing it would only duplicate it. An id or
-# a player's own name does not: a build called <<witness 4>> is called that in
-# all five languages, so /s/witness 4/NQi5EdY_/ needs the prefix exactly as a
-# hub does. That is why the four other versions, which prefix the whole of
-# game_urls, already serve /fr/retro/s/... -- and the default version did not.
-def _pages_whose_path_does_not_name_its_language(entries):
+# The rule itself lives in game_urls.routes_published_once_per_language,
+# because url_language reads the same answer to decide which pages may
+# announce their translations. Two lists of the same thing is how the router
+# ended up prefixing 115 routes while the hreflang side still named six.
+def _as_routes(entries):
     return [re_path(str(entry.pattern), entry.callback, name=entry.name)
-            for entry in entries
-            if getattr(entry, 'callback', None) is not None
-            and 'slug' not in entry.pattern.regex.groupindex]
+            for entry in entries]
 
 
 urlpatterns += i18n_patterns(
@@ -1041,7 +1036,7 @@ urlpatterns += i18n_patterns(
     # 404 -- the translated set builder existed for every version except the
     # one people actually play, in the market that sends the most impressions.
     # It is in the list below now, with the other 114.
-    *_pages_whose_path_does_not_name_its_language(game_urls.urlpatterns),
+    *_as_routes(game_urls.routes_published_once_per_language()),
     # Not in game_urls, so the rule above cannot reach it: the other versions
     # have no most-used page at all.
     re_path(r'^encyclopedia/most-used/$', encyclopedia_view.encyclopedia_most_used,

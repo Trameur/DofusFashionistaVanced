@@ -422,11 +422,26 @@ def crit_chance(base_rate, stats, game_version):
 
     Dofus Retro runs the 1.29 system: the rate is the X of 1/X, the Critical
     Hits of the gear lowers it and 1/2 is as good as it gets. Agility lowers it
-    further in game, which is not modelled here because Ankama never published
-    the curve, so a Retro Agility build crits a little more often than the turn
-    below assumes. Every other version runs the percentage system update 2.29
-    brought in: the spell's own rate plus the character's Critical Hits, which
-    can reach 100% and never falls under 1% on an attack that can crit at all.
+    further in game, which is not modelled here, so a Retro Agility build crits
+    a little more often than the turn below assumes.
+
+    Checked 15 September 2026 in Ankama's own current Retro lang files
+    (lang_fr 1254, from dofusretro.cdn.ankama.com):
+
+        HELP_AGILITY   L'agilite permet d'augmenter tes probabilites de sortir
+                       des zones de tacle et tes probabilites de faire des
+                       coups critiques.
+        ITEM_CRITICAL  Critique : 1/%1
+
+    So the effect is Ankama's own statement, and the 1/X display is theirs
+    too. The files carry text, not formulas: this confirms the effect and the
+    form, and says nothing about where a curve might be published. Our Retro
+    guide on critical hits tells the reader the same two facts, in all five
+    languages.
+
+    Every other version runs the percentage system update 2.29 brought in: the
+    spell's own rate plus the character's Critical Hits, which can reach 100%
+    and never falls under 1% on an attack that can crit at all.
     """
     if not base_rate:
         return 0.0

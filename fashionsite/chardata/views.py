@@ -19,6 +19,7 @@ import json
 from django.conf import settings
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.translation import get_language
 
 from chardata.model_wrappers import WrappedChar
@@ -151,6 +152,20 @@ def contact(request, char_id=0):
                          'user': request.user,
                          'char_id': char_id})
 
+def version_free_canonical(url_name):
+    """These pages are one document served under every game version, so the
+    canonical drops the version and keeps the language: /fr/retro/about/ is
+    canonical at /fr/about/.
+
+    The templates used to spell that with {% url %}, which put the canonical
+    in a third place -- beside `canonical_url` and `canonical_path` -- that
+    nothing else could read. The hreflang gate compared against the one it
+    could see, found nothing, and let a contradicting group through on the 80
+    version-prefixed copies of these pages.
+    """
+    return reverse(url_name)
+
+
 def about(request, char_id=0):
     language_code = (get_language() or settings.LANGUAGE_CODE or 'en').split('-')[0]
     language_name = dict(settings.LANGUAGES).get(language_code, 'English')
@@ -166,15 +181,18 @@ def about(request, char_id=0):
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id,
+                         'canonical_path': version_free_canonical('about'),
                          'site_version': settings.SITE_VERSION,
                          'about_language_name': language_name,
                          'about_language_author': language_author})
 
 def license_page(request, char_id=0):
-    return set_response(request, 
-                        'chardata/license.html', 
+    return set_response(request,
+                        'chardata/license.html',
                         {'request': request,
                          'user': request.user,
+                         'canonical_path': version_free_canonical(
+                             'license_page'),
                          'char_id': char_id})
 
 def faq(request, char_id=0):
@@ -182,6 +200,7 @@ def faq(request, char_id=0):
                         'chardata/faq.html',
                         {'request': request,
                          'user': request.user,
+                         'canonical_path': version_free_canonical('faq'),
                          'char_id': char_id})
 
 def privacy(request, char_id=0):
@@ -189,6 +208,7 @@ def privacy(request, char_id=0):
                         'chardata/privacy.html',
                         {'request': request,
                          'user': request.user,
+                         'canonical_path': version_free_canonical('privacy'),
                          'char_id': char_id})
 
 def support(request, char_id=0):
@@ -198,6 +218,7 @@ def support(request, char_id=0):
                         'chardata/support.html',
                         {'request': request,
                          'user': request.user,
+                         'canonical_path': version_free_canonical('support'),
                          'char_id': char_id,
                          'support_links': support_links})
 

@@ -156,14 +156,46 @@ def redirect_target_for_user(request, url_language, alternates):
     return site_relative(target)
 
 
-# Routes published once per language, under a prefix. Everything else either
-# carries its language in a name -- an item, a guide -- or has no per-language
-# url at all: /es/faq/ does not exist, and announcing it in hreflang would
-# point Google at a 404, which is worse than announcing nothing.
-PREFIXED_PAGE_NAMES = frozenset({
-    'home', 'guides', 'encyclopedia', 'encyclopedia_sets',
-    'encyclopedia_monsters', 'encyclopedia_most_used',
-})
+# Not in game_urls, so the rule below cannot reach it: the other game
+# versions have no most-used page at all.
+_ALSO_PUBLISHED_ONCE_PER_LANGUAGE = frozenset({'encyclopedia_most_used'})
+
+_prefixed_page_names = None
+
+
+def prefixed_page_names():
+    """The url names of the pages that exist once per language, under a prefix.
+
+    Read from `game_urls.routes_published_once_per_language`, the same call
+    that builds the i18n_patterns block, rather than listed here.
+
+    It used to be a list of six written by hand, with this note: <</es/faq/
+    does not exist, and announcing it in hreflang would point Google at a 404,
+    which is worse than announcing nothing>>. The rule was right and stays.
+    The fact stopped being true when the default version started prefixing
+    every route whose path does not already name a language: /es/faq/ answers
+    200 in Spanish now, and so do 114 others.
+
+    Measured 15 September 2026 by following the site's own links two levels
+    deep from each of the 25 roots: 585 pages answered, 530 announced no
+    translation at all, and **305 of them have a canonical that names
+    themselves**, so their group is true and publishable. The other 225 keep
+    announcing nothing, because `hreflang_alternates` drops a group that
+    contradicts the canonical -- which is exactly right for /fr/s/witness 0/,
+    canonical at its unprefixed form, and for the 20 versioned copies of
+    /about/ and /faq/, canonical at the version-free page.
+
+    Imported inside the function: game_urls imports the views, and the views
+    import this module.
+    """
+    global _prefixed_page_names
+    if _prefixed_page_names is None:
+        from chardata.game_urls import routes_published_once_per_language
+        _prefixed_page_names = frozenset(
+            {entry.name for entry in routes_published_once_per_language()
+             if entry.name} | _ALSO_PUBLISHED_ONCE_PER_LANGUAGE)
+    return _prefixed_page_names
+
 
 SITE_URL = 'https://dofusfashionista.gg'
 
@@ -210,7 +242,7 @@ def prefixed_page_alternates(request):
     page that has no translation of its own url.
     """
     match = getattr(request, 'resolver_match', None)
-    if match is None or match.url_name not in PREFIXED_PAGE_NAMES:
+    if match is None or match.url_name not in prefixed_page_names():
         return {}
 
     path = strip_language_prefix(request.path)
@@ -219,6 +251,30 @@ def prefixed_page_alternates(request):
         prefix = '' if code == settings.LANGUAGE_CODE else '/%s' % code
         alternates[code] = '%s%s%s' % (SITE_URL, prefix, path)
     return alternates
+
+
+def canonical_the_page_will_render(request, params):
+    """The one address the page claims to be, as its own tag will print it.
+
+    Three names spell the canonical here: `canonical_url`, absolute;
+    `canonical_path`, relative; and nothing at all, which base.html renders as
+    SITE_URL + request.path. The hreflang gate read only the first, so on
+    every page that spells it another way it compared against None and let the
+    group through.
+
+    Measured 15 September 2026 on the 585 pages reachable two levels from the
+    25 roots: **225 would have published a group contradicting their own
+    canonical** -- the 120 language-prefixed build pages, canonical at their
+    unprefixed form, and the 80 version-prefixed copies of /about/, /faq/,
+    /support/ and /license/, canonical at the version-free page. Google reads
+    a group through its self-reference and drops the whole thing when it is
+    missing, so that is worth less than publishing nothing.
+    """
+    if params.get('canonical_url'):
+        return params['canonical_url']
+    if params.get('canonical_path'):
+        return SITE_URL + params['canonical_path']
+    return SITE_URL + request.path
 
 
 def hreflang_alternates(request, canonical_url):
@@ -248,10 +304,12 @@ def hreflang_alternates(request, canonical_url):
     a block that is perfectly correct.
     """
     alternates = prefixed_page_alternates(request)
-    if not alternates or not canonical_url:
-        # No canonical in the context means the template falls back to
-        # SITE_URL + request.path, which is exactly the alternate for this
-        # language: nothing to disagree about.
+    if not alternates:
+        return alternates
+    if not canonical_url:
+        # Callers hand the canonical through canonical_the_page_will_render,
+        # which always answers. A caller that passes nothing is asking for the
+        # old behaviour and gets it: nothing to disagree about.
         return alternates
 
     prefix, _rest = split_language_prefix(request.path)

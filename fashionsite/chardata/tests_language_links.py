@@ -13,7 +13,9 @@ from django.test import TestCase
 LANGUAGES = ('fr', 'es', 'pt', 'de')
 
 #: Pages whose url names their language, so the view can say where the same
-#: page lives in each of the others.
+#: page lives in each of the others. The last three are here since section 92:
+#: they used to have no localised address at all, which is why they were the
+#: witnesses of the opposite case below.
 PAGES_WITH_ALTERNATES = (
     '/',
     '/encyclopedia/',
@@ -21,11 +23,10 @@ PAGES_WITH_ALTERNATES = (
     '/encyclopedia/sets/',
     '/encyclopedia/monsters/',
     '/encyclopedia/item/equipment/44-twiggy-sword/',
+    '/setup/',
+    '/support/',
+    '/privacy/',
 )
-
-#: Pages that have no localised address to offer. A flag there cannot carry an
-#: href, and an <a> without one is neither a link nor reachable by keyboard.
-PAGES_WITHOUT_ALTERNATES = ('/setup/', '/support/', '/privacy/')
 
 _ANCHOR = re.compile(r'<a\b[^>]*id="flag-([a-z]{2})"[^>]*>')
 _BUTTON = re.compile(r'<button\b[^>]*id="flag-([a-z]{2})"[^>]*>')
@@ -91,19 +92,31 @@ class LanguageFlagsAreCrawlableLinksTests(TestCase):
             % (checked, len(PAGES_WITH_ALTERNATES),
                len(PAGES_WITH_ALTERNATES) * len(LANGUAGES)))
 
-    def test_a_page_without_alternates_keeps_a_focusable_button(self):
-        # The point of the flags being buttons in the first place was that a
-        # keyboard could reach them. An <a> with no href reaches nothing.
-        for url in PAGES_WITHOUT_ALTERNATES:
-            html = self._page(url)
-            self.assertEqual(
-                set(_BUTTON.findall(html)), set(LANGUAGES),
-                '%s should keep four buttons, it has %s'
-                % (url, sorted(_BUTTON.findall(html))))
-            self.assertFalse(
-                _ANCHOR.findall(html),
-                '%s has no alternate url to offer, so a flag there cannot be '
-                'a link: %s' % (url, sorted(_ANCHOR.findall(html))))
+    def test_a_flag_without_a_destination_stays_a_focusable_button(self):
+        """The point of the flags being buttons in the first place was that a
+        keyboard could reach them. An <a> with no href reaches nothing.
+
+        This was witnessed on /setup/, /support/ and /privacy/, which had no
+        localised address to offer. Since section 92 all three have five, and
+        the measurement that day says **0 of the 590 pages reachable from the
+        site's own roots still renders a flag button**. The branch is
+        therefore no longer reachable through a page, so it is rendered
+        directly rather than through a witness that no longer witnesses
+        anything.
+        """
+        from django.conf import settings
+        from django.template.loader import render_to_string
+        html = render_to_string('chardata/language-selector.html',
+                                {'experiments': settings.EXPERIMENTS,
+                                 'alternate_urls': {}})
+        self.assertEqual(
+            set(_BUTTON.findall(html)), set(LANGUAGES),
+            'the selector should keep four buttons, it has %s'
+            % sorted(_BUTTON.findall(html)))
+        self.assertFalse(
+            _ANCHOR.findall(html),
+            'with no alternate url a flag cannot be a link: %s'
+            % sorted(_ANCHOR.findall(html)))
 
     def test_german_is_named_by_a_link_because_no_sitemap_carries_it(self):
         # fr, es and pt each have a sitemap; de deliberately has none, so this

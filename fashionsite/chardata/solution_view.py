@@ -906,6 +906,13 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_asset_formats': json.dumps(asset_formats()),
               'character_preloads': preload_links(character_look),
               'canonical_path': shared_build_path(char) if char.link_shared else '',
+              # Pas de groupe hreflang : `shared_build_path` ne porte que la
+              # version, jamais la langue, donc les cinq adresses d'un build
+              # sont canoniques a la MEME. Un groupe les nommant serait lu par
+              # Google puis abandonne, chacune des quatre autres se reniant au
+              # profit de la premiere. Les drapeaux, eux, gardent leurs cinq
+              # destinations : le lecteur, lui, veut bien changer de langue.
+              'hreflang_urls': {},
               # Sous la MEME garde que le canonique : les deux moities du
               # <head> repondent a la meme question, et une page privee ne
               # doit pas publier un fil vers une adresse qu'elle nie.

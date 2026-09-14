@@ -6,8 +6,8 @@
 
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "About" %}{% endblock %}
 {# Version-prefixed copies (/beta/about/ etc.) are duplicates -> canonical to the global page. #}
-{% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% url 'about' %}">{% endblock %}
-{% block og_url %}<meta property="og:url" content="https://dofusfashionista.gg{% url 'about' %}">{% endblock %}
+{% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}">{% endblock %}
+{% block og_url %}<meta property="og:url" content="https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}">{% endblock %}
 
 {% block main %}
   {% load static_s3 %}
