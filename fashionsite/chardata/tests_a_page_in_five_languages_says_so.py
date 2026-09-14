@@ -2,7 +2,7 @@
 """Une page qui existe en cinq langues le declare, et ne ment jamais.
 
 Trouve en suivant les liens du site depuis ses 25 racines, deux niveaux de
-profondeur. Mesure du 15 septembre 2026: **585 pages repondaient 200 et 530
+profondeur. Mesure du 14 septembre 2026: **585 pages repondaient 200 et 530
 n'annoncaient aucune traduction**. Seules trois formes le faisaient -- la
 racine, l'encyclopedie et l'index des guides -- parce que la liste des pages
 autorisees a publier un groupe etait ecrite a la main, avec six noms, et avec

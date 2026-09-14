@@ -177,7 +177,7 @@ def scored_group_label(digest, effects, waiting_rows=()):
     Un sort a agregats n'en pose qu'un par lancer, et la fiche les affiche
     tous: <<Cumul 0>> a <<Cumul 4>>, ou <<2 PA utilises ce tour>>, ou
     <<Avec Telefrag>>. Le panneau, lui, annonce un nombre sans dire lequel il
-    a lu. Mesure du 15 septembre 2026 sur les 79 builds locaux, 70 lisibles:
+    a lu. Mesure du 14 septembre 2026 sur les 79 builds locaux, 70 lisibles:
     **28 panneaux sur 70 comptent au moins un sort a agregats**, sur 55 des
     227 lignes de lancer. Le lecteur qui compare la colonne du panneau a la
     fiche trouve cinq nombres et n'a rien qui lui dise lequel.
@@ -459,7 +459,7 @@ def crit_chance(base_rate, stats, game_version):
     further in game, which is not modelled here, so a Retro Agility build crits
     a little more often than the turn below assumes.
 
-    Checked 15 September 2026 in Ankama's own current Retro lang files
+    Checked 14 September 2026 in Ankama's own current Retro lang files
     (lang_fr 1254, from dofusretro.cdn.ankama.com):
 
         HELP_AGILITY   L'agilite permet d'augmenter tes probabilites de sortir

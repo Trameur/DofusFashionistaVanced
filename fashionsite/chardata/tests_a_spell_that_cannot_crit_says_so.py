@@ -6,7 +6,7 @@ Le second etait pose des que le sort faisait le moindre degat, meme quand le
 jeu ne lui donne aucune ligne critique: le lecteur voyait une etiquette
 <<Coup critique>> et **rien dessous**.
 
-**Mesure du 15 septembre 2026**, sur les sorts de classe de chaque version:
+**Mesure du 13 septembre 2026**, sur les sorts de classe de chaque version:
 
 | version | sorts | sans ligne critique | dont sans taux de critique |
 |---------|------:|--------------------:|---------------------------:|
@@ -31,7 +31,7 @@ LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
-#: Ce que chaque version porte, mesure le 15 septembre 2026. Le compte exact
+#: Ce que chaque version porte, mesure le 13 septembre 2026. Le compte exact
 #: plutot qu'un minimum: si le jeu en ajoute ou en retire, la phrase touche
 #: d'autres sorts et cela se decide, cela ne se subit pas.
 _SANS_CRITIQUE = {'dofus3': 58, 'beta': 58, 'dofus2': 53, 'touch': 0,

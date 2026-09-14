@@ -95,7 +95,7 @@ def address_serves_language(candidate_names, language, normalise):
 
     This was written for the sitemap, which has always refused to file a url
     under a language the page will not answer in. The page itself did not ask:
-    measured 15 September 2026 over the five versions, **5135 item addresses
+    measured 14 September 2026 over the five versions, **5135 item addresses
     and 293 set addresses** announced a language their url cannot serve --
     2537 Portuguese, 1353 German, 643 French, 602 Spanish on the items alone.
     `/encyclopedia/item/equipment/18659-escudo-de-esponja/` says
@@ -211,7 +211,7 @@ def prefixed_page_names():
     every route whose path does not already name a language: /es/faq/ answers
     200 in Spanish now, and so do 114 others.
 
-    Measured 15 September 2026 by following the site's own links two levels
+    Measured 14 September 2026 by following the site's own links two levels
     deep from each of the 25 roots: 585 pages answered, 530 announced no
     translation at all, and **305 of them have a canonical that names
     themselves**, so their group is true and publishable. The other 225 keep
@@ -297,7 +297,7 @@ def canonical_the_page_will_render(request, params):
     every page that spells it another way it compared against None and let the
     group through.
 
-    Measured 15 September 2026 on the 585 pages reachable two levels from the
+    Measured 14 September 2026 on the 585 pages reachable two levels from the
     25 roots: **225 would have published a group contradicting their own
     canonical** -- the 120 language-prefixed build pages, canonical at their
     unprefixed form, and the 80 version-prefixed copies of /about/, /faq/,

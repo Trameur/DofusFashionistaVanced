@@ -144,7 +144,7 @@ class AlternateUrlsTest(TestCase):
 
         Il disait deja que deux langues sur une adresse mentiraient a Google,
         et le verifiait sur une epee dont les cinq noms different: il passait
-        sans que rien n'empeche le contraire. Mesure du 15 septembre 2026:
+        sans que rien n'empeche le contraire. Mesure du 14 septembre 2026:
         5135 adresses d'objets et 293 de panoplies annoncaient une langue que
         leur url ne sert pas.
         """

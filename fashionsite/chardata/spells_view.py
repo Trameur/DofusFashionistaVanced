@@ -559,7 +559,7 @@ def _cast_note(castable, name, later, damage, game_version=None):
     `scored_group_label` rend le libelle seulement quand il y a un choix a
     nommer et que ce choix ne depend pas des stats.
 
-    Mesure du 15 septembre 2026, 1044 tours sur toutes les classes des cinq
+    Mesure du 14 septembre 2026, 1044 tours sur toutes les classes des cinq
     versions, a trois niveaux et quatre profils d'element: **60 tours (5,7%)
     portent au moins une de ces lignes**, 88 lignes sur 3982. Dont un Cra de
     niveau 50 qui lance deux fois la Fleche d'Immobilisation, le sort dont

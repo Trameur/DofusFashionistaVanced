@@ -53,7 +53,7 @@ def served_languages(lang: str = 'fr') -> set:
     item types, 304 subareas) got replaced by their English text in a single
     rebuild, silently, while every step reported ok.
 
-    Re-read 2026-09-15, asking in fr, en and de: the answer is still
+    Re-read 2026-09-14, asking in fr, en and de: the answer is still
     ["en", "es", "fr", "pt"] whichever language you ask in. What is left of
     German in our Touch catalogue is the scrape from before the drop, and 152
     of its 3390 item names are the English text that leaked in that day --

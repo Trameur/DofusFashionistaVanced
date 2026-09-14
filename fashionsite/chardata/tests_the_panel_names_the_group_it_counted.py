@@ -24,7 +24,7 @@ cote.
 stats: un sort a alternatives d'element laisse `best_turn` prendre la
 meilleure, et l'annoncer d'avance serait une supposition.
 
-**Portee.** Mesure du 15 septembre 2026, 1044 tours sur toutes les classes des
+**Portee.** Mesure du 14 septembre 2026, 1044 tours sur toutes les classes des
 cinq versions, a trois niveaux et quatre profils d'element: **60 tours (5,7%)
 portent au moins une de ces notes**, 88 lignes de lancer sur 3982. Dont un Cra
 de niveau 50 qui lance deux fois la Fleche d'Immobilisation, le sort dont
@@ -151,7 +151,7 @@ class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
     """Le plancher de la mesure: une regle qui ne nommerait rien passerait
     tous les tests ci-dessus."""
 
-    #: Mesure du 15 septembre 2026, au rang le plus haut de chaque sort.
+    #: Mesure du 14 septembre 2026, au rang le plus haut de chaque sort.
     #: Touch et Retro n'ont pas zero par accident: leurs catalogues ne
     #: portent que 2 et 1 sorts a plusieurs groupes, et les trois sont des
     #: choix d'element (<<Hit in best element>>, <<Hit in one random

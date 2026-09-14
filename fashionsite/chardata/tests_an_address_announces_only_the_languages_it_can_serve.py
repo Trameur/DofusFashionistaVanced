@@ -16,7 +16,7 @@ La fiche annoncait quand meme les cinq. Sur
 portugaise d'elle-meme. Cote lecteur, le drapeau portugais etait un lien vers
 la page espagnole elle-meme: on cliquait et il ne se passait rien.
 
-**Combien.** Mesure du 15 septembre 2026 sur les catalogues des cinq versions:
+**Combien.** Mesure du 14 septembre 2026 sur les catalogues des cinq versions:
 
     version   objets   ambigus   adresses annoncees a tort
     dofus3      3827       465     710
