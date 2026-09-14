@@ -6608,6 +6608,10 @@ msgstr ""
 msgid "Spells at the highest level the character reaches."
 msgstr ""
 
+#, python-format
+msgid "Without the buffs it casts first, this turn would deal %(damage)s."
+msgstr ""
+
 msgid "Spells at the levels picked above."
 msgstr ""
 

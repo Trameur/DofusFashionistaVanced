@@ -7340,6 +7340,10 @@ msgstr "Gescrollt"
 msgid "Spells at the highest level the character reaches."
 msgstr "Zauber auf der höchsten Stufe, die der Charakter erreicht."
 
+#, python-format
+msgid "Without the buffs it casts first, this turn would deal %(damage)s."
+msgstr "Ohne die Buffs, die er zuerst wirkt, würde dieser Zug %(damage)s machen."
+
 msgid "Spells at the levels picked above."
 msgstr "Zauber auf den oben gewählten Stufen."
 

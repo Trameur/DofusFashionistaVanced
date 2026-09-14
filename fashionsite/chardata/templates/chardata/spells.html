@@ -102,6 +102,7 @@
             <span class="best-combo-ap-note">{% blocktrans with used=best_combo.ap_used available=best_combo.ap_available %}{{ used }} of {{ available }} AP used.{% endblocktrans %}</span>
             <span class="best-combo-buff-note">{{ best_combo.buff_note }}</span>
             <span class="best-combo-rank-note">{{ best_combo.rank_note }}</span>
+            <span class="best-combo-without-buffs-note">{{ best_combo.without_buffs_note }}</span>
             <span class="best-combo-melee-note">{{ best_combo.melee_note }}</span>
             <span class="best-combo-crit-failure-note">{{ best_combo.crit_failure_note }}</span>
         </p>
@@ -1644,6 +1645,8 @@
                 // contraire de ce qu'il vient de demander.
                 panel.find('.best-combo-buff-note').text(combo.buff_note || '');
                 panel.find('.best-combo-rank-note').text(combo.rank_note || '');
+                panel.find('.best-combo-without-buffs-note')
+                     .text(combo.without_buffs_note || '');
                 // Rafraichie avec les deux autres pour que le panneau n'ait
                 // qu'un seul chemin. Aujourd'hui aucun sort des cinq versions
                 // n'accorde de % melee ni de % distance, donc seule la piece

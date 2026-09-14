@@ -447,6 +447,13 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                        for castable in spells
                        if getattr(castable, 'is_spell', False))
     return {'casts': casts,
+            # Ce que valent les buffs que le tour a choisi de lancer. Le
+            # panneau disait deja qu'un buff n'a pas de degats en propre; il
+            # ne disait pas combien il rapporte, et c'est la question que pose
+            # un lecteur qui voit 1 PA depense pour 0.
+            'without_buffs_note': _without_buffs_note(
+                stats, spells, order, ap, standing, game_version, pushback,
+                char.level),
             'rank_note': str(_RANK_NOTES['highest' if au_plus_haut
                                          else 'picked']),
             # `standing` porte les buffs REELLEMENT en force, pas ceux que la
@@ -579,6 +586,88 @@ def _cast_note(castable, name, later, damage, game_version=None):
     if getattr(castable, 'buffs', None) and not getattr(castable, 'hits', None):
         return str(_CAST_NOTES['buff'])
     return ''
+
+
+def _buff_casts(spells, order):
+    """Les sorts que le tour lance et qui ne frappent pas.
+
+    Meme condition que `_cast_note`, pour que la phrase et la note posee sur
+    la ligne du lancer ne puissent pas se contredire.
+    """
+    lances = {name for name, _damage in order}
+    return {spell.name for spell in spells
+            if spell.name in lances
+            and getattr(spell, 'buffs', None)
+            and not getattr(spell, 'hits', None)}
+
+
+def _burst_total(stats, spells, order, standing, game_version):
+    """Le total tel que le panneau l'affiche: le tour moins ce qui tombe plus
+    tard.
+
+    `best_turn` maximise le tour **poison compris**, le panneau montre ce que
+    la cible prend maintenant. Les deux nombres sont donc differents pour un
+    meme tour: sur un Cra de niveau 200 a cinq pieces, 1709 pour le solveur et
+    1241 pour le panneau. Comparer l'un a l'autre invente un ecart qui
+    n'existe pas, ce qui est arrive a la premiere version de
+    `_without_buffs_note`.
+
+    Le meme arrondi que la boucle des lancers, pour la meme raison: le cumul
+    est arrondi une seule fois.
+    """
+    from chardata.spell_combo import delayed_damage
+    later = delayed_damage(stats, spells, order, standing=standing,
+                           game_version=game_version)
+    times_cast = {}
+    for name, _damage in order:
+        times_cast[name] = times_cast.get(name, 0) + 1
+    running = 0.0
+    shown = 0
+    for name, damage in order:
+        if name in later:
+            damage -= later[name] / times_cast[name]
+        running += damage
+        shown = int(round(running))
+    return shown
+
+
+def _without_buffs_note(stats, spells, order, ap, standing, game_version,
+                        pushback, caster_level):
+    """Ce que ferait le meme tour sans les buffs qu'il lance.
+
+    Un lecteur qui voit <<Tirs Puissants, 1 PA, 0>> demande pourquoi le tour
+    depense un PA pour rien. La note posee sur la ligne repondait <<il
+    grossit les lancers qui suivent>>, sans dire de combien. La reponse est
+    le meme calcul, prive de ces sorts-la: le solveur y repond deja, il
+    suffit de le relancer.
+
+    **Mesure du 14 septembre 2026 sur les 86 builds locaux:** 43 tours (50%)
+    lancent au moins un buff, arme comprise, et **aucun** n'y perd. Le second
+    appel a `best_turn` coute 2 ms, le meme que le premier, et n'a lieu que
+    sur ces pages-la.
+
+    Le nombre est lu sur **l'echelle du panneau** et non sur celle du
+    solveur, voir `_burst_total`: sur le Cra qui a servi a trouver le defaut,
+    1241 avec les buffs et 1074 sans, quand le solveur dit 1709 et 1412. La
+    premiere version de cette note melangeait les deux et annoncait 1412 sous
+    un total de 1241.
+
+    Rendu vide quand le tour ne lance aucun buff.
+    """
+    from chardata.spell_combo import best_turn
+    buffs = _buff_casts(spells, order)
+    if not buffs:
+        return ''
+    restants = [spell for spell in spells if spell.name not in buffs]
+    if not restants:
+        return ''
+    _total, ordre = best_turn(stats, restants, ap, standing=standing,
+                              game_version=game_version, pushback=pushback,
+                              caster_level=caster_level)
+    if not ordre:
+        return ''
+    montre = _burst_total(stats, restants, ordre, standing, game_version)
+    return str(_WITHOUT_BUFFS_NOTE) % {'damage': montre}
 
 
 def _reach(level_req, char_level):
@@ -930,6 +1019,13 @@ _BUFF_NOTES = {
                 'hit rate included. Buffs cast in the turn count, on top of '
                 'the ones ticked on this page.'),
 }
+
+# Ce que rapportent les buffs que le tour lance. Un seul nombre, celui du
+# meme tour prive de ces lancers-la: le total est juste au-dessus, donc le
+# lecteur lit l'ecart d'un coup d'oeil. Pas de nom compte a cote d'un nombre,
+# la phrase vaut pour un buff comme pour trois.
+_WITHOUT_BUFFS_NOTE = _lazy('Without the buffs it casts first, this turn '
+                            'would deal %(damage)s.')
 
 # Ce que le panneau suppose sur le RANG des sorts. Le total change beaucoup
 # avec lui: mesure du 12 septembre 2026 sur un Cra de niveau 200, 1728 degats

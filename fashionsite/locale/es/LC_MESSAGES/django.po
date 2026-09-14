@@ -7359,6 +7359,10 @@ msgstr "Pergaminos"
 msgid "Spells at the highest level the character reaches."
 msgstr "Hechizos al nivel más alto que alcanza el personaje."
 
+#, python-format
+msgid "Without the buffs it casts first, this turn would deal %(damage)s."
+msgstr "Sin los buffs que lanza primero, este turno haría %(damage)s."
+
 msgid "Spells at the levels picked above."
 msgstr "Hechizos a los niveles elegidos arriba."
 
