@@ -1055,12 +1055,40 @@ class HubAlternatesTest(TestCase):
                                      response.content.decode('utf-8'))
                 self.assertEqual(declared.group(1).split('-')[0], language)
 
-    def test_a_page_with_no_translated_url_announces_none(self):
-        # /faq/ lives outside i18n_patterns, so /es/faq/ does not exist.
-        # Pointing hreflang at a 404 is worse than pointing at nothing.
-        html = self.client.get('/faq/').content.decode('utf-8')
-        self.assertNotIn('hreflang=', html)
-        self.assertEqual(self.client.get('/es/faq/').status_code, 404)
+    def test_no_page_announces_an_alternate_that_is_not_there(self):
+        """Pointing hreflang at a 404 is worse than pointing at nothing.
+
+        This test used to say that as one absence: /faq/ lived outside
+        i18n_patterns, so /es/faq/ did not exist and /faq/ announced nothing.
+        The second half was the state of the day, not the rule. Since section
+        91 the default version prefixes every route whose path does not
+        already name a language, so /es/faq/ answers 200 in Spanish like the
+        114 others. /faq/ still announces no alternate, which the rule allows:
+        a missing hreflang is not a dead one.
+
+        So the rule is asserted as a rule -- every alternate a page announces
+        must answer -- over several pages rather than one.
+        """
+        announced = 0
+        for path in ('/faq/', '/about/', '/es/faq/', '/encyclopedia/',
+                     '/fr/guides/'):
+            html = self.client.get(path).content.decode('utf-8')
+            for tag in re.findall(r'<link\b[^>]*hreflang=[^>]*>', html):
+                code = re.search(r'hreflang="([^"]+)"', tag)
+                href = re.search(r'href="([^"]+)"', tag)
+                if not code or not href:
+                    continue
+                announced += 1
+                target = href.group(1).replace(
+                    'https://dofusfashionista.gg', '')
+                with self.subTest(page=path, alternate=code.group(1)):
+                    self.assertEqual(
+                        self.client.get(target).status_code, 200,
+                        '%s announces %s, which does not answer'
+                        % (path, target))
+        self.assertGreater(
+            announced, 0,
+            'no page announced any alternate, so this test checked nothing')
 
     def test_every_hub_submitted_answers(self):
         xml = self.client.get('/sitemap-pages.xml').content.decode('utf-8')

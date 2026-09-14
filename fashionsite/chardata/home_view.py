@@ -49,12 +49,35 @@ def _featured_avatar(char):
 
 
 def _get_featured_builds(request, game_version):
-    """Top shared builds of the current game version, best scored first."""
-    cache_key = 'home_featured_builds:%s' % game_version
-    cached = cache.get(cache_key)
-    if cached is not None:
-        return cached
+    """Top shared builds of the current game version, best scored first.
 
+    Nothing that depends on the reader goes in the cache. A link built with
+    `build_absolute_uri` carries the host and the language prefix of whichever
+    request filled the entry, and `_('Anonymous')` is already translated when
+    it goes in, so one entry served all five languages for half an hour.
+
+    Measured 14 September 2026 on the dev server: asking for the German home
+    of a version first made the English and the Spanish ones hand out
+    `/de/beta/s/...` for all six cards. A reader clicking a featured build
+    left their own language without asking.
+
+    The cache keeps the builds; the reader's own request builds the links.
+    """
+    cache_key = 'home_featured_builds:2:%s' % game_version
+    cached = cache.get(cache_key)
+    if cached is None:
+        cached = _score_featured_builds(game_version)
+        cache.set(cache_key, cached, FEATURED_BUILDS_CACHE_SECONDS)
+    return [dict(build,
+                 creator=build['creator'] or _('Anonymous'),
+                 link=version_reverse(request, 'solution_linked',
+                                      build['char_name'],
+                                      build['encoded_char_id']))
+            for build in cached]
+
+
+def _score_featured_builds(game_version):
+    """The part that is the same for every reader, and so cacheable."""
     qs = (Char.objects
           .filter(link_shared=True, deleted=False, game_version=game_version)
           .select_related('owner')
@@ -71,7 +94,9 @@ def _get_featured_builds(request, game_version):
     scored = []
     for b in builds:
         score = (b.like_count or 0) * 3 + (b.favorite_count or 0) * 5 + min(50, b.view_count or 0)
-        creator = aliases.get(b.owner_id) or (b.owner.username if b.owner else _('Anonymous'))
+        # Left as None rather than translated here: the name the reader sees
+        # for an owner-less build is their language's word, not the cache's.
+        creator = aliases.get(b.owner_id) or (b.owner.username if b.owner else None)
         encoded = encode_char_id(int(b.id))
         char_name = b.char_name or 'shared'
         scored.append({
@@ -82,15 +107,13 @@ def _get_featured_builds(request, game_version):
             'like_count': b.like_count or 0,
             'favorite_count': b.favorite_count or 0,
             'view_count': b.view_count or 0,
-            'link': request.build_absolute_uri(
-                version_reverse(request, 'solution_linked', char_name, encoded)),
+            'char_name': char_name,
+            'encoded_char_id': encoded,
             'avatar': _featured_avatar(b),
             '_score': score,
         })
     scored.sort(key=lambda x: x['_score'], reverse=True)
-    result = scored[:FEATURED_BUILDS_COUNT]
-    cache.set(cache_key, result, FEATURED_BUILDS_CACHE_SECONDS)
-    return result
+    return scored[:FEATURED_BUILDS_COUNT]
 
 def home(request, char_id=0):
     items = []

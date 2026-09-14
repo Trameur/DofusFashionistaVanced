@@ -27,6 +27,7 @@ from django.utils.html import escape
 from django.utils import translation
 from django.utils.translation import get_language, gettext as _
 import os
+from chardata import game_urls
 from chardata import home_view, login_view, views, projects_view, base_stats_view, create_project_view, \
     stats_weights_view, min_stats_view, options_view, inclusions_view, exclusions_view, wizard_view, \
     fashion_action, solution_view, spells_view, contact_view, manage_account_view, util, manage_items_view, \
@@ -1003,37 +1004,48 @@ urlpatterns += staticfiles_urlpatterns()
 # namespace is what makes reverse('beta:setup') give /beta/setup/.
 _game_urls = ('chardata.game_urls', 'chardata')
 
-# Pages with no name of their own to localise. Everything else carries its
-# language in the entity name -- /encyclopedia/item/equipment/44-espada-de-
-# maderucha/ is the Spanish page and says so -- but a hub has no name, so the
+# Pages whose path does not already say which language they are. Their
 # language goes in a prefix instead.
 #
 # prefix_default_language=False keeps every English URL exactly where it is:
 # /encyclopedia/ still answers at /encyclopedia/, and /es/encyclopedia/ is
 # added beside it. Nothing already indexed moves.
 #
-# Only the default version's hubs for now. A version-prefixed hub would stack
-# two prefixes (/es/dofus2/encyclopedia/) and needs its own pass.
+# Which routes those are is a rule, not a list. A hand list answers the
+# question asked the day it was written: this one said home, guides, setup and
+# the encyclopedia hubs, and the rest of the default version stayed English
+# only. Measured 14 September 2026 by following the home page's own links: of
+# the 16 pages it offers, 15 -- about, faq, contact, license, privacy,
+# support, quickstart, the gallery, the importer, the forgemagie, the compare
+# landing, the login and the project list among them -- answered 200 in French
+# under /fr/retro/ and 404 under /fr/. On the version people actually play,
+# the reader's own language stopped at the home page.
+#
+# The rule: a translated slug is the only thing in a path that names a
+# language. /encyclopedia/item/equipment/44-espada-de-maderucha/ is the
+# Spanish page and says so, so prefixing it would only duplicate it. An id or
+# a player's own name does not: a build called <<witness 4>> is called that in
+# all five languages, so /s/witness 4/NQi5EdY_/ needs the prefix exactly as a
+# hub does. That is why the four other versions, which prefix the whole of
+# game_urls, already serve /fr/retro/s/... -- and the default version did not.
+def _pages_whose_path_does_not_name_its_language(entries):
+    return [re_path(str(entry.pattern), entry.callback, name=entry.name)
+            for entry in entries
+            if getattr(entry, 'callback', None) is not None
+            and 'slug' not in entry.pattern.regex.groupindex]
+
+
 urlpatterns += i18n_patterns(
-    re_path(r'^$', home_view.home, name='home'),
-    re_path(r'^guides/$', guides_view.guides, name='guides'),
-    # The create-a-project landing is a hub like the others: it has no name
-    # of its own to localise, so its language belongs in a prefix. It was
-    # the only one left outside, and the gap showed: /fr/retro/setup/ and
-    # /es/retro/setup/ answer in their language, while /fr/setup/ answered
-    # 404 -- the translated set builder existed for every version except
-    # the one people actually play, in the market that sends the most
-    # impressions.
-    re_path(r'^setup/$', create_project_view.setup, name='setup'),
-    re_path(r'^encyclopedia/$', encyclopedia_view.encyclopedia,
-            name='encyclopedia'),
-    re_path(r'^encyclopedia/monsters/$',
-            encyclopedia_view.encyclopedia_monsters,
-            name='encyclopedia_monsters'),
+    # The create-a-project landing showed the gap first: /fr/retro/setup/ and
+    # /es/retro/setup/ answered in their language while /fr/setup/ answered
+    # 404 -- the translated set builder existed for every version except the
+    # one people actually play, in the market that sends the most impressions.
+    # It is in the list below now, with the other 114.
+    *_pages_whose_path_does_not_name_its_language(game_urls.urlpatterns),
+    # Not in game_urls, so the rule above cannot reach it: the other versions
+    # have no most-used page at all.
     re_path(r'^encyclopedia/most-used/$', encyclopedia_view.encyclopedia_most_used,
             name='encyclopedia_most_used'),
-    re_path(r'^encyclopedia/sets/$', encyclopedia_view.encyclopedia_sets,
-            name='encyclopedia_sets'),
 
     # The other game versions, inside the same block so the rule holds for all
     # of them: /dofus2/encyclopedia/ in English, /es/dofus2/encyclopedia/ in
