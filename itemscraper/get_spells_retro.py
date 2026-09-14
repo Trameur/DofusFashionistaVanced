@@ -109,8 +109,23 @@ ONE_ELEMENT_AT_RANDOM = {
 }
 
 
+#: Where a Retro effect row carries its chance, in percent. The rows of one
+#: draw sum to 100. Measured 14 September 2026 over the 2091 spells of the
+#: lang: 36 spells carry such a set and every one is a partition -- 50/50,
+#: 25/25/25/25, 20 five times, and one 25/50/25 that is not uniform, which is
+#: what tells the slot from a duration or a value.
+CHANCE_SLOT = 3
+
+
 def _screen_random_element(spell, spell_id):
-    """Stop the run if the sentence no longer says one element OR the other."""
+    """Stop the run if the sentence no longer says one element OR the other,
+    or if Ankama stops drawing those rows evenly.
+
+    The turn averages the faces of a drawn spell rather than taking the best
+    (see `spell_combo.scored`), which is only Ankama's expectation while the
+    chances stay equal. A reworded sentence or a reweighted draw stops the
+    run instead of quietly leaving a wrong average in the module.
+    """
     quote = ONE_ELEMENT_AT_RANDOM.get(spell_id)
     if quote is None:
         return
@@ -121,6 +136,22 @@ def _screen_random_element(spell, spell_id):
             'rows are one roll rather than several hits. Re-read Ankama '
             'before regenerating. It now says: %r'
             % (spell_id, quote, (spell.get('d') or '')[:160]))
+    for rank in ('l1', 'l2', 'l3', 'l4', 'l5', 'l6'):
+        level = spell.get(rank)
+        if not isinstance(level, list) or len(level) < 2:
+            continue
+        for effects in (level[-2], level[-1]):
+            chances = [effect[CHANCE_SLOT] for effect in (effects or [])
+                       if isinstance(effect, list)
+                       and len(effect) > CHANCE_SLOT and effect[CHANCE_SLOT]]
+            if not chances:
+                continue
+            if sum(chances) != 100 or len(set(chances)) != 1:
+                raise SystemExit(
+                    'retro spell %s rank %s is no longer drawn evenly: its '
+                    'rows carry %s. The turn averages its faces, so re-read '
+                    'Ankama before regenerating.'
+                    % (spell_id, rank, chances))
 
 
 def emit_aggregates(spell_id, elements):

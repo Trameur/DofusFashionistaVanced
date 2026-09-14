@@ -94,6 +94,22 @@ def _run_that_hurts(runs, effects):
     return runs[0]
 
 
+#: L'etiquette que le generateur pose quand le jeu tire la ligne au sort et
+#: non selon ce qui arrange le lanceur. Ecrite ici et dans
+#: `itemscraper/get_spells_retro.py`, qui la pose; `spells_view` la traduit.
+RANDOM_ELEMENT_LABEL = 'Hit in one random element'
+
+
+def _draw_is_random(aggregates):
+    """Vrai quand le generateur declare que la ligne est tiree au sort.
+
+    Le lanceur ne choisit pas, donc le tour ne doit pas prendre la meilleure
+    face: la valeur du lancer est la moyenne de ses faces.
+    """
+    return any(label == RANDOM_ELEMENT_LABEL
+               for label, _indices in (aggregates or []))
+
+
 def element_runs(aggregates, effects):
     """Les suites de groupes qui sont les faces d'un seul coup, dans l'ordre.
 
@@ -285,6 +301,8 @@ class WeaponCastable(object):
     damage applies to it and % spell damage does not."""
 
     is_spell = False
+    #: Aucune arme n'est tiree au sort: elle frappe dans son element.
+    random_draw = False
     #: Une arme n'a pas de rang que le lecteur puisse baisser.
     at_highest_rank = True
     stacks = 1
@@ -439,6 +457,9 @@ class Castable(object):
         limits = [limit for limit in limits if limit]
         self.limit = min(limits) if limits else None
         self.stacks = spell.stacks or 1
+        # Le jeu tire la ligne, le lanceur ne la choisit pas: le tour en
+        # prend la moyenne et non la meilleure, voir `scored` dans best_turn.
+        self.random_draw = _draw_is_random(digest.aggregates)
 
     def buff_deltas(self, count):
         deltas = {}
@@ -893,15 +914,27 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
         def scored(alternatives, critical):
             # A best-element spell is scored after the buffs: the caster picks
             # the element their gear favours.
-            best_seen = 0.0
+            #
+            # A spell the GAME draws does not work that way, and taking the
+            # best face there overstates it. Ankama gives the odds in its own
+            # Retro file: each effect row carries its chance in percent, and
+            # the rows of one draw sum to 100. Measured 14 September 2026 over
+            # the 2091 Retro spells: 36 spells carry such a set, always a
+            # partition (50/50, 25/25/25/25, 20 five times, and one 25/50/25),
+            # and the Ecaflip's Bluff -- the only drawn spell the site models
+            # -- is 50 and 50 on its Air and Water rows. Its faces are
+            # therefore averaged, not maximised.
+            gains = []
             for alternative in alternatives:
                 rows = [copy.copy(effect) for effect in alternative]
-                gained = (_average(calculate_damage(rows, buffed, critical,
-                                                    spell.is_spell))
-                          * multiplier)
-                if gained > best_seen:
-                    best_seen = gained
-            return best_seen
+                gains.append(_average(calculate_damage(rows, buffed, critical,
+                                                       spell.is_spell))
+                             * multiplier)
+            if not gains:
+                return 0.0
+            if getattr(spell, 'random_draw', False):
+                return max(0.0, sum(gains) / len(gains))
+            return max(0.0, max(gains))
 
         pushed = (push_value(spell, buffed, game_version, caster_level)
                   if pushback else 0.0)
