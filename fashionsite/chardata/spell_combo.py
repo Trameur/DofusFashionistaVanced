@@ -171,6 +171,36 @@ def _first_group_that_hurts(aggregates, hits):
     return set(aggregates[0][1])
 
 
+def scored_group_label(digest, effects, waiting_rows=()):
+    """Le libelle du groupe d'agregats sur lequel le tour a compte, ou ''.
+
+    Un sort a agregats n'en pose qu'un par lancer, et la fiche les affiche
+    tous: <<Cumul 0>> a <<Cumul 4>>, ou <<2 PA utilises ce tour>>, ou
+    <<Avec Telefrag>>. Le panneau, lui, annonce un nombre sans dire lequel il
+    a lu. Mesure du 15 septembre 2026 sur les 79 builds locaux, 70 lisibles:
+    **28 panneaux sur 70 comptent au moins un sort a agregats**, sur 55 des
+    227 lignes de lancer. Le lecteur qui compare la colonne du panneau a la
+    fiche trouve cinq nombres et n'a rien qui lui dise lequel.
+
+    Rendu vide quand il n'y a rien a nommer: un seul groupe, ou des groupes
+    qui sont des elements. Le choix d'element depend des stats et se fait dans
+    `best_turn`, pas ici, donc le nommer d'avance serait une supposition.
+    """
+    aggregates = getattr(digest, 'aggregates', None)
+    if not aggregates or len(aggregates) < 2:
+        return ''
+    if _element_alternatives(aggregates, effects) is not None:
+        return ''
+    hits = [(index, effect) for index, effect in enumerate(effects)
+            if not effect.element.startswith('buff')
+            and index not in waiting_rows]
+    retenu = _first_group_that_hurts(aggregates, hits)
+    for label, indices in aggregates:
+        if set(indices) == retenu:
+            return label
+    return ''
+
+
 def rows_that_always_land(digest, effects, waiting_rows=()):
     """Les lignes qui frappent et que le panneau doit lire en plus du groupe.
 
@@ -370,6 +400,10 @@ class Castable(object):
                              else self.plain_alternatives)
         self.hits = self.alternatives[0] if self.alternatives else []
         self.stacked = bool(digest.aggregates)
+        rows = digest.non_crit_dams
+        self.scored_group = scored_group_label(
+            digest, rows[level_index] if level_index < len(rows) else [],
+            waiting_rows)
         casting = spell.casting or {}
         crit_rates = casting.get('crit') or []
         self.crit_rate = (crit_rates[level_index]

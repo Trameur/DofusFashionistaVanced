@@ -7443,3 +7443,7 @@ msgid "%(kinds)s ingredient · %(total)s total"
 msgid_plural "%(kinds)s ingredients · %(total)s total"
 msgstr[0] "%(kinds)s ingrediente · %(total)s no total"
 msgstr[1] "%(kinds)s ingredientes · %(total)s no total"
+
+#: chardata/spells_view.py
+msgid "counted on %(group)s"
+msgstr "contado em %(group)s"

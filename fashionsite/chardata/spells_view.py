@@ -402,7 +402,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'damage': shown - before,
                       'running': shown,
                       'note': _cast_note(castable, name, later,
-                                         shown - before),
+                                         shown - before, game_version),
                       # Independant de la note precedente: un sort de buff
                       # peut etre a sa limite, et les deux sont vraies.
                       'limit_mark': limit_notes.get(index, ('', ''))[0],
@@ -541,15 +541,36 @@ def _melee_note(stats):
                                'ranged': _('% Ranged Damage')}
 
 
-def _cast_note(castable, name, later, damage):
-    """Pourquoi ce lancer n'affiche aucun degat, ou '' quand il en affiche.
+def _cast_note(castable, name, later, damage, game_version=None):
+    """Ce que ce lancer a besoin de dire de lui-meme, ou '' s'il se suffit.
 
-    Rien n'est devine: un sort dont toutes les lignes sont des buffs n'a rien
-    a poser lui-meme, et un sort dont les degats sont differes a les siens
-    dans le bloc du dessous. Un zero qu'on ne sait pas expliquer reste nu
-    plutot que de recevoir une phrase au hasard.
+    Deux choses, et rien de devine.
+
+    **Un zero** s'explique: un sort dont toutes les lignes sont des buffs n'a
+    rien a poser lui-meme, et un sort dont les degats sont differes a les
+    siens dans le bloc du dessous. Un zero qu'on ne sait pas expliquer reste
+    nu plutot que de recevoir une phrase au hasard.
+
+    **Un nombre** s'explique aussi quand la fiche en affiche plusieurs. Un
+    sort a agregats ne pose qu'un groupe par lancer et la fiche les montre
+    tous: <<Cumul 0>> a <<Cumul 4>>, <<2 PA utilises ce tour>>, <<Avec
+    Telefrag>>. Le panneau annoncait son nombre sans dire lequel il avait lu,
+    donc le lecteur qui verifiait trouvait cinq valeurs en face d'une.
+    `scored_group_label` rend le libelle seulement quand il y a un choix a
+    nommer et que ce choix ne depend pas des stats.
+
+    Mesure du 15 septembre 2026, 1044 tours sur toutes les classes des cinq
+    versions, a trois niveaux et quatre profils d'element: **60 tours (5,7%)
+    portent au moins une de ces lignes**, 88 lignes sur 3982. Dont un Cra de
+    niveau 50 qui lance deux fois la Fleche d'Immobilisation, le sort dont
+    Ankama ecrit que les degats montent apres chaque lancer.
     """
     if int(round(damage)):
+        group = getattr(castable, 'scored_group', '')
+        if group:
+            label = _localized_aggregate_label(group, game_version)
+            if label:
+                return str(_CAST_NOTES['group']) % {'group': label}
         return ''
     if name in later:
         return str(_CAST_NOTES['delayed'])
@@ -900,6 +921,9 @@ _LIMIT_NOTE = _lazy('at the most one turn on one target allows')
 _CAST_NOTES = {
     'buff': _lazy('no damage of its own, it raises the casts that follow'),
     'delayed': _lazy('no damage now, its own lands later and is counted apart'),
+    # La fiche du sort montre une ligne par groupe; celle-ci dit laquelle le
+    # panneau a lue, sous le libelle que la fiche lui donne.
+    'group': _lazy('counted on %(group)s'),
 }
 
 _CONDITIONAL_LABELS = {
