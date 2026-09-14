@@ -28,6 +28,13 @@
     <p align="center" class="text" style="opacity:.85;font-style:italic;">{% trans "Class spells aren't available for this class yet." %}</p>
     {% endif %}
 
+    {% comment %}Dire que les noms sont anglais, plutot que de faire passer
+    l'anglais pour la langue du lecteur. La condition est calculee sur les
+    donnees, pas ecrite a la main: voir _languages_left_english.{% endcomment %}
+    {% if names_are_english %}
+    <p align="center" class="text" style="opacity:.85;font-style:italic;">{% trans "This game version no longer provides spell names in your language, so they are shown in English." %}</p>
+    {% endif %}
+
     {% if best_combo %}
     <div id="best-combo" aria-live="polite"
          data-combo-url="{% if encoded_char_id %}{% game_url 'best_combo_linked' encoded_char_id %}{% else %}{% game_url 'best_combo' char_id %}{% endif %}"

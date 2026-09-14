@@ -5272,6 +5272,13 @@ msgid ""
 "How much damage your weapon and spells will deal with the suggested set."
 msgstr ""
 
+#: .\chardata\templates\chardata\spells.html:33
+msgid ""
+"This game version no longer provides spell names in your language, so they "
+"are shown in English."
+msgstr ""
+""
+
 #: .\chardata\templates\chardata\spells.html:25
 msgid "Class spells aren't available for this class yet."
 msgstr ""

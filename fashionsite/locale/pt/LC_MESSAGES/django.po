@@ -5760,6 +5760,14 @@ msgid ""
 "How much damage your weapon and spells will deal with the suggested set."
 msgstr "Quanto dano a sua arma e feitiços causarão com o set sugerido."
 
+#: .\chardata\templates\chardata\spells.html:33
+msgid ""
+"This game version no longer provides spell names in your language, so they "
+"are shown in English."
+msgstr ""
+"Esta versão do jogo já não fornece os nomes dos feitiços no seu idioma, "
+"por isso aparecem em inglês."
+
 #: .\chardata\templates\chardata\spells.html:25
 msgid "Class spells aren't available for this class yet."
 msgstr "Os feitiços de classe ainda não estão disponíveis para esta classe."

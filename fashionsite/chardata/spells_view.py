@@ -116,7 +116,9 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          # formes sont canoniques a la meme et un groupe qui
                          # les nommerait ne serait pas reciproque.
                          'hreflang_urls': {},
-                         'no_class_spells': len(class_spells) == 0},
+                         'no_class_spells': len(class_spells) == 0,
+                         'names_are_english': _names_are_english(
+                             game_version)},
                         char)
 
 def _variant_partner_names(spells, game_version):
@@ -628,6 +630,59 @@ def _always_land_by_rank(spell, digest):
         if par_rang:
             sortie[cle] = par_rang
     return sortie or None
+
+
+#: Par version, les langues dont plus aucun nom de sort n'est traduit. Lu une
+#: fois: les tables de noms sont des modules generes, elles ne bougent pas
+#: entre deux requetes.
+_NAMES_LEFT_ENGLISH = {}
+
+
+def _languages_left_english(game_version):
+    """Les langues dont le jeu ne fournit plus les noms de sorts.
+
+    Derivee des donnees et non d'une liste ecrite a la main: une langue dont
+    **tous** les noms valent l'anglais n'est plus servie, et elle sortira
+    d'elle-meme de cette liste le jour ou Ankama la resservira.
+
+    Ankama l'a dit de son cote: le 8 septembre 2026, le `config.json` des
+    serveurs Touch a repondu `serverLanguages ["en", "es", "fr", "pt"]`, sans
+    allemand, ce que `itemscraper/download_touch_data.py` lit avant chaque
+    rafraichissement. Mesure du 14 septembre 2026 sur les tables generees:
+    **les 174 noms de sorts Touch** valent leur nom anglais en allemand
+    (<<Afflux>> se lit <<Influx>>, <<Aiguille>> se lit <<Hand>>), contre
+    **4 sur 106** en Retro, qui sont des mots identiques dans les deux langues
+    et non une absence.
+    """
+    if game_version in _NAMES_LEFT_ENGLISH:
+        return _NAMES_LEFT_ENGLISH[game_version]
+    if game_version == 'touch':
+        from fashionistapulp.dofus_constants_touch_spells import (
+            TOUCH_SPELL_NAMES)
+        table = TOUCH_SPELL_NAMES
+    elif game_version == 'retro':
+        from fashionistapulp.dofus_constants_retro_spells import (
+            RETRO_SPELL_NAMES)
+        table = RETRO_SPELL_NAMES
+    else:
+        table = None
+    laissees = set()
+    if table:
+        langues = set()
+        for par_langue in table.values():
+            langues.update(par_langue)
+        for langue in langues - {'en'}:
+            noms = [(par_langue.get(langue), par_langue.get('en'))
+                    for par_langue in table.values()]
+            noms = [(mien, anglais) for mien, anglais in noms if mien]
+            if noms and all(mien == anglais for mien, anglais in noms):
+                laissees.add(langue)
+    _NAMES_LEFT_ENGLISH[game_version] = laissees
+    return laissees
+
+
+def _names_are_english(game_version):
+    return get_supported_language() in _languages_left_english(game_version)
 
 
 def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):

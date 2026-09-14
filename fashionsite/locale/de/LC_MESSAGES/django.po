@@ -5761,6 +5761,14 @@ msgstr "Wie viel Schaden verursachen die Waffen und Zauber von %(charname)s mit 
 msgid "How much damage your weapon and spells will deal with the suggested set."
 msgstr "Wie viel Schaden verursachen Ihre Waffen und Zauber mit dem vorgeschlagenen Set?"
 
+#: .\chardata	emplates\chardata\spells.html:33
+msgid ""
+"This game version no longer provides spell names in your language, so they "
+"are shown in English."
+msgstr ""
+"Diese Spielversion liefert die Zaubernamen nicht mehr in Ihrer Sprache, "
+"deshalb stehen sie hier auf Englisch."
+
 #: .\chardata\templates\chardata\spells.html:25
 msgid "Class spells aren't available for this class yet."
 msgstr "Klassenzauber sind für diese Klasse noch nicht verfügbar."

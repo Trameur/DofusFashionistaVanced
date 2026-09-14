@@ -5812,6 +5812,14 @@ msgstr ""
 "Combien de dommages occasionneront votre arme et vos sorts avec l'équipement "
 "proposé."
 
+#: .\chardata\templates\chardata\spells.html:33
+msgid ""
+"This game version no longer provides spell names in your language, so they "
+"are shown in English."
+msgstr ""
+"Cette version du jeu ne fournit plus les noms de sorts dans votre langue, "
+"ils sont donc affichés en anglais."
+
 #: .\chardata\templates\chardata\spells.html:25
 msgid "Class spells aren't available for this class yet."
 msgstr "Les sorts de classe ne sont pas encore disponibles pour cette classe."
