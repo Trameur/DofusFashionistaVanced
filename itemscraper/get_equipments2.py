@@ -388,7 +388,13 @@ for item in equipment_data['en']['items']:
         transformed_item["stats"] = []
    
     if "image_urls" in item:
+        # "sd" is the 128 px rendition and the one we resize from, but the
+        # source does not always render it: skin 1332 (item 32204, Mister
+        # Penguin Chain) answers 404 at 128 px and 200 at 64 px, which is why
+        # that single icon had to be committed by hand in a9c6eb918. Keep the
+        # 64 px address so the download step can fall back to it.
         transformed_item["image_url"] = item["image_urls"]["sd"]
+        transformed_item["image_url_fallback"] = item["image_urls"].get("icon")
     transformed_item["dofustouch"] = False
     # Conditions treatment moved to the end to copy the item and add the condition to the new item
     if "conditions" in item:
@@ -448,7 +454,13 @@ for item in mount_data['en']['mounts']:
     if "conditions" in item:
         transformed_item["has_conditions"] = bool(item["conditions"])
     if "image_urls" in item:
+        # "sd" is the 128 px rendition and the one we resize from, but the
+        # source does not always render it: skin 1332 (item 32204, Mister
+        # Penguin Chain) answers 404 at 128 px and 200 at 64 px, which is why
+        # that single icon had to be committed by hand in a9c6eb918. Keep the
+        # 64 px address so the download step can fall back to it.
         transformed_item["image_url"] = item["image_urls"]["sd"]
+        transformed_item["image_url_fallback"] = item["image_urls"].get("icon")
 
     new_data.append(transformed_item)
 
