@@ -244,6 +244,11 @@ def main() -> None:
             "--tag", version,
             "--output", "itemscraper/transformed_spells_beta.json",
             "--class-output", "itemscraper/transformed_class_spells_beta.json",
+            # NOT the shared transformed_spell_names.json: the site reads that
+            # one for the Dofus 3 spell names, and on 2026-09-15 this step wrote
+            # the beta's into it (Piercing Shot became Durchdringender Schuss
+            # and Tiro Perforante).
+            "--names-output", "itemscraper/transformed_spell_names_beta.json",
         ])
         step("spells/duplicates", [PY, "-m", "itemscraper.find_duplicated_damage_rows"])
         step("spells/reference", [
@@ -258,6 +263,9 @@ def main() -> None:
         ])
         step("spells/constants", [
             PY, "-m", "itemscraper.generate_damage_spells",
+            # Without it the generator takes these for dofus3 files and, since
+            # 4f1f2bcc9, refuses them: the beta constants stopped regenerating.
+            "--game-version", "beta",
             "--class-json", "itemscraper/transformed_class_spells_beta.json",
             "--spells-json", "itemscraper/transformed_spells_beta.json",
             "--constants", "fashionistapulp/fashionistapulp/dofus_constants_beta.py",
