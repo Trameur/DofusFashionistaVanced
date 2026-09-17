@@ -30,9 +30,23 @@ _BULLETS = ('•', '▪', '●', '·')
 _HEAD_LIMIT = 80
 
 
+# Ankama's own cross-reference, with the name inside it:
+# "{{spell,8395,1::Pourpre Profond}}", "{{item,23408::Dorigami}}". The client
+# resolves it, our archive stores it raw, and it reached readers. Measured on
+# 2026-09-17: 13 lines on 2 dofus3 items (Black-Spotted Dofus, Nightmare
+# Dofus) and 306 on 74 beta items after 3.7.0.0, in de, es, fr and pt only,
+# because the English row already carries the plain name.
+_TEMPLATE = re.compile(r'\{\{[^{}]*?::([^{}]*?)\}\}')
+
+
+def resolve_templates(text):
+    """The name the template carries, in place of the template itself."""
+    return _TEMPLATE.sub(lambda match: match.group(1), text or '')
+
+
 def clean_line(line):
     text = _MARKUP.sub('', _SPRITE.sub('', line or ''))
-    text = text.strip()
+    text = resolve_templates(text).strip()
     while text[:1] in _BULLETS:
         text = text[1:].strip()
     return re.sub(r'\s{2,}', ' ', text)
@@ -63,7 +77,7 @@ def fold_spell_blocks(lines):
             kept.append(name)
             tooltips[name] = ' '.join(body)
         else:
-            kept.append(heading)
+            kept.append(resolve_templates(heading))
 
     for line in lines or []:
         if _is_head(line):
