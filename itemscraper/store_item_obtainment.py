@@ -14,7 +14,8 @@ if PROJECT_ROOT not in sys.path:
 if CURRENT_DIRECTORY not in sys.path:
     sys.path.append(CURRENT_DIRECTORY)
 
-from untranslated_tag import clean_description  # noqa: E402
+from untranslated_tag import (clean_description,  # noqa: E402
+                              clean_display_name)
 
 try:
     fashionista_config = importlib.import_module('fashionistapulp.fashionista_config')
@@ -347,7 +348,13 @@ def _store_item_data(cursor, item_id, language, entry, ingredient_name_map):
         names = ingredient_name_map.get((ingredient_subtype, int(ingredient_id)))
         if not names:
             continue
-        translated_name = names.get(language) or names.get('en')
+        # The tag marks a language the upstream could not translate, and an
+        # ingredient name is a display string like any other: on 2026-09-17 the
+        # beta shipped 12 of them ("[!] Enduit sufokien", "[!] Mule mineure",
+        # "[!] Mule", in de/en/es/pt). The sanitiser script is wired into no
+        # pipeline, so cleaning has to happen where the row is written.
+        translated_name = clean_display_name(
+            names.get(language) or names.get('en'))
         if not translated_name:
             continue
         cursor.execute(
