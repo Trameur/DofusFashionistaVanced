@@ -70,8 +70,13 @@ _MOITIE_QUI_FRAPPE = {
 
 #: Combien de sorts portent un groupe fait uniquement de buffs, et combien
 #: portent plusieurs series d'elements. Les deux bornent les regles.
+#:
+#: 29 -> 30 le 17 septembre 2026 avec la beta 3.7.0.0: la Toxicite Scurvion
+#: (12505) y passe de 4 lignes et une seule serie a 12 lignes et trois. Ankama
+#: a bouge la charge, le generateur n'a pas bouge, et la regle des series ne
+#: deplace toujours que Tout ou Rien.
 _AVEC_GROUPE_DE_BUFF = 13
-_AVEC_PLUSIEURS_SERIES = 29
+_AVEC_PLUSIEURS_SERIES = 30
 
 #: Ce qui reste apres le fil entier, et pourquoi c'est juste.
 _ZEROS_RESTANTS = 3

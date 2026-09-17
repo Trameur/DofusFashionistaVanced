@@ -661,8 +661,11 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         if 'conditions' in item:
             _conds = item["conditions"]
             _cond_text = _conds if isinstance(_conds, str) else ' '.join(str(c) for c in _conds)
-            # light_set: dofus3/beta "Set bonus < 3" -> id 1 (cap 2); the stricter
-            # touch "Set bonus < 2" -> id 3 (cap 1). See LIGHT_SET_LIMIT_FROM_ID.
+            # light_set: "Set bonus < 3" -> id 1 (cap 2); the stricter
+            # "Set bonus < 2" -> id 3 (cap 1). See LIGHT_SET_LIMIT_FROM_ID.
+            # Which version says which is Ankama's call and it moves: dofus2
+            # and touch were already on id 3, and beta 3.7.0.0 moved its 73
+            # trophies there while dofus3 3.6.11.15 stayed on id 1.
             if 'Set bonus < 2' in _cond_text:
                 f.write(f"INSERT INTO item_weird_conditions VALUES({item_id}, 3);\n")
             elif 'Set bonus <' in _cond_text:

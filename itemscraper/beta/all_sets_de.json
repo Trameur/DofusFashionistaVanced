@@ -96558,7 +96558,7 @@
         {
             "ankama_id": 578,
             "name": "Speerschmied-Prunkset",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96569,7 +96569,8 @@
                 28344,
                 28428,
                 28429,
-                28430
+                28430,
+                34578
             ]
         },
         {
@@ -96594,7 +96595,7 @@
         {
             "ankama_id": 580,
             "name": "Sram-Prunkset",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96605,7 +96606,8 @@
                 21475,
                 21476,
                 21477,
-                23003
+                23003,
+                34533
             ]
         },
         {
@@ -96720,7 +96722,7 @@
         {
             "ankama_id": 587,
             "name": "Pandawa-Prunkset",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96731,13 +96733,14 @@
                 23568,
                 23583,
                 23584,
-                23646
+                23646,
+                34580
             ]
         },
         {
             "ankama_id": 588,
             "name": "Sadida-Prunkset",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96748,7 +96751,8 @@
                 23046,
                 23047,
                 23048,
-                23644
+                23644,
+                34532
             ]
         },
         {
@@ -96808,7 +96812,7 @@
         {
             "ankama_id": 592,
             "name": "Ouginak-Prunkset",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96819,13 +96823,14 @@
                 24944,
                 24945,
                 24946,
-                25993
+                25993,
+                34534
             ]
         },
         {
             "ankama_id": 593,
             "name": "Enutrof-Prunkset",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96837,7 +96842,8 @@
                 25363,
                 25364,
                 25994,
-                30235
+                30235,
+                34579
             ]
         },
         {
@@ -96880,7 +96886,7 @@
         {
             "ankama_id": 596,
             "name": "Eliotrop-Prunkset",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96891,7 +96897,8 @@
                 26002,
                 26003,
                 26004,
-                26005
+                26005,
+                34535
             ]
         },
         {
@@ -97001,7 +97008,7 @@
         },
         {
             "ankama_id": 604,
-            "name": "Prunkset Lumino",
+            "name": "Prunkset von Lumino Star",
             "items": 3,
             "level": 1,
             "contains_cosmetics": true,
@@ -98890,7 +98897,7 @@
         {
             "ankama_id": 742,
             "name": "Prunkset des Strandwärters",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -98899,7 +98906,8 @@
                 28564,
                 28565,
                 28566,
-                30812
+                30812,
+                34500
             ]
         },
         {
@@ -99442,14 +99450,13 @@
         {
             "ankama_id": 788,
             "name": "Barbärdizer-Prunkset",
-            "items": 3,
+            "items": 2,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 9924,
-                9926,
-                12273
+                9926
             ]
         },
         {
@@ -100196,7 +100203,7 @@
         {
             "ankama_id": 843,
             "name": "Prunkset des Schwarzen Ritters",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -100205,7 +100212,8 @@
                 30062,
                 30063,
                 30064,
-                30066
+                30066,
+                30240
             ]
         },
         {
@@ -100386,7 +100394,7 @@
         },
         {
             "ankama_id": 858,
-            "name": "Retrofus-Ausrüstungsset",
+            "name": "Retrofus-Prunkset",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -114899,13 +114907,14 @@
         {
             "ankama_id": 1028,
             "name": "Zi-Prunkset",
-            "items": 2,
+            "items": 3,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30536,
-                32107
+                32107,
+                34590
             ]
         },
         {
@@ -118294,7 +118303,7 @@
         },
         {
             "ankama_id": 1059,
-            "name": "Ankamaset",
+            "name": "Ankama-Prunkset",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121304,10 +121313,10 @@
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
-                34128,
-                34129,
-                34130,
-                34131
+                34641,
+                34642,
+                34643,
+                34644
             ]
         },
         {
@@ -121765,71 +121774,6 @@
                         "formatted": "50 Schlagkraft"
                     },
                     {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Beschwörung",
-                            "id": 28,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 Beschwörung"
-                    },
-                    {
-                        "int_minimum": 10,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Schaden",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "10 Schaden"
-                    },
-                    {
-                        "int_minimum": 5,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Erdresistenz",
-                            "id": 63,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "5% Erdresistenz"
-                    },
-                    {
-                        "int_minimum": 5,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Wasserresistenz",
-                            "id": 17,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "5% Wasserresistenz"
-                    },
-                    {
-                        "int_minimum": 3,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Luftresistenz",
-                            "id": 16,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "3% Luftresistenz"
-                    },
-                    {
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
@@ -121841,86 +121785,6 @@
                         "ignore_int_min": false,
                         "ignore_int_max": true,
                         "formatted": "5% Feuerresistenz"
-                    }
-                ],
-                "3": [
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Beschwörung",
-                            "id": 28,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 Beschwörung"
-                    },
-                    {
-                        "int_minimum": 60,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Heilung",
-                            "id": 121,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "60 Heilung"
-                    },
-                    {
-                        "int_minimum": 50,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Schlagkraft",
-                            "id": 32,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "50 Schlagkraft"
-                    },
-                    {
-                        "int_minimum": 15,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Schaden",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "15 Schaden"
-                    },
-                    {
-                        "int_minimum": 5,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Erdresistenz",
-                            "id": 63,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "5% Erdresistenz"
-                    },
-                    {
-                        "int_minimum": 5,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Wasserresistenz",
-                            "id": 17,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "5% Wasserresistenz"
                     },
                     {
                         "int_minimum": 5,
@@ -121936,6 +121800,73 @@
                         "formatted": "5% Luftresistenz"
                     },
                     {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Wasserresistenz",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Wasserresistenz"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Erdresistenz",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Erdresistenz"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Schaden"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Beschwörung",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Beschwörung"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Feuerresistenz",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10% Feuerresistenz"
+                    },
+                    {
                         "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
@@ -121949,17 +121880,95 @@
                         "formatted": "1 AP"
                     },
                     {
-                        "int_minimum": 10,
+                        "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Feuerresistenz",
-                            "id": 37,
+                            "name": "% Luftresistenz",
+                            "id": 16,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10% Feuerresistenz"
+                        "formatted": "5% Luftresistenz"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Wasserresistenz",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Wasserresistenz"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Erdresistenz",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Erdresistenz"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schaden",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Schaden"
+                    },
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Schlagkraft",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 Schlagkraft"
+                    },
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Heilung",
+                            "id": 121,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 Heilung"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Beschwörung",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Beschwörung"
                     }
                 ]
             },
@@ -122110,7 +122119,7 @@
         },
         {
             "ankama_id": 1094,
-            "name": "[!] Panoplie d'apparat du Démon VI",
+            "name": "Prunkset von Dämon VI",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -122124,7 +122133,7 @@
         },
         {
             "ankama_id": 1095,
-            "name": "[!] Panoplie d'apparat diaprée du Démon VI",
+            "name": "Schillerndes Prunkset von Dämon VI",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -122213,6 +122222,164 @@
                 34506,
                 34508,
                 34510
+            ]
+        },
+        {
+            "ankama_id": 1102,
+            "name": "Prunkset zum 25. Jubiläum des Krosmoz",
+            "items": 18,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34512,
+                34513,
+                34514,
+                34515,
+                34516,
+                34517,
+                34518,
+                34519,
+                34520,
+                34521,
+                34522,
+                34523,
+                34524,
+                34525,
+                34526,
+                34527,
+                34528,
+                34536
+            ]
+        },
+        {
+            "ankama_id": 1103,
+            "name": "Prunkset von Goultard dem Verfluchten",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34552,
+                34553,
+                34554,
+                34555,
+                34556,
+                34557
+            ]
+        },
+        {
+            "ankama_id": 1104,
+            "name": "Prunkset der Elfenbein-Lotterie",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34558,
+                34559,
+                34560,
+                34561
+            ]
+        },
+        {
+            "ankama_id": 1105,
+            "name": "Otomaï-Prunkset",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34563,
+                34564,
+                34565
+            ]
+        },
+        {
+            "ankama_id": 1108,
+            "name": "Porzelluna-Prunkset",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34606,
+                34607,
+                34608,
+                34609,
+                34610,
+                34645
+            ]
+        },
+        {
+            "ankama_id": 1109,
+            "name": "[!] Panoplie d'apparat de Jade",
+            "items": 5,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34636,
+                34637,
+                34638,
+                34639,
+                34640
+            ]
+        },
+        {
+            "ankama_id": 1110,
+            "name": "Prunkset von Welsh und Shedar",
+            "items": 2,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34622,
+                34623
+            ]
+        },
+        {
+            "ankama_id": 1111,
+            "name": "[!] Panoplie d'apparat de la Démone VII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34676,
+                34677,
+                34678,
+                34679
+            ]
+        },
+        {
+            "ankama_id": 1112,
+            "name": "[!] Panoplie d'apparat diaprée de la Démone VII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34680,
+                34681,
+                34682,
+                34683
+            ]
+        },
+        {
+            "ankama_id": 1113,
+            "name": "[!] Panoplie d'apparat du Gardien des âmes",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34684,
+                34685,
+                34687,
+                34688,
+                34689,
+                34690
             ]
         }
     ]

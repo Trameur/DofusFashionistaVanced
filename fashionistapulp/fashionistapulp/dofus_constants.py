@@ -319,11 +319,18 @@ ELEMENT_NAME_TO_KEY = {v: k for k, v in ELEMENT_KEY_TO_NAME.items()}
 
 WEIRD_CONDITION_FROM_ID = {1: 'light_set', 2: 'prysmaradite', 3: 'light_set'}
 # light_set has two variants by set-bonus threshold: id 1 = "Set bonus < 3"
-# (dofus3/beta -> at most 2 weighted set-bonuses while the trophy is worn),
-# id 3 = "Set bonus < 2" (touch -> at most 1). The LP enforces this cap.
+# (at most 2 weighted set-bonuses while the trophy is worn), id 3 =
+# "Set bonus < 2" (at most 1). The LP enforces this cap, per item.
+#
+# Which version writes which is a game rule, not a property of the id. Counted
+# in the five shipped catalogues on 2026-09-17: dofus3 87 rows of id 1, dofus2
+# 87 of id 3, touch 71 of id 3, beta 73 of id 3, retro none. The beta moved
+# there at 3.7.0.0, where Ankama put its 73 remaining trophies on
+# "Set bonus < 2" and dropped the condition from the 15 Carapaces, while
+# Dofus 3 at 3.6.11.15 still says "Set bonus < 3".
 LIGHT_SET_LIMIT_FROM_ID = {1: 2, 3: 1}
-# Canonical write ids (light_set writes as the dofus3 variant; the stricter
-# touch id 3 is only emitted by the scraper, never by a manual edit).
+# Canonical write ids (light_set writes as the two-bonus variant; the stricter
+# id 3 is only emitted by the scraper, never by a manual edit).
 WEIRD_CONDITION_TO_ID = {'light_set': 1, 'prysmaradite': 2}
 WEIRD_CONDITIONS = ['light_set', 'prysmaradite']
 

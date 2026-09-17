@@ -1,8 +1,8 @@
 """Centralized version metadata for Dofus Fashionista."""
 from __future__ import annotations
 
-FASHIONISTA_VERSION = "3.6.11.12"
-FASHIONISTA_BETA_VERSION = "3.6.7.7"
+FASHIONISTA_VERSION = "3.6.11.15"
+FASHIONISTA_BETA_VERSION = "3.7.0.0"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
 FASHIONISTA_RETRO_VERSION = "1.48"
 FASHIONISTA_TOUCH_VERSION = "1.73"
@@ -18,8 +18,15 @@ FASHIONISTA_TOUCH_VERSION = "1.73"
 # where every entry is level 1 with at most two effects, against the varied
 # levels and up to six effects of the real cloaks and shields. The database
 # came out identical, 39 tables compared by content.
-WATCHED_RETRO_BUILD = "1.49.2.5639.441-0b18f88"
-WATCHED_TOUCH_ASSETS = "3.3.4_JQRGJCkoJZrlHn0XElOeOU3CuELSZK4T"
+#
+# 3.3.5 moved even less: the same two records out of 13679 in each of the four
+# languages Touch still serves, a spell book's criteria (24057) and an
+# ornament's look (23923, typeId 185). Retro 1.49.3 moved its build with all
+# seven lang categories and all 9428 rendered clips standing still. Both were
+# re-scraped on 2026-09-15 and both databases came out identical, every table
+# compared as a set of rows.
+WATCHED_RETRO_BUILD = "1.49.3.5642.442-b268567"
+WATCHED_TOUCH_ASSETS = "3.3.5_55A*0LkA*Su_4FZR9ldP2LLj-_qW*eSL"
 
 # Retro item data comes from the lang CDN, not from the client build, and that
 # is now measured twice rather than argued: 1.49.0 and then 1.49.1 both shipped

@@ -2990,15 +2990,22 @@ class PersecutingArrowWaitsForTheTargetToBreakSightTests(SimpleTestCase):
 
     ANKAMA_ID = 32433
 
-    #: What each language must still say for the rule above to be theirs. Two
-    #: fragments per language, because "line of sight" alone appears on other
-    #: spells and "following turn" alone appears on every poison.
+    #: What each language must still say for the rule above to be theirs: one
+    #: of the delay wordings, and the sight fragment. Two signals, because
+    #: "line of sight" alone appears on other spells and a delay wording alone
+    #: appears on every poison.
+    #:
+    #: Ankama says the delay two ways, and which one is live depends on the
+    #: version: Dofus 3 at 3.6.11.15 says "on the following turn", while beta
+    #: 3.7.0.0 rewrote the same sentence as "delayed" ("a retardement", "con
+    #: efecto retardado", "com atraso", "verzoegerten"). The rule itself did
+    #: not move: the row still waits and still lands only out of sight.
     SAYS_IT = {
-        'en': ('following turn', 'line of sight'),
-        'fr': ('tour suivant', 'ligne de vue'),
-        'es': ('siguiente turno', 'línea de visión'),
-        'pt': ('turno seguinte', 'linha de visão'),
-        'de': ('nächsten Runde', 'Sichtlinie'),
+        'en': (('following turn', 'delayed'), 'line of sight'),
+        'fr': (('tour suivant', 'retardement'), 'ligne de vue'),
+        'es': (('siguiente turno', 'retardado'), 'línea de visión'),
+        'pt': (('turno seguinte', 'atraso'), 'linha de visão'),
+        'de': (('nächsten Runde', 'verzögerten'), 'Sichtlinie'),
     }
 
     def _entry(self, version):
@@ -3028,7 +3035,12 @@ class PersecutingArrowWaitsForTheTargetToBreakSightTests(SimpleTestCase):
                 with self.subTest(version=version, language=language):
                     text = (entry.get('description') or {}).get(language) or ''
                     for fragment in fragments:
-                        self.assertIn(fragment, text)
+                        alternatives = ((fragment,) if isinstance(fragment, str)
+                                        else fragment)
+                        self.assertTrue(
+                            any(alt in text for alt in alternatives),
+                            'none of %s is in %r'
+                            % (list(alternatives), text))
 
     def test_the_second_row_is_the_one_held_back(self):
         for version in ('dofus3', 'beta'):

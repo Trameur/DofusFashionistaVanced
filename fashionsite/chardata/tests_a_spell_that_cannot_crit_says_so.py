@@ -34,7 +34,12 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 #: Ce que chaque version porte, mesure le 13 septembre 2026. Le compte exact
 #: plutot qu'un minimum: si le jeu en ajoute ou en retire, la phrase touche
 #: d'autres sorts et cela se decide, cela ne se subit pas.
-_SANS_CRITIQUE = {'dofus3': 58, 'beta': 58, 'dofus2': 53, 'touch': 0,
+#:
+#: Beta 58 -> 59 le 17 septembre 2026, avec 3.7.0.0: la Pelle de Fortune
+#: (Lucky Shovel, 29755) y porte desormais une ligne de degats et aucune ligne
+#: critique, alors que Dofus 3 3.6.11.15 ne la compte pas parmi ses sorts de
+#: degats. Mesure des deux cotes avec le meme generateur.
+_SANS_CRITIQUE = {'dofus3': 58, 'beta': 59, 'dofus2': 53, 'touch': 0,
                   'retro': 0}
 
 #: Les deux phrases, par langue, telles que le lecteur les recoit.

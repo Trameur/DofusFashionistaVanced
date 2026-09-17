@@ -79,8 +79,13 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 #: sort qui sort de la portee, ou qui y entre, doit se voir ici.
 SORTS_DECLARES = {'dofus3': 32, 'beta': 32, 'dofus2': 26, 'touch': 6,
                   'retro': 1}
-SUITES_DECLAREES = 201
-SUITES_NON_DECLAREES = 86
+#: Les suites, elles, ont bouge avec la beta 3.7.0.0 le 17 septembre 2026:
+#: declarees 201 -> 198 et non declarees 86 -> 87, sur les memes 32 sorts.
+#: Mesure des deux cotes avec le meme generateur, seule la charge d'Ankama
+#: ayant change: le Mot d'Amitie passe de 24 lignes et 6 suites a 8 lignes et
+#: 1, et la Toxicite Scurvion de 4 lignes et 1 suite a 12 lignes et 3.
+SUITES_DECLAREES = 198
+SUITES_NON_DECLAREES = 87
 
 
 def _rows_of(spell):

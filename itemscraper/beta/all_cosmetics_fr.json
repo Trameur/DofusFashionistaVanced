@@ -40931,7 +40931,7 @@
         },
         {
             "ankama_id": 21482,
-            "name": "Dragodinde Roublard",
+            "name": "Dragodinde Roublarde",
             "type": {
                 "name": "Monture d'apparat",
                 "id": 245
@@ -41142,7 +41142,7 @@
         },
         {
             "ankama_id": 21769,
-            "name": "Cape Osamodas",
+            "name": "Parure Osamodas",
             "type": {
                 "name": "Cape d'apparat",
                 "id": 18
@@ -41874,7 +41874,7 @@
         },
         {
             "ankama_id": 21787,
-            "name": "Coiffe Steamer",
+            "name": "Bandeau Steamer",
             "type": {
                 "name": "Chapeau d'apparat",
                 "id": 6
@@ -42279,7 +42279,7 @@
         },
         {
             "ankama_id": 21796,
-            "name": "Coiffe Crâ",
+            "name": "Diadème Crâ",
             "type": {
                 "name": "Chapeau d'apparat",
                 "id": 6
@@ -42365,7 +42365,7 @@
         },
         {
             "ankama_id": 21798,
-            "name": "Épaulières Crâ",
+            "name": "Boucliépaulière Crâ",
             "type": {
                 "name": "Bouclier d'apparat",
                 "id": 19
@@ -42375,7 +42375,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82253-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82253-128.png"
             },
-            "description": "Ces épaulières sont des pièces rares et très prisées conférant à qui les porte une élégance inégalée.\n\n(Déposez ces épaulières sur un bouclier déjà équipé pour lui transmettre leur apparence)",
+            "description": "Cette épaulière est une pièce rare et très prisée conférant à qui les porte une élégance inégalée.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -44249,7 +44249,7 @@
         },
         {
             "ankama_id": 22362,
-            "name": "Coiffe Féca",
+            "name": "Casque Féca",
             "type": {
                 "name": "Chapeau d'apparat",
                 "id": 6
@@ -44259,7 +44259,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16613-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16613-128.png"
             },
-            "description": "Avec cette coiffe à cornes dorées sur la tête, tout le monde verra que vous êtes portés sur le luxe et l'élégance mais personne n'osera vous faire la moindre remarque.",
+            "description": "Avec ce casque à cornes dorées sur la tête, tout le monde verra que vous êtes portés sur le luxe et l'élégance mais personne n'osera vous faire la moindre remarque.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -44292,7 +44292,7 @@
         },
         {
             "ankama_id": 22363,
-            "name": "Cape Féca",
+            "name": "Voile Féca",
             "type": {
                 "name": "Cape d'apparat",
                 "id": 18
@@ -44624,7 +44624,7 @@
         },
         {
             "ankama_id": 22452,
-            "name": "Coiffe Zobal",
+            "name": "Masque Zobal",
             "type": {
                 "name": "Chapeau d'apparat",
                 "id": 6
@@ -46221,7 +46221,7 @@
         },
         {
             "ankama_id": 23040,
-            "name": "Coiffe Sadida",
+            "name": "Diadème Sadida",
             "type": {
                 "name": "Chapeau d'apparat",
                 "id": 6
@@ -47947,7 +47947,7 @@
         },
         {
             "ankama_id": 23463,
-            "name": "Coiffe Xélor",
+            "name": "Casque Xélor",
             "type": {
                 "name": "Chapeau d'apparat",
                 "id": 6
@@ -52422,7 +52422,7 @@
         },
         {
             "ankama_id": 24972,
-            "name": "Ailes d'Eniripsa",
+            "name": "Ailes Eniripsa",
             "type": {
                 "name": "Ailes",
                 "id": 218
@@ -54836,7 +54836,7 @@
         },
         {
             "ankama_id": 25173,
-            "name": "Coiffe Huppermage",
+            "name": "Diadème Huppermage",
             "type": {
                 "name": "Chapeau d'apparat",
                 "id": 6
@@ -67926,7 +67926,7 @@
         },
         {
             "ankama_id": 27429,
-            "name": "Cape de Lumino",
+            "name": "Cape de Lumino Star",
             "type": {
                 "name": "Cape d'apparat",
                 "id": 18
@@ -75380,7 +75380,7 @@
         },
         {
             "ankama_id": 28564,
-            "name": "Paill'Nama du Plagiste",
+            "name": "Paill'Nama du plagiste",
             "type": {
                 "name": "Chapeau d'apparat",
                 "id": 6
@@ -85191,7 +85191,7 @@
         },
         {
             "ankama_id": 30235,
-            "name": "Ailes d'Enutrof",
+            "name": "Ailes Enutrof",
             "type": {
                 "name": "Ailes",
                 "id": 218
@@ -85446,7 +85446,7 @@
         },
         {
             "ankama_id": 30244,
-            "name": "Ailes de Sacrieur",
+            "name": "Ailes Sacrieur",
             "type": {
                 "name": "Ailes",
                 "id": 218
@@ -99145,14 +99145,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 },
                 {
                     "int_minimum": 0,
@@ -99188,14 +99188,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 },
                 {
                     "int_minimum": 0,
@@ -99231,14 +99231,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 },
                 {
                     "int_minimum": 0,
@@ -99287,14 +99287,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -100363,7 +100363,7 @@
         },
         {
             "ankama_id": 33677,
-            "name": "Ailes de Steamer",
+            "name": "Tentacules Steamer",
             "type": {
                 "name": "Ailes",
                 "id": 218
@@ -100393,7 +100393,7 @@
         },
         {
             "ankama_id": 33678,
-            "name": "Ailes de Féca",
+            "name": "Pavois dorsaux Féca",
             "type": {
                 "name": "Ailes",
                 "id": 218
@@ -100423,7 +100423,7 @@
         },
         {
             "ankama_id": 33679,
-            "name": "Ailes de Crâ",
+            "name": "Flèches ailées Crâ",
             "type": {
                 "name": "Ailes",
                 "id": 218
@@ -101002,14 +101002,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 },
                 {
                     "int_minimum": 0,
@@ -101376,14 +101376,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -101419,14 +101419,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -101462,14 +101462,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -101505,14 +101505,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -103694,7 +103694,7 @@
         },
         {
             "ankama_id": 34406,
-            "name": "Torse Zobal",
+            "name": "Plastron Zobal",
             "type": {
                 "name": "Costume",
                 "id": 16
@@ -103704,7 +103704,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164310-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164310-128.png"
             },
-            "description": "Un torse avec tant de facettes qu'on croirait qu'il ressent des émotions... Il a tendance à grimacer quand on l'approche de l'eau.",
+            "description": "Un plastron avec tant de facettes qu'on croirait qu'il ressent des émotions... Il a tendance à grimacer quand on l'approche de l'eau.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -103940,7 +103940,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17699-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17699-128.png"
             },
-            "description": "Elle comporte des ailes si vous voulez planer et des nageoires si vous voulez respirer sous l'eau. Aucune d'entre elles ne fonctionne.",
+            "description": "Ne vous fiez pas à ses appendices tranchants : cette cape n'offre aucun aérodynamisme et s'avère d'une lourdeur catastrophique sous l'eau. En revanche, son styliste a juré qu'elle extermine le mauvais goût à coup sûr. C'est déjà ça de pris, non ?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -104101,14 +104101,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -104144,14 +104144,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -104187,14 +104187,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -104230,14 +104230,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Lié au personnage",
-                        "id": 81,
+                        "name": "Échangeable :",
+                        "id": 0,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lié au personnage"
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -104526,6 +104526,49 @@
                     "ignore_int_min": true,
                     "ignore_int_max": true,
                     "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34487,
+            "name": "Tofookie",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18946-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18946-128.png"
+            },
+            "description": "N'est-il pas à croquer ?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
                 }
             ],
             "pods": 1
@@ -104977,6 +105020,3312 @@
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648906-128.png"
             },
             "description": "Aussi résistantes qu'ardentes, ces épaulières reflètent la fureur de Scoreur.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34512,
+            "name": "Cache-œil des 25 ans du Krosmoz",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16916-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16916-128.png"
+            },
+            "description": "Il y a 25 ans, qui aurait pu voir venir une telle pérennité ?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34513,
+            "name": "Cape des 25 ans du Krosmoz",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17701-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17701-128.png"
+            },
+            "description": "Installez-vous dans un coin, enveloppez-vous dans cette cape et écoutez les merveilleuses histoires du Krosmoz.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34514,
+            "name": "Bouclier des 25 ans du Krosmoz",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82597-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82597-128.png"
+            },
+            "description": "Les batailles épiques ne manquent pas dans le Krosmoz, c'est pourquoi il est judicieux d'avoir toujours un bouclier à portée de main.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34515,
+            "name": "Ailes des 25 ans du Krosmoz",
+            "type": {
+                "name": "Ailes",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164976-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164976-128.png"
+            },
+            "description": "Papillonez de quêtes en quêtes pour réunir les tant convoités Dofus.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34516,
+            "name": "Costume des 25 ans du Krosmoz",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164978-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164978-128.png"
+            },
+            "description": "Seuls les plus courageux explorateurs du Krosmoz sont dignes de revêtir ce costume.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34517,
+            "name": "Épaulières des 25 ans du Krosmoz",
+            "type": {
+                "name": "Épaulière",
+                "id": 259
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164977-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164977-128.png"
+            },
+            "description": "Le poids du Krosmoz pèse sur vos épaules.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34518,
+            "name": "Hache du Téméraire",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/19088-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/19088-128.png"
+            },
+            "description": "Il parait que cette hache a été forgée grâce au souffle d'Ignemikal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34519,
+            "name": "Faux du Téméraire",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/22020-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/22020-128.png"
+            },
+            "description": "Il parait que cette faux a été forgée grâce au souffle d'Ignemikal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34520,
+            "name": "Marteau du Fuligineux",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/7754-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/7754-128.png"
+            },
+            "description": "Il parait que ce marteau a été forgé grâce au souffle de Grougalorasalar.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34521,
+            "name": "Pelle du Boueux",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/8887-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/8887-128.png"
+            },
+            "description": "Il parait que cette pelle a été forgée grâce au souffle de Terrakourial.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34522,
+            "name": "Lance du Boueux",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/183019-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/183019-128.png"
+            },
+            "description": "Il parait que cette lance a été forgée grâce au souffle de Terrakourial.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 0
+        },
+        {
+            "ankama_id": 34523,
+            "name": "Dagues du Coulant",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/5111-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/5111-128.png"
+            },
+            "description": "Il parait que ces dagues ont été forgées grâce au souffle d'Aguabrial.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34524,
+            "name": "Baguette du Coulant",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/3099-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/3099-128.png"
+            },
+            "description": "Il parait que cette baguette a été taillée sous l'œil attentif d'Aguabrial.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34525,
+            "name": "Arc du Venteux",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/2100-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/2100-128.png"
+            },
+            "description": "Il parait que cet arc a été taillé sous l'œil attentif d'Aerafal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34526,
+            "name": "Bâton du Venteux",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/4146-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4146-128.png"
+            },
+            "description": "Il parait que ce bâton a été taillé sous l'œil attentif d'Aerafal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34527,
+            "name": "Épée du Sage",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/6766-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/6766-128.png"
+            },
+            "description": "Il parait que cette épée a été forgée grâce au souffle de Dardondakal.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34528,
+            "name": "Krosmozore",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121181-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121181-128.png"
+            },
+            "description": "Ah le kro, kro kro, le kro, kro, kro, le krosmozore...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34529,
+            "name": "Tofu Harebourg",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18950-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18950-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34530,
+            "name": "Tofu Julith",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18949-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18949-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34531,
+            "name": "Bellafeuille",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16920-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16920-128.png"
+            },
+            "description": "Les Bellaphones ont sélectionné pour vous cette feuille toute douce pour éviter que vous ne deveniez dur de la feuille.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34532,
+            "name": "Ceinture Sadida",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164317-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164317-128.png"
+            },
+            "description": "Cette ceinture à base de racines d'abraknyde et de feuilles de branche soignante est une version revisitée et stylisée de l'illustre ceinture luthe.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34533,
+            "name": "Ailes osseuses Sram",
+            "type": {
+                "name": "Ailes",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164319-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164319-128.png"
+            },
+            "description": "Ces ailes ne vous seront pas utiles pour voler, mais vous pourrez prendre à la volée un de ses os pour vous armer et mieux piller.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34534,
+            "name": "Attributs Ouginak",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164318-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164318-128.png"
+            },
+            "description": "Avec ce costume, vous excellerez dans l'art de donner la patte.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34535,
+            "name": "Ailes Eliotrope",
+            "type": {
+                "name": "Ailes",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164320-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164320-128.png"
+            },
+            "description": "On dit que la taille des ailes d'un Eliotrope reflète son niveau de maîtrise du Wakfu.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34536,
+            "name": "Krozti",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18947-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18947-128.png"
+            },
+            "description": "Krozti, et le dragon sera en vous.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34552,
+            "name": "Costume du Maudit",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164322-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164322-128.png"
+            },
+            "description": "Même si Goultard a vaguement le profil d'un Iop, il n'a plus grand chose d'humain... Le guerrier avait jadis le cœur aussi gonflé d'amour que ses muscles, mais des événements tragiques l'ont mené sur la voie du chaos et de la destruction. Goultard est sans doute, aujourd'hui encore, le guerrier le plus puissant du Monde des Douze.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34553,
+            "name": "Médorror",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121186-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121186-128.png"
+            },
+            "description": "Médoroziam a dû posséder toutes sortes d'animaux avant de pouvoir entrer en symbiose avec des créatures plus évoluées. Cet animal est une de ses victimes, et en a gardé des traces.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34554,
+            "name": "« L'Épée »",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18952-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18952-128.png"
+            },
+            "description": "Cette épée fut le premier cadeau de Goultard par son père le Dieu Iop. Elle l'a suivi jusqu'au bout, dans le meilleur comme dans le pire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34555,
+            "name": "Bouclier du Maudit",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82603-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82603-128.png"
+            },
+            "description": "Il semblerait que ce mimibiote ne soit pas rassasié, il pourrait dévorer votre bras.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34556,
+            "name": "Voile du Maudit",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17706-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17706-128.png"
+            },
+            "description": "Voilà donc à quoi ressemble un mimibiote avant qu'il ne copie l'apparence de la cape qu'il dévore.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34557,
+            "name": "Tignasse du Maudit",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16924-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16924-128.png"
+            },
+            "description": "Vous avez toujours rêvé de ressembler au beau et valeureux Goultard ? Avec cette tignasse, vous aurez malheureusement plutôt l'air de ne plus être humain et d'avoir soif de destruction.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34558,
+            "name": "Dardikil",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18951-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18951-128.png"
+            },
+            "description": "Ce petit dragon va devenir votre phare au milieu de la nuit, votre lumière au bout du tunnel ! Un guide précieux empli de sagesse... qu'il ne faut pas non plus suivre tête baissée ! En effet, Dardikil est du genre blagueur, puisqu'il ne prend rien, mais alors rien au sérieux...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34559,
+            "name": "Égide de Sagesse",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82604-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82604-128.png"
+            },
+            "description": "Vous n'êtes pas du genre à prendre des vessies pour des lanternes, mais vous croyez fermement que ce bouclier rutilant peut vous aider à décrocher la lune. Devenez le phare de votre guilde : à votre tour, éclairez la lanterne de vos coéquipiers !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34560,
+            "name": "Manteau de Lumière",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17707-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17707-128.png"
+            },
+            "description": "L'aura brumeuse de cette cape semble faire de vous un être tout-puissant qui, réchappé des limbes, reviendrait avec toutes les connaissances du Krosmoz en héritage... Ou alors vous sortez simplement d'un frigo ou d'une chambre froide. Sans trembler. Ce qui est un peu impressionnant aussi.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34561,
+            "name": "Heaume de l'Aube",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16925-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16925-128.png"
+            },
+            "description": "Si ce n'était pas le cas jusque-là, cette coiffe vous permettra d'avoir la lumière à tous les étages et de devenir plus clairvoyant. Vos décisions seront plus sages. Votre regard sur le monde, plus distancé. Vous serez le/la premier(e) à profiter de vos lumières !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34563,
+            "name": "Perruque d'Otomaï",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16923-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16923-128.png"
+            },
+            "description": "Vous qui rêviez de ressembler à Otomaï, cette perruque est ce qu'il vous faut. Mais vous comprendrez aussi vite qu'elle n'est clairement pas pratique à porter.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34564,
+            "name": "Cape d'Otomaï",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17705-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17705-128.png"
+            },
+            "description": "Tous les alchimistes ne portent pas de cape.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34565,
+            "name": "Vêtements d'Otomaï",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164321-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164321-128.png"
+            },
+            "description": "Otomaï est un alchimiste puissant, créateur de la célèbre potion contre la myxomawose. Enchanteur spécialisé dans l'étude des créatures du vivant, il est à l'origine de la découverte de l'île qui porte aujourd'hui son nom. C'est là qu'il a tenté de réunir les différentes espèces animales du Monde des Douze, afin de pratiquer de mystérieuses expériences...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34578,
+            "name": "Col Forgelance",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164325-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164325-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34579,
+            "name": "Plastron Enutrof",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164323-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164323-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34580,
+            "name": "Lanières Pandawa",
+            "type": {
+                "name": "Ailes",
+                "id": 218
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164324-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164324-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34582,
+            "name": "Cape du quart de siècle",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17693-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17693-128.png"
+            },
+            "description": "Tissée à l'aube du temps, elle a traversé les âges et a évolué aux côtés des incarnés. Chacun de ses plis rappelle que même le temps respecte les légendes.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34590,
+            "name": "Bouclier de Zi",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82606-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82606-128.png"
+            },
+            "description": "La sonnerie lointaine d'un mégaphone vous extirpe de votre stupeur. Il s'est passé un instant, mais il a semblé durer 10 longues années. Vous vous sentez envahis d'une douce mélancolie, un état second proche de l'euphorie, celui qu'on ressent lorsque quelque chose d'important se termine. Un peu comme si tout ce que vous aviez donné vous était rendu au centuple. C'est donc ça le pouvoir de Zi...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34606,
+            "name": "Masque de Porcelune",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16927-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16927-128.png"
+            },
+            "description": "Ce masque est lourd à porter, mais représente bien la fragilité d'une émotion que vous cherchez à dissimuler. Peu importe votre humeur du jour, il vous permet d'afficher un visage sobre et distingué, tout en restant impassible.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34607,
+            "name": "Cape de Porcelune",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17709-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17709-128.png"
+            },
+            "description": "Cette cape n'est rien d'autre qu'un vase qui a été transformé pour pouvoir le porter plus facilement. Elle demande à son porteur, une grande vigilance sous peine de finir en morceaux au moindre choc.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34608,
+            "name": "Bouclier de Porcelune",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82607-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82607-128.png"
+            },
+            "description": "Les jointures en or de ce bouclier sont volontairement sublimées, afin d'en préserver l'histoire. À une époque où un objet brisé semble perdre toute valeur, il vous rappellera que reconnaître ses faiblesses c'est souvent en faire une force.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34609,
+            "name": "Bouflune",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121188-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121188-128.png"
+            },
+            "description": "Une fois par an, sans qu'on puisse prédire quand, une lune d'or apparait dans le ciel. Nombreux sont les bienfaits qui lui sont attribués, mais l'un des plus étranges est sans hésitation la naissance de Bouftous spéciaux : Les Bouflunes.\nDotés d'une porcelaine qui ne peut être tondue, et de parés d'or, ils sont souvent élevés au rang de mythe.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34610,
+            "name": "Amphaïence",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18955-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18955-128.png"
+            },
+            "description": "AmphaÏence est né un jour où la température était un peu fraîche, ce qui lui a laissé quelques séquelles. Moqué par les siens, il rêvera toute sa vie d'être en porcelaine, comme les autres...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34614,
+            "name": "Miniduk Krosmique",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18954-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18954-128.png"
+            },
+            "description": "Un problème, un bug ? Un aventurier malin vous a donné 10% de vos kamas ? Pas de panique ! Vous n'avez pas besoin de contacter le support Ankama car le Miniduk sera là pour vous guider mais aussi sécher vos larmes tout au long de votre aventure dans le Monde des Douze. En plus, celui-ci, il est krosmique...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34620,
+            "name": "WIP NO_TRAD - Montilier Préhistoire",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121184-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121184-128.png"
+            },
+            "description": "",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34622,
+            "name": "Minimou",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18957-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18957-128.png"
+            },
+            "description": "Il est mignon, même s'il est aussi parfois un peu trop lucide...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34623,
+            "name": "Marmiclier",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82610-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82610-128.png"
+            },
+            "description": "Il est optimisé pour de nombreux usages : chapeau de soirée, luge, lancer de disque ou bouclier. Il paraît même que sa propriétaire originale s'en servait même pour cuire des aliments... Quelle drôle d'idée !",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34626,
+            "name": "Dragodinde Kraméléhone",
+            "type": {
+                "name": "Monture d'apparat",
+                "id": 245
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97016-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97016-128.png"
+            },
+            "description": "Cette dragodinde a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34627,
+            "name": "Muldo Kraméléhon",
+            "type": {
+                "name": "Monture d'apparat",
+                "id": 245
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97097-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97097-128.png"
+            },
+            "description": "Ce muldo a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34628,
+            "name": "Volkorne Kraméléhon",
+            "type": {
+                "name": "Monture d'apparat",
+                "id": 245
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97182-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97182-128.png"
+            },
+            "description": "Ce volkorne a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34636,
+            "name": "Couronne de jade",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16928-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16928-128.png"
+            },
+            "description": "Le jade poli avec laquelle cette couronne a été taillée semble doté d'un étrange champ magnétique, lui permettant d'intégrer des ornements qui semblent flotter dans les airs.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34637,
+            "name": "Cape de jade",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17710-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17710-128.png"
+            },
+            "description": "Cette cape en queue de grue se sépare en deux afin de faciliter le mouvement de son porteur. La finesse de ses coutures la rend quasiment transparente et en fait un atour luxueux digne d'une œuvre d'art.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34638,
+            "name": "Bouclier de jade",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82608-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82608-128.png"
+            },
+            "description": "Ce bouclier gravé arbore une grue prenant son envol. Symbole d'immortalité et de bon augure, elle semble particulièrement adaptée afin d'assurer la protection de son porteur.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34639,
+            "name": "Grue de jade",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18956-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18956-128.png"
+            },
+            "description": "Cet oiseau mystique vous portera bonheur tant que vous le chérissez. Mais attention, un simple repas manqué pourrait bien vous attirer les foudres de ce divin volatile.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34640,
+            "name": "Costume de jade",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648908-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648908-128.png"
+            },
+            "description": "Cette armure de jade se transmet de génération en génération. En l'enfilant, vous sentez peser sur vos épaules tout le poids d'une lignée qui repose sur vous. Il vous incombe d'en prendre soin afin que votre descendance en hérite lorsque vous ne pourrez plus l'honorer.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34641,
+            "name": "Pointe du Crépuscule",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16930-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16930-128.png"
+            },
+            "description": "Sont-ce de sombres pensées ou des idées noires qui s'échappent en volutes de votre couvre-chef ? En tout cas, ce teint ébène vous va à merveille ! Il révèle brillamment votre part de ténèbres...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34642,
+            "name": "Voile des Ténèbres",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17712-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17712-128.png"
+            },
+            "description": "Cette cape serait-elle les vestiges de l'ultime combat aérien du Dragon noir : les ailes brisées d'Azalar ? Ou simplement l'état dans lequel le gardien du Dofus Ébène a laissé cette cape après y avoir apposé sa griffe ? Dans les deux cas, c'est cool.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34643,
+            "name": "Égide Obscure",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82611-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82611-128.png"
+            },
+            "description": "Ne regardez pas trop longtemps ce cercle infernal : il pourrait vider votre corps en aspirant votre âme ! Bon, personne n'a vérifié si cette malédiction était avérée, mais je connais deux-trois Iops qui ont regardé une éclipse sans lunettes de protection. Il vaut mieux éviter.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34644,
+            "name": "Grougalou",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18958-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18958-128.png"
+            },
+            "description": "Ne vous méfiez pas des apparences ! Cet obscur dragonnet a le caractère et l'appétit qui vont avec : destructeurs ! Ne lui tendez pas la main, comptez régulièrement vos doigts ; caressez éventuellement sa tête quand il a le dos tourné, c'est le seul endroit qui ne vous fera pas saigner.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34645,
+            "name": "Bras de Porcelune",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164327-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164327-128.png"
+            },
+            "description": "Ces bras vous feront paraître délicat et fragile, mais tout ceci n'est qu'apparence.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34676,
+            "name": "Cornes de la Démone VII",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16921-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16921-128.png"
+            },
+            "description": "VII accorde beaucoup d'importance à ses cornes : elles sont un de ses principaux charmes pour s'attirer les faveurs des autres démons de l'Hormonde.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34677,
+            "name": "Cape de la Démone VII",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17703-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17703-128.png"
+            },
+            "description": "Imaginez la quantité de pauvres chachas innocents qui a été nécessaire à VII pour la confection de cette cape. Maintenant, imaginez pour toute sa garde-robe...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34678,
+            "name": "Bouclier de la Démone VII",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82601-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82601-128.png"
+            },
+            "description": "Entre les chachas empaillés et les cornes acérées, ce bouclier devrait aisément repousser vos prétendants indésirables.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34679,
+            "name": "Guêtres de la Démone VII",
+            "type": {
+                "name": "Épaulière",
+                "id": 259
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164979-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164979-128.png"
+            },
+            "description": "Ces guêtres en fourrure de chacha habilleront parfaitement vos tenues les plus déshabillées, en appuyant votre attitude sensuelle et mystérieuse dans les soirées mondaines de l'Hormonde.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34680,
+            "name": "Cornes diaprées de la Démone VII",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16922-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16922-128.png"
+            },
+            "description": "VII accorde beaucoup d'importance à ses cornes : elles sont un de ses principaux charmes pour s'attirer les faveurs des autres démons de l'Hormonde.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34681,
+            "name": "Cape diaprée de la Démone VII",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17704-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17704-128.png"
+            },
+            "description": "Imaginez la quantité de pauvres chachas innocents qui a été nécessaire à VII pour la confection de cette cape. Maintenant, imaginez pour toute sa garde-robe...",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34682,
+            "name": "Bouclier diapré de la Démone VII",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82602-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82602-128.png"
+            },
+            "description": "Entre les chachas empaillés et les cornes acérées, ce bouclier devrait aisément repousser vos prétendants indésirables.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34683,
+            "name": "Guêtres diaprées de la Démone VII",
+            "type": {
+                "name": "Épaulière",
+                "id": 259
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164980-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164980-128.png"
+            },
+            "description": "Ces guêtres en fourrure de chacha habilleront parfaitement vos tenues les plus déshabillées, en appuyant votre attitude sensuelle et mystérieuse dans les soirées mondaines de l'Hormonde.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34684,
+            "name": "Tarenterne",
+            "type": {
+                "name": "Familier d'apparat",
+                "id": 24
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18953-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18953-128.png"
+            },
+            "description": "Alors que votre âme s'apprête à rejoindre l'Externam, vous entendez les cliquetis des pattes de la Tarenterne qui arrive pour vous guider. Sa présence est rassurante et libère votre esprit. Vous pouvez partir en paix.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34685,
+            "name": "Tarentrouille",
+            "type": {
+                "name": "Montilier d'apparat",
+                "id": 59
+            },
+            "level": 60,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/121187-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/121187-128.png"
+            },
+            "description": "Lorsqu'une Tarenterne a emmagasiné un très grand nombre d'âmes, elle se transforme en Tarentrouille. Redoutée par les vivants, elle est pourtant l'incarnation de la dévotion avec laquelle elle a guidé les morts tout au long de sa vie.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34687,
+            "name": "Bandeau du Gardien des âmes",
+            "type": {
+                "name": "Chapeau d'apparat",
+                "id": 6
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16926-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16926-128.png"
+            },
+            "description": "Devant la mort, toutes les âmes sont égales. En portant ce bandeau, le Gardien des âmes assure une impartialité sans faille. C'est le poids des actions du défunt qui détermineront la suite de son histoire.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34688,
+            "name": "Cape du Gardien des âmes",
+            "type": {
+                "name": "Cape d'apparat",
+                "id": 18
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17708-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17708-128.png"
+            },
+            "description": "Il n'est jamais simple de quitter le mode des vivants et certaines âmes ne peuvent se résoudre à rejoindre l'Externam. Bloquées entre deux mondes, elles s'accrochent à la cape du Gardien des âmes, dans l'espoir vain et infini de pouvoir un jour retrouver leur passé pourtant révolu.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34689,
+            "name": "Miroir du Gardien des âmes",
+            "type": {
+                "name": "Bouclier d'apparat",
+                "id": 19
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82605-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82605-128.png"
+            },
+            "description": "On dit que les yeux sont le miroir de l'âme, et qu'ils reflètent nos émotions. Mais ce bouclier va bien plus loin, c'est un vrai miroir dans lequel les âmes peuvent se contempler une dernière fois avant de partir. Au plus profond de vous, sans artifices, qui êtes-vous vraiment ?",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Échangeable :",
+                        "id": 0,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Échangeable : 0"
+                },
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
+            "ankama_id": 34690,
+            "name": "Costume du Gardien des âmes",
+            "type": {
+                "name": "Costume",
+                "id": 16
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164326-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164326-128.png"
+            },
+            "description": "Il faut beaucoup de sang froid pour être Gardien des âmes, en effet, il n'est pas aisé d'affronter quotidiennement le malheur des âmes égarées. Ce costume permettra de réchauffer votre corps, et peut-être aussi votre petit cœur.",
             "effects": [
                 {
                     "int_minimum": 0,
