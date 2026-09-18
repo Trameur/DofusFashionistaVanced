@@ -5692,6 +5692,14 @@ msgstr ""
 msgid "Fully scroll my character"
 msgstr ""
 
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll every characteristic to 100"
+msgstr ""
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll to 100"
+msgstr ""
+
 #: .\chardata\templates\chardata\wizard_scrolling.html:9
 msgid "Don't scroll any characteristics"
 msgstr ""

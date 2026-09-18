@@ -41,6 +41,9 @@
         <div class='stat-submit'>
           <input type="button" class="button-thin click-modifies-state" id="button-zero" value='{{_("Reset to Zero")|escapejs}}' style="margin-right: 7px;"/>
           <input type="button" class="button-thin click-modifies-state" id="button-fully-scroll" value='{{_("Fully Scroll")|escapejs}}' />
+          {% if max_scroll > 100 %}
+          <input type="button" class="button-thin click-modifies-state" id="button-scroll-100" value='{{_("Scroll to 100")|escapejs}}' style="margin-left: 7px;"/>
+          {% endif %}
           <br><br>
             <div id="submit-mode">
               <input class='submit-button button-generic disabled-when-new' type="submit" value='{{_("Proceed to Wizard")|escapejs}}' />
@@ -224,9 +227,9 @@
         updatePoints();
     }
 
-    function fullyScroll() {
+    function fullyScroll(value) {
         $.each(ALL_STATS, function(i, statKey) {
-            $("#scrolled_" + statKey).val(maxScroll);
+            $("#scrolled_" + statKey).val(value === undefined ? maxScroll : value);
             setTotalWhenScrolled("scrolled_" + statKey);
         });
         updatePoints();
@@ -370,6 +373,9 @@
         });
         $("#button-fully-scroll").click(function() {
             fullyScroll();
+        });
+        $("#button-scroll-100").click(function() {
+            fullyScroll(100);
         });
         $("#choose_stats").click(function() {
             if ($(this).prop('checked')) {

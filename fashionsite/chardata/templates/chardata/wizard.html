@@ -140,6 +140,9 @@ constantData.inclusions.images_urls);
     } else if (scrolling == 100) {
         $("#scrolling option[value='fully']").prop('selected', true);
         $("#scrolling option[value='leave']").remove();
+    } else if (scrolling == 'hundred') {
+        $("#scrolling option[value='hundred']").prop('selected', true);
+        $("#scrolling option[value='leave']").remove();
     } else {
         $("#scrolling option[value='leave']").text('{% trans "Leave scrolling at" %}' + " " + scrolling.Vitality + ", " + scrolling.Wisdom + ", " + scrolling.Strength + ", " + scrolling.Intelligence + ", " + scrolling.Chance + ", " + scrolling.Agility + ".");
         $("#scrolling option[value='leave']").prop('selected', true);

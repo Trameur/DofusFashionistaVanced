@@ -2982,7 +2982,7 @@ msgstr "Remettre à zéro"
 
 #: .\chardata\templates\chardata\chardata.html:43
 msgid "Fully Scroll"
-msgstr "Monter toutes les caractéristiques"
+msgstr "Parchoter au maximum"
 
 #: .\chardata\templates\chardata\chardata.html:46
 msgid "Proceed to Wizard"
@@ -6196,7 +6196,7 @@ msgstr "Aucun build partagé pour le moment."
 #: .\chardata\templates\chardata\wizard.html:127
 #: .\chardata\templates\chardata\wizard_scrolling.html:10
 msgid "Leave scrolling at"
-msgstr "Quitter le parchotage à"
+msgstr "Garder le parchotage à"
 
 #: .\chardata\templates\chardata\wizard.html:132
 msgid "This will reset the tuning sliders back to the default for your build."
@@ -6244,6 +6244,14 @@ msgstr "Parchotage "
 #: .\chardata\templates\chardata\wizard_scrolling.html:8
 msgid "Fully scroll my character"
 msgstr "Entièrement parchoter mon personnage"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll every characteristic to 100"
+msgstr "Parchoter chaque caractéristique à 100"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll to 100"
+msgstr "Parchoter à 100"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:9
 msgid "Don't scroll any characteristics"

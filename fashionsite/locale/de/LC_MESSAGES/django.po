@@ -2972,7 +2972,7 @@ msgstr "Auf Null zurücksetzen"
 
 #: .\chardata\templates\chardata\chardata.html:43
 msgid "Fully Scroll"
-msgstr "Vollständig scrollen"
+msgstr "Voll mit Schriftrollen steigern"
 
 #: .\chardata\templates\chardata\chardata.html:46
 msgid "Proceed to Wizard"
@@ -6145,7 +6145,7 @@ msgstr "Noch keine geteilten Builds."
 #: .\chardata\templates\chardata\wizard.html:127
 #: .\chardata\templates\chardata\wizard_scrolling.html:10
 msgid "Leave scrolling at"
-msgstr "Scrollen Sie weiter"
+msgstr "Schriftrollen-Steigerung belassen bei"
 
 #: .\chardata\templates\chardata\wizard.html:132
 msgid "This will reset the tuning sliders back to the default for your build."
@@ -6191,11 +6191,19 @@ msgstr "Scrollen"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:8
 msgid "Fully scroll my character"
-msgstr "Scrolle komplett durch meinen Charakter"
+msgstr "Alle Eigenschaftswerte voll mit Schriftrollen steigern"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll every characteristic to 100"
+msgstr "Jeden Eigenschaftswert mit Schriftrollen auf 100 steigern"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll to 100"
+msgstr "Mit Schriftrollen auf 100"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:9
 msgid "Don't scroll any characteristics"
-msgstr "Scrollen Sie nicht durch irgendwelche Merkmale"
+msgstr "Keinen Eigenschaftswert mit Schriftrollen steigern"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:18
 #, python-format

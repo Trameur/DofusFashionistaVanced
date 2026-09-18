@@ -153,7 +153,7 @@ def _ecrit_les_caracteristiques(char, points, parchos, complet=False):
     """
     if not points and not parchos and not complet:
         return
-    plafond = max_scroll_for_version(char.game_version)
+    plafond = max_scroll_for_version(char.game_version, char.level)
     for nom, _cle in STATS_NAMES:
         depenses = min(max(0, points.get(nom, 0)), MAX_POINTS)
         parcho = min(max(0, parchos.get(nom, 0)), plafond)

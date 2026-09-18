@@ -6191,6 +6191,14 @@ msgstr "Pergaminhos de Características"
 msgid "Fully scroll my character"
 msgstr "Scrollar todos atributos"
 
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll every characteristic to 100"
+msgstr "Scrollar cada atributo até 100"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll to 100"
+msgstr "Scrollar até 100"
+
 #: .\chardata\templates\chardata\wizard_scrolling.html:9
 msgid "Don't scroll any characteristics"
 msgstr "Não scrollar atributos"
