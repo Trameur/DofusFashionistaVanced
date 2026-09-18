@@ -104,6 +104,16 @@ class EachSiteComesBackOnItsOwnTests(_OwnedBuild, TestCase):
         self.assertIn('DofusBook', privacy)
         self.assertNotIn('DofusCreator', privacy)
 
+    def test_the_environment_can_hide_it_again(self):
+        with mock.patch.dict('os.environ', {'FASHIONISTA_BUILD_SITES': 'none'}):
+            self.assertEqual([], build_link_import.readable_sites())
+            self.assertNotContains(self.client.get('/privacy/'), 'DofusBook')
+
+    def test_the_environment_cannot_enable_a_site_the_settings_hide(self):
+        with mock.patch.dict('os.environ',
+                             {'FASHIONISTA_BUILD_SITES': 'dofusbook, dofuscreator'}):
+            self.assertEqual(['dofusbook.net'], build_link_import.readable_sites())
+
     def test_a_dofus_stuffer_link_does_not_ride_on_dofusbook(self):
         with self.assertRaises(Exception) as caught:
             build_link_import.read(DOFUS_STUFFER_LINK)
