@@ -297,7 +297,8 @@ def main() -> None:
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py",
                                      "--game-version", "beta"], cwd=ITEMSCRAPER)
         step("monster-spells", [PY, "store_monster_spells.py",
-                                "--game-version", "beta"], cwd=ITEMSCRAPER)
+                                "--game-version", "beta", "--tag", version],
+             cwd=ITEMSCRAPER)
         # Craft professions -> item_craft_jobs / job_names ("Crafted by ...").
         step("craftjobs/transform", [
             PY, "get_craft_jobs.py",

@@ -272,7 +272,9 @@ def main() -> None:
         # monster grade, subarea or spell at all.
         step("monster-grades", [PY, "store_dofusdb_monster_grades.py"], cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
-        step("monster-spells", [PY, "store_monster_spells.py"], cwd=ITEMSCRAPER)
+        # Its own dump, not the newest under raw/: that one is the beta's.
+        step("monster-spells", [PY, "store_monster_spells.py",
+                                "--tag", version], cwd=ITEMSCRAPER)
         # Craft professions -> item_craft_jobs / job_names tables ("Crafted by ...").
         step("craftjobs/transform", [
             PY, "get_craft_jobs.py",
