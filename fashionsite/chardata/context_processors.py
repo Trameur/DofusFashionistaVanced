@@ -11,10 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 def site_stats(request):
-    # v3: les compteurs portent aussi leur entier. Le gabarit accorde le nom
-    # avec le nombre, et une chaine formatee (<<1,234>>) ne peut pas choisir
-    # une forme de pluriel. Changer la clef evite de servir dix minutes une
-    # entree de l'ancienne forme, ou l'entier manquerait.
+    # v3: counts also as ints, the template needs them for plural forms
     stats = cache.get('site_stats_v3')
     if stats is None:
         from django.contrib.auth.models import User
@@ -46,19 +43,13 @@ def site_stats(request):
     return stats
 
 
-# The versions a reader may reach, derived from the registry instead of being
-# written out again. `version_keys()` already drops the experimental ones, which
-# is exactly the rule this list has to hold -- GameVersion.experimental is
-# documented as "invisible everywhere a reader could reach it". Kept by hand,
-# the two agreed only while somebody remembered both, and nothing checked:
-# tests_one_list_of_versions.py does now.
+# version_keys() already drops the experimental versions
 ACTIVE_GAME_VERSIONS = [(key, GAME_VERSIONS[key].label)
                         for key in version_keys()]
 
 _GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 
-# Word inserted between "Dofus" and "Fashionista" in SEO titles, e.g. "Dofus
-# Retro Fashionista". Empty on dofus3, which stays "Dofus Fashionista".
+# Word between "Dofus" and "Fashionista" in SEO titles, empty on dofus3
 _GAME_VERSION_SEO_WORDS = {
     'dofus3': '',
     'beta': 'Beta',
@@ -69,29 +60,17 @@ _GAME_VERSION_SEO_WORDS = {
 
 _VERSION_PREFIXES = ('beta/', 'dofus2/', 'retro/', 'touch/')
 _CHAR_ID_RE = re.compile(r'/\d+/')
-# Shared build pages ('/s/<name>/<id>/', '/spells_linked/<name>/<id>/') carry an
-# encoded, non-numeric char id, so _CHAR_ID_RE does not match them.
+# Shared build pages carry an encoded char id that _CHAR_ID_RE misses
 _LINKED_PREFIXES = ('s/', 'spells_linked/')
 _VERSION_SWITCH_NUMERIC_SAFE_PREFIXES = ('encyclopedia/',)
 
-# An encyclopedia page ABOUT one thing: an item, a set, a monster, a resource.
-# Its id is not a shared identity across versions (see _other_versions_with_*
-# in encyclopedia_view), so prefixing the same path under every version
-# fabricated dead links: 63 of 160 header links on a sample of entity pages
-# answered 404, on every monster page sampled. The switcher now asks the page
-# for the link it already computed per version, and falls back to that
-# version's encyclopedia hub -- never to a page that does not exist.
+# Entity ids differ between versions: the switcher asks the page for its links
 _VERSION_SWITCH_ENTITY_RE = re.compile(
     r'^encyclopedia/(?:(?:item|resource)/[^/]+/|(?:set|monster)/)\d+')
 
 
 def game_version(request):
-    # The language prefix comes first: /es/beta/encyclopedia/ answers and
-    # /beta/es/encyclopedia/ does not, because the version routes live inside
-    # i18n_patterns. So it has to come off before a version prefix is looked
-    # for, and go back in FRONT of whichever version the reader picks. Without
-    # this the switcher offered four dead links on every translated page, and
-    # the Dofus 3 tab pointed at the page you were already on.
+    # The language prefix comes before the version: /es/beta/, never /beta/es/
     from chardata.url_language import split_language_prefix
     language_prefix, path = split_language_prefix(request.path_info)
     base_path = path
@@ -102,8 +81,7 @@ def game_version(request):
             base_path = '/' + stripped[len(prefix):]
             break
     base_stripped = base_path.lstrip('/')
-    # A build exists in one game version only, so the switcher falls back to
-    # home. Encyclopedia ids are versioned public data, not char ids.
+    # A build exists in one game version only: fall back to home
     safe_numeric_path = base_stripped.startswith(_VERSION_SWITCH_NUMERIC_SAFE_PREFIXES)
     if (not safe_numeric_path
             and (_CHAR_ID_RE.search(base_path)
@@ -128,17 +106,12 @@ def game_version(request):
 
 DEFAULT_AD_CLIENT = 'ca-pub-3961330018791408'
 
-# The forgemagie pages are in the sitemap, one per version, and are read the
-# way a reference page is read. They served nothing until they were listed here.
-# The funnel stays out on purpose: /setup/, /quickstart/ and /smartbuild/ are
-# where a reader becomes a user, and an ad there costs more than it earns.
+# No ads on the funnel: /setup/, /quickstart/, /smartbuild/
 AD_PATH_PREFIXES = ('/encyclopedia/', '/guides/', '/sharedbuilds/', '/s/',
                     '/forgemagie/', '/about/', '/faq/', '/support/',
                     '/license/', '/privacy/')
 
 # Tool pages that carry ads only once their slot id is configured.
-# /spells_linked/ is the shared, logged-out face of /spells/ and is read the
-# way /s/ is; it matched neither prefix and so served nothing at all.
 OPTIONAL_AD_PATHS = {'/solution/': 'solution', '/spells/': 'solution',
                      '/spells_linked/': 'solution'}
 
@@ -154,8 +127,7 @@ AD_SETTING_TTL = 30
 
 
 def ad_config():
-    """Ad settings: gen_config.json defaults, admin page on top. The cache is
-    local to the worker, so a change takes up to AD_SETTING_TTL to reach all."""
+    """Ad settings: gen_config.json defaults, admin page on top, cached per worker."""
     from django.conf import settings
     config = dict(getattr(settings, 'GEN_CONFIGS', {}).get('adsense') or {})
     stored = cache.get(AD_SETTING_KEY, False)
@@ -165,25 +137,9 @@ def ad_config():
             row = SiteSetting.objects.filter(key=AD_SETTING_KEY).first()
             stored = json.loads(row.value) if row and row.value else {}
         except Exception:
-            # A read that failed is not a setting that is absent, though
-            # both used to be filed as the same empty dict and cached as one.
-            # The defaults underneath say ads on: with no adsense key in
-            # gen_config, enabled stays True and client falls back to
-            # DEFAULT_AD_CLIENT. One hiccup on a cold cache was enough to serve
-            # ads again everywhere they are allowed, for the whole TTL, in
-            # silence. So serve none, cache nothing, read again next request,
-            # and say it: json.loads is inside this try, so a row saved with
-            # broken JSON is a standing state, not a passing one.
+            # Not ERROR: broken JSON fails every request, one admin mail per page view
             logger.warning('the stored ad setting could not be read, so no '
                            'advertising is served', exc_info=True)
-            # Le niveau reste warning, et c'est delibere : un JSON casse en
-            # base fait echouer CHAQUE requete, et mail_admins est en ERROR --
-            # remonter le niveau enverrait un courriel par page vue. La panne
-            # est donc signalee la ou on vient la chercher : read_failed
-            # remonte jusqu'a /admin-tools/, qui dit alors pourquoi la case
-            # est decochee. Sans ca la page montre une case decochee, et
-            # l'enregistrer PERSISTE l'extinction : une panne passagere
-            # devient definitive par un geste qui ne la concernait pas.
             return {'enabled': False, 'read_failed': True}
         cache.set(AD_SETTING_KEY, stored, AD_SETTING_TTL)
     slots = dict(config.get('slots') or {})
@@ -198,11 +154,7 @@ def ads(request):
     if not config.get('enabled', True):
         return {'ads_allowed': False, 'ads_enabled': False, 'ad_slots': {}}
     client = config.get('client', DEFAULT_AD_CLIENT)
-    # The language prefix sits in front of the version (/es/beta/guides/), so it
-    # has to come off before either the version or any ad path prefix can be
-    # recognised. Every translated page otherwise fell through all of them and
-    # carried no ad at all -- the same page paying on /guides/ and not on
-    # /es/guides/.
+    # The language prefix sits in front of the version (/es/beta/guides/)
     from chardata.url_language import split_language_prefix
     _language_prefix, path = split_language_prefix(request.path_info)
     path = _without_version(path, getattr(request, 'game_version', 'dofus3'))
@@ -214,8 +166,7 @@ def ads(request):
     return {
         'ads_allowed': allowed,
         'ads_enabled': allowed and bool(slots),
-        # data-ad-client on the script tag turns on AdSense automatic placement,
-        # which lands on top of the units below.
+        # data-ad-client on the script tag turns on AdSense auto ads
         'ad_auto': config.get('auto', True),
         'ad_client': client,
         'ad_publisher': client.replace('ca-', '', 1),

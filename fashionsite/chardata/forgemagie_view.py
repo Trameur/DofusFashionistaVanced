@@ -843,19 +843,14 @@ def _format_weight(value):
 
 
 def _rune_full_name(rune, tier):
-    """La CLEF d'une rune: son nom francais, celui que le jeu lui donne.
-
-    C'est aussi ce qu'une session enregistre dans le navigateur du lecteur,
-    pour ses compteurs et ses prix saisis, donc elle ne suit pas la langue.
-    Ce qui est montre passe par `_rune_shown_name`.
-    """
+    """French rune name, the key a saved session uses in every language."""
     if tier:
         return 'Rune %s %s' % (tier, rune)
     return 'Rune %s' % rune
 
 
 def _rune_shown_name(game_version, rune, tier, language):
-    """Ce que le client du lecteur appelle cette rune."""
+    """Rune name in the reader's language."""
     return rune_display_name(game_version,
                              _rune_full_name(rune, tier), language)
 
@@ -895,9 +890,7 @@ def _build_stat_payload(structure, game_version, language):
             'rune': fm_stat['rune'],
             'tiers': [
                 {
-                    # `key` est ce que la session ecrit et relit; `name` est
-                    # ce qui s'affiche. Les separer garde les compteurs et les
-                    # prix saisis quand le lecteur change de langue.
+                    # `key` is what the session saves, `name` what is shown
                     'key': _rune_full_name(fm_stat['rune'], tier),
                     'name': _rune_shown_name(game_version, fm_stat['rune'],
                                              tier, language),
@@ -958,9 +951,7 @@ def _build_no_stat_rune_rows(game_version, t):
 
 
 def _throwable_no_stat_runes(game_version, t):
-    """The no-stat runes the simulator can actually throw: the signature rune
-    never enters smithmagic, and a rune whose weight this version does not
-    state cannot be weighed against the item."""
+    """No-stat runes the simulator can throw: mageable, with a known weight."""
     return [{'key': rune['key'],
              'name': t['rune_%s' % rune['key']],
              'weight': rune['weight']}
@@ -969,12 +960,7 @@ def _throwable_no_stat_runes(game_version, t):
 
 
 def _localized_transcendence(by_stat, structure, language):
-    """L'etiquette de stat dans la langue du lecteur, pas celle du scraper.
-
-    Le catalogue porte le libelle francais qu'Ankama donne a la stat. La
-    pastille l'affichait tel quel, ce qui donnait <<Tra-Vi-Rune (+50 Vitalite
-    - Gewicht 40)>>: deux langues dans une phrase de six mots.
-    """
+    """Stat labels in the reader's language, the catalogue has them in French."""
     for stat_key, entry in by_stat.items():
         stat = structure.get_stat_by_key(stat_key)
         if stat is not None:
@@ -1099,17 +1085,13 @@ def forgemagie(request):
     game_version = getattr(request, 'game_version', 'dofus3')
     ruleset = get_ruleset(game_version)
 
-    # Both sentences name the lines this version grants only on a critical, so
-    # Retro reads its own crit and reflect runes instead of the modern list.
     one_percent = ', '.join(_one_percent_stat_names(structure, game_version,
                                                     language))
     t = dict(t)
     for key in ('exo_one_percent', 'how_exo'):
         t[key] = t[key] % {'stats': one_percent}
 
-    # Retro is the one ruleset whose odds Ankama published. Where there are
-    # rows, the disclaimer saying nothing was ever published is wrong, so it
-    # is swapped rather than left to contradict the table below it.
+    # Retro is the only ruleset with published odds
     documented_odds = [dict(row, label=t['odds_%s' % row['key']])
                        for row in get_documented_odds(ruleset)]
     if documented_odds:
@@ -1125,9 +1107,7 @@ def forgemagie(request):
     js_config = {
         'overCap': OVER_WEIGHT_CAP,
         'onePercentOverWeight': get_one_percent_over_weight(game_version),
-        # Empty for every ruleset but Retro. The simulator falls back to its
-        # own fitted split when it is, which is the honest thing to do where
-        # nothing was ever published.
+        # Empty but for Retro, the simulator then uses its fitted split
         'oddsLadder': get_odds_ladder(ruleset),
         'stats': stat_payload,
         'statOrder': _ordered_fm_stat_keys(structure, get_fm_stats(game_version)),
@@ -1221,9 +1201,7 @@ def _item_payload(structure, item, language, display_name=None):
         'name': display_name or structure.get_item_name_in_language(item, language),
         'level': item.level,
         'type_name': _localized_label(type_name, language),
-        # The hunting rune only goes on a weapon that is not one already, and
-        # the label above is translated, so the canonical type and the flag
-        # travel with the item.
+        # Hunting rune goes only on a weapon that is not hunting yet
         'is_weapon': type_name == 'Weapon',
         'is_hunting': 'Hunting Weapon' in (getattr(item, 'flags', None) or []),
         'image_url': static(get_image_url(type_name, item.name)),
@@ -1232,8 +1210,7 @@ def _item_payload(structure, item, language, display_name=None):
 
 
 def _catalogue_preload(request, structure, language):
-    """Workbench preload for /forgemagie/?item=<item id>, for a reader arriving
-    from a build instead of from their own inventory: no saved rolls, no login."""
+    """Workbench preload for /forgemagie/?item=<item id>, no saved rolls."""
     item_id = safe_int(request.GET.get('item'), None)
     if item_id is None:
         return None
@@ -1268,29 +1245,7 @@ def _inventory_preload(request, structure, language, game_version):
     }
 
 
-#: How far a read name may stray before the match is refused, how much better
-#: the winner has to be than its runner-up, and the shortest query worth
-#: guessing at. Measured 2026-09-09 over the French names of three versions,
-#: corrupting each name at deterministic positions:
-#:
-#:              dofus3        retro         touch
-#:   1 subst.   97.6 % right  97.5 %        97.3 %
-#:   1 deleted  93.8 %        94.6 %        94.2 %
-#:   2 subst.   83.2 %        89.7 %        80.0 %
-#:   2 deleted  67.0 %        69.2 %        65.0 %
-#:   3 subst.   45.3 %        28.5 %        41.1 %
-#:   3 deleted  23.8 %        13.2 %        21.7 %
-#:
-#: and in all eighteen cells, **0.00 % named the wrong item**. That is the
-#: number that matters: the rest of the time it says nothing, and the page
-#: falls back to "item not recognized", which is what it did before. Filling
-#: someone's inventory with an item they do not own would be worse than
-#: failing to fill it.
-#:
-#: The gap is what buys that. Dofus names come in families ("Air Bwak",
-#: "Air Bwork"), so a nearest neighbour alone would pick a sibling with
-#: complete confidence. Requiring the runner-up to be clearly further away
-#: turns those cases into silence.
+# Fuzzy name match; the gap keeps "Air Bwak" from matching "Air Bwork"
 _NAME_MAX_EDITS = 3
 _NAME_MIN_GAP = 2
 _NAME_MIN_QUERY = 5
@@ -1319,15 +1274,9 @@ def _bounded_edit_distance(first, second, ceiling):
 
 
 def _closest_pool_entry(query, pool):
-    """The one entry the query is a misreading of, or None if unsure.
-
-    The search band is deliberately one step wider than the acceptance
-    ceiling. Searching AT the ceiling looks equivalent and is not: the
-    runner-up gets clamped to the same value as the winner, the gap can never
-    be reached, and every query with more than one error comes back silent. It
-    reads like a verdict on the method and it is a verdict on the arithmetic.
-    """
+    """The entry the query is a misreading of, or None if unsure."""
     ceiling = max(1, min(_NAME_MAX_EDITS, len(query) // 6))
+    # Search wider than the ceiling, or the runner-up is clamped to the winner
     span = ceiling + _NAME_MIN_GAP - 1
     best = span + 1
     second = span + 1
@@ -1350,40 +1299,19 @@ def _closest_pool_entry(query, pool):
 
 
 def _search_level(structure):
-    """The version's own level cap, not a hardcoded 200.
-
-    structure.types is cumulative, so its top level holds every item. Every
-    Dofus version happens to stop at 200 and the hardcoded number was right for
-    them; Wakfu goes to 245, where it silently hid 1487 of its 7617 items.
-    """
+    """The version's level cap, Wakfu goes to 245."""
     return max(structure.types)
 
 
 def _search_types(structure, all_types):
-    """Which item types the search may offer.
-
-    The workbench can only forge eight, so it must never propose a pet or a
-    dofus. My Inventory holds whatever the player owns, and reusing the
-    workbench's list there hid whole families from its search box AND from its
-    screenshot reader: 775 items on Dofus 3 (455 pets, 320 dofus), 779 on the
-    beta, 746 on Touch, 463 on Dofus 2, 307 on Retro.
-
-    Measured 2026-09-09, every one of those has its icon on disk, 100 % on all
-    five versions, so letting them through draws correctly rather than filling
-    the list with question marks.
-    """
+    """Mageable types for the workbench, every type for the inventory."""
     if not all_types:
         return MAGEABLE_TYPES
     return sorted(structure.types[_search_level(structure)])
 
 
 def forgemagie_items(request):
-    """Item autocomplete for the workbench: name search over mageable items,
-    or over the user's inventory (with saved rolls) when inventory=1.
-
-    all_types=1 widens the pool to every type the version has. The inventory
-    passes it, the workbench does not.
-    """
+    """Item autocomplete; inventory=1 searches the user's inventory."""
     structure = get_structure()
     language = get_supported_language()
     query = _normalized_text(request.GET.get('q') or '')
@@ -1443,10 +1371,7 @@ def forgemagie_items(request):
                 type_name,
             ))
 
-    # Substring matching answers a reader who is typing. It cannot answer a
-    # reader who pasted a screenshot: one character read wrong and the exact
-    # test fails on every one of the 3826 candidates at once, so the page said
-    # "item not recognized" for a name that was almost perfectly read.
+    # Fuzzy fallback for names misread from a screenshot
     if not matches and len(query) >= _NAME_MIN_QUERY:
         entry = _closest_pool_entry(query, pool)
         if entry is not None:

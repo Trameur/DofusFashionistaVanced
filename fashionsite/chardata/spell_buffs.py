@@ -46,39 +46,14 @@ _DOFUS2_CACHE = None
 
 
 def _flattened(name):
-    """A name stripped to letters and digits, so punctuation cannot decide."""
+    """A name stripped to letters and digits."""
     text = unicodedata.normalize('NFKD', name or '')
     text = ''.join(char for char in text if not unicodedata.combining(char))
     return re.sub(r'[^a-z0-9]', '', text.lower())
 
 
 def _dofus2_damage_spells():
-    """Dofus 2 spells a Dofus 2 player can still cast.
-
-    This was written when the committed block was Dofus 3 content bootstrapped
-    for want of 2.73 spell levels, and 274 of its 497 class spells were absent
-    from the 2.73 archive. That is over: the block is generated from 2.73 now.
-
-    Its second justification was wrong, and cost half of every class. It read
-    "the breeds table lists spells the game retired years ago, the Cra's
-    Burning Arrows and Raining Arrows are in the data and in nobody's spell
-    book". Measured against the 2.73 archive on 2026-08-27: the filter dropped
-    265 of 543 spells, **all 265 the second member of a spell_variants.json
-    pair, none outside one, and all 265 with ranks and an access level in that
-    same archive**. A spell with ranks and an access level is in a spell book.
-    They were missing from the reference because read_dofus2 walked
-    breedSpellsId and never followed the variants: 418 ids where a player casts
-    836. That is fixed at the source, and the reference now carries 44 spells
-    per class, the same figure dofus3 carries.
-
-    So the filter keeps its place for its first reason only, and today it drops
-    nothing. A test asserts that rather than this docstring promising it: an
-    exclusion has to carry the measurement it rests on, because what
-    invalidates one is usually our own next commit.
-
-    A class the reference does not know keeps its list, because a blank class
-    would be a worse answer than an inherited one.
-    """
+    """Dofus 2 spells a Dofus 2 player can still cast."""
     global _DOFUS2_CACHE
     if _DOFUS2_CACHE is not None:
         return _DOFUS2_CACHE
@@ -100,11 +75,7 @@ def _dofus2_damage_spells():
         named = {_flattened((entry.get('name') or {}).get(language))
                  for entry in entries for language in ('en', 'fr')}
         named.discard('')
-        # The id decides whenever the spell carries one; 326 of the 497 do.
-        # Names are the fallback for the rest, and only the fallback: the
-        # archive calls one Eliotrope spell "Insult" in English and "Affront"
-        # in French, and matching across languages kept a SECOND spell that
-        # happens to be named Affront in English.
+        # Match by id, by name only for spells without one
         kept[class_name] = [
             spell for spell in spells
             if (getattr(spell, 'spell_id', None) in known
@@ -137,8 +108,7 @@ def _decide_spell_level(level_req, char_level):
 
 
 def _is_double_buff_slot(spell, buff_spell_names):
-    # A "second slot" linked spell shares its slot with the buff it links back
-    # to; only the first one counts. is_linked == (rank, name).
+    # A second-slot linked spell shares the buff's slot. is_linked == (rank, name)
     if spell.is_linked and spell.is_linked[0] == 2:
         return spell.is_linked[1] in buff_spell_names
     return False
@@ -165,11 +135,7 @@ def _buff_value(buff_scaling, stat, stacks, effect_max_dam):
 
 
 def compute_full_buff_stats(char, game_version):
-    """{stat_key: value} deltas if the character's class self-buffs are fully active.
-
-    Category-restricted buffs (weapon- or spell-only Power, glyph/trap Power,
-    final damage) have no plain stat row in the solution summary and are dropped.
-    """
+    """{stat_key: value} deltas if the character's class self-buffs are fully active."""
     spells_by_class = get_damage_spells_for_version(game_version)
     spells = spells_by_class.get(char.char_class, []) + spells_by_class.get('default', [])
     buff_spells = [spell for spell in spells if _spell_is_buff(spell)]

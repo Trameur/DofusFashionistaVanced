@@ -5,12 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Public, read-only REST API.
-
-Goal: let other tools (Twitch overlays, Discord bots, fan sites) read what
-the community has shared on dofusfashionista. No auth, no DRF. CORS open
-because the data is already public. Cached for 60 s to absorb bursts.
-"""
+"""Public read-only REST API, no auth, open CORS."""
 
 from django.db.models import Count, Case, When, F, IntegerField, Value
 from chardata.build_name import display_name
@@ -41,24 +36,7 @@ def _json(data, status=200):
 
 
 def _api_endpoint(view):
-    """GET et OPTIONS, avec CORS sur CHAQUE reponse, refus compris.
-
-    `@require_GET` refusait OPTIONS par un 405 en HTML, sans un seul en-tete
-    Access-Control -- alors que la reponse 200 de la meme route annonce
-    `Access-Control-Allow-Methods: GET, OPTIONS`. L'API se contredisait dans
-    ses propres en-tetes.
-
-    Ce n'est pas theorique : un navigateur n'envoie de prevol que si la requete
-    n'est pas « simple ». Un bot Discord cote serveur ne voit donc rien, mais
-    un outil web qui pose le moindre en-tete -- Content-Type, un identifiant de
-    client, un jeton de proxy -- declenche le prevol, le prevol echoue, et la
-    requete n'a jamais lieu. Verifie en production le 28 aout 2026 : OPTIONS
-    /api/v1/shared-builds/ rendait 405, `Allow: GET`, zero en-tete CORS.
-
-    Le decorateur doit rester le PLUS EXTERIEUR : `cache_page` ne met en cache
-    que les GET, mais un OPTIONS qui le traverserait irait chercher une entree
-    qui n'a rien a voir avec lui.
-    """
+    """GET and OPTIONS with CORS on every answer; keep it above cache_page."""
     @wraps(view)
     def enveloppe(request, *args, **kwargs):
         if request.method == 'OPTIONS':
@@ -73,13 +51,7 @@ def _api_endpoint(view):
 
 
 def _absent(quoi):
-    """Un 404 qui reste du JSON, et que le navigateur a le droit de lire.
-
-    `raise Http404` partait dans le gestionnaire d'erreur du site : 31 532
-    octets de HTML, Content-Type text/html, et aucun en-tete CORS -- donc un
-    consommateur navigateur ne peut meme pas distinguer « ce build n'existe
-    pas » d'une panne reseau.
-    """
+    """JSON 404 with CORS headers."""
     return _json({'error': 'not found', 'resource': quoi}, status=404)
 
 
@@ -90,32 +62,11 @@ def _creator(char, alias_map):
 
 
 def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
-    """One shared build, as all three endpoints render it.
-
-    `url` used to be added by the detail view alone, so the list and the tier
-    list answered with an id and no way to reach the page. A consumer showing
-    five builds had to make six requests before it could link any of them, and
-    it will not: it prints the names without links, and the one route to the
-    gallery that does not go through Google stays shut.
-
-    It is built from SITE_URL and not from `request.build_absolute_uri`, the way
-    shared_builds_view and profile_view already build theirs: a public API
-    should answer with the canonical address of a build, not with the door the
-    caller came in by. ALLOWED_HOSTS carries nine entries in production -- two
-    domains with their wildcards, two bare IPs, localhost, 127.0.0.1 and [::1]
-    -- so a request-derived address hands a consumer on the old domain a link
-    that redirects, and a consumer on localhost a link that works for nobody.
-
-    (It does not leak across callers: Django hashes `request.build_absolute_uri`
-    into the `cache_page` key, so every host already gets its own entry. Checked
-    in django/utils/cache.py, 6.0.8. The reason to fix it is the answer being
-    wrong for the caller who asked, not for the next one.)
-    """
+    """One shared build, as all three endpoints render it."""
     encoded = encode_char_id(int(char.id))
     payload = {
         'id': encoded,
-        # Jamais vide: un consommateur de cette API ecrit ce champ
-        # tel quel, et un build sur cinq n'a pas de nom lisible.
+        # Never empty, consumers print it as is
         'name': display_name(char),
         'char_name': char.char_name,
         'char_class': char.char_class,
@@ -128,6 +79,7 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
         'created_at': char.created_time.isoformat() if char.created_time else None,
         'modified_at': char.modified_time.isoformat() if char.modified_time else None,
     }
+    # Canonical address, not the request host
     payload['url'] = SITE_URL + shared_build_path(char)
     if include_tags:
         if tags_by_char is None:
@@ -153,7 +105,7 @@ def api_meta(request):
     })
 
 
-# Far past any real gallery, and small enough to stay a valid OFFSET.
+# Past any real gallery, small enough for a SQL OFFSET
 MAX_PAGE = 100000
 
 
@@ -162,8 +114,6 @@ MAX_PAGE = 100000
 def api_shared_builds(request):
     game_version = request.GET.get('game_version', 'dofus3')
     try:
-        # A ceiling as well as a floor: the value becomes a literal SQL OFFSET
-        # and a big enough one is not an integer the database will take.
         page = max(1, min(int(request.GET.get('page', 1)), MAX_PAGE))
     except (TypeError, ValueError):
         page = 1
@@ -173,9 +123,7 @@ def api_shared_builds(request):
         page_size = DEFAULT_PAGE_SIZE
     page_size = max(1, min(page_size, MAX_PAGE_SIZE))
 
-    # A build whose solution was never stored has no /s/ page: the gallery and
-    # the sitemap both skip it, and a consumer turning this id into a url would
-    # land on a 404.
+    # No stored solution means no /s/ page
     qs = (Char.objects
           .filter(link_shared=True, deleted=False, game_version=game_version)
           .exclude(minimal_solution=b'')
@@ -237,12 +185,7 @@ def api_shared_build_detail(request, encoded_id):
 
     payload = _build_payload(char, alias_map)
     payload['comment_count'] = BuildComment.objects.filter(build=char, deleted=False).count()
-    # The one fact no generative system can state about its own output, and
-    # the reason the "Why this result?" panel exists: whether the solver
-    # PROVED the optimum or handed back the best it reached at the time limit.
-    # On the detail only: it costs unpickling the stored solution, which the
-    # list does for no row. Three states, never conflated: True, False, and
-    # null for a solution stored before the fact was recorded.
+    # proven is None for solutions stored before it was recorded
     from chardata.solution import get_solver_facts
     from fashionistapulp.lpproblem import TIME_LIMIT_SECONDS
     proven, seconds, _pool = get_solver_facts(char.minimal_solution)
@@ -264,9 +207,7 @@ def api_tier_list(request):
     except (TypeError, ValueError):
         top_n = 5
 
-    # A build whose solution was never stored has no /s/ page: the gallery and
-    # the sitemap both skip it, and a consumer turning this id into a url would
-    # land on a 404.
+    # No stored solution means no /s/ page
     qs = (Char.objects
           .filter(link_shared=True, deleted=False, game_version=game_version)
           .exclude(minimal_solution=b'')
@@ -280,17 +221,13 @@ def api_tier_list(request):
     if char_class:
         qs = qs.filter(char_class=char_class)
 
-    # Only the top few builds of each class are returned, so nothing else has to
-    # be built or even loaded. This used to read every shared build of the
-    # version into memory, and a Char row carries nine pickled columns including
-    # the stored solution.
+    # Load only the top few per class, a Char row carries pickled columns
     counts = {row['char_class'] or 'Unknown': row['n']
               for row in qs.values('char_class').annotate(n=Count('id', distinct=True))}
     ranked = (qs
               .annotate(score=(F('like_count') * 3 + F('favorite_count') * 5
                                + Least(F('view_count'), Value(50))))
-              # owner__username by name, so the creator line does not become a
-              # query per row against the deferred owner.
+              # owner__username or each creator costs a query
               .only('id', 'name', 'char_name', 'char_class', 'level',
                     'game_version', 'view_count', 'created_time',
                     'modified_time', 'owner', 'owner__username')

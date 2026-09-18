@@ -389,11 +389,7 @@ NON_SEARCHABLE_STAT_KEYS = {
     'hp',
 }
 
-# Synthetic pet variants (one per stat a pet can be fed toward, at its cap) live
-# at or above these ids and reuse the base pet's ankama id. Retro and Touch are
-# the two versions whose data carries no bonus for a feeding pet. Must match
-# VARIANT_ID_BASE in itemscraper/store_{retro,touch}_pet_bonuses.py. The other
-# versions put cross-version duplicates at 100M + ankama id, so they stay out.
+# Fed pet variant ids start here, same as itemscraper/store_{retro,touch}_pet_bonuses.py
 PET_VARIANT_ID_BASE_BY_VERSION = {'retro': 10_000_000, 'touch': 200_000_000}
 PET_VARIANT_ID_BASE = PET_VARIANT_ID_BASE_BY_VERSION['retro']
 
@@ -411,11 +407,7 @@ def _normalized_text(value):
     return strip_accents(value).lower().strip()
 
 
-# Upstream ships a raw text id where a name is missing entirely. Unlike the
-# "[!]" note, it is not a French fallback: there is no name behind it in any
-# language, so there is nothing to put on a page.
-# The separators are loose because a slug turns it back into words:
-# "unknown-text-id-7222" reads "Unknown text id 7222".
+# Ankama's placeholder for a name missing in every language, also in slug form
 _PLACEHOLDER_NAME = re.compile(r'^\[?UNKNOWN[ _-]?TEXT[ _-]?ID', re.IGNORECASE)
 
 
@@ -425,17 +417,7 @@ def has_display_name(names):
 
 
 def _normalized_slug(value):
-    """Slug of a name, built by the same function that builds the urls.
-
-    These were two functions with two rules: official_site._slugify_name drops
-    "'s" and this one did not, so an item called "Coldbruela's Boots" was
-    published at /…-coldbruelas/ and looked up as "coldbruela-s-boots". The
-    lookup found nothing, the page fell back to the negotiated language, and a
-    crawler -- sending no header -- read English on a url submitted as Spanish.
-
-    One function now decides both, so a url can no longer be built one way and
-    resolved another.
-    """
+    """Slug of a name, same function as the one building the urls."""
     from chardata.official_site import _slugify_name
     return _slugify_name(value, '')
 
@@ -448,7 +430,6 @@ def _localized_label(label, language):
 
 
 def _localized_stat(stat_name, language, game_version=None):
-    """A stat's name, in the reader's language and its own version's words."""
     if not stat_name:
         return ''
     with translation.override(language):
@@ -506,7 +487,7 @@ def _find_weapon_for_variants(structure, variant_items):
         if flag not in flags_to_try:
             flags_to_try.append(flag)
 
-    # Retro and Touch let several weapons share a name, so try the item first.
+    # Retro and Touch have several weapons with the same name
     for item in variant_items:
         weapon = structure.get_weapon_for_item(item)
         if weapon is not None and getattr(weapon, 'base_hit', None):
@@ -547,10 +528,7 @@ def _get_weapon_detail_lines(structure, variant_items, language):
 
 def _get_pet_feedable_bonuses(structure, grouped_variants, language,
                               variant_id_base=PET_VARIANT_ID_BASE):
-    """For a fed pet, the maxed stats it can be fed toward (one per variant).
-
-    The player picks one, so they read as alternatives (OR) on the pet's page.
-    """
+    """Maxed stats a pet can be fed toward, one per variant."""
     bonuses = []
     for variant in sorted(grouped_variants, key=lambda current: current.id):
         if variant.id < variant_id_base:
@@ -572,7 +550,7 @@ def _get_pet_feedable_bonuses(structure, grouped_variants, language,
 
 
 def _get_set_bonuses(structure, item_set, language):
-    """The bonuses a panoply grants per number of pieces worn, grouped for the item page."""
+    """Set bonuses grouped by number of pieces worn."""
     if item_set is None or not (getattr(item_set, 'bonus', None)
                                 or getattr(item_set, 'max_caps', None)):
         return []
@@ -589,8 +567,7 @@ def _get_set_bonuses(structure, item_set, language):
                 'icon_url': _get_stat_icon_url(stat.key),
             },
         ))
-    # Some sets cap a stat: Cire Momore's Curse holds the wearer to 2 MP on six
-    # pieces, under the 3 a character starts with.
+    # Some sets cap a stat, e.g. Cire Momore's Curse: 2 MP max at six pieces
     caps_by_pieces = {}
     for num_items, stat_id, max_value in getattr(item_set, 'max_caps', None) or []:
         stat = structure.get_stat_by_id(stat_id)
@@ -616,7 +593,7 @@ def _get_set_bonuses(structure, item_set, language):
 
 
 def _get_set_items(structure, item_set, language, game_version):
-    """The items belonging to a panoply, as cards for the dedicated set page."""
+    """Item cards for the set page."""
     cards = []
     seen = set()
     for item_id in getattr(item_set, 'items', None) or []:
@@ -641,7 +618,7 @@ def _get_set_items(structure, item_set, language, game_version):
 
 
 def _breadcrumb_jsonld(crumbs):
-    """A schema.org BreadcrumbList as a JSON string. crumbs: list of (name, absolute_url)."""
+    """schema.org BreadcrumbList as JSON. crumbs: [(name, absolute_url)]."""
     payload = json.dumps({
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -650,27 +627,17 @@ def _breadcrumb_jsonld(crumbs):
             for i, (name, url) in enumerate(crumbs)
         ],
     }, ensure_ascii=False)
-    # The JSON is rendered with |safe inside a <script>, so escape what could
-    # break out of the tag.
+    # Rendered |safe inside a <script>: escape what could close the tag
     return payload.replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
 
 
 def _absolute_versioned_url(path, game_version='dofus3', language=None):
-    """Absolute url of a hub page, in the language being served.
-
-    Hubs have no name to localise, so they carry their language in a prefix.
-    Without this the breadcrumb of a Spanish item page pointed at the English
-    hub, and every crawler following it left Spanish on the first click.
-
-    Only the default version is prefixed: that is the only one whose hubs are
-    published per language.
-    """
+    """Absolute url of a hub page, prefixed with the language being served."""
     if not path.startswith('/'):
         path = '/%s' % path
     if game_version and game_version != 'dofus3':
         path = '/%s%s' % (game_version, path)
-    # Language first: that is the order i18n_patterns produces, and a
-    # breadcrumb disagreeing with it would name a url that does not exist.
+    # Language prefix goes first, like i18n_patterns
     if language is None:
         language = get_language()
     if language and language != settings.LANGUAGE_CODE:
@@ -678,11 +645,7 @@ def _absolute_versioned_url(path, game_version='dofus3', language=None):
     return 'https://dofusfashionista.gg%s' % path
 
 
-#: Query keys the three paginated hubs actually read. Everything else in the
-#: query string is noise a link picked up on the way -- utm_source, fbclid,
-#: gclid -- and noise must not decide what the page declares itself to be.
-#: A test holds this set against what the views really read, so a filter added
-#: without being listed here fails loudly rather than quietly.
+# Query keys the paginated hubs read, anything else (utm_source, fbclid) is noise
 _FILTER_KEYS = frozenset((
     # /encyclopedia/
     'q', 'type', 'min_level', 'max_level', 'stat_key', 'stat_min',
@@ -691,7 +654,7 @@ _FILTER_KEYS = frozenset((
     # /encyclopedia/sets/ and /encyclopedia/monsters/
     'sort', 'drop_kind', 'weak',
 ))
-#: The item hub also numbers its stat filters: stat1, stat1_min, stat2...
+# Numbered stat filters: stat1, stat1_min, stat2...
 _FILTER_PREFIX = 'stat'
 
 
@@ -707,35 +670,12 @@ def _is_filter(key):
 
 
 def _paginated_canonical(request, path, game_version, page_obj):
-    """Canonical url for a list page: itself, except for a filtered or sorted
-    view, which points at the plain list.
-
-    The language is read off the requested url, not off the language being
-    served. A hub answers on both /encyclopedia/ and /es/encyclopedia/, so a
-    Spanish reader whose browser asks for the first gets Spanish text at an
-    unprefixed url -- and that same <head> declares /encyclopedia/ to be the
-    English alternate and the x-default. Taking the language from
-    get_language() there made the page name /es/encyclopedia/ as its canonical
-    while claiming to be the English one: a submitted url contradicting its own
-    hreflang block. Links and breadcrumbs still follow the served language,
-    which is what a reader wants; only the canonical follows the url.
-    """
+    """Canonical of a list page, in the url's language; filtered views point at the plain list."""
     from chardata.url_language import split_language_prefix
     prefix, _rest = split_language_prefix(request.path_info)
     url = _absolute_versioned_url(path, game_version,
                                   language=prefix.lstrip('/') or settings.LANGUAGE_CODE)
-    # Not "everything that is not page": a link shared on Reddit arrives with
-    # utm_source and fbclid, and counting those as filters made
-    # /encyclopedia/?page=2&utm_source=reddit declare itself to be page 1.
-    # Google then reads the shared page as a duplicate of the first one and
-    # the content of page 2 stops standing on its own.
-    # Et une valeur vide ne filtre rien. Le champ de recherche du site est
-    # un formulaire GET : le soumettre vide produit ?q= , et
-    # /encyclopedia/?page=3&q= sert alors EXACTEMENT les memes 39 objets que
-    # ?page=3 tout en se declarant doublon de la page 1, qui en montre
-    # d'autres. Meme defaut que le bruit de suivi, une couche plus bas :
-    # un parametre qui ne change pas ce qui est servi ne doit pas changer
-    # ce que la page dit d'elle-meme.
+    # Tracking params and empty values (?q=) are not filters
     filters = {key for key, valeur in request.GET.lists()
                if key != 'page' and _is_filter(key)
                and any((v or '').strip() for v in valeur)}
@@ -746,9 +686,7 @@ def _paginated_canonical(request, path, game_version, page_obj):
 
 
 def _stat_amount_text(item, stat_id, best_value):
-    """"7 to 10" when the roll varies, plain "10" when it is fixed.
-
-    The single number is the best roll, which is what the optimiser assumes."""
+    """"7 to 10" when the roll varies, "10" when it is fixed."""
     stat_range = get_stat_range(item, stat_id)
     if stat_range is None:
         return '%d' % best_value
@@ -789,8 +727,7 @@ def _collect_unique_items(structure):
     return items
 
 
-# Structures are process-lifetime singletons, so the grouping, stats maps and
-# search blobs are built once and the localized labels derived from them.
+# Keyed on id(structure): structures live as long as the process
 _light_core_cache = {}
 _light_index_cache = {}
 
@@ -808,8 +745,7 @@ def _get_light_core(structure):
     entries = []
     for _, variants in grouped_items.items():
         item = _get_group_representative(variants)
-        # 'or'-group placeholders (e.g. Gelano) carry no ankama id or stats; the
-        # real data lives on the named variants in or_items.
+        # 'or' placeholders (e.g. Gelano) have no ankama id or stats, or_items does
         if not getattr(item, 'ankama_id', None):
             _or_variants = (structure.or_items.get(item.name)
                             or structure.dt_or_items.get(item.name) or [])
@@ -859,13 +795,7 @@ SIMILAR_ITEMS_SHOWN = 6
 
 
 def _set_seo_description(set_name, set_items, set_bonuses):
-    """What a set page answers in a search result.
-
-    It said "all the items in this Dofus set and the panoply bonuses per number
-    of pieces", which is the shape of the page and not the set. A reader
-    searching a set name wants to know how many pieces it has, at what level,
-    and what wearing them all gives.
-    """
+    """Meta description of a set page: pieces, levels and full set bonus."""
     morceaux = []
     niveaux = [i.get('level') for i in (set_items or []) if i.get('level')]
     if set_items and niveaux:
@@ -879,7 +809,7 @@ def _set_seo_description(set_name, set_items, set_bonuses):
                     'name': set_name, 'count': len(set_items),
                     'low': bas, 'high': haut})
 
-    # Le bonus le plus complet, celui qu'on cherche en cherchant une panoplie.
+    # Full set bonus
     complet = None
     for bonus in (set_bonuses or []):
         if not complet or (bonus.get('num_pieces') or 0) > (complet.get('num_pieces') or 0):
@@ -902,12 +832,7 @@ def _set_seo_description(set_name, set_items, set_bonuses):
 
 
 def _resource_seo_description(resource_name, kind_label, used_in):
-    """What a resource page answers.
-
-    It said "which Dofus items are crafted with X. Find every item that uses
-    this ingredient", a promise twice over. The count is the answer, and it is
-    the thing a reader is weighing when they search an ingredient name.
-    """
+    """Meta description of a resource page: how many recipes use it."""
     if not used_in:
         return ''
     return _('%(name)s: a Dofus %(kind)s used in %(count)s crafting recipes.') % {
@@ -915,25 +840,12 @@ def _resource_seo_description(resource_name, kind_label, used_in):
         'count': len(used_in)}
 
 
-# Ce qu'un moteur affiche avant de couper. Ce n'est pas une limite dure et elle
-# varie, mais au-dela la fin de la phrase ne se lit plus.
+# Roughly where a search engine cuts the snippet
 DESCRIPTION_BUDGET = 155
 
 
 def _item_seo_description(item, item_set_name, stat_lines, popularity):
-    """What a search result shows instead of a promise.
-
-    The old description said the page had "stats, effects, equip conditions and
-    craft recipe": it described the KIND of page, in the abstract, and said
-    nothing about the item. Measured over 28 days, item pages rank fifth to
-    eighth on their own item name and take zero clicks, while the Fandom wiki
-    ranks above with a description that answers the question in the snippet:
-    "Belteen is a Belt and part of the Whale Set. Crafted by a Shoemaker..."
-
-    So this one answers too, from the data the page already has. The last
-    sentence is the part no wiki and no official encyclopedia can write, since
-    none of them knows what people actually wear.
-    """
+    """Meta description of an item page: type, level, set, top stats, usage."""
     morceaux = []
     if item.get('type_name') and item.get('level'):
         if item_set_name:
@@ -945,7 +857,6 @@ def _item_seo_description(item, item_set_name, stat_lines, popularity):
                 'name': item['name'], 'type': item['type_name'],
                 'level': item['level']})
 
-    # Les plus grosses lignes, celles qui font choisir un objet.
     fortes = []
     for ligne in (stat_lines or []):
         valeur = ligne.get('amount_text') or ligne.get('value')
@@ -960,10 +871,7 @@ def _item_seo_description(item, item_set_name, stat_lines, popularity):
         usage = _('Worn in %(share)s of the builds that can equip it.') % {
             'share': popularity['share']}
 
-    # Un moteur coupe autour de 155 caracteres, et la phrase d'usage est la
-    # derniere : c'est donc elle qui saute la premiere, alors qu'elle est la
-    # seule qu'aucun wiki ni l'encyclopedie officielle ne peut ecrire. Ce sont
-    # les stats qui cedent, une a une, jamais elle.
+    # Over budget: drop stats one by one, keep the usage sentence
     while True:
         assemble = list(morceaux)
         if fortes:
@@ -977,16 +885,7 @@ def _item_seo_description(item, item_set_name, stat_lines, popularity):
 
 
 def _get_popularity(ankama_id, game_version):
-    """How many builds wear this item, and what share of those that could.
-
-    Counted over every build ever calculated, not only the public ones, which
-    is what makes it worth printing: 142 043 against 1 980. A count says
-    nothing about who, so it can be drawn from private builds where a link
-    never could.
-
-    None when the answer would be noise: fewer than thirty comparable builds
-    is not a share, and printing one would read as a fact.
-    """
+    """Builds wearing this item and share of those that could, or None."""
     from chardata.models import ItemPopularity
     try:
         ligne = ItemPopularity.objects.filter(
@@ -1003,17 +902,7 @@ def _get_popularity(ankama_id, game_version):
 
 
 def _get_builds_using(ankama_id, game_version, limit=6):
-    """The shared builds that wear this item, most read first.
-
-    This is the one thing the encyclopedia can say that Ankama and the wikis
-    cannot: they publish the same numbers from the same game files, and none
-    of them knows what people actually put on. It is also what the page's own
-    meta description has been promising since it existed.
-
-    Read from an index rebuilt by reindex_builds_by_item, never from the
-    builds themselves: unpickling 3 361 solutions takes twelve seconds and has
-    no business happening while somebody waits for a page.
-    """
+    """Shared builds wearing this item, most viewed first, from the reindex_builds_by_item index."""
     from chardata.encoded_char_id import encode_char_id
     from chardata.models import ItemInSharedBuild
     try:
@@ -1023,7 +912,7 @@ def _get_builds_using(ankama_id, game_version, limit=6):
                   .order_by('-char__view_count', '-char__modified_time')
                   [:limit * 3])
     except Exception:
-        # The block is a bonus. A page that cannot show it still has to render.
+        # Optional block, never break the page
         return []
     builds = []
     for ligne in lignes:
@@ -1042,47 +931,22 @@ def _get_builds_using(ankama_id, game_version, limit=6):
     return builds
 
 
-# Les stats autour desquelles un build se construit. Elles ne sont pas rares
-# dans le catalogue, 1 624 objets sur 3 826 en portent une, mais elles le sont
-# souvent DANS UN EMPLACEMENT : six anneaux de tout le jeu donnent du PA, et
-# aucun a moins de vingt niveaux du Gelano. C'est pourquoi elles filtrent, et
-# pourquoi la fenetre de niveau ne s'ouvre que si le filtre ne laisse personne
-# dedans, au lieu de s'ouvrir d'office comme dans la premiere version : celle-la
-# la faisait sauter pour 42 pour cent du catalogue.
+# Stats a build is built around: similar items must grant them too
 RARE_STATS = {4: 'ap', 5: 'mp', 19: 'range', 18: 'summon'}
 
-# Au-dela, deux objets ne se comparent plus utilement. La similarite decroit
-# jusque-la au lieu de s'arreter net, pour qu'un ecart de deux niveaux pese
-# plus qu'un ecart de neuf.
+# Level gap past which two items no longer compare
 LEVEL_WINDOW = 10
 
 
 def _stat_ids(item, positive_only=False):
-    """The stats an item carries. Optionally only those it grants.
-
-    A ring that costs a point of range carries stat 19 exactly as one that
-    gives it, and grouping the two together would answer "what else has range"
-    with the items that take it away.
-    """
+    """Stat ids an item carries, or only the positive ones."""
     lignes = getattr(item, 'stats', None) or []
     return {stat_id for stat_id, value in lignes
             if not positive_only or (value or 0) > 0}
 
 
 def _get_similar_items(structure, language, game_version, item, limit=None):
-    """Items of the same slot that a reader could actually swap this one for.
-
-    Sorting by level alone answered the wrong question. The Gelano is a level
-    60 ring whose whole point is the AP it carries, and the ring page offered
-    twenty-five rings of the same level, not one of which carried any.
-
-    So a rare stat filters: an item that grants AP is compared to the others
-    that grant AP. The level window still applies first, because for most
-    slots there are plenty of them nearby; it opens only when the filter
-    leaves nobody inside it, which is what happens to the six AP rings.
-
-    Fewer results, or none, is the honest answer when nothing is alike.
-    """
+    """Same-slot items granting the same rare stats, ranked by shared stats and level."""
     limit = limit or SIMILAR_ITEMS_SHOWN
     from chardata.lock_forbid import get_default_exclusions
     hidden = set(get_default_exclusions(None))
@@ -1107,17 +971,14 @@ def _get_similar_items(structure, language, game_version, item, limit=None):
             continue
 
         distance = abs((entry['level'] or 0) - level)
-        # Une stat partagee vaut plus qu'un niveau proche, et le niveau ne
-        # departage que des objets deja comparables.
+        # A shared stat outweighs a close level
         proximity = max(0.0, 1.0 - distance / float(LEVEL_WINDOW))
         score = len(mine & _stat_ids(other)) + proximity * 2
         (dedans if distance <= LEVEL_WINDOW else dehors).append(
             (-score, distance, entry['name'] or '', entry))
 
     dedans.sort(key=lambda row: row[:3])
-    # La fenetre ne s'ouvre que pour un objet a stat rare, et seulement si elle
-    # ne s'est pas remplie. Ce qui vient de loin passe apres tout ce qui vient
-    # de pres.
+    # Rare stat only: fill up from outside the level window
     if rare and len(dedans) < limit:
         dehors.sort(key=lambda row: (row[1], row[2]))
         dedans.extend(dehors[:limit - len(dedans)])
@@ -1193,7 +1054,7 @@ def _get_display_name_for_group(structure, variant_items, language):
 
 
 def _condition_text(structure, stat_id, value, is_max, language):
-    """One gate, worded the way the rest of the project words them."""
+    """Equip condition as "Stat > n" or "Stat < n"."""
     stat = structure.get_stat_by_id(stat_id)
     if stat is None:
         return None
@@ -1203,9 +1064,7 @@ def _condition_text(structure, stat_id, value, is_max, language):
 
 
 def _format_condition_groups(structure, variant_items, language):
-    """The template reads a list of groups: within one, the gates all hold; a
-    build only has to satisfy one group. An item whose branches used to ship as
-    separate rows carries them on itself now, so its groups come from there."""
+    """Condition groups: all gates in a group hold, a build needs one group."""
     groups = []
     for variant in variant_items:
         def order(pair):
@@ -1349,15 +1208,7 @@ def _resolve_missing_resource_name(subtype, ankama_id, slug, language,
 
 
 def _agreeing_candidates(candidates, slug):
-    """Keep the candidates that name the same entity.
-
-    A candidate is (game_version, english_name, payload). Ids are not a shared
-    identity across the Retro/modern split (the same id names different gear),
-    and there is no name in the CURRENT version to compare against, since it
-    lacks the entity. So the rule is: all candidates agree on the english name,
-    or the slug in the address decides between them, or nobody is linked. A
-    wrong link under an "it exists in" label would be worse than none.
-    """
+    """(game_version, english_name, payload) candidates naming the same entity."""
     if not candidates:
         return []
     premier = candidates[0][1]
@@ -1373,9 +1224,7 @@ def _agreeing_candidates(candidates, slug):
 def _versions_carrying(kind, current_version, language, slug=None,
                        ankama_type=None, ankama_id=None, monster_id=None,
                        subtype=None, set_id=None):
-    """[{label, name, url}] for every other version that carries the entity
-    the current one lacks. Same sources as the cross-version links on a real
-    entity page, same identity rule, see `_agreeing_candidates`."""
+    """[{label, name, url}] for every other version carrying the entity."""
     candidates = []
     try:
         for game_version, label in ACTIVE_GAME_VERSIONS:
@@ -1441,15 +1290,7 @@ def _versions_carrying(kind, current_version, language, slug=None,
 
 def _encyclopedia_missing_response(request, kind, requested_name,
                                    elsewhere=None):
-    """The 404 for an entity this version does not carry.
-
-    `elsewhere` is the list of versions that DO carry it, built by
-    `_versions_carrying`. Measured on 2026-09-10: this page was 49 % of what
-    the crawling swarm hits, and a reader landing on it from a search result
-    was offered one thing, the hub of the version that lacks the entity. The
-    versions that have it are one lookup away, the same lookup the header
-    switcher already makes on an entity page, so they are named here.
-    """
+    """404 for an entity this version does not carry; elsewhere lists those that do."""
     t = _ui_text()
     game_version = getattr(request, 'game_version', 'dofus3')
     version_label = _version_label(game_version)
@@ -1460,11 +1301,7 @@ def _encyclopedia_missing_response(request, kind, requested_name,
     }
     encyclopedia_url = version_reverse(request, 'encyclopedia')
     canonical_url = _absolute_versioned_url('/encyclopedia/', game_version)
-    # Deux entrees, pas trois : la feuille portait EXACTEMENT l'URL du
-    # carrefour, donc le fil disait que la page est son propre parent. Une
-    # feuille ne peut pas pointer ailleurs qu'elle-meme, et cette page-la
-    # n'a pas d'adresse a elle -- l'objet demande n'existe pas dans cette
-    # version. Le fil s'arrete donc au carrefour, ce qui est vrai.
+    # No leaf: the missing page has no url of its own
     breadcrumb_jsonld = _breadcrumb_jsonld([
         ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
         (t.get('title') or 'Encyclopedia', canonical_url),
@@ -1494,9 +1331,7 @@ def _encyclopedia_missing_response(request, kind, requested_name,
     return response
 
 
-# Ingredient icons are stored by ankama id (resource names carry characters
-# filenames cannot). dofus3 and beta share an id space and the root directory;
-# every other version has its own id space, so it gets its own subdirectory.
+# Icons by ankama id; dofus3 and beta share an id space, the others get a subdirectory
 _INGREDIENT_ICON_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
                          'retro': 'retro/', 'dofus2': 'dofus2/'}
 _resource_search_index_cache = {}
@@ -1506,7 +1341,7 @@ _ingredient_icon_ids_cache = {}
 
 
 def _ingredient_icon_ids(game_version):
-    """Ids with a local ingredient icon, from one directory listing per process."""
+    """Ids with a local ingredient icon, listed once per process."""
     subdir = _INGREDIENT_ICON_DIRS.get(game_version)
     if subdir is None:
         return frozenset()
@@ -1562,25 +1397,20 @@ def _recipe_lookups(cursor, recipe_rows, language, has_recipe_names_table):
 
 
 def _ingredient_icon_url(game_version, ankama_id):
-    # Read once, with .get(): a version with no icon directory of its own is a
-    # real case, and the same dictionary was being read twice here, tolerantly
-    # above and with a bare index below.
     subdir = _INGREDIENT_ICON_DIRS.get(game_version)
     if subdir is None or ankama_id not in _ingredient_icon_ids(game_version):
         return None
     return static('chardata/resources/%s60x60/%d-60-60.png' % (subdir, ankama_id))
 
 
-# Monster artwork per version: dofus3/beta share the modern renders, touch has
-# its own 2D art from the official Touch CDN, retro the vectors extracted from
-# the 1.29 client. Dofus 2 has no artwork source and must not borrow another's.
+# Dofus 2 has no monster artwork and must not borrow another version's
 _MONSTER_IMAGE_DIRS = {'dofus3': '', 'beta': '', 'touch': 'touch/',
                        'retro': 'retro/'}
 _monster_image_ids_cache = {}
 
 
 def _monster_image_ids(game_version):
-    """Ids with local monster artwork, from one directory listing per process."""
+    """Ids with local monster artwork, listed once per process."""
     subdir = _MONSTER_IMAGE_DIRS.get(game_version)
     if subdir is None:
         return frozenset()
@@ -1672,16 +1502,11 @@ def _version_item_keys(game_version):
 
 
 def _other_versions_with_item(current_version, ankama_type, ankama_id, name):
-    """Cross-version links for an item page.
-
-    Only Dofus 3 and the Beta share an id space, so the other version has to
-    name the same item as well as carry the id.
-    """
+    """Cross-version item links; only Dofus 3 and Beta share ids, so names must match."""
     if not ankama_type or not ankama_id:
         return []
     links = []
-    # Identity is decided on the english name both pools store, not on the
-    # reader's language.
+    # Compare on the english name both pools store
     here = _version_item_keys(current_version).get((ankama_type, ankama_id))
     for game_version, label in ACTIVE_GAME_VERSIONS:
         if game_version == current_version:
@@ -1700,8 +1525,7 @@ _version_resource_keys_cache = {}
 
 
 def _version_resource_keys(game_version):
-    """(subtype, ankama_id) -> english name for every ingredient with a working
-    resource page in a version: those used by at least one of its recipes."""
+    """(subtype, ankama_id) -> english name, for ingredients used in a recipe."""
     cached = _version_resource_keys_cache.get(game_version)
     if cached is not None:
         return cached
@@ -1731,8 +1555,7 @@ def _version_resource_keys(game_version):
 
 
 def _other_versions_with_resource(current_version, subtype, ankama_id, name):
-    """Cross-version links for a resource page. Ingredient ids collide across the
-    Retro/modern split even harder than item ids, so the name has to match too."""
+    """Cross-version resource links; ingredient ids collide, so names must match."""
     links = []
     here = _version_resource_keys(current_version).get((subtype, ankama_id))
     for game_version, label in ACTIVE_GAME_VERSIONS:
@@ -1748,7 +1571,7 @@ def _other_versions_with_resource(current_version, subtype, ankama_id, name):
 
 
 def _set_item_ankama_ids(structure, item_set):
-    """The Ankama ids of a set's items (the cross-version item identity)."""
+    """Ankama ids of a set's items."""
     ids = set()
     for item_id in getattr(item_set, 'items', None) or ():
         item = structure.get_item_by_id(item_id)
@@ -1759,10 +1582,7 @@ def _set_item_ankama_ids(structure, item_set):
 
 
 def _other_versions_with_set(current_version, set_id, language):
-    """Cross-version links for a set page. A set id is not a shared identity
-    across the Retro/modern split (id 11 is the Cawwot Set on dofus3 but the
-    unrelated Wabbit Set on Retro, ids 71/72 are the Piwi colours swapped), so
-    the rosters have to match too."""
+    """Cross-version set links; set ids collide (11 is Cawwot on dofus3, Wabbit on Retro)."""
     current_structure = get_structure(current_version)
     current_set = current_structure.sets_dict.get(set_id)
     if current_set is None or not getattr(current_set, 'items', None):
@@ -1793,16 +1613,13 @@ def _other_versions_with_set(current_version, set_id, language):
         links.append({
             'label': label,
             'url': get_set_link(set_id, name, game_version=game_version),
-            # The item count differs by version, even for a same-name match.
             'item_count': len(other_ids),
         })
     return links
 
 
 def _search_resources(game_version, normalized_search, language, limit=48):
-    """Recipe ingredients matching the encyclopedia search box, as links to their
-    resource pages. Returns (entries, total): entries are capped at limit, total
-    is the real match count."""
+    """Ingredients matching the search: (entries capped at limit, total)."""
     if not normalized_search:
         return [], 0
 
@@ -1828,8 +1645,7 @@ def _search_resources(game_version, normalized_search, language, limit=48):
 
 
 def _search_monsters(game_version, normalized_search, language, limit=48):
-    """Monsters matching the encyclopedia search box, as links to their pages.
-    Returns (entries, total) like _search_resources."""
+    """Monsters matching the search: (entries capped at limit, total)."""
     if not normalized_search:
         return [], 0
     hits = []
@@ -1953,7 +1769,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                         local_name = local_item[3]
                         local_item_url = get_item_link(local_item[1], local_item[0], local_name, game_version)
 
-                # Resources are not items we carry, but each has its own page.
+                # Not an item we carry: link its resource page
                 resource_url = None
                 if local_item_url is None and resolved_ingredient:
                     resource_url = get_resource_link(
@@ -2017,8 +1833,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
             "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'item_craft_jobs'"
         )
         if cursor.fetchone() is not None:
-            # Job 1 ("Base") is Ankama's placeholder for workbench recipes no
-            # player profession can learn.
+            # Job 1 ("Base") is Ankama's placeholder, not a profession
             cursor.execute(
                 """
                 SELECT cj.level,
@@ -2072,7 +1887,7 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
                     'url': get_monster_link(monster_id, monster_name, game_version),
                     'level': _drop_level_text(span, level_label),
                     'level_min': span[0] if span else None,
-                    # MIN over '' and criterion strings: empty means some path drops it freely.
+                    # MIN gives '' when any drop has no condition
                     'has_conditions': bool(conditions),
                     'conditions_text': _drop_conditions_text(conditions, drops_ui),
                 })
@@ -2089,7 +1904,6 @@ def _get_item_extra_info(representative_item, language, t, game_version='dofus3'
     return default_data
 
 
-# More ordering rows than a reader will ever open by hand.
 MAX_ORDER_ROWS = 12
 
 
@@ -2144,10 +1958,7 @@ def encyclopedia(request):
         try:
             parsed_rows = json.loads(order_rows_json)
             if isinstance(parsed_rows, list):
-                # The repeated-parameter form of this feature is capped by
-                # DATA_UPLOAD_MAX_NUMBER_FIELDS; this one was not, and the page
-                # renders a full stat select per row, so 880 empty objects in
-                # an 8 KB URL asked the server for 9 MB of HTML.
+                # DATA_UPLOAD_MAX_NUMBER_FIELDS does not cap JSON rows
                 for row in parsed_rows[:MAX_ORDER_ROWS]:
                     if not isinstance(row, dict):
                         continue
@@ -2242,7 +2053,7 @@ def encyclopedia(request):
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
 
-    # Materialize the full cards for the current page only.
+    # Full cards for the current page only
     cards = []
     for entry in page_obj.object_list:
         item = entry['item']
@@ -2312,11 +2123,6 @@ def encyclopedia(request):
             'mt': _monster_ui_text(),
             'canonical_url': _paginated_canonical(
                 request, '/encyclopedia/', game_version, page_obj),
-            # The hub was the only page of its family without one: its sets and
-            # its monsters both declare a trail, and so does every item page
-            # below it. A declared trail is what Google prints in place of the
-            # bare url in a result, and this is the page with the most
-            # impressions and the worst click rate on the site.
             'breadcrumb_jsonld': _breadcrumb_jsonld([
                 ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
                 (t.get('title') or 'Encyclopedia',
@@ -2358,9 +2164,6 @@ def encyclopedia_set(request, set_id, slug=None):
     if set_id is not None:
         item_set = structure.sets_dict.get(set_id) or structure.dt_sets_dict.get(set_id)
     if item_set is None:
-        # Rendait tout le carrefour, 206 Ko et 500 objets, avec son canonique
-        # et son "index, follow", sous un statut 404. La page d'absence dit la
-        # meme chose en une phrase et pointe vers la bonne suite.
         return _encyclopedia_missing_response(
             request, 'set', slug or set_id,
             elsewhere=_versions_carrying(
@@ -2369,7 +2172,7 @@ def encyclopedia_set(request, set_id, slug=None):
 
     game_version = getattr(request, 'game_version', 'dofus3')
 
-    # The slug names the language, exactly as it does for items.
+    # The slug names the language
     url_language = language_from_slug(item_set.localized_names, slug,
                                       _normalized_slug)
     if url_language is None:
@@ -2411,9 +2214,7 @@ def encyclopedia_set(request, set_id, slug=None):
             'alternate_urls': alternate_urls,
             'breadcrumb_jsonld': breadcrumb_jsonld,
             'set_name': set_name,
-            # L'identifiant que le demarrage rapide relit par
-            # get_set_by_id, meme priorite que la page (sets_dict avant
-            # dt_sets_dict), donc la meme panoplie.
+            # Read back by the quick start through get_set_by_id
             'set_id': item_set.id,
             'set_items': _set_items,
             'set_bonuses': _set_bonuses,
@@ -2424,18 +2225,11 @@ def encyclopedia_set(request, set_id, slug=None):
     )
 
 
-# Combien d'objets par emplacement sur la page des plus portes. Dix tient sur
-# un ecran de telephone sans replier, et au-dela la queue n'apprend plus rien.
 MOST_USED_PER_SLOT = 10
 
 
 def _popularity_computed_on():
-    """The day the counts were last rebuilt, or None if nothing recorded it.
-
-    None rather than today: dating a table with the moment someone happened to
-    open the page would be a made-up number on a page whose whole worth is
-    that its numbers can be checked.
-    """
+    """Day the counts were last rebuilt, or None."""
     try:
         from chardata.models import SiteSetting
         ligne = SiteSetting.objects.filter(
@@ -2446,19 +2240,7 @@ def _popularity_computed_on():
 
 
 def encyclopedia_most_used(request):
-    """What players actually wear, counted over every build ever calculated.
-
-    This is the one page no wiki and no official encyclopedia can write. They
-    publish the same numbers, taken from the same game files; none of them sees
-    what people put on. This site has 161 476 calculated builds and never
-    showed what they say.
-
-    The share is of the builds that COULD wear the item, meaning those at or
-    above its level, so a level 20 item is not made to look unloved by the fact
-    that most builds are level 200. The method is printed on the page: a number
-    whose denominator is hidden is a number nobody can argue with, which is the
-    opposite of what this is for.
-    """
+    """Most worn items per slot; the share is of builds at or above the item level."""
     game_version = getattr(request, 'game_version', 'dofus3')
     structure = get_structure(game_version)
     language = get_supported_language()
@@ -2496,9 +2278,7 @@ def encyclopedia_most_used(request):
             'builds': ligne.builds,
         })
 
-    # Ce qu'un lecteur pressé retient, et ce qu'un article cite. Calcule sur
-    # les donnees, jamais fige : le jour ou un autre objet passe devant, la
-    # phrase suit.
+    # Headline: highest share across all slots
     tete = None
     slots = []
     for type_name in TYPE_NAMES:
@@ -2528,11 +2308,6 @@ def encyclopedia_most_used(request):
             'computed_on': _popularity_computed_on(),
             'headline': tete,
             'canonical_url': 'https://dofusfashionista.gg%s' % request.path,
-            # La derniere page de la famille sans trace declaree, et c'est
-            # celle qui porte le chiffre citable. Le libelle reutilise le titre
-            # de la page, deja traduit dans les cinq langues : une chaine neuve
-            # aurait fait passer les catalogues par makemessages, qui les
-            # reecrit en entier.
             'breadcrumb_jsonld': _breadcrumb_jsonld([
                 ('Dofus Fashionista', 'https://dofusfashionista.gg/'),
                 (t_ui.get('title') or 'Encyclopedia',
@@ -2608,8 +2383,7 @@ def encyclopedia_sets(request):
     def set_sort_key(entry):
         name_key = ((entry['name'] or '').lower(),)
         if sort_key == 'level':
-            # A set's top item level is its tier; sets with no level data sink
-            # to the end.
+            # Top item level is the tier, sets without levels go last
             return (entry['level_max'] is None, entry['level_max'] or 0,
                     entry['level_min'] or 0) + name_key
         return name_key
@@ -2732,12 +2506,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                 'item', game_version, language, slug=slug,
                 ankama_type=ankama_type, ankama_id=target_ankama_id))
 
-    # The slug already names the language: /44-epee-de-boisaille/ is the French
-    # page and nothing else. Taking the language from it, rather than from
-    # Accept-Language, is what lets a crawler -- which sends no such header --
-    # see anything but English. Before this, every localised URL served English
-    # to Googlebot and declared a canonical pointing at the English slug, so
-    # each one announced itself as a duplicate.
+    # The slug names the language, crawlers send no Accept-Language
     item_names_by_language = {
         lang: structure.get_item_name_in_language(matched_item, lang)
         for lang in SUPPORTED_LANGUAGES
@@ -2745,8 +2514,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     url_language = language_from_slug(item_names_by_language, slug,
                                       _normalized_slug)
     if url_language is None:
-        # An unrecognised slug is not a reason to change behaviour: keep
-        # whatever the request negotiated, exactly as before.
+        # Unknown slug: keep the negotiated language
         url_language = language
     elif url_language != language:
         translation.activate(url_language)
@@ -2766,8 +2534,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     localized_name = _get_display_name_for_group(structure, grouped_variants, language)
     type_name = structure.get_type_name_by_id(representative_item.type)
     localized_type_name = _localized_label(type_name, language)
-    # sets_dict first: get_set_by_id() checks dt_sets_dict first, and id 1 exists
-    # in both (touch "Jellix Set" against dofus3 "Gobball Set").
+    # sets_dict first, id 1 is in both (touch Jellix Set, dofus3 Gobball Set)
     item_set = None
     if representative_item.set is not None:
         item_set = (structure.sets_dict.get(representative_item.set)
@@ -2789,8 +2556,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'icon_url': _get_stat_icon_url(stat.key),
         })
 
-    # Retro and Touch pets carry no bonus in the data: they are fed up to a cap,
-    # and the page would otherwise show a pet with an empty characteristics list.
+    # Retro and Touch pets have no bonus in the data, only fed variants
     variant_id_base = PET_VARIANT_ID_BASE_BY_VERSION.get(
         getattr(request, 'game_version', None))
     pet_feedable_bonuses = (
@@ -2804,12 +2570,12 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
     extras = representative_item.localized_extras.get(language)
     if extras is None:
         extras = representative_item.localized_extras.get('en', [])
-    # A special spell prints as its name on one line and its rules under it.
+    # Special spell: name on one line, its rules under it
     extras, folded = fold_spell_blocks(extras)
     with translation.override(language):
         extras = [label for label, _icon
                   in flag_lines(getattr(representative_item, 'flags', []))] + extras
-    # An extra line names a spell without saying what it does.
+    # Tooltips for extra lines naming a spell
     spell_tooltips = dict(
         getattr(representative_item, 'spell_tooltips', {}).get(language) or {},
         **folded)
@@ -2822,10 +2588,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         variant_items=grouped_variants)
     weapon_lines = _get_weapon_detail_lines(structure, grouped_variants, language)
 
-    # A version whose data matches the live one shows the same page. Saying
-    # so is the difference between one page and two identical ones; the
-    # comparison is on the data, so the day beta diverges its pages become
-    # canonical in their own right with nothing to change.
+    # Same data as the live version: canonical on dofus3
     from chardata.version_content import repeats_the_live_version
     canonical_version = game_version
     if repeats_the_live_version(game_version,
@@ -2838,9 +2601,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                                    game_version=canonical_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
 
-    # One absolute URL per language, for the hreflang block. Each is built with
-    # that language active because get_item_link derives a localised category
-    # segment from get_language().
+    # hreflang urls, get_item_link reads get_language() for the category segment
     alternate_urls = build_alternate_urls(
         lambda name: get_item_link(representative_item.ankama_type,
                                    representative_item.ankama_id, name,
@@ -2849,10 +2610,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
          for lang in SUPPORTED_LANGUAGES},
         'https://dofusfashionista.gg', _normalized_slug)
 
-    # A signed-in visitor who chose a language is sent to their own version, so
-    # a Spanish link shared with a French account still lands on French.
-    # Anonymous visitors -- every crawler among them -- are never redirected,
-    # which is what keeps one URL bound to one language for indexing.
+    # Only signed-in users with a chosen language get redirected, never crawlers
     redirect_to = redirect_target_for_user(request, url_language, alternate_urls)
     if redirect_to:
         return mark_varies_on_cookie(redirect(redirect_to))
@@ -2864,13 +2622,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
         (localized_name, canonical_url),
     ])
 
-    # Extraits avant le retour parce que la description de recherche les
-    # consomme : elle est construite a partir de ce que la page affiche deja,
-    # jamais a cote.
     _item_contexte = {
-        # L'identifiant interne, celui des inclusions: le
-        # bouton <<construire un build autour>> le passe au
-        # demarrage rapide.
+        # Internal id, passed to the quick start by "build around this item"
         'id': representative_item.id,
         'name': localized_name,
         'or_name': representative_item.or_name,
@@ -3167,8 +2920,7 @@ def _db_table_exists(cursor, table_name):
 
 
 def _monster_level_spans(cursor, monster_ids):
-    """{monster_ankama_id: (min_level, max_level)} across the monster's grades.
-    Empty when monster_grades is absent (older version DBs)."""
+    """{monster_ankama_id: (min_level, max_level)}, empty without monster_grades."""
     spans = {}
     monster_ids = [mid for mid in set(monster_ids) if mid is not None]
     if not monster_ids or not _db_table_exists(cursor, 'monster_grades'):
@@ -3197,8 +2949,7 @@ def _drop_level_text(level_span, level_label):
 
 
 def _drop_conditions_text(conditions, ui):
-    """"player level > 19, < 61" when the criterion is only PL bounds,
-    None otherwise (the caller falls back to the generic label)."""
+    """"player level > 19, < 61" for PL-only criteria, else None."""
     if not conditions or not re.fullmatch(r'PL[<>]\d+(&PL[<>]\d+)*', conditions):
         return None
     parts = ['%s %s' % (m.group(1), m.group(2))
@@ -3207,12 +2958,7 @@ def _drop_conditions_text(conditions, ui):
 
 
 def _get_monster_names_by_language(cursor, monster_id):
-    """Every stored name of a monster, keyed by language.
-
-    Needed to tell which language a URL slug names: two localised slugs are
-    the same monster in two languages, and each must serve its own.
-    See chardata.url_language.
-    """
+    """{language: name} of a monster."""
     cursor.execute(
         "SELECT language, name FROM monster_names WHERE monster_ankama_id = ?",
         (monster_id,))
@@ -3220,7 +2966,7 @@ def _get_monster_names_by_language(cursor, monster_id):
 
 
 def _get_resource_names_by_language(cursor, ankama_id, subtype):
-    """Every stored name of a crafting ingredient, keyed by language."""
+    """{language: name} of a crafting ingredient."""
     cursor.execute(
         "SELECT language, name FROM item_recipe_ingredient_names "
         "WHERE ingredient_ankama_id = ? AND ingredient_subtype = ?",
@@ -3356,8 +3102,7 @@ def _get_monster_drop_previews(cursor, monster_ids, language, game_version, limi
 
 
 def _build_monster_core(game_version):
-    """Language-neutral part of the monster index (drop counts, all localized
-    names, normalized search blob), built once per version."""
+    """Language-neutral monster index: drop counts, names, search blob."""
     monsters = []
     conn = None
     try:
@@ -3432,8 +3177,6 @@ def _build_monster_core(game_version):
             for monster_id, level_min, level_max in cursor.fetchall():
                 level_spans[monster_id] = (level_min, level_max)
 
-        # The single element every grade is weakest to. None when the grades
-        # disagree or the resists are flat.
         weakest_by_monster = {}
         if _db_table_exists(cursor, 'monster_grades'):
             grades_by_monster = defaultdict(list)
@@ -3535,8 +3278,7 @@ def _get_monster_index(game_version, language):
 
 
 def warm_caches():
-    """Pre-build the per-version encyclopedia caches. Called from a background
-    thread at wsgi startup."""
+    """Build the encyclopedia caches, run in a thread at wsgi startup."""
     for game_version, _label in ACTIVE_GAME_VERSIONS:
         structure = get_structure(game_version)
         _get_light_core(structure)
@@ -3552,11 +3294,7 @@ def warm_caches():
 
 
 def _get_monster_version_links(monster_id, current_game_version, language):
-    """Cross-version links for a monster page, from the cached monster core
-    (which only carries monsters that drop something).
-
-    A monster id is no more a shared identity than an item id, so the english
-    names have to agree."""
+    """Cross-version monster links; ids are not shared, so english names must match."""
     links = []
     here = _get_monster_core_by_id(current_game_version).get(monster_id) or {}
     here_en = (here.get('names') or {}).get('en')
@@ -3672,12 +3410,6 @@ def encyclopedia_monsters(request):
         }
         for value in MONSTER_DROP_FILTERS
     ]
-    # Read from the data rather than from the version name, which is why this
-    # corrected itself the day dofus2 got its grades: all 1 335 of its monsters
-    # now carry a level and 1 002 an announced weakness, 75.1%, the best of the
-    # four versions. The comment here used to say dofus2 had no source for
-    # per-grade stats and that it therefore got no level sort; only the prose
-    # was stale, never the code.
     has_levels = any(entry['level_min'] is not None
                      for entry in _get_monster_index(game_version, language))
     sort_options = [
@@ -3771,7 +3503,7 @@ def _resource_not_found_response(request, subtype, ankama_id, slug=None, current
 
 
 def _grade_level_span(grades):
-    """'22-30' (or '22') across the version's own grades, for title/meta."""
+    """'22-30' or '22' from the grades."""
     levels = [g['level'] for g in grades if g.get('level') is not None]
     if not levels:
         return None
@@ -3783,8 +3515,7 @@ _GRADE_ELEMENTS = ('earth', 'fire', 'water', 'air', 'neutral')
 
 
 def _weakest_elements(grade):
-    """Element keys with the lowest resistance in a grade (what the monster takes
-    the most damage from). Empty when resistances are missing or all equal."""
+    """Lowest-resistance elements of a grade, empty if missing or all equal."""
     present = {key: grade.get(key) for key in _GRADE_ELEMENTS
                if grade.get(key) is not None}
     if len(present) < 2:
@@ -3796,8 +3527,7 @@ def _weakest_elements(grade):
 
 
 def _consistent_weakest(grades):
-    """The single element every grade is weakest to. None when the grades
-    disagree, tie, or have no distinct weakness."""
+    """Element every grade is weakest to, or None."""
     weak_sets = [grade.get('weakest') or set() for grade in grades]
     if not weak_sets or any(len(weak) != 1 for weak in weak_sets):
         return None
@@ -3806,7 +3536,7 @@ def _consistent_weakest(grades):
 
 
 def _monster_spells(cursor, monster_ankama_id, language):
-    """Its spells in order, named and priced."""
+    """Monster spells in order, with AP cost and range at the first grade."""
     rows = cursor.execute(
         """
         SELECT ms.spell_ankama_id, ms.grade_mapping,
@@ -3827,7 +3557,6 @@ def _monster_spells(cursor, monster_ankama_id, language):
         grades = [int(grade) for grade in (mapping or '').split(',') if grade.isdigit()]
         wanted[spell_id] = grades[0] if grades else 1
 
-    # The fullest monster carries forty spells.
     details = {}
     if wanted:
         placeholders = ','.join('?' * len(wanted))
@@ -3879,13 +3608,12 @@ def encyclopedia_monster(request, monster_id, slug=None):
         if not _db_table_exists(cursor, 'monster_names'):
             return _monster_not_found_response(request, target_monster_id, slug)
         monster_name = _get_monster_display_name(cursor, target_monster_id, language)
-        # No name in any language, or none stored at all: nothing to show but
-        # the upstream placeholder, or our own "#7953".
+        # No real name in any language
         if (monster_name == '#%s' % target_monster_id
                 or not has_display_name({language: monster_name})):
             return _monster_not_found_response(request, target_monster_id, slug)
 
-        # The slug names the language, exactly as it does for items.
+        # The slug names the language
         monster_names_by_language = _get_monster_names_by_language(
             cursor, target_monster_id)
         url_language = language_from_slug(monster_names_by_language, slug,
@@ -3900,8 +3628,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
             monster_name = _get_monster_display_name(
                 cursor, target_monster_id, language)
 
-        # Per-grade stats, stored per version from that version's own source
-        # (touch: the backend Monsters table).
+        # Per-grade stats
         if _db_table_exists(cursor, 'monster_grades'):
             for row in cursor.execute(
                     """
@@ -3920,8 +3647,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
                 }
                 grade['weakest'] = _weakest_elements(grade)
                 grades.append(grade)
-        # Where the monster can be found, from the version's own source (retro:
-        # the Solomonk bestiary subarea blocks). Localized, French as fallback.
+        # Subareas, French as fallback
         subareas = []
         if _db_table_exists(cursor, 'monster_subareas'):
             rows = cursor.execute(
@@ -4070,8 +3796,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
 
 
 def encyclopedia_resource(request, subtype, ankama_id, slug=None):
-    """A crafting ingredient (resource) page: every item it is used to craft, in
-    the current game version."""
+    """Resource page: items it crafts and monsters that drop it."""
     language = get_supported_language()
     t = _ui_text()
     game_version = getattr(request, 'game_version', 'dofus3')
@@ -4107,7 +3832,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             if row is not None:
                 resource_name = row[0]
 
-            # The slug names the language, exactly as it does for items.
+            # The slug names the language
             resource_names_by_language = _get_resource_names_by_language(
                 cursor, target_ankama_id, subtype)
             slug_language = language_from_slug(

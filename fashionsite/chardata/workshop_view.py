@@ -5,14 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Workshop / craft list.
-
-A logged-in player can stash items they want to craft or acquire, scoped to
-the current game version. Add-to-workshop buttons appear on /solution/ pages.
-
-The list view aggregates every stashed item's recipe into a single shopping
-list of raw ingredients (see `chardata.recipe_util`), so the player can see at
-a glance how many of each resource they need to craft everything."""
+"""Workshop: a craft list per game version, with its ingredient shopping list."""
 
 import logging
 
@@ -36,11 +29,7 @@ MAX_QUANTITY = 999
 
 
 def _localized_type(type_name, language):
-    """Le type d'un objet, dans la langue du lecteur.
-
-    Meme forme que dans `inventory_view`, `forgemagie_view` et
-    `encyclopedia_view`: la langue est passee, pas deduite de l'active.
-    """
+    """An item type in the given language."""
     if not type_name:
         return ''
     with translation.override(language):
@@ -58,8 +47,7 @@ def _items_for_user(user, game_version):
     for row in rows:
         item = structure.get_item_by_id(row.item_id)
         if item is None:
-            # Item disappeared (renamed / version drift). Surface as a
-            # placeholder so the user can remove it.
+            # Item disappeared (renamed / version drift): show a placeholder
             items.append({
                 'id': row.id,
                 'item_id': row.item_id,
@@ -77,17 +65,7 @@ def _items_for_user(user, game_version):
             'id': row.id,
             'item_id': row.item_id,
             'name': structure.get_item_name_in_language(item, language),
-            # Le type est lu par le lecteur, donc traduit; l'image est rangee
-            # sous le nom canonique et le garde. Cette page affichait
-            # <<Amulet>>, <<Weapon>>, <<Boots>> a cote d'un niveau traduit,
-            # dans les cinq langues. Les dix types sont deja dans
-            # `dynamic_translations`, et l'inventaire, la forgemagie et
-            # l'encyclopedie les traduisent deja: on emploie la meme source.
-            #
-            # Sous `language`, et pas sous la langue active, pour sortir de
-            # la meme langue que le nom de l'objet pose juste a cote:
-            # `get_supported_language` retombe sur l'anglais quand la langue
-            # active n'est pas des cinq, et les deux se separeraient alors.
+            # Same language as the name; the image keeps the canonical type
             'type_name': _localized_type(type_name, language),
             'level': item.level,
             'image_url': static(get_image_url(type_name, item.name)),
@@ -98,16 +76,7 @@ def _items_for_user(user, game_version):
 
 
 def _ingredients_payload(recipe, language):
-    """Ce que les deux endpoints rendent, la phrase comprise.
-
-    La phrase est batie ici et pas dans la page. Django accorde selon la
-    langue, et le francais met le singulier a zero: <<0 ingredient>>, pas
-    <<0 ingredients>>. Les deux pages choisissaient leur mot avec
-    `kinds === 1`, ce qui impose la regle anglaise a tout le monde.
-
-    `ngettext` cote page n'aurait rien donne: le catalogue JavaScript ne
-    porte pas ce mot, il aurait rendu l'anglais. Le serveur le sait, lui.
-    """
+    """What both endpoints return; the plural is built here, the JS catalog lacks it."""
     kinds = len(recipe['ingredients'])
     total = sum(i['quantity'] for i in recipe['ingredients'])
     with translation.override(language):
@@ -125,8 +94,7 @@ def _ingredients_payload(recipe, language):
 
 
 def _ingredients_for_workshop(user, game_version):
-    """Aggregated recipe ingredients for everything currently in `user`'s
-    workshop, multiplied by each item's quantity."""
+    """Recipe ingredients for the user's workshop, times each item's quantity."""
     rows = WorkshopItem.objects.filter(user=user, game_version=game_version)
     return aggregate_ingredients(
         ((row.item_id, row.quantity) for row in rows),
@@ -150,9 +118,7 @@ def workshop(request):
                          'ingredient_kinds': charge['ingredient_kinds'],
                          'ingredient_total_units':
                              charge['ingredient_total_units'],
-                         # La meme phrase que le JSON du
-                         # rafraichissement, pour que le premier rendu
-                         # et les suivants ne puissent pas differer.
+                         # Same phrase as the refresh JSON
                          'ingredients_meta': charge['ingredients_meta'],
                          'recipes_available':
                              charge['recipes_available']})
@@ -160,9 +126,7 @@ def workshop(request):
 
 @login_required
 def workshop_ingredients(request):
-    """JSON ingredient list for the current user's workshop. Lets the page
-    refresh the shopping list after a quantity change / removal without a full
-    reload."""
+    """JSON ingredient list, to refresh the page after a quantity change."""
     game_version = getattr(request, 'game_version', 'dofus3')
     recipe = _ingredients_for_workshop(request.user, game_version)
     return JsonResponse(_ingredients_payload(recipe, get_supported_language()))
@@ -234,8 +198,7 @@ def clear_workshop(request):
 
 
 def _solution_item_ids(char):
-    """Unique structure item ids equipped in a solved Char, or None when the
-    build has no solution yet."""
+    """Unique item ids of a solved Char, or None when it has no solution yet."""
     from chardata.solution import get_solution
     sol = get_solution(char)
     if sol is None:
@@ -252,14 +215,7 @@ def _solution_item_ids(char):
 
 
 def _readable_char(request, char_id):
-    """The build if the caller may read it, else None.
-
-    Their own, or one its owner shared by link: the solution page these two
-    routes serve is also the page a shared build is read on. Both take a bare
-    integer id, and ids are sequential, so without this a signed-in visitor
-    could walk them into someone's unshared build. Answering 404 rather than
-    403 keeps the id itself quiet.
-    """
+    """The build if the caller owns it or it is link shared, else None."""
     from chardata.models import Char
     from chardata.util import char_belongs_to_user
     try:
@@ -299,9 +255,7 @@ def add_solution_to_workshop(request, char_id):
 
 @login_required
 def solution_ingredients(request, char_id):
-    """JSON shopping list of recipe ingredients for a build's solution (one of
-    each equipped item). Drives the 'crafting ingredients' panel on the
-    solution page."""
+    """JSON ingredient list for a build's solution, one of each item."""
     char = _readable_char(request, char_id)
     if char is None:
         return JsonResponse({'error': _('Build not found')}, status=404)

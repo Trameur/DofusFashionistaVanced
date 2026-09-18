@@ -86,34 +86,19 @@ _SHARE_SLOT_ORDER = ['Weapon', 'Shield', 'Hat', 'Cloak', 'Amulet', 'Ring',
                      'Belt', 'Boots', 'Dofus', 'Pet']
 
 
-# Upgrade hint thresholds: this many strictly better-scoring options for the
-# slot, and the equipped item scoring below this fraction of the slot's best.
+# Upgrade hints: at least this many better items, and below this ratio of the best
 _UPGRADE_MIN_BETTER = 5
 _UPGRADE_SCORE_RATIO = 0.8
 _UPGRADE_MAX_HINTS = 4
-# Slots whose item is well-modelled by the build's stat weights. Weapons rank on
-# damage/AP and Dofus/Pet on unique effects, so a flat stat score means nothing
-# there.
+# Weapons rank on damage/AP and Dofus/Pet on unique effects, not on stat weights
 _CHECKED_SLOTS = {'Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots', 'Shield'}
 
 
-#: Below this the sentence about the size of the search space is not worth
-#: saying: "more than 10 to the power of 2" is not an argument.
 _SEARCH_SPACE_MIN_EXPONENT = 6
 
 
 def _constraints_reached(char, solution):
-    """[{name, asked, reached, met}] for the minimums this project set.
-
-    ChatGPT asked for "11 AP tick, 6 MP tick" under the result, and it is the
-    one part of the panel the reader can check against their own build in a
-    glance. Both sides are read rather than recomputed: the minimums out of the
-    project, the totals out of the solution the page is already showing.
-
-    adv_mins is left out on purpose. It is a nested structure of per element
-    and per situation minimums, and flattening it into one line each would say
-    less than the stat table already below.
-    """
+    """[{name, asked, reached, met}] for the project's minimums, adv_mins left out."""
     if solution is None:
         return []
     try:
@@ -134,10 +119,7 @@ def _constraints_reached(char, solution):
         if atteint is None:
             continue
         atteint = int(round(atteint))
-        # Le NOM de la stat, pas sa cle. `localized_stat_name` traduit un nom
-        # ('AP', 'Vitality'); une cle ('ap', 'vit') n'est dans aucun
-        # catalogue, donc elle ressortait telle quelle et le panneau affichait
-        # <<ap 12>> au lieu de <<PA 12>>.
+        # localized_stat_name translates names ('AP'), not keys ('ap')
         stat = get_structure().get_stat_by_key(cle)
         if stat is None:
             continue
@@ -149,23 +131,13 @@ def _constraints_reached(char, solution):
 
 
 def _search_space_exponent(pool):
-    """floor(log10) of the number of sets those candidates could form, or None.
-
-    Slots of one type are interchangeable, so two rings out of N is C(N, 2)
-    and not N squared, and a slot may be left empty, so it is the sum over
-    0..k rather than exactly k. That second point is not decoration: with
-    exactly k, a player who forbids every dofus gets C(0, 6) = 0 and the whole
-    product collapses to zero possible sets, which is absurd and would be
-    printed on the page.
-
-    The exponent rather than the number itself: this is a thirty-eight digit
-    integer, and nobody reads those.
-    """
+    """floor(log10) of the number of sets those candidates could form, or None."""
     if not pool:
         return None
     total = 1
     for type_name, slots in TYPE_NAME_TO_SLOT_NUMBER.items():
         available = pool.get(type_name, 0)
+        # Same-type slots are interchangeable, and a slot can stay empty
         total *= sum(math.comb(available, taken)
                      for taken in range(0, min(available, slots) + 1))
     exponent = len(str(total)) - 1
@@ -182,16 +154,7 @@ def _resolve_structure_item(structure, name):
 
 
 def pieces_above_the_character_level(char, solution):
-    """The worn pieces this character's level does not allow, worst first.
-
-    One rule, one place: the build page shows the count right above the best
-    turn, and the best turn links to the spell page, which used to show the
-    same build's damage with nothing said. A level 30 build carrying thirteen
-    pieces up to level 100 announced 17981 damage there.
-
-    Cheap on purpose: it resolves the worn pieces and compares a number. The
-    rest of `_build_check`, which rates candidates per slot, is not.
-    """
+    """The worn pieces this character's level does not allow, highest first."""
     char_level = char.level or 0
     if not char_level:
         return []
@@ -217,8 +180,7 @@ def pieces_above_the_character_level(char, solution):
 
 
 def _weighted_rate(structure, item, weights):
-    """The item's stats weighted by the build's stat weights (mirrors
-    item_exchange._rate, which orders the switch-item list)."""
+    """Item stats weighted by the build's weights, like item_exchange._rate."""
     if item.name in structure.or_items:
         item = structure.get_or_item_by_name(item.name)[0]
     rating = 0
@@ -229,14 +191,14 @@ def _weighted_rate(structure, item, weights):
     return rating
 
 
-# Built at import, so the labels must be lazy: the language is per request.
+# Lazy: built at import, the language is per request
 _PIECE_LABELS = {'hat': gettext_lazy('Hat'), 'cloak': gettext_lazy('Cloak'),
                  'shield': gettext_lazy('Shield'), 'weapon': gettext_lazy('Weapon'),
                  'mount': gettext_lazy('Mount')}
 
 
 def _default_colors(char):
-    """What the game itself gives that class and gender."""
+    """Game default colors for the class and gender."""
     breed = CLASS_TO_BREED.get(char.char_class)
     if breed is None:
         return list(DEFAULT_COLORS)
@@ -249,8 +211,7 @@ def _preview_pieces(char, look=None):
     slots = [slot for slot in sorted(SLOT_TO_NODE)
              if slot not in UNDRAWN_SLOTS
              and (SLOT_TO_NODE[slot] in gear or slot in hidden)]
-    # Hiding the mount takes it out of the look, so the box must stay while it
-    # is off.
+    # A hidden mount is not in the look, keep its box
     if (look and look.get('mount')) or MOUNT_SLOT in hidden:
         slots.append(MOUNT_SLOT)
     return [{'slot': slot, 'label': _PIECE_LABELS[slot], 'hidden': slot in hidden}
@@ -264,8 +225,7 @@ def _undrawn_pieces(look):
 
 
 def _build_check(char, solution):
-    """Equipped count plus the slots whose item is clearly outscored for this
-    build."""
+    """Equipped count and the slots whose item is clearly outscored."""
     structure = get_structure()
     try:
         weights = pickle.loads(char.stats_weight) if char.stats_weight else None
@@ -289,21 +249,7 @@ def _build_check(char, solution):
     equipped_count = len(equipped_entries)
     char_level = char.level or 0
 
-    # Les pieces que le niveau du personnage ne permet pas. Le site connait
-    # deja la regle: `lock_forbid.remove_invalid_inclusions` ecarte tout objet
-    # dont `item.level > level` quand le niveau change, dans la meme requete.
-    # Il ne l'appliquait pas a la solution deja calculee, et baisser le niveau
-    # d'un projet ne relance pas le solveur: `_save_state_to_char` ecrit
-    # `char.level` et laisse l'equipement en place.
-    #
-    # Parcours verifie en HTTP le 12 septembre 2026 sur un build de niveau 200
-    # ramene a 30: les **seize pieces** restent, jusqu'au niveau 200, et rien
-    # ne le disait, ni sur la page du proprietaire, ni sur le lien partage, ni
-    # dans la galerie qui declarait le build valide.
-    #
-    # La regle a quitte cette boucle pour vivre seule au-dessus: le panneau
-    # des sorts la dit lui aussi, et il ne doit pas payer le calcul de
-    # suggestions qui suit.
+    # Lowering the level does not rerun the solver, the pieces stay
     above_level = pieces_above_the_character_level(char, solution)
 
     suggestions = []
@@ -317,8 +263,7 @@ def _build_check(char, solution):
                 continue
 
             type_name = structure.get_type_name_by_id(structure_item.type)
-            # Old builds carry item ids that current versions reuse for a
-            # different item, whose type no longer matches the slot.
+            # Old builds carry ids since reused for an item of another type
             if TYPE_NAME_TO_SLOT.get(type_name, '').lower() != slot.lower():
                 continue
 
@@ -360,43 +305,18 @@ def _build_check(char, solution):
         'suggestions': suggestions,
         'has_hints': bool(suggestions),
         'above_level': above_level,
-        # La liste, telle que la page la montre: <<Neckross 200, Kroks 200>>.
+        # e.g. "Neckross 200, Kroks 200"
         'above_level_text': ', '.join(
             '%s %s' % (piece['name'], piece['level']) for piece in above_level),
     }
 
 
 def _build_share_text(request, char, solution, facts=None):
-    """Plain-text build summary for pasting into Discord / forums.
-
-    `facts` is (proven, seconds) when the caller already read them, as the
-    solution page does for a generation snapshot; otherwise they are read
-    from the build's own pickle.
-    """
-    # `display_name` plutot que `char.name`: un build sur cinq porte un
-    # nom que la page de creation a fabrique toute seule (" 199"), et
-    # ce texte-la est fait pour etre colle ailleurs.
+    """Plain-text summary for Discord / forums; facts is (proven, seconds) if known."""
     classe = LOCALIZED_CHARACTER_CLASSES.get(char.char_class,
                                              char.char_class or '')
     title = char.char_name or display_name(char) or classe or 'Build'
-    # La version du jeu, en toutes lettres, parce que le texte voyage.
-    #
-    # Sans elle, un build Retro colle sur la page Dofus 3 etait cherche dans le
-    # catalogue Dofus 3. Mesure du 10 septembre 2026: 1594 des 6269 noms Retro
-    # existent aussi en Dofus 3, et 482 d'entre eux y designent un objet d'un
-    # AUTRE NIVEAU (<<Amulet of the Valiant Heart>> passe de 41 a 200). Depuis
-    # Touch c'est 818 sur 2618. Le lecteur recevait un build plausible qui
-    # n'etait pas le sien.
-    #
-    # Le libelle vient du registre et n'est pas traduit ('Dofus 3', 'Retro'),
-    # donc il traverse les cinq langues sans changer.
-    #
-    # Le NOM DE CLASSE et le mot <<niveau>>, eux, se traduisent, comme les noms
-    # d'objets plus bas et comme l'apercu de partage quelques lignes plus loin
-    # le fait deja. Cette ligne etait la seule du texte restee en anglais: un
-    # lecteur francais copiait <<Cra lvl 200>> pendant que l'apercu de son
-    # propre lien annoncait <<Cra niv. 200>>. Selon la langue, 6 a 13 des 19
-    # classes portent un autre nom (Zobal, Roublard, Steamer, Sacrieur).
+    # The version must be in the text: Retro and Touch share item names with Dofus 3
     lines = ['%s - %s %s %d - %s' % (title, classe, _('lvl'), char.level,
                                      get_game_version(char.game_version).label),
              '']
@@ -404,14 +324,7 @@ def _build_share_text(request, char, solution, facts=None):
         for item in solution.items.get(slot, []):
             name = getattr(item, 'name', None)
             if getattr(item, 'item_added', False) and name and name != 'NoItem':
-                # L'emplacement ET le nom, tous deux dans la langue du
-                # lecteur: le texte entier est fait pour etre colle sur SON
-                # Discord. Un joueur francais copiait <<Hat: Creaking Tree
-                # Hat>> pour un Discord francais.
-                #
-                # L'import relit les cinq langues des deux cotes, plus le nom
-                # interne et l'emplacement anglais pour les textes deja
-                # partages, donc le tour complet survit au changement.
+                # The import reads this back in any of the five languages
                 lines.append('%s: %s' % (_(slot),
                                          getattr(item, 'localized_name', None)
                                          or name))
@@ -419,8 +332,6 @@ def _build_share_text(request, char, solution, facts=None):
         stats = solution.get_stats_total()
         chips = []
         structure = get_structure()
-        # Les libelles dans la langue du lecteur, comme les noms d'objets
-        # au-dessus: le texte entier est fait pour etre colle sur SON Discord.
         for key in ('ap', 'mp', 'range', 'vit', 'pow'):
             value = stats.get(key, 0)
             stat = structure.get_stat_by_key(key)
@@ -431,26 +342,14 @@ def _build_share_text(request, char, solution, facts=None):
             lines += ['', ' / '.join(chips)]
     except Exception:
         logger.exception('Failed to build stats chips for share text (char %s)', char.id)
-    # Les caracteristiques de base, pour que le texte suffise a refaire le
-    # personnage et pas seulement son equipement. Les deux lignes restent
-    # separees parce que le site garde les deux nombres separement: les
-    # additionner rendrait un personnage different de celui qui est parti.
-    #
-    # Elles ne sortent que si elles portent quelque chose. Un build sans point
-    # depense n'a pas a trainer deux lignes de zeros dans un message Discord.
+    # Base stats
     try:
         spent, scrolled = get_stats_and_scrolled(char)
         points = ['%s %d' % (localized_stat_name(nom), spent[nom])
                   for nom, _cle in STATS_NAMES if spent.get(nom)]
         if points:
             lines.append('%s: %s' % (_('Points'), ' / '.join(points)))
-        # Les parchotages ne sortent que s'ils s'ecartent du defaut.
-        # `create_build` cree TOUT nouveau build entierement parchote, donc
-        # sortir la ligne systematiquement collerait six valeurs identiques a
-        # la fin de chaque message Discord pour ne rien apprendre a personne.
-        # Quand elle s'ecarte, elle sort en ENTIER: une ligne partielle
-        # laisserait le lecteur deviner si une stat absente vaut zero ou le
-        # defaut, et l'import doit pouvoir la relire sans supposer.
+        # New builds are fully scrolled: only print scrolls that differ, all six
         plein = max_scroll_for_version(char.game_version, char.level)
         if any(scrolled.get(nom, 0) != plein for nom, _cle in STATS_NAMES):
             lines.append('%s: %s' % (_('Scrolls'), ' / '.join(
@@ -459,13 +358,7 @@ def _build_share_text(request, char, solution, facts=None):
     except Exception:
         logger.exception('Failed to build base stats for share text (char %s)',
                          char.id)
-    # La preuve voyage avec le build. C'est la phrase de la section 2.3 du
-    # plan, celle qu'aucun systeme generatif ne peut ecrire sur sa propre
-    # sortie: le solveur a ferme le probleme, ou il a rendu la main a la
-    # limite de temps. Ce sont les deux phrases du panneau <<Pourquoi ce
-    # resultat ?>>, memes msgids, pour que la page et le texte colle ne
-    # puissent pas se contredire. Un pickle d'avant le fait ne porte rien,
-    # et le texte se tait plutot que de deviner: None n'est pas False.
+    # Same msgids as the "Why this result?" panel. None (old pickle) says nothing
     try:
         if facts is not None:
             proven = facts[0]
@@ -492,26 +385,12 @@ def _build_share_text(request, char, solution, facts=None):
     return '\n'.join(lines)
 
 
-# Ce qu'un salon Discord ou un forum montre sous un lien colle: la
-# description Open Graph. Elle disait <<build Cra optimise sur Dofus
-# Fashionista. Aimez-le, commentez-le, copiez-le.>> pour tous les builds,
-# donc rien du build lui-meme, et rien du verdict du solveur, alors que le
-# lien est colle la ou les builds se discutent. Un salon ne lit pas la page:
-# il lit cette phrase.
+# Open Graph description: what Discord shows under a pasted link
 _OG_PIECES_MAX_CHARS = 200
 
 
 def _build_og_description(char, solution, proven):
-    """Classe, niveau, version, les pieces, et le verdict du solveur.
-
-    Les noms sont ceux de la langue de la page, comme dans le texte copie.
-    La liste des pieces est coupee a une frontiere de nom au-dela de
-    _OG_PIECES_MAX_CHARS, avec le compte de ce qui reste: une carte tronquee
-    au milieu d'un nom fait croire a un objet qui n'existe pas. Le verdict
-    reprend les deux msgids des badges de la galerie, pour que les trois
-    surfaces ne puissent pas se contredire, et se tait quand le pickle ne
-    porte rien: None n'est pas False.
-    """
+    """Class, level, version, pieces and the solver's verdict."""
     names = []
     for slot in _SHARE_SLOT_ORDER:
         for item in solution.items.get(slot, []):
@@ -546,8 +425,7 @@ _CLASS_AVATAR_COUNT = 6
 
 
 def get_class_avatar(char):
-    """Stable per-char avatar URL; classes with no art (Forgelance) get a
-    placeholder."""
+    """Stable per-char avatar URL; placeholder for classes with no art (Forgelance)."""
     cls = char.char_class or ''
     if cls not in _CLASS_AVATAR_DIRS:
         return static('chardata/QuestionMark-lighttheme.png')
@@ -559,18 +437,7 @@ _OG_CARD = 'chardata/og-card.jpg'
 
 
 def get_og_image(char):
-    """The picture a social preview should use, which is not always the avatar.
-
-    A class with no artwork -- Forgelance is the only one -- falls back to a
-    16x16 question mark. On the page that is a discreet placeholder. As a
-    preview it is illegible and below every documented minimum: Facebook states
-    200x200 as the smallest image it accepts and a Twitter summary card asks
-    144x144, so the link renders with no picture at all rather than a small one.
-
-    The generic card is 1200x630 and always renders, so a class without art
-    gets that instead. The avatar itself is 260x260 and clears both thresholds,
-    which is why the eighteen classes that have one keep it.
-    """
+    """Class avatar, or the generic card: the 16x16 placeholder is too small."""
     if (char.char_class or '') in _CLASS_AVATAR_DIRS:
         return get_class_avatar(char)
     return static(_OG_CARD)
@@ -786,16 +653,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         solution_params = solution_result.get_params()
         solver_constraints = _constraints_reached(char, solution)
 
-    # "Why this result?": what the solver can honestly say about its own
-    # answer. Both facts are read with getattr and both default to None,
-    # because every solution pickled before they existed carries neither and
-    # an absent fact must show nothing rather than a guess.
-    #
-    # `proven` is the one that matters. CBC runs with timeLimit=90 and PuLP
-    # relabels a stopped run as Optimal, so without sol_status the two are
-    # indistinguishable and the site would be claiming a proof it does not
-    # have. This is the sentence no generative system can write about its own
-    # output, which is exactly why it belongs on the page.
+    # "Why this result?" panel. None on solutions pickled before these facts
     solver_proven, solver_seconds, solver_pool = get_solver_facts(
         generation.minimal_solution if generation is not None
         else char.minimal_solution)
@@ -820,8 +678,6 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
             share_text = _build_share_text(
                 request, char, _sol_for_text,
                 facts=(solver_proven, solver_seconds))
-            # Seul un build partage a une adresse a coller; une page privee
-            # garde la phrase du site, elle n'est lue par aucun salon.
             if char.link_shared:
                 try:
                     og_description = _build_og_description(
@@ -837,24 +693,11 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
         build_check = None
         build_score = None
 
-    # Le meilleur tour, sur la page ou le lecteur arrive depuis la galerie ou
-    # depuis un lien partage. Il etait a un clic de la, sur la page des sorts,
-    # et la section 55 vient de le mettre dans la comparaison: il manquait sur
-    # la page la plus lue des trois.
-    #
-    # Dans son propre try: un tour qui ne se calcule pas ne doit pas emporter
-    # le texte a copier ni le score, qui sont deja construits au-dessus.
-    #
-    # Il n'est PAS mis dans la metadonnee de la galerie, et ce n'est pas un
-    # oubli: le filtre <<cacher les builds invalides>> construit cette
-    # metadonnee pour TOUS les builds correspondants et non pour les 24 de la
-    # page. Mesure du 12 septembre 2026: 1980 builds partages, 37 ms le tour,
-    # soit 73 secondes sur un cache froid. Ici c'est un seul calcul par page.
+    # Best turn
     best_turn = None
     best_turn_note = ''
     try:
-        # Import local: `spells_view` n'importe pas ce module aujourd'hui,
-        # mais il tient la page voisine et les deux se citent souvent.
+        # Local import: spells_view imports this module
         from chardata.spells_view import _best_combo
         _sol_for_turn = (snapshot_solution if snapshot_solution is not None
                          else get_solution(char))
@@ -863,9 +706,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
                                  getattr(request, 'game_version', 'dofus3'))
             best_turn = _combo['total'] if _combo else None
             if _combo:
-                # Les memes phrases que les deux autres pages, mot pour mot.
-                # Deux pages qui annoncent le meme nombre et deux hypotheses
-                # differentes, c'est l'une des deux qui ment.
+                # Same notes as the spell and compare pages
                 best_turn_note = ' '.join(
                     part for part in (_combo.get('buff_note'),
                                       _combo.get('rank_note'),
@@ -890,9 +731,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'is_guest_json': json.dumps(is_guest),
               'encoded_char_id': encoded_char_id,
               'link_shared': char.link_shared,
-              # Pourquoi la galerie n'affiche pas ce build, quand c'est
-              # le cas. Elle en ecarte 74,5 % (mesure du 11 septembre
-              # 2026) et leur auteur n'en savait rien.
+              # Why the gallery hides this build, if it does
               'gallery_refusal': gallery_refusal_sentence(char),
               'owner_alias': get_alias(char.owner),
               'is_dueler': chardata.smart_build.char_has_aspect(char, 'duel'),
@@ -906,16 +745,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'character_asset_formats': json.dumps(asset_formats()),
               'character_preloads': preload_links(character_look),
               'canonical_path': shared_build_path(char) if char.link_shared else '',
-              # Pas de groupe hreflang : `shared_build_path` ne porte que la
-              # version, jamais la langue, donc les cinq adresses d'un build
-              # sont canoniques a la MEME. Un groupe les nommant serait lu par
-              # Google puis abandonne, chacune des quatre autres se reniant au
-              # profit de la premiere. Les drapeaux, eux, gardent leurs cinq
-              # destinations : le lecteur, lui, veut bien changer de langue.
+              # No hreflang: all five languages share one canonical url
               'hreflang_urls': {},
-              # Sous la MEME garde que le canonique : les deux moities du
-              # <head> repondent a la meme question, et une page privee ne
-              # doit pas publier un fil vers une adresse qu'elle nie.
+              # Same guard as canonical_path
               'breadcrumb_jsonld': _shared_build_breadcrumb(
                   char, seo_class, seo_build) if char.link_shared else '',
               'preview_box': preview_box_for(request.user) if character_look else None,
@@ -925,11 +757,6 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'seo_build': seo_build,
               'share_text': share_text,
               'og_description': og_description,
-              # Le lien vers DofusBook ne s'affiche que pour le
-              # proprietaire et pour les versions dont ils ont un
-              # site: dofus2 et beta n'en ont pas, et pointer vers
-              # www rendrait un catalogue qui n'est pas le leur.
-              # Et seulement une fois leur accord donne (build_sites.py).
               'dofusbook_export': (not is_guest
                                    and build_sites.enabled(build_sites.DOFUSBOOK)
                                    and dofusbook_export.supports(
@@ -937,8 +764,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'build_check': build_check,
               'build_score': build_score,
               'has_build_score': build_score is not None,
-              # History deltas compare against the current build, so a snapshot
-              # view passes None and lets the helper score the current solution.
+              # A snapshot passes None: deltas compare against the current build
               'generation_history': [] if is_guest else _build_generation_history(
                   request, char, generation,
                   None if is_generation_snapshot else build_score),
@@ -1002,25 +828,17 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
 
 
 def gallery_refusal_sentence(char):
-    """La phrase a montrer a l'auteur, ou une chaine vide."""
+    """The sentence to show the author, or ''."""
     return _gallery_sentence_for(char)
 
 
 @require_POST
 def get_sharing_link(request, char_id):
-    """Publish a build. POST only, and the reason is measured.
-
-    Both of these answered a GET until 2026-09-11, and neither Django nor
-    anything else checks a token on a GET. So `<img src=".../getsharinglink/
-    123/">` on any page published build 123 as soon as its owner loaded that
-    page, and build ids are consecutive integers. The same door in reverse
-    hid a build and broke every link its author had shared.
-    """
+    """Publish a build. POST only: no CSRF check on a GET."""
     char = get_char_or_raise(request, char_id)
 
     char.link_shared = True
-    # The author has now said what they want, so the default stops applying
-    # to this build: see Char.auto_publish.
+    # The author chose, auto_publish no longer applies
     char.auto_publish = False
     char.save()
 
@@ -1032,16 +850,14 @@ def hide_sharing_link(request, char_id):
     char = get_char_or_raise(request, char_id)
 
     char.link_shared = False
-    # Same on the way back, and this direction is the one that matters: a
-    # build made private must stay private through every later solve.
+    # Same here: a private build must stay private through later solves
     char.auto_publish = False
     char.save()
 
     return HttpResponseText('hid')
 
 def get_client_ip(request):
-    """Client IP from the request, or None if it doesn't parse as an IP
-    (X-Forwarded-For is client-controlled)."""
+    """Client IP, or None if it doesn't parse (X-Forwarded-For is client-controlled)."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0].strip()
@@ -1059,9 +875,7 @@ def solution_linked(request, char_name, encoded_char_id):
     char = get_char_encoded_or_raise(encoded_char_id)
     if char.game_version != getattr(request, 'game_version', 'dofus3'):
         raise Http404
-    # A shared build whose solution was never stored cannot render this page,
-    # and one whose stored solution no longer reads back raised straight out of
-    # pickle: a public url answering 500 on a build nobody can fix.
+    # Missing or unreadable solution: 404, not 500
     try:
         if get_solution(char) is None:
             raise Http404
@@ -1072,11 +886,7 @@ def solution_linked(request, char_name, encoded_char_id):
                        exc_info=True)
         raise Http404
 
-    # Increment view count only once per IP per 24 hours, and only for a
-    # reader. Nothing filtered crawlers here, and a crawler fetching a shared
-    # build was counted exactly like a person reading it -- once per address,
-    # and the big crawlers hold thousands of addresses. The number shown under
-    # a build was therefore mostly machines, which is what made it look odd.
+    # Increment view count only once per IP per 24 hours, and not for crawlers
     from chardata.middleware import looks_like_a_robot
     try:
         if looks_like_a_robot(request):
@@ -1095,17 +905,11 @@ def solution_linked(request, char_name, encoded_char_id):
             if not recent_view:
                 # Record the view
                 BuildView.objects.create(build=char, ip_address=ip_address)
-                # Et jeter celles de ce build qui ont passe la journee. La
-                # commande de nettoyage ne tournait nulle part, si bien que
-                # 156 249 adresses etaient conservees pour une retention
-                # annoncee de 24 h. Elaguer ici garde la table a jour entre
-                # deux deploiements, sur l'index qui sert deja juste au-dessus
-                # et pour ce seul build.
+                # cleanup_old_views only runs at deploy, prune here too
                 BuildView.objects.filter(
                     build=char,
                     viewed_at__lt=twenty_four_hours_ago).delete()
-                # char.save() would rewrite every blob column and bump
-                # modified_time (auto_now) on every view.
+                # Not char.save(): it rewrites every blob and bumps modified_time
                 Char.objects.filter(pk=char.pk).update(view_count=F('view_count') + 1)
                 char.view_count += 1
     except Exception as e:
@@ -1113,11 +917,7 @@ def solution_linked(request, char_name, encoded_char_id):
     
     return _solution(request, char.pk, True, encoded_char_id, char=char)
 
-# The words robots.txt refuses through its `Disallow: */word/` rules. That form
-# matches the word at any depth, and a build's name is a path segment of its own
-# public address, so a build named after an internal endpoint tells Google to
-# skip its own page -- the rule was written for /fashion/, not for /s/fashion/.
-# tests_a_build_name_cannot_hide_itself.py goes red if this drifts from the file.
+# robots.txt `Disallow: */word/` words, matched at any depth, so also in /s/<name>/
 RESERVED_PATH_WORDS = frozenset((
     'addtag', 'change_password', 'check_username', 'check_your_email',
     'choose_item', 'choose_set', 'confirm_email', 'createproject',
@@ -1141,13 +941,7 @@ RESERVED_PATH_WORDS = frozenset((
 
 
 def _off_the_robots_rules(slug):
-    """The same slug, stepped aside when it lands exactly on a robots rule.
-
-    Only a whole segment collides: `Disallow: */fashion/` skips
-    /s/fashion/<id>/ and leaves /s/fashion-build/<id>/ alone. The name in the
-    path is decorative, so moving it costs the reader nothing and every older
-    link keeps working -- the view reads the id.
-    """
+    """The slug, with -build appended when it is exactly a robots rule word."""
     if slug.lower() in RESERVED_PATH_WORDS:
         return slug + '-build'
     return slug
@@ -1163,22 +957,7 @@ def _shared_build_slug(char):
 
 
 def _shared_build_breadcrumb(char, seo_class, seo_build):
-    """The trail of a shared build: the site, the community list, the build.
-
-    No language prefix anywhere, because the leaf has none: shared_build_path
-    gives one address per build whatever language it is read in. Prefixing only
-    the middle step would make the trail change language halfway, which is worse
-    than leaving the hub's address alone -- its label is translated either way.
-
-    The leaf is named the way <title> names the page, class and build and level,
-    and never by char_name. That name is free text a visitor typed, and a
-    breadcrumb is what Google prints in place of the url: the title already
-    decided to keep that text out of the results, so this follows it.
-
-    Built by the encyclopedia's helper rather than by a second serialiser here.
-    It carries the escaping that keeps a name from closing the script tag, and a
-    hand-copied escape is exactly the kind that reads right and does nothing.
-    """
+    """Breadcrumb JSON-LD of a shared build: site, community list, build."""
     from chardata.encyclopedia_view import _breadcrumb_jsonld
     prefix = ('' if char.game_version in (None, '', 'dofus3')
               else '/' + char.game_version)
@@ -1193,8 +972,7 @@ def _shared_build_breadcrumb(char, seo_class, seo_build):
 
 
 def shared_build_path(char):
-    """The canonical url of a shared build. The name in the path is decorative:
-    the view reads only the id, so every spelling of it serves the same page."""
+    """Canonical url of a shared build. The view reads only the id."""
     from urllib.parse import quote
     prefix = '' if char.game_version in (None, '', 'dofus3') else '/' + char.game_version
     return '%s/s/%s/%s/' % (prefix,
@@ -1204,28 +982,11 @@ def shared_build_path(char):
 
 
 def generate_link(request, char):
-    """L'adresse CANONIQUE du build, pas la porte par laquelle on est entre.
-
-    Ce lien est fait pour etre colle sur un Discord ou un forum, donc il doit
-    valoir pour tout le monde. `request.build_absolute_uri` rendait l'hote de
-    l'appelant, et `ALLOWED_HOSTS` en compte neuf en production: mesure du 10
-    septembre 2026, le meme build sortait en
-    `http://178.105.48.220/s/...` depuis une IP et
-    `http://fashionistavanced.com/s/...` depuis l'ancien domaine, en `http`
-    dans les deux cas. `api_view`, `shared_builds_view` et `profile_view`
-    passaient deja par SITE_URL; cet endroit-ci, dont c'est pourtant le
-    metier, ne le faisait pas.
-
-    `shared_build_path` prefixe avec la version du BUILD et echappe son nom,
-    ce que la construction precedente ne faisait qu'a moitie.
-    """
+    """Canonical link of the build, on SITE_URL whatever host the request used."""
     return SITE_URL + shared_build_path(char)
 
 def _item_id_for_name(structure, item_name):
-    """The id the lock and forbid lists store, or None if this version has no
-    such item. An item split into branches is only known under its group name,
-    and a name the version does not have at all is a stale tab: both used to
-    reach the same subscript of None and answer 500."""
+    """Id the lock and forbid lists store, or None if the version lacks the item."""
     item = structure.get_item_by_name(item_name)
     if item is not None:
         return item.id

@@ -145,15 +145,10 @@ def _get_shared_build_meta(char):
         'has_condition_issues': False,
         'has_missing_items': False,
         'is_invalid': False,
-        # is_invalid also covers a build that renders fine but breaks a
-        # condition: that is the reader's checkbox. This one means the page
-        # itself cannot exist, so the list must not link to it at all.
+        # The build page itself can't exist, don't link it
         'cannot_render': False,
         'public_score': 0,
-        # Whether the solver PROVED the optimum (True), handed back the best
-        # it reached at the time limit (False), or never said (None, a
-        # solution stored before the fact was recorded). The card shows the
-        # first two and nothing for the third: an absence is not a "no".
+        # True proven optimum, False stopped at the time limit, None unknown
         'solver_proven': None,
         'preview_items': [],
         'compact_stats': [],
@@ -172,9 +167,7 @@ def _get_shared_build_meta(char):
 
         try:
             minimal_solution = pickle.loads(char.minimal_solution)
-            # Meme reparation que sur la page du build: sans elle, la galerie
-            # continuerait d'ecarter un build que le reste du site montre
-            # entier.
+            # Same repair as the build page
             repair_minimal_solution(char, minimal_solution)
         except Exception:
             meta['has_outdated_slots'] = True
@@ -184,12 +177,8 @@ def _get_shared_build_meta(char):
             return meta
 
         item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
-        # Read off the pickle the card already opens for its previews, so the
-        # gallery pays nothing more for it. Same attribute get_solver_facts
-        # reads for the solution page and the API.
         meta['solver_proven'] = getattr(minimal_solution, 'proven', None)
-        # Off the same pickle: a TemporiX build totals past 12 AP and 6 MP,
-        # and the card must say so before a classic Touch player copies it.
+        # TemporiX builds go past 12 AP and 6 MP
         solved_options = (getattr(minimal_solution, 'input', None) or {}).get(
             'options') or {}
         meta['temporix'] = bool(solved_options.get('temporix'))
@@ -254,15 +243,7 @@ def _get_shared_build_meta(char):
         set_current_game_version(previous_game_version)
 
 
-#: Query parameters that change WHICH builds are listed. One of them makes the
-#: page a view of the list rather than a place in it, so it points at the plain
-#: list instead of claiming a page number of its own. Aspects arrive one
-#: parameter per aspect, check_str and its nine siblings, so they are matched by
-#: prefix.
-#:
-#: Deliberately a closed list rather than "anything that is not page": a link
-#: shared on Reddit arrives carrying utm_source, and treating that as a filter
-#: would make the shared page declare itself a duplicate of the first one.
+# Params that filter the list, closed on purpose: utm_source is not a filter
 _FILTER_PARAMS = frozenset({
     'char_class', 'min_level', 'max_level', 'order_by', 'search',
     'user_search', 'show_liked', 'show_favorited', 'hide_invalid', 'tag',
@@ -271,25 +252,7 @@ _ASPECT_PREFIX = 'check_'
 
 
 def _canonical_url(request, page_obj):
-    """The url this page wants Google to keep: itself, page number included.
-
-    Every page of this list named /sharedbuilds/ as its canonical, because the
-    template published no canonical of its own and the default in base.html is
-    built from request.path, which has no query string. So 82 of the 83 pages
-    declared themselves duplicates of the first while asking to be indexed --
-    and the builds that only appear on those pages are discovered through them.
-
-    A filtered view is a different matter and still points at the plain list:
-    the same builds in another order, or a subset, is not a page worth indexing
-    on its own.
-
-    Built from request.path rather than from the literal /sharedbuilds/. The
-    list is published once per game version, and the sitemap submits all five:
-    writing the address down made /retro/sharedbuilds/ and its three siblings
-    declare the default version as their canonical, which is four submitted
-    pages disowning themselves. The fallback this replaces used request.path,
-    and that part of it was right.
-    """
+    """Canonical url with the page number, the plain list for a filtered view."""
     filtered = any(
         (key in _FILTER_PARAMS or key.startswith(_ASPECT_PREFIX))
         and any((value or '').strip() for value in values)
@@ -332,9 +295,7 @@ def shared_builds(request):
     )
 
     base_filter = dict(link_shared=True, deleted=False, game_version=game_version)
-    # A build whose solution was never stored 404s on its own /s/ page, so
-    # listing it here hands the visitor a dead link. The sitemap skips them
-    # already, with the same exclude.
+    # No stored solution means a 404 on /s/, same exclude as the sitemap
     shared = Char.objects.filter(**base_filter).exclude(minimal_solution=b'')
     if needs_vote_annotation:
         builds = shared.select_related('owner').annotate(
@@ -444,12 +405,10 @@ def shared_builds(request):
     else:
         builds = builds.order_by('-view_count', '-modified_time')
 
-    # Sort and paginate on ids only: ordering full rows drags every blob column
-    # through the MySQL sort buffer.
+    # Sort and paginate on ids only, full rows drag the blobs through the MySQL sort buffer
     def _fetch_page_chars(page_ids, for_meta=False):
         rows = Char.objects.filter(id__in=page_ids).select_related('owner')
-        # The meta reads the solution and the minimums, so a deferred column
-        # there costs one extra query per build.
+        # The meta reads the solution and the minimums, don't defer them
         if not for_meta:
             rows = rows.defer(*_HEAVY_CHAR_FIELDS)
         chars_by_id = {char.id: char for char in rows}
@@ -499,8 +458,7 @@ def shared_builds(request):
         page_chars = _fetch_page_chars(list(builds_page.object_list), for_meta=True)
         meta_by_id = {char.id: _get_shared_build_meta(char) for char in page_chars}
 
-    # Bulk-fetch vote counts: the page rows are re-fetched by id, so the
-    # ordering annotations do not reach them.
+    # Bulk-fetch vote counts, the re-fetched rows lost the annotations
     if page_chars:
         page_char_ids = [char.id for char in page_chars]
         vote_rows = BuildVote.objects.filter(
@@ -539,8 +497,7 @@ def shared_builds(request):
             comment_counts[row['build_id']] = row['cnt']
 
     for char in page_chars:
-        # A build whose stored solution cannot be read has no page to link to.
-        # The meta for this page is computed either way, so this costs nothing.
+        # Unreadable stored solution, no page to link to
         if meta_by_id.get(char.id, {}).get('cannot_render'):
             continue
         encoded_id = encode_char_id(int(char.id))
@@ -560,10 +517,8 @@ def shared_builds(request):
             'link': link,
             'encoded_id': encoded_id,
             'public_score': build_meta.get('public_score', 0),
-            # .get and not [...]: a meta cached before this key existed lives
-            # on until its timeout, and must render as "unknown", not crash.
+            # .get: older cached metas don't have this key
             'solver_proven': build_meta.get('solver_proven'),
-            # Same .get: a meta cached before the mode existed has no such key.
             'temporix': build_meta.get('temporix', False),
             'preview_items': build_meta['preview_items'],
             'compact_stats': build_meta['compact_stats'],
@@ -612,17 +567,10 @@ def shared_builds(request):
     params = {
         'builds': builds_data,
         'page_obj': builds_page,
-        # Premier / Precedent / Suivant / Dernier laissait la page 42 sur 83 a
-        # QUARANTE ET UN clics, et c'etait le pire cas: parcours en largeur sur
-        # les liens que le gabarit rendait, moyenne 20,7 clics sur les 83
-        # pages. Depuis la premiere on n'atteignait que la 2 et la 83.
-        # `pagination_items` garde une page sur dix plus les voisines, ce qui
-        # met chaque page a trois clics de la premiere.
+        # Every tenth page plus neighbours, so any page is a few clicks away
         'page_links': pagination_items(builds_page),
         'canonical_url': _canonical_url(request, builds_page),
-        # The trail Google prints in place of the bare url. Two levels because
-        # the list sits directly under the site: claiming a third would be
-        # inventing a section that does not exist.
+        # Two levels, the list sits right under the site
         'breadcrumb_jsonld': json.dumps({
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',

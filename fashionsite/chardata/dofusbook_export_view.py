@@ -5,26 +5,7 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Open a build on DofusBook, and say what does not travel before it goes.
-
-The page exists instead of a plain link for one measured reason. On
-`retro.dofusbook.net`, three of sixteen Ankama ids in a real build are not in
-their catalogue, and their page drops them without a word: the player would
-land on a draft missing a hat, an amulet and a weapon and have no way to know
-it came from us. So the ids are checked against their own endpoint first and
-the answer is shown here, where it can still change the player's mind.
-
-The other half of the page is the list of what their format cannot carry at
-all: the build name, the class, and the few characteristics their forgemagie
-field cannot hold. Saying it here is cheaper than letting the player discover
-it on their side and conclude our export is broken.
-
-Since 2026-09-11 the forgemagie itself travels. Ours is a value per line per
-piece and theirs one total per characteristic, so the total is the sum over
-the pieces that travel of what the player holds minus what THEIR catalogue
-gives the same piece. Thibaud, the same day: "l'export ne met pas bien les
-FM".
-"""
+"""DofusBook export page: the link, and what does not travel."""
 
 import logging
 
@@ -68,7 +49,7 @@ def _solution(char):
 
 
 def _worn_items(solution):
-    """{slot: [ModelResultItem]} for what the character actually wears."""
+    """{slot: [ModelResultItem]} of worn items"""
     if solution is None:
         return {}
     porte = {}
@@ -82,14 +63,7 @@ def _worn_items(solution):
 
 
 def _ankama_id(item, game_version):
-    """Their key and ours. A pickle written before the field existed carries
-    no ankama_id, so the catalogue answers for it rather than the item being
-    dropped.
-
-    The catalogue is asked for the BUILD's version and not the thread local
-    one: the same item id names different gear from one version to the next,
-    so a lookup in the wrong catalogue would send a plausible stranger.
-    """
+    """Old pickles have no ankama_id: look it up in the build's version."""
     ankama = getattr(item, 'ankama_id', None)
     if ankama is not None:
         return ankama
@@ -106,11 +80,7 @@ def _named(item):
 
 
 def _points_and_scrolls(char):
-    """Their two arrays, indexed the way their decoder reads them.
-
-    Both sides list the six base characteristics in the same order, ours as
-    BASE_STATS and theirs as `st`, so the index is the whole mapping.
-    """
+    """Their `st` lists base stats in our order"""
     spent, scrolled = get_stats_and_scrolled(char)
     points = {}
     scrolls = {}
@@ -126,8 +96,7 @@ def _exos(char):
     drapeaux = 0
     if options.get('ap_exo'):
         drapeaux |= dofusbook_export.EXO_AP
-    # mp_exo can also be 'gelano', which is not the exo: that choice wears
-    # Gelano (#1), whose own line carries the MP (Model, _exo_carriers).
+    # 'gelano' is not the exo, the ring carries the MP itself
     if options.get('mp_exo') is True:
         drapeaux |= dofusbook_export.EXO_MP
     if options.get('range_exo'):
@@ -136,15 +105,7 @@ def _exos(char):
 
 
 def _partial_scrolls(char, scrolls):
-    """The characteristics whose scroll cannot travel, named for the reader.
-
-    Their format holds 100 or nothing, so a Touch build scrolled to 150 and a
-    build scrolled to 50 both lose something, and the second loses all of it.
-
-    Vitality is left out when their format forces a full scroll on it anyway:
-    the page says that in one sentence of its own, and listing it twice would
-    tell the reader two different things about the same number.
-    """
+    """Stats whose scroll cannot travel: their format holds 100 or nothing."""
     force = dofusbook_export.vitality_scroll_is_forced(char.level)
     noms = []
     for index, (element_name, _key) in enumerate(STATS_NAMES):
@@ -157,20 +118,7 @@ def _partial_scrolls(char, scrolls):
 
 
 def _forgemagie(overrides, structure, item_by_ankama, their_values):
-    """({position in their `fm`: total}, [our stat keys with no position],
-    the exo bits our rolls imply).
-
-    A roll on AP, MP or range is NOT summed: the game gives one exo point per
-    characteristic for the whole build and their format carries that as a
-    single bit, so two pieces carrying one would otherwise travel as two
-    points. It is the same rule our own model holds (`_exo_carriers`), just
-    written in their vocabulary.
-
-    A characteristic their `ve` does not name has nowhere to go: critical
-    failure and the weapon resistance percentage are the two, the second
-    because their loop stops one position before it. They are handed back to
-    be named rather than folded into a neighbour.
-    """
+    """({position in their `fm`: total}, [stat keys with no position], exo bits)"""
     positions = dofusbook_export.index_by_stat_key()
     totaux, sans_place = {}, []
     drapeaux = 0
@@ -191,6 +139,7 @@ def _forgemagie(overrides, structure, item_by_ankama, their_values):
             ecart = int(valeur) - int(leurs.get(dofusbook_export.VE[position], 0))
             if not ecart:
                 continue
+            # One exo point per stat for the whole build
             if position in dofusbook_export.EXO_INDEXES:
                 if ecart > 0:
                     drapeaux |= dofusbook_export.EXO_BIT_BY_INDEX[position]
@@ -200,15 +149,7 @@ def _forgemagie(overrides, structure, item_by_ankama, their_values):
 
 
 def _shiny_forge(structure, item_by_ankama, their_values, overrides):
-    """({position in their `fm`: total}, [our stat keys with no position]) for
-    the shiny TemporiX pieces that travel.
-
-    DofusBook has no shiny piece, so what the x1.5 adds goes where their link
-    takes forgemagie: the shiny value minus THEIR value for the line, like a
-    roll. AP, MP and Range are real totals here, not the exo bit: two shiny
-    pieces with one more AP each add two. A piece with recorded rolls is not
-    shiny (temporix.as_worn), its rolls travel as rolls.
-    """
+    """Shiny bonus sent as forgemagie, like _forgemagie minus the exo bits."""
     shiny_by_id = temporix.shiny_items_by_id(structure)
     positions = dofusbook_export.index_by_stat_key()
     totaux, sans_place = {}, []
@@ -252,7 +193,6 @@ def _keys_of_positions(positions, wanted):
 
 
 def dofusbook_export_page(request, char_id):
-    # Not there at all until DofusBook's creator has agreed (build_sites.py).
     if not build_sites.enabled(build_sites.DOFUSBOOK):
         raise Http404
     char = get_char_or_raise(request, char_id)
@@ -268,10 +208,6 @@ def dofusbook_export_page(request, char_id):
 
     solution = _solution(char)
     porte = _worn_items(solution)
-    # One pass builds both the payload and the two lists the page shows, so
-    # they cannot end up disagreeing about which piece went where: an item
-    # cut here for want of a slot has to be named as staying, not counted as
-    # travelling because the group happened to have room after a filter.
     retenus = {}
     restants = []
     codes_par_slot = dict(dofusbook_export.GROUPS)
@@ -281,9 +217,6 @@ def dofusbook_export_page(request, char_id):
         for item in items:
             ankama = _ankama_id(item, char.game_version)
             if codes is None or ankama is None or len(gardes) >= len(codes):
-                # A slot their format does not have at all, an item our own
-                # catalogue has no Ankama id for, or more items than the group
-                # holds. Either way the payload leaves them out.
                 restants.append(_named(item))
             else:
                 gardes.append((ankama, item))
@@ -297,9 +230,7 @@ def dofusbook_export_page(request, char_id):
         return set_response(request, 'chardata/dofusbook_export.html', params)
 
     try:
-        # One call answers both questions: which ids their catalogue holds,
-        # and what each of those items is worth on THEIR sheet, which is the
-        # only honest baseline for a forgemagie total.
+        # Their item values are the baseline for forgemagie
         leurs_entrees = dofusbook_export.stuffer_items(char.game_version,
                                                        groupes)
     except dofusbook_export.ExportError as erreur:
@@ -322,9 +253,6 @@ def dofusbook_export_page(request, char_id):
     connus_par_groupe = dofusbook_export.keep_known(groupes, connus)
     points, scrolls = _points_and_scrolls(char)
     structure = get_structure(char.game_version)
-    # The rolls the solver ran with: the inventory's, then the project's
-    # manual overrides on top. Reading the manual ones alone sent nothing for
-    # a build whose rolls all came from the inventory.
     overrides = get_effective_stat_overrides(char) or {}
     totaux, sans_place, exos_des_jets = _forgemagie(
         overrides, structure, item_par_ankama, leurs_valeurs)
@@ -339,8 +267,7 @@ def dofusbook_export_page(request, char_id):
                 totaux[position] = totaux.get(position, 0) + total
     forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls,
                                                        char.level)
-    # carriable_forge keeps AP, MP and Range for the exo bit; what shiny
-    # pieces add there is a count of points, written as such.
+    # Shiny AP, MP and Range are real points, not the exo bit
     for position in dofusbook_export.EXO_INDEXES:
         if rayonnant.get(position):
             forge[position] = rayonnant[position]
@@ -360,7 +287,6 @@ def dofusbook_export_page(request, char_id):
             structure, char.game_version,
             sans_place + _keys_of_positions(
                 dofusbook_export.index_by_stat_key(), refusees)),
-        # Only worth a sentence when it actually differs from the build.
         'vitality_scroll_forced': (
             dofusbook_export.vitality_scroll_is_forced(char.level)
             and scrolls.get(0, 0) < dofusbook_export.SCROLL_STEP),

@@ -5,38 +5,14 @@
 # License as published by the Free Software Foundation; either
 # version 3 of the License, or (at your option) any later version.
 
-"""Read a public DofusBook build from its link.
-
-The endpoint is undocumented and internal to their single page app, so
-everything here is what it was measured to do on 2026-09-09, not what it
-promises. It answers 403 without a Referer on their own domain and 200 with
-one, so the call cannot be made from the reader's browser and goes through us.
-
-The one thing that shapes the whole design: **a build id is not unique across
-their hosts**. Measured, id 2558915 is a 404 on www, an 8 item level 21 build
-called "Bas Level" on retro, and a 16 item level 170 build called "Feu eau" on
-touch. Nothing in the payload says which game it belongs to, so the host is
-taken from the link the player pasted and is never guessed.
-
-The catalogue check underneath is a second net and NOT a way to work the
-version out. Measured: that Retro build resolves 8 of 8 items under retro,
-dofus3 AND touch, because low level items carry the same Ankama id in every
-version. The check only catches the other direction, a modern build read as an
-old one, where 13 of 16 items simply do not exist yet.
-
-That asymmetry is why d-bk.net short links are refused rather than followed.
-Their redirect target could not be verified here, and if a short link to a
-Retro build lands on www, the version would be wrong and every item would
-still resolve: the import would be silently, plausibly wrong. Asking for the
-full link costs the player one click.
-"""
+"""Read a public DofusBook build from its link."""
 
 import json
 import re
 import urllib.error
 import urllib.request
 
-#: Their host to our game version, and the only thing that decides it.
+# Build ids repeat across hosts: the host alone decides the version
 HOSTS = {
     'www.dofusbook.net': 'dofus3',
     'dofusbook.net': 'dofus3',
@@ -44,48 +20,38 @@ HOSTS = {
     'touch.dofusbook.net': 'touch',
 }
 
+# Refused: the redirect hides the host, so the version
 SHORT_HOSTS = ('d-bk.net', 'www.d-bk.net')
 
-#: The Dofus-Stuffer site's own share links (`<its address>?stuff=...`), in
-#: the same format as a DofusBook stuffer link. Read on its page on
-#: 2026-09-18: it says "Version 3.6.2.1", a Dofus 3 client, and its DofusBook
-#: button opens www.dofusbook.net, so its links are Dofus 3 builds.
+# Dofus-Stuffer fansite: DofusBook stuffer link format, Dofus 3 builds
 STUFFER_HOSTS = {
     'dofus-stuffer.is-great.net': 'dofus3',
     'www.dofus-stuffer.is-great.net': 'dofus3',
 }
 
-#: Their site refuses a request that does not look like it came from their own
-#: pages. Measured: 403 with only a browser User-Agent, 200 once a Referer on
-#: the same host is added.
+# They answer 403 without a Referer on their own host
 USER_AGENT = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
               '(KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36')
 
 TIMEOUT = 20
 
-#: Under this share of items resolving in the catalogue we refuse. It is a
-#: floor, not a version detector: measured, a Retro build resolves fully under
-#: all three versions, while a Dofus 3 build read as Retro resolves 3 of 16.
+# Floor, not a version check: low level items share ids across versions
 MIN_RESOLVED = 0.6
 
 _ID = re.compile(r'/(\d{3,})')
 
 
 class ImportError_(Exception):
-    """Anything that stops us handing back a build, with a reason key the
-    caller turns into a translated sentence."""
+    """Stops an import; reason is a key the caller translates."""
 
     def __init__(self, reason):
         super().__init__(reason)
         self.reason = reason
 
 
-#: A scheme at the start of the link. Looking for '//' anywhere mistook a
-#: '//' inside a stuffer link's base64 for one, on a link pasted without it.
+# At the start only: a stuffer link's base64 can contain '//'
 _SCHEME = re.compile(r'^[a-z][a-z0-9+.-]*://', re.I)
 
-#: The most points a characteristic can hold on any build; a link that says
-#: more is not a build, and the database column would refuse it anyway.
 MAX_POINTS = 9999
 
 
@@ -96,8 +62,7 @@ def _host_and_path(url):
     if not _SCHEME.match(url):
         url = 'https://' + url
     reste = url.split('//', 1)[1]
-    # The host ends at the first '/', '?' or '#': a link with no path before
-    # its query ("site.net?stuff=...") would otherwise run into the base64.
+    # Host ends at the first '/', '?' or '#': "site.net?stuff=..." has no path
     fin = min([at for at in (reste.find(sep) for sep in '/?#') if at != -1]
               or [len(reste)])
     host, chemin = reste[:fin], reste[fin:]
@@ -107,19 +72,11 @@ def _host_and_path(url):
 
 
 def parse_link(url):
-    """(host, build id) for a DofusBook link, or None.
-
-    Deliberately permissive about the path: their routes carry a language, a
-    slug and sometimes a query, and pinning the exact shape would break the
-    day they reorganise it. The first run of at least three digits in the path
-    is the build id.
-    """
+    """(host, build id) for a DofusBook link, or None."""
     host, chemin = _host_and_path(url)
     if host not in HOSTS:
         return None
-    # The path only: digits inside a query, a stuffer link's base64 among
-    # them, are not a build id, and reading them as one fetched a stranger's
-    # build.
+    # Path only: the query can hold digits, a stuffer link's base64 among them
     trouve = _ID.search(chemin.partition('?')[0].partition('#')[0])
     if not trouve:
         return None
@@ -132,13 +89,7 @@ def is_short_link(url):
 
 
 def parse_stuffer_link(url):
-    """(host, stuff parameter) for a stuffer link, or None.
-
-    `/desktop/<lang>/equipement/dofus-stuffer/objets?stuff=...` carries the
-    whole build in its query and names no build id: our own export writes it,
-    and so does the Dofus-Stuffer fansite. Their page reads nothing but the
-    parameter, so the path is not pinned either.
-    """
+    """(host, stuff parameter) for a stuffer link, or None."""
     import urllib.parse
     host, chemin = _host_and_path(url)
     if host not in HOSTS and host not in STUFFER_HOSTS:
@@ -151,21 +102,15 @@ def parse_stuffer_link(url):
 
 
 def is_stuffer_path(url):
-    """Whether the link points at their stuffer page, readable or not: one
-    whose parameter did not survive the copy is still theirs, and the player
-    has to hear that it is damaged, not that the site is unknown."""
+    """Whether the link points at their stuffer page, even with a damaged parameter."""
     host, chemin = _host_and_path(url)
     return (host in HOSTS
             and '/dofus-stuffer/' in chemin.partition('?')[0].partition('#')[0])
 
 
 def fetch_build(host, build_id, opener=None):
-    """Their payload for one public build.
-
-    The path segment between stuffs and public is ignored by their own API, so
-    anything goes there; we send a constant rather than invent a plausible
-    one.
-    """
+    """Their payload for one public build."""
+    # Their API ignores the segment between stuffs and public
     url = 'https://%s/api/stuffs/x/public/%s' % (host, build_id)
     requete = urllib.request.Request(url, headers={
         'User-Agent': USER_AGENT,
@@ -186,17 +131,13 @@ def fetch_build(host, build_id, opener=None):
 
 
 def map_items(payload, game_version):
-    """([our item ids], [names we could not place]).
-
-    Their `official` field is the Ankama id, which is what our own catalogue
-    is keyed on, so no name matching is involved and nothing is approximate.
-    Measured on a real build: 16 of 16 items resolved this way.
-    """
+    """([our item ids], [names we could not place])."""
     from fashionistapulp.structure import get_structure
     structure = get_structure(game_version)
     trouves = []
     manquants = []
     for entree in payload.get('items') or []:
+        # `official` is the Ankama id
         ankama = entree.get('official')
         item = (structure.items_dict_ankama.get(ankama)
                 if ankama is not None else None)
@@ -207,25 +148,12 @@ def map_items(payload, game_version):
     return trouves, manquants
 
 
-#: Their six base characteristics, in the order of our BASE_STATS
-#: (['vit', 'wis', 'str', 'int', 'cha', 'agi']): their `st` is
-#: ["vi", "sa", "fo", "in", "ch", "ag"], read off their bundle for the
-#: export and confirmed on the payload of build 7894460 on 2026-09-11:
-#: `stuff.stuffCarac` is {base_vi: 395, ..., scroll_vi: 100, ...}.
+# Their base stat codes, in our STATS_NAMES order (base_vi, scroll_vi...)
 THEIR_BASE_KEYS = ('vi', 'sa', 'fo', 'in', 'ch', 'ag')
 
 
 def base_stats(stuff):
-    """({our stat name: points spent}, {our stat name: scrolled}) from
-    `stuff.stuffCarac`, empty when the payload has none.
-
-    `base_*` is what the player invested and `scroll_*` the scroll, kept
-    apart because the site keeps them apart (CharBaseStats.scrolled_value
-    and total_value = both). A value that is not a whole number is dropped
-    rather than guessed. Thibaud, 2026-09-11: "l'import de dofusbook ne
-    prend pas bien en compte mes stats (base et parcho)"; measured, the
-    reader threw this block away.
-    """
+    """({our stat: points spent}, {our stat: scrolled}) from stuff.stuffCarac."""
     from fashionistapulp.dofus_constants import STATS_NAMES
     carac = stuff.get('stuffCarac') or {}
     if not isinstance(carac, dict):
@@ -241,10 +169,7 @@ def base_stats(stuff):
     return points, parchos
 
 
-#: Their stat codes to our stat keys, read off the labels of their language
-#: file (fr-BM4Xwfip.js) and our STAT_NAME_TO_KEY on 2026-09-11. What is not
-#: here (deg, the "% final damage", pb, the weapon damage lines...) has no
-#: key on our side and is reported rather than dropped.
+# Their stat codes to our keys; a missing code has no key on our side
 FM_CODES = {
     'vi': 'vit', 'sa': 'wis', 'fo': 'str', 'in': 'int', 'ch': 'cha', 'ag': 'agi',
     'pa': 'ap', 'pm': 'mp', 'po': 'range', 'ic': 'summon', 'pp': 'pp',
@@ -264,24 +189,7 @@ FM_CODES = {
 
 
 def item_rolls(payload, game_version):
-    """({our item id: [{'key', 'value'}]}, [(our item id, code, value) with no
-    key on our side]).
-
-    `fmItems` is keyed by their slot code (a1, ch, d6...), the value of a
-    slot is {stat code: FINAL value of the line}: their client replaces the
-    item's min and max with it, or adds the line when the item lacks it
-    (that is their exo). Measured on builds 23227661 (www) and 2541727
-    (retro) on 2026-09-11. The slot is joined to the item through
-    `stuff.stuffItem[slot]` (their item id) and `items[].official` (the
-    Ankama id), so a slot whose item we do not carry contributes nothing:
-    the item itself is already in `missing`.
-
-    A final value is exactly what our per-item overrides store, and whether
-    it is applied, flagged as out of range, or added as an exotic line when
-    the item lacks the stat is decided piece by piece by
-    text_build_import._jets_de_la_piece with lignes_ajoutees=True: the rule
-    of pasted text, minus the refusal that only guards against OCR misreads.
-    """
+    """({item id: [{'key', 'value'}]}, [(item id, code, value) we have no key for])."""
     from fashionistapulp.structure import get_structure
     structure = get_structure(game_version)
     stuff = payload.get('stuff') or {}
@@ -292,6 +200,7 @@ def item_rolls(payload, game_version):
             officiel_par_leur_id[str(entree.get('id'))] = int(entree.get('official'))
         except (TypeError, ValueError):
             continue
+    # fmItems: {their slot code: {stat code: final value of the line}}
     fm = payload.get('fmItems') or {}
     rolls, sans_cle = {}, []
     if not isinstance(fm, dict) or not isinstance(par_emplacement, dict):
@@ -316,21 +225,14 @@ def item_rolls(payload, game_version):
 
 
 def read_build(url, opener=None):
-    """Everything the caller needs to offer the player a build, or raise.
-
-    The version comes from the host, and only from the host. The catalogue
-    check below is a floor against nonsense, not a second opinion on the
-    version: it cannot tell retro from dofus3 for a low level build, since
-    those items exist in both under the same id.
-    """
+    """Everything the caller needs to offer the player a build, or raise."""
     if is_short_link(url):
         raise ImportError_('short_link')
     stuffer = parse_stuffer_link(url)
     if stuffer is not None:
         return read_stuffer_link(*stuffer)
     if is_stuffer_path(url):
-        # A stuffer link whose parameter did not survive the copy: nothing
-        # to fetch, and the player needs to copy it again.
+        # Stuffer link with its parameter lost in the copy
         raise ImportError_('bad_link')
     analyse = parse_link(url)
     if analyse is None:
@@ -342,8 +244,7 @@ def read_build(url, opener=None):
     items, manquants = map_items(payload, game_version)
     total = len(items) + len(manquants)
     if not total:
-        # An unsupported x-lang answers 200 with an empty item list, so an
-        # empty build is a suspicious answer rather than an empty wardrobe.
+        # An unsupported x-lang answers 200 with an empty item list
         raise ImportError_('empty')
     if len(items) / float(total) < MIN_RESOLVED:
         raise ImportError_('wrong_version')
@@ -364,41 +265,17 @@ def read_build(url, opener=None):
         'base_scrolled': parchos,
         'rolls': rolls,
         'fm_unmapped': sans_cle,
-        # Their build-wide lines (fmGlobal, empty on every real build read
-        # so far) and the weapon forgemagie string (fmWeapon, 'de-85' on
-        # build 23227661, an element code we do not decode): nothing on
-        # our side holds them without naming a piece, so they are handed
-        # back to be named as not carried, never guessed onto an item.
+        # Build-wide lines and the weapon element string: no piece holds them
         'fm_global': dict((payload.get('fmGlobal') or {})
                           if isinstance(payload.get('fmGlobal'), dict) else {}),
         'fm_weapon': payload.get('fmWeapon') or None,
-        # Their character_class is their own numbering and NOT Ankama's: build
-        # 7894460 is called "Zobal M 200" and carries character_class 12,
-        # where 12 is Pandawa in Ankama's order. Nothing in the payload names
-        # the class, so it is left for the player to pick rather than guessed.
+        # Their character_class is their own numbering, not Ankama's
         'class_is_unknown': True,
     }
 
 
 def read_stuffer_link(host, stuff):
-    """The same shape as `read_build`, from a link that carries the build.
-
-    Nothing is fetched: the pieces, the level, the points, the scrolls and
-    the exos are all in the parameter, and it is read the way their decoder
-    reads it (dofusbook_export.read_payload). What their format cannot say
-    is left to the page to name, never guessed:
-
-    - it has no name and no class;
-    - its forgemagie is one total per characteristic for the whole build,
-      so no piece can take it: it comes back as `fm_global`;
-    - its exos are three bits for the whole build, which is exactly what
-      the build's exo options mean on our side, so they come back as
-      `exo_options`, {option: on or off}, for the page to set.
-
-    A vitality scroll cannot be told from the character's own HP in their
-    format (see dofusbook_export.vitality_scroll_is_forced), so from level
-    10 on it reads as scrolled, as it does on their page.
-    """
+    """Same shape as `read_build`, from a link that carries the whole build."""
     from chardata import dofusbook_export
     from fashionistapulp.dofus_constants import STATS_NAMES
     from fashionistapulp.structure import get_structure
@@ -433,11 +310,11 @@ def read_stuffer_link(host, stuff):
         if parcho > 0:
             parchos[nom] = parcho
     niveau = lu['level']
-    # All three, off included: the flag byte is the whole statement, and a
-    # new level 200 build starts with the AP and MP options on.
+    # All three, off included: a new level 200 build starts with AP and MP exo on
     exos = {option: bool(lu['exos'] & bit) for option, bit in (
         ('ap_exo', dofusbook_export.EXO_AP), ('mp_exo', dofusbook_export.EXO_MP),
         ('range_exo', dofusbook_export.EXO_RANGE))}
+    # Their forgemagie is one total per stat for the whole build
     forge = {dofusbook_export.VE[index]: valeur for index, valeur
              in dofusbook_export.global_forge(lu).items()}
     return {
@@ -455,9 +332,7 @@ def read_stuffer_link(host, stuff):
         'fm_global': forge,
         'fm_weapon': None,
         'exo_options': exos,
-        # Every scroll is stated, a zero included, so the page writes all six
-        # rows rather than keep a new build's full scroll where the link
-        # says there is none.
+        # Every scroll is stated, zeros included
         'base_stats_complete': True,
         'class_is_unknown': True,
     }

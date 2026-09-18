@@ -1,26 +1,4 @@
-"""Impose a set on a character from a list of Ankama item ids.
-
-Where the ids come from is deliberately not this module's business. A player
-pasting a link, a file, a list typed by hand: each of those is a reader for
-somebody else to write, and every one of them ends here. Keeping the core free
-of any one source is what lets the question "which site do we import from"
-stay open without the answer costing a rewrite.
-
-The ids are Ankama's own, the ones the game itself uses, and the item table
-carries them on all 3826 items. So the join is on an integer, never on a
-displayed name: names are translated, duplicated across versions and edited
-between patches, and matching on them is how an importer quietly puts the
-wrong ring on someone.
-
-An import REPLACES the set, it does not add to it. Merging was the first
-version of this module and it was wrong twice over: the hat of the previous
-build stayed locked under the new one, and a single ring landed in a hand that
-still held its own copy, which the solver in retro answers with Infeasible.
-
-Nothing is ever dropped in silence. Every id that does not end up on the
-character comes back in the report with the reason, because an import that
-says "done" while having thrown away three items is worse than one that fails.
-"""
+"""Impose a set on a character from a list of Ankama item ids."""
 
 from fashionistapulp.dofus_constants import (SLOTS, TYPE_NAME_TO_SLOT,
                                              TYPE_NAME_TO_SLOT_NUMBER)
@@ -29,8 +7,7 @@ from fashionistapulp.game_versions import get_game_version
 from chardata.lock_forbid import set_inclusions_dict_and_check_exclusions
 
 
-# Why an id did not make it onto the character. They are returned, never logged
-# and forgotten, so a caller can tell the reader exactly what was left behind.
+# Why an id was rejected
 UNKNOWN_ITEM = 'unknown_item'
 UNKNOWN_TYPE = 'unknown_type'
 NO_FREE_SLOT = 'no_free_slot'
@@ -39,12 +16,7 @@ ABOVE_CHAR_LEVEL = 'above_char_level'
 
 
 def slots_for_type_name(type_name):
-    """Every slot an item of this type could occupy, in the order they fill.
-
-    A ring has two, a dofus six, everything else one. The numbering is the
-    site's own ('ring1', 'ring2'), so what this returns can be handed straight
-    to the inclusion dictionary.
-    """
+    """Every slot an item of this type could occupy ('ring1', 'ring2'), in fill order."""
     base = TYPE_NAME_TO_SLOT.get(type_name)
     if base is None:
         return []
@@ -55,36 +27,18 @@ def slots_for_type_name(type_name):
 
 
 def _can_be_worn_twice(structure, item, type_name, game_version):
-    """Whether a second copy of this very item is a set the game allows.
-
-    The rule is the solver's own, not one invented here: model.py grants a
-    second copy to a ring that belongs to no set, and only in the versions
-    whose registry entry says rings can double. Retro says no, and answers a
-    doubled ring with Infeasible rather than with a worse set.
-    """
+    """Same rule as model.py: only a ring with no set, where rings_can_double."""
     if type_name != 'Ring' or getattr(item, 'set', None) is not None:
         return False
     try:
         return bool(get_game_version(game_version).rings_can_double)
     except Exception:
-        # An unknown version is not a licence to double.
         return False
 
 
 def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
                     char_level=None):
-    """Work out where each id would go, without touching any character.
-
-    Separated from applying it so the same decision can be shown to a reader
-    before anything is written, and so it can be tested without a database.
-
-    `game_version` decides whether a repeated ring is legal. `char_level`, when
-    given, refuses items the character could not wear: the solver would answer
-    Infeasible and the reader would never learn which item caused it.
-
-    Returns (placed, rejected): placed is a list of (slot, item), rejected a
-    list of (ankama_id, reason).
-    """
+    """Place each id without writing: returns ([(slot, item)], [(ankama_id, reason)])."""
     placed = []
     rejected = []
     pris = set()
@@ -94,9 +48,7 @@ def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
         try:
             ankama_id = int(brut)
         except (TypeError, ValueError, OverflowError):
-            # OverflowError is float('inf'). It belongs here and not in a
-            # traceback: the promise of this module is that everything handed
-            # in comes back one way or the other.
+            # OverflowError is int(float('inf'))
             rejected.append((brut, UNKNOWN_ITEM))
             continue
 
@@ -125,8 +77,7 @@ def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
 
         libre = next((s for s in candidats if s not in pris), None)
         if libre is None:
-            # A third ring or a seventh dofus. The set is simply not one the
-            # game allows, and saying so beats keeping an arbitrary six.
+            # A third ring or a seventh dofus
             rejected.append((ankama_id, NO_FREE_SLOT))
             continue
 
@@ -138,15 +89,7 @@ def plan_ankama_ids(structure, ankama_ids, game_version='dofus3',
 
 
 def apply_ankama_ids(char, structure, ankama_ids):
-    """Replace the character's imposed set with the one the ids name.
-
-    Every slot the import does not fill is emptied, so nothing of the previous
-    build survives underneath. The version and the level are read off the
-    character rather than asked of the caller, since getting either wrong is
-    silent.
-
-    Returns {'placed': [(slot, item_id, name)], 'rejected': [(id, reason)]}.
-    """
+    """Returns {'placed': [(slot, item_id, name)], 'rejected': [(id, reason)]}."""
     placed, rejected = plan_ankama_ids(
         structure, ankama_ids,
         game_version=getattr(char, 'game_version', 'dofus3'),

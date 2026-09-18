@@ -3,14 +3,6 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% comment %}Publiee une fois par version de jeu et soumise cinq fois: le titre
-et la description nomment la version, comme la galerie et la forgemagie,
-sinon Google recoit cinq resultats indiscernables et n'en garde qu'un.
-La page lit aussi des captures d'infobulle depuis le 10 septembre 2026
-(commit bf8015c50); la description disait <<collez les noms>> et rien
-d'autre, et le lien colle dans un salon portait la phrase generique du site.
-Un moteur et un salon lisent la meme promesse: base.html reprend le titre et
-la description de la page dans son bloc Open Graph.{% endcomment %}
 {% block title %}{% trans "Import a build" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% if link_sites %}{% trans "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% else %}{% trans "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% endif %}{% endblock %}
 
@@ -78,11 +70,6 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
 {% block main %}
 <div class="import-wrap">
     <h1>{% trans "Import a build" %}</h1>
-    {% comment %}Une seule porte, neutre (Thibaud, 11 septembre 2026):
-    noms, lien d'un autre site, captures, ou un melange. La note sous le
-    champ nomme les sites que le serveur sait lire, parce que c'est une
-    information et pas une enseigne: un lien d'un autre site est rendu
-    au lecteur dans la liste des lignes laissees.{% endcomment %}
     <p class="import-intro">{% if link_sites %}{% trans "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped." %}{% else %}{% trans "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped." %}{% endif %}</p>
 
     {% if login_problem %}
@@ -100,18 +87,6 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
     </p>
     {% endif %}
 
-    {% comment %}La moitie <<capture d'ecran>> du lot G, par l'entree qui
-    n'invente rien. Ce qui reste bloque est le lecteur de GRILLE: reconnaitre
-    les icones du panneau d'equipement demande la geometrie de ce panneau et
-    la polarite de son fond, et il n'existe ici aucune capture reelle sur
-    laquelle les mesurer. Une infobulle, elle, se lit deja: c'est exactement
-    le meme lecteur que celui de l'inventaire, et ce qui en sort est du texte,
-    que cette page sait deja transformer en build entier avec ses jets, ses
-    exos, sa classe et ses caracteristiques.
-
-    L'image ne quitte jamais le navigateur, et la phrase le dit sans
-    promettre plus: c'est verifiable par le lecteur dans son onglet
-    reseau.{% endcomment %}
     <div class="import-shots">
         <button type="button" class="button-thin" id="shot-toggle">{% trans "Read tooltip screenshots" %}</button>
         <div id="shot-box" style="display:none;">
@@ -134,10 +109,7 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
 
     <form method="post" class="import-form">
         {% csrf_token %}
-        {% comment %}Le remplissage fantome ne donne PAS d'exemples d'objets.
-        Les noms sont traduits et propres a chaque version: un exemple ecrit
-        en dur nommerait, pour un lecteur Retro ou allemand, des objets qui
-        n'existent pas chez lui.{% endcomment %}
+        {# No item names in the placeholder: they differ per version and language #}
         <textarea name="text" class="import-area pretty-input" autofocus
                   placeholder="{% if link_sites %}{% trans "One item name per line, or a build link" %}{% else %}{% trans "One item name per line" %}{% endif %}" required>{{ text }}</textarea>
         <button type="submit" class="button-generic">{% trans "Read this" %}</button>
@@ -146,11 +118,6 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
     <p class="small-explain import-link-note">{% blocktrans with sites=link_sites %}Build links our server can read today: {{ sites }}.{% endblocktrans %}</p>
     {% endif %}
 
-    {% comment %}Same order as the DofusBook import, and for the same reason:
-    the gear is shown BEFORE anything is created, so the reader sees what is
-    about to happen and can walk away. A name the site had to guess at says so
-    on its own chip, because a build quietly wearing the wrong ring is worse
-    than one that says it was unsure.{% endcomment %}
     {% if confirm %}
     <div class="import-found">
         <p><strong>{{ version_label }}</strong></p>
@@ -159,20 +126,10 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
         {% if link.missing %}
         <p class="import-missing" id="import-link-missing">{% trans "These items are not in our catalogue and will be left out:" %} {{ link.missing|join:", " }}</p>
         {% endif %}
-        {% comment %}Les exos d'un projet DofusCreator sont des increments
-        dans leur vocabulaire, sur une base que la page ne dit pas: les
-        appliquer serait deviner le jet dessous. Les pieces sont nommees
-        pour que le lecteur le sache avant, pas apres.{% endcomment %}
+        {# DofusCreator forgemagie is an increment on a base roll the link does not give #}
         {% if link.fm_not_carried %}
         <p class="import-missing" id="import-link-fm">{% trans "The forgemagie on these pieces does not travel yet and is left out:" %} {{ link.fm_not_carried|join:", " }}</p>
         {% endif %}
-        {% comment %}Ce que le lien porte en forgemagie et qu'aucune piece
-        d'ici ne recoit: la forgemagie de l'arme (un changement d'element,
-        que des overrides par caracteristique ne savent pas ecrire), les
-        lignes au niveau du build, et les codes sans caracteristique chez
-        nous. Nommes avant la creation, dans leurs mots quand il le faut,
-        plutot que perdus en silence. Les jets par piece, eux, sont sur
-        les puces des pieces, comme ceux d'un texte colle.{% endcomment %}
         {% if link.fm_weapon %}
         <p class="import-missing" id="import-link-fm-weapon">{% trans "The weapon forgemagie from the link is left out." %}</p>
         {% endif %}
@@ -192,10 +149,7 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
                 <span class="import-piece">{{ piece.name }}{% if piece.approximate %} <span class="import-approx">{% trans "closest match" %}</span>{% endif %}</span>
                 {% if piece.rolls %}
                 <span class="import-rolls">
-                    {% comment %}Un depassement de PA, PM ou portee est un exo,
-                    pas un jet: le modele ne l'ajoute pas a la piece, il la note
-                    porteuse. La piece le dit, parce que c'est une lecture et
-                    non une evidence.{% endcomment %}
+                    {# AP, MP or range above the item's max is an exo, not a roll #}
                     {% for roll in piece.rolls %}{% if roll.applied %}<span class="import-roll{% if roll.out_of_range %} import-roll-odd{% endif %}">{{ roll.value }} {{ roll.name }}{% if roll.exo %} <span class="import-warn">{% trans "read as an exo" %}</span>{% endif %}{% if roll.out_of_range %} <span class="import-warn">{% blocktrans with low=roll.low high=roll.high %}outside {{ low }} to {{ high }}, check it{% endblocktrans %}</span>{% endif %}</span>{% endif %}{% endfor %}
                 </span>
                 {% endif %}
@@ -205,8 +159,6 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
 
         {% if base_points %}
         <div class="import-ignored">
-            {% comment %}<<lues>> et non <<trouvees dans le texte>>:
-            depuis le 11 septembre 2026 elles viennent aussi du lien.{% endcomment %}
             <p>{% trans "Characteristics read:" %}</p>
             <ul>
                 {% for line in base_points %}<li>{{ line.name }}: {{ line.points }}{% if line.scrolled %} + {% blocktrans with n=line.scrolled %}{{ n }} scrolled{% endblocktrans %}{% endif %}</li>{% endfor %}
@@ -214,10 +166,6 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
         </div>
         {% endif %}
 
-        {% comment %}Un jet sur une caracteristique que l'objet ne porte pas
-        n'est pas applique: le modele l'AJOUTERAIT a la piece, et le site
-        aurait fabrique une stat qui n'existe pas. On le dit plutot que de le
-        taire.{% endcomment %}
         {% if refused_rolls %}
         <div class="import-ignored">
             <p>{% trans "These rolls were left out, because the item does not carry that stat:" %}</p>
@@ -253,10 +201,7 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
             {% csrf_token %}
             <input type="hidden" name="text" value="{{ text }}">
             <input type="hidden" name="confirm" value="1">
-            {% comment %}La classe est pre-selectionnee quand le TEXTE la
-            porte, ce qui est le cas d'un build exporte par le site: son
-            entete dit <<Mon Cra - Cra lvl 200>>. C'est notre propre source,
-            donc ce n'est pas une devinette; le choix reste ouvert.{% endcomment %}
+            {# Class comes from our own export header, e.g. "My Cra - Cra lvl 200" #}
             <label>{% trans "Class" %}
                 <select name="char_class" class="pretty-input" required>
                     {% for key, label in classes %}

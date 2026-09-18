@@ -1,13 +1,6 @@
-/* ============================================================================
-   Dofus Fashionista - Mobile responsive layer
-   ----------------------------------------------------------------------------
-   Make the existing desktop design usable on phones WITHOUT changing desktop.
-   Everything is scoped to <= 900px, so the > 900px (PC) rendering is unchanged.
-   Loaded LAST in base.html; structural overrides use !important because some
-   pages re-import the fixed-width desktop CSS inside their {% block css %}.
-   ============================================================================ */
+/* Mobile layer (<= 900px), loaded last; !important since some pages re-import the desktop CSS */
 
-/* Hamburger toggle is desktop-hidden by default; shown only on mobile below. */
+/* Hamburger toggle, mobile only */
 .mobile-nav-toggle { display: none; }
 
 @media (max-width: 900px) {
@@ -72,8 +65,7 @@
   .maincolumn { margin: 0 !important; }
   .maincontent, .loading { padding: 12px !important; border-radius: 0 !important; font-size: 15px; }
   .proj_info { margin-left: -12px !important; margin-right: -12px !important; margin-top: -12px !important; }
-  /* The copy link sat in a table cell of its own, 81px wide, so a German label
-     wrapped one word per line and still spilled off screen. */
+  /* Copy link on its own row, its 81px cell was too narrow */
   .proj_info > div { display: block !important; width: auto !important; }
   .proj_info .copy-action-link { margin-top: 8px; }
   .maincontent .button-generic, .maincontent .submit-button {
@@ -126,10 +118,7 @@
   }
 
   /* ---- Solution page: compact item column (left), stats panel on the right ---- */
-  /* Outer table forced to fixed widths so the stat panel can't be pushed off
-     screen. Each item keeps the icon BESIDE the name/buttons (flex row); the
-     name is a wrapping block (width:100% + min-width:0 on the info cell) so it
-     never overflows onto the stats, and the cards stay compact (no tall gap). */
+  /* Fixed widths so the stat panel stays on screen */
   .solution-table { table-layout: fixed; width: 100%; }
   .solution-item-summary { width: 55% !important; vertical-align: top; }
   .solution-stat-summary { width: 45% !important; vertical-align: top; font-size: 12px; }
@@ -140,11 +129,7 @@
   /* bigger, visible stat icons */
   .solution-stat-summary-icon { width: 17px !important; height: 17px !important; }
   .solution-stat-summary-icon-cell { padding: 1px !important; }
-  /* That cell is 144px at 375, and the panel wanted 174: the 7px cell padding
-     and the letter-spaced value headers were eating it. Selectors carry the
-     panel class because modern.css comes after this file and repeats the
-     padding with !important. Numbers never wrap; a name may, since a German
-     compound has no other way to fit. */
+  /* Panel class in the selectors: modern.css loads later with this padding !important */
   .solution-stat-summary .solution-stat-table td,
   .solution-stat-summary .solution-stat-table th,
   .solution-stat-summary .solution-stat-table th,
@@ -176,10 +161,7 @@
   .solution-item-expand-header tr { display: flex !important; align-items: flex-start; gap: 8px; }
   .solution-item-expand-header td { display: block !important; }
   .solution-item-expand-header td:first-child { flex: 0 0 44px; width: 44px !important; }
-  /* info = compact flex that fills the space: [name] [level] then, on the next
-     row, [encyclopedia link] + [lock/forbid/switch/remove] all together.
-     flex `order` lets us group the enc link (which is before the level in the
-     HTML) with the action buttons. */
+  /* [name] [level], then [encyclopedia link] + buttons; `order` moves the link down */
   .solution-item-info {
     flex: 1 1 auto; min-width: 0; width: auto !important;
     display: flex; flex-wrap: wrap; align-items: center; column-gap: 6px; row-gap: 4px;
@@ -209,9 +191,7 @@
   .maincontent div[style*="width: 400px"],
   .maincontent div[style*="width:400px"] { width: auto !important; max-width: 100% !important; }
 
-  /* Contact: three tables pinned at 450px inline, and the decorative image
-     beside them. A table keeps max(specified, min-content), so the right half
-     of the form sat outside the screen with overflow-x:hidden over it. */
+  /* Contact: tables pinned at 450px inline, drop the decorative image */
   img[src*="myContact"] { display: none !important; }
   .maincontent table[style*="width: 450px"],
   .maincontent table[style*="width:450px"] { width: auto !important; max-width: 100% !important; }
@@ -243,8 +223,7 @@
   .wizard-slider-value { width: 34px !important; padding-left: 6px !important; }
   .wizard-slider-arrow-cell { width: 16px !important; }
   .wizard-section-sliders, .wizard-slider-container { max-width: 100%; }
-  /* The wizard's outer centered layout table is shrink-to-fit -> force it to the
-     viewport so the inner boxes (capped to 100%) actually fit. */
+  /* The wizard's outer layout table is shrink-to-fit: force it to the viewport */
   #wizard-form > table { width: 100% !important; table-layout: fixed; }
   #wizard-form > table > tbody > tr > td { width: 100% !important; }
   .wizard-div { width: 100% !important; }
@@ -291,9 +270,7 @@
   h1, h1:first-letter { font-size: 22pt; }
   .home-pic-holder, .home-pic { width: 40px !important; height: 40px !important; }
 
-  /* Setup Elements/Options/Focus is the main input on phones. Stack the three
-     groups as full-width rows with 40px tap targets instead of a 3-column
-     table squeezed to ~13px checkboxes. */
+  /* Setup Elements/Options/Focus: stack the three groups as full-width rows */
   #table-checkboxes { display: flex; flex-direction: column; }
   #table-checkboxes tbody, #table-checkboxes tr { display: contents; }
   #table-checkboxes td { display: block; width: 100% !important; box-sizing: border-box; }
@@ -310,15 +287,12 @@
   #table-checkboxes label input[type="checkbox"] { width: 20px; height: 20px; flex: 0 0 auto; }
 }
 
-/* Desktop (>900px) unchanged: the level moved into the name div for mobile, so
-   on PC put it back on its own line at the original size. */
+/* Desktop: the level sits in the name div for mobile, put it back on its own line */
 @media (min-width: 901px) {
   .solution-item-name-div .solution-item-level { display: block; margin-left: 0; opacity: 1; font-size: 14px; }
 }
 
-/* Load a project: the modern skin leaves the content box around 543px at 901px wide,
-   which is narrower than the seven columns need. Tighten and let long words break.
-   The bound overlaps the 900px block on purpose so no width falls between the two. */
+/* Load a project: the modern skin's content box is too narrow for seven columns */
 @media (max-width: 1100px) {
   .load-project-cell, .load-project-header { padding: 3px 4px !important; }
   .load-project-table td > div, .load-project-cell > div { overflow-wrap: anywhere !important; }

@@ -30,20 +30,7 @@ from chardata.spell_variants import variant_of
 
 MAX_CASTS = 8
 
-# Retro spells whose only possible target is a summon. Counting their damage in
-# a turn is counting damage the player cannot deal to the enemy he is facing:
-# the Osamodas' Fouet is 601 to 610 for ONE AP, and it made up 3829 of that
-# class's 5005 best turn, 76 per cent of it.
-#
-# Ankama's own sentence settles each one, and the guard in tests.py reads that
-# sentence back out of chardata/spell_reference, so a description Ankama
-# rewrites stops being covered by a decision nobody rechecks.
-#
-# No modern version needs an entry: theirs hit the enemy AND hit summons harder
-# ("les dommages sont plus importants sur les invocations"), which is a real
-# turn against a real target. Checked over dofus3, dofus2 and Touch, where 13,
-# 11 and 5 damage spells mention summons and every one of them also hits the
-# target.
+# Retro spells that can only hit a summon, with the words of their description
 ONLY_HITS_A_SUMMON = {
     'retro': {
         30: 'punir une invocation',        # Osamodas, Fouet
@@ -52,37 +39,19 @@ ONLY_HITS_A_SUMMON = {
     },
 }
 
-# What a character starts a fight with, for a build saved before the site
-# stored its base characteristics.
+# Starting AP, for builds saved without base stats
 BASE_AP = 6
 
 
 def combat_ap(total_ap, game_version, temporix=False):
-    """The AP a turn has. The solution total already carries the character's own
-    base AP, so nothing is added to it; only a build saved without base stats
-    falls back to the starting AP. Retro never got the PA/PM/PO limitation, and
-    neither did the TemporiX servers, so those take no cap."""
+    """AP of a turn, capped except in Retro and TemporiX."""
     total = total_ap or BASE_AP
     cap = get_stat_maximum(game_version, temporix=temporix).get('AP')
     return min(total, cap) if cap else total
 
 
 def _run_that_hurts(runs, effects):
-    """La serie d'elements que le panneau doit lire, parmi celles du sort.
-
-    Un sort peut porter plusieurs series, une par grade de glyphe ou par etat,
-    et la premiere etait gardee. Mais Tout ou Rien en porte deux d'une autre
-    nature: quatre lignes qui **soignent**, une par element, puis quatre qui
-    **frappent**. Sa fiche dit les deux moities, <<Soigne les allies et
-    occasionne des dommages dans le meilleur element du lanceur aux ennemis en
-    zone>>, et le panneau compte un tour sur une cible ennemie.
-
-    Mesure du 13 septembre 2026 sur les 1923 sorts des cinq versions: 29
-    portent plusieurs series, et **un seul** commence par une serie qui ne
-    fait que soigner. La regle ne deplace donc que celui-la, sur ses trois
-    versions. Quand aucune serie ne frappe, la premiere est rendue comme
-    avant.
-    """
+    """First run that hits, else the first (Tout ou Rien heals first)."""
     def frappe(run):
         return any(not getattr(effects[index], 'heals', False)
                    and (effects[index].min_dam or effects[index].max_dam)
@@ -94,33 +63,18 @@ def _run_that_hurts(runs, effects):
     return runs[0]
 
 
-#: L'etiquette que le generateur pose quand le jeu tire la ligne au sort et
-#: non selon ce qui arrange le lanceur. Ecrite ici et dans
-#: `itemscraper/get_spells_retro.py`, qui la pose; `spells_view` la traduit.
+# Must match itemscraper/get_spells_retro.py
 RANDOM_ELEMENT_LABEL = 'Hit in one random element'
 
 
 def _draw_is_random(aggregates):
-    """Vrai quand le generateur declare que la ligne est tiree au sort.
-
-    Le lanceur ne choisit pas, donc le tour ne doit pas prendre la meilleure
-    face: la valeur du lancer est la moyenne de ses faces.
-    """
+    """True when the game draws the element, not the caster."""
     return any(label == RANDOM_ELEMENT_LABEL
                for label, _indices in (aggregates or []))
 
 
 def element_runs(aggregates, effects):
-    """Les suites de groupes qui sont les faces d'un seul coup, dans l'ordre.
-
-    Chaque suite est rendue telle que le generateur l'a ecrite, un couple
-    `(etiquette, indices)` par groupe, pour que la table puisse la fusionner
-    en une ligne et que le tour en choisisse une face. Les deux lisent donc
-    la meme decoupe, ce qui est ce qui les empeche de diverger.
-
-    La regle de decoupe et ce qu'elle ecarte sont dans
-    `_element_alternatives`, qui est son seul autre lecteur.
-    """
+    """Runs of (label, indices) groups, each the element faces of one hit."""
     aggregates = [(label, indices) for label, indices in (aggregates or [])
                   if not all(index < len(effects)
                              and effects[index].element.startswith('buff')
@@ -146,22 +100,7 @@ def element_runs(aggregates, effects):
 
 
 def _element_alternatives(aggregates, effects):
-    """The groups of a best-element spell, or None when they are not that.
-
-    The generator writes a best-element hit as one single-row group per element
-    and a stacking spell as one group per stack; only a repeated element tells
-    the two shapes apart. A spell can carry several such runs, one per glyph
-    grade or per state; the one that can hurt is kept, see `_run_that_hurts`.
-
-    **Un groupe fait uniquement de buffs n'est pas un element.** Vacarme porte
-    six lignes, dont deux qui frappent, et ses agregats sont `[[0], [5]]`: la
-    ligne 0 soigne et la ligne 5 est un `buff_final`. Les prendre pour deux
-    elements faisait croire a la forme <<meilleur element>> la ou il n'y en a
-    pas, et le repli qui sait lire la moitie qui frappe ne jouait jamais. Le
-    panneau depensait alors 3 PA pour zero. Mesure du 13 septembre 2026 sur
-    les 1923 sorts des cinq versions: treize portent un tel groupe, et sept
-    paires sort/version changent de forme une fois ces groupes ecartes.
-    """
+    """Groups of a best-element spell, or None for a stacking spell."""
     runs = [[set(indices) for _label, indices in run]
             for run in element_runs(aggregates, effects)]
     if not runs:
@@ -170,26 +109,7 @@ def _element_alternatives(aggregates, effects):
 
 
 def _first_group_that_hurts(aggregates, hits):
-    """Le groupe d'agregats que le panneau doit lire, par son indice de ligne.
-
-    Le repli prenait toujours le premier groupe, parce qu'un sort a paliers
-    commence sans rien d'accumule. Mais un groupe fait **uniquement** de
-    lignes qui soignent n'est pas un palier vide: c'est la moitie alliee du
-    sort, et le jeu le dit dans ses propres mots. Peinture de Guerre:
-    <<occasionne des dommages Terre aux ennemis OU soigne les allies>>;
-    Pinceau Tribal et Mot Secret disent la meme chose.
-
-    Le panneau compte un tour sur **une cible**, donc il lit la moitie qui
-    frappe. Mesure du 13 septembre 2026 sur les 1923 sorts des cinq versions:
-    huit lancers retenaient un groupe qui ne frappe pas alors qu'un autre
-    groupe du meme lancer frappe, et **les huit** avaient un groupe retenu
-    fait uniquement de soins. Aucun ne l'etait pour une autre raison, ce qui
-    est ce qui autorise a nommer la regle par le soin et non par le zero:
-    sauter les groupes <<a zero>> effacerait un vrai zero.
-
-    Quand aucun groupe ne frappe, le premier est rendu comme avant: le sort
-    soigne, et c'est au panneau de le dire.
-    """
+    """First aggregate group that hits; a heals-only group is the ally half."""
     def frappe(indices):
         return any(not getattr(effect, 'heals', False)
                    for index, effect in hits
@@ -204,20 +124,7 @@ def _first_group_that_hurts(aggregates, hits):
 
 
 def scored_group_label(digest, effects, waiting_rows=()):
-    """Le libelle du groupe d'agregats sur lequel le tour a compte, ou ''.
-
-    Un sort a agregats n'en pose qu'un par lancer, et la fiche les affiche
-    tous: <<Cumul 0>> a <<Cumul 4>>, ou <<2 PA utilises ce tour>>, ou
-    <<Avec Telefrag>>. Le panneau, lui, annonce un nombre sans dire lequel il
-    a lu. Mesure du 14 septembre 2026 sur les 79 builds locaux, 70 lisibles:
-    **28 panneaux sur 70 comptent au moins un sort a agregats**, sur 55 des
-    227 lignes de lancer. Le lecteur qui compare la colonne du panneau a la
-    fiche trouve cinq nombres et n'a rien qui lui dise lequel.
-
-    Rendu vide quand il n'y a rien a nommer: un seul groupe, ou des groupes
-    qui sont des elements. Le choix d'element depend des stats et se fait dans
-    `best_turn`, pas ici, donc le nommer d'avance serait une supposition.
-    """
+    """Label of the aggregate group the turn scored, or ''."""
     aggregates = getattr(digest, 'aggregates', None)
     if not aggregates or len(aggregates) < 2:
         return ''
@@ -234,20 +141,7 @@ def scored_group_label(digest, effects, waiting_rows=()):
 
 
 def rows_that_always_land(digest, effects, waiting_rows=()):
-    """Les lignes qui frappent et que le panneau doit lire en plus du groupe.
-
-    Rendue ici, et pas recalculee dans la page: la table des degats et le
-    meilleur tour doivent dire la meme chose du meme sort. La regle de niveau
-    a coute cette lecon cinq fois: `decideLevel` et `isOutOfReach` en
-    portaient une copie, rendue au serveur avant le lot 77, puis
-    `setVisible`, `checkIfSpellToDisplay` et `fullyBuff` en portaient une
-    chacune, rendues a ce lot-la.
-
-    Rend la liste vide dans tous les cas sauf un, celui que ce lot corrige:
-    le groupe retenu ne fait que soigner, et les lignes qui frappent sont
-    restees hors de tout groupe. Voir `_hitting_row_indexes_outside_every_group`
-    pour ce qui l'autorise et pour ce que cela n'autorise pas.
-    """
+    """Hitting rows outside every group, when the kept group only heals."""
     if _element_alternatives(digest.aggregates, effects) is not None:
         return []
     if not digest.aggregates:
@@ -266,26 +160,7 @@ def rows_that_always_land(digest, effects, waiting_rows=()):
 
 
 def _hitting_row_indexes_outside_every_group(aggregates, hits):
-    """Les lignes qui frappent et que les groupes d'agregats ne couvrent pas.
-
-    Les groupes decrivent les paliers d'un sort qui empile: <<Stack 0>>,
-    <<Stack 1>>... Le generateur n'y met que la ligne qui empile, donc une
-    ligne restee dehors n'est pas une alternative.
-
-    **On ne les additionne pas au groupe retenu, et c'est mesure.** Ajouter
-    toutes les lignes hors groupe changerait 726 lancers, et les exemples
-    disent pourquoi ce serait faux: la Fleche Explosive porte deux lignes de
-    9-11 Feu, et sa fiche dit que la seconde touche <<les ennemis en zone
-    **autour de la cible**>>. La compter doublerait les degats sur une cible
-    unique.
-
-    Elles ne sont lues que dans un cas, celui que `landed` teste: le groupe
-    retenu ne fait que soigner. Les 44 sorts que cela touche disent tous la
-    meme chose dans leur fiche, verifie sur les quarante-quatre et non sur un
-    echantillon: <<Soigne les allies et occasionne des dommages X aux ennemis
-    en zone>>. Aucun ne dit <<autour de la cible>>, donc la cible du panneau
-    prend bien cette ligne.
-    """
+    """Hitting rows no aggregate group covers."""
     couvertes = set()
     for _label, indices in aggregates or []:
         couvertes |= set(indices)
@@ -296,14 +171,10 @@ def _hitting_row_indexes_outside_every_group(aggregates, hits):
 
 
 class WeaponCastable(object):
-    """The equipped weapon, offered to the turn the way a spell is: it costs its
-    own AP and it hits. The damage formula scores it as a weapon, so % weapon
-    damage applies to it and % spell damage does not."""
+    """The equipped weapon, cast like a spell but scored as a weapon."""
 
     is_spell = False
-    #: Aucune arme n'est tiree au sort: elle frappe dans son element.
     random_draw = False
-    #: Une arme n'a pas de rang que le lecteur puisse baisser.
     at_highest_rank = True
     stacks = 1
     spell_id = None
@@ -312,14 +183,7 @@ class WeaponCastable(object):
         self.weapon = weapon
         self.name = weapon.name
         self.cost = weapon.ap
-        # Most swords swing once a turn and most daggers twice, whatever the AP
-        # left. Retro alone never limited a weapon and leaves this empty, and
-        # that is Ankama's own file rather than our reading of the game: in the
-        # Retro client (items lang 1260) **every one of the 4363 weapons**
-        # carries exactly eight fields, `[twoHanded, _, crit_chance,
-        # crit_failure, maxRange, minRange, ap, crit_bonus]`, and none of them
-        # is a use count. Measured 14 September 2026, against 766 limited
-        # weapons in Dofus 3, 766 in the beta, 723 in Dofus 2 and 698 in Touch.
+        # Retro weapons have no uses per turn
         self.limit = getattr(weapon, 'uses_per_turn', None)
         element = getattr(weapon, 'element_maged', None) or NEUTRAL
 
@@ -355,8 +219,7 @@ class Castable(object):
         self.buffs = [effect for effect in self.effects
                       if effect.element.startswith('buff')]
 
-        # A row that waits on something the cast does not do: Noa leaves a
-        # state and only lands its second row if the target is later pushed.
+        # Rows waiting on something the cast does not do, like a push (Noa)
         waiting_rows = set(getattr(spell, 'conditional', None) or {})
 
         def landed(effects):
@@ -364,16 +227,13 @@ class Castable(object):
             hits = [(index, effect) for index, effect in enumerate(effects)
                     if not effect.element.startswith('buff')
                     and index not in waiting_rows]
-            # Aggregate rows are alternatives, one per stack or element; a cast
-            # lands one. First group = nothing built up, EXCEPT when it is the
-            # ally half of the cast: see `_first_group_that_hurts`.
+            # Aggregate groups are alternatives, a cast lands one
             groups = _element_alternatives(digest.aggregates, effects)
             par_paliers = groups is None and bool(digest.aggregates)
             if groups is None:
                 groups = ([_first_group_that_hurts(digest.aggregates, hits)]
                           if digest.aggregates else [None])
-            # A row the spell does not have at this level is stored as 0 to 0,
-            # and the damage formula hands it the flat bonus anyway.
+            # Missing rows are stored as 0 to 0 and would still get flat damage
             out = []
             for wanted in groups:
                 kept = [effect for index, effect in hits
@@ -421,15 +281,12 @@ class Castable(object):
         self.waiting_crit = waiting_at(digest.crit_dams)
         self.delayed_plain = late_at(digest.non_crit_dams)
         self.delayed_crit = late_at(digest.crit_dams, critical=True)
-        # Which of the rows the cast is scored on are late, by identity. A
-        # spell with aggregates is scored on one group only, so reading the
-        # late rows off the whole list took damage out of a total that never
-        # held it: a Sram's Epidemic scored 306 and had 612 subtracted.
+        # Late rows by identity: an aggregate spell is scored on one group only
         self.late_by_effect = {}
         self.late_by_effect.update(late_by_effect(digest.non_crit_dams))
         self.late_by_effect.update(late_by_effect(digest.crit_dams,
                                                   critical=True))
-        # Filled in by castable_spells, which knows the version.
+        # Filled in by castable_spells
         self.pushes = False
         self.push_cells = 0
         self.push_needs_state = None
@@ -450,15 +307,14 @@ class Castable(object):
                           if level_index < len(crit_rates) else 0)
         limits = [casting.get(key, [None] * (level_index + 1))[level_index]
                   for key in ('per_turn', 'per_target')]
-        # A spell on a cooldown cannot come back the same turn.
+        # A spell on a cooldown cannot come back the same turn
         cooldown = casting.get('cooldown', [None] * (level_index + 1))[level_index]
         if cooldown:
             limits.append(1)
         limits = [limit for limit in limits if limit]
         self.limit = min(limits) if limits else None
         self.stacks = spell.stacks or 1
-        # Le jeu tire la ligne, le lanceur ne la choisit pas: le tour en
-        # prend la moyenne et non la meilleure, voir `scored` dans best_turn.
+        # Drawn by the game: the turn averages the faces
         self.random_draw = _draw_is_random(digest.aggregates)
 
     def buff_deltas(self, count):
@@ -469,10 +325,7 @@ class Castable(object):
             stat = parts[1]
             scaled_as = stat
             if len(parts) > 2:
-                # A buff that only lifts some casts. Weapon Skill's Power is the
-                # one a turn can spend, and it goes under its own key so it
-                # reaches the weapon and no spell. Glyph-only and trap-only
-                # buffs have nothing to apply to here.
+                # Skip glyph/trap buffs; Weapon Skill's Power is weapon only
                 if parts[2] != 'weapon' or stat != 'pow':
                     continue
                 stat = 'powweap'
@@ -495,42 +348,18 @@ def _average(damages):
 
 
 def crit_chance(base_rate, stats, game_version):
-    """The odds one cast lands a critical, between 0 and 1.
-
-    Dofus Retro runs the 1.29 system: the rate is the X of 1/X, the Critical
-    Hits of the gear lowers it and 1/2 is as good as it gets. Agility lowers it
-    further in game, which is not modelled here, so a Retro Agility build crits
-    a little more often than the turn below assumes.
-
-    Checked 14 September 2026 in Ankama's own current Retro lang files
-    (lang_fr 1254, from dofusretro.cdn.ankama.com):
-
-        HELP_AGILITY   L'agilite permet d'augmenter tes probabilites de sortir
-                       des zones de tacle et tes probabilites de faire des
-                       coups critiques.
-        ITEM_CRITICAL  Critique : 1/%1
-
-    So the effect is Ankama's own statement, and the 1/X display is theirs
-    too. The files carry text, not formulas: this confirms the effect and the
-    form, and says nothing about where a curve might be published. Our Retro
-    guide on critical hits tells the reader the same two facts, in all five
-    languages.
-
-    Every other version runs the percentage system update 2.29 brought in: the
-    spell's own rate plus the character's Critical Hits, which can reach 100%
-    and never falls under 1% on an attack that can crit at all.
-    """
+    """Odds of a critical, 0 to 1."""
     if not base_rate:
         return 0.0
     bonus = stats.get('ch', 0) or 0
     if game_version == 'retro':
+        # Retro is 1/X, best 1/2; Agility also lowers X in game, not modelled
         return 1.0 / max(2, base_rate - bonus)
     return min(100, max(1, base_rate + bonus)) / 100.0
 
 
 def final_multiplier(stats):
-    """The percentage applied after everything else; calculate_damage stops at
-    per-spell damage. Heals are not scored here, so finalheals is ignored."""
+    """Final damage %, applied after calculate_damage."""
     multiplier = (100.0 + stats.get('final', 0)) / 100.0
     negative = stats.get('negfinal', 0)
     if negative:
@@ -540,11 +369,7 @@ def final_multiplier(stats):
 
 def buffs_in_force(char_class, char_level, game_version, buff_state,
                    levels=None):
-    """Stat deltas from the buffs the reader ticked on the spells page.
-
-    The page stores one entry per spell, 'n2' or 'c1': the letter says whether
-    the buff was read on its critical line, the digits how many stacks.
-    """
+    """Stat deltas of the ticked buffs, stored as 'n2' or 'c1' (crit, stacks)."""
     deltas = {}
     for spell, stacks, crit in _ticked_buffs(char_class, char_level,
                                              game_version, buff_state):
@@ -563,10 +388,7 @@ def stacks_in_force(char_class, char_level, game_version, buff_state):
 
 
 def _ticked_buffs(char_class, char_level, game_version, buff_state):
-    """(spell, stacks, crit) per entry the page posted, in its own vocabulary.
-
-    A ticked name can come from the class bucket or the shared one.
-    """
+    """(spell, stacks, crit) per ticked entry, class or shared bucket."""
     if not buff_state:
         return
     by_class = get_damage_spells_for_version(game_version)
@@ -589,8 +411,7 @@ def _ticked_buffs(char_class, char_level, game_version, buff_state):
 
 
 def _chosen_level(levels, spell, char_level):
-    """The rank to read a spell at: the reader's pick, else the highest one the
-    character level reaches."""
+    """Rank to read a spell at: the picked one, else the highest reachable."""
     highest = _decide_spell_level(spell.level_req, char_level)
     wanted = (levels or {}).get(spell.name)
     try:
@@ -604,11 +425,7 @@ def _chosen_level(levels, spell, char_level):
 
 def castable_spells(char_class, char_level, game_version, crit=False,
                     levels=None):
-    """Class bucket only: the shared one is weapons, pies and Dofus effects.
-
-    `levels` is {spell name: rank index}; without it every spell is read at the
-    highest rank the character level allows.
-    """
+    """Class spells only; `levels` is {spell name: rank index}."""
     from chardata.spell_reference import (push_info, pushing_spell_ids,
                                           strips_pushback_resist)
     by_class = get_damage_spells_for_version(game_version)
@@ -623,11 +440,6 @@ def castable_spells(char_class, char_level, game_version, crit=False,
             continue
         level_index = _chosen_level(levels, spell, char_level)
         castable = Castable(spell, level_index, crit)
-        # Le rang lu est-il le plus haut que le niveau permet? Le panneau du
-        # meilleur tour le dit au lecteur: sans cela il annonce un total qui
-        # suppose des sorts entierement montes, ce qu'un joueur n'a pas
-        # forcement. Mesure du 12 septembre 2026 sur un Cra 200: 1728 au rang
-        # le plus haut contre 1292 au rang 1, un quart d'ecart.
         castable.at_highest_rank = (
             level_index == _decide_spell_level(spell.level_req, char_level))
         if not castable.cost or (not castable.hits and not castable.buffs):
@@ -643,11 +455,7 @@ def castable_spells(char_class, char_level, game_version, crit=False,
 
 
 def _variant_partners(spells, game_version):
-    """index -> indices of the spells it cannot share a turn with.
-
-    A class spell comes as a pair and only one of the two is armed for the
-    fight, so a turn holds one or the other, never both.
-    """
+    """index -> indices of its variant pair; only one of a pair is armed."""
     if not game_version:
         return {}
     by_variant = {}
@@ -667,13 +475,7 @@ def _variant_partners(spells, game_version):
 
 def conditional_extras(stats, spells, order, crit=False, standing=None,
                        game_version=None, caster_level=0, pushback=False):
-    """[(spell name, trigger, damage)] a waiting row could add to this turn.
-
-    Never part of the total: a push only damages a target that hits an
-    obstacle, and how hard depends on the push distance left over. This says
-    the row is now reachable and what it would be worth, and leaves the board
-    to the reader.
-    """
+    """[(spell name, trigger, damage)] a push could add, outside the total."""
     if not order:
         return []
     by_name = {spell.name: spell for spell in spells}
@@ -702,9 +504,7 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
             buffed[stat] = buffed.get(stat, 0) + value - was.get(stat, 0)
     multiplier = final_multiplier(buffed)
 
-    # A turn that strips the target's pushback resistance first makes every
-    # push in it hurt more: the formula subtracts that resistance, so taking 60
-    # off is worth 60 pushback damage for the pushes that follow.
+    # Stripped pushback resistance adds to every push of the turn
     stripped = max([getattr(by_name.get(name), 'strips_pushback_resist', 0) or 0
                     for name in cast_names] or [0])
 
@@ -713,9 +513,7 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
         castable = by_name.get(name)
         cells = getattr(castable, 'push_cells', 0)
         gated = getattr(castable, 'push_needs_state', None)
-        # With the turn counting its pushes, only the ones it counted stop
-        # being reported here; a gated push is never counted, so it keeps its
-        # line and its caveat.
+        # Skip pushes the turn counted; a state-gated push is never counted
         if cells and caster_level and (not pushback or gated):
             dealt = pushback_damage(caster_level,
                                     buffed.get('pshdam', 0) or 0,
@@ -741,19 +539,13 @@ def conditional_extras(stats, spells, order, crit=False, standing=None,
 
 def delayed_damage(stats, spells, order, crit=False, standing=None,
                    game_version=None):
-    """{spell name: damage} the turn deals, but at the start or end of a turn.
-
-    Still part of what a cast is worth, so the search keeps scoring it; the
-    panel reports it apart rather than letting a poison read as burst.
-    """
+    """{spell name: damage} dealt at the start or end of a turn (poisons)."""
     if not order:
         return {}
     by_name = {spell.name: spell for spell in spells}
     standing = standing or {}
 
-    # Walked in order, not folded: the search scored each cast with the buffs
-    # standing when it landed, and a poison subtracted from the total has to be
-    # worth what that same cast was worth, or the rows stop adding up.
+    # In cast order, with the buffs standing at each cast, like the search
     out = {}
     seen = {}
     for name, _damage in order:
@@ -778,12 +570,7 @@ def delayed_damage(stats, spells, order, crit=False, standing=None,
             late = getattr(castable, 'late_by_effect', None) or {}
 
             def worth(alternatives, critical):
-                """(scored, late) for the alternative the search would take.
-
-                Scored the way _damage_of scores it, on one alternative and
-                blended by the same crit odds, so what is taken out of the
-                turn is exactly what went into it.
-                """
+                """(scored, late) of the alternative _damage_of would take."""
                 best = (0.0, 0.0)
                 for alternative in alternatives or []:
                     total = 0.0
@@ -834,12 +621,7 @@ def delayed_moments(spells, order, crit=False):
     return out
 
 
-# How much of a push is stopped, when the reader asks the turn to count it.
-# The panel has no map, so it takes the case the push is aimed at something:
-# an obstacle somewhere in the pushed distance, at a uniformly random cell,
-# leaves half the distance unspent on average. Aimed at open ground a push is
-# worth nothing, and against a wall right behind the target it is worth twice
-# this; the conditional line below the turn still reports that upper case.
+# No map: on average an obstacle stops half the push
 PUSH_STOPPED_ON_AVERAGE = 0.5
 
 
@@ -848,9 +630,7 @@ def push_value(castable, stats, game_version, caster_level):
     cells = getattr(castable, 'push_cells', 0)
     if not cells or not caster_level:
         return 0.0
-    # Torrent pushes at High Tide and pulls at Low Tide. Counting it in the
-    # turn would credit a push it makes half the time, so it stays on the
-    # conditional line below, where its gate is named.
+    # State-gated push (Torrent pushes at High Tide, pulls at Low Tide)
     if getattr(castable, 'push_needs_state', None):
         return 0.0
     dealt = pushback_damage(caster_level, stats.get('pshdam', 0) or 0, cells,
@@ -860,21 +640,15 @@ def push_value(castable, stats, game_version, caster_level):
 
 def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
               pushback=False, caster_level=0):
-    """(total, [(spell name, damage), ...]) for the best order fitting the AP.
-
-    `standing` is {spell name: stacks} for the buffs the reader already ticked,
-    whose value is part of `stats`: recasting one adds only the difference.
-    """
+    """(total, [(spell name, damage), ...]) for the best order fitting the AP."""
     stats = dict(stats)
+    # Ticked buffs are already in stats: a recast adds only the difference
     standing = standing or {}
     spells = [spell for spell in spells if spell.cost and spell.cost <= ap]
     if not spells:
         return 0.0, []
     partners = _variant_partners(spells, game_version)
-    # What a cast is worth depends on the buffs standing when it lands, and on
-    # nothing else in the turn so far: two states that differ only in how often
-    # something unrelated was cast score the same. Scoring by that alone turned
-    # 781000 damage computations into a few thousand for a Huppermage.
+    # A cast's damage only depends on the buff stacks standing, cache on those
     buff_indexes = tuple(index for index, spell in enumerate(spells)
                          if spell.buffs)
     scores = {}
@@ -905,25 +679,13 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
             for stat, value in other.buff_deltas(reached).items():
                 gained = value - was.get(stat, 0)
                 buffed[stat] = buffed.get(stat, 0) + gained
-        # Weapon Skill lifts the weapon's Power and nothing else, the way the
-        # spells page reads it.
+        # Weapon Skill only lifts the weapon's Power
         if not spell.is_spell and buffed.get('powweap'):
             buffed['pow'] = buffed.get('pow', 0) + buffed['powweap']
         multiplier = final_multiplier(buffed)
 
         def scored(alternatives, critical):
-            # A best-element spell is scored after the buffs: the caster picks
-            # the element their gear favours.
-            #
-            # A spell the GAME draws does not work that way, and taking the
-            # best face there overstates it. Ankama gives the odds in its own
-            # Retro file: each effect row carries its chance in percent, and
-            # the rows of one draw sum to 100. Measured 14 September 2026 over
-            # the 2091 Retro spells: 36 spells carry such a set, always a
-            # partition (50/50, 25/25/25/25, 20 five times, and one 25/50/25),
-            # and the Ecaflip's Bluff -- the only drawn spell the site models
-            # -- is 50 and 50 on its Air and Water rows. Its faces are
-            # therefore averaged, not maximised.
+            # Caster picks the best element; a game draw averages the faces
             gains = []
             for alternative in alternatives:
                 rows = [copy.copy(effect) for effect in alternative]
@@ -940,9 +702,7 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
                   if pushback else 0.0)
         if crit:
             return scored(spell.alternatives, True) + pushed
-        # What a cast is worth on average: the critical line lands as often as
-        # the rate says, the normal line the rest of the time.
-        odds = crit_chance(getattr(spell, 'crit_rate', 0), buffed, game_version)
+        odds =crit_chance(getattr(spell, 'crit_rate', 0), buffed, game_version)
         plain = scored(getattr(spell, 'plain_alternatives', spell.alternatives),
                        False)
         if not odds:
@@ -953,10 +713,8 @@ def best_turn(stats, spells, ap, crit=False, standing=None, game_version=None,
         return plain * (1 - odds) + critical * odds + pushed
 
     best = {}
-    # Past its own cap a cast changes nothing for what follows: the buff is at
-    # its ceiling and the limit is already reached. Folding those states
-    # together is what keeps a class with many buffs from taking seconds.
-    caps = tuple(max(spell.stacks or 1, spell.limit or 0, 1)
+    # Counts past a spell's stack cap and cast limit change nothing: fold them
+    caps =tuple(max(spell.stacks or 1, spell.limit or 0, 1)
                  for spell in spells)
 
     def fold(counts):

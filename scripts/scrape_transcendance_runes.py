@@ -1,38 +1,8 @@
 #!/usr/bin/env python3
 # Copyright (C) 2026 The Dofus Fashionista — LGPL (see COPYING.LESSER)
-"""Scrape the full transcendence-rune catalogue from the DofusDB API and
-mirror their icons locally.
+"""Scrape the transcendence runes from DofusDB and mirror their icons.
 
-Why this exists
----------------
-"Runes de transcendance" (item type 211, "Rune de transcendance") are the
-legendary FM runes that finalise an item at 100% success and then *prevent any
-further forgemagie* ("Empêche les futures forgemagies"). They come from the
-Songes Infinis, in 3 ranks (Ta / Pata / Rata) per stat. This script pulls the
-whole roster so the smithmagic simulator can list them with real values + icons.
-
-Outputs
--------
-- chardata/forgemagie_transcendance.json  (catalogue consumed by the simulator)
-- chardata/static/chardata/runes_transcendance/<iconId>.webp
-
-The icons are mirrored, not linked. The catalogue deliberately records no
-absolute URL: it carries `icon_id`, and the loader turns it into a path on our
-own domain. Writing the DofusDB address into the file once put it straight into
-the reader's browser, which then fetched 81 icons from a third party that the
-privacy policy did not name and that no guard could see, because both guards
-read source text and this address arrived from data.
-
-Usage
------
-    python scripts/scrape_transcendance_runes.py   # refresh the JSON + icons
-
-Notes
------
-- Read-only public API, no auth. Re-run after a major Dofus update to refresh.
-- Corruption runes (bonus+malus) are not a current DofusDB item type in the
-  Songes range (205-225); only transcendence (211) exists. If Ankama ships a
-  corruption type later, add its id to RUNE_TYPE_IDS below.
+    python scripts/scrape_transcendance_runes.py
 """
 import argparse
 import io
@@ -49,14 +19,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CHARDATA = os.path.normpath(os.path.join(HERE, "..", "fashionsite", "chardata"))
 OUT_JSON = os.path.join(CHARDATA, "forgemagie_transcendance.json")
 IMG_DIR = os.path.join(CHARDATA, "static", "chardata", "runes_transcendance")
-# DofusDB serves 128px PNGs; the page shows them at 28 CSS pixels. 96px webp is
-# what this site already stores its mirrored artwork as (chardata/monsters/96),
-# and it covers a 28px slot up to a 3x screen: 297 ko for the 81 icons instead
-# of 1017.
+# Same size as the other mirrored artwork (chardata/monsters/96)
 ICON_PX = 96
 
-# Ankama effectId -> (Fashionista FM stat key, FR label). Mirrors the keys used
-# in forgemagie_data.py so transcendence runes line up with existing stats.
+# Ankama effectId -> (FM stat key from forgemagie_data.py, FR label)
 EID2STAT = {
     126: ("int", "Intelligence"), 118: ("str", "Force"), 119: ("agi", "Agilité"),
     123: ("cha", "Chance"), 125: ("vit", "Vitalité"), 174: ("init", "Initiative"),
@@ -80,15 +46,12 @@ EID2STAT = {
 RANK = {"Ta": 1, "Pata": 2, "Rata": 3}
 
 
-#: Les langues que le site sert. Ankama nomme chaque rune differemment dans
-#: chacune: "Rune Ta Ine" est "Tra Int Rune" en anglais et "Runa Ta Inte" en
-#: espagnol. Un lecteur qui cherche la rune dans son propre client ne trouve
-#: rien avec le nom francais.
+# Ankama names each rune differently per language
 LANGUAGES = ("fr", "en", "es", "pt", "de")
 
 
 def _noms(item):
-    """The five names Ankama gives this rune, the reader's included."""
+    """{language: name}"""
     noms = item.get("name") or {}
     return dict((langue, noms.get(langue) or "") for langue in LANGUAGES)
 
@@ -112,10 +75,7 @@ def fetch_runes():
             })
             total = page.get("total", 0)
             for it in page.get("data", []):
-                # The RANK read below is the FRENCH one on purpose: it is a
-                # key, not a label, and the other clients rename it (Spanish
-                # says Ta/Buta/Suta). Reading the reader's language here would
-                # leave every Spanish rune unmapped.
+                # Rank from the French name, other clients rename it (es: Ta/Buta/Suta)
                 name = (it.get("name") or {}).get("fr") or ""
                 parts = name.split()
                 prefix = parts[1] if len(parts) > 1 else ""
@@ -127,10 +87,7 @@ def fetch_runes():
                     continue
                 stat_key, stat_label = EID2STAT[bonus_eff["effectId"]]
                 icon = it.get("iconId")
-                # effect 2826 is the rune's own smithmagic weight: what the
-                # 101 rule adds to the targeted stat's current weight. The
-                # display serialization zeroes category-4 effects, so it is
-                # read from the raw possibleEffects, where it sits in 'value'.
+                # Effect 2826 = rune weight, zeroed in effects, so read possibleEffects
                 weight_eff = next((e for e in it.get("possibleEffects", [])
                                    if e.get("effectId") == 2826), None)
                 if weight_eff is None or not weight_eff.get("value"):
@@ -153,7 +110,7 @@ def fetch_runes():
 
 
 def icon_source(icon_id):
-    """Where the icon is read from, once, by us -- never by a reader."""
+    """DofusDB icon url, for the mirror only."""
     return "%s/img/items/%d.png" % (API, icon_id)
 
 
@@ -175,16 +132,13 @@ def download_images(runes):
         except Exception as exc:  # noqa
             manquants.append((r["icon_id"], exc))
             print("FAIL img", r["icon_id"], exc)
-    # An icon that never arrives leaves a rune with a broken image on the page,
-    # so say it at the end rather than letting it scroll past.
     if manquants:
         print("MISSING %d icon(s); the page will show a hole for each"
               % len(manquants))
 
 
 def main():
-    # Kept so that the old `--images` invocation, still written in a shell
-    # history or a note somewhere, fails loudly instead of looking accepted.
+    # Rejects the old --images flag
     argparse.ArgumentParser().parse_args()
     runes = fetch_runes()
     out = {

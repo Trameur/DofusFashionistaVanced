@@ -59,11 +59,7 @@ with open(os.path.join(CONFIG_DIR, 'debug_mode')) as f:
     DEBUG = (content == 'True')
     print('DEBUG: %s' % DEBUG)
 
-# The other build sites the import reads links from and the export sends
-# builds to (chardata/build_sites.py). Thibaud, 2026-09-18: production waits
-# for each creator's agreement, and a site joins BUILD_SITES_AGREED once it
-# is given. A local run (DEBUG) keeps all three, so they stay visible and
-# tested where they are built.
+# Import/export build sites (chardata/build_sites.py), prod only gets the agreed ones
 BUILD_SITES_AGREED = ()
 BUILD_SITES_ENABLED = (('dofusbook', 'dofus-stuffer', 'dofuscreator')
                        if DEBUG else BUILD_SITES_AGREED)
@@ -174,9 +170,7 @@ AUTHENTICATION_BACKENDS = (
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
-    # Pose Content-Security-Policy-Report-Only. Il ne bloque RIEN: il
-    # fait signaler au navigateur ce qu'une politique refuserait, et
-    # c'est ce qui produira la liste des origines reelles.
+    # Report-only CSP, blocks nothing
     'chardata.csp.ContentSecurityPolicyReportOnlyMiddleware',
     'chardata.middleware.GameVersionMiddleware',
     'chardata.middleware.PageHitMiddleware',
@@ -336,8 +330,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        # Every DisallowedHost error is worded differently, so the rate-limited
-        # mail filter never dedupes them. Console only.
+        # Each DisallowedHost message differs, the mail filter can't dedupe them
         'django.security.DisallowedHost': {
             'handlers': ['console'],
             'level': 'ERROR',
@@ -353,8 +346,7 @@ LOGGING = {
             'level': 'DEBUG',
         },
     },
-    # Catch-all: django.request and django.security set propagate=False, so a
-    # 500 is not mailed twice.
+    # Catch-all
     'root': {
         'handlers': ['console', 'mail_admins'],
         'level': 'ERROR',
@@ -423,9 +415,7 @@ SUPPORT_LINKS = [
 
 # --- dev-only overrides ---
 
-# A 500 raised while poking at a local server is not a production incident, and
-# mailing it to the project inbox buries the real user reports in there. Set
-# FASHIONISTA_MAIL_ERRORS=1 to test that path on purpose.
+# No error mails locally, FASHIONISTA_MAIL_ERRORS=1 to test them
 if os.environ.get('FASHIONISTA_MAIL_ERRORS') != '1':
     ADMINS = []
 

@@ -181,9 +181,6 @@
     
     {% blocktrans with lock=lock_item switch=switch_item delete=delete_item %}If you don't like an item, click the forbid ( <img style='position: relative; bottom: -3px; left: -2px;' src={{delete}} title='Forbid'> ) button under its name and <a href="{{run_again_link}}" class="rerun-button">run again</a>. If, on the contrary, you want to lock in an item for future sets for this char, click the lock (<img style='position: relative; bottom: -1px; left: 0px;' src={{lock}} title='Lock'>) button. You can also switch any item for another you like best by clicking the switch (<img class='solution-item-button' style='position: relative; bottom: -5px; left: 0px;' src={{switch}} title='Switch'>) button.{% endblocktrans %}
     </p>
-    {% comment %}Un build importe n'est ni une suggestion ni un set vide, et
-    la page n'avait que ces deux cas: elle annoncait <<This set starts empty>>
-    juste au-dessus des pieces qu'on venait de rapatrier.{% endcomment %}
     {% elif is_imported %}
     <p class="text">
     {% blocktrans with add=add_item %}
@@ -217,14 +214,6 @@
         <div style="display: inline-block;">
             <input type="text" id="link_sharing_url_text" value="" style="width: 350px; " class='pretty-input' readonly />
         </div>
-        {% comment %}Depuis le 11 septembre 2026 un build neuf devient
-        visible tout seul des qu'il porte quelque chose, donc la page doit
-        dire son etat en toutes lettres et pas seulement offrir un bouton
-        dont le libelle se lit a l'envers.{% endcomment %}
-        {% comment %}La phrase d'etat dit <<Visible par tout le
-        monde>>, ce qui est faux quand la galerie ecarte le build. La
-        raison passe devant, calculee par le serveur parce qu'elle
-        depend de l'etat du catalogue et pas du bouton.{% endcomment %}
         {% if gallery_refusal %}
         <div><span id="gallery_refusal" class="small-explain">{{ gallery_refusal }}</span></div>
         {% else %}
@@ -383,17 +372,7 @@
     {% endfor %}
     </div>
 
-    {% comment %}Why this result. It appears only when the solver actually
-    told us, which is why solver_proven is tested against None and not for
-    truthiness: False is an answer and a rather important one, while a
-    solution pickled before these facts existed carries neither and must show
-    nothing rather than a guess.
-
-    The distinction itself is the whole point. CBC runs with a time limit and
-    PuLP relabels a run it stopped as Optimal, so without sol_status the two
-    outcomes are the same event and the site would be claiming a proof it does
-    not have. Saying which one happened is the sentence no system that
-    generates text can write about its own output.{% endcomment %}
+    {# Older solutions have solver_proven None; False means the time limit hit #}
     {% if solver_proven is not None %}
     <div class="solver-why">
         <div class="solver-why-title">{% trans "Why this result?" %}</div>
@@ -402,24 +381,12 @@
         {% else %}
         <p class="solver-why-line">{% blocktrans with limit=solver_time_limit %}Best set found in {{ limit }} seconds. The solver ran out of time before it could prove that nothing beats it, so this is the best it reached, not a proof.{% endblocktrans %}</p>
         {% endif %}
-        {% comment %}The minimums this project set, each with what the result
-        actually reached. This is the one line the reader can check against
-        their own build at a glance, and it is why the panel is the opposite
-        of a black box: both numbers come from the project and from the
-        solution, neither is recomputed for display.
-
-        A minimum that was NOT reached is shown too. The solver only returns a
-        set when every constraint holds, so this should not happen, and hiding
-        it would be hiding the one case worth seeing.{% endcomment %}
         {% if solver_constraints %}
         <p class="solver-why-line">
             {% for line in solver_constraints %}<span class="solver-why-goal{% if not line.met %} solver-why-goal-missed{% endif %}">{{ line.name }} {{ line.reached }}{% if not line.met %} / {{ line.asked }}{% endif %}</span>{% if not forloop.last %} {% endif %}{% endfor %}
         </p>
         {% endif %}
-        {% comment %}The size of what it searched. The pool is counted from
-        the solver's own constraints, so it is what the solver really had on
-        offer after this project's exclusions and options, not a recount of
-        the catalogue that could drift away from it.{% endcomment %}
+        {# Pool counted from the solver's own constraints #}
         {% if solver_pool_total %}
         <p class="solver-why-line">{% blocktrans with items=solver_pool_total %}{{ items }} items were on offer after your exclusions.{% endblocktrans %}{% if solver_space_exponent %} {% blocktrans with exponent=solver_space_exponent %}They can be arranged into more than 10 to the power of {{ exponent }} different sets, and the solver did not try them one at a time.{% endblocktrans %}{% endif %}</p>
         {% endif %}
@@ -480,23 +447,11 @@
             <tr class="solution-stat-summary-line">
                 <td class="solution-stat-summary-icon-header"></td>
                 <td class="solution-stat-summary-name-header"></td>
-                {% comment %}
-                Le lien mene a la page de reglages, qui n'appartient qu'a
-                l'auteur: un visiteur qui cliquait <<Base>> sur un build
-                partage recevait un 403. Le menu du haut applique deja cette
-                regle, cette colonne l'avait ratee.
-                {% endcomment %}
+                {# Setup pages are owner only, a guest would get a 403 #}
                 <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell" title="{% trans "What the character has without gear: scrolls and spent points." %}">{% if is_guest %}{% trans "Base" %}{% else %}<a href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base" %}</a>{% endif %}</td>
                 <td class="solution-stat-summary-value-header solution-stat-summary-value-cell">Total</td>
             </tr>
-            {% comment %}
-            Baisser le niveau d'un projet ne relance pas le solveur: le
-            personnage garde un equipement que son niveau ne permet plus, et
-            rien ne le disait, ni ici, ni sur le lien partage, ni dans la
-            galerie qui declarait le build valide. Parcours verifie en HTTP le
-            12 septembre 2026 sur un build de 200 ramene a 30: seize pieces sur
-            seize, jusqu'au niveau 200.
-            {% endcomment %}
+            {# Lowering the level does not rerun the solver, gear can sit above it #}
             {% if build_check.above_level %}
             <tr class="solution-level-warning-row">
                 <td colspan="4">
@@ -680,24 +635,10 @@
     </td>
     </tr></table>
 
-    {% comment %}
-    L'appel au soutien, place juste apres le tableau du resultat : le lecteur a
-    vu son stuff et ses stats, la demande arrive une fois la valeur livree et
-    non avant. Rien n'est verrouille et rien n'est retire : la promesse
-    "free and always will be" est publiee et traduite, elle tient.
-    Le parametre from= sert uniquement a savoir quel emplacement fonctionne ; il
-    est valide contre une liste fermee cote serveur et ne peut pas changer la
-    destination.
-    {% endcomment %}
+    {# from= only tracks the placement, checked against a closed list server side #}
     <aside class="solution-support">
         <p class="solution-support-text">
-            {% comment %}
-            ads_allowed, et non ads_enabled : c'est lui qui pose le chargeur
-            AdSense et le placement automatique, et il est accorde a /s/ sans
-            qu'aucun slot soit configure. Sans cette garde, activer la
-            publicite ferait affirmer le contraire a la page la plus lue du
-            site, dans cinq langues.
-            {% endcomment %}
+            {# ads_allowed, not ads_enabled: it loads AdSense auto ads, /s/ included #}
             {% if not ads_allowed %}<strong>{% trans "No ads, no subscription." %}</strong>{% endif %}
             {% blocktrans %}I pay for the server myself and build this in my spare time. If this set was useful, you can chip in.{% endblocktrans %}
         </p>

@@ -14,25 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Deriving the page language from the URL instead of the request header.
-
-Encyclopedia pages already have one slug per language -- /44-twiggy-sword/,
-/44-epee-de-boisaille/, /44-espada-de-maderucha/ all name the same item. Until
-now the language came from Accept-Language, so all three served whichever
-language the visitor's browser asked for, and each declared a canonical
-pointing at whatever slug that language produced.
-
-Googlebot sends no Accept-Language. It therefore fetched every localised URL,
-received English, and read a canonical naming the English URL -- every French,
-Spanish, Portuguese and German page in the sitemap told Google it was a
-duplicate of the English one. Google obeys canonicals, which is why ~42 700
-submitted URLs produce so few ranked queries.
-
-The slug already carries the language. Reading it from there makes each URL
-serve one language deterministically, to crawlers and humans alike, with no
-change to the URL space and therefore no risk to AJAX endpoints, OAuth
-callbacks or the service worker.
-"""
+"""Page language from the URL slug or prefix instead of Accept-Language."""
 
 from django.conf import settings
 from django.middleware.locale import LocaleMiddleware
@@ -40,31 +22,15 @@ from django.utils import translation
 
 from fashionistapulp.translation import SUPPORTED_LANGUAGES
 
-# Order used to break ties when several languages slugify to the same string.
-# That is not a rare case: proper nouns are frequently left untranslated, so a
-# monster called Crocodyl is Crocodyl in five languages and its slug names all
-# of them.
-#
-# English first, because an ambiguous slug has to keep answering exactly as it
-# did before this change: English is the historical default and the URL that is
-# already indexed. Putting it last -- as this list first did -- silently served
-# Portuguese on every such page.
+# Several languages can share a slug (untranslated proper nouns): English wins
 _TIE_BREAK_ORDER = ['en', 'fr', 'es', 'pt', 'de']
 
-# Query flag letting a visitor look at a language other than their own without
-# being bounced back. Without it, a user whose profile says French could never
-# open a Spanish link on purpose.
+# Query flag to open another language without being redirected back
 KEEP_LANGUAGE_PARAM = 'keeplang'
 
 
 def language_from_slug(candidate_names, slug, normalise):
-    """Language whose localised slug matches the one in the URL.
-
-    `candidate_names` maps a language code to the item name in that language.
-    Returns None when the slug matches nothing, in which case the caller must
-    keep the language it already had -- an unknown slug is not a reason to
-    change behaviour.
-    """
+    """Language whose slug matches the URL one, or None if nothing matches."""
     target = normalise(slug)
     if not target:
         return None
@@ -83,25 +49,7 @@ def language_from_slug(candidate_names, slug, normalise):
 
 
 def address_serves_language(candidate_names, language, normalise):
-    """True when the url built from these names is served in `language`.
-
-    Replays the view's own decision with the view's own function: two
-    languages sharing a name share one url, and `language_from_slug` gives it
-    to exactly one of them.
-
-    English keeps its shortcut. It is first in `_TIE_BREAK_ORDER`, so it wins
-    every tie it is in, and a caller with no English name has nothing to
-    build a url from anyway.
-
-    This was written for the sitemap, which has always refused to file a url
-    under a language the page will not answer in. The page itself did not ask:
-    measured 14 September 2026 over the five versions, **5135 item addresses
-    and 293 set addresses** announced a language their url cannot serve --
-    2537 Portuguese, 1353 German, 643 French, 602 Spanish on the items alone.
-    `/encyclopedia/item/equipment/18659-escudo-de-esponja/` says
-    `<html lang="es">` and, four lines above, that it is the Portuguese
-    version of itself.
-    """
+    """True when the url built from these names is served in `language`."""
     if language == 'en':
         return True
     name = candidate_names.get(language)
@@ -112,16 +60,7 @@ def address_serves_language(candidate_names, language, normalise):
 
 
 def build_alternate_urls(url_builder, candidate_names, base_url, normalise):
-    """Absolute URL of the page in each language, for hreflang.
-
-    `url_builder` is called once per language with that language active, so
-    helpers deriving a localised path segment from get_language() produce the
-    right URL without needing to be changed.
-
-    `normalise` is the caller's own slug function, and it is required rather
-    than optional: the languages a url cannot serve have to come out, and a
-    caller that could forget to ask would keep announcing them.
-    """
+    """Absolute URL of the page in each language, for hreflang."""
     alternates = {}
     for lang in SUPPORTED_LANGUAGES:
         name = candidate_names.get(lang)
@@ -137,18 +76,8 @@ def build_alternate_urls(url_builder, candidate_names, base_url, normalise):
 
 
 def explicit_user_language(request):
-    """Language the signed-in visitor chose for their account, or None.
-
-    Deliberately restricted to authenticated visitors with a stored choice.
-    Anonymous visitors -- which every crawler is -- must never be redirected:
-    that is what keeps each URL deterministic for indexing.
-
-    The session cookie is checked before request.user on purpose. Touching
-    request.user marks the session as accessed, which makes Django add
-    Vary: Cookie to the response and stops the CDN caching a page that is in
-    fact identical for everyone. Requests carrying no session cookie cannot be
-    signed in, so there is nothing to look up.
-    """
+    """Language the signed-in visitor chose for their account, or None."""
+    # Touching request.user adds Vary: Cookie, check the cookie first
     if settings.SESSION_COOKIE_NAME not in request.COOKIES:
         return None
 
@@ -170,12 +99,7 @@ def explicit_user_language(request):
 
 
 def redirect_target_for_user(request, url_language, alternates):
-    """Path to send a signed-in visitor to, or None to serve the page as is.
-
-    Applied only to GET: redirecting a POST would drop the body. Skipped when
-    the visitor asked to stay, and when the target URL is the current one --
-    which also makes a redirect loop impossible.
-    """
+    """Path to send a signed-in visitor to, or None to serve the page as is."""
     if request.method != 'GET':
         return None
     if request.GET.get(KEEP_LANGUAGE_PARAM):
@@ -191,40 +115,17 @@ def redirect_target_for_user(request, url_language, alternates):
     return site_relative(target)
 
 
-# Not in game_urls, so the rule below cannot reach it: the other game
-# versions have no most-used page at all.
+# Not in game_urls: only Dofus 3 has a most-used page
 _ALSO_PUBLISHED_ONCE_PER_LANGUAGE = frozenset({'encyclopedia_most_used'})
 
 _prefixed_page_names = None
 
 
 def prefixed_page_names():
-    """The url names of the pages that exist once per language, under a prefix.
-
-    Read from `game_urls.routes_published_once_per_language`, the same call
-    that builds the i18n_patterns block, rather than listed here.
-
-    It used to be a list of six written by hand, with this note: <</es/faq/
-    does not exist, and announcing it in hreflang would point Google at a 404,
-    which is worse than announcing nothing>>. The rule was right and stays.
-    The fact stopped being true when the default version started prefixing
-    every route whose path does not already name a language: /es/faq/ answers
-    200 in Spanish now, and so do 114 others.
-
-    Measured 14 September 2026 by following the site's own links two levels
-    deep from each of the 25 roots: 585 pages answered, 530 announced no
-    translation at all, and **305 of them have a canonical that names
-    themselves**, so their group is true and publishable. The other 225 keep
-    announcing nothing, because `hreflang_alternates` drops a group that
-    contradicts the canonical -- which is exactly right for /fr/s/witness 0/,
-    canonical at its unprefixed form, and for the 20 versioned copies of
-    /about/ and /faq/, canonical at the version-free page.
-
-    Imported inside the function: game_urls imports the views, and the views
-    import this module.
-    """
+    """Url names of the pages that exist once per language, under a prefix."""
     global _prefixed_page_names
     if _prefixed_page_names is None:
+        # Local import: game_urls imports the views, which import this module
         from chardata.game_urls import routes_published_once_per_language
         _prefixed_page_names = frozenset(
             {entry.name for entry in routes_published_once_per_language()
@@ -236,27 +137,14 @@ SITE_URL = 'https://dofusfashionista.gg'
 
 
 def site_relative(url):
-    """One of our own absolute urls reduced to a path; anything else untouched.
-
-    The hreflang alternates must be absolute, and they name the production
-    host. A redirect must not: a Location on that host sends a signed-in
-    visitor off whatever host is really serving them -- a developer off
-    localhost, a preview off its own domain -- and turns a move inside the
-    site into a cross-origin one.
-    """
+    """One of our own absolute urls reduced to a path, anything else untouched."""
     if url.startswith(SITE_URL):
         return url[len(SITE_URL):] or '/'
     return url
 
 
 def split_language_prefix(path):
-    """(prefix, rest): ('/es', '/guides/') for '/es/guides/', ('', path) if none.
-
-    One place answers what a language prefix looks like. A caller that needs the
-    prefix back -- the version switcher has to put it in front of the version it
-    offers -- would otherwise re-derive it, and two answers to the same question
-    is how a url ends up built one way and resolved another.
-    """
+    """(prefix, rest): ('/es', '/guides/') for '/es/guides/', ('', path) if none."""
     parts = path.lstrip('/').split('/', 1)
     codes = {code for code, _name in settings.LANGUAGES}
     if parts and parts[0] in codes:
@@ -270,12 +158,7 @@ def strip_language_prefix(path):
 
 
 def prefixed_page_alternates(request):
-    """{language: absolute url} for a page whose language lives in a prefix.
-
-    Empty for every other page, so a caller can hand the result straight to the
-    template: no entry means no hreflang block, which is the right answer for a
-    page that has no translation of its own url.
-    """
+    """{language: absolute url} for a language-prefixed page, else {}."""
     match = getattr(request, 'resolver_match', None)
     if match is None or match.url_name not in prefixed_page_names():
         return {}
@@ -289,22 +172,8 @@ def prefixed_page_alternates(request):
 
 
 def canonical_the_page_will_render(request, params):
-    """The one address the page claims to be, as its own tag will print it.
-
-    Three names spell the canonical here: `canonical_url`, absolute;
-    `canonical_path`, relative; and nothing at all, which base.html renders as
-    SITE_URL + request.path. The hreflang gate read only the first, so on
-    every page that spells it another way it compared against None and let the
-    group through.
-
-    Measured 14 September 2026 on the 585 pages reachable two levels from the
-    25 roots: **225 would have published a group contradicting their own
-    canonical** -- the 120 language-prefixed build pages, canonical at their
-    unprefixed form, and the 80 version-prefixed copies of /about/, /faq/,
-    /support/ and /license/, canonical at the version-free page. Google reads
-    a group through its self-reference and drops the whole thing when it is
-    missing, so that is worth less than publishing nothing.
-    """
+    """Canonical url as base.html will print it."""
+    # canonical_url is absolute, canonical_path relative, none means request.path
     if params.get('canonical_url'):
         return params['canonical_url']
     if params.get('canonical_path'):
@@ -313,40 +182,14 @@ def canonical_the_page_will_render(request, params):
 
 
 def hreflang_alternates(request, canonical_url):
-    """The alternates a prefixed page may publish, or {} when they would lie.
-
-    A page that lists its translations has to name itself among them, at the
-    same url its canonical gives. Google reads the group through that
-    self-reference and drops the whole thing when it is missing, so publishing
-    a group that contradicts the canonical is worth less than publishing none.
-
-    Where it went wrong: the alternates are built from request.path, which has
-    no query string, while a paginated list is canonical at ?page=N. Page 7
-    therefore declared itself to be page 7 and, one line below, that its own
-    English version was page 1.
-
-    The obvious repair -- carry ?page=N into every alternate -- is wrong here,
-    and measuring said so before it was written: the lists are ordered by the
-    translated name, so page 7 in English and page 7 in French hold 4 of the
-    same 39 items, English and Spanish 1 of 39. They are two different slices
-    of one catalogue, not one page in two languages. Claiming otherwise would
-    trade a contradiction for an untruth.
-
-    So a slice publishes nothing, which is the truth about it: no group, no
-    error, and the canonical still names it correctly. Only this branch is
-    concerned -- an item or a guide carries its language in its slug and builds
-    its own alternates, and reading a prefix there would find none and suppress
-    a block that is perfectly correct.
-    """
+    """Alternates of a prefixed page, or {} when they disagree with its canonical."""
     alternates = prefixed_page_alternates(request)
     if not alternates:
         return alternates
     if not canonical_url:
-        # Callers hand the canonical through canonical_the_page_will_render,
-        # which always answers. A caller that passes nothing is asking for the
-        # old behaviour and gets it: nothing to disagree about.
         return alternates
 
+    # Google drops a group without the canonical in it (e.g. ?page=N lists)
     prefix, _rest = split_language_prefix(request.path)
     language = prefix.lstrip('/') or settings.LANGUAGE_CODE
     if alternates.get(language) != canonical_url:
@@ -355,40 +198,10 @@ def hreflang_alternates(request, canonical_url):
 
 
 class PrefixOptionalLocaleMiddleware(LocaleMiddleware):
-    """Keeps negotiating the language on urls that carry no prefix.
-
-    Django forces settings.LANGUAGE_CODE on any unprefixed path as soon as
-    i18n_patterns is used with prefix_default_language=False:
-
-        if not language_from_path and i18n_patterns_used
-                and not prefixed_default_language:
-            language = settings.LANGUAGE_CODE
-
-    Adding language prefixes for the hub pages therefore turned the entire
-    site English for everyone -- /faq/, /setup/, /workshop/, every solution
-    page -- for an audience that is mostly Spanish, French and Portuguese.
-
-    The two needs only look opposed. A crawler is anonymous and sends no
-    Accept-Language, so ordinary negotiation already hands it the default
-    language: unprefixed urls stay deterministic for indexing while readers
-    keep the language they asked for. And where determinism has to be
-    guaranteed rather than inferred -- the encyclopedia and the guides -- the
-    language comes from the url itself, never from a header.
-    """
+    """Negotiates the language on unprefixed urls (Django pins LANGUAGE_CODE)."""
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        """Re-negotiates once the url has already been matched.
-
-        Django's forcing is not arbitrary: i18n_patterns ties url *matching* to
-        the active language, so with French active the resolver demands
-        /fr/encyclopedia/ and /encyclopedia/ stops resolving at all. The
-        default language therefore has to stay active while the url is being
-        matched.
-
-        process_view runs after matching succeeded, which is the first moment
-        the language can change without breaking resolution. A url that names
-        its language is left alone -- it has already decided.
-        """
+        # i18n_patterns needs the default language active while resolving
         if translation.get_language_from_path(request.path_info):
             return None
 
@@ -401,12 +214,7 @@ class PrefixOptionalLocaleMiddleware(LocaleMiddleware):
 
 
 def negotiate_language_for_unmatched_path(request):
-    """Restores the reader's language on a path that never matched a url.
-
-    PrefixOptionalLocaleMiddleware does this in process_view, which Django only
-    calls once a url has resolved. A 404 has none, so the error page would
-    otherwise always be in the default language.
-    """
+    """Same as PrefixOptionalLocaleMiddleware, for a 404 (no process_view)."""
     if translation.get_language_from_path(request.path_info):
         return
     language = translation.get_language_from_request(request, check_path=False)
@@ -416,19 +224,7 @@ def negotiate_language_for_unmatched_path(request):
 
 
 class RestoreLanguageMiddleware(object):
-    """Puts the thread's language back the way it was after each request.
-
-    A view that reads its language from the URL calls translation.activate(),
-    which changes state for the whole thread and outlives the request: nothing
-    resets it, and LocaleMiddleware activates a language per request without
-    ever deactivating one. Anything running afterwards without setting a
-    language of its own -- a management command, a template rendered outside a
-    request, the next test in a suite -- would inherit a language it never
-    asked for, and silently render in it.
-
-    Must sit first in MIDDLEWARE so it wraps everything, including
-    LocaleMiddleware.
-    """
+    """Restores the thread's language after each request. First in MIDDLEWARE."""
 
     def __init__(self, get_response):
         self.get_response = get_response
@@ -442,12 +238,7 @@ class RestoreLanguageMiddleware(object):
 
 
 def mark_varies_on_cookie(response):
-    """Tell caches the response depends on who is signed in.
-
-    Without this a CDN can serve one visitor's language redirect to everyone,
-    crawlers included -- which would undo the whole point of deriving the
-    language from the URL.
-    """
+    """Tell caches the response depends on who is signed in."""
     existing = response.get('Vary', '')
     parts = [part.strip() for part in existing.split(',') if part.strip()]
     if not any(part.lower() == 'cookie' for part in parts):

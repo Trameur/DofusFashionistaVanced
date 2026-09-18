@@ -14,27 +14,10 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Does any action endpoint answer 500?
-
-check_pages walks what a crawler can GET. Every 500 a player has reported was a
-POST instead, and the last one proves the gap: the weapon picker, ordered by
-damage with a search term, reached one of the four Retro weapons the game gives
-no AP cost, and no GET on any page could have found it.
-
-This posts the picker and the lock family the way the solution page really does,
-once per slot and per version, plus what a stale tab and a fuzzer send. The
-project it works on is created and deleted here, so it needs no fixture.
+"""Post every action endpoint and report anything that answers 500.
 
     py fashionsite/manage.py check_actions --settings=fashionsite.settings_dev
     py fashionsite/manage.py check_actions --only retro
-
-Exit code is 1 when anything answered 500 or raised. A 400 is a pass: refusing a
-payload is the point.
-
-It sends no mail: it posts as the owner of its own project, and the only endpoint
-here that would notify anyone skips a comment left by the build's own owner. The
-authentication endpoints are deliberately absent, since a sweep of those would
-send real mail and trip the throttles.
 """
 import _pickle
 
@@ -46,14 +29,8 @@ from fashionistapulp.modelresult import ModelResultMinimal
 from fashionistapulp.structure import get_structure, set_current_game_version
 from fashionistapulp.game_versions import dofus_versions
 
-# The Dofus versions, from the registry rather than a list written out
-# by hand. A version added there and missed here is a version this
-# quietly skips, which is the whole failure the registry exists to end.
-# Wakfu is not among them: it is not a Dofus version.
 VERSIONS = tuple(dofus_versions())
 
-# What the page sends, and what nothing sends on purpose. The search terms are
-# the interesting half: a term is what pulls an odd item onto page 1.
 SEARCH_TERMS = ('', 'a', 'e', 'ring', 'Mercenary', 'Gelano', 'x' * 300,
                 "'; DROP TABLE", '%00', 'Rata')
 HOSTILE_PAGES = ('1', '0', '-1', 'abc', '', '99999999')
@@ -61,8 +38,7 @@ STAT_FILTERS = ('[]', '[{"stat": "ap", "value": 1}]', 'not json', '{}',
                 '[{"stat": "nope", "value": "x"}]')
 UNKNOWN_ITEM = 'No Such Item At All'
 
-# The form posts of the workshop, with nothing and with nonsense in them. A form
-# that has moved on and a tab that has not send exactly this.
+# Workshop form posts, sent empty and with nonsense
 FORM_PATHS = (
     '/statspost/%d/', '/minstatspost/%d/', '/optionspost/%d/',
     '/inclusionspost/%d/', '/exclusionspost/%d/', '/wizardpost/%d/',
@@ -113,8 +89,7 @@ class Command(BaseCommand):
                     if response.status_code >= 500:
                         findings.append((url, payload, response.status_code))
             finally:
-                # The chars cascade off the user, including any the sweep
-                # duplicated on the way.
+                # The chars cascade off the user
                 user.delete()
         set_current_game_version('dofus3')
 
@@ -131,8 +106,7 @@ class Command(BaseCommand):
         from django.contrib.auth.models import User
         from chardata.models import Char
         username = 'check-actions-%s' % version
-        # A run stopped with Ctrl-C never reaches its own cleanup, and the name
-        # is fixed, so start by taking the previous one away.
+        # A run stopped with Ctrl-C leaves its user behind
         User.objects.filter(username=username).delete()
         user = User.objects.create_user(
             username, 'check-actions-%s@invalid.local' % version, 'pw-42-solid')
@@ -157,8 +131,7 @@ class Command(BaseCommand):
         """(path, POST dict) pairs, in the order the page would send them."""
         structure = get_structure(version)
         for slot in SLOTS:
-            # What the page sends when you open the picker on a slot, both ways
-            # round: ordered by damage and ordered by the stats you weighted.
+            # The picker, ordered by damage and by weighted stats
             for order in ('true', 'false'):
                 yield ('/itemexchange/%d/' % char_id,
                        {'slot': slot, 'page': '1', 'order_by_stat': order,
@@ -168,8 +141,7 @@ class Command(BaseCommand):
                    {'slot': slot, 'page': '1', 'search_term': '',
                     'stat_filters_json': '[]', 'inventory_only': 'false'})
 
-        # A search term is what pulls an odd item onto the first page, which is
-        # how the Retro weapons with no AP cost were reached.
+        # A search term pulls odd items onto page 1
         for slot in ('weapon', 'ring1', 'amulet', 'pet', 'dofus1'):
             for term in SEARCH_TERMS:
                 yield ('/itemexchange/%d/' % char_id,
@@ -189,9 +161,7 @@ class Command(BaseCommand):
         yield ('/itemexchange/%d/' % char_id, {'slot': 'not-a-slot'})
         yield ('/itemadd/%d/' % char_id, {'slot': 'not-a-slot'})
 
-        # The lock and forbid buttons, named by item: a real one, a group whose
-        # branches are only known under the group name, and a name this version
-        # does not have, which is what a tab left open across a rebuild sends.
+        # Lock and forbid by name: a real item, an OR group, an unknown name
         names = []
         for slot in ('boots', 'ring1', 'weapon'):
             type_name = SLOT_NAME_TO_TYPE[slot]
@@ -222,8 +192,7 @@ class Command(BaseCommand):
             yield (path % char_id, {})
             yield (path % char_id, dict(NONSENSE))
 
-        # The exclusion list arrives as a JSON string, so it has its own ways of
-        # not being one.
+        # The exclusion list arrives as a JSON string
         for raw in ('[]', '[1, 2]', 'not json', '{"a": 1}', '5', 'null',
                     '[1, "x"]', '["' + 'x' * 300 + '"]'):
             yield ('/exclusionspost/%d/' % char_id, {'exclusions': raw})
@@ -231,8 +200,7 @@ class Command(BaseCommand):
             yield ('/inclusionspost/%d/' % char_id, {slot: UNKNOWN_ITEM})
             yield ('/inclusionspost/%d/' % char_id, {slot: 'x' * 400})
 
-        # The turn panel posts two JSON objects, and what is inside them reaches
-        # the combo simulator.
+        # The turn panel posts two JSON objects for the combo simulator
         for buffs in ('{}', 'not json', '[]', '{"x": "y"}', '{"1": -5}',
                       '{"power": 99999}', 'null'):
             yield ('/best_combo/%d/' % char_id,

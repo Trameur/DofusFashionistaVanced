@@ -40,67 +40,12 @@ def version_reverse(request, url_name, *args, **kwargs):
     return reverse(url_name, args=args, kwargs=kwargs)
 
 def version_free_canonical(url_name):
-    """These pages are one document served under every game version, so the
-    canonical drops the version and keeps the language: /fr/retro/about/ is
-    canonical at /fr/about/.
-
-    The templates used to spell that with {% url %}, which put the canonical
-    in a third place -- beside `canonical_url` and `canonical_path` -- that
-    nothing else could read. The hreflang gate compared against the one it
-    could see, found nothing, and let a contradicting group through on the 80
-    version-prefixed copies of these pages.
-
-    **Which pages qualify is measured, not assumed.** Rendered under the five
-    versions on 14 September 2026 and compared body by body, footer excluded:
-    /about/, /faq/, /license/, /support/, /contact/, /login_page/ and
-    /smartbuild/ come out identical, and /quickstart/ does NOT -- Retro shows
-    seven classes fewer (no Eliotrope, Foggernaut, Forgelance, Huppermage,
-    Masqueraider, Ouginak, Rogue), so its version copies are their own pages
-    and keep their own canonical.
-    """
+    """Canonical without the version prefix, for pages identical under every version."""
     return reverse(url_name)
 
 
 def shared_build_path(build):
-    """L'adresse publique d'un build partage, prefixee par SA version de jeu.
-
-    Un build vit dans une seule version, et sa page n'existe que sous le
-    prefixe de cette version : `/touch/s/<nom>/<id>/` repond 200 la ou
-    `/s/<nom>/<id>/` repond 404. La forme sans prefixe etait ecrite en dur a
-    quatre endroits, dont le bloc « builds qui utilisent cet objet » des fiches
-    d'encyclopedie -- mesure le 28 aout 2026 sur quatre fiches Touch : les
-    HUIT liens affiches rendaient 404, et les memes prefixes rendaient 200.
-
-    On ne peut pas se servir de `version_reverse` ici : elle prefixe avec la
-    version de la REQUETE, alors qu'une page Dofus 3 ou une reponse d'API doit
-    pouvoir designer un build Touch. C'est la version du BUILD qui commande.
-
-    **Le nom est ECHAPPE**, et ce n'est pas de la coquetterie. `char_name`
-    arrive de `request.POST.get('charname')` sans aucune validation, donc il
-    porte ce que le joueur a tape. Mesure du 10 septembre 2026 sur la forme
-    non echappee :
-
-        <<Mon Cra>>  -> l'espace coupe le lien des qu'un salon le transforme
-                        en lien cliquable
-        <<Cra #1>>   -> le chemin s'arrete a `/s/Cra` et **l'identifiant du
-                        build part dans le fragment**
-        <<Cra?PvP>>  -> le chemin s'arrete a `/s/Cra` et l'identifiant part
-                        dans la chaine de requete
-        <<100% Cra>> -> `% C` n'est pas une sequence d'echappement valide
-
-    Quatre modules appellent cette fonction-ci: le champ `url` de l'API
-    publique, les liens <<builds qui utilisent cet objet>> des fiches
-    d'encyclopedie, et deux outils d'administration. Aucun d'eux ne se relit
-    depuis un navigateur, donc un lien casse n'y saute pas aux yeux.
-
-    `solution_view` en a une AUTRE, du meme nom, qui echappait deja et qui sert
-    la balise `canonical` et le fil d'Ariane. Deux fonctions homonymes dont une
-    seule etait correcte: c'est ce qui a fait durer la faute, et il a fallu
-    verifier laquelle chaque appelant importait plutot que de le supposer.
-
-    La route accepte l'echappement, son motif etant `(?P<char_name>.*)` et
-    Django decodant le chemin avant de router.
-    """
+    """Public path of a shared build, prefixed with the build's version, not the request's."""
     from urllib.parse import quote
     from chardata.encoded_char_id import encode_char_id
     version = getattr(build, 'game_version', None) or 'dofus3'
@@ -149,12 +94,7 @@ def get_base_stats_by_attr(request, char_id):
 
 
 def character_own_stats(level):
-    """The five a character has whatever their gear and their points.
-
-    They depend on the level alone, so filling them costs no query, which is
-    what lets a build saved without them be repaired as it is read rather
-    than rewritten.
-    """
+    """Base AP, MP, prospecting, pods and summons, from the level alone."""
     return {
         'AP': 7 if level >= 100 else 6,
         'MP': 3,
@@ -165,14 +105,7 @@ def character_own_stats(level):
 
 
 def base_stats_by_attr_for(char):
-    """What the character brings of their own, before any gear.
-
-    Split out of `get_base_stats_by_attr` on 2026-09-11 so that a path
-    holding a char and no request can use the SAME numbers. The import path
-    passed an empty dict instead, and an imported build's sheet was short of
-    seven AP, three MP, a hundred prospecting, a thousand pods and one
-    summon.
-    """
+    """Base stats of the character, before any gear."""
     base_stats_by_attr = dict(character_own_stats(char.level))
 
     for element_name, _ in STATS_NAMES:
@@ -187,11 +120,7 @@ def base_stats_by_attr_for(char):
     return base_stats_by_attr
 
 def get_stats_and_scrolled(char):
-    """Spent points and scrolled values, from one read of the rows.
-
-    The two used to be separate functions issuing byte-identical SQL, so every
-    build card on the gallery cost two queries instead of one.
-    """
+    """(spent points, scrolled values), in one query."""
     spent = {element_name: 0 for element_name, _ in STATS_NAMES}
     scrolled = {element_name: 0 for element_name, _ in STATS_NAMES}
     for bs in CharBaseStats.objects.filter(char=char):
@@ -242,10 +171,7 @@ def get_alias(user):
     return None
     
 def set_response(request, path, params, char=None):
-    # A view that knows its own translations has already put them here --
-    # an item page, a guide. What is left are the pages published under a
-    # language prefix, which nothing else would announce as translations
-    # of each other.
+    # Item pages and guides set their own alternate_urls
     if 'alternate_urls' not in params:
         from chardata.url_language import (canonical_the_page_will_render,
                                            hreflang_alternates,
@@ -253,20 +179,10 @@ def set_response(request, path, params, char=None):
         alternates = prefixed_page_alternates(request)
         if alternates:
             params['alternate_urls'] = alternates
-            # Two things read these, and only one of them may be silenced.
-            # The hreflang block has to be true, and on a paginated slice it
-            # cannot be. The flags in the language selector still need a
-            # destination there, so they keep the full set.
-            #
-            # A view that already decided keeps its answer: a build page has
-            # one canonical for all five languages, so no group of its own is
-            # reciprocal, and only the page itself knows that.
+            # Language flags keep the full set, hreflang can be empty (paginated pages)
             if 'hreflang_urls' not in params:
                 params['hreflang_urls'] = hreflang_alternates(
                     request, canonical_the_page_will_render(request, params))
-    # A page that built its own alternates -- an item, a guide -- publishes
-    # them as they are: its language lives in its slug, and it already names
-    # itself among them.
     params.setdefault('hreflang_urls', params.get('alternate_urls') or {})
     params['debug_mode'] = settings.DEBUG
     params['language'] = get_language()
@@ -321,8 +237,7 @@ def get_or_none(model, **kwargs):
         return None
 
 def get_char_or_raise(request, char_id):
-    # The compare_sets route matches ".+", so char_id can be non-numeric, and
-    # the ORM raises ValueError on such a pk before get_object_or_404 can 404.
+    # compare_sets matches ".+", so char_id may not be a number
     try:
         char_id = int(char_id)
     except (TypeError, ValueError):
@@ -366,20 +281,7 @@ def get_char_id_possibly_encoded(char_id_possibly_encoded):
         return int(char_id_possibly_encoded), False
 
 class HttpResponseText(HttpResponse):
-    """Plain text.
-
-    Several of these carry back a string the reader typed, an unusable share
-    link for instance, so that the page can show them what was rejected. That
-    only stays safe while the browser is told not to decide for itself what
-    kind of document it is looking at: without nosniff it may read the bytes,
-    conclude they look like markup and render them.
-
-    The header is NOT set here. Django's SecurityMiddleware puts it on every
-    response because SECURE_CONTENT_TYPE_NOSNIFF is on, and setting it twice
-    would only hide which of the two is doing the work. A test holds the
-    setting in place, and the view that echoes a link also strips anything
-    that could open a tag, so neither guarantee is load-bearing alone.
-    """
+    """Plain text. Can echo user input: nosniff comes from SECURE_CONTENT_TYPE_NOSNIFF."""
 
     def __init__(self, text, **kwargs):
         HttpResponse.__init__(self, text,
@@ -396,27 +298,11 @@ def _char_cache_epoch_key(char_id):
 
 def get_picker_cache_key(char, item_type, search_term, order_by_stats,
                          stat_filters):
-    """The key of a project's cached, ordered item list for one slot.
-
-    It used to be spelled out at each call site, and the invalidation below
-    deleted a third spelling that no longer existed, so switching an item left
-    the weapon list in the order it had for five minutes. The key also grew with
-    the search term, and a 300 character one pushed it past what a cache key may
-    be, so the parts are hashed.
-
-    The project's modification time is part of the key because the generation
-    counter lives in the cache, which is local memory: it moves for the worker
-    that handled the switch and for no other. modified_time is in the database,
-    so every worker sees the same one and none of them can serve the order the
-    build had before.
-    """
+    """Cache key of a project's ordered item list for one slot."""
     char_id = getattr(char, 'id', char)
+    # The epoch lives in local memory (per worker), modified_time is shared
     stamp = getattr(char, 'modified_time', None)
-    # The reader's language is part of the key because the search term is
-    # matched against the translated name: searching "Caracape" finds two
-    # Touch cloaks in English and one in French, where the other is called
-    # "Caparak". Without the language, whichever reader searched first handed
-    # his list to the next one, in his own language's spelling.
+    # Search matches translated names, so the language is part of the key
     raw = '%s|%s|%s|%s|%s|%s|%s|%s' % (get_char_cache_epoch(char_id), char_id,
                                        stamp.isoformat() if stamp else '',
                                        item_type, search_term, order_by_stats,
@@ -430,17 +316,12 @@ def get_char_cache_epoch(char_id):
 
 
 def remove_cache_for_char(char_id):
-    """Move the project to its next cache generation.
-
-    Its keys hold whatever search term and filters a player typed, so they
-    cannot be enumerated and deleted; counting past them can.
-    """
+    """Move the project to its next cache generation."""
     key = _char_cache_epoch_key(char_id)
     try:
         cache.incr(key)
     except ValueError:
-        # incr refuses a key that is not there yet, and the generation must
-        # outlive the lists it names.
+        # incr raises on a missing key
         cache.set(key, 1, None)
         
 def set_theme(request):
