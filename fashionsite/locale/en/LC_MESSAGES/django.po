@@ -6535,6 +6535,12 @@ msgstr ""
 msgid "Read from the link: %(name)s (%(version)s)."
 msgstr ""
 
+msgid "Read from the link (%(version)s)."
+msgstr ""
+
+msgid "The exos from the link become the build's exo options: %(stats)s."
+msgstr ""
+
 msgid "The build will be created in that version."
 msgstr ""
 
@@ -6554,6 +6560,10 @@ msgid "That site could not be reached. Try again later."
 msgstr ""
 
 msgid "That site answered something we could not read."
+msgstr ""
+
+#: .\chardata\text_build_view.py
+msgid "That link is incomplete or damaged. Copy the full address again."
 msgstr ""
 
 msgid "Import it from a link, text or screenshots"

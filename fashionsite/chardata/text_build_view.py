@@ -30,11 +30,12 @@ from django.utils.translation import gettext as _
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
 from chardata import build_link_import
-from chardata.dofusbook_import import ImportError_
+from chardata.dofusbook_import import ImportError_, MAX_POINTS
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _preview, _solution_path)
 from chardata.lock_forbid import set_stat_overrides
 from chardata.models import CharBaseStats
+from chardata.options import get_options, set_options
 from chardata.screenshot_reader import language_options
 from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
                                         read_items)
@@ -92,6 +93,8 @@ def _raisons_du_lien():
         'empty': _('That build came back with no items.'),
         'wrong_version': _('Those items do not exist in that version of the '
                            'game. Check the link.'),
+        'bad_link': _('That link is incomplete or damaged. Copy the full '
+                      'address again.'),
     }
 
 
@@ -129,7 +132,7 @@ def _caracteristiques_pour_apercu(lu):
     return lignes
 
 
-def _ecrit_les_caracteristiques(char, points, parchos):
+def _ecrit_les_caracteristiques(char, points, parchos, complet=False):
     """Les points depenses et les parchotages, tels que le site les garde.
 
     `CharBaseStats.total_value` est la SOMME des deux et `scrolled_value` la
@@ -140,14 +143,21 @@ def _ecrit_les_caracteristiques(char, points, parchos):
     `create_build` a deja pose une ligne par caracteristique, donc on met a
     jour plutot que de creer: deux lignes pour la meme stat feraient gagner la
     premiere, en silence.
+
+    `complet` dit que la source nomme les six, un zero compris (un lien
+    stuffer): une caracteristique qu'elle laisse a zero est alors ecrite a
+    zero, au lieu de garder le parchotage complet que `create_build` pose.
+
+    Les points sont bornes: un lien public porte des entiers sans limite, et
+    la colonne en refuserait un trop grand par une erreur 500.
     """
-    if not points and not parchos:
+    if not points and not parchos and not complet:
         return
     plafond = max_scroll_for_version(char.game_version)
     for nom, _cle in STATS_NAMES:
-        depenses = max(0, points.get(nom, 0))
+        depenses = min(max(0, points.get(nom, 0)), MAX_POINTS)
         parcho = min(max(0, parchos.get(nom, 0)), plafond)
-        if not depenses and not parcho:
+        if not depenses and not parcho and not complet:
             continue
         ligne, _neuve = CharBaseStats.objects.get_or_create(
             char=char, stat=nom,
@@ -223,6 +233,34 @@ def _nom_de_leur_code(structure, code):
     if stat is None:
         return code
     return localized_stat_name(stat.name, structure.game_version)
+
+
+#: The exo options a link sets, with the word the page names each by.
+_EXOS = (('ap_exo', 'AP'), ('mp_exo', 'MP'), ('range_exo', 'Range'))
+
+
+def _exos_du_lien(build):
+    """Les options d'exo qu'un lien porte pour tout le build, dans les mots
+    du lecteur: un lien stuffer dit qu'il y a un exo PA quelque part, jamais
+    sur quelle piece, ce qui est exactement ce que l'option veut dire ici."""
+    portees = build.get('exo_options') or {}
+    return [_(mot) for option, mot in _EXOS if portees.get(option)]
+
+
+def _pose_les_exos(char, build):
+    """Pose les options d'exo du lien, avant la pose des objets: la fiche
+    que `_place_items` calcule lit ces options.
+
+    Les trois, eteintes comprises: un personnage neuf de niveau 200 part
+    avec les options PA et PM allumees, et un lien sans exo les laissait
+    allumees, soit un PA et un PM que ni le lien ni leur page ne portent."""
+    portees = build.get('exo_options')
+    if portees is None:
+        return
+    options = get_options(char)
+    for option, _mot in _EXOS:
+        options[option] = bool(portees.get(option))
+    set_options(char, options)
 
 
 def _forgemagie_laissee(build, structure, langue):
@@ -383,6 +421,7 @@ def text_build(request):
                 'fm_global': fm_global,
                 'fm_weapon': bool(build.get('fm_weapon')),
                 'fm_unmapped': fm_sans_cle,
+                'exos': _exos_du_lien(build),
                 'version_differs': version != version_page}
 
     # Les jets, meme regle que les caracteristiques: ceux du lien d'abord,
@@ -416,7 +455,11 @@ def text_build(request):
 
     nom = (build['name'] if build and build['name'] else _('Imported build'))
     char = create_build(request, char_class, niveau, set(), version, name=nom)
-    _ecrit_les_caracteristiques(char, points, parchos)
+    _ecrit_les_caracteristiques(
+        char, points, parchos,
+        complet=bool(build and build.get('base_stats_complete')))
+    if build:
+        _pose_les_exos(char, build)
     # `origin` distingue dans la ligne stockee un build venu d'un lien d'un
     # build colle en texte; ni l'un ni l'autre n'est <<generated>>, donc la
     # page ne dira jamais que le solveur a produit ce qu'il n'a pas vu.

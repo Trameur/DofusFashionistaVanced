@@ -71,11 +71,20 @@ class ImportError_(Exception):
         self.reason = reason
 
 
+#: A scheme at the start of the link. Looking for '//' anywhere mistook a
+#: '//' inside a stuffer link's base64 for one, on a link pasted without it.
+_SCHEME = re.compile(r'^[a-z][a-z0-9+.-]*://', re.I)
+
+#: The most points a characteristic can hold on any build; a link that says
+#: more is not a build, and the database column would refuse it anyway.
+MAX_POINTS = 9999
+
+
 def _host_and_path(url):
     url = (url or '').strip()
     if not url:
         return None, ''
-    if '//' not in url:
+    if not _SCHEME.match(url):
         url = 'https://' + url
     reste = url.split('//', 1)[1]
     host, _, chemin = reste.partition('/')
@@ -93,7 +102,10 @@ def parse_link(url):
     host, chemin = _host_and_path(url)
     if host not in HOSTS:
         return None
-    trouve = _ID.search(chemin)
+    # The path only: digits inside a query, a stuffer link's base64 among
+    # them, are not a build id, and reading them as one fetched a stranger's
+    # build.
+    trouve = _ID.search(chemin.partition('?')[0].partition('#')[0])
     if not trouve:
         return None
     return host, trouve.group(1)
@@ -102,6 +114,34 @@ def parse_link(url):
 def is_short_link(url):
     host, _chemin = _host_and_path(url)
     return host in SHORT_HOSTS
+
+
+def parse_stuffer_link(url):
+    """(host, stuff parameter) for a stuffer link, or None.
+
+    `/desktop/<lang>/equipement/dofus-stuffer/objets?stuff=...` carries the
+    whole build in its query and names no build id: our own export writes it,
+    and so does the Dofus-Stuffer fansite. Their page reads nothing but the
+    parameter, so the path is not pinned either.
+    """
+    import urllib.parse
+    host, chemin = _host_and_path(url)
+    if host not in HOSTS:
+        return None
+    requete = chemin.partition('?')[2].partition('#')[0]
+    valeurs = urllib.parse.parse_qs(requete).get('stuff')
+    if not valeurs or not valeurs[0].strip():
+        return None
+    return host, valeurs[0]
+
+
+def is_stuffer_path(url):
+    """Whether the link points at their stuffer page, readable or not: one
+    whose parameter did not survive the copy is still theirs, and the player
+    has to hear that it is damaged, not that the site is unknown."""
+    host, chemin = _host_and_path(url)
+    return (host in HOSTS
+            and '/dofus-stuffer/' in chemin.partition('?')[0].partition('#')[0])
 
 
 def fetch_build(host, build_id, opener=None):
@@ -270,6 +310,13 @@ def read_build(url, opener=None):
     """
     if is_short_link(url):
         raise ImportError_('short_link')
+    stuffer = parse_stuffer_link(url)
+    if stuffer is not None:
+        return read_stuffer_link(*stuffer)
+    if is_stuffer_path(url):
+        # A stuffer link whose parameter did not survive the copy: nothing
+        # to fetch, and the player needs to copy it again.
+        raise ImportError_('bad_link')
     analyse = parse_link(url)
     if analyse is None:
         raise ImportError_('not_a_link')
@@ -314,5 +361,88 @@ def read_build(url, opener=None):
         # 7894460 is called "Zobal M 200" and carries character_class 12,
         # where 12 is Pandawa in Ankama's order. Nothing in the payload names
         # the class, so it is left for the player to pick rather than guessed.
+        'class_is_unknown': True,
+    }
+
+
+def read_stuffer_link(host, stuff):
+    """The same shape as `read_build`, from a link that carries the build.
+
+    Nothing is fetched: the pieces, the level, the points, the scrolls and
+    the exos are all in the parameter, and it is read the way their decoder
+    reads it (dofusbook_export.read_payload). What their format cannot say
+    is left to the page to name, never guessed:
+
+    - it has no name and no class;
+    - its forgemagie is one total per characteristic for the whole build,
+      so no piece can take it: it comes back as `fm_global`;
+    - its exos are three bits for the whole build, which is exactly what
+      the build's exo options mean on our side, so they come back as
+      `exo_options`, {option: on or off}, for the page to set.
+
+    A vitality scroll cannot be told from the character's own HP in their
+    format (see dofusbook_export.vitality_scroll_is_forced), so from level
+    10 on it reads as scrolled, as it does on their page.
+    """
+    from chardata import dofusbook_export
+    from fashionistapulp.dofus_constants import STATS_NAMES
+    from fashionistapulp.structure import get_structure
+    game_version = HOSTS[host]
+    try:
+        lu = dofusbook_export.read_payload(stuff)
+    except ValueError:
+        raise ImportError_('bad_link')
+    if not all(0 <= points <= MAX_POINTS for points in lu['points']):
+        raise ImportError_('bad_link')
+
+    structure = get_structure(game_version)
+    items, manquants = [], []
+    for (_slot, codes), groupe in zip(dofusbook_export.GROUPS, lu['ids']):
+        for ankama in groupe[:len(codes)]:
+            item = structure.items_dict_ankama.get(ankama)
+            if item is None:
+                manquants.append(str(ankama))
+            else:
+                items.append(item.id)
+    total = len(items) + len(manquants)
+    if not total:
+        raise ImportError_('empty')
+    if len(items) / float(total) < MIN_RESOLVED:
+        raise ImportError_('wrong_version')
+
+    points, parchos = {}, {}
+    for (nom, _cle), depense, parcho in zip(STATS_NAMES, lu['points'],
+                                            lu['scrolls']):
+        if depense > 0:
+            points[nom] = depense
+        if parcho > 0:
+            parchos[nom] = parcho
+    niveau = lu['level']
+    # All three, off included: the flag byte is the whole statement, and a
+    # new level 200 build starts with the AP and MP options on.
+    exos = {option: bool(lu['exos'] & bit) for option, bit in (
+        ('ap_exo', dofusbook_export.EXO_AP), ('mp_exo', dofusbook_export.EXO_MP),
+        ('range_exo', dofusbook_export.EXO_RANGE))}
+    forge = {dofusbook_export.VE[index]: valeur for index, valeur
+             in dofusbook_export.global_forge(lu).items()}
+    return {
+        'game_version': game_version,
+        'source_host': host,
+        'build_id': None,
+        'name': '',
+        'level': niveau if 1 <= niveau <= 200 else None,
+        'item_ids': items,
+        'missing': manquants,
+        'base_points': points,
+        'base_scrolled': parchos,
+        'rolls': {},
+        'fm_unmapped': [],
+        'fm_global': forge,
+        'fm_weapon': None,
+        'exo_options': exos,
+        # Every scroll is stated, a zero included, so the page writes all six
+        # rows rather than keep a new build's full scroll where the link
+        # says there is none.
+        'base_stats_complete': True,
         'class_is_unknown': True,
     }

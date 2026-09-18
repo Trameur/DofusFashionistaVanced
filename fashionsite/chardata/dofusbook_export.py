@@ -150,7 +150,7 @@ def index_by_stat_key():
     return table
 
 
-def carriable_forge(forge, scrolls=None):
+def carriable_forge(forge, scrolls=None, level=None):
     """({position: total we can write}, [position we cannot]).
 
     Two positions are refused, both measured on their own decoder:
@@ -169,9 +169,18 @@ def carriable_forge(forge, scrolls=None):
         if position < BASE_STAT_COUNT:
             parchote = scrolls.get(position, 0) >= SCROLL_STEP
             if position == 0:
-                # Vitality already carries the character's own HP, which is
-                # far above the hundred their scroll test looks at, so the
-                # sum stays on the right side of it.
+                # Vitality shares its field with the character's own HP,
+                # which is over the hundred their scroll test looks at from
+                # level 10 on. Below that, or with a large enough loss, the
+                # total can carry the field across a hundred, and their
+                # decoder would then invent or drop the scroll and misread
+                # the forgemagie by the same hundred.
+                if level is not None:
+                    champ = _vitality_field(character_base(int(level))[0],
+                                            scrolls.get(0, 0))
+                    if (champ + total >= SCROLL_STEP) != (champ >= SCROLL_STEP):
+                        refuses.append(position)
+                        continue
                 garde[position] = total
                 continue
             if total < 0 or (not parchote and total >= SCROLL_STEP):
@@ -268,6 +277,142 @@ def _pack(value):
             raise ValueError('array too long for the payload')
         return header + b''.join(_pack(item) for item in value)
     raise TypeError('the payload carries no %s' % type(value).__name__)
+
+
+#: The longest `stuff` parameter read back. Sixteen pieces and 51 totals fit in
+#: about 250 characters; a pasted text is a stranger's, so no reader of it
+#: should be sent through megabytes.
+MAX_STUFF_LENGTH = 4096
+
+#: The longest array read back: 51 totals is the longest any writer puts in.
+MAX_ARRAY_LENGTH = 256
+
+
+def _unpack(data, at=0, depth=0):
+    """(value, next offset): the inverse of `_pack`, for the same shapes.
+
+    Their decoder is the full msgpack, but every writer of this link puts
+    integers and arrays in it and nothing else, so anything else is refused
+    rather than interpreted. Raises ValueError.
+    """
+    if at >= len(data):
+        raise ValueError('the payload ends too early')
+    head = data[at]
+    if head <= 0x7f:
+        return head, at + 1
+    if head >= 0xe0:
+        return head - 0x100, at + 1
+    sizes = {0xcc: (1, False), 0xcd: (2, False), 0xce: (4, False),
+             0xcf: (8, False), 0xd0: (1, True), 0xd1: (2, True),
+             0xd2: (4, True), 0xd3: (8, True)}
+    if head in sizes:
+        size, signed = sizes[head]
+        if at + 1 + size > len(data):
+            raise ValueError('the payload ends too early')
+        return (int.from_bytes(data[at + 1:at + 1 + size], 'big', signed=signed),
+                at + 1 + size)
+    if 0x90 <= head <= 0x9f:
+        count, at = head & 0x0f, at + 1
+    elif head in (0xdc, 0xdd):
+        size = 2 if head == 0xdc else 4
+        if at + 1 + size > len(data):
+            raise ValueError('the payload ends too early')
+        count = int.from_bytes(data[at + 1:at + 1 + size], 'big')
+        at += 1 + size
+    else:
+        raise ValueError('the payload carries a 0x%02x' % head)
+    if depth >= 2 or count > MAX_ARRAY_LENGTH:
+        raise ValueError('the payload nests deeper or longer than a build')
+    values = []
+    for _ in range(count):
+        value, at = _unpack(data, at, depth + 1)
+        values.append(value)
+    return values, at
+
+
+def read_payload(stuff):
+    """What their `Nc` reads out of a `stuff` parameter, the inverse of
+    `payload`:
+
+        {'fm': [51 totals], 'points': [6], 'scrolls': [6], 'level': int,
+         'exos': flag byte, 'ids': [[ankama ids] per group of GROUPS]}
+
+    Read off their desktop bundle (index-desktop-CdEmUrEc.js) on 2026-09-18,
+    and followed to the letter, defaults included:
+
+    - `zc` turns whitespace back into '+', which a query string turns into
+      a space;
+    - a base characteristic's field is its scroll plus its forgemagie, split
+      at a hundred (`t[0][p] >= 100 ? 100 : 0`), and a missing entry is 0;
+    - the exo bits add one to AP, MP and range;
+    - a group whose count is missing holds ONE piece, not none.
+
+    Raises ValueError on anything their decoder would not read as a build.
+    """
+    import binascii
+    import re
+    texte = re.sub(r'\s', '+', stuff or '')
+    if not texte or len(texte) > MAX_STUFF_LENGTH:
+        raise ValueError('no stuff parameter to read')
+    texte += '=' * (-len(texte) % 4)
+    try:
+        brut = base64.b64decode(texte, validate=True)
+    except (binascii.Error, ValueError):
+        raise ValueError('the stuff parameter is not base64')
+    valeur, fin = _unpack(brut)
+    if fin != len(brut):
+        raise ValueError('the payload carries bytes after the build')
+    if not isinstance(valeur, list) or len(valeur) < 6:
+        raise ValueError('the payload is not a build')
+    totaux, depenses, niveau, drapeaux, nombres, ids = valeur[:6]
+    if not all(isinstance(v, list) for v in (totaux, depenses, nombres, ids)):
+        raise ValueError('the payload is not a build')
+    if not isinstance(niveau, int) or not isinstance(drapeaux, int):
+        raise ValueError('the payload is not a build')
+    for liste in (totaux, depenses, nombres, ids):
+        if not all(isinstance(v, int) for v in liste):
+            raise ValueError('the payload is not a build')
+
+    fm, points, scrolls = [], [], []
+    for index in range(FM_LENGTH):
+        total = totaux[index] if index < len(totaux) else 0
+        if index < BASE_STAT_COUNT:
+            parchemin = SCROLL_STEP if total >= SCROLL_STEP else 0
+            scrolls.append(parchemin)
+            fm.append(total - parchemin)
+            points.append(depenses[index] if index < len(depenses) else 0)
+        else:
+            fm.append(total)
+    for index, bit in EXO_BIT_BY_INDEX.items():
+        if drapeaux & bit:
+            fm[index] += 1
+
+    groupes, suivant = [], 0
+    for index in range(len(GROUPS)):
+        nombre = nombres[index] if index < len(nombres) else 1
+        groupes.append(ids[suivant:suivant + max(0, nombre)])
+        suivant += max(0, nombre)
+    return {'fm': fm, 'points': points, 'scrolls': scrolls, 'level': niveau,
+            'exos': drapeaux, 'ids': groupes}
+
+
+def global_forge(lu):
+    """{position in `VE`: the forgemagie their `Pc` shows for the build}.
+
+    Their `Pc` takes the naked character's own value off AP, MP, range,
+    prospecting, summons, pods and vitality, which `character_base` mirrors.
+    The exo point is taken off too: it is not forgemagie but the flag byte,
+    and the reader carries it as the build's exo option. Zeros are left out.
+    """
+    base = character_base(int(lu['level']))
+    forge = {}
+    for index, total in enumerate(lu['fm']):
+        valeur = total - base.get(index, 0)
+        if index in EXO_BIT_BY_INDEX and lu['exos'] & EXO_BIT_BY_INDEX[index]:
+            valeur -= 1
+        if valeur:
+            forge[index] = valeur
+    return forge
 
 
 def group_ankama_ids(items_by_slot):

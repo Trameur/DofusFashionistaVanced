@@ -153,7 +153,7 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
     <div class="import-found">
         <p><strong>{{ version_label }}</strong></p>
         {% if link %}
-        <p class="import-link-read" id="import-link-read">{% blocktrans with name=link.name version=link.version_label %}Read from the link: {{ name }} ({{ version }}).{% endblocktrans %}{% if link.version_differs %} {% trans "The build will be created in that version." %}{% endif %}</p>
+        <p class="import-link-read" id="import-link-read">{% if link.name %}{% blocktrans with name=link.name version=link.version_label %}Read from the link: {{ name }} ({{ version }}).{% endblocktrans %}{% else %}{% blocktrans with version=link.version_label %}Read from the link ({{ version }}).{% endblocktrans %}{% endif %}{% if link.version_differs %} {% trans "The build will be created in that version." %}{% endif %}</p>
         {% if link.missing %}
         <p class="import-missing" id="import-link-missing">{% trans "These items are not in our catalogue and will be left out:" %} {{ link.missing|join:", " }}</p>
         {% endif %}
@@ -176,6 +176,9 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
         {% endif %}
         {% if link.fm_global %}
         <p class="import-missing" id="import-link-fm-global">{% trans "These lines from the link belong to no piece and are left out:" %} {{ link.fm_global|join:", " }}</p>
+        {% endif %}
+        {% if link.exos %}
+        <p class="import-missing" id="import-link-exos">{% blocktrans with stats=link.exos|join:", " %}The exos from the link become the build's exo options: {{ stats }}.{% endblocktrans %}</p>
         {% endif %}
         {% if link.fm_unmapped %}
         <p class="import-missing" id="import-link-fm-unmapped">{% trans "These forgemagie lines could not be read and are left out:" %} {{ link.fm_unmapped|join:", " }}</p>

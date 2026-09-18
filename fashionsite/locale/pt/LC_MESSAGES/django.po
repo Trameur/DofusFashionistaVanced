@@ -7265,6 +7265,12 @@ msgstr "Ler isto"
 msgid "Read from the link: %(name)s (%(version)s)."
 msgstr "Lido a partir do link: %(name)s (%(version)s)."
 
+msgid "Read from the link (%(version)s)."
+msgstr "Lido a partir do link (%(version)s)."
+
+msgid "The exos from the link become the build's exo options: %(stats)s."
+msgstr "Os exos do link passam a ser as opções de exo do build: %(stats)s."
+
 msgid "The build will be created in that version."
 msgstr "O build será criado nessa versão."
 
@@ -7285,6 +7291,10 @@ msgstr "Não foi possível contatar esse site. Tente de novo mais tarde."
 
 msgid "That site answered something we could not read."
 msgstr "Esse site respondeu algo que não conseguimos ler."
+
+#: .\chardata\text_build_view.py
+msgid "That link is incomplete or damaged. Copy the full address again."
+msgstr "Esse link está incompleto ou danificado. Copie novamente o endereço completo."
 
 msgid "Import it from a link, text or screenshots"
 msgstr "Importe-o a partir de um link, texto ou capturas de tela"

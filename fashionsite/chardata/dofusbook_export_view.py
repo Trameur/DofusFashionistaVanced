@@ -332,7 +332,8 @@ def dofusbook_export_page(request, char_id):
         for position, total in rayonnant.items():
             if position not in dofusbook_export.EXO_INDEXES:
                 totaux[position] = totaux.get(position, 0) + total
-    forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls)
+    forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls,
+                                                       char.level)
     # carriable_forge keeps AP, MP and Range for the exo bit; what shiny
     # pieces add there is a count of points, written as such.
     for position in dofusbook_export.EXO_INDEXES:

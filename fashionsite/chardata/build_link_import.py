@@ -35,7 +35,9 @@ from chardata import dofusbook_import, dofuscreator_import
 
 
 def _dofusbook_recognises(url):
-    return (dofusbook_import.parse_link(url) is not None
+    return (dofusbook_import.parse_stuffer_link(url) is not None
+            or dofusbook_import.is_stuffer_path(url)
+            or dofusbook_import.parse_link(url) is not None
             or dofusbook_import.is_short_link(url))
 
 
