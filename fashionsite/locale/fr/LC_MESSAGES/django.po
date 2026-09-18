@@ -4437,6 +4437,28 @@ msgstr "Mode TemporiX"
 msgid "For the TemporiX servers (15 September to 13 October 2026): shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build."
 msgstr "Pour les serveurs TemporiX (du 15 septembre au 13 octobre 2026) : coiffes, capes, amulettes, anneaux, ceintures, bottes et Dofus rayonnants que lâchent les monstres (chaque valeur multipliée par 1,5, arrondie au supérieur, malus compris), le Bouclier de l'infini au rang 1000, et aucune limite de PA, PM, PO ni d’invocations. Interdisez les pièces que vous n’avez pas, comme sur n’importe quel build."
 
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "The AP, MP and Range exos travel as exos of the whole build: their link format does not say which piece carries them."
+msgstr "Les exos PA, PM et PO partent comme exos de tout le build : leur format de lien ne dit pas quelle pièce les porte."
+
+#: .\chardata\templates\chardata\solution_item.html
+msgctxt "smithmagic mark on an item"
+msgid "SM"
+msgstr "FM"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgctxt "exo mark on an item"
+msgid "Exo"
+msgstr "Exo"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Smithmagic: the rolls recorded on this piece differ from its encyclopedia values."
+msgstr "Forgemagie : les jets enregistrés sur cette pièce diffèrent de ses valeurs de l'encyclopédie."
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Exo: this piece carries a line, or an AP, MP or Range point, beyond its encyclopedia values."
+msgstr "Exo : cette pièce porte une ligne, ou un PA, PM ou PO, au-delà de ses valeurs de l'encyclopédie."
+
 #: .\chardata\templates\chardata\solution.html
 #: .\chardata\templates\chardata\shared_builds.html
 msgid "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit."

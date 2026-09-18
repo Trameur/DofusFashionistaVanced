@@ -16937,10 +16937,14 @@ class NoLanguageLeftInEnglishTests(SimpleTestCase):
     LANGS = ('es', 'pt', 'de')
     CATALOGS = ('django.po', 'djangojs.po')
     # Words that really do read the same in the target language.
+    # The smithmagic mark on a piece: Ankama's German "Schmiedemagie" has the
+    # initials of "Smithmagic".
+    SMITHMAGIC_MARK = 'SM'
     IDENTICAL_IN_LANGUAGE = {
         'es': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Error', 'No'},
         'pt': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote'},
         'de': {'Set', 'Sets', 'sets', 'AP', 'MP', 'Emote', 'Name', 'Neutral',
+               SMITHMAGIC_MARK,
                'Hammer', 'Ring', 'optional', 'E', 'W',
                'April', 'August', 'September', 'November',
                'April 2023', 'April 2026', 'August 2026', 'September 2026',

@@ -539,8 +539,8 @@ class TheirOwnNumbersAreTheBaselineTests(SimpleTestCase):
     def test_a_line_counts_for_what_their_own_sheet_counts(self):
         """Their `Pc` sums `c.max > 0 ? c.max : c.min` over the effects of
         type E. The Strigide amulet is the case that matters: its critical
-        resistance runs from -16 to -20, so their sheet counts -16 while our
-        catalogue holds -20."""
+        resistance runs from -16 to -20 and their sheet counts -16, the best
+        roll, which our catalogue holds too."""
         valeurs = dofusbook_export.their_line_values(self.LEURS)
         self.assertEqual(400, valeurs[14094]['vi'])
         self.assertEqual(6, valeurs[14094]['cc'])
@@ -779,3 +779,65 @@ class ThePageSendsTheForgemagieItShowsTests(TestCase):
         page = self._page(char, entrees).content.decode('utf-8')
         self.assertNotIn('export-forge', page)
         self.assertIn('The build name and the class do not travel', page)
+
+    def test_a_roll_recorded_in_the_inventory_travels_too(self):
+        """The rolls the solver ran with, the inventory's under the manual
+        ones. Reading the manual overrides alone, a build whose rolls all came
+        from an inventory sent no forgemagie at all (2026-09-18)."""
+        from django.contrib.auth.models import User
+        from chardata.models import InventoryFolder, InventoryItem
+        from chardata.options import get_options, set_options
+        from fashionistapulp.structure import get_structure
+        char, item = self._char()
+        owner = User.objects.create_user('inventoryexport', 'ie@test.local',
+                                         'pw-42-solid')
+        char.owner = owner
+        char.save()
+        self.client.force_login(owner)
+        vitalite = get_structure('dofus3').get_stat_by_key('vit')
+        notre_max = dict(item.stats)[vitalite.id]
+        folder = InventoryFolder.objects.create(user=owner, name='inv',
+                                                game_version='dofus3')
+        InventoryItem.objects.create(
+            folder=folder, item_id=item.id,
+            custom_stats=json.dumps({'vit': notre_max + 9}))
+        options = get_options(char)
+        options['inventory_mode'] = 'mixed'
+        options['inventory_folder'] = folder.id
+        set_options(char, options)
+        entrees = [{'official': item.ankama_id, 'effects': [
+            {'name': 'vi', 'type': 'E', 'min': 1, 'max': notre_max - 1}]}]
+        page = self._page(char, entrees).content.decode('utf-8')
+        fm = self._charge(page)[0]
+        self.assertEqual(1050 + 100 + 10,
+                         fm[dofusbook_export.index_by_stat_key()['vit']])
+
+    def test_only_gelano_is_not_an_mp_exo(self):
+        """'Only Gelano' wears Gelano (#1), whose own line carries the MP. It
+        used to travel as the MP exo as well, a point the build does not
+        have."""
+        from chardata.options import get_options, set_options
+        char, item = self._char()
+        entrees = [{'official': item.ankama_id, 'effects': []}]
+        for choix, attendu in ((True, dofusbook_export.EXO_MP),
+                               ('gelano', 0), (False, 0)):
+            options = get_options(char)
+            options['mp_exo'] = choix
+            set_options(char, options)
+            page = self._page(char, entrees).content.decode('utf-8')
+            with self.subTest(mp_exo=choix):
+                self.assertEqual(attendu,
+                                 self._charge(page)[3] & dofusbook_export.EXO_MP)
+
+    def test_an_exo_on_a_piece_says_how_it_travels(self):
+        """An exo leaves as their build-level bit, and the page says so."""
+        from chardata.lock_forbid import set_stat_overrides
+        from fashionistapulp.structure import get_structure
+        char, item = self._char()
+        pm = get_structure('dofus3').get_stat_by_key('mp')
+        self.assertNotIn(pm.id, dict(item.stats))
+        set_stat_overrides(char, {item.id: {pm.id: 1}})
+        entrees = [{'official': item.ankama_id, 'effects': []}]
+        page = self._page(char, entrees).content.decode('utf-8')
+        self.assertIn('export-exos', page)
+        self.assertIn('which piece carries them', page)

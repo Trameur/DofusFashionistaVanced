@@ -66,6 +66,9 @@
     {% if forge_travels %}
     <p class="export-note" id="export-forge">{% trans "Your forgemagie travels as one total per characteristic: their link format holds nothing finer." %}</p>
     {% endif %}
+    {% if exos_travel %}
+    <p class="export-note" id="export-exos">{% trans "The AP, MP and Range exos travel as exos of the whole build: their link format does not say which piece carries them." %}</p>
+    {% endif %}
     {% if forge_staying %}
     <p class="export-note" id="export-forge-staying">{% trans "Their forgemagie field cannot hold these, so they stay here:" %} {{ forge_staying|join:", " }}</p>
     {% endif %}

@@ -306,6 +306,17 @@ def evolve_result_item(result_item, r=None):
     stats_from_result_item = sorted(iter(merged_stats.items()),
                                     key=lambda x: STAT_ORDER[x[0]])
 
+    # The two marks DofusBook puts on a piece, read from the rolls the player
+    # recorded: a line changed from the catalogue, and a line added to it (or
+    # an AP, MP or Range point above the piece's own). A pickle from before
+    # base_stats existed shows neither.
+    result_item.has_exo = base_stats is not None and (bool(exo_overrides) or any(
+        value and key not in base_stats
+        for key, value in result_item.stats.items()))
+    result_item.has_forge = base_stats is not None and any(
+        result_item.stats.get(key, 0) != value
+        for key, value in base_stats.items())
+
     result_item.stats_lines = []
     # Absent from solutions pickled before the ranges existed.
     stat_ranges = getattr(result_item, 'stat_ranges', None) or {}

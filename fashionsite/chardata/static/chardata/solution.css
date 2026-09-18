@@ -35,6 +35,20 @@
 }
 
 /* how the item is obtained: secondary to the name, on the same line */
+/* a piece the player forgemaged or exoed, marked the way DofusBook marks it */
+.solution-item-mark {
+    display: inline-block;
+    padding: 0 5px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 15px;
+    border: 1px solid currentColor;
+    border-radius: 8px;
+    opacity: 0.85;
+    white-space: nowrap;
+    cursor: help;
+}
+
 .solution-item-source {
     font-size: 12px;
     opacity: 0.75;

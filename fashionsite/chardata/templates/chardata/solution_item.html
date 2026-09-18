@@ -11,7 +11,7 @@
             </div>
         </td>
         <td class="solution-item-info">
-            <div class="solution-item-name-div"><span id='item-name-{{item.slot}}'>{{item.localized_name}}</span>{% if item.level %} <span class="solution-item-level">{% trans "Lvl." %} {{item.level}}</span>{% endif %}{% if item.acquisition_text %} <span class="solution-item-source">{{ item.acquisition_text }}</span>{% endif %}</div>
+            <div class="solution-item-name-div"><span id='item-name-{{item.slot}}'>{{item.localized_name}}</span>{% if item.level %} <span class="solution-item-level">{% trans "Lvl." %} {{item.level}}</span>{% endif %}{% if item.has_forge %} <span class="solution-item-mark" title="{% trans "Smithmagic: the rolls recorded on this piece differ from its encyclopedia values." %}">{% trans "SM" context "smithmagic mark on an item" %}</span>{% endif %}{% if item.has_exo %} <span class="solution-item-mark" title="{% trans "Exo: this piece carries a line, or an AP, MP or Range point, beyond its encyclopedia values." %}">{% trans "Exo" context "exo mark on an item" %}</span>{% endif %}{% if item.acquisition_text %} <span class="solution-item-source">{{ item.acquisition_text }}</span>{% endif %}</div>
             {% if item.link %}
             <div class="solution-item-link-div">
                 <a class="item-external-link" target="_blank" rel="noopener noreferrer" href="{{item.link}}">

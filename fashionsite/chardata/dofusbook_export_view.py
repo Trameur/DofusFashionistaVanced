@@ -31,7 +31,7 @@ import logging
 from django.utils.translation import gettext as _
 
 from chardata import dofusbook_export
-from chardata.lock_forbid import get_stat_overrides
+from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.solution import get_solution
 from chardata.translation_util import localized_stat_name
 from chardata.util import (get_char_or_raise, get_stats_and_scrolled,
@@ -119,9 +119,9 @@ def _exos(char):
     drapeaux = 0
     if options.get('ap_exo'):
         drapeaux |= dofusbook_export.EXO_AP
-    # mp_exo is either a bool or the string 'gelano', and both mean the build
-    # carries the point.
-    if options.get('mp_exo'):
+    # mp_exo can also be 'gelano', which is not the exo: that choice wears
+    # Gelano (#1), whose own line carries the MP (Model, _exo_carriers).
+    if options.get('mp_exo') is True:
         drapeaux |= dofusbook_export.EXO_MP
     if options.get('range_exo'):
         drapeaux |= dofusbook_export.EXO_RANGE
@@ -149,7 +149,7 @@ def _partial_scrolls(char, scrolls):
     return noms
 
 
-def _forgemagie(char, structure, item_by_ankama, their_values):
+def _forgemagie(overrides, structure, item_by_ankama, their_values):
     """({position in their `fm`: total}, [our stat keys with no position],
     the exo bits our rolls imply).
 
@@ -165,7 +165,6 @@ def _forgemagie(char, structure, item_by_ankama, their_values):
     be named rather than folded into a neighbour.
     """
     positions = dofusbook_export.index_by_stat_key()
-    overrides = get_stat_overrides(char) or {}
     totaux, sans_place = {}, []
     drapeaux = 0
     for ankama, item_id in sorted(item_by_ankama.items()):
@@ -276,13 +275,17 @@ def dofusbook_export_page(request, char_id):
     connus_par_groupe = dofusbook_export.keep_known(groupes, connus)
     points, scrolls = _points_and_scrolls(char)
     structure = get_structure(char.game_version)
+    # The rolls the solver ran with: the inventory's, then the project's
+    # manual overrides on top. Reading the manual ones alone sent nothing for
+    # a build whose rolls all came from the inventory.
+    overrides = get_effective_stat_overrides(char) or {}
     totaux, sans_place, exos_des_jets = _forgemagie(
-        char, structure, item_par_ankama, leurs_valeurs)
+        overrides, structure, item_par_ankama, leurs_valeurs)
     forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls)
+    exos = _exos(char) | exos_des_jets
     charge = dofusbook_export.payload(connus_par_groupe, char.level,
                                       points=points, scrolls=scrolls,
-                                      exos=_exos(char) | exos_des_jets,
-                                      forge=forge)
+                                      exos=exos, forge=forge)
     params.update({
         'link': dofusbook_export.build_url(char.game_version,
                                            get_supported_language(), charge),
@@ -290,6 +293,7 @@ def dofusbook_export_page(request, char_id):
         'staying': sorted(restants),
         'partial_scrolls': _partial_scrolls(char, scrolls),
         'forge_travels': bool(forge),
+        'exos_travel': bool(exos),
         'forge_staying': _named_stats(
             structure, char.game_version,
             sans_place + _keys_of_positions(
