@@ -486,8 +486,22 @@ def get_all_inclusions_en_names(char):
     return {key: _item_id_to_local_or_name(value, 'en')
             for key, value in list(item_dict.items())}
 
+def _structure_of(char):
+    """The structure of the char's own version: its ids mean nothing in
+    another one."""
+    try:
+        return get_structure(getattr(char, 'game_version', None) or None)
+    except Exception:
+        return None
+
+
 def get_inclusions_dict(char):
-    return read_char_blob(char.inclusions, {}, 'inclusions', char)
+    inclusions = read_char_blob(char.inclusions, {}, 'inclusions', char)
+    structure = _structure_of(char)
+    if structure is None or not isinstance(inclusions, dict):
+        return inclusions
+    return {slot: structure.current_item_id(value)
+            for slot, value in inclusions.items()}
 
 def set_exclusions_list_by_name(char, excluded_items):
     s = get_structure()
@@ -605,7 +619,21 @@ def _save_exclusion_list(char, excluded_items):
     char.save()
 
 def _get_all_exclusions(char):
-    return read_char_blob(char.exclusions, [], 'exclusions', char)
+    exclusions = read_char_blob(char.exclusions, [], 'exclusions', char)
+    structure = _structure_of(char)
+    if structure is None or not isinstance(exclusions, list):
+        return exclusions
+    # Only a translated id is dropped when its item is already there; a list
+    # read untouched stays exactly as stored.
+    stored, current = set(exclusions), []
+    for item_id in exclusions:
+        live_id = structure.current_item_id(item_id)
+        if live_id != item_id:
+            if live_id in stored:
+                continue
+            stored.add(live_id)
+        current.append(live_id)
+    return current
 
 def add_items_to_exclusions(char, item_ids):
     exclusions = get_all_exclusions_ids(char)
@@ -647,7 +675,23 @@ def set_empty_slot(char, slot, is_empty):
     char.save()
 
 def get_stat_overrides(char):
-    return read_char_blob(char.stat_overrides, {}, 'stat_overrides', char)
+    overrides = read_char_blob(char.stat_overrides, {}, 'stat_overrides', char)
+    structure = _structure_of(char)
+    if structure is None or not isinstance(overrides, dict):
+        return overrides
+    current, retired = {}, []
+    for item_id, item_overrides in overrides.items():
+        live_id = structure.current_item_id(item_id)
+        if live_id == item_id:
+            current[item_id] = item_overrides
+        else:
+            retired.append((live_id, item_overrides))
+    # A roll saved under the live id is the newer one.
+    for live_id, item_overrides in retired:
+        merged = dict(item_overrides)
+        merged.update(current.get(live_id, {}))
+        current[live_id] = merged
+    return current
 
 def set_item_stat_override(char, item_id, stat_id, value):
     overrides = get_stat_overrides(char)

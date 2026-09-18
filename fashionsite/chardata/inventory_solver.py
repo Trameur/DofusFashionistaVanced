@@ -52,15 +52,16 @@ def apply_inventory_restriction(char, exclusions, folder):
     """Exclude every item that is not in the folder. Explicitly locked items
     stay allowed so an inclusion always wins."""
     from chardata.models import InventoryItem
-    owned_ids = set(InventoryItem.objects.filter(folder=folder)
-                    .values_list('item_id', flat=True))
+    structure = get_structure()
+    owned_ids = {structure.current_item_id(item_id) for item_id
+                 in InventoryItem.objects.filter(folder=folder)
+                 .values_list('item_id', flat=True)}
     included_ids = set()
     for value in get_inclusions_dict(char).values():
         try:
             included_ids.add(int(value))
         except (TypeError, ValueError):
             pass
-    structure = get_structure()
     items = list(structure.get_concatenated_items_lists())
     kept_ids = _with_or_siblings(items, owned_ids | included_ids)
     excluded = set(exclusions)
@@ -109,7 +110,7 @@ def get_inventory_stat_overrides(folder):
             if stat is not None:
                 per_item[stat.id] = value
         if per_item:
-            overrides[row.item_id] = per_item
+            overrides[item.id] = per_item
     return overrides
 
 

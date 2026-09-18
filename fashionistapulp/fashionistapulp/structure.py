@@ -72,6 +72,10 @@ _current_game_version = threading.local()
 # Touch pet variants at 200000000).
 GELANO_IDS = {'Gelano (#1)': 990000001, 'Gelano (#2)': 990000011}
 
+# The maxed pet variants the Retro and Touch pipelines write at and above these
+# ids, under the pet's own ankama id (itemscraper/store_*_pet_bonuses.py).
+PET_VARIANT_ID_BASE = {'retro': 10_000_000, 'touch': 200_000_000}
+
 # What max(item id) + 1 came out as in the data each version last shipped, so
 # the builds saved against it still find the ring. Anything older than that was
 # already lost to the same drift, which is what the fixed ids above end.
@@ -226,6 +230,7 @@ class Structure:
                        for row in c.execute('PRAGMA table_info(items)'))
         columns = ('id, name, level, type, item_set, ankama_id, ankama_type, removed, '
                    'dofustouch' + (', skin' if has_skin else ''))
+        variant_base = PET_VARIANT_ID_BASE.get(self.game_version)
         for entry in c.execute('SELECT %s FROM items' % columns):
             item_id = entry[0]
             item_name = entry[1]
@@ -265,7 +270,11 @@ class Structure:
             if ankama_id is not None:
                 # Mounts have their own Ankama id space and reuse equipment ids:
                 # on Touch, 42 is both the Twiggy Sword and a Dragoturkey.
-                if ankama_type != 'mounts' or ankama_id not in by_ankama:
+                # A pet's ankama id is the pet, not whichever of its maxed
+                # variants the table happened to list last.
+                variant = variant_base is not None and item_id >= variant_base
+                if ((ankama_type != 'mounts' and not variant)
+                        or ankama_id not in by_ankama):
                     by_ankama[ankama_id] = item
             if item_set is not None:
                 if item_set in self.sets_dict:
@@ -1298,6 +1307,22 @@ class Structure:
             if moved is not None:
                 return self.items_dict.get(moved, None)
         return found
+
+    def current_item_id(self, item_id):
+        """The live id a stored id stands for: itself, or the item a retired
+        id was carried onto. The solver compares ids, not items, so a lock, an
+        exclusion or a roll saved under a retired id is lost unless it is read
+        through this. Anything else comes back unchanged."""
+        try:
+            if item_id in self.items_dict or item_id in self.dt_items_dict:
+                return item_id
+            moved = self.legacy_item_ids.get(item_id)
+        except TypeError:
+            return item_id
+        if moved is not None and (moved in self.items_dict
+                                  or moved in self.dt_items_dict):
+            return moved
+        return item_id
 
     def get_item_by_ankama_id(self, ankama_id, dofus_touch=False):
         if dofus_touch:

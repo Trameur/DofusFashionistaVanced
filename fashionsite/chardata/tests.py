@@ -10867,12 +10867,30 @@ class TouchPetSolveTests(TestCase):
 
 class TouchPetBonusFileTests(SimpleTestCase):
     """The variants are written back into the items table as pets, carrying the
-    pet's own ankama id, and they are numbered in file order. So a scrape that
-    reads them as pets writes its own output back into the file, and any pet
-    that falls out of the file renumbers every pet after it: the day Moowitty
-    went missing, 82 variant ids moved to another pet."""
+    pet's own ankama id, so a scrape that reads them as pets writes its own
+    output back into the file. Until 2026-09-18 they were also numbered in file
+    order, and any pet that fell out of the file renumbered every pet after it:
+    the day Moowitty went missing, 82 variant ids moved to another pet. Their id
+    now comes from the pet and the stat, and the 228 counter ids resolve through
+    legacy_item_ids."""
 
     VARIANT_ID_BASE = 200000000
+
+    # A counter id, and what a build saved with it must still wear. The per-meal
+    # lines were fake variants and now wear their pet's real cap; Sirocco's and
+    # Brulay's real cap is a stat of the pet itself.
+    OLD_IDS = {
+        200000000: 'Air Bwak (+110 Agility)',
+        200000035: 'Bow Meow (+110 Chance)',
+        200000226: 'Water Bwak (+110 Vitality)',
+        200000227: 'Yellow Piwin (+110 Agility)',
+        200000006: 'Bilby (+90 Prospecting)',
+        200000007: 'Bilby (+90 Prospecting)',
+        200000147: 'Mosk (+110 Agility)',
+        200000181: 'Sirocco',
+        200000044: 'Brulay',
+        200000228: 'Gelano (#1)',
+    }
 
     def _bonuses(self):
         import json
@@ -10881,6 +10899,85 @@ class TouchPetBonusFileTests(SimpleTestCase):
         path = os.path.join(repo_root, 'itemscraper', 'touch_pet_bonuses.json')
         with open(path, encoding='utf-8') as handle:
             return json.load(handle)
+
+    def test_a_counter_id_still_finds_its_pet(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('touch')
+        for old_id, name in self.OLD_IDS.items():
+            with self.subTest(old_id=old_id):
+                self.assertNotIn(old_id, structure.items_dict)
+                found = structure.get_item_by_id(old_id)
+                self.assertIsNotNone(found, 'a build storing %d loses its pet' % old_id)
+                self.assertEqual(name, found.name)
+
+    def test_no_counter_id_is_live_again(self):
+        from fashionistapulp.structure import get_structure
+        structure = get_structure('touch')
+        reused = [item_id for item_id in structure.items_dict
+                  if self.VARIANT_ID_BASE <= item_id <= 200000228]
+        self.assertEqual([], reused)
+
+    def test_every_id_ever_written_resolves_to_the_same_pet(self):
+        from fashionistapulp.structure import get_structure
+        store = itemscraper_module('store_touch_pet_bonuses')
+        registry = store.read_registry()
+        self.assertEqual(list(range(self.VARIANT_ID_BASE, 200000228)),
+                         sorted(item_id for item_id in registry
+                                if item_id < store.FIRST_FREE_VARIANT_ID))
+        structure = get_structure('touch')
+        wrong = []
+        for item_id, (pet, _stat) in registry.items():
+            found = structure.get_item_by_id(item_id)
+            if found is None or found.ankama_id != pet:
+                wrong.append((item_id, pet, found and found.name))
+        self.assertEqual([], wrong)
+
+    def test_a_variant_id_is_its_pet_and_its_stat(self):
+        from fashionistapulp.structure import get_structure
+        store = itemscraper_module('store_touch_pet_bonuses')
+        structure = get_structure('touch')
+        variants = [item for item in structure.get_items_list()
+                    if self.VARIANT_ID_BASE <= item.id < store.VARIANT_ID_CEILING]
+        self.assertTrue(variants)
+        wrong = []
+        for item in variants:
+            (stat_id, _value), = item.stats
+            stat = structure.get_stat_by_id(stat_id).name
+            if item.id != store.variant_id(item.ankama_id, stat):
+                wrong.append((item.id, item.name))
+        self.assertEqual([], wrong)
+
+    def test_a_stat_keeps_its_slot(self):
+        store = itemscraper_module('store_touch_pet_bonuses')
+        slots = store.STAT_SLOTS
+        self.assertEqual((1, 6, 7, 31, 45), (
+            slots['Vitality'], slots['Agility'], slots['Power'],
+            slots['% Air Resist'], slots['Reflects']))
+        self.assertEqual(len(slots), len(set(slots.values())))
+        self.assertTrue(all(0 < slot < 100 for slot in slots.values()))
+        # a generated name is shown in five languages
+        self.assertEqual([], sorted(set(slots) - set(store.STAT_LABELS)))
+
+    def test_the_store_and_the_structure_agree_on_the_base(self):
+        from fashionistapulp.structure import PET_VARIANT_ID_BASE
+        store = itemscraper_module('store_touch_pet_bonuses')
+        self.assertEqual(store.VARIANT_ID_BASE, PET_VARIANT_ID_BASE['touch'])
+        self.assertEqual(self.VARIANT_ID_BASE, PET_VARIANT_ID_BASE['touch'])
+
+    def test_the_file_lists_each_stat_once_per_pet(self):
+        # A second line for a stat was the diet's gain per meal read as a cap.
+        twice = sorted(name for name, lines in self._bonuses().items()
+                       if len({line[0] for line in lines}) != len(lines))
+        self.assertEqual([], twice)
+
+    def test_a_pet_by_its_ankama_id_is_the_pet(self):
+        from fashionistapulp.structure import get_structure
+        for version, ankama_id, name in (('touch', 1728, 'Bow Meow'),
+                                         ('touch', 2075, 'Water Bwak'),
+                                         ('retro', 2076, 'Air Bwak')):
+            with self.subTest(version=version, ankama_id=ankama_id):
+                self.assertEqual(
+                    name, get_structure(version).get_item_by_ankama_id(ankama_id).name)
 
     def test_the_file_names_pets_and_never_its_own_variants(self):
         fed_back = sorted(name for name in self._bonuses() if '(+' in name)
@@ -10925,6 +11022,70 @@ class TouchPetBonusFileTests(SimpleTestCase):
                     missing.append((name, stat_name, value))
         self.assertEqual([], missing,
                          '%d bonus line(s) of the file reach no item' % len(missing))
+
+
+class RetiredIdsReadAsTheirItemTests(TestCase):
+    """The solver compares ids, not items. A lock, an exclusion or a roll saved
+    under an id legacy_item_ids retired reached it as a number no item has, and
+    was dropped in silence while the build still showed the piece."""
+
+    def _char(self, version, **blobs):
+        import pickle
+        from types import SimpleNamespace
+        fields = {'inclusions': {}, 'exclusions': [], 'stat_overrides': {}}
+        fields.update(blobs)
+        return SimpleNamespace(id=0, game_version=version, **{
+            field: pickle.dumps(value) for field, value in fields.items()})
+
+    def _live(self, old_id):
+        from fashionistapulp.structure import get_structure
+        return get_structure('touch').get_item_by_id(old_id).id
+
+    def test_a_touch_build_keeps_its_lock_its_exclusion_and_its_roll(self):
+        from chardata.lock_forbid import (get_all_exclusions_ids,
+                                          get_inclusions_dict,
+                                          get_stat_overrides)
+        bow_meow, mosk = self._live(200000035), self._live(200000146)
+        char = self._char(
+            'touch', inclusions={'pet': 200000035},
+            exclusions=[200000147, 200000146, mosk, 123456789],
+            stat_overrides={200000035: {5: 90, 1: 10}, bow_meow: {5: 100}})
+        self.assertEqual({'pet': bow_meow}, get_inclusions_dict(char))
+        self.assertEqual([mosk, 123456789], get_all_exclusions_ids(char))
+        # the roll saved under the live id is the newer one
+        self.assertEqual({bow_meow: {5: 100, 1: 10}}, get_stat_overrides(char))
+
+    def test_a_dofus3_build_keeps_an_exclusion_on_a_retired_branch_row(self):
+        from fashionistapulp.structure import get_structure
+        from chardata.lock_forbid import get_all_exclusions_ids
+        structure = get_structure('dofus3')
+        old_id, item_id = next(
+            (old, new) for old, new in sorted(structure.legacy_item_ids.items())
+            if old not in structure.items_dict and new in structure.items_dict)
+        self.assertEqual([item_id], get_all_exclusions_ids(
+            self._char('dofus3', exclusions=[old_id])))
+
+    def test_a_pet_owned_under_its_counter_id_stays_equippable(self):
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from fashionistapulp.structure import set_current_game_version
+        from chardata.coaching_view import create_build
+        from chardata.models import InventoryFolder, InventoryItem
+        from chardata.inventory_solver import (apply_inventory_restriction,
+                                               get_inventory_stat_overrides)
+        set_current_game_version('touch')
+        self.addCleanup(set_current_game_version, 'dofus3')
+        owner = User.objects.create_user('oldpet', 'op@t.local', 'pw-42-solid')
+        request = RequestFactory().post('/')
+        request.user = owner
+        char = create_build(request, 'Iop', 200, {'str'}, 'touch')
+        folder = InventoryFolder.objects.create(
+            user=owner, name='mine', game_version='touch')
+        InventoryItem.objects.create(folder=folder, item_id=200000035,
+                                     custom_stats='{"cha": 100}')
+        bow_meow = self._live(200000035)
+        self.assertNotIn(bow_meow, apply_inventory_restriction(char, [], folder))
+        self.assertIn(bow_meow, get_inventory_stat_overrides(folder))
 
 
 class FedPetPageTests(TestCase):

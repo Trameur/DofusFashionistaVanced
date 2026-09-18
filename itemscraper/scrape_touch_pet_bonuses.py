@@ -50,6 +50,13 @@ SIMPLE_STATS = {
     'agilite': 'Agility', 'vitalite': 'Vitality', 'sagesse': 'Wisdom',
     'prospection': 'Prospecting', 'initiative': 'Initiative', 'soins': 'Heals',
     'dommages': 'Damage', 'pods': 'Pods', 'pod': 'Pods',
+    'puissance': 'Power', 'pa': 'AP', 'pm': 'MP', 'fuite': 'Dodge',
+    'tacle': 'Lock', 'esquive pa': 'AP Loss Resist',
+    'esquive pm': 'MP Loss Resist', 'dommages critiques': 'Critical Damage',
+    'resistance critiques': 'Critical Resist',
+    'resistance critique': 'Critical Resist',
+    'dommages poussee': 'Pushback Damage',
+    'resistance poussee': 'Pushback Resist',
 }
 
 # Manual fixes keyed by English items_touch.db name; take precedence over the
@@ -66,15 +73,15 @@ _LIN_RESIST_RE = re.compile(
 _ELEM_DAMAGE_RE = re.compile(
     r'^(\d+)\s*Dommages?\s+(Air|Eau|Feu|Terre|Neutre)$', re.I)
 _PCT_DAMAGE_RE = re.compile(r'^(\d+)\s*%\s*Dommages?$', re.I)
-_SIMPLE_RE = re.compile(r'^(\d+)\s+([A-Za-zàâçéèêëîïôûù]+)$')
+_SIMPLE_RE = re.compile(
+    r'^(\d+)\s+([A-Za-zàâçéèêëîïôûù][A-Za-zàâçéèêëîïôûù ]*)$')
 
-# None of these ever stops the reader. The line is compared after _norm has
-# taken its accents off, so the first and last never match, and "Description"
-# comes before the block. The reader runs to the end of the page and keeps the
-# gain per meal listed under "Régime alimentaire" ("1 Prospection") as a second
-# line, on 76 pets on 2026-09-18. Each of those lines is a variant, numbered in
-# file order, so fixing this alone would move the ids saved builds keep.
-_STOP_LINES = ('régime alimentaire', 'description', 'caractéristiques')
+# Compared after _norm, so written without accents: until 2026-09-18 they had
+# them, never matched, and the reader kept the gain per meal listed under
+# "Régime alimentaire" ("1 Prospection") as a cap, on 76 pets. A pet with no
+# diet ends at the page footer or at the recipes that use it.
+_STOP_LINES = ('regime alimentaire', 'est utilise pour', 'partager',
+               'description', 'caracteristiques')
 
 ENGLISH_ELEMENTS = {'air': 'Air', 'water': 'Water', 'fire': 'Fire',
                     'earth': 'Earth', 'neutral': 'Neutral'}
@@ -83,6 +90,12 @@ ENGLISH_SIMPLE_STATS = {
     'agility': 'Agility', 'vitality': 'Vitality', 'wisdom': 'Wisdom',
     'prospecting': 'Prospecting', 'initiative': 'Initiative', 'heals': 'Heals',
     'damage': 'Damage', 'pods': 'Pods', 'pod': 'Pods',
+    'power': 'Power', 'ap': 'AP', 'mp': 'MP', 'dodge': 'Dodge',
+    'lock': 'Lock', 'ap parry': 'AP Loss Resist', 'mp parry': 'MP Loss Resist',
+    'critical damage': 'Critical Damage',
+    'critical resistance': 'Critical Resist',
+    'pushback damage': 'Pushback Damage',
+    'pushback resistance': 'Pushback Resist',
 }
 _EN_PCT_RESIST_RE = re.compile(
     r'^(\d+)\s*%\s*(Air|Water|Fire|Earth|Neutral)\s+Resistance$', re.I)
@@ -91,12 +104,10 @@ _EN_LIN_RESIST_RE = re.compile(
 _EN_ELEM_DAMAGE_RE = re.compile(
     r'^(\d+)\s*(Air|Water|Fire|Earth|Neutral)\s+Damages?$', re.I)
 _EN_PCT_DAMAGE_RE = re.compile(r'^(\d+)\s*%\s*Damages?$', re.I)
-_EN_SIMPLE_RE = re.compile(r'^(\d+)\s+([A-Za-z]+)$')
+_EN_SIMPLE_RE = re.compile(r'^(\d+)\s+([A-Za-z][A-Za-z ]*)$')
 
-# The French reader's one stop that can match, and not "Diet": the English
-# page then gives the French reader's lines, the per-meal gain included, so a
-# pet whose French page disappears keeps its lines and its variants their ids.
-_EN_STOP_LINES = ('description',)
+_EN_STOP_LINES = ('diet', 'used to craft', 'share', 'description',
+                  'characteristics')
 
 
 def _norm(text):
@@ -106,6 +117,10 @@ def _norm(text):
                      ('ù', 'u'), ('ç', 'c')):
         text = text.replace(src, dst)
     return text.strip()
+
+
+def _words(text):
+    return ' '.join(_norm(text).split())
 
 
 def _page_lines(html):
@@ -132,8 +147,8 @@ def _french_line(line):
     if m:
         return 'Power', int(m.group(1))
     m = _SIMPLE_RE.match(line)
-    if m and _norm(m.group(2)) in SIMPLE_STATS:
-        return SIMPLE_STATS[_norm(m.group(2))], int(m.group(1))
+    if m and _words(m.group(2)) in SIMPLE_STATS:
+        return SIMPLE_STATS[_words(m.group(2))], int(m.group(1))
     return None, None
 
 
@@ -152,8 +167,8 @@ def _english_line(line):
     if m:
         return 'Power', int(m.group(1))
     m = _EN_SIMPLE_RE.match(line)
-    if m and _norm(m.group(2)) in ENGLISH_SIMPLE_STATS:
-        return ENGLISH_SIMPLE_STATS[_norm(m.group(2))], int(m.group(1))
+    if m and _words(m.group(2)) in ENGLISH_SIMPLE_STATS:
+        return ENGLISH_SIMPLE_STATS[_words(m.group(2))], int(m.group(1))
     return None, None
 
 
@@ -165,9 +180,9 @@ _READERS = {
 
 
 def parse_bonuses(html, language='fr'):
-    """Extract [(stat, max)] from the lines after 'Effets maximum' ('Max
-    effects' in English). The hormone-dropper line matches no stat. The reader
-    runs to the end of the page, diet included, see _STOP_LINES."""
+    """Extract [(stat, max)] from the block under 'Effets maximum' ('Max
+    effects' in English), up to the diet. The hormone-dropper line matches no
+    stat."""
     title, stops, read_line = _READERS[language]
     lines = _page_lines(html)
     start = None
@@ -224,83 +239,69 @@ def pets_in_db(cursor):
     pets = {}
     for item_id, name in cursor.execute(
             """SELECT i.id, i.name FROM items i JOIN item_types t ON t.id = i.type
-               WHERE t.name = 'Pet' AND i.id < 200000000 ORDER BY i.id""").fetchall():
+               WHERE t.name = 'Pet' AND i.id < 200000000
+               AND i.ankama_type != 'mounts' ORDER BY i.id""").fetchall():
         pets.setdefault(name, []).append(set(cursor.execute(
             """SELECT s.name, v.value FROM stats_of_item v
                JOIN stats s ON s.id = v.stat WHERE v.item = ?""", (item_id,))))
     return pets, known
 
 
-def variant_layout(bonuses, pets=None, known=None):
-    """[(pet, stat)], one per variant store_touch_pet_bonuses.py would write, in
-    its order: the file's, sorted. It writes one per line and per db row of the
-    pet, except a line the pet already carries as a stat of its own, a stat it
-    does not know and a pet the db lacks. Without the db, one per line."""
-    layout = []
-    for name in sorted(bonuses):
+def _best(lines):
+    """{stat: highest value}: one variant per pet and stat, at its cap."""
+    best = {}
+    for stat, value in lines:
+        best[stat] = max(int(value), best.get(stat, int(value)))
+    return best
+
+
+def variant_keys(bonuses, pets=None, known=None):
+    """{(pet, stat)} store_touch_pet_bonuses.py writes a variant for: one per
+    stat of each pet, except a stat it does not know, a cap the pet already
+    carries as a stat of its own and a pet the db lacks. Without the db, one
+    per stat. The variant's id comes from the pet and the stat alone."""
+    keys = set()
+    for name, lines in bonuses.items():
         for carried in ([set()] if pets is None else pets.get(name, [])):
-            for stat, value in bonuses[name]:
+            for stat, value in _best(lines).items():
                 if known is not None and stat not in known:
                     continue
-                if (stat, int(value)) in carried:
+                if (stat, value) in carried:
                     continue
-                layout.append((name, stat))
-    return layout
+                keys.add((name, stat))
+    return keys
 
 
-def first_moved_line(previous, current, pets=None, known=None):
-    """The first (pet, stat) whose variant would change id or meaning, or
-    None. A variant added even at the very end moves nothing but takes the next
-    id, and 200000228 is the id old Touch builds keep for the Gelano
-    (structure.GELANO_DEPLOYED_IDS)."""
-    before = variant_layout(previous, pets, known)
-    after = variant_layout(current, pets, known)
-    if before == after:
-        return None
-    for old, new in zip(before, after):
-        if old != new:
-            return old
-    shorter = min(len(before), len(after))
-    return before[shorter] if len(before) > len(after) else after[shorter]
+def lost_variants(previous, current, pets=None, known=None):
+    """[(pet, stat)] the previous file gave a variant and the current one does
+    not. A pet or a line that comes in moves no id; one that goes takes a
+    variant saved builds may wear back to the bare pet."""
+    return sorted(variant_keys(previous, pets, known)
+                  - variant_keys(current, pets, known))
 
 
 def changed_values(previous, current):
-    """(pet, stat, before, after) for the lines whose cap moved in place. Only
-    meaningful when first_moved_line found nothing: the variant then keeps its
-    id and saved builds get the new value."""
+    """(pet, stat, before, after) for the caps that moved: the variant keeps
+    its id and saved builds get the new value."""
     changes = []
     for name in sorted(set(previous) & set(current)):
-        for old, new in zip(previous[name], current[name]):
-            if old[0] == new[0] and old[1] != new[1]:
-                changes.append((name, old[0], old[1], new[1]))
+        before, after = _best(previous[name]), _best(current[name])
+        for stat in before:
+            if stat in after and before[stat] != after[stat]:
+                changes.append((name, stat, before[stat], after[stat]))
     return changes
 
 
-def explain_refusal(previous, current, moved):
+def explain_refusal(previous, current, lost):
     """The lines a human needs to decide on a refused write."""
-    lost = sorted(set(previous) - set(current))
-    added = sorted(set(current) - set(previous))
-    reshaped = sorted(
-        name for name in set(previous) & set(current)
-        if [line[0] for line in previous[name]]
-        != [line[0] for line in current[name]])
+    gone = sorted(set(previous) - set(current))
     lines = []
-    if lost:
+    if gone:
         lines.append('the scrape lost %d pet(s) the file already had: %s'
-                     % (len(lost), ', '.join(lost)))
-    if added:
-        lines.append('the scrape found %d pet(s) the file does not have: %s'
-                     % (len(added), ', '.join(added)))
-    if reshaped:
-        lines.append('lines added, removed or reordered on: %s'
-                     % ', '.join(reshaped))
-    if not (lost or added or reshaped):
-        lines.append('a cap moved onto or off a stat its pet already carries, '
-                     'which adds or removes a variant: %s' % ', '.join(
-                         '%s %s %s -> %s' % change
-                         for change in changed_values(previous, current)))
-    lines.append('the variants saved builds point at would take other ids '
-                 'from %s (%s) on' % moved)
+                     % (len(gone), ', '.join(gone)))
+    lines.append('variants that would disappear: %s' % ', '.join(
+        '%s (%s)' % key for key in lost))
+    lines.append('a saved build wearing one of them would get the bare pet.')
     lines.append('nothing written. Give a lost pet an OVERRIDES entry, or pass '
                  '--allow-shrink once the game really changed them.')
     return lines
@@ -313,8 +314,8 @@ def main():
                         help='only scrape the first N pets (debug)')
     parser.add_argument('--out', default=OUT_PATH)
     parser.add_argument('--allow-shrink', action='store_true',
-                        help='write even if variants saved builds point at '
-                             'would change ids')
+                        help='write even if variants saved builds may wear '
+                             'would disappear')
     args = parser.parse_args()
 
     cursor = sqlite3.connect(DB_PATH).cursor()
@@ -366,23 +367,23 @@ def main():
     for name, bonuses in OVERRIDES.items():
         result[name] = bonuses
 
-    # The variants are numbered in file order and a saved build keeps the
-    # number, so a pet that drops out or comes in, or a line added, removed or
-    # reordered, renumbers every variant after it. Losing Moowitty on
-    # 2026-08-15 moved 82 ids.
     if os.path.exists(args.out):
         with open(args.out, encoding='utf-8') as fh:
             previous = json.load(fh)
         db_pets, known = pets_in_db(cursor)
-        moved = first_moved_line(previous, result, db_pets, known)
-        if moved and not args.allow_shrink:
-            for line in explain_refusal(previous, result, moved):
+        lost = lost_variants(previous, result, db_pets, known)
+        if lost and not args.allow_shrink:
+            for line in explain_refusal(previous, result, lost):
                 print(line)
             return 1
-        if not moved:
-            for name, stat, before, after in changed_values(previous, result):
-                print('cap changed, same variant: %s %s %s -> %s'
-                      % (name, stat, before, after))
+        for name, stat, before, after in changed_values(previous, result):
+            print('cap changed, same variant: %s %s %s -> %s'
+                  % (name, stat, before, after))
+        added = sorted(variant_keys(result, db_pets, known)
+                       - variant_keys(previous, db_pets, known))
+        if added:
+            print('new variants: %d, e.g. %s' % (len(added), ', '.join(
+                '%s (%s)' % key for key in added[:6])))
 
     with open(args.out, 'w', encoding='utf-8') as fh:
         json.dump(result, fh, ensure_ascii=False, indent=1, sort_keys=True)
