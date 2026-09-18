@@ -10870,7 +10870,7 @@ class TouchPetBonusFileTests(SimpleTestCase):
     pet's own ankama id, and they are numbered in file order. So a scrape that
     reads them as pets writes its own output back into the file, and any pet
     that falls out of the file renumbers every pet after it: the day Moowitty
-    went missing, 82 saved builds pointed at another player's pet."""
+    went missing, 82 variant ids moved to another pet."""
 
     VARIANT_ID_BASE = 200000000
 
