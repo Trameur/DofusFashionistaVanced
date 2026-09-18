@@ -1,49 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un sort au meilleur element est lu sur la serie qui frappe, pas sur les soins.
-
-Fin du fil ouvert aux lots 79 et 80. Ces deux-la avaient appris au tour a lire
-la moitie qui frappe sur le chemin des **paliers**. Restait le chemin des
-**alternatives par element**, que tous deux excluaient, et deux facons
-distinctes de s'y tromper.
-
-**Un groupe fait uniquement de buffs n'est pas un element.** Vacarme porte six
-lignes, dont deux qui frappent, et ses agregats sont `[[0], [5]]`: la ligne 0
-soigne, la ligne 5 est un `buff_final`. Les prendre pour deux elements faisait
-croire a la forme <<meilleur element>> la ou il n'y en a pas, donc le repli
-qui sait lire la moitie qui frappe ne jouait jamais. Le panneau depensait 3 PA
-pour **zero**, sans note, et la table ne montrait que <<Soins 381 - 418>>.
-
-**La premiere serie n'est pas toujours la bonne.** Tout ou Rien porte quatre
-lignes qui soignent, une par element, puis quatre qui frappent. La fonction
-gardait la premiere serie, donc la moitie alliee.
-
-**Ce que le jeu dit**, fiches lues le 13 septembre 2026:
-
-| sort | description |
-|------|-------------|
-| Vacarme | <<Soigne les allies ou occasionne des dommages Feu aux ennemis>> |
-| Cri de l'Ours | <<Soigne les allies et vole de la vie dans l'element Terre aux ennemis en zone>> |
-| Tout ou Rien | <<Soigne les allies et occasionne des dommages dans le meilleur element du lanceur aux ennemis en zone>> |
-
-**Les deux regles sont etroites, et c'est mesure.** Sur les 1923 sorts des
-cinq versions: 13 portent un groupe fait uniquement de buffs, dont 7 paires
-sort/version changent de forme une fois ces groupes ecartes, et **34 lancers**
-en sortent. 29 sorts portent plusieurs series d'elements et **un seul**
-commence par une serie qui ne fait que soigner, d'ou **10 lancers** de plus.
-Les 44 changements vont tous de zero vers une valeur positive, aucun a la
-baisse, et aucun en Touch ni en Retro.
-
-**Ce que ce garde mesure.** Sept tests, dont **trois tombent** quand on rend
-aux deux fonctions leur comportement d'avant: celui des huit sorts deplaces,
-celui des zeros restants, et celui qui compare la production a une lecture
-miroir des series. Les quatre autres bornent les regles et tiennent des deux
-cotes.
-
-**Ce que le fil aura corrige en tout.** Le nombre de lancers qui portent une
-ligne capable de frapper et que le panneau comptait zero passe de **230 a 3**
-sur les 10292 des cinq versions. Les trois qui restent sont le Dofus Ebene,
-dont toutes les lignes attendent un etat: un zero juste, d'une autre nature.
-"""
+"""A best-element spell is scored on the run that hurts, not on the heals."""
 
 import collections
 
@@ -55,8 +11,7 @@ from chardata.spell_reference import reference_by_spell_id
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
-#: Ce que chaque sort deplace doit compter au rang 0, hors coup critique,
-#: avant tout equipement. Mesure du 13 septembre 2026.
+# Average at rank 0, no crit, no gear
 _MOITIE_QUI_FRAPPE = {
     ('dofus3', 'Eniripsa', 'Commotion'): 48.0,
     ('beta', 'Eniripsa', 'Commotion'): 48.0,
@@ -68,17 +23,11 @@ _MOITIE_QUI_FRAPPE = {
     ('dofus2', 'Ecaflip', 'All or Nothing'): 9.0,
 }
 
-#: Combien de sorts portent un groupe fait uniquement de buffs, et combien
-#: portent plusieurs series d'elements. Les deux bornent les regles.
-#:
-#: 29 -> 30 le 17 septembre 2026 avec la beta 3.7.0.0: la Toxicite Scurvion
-#: (12505) y passe de 4 lignes et une seule serie a 12 lignes et trois. Ankama
-#: a bouge la charge, le generateur n'a pas bouge, et la regle des series ne
-#: deplace toujours que Tout ou Rien.
+# Spells with a buff-only group, spells with several element runs
 _AVEC_GROUPE_DE_BUFF = 13
 _AVEC_PLUSIEURS_SERIES = 30
 
-#: Ce qui reste apres le fil entier, et pourquoi c'est juste.
+# Ebony Dofus hitting rows all wait on a state
 _ZEROS_RESTANTS = 3
 _SORT_DES_ZEROS_RESTANTS = 'Ebony Dofus'
 
@@ -91,12 +40,7 @@ def _tous_les_sorts():
 
 
 def _series(aggregates, effects):
-    """Toutes les series d'elements du sort, pas seulement la premiere.
-
-    Ecarte les groupes faits uniquement de buffs comme la production, sans
-    quoi ce garde porterait une seconde version de la regle et dirait le
-    contraire d'elle.
-    """
+    """All element runs of the spell, buff-only groups dropped."""
     aggregates = [(label, indices) for label, indices in (aggregates or [])
                   if not all(index < len(effects)
                              and effects[index].element.startswith('buff')
@@ -122,7 +66,6 @@ def _series(aggregates, effects):
 class TheTurnReadsTheHalfThatHurtsTests(SimpleTestCase):
 
     def test_each_moved_spell_is_scored_on_its_damage(self):
-        """Le test qui aurait attrape les deux defauts."""
         for (version, classe, nom), attendu in _MOITIE_QUI_FRAPPE.items():
             with self.subTest(version=version, sort=nom):
                 sorts = {s.name: s
@@ -135,13 +78,7 @@ class TheTurnReadsTheHalfThatHurtsTests(SimpleTestCase):
                     'AP for nothing and contradicts its own damage table')
 
     def test_the_reader_no_longer_meets_a_bare_zero_that_could_hurt(self):
-        """La mesure qui ferme le fil: de 230 a 3.
-
-        Un lancer qui porte une ligne capable de frapper et que le panneau
-        compte zero est soit un tour sous-estime, soit un zero qu'il faut
-        savoir expliquer. Il en reste trois, tous du meme objet, et leurs
-        lignes attendent un etat que le lancer ne produit pas.
-        """
+        """A cast with a row able to hurt scores zero only if its rows wait on a state."""
         restants = []
         expliques = []
         for version, _classe, sort in _tous_les_sorts():
@@ -179,7 +116,6 @@ class TheTurnReadsTheHalfThatHurtsTests(SimpleTestCase):
             'not been read: %s' % sorted(set(expliques)))
 
     def test_each_moved_spell_states_both_halves_in_its_card(self):
-        """La source est dans le garde, lue sur chacun des sorts deplaces."""
         for version, classe, nom in _MOITIE_QUI_FRAPPE:
             with self.subTest(sort=nom):
                 sorts = {s.name: s
@@ -196,8 +132,6 @@ class TheTurnReadsTheHalfThatHurtsTests(SimpleTestCase):
 
 
 class TheTwoRulesStayNarrowTests(SimpleTestCase):
-    """Les planchers. Sans eux, chaque regle pourrait s'etendre a des sorts
-    sur lesquels elle n'a jamais ete mesuree."""
 
     def test_a_group_made_only_of_buffs_is_still_rare(self):
         porteurs = set()
@@ -215,7 +149,6 @@ class TheTwoRulesStayNarrowTests(SimpleTestCase):
             'buff-only group, not %d' % (len(porteurs), _AVEC_GROUPE_DE_BUFF))
 
     def test_only_one_spell_starts_its_element_runs_with_heals(self):
-        """La regle des series ne doit deplacer que Tout ou Rien."""
         plusieurs = set()
         soigne_dabord = set()
         for version, classe, sort in _tous_les_sorts():
@@ -235,7 +168,6 @@ class TheTwoRulesStayNarrowTests(SimpleTestCase):
             'read against its card: %s' % sorted(soigne_dabord))
 
     def test_a_run_that_hurts_first_is_kept(self):
-        """Un vrai sort au meilleur element ne doit pas bouger."""
         gardes = 0
         for version, classe, sort in _tous_les_sorts():
             digest = sort.get_effects_digest()
@@ -257,8 +189,6 @@ class TheTwoRulesStayNarrowTests(SimpleTestCase):
             'very little' % gardes)
 
     def test_neither_rule_reaches_touch_or_retro(self):
-        """Chaque version est un jeu different, et ces deux-la n'ont aucun
-        cas: la correction ne doit pas les toucher."""
         bouges = collections.Counter(
             version for version, _classe, _nom in _MOITIE_QUI_FRAPPE)
         self.assertNotIn('touch', bouges)

@@ -1,57 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un sort qui frappe les ennemis n'est pas note sur sa moitie qui soigne.
-
-Trouve en jouant: un Eniripsa Dofus 2 de niveau 45, cree depuis les pages du
-site. Son meilleur tour depensait 2 PA sur <<Peinture de Guerre>> et lui
-comptait **zero**, sans meme une note.
-
-**Ce n'etait pas une note qui manquait, c'etait un tour sous-estime.** La
-table des degats de la meme page montrait pourtant les deux moities du sort,
-<<Soins 22 a 26>> **et** <<25 - 27>>: seul le panneau perdait la seconde. Le
-tour passe de 175 a **208**, dix-neuf pour cent de plus.
-
-**Ce que le jeu dit de ces sorts, dans ses propres mots** (fiche du client,
-lue le 13 septembre 2026):
-
-| sort | description |
-|------|-------------|
-| Peinture de Guerre | <<occasionne des dommages Terre aux ennemis ou soigne les allies>> |
-| Pinceau Tribal | <<soigne les allies ou occasionne des dommages Terre aux ennemis>> |
-| Mot Secret | <<Soigne les allies et occasionne des dommages Air aux ennemis en zone>> |
-
-Le panneau compte <<un seul tour sur une cible>>, et cette cible est un
-ennemi: c'est la moitie qui frappe qu'il doit lire.
-
-**Pourquoi la regle se dit par le soin et non par le zero.** Le repli de
-`Castable` prenait toujours le premier groupe d'agregats, ce qui est juste
-pour un sort a paliers (<<premier groupe = rien d'accumule>>). Mesure du
-13 septembre 2026 sur les 1923 sorts des cinq versions: huit lancers
-retenaient un groupe qui ne frappe pas alors qu'un autre groupe du meme
-lancer frappe, et **les huit** avaient un groupe retenu fait **uniquement**
-de lignes qui soignent. Aucun ne l'etait pour une autre raison. Sauter les
-groupes <<a zero>> aurait au contraire efface de vrais zeros: 227 lancers
-portent une ligne qui frappe quelque part et valent zero pour d'autres
-raisons, qui ne sont pas celle-ci.
-
-**L'etendue, mesuree lancer par lancer.** Sur les 10292 lancers des cinq
-versions, rangs et coups critiques compris, **34 changent**, tous Eniripsa,
-tous en dofus3, beta et dofus2, **tous de zero vers une valeur positive**.
-Aucun ne baisse, aucune autre classe ni version ne bouge. Touch et Retro
-n'ont aucun cas.
-
-**Ce que ce garde mesure.** Sept tests, dont **deux tombent** quand on rend
-au repli son `aggregates[0]`: celui des trois sorts et celui qui verifie que
-le repli appelle bien la regle. Les cinq autres sont des planchers, et ils
-tiennent des deux cotes par construction: ils appellent la regle directement.
-
-Un huitieme test avait ete ecrit, qui demandait le vrai panneau d'un Eniripsa
-de niveau 45 et parcourait ses lancers. Il **passait des deux cotes**: le
-solveur ne retient pas ce sort sur l'equipement qu'il trouve en test, donc la
-boucle n'assurait rien. Il a ete retire plutot que garde comme preuve.
-
-Voir [[project-item-card-beats-hidden-spell]]: la fiche du sort dit ce qu'il
-fait, et c'est elle qui a tranche.
-"""
+"""A spell that hurts enemies is scored on its damage half, not its heal half."""
 
 from django.test import SimpleTestCase
 
@@ -62,21 +10,19 @@ from chardata.spell_reference import reference_by_spell_id
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
-#: Les trois sorts et ce que le panneau doit leur compter au rang 0, hors
-#: coup critique, avant tout equipement. Mesure du 13 septembre 2026.
+# Panel average at rank 0, no crit, no gear
 _MOITIE_QUI_FRAPPE = {
     'Warpaint': 6.5,
     'Tribal Paintbrush': 16.5,
     'Secret Word': 30.0,
 }
 
-#: Les deux moities que la fiche du jeu enonce, en francais. Le test lit la
-#: fiche, il ne recopie pas une traduction.
+# Both halves, as the French spell card words them
 _MOTS_DU_JEU = ('soigne les alli', 'ennemis')
 
 
 def _groupes(sort, rang, crit=False):
-    """Les lignes de chaque groupe d'agregats, quand le repli s'applique."""
+    """Lines of each aggregate group, or None when the fallback does not apply."""
     digest = sort.get_effects_digest()
     rows = digest.crit_dams if crit else digest.non_crit_dams
     effets = rows[rang] if rang < len(rows) else []
@@ -100,14 +46,7 @@ def _soigne_entierement(lignes):
 
 
 def _hits_sans_buffs(effets):
-    """Les lignes que la production donne a `_first_group_that_hurts`.
-
-    Une ligne `buff_...` porte un minimum et un maximum et ne soigne pas,
-    donc la laisser passerait pour une ligne qui frappe et ferait dire a
-    la regle le contraire de ce qu'elle fait. Le defaut est reste
-    invisible tant que `_element_alternatives` ecartait ces sorts plus
-    tot.
-    """
+    """(index, line) pairs without buff lines, as production passes them."""
     return [(index, effet) for index, effet in enumerate(effets)
             if not effet.element.startswith('buff')]
 
@@ -122,7 +61,6 @@ def _tous_les_sorts():
 class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
 
     def test_the_three_spells_are_scored_on_the_damage_they_deal(self):
-        """Le test qui aurait attrape le defaut."""
         for version in ('dofus3', 'beta', 'dofus2'):
             sorts = {s.name: s
                      for s in get_damage_spells_for_version(version)['Eniripsa']}
@@ -137,12 +75,6 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
                         'understates the turn')
 
     def test_only_a_group_that_heals_throughout_is_ever_skipped(self):
-        """Ce qui autorise la regle, et la borne.
-
-        Si un groupe saute pour une autre raison que <<il ne fait que
-        soigner>>, la regle n'est plus celle que le jeu enonce et elle
-        efface un vrai zero.
-        """
         sautes_pour_autre_chose = []
         for version, classe, sort in _tous_les_sorts():
             for rang in range(len(sort.level_req)):
@@ -164,8 +96,6 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
         self.assertEqual([], sautes_pour_autre_chose)
 
     def test_the_rule_moves_these_three_spells_and_no_others(self):
-        """L'etendue, sans avoir besoin d'un <<avant>>: le groupe retenu ne
-        s'ecarte du premier que pour ces trois sorts."""
         bouges = set()
         for version, classe, sort in _tous_les_sorts():
             for rang in range(len(sort.level_req)):
@@ -193,8 +123,6 @@ class TheHealHalfIsNeverWhatTheTurnIsScoredOnTests(SimpleTestCase):
 class TheGameItselfSaysTheseSpellsHurtAnEnemyTests(SimpleTestCase):
 
     def test_each_spell_card_states_both_halves(self):
-        """La source de la regle est dans le test, pas seulement dans un
-        commentaire: la fiche du client dit les deux moities."""
         sorts = {s.name: s
                  for s in get_damage_spells_for_version('dofus3')['Eniripsa']}
         fiches = reference_by_spell_id('dofus3', 'Eniripsa')
@@ -212,8 +140,6 @@ class TheGameItselfSaysTheseSpellsHurtAnEnemyTests(SimpleTestCase):
 
 
 class AStackingCastStillStartsFromNothingBuiltUpTests(SimpleTestCase):
-    """Le plancher. Sans lui, la regle pourrait deplacer tous les sorts a
-    paliers et personne ne le verrait."""
 
     def test_a_first_group_that_hurts_is_kept(self):
         gardes = 0
@@ -238,9 +164,6 @@ class AStackingCastStillStartsFromNothingBuiltUpTests(SimpleTestCase):
             'little' % gardes)
 
     def test_the_fallback_keeps_the_first_group_when_none_can_hurt(self):
-        """Le bord que la donnee ne porte pas aujourd'hui: aucun lancer n'a
-        tous ses groupes en soins. On le pose donc directement, pour que la
-        regle n'invente pas de degats si un tel sort arrivait."""
         class _Ligne(object):
             def __init__(self, soigne):
                 self.heals = soigne
@@ -253,9 +176,7 @@ class AStackingCastStillStartsFromNothingBuiltUpTests(SimpleTestCase):
 
 
 class TheFallbackActuallyAsksTheRuleTests(SimpleTestCase):
-    """`landed` pourrait reprendre `aggregates[0]` sans qu'un seul des tests
-    ci-dessus bouge: ils appellent la regle directement. C'est l'etat exact
-    dans lequel j'ai mesure la morsure du garde, et rien ne le gardait."""
+    """`landed` must call the rule; the tests above call it directly."""
 
     def test_the_cast_builder_reads_the_group_that_hurts(self):
         import io

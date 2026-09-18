@@ -1,69 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Chaque caracteristique porte, en allemand, le mot du jeu.
-
-Trouve en parcourant la galerie en allemand, sur Touch, depuis les propres
-liens du site. La liste des options se lisait:
-
-    Widersteht  Blutegel  Prospektion  Schoten  Fallen  Ladung
-
-**Quatre de ces six mots disent autre chose en allemand.** <<Widersteht>> est
-un verbe conjugue (<<il resiste>>), <<Blutegel>> sont les sangsues,
-<<Schoten>> sont les cosses de petits pois, et <<Ladung>> est une cargaison.
-Ailleurs sur le site, la meme page ecrivait <<PS>>, qui est l'abreviation
-allemande du cheval-vapeur, pour les points de vie.
-
-**Le mot retenu n'est pas une preference: il est appuye deux fois.**
-
-1. Le fichier de langue allemand du client Dofus 3 (3.6.11.12), lu au **meme
-   identifiant** que l'anglais. C'est Ankama qui apparie les deux, pas nous.
-2. Le catalogue du site lui-meme, qui emploie deja l'autre mot ailleurs.
-
-Mesure du 14 septembre 2026 sur les 64 noms de caracteristiques du catalogue:
-Ankama en nomme 30 en allemand, le site et lui en ecrivent **18 pareil** et
-**12 differemment**. Sur ces douze, onze sont corrigees ici, et la douzieme
-est nommee plus bas.
-
-| caracteristique | ecrit | corrige en | le site ecrivait deja |
-|-----------------|-------|------------|------------------------|
-| Pods | Schoten | Pods | (fr, es et pt gardent Pods) |
-| HP | PS | LP | Lebenspunkte, 2 fois |
-| Power | Leistung | Schlagkraft | Schlagkraft, 2 fois |
-| Fire Damage | Brandschaden | Feuerschaden | Feuerschaden, 1 fois |
-| Pushback Damage | Pushback-Schaden | Schubsschaden | Schubsschaden, 1 fois |
-| Heals | Heilt | Heilung | (verbe contre nom) |
-| Lock | Sperren | Blocken | Sperren nomme deja le bouton verrouiller |
-| AP Reduction | AP-Reduktion | AP-Entzug | <<entzieht AP>> |
-| MP Reduction | MP-Reduzierung | BP-Entzug | BP, 19 fois contre MP, 5 fois |
-| Resists | Widersteht | Resistenzen | Resistenzen, 17 fois |
-| Summons | Ladung | Beschwoerungen | Beschwoerungen, 4 fois |
-
-**Ce qui n'est pas touche, et pourquoi.** `Prospecting` reste
-<<Prospektion>> la ou Ankama ecrit <<Filzwert>>: le mot est du bon allemand,
-le site l'emploie **seize fois** de suite, guides compris, et <<Filzwert>>
-n'apparait nulle part. C'est un choix de vocabulaire, pas une faute, et le
-corriger d'un cote seulement ferait exactement le defaut que ce lot corrige.
-Meme raison pour `Critical Failure` (<<Kritischer Fehlschlag>>, quand Ankama
-ecrit <<Kritischer Patzer>>) et pour `Summon` au singulier, dont Ankama n'a
-que l'abreviation <<Beschw.>>.
-
-`Leeching` n'est nomme par aucun fichier d'Ankama: c'est un type de build, pas
-une caracteristique. <<Blutegel>> etait quand meme faux, et il devient
-<<Leveln>>, le mot que le catalogue allemand emploie deja
-(<<Farmen / Leveln>>), comme le francais dit <<Mulage>> et le portugais
-<<UP>>.
-
-**Six mots ecrivaient leurs tremas en deux lettres** -- <<Ungueltige>>,
-<<Waehle>>, <<fuege>>, <<Loesungs>>, <<erfuellt>>, <<hinzufuegen>> -- alors
-que le meme mot porte son trema ailleurs dans le meme catalogue
-(<<Ungueltige Aktion>> voisine <<Ungueltige ... ausblenden>>). Ils sont
-ecrits en allemand.
-
-Les traductions sont lues par `gettext`, donc dans le catalogue **compile**:
-un `.po` corrige mais non recompile ne passe pas plus qu'un `.po` fautif.
-
-`itemscraper/raw` est hors du depot (.gitignore): le parcours qui relit le
-fichier d'Ankama se met de cote quand il est absent, les autres non.
-"""
+"""German stat labels use the words the game uses."""
 import io
 import json
 import os
@@ -81,7 +17,7 @@ BRUT = os.path.join(RACINE, 'itemscraper', 'raw', '3.6.11.12')
 PO = os.path.join(RACINE, 'fashionsite', 'locale', 'de', 'LC_MESSAGES',
                   'django.po')
 
-#: msgid -> le mot du jeu, et le mot qu'il remplace.
+# msgid -> (game's word, the word it replaced)
 MOTS_DU_JEU = {
     'Pods': ('Pods', 'Schoten'),
     'HP': ('LP', 'PS'),
@@ -97,23 +33,20 @@ MOTS_DU_JEU = {
     'Leeching': ('Leveln', 'Blutegel'),
 }
 
-#: Notre msgid -> le terme sous lequel Ankama nomme la meme notion, quand ce
-#: n'est pas le meme mot. `Leeching` n'y est pas: c'est un type de build, pas
-#: une caracteristique, et Ankama ne le nomme nulle part.
+# Our msgid -> Ankama's English term, when it differs
 CHEZ_ANKAMA = {
     'Resists': 'Resistance',
     'Summons': 'Summons',
     'Lock': 'Lock',
 }
 
-#: Ce que le site garde alors qu'Ankama ecrit autre chose, et pourquoi. La
-#: mesure est ce qui autorise l'exception: la retirer doit se voir.
+# Kept although Ankama writes otherwise: (ours, Ankama's, uses on the site)
 GARDES = {
     'Prospecting': ('Prospektion', 'Filzwert', 16),
     'Critical Failure': ('Kritischer Fehlschlag', 'Kritischer Patzer', 2),
 }
 
-#: Les mots dont le trema etait ecrit en deux lettres.
+# Umlauts once spelled as ae/oe/ue
 TREMAS_RENDUS = {
     'Hide invalid or outdated builds': 'Ungültige',
     'Conditions not met': 'erfüllt',
@@ -154,7 +87,7 @@ def _msgstrs():
 
 
 def _ankama():
-    """{terme anglais: {termes allemands}}, au meme identifiant."""
+    """{English term: {German terms}}, paired by id."""
     anglais = json.load(io.open(os.path.join(BRUT, 'en.json'),
                                 encoding='utf-8'))['entries']
     allemand = json.load(io.open(os.path.join(BRUT, 'de.json'),
@@ -170,7 +103,7 @@ def _ankama():
 class TheGermanStatsUseTheWordsTheGameUsesTests(SimpleTestCase):
 
     def test_each_label_reads_the_word_the_game_uses(self):
-        """Lu par gettext, donc dans le catalogue compile."""
+        """Reads the compiled catalogue."""
         with translation.override('de'):
             for cle, (attendu, remplace) in sorted(MOTS_DU_JEU.items()):
                 with self.subTest(cle=cle):
@@ -179,15 +112,11 @@ class TheGermanStatsUseTheWordsTheGameUsesTests(SimpleTestCase):
                     self.assertNotEqual(remplace, rendu)
 
     def test_the_word_it_replaced_is_gone_from_the_whole_catalogue(self):
-        """Un mot corrige sur l'etiquette et laisse dans une phrase ferait
-        exactement le defaut que ce lot corrige."""
         textes = list(_msgstrs())
         self.assertGreater(len(textes), 1000, len(textes))
         for cle, (_attendu, remplace) in sorted(MOTS_DU_JEU.items()):
             if cle in ('Lock', 'HP'):
-                # <<Sperren>> nomme encore le bouton verrouiller un objet, et
-                # <<PS>> ne se lit plus nulle part; les deux sont verifies a
-                # part, plus bas.
+                # Checked in the next test
                 continue
             reste = [texte for texte in textes
                      if re.search(r'\b%s\b' % re.escape(remplace), texte)]
@@ -195,8 +124,7 @@ class TheGermanStatsUseTheWordsTheGameUsesTests(SimpleTestCase):
                 self.assertEqual([], reste)
 
     def test_one_word_still_names_the_button_it_always_named(self):
-        """<<Sperren>> reste le verrou d'un objet: c'est la notion voisine,
-        et lui prendre son mot serait le meme defaut a l'envers."""
+        """Sperren is still the item lock button."""
         textes = list(_msgstrs())
         verrous = [texte for texte in textes if re.search(r'\bSperren\b', texte)]
         self.assertGreaterEqual(len(verrous), 3, verrous)
@@ -206,8 +134,7 @@ class TheGermanStatsUseTheWordsTheGameUsesTests(SimpleTestCase):
         self.assertEqual([], chevaux, 'PS is horsepower, not health')
 
     def test_no_umlaut_is_spelled_with_two_letters(self):
-        """Le catalogue est son propre temoin: un mot qui porte son trema
-        quelque part ne peut pas le perdre ailleurs."""
+        """A word with an umlaut somewhere has it everywhere."""
         textes = list(_msgstrs())
         avec_accent = set()
         for texte in textes:
@@ -235,7 +162,6 @@ class TheGermanStatsUseTheWordsTheGameUsesTests(SimpleTestCase):
                     self.assertIn(mot, gettext(cle))
 
     def test_what_the_site_keeps_carries_its_measurement(self):
-        """Une exception sans son nombre redevient une preference."""
         textes = list(_msgstrs())
         for cle, (garde, chez_ankama, combien) in sorted(GARDES.items()):
             with self.subTest(cle=cle):
@@ -253,8 +179,7 @@ class TheGermanStatsUseTheWordsTheGameUsesTests(SimpleTestCase):
                 self.assertGreater(combien, 1)
 
     def test_ankamas_own_german_is_where_these_words_come_from(self):
-        """La regle elle-meme, relue chez Ankama. Se met de cote quand
-        itemscraper/raw est absent, ce qui est le cas sur un depot propre."""
+        """Skipped without itemscraper/raw, which is gitignored."""
         if not os.path.exists(os.path.join(BRUT, 'de.json')):
             raise unittest.SkipTest(
                 'itemscraper/raw is gitignored; download the Dofus 3 lang '
@@ -263,16 +188,13 @@ class TheGermanStatsUseTheWordsTheGameUsesTests(SimpleTestCase):
         self.assertGreater(len(par_terme), 10000, len(par_terme))
         for cle, (attendu, _remplace) in sorted(MOTS_DU_JEU.items()):
             if cle == 'Leeching':
-                # Pas une caracteristique: Ankama ne la nomme nulle part, et
-                # c'est ce qui la range dans les exceptions.
+                # A build type, not a stat: Ankama never names it
                 self.assertNotIn(cle, par_terme)
                 continue
             chez_ankama = par_terme.get(CHEZ_ANKAMA.get(cle, cle))
             with self.subTest(cle=cle):
                 self.assertTrue(chez_ankama, cle)
-                # Le pluriel allemand est le notre: Ankama n'ecrit que
-                # <<Resistenz>>, le libelle est une liste, et les autres
-                # langues le mettent aussi au pluriel.
+                # Ankama only writes Resistenz, our label is plural
                 self.assertTrue(
                     any(attendu == mot or attendu == mot + 'en'
                         for mot in chez_ankama),

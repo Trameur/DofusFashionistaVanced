@@ -1,41 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un lien de l'accueil garde le lecteur dans sa langue.
-
-Trouve en suivant les liens de l'accueil, sur les cinq versions et les cinq
-langues. Mesure du 14 septembre 2026 sur le serveur de developpement, en
-comptant les liens dont la cible sert une autre langue que la page qui les
-ecrit:
-
-    version   en   fr   es   pt   de
-    dofus3     4   20   20   20   20
-    beta       4   12   12   12   12
-    dofus2     4   12   12   12   12
-    touch      4   12   12   12   12
-    retro      4   12   12   12   12
-
-Le plancher est 4: les quatre drapeaux du selecteur de langue, dont c'est le
-travail. Tout le reste, 192 liens, emmenait le lecteur ailleurs que chez lui.
-
-Trois causes distinctes, un seul symptome:
-
-1. Sur la version par defaut, 15 des 16 pages que l'accueil propose n'avaient
-   aucune adresse francaise, espagnole, portugaise ou allemande. /fr/retro/
-   about/ repondait 200 en francais, /fr/about/ repondait 404. Les quatre
-   autres versions prefixent tout `game_urls`; la version par defaut n'avait
-   qu'une liste ecrite a la main -- accueil, guides, setup, encyclopedie.
-
-2. Les six cartes de la vitrine gardaient en cache un lien absolu construit
-   avec `build_absolute_uri`, qui porte l'hote ET le prefixe de langue de la
-   requete qui a rempli l'entree. Demander l'accueil allemand d'abord faisait
-   servir `/de/beta/s/...` aux lecteurs anglais et espagnols, pendant une
-   demi-heure. `_('Anonymous')` y entrait deja traduit, pour la meme duree.
-
-3. Un lien des guides ecrit en dur dans le gabarit de l'accueil.
-
-Apres: 4 partout, c'est-a-dire le selecteur et rien d'autre. Verifie aussi a
-deux niveaux de profondeur: 33 pages depuis /fr/ et 33 depuis /de/retro/,
-aucune autre langue.
-"""
+"""Links on the home page keep the reader's language."""
 import pickle
 import re
 
@@ -49,19 +13,17 @@ from chardata import game_urls
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.models import Char
 
-#: Les cinq langues servies, lues la ou le site les lit.
 from fashionistapulp.translation import SUPPORTED_LANGUAGES
 
 LANGUAGES = tuple(SUPPORTED_LANGUAGES)
 VERSIONS = tuple(slug for slug, _label in ACTIVE_GAME_VERSIONS)
 
-#: Le tag entier, pas seulement son href: le minificateur trie les attributs,
-#: donc `class` peut passer avant ou apres `href`.
+# Whole tag: the minifier sorts attributes, class can come before or after href
 _ANCHOR = re.compile(r'<a\b[^>]*>', re.I)
 _HREF = re.compile(r'href="([^"]*)"', re.I)
 _LANG = re.compile(r'<html[^>]*\slang="([^"]+)"')
 
-#: Ce qui n'est pas une page servie par le site.
+# Not pages served by the site
 _NOT_A_PAGE = ('/static/', '/media/', '/admin/', '/out/', '/logout',
                '/jsi18n/', '/sitemap', '/robots', '/manifest', '/sw.js',
                '/favicon', '/i18n/', 'http://', 'https://', '//')
@@ -82,18 +44,13 @@ def _home_path(version, language):
 
 
 def _language_carried_by(path):
-    """La langue que l'adresse elle-meme annonce."""
+    """The language the path itself carries."""
     head = path.lstrip('/').split('/', 1)[0]
     return head if head in LANGUAGES and head != 'en' else 'en'
 
 
 def _links_written_by(html):
-    """Les liens de la page, sans le selecteur de langue.
-
-    Le selecteur est exempte parce que changer de langue est exactement son
-    travail; `test_the_language_switcher_is_the_only_thing_exempted` interdit
-    que cette exemption avale tout le reste.
-    """
+    """Links on the page, minus the language switcher."""
     links = []
     for tag in _ANCHOR.findall(html):
         if 'flag-btn' in tag:
@@ -113,11 +70,7 @@ def _links_written_by(html):
 
 
 def _seed_shared_builds(owner):
-    """Six builds partages par version, pour que la vitrine ne soit pas vide.
-
-    Sans eux le parcours passerait sans jamais regarder une carte, et la
-    cause 2 ne serait gardee par rien.
-    """
+    """Two shared builds per version for the featured cards."""
     made = {}
     for index, version in enumerate(VERSIONS):
         made[version] = [Char.objects.create(
@@ -134,7 +87,6 @@ def _seed_shared_builds(owner):
 
 
 class TheHomeLinksKeepTheReadersLanguageTests(TestCase):
-    """Le parcours: chaque lien que l'accueil ecrit porte sa propre langue."""
 
     def setUp(self):
         cache.clear()
@@ -150,13 +102,11 @@ class TheHomeLinksKeepTheReadersLanguageTests(TestCase):
         return page.content.decode('utf-8', 'replace')
 
     def test_there_are_versions_and_languages_to_walk(self):
-        """Un produit vide est un test vert qui n'a rien regarde."""
         self.assertGreaterEqual(len(VERSIONS), 5)
         self.assertGreaterEqual(len(LANGUAGES), 5)
         self.assertIn('dofus3', VERSIONS)
 
     def test_each_home_writes_links_to_check(self):
-        """Le plancher du parcours: une extraction vide passerait tout."""
         thin = []
         for version in VERSIONS:
             for language in LANGUAGES:
@@ -166,7 +116,6 @@ class TheHomeLinksKeepTheReadersLanguageTests(TestCase):
         self.assertEqual([], thin)
 
     def test_every_link_carries_the_language_of_the_page_that_wrote_it(self):
-        """Le test qui aurait attrape les trois causes."""
         wrong = []
         for version in VERSIONS:
             for language in LANGUAGES:
@@ -178,7 +127,6 @@ class TheHomeLinksKeepTheReadersLanguageTests(TestCase):
         self.assertEqual([], wrong)
 
     def test_the_language_switcher_is_the_only_thing_exempted(self):
-        """Sans lui, exempter le selecteur pourrait exempter toute la page."""
         html = self._home('dofus3', 'fr')
         exempted = [tag for tag in _ANCHOR.findall(html) if 'flag-btn' in tag]
         self.assertEqual(len(exempted), len(LANGUAGES) - 1,
@@ -189,8 +137,7 @@ class TheHomeLinksKeepTheReadersLanguageTests(TestCase):
 
 
 class ThePrefixIsNotDecorativeTests(TestCase):
-    """Une adresse prefixee qui repondrait en anglais serait pire qu'un 404:
-    elle aurait l'air traduite."""
+    """A prefixed address answers in the language of its prefix."""
 
     PAGES = ('/about/', '/faq/', '/contact/', '/license/', '/privacy/',
              '/support/', '/quickstart/', '/sharedbuilds/', '/forgemagie/',
@@ -214,7 +161,6 @@ class ThePrefixIsNotDecorativeTests(TestCase):
         self.assertEqual([], wrong)
 
     def test_the_english_page_is_still_where_it_was(self):
-        """Le controle de l'autre cote: rien d'indexe ne bouge."""
         moved = []
         for page in self.PAGES:
             if self.client.get(page).status_code != 200:
@@ -222,7 +168,6 @@ class ThePrefixIsNotDecorativeTests(TestCase):
         self.assertEqual([], moved)
 
     def test_a_prefix_that_is_not_a_language_is_still_a_404(self):
-        """Sans lui, un client qui rendrait 200 pour tout passerait ci-dessus."""
         for page in self.PAGES:
             with self.subTest(page=page):
                 self.assertEqual(self.client.get('/xx%s' % page).status_code,
@@ -230,8 +175,7 @@ class ThePrefixIsNotDecorativeTests(TestCase):
 
 
 class NoEnglishAddressGainedAPrefixTests(TestCase):
-    """L'anglais vit a la racine et doit y rester: les adresses deja indexees
-    ne bougent pas."""
+    """English stays at the root."""
 
     @staticmethod
     def _names_without_arguments():
@@ -253,8 +197,6 @@ class NoEnglishAddressGainedAPrefixTests(TestCase):
         self.assertEqual([], prefixed)
 
     def test_french_gets_a_prefixed_address(self):
-        """Le plancher: sans lui, une configuration qui n'aurait prefixe
-        personne passerait le test precedent."""
         bare = []
         with translation.override('fr'):
             for name in self._names_without_arguments():
@@ -264,8 +206,7 @@ class NoEnglishAddressGainedAPrefixTests(TestCase):
         self.assertEqual([], bare)
 
     def test_a_translated_slug_keeps_its_single_address(self):
-        """Une page dont le chemin porte deja un nom traduit n'a pas besoin
-        d'un prefixe, et en recevoir un la dupliquerait."""
+        """A path with a translated slug gets no language prefix."""
         with translation.override('fr'):
             self.assertEqual(
                 reverse('guide', args=['bonus-de-panoplie']),
@@ -277,7 +218,7 @@ class NoEnglishAddressGainedAPrefixTests(TestCase):
 
 
 class TheFeaturedBuildsAreBuiltForTheReaderTests(TestCase):
-    """La vitrine de l'accueil ne garde pas la langue du premier lecteur."""
+    """Featured cards are cached, they must not keep the first reader's language."""
 
     def setUp(self):
         cache.clear()
@@ -299,13 +240,9 @@ class TheFeaturedBuildsAreBuiltForTheReaderTests(TestCase):
                 if _HREF.search(tag)]
 
     def test_the_home_really_shows_cards(self):
-        """Le plancher: une vitrine vide rendrait le test suivant vrai sans
-        rien mesurer."""
         self.assertGreaterEqual(len(self._card_links('/de/')), 1)
 
     def test_the_first_reader_does_not_decide_for_the_others(self):
-        """La reproduction exacte du defaut: l'allemand remplit le cache,
-        l'anglais et l'espagnol lisaient ses liens."""
         self._card_links('/de/')
         borrowed = []
         for language in LANGUAGES:
@@ -315,10 +252,7 @@ class TheFeaturedBuildsAreBuiltForTheReaderTests(TestCase):
         self.assertEqual([], borrowed)
 
     def test_an_owner_less_build_is_named_in_the_readers_language(self):
-        """`_('Anonymous')` entrait dans le cache **deja traduit**, donc le
-        premier lecteur decidait aussi de ce mot pour une demi-heure. Il n'y
-        a aucun build sans proprietaire dans l'instantane local, donc ce
-        chemin n'est verifiable que par sa propre mise en scene."""
+        """`_('Anonymous')` must not enter the cache already translated."""
         Char.objects.create(
             name='sans proprietaire', char_name='sans proprietaire',
             char_class='Cra', char_build='build', level=200,
@@ -341,8 +275,7 @@ class TheFeaturedBuildsAreBuiltForTheReaderTests(TestCase):
                          french)
 
     def test_a_card_link_is_not_an_absolute_address(self):
-        """Un lien absolu porte l'hote de celui qui a rempli le cache, et la
-        production en sert neuf."""
+        """An absolute link carries the host of the request that filled the cache."""
         absolute = [link for link in self._card_links('/fr/')
                     if '://' in link]
         self.assertEqual([], absolute)

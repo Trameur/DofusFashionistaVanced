@@ -1,32 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Chaque piece a une porte dans la boite <<interdire>>, et on sait laquelle.
-
-Trouve en exercant la page en espagnol sur Dofus 2: le selecteur n'offrait
-qu'une ligne <<Cocobur>> alors que trois epees differentes portent ce nom. Il
-recevait un dictionnaire indexe par le nom traduit, donc deux pieces de meme
-nom s'ecrasaient et l'une d'elles n'avait plus aucune porte.
-
-Ce ne sont pas des doublons de notre part: **le fichier d'Ankama donne le meme
-nom traduit a deux pieces differentes.** Trois exemples de premiere main:
-
-    Retro   R'unique Hat / Tweecher Helmet    meme nom portugais
-    Retro   Master Staff Carver's / Carvmagus' Shield   meme nom allemand
-    Touch   Amourlet Ernal / Amourlette Ernal  meme nom portugais
-
-Portes gagnees le 13 septembre 2026, par version et par langue: de 1 en
-anglais sur les versions modernes a 67 sur Retro. Le detail est dans
-`_PORTES_GAGNEES`.
-
-**L'echelle des qualificatifs**, dans l'ordre ou un lecteur les cherche: le
-type et le niveau, puis la panoplie, puis le nom qu'Ankama donne a la piece,
-puis ce qu'elle apporte. Le premier barreau qui rend les noms uniques gagne.
-Sur Retro, 20 des collisions sont un anneau par panoplie, ce qu'un joueur
-distingue tous les jours; en espagnol sur Dofus 2, c'est le niveau.
-
-Quand aucun barreau ne les separe, les pieces sont indiscernables pour ce
-lecteur: elles partagent alors une porte qui les ferme toutes, plutot qu'une
-ligne entre lesquelles il ne pourrait pas choisir.
-"""
+"""Ankama reuses translated names: each piece still gets its own forbid entry."""
 
 import json
 
@@ -37,8 +10,7 @@ from fashionistapulp.structure import get_structure, set_current_game_version
 
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
-#: Combien de portes chaque version et chaque langue ont gagnees. Un plancher:
-#: si ce nombre tombait a zero, les tests ci-dessous ne prouveraient rien.
+# Extra entries from same-name pieces, per version and language
 _PORTES_GAGNEES = {
     'dofus3': {'en': 0, 'fr': 5, 'es': 13, 'pt': 7, 'de': 10},
     'beta': {'en': 0, 'fr': 5, 'es': 13, 'pt': 7, 'de': 10},
@@ -74,13 +46,7 @@ class EveryPieceIsReachableTests(SimpleTestCase):
                     self.assertEqual(gagnees, len(portes) - len(avant))
 
     def test_no_piece_is_left_without_a_door(self):
-        """L'invariant, pas un nombre: chaque objet du catalogue est joignable
-        par au moins une porte.
-
-        Joignable veut dire que la porte porte l'un de ses numeros: une autre
-        ligne de la meme piece, ou une autre branche du meme objet <<OU>>,
-        puisque le solveur ferme les deux familles d'un seul coup.
-        """
+        """An entry holds one of its rows, or a branch of the same OR item."""
         for version in _PORTES_GAGNEES:
             for langue in LANGUES:
                 with self.subTest(version=version, langue=langue):
@@ -106,8 +72,7 @@ class EveryPieceIsReachableTests(SimpleTestCase):
                     self.assertEqual([], manquants[:5])
 
     def test_an_or_item_keeps_the_single_door_it_had(self):
-        """Le Gelano est un anneau livre en deux lignes, pas deux anneaux. La
-        suite complete a attrape le jour ou ce lot l'avait coupe en deux."""
+        """Gelano is one ring in two rows."""
         for langue in LANGUES:
             with self.subTest(langue=langue):
                 structure, portes = _portes('dofus3', langue)
@@ -118,8 +83,6 @@ class EveryPieceIsReachableTests(SimpleTestCase):
                                       if etiquette.startswith('%s (' % nom)])
 
     def test_two_labels_are_never_the_same_string(self):
-        """Sans quoi une porte en ecraserait une autre, ce qui est le defaut
-        que ce lot corrige."""
         for version in _PORTES_GAGNEES:
             for langue in LANGUES:
                 with self.subTest(version=version, langue=langue):
@@ -133,7 +96,6 @@ class TheLabelSaysWhatSeparatesThemTests(SimpleTestCase):
         set_current_game_version('dofus3')
 
     def test_the_level_tells_two_spanish_swords_apart(self):
-        """Le test qui aurait attrape le defaut: trois <<Cocobur>>, une porte."""
         _structure, portes = _portes('dofus2', 'es')
         cocobur = sorted(nom for nom in portes if nom.startswith('Cocobur'))
         self.assertEqual(['Cocobur (Arma | Niv. 100)',
@@ -141,7 +103,6 @@ class TheLabelSaysWhatSeparatesThemTests(SimpleTestCase):
         self.assertNotIn('Cocobur', portes)
 
     def test_the_set_tells_the_four_retro_rings_apart(self):
-        """Vingt des collisions de Retro sont un anneau par panoplie."""
         _structure, portes = _portes('retro', 'fr')
         bronze = sorted(nom for nom in portes
                         if nom.startswith('Anneau en bronze'))
@@ -151,7 +112,7 @@ class TheLabelSaysWhatSeparatesThemTests(SimpleTestCase):
         self.assertEqual(4, len({nom.split('|')[-1] for nom in bronze}))
 
     def test_ankamas_own_name_tells_two_trophies_apart(self):
-        """Meme niveau, meme type, pas de panoplie: il reste le nom du jeu."""
+        """Same type and level, no set: the English name separates them."""
         _structure, portes = _portes('dofus2', 'es')
         majeurs = sorted(nom for nom in portes
                          if nom.startswith('Acróbata mayor'))
@@ -160,7 +121,6 @@ class TheLabelSaysWhatSeparatesThemTests(SimpleTestCase):
                          majeurs)
 
     def test_a_name_nobody_shares_stays_the_bare_name(self):
-        """Le qualificatif ne s'ajoute que la ou il sert."""
         _structure, portes = _portes('dofus2', 'es')
         self.assertIn('Dofus Ocre', portes)
         self.assertEqual(1, len([nom for nom in portes
@@ -168,10 +128,7 @@ class TheLabelSaysWhatSeparatesThemTests(SimpleTestCase):
 
 
 class AnkamaNumbersItsRepeatsTests(SimpleTestCase):
-    """La numerotation d'Ankama n'est pas un nom: <<Ecaflip Paw 2>> est la
-    meme bague que <<Ecaflip Paw>>, et le fichier francais les appelle toutes
-    <<Patte d'Ecaflip>>. Un nom numerote dont les valeurs different garde sa
-    propre piece."""
+    """"Ecaflip Paw 2" is the same ring as "Ecaflip Paw" unless its values differ."""
 
     def tearDown(self):
         set_current_game_version('dofus3')
@@ -196,7 +153,6 @@ class AnkamaNumbersItsRepeatsTests(SimpleTestCase):
                     autre.id, structure.get_rows_of_the_same_item(base.id))
 
     def test_touch_and_retro_number_nothing(self):
-        """La regle est propre aux versions modernes, mesure sur les cinq."""
         for version in ('touch', 'retro'):
             with self.subTest(version=version):
                 structure = get_structure(version)
@@ -208,10 +164,7 @@ class AnkamaNumbersItsRepeatsTests(SimpleTestCase):
 
 
 class TheSetPathStillWorksTests(SimpleTestCase):
-    """Une panoplie s'interdit par le nom nu de chacune de ses pieces. Une
-    porte qualifiee ne porte plus ce nom nu, donc la page recoit une petite
-    carte de repli; sans elle, interdire une panoplie perdrait ses pieces
-    homonymes en silence."""
+    """A set forbids by bare piece names, qualified labels need the fallback map."""
 
     def tearDown(self):
         set_current_game_version('dofus3')
@@ -240,9 +193,6 @@ class TheSetPathStillWorksTests(SimpleTestCase):
 
 
 class TheDoorsStayCheapTests(SimpleTestCase):
-    """Le cout mesure avant de choisir l'emplacement: la page porte une entree
-    par objet du catalogue, donc chaque crochet compte. Une porte qui ferme
-    une seule piece part comme un nombre nu."""
 
     def tearDown(self):
         set_current_game_version('dofus3')
@@ -254,10 +204,7 @@ class TheDoorsStayCheapTests(SimpleTestCase):
         self.assertEqual([], listes)
 
     def test_pieces_nothing_separates_share_one_door(self):
-        """Le seul cas ou une porte en ferme plusieurs, et il est reel: Touch
-        porte quatre capes honorifiques d'Albuera de meme nom, de meme
-        panoplie et de memes valeurs, dans quatre panoplies differentes. Le
-        lecteur n'a rien pour choisir, donc la porte les ferme toutes."""
+        """Touch has four identical Albuera capes, one entry closes all four."""
         for langue in LANGUES:
             with self.subTest(langue=langue):
                 _structure, portes = _portes('touch', langue)

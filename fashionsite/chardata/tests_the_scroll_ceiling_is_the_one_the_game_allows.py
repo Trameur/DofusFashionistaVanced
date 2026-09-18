@@ -1,46 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le champ des parchemins offre ce que le jeu autorise, version et niveau.
-
-Trouve en creant des personnages de bas niveau depuis les propres pages du
-site, sur trois versions. Deux defauts se lisaient a l'ecran, et le second
-rendait le premier mesurable sans discussion.
-
-**Le champ refusait sa propre valeur.** `chardata_line.html` portait
-`max="100"` en dur depuis le tout premier commit du depot (2020-07-11), alors
-que le semis donne 101 en Retro et 150 en Touch. Mesure du 13 septembre 2026:
-sur un Cra Retro et sur un Iop Touch, **les six champs de chacun se
-declaraient invalides** (`validity.valid === false`), douze sur douze.
-
-**Touch donnait a tout le monde un plafond reserve au niveau 200.** Lu a la
-source le 13 septembre 2026, par le meme proxy de donnees que le scraper du
-depot, sur les 13679 objets de la table Items: les six paliers qui menent a
-100 ne portent aucune condition de niveau (`Puissant Parchemin de Force`,
-`cs>74&cs<100`), et les **trois** qui menent de 100 a 150 portent toutes
-`PL>199`:
-
-| palier | condition |
-|--------|-----------|
-| Superbe | `cs>99&cs<120&PL>199` |
-| Grandiose | `cs>119&cs<140&PL>199` |
-| Magnifique | `cs>139&cs<150&PL>199` |
-
-Les six caracteristiques portent exactement la meme echelle. Un personnage
-Touch sous le niveau 200 s'arrete donc a 100, et le site lui en donnait 150:
-**cinquante points par caracteristique, trois cents en tout**, que le jeu ne
-donne pas, et sur lesquels le solveur batissait.
-
-**Retro n'a pas ce probleme, verifie et non suppose.** Ses 61 objets a
-condition de caracteristique, lus dans `itemscraper/retro_raw/items_fr.json`,
-montent bien a 101 pour les six, et **aucun ne porte de condition de
-niveau**. Le 101 valait donc a tout niveau, et il reste inchange.
-
-**Ce que borner a l'affichage n'efface pas.** Le champ ayant toujours porte
-`max="100"`, aucun lecteur n'a jamais pu taper davantage: toute valeur
-au-dessus vient du semis du site. Voir
-[[feedback-no-retrofit-user-builds]]: la ligne en base n'est pas touchee,
-seule la page montre la valeur legale, et `_post` la borne deja au moment ou
-le lecteur enregistre.
-"""
+"""The scroll field offers what the game allows, per version and level."""
 
 import io
 import os
@@ -51,8 +10,7 @@ from django.test import SimpleTestCase, TestCase
 from chardata.base_stats_view import _clamped_to_what_the_game_allows
 from fashionistapulp.dofus_constants import max_scroll_for_version
 
-#: Ce que chaque version autorise, sous le niveau 200 puis a partir de 200.
-#: Lu dans les fichiers du jeu le 13 septembre 2026, pas suppose.
+# (below level 200, from level 200)
 _PLAFONDS = {
     'dofus3': (100, 100),
     'beta': (100, 100),
@@ -61,7 +19,7 @@ _PLAFONDS = {
     'touch': (100, 150),
 }
 
-#: Le niveau que Touch exige pour ses trois paliers hauts, `PL>199`.
+# Touch scroll tiers above 100 need PL>199
 _NIVEAU_TOUCH = 200
 
 
@@ -75,7 +33,6 @@ def _gabarit(nom):
 class TheCeilingFollowsTheVersionAndTheLevelTests(SimpleTestCase):
 
     def test_touch_only_reaches_its_top_tiers_from_level_200(self):
-        """Le test qui aurait attrape le defaut."""
         for niveau in (1, 50, 150, 199):
             with self.subTest(niveau=niveau):
                 self.assertEqual(
@@ -92,16 +49,13 @@ class TheCeilingFollowsTheVersionAndTheLevelTests(SimpleTestCase):
                 self.assertEqual(haut, max_scroll_for_version(version, 200))
 
     def test_only_touch_changes_with_the_level(self):
-        """Le plancher qui empeche d'etendre la porte a une version qui ne
-        la demande pas. Les 61 objets Retro a condition de caracteristique
-        ne portent aucun terme de niveau, verifie le 13 septembre 2026."""
+        """Retro scroll items carry no level condition."""
         bougent = [version for version, (bas, haut) in _PLAFONDS.items()
                    if bas != haut]
         self.assertEqual(['touch'], bougent)
 
     def test_without_a_level_it_answers_the_version_ceiling(self):
-        """`char_level` a None veut dire <<l'appelant ne parle pas d'un
-        personnage>>, comme `_reach` du cote des sorts."""
+        """`char_level` None means no character in play."""
         self.assertEqual(150, max_scroll_for_version('touch'))
         self.assertEqual(101, max_scroll_for_version('retro'))
         self.assertEqual(100, max_scroll_for_version('dofus3'))
@@ -115,13 +69,7 @@ class TheFieldNeverRefusesItsOwnValueTests(SimpleTestCase):
         self.assertNotIn('name="scrolled_{{key}}" min="0" max="100"', source)
 
     def test_the_bound_is_not_written_twice(self):
-        """La borne ne doit exister qu'a un endroit.
-
-        Le gabarit en portait une copie, `max="100"`, qui contredisait la
-        fonction sur les deux versions qui montent plus haut. Chercher un
-        nombre en dur dans ce champ est ce qui aurait dit que les deux
-        s'etaient ecartees.
-        """
+        """No hardcoded max in the template field."""
         source = _gabarit('chardata_line.html')
         champ = re.search(r'<input\b[^>]*scrolled_\{\{key\}\}[^>]*>', source)
         self.assertIsNotNone(champ, 'the scroll field moved or was renamed')
@@ -130,16 +78,9 @@ class TheFieldNeverRefusesItsOwnValueTests(SimpleTestCase):
 
 
 class BothEndsOfTheRoundTripUseTheSameDefaultTests(SimpleTestCase):
-    """Le texte de build n'ecrit la ligne <<Parchemins>> que lorsqu'elle
-    s'ecarte du defaut, et l'import repose sur le semis pour le reste. Si un
-    seul des deux bouts apprenait le niveau, un Touch de niveau 50 partirait
-    a 100 et reviendrait a 150.
+    """Build text omits the default scroll line; both ends must use the level."""
 
-    Voir [[feedback-change-both-ends-of-a-round-trip]]: traduire l'export
-    seul avait deja casse la relecture dans quatre langues.
-    """
-
-    #: (module, la ligne qui doit porter un niveau)
+    # (module, the call that must pass a level)
     _DEUX_BOUTS = (
         ('solution_view.py', 'plein = max_scroll_for_version('),
         ('coaching_view.py', 'full_scroll = max_scroll_for_version('),
@@ -167,8 +108,6 @@ class BothEndsOfTheRoundTripUseTheSameDefaultTests(SimpleTestCase):
 class ShowingTheLegalValueKeepsThePointsTests(SimpleTestCase):
 
     def test_a_scroll_above_the_ceiling_comes_down_without_giving_points(self):
-        """Baisser le parchemin seul offrirait au personnage les points
-        ainsi liberes, qu'il n'a jamais distribues."""
         avant = {'scrolled_str': 150, 'total_str': 150,
                  'scrolled_int': 150, 'total_int': 400}
         apres = _clamped_to_what_the_game_allows(avant, 100)
@@ -192,7 +131,7 @@ class TheShippedPageOffersTheGamesCeilingTests(TestCase):
 
     @staticmethod
     def _prefixe(version):
-        """dofus3 est la racine du site et ne porte pas de prefixe."""
+        """dofus3 has no url prefix."""
         return '' if version == 'dofus3' else '/%s' % version
 
     def _cree(self, version, niveau, nom):
@@ -200,8 +139,7 @@ class TheShippedPageOffersTheGamesCeilingTests(TestCase):
         from chardata.models import Char
         user = User.objects.create_user(nom, '%s@test.local' % nom, 'pw-1234')
         self.client.force_login(user)
-        # Les noms de champ sont ceux que la vue lit: `charname`, `level`,
-        # `class`. Les ecrire autrement retombe en silence sur le niveau 200.
+        # A wrong field name silently falls back to level 200
         cree = self.client.post('%s/createproject/' % self._prefixe(version), {
             'charname': nom, 'class': 'Iop', 'level': str(niveau),
             'project': nom, 'byhand': '1'})
@@ -214,8 +152,7 @@ class TheShippedPageOffersTheGamesCeilingTests(TestCase):
         return char
 
     def _bornes(self, version, char_id):
-        """Le `max` de chaque champ de parchemin, quel que soit l'ordre des
-        attributs: le minifieur les trie, y compris dans les tests."""
+        """Max of each scroll field; the minifier sorts attributes, in tests too."""
         page = self.client.get('%s/setup/%s/' % (self._prefixe(version), char_id),
                                follow=True)
         self.assertEqual(200, page.status_code)
@@ -247,14 +184,6 @@ class TheShippedPageOffersTheGamesCeilingTests(TestCase):
         self.assertEqual(['150'] * 6, self._bornes('touch', char.id))
 
     def test_no_page_ships_a_value_its_own_field_refuses(self):
-        """L'invariant qui manquait, mesure sur la page livree.
-
-        Avant ce lot, sur un Cra Retro et un Iop Touch, les six champs de
-        chacun se declaraient invalides: la valeur servie depassait la borne
-        servie, douze fois sur douze. Comparer la fonction a elle-meme ne
-        l'aurait pas dit; il faut confronter les deux choses que la page
-        envoie vraiment.
-        """
         import json
         cas = (('touch', 50), ('touch', 200), ('retro', 30), ('dofus2', 45),
                ('dofus3', 1))

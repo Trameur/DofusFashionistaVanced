@@ -1,35 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le panneau dit sur quel groupe d'un sort il a compte.
-
-Trouve en parcourant les panneaux du meilleur tour des 79 builds locaux. Un
-sort a agregats ne pose **qu'un** groupe par lancer, et sa fiche les affiche
-tous. Le Fletrissement d'un Xelor montre cinq lignes:
-
-    Cumul 0: 26 - 29    Cumul 1: 32 - 35    Cumul 2: 38 - 42
-    Cumul 3: 45 - 48    Cumul 4: 51 - 54
-
-Le panneau annoncait `28` sans dire laquelle il avait lue. Le lecteur qui
-verifiait le nombre trouvait cinq valeurs en face d'une seule, et rien pour
-les relier.
-
-**Ce que le libelle veut dire n'est pas devine.** Les agregats recouvrent au
-moins sept mecaniques: le cumul par lancer, le cumul par ennemi dans la zone,
-par invocation, par piege declenche, un etat, un tirage de carte, et
-l'agrandissement de la zone. Ankama les distingue dans sa description, qui est
-deja sur la page; nous, nous ne nommons que **le groupe lu**, ce qui est vrai
-quelle que soit la mecanique. Le lecteur lit ensuite la phrase d'Ankama a
-cote.
-
-**Ce que le garde ne fait pas.** Il ne nomme rien quand le choix depend des
-stats: un sort a alternatives d'element laisse `best_turn` prendre la
-meilleure, et l'annoncer d'avance serait une supposition.
-
-**Portee.** Mesure du 14 septembre 2026, 1044 tours sur toutes les classes des
-cinq versions, a trois niveaux et quatre profils d'element: **60 tours (5,7%)
-portent au moins une de ces notes**, 88 lignes de lancer sur 3982. Dont un Cra
-de niveau 50 qui lance deux fois la Fleche d'Immobilisation, le sort dont
-Ankama ecrit que les degats montent apres chaque lancer.
-"""
+"""The damage panel names which aggregate group of a spell it counted."""
 import collections
 import re
 
@@ -42,7 +12,6 @@ from chardata.spells_view import _cast_note, _localized_aggregate_label
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
-#: Le libelle sans ses chiffres, pour compter les familles.
 _SANS_CHIFFRES = re.compile(r'\d+')
 
 
@@ -61,7 +30,7 @@ class _Row(object):
 
 
 class TheLabelNamesTheGroupThatWasReadTests(SimpleTestCase):
-    """La regle, sur des groupes fabriques: rien ne depend du catalogue."""
+    """The rule on hand-built groups, no catalogue."""
 
     def test_a_spell_with_a_single_group_names_nothing(self):
         digest = _Digest([('Stack 0', [0])], [_Row()])
@@ -80,16 +49,14 @@ class TheLabelNamesTheGroupThatWasReadTests(SimpleTestCase):
                          scored_group_label(digest, digest.non_crit_dams[0]))
 
     def test_a_group_of_heals_only_is_skipped_like_the_turn_skips_it(self):
-        """Le panneau compte un tour sur une cible, donc il lit la moitie qui
-        frappe. La note doit nommer ce qu'il a vraiment lu."""
+        """The turn only counts the group that hits, so the note names that one."""
         rows = [_Row(heals=True), _Row(min_dam=20, max_dam=22)]
         digest = _Digest([('Stack 0', [0]), ('Stack 1', [1])], rows)
         self.assertEqual('Stack 1',
                          scored_group_label(digest, digest.non_crit_dams[0]))
 
     def test_an_element_choice_is_not_named(self):
-        """Quatre elements, un par groupe: c'est `best_turn` qui tranche,
-        selon des stats que ce code ne connait pas."""
+        """One group per element: best_turn picks it from the stats."""
         rows = [_Row(element='earth'), _Row(element='fire'),
                 _Row(element='water'), _Row(element='air')]
         digest = _Digest([('Earth', [0]), ('Fire', [1]),
@@ -99,7 +66,7 @@ class TheLabelNamesTheGroupThatWasReadTests(SimpleTestCase):
 
 
 class TheNoteSaysItOnlyWhenThereIsSomethingToSayTests(SimpleTestCase):
-    """La note partage sa place avec celle qui explique un zero."""
+    """The group note shares its slot with the note explaining a zero."""
 
     class _Castable(object):
         def __init__(self, group='', buffs=None, hits=None):
@@ -115,8 +82,6 @@ class TheNoteSaysItOnlyWhenThereIsSomethingToSayTests(SimpleTestCase):
         self.assertEqual('', _cast_note(self._Castable(), 'Spell', {}, 28))
 
     def test_a_zero_keeps_the_note_that_explains_the_zero(self):
-        """Le plancher de la paire: la note du groupe ne doit pas manger
-        celle qui dit pourquoi un buff ne pose rien."""
         castable = self._Castable(group='Stack 0', buffs=[object()])
         note = _cast_note(castable, 'Spell', {}, 0)
         self.assertIn('no damage of its own', note)
@@ -136,8 +101,7 @@ class TheNoteSaysItOnlyWhenThereIsSomethingToSayTests(SimpleTestCase):
                          'two languages share a wording: %s' % seen)
 
     def test_the_label_carries_the_number_into_every_language(self):
-        """Sans cela, une traduction qui perdrait %(group)s passerait les
-        egalites ci-dessus le jour ou le libelle changerait."""
+        """Every translation keeps %(group)s."""
         for language in ('en', 'fr', 'es', 'pt', 'de'):
             with translation.override(language):
                 for index in (0, 3):
@@ -148,14 +112,7 @@ class TheNoteSaysItOnlyWhenThereIsSomethingToSayTests(SimpleTestCase):
 
 
 class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
-    """Le plancher de la mesure: une regle qui ne nommerait rien passerait
-    tous les tests ci-dessus."""
-
-    #: Mesure du 14 septembre 2026, au rang le plus haut de chaque sort.
-    #: Touch et Retro n'ont pas zero par accident: leurs catalogues ne
-    #: portent que 6 et 1 sorts a plusieurs groupes, et les sept sont des
-    #: choix d'element (<<Hit in best element>>, <<Hit in one random
-    #: element>>), que la regle laisse expres sans nom.
+    # Touch and Retro groups are all element choices, left unnamed
     NAMED_BY_VERSION = {'dofus3': 34, 'beta': 34, 'dofus2': 20,
                         'touch': 0, 'retro': 0}
 
@@ -184,9 +141,7 @@ class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
         self.assertIn('Stack N', shapes, dict(shapes))
 
     def test_touch_and_retro_have_no_ladder_to_name(self):
-        """Chaque version est un jeu different, et le << Cumul >> est une
-        construction du Dofus moderne. Ce test tombe le jour ou l'un des deux
-        en gagne un, ce qui est exactement le moment ou il faut regarder."""
+        """Stacks are a modern Dofus mechanic, Touch and Retro have none."""
         per_version, _shapes = self._named()
         for game_version in ('touch', 'retro'):
             with self.subTest(game_version=game_version):
@@ -200,19 +155,13 @@ class EveryVersionHasSpellsWorthNamingTests(SimpleTestCase):
                     if aggregates and len(aggregates) > 1:
                         groups.append((game_version, castable.name,
                                        aggregates[0][0]))
-        # Sept depuis le 14 septembre 2026: le Bluff de Retro, et six sorts
-        # Touch dont toute la frappe est <<dans le meilleur element>> et qui
-        # n affichaient aucun degat avant. L Embuscade et la Fanfaronnade,
-        # elles, en sont sorties: Ankama dit que leurs lignes tombent
-        # ensemble.
         self.assertEqual(7, len(groups), groups)
         for _version, _name, first_label in groups:
             with self.subTest(label=first_label):
                 self.assertIn('element', first_label.lower())
 
     def test_the_named_groups_all_have_a_reader_facing_label(self):
-        """Un libelle que `_localized_aggregate_label` ne sait pas traduire
-        sortirait un identifiant brut a l'ecran."""
+        """No named group shows a raw state id."""
         raw = []
         for game_version in VERSIONS:
             for char_class in get_damage_spells_for_version(game_version):

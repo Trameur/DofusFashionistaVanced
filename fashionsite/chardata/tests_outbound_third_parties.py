@@ -1,18 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Ce que le SERVEUR va chercher chez un tiers, a la place du lecteur.
-
-`tests_third_party_integrity` garde l'autre moitie: ce que le NAVIGATEUR
-telecharge. Les deux familles repondent a la meme question, <<le site
-decrit-il le site>>, mais aucune des deux ne voit ce que voit l'autre, et
-c'est par ce trou que DofusBook est reste absent de la politique de
-confidentialite pendant que deux pages entieres lui parlaient.
-
-Un appel sortant est plus difficile a auditer qu'une balise: il ne se lit pas
-dans le rendu de la page, le lecteur ne peut pas le voir dans son onglet
-reseau, et il part avec les droits du serveur. Les affirmations que la
-politique porte a son sujet sont donc mesurees ici, sur les octets qui
-partent, et pas relues.
-"""
+"""Calls the server makes to third parties, against the privacy policy."""
 
 import os
 import re
@@ -21,10 +8,7 @@ from django.test import SimpleTestCase
 
 from chardata import dofusbook_export, dofusbook_import, dofuscreator_import
 
-#: Chaque hote que le serveur appelle pour le compte d'un lecteur, et le nom
-#: sous lequel la politique doit le designer. Une entree ici est une
-#: DECISION: un hote qui n'y figure pas fait echouer le test plutot que de
-#: passer inapercu.
+# Name the privacy policy gives each host the server calls
 _HOTE_ANNONCE = {
     'www.dofusbook.net': 'DofusBook',
     'dofusbook.net': 'DofusBook',
@@ -35,10 +19,7 @@ _HOTE_ANNONCE = {
     'www.google.com': 'reCAPTCHA',
 }
 
-#: Les endroits qui ont le droit d'appeler dehors, et ce qu'ils appellent.
-#: Le test plus bas relit le code pour verifier qu'il n'y en a pas un
-#: quatrieme: une politique exacte le jour ou elle est ecrite ne vaut que
-#: jusqu'au prochain appel ajoute ailleurs.
+# Modules allowed to call out
 _APPELANTS = {
     'dofusbook_import.py': 'urlopen',
     'dofusbook_export.py': 'urlopen',
@@ -46,9 +27,7 @@ _APPELANTS = {
     'util.py': 'http_requests.post',
 }
 
-#: Les en-tetes par lesquelles l'adresse du lecteur, ou son identite,
-#: pourraient partir sans qu'on l'ait voulu. Les trois premieres sont ce
-#: qu'un serveur ajoute <<par politesse>> en relayant une requete.
+# Headers that would leak the reader's address or identity
 _ENTETES_QUI_TRAHISSENT = (
     'x-forwarded-for', 'x-real-ip', 'forwarded', 'client-ip',
     'true-client-ip', 'cf-connecting-ip', 'x-client-ip',
@@ -67,13 +46,7 @@ def _politique():
 
 
 def _hotes_appeles():
-    """Les hotes lus DANS LE CODE, pas dans une liste tenue a la main.
-
-    Les deux tables sont dans des sens opposes: cote import elle repond
-    <<quel jeu est cet hote>>, cote export <<quel hote pour ce jeu>>. Prendre
-    les cles des deux rendrait dofus3, retro et touch, qui ne sont pas des
-    hotes, et le test serait vert sans avoir rien lu.
-    """
+    """Import HOSTS is keyed by host, export HOSTS by game version."""
     hotes = (set(dofusbook_import.HOSTS) | set(dofusbook_export.HOSTS.values())
              | set(dofuscreator_import.HOSTS))
     chemin = os.path.join(_dossier(), 'util.py')
@@ -87,8 +60,6 @@ def _hotes_appeles():
 class EveryHostTheServerCallsIsNamedTests(SimpleTestCase):
 
     def test_the_scan_actually_finds_the_hosts(self):
-        """Le plancher du temoin: un scan qui ne trouve rien garderait un
-        site parfaitement honnete et parfaitement imaginaire."""
         hotes = _hotes_appeles()
         self.assertIn('www.dofusbook.net', hotes)
         self.assertIn('retro.dofusbook.net', hotes)
@@ -121,11 +92,7 @@ class EveryHostTheServerCallsIsNamedTests(SimpleTestCase):
                 continue
             with open(os.path.join(_dossier(), nom), encoding='utf-8') as f:
                 corps = f.read()
-            # `urlopen(` seul ne trouvait NI l'import NI l'export: les deux
-            # gardent la fonction dans une variable pour qu'un test puisse la
-            # remplacer (`ouvreur = opener or urllib.request.urlopen`), donc
-            # la parenthese n'est pas collee au nom. Le garde etait vert et
-            # n'avait lu qu'un fichier sur trois.
+            # Import and export keep urlopen in a variable, never `urlopen(`
             for motif in ('urllib.request.urlopen', 'urllib.request.Request(',
                           'http_requests.post(', 'http_requests.get(',
                           'requests.post(', 'requests.get('):
@@ -134,14 +101,9 @@ class EveryHostTheServerCallsIsNamedTests(SimpleTestCase):
         return appelants
 
     def test_the_scan_still_finds_the_three_known_callers(self):
-        """La moitie du garde que le suivant ne peut pas porter: une
-        recherche qui ne trouve plus rien rend une difference vide, donc un
-        vert parfait sur un site qu'elle n'a pas lu."""
         self.assertEqual(set(_APPELANTS), set(self._appelants()))
 
     def test_no_fourth_place_calls_out_without_saying_so(self):
-        """Une politique exacte le jour ou elle est ecrite ne vaut que
-        jusqu'au prochain appel ajoute ailleurs."""
         nouveaux = sorted(set(self._appelants()) - set(_APPELANTS))
         self.assertFalse(
             nouveaux,
@@ -150,20 +112,11 @@ class EveryHostTheServerCallsIsNamedTests(SimpleTestCase):
 
 
 class TheOutgoingCallCarriesNoReaderTests(SimpleTestCase):
-    """La politique dit que ces appels partent de notre adresse et non de
-    celle du lecteur. C'est une affirmation sur des octets.
-
-    Mesure du 10 septembre 2026: les deux appels sont des GET sans corps et
-    portent exactement trois en-tetes, Accept, Referer et User-agent.
-    """
 
     def _capture(self, fonction, *args):
         vues = {}
 
-        # BaseException et non Exception: les deux modules rattrapent tout ce
-        # qui derive d'Exception pour rendre <<injoignable>> au lecteur, donc
-        # une sortie ordinaire serait avalee et le test mesurerait le
-        # message d'erreur au lieu de la requete.
+        # Both modules swallow any Exception
         class Arret(BaseException):
             pass
 
@@ -203,15 +156,12 @@ class TheOutgoingCallCarriesNoReaderTests(SimpleTestCase):
             self.assertIsNone(vu['corps'], nom)
 
     def test_only_the_three_measured_headers_go_out(self):
-        """Une en-tete de plus est une phrase de moins qui reste vraie."""
         for nom, vu in self._les_deux().items():
             self.assertEqual({'accept', 'referer', 'user-agent'},
                              set(vu['entetes']), nom)
 
     def test_the_project_page_is_read_with_two_headers_and_no_referer(self):
-        """DofusCreator repond 200 a un GET nu avec un User-Agent de
-        navigateur (mesure du 11 septembre 2026): pas de Referer a
-        fabriquer, donc il n'en part pas."""
+        """DofusCreator answers a bare GET with a browser User-Agent."""
         vu = self._capture(dofuscreator_import.fetch_project,
                            'dofuscreator.com', '6e9f4')
         self.assertEqual('https://dofuscreator.com/projet/6e9f4', vu['url'])
@@ -230,9 +180,6 @@ class TheOutgoingCallCarriesNoReaderTests(SimpleTestCase):
 
 
 class TheHandedLinkDoesNotSayWhereItCameFromTests(SimpleTestCase):
-    """La politique dit que le navigateur n'atteint leur site que si le
-    lecteur clique. Ce qu'elle ne doit pas laisser croire, c'est qu'ils
-    apprennent d'ou il vient: le lien porte `noreferrer`."""
 
     def test_the_export_link_carries_noreferrer(self):
         chemin = os.path.join(_dossier(), 'templates', 'chardata',
@@ -246,10 +193,6 @@ class TheHandedLinkDoesNotSayWhereItCameFromTests(SimpleTestCase):
 
 
 class ThePolicyDoesNotCountPagesTests(SimpleTestCase):
-    """Elle nommait <<la page de l'inventaire>> comme seule page a lire une
-    capture. Une deuxieme la lit depuis le 10 septembre 2026, et la phrase
-    est devenue fausse sans que rien ne bouge. Une politique qui compte les
-    pages devient fausse a la page suivante."""
 
     def test_the_stale_wording_is_gone(self):
         corps = _politique()
@@ -257,8 +200,6 @@ class ThePolicyDoesNotCountPagesTests(SimpleTestCase):
         self.assertIn('the pages that read a screenshot', corps)
 
     def test_the_reader_really_runs_on_more_than_one_page(self):
-        """Sans cette moitie, la phrase generale pourrait etre vraie par
-        hasard, sur une seule page."""
         gabarits = os.path.join(_dossier(), 'templates', 'chardata')
         porteurs = []
         for nom in sorted(os.listdir(gabarits)):

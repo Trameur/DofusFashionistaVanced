@@ -1,10 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Ce que les pages affirment doit tenir face au code qui est en dessous.
-
-Deux affirmations sont gardees ici, parce que toutes deux etaient fausses et
-qu'aucune n'aurait pu etre attrapee en relisant la page: il fallait aller voir
-ailleurs. Un garde-fou qui ne lit que la phrase ne verifie que l'orthographe.
-"""
+"""What the pages claim must hold against the code behind them."""
 import os
 import re
 
@@ -19,42 +14,22 @@ def _lit(*morceaux):
         return f.read()
 
 
-#: Un lien Discord et le texte visible du bouton qui le porte.
+# A Discord invite and the visible text of its button
 _INVITATION = re.compile(
     r'<a\b[^>]*href\s*=\s*[\'"][^\'"]*discord\.gg/([A-Za-z0-9]+)[^\'"]*'
     r'[\'"][^>]*>(.*?)</a>', re.I | re.S)
 
-#: Ou mene chaque invitation ecrite sur le site.
-#:
-#: Mesure faite le 10 septembre 2026 sur l'API de Discord, pas sur une
-#: supposition: rien dans un code d'invitation ne dit ou il mene.
-#:
-#:   J842fFxU7r -> guilde "dofus fashionista", 1188892643766321173, 101 membres
-#:   a7b4a4dnVU -> guilde "dofusdude",         1012966571959910502, 221 membres
-#:
-#: La notre est celle que le bot du depot lit deja
-#: (`discordbot/index_contributions.py`, GUILD = 1188892643766321173) et celle
-#: que les annonces de docs/marketing donnent, dix fois.
+# Invite code -> guild; ours is 1188892643766321173, the GUILD discordbot reads
 _GUILDE = {
     'J842fFxU7r': 'fashionista',
     'a7b4a4dnVU': 'dofusdude',
 }
 
-#: Celles qui sont a nous.
 _A_NOUS = {'J842fFxU7r'}
 
 
 class EveryDiscordLinkSaysWhoseServerItIsTests(SimpleTestCase):
-    """Pointer vers le serveur d'un tiers n'est pas une faute; le faire passer
-    pour le sien en est une.
-
-    `support.html` disait <<or join our Discord>> et menait chez dofusdude:
-    quelqu'un qui venait signaler un bug du site atterrissait ailleurs. Le
-    pied de page, lui, propose les deux serveurs et ecrit le nom de chacun sur
-    son bouton, ce qui est exact et doit le rester. La regle n'est donc pas
-    <<aucun lien vers un tiers>>, c'est <<un bouton qui ne dit pas chez qui il
-    mene doit mener chez nous>>.
-    """
+    """A Discord button that does not name its guild must lead to ours."""
 
     def _invitations(self):
         trouve = []
@@ -68,11 +43,6 @@ class EveryDiscordLinkSaysWhoseServerItIsTests(SimpleTestCase):
         return trouve
 
     def test_the_scan_actually_finds_the_invites(self):
-        """Le plancher du temoin: sans invitation trouvee, tout est vert.
-
-        Quatre liens le 10 septembre 2026, dans base.html (deux), contacts.html
-        et support.html.
-        """
         trouve = self._invitations()
         self.assertGreaterEqual(
             len(trouve), 4,
@@ -100,11 +70,7 @@ class EveryDiscordLinkSaysWhoseServerItIsTests(SimpleTestCase):
             'takes them for ours: %s' % trompeuses)
 
 
-#: Ce qu'un compte debloque vraiment, et ou le verifier.
-#:
-#: La FAQ repondait qu'un compte <<ONLY lets you save your projects and share
-#: them with a link>>. Il y avait bien plus derriere `@login_required`, et
-#: repondre moins que la verite est une facon curieuse de vendre un compte.
+# What an account unlocks: FAQ word -> (module, view behind @login_required)
 _DERRIERE_UN_COMPTE = {
     'inventory': ('inventory_view.py', 'inventory'),
     'workshop': ('workshop_view.py', 'workshop'),
@@ -118,15 +84,13 @@ _DERRIERE_UN_COMPTE = {
 class TheFaqDescribesWhatAnAccountReallyUnlocksTests(SimpleTestCase):
 
     def _reponse(self):
-        """Le paragraphe de la FAQ qui parle du compte."""
+        """The FAQ line about accounts."""
         for ligne in _lit(_GABARITS, 'faq.html').split('\n'):
             if 'An account' in ligne:
                 return ligne
         return ''
 
     def test_each_named_feature_really_is_behind_a_login(self):
-        """L'autre moitie du garde: la FAQ ne doit pas non plus promettre
-        qu'un compte debloque une chose qui est deja ouverte a tous."""
         ouvertes = []
         for nom, (module, fonction) in sorted(_DERRIERE_UN_COMPTE.items()):
             source = _lit(_ICI, module)
@@ -154,17 +118,7 @@ class TheFaqDescribesWhatAnAccountReallyUnlocksTests(SimpleTestCase):
         self.assertNotIn('account only lets you', self._reponse().lower())
 
 
-#: La meta description de la page <<build en une phrase>>, telle qu'elle est
-#: ecrite dans le gabarit. Elle donne un exemple entre parentheses, et un
-#: exemple donne par le site doit marcher sur le site.
-#:
-#: Elle proposait <<with 11 AP>>. Aucun aspect de PA n'existe dans
-#: ALL_ASPECTS_LIST (`aprape` et `mprape` sont le RETRAIT de PA, pas un
-#: objectif), donc le nombre etait ignore sans un mot. Pire, la phrase entiere
-#: partait en build de farm, parce que `level` est un mot-cle de farm et que
-#: <<level 200>> le declenchait: mesure du 10 septembre 2026, {'wis', 'pp'} au
-#: lieu de {'glasscannon', 'agi'}, element demande jete. Le parseur est
-#: corrige, l'exemple aussi.
+# Smart build meta description; the example in parentheses must parse
 _META_PHRASE = (
     'Describe your Dofus build in plain words (like an agility Sram level 200 '
     'for PvP), and get a full optimized set in seconds with the '
@@ -174,17 +128,9 @@ _ENTRE_PARENTHESES = re.compile(r'\(([^)]*)\)')
 
 
 class TheSmartBuildExampleActuallyParsesTests(SimpleTestCase):
-    """Dans les cinq langues, et pas seulement en anglais.
-
-    Le test lit la traduction compilee, donc il couvre aussi le cas ou une
-    entree `fuzzy` ferait retomber la page en anglais: l'exemple francais
-    serait alors la phrase anglaise, et il devrait tout de meme s'analyser.
-    Ce qu'il attrape, c'est un exemple qu'on aurait reecrit a la main dans une
-    seule langue sans le repasser au parseur.
-    """
+    """The example parses in all five languages."""
 
     def test_the_template_still_carries_the_phrase_the_guard_checks(self):
-        """Sinon le test suivant garderait une chaine que plus rien n'affiche."""
         self.assertIn(_META_PHRASE, _lit(_GABARITS, 'smart_build.html'))
 
     def test_every_translation_of_the_example_parses_completely(self):
@@ -209,11 +155,7 @@ class TheSmartBuildExampleActuallyParsesTests(SimpleTestCase):
             'understand them: %s' % incompris)
 
     def test_the_example_is_not_silently_turned_into_a_farm_build(self):
-        """La regression precise, dans les cinq langues.
-
-        `farm` n'ajoute pas l'element demande: un lecteur qui ecrit <<agility
-        Sram>> recevait de la sagesse et de la prospection.
-        """
+        """The farm style does not add the element the reader asked for."""
         from django.utils import translation
         from chardata.nl_parser import parse_build_request
 
@@ -232,12 +174,7 @@ class TheSmartBuildExampleActuallyParsesTests(SimpleTestCase):
 
 
 class StatingALevelIsNotAskingToLevelUpTests(SimpleTestCase):
-    """`level` sert deux fois: <<level 200>> et <<I want to level up>>.
-
-    Le second est bien du farm. Le premier est la facon la plus courante
-    d'annoncer un niveau, et il basculait tout le build. Les deux sens doivent
-    survivre, sinon corriger l'un casse l'autre en silence.
-    """
+    """`level` is in "level 200" and in "level up"; only the second is farm."""
 
     def _lu(self, phrase):
         from chardata.nl_parser import parse_build_request
@@ -261,8 +198,6 @@ class StatingALevelIsNotAskingToLevelUpTests(SimpleTestCase):
                 self.assertEqual(self._lu(phrase)['style'], 'farm', phrase)
 
     def test_a_stated_level_is_still_read_as_the_level(self):
-        """Le correctif retire le mot du texte de style. Il ne doit pas
-        retirer le niveau lui-meme."""
         for phrase, attendu in (('an agility Sram level 200', 200),
                                 ('un Sram agilite niveau 175', 175),
                                 ('Iop lvl 150', 150)):
@@ -272,20 +207,12 @@ class StatingALevelIsNotAskingToLevelUpTests(SimpleTestCase):
                 self.assertTrue(lu['matched_level'], lu)
 
 
-#: Les pages qui menent a la table des objets les plus utilises, ou qui la
-#: portent.
+# Pages that show or link to the most used items table
 _PAGES_DES_PLUS_UTILISES = ('encyclopedia_most_used.html',
                             'encyclopedia.html',
                             'shared_builds.html')
 
-#: Ce que la page ne peut pas affirmer, dans les cinq langues.
-#:
-#: `reindex_builds_by_item.py` lit `get_solution(build).item_list`: ce sont les
-#: objets que LE SOLVEUR a mis dans chaque build calcule ici. Le site n'a aucun
-#: acces au personnage en jeu, donc rien ne peut dire qu'un seul de ces builds
-#: ait ete equipe. Le paragraphe de methode le disait deja correctement; le
-#: titre, le H1, la meta description et les deux liens entrants affirmaient le
-#: contraire, sur la meme page.
+# Counts come from solver solutions, the site never sees what is worn in game
 _HORS_DE_PORTEE = (
     'actually wear', 'really equip', 'most worn',
     'portent vraiment', 'portent r\u00e9ellement', 'les plus port\u00e9s',
@@ -298,11 +225,6 @@ _HORS_DE_PORTEE = (
 class TheMostUsedPageCountsWhatItSaysItCountsTests(SimpleTestCase):
 
     def test_the_index_really_reads_solver_solutions(self):
-        """La mesure qui rend l'ancienne formulation fausse.
-
-        Si un jour l'index comptait autre chose, c'est cette phrase-la qu'il
-        faudrait relire, pas la page.
-        """
         source = _lit(_ICI, 'management', 'commands',
                       'reindex_builds_by_item.py')
         self.assertIn('get_solution', source)
@@ -321,8 +243,6 @@ class TheMostUsedPageCountsWhatItSaysItCountsTests(SimpleTestCase):
             'these claim something the site cannot know: %s' % coupables)
 
     def test_no_translation_claims_it_either(self):
-        """Le gabarit est en anglais; quatre lecteurs sur cinq lisent autre
-        chose."""
         from django.utils import translation
 
         titres = ('The Most Used Dofus Items in Calculated Builds',
@@ -339,27 +259,12 @@ class TheMostUsedPageCountsWhatItSaysItCountsTests(SimpleTestCase):
         self.assertFalse(coupables, coupables)
 
     def test_the_page_still_prints_where_the_counts_come_from(self):
-        """Retirer la surenchere ne doit pas retirer la methode: un
-        pourcentage sans denominateur est un pourcentage incontestable."""
         corps = _lit(_GABARITS, 'encyclopedia_most_used.html')
         self.assertIn('builds calculated on this site', corps)
         self.assertIn('the share is of the builds that could equip it', corps)
 
     def test_the_empty_page_claims_no_count_at_all(self):
-        """Le piege dans lequel je suis tombe en corrigeant le reste.
-
-        La meta description a deux branches. En remplacant la surenchere par
-        une phrase honnete, j'ai mis <<builds calculated on this site>> dans
-        les DEUX, y compris celle qui sert quand l'index n'existe pas encore,
-        soit exactement l'etat de la production entre un deploiement et la
-        premiere indexation. La page annoncait alors un comptage dans sa
-        balise `description` et, deux phrases plus bas, que les comptes
-        n'etaient pas encore construits.
-
-        `tests.py` porte deja le garde qui l'a attrape en interrogeant la
-        page; celui-ci nomme la contrainte a l'endroit ou la phrase s'ecrit,
-        pour que le prochain a la relire la voie.
-        """
+        """The no-index branch of the meta description names no count."""
         corps = _lit(_GABARITS, 'encyclopedia_most_used.html')
         sans_compte = corps.split('{% else %}')
         self.assertGreater(len(sans_compte), 1, 'les deux branches ont fondu')

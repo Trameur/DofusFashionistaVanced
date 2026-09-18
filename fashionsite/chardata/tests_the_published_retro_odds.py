@@ -1,18 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Retro is the one ruleset whose smithmagic odds Ankama actually published.
-
-The page used to tell every reader that Ankama never published the success
-formula. For the modern game that is still true; for the Retro line it was
-wrong, and it had a cost: the Retro column of the weight table kept a figure
-measured on the modern game "for want of a Retro measurement", while a dev
-post of 18 May 2009 had described the 1.27 system and put numbers on six
-situations.
-
-These tests hold three things: the figures as transcribed, the fact that they
-reach the Retro page and only the Retro page, and the rule from the same post
-that the workbench was breaking -- a malus can be cancelled, never turned into
-a bonus.
-"""
+"""Retro is the one ruleset whose smithmagic odds Ankama published."""
 
 import re
 
@@ -33,8 +20,7 @@ class TheFiguresAsPublished(TestCase):
                                  msg=row)
 
     def test_no_row_breaks_the_bounds_the_same_post_states(self):
-        # "Les probabilités maximums de résultat Neutre sont de 50%" and
-        # "les probabilités de Succès Critique sont toujours au minimum de 1%".
+        # Neutral is at most 50%, critical success at least 1%
         for row in DOCUMENTED_ODDS:
             with self.subTest(case=row['key']):
                 self.assertLessEqual(row['n'], NEUTRAL_CEILING, msg=row)
@@ -48,8 +34,7 @@ class TheFiguresAsPublished(TestCase):
             [row['key'] for row in DOCUMENTED_ODDS])
 
     def test_creating_without_a_sink_is_the_worst_case(self):
-        # The ordering carries meaning on the page: easiest first, and the
-        # 99% failure row last. A reordering that broke it would mislead.
+        # Page order: easiest first, 99% failure last
         worst = DOCUMENTED_ODDS[-1]
         self.assertEqual('create_nosink', worst['key'])
         self.assertEqual(99, worst['ec'])
@@ -58,8 +43,6 @@ class TheFiguresAsPublished(TestCase):
 
     def test_only_retro_has_a_published_source(self):
         self.assertEqual(6, len(get_documented_odds('retro')))
-        # Controls: handing these to a ruleset they never described would be
-        # worse than saying nothing.
         for ruleset in ('modern', 'dofus2', 'touch'):
             with self.subTest(ruleset=ruleset):
                 self.assertEqual((), get_documented_odds(ruleset))
@@ -79,8 +62,6 @@ class EveryLanguageCanRenderThem(TestCase):
                     self.assertTrue(texts[key].strip(), msg=key)
 
     def test_no_language_left_the_english_label_behind(self):
-        # A copied block that was never translated shows up as the English
-        # string sitting in another language.
         english = LOCALIZED_UI['en']
         for language in ('fr', 'es', 'pt', 'de'):
             with self.subTest(language=language):
@@ -110,22 +91,18 @@ class ThePageSaysIt(TestCase):
         self.assertNotIn(LOCALIZED_UI['en']['how_disclaimer'], body)
 
     def test_the_modern_page_still_says_nothing_was_published(self):
-        # Control. Without it, a fix that simply deleted the disclaimer
-        # everywhere would pass the test above.
         body = self._body('/forgemagie/')
         self.assertIn(LOCALIZED_UI['en']['how_disclaimer'], body)
         self.assertNotIn(LOCALIZED_UI['en']['odds_title'], body)
 
     def test_every_page_states_the_malus_rule(self):
-        # This one is not Retro-only: no version of the game turns a malus
-        # into a bonus, and the workbench enforces it for all of them.
+        # No version turns a malus into a bonus
         for path in ('/forgemagie/', '/retro/forgemagie/'):
             with self.subTest(path=path):
                 self.assertIn(LOCALIZED_UI['en']['how_malus'],
                               self._body(path))
 
     def test_the_table_is_whole(self):
-        """A table opened and never closed swallows the rest of the page."""
         body = self._body('/retro/forgemagie/')
         self.assertEqual(body.count('<table'), body.count('</table>'),
                          msg='unbalanced <table> in the rendered page')
@@ -142,11 +119,7 @@ class ThePageSaysIt(TestCase):
 
 
 class AMalusLineStopsAtZero(TestCase):
-    """The workbench let a -30 agility line be targeted at +101.
-
-    The ceiling is computed in the page script, so the test reads the script
-    the page actually serves rather than a copy of the rule.
-    """
+    """The ceiling lives in the page script, read from the served page."""
 
     def _script(self):
         body = self.client.get('/retro/forgemagie/').content.decode('utf-8')
@@ -158,12 +131,9 @@ class AMalusLineStopsAtZero(TestCase):
     def test_the_ceiling_returns_zero_for_a_negative_roll(self):
         script = self._script()
         self.assertIn('maxRoll < 0', script)
-        # Control: the cap for ordinary lines must still be there, or the
-        # test above would pass on a function that returns 0 for everything.
         self.assertIn('config.overCap', script)
 
     def test_the_items_that_need_it_are_not_a_handful(self):
-        # A rule worth enforcing on 21% of mageable items, not on a curiosity.
         from fashionistapulp.structure import get_structure
         from chardata.forgemagie_data import MAGEABLE_TYPES
         structure = get_structure()
@@ -179,14 +149,7 @@ class AMalusLineStopsAtZero(TestCase):
 
 
 class TheSimulatorReadsThePublishedLadder(TestCase):
-    """The split between a critical success and a neutral one was a fitted
-    40/60, which put neutral at 59% on an easy throw. The same dev post caps
-    it at 50% and never shows a critical success under 1%. For Retro the split
-    is now read off the six published points instead.
-
-    The maths live in the page script, so these run it: the node harness the
-    modern odds tests already use, handed a Retro config.
-    """
+    """Retro splits critical and neutral on the six published points."""
 
     PAGE = SmithmagicOddsTests.PAGE
     MATHS = SmithmagicOddsTests.MATHS
@@ -198,10 +161,7 @@ class TheSimulatorReadsThePublishedLadder(TestCase):
     version = 'retro'
 
     def _ring_rows(self):
-        # The inherited helper looks up a Dofus 3 item by name, which depends
-        # on whichever game version another test left active. Neither driver
-        # below reads these rows -- EASY_THROW builds its own session -- so the
-        # dependency is dropped rather than worked around.
+        # Inherited one depends on the active game version; nothing here reads it
         return []
 
     def _config(self):
@@ -236,8 +196,6 @@ class TheSimulatorReadsThePublishedLadder(TestCase):
                   "    chancesFor(row, config.stats.vit.tiers[0])));")
 
     def test_the_sweep_actually_read_something(self):
-        # Without this, every loop below passes on an empty list: a harness
-        # that returned nothing would look like a model that never errs.
         rows = self._run(self.SWEEP)
         self.assertEqual(101, len(rows))
         self.assertEqual(4, len(rows[0]))
@@ -248,7 +206,6 @@ class TheSimulatorReadsThePublishedLadder(TestCase):
                 self.assertAlmostEqual(1.0, sc + sn + ec, places=9)
 
     def test_neutral_never_passes_the_published_ceiling(self):
-        # "Les probabilités maximums de résultat Neutre sont de 50%."
         for step, _sc, sn, _ec in self._run(self.SWEEP):
             with self.subTest(pass_rate=step):
                 self.assertLessEqual(sn, NEUTRAL_CEILING / 100.0 + 1e-9)
@@ -267,8 +224,6 @@ class TheSimulatorReadsThePublishedLadder(TestCase):
                          tuple(round(value, 4) for value in read[0.0]))
 
     def test_a_critical_success_only_gets_rarer_as_failure_grows(self):
-        # Control on the interpolation: a ladder read backwards, or two rungs
-        # swapped, shows up here and nowhere else.
         rows = self._run(self.SWEEP)
         criticals = [sc for _step, sc, _sn, _ec in rows]
         self.assertEqual(criticals, sorted(criticals),
@@ -278,8 +233,6 @@ class TheSimulatorReadsThePublishedLadder(TestCase):
         read = self._run(self.EASY_THROW)
         self.assertLessEqual(read['sn'], 0.50 + 1e-9)
         self.assertGreater(read['sc'], read['sn'])
-        # The same throw the modern model reads as 39 / 59 / 2. Pinned so the
-        # figures quoted for this change stay measured rather than recomputed.
         self.assertAlmostEqual(0.594, read['sc'], places=3)
         self.assertAlmostEqual(0.386, read['sn'], places=3)
         self.assertAlmostEqual(0.020, read['ec'], places=3)
@@ -288,13 +241,7 @@ class TheSimulatorReadsThePublishedLadder(TestCase):
 
 
 class TheModernModelIsUntouched(TheSimulatorReadsThePublishedLadder):
-    """Control, and the measurement of what was wrong.
-
-    Nothing was ever published for the modern game, so its fitted split stays
-    exactly as it was -- including the neutral share above 50% that the Retro
-    source forbids. Correcting it from a 1.27 document would be inventing a
-    measurement, not making one.
-    """
+    """Nothing published for the modern game: its fitted split stays."""
 
     version = 'dofus3'
 
@@ -306,7 +253,7 @@ class TheModernModelIsUntouched(TheSimulatorReadsThePublishedLadder):
         self.assertGreater(read['sn'], 0.50)
         self.assertAlmostEqual(0.588, read['sn'], places=3)
 
-    # The ladder tests above have nothing to run without a ladder.
+    # No ladder to test
     test_the_sweep_actually_read_something = None
     test_the_three_outcomes_always_add_to_one = None
     test_neutral_never_passes_the_published_ceiling = None

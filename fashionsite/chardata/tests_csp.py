@@ -1,10 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une politique qui signale, jamais une politique qui bloque.
-
-Le site n'avait aucun `Content-Security-Policy`. En poser un qui BLOQUE, ecrit
-en lisant le depot, aurait casse le site pour une partie des visiteurs et pour
-eux seulement, ce qui est la panne la plus difficile a voir.
-"""
+"""Tests for the report-only Content-Security-Policy."""
 
 import json
 
@@ -16,21 +11,6 @@ from chardata.csp_report_view import MAX_CORPS, MAX_PAR_MINUTE
 
 
 class ThePolicyCoversWhatTheSiteActuallyLoadsTests(SimpleTestCase):
-    """Les origines viennent d'une MESURE, pas d'une lecture du depot.
-
-    Le 10 septembre 2026, quatre pages chargees dans un navigateur et
-    `performance.getEntriesByType('resource')` interroge, le site va chercher:
-
-        https://ajax.googleapis.com           jQuery,    ecrit dans base.html
-        https://www.googletagmanager.com      gtag,      ecrit dans base.html
-        https://region1.analytics.google.com  la mesure, NULLE PART dans le depot
-        https://www.google.fr                 reCAPTCHA, NULLE PART dans le depot
-
-    Les deux dernieres n'existent dans aucun gabarit et leur nom **change
-    selon le visiteur**: `region1` est la region du compte Analytics et
-    `www.google.fr` le domaine national vers lequel reCAPTCHA bascule. C'est
-    la raison d'etre du mode rapport, et c'est ce que ces tests gardent.
-    """
 
     def test_the_two_origins_that_are_written_in_the_repo_are_allowed(self):
         politique = build_policy()
@@ -39,23 +19,13 @@ class ThePolicyCoversWhatTheSiteActuallyLoadsTests(SimpleTestCase):
             self.assertIn(origine, politique)
 
     def test_the_analytics_region_is_matched_by_a_wildcard(self):
-        """`region1` est la region du compte: un autre compte verra
-        `region5`, et l'ecrire en dur couperait la mesure d'audience."""
+        """The analytics subdomain is the account's region (region1, region5...)."""
         connect = _SOURCES['connect-src']
         self.assertIn('https://*.analytics.google.com', connect)
         self.assertNotIn('https://region1.analytics.google.com', connect)
 
     def test_the_recaptcha_country_domain_is_left_to_the_reports(self):
-        """Mesure sur /contact/: le navigateur est alle chercher
-        `https://www.google.fr`. Un lecteur allemand ira sur `.de`.
-
-        Et il n'y a AUCUN moyen de l'ecrire: un joker CSP ne vaut qu'a gauche
-        d'un hote. `https://www.google.*` a ete essaye et le navigateur l'a
-        rejete comme source invalide. Ni le domaine national mesure ici ni un
-        joker impossible ne figurent donc dans la politique: ce sont les
-        rapports qui diront lesquels apparaissent vraiment, et c'est
-        precisement le travail que le mode rapport doit faire.
-        """
+        """reCAPTCHA loads from the visitor's national domain, no CSP source matches it."""
         frames = _SOURCES['frame-src']
         self.assertNotIn('https://www.google.*', frames)
         self.assertNotIn('https://www.google.fr', frames)
@@ -65,22 +35,12 @@ class ThePolicyCoversWhatTheSiteActuallyLoadsTests(SimpleTestCase):
         self.assertIn('report-uri %s' % REPORT_PATH, build_policy())
 
     def test_every_directive_carries_at_least_one_source(self):
-        """Une directive vide n'est pas <<tout permis>>, c'est <<tout
-        refuse>>: la poser par distraction bloquerait la categorie entiere."""
+        """An empty directive blocks everything."""
         vides = [d for d, sources in _SOURCES.items() if not sources]
         self.assertEqual([], vides)
 
     def test_no_source_puts_its_wildcard_on_the_wrong_side(self):
-        """La faute que seul le navigateur signale.
-
-        Un joker CSP ne vaut qu'a GAUCHE d'un hote: `*.google.com` est
-        valide, `www.google.*` ne l'est pas. Le premier jet portait
-        `https://www.google.*` pour attraper les domaines nationaux de
-        reCAPTCHA, et Chrome a repondu <<contains an invalid source, it will
-        be ignored>>: la source disparaissait entierement, et RIEN cote
-        serveur ne le disait. Une politique se relit dans un navigateur, pas
-        seulement dans un editeur.
-        """
+        """`*.google.com` is valid, `www.google.*` is dropped by the browser."""
         import re
         mauvais = []
         for directive, sources in sorted(_SOURCES.items()):
@@ -96,11 +56,7 @@ class ThePolicyCoversWhatTheSiteActuallyLoadsTests(SimpleTestCase):
             'throws these away without telling the server: %s' % mauvais)
 
     def test_the_ad_verification_domain_nobody_could_guess_is_allowed(self):
-        """Mesure du 10 septembre 2026, console du navigateur: la regie charge
-        `ep2.adtrafficquality.google/sodar/sodar2.js` et ouvre une connexion
-        vers `ep1.adtrafficquality.google`. Ce domaine n'apparait dans aucun
-        gabarit du depot. C'est la demonstration la plus nette qu'une
-        politique BLOQUANTE ecrite ici aurait casse la publicite."""
+        """Ads load from *.adtrafficquality.google, which no template names."""
         for directive in ('script-src', 'connect-src', 'frame-src'):
             with self.subTest(directive=directive):
                 self.assertIn('https://*.adtrafficquality.google',
@@ -113,8 +69,6 @@ class ThePolicyCoversWhatTheSiteActuallyLoadsTests(SimpleTestCase):
 
 
 class TheHeaderIsReportOnlyTests(TestCase):
-    """La difference entre les deux en-tetes est la difference entre
-    <<le site marche>> et <<le site est casse pour les Allemands>>."""
 
     def test_an_html_page_carries_the_report_only_header(self):
         reponse = self.client.get('/faq/')
@@ -122,9 +76,6 @@ class TheHeaderIsReportOnlyTests(TestCase):
         self.assertIn('Content-Security-Policy-Report-Only', reponse)
 
     def test_no_page_carries_the_blocking_header(self):
-        """Le garde qui compte. Poser `Content-Security-Policy` tout court
-        ferait appliquer la regle, et une origine oubliee casserait la page
-        pour les visiteurs qui en dependent, en silence."""
         for chemin in ('/faq/', '/privacy/', '/import/text/', '/about/'):
             with self.subTest(chemin=chemin):
                 reponse = self.client.get(chemin)
@@ -136,8 +87,6 @@ class TheHeaderIsReportOnlyTests(TestCase):
                          reponse['Content-Security-Policy-Report-Only'])
 
     def test_a_non_html_response_carries_nothing(self):
-        """Une image n'applique aucune politique, et l'en-tete pese quelques
-        centaines d'octets sur chacune des dizaines de requetes d'une page."""
         reponse = self.client.get('/jsi18n/')
         self.assertEqual(200, reponse.status_code)
         self.assertNotIn('Content-Security-Policy-Report-Only', reponse)
@@ -167,8 +116,7 @@ class TheReportEndpointRecordsWithoutDrowningTests(TestCase):
         self.assertEqual(204, reponse.status_code)
 
     def test_the_browser_needs_no_csrf_token(self):
-        """Un navigateur n'en envoie pas, donc exiger le jeton reviendrait a
-        n'avoir jamais aucun rapport."""
+        """Browsers send reports without a CSRF token."""
         reponse = self._poste(self._rapport())
         self.assertNotEqual(403, reponse.status_code)
 
@@ -186,9 +134,6 @@ class TheReportEndpointRecordsWithoutDrowningTests(TestCase):
         self.assertEqual(400, self._poste(gros).status_code)
 
     def test_what_is_logged_keeps_the_page_but_drops_the_query(self):
-        """`document-uri` est la page que le lecteur regardait. Le chemin
-        suffit a corriger une directive; la chaine de requete peut porter ce
-        qu'il cherchait et n'aide en rien."""
         with self.assertLogs('chardata.csp_report_view', level='WARNING') as vu:
             self._poste(self._rapport())
         ligne = '\n'.join(vu.output)
@@ -197,8 +142,6 @@ class TheReportEndpointRecordsWithoutDrowningTests(TestCase):
         self.assertIn('example.invalid', ligne)
 
     def test_the_same_violation_stops_being_logged_after_a_few(self):
-        """Une page populaire qui viole une directive enverrait un rapport
-        par lecteur. Le journal garde le premier exemple, pas le millieme."""
         from django.core.cache import cache
         cache.clear()
         with self.assertLogs('chardata.csp_report_view', level='WARNING') as vu:
@@ -207,8 +150,7 @@ class TheReportEndpointRecordsWithoutDrowningTests(TestCase):
         self.assertEqual(MAX_PAR_MINUTE, len(vu.output), vu.output)
 
     def test_two_different_violations_are_both_kept(self):
-        """Le plafond est par violation, pas global: sinon le premier
-        probleme cacherait tous les autres."""
+        """The cap is per violation, not global."""
         from django.core.cache import cache
         cache.clear()
         with self.assertLogs('chardata.csp_report_view', level='WARNING') as vu:
@@ -217,23 +159,14 @@ class TheReportEndpointRecordsWithoutDrowningTests(TestCase):
         self.assertEqual(2, len(vu.output), vu.output)
 
     def test_the_endpoint_does_not_police_itself(self):
-        """Poser la politique sur sa propre reponse ferait signaler
-        l'endpoint a lui-meme le jour ou quelque chose y deraille."""
         reponse = self._poste(self._rapport())
         self.assertNotIn('Content-Security-Policy-Report-Only', reponse)
 
 
 class AStatLabelIsANameNotAKeyTests(TestCase):
-    """`localized_stat_name` traduit un NOM ('AP', 'Vitality').
-
-    Une cle ('ap', 'vit') n'est dans aucun catalogue, donc elle ressort telle
-    quelle. Deux endroits lui passaient une cle: le panneau des contraintes de
-    la page de solution, qui affichait <<ap 12>> au lieu de <<PA 12>>, et les
-    libelles du texte partage, qui restaient anglais sur une page francaise.
-    """
+    """`localized_stat_name` translates a name ('AP'), not a key ('ap')."""
 
     def test_the_helper_translates_a_name_and_not_a_key(self):
-        """La mesure qui explique les deux fautes."""
         from django.utils import translation
         from chardata.translation_util import localized_stat_name
         from fashionistapulp.structure import (get_structure,
@@ -271,8 +204,7 @@ class AStatLabelIsANameNotAKeyTests(TestCase):
         self.assertNotIn('Vitality', rendus['fr'])
 
     def test_the_constraints_panel_shows_a_label_not_a_key(self):
-        """Le panneau ne s'affiche qu'avec des minimums, donc on interroge la
-        fonction qui le remplit plutot que d'en fabriquer un."""
+        """The panel only shows with minimums: call the function that fills it."""
         from django.utils import translation
         from chardata.models import Char
         from chardata.min_stats import set_min_stats
@@ -287,8 +219,7 @@ class AStatLabelIsANameNotAKeyTests(TestCase):
             'text': structure.get_item_name_in_language(item, 'en'),
             'confirm': '1', 'char_class': 'Cra', 'level': '200'})
         char = Char.objects.order_by('-id').first()
-        # set_min_stats est indexe par NOM ('AP'), pas par cle ('ap'):
-        # la meme confusion que celle que ce test garde.
+        # set_min_stats is keyed by name ('AP'), not by key ('ap')
         set_min_stats(char, {'AP': 1})
         with translation.override('fr'):
             lignes = _constraints_reached(char, get_solution(char))

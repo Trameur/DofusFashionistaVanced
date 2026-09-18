@@ -1,52 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Chaque notion que le lecteur allemand voit porte un seul mot.
-
-Trouve en parcourant le site en allemand, page par page, depuis ses propres
-liens. Dix-huit entrees corrigees, reparties sur dix contradictions qui se
-lisaient a l'ecran, chaque fois entre deux elements **voisins**, ce qui est
-la seule forme de ce defaut qu'un lecteur peut remarquer:
-
-| ou | ce qui etait ecrit | a cote de |
-|----|--------------------|-----------|
-| menu d'un projet | <<Elemente sperren>> | <<Gegenstande verbieten>>, lien suivant |
-| boutons des sorts | <<Vollstandig poliert>> | <<Saubere Buffs>>, bouton colle a sa droite |
-| page de creation | <<Charakterebene>> | <<Charaktername>> et <<Charakterklasse>> |
-| builds partages | <<Min. Level>>, <<Max. Level>> | <<Stufe:>> sur chaque carte de la meme page |
-| bandeau | <<Satze vergleichen>> | <<Wahlen Sie Sets zum Vergleichen aus>>, titre de la page ou il mene |
-| page A propos | onglet <<Um>>, une preposition | <<Hilfe und Info>>, le h1 de la meme page |
-| FAQ, tableau | <<Punkt A>> | <<wie viele Punkte ... wert ist>>, ou Punkte sont des points de score |
-| FAQ, phrase | <<Ausrustung A ... Punkt A>> | dans **une seule phrase** |
-| FAQ, phrase | <<Ausrustung A ... Element B>> | dans **une seule phrase** |
-| page infeasible | <<ein Element ... gesperrt>> | <<einige Gegenstande>>, la puce suivante |
-
-**Le mot retenu n'est pas une preference.** C'est celui que le catalogue
-allemand emploie deja le plus pour cette notion, compte fait le 13 septembre
-2026 sur les 1425 entrees traduites, en ne comptant que les entrees dont le
-msgid **anglais** porte la notion:
-
-| notion | mot retenu, avant -> apres | concurrents, avant -> apres |
-|--------|---------------------------|-----------------------------|
-| item | Gegenstand, 82 -> 87 | Punkt 4 -> 2, Element 4 -> 0 |
-| level | Stufe, 23 -> 26 | Ebene 1 -> 0 |
-| set | Set, 114 -> 120 | Satze 3 -> 0 |
-| buff | Buff, 10 -> 11 | poliert 1 -> 0 |
-
-Les deux <<Punkt>> qui restent sont les deux phrases de la FAQ ou le mot dit
-bien un point de score; voir la mesure grossiere plus bas.
-
-**L'exception est nommee et mesuree.** Neuf entrees de prose gardent
-<<Level>>, parce que c'est le mot allemand courant en langue courante:
-<<dein Level>>, <<Level 200>>, <<Farmen / Leveln>>. Aucune n'est un libelle
-de controle: la plus courte fait six mots, et la regle ci-dessous porte sur
-les libelles de cinq mots au plus, ou elle tient sans une seule exception.
-
-**Une mesure grossiere mentirait ici.** Chercher la sous-chaine <<Punkt>>
-dans la FAQ attrape <<Punkte>> et <<Punktzahl>>, qui disent bien des points
-de score. Les tests visent donc le referent (<<Punkt A>>) et non le mot seul.
-
-Les traductions sont lues par `gettext`, donc dans le catalogue **compile**:
-un `.po` corrige mais non recompile ne passe pas plus qu'un `.po` fautif.
-"""
+"""Each notion the German reader sees uses one word: Gegenstand, Stufe, Set, Buff."""
 
 import io
 import os
@@ -56,10 +9,7 @@ from django.test import SimpleTestCase
 from django.utils import translation
 from django.utils.translation import gettext
 
-#: Notion -> (le mot retenu, son compte apres le lot, les mots ecartes avec
-#: leur compte **avant** le lot, qui est ce qui en faisait la minorite).
-#: Le compte retenu est un plancher exact: si l'un de ces mots recule, c'est
-#: que la regle est en train de se defaire, et il faut le regarder.
+# Notion -> (chosen word, its minimum count, other words with their old count)
 _NOTIONS = {
     'item': ('Gegenst', 87, {'Punkt': 4, 'Element': 4}),
     'level': ('Stufe', 26, {'Ebene': 1}),
@@ -67,13 +17,10 @@ _NOTIONS = {
     'buff': ('Buff', 11, {'poliert': 1}),
 }
 
-#: Au-dela de cinq mots un msgid n'est plus un libelle mais une phrase, ou
-#: <<Level>> est le mot allemand courant. La frontiere est mesuree:
-#: `test_the_five_word_boundary_is_where_the_rule_stops` la tient.
+# Past five words a msgid is prose, where Level is the usual German word
 _LONGUEUR_LIBELLE = 5
 
-#: Les voisinages ou la contradiction se lisait. Chaque paire est deux
-#: elements que le lecteur voit en meme temps.
+# Labels seen together: (msgid, msgid, shared word, where)
 _VOISINS = (
     ('Lock Items', 'Forbid Items', 'Gegenst', 'le menu d\'un projet'),
     ('Fully Buff', 'Clean Buffs', 'Buff', 'les deux boutons des sorts'),
@@ -83,8 +30,7 @@ _VOISINS = (
     ('Compare sets', 'Choose sets to compare', 'Set', 'le bandeau'),
 )
 
-#: Ce qui etait ecrit, et ce que cela voulait dire. Nomme pour qu'un retour
-#: en arriere se lise au lieu de repasser inapercu.
+# (msgid, wrong translation, what it actually means)
 _MOTS_FAUX = (
     ('About', 'Um', 'une preposition: autour de, vers'),
     ('Item A', 'Punkt A', 'un point, comme un point de score'),
@@ -99,16 +45,14 @@ _MOTS_FAUX = (
     ('Fully Buff', 'Vollständig poliert', 'poliert: poli, lustre'),
 )
 
-#: La phrase dont le lien ne doit porter que le verbe, comme dans les trois
-#: autres langues. <<freischalten>> etant un verbe a particule separable, la
-#: traduction avait enferme la phrase entiere dans le lien.
+# Only the verb goes in the link (freischalten is a separable verb)
 _PHRASE_DU_LIEN = '<a href=%(lock_link)s>Unlock</a> some items'
 
 _ENTREE = re.compile(r'(?m)^msgid ((?:"[^\n]*"\n)+)msgstr ((?:"[^\n]*"\n?)+)')
 
 
 def _catalogue(langue):
-    """[(msgid, msgstr)] du .po, msgid tel que le code le demande."""
+    """[(msgid, msgstr)] from the .po."""
     chemin = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
         'locale', langue, 'LC_MESSAGES', 'django.po')
@@ -124,7 +68,7 @@ def _catalogue(langue):
 
 
 def _traduit(msgid):
-    """Ce que le lecteur recoit vraiment, donc le catalogue compile."""
+    """German text from the compiled catalogue."""
     with translation.override('de'):
         return gettext(msgid)
 
@@ -132,7 +76,6 @@ def _traduit(msgid):
 class EveryGermanLabelUsesTheWordTheSiteAlreadyUsesTests(SimpleTestCase):
 
     def test_no_short_label_names_a_thing_the_site_names_otherwise(self):
-        """Le test qui aurait attrape les onze libelles."""
         ecarts = []
         for msgid, _ in _catalogue('de'):
             if len(msgid.split()) > _LONGUEUR_LIBELLE:
@@ -153,13 +96,6 @@ class EveryGermanLabelUsesTheWordTheSiteAlreadyUsesTests(SimpleTestCase):
             'use for it: %s' % ecarts)
 
     def test_the_chosen_word_dominates_the_ones_set_aside(self):
-        """Le plancher qui rend le test ci-dessus autre chose qu'un gout.
-
-        Il tenait deja **avant** le lot, et c'est ce qui le rend utile: le
-        mot retenu etait deja celui du site (82 contre 4 pour item, 23 contre
-        1 pour level), donc corriger les ecarts suivait le vocabulaire au
-        lieu d'en imposer un.
-        """
         entrees = _catalogue('de')
         for notion, (retenu, _stamp, ecartes) in _NOTIONS.items():
             with self.subTest(notion=notion):
@@ -177,11 +113,6 @@ class EveryGermanLabelUsesTheWordTheSiteAlreadyUsesTests(SimpleTestCase):
                         '%d)' % (retenu, mauvais, notion, compte, reste))
 
     def test_the_recorded_counts_are_the_ones_measured(self):
-        """L'estampille de la mesure du 13 septembre 2026.
-
-        Elle tombe si l'un des mots retenus recule, ce que mon propre travail
-        ulterieur est le plus a meme de provoquer.
-        """
         entrees = _catalogue('de')
         for notion, (retenu, attendu, _ecartes) in _NOTIONS.items():
             with self.subTest(notion=notion):
@@ -194,14 +125,6 @@ class EveryGermanLabelUsesTheWordTheSiteAlreadyUsesTests(SimpleTestCase):
                     'times' % (retenu, attendu, notion, compte))
 
     def test_the_rule_covers_enough_labels_to_prove_something(self):
-        """La regle porte-t-elle encore sur quelque chose?
-
-        Elle s'arrete a cinq mots, et une frontiere peut se vider sans que
-        rien ne casse: si le catalogue evoluait au point qu'il ne reste que
-        deux libelles sous la barre, les tests ci-dessus passeraient en ne
-        mesurant plus rien. Que les entrees au-dela soient bien de la prose
-        est garde separement, par le test de l'exception idiomatique.
-        """
         entrees = _catalogue('de')
         sous_la_frontiere = [
             msgid for msgid, _ in entrees
@@ -213,13 +136,7 @@ class EveryGermanLabelUsesTheWordTheSiteAlreadyUsesTests(SimpleTestCase):
             'labels' % len(sous_la_frontiere))
 
     def test_the_prose_that_keeps_Level_is_prose_and_is_counted(self):
-        """L'exception est nommee, et son compte est garde.
-
-        <<Level>> reste dans la prose parce que c'est le mot courant. Si
-        cette liste enflait, la regle serait en train d'etre contournee
-        plutot que respectee.
-        """
-        prose = [msgid for msgid, msgstr in _catalogue('de')
+        prose =[msgid for msgid, msgstr in _catalogue('de')
                  if 'level' in msgid.lower()
                  and 'Stufe' not in msgstr and 'Level' in msgstr]
         self.assertTrue(prose, 'the idiomatic exception vanished entirely')
@@ -245,9 +162,7 @@ class NoLabelKeepsAWordThatMeansSomethingElseTests(SimpleTestCase):
             % revenus)
 
     def test_the_faq_never_calls_an_item_a_score_point(self):
-        """La FAQ compte des points juste au-dessus de son tableau, donc le
-        mot <<Punkt>> y est pris. Viser la sous-chaine attraperait
-        <<Punkte>>; on vise le referent."""
+        """The FAQ says Punkte for score points: match Punkt A, not Punkt."""
         fautifs = []
         for msgid, _ in _catalogue('de'):
             rendu = _traduit(msgid)
@@ -262,8 +177,6 @@ class NoLabelKeepsAWordThatMeansSomethingElseTests(SimpleTestCase):
 class TwoThingsSeenTogetherUseTheSameWordTests(SimpleTestCase):
 
     def test_neighbouring_labels_agree_on_the_word(self):
-        """Le seul defaut qu'un lecteur peut voir: deux mots pour une meme
-        notion, sur un ecran qui les montre ensemble."""
         desaccords = []
         for gauche, droite, mot, ou in _VOISINS:
             rg, rd = _traduit(gauche), _traduit(droite)
@@ -275,8 +188,6 @@ class TwoThingsSeenTogetherUseTheSameWordTests(SimpleTestCase):
             'words: %s' % desaccords)
 
     def test_the_neighbours_really_are_translated_apart(self):
-        """Sans cela le test ci-dessus passerait sur des chaines identiques
-        et ne garderait rien."""
         identiques = [(g, d) for g, d, _mot, _ou in _VOISINS
                       if _traduit(g) == _traduit(d)]
         self.assertEqual(
@@ -288,8 +199,6 @@ class TwoThingsSeenTogetherUseTheSameWordTests(SimpleTestCase):
 class TheLinkCoversTheVerbOnlyTests(SimpleTestCase):
 
     def test_every_language_links_the_verb_and_not_the_sentence(self):
-        """L'anglais ne met que <<Unlock>> dans le lien. Trois langues sur
-        quatre le suivaient; l'allemand enfermait la phrase entiere."""
         trop_larges = []
         for langue in ('en', 'fr', 'es', 'pt', 'de'):
             with translation.override(langue):
