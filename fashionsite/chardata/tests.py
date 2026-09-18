@@ -15652,8 +15652,8 @@ class StatRangeTests(TestCase):
         how low one rolls. 12 646 ranges landed, 70.1% of the 18 047 rows,
         against 80.5% on dofus3.
 
-        The two ends must also keep the convention be410d3a5 set on Touch: the
-        stored value is the best roll on a bonus and the HARD end on a malus.
+        The stored value is the best roll, on a bonus and on a malus alike: the
+        end nearest zero is the best a malus rolls.
         """
         from fashionistapulp.structure import get_structure
         structure = get_structure('retro')
@@ -15664,11 +15664,11 @@ class StatRangeTests(TestCase):
         self.assertEqual((151, 300), bonus.stat_ranges[vitality])
         self.assertIn((vitality, 300), bonus.stats)
 
-        # A malus keeps the hard end as its value, not the gentler one.
+        # A malus keeps its best roll too, the end nearest zero.
         malus = structure.get_item_by_name('Fwell Sword')
         self.assertIsNotNone(malus, msg='the Retro item this test names is gone')
         self.assertEqual((-8, -4), malus.stat_ranges[vitality])
-        self.assertIn((vitality, -8), malus.stats)
+        self.assertIn((vitality, -4), malus.stats)
 
     def test_the_item_page_shows_the_range_in_each_language(self):
         expected = {'en': '201 to 250', 'fr': '201 à 250', 'es': '201 a 250',
@@ -15794,13 +15794,13 @@ class StatRangeInThePickerTests(TestCase):
         here rather than the level 1 hat the old test used (its five stats all
         roll, so it could not show the fixed case):
             Strength  40, rolling 21 to 40  -> a bonus reads its best roll
-            Agility  -10, rolling -10 to -9 -> a malus reads its HARD end
+            Agility   -9, rolling -10 to -9 -> a malus reads its best roll
             Intelligence 5, no range        -> a fixed stat shows no range
         """
         lines = self._stat_lines('Adili Sword', version='retro')
         self.assertTrue(lines)
         self.assertEqual('21 to 40', lines['40 Strength'].range_text)
-        self.assertEqual('-10 to -9', lines['-10 Agility'].range_text)
+        self.assertEqual('-10 to -9', lines['-9 Agility'].range_text)
         self.assertIsNone(lines['5 Intelligence'].range_text)
 
     def test_the_encyclopedia_and_the_picker_use_the_same_formatter(self):
@@ -23656,7 +23656,8 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
 
     def test_retro_keeps_the_bad_half_of_an_elemental_trade(self):
         # 1.29 sells a resist in one element against a weakness in another. La
-        # Bourgeonette, ankama 2394, pays 5% air for its 5% earth.
+        # Bourgeonette, ankama 2394, pays 3 to 5% air for its 5% earth, and
+        # the catalogue keeps the best roll, -3.
         import sqlite3
         from fashionistapulp.fashionista_config import get_items_db_path
         connection = sqlite3.connect(
@@ -23676,7 +23677,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         finally:
             connection.close()
         self.assertEqual(stats.get('% Earth Resist'), 5)
-        self.assertEqual(stats.get('% Air Resist'), -5)
+        self.assertEqual(stats.get('% Air Resist'), -3)
         self.assertGreaterEqual(weak, 30)
 
     def test_no_version_zeroes_a_stat_its_own_items_carry(self):

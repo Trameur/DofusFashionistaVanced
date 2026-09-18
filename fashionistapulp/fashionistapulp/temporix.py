@@ -44,7 +44,7 @@ from .game_versions import get_game_version
 #: rule is not handed back as if it were the new one. A TemporiX solve carries
 #: it in its options; a classic Touch solve carries False instead (see
 #: fashion_action.get_options).
-RULE_VERSION = 2
+RULE_VERSION = 3
 
 #: What can drop shiny, read in Ankama's client (build/script.js, the Item
 #: constructor): canBeShiny = BELT || BOOTS || HAT || CAPE || AMULET || RING ||
@@ -84,10 +84,9 @@ def shiny_value(value):
 
     Rounded in magnitude: a shiny malus grows like a bonus does. Ankama's
     written recap of the 2 September live: "Si un equipement rayonnant possede
-    des malus, sont-ils egalement augmentes ? Oui". Which end of a RANGED malus
-    the perfect roll starts from, Ankama has not said. The catalogue stores a
-    malus at its hardest end on every version, so a build never promises less
-    penalty than the game may give, and that is the value multiplied here.
+    des malus, sont-ils egalement augmentes ? Oui". The catalogue stores a
+    ranged malus at its best roll, the end nearest zero, like a bonus at its
+    maximum, and that is the value multiplied here.
     """
     magnitude = (3 * abs(value) + 1) // 2
     return magnitude if value >= 0 else -magnitude

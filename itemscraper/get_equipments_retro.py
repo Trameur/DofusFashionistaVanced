@@ -427,11 +427,8 @@ def decode_stats(ista_string, is_weapon=False):
         # the forgemagie workbench received `min: None` for every stat, so it
         # could not say how low a stat rolls.
         #
-        # Order matters and get_equipments3 does the rest: it stores the higher
-        # end as the value EXCEPT on a negative stat, where it takes stat[0].
-        # Emitting [min, max] therefore gives the best roll on a bonus and the
-        # hard end on a malus (-8 out of -8..-4), the convention be410d3a5
-        # established on Touch.
+        # get_equipments3 does the rest: it stores the larger end as the value,
+        # the best roll on a bonus and on a malus alike (-4 out of -8..-4).
         hi = jmax if jmax not in (None, 0) else None
         lo = jmin if jmin is not None else None
         if hi is None and lo is None:

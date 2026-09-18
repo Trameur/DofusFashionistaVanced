@@ -158,6 +158,11 @@ STAT_NAME_TO_KEY_LOCAL = {
 def escape_single_quotes(s):
     return s.replace("'", "''")
 
+def best_roll(first, second):
+    # The larger end is the best roll on a bonus and on a malus alike: -1 beats
+    # -100. The scrapers do not agree on which end comes first.
+    return max(v for v in (first, second) if v is not None)
+
 # Read the original JSON file
 with open(os.path.join(input_dir, 'transformed_equipment.json'), 'r', encoding='utf-8') as f:
     original_data = json.load(f)
@@ -256,8 +261,9 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
         f.write(f"INSERT INTO items VALUES({item_id},'{escape_single_quotes(item['name_en'])}',{item['level']},{list(TYPE_NAME_TO_SLOT.values()).index(item['w_type'].lower()) + 1},{set_id_or_null},{item['ankama_id']},'{item['ankama_type']}',NULL,NULL);\n")
 
     # Write CREATE TABLE for stats_of_items
-    # value is the best roll; min_value/max_value are the two ends of the range,
-    # NULL when the item has a single fixed value.
+    # value is the best roll, the higher end on a bonus and the end nearest zero
+    # on a malus; min_value/max_value are the two ends of the range, NULL when
+    # the item has a single fixed value.
     f.write("""CREATE TABLE stats_of_item
             (item INTEGER, stat INTEGER, value INTEGER,
             min_value INTEGER, max_value INTEGER,
@@ -276,8 +282,7 @@ with open(dump_output_path, 'w', encoding='utf-8') as f:
                     print(f"Skipping {stat[2]}")
                     skipped_stats.append(stat[2])
                 continue
-            stat_value = stat[1] if stat[1] is not None else stat[0]
-            stat_value = stat[0] if stat[0] < 0 else stat_value
+            stat_value = best_roll(stat[0], stat[1])
             if stat[0] is not None and stat[1] is not None and stat[0] != stat[1]:
                 low, high = min(stat[0], stat[1]), max(stat[0], stat[1])
             else:

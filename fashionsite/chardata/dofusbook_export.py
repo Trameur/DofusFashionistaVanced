@@ -33,10 +33,8 @@ the total we write for a characteristic is the sum over the worn pieces of
 what the player has minus what their own catalogue gives that piece. Their
 number is taken from THEIR endpoint and not from ours, the way their `Pc`
 reads it (`max > 0 ? max : min` on every effect of type E), because the two
-catalogues do not always agree: measured on the Strigide amulet, their
-critical resistance line is -16 to -20 and ours holds -20, so computing the
-difference against our own maximum would have written four points of
-forgemagie nobody ever forged.
+catalogues need not agree, and a difference computed against our own value
+would write forgemagie nobody ever forged wherever they part.
 
 A partial scroll stays at zero too, and this one is measurable rather than
 cautious: their decoder reads `t[0][p] >= 100 ? 100 : 0` as the scroll and
