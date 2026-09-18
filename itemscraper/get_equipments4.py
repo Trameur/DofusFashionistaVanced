@@ -18,6 +18,7 @@ import argparse
 import io
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -35,6 +36,25 @@ from fashionistapulp.fashion_util import normalize_name, safe_icon_name
 # it included. requests.get had no timeout either, so a stalled read could hold
 # the pipeline until something outside killed it.
 REQUEST_TIMEOUT = 30
+
+# Dofus 2's art is on Ankama's own CDN, under the icon id that the dofusdude
+# mirror's urls carry (/img/item/6007-200.png). Same drawing, first hand; the
+# mirror stays as the fallback.
+ANKAMA_DOFUS2_ICON = 'https://static.ankama.com/dofus/www/game/items/200/%s.png'
+_MIRROR_ICON_ID = re.compile(r'/img/item/(\d+)(?:-\d+)?\.png$')
+
+
+def source_urls(item, game_version):
+    """The urls to try for an item's picture, first hand first."""
+    urls = []
+    if game_version == 'dofus2':
+        match = _MIRROR_ICON_ID.search(item.get('image_url') or '')
+        if match:
+            urls.append(ANKAMA_DOFUS2_ICON % match.group(1))
+    for url in (item.get('image_url'), item.get('image_url_fallback')):
+        if url and url not in urls:
+            urls.append(url)
+    return urls
 
 
 def sanitize_filename(name):
@@ -147,15 +167,15 @@ def main():
             if original_name != sanitized_name:
                 print(f"Filename modified: {original_name} -> {sanitized_name}")
 
-            # Both directories hold the same file, so it is fetched once.
-            new_content, connection_failed = fetch_image(session, image_url)
-            fallback_url = item.get('image_url_fallback')
-            if (new_content is None and not connection_failed and fallback_url
-                    and fallback_url != image_url):
-                # The source rendered another size of the same artwork: see
-                # image_url_fallback in get_equipments2.py.
-                new_content, connection_failed = fetch_image(session,
-                                                             fallback_url)
+            # Both directories hold the same file, so it is fetched once. The
+            # next url is another source or another size of the same artwork
+            # (see image_url_fallback in get_equipments2.py), tried only when
+            # this one answered without it: a dropped connection fails the item.
+            new_content, connection_failed = None, False
+            for url in source_urls(item, game_version):
+                new_content, connection_failed = fetch_image(session, url)
+                if new_content is not None or connection_failed:
+                    break
             if new_content is None:
                 if connection_failed:
                     failed += 1

@@ -66,6 +66,15 @@ OBJET_AVEC_REPLI = [
 ]
 
 
+#: Dofus 2 comes from the dofusdude mirror, whose urls carry Ankama's icon id.
+OBJET_DOFUS2 = [
+    {'name_en': 'Twiggy Sword', 'w_type': 'Sword',
+     'image_url': 'https://api.dofusdu.de/dofus2/img/item/6007-200.png',
+     'image_url_fallback': 'https://api.dofusdu.de/dofus2/img/item/6007.png'},
+]
+ANKAMA_6007 = 'https://static.ankama.com/dofus/www/game/items/200/6007.png'
+
+
 def _scraper():
     if SCRAPER not in sys.path:
         sys.path.insert(0, SCRAPER)
@@ -97,7 +106,7 @@ class _Session:
 
 class OneImageThatFailsDoesNotStopTheOthersTests(SimpleTestCase):
 
-    def _lancer(self, session, objets=None):
+    def _lancer(self, session, objets=None, version='beta'):
         scraper = _scraper()
         stockees = []
         objets = OBJETS if objets is None else objets
@@ -112,7 +121,7 @@ class OneImageThatFailsDoesNotStopTheOthersTests(SimpleTestCase):
                                     stockees.append(chemin)),
                   mock.patch.object(sys, 'argv',
                                     ['get_equipments4.py',
-                                     '--game-version', 'beta',
+                                     '--game-version', version,
                                      '--input-file', entree]),
                   contextlib.redirect_stdout(io.StringIO())):
                 code = scraper.main()
@@ -158,6 +167,29 @@ class OneImageThatFailsDoesNotStopTheOthersTests(SimpleTestCase):
         self.assertEqual(['https://x/1332-128.png'],
                          [url for url, _options in session.appels])
         self.assertEqual([], stockees)
+
+    def test_dofus2_takes_its_picture_from_ankama_first(self):
+        session = _Session()
+        code, _, stockees = self._lancer(session, OBJET_DOFUS2, 'dofus2')
+        self.assertEqual(0, code)
+        self.assertEqual([ANKAMA_6007],
+                         [url for url, _options in session.appels])
+        self.assertEqual(2, len(stockees))
+
+    def test_dofus2_falls_back_to_the_mirror_where_ankama_has_none(self):
+        # 26 of the 3388 answered 403 on 2026-09-18.
+        session = _Session(absentes={ANKAMA_6007})
+        code, _, stockees = self._lancer(session, OBJET_DOFUS2, 'dofus2')
+        self.assertEqual(0, code)
+        self.assertEqual([ANKAMA_6007, OBJET_DOFUS2[0]['image_url']],
+                         [url for url, _options in session.appels])
+        self.assertEqual(2, len(stockees))
+
+    def test_the_other_versions_keep_their_own_source(self):
+        session = _Session()
+        self._lancer(session, OBJET_DOFUS2, 'dofus3')
+        self.assertEqual([OBJET_DOFUS2[0]['image_url']],
+                         [url for url, _options in session.appels])
 
     def test_every_request_has_a_deadline(self):
         session = _Session()
