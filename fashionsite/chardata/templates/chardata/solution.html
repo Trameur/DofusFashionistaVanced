@@ -102,6 +102,7 @@
             <div class="char-banner-meta">
                 {{ char.char_class|localized_class }} · {% trans "level" %} {{ char.level }}
                 {% if owner_alias %}· {% trans "by" %} {{ owner_alias }}{% endif %}
+                {% if temporix_solve %}· <span class="temporix-solve" title="{% trans "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit." %}">TemporiX</span>{% endif %}
             </div>
             {% if share_text %}
             <div style="margin-top: 6px;">

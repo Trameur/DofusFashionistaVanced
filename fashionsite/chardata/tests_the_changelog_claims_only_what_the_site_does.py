@@ -6,7 +6,8 @@ et l'entree la plus recente du changelog disait <<August 2026>>. Le 11,
 Thibaud a lu quatre entrees de septembre et seize puces: <<beaucoup trop
 fourni, on ecrit juste l'ajout de grosses nouvelles features, les petits
 correctifs et changements ne comptent pas>>. Ce module garde donc trois
-choses: que septembre tient en deux entrees courtes; que chaque phrase est
+choses: que septembre tient en trois entrees courtes (deux le 11, puis le mode
+TemporiX de Dofus Touch le 18); que chaque phrase est
 traduite dans les quatre langues; et que chaque phrase nomme une chose qui
 existe encore dans le code, pour qu'un retrait ulterieur fasse tomber la
 promesse avec lui.
@@ -50,12 +51,16 @@ def _catalogue(langue):
 
 class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
 
-    def test_two_entries_of_at_most_four_bullets(self):
+    def test_three_entries_of_at_most_four_bullets(self):
         entrees = _entrees()
         self.assertEqual(MOIS, entrees[0][0])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
-        self.assertEqual(2, len(de_ce_mois), [e[1] for e in de_ce_mois])
-        self.assertEqual('Your build, in and out', entrees[0][1])
+        # Trois depuis le 18 septembre: le mode TemporiX de Dofus Touch est
+        # une grosse fonctionnalite, et pour trois semaines seulement, donc il
+        # doit se voir. Une seule puce, et rien sur les pieces qu'un build
+        # classique ne recoit plus: c'est un correctif.
+        self.assertEqual(3, len(de_ce_mois), [e[1] for e in de_ce_mois])
+        self.assertEqual('TemporiX mode', entrees[0][1])
         for _date, titre, puces in de_ce_mois:
             self.assertLessEqual(len(puces), MAX_PUCES, titre)
             self.assertGreaterEqual(len(puces), 1, titre)
@@ -173,3 +178,17 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         self.assertIn('encyclopedia-build-around-set',
                       self._template('encyclopedia_set.html'))
         self.assertTrue(reverse('quickstart'))
+
+    def test_the_temporix_box_is_on_touch_builds_and_nowhere_else(self):
+        """La case promise, sur Touch seulement, et les regles qu'elle tient.
+        Le jour ou le mode est retire, ce test tombe et l'entree du changelog
+        avec lui. Il ne tombe pas seul le 13 octobre 2026: retirer le mode
+        apres la fin des serveurs est une decision, pas une date."""
+        self.assertIn('name="temporix"', self._template('options.html'))
+        from fashionistapulp.dofus_constants import get_stat_maximum
+        from fashionistapulp.game_versions import GAME_VERSIONS
+        self.assertEqual({'touch'}, {key for key, version in GAME_VERSIONS.items()
+                                     if version.temporix})
+        uncapped = get_stat_maximum('touch', temporix=True)
+        for stat_name in ('AP', 'MP', 'Range', 'Summon'):
+            self.assertNotIn(stat_name, uncapped)

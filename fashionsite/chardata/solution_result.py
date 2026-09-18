@@ -161,6 +161,11 @@ class SolutionResult:
                   'item_is_empty_locked': json.dumps(item_is_empty_locked),
                   'item_violates': json.dumps(item_violates),
                   'options_json': json.dumps(r.input['options']),
+                  # What this solution was solved under, not what the switch
+                  # says now: a build switched off and not solved again still
+                  # shows shiny values, and the page must say which it shows.
+                  'temporix_solve': bool((r.input.get('options') or {}).get(
+                      'temporix')),
                   'item_per_slot': item_per_slot,
                   'is_generated': (r.input.get('origin', 'generated') == 'generated'),
                   # Un build importe n'est ni suggere ni vide, et la page

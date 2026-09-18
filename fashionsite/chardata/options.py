@@ -21,6 +21,7 @@ from chardata.char_blobs import read_char_blob
 from django.utils.functional import lazy
 from django.utils.translation import gettext_lazy as _
 from fashionistapulp.structure import get_structure
+from fashionistapulp.temporix import version_has_temporix
 from fashionistapulp.translation import get_supported_language
 
 # Display order. The icon is always chardata/<key>.png; the English label is kept
@@ -153,6 +154,7 @@ def get_available_options(structure=None):
         'seemyool': mounts['Seemyool'],
         'rhineetle': mounts['Rhineetle'],
         'any_mount': any(mounts.values()),
+        'temporix': version_has_temporix(ver),
     }
     _available_options_cache[ver] = result
     return result
@@ -170,7 +172,8 @@ def get_options(char):
         options['prysmaradite'] = options.get('prysmaradite', char.level >= 200)
     options.setdefault('dofus', True)
     options.setdefault('trophies', True)
-    
+    options.setdefault('temporix', False)
+
     exclusions = get_all_exclusions_en_names(char)
     dofus_opt = {}
     for (red, item) in DOFUS_OPTIONS.items():
@@ -185,6 +188,7 @@ def set_options(char, options):
     assert type(options.get('range_exo', False)) == bool
     assert options.get('mp_exo') == 'gelano' or type(options.get('mp_exo', False)) == bool
     assert options.get('dofus') == 'lightset' or options.get('dofus') == 'cawwot' or type(options.get('dofus', False)) == bool
+    assert type(options.get('temporix', False)) == bool
 
     if char.options:
         old_options = read_char_blob(char.options, {}, 'options', char)

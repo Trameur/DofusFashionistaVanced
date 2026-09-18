@@ -348,7 +348,10 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                                       game_version, buff_state,
                                       levels).items():
         stats[stat] = stats.get(stat, 0) + delta
-    ap = combat_ap(stats.get('ap'), game_version)
+    # The totals above are those of the stored solve, so the cap is too.
+    from chardata.temporix_mode import solution_uses_temporix
+    ap = combat_ap(stats.get('ap'), game_version,
+                   temporix=solution_uses_temporix(solution, game_version))
     spells = castable_spells(char.char_class, char.level, game_version,
                              levels=levels)
     weapon = _weapon_castable(solution)

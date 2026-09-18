@@ -24,6 +24,7 @@ from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_N
 from .item_flags import flag_lines
 from .spell_text import fold_spell_blocks
 from .structure import get_structure, get_current_game_version
+from .temporix import as_worn, is_on as temporix_is_on
 from .translation import get_supported_language
 from .violation import Violation
 from fashionistapulp.dofus_constants import (STAT_NAME_TO_KEY,
@@ -189,8 +190,20 @@ class ModelResult():
         self.stats_gear = None
         self.stats_total = None
 
+    def _worn(self, item, stat_overrides):
+        """The piece as this build wears it: shiny on a TemporiX build."""
+        options = (self.input or {}).get('options') if isinstance(
+            self.input, dict) else None
+        # stat_overrides is the whole build's {item id: rolls}, as
+        # ModelResultItem reads it, not this piece's own entry.
+        overridden = (item is not None and bool(stat_overrides)
+                      and item.id in stat_overrides)
+        return as_worn(item, get_structure(), options, overridden=overridden)
+
     def add_item_at_slot(self, item, slot, stat_overrides=None):
-        self._add_result_item_at_slot(slot, ModelResultItem(item, stat_overrides))
+        self._add_result_item_at_slot(
+            slot, ModelResultItem(self._worn(item, stat_overrides),
+                                  stat_overrides))
         
     def _add_result_item_at_slot(self, slot, result_item):
         result_item.set_slot(slot)
@@ -310,8 +323,10 @@ class ModelResult():
             # resistance lives in model.py's capped_resist variables, and the
             # few points above it are the buffer that keeps a build at 50%
             # under a vulnerability debuff.
+            version = get_current_game_version()
             for stat_name, cap in get_stat_maximum(
-                    get_current_game_version()).items():
+                    version, temporix=temporix_is_on(
+                        self.input.get('options'), version)).items():
                 key = STAT_NAME_TO_KEY.get(stat_name)
                 if key in self.stats_total and self.stats_total[key] > cap:
                     self.stats_total[key] = cap
@@ -323,7 +338,8 @@ class ModelResult():
         return self.stats_total
         
     def switch_item(self, item, slot, stat_overrides=None):
-        result_item = ModelResultItem(item, stat_overrides)
+        result_item = ModelResultItem(self._worn(item, stat_overrides),
+                                      stat_overrides)
         result_item.set_slot(slot)
         to_remove = None
         for candidate_item in self.item_list:

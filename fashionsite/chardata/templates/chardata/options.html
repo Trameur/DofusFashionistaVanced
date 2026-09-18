@@ -109,6 +109,19 @@
     {% endif %}
     </table>
 
+    {% if version_options.temporix %}
+    <div class='big-text' align="center">
+        <br>
+        <div class="brown-box temporix-box" align="center">
+            <label class="temporix">
+                <input type="checkbox" name="temporix" class="change-modifies-state temporix" {% if options_dict.temporix %}checked{% endif %}>
+                {% trans "TemporiX mode" %}
+            </label>
+            <p class="temporix-help">{% trans "For the TemporiX servers (15 September to 13 October 2026): shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build." %}</p>
+        </div>
+    </div>
+    {% endif %}
+
     {% if inventory_folders %}
     <div class='big-text' align="center">
         <br>

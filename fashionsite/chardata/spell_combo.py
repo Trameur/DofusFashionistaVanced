@@ -57,13 +57,13 @@ ONLY_HITS_A_SUMMON = {
 BASE_AP = 6
 
 
-def combat_ap(total_ap, game_version):
+def combat_ap(total_ap, game_version, temporix=False):
     """The AP a turn has. The solution total already carries the character's own
     base AP, so nothing is added to it; only a build saved without base stats
-    falls back to the starting AP. Retro never got the PA/PM/PO limitation, so
-    it takes no cap."""
+    falls back to the starting AP. Retro never got the PA/PM/PO limitation, and
+    neither did the TemporiX servers, so those take no cap."""
     total = total_ap or BASE_AP
-    cap = get_stat_maximum(game_version).get('AP')
+    cap = get_stat_maximum(game_version, temporix=temporix).get('AP')
     return min(total, cap) if cap else total
 
 

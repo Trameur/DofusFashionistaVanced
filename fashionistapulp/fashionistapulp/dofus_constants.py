@@ -245,7 +245,7 @@ STAT_ORDER = {
 #
 # Sources: official Dofus forums ("Nombre maximum de Portee" = 6 PO equipment cap;
 # Resist Cap; "Limitation PA/PM sur DOFUS Retro").
-def get_stat_maximum(game_version):
+def get_stat_maximum(game_version, temporix=False):
     caps = {
         'Summon': 10,
         '% Neutral Resist': 53,
@@ -258,6 +258,12 @@ def get_stat_maximum(game_version):
         caps['AP'] = 12
         caps['MP'] = 6
         caps['Range'] = 6
+    if temporix:
+        # The Dofus Touch TemporiX servers: "no limits will be placed on the
+        # amount of AP, MP, Range and summons ... Caps on resistances will
+        # remain unchanged." (Ankama devblog 1771318)
+        for stat_name in ('AP', 'MP', 'Range', 'Summon'):
+            caps.pop(stat_name, None)
     return caps
 
 STAT_KEY_TO_NAME = {v: k for k, v in STAT_NAME_TO_KEY.items()}

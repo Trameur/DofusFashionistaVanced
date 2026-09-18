@@ -188,6 +188,11 @@ def _get_shared_build_meta(char):
         # gallery pays nothing more for it. Same attribute get_solver_facts
         # reads for the solution page and the API.
         meta['solver_proven'] = getattr(minimal_solution, 'proven', None)
+        # Off the same pickle: a TemporiX build totals past 12 AP and 6 MP,
+        # and the card must say so before a classic Touch player copies it.
+        solved_options = (getattr(minimal_solution, 'input', None) or {}).get(
+            'options') or {}
+        meta['temporix'] = bool(solved_options.get('temporix'))
         meta['preview_items'] = _get_preview_items(
             minimal_solution, structure, game_version)
         acquisition_entries = []
@@ -558,6 +563,8 @@ def shared_builds(request):
             # .get and not [...]: a meta cached before this key existed lives
             # on until its timeout, and must render as "unknown", not crash.
             'solver_proven': build_meta.get('solver_proven'),
+            # Same .get: a meta cached before the mode existed has no such key.
+            'temporix': build_meta.get('temporix', False),
             'preview_items': build_meta['preview_items'],
             'compact_stats': build_meta['compact_stats'],
             'acquisition_summary': build_meta.get('acquisition_summary', ''),

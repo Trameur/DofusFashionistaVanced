@@ -37,7 +37,7 @@ class GameVersion:
 
     def __init__(self, key, label, db_file, dump_file, prefix=None,
                  seo_word='', experimental=False, dofus=True,
-                 rings_can_double=True):
+                 rings_can_double=True, temporix=False):
         self.key = key
         self.label = label
         self.db_file = db_file
@@ -58,6 +58,10 @@ class GameVersion:
         # name of a Wakfu type too, so giving Wakfu its real type names would
         # have silently granted it a Dofus rule.
         self.rings_can_double = rings_can_double
+        # Whether a build of this version can be switched to Ankama's TemporiX
+        # rules (Dofus Touch, 15 September to 13 October 2026): shiny pieces
+        # and no AP, MP, Range or summon cap. See fashionistapulp/temporix.py.
+        self.temporix = temporix
 
     def __repr__(self):
         return '<GameVersion %s>' % self.key
@@ -72,7 +76,8 @@ GAME_VERSIONS = {
         GameVersion('dofus2', 'Dofus 2', 'items_dofus2.db',
                     'item_db_dumped_dofus2.dump', seo_word='2'),
         GameVersion('touch', 'Touch', 'items_touch.db',
-                    'item_db_dumped_touch.dump', seo_word='Touch'),
+                    'item_db_dumped_touch.dump', seo_word='Touch',
+                    temporix=True),
         GameVersion('retro', 'Retro', 'items_retro.db',
                     'item_db_dumped_retro.dump', seo_word='Retro',
                     rings_can_double=False),

@@ -289,6 +289,11 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
                         <span class="build-proof-badge build-proof-badge-limit">{% trans "Best found at the time limit, not a proof" %}</span>
                     </div>
                     {% endif %}
+                    {% if build.temporix %}
+                    <div class="build-alerts">
+                        <span class="build-proof-badge build-proof-badge-limit" title="{% trans "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit." %}">TemporiX</span>
+                    </div>
+                    {% endif %}
 
                     {% if build.has_outdated_slots or build.has_condition_issues %}
                     <div class="build-alerts">

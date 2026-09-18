@@ -22,6 +22,8 @@ import logging
 from copy import deepcopy
 
 from .game_versions import get_game_version
+from .temporix import (is_on as temporix_is_on, shiny_items_by_id,
+                       temporix_only_item_ids)
 from .dofus_constants import TYPE_NAME_TO_SLOT_NUMBER, SLOT_NAME_TO_TYPE, get_stat_maximum, get_soft_caps_for, tier_widths_after_scroll, scrolls_push_cost_curve
 from .lpproblem import LpProblem2
 from .modelresult import ModelResultMinimal
@@ -36,9 +38,14 @@ logger = logging.getLogger(__name__)
 
 class Model:
 
-    def __init__(self, stat_overrides=None):
+    def __init__(self, stat_overrides=None, temporix=False):
+        # A TemporiX model is built from other item values and other caps, so
+        # it is never pooled with the classic ones: see fashion_action.
+        self.temporix = bool(temporix)
         self.create_structure()
 
+        if self.temporix:
+            self._wear_shiny(stat_overrides or {})
         if stat_overrides:
             self._apply_stat_overrides(stat_overrides)
 
@@ -99,10 +106,21 @@ class Model:
             new_items_list.append(item)
         self.items_list = new_items_list
         
+    def _wear_shiny(self, stat_overrides):
+        # Copies, never the catalogue rows: the structure is shared by every
+        # build of the version. A piece the player recorded rolls for is one he
+        # forgemaged, and a shiny piece cannot be forgemaged, so it stays as
+        # recorded and _apply_stat_overrides handles it.
+        shiny = shiny_items_by_id(self.structure)
+        self.items_list = [
+            item if item.id in stat_overrides else shiny.get(item.id, item)
+            for item in self.items_list]
+
     def create_structure(self):
         self.structure = get_structure()
         self.stat_maximum = get_stat_maximum(
-            getattr(self.structure, 'game_version', 'dofus3'))
+            getattr(self.structure, 'game_version', 'dofus3'),
+            temporix=getattr(self, 'temporix', False))
         self.items_list = self.structure.get_available_items_list()
         self.sets_list = self.structure.get_sets_list()
         self.stats_list = self.structure.get_stats_list()
@@ -868,6 +886,18 @@ class Model:
             new_forbid_list.update(
                 self.structure.get_rows_of_the_same_item(item_id))
 
+        # The pieces only the TemporiX servers have sit in the live Touch data
+        # like any other, and a classic Touch solve did wear two of them. They
+        # are offered to a TemporiX build and to no other.
+        if temporix_is_on(options, self.structure.game_version):
+            temporix_only = set()
+        else:
+            temporix_only = temporix_only_item_ids(self.structure)
+            # A piece the player locked stays: banning it made the build
+            # infeasible, and the failure page could not say why.
+            locked = (getattr(self, 'input', None) or {}).get('locked_equips')
+            temporix_only -= set((locked or {}).values())
+
         for item in self.items_list:
             restriction = self.restrictions.forbidden_items_constraints.get(item.id, None)
             if ((item.id in new_forbid_list)
@@ -891,7 +921,8 @@ class Model:
                     and item.type == self.structure.get_type_id_by_name('Pet'))
                     and 'Rhineetle' in item.name
                 or ((not options['prysmaradite'])
-                    and item.weird_conditions['prysmaradite'])):
+                    and item.weird_conditions['prysmaradite'])
+                or item.id in temporix_only):
                 restriction.changeRHS(0)
             else:
                 restriction.changeRHS(1)

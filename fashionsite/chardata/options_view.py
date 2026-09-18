@@ -93,6 +93,10 @@ def options_post(request, char_id):
 
     options = parse_options_post(request)
     parse_inventory_options(request, char, options)
+    # Read here and not in parse_options_post: the wizard reuses that parser
+    # and shows no TemporiX box, so a wizard save would switch the mode off.
+    if get_available_options().get('temporix'):
+        options['temporix'] = request.POST.get('temporix', None) == 'on'
     set_options(char, options)
     
     too_high = get_dofus_not_for_char(char)
