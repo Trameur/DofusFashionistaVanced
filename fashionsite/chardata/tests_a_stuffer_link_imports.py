@@ -299,3 +299,46 @@ class TheExportKeepsTheVitalityScrollReadableTests(SimpleTestCase):
         self.assertEqual({0: 50}, {k: v for k, v in
                                    dofusbook_export.global_forge(lu).items()
                                    if k == 0})
+
+
+class ADofusStufferLinkImportsTests(TestCase):
+    """Thibaud, 2026-09-18: "on peut pas importer un lien directement de
+    dofus stuffer ?". This is the link he pasted. Their site writes the same
+    six fields as a DofusBook stuffer link, with its sparse ones as maps
+    keyed "0", "1"... and seventeen groups where DofusBook reads ten."""
+
+    LINK = ('http://www.dofus-stuffer.is-great.net?stuff=hqEwi6EwzQR+oTFkoTJk'
+            'oTNkoTRkoTVkoTYHoTcDoTlkojExAaIyM80D6KExlgDNASxfAAAAoTLMyKEzGKE0'
+            'iaE1AqE2BqIxMACiMTEAojEyAKIxMwCiMTQAojE1AKIxNgChNdwAEM1Mh81LNM02'
+            '9c1LM81igc0vRM028801vM1WBc07g800IM0bg80DzM1Mjs1ig80eIg==')
+
+    def test_it_is_a_dofus_3_build_with_all_its_pieces(self):
+        from fashionistapulp.structure import get_structure
+        build = build_link_import.read(self.LINK)
+        structure = get_structure('dofus3')
+        self.assertEqual('dofus3', build['game_version'])
+        self.assertEqual(200, build['level'])
+        self.assertEqual([], build['missing'])
+        self.assertEqual(
+            [19591, 19252, 14069, 19251, 25217, 12100, 14067, 13756, 22021,
+             15235, 13344, 7043, 972, 19598, 25219, 7714],
+            [structure.get_item_by_id(i).ankama_id for i in build['item_ids']])
+
+    def test_its_points_scrolls_and_settings_bits_read_as_theirs(self):
+        """Its flag byte is 24: 'power instead of characteristics' and
+        'damage instead of elemental damage', search settings of their own.
+        No exo bit, and their base values cancel out: no forgemagie."""
+        build = build_link_import.read(self.LINK)
+        self.assertEqual({'Wisdom': 300, 'Strength': 95}, build['base_points'])
+        self.assertEqual(6, len(build['base_scrolled']))
+        self.assertEqual({}, build['fm_global'])
+        self.assertFalse(any(build['exo_options'].values()))
+
+    def test_its_host_ends_at_the_query(self):
+        """No path before '?stuff=', and a '/' inside the base64."""
+        self.assertEqual('www.dofus-stuffer.is-great.net',
+                         parse_stuffer_link(self.LINK)[0])
+
+    def test_the_page_names_the_site_among_the_ones_it_reads(self):
+        page = self.client.get('/import/text/')
+        self.assertContains(page, 'dofus-stuffer.is-great.net')

@@ -43,7 +43,7 @@ def _dofusbook_recognises(url):
 
 READERS = (
     (_dofusbook_recognises, dofusbook_import.read_build,
-     ('dofusbook.net',)),
+     ('dofusbook.net', 'dofus-stuffer.is-great.net')),
     (lambda url: dofuscreator_import.parse_link(url) is not None,
      dofuscreator_import.read_build, ('dofuscreator.com',)),
 )

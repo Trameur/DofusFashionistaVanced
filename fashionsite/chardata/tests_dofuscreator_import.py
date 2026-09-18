@@ -68,7 +68,8 @@ class TheLinkIsRecognisedTests(SimpleTestCase):
         self.assertTrue(build_link_import.recognises(
             'https://www.dofusbook.net/fr/stuff/7894460-zobal-m-200'))
         self.assertFalse(build_link_import.recognises('https://example.com/x'))
-        self.assertEqual(['dofusbook.net', 'dofuscreator.com'],
+        self.assertEqual(['dofusbook.net', 'dofus-stuffer.is-great.net',
+                          'dofuscreator.com'],
                          build_link_import.readable_sites())
 
 

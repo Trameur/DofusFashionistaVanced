@@ -46,6 +46,15 @@ HOSTS = {
 
 SHORT_HOSTS = ('d-bk.net', 'www.d-bk.net')
 
+#: The Dofus-Stuffer site's own share links (`<its address>?stuff=...`), in
+#: the same format as a DofusBook stuffer link. Read on its page on
+#: 2026-09-18: it says "Version 3.6.2.1", a Dofus 3 client, and its DofusBook
+#: button opens www.dofusbook.net, so its links are Dofus 3 builds.
+STUFFER_HOSTS = {
+    'dofus-stuffer.is-great.net': 'dofus3',
+    'www.dofus-stuffer.is-great.net': 'dofus3',
+}
+
 #: Their site refuses a request that does not look like it came from their own
 #: pages. Measured: 403 with only a browser User-Agent, 200 once a Referer on
 #: the same host is added.
@@ -87,8 +96,14 @@ def _host_and_path(url):
     if not _SCHEME.match(url):
         url = 'https://' + url
     reste = url.split('//', 1)[1]
-    host, _, chemin = reste.partition('/')
-    return host.split(':')[0].lower(), '/' + chemin
+    # The host ends at the first '/', '?' or '#': a link with no path before
+    # its query ("site.net?stuff=...") would otherwise run into the base64.
+    fin = min([at for at in (reste.find(sep) for sep in '/?#') if at != -1]
+              or [len(reste)])
+    host, chemin = reste[:fin], reste[fin:]
+    if not chemin.startswith('/'):
+        chemin = '/' + chemin
+    return host.split(':')[0].lower(), chemin
 
 
 def parse_link(url):
@@ -126,7 +141,7 @@ def parse_stuffer_link(url):
     """
     import urllib.parse
     host, chemin = _host_and_path(url)
-    if host not in HOSTS:
+    if host not in HOSTS and host not in STUFFER_HOSTS:
         return None
     requete = chemin.partition('?')[2].partition('#')[0]
     valeurs = urllib.parse.parse_qs(requete).get('stuff')
@@ -387,7 +402,7 @@ def read_stuffer_link(host, stuff):
     from chardata import dofusbook_export
     from fashionistapulp.dofus_constants import STATS_NAMES
     from fashionistapulp.structure import get_structure
-    game_version = HOSTS[host]
+    game_version = HOSTS.get(host) or STUFFER_HOSTS[host]
     try:
         lu = dofusbook_export.read_payload(stuff)
     except ValueError:

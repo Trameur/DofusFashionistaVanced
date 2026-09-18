@@ -289,11 +289,14 @@ MAX_ARRAY_LENGTH = 256
 
 
 def _unpack(data, at=0, depth=0):
-    """(value, next offset): the inverse of `_pack`, for the same shapes.
+    """(value, next offset): the inverse of `_pack`, plus maps.
 
-    Their decoder is the full msgpack, but every writer of this link puts
-    integers and arrays in it and nothing else, so anything else is refused
-    rather than interpreted. Raises ValueError.
+    Their decoder is the full msgpack. Our export writes integers and arrays;
+    the Dofus-Stuffer site writes its sparse fields as maps keyed "0", "1"...
+    (`t[0][a] = ...` on an object), which their `Nc` reads like an array
+    since `p in t[0]` and `t[0][p]` work on both. A map comes back as
+    {int: value}. Anything else is refused rather than interpreted. Raises
+    ValueError.
     """
     if at >= len(data):
         raise ValueError('the payload ends too early')
@@ -311,10 +314,11 @@ def _unpack(data, at=0, depth=0):
             raise ValueError('the payload ends too early')
         return (int.from_bytes(data[at + 1:at + 1 + size], 'big', signed=signed),
                 at + 1 + size)
-    if 0x90 <= head <= 0x9f:
+    is_map = 0x80 <= head <= 0x8f or head in (0xde, 0xdf)
+    if 0x90 <= head <= 0x9f or 0x80 <= head <= 0x8f:
         count, at = head & 0x0f, at + 1
-    elif head in (0xdc, 0xdd):
-        size = 2 if head == 0xdc else 4
+    elif head in (0xdc, 0xdd, 0xde, 0xdf):
+        size = 2 if head in (0xdc, 0xde) else 4
         if at + 1 + size > len(data):
             raise ValueError('the payload ends too early')
         count = int.from_bytes(data[at + 1:at + 1 + size], 'big')
@@ -323,11 +327,41 @@ def _unpack(data, at=0, depth=0):
         raise ValueError('the payload carries a 0x%02x' % head)
     if depth >= 2 or count > MAX_ARRAY_LENGTH:
         raise ValueError('the payload nests deeper or longer than a build')
+    if is_map:
+        table = {}
+        for _ in range(count):
+            key, at = _map_key(data, at)
+            table[key], at = _unpack(data, at, depth + 1)
+        return table, at
     values = []
     for _ in range(count):
         value, at = _unpack(data, at, depth + 1)
         values.append(value)
     return values, at
+
+
+def _map_key(data, at):
+    """A map key as the index it stands for: "12" or 12, nothing else."""
+    if at >= len(data):
+        raise ValueError('the payload ends too early')
+    head = data[at]
+    if head <= 0x7f:
+        return head, at + 1
+    if 0xa1 <= head <= 0xa3:
+        size = head & 0x1f
+        texte = data[at + 1:at + 1 + size]
+        if len(texte) == size and texte.isdigit():
+            return int(texte), at + 1 + size
+    raise ValueError('the payload carries a map key it cannot index')
+
+
+def _table(valeur):
+    """{index: value} for an array or a map, the two shapes `Nc` indexes."""
+    if isinstance(valeur, list):
+        return dict(enumerate(valeur))
+    if isinstance(valeur, dict):
+        return valeur
+    raise ValueError('the payload is not a build')
 
 
 def read_payload(stuff):
@@ -362,36 +396,41 @@ def read_payload(stuff):
     valeur, fin = _unpack(brut)
     if fin != len(brut):
         raise ValueError('the payload carries bytes after the build')
-    if not isinstance(valeur, list) or len(valeur) < 6:
+    if not isinstance(valeur, (list, dict)):
         raise ValueError('the payload is not a build')
-    totaux, depenses, niveau, drapeaux, nombres, ids = valeur[:6]
-    if not all(isinstance(v, list) for v in (totaux, depenses, nombres, ids)):
+    haut = _table(valeur)
+    if any(index not in haut for index in range(6)):
         raise ValueError('the payload is not a build')
+    totaux, depenses, nombres, ids = (_table(haut[index]) for index in (0, 1, 4, 5))
+    niveau, drapeaux = haut[2], haut[3]
     if not isinstance(niveau, int) or not isinstance(drapeaux, int):
         raise ValueError('the payload is not a build')
-    for liste in (totaux, depenses, nombres, ids):
-        if not all(isinstance(v, int) for v in liste):
+    for table in (totaux, depenses, nombres, ids):
+        if not all(isinstance(v, int) for v in table.values()):
             raise ValueError('the payload is not a build')
 
     fm, points, scrolls = [], [], []
     for index in range(FM_LENGTH):
-        total = totaux[index] if index < len(totaux) else 0
+        total = totaux.get(index, 0)
         if index < BASE_STAT_COUNT:
             parchemin = SCROLL_STEP if total >= SCROLL_STEP else 0
             scrolls.append(parchemin)
             fm.append(total - parchemin)
-            points.append(depenses[index] if index < len(depenses) else 0)
+            points.append(depenses.get(index, 0))
         else:
             fm.append(total)
     for index, bit in EXO_BIT_BY_INDEX.items():
         if drapeaux & bit:
             fm[index] += 1
 
+    # Consumed in order, a missing count holding one piece. Dofus-Stuffer
+    # lists seventeen groups; their decoder, and this one, read the first ten.
     groupes, suivant = [], 0
     for index in range(len(GROUPS)):
-        nombre = nombres[index] if index < len(nombres) else 1
-        groupes.append(ids[suivant:suivant + max(0, nombre)])
-        suivant += max(0, nombre)
+        nombre = max(0, min(nombres.get(index, 1), MAX_ARRAY_LENGTH))
+        groupes.append([ids[position] for position
+                        in range(suivant, suivant + nombre) if position in ids])
+        suivant += nombre
     return {'fm': fm, 'points': points, 'scrolls': scrolls, 'level': niveau,
             'exos': drapeaux, 'ids': groupes}
 

@@ -30014,7 +30014,8 @@ class LinkImportOnTheOnePageTests(TestCase):
     def test_the_note_under_the_field_lists_the_readable_sites(self):
         page = self.client.get(self._url(), HTTP_ACCEPT_LANGUAGE='en'
                                ).content.decode('utf-8')
-        self.assertIn('dofusbook.net, dofuscreator.com', page)
+        self.assertIn('dofusbook.net, dofus-stuffer.is-great.net, '
+                      'dofuscreator.com', page)
 
     def test_the_rolls_of_the_link_land_on_the_pieces(self):
         """Thibaud, 11 septembre 2026: <<les FM sur les items>>. Un jet du
