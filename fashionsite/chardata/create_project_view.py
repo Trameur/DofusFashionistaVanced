@@ -83,10 +83,7 @@ def setup(request, char_id=0):
     game_version = getattr(request, 'game_version', 'dofus3')
     classes = filter_classes_for_version(_get_class_to_name().keys(), game_version)
 
-    # Un objet apporte depuis sa fiche d'encyclopedie, pour que le bouton
-    # "chercher un set autour de cet objet" fasse ce qu'il dit au lieu d'ouvrir
-    # un projet vide. Valide ici contre le catalogue : ce qui arrive ensuite
-    # dans create_project vient d'un formulaire, donc du lecteur.
+    # Item from an encyclopedia page to build around, checked against the catalogue
     lock_item = _wanted_item(request, game_version)
 
     return set_response(request,
@@ -180,13 +177,7 @@ def save_project(request, char_id=0):
     return JsonResponse(_get_state_from_char(char))
 
 def _checked_item(brut, game_version):
-    """The Ankama id of an item the reader asked to build around, or None.
-
-    Checked against the catalogue rather than trusted: it arrives in a query
-    string, then in a form field, and it is about to decide what gets locked
-    onto a character. Written once and called on both, so the two can never
-    come apart.
-    """
+    """Ankama id of the item to build around, checked against the catalogue, or None."""
     brut = (brut or '').strip()
     if not brut:
         return None
@@ -211,24 +202,13 @@ def _wanted_item(request, game_version):
 
 
 def wants_to_publish(request):
-    """Whether a build being created should be published once it is dressed.
-
-    Public by default for a logged in author, which is what the checkbox on
-    the creation page says and what unticking it turns off. A build made
-    without an account is never published by itself: its author has no page
-    to find it from and no account to make it private again, so the default
-    would publish something they cannot take back.
-    """
+    """Whether a new build is published once dressed: signed in yes, anonymous never."""
     if request.user.is_anonymous:
         return False
-    # An UNTICKED checkbox sends nothing at all, so the box being absent from
-    # the post says nothing by itself: the hidden field beside it is what
-    # tells us the page carried the box. Without it, unticking would have
-    # been read as the default and changed nothing.
+    # An unticked box sends nothing; the hidden publish_choice says the box was there
     if 'publish_choice' in request.POST:
         return bool(request.POST.get('publish'))
-    # No box on that page at all (quick start, the build import), so the
-    # default applies.
+    # No box on this page (quick start, import)
     return True
 
 
@@ -276,9 +256,7 @@ def create_project(request):
     if request.user.is_anonymous:
         remember_anon_char(request, char)
 
-    # L'objet vient d'une fiche d'encyclopedie. apply_ankama_ids refuse de
-    # lui-meme un identifiant inconnu ou un objet au-dessus du niveau du
-    # personnage, et remplace le set plutot que de s'ajouter dessous.
+    # apply_ankama_ids rejects unknown ids and items above the level
     voulu = _wanted_item_from_post(request, char.game_version)
     if voulu is not None:
         try:
@@ -287,14 +265,11 @@ def create_project(request):
             rapport = apply_ankama_ids(
                 char, get_structure(char.game_version), [voulu])
             if rapport['rejected']:
-                # Le cas courant : un objet au-dessus du niveau choisi par le
-                # lecteur. Le projet se cree quand meme, mais l'objet n'y est
-                # pas, et cela doit se lire quelque part.
+                # Usually an item above the chosen level; the project is still created
                 logger.info('build-around item %s not locked on char %s: %s',
                             voulu, char.id, rapport['rejected'])
         except Exception:
-            # Un projet qui se cree vaut mieux qu'une erreur : le lecteur
-            # verrouillera l'objet lui-meme si cela a echoue.
+            # Better a project without the item than an error
             logger.warning('build-around item %s could not be applied',
                            voulu, exc_info=True)
     
@@ -322,8 +297,7 @@ def _get_state_from_post(request):
             aspects_set.add(aspect)
     return {'proj_name': request.POST.get('project', 'NoName'),
             'char_name': request.POST.get('charname', 'NoName'),
-            # Clamped like the sibling path in coaching_view.create_build:
-        # the value goes straight onto an IntegerField.
+            # Clamped like coaching_view.create_build: it goes to an IntegerField
         'char_level': max(1, min(safe_int(request.POST.get('level', 200),
                                           200), 230)),
             'char_class': request.POST.get('class', 'NoName'),
@@ -331,12 +305,7 @@ def _get_state_from_post(request):
             'where_to_go': where_to_go}
 
 def _save_state_to_char(state, char):
-    # La page remplit ce champ toute seule avec le nom du personnage
-    # suivi du niveau, et le nom du personnage n'est pas obligatoire:
-    # un joueur qui pose seulement son niveau partait avec un projet
-    # nomme " 199". Mesure du 11 septembre 2026 sur la copie de
-    # production: 39 784 des 152 862 builds portent un nom de cette
-    # forme, et 404 des 1980 builds partages qui ont une solution.
+    # The page fills this with the character name and level, and the name can be blank
     char.name = cleaned_at_creation(state['proj_name'],
                                     state.get('char_class'),
                                     state.get('char_level'))

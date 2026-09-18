@@ -106,8 +106,7 @@ def _buffs_by_char(builds, game_version):
 
 
 def _shows_pvp_resistances(model_results):
-    """Only Retro and Touch items grant them: elsewhere the toggle would fold
-    nothing into the resistance rows."""
+    """Only Retro and Touch items grant them."""
     for solution in model_results.values():
         totals = solution.get_stats_total()
         if any(value for key, value in totals.items() if key.startswith('pvp')):
@@ -240,18 +239,7 @@ def compare_sets(request, sets_params):
 
 
 def _best_turn_rows(builds, game_version):
-    """La ligne <<meilleur tour>> du tableau, une valeur par set.
-
-    La page comparait les sets sort par sort. Elle ne disait pas lequel frappe
-    le plus fort EN UN TOUR, qui est la question que le joueur se pose, et le
-    site sait deja y repondre: c'est le panneau de la page des sorts.
-
-    Cout mesure le 12 septembre 2026 sur 25 builds partages: 15 ms en mediane,
-    272 ms au pire. Une comparaison en porte deux ou trois.
-
-    Un set dont le tour ne se calcule pas montre un tiret plutot que de faire
-    tomber la page: la comparaison des stats, elle, marche toujours.
-    """
+    """The best-turn row, one value per set, a dash when it cannot be computed."""
     valeurs = {}
     note = ''
     for build in builds:
@@ -263,17 +251,13 @@ def _best_turn_rows(builds, game_version):
             combo = None
         valeurs[build.id] = combo['total'] if combo else None
         if combo and not note:
-            # Les memes phrases que la page des sorts, mot pour mot, pour que
-            # les deux pages ne se contredisent pas. Ici le lecteur ne coche
-            # aucun buff et ne choisit aucun niveau: c'est donc toujours celle
-            # du niveau le plus haut, et celle qui dit qu'aucun buff n'est
-            # suppose actif avant le tour.
+            # Same notes as the spells page; no buff or level is picked here
             note = ' '.join(part for part in (combo.get('buff_note'),
                                               combo.get('rank_note'),
                                               combo.get('melee_note'),
                                               combo.get('crit_failure_note'))
                             if part)
-    # Diff = set 2 moins set 1, comme les deux autres tableaux de la page.
+    # Diff is set 2 minus set 1, like the other tables
     diff = None
     if len(builds) == 2:
         premier = valeurs.get(builds[0].id)
@@ -456,11 +440,6 @@ def _sort_items(solutions):
 def choose_compare_sets(request):
     params = {
         'compare_picker_sections': _build_compare_picker_sections(request),
-        # The page shows the reader the shape of a link to paste. It named
-        # `dofusfashionista.com`, which is not a host this site serves and is
-        # not in ALLOWED_HOSTS; the address is dofusfashionista.gg. The host
-        # now comes from the site's own canonical url and the path from the
-        # site's own routing, so neither can drift again.
         'site_url': SITE_URL,
     }
              
@@ -536,8 +515,7 @@ def _compare_picker_entries(request, chars):
             'name': display_name(char),
             'char_class': LOCALIZED_CHARACTER_CLASSES.get(char.char_class, char.char_class),
             'level': char.level,
-            # La chaine interne ne se montre pas: le lecteur qui
-            # choisit entre deux builds lit le meme nom qu'ailleurs.
+            # The translated label, as everywhere else
             'build': build_label(char.char_build),
             'link': link,
         })
@@ -719,26 +697,12 @@ def compare_set_search_proj_name(request):
     return JsonResponse(char_list, safe=False)
 
 def _get_text_error_response(cause):
-    # text/plain, printed by the page with .text() and .val(). Neither decodes
-    # an entity, so anything escaped for html here reaches the reader as the
-    # entity itself: a share link carrying two parameters showed "&amp;".
-    # That is why the value is stripped below rather than escaped.
-    #
-    # Written out instead of using HttpResponseText, which does exactly the
-    # same thing, because several of these messages carry back a string the
-    # READER typed. What makes that safe is that the answer is not a document,
-    # and that fact belongs on the line where their value leaves rather than
-    # one class away, for a human reading this path and for the scanner that
-    # reads it too.
+    # text/plain, printed with .text(), so nothing here is escaped for html
     return HttpResponse('Error: %s' % cause,
                         content_type='text/plain; charset=utf-8')
 
 
-# What may be echoed back out of what the reader typed. A share link is a URL,
-# and a URL cannot hold these characters unencoded, so removing them costs
-# nothing real and takes away the only way the echo could start markup. The
-# response says text/plain and now also says nosniff, but a value that cannot
-# open a tag is safe whatever a browser decides to do with the bytes.
+# A URL cannot hold these unencoded, so the echo never opens a tag
 _CANNOT_BE_ECHOED = re.compile(r'[<>"\'\x00-\x1f\x7f]')
 
 

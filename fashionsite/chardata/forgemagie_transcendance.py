@@ -1,19 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Loader for the transcendence-rune catalogue (scraped from DofusDB).
-
-Transcendence runes finalise an item at 100% success and then PREVENT any
-further forgemagie ("Empêche les futures forgemagies"). They exist only on the
-modern client (Dofus 2/3, Songes Infinis), so they are gated to the 'modern'
-ruleset. Data file: forgemagie_transcendance.json (regenerate with
-scripts/scrape_transcendance_runes.py). Stat keys match forgemagie_data.py.
-
-The icons are mirrored under our own static files and the catalogue holds no
-address: it carries `icon_id`, and `img` is built here, once per process. The
-file used to carry the DofusDB address of each icon, and the page handed it
-straight to the reader's browser, which fetched 81 images from a third party
-the privacy policy never named. Neither third-party guard could see it: both
-read source text, and this address arrived from data.
-"""
+"""Transcendence runes, from scripts/scrape_transcendance_runes.py."""
 import json
 import os
 
@@ -25,18 +11,12 @@ _PATH = os.path.join(os.path.dirname(__file__), 'forgemagie_transcendance.json')
 _ICON_PATH = 'chardata/runes_transcendance/%d.webp'
 _CACHE = None
 
-#: L'ordre de repli quand la langue du lecteur ne repond pas: l'anglais, puis
-#: le francais, qui est la langue dans laquelle Ankama cree ces objets.
+# Fallback languages: English, then French, the language Ankama writes them in
 _REPLI = ('en', 'fr')
 
 
 def rune_name(rune, language):
-    """Le nom que le PROPRE client du lecteur donne a cette rune.
-
-    Ankama les renomme toutes, dans chacune des cinq langues: <<Rune Ta Ine>>
-    est <<Tra Int Rune>> en anglais et <<Runa Ta Inte>> en espagnol. Un
-    lecteur qui cherchait le nom francais dans son client ne trouvait rien.
-    """
+    """The name the reader's own client gives this rune."""
     noms = rune.get('name') or {}
     for candidat in ((language or '').split('-')[0],) + _REPLI:
         if candidat and noms.get(candidat):
@@ -60,8 +40,7 @@ def _load():
     return _CACHE
 
 
-# The 2.x client ships the Ta/Pata/Rata names too; Touch forked before them and
-# Retro never had them.
+# Dofus 2 has them too; Touch and Retro never did
 _RULESETS_WITH_TRANSCENDENCE = ('modern', 'dofus2')
 
 
@@ -73,12 +52,7 @@ def get_transcendence_runes(game_version):
 
 
 def get_transcendence_by_stat(game_version, language):
-    """{stat_key: {'label': ..., 'runes': [rune, ...sorted by rank]}} for the UI.
-
-    Chaque rune est une COPIE dont `name` est le nom de la langue demandee et
-    non plus les cinq. Le cache est partage entre les requetes: y ecrire le nom
-    d'un lecteur le servirait au suivant, dans une autre langue.
-    """
+    """{stat_key: {'label', 'runes'}} for the UI; runes are copies, the cache is shared."""
     grouped = {}
     for rune in get_transcendence_runes(game_version):
         entry = grouped.setdefault(

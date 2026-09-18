@@ -22,14 +22,7 @@ import json
 
 logger = logging.getLogger(__name__)
 
-#: Les `origin` qui veulent dire <<le joueur a rapatrie ce stuff>>.
-#:
-#: Toute valeur autre que 'generated' suffit deja a ne PAS presenter le set
-#: comme une suggestion du solveur. Mais la page n'avait que deux cas, suggere
-#: ou vide, et un import n'est ni l'un ni l'autre: elle affichait <<This set
-#: starts empty>> juste au-dessus des pieces importees. La liste est donc
-#: explicite, pour qu'un nouvel import doive s'y inscrire plutot que de
-#: retomber en silence dans le mauvais des deux.
+# Origins that mean the player imported this set
 IMPORT_ORIGINS = ('dofusbook', 'pasted_text')
 
 from chardata.forgemagie_data import MAGEABLE_TYPES
@@ -161,17 +154,12 @@ class SolutionResult:
                   'item_is_empty_locked': json.dumps(item_is_empty_locked),
                   'item_violates': json.dumps(item_violates),
                   'options_json': json.dumps(r.input['options']),
-                  # What this solution was solved under, not what the switch
-                  # says now: a build switched off and not solved again still
-                  # shows shiny values, and the page must say which it shows.
+                  # Solved with TemporiX or not, whatever the switch says now
                   'temporix_solve': bool((r.input.get('options') or {}).get(
                       'temporix')),
                   'item_per_slot': item_per_slot,
                   'is_generated': (r.input.get('origin', 'generated') == 'generated'),
-                  # Un build importe n'est ni suggere ni vide, et la page
-                  # n'avait que ces deux cas: elle annoncait donc <<This set
-                  # starts empty>> au-dessus des quinze pieces qu'on venait de
-                  # rapatrier. Les deux imports passent par ici.
+                  # An imported set is neither suggested nor empty
                   'is_imported': (r.input.get('origin')
                                   in IMPORT_ORIGINS),}
         return params
@@ -186,24 +174,9 @@ class SolutionResult:
 
 
 def stat_sources(model_result):
-    """Where every number in the stats panel comes from.
-
-    The panel prints one total per stat and says nothing about how it was
-    reached, so a player cannot tell which piece carries their Vitality. This
-    returns, per stat key, the lines that make that total: one per worn item,
-    one per set bonus, the exotic bonus, the character's own base, the share one
-    characteristic lends another (a tenth of Wisdom on the AP and MP stats, a
-    tenth of Agility on Lock and Dodge, a tenth of Chance on Prospecting, five
-    Pods per Strength, the four elements on Initiative, Vitality and the level
-    on HP), and what an active set caps away at the end.
-
-    Each line says which kind it is, because the panel prints two totals: Equip
-    counts the gear alone, Total counts everything.
-    """
+    """Where each stats panel total comes from, one line per source."""
     from fashionistapulp.dofus_constants import BASE_STATS, STAT_KEY_TO_NAME
-    # Missing pieces are tolerated below, but an object that is not a result at
-    # all is a wiring mistake: staying quiet there would empty the panel on
-    # every build at once and nothing would say so.
+    # A non-result is a wiring mistake, not a missing piece
     if not hasattr(model_result, 'get_stats_total'):
         raise TypeError('stat_sources needs the model result, got %s'
                         % type(model_result).__name__)
@@ -218,8 +191,7 @@ def stat_sources(model_result):
     def running(stat_key):
         return sum(line['value'] for line in sources.get(stat_key, []))
 
-    # A page must never break on a result that is missing a piece: the parts
-    # that are there still explain what they can.
+    # A partial result still explains what it can
     for result_item in getattr(model_result, 'item_list', None) or []:
         if not result_item.item_added:
             continue
@@ -238,8 +210,7 @@ def stat_sources(model_result):
     options = model_input.get('options') or {}
     for stat_key, option in (('ap', 'ap_exo'), ('mp', 'mp_exo'),
                              ('range', 'range_exo')):
-        # mp_exo can hold the string "gelano", which is the ring doing the work
-        # and not a free point, so only the plain yes counts here.
+        # mp_exo can hold "gelano" (the ring), which is not a free point
         if options.get(option) is True:
             add(stat_key, _('Exotic bonus'), 1, 'exo')
 
@@ -273,8 +244,7 @@ def stat_sources(model_result):
     add('hp', _('Level'), model_input.get('char_level', 0) * 5 + 50,
         'derived')
 
-    # An active set can cap a stat, and the panel prints the capped number: the
-    # lines have to say what was cut or they would add up to more than it.
+    # An active set can cap a stat, so say what was cut
     for result_set in getattr(model_result, 'sets', None) or []:
         name = (getattr(result_set, 'localized_name', None)
                 or getattr(result_set, 'name', ''))
@@ -284,8 +254,7 @@ def stat_sources(model_result):
                 add(stat_key, name, -over, 'cap')
 
     for lines in sources.values():
-        # Par valeur signee, pas par grandeur : trier sur abs() mettait un -15
-        # entre un +20 et un +15, la ou ce qui retire du stat se lit en bas.
+        # By signed value, so a malus sorts below the bonuses
         lines.sort(key=lambda line: (line['kind'] == 'cap',
                                      -line['value'], line['label']))
     return sources
@@ -306,10 +275,7 @@ def evolve_result_item(result_item, r=None):
     stats_from_result_item = sorted(iter(merged_stats.items()),
                                     key=lambda x: STAT_ORDER[x[0]])
 
-    # The two marks DofusBook puts on a piece, read from the rolls the player
-    # recorded: a line changed from the catalogue, and a line added to it (or
-    # an AP, MP or Range point above the piece's own). A pickle from before
-    # base_stats existed shows neither.
+    # DofusBook's two marks: a line changed from the catalogue, a line added to it
     result_item.has_exo = base_stats is not None and (bool(exo_overrides) or any(
         value and key not in base_stats
         for key, value in result_item.stats.items()))
@@ -393,7 +359,6 @@ def evolve_result_item(result_item, r=None):
                                          game_version=get_current_game_version())
 
 
-
 def attach_transcendence(result_item, weights):
     result_item.transcendence = None
     if not result_item.item_added or not weights:
@@ -403,9 +368,7 @@ def attach_transcendence(result_item, weights):
                               result_item.type)
     if rune is None:
         return
-    # Ankama renomme chaque rune dans chacun de ses clients: cette ligne
-    # disait le contraire, et servait donc le nom francais aux cinq langues.
-    # Les 81 noms des cinq tables du client 2.73 le demontent.
+    # Each client names the runes in its own language
     result_item.transcendence = '%s: +%d %s' % (
         rune_name(rune, get_language()), rune['bonus'],
         _(get_structure().get_stat_by_key(rune['stat_key']).name))
