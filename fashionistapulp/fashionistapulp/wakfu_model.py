@@ -14,48 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Pick the best legal set of Wakfu gear for a character.
-
-Wakfu is not a Dofus version and this is not `model.py` with a flag. It shares
-the solver underneath and nothing above it: the slots are different, the
-exclusivity rules are different, the caps are different, and there is a floor
-on critical hit that Dofus has no equivalent for.
-
-WHAT MAKES A SET LEGAL. Every rule below was measured against Ankama's own
-1.92.1.60 data or read from a source with a date, and every one is written down
-where it came from in wakfu_slots.py and wakfu_stats.py:
-
-- Twelve slots, one item each. A RING is the awkward one: its type declares
-  both hands, so a build wears two rings, and the model has to place them
-  rather than count them. That is why an item is bound to a POSITION here and
-  not merely chosen.
-- Three different types share ACCESSORY, the Emblem, the Tool and the Torch.
-  Counting per type instead of per slot would let a build wear all three.
-- A two-handed weapon empties the second hand. 508 weapons say so themselves,
-  in `equipmentDisabledPositions`.
-- At most one RELIC and at most one EPIC, and they are two independent groups
-  rather than one rule about rarity: 97 items carry the first property and 115
-  the second, and two items sit at those rarities WITHOUT the property.
-- Out of combat a character may not pass 16 AP, 8 MP or 20 WP, counting the
-  6, 3 and 6 they start with. Gear alone reaches +18, +15 and +16, so these
-  bind on every build worth having.
-- A character may not go below -9 % critical hit. 87 items sell stats in
-  exchange for negative critical hit and one of them is -20 on its own, so
-  wearing it means buying the difference back somewhere else.
-
-THE SAME ITEM IS NEVER WORN TWICE. Nothing in Ankama's data says whether two
-copies of one ring may be, and no source with a date says either; see
-`game_versions.rings_can_double`, which answers no for Wakfu on purpose.
-Refusing a legal double costs a slightly worse build. Allowing an illegal one
-hands the player a set the game will not let them wear.
-
-WHAT THIS DOES NOT DO YET, said plainly rather than left to be discovered: it
-knows nothing of spells, of the elements a mastery line spreads over, or of
-what a point of mastery is worth against a point of resistance. It takes the
-weights it is given and finds the best set under the rules. Deciding those
-weights is the next piece of work and it belongs to the game, not to the
-solver.
-"""
+"""Pick the best legal set of Wakfu gear for a character."""
 
 from __future__ import annotations
 
@@ -67,12 +26,10 @@ from .wakfu_slots import SLOTS
 from .wakfu_stats import BASE_VALUES, CRITICAL_HIT_FLOOR_PERCENT, \
     OUT_OF_COMBAT_CAPS
 
-# The categories of LP variable. `w` is "this item, worn in this slot".
+# LP variable: this item, worn in this slot
 WORN = 'w'
 
-# Which weights a line that spreads over N elements may land on. The generic
-# mastery line can become any of the four elemental masteries, and the generic
-# resistance line any of the four resistances; nothing else spreads.
+# Stats a line spread over N elements may land on
 SPREAD_FAMILIES = {
     'dmg_in_percent': ('dmg_fire_percent', 'dmg_water_percent',
                        'dmg_earth_percent', 'dmg_air_percent'),
@@ -82,12 +39,7 @@ SPREAD_FAMILIES = {
 
 
 class WakfuBuild:
-    """One question put to the solver: the best set at a level, under weights.
-
-    `weights` maps a stat key, as `stats.key` spells it in the database, to
-    what a point of it is worth. A stat nobody weighs is simply not part of
-    the objective; it is not forbidden.
-    """
+    """Best set at a level; `weights` is keyed by stats.key."""
 
     def __init__(self, structure, level, weights, forbidden=(),
                  full_set=True):
@@ -95,21 +47,14 @@ class WakfuBuild:
         self.level = level
         self.weights = dict(weights)
         self.forbidden = set(forbidden)
-        # A slot that adds nothing to the objective is one the solver is
-        # INDIFFERENT to, and an indifferent solver leaves it empty. Asked for
-        # nothing but AP, it returned five items and called it optimal, which
-        # it was, and useless: a character wears something everywhere. So a
-        # slot with anything to put in it is filled, and the answer falls back
-        # to the loose form if that turns out to be impossible.
+        # Fill every slot, or slots worth 0 in the objective stay empty
         self.full_set = full_set
         self.problem = None
         self._placements = []
         self._by_item = {}
 
-    # -- the pieces the solver is allowed to use -------------------------
-
     def _positions_of_type(self):
-        """{type id: [position, ...]} from the database, not from a constant."""
+        """{type id: [position, ...]}"""
         places = collections.defaultdict(list)
         for type_id, position in self.structure.get_type_positions():
             places[type_id].append(position)
@@ -126,8 +71,6 @@ class WakfuBuild:
                 out.append((item, position))
         return out
 
-    # -- the model -------------------------------------------------------
-
     def _stat_value(self, item, key):
         stat = self.structure.get_stat_by_key(key)
         if stat is None:
@@ -140,23 +83,7 @@ class WakfuBuild:
         return stat.key if stat is not None else None
 
     def _spread_worth(self, stat_id, elements):
-        """What one point of a line that spreads over `elements` is worth.
-
-        THE MOST COMMON DAMAGE LINE IN THE GAME reads "272 Mastery with 3
-        elements", and 5 716 of the 7 617 pieces of gear carry one. The
-        catalogue never says WHICH elements: they belong to the copy a player
-        holds, not to the item, so a planner has to decide.
-
-        It decides that they land where the build wants, which is what
-        wakfu_stats.SPREAD_LANDS_WHERE_THE_BUILD_WANTS states and what every
-        Wakfu planner does: a player chasing a build seeks the roll they want.
-        So a line over three elements is worth its value times the three
-        largest element weights the build asked for.
-
-        Valuing it as a plain stat instead, which is what this did until now,
-        made three quarters of the catalogue invisible to anyone asking for
-        fire damage.
-        """
+        """Spread lines land on the build's best elements: top N weights."""
         key = self._key_of(stat_id)
         family = SPREAD_FAMILIES.get(key)
         if family is None:
@@ -166,11 +93,8 @@ class WakfuBuild:
         return sum(wanted[:max(0, elements)])
 
     def _worth(self, item):
-        """What this piece is worth to the build, spread lines included."""
         spread = list(item.element_spread or ())
-        # A spread line is also an ordinary row of `stats`, so it is taken out
-        # of the plain sum before being valued its own way. Counting both
-        # would pay for it twice.
+        # Spread lines are also rows of item.stats, skip them in the plain sum
         separately = collections.Counter((stat_id, value)
                                          for stat_id, value, _e in spread)
         total = 0
@@ -208,12 +132,7 @@ class WakfuBuild:
                 for item, position in placements]
 
     def _one_item_per_slot(self):
-        """One item in each of the twelve slots, and the two hands are two.
-
-        Exactly one, not at most one, unless the caller asked otherwise: see
-        `full_set`. A slot with no candidate at all, which happens at very low
-        levels, is left out rather than made impossible.
-        """
+        """One item per slot, exactly one when full_set."""
         by_slot = collections.defaultdict(list)
         for item, position in self._placements:
             by_slot[position].append((item, position))
@@ -222,9 +141,7 @@ class WakfuBuild:
                 continue
             parcels = self._parcels(by_slot[position])
             if self.full_set and position != 'SECOND_WEAPON':
-                # The off hand is the exception, and the game says so: a
-                # two-handed weapon empties it, so demanding it be filled
-                # would forbid every two-handed weapon in the game.
+                # Off hand can stay empty for two-handed weapons
                 self.problem.restriction_eq(1, parcels)
             else:
                 self.problem.restriction_lt_eq(1, parcels)
@@ -247,7 +164,6 @@ class WakfuBuild:
                 continue
             if 'two_handed' not in (item.flags or ()):
                 continue
-            # Taking this weapon forbids everything in the second hand.
             self.problem.restriction_lt_eq(
                 1, self._parcels([(item, position)]) + self._parcels(off_hand))
 
@@ -259,7 +175,7 @@ class WakfuBuild:
                 self.problem.restriction_lt_eq(1, self._parcels(wearing))
 
     def _caps(self):
-        """AP, MP and WP, counting what the character already has."""
+        """AP, MP and WP caps, base values included."""
         for name, cap in OUT_OF_COMBAT_CAPS.items():
             key = name.lower()
             parcels = []
@@ -271,11 +187,7 @@ class WakfuBuild:
                 self.problem.restriction_lt_eq(cap - BASE_VALUES[name], parcels)
 
     def _critical_hit_floor(self):
-        """Never below -9 % in total, which is what makes those items usable.
-
-        Written as a less-than by turning the sum around, because that is the
-        only shape the solver wrapper offers.
-        """
+        """Critical hit floor, as a <= on the negated sum."""
         parcels = []
         for item, position in self._placements:
             value = self._stat_value(item, 'ferocity')
@@ -292,17 +204,8 @@ class WakfuBuild:
                 self.problem.add_to_of(WORN, self._name(item, position), worth)
         self.problem.finish_objective_function()
 
-    # -- the answer -------------------------------------------------------
-
     def solve(self):
-        """{position: item} for the best legal set, or None when there is none.
-
-        Filling every slot can make a question impossible where leaving one
-        empty would not: a cap is an upper bound, so an item forced into a
-        slot can push a build past it. Rather than answer nothing, the loose
-        form is tried once before giving up, and `full_set` then says which
-        answer this is.
-        """
+        """{position: item}, or None; retries without full_set if infeasible."""
         if self.problem is None:
             self.build()
         self.problem.run()
@@ -322,14 +225,7 @@ class WakfuBuild:
         return worn
 
     def where_the_spread_lands(self, worn):
-        """{stat key: total} for the elements a build's spread lines feed.
-
-        The catalogue is almost entirely spread lines: 5 729 pieces carry one
-        and only 25 name fire mastery outright, so a build's elemental
-        mastery is nearly all decided by where these land. This says where,
-        under the assumption the planner makes, which a page showing a build
-        has to state out loud rather than leave the reader to discover.
-        """
+        """{stat key: total} for the elements a build's spread lines feed."""
         landing = collections.Counter()
         for item in worn.values():
             for stat_id, value, elements in item.element_spread or ():
@@ -342,7 +238,7 @@ class WakfuBuild:
         return landing
 
     def totals(self, worn):
-        """What a set adds up to, base values included."""
+        """Stat totals of a set, base values included."""
         out = collections.Counter()
         for item in worn.values():
             for stat_id, value in item.stats:

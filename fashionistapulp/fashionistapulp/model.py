@@ -39,8 +39,7 @@ logger = logging.getLogger(__name__)
 class Model:
 
     def __init__(self, stat_overrides=None, temporix=False):
-        # A TemporiX model is built from other item values and other caps, so
-        # it is never pooled with the classic ones: see fashion_action.
+        # TemporiX has other item values and caps, never pooled with classic models
         self.temporix = bool(temporix)
         self.create_structure()
 
@@ -59,10 +58,7 @@ class Model:
     _EXO_STAT_KEYS = {'ap', 'mp', 'range'}
 
     def _apply_stat_overrides(self, stat_overrides):
-        # The piece keeps its catalogue AP, MP and Range: the extra point is an
-        # exo, and an exo is worth one point for the whole build, so it is a
-        # variable of its own rather than part of the piece. Remember which
-        # pieces carry one, they are what makes that point available.
+        # Extra AP, MP or Range is an exo: the piece keeps its catalogue value, see 'exo'
         self._exo_carriers = {key: set() for key in self._EXO_STAT_KEYS}
         for item_id, item_overrides in stat_overrides.items():
             for stat_id, recorded in item_overrides.items():
@@ -107,10 +103,7 @@ class Model:
         self.items_list = new_items_list
         
     def _wear_shiny(self, stat_overrides):
-        # Copies, never the catalogue rows: the structure is shared by every
-        # build of the version. A piece the player recorded rolls for is one he
-        # forgemaged, and a shiny piece cannot be forgemaged, so it stays as
-        # recorded and _apply_stat_overrides handles it.
+        # A piece with recorded rolls was forgemaged, so it can't be shiny
         shiny = shiny_items_by_id(self.structure)
         self.items_list = [
             item if item.id in stat_overrides else shiny.get(item.id, item)
@@ -149,10 +142,6 @@ class Model:
     
     def create_item_number_variables(self):
         # Dofus 2/3 allow two copies of a setless ring; Retro 1.29 never allows the same ring twice.
-        # The rule comes from the version registry rather than from the type's
-        # displayed name: 'Ring' is also what Wakfu calls one of its own types,
-        # so a name test would have handed Wakfu a Dofus rule the moment its
-        # items were filed under their real names.
         rings_can_double = get_game_version(self.structure.game_version).rings_can_double
         for item in self.items_list:
             doublable = (rings_can_double
@@ -176,8 +165,7 @@ class Model:
     def create_stat_total_variables(self):
         self.stat_count = len(self.stats_list)
 
-        # A set cap can sit below the character's base (6-piece Cire Momore caps MP at 2, base is 3),
-        # so a capped stat needs an overage variable.
+        # A set cap can go below the base (6-piece Cire Momore caps MP at 2): needs an overage var
         self._capped_stat_ids = set()
         for item_set in self.sets_list:
             if not item_set.max_caps:
@@ -190,10 +178,9 @@ class Model:
         for stat in self.stats_list:
             if stat.name in self.stat_maximum:
                 self.problem.setup_variable('stat', stat.id, None, self.stat_maximum[stat.name])
-                # What the gear actually adds up to, which the cap does not
-                # limit: 13 AP of gear is equippable and the sheet reads 12.
+                # Gear total, not capped: 13 AP of gear is equippable, the sheet reads 12
                 self.problem.setup_variable('total', stat.id, None, None)
-                # 1 when the total is over the cap, so the stat sits at the cap.
+                # 1 when the total is over the cap
                 self.problem.setup_variable('capped', stat.id, 0, 1)
             else:
                 self.problem.setup_variable('stat', stat.id, None, None)
@@ -203,7 +190,7 @@ class Model:
             if stat and stat.name in self.stat_maximum:
                 self.problem.setup_variable('overage', stat_id, 0, self.stat_maximum[stat.name])
 
-        # One exo point per stat for the whole build, wherever it comes from.
+        # One exo point per stat for the whole build
         for stat in self.stats_list:
             if stat.key in self._EXO_STAT_KEYS:
                 self.problem.setup_variable('exo', stat.id, 0, 1)
@@ -227,7 +214,7 @@ class Model:
         
         
     def add_weird_item_weights_to_objective_funcion(self, objective_values, level):
-        # These weights name Dofus 3 items; other versions don't ship them and the lookups return None.
+        # Dofus 3 items only, other versions don't have them
         if getattr(self.structure, 'game_version', 'dofus3') not in ('dofus3', 'beta'):
             return
 
@@ -859,13 +846,7 @@ class Model:
         restriction.changeRHS(stat_points)
     
     def modify_forbidden_items_constraints(self, forbidden_equips, options):
-        # A copy, not the caller's own set. Forbidding one row of a split item
-        # adds its siblings below, and that used to land in the ModelInput the
-        # caller still holds. fashion_action reads the cache key before setup
-        # and writes it after, so the write went to a key the read had never
-        # asked for -- and, worse, to a counter born at zero, which put()
-        # refuses to store at all. A character who forbade Gelano therefore
-        # cached nothing, ever, and repaid the whole solve on every view.
+        # Copy, the caller's set is part of its cache key
         new_forbid_list = set(forbidden_equips)
         
         or_items = self.structure.get_available_or_items()
@@ -875,26 +856,17 @@ class Model:
                     for or_item in or_item_items:
                         new_forbid_list.add(or_item.id)
 
-        # And the rows the catalogue simply repeats. Ankama's file lists the
-        # Retro "Ecaflip Paw" eleven times and the Touch "Boracelet" twice,
-        # same values under another number, so forbidding one used to hand the
-        # piece straight back: a Retro reader left alone with the two
-        # "Snow Bow Meow (+40 Prospecting)" rows forbade the one he was given
-        # and got the other. 19 pieces in Retro and 2 in Touch, and the 39
-        # extra rows that used to survive the ban.
+        # Ankama lists some pieces several times under other ids (Retro "Ecaflip Paw")
         for item_id in tuple(new_forbid_list):
             new_forbid_list.update(
                 self.structure.get_rows_of_the_same_item(item_id))
 
-        # The pieces only the TemporiX servers have sit in the live Touch data
-        # like any other, and a classic Touch solve did wear two of them. They
-        # are offered to a TemporiX build and to no other.
+        # TemporiX-only pieces are in the live Touch data too
         if temporix_is_on(options, self.structure.game_version):
             temporix_only = set()
         else:
             temporix_only = temporix_only_item_ids(self.structure)
-            # A piece the player locked stays: banning it made the build
-            # infeasible, and the failure page could not say why.
+            # Keep locked pieces, banning them makes the build infeasible
             locked = (getattr(self, 'input', None) or {}).get('locked_equips')
             temporix_only -= set((locked or {}).values())
 
@@ -926,11 +898,7 @@ class Model:
                 restriction.changeRHS(0)
             else:
                 restriction.changeRHS(1)
-        # The exo option decides which of the two synthesized Gelano rows is
-        # usable, and it used to decide it alone: whatever the player forbade,
-        # one row came back. In "only what I own" that meant a ring nobody
-        # owned, since the inventory restriction speaks through the same
-        # exclusions. The option still picks the row; an exclusion still wins.
+        # The exo option picks the Gelano row, a forbid still wins
         gelano1 = self.structure.get_item_by_name('Gelano (#1)')
         gelano2 = self.structure.get_item_by_name('Gelano (#2)')
         if gelano1 and gelano2:
@@ -946,23 +914,11 @@ class Model:
                     else 0)
     
     def create_or_item_count_constraints(self):
-        """One item split into rows is still one item.
-
-        An item gated behind alternative conditions ships as "(#1)" and "(#2)",
-        and the exo variants do the same. Nothing counted the group, so the two
-        rows of Crocoring could fill both ring slots: one ring worn twice, and
-        two pieces of its set counted from one. The pair of a setless ring is
-        the case the game does allow, so the ceiling is the one a single member
-        already has.
-        """
+        """The "(#1)" and "(#2)" rows of one item count as one item."""
         for _name, members in self.structure.get_available_or_items().items():
             if len(members) < 2:
                 continue
             first = members[0]
-            # From the registry, like create_item_number_variables above:
-            # this line kept its own `!= 'retro'` when that one moved, and a
-            # version whose key is not 'retro' but whose rings_can_double is
-            # False would have received a ceiling of two here and one there.
             doublable = (get_game_version(self.structure.game_version).rings_can_double
                          and self.structure.get_type_name_by_id(first.type) == 'Ring'
                          and first.set is None)
@@ -1150,13 +1106,7 @@ class Model:
         self.create_or_condition_constraints()
 
     def create_or_condition_constraints(self):
-        """Gates the game lets you satisfy one of, "MP < 6 or AP < 12".
-
-        One binary per branch says which one the build leans on. At least one
-        must be picked when the item is worn, and a branch only binds when it is
-        the one picked, so the other stays free. Both were dropped before, which
-        let the solver hand out an item the game refuses to equip.
-        """
+        """OR conditions like "MP < 6 or AP < 12": one binary per branch."""
         for item in self.items_list:
             if not item.or_conditions:
                 continue
@@ -1187,8 +1137,7 @@ class Model:
 
     def create_stat_total_constraints(self):
         for stat in self.stats_list:
-            # A capped stat splits in two: 'total' is what the gear gives and
-            # 'stat' is what the character reads, min(cap, total).
+            # Capped stats: 'total' is the gear sum, 'stat' is min(cap, total)
             head = 'total' if stat.name in self.stat_maximum else 'stat'
             matrix = [(-1, head, stat.id)]
             for item in self.items_list:
@@ -1213,15 +1162,7 @@ class Model:
     _CAP_BIG_M = 100000
 
     def create_stat_cap_constraints(self):
-        """stat = min(cap, total), the way the game reads a capped stat.
-
-        The cap used to bound the variable the gear was tied to, which made it
-        a rule about what could be worn: the solver spent a slot on a -1 AP
-        weapon to get back under 12, and called a legal build impossible when
-        no such piece existed. Four inequalities and one binary say the real
-        thing instead. capped = 0 pins stat to total, capped = 1 pins it to the
-        cap, and only one of the two is ever feasible.
-        """
+        """stat = min(cap, total), the way the game reads a capped stat."""
         big_m = self._CAP_BIG_M
         for stat in self.stats_list:
             if stat.name not in self.stat_maximum:
@@ -1243,13 +1184,7 @@ class Model:
             self.restrictions.stat_cap_constraints[stat.name] = constraints
 
     def create_exo_constraints(self):
-        """The exo point exists only if something gives it.
-
-        exo <= (1 when the option is on) + the pieces worn that carry one. The
-        right hand side starts at 0 and modify_exo_constraints raises it once
-        the options are known. A piece that carries an exo can still be worn
-        without it counting: the variable simply stays at 0.
-        """
+        """exo <= (1 when the option is on) + worn pieces that carry one."""
         carriers = getattr(self, '_exo_carriers', None) or {}
         for stat in self.stats_list:
             if stat.key not in self._EXO_STAT_KEYS:
@@ -1269,17 +1204,13 @@ class Model:
             if restriction is None:
                 continue
             option = options.get('%s_exo' % stat.key)
-            # mp_exo can hold 'gelano', which is not this point: that choice
-            # swaps in Gelano (#1), which carries the MP itself. Counting it
-            # here as well would give the build two.
+            # mp_exo 'gelano' swaps in Gelano (#1), which carries the MP itself
             restriction.changeRHS(1 if option is True else 0)
 
     def modify_stat_total_constraints(self, base_stats_by_attr, options):
         for stat in self.stats_list:
             restriction = self.restrictions.stat_total_constraints[stat.name]
-            # The exo point is not part of the character's base any more: it
-            # is the 'exo' variable, so that owning one on a piece and ticking
-            # the option cannot add up to two.
+            # The exo point is not in the base, see the 'exo' variable
             value = base_stats_by_attr.get(stat.name, 0)
             restriction.changeRHS(-value)
         self.modify_exo_constraints(options)
@@ -1430,19 +1361,7 @@ class Model:
         return self.problem.get_status()
 
     def get_candidate_pool(self):
-        """{type name: how many items the solver was free to choose from}.
-
-        Read from the restrictions themselves and not re-derived from the
-        inputs. modify_level_constraints and modify_forbidden_items_constraints
-        each set a per item right hand side to 0 or 1, so an item is a
-        candidate exactly when neither of them forced it to zero. The option
-        logic in the second is forty lines of shields, trophies, dofus modes,
-        mount families and prysmaradites; copying it here to recount would be
-        inviting the page and the solver to disagree about what was on offer.
-
-        Must be read before the model goes back to the pool, like
-        solution_is_proven: after return_model it belongs to the queue.
-        """
+        """{type name: items the solver could pick}. Call before return_model."""
         pool = {}
         for item in self.items_list:
             level = self.restrictions.level_constraints.get(item.id)
@@ -1457,8 +1376,7 @@ class Model:
         return pool
 
     def get_solution_status(self):
-        """"Optimal Solution Found" or "Solution Found". Not the same question
-        as get_solved_status: see LpProblem2.get_solution_status."""
+        """"Optimal Solution Found" or "Solution Found", see LpProblem2.get_solution_status."""
         return self.problem.get_solution_status()
 
     def solution_is_proven(self):
@@ -1493,20 +1411,7 @@ class ModelInput(object):
                 'origin': 'generated'}
 
     def cache_key(self):
-        """A key the next process can compute again.
-
-        `__hash__` below builds a tuple of strings -- the game version, the
-        class, the stat names -- and `hash()` of a str is randomised per
-        process. Its value therefore differs in every gunicorn worker and after
-        every restart, while DatabaseSolutionMemory stores it in a column: a
-        solve written before a restart can never be found again, and two
-        workers never share one. Measured on the live site, steady since March:
-        391 hits for 2 779 misses in the week of 24 August, near 12%.
-
-        Sorting is not decoration. `repr()` of a set or a dict follows the
-        order its members hash into, so a canonical form built on repr alone
-        would move for the same reason.
-        """
+        """Same in every process, unlike __hash__ (str hashes are randomised)."""
         from fashionistapulp.structure import get_current_game_version
         minimum_stats = dict(self.minimum_stats or {})
         adv_mins = minimum_stats.pop('adv_mins', None)
@@ -1548,7 +1453,7 @@ class ModelInput(object):
                 overrides_key).__hash__()
 
 def _canonical(value):
-    """The same value in a shape that orders itself the same way everywhere."""
+    """value with dicts and sets sorted, for a stable digest."""
     if isinstance(value, dict):
         return ['d', sorted(([_canonical(k), _canonical(v)]
                              for k, v in value.items()), key=repr)]
@@ -1562,8 +1467,7 @@ def _canonical(value):
 
 
 def _stable_digest(value):
-    """A signed 64-bit int, the same in every process. SolutionMemory keys on
-    a BigIntegerField, so the digest is cut to fit rather than widened."""
+    """Signed 64-bit digest (SolutionMemory keys on a BigIntegerField)."""
     payload = json.dumps(_canonical(value), sort_keys=True,
                          separators=(',', ':'), ensure_ascii=True)
     return int.from_bytes(hashlib.sha256(payload.encode('ascii')).digest()[:8],

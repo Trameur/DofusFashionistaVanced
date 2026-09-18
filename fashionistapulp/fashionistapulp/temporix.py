@@ -16,23 +16,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""The Dofus Touch TemporiX servers, as a mode of a Touch build.
-
-Ankama ran them from 15 September to 13 October 2026 (devblog 1771318,
-"TemporiX Temporary Servers"). Two of their rules change what a build reaches:
-
-- no cap on AP, MP, Range or summons. Resistances keep theirs, and an item's
-  own AP or MP condition still applies (devblog: "the equipment constraints for
-  certain items on the maximum number of AP and MP will not be modified");
-- a piece that drops "shiny" (rayonnant) does so with a perfect roll and 1.5
-  times its values, rounded up: a shiny Gelano gives 2 AP, a shiny Vulbis 2 MP.
-
-TemporiX is not a separate data source. Ankama's own client reaches a game
-server's proxy only through the authenticated login socket, and the TemporiX
-items sit in the same live Touch tables as every other item, so the catalogue
-the site already reads is the TemporiX one. What the servers compute and never
-publish is the shiny roll, which is why it is computed here.
-"""
+"""Dofus Touch TemporiX mode: no AP, MP, Range or summon cap, and shiny pieces."""
 
 import sqlite3
 from copy import copy
@@ -40,32 +24,24 @@ from copy import copy
 from .fashionista_config import get_items_db_path
 from .game_versions import get_game_version
 
-#: Bumped whenever the rule below changes, so that a solve stored under the old
-#: rule is not handed back as if it were the new one. A TemporiX solve carries
-#: it in its options; a classic Touch solve carries False instead (see
-#: fashion_action.get_options).
+# Bump when the shiny rules change, stored solves carry it in their options
 RULE_VERSION = 3
 
-#: What can drop shiny, read in Ankama's client (build/script.js, the Item
-#: constructor): canBeShiny = BELT || BOOTS || HAT || CAPE || AMULET || RING ||
-#: DOFUS_OR_TROPHY. Weapons, shields, pets and mounts cannot. The devblog's
-#: wording suggests shields could; the client and the drop tables say no.
+# canBeShiny in the client's Item constructor: no weapon, shield, pet or mount
 SHINY_TYPES = frozenset(('Hat', 'Cloak', 'Amulet', 'Ring', 'Belt', 'Boots',
                          'Dofus'))
 
-#: Pieces that exist only on the TemporiX servers. They are in the live Touch
-#: tables like any other item, so until this mode existed every classic Touch
-#: build was offered them, and a plain Touch solve did pick the first two.
+# TemporiX only, but in the live Touch tables with everything else
 TEMPORIX_ONLY_ANKAMA_IDS = {
-    # A quest reward, levelled with runes up to rank 1000.
+    # Quest reward, levelled with runes up to rank 1000
     23841: 'Shield of Infinity',
-    # A quest reward: 1 AP, 1 MP, 1 Range.
+    # Quest reward: 1 AP, 1 MP, 1 Range
     23851: 'The Real Ivory Dofus',
-    # Its equip condition is the TemporiX criterion Sc=13000&PB!805.
+    # Equip condition Sc=13000&PB!805
     24053: 'Cocoa Dofus',
 }
 
-#: A drop condition that shuts the TemporiX servers out.
+# Drop condition that excludes TemporiX
 _NOT_ON_TEMPORIX = 'Sc!13000'
 
 
@@ -80,27 +56,13 @@ def is_on(options, game_version):
 
 
 def shiny_value(value):
-    """1.5 times the value, rounded up, the sign kept.
-
-    Rounded in magnitude: a shiny malus grows like a bonus does. Ankama's
-    written recap of the 2 September live: "Si un equipement rayonnant possede
-    des malus, sont-ils egalement augmentes ? Oui". The catalogue stores a
-    ranged malus at its best roll, the end nearest zero, like a bonus at its
-    maximum, and that is the value multiplied here.
-    """
+    """1.5 times the value rounded up in magnitude: a malus grows too."""
     magnitude = (3 * abs(value) + 1) // 2
     return magnitude if value >= 0 else -magnitude
 
 
 def droppable_item_ids(structure):
-    """Ids of the pieces some monster drops where TemporiX lets it.
-
-    Only a drop can be shiny: "each piece of equipment ... will have a chance
-    of being dropped in its shiny version" (devblog). A crafted-only piece, a
-    quest reward or a merchant's item is never shiny, and 618 of the pieces of
-    a shiny-capable type have no drop row at all. The drop table keeps each
-    row's conditions, and a TemporiX-only drop reads Sc=13000.
-    """
+    """Ids of pieces dropped on TemporiX: only a drop can be shiny."""
     cached = getattr(structure, '_temporix_droppable', None)
     if cached is None:
         cached = set()
@@ -125,36 +87,30 @@ def can_be_shiny(item, structure):
     if structure.get_type_name_by_id(item.type) not in SHINY_TYPES:
         return False
     flags = getattr(item, 'flags', None) or ()
-    # A trophy shares the Dofus type in the catalogue. Trophies are sold on
-    # TemporiX, never dropped.
+    # Trophies share the Dofus type, and are sold on TemporiX, never dropped
     if 'Trophy' in flags:
         return False
-    # A piece bound to the character is a quest reward: The Real Ivory Dofus
-    # is the one players ask about.
+    # Bound to the character means a quest reward
     if 'Linked to the character' in flags:
         return False
     return item.id in droppable_item_ids(structure)
 
 
 def shiny_item(item):
-    """A copy of the piece carrying its shiny values; the catalogue row stays."""
+    """Shiny copy of the piece, the catalogue row is left alone."""
     shiny = copy(item)
     shiny.stats = [(stat_id, shiny_value(value)) for stat_id, value in item.stats]
-    # A shiny roll is perfect: there is no range left to show.
+    # A shiny roll is perfect, no range
     shiny.stat_ranges = {}
     shiny.shiny = True
     return shiny
 
 
 def shiny_items_by_id(structure):
-    """{item id: its shiny copy} for every piece that can be shiny.
-
-    Kept on the structure, so it is built once per catalogue and thrown away
-    with it. Gelano (#1) is left out: it is the Gelano that carries an MP exo,
-    and a shiny piece cannot be forgemaged, so that Gelano is a normal one.
-    """
+    """{item id: shiny copy}, cached on the structure."""
     cached = getattr(structure, '_temporix_shiny_items', None)
     if cached is None:
+        # Gelano (#1) is the MP exo one, and a shiny piece cannot be forgemaged
         exo_gelano = structure.get_item_by_name('Gelano (#1)')
         skipped = {exo_gelano.id} if exo_gelano is not None else set()
         cached = {item.id: shiny_item(item)
@@ -165,11 +121,7 @@ def shiny_items_by_id(structure):
 
 
 def temporix_only_item_ids(structure):
-    """The catalogue rows of the pieces only TemporiX has.
-
-    Empty on every other version: an Ankama id names a different piece in each
-    client, and 23841 is not a shield in Dofus 3.
-    """
+    """Ids of the TemporiX-only pieces, empty on other versions."""
     ids = set()
     if not version_has_temporix(structure.game_version):
         return ids
@@ -181,13 +133,7 @@ def temporix_only_item_ids(structure):
 
 
 def as_worn(item, structure, options, overridden=False):
-    """The piece a TemporiX build wears in this slot.
-
-    Its shiny copy when the mode is on and the piece can be shiny, the
-    catalogue row otherwise. A piece the player recorded rolls for is one they
-    own and forgemaged, and a shiny piece cannot be forgemaged, so it keeps
-    its recorded values instead.
-    """
+    """Shiny copy when TemporiX is on, a piece with recorded rolls stays as is."""
     if (item is None or overridden
             or not is_on(options, structure.game_version)):
         return item

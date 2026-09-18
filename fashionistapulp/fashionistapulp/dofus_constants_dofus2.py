@@ -224,9 +224,7 @@ STAT_ORDER = {
     'resperwea': 133,
 }
 
-# Vestigial: the solver reads the live per-version caps from
-# dofus_constants.get_stat_maximum, not this copy. Kept in sync (Range 6, the
-# effective in-game equipment cap) to avoid contradicting the live values.
+# Unused, the solver reads dofus_constants.get_stat_maximum
 STAT_MAXIMUM = {
     'AP': 12,
     'MP': 6,
@@ -318,8 +316,7 @@ class Spell:
                  is_linked=None, stacks=1, special=None, buff_scaling=None,
                  spell_id=None, casting=None, conditional=None,
                  delayed=None, delayed_crit=None):
-        # Ankama spell id, read from the 2.73 archive; None where the spec is
-        # hand-written.
+        # Ankama spell id from the 2.73 archive, None for hand-written specs
         self.spell_id = spell_id
         self.name = name
         self.level_req = level_req
@@ -332,17 +329,11 @@ class Spell:
         self.buff_scaling = buff_scaling
         # {'ap': [...], 'per_turn': [...], ...}, one value per spell level.
         self.casting = casting
-        # {row index: what has to happen first}, for a row the cast does not
-        # land by itself. Noa's second row waits for the target to suffer
-        # pushback damage; counting it with the cast overstates the turn.
+        # {row index: prerequisite} for rows the cast does not land alone
         self.conditional = conditional or {}
-        # {row index: when it lands}, for a row that is certain but late: a
-        # poison at the start or end of a turn. Unlike `conditional` it is
-        # still the spell's damage, so it stays in what a cast is worth and is
-        # only reported apart.
+        # {row index: when it lands} for rows that land later, like a poison
         self.delayed = delayed or {}
-        # A critical hit can carry a different row list, so it gets its own
-        # map when the two disagree.
+        # Critical hits can have different rows
         self.delayed_crit = delayed_crit if delayed_crit is not None else None
 
     def ap_cost(self, level_index=-1):
@@ -4636,38 +4627,17 @@ def get_equiped_weapon(char_stats):
             break
     return weapon
 
-# The hit types that move or drain instead of hurting. Kept equal to the list
-# in dofus_constants; a test holds the three copies together.
+# Hit types that move or drain instead of hurting, same list in dofus_constants
 NON_ELEMENTAL_HIT_TYPES = ('pushes', 'steals', 'attracts', 'advances',
                            'steals_mp', 'removes_ap', 'removes_mp')
 
 
 def raised_by_percent(base, percent):
-    """`base` raised by `percent` percent, without losing a point to rounding.
-
-    `int((1 + percent / 100.0) * base)` looks equivalent and is not: in binary
-    `1 + 360 / 100.0` is 4.5999999999999996, so a base of 25 comes out at
-    114.99999999999999 and truncates to 114 where the exact answer is 115.
-    Multiplying before dividing keeps integers exact. The spells page already
-    computes it that way in JavaScript, which is why it showed 120 on Radiant
-    Arrow while the best-turn panel announced 119.
-
-    Measured 2026-09-12: the loss only happens for **102 of the 1501 stat
-    totals from 0 to 1500**, because it needs both an inexact 1 + x/100 and a
-    product landing just under an integer. When it does happen it reaches
-    **11.1% of the catalogue's damage values** (531 of 4770 on Dofus 3 at a
-    stat total of 720), 4.5% at 360. On one level-200 Cra of the local copy,
-    **7 of its 49 spells** announced one number in the panel and another in
-    the table.
-
-    It reaches the best-turn panel, the weapon damage on the build page and
-    the item comparison popup, which all call calculate_damage.
-    """
+    """Multiply first: 1 + 360 / 100.0 is 4.5999... in binary"""
     product = base * (100 + percent)
     if isinstance(product, int):
         return product // 100
-    # Truncation toward zero, as the previous int() did, so nothing but the
-    # artefact changes.
+    # Truncate toward zero like int()
     return int(product / 100.0)
 
 

@@ -45,15 +45,12 @@ from django.utils.translation import gettext as _
 
 
 
-# A failed rebuild leaves the previous database in place: keep serving that
-# rather than refusing to start.
+# Keep serving the previous database if a rebuild failed
 load_items_db_from_dump(strict=False)
 
 
 def _with_crit_bonus(hit, crit_bonus):
-    """The same hit on the critical line. A row that pulls the target or takes
-    its AP counts cells and points, not damage, so the bonus leaves it alone:
-    it used to turn "attracts 1 cell" into "attracts 11 cells"."""
+    """The hit with the crit bonus, except rows counting cells or points (pull, AP steal)."""
     if hit.element in NON_ELEMENTAL_HIT_TYPES:
         return DamageDigest(hit.min_dam, hit.max_dam, hit.element,
                             hit.steals, hit.heals)
@@ -65,27 +62,17 @@ lock = Lock()
 _structure_singletons = {}
 _current_game_version = threading.local()
 
-# The Gelano rows are synthesized, not scraped, and their ids used to be
-# max(item id) + 1. That moved every time the item set did, and a build saved
-# before the move lost its ring. Fixed ids, far above anything the scrapers
-# hand out (mounts sit at 1000000, the duplicates sat at 100000000 and the
-# Touch pet variants at 200000000).
+# Synthesized rows: fixed ids, far above anything the scrapers hand out
 GELANO_IDS = {'Gelano (#1)': 990000001, 'Gelano (#2)': 990000011}
 
-# The maxed pet variants the Retro and Touch pipelines write at and above these
-# ids, under the pet's own ankama id (itemscraper/store_*_pet_bonuses.py).
+# Maxed pet variants start at these ids (itemscraper/store_*_pet_bonuses.py)
 PET_VARIANT_ID_BASE = {'retro': 10_000_000, 'touch': 200_000_000}
 
-# What max(item id) + 1 came out as in the data each version last shipped, so
-# the builds saved against it still find the ring. Anything older than that was
-# already lost to the same drift, which is what the fixed ids above end.
+# Old Gelano ids (max(item id) + 1), still used by saved builds
 GELANO_DEPLOYED_IDS = {
     'dofus3': {200014167: 'Gelano (#1)'},
     'beta': {200014167: 'Gelano (#1)'},
     'dofus2': {1029457: 'Gelano (#1)'},
-    # 200000226 was the Touch number for two days, while a rebuild had lost a
-    # pet and its 226 variants left that slot free. That rebuild never shipped,
-    # the numbering is back to 228 variants, and 200000226 is a Water Bwak.
     'touch': {200000228: 'Gelano (#1)'},
     'retro': {10000087: 'Gelano (#1)'},
 }
@@ -102,9 +89,7 @@ def _stable(value):
     return repr(value)
 
 
-#: Ankama numbers a repeated name rather than renaming it: the Dofus 3 file
-#: carries "Ecaflip Paw" through "Ecaflip Paw 11". Only a trailing number, and
-#: only when everything else about the two rows is identical.
+# Ankama numbers a repeated name: "Ecaflip Paw" through "Ecaflip Paw 11"
 _A_NUMBER_ANKAMA_APPENDED = re.compile(r'^(.*?) \d{1,2}$')
 
 
@@ -114,20 +99,7 @@ def _the_name_without_ankamas_number(name):
 
 
 def _what_makes_two_rows_one_item(item):
-    """Everything the game gives a piece, except its number.
-
-    The name stays in: without it the catalogue merges pieces that merely
-    carry no stats at all -- "Black Bow Wow" with "White Bow Meow", the eight
-    Initiate's weapons with each other. Measured on the five versions.
-
-    The number Ankama appends to a repeated name does not: "Ecaflip Paw 2" is
-    the same ring as "Ecaflip Paw", and the French file calls both of them
-    "Patte d'Ecaflip". Stripping it reunites 2 pieces and 11 rows on each
-    modern version and nothing at all on Touch and Retro, which do not number.
-    A numbered name whose values differ keeps its own row: "Cocoa Dofus 2",
-    "Nomoon 2" and the 41 numbered Dofus 2 shields are all still their own
-    piece.
-    """
+    """Everything about a row except its id and Ankama's number on the name."""
     return (_the_name_without_ankamas_number(item.name),
             item.dofus_touch, item.level, item.type, item.set,
             item.ankama_type, item.is_one_handed,
@@ -175,10 +147,7 @@ class Structure:
         self._rows_of_the_same_item = {}
         self.legacy_item_ids = {}
         self.conn = sqlite3.connect(get_items_db_path(game_version))
-        # A half-written catalogue makes one of these raise, and the
-        # close below was never reached: the database file stayed open
-        # for the life of the process. On Windows that also makes the
-        # file undeletable, which is how a test caught it.
+        # A half-written catalogue raises here, still close the db (Windows locks the file)
         try:
     
             self.read_sets_table()
@@ -268,10 +237,7 @@ class Structure:
                 self.dt_items_dict_name[item.name] = item
                 by_ankama = self.dt_items_dict_ankama
             if ankama_id is not None:
-                # Mounts have their own Ankama id space and reuse equipment ids:
-                # on Touch, 42 is both the Twiggy Sword and a Dragoturkey.
-                # A pet's ankama id is the pet, not whichever of its maxed
-                # variants the table happened to list last.
+                # Mounts reuse equipment ankama ids, pet variants share the pet's
                 variant = variant_base is not None and item_id >= variant_base
                 if ((ankama_type != 'mounts' and not variant)
                         or ankama_id not in by_ankama):
@@ -400,14 +366,7 @@ class Structure:
                 item.stat_ranges[stat_id] = (entry[3], entry[4])
             
     def read_item_type_position_table(self):
-        """Where each Wakfu item type is worn. No Dofus version has it.
-
-        Dofus keeps the same fact in a hand-written dictionary,
-        TYPE_NAME_TO_SLOT_NUMBER, because its ten types never change. Wakfu has
-        twenty-four and Ankama publishes them, so they are read rather than
-        retyped, and the COUNT falls out of the rows: a Ring has two, one per
-        hand, and everything else has one.
-        """
+        """Where each Wakfu item type is worn (Dofus uses TYPE_NAME_TO_SLOT_NUMBER)."""
         self.type_positions = []
         if not self._table_exists(ITEM_TYPE_POSITION_TABLE):
             return
@@ -433,11 +392,7 @@ class Structure:
                 item.rarity = rarity
 
     def read_item_picture_table(self):
-        """Which drawing a Wakfu item shows. No Dofus version has the table.
-
-        Half the gear shares its artwork with something else, so the picture is
-        named by Ankama's gfx id and not by the item.
-        """
+        """Wakfu gfx id of an item's picture, many items share one."""
         if not self._table_exists(ITEM_PICTURE_TABLE):
             return
         c = self.conn.cursor()
@@ -448,14 +403,7 @@ class Structure:
                 item.picture = gfx
 
     def read_stat_element_count_table(self):
-        """How many elements a Wakfu mastery line spreads over.
-
-        The table names the line it qualifies rather than trusting the order
-        `stats_of_item` comes back in, so the two can be checked against each
-        other. Them disagreeing means the build is half-written, and a planner
-        that quietly values the wrong line is worse than one that refuses to
-        start.
-        """
+        """How many elements a Wakfu mastery line spreads over."""
         if not self._table_exists(STAT_ELEMENT_COUNT_TABLE):
             return
         c = self.conn.cursor()
@@ -494,10 +442,7 @@ class Structure:
                 item.stats.append((stat_id, value))   
                 
     def insert_gelanos(self):
-        # The Gelano is a Dofus ring, synthesized because the scrapers cannot
-        # see its exo branch. A game that has no Ring type has no Gelano, and
-        # inserting one gave it a null type that separate_items then looked up
-        # by name.
+        # Synthesized because the scrapers can't see its exo branch, Dofus only
         if not get_game_version(self.game_version).dofus:
             return
         for old_id, name in GELANO_DEPLOYED_IDS.get(self.game_version, {}).items():
@@ -663,10 +608,7 @@ class Structure:
             item.localized_extras[language] = lines
     
     def read_spell_tooltips_table(self):
-        """What the spells named in the extra lines do.
-
-        Filled by itemscraper/store_spell_tooltips.py; the table may be absent.
-        """
+        """Spells named in the extra lines, from store_spell_tooltips.py (table may be absent)."""
         c = self.conn.cursor()
         try:
             rows = c.execute(
@@ -699,12 +641,7 @@ class Structure:
 #             item = self.items_dict[item_id]
 #             item.is_one_handed = True
     def _weapon_key(self, item_id, is_dofus_touch, item_name):
-        """What makes two rows the same weapon.
-
-        The branches of one item, "(#1)" and "(#2)", share an ankama id and share
-        their damage. Retro items that merely share a name (eleven Ecaflip Paws,
-        four Bronze Swords of four elements) do not.
-        """
+        """Ankama id if any: "(#N)" branches share a weapon, same-name Retro items don't."""
         items = self.dt_items_dict if is_dofus_touch else self.items_dict
         item = items.get(item_id)
         ankama_id = getattr(item, 'ankama_id', None) if item is not None else None
@@ -726,8 +663,7 @@ class Structure:
         return item_name, w
 
     def get_weapon_for_item(self, item):
-        """The weapon of this exact item; get_weapon_by_name only ever answers
-        for the first item carrying the name."""
+        """Weapon of this exact item, get_weapon_by_name only knows the first per name."""
         if item is None:
             return None
         is_dofus_touch = self._is_item_dofus_touch(item.id)
@@ -777,8 +713,7 @@ class Structure:
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
             w.ap = ap
                 
-        # How many swings a turn allows. Retro never limited a weapon, and a
-        # dump built before the table exists has none either.
+        # Uses per turn. None in Retro and in old dumps
         has_uses = any(row[0] == 'weapon_uses_per_turn' for row in c.execute(
             "SELECT name FROM sqlite_master WHERE type = 'table'"
             " AND name = 'weapon_uses_per_turn'"))
@@ -924,9 +859,7 @@ class Structure:
             self.stats_list_names_sorted = [stat.name for stat in
                 sorted(self.stats_list, key=lambda stat: STAT_ORDER[stat.key])]
         else:
-            # STAT_ORDER is the order a Dofus character sheet reads and it
-            # names none of Wakfu's characteristics. A game gets its own
-            # order, which here is the one its data was written in.
+            # STAT_ORDER is Dofus only, keep the data order
             self.stats_list_names_sorted = [
                 stat.name for stat in sorted(self.stats_list,
                                              key=lambda stat: stat.id)]
@@ -938,11 +871,7 @@ class Structure:
         return not item.removed
 
     def separate_items(self):
-        # The buckets cover the levels this game actually has. Written as
-        # 1..200 for years, which is Dofus's range and only Dofus's: every
-        # item of all five Dofus versions sits inside it, so reading the range
-        # off the data leaves them untouched, while Wakfu runs 0 to 245 and had
-        # 1502 items outside it, a fifth of its catalogue.
+        # Level range from the data, Wakfu runs 0 to 245
         levels = {item.level for item in itertools.chain(
             self.items_list, self.dt_items_list)}
         self._level_floor = min([1] + [level for level in levels])
@@ -1029,8 +958,7 @@ class Structure:
                 self._dt_unique_items_ids_with_type[item.id] = t
         
     def _or_sibling_local_name(self, item, language):
-        """A branch added at runtime (the Gelano exo variant) has no row in
-        item_names, so borrow the name from a branch that has one."""
+        """Name of a sibling branch, for runtime branches with no item_names row."""
         if item.or_name == item.name:
             return None
         group = (self.dt_or_items if item.dofus_touch else self.or_items)
@@ -1064,9 +992,7 @@ class Structure:
         self._dt_unique_items_names_with_ids = {}
         self._unique_items_names_with_ids['en'] = {}
         self._dt_unique_items_names_with_ids['en'] = {}
-        # The same walk, without the overwriting. A name shared by two
-        # different pieces keeps both here, so a caller can tell the reader
-        # what separates them instead of silently dropping one.
+        # Same, but a name shared by two pieces keeps both ids
         self._unique_items_ids_by_name = {'en': {}}
         self._dt_unique_items_ids_by_name = {'en': {}}
         for lang in NON_EN_LANGUAGES:
@@ -1114,17 +1040,7 @@ class Structure:
                                 item_name, []).append(item.id)
     
     def index_the_rows_that_are_one_item(self):
-        """Group the catalogue rows that are the very same piece.
-
-        Ankama's own item file lists some pieces more than once: Retro carries
-        eleven rows named "Ecaflip Paw" and two named "Tea Ring", Touch two
-        named "Boracelet". Same name, same level, same values, same conditions
-        -- only the number differs, and the number is what nobody sees.
-
-        The solver has to know, because a reader who forbids the piece gets it
-        straight back under the next number otherwise. Dofus 3, its beta and
-        Dofus 2 repeat nothing: this is a Retro and Touch trait.
-        """
+        """Group the rows Ankama lists more than once for the same piece."""
         rows_by_identity = {}
         for item in self.get_concatenated_items_lists():
             rows_by_identity.setdefault(
@@ -1138,8 +1054,7 @@ class Structure:
                 self._rows_of_the_same_item[item_id] = group
 
     def get_rows_of_the_same_item(self, item_id):
-        """Every row that is this piece, this one included; () when it is
-        the only row the catalogue gives it."""
+        """Every row of this piece, this one included; () when there is only one."""
         return self._rows_of_the_same_item.get(item_id, ())
 
     def post_process_set_names(self):
@@ -1172,10 +1087,7 @@ class Structure:
             return self._unique_items_names_with_ids[language]
     
     def get_all_unique_items_ids_by_name(self, language, dofus_touch=False):
-        """{name shown in that language: every piece id it covers}.
-
-        The map above keeps one id per name, so a name shared by two different
-        pieces loses one of them. This keeps both."""
+        """{name in that language: every piece id with that name}."""
         if dofus_touch:
             return self._dt_unique_items_ids_by_name[language]
         return self._unique_items_ids_by_name[language]
@@ -1225,8 +1137,7 @@ class Structure:
         return self.stats_list
 
     def get_used_stat_keys(self):
-        # Stat keys that appear on an item or set bonus in this version's data
-        # (PVP resists exist in retro but not in Dofus 2/3).
+        # Stat keys on an item or set bonus of this version (PVP resists are Retro only)
         if self._used_stat_keys is None:
             used = set()
             for item in itertools.chain(self.items_list, self.dt_items_list):
@@ -1301,18 +1212,14 @@ class Structure:
             return self.dt_items_dict.get(item_id)
         found = self.items_dict.get(item_id, None)
         if found is None:
-            # A build saved when an item's branches were separate rows stored
-            # the row it was solved with; that row is one item again now.
+            # Old builds can store a retired row id
             moved = self.legacy_item_ids.get(item_id)
             if moved is not None:
                 return self.items_dict.get(moved, None)
         return found
 
     def current_item_id(self, item_id):
-        """The live id a stored id stands for: itself, or the item a retired
-        id was carried onto. The solver compares ids, not items, so a lock, an
-        exclusion or a roll saved under a retired id is lost unless it is read
-        through this. Anything else comes back unchanged."""
+        """The live id for a stored id: itself, or the item a retired id moved to."""
         try:
             if item_id in self.items_dict or item_id in self.dt_items_dict:
                 return item_id
@@ -1362,9 +1269,7 @@ class Structure:
         return [self.get_item_by_id(item_id)]
 
     def get_set_by_id(self, set_id):
-        # dt_sets_dict holds the synthetic touch sets (Jellix/Gelano), whose ids
-        # collide with real ones: 1 is both the dofus3 Gobball Set and the touch
-        # Jellix Set. read_set_bonus_table stores .bonus on the sets_dict object.
+        # sets_dict first: synthetic touch set ids collide (1 is Gobball Set and Jellix Set)
         if set_id in self.sets_dict:
             return self.sets_dict.get(set_id)
         return self.dt_sets_dict.get(set_id)
