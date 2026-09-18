@@ -68,6 +68,13 @@ def get_resetted_sliders(request, char_id):
 def wizard_post(request, char_id):
     char = get_char_or_raise(request, char_id)
 
+    # Saved before the minimums: set_min_stats clamps AP, MP and Range to the
+    # limits of the mode the options now say.
+    options = get_options(char)
+    options.update(parse_options_post(request))
+    parse_inventory_options(request, char, options)
+    set_options(char, options)
+
     minimum_values = get_min_stats(char)
     for stat_name in STATS_WITH_CONFIG_MINS:
         # A blank field means no minimum.
@@ -85,11 +92,6 @@ def wizard_post(request, char_id):
         if weapon:
             set_item_included(char, weapon, 'weapon', False)
 
-    options = get_options(char)
-    options.update(parse_options_post(request))
-    parse_inventory_options(request, char, options)
-    set_options(char, options)
-    
     s = get_structure()
     for (red, item) in DOFUS_OPTIONS.items():
         forbidden = request.POST.get(red) is None

@@ -41,6 +41,7 @@ from chardata.util import (on_off_to_bool, set_response, safe_int, get_char_or_r
                            remove_cache_for_char, version_reverse)
 from chardata.version_compat import (filter_classes_for_version,
                                      class_exists_in_version)
+from fashionistapulp.temporix import version_has_temporix
 
 logger = logging.getLogger(__name__)
 from fashionistapulp.dofus_constants import (STATS_NAMES, CHARACTER_CLASSES,
@@ -103,6 +104,8 @@ def setup(request, char_id=0):
                          'inert_aspects': json.dumps(inert_aspects(game_version)),
                          'is_new_char_json': json.dumps(is_new_char),
                          'questionmark': json.dumps(get_questionmark_URL(request)),
+                         'temporix_available': (
+                             is_new_char and version_has_temporix(game_version)),
                          'is_new_char': is_new_char},
                         char)
 
@@ -248,13 +251,16 @@ def create_project(request):
     
     set_char_aspects(char, state['char_build_aspects_set'], True, state['where_to_go'] == 'wizard')
     set_exclusions_list_and_check_inclusions(char, get_default_exclusions(char))
-    set_options(char, {'ap_exo': char.level >= 200,
+    initial_options = {'ap_exo': char.level >= 200,
                        'mp_exo': char.level >= 200,
                        'turq_dofus': char.level >= 199,
                        'dragoturkey': True,
                        'rhineetle': True,
                        'seemyool': True,
-                       'prysmaradite': char.level >= 200})
+                       'prysmaradite': char.level >= 200}
+    if version_has_temporix(char.game_version):
+        initial_options['temporix'] = request.POST.get('temporix') == 'on'
+    set_options(char, initial_options)
 
     char.save()
 

@@ -114,6 +114,23 @@ $(document).ready(function() {
     inclusionsInit(initialData.inclusions, constantData.inclusions.items_by_type, constantData.inclusions.items_by_type_and_name, constantData.inclusions.slot_to_type,
 constantData.inclusions.images_urls);
     optionsInit(initialData.options.options);
+    // TemporiX has no AP, MP or Range limit, so neither have the minimums.
+    var $temporix = $('input:checkbox[name=temporix]');
+    function syncMinimumLimits() {
+        $('#min_AP, #min_MP, #min_Range').each(function() {
+            var $field = $(this);
+            if ($field.data('limit') === undefined) {
+                $field.data('limit', $field.attr('max'));
+            }
+            if ($temporix.prop('checked')) {
+                $field.removeAttr('max');
+            } else {
+                $field.attr('max', $field.data('limit'));
+            }
+        });
+    }
+    $temporix.change(syncMinimumLimits);
+    syncMinimumLimits();
     wizardSlidersInit(initialData.sliders.sliders, getTriangleURL());
     
     var scrolling = initialData.scrolled.scrolling;

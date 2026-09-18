@@ -87,7 +87,15 @@ Elle s'y annoncait "Project Details".
                 </tr>
             </table>
             <br>
-            
+
+            {% if temporix_available %}
+            <div id="temporix-choice" class="temporix-box" style="margin-bottom: 10px;">
+                <label><input type="checkbox" name="temporix" value="on" id="temporix-cb">
+                <span class='input-name'>{% trans "TemporiX mode" %}</span></label>
+                <div class="small-explain">{% trans "For the TemporiX servers (15 September to 13 October 2026): shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build." %}</div>
+            </div>
+            {% endif %}
+
             {% comment %}L'interrupteur est MONTRE et coche, il n'est pas
             cache derriere un reglage: un build qui devient visible doit
             l'annoncer avant, pas apres. Il n'apparait pas pour un visiteur

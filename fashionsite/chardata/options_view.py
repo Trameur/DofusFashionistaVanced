@@ -93,10 +93,6 @@ def options_post(request, char_id):
 
     options = parse_options_post(request)
     parse_inventory_options(request, char, options)
-    # Read here and not in parse_options_post: the wizard reuses that parser
-    # and shows no TemporiX box, so a wizard save would switch the mode off.
-    if get_available_options().get('temporix'):
-        options['temporix'] = request.POST.get('temporix', None) == 'on'
     set_options(char, options)
     
     too_high = get_dofus_not_for_char(char)
@@ -131,6 +127,10 @@ def parse_options_post(request):
     options['rhineetle'] = request.POST.get('rhineetle', None) == 'on'
     options['prysmaradite'] = request.POST.get('prysmaradite', None) == 'on'
     options['trophies'] = request.POST.get('trophies', None) == 'on'
+    # Both pages that post here show the TemporiX box wherever the version
+    # has the mode; elsewhere the key is left alone.
+    if get_available_options().get('temporix'):
+        options['temporix'] = request.POST.get('temporix', None) == 'on'
         
     if 'dofus' in request.POST:
         dofus_trophy = request.POST.get('dofus', 'no')   
