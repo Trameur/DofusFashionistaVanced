@@ -5524,6 +5524,14 @@ msgstr ""
 msgid "All % Resists"
 msgstr ""
 
+#: .\chardata\wizard_sliders.py
+msgid "All % Resists (PvP)"
+msgstr ""
+
+#: .\chardata\wizard_sliders.py
+msgid "All Resists (PvP)"
+msgstr ""
+
 #: .\chardata\templates\chardata\stats.html:88
 msgid "% Neutral Resist (PvP)"
 msgstr ""
@@ -5891,6 +5899,11 @@ msgstr ""
 #: .\chardata\weapon_header.py:28
 #, python-format
 msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
+msgstr ""
+
+#: .\chardata\wizard_sliders.py
+msgctxt "Slider section"
+msgid "AP, MP and Range"
 msgstr ""
 
 #: .\chardata\wizard_sliders.py:36

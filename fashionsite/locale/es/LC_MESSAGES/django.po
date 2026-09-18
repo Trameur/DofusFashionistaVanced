@@ -6040,6 +6040,14 @@ msgstr "Todas las resistencias (Fijas)"
 msgid "All % Resists"
 msgstr "Todas las resistencias (%)"
 
+#: .\chardata\wizard_sliders.py
+msgid "All % Resists (PvP)"
+msgstr "Todas las resistencias PvP (%)"
+
+#: .\chardata\wizard_sliders.py
+msgid "All Resists (PvP)"
+msgstr "Todas las resistencias PvP (Fijas)"
+
 #: .\chardata\templates\chardata\stats.html:88
 msgid "% Neutral Resist (PvP)"
 msgstr "% Resistencia Neutral (PvP)"
@@ -6426,6 +6434,11 @@ msgstr "PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgstr "(%(weapon_type)s) PA: %(AP)d / GC: %(crit_chance)d%% (+%(crit_bonus)d)"
 
+#: .\chardata\wizard_sliders.py
+msgctxt "Slider section"
+msgid "AP, MP and Range"
+msgstr "PA, PM y Alcance"
+
 #: .\chardata\wizard_sliders.py:36
 msgctxt "Slider section"
 msgid "Offense"
@@ -6443,7 +6456,7 @@ msgstr "% Resistencias"
 #: .\chardata\wizard_sliders.py:74
 msgctxt "Slider section"
 msgid "Mobility"
-msgstr "Mobilidad"
+msgstr "Movilidad"
 
 #: .\chardata\wizard_sliders.py:88
 msgctxt "Slider section"

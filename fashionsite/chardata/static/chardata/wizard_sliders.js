@@ -55,6 +55,13 @@ function wizardSliderSetupWidget(container, data) {
         var newValue = ui.value;
         label.html(newValue);
         slider.prev().val(newValue);
+        // An aggregate moved by hand carries its resists along; a reset moves
+        // each slider itself and has no originalEvent.
+        if (data.members && event && event.originalEvent) {
+            $.each(data.members, function(i, member) {
+                $('#slider_' + member).slider("value", newValue);
+            });
+        }
     }
     
     var initialValue = Math.round(data.abs_value);
