@@ -1,36 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Les comptes de sorts d'un guide sont mesures, plus recopies.
-
-Le guide <<best turn damage>> annoncait deux nombres ecrits en dur, et les
-deux avaient vieilli. Mesure du 12 septembre 2026 avec la fonction que le
-panneau lui-meme utilise, `castable_spells` au niveau 200:
-
-| guide   | annonce | reel |
-|---------|--------:|-----:|
-| Dofus 2 |      16 |  **31** |
-| Retro   |      12 |  **15** |
-
-Les tables de sorts sont regenerees et le texte ne suivait pas: Dofus 2 a recu
-ses rangs, Retro a ete re-scrape. Les nombres passent donc derriere un jeton,
-`[[spells:Iop]]` pour la version de la page et `[[spells:Iop:dofus3]]` pour une
-version nommee, resolus au rendu par la meme fonction que le panneau. Un guide
-ne peut plus annoncer un nombre que la page dement.
-
-**La substitution seule aurait rendu le guide Dofus 2 creux.** Sa phrase
-opposait 16 a 31; avec la mesure elle aurait dit <<31 contre 31>>. Elle dit
-maintenant ce qui separe vraiment les deux jeux, et que le guide affirme deja
-plus bas: ce ne sont pas les memes sorts. Sur les dix-huit classes communes,
-sept ont une liste identique et **137 noms de sorts different** en tout.
-
-Les nombres du guide voisin, <<lock and dodge>>, ont ete verifies dans le meme
-mouvement et sont **tous encore exacts** (549 et 606 objets sur Dofus 3, 476 et
-520 sur Dofus 2, 339 et 453 sur Touch, aucun sur Retro). Ce ne sont donc pas
-les guides qui derivent, mais les comptes de sorts, et c'est pour cela que
-seuls ceux-la passent derriere un jeton.
-
-Cout mesure: 9,1 ms au premier comptage, 0,74 ms ensuite, et une page de guide
-en resout deux au plus.
-"""
+"""Spell counts in a guide are computed, not written by hand."""
 
 import re
 
@@ -65,7 +34,6 @@ class TheTokenResolvesTests(SimpleTestCase):
             attendu, _fill_measured_numbers('[[spells:Iop:dofus3]]', 'retro'))
 
     def test_an_unknown_class_leaves_no_token_behind(self):
-        """Un jeton non resolu s'afficherait tel quel au lecteur."""
         from chardata.guides_content import _fill_measured_numbers
         rendu = _fill_measured_numbers('[[spells:Nexistepas]]', 'dofus3')
         self.assertNotIn('[[', rendu)
@@ -86,7 +54,6 @@ class TheGuideSaysTheMeasuredNumberTests(SimpleTestCase):
                       re.sub(r'<[^>]+>', ' ', guide['body']))
 
     def test_no_guide_ships_an_unresolved_token(self):
-        """Sur tous les guides et toutes les langues, pas seulement celui-ci."""
         from chardata.guides_content import get_guide, ordered_slugs
         from fashionistapulp.game_versions import version_keys
         vus = 0
@@ -117,9 +84,6 @@ class TheGuideSaysTheMeasuredNumberTests(SimpleTestCase):
                 self.assertIn(autre, corps)
 
     def test_the_dofus2_guide_says_what_a_dofus2_iop_really_reads(self):
-        """La version rendue porte la mesure, et la version STOCKEE porte le
-        jeton et non un nombre: l'ancienne phrase contenait deja <<31>> pour
-        parler de Dofus 3, donc verifier le rendu seul ne garderait rien."""
         from chardata.guides_content import GUIDES
         attendu = str(_compte('Iop', 'dofus2'))
         blocs = GUIDES['best-turn-damage']['i18n_by_group']['dofus2']
@@ -129,8 +93,6 @@ class TheGuideSaysTheMeasuredNumberTests(SimpleTestCase):
                 self.assertIn(attendu, self._corps('dofus2', langue))
 
     def test_no_guide_keeps_the_two_stale_numbers(self):
-        """16 sorts sur Dofus 2 et 12 sur Retro: les deux chiffres que la
-        mesure a dementis. S'ils reviennent, c'est qu'on a reecrit en dur."""
         for version, perime in (('dofus2', '16'), ('retro', '12')):
             for langue in LANGUES:
                 with self.subTest(version=version, langue=langue):
@@ -144,8 +106,6 @@ class TheGuideSaysTheMeasuredNumberTests(SimpleTestCase):
 class TheDofus2SentenceStaysMeaningfulTests(SimpleTestCase):
 
     def test_it_no_longer_opposes_two_equal_numbers(self):
-        """Substituer le nombre sans toucher a la phrase aurait donne
-        <<31 contre 31>>, une opposition vide."""
         from chardata.guides_content import get_guide
         self.assertEqual(_compte('Iop', 'dofus2'), _compte('Iop', 'dofus3'),
                          'les deux comptes ont diverge, relire la phrase')
@@ -155,8 +115,6 @@ class TheDofus2SentenceStaysMeaningfulTests(SimpleTestCase):
         self.assertIn('137 spell names differ', corps)
 
     def test_the_hundred_and_thirty_seven_is_still_what_the_tables_say(self):
-        """Le seul nombre reste ecrit en dur dans cette phrase. Mesure du 12
-        septembre 2026; s'il bouge, ce test le dit."""
         from chardata.spell_buffs import get_damage_spells_for_version
         from chardata.version_compat import filter_classes_for_version
         from fashionistapulp.dofus_constants import CHARACTER_CLASSES

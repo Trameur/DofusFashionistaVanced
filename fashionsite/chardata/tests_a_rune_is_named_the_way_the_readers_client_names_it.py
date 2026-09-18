@@ -1,33 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""L'atelier nomme chaque rune comme le client du lecteur la nomme.
-
-Les noms de runes sont **construits en code**, en francais, a partir
-d'abreviations (`Rune %s %s`), et c'est ce qui etait montre aux cinq langues.
-Or chaque jeu les renomme:
-
-    Rune de Terre | Earth Rune | Runa de Tierra | Runa de Terra | Rune der Erde
-
-**Mesure du 13 septembre 2026**, chaque version lue dans SA propre table et
-jamais dans celle d'une autre:
-
-| version | runes nommees | introuvables | renommees selon la langue |
-|---------|--------------:|-------------:|--------------------------:|
-| Dofus 3 |           103 |            0 |                       103 |
-| Beta    |           103 |            0 |                       103 |
-| Dofus 2 |            96 |            0 |                        96 |
-| Touch   |            82 |            0 |                        82 |
-| Retro   |            52 |            0 |                        52 |
-
-Les jeux ne se repondent pas pareil: en anglais, la rune de Vitalite est
-<<Vit Rune>> sur les clients modernes et <<Vi Rune>> sur Retro.
-
-**La clef reste francaise.** Le nom construit est ce que la session enregistre
-dans le navigateur du lecteur: ses compteurs de runes lancees et les prix
-qu'il a saisis y sont indexes dessus. Le traduire ferait perdre les deux au
-premier changement de langue, et perdrait aussi les sessions deja
-enregistrees. La page sert donc `key` (francais, stable) et `name` (traduit),
-et c'est `key` que la session ecrit.
-"""
+"""The workshop names each rune the way the reader's client names it."""
 
 import io
 import json
@@ -43,17 +15,9 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 PREFIXE = {'dofus3': '', 'beta': 'beta/', 'dofus2': 'dofus2/',
            'touch': 'touch/', 'retro': 'retro/'}
 
-#: Ce que chaque table du jeu porte, mesure le 13 septembre 2026. Le
-#: catalogue embarque toutes les runes de la version, pas seulement celles que
-#: la page nomme aujourd'hui, pour qu'une rune ajoutee plus tard a
-#: `forgemagie_data.py` soit deja couverte.
 _RUNES_PAR_VERSION = {'dofus3': 105, 'beta': 105, 'dofus2': 98,
                       'touch': 86, 'retro': 57}
 
-#: La seule rune qu'un jeu ne renomme pas: la table portugaise de Retro porte
-#: <<Rune Vi>>, l'orthographe francaise. Ce n'est pas un trou, l'entree
-#: existe et l'espagnol dit bien <<Runa Vi>>; c'est Ankama qui l'a laissee
-#: ainsi. Nommee ici pour que personne ne la <<corrige>>.
 _NON_TRADUITE = {('retro', 'pt', 'Rune Vi')}
 
 _CONFIG = re.compile(
@@ -73,7 +37,6 @@ def _catalogue():
 
 
 def _noms_construits(version):
-    """Les noms francais que la page batit, qui sont ses clefs."""
     from chardata.forgemagie_data import get_fm_stats
     noms = set()
     for stat in get_fm_stats(version).values():
@@ -91,11 +54,9 @@ class EachVersionIsReadInItsOwnTableTests(SimpleTestCase):
         self.assertEqual(_RUNES_PAR_VERSION, compte)
 
     def test_the_versions_do_not_share_one_table(self):
-        """Sans ce garde, lire une version dans la table d'une autre passerait
-        inapercu tant que les noms se ressemblent."""
         catalogue = _catalogue()
         self.assertNotEqual(set(catalogue['dofus3']), set(catalogue['retro']))
-        # Meme rune, deux jeux, deux noms anglais.
+        # Same rune, two English names
         self.assertEqual('Vit Rune', catalogue['dofus3']['Rune Vi']['en'])
         self.assertEqual('Vi Rune', catalogue['retro']['Rune Vi']['en'])
 
@@ -123,8 +84,6 @@ class EachVersionIsReadInItsOwnTableTests(SimpleTestCase):
         self.assertFalse(vides, 'empty rune names: %s' % vides[:6])
 
     def test_the_game_really_does_rename_them(self):
-        """Le fait qui justifie le lot. S'il cessait d'etre vrai, tout ce
-        travail deviendrait du bruit et il faudrait le savoir."""
         pareils = []
         for version, runes in _catalogue().items():
             for nom, noms in runes.items():
@@ -168,9 +127,6 @@ class TheWorkshopServesTheReadersLanguageTests(TestCase):
                                          '%s %s' % (version, tier['key']))
 
     def test_the_key_stays_french_whatever_the_reader_reads(self):
-        """Ce que la session enregistre. Si la clef suivait la langue, un
-        lecteur qui en change perdrait ses compteurs et ses prix saisis, et
-        toutes les sessions deja enregistrees deviendraient illisibles."""
         for version in VERSIONS:
             with self.subTest(version=version):
                 attendu = None
@@ -184,7 +140,6 @@ class TheWorkshopServesTheReadersLanguageTests(TestCase):
                 self.assertEqual(sorted(_noms_construits(version)), attendu)
 
     def test_the_reference_table_is_translated_too(self):
-        """Le tableau rendu par le serveur, pas seulement la charge JS."""
         for version in ('dofus3', 'retro'):
             with self.subTest(version=version):
                 vus = {}
@@ -206,8 +161,6 @@ class TheWorkshopServesTheReadersLanguageTests(TestCase):
 class TheFallbackAndTheGeneratorTests(SimpleTestCase):
 
     def test_an_unknown_rune_keeps_its_french_key(self):
-        """Le repli coute la traduction, jamais l'etiquette: la clef est
-        elle-meme un nom que le jeu emploie."""
         from chardata.forgemagie_rune_names import rune_display_name
         self.assertEqual('Rune Inconnue',
                          rune_display_name('dofus3', 'Rune Inconnue', 'en'))
@@ -217,9 +170,6 @@ class TheFallbackAndTheGeneratorTests(SimpleTestCase):
                          rune_display_name('dofus3', 'Rune Vi', 'it'))
 
     def test_the_generator_cannot_silently_drop_a_version(self):
-        """Les tables brutes de Retro ne sont pas dans le depot. Un generateur
-        qui ecraserait le fichier sans elles retirerait 57 runes sans un mot.
-        """
         chemin = os.path.join(_racine_depot(), 'scripts',
                               'generate_rune_names.py')
         with io.open(chemin, encoding='utf-8') as f:

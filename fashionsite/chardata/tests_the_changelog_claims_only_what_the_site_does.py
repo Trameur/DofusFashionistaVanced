@@ -1,17 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le changelog nomme les grosses fonctionnalites, traduites, et rien d'autre.
-
-Le 10 septembre 2026, dix-huit commits de fonctionnalites etaient en ligne
-et l'entree la plus recente du changelog disait <<August 2026>>. Le 11,
-Thibaud a lu quatre entrees de septembre et seize puces: <<beaucoup trop
-fourni, on ecrit juste l'ajout de grosses nouvelles features, les petits
-correctifs et changements ne comptent pas>>. Ce module garde donc trois
-choses: que septembre tient en trois entrees courtes (deux le 11, puis le mode
-TemporiX de Dofus Touch le 18); que chaque phrase est
-traduite dans les quatre langues; et que chaque phrase nomme une chose qui
-existe encore dans le code, pour qu'un retrait ulterieur fasse tomber la
-promesse avec lui.
-"""
+"""The changelog names the big features, translated, and nothing else."""
 
 import io
 import os
@@ -30,7 +18,6 @@ MAX_PUCES = 4
 
 
 def _entrees():
-    """[(date, titre, [puces])] dans l'ordre du fichier."""
     source = io.open(TEMPLATE, encoding='utf-8').read()
     entrees = []
     for bloc in source.split('<div class="cl-entry">')[1:]:
@@ -55,10 +42,6 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
         entrees = _entrees()
         self.assertEqual(MOIS, entrees[0][0])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
-        # Trois depuis le 18 septembre: le mode TemporiX de Dofus Touch est
-        # une grosse fonctionnalite, et pour trois semaines seulement, donc il
-        # doit se voir. Une seule puce, et rien sur les pieces qu'un build
-        # classique ne recoit plus: c'est un correctif.
         self.assertEqual(3, len(de_ce_mois), [e[1] for e in de_ce_mois])
         self.assertEqual('TemporiX mode', entrees[0][1])
         for _date, titre, puces in de_ce_mois:
@@ -66,9 +49,6 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
             self.assertGreaterEqual(len(puces), 1, titre)
 
     def test_no_small_fix_is_sold_as_a_feature(self):
-        """Les mots d'un correctif: une phrase qui les porte est un
-        correctif, pas une fonctionnalite. Liste courte et litterale, pour
-        que le prochain qui ecrit <<fixed>> dans le changelog s'arrete."""
         interdits = ('fixed', 'renamed', 'no longer', 'not on an error page',
                      'privacy page', 'sidebar counter', 'search engines')
         for date, titre, puces in _entrees():
@@ -80,8 +60,6 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
                     self.assertNotIn(mot, bas, (titre, puce))
 
     def test_no_third_party_site_is_named(self):
-        """Thibaud ne veut pas <<DofusBook>> a plusieurs endroits: le
-        changelog dit <<un autre site de builds>>."""
         for date, titre, puces in _entrees():
             if date != MOIS:
                 continue
@@ -111,9 +89,6 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
                 self.assertNotIn('\u2013', msgstr, (langue, phrase))
 
     def test_the_dropped_sentences_left_the_catalogues(self):
-        """Dix-sept phrases sont sorties du changelog le 11 septembre; une
-        entree orpheline dans un catalogue est une traduction que personne
-        ne relit."""
         orphelines = ('The sidebar counter now says solver answers',
                       'From the encyclopedia to the solver',
                       'Icons back, policy honest',
@@ -131,8 +106,6 @@ class TheSeptemberEntriesAreTranslatedTests(SimpleTestCase):
 
 
 class TheClaimsPointAtThingsThatExistTests(TestCase):
-    """Chaque phrase du changelog qui nomme une chose du site est verifiee
-    contre cette chose, pas contre une supposition."""
 
     def _template(self, nom):
         chemin = os.path.join(settings.BASE_DIR, 'chardata', 'templates',
@@ -180,10 +153,6 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         self.assertTrue(reverse('quickstart'))
 
     def test_the_temporix_box_is_on_touch_builds_and_nowhere_else(self):
-        """La case promise, sur Touch seulement, et les regles qu'elle tient.
-        Le jour ou le mode est retire, ce test tombe et l'entree du changelog
-        avec lui. Il ne tombe pas seul le 13 octobre 2026: retirer le mode
-        apres la fin des serveurs est une decision, pas une date."""
         self.assertIn('name="temporix"', self._template('options.html'))
         from fashionistapulp.dofus_constants import get_stat_maximum
         from fashionistapulp.game_versions import GAME_VERSIONS

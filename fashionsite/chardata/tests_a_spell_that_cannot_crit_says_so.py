@@ -1,29 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un sort qui ne peut pas faire de coup critique le dit.
-
-La carte d'un sort imprime deux blocs, <<Coup normal>> et <<Coup critique>>.
-Le second etait pose des que le sort faisait le moindre degat, meme quand le
-jeu ne lui donne aucune ligne critique: le lecteur voyait une etiquette
-<<Coup critique>> et **rien dessous**.
-
-**Mesure du 13 septembre 2026**, sur les sorts de classe de chaque version:
-
-| version | sorts | sans ligne critique | dont sans taux de critique |
-|---------|------:|--------------------:|---------------------------:|
-| Dofus 3 |   534 |              **58** |                     **58** |
-| Beta    |   534 |                  58 |                         58 |
-| Dofus 2 |   488 |                  53 |                         53 |
-| Touch   |   174 |                   0 |                          0 |
-| Retro   |   103 |                   0 |                          0 |
-
-Un sur neuf sur les clients modernes, aucun sur Touch ni Retro. Et les deux
-signaux se rejoignent: **aucun de ces sorts n'a de taux de critique**, donc le
-jeu dit deux fois qu'il n'en fait pas. C'est ce qui autorise la phrase; une
-ligne critique absente toute seule aurait pu etre un trou de donnee.
-
-Le cas symetrique n'existe pas: aucun sort n'a de ligne critique sans ligne
-normale, ce qui laisse le bloc <<Coup normal>> inchange.
-"""
+"""A spell that cannot crit says so."""
 
 from django.test import SimpleTestCase, TestCase
 
@@ -31,18 +7,9 @@ LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 
-#: Ce que chaque version porte, mesure le 13 septembre 2026. Le compte exact
-#: plutot qu'un minimum: si le jeu en ajoute ou en retire, la phrase touche
-#: d'autres sorts et cela se decide, cela ne se subit pas.
-#:
-#: Beta 58 -> 59 le 17 septembre 2026, avec 3.7.0.0: la Pelle de Fortune
-#: (Lucky Shovel, 29755) y porte desormais une ligne de degats et aucune ligne
-#: critique, alors que Dofus 3 3.6.11.15 ne la compte pas parmi ses sorts de
-#: degats. Mesure des deux cotes avec le meme generateur.
 _SANS_CRITIQUE = {'dofus3': 58, 'beta': 59, 'dofus2': 53, 'touch': 0,
                   'retro': 0}
 
-#: Les deux phrases, par langue, telles que le lecteur les recoit.
 _PHRASES = {
     'en': ('No critical hit', 'This spell never lands one.'),
     'fr': ('Pas de coup critique', "Ce sort n'en fait jamais."),
@@ -59,7 +26,6 @@ def _lignes(valeur):
 
 
 def _etat_des_sorts(version):
-    """(vus, sans ligne critique, sans ligne critique NI taux, crit sans normal)."""
     from chardata.spell_combo import castable_spells
     from chardata.version_compat import filter_classes_for_version
     from fashionistapulp.dofus_constants import CHARACTER_CLASSES
@@ -75,8 +41,6 @@ def _etat_des_sorts(version):
             if castable.name in noms:
                 continue
             noms.add(castable.name)
-            # Le Castable enveloppe le Spell, et c'est le Spell qui porte le
-            # digest que la carte affiche.
             spell = getattr(castable, 'spell', None)
             if spell is None:
                 continue
@@ -106,11 +70,6 @@ class TheGameSaysTwiceThatTheseSpellsCannotCritTests(SimpleTestCase):
         self.assertEqual(_SANS_CRITIQUE, compte)
 
     def test_none_of_them_carries_a_critical_rate_either(self):
-        """La phrase s'appuie sur deux signaux, pas un.
-
-        Une ligne critique absente toute seule pourrait etre un trou de
-        donnee; un taux de critique nul en meme temps dit que le jeu le veut.
-        """
         ecarts = []
         for version in VERSIONS:
             _vus, sans, sans_ni_taux, _inverse = _etat_des_sorts(version)
@@ -122,7 +81,6 @@ class TheGameSaysTwiceThatTheseSpellsCannotCritTests(SimpleTestCase):
             'so saying they never land one would be a guess: %s' % ecarts)
 
     def test_no_spell_has_a_critical_block_without_a_normal_one(self):
-        """Le cas symetrique, qui laisserait le bloc <<Coup normal>> vide."""
         trouves = []
         for version in VERSIONS:
             _vus, _sans, _ni, inverse = _etat_des_sorts(version)
@@ -131,8 +89,6 @@ class TheGameSaysTwiceThatTheseSpellsCannotCritTests(SimpleTestCase):
                          % trouves[:6])
 
     def test_touch_and_retro_are_not_concerned(self):
-        """Chaque version est un jeu different: la phrase n'apparait que la ou
-        le cas existe, et il n'existe pas sur ces deux-la."""
         for version in ('touch', 'retro'):
             with self.subTest(version=version):
                 _vus, sans, _ni, _inverse = _etat_des_sorts(version)
@@ -174,8 +130,6 @@ class TheCardSaysItRatherThanLeavingTheLabelEmptyTests(TestCase):
         source = self._gabarit()
         self.assertIn('var can_crit = !!spell.crit_dams;', source)
         self.assertIn("hit-block-label no-crit", source)
-        # Le titre ne doit plus etre pose hors du branchement: il y a une
-        # seule occurrence, et elle est dans la branche qui peut critiquer.
         self.assertEqual(
             1, source.count("+ \"{% trans 'Critical hit' %}</div>\");"),
             'the critical heading is appended somewhere else again')

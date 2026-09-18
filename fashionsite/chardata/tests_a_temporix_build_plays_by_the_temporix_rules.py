@@ -1,31 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un build TemporiX joue selon les regles des serveurs TemporiX.
-
-Demande du 18 septembre 2026: un mode pour les serveurs temporaires TemporiX
-de Dofus Touch (15 septembre au 13 octobre 2026). Tout ce qui suit vient
-d'Ankama, jamais d'un guide:
-
-- **pas de plafond** de PA, PM, PO ni d'invocations, les resistances gardent le
-  leur (devblog 1771318);
-- **une piece rayonnante** tombe en jet parfait, multipliee par 1,5, arrondie
-  au superieur: <<un Dofus Vulbis rayonnant vous permettra de beneficier d'un
-  bonus de 2 PM ! Un Gelano rayonnant ? 2 PA !>> (le meme devblog). Les malus
-  grandissent aussi: <<Oui, tout ne peut pas toujours etre a votre avantage !>>
-  (recap officiel du live du 2 septembre);
-- **ce qui peut etre rayonnant** est ce que le client d'Ankama dit:
-  canBeShiny = ceinture, bottes, coiffe, cape, amulette, anneau, Dofus. Ni les
-  armes, ni les boucliers, ni les familiers;
-- **le Bouclier de l'infini** monte au rang 1000, ou il donne 7500 Vitalite,
-  2000 Puissance et 200 Prospection. La base le lisait au rang 100 (750, 200,
-  20), parce que le rang maximal etait ecrit en dur au lieu d'etre lu dans
-  ShieldModelsLevels, qui donne 100 aux modeles 1 a 5 et 1000 au modele 7.
-
-**Mesure du 18 septembre 2026, avant le mode.** Le bouclier, le Vrai Dofus
-Ivoire et le Dofus Cacao sont dans les tables Touch comme n'importe quel objet,
-et un build Touch classique se voyait proposer les trois: un solve Touch
-ordinaire portait le bouclier et le Dofus Ivoire, qu'aucun joueur d'un serveur
-classique ne peut avoir.
-"""
+"""A TemporiX build follows the TemporiX server rules."""
 from django.test import SimpleTestCase
 
 from fashionistapulp import temporix
@@ -44,7 +18,6 @@ _OPTIONS = {'ap_exo': False, 'mp_exo': False, 'range_exo': False,
             'dofuses': {}, 'dofusnotforchar': set()}
 _TEMPORIX_OPTIONS = dict(_OPTIONS, temporix=temporix.RULE_VERSION)
 
-#: Les deux exemples du devblog, et ce qu'ils donnent.
 _VULBIS = 6980
 _GELANO_SANS_EXO = 'Gelano (#2)'
 
@@ -57,8 +30,7 @@ def _stat_of(structure, item, stat_name):
 class _Touch(SimpleTestCase):
 
     def setUp(self):
-        # The version is a thread local, and the runner does not run
-        # setUpClass in the thread that runs the test.
+        # Thread local, and setUpClass runs in another thread
         set_current_game_version('touch')
         self.structure = get_structure('touch')
 
@@ -69,7 +41,6 @@ class _Touch(SimpleTestCase):
 class TheShinyRuleIsAnkamasTests(_Touch):
 
     def test_one_and_a_half_times_rounded_up_maluses_included(self):
-        # 1 PA -> 2 PA et 1 PM -> 2 PM: les deux exemples du devblog.
         self.assertEqual(2, temporix.shiny_value(1))
         self.assertEqual(11, temporix.shiny_value(7))
         self.assertEqual(90, temporix.shiny_value(60))
@@ -200,8 +171,6 @@ class ThePageShowsWhatTheSolverCountedTests(_Touch):
         self.assertEqual(1, plain.item_list[0].stats['mp'])
 
     def test_a_recorded_roll_is_a_forgemaged_piece_and_stays_as_recorded(self):
-        """Une piece rayonnante ne se forgemage pas: une piece dont le joueur a
-        note les jets est donc une piece normale qu'il possede."""
         vulbis = self.structure.get_item_by_ankama_id(_VULBIS)
         mp = self.structure.get_stat_by_name('MP').id
         result = self._result(_TEMPORIX_OPTIONS)
@@ -209,8 +178,6 @@ class ThePageShowsWhatTheSolverCountedTests(_Touch):
         self.assertEqual(1, result.item_list[0].stats['mp'])
 
     def test_a_shiny_piece_carries_the_mark_the_game_draws_as_a_golden_slot(self):
-        """Ankama's client keeps the name and toggles `shinySlot` on the slot
-        (build/script.js), a golden frame in styles-native.css."""
         vulbis = self.structure.get_item_by_ankama_id(_VULBIS)
         shiny = self._result(_TEMPORIX_OPTIONS)
         shiny.add_item_at_slot(vulbis, 'dofus1')
@@ -228,8 +195,6 @@ class ThePageShowsWhatTheSolverCountedTests(_Touch):
         self.assertFalse(result.item_list[0].shiny)
 
     def test_another_pieces_record_leaves_this_one_shiny(self):
-        """Les jets notes arrivent pour tout le build, cles par piece: un jet
-        note sur une autre piece ne rend pas celle-ci ordinaire."""
         vulbis = self.structure.get_item_by_ankama_id(_VULBIS)
         mp = self.structure.get_stat_by_name('MP').id
         result = self._result(_TEMPORIX_OPTIONS)
@@ -238,13 +203,8 @@ class ThePageShowsWhatTheSolverCountedTests(_Touch):
 
 
 class TheReviewOfTheModeTests(_Touch):
-    """Ce que la relecture du 18 septembre a trouve, chacun mesure."""
 
     def test_only_a_piece_some_monster_drops_can_be_shiny(self):
-        """<<chaque equipement ... aura une chance d'etre obtenu en version
-        rayonnant>>: une chance de TOMBER. Avant, 618 pieces d'un type qui
-        peut briller n'avaient aucune ligne de drop et brillaient quand meme,
-        l'Amulette de Gein (fabriquee) a 2 PA et 2 PO au lieu de 1 et 1."""
         shiny = temporix.shiny_items_by_id(self.structure)
         dropped = temporix.droppable_item_ids(self.structure)
         gein = self.structure.get_item_by_ankama_id(19179)
@@ -256,9 +216,6 @@ class TheReviewOfTheModeTests(_Touch):
         self.assertTrue(set(shiny) <= dropped)
 
     def test_a_classic_touch_solve_gets_a_key_of_its_own(self):
-        """Un solve Touch classique a change de reponse (les trois pieces
-        TemporiX sont interdites): une cle de cache inchangee aurait rendu les
-        anciennes reponses, Dofus Ivoire compris."""
         from chardata.fashion_action import temporix_model_option
         self.assertEqual({}, temporix_model_option({'temporix': True}, 'dofus3'))
         self.assertEqual({'temporix': False},
@@ -267,8 +224,6 @@ class TheReviewOfTheModeTests(_Touch):
                          temporix_model_option({'temporix': True}, 'touch'))
 
     def test_the_picker_hides_the_temporix_pieces_from_a_classic_build(self):
-        """Le Bouclier de l'infini ouvrait la liste des boucliers de tout build
-        Touch classique, a 7500 Vitalite."""
         from chardata.item_exchange import _without_temporix_only
         shield = self.structure.get_item_by_ankama_id(23841)
         other = next(i for i in self.structure.get_items_list()
@@ -288,8 +243,6 @@ class TheReviewOfTheModeTests(_Touch):
 
 
 class APieceThePlayerLockedIsNotBannedTests(_Touch):
-    """Interdire une piece verrouillee rendait le build infaisable, et la page
-    d'echec ne pouvait pas dire pourquoi."""
 
     @classmethod
     def setUpClass(cls):

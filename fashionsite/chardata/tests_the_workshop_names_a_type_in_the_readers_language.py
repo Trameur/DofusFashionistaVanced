@@ -1,33 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""L'atelier nomme le type d'un objet dans la langue du lecteur.
-
-Trouve en jouant: j'ai ouvert un build, clique <<Ajouter tous les objets a mon
-atelier>>, et lu la page. Chaque ligne y portait le type en **anglais** a cote
-d'un niveau traduit:
-
-    Amulette ... <<Amulet . niv. 200>>
-    allemand ... <<Amulet . Stufe 200>>
-
-Les dix types que le site peut poser (Amulet, Belt, Boots, Cloak, Dofus, Hat,
-Pet, Ring, Shield, Weapon) sont pourtant deja enregistres dans
-`dynamic_translations`, et **l'inventaire, la forgemagie et l'encyclopedie les
-traduisent deja**. L'atelier etait la seule des quatre pages a imprimer le nom
-canonique. Rien a ajouter au catalogue, donc, et rien a recompiler.
-
-**Deux types sortent identiques, et c'est juste.** <<Dofus>> est le mot du jeu
-dans les cinq langues, et <<Ring>> est le mot allemand pour un anneau. Les
-huit autres changent bien.
-
-**Ce que le nom canonique sert encore.** L'image d'un objet est rangee sous le
-type canonique (`get_image_url(type_name, item.name)`): la traduction ne vaut
-que pour l'affichage, et le garde le verifie, sans quoi une correction naive
-casserait les quinze images de la page.
-
-**La langue est passee, pas deduite de l'active.** `get_supported_language`
-retombe sur l'anglais quand la langue active n'est pas des cinq; le nom de
-l'objet en vient deja, et le type doit en venir aussi, sinon les deux moities
-d'une meme ligne sortiraient de deux langues.
-"""
+"""The workshop names an item type in the reader's language."""
 
 import io
 import os
@@ -41,7 +13,6 @@ from fashionistapulp.structure import get_structure
 VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
-#: Ce que chaque type doit donner, mesure le 13 septembre 2026.
 _TYPES_TRADUITS = {
     'Amulet': {'fr': 'Amulette', 'es': 'Amuleto', 'pt': 'Amuleto',
                'de': 'Amulett'},
@@ -55,15 +26,11 @@ _TYPES_TRADUITS = {
     'Pet': {'fr': 'Familier', 'de': 'Haustier'},
 }
 
-#: Les deux qui sortent identiques, et pourquoi. Sans cette liste, le test
-#: qui exige un changement les prendrait pour un oubli.
 _IDENTIQUES = {
     'Dofus': "le mot du jeu, le meme dans les cinq langues",
     ('Ring', 'de'): "Ring est le mot allemand pour un anneau",
 }
 
-#: Les trois vues qui traduisaient deja, et qui disent pourquoi l'atelier
-#: etait le seul a corriger.
 _VUES_QUI_TRADUISAIENT = ('inventory_view.py', 'forgemagie_view.py',
                           'encyclopedia_view.py')
 
@@ -77,7 +44,6 @@ def _source(nom):
 class TheWorkshopTranslatesTheTypeTests(SimpleTestCase):
 
     def test_each_type_comes_out_in_the_readers_language(self):
-        """Le test qui aurait attrape le defaut."""
         for type_name, attendus in _TYPES_TRADUITS.items():
             for langue, attendu in attendus.items():
                 with self.subTest(type=type_name, langue=langue):
@@ -90,16 +56,11 @@ class TheWorkshopTranslatesTheTypeTests(SimpleTestCase):
                 self.assertEqual(type_name, _localized_type(type_name, 'en'))
 
     def test_an_item_with_no_type_stays_empty(self):
-        """La ligne d'un objet disparu n'a pas de type: elle ne doit pas
-        recevoir la traduction de la chaine vide, qui est l'en-tete du
-        catalogue."""
         self.assertEqual('', _localized_type('', 'fr'))
         self.assertEqual('', _localized_type(None, 'de'))
 
 
 class EveryTypeTheSiteCanShowIsCoveredTests(SimpleTestCase):
-    """Ce qui autorise a ne rien ajouter au catalogue: les dix types que les
-    cinq versions peuvent poser sont deja traduits, ou identiques a raison."""
 
     def test_the_site_shows_no_type_the_guard_has_not_read(self):
         vus = set()
@@ -131,8 +92,6 @@ class EveryTypeTheSiteCanShowIsCoveredTests(SimpleTestCase):
 
 
 class TheCanonicalNameStillFindsTheImageTests(SimpleTestCase):
-    """Le plancher. Traduire la variable qui sert aussi au chemin de l'image
-    casserait les quinze images de la page."""
 
     def test_the_image_url_is_built_from_the_canonical_type(self):
         source = _source('workshop_view.py')
@@ -140,7 +99,6 @@ class TheCanonicalNameStillFindsTheImageTests(SimpleTestCase):
         self.assertNotIn('get_image_url(_localized_type', source)
 
     def test_the_three_sister_pages_already_translated(self):
-        """Pourquoi l'atelier etait le seul a corriger."""
         for nom in _VUES_QUI_TRADUISAIENT:
             with self.subTest(vue=nom):
                 self.assertIn('_localized_label(type_name', _source(nom))
@@ -171,9 +129,6 @@ class TheShippedPageCarriesTheTranslatedTypeTests(TestCase):
 
 
 class TheViewActuallyAsksForTheTranslationTests(SimpleTestCase):
-    """`_localized_type` pourrait exister sans que personne ne l'appelle, et
-    seul le test de bout en bout le dirait. Il est lent et il demande une
-    base; celui-ci tombe tout de suite."""
 
     def test_the_row_is_built_with_the_translated_type(self):
         source = _source('workshop_view.py')

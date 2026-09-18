@@ -1,18 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un build neuf est public des qu'il porte quelque chose.
-
-Thibaud, le 11 septembre 2026, capture de DofusBook a l'appui: <<de base les
-stuffs sont publics dans dofus book et deviennent confidentiel que si on
-choisit l'option ... je pense que ca serait tres benefique pour dofus
-fashionista de rendre les builds publics par defaut ?>>, puis <<oui pour tes
-questions sur le build par defaut>> sur le dessin ecrit.
-
-Ce qui est garde ici est d'abord ce qui ne doit PAS arriver: aucun build qui
-existait avant ce jour-la ne devient visible, aucun build fait sans compte
-non plus, et un build rendu prive le reste a travers tous les calculs
-suivants. Un defaut qui publie est irreversible du point de vue du lecteur:
-ce qui a ete vu a ete vu.
-"""
+"""A new build is public as soon as it wears something."""
 
 import io
 import os
@@ -27,9 +14,6 @@ from chardata.solution import set_minimal_solution, wears_something
 
 
 class _Solution(object):
-    """Ce que le solveur range dans `minimal_solution`, reduit a ce que la
-    publication regarde: la galerie dessine un build depuis `item_per_slot`,
-    donc c'est ce champ qui dit si le personnage porte quelque chose."""
 
     def __init__(self, item_per_slot=None):
         self.item_per_slot = item_per_slot or {}
@@ -56,9 +40,6 @@ class OnlyADressedNewBuildIsPublishedTests(TestCase):
         self.assertTrue(Char.objects.get(pk=char.pk).link_shared)
 
     def test_an_empty_solution_publishes_nothing(self):
-        """La galerie n'est pas une liste de brouillons vides. Un build dont
-        le solveur n'a rien tire, ou qu'on vient d'ouvrir, ne doit pas y
-        entrer: il s'y afficherait comme un cadre vide."""
         char = self._char(auto_publish=True)
         set_minimal_solution(char, _Solution({}))
         self.assertFalse(Char.objects.get(pk=char.pk).link_shared)
@@ -68,25 +49,15 @@ class OnlyADressedNewBuildIsPublishedTests(TestCase):
         self.assertTrue(wears_something(_Solution({'Hat': 1})))
 
     def test_a_build_that_existed_before_is_never_published(self):
-        """La garde qui compte. Toutes les lignes ecrites avant le 11
-        septembre 2026 portent `auto_publish` a False par la migration, donc
-        un simple recalcul ne peut pas rendre public un build que son auteur
-        avait garde pour lui il y a des annees."""
         char = self._char(auto_publish=False)
         for _ in range(3):
             set_minimal_solution(char, _Solution({'Hat': 14063}))
         self.assertFalse(Char.objects.get(pk=char.pk).link_shared)
 
     def test_a_build_made_private_stays_private_through_every_solve(self):
-        """Le choix de l'auteur gagne sur le defaut, pour toujours: c'est
-        `hide_sharing_link` qui eteint `auto_publish`, pas seulement
-        `link_shared`."""
         proprietaire = User.objects.create_user('auteur', password='x')
         char = self._char(auto_publish=True, owner=proprietaire)
         self.client.force_login(proprietaire)
-        # POST depuis le 11 septembre 2026: un GET ne change plus rien,
-        # pour qu'une image posee sur une page etrangere ne publie pas
-        # le build d'un lecteur connecte.
         self.client.post('/hidesharinglink/%d/' % char.pk)
         char.refresh_from_db()
         self.assertFalse(char.auto_publish)
@@ -123,15 +94,9 @@ class TheChoiceIsMadeWhenTheBuildIsCreatedTests(TestCase):
         self.client.force_login(User.objects.create_user('a', password='x'))
         char = self._cree()
         self.assertTrue(char.auto_publish)
-        # Rien n'est publie a la creation: le build ne porte encore rien.
         self.assertFalse(char.link_shared)
 
     def test_unticking_the_box_turns_it_off(self):
-        """Une case decochee n'envoie RIEN, donc le formulaire est poste ici
-        comme un navigateur le poste: le champ cache seul. Lire la case avec
-        un defaut a <<coche>> rendait le fait de decocher sans effet, ce qui
-        est la facon la plus silencieuse de publier quelqu'un contre son
-        gre."""
         self.client.force_login(User.objects.create_user('b', password='x'))
         self.assertFalse(self._cree(publish_choice='1').auto_publish)
 
@@ -141,16 +106,11 @@ class TheChoiceIsMadeWhenTheBuildIsCreatedTests(TestCase):
                                    publish='on').auto_publish)
 
     def test_a_guest_build_is_never_published_on_its_own(self):
-        """Un visiteur sans compte n'a pas de page ou retrouver son build ni
-        de compte pour le rendre prive ensuite: publier par defaut lui
-        prendrait quelque chose qu'il ne peut pas reprendre."""
         char = self._cree()
         self.assertIsNone(char.owner)
         self.assertFalse(char.auto_publish)
 
     def test_the_quick_start_path_follows_the_same_rule(self):
-        """La creation rapide et l'import d'un build passent par
-        `coaching_view.create_build`, qui n'a pas de formulaire a lui."""
         from chardata.coaching_view import create_build
 
         class _Requete(object):
@@ -166,11 +126,6 @@ class TheChoiceIsMadeWhenTheBuildIsCreatedTests(TestCase):
 
 
 class TheOrdinaryJourneyEndsPublicTests(TestCase):
-    """Le trajet que fait vraiment un lecteur: il cree un build, il ouvre sa
-    page, le solveur l'habille. Les tests plus haut prennent le point de
-    publication par le col; celui-ci prend la porte d'entree, et c'est lui
-    qui a fait tomber deux gardes de securite le jour ou le defaut a change,
-    parce que leur build de test devenait public sous leurs pieds."""
 
     def _cree(self, **extra):
         donnees = {'project': 'Mon build', 'charname': 'Moi', 'level': '150',
@@ -189,7 +144,6 @@ class TheOrdinaryJourneyEndsPublicTests(TestCase):
         self.assertTrue(char.minimal_solution)
 
     def test_the_same_journey_with_the_box_unticked_stays_private(self):
-        """Poste comme un navigateur poste une case decochee."""
         self.client.force_login(User.objects.create_user('g', password='x'))
         char = self._cree(publish_choice='1')
         self.client.get('/solution/%d/' % char.pk, follow=True)
@@ -199,7 +153,6 @@ class TheOrdinaryJourneyEndsPublicTests(TestCase):
 
 
 class ThePagesSayWhatIsPublishedTests(TestCase):
-    """Un defaut qui publie doit s'annoncer avant, pas se decouvrir apres."""
 
     def test_the_creation_page_shows_the_switch_to_an_author(self):
         self.client.force_login(User.objects.create_user('d', password='x'))
@@ -207,7 +160,6 @@ class ThePagesSayWhatIsPublishedTests(TestCase):
                                ).content.decode('utf-8')
         self.assertIn('publish-cb', page)
         self.assertIn('Show this build in the gallery', page)
-        # Le minifieur trie les attributs, donc on ne compte pas sur l'ordre.
         self.assertRegex(page, r'<input[^>]*checked[^>]*name="?publish"?[^>]*>'
                                r'|<input[^>]*name="?publish"?[^>]*checked[^>]*>')
 
@@ -224,8 +176,6 @@ class ThePagesSayWhatIsPublishedTests(TestCase):
 
 
 class ThePrivacyPolicySaysWhatIsPublishedTests(SimpleTestCase):
-    """Publier des builds d'utilisateurs par defaut est exactement ce qu'une
-    politique de confidentialite doit nommer, et dans les cinq langues."""
 
     PARAGRAPHE = (
         'A build you create while logged in is published the first time it '

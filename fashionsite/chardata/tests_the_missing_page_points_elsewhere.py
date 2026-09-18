@@ -1,17 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La page <<indisponible dans cette version>> nomme les versions qui l'ont.
-
-Mesure du 10 septembre 2026: cette page est 49 % de ce que l'essaim de
-robots frappe, et un lecteur qui y arrive depuis un moteur de recherche n'y
-trouvait qu'une chose, le carrefour de la version qui n'a PAS l'objet. Les
-versions qui l'ont sont a une recherche de distance, la meme que celle du
-selecteur de version d'une vraie fiche.
-
-Les cas sont trouves dans les donnees, jamais ecrits en dur: un identifiant
-choisi a la main est vrai le jour ou on l'ecrit et faux a la mise a jour
-suivante, et le test dirait alors <<rien a signaler>> sur une page qu'il n'a
-plus regardee.
-"""
+"""The not-in-this-version page names the versions that have it."""
 
 import re
 
@@ -31,30 +19,11 @@ def _liens(page):
 class AnItemMissingHereLinksToWhereItExistsTests(TestCase):
 
     def _adresse(self, version, ankama_type, ankama_id, nom):
-        """L'adresse telle que le site la construit, avec le VRAI slug.
-
-        Un slug invente comme <<x>> n'est pas neutre: Retro a un objet qui
-        s'appelle X (9120), et la vue rattrape un id inconnu par le slug,
-        donc `14063-x` rendait la fiche de X avec son canonique, jamais la
-        page d'absence.
-        """
         from chardata.official_site import get_item_link
         return get_item_link(ankama_type, ankama_id, nom, game_version=version)
 
     def _item_absent_de(self, version_absente, version_presente):
-        """Un id porte par `version_presente` et par aucune fiche de
-        `version_absente`."""
         la = vue._version_item_keys(version_presente)
-        # Absent au sens de la VUE, et de personne d'autre: elle resout un id
-        # par des chemins que ni la table `items` ni la structure ne
-        # reproduisent (deux tentatives ici ont rendu une vraie fiche Retro,
-        # 9120 <<Chapeau Shika>>, pour un id que les deux disaient absent).
-        # La seule mesure fiable est de lui demander, et de garder le premier
-        # id qu'elle refuse. Borne a quarante essais pour rester rapide.
-        # Des ids les plus hauts vers les plus bas: les bas sont les objets de
-        # depart, que Retro porte sous le meme id (le plan l'a mesure, un
-        # build Retro se resout entier sous dofus3 et touch), et les quarante
-        # premiers dans l'ordre du dictionnaire rendaient tous une fiche.
         essais = 0
         for (ankama_type, ankama_id), nom in sorted(
                 la.items(), key=lambda paire: -int(paire[0][1] or 0)):
@@ -94,8 +63,6 @@ class AnItemMissingHereLinksToWhereItExistsTests(TestCase):
         self.assertIn('encyclopedia-missing-actions', page)
 
     def test_every_offered_link_answers_200(self):
-        """Un lien sous <<il existe dans>> qui rend 404 serait la faute que
-        cette page existe pour reparer."""
         ankama_type, ankama_id, nom = self._item_absent_de('retro', 'dofus3')
         page = self.client.get(
             self._adresse('retro', ankama_type, ankama_id, nom)).content.decode('utf-8')
@@ -123,10 +90,6 @@ class AMonsterMissingHereLinksToWhereItExistsTests(TestCase):
 
 
 class AnIdThatNamesTwoThingsLinksNothingBlindlyTests(SimpleTestCase):
-    """Les identifiants ne sont pas une identite partagee de part et d'autre
-    de la coupure Retro/moderne. Sans nom dans la version courante pour
-    trancher, la regle est: tous d'accord, ou le slug de l'adresse decide, ou
-    personne."""
 
     def test_agreeing_candidates_are_all_kept(self):
         candidats = [('dofus3', 'Gelano', {'label': 'Dofus 3'}),

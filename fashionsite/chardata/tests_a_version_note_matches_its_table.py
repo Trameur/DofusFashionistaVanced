@@ -1,18 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Each version note has to be true of the table it introduces.
-
-The Touch note told every reader, in five languages, that Touch "kept the
-pre-2.29 weights: Vi runes give +3/+10/+30, Crit weighs 30, Heal weighs 20".
-Those are the Retro column's numbers. The Touch table serves +5/+15/+50, crit
-10 and heal 10, and the module docstring describes Touch as forked from Dofus
-2.14 with wisdom at 1 against the PC's 3 -- it never claimed the Retro
-weights. The note had been written against the wrong column, and nothing
-compared the two.
-
-So the claims each note makes are written out here, next to the table they
-are claims about. A note and a table that drift apart now fail rather than
-mislead.
-"""
+"""Each version note has to be true of the table it introduces."""
 import re
 
 from django.test import TestCase
@@ -38,7 +25,6 @@ def tier_names(version, key):
 
 
 class TheRetroNoteIsTrue(TestCase):
-    """"fixed resists weigh 5, % resists 4, Reflects 30, Trap damage 15"."""
 
     def test_the_fixed_resists_weigh_five(self):
         for key in ELEMENTS:
@@ -55,9 +41,6 @@ class TheRetroNoteIsTrue(TestCase):
         self.assertEqual(15, density('retro', 'trapdam'))
 
     def test_the_note_still_says_so(self):
-        # Control: the three tests above check the table, not the sentence.
-        # If the sentence changes, they would keep passing while the page
-        # said something else.
         note = LOCALIZED_UI['en']['version_note_retro']
         for claim in ('fixed resists weigh 5', '% resists 4',
                       'Reflects 30', 'Trap damage 15'):
@@ -66,8 +49,6 @@ class TheRetroNoteIsTrue(TestCase):
 
 
 class TheTouchNoteIsTrue(TestCase):
-    """"forked from Dofus 2.14: wisdom weighs 1 against the 3 on PC, and no
-    reflect, no trap and no per-attack-type percentage runes"."""
 
     def test_wisdom_weighs_one_against_the_three_on_pc(self):
         self.assertEqual(1, density('touch', 'wis'))
@@ -77,22 +58,15 @@ class TheTouchNoteIsTrue(TestCase):
         for key in ('ref', 'trapdam', 'trapdamper') + PER_ATTACK_TYPE:
             with self.subTest(stat=key):
                 self.assertIsNone(density('touch', key))
-        # Control: the PC does have them, so the absence above says something.
         self.assertIsNotNone(density('dofus3', 'ref'))
         self.assertIsNotNone(density('dofus3', 'perspedam'))
 
     def test_the_three_weights_read_in_game_on_touch(self):
-        # Settled by looking, on 2026-09-03: the Cri, So and Vi runes in the
-        # game's own smithmagic interface give 10, 10 and 0.2. Forking at 2.14
-        # did not keep the pre-2.29 crit 30, heal 20 and Vi +3/+10/+30 -- those
-        # are the Retro column's, and the note used to hand them to Touch.
         self.assertEqual(10, density('touch', 'ch'))
         self.assertEqual(10, density('touch', 'heals'))
         self.assertEqual(0.2, density('touch', 'vit'))
         self.assertEqual([('', 5), ('Pa', 15), ('Ra', 50)],
                          get_fm_stats('touch')['vit']['tiers'])
-        # Control: Retro really does hold the other three, so the reading
-        # above distinguishes the two columns instead of matching both.
         self.assertEqual(30, density('retro', 'ch'))
         self.assertEqual(20, density('retro', 'heals'))
         self.assertEqual(0.25, density('retro', 'vit'))
@@ -111,14 +85,11 @@ class TheTouchNoteIsTrue(TestCase):
 
 
 class TheDofus2NoteIsTrue(TestCase):
-    """"no Ra rune for the elemental resists or critical resist, and no Pa
-    rune for reflect"."""
 
     def test_no_ra_tier_on_the_elemental_resists_or_the_critical_resist(self):
         for key in ELEMENTS + ('crires',):
             with self.subTest(stat=key):
                 self.assertNotIn('Ra', tier_names('dofus2', key) or [])
-        # Control: Dofus 3 does grant them, which is what the note contrasts.
         self.assertIn('Ra', tier_names('dofus3', 'crires') or [])
 
     def test_no_pa_tier_on_reflect(self):
@@ -138,15 +109,6 @@ class EveryRulesetHasANote(TestCase):
                     self.assertTrue(LOCALIZED_UI[language][key].strip())
 
 
-#: Le nom que porte chaque jeu de regles sur le site.
-#:
-#: `version_note_modern` n'est montree qu'a dofus3 et beta, parce que
-#: `_RULESET_BY_VERSION` envoie dofus2 sur son propre jeu de regles. Elle
-#: annoncait pourtant <<Dofus 2 / Dofus 3>>, alors que la table de Dofus 2
-#: differe: pas de rune Ra sur les resistances elementaires ni sur la
-#: resistance critique, pas de rune Pa sur les renvois. Un lecteur de Dofus 2
-#: ne voyait jamais cette note, et un lecteur de Dofus 3 lisait que ses
-#: chiffres valaient aussi pour un jeu qui ne les partage pas.
 _ETIQUETTE_DU_RULESET = {
     'modern': 'Dofus 3',
     'dofus2': 'Dofus 2',
@@ -154,14 +116,6 @@ _ETIQUETTE_DU_RULESET = {
     'retro': 'Dofus Retro',
 }
 
-#: <<forked from Dofus 2.14>> dans la note de Touch est une filiation datee,
-#: pas une revendication de couverture. Un numero de version derriere le nom
-#: distingue les deux sans avoir a lire la phrase.
-#:
-#: Le point, et pas un chiffre: l'etiquette <<Dofus 2>> a deja mange le 2, il
-#: ne reste que <<.14>>. Chercher un chiffre ici faisait rougir les notes
-#: anglaise et allemande, les deux seules qui ecrivent <<Dofus 2.14>> en toutes
-#: lettres la ou le francais, l'espagnol et le portugais disent <<la 2.14>>.
 _NUMERO_DE_VERSION = re.compile(r'^\.\d+')
 
 
@@ -186,8 +140,6 @@ class ANoteNamesOnlyTheVersionsItIsShownTo(TestCase):
                         suite = note[i + len(nom):]
                         if _NUMERO_DE_VERSION.match(suite):
                             continue
-                        # "Dofus 3" est un prefixe de "Dofus 3 Beta", et la
-                        # beta tourne bien sur la table moderne.
                         if nom == 'Dofus 3' and suite.strip().startswith(
                                 ('Beta', 'B\u00eata')):
                             continue
@@ -199,8 +151,6 @@ class ANoteNamesOnlyTheVersionsItIsShownTo(TestCase):
             'they promise numbers that do not apply: %s' % coupables)
 
     def test_the_sweep_reads_all_five_languages_and_all_four_rulesets(self):
-        """Le plancher du temoin: une cle mal tapee rendrait None partout et
-        le test ci-dessus passerait sans avoir rien lu."""
         lues = 0
         for ruleset in _ETIQUETTE_DU_RULESET:
             for langue in LOCALIZED_UI:
