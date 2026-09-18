@@ -1,13 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The wizard offers a slider for every weight the version's gear can steer.
-
-Until 2026-09-18 it showed a hand-picked subset: no AP, MP or Range, which
-TemporiX makes worth tuning since it lifts their caps, no % damage or resist by
-attack type, no single element. Only the Characteristics Weights page had them.
-Retro also lost its damage weight on every wizard save: its gear carries plain
-damage only, and the save rebuilt that weight as the sum of the elemental ones,
-which are zero there.
-"""
+"""The wizard offers a slider for every weight the version's gear can use."""
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
@@ -60,8 +52,7 @@ class TheWizardTunesEveryWeightTests(TestCase):
                 members = set()
                 for slider in self._sliders(char).values():
                     members.update(slider.members or ())
-                # Damage is the sum of the elemental damages where gear
-                # carries them, so it has a slider on Retro only.
+                # dam is the sum of elemental damages, except on Retro
                 expected = {stat.key for stat in get_structure().get_stats_list()
                             } - set(stats_with_no_source(version))
                 if version != 'retro':

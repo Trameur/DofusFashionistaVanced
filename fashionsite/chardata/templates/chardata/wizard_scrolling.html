@@ -7,8 +7,6 @@
 <select id="scrolling" name="scrolling">
   <option value="fully" id="fully-option">{% trans "Fully scroll my character" %}{% if scroll_max > scroll_hundred %} ({{ scroll_max }}){% endif %}</option>
   {% if scroll_max > scroll_hundred %}
-  {% comment %}Touch from level 200 goes to 150, Retro to 101 with food; a
-  player may stop at 100 all the same.{% endcomment %}
   <option value="hundred" id="hundred-option">{% trans "Scroll every characteristic to 100" %}</option>
   {% endif %}
   <option value="clean" id="clean-option">{% trans "Don't scroll any characteristics" %}</option>

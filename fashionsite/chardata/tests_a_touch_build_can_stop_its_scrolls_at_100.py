@@ -1,16 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""A Touch build at level 200 can be scrolled to 0, 100 or 150.
-
-Thibaud, 2026-09-18: "dans un build dofus touch, il me semblait qu'on
-proposait parcho 0, 100 ou 150, je vois juste les options parcho 0 ou max".
-Touch's three scroll tiers past 100 carry a level 200 condition
-(max_scroll_for_version), and a player may stop at 100 all the same. The
-wizard and the base characteristics page offered only none or the maximum.
-
-The same day the wizard's "fully scroll" was found reading the cap without the
-character's level, so a level 150 Touch build was scrolled to 150, which the
-game refuses below level 200.
-"""
+"""Touch builds at level 200 can be scrolled to 0, 100 or 150."""
 from django.contrib.auth.models import User
 from django.test import RequestFactory, TestCase
 
@@ -57,7 +46,7 @@ class ATouchBuildCanStopItsScrollsAt100Tests(TestCase):
                 self.assertNotContains(setup, 'id="button-scroll-100"')
 
     def test_retro_offers_100_beside_its_101(self):
-        """Retro's cap is a hundred of scrolls plus one point of food."""
+        """Retro caps at 101: 100 of scrolls plus 1 of food."""
         char = self._char('retro', 200)
         page = self.client.get('/retro/wizard/%d/' % char.id)
         self.assertContains(page, 'value="hundred"')

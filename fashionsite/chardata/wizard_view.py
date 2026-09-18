@@ -114,9 +114,7 @@ def wizard_post(request, char_id):
 
     return HttpResponseRedirect(version_reverse(request, 'fashion', char.id))
 
-#: The scroll every version can reach. Touch goes on to 150 from level 200
-#: and Retro to 101 with food, and a player may stop at 100 all the same:
-#: Touch's three higher tiers cost far more than the six below.
+# Touch goes to 150 at level 200, Retro to 101 with food
 HUNDRED = 100
 
 
@@ -147,8 +145,6 @@ def _get_third_scroll_option(char):
     return stats_scroll_dict
 
 def _full_scroll_char(char):
-    # Touch scrolls to 150 from level 200 and to 100 below, Retro to 101,
-    # every other version to 100.
     return _scroll_char_to(
         char, max_scroll_for_version(char.game_version, char.level))
 

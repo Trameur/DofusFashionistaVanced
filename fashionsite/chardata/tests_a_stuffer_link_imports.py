@@ -1,15 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""A DofusBook stuffer link comes back in through the import.
-
-On 2026-09-18 Thibaud pasted a touch.dofusbook.net link ending in
-`dofus-stuffer/objets?stuff=...` and the page answered that it could not
-read that site. Its reader only knew public build links, which carry an id;
-a stuffer link carries the whole build in its parameter and no id. Our own
-export writes that link, so the site could not read back what it hands out.
-The tail of his link (ids, counts, level 200, exo byte 6, 99 wisdom and 374
-chance invested) is byte for byte what our encoder writes for those values;
-the builds below reuse it.
-"""
+"""Stuffer links import the way their decoder reads them."""
 import base64
 
 from django.test import SimpleTestCase, TestCase
@@ -18,7 +8,7 @@ from chardata import build_link_import, dofusbook_export
 from chardata.dofusbook_import import (ImportError_, parse_link,
                                        parse_stuffer_link)
 
-#: The pieces of his link, in their group order.
+#: Pieces of a real exported link, in group order
 IDS = [14085, 8699, 19943, 19947, 14086, 12113, 19941, 13344, 13783, 694,
        7043, 7754, 16035]
 COUNTS = [1, 1, 1, 1, 1, 2, 5, 0, 1, 0]
@@ -64,8 +54,7 @@ class AStufferLinkReadsBackWhatTheExportWroteTests(TestCase):
                          build['exo_options'])
 
     def test_its_forgemagie_comes_back_as_totals_for_no_piece(self):
-        """Their `Pc` shows the totals less the naked character, and the
-        exo point is the option, not forgemagie."""
+        """Totals less the naked character; the exo point is an option."""
         build = build_link_import.read(_link())
         self.assertEqual({'vi': 1050, 'fo': 30, 'pa': 3, 'dmg': 12},
                          build['fm_global'])
@@ -78,15 +67,13 @@ class AStufferLinkReadsBackWhatTheExportWroteTests(TestCase):
                     _link(version, forge={}))['game_version'])
 
     def test_pieces_the_host_version_lacks_are_refused(self):
-        """The same floor as a public build: most of these Touch pieces
-        are not in the Retro catalogue."""
         with self.assertRaises(ImportError_) as caught:
             build_link_import.read(_link('retro'))
         self.assertEqual('wrong_version', caught.exception.reason)
 
 
 class AStufferLinkIsReadLikeTheirDecoderReadsItTests(TestCase):
-    """The defaults of their `Nc`, read off index-desktop-CdEmUrEc.js."""
+    """Defaults of their Nc decoder."""
 
     def test_a_group_with_no_count_holds_one_piece(self):
         link = _raw_link([[0] * 51, [0] * 6, 200, 0, [1, 1], IDS[:3]])
@@ -107,8 +94,7 @@ class AStufferLinkIsReadLikeTheirDecoderReadsItTests(TestCase):
 
 
 class AStufferLinkThatIsNoBuildIsRefusedTests(SimpleTestCase):
-    """Refused as a damaged link, and never fetched: nothing on this path
-    goes to their site."""
+    """Refused as damaged, never fetched."""
 
     def _reason(self, link):
         with self.assertRaises(ImportError_) as caught:
@@ -171,7 +157,6 @@ class TheImportPageTakesAStufferLinkTests(TestCase):
         self.assertContains(page, 'id="import-link-fm-global"')
 
     def test_a_truncated_link_is_called_damaged_not_unreadable(self):
-        """Nothing was fetched, so blaming their site would be false."""
         page = self.client.post('/import/text/', {'text': _link()[:-40]})
         self.assertContains(page, 'That link is incomplete or damaged.')
         self.assertNotContains(page, 'That site answered')
@@ -191,8 +176,7 @@ class TheImportPageTakesAStufferLinkTests(TestCase):
         self.assertEqual((True, True, False), (
             options.get('ap_exo'), options.get('mp_exo'),
             bool(options.get('range_exo'))))
-        # The page reads the build under /touch/; this thread is on dofus3,
-        # where four of these pieces do not exist.
+        # The page runs under /touch/; this thread is on dofus3
         set_current_game_version('touch')
         self.addCleanup(set_current_game_version, 'dofus3')
         portes = [item for item in get_solution(char).item_list or []
@@ -203,9 +187,7 @@ class TheImportPageTakesAStufferLinkTests(TestCase):
 
 
 class TheLinkIsTheWholeStatementTests(TestCase):
-    """What the review of 2026-09-18 reproduced: a new level 200 build starts
-    with the AP and MP exo options on and every characteristic fully
-    scrolled, and a link that says otherwise used to be overruled."""
+    """A link overrides the defaults of a new level 200 build."""
 
     def _created(self, link):
         from chardata.models import Char

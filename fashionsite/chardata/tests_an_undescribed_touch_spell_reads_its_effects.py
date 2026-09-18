@@ -1,12 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""A Touch spell with no description is explained by its own effect rows.
-
-On 2026-09-18 the line "Lance le sort Bouclier Imperturbable au début du combat"
-of the Shield of Infinity had no tooltip: Ankama left the spell's description
-empty, and so for twelve other spells cast by Touch items. Their first grade
-still says what they do. The rows below are copied from the live SpellLevels
-and Effects of that day.
-"""
+"""A Touch spell with no description is explained from its effect rows."""
 from django.test import SimpleTestCase
 
 from chardata.tests import itemscraper_module
@@ -43,8 +36,7 @@ def _read(rows, monster_names=None, lang='fr'):
 class AnUndescribedTouchSpellReadsItsEffectsTests(SimpleTestCase):
 
     def test_the_shield_halves_what_summons_deal(self):
-        # DI is read on Griffe Cinglante, whose description calls its x115%
-        # DI row the damage every summon deals to the target.
+        # DI: damage from summons, per Griffe Cinglante's description
         rows = [_row(1163, 50, 63, triggers='DI')]
         self.assertEqual('Dommages subis x50% de la part des invocations',
                          _read(rows))
@@ -62,13 +54,11 @@ class AnUndescribedTouchSpellReadsItsEffectsTests(SimpleTestCase):
         self.assertIsNone(_read(rows))
 
     def test_ids_hidden_rows_and_missing_amounts_are_left_out(self):
-        # Dofus Tacheté: #3 holds its amount but also a state or spell id
-        # elsewhere, and its #1 row carries 0. Neither can be read safely.
+        # #3 can hold an id, and #1 is 0 here
         self.assertIsNone(_read([_row(2909, value=1), _row(2915, value=1)]))
         self.assertIsNone(_read([_row(950, value=873), _row(792, 8603, 2)]))
         self.assertIsNone(_read([_row(119, 30, hidden=True)]))
 
     def test_a_row_on_a_trigger_it_cannot_word_is_left_out(self):
-        # Dofus Argenté recasts itself at each turn start (TB) and only its
-        # later grades heal, under a life condition: none of it is shown.
+        # TB: recast at turn start, not worded
         self.assertIsNone(_read([_row(119, 30, triggers='TB')]))

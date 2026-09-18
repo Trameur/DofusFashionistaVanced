@@ -1,13 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The other build sites stay out of production until their creators agree.
-
-Thibaud, 2026-09-18: "j'aimerais deploy la version temporiX, mais pour
-l'import/export, j'aimerais d'abord avoir l'accord des createurs, tu peux les
-rendre pas visibles pour la prod ?". Each site has its switch
-(chardata/build_sites.py): production enables the sites in
-BUILD_SITES_AGREED, a local run (DEBUG) all three. With a site off, nothing
-names it, nothing reads its links, and its export page does not exist.
-"""
+"""Other build sites stay hidden in production until their creators agree."""
 import sys
 from unittest import mock
 
@@ -26,8 +18,7 @@ DOFUSCREATOR_LINK = 'https://dofuscreator.com/projet/6e9f4'
 class ProductionWaitsForTheCreatorsTests(TestCase):
 
     def test_no_creator_has_agreed_yet(self):
-        """A site joins BUILD_SITES_AGREED only once its creator has said
-        yes. When one does, add it there and here."""
+        """Update when a creator agrees."""
         production = sys.modules['fashionsite.settings']
         self.assertEqual((), production.BUILD_SITES_AGREED)
 
@@ -40,7 +31,7 @@ class _OwnedBuild(object):
         request = RequestFactory().post('/')
         request.user = owner
         char = create_build(request, 'Iop', 200, {'str'}, 'dofus3')
-        # Dressed, or the solution page sends the owner elsewhere.
+        # Dressed, or the solution page redirects
         from chardata.dofusbook_view import _place_items
         from fashionistapulp.structure import get_structure
         _place_items(char, [get_structure('dofus3').items_dict_ankama[694].id])
@@ -95,12 +86,10 @@ class WithNoSiteEnabledTests(_OwnedBuild, TestCase):
 class EachSiteComesBackOnItsOwnTests(_OwnedBuild, TestCase):
 
     def test_the_export_comes_back_with_its_site(self):
-        """The control of the tests above: the same build offers the export
-        once DofusBook is enabled."""
         char = self._owned_build()
         self.assertContains(self.client.get('/solution/%d/' % char.id),
                             'Open on DofusBook')
-        # Their catalogue check is cut here: a test sends nothing out.
+        # No network in tests
         with mock.patch('urllib.request.urlopen',
                         side_effect=OSError('no network in tests')):
             self.assertEqual(200, self.client.get(
@@ -116,7 +105,6 @@ class EachSiteComesBackOnItsOwnTests(_OwnedBuild, TestCase):
         self.assertNotIn('DofusCreator', privacy)
 
     def test_a_dofus_stuffer_link_does_not_ride_on_dofusbook(self):
-        """Both are read by the same code; the switch is the site's."""
         with self.assertRaises(Exception) as caught:
             build_link_import.read(DOFUS_STUFFER_LINK)
         self.assertEqual('not_a_link', getattr(caught.exception, 'reason', None))

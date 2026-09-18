@@ -31,8 +31,7 @@ def _element_keys(pattern):
 
 
 def _unreachable_stats(game_version):
-    """Stats no item or set bonus of this version carries: a slider on one of
-    them would move nothing, so the wizard does not offer it."""
+    """Stats no item or set bonus of this version carries."""
     from chardata.smart_build import VERSION_WEIGHT_TUNING
     from chardata.stat_availability import stats_with_no_source
     zeroed = VERSION_WEIGHT_TUNING.get(game_version, {}).get('zero_stats', ())
@@ -40,9 +39,7 @@ def _unreachable_stats(game_version):
 
 
 def _damage_is_derived(unreachable):
-    """Where gear carries elemental damage, the plain Damage weight is their
-    sum. Retro gear carries plain damage only, so there it has its own slider,
-    and summing zeros into it would wipe it."""
+    """False on Retro: its gear has plain damage only, so dam keeps its own slider."""
     return not all(key in unreachable for key in _element_keys('%sdam'))
 
 
@@ -141,7 +138,7 @@ class Slider():
         self.key = slider_key
         self.name = slider_name
         self.subsliders = [] if is_section else None
-        # The stats an aggregate slider sets together, None on a plain one.
+        # Stats an aggregate sets together
         self.members = members
 
     def calculate(self, weights):
@@ -152,9 +149,7 @@ class Slider():
             self.min_value = 0
             self.max_value = 0
         else:
-            # A weight typed on the Characteristics Weights page can lie
-            # outside the usual range; the slider widens to show it instead of
-            # clamping it, which the next save would have written back.
+            # Widen to fit a weight set on the weights page
             low, high = SLIDER_RANGES[self.key]
             self.abs_value = get_slider_value_from_weights(self.key, weights,
                                                            self.members)
@@ -180,13 +175,13 @@ def _shown_value(value):
 
 def set_wizard_sliders(char, slider_dict):
     weights = get_stats_weights(char)
-    # What the page showed, before an aggregate below changes its members.
+    # Values the page showed
     shown = dict(weights)
     game_version = getattr(char, 'game_version', 'dofus3') or 'dofus3'
     unreachable = _unreachable_stats(game_version)
     offered = [key for _key, _name, keys in _sections(game_version)
                for key in keys]
-    # Aggregates first, so a single resist moved on its own wins over them.
+    # Aggregates first so single resists override them
     offered.sort(key=lambda key: key not in AGGREGATE_SLIDERS)
 
     for slider_key in offered:
@@ -197,9 +192,7 @@ def set_wizard_sliders(char, slider_dict):
             continue
         members = (_members(slider_key, unreachable)
                    if slider_key in AGGREGATE_SLIDERS else None)
-        # A slider left where it started keeps the weights under it: an
-        # aggregate would otherwise level five different resists to their
-        # average on every save.
+        # An untouched aggregate would level its resists to their average
         current = get_slider_value_from_weights(slider_key, shown, members)
         if new_slider_value == _shown_value(current):
             continue

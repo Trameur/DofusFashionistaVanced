@@ -61,11 +61,7 @@ with open(os.path.join(CONFIG_DIR, 'debug_mode')) as f:
     DEBUG = (content == 'True')
     print('DEBUG: %s' % DEBUG)
 
-# The other build sites the import reads links from and the export sends
-# builds to (chardata/build_sites.py). Thibaud, 2026-09-18: production waits
-# for each creator's agreement, and a site joins BUILD_SITES_AGREED once it
-# is given. A local run (DEBUG) keeps all three, so they stay visible and
-# tested where they are built.
+# Build sites whose creators agreed (chardata/build_sites.py); DEBUG enables all
 BUILD_SITES_AGREED = ()
 BUILD_SITES_ENABLED = (('dofusbook', 'dofus-stuffer', 'dofuscreator')
                        if DEBUG else BUILD_SITES_AGREED)
