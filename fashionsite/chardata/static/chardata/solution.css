@@ -69,7 +69,7 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(135deg, transparent 44%,
+    background: linear-gradient(45deg, transparent 44%,
                                 rgba(255, 250, 215, 0.85) 50%, transparent 56%);
     transform: translate(-60%, 60%);
     animation: shiny-slot-light 10.7s linear infinite;
