@@ -8287,9 +8287,9 @@ class SeoTitleTests(TestCase):
 
     def test_home_title_suffix_is_translated(self):
         resp = self.client.get('/', HTTP_ACCEPT_LANGUAGE='fr')
-        self.assertContains(resp, 'Optimiseur de stuff')
+        self.assertContains(resp, 'Créateur et optimiseur de stuff')
         resp_en = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en')
-        self.assertContains(resp_en, 'Equipment Set Optimizer')
+        self.assertContains(resp_en, 'Set Builder and Optimizer')
 
     def test_shared_solution_title_is_keyword_shaped(self):
         from chardata.encoded_char_id import encode_char_id

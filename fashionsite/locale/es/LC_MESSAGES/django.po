@@ -1753,6 +1753,10 @@ msgstr ""
 "Consigue sets de Dofus creados automáticamente, según tus necesidades "
 "específicas."
 
+#: .\chardata\templates\chardata\home.html
+msgid "Set Builder and Optimizer"
+msgstr "Creador y optimizador de conjuntos"
+
 #: .\chardata\templates\chardata\base.html:20
 #: .\chardata\templates\chardata\home.html:4
 #: .\chardata\templates\chardata\solution.html:26
@@ -3730,6 +3734,15 @@ msgstr ""
 #: .\chardata\templates\chardata\guides.html:48
 msgid "Done reading?"
 msgstr "¿Terminaste de leer?"
+
+#: .\chardata\templates\chardata\home.html
+#, python-format
+msgid "Free Dofus %(version)s set builder and theorycraft tool. Tell it your class, level and what you want. It builds your best set automatically. For beginners and min-maxers alike."
+msgstr "Creador de conjuntos y herramienta de theorycraft Dofus %(version)s gratis: dile tu clase, tu nivel y tus objetivos, y arma tu mejor equipo automáticamente. Para novatos y expertos del min-max."
+
+#: .\chardata\templates\chardata\home.html
+msgid "Free Dofus set builder and theorycraft tool. Tell it your class, level and what you want. It builds your best set automatically. For beginners and min-maxers alike."
+msgstr "Creador de conjuntos y herramienta de theorycraft Dofus gratis: dile tu clase, tu nivel y tus objetivos, y arma tu mejor equipo automáticamente. Para novatos y expertos del min-max."
 
 #: .\chardata\templates\chardata\home.html:6
 #, python-format
