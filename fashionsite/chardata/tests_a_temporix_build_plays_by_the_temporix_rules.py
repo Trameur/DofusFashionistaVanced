@@ -208,6 +208,25 @@ class ThePageShowsWhatTheSolverCountedTests(_Touch):
         result.add_item_at_slot(vulbis, 'dofus1', {vulbis.id: {mp: 1}})
         self.assertEqual(1, result.item_list[0].stats['mp'])
 
+    def test_a_shiny_piece_carries_the_mark_the_game_draws_as_a_golden_slot(self):
+        """Ankama's client keeps the name and toggles `shinySlot` on the slot
+        (build/script.js), a golden frame in styles-native.css."""
+        vulbis = self.structure.get_item_by_ankama_id(_VULBIS)
+        shiny = self._result(_TEMPORIX_OPTIONS)
+        shiny.add_item_at_slot(vulbis, 'dofus1')
+        plain = self._result(_OPTIONS)
+        plain.add_item_at_slot(vulbis, 'dofus1')
+        self.assertTrue(shiny.item_list[0].shiny)
+        self.assertEqual(plain.item_list[0].name, shiny.item_list[0].name)
+        self.assertFalse(plain.item_list[0].shiny)
+
+    def test_a_piece_with_recorded_rolls_is_not_marked_shiny(self):
+        vulbis = self.structure.get_item_by_ankama_id(_VULBIS)
+        mp = self.structure.get_stat_by_name('MP').id
+        result = self._result(_TEMPORIX_OPTIONS)
+        result.add_item_at_slot(vulbis, 'dofus1', {vulbis.id: {mp: 1}})
+        self.assertFalse(result.item_list[0].shiny)
+
     def test_another_pieces_record_leaves_this_one_shiny(self):
         """Les jets notes arrivent pour tout le build, cles par piece: un jet
         note sur une autre piece ne rend pas celle-ci ordinaire."""

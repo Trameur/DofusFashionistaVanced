@@ -4412,6 +4412,15 @@ msgid "Exo"
 msgstr "Exo"
 
 #: .\chardata\templates\chardata\solution_item.html
+msgctxt "shiny mark on an item"
+msgid "Shiny"
+msgstr "Radiante"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Shiny: on the TemporiX servers this piece drops with every value times 1.5. In the game it keeps its name and shows a golden frame."
+msgstr "Radiante: nos servidores TemporiX, esta peça cai com cada valor multiplicado por 1,5. No jogo, ela mantém o nome e aparece com uma moldura dourada."
+
+#: .\chardata\templates\chardata\solution_item.html
 msgid "Smithmagic: the rolls recorded on this piece differ from its encyclopedia values."
 msgstr "Forjamagia: os valores registrados nesta peça diferem dos da enciclopédia."
 

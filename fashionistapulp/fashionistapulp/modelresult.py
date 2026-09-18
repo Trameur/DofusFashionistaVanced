@@ -672,6 +672,9 @@ class ModelResultItem():
                         or item_set.name)
 
             self.weird_conditions = item.weird_conditions
+            # The shiny TemporiX copy (temporix.shiny_item). The game keeps the
+            # name and marks the piece with a golden slot instead.
+            self.shiny = bool(getattr(item, 'shiny', False))
     
             self.stats = {}
             self.base_stats = {}

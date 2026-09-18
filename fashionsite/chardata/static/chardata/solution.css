@@ -49,6 +49,45 @@
     cursor: help;
 }
 
+/* A shiny TemporiX piece, framed the way the Touch client frames its slot
+   (slotShiny.png and shinyFx.svg): a golden border, lighter at the top, and a
+   light that crosses the slot once every 10.7 s. */
+.solution-item-icon-container.shiny-slot {
+    position: relative;
+    overflow: hidden;
+    border-color: #f2cf64;
+    border-radius: 8px;
+    box-shadow: 0 0 0 2px #d9ad3c, 0 0 7px 2px rgba(242, 207, 100, 0.7),
+                inset 0 3px 5px rgba(255, 236, 160, 0.9),
+                inset 0 -3px 5px rgba(170, 125, 30, 0.6);
+}
+
+.solution-item-icon-container.shiny-slot::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(135deg, transparent 44%,
+                                rgba(255, 250, 215, 0.85) 50%, transparent 56%);
+    transform: translate(-60%, 60%);
+    animation: shiny-slot-light 10.7s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes shiny-slot-light {
+    0%, 26.7% { transform: translate(-60%, 60%); }
+    32.8%, 100% { transform: translate(60%, -60%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .solution-item-icon-container.shiny-slot::after {
+        animation: none;
+        opacity: 0;
+    }
+}
+
 .solution-item-source {
     font-size: 12px;
     opacity: 0.75;
