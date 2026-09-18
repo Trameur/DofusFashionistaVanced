@@ -32,8 +32,13 @@ FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 # The data API does not gate on the UA.
 USER_AGENT = "Dofus/2 CFNetwork"
 
+# ShieldModelsLevels says how many ranks each shield model has: the transform
+# reads a shield's final line off it (models 1 to 5 have 100 ranks, the
+# TemporiX Shield of Infinity's model 7 has 1000). It carries no name, so it is
+# fetched in the primary language only.
 DEFAULT_CLASSES = [
     'Items', 'ItemSets', 'ItemTypes', 'Effects', 'Recipes', 'Breeds', 'Monsters',
+    'ShieldModelsLevels',
 ]
 
 # Languages this scraper knows how to ask for. Which of them Touch still

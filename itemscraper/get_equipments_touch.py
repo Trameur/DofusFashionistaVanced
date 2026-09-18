@@ -201,12 +201,30 @@ def decode_effects(possible_effects, effects, is_weapon):
     return stats, hits
 
 
-# A Touch shield carries no stat of its own: it gains bonusRatio per level, up
-# to level 100, so its final line is ratio * 100.
+# A Touch shield carries no stat of its own: it gains bonusRatio per rank, so
+# its final line is ratio * its last rank. The last rank is not the same for
+# every shield: Ankama's ShieldModelsLevels gives models 1 to 5 100 ranks and
+# model 7, the TemporiX Shield of Infinity, 1000. Reading 100 for everything
+# stored that shield at 750 Vitality, 200 Power and 20 Prospecting instead of
+# the 7500, 2000 and 200 Ankama announces at rank 1000.
+#
+# 100 stays the answer only when the table is missing, and says so.
 SHIELD_MAX_LEVEL = 100
 
 
-def decode_shield_bonuses(shield_bonuses, effects):
+def load_shield_levels(raw_dir: Path) -> dict:
+    """{shield model id: its last rank}, from ShieldModelsLevels."""
+    path = raw_dir / 'ShieldModelsLevels_fr.json'
+    if not path.exists():
+        print('  ! %s is missing: every shield is read at rank %d'
+              % (path.name, SHIELD_MAX_LEVEL))
+        return {}
+    table = json.loads(path.read_text(encoding='utf-8'))
+    return {int(model.get('id', key)): len(model.get('requiredXpLevels') or [])
+            for key, model in table.items() if isinstance(model, dict)}
+
+
+def decode_shield_bonuses(shield_bonuses, effects, max_level=SHIELD_MAX_LEVEL):
     stats = []
     for bonus in (shield_bonuses or []):
         if not isinstance(bonus, dict) or 'effectId' not in bonus:
@@ -215,7 +233,7 @@ def decode_shield_bonuses(shield_bonuses, effects):
         if resolved is None:
             continue
         name, sign = resolved
-        value = int(round((bonus.get('bonusRatio') or 0) * SHIELD_MAX_LEVEL))
+        value = int(round((bonus.get('bonusRatio') or 0) * max_level))
         if not value:
             continue
         stats.append([sign * value, sign * value, name])
@@ -277,7 +295,8 @@ def loc_name(tables_by_lang, lang, item_id, fallback):
     return fallback
 
 
-def build_equipment(items_by_lang, effects):
+def build_equipment(items_by_lang, effects, shield_levels=None):
+    shield_levels = shield_levels or {}
     items_fr = items_by_lang['fr']
     out = []
     for iid, it in items_fr.items():
@@ -296,7 +315,17 @@ def build_equipment(items_by_lang, effects):
         level = max(1, min(int(level), 200))
         is_weapon = it.get('_type') == 'Weapon'
         stats, hits = decode_effects(it.get('possibleEffects'), effects, is_weapon)
-        stats.extend(decode_shield_bonuses(it.get('shieldBonuses'), effects))
+        if it.get('shieldBonuses'):
+            model_id = it.get('shieldModelId')
+            max_level = shield_levels.get(model_id)
+            if not max_level:
+                if shield_levels:
+                    print('  ! shield %s names model %s, which '
+                          'ShieldModelsLevels does not list: read at rank %d'
+                          % (iid, model_id, SHIELD_MAX_LEVEL))
+                max_level = SHIELD_MAX_LEVEL
+            stats.extend(decode_shield_bonuses(it.get('shieldBonuses'), effects,
+                                               max_level))
 
         rec = {
             'ankama_id': ankama_id,
@@ -424,7 +453,8 @@ def main(argv=None):
     items_by_lang = _load_lang_tables(raw_dir, 'Items')
     sets_by_lang = _load_lang_tables(raw_dir, 'ItemSets')
 
-    equipment = build_equipment(items_by_lang, effects)
+    equipment = build_equipment(items_by_lang, effects,
+                                load_shield_levels(raw_dir))
     mounts = load_mounts(raw_dir)
     equipment += mounts
     valid_item_ids = {e['ankama_id'] for e in equipment}
