@@ -33,9 +33,11 @@ from django.utils.translation import gettext as _
 from chardata import dofusbook_export
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.solution import get_solution
+from chardata.temporix_mode import solution_uses_temporix
 from chardata.translation_util import localized_stat_name
 from chardata.util import (get_char_or_raise, get_stats_and_scrolled,
                            set_response)
+from fashionistapulp import temporix
 from fashionistapulp.dofus_constants import STATS_NAMES
 from fashionistapulp.game_versions import get_game_version
 from fashionistapulp.structure import get_structure
@@ -55,13 +57,16 @@ def _reasons():
     }
 
 
-def _worn_items(char):
-    """{slot: [ModelResultItem]} for what the character actually wears."""
+def _solution(char):
     try:
-        solution = get_solution(char)
+        return get_solution(char)
     except Exception:
         logger.exception('could not read the solution of char %s', char.id)
-        return {}
+        return None
+
+
+def _worn_items(solution):
+    """{slot: [ModelResultItem]} for what the character actually wears."""
     if solution is None:
         return {}
     porte = {}
@@ -192,6 +197,42 @@ def _forgemagie(overrides, structure, item_by_ankama, their_values):
     return totaux, sans_place, drapeaux
 
 
+def _shiny_forge(structure, item_by_ankama, their_values, overrides):
+    """({position in their `fm`: total}, [our stat keys with no position]) for
+    the shiny TemporiX pieces that travel.
+
+    DofusBook has no shiny piece, so what the x1.5 adds goes where their link
+    takes forgemagie: the shiny value minus THEIR value for the line, like a
+    roll. AP, MP and Range are real totals here, not the exo bit: two shiny
+    pieces with one more AP each add two. A piece with recorded rolls is not
+    shiny (temporix.as_worn), its rolls travel as rolls.
+    """
+    shiny_by_id = temporix.shiny_items_by_id(structure)
+    positions = dofusbook_export.index_by_stat_key()
+    totaux, sans_place = {}, []
+    for ankama, item_id in sorted(item_by_ankama.items()):
+        shiny = shiny_by_id.get(item_id)
+        if shiny is None or item_id in overrides:
+            continue
+        leurs = their_values.get(ankama) or {}
+        valeurs = {}
+        for stat_id, valeur in shiny.stats:
+            valeurs[stat_id] = valeurs.get(stat_id, 0) + valeur
+        for stat_id, valeur in sorted(valeurs.items()):
+            stat = structure.get_stat_by_id(stat_id)
+            if stat is None:
+                continue
+            position = positions.get(stat.key)
+            if position is None:
+                if stat.key not in sans_place:
+                    sans_place.append(stat.key)
+                continue
+            ecart = int(valeur) - int(leurs.get(dofusbook_export.VE[position], 0))
+            if ecart:
+                totaux[position] = totaux.get(position, 0) + ecart
+    return totaux, sans_place
+
+
 def _named_stats(structure, game_version, keys):
     noms = []
     for key in keys:
@@ -220,7 +261,8 @@ def dofusbook_export_page(request, char_id):
         params['error'] = _reasons()['unsupported_version']
         return set_response(request, 'chardata/dofusbook_export.html', params)
 
-    porte = _worn_items(char)
+    solution = _solution(char)
+    porte = _worn_items(solution)
     # One pass builds both the payload and the two lists the page shows, so
     # they cannot end up disagreeing about which piece went where: an item
     # cut here for want of a slot has to be named as staying, not counted as
@@ -281,7 +323,21 @@ def dofusbook_export_page(request, char_id):
     overrides = get_effective_stat_overrides(char) or {}
     totaux, sans_place, exos_des_jets = _forgemagie(
         overrides, structure, item_par_ankama, leurs_valeurs)
+    rayonnant = {}
+    if solution_uses_temporix(solution, char.game_version):
+        rayonnant, sans_place_rayonnant = _shiny_forge(
+            structure, item_par_ankama, leurs_valeurs, overrides)
+        sans_place += [key for key in sans_place_rayonnant
+                       if key not in sans_place]
+        for position, total in rayonnant.items():
+            if position not in dofusbook_export.EXO_INDEXES:
+                totaux[position] = totaux.get(position, 0) + total
     forge, refusees = dofusbook_export.carriable_forge(totaux, scrolls)
+    # carriable_forge keeps AP, MP and Range for the exo bit; what shiny
+    # pieces add there is a count of points, written as such.
+    for position in dofusbook_export.EXO_INDEXES:
+        if rayonnant.get(position):
+            forge[position] = rayonnant[position]
     exos = _exos(char) | exos_des_jets
     charge = dofusbook_export.payload(connus_par_groupe, char.level,
                                       points=points, scrolls=scrolls,
@@ -292,8 +348,8 @@ def dofusbook_export_page(request, char_id):
         'going': sorted(partants),
         'staying': sorted(restants),
         'partial_scrolls': _partial_scrolls(char, scrolls),
-        'forge_travels': bool(forge),
-        'exos_travel': bool(exos),
+        'forge_travels': bool(forge) or bool(exos),
+        'shiny_travels': bool(rayonnant),
         'forge_staying': _named_stats(
             structure, char.game_version,
             sans_place + _keys_of_positions(

@@ -773,8 +773,12 @@ class ThePageSendsTheForgemagieItShowsTests(TestCase):
         francaise = self._page(char, entrees, langue='fr').content.decode('utf-8')
         self.assertIn('ne peut pas porter', francaise)
 
-    def test_a_build_with_no_roll_says_nothing_about_forgemagie(self):
+    def test_a_build_with_no_roll_and_no_exo_says_nothing_about_forgemagie(self):
+        from chardata.options import get_options, set_options
         char, item = self._char()
+        options = get_options(char)
+        options.update(ap_exo=False, mp_exo=False, range_exo=False)
+        set_options(char, options)
         entrees = [{'official': item.ankama_id, 'effects': []}]
         page = self._page(char, entrees).content.decode('utf-8')
         self.assertNotIn('export-forge', page)
@@ -830,7 +834,10 @@ class ThePageSendsTheForgemagieItShowsTests(TestCase):
                                  self._charge(page)[3] & dofusbook_export.EXO_MP)
 
     def test_an_exo_on_a_piece_says_how_it_travels(self):
-        """An exo leaves as their build-level bit, and the page says so."""
+        """An exo leaves as their build-level bit, which their decoder adds
+        as +1 to its global forgemagie (Nc then Pc in their bundle, read on
+        touch.dofusbook.net on 2026-09-18). The page says it cannot go on the
+        piece; the sentence it replaced said the exo travelled as an exo."""
         from chardata.lock_forbid import set_stat_overrides
         from fashionistapulp.structure import get_structure
         char, item = self._char()
@@ -839,5 +846,87 @@ class ThePageSendsTheForgemagieItShowsTests(TestCase):
         set_stat_overrides(char, {item.id: {pm.id: 1}})
         entrees = [{'official': item.ankama_id, 'effects': []}]
         page = self._page(char, entrees).content.decode('utf-8')
-        self.assertIn('export-exos', page)
-        self.assertIn('which piece carries them', page)
+        self.assertIn('export-forge', page)
+        self.assertIn('counts as +1', page)
+        self.assertNotIn('travel as exos', page)
+        francaise = self._page(char, entrees, langue='fr').content.decode('utf-8')
+        self.assertIn("ne permet pas d'exporter la forgemagie", francaise)
+
+
+class AShinyPieceTravelsAsForgemagieTests(TestCase):
+    """Thibaud, 2026-09-18: "il faudrait que les stats x1.5 des items temporix
+    soient consideres comme des exo/FM a l'export". DofusBook has no shiny
+    piece, so the surplus goes where their link takes forgemagie, measured
+    against their own value for the line."""
+
+    VULBIS = 6980
+
+    def setUp(self):
+        from fashionistapulp.structure import (get_structure,
+                                               set_current_game_version)
+        set_current_game_version('touch')
+        self.structure = get_structure('touch')
+        self.vulbis = self.structure.get_item_by_ankama_id(self.VULBIS)
+        self.table = dofusbook_export.index_by_stat_key()
+
+    def tearDown(self):
+        from fashionistapulp.structure import set_current_game_version
+        set_current_game_version('dofus3')
+
+    def test_the_surplus_is_measured_against_their_value(self):
+        from chardata.dofusbook_export_view import _shiny_forge
+        totaux, sans_place = _shiny_forge(
+            self.structure, {self.VULBIS: self.vulbis.id},
+            {self.VULBIS: {'pm': 1}}, {})
+        # Vulbis gives 1 MP; shiny, 2 (devblog). Their sheet already counts 1.
+        self.assertEqual(1, totaux[self.table['mp']])
+        self.assertEqual([], sans_place)
+
+    def test_ap_mp_and_range_are_counted_not_flagged(self):
+        from chardata.dofusbook_export_view import _shiny_forge
+        totaux, _ = _shiny_forge(
+            self.structure, {self.VULBIS: self.vulbis.id}, {}, {})
+        self.assertEqual(2, totaux[self.table['mp']])
+
+    def test_a_piece_with_recorded_rolls_is_not_shiny(self):
+        from chardata.dofusbook_export_view import _shiny_forge
+        totaux, _ = _shiny_forge(
+            self.structure, {self.VULBIS: self.vulbis.id}, {},
+            {self.vulbis.id: {1: 1}})
+        self.assertEqual({}, totaux)
+
+    def test_the_page_sends_it_for_a_temporix_solve(self):
+        from unittest import mock
+        from chardata.models import Char
+        link_of = ThePageSendsTheForgemagieItShowsTests._charge
+
+        def page_of(test, char, entrees):
+            class Reponse(object):
+                def read(self, *args):
+                    return json.dumps({'data': entrees}).encode('utf-8')
+
+                def __enter__(self):
+                    return self
+
+                def __exit__(self, *args):
+                    return False
+
+            with mock.patch('chardata.dofusbook_export.urllib.request.urlopen',
+                            return_value=Reponse()):
+                return test.client.get('/touch/export/dofusbook/%d/' % char.id,
+                                       HTTP_ACCEPT_LANGUAGE='en')
+
+        self.client.post('/touch/import/text/', {
+            'text': self.structure.get_item_name_in_language(self.vulbis, 'en'),
+            'confirm': '1', 'char_class': 'Cra', 'level': '200'})
+        char = Char.objects.order_by('-id').first()
+        self.assertEqual('touch', char.game_version)
+        entrees = [{'official': self.VULBIS, 'effects': [
+            {'name': 'pm', 'type': 'E', 'min': 1, 'max': 1}]}]
+        sans = link_of(self, page_of(self, char, entrees).content.decode('utf-8'))[0]
+        with mock.patch('chardata.dofusbook_export_view.solution_uses_temporix',
+                        return_value=True):
+            html = page_of(self, char, entrees).content.decode('utf-8')
+        avec = link_of(self, html)[0]
+        self.assertEqual(sans[self.table['mp']] + 1, avec[self.table['mp']])
+        self.assertIn('export-shiny', html)

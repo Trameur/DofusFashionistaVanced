@@ -4406,10 +4406,6 @@ msgstr "TemporiX-Modus"
 msgid "For the TemporiX servers (15 September to 13 October 2026): shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build."
 msgstr "Für die TemporiX-Server (15. September bis 13. Oktober 2026): glänzende Hüte, Umhänge, Amulette, Ringe, Gürtel, Stiefel und Dofus, die Monster fallen lassen (jeder Wert mal 1,5, aufgerundet, Mali eingeschlossen), der Bouclier de l'infini auf Rang 1000 und keine Grenze für AP, BP, Reichweite oder Beschwörungen. Verbieten Sie die Teile, die Sie nicht haben, wie bei jedem Build."
 
-#: .\chardata\templates\chardata\dofusbook_export.html
-msgid "The AP, MP and Range exos travel as exos of the whole build: their link format does not say which piece carries them."
-msgstr "Die AP-, BP- und Reichweiten-Exos kommen als Exos des ganzen Builds mit: ihr Linkformat sagt nicht, welches Teil sie trägt."
-
 #: .\chardata\templates\chardata\solution_item.html
 msgctxt "smithmagic mark on an item"
 msgid "SM"
@@ -7294,8 +7290,13 @@ msgstr "Diese Zeilen aus dem Link gehören zu keinem Teil und bleiben außen vor
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr "Diese Schmiedemagie-Zeilen konnten nicht gelesen werden und bleiben außen vor:"
 
-msgid "Your forgemagie travels as one total per characteristic: their link format holds nothing finer."
-msgstr "Deine Schmiedemagie kommt als eine Summe pro Wert mit: feiner kann ihr Linkformat es nicht."
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "DofusBook cannot receive forgemagie or exos piece by piece: its link only takes one total per characteristic, where each AP, MP or Range exo counts as +1. You will find them in its global forgemagie."
+msgstr "DofusBook kann Schmiedemagie und Exos nicht pro Teil übernehmen: sein Link nimmt nur eine Summe pro Wert, in der jedes AP-, BP- oder Reichweiten-Exo als +1 zählt. Du findest sie in seiner globalen Schmiedemagie."
+
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "Shiny TemporiX pieces do not exist on DofusBook: what the x1.5 adds to each of them is sent in that global forgemagie."
+msgstr "Glänzende TemporiX-Teile gibt es auf DofusBook nicht: was das x1,5 jedem von ihnen hinzufügt, geht in diese globale Schmiedemagie."
 
 msgid "Their forgemagie field cannot hold these, so they stay here:"
 msgstr "Ihr Schmiedemagie-Feld kann diese nicht tragen, sie bleiben hier:"

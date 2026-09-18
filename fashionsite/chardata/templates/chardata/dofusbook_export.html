@@ -64,10 +64,10 @@
     le dire evite que le lecteur cherche ses jets piece par piece de l'autre
     cote. Ce qui ne passe pas est nomme juste apres.{% endcomment %}
     {% if forge_travels %}
-    <p class="export-note" id="export-forge">{% trans "Your forgemagie travels as one total per characteristic: their link format holds nothing finer." %}</p>
+    <p class="export-note" id="export-forge">{% trans "DofusBook cannot receive forgemagie or exos piece by piece: its link only takes one total per characteristic, where each AP, MP or Range exo counts as +1. You will find them in its global forgemagie." %}</p>
     {% endif %}
-    {% if exos_travel %}
-    <p class="export-note" id="export-exos">{% trans "The AP, MP and Range exos travel as exos of the whole build: their link format does not say which piece carries them." %}</p>
+    {% if shiny_travels %}
+    <p class="export-note" id="export-shiny">{% trans "Shiny TemporiX pieces do not exist on DofusBook: what the x1.5 adds to each of them is sent in that global forgemagie." %}</p>
     {% endif %}
     {% if forge_staying %}
     <p class="export-note" id="export-forge-staying">{% trans "Their forgemagie field cannot hold these, so they stay here:" %} {{ forge_staying|join:", " }}</p>

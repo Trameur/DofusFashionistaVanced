@@ -4421,10 +4421,6 @@ msgstr "Modo TemporiX"
 msgid "For the TemporiX servers (15 September to 13 October 2026): shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build."
 msgstr "Para los servidores TemporiX (del 15 de septiembre al 13 de octubre de 2026): sombreros, capas, amuletos, anillos, cinturones, botas y Dofus brillantes que sueltan los monstruos (cada valor multiplicado por 1,5, redondeado hacia arriba, penalizaciones incluidas), el Escudo del infinito en rango 1000, y sin límite de PA, PM, alcance ni invocaciones. Prohíbe las piezas que no tengas, como en cualquier build."
 
-#: .\chardata\templates\chardata\dofusbook_export.html
-msgid "The AP, MP and Range exos travel as exos of the whole build: their link format does not say which piece carries them."
-msgstr "Los exos de PA, PM y alcance viajan como exos de todo el build: su formato de enlace no dice qué pieza los lleva."
-
 #: .\chardata\templates\chardata\solution_item.html
 msgctxt "smithmagic mark on an item"
 msgid "SM"
@@ -7313,8 +7309,13 @@ msgstr "Estas líneas del enlace no pertenecen a ninguna pieza y se dejan fuera:
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr "Estas líneas de forjamagia no se pudieron leer y se dejan fuera:"
 
-msgid "Your forgemagie travels as one total per characteristic: their link format holds nothing finer."
-msgstr "Tu forjamagia viaja como un total por característica: su formato de enlace no admite nada más fino."
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "DofusBook cannot receive forgemagie or exos piece by piece: its link only takes one total per characteristic, where each AP, MP or Range exo counts as +1. You will find them in its global forgemagie."
+msgstr "DofusBook no permite exportar la forjamagia ni los exos pieza por pieza: su enlace solo admite un total por característica, en el que cada exo de PA, PM o alcance cuenta como +1. Los encontrarás en su forjamagia global."
+
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "Shiny TemporiX pieces do not exist on DofusBook: what the x1.5 adds to each of them is sent in that global forgemagie."
+msgstr "Las piezas brillantes de TemporiX no existen en DofusBook: lo que el x1,5 añade a cada una se envía en esa forjamagia global."
 
 msgid "Their forgemagie field cannot hold these, so they stay here:"
 msgstr "Su campo de forjamagia no puede llevar estos, así que se quedan aquí:"

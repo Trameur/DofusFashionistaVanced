@@ -184,8 +184,8 @@ def as_worn(item, structure, options, overridden=False):
     """The piece a TemporiX build wears in this slot.
 
     Its shiny copy when the mode is on and the piece can be shiny, the
-    catalogue row otherwise. A piece the player recorded rolls for is one he
-    owns and forgemaged, and a shiny piece cannot be forgemaged, so it keeps
+    catalogue row otherwise. A piece the player recorded rolls for is one they
+    own and forgemaged, and a shiny piece cannot be forgemaged, so it keeps
     its recorded values instead.
     """
     if (item is None or overridden
