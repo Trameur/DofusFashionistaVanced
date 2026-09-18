@@ -197,19 +197,13 @@ def main() -> None:
         step("items/transform", [PY, "get_equipments2.py", "--work-dir", DOFUS2_WORK_DIR], cwd=ITEMSCRAPER)
         step("items/dump", [PY, "get_equipments3.py", "--input-dir", DOFUS2_WORK_DIR, "--dump-output", DOFUS2_DUMP], cwd=ITEMSCRAPER)
         step("items/load-db", [PY, "load_item_db.py", "--game-version", "dofus2"])
-        # Descriptions and recipes, and with them the ingredient table drops/store
-        # reads to know which resources have a page of their own. Dofus 3 and the
-        # beta have always run this; Dofus 2 was left to a hand-typed command, so
-        # any rebuild came out with no description, no recipe and no resource drop
-        # at all, while still exiting 0.
+        # Descriptions, recipes, and the ingredient table drops/store reads
         step("items/obtainment", [
             PY, "store_item_obtainment.py",
             "--game-version", "dofus2",
             str(ITEMSCRAPER / "dofus2"),
         ], cwd=ITEMSCRAPER)
-        # What the spells an item names actually do, for the tooltip on the
-        # extra lines. It reads the spell text, so it needs no spell level and
-        # worked here for years before spells/constants could run at all.
+        # Tooltip for the spells an item names; reads the spell text, no spell level needed
         step("spells/tooltips", [
             PY, "-m", "itemscraper.store_spell_tooltips",
             "--game-version", "dofus2", "--tag", version,
@@ -239,13 +233,7 @@ def main() -> None:
             "--filter", "pt.json",
             "--filter", "de.json",
         ])
-        # The dofusdude mirror publishes 52 files for 2.73.3.14 and none of
-        # them is spell_levels.json, which is why this version had no spell
-        # numbers of its own for so long. Ankama's CDN carries the table for
-        # that exact version, so we fetch it ourselves and decode it: 31874
-        # rows, and the same reader reproduces the mirror's spells.json on all
-        # 15655 records field for field, which is what says the two are
-        # interchangeable.
+        # The dofusdude mirror has no spell_levels.json for 2.73: decode it from Ankama's CDN
         step("spells/d2o-tables", [
             PY, "download_d2o_tables.py",
             "--game-version", "dofus2",
@@ -257,10 +245,7 @@ def main() -> None:
             "--tag", version,
             "--output", "itemscraper/transformed_spells_dofus2.json",
             "--class-output", "itemscraper/transformed_class_spells_dofus2.json",
-            # NOT the shared transformed_spell_names.json: 2.73 writes a
-            # non-breaking space in 181 German strings that Dofus 3 writes
-            # plain, and merging would have a Dofus 2 rebuild quietly change
-            # what the Dofus 3 pages say.
+            # Own file: 2.73 writes non-breaking spaces in German names that Dofus 3 writes plain
             "--names-output", "itemscraper/transformed_spell_names_dofus2.json",
         ])
         step("spells/constants", [
@@ -285,16 +270,13 @@ def main() -> None:
             "--drops", "transformed_drops_dofus2.json",
             "--game-version", "dofus2",
         ], cwd=ITEMSCRAPER)
-        # Monster stats per grade -> monster_grades (the level range the
-        # encyclopedia prints; dofus2 was the only version without it).
+        # Monster stats per grade -> monster_grades (level range in the encyclopedia)
         step("monsters/grades", [
             PY, "store_dofus2_monster_grades.py",
             "--raw-dir", f"raw/{version}",
         ], cwd=ITEMSCRAPER)
         # Craft professions -> item_craft_jobs / job_names ("Crafted by ").
-        # The dofus2 release ships no jobs.json: job ids are stable since the
-        # 2.44 profession merge, so borrow the dofus3 id->nameId table (the
-        # names still resolve in the dofus2 language files).
+        # No jobs.json in dofus2: job ids are stable since 2.44, borrow dofus3's table
         from fashionista_version import FASHIONISTA_VERSION as _dofus3_version
         step("craftjobs/jobs-table", [
             PY, "-m", "itemscraper.download_raw_data",
@@ -314,9 +296,7 @@ def main() -> None:
             "--game-version", "dofus2",
         ], cwd=ITEMSCRAPER)
 
-        # Replayed, not matched: Dofus 2 keeps the same equipment designs, so
-        # the skins worked out from the Dofus 3 art fit here by ankama id, and
-        # by type and name where Dofus 3 renumbered the item.
+        # Dofus 3 skins, by ankama id, else by type and name where Dofus 3 renumbered
         step("item-skins", [PY, "store_item_skins.py", "--game-version", "dofus2",
                             "--input", "item_skins.json",
                             "--names", "item_skins_by_name.json"], cwd=ITEMSCRAPER)
@@ -326,26 +306,18 @@ def main() -> None:
         PY, "store_item_corrections.py", "--game-version", "dofus2",
     ], cwd=ITEMSCRAPER)
 
-    # Data changed: refresh the scanned list of runtime-translated
-    # strings (item types, stats...) so makemessages keeps them.
+    # Refresh the runtime-translated strings so makemessages keeps them
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     if do_images:
-        # download_spell_images cannot run here: the Dofus 2 release ships no
-        # spell image archive, only items and mounts. The icons are addressed by
-        # id though, so the ids from the 2.73 lang pick the right images out of
-        # the Dofus 3 pool, and only the names Dofus 3 renamed are stored per
-        # version. The rest is read from the shared directory.
+        # No spell image archive in the Dofus 2 release: icons come from the Dofus 3 pool by id
         step("spell-icons", [PY, "store_dofus2_spell_icons.py"], cwd=ITEMSCRAPER)
 
     if do_images and not args.no_resize:
         step("resize", [PY, "resize_images.py"])
 
 
-    # A rebuild reports success either way. This asks what it changed that
-    # nobody asked for: a table that lost rows, an item whose row id moved.
-    # A moved id empties that slot in every saved build, in silence, which is
-    # how 82 Touch pets changed owner on 2026-08-15.
+    # Tables that lost rows, items whose row id moved
     step("verify/rebuild", [PY, "check_rebuild.py", "--only", "dofus2"],
          cwd=ITEMSCRAPER)
 

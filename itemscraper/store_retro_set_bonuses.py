@@ -1,28 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""store_retro_set_bonuses.py: fill missing Dofus Retro set bonuses.
+"""Fill missing Dofus Retro set bonuses from solomonk.fr, then dofusretrotools.com.
 
-Set bonuses are server-side, so no Ankama file carries them and there is no
-first-party source to read. Two unrelated fan databases publish them:
-
-  * solomonk.fr lists 140 sets, in French prose ("+25% de dommages aux pieges").
-  * dofusretrotools.com exposes 173 at /api/set-bonuses, keyed by the Ankama set
-    id (`clothId`), which matches sets.ankama_id exactly, in short stat codes.
-
-Where the two overlap they disagree on 66 tiers, and every disagreement checks
-out in solomonk's favour against the items the set is made of: the Panoplignon
-grants percent TRAP damage, which its own weapon also grants, where the API
-codes plain percent damage; the Prespic set reflects damage, which its ring and
-belt also do, where the API has no line at all. A player reported the
-Panoplignon one. So solomonk leads and the API fills the 33 sets it does not
-cover.
-
-Only sets with no set_bonus row at all are filled, unless --all is given.
-  * --scrape: fetch both sources and rewrite the committed snapshot
-    retro_set_bonuses_drt.json, then apply it.
-  * default: apply the committed snapshot, with no network.
-Run after load_item_db, like the other retro post-steps.
+Run after load_item_db. --scrape refreshes retro_set_bonuses_drt.json first, --all refills every set.
 """
 
 import argparse
@@ -50,34 +31,22 @@ HEADERS = {'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json'}
 # Vendored snapshot of the scraped bonuses, keyed by set ankama id.
 CACHE_PATH = os.path.join(CURRENT_DIRECTORY, 'retro_set_bonuses_drt.json')
 
-# Dofus Retro Tools stat codes -> internal stat names.
-#
-# The codes are not documented, so each one here was read off the game's own
-# files rather than guessed: for 2190 items the API's (code, min, max) lines
-# were matched against the same item's ISTA string in retro_raw, which is keyed
-# by Ankama effect id. Every code below agreed unanimously across every item
-# that carries it. The effect id and the game's own French text are noted where
-# a code is easy to read the wrong way.
+# Dofus Retro Tools codes (undocumented, matched on retro_raw effect ids) -> stat names
 STAT_CODE = {
     'vi': 'Vitality', 'sa': 'Wisdom', 'ag': 'Agility', 'in': 'Intelligence',
     'ch': 'Chance', 'fo': 'Strength', 'dmg': 'Damage', 'so': 'Heals',
     'pp': 'Prospecting', 'ii': 'Initiative', 'po': 'Range', 'cc': 'Critical Hits',
     'pa': 'AP', 'pm': 'MP',
-    # 138, "Augmente les dommages de X%", which the model applies as Power.
+    # Effect 138, "Augmente les dommages de X%"
     'pu': 'Power',
-    # On items rn is the flat resist (244) and rnp the percent one (214), but
-    # this endpoint uses both for the percent: no tier carries the two at once,
-    # and solomonk prints a percent for all 43 rn tiers and all 24 rnp ones.
+    # rn is flat on items, but this endpoint uses rn and rnp both for the percent
     'rn': '% Neutral Resist', 'rnp': '% Neutral Resist',
-    # 225 and 226. Both were absent, so the Aerdala and Rat Noir sets, the only
-    # two trap sets in the game, reached the site with no trap bonus at all.
+    # Effects 225 and 226
     'pi': 'Trap Damage', 'pip': '% Trap Damage',
     'ic': 'Summon', 'pd': 'Pods',
 }
 _ELEMENTS = {'feu': 'Fire', 'terre': 'Earth', 'eau': 'Water', 'air': 'Air', 'neutre': 'Neutral'}
 
-# Solomonk prints its bonuses as the game words them, so the lines are read the
-# same way the API's own French fallback phrases are.
 _SOLOMONK_PLAIN = {
     'vitalite': 'Vitality', 'sagesse': 'Wisdom', 'agilite': 'Agility',
     'intelligence': 'Intelligence', 'chance': 'Chance', 'force': 'Strength',
@@ -164,12 +133,7 @@ def fetch_solomonk_records(report_unmapped=True):
 
 
 def _code_to_stat(code, value):
-    """A bonus entry's code/value -> (internal stat name, value), or (None, _).
-
-    Resists, flat HP and physical reduction arrive not as a STAT_CODE key but as
-    a French phrase carrying the value: "10 % de resistance a la terre",
-    "+100 en vie", "Reduction physique de 1".
-    """
+    """Code/value -> (stat name, value); resists and HP come as a phrase ("+100 en vie")."""
     if code in STAT_CODE:
         return STAT_CODE[code], value
     text = unicodedata.normalize('NFKD', code).encode('ascii', 'ignore').decode().lower()
@@ -190,12 +154,7 @@ def _code_to_stat(code, value):
 
 
 def fetch_api_records(report_unmapped=True):
-    """The API's sets as snapshot records: [{ankama_id, name, tiers}, ...].
-
-    tiers: {num_pieces(str): {stat_name: value}}. A line whose code is not in
-    STAT_CODE is dropped, and dropping one silently is how four codes went
-    missing for as long as they did, so what was dropped is printed.
-    """
+    """[{ankama_id, name, tiers: {num_pieces(str): {stat_name: value}}}, ...]"""
     data = requests.get(API_URL, headers=HEADERS, timeout=60).json()
     records = []
     dropped = {}
@@ -223,12 +182,7 @@ def fetch_api_records(report_unmapped=True):
 
 
 def fetch_records(report_unmapped=True):
-    """Both sources merged, solomonk leading, one source per set.
-
-    A set takes all of its tiers from one source or the other. Mixing them
-    within a set would blend two readings of the same bonus, which is exactly
-    what the 66 disagreements are.
-    """
+    """Both sources merged, solomonk leading, one source per set."""
     solomonk = fetch_solomonk_records(report_unmapped)
     api = fetch_api_records(report_unmapped)
     merged = {record['ankama_id']: record for record in api}
@@ -240,10 +194,7 @@ def fetch_records(report_unmapped=True):
 
 
 def apply_records(cursor, records, set_id_by_ankama, stat_id_by_name, fill_ankama, dry_run):
-    """Write set_bonus rows from snapshot records for sets in fill_ankama.
-
-    Returns (sets_filled, rows_written, unknown_stats).
-    """
+    """Write set_bonus rows for sets in fill_ankama -> (sets_filled, rows_written, unknown_stats)."""
     filled = 0
     rows_written = 0
     unknown_stats = set()

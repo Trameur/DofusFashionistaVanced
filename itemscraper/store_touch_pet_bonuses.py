@@ -1,22 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""store_touch_pet_bonuses.py: maxed-stat variants for Dofus Touch pets.
-
-Touch pets gain their stats by feeding, so the backend datacenter carries no
-bonus values; scrape_touch_pet_bonuses.py writes the official per-pet maxima to
-itemscraper/touch_pet_bonuses.json:
-
-    { "<English pet name>": [ ["<stat name>", <max value>], ... ], ... }
-
-Each listed (pet, stat) is an exclusive feeding choice, so every entry becomes
-one maxed Pet item, "<Pet> (+110 Agility)", localized in FR/ES/PT/DE. Variants
-reuse the pet's ankama id. Re-dumps items_touch.db.
-
-A saved build keeps the variant's id, so the id is computed from the pet and
-the stat, never from a position in the file: see variant_id. Every id ever
-written is recorded in touch_pet_variant_ids.json, and one that is not written
-any more resolves through legacy_item_ids to the same pet."""
+"""One maxed Pet item per (pet, stat) of touch_pet_bonuses.json, for Dofus Touch."""
 
 import json
 import os
@@ -36,16 +21,12 @@ BONUSES_PATH = os.path.join(CURRENT_DIRECTORY, 'touch_pet_bonuses.json')
 REGISTRY_PATH = os.path.join(CURRENT_DIRECTORY, 'touch_pet_variant_ids.json')
 # Reserved id range for generated variants; real Touch ids stay below ~101M.
 VARIANT_ID_BASE = 200_000_000
-# Until 2026-09-18 a counter over the file handed out 200000000 to 200000227,
-# and 200000228 is what old builds keep for the Gelano
-# (structure.GELANO_DEPLOYED_IDS). Those ids are retired for good. The fixed
-# Gelano ids start at 990000001.
+# 200000000 to 200000228 are old counter ids, retired (Gelano included)
 FIRST_FREE_VARIANT_ID = 200_000_229
 VARIANT_ID_CEILING = 990_000_000
 NON_EN_LANGUAGES = ['fr', 'es', 'pt', 'de']
 
-# The last part of a variant id. A number is never changed nor given to another
-# stat: new stats take the next free one, below 100.
+# Last part of a variant id: never renumber, new stats take the next free slot
 STAT_SLOTS = {
     'Vitality': 1, 'Wisdom': 2, 'Strength': 3, 'Intelligence': 4,
     'Chance': 5, 'Agility': 6, 'Power': 7, 'AP': 8, 'MP': 9, 'Range': 10,
@@ -64,9 +45,7 @@ STAT_SLOTS = {
 
 
 def variant_id(ankama_id, stat_name):
-    """The id of the variant of this pet fed toward this stat. A cap that moves
-    keeps it, and so does every other variant when a pet or a line comes or
-    goes."""
+    """Stable id of this pet fed toward this stat."""
     variant = VARIANT_ID_BASE + ankama_id * 100 + STAT_SLOTS[stat_name]
     if not FIRST_FREE_VARIANT_ID <= variant < VARIANT_ID_CEILING:
         raise ValueError('pet %d gives variant id %d, outside [%d, %d)'
@@ -92,11 +71,7 @@ def write_registry(registry, path=REGISTRY_PATH):
 
 
 def legacy_targets(registry, written, base_pet_ids):
-    """{retired id: live item id}. A retired id goes to the variant of the same
-    pet and stat when there is one, the fake per-meal lines included, and to
-    the pet itself otherwise: its cap is a stat of its own (Sirocco 160
-    Agility) or the game took the line away. A pet the data lost entirely
-    resolves to nothing."""
+    """{retired id: live item id}, the same pet and stat variant or else the pet."""
     targets = {}
     for old_id, (pet, stat) in registry.items():
         if old_id in written:
@@ -113,8 +88,7 @@ STAT_LABELS = {
     'Strength': {'fr': 'Force', 'es': 'Fuerza', 'pt': 'Força', 'de': 'Stärke'},
     'Intelligence': {'fr': 'Intelligence', 'es': 'Inteligencia', 'pt': 'Inteligência', 'de': 'Intelligenz'},
     'Chance': {'fr': 'Chance', 'es': 'Suerte', 'pt': 'Sorte', 'de': 'Glück'},
-    # the German client says Flinkheit, not Agilitaet, and the site says it
-    # everywhere else; a generated item name is a surface like any other
+    # the German client says Flinkheit
     'Agility': {'fr': 'Agilité', 'es': 'Agilidad', 'pt': 'Agilidade', 'de': 'Flinkheit'},
     'Vitality': {'fr': 'Vitalité', 'es': 'Vitalidad', 'pt': 'Vitalidade', 'de': 'Vitalität'},
     'Wisdom': {'fr': 'Sagesse', 'es': 'Sabiduría', 'pt': 'Sabedoria', 'de': 'Weisheit'},
@@ -185,9 +159,7 @@ def _variant_name(base_name, stat_label, value, is_percent):
 
 
 def _best_lines(pet_name, entries):
-    """[(stat, value)], one per stat, at its highest value. A stat listed twice
-    was the diet's gain per meal read as a cap, and one id per pet and stat
-    has room for one line."""
+    """[(stat, value)], one per stat, at its highest value."""
     best = {}
     for stat_name, value in entries:
         value = int(value)
@@ -199,8 +171,7 @@ def _best_lines(pet_name, entries):
 
 
 def _drop_own_legacy_rows(cursor, registry):
-    """Remove the aliases a previous run wrote, after checking that none of
-    those ids is held by another table's alias for another item."""
+    """Remove the aliases a previous run wrote, if no other item holds them."""
     if not _table_exists(cursor, 'legacy_item_ids'):
         cursor.execute("""CREATE TABLE legacy_item_ids
              (old_id INTEGER PRIMARY KEY, item INTEGER,
@@ -235,14 +206,7 @@ def main():
     pet_type = cursor.execute("SELECT id FROM item_types WHERE name = 'Pet'").fetchone()[0]
     stat_id_by_name = {name: sid for sid, name in cursor.execute("SELECT id, name FROM stats")}
 
-    # item_drops does not exist yet on a from-scratch rebuild. This step runs
-    # BEFORE drops/store on purpose, because store_drops attaches a drop to
-    # every internal row of an ankama id and a variant created afterwards would
-    # keep none. So on a fresh db the table is simply absent, and the two
-    # statements that touch it raised "no such table: item_drops", took the
-    # whole transaction down with them and left the 228 pet variants
-    # unwritten: 3146 Touch items instead of 3374. The order is right; this
-    # script has to cope with the table not being there yet.
+    # No item_drops yet on a fresh rebuild: this step runs before drops/store
     has_drops = cursor.execute(
         "SELECT 1 FROM sqlite_master WHERE type = 'table'"
         " AND name = 'item_drops'").fetchone() is not None
@@ -258,8 +222,7 @@ def main():
     if has_drops:
         cursor.execute("DELETE FROM item_drops WHERE item >= ?", (VARIANT_ID_BASE,))
 
-    # Mounts share the Pet type but number their ankama ids on their own, so
-    # one of theirs could give a pet's variant id.
+    # Mounts share the Pet type but have their own ankama id numbering
     base_pet_ids = {}
     for pet_id, ankama_id in cursor.execute(
             """SELECT id, ankama_id FROM items WHERE type = ? AND id < ?
@@ -296,8 +259,7 @@ def main():
                 if stat_id is None or stat_name not in STAT_SLOTS:
                     print('  ! unknown stat %r for %s, skipping' % (stat_name, pet_name))
                     continue
-                # Some pets already carry their maxed bonus as datacenter stats
-                # (Sirocco 160 agi).
+                # Some pets already carry the maxed bonus (Sirocco 160 agi)
                 if (stat_id, value) in base_stats:
                     continue
                 is_percent = stat_name.strip().startswith('%')
@@ -324,11 +286,7 @@ def main():
                         "INSERT INTO item_names(item, language, name) VALUES (?, ?, ?)",
                         (new_id, lang,
                          _variant_name(base, _label(stat_name, lang), value, is_percent)))
-                # Descriptions and pods are written before this step runs, so
-                # copy the pet's. Drops are only there on a rerun over an
-                # existing db; on a fresh one drops/store fills them in after
-                # us. Without them a maxed variant shows no "Dropped by" while
-                # the pet it is made from does.
+                # Copy the pet's descriptions, pods and drops
                 cursor.execute(
                     "INSERT OR REPLACE INTO item_descriptions(item, language, description)"
                     " SELECT ?, language, description FROM item_descriptions"

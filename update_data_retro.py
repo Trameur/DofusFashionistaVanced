@@ -5,36 +5,6 @@ update_data_retro.py - DofusFashionista data pipeline for Dofus Retro (1.29)
 Usage:
     python update_data_retro.py                    # full update (latest CDN lang versions)
     python update_data_retro.py --skip-translations  # FR names only (faster)
-
-Unlike Dofus 2/3/Beta, Retro has no version tag to bump: the source is Ankama's
-official "lang" CDN and download_retro_langs.py always fetches the latest versions
-listed in the live manifest (versions_<lang>.txt).
-
-Pipeline steps:
-    lang/download-fr     download_retro_langs.py  -> retro_raw/{items,itemstats,itemsets}_fr.json
-    lang/download-en/... download_retro_langs.py  -> retro_raw/items_{en,es,pt,de}.json (names)
-    items/transform      get_equipments_retro.py  -> retro/transformed_{equipment,sets}.json
-    items/dump           get_equipments3.py        -> item_db_dumped_retro.dump
-    items/load-db        load_item_db.py           -> items_retro.db
-    drops/transform      get_monsters_retro.py     -> itemscraper/transformed_drops_retro.json (Solomonk.fr 1.48)
-    drops/store          store_drops.py            -> item_drops / monster_names in items_retro.db
-    descriptions/store   store_retro_descriptions.py -> item_descriptions in items_retro.db
-    item-images          download_retro_images.py  -> static/chardata/{items,pets}/retro/60x60/ (rendered from the official client via Cytrus)
-    spells/decode        get_spells_retro.py       -> dofus_constants_retro_spells.py (DAMAGE_SPELLS)
-    spell-images         download_retro_spell_images.py -> static/chardata/spells/retro/ (old official web CDN mirror + client compose for the missing ones)
-
-Set bonuses are NOT in the lang CDN (1.29 set bonuses are server-side): they are
-scraped from Solomonk set pages by get_retro_set_bonuses.py (legacy snapshot and
-committed-db fallbacks for the sets Solomonk lacks) into retro_set_bonuses.json,
-matched to lang sets by ankama id inside get_equipments_retro.py.
-
-Item/mount icons are rendered from the official 1.29 client via the Cytrus
-CDN (download_retro_images.py, needs java+ffdec, warns and keeps the
-committed icons without them). Damage-spell icons are Ankama's old web CDN
-renders (mirrored by Cyberia, credited); the ones the frozen mirror lacks
-are composed from the client (download_retro_spell_images.py
---compose-missing). retro_raw/ stays UNversioned on purpose: the
-lang/download steps above fetch every category the later steps consume.
 """
 
 from __future__ import annotations
@@ -72,8 +42,8 @@ NOISE_PATTERNS = [
     r"^done",
     r"^fetching ",
     r"^\s+\d+ categories available",
-    r"^skipping ",          # dump routes weapon hit lines out of stats_of_item
-    r"is missing ap",       # retro weapons now carry ap; keep quiet if any slip
+    r"^skipping ",          # weapon hit lines the dump keeps out of stats_of_item
+    r"is missing ap",
 ]
 
 
@@ -161,9 +131,7 @@ def main() -> None:
     ], cwd=ITEMSCRAPER)
 
     if not args.skip_translations:
-        # Pull item names for the other supported languages (ES/PT ~= 40% of users).
-        # itemstats too: no lang file is complete, and an item taken from another
-        # language for its own sake arrives with no stats without it.
+        # Names in the other languages, plus itemstats: no lang file is complete
         for lang in ("en", "es", "pt", "de"):
             if lang == args.lang:
                 continue
@@ -174,10 +142,7 @@ def main() -> None:
                 "--dest", RETRO_RAW_DIR,
             ], cwd=ITEMSCRAPER)
 
-    # Set bonuses are server-side, so no Ankama file has them: solomonk.fr
-    # leads and the Dofus Retro Tools API fills the sets it does not list.
-    # A network failure leaves the committed retro_set_bonuses.json in place
-    # for items/transform below.
+    # Set bonuses are server-side: solomonk.fr, then the Dofus Retro Tools API
     step("sets/bonuses", [
         PY, "get_retro_set_bonuses.py",
     ], cwd=ITEMSCRAPER)
@@ -198,36 +163,17 @@ def main() -> None:
 
     step("items/load-db", [PY, "load_item_db.py", "--game-version", "retro"])
 
-    # Monster drops -> item_drops / monster_names in items_retro.db (encyclopedia "Dropped by").
-    # Retro has no first-party drop source (the 1.29 client/lang files carry monster names but
-    # not the server-side drop tables, and Ankama has no Retro monster encyclopedia), so we scrape
-    # the current (1.48) community reference Solomonk.fr. Runs after load-db, which rebuilds the DB
-    # from the dump; store_drops then adds the two tables and re-dumps so both stay in sync.
-    # Craft recipes from the 1.29 crafts lang (load-db rebuilds the DB from
-    # the dump, dropping them: this restores the tables and re-dumps).
-    # MUST run before drops/store: store_drops classifies a drop as a
-    # resource via item_recipe_ingredient_names, which is empty until here
-    # (an empty table once zeroed resource_drops on a full rebuild).
+    # Before drops/store: it finds resources through item_recipe_ingredient_names
     step("recipes/store", [
         PY, "store_retro_recipes.py",
     ], cwd=ITEMSCRAPER)
 
-    # Refresh the pet feeding caps first (dofux + Solomonk, credited on
-    # About; no first-hand source: the caps are server-side in 1.29). A
-    # network failure leaves the committed retro_pet_bonuses.json in place.
+    # Pet feeding caps are server-side in 1.29: dofux and Solomonk
     step("pets/scrape", [
         PY, "scrape_retro_pet_bonuses.py",
     ], cwd=ITEMSCRAPER)
 
-    # Pet variants (one maxed variant per bonus, from the vendored
-    # retro_pet_bonuses.json snapshot): load-db drops them with every
-    # rebuild, this recreates them (idempotent) and re-dumps.
-    #
-    # BEFORE drops/store: store_drops attaches a drop to every internal row of
-    # an ankama id, so a variant created after it keeps none. Four pets used to
-    # show their monsters on the plain row and nothing on the fed ones. The
-    # drops step cannot simply move later either: monsters/grades and
-    # monsters/subareas read the monster_names table it creates.
+    # Pet variants, before drops/store: it only fills the rows that already exist
     step("pets/store", [
         PY, "store_retro_pet_bonuses.py",
     ], cwd=ITEMSCRAPER)
@@ -243,37 +189,27 @@ def main() -> None:
         "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
 
-    # Per-grade 1.29 monster stats from the same Solomonk bestiary cards
-    # (level, HP, AP, MP, dodges, resistances); re-dumps to stay in sync.
+    # Per-grade monster stats from the Solomonk bestiary
     step("monsters/grades", [
         PY, "store_retro_monster_grades.py",
     ], cwd=ITEMSCRAPER)
 
-    # Where each monster can be found (Solomonk subarea blocks, localized);
-    # re-dumps to stay in sync like the other stores.
+    # Where each monster can be found, from Solomonk
     step("monsters/subareas", [
         PY, "store_retro_monster_subareas.py",
     ], cwd=ITEMSCRAPER)
 
-    # Solomonk answers fr, en and es; the page falls back to French for
-    # the other two, so a Portuguese reader of a Retro monster page read
-    # French place names. Ankama's own map file has them in five
-    # languages. MUST stay after monsters/subareas: that step rebuilds
-    # the table and would drop these rows.
+    # Subarea names in five languages, after monsters/subareas which rebuilds the table
     step("monsters/subarea-langs", [
         PY, "store_retro_subarea_languages.py",
     ], cwd=ITEMSCRAPER)
 
-    # Monster artworks straight from the official 1.29 client (Cytrus CDN,
-    # clips/artworks/big). Existing WebPs are skipped; without java/ffdec/
-    # resvg on the machine the script warns and leaves the committed art.
+    # Monster artworks from the 1.29 client, needs java, ffdec and resvg
     step("monsters/artworks", [
         PY, "download_retro_monster_artworks.py",
     ], cwd=ITEMSCRAPER)
 
-    # Craft professions ("Crafted by ..."): the 1.29 skills lang lists every
-    # craftable item per skill (cl) with its owning job; jobs_<lang> localizes
-    # the pre-merge profession names. No per-recipe level in 1.29 data.
+    # Craft professions from the skills lang, 1.29 has no per-recipe level
     step("craftjobs/transform", [
         PY, "get_craft_jobs_retro.py",
         "--raw-dir", RETRO_RAW_DIR,
@@ -286,11 +222,10 @@ def main() -> None:
         "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
 
-    # Item descriptions -> item_descriptions (the encyclopedia's page text).
+    # Item descriptions for the encyclopedia pages
     step("descriptions/store", [PY, "store_retro_descriptions.py"], cwd=ITEMSCRAPER)
 
-    # Data changed: refresh the scanned list of runtime-translated
-    # strings (item types, stats...) so makemessages keeps them.
+    # Runtime-translated strings, for makemessages
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     if not args.skip_images:
@@ -304,14 +239,12 @@ def main() -> None:
             "--game-version", "retro",
         ], cwd=ITEMSCRAPER)
 
-    # What the spells an item names actually do, for the tooltip on the extra
-    # lines. The description sits under 'd' beside the name under 'n' in the
-    # same lang file the item build already reads.
+    # Tooltips for the spells an item names
     step("spells/tooltips", [
         PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "retro",
     ])
 
-    # Manual fixes last, so they survive whatever the stores rebuilt.
+    # Manual fixes last, after the stores
     step("items/corrections", [
         PY, "store_item_corrections.py", "--game-version", "retro",
     ], cwd=ITEMSCRAPER)
@@ -333,10 +266,7 @@ def main() -> None:
         step("spell-images", [PY, "download_retro_spell_images.py"], cwd=ITEMSCRAPER)
 
 
-    # A rebuild reports success either way. This asks what it changed that
-    # nobody asked for: a table that lost rows, an item whose row id moved.
-    # A moved id empties that slot in every saved build, in silence, which is
-    # how 82 Touch pets changed owner on 2026-08-15.
+    # Tables that lost rows, item ids that moved
     step("verify/rebuild", [PY, "check_rebuild.py", "--only", "retro"],
          cwd=ITEMSCRAPER)
 
