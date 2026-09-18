@@ -1139,7 +1139,28 @@ class RepeatedVersionVariantTest(TestCase):
     different item -- every Touch and Retro one among them. Fixtures are found
     in the catalogues rather than written down here, so the tests keep meaning
     something after a game update.
+
+    Since 2026-09-18 no version has a copy left: Dofus 2 shows its own art (530
+    pages matching on data, median pixel difference 6.8% from the Dofus 3
+    icon) and the beta had its own for every item. The copies below are the
+    Dofus 2 pages as they were without that art, its icons hidden.
     """
+
+    def setUp(self):
+        from unittest import mock
+        from chardata import image_store
+        real = image_store._static_exists
+        hidden = mock.patch.object(
+            image_store, '_static_exists',
+            side_effect=lambda path: '/dofus2/' not in path and real(path))
+        hidden.start()
+        self.addCleanup(hidden.stop)
+        # The sitemap keeps its documents in the module for six hours: one built
+        # by an earlier test, icons showing, would answer here, and the one
+        # built here must not answer the tests after.
+        from fashionsite import urls
+        urls._SITEMAP_CACHES.clear()
+        self.addCleanup(urls._SITEMAP_CACHES.clear)
 
     @staticmethod
     def _canonical(html):

@@ -1848,10 +1848,21 @@ class CanonicalUrlTests(TestCase):
         """The other half of the rule above. A version page is its own page
         when it shows something else -- data, name or art. When it shows
         exactly the live page, claiming to be a second one is what fills an
-        index with duplicates."""
+        index with duplicates.
+
+        Since 2026-09-18 Dofus 2 shows its own art and no page copies the live
+        one, so its icons are hidden here to bring the copies back."""
+        from unittest import mock
+        from chardata import image_store
         from chardata.official_site import get_item_link
         from chardata.version_content import (repeats_the_live_version,
                                               _cached_signatures)
+        real = image_store._static_exists
+        hidden = mock.patch.object(
+            image_store, '_static_exists',
+            side_effect=lambda path: '/dofus2/' not in path and real(path))
+        hidden.start()
+        self.addCleanup(hidden.stop)
         for (ankama_type, ankama_id), (_d, name, _k) in sorted(
                 _cached_signatures('dofus2').items()):
             if not repeats_the_live_version('dofus2', ankama_type, ankama_id):
@@ -5881,10 +5892,20 @@ class ItemIconFallbackTests(SimpleTestCase):
         self.assertEqual(get_image_url('Amulet', 'Nomoon', 'dofus3'),
                          'chardata/items/60x60/Nomoon-60-60.png')
 
-    def test_dofus2_variant_falls_back(self):
+    def test_dofus2_shows_its_own_icon(self):
+        # Committed on 2026-09-18, from Ankama's CDN.
         from chardata.image_store import get_image_url
         self.assertEqual(get_image_url('Shield', 'Sponghield 2', 'dofus2'),
-                         'chardata/items/60x60/Sponghield-60-60.png')
+                         'chardata/items/dofus2/60x60/Sponghield 2-60-60.png')
+
+    def test_dofus2_variant_without_an_icon_falls_back_to_the_dofus3_base(self):
+        from unittest import mock
+        from chardata.image_store import get_image_url
+        base = 'chardata/items/60x60/Sponghield-60-60.png'
+        with mock.patch('chardata.image_store._static_exists',
+                        side_effect=lambda path: path == base):
+            self.assertEqual(
+                get_image_url('Shield', 'Sponghield 2', 'dofus2'), base)
 
     def test_windows_illegal_chars_stripped_from_icon_path(self):
         # "Wand Else?" cannot be a filename on windows: the icon drops the "?".

@@ -157,6 +157,9 @@ def repeats_the_live_version(game_version, ankama_type, ankama_id):
         retro     51 of 51                          -- every one of them
         dofus2     1 of 531
 
+    (then; since 2026-09-18 every Dofus 2 and beta item carries its own art,
+    so none of them is a copy any more)
+
     -- so a comparison that skipped it would have merged 3458 pages that show
     a different item. It is checked with the same function that renders the
     page, so the two cannot drift apart.
