@@ -201,13 +201,84 @@ def _retro_tooltips():
     return tooltips
 
 
+# What a trigger adds to a Touch spell row, per language of the text. Griffe
+# Cinglante's description reads its x115% "Dommages subis" DI row as damage
+# dealt by every summon. A row with any other trigger than I (at once) is
+# conditional in a way nothing here can word, so it is left out.
+TOUCH_TRIGGER_TAILS = {
+    'DI': {'fr': 'de la part des invocations', 'en': 'from summons',
+           'es': 'de las invocaciones', 'pt': 'das invocações',
+           'de': 'durch Beschwörungen'},
+}
+
+
+def touch_spell_effects(spell, spell_levels, effects, monster_names, text_lang):
+    """What a Touch spell Ankama left undescribed does, or None.
+
+    On 2026-09-18 thirteen spells cast by Touch items had an empty
+    description, the Shield of Infinity's Bouclier Imperturbable among them.
+    Their first
+    grade still lists what they do, and the client's templates read it. A row
+    the client hides, one whose amount is missing ("de 0"), a bare spell or
+    state id, and a summon whose monster has no name are all left out, so the
+    spell gets no tooltip rather than a wrong one. A row drawn at random says
+    its odds.
+    """
+    from store_monster_spells import _SUMMON_EFFECTS, render_effect
+    level_ids = spell.get('spellLevels') or []
+    level = spell_levels.get(str(level_ids[0])) if level_ids else None
+    rendered = []
+    for row in (level or {}).get('effects') or []:
+        trigger = row.get('triggers') or 'I'
+        if row.get('hidden') or (trigger != 'I'
+                                 and trigger not in TOUCH_TRIGGER_TAILS):
+            continue
+        effect_id = row.get('effectId')
+        template = (effects.get(str(effect_id)) or {}).get('descriptionId')
+        if not template or ('#1' in template and not row.get('diceNum')):
+            continue
+        names = monster_names if effect_id in _SUMMON_EFFECTS else None
+        line = render_effect(template, row.get('diceNum'), row.get('diceSide'),
+                             names)
+        if not line:
+            continue
+        if trigger != 'I':
+            line = '%s %s' % (line, TOUCH_TRIGGER_TAILS[trigger][text_lang])
+        if row.get('random'):
+            line = '%s (%d%%)' % (line, row['random'])
+        if line not in rendered:
+            rendered.append(line)
+    return ', '.join(rendered) or None
+
+
 def _touch_tooltips():
     import requests
+    from download_touch_data import served_languages
     from store_touch_special_spells import (
         CAST_SPELL_EFFECTS, SPELL_MODIFIER_EFFECTS, _data_url, _fetch)
     items = _load(os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Items_fr.json'))
     data_url = _data_url()
     spells = {lang: _fetch(data_url, 'Spells', lang) for lang in LANGUAGES}
+    # Touch answers a language it no longer serves in English, so the words
+    # added to its rows, and the monster names, must be English there too.
+    served = served_languages()
+    loaded = {}
+
+    def effects_of(spell, lang):
+        text_lang = lang if not served or lang in served else 'en'
+        if 'levels' not in loaded:
+            loaded['levels'] = _fetch(data_url, 'SpellLevels', 'fr')
+        if lang not in loaded:
+            monsters = _load(os.path.join(CURRENT_DIRECTORY, 'touch_raw',
+                                          'Monsters_%s.json' % text_lang))
+            loaded[lang] = (_fetch(data_url, 'Effects', lang), {
+                int(monster_id): monster['nameId']
+                for monster_id, monster in monsters.items()
+                if isinstance(monster, dict) and monster.get('nameId')})
+        effects, monster_names = loaded[lang]
+        return touch_spell_effects(spell, loaded['levels'], effects,
+                                   monster_names, text_lang)
+
     tooltips = {}
     for ankama_id, item in items.items():
         if not isinstance(item, dict):
@@ -222,6 +293,8 @@ def _touch_tooltips():
                 spell = spells[lang].get(spell_id) or {}
                 name = spell.get('nameId')
                 description = _clean(spell.get('descriptionId'))
+                if name and not description:
+                    description = effects_of(spell, lang)
                 if not name or not description:
                     continue
                 (tooltips.setdefault(int(ankama_id), {})
