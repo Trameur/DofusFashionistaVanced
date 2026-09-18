@@ -30,7 +30,9 @@ import logging
 
 from django.utils.translation import gettext as _
 
-from chardata import dofusbook_export
+from django.http import Http404
+
+from chardata import build_sites, dofusbook_export
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.solution import get_solution
 from chardata.temporix_mode import solution_uses_temporix
@@ -250,6 +252,9 @@ def _keys_of_positions(positions, wanted):
 
 
 def dofusbook_export_page(request, char_id):
+    # Not there at all until DofusBook's creator has agreed (build_sites.py).
+    if not build_sites.enabled(build_sites.DOFUSBOOK):
+        raise Http404
     char = get_char_or_raise(request, char_id)
     params = {
         'char': char,

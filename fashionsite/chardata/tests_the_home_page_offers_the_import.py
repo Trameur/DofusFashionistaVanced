@@ -15,6 +15,9 @@ from django.test import SimpleTestCase, TestCase
 
 QUESTION = 'Already have a build?'
 LIEN = 'Import it from a link, text or screenshots'
+# Without any other build site enabled (production until their creators
+# agree, build_sites.py), the link is not offered.
+SANS_LIEN = 'Import it from text or screenshots'
 
 
 def _ancre(page):
@@ -53,6 +56,13 @@ class TheHomePageOffersTheImportTests(TestCase):
         paragraphe = page[page.rfind('<p', 0, debut):debut]
         self.assertNotIn('opacity', paragraphe)
 
+    def test_no_link_is_promised_while_no_site_is_read(self):
+        from django.test import override_settings
+        with override_settings(BUILD_SITES_ENABLED=()):
+            page = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
+        self.assertIn(SANS_LIEN, _ancre(page))
+        self.assertNotIn(LIEN, page)
+
     def test_the_page_it_sends_to_answers_a_stranger(self):
         for chemin in ('/import/text/', '/touch/import/text/'):
             self.assertEqual(200, self.client.get(chemin).status_code, chemin)
@@ -64,7 +74,7 @@ class TheTwoSentencesAreInEveryCatalogueTests(SimpleTestCase):
         import gettext
         import os
         from django.conf import settings
-        for msgid in (QUESTION, LIEN):
+        for msgid in (QUESTION, LIEN, SANS_LIEN):
             vues = set()
             for langue in ('fr', 'es', 'pt', 'de'):
                 phrase = gettext.translation(

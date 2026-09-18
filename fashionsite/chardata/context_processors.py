@@ -223,6 +223,17 @@ def ads(request):
     }
 
 
+def build_sites(request):
+    """Which other build sites the pages may name (chardata/build_sites.py)."""
+    from chardata import build_sites as sites
+    return {'build_sites': {
+        'dofusbook': sites.enabled(sites.DOFUSBOOK),
+        'dofus_stuffer': sites.enabled(sites.DOFUS_STUFFER),
+        'dofuscreator': sites.enabled(sites.DOFUSCREATOR),
+        'links': sites.any_enabled(),
+    }}
+
+
 def changelog(request):
     """The key of the newest changelog entry, for the footer mark."""
     from chardata.changelog_state import newest_entry_key

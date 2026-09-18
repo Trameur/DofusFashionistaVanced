@@ -7236,6 +7236,9 @@ msgstr "Dieses Urteil reist mit dem Build: im kopierten Text, in der öffentlich
 msgid "Your build, in and out"
 msgstr "Dein Build, rein und raus"
 
+msgid "Bring your build in"
+msgstr "Bring deinen Build herein"
+
 msgid "and %(count)d more"
 msgstr "und %(count)d weitere"
 
@@ -7260,14 +7263,26 @@ msgstr "Neues"
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importiere einen ganzen Build: füge Gegenstandsnamen ein, einen Link zu einem öffentlichen Build einer anderen Build-Seite, oder lege pro Teil einen Tooltip-Screenshot ab. Werte und Exos kommen mit."
 
+msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
+msgstr "Importiere einen ganzen Build: füge Gegenstandsnamen ein oder lege pro Teil einen Tooltip-Screenshot ab. Werte und Exos kommen mit."
+
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Füge Gegenstandsnamen, einen Build-Link oder Tooltip-Screenshots ein und erhalte hier denselben Build, Stück für Stück. Es wird nichts neu optimiert, solange du nicht darum bittest."
+
+msgid "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr "Füge Gegenstandsnamen oder Tooltip-Screenshots ein und erhalte hier denselben Build, Stück für Stück. Es wird nichts neu optimiert, solange du nicht darum bittest."
 
 msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
 msgstr "Füge deine Gegenstandsnamen ein, einen Link zu einem öffentlichen Build einer anderen Build-Seite, oder lege Tooltip-Screenshots ab. Alles, was kein Gegenstand ist, wird übersprungen."
 
+msgid "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped."
+msgstr "Füge deine Gegenstandsnamen ein oder lege Tooltip-Screenshots ab. Alles, was kein Gegenstand ist, wird übersprungen."
+
 msgid "One item name per line, or a build link"
 msgstr "Ein Gegenstandsname pro Zeile, oder ein Build-Link"
+
+msgid "One item name per line"
+msgstr "Ein Gegenstandsname pro Zeile"
 
 msgid "Read this"
 msgstr "Das lesen"
@@ -7308,6 +7323,9 @@ msgstr "Dieser Link ist unvollständig oder beschädigt. Kopieren Sie die vollst
 
 msgid "Import it from a link, text or screenshots"
 msgstr "Importiere ihn aus einem Link, Text oder Screenshots"
+
+msgid "Import it from text or screenshots"
+msgstr "Importiere ihn aus Text oder Screenshots"
 
 msgid "Build links our server can read today: %(sites)s."
 msgstr "Build-Links, die unser Server heute lesen kann: %(sites)s."

@@ -7255,6 +7255,9 @@ msgstr "Ese veredicto viaja con el build: en el texto copiado, en la API públic
 msgid "Your build, in and out"
 msgstr "Tu build, de ida y vuelta"
 
+msgid "Bring your build in"
+msgstr "Trae tu build"
+
 msgid "and %(count)d more"
 msgstr "y %(count)d más"
 
@@ -7279,14 +7282,26 @@ msgstr "novedades"
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importa un build entero: pega nombres de objetos, un enlace a un build público de otro sitio de builds, o suelta una captura de descripción por pieza. Los valores y los exos vienen con él."
 
+msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
+msgstr "Importa un build entero: pega nombres de objetos o suelta una captura de descripción por pieza. Los valores y los exos vienen con él."
+
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Pega nombres de objetos, un enlace de build o capturas de descripción y recupera el mismo build aquí, pieza por pieza. Nada se reoptimiza mientras no lo pidas."
+
+msgid "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr "Pega nombres de objetos o capturas de descripción y recupera el mismo build aquí, pieza por pieza. Nada se reoptimiza mientras no lo pidas."
 
 msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
 msgstr "Pega los nombres de tus objetos, un enlace a un build público de otro sitio de builds, o suelta capturas de descripción. Todo lo que no sea un objeto se ignora."
 
+msgid "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped."
+msgstr "Pega los nombres de tus objetos o suelta capturas de descripción. Todo lo que no sea un objeto se ignora."
+
 msgid "One item name per line, or a build link"
 msgstr "Un nombre de objeto por línea, o un enlace de build"
+
+msgid "One item name per line"
+msgstr "Un nombre de objeto por línea"
 
 msgid "Read this"
 msgstr "Leer esto"
@@ -7327,6 +7342,9 @@ msgstr "Ese enlace está incompleto o dañado. Copie de nuevo la dirección comp
 
 msgid "Import it from a link, text or screenshots"
 msgstr "Impórtalo desde un enlace, texto o capturas de pantalla"
+
+msgid "Import it from text or screenshots"
+msgstr "Impórtalo desde texto o capturas de pantalla"
 
 msgid "Build links our server can read today: %(sites)s."
 msgstr "Enlaces de build que nuestro servidor sabe leer hoy: %(sites)s."

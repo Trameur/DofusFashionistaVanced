@@ -62,7 +62,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from datetime import timedelta
 from chardata.solution_result import SolutionResult
-from chardata import dofusbook_export
+from chardata import build_sites, dofusbook_export
 from chardata.util import set_response, get_char_or_raise, get_alias, get_char_encoded_or_raise, \
     HttpResponseText, HttpResponseJson, get_base_stats_by_attr, \
     version_reverse, get_stats_and_scrolled
@@ -929,7 +929,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               # proprietaire et pour les versions dont ils ont un
               # site: dofus2 et beta n'en ont pas, et pointer vers
               # www rendrait un catalogue qui n'est pas le leur.
+              # Et seulement une fois leur accord donne (build_sites.py).
               'dofusbook_export': (not is_guest
+                                   and build_sites.enabled(build_sites.DOFUSBOOK)
                                    and dofusbook_export.supports(
                                        char.game_version)),
               'build_check': build_check,

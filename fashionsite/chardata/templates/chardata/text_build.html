@@ -12,7 +12,7 @@ d'autre, et le lien colle dans un salon portait la phrase generique du site.
 Un moteur et un salon lisent la meme promesse: base.html reprend le titre et
 la description de la page dans son bloc Open Graph.{% endcomment %}
 {% block title %}{% trans "Import a build" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
-{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% if link_sites %}{% trans "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% else %}{% trans "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it." %}{% endif %}{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
@@ -83,7 +83,7 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
     champ nomme les sites que le serveur sait lire, parce que c'est une
     information et pas une enseigne: un lien d'un autre site est rendu
     au lecteur dans la liste des lignes laissees.{% endcomment %}
-    <p class="import-intro">{% trans "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped." %}</p>
+    <p class="import-intro">{% if link_sites %}{% trans "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped." %}{% else %}{% trans "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped." %}{% endif %}</p>
 
     {% if login_problem %}
     <p class="import-error">
@@ -139,10 +139,12 @@ la description de la page dans son bloc Open Graph.{% endcomment %}
         en dur nommerait, pour un lecteur Retro ou allemand, des objets qui
         n'existent pas chez lui.{% endcomment %}
         <textarea name="text" class="import-area pretty-input" autofocus
-                  placeholder="{% trans "One item name per line, or a build link" %}" required>{{ text }}</textarea>
+                  placeholder="{% if link_sites %}{% trans "One item name per line, or a build link" %}{% else %}{% trans "One item name per line" %}{% endif %}" required>{{ text }}</textarea>
         <button type="submit" class="button-generic">{% trans "Read this" %}</button>
     </form>
+    {% if link_sites %}
     <p class="small-explain import-link-note">{% blocktrans with sites=link_sites %}Build links our server can read today: {{ sites }}.{% endblocktrans %}</p>
+    {% endif %}
 
     {% comment %}Same order as the DofusBook import, and for the same reason:
     the gear is shown BEFORE anything is created, so the reader sees what is

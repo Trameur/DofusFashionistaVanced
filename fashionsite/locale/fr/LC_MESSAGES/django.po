@@ -7288,6 +7288,9 @@ msgstr "Ce verdict voyage avec le build : dans le texte copié, dans l’API pub
 msgid "Your build, in and out"
 msgstr "Votre build, dans un sens et dans l’autre"
 
+msgid "Bring your build in"
+msgstr "Importez votre build"
+
 msgid "and %(count)d more"
 msgstr "et %(count)d de plus"
 
@@ -7312,14 +7315,26 @@ msgstr "nouveautés"
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importez un build entier : collez des noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez une capture d’infobulle par pièce. Les jets et les exos suivent."
 
+msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
+msgstr "Importez un build entier : collez des noms d’objets ou déposez une capture d’infobulle par pièce. Les jets et les exos suivent."
+
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Collez des noms d’objets, un lien de build ou des captures d’infobulle et retrouvez le même build ici, pièce par pièce. Rien n’est réoptimisé tant que vous ne le demandez pas."
+
+msgid "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr "Collez des noms d’objets ou des captures d’infobulle et retrouvez le même build ici, pièce par pièce. Rien n’est réoptimisé tant que vous ne le demandez pas."
 
 msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
 msgstr "Collez vos noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez des captures d’infobulle. Tout ce qui n’est pas un objet est ignoré."
 
+msgid "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped."
+msgstr "Collez vos noms d’objets ou déposez des captures d’infobulle. Tout ce qui n’est pas un objet est ignoré."
+
 msgid "One item name per line, or a build link"
 msgstr "Un nom d’objet par ligne, ou un lien de build"
+
+msgid "One item name per line"
+msgstr "Un nom d’objet par ligne"
 
 msgid "Read this"
 msgstr "Lire tout ça"
@@ -7360,6 +7375,9 @@ msgstr "Ce lien est incomplet ou abîmé. Copiez de nouveau l’adresse complèt
 
 msgid "Import it from a link, text or screenshots"
 msgstr "Importez-le depuis un lien, du texte ou des captures d’écran"
+
+msgid "Import it from text or screenshots"
+msgstr "Importez-le depuis du texte ou des captures d’écran"
 
 msgid "Build links our server can read today: %(sites)s."
 msgstr "Liens de build que notre serveur sait lire aujourd’hui : %(sites)s."

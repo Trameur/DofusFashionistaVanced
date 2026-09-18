@@ -6504,6 +6504,9 @@ msgstr ""
 msgid "Your build, in and out"
 msgstr ""
 
+msgid "Bring your build in"
+msgstr ""
+
 msgid "and %(count)d more"
 msgstr ""
 
@@ -6528,13 +6531,25 @@ msgstr ""
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr ""
 
+msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
+msgstr ""
+
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr ""
+
+msgid "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr ""
 
 msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
 msgstr ""
 
+msgid "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped."
+msgstr ""
+
 msgid "One item name per line, or a build link"
+msgstr ""
+
+msgid "One item name per line"
 msgstr ""
 
 msgid "Read this"
@@ -6575,6 +6590,9 @@ msgid "That link is incomplete or damaged. Copy the full address again."
 msgstr ""
 
 msgid "Import it from a link, text or screenshots"
+msgstr ""
+
+msgid "Import it from text or screenshots"
 msgstr ""
 
 msgid "Build links our server can read today: %(sites)s."

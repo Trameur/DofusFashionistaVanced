@@ -31,35 +31,53 @@ What is NOT here, and why (2026-09-11):
   level plus icon id, through POST endpoints, with no published terms.
 """
 
-from chardata import dofusbook_import, dofuscreator_import
+from chardata import build_sites, dofusbook_import, dofuscreator_import
 
 
 def _dofusbook_recognises(url):
+    if dofusbook_import._host_and_path(url)[0] in dofusbook_import.STUFFER_HOSTS:
+        return False
     return (dofusbook_import.parse_stuffer_link(url) is not None
             or dofusbook_import.is_stuffer_path(url)
             or dofusbook_import.parse_link(url) is not None
             or dofusbook_import.is_short_link(url))
 
 
+def _dofus_stuffer_recognises(url):
+    return (dofusbook_import._host_and_path(url)[0] in dofusbook_import.STUFFER_HOSTS
+            and dofusbook_import.parse_stuffer_link(url) is not None)
+
+
+#: (site switch, recognise, read, hosts the page names). A reader whose site
+#: is not enabled (build_sites.py) is not there at all: its links read as
+#: those of any site the server does not know.
 READERS = (
-    (_dofusbook_recognises, dofusbook_import.read_build,
-     ('dofusbook.net', 'dofus-stuffer.is-great.net')),
-    (lambda url: dofuscreator_import.parse_link(url) is not None,
+    (build_sites.DOFUSBOOK, _dofusbook_recognises, dofusbook_import.read_build,
+     ('dofusbook.net',)),
+    (build_sites.DOFUS_STUFFER, _dofus_stuffer_recognises,
+     dofusbook_import.read_build, ('dofus-stuffer.is-great.net',)),
+    (build_sites.DOFUSCREATOR,
+     lambda url: dofuscreator_import.parse_link(url) is not None,
      dofuscreator_import.read_build, ('dofuscreator.com',)),
 )
+
+
+def _readers():
+    return [(reconnait, lit, hotes) for site, reconnait, lit, hotes in READERS
+            if build_sites.enabled(site)]
 
 
 def recognises(url):
     """Whether some reader takes this link (a short link counts: its reader
     is the one that explains why it is refused)."""
-    return any(reconnait(url) for reconnait, _lit, _hotes in READERS)
+    return any(reconnait(url) for reconnait, _lit, _hotes in _readers())
 
 
 def read(url, opener=None):
     """The build behind the link, from the first reader that takes it.
     Raises dofusbook_import.ImportError_ with a reason key, or `not_a_link`
     when no reader takes it."""
-    for reconnait, lit, _hotes in READERS:
+    for reconnait, lit, _hotes in _readers():
         if reconnait(url):
             return lit(url, opener=opener)
     raise dofusbook_import.ImportError_('not_a_link')
@@ -67,4 +85,4 @@ def read(url, opener=None):
 
 def readable_sites():
     """The hosts the page names, in reader order."""
-    return [hote for _r, _l, hotes in READERS for hote in hotes]
+    return [hote for _r, _l, hotes in _readers() for hote in hotes]
