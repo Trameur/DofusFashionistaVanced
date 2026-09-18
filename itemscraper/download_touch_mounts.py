@@ -14,6 +14,11 @@ ids).
 
 Output: touch_raw/mounts.json -> [{ankama_id, name_<lang>, level, stats:[[v,v,Stat]]}]
 get_equipments_touch.py turns these into Pet-slot mount records.
+
+A 404 means Ankama publishes no page for that id (75, 91 and 99 on 2026-09-18,
+in English, French and Spanish alike).
+Any other error is retried, then stops the run with nothing written, and so does
+a scrape that would drop a mount the file already holds, unless --allow-shrink.
 """
 
 from __future__ import annotations
@@ -99,11 +104,45 @@ def parse_effects(html: str):
     return out
 
 
+def make_session():
+    session = requests.Session()
+    session.headers.update({'User-Agent': WEB_UA})
+    return session
+
+
+def fetch(session, url, retries=2, timeout=30):
+    """Return the page html, or None when Ankama publishes no page for this id
+    (404). Anything else is retried, then raised."""
+    last = None
+    for attempt in range(retries + 1):
+        try:
+            resp = session.get(url, timeout=timeout)
+            if resp.status_code == 404:
+                return None
+            resp.raise_for_status()
+            return resp.text
+        except requests.RequestException as exc:
+            last = exc
+            if attempt < retries:
+                time.sleep(1.0 + attempt)
+    raise RuntimeError(f"fetch failed for {url}: {last}")
+
+
+def lost_mounts(previous, current):
+    """[(ankama_id, name_en)] of the mounts `previous` holds and `current` does
+    not: a saved build wearing one would lose its mount slot in silence."""
+    kept = {m['ankama_id'] for m in current}
+    return sorted((m['ankama_id'], m.get('name_en')) for m in previous
+                  if m['ankama_id'] not in kept)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--dest', default='itemscraper/touch_raw')
     parser.add_argument('--delay', type=float, default=0.15, help='Seconds between page fetches')
+    parser.add_argument('--allow-shrink', action='store_true',
+                        help='write even if mounts the file already had are gone')
     args = parser.parse_args(argv)
 
     data_url = resolve_data_url()
@@ -111,21 +150,25 @@ def main(argv=None):
     names, looks = fetch_mount_catalogue(data_url)
     print(f"  {len(names)} mounts in the backend catalogue")
 
-    session = requests.Session()
-    session.headers.update({'User-Agent': WEB_UA})
+    session = make_session()
 
     mounts = []
     no_stats = 0
+    unpublished = []
     unknown = set()
-    for i, (mid, by_lang) in enumerate(sorted(names.items(), key=lambda kv: int(kv[0]))):
+    for mid, by_lang in sorted(names.items(), key=lambda kv: int(kv[0])):
         try:
-            resp = session.get(ENCY_URL % mid, timeout=30)
-            resp.raise_for_status()
-        except Exception as exc:
-            print(f"  ! mount {mid}: encyclopedia fetch failed ({exc})", file=sys.stderr)
+            html = fetch(session, ENCY_URL % mid)
+        except RuntimeError as exc:
+            print(f"  ! mount {mid}: {exc}", file=sys.stderr)
+            print("nothing written.", file=sys.stderr)
+            return 1
+        if html is None:
+            unpublished.append(mid)
+            time.sleep(args.delay)
             continue
         # collect labels we couldn't map, to surface gaps
-        for raw in re.findall(r'<div class="ak-title">(.*?)</div>', resp.text, re.S):
+        for raw in re.findall(r'<div class="ak-title">(.*?)</div>', html, re.S):
             if '<' in raw or ':' in raw:
                 continue
             mm = re.match(r'^-?\d+\s*(%?\s*.+)$', re.sub(r'\s+', ' ', raw).strip())
@@ -133,7 +176,7 @@ def main(argv=None):
                     and not mm.group(1).strip().isdigit():
                 unknown.add(re.sub(r'\s+', ' ', mm.group(1)).strip())
 
-        stats = parse_effects(resp.text)
+        stats = parse_effects(html)
         if not stats:
             no_stats += 1
             continue
@@ -151,11 +194,21 @@ def main(argv=None):
             'look': looks.get(mid),
         })
         time.sleep(args.delay)
+    if unpublished:
+        print(f"  not published by Ankama (404), no stats to read: mounts "
+              f"{', '.join(unpublished)}")
 
     dest = Path(args.dest)
+    out = dest / 'mounts.json'
+    if out.exists() and not args.allow_shrink:
+        lost = lost_mounts(json.loads(out.read_text(encoding='utf-8')), mounts)
+        if lost:
+            print(f"the scrape lost {len(lost)} mount(s) mounts.json already had: "
+                  + ', '.join(f"{name} ({mid})" for mid, name in lost))
+            print("nothing written. Pass --allow-shrink if Ankama really dropped them.")
+            return 1
     dest.mkdir(parents=True, exist_ok=True)
-    (dest / 'mounts.json').write_text(json.dumps(mounts, ensure_ascii=False, indent=4),
-                                      encoding='utf-8')
+    out.write_text(json.dumps(mounts, ensure_ascii=False, indent=4), encoding='utf-8')
     print(f"Wrote {len(mounts)} mounts with stats to {dest / 'mounts.json'} "
           f"({no_stats} had no published effects).")
     if unknown:
