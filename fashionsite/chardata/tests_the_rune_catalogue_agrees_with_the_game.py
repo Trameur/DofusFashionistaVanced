@@ -1,56 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le catalogue des runes de transcendance, confronte aux donnees du jeu.
-
-Ce catalogue vient de DofusDB, une source communautaire, et la politique du
-site est de ne s'en servir qu'a defaut de premiere main. Or Ankama repond a
-la meme question: le client Dofus 2.73 embarque sa propre table de textes, et
-elle nomme ces runes une par une.
-
-**Mesure du 13 septembre 2026, deux sources independantes.**
-
-| rang | catalogue DofusDB | client 2.73 d'Ankama |
-|------|------------------:|---------------------:|
-| Ta   |                36 |               **36** |
-| Pata |                25 |               **25** |
-| Rata |                20 |               **20** |
-
-Elles disent exactement la meme chose, rang par rang. Ce n'est donc plus une
-donnee communautaire qu'on croit sur parole, c'est une donnee corroboree par
-le jeu lui-meme, et ces tests le maintiennent: un re-scrape qui ramenerait
-autre chose serait dementi par Ankama avant d'atteindre le site.
-
-**La regle de version, verifiee sur chaque jeu.** Le site n'offre ces runes
-qu'a Dofus 3, la Beta et Dofus 2. Les deux autres versions ont ete lues dans
-leurs propres fichiers le 13 septembre 2026:
-
-- Touch: 309 occurrences du mot <<rune>> dans `Items_fr.json`, **aucune
-  transcendance**;
-- Retro: 325 dans `items_fr.json` du client 1.29, **aucune transcendance**.
-
-Les deux comptent bien des runes de forgemagie, donc ce zero est une absence
-et pas une recherche qui aurait rate son fichier. Retro n'est pas garde ici:
-le depot n'embarque aucun fichier brut de Retro, et un test ne peut pas
-mesurer ce qui n'est pas la. Sa moitie du constat reste ce paragraphe, avec
-sa date.
-
-**Et les noms.** `solution_result.py` portait la phrase <<Ankama names its
-runes in French in every client>>, et le code la suivait: les cinq langues
-recevaient le nom francais. Les cinq tables du client 2.73 la demontent, sur
-les 81 runes et sans une exception:
-
-| fr | en | es | pt | de |
-|----|----|----|----|----|
-| Rune Ta Ine | Tra Int Rune | Runa Ta Inte | Runa Ta Int | Tra-Int-Rune |
-| Rune Pata Fo | Pa Tra Str Rune | Runa Buta Fu | Runa Pata For | Pa-Tra-Kra-Rune |
-
-Un lecteur anglais qui cherchait <<Rune Ta Ine>> dans son propre client ne
-trouvait rien. Les **405 noms** (81 runes, cinq langues) ont ete confrontes
-aux deux sources le 13 septembre 2026: **zero desaccord**.
-
-Noter que l'espagnol renomme jusqu'au rang, Ta/Buta/Suta la ou le francais dit
-Ta/Pata/Rata. Le rang reste donc lu sur le nom francais, qui est une cle et
-non une etiquette; un test plus bas le fixe.
-"""
+"""The transcendence rune catalogue matches the Dofus 2.73 client."""
 
 import io
 import json
@@ -60,19 +9,15 @@ import re
 from django.test import SimpleTestCase, TestCase
 from django.utils.translation import override
 
-#: Ce que les deux sources doivent dire, rang par rang. Un total ne suffirait
-#: pas: 81 se repartit de beaucoup de facons, et c'est la repartition qui dit
-#: que les deux tables parlent des memes objets.
+# Runes per rank
 _RANGS_ATTENDUS = {'Ta': 36, 'Pata': 25, 'Rata': 20}
 
-#: Ce que le client Touch porterait s'il connaissait la mecanique.
+# Names Touch would carry if it had transcendence
 _MARQUEURS = ('Rune Ta ', 'Rune Pata', 'Rune Rata')
 
-#: Les cinq langues que le site sert, et dans lesquelles Ankama nomme
-#: chacune de ces runes differemment.
+# Ankama names each rune differently in every language
 LANGUES_JEU = ('fr', 'en', 'es', 'pt', 'de')
 
-#: Le bloc de configuration que la page remet a son JavaScript.
 _CONFIG = re.compile(
     r'<script[^>]*\bid="fm-config"[^>]*>(.*?)</script>', re.S)
 
@@ -104,10 +49,7 @@ def _rangs_du_catalogue():
 
 
 def _rangs_du_client_dofus2():
-    """Ce qu'Ankama nomme, dans la table de textes du client 2.73.
-
-    Le fichier fait 31 Mo et se lit en 0,29 s; le comptage prend 0,027 s.
-    """
+    """Runes per rank in the 2.73 client's text table."""
     chemin = os.path.join(_racine_depot(), 'itemscraper', 'raw', '2.73.3.14',
                           'fr.json')
     with io.open(chemin, encoding='utf-8') as f:
@@ -129,16 +71,10 @@ class TheCatalogueAgreesWithAnkamasOwnClientTests(SimpleTestCase):
         self.assertEqual(81, len(_catalogue()['runes']))
 
     def test_ankamas_own_client_names_exactly_the_same_runes(self):
-        """La corroboration elle-meme.
-
-        Si un re-scrape ramene un autre compte, c'est le jeu qui le dement,
-        pas une valeur qu'on aurait recopiee a cote.
-        """
         self.assertEqual(_RANGS_ATTENDUS, _rangs_du_client_dofus2())
 
     def test_the_two_sources_are_really_two(self):
-        """Sans ce garde, les deux tests ci-dessus pourraient lire le meme
-        fichier et s'accorder avec eux-memes."""
+        """The two tests above must not read the same file."""
         chemin = os.path.join(_racine_depot(), 'itemscraper', 'raw',
                               '2.73.3.14', 'fr.json')
         self.assertTrue(os.path.exists(chemin), 'the 2.73 text table is gone')
@@ -152,8 +88,6 @@ class OnlyTheVersionsWithTheMechanicOfferItTests(SimpleTestCase):
                               'Items_fr.json')
         with io.open(chemin, encoding='utf-8', errors='replace') as f:
             texte = f.read()
-        # Le plancher du temoin: Touch a bien des runes de forgemagie, donc
-        # un zero sur les marqueurs est une absence et non un fichier rate.
         self.assertGreater(texte.lower().count('rune'), 100,
                            'this file carries no rune at all, so the zero '
                            'below would prove nothing')
@@ -172,11 +106,9 @@ class OnlyTheVersionsWithTheMechanicOfferItTests(SimpleTestCase):
 
 
 class TheRunesTakeTheNameTheReadersClientGivesThemTests(SimpleTestCase):
-    """La phrase <<Ankama names its runes in French in every client>> etait
-    fausse, et c'est elle qui avait produit l'affichage."""
 
     def _noms_ankama(self):
-        """{nom francais: {langue: nom}} depuis le client 2.73."""
+        """{French name: {language: name}} from the 2.73 client."""
         tables = {}
         for langue in LANGUES_JEU:
             chemin = os.path.join(_racine_depot(), 'itemscraper', 'raw',
@@ -201,7 +133,6 @@ class TheRunesTakeTheNameTheReadersClientGivesThemTests(SimpleTestCase):
         self.assertFalse(vides, 'runes with a missing name: %s' % vides[:6])
 
     def test_ankamas_own_client_confirms_all_four_hundred_and_five(self):
-        """La corroboration, nom par nom et langue par langue."""
         ankama = self._noms_ankama()
         self.assertEqual(81, len(ankama))
         desaccords, verifies = [], 0
@@ -221,8 +152,6 @@ class TheRunesTakeTheNameTheReadersClientGivesThemTests(SimpleTestCase):
                          % desaccords[:4])
 
     def test_every_rune_is_renamed_by_the_game_in_every_language(self):
-        """Le fait qui justifie tout le lot. S'il cessait d'etre vrai, cette
-        traduction deviendrait du bruit et il faudrait le savoir."""
         pareils = [rune['name']['fr'] for rune in _catalogue()['runes']
                    if len(set(rune['name'][l] for l in LANGUES_JEU)) == 1]
         self.assertFalse(
@@ -231,8 +160,7 @@ class TheRunesTakeTheNameTheReadersClientGivesThemTests(SimpleTestCase):
             'them changes nothing: %s' % pareils[:4])
 
     def test_the_rank_is_read_in_french_because_it_is_a_key(self):
-        """L'espagnol dit Ta/Buta/Suta. Lire le rang dans la langue du lecteur
-        laisserait toutes les runes espagnoles sans rang."""
+        """Spanish ranks are Ta/Buta/Suta."""
         source = _source_du_scraper()
         self.assertIn('.get("fr")', source)
         espagnols = set()
@@ -277,13 +205,7 @@ class ThePagesNameTheRuneInTheReadersLanguageTests(TestCase):
                     'the page still serves the French names to %s' % langue)
 
     def test_the_chip_says_the_stat_in_the_readers_language_too(self):
-        """La pastille est une phrase: <<nom (+bonus stat, poids)>>.
-
-        Le catalogue porte le libelle francais de la stat, et la pastille
-        l'affichait tel quel: un lecteur allemand lisait <<Tra-Vi-Rune (+50
-        Vitalite - Gewicht 40)>>, deux langues en six mots. Traduire le nom
-        sans l'etiquette aurait laisse la phrase a moitie faite.
-        """
+        """The catalogue stores the stat label in French."""
         vus = {}
         for langue in LANGUES_JEU:
             config = self._config(langue)
@@ -296,7 +218,6 @@ class ThePagesNameTheRuneInTheReadersLanguageTests(TestCase):
 
     def test_the_build_page_names_the_suggested_rune_in_the_readers_language(
             self):
-        """La page du build annonce une rune conseillee par piece."""
         from chardata.solution_result import attach_transcendence
         from fashionistapulp.structure import set_current_game_version
 

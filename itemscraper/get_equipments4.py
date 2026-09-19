@@ -18,21 +18,61 @@ import argparse
 import io
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
 import requests
 from PIL import Image, ImageChops, ImageStat
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'fashionistapulp'))
 
 from fashionistapulp.fashion_util import normalize_name, safe_icon_name
+
+# On 2026-09-15 one TLS handshake out of the Dofus 3 run was aborted by the host
+# (WinError 10053) and the exception took the whole step down, every image after
+# it included. requests.get had no timeout either, so a stalled read could hold
+# the pipeline until something outside killed it.
+REQUEST_TIMEOUT = 30
+
+# Dofus 2's art is on Ankama's own CDN, under the icon id that the dofusdude
+# mirror's urls carry (/img/item/6007-200.png). Same drawing, first hand; the
+# mirror stays as the fallback.
+ANKAMA_DOFUS2_ICON = 'https://static.ankama.com/dofus/www/game/items/200/%s.png'
+_MIRROR_ICON_ID = re.compile(r'/img/item/(\d+)(?:-\d+)?\.png$')
+
+
+def source_urls(item, game_version):
+    """The urls to try for an item's picture, first hand first."""
+    urls = []
+    if game_version == 'dofus2':
+        match = _MIRROR_ICON_ID.search(item.get('image_url') or '')
+        if match:
+            urls.append(ANKAMA_DOFUS2_ICON % match.group(1))
+    for url in (item.get('image_url'), item.get('image_url_fallback')):
+        if url and url not in urls:
+            urls.append(url)
+    return urls
 
 
 def sanitize_filename(name):
     # The runtime looks icons up under safe_icon_name(normalize_name(item)),
     # so the files must be written under that exact name.
     return safe_icon_name(normalize_name(name))
+
+
+def make_session():
+    """One connection for the whole run, retried when it drops."""
+    session = requests.Session()
+    retry = Retry(total=3, connect=3, read=3, backoff_factor=1,
+                  status_forcelist=(429, 500, 502, 503, 504),
+                  allowed_methods=('GET',))
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('https://', adapter)
+    session.mount('http://', adapter)
+    return session
 
 
 def images_differ(existing_path, new_content, threshold=0.01):
@@ -55,12 +95,24 @@ def images_differ(existing_path, new_content, threshold=0.01):
         return True
 
 
-def download_image(url, filename, threshold=0.01):
-    response = requests.get(url)
+def fetch_image(session, url):
+    """(bytes, False) when fetched, (None, False) when the source answered
+    without an image, (None, True) when the connection itself failed."""
+    try:
+        response = session.get(url, timeout=REQUEST_TIMEOUT)
+    except requests.RequestException as exc:
+        print(f"Failed to download {url}: {exc}")
+        return None, True
     if response.status_code != 200:
+        # The source is up and has nothing there: item 1332 answers 404 on
+        # both Dofus 3 and the beta. That never failed a run before, and it
+        # must not now, or every run reads FAILED and nobody looks any more.
         print(f"Failed to download {url}: HTTP {response.status_code}")
-        return False
-    new_content = response.content
+        return None, False
+    return response.content, False
+
+
+def store_image(new_content, filename, threshold=0.01):
     if not images_differ(filename, new_content, threshold):
         print(f"Skipping {filename}: change below {threshold * 100:.2f}%.")
         return False
@@ -68,6 +120,13 @@ def download_image(url, filename, threshold=0.01):
     with open(filename, 'wb') as file:
         file.write(new_content)
     return True
+
+
+def download_image(url, filename, threshold=0.01, session=None):
+    new_content, _ = fetch_image(session or make_session(), url)
+    if new_content is None:
+        return False
+    return store_image(new_content, filename, threshold)
 
 
 def main():
@@ -93,8 +152,11 @@ def main():
         os.path.join(current_directory, '../fashionsite/chardata/static/chardata/'),
     ]
 
+    session = make_session()
     total = len(data)
     count = 0
+    missing = 0
+    failed = 0
     last_percentage = -1
     print(f"Total images to download: {total}")
     for item in data:
@@ -105,13 +167,28 @@ def main():
             if original_name != sanitized_name:
                 print(f"Filename modified: {original_name} -> {sanitized_name}")
 
-            for target_directory in target_directories:
-                _MOUNT_TYPES = ('Petsmount', 'Pet', 'Dragoturkey', 'Seemyool', 'Rhineetle',
-                                'Dragodinde', 'Muldo', 'Volkorne', 'Mount')
-                type_subdir = "pets/" if any(t in item.get('w_type', '') for t in _MOUNT_TYPES) else "items/"
-                directory = os.path.join(target_directory, type_subdir, version_subdir)
-                filename = os.path.join(directory, sanitized_name)
-                download_image(image_url, filename)
+            # Both directories hold the same file, so it is fetched once. The
+            # next url is another source or another size of the same artwork
+            # (see image_url_fallback in get_equipments2.py), tried only when
+            # this one answered without it: a dropped connection fails the item.
+            new_content, connection_failed = None, False
+            for url in source_urls(item, game_version):
+                new_content, connection_failed = fetch_image(session, url)
+                if new_content is not None or connection_failed:
+                    break
+            if new_content is None:
+                if connection_failed:
+                    failed += 1
+                else:
+                    missing += 1
+            else:
+                for target_directory in target_directories:
+                    _MOUNT_TYPES = ('Petsmount', 'Pet', 'Dragoturkey', 'Seemyool', 'Rhineetle',
+                                    'Dragodinde', 'Muldo', 'Volkorne', 'Mount')
+                    type_subdir = "pets/" if any(t in item.get('w_type', '') for t in _MOUNT_TYPES) else "items/"
+                    directory = os.path.join(target_directory, type_subdir, version_subdir)
+                    filename = os.path.join(directory, sanitized_name)
+                    store_image(new_content, filename)
 
             count += 1
             percentage = int((count / total) * 100)
@@ -119,6 +196,13 @@ def main():
                 print(f"Progress: {percentage}%")
                 last_percentage = percentage
 
+    if missing:
+        print(f"{missing} of {total} images are not at the source.")
+    if failed:
+        print(f"{failed} of {total} images could not be downloaded.")
+        return 1
+    return 0
+
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

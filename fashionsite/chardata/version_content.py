@@ -14,29 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Telling a version's page apart from the live one, by its data.
-
-Every item exists once per game version, and each gets its own url. Measured
-across the catalogues, most of those really are different pages -- recipes and
-set bonuses diverge far more than the stats do:
-
-    beta     3796 of 3826 items identical to Dofus 3   (99.2%)
-    dofus2    531 of 3314                              (16.0%)
-    touch      48 of 2303                              ( 2.1%)
-    retro      51 of 1774                              ( 2.9%)
-
-So Dofus 2, Touch and Retro are genuinely different games and deserve their own
-pages. Beta is not: it mirrors the live version until a patch lands, and 3796
-of its item pages say exactly what the Dofus 3 page says.
-
-A page that repeats another should say so, rather than claim to be its own. The
-comparison is on the data rather than on the version name, so the day beta
-diverges its pages become canonical in their own right without anyone changing
-a setting.
-
-Counting stats alone would have called 81.8% of Dofus 2 a duplicate and merged
-away some three thousand pages that differ by their recipe.
-"""
+"""Tell whether a version's item page repeats the Dofus 3 one, by its data."""
 
 import hashlib
 import sqlite3
@@ -44,8 +22,6 @@ import time
 
 from fashionistapulp.fashionista_config import get_items_db_path
 
-#: Rebuilt at most this often. The catalogues only change when the update
-#: pipeline runs, so anything shorter is wasted work.
 _TTL = 6 * 3600
 
 _CACHE = {}
@@ -92,18 +68,7 @@ def _signatures(version):
             type_names = dict(cursor.execute('SELECT id, name FROM item_types'))
 
         signatures = {}
-        # An ankama id is not unique: pets and mounts ship one row per stat
-        # variant -- 'Bow Meow', 'Bow Meow (+80 Strength)', and so on -- each
-        # its own page under its own slug. Measured on the catalogues, 110 ids
-        # in Touch and 48 in Retro carry several rows, up to eleven.
-        #
-        # Keyed on (type, id) alone, the last row read would win and answer for
-        # all of its siblings, so one arbitrary variant could declare ten real
-        # pages copies of the live version. Nothing does today -- Touch and
-        # Retro collapse nothing at all -- but the answer would be a coin toss
-        # the day it mattered. An ambiguous id is dropped instead, which routes
-        # it to the same 'unknown, so not a copy' path an unreadable catalogue
-        # takes: doubt is resolved in the page's favour, as everywhere here.
+        # Pets and mounts share one ankama id across stat variants
         ambiguous = set()
         for item_id, ankama_type, ankama_id, level, kind, item_set, name in cursor.execute(
                 'SELECT id, ankama_type, ankama_id, level, type, item_set, name '
@@ -136,36 +101,14 @@ def _cached_signatures(version):
     try:
         signatures = _signatures(version)
     except Exception:
-        # A catalogue that will not open is not a reason to break a page: the
-        # variant simply stays canonical in its own right, as it was before.
+        # Unreadable catalogue: the page stays canonical
         signatures = {}
     _CACHE[version] = (now, signatures)
     return signatures
 
 
 def repeats_the_live_version(game_version, ankama_type, ankama_id):
-    """True when this version's item page says what the Dofus 3 page says.
-
-    The picture counts, and counts most. This is a gear *appearance*
-    optimizer: two pages carrying the same numbers but a different render are
-    two different pages to the people who come here, whatever a text
-    comparison would conclude. Measured on the catalogues, the picture is what
-    separates them nearly everywhere --
-
-        beta    3358 of the 3796 that match on data carry another picture
-        touch     48 of 48                          -- every one of them
-        retro     51 of 51                          -- every one of them
-        dofus2     1 of 531
-
-    -- so a comparison that skipped it would have merged 3458 pages that show
-    a different item. It is checked with the same function that renders the
-    page, so the two cannot drift apart.
-
-    False whenever the answer is not certain: an unknown item, an unreadable
-    catalogue. Claiming a page is a copy when it is not costs its indexing,
-    while missing a duplicate costs only some crawl budget, so doubt is
-    resolved in the page's favour.
-    """
+    """True when the page repeats the Dofus 3 one, picture included. False if unsure."""
     if not game_version or game_version == 'dofus3':
         return False
 

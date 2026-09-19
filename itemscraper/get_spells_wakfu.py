@@ -1,62 +1,7 @@
 #!/usr/bin/env python3
-"""Collect the Wakfu spells from Ankama's encyclopedia, every level of them.
+"""Collect the Wakfu spells, every level, from Ankama's encyclopedia.
 
     python get_spells_wakfu.py [--lang fr] [--classes 8] [--limit 3]
-
-WHY NOT THE CDN. Ankama's game data feed publishes items and crafting and
-nothing else: classes.json, breeds.json, spells.json and monsters.json all
-answer 403 (see get_items_wakfu.py). The encyclopedia publishes the lot, and
-it is the same company, so this is a first-party source and not a fan mirror.
-
-WHAT A SPELL PAGE CARRIES. Each one embeds a single JSON object, in the
-largest inline script on the page, keyed by spell level from 1 to 245:
-
-    store_PA        the AP cost at that level
-    store_PM        the MP cost, absent when the spell costs none
-    store_PW        the WP cost, same
-    store_PO        the range, as the string the game shows, "1 - 4"
-    normalEffect    the effect line as HTML, at that level
-    criticalEffect  the same on a critical hit
-
-So ONE fetch gives all 245 levels of a spell. Nothing is loaded on demand, the
-level selector only shows and hides what is already there. The Iop's Celestial
-Sword goes from 2 damage at level 1 to 65 at 245, and 81 on a critical.
-
-THE ELEMENT IS IN AN IMAGE FILENAME, which sounds fragile and is the only
-place it exists: the effect HTML reads
-
-    Dommage <img src=".../element/FIRE.png" /> : 65
-
-There is no textual element anywhere in the line, in any language, so the
-filename is not a shortcut, it is the data. FIRE, WATER, EARTH and AIR are the
-four gear can buy; HLINE is a separator and enemy/caster mark who a clause
-applies to.
-
-LIGHT IS A FIFTH ONE AND IT IS REAL. 39 of the 715 spells deal it, across 12
-of the 18 classes, and Ankama's own actions.json declares "Dommage : Lumiere"
-as action 1083, marked [el6]. No item in the game grants Light mastery or Light
-resistance, so a spell that deals it cannot be scaled by gear; see
-wakfu_stats.DAMAGE_ELEMENTS_NO_GEAR_SELLS.
-
-This is also why a spell's BRANCH and its damage element can honestly disagree.
-Eight Huppermage spells sit in a fire, water, earth or air block and deal
-Light. Nothing is mis-parsed there, and a check that insists the two match
-would be wrong rather than strict.
-
-245 LEVELS IS ALSO THE CHARACTER CAP, which is worth knowing on its own: the
-selector runs 1 to 245 and the item catalogue tops out at level 245 too.
-
-Effect lines that this cannot read are COUNTED AND PRINTED rather than
-dropped, the same way get_items_wakfu.py reports the actions it cannot name.
-A spell whose damage nobody could parse is a spell the site would show as
-harmless.
-
-THE FILE IS 68 MB A LANGUAGE AND ALMOST ALL OF IT IS REPETITION, which the
-step that puts this in a database should know before it copies it row for row:
-708 of the 715 spells carry ONE text template across all 245 levels, with only
-the numbers moving. Seven change template, and even those only gain a figure.
-So the compact form is the template once and the numbers per level, not the
-sentence 245 times.
 """
 
 from __future__ import annotations
@@ -78,8 +23,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent.parent
 
-# The four Wakfu is played in. German has never existed for this game and
-# falls back to English, like every other Wakfu string.
+# The CDN answers 403 on spells.json, the encyclopedia has them
+# No German for Wakfu, it falls back to English
 PATHS = {
     'fr': 'fr/mmorpg/encyclopedie/classes',
     'en': 'en/mmorpg/encyclopedia/classes',
@@ -95,64 +40,28 @@ BROWSER = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
            ' (KHTML, like Gecko) Chrome/120 Safari/537.36')
 PACE = 0.35
 
-# The class slug can be EMPTY. The Ouginak, class 15, links its spells as
-# ".../classes/15-/6260-emeute" on Ankama's own page, so the slug part has to
-# be allowed to be nothing at all. Requiring one character silently lost every
-# spell of that class, and only that class.
+# The class slug can be empty: the Ouginak links ".../classes/15-/6260-emeute"
 SPELL_LINK = re.compile(
     r'<a href="(/[a-z]{2}/mmorpg/[^"/]+/[^"/]+/(\d+)-[a-z0-9\-]*/(\d+)-[a-z0-9\-]*)"'
     r'[^>]*class="ak-elementary-spell[^"]*"[^>]*title="([^"]*)"')
 ELEMENT_BLOCK = re.compile(r'class="ak-elementary-spell-([a-z]+)"')
+# Every level of the spell is in this one JSON object
 BIG_SCRIPT = re.compile(r'<script type="application/json">\s*(\{"store_PA".*?)</script>',
                         re.S)
-# A row reads "<label> <element image> : <value>", and all three parts need
-# care.
-#
-# THE LABEL SAYS WHAT THE NUMBER IS, and it is the only thing that does. "Soin"
-# and "Dommage" produce identical markup, so reading the image and the number
-# alone turned every heal into damage. The Sadida's Priere Sadida was recorded
-# as dealing 4 damage when it heals 4.
-#
-# A few words may stand between the colon and the number, and which words
-# depends on the language: French writes "Dommages : 32 supplementaires" while
-# English writes "damage: additional 32". Demanding a digit right after the
-# colon read the French and silently dropped the English, which made one spell
-# out of 706 carry different damage in two languages and looked like Ankama
-# contradicting itself. It was not.
-#
-# The pattern must never cross a tag. An earlier one let the element bind to a
-# colon further down the line, so the Iop's Posture came back dealing 500 in
-# three elements when it grants 25 armour and its element images mark STATES.
+# The element is only in the image filename, element/FIRE.png
 ELEMENT_IMAGE = re.compile(r'element/([A-Za-z]+)\.png')
 
-# What follows an element image: an optional label, the colon, then the number.
-# The label can be SEVERAL words, and taking only the last one reads three
-# languages and misses the fourth: Portuguese writes "Dano de <image> : 101"
-# and "Cura de <image> : 33", so the last word is "de" and says nothing. A few
-# words may also stand between the colon and the number, and which ones depends
-# on the language again: "Dommages : 32 supplementaires" against "damage:
-# additional 32".
+# Labels can be several words, Portuguese writes "Dano de <img> : 101"
 WORDS = re.compile(r"[A-Za-zÀ-ÿ']{2,20}")
-#
-# A trailing per cent sign changes what the number IS. "Dommage : 10 % des PV
-# courants du lanceur" is not ten damage, and recorded as ten it would sit in
-# the data looking like the smallest hit in the game. Two spells do this,
-# Entaille and Sang brulant, and both were found by a test asking why their
-# damage did not grow with the level rather than by anything visible.
+# Words can precede the number, and a trailing % is not damage
 FIGURE = re.compile(
     r"\s*((?:[A-Za-zÀ-ÿ']{2,20}\s+){0,2}[A-Za-zÀ-ÿ']{2,20})?\s*:"
     r"\s*[^\d:]{0,24}?(-?\d+)\s*(%)?")
 
-# The six that are elements. The other fifteen images in that directory are
-# decoration: enemy, caster, ally and fighter mark who a clause applies to,
-# CROSS, VLINE, HLINE, CIRCLE, CIRCLERING, RECTANGLERING, CONE and SMALLT are
-# area shapes, glyph, barrel and shield are objects, and b.png is a bold
-# marker. Reading them as elements is how a spell ends up dealing damage in an
-# element called SHIELD.
+# The other images there are target marks, area shapes and objects
 ELEMENTS_IN_IMAGES = ('FIRE', 'WATER', 'EARTH', 'AIR', 'LIGHT', 'PHYSICAL')
 
-# The words in front of the image, in the four languages Wakfu is played in.
-# Anything else is kept with its label and counted, never guessed at.
+# Heal and damage rows have the same markup, only the label tells them apart
 DAMAGE_WORDS = frozenset((
     'dommage', 'dommages', 'damage', 'damages',
     'dano', 'danos', 'daño', 'daños'))
@@ -163,25 +72,13 @@ SELECTOR_MAX = re.compile(r'class="ak-level-selector-max"[^>]*>\s*(\d+)')
 
 
 def fingerprint():
-    """What produced a harvest, so two of them can be told apart.
-
-    A harvest of four languages takes over an hour and rewrites them one after
-    another, so for most of that hour one file was read by a different version
-    of this script than the rest. Comparing them then says nothing about
-    Ankama and everything about the clock.
-
-    An earlier attempt used the SHAPE of a row as the fingerprint, and it
-    worked until the day a change altered what the parser decided without
-    altering what it stored. The whole source is hashed instead: any change at
-    all gives a new fingerprint, which is the honest answer, since any change
-    at all may alter a reading.
-    """
+    """Hash of this script, to tell harvests read by other versions apart."""
     with io.open(__file__, 'rb') as handle:
         return hashlib.sha256(handle.read()).hexdigest()[:16]
 
 
 def opener():
-    """A reader with a cookie jar: the site answers a bare request with a loop."""
+    """Opener with a cookie jar, the site redirects in a loop without one."""
     jar = http.cookiejar.CookieJar()
     built = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
     built.addheaders = [('User-Agent', BROWSER)]
@@ -189,15 +86,7 @@ def opener():
 
 
 class _Readable(HTMLParser):
-    """The text of a fragment, by parsing it rather than by pattern.
-
-    Written with a parser on purpose. Cutting tags out with a regexp is the
-    classic way to be wrong about markup, because a pattern cannot tell a real
-    tag from the same characters inside an attribute, and a `<script>` that
-    does not close the way the pattern expects survives the cut. Ankama's
-    effect lines embed script tags carrying tooltip JSON, so this is not
-    hypothetical here.
-    """
+    """Text of a fragment, without the tooltip scripts in effect lines."""
 
     SILENT = ('script', 'style')
 
@@ -258,35 +147,11 @@ class _Tokens(HTMLParser):
 
 
 def _words_before(items, at):
-    """The last words of the text just before position `at`.
-
-    Walks back over SEVERAL runs of text, because a tag can cut a label in
-    two. French writes "Dommages supplementaires <img> : 1" with the second
-    word inside its own element, so the run touching the image holds only
-    "supplementaires", which is an adjective and matches nothing. Reading one
-    run dropped those rows in French, Spanish and Portuguese while English,
-    which puts its label after the image, kept them: the two languages then
-    disagreed on a number, which is how it was found.
-
-    NO IMAGE STOPS THE WALK, and the reason is not laziness. Ankama stacks
-    several element images against one figure when the element is decided at
-    cast time: the Ouginak's Collisions regenerantes reads
-
-        Soin <img FIRE><img WATER><img AIR> : 8 par PA du sort
-        - L element du soin depend du sort
-
-    so the three images and the single "8" are ONE row, and stopping at the
-    first of them left it with no label at all. Decorations sit in the middle
-    too, "sur les <img ally> allies", and they belong to no row.
-
-    The walk stops at the first word that SAYS something, which is what keeps
-    it from reaching into the row before. "Dommage <img FIRE> : 98 Soin <img
-    WATER> : 53" gave the heal both words otherwise, and a row labelled
-    "Dommage Soin" counts as damage and as healing at once.
-    """
+    """Last words before `at`, across tags, up to a damage or heal word."""
     words = []
     known = DAMAGE_WORDS | HEAL_WORDS
     for kind, value in reversed(items[:at]):
+        # Several element images can share one figure
         if kind == 'element':
             continue
         words = WORDS.findall(value) + words
@@ -295,52 +160,18 @@ def _words_before(items, at):
     return ' '.join(words[-3:])
 
 
-# Ankama introduces a conditional row with ": -", and punctuation is the same
-# in every language. "Si la cible est Bastonne : - Dommage <img> : 250" is a
-# row that only lands sometimes; "Se rapproche de la cible Dommage <img> : 121"
-# always does.
-#
-# The label may sit between the colon and the image, as it does in French, so
-# it is allowed for and skipped: what must end the run is the colon and the
-# dash, not the word.
-#
-# At most THREE words may stand between the dash and the figure, which is as
-# many as a label ever has. Allowing thirty characters of anything let "form:
-# - Moves closer to the target Damage" read as a condition, and English then
-# disagreed with French about a spell that always lands.
-#
-# How much may stand between them depends on WHERE the label is. English
-# writes "<img> Damage: 90", so its label is on the far side and NOTHING
-# should sit between the dash and the image; allowing three words there read
-# "form: - Switches places <img> Damage: 90" as a condition. French and
-# Portuguese write "- Dommage <img> : 90", so the label itself stands in the
-# gap and must be allowed for. Portuguese also doubles the colon, "Dano: :
-# 90", so the label may end with one.
+# A conditional row starts with ": -", in every language
+# English puts the label after the image, French before it
 INTRODUCED_BARE = re.compile(r":\s*-\s*$")
 INTRODUCED = re.compile(
     r":\s*-\s*(?:[A-Za-zÀ-ÿ']{2,20}\s+){0,2}[A-Za-zÀ-ÿ']{0,20}\s*:?\s*$")
 
-# How far back to look for it. Long enough to cross a bold marker and a target
-# icon, short enough not to reach the row before.
+# Enough to cross a bold marker and a target icon, not the row before
 INTRODUCTION_REACH = 60
 
 
 def _is_conditional(items, at, label_after=None):
-    """Whether the row at `at` only lands when something else is true.
-
-    Read from the punctuation and not from the words. A first attempt looked
-    for "Si", "If", "Cuando" and their friends anywhere before the figure, and
-    the four languages disagreed on 59 spells out of 286: Portuguese says
-    "Troca de lugar" for switching places, and "lugar" was in the list as the
-    Spanish for "instead". A marker word can appear by accident. Punctuation
-    does not translate.
-
-    The ": -" is not always in the run of text next to the figure. Ankama puts
-    a bold marker or a target icon in the middle of it, so "current hour:" and
-    "- " arrive as two separate runs with an image between them. Reading only
-    the nearest run missed those, in one language and not the other, which is
-    how it was found.
-    """
+    """Whether the row at `at` only lands on a condition (": -")."""
     tail = ''
     for kind, value in reversed(items[:at]):
         if kind == 'element':
@@ -353,17 +184,7 @@ def _is_conditional(items, at, label_after=None):
 
 
 def _pick_label(before, after):
-    """Which side of the image says what the number is.
-
-    Not both at once, which was the first attempt and was worse than either:
-    in English "<img FIRE> Damage: 65 <img LIGHT> Healing: 26", the words
-    before the second image are "Damage", so joining the two sides labelled a
-    HEAL as damage as well and it was counted twice.
-
-    So the side that says something wins, and the join is only the last
-    resort, for the case that needs it: French writes "Dommages <img>
-    supplementaires : 30", where neither side alone is a word this knows.
-    """
+    """The side of the image with a damage or heal word, else both joined."""
     for candidate in (after, before, '%s %s' % (before or '', after or '')):
         words = {word.lower() for word in WORDS.findall(candidate or '')}
         if words & DAMAGE_WORDS or words & HEAL_WORDS:
@@ -372,23 +193,7 @@ def _pick_label(before, after):
 
 
 def effect_rows(markup, report=None):
-    """[(label, element, value)] for every figure attached to an element.
-
-    THE ORDER IS NOT THE SAME IN EVERY LANGUAGE, which is why this walks the
-    fragment instead of matching a shape. French, Spanish and Portuguese put
-    the label first:
-
-        Dommage <img FIRE> : 65
-
-    English puts the image first and the label after it:
-
-        <img FIRE> Damage: 65
-
-    A pattern written for one silently returned nothing for the other, and
-    "nothing" reads as a spell that deals no damage: 287 English spells out of
-    706 came back harmless before this was found, by a test that compares the
-    two languages rather than by anything visible in either one alone.
-    """
+    """[(label, element, value, unit, conditional)] per element figure."""
     reader = _Tokens()
     reader.feed(markup or '')
     reader.close()
@@ -411,12 +216,7 @@ def effect_rows(markup, report=None):
 
 
 def of_kind(rows, words, report=None, kind=''):
-    """The [(element, value)] of the rows one of whose label words matches.
-
-    A row whose figure is a PER CENT is left out: it is not a quantity of
-    damage and adding it to one would be adding ten to a hundred and sixty
-    three. It stays in `rows`, with its sign, for whoever wants it.
-    """
+    """[(element, value)] of rows labelled with `words`, % rows left out."""
     out = []
     for label, element, value, unit, _conditional in rows:
         said = {word for word in re.split(r'\s+', label.lower()) if word}
@@ -427,11 +227,7 @@ def of_kind(rows, words, report=None, kind=''):
         if said & words:
             out.append((element, value))
         elif report is not None and kind == 'damage' and not (said & HEAL_WORDS):
-            # Counted under its own label, so a form nobody has seen shows up
-            # as a name rather than as a missing number. Healing is left out
-            # of this count on purpose: it is recognised, just not damage, and
-            # reporting it here buried the labels that really are unknown
-            # under fourteen thousand lines of "cura".
+            # Unknown labels are counted by name
             report['row labelled %s' % label.lower()] += 1
     return out
 
@@ -447,15 +243,8 @@ def elements_and_healing(markup):
 
 
 def spell_links(page, language):
-    """[(url, spell id, name, element)] for one class page.
-
-    Only the ELEMENTAL spells have an element. They sit between
-    `ak-spells-element-line` and the first `ak-spell-list-row`; everything
-    after that is passives and specialties, which carry the same link class and
-    no element at all. Splitting the whole page on the element markers gave
-    every passive the last element seen, which was wrong for 24 of the Iop's
-    40 spells and looked entirely plausible.
-    """
+    """[(url, spell id, name, element)] for one class page."""
+    # Passives come after the first ak-spell-list-row, with no element
     start = page.find('ak-spells-element-line')
     end = page.find('ak-spell-list-row', start + 1 if start >= 0 else 0)
     elemental = page[start:end] if start >= 0 and end > start else ''
@@ -464,15 +253,13 @@ def spell_links(page, language):
     for block in re.split(r'(?=class="ak-elementary-spell-)', elemental):
         element = ELEMENT_BLOCK.search(block)
         element = element.group(1).upper() if element else None
-        # Ankama names the same element two ways on one page: the block says
-        # WIND and the damage image says AIR. AIR is what the item data uses,
-        # so that is the one kept.
+        # The block says WIND where the damage image and the items say AIR
         element = 'AIR' if element == 'WIND' else element
         for url, _class_id, spell_id, name in SPELL_LINK.findall(block):
             found.append((url, int(spell_id), html.unescape(name), element))
     for url, _class_id, spell_id, name in SPELL_LINK.findall(page):
         found.append((url, int(spell_id), html.unescape(name), None))
-    # The same spell can be linked twice; keep the first sighting of each.
+    # A spell can be linked twice
     seen, unique = set(), []
     for entry in found:
         if entry[1] in seen:
@@ -496,11 +283,7 @@ def read_spell(reader, url, report):
         report['store that is not json'] += 1
         return None
 
-    # The levels come from every store that has any, not from store_PA alone.
-    # A spell that costs no AP publishes store_PA as an empty LIST while
-    # store_MP, store_WP and normalEffect all carry their 245 levels: keying on
-    # store_PA lost every passive and every MP-cost spell, half the catalogue,
-    # and the loss looked like a page that simply had no data.
+    # A spell with no AP cost has store_PA as an empty list
     def keyed(name):
         value = store.get(name)
         return value if isinstance(value, dict) else {}
@@ -510,12 +293,7 @@ def read_spell(reader, url, report):
                  'normalEffect', 'criticalEffect'):
         numbered.update(key for key in keyed(name) if key.isdigit())
 
-    # normalEffect carries ONE MORE entry than the level selector offers: every
-    # spell came back with 246 levels where Ankama's own selector stops at 245,
-    # and that last one has no AP cost, no MP, no WP and no range, only the
-    # text repeated. It is a rendering artifact. The ceiling is read from the
-    # page rather than written here, because it is Ankama's number and it has
-    # already moved once.
+    # normalEffect has one level past the selector max, with only the text
     ceiling = SELECTOR_MAX.search(page)
     if ceiling:
         top = int(ceiling.group(1))
@@ -609,11 +387,6 @@ def main(argv=None):
     target.mkdir(parents=True, exist_ok=True)
     path = target / ('spells_%s.json' % args.lang)
 
-    # A spell already collected is not fetched again, so a second run costs the
-    # 18 class pages and nothing else. Without this a routine rebuild would
-    # re-download 715 pages of half a megabyte each, which is why the pipeline
-    # can afford to call this step at all. --refresh takes the whole book
-    # again, for the day Ankama changes one.
     known = {}
     if path.exists() and not args.refresh:
         known = json.loads(path.read_text(encoding='utf-8'))
@@ -621,8 +394,7 @@ def main(argv=None):
     spells = collect(args.lang, classes, args.limit, report, known)
     path.write_text(json.dumps(spells, ensure_ascii=False, indent=1,
                                sort_keys=True), encoding='utf-8')
-    # Beside the harvest, never inside it: a reader that walks the spells must
-    # not have to know about a key that is not one.
+    # Not in the spells file, readers take every key there as a spell id
     (target / ('spells_%s.meta.json' % args.lang)).write_text(
         json.dumps({'parser': fingerprint(), 'spells': len(spells)},
                    indent=1, sort_keys=True), encoding='utf-8')

@@ -1,27 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Reconstituer un build entier a partir de texte colle.
-
-Le lecteur de captures d'ecran, livre plus tot, lit UN objet. Celui-ci lit un
-build: le joueur colle ce qu'il a sous la main, une liste de noms ou les
-infobulles de ses quinze pieces, et retrouve son equipement ici.
-
-Trois choix, et chacun a une raison mesuree:
-
-**Aucun format impose.** Chaque ligne est d'abord lue comme un jet, puis, si
-elle n'en est pas un, cherchee dans le catalogue. Coller une liste de noms et
-coller des infobulles completes marchent donc tous les deux, sans que le joueur
-ait a savoir lequel on attendait, et dans le second cas **ses vrais jets
-arrivent avec ses objets**: un import qui repose le stuff <<a l'identique>> et
-jetterait les jets ne reposerait pas le meme stuff.
-
-**Le catalogue n'est parcouru qu'une fois.** L'endpoint de recherche reconstruit
-son vivier a chaque appel, ce qui est juste pour une frappe au clavier et
-ruineux pour quarante lignes: le rapprochement tolerant compare la ligne a
-chacun des milliers de noms.
-
-**Le solveur ne tourne pas.** L'import repose le stuff a l'identique. Comparer,
-modifier ou reoptimiser vient apres, et c'est le joueur qui le demande.
-"""
+"""Read a whole build from pasted text: item names, tooltips and rolls."""
 
 import re
 
@@ -37,54 +15,25 @@ from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
 from fashionistapulp.model import Model
 from fashionistapulp.structure import get_structure
 
-#: En dessous, le rapprochement tolerant se tairait de toute facon, et une
-#: ligne de deux caracteres est une sous-chaine de trop de noms.
+# Shorter lines are a substring of too many names
 MIN_LIGNE = 5
 
-#: Combien de lignes on accepte de lire. Un build tient en quinze pieces et
-#: leurs infobulles; au dela on lit un presse-papiers entier, et chaque ligne
-#: coute un parcours du catalogue.
 MAX_LIGNES = 300
 
-#: Combien d'objets un build peut recevoir, tous types confondus.
+# How many items a build can hold, all slots
 MAX_OBJETS = sum(TYPE_NAME_TO_SLOT_NUMBER.values())
 
-#: Les trois stats dont un depassement est un EXO et non une stat
-#: ajoutee a la piece. La liste vient du modele et n'est pas recopiee:
-#: elle decide de ce qu'on ecrit sur un build, et deux copies qui
-#: divergent feraient perdre des exos sans que rien ne rougisse.
+# Going over the item's value on these stats is an exo
 EXO_STAT_KEYS = Model._EXO_STAT_KEYS
 
 
-#: Les langues dans lesquelles un nom d'objet peut arriver, et l'ordre dans
-#: lequel on les consulte apres celle du lecteur.
+# Languages an item name can come in, tried in this order after the reader's
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
 
 def _pool(structure, language):
-    """(vivier de la langue du lecteur, index exact par langue).
-
-    Deux structures et pas une, parce que les deux recherches n'ont ni le meme
-    cout ni le meme risque.
-
-    **Le vivier** sert au rapprochement TOLERANT, qui compare la ligne a
-    chaque entree. Mesure du 10 septembre 2026 sur Dofus 3: une ligne que rien
-    ne reconnait coute 9,1 ms contre 3826 entrees, et 45,5 ms si on y met les
-    cinq langues. A trois cents lignes collees, c'est treize secondes contre
-    trois. Le vivier reste donc dans la langue du lecteur: reparer une lettre
-    mal tapee est un service qu'on rend a quelqu'un qui ecrit dans SA langue.
-
-    **L'index exact** est un dictionnaire, donc gratuit, et il porte les cinq
-    langues plus le nom interne. C'est lui qui permet de relire un texte
-    partage par un joueur d'une autre langue.
-
-    Il est garde PAR LANGUE et non a plat, et ce n'est pas de la prudence
-    gratuite: mesure du meme jour, un nom normalise designe deux objets
-    DIFFERENTS d'une langue a l'autre 443 fois sur Retro et 215 fois sur
-    Touch. <<robotas>> est Bedazzling Boots dans une langue et Roboots dans
-    une autre, <<abracapa>> est Treecapa et Treecloak. Un index a plat aurait
-    rendu l'un pour l'autre, en silence.
-    """
+    """(fuzzy pool in the reader's language, exact index per language)."""
+    # Per language: "robotas" is Bedazzling Boots in one, Roboots in another
     niveau = _search_level(structure)
     vus = set()
     pool = []
@@ -104,10 +53,7 @@ def _pool(structure, language):
                     structure.get_item_name_in_language(item, langue))
                 if cle:
                     index[langue].setdefault(cle, entree)
-            # Le nom INTERNE: c'est celui que <<Copier en texte>> ecrivait
-            # avant qu'il ne passe au nom traduit, donc tous les textes deja
-            # partages le portent. Mesure du 10 septembre 2026: il vaut le nom
-            # anglais sur 382 chapeaux Dofus 3 sur 382.
+            # Older "Copy as text" exports wrote the internal name
             interne = _normalized_text(item.name)
             if interne:
                 index['_interne'].setdefault(interne, entree)
@@ -115,27 +61,7 @@ def _pool(structure, language):
 
 
 def _entree_exacte(requete, index, language):
-    """Le nom entier, pas une sous-chaine.
-
-    L'autocompletion accepte une sous-chaine parce qu'elle repond a quelqu'un
-    qui TAPE: trois lettres doivent proposer des objets. Ici la ligne est
-    collee, donc elle porte le nom complet, et la sous-chaine n'apporte rien
-    tout en ouvrant une faute: <<Force>>, le libelle de stat, est contenu dans
-    des noms d'objets, et une infobulle collee en entier ferait alors entrer
-    un objet que le joueur n'a jamais porte.
-
-    Ce qui rattrape une ligne imparfaite, c'est le rapprochement tolerant de
-    l'appelant, borne a trois corrections et a un ecart de deux avec le
-    second candidat: il repare une lettre mal lue, il n'invente pas un objet
-    a partir d'un mot commun.
-
-    **La langue du lecteur passe en premier, et un desaccord fait taire.** Un
-    meme nom normalise designe deux objets differents d'une langue a l'autre
-    443 fois sur Retro (<<robotas>>: Bedazzling Boots ou Roboots). Quand la
-    langue du lecteur ne tranche pas et que les autres se contredisent, on ne
-    choisit pas: rendre un objet plausible pris pour un autre est pire que
-    rendre une ligne non reconnue, que le joueur voit et corrige.
-    """
+    """Whole-name match, reader's language first; None if other languages disagree."""
     trouve = index.get(language, {}).get(requete)
     if trouve is not None:
         return trouve
@@ -155,13 +81,7 @@ def _entree_exacte(requete, index, language):
 
 
 def _mots_traduits(msgids):
-    """Tous les mots que ces msgids donnent, dans les cinq langues plus le
-    msgid lui-meme.
-
-    Construit depuis les catalogues et non recopie: une traduction corrigee
-    est suivie sans que personne y pense. Et le msgid anglais y reste
-    toujours, parce que les textes deja colles sur un Discord le portent.
-    """
+    """The msgids and their translations in the five languages, longest first."""
     from django.utils.translation import gettext, override
     mots = set()
     for msgid in msgids:
@@ -173,24 +93,11 @@ def _mots_traduits(msgids):
                 mot = gettext(msgid)
                 if mot:
                     mots.add(mot)
-    # Le plus long d'abord: un nom contenu dans un autre ne doit pas gagner.
+    # Longest first so a word inside another one does not win
     return sorted(mots, key=len, reverse=True)
 
 
-#: Ce que le bouton <<Copier en texte>> du site ecrit, et que le site ne
-#: savait pas relire.
-#:
-#: Mesure du 10 septembre 2026: colle tel quel, un build exporte par le site
-#: rendait **zero objet reconnu**, les six lignes toutes ignorees. L'export
-#: prefixe chaque piece de son emplacement (<<Hat: Creaking Tree Hat>>), et
-#: l'import comparait la ligne entiere a un nom d'objet. Le rapprochement
-#: tolerant ne pouvait pas rattraper: retirer <<Hat: >> coute cinq corrections
-#: quand le plafond est a trois.
-#:
-#: L'export ecrit desormais l'emplacement dans la langue du lecteur
-#: (<<Coiffe: Masque d'Anerice>>), donc la liste porte les cinq langues. Sans
-#: cela, mesure du 12 septembre 2026: un texte francais revenait avec **6
-#: pieces sur 16**, les dix autres lignes ignorees.
+# Slot prefix of our own export, "Hat: Creaking Tree Hat", in any language
 _PREFIXE_EMPLACEMENT = re.compile(
     r'^(%s)\s*:\s*(.+)$'
     % '|'.join(re.escape(mot)
@@ -199,18 +106,12 @@ _PREFIXE_EMPLACEMENT = re.compile(
 
 
 def _mots_de_niveau():
-    """Le mot <<niveau>> de l'entete, dans les cinq langues."""
+    """The header's "lvl" word in the five languages."""
     return _mots_traduits(['lvl'])
 
 
 def _classes_par_nom():
-    """{nom de classe en minuscules: nom interne}, dans les cinq langues.
-
-    L'entete porte la classe dans la langue du lecteur (<<Cra - Crâ niv. 200>>
-    en francais, <<Ocra nvl 200>> en espagnol). Sans cette table, la classe
-    n'etait reconnue qu'en anglais et le lecteur devait la choisir a la main
-    apres avoir colle son propre texte.
-    """
+    """{lowercase class name: internal name}, in the five languages."""
     from django.utils.translation import override
     par_nom = {}
     for interne in LOCALIZED_CHARACTER_CLASSES:
@@ -222,70 +123,33 @@ def _classes_par_nom():
     return par_nom
 
 
-#: L'entete de l'export: <<Mon Cra - Cra lvl 200 - Retro>>, ou <<Mon Cra - Crâ
-#: niv. 200 - Retro>> pour un lecteur francais. Le titre est libre et peut
-#: contenir des tirets, donc on ancre sur la fin.
-#:
-#: La version est FACULTATIVE dans le motif, et ce n'est pas une commodite:
-#: tous les textes exportes avant qu'on l'ajoute n'en ont pas, et une simple
-#: liste de noms tapee a la main non plus. Absente, elle veut dire <<la version
-#: de la page>>, qui est le comportement d'avant.
-#:
-#: Le nom du build, s'il est la, COMMENCE et se termine sur un caractere
-#: qui n'est pas un espace. Mesure: avec `(.*\S)` seul, le `\s+` qui precede
-#: et le `.*` pouvaient tous deux prendre les espaces, et une ligne de 40 000
-#: espaces apres le tiret coutait 8 secondes; avec `\S` en tete, chaque
-#: partage echoue au premier caractere (py/polynomial-redos).
+# Export header "My Cra - Cra lvl 200 - Retro", version optional, read from the end
 _ENTETE = re.compile(
     r'-\s+(\S+)\s+(?:%s)\s+(\d{1,3})(?:\s+-\s+(\S(?:.*\S)?))?\s*$'
     % '|'.join(re.escape(mot) for mot in _mots_de_niveau()), re.I)
 
 _CLASSE_PAR_NOM = _classes_par_nom()
 
-#: Le libelle de chaque version vers sa cle. Les libelles viennent du registre
-#: et ne sont pas traduits, donc ils traversent les cinq langues.
+# Version labels are not translated
 _VERSION_PAR_LIBELLE = {
     GAME_VERSIONS[cle].label.lower(): cle
     for cle in version_keys(include_experimental=True)
 }
 
-#: Les deux lignes de caracteristiques de base que l'export ajoute.
-#: <<Points:>> sont les points depenses en montant, <<Scrolls:>> les
-#: parchotages. Le site garde les deux separement (`total_value` est leur
-#: somme, `scrolled_value` la seconde), donc les melanger ferait revenir un
-#: personnage different de celui qui est parti.
-#: Apres le deux-points, le reste commence par un non-espace ou est vide:
-#: `\s*` et `(.+)` pouvaient tous deux prendre les espaces, et le moteur
-#: essayait chaque partage (py/polynomial-redos).
-#: Les deux mots sont ecrits dans la langue du lecteur (<<Points>>,
-#: <<Parchotage>>, <<Pergaminos>>, <<Gescrollt>>), donc lus dans les cinq.
+# Base stats lines of the export: Points (spent on level up) and Scrolls
 _LIGNE_POINTS = re.compile(
     r'^\s*(?:%s)\s*:\s*(\S.*)?$'
     % '|'.join(re.escape(mot) for mot in _mots_traduits(['Points'])), re.I)
 _LIGNE_PARCHOS = re.compile(
     r'^\s*(?:%s)\s*:\s*(\S.*)?$'
     % '|'.join(re.escape(mot) for mot in _mots_traduits(['Scrolls'])), re.I)
-#: Un nom de caracteristique est des mots separes par des espaces et se
-#: termine sur une lettre: l'espace avant le nombre n'appartient qu'au
-#: `\s+` qui suit. La classe `[A-Za-z ]+?` contenait l'espace et le
-#: moteur pouvait le donner aux deux (py/polynomial-redos).
-#:
-#: Applique avec `match` sur le morceau depouille, pas avec `search`: une
-#: recherche repart de chaque position, et sur <<a a a a...>> (20 000 mots
-#: sans nombre) chaque depart refaisait tout le recul, 11,8 secondes
-#: mesurees. Le site ecrit lui-meme <<Vitality 101 / Strength 50>>, le nom
-#: est en tete de chaque morceau.
+# "Vitality 101". Use match, not search: search backtracks from every position
 _UNE_CARACTERISTIQUE = re.compile(
     r'([A-Za-zÀ-ɏ]+(?: +[A-Za-zÀ-ɏ]+)*)\s+(\d{1,4})')
 
 
 def _caracteristiques_par_nom():
-    """{nom normalise: nom interne}, dans les cinq langues.
-
-    Les deux lignes portent les stats dans la langue du lecteur
-    (<<Vitalite 895 / Agilite 100>>), donc l'anglais seul n'en lisait aucune.
-    Les noms viennent des catalogues, comme partout ailleurs ici.
-    """
+    """{normalised stat name: internal name}, in the five languages."""
     from django.utils.translation import override
     par_nom = {}
     for nom, _cle in STATS_NAMES:
@@ -298,12 +162,11 @@ def _caracteristiques_par_nom():
     return par_nom
 
 
-#: Construite une fois: elle ouvre les catalogues des cinq langues.
 _CARACTERISTIQUE_PAR_NOM = _caracteristiques_par_nom()
 
 
 def _lit_caracteristiques(reste):
-    """{nom interne: valeur} depuis <<Vitality 101 / Strength 50>>."""
+    """{internal name: value} from "Vitality 101 / Strength 50"."""
     trouve = {}
     connus = _CARACTERISTIQUE_PAR_NOM
     for morceau in reste.split('/'):
@@ -317,34 +180,16 @@ def _lit_caracteristiques(reste):
     return trouve
 
 
-#: Une ligne de stat, exactement comme la page de l'inventaire la lit.
-#:
-#: Ce motif et les regles qui suivent sont le jumeau Python de `parseStatLine`,
-#: qui vit dans un gabarit et tourne dans le navigateur. Les deux sont tenus a
-#: la meme table de cas par un test qui fait passer les MEMES lignes dans les
-#: deux implementations, l'une sous node, l'autre ici: dupliquer une regle sans
-#: ce test, c'est se garantir deux comportements dans six mois.
+# Python copy of parseStatLine in the inventory template, keep both in sync
 _PLAGE = re.compile(r'\d\s*(?:a|à|to|bis)\s*\d', re.I)
-#: Meme langage que le `parseStatLine` du gabarit, ecrit sans partage
-#: ambigu (py/polynomial-redos): les espaces apres un signe n'existent
-#: qu'apres un signe, les espaces DANS le nombre ne sont pris que s'ils
-#: precedent un chiffre, un point ou une virgule, et il n'y a qu'un seul
-#: `\s*` devant le libelle. Groupes: signe, nombre, pourcent, libelle.
+# Groups: sign, number, percent, label
 _LIGNE_DE_STAT = re.compile(
     r'^[^0-9+\-]*?(?:([+\-])\s*)?(\d(?:[\d.,]|\s+(?=[\d.,]))*)'
     r'(?:\s*(%))?\s*(.+)$')
 
 
 def _lit_ligne_de_stat(ligne, lexique):
-    """{'key', 'value'} ou None si personne ne peut lire cette ligne.
-
-    La regle qui a coute le plus cher est celle des groupes de chiffres.
-    L'icone de la stat est souvent lue comme un chiffre, donc <<4 50 Force>>
-    vaut bien 50. Mais joindre les groupes des qu'il y en a trois ou plus
-    INVENTAIT un nombre: le separateur d'une fourchette mal lu faisait sortir
-    476 de <<57 a 76 Force>> et 4560 de <<3 4 5 60 Force>>. Une ligne que
-    personne ne peut lire doit revenir illisible, jamais plausible.
-    """
+    """{'key', 'value'}, or None when the line cannot be read."""
     if _PLAGE.search(ligne):
         return None
     m = _LIGNE_DE_STAT.match(ligne)
@@ -352,6 +197,7 @@ def _lit_ligne_de_stat(ligne, lexique):
         return None
     signe = -1 if m.group(1) == '-' else 1
     groupes = [g for g in re.split(r'[\s.,]+', m.group(2).strip()) if g]
+    # The stat icon often reads as a digit: "4 50 Force" is 50
     if len(groupes) == 1:
         chiffres = groupes[0]
     elif all(len(g) == 3 for g in groupes[1:]):
@@ -372,11 +218,7 @@ def _lit_ligne_de_stat(ligne, lexique):
 
 
 def _langue_du_texte(lignes, structure, langue):
-    """La langue dont le lexique reconnait le plus de lignes.
-
-    Le lecteur peut tres bien jouer en francais et lire le site en anglais.
-    A egalite, sa langue gagne, comme dans la page de l'inventaire.
-    """
+    """Language whose lexicon reads the most lines, the reader's on a tie."""
     lexiques = _ocr_stat_lexicon(structure)
     meilleure = langue if langue in lexiques else 'en'
 
@@ -396,42 +238,8 @@ def _langue_du_texte(lignes, structure, langue):
 
 def _jets_de_la_piece(structure, item, jets, game_version,
                       lignes_ajoutees=False):
-    """Ce qu'on applique a la piece, et ce qu'on refuse d'y appliquer.
-
-    **Un jet sur une stat que l'objet ne porte pas n'est PAS applique**, sauf
-    pour les PA, les PM et la portee. Le modele ajoute la stat a la piece
-    quand elle n'y figure pas (`Model._apply_stat_overrides`), donc une ligne
-    mal lue ferait naitre sur l'objet une caracteristique qu'il n'a jamais eue
-    et le solveur optimiserait autour.
-
-    Les trois exceptions ne sont pas une tolerance, c'est le mecanisme des
-    EXOS. Pour `ap`, `mp` et `range`, le modele n'ajoute rien a la piece: il
-    la note porteuse d'exo (`_exo_carriers`) et `create_exo_constraints`
-    ecrit alors `exo <= option + pieces porteuses portees`. Refuser ces
-    lignes-la faisait donc perdre en silence l'exo que le joueur avait colle,
-    et l'exo est ce qui distingue un build fini d'un build presque fini.
-
-    Le nombre d'exos n'est pas plafonne ici: la contrainte n'a qu'une variable
-    par stat, donc deux pieces porteuses ne donnent toujours qu'un point. La
-    regle <<un point par stat pour tout le build>> est tenue par le modele,
-    pas par cette lecture.
-
-    Un jet HORS FOURCHETTE, lui, est applique et signale. La forgemagie pousse
-    legitimement un jet au-dessus de son maximum et peut en sacrifier un sous
-    son minimum: seul le joueur sait, et le refuser serait faux.
-
-    `lignes_ajoutees`: pour une lecture STRUCTUREE (le lien d'un site de
-    builds, jamais du texte), une ligne sur une stat que l'objet ne porte
-    pas n'est pas une erreur de lecture mais une forgemagie exotique voulue
-    par le joueur, et leur client l'ajoute a la piece comme le fait notre
-    modele. Mesure sur le build DofusBook 23227661 le 11 septembre 2026,
-    recoupe avec leur propre table d'effets: 8 dommages critiques sur un
-    arc qui n'en porte pas, 2 coups critiques sur des bottes, 20 dommages
-    sur un Dofus Tachete (le bonus conditionnel de son sort, que le joueur
-    a modele en ligne). Refuser ces lignes rendait un build sans ses exos,
-    ce que Thibaud a nomme le jour meme. Elles sont appliquees et marquees
-    exo, sans fourchette puisqu'il n'y a pas de jet de catalogue derriere.
-    """
+    """(applied {stat id: value}, detail per roll line)."""
+    # A stat the item lacks is refused unless exo or lignes_ajoutees (site links)
     portees = dict(item.stats or ())
     appliques = {}
     lignes = []
@@ -442,9 +250,6 @@ def _jets_de_la_piece(structure, item, jets, game_version,
         exo = ((jet['key'] in EXO_STAT_KEYS
                 and jet['value'] > portees.get(stat.id, 0))
                or (lignes_ajoutees and stat.id not in portees))
-        # Le nom de la stat dans la langue du lecteur ET dans les mots de
-        # SA version: `stat.name` est le libelle interne, et l'afficher tel
-        # quel mettait <<Vitality>> et <<MP>> sur une page francaise.
         detail = {'key': jet['key'], 'value': jet['value'],
                   'name': localized_stat_name(stat.name, game_version),
                   'applied': False, 'out_of_range': False, 'exo': exo,
@@ -453,9 +258,7 @@ def _jets_de_la_piece(structure, item, jets, game_version,
             lignes.append(detail)
             continue
         if stat.id not in portees:
-            # Un exo pur: la piece ne porte pas la stat et le modele ne la lui
-            # ajoutera pas. Pas de fourchette a verifier non plus, il n'y a
-            # pas de jet de catalogue derriere.
+            # Pure exo, no catalogue range to check
             detail['applied'] = True
             appliques[stat.id] = jet['value']
             lignes.append(detail)
@@ -472,13 +275,7 @@ def _jets_de_la_piece(structure, item, jets, game_version,
 
 
 def read_items(text, game_version, language):
-    """Lire un build dans du texte colle.
-
-    Rend `item_ids` dans l'ordre du texte, `matched` pour l'apercu et
-    `ignored` pour les lignes que rien n'a reconnues. Les trois sont montres
-    au joueur AVANT qu'on cree quoi que ce soit: une ligne mal prise se voit
-    et se retire, elle ne se decouvre pas dans le build.
-    """
+    """Read a build from pasted text."""
     structure = get_structure(game_version)
 
     item_ids = []
@@ -493,19 +290,11 @@ def read_items(text, game_version, language):
         lignes = lignes[:MAX_LIGNES]
         tronque = True
 
-    # La langue se lit sur les JETS, avant de toucher au catalogue: la
-    # detection n'a besoin que des lexiques. Le vivier de noms est ensuite
-    # construit dans cette langue-la et non dans celle de l'interface, si bien
-    # qu'un lecteur qui joue en francais et lit le site en anglais colle ses
-    # infobulles francaises et retrouve ses objets. Sans jet dans le texte,
-    # aucun signal: sa langue d'interface gagne, ce qui est le comportement
-    # d'avant.
+    # The game language can differ from the site one, guess it from the rolls
     langue_lue, lexique = _langue_du_texte(lignes, structure, language)
     pool, index = _pool(structure, langue_lue)
 
-    #: La piece a laquelle les lignes de stats suivantes appartiennent. Une
-    #: infobulle donne le nom puis ses jets, donc un nom reconnu ouvre une
-    #: piece et tout ce qui suit lui revient jusqu'au nom suivant.
+    # Item the next roll lines belong to, until the next item name
     courante = None
     jets_orphelins = 0
 
@@ -516,8 +305,7 @@ def read_items(text, game_version, language):
     parchos = {}
 
     for ligne in lignes:
-        # Les lignes que le site ecrit lui-meme, en premier: elles portent des
-        # chiffres et se feraient prendre pour des jets.
+        # Our own export lines first, their numbers look like rolls
         m = _LIGNE_POINTS.match(ligne)
         if m:
             points.update(_lit_caracteristiques(m.group(1) or ''))
@@ -528,9 +316,7 @@ def read_items(text, game_version, language):
             continue
         m = _ENTETE.search(ligne)
         if m and char_class is None:
-            # Le nom interne, quelle que soit la langue de l'entete: la vue
-            # verifie `char_class in CHARACTER_CLASSES` et laissait tomber
-            # silencieusement un <<Crâ>> ou un <<Ocra>>.
+            # Internal class name, the view checks CHARACTER_CLASSES
             char_class = _CLASSE_PAR_NOM.get(m.group(1).lower(), m.group(1))
             char_level = int(m.group(2))
             if m.group(3):
@@ -538,8 +324,6 @@ def read_items(text, game_version, language):
                     m.group(3).strip().lower())
             continue
 
-        # Les stats ensuite: une ligne de jet n'est pas un candidat au nom, et
-        # la tester ici evite de la soumettre au catalogue pour rien.
         jet = _lit_ligne_de_stat(ligne, lexique)
         if jet is not None:
             if courante is None:
@@ -549,8 +333,6 @@ def read_items(text, game_version, language):
                 courante['jets_lus'].append(jet)
             continue
 
-        # <<Hat: Creaking Tree Hat>> est ce que l'export du site ecrit. Sans
-        # cette ligne, le site ne relisait pas son propre export.
         emplacement = _PREFIXE_EMPLACEMENT.match(ligne)
         if emplacement:
             ligne = emplacement.group(2).strip()
@@ -572,8 +354,7 @@ def read_items(text, game_version, language):
             tronque = True
             courante = None
             continue
-        # Deux Gelano se collent deux fois et doivent entrer deux fois; c'est
-        # la meme LIGNE repetee par un copier-coller maladroit qu'on refuse.
+        # Two Gelanos are two items, only the exact same line is a duplicate
         cle = (item.id, ligne)
         if cle in vus:
             courante = None
@@ -591,7 +372,6 @@ def read_items(text, game_version, language):
         }
         matched.append(courante)
 
-    # Les jets, une fois qu'on sait a quelle piece ils reviennent.
     overrides = {}
     refuses = []
     for piece in matched:
@@ -616,9 +396,7 @@ def read_items(text, game_version, language):
         'game_version': game_version,
         'stat_language': langue_lue,
         'char_class': char_class,
-        # La version que le TEXTE annonce, ou None s'il n'en annonce aucune.
-        # L'appelant compare avec la sienne: ce n'est pas a la lecture de
-        # decider ce qu'on fait d'un desaccord.
+        # Version named in the text header, or None
         'stated_version': version_lue,
         'char_level': char_level,
         'base_points': points,

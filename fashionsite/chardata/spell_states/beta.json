@@ -1249,42 +1249,42 @@
   "de": "Wahnsinn 1",
   "en": "Madness 1",
   "es": "Locura 1",
-  "fr": "Folie 1",
+  "fr": "Folie 1/10",
   "pt": "Loucura 1"
  },
  "4005": {
   "de": "Hand von Pandawa I",
   "en": "Pandawa's Hand I",
   "es": "Mano de Pandawa I",
-  "fr": "Main de Pandawa I",
+  "fr": "Main de Pandawa 1/1",
   "pt": "Mão de Pandawa I"
  },
  "401": {
   "de": "Wahnsinn 2",
   "en": "Madness 2",
   "es": "Locura 2",
-  "fr": "Folie 2",
+  "fr": "Folie 2/10",
   "pt": "Loucura 2"
  },
  "402": {
   "de": "Wahnsinn 3",
   "en": "Madness 3",
   "es": "Locura 3",
-  "fr": "Folie 3",
+  "fr": "Folie 3/10",
   "pt": "Loucura 3"
  },
  "403": {
   "de": "Wahnsinn 4",
   "en": "Madness 4",
   "es": "Locura 4",
-  "fr": "Folie 4",
+  "fr": "Folie 4/10",
   "pt": "Loucura 4"
  },
  "404": {
   "de": "Wahnsinn 5",
   "en": "Madness 5",
   "es": "Locura 5",
-  "fr": "Folie 5",
+  "fr": "Folie 5/10",
   "pt": "Loucura 5"
  },
  "4045": {
@@ -1298,7 +1298,7 @@
   "de": "Wahnsinn 6",
   "en": "Madness 6",
   "es": "Locura 6",
-  "fr": "Folie 6",
+  "fr": "Folie 6/10",
   "pt": "Loucura 6"
  },
  "4056": {
@@ -1312,14 +1312,14 @@
   "de": "Wahnsinn 7",
   "en": "Madness 7",
   "es": "Locura 7",
-  "fr": "Folie 7",
+  "fr": "Folie 7/10",
   "pt": "Loucura 7"
  },
  "407": {
   "de": "Wahnsinn 8",
   "en": "Madness 8",
   "es": "Locura 8",
-  "fr": "Folie 8",
+  "fr": "Folie 8/10",
   "pt": "Loucura 8"
  },
  "4077": {
@@ -1347,7 +1347,7 @@
   "de": "Wahnsinn 9",
   "en": "Madness 9",
   "es": "Locura 9",
-  "fr": "Folie 9",
+  "fr": "Folie 9/10",
   "pt": "Loucura 9"
  },
  "410": {
@@ -1518,13 +1518,6 @@
   "fr": "Tactique D",
   "pt": "Tática D"
  },
- "4482": {
-  "de": "Flèche Fulminante Balise",
-  "en": "Flèche Fulminante Balise",
-  "es": "Flèche Fulminante Balise",
-  "fr": "Flèche Fulminante Balise",
-  "pt": "Flèche Fulminante Balise"
- },
  "449": {
   "de": "Verwundbar",
   "en": "Vulnerable",
@@ -1686,20 +1679,6 @@
   "fr": "Piégé",
   "pt": "Enrascado"
  },
- "5222": {
-  "de": "Pluie de Flèches",
-  "en": "Pluie de Flèches",
-  "es": "Pluie de Flèches",
-  "fr": "Pluie de Flèches",
-  "pt": "Pluie de Flèches"
- },
- "5223": {
-  "de": "Tir de Couverture",
-  "en": "Tir de Couverture",
-  "es": "Tir de Couverture",
-  "fr": "Tir de Couverture",
-  "pt": "Tir de Couverture"
- },
  "5247": {
   "de": "Gejagt",
   "en": "Hunted",
@@ -1778,11 +1757,11 @@
   "pt": "Enrascado feito um Milobo"
  },
  "533": {
-  "de": "Goules 1",
-  "en": "Goules 1",
-  "es": "Goules 1",
-  "fr": "Goules 1",
-  "pt": "Goules 1"
+  "de": "Marche des goules",
+  "en": "Marche des goules",
+  "es": "Marche des goules",
+  "fr": "Marche des goules",
+  "pt": "Marche des goules"
  },
  "5343": {
   "de": "Entfettet",
@@ -1837,14 +1816,14 @@
   "de": "Puppenhafte Präparation I",
   "en": "Dollish Decoction I",
   "es": "Preparación Muñequera I",
-  "fr": "Préparation Poupesque I",
+  "fr": "Préparation Poupesque 1/3",
   "pt": "Preparação Bonecal I"
  },
  "5420": {
   "de": "Puppenhafte Präparation III",
   "en": "Dollish Decoction III",
   "es": "Preparación Muñequera III",
-  "fr": "Préparation Poupesque III",
+  "fr": "Préparation Poupesque 3/3",
   "pt": "Preparação Bonecal III"
  },
  "5424": {
@@ -1977,21 +1956,21 @@
   "de": "Erdrutsch IV",
   "en": "Collapse IV",
   "es": "Desprendimiento IV",
-  "fr": "Éboulement IV",
+  "fr": "Éboulement 4/4",
   "pt": "Desmoronamento IV"
  },
  "5498": {
   "de": "Goldwaschen IV",
   "en": "Placer Mining IV",
   "es": "Búsqueda de Oro IV",
-  "fr": "Orpaillage IV",
+  "fr": "Orpaillage 4/4",
   "pt": "Garimpo IV"
  },
  "5499": {
   "de": "Klingende Münze IV",
   "en": "Hard Cash IV",
   "es": "Moneda Sonante IV",
-  "fr": "Monnaie Sonnante IV",
+  "fr": "Monnaie Sonnante 4/4",
   "pt": "Moeda Falsa IV"
  },
  "550": {
@@ -2007,13 +1986,6 @@
   "es": "Izquierda",
   "fr": "Gauche",
   "pt": "Para a Esquerda"
- },
- "5525": {
-  "de": "Tyrannischer Pfeil IV",
-  "en": "Tyrannical Arrow IV",
-  "es": "Flecha Tiránica IV",
-  "fr": "Flèche Tyrannique IV",
-  "pt": "Flecha Tirânica IV"
  },
  "5532": {
   "de": "Royal Flush",
@@ -2264,14 +2236,14 @@
   "de": "Verheerender Pfeil I",
   "en": "Devouring Arrow I",
   "es": "Flecha Voraz I",
-  "fr": "Flèche Dévorante I",
+  "fr": "Flèche Dévorante 1/3",
   "pt": "Flecha Devoradora I"
  },
  "574": {
   "de": "Verheerender Pfeil II",
   "en": "Devouring Arrow II",
   "es": "Flecha Voraz II",
-  "fr": "Flèche Dévorante II",
+  "fr": "Flèche Dévorante 2/3",
   "pt": "Flecha Devoradora II"
  },
  "5742": {
@@ -2435,13 +2407,6 @@
   "fr": "Déréglée",
   "pt": "Desregulada"
  },
- "6467": {
-  "de": "Ausschlüpfen II",
-  "en": "Hatching II",
-  "es": "Eclosión II",
-  "fr": "Éclosion II",
-  "pt": "Eclosão II"
- },
  "6470": {
   "de": "Manipulsiert",
   "en": "Manipulsated",
@@ -2537,7 +2502,7 @@
   "de": "Verheerender Pfeil III",
   "en": "Devouring Arrow III",
   "es": "Flecha Voraz III",
-  "fr": "Flèche Dévorante III",
+  "fr": "Flèche Dévorante 3/3",
   "pt": "Flecha Devoradora III"
  },
  "6626": {
@@ -2681,11 +2646,11 @@
   "pt": "Kolosso solo"
  },
  "7020": {
-  "de": "Wa Wabitt solo",
-  "en": "Wa Wabitt solo",
-  "es": "Wa Wabitt solo",
-  "fr": "Wa Wabitt solo",
-  "pt": "Wa Wabitt solo"
+  "de": "Wa Wabbit solo",
+  "en": "Wa Wabbit solo",
+  "es": "Wa Wabbit solo",
+  "fr": "Wa Wabbit solo",
+  "pt": "Wa Wabbit solo"
  },
  "707": {
   "de": "1 Telefrag verbraucht",
@@ -2716,24 +2681,24 @@
   "pt": "Flèche Assaillante (mêlée)"
  },
  "7120": {
-  "de": "Flèche d'Abolition I",
-  "en": "Flèche d'Abolition I",
-  "es": "Flèche d'Abolition I",
+  "de": "Pfeil der Abschaffung I",
+  "en": "Abolition Arrow I",
+  "es": "Flecha de Abolición I",
   "fr": "Flèche d'Abolition I",
-  "pt": "Flèche d'Abolition I"
+  "pt": "Flecha de Abolição I"
  },
  "7121": {
-  "de": "Flèche d'Abolition II",
-  "en": "Flèche d'Abolition II",
-  "es": "Flèche d'Abolition II",
+  "de": "Pfeil der Abschaffung II",
+  "en": "Abolition Arrow II",
+  "es": "Flecha de Abolición II",
   "fr": "Flèche d'Abolition II",
-  "pt": "Flèche d'Abolition II"
+  "pt": "Flecha de Abolição II"
  },
  "713": {
   "de": "Infiziert III",
   "en": "Infected III",
   "es": "Infectado III",
-  "fr": "Infecté III",
+  "fr": "Infecté 3/3",
   "pt": "Infectado III"
  },
  "714": {

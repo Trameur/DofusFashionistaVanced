@@ -1,25 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La page qui reconstitue un build a partir de ce que le lecteur a sous la
-main: des noms colles, des infobulles, un lien vers un build public d'un
-autre site, des captures d'ecran, ou un melange de tout ca.
-
-Une seule porte. Le 11 septembre 2026 il y en avait deux, dont une nommee
-d'apres le site qu'elle lisait, et Thibaud: <<le but c'est que l'import
-soit un peu site neutre, genre colle le lien de ton site ou envoie le
-screenshot de ton build, et ca essaie d'importer et indique juste quels
-items il n'a pas reussi a lire>>. La page essaie donc tout, dans cet ordre:
-les lignes qui sont des liens, puis le reste comme du texte, et elle rend
-compte piece par piece de ce qu'elle a lu et de ce qu'elle a laisse.
-
-L'equipement est montre AVANT que quoi que ce soit soit cree, donc le
-joueur voit ce qui va arriver et peut s'en aller. Le solveur ne tourne pas.
-
-Le niveau et la classe sont DEMANDES et non devines. Le texte d'une infobulle
-porte le niveau de l'OBJET, jamais celui du personnage, et rien dans une liste
-de noms ne nomme une classe; un lien porte parfois le niveau, jamais la classe
-dans une numerotation qui soit celle d'Ankama. Les deviner reviendrait a
-inventer les deux champs dont depend toute la suite.
-"""
+"""Import page: a build from pasted names, tooltips, build links or screenshots."""
 
 import logging
 import re
@@ -30,11 +10,12 @@ from django.utils.translation import gettext as _
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
 from chardata import build_link_import
-from chardata.dofusbook_import import ImportError_
+from chardata.dofusbook_import import ImportError_, MAX_POINTS
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _preview, _solution_path)
 from chardata.lock_forbid import set_stat_overrides
 from chardata.models import CharBaseStats
+from chardata.options import get_options, set_options
 from chardata.screenshot_reader import language_options
 from chardata.text_build_import import (MAX_LIGNES, _jets_de_la_piece,
                                         read_items)
@@ -48,18 +29,14 @@ from fashionistapulp.translation import get_supported_language
 
 logger = logging.getLogger(__name__)
 
-#: Le texte colle. Trois cents lignes d'infobulles tiennent tres large
-#: dedans, et au dela on lit un presse-papiers entier.
 MAX_CARACTERES = 40000
 
 NIVEAU_PAR_DEFAUT = 200
 
-#: Une ligne qui n'est qu'une adresse. Un lien au milieu d'une phrase n'est
-#: pas un lien colle, c'est du texte.
+# A line that is only an address; a link inside a sentence is text
 _LIGNE_LIEN = re.compile(r'^(?:https?://\S+|www\.\S+)$', re.I)
 
-#: La couture que les tests remplacent pour ne jamais toucher le reseau:
-#: le registre des lecteurs, un par site que le serveur sait lire.
+# Tests replace this to stay off the network
 read_build = build_link_import.read
 
 
@@ -68,18 +45,13 @@ def _version(request):
 
 
 def _url_pour_version(cle):
-    """La meme page, sous le prefixe de l'autre version.
-
-    Meme regle que `_solution_path`: une version vit sous son prefixe, et
-    dofus3 n'en a pas.
-    """
+    """This page under another version's prefix; dofus3 has none."""
     prefixe = '' if cle == 'dofus3' else '/' + cle
     return '%s/import/text/' % prefixe
 
 
 def _raisons_du_lien():
-    """Une phrase par refus qu'un lien peut valoir, sans nommer le site: la
-    phrase vaut pour n'importe quel site que le serveur saura lire."""
+    """One message per reason a link can be refused, naming no site."""
     return {
         'not_a_link': _('We cannot read links from that site yet. Paste the '
                         'item names instead.'),
@@ -92,18 +64,13 @@ def _raisons_du_lien():
         'empty': _('That build came back with no items.'),
         'wrong_version': _('Those items do not exist in that version of the '
                            'game. Check the link.'),
+        'bad_link': _('That link is incomplete or damaged. Copy the full '
+                      'address again.'),
     }
 
 
 def separe_les_liens(texte):
-    """(le texte sans ses lignes de lien, [liens lisibles], [liens que
-    personne ne lit]).
-
-    Une ligne de lien vers un site que le serveur sait lire est lue comme un
-    build; une ligne de lien vers n'importe quel autre site est rendue au
-    lecteur dans une liste a part, pour qu'il sache que ce n'est pas un nom
-    d'objet mal ecrit mais un site que le serveur ne lit pas encore.
-    """
+    """(text without its link lines, [links we read], [links we do not read])."""
     reste, lisibles, illisibles = [], [], []
     for ligne in texte.splitlines():
         candidat = ligne.strip()
@@ -118,7 +85,7 @@ def separe_les_liens(texte):
 
 
 def _caracteristiques_pour_apercu(lu):
-    """[{name, points, scrolled}] pour la liste montree avant la creation."""
+    """[{name, points, scrolled}] for the preview."""
     lignes = []
     for nom, _cle in STATS_NAMES:
         points = lu['base_points'].get(nom, 0)
@@ -129,71 +96,41 @@ def _caracteristiques_pour_apercu(lu):
     return lignes
 
 
-def _ecrit_les_caracteristiques(char, points, parchos):
-    """Les points depenses et les parchotages, tels que le site les garde.
-
-    `CharBaseStats.total_value` est la SOMME des deux et `scrolled_value` la
-    seconde: c'est `get_stats_and_scrolled` qui refait la soustraction. Ecrire
-    les points depenses dans `total_value` rendrait donc un personnage a qui
-    il manque exactement ses parchotages.
-
-    `create_build` a deja pose une ligne par caracteristique, donc on met a
-    jour plutot que de creer: deux lignes pour la meme stat feraient gagner la
-    premiere, en silence.
-    """
-    if not points and not parchos:
+def _ecrit_les_caracteristiques(char, points, parchos, complet=False):
+    """Write spent points and scrolls; complet means the source states all six."""
+    if not points and not parchos and not complet:
         return
-    plafond = max_scroll_for_version(char.game_version)
+    plafond = max_scroll_for_version(char.game_version, char.level)
     for nom, _cle in STATS_NAMES:
-        depenses = max(0, points.get(nom, 0))
+        depenses = min(max(0, points.get(nom, 0)), MAX_POINTS)
         parcho = min(max(0, parchos.get(nom, 0)), plafond)
-        if not depenses and not parcho:
+        if not depenses and not parcho and not complet:
             continue
+        # create_build already made one row per stat
         ligne, _neuve = CharBaseStats.objects.get_or_create(
             char=char, stat=nom,
             defaults={'total_value': 0, 'scrolled_value': 0})
+        # total_value holds both, scrolled_value the scroll part
         ligne.total_value = depenses + parcho
         ligne.scrolled_value = parcho
         ligne.save()
 
 
 def _reponse(request, params):
-    """La page, avec ce que ses entrees partagent.
-
-    Le lecteur de captures vit dans la meme page que la zone de texte et n'est
-    qu'une facon d'y ecrire, donc il est disponible sur tous les etats de la
-    page: le premier affichage, les refus, et l'apercu. Ajouter la liste
-    des langues a un seul d'entre eux l'aurait fait disparaitre des qu'un
-    lecteur se trompe de version.
-    """
+    """The page, with what every state of it shares."""
     params.setdefault('ocr_languages',
                       language_options(get_supported_language()))
-    # Les sites que le serveur sait lire, sous le champ: une information,
-    # pas une enseigne, et elle suit le registre.
     params.setdefault('link_sites', ', '.join(build_link_import.readable_sites()))
     return set_response(request, 'chardata/text_build.html', params)
 
 
 def _pieces_du_lien(build, structure, version):
-    """Les objets d'un lien, dans la forme des objets lus dans le texte, avec
-    la forgemagie que le lien porte piece par piece.
-
-    ([pieces], {item id: {stat id: valeur}}, [jets refuses]). Leur identifiant
-    Ankama a decide de la piece, rien n'est approximatif. Un jet du lien est
-    une valeur FINALE de ligne, exactement ce que nos overrides gardent, et
-    il passe par la meme regle qu'un jet colle (`_jets_de_la_piece`):
-    applique quand la piece porte la stat, exo pour les PA, PM et portee.
-    Une ligne sur une stat que la piece ne porte pas est AJOUTEE et non
-    refusee: un lien n'est pas une lecture d'OCR, c'est une forgemagie
-    exotique voulue (8 dommages critiques sur un arc qui n'en porte pas,
-    mesure sur le build 23227661). Thibaud, 11 septembre 2026: <<l'import
-    de dofusbook ne prend pas bien en compte ... les FM sur les items>>;
-    mesure, la liste des jets etait vide, pas lue.
-    """
+    """([pieces], {item id: {stat id: value}}, [refused rolls]) for a link's items."""
     jets_par_piece = build.get('rolls') or {}
     pieces, overrides, refuses = [], {}, []
     for piece in _preview(build):
         item = structure.get_item_by_id(piece['id'])
+        # A link line on a stat the piece lacks is an exo, not an OCR misread
         appliques, detail = _jets_de_la_piece(
             structure, item, jets_par_piece.get(piece['id']) or [], version,
             lignes_ajoutees=True)
@@ -210,14 +147,7 @@ def _pieces_du_lien(build, structure, version):
 
 
 def _nom_de_leur_code(structure, code):
-    """Leur code de caracteristique, dans les mots du lecteur.
-
-    Un build que nous avons exporte revient avec sa forgemagie dans leur
-    `fmGlobal`, en un total par caracteristique: la rendre telle quelle
-    donnait <<cc 6>>, qui ne veut rien dire pour qui n'a pas lu leur code.
-    Un code que nous ne connaissons pas reste tel quel plutot que d'etre
-    tu.
-    """
+    """Their stat code in the reader's language, or the code itself when unknown."""
     from chardata.dofusbook_import import FM_CODES
     stat = structure.get_stat_by_key(FM_CODES.get(code) or '')
     if stat is None:
@@ -225,16 +155,30 @@ def _nom_de_leur_code(structure, code):
     return localized_stat_name(stat.name, structure.game_version)
 
 
+# Exo options a link sets, with the word the page shows
+_EXOS = (('ap_exo', 'AP'), ('mp_exo', 'MP'), ('range_exo', 'Range'))
+
+
+def _exos_du_lien(build):
+    """Build-wide exo options the link sets, in the reader's language."""
+    portees = build.get('exo_options') or {}
+    return [_(mot) for option, mot in _EXOS if portees.get(option)]
+
+
+def _pose_les_exos(char, build):
+    """Set the link's exo options; call before _place_items, which reads them."""
+    portees = build.get('exo_options')
+    if portees is None:
+        return
+    options = get_options(char)
+    # Off included: a new level 200 build starts with AP and MP exo on
+    for option, _mot in _EXOS:
+        options[option] = bool(portees.get(option))
+    set_options(char, options)
+
+
 def _forgemagie_laissee(build, structure, langue):
-    """Ce que le lien porte en forgemagie et qu'aucune piece d'ici ne peut
-    recevoir, en toutes lettres pour l'apercu: les lignes au niveau du
-    build (`fmGlobal`, jamais vu rempli sur un vrai build, rendu tel quel
-    dans leurs codes) et les lignes d'une piece dont le code n'a pas de
-    caracteristique chez nous (`deg` sur un Dofus Tachete Retro, mesure le
-    11 septembre 2026). La forgemagie de l'arme est un drapeau a part: c'est
-    un changement d'element, que des overrides par caracteristique ne
-    savent pas ecrire.
-    """
+    """Link forgemagie no piece here can take: (build-wide lines, lines with no key)."""
     global_ = []
     for code, valeur in sorted((build.get('fm_global') or {}).items()):
         if not isinstance(valeur, int) or isinstance(valeur, bool):
@@ -250,7 +194,7 @@ def _forgemagie_laissee(build, structure, langue):
 
 
 def text_build(request):
-    """GET montre la zone, POST lit ce qu'elle contient, confirmer cree."""
+    """GET shows the form, POST reads it, confirm creates the build."""
     texte = (request.POST.get('text') or '')[:MAX_CARACTERES]
     version_page = _version(request)
 
@@ -261,10 +205,7 @@ def text_build(request):
             'login_problem': is_anon_cant_create(request),
         })
 
-    # 1. Les liens. Le premier lisible est lu comme un build; il decide de la
-    # version, parce qu'un hote ne ment pas sur la version alors qu'un nom
-    # d'objet peut exister dans plusieurs (voir plus bas). Les autres liens
-    # lisibles sont rendus dans la liste des lignes laissees.
+    # 1. Links: the first readable one is read and decides the version
     reste, lisibles, illisibles = separe_les_liens(texte)
     build = None
     if lisibles:
@@ -280,15 +221,7 @@ def text_build(request):
             })
     version = build['game_version'] if build else version_page
 
-    # 2. Le texte, dans la version du lien s'il y en a un, sinon celle de la
-    # page. Un texte qui dit lui-meme venir d'une autre version n'est pas
-    # cherche dans le mauvais catalogue.
-    #
-    # Mesure du 10 septembre 2026: 1594 des 6269 noms Retro existent aussi en
-    # Dofus 3, et 482 d'entre eux y designent un objet d'un AUTRE NIVEAU
-    # (<<Amulet of the Valiant Heart>> passe de 41 a 200). Depuis Touch, 818
-    # sur 2618. Le lecteur aurait recu un build plausible qui n'est pas le
-    # sien, ce qui est le pire des resultats possibles.
+    # 2. The text, in the link's version or else the page's
     lu = read_items(reste, version, get_supported_language())
     annoncee = lu['stated_version']
     if annoncee and annoncee != version:
@@ -305,8 +238,7 @@ def text_build(request):
             'login_problem': is_anon_cant_create(request),
         })
 
-    # 3. Ce que les deux entrees ont donne, dans l'ordre: le lien d'abord,
-    # puis le texte, sans doublon.
+    # 3. Link items first, then text items, no duplicates
     ids_du_lien = list(build['item_ids']) if build else []
     item_ids = list(ids_du_lien)
     for item_id in lu['item_ids']:
@@ -315,8 +247,7 @@ def text_build(request):
     laissees = list(lu['ignored']) + lisibles[1:] + illisibles
 
     if not item_ids:
-        # Un lecteur qui n'a colle qu'un lien d'un site que le serveur ne
-        # lit pas doit l'entendre en ces mots, pas en <<aucun objet>>.
+        # Only an unreadable link pasted: say so, not "no item"
         if illisibles and not lu['ignored']:
             erreur = _raisons_du_lien()['not_a_link']
         else:
@@ -332,26 +263,17 @@ def text_build(request):
             'login_problem': is_anon_cant_create(request),
         })
 
-    # La classe et le niveau viennent du texte QUAND il les porte, ce qui est
-    # le cas d'un build exporte par le site: son entete dit <<Mon Cra - Cra
-    # lvl 200>>. Un lien porte parfois le niveau. Ce sont des sources de
-    # premiere main, donc les pre-remplir n'est pas les deviner. Le choix
-    # reste affiche et modifiable.
+    # Class and level from the text when it has them (our export's header)
     char_class = request.POST.get('char_class') or ''
     if not char_class and lu['char_class'] in CHARACTER_CLASSES:
         char_class = lu['char_class']
-    # Un lien qui nomme la classe dans une numerotation que l'on sait
-    # lire (DofusCreator, pas DofusBook) la pre-remplit; le choix reste.
+    # DofusCreator links carry a class we can read, DofusBook links do not
     if not char_class and build and build.get('char_class') in CHARACTER_CLASSES:
         char_class = build['char_class']
     niveau_lu = lu['char_level'] or (build['level'] if build else None)
     niveau = safe_int(request.POST.get('level'), niveau_lu or NIVEAU_PAR_DEFAUT)
 
-    # Les caracteristiques: celles du lien d'abord (leur stuffCarac porte les
-    # points investis et les parchotages), celles du texte par-dessus quand
-    # il en porte (une ligne Points: ou Scrolls: collee est un choix
-    # explicite du lecteur). Thibaud, 11 septembre 2026: l'import d'un lien
-    # jetait ses stats de base et ses parchotages.
+    # Base stats: the link's first, the text's on top
     points = dict(build.get('base_points') or {}) if build else {}
     points.update(lu['base_points'])
     parchos = dict(build.get('base_scrolled') or {}) if build else {}
@@ -365,9 +287,7 @@ def text_build(request):
         langue = get_supported_language()
         pieces_du_lien, overrides_du_lien, refuses_du_lien = _pieces_du_lien(
             build, structure, version)
-        # Les pieces dont la forgemagie du lien reste derriere, nommees
-        # dans la langue du lecteur: un build qui arrive sans ses exos
-        # doit le dire avant, pas le laisser decouvrir.
+        # Pieces whose link forgemagie we do not carry
         sans_fm = []
         for item_id in build.get('fm_not_carried') or []:
             item = structure.get_item_by_id(item_id)
@@ -383,11 +303,10 @@ def text_build(request):
                 'fm_global': fm_global,
                 'fm_weapon': bool(build.get('fm_weapon')),
                 'fm_unmapped': fm_sans_cle,
+                'exos': _exos_du_lien(build),
                 'version_differs': version != version_page}
 
-    # Les jets, meme regle que les caracteristiques: ceux du lien d'abord,
-    # ceux du texte par-dessus pour la meme piece, puisqu'une ligne collee
-    # est un choix explicite du lecteur.
+    # Rolls: the link's first, the text's on top for the same piece
     overrides = {}
     for source in (overrides_du_lien, lu['overrides']):
         for item_id, par_piece in source.items():
@@ -416,16 +335,15 @@ def text_build(request):
 
     nom = (build['name'] if build and build['name'] else _('Imported build'))
     char = create_build(request, char_class, niveau, set(), version, name=nom)
-    _ecrit_les_caracteristiques(char, points, parchos)
-    # `origin` distingue dans la ligne stockee un build venu d'un lien d'un
-    # build colle en texte; ni l'un ni l'autre n'est <<generated>>, donc la
-    # page ne dira jamais que le solveur a produit ce qu'il n'a pas vu.
+    _ecrit_les_caracteristiques(
+        char, points, parchos,
+        complet=bool(build and build.get('base_stats_complete')))
+    if build:
+        _pose_les_exos(char, build)
+    # Never 'generated': the solver did not produce these items
     _place_items(char, item_ids,
                  origin='dofusbook' if build else 'pasted_text')
-    # Les jets APRES la pose des objets: `_place_items` appelle set_minimal_
-    # solution, qui ecrit sur le char, et ecrire les overrides avant se
-    # ferait ecraser. Un seul save pour tout le lot, la ou
-    # set_item_stat_override en fait un par caracteristique.
+    # After _place_items: its set_minimal_solution would overwrite the overrides
     if overrides:
         set_stat_overrides(char, overrides)
     logger.info('imported %d items (%d from a link) and %d rolled stats '

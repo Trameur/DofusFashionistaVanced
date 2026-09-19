@@ -1,43 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une page qui existe en cinq langues le declare, et ne ment jamais.
-
-Trouve en suivant les liens du site depuis ses 25 racines, deux niveaux de
-profondeur. Mesure du 14 septembre 2026: **585 pages repondaient 200 et 530
-n'annoncaient aucune traduction**. Seules trois formes le faisaient -- la
-racine, l'encyclopedie et l'index des guides -- parce que la liste des pages
-autorisees a publier un groupe etait ecrite a la main, avec six noms, et avec
-cette note:
-
-    /es/faq/ does not exist, and announcing it in hreflang would point Google
-    at a 404, which is worse than announcing nothing.
-
-La regle etait juste. Le fait avait cesse d'etre vrai: depuis la section 91 la
-version par defaut prefixe les 115 routes dont le chemin ne nomme pas deja une
-langue, donc /es/faq/ repond 200 en espagnol. Le routeur et le bloc hreflang
-repondaient a la meme question avec deux listes, et les listes avaient
-diverge.
-
-Les deux lisent maintenant `game_urls.routes_published_once_per_language`.
-
-**Publier un groupe faux est pire que n'en publier aucun.** Google lit un
-groupe par la reference qu'il fait a lui-meme et abandonne l'ensemble des
-qu'un membre se renie. Deux familles se renient, et les deux se taisent
-desormais:
-
-- les cinq adresses d'un build sont canoniques a la MEME, parce que
-  `shared_build_path` porte la version et jamais la langue;
-- les copies d'`/about/`, `/faq/`, `/support/` et `/license/` servies sous un
-  prefixe de version sont canoniques a la page sans version.
-
-Le garde du canonique existait deja mais lisait `canonical_url`, alors que ces
-pages ecrivent leur canonique ailleurs: `canonical_path`, ou un `{% url %}`
-dans le gabarit. Il comparait donc a None et laissait tout passer: **225 des
-585 pages auraient publie un groupe contredisant leur propre canonique.**
-
-Apres: 330 pages publient, 1650 membres verifies un par un, **zero en faute**
--- chacun repond 200, dans la langue qu'il annonce, et se nomme lui-meme.
-255 se taisent, et chacune pour une raison nommee.
-"""
+"""Pages in five languages publish a reciprocal hreflang group."""
 import pickle
 import re
 
@@ -54,8 +16,7 @@ _ALTERNATE = re.compile(r'<link\b[^>]*hreflang=[^>]*>', re.I)
 _HREFLANG = re.compile(r'hreflang="([^"]+)"')
 _HREF = re.compile(r'href="([^"]*)"')
 _CANONICAL = re.compile(r'<link[^>]*rel="canonical"[^>]*>', re.I)
-#: Le tag entier: le minificateur trie les attributs, donc rel et href
-#: arrivent dans l'ordre qu'il veut.
+# Whole tag: the minifier sorts attributes
 _ANCHOR = re.compile(r'<(?:a|button)\b[^>]*flag-btn[^>]*>', re.I)
 
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
@@ -85,7 +46,6 @@ def _alternates_of(html):
 
 
 class TheRuleIsReadFromTheRoutesTests(TestCase):
-    """Le routeur et le bloc hreflang repondent a la meme question."""
 
     def test_the_names_come_from_the_routes_themselves(self):
         from_routes = {entry.name
@@ -96,12 +56,10 @@ class TheRuleIsReadFromTheRoutesTests(TestCase):
                         % sorted(from_routes - prefixed_page_names()))
 
     def test_there_are_enough_of_them_to_be_the_rule_and_not_a_list(self):
-        """Le plancher: la liste ecrite a la main en comptait six."""
         self.assertGreaterEqual(len(prefixed_page_names()), 100)
 
     def test_a_page_whose_path_names_its_language_is_left_alone(self):
-        """Une fiche d'objet ou un guide porte sa langue dans son slug: elle
-        a UNE adresse, et lui donner un prefixe la dupliquerait."""
+        """Item and guide slugs already carry the language."""
         for name in ('guide', 'encyclopedia_item', 'encyclopedia_set',
                      'encyclopedia_monster', 'encyclopedia_resource'):
             with self.subTest(name=name):
@@ -109,7 +67,6 @@ class TheRuleIsReadFromTheRoutesTests(TestCase):
 
 
 class TheGateReadsTheCanonicalThePageRendersTests(TestCase):
-    """Trois orthographes du canonique; le garde doit lire la bonne."""
 
     def setUp(self):
         self.request = RequestFactory().get('/fr/retro/about/')
@@ -128,16 +85,14 @@ class TheGateReadsTheCanonicalThePageRendersTests(TestCase):
             SITE_URL + '/fr/about/')
 
     def test_with_neither_it_is_the_page_itself(self):
-        """Ce que base.html rend par defaut."""
+        """What base.html renders by default."""
         self.assertEqual(canonical_the_page_will_render(self.request, {}),
                          SITE_URL + '/fr/retro/about/')
 
 
 class EveryGroupPublishedIsReciprocalTests(TestCase):
-    """Un membre qui se renie fait abandonner le groupe entier."""
+    """Google drops the whole group if one member does not name itself."""
 
-    #: Des pages qui n'existaient dans aucune autre langue avant la section 91,
-    #: plus deux carrefours qui publiaient deja, comme temoins.
     PAGES = ('/fr/about/', '/es/faq/', '/pt/support/', '/de/license/',
              '/fr/sharedbuilds/', '/es/quickstart/', '/fr/forgemagie/',
              '/de/import/text/', '/fr/choose_compare_sets/',
@@ -159,7 +114,6 @@ class EveryGroupPublishedIsReciprocalTests(TestCase):
         self.assertEqual([], thin)
 
     def test_every_member_answers_in_its_language_and_names_itself(self):
-        """La mesure qui compte, faite membre par membre."""
         checked = 0
         wrong = []
         for path in self.PAGES:
@@ -182,7 +136,7 @@ class EveryGroupPublishedIsReciprocalTests(TestCase):
 
 
 class AGroupThatWouldNotBeReciprocalIsNotPublishedTests(TestCase):
-    """Les deux familles qui se renient, et la raison de chacune."""
+    """Build pages and version-prefixed copies publish no group."""
 
     def setUp(self):
         self.owner = User.objects.create_user(
@@ -199,8 +153,7 @@ class AGroupThatWouldNotBeReciprocalIsNotPublishedTests(TestCase):
 
     @staticmethod
     def _a_solution():
-        """Sans solution enregistree, /s/ rend 404 pour une raison qui n'a
-        rien a voir avec ce qui est mesure ici."""
+        """Without a saved solution /s/ answers 404."""
         from fashionistapulp.modelresult import ModelResultMinimal
         from fashionistapulp.structure import get_structure
         structure = get_structure('dofus3')
@@ -222,7 +175,6 @@ class AGroupThatWouldNotBeReciprocalIsNotPublishedTests(TestCase):
         return prefix + shared_build_path(self.build)
 
     def test_the_build_page_is_really_there(self):
-        """Le plancher: un 404 rendrait le test suivant vrai pour rien."""
         for language in ('', 'fr'):
             with self.subTest(language=language or 'en'):
                 self.assertEqual(
@@ -230,8 +182,6 @@ class AGroupThatWouldNotBeReciprocalIsNotPublishedTests(TestCase):
                     200)
 
     def test_a_build_page_announces_no_group(self):
-        """Son nom ne contient pas d'espace, donc rien ne le sauve par
-        accident d'echappement: c'est la vue qui dit non."""
         for language in ('', 'fr', 'es'):
             with self.subTest(language=language or 'en'):
                 html = self.client.get(
@@ -239,15 +189,12 @@ class AGroupThatWouldNotBeReciprocalIsNotPublishedTests(TestCase):
                 self.assertEqual({}, _alternates_of(html))
 
     def test_a_build_page_keeps_its_language_flags(self):
-        """Le lecteur, lui, veut bien changer de langue: seuls les moteurs
-        sont concernes par le groupe."""
         html = self.client.get(self._build_path('fr')).content.decode('utf-8')
         links = [tag for tag in _ANCHOR.findall(html) if tag.startswith('<a')]
         self.assertEqual(len(LANGUAGES) - 1, len(links), links)
 
     def test_a_version_prefixed_copy_announces_none(self):
-        """/fr/retro/about/ est canonique sur /fr/about/: une page, une
-        adresse, et le groupe appartient a celle qui est canonique."""
+        """/fr/retro/about/ is canonical to /fr/about/, which owns the group."""
         for path in ('/fr/retro/about/', '/es/dofus2/faq/',
                      '/de/touch/support/', '/pt/beta/license/'):
             with self.subTest(path=path):
@@ -259,7 +206,7 @@ class AGroupThatWouldNotBeReciprocalIsNotPublishedTests(TestCase):
 
 
 class TheFlagsAreLinksWhereThePageHasTranslationsTests(TestCase):
-    """Un bouton n'est pas un lien: un robot n'en suit aucun."""
+    """Crawlers follow links, not buttons."""
 
     def test_a_page_that_has_translations_offers_four_links(self):
         for path in ('/fr/about/', '/es/sharedbuilds/', '/fr/quickstart/'):

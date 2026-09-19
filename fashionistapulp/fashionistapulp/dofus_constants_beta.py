@@ -224,9 +224,7 @@ STAT_ORDER = {
     'resperwea': 133,
 }
 
-# Vestigial: the solver reads the live per-version caps from
-# dofus_constants.get_stat_maximum, not this copy. Kept in sync (Range 6, the
-# effective in-game equipment cap) to avoid contradicting the live values.
+# Unused, the solver reads dofus_constants.get_stat_maximum
 STAT_MAXIMUM = {
     'AP': 12,
     'MP': 6,
@@ -325,22 +323,15 @@ class Spell:
         self.is_linked = is_linked
         self.special = special
         self.buff_scaling = buff_scaling
-        # Ankama/dofusdude spell id (audits match DofusDB by id, names have
-        # homonyms); None for the hand-written shared specs.
+        # Ankama spell id, None for the hand-written shared specs
         self.spell_id = spell_id
         # {'ap': [...], 'per_turn': [...], ...}, one value per spell level.
         self.casting = casting
-        # {row index: what has to happen first}, for a row the cast does not
-        # land by itself. Noa's second row waits for the target to suffer
-        # pushback damage; counting it with the cast overstates the turn.
+        # {row index: prerequisite} for rows the cast does not land alone
         self.conditional = conditional or {}
-        # {row index: when it lands}, for a row that is certain but late: a
-        # poison at the start or end of a turn. Unlike `conditional` it is
-        # still the spell's damage, so it stays in what a cast is worth and is
-        # only reported apart.
+        # {row index: when it lands} for rows that land later, like a poison
         self.delayed = delayed or {}
-        # A critical hit can carry a different row list, so it gets its own
-        # map when the two disagree.
+        # Critical hits can have different rows
         self.delayed_crit = delayed_crit if delayed_crit is not None else None
 
     def ap_cost(self, level_index=-1):
@@ -616,19 +607,38 @@ DAMAGE_SPELLS = {
             [NEUTRAL],
             steals=[True],
         ), casting={'ap': [1]}, spell_id=10817),
-        Spell('Pestilential Fog', [1, 1, 1], Effects(
-            [['0-0', '18', '18'],
-             ['0-0', '18', '18'],
-             ['0-0', '18', '18'],
-             ['0-0', '18', '18']],
+        Spell('Pestilential Fog', [1], Effects(
+            [['18'], ['18'], ['18'], ['18']],
             None,
             [EARTH, FIRE, WATER, AIR],
-        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], casting={'ap': [1, 1, 1]}, spell_id=18898, delayed={0: 'turn_begin', 1: 'turn_begin', 2: 'turn_begin', 3: 'turn_begin'}),
+        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], casting={'ap': [1]}, spell_id=15975, delayed={0: 'turn_begin', 1: 'turn_begin', 2: 'turn_begin', 3: 'turn_begin'}),
         Spell('Scurvion Toxicity', [200, 200, 200], Effects(
-            [['0-0', '8', '8'], ['0-0', '8', '8'], ['0-0', '8', '8'], ['0-0', '8', '8']],
+            [['8', '8', '8'],
+             ['8', '8', '8'],
+             ['8', '8', '8'],
+             ['8', '8', '8'],
+             ['8', '8', '8'],
+             ['8', '8', '8'],
+             ['8', '8', '8'],
+             ['8', '8', '8'],
+             ['0-0', '8', '8'],
+             ['0-0', '8', '8'],
+             ['0-0', '8', '8'],
+             ['0-0', '8', '8']],
             None,
-            [EARTH, FIRE, WATER, AIR],
-        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], casting={'ap': [1, 1, 1]}, spell_id=12505),
+            [EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR],
+        ), aggregates=[('Hit in best element', [0]),
+ ('', [1]),
+ ('', [2]),
+ ('', [3]),
+ ('Hit in best element', [4]),
+ ('', [5]),
+ ('', [6]),
+ ('', [7]),
+ ('Hit in best element', [8]),
+ ('', [9]),
+ ('', [10]),
+ ('', [11])], casting={'ap': [1, 1, 1]}, spell_id=12505),
     ],
     'Cra': [
         Spell('Retreat Arrow', [1, 66, 132], Effects(
@@ -669,10 +679,22 @@ DAMAGE_SPELLS = {
             steals=[True, False],
         ), is_linked=(2, 'Abolition Arrow'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1], 'crit': [15, 15]}, spell_id=32433, conditional={1: 'out_of_sight'}),
         Spell('Frozen Arrow', [1, 67, 133], Effects(
-            [['12-14', '16-19', '21-24']],
-            [['15-17', '20-23', '25-29']],
-            [WATER],
-        ), is_linked=(1, 'Plaguing Arrow'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=32435),
+            [['12-14', '16-19', '21-24'],
+             ['15-17', '20-23', '26-29'],
+             ['18-20', '24-27', '31-34'],
+             ['21-23', '28-31', '36-39'],
+             ['24-26', '32-35', '41-44']],
+            [['15-17', '20-23', '25-29'],
+             ['18-20', '24-27', '30-34'],
+             ['21-23', '28-31', '35-39'],
+             ['24-26', '32-35', '40-44'],
+             ['27-29', '36-39', '45-49']],
+            [WATER, WATER, WATER, WATER, WATER],
+        ), aggregates=[('Stack 0', [0]),
+ ('Stack 1', [1]),
+ ('Stack 2', [2]),
+ ('Stack 3', [3]),
+ ('Stack 4', [4])], is_linked=(1, 'Plaguing Arrow'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=32435),
         Spell('Immobilising Arrow', [30, 97, 164], Effects(
             [['7-9', '9-11', '11-13'],
              ['9-11', '11-13', '13-15'],
@@ -702,15 +724,15 @@ DAMAGE_SPELLS = {
             [WATER],
         ), is_linked=(1, 'Redemption Arrow'), casting={'ap': [4, 4], 'cooldown': [2, 2], 'crit': [25, 25]}, spell_id=32438),
         Spell('Slow-Down Arrow', [125, 192], Effects(
-            [['28-30', '32-34']],
-            [['33-36', '38-41']],
+            [['27-29', '31-33']],
+            [['32-35', '37-40']],
             [WATER],
-        ), is_linked=(2, 'Exploding Arrow'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=32439),
+        ), is_linked=(2, 'Exploding Arrow'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'crit': [15, 15]}, spell_id=32439),
         Spell('Paralysing Arrow', [165], Effects(
-            [['30-34']],
-            [['36-41']],
+            [['30-32']],
+            [['36-38']],
             [WATER],
-        ), is_linked=(2, 'Eye for Eye'), casting={'ap': [4], 'per_turn': [1], 'crit': [20]}, spell_id=32441),
+        ), is_linked=(2, 'Eye for Eye'), casting={'ap': [4], 'per_turn': [2], 'crit': [15]}, spell_id=32441),
         Spell('Redemption Arrow', [185], Effects(
             [['26-29'], ['32-35'], ['38-41'], ['44-47'], ['50-53'], ['56-59'], ['62-65']],
             [['31-35'], ['37-41'], ['43-47'], ['49-53'], ['55-59'], ['61-65'], ['67-71']],
@@ -734,10 +756,10 @@ DAMAGE_SPELLS = {
             [FIRE, FIRE],
         ), aggregates=[('', [0])], is_linked=(1, 'Slow-Down Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [5, 5, 5]}, spell_id=32444),
         Spell('Explosive Arrow', [45, 112, 179], Effects(
-            [['19-21', '25-28', '30-34']],
-            [['23-26', '30-34', '36-41']],
+            [['18-20', '24-26', '29-31']],
+            [['22-24', '29-31', '35-37']],
             [FIRE],
-        ), is_linked=(1, 'Slaughtering Arrow'), casting={'ap': [4, 4, 4], 'per_turn': [1, 1, 1], 'crit': [20, 20, 20]}, spell_id=32445),
+        ), is_linked=(1, 'Slaughtering Arrow'), casting={'ap': [4, 4, 4], 'per_turn': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=32445),
         Spell('Devouring Arrow', [85, 152], Effects(
             [['9-11', '11-13'],
              ['9-11', '11-13'],
@@ -815,16 +837,16 @@ DAMAGE_SPELLS = {
             steals=[True, True, True, True, True, True],
         ), aggregates=[('', [0, 3])], stacks=2, is_linked=(1, 'Persecuting Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'crit': [5, 5, 5]}, spell_id=32453),
         Spell('Eye for Eye', [55, 122, 189], Effects(
-            [['18-20', '24-26', '27-30'],
-             ['22-24', '29-31', '33-36'],
-             ['26-28', '34-36', '39-42'],
-             ['30-32', '39-41', '45-48'],
-             ['34-36', '44-46', '51-54']],
-            [['21-24', '28-31', '32-36'],
-             ['25-28', '33-36', '38-42'],
-             ['29-32', '38-41', '44-48'],
-             ['33-36', '43-46', '50-54'],
-             ['37-40', '48-51', '56-60']],
+            [['16-18', '21-24', '24-27'],
+             ['19-21', '25-28', '29-32'],
+             ['22-24', '29-32', '34-37'],
+             ['25-27', '33-36', '39-42'],
+             ['28-30', '37-40', '44-47']],
+            [['19-21', '25-28', '29-32'],
+             ['22-24', '29-32', '34-37'],
+             ['25-27', '33-36', '39-42'],
+             ['28-30', '37-40', '44-47'],
+             ['31-33', '41-44', '49-52']],
             [EARTH, EARTH, EARTH, EARTH, EARTH],
             steals=[True, True, True, True, True],
         ), aggregates=[('Stack 0', [0]),
@@ -843,8 +865,8 @@ DAMAGE_SPELLS = {
             [EARTH],
         ), is_linked=(1, 'Arrow of Judgement'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=32456),
         Spell('Slaughtering Arrow', [155], Effects(
-            [['25-29'], ['37-41'], ['49-53'], ['61-65'], ['73-77']],
-            [['30-35'], ['42-47'], ['54-59'], ['66-71'], ['78-83']],
+            [['25-29'], ['35-39'], ['45-49'], ['55-59'], ['65-69']],
+            [['30-35'], ['40-45'], ['50-55'], ['60-65'], ['70-75']],
             [EARTH, EARTH, EARTH, EARTH, EARTH],
         ), aggregates=[('Stack 0', [0]),
  ('Stack 1', [1]),
@@ -857,13 +879,13 @@ DAMAGE_SPELLS = {
             [EARTH, 'buff_pow'],
         ), is_linked=(2, 'Lashing Arrow'), casting={'ap': [3], 'per_turn': [2], 'crit': [10]}, spell_id=32458),
         Spell('Destructive Bolts', [105, 172], Effects(
-            [['31-34', '38-42']],
-            [['37-40', '46-50']],
+            [['29-32', '36-40']],
+            [['35-39', '43-48']],
             [EARTH],
         ), is_linked=(2, 'Barricade Arrow'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'crit': [15, 15]}, spell_id=32459),
         Spell('Arrow of Judgement', [180], Effects(
-            [['36-40'], ['25-27']],
-            [['43-48'], ['30-32']],
+            [['36-40'], ['20-22']],
+            [['43-48'], ['24-26']],
             [EARTH, EARTH],
         ), stacks=2, is_linked=(2, 'Punitive Arrow'), casting={'ap': [4], 'per_turn': [2], 'per_target': [1], 'crit': [20]}, spell_id=32460),
         Spell('Powerful Shots', [35, 102, 169], Effects(
@@ -882,10 +904,10 @@ DAMAGE_SPELLS = {
             [NEUTRAL],
         ), casting={'ap': [3], 'cooldown': [3], 'crit': [25]}, spell_id=32472),
         Spell('Evasive Arrow', [110, 177], Effects(
-            [['21-23', '26-29']],
-            [['25-28', '31-35']],
+            [['13-15', '16-19']],
+            [['16-18', '20-23']],
             [WATER],
-        ), is_linked=(2, 'Vagabond Arrow'), casting={'ap': [3, 3], 'per_turn': [2, 2], 'per_target': [1, 1], 'crit': [10, 10]}, spell_id=32531),
+        ), is_linked=(2, 'Vagabond Arrow'), casting={'ap': [2, 2], 'per_turn': [3, 3], 'per_target': [2, 2], 'crit': [5, 5]}, spell_id=32531),
         Spell('Loving Arrows', [145], Effects(
             [['100']],
             [['100']],
@@ -1795,57 +1817,25 @@ DAMAGE_SPELLS = {
             [EARTH],
         ), is_linked=(1, 'Ancestral Ointment'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2], 'crit': [10, 10, 10]}, spell_id=25867),
         Spell('Friendship Word', [5, 72, 139], Effects(
-            [['10', '10', '10'],
-             ['10', '10', '10'],
-             ['10', '10', '10'],
-             ['10', '10', '10'],
-             ['0-0', '10', '10'],
-             ['0-0', '10', '10'],
-             ['0-0', '10', '10'],
-             ['0-0', '10', '10'],
-             ['0-0', '0-0', '15'],
-             ['0-0', '0-0', '15'],
-             ['0-0', '0-0', '15'],
-             ['0-0', '0-0', '15'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0'],
-             ['0-0', '0-0', '0-0']],
+            [['10', '15', '20'],
+             ['10', '15', '20'],
+             ['10', '15', '20'],
+             ['10', '15', '20'],
+             ['10', '15', '20'],
+             ['10', '15', '20'],
+             ['10', '15', '20'],
+             ['10', '15', '20']],
             None,
-            [EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR],
-            heals=[False, False, False, False, True, True, True, True, False, False, False, False, True, True, True, True, False, False, False, False, True, True, True, True],
+            [EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR],
+            heals=[False, False, False, False, True, True, True, True],
         ), aggregates=[('Hit in best element', [0]),
  ('', [1]),
  ('', [2]),
  ('', [3]),
- ('Hit in best element', [4]),
+ ('', [4]),
  ('', [5]),
  ('', [6]),
- ('', [7]),
- ('Hit in best element', [8]),
- ('', [9]),
- ('', [10]),
- ('', [11]),
- ('Hit in best element', [12]),
- ('', [13]),
- ('', [14]),
- ('', [15]),
- ('Hit in best element', [16]),
- ('', [17]),
- ('', [18]),
- ('', [19]),
- ('Hit in best element', [20]),
- ('', [21]),
- ('', [22]),
- ('', [23])], is_linked=(1, 'Alchemical Word'), casting={'ap': [3, 3, 3], 'cooldown': [1, 1, 1]}, spell_id=25795),
+ ('', [7])], is_linked=(1, 'Alchemical Word'), casting={'ap': [3, 3, 3], 'cooldown': [1, 1, 1]}, spell_id=25795),
         Spell('Lamentations', [20, 87, 154], Effects(
             [['18-20', '23-26', '29-32']],
             [['22-24', '28-31', '35-38']],
@@ -2342,6 +2332,11 @@ DAMAGE_SPELLS = {
  'stack_offset': 1,
  'stats': {'pow': {'base': 20, 'max_effective': 10, 'per_stack': 20}},
  'type': 'mp_buff'}, casting={'ap': [3], 'cooldown': [4]}, spell_id=14274),
+        Spell('Lucky Shovel', [195], Effects(
+            [['40']],
+            None,
+            ['buff_pow'],
+        ), casting={'ap': [2], 'per_turn': [1]}, spell_id=29755),
     ],
     'Feca': [
         Spell('Backlash', [1, 66, 132], Effects(
@@ -4925,62 +4920,62 @@ DAMAGE_SPELLS = {
             [FIRE],
         ), is_linked=(2, 'Distortion'), casting={'ap': [4], 'per_turn': [1], 'crit': [15]}, spell_id=13292),
         Spell('Knell', [200], Effects(
-            [['6'],
+            [['3'],
+             ['3'],
+             ['3'],
+             ['3'],
              ['6'],
              ['6'],
              ['6'],
+             ['6'],
+             ['9'],
+             ['9'],
+             ['9'],
+             ['9'],
              ['12'],
              ['12'],
              ['12'],
              ['12'],
+             ['15'],
+             ['15'],
+             ['15'],
+             ['15'],
              ['18'],
              ['18'],
              ['18'],
              ['18'],
-             ['24'],
-             ['24'],
-             ['24'],
-             ['24'],
-             ['30'],
-             ['30'],
-             ['30'],
-             ['30'],
-             ['36'],
-             ['36'],
-             ['36'],
-             ['36'],
-             ['42'],
-             ['42'],
-             ['42'],
-             ['42']],
-            [['7'],
+             ['21'],
+             ['21'],
+             ['21'],
+             ['21']],
+            [['4'],
+             ['4'],
+             ['4'],
+             ['4'],
              ['7'],
              ['7'],
              ['7'],
+             ['7'],
+             ['10'],
+             ['10'],
+             ['10'],
+             ['10'],
              ['13'],
              ['13'],
              ['13'],
              ['13'],
+             ['16'],
+             ['16'],
+             ['16'],
+             ['16'],
              ['19'],
              ['19'],
              ['19'],
              ['19'],
-             ['25'],
-             ['25'],
-             ['25'],
-             ['25'],
-             ['31'],
-             ['31'],
-             ['31'],
-             ['31'],
-             ['37'],
-             ['37'],
-             ['37'],
-             ['37'],
-             ['43'],
-             ['43'],
-             ['43'],
-             ['43']],
+             ['22'],
+             ['22'],
+             ['22'],
+             ['22']],
             [FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR, EARTH],
         ), aggregates=[('Stack 0', [0]),
  ('', [1]),
@@ -5009,7 +5004,7 @@ DAMAGE_SPELLS = {
  ('Stack 6', [24]),
  ('', [25]),
  ('', [26]),
- ('', [27])], stacks=6, casting={'ap': [4], 'cooldown': [3], 'crit': [5]}, spell_id=13300),
+ ('', [27])], stacks=6, casting={'ap': [3], 'cooldown': [2], 'crit': [5]}, spell_id=13300),
     ]
 }
 # AUTO-GENERATED DAMAGE_SPELLS END
@@ -5065,38 +5060,17 @@ def get_equiped_weapon(char_stats):
             break
     return weapon
 
-# The hit types that move or drain instead of hurting. Kept equal to the list
-# in dofus_constants; a test holds the three copies together.
+# Hit types that move or drain instead of hurting, same list in dofus_constants
 NON_ELEMENTAL_HIT_TYPES = ('pushes', 'steals', 'attracts', 'advances',
                            'steals_mp', 'removes_ap', 'removes_mp')
 
 
 def raised_by_percent(base, percent):
-    """`base` raised by `percent` percent, without losing a point to rounding.
-
-    `int((1 + percent / 100.0) * base)` looks equivalent and is not: in binary
-    `1 + 360 / 100.0` is 4.5999999999999996, so a base of 25 comes out at
-    114.99999999999999 and truncates to 114 where the exact answer is 115.
-    Multiplying before dividing keeps integers exact. The spells page already
-    computes it that way in JavaScript, which is why it showed 120 on Radiant
-    Arrow while the best-turn panel announced 119.
-
-    Measured 2026-09-12: the loss only happens for **102 of the 1501 stat
-    totals from 0 to 1500**, because it needs both an inexact 1 + x/100 and a
-    product landing just under an integer. When it does happen it reaches
-    **11.1% of the catalogue's damage values** (531 of 4770 on Dofus 3 at a
-    stat total of 720), 4.5% at 360. On one level-200 Cra of the local copy,
-    **7 of its 49 spells** announced one number in the panel and another in
-    the table.
-
-    It reaches the best-turn panel, the weapon damage on the build page and
-    the item comparison popup, which all call calculate_damage.
-    """
+    """Multiply first: 1 + 360 / 100.0 is 4.5999... in binary"""
     product = base * (100 + percent)
     if isinstance(product, int):
         return product // 100
-    # Truncation toward zero, as the previous int() did, so nothing but the
-    # artefact changes.
+    # Truncate toward zero like int()
     return int(product / 100.0)
 
 

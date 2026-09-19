@@ -1744,6 +1744,10 @@ msgstr "Obtenez des panoplies Dofus %(version)s optimisées automatiquement, sel
 msgid "Get Dofus sets created automatically, based on your specific needs."
 msgstr "Obtenez des panoplies Dofus optimisées automatiquement, selon vos besoins précis."
 
+#: .\chardata\templates\chardata\home.html
+msgid "Set Builder and Optimizer"
+msgstr "Créateur et optimiseur de stuff"
+
 #: .\chardata\templates\chardata\base.html:20
 #: .\chardata\templates\chardata\home.html:4
 #: .\chardata\templates\chardata\solution.html:26
@@ -2982,7 +2986,7 @@ msgstr "Remettre à zéro"
 
 #: .\chardata\templates\chardata\chardata.html:43
 msgid "Fully Scroll"
-msgstr "Monter toutes les caractéristiques"
+msgstr "Parchoter au maximum"
 
 #: .\chardata\templates\chardata\chardata.html:46
 msgid "Proceed to Wizard"
@@ -3742,6 +3746,15 @@ msgstr ""
 msgid "Done reading?"
 msgstr "Fini de lire ?"
 
+#: .\chardata\templates\chardata\home.html
+#, python-format
+msgid "Free Dofus %(version)s set builder and theorycraft tool. Tell it your class, level and what you want. It builds your best set automatically. For beginners and min-maxers alike."
+msgstr "Créateur de stuff et outil de theorycraft Dofus %(version)s gratuit : donne ta classe, ton niveau et tes objectifs, il te monte le meilleur stuff automatiquement. Pour débutants comme pros de l'opti."
+
+#: .\chardata\templates\chardata\home.html
+msgid "Free Dofus set builder and theorycraft tool. Tell it your class, level and what you want. It builds your best set automatically. For beginners and min-maxers alike."
+msgstr "Créateur de stuff et outil de theorycraft Dofus gratuit : donne ta classe, ton niveau et tes objectifs, il te monte le meilleur stuff automatiquement. Pour débutants comme pros de l'opti."
+
 #: .\chardata\templates\chardata\home.html:6
 #, python-format
 msgid ""
@@ -4427,6 +4440,55 @@ msgstr "Prysmaradite"
 #: .\chardata\templates\chardata\wizard_options.html:64
 msgid "Trophies"
 msgstr "Trophées"
+
+#: .\chardata\templates\chardata\options.html
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "TemporiX mode"
+msgstr "Mode TemporiX"
+
+#: .\chardata\templates\chardata\options.html
+msgid "For the TemporiX servers (15 September to 13 October 2026): shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build."
+msgstr "Pour les serveurs TemporiX (du 15 septembre au 13 octobre 2026) : coiffes, capes, amulettes, anneaux, ceintures, bottes et Dofus rayonnants que lâchent les monstres (chaque valeur multipliée par 1,5, arrondie au supérieur, malus compris), le Bouclier de l'infini au rang 1000, et aucune limite de PA, PM, PO ni d’invocations. Interdisez les pièces que vous n’avez pas, comme sur n’importe quel build."
+
+#: .\chardata\templates\chardata\solution_item.html
+msgctxt "smithmagic mark on an item"
+msgid "SM"
+msgstr "FM"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgctxt "exo mark on an item"
+msgid "Exo"
+msgstr "Exo"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgctxt "shiny mark on an item"
+msgid "Shiny"
+msgstr "Rayonnant"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Shiny: on the TemporiX servers this piece drops with every value times 1.5. In the game it keeps its name and shows a golden frame."
+msgstr "Rayonnant : sur les serveurs TemporiX, cette pièce tombe avec chaque valeur multipliée par 1,5. En jeu, elle garde son nom et s'affiche dans un cadre doré."
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Smithmagic: the rolls recorded on this piece differ from its encyclopedia values."
+msgstr "Forgemagie : les jets enregistrés sur cette pièce diffèrent de ses valeurs de l'encyclopédie."
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Exo: this piece carries a line, or an AP, MP or Range point, beyond its encyclopedia values."
+msgstr "Exo : cette pièce porte une ligne, ou un PA, PM ou PO, au-delà de ses valeurs de l'encyclopédie."
+
+#: .\chardata\templates\chardata\solution.html
+#: .\chardata\templates\chardata\shared_builds.html
+msgid "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit."
+msgstr "Calculé selon les règles TemporiX : pièces rayonnantes, et aucune limite de PA, PM, PO ni d’invocations."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Dofus Touch"
+msgstr "Dofus Touch"
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "A Dofus Touch build can be solved for the TemporiX servers: one box in its options switches on shiny hats, capes, amulets, rings, belts, boots and Dofus, the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit."
+msgstr "Un build Dofus Touch peut être calculé pour les serveurs TemporiX : une case dans ses options active les coiffes, capes, amulettes, anneaux, ceintures, bottes et Dofus rayonnants, le Bouclier de l'infini au rang 1000, et aucune limite de PA, PM, PO ni d’invocations."
 
 #: .\chardata\templates\chardata\password_reset_form.html:7
 #: .\chardata\templates\chardata\password_reset_form.html:14
@@ -6020,6 +6082,14 @@ msgstr "Toutes les Résistances (Fixe)"
 msgid "All % Resists"
 msgstr "Toutes les Résistances (%)"
 
+#: .\chardata\wizard_sliders.py
+msgid "All % Resists (PvP)"
+msgstr "Toutes les Résistances PvP (%)"
+
+#: .\chardata\wizard_sliders.py
+msgid "All Resists (PvP)"
+msgstr "Toutes les Résistances PvP (Fixe)"
+
 #: .\chardata\templates\chardata\stats.html:88
 msgid "% Neutral Resist (PvP)"
 msgstr "% Résistance Neutre (PvP)"
@@ -6139,7 +6209,7 @@ msgstr "Aucun build partagé pour le moment."
 #: .\chardata\templates\chardata\wizard.html:127
 #: .\chardata\templates\chardata\wizard_scrolling.html:10
 msgid "Leave scrolling at"
-msgstr "Quitter le parchotage à"
+msgstr "Garder le parchotage à"
 
 #: .\chardata\templates\chardata\wizard.html:132
 msgid "This will reset the tuning sliders back to the default for your build."
@@ -6187,6 +6257,14 @@ msgstr "Parchotage "
 #: .\chardata\templates\chardata\wizard_scrolling.html:8
 msgid "Fully scroll my character"
 msgstr "Entièrement parchoter mon personnage"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll every characteristic to 100"
+msgstr "Parchoter chaque caractéristique à 100"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll to 100"
+msgstr "Parchoter à 100"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:9
 msgid "Don't scroll any characteristics"
@@ -6409,6 +6487,11 @@ msgstr "PA : %(AP)d / CC : %(crit_chance)d%% (+%(crit_bonus)d)"
 msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgstr ""
 "(%(weapon_type)s) PA : %(AP)d / CC : %(crit_chance)d%% (+%(crit_bonus)d)"
+
+#: .\chardata\wizard_sliders.py
+msgctxt "Slider section"
+msgid "AP, MP and Range"
+msgstr "PA, PM et Portée"
 
 #: .\chardata\wizard_sliders.py:36
 msgctxt "Slider section"
@@ -7218,6 +7301,9 @@ msgstr "Ce verdict voyage avec le build : dans le texte copié, dans l’API pub
 msgid "Your build, in and out"
 msgstr "Votre build, dans un sens et dans l’autre"
 
+msgid "Bring your build in"
+msgstr "Importez votre build"
+
 msgid "and %(count)d more"
 msgstr "et %(count)d de plus"
 
@@ -7242,20 +7328,38 @@ msgstr "nouveautés"
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importez un build entier : collez des noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez une capture d’infobulle par pièce. Les jets et les exos suivent."
 
+msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
+msgstr "Importez un build entier : collez des noms d’objets ou déposez une capture d’infobulle par pièce. Les jets et les exos suivent."
+
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Collez des noms d’objets, un lien de build ou des captures d’infobulle et retrouvez le même build ici, pièce par pièce. Rien n’est réoptimisé tant que vous ne le demandez pas."
+
+msgid "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr "Collez des noms d’objets ou des captures d’infobulle et retrouvez le même build ici, pièce par pièce. Rien n’est réoptimisé tant que vous ne le demandez pas."
 
 msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
 msgstr "Collez vos noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez des captures d’infobulle. Tout ce qui n’est pas un objet est ignoré."
 
+msgid "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped."
+msgstr "Collez vos noms d’objets ou déposez des captures d’infobulle. Tout ce qui n’est pas un objet est ignoré."
+
 msgid "One item name per line, or a build link"
 msgstr "Un nom d’objet par ligne, ou un lien de build"
+
+msgid "One item name per line"
+msgstr "Un nom d’objet par ligne"
 
 msgid "Read this"
 msgstr "Lire tout ça"
 
 msgid "Read from the link: %(name)s (%(version)s)."
 msgstr "Lu depuis le lien : %(name)s (%(version)s)."
+
+msgid "Read from the link (%(version)s)."
+msgstr "Lu depuis le lien (%(version)s)."
+
+msgid "The exos from the link become the build's exo options: %(stats)s."
+msgstr "Les exos du lien deviennent les options d’exo du build : %(stats)s."
 
 msgid "The build will be created in that version."
 msgstr "Le build sera créé dans cette version."
@@ -7278,8 +7382,15 @@ msgstr "Ce site n’a pas pu être joint. Réessayez plus tard."
 msgid "That site answered something we could not read."
 msgstr "Ce site a répondu quelque chose que nous n’avons pas pu lire."
 
+#: .\chardata\text_build_view.py
+msgid "That link is incomplete or damaged. Copy the full address again."
+msgstr "Ce lien est incomplet ou abîmé. Copiez de nouveau l’adresse complète."
+
 msgid "Import it from a link, text or screenshots"
 msgstr "Importez-le depuis un lien, du texte ou des captures d’écran"
+
+msgid "Import it from text or screenshots"
+msgstr "Importez-le depuis du texte ou des captures d’écran"
 
 msgid "Build links our server can read today: %(sites)s."
 msgstr "Liens de build que notre serveur sait lire aujourd’hui : %(sites)s."
@@ -7302,8 +7413,13 @@ msgstr "Ces lignes du lien n’appartiennent à aucune pièce et restent de côt
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr "Ces lignes de forgemagie n’ont pas pu être lues et restent de côté :"
 
-msgid "Your forgemagie travels as one total per characteristic: their link format holds nothing finer."
-msgstr "Votre forgemagie part en un total par caractéristique : leur format de lien ne porte rien de plus fin."
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "DofusBook cannot receive forgemagie or exos piece by piece: its link only takes one total per characteristic, where each AP, MP or Range exo counts as +1. You will find them in its global forgemagie."
+msgstr "DofusBook ne permet pas d'exporter la forgemagie ni les exos pièce par pièce : son lien ne prend qu'un total par caractéristique, où chaque exo PA, PM ou PO compte pour +1. Vous les retrouverez dans sa forgemagie globale."
+
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "Shiny TemporiX pieces do not exist on DofusBook: what the x1.5 adds to each of them is sent in that global forgemagie."
+msgstr "Les pièces rayonnantes de TemporiX n'existent pas sur DofusBook : ce que le x1,5 ajoute à chacune part dans cette forgemagie globale."
 
 msgid "Their forgemagie field cannot hold these, so they stay here:"
 msgstr "Leur champ de forgemagie ne peut pas porter ceux-ci, ils restent ici :"

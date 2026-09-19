@@ -24,6 +24,7 @@ from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_N
 from .item_flags import flag_lines
 from .spell_text import fold_spell_blocks
 from .structure import get_structure, get_current_game_version
+from .temporix import as_worn, is_on as temporix_is_on
 from .translation import get_supported_language
 from .violation import Violation
 from fashionistapulp.dofus_constants import (STAT_NAME_TO_KEY,
@@ -118,21 +119,12 @@ class ModelResultMinimal():
         for stat in scrolled:
             self.input.get('base_stats_by_attr')[stat] = scrolled[stat]
 
-#: Ankama reclassified a number of pets as mounts, and the catalogue gives
-#: mounts an id space of their own -- MOUNT_ID_OFFSET + ankama_id instead of
-#: the bare ankama_id (itemscraper/get_equipments3.py). A build saved before
-#: that reclassification kept the old number, which designates nothing today,
-#: and its pet quietly vanished from the page.
+# Mount ids are MOUNT_ID_OFFSET + ankama_id, old builds can hold the bare id
 MOUNT_ID_OFFSET = 1000000
 
 
 def get_item_in_slot(structure, item_id, slot):
-    """The item a stored build meant for this slot, or None.
-
-    The fallback into the mount id space is accepted only when what it finds
-    is of the type the slot takes. A number that lands on something there by
-    coincidence is refused rather than shown as gear the author never chose.
-    """
+    """The item a stored build meant for this slot, or None."""
     item = structure.get_item_by_id(item_id)
     if item is not None:
         return item
@@ -189,8 +181,19 @@ class ModelResult():
         self.stats_gear = None
         self.stats_total = None
 
+    def _worn(self, item, stat_overrides):
+        """The piece as this build wears it: shiny on a TemporiX build."""
+        options = (self.input or {}).get('options') if isinstance(
+            self.input, dict) else None
+        # stat_overrides is the whole build's {item id: rolls}
+        overridden = (item is not None and bool(stat_overrides)
+                      and item.id in stat_overrides)
+        return as_worn(item, get_structure(), options, overridden=overridden)
+
     def add_item_at_slot(self, item, slot, stat_overrides=None):
-        self._add_result_item_at_slot(slot, ModelResultItem(item, stat_overrides))
+        self._add_result_item_at_slot(
+            slot, ModelResultItem(self._worn(item, stat_overrides),
+                                  stat_overrides))
         
     def _add_result_item_at_slot(self, slot, result_item):
         result_item.set_slot(slot)
@@ -201,21 +204,8 @@ class ModelResult():
 
     @staticmethod
     def _display_type(slot, result_item):
-        """Sous quel type cette piece est rangee, donc annoncee.
-
-        Le sien, et non celui de son emplacement. Un solveur ne pose jamais
-        une piece ailleurs que chez elle, donc cela ne change rien a ce qu'il
-        produit; ce sont les builds ENREGISTRES dont les emplacements ne
-        correspondent plus qui sont concernes.
-
-        Mesure du 11 septembre 2026 sur la copie de production: 896 builds
-        partages annonçaient au moins une piece sous un type qui n'est pas le
-        sien, 4890 pieces au total, et la page disait donc a chaque visiteur
-        une cape est un anneau, un bouclier est une arme, une amulette est un
-        Dofus.
-        """
+        """The piece's own type, not its slot's (saved builds can mismatch)."""
         if getattr(result_item, 'item_added', False):
-            # `ModelResultItem.type` porte deja le nom du type de la piece.
             type_name = getattr(result_item, 'type', None)
             if type_name in TYPE_NAMES:
                 return type_name
@@ -261,8 +251,7 @@ class ModelResult():
             for result_set in self.sets:
                 for stat_key, stat_value in result_set.get_bonus().items():
                     self.stats_gear[stat_key] += stat_value
-            # One point per stat for the whole build, from the option or from
-            # a worn piece that carries one, never from both and never twice.
+            # One exo point per stat for the whole build, option or worn piece
             worn_exos = set()
             for result_item in self.item_list:
                 if result_item.item_added:
@@ -272,8 +261,7 @@ class ModelResult():
                 self.stats_gear['ap'] += 1
             if ('range_exo' in options and options['range_exo']) or 'range' in worn_exos:
                 self.stats_gear['range'] += 1
-            # 'gelano' is not this point: that choice swaps in Gelano (#1),
-            # whose own MP is already in the sum above.
+            # 'gelano' swaps in Gelano (#1), its MP is already in the sum
             if options['mp_exo'] is True or 'mp' in worn_exos:
                 self.stats_gear['mp'] += 1
         return self.stats_gear
@@ -301,17 +289,11 @@ class ModelResult():
                                          + self.stats_total['cha']
                                          + self.stats_total['agi'])
             self.stats_total['hp'] = self.stats_total['vit'] + self.input['char_level'] * 5 + 50 + self.stats_total['hp']
-            # The gear may add up past the cap; the character reads the cap.
-            # Only AP/MP/Range are omitted on Retro, which never got Ankama's
-            # PA/PM/PO limitation. Summon and the five percent resists are in
-            # the base dict, so they ARE clamped on every version including
-            # Retro. Their 53 is a deliberately loose raw bound, not the
-            # in-game rule: the effective 50% ceiling on summed percent
-            # resistance lives in model.py's capped_resist variables, and the
-            # few points above it are the buffer that keeps a build at 50%
-            # under a vulnerability debuff.
+            # Raw caps, Retro has no AP/MP/Range cap; the 50% resist cap is in model.py
+            version = get_current_game_version()
             for stat_name, cap in get_stat_maximum(
-                    get_current_game_version()).items():
+                    version, temporix=temporix_is_on(
+                        self.input.get('options'), version)).items():
                 key = STAT_NAME_TO_KEY.get(stat_name)
                 if key in self.stats_total and self.stats_total[key] > cap:
                     self.stats_total[key] = cap
@@ -323,7 +305,8 @@ class ModelResult():
         return self.stats_total
         
     def switch_item(self, item, slot, stat_overrides=None):
-        result_item = ModelResultItem(item, stat_overrides)
+        result_item = ModelResultItem(self._worn(item, stat_overrides),
+                                      stat_overrides)
         result_item.set_slot(slot)
         to_remove = None
         for candidate_item in self.item_list:
@@ -645,8 +628,7 @@ class ModelResultItem():
                 self.localized_name = item.localized_names[get_supported_language()]
             else:
                 self.localized_name = or_item[0].localized_names[get_supported_language()]
-            # Several set pieces share a name (the four retro wedding rings, one
-            # per elemental set).
+            # Several set pieces share a name (the four retro wedding rings)
             self.localized_set_name = None
             if item.set is not None:
                 item_set = structure.get_set_by_id(item.set)
@@ -656,11 +638,12 @@ class ModelResultItem():
                         or item_set.name)
 
             self.weird_conditions = item.weird_conditions
+            # Shiny TemporiX copy: same name, golden slot in game
+            self.shiny = bool(getattr(item, 'shiny', False))
     
             self.stats = {}
             self.base_stats = {}
-            # An item can list the same stat twice (retro Minotot Sceptre:
-            # 6% + 6% Water Resist); in game the two lines stack.
+            # A stat listed twice stacks (retro Minotot Sceptre)
             self.stat_ranges = {}
             item_ranges = getattr(item, 'stat_ranges', {}) or {}
             for stat_id, stat_value in item.stats:
@@ -681,8 +664,7 @@ class ModelResultItem():
                     stat = structure.get_stat_by_id(stat_id)
                     if stat:
                         if stat.key in _EXO_KEYS and override_val > self.stats.get(stat.key, 0):
-                            # get_stats_gear() already adds the exo +1 from the
-                            # ap_exo/mp_exo/range_exo options.
+                            # get_stats_gear() adds the exo +1 itself
                             self.exo_overrides[stat.key] = override_val
                         else:
                             self.stats[stat.key] = override_val
@@ -707,8 +689,7 @@ class ModelResultItem():
                 **folded)
     
             if self.type == 'Weapon':
-                # Retro and Touch let several weapons share a name, so match on
-                # the item first.
+                # Retro and Touch weapons can share a name
                 weapon = (structure.get_weapon_for_item(item)
                           or structure.get_weapon_by_name(self.name))
                 if weapon is not None:
@@ -782,8 +763,7 @@ class ModelResultSet():
         self.localized_name = item_set.localized_names[get_supported_language()]
 
     def get_bonus(self):
-        # Many Retro sets define no bonus for a given piece count: wearing that
-        # many pieces grants nothing, it is not an error.
+        # Many Retro sets have no bonus for some piece counts
         return self.bonus_per_num_items.get(self.number_of_items, {})
 
     def get_max_caps(self):

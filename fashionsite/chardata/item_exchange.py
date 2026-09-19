@@ -42,8 +42,40 @@ from fashionistapulp.dofus_constants import SLOTS, STAT_ORDER, SLOT_NAME_TO_TYPE
     DAMAGE_TYPES, NEUTRAL, ELEMENT_KEY_TO_NAME
 from fashionistapulp.modelresult import ModelResultItem
 from fashionistapulp.structure import get_structure
+from fashionistapulp.temporix import as_worn, temporix_only_item_ids
 from fashionistapulp.translation import get_supported_language
+from chardata.temporix_mode import solution_uses_temporix
 from django.utils.translation import gettext as _
+
+
+def _picker_temporix(char):
+    """Whether the build's stored solve is a TemporiX one, read once a request.
+
+    The stored solve and not the switch: switch_item wears a swapped piece by
+    the solve's options, and the list has to show what the swap will give.
+    """
+    cached = getattr(char, '_picker_temporix', None)
+    if cached is None:
+        cached = solution_uses_temporix(get_solution(char), char.game_version)
+        char._picker_temporix = cached
+    return cached
+
+
+def _worn_in_picker(char, structure, item, overrides):
+    """The candidate as this build would wear it: shiny on a TemporiX build."""
+    if not _picker_temporix(char):
+        return item
+    overridden = bool(overrides) and item is not None and item.id in overrides
+    return as_worn(item, structure, {'temporix': True}, overridden=overridden)
+
+
+def _without_temporix_only(char, structure, items):
+    """A classic build is not offered the pieces only TemporiX has: the Shield
+    of Infinity led every classic Touch shield list, at 7500 Vitality."""
+    if _picker_temporix(char):
+        return items
+    banned = temporix_only_item_ids(structure)
+    return [item for item in items if item.id not in banned] if banned else items
 
 
 def _parse_stat_filters(request):
@@ -241,6 +273,7 @@ def get_items_of_type(request, char_id):
     if inventory_only:
         items = [i for i in items if _is_owned(structure, i, owned_ids)]
     items = _apply_source_filter(items, _source_filter(request))
+    items = _without_temporix_only(char, structure, items)
 
     max_page = math.ceil(len(items) / 10.0)
     items_to_return = items[(page - 1) * 10 : page * 10]
@@ -254,12 +287,17 @@ def get_items_of_type(request, char_id):
                 owned = owned_ids is not None and or_item.id in owned_ids
                 if inventory_only and not owned:
                     continue
-                result_item = ModelResultItem(or_item, effective_overrides)
+                result_item = ModelResultItem(
+                    _worn_in_picker(char, structure, or_item,
+                                    effective_overrides),
+                    effective_overrides)
                 evolve_result_item(result_item)
                 result_item.owned = owned
                 itemResults.append(result_item)
         else:
-            result_item = ModelResultItem(item, effective_overrides)
+            result_item = ModelResultItem(
+                _worn_in_picker(char, structure, item, effective_overrides),
+                effective_overrides)
             evolve_result_item(result_item)
             result_item.owned = (owned_ids is not None
                                  and _is_owned(structure, item, owned_ids))
@@ -313,6 +351,7 @@ def get_items_to_exchange(request, char_id):
         items_to_exchange = [i for i in items_to_exchange
                              if _is_owned(structure, i, owned_ids)]
     items_to_exchange = _apply_source_filter(items_to_exchange, _source_filter(request))
+    items_to_exchange = _without_temporix_only(char, structure, items_to_exchange)
 
     max_page = math.ceil(len(items_to_exchange) / 10.0)
 
@@ -335,7 +374,10 @@ def get_items_to_exchange(request, char_id):
                 owned = owned_ids is not None and or_item.id in owned_ids
                 if inventory_only and not owned:
                     continue
-                result_item = ModelResultItem(or_item, effective_overrides)
+                result_item = ModelResultItem(
+                    _worn_in_picker(char, structure, or_item,
+                                    effective_overrides),
+                    effective_overrides)
                 result_item.set_slot(slot)
                 evolve_result_item(result_item)
                 result_item.owned = owned
@@ -350,7 +392,9 @@ def get_items_to_exchange(request, char_id):
                     weapon_info[or_item.id] = _get_weapon_info(or_item, char,
                                                                effective_overrides)
         else:
-            result_item = ModelResultItem(item, effective_overrides)
+            result_item = ModelResultItem(
+                _worn_in_picker(char, structure, item, effective_overrides),
+                effective_overrides)
             result_item.set_slot(slot)
             evolve_result_item(result_item)
             result_item.owned = (owned_ids is not None

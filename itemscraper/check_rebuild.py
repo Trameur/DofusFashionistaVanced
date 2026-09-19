@@ -20,7 +20,8 @@ Two questions are asked of each version:
            the shape the drop scrape failed in.
   ids      did an item keep its ankama id and name but change its row id? A
            build stores row ids, and one that no longer resolves empties that
-           slot without a word.
+           slot without a word. A move the new data carries in legacy_item_ids
+           still resolves, and is counted apart.
 
 Exit code is 1 when either question has an answer.
 """
@@ -173,6 +174,20 @@ def read_db(path):
         connection.close()
 
 
+def read_legacy_ids(path):
+    """{old id: item} the database resolves retired ids through."""
+    connection = sqlite3.connect('file:%s?mode=ro' % path, uri=True)
+    try:
+        if connection.execute(
+                "SELECT 1 FROM sqlite_master WHERE type = 'table'"
+                " AND name = 'legacy_item_ids'").fetchone() is None:
+            return {}
+        return dict(connection.execute(
+            'SELECT old_id, item FROM legacy_item_ids'))
+    finally:
+        connection.close()
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--only', help='one game version')
@@ -199,6 +214,7 @@ def main(argv=None):
                   % (version, args.since))
             continue
         now_counts, now_items = read_db(path)
+        legacy = read_legacy_ids(path)
 
         lost = []
         for table, before in sorted(was_counts.items()):
@@ -209,15 +225,21 @@ def main(argv=None):
                 lost.append((table, before, after))
 
         moved = []
+        aliased = 0
         for key, before in was_items.items():
             after = now_items.get(key)
             if after is not None and after != before:
-                moved.append((key[1], before, after))
+                if legacy.get(before) == after:
+                    aliased += 1
+                else:
+                    moved.append((key[1], before, after))
 
-        print('%-8s %-24s %s' % (
+        print('%-8s %-24s %s%s' % (
             version,
             'tables short: %d' % len(lost),
-            'items whose row id moved: %d' % len(moved)))
+            'items whose row id moved: %d' % len(moved),
+            ' (%d more, still resolved by legacy_item_ids)' % aliased
+            if aliased else ''))
         for table, before, after in lost[:8]:
             print('         %-28s %s -> %s' % (table, before, after))
         for name, before, after in moved[:8]:

@@ -14978,7 +14978,7 @@
                         "int_minimum": 2,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15045,7 +15045,7 @@
                         "int_minimum": 4,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15073,7 +15073,7 @@
                         "int_minimum": 6,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15140,7 +15140,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15220,7 +15220,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -15313,7 +15313,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -46574,7 +46574,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -46654,7 +46654,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -46760,7 +46760,7 @@
                         "int_minimum": 25,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -54859,7 +54859,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -54913,7 +54913,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -56103,7 +56103,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -56183,7 +56183,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -57037,7 +57037,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -57104,7 +57104,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -57918,7 +57918,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -58216,7 +58216,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -58348,7 +58348,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -59968,7 +59968,7 @@
                         "int_minimum": 12,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -61165,7 +61165,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -61206,7 +61206,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -61887,7 +61887,7 @@
                         "int_minimum": 50,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -65503,7 +65503,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -65557,7 +65557,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -66741,7 +66741,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -66808,7 +66808,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -71589,7 +71589,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -71734,7 +71734,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -73373,7 +73373,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -73440,7 +73440,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -74031,7 +74031,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -74137,7 +74137,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -74983,7 +74983,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -75037,7 +75037,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -76306,7 +76306,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -76360,7 +76360,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -77025,7 +77025,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -77092,7 +77092,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -79404,7 +79404,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -79471,7 +79471,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -80095,7 +80095,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -80149,7 +80149,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -80421,7 +80421,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -80527,7 +80527,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -85792,7 +85792,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -85872,7 +85872,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86033,7 +86033,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86087,7 +86087,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86154,7 +86154,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86427,7 +86427,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86468,7 +86468,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -86984,7 +86984,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -87025,7 +87025,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -88475,7 +88475,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -88529,7 +88529,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -94294,7 +94294,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -94348,7 +94348,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -96558,7 +96558,7 @@
         {
             "ankama_id": 578,
             "name": "Panoplie d'apparat Forgelance",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96569,7 +96569,8 @@
                 28344,
                 28428,
                 28429,
-                28430
+                28430,
+                34578
             ]
         },
         {
@@ -96594,7 +96595,7 @@
         {
             "ankama_id": 580,
             "name": "Panoplie d'apparat Sram",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96605,12 +96606,13 @@
                 21475,
                 21476,
                 21477,
-                23003
+                23003,
+                34533
             ]
         },
         {
             "ankama_id": 581,
-            "name": "Panoplie d'apparat Roublard",
+            "name": "Panoplie d'apparat Roublarde",
             "items": 8,
             "level": 60,
             "contains_cosmetics": true,
@@ -96720,7 +96722,7 @@
         {
             "ankama_id": 587,
             "name": "Panoplie d'apparat Pandawa",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96731,13 +96733,14 @@
                 23568,
                 23583,
                 23584,
-                23646
+                23646,
+                34580
             ]
         },
         {
             "ankama_id": 588,
             "name": "Panoplie d'apparat Sadida",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96748,7 +96751,8 @@
                 23046,
                 23047,
                 23048,
-                23644
+                23644,
+                34532
             ]
         },
         {
@@ -96808,7 +96812,7 @@
         {
             "ankama_id": 592,
             "name": "Panoplie d'apparat Ouginak",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96819,13 +96823,14 @@
                 24944,
                 24945,
                 24946,
-                25993
+                25993,
+                34534
             ]
         },
         {
             "ankama_id": 593,
             "name": "Panoplie d'apparat Enutrof",
-            "items": 8,
+            "items": 9,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96837,7 +96842,8 @@
                 25363,
                 25364,
                 25994,
-                30235
+                30235,
+                34579
             ]
         },
         {
@@ -96880,7 +96886,7 @@
         {
             "ankama_id": 596,
             "name": "Panoplie d'apparat Eliotrope",
-            "items": 7,
+            "items": 8,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -96891,7 +96897,8 @@
                 26002,
                 26003,
                 26004,
-                26005
+                26005,
+                34535
             ]
         },
         {
@@ -97001,7 +97008,7 @@
         },
         {
             "ankama_id": 604,
-            "name": "Panoplie d'apparat de Lumino",
+            "name": "Panoplie d'apparat de Lumino Star",
             "items": 3,
             "level": 1,
             "contains_cosmetics": true,
@@ -98889,8 +98896,8 @@
         },
         {
             "ankama_id": 742,
-            "name": "Panoplie d'apparat du Plagiste",
-            "items": 5,
+            "name": "Panoplie d'apparat du plagiste",
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -98899,7 +98906,8 @@
                 28564,
                 28565,
                 28566,
-                30812
+                30812,
+                34500
             ]
         },
         {
@@ -99442,14 +99450,13 @@
         {
             "ankama_id": 788,
             "name": "Panoplie d'apparat de Glourdorak",
-            "items": 3,
+            "items": 2,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 9924,
-                9926,
-                12273
+                9926
             ]
         },
         {
@@ -100196,7 +100203,7 @@
         {
             "ankama_id": 843,
             "name": "Panoplie d'apparat de Chevalier Noir",
-            "items": 5,
+            "items": 6,
             "level": 60,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
@@ -100205,7 +100212,8 @@
                 30062,
                 30063,
                 30064,
-                30066
+                30066,
+                30240
             ]
         },
         {
@@ -100386,7 +100394,7 @@
         },
         {
             "ankama_id": 858,
-            "name": "Panoplie Retrofus",
+            "name": "Panoplie d'apparat Retrofus",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -102649,7 +102657,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -103901,7 +103909,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -106276,7 +106284,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -106609,7 +106617,7 @@
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -106918,7 +106926,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -107076,7 +107084,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -107621,7 +107629,7 @@
                         "int_minimum": 30,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -107945,7 +107953,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -107999,7 +108007,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108532,7 +108540,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108625,7 +108633,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108708,7 +108716,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -108762,7 +108770,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -110649,7 +110657,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -111219,7 +111227,7 @@
                         "int_minimum": 4,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -111286,7 +111294,7 @@
                         "int_minimum": 8,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -111559,7 +111567,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -112031,7 +112039,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -112124,7 +112132,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114010,7 +114018,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114090,7 +114098,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114252,7 +114260,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114345,7 +114353,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -114899,13 +114907,14 @@
         {
             "ankama_id": 1028,
             "name": "Panoplie d'apparat de Zi",
-            "items": 2,
+            "items": 3,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
                 30536,
-                32107
+                32107,
+                34590
             ]
         },
         {
@@ -115045,7 +115054,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -115138,7 +115147,7 @@
                         "int_minimum": 15,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -117560,7 +117569,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -117640,7 +117649,7 @@
                         "int_minimum": 20,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -118294,7 +118303,7 @@
         },
         {
             "ankama_id": 1059,
-            "name": "Ankamanoplie",
+            "name": "Ankamanoplie d'apparat",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -119589,7 +119598,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -119669,7 +119678,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -120254,7 +120263,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -120321,7 +120330,7 @@
                         "int_minimum": 10,
                         "int_maximum": 0,
                         "type": {
-                            "name": "Dommage Critiques",
+                            "name": "Dommage Critique",
                             "id": 38,
                             "is_meta": false,
                             "is_active": false
@@ -121298,16 +121307,16 @@
         },
         {
             "ankama_id": 1081,
-            "name": "Panoplie d'apparat de la loterie Turquoise",
+            "name": "Panoplie d'apparat de la loterie Ébène",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
             "contains_cosmetics_only": true,
             "equipment_ids": [
-                34128,
-                34129,
-                34130,
-                34131
+                34641,
+                34642,
+                34643,
+                34644
             ]
         },
         {
@@ -121356,7 +121365,7 @@
         },
         {
             "ankama_id": 1085,
-            "name": "Panoplie d'apparat de la loterie Poupre",
+            "name": "Panoplie d'apparat de la loterie Pourpre",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -121765,71 +121774,6 @@
                         "formatted": "50 Puissance"
                     },
                     {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Invocation",
-                            "id": 28,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 Invocation"
-                    },
-                    {
-                        "int_minimum": 10,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Dommage",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "10 Dommages"
-                    },
-                    {
-                        "int_minimum": 5,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Résistance Terre",
-                            "id": 63,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "5% Résistance Terre"
-                    },
-                    {
-                        "int_minimum": 5,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Résistance Eau",
-                            "id": 17,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "5% Résistance Eau"
-                    },
-                    {
-                        "int_minimum": 3,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Résistance Air",
-                            "id": 16,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "3% Résistance Air"
-                    },
-                    {
                         "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
@@ -121841,86 +121785,6 @@
                         "ignore_int_min": false,
                         "ignore_int_max": true,
                         "formatted": "5% Résistance Feu"
-                    }
-                ],
-                "3": [
-                    {
-                        "int_minimum": 1,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Invocation",
-                            "id": 28,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "1 Invocation"
-                    },
-                    {
-                        "int_minimum": 60,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Soin",
-                            "id": 121,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "60 Soins"
-                    },
-                    {
-                        "int_minimum": 50,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Puissance",
-                            "id": 32,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "50 Puissance"
-                    },
-                    {
-                        "int_minimum": 15,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "Dommage",
-                            "id": 30,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "15 Dommages"
-                    },
-                    {
-                        "int_minimum": 5,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Résistance Terre",
-                            "id": 63,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "5% Résistance Terre"
-                    },
-                    {
-                        "int_minimum": 5,
-                        "int_maximum": 0,
-                        "type": {
-                            "name": "% Résistance Eau",
-                            "id": 17,
-                            "is_meta": false,
-                            "is_active": false
-                        },
-                        "ignore_int_min": false,
-                        "ignore_int_max": true,
-                        "formatted": "5% Résistance Eau"
                     },
                     {
                         "int_minimum": 5,
@@ -121936,6 +121800,73 @@
                         "formatted": "5% Résistance Air"
                     },
                     {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Résistance Eau",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Résistance Eau"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Résistance Terre",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Résistance Terre"
+                    },
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Dommage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10 Dommages"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Invocation",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Invocation"
+                    }
+                ],
+                "3": [
+                    {
+                        "int_minimum": 10,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Résistance Feu",
+                            "id": 37,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "10% Résistance Feu"
+                    },
+                    {
                         "int_minimum": 1,
                         "int_maximum": 0,
                         "type": {
@@ -121949,17 +121880,95 @@
                         "formatted": "1 PA"
                     },
                     {
-                        "int_minimum": 10,
+                        "int_minimum": 5,
                         "int_maximum": 0,
                         "type": {
-                            "name": "% Résistance Feu",
-                            "id": 37,
+                            "name": "% Résistance Air",
+                            "id": 16,
                             "is_meta": false,
                             "is_active": false
                         },
                         "ignore_int_min": false,
                         "ignore_int_max": true,
-                        "formatted": "10% Résistance Feu"
+                        "formatted": "5% Résistance Air"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Résistance Eau",
+                            "id": 17,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Résistance Eau"
+                    },
+                    {
+                        "int_minimum": 5,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "% Résistance Terre",
+                            "id": 63,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "5% Résistance Terre"
+                    },
+                    {
+                        "int_minimum": 15,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Dommage",
+                            "id": 30,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "15 Dommages"
+                    },
+                    {
+                        "int_minimum": 50,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Puissance",
+                            "id": 32,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "50 Puissance"
+                    },
+                    {
+                        "int_minimum": 60,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Soin",
+                            "id": 121,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "60 Soins"
+                    },
+                    {
+                        "int_minimum": 1,
+                        "int_maximum": 0,
+                        "type": {
+                            "name": "Invocation",
+                            "id": 28,
+                            "is_meta": false,
+                            "is_active": false
+                        },
+                        "ignore_int_min": false,
+                        "ignore_int_max": true,
+                        "formatted": "1 Invocation"
                     }
                 ]
             },
@@ -122213,6 +122222,164 @@
                 34506,
                 34508,
                 34510
+            ]
+        },
+        {
+            "ankama_id": 1102,
+            "name": "Panoplie d'apparat des 25 ans du Krosmoz",
+            "items": 18,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34512,
+                34513,
+                34514,
+                34515,
+                34516,
+                34517,
+                34518,
+                34519,
+                34520,
+                34521,
+                34522,
+                34523,
+                34524,
+                34525,
+                34526,
+                34527,
+                34528,
+                34536
+            ]
+        },
+        {
+            "ankama_id": 1103,
+            "name": "Panoplie d'apparat de Goultard le Maudit",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34552,
+                34553,
+                34554,
+                34555,
+                34556,
+                34557
+            ]
+        },
+        {
+            "ankama_id": 1104,
+            "name": "Panoplie d'apparat de la loterie Ivoire",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34558,
+                34559,
+                34560,
+                34561
+            ]
+        },
+        {
+            "ankama_id": 1105,
+            "name": "Panoplie d'apparat d'Otomaï",
+            "items": 3,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34563,
+                34564,
+                34565
+            ]
+        },
+        {
+            "ankama_id": 1108,
+            "name": "Panoplie d'apparat de Porcelune",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34606,
+                34607,
+                34608,
+                34609,
+                34610,
+                34645
+            ]
+        },
+        {
+            "ankama_id": 1109,
+            "name": "Panoplie d'apparat de Jade",
+            "items": 5,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34636,
+                34637,
+                34638,
+                34639,
+                34640
+            ]
+        },
+        {
+            "ankama_id": 1110,
+            "name": "Panoplie d'apparat de Welsh et Shedar",
+            "items": 2,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34622,
+                34623
+            ]
+        },
+        {
+            "ankama_id": 1111,
+            "name": "Panoplie d'apparat de la Démone VII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34676,
+                34677,
+                34678,
+                34679
+            ]
+        },
+        {
+            "ankama_id": 1112,
+            "name": "Panoplie d'apparat diaprée de la Démone VII",
+            "items": 4,
+            "level": 1,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34680,
+                34681,
+                34682,
+                34683
+            ]
+        },
+        {
+            "ankama_id": 1113,
+            "name": "Panoplie d'apparat du Gardien des âmes",
+            "items": 6,
+            "level": 60,
+            "contains_cosmetics": true,
+            "contains_cosmetics_only": true,
+            "equipment_ids": [
+                34684,
+                34685,
+                34687,
+                34688,
+                34689,
+                34690
             ]
         }
     ]

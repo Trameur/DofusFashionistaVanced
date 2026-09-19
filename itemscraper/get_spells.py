@@ -37,10 +37,7 @@ ELEMENT_ID_TO_TOKEN = {
 BEST_ELEMENT_DESCRIPTION_TOKENS = ("best-element", "best element")
 BEST_ELEMENT_TOKENS = ("EARTH", "FIRE", "WATER", "AIR")
 
-# "A,*E3531" means the row lands only while the caster carries state 3531, "*e3531"
-# only while it does not. The star is optional (Devouring Arrow writes "E573"). A
-# state token is a letter followed by digits, which is what tells it from a target
-# letter.
+# "A,*E3531": the row lands only with state 3531, "*e3531" only without; star optional
 STATE_IN_TARGET_MASK = re.compile(r"\b\*?[eE]\d+\b")
 
 ZONE_SIGNATURE_KEYS = ("shape", "param1", "param2")
@@ -73,35 +70,12 @@ def _load_json(path: Path) -> Dict[str, Any]:
         return json.load(fh)
 
 
-#: Elemental damage and elemental steals. A row carrying one of these is what
-#: makes a grade an element rather than a step.
+#: Elemental damage and elemental steals
 _ELEMENT_EFFECT_IDS = frozenset(range(91, 101))
 
 
 def _collapse_element_variants(levels: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Grades that are element choices rather than a progression, merged into one.
-
-    Ankama writes the Ebony Dofus as five grades that all sit at minimum level
-    1 and each carry ONE element, 14-16 in water, fire, air, earth and neutral.
-    They are the five faces of one item, not five ranks of a spell, and read as
-    ranks they build a triangle: the fire row is 0-0 until grade 2 and the
-    neutral row until grade 5, so the page shows an item that gets stronger as
-    the reader levels up, which it does not.
-
-    The conditions are deliberately narrow, because a spell that really does
-    gain an element per rank would look the same from one archive:
-
-      * every grade sits at the same minimum player level
-      * every grade carries exactly ONE elemental row
-      * those elements are all different from each other
-      * the non-elemental effects are identical across grades, so merging them
-        cannot lose or duplicate anything
-      * no grade carries a critical list, which would have to be merged too
-
-    47 spells match in the Dofus 3 data and 48 in 2.73, and only one of them
-    reaches a page: the Ebony Dofus on Dofus 2. The rest are monster spells the
-    site never lists, which is what makes this safe to apply everywhere.
-    """
+    """Merge grades that are one element each at the same level (Ebony Dofus) into one."""
     if len(levels) < 2:
         return levels
     if len({level.get("min_player_level") for level in levels}) != 1:
@@ -139,9 +113,7 @@ def _collapse_element_variants(levels: List[Dict[str, Any]]) -> List[Dict[str, A
 
 def _load_datacenter_table(path: Path) -> Dict[int, Dict[str, Any]]:
     data = _load_json(path)
-    # Dofus 3 dumps are Unity-serialised, Dofus 2 ones a plain list of records:
-    # the two clients are different programs and only the field names survived
-    # the port. Every reader below works off the same {id: record} either way.
+    # Dofus 3 dumps are Unity-serialised, Dofus 2 ones a plain list of records
     if isinstance(data, list):
         return {int(record["id"]): record
                 for record in data if record.get("id") is not None}
@@ -427,8 +399,7 @@ class SpellTransformer:
             return None
         if min_val == max_val:
             return str(min_val)
-        # A zero maximum is no maximum: Ankama's own template
-        # ("#1{{~1~2 to }}#2 Fire damage") drops the "to #2" part.
+        # A zero maximum is no maximum: Ankama's template drops the "to #2"
         if max_val == 0:
             return str(min_val)
         return f"{min_val}-{max_val}"
@@ -453,16 +424,12 @@ class SpellTransformer:
                 heals_flag = "heal" in desc_lower
                 element_token = ELEMENT_ID_TO_TOKEN.get(effect.get("effect_element"))
 
-                # A state in the target mask gates the row: Schnaps deals its Air
-                # damage sober or drunk, never both. Rows sharing a state land
-                # together.
+                # A state in the target mask gates the row (Schnaps: sober or drunk)
                 state = STATE_IN_TARGET_MASK.findall(
                     str(effect.get("target_mask") or ""))
                 state_group = ",".join(sorted(state)) if state else None
 
-                # Mask plus zone identifies the case. Ankama writes one row per
-                # case with the same damage in each (Bramble, Epidemic, Bear Cry);
-                # a cast lands one of them.
+                # Mask plus zone is the case: one row per case, a cast lands one
                 situation = "%s|%s" % (
                     effect.get("target_mask") or "",
                     _zone_signature(effect.get("zone")),
@@ -484,10 +451,7 @@ class SpellTransformer:
                             row["best_element_group"] = best_group
                         if state_group is not None:
                             row["state_group"] = state_group
-                        # "I" is on cast. Anything else is the game saying this
-                        # damage waits for something: Pilfer's second row reads
-                        # PD|XPD, pushback damage, and Tyrannical Arrow's poison
-                        # reads TE, end of turn.
+                        # "I" is on cast; PD|XPD is pushback, TE end of turn
                         row["triggers"] = effect.get("triggers")
                         row["situation"] = situation
                         rows.append(row)
@@ -527,22 +491,7 @@ class SpellTransformer:
     @staticmethod
     def _merge_rows_ankama_renumbered(
             rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """One damage line split in two because its `order` changed by grade.
-
-        A row is keyed by the effect's order, which is what keeps two hits of
-        the same element apart within a grade. Ankama renumbers that order
-        between grades: Slow-Down Arrow's single Water line is order 3 at grade
-        1 and order 2 at grade 2, so it became two rows. The fill below then
-        froze the first at its grade 1 value and left the second at zero there,
-        and every reader summed both: the spell dealt 28-30 plus 32-34 at its
-        top grade instead of 32-34. Ten dofus3 spells read that way.
-
-        Two rows merge only when they describe the same hit AND never carry a
-        value at the same grade. A spell that genuinely gains a line keeps both
-        rows, because its first row still has a value at the grade where the
-        second appears. This runs before the fill, while None still means the
-        grade had no such effect at all.
-        """
+        """Merge a hit split in two rows because Ankama renumbers `order` between grades."""
         merged: List[Dict[str, Any]] = []
         seen: List[tuple] = []
         for row in rows:
@@ -712,8 +661,7 @@ class SpellTransformer:
             entry["level_count"] = len(levels)
             entry["max_grade"] = max((lvl.get("grade") or 0 for lvl in levels), default=0)
             breed_ids = {lvl.get("spell_breed") for lvl in levels if lvl.get("spell_breed")}
-            # Recent classes (Forgelance = breed 20) carry the player breed only in
-            # spell_variants (breedId); their levels' spell_breed is an unrelated id.
+            # Recent classes (Forgelance) carry the breed only in spell_variants
             variant_link = self.variant_lookup.get(int(spell_id))
             if variant_link and variant_link.breed_id:
                 breed_ids.add(variant_link.breed_id)

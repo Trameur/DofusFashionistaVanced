@@ -63,37 +63,14 @@ def translate_build_name(build_name):
     return build_name
 
 
-#: Les aspects qui viennent APRES l'element: un build qui en porte un n'est
-#: pas equilibre, et son nom se suffit.
+# Aspects that come after the element; a build with one is not Balanced
 FOCUS_ASPECTS = ('Vit', 'Glass Cannon', 'Dam', 'Heals', 'AP Red', 'MP Red',
                  'Crit', 'Res', 'Leecher', 'PP', 'Pods', 'Traps', 'Summons',
                  'Pushback', 'Non-Crit')
 
 
 def build_label(char_build):
-    """Le nom du build, tel que le lecteur doit le lire, dans sa langue.
-
-    Une seule reponse pour toutes les pages. Elle etait ecrite trois fois et
-    les trois ne disaient pas la meme chose. Mesure du 14 septembre 2026, en
-    francais:
-
-    | char_build         | en-tete, projets, galerie | profil et feed     | choix a comparer   |
-    |--------------------|---------------------------|--------------------|--------------------|
-    | `Str`              | Force Equilibre           | Force              | **Str**            |
-    | `''`               | Equilibre                 | (rien)             | **(rien)**         |
-    | `Str Glass Cannon` | Force Canon de verre      | Force Canon de ... | **Str Glass Cannon** |
-    | `Cha/Agi`          | Chance/Agilite Equilibre  | Chance/Agilite     | **Cha/Agi**        |
-
-    La page qui sert a **choisir** entre deux builds rendait donc la chaine
-    interne, dans les cinq langues, l'anglais compris ou <<Str>> se lit
-    <<Strength>>. C'est la meme faute que le lot 76 a corrigee sur l'en-tete
-    de projet, sur les lecteurs qu'il n'avait pas parcourus.
-
-    `char_build` vide veut dire <<aucun aspect choisi>>, et le site appelle
-    cela <<Equilibre>> depuis toujours: c'est sa convention, pas une mesure du
-    stuff. Elle etait deja sur trois pages; elle est maintenant sur les
-    quatre, au lieu d'un vide et d'un separateur pendant.
-    """
+    """The build label every page shows, in the reader's language."""
     if not char_build:
         return str(ASPECT_TO_NAME['balanced'])
     has_focus = any(focus in char_build for focus in FOCUS_ASPECTS)
@@ -109,12 +86,7 @@ class WrappedChar(object):
         self.char = char
 
     def gallery_refusal(self):
-        """Pourquoi la galerie n'affiche pas ce build, ou une chaine vide.
-
-        Compte du 11 septembre 2026: elle en ecarte 74,5 %, et jusqu'ici leur
-        auteur n'en savait rien. La colonne lui disait meme <<Dans la
-        galerie>>, ce qui etait faux trois fois sur quatre.
-        """
+        """Why the gallery hides this build, or an empty string."""
         from chardata.gallery_visibility import sentence_for
         return sentence_for(self.char)
 

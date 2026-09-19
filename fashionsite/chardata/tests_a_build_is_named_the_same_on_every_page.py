@@ -1,46 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un build porte le meme nom de build sur toutes les pages.
-
-Trouve en ouvrant la page qui sert a **choisir** entre deux builds,
-`/choose_compare_sets/`, en francais. Elle rendait `char.char_build`, la
-chaine interne:
-
-    Cra 200        Cra . niveau 200 . Str
-    NoName 200     Cra . niveau 30 .
-
-Deux fautes dans la meme ligne: un jeton anglais interne la ou le reste du
-site dit <<Force Equilibre>>, et un separateur pendant quand le champ est
-vide. Mesure du 14 septembre 2026 sur les 85 builds locaux: **42 montraient
-un jeton interne, 40 un separateur suivi de rien, 2 <<Int>>, 1 <<Str Glass
-Cannon>>** -- soit les 85, dans les cinq langues, l'anglais compris ou
-<<Str>> se lit <<Strength>>.
-
-C'est la faute que la section 76 a corrigee sur l'en-tete de projet. Elle
-avait parcouru l'en-tete, la liste des projets et la galerie; trois lecteurs
-de plus repondaient encore a leur facon:
-
-| char_build | en-tete, projets, galerie | profil et feed | choix a comparer |
-|------------|---------------------------|----------------|------------------|
-| `Str` | Force Equilibre | Force | **Str** |
-| `''` | Equilibre | (rien) | **(rien)** |
-| `Str Glass Cannon` | Force Canon de verre | Force Canon de verre | **Str Glass Cannon** |
-| `Cha/Agi` | Chance/Agilite Equilibre | Chance/Agilite | **Cha/Agi** |
-
-`model_wrappers.build_label` repond desormais pour les quatre, et
-`translate_build_name` n'existe plus qu'une fois: `shared_builds_view` en
-gardait une copie de 66 lignes, que `profile_view` importait.
-
-**Ce qui n'est pas unifie, et pourquoi.** `solution_view` garde
-`build_string() if char.char_build else ''` pour sa description de recherche:
-un build sans aspect choisi n'a pas a peser le mot <<Equilibre>> dans une
-meta description. Le libelle du lecteur et le jeton d'un moteur ne repondent
-pas a la meme question.
-
-**Une convention, pas une mesure.** `char_build` vide veut dire <<aucun
-aspect choisi>>, et le site appelle cela <<Equilibre>> depuis toujours. Ce
-lot met cette convention sur la quatrieme page au lieu d'un vide; il ne la
-verifie pas contre le stuff, et rien ici ne pretend le contraire.
-"""
+"""A build carries the same translated build name on every page."""
 import pickle
 import re
 
@@ -51,7 +10,7 @@ from django.utils import translation
 from chardata.model_wrappers import WrappedChar, build_label
 from chardata.models import Char
 
-#: Les valeurs que le generateur d'aspects produit vraiment, plus le vide.
+#: What the aspect generator produces, plus empty
 SHAPES = ('', 'Str', 'Int', 'Cha/Agi', 'Str Glass Cannon',
           'Int Crit Glass Cannon', 'Vit')
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
@@ -60,7 +19,7 @@ LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 class TheLabelAnswersForEveryPageTests(SimpleTestCase):
 
     def test_the_label_is_never_empty(self):
-        """Un vide laisse un separateur pendant derriere lui."""
+        """An empty label leaves a dangling separator."""
         for language in LANGUAGES:
             with translation.override(language):
                 for shape in SHAPES:
@@ -74,8 +33,7 @@ class TheLabelAnswersForEveryPageTests(SimpleTestCase):
                              build_label('Str Glass Cannon'))
 
     def test_a_build_with_a_focus_keeps_its_own_name(self):
-        """<<Canon de verre>> se suffit: lui coller <<Equilibre>> dirait le
-        contraire de ce que le joueur a choisi."""
+        """A Glass Cannon build is not also called Balanced."""
         with translation.override('fr'):
             balanced = build_label('')
             self.assertNotIn(balanced, build_label('Str Glass Cannon'))
@@ -100,7 +58,6 @@ class TheLabelAnswersForEveryPageTests(SimpleTestCase):
 
 
 class OnlyOneModuleTranslatesABuildNameTests(SimpleTestCase):
-    """Deux copies d'une meme regle, c'est ainsi que les pages ont derive."""
 
     def test_the_gallery_no_longer_keeps_its_own_copy(self):
         import chardata.model_wrappers as canonical
@@ -120,12 +77,11 @@ class OnlyOneModuleTranslatesABuildNameTests(SimpleTestCase):
 
 
 class TheComparePickerShowsTheReadersNameTests(TestCase):
-    """Bout en bout, sur la page qui sert a choisir."""
+    """End to end on the compare picker."""
 
     @staticmethod
     def _a_solution():
-        """Le selecteur ne propose que des builds resolus, et c'est juste:
-        on ne compare pas un projet vide."""
+        """The picker only lists solved builds."""
         from fashionistapulp.modelresult import ModelResultMinimal
         from fashionistapulp.structure import get_structure
         structure = get_structure('dofus3')
@@ -166,13 +122,7 @@ class TheComparePickerShowsTheReadersNameTests(TestCase):
         return answer.content.decode('utf-8', 'replace')
 
     def test_the_page_lists_the_builds_it_seeded(self):
-        """Le plancher: une page vide rendrait les tests suivants vrais sans
-        rien regarder.
-
-        On compte la balise et pas la classe: le nom de classe revient une
-        fois dans le script de la page, donc le compter donnerait toujours
-        une carte de plus qu'il n'y en a.
-        """
+        """Count the tag, not the class: the page script repeats the class name."""
         html = self._page('fr')
         self.assertEqual(
             3, html.count('<label class="compare-build-choice-card">'))
@@ -201,12 +151,7 @@ class TheComparePickerShowsTheReadersNameTests(TestCase):
             self.assertEqual([], dangling, language)
 
     def test_no_card_ends_on_the_internal_string(self):
-        """Le test qui aurait attrape le defaut.
-
-        On regarde la fin du libelle et non la page entiere: le portugais
-        traduit `glasscannon` par <<Glass Cannon>>, donc le terme anglais y
-        est legitime et chercher son absence accuserait une traduction.
-        """
+        """Check the label's end only: Portuguese says "Glass Cannon" too."""
         for language in LANGUAGES:
             html = self._page(language)
             metas = re.findall(

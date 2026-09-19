@@ -1,22 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""store_spell_reference.py - every class spell of a version, with what the
-game says about it, into fashionsite/chardata/spell_reference/<version>.json.
+"""Store a version's class spells in chardata/spell_reference/<version>.json.
 
     python itemscraper/store_spell_reference.py --game-version dofus3
-
-The spells page only ever knew the spells that deal damage or give a buff, and
-only their damage. This carries the rest: the game's own description, the AP,
-the range, how often a turn allows the cast, and the critical rate, for every
-spell of every class.
-
-What each version can answer differs, and the file only holds what its own
-source has:
-  dofus3, beta  the datacenter class-spell dump: everything
-  touch         the production proxy: everything
-  retro         the 1.29 lang files: everything
-  dofus2        the 2.73 archive plus SpellLevels from Ankama's CDN, which
-                download_d2o_tables.py fetches: everything
 """
 from __future__ import annotations
 
@@ -41,26 +27,18 @@ LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'fashionsite', 'chardata',
                           'spell_reference')
 
-# Dofus 2 and Retro keep the class ids the game has always used.
+# Dofus 2 and Retro class ids
 CLASS_ID_TO_NAME = {
     1: 'Feca', 2: 'Osamodas', 3: 'Enutrof', 4: 'Sram', 5: 'Xelor',
     6: 'Ecaflip', 7: 'Eniripsa', 8: 'Iop', 9: 'Cra', 10: 'Sadida',
     11: 'Sacrier', 12: 'Pandawa', 13: 'Rogue', 14: 'Masqueraider',
     15: 'Foggernaut', 16: 'Eliotrope', 17: 'Huppermage', 18: 'Ouginak',
-    # 20, not 19: breeds.json skips 19 in 2.73.3.14 and in every Dofus 3 dump
-    # alike. Written as 19, this matched no race at all and read_dofus2 dropped
-    # Forgelance without a word, so the Dofus 2 reference carried 18 classes
-    # where the game has 19 and a Forgelance player got nothing. Dofus 3 and
-    # the beta were spared only because read_modern never looks here.
+    # breeds.json skips 19
     20: 'Forgelance',
 }
 
 
-# The client writes its own markup inside the text: a spell reference as
-# {{spell,id,rank::label}}, an element icon as <sprite name="terre">, and Unity
-# rich text for emphasis and colour. The label of a reference is the readable
-# part, the icon always sits in front of the word it illustrates, and the rest
-# is decoration, so the text keeps only what a reader needs.
+# Client markup: {{spell,id,rank::label}}, <sprite name="terre"> and Unity rich text
 _SPELL_REFERENCE = re.compile(r'\{\{\s*spell\s*,[^:}]*::(.*?)\}\}', re.S)
 _SPRITE = re.compile(r'<sprite[^>]*>')
 _RICH_TEXT = re.compile(r'</?(?:b|i|u|strong|em|color|size|font)\b[^>]*>', re.I)
@@ -68,7 +46,6 @@ _SPACES = re.compile(r'[ \t]{2,}')
 
 
 def clean_text(text):
-    """The game's own words, with the client's markup taken out."""
     if not text:
         return ''
     cleaned = clean_description(text)
@@ -84,7 +61,7 @@ def _clean_map(values):
 
 
 def _rank_values(levels, key, transform=None):
-    """One value per rank, or None when the source never states it."""
+    """One value per rank, or None if never set."""
     out = []
     for level in levels:
         value = level.get(key)
@@ -99,19 +76,12 @@ def _drop_empty(spell):
     return {key: value for key, value in spell.items() if value not in (None, {})}
 
 
-# The client's own push effects. 1103 is stated as dealing no damage; the rest
-# damage the target when it stops against an obstacle.
+# Push effects: 1103 deals no damage, the others do
 PUSH_EFFECT_IDS = {5: True, 1021: True, 4002: True, 1103: False}
 
 
 def _state_requirement(target_mask):
-    """The state a row needs, from the client's own target mask.
-
-    '*E5282' means the state must be present, '*e5282' that it must be absent.
-    Torrent and Froth carry both branches at once: they push at High Tide and
-    attract at Low, so recording the push without its gate credits the Steamer
-    a push it only makes half the time.
-    """
+    """'*E5282' needs state 5282, '*e5282' needs it absent."""
     for token in (target_mask or '').split(','):
         token = token.strip()
         if len(token) < 3 or not token.startswith('*'):
@@ -123,16 +93,12 @@ def _state_requirement(target_mask):
     return None
 
 
-# Effect 417 takes pushback resistance off the target. Checked against Ankama's
-# own wording on all ten spells that carry it: nine say they reduce it and the
-# tenth, Break-In, says it steals it, which is the same for the target. The
-# target masks are not read: their grammar is undocumented and guessing at it
-# is how a spell ends up in its own trigger list.
+# Effect 417 removes pushback resistance from the target
 PUSHBACK_RESIST_REMOVED = 417
 
 
 def _target_pushback_resist_per_rank(levels):
-    """How much pushback resistance the target loses, per rank, or None."""
+    """Pushback resistance the target loses, per rank, or None."""
     out = []
     for level in levels:
         worst = 0
@@ -145,10 +111,7 @@ def _target_pushback_resist_per_rank(levels):
 
 
 def _push_per_rank(levels):
-    """[{'cells': n, 'damaging': bool, 'needs': {...}}, ...], one per rank,
-    None when it never pushes. A rank that both pushes and pushes-without-damage
-    keeps the larger damaging push: that is the branch a damage model cares
-    about."""
+    """[{'cells': n, 'damaging': bool, 'needs': {...}}] per rank, or None."""
     out = []
     for level in levels:
         best = None
@@ -180,7 +143,7 @@ SUMMON_EFFECT_ID = 181
 
 
 def _monsters_by_id(raw_dir):
-    """The client's monster table, flattened to {id: entry}."""
+    """{monster id: entry}"""
     path = os.path.join(raw_dir, 'monsters.json')
     if not os.path.exists(path):
         return {}
@@ -211,13 +174,7 @@ def _spell_ids_of(monster):
 
 
 def _summon_push_per_rank(levels, monsters, pushes_by_spell):
-    """{'least': n, 'most': n} the thing this spell places can push, per rank.
-
-    Tacturret carries no push of its own; the turret it summons does, through
-    Barycentre, whose own text says the push "increases based on the level of
-    evolution". Its three rows are 2, 4 and 6 cells, so a single number would
-    either flatter a fresh turret or rob an evolved one.
-    """
+    """{'least': n, 'most': n} cells the summon can push, per rank."""
     out = []
     for level in levels:
         least = most = 0
@@ -238,11 +195,7 @@ def _summon_push_per_rank(levels, monsters, pushes_by_spell):
 
 
 def _pushes_by_spell(spells):
-    """{spell id: (least, most)} cells, for every spell that pushes damagingly.
-
-    Both ends, because one spell can carry several push rows: a summon that
-    grows keeps them all on one spell rather than on several ranks.
-    """
+    """{spell id: (least, most)} cells of damaging push"""
     out = {}
     for spell in spells:
         cells = []
@@ -259,11 +212,10 @@ def _pushes_by_spell(spells):
 
 
 def read_modern(path):
-    """dofus3 and beta: the transformed class-spell dump carries it all."""
+    """dofus3 and beta, from the transformed class-spell dump."""
     with open(path, encoding='utf-8') as handle:
         classes = json.load(handle)
-    # The push a summon performs lives on the summon's own spell, so the whole
-    # spell dump and the monster table are both needed to see it.
+    # A summon's push is on the summon's own spell
     raw_dir = os.path.join(CURRENT_DIRECTORY, 'raw', latest_tag(os.path.join(CURRENT_DIRECTORY, 'raw')))
     monsters = _monsters_by_id(raw_dir)
     every_spell = []
@@ -308,14 +260,7 @@ def read_modern(path):
 
 
 def read_dofus2(tag):
-    """The 2.73 archive, with its cast numbers when the dump carries them.
-
-    It used to say the archive had no spell level at all, which was true of the
-    dofusdude mirror and not of the game: download_d2o_tables.py fetches
-    SpellLevels from Ankama's CDN, and the orchestrator runs it before this.
-    An older dump without the table still reads, names only, the way this did
-    for as long as nobody had gone to look.
-    """
+    """The 2.73 archive; spell_levels.json comes from download_d2o_tables.py."""
     root = os.path.join(CURRENT_DIRECTORY, 'raw', tag)
 
     def load(name):
@@ -338,13 +283,7 @@ def read_dofus2(tag):
     rows = load_optional('spell_levels.json') or []
     levels = {str(row['id']): row for row in rows}
 
-    # Ankama pairs a spell with the second form a player unlocks, and
-    # breeds.json lists only the first of each pair. Reading breedSpellsId
-    # alone gave this reference 418 spells where a 2.73 player casts 683, and
-    # spell_buffs.py drops every spell the reference does not name: 265 of the
-    # 543 in the model, about half of every class, damage tables and all. Each
-    # of those 265 has ranks and an access level in this very archive, so
-    # "in nobody's spell book" was never true of them.
+    # breeds.json lists only the first spell of each variant pair
     partners = {}
     for row in (load_optional('spell_variants.json') or []):
         ids = row.get('spellIds') or []
@@ -371,8 +310,7 @@ def read_dofus2(tag):
             if spell is None:
                 continue
             type_row = types.get(str(spell.get('typeId'))) or {}
-            # Same field names as Touch: both clients read the same Ankama
-            # model, and only the transport differs.
+            # Same field names as Touch
             ranks = [levels.get(str(level_id)) or {}
                      for level_id in (spell.get('spellLevels') or [])]
             found.append(_drop_empty({
@@ -399,7 +337,7 @@ def read_dofus2(tag):
 
 
 def read_retro(raw_dir):
-    """The 1.29 lang files: one per language, each holding every spell."""
+    """The 1.29 lang files, one per language."""
     def load(name):
         with open(os.path.join(raw_dir, name), encoding='utf-8') as handle:
             return json.load(handle)
@@ -412,7 +350,7 @@ def read_retro(raw_dir):
     classes = load('classes_fr.json')['G']
     french = per_lang['fr']
 
-    # The 21-wide level array, as get_spells_retro decodes it.
+    # Slots of the 21-wide level array
     SLOTS = {'cooldown': 6, 'per_turn': 7, 'per_target': 8, 'crit': 15,
              'range_max': 16, 'range_min': 17, 'ap': 18}
     RANKS = ('l1', 'l2', 'l3', 'l4', 'l5', 'l6')
@@ -455,7 +393,7 @@ def read_retro(raw_dir):
                 'per_turn': per_rank('per_turn'),
                 'per_target': per_rank('per_target'),
                 'cooldown': per_rank('cooldown'),
-                # The X of 1/X, not a percentage.
+                # The X of 1/X, not a percentage
                 'crit': per_rank('crit'),
             }))
         if found:
@@ -464,7 +402,7 @@ def read_retro(raw_dir):
 
 
 def read_touch():
-    """Dofus Touch answers from the production proxy, one pass per language."""
+    """Dofus Touch from the production proxy, one pass per language."""
     import requests
 
     sys.path.insert(0, CURRENT_DIRECTORY)

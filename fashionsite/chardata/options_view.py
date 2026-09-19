@@ -127,6 +127,10 @@ def parse_options_post(request):
     options['rhineetle'] = request.POST.get('rhineetle', None) == 'on'
     options['prysmaradite'] = request.POST.get('prysmaradite', None) == 'on'
     options['trophies'] = request.POST.get('trophies', None) == 'on'
+    # Both pages that post here show the TemporiX box wherever the version
+    # has the mode; elsewhere the key is left alone.
+    if get_available_options().get('temporix'):
+        options['temporix'] = request.POST.get('temporix', None) == 'on'
         
     if 'dofus' in request.POST:
         dofus_trophy = request.POST.get('dofus', 'no')   

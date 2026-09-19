@@ -206,9 +206,7 @@ def main() -> None:
         ], cwd=ITEMSCRAPER)
         step("mount-looks", [PY, "store_dofusdb_mount_looks.py",
                              "--game-version", "beta"], cwd=ITEMSCRAPER)
-        # Replayed, not matched: working the skins out from the art takes hours,
-        # so the decisions it reached are kept in the repo. Beta renumbered a few
-        # items, and --names catches those by type and name.
+        # Replayed from the repo; --names catches items beta renumbered
         step("item-skins", [PY, "store_item_skins.py", "--game-version", "beta",
                             "--input", "item_skins.json",
                             "--names", "item_skins_by_name.json"], cwd=ITEMSCRAPER)
@@ -244,26 +242,27 @@ def main() -> None:
             "--tag", version,
             "--output", "itemscraper/transformed_spells_beta.json",
             "--class-output", "itemscraper/transformed_class_spells_beta.json",
+            # Not the shared transformed_spell_names.json, that one is Dofus 3's
+            "--names-output", "itemscraper/transformed_spell_names_beta.json",
         ])
         step("spells/duplicates", [PY, "-m", "itemscraper.find_duplicated_damage_rows"])
         step("spells/reference", [
             PY, "itemscraper/store_spell_reference.py",
             "--game-version", "beta",
         ])
-        # The names of the states a damage row is gated on, so the page can say
-        # which case each block is. Reads the transform, so it runs after it.
+        # Names of the states a damage row is gated on; needs the transform
         step("spells/states", [
             PY, "itemscraper/store_spell_states.py",
             "--game-version", "beta", "--tag", version,
         ])
         step("spells/constants", [
             PY, "-m", "itemscraper.generate_damage_spells",
+            "--game-version", "beta",
             "--class-json", "itemscraper/transformed_class_spells_beta.json",
             "--spells-json", "itemscraper/transformed_spells_beta.json",
             "--constants", "fashionistapulp/fashionistapulp/dofus_constants_beta.py",
         ])
-        # What the spells an item names actually do, for the tooltip on the
-        # extra lines. Needs both the spell archive and the finished item db.
+        # Tooltips for spells named by items; needs the spells and the item db
         step("spells/tooltips", [
             PY, "-m", "itemscraper.store_spell_tooltips",
             "--game-version", "beta", "--tag", version,
@@ -279,17 +278,14 @@ def main() -> None:
             "--drops", "transformed_drops_beta.json",
             "--game-version", "beta",
         ], cwd=ITEMSCRAPER)
-        # After drops/store, which is what creates monster_names: all three read
-        # it to know which monsters the database has. items/load-db rebuilds the
-        # file from the item dump, so on a run from scratch these three used to
-        # find no such table and die, and the rebuilt database came out with no
-        # monster grade, subarea or spell at all.
+        # Need monster_names, which drops/store creates
         step("monster-grades", [PY, "store_dofusdb_monster_grades.py",
                                 "--game-version", "beta"], cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py",
                                      "--game-version", "beta"], cwd=ITEMSCRAPER)
         step("monster-spells", [PY, "store_monster_spells.py",
-                                "--game-version", "beta"], cwd=ITEMSCRAPER)
+                                "--game-version", "beta", "--tag", version],
+             cwd=ITEMSCRAPER)
         # Craft professions -> item_craft_jobs / job_names ("Crafted by ...").
         step("craftjobs/transform", [
             PY, "get_craft_jobs.py",
@@ -308,8 +304,7 @@ def main() -> None:
         PY, "store_item_corrections.py", "--game-version", "beta",
     ], cwd=ITEMSCRAPER)
 
-    # Data changed: refresh the scanned list of runtime-translated
-    # strings (item types, stats...) so makemessages keeps them.
+    # Refresh runtime-translated strings (item types, stats...) for makemessages
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     if do_images:
@@ -329,10 +324,7 @@ def main() -> None:
         step("resize", [PY, "resize_images.py"])
 
 
-    # A rebuild reports success either way. This asks what it changed that
-    # nobody asked for: a table that lost rows, an item whose row id moved.
-    # A moved id empties that slot in every saved build, in silence, which is
-    # how 82 Touch pets changed owner on 2026-08-15.
+    # Tables that lost rows, item ids that moved
     step("verify/rebuild", [PY, "check_rebuild.py", "--only", "beta"],
          cwd=ITEMSCRAPER)
 

@@ -1,10 +1,4 @@
-/* ============================================================================
-   Dofus Fashionista: MODERN skin (opt-in)  v2
-   Active only when <html> has class `fm-modern` (the "New look" toggle, saved
-   in localStorage). Without the class the classic design is 100% untouched.
-   Keeps the original gold / brown / parchment identity, adapting to light/dark
-   via fm-light / fm-dark. Fully responsive & theme-aware.
-   ============================================================================ */
+/* Modern skin: only applies under html.fm-modern */
 
 /* ---------- Design tokens ---------- */
 html.fm-modern{
@@ -14,9 +8,7 @@ html.fm-modern{
   --fm-gap:16px; --fm-maxw:1200px;
   --fm-font:"Segoe UI",Roboto,"Helvetica Neue",Arial,system-ui,sans-serif;
   --fm-shadow:0 10px 30px rgba(0,0,0,.18); --fm-shadow-sm:0 3px 12px rgba(0,0,0,.12);
-  /* The soft accent could not carry a focus ring: even opaque it reaches 1.50
-     against the cream surface, where a focus indicator needs 3. accent-text is
-     theme-aware and lands at 4.48 on light, 9.69 on dark. */
+  /* accent-soft alone is too faint for a focus ring */
   --fm-ring:0 0 0 2px var(--fm-accent-text), 0 0 0 5px var(--fm-accent-soft);
   --fm-trans:.16s cubic-bezier(.22,.61,.36,1);
 }
@@ -55,8 +47,7 @@ html.fm-modern body.body-base{
 html.fm-modern body.body-base::before{
   content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; background:var(--fm-glow);
 }
-/* no z-index here: a stacking context would trap the theme/language popups
-   (inside .everything) below the body-level blanket overlay. */
+/* No z-index: it would trap the theme/language popups under the blanket */
 html.fm-modern .add-banner, html.fm-modern .everything{ position:relative; }
 html.fm-modern *{ font-family:var(--fm-font); }
 html.fm-modern a{ color:var(--fm-accent-text); }
@@ -80,14 +71,9 @@ html.fm-modern .banner{
 html.fm-modern .banner br{ display:none; }
 html.fm-modern .banner::after{ content:""; position:absolute; inset:0; background:var(--fm-banner-grad); pointer-events:none; }
 html.fm-modern .banner img{ width:100% !important; max-width:100% !important; height:auto !important; max-height:190px; object-fit:cover; object-position:center 38%; display:block; }
-/* The random character greeting the visitor is part of the site's character, so
-   the modern skin keeps it. The classic pull-up (top:-230px) is tuned for the
-   taller classic banner and clips the head here, so anchor it to the banner card
-   instead and size it to stay inside at every desktop width. Decorative only:
-   pointer-events off so it can never swallow a click on the controls below. */
 html.fm-modern .char-overlay{
   display:block !important; position:absolute !important;
-  /* the classic offsets live in a style attribute on the div, so override them */
+  /* classic offsets live in a style attribute */
   left:0 !important; top:0 !important; height:auto !important;
   z-index:3; pointer-events:none;
 }
@@ -104,7 +90,7 @@ html.fm-modern .space.header-controls .login,
 html.fm-modern .space.header-controls .base-language-selector-div,
 html.fm-modern .space.header-controls .base-theme-selector-div,
 html.fm-modern .space.header-controls .version-selector{ float:none !important; margin:0 !important; position:relative; top:auto; }
-/* All controls share one pill height for a clean, aligned toolbar */
+/* Same pill height for every control */
 html.fm-modern .fm-design-toggle,
 html.fm-modern .base-language-selector-div,
 html.fm-modern .current-theme,
@@ -114,12 +100,10 @@ html.fm-modern .version-selector{ height:34px; box-sizing:border-box; display:in
 html.fm-modern .base-language-selector-div{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; padding:0 10px; cursor:pointer; transition:background .16s,border-color .16s; }
 html.fm-modern .base-language-selector-div:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
 html.fm-modern #language-selector{ display:flex; align-items:center; margin:0; }
-/* #flag porte desormais le <button> qui ouvre le menu, pas l'image : la
-   taille doit descendre sur l'image, sinon le bouton bride un drapeau plus
-   grand que lui. */
+/* #flag is the menu button now, size the image inside it */
 html.fm-modern #flag{ display:block; cursor:pointer; }
 html.fm-modern #flag .flag-current{ width:22px !important; height:22px !important; border-radius:4px; }
-/* theme: clean pill (override classic dark-brown 'current') */
+/* theme pill */
 html.fm-modern .current-theme, html.fm-modern .auto-current{
   background:var(--fm-surface) !important; color:var(--fm-text) !important; border:1px solid var(--fm-border) !important;
   border-radius:999px !important; padding:0 14px !important; height:34px; display:inline-flex; align-items:center;
@@ -136,13 +120,13 @@ html.fm-modern .version-link.active{ background:linear-gradient(180deg,var(--fm-
 html.fm-modern .login{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; padding:0 16px; font-size:13px; }
 html.fm-modern .login:hover{ background:var(--fm-accent-soft) !important; border-color:var(--fm-accent-line) !important; }
 html.fm-modern .login a{ color:var(--fm-accent-text) !important; font-weight:700; text-decoration:none; }
-/* theme / language dropdown popups -> modern cards */
+/* theme / language dropdowns */
 html.fm-modern #other-themes, html.fm-modern #other-flags{
   background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important;
   border-radius:var(--fm-radius-sm) !important; box-shadow:var(--fm-shadow) !important; padding:6px !important; margin-top:6px;
 }
 html.fm-modern .theme-selector{ display:block; padding:8px 12px !important; border-radius:var(--fm-radius-xs) !important; color:var(--fm-text) !important; cursor:pointer; white-space:nowrap; font-weight:600; }
-/* the theme swatch classes carry a classic dark-brown bg; neutralise it */
+/* swatch classes carry the classic brown bg */
 html.fm-modern .lighttheme-selector, html.fm-modern .darktheme-selector, html.fm-modern .auto-selector{ background:transparent !important; border:0 !important; color:var(--fm-text) !important; }
 html.fm-modern .theme-selector:hover,
 html.fm-modern .lighttheme-selector:hover, html.fm-modern .darktheme-selector:hover, html.fm-modern .auto-selector:hover{ background:var(--fm-accent-soft) !important; }
@@ -159,9 +143,7 @@ html.fm-modern .flag-choose{ width:24px !important; height:24px !important; bord
 html.fm-modern .fm-design-toggle span[aria-hidden]{ display:none; }
 .fm-design-toggle:hover{ background:rgba(227,191,77,.30); transform:translateY(-1px); }
 .fm-design-toggle:active{ transform:translateY(0); }
-/* CLASSIC mode: float the toggle into the top-right control cluster so it can
-   never sit under the banner / character home-link (z-index 1-2), which would
-   otherwise swallow the click and bounce the user to the home page. */
+/* Classic: keep the toggle out from under the banner home link */
 html:not(.fm-modern) .space.header-controls .fm-design-toggle{ float:right; margin:5px 6px 0 0; height:24px; padding:0 11px; font-size:12px; gap:5px; }
 html:not(.fm-modern) .fm-design-toggle svg{ width:13px; height:13px; }
 
@@ -199,23 +181,21 @@ html.fm-modern .nav-search input, html.fm-modern .nav-search button{
 }
 html.fm-modern .nav-search input::placeholder{ color:var(--fm-muted); }
 html.fm-modern .nav-search button:hover{ background:var(--fm-accent-soft) !important; }
-/* Premium line-icons in the nav (theme-agnostic: inherits text color). */
+/* Nav icons, same colour as the text */
 .menu_link .mi{ display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; margin-right:9px; vertical-align:-3px; flex:0 0 auto; }
 .menu_link .mi svg{ display:block; width:16px; height:16px; }
 html.fm-modern .menu_link:hover .mi{ transform:scale(1.08); transition:transform var(--fm-trans); }
 html.fm-modern .menu-collapse-link{ margin-left:8px !important; font-size:13px; }
-/* Advanced ("More/Less") collapsible group: clean grouped sub-nav, NOT the
-   classic dark-brown box (#menu-collapse had bg rgb(80,54,37)). */
+/* More/Less group, without the classic brown box */
 html.fm-modern #menu-collapse{ background:transparent !important; border-left:2px solid var(--fm-border) !important; margin:2px 0 4px 8px !important; padding-left:3px !important; }
 html.fm-modern #menu-collapse .menu-collapse-link{ margin-left:3px !important; }
-/* "More/Less" toggle as a clear chevron expander (not a nav pill) */
+/* More/Less toggle */
 html.fm-modern #advanced-button{ background:transparent !important; color:var(--fm-muted) !important; border:0 !important; border-left:0 !important; text-align:center; font-size:12px !important; font-weight:700 !important; letter-spacing:.3px; padding:7px 12px !important; }
 html.fm-modern #advanced-button:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; transform:none !important; }
 html.fm-modern #advanced-text::after{ content:" \25BE"; font-size:11px; opacity:.85; }
 html.fm-modern #advanced-button.fm-open #advanced-text::after{ content:" \25B4"; }
 html.fm-modern .rerun-button img.button-img{ vertical-align:middle; margin-right:6px; }
 html.fm-modern .sidebar-stats{ width:100% !important; box-sizing:border-box; background:var(--fm-surface-2); border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm); padding:12px 14px; font-size:12px; line-height:1.5; color:var(--fm-muted); }
-/* readable, theme-aware stat text (was white/pale gold on cream = invisible) */
 html.fm-modern .sidebar-stats-row{ color:var(--fm-muted) !important; }
 html.fm-modern .sidebar-stats-value{ color:var(--fm-head) !important; font-weight:700; }
 html.fm-modern .sidebar-stats-version{ margin-top:10px; padding-top:9px; border-top:1px solid var(--fm-border); }
@@ -261,7 +241,7 @@ html.fm-modern button.button-generic:hover, html.fm-modern input[type="submit"]:
 html.fm-modern .button-generic:active{ transform:translateY(0); }
 html.fm-modern .button-generic:focus-visible, html.fm-modern input:focus-visible, html.fm-modern select:focus-visible,
 html.fm-modern button:focus-visible, html.fm-modern a:focus-visible{ outline:none; box-shadow:var(--fm-ring); }
-/* secondary / thin buttons -> outlined */
+/* thin buttons: outlined */
 html.fm-modern .button-thin, html.fm-modern .button-thin-foreground, html.fm-modern .button-thin-chardata{ white-space:nowrap;
   background:var(--fm-surface) !important; color:var(--fm-accent-text) !important;
   border:1px solid var(--fm-accent-line) !important; border-radius:999px !important; font-weight:700; cursor:pointer;
@@ -283,16 +263,13 @@ html.fm-modern .pretty-input:focus, html.fm-modern .filter-input:focus{ border-c
 html.fm-modern .input-name, html.fm-modern .min-stat-name, html.fm-modern .stat-label, html.fm-modern .filter-label{ color:var(--fm-muted); font-weight:600; }
 html.fm-modern .register-line{ margin:10px 0; }
 html.fm-modern input.input-value[type="number"]{ min-width:64px; text-align:center; }
-/* base characteristics: stat inputs must show 100/3000 (hide number spinners
-   that eat horizontal space; widen slightly; non-wrapping total). */
+/* stat inputs: no spinners so 100/3000 fits */
 html.fm-modern .stat-input{ width:52px !important; padding:6px 4px !important; text-align:center; box-sizing:border-box; }
 html.fm-modern .stat-input::-webkit-inner-spin-button, html.fm-modern .stat-input::-webkit-outer-spin-button{ -webkit-appearance:none; margin:0; }
 html.fm-modern .stat-input[type=number]{ -moz-appearance:textfield; }
 html.fm-modern .stat-softcap{ white-space:nowrap; }
 
-/* ---------- Light theme guards: always-readable hover/active states ----------
-   (defends against the classic light theme's dark-brown hover backgrounds that
-   could leave dark text unreadable if cascade/cache gets inconsistent) */
+/* ---------- Light theme hover guards ---------- */
 html.fm-modern.fm-light .menu_link:hover, html.fm-modern.fm-light .menu-collapse-link:hover{
   background:var(--fm-accent-soft) !important; color:var(--fm-text) !important;
   border-left-color:var(--fm-accent-strong) !important;
@@ -306,8 +283,7 @@ html.fm-modern.fm-light .build-link:hover, html.fm-modern.fm-light .filter-butto
 /* ---------- Tables (stats, weights, encyclopedia, compare) ---------- */
 html.fm-modern .maincontent table.register-table,
 html.fm-modern .maincontent .styled-table{ border-collapse:separate; border-spacing:0; }
-/* Only the build boxes get a modern surface behind them. The project list and the
-   base stats keep the classic #3D200D table, so their titles stay on the theme colour. */
+/* Project list and base stats keep the classic table */
 html.fm-modern .build-boxes-title{
   color:var(--fm-head) !important; font-weight:700;
 }
@@ -319,19 +295,15 @@ html.fm-modern .footer a{ color:var(--fm-accent-text); text-decoration:none; }
 html.fm-modern .footer a:hover{ text-decoration:underline; }
 
 /* ---------- Ad slots ---------- */
-/* No frame until an ad actually fills: a blocked or unsold slot leaves nothing
-   behind instead of an empty labelled box. */
+/* No frame until an ad fills */
 html.fm-modern .fm-ad{ display:block; margin:18px 0; text-align:center; overflow:hidden; }
 html.fm-modern .fm-ad:has(ins[data-ad-status="filled"]){ padding:8px; background:var(--fm-surface-2);
   border:1px solid var(--fm-border); border-radius:var(--fm-radius-sm); min-height:90px; }
 html.fm-modern .fm-ad:has(ins[data-ad-status="filled"])::before{ content:attr(data-label); display:block;
-  /* No opacity here: it took the disclosure label to 2.13 against the panel,
-     and a label saying "advertisement" is the last thing to make unreadable. */
+  /* no opacity, the label must stay readable */
   font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--fm-muted); margin-bottom:4px; }
 html.fm-modern .fm-ad:has(ins[data-ad-status="unfilled"]){ display:none; }
-/* A unit waiting for the reader is empty on purpose, and hiding it would stop
-   it ever being seen, so it would never load. Only a unit that will never hold
-   anything is collapsed here. */
+/* Lazy units start empty, hiding them would stop them loading */
 html.fm-modern .fm-ad:empty:not(.fm-ad-lazy){ display:none; }
 html.fm-modern .fm-ad ins{ display:block; }
 html.fm-modern .fm-ad-top{ margin:14px 0 4px; }
@@ -339,36 +311,22 @@ html.fm-modern .fm-ad-inline{ margin:22px auto; max-width:728px; }
 html.fm-modern .fm-ad-sidebar{ position:sticky; top:16px; margin-top:14px; }
 @media (max-width:900px){ html.fm-modern .fm-ad-sidebar{ position:static; } }
 
-/* A unit standing between the rows of a list. Inside a grid it takes the whole
-   width instead of one cell, so it reads as a break in the list and never as a
-   result. */
+/* Ad between the rows of a list */
 html.fm-modern .fm-ad-feed{ margin:20px auto; max-width:728px; }
-/* Not scoped to the modern skin: the classic look shares these grids, and a
-   unit taking a single cell there would read as one more result.
-   The width is explicit because a grid item with auto side margins shrinks to
-   its content, and an empty box is zero wide: Google would then be handed a
-   nought-pixel slot and hand back nothing. */
+/* Classic too. Explicit width: an empty auto-margin grid item is 0px wide */
 .encyclopedia-grid > .fm-ad-feed,
 .encyclopedia-monsters-grid > .fm-ad-feed,
 .encyclopedia-sets-grid > .fm-ad-feed,
 .builds-grid > .fm-ad-feed,
 .fm-guides-grid > .fm-ad-feed{ grid-column:1 / -1; width:100%; }
 
-/* ---------- Side rails ----------
-   The shell stops at 1200px, so anything past 1560px of screen is empty margin
-   on both sides. The rails live in that margin and nowhere else: below the
-   breakpoint they are display:none, which also means the script never builds
-   them, so a narrow screen is never asked to load an ad it cannot show. The
-   height gate keeps a 600px unit off a short laptop screen.
-   Every rule below names .fm-ad.fm-ad-rail, at the same weight, so the order
-   decides and not the count of classes. The bare class first, for the classic
-   look, which has no gutter of its own to speak of. */
+/* ---------- Side rails ---------- */
+/* Hidden below the breakpoint, and the script never builds a hidden rail */
 .fm-ad-rail{ display:none; }
 html.fm-modern .fm-ad.fm-ad-rail{ display:none; }
 @media (min-width:1560px) and (min-height:700px){
   html.fm-modern .fm-ad.fm-ad-rail{
-    /* Below the language and theme blankets (z-index 1) so a rail does not
-       stay bright over a dimmed page. Nothing else shares the gutter. */
+    /* under the language and theme blankets (z-index 1) */
     display:block; position:fixed; top:96px; width:160px; margin:0; z-index:0;
   }
   html.fm-modern .fm-ad.fm-ad-rail-left{ left:calc(50% - 776px); }
@@ -380,15 +338,10 @@ html.fm-modern .fm-ad.fm-ad-rail{ display:none; }
   html.fm-modern .fm-ad.fm-ad-rail-right{ right:calc(50% - 920px); }
 }
 
-/* ============================================================================
-   HOME
-   ============================================================================ */
+/* ---------- Home ---------- */
 html.fm-modern .main-div{ position:relative; text-align:center; }
 html.fm-modern .main-div > h1{ font-size:clamp(2rem,1.2rem + 3vw,3rem) !important; }
-/* Modernised item wallpaper: the decorative item-icon <table> becomes a faded,
-   masked grid backdrop of real item sprites behind the CTAs. The cards (and all
-   other content) sit on top via z-index; the classic absolute-card hack is undone
-   below. */
+/* Item icon table becomes a faded backdrop behind the cards */
 html.fm-modern .main-div{ padding-top:clamp(12px,2.5vw,28px); }
 html.fm-modern .main-div > *:not(table){ position:relative; z-index:1; }
 html.fm-modern .main-div > table{
@@ -409,7 +362,7 @@ html.fm-modern .main-div .home-pic-holder{
   background:rgba(212,175,55,.10); border:1px solid rgba(212,175,55,.22); border-radius:9px;
 }
 html.fm-modern .main-div .home-pic{ width:100% !important; height:100% !important; object-fit:contain; }
-/* primary CTA cards: undo the classic absolute positioning, make a responsive row */
+/* CTA cards: undo the classic absolute positioning */
 html.fm-modern .giant-button{
   position:relative !important; top:auto !important; left:auto !important; right:auto !important; z-index:1;
   display:inline-block; vertical-align:top; box-sizing:border-box;
@@ -436,9 +389,7 @@ html.fm-modern .featured-build-card:hover{ transform:translateY(-3px); box-shado
 html.fm-modern .featured-build-name{ color:var(--fm-head); font-weight:700; }
 html.fm-modern .featured-build-author{ color:var(--fm-muted); }
 
-/* ============================================================================
-   SHARED BUILDS
-   ============================================================================ */
+/* ---------- Shared builds ---------- */
 html.fm-modern .shared-builds-container{ max-width:100% !important; margin:0 !important; padding:0 !important; }
 html.fm-modern .filters-section{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border); border-radius:var(--fm-radius); padding:18px; margin-bottom:22px; box-shadow:var(--fm-shadow-sm); }
 html.fm-modern .build-card{
@@ -447,9 +398,7 @@ html.fm-modern .build-card{
 }
 html.fm-modern .build-card:hover{ transform:translateY(-3px); box-shadow:var(--fm-shadow); border-color:var(--fm-accent-line) !important; }
 
-/* ============================================================================
-   SOLUTION
-   ============================================================================ */
+/* ---------- Solution ---------- */
 html.fm-modern .solution-item-expand-header, html.fm-modern .solution-set-expand-header{
   background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm) !important;
   transition:border-color var(--fm-trans), box-shadow var(--fm-trans);
@@ -458,32 +407,24 @@ html.fm-modern .solution-item-expand-header:hover{ border-color:var(--fm-accent-
 html.fm-modern .char-banner{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; }
 html.fm-modern .build-boxes-column{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm) !important; }
 html.fm-modern .solution-stat-summary-line{ border-color:var(--fm-border) !important; }
-/* JS-injected crafting ingredients + workshop feedback inherit a near-black
-   color from the classic solution column → unreadable on the modern dark
-   surface. Force theme-aware, readable colors. */
+/* JS-injected ingredients inherit near-black from the classic column */
 html.fm-modern #solution_ingredients, html.fm-modern #solution_ingredients *,
 html.fm-modern #solution_ingredients_meta, html.fm-modern #workshop_feedback{ color:var(--fm-text) !important; }
 html.fm-modern #solution_ingredients a{ color:var(--fm-accent-text) !important; }
 html.fm-modern #solution_ingredients_list li{ border-top-color:var(--fm-border) !important; }
 
-/* ============================================================================
-   ENCYCLOPEDIA
-   ============================================================================ */
+/* ---------- Encyclopedia ---------- */
 html.fm-modern .encyclopedia-section{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; padding:14px !important; margin-bottom:16px; }
 html.fm-modern .encyclopedia-small-btn, html.fm-modern .encyclopedia-page-link{
   background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-xs) !important; color:var(--fm-accent-text) !important;
 }
 html.fm-modern .encyclopedia-page-link:hover, html.fm-modern .encyclopedia-small-btn:hover{ background:var(--fm-accent-soft) !important; }
 
-/* ============================================================================
-   WIZARD / form-heavy pages
-   ============================================================================ */
+/* ---------- Wizard / form pages ---------- */
 html.fm-modern .wizard-div{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius) !important; box-shadow:var(--fm-shadow-sm); }
 html.fm-modern .error-message{ color:#e0584f; }
 
-/* ============================================================================
-   Responsive: modern collapses the float layout into one column
-   ============================================================================ */
+/* ---------- Responsive: one column ---------- */
 @media (max-width: 900px){
   html.fm-modern .add-banner{ padding:0 12px !important; }
   html.fm-modern h1{ font-size:clamp(1.4rem,1rem + 3vw,1.9rem) !important; }
@@ -499,8 +440,7 @@ html.fm-modern .error-message{ color:#e0584f; }
   html.fm-modern .fm-ad-sidebar{ position:static; }
   html.fm-modern .giant-button{ display:block; width:100% !important; margin:10px 0 !important; }
   html.fm-modern .giant-button-pic img{ height:64px; width:auto; }
-  /* Full-width stacked cards would cover the item-grid backdrop; hide it on mobile/tablet
-     so the cards stay clean (the grid is a desktop hero flourish, shown >900px). */
+  /* item backdrop is desktop only */
   html.fm-modern .main-div{ padding-top:0 !important; }
   html.fm-modern .main-div > table{ display:none !important; }
   html.fm-modern .featured-builds-grid{ grid-template-columns:1fr 1fr; }
@@ -511,10 +451,7 @@ html.fm-modern .error-message{ color:#e0584f; }
   html.fm-modern .maincontent, html.fm-modern .loading{ padding:13px !important; }
 }
 
-/* ============================================================================
-   Bespoke-page overrides: force modern surfaces/text on pages that ship their
-   own <style> blocks (shared builds, encyclopedia item, smithmagic).
-   ============================================================================ */
+/* ---------- Pages with their own <style> blocks ---------- */
 /* --- Shared builds cards --- */
 html.fm-modern .build-card{ background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; }
 html.fm-modern .build-card:hover{ border-color:var(--fm-accent-line) !important; box-shadow:var(--fm-shadow) !important; }
@@ -543,8 +480,7 @@ html.fm-modern .fm-table th{ color:var(--fm-head); }
 html.fm-modern .fm-table th, html.fm-modern .fm-table td{ border-bottom-color:var(--fm-border) !important; }
 html.fm-modern .fm-search-results.brown-box{ background:var(--fm-surface) !important; border:1px solid var(--fm-border) !important; }
 html.fm-modern .fm-search-result:hover{ background:var(--fm-accent-soft); filter:none; }
-/* Smithmagic rune-weight table: fit the 10 columns without horizontal scroll
-   (wrap headers, compact padding, compact number inputs). */
+/* rune-weight table: fit the 10 columns without scrolling */
 html.fm-modern .fm-table{ font-size:0.86em; width:100%; }
 html.fm-modern .fm-table th{ white-space:normal !important; vertical-align:bottom; line-height:1.15; }
 html.fm-modern .fm-table th, html.fm-modern .fm-table td{ padding:4px 6px !important; }
@@ -552,8 +488,7 @@ html.fm-modern .fm-table td.fm-cell-runes{ white-space:normal; }
 html.fm-modern .fm-table input[type="number"], html.fm-modern .fm-table .fm-input{
   min-width:0 !important; width:46px !important; padding:4px 5px !important; text-align:center; box-sizing:border-box;
 }
-/* selected simulation mode must read as selected (my .button-thin override was
-   hiding the classic green active state) -> use the design-system gold accent */
+/* active simulation mode */
 html.fm-modern .fm-sim-mode-btn.fm-active, html.fm-modern .button-thin.fm-active{
   background:linear-gradient(180deg,var(--fm-accent-2),var(--fm-accent)) !important;
   color:#2a2010 !important; border-color:var(--fm-accent) !important; font-weight:800;
@@ -564,9 +499,7 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   background:var(--fm-surface-2) !important; border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm) !important;
 }
 
-/* ============================================================================
-   Mobile overflow safety (modern): pages that ship fixed-width tables/links
-   ============================================================================ */
+/* ---------- Mobile overflow ---------- */
 @media (max-width: 900px){
   /* contact form: stack label/field, full width */
   html.fm-modern #c_form, html.fm-modern #theform, html.fm-modern #theform table,
@@ -585,28 +518,22 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   html.fm-modern .maincontent table:not(.fm-table):not(.encyclopedia-list){ max-width:100%; }
 }
 
-/* error/500 image+text tables stack on mobile -- but NOT data tables that
-   legitimately contain item icons (solution / smithmagic / encyclopedia /
-   spells / the project list).
-   The cell rule takes DIRECT children only. Written as a descendant it reached
-   every td of every nested table, which flattened the four compared builds on
-   /compare_sets/ into one unlabelled column at any width under 900px. */
+/* Stack image+text tables on mobile. Direct td only, or nested tables flatten */
 @media (max-width: 900px){
   html.fm-modern .maincontent table td img{ max-width:100% !important; height:auto !important; }
   html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(.load-project-table):not(#spells-table){ display:block; width:100% !important; }
   html.fm-modern .maincontent > table:has(img):not(.solution-table):not(.fm-table):not(.encyclopedia-list):not(.load-project-table):not(#spells-table) > tbody > tr > td{ display:block; width:100% !important; text-align:center; }
-  /* Solution: keep two side-by-side columns on mobile (items | stats), per responsive.css 55/45 */
+  /* Solution: keep items | stats side by side */
   html.fm-modern .solution-table{ display:table !important; width:100% !important; }
   html.fm-modern .solution-table > tbody{ display:table-row-group !important; }
   html.fm-modern .solution-table > tbody > tr{ display:table-row !important; }
   html.fm-modern .solution-item-summary, html.fm-modern .solution-stat-summary{ display:table-cell !important; }
-  /* Spells: 2 columns on mobile (was forced to 1) */
+  /* Spells: 2 columns */
   html.fm-modern #spells-table, html.fm-modern #spells-table tbody, html.fm-modern #spells-table tr{ display:block !important; width:100% !important; }
   html.fm-modern #spells-table .spells-td{ display:inline-block !important; width:49% !important; vertical-align:top; box-sizing:border-box; }
 }
 
-/* Solution awkward band (901-1099px): sidebar still visible but 2 item columns +
-   stats panel overflow and the stats get cut -> collapse items to a single column. */
+/* 901-1099px: sidebar still shown, one item column so the stats fit */
 @media (min-width: 901px) and (max-width: 1099px){
   html.fm-modern .solution-item-section{ display:block !important; width:100% !important; }
   html.fm-modern .solution-item-section-column{ display:block !important; width:100% !important; }
@@ -615,9 +542,7 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   html.fm-modern .solution-stat-summary{ width:42% !important; vertical-align:top; }
 }
 
-/* Very narrow screens (<=480px): keep items | stats side by side (no stacking) but
-   compact the item box so the icon + 4 action buttons and the stats all fit without
-   overflowing: smaller icon, smaller buttons that wrap, tighter columns/padding. */
+/* <=480px: compact item box, items | stats still side by side */
 @media (max-width: 480px){
   html.fm-modern .solution-table{ table-layout:fixed; width:100% !important; }
   html.fm-modern .solution-item-summary{ width:56% !important; vertical-align:top; }
@@ -631,32 +556,23 @@ html.fm-modern .inventory-folder, html.fm-modern .workshop-item, html.fm-modern 
   html.fm-modern .solution-stat-summary td{ padding:1px 4px !important; font-size:.82em; }
 }
 
-/* Load-projects table has fixed-width inner divs (~644px total) that overflow small
-   screens and cut the page. Let the table respect the column and the cell contents
-   shrink/wrap instead of forcing their pixel widths. */
+/* Load-projects inner divs have fixed widths */
 @media (max-width: 600px){
   html.fm-modern .load-project-table{ width:100% !important; table-layout:fixed; }
   html.fm-modern .load-project-cell > div{ width:auto !important; max-width:100% !important; overflow-wrap:anywhere; }
 }
 
-/* ============================================================================
-   Unified modern icon set (modern skin only): replaces mismatched raster
-   control icons with inline SVG in the CSS content. Classic keeps its own
-   icons. Gold = neutral action, muted red = destructive. (Baked colors --
-   inline content cannot use currentColor; chosen to read on light & dark.)
-   ============================================================================ */
+/* Modern icons. Colours are baked in, content url() cannot use currentColor */
 html.fm-modern .solution-item-button{
   width:17px !important; height:17px !important; padding:5px !important; border-radius:9px;
   box-sizing:content-box !important; cursor:pointer; vertical-align:middle; object-fit:contain;
   transition:background .15s ease, transform .1s ease;
 }
 html.fm-modern .solution-item-button:hover{ background:var(--fm-accent-soft); transform:translateY(-1px); }
-/* A finger is not a mouse pointer: keep the drawing small and grow the box it
-   answers to, so the six actions stop being 17px targets on a phone. */
+/* Bigger tap target on touch screens */
 @media (pointer: coarse){
   html.fm-modern .solution-item-button{ padding:8px !important; }
 }
-/* Reachable by keyboard now, so it has to be visible when it is reached. */
 html.fm-modern .solution-item-button:focus-visible{
   outline:2px solid var(--fm-accent-text); outline-offset:1px; background:var(--fm-accent-soft);
 }
@@ -667,11 +583,7 @@ html.fm-modern .solution-item-remove-button{ content:url("data:image/svg+xml,%3C
 html.fm-modern .solution-item-add-button{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cline%20x1=%2712%27%20y1=%275%27%20x2=%2712%27%20y2=%2719%27/%3E%3Cline%20x1=%275%27%20y1=%2712%27%20x2=%2719%27%20y2=%2712%27/%3E%3C/svg%3E"); }
 html.fm-modern .item-external-image-link{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M14%204h6v6%27/%3E%3Cpath%20d=%27M20%204l-9%209%27/%3E%3Cpath%20d=%27M18%2013v6a1%201%200%200%201-1%201H5a1%201%200%200%201-1-1V7a1%201%200%200%201%201-1h6%27/%3E%3C/svg%3E") !important; width:15px !important; height:15px !important; vertical-align:middle; opacity:.9; }
 
-/* The solution intro paragraph embeds the legacy PNG action icons (forbid/lock/
-   switch/add) inside a {% blocktrans %}, so they can't carry the button classes
-   above. Swap them for the same vector icons by matching the src (a template var,
-   identical in every language) inside the intro <p> -- keeps translations and the
-   real item buttons untouched; classic keeps the original PNGs. */
+/* Intro icons sit inside a blocktrans, so match them by src */
 html.fm-modern p.text img[src*="delete-icon"],
 html.fm-modern p.text img[src*="lock-icon"],
 html.fm-modern p.text img[src*="Left-right"],
@@ -681,8 +593,7 @@ html.fm-modern p.text img[src*="lock-icon"]{ content:url("data:image/svg+xml,%3C
 html.fm-modern p.text img[src*="Left-right"]{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M3%209h14%27/%3E%3Cpath%20d=%27M14%206l3%203-3%203%27/%3E%3Cpath%20d=%27M21%2015H7%27/%3E%3Cpath%20d=%27M10%2012l-3%203%203%203%27/%3E%3C/svg%3E"); }
 html.fm-modern p.text img[src*="add-icon"]{ content:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2724%27%20height=%2724%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23c8961f%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cline%20x1=%2712%27%20y1=%275%27%20x2=%2712%27%20y2=%2719%27/%3E%3Cline%20x1=%275%27%20y1=%2712%27%20x2=%2719%27%20y2=%2712%27/%3E%3C/svg%3E"); }
 
-/* Build micro-stat icons: image-replacement (hide any glyph, show themed SVG)
-   in both skins -- no emoji in the markup. */
+/* Build micro-stat icons */
 .fm-st{ display:inline-block; width:1.05em; height:1.05em; vertical-align:-0.18em;
   overflow:hidden; text-indent:130%; white-space:nowrap; background:center/contain no-repeat; }
 .fm-st-builds{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%239a8a66%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M21%208l-9-5-9%205v8l9%205%209-5z%27/%3E%3Cpath%20d=%27M3%208l9%205%209-5%27/%3E%3Cpath%20d=%27M12%2013v8%27/%3E%3C/svg%3E"); }
@@ -690,8 +601,7 @@ html.fm-modern p.text img[src*="add-icon"]{ content:url("data:image/svg+xml,%3Cs
 .fm-st-fav{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20fill=%27%23e0a82e%27%20d=%27M12%202.6l2.7%205.6%206.1.6-4.6%204.1%201.3%206L12%2016.9%206.5%2018.9l1.3-6L3.2%208.8l6.1-.6z%27/%3E%3C/svg%3E"); }
 .fm-st-view{ background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%239a8a66%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M2%2012s4-7%2010-7%2010%207%2010%207-4%207-10%207S2%2012%202%2012z%27/%3E%3Ccircle%20cx=%2712%27%20cy=%2712%27%20r=%273%27/%3E%3C/svg%3E"); }
 
-/* Inline UI icons (Feather-style); mask+currentColor so they inherit the
-   surrounding text/button color and adapt to light/dark themes. */
+/* Inline icons: mask + currentColor so they follow the text colour */
 .fm-ico{ display:inline-block; width:1.05em; height:1.05em; vertical-align:-0.18em;
   background-color:currentColor;
   -webkit-mask:center/contain no-repeat; mask:center/contain no-repeat; }
@@ -704,18 +614,14 @@ html.fm-modern p.text img[src*="add-icon"]{ content:url("data:image/svg+xml,%3Cs
 .fm-ico-forge{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23000%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M14%204l6%206-3%203-6-6z%27/%3E%3Cpath%20d=%27M12.5%208.5%204%2017a1.5%201.5%200%200%200%202%202l8.5-8.5%27/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%20fill=%27none%27%20stroke=%27%23000%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%3E%3Cpath%20d=%27M14%204l6%206-3%203-6-6z%27/%3E%3Cpath%20d=%27M12.5%208.5%204%2017a1.5%201.5%200%200%200%202%202l8.5-8.5%27/%3E%3C/svg%3E"); }
 
 
-/* Solution item: keep the encyclopedia link (↗) pinned top-right of the item
-   card on small screens instead of letting it drop inline below the name. */
+/* Keep the encyclopedia link top-right of the item card */
 @media (max-width: 900px){
   html.fm-modern .solution-item-expand-header{ position:relative; }
   html.fm-modern .solution-item-link-div{ position:absolute !important; top:6px; right:8px; margin:0 !important; width:auto !important; z-index:2; }
   html.fm-modern .solution-item-name-div{ padding-right:26px; }
 }
 
-/* ============================================================================
-   Premium gold buttons: richer minted-gold gradient, soft top sheen + warm
-   shadow + hairline border (replaces the flat lemon look).
-   ============================================================================ */
+/* ---------- Gold buttons ---------- */
 html.fm-modern .button-generic, html.fm-modern .button-generic-foreground, html.fm-modern .submit-button,
 html.fm-modern .rerun-button, html.fm-modern input[type="submit"], html.fm-modern button.button-generic,
 html.fm-modern .filter-button, html.fm-modern .build-link:hover, html.fm-modern .version-link.active{
@@ -735,13 +641,10 @@ html.fm-modern button.button-generic:hover, html.fm-modern input[type="submit"]:
 }
 html.fm-modern .button-generic:active, html.fm-modern .submit-button:active{ transform:translateY(0); box-shadow:inset 0 1px 3px rgba(120,85,15,.4) !important; }
 
-/* ============================================================================
-   Solution stats panel: modern segmented toggle + clean tabular rows.
-   ============================================================================ */
-/* Total / Equip / With-buffs as a segmented pill control (no :has needed) */
+/* ---------- Solution stats panel ---------- */
+/* Total / Equip / With buffs toggle */
 html.fm-modern .solution-stat-summary-mode-option-container{ float:none !important; width:auto !important; display:inline-flex !important; vertical-align:middle; margin:0 5px 6px 0 !important; }
-/* sidebar action buttons (e.g. "Generate a new outfit") must wrap long translations
-   -- the global button nowrap was cutting them in the narrow sidebar */
+/* sidebar buttons wrap long translations */
 html.fm-modern .sidebar .rerun-button, html.fm-modern .menu_link.rerun-button{ white-space:normal !important; }
 html.fm-modern .solution-stat-summary-mode-option-container label{ cursor:pointer; display:inline-block; }
 html.fm-modern .solution-stat-summary-mode-option-container input{ position:absolute !important; opacity:0; width:1px; height:1px; pointer-events:none; }
@@ -753,13 +656,11 @@ html.fm-modern .solution-stat-summary-mode-option-container input:checked + .che
   background:linear-gradient(180deg,#efcb63,#d8ab36); color:#3a2a0c; border-color:rgba(150,110,25,.5); font-weight:800;
 }
 html.fm-modern .solution-stat-summary-mode-option-container label:hover .checkbox-text{ border-color:var(--fm-accent-line); }
-/* rows: zebra + tabular bold values + muted names */
 html.fm-modern .solution-stat-table{ background:var(--fm-surface-2) !important; }
 html.fm-modern .solution-stat-summary-line, html.fm-modern .solution-stat-summary-line td, html.fm-modern .solution-stat-summary-line th{ background:transparent !important; }
 html.fm-modern .solution-stat-summary-line:nth-child(even){ background:rgba(128,110,70,.08) !important; }
 html.fm-modern .solution-stat-summary-line td, html.fm-modern .solution-stat-summary-line th{ padding:3px 7px !important; }
-/* the stat panel background is theme-swapped (light in light theme, dark in dark),
-   so its text must be theme-relative. */
+/* panel background swaps with the theme */
 html.fm-modern .solution-stat-summary-name{ color:var(--fm-muted) !important; font-size:12px; }
 html.fm-modern .solution-stat-summary-value-cell{ text-align:right; font-weight:700; color:var(--fm-head) !important; font-variant-numeric:tabular-nums; }
 html.fm-modern .solution-stat-summary-base-value-header, html.fm-modern .solution-stat-summary-value-header{
@@ -767,11 +668,7 @@ html.fm-modern .solution-stat-summary-base-value-header, html.fm-modern .solutio
 }
 html.fm-modern .solution-stat-summary-icon{ width:16px !important; height:16px !important; vertical-align:middle; }
 
-/* ---------- Switch-item popup + item/set "expand stats" panels -> modern ----------
-   The #popUpDiv switch popup and the inline expand-stats accordions are built from
-   .item-exchange-* / .solution-*-expand-* classes that modern.css didn't cover, so
-   they fell back to the classic brown theme. Re-skin them with the modern tokens
-   (layout/position untouched; classic look fully untouched). */
+/* ---------- Switch-item popup and expand-stats panels ---------- */
 html.fm-modern #blanket{ background-color:#0a0702 !important; opacity:.5 !important; }
 html.fm-modern #popUpDiv{
   background:var(--fm-surface) !important; color:var(--fm-text) !important;
@@ -784,22 +681,22 @@ html.fm-modern .item-exchange-container{
   box-shadow:var(--fm-shadow-sm); overflow:hidden; margin-bottom:10px;
 }
 html.fm-modern .item-exchange-name{ color:var(--fm-head) !important; font-weight:700; }
-/* the set is what tells same-named pieces apart, but it stays secondary */
+/* set name tells same-named pieces apart */
 html.fm-modern .item-exchange-name .item-set-name,
 html.fm-modern .item-exchange-name .item-source-line{ color:var(--fm-muted) !important; font-weight:400; }
 html.fm-modern .item-exchange-icon{ border-radius:var(--fm-radius-xs); }
-/* header tint (switch-popup card header AND expand-stats accordion header) */
+/* popup card and accordion headers */
 html.fm-modern .item-exchange-header,
 html.fm-modern .solution-item-expand-header, html.fm-modern .solution-set-expand-header{
   background:var(--fm-surface-3) !important; color:var(--fm-head) !important;
 }
-/* content / stat panels: bg only (the popup card already frames them) */
+/* content panels, the popup card frames them */
 html.fm-modern .item-exchange-stats, html.fm-modern .item-exchange-comparison,
 html.fm-modern .item-exchange-violations,
 html.fm-modern .solution-item-expand-content, html.fm-modern .solution-set-expand-content{
   background:var(--fm-surface) !important; color:var(--fm-text) !important;
 }
-/* the inline expand accordions stand alone (no popup card around them) -> own frame */
+/* inline accordions need their own frame */
 html.fm-modern .solution-item-expand-header, html.fm-modern .solution-set-expand-header,
 html.fm-modern .solution-item-expand-content, html.fm-modern .solution-set-expand-content{
   border:1px solid var(--fm-border) !important;
@@ -812,12 +709,7 @@ html.fm-modern #popUpDiv input, html.fm-modern #popUpDiv select{
 html.fm-modern .pages-link{ color:var(--fm-accent-text) !important; }
 html.fm-modern .pages-current{ color:var(--fm-head) !important; }
 
-/* ============================================================
-   Comparison cart: a small cart in the header. Hovering (or a tap
-   on touch) opens a dropdown of the collected builds; the panel's
-   button compares them. Self-contained colors so it reads on any
-   header theme (classic / light / dark / modern).
-   ============================================================ */
+/* ---------- Comparison cart, own colours for every theme ---------- */
 .compare-cart{ position:relative; display:inline-block; vertical-align:middle; }
 .compare-cart[hidden]{ display:none; }
 .compare-cart-toggle{
@@ -874,11 +766,7 @@ html.fm-modern .pages-current{ color:var(--fm-head) !important; }
 .cc-toast-show{ opacity:1; transform:translateX(-50%) translateY(0); }
 @media (max-width:600px){ .compare-cart-panel{ width:230px; } }
 
-/* ============================================================
-   Comparison result page (compare_sets): modern theme. The old
-   page leaned on .brown-table (beige skin) which clashed badly
-   with the modern look; restyle its panels to match the stats.
-   ============================================================ */
+/* ---------- Comparison page ---------- */
 html.fm-modern .compare-page{ border-collapse:separate; border-spacing:0; }
 html.fm-modern .compare-page .brown-table{
   background:var(--fm-surface-2) !important;
@@ -896,7 +784,7 @@ html.fm-modern .compare-page .solution-items-icon{ vertical-align:middle; }
 html.fm-modern .compare-page .solution-stat-table{
   border:1px solid var(--fm-border) !important; border-radius:var(--fm-radius-sm);
 }
-/* Stack the items column above the stats column on narrow screens. */
+/* Stack items above stats */
 @media (max-width:760px){
   html.fm-modern .compare-page,
   html.fm-modern .compare-page > tbody,
@@ -904,9 +792,7 @@ html.fm-modern .compare-page .solution-stat-table{
   html.fm-modern .compare-page > tbody > tr > td{ display:block; width:100% !important; padding:6px 0 !important; }
 }
 
-/* An item line that names a spell gets a marker saying what the spell does.
-   Hover opens the panel and so does a tap, the way the comparison cart above
-   already works: a bare title attribute shows nothing on a phone. */
+/* Spell tip: hover or tap, a title attribute does nothing on a phone */
 .spell-tip{
   position:relative; display:inline-block; vertical-align:middle;
   margin-left:5px; cursor:help; outline:none;
@@ -929,28 +815,23 @@ html.fm-modern .compare-page .solution-stat-table{
   border:1px solid rgba(255,255,255,.13); border-radius:10px; padding:8px 10px;
   box-shadow:0 12px 34px rgba(0,0,0,.45); color:#f1f1f4;
   font-size:.86em; font-weight:normal; line-height:1.35;
-  /* The panel covers the lines under it: taking the pointer would hold the
-     line above open and hide the one the pointer is really on. */
+  /* the panel covers the lines below it */
   pointer-events:none;
 }
 .spell-tip:hover .spell-tip-panel,
 .spell-tip:focus-visible .spell-tip-panel,
 .spell-tip.st-open .spell-tip-panel{ display:block; }
-/* A tapped panel keeps the pointer, or the tap would fall through to the row. */
+/* tapped panel takes the pointer, or the tap falls through to the row */
 .spell-tip.st-open .spell-tip-panel{ pointer-events:auto; }
 .spell-tip-name{ display:block; margin-bottom:3px; color:#f7d774; }
-/* One contributor per row inside a stat's panel: what it is on the left, how
-   much it gives on the right. The panel itself is the spell tip's, so the
-   colours and the dark theme come with it. */
+/* One contributor per row in a stat's panel */
 .stat-tip-row{ display:flex; justify-content:space-between; gap:14px;
                white-space:nowrap; }
 .solution-stat-summary-name.spell-tip{ cursor:help; }
 .spell-tip-text{ display:block; }
 /* Near the right edge the panel would leave the card. */
 .spell-tip.st-flip .spell-tip-panel{ left:auto; right:0; }
-/* A line about a spell reads differently from a stat line, so it is coloured
-   differently. Teal, because blue and orange already mean better and worse
-   than the base build on the solution page. */
+/* Teal: blue and orange already mean better and worse than the base build */
 .spell-line{ color:#2b6b78; }
 .spell-tip-mark{ color:#2b6b78; }
 html.fm-dark .spell-line,
@@ -961,7 +842,7 @@ html.fm-dark .spell-tip.st-open .spell-tip-mark{ color:#a7ddea; }
 .spell-tip:hover .spell-tip-mark,
 .spell-tip:focus-visible .spell-tip-mark,
 .spell-tip.st-open .spell-tip-mark{ color:#1d5561; }
-/* The suggested transcendence rune: a diamond you can hover, not a line. */
+/* suggested transcendence rune */
 .transcendence-tip{ margin-left:0; }
 .transcendence-tip .spell-tip-mark{ opacity:.7; }
 .transcendence-tip .spell-tip-text + .spell-tip-text{ margin-top:5px; opacity:.75; }

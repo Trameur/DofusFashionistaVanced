@@ -31,34 +31,12 @@ class SpellTip(object):
 
 @lru_cache(maxsize=4096)
 def _names_it(spell):
-    """Le nom du sort, cherche comme un MOT et non comme une suite de lettres.
-
-    Un nom de sort est parfois aussi un mot courant. En allemand <<Nahkampf>>
-    est le nom du sort que l'anglais appelle Punch, et c'est aussi le mot de
-    tous les jours pour la melee: il vit a l'interieur de
-    <<Nahkampfentfernung>>, <<Nahkampfangriff>>, <<Nahkampfschaden>>. Cherche
-    comme une sous-chaine, il collait a la fiche du Dofus Emeraude
-    l'explication d'un sort qui n'y a rien a faire: <<Occasionne des dommages
-    Neutre.>>
-
-    La cause etait plus haut: `store_spell_tooltips` laissait ce sort entrer
-    dans la table, et la corriger la-bas l'en retire pour de bon. Ce garde-ci
-    est la seconde ligne de defense, et il corrige en plus un cas que la table
-    ne pouvait pas voir: la Ceinture Sanglante de Retro annonce <<Increases
-    the range of Cut by 3>> et recevait l'explication de <<Increase>>, pris a
-    l'interieur de <<Increases>>, au lieu de celle de <<Cut>>. Deux lignes,
-    mesurees le 12 septembre 2026 sur les cinq versions et les cinq langues;
-    aucune autre des 13 091 lignes qui recoivent une infobulle ne change.
-    """
+    """The spell name as a whole word, never inside a longer one."""
     return re.compile(r'(?<!\w)%s(?!\w)' % re.escape(spell))
 
 
 def spell_tip_for(line, tooltips):
-    """The spell this line is about, or None.
-
-    Names overlap: Retro has both "Bond" and "Bond Felin", so the longest match
-    wins. A name that only lives inside a longer word names nothing.
-    """
+    """The spell this line is about, or None; the longest name wins."""
     if not line or not tooltips:
         return None
     text = str(line)

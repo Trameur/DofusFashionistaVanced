@@ -49,7 +49,7 @@ s3transfer==0.19.2
 six==1.17.0
 social-auth-app-django==6.0.1
 social-auth-core==5.1.0
-soupsieve==2.9.2
+soupsieve==2.9
 sqlparse==0.6.0
 typing_extensions==4.16.0
 tzdata==2026.3

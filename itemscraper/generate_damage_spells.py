@@ -32,8 +32,7 @@ ELEMENT_LITERAL = {
     "AIR": "AIR",
 }
 BEST_ELEMENT_LABEL = "Hit in best element"
-#: Le poison du Dofus Ebene tombe <<dans son element>>, celui de
-#: l'attaque qui l'applique: ni le meilleur, ni un tire au sort.
+# Ebony Dofus poison takes the element of the attack that applies it
 ATTACK_ELEMENT_LABEL = "Poison in the element of the attack"
 
 STAT_BUFF_CHARACTERISTICS = {
@@ -44,107 +43,42 @@ STAT_BUFF_CHARACTERISTICS = {
     15: "buff_int",
     25: "buff_pow",
     49: "buff_finalheals",
-    # Characteristic 84 is Pushback Damage: effect 414 reads "+X Pushback
-    # Damage" in the client's own strings, and seven spells grant it beside
-    # their main effect (Iop Power, Cra Powerful Shots, Masqueraider masks...).
+    # 84 is Pushback Damage (effect 414)
     84: "buff_pshdam",
     107: "buff_final",
 }
 
-# These two skip the bonus_type test in _stat_buff_token because the client
-# leaves bonus_type at 0 for characteristics 107 and 49 even when the effect
-# raises them: 41 of the 44 rows carrying those two read 0, so requiring a
-# positive bonus_type would drop nearly all of them. The sign lives in the
-# effect's own label instead, which is what the minus test below reads.
+# Client leaves bonus_type at 0 for 107 and 49, the sign is in the label
 ALWAYS_BUFF_TOKENS = {"buff_final", "buff_finalheals"}
 
-# Spells whose characteristic rows the caster does not reliably get. The mask
-# does not answer here: the caster IS among Roulette's targets, so any rule
-# built on who is targeted keeps it. What disqualifies it is that only ONE of
-# its rows happens.
-#
-# The quote is checked at generation time by _not_a_self_buff below, so a
-# description Ankama rewrites raises the question again instead of leaving an
-# exclusion nobody rechecks.
-#: Chaque version est un jeu different, et sa phrase aussi: le meme
-#: identifiant ne designe pas toujours le meme sort, et le meme sort n'est pas
-#: toujours ecrit avec les memes mots. La table est donc par version.
+# Buff rows where only one applies. Per version: an id can be another spell
 NOT_A_SELF_BUFF_BY_VERSION = {
-    # Relus le 11 septembre 2026 dans transformed_spells.json.
     "dofus3": {
-        # Ecaflip, Roulette. Ankama: "Applique un effet aleatoire sur tout le
-        # monde." The data lists the alternatives as six separate buff rows,
-        # and reading them as granted together handed an Ecaflip +400
-        # Strength, Intelligence, Chance AND Agility at once, plus Pushback
-        # Damage and final heals, for a 1 AP spell. The solver believes this
-        # table, so the advice was wrong and not only the summary. The same
-        # spell was wrong on Retro (four characteristics) and on Touch
-        # (Power), found there first.
+        # Ecaflip, Roulette: one random effect
         12840: "effet al",
-        # Huppermage, Elemental Drain. Ankama: "Vole des caracteristiques et
-        # de la vie selon l'etat elementaire sur l'ennemi cible." One state,
-        # so one characteristic. The four rows were read as granted together
-        # and one cast handed the caster 200 Strength, Intelligence, Chance
-        # AND Agility: 800 points, measured 2026-09-01, where the game gives
-        # 200.
+        # Huppermage, Elemental Drain: one state, so one characteristic
         13672: "mentaire sur l'ennemi cibl",
-        # Eniripsa, Alchemical Word. The flask holds ONE element and the buff
-        # goes "selon le contenu", so again one characteristic of four. It
-        # also needs the flask summoned, filled, and then attacked by an ally,
-        # which no single turn does. Four rows at 150 came to 600 points a
-        # cast. L'identifiant est partage avec <<Mot d'Amitie>>, qui ne porte
-        # pas la phrase: c'est la variante <<Mot Alchimique>> qui la porte.
+        # Eniripsa, Alchemical Word: one element in the flask. Id shared with Friendship Word
         25802: "selon le contenu",
     },
-    # Relus le 11 septembre 2026 dans transformed_spells_beta.json: la
-    # beta ecrit les trois sorts mot pour mot comme Dofus 3.
     "beta": {
         12840: "effet al",
         13672: "mentaire sur l'ennemi cibl",
         25802: "selon le contenu",
     },
-    # Relus le 11 septembre 2026 dans transformed_spells_dofus2.json.
     "dofus2": {
         12840: "effet al",
-        # Dofus 2 ecrit la meme chose autrement: "Vole des caracteristiques et
-        # occasionne des dommages selon l'etat elementaire DE l'ennemi cible",
-        # sans "et de la vie". Un seul etat, donc une caracteristique: la
-        # raison de l'exclusion tient, la phrase a change.
+        # Elemental Drain, worded differently in Dofus 2
         13672: "mentaire de l'ennemi cibl",
-        # 25802 n'y est PAS: dans ce client l'identifiant ne porte que <<Mot
-        # d'Amitie>>, qui invoque un Lapino. Aucun sort de Dofus 2 ne dit
-        # "selon le contenu", la variante <<Mot Alchimique>> n'y existe pas,
-        # et exclure sur ce numero y retirerait les lignes d'un autre sort.
+        # No 25802: in Dofus 2 that id is only Friendship Word
     },
 }
 
 NOT_A_SELF_BUFF = NOT_A_SELF_BUFF_BY_VERSION["dofus3"]
 
-# LEFT IN ON PURPOSE, and each for a sentence of Ankama's own:
-#   Huppermage, Sublimation      "cumulable 4 fois", so the four really do add
-#                                up, one per element attacked with.
-#   Feca, Reinforced Protection  "selon ses armures elementaires actives", and
-#                                several armours can be active at once.
-#   Huppermage, Runification and Manifestation  "selon l'element de la rune"
-#                                reads like one, but the same sentence adds
-#                                "Sur le lanceur : declenche TOUTES ses runes
-#                                occupees". Both readings fit, and the damage
-#                                rows carry the same question: 928 of the
-#                                class's 1463 best turn hangs on it. That one
-#                                is a game question, not a data one.
+# Not excluded: Sublimation, Reinforced Protection (rows add up), Runification (unclear)
 
-# A damage row that does not land with the cast. The client's structured data
-# does not carry it: the state that holds the damage is applied by effect 950
-# and consumed by a script, so the only place the game states the rule is the
-# spell description, which says it in all five languages ("removes the state if
-# the target suffers pushback damage"). Keyed by Ankama spell id, so a version
-# that lacks the spell simply gets nothing, and a regeneration cannot drop it.
-# A test checks each description still says it.
-# What the client says a damage row waits for. "I" is on cast; the rest name a
-# moment or an event, and a row that names one does not land with the cast.
-# Two kinds, because they are not the same promise: a poison at the start or
-# end of a turn is certain and merely late, while a row waiting on pushback
-# damage only happens if something pushes.
+# Client trigger codes: I is on cast, TB/TE land late, PD/XPD need pushback
 DELAYED_TRIGGERS = {
     'TB': 'turn_begin',
     'TE': 'turn_end',
@@ -169,7 +103,7 @@ def _trigger_tokens(triggers):
 
 
 def _rows_that_wait(normal_rows):
-    """{index: token} twice over, read from the rows the client wrote."""
+    """({index: delayed token}, {index: conditional token})."""
     delayed, conditional = {}, {}
     for index, row in enumerate(normal_rows):
         late, gated = _trigger_tokens(row.get("triggers"))
@@ -180,59 +114,30 @@ def _rows_that_wait(normal_rows):
     return delayed, conditional
 
 
-# Every entry below is a statement about ONE version's client rows, so it
-# cannot be shared: 12882 is Cheek in Dofus 3 and Nerve in 2.73, 14651 is Fob
-# and Embalming, and four of the ten do not exist in 2.73 at all. Read against
-# the wrong version, a row index either names a row that is not there (the
-# generator stops, which is how this was found) or, worse, silently holds back
-# a row the cast really does deal.
+# Per version: the same id can be another spell in 2.73 (12882 Cheek / Nerve)
 _MODERN_CONDITIONAL_ROWS = {
-    # Pilfer is not here: the client marks its row PD|XPD and the rule above
-    # reads it. Noa has the same mechanic and the same wording in all five
-    # languages, but its row is marked "I", so it needs saying by hand.
+    # Noa: row marked "I" but only lands on pushback
     23735: {1: "pushback"},   # Forgelance, Noa
-    # Persecuting Arrow steals HP now and, in all five languages, "inflicts
-    # Air damage on the following turn if the target isn't in the caster's
-    # line of sight". Both its rows read "I", so the turn counted the second
-    # one as landed: a whole row of Air damage the cast may never deal, and
-    # never this turn. Row 1 is the plain Air row; row 0 is the steal.
+    # Persecuting Arrow: row 1 lands next turn, only out of line of sight
     32433: {1: "out_of_sight"},   # Cra, Persecuting Arrow
-    # Eight more of the same shape, all written the same way by
-    # Ankama: "inflicts <element> damage and applies the <state>
-    # state on the targeted enemy: - inflicts <element> damage IF
-    # <event>". The first row is the cast's own hit and the second
-    # is what the state pays out later, which the client marks "I"
-    # on both. Measured before declaring: all eight had the turn
-    # counting both rows. Row 1 rather than row 0 is settled per
-    # spell by a signal, never by the order alone.
-    12859: {1: "critical_hit"},   # Ecaflip, Fate of Ecaflip: row 0 steals HP, which a state's payload never does
-    12880: {1: "no_critical_hit"},   # Ecaflip, Misfortune: row 0 steals HP, which a state's payload never does
-    14311: {1: "healed"},   # Ecaflip, Peril: row 0 steals HP, which a state's payload never does
-    12882: {1: "displaced"},   # Ecaflip, Cheek: row 0 steals HP, which a state's payload never does
-    13353: {1: "ap_removal"},   # Enutrof, Hard Cash: row 0 carries the a,A mask the cast uses, row 1 the bare A
-    13363: {1: "mp_removal"},   # Enutrof, Placer Mining: row 0 carries the a,A mask the cast uses, row 1 the bare A
-    13352: {1: "range_removal"},   # Enutrof, Collapse: row 0 carries the a,A mask the cast uses, row 1 the bare A
-    14651: {1: "telefragged"},   # Xelor, Fob: row 1 carries the area zone the sentence names, row 0 a single cell
-    # Extraction, and it is the target mask rather than a trigger that says so:
-    # row 0 is masked 'A', enemies, and row 1 'a', allies. All five languages
-    # spell it out, "the health steal is reduced by half on allies", and the
-    # numbers agree to the letter, 28-30 against 14-15 at the top grade. Both
-    # rows counted, so a cast read as 42-45 where it steals 28-30 from an
-    # enemy: half again too much, in the damage shown and in the best combo.
+    # Row 1 is what the state pays out later, the client marks it "I"
+    12859: {1: "critical_hit"},   # Ecaflip, Fate of Ecaflip (row 0 steals HP)
+    12880: {1: "no_critical_hit"},   # Ecaflip, Misfortune (row 0 steals HP)
+    14311: {1: "healed"},   # Ecaflip, Peril (row 0 steals HP)
+    12882: {1: "displaced"},   # Ecaflip, Cheek (row 0 steals HP)
+    13353: {1: "ap_removal"},   # Enutrof, Hard Cash (row 0 has the cast's a,A mask)
+    13363: {1: "mp_removal"},   # Enutrof, Placer Mining (row 0 has the cast's a,A mask)
+    13352: {1: "range_removal"},   # Enutrof, Collapse (row 0 has the cast's a,A mask)
+    14651: {1: "telefragged"},   # Xelor, Fob (row 1 has the area zone)
+    # Extraction: row 1 is the steal on allies (mask 'a'), half the enemy one
     13433: {1: "on_ally"},   # Rogue, Extraction
 }
 
 CONDITIONAL_ROWS_BY_VERSION = {
     "dofus3": _MODERN_CONDITIONAL_ROWS,
-    # The beta is the same client one patch ahead, and every one of the ten
-    # generates there unchanged.
+    # beta: same client, one patch ahead
     "beta": _MODERN_CONDITIONAL_ROWS,
-    # Almost nothing has been established against the 2.73 client yet, and an
-    # empty table asserts nothing false: the rows a 2.73 spell holds back still
-    # have to be read from its own descriptions, spell by spell, the way the
-    # modern ones were. Extraction is the one that has been, and it is written
-    # identically in all three: same id, same two rows, row 0 masked 'A' and
-    # row 1 'a', same halved numbers, same sentence in five languages.
+    # 2.73: only Extraction checked so far
     "dofus2": {
         13433: {1: "on_ally"},   # Rogue, Extraction
     },
@@ -926,10 +831,7 @@ def _select_named_defaults(
         except (TypeError, ValueError):
             ankama_id = 0
         if ankama_id:
-            # Plusieurs sorts partagent parfois un identifiant: 25802 porte a
-            # la fois <<Mot d'Amitie>> et sa variante <<Mot Alchimique>>. On
-            # garde celui qui a des lignes de degats plutot que le premier
-            # venu, sans quoi le choix depend de l'ordre du fichier.
+            # Shared ids (25802 Friendship / Alchemical Word): keep the one with damage rows
             connu = by_ankama_id.get(ankama_id)
             if connu is None or (not connu.get("damage_templates")
                                  and spell.get("damage_templates")):
@@ -943,10 +845,7 @@ def _select_named_defaults(
     missing: List[str] = []
     fell_back: List[str] = []
     for spec in DEFAULT_DAMAGE_SPELL_SPECS:
-        # L'identifiant d'abord, le nom ensuite. Le client de Dofus 3 a
-        # rebaptise l'attaque du Dofus Ebene en "Ebony Black": l'appariement
-        # par nom a echoue, le repli ci-dessous a servi les valeurs ecrites a
-        # la main, et personne ne l'a su. Un identifiant ne se renomme pas.
+        # Id first, Ankama renames spells (Ebony Dofus attack is "Ebony Black" now)
         spell = by_ankama_id.get(spec.ankama_id) if spec.ankama_id else None
         if spell is None:
             spell = _choose_default_candidate(lookup.get(spec.name.lower(), []), spec)
@@ -959,8 +858,7 @@ def _select_named_defaults(
                 if spec.item_effect is not None:
                     converted = _as_the_item_says(converted, spec.item_effect)
                 if spec.level_requirement:
-                    # La porte est celle de l'objet qui donne le sort, pas
-                    # celle que le client ecrit sur le sort lui-meme.
+                    # Level of the item that grants the spell, not the spell's own
                     converted = replace(
                         converted,
                         level_requirements=[spec.level_requirement]
@@ -970,8 +868,6 @@ def _select_named_defaults(
                 continue
         legacy = LEGACY_DEFAULT_SPELLS.get(spec.name)
         if legacy:
-            # Un repli non declare est une donnee ecrite a la main que le jeu
-            # ne relit plus: il se dit, sinon il vieillit en silence.
             if not spec.hand_written:
                 fell_back.append(spec.name)
             entries.append(deepcopy(legacy))
@@ -994,19 +890,12 @@ def _select_named_defaults(
 
 
 def _as_the_item_says(entry: SpellEntry, effect) -> SpellEntry:
-    """Ce que la fiche de l'objet dit, par-dessus la forme du sort cache.
-
-    Le client range ces effets comme des sorts: des lignes de degats qui
-    s'additionnent et un cout en PA. Quand l'objet dit autre chose, c'est lui
-    qui a raison, parce que c'est lui que le joueur lit dans le jeu.
-    """
+    """Apply what the item card says over the hidden spell's shape."""
     rows = [index for index, element in enumerate(entry.elements)
             if not str(element).startswith("buff")]
     changes: Dict[str, Any] = {}
     if effect.element_alternatives and len(rows) > 1:
-        # Une ligne par groupe: c'est la forme que `_element_alternatives`
-        # reconnait comme <<une seule tombe>>, et sans elle la page les
-        # additionne.
+        # One row per group, which _element_alternatives reads as only one landing
         changes["aggregates"] = [
             (ATTACK_ELEMENT_LABEL if position == 0 else "", [index])
             for position, index in enumerate(rows)]
@@ -1018,18 +907,12 @@ def _as_the_item_says(entry: SpellEntry, effect) -> SpellEntry:
             conditional[index] = effect.conditional_trigger
         changes["conditional"] = conditional
     if not effect.cast_by_the_player:
-        # Pas de cout en PA a montrer pour ce que le joueur ne lance pas.
         changes["casting"] = None
     return replace(entry, **changes) if changes else entry
 
 
 def _charged_grade_only(entry: SpellEntry) -> SpellEntry:
-    """Le dernier palier seul, quand les paliers sont des etats de charge.
-
-    Une ligne vide au dernier palier alors qu'elle porte une valeur ailleurs
-    voudrait dire que le dernier n'est PAS le plus charge: on s'arrete plutot
-    que de jeter des degats en silence.
-    """
+    """Keep only the last grade when grades are charge states."""
     grades = len(entry.level_requirements)
     if grades < 2:
         return entry
@@ -1087,11 +970,7 @@ def _is_player_breed(breed_id: Any) -> bool:
 
 
 def _not_a_self_buff(spell: Mapping[str, Any]) -> bool:
-    """True when this spell's characteristic rows are not the caster's.
-
-    Verifies the sentence the exclusion rests on, in Ankama's own words, rather
-    than trusting a spell id written down once.
-    """
+    """True when this spell's characteristic rows are not the caster's."""
     try:
         ankama_id = int(spell.get("ankama_id"))
     except (TypeError, ValueError):
@@ -1179,17 +1058,7 @@ def _stat_buff_token(effect: Mapping[str, Any]) -> Optional[str]:
 
     description = (metadata.get("description") or {}).get("en", "").lower()
 
-    # Ankama writes the sign into the effect's own label, and writes it
-    # DIFFERENTLY per client. Both forms carry characteristic 107, and
-    # buff_final skips the bonus_type test below, so a REDUCTION came out as a
-    # positive buff row:
-    #     dofus3, beta   "#1% final damage" raises, "-#1% final damage" lowers
-    #     dofus2         "Increases final damage inflicted by #1%" raises,
-    #                    "Reduces final damage inflicted by #1%" lowers
-    # Reading only the minus fixed 14 rows on dofus3 and the beta and left
-    # ELEVEN standing on dofus2, whose client spells the reduction out in words
-    # instead. The plainest case is the Forgelance's Kyrja: it lowers the
-    # ENEMIES' final damage, and the caster was credited with +10% of his own.
+    # Sign is in the label, per client: "-#1% ..." (dofus3, beta), "Reduces ..." (dofus2)
     label = description.strip()
     if label.startswith("-") or label.startswith("reduces"):
         return None
@@ -1242,11 +1111,7 @@ _STACK_CAP_IN_TEXT = {
 
 
 def _stack_limit_from_description(spell: Mapping[str, Any]) -> Optional[int]:
-    """The cap the spell text states, for the spells whose levels state none.
-
-    The Eliotrope portals read max_stack -1 at every rank while the text says
-    "cumulable 10 fois". Both languages must agree before a cap is taken.
-    """
+    """Stack cap from the fr and en text, when both agree (Eliotrope portals)."""
     caps = set()
     for lang, pattern in _STACK_CAP_IN_TEXT.items():
         match = pattern.search(spell.get("description_%s" % lang) or "")
@@ -1275,8 +1140,7 @@ def _extract_stack_limit(spell: Mapping[str, Any]) -> Optional[int]:
             stack_values.append(stack)
     if stack_values:
         return max(stack_values)
-    # max_stack 1 means the spell does not stack; only silence at every rank
-    # falls back to the description.
+    # Description only when no rank declares max_stack
     if declared:
         return None
     return _stack_limit_from_description(spell)
@@ -1345,8 +1209,7 @@ def _copy_damage_rows(rows: Optional[Sequence[Mapping[str, Any]]], level_count: 
         return []
     copied: List[Dict[str, Any]] = []
     for row in rows:
-        # Carry every key: the heals flag and best_element_group decide whether
-        # a row is damage and whether it sums or is one of several elements.
+        # Keep every key, heals and best_element_group are read later
         carried = dict(row)
         carried["ranges"] = _fit_ranges(list(row.get("ranges", [])), level_count)
         copied.append(carried)
@@ -1382,8 +1245,7 @@ def _build_state_aggregates(
     rows: Sequence[Mapping[str, Any]],
     total_row_count: int,
 ) -> Optional[List[Tuple[str, List[int]]]]:
-    """Rows under different target-mask states are alternatives (Schnaps hits
-    sober or drunk); rows sharing a state land together."""
+    """Rows under different mask states are alternatives (Schnaps sober or drunk)."""
     groups: Dict[Any, List[int]] = {}
     for idx, row in enumerate(rows):
         state = row.get("state_group")
@@ -1403,9 +1265,7 @@ STATE_IN_MASK = re.compile(r"\*?([eE])(\d+)")
 
 
 def _state_token(state_group: Optional[str]) -> str:
-    """The state ids the mask names, as the page reads them back: an id the row
-    needs, a "!" in front of one it needs absent. The mask says nothing about
-    who carries the state, so neither does the label the page builds."""
+    """State ids the mask names, "!" in front of one that must be absent."""
     if not state_group:
         return ""
     parts: List[str] = []
@@ -1420,8 +1280,7 @@ def _label_state_aggregates(
     rows: Sequence[Mapping[str, Any]],
     aggregates: Sequence[Tuple[str, Sequence[int]]],
 ) -> List[Tuple[str, List[int]]]:
-    """Name each alternative after the state that gates it. The page turns the
-    ids into the state names the game itself uses."""
+    """Name each alternative after the state that gates it."""
     labelled: List[Tuple[str, List[int]]] = []
     for label, indexes in aggregates:
         if not label and indexes and indexes[0] < len(rows):
@@ -1435,8 +1294,7 @@ def _collapse_identical_aggregates(
     elements: Sequence[str],
     non_crit: Sequence[Sequence[str]],
 ) -> Optional[List[Tuple[str, List[int]]]]:
-    """Groups printing the same line collapse into one; a labelled (stack)
-    group never collapses, the label is what tells them apart."""
+    """Collapse groups printing the same line; labelled groups never collapse."""
     if not aggregates or len(aggregates) < 2:
         return aggregates
 
@@ -1478,8 +1336,7 @@ def _build_duplicated_row_aggregates(
     rows: Sequence[Mapping[str, Any]],
     total_row_count: int,
 ) -> Optional[List[Tuple[str, List[int]]]]:
-    """Spells whose damage rows are a copy rather than a second hit, named by
-    find_duplicated_damage_rows.py with how many rows came first."""
+    """Spells whose rows are copies, listed by find_duplicated_damage_rows.py."""
     entry = _duplicated_row_spells().get(str(ankama_id))
     if not entry:
         return None
@@ -1496,9 +1353,7 @@ def _build_situation_aggregates(
     rows: Sequence[Mapping[str, Any]],
     total_row_count: int,
 ) -> Optional[List[Tuple[str, List[int]]]]:
-    """Rows in different situations (mask + zone) are cases, not extra hits:
-    Bramble hits the target then the infected around it. Identical rows within
-    one situation stay summed."""
+    """Rows in different situations (mask + zone) are cases, not extra hits."""
     groups: Dict[Any, List[int]] = {}
     for idx, row in enumerate(rows):
         situation = row.get("situation")
@@ -1560,8 +1415,7 @@ def _build_best_element_aggregates(
 
 
 def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, List[int]]]:
-    """Cost and cast limits per level. A limit of 0 means no limit, so all-zero
-    keys are dropped."""
+    """Cost and cast limits per level; 0 means no limit."""
     levels = spell.get("levels") or []
     if len(levels) != level_count:
         return None
@@ -1575,8 +1429,7 @@ def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, L
         values = [int(level.get(field) or 0) for level in levels]
         if any(values):
             casting[key] = values
-    # How often the cast lands a critical, in percent: the character's own
-    # Critical Hits adds to it. 0 is a spell that cannot crit at all.
+    # Crit chance in percent, 0 means the spell cannot crit
     crit = [int(level.get("critical_hit_probability") or 0) for level in levels]
     if any(crit):
         casting["crit"] = crit
@@ -1625,10 +1478,7 @@ def convert_spell(
     best_element_groups = _extract_best_element_groups(normal_rows)
     base_row_count = len(normal_rows)
     _waiting_rows = _rows_that_wait(normal_rows)
-    # A critical hit is a different row list: Sentence writes three rows for a
-    # normal hit and four for a critical one, and its third is immediate where
-    # the normal third is not. Reading the normal map against it labelled the
-    # wrong row.
+    # Crit rows can differ from normal ones (Sentence: 3 vs 4 rows)
     _waiting_crit = _rows_that_wait(crit_rows) if crit_rows else None
 
     non_crit: List[List[str]] = [
@@ -1696,8 +1546,7 @@ def convert_spell(
         aggregates = _build_duplicated_row_aggregates(
             spell.get("ankama_id"), normal_rows, len(non_crit))
     collapsed = _collapse_identical_aggregates(aggregates, elements, non_crit)
-    # Two states printing the same numbers collapse into one block, and that
-    # block belongs to neither of them, so only an untouched list is named.
+    # Name the states only when nothing collapsed
     if (state_aggregates is not None and collapsed is not None
             and len(collapsed) == len(state_aggregates)):
         collapsed = _label_state_aggregates(normal_rows, collapsed)
@@ -1906,7 +1755,7 @@ def render_block(spells_by_class: Mapping[str, List[SpellEntry]]) -> str:
 
 
 def _conditional_rows(ankama_id, elements, from_data=None):
-    """The rows this spell leaves for later, checked against what it emits."""
+    """{row index: trigger} this spell holds back."""
     wanted = dict(from_data or {})
     wanted.update(CONDITIONAL_ROWS.get(ankama_id) or {})
     if not wanted:
@@ -1953,8 +1802,7 @@ def render_spell(entry: SpellEntry) -> List[str]:
     if entry.casting:
         extra_args.append(f"casting={entry.casting!r}")
     if entry.ankama_id:
-        # The audits match spells by id; the hand-written defaults have no id
-        # and stay name-based.
+        # hand-written defaults have no id
         extra_args.append(f"spell_id={entry.ankama_id}")
     if entry.conditional:
         extra_args.append(f"conditional={entry.conditional!r}")
@@ -1994,15 +1842,12 @@ def update_constants_file(path: Path, block: str) -> None:
     print(f"Updated DAMAGE_SPELLS in {path}")
 
 
-#: Le suffixe que portent les fichiers d'une version. --game-version ne
-#: choisit que les lignes conditionnelles ecrites a la main, PAS les fichiers
-#: lus: demander dofus2 sans donner ses chemins regenerait le bloc de Dofus 2
-#: a partir des donnees de Dofus 3, sans une ligne d'avertissement.
+# --game-version only picks the hand-written rows, not the files read
 SUFFIX_BY_VERSION = {"dofus3": "", "beta": "_beta", "dofus2": "_dofus2"}
 
 
 def _paths_match_version(args: argparse.Namespace) -> Optional[str]:
-    """Le nom des fichiers lus dit-il la meme version que --game-version?"""
+    """Error message when the file names are not from --game-version."""
     suffix = SUFFIX_BY_VERSION.get(args.game_version)
     if suffix is None:
         return None

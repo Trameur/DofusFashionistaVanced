@@ -224,30 +224,10 @@ STAT_ORDER = {
     'resperwea': 133,
 }
 
-# Hard upper bounds the optimizer enforces on a build's TOTAL for these stats:
-# model.py caps the LP variable (and set overages) at these values, PER VERSION.
-#
-# AP/MP/Range are hard-limited to 12 AP / 6 MP / 6 Range including exos by the
-# "PA/PM/PO limitation" Ankama introduced in Dofus 2. The 2011 devblog "Nouvelles
-# restrictions PA/PM/PO" (patch 2.3.4) first announced a 9 Range cap, but the
-# effective in-game cap on equipment Range is 6: gear Range above 6 is simply not
-# counted (only temporary spell boosts push Range higher in combat, and those are
-# not modelled here). Dofus 3, the beta, Dofus 2 and Touch all keep 12/6/6. Dofus
-# Retro (1.29) never got the limitation, so it has NO AP/MP/Range cap and gear
-# alone limits them there (17 AP / 7 MP exo items exist in Retro).
-#
-# The per-element "% X Resist" raw cap stays 53 in every version. In-game, percent
-# elemental resistance is effectively capped at 50% for damage; the extra few
-# points are the buffer that keeps you at 50% under vulnerability debuffs, and the
-# 50% effective cap on the summed-resistance advanced-min is enforced separately
-# by the capped_resist variables in model.py. Summon has no in-game cap (limited
-# only by gear); the 10 here is just a loose LP bound. Both are version-neutral.
-#
-# Sources: official Dofus forums ("Nombre maximum de Portee" = 6 PO equipment cap;
-# Resist Cap; "Limitation PA/PM sur DOFUS Retro").
-def get_stat_maximum(game_version):
+# Build total caps per version. Retro has no AP/MP/Range limit; gear Range stops at 6
+def get_stat_maximum(game_version, temporix=False):
     caps = {
-        'Summon': 10,
+        'Summon': 10,  # no real cap, loose LP bound
         '% Neutral Resist': 53,
         '% Air Resist': 53,
         '% Fire Resist': 53,
@@ -258,6 +238,10 @@ def get_stat_maximum(game_version):
         caps['AP'] = 12
         caps['MP'] = 6
         caps['Range'] = 6
+    if temporix:
+        # TemporiX: no AP, MP, Range or summon limits, resist caps unchanged
+        for stat_name in ('AP', 'MP', 'Range', 'Summon'):
+            caps.pop(stat_name, None)
     return caps
 
 STAT_KEY_TO_NAME = {v: k for k, v in STAT_NAME_TO_KEY.items()}
@@ -318,12 +302,9 @@ ELEMENT_KEY_TO_NAME = {
 ELEMENT_NAME_TO_KEY = {v: k for k, v in ELEMENT_KEY_TO_NAME.items()}
 
 WEIRD_CONDITION_FROM_ID = {1: 'light_set', 2: 'prysmaradite', 3: 'light_set'}
-# light_set has two variants by set-bonus threshold: id 1 = "Set bonus < 3"
-# (dofus3/beta -> at most 2 weighted set-bonuses while the trophy is worn),
-# id 3 = "Set bonus < 2" (touch -> at most 1). The LP enforces this cap.
+# light_set: id 1 "Set bonus < 3" (Dofus 3), id 3 "Set bonus < 2" (beta, Dofus 2, Touch)
 LIGHT_SET_LIMIT_FROM_ID = {1: 2, 3: 1}
-# Canonical write ids (light_set writes as the dofus3 variant; the stricter
-# touch id 3 is only emitted by the scraper, never by a manual edit).
+# Write ids: id 3 only comes from the scraper
 WEIRD_CONDITION_TO_ID = {'light_set': 1, 'prysmaradite': 2}
 WEIRD_CONDITIONS = ['light_set', 'prysmaradite']
 
@@ -341,22 +322,15 @@ class Spell:
         self.is_linked = is_linked
         self.special = special
         self.buff_scaling = buff_scaling
-        # Ankama/dofusdude spell id (audits match DofusDB by id, names have
-        # homonyms); None for the hand-written shared specs.
+        # Ankama spell id, None for the hand-written specs
         self.spell_id = spell_id
         # {'ap': [...], 'per_turn': [...], ...}, one value per spell level.
         self.casting = casting
-        # {row index: what has to happen first}, for a row the cast does not
-        # land by itself. Noa's second row waits for the target to suffer
-        # pushback damage; counting it with the cast overstates the turn.
+        # {row index: trigger}, rows that land only if something happens (Noa: pushback)
         self.conditional = conditional or {}
-        # {row index: when it lands}, for a row that is certain but late: a
-        # poison at the start or end of a turn. Unlike `conditional` it is
-        # still the spell's damage, so it stays in what a cast is worth and is
-        # only reported apart.
+        # {row index: turn_begin/turn_end}, certain but late, still counted
         self.delayed = delayed or {}
-        # A critical hit can carry a different row list, so it gets its own
-        # map when the two disagree.
+        # Crit rows can differ, so their own map when they do
         self.delayed_crit = delayed_crit if delayed_crit is not None else None
 
     def ap_cost(self, level_index=-1):
@@ -5057,19 +5031,8 @@ SOFT_CAPS = {'Cra' : DEFAULT_SOFT_CAPS,
              'Ouginak' : DEFAULT_SOFT_CAPS,
              'Forgelance' : DEFAULT_SOFT_CAPS}
 
-# Dofus Retro (1.29) spends characteristic points on a class-specific table,
-# unlike modern Dofus where every class shares DEFAULT_SOFT_CAPS. Each class has
-# "favoured" characteristics that are cheaper to raise; Sacrier even buys
-# Vitality at 1 point for 2 (the 0.5 tier, unused in modern).
-# These were first read off the 129dofus wiki "Soft Cap" page and cross-checked
-# against dofuzion. The game says the same: classes_fr.json carries b10..b15 per
-# class (str, vit, wis, cha, agi, int) and all 72 class/characteristic pairs
-# agree, the Sacrier's 1 for 2 included. itemscraper/characteristic_costs.json
-# holds that reading and the suite compares this table to it.
-# _retro_soft_cap converts the human-readable per-tier upper bounds into the
-# 6-slot width format the model uses. Bounds are ordered by cost tier
-# [1:2, 1:1, 2:1, 3:1, 4:1, 5:1] (capital points per stat point = 0.5,1,2,3,4,5);
-# '-' = tier absent (zero width), None = unlimited from there on.
+# Retro costs are per class (classes_fr.json b10..b15)
+# Bounds per tier [1:2, 1:1, 2:1, 3:1, 4:1, 5:1]; '-' = no tier, None = unlimited
 def _retro_soft_cap(bounds):
     out = []
     prev = 0
@@ -5090,8 +5053,7 @@ def _retro_soft_cap(bounds):
 _RETRO_VIT = ['-', None, '-', '-', '-', '-']        # 1:1 to infinity
 _RETRO_VIT_SACRIER = [None, '-', '-', '-', '-', '-']  # 1:2 to infinity
 _RETRO_WIS = ['-', '-', '-', None, '-', '-']        # 3:1 to infinity
-# Elemental patterns (Strength/Intelligence/Chance/Agility): upper bound reached
-# at each rate, read straight off the wiki tables.
+# Element bounds (str/int/cha/agi)
 _R_100 = ['-', 100, 200, 300, 400, None]
 _R_20 = ['-', 20, 40, 60, 80, None]
 _R_50 = ['-', 50, 150, 250, 350, None]
@@ -5128,12 +5090,7 @@ for _cls, _elements in _RETRO_ELEMENTS.items():
     SOFT_CAPS_RETRO[_cls] = _caps
 
 
-# Dofus Touch kept the pre-Retour (2.x-era) characteristic costs, straight from
-# its own game files (itemscraper/touch_raw/Breeds_fr.json, statsPointsFor*):
-# every class shares one table, the four elements AND Wisdom scale 1/2/3/4/5 at
-# 100/200/300/400 (Wisdom is a distributable characteristic on Touch, unlike
-# modern Dofus where DEFAULT_SOFT_CAPS pins it to a flat 3:1), and Vitality stays
-# 1:1. The elements also reach a 5:1 tier past 400, which the modern table drops.
+# Touch kept the 2.x costs, one table for every class, Wisdom included
 _TOUCH_ELEMENT_CAP = [0, 100, 200, 300, 400, None]
 DEFAULT_SOFT_CAPS_TOUCH = {
     'vit': [0, None, 0, 0, 0, 0],
@@ -5146,12 +5103,7 @@ DEFAULT_SOFT_CAPS_TOUCH = {
 
 
 def get_soft_caps_for(game_version, char_class):
-    """Characteristic soft caps for a class, honouring the game version.
-
-    Retro (1.29) has class-specific costs; Touch keeps its own 2.x-era uniform
-    table (Wisdom distributable, elements to a 5:1 tier); every other version
-    shares the modern uniform table. Falls back to the default table for any
-    class not listed (e.g. a modern-only class should never reach the retro table)."""
+    """Characteristic soft caps for a class, per game version."""
     if game_version == 'retro':
         return SOFT_CAPS_RETRO.get(char_class, DEFAULT_SOFT_CAPS)
     if game_version == 'touch':
@@ -5160,33 +5112,12 @@ def get_soft_caps_for(game_version, char_class):
 
 
 def scrolls_push_cost_curve(game_version):
-    """Whether scrolled points consume the cheap characteristic cost tiers.
-
-    Retro (1.29) uses the old rule: a character scrolled to 100 pays its
-    first invested point at the 2:1 tier. Since Dofus 2.48 (October 2018)
-    scrolled points are tracked separately and never push the cost curve
-    (source: tofus.fr/fiches/parchemin.php, "Depuis octobre 2018, les
-    points additionnels sont comptes separement des points naturels"), so
-    dofus2 (2.73), dofus3 and beta pay 1:1 for the first invested points
-    regardless of scrolls.
-
-    Touch forked from 2.x BEFORE 2.48 but adopted the separate-tracking
-    rule on its own: verified by a live player report (2026-07-20) whose
-    in-game character had int scrolled to 51 with 305 invested points, a
-    spend the game charged 925 (flat curve) while the pushed curve would
-    have charged 1078: the site showed exactly that -153 difference as
-    negative remaining points."""
+    """Whether scrolled points use up the cheap cost tiers (Retro only, pre-2.48 rule)."""
     return game_version == 'retro'
 
 
 def tier_widths_after_scroll(caps_for_stat, scrolled):
-    """Per-tier room left for characteristic points once scrolls are accounted for.
-
-    Scrolls are free stat but still push you up the cost curve: an Iop scrolled
-    to 100 Intelligence already fills the cheap early tiers, so the next point
-    costs 5:1, not 1:1. caps_for_stat is the 6-slot cumulative-threshold list
-    (None = unlimited from that tier on); we subtract the scrolled base from the
-    tiers it covers and return the remaining width per tier (None = unlimited)."""
+    """Per-tier room left for characteristic points once scrolls are accounted for."""
     scrolled = scrolled or 0
     widths = []
     for i in range(6):
@@ -5202,43 +5133,17 @@ def tier_widths_after_scroll(caps_for_stat, scrolled):
     return widths
 
 
-#: Touch gates its three top scroll tiers on PL>199, so a character reaches
-#: them only from level 200. The number is the game's own, plus one.
+# Touch top three scroll tiers need PL>199
 TOUCH_HIGH_SCROLL_LEVEL = 200
 
 
 def max_scroll_for_version(game_version, char_level=None):
-    """Highest a characteristic can be scrolled, per version and per level.
-
-    Every number is read straight out of the game files, from the condition
-    each consumable carries (Touch re-read 2026-09-20 through the same data
-    proxy the scraper uses, Retro in itemscraper/retro_raw/items_fr.json):
-
-    Touch stops at 150 **from level 200 only**. Its Dedale update (1.73, live
-    June 2026) extends the ladder past the Puissant scroll (cs>74&cs<100) with
-    three more tiers, and all three carry PL>199: Superbe cs>99&cs<120,
-    Grandiose cs>119&cs<140, Magnifique cs>139&cs<150. The six tiers below 100
-    carry no level condition at all, so a Touch character under 200 stops at
-    100 like everyone else. Reading only the first tier says 120, which is
-    wrong; reading them without their PL term says 150 at every level, which
-    is wrong in the other direction and was what this returned.
-
-    Retro stops at 101, one point above its scrolls, **at any level**: its 61
-    characteristic-gated items carry no level term. The Puissant parchemin is
-    gated Cs<100, so parchemins alone reach 100; six foods then carry the same
-    permanent +1 under Cs<101, one per characteristic (Bifsteque de
-    Dragoviande, Requin aux epices, Entrecote d'Ange, Viande de Fantome
-    Cuisinee, Perche sautee, Plat de Filtounga).
-
-    Every other version caps at 100.
-
-    `char_level` at None means "the caller is not talking about a character",
-    like `_reach` in spells_view: it answers what the version can ever reach.
-    """
+    """Highest a characteristic can be scrolled; char_level None gives the version max."""
     if game_version == 'touch':
         if char_level is not None and char_level < TOUCH_HIGH_SCROLL_LEVEL:
             return 100
         return 150
+    # Retro caps at 101: 100 of scrolls plus one of food
     if game_version == 'retro':
         return 101
     return 100
@@ -5268,41 +5173,16 @@ def get_equiped_weapon(char_stats):
             break
     return weapon
 
-# Hit types that move or drain the target instead of hurting it: their number
-# is cells or AP, not damage, so nothing multiplies it and no damage stat adds
-# to it. The spells page reads this same list, which used to be copied by hand
-# in three places and drifted: 125 weapons showed NaN because the page thought
-# "removes 2 MP" was damage.
+# Hit types that move or drain instead of damaging (the spells page reads this list)
 NON_ELEMENTAL_HIT_TYPES = ('pushes', 'steals', 'attracts', 'advances',
                            'steals_mp', 'removes_ap', 'removes_mp')
 
 
 def raised_by_percent(base, percent):
-    """`base` raised by `percent` percent, without losing a point to rounding.
-
-    `int((1 + percent / 100.0) * base)` looks equivalent and is not: in binary
-    `1 + 360 / 100.0` is 4.5999999999999996, so a base of 25 comes out at
-    114.99999999999999 and truncates to 114 where the exact answer is 115.
-    Multiplying before dividing keeps integers exact. The spells page already
-    computes it that way in JavaScript, which is why it showed 120 on Radiant
-    Arrow while the best-turn panel announced 119.
-
-    Measured 2026-09-12: the loss only happens for **102 of the 1501 stat
-    totals from 0 to 1500**, because it needs both an inexact 1 + x/100 and a
-    product landing just under an integer. When it does happen it reaches
-    **11.1% of the catalogue's damage values** (531 of 4770 on Dofus 3 at a
-    stat total of 720), 4.5% at 360. On one level-200 Cra of the local copy,
-    **7 of its 49 spells** announced one number in the panel and another in
-    the table.
-
-    It reaches the best-turn panel, the weapon damage on the build page and
-    the item comparison popup, which all call calculate_damage.
-    """
+    """base raised by percent, in integers: the float form turns 25 at +360% into 114."""
     product = base * (100 + percent)
     if isinstance(product, int):
         return product // 100
-    # Truncation toward zero, as the previous int() did, so nothing but the
-    # artefact changes.
     return int(product / 100.0)
 
 
@@ -5322,14 +5202,7 @@ def calculate_damage(base_damage, char_stats, critical_hit, is_spell):
             if critical_hit:
                 element_dam += char_stats['cridam']
         else:
-            # A heal scales with the element's characteristic and takes the Heals
-            # stat flat, and neither Power nor any damage bonus: that much is
-            # settled. Whether the % spell damage applied below belongs on a heal
-            # is NOT: no first-party source says so and the community ones
-            # disagree, so it stays as it has always been rather than being
-            # guessed at. Checked 2026-08-17: the stat exists on 5 Dofus 3 items
-            # and 18 Dofus 2 ones, none on Touch or Retro, worth at most a few
-            # percent, so the exposure is small either way.
+            # Heals: no Power or damage bonus. % spell damage on heals is unconfirmed
             element_dam = char_stats['heals']
         minimum_damage = max(raised_by_percent(dam.min_dam, element_val)
                              + element_dam, 0)

@@ -1,56 +1,20 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Interdire une piece la retire vraiment, sous tous ses numeros.
-
-Trouve en exercant l'inventaire: une recherche <<Gelano>> rendait deux lignes
-identiques. En remontant le fil, le catalogue lui-meme repete des entrees.
-**Le fichier d'objets d'Ankama** porte onze lignes <<Ecaflip Paw>> en Retro et
-deux <<Boracelet>> en Touch: meme nom, meme niveau, memes valeurs, memes
-conditions, seul le numero change. Les `ankama_id` sont ceux d'Ankama, pas des
-numeros que nous fabriquons.
-
-Le solveur etendait deja une interdiction aux branches d'un objet <<OU>>. Ces
-lignes-la n'en sont pas, donc la piece revenait sous le numero suivant.
-
-Mesure du 13 septembre 2026, sur les cinq versions:
-
-| version | pieces repetees | lignes en trop |
-|---------|-----------------|----------------|
-| dofus3  | 0               | 0              |
-| beta    | 0               | 0              |
-| dofus2  | 0               | 0              |
-| touch   | 2               | 11             |
-| retro   | 19              | 28             |
-
-**Le nom fait partie de l'identite, et il le faut.** Sans lui, la meme regle
-reunit 41 groupes en Dofus 3 dont <<Black Bow Wow>> avec <<White Bow Meow>> et
-les huit armes d'initie entre elles: des pieces differentes qui ne portent
-simplement aucune caracteristique. Mesure faite avant d'ecrire la regle.
-
-Preuve au niveau du lecteur, avant le correctif: en ne laissant que les deux
-lignes <<Snow Bow Meow (+40 Prospecting)>> parmi les familiers Retro, le
-solveur rend la premiere; on l'interdit, il rend la seconde. Apres: il n'en
-rend aucune.
-"""
+"""Ankama repeats some pieces under several ids: forbidding one closes them all."""
 
 from django.test import SimpleTestCase
 
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-#: Ce que chaque version repete. (pieces repetees, lignes en trop)
-#:
-#: Les trois versions modernes etaient a (0, 0) le jour ou la regle a ete
-#: ecrite: leurs onze <<Ecaflip Paw>> portent des noms numerotes par Ankama,
-#: et le nom faisait alors partie de l'identite sans exception. La regle
-#: reconnait depuis cette numerotation, et les onze lignes sont une piece.
+# (repeated pieces, extra rows)
 _REPETITIONS = {'dofus3': (2, 11), 'beta': (2, 11), 'dofus2': (2, 11),
                 'touch': (2, 11), 'retro': (19, 28)}
 
-#: La piece Retro la plus repetee, et de combien de lignes.
+# Most repeated Retro piece
 _PATTE = 8941
 _LIGNES_DE_LA_PATTE = 11
 
-#: Les deux lignes du familier qui sert de preuve.
+# Two rows of the same Retro pet
 _FAMILIER = (10000065, 10000066)
 
 _BASE = {'Vitality': 0, 'Wisdom': 0, 'Strength': 0, 'Intelligence': 0,
@@ -73,7 +37,6 @@ def _groupes(structure):
 
 
 class TheCatalogueRepeatsSomeRowsTests(SimpleTestCase):
-    """Le plancher: sans repetition a fermer, tout le reste passe a vide."""
 
     def test_each_version_repeats_what_it_repeated(self):
         for version, (pieces, en_trop) in _REPETITIONS.items():
@@ -100,11 +63,8 @@ class TheCatalogueRepeatsSomeRowsTests(SimpleTestCase):
 
 
 class TwoPiecesWithoutStatsAreStillTwoPiecesTests(SimpleTestCase):
-    """La regle sans le nom reunissait des pieces differentes: elle merite
-    d'etre gardee au large de ce piege."""
+    """Pieces without stats are told apart by their name."""
 
-    #: Des pieces sans aucune caracteristique, que la regle sans le nom
-    #: fusionnait, et que le lecteur distingue tres bien.
     _DISTINCTES = (('Black Bow Wow', 'White Bow Meow'),
                    ("Initiate's Axe", "Initiate's Bow"),
                    ('Flute', 'Paintbrush'))
@@ -136,10 +96,7 @@ class ForbiddingOneRowClosesThemAllTests(SimpleTestCase):
         super().tearDownClass()
 
     def setUp(self):
-        # The version is a thread local and the runner does not run setUpClass
-        # in the thread that runs the test: without this, the model holds the
-        # Retro catalogue while `get_result_minimal` reads the Dofus 3 one and
-        # silently drops every Retro-only piece from the answer.
+        # Version is a thread local, setUpClass runs in another thread
         set_current_game_version('retro')
 
     def tearDown(self):
@@ -152,7 +109,6 @@ class ForbiddingOneRowClosesThemAllTests(SimpleTestCase):
                           'Ecaflip', 0)
 
     def test_forbidding_one_row_takes_every_row_out_of_the_pool(self):
-        """Onze lignes quittent l'offre, pas une."""
         self.model.setup(self._entree([]))
         avant = self.model.get_candidate_pool()['Weapon']
         self.model.setup(self._entree([_PATTE]))
@@ -160,8 +116,6 @@ class ForbiddingOneRowClosesThemAllTests(SimpleTestCase):
         self.assertEqual(_LIGNES_DE_LA_PATTE, avant - apres)
 
     def test_setting_up_does_not_rewrite_the_request(self):
-        """L'expansion travaille sur une copie: la meme demande doit donner
-        la meme cle de cache au deuxieme appel."""
         entree = self._entree([_PATTE])
         demande = set(entree.forbidden_equips)
         cle = entree.cache_key()
@@ -170,12 +124,6 @@ class ForbiddingOneRowClosesThemAllTests(SimpleTestCase):
         self.assertEqual(cle, entree.cache_key())
 
     def test_the_reader_who_forbids_the_pet_does_not_get_it_back(self):
-        """La preuve au niveau du lecteur, de bout en bout.
-
-        On ne laisse que les deux lignes du meme familier, on demande de la
-        prospection, on interdit celui qu'on recoit. Avant le correctif, le
-        solveur rendait l'autre.
-        """
         type_familier = self.structure.get_type_id_by_name('Pet')
         autres = [item.id for item in self.structure.get_available_items_list()
                   if item.type == type_familier and item.id not in _FAMILIER]
@@ -200,9 +148,7 @@ class ForbiddingOneRowClosesThemAllTests(SimpleTestCase):
 
 
 class AFolderThatHoldsOneRowKeepsThemAllTests(SimpleTestCase):
-    """L'autre moitie de la meme regle: interdire ferme tout, posseder garde
-    tout. Sans quoi le lecteur qui possede la piece se la verrait retirer par
-    la restriction d'inventaire, qui parle par les memes exclusions."""
+    """Owning one row keeps them all, the inventory restriction uses exclusions."""
 
     def test_the_inventory_keeps_the_rows_it_would_otherwise_exclude(self):
         from chardata.inventory_solver import _with_or_siblings

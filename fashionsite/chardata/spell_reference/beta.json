@@ -65,15 +65,15 @@
    "range": [
     [
      1,
-     4
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
      6
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     1,
+     8
     ]
    ],
    "stacks": [
@@ -134,15 +134,15 @@
    "range": [
     [
      1,
-     5
-    ],
-    [
-     1,
      6
     ],
     [
      1,
      7
+    ],
+    [
+     1,
+     8
     ]
    ],
    "stacks": [
@@ -303,11 +303,11 @@
     15
    ],
    "description": {
-    "de": "Entzieht Resistenz gegen BP-Entzug und verursacht Luftschaden im Wirkungsbereich.\nHat keine Wirkung auf den Zaubernden.\n\nIn der nächsten Runde werden die Effekte ausgehend vom anvisierten Feld erneut ausgelöst.",
+    "de": "Entzieht Resistenz gegen BP-Entzug und verursacht Luftschaden im Wirkungsbereich.\nDer Flächenschaden ist nicht abnehmend.\nHat keine Wirkung auf den Zaubernden.\n\nIn der nächsten Runde werden die Effekte ausgehend vom anvisierten Feld erneut ausgelöst.",
     "en": "Removes MP Parry and inflicts Air damage in an area of effect.\nDoes not affect the caster.\n\nThe effects are cast again from the targeted cell on the following turn.",
-    "es": "Retira esquiva de PM y ocasiona daños de aire en zona.\nNo afecta al lanzador.\n\nLos efectos se reaplican a partir de la casilla objetivo en el siguiente turno.",
-    "fr": "Retire de l'Esquive PM et occasionne des dommages Air en zone.\nN'affecte pas le lanceur.\n\nLes effets sont relancés à partir de la case ciblée au tour suivant.",
-    "pt": "Retira esquiva PM e inflige danos de ar em zona.\nNão afeta o lançador.\n\nOs efeitos são lançados novamente a partir da célula visada no turno seguinte."
+    "es": "Retira esquiva de PM y ocasiona daños de aire en zona.\nLos daños de zona no son regresivos.\nNo afecta al lanzador.\n\nLos efectos se reaplican a partir de la casilla objetivo en el siguiente turno.",
+    "fr": "Retire de l'Esquive PM et occasionne des dommages Air en zone.\nLes dommages de zone ne sont pas dégressifs.\nN'affecte pas le lanceur.\n\nLes effets sont relancés à partir de la case ciblée au tour suivant.",
+    "pt": "Retira esquiva PM e inflige danos de ar em zona.\nOs danos em zona não são decrescentes.\nNão afeta o lançador.\n\nOs efeitos são lançados novamente a partir da célula visada no turno seguinte."
    },
    "id": 32431,
    "kind": {
@@ -349,7 +349,7 @@
     10
    ],
    "description": {
-    "de": "Entzieht BP und verursacht Luftschaden.\nHat keine Wirkung auf den Zaubernden.\n\nEntzieht dem ursprünglichen Ziel BP und stiehlt ihm sowie allen Gegnern zwischen ihm und dem neuen Ziel Leben, sofern sie in einer Linie stehen.\nWirkt sich auch auf die Markierungen aus.\nWendet diese Effekte am Ende des Zuges des Zaubernden auf das letzte Ziel an, sofern sich dieses mit dem Zaubernden in einer Linie befindet.",
+    "de": "Entzieht BP und verursacht Luftschaden.\nHat keine Wirkung auf den Zaubernden.\n\nEntzieht dem ursprünglichen Ziel BP und stiehlt ihm sowie allen Gegnern zwischen ihm und dem neuen Ziel LP, sofern sie in einer Linie stehen.\nWirkt sich auch auf Markierungen aus.\nWendet diese Effekte am Ende des Zuges des Zaubernden auf das letzte Ziel an, sofern sich dieses mit dem Zaubernden in einer Linie befindet.",
     "en": "Removes MP and inflicts Air damage.\nDoes not affect the caster.\n\nRemoves MP and steals HP from the initial target and from enemies between the initial target and the new target if they are in line with each other.\nAlso affects Beacons.\nApplies these effects between the last target and the caster at the end of the caster's turn if they are in line with each other.",
     "es": "Retira PM y ocasiona daños de aire.\nNo afecta al lanzador.\n\nRetira PM y roba vida al objetivo inicial y a los enemigos entre él y el nuevo objetivo si están alineados.\nTambién afecta a las balizas.\nAplica estos efectos entre el último objetivo y el lanzador al final del turno de este si está alineado con el objetivo.",
     "fr": "Retire des PM et occasionne des dommages Air.\nN'affecte pas le lanceur.\n\nRetire des PM et vole de la vie à la cible initiale et aux ennemis entre elle et la nouvelle cible si elles sont alignées.\nAffecte également les Balises.\nApplique ces effets entre la dernière cible et le lanceur à la fin du tour de ce dernier s'il est aligné avec elle.",
@@ -382,7 +382,7 @@
    "range": [
     [
      0,
-     7
+     8
     ]
    ],
    "stacks": [
@@ -400,11 +400,11 @@
     15
    ],
    "description": {
-    "de": "Entzieht LP im Element Luft.\nVerursacht in der nächsten Runde Luftschaden, wenn sich das Ziel nicht in Sichtlinie des Zaubernden befindet.",
-    "en": "Steals HP in the Air element.\nInflicts Air damage on the following turn if the target isn't in the caster's line of sight.",
-    "es": "Roba vida con el elemento aire.\nOcasiona daños de aire en el siguiente turno si el objetivo no está en la línea de visión del lanzador.",
-    "fr": "Vole de la vie dans l'élément Air.\nOccasionne des dommages Air au tour suivant si la cible n'est pas dans la ligne de vue du lanceur.",
-    "pt": "Rouba vida no elemento ar.\nInflige danos de ar no turno seguinte se o alvo não estiver na linha de visão do lançador."
+    "de": "Entzieht LP im Element Luft.\nVerursacht auch verzögerten Luftschaden, wenn sich das Ziel nicht in Sichtlinie des Zaubernden befindet.",
+    "en": "Steals HP in the Air element.\nAlso inflicts delayed Air damage if the target isn't in the caster's line of sight.",
+    "es": "Roba vida con el elemento aire.\nTambién ocasiona daños de aire con efecto retardado si el objetivo no está en la línea de visión del lanzador.",
+    "fr": "Vole de la vie dans l'élément Air.\nOccasionne également des dommages Air à retardement si la cible n'est pas dans la ligne de vue du lanceur.",
+    "pt": "Rouba vida no elemento ar.\nTambém inflige danos de ar com atraso se o alvo não estiver na linha de visão do lançador."
    },
    "id": 32433,
    "kind": {
@@ -436,11 +436,11 @@
    "range": [
     [
      3,
-     7
+     8
     ],
     [
      3,
-     9
+     10
     ]
    ],
    "stacks": [
@@ -461,11 +461,11 @@
     10
    ],
    "description": {
-    "de": "Entzieht AP und verursacht Wasserschaden.\nDer Schaden des Zaubers erhöht sich nach seinem Einsatz.",
+    "de": "Entzieht AP und verursacht Wasserschaden.\nDer Schaden des Zaubers erhöht sich mit jedem Wirken (2-mal kumulierbar).",
     "en": "Removes AP and inflicts Water damage.\nThe spell's damage is increased after the spell is used.",
-    "es": "Retira PA y ocasiona daños de agua.\nSe aumentan los daños del hechizo después de su uso.",
-    "fr": "Retire des PA et occasionne des dommages Eau.\nLes dommages du sort sont augmentés après son utilisation.",
-    "pt": "Retira PA e inflige danos de água.\nOs danos do feitiço aumentam após sua utilização."
+    "es": "Retira PA y ocasiona daños de agua.\nLos daños aumentan después de cada lanzamiento (acumulable 2 veces).",
+    "fr": "Retire des PA et occasionne des dommages Eau.\nLes dommages du sort sont augmentés après chaque lancer (cumulable 2 fois).",
+    "pt": "Retira PA e inflige danos de água.\nOs danos do feitiço aumentam após cada lançamento (acumula até 2 vezes)."
    },
    "id": 32435,
    "kind": {
@@ -500,15 +500,15 @@
    "range": [
     [
      1,
-     5
-    ],
-    [
-     1,
      6
     ],
     [
      1,
      7
+    ],
+    [
+     1,
+     8
     ]
    ],
    "stacks": [
@@ -569,15 +569,15 @@
    "range": [
     [
      1,
-     5
-    ],
-    [
-     1,
      6
     ],
     [
      1,
      7
+    ],
+    [
+     1,
+     8
     ]
    ],
    "stacks": [
@@ -599,11 +599,11 @@
     15
    ],
    "description": {
-    "de": "Macht im Wirkungsbereich Unsichtbare sichtbar, entzieht Reichweite und stiehlt LP im Element Wasser.",
+    "de": "Macht im Wirkungsbereich unsichtbare Einheiten sichtbar, entzieht Reichweite und stiehlt LP im Element Wasser.",
     "en": "Reveals invisible entities, removes Range and steals HP in the Water element in an area of effect.",
-    "es": "Revela a los invisibles, retira alcance y roba vida con el elemento agua en zona.",
-    "fr": "Dévoile les invisibles, retire de la Portée et vole de la vie dans l'élément Eau en zone.",
-    "pt": "Revela os invisíveis, retira alcance e rouba vida no elemento água em zona."
+    "es": "Revela a las entidades invisibles, retira alcance y roba vida con el elemento agua en zona.",
+    "fr": "Dévoile les entités invisibles, retire de la Portée et vole de la vie dans l'élément Eau en zone.",
+    "pt": "Revela as entidades invisíveis, retira alcance e rouba vida no elemento água em zona."
    },
    "id": 32437,
    "kind": {
@@ -633,15 +633,15 @@
    "range": [
     [
      3,
-     4
-    ],
-    [
-     3,
      5
     ],
     [
      3,
      6
+    ],
+    [
+     3,
+     7
     ]
    ],
    "stacks": [
@@ -708,8 +708,8 @@
     4
    ],
    "crit": [
-    20,
-    20
+    15,
+    15
    ],
    "description": {
     "de": "Entzieht AP und BP und verursacht Wasserschaden im Wirkungsbereich.",
@@ -738,8 +738,8 @@
     "pt": "Flecha Desaceleradora"
    },
    "per_turn": [
-    1,
-    1
+    2,
+    2
    ],
    "range": [
     [
@@ -762,7 +762,7 @@
     4
    ],
    "crit": [
-    20
+    15
    ],
    "description": {
     "de": "Entzieht AP und BP und verursacht Wasserschaden im Wirkungsbereich.",
@@ -790,7 +790,7 @@
     "pt": "Flecha Paralisante"
    },
    "per_turn": [
-    1
+    2
    ],
    "range": [
     [
@@ -841,7 +841,7 @@
    "range": [
     [
      4,
-     9
+     10
     ]
    ],
    "stacks": [
@@ -978,15 +978,15 @@
    "range": [
     [
      1,
-     4
-    ],
-    [
-     1,
-     5
-    ],
-    [
-     1,
      6
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     1,
+     8
     ]
    ],
    "stacks": [
@@ -1003,9 +1003,9 @@
     4
    ],
    "crit": [
-    20,
-    20,
-    20
+    15,
+    15,
+    15
    ],
    "description": {
     "de": "Verursacht Feuerschaden im Wirkungsbereich.",
@@ -1035,9 +1035,9 @@
     "pt": "Flecha Explosiva"
    },
    "per_turn": [
-    1,
-    1,
-    1
+    2,
+    2,
+    2
    ],
    "range": [
     [
@@ -1070,11 +1070,11 @@
     10
    ],
    "description": {
-    "de": "Stiehlt LP im Element Feuer.\nHat keine Wirkung auf den Zaubernden.\nDer LP-Diebstahl wird nach jedem Wirken auf denselben Gegner verstärkt.\n\nVerursacht außerdem Schaden im Element Feuer beim ursprünglichen Gegner, wenn der Zauber auf ein anderes Ziel gewirkt wird oder wenn er in den nächsten Runden nicht erneut gewirkt wird.\nJe häufiger der Zauber auf denselben Gegner gewirkt wird, desto höher ist der Schaden.",
+    "de": "Stiehlt LP im Element Feuer.\nHat keine Wirkung auf den Zaubernden.\nDer LP-Diebstahl wird nach jedem Wirken auf denselben Gegner verstärkt.\n\nFügt dem ursprünglichen Gegner außerdem Schaden im Element Feuer zu, wenn der Zauber auf ein anderes Ziel gewirkt wird, oder mit Verzögerung, wenn er nicht erneut gewirkt wird.\nJe häufiger der Zauber auf denselben Gegner gewirkt wird, desto höher ist der Schaden.",
     "en": "Steals HP in the Fire element.\nDoes not affect the caster.\nThe health steal increases after each casting on the same enemy.\n\nAlso inflicts Fire damage on the initial enemy if the spell is cast on another target, or on subsequent turns if the spell is not recast.\nThe damage increases based on the number of castings on the same enemy.",
-    "es": "Roba vida con el elemento fuego.\nNo afecta al lanzador.\nEl robo de vida es mayor tras cada lanzamiento a un mismo enemigo.\n\nOcasiona también daños de fuego al enemigo inicial si el hechizo se lanza a otro objetivo, o en los próximos turnos si no se vuelve a lanzar.\nLos daños son mayores según el número de veces que se haya lanzado a un mismo enemigo.",
-    "fr": "Vole de la vie dans l'élément Feu.\nN'affecte pas le lanceur.\nLe vol de vie est plus important après chaque lancer sur un même ennemi.\n\nOccasionne également des dommages Feu à l'ennemi initial si le sort est lancé sur une autre cible, ou dans les prochains tours s'il n'est pas relancé.\nLes dommages sont plus importants selon le nombre de lancers effectués sur un même ennemi.",
-    "pt": "Rouba vida no elemento fogo.\nNão afeta o lançador.\nO roubo de vida aumenta após cada lançamento em um mesmo inimigo.\n\nTambém inflige danos de fogo ao inimigo inicial se o feitiço for lançado em outro alvo, ou nos turnos seguintes se ele não for lançado novamente.\nOs danos aumentam de acordo com o número de lançamentos efetuados em um mesmo inimigo."
+    "es": "Roba vida con el elemento fuego.\nNo afecta al lanzador.\nEl robo de vida es mayor tras cada lanzamiento a un mismo enemigo.\n\nTambién ocasiona daños de fuego al enemigo inicial si se lanza el hechizo a otro objetivo, o con efecto retardado si no se vuelve a lanzar.\nLos daños son mayores según el número de veces que se haya lanzado a un mismo enemigo.",
+    "fr": "Vole de la vie dans l'élément Feu.\nN'affecte pas le lanceur.\nLe vol de vie est plus important après chaque lancer sur un même ennemi.\n\nOccasionne également des dommages Feu à l'ennemi initial si le sort est lancé sur une autre cible, ou à retardement s'il n'est pas relancé.\nLes dommages sont plus importants selon le nombre de lancers effectués sur un même ennemi.",
+    "pt": "Rouba vida no elemento fogo.\nNão afeta o lançador.\nO roubo de vida aumenta após cada lançamento em um mesmo inimigo.\n\nTambém inflige danos de fogo ao inimigo inicial se o feitiço for lançado em outro alvo, ou com atraso se ele não for lançado novamente.\nOs danos aumentam de acordo com o número de lançamentos efetuados em um mesmo inimigo."
    },
    "id": 32446,
    "kind": {
@@ -1102,11 +1102,11 @@
    "range": [
     [
      0,
-     4
+     6
     ],
     [
      0,
-     6
+     8
     ]
    ],
    "stacks": [
@@ -1201,7 +1201,7 @@
    ],
    "range": [
     [
-     2,
+     1,
      8
     ]
    ],
@@ -1220,11 +1220,11 @@
     15
    ],
    "description": {
-    "de": "Stiehlt Gegnern LP im Element Feuer und stößt die Ziele ausgehend von der Mitte des Wirkungsbereichs zurück.",
+    "de": "Stiehlt Gegnern LP im Element Feuer und stößt die Ziele im Wirkungsbereich nach außen zurück.",
     "en": "Steals HP in the Fire element from enemies and repels targets from the centre in an area of effect.",
-    "es": "Roba vida con el elemento fuego a los enemigos y repele a los objetivos desde el centro en zona.",
-    "fr": "Vole de la vie dans l'élément Feu aux ennemis et repousse les cibles depuis le centre en zone.",
-    "pt": "Rouba vida no elemento fogo dos inimigos e empurra os alvos a partir do centro em zona."
+    "es": "Roba vida con el elemento fuego a los enemigos y repele a los objetivos hacia los bordes en zona.",
+    "fr": "Vole de la vie dans l'élément Feu aux ennemis et repousse les cibles vers les extrémités en zone.",
+    "pt": "Rouba vida no elemento fogo dos inimigos e empurra os alvos em direção às extremidades em zona."
    },
    "id": 32449,
    "kind": {
@@ -1313,7 +1313,7 @@
    "range": [
     [
      1,
-     6
+     7
     ]
    ],
    "stacks": [
@@ -1333,11 +1333,11 @@
     5
    ],
    "description": {
-    "de": "Stiehlt LP im Element Erde.\nBei Zielen mit Schild ist der Schaden erhöht.\n\nNach jedem Wirken in der laufenden Runde wird der Wirkungsbereich vergrößert.",
+    "de": "Stiehlt im Wirkungsbereich LP im Element Erde.\nFügt Zielen, die über einen Schild verfügen, erhöhten Schaden zu.\n\nIn der laufenden Runde wird der Wirkungsbereich nach jedem Wirken vergrößert.",
     "en": "Steals HP in the Earth element.\nThe damage is greater on targets with shield points.\n\nThe size of the area of effect increases after each casting for the current turn.",
-    "es": "Roba vida con el elemento tierra.\nLos daños son mayores en los objetivos que tienen escudo.\n\nSe aumenta el tamaño de la zona tras cada lanzamiento durante el turno en curso.",
-    "fr": "Vole de la vie dans l'élément Terre.\nLes dommages sont plus importants sur les cibles ayant du bouclier.\n\nLa taille de la zone est augmentée après chaque lancer pour le tour en cours.",
-    "pt": "Rouba vida no elemento terra.\nOs danos são maiores nos alvos com escudos.\n\nA zona aumenta de tamanho após cada lançamento no turno atual."
+    "es": "Roba vida en zona con el elemento tierra.\nLos daños son mayores en los objetivos que tienen escudo.\n\nEl tamaño de la zona aumenta con cada lanzamiento durante el turno en curso.",
+    "fr": "Vole de la vie dans l'élément Terre en zone.\nLes dommages sont plus importants sur les cibles ayant du bouclier.\n\nLa taille de la zone est augmentée après chaque lancer pour le tour en cours.",
+    "pt": "Rouba vida no elemento terra em zona.\nOs danos são maiores nos alvos com escudos.\n\nA zona aumenta de tamanho após cada lançamento no turno atual."
    },
    "id": 32453,
    "kind": {
@@ -1518,11 +1518,11 @@
     20
    ],
    "description": {
-    "de": "Erodiert das Ziel und verursacht Erdschaden.\nWenn der Zauber das nächste Mal gewirkt wird, erhöht sich der verursachte Schaden.",
-    "en": "Erodes the target and inflicts Earth damage.\nThe spell's damage increases for subsequent castings.",
-    "es": "Erosiona al objetivo y provoca daños de tierra.\nSe aumentan los daños del hechizo en los próximos lanzamientos.",
-    "fr": "Érode la cible et occasionne des dommages Terre.\nLes dommages du sort sont augmentés pour les prochains lancers.",
-    "pt": "Erode o alvo e inflige danos de terra.\nOs danos do feitiço aumentam nos próximos lançamentos."
+    "de": "Erodiert das Ziel und verursacht Erdschaden.\nWenn der Zauber das nächste Mal gewirkt wird, erhöht sich der Zauberschaden.",
+    "en": "Erodes the target and inflicts Earth damage.\nThe spell's damage increases the next time it is cast.",
+    "es": "Erosiona al objetivo y provoca daños de tierra.\nSe aumentan los daños del hechizo en el próximo lanzamiento.",
+    "fr": "Érode la cible et occasionne des dommages Terre.\nLes dommages du sort sont augmentés pour le prochain lancer.",
+    "pt": "Erode o alvo e inflige danos de terra.\nOs danos do feitiço aumentam no próximo lançamento."
    },
    "id": 32456,
    "kind": {
@@ -1571,11 +1571,11 @@
     15
    ],
    "description": {
-    "de": "Verursacht Erdschaden und entzieht Gegnern Schlagkraft.\nDer Flächenschaden ist nicht abnehmend.",
-    "en": "Inflicts Earth damage and removes Power from enemies.\nThe area-of-effect damage does not decrease with distance.",
-    "es": "Ocasiona daños de tierra y retira potencia a los enemigos.\nLos daños de zona no son regresivos.",
+    "de": "Erhöht den Schaden des Zaubers bei jeder Einheit im Wirkungsbereich und verursacht dort Erdschaden.",
+    "en": "Increases the spell's damage for each entity in the area of effect and inflicts Earth damage in an area of effect.",
+    "es": "Aumenta los daños del hechizo por cada entidad en la zona de efecto y ocasiona daños de tierra en zona.",
     "fr": "Augmente les dommages du sort pour chaque entité dans la zone d'effet et occasionne des dommages Terre en zone.",
-    "pt": "Inflige danos de terra e retira potência dos inimigos.\nOs danos em zona não são decrescentes."
+    "pt": "Aumenta os danos do feitiço para cada entidade na zona de efeito e inflige danos de terra em zona."
    },
    "id": 32457,
    "kind": {
@@ -1600,8 +1600,8 @@
    ],
    "range": [
     [
-     2,
-     7
+     3,
+     8
     ]
    ],
    "stacks": [
@@ -1618,7 +1618,7 @@
    ],
    "description": {
     "de": "Wendet Effekte an, die von der Position des Zaubernden relativ zum Ziel abhängen, fügt Gegnern Erdschaden zu und erhöht die Schlagkraft des Zaubernden:\n• Stößt das Ziel zurück, wenn sich der Zaubernde in Nahkampfdistanz befindet.\n• Bringt den Zaubernden näher an das Ziel heran, wenn er weit davon entfernt ist.",
-    "en": "Applies effects based on the caster's position in relation to the target, inflicts Earth damage on enemies and increases the caster's Power:\n• Repels target if caster is in close combat.\n• Moves caster closer to target if caster is at a distance.",
+    "en": "Applies effects based on the caster's position in relation to the target, inflicts Earth damage on enemies and increases the caster's Power:\n• Repels the target if the caster is in close combat.\n• Moves the caster closer to the target if the caster is at a distance.",
     "es": "Aplica efectos según la posición del lanzador con respecto al objetivo, ocasiona daños de tierra a los enemigos y aumenta la potencia del lanzador:\n• Repele al objetivo si el lanzador está en el cuerpo a cuerpo.\n• Acerca el lanzador al objetivo si está a distancia.",
     "fr": "Applique des effets selon la position du lanceur par rapport à la cible, occasionne des dommages Terre aux ennemis et augmente la Puissance du lanceur :\n• Repousse la cible si le lanceur est en mêlée.\n• Rapproche le lanceur vers la cible s'il est à distance.",
     "pt": "Aplica efeitos de acordo com a posição do lançador em relação ao alvo, inflige danos de terra aos inimigos e aumenta a potência do lançador:\n• Empurra o alvo se o lançador estiver no corpo a corpo.\n• Aproxima o lançador do alvo se o lançador estiver a distância."
@@ -1671,11 +1671,11 @@
     15
    ],
    "description": {
-    "de": "Verursacht Erdschaden, verringert den Schaden der Gegner und stößt Ziele im Wirkungsbereich zurück.\nDer Flächenschaden ist nicht abnehmend.",
+    "de": "Verursacht Erdschaden, verringert den Schaden der Gegner und stößt Ziele im Wirkungsbereich zurück.",
     "en": "Inflicts Earth damage and removes damage from enemies, and repels the targets in an area of effect.\nThe area-of-effect damage does not decrease with distance.",
-    "es": "Ocasiona daños de tierra, retira daños a los enemigos y repele a los objetivos en zona.\nLos daños de zona no son regresivos.",
-    "fr": "Occasionne des dommages Terre et retire des dommages aux ennemis et repousse les cibles en zone.\nLes dommages de zone ne sont pas dégressifs.",
-    "pt": "Inflige danos de terra aos inimigos, retira danos deles e afasta os alvos em zona.\nOs danos em zona não são decrescentes."
+    "es": "Ocasiona daños de tierra, retira daños a los enemigos y repele a los objetivos en zona.",
+    "fr": "Occasionne des dommages Terre et retire des dommages aux ennemis et repousse les cibles en zone.",
+    "pt": "Inflige danos de terra aos inimigos, retira danos deles e afasta os alvos em zona."
    },
    "id": 32459,
    "kind": {
@@ -1738,7 +1738,7 @@
     "en": "Removes Power and inflicts Earth damage.\nThe first attack is based on the caster's remaining MP.",
     "es": "Retira potencia y ocasiona daños de tierra.\nEl primer ataque depende de los PM restantes del lanzador.",
     "fr": "Retire de la Puissance et occasionne des dommages Terre.\nLa première attaque dépend des PM restants du lanceur.",
-    "pt": "Rouba potência e inflige danos de terra.\nO primeiro ataque depende dos PM restantes do lançador."
+    "pt": "Retira potência e inflige danos de terra.\nO primeiro ataque depende dos PM restantes do lançador."
    },
    "id": 32460,
    "kind": {
@@ -1910,11 +1910,11 @@
     5
    ],
    "description": {
-    "de": "Opfert Reichweite des Zaubernden, um seine Schlagkraft, seinen Schubsschaden und kritische Treffer zu erhöhen.",
+    "de": "Erhöht die Schlagkraft, den Schubsschaden und die Chance auf kritische Treffer des Zaubernden.\nEntzieht in der nächsten Runde Reichweite und verringert die minimale Reichweite aller Crâ-Zauber.",
     "en": "Sacrifices the caster's Range to increase their Power, Pushback Damage and Critical.",
-    "es": "Sacrifica el alcance del lanzador para aumentar su potencia, sus daños de empuje y sus críticos.",
-    "fr": "Sacrifie la Portée du lanceur pour augmenter sa Puissance, ses Dommages Poussée et ses Critiques.",
-    "pt": "Sacrifica o alcance do lançador para aumentar a potência, os danos de empurrão e os críticos dele."
+    "es": "Aumenta la potencia, los daños de empuje y los críticos del lanzador.\nRetira alcance y reduce el alcance mínimo de todos sus hechizos ocra en el turno siguiente.",
+    "fr": "Augmenter la Puissance, les Dommages Poussée et les Critiques du lanceur.\nRetire de la Portée et réduit la Portée minimale de tous ses sorts Crâ au tour suivant.",
+    "pt": "Aumenta a potência, os danos de empurrão e os críticos do lançador.\nRetira alcance e reduz o alcance mínimo de todos os seus feitiços Cra no turno seguinte."
    },
    "id": 32466,
    "kind": {
@@ -1967,11 +1967,11 @@
     2
    ],
    "description": {
-    "de": "Beschwört eine statische Markierung, die im Wirkungsbereich um sich herum Effekte anwendet, die von der Art des erlittenen Schadens abhängen:\n• Sie zieht die Ziele heran, wenn ihr ein Verbündeter Fernkampf- oder Stoßschaden zufügt.\n• Sie stößt die Ziele zurück, wenn ihr ein Verbündeter Nahkampf- oder Schubsschaden zufügt.\n\n3 Runden nach ihrer Beschwörung wird die Markierung zerstört.\n\nErhöht außerdem die Schlagkraft des Zaubernden für jeden Gegner in Sichtlinie des anvisierten Feldes.",
+    "de": "Beschwört eine statische Markierung, die Folgendes kann:\n• Ziele im Wirkungsbereich heranziehen, wenn ein Verbündeter ihr Fernkampfschaden zufügt oder sie schubst.\n• Ziele im Wirkungsbereich schubsen, wenn ein Verbündeter ihr Nahkampf- oder Schubsschaden zufügt.\n\nDie Markierung verringert den von Verbündeten erlittenen Schaden und wird 3 Runden nach ihrer Beschwörung zerstört.\n\nErhöht außerdem die Schlagkraft des Zaubernden für jeden Gegner in Sichtlinie des anvisierten Feldes.",
     "en": "Summons a static beacon that may apply effects in an area around it based on what it suffers:\n• It attracts targets if an ally inflicts ranged damage on it or pushes it.\n• It pushes targets if an ally inflicts close-combat or pushback damage on it.\n\nThe beacon is destroyed 3 turns after being summoned.\n\nAlso increases the caster's Power for each enemy in the targeted cell's line of sight.",
-    "es": "Invoca una baliza estática que puede aplicar efectos en zona a su alrededor según lo que sufra:\n• Atrae a los objetivos si un aliado le ocasiona daños a distancia o la empuja.\n• Empuja a los objetivos si un aliado le ocasiona daños en cuerpo a cuerpo o de empuje.\n\nLa baliza se destruye 3 turnos después de invocarla.\n\nAumenta también la potencia del lanzador por cada enemigo que esté en la línea de visión de la casilla objetivo.",
-    "fr": "Invoque une Balise statique qui peut appliquer des effets en zone autour d'elle selon ce qu'elle subit :\n• Elle attire les cibles si un allié lui occasionne des dommages à distance ou la pousse.\n• Elle pousse les cibles si un allié lui occasionne des dommages en mêlée ou de poussée.\n\nLa balise est détruite 3 tours après son invocation.\n\nAugmente également la Puissance du lanceur pour chaque ennemi dans la ligne de vue de la case ciblée.",
-    "pt": "Invoca uma baliza estática que pode aplicar efeitos em zona ao redor de si de acordo com o que ela sofrer:\n• Atrai os alvos se um aliado infligir a ela danos a distância ou de empurrão.\n• Empurra os alvos se um aliado infligir a ela danos corpo a corpo ou de empurrão.\n\nA baliza é destruída 3 turnos após a invocação.\n\nTambém aumenta a potência do lançador a cada inimigo na linha de visão da célula visada."
+    "es": "Invoca una baliza estática que puede:\n• Atraer objetivos en zona si un aliado le ocasiona daños a distancia o la empuja.\n• Empujar objetivos en zona si un aliado le ocasiona daños en cuerpo a cuerpo o de empuje.\n\nLa baliza reduce los daños aliados sufridos y se destruye 3 turnos después de su invocación.\n\nTambién aumenta la potencia del lanzador por cada enemigo que esté en la línea de visión de la casilla objetivo.",
+    "fr": "Invoque une Balise statique qui peut :\n• Attirer des cibles en zone si un allié lui occasionne des dommages à distance ou la pousse.\n• Pousser des cibles en zone si un allié lui occasionne des dommages en mêlée ou de poussée.\n\nLa Balise réduit les dommages alliés subis, et elle est détruite 3 tours après son invocation.\n\nAugmente également la Puissance du lanceur pour chaque ennemi dans la ligne de vue de la case ciblée.",
+    "pt": "Invoca uma baliza estática que pode:\n• Atrair alvos em zona se um aliado infligir a ela danos a distância ou de empurrão.\n• Empurrar alvos em zona se um aliado infligir a ela danos corpo a corpo ou de empurrão.\n\n• A baliza reduz os danos aliados sofridos, e ela é destruída 3 turnos após a invocação.\n\n• Também aumenta a potência do lançador a cada inimigo na linha de visão da célula visada."
    },
    "id": 32467,
    "kind": {
@@ -2028,7 +2028,7 @@
     4
    ],
    "description": {
-    "de": "Erhöht die Mindestreichweite aller offensiven Crâ-Zauber des Zaubernden, damit bei all seinen Zaubern die Sichtlinie deaktiviert wird.\nErhöhte außerdem die kritischen Treffer.",
+    "de": "Erhöht die Mindestreichweite aller offensiven Crâ-Zauber des Zaubernden, um dabei die Sichtlinie zu deaktivieren.\nErhöhte außerdem die kritischen Treffer.",
     "en": "Increases the minimum range of all the caster's offensive Cra spells to deactivate line of sight on all their spells.\nAlso increases their Critical.",
     "es": "Aumenta el alcance mínimo de todos los hechizos ofensivos del ocra del lanzador para desactivar la línea de visión en todos sus hechizos.\nAumenta también sus críticos.",
     "fr": "Augmente la portée minimale de tous les sorts offensifs Crâ du lanceur pour désactiver la ligne de vue sur tous ses sorts.\nAugmente également ses Critiques.",
@@ -2175,11 +2175,11 @@
    "range": [
     [
      1,
-     4
+     6
     ],
     [
      1,
-     6
+     8
     ]
    ],
    "stacks": [
@@ -2199,11 +2199,11 @@
     25
    ],
    "description": {
-    "de": "Fügt Gegnern entsprechend ihren erodierten LP im Bereich Neutralschaden zu.\nVersetzt die Ziele außerdem in den Zustand „Schwerkraft“ und erhöht den Schaden, den die Gegner im Bereich erleiden.",
+    "de": "Versetzt die Ziele in den Zustand „Schwerkraft“ und fügt Gegnern im Wirkungsbereich entsprechend ihren erodierten LP Neutralschaden zu.",
     "en": "Inflicts Neutral damage on enemies based on their eroded health in an area of effect.\nAlso applies the Gravity state on the targets and increases the damage suffered by the targeted enemies in an area of effect.",
-    "es": "Ocasiona daños neutrales a los enemigos según la vida erosionada de estos en zona.\nAplica también el estado Pesante a los objetivos y aumenta los daños que sufren los enemigos en zona.",
-    "fr": "Occasionne des dommages Neutre aux ennemis selon leur vie érodée en zone.\nApplique également l'état Pesanteur sur les cibles et augmente les dommages subis par les ennemis en zone.",
-    "pt": "Inflige danos neutros aos inimigos de acordo com a vida erodida deles em zona.\nTambém aplica o estado Gravidade aos alvos e aumenta os danos sofridos pelos inimigos em zona."
+    "es": "Aplica el estado Pesante a los objetivos y ocasiona daños neutrales a los enemigos según la vida erosionada de estos en zona.",
+    "fr": "Applique l'état Pesanteur sur les cibles et occasionne des dommages Neutre aux ennemis selon leur vie érodée en zone.",
+    "pt": "Aplica o estado Gravidade nos alvos e inflige danos neutros aos inimigos de acordo com a vida erodida deles em zona."
    },
    "id": 32472,
    "kind": {
@@ -2225,12 +2225,12 @@
    },
    "range": [
     [
-     3,
+     0,
      6
     ]
    ],
    "stacks": [
-    1
+    -1
    ],
    "variant": 708
   },
@@ -2239,11 +2239,11 @@
     2
    ],
    "description": {
-    "de": "Stellt eine Falle auf einem einzelnen Feld auf, die Gegnern im besten Element des Zaubernden Schaden zufügt und Einheiten zur Mitte des Wirkungsbereichs heranzieht.",
+    "de": "Stellt eine Falle auf einem einzelnen Feld auf, die Gegnern im besten Element des Zaubernden Schaden zufügt, den Schaden erhöht, den sie erleiden, und Einheiten zur Mitte des Wirkungsbereichs heranzieht.",
     "en": "Places a single-cell trap that inflicts damage in the caster's best element on enemies and attracts entities towards its centre in an area of effect.",
-    "es": "Pone una trampa monocasilla que ocasiona daños con el mejor elemento del lanzador a los enemigos y atrae a las entidades hacia su centro en zona.",
-    "fr": "Pose un piège mono-cellule qui occasionne des dommages dans le meilleur élément du lanceur aux ennemis et attire les entités vers son centre en zone.",
-    "pt": "Coloca uma armadilha de célula única que inflige danos no melhor elemento do lançador aos inimigos e atrai as entidades em direção ao centro em zona."
+    "es": "Pone una trampa monocasilla que ocasiona daños con el mejor elemento del lanzador a los enemigos, aumenta los daños que sufren y atrae a las entidades hacia su centro en zona.",
+    "fr": "Pose un piège mono-cellule qui occasionne des dommages dans le meilleur élément du lanceur aux ennemis, augmente les dommages qu'ils subissent et attire les entités vers son centre en zone.",
+    "pt": "Coloca uma armadilha de célula única que inflige danos no melhor elemento do lançador aos inimigos, aumenta os danos que eles sofrem e atrai as entidades em direção ao centro em zona."
    },
    "id": 32473,
    "kind": {
@@ -2273,7 +2273,7 @@
     ]
    ],
    "stacks": [
-    -1
+    1
    ],
    "variant": 709
   },
@@ -2344,11 +2344,11 @@
     5
    ],
    "description": {
-    "de": "Erhöht den Fernkampfschaden und die Reichweite des Zaubernden und enthüllt alle Gegner in seiner Sichtlinie.\nMit jedem verwendeten BP werden die Wirkungen verringert.",
+    "de": "Erhöht den Fernkampfschaden und die Reichweite des Zaubernden.\nMacht im Wirkungsbereich unsichtbare Einheiten sichtbar, die sich in der Sichtlinie des Zaubernden und seiner Markierungen befinden.\n\nMit jedem verwendeten BP werden die Wirkungen verringert.",
     "en": "Increases the caster's ranged damage and Range, and reveals all enemies in their line of sight.\nThe effects are reduced for each MP used.",
-    "es": "Aumenta los daños a distancia y el alcance del lanzador, y muestra a todos los enemigos en su línea de visión.\nLos efectos se reducen por cada PM utilizado.",
-    "fr": "Augmente les dommages à distance et la Portée du lanceur et dévoile tous les ennemis dans sa ligne de vue.\nLes effets sont réduits pour chaque PM utilisé.",
-    "pt": "Aumenta os danos a distância e o alcance do lançador e revela todos os inimigos em sua linha de visão.\nOs efeitos são reduzidos a cada PM utilizado."
+    "es": "Aumenta los daños a distancia y el alcance del lanzador.\nTambién revela las entidades invisibles en zona en la línea de visión del lanzador y de sus balizas.\n\nLos efectos se reducen por cada PM utilizado.",
+    "fr": "Augmente les dommages à distance et la Portée du lanceur.\nDévoile également les entités invisibles en zone dans la ligne de vue du lanceur et de ses Balises.\n\nLes effets sont réduits pour chaque PM utilisé.",
+    "pt": "Aumenta os danos a distância e o alcance do lançador.\nTambém revela as entidades invisíveis em zona na linha de visão do lançador e de suas Balizas.\n\nOs efeitos são reduzidos a cada PM utilizado."
    },
    "id": 32475,
    "kind": {
@@ -2381,19 +2381,19 @@
   },
   {
    "ap": [
-    3,
-    3
+    2,
+    2
    ],
    "crit": [
-    10,
-    10
+    5,
+    5
    ],
    "description": {
-    "de": "Wendet Effekte an, die von der Position des Zaubernden relativ zum Ziel abhängen, und fügt den Gegnern Wasserschaden zu:\n• Vergrößert die Entfernung zwischen Zauberndem und Ziel und entzieht den Gegnern BP, wenn er sich im Nahkampf befindet.\n• Stößt das Ziel zurück und entzieht den Gegnern AP, wenn der Zaubernde im Fernkampf ist.",
+    "de": "Vergrößert die Entfernung zwischen Zauberndem und Ziel, stößt dieses zurück und fügt Gegnern Wasserschaden zu.",
     "en": "Applies effects based on the caster's position in relation to the target and inflicts Water damage on enemies:\n• Moves the caster away from the target and removes MP from enemies if the caster is in close combat.\n• Repels the target and removes AP from enemies if the caster is at a distance.",
-    "es": "Aplica efectos según la posición del lanzador con respecto al objetivo y ocasiona daños de agua a los enemigos:\n• Aleja al lanzador del objetivo y retira PM a los enemigos si está en cuerpo a cuerpo.\n• Repele al objetivo y retira PA a los enemigos si el lanzador está a distancia.",
-    "fr": "Applique des effets selon la position du lanceur par rapport à la cible et occasionne des dommages Eau aux ennemis :\n• Éloigne le lanceur de la cible et retire des PM aux ennemis s'il est en mêlée.\n• Repousse la cible et retire des PA aux ennemis si le lanceur est à distance.",
-    "pt": "Aplica efeitos de acordo com a posição do lançador em relação ao alvo e inflige danos de água aos inimigos:\n• Afasta o lançador do alvo e retira PM dos inimigos se ele estiver no corpo a corpo.\n• Empurra o alvo e retira PA dos inimigos se o lançador estiver distante."
+    "es": "Aleja al lanzador del objetivo, lo empuja y ocasiona daños de agua a los enemigos.",
+    "fr": "Éloigne le lanceur de la cible, la repousse et occasionne des dommages Eau aux ennemis.",
+    "pt": "Afasta o lançador do alvo, empurra o alvo e inflige danos de água aos inimigos."
    },
    "id": 32531,
    "kind": {
@@ -2415,31 +2415,31 @@
     "pt": "Flecha Evasiva"
    },
    "per_target": [
-    1,
-    1
-   ],
-   "per_turn": [
     2,
     2
    ],
+   "per_turn": [
+    3,
+    3
+   ],
    "push": [
     {
-     "cells": 2,
+     "cells": 1,
      "damaging": true
     },
     {
-     "cells": 2,
+     "cells": 1,
      "damaging": true
     }
    ],
    "range": [
     [
-     1,
-     5
+     2,
+     6
     ],
     [
-     1,
-     7
+     2,
+     8
     ]
    ],
    "stacks": [
@@ -2460,7 +2460,7 @@
     "en": "Heals the targeted ally.\n\nAlso shares the damage between the initial allied fighter and another allied fighter, while increasing their Power, if the spell is cast on this other fighter.\n\nHeals do not affect the caster.",
     "es": "Cura al aliado objetivo.\n\nComparte también los daños entre el luchador aliado inicial y otro luchador aliado aumentando la potencia de estos si el hechizo se lanza a este otro luchador.\n\nLas curas no afectan al lanzador.",
     "fr": "Soigne l'allié ciblé.\n\nPartage également les dommages entre le combattant allié initial et un autre combattant allié en augmentant leur Puissance si le sort est lancé sur cet autre combattant.\n\nLes soins n'affectent pas le lanceur.",
-    "pt": "Cura o aliado visado.\n\nDivide igualmente os danos entre o combatente aliado inicial e outro combatente aliado, aumentando a potência deles se o feitiço for lançador nesse outro combatente.\n\nAs curas não afetam o lançador."
+    "pt": "Cura o aliado visado.\n\nDivide igualmente os danos entre o combatente aliado inicial e outro combatente aliado, aumentando a Potência deles se o feitiço for lançado nesse outro combatente.\n\nAs curas não afetam o lançador."
    },
    "id": 32618,
    "kind": {
@@ -3033,11 +3033,11 @@
     2
    ],
    "description": {
-    "de": "Heilt den anvisierten Verbündeten bei jedem Gegner im Wirkungsbereich und spürt Unsichtbare im Wirkungsbereich auf.",
+    "de": "Heilt den anvisierten Verbündeten für jeden Gegner im Wirkungsbereich und enthüllt alle unsichtbaren Einheiten im Wirkungsbereich.",
     "en": "Heals the targeted ally for each enemy in the area of effect and reveals invisible entities in an area of effect.",
-    "es": "Cura al aliado seleccionado por cada enemigo en la zona de efecto y desvela los invisibles en zona.",
-    "fr": "Soigne l'allié ciblé pour chaque ennemi dans la zone d'effet et dévoile les invisibles en zone.",
-    "pt": "Cura o aliado visado a cada inimigo na zona de efeito e revela os invisíveis em zona."
+    "es": "Cura al aliado objetivo por cada enemigo en la zona de efecto y desvela las entidades invisibles en zona.",
+    "fr": "Soigne l'allié ciblé pour chaque ennemi dans la zone d'effet et dévoile les entités invisibles en zone.",
+    "pt": "Cura o aliado visado a cada inimigo na zona de efeito e revela as entidades invisíveis em zona."
    },
    "id": 12852,
    "kind": {
@@ -4322,11 +4322,11 @@
     2
    ],
    "description": {
-    "de": "Erodiert den anvisierten Gegner und enthüllt Unsichtbare im Wirkungsbereich.",
+    "de": "Erodiert den anvisierten Gegner und enthüllt alle unsichtbaren Einheiten im Wirkungsbereich.",
     "en": "Erodes the targeted enemy and reveals invisible entities in an area of effect.",
-    "es": "Erosiona al enemigo objetivo y desvela a los invisibles en zona.",
-    "fr": "Érode l'ennemi ciblé et dévoile les invisibles en zone.",
-    "pt": "Erode o inimigo visado e revela os invisíveis em zona."
+    "es": "Erosiona al enemigo objetivo y desvela a las entidades invisibles en zona.",
+    "fr": "Érode l'ennemi ciblé et dévoile les entités invisibles en zone.",
+    "pt": "Erode o inimigo visado e revela as entidades invisíveis em zona."
    },
    "id": 12867,
    "kind": {
@@ -7818,7 +7818,7 @@
     "de": "Beschwört ein beherrschbares Häschen, dass heilen oder einen Schild verleihen kann.\nEs kann sich außerdem verwandeln, wenn es sich im Zustand „Kontrolliert“ befindet, wodurch es Schaden im Element der Alchetorik verursacht.\n\nDas Häschen wird auf das anvisierte Feld teleportiert und bewegungsunfähig gemacht, wenn der Zauber erneut gewirkt wird, solange es noch am Leben ist.\n\nWenn es stirbt, platziert der Zaubernde eine Glyphe unter dem Häschen, die Gegnern im besten Element des Zaubernden Schaden zufügt oder Verbündete heilt, und die Abklingzeit des Zaubers wird auf 2 Runden festgelegt.",
     "en": "Summons a biddable Coney that can heal or apply a shield.\nIf in the Controlled state, it can also transform to inflict damage in the Alchemical Rhetoric element.\n\nThe Coney is teleported to the targeted cell and immobilised if the spell is recast when it is alive.\n\nWhen it dies, the caster places a glyph under the Coney, which inflicts damage on enemies or heals allies in the caster's best element, and the spell's cooldown period is set to 2 turns.",
     "es": "Invocar un cunejo dominable que puede curar o aplicar un escudo.\nTambién puede transformarse si está bajo el estado Controlado y ocasionar daños con el elemento de Alquirretórica.\n\nEl cunejo se teletransporta a la casilla objetivo y queda inmovilizado si el hechizo vuelve a lanzarse cuando está con vida.\n\nCuando muere, el lanzador pone debajo del cunejo un glifo que ocasiona daños a los enemigos o cura a los aliados con el mejor elemento del lanzador, y el tiempo de espera del hechizo se fija en 2 turnos.",
-    "fr": "Invoque un Lapino maîtrisable qui peut soigner ou appliquer un bouclier.\nIl peut également se transformer s'il est dans l'état Contrôlé pour occasionner des dommages dans l'élément de l'Alchi-Rhétorique.\n\nLe Lapino est téléporté et immobilisé sur la case ciblée si le sort est relancé quand il est en vie.\n\nÀ sa mort, le lanceur pose un glyphe sous le Lapino qui occasionne des dommages aux ennemis ou soigne les alliés dans le meilleur élément du lanceur et le temps de relance du sort est fixé à 2 tours.",
+    "fr": "Invoque un Lapino maîtrisable qui peut soigner ou appliquer un bouclier.\nIl peut également se transformer s'il est dans l'état Contrôlé pour occasionner des dommages dans l'élément de l'Alchi-Rhétorique.\n\nLe Lapino est téléporté et immobilisé sur la case ciblée si le sort est relancé quand il est en vie.\n\nÀ sa mort, le lanceur pose un glyphe sous le Lapino qui occasionne des dommages aux ennemis ou soigne les alliés dans son meilleur élément et le temps de relance du sort est fixé à 2 tours.",
     "pt": "Invoca um Toelho controlável que pode curar ou aplicar um escudo.\nEle também pode se transformar se estiver no estado Controlado para infligir danos no elemento da Alquirretórica.\n\nO Toelho será teletransportado e imobilizado na célula visada se o feitiço for lançado outra vez quando ele estiver vivo.\n\nQuando morre, o lançador coloca um glifo sob o Toelho, que inflige danos aos inimigos ou cura os aliados no melhor elemento do lançador, e o intervalo de relançamento do feitiço é fixado em 2 turnos."
    },
    "id": 25795,
@@ -9372,11 +9372,11 @@
     20
    ],
    "description": {
-    "de": "Fügt den Gegnern Erdschaden zu und stößt die Ziele im Wirkungsbereich zurück.",
+    "de": "Fügt den Gegnern Erdschaden zu und stößt die Ziele im Wirkungsbereich in Richtung Spielfeldrand.",
     "en": "Inflicts Earth damage on enemies and repels the targets in an area of effect.",
-    "es": "Ocasiona daños de tierra a los enemigos y repele a los objetivos en zona.",
-    "fr": "Occasionne des dommages Terre aux ennemis et repousse les cibles en zone.",
-    "pt": "Inflige danos de água aos inimigos e afasta os alvos em zona."
+    "es": "Ocasiona daños de tierra a los enemigos y repele a los objetivos hacia los extremos en zona.",
+    "fr": "Occasionne des dommages Terre aux ennemis et repousse les cibles vers les extrémités en zone.",
+    "pt": "Inflige danos de terra aos inimigos e empurra os alvos em zona em direção às extremidades."
    },
    "id": 25865,
    "kind": {
@@ -10339,7 +10339,7 @@
     "de": "Erhöht die BP des anvisierten Verbündeten und versetzt ihn in den Zustand „Goldrausch“.\n• Erhöht am Ende der Runde des Ziels seine Schlagkraft in der nächsten Runde, wenn sich das Ziel in Nahkampfentfernung zu einem Gegner befindet und heilt das Ziel, wenn es sich in Nahkampfentfernung zu einer Enutrof-Beschwörung befindet.",
     "en": "Increases the targeted ally's MP and applies the Goldrush state on them:\n• At the end of the target's turn, increases their Power on the following turn if they are adjacent to an enemy and heals them if they are adjacent to an Enutrof summons.",
     "es": "Aumenta los PM del aliado objetivo y le aplica el estado Fiebre del Oro:\n• Al final del turno del objetivo, aumenta su potencia en el siguiente turno si está en contacto con un enemigo y lo cura si está en contacto con una invocación anutrof.",
-    "fr": "Augmente les PM de l'allié ciblé et lui applique l'état Ruée vers l'Or :\n• À la fin du tour de la cible, augmente sa Puissance au tour suivant si elle est au contact d'un ennemi et la soigne si elle est au contact d'une invocation Enutrof.",
+    "fr": "Augmente les PM de l'allié ciblé et lui applique l'état Ruée vers l'Or :\n• Augmente la Puissance de la cible au tour suivant si elle termine son tour au contact d'un ennemi et la soigne si elle termine au contact d'une invocation Enutrof.",
     "pt": "Aumenta os PM do aliado visado e aplica o estado Febre do Ouro:\n• No fim do turno do alvo, aumenta sua potência no turno seguinte se ele estiver em contato com um inimigo e o cura se ele estiver em contato com um invocação Enutrof."
    },
    "id": 13342,
@@ -12377,6 +12377,9 @@
      7
     ]
    ],
+   "stacks": [
+    -1
+   ],
    "variant": 113
   },
   {
@@ -13933,11 +13936,11 @@
     15
    ],
    "description": {
-    "de": "Fügt den Gegnern Luftschaden zu und stößt die Ziele zu den Endzonen im Wirkungsbereich zurück.",
+    "de": "Fügt Gegnern Luftschaden zu und stößt die Ziele im Wirkungsbereich zurück.",
     "en": "Inflicts Air damage on enemies and repels targets outwards in an area of effect.",
-    "es": "Ocasiona daños de aire a los enemigos y repele a los objetivos hacia los extremos en zona.",
-    "fr": "Occasionne des dommages Air aux ennemis et repousse les cibles vers les extrémités en zone.",
-    "pt": "Inflige danos de ar aos inimigos e afasta os alvos em zona em direção às extremidades."
+    "es": "Ocasiona daños de aire a los enemigos y repele a los objetivos en zona.",
+    "fr": "Occasionne des dommages Air aux ennemis et repousse les cibles en zone.",
+    "pt": "Inflige danos de ar aos inimigos e afasta os alvos em zona."
    },
    "id": 13010,
    "kind": {
@@ -15661,11 +15664,11 @@
     10
    ],
    "description": {
-    "de": "Fügt Gegnern Luftschaden zu und stößt die Ziele im Wirkungsbereich zurück.",
+    "de": "Fügt den Gegnern Luftschaden zu und stößt die Ziele zu den Endzonen im Wirkungsbereich zurück.",
     "en": "Inflicts Air damage on enemies and repels targets in an area of effect.",
-    "es": "Ocasiona daños de aire a los enemigos y repele a los objetivos en zona.",
-    "fr": "Occasionne des dommages Air aux ennemis et repousse les cibles en zone.",
-    "pt": "Inflige danos de ar aos inimigos e afasta os alvos em zona."
+    "es": "Ocasiona daños de aire a los enemigos y repele a los objetivos hacia los extremos en zona.",
+    "fr": "Occasionne des dommages Air aux ennemis et repousse les cibles vers les extrémités en zone.",
+    "pt": "Inflige danos de ar aos inimigos e afasta os alvos em zona em direção às extremidades."
    },
    "id": 13824,
    "kind": {
@@ -17012,11 +17015,11 @@
     15
    ],
    "description": {
-    "de": "Fügt Gegnern Wasserschaden zu und bewegt Ziele im Wirkungsbereich abhängig davon, welche der Gezeiten aktiv ist:\n• Ebbe: Zieht Ziele zum Zaubernden heran.\n• Flut: Stößt Ziele vom Zaubernden weg.",
+    "de": "Fügt Gegnern Wasserschaden zu und bewegt Ziele im Wirkungsbereich abhängig davon, welche der Gezeiten aktiv ist:\n• Ebbe: Zieht Ziele heran.\n• Flut: Stößt Ziele zurück.",
     "en": "Inflicts Water damage on enemies and moves the targets based on the Tide in an area of effect:\n• Low Tide: attracts the targets towards the caster.\n• High Tide: repels the targets from the caster.",
-    "es": "Ocasiona daños de agua a los enemigos y desplaza a los objetivos según la Marea en zona:\n• Marea Baja: atrae a los objetivos hacia el lanzador.\n• Marea Alta: repele a los objetivos desde el lanzador.",
-    "fr": "Occasionne des dommages Eau aux ennemis et déplace les cibles selon la Marée en zone :\n• Marée Basse : attire les cibles vers le lanceur.\n• Marée Haute : repousse les cibles depuis le lanceur.",
-    "pt": "Inflige danos de água aos inimigos e desloca o alvo de acordo com a Maré em zona:\n• Maré Baixa: atrai os alvos para o lançador.\n• Maré Alta: empurra os alvos a partir do lançador."
+    "es": "Ocasiona daños de agua a los enemigos y desplaza a los objetivos según la Marea en zona:\n• Marea Baja: atrae a los objetivos.\n• Marea alta: repele a los objetivos.",
+    "fr": "Occasionne des dommages Eau aux ennemis et déplace les cibles selon la Marée en zone :\n• Marée Basse : attire les cibles.\n• Marée Haute : repousse les cibles.",
+    "pt": "Inflige danos de água aos inimigos e desloca o alvo de acordo com a Maré em zona:\n• Maré Baixa: atrai os alvos.\n• Maré Alta: empurra os alvos."
    },
    "id": 13825,
    "kind": {
@@ -17579,11 +17582,11 @@
     10
    ],
    "description": {
-    "de": "Fügt den Gegnern Feuerschaden zu und stößt Ziele im Wirkungsbereich ausgehend vom Zaubernden zurück.",
+    "de": "Fügt den Gegnern Feuerschaden zu und stößt die Ziele im Wirkungsbereich zurück.",
     "en": "Inflicts Fire damage on enemies and repels targets from the caster in an area of effect.",
-    "es": "Ocasiona daños de fuego a los enemigos y repele a los objetivos desde el lanzador en zona.",
-    "fr": "Occasionne des dommages Feu aux ennemis et repousse les cibles depuis le lanceur en zone.",
-    "pt": "Inflige danos de fogo aos inimigos e empurra os alvos a partir do lançador em zona."
+    "es": "Ocasiona daños de fuego a los enemigos y repele a los objetivos en zona.",
+    "fr": "Occasionne des dommages Feu aux ennemis et repousse les cibles en zone.",
+    "pt": "Inflige danos de fogo aos inimigos e afasta os alvos em zona."
    },
    "id": 23754,
    "kind": {
@@ -19191,11 +19194,11 @@
     10
    ],
    "description": {
-    "de": "Fügt den Gegnern Erdschaden zu und stößt die Ziele im Wirkungsbereich ausgehend vom anvisierten Feld zurück.\nDer Flächenschaden ist nicht abnehmend.",
+    "de": "Fügt Gegnern Erdschaden zu und stößt Ziele im Wirkungsbereich zurück.\nDer Flächenschaden ist nicht abnehmend.",
     "en": "Inflicts Earth damage on enemies and repels targets from the targeted cell in an area of effect.\nThe area-of-effect damage does not decrease with distance.",
-    "es": "Ocasiona daños de tierra a los enemigos y repele a los objetivos desde la casilla objetivo en zona.\nLos daños de zona no son regresivos.",
-    "fr": "Occasionne des dommages Terre aux ennemis et repousse les cibles depuis la case ciblée en zone.\nLes dommages de zone ne sont pas dégressifs.",
-    "pt": "Inflige danos de terra aos inimigos e afasta os alvos em zona a partir da célula visada.\nOs danos em zona não são decrescentes."
+    "es": "Ocasiona daños de tierra a los enemigos y repele a los objetivos en zona.\nLos daños de zona no son regresivos.",
+    "fr": "Occasionne des dommages Terre aux ennemis et repousse les cibles en zone.\nLes dommages de zone ne sont pas dégressifs.",
+    "pt": "Inflige danos de terra aos inimigos e afasta os alvos em zona.\nOs danos em zona não são decrescentes."
    },
    "id": 23720,
    "kind": {
@@ -21103,7 +21106,7 @@
     "de": "Erhöht die Resistenzen des ausgewählten Verbündeten und versetzt ihn in den Zustand „Elementar-Schild“:\n• Versetzt den Angreifer in einen Elementarzustand, der vom Element des Angriffs abhängt, den das Ziel erleidet.\n\nKann Elementar-Kombinationen erzeugen.",
     "en": "Increases the targeted ally's resistance and applies the Elemental Shield state on the ally:\n• Applies an elemental state on the attacker based on the element of the attack suffered by the target.\n\nCan generate Elemental Combinations.",
     "es": "Aumenta las resistencias del aliado objetivo y le aplica el estado Escudo Elemental:\n• Aplica un estado elemental sobre el atacante según el elemento del ataque que reciba el objetivo.\n\nPuede generar combinaciones elementales.",
-    "fr": "Augmente les résistances de l'allié ciblé et lui applique l'état Bouclier Élémentaire :\n• Applique un état élémentaire sur l'attaquant selon l'élément de l'attaque subie par la cible.\n\nPeut générer des Combinaisons Élémentaires.",
+    "fr": "Augmente les résistances de l'allié ciblé et lui applique l'état Bouclier Élémentaire :\n• Réduit les résistances de la cible dans l'élément de l'attaque qu'elle subit.\n• Applique un état élémentaire sur son attaquant selon l'élément de son attaque.\n\nPeut générer des Combinaisons Élémentaires.",
     "pt": "Aumenta as resistências do aliado visado e aplica o estado Escudo Elementar:\n• Aplica um estado elementar no atacante de acordo com o elemento do ataque sofrido pelo alvo.\n\nPode gerar Combinações Elementares."
    },
    "id": 13682,
@@ -23675,7 +23678,7 @@
     "de": "Erhöht die AP des anvisierten Verbündeten und versetzt ihn in den Zustand „Geschwächt“.\nEntzieht diesem Verbündeten in der nächsten Runde nicht ausweichbare AP.\n\nDer Zaubernde wird nicht in den Zustand versetzt.",
     "en": "Increases the targeted ally's AP and applies the Weakened state on the ally.\nRemoves unparryable AP from that ally on the following turn.\n\nThe state is not applied on the caster.",
     "es": "Aumenta los PA del aliado objetivo y le aplica el estado Debilitado.\nRetira PA no esquivables a este aliado en el turno siguiente.\n\nEl estado no se aplica al lanzador.",
-    "fr": "Augmente les PA de l'allié ciblé et lui applique l'état Affaibli.\nRetire des PA non esquivables à cet allié au tour suivant.\n\nL'état n'est pas appliqué sur le lanceur.",
+    "fr": "Augmente les PA de l'allié ciblé et lui applique l'état Précipité, l'empêchant d'utiliser son arme.\nRetire des PA non esquivables à cet allié au tour suivant.\n\nL'état n'est pas appliqué sur le lanceur.",
     "pt": "Aumenta os PA do aliado visado e aplica o estado Enfraquecido.\nRetira PA não esquiváveis desse aliado no turno seguinte.\n\nO estado não é aplicado no lançador."
    },
    "id": 13114,
@@ -24742,11 +24745,11 @@
     25
    ],
    "description": {
-    "de": "Verursacht Luftschaden im Wirkungsbereich.\nVerursacht zusätzlichen Luftschaden im Wirkungsbereich entsprechend den verbleibenden BP des Zaubernden.",
+    "de": "Verursacht Luftschaden im Wirkungsbereich.\nDer zweite Angriff hängt von den verbleibenden BP des Zaubernden ab.",
     "en": "Inflicts Air damage in an area of effect.\nInflicts additional Air damage in an area of effect based on the caster's remaining MP.",
-    "es": "Ocasiona daños de aire en zona.\nOcasiona daños de aire adicionales en zona según los PM restantes del lanzador.",
-    "fr": "Occasionne des dommages Air en zone.\nOccasionne des dommages Air supplémentaires en zone selon les PM restants du lanceur.",
-    "pt": "Inflige danos de ar em zona.\nCausa danos de ar adicionais em zona de acordo com os PM restantes do lançador."
+    "es": "Ocasiona daños de aire en zona.\nEl segundo ataque depende de los PM restantes del lanzador.",
+    "fr": "Occasionne des dommages Air en zone.\nLa seconde attaque dépend des PM restants du lanceur.",
+    "pt": "Inflige danos de ar em zona.\nO segundo ataque depende dos PM restantes do lançador."
    },
    "id": 13145,
    "kind": {
@@ -26308,7 +26311,7 @@
     "de": "Schützt den Zaubernden mit einem Schild, fügt Gegnern Schaden in seinem besten Angriffselement zu und stößt das Ziel zurück.\nJeder Effekt wird entsprechend der vom Zaubernden getragenen Maske verstärkt:\n• Zustand „Furchtlos“: Der Schild ist stärker.\n• Zustand „Hänselchen klein“: Schubsen ist stärker.\n• Zustand „Psychopath“: Der Schaden ist erhöht.\n\nBei jedem Maskenwechsel wird die Abklingzeit des Zaubers um eine Runde verringert.",
     "en": "Applies a shield on the caster, inflicts damage in the caster's best attack element on enemies, and repels the target.\nThe effects become stronger based on the mask worn by the caster:\n• Intrepid state: shield is strongest.\n• Cowardly state: pushback is strongest.\n• Psychopathic state: damage is strongest.\n\nEach mask change reduces the spell's cooldown period by one turn.",
     "es": "Aplica un escudo al lanzador, ocasiona daños en su mejor elemento de ataque a los enemigos y empuja al objetivo.\nCada efecto se vuelve más importante según la máscara que lleva el lanzador:\n• Estado Intrépido: el escudo es más importante.\n• Estado Eskérdikat: el empuje es más importante.\n• Estado Sáikopat: los daños son más importantes.\n\nCada cambio de máscara disminuye un turno el intervalo de lanzamiento del hechizo.",
-    "fr": "Applique un bouclier sur le lanceur, occasionne des dommages dans son meilleur élément d'attaque aux ennemis et repousse la cible.\nChaque effet devient plus important selon le masque porté par le lanceur :\n• État Intrépide : le bouclier est plus important.\n• État Pleutre : la poussée est plus importante.\n• État Psychopathe : les dommages sont plus importants.\n\nChaque changement de masque diminue l'intervalle de relance du sort d'un tour.",
+    "fr": "Applique un bouclier sur le lanceur, occasionne des dommages dans son meilleur élément d'attaque aux ennemis et repousse la cible.\nChaque effet devient plus important selon le masque porté par le lanceur :\n• Intrépide : le bouclier est plus important.\n• Pleutre : la poussée est plus importante.\n• Psychopathe : les dommages sont plus importants.\n\nChaque changement de masque diminue l'intervalle de relance du sort d'un tour.",
     "pt": "Aplica um escudo no lançador, inflige danos em seu melhor elemento de ataque aos inimigos e empurra o alvo.\nOs efeitos aumentam de acordo com a máscara usada pelo lançador:\n• Estado Intrépido: o escudo aumenta.\n• Estado Covarde: o empurrão aumenta.\n• Estado Psicopata: os danos aumentam.\n\nCada mudança de máscara diminui o intervalo de relançamento do feitiço em um turno."
    },
    "id": 18651,
@@ -27433,7 +27436,7 @@
     "de": "Wendet den Zustand „Verklärung“ beim Zaubernden und beim anvisierten Gegner an. Wirkt Effekte beim Gegner entsprechend der getragenen Maske:\n• Zustand „Furchtlos“: Verringert den verursachten Endschaden.\n• Zustand „Hänselchen klein“: Verringert die Fernkampfresistenz.\n• Zustand „Psychopath“: Verringert die Nahkampfresistenz.\nDie Kumulierung wird auf die einzelnen Wirkungen aufgeteilt.\n\nBei jedem Maskenwechsel wird die Abklingzeit des Zaubers um eine Runde verringert und seine Wirkungen werden erneut angewendet, wenn sich der Zaubernde im Zustand „Verklärung“ befindet.",
     "en": "Applies the Transfiguration state on the caster and the targeted enemy, and applies effects on the enemy depending on which mask is worn:\n• Intrepid state: reduces final damage inflicted.\n• Cowardly state: reduces ranged resistances.\n• Psychopathic state: reduces close-combat resistances.\nStacking is shared among effects.\n\nEach mask change reduces the spell's cooldown period by 1 turn and reapplies the spell's effects if the caster is in the Transfiguration state.",
     "es": "Aplica el estado Transfiguración al lanzador y al enemigo objetivo, aplicando efectos al enemigo según la máscara que lleve puesta:\n• Estado Intrépido: reduce los daños finales ocasionados.\n• Estado Eskérdikat: reduce las resistencias a distancia.\n• Estado Sáikopat: reduce las resistencias en cuerpo a cuerpo.\nLa acumulación se reparte entre los efectos.\n\nCada cambio de máscara reduce un turno el intervalo de lanzamiento del hechizo y vuelve a aplicar los efectos del hechizo si el lanzador está bajo Transfiguración.",
-    "fr": "Applique l'état Transfiguration sur le lanceur et l'ennemi ciblé, en appliquant des effets sur l'ennemi selon le masque porté :\n• État Intrépide : réduit les dommages finaux occasionnés.\n• État Pleutre : réduit les résistances à distance.\n• État Psychopathe : réduit les résistances en mêlée.\nLe cumul est partagé entre les effets.\n\nChaque changement de masque réduit le temps de relance du sort d'un tour et réapplique les effets du sort si le lanceur est dans l'état Transfiguration.",
+    "fr": "Applique l'état Transfiguration sur le lanceur et l'ennemi ciblé, en appliquant des effets sur l'ennemi selon le masque porté :\n• Intrépide : réduit les dommages finaux occasionnés.\n• Pleutre : réduit les résistances à distance.\n• Psychopathe : réduit les résistances en mêlée.\nLe cumul est partagé entre les effets.\n\nChaque changement de masque réduit le temps de relance du sort d'un tour et réapplique les effets du sort tant que le lanceur est dans l'état.",
     "pt": "Aplica o estado Transfiguração no lançador e no inimigo visado, aplicando efeitos no inimigo de acordo com a máscara:\n• Estado Intrépido: reduz os danos finais infligidos.\n• Estado Covarde: reduz as resistências a distância.\n• Estado Psicopata: reduz as resistências corpo a corpo.\nO acúmulo é compartilhado entre os efeitos.\n\nCada mudança de máscara reduz o intervalo de relançamento do feitiço em um turno e reaplica os efeitos do feitiço se o lançador estiver no estado Transfiguração."
    },
    "id": 18650,
@@ -28839,7 +28842,7 @@
     "de": "Beschwört einen kontrollierbaren Gefräßigen Gobgob, der entsprechend seinen LP Neutralschaden verursachen kann, verbündete Beschwörungen besiegen kann, um seine Vitalität und seine BP zu erhöhen, den Schaden eines Verbündeten abfangen, sich teleportieren und dabei Illusionen erschaffen kann.\n\nDie Abklingzeit ist auf den Tod des Gobgobs festgelegt.",
     "en": "Summons a controllable gluttonous gobgob that can inflict Neutral damage based on its health, kill allied summons to increase its Vitality and MP, intercept an ally's damage, and teleport itself while creating illusions.\n\nThe cooldown period is fixed when the gobgob dies.",
     "es": "Invoca un jamajam glotón controlable que puede ocasionar daños neutrales según su vida, matar invocaciones aliadas para aumentar su vitalidad y sus PM, interceptar los daños de un aliado y teletransportarse creando ilusiones.\n\nEl tiempo de espera se determina al morir el jamajam.",
-    "fr": "Invoque un Gobgob Glouton contrôlable qui peut occasionner des dommages Neutre selon sa vie, tuer des invocations alliés pour augmenter sa Vitalité et ses PM, intercepter les dommages d'un allié et se téléporter en créant des illusions.\n\nLe temps de relance est fixé à la mort du Gobgob.",
+    "fr": "Invoque un Gobgob Glouton contrôlable qui peut occasionner des dommages Neutre selon sa vie, tuer des invocations alliés pour augmenter sa Vitalité, intercepter les dommages d'un allié et se téléporter en créant des illusions.\n\nLe temps de relance est fixé à la mort du Gobgob.",
     "pt": "Invoca um Komekom Glutão que pode infligir danos neutros de acordo com sua vida, matar invocações aliadas para aumentar sua vitalidade e seus PM, interceptar os danos de um aliado e se teletransportar criando ilusões.\n\nO intervalo de relançamento começa após a morte do Komekom."
    },
    "id": 31131,
@@ -29703,7 +29706,7 @@
     "de": "Tauscht den Platz mit einer Beschwörung des Zaubernden und versetzt ihn in den Zustand „Relais“:\n• Die nächsten Platztausche finden zwischen der Beschwörung im Zustand und der nächsten anvisierten Beschwörung statt.\n\nDer Platztausch findet nur statt, wenn sich die Beschwörungen in einer Entfernung von höchstens 5 Feldern zum Zaubernden befinden.",
     "en": "Switches places with one of the caster's summons and applies the Relay state to it:\n• Future switches will be done between the summons in the state and the next targeted summons.\n\nSwitches are only applied if summons are within 5 cells of the caster.",
     "es": "Intercambia posición con una invocación del lanzador y le aplica el estado Relevo:\n• Los próximos intercambios se realizarán entre la invocación con el estado y la próxima invocación objetivo.\n\nLos intercambios solo se aplican si las invocaciones están a 5 casillas o menos del lanzador.",
-    "fr": "Échange de position avec une invocation du lanceur et lui applique l'état Relais :\n• Les prochains échanges se feront entre l'invocation dans l'état et la prochaine invocation ciblée.\n\nLes échanges ne s'appliquent que si les invocations sont à 5 cases ou moins du lanceur.",
+    "fr": "Échange de position avec une invocation du lanceur et lui applique l'état Relais :\n• Les prochains échanges se feront entre l'invocation dans l'état et la prochaine invocation ciblée ou le lanceur.\n\nLes échanges ne s'appliquent que si les invocations sont à 5 cases ou moins du lanceur.",
     "pt": "Troca de lugar com uma invocação do lançador e aplica o estado Transmissor:\n• As próximas trocas ocorrerão entre a invocação com esse estado e a próxima invocação visada.\n\nAs trocas só se aplicam se as invocações estiverem a 5 células ou menos do lançador."
    },
    "id": 31130,
@@ -35835,7 +35838,7 @@
    "levels": [
     55,
     122,
-    184
+    189
    ],
    "name": {
     "de": "Halsabschneiderei",
@@ -36057,7 +36060,7 @@
     "de": "Macht eine Bombe des Zaubernden Unverrückbar.\nDie Bombe erhält 2 Combo.\n• Durch Auslösen der Explosion, wenn sie zerstört wird.\n• Durch Entziehen der Wirkungen des Zaubers, wenn er auf eine andere Bombe geschleudert wird.\n\nDie Wirkungen werden aufgehoben, wenn die Bombe durch einen Sprengeffekt ausgelöst wird.",
     "en": "Makes one of the caster's Bombs Unmovable.\nAdds 2 Combo to the Bomb:\n• By causing it to explode if it is destroyed.\n• By removing the spell's effects if it is cast on another Bomb.\n\nThe effects are removed if the Bomb is triggered by an explosion effect.",
     "es": "Vuelve una bomba del lanzador Indesplazable.\nAñade 2 combos a la bomba:\n• Haciendo que explote si es destruida.\n• Eliminando los efectos del hechizo si se lanza a otra bomba.\n\nLos efectos se retiran si la bomba se activa por un efecto de explosión.",
-    "fr": "Rend une Bombe du lanceur Indéplaçable.\nAjoute 2 Combo à la Bombe :\n• En déclenchant son explosion si elle est détruite.\n• En retirant les effets du sort s'il est lancé sur une autre Bombe.\n\nLes effets sont retirés si la Bombe est déclenchée par un effet d'explosion.",
+    "fr": "Rend une Bombe du lanceur Indéplaçable.\nAjoute 2 Combos à la Bombe :\n• En déclenchant son explosion si elle est détruite.\n• En retirant les effets du sort s'il est lancé sur une autre Bombe.\n\nLes effets sont retirés si la Bombe est déclenchée par un effet d'explosion.",
     "pt": "Deixa uma Bomba do lançador Irremovível.\nAcrescenta 2 combos à Bomba:\n• Acionando sua explosão se ela for destruída.\n• Retirando os efeitos do feitiço se ele for lançado sobre outra Bomba.\n\nOs efeitos serão retirados se a Bomba for acionada por um efeito de explosão."
    },
    "id": 13441,
@@ -36163,7 +36166,7 @@
     "de": "Reduziert die maximale Vitalität des Zaubernden, um vorübergehend seinen Bomben 3 Combos zusätzlich zu verleihen.",
     "en": "Reduces the caster's maximum Vitality to temporarily add 3 Combos to their Bombs.",
     "es": "Reduce la vitalidad máxima del lanzador para añadir temporalmente 3 combos a sus bombas.",
-    "fr": "Réduit la Vitalité maximale du lanceur pour ajouter temporairement 3 Combo à ses Bombes.",
+    "fr": "Réduit la Vitalité maximale du lanceur pour ajouter temporairement 3 Combos à ses Bombes.",
     "pt": "Reduz a vitalidade máxima do lançador para acrescentar temporariamente 3 combos às bombas dele."
    },
    "id": 13446,
@@ -36857,7 +36860,7 @@
     "de": "Beschwört eine beherrschbare Megabombe, die Neutralschaden verursachen und Bomben verschlingen kann, um ihren Schaden zu erhöhen.\n\nWird die Megabombe zerstört, verleiht sie den Bomben des Zaubernden 1 Combo zusätzlich und sprengt diese in einem kreisförmigen Wirkungsbereich von 2 Feldern um sie herum.",
     "en": "Summons a controllable Megabomb that can inflict Neutral Damage and devour Bombs to increase its damage.\n\nWhen destroyed, it explodes and adds 1 Combo to the caster's Bombs and causes them to explode in a 2-cell circle.",
     "es": "Invoca una megabomba controlable que puede ocasionar daños neutrales y devorar bombas para aumentar sus daños.\n\nCuando se destruye, explota añadiendo 1 combo a las bombas del lanzador y activa la explosión de estas en un círculo de tamaño 2.",
-    "fr": "Invoque une Mégabombe contrôlable qui peut occasionner des dommages Neutre et dévorer des Bombes pour augmenter ses dommages.\n\nLorsqu'elle est détruite, elle explose en ajoutant 1 Combo aux Bombes du lanceur et déclenche leur explosion dans un cercle de taille 2.",
+    "fr": "Invoque une Mégabombe contrôlable qui peut occasionner des dommages Neutre et dévorer des Bombes pour augmenter ses dommages.\n\nLorsqu'elle est détruite, elle ajoute 1 Combo aux Bombes du lanceur, déclenche leur explosion et explose dans un cercle de taille 2.",
     "pt": "Invoca uma Megabomba controlável que pode infligir danos neutros e devorar Bombas para aumentar seus danos.\n\nAo ser destruída, ela explode, acrescentando 1 combo às Bombas do lançador e acionando a explosão delas em um círculo de tamanho 2."
    },
    "id": 13490,
@@ -37124,7 +37127,7 @@
     "de": "Platziert eine Klebrige Bombe auf dem Ziel.\nAuf einem freien Feld wird eine Falle ausgelegt, die bei ihrem Auslösen eine Klebrige Bombe an die auslösende Einheit anheftet oder die Explosion einer Bombe des Zaubernden verursacht.\n\nDie Bombe kann mit Aktivierungszaubern oder durch Bombenexplosionen aktiviert werden.\nWenn sie aktiviert wird, verursacht sie Schaden im besten Element des Zaubernden und sprengt seine Bomben im Wirkungsbereich.\n\nEine Klebrige Bombe kann nicht auf eine Elementarbombe angewendet werden.",
     "en": "Places a sticky bomb on the target.\nOn a free cell: places a trap that puts a Sticky Bomb on the entity that triggers it or makes one of the caster's Bombs explode.\n\nThe Bomb may be activated by activation spells or bomb explosions.\nWhen activated, it inflicts damage in the caster's best element and makes the caster's Bombs explode in an area of effect.\n\nA Sticky Bomb cannot be applied to an Elemental Bomb.",
     "es": "Coloca una bomba pegajosa sobre el objetivo.\nEn una casilla libre: pone una trampa que pone una bomba pegajosa sobre la entidad que la activa o activa la explosión de una bomba del lanzador.\n\nLa bomba puede activarse con los hechizos de activación o con las explosiones de bomba.\nCuando se activa, ocasiona daños con el mejor elemento del lanzador y activa la explosión de sus bombas en zona.\n\nNo se puede aplicar una bomba pegajosa a una bomba elemental.",
-    "fr": "Pose une Bombe Collante sur la cible.\nSur une case libre : pose un piège qui pose une Bombe Collante sur l'entité qui le déclenche ou déclenche l'explosion d'une Bombe du lanceur.\n\nLa Bombe peut être activée avec les sorts d'activation ou les explosions de bombe.\nLorsqu'elle est activée, elle occasionne des dommages dans le meilleur élément du lanceur et déclenche l'explosion de ses Bombes en zone.\n\nUne Bombe Collante ne peut pas être appliquée sur une Bombe élémentaire.",
+    "fr": "Pose une Bombe Collante sur la cible.\n\nSur une case libre : pose un piège qui pose une Bombe Collante sur l'entité qui le déclenche ou déclenche l'explosion d'une Bombe du lanceur.\n\nLa Bombe peut être activée avec les sorts d'activation ou les explosions de bombe.\nLorsqu'elle est activée, elle occasionne des dommages dans le meilleur élément du lanceur et déclenche l'explosion de ses Bombes en zone.\n\nUne Bombe Collante ne peut pas être appliquée sur une Bombe élémentaire.",
     "pt": "Coloca uma Bomba Pegajosa no alvo.\nEm uma célula livre: coloca uma armadilha que coloca uma Bomba Pegajosa na entidade que a acionar ou aciona a explosão de um bomba do lançador.\n\nA Bomba pode ser ativada por feitiços de ativação ou explosões de bombas.\nQuando está ativa, ela inflige danos no melhor elemento do lançador e aciona a explosão de suas Bombas em zona.\n\nUma Bomba Pegajosa não pode ser aplicada sobre uma Bomba Elementar."
    },
    "id": 13479,
@@ -37213,11 +37216,11 @@
     3
    ],
    "description": {
-    "de": "Stellt eine Falle auf einem einzelnen Feld, die Ziele heranzieht, den Bomben des Zaubernden 1 Combo zusätzlich verleiht und sie im Wirkungsbereich sprengt.",
-    "en": "Places a single-cell trap that attracts targets, adds 1 Combo to the caster's Bombs and makes them explode in an area of effect.",
-    "es": "Pone una trampa monocasilla que atrae a los objetivos, añade 1 combo a las bombas del lanzador y activa su explosión en zona.",
-    "fr": "Pose un piège mono-cellule qui attire les cibles, ajoute 1 Combo aux Bombes du lanceur et déclenche leur explosion en zone.",
-    "pt": "Coloca uma armadilha de alvo único que atrai os alvos, acrescenta 1 combo às Bombas do lançador e aciona a explosão delas em zona."
+    "de": "Stellt eine Falle auf einem einzelnen Feld, die Einheiten heranzieht, den Bomben des Zaubernden 1 Combo zusätzlich verleiht und sie im Wirkungsbereich sprengt.",
+    "en": "Places a single-cell trap that attracts entities, adds 1 Combo to the caster's Bombs and makes them explode in an area of effect.",
+    "es": "Pone una trampa monocasilla que atrae a las entidades, añade 1 combo a las bombas del lanzador y activa su explosión en zona.",
+    "fr": "Pose un piège mono-cellule qui attire les entités, ajoute 1 Combo aux Bombes du lanceur et déclenche leur explosion en zone.",
+    "pt": "Coloca uma armadilha de célula única que atrai as entidades, acrescenta 1 combo às Bombas do lançador e aciona a explosão delas em zona."
    },
    "id": 13484,
    "kind": {
@@ -37256,11 +37259,11 @@
     3
    ],
    "description": {
-    "de": "Tauscht die Position mit dem Ziel und versetzt den Zaubernden in den Zustand „Kaboom“.\n• Bei einem Verbündeten: Versetzt ihn ebenfalls in den Zustand.\n• Bei einer Elementarbombe des Zaubernden: Verleiht der Bombe 1 Combo zusätzlich.\nVersetzt den Zaubernden und den anvisierten Verbündeten in der nächsten Runde in den Zustand „Vorgaukelung“, was die Anwendung des Zustands „Kaboom“ verhindert.\n\nDie Combo wird nur verliehen und der Zustand „Kaboom“ nur angewendet, wenn der Positionstausch erfolgen kann.",
+    "de": "Tauscht die Position mit dem Ziel und versetzt den Zaubernden in den Zustand „Kaboom“.\n• Bei einem Verbündeten: Versetzt ihn ebenfalls in den Zustand.\n• Bei einer Elementarbombe des Zaubernden: Verleiht der Bombe 1 Kombo zusätzlich.\nVersetzt den Zaubernden und den anvisierten Verbündeten ebenfalls in den Zustand „Vorgaukelung“, was die Anwendung des Zustands „Kaboom“ verhindert.\n\nDie Kombo wird nur verliehen und der Zustand „Kaboom“ nur angewendet, wenn der Positionstausch erfolgen kann.",
     "en": "Switches places with the target and applies the Kaboom state to the caster.\n• On an ally: also applies the state to them.\n• On one of the caster's Elemental Bombs: adds 1 Combo to the Bomb.\nApplies the Imposture state to the caster and the targeted ally on the next turn, which prevents the Kaboom state from being applied.\n\nThe Combo and the Kaboom state are only applied if the position switch can occur.",
-    "es": "Intercambia posición con el objetivo y aplica el estado Kabúm al lanzador.\n• En un aliado: también le aplica el estado.\n• En una bomba elemental del lanzador: añade 1 combo a la bomba.\nAplica el estado Impostura al lanzador y al aliado objetivo en el siguiente turno, impidiendo que se aplique Kabúm.\n\nEl combo y el estado Kabúm solo se aplican si el intercambio de posiciones puede efectuarse.",
-    "fr": "Échange de positions avec la cible et applique l'état Kaboom sur le lanceur.\n• Sur un allié : lui applique également l'état.\n• Sur une Bombe élémentaire du lanceur : ajoute 1 Combo à la Bombe.\nApplique l'état Imposture sur le lanceur et l'allié ciblé au tour suivant, empêchant l'application de l'état Kaboom.\n\nLe Combo et l'état Kaboom ne s'appliquent que si l'échange de positions peut s'effectuer.",
-    "pt": "Troca de lugar com o alvo e aplica o estado Kaboom no lançador.\n• Em um aliado: também aplica o estado nele.\n• Em uma Bomba Elementar do lançador: acrescenta 1 combo à bomba.\nAplica o estado Impostura no lançador e no aliado visado no turno seguinte, impedindo a aplicação do estado Kaboom.\n\nO combo e o estado Kaboom só serão aplicados se a troca de posição for possível."
+    "es": "Intercambia de posición con el objetivo y aplica el estado Kabúm en el lanzador.\n• En un aliado: también le aplica el estado.\n• En una bomba elemental del lanzador: añade 1 combo a la bomba.\nTambién aplica el estado Impostura en el lanzador y el aliado objetivo, impidiendo la aplicación del estado Kabúm.\n\nEl combo y el estado Kabúm solo se aplican si el intercambio de posiciones puede efectuarse.",
+    "fr": "Échange de positions avec la cible et applique l'état Kaboom sur le lanceur.\n• Sur un allié : lui applique également l'état.\n• Sur une Bombe élémentaire du lanceur : ajoute 1 Combo à la Bombe.\nApplique également l'état Imposture sur le lanceur et l'allié ciblé, empêchant l'application de l'état Kaboom.\n\nLe Combo et l'état Kaboom ne s'appliquent que si l'échange de positions peut s'effectuer.",
+    "pt": "Troca de lugar com o alvo e aplica o estado Kaboom no lançador.\n• Em um aliado: também aplica o estado nele.\n• Em uma Bomba Elementar do lançador: acrescenta 1 combo à bomba.\nTambém aplica o estado Impostura no lançador e no aliado visado, impedindo a aplicação do estado Kaboom.\n\nO combo e o estado Kaboom só serão aplicados se a troca de posição for possível."
    },
    "id": 13489,
    "kind": {
@@ -37945,11 +37948,11 @@
     15
    ],
    "description": {
-    "de": "Fügt Gegnern Wasserschaden zu und zieht die Ziele im Wirkungsbereich heran.",
+    "de": "Verursacht bei Gegnern Wasserschaden und zieht die Ziele an den Zaubernden im Wirkungsbereich heran.",
     "en": "Inflicts Water damage on enemies and attracts targets in an area of effect.",
-    "es": "Ocasiona daños de agua a los enemigos y atrae a los objetivos en zona.",
-    "fr": "Occasionne des dommages Eau aux ennemis et attire les cibles en zone.",
-    "pt": "Inflige danos de água aos inimigos e atrai os alvos em zona."
+    "es": "Ocasiona daños de agua en zona a los enemigos y atrae a los objetivos hacia el lanzador en zona.",
+    "fr": "Occasionne des dommages Eau aux ennemis et attire les cibles vers le lanceur en zone.",
+    "pt": "Inflige danos de água em zona aos inimigos e atrai os alvos para o lançador em zona."
    },
    "id": 12745,
    "kind": {
@@ -38095,7 +38098,7 @@
     "de": "Wendet auf Ziele im Wirkungsbereich den Zustand „Schwerkraft“ an, verleiht dem Zaubernden einen Schild und versetzt ihn in den Zustand „Dornenkrone“:\n• Wirft 100 % des im Nahkampf erlittenen Schadens auf die Gegner in Nahkampfentfernung zurück.\n\nGewährt dem Zaubernden ab Leidstufe 6 einen zusätzlichen Schild für jeden Gegner im Wirkungsbereich.",
     "en": "Applies the Gravity state on targets in an area of effect, a shield and the Thorn Crown state on the caster:\n• Reflects 100% of damage suffered in close combat back at adjacent enemies.\n\nApplies an additional shield on the caster for each enemy in the area of effect if the caster is at Suffering 6 or more.",
     "es": "Aplica el estado Pesante a los objetivos en zona, un escudo y el estado Corona de Espinas al lanzador:\n• Devuelve el 100% de los daños sufridos en cuerpo a cuerpo a los enemigos en contacto con él.\n\nAplica un escudo extra al lanzador por cada enemigo que haya en la zona de efecto si está en Sufrimiento 6 o superior.",
-    "fr": "Applique l'état Pesanteur sur les cibles en zone, un bouclier et l'état Couronne d'Épines sur le lanceur :\n• Renvoie 100% des dommages subis en mêlée aux ennemis à son contact.\n\nApplique un bouclier supplémentaire sur le lanceur pour chaque ennemi dans la zone d'effet s'il est en Souffrance 6 ou plus.",
+    "fr": "Applique l'état Pesanteur sur les cibles en zone, un bouclier et l'état Couronne d'Épines sur le lanceur :\n• Renvoie les dommages subis en mêlée aux ennemis à son contact.\n\nApplique un bouclier supplémentaire sur le lanceur pour chaque ennemi dans la zone d'effet s'il est en Souffrance 6 ou plus.",
     "pt": "Aplica o estado Gravidade nos alvos em zona e o estado Coroa de Espinhos no lançador:\n• Reenvia 100% dos danos sofridos no corpo a corpo aos inimigos em contato com ele.\n\nAplica um escudo extra no lançador a cada inimigo na zona de efeito se ele estiver em Sofrimento 6 ou mais."
    },
    "id": 12761,
@@ -39256,7 +39259,7 @@
     "de": "Wendet einen Schild auf den anvisierten Verbündeten und die Zustände „Unverrückbar“ und „Pranger“ auf das Ziel an:\n• Wenn das Ziel Nahkampfschaden erleidet, wird die Wirkung des Zaubers aufgehoben, und der Zaubernde wird geheilt.\n\nDie Wirkungen können nicht aufgehoben werden, wenn der Zaubernde mindestens Leidstufe 6 erreicht hat.",
     "en": "Applies a shield on the targeted ally and applies the Unmovable and Pillory states on the target:\n• Removes the spell's effects if the target suffers close-combat damage, and heals the caster.\n\nThe effects cannot be removed if the caster is at Suffering 6 or more.",
     "es": "Aplica un escudo al aliado objetivo y aplica los estados Indesplazable y Picota al objetivo:\n• Retira los efectos del hechizo si el objetivo sufre daños en cuerpo a cuerpo y cura al lanzador.\n\nLos efectos no pueden retirarse si el lanzador está en Sufrimiento 6 o superior.",
-    "fr": "Applique un bouclier sur l'allié ciblé et applique les états Indéplaçable et Pilori sur la cible :\n• Retire les effets du sort si la cible subit des dommages en mêlée et soigne le lanceur.\n\nLes effets ne peuvent pas être retirés si le lanceur est en Souffrance 6 ou plus.",
+    "fr": "Applique un bouclier sur l'allié ciblé et applique les états Indéplaçable et Pilori sur la cible :\n• Retire les effets du sort et soigne le lanceur si la cible subit des dommages en mêlée.\n\nLes effets ne peuvent pas être retirés si le lanceur est en Souffrance 6 ou plus.",
     "pt": "Aplica um escudo no aliado visado e aplica os estados Irremovível e Pelourinho no alvo:\n• Retira os efeitos do feitiço se o alvo sofrer danos no corpo a corpo e cura o lançador.\n\nOs efeitos não podem ser retirados se o lançador estiver em Sofrimento 6 ou mais."
    },
    "id": 14011,
@@ -39612,7 +39615,7 @@
     "de": "Versetzt den anvisierten Gegner in den Zustand „Jashins Ritual“ und platziert eine Glyphe unter dem Zaubernden, die ihn in den Zustand versetzt und ihn unblockbar macht.\nWenn der Zaubernde und das Ziel in diesem Zustand sind, wird sämtlicher erlittene Schaden des Zaubernden auf das Ziel reflektiert und umgekehrt.",
     "en": "Applies the Jashin Ritual state on the targeted enemy and places a glyph-aura under the caster that applies the state to the caster and makes the caster Unlockable.\nAs long as the caster and the target are in this state, reflects all damage suffered by the caster onto the target and vice versa.",
     "es": "Aplica el estado Ritual de Jashin al enemigo objetivo y pone un glifo aura bajo el lanzador que le aplica el estado y lo vuelve no placable.\nMientras el lanzador y el objetivo estén en este estado, devuelve la totalidad de los daños sufridos por el lanzador al objetivo, y viceversa.",
-    "fr": "Applique l'état Rituel de Jashin sur l'ennemi ciblé et pose un glyphe-aura sous le lanceur qui lui applique l'état et le rend Intaclable.\nTant que le lanceur et la cible sont dans cet état, renvoie la totalité des dommages subis par le lanceur à la cible, et inversement.",
+    "fr": "Applique l'état Rituel de Jashin sur l'ennemi ciblé et pose un glyphe-aura sous le lanceur qui lui applique l'état et le rend Intaclable.\nTant que le lanceur et la cible sont dans cet état, renvoie les dommages subis par le lanceur à la cible, et inversement.",
     "pt": "Aplica o estado Ritual de Jashin no inimigo visado, coloca um glifo-aura sob o lançador que lhe aplica o estado e o torna Imbloqueável.\nEnquanto o lançador e o alvo estiverem nesse estado, reenvia todo o dano sofrido pelo lançador de volta para o alvo e vice-versa."
    },
    "id": 14000,
@@ -40845,11 +40848,11 @@
     20
    ],
    "description": {
-    "de": "Im Wirkungsbereich rund um einen Zaubernden, einen Laubbaum oder ein Püppchen:\n• Fügt den Gegnern Erdschaden zu.\n• Zieht die Einheiten zur Mitte des Wirkungsbereichs heran.\n• Enthüllt Unsichtbare.",
+    "de": "Im Wirkungsbereich rund um den Zaubernden, einen Laubbaum oder ein Püppchen:\n• Fügt den Gegnern Erdschaden zu.\n• Zieht die Einheiten zur Mitte des Wirkungsbereichs heran.\n• Enthüllt unsichtbare Einheiten.",
     "en": "In an area of effect around the caster, a Leafy Tree or a Doll:\n• Inflicts Earth damage on enemies.\n• Attracts entities towards the centre of the area of effect.\n• Reveals invisible entities.",
-    "es": "En zona alrededor del lanzador, de un árbol frondoso o de una muñeca:\n• Ocasiona daños de tierra a los enemigos.\n• Atrae a las entidades hacia el centro de la zona.\n• Desvela a los invisibles.",
-    "fr": "En zone autour du lanceur, d'un Arbre Feuillu ou d'une Poupée :\n• Occasionne des dommages Terre aux ennemis.\n• Attire les entités vers le centre de la zone.\n• Dévoile les invisibles.",
-    "pt": "Em zona ao redor do lançador, de uma Árvore Frondosa ou de uma Boneca:\n• Inflige danos de terra aos inimigos.\n• Atrai as entidades para o centro da zona.\n• Revela os invisíveis."
+    "es": "En zona alrededor del lanzador, de un árbol frondoso o de una muñeca:\n• Ocasiona daños de tierra a los enemigos.\n• Atrae a las entidades hacia el centro de la zona.\n• Desvela las entidades invisibles.",
+    "fr": "En zone autour du lanceur, d'un Arbre Feuillu ou d'une Poupée :\n• Occasionne des dommages Terre aux ennemis.\n• Attire les entités vers le centre de la zone.\n• Dévoile les entités invisibles.",
+    "pt": "Em zona ao redor do lançador, de uma Árvore Frondosa ou de uma Boneca:\n• Inflige danos de terra aos inimigos.\n• Atrai as entidades para o centro da zona.\n• Revela as entidades invisíveis."
    },
    "id": 13514,
    "kind": {
@@ -42629,11 +42632,11 @@
     3
    ],
    "description": {
-    "de": "Stellt eine Falle, die Erdschaden verursacht.\nBevor die Wirkungen ausgelöst werden, erhöht sich der Zauberschaden für jeden Gegner im Wirkungsbereich rund um die Falle.",
-    "en": "Places a trap that inflicts Earth damage.\nThe spell's damage increases with each enemy in an area of effect around the trap before the spell's effects are applied.",
-    "es": "Pone una trampa que ocasiona daños de tierra.\nLos daños del hechizo aumentan por cada enemigo en zona alrededor de la trampa antes de aplicar sus efectos.",
-    "fr": "Pose un piège qui occasionne des dommages Terre.\nLes dommages du sort sont augmentés pour chaque ennemi en zone autour du piège avant d'appliquer ses effets.",
-    "pt": "Coloca uma armadilha que inflige danos de terra.\nOs danos do feitiço aumentam para cada inimigo em zona ao redor da armadilha antes de aplicar seus efeitos."
+    "de": "Stellt eine Falle, die Erdschaden verursacht.\nBevor die Wirkungen ausgelöst werden, erhöht sich der Schaden der Falle für jeden Gegner im Wirkungsbereich rund um die Falle.",
+    "en": "Places a trap that inflicts Earth damage.\nThe trap's damage increases with each enemy in an area of effect around the trap before its effects are applied.",
+    "es": "Pone una trampa que ocasiona daños de tierra.\nLos daños de la trampa aumentan por cada enemigo en zona alrededor de la trampa antes de aplicar sus efectos.",
+    "fr": "Pose un piège qui occasionne des dommages Terre.\nLes dommages du piège sont augmentés pour chaque ennemi en zone autour du piège avant d'appliquer ses effets.",
+    "pt": "Coloca uma armadilha que inflige danos de terra.\nOs danos da armadilha aumentam para cada inimigo em zona ao redor da armadilha antes de aplicar seus efeitos."
    },
    "id": 12948,
    "kind": {
@@ -43395,7 +43398,7 @@
     "de": "Verringert den vom anvisierten Verbündeten erlittenen Schaden, macht ihn Unblockbar und versetzt ihn in den Zustand „Entrinnen“:\n• Bewegt das Ziel von seinem Angreifer weg und erhöht die BP des Ziels, wenn es von einem Gegner angegriffen wird (3-mal kumulierbar).\n\nDer Rückstoß verursacht keinen Schaden.",
     "en": "Reduces damage suffered by the targeted ally, makes them Unlockable and applies the Evasion state on them:\n• Moves the target away from their attacker and increases their MP if attacked by an enemy (stackable 3 times).\n\nThe backward movement does not cause damage.",
     "es": "Reduce los daños sufridos por el aliado objetivo, lo vuelve no placable y le aplica el estado Escapatoria:\n• Aleja al objetivo de su atacante y aumenta sus PM si es atacado por un enemigo (acumulable 3 veces).\n\nEl retroceso no provoca daños.",
-    "fr": "Réduit les dommages subis par l'allié ciblé, le rend Intaclable et lui applique l'état Dérobade :\n• Éloigne la cible de son attaquant et augmente ses PM si elle est attaquée par un ennemi (cumulable 3 fois).\n\nLe recul ne fait pas de dommages.",
+    "fr": "Réduit les dommages subis par l'allié ciblé, le rend Intaclable et lui applique l'état Dérobade :\n• Éloigne la cible de son attaquant et augmente ses PM si elle est attaquée par un ennemi (cumulable 3 fois).\n\nLe recul n'occasionne pas de dommages.",
     "pt": "Reduz os danos sofridos pelo aliado visado, deixa-o Imbloqueável e aplica o estado Escapatória.\n• Afasta o alvo do atacante e aumenta seus PM se ele for atacado por um inimigo (acumula 3 vezes).\n\nO recuo não inflige danos."
    },
    "id": 14312,
@@ -43837,7 +43840,7 @@
     "de": "Wendet zum Rundenende ein Luftgift auf den anvisierten Gegner an und versetzt ihn in den Zustand „Epidemie“:\n• Verbreitet das Gift am Ende der Runde des Ziels auf die Gegner im Wirkungsbereich rund um das Ziel und versetzt sie ebenfalls in den Zustand.\n\nDer Zaubernde und sein Doppelgänger können als Ziel dienen, um das Gift auf andere zu verbreiten.\nHat keine Wirkung auf statische Beschwörungen.",
     "en": "Applies an end-of-turn Air poison on the targeted enemy and applies the Epidemic state on the enemy:\n• At the end of the target's turn, spreads the poison and the state to enemies in an area of effect around the target.\n\nThe caster and their double can act as a target to spread the poison.\nDoes not affect static summons.",
     "es": "Aplica un veneno de aire de final de turno al enemigo objetivo y le aplica el estado Epidemia:\n• Al final del turno del objetivo, propaga el veneno y el estado a los enemigos en zona a su alrededor.\n\nEl lanzador y su doble pueden servir como objetivos para propagar el veneno.\nNo afecta a las invocaciones estáticas.",
-    "fr": "Applique un poison Air de fin de tour sur l'ennemi ciblé et lui applique l'état Épidémie :\n• À la fin du tour de la cible, propage le poison et l'état sur les ennemis en zone autour d'elle.\n\nLe lanceur et son double peuvent servir de cible pour propager le poison.\nN'affecte pas les invocations statiques.",
+    "fr": "Applique un poison Air de fin de tour sur l'ennemi ciblé et lui applique l'état Épidémie :\n• Propage le poison et l'état sur les ennemis en zone autour de la cible à la fin de son tour.\n\nLe lanceur et son double peuvent servir de cible pour propager le poison.\nN'affecte pas les invocations statiques.",
     "pt": "Aplica um veneno de ar de fim de turno em um inimigo visado e o estado Epidemia:\n• No fim do turno do alvo, propaga o veneno e o estado aos inimigos em zona ao redor dele.\n\nO lançador e seu dublê podem servir de alvo para propagar o veneno.\nNão afeta as invocações estáticas."
    },
    "id": 12943,
@@ -43983,11 +43986,11 @@
     3
    ],
    "description": {
-    "de": "Stellt eine Falle auf einem einzelnen Feld und versetzt im Wirkungsbereich in den Zustand „Schwerkraft“.",
-    "en": "Places a single-cell trap that applies the Gravity state in an area of effect.",
-    "es": "Pone una trampa monocasilla que aplica el estado Pesante en zona.",
-    "fr": "Pose un piège mono-cellule qui applique l'état Pesanteur en zone.",
-    "pt": "Coloca uma armadilha de célula única que aplica o estado Gravidade em zona."
+    "de": "Stellt eine Falle auf einem einzelnen Feld, die die Einheiten im Wirkungsbereich in den Zustand „Schwerkraft“ versetzt.",
+    "en": "Places a single-cell trap that applies the Gravity state to entities in an area of effect.",
+    "es": "Pone una trampa monocasilla que aplica el estado Pesante a las entidades en zona.",
+    "fr": "Pose un piège mono-cellule qui applique l'état Pesanteur sur les entités en zone.",
+    "pt": "Coloca uma armadilha de célula única que aplica o estado Gravidade nas entidades em zona."
    },
    "id": 14314,
    "kind": {
@@ -44306,11 +44309,11 @@
     4
    ],
    "description": {
-    "de": "Stellt eine Falle auf einem einzelnen Feld, die Feuerschaden im Wirkungsbereich verursacht.\nDer Schaden ist auf dem mittleren Feld höher und hängt von der Entfernung zur Falle ab.\n\nHat keine Wirkung auf die Einheit, die die Falle auslöst, wenn es sich dabei um einen Verbündeten handelt.",
+    "de": "Platziert eine Falle auf einem einzelnen Feld, die Feuerschaden im Wirkungsbereich verursacht.\nDer Schaden ist auf dem mittleren Feld höher und im Wirkungsbereich um 30 % abgestuft.\n\nHat keine Wirkung auf die Einheit, die die Falle auslöst, wenn es sich dabei um einen Verbündeten handelt.",
     "en": "Places a single-cell trap that inflicts Fire damage in an area of effect.\nThe damage is greater on the central cell, based on the distance from the trap.\n\nIf an ally triggers the trap, they are not affected.",
-    "es": "Pone una trampa monocasilla que ocasiona daños de fuego en zona.\nLos daños son mayores en la casilla central y según la distancia con la trampa.\n\nNo afecta a la entidad que activa la trampa si es un aliado.",
+    "es": "Coloca una trampa de una casilla que ocasiona daños de fuego en zona.\nLos daños son mayores en la casilla central y son progresivos un 30% en la zona.\n\nNo afecta a la entidad que activa la trampa si es un aliado.",
     "fr": "Pose un piège mono-cellule qui occasionne des dommages Feu en zone.\nLes dommages sont plus importants sur la case centrale et selon la distance avec le piège.\n\nN'affecte pas l'entité qui déclenche le piège si c'est un allié.",
-    "pt": "Coloca uma armadilha de célula única que inflige danos de fogo em zona.\nOs danos aumentam na célula central em função da distância até a armadilha.\n\nNão afeta a entidade que aciona a armadilha se for um aliado."
+    "pt": "Coloca uma armadilha de célula única que inflige danos de fogo em zona.\nOs danos aumentam na célula central e são progressivos em 30% em zona.\n\nNão afeta a entidade que aciona a armadilha se for um aliado."
    },
    "id": 12941,
    "kind": {
@@ -46329,9 +46332,6 @@
    "ap": [
     2
    ],
-   "cooldown": [
-    1
-   ],
    "description": {
     "de": "Teleportiert den Zaubernden oder tauscht zu Beginn seiner nächsten Runde die Position des Zaubernden mit der Einheit auf dem anvisierten Feld.\n\nKann den Zustand „Telefrag“ erzeugen.",
     "en": "Teleports the caster or switches their position with the entity on the targeted cell on the following turn.\n\nCan generate a Telefrag.",
@@ -46357,6 +46357,9 @@
     "fr": "Prémonition",
     "pt": "Premonição"
    },
+   "per_turn": [
+    1
+   ],
    "range": [
     [
      0,
@@ -46425,7 +46428,7 @@
     "de": "Entzieht den Gegnern AP, fügt ihnen Feuerschaden zu und versetzt das Ziel in den Zustand „Sanduhr“:\n• Fügt den Gegnern im Wirkungsbereich zeitverzögert Feuerschaden zu.\n\nDie Zeitverzögerung reduziert sich mit jedem beim Ziel verbrauchten Telefrag.",
     "en": "Removes AP from and inflicts Fire damage on enemies and applies the Sandglass state on the target:\n• Inflicts delayed Fire damage on enemies in an area of effect.\n\nThe delay is reduced for each Telefrag consumed on the target.",
     "es": "Retira PA, ocasiona daños de fuego a los enemigos y aplica el estado Reloj de Arena al objetivo:\n• Ocasiona daños de fuego de efecto retardado a los enemigos en zona.\n\nEl efecto retardado se reduce por cada telefrag consumido en el objetivo.",
-    "fr": "Retire des PA et occasionne des dommages Feu aux ennemis et applique l'état Sablier sur la cible :\n• Occasionne des dommages Feu à retardement aux ennemis en zone.\n\nLe retardement est réduit pour chaque Téléfrag consommé sur la cible.",
+    "fr": "Retire des PA et occasionne des dommages Feu aux ennemis et applique l'état Sablier sur la cible :\n• Occasionne des dommages Feu aux ennemis en zone lors de l'expiration de l'état.\n\nLa durée de l'état est réduite pour chaque Téléfrag consommé sur la cible.",
     "pt": "Retira PA e inflige danos de fogo aos inimigos e aplica o estado Ampulheta no alvo:\n• Inflige danos de fogo aos inimigos em zona com atraso.\n\nO atraso é reduzido para cada Telefrag consumido no alvo."
    },
    "id": 13261,
@@ -46474,7 +46477,7 @@
     "de": "Verringert den vom anvisierten Verbündeten erlittenen Schaden und versetzt ihn in den Zustand „Bewahrung“:\n• Erhöht die AP des Ziels mit jedem gegnerischen Angriff (2-mal kumulierbar).",
     "en": "Reduces damage suffered by the targeted ally and applies the Conservation state on the ally:\n• Increases the target's AP for each enemy attack (stackable 2 times).",
     "es": "Reduce los daños sufridos por el aliado objetivo y le aplica el estado Conservación:\n• Aumenta los PA del objetivo por cada ataque enemigo (acumulable 2 veces).",
-    "fr": "Réduit les dommages subis par l'allié ciblé et lui applique l'état Conservation :\n• Augmente les PA de la cible pour chaque attaque ennemie (cumulable 2 fois).",
+    "fr": "Réduit les dommages subis par l'allié ciblé et lui applique l'état Conservation :\n• Augmente les PA de la cible pour chaque attaque ennemie subie (cumulable 2 fois).",
     "pt": "Reduz os danos sofridos pelo aliado visado e aplica o estado Conservação:\n• Aumenta os PA do alvo para cada ataque inimigo (pode ser acumulado 2 vezes)."
    },
    "id": 13291,
@@ -46916,10 +46919,10 @@
   },
   {
    "ap": [
-    4
+    3
    ],
    "cooldown": [
-    3
+    2
    ],
    "crit": [
     5
@@ -46952,7 +46955,7 @@
    "range": [
     [
      0,
-     3
+     2
     ]
    ],
    "stacks": [
@@ -47748,11 +47751,11 @@
     1
    ],
    "description": {
-    "de": "Pestilenzwolke:\n• Wenn der Träger wieder 90 % seiner Lebenspunkte hat, wendet er am Anfang der Runde für 2 Runden ein Gift von 18 in seinem besten Angriffselement auf Einheiten an, die maximal 2 Felder von ihm entfernt sind (1-mal kumulierbar).",
+    "de": "Pestilenzwolke:\n• Wenn der Träger wieder 90 % seiner Lebenspunkte hat, wendet er am Anfang der Runde für 2 Runden ein Gift von 18 in seinem besten Angriffselement auf Gegner an, die maximal 2 Felder von ihm entfernt sind (1-mal kumulierbar).",
     "en": "Pestilential Fog:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on entities within 2 cells or less of the bearer for 2 turns (stackable 1 time).",
-    "es": "Nube Pestilente:\n• Cuando el portador sube al 90% de su vida, aplica un veneno de inicio de turno de 18 con su mejor elemento de ataque a las entidades a 2 casillas o menos de él durante 2 turnos (acumulable 1 vez).",
-    "fr": "Nuée Pestilentielle :\n• Lorsque le porteur remonte à 90% de sa vie, il applique un poison de début de tour de 18 dans son meilleur élément d'attaque sur les entités à 2 cases ou moins de lui pendant 2 tours (cumulable 1 fois).",
-    "pt": "Nuvem Pestilenta:\n• Quando o portador volta a ter 90% da vida, ele aplica um veneno de início de turno de 18 em seu melhor elemento de ataque às entidades a até 2 células dele por 2 turnos (acumula 1 vez)."
+    "es": "Nube Pestilente:\n• Cuando el portador sube al 90% de su vida, aplica un veneno de inicio de turno de 18 con su mejor elemento de ataque a los enemigos a 2 casillas o menos de él durante 2 turnos (acumulable 1 vez).",
+    "fr": "Nuée Pestilentielle :\n• Lorsque le porteur remonte à 90% de sa vie, il applique un poison de début de tour de 18 dans son meilleur élément d'attaque sur les ennemis à 2 cases ou moins de lui pendant 2 tours (cumulable 1 fois).",
+    "pt": "Nuvem Pestilenta:\n• Quando o portador volta a ter 90% da vida, ele aplica um veneno de início de turno de 18 em seu melhor elemento de ataque aos inimigos a até 2 células dele por 2 turnos (acumula até 1 vez)."
    },
    "id": 15975,
    "kind": {
@@ -47791,9 +47794,9 @@
    "description": {
     "de": "Toxizität des Skorpiuts (Stufe 200):\n• Zu Beginn jeder Runde fügt sich der Träger selbst 8 Schaden in seinem besten Angriffselement zu, um Einheiten in Reichweite am Ende seiner Runde ebenfalls Schaden zuzufügen.",
     "en": "Scurvion Toxicity (level 200):\n• At the start of each turn, the bearer inflicts 8 damage on themself in their best attack element to inflict that damage on adjacent entities at the end of the bearer's turn.",
-    "es": "Toxicidad del Scorbuto (nivel 200):\n• Al principio de cada turno, el portador se inflige 8 de daño con su mejor elemento de ataque y se lo inflige a las entidades en contacto con él al final de su turno.",
+    "es": "Toxicidad del Scorbuto (nivel 200):\n• Al principio de cada turno, el portador se inflige 8 de daños con su mejor elemento de ataque y se los inflige a las entidades en contacto con él al final de su turno.",
     "fr": "Toxicité du Scorbute (niveau 200) :\n• À chaque début de tour, le porteur s'inflige 8 de dommages dans son meilleur élément d'attaque pour les infliger aux entités à son contact à la fin de son tour.",
-    "pt": "Toxicidade do Scorbuto (Nível 200):\n• No começo de cada turno, o portador inflige a si mesmo 8 de danos em seu melhor elemento de ataque para infligi-los às entidades em contato com ele no final do turno."
+    "pt": "Toxicidade do Scorbuto (nível 200):\n• No começo de cada turno, o portador inflige a si mesmo 8 de danos em seu melhor elemento de ataque para infligi-los às entidades em contato com ele no final de seu turno."
    },
    "id": 12505,
    "kind": {

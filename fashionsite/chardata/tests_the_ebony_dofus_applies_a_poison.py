@@ -1,49 +1,17 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le Dofus Ebene applique UN poison, pas cinq coups.
-
-Le client range l'effet de ce Dofus comme un sort: cinq lignes de degats et un
-cout en PA. La fiche de l'objet, elle, dit ce qui se passe vraiment. Lue le 12
-septembre 2026 dans notre catalogue, en anglais sur Dofus 3:
-
-    <<Triggering both effects during the turn allows the next attack to apply
-    a 16 poison in its element for 2 turns (stackable 2 times).>>
-
-Trois choses que la page disait faux, sur Dofus 3 comme sur Dofus 2:
-
-- les cinq lignes elementaires etaient lues comme simultanees, soit **80
-  annonces la ou le jeu en met 16**. Le poison tombe dans SON element, celui
-  de l'attaque qui l'applique: ce sont cinq faces, pas une somme;
-- **1 PA** etait affiche pour un effet que le joueur ne lance jamais: il est
-  applique par sa prochaine attaque;
-- le nombre de cumuls affiche sur Dofus 3 etait **5**, celui du bonus de 2%
-  de dommages, alors que le POISON se cumule 2 fois.
-
-Rien ne disait non plus a quelle condition il tombe. Il la dit maintenant,
-dans les cinq langues.
-
-Le meme defaut avait deja ete corrige une fois, pour le Bluff de Retro
-(<<Coup dans un element au hasard>>): deux lignes lues comme deux coups la ou
-le jeu n'en tire qu'un.
-"""
+"""The Ebony Dofus applies one poison in the attack's element, not five hits."""
 
 from django.test import SimpleTestCase
 
 VERSIONS_CONCERNEES = ('dofus3', 'beta', 'dofus2')
 
-#: La phrase de la fiche de l'objet sur laquelle repose tout ce module, par
-#: version, en anglais. Un test la relit dans le catalogue: si Ankama la
-#: reecrit, la question se repose au lieu de rester repondue par habitude.
+# The item card wording this module rests on, per version
 CE_QUE_L_OBJET_DIT = {
-    # <<Triggering both effects during the turn allows the next attack to
-    # apply a 16 poison in its element for 2 turns (stackable 2 times)>>, les
-    # deux effets etant l'attaque en melee et l'attaque a distance.
     'dofus3': ('poison in its element', 'stackable 2 times',
                'close combat', 'from range'),
     'beta': ('poison in its element', 'stackable 2 times',
              'close combat', 'from range'),
-    # Dofus 2 le dit autrement et avec un trait d'union: <<Inflicting ranged
-    # damage and close-combat damage during one's turn triggers the Ebony
-    # Dofus's power: the next attack during the same turn applies a poison>>.
+    # Dofus 2 words it differently, with a hyphen
     'dofus2': ('applies a poison', 'stacked 2 times',
                'close-combat damage', 'ranged damage'),
 }
@@ -83,9 +51,6 @@ class TheItemStillSaysWhatThisRestsOnTests(SimpleTestCase):
                     self.assertIn(phrase, texte)
 
     def test_the_two_clients_word_it_differently(self):
-        """Chaque version est un jeu different, et l'ecrit avec ses mots: la
-        table ci-dessus cite ceux de chacune plutot qu'un seul jeu de mots
-        qui ne tiendrait que sur l'une d'elles."""
         dofus3 = _texte_de_l_objet('dofus3').lower()
         dofus2 = _texte_de_l_objet('dofus2').lower()
         self.assertIn('close combat', dofus3)
@@ -96,7 +61,7 @@ class TheItemStillSaysWhatThisRestsOnTests(SimpleTestCase):
 class OnePoisonLandsAndNotFiveTests(SimpleTestCase):
 
     def test_the_element_rows_are_alternatives(self):
-        """La fonction qui decide <<une seule tombe>> doit les reconnaitre."""
+        """_element_alternatives reads the five rows as one of five."""
         from chardata.spell_combo import _element_alternatives
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
@@ -109,12 +74,7 @@ class OnePoisonLandsAndNotFiveTests(SimpleTestCase):
                     self.assertEqual(1, len(groupe))
 
     def test_the_turn_reads_sixteen_and_not_eighty(self):
-        """Le nombre lui-meme, par le chemin que le site emprunte.
-
-        Les cinq lignes valent 16 chacune et leur somme fait 80: c'est ce que
-        la page annoncait. Lues comme des faces, une seule tombe et le compte
-        est 16.
-        """
+        """Five rows of 16 are faces, not a sum of 80."""
         from chardata.spell_combo import _element_alternatives
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
@@ -130,7 +90,7 @@ class OnePoisonLandsAndNotFiveTests(SimpleTestCase):
                 self.assertEqual(16, max(tombent), 'une seule tombe')
 
     def test_nobody_is_charged_ap_for_it(self):
-        """Le joueur ne le lance pas: sa prochaine attaque l'applique."""
+        """Nobody casts it, the next attack applies it."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 sort = _sort_partage(version)
@@ -138,8 +98,7 @@ class OnePoisonLandsAndNotFiveTests(SimpleTestCase):
                 self.assertIsNone(sort.ap_cost())
 
     def test_the_poison_stacks_twice_on_the_three_versions(self):
-        """Le 5 de Dofus 3 etait celui du bonus de 2% de dommages, un autre
-        effet du meme Dofus."""
+        """The 5 stacks on Dofus 3 belong to the 2% damage bonus, not the poison."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 self.assertEqual(2, _sort_partage(version).stacks)
@@ -152,7 +111,7 @@ class OnePoisonLandsAndNotFiveTests(SimpleTestCase):
                 self.assertEqual(attendu, sort.conditional)
 
     def test_it_still_lands_at_the_start_of_a_turn(self):
-        """Un poison ne frappe pas au moment ou il est pose."""
+        """A poison hits at turn start, not when applied."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 sort = _sort_partage(version)
@@ -188,14 +147,7 @@ class TheCardSaysItInTheReaderLanguageTests(SimpleTestCase):
         self.assertIn('mêlée', carte['conditional']['0'])
 
     def test_the_five_faces_are_one_poison_and_not_five(self):
-        """Cinq lignes etiquetees, ou cinq lignes empilees, feraient lire cinq
-        poisons la ou la fiche n'en applique qu'un.
-
-        Le garde demandait avant que les quatre lignes suivantes ne portent
-        pas de seconde etiquette, ce qui laissait passer la pile elle-meme.
-        Depuis que les faces d'un seul coup sont fusionnees
-        (`tests_a_hit_that_lands_in_one_element_is_drawn_once`), il n'y a plus
-        qu'un groupe: il porte les cinq lignes, et rien ne suit."""
+        """One group carries the five rows."""
         carte = self._carte('en')
         groupes = carte['aggregates']
         self.assertEqual(1, len(groupes), groupes)

@@ -68,16 +68,13 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
         if entry is not None:
             web_digest['reference'] = _reference_digest(entry)
         digests.append(web_digest)
-    # The spells the class has that neither hurt nor buff: they were missing
-    # from the page entirely.
-    shown = {getattr(spell, 'spell_id', None) for spell in class_spells}
+    # Spells that neither hurt nor buff
+    shown ={getattr(spell, 'spell_id', None) for spell in class_spells}
     for spell_id, entry in reference.items():
         if spell_id not in shown:
             digests.append(_create_reference_web_digest(entry, game_version,
                                                        char.level))
-    # Import local, comme `solution_view` importe `_best_combo` d'ici: les
-    # deux vues se servent l'une de l'autre et aucune ne doit dependre de
-    # l'ordre de chargement.
+    # Local import: solution_view imports _best_combo from here
     from chardata.solution_view import pieces_above_the_character_level
     hors_niveau = pieces_above_the_character_level(char, solution)
     digests_json = jsonpickle.encode(digests, unpicklable=False)
@@ -89,14 +86,10 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          'encoded_char_id': encoded_char_id,
                          'user': request.user,
                          'digests_json': digests_json,
-                         # The page must call a hit type non-elemental exactly
-                         # where the damage formula does.
                          'non_elemental_hits_json': jsonpickle.encode(
                              list(NON_ELEMENTAL_HIT_TYPES), unpicklable=False),
                          'char_id': char_id,
                          'char_level': char.level,
-                         # The build page says it right above the best turn,
-                         # and the best turn is the link that leads here.
                          'pieces_above_level': hors_niveau,
                          'pieces_above_level_text': ', '.join(
                              '%s %s' % (piece['name'], piece['level'])
@@ -105,16 +98,10 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                          'crit_is_fraction': game_version == 'retro',
                          'char_stats_json': stats_json,
                          'best_combo': _best_combo(char, solution, game_version),
-                         # Only a shared build has a public url to name; an
-                         # owner reading their own would otherwise point at a
-                         # page that refuses everyone else.
                          'canonical_path': (
                              spells_linked_path(char, encoded_char_id)
                              if char.link_shared and encoded_char_id else ''),
-                         # Meme raison que la page du build : cette adresse
-                         # porte la version et pas la langue, donc ses cinq
-                         # formes sont canoniques a la meme et un groupe qui
-                         # les nommerait ne serait pas reciproque.
+                         # The url carries the version, not the language
                          'hreflang_urls': {},
                          'no_class_spells': len(class_spells) == 0,
                          'names_are_english': _names_are_english(
@@ -122,15 +109,7 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                         char)
 
 def _variant_partner_names(spells, game_version):
-    """{nom du sort: nom traduit de l'autre face}, vide sans variantes.
-
-    Un sort de classe de Dofus 3 vient par paire et un combat n'en arme
-    qu'une des deux, donc un tour tient l'une ou l'autre, jamais les deux.
-    C'est la meme source que celle dont le simulateur de tour se sert pour
-    interdire la paire (`spell_combo._variant_partners`), lue ici pour que
-    la page dise ce que le calcul fait deja. Dofus 2, Touch et Retro n'ont
-    jamais eu de variantes: la table est alors vide et rien ne s'affiche.
-    """
+    """{spell name: localized name of its variant partner}"""
     from chardata.spell_variants import variant_of
     langue = get_supported_language()
     par_variante = {}
@@ -141,8 +120,6 @@ def _variant_partner_names(spells, game_version):
     noms = {}
     for groupe in par_variante.values():
         if len(groupe) != 2:
-            # Trois faces n'existent pas, et une seule face modelisee ne
-            # donne personne a nommer.
             continue
         premier, second = groupe
         noms[premier.name] = _localized_spell_name(second.name, langue,
@@ -166,8 +143,7 @@ def _reference_digest(entry):
 
 
 def _create_reference_web_digest(entry, game_version, char_level=None):
-    """A spell that neither hurts nor buffs: the page still lists it, with what
-    the game says and no damage table."""
+    """A spell that neither hurts nor buffs, with no damage table."""
     language = get_supported_language()
     name = localized(entry, 'name', language)
     levels = entry.get('levels') or [1]
@@ -177,11 +153,6 @@ def _create_reference_web_digest(entry, game_version, char_level=None):
             'level': levels,
             **_reach(levels, char_level),
             'stacks': None,
-            # The two paths that draw a spell icon have to agree. The other one
-            # (in the cast list below) passes the damage table's own canonical
-            # name, which already is French on Retro and Touch and English
-            # elsewhere, and it has always worked. This one forced English and
-            # 404ed everything Retro and Touch had.
             'image_url': _spell_image_url(
                 _reference_icon_name(entry, name, game_version), game_version),
             'hit_number': 0,
@@ -194,27 +165,7 @@ def _create_reference_web_digest(entry, game_version, char_level=None):
             'reference': _reference_digest(entry)}
 
 
-#: The language each version's spell icons are FILED under, which is not always
-#: the language a reader is reading in and is not the same across versions.
-#: Measured 2026-09-09 over the shipped files and the spell reference:
-#:
-#:   dofus3   862 files, English    852 spells,   1 without an icon
-#:   beta     553 files, English    852 spells, 298 without one
-#:   dofus2    66 files, English    836 spells, 770 without one
-#:   retro    109 files, FRENCH     252 spells, 242 missed under English,
-#:                                              99 of them present in French
-#:   touch    179 files, FRENCH     330 spells, 303 missed under English,
-#:                                             152 of them present in French
-#:
-#: So 251 icons were on disk and asked for under a name they do not have, and
-#: every Retro and Touch spell page 404ed its icons in all five languages.
-#: Both scrapers say so in their own docstrings ("chardata/spells/touch/<French
-#: name>.png", "spells/retro/<name_fr>.png"); this file said the opposite, and
-#: the two comments had contradicted each other from the start.
-#:
-#: Whatever the language, it is FIXED per version: the icon a reader gets must
-#: not follow the language they read in, or every page would ask for a
-#: different file.
+# Retro and Touch spell icons are filed under their French names
 SPELL_ICON_LANGUAGE = {'retro': 'fr', 'touch': 'fr'}
 
 
@@ -234,7 +185,7 @@ def _create_weapon_web_digest(weapon):
     web_digest['name'] = weapon.localized_name
     web_digest['level'] = weapon.level
     web_digest['image_url'] = static(get_image_url(weapon.type, weapon.name))
-    # The same numbers the spells carry, so a weapon can be read beside them.
+    # Same fields as a spell's reference
     web_digest['reference'] = {
         'description': '',
         'kind': getattr(weapon, 'weapon_type', '') or '',
@@ -271,8 +222,7 @@ def _create_weapon_web_digest(weapon):
     return web_digest
 
 def _localized_spell_name(name, language, game_version):
-    # Retro and Touch spell names live in a version-specific map keyed by the French
-    # name (Spell.name); other versions use the shared English-keyed localization.
+    # Retro and Touch name maps are keyed by the French name
     version_names = None
     if game_version == 'retro':
         from fashionistapulp.dofus_constants_retro_spells import RETRO_SPELL_NAMES
@@ -293,8 +243,7 @@ _dofus2_spell_icons = None
 
 
 def _dofus2_spell_icon_names():
-    """The spells Dofus 2 keeps its own icon for; the rest come from the
-    Dofus 3 folder."""
+    """Spells Dofus 2 has its own icon for; the rest use the Dofus 3 folder."""
     global _dofus2_spell_icons
     if _dofus2_spell_icons is None:
         _dofus2_spell_icons = frozenset(
@@ -304,13 +253,7 @@ def _dofus2_spell_icon_names():
 
 
 def _spell_image_url(spell_name, game_version):
-    # The Sram's Con is the one spell whose name Windows reserves, and it
-    # reserves it whatever the extension. Git cannot index such a file at all:
-    # `git add` answers "no such file" on a name Python has just written. So
-    # Con.png was ignored rather than fixed, never reached a deploy, and the
-    # spell showed a broken icon while the file sat on the scraper's disk. The
-    # scrapers write the escaped stem and the page has to ask for the same one,
-    # which is why the rule lives in fashionistapulp rather than in either.
+    # Same escaped stem the scrapers write (Windows reserves names like Con)
     stem = safe_asset_stem(spell_name)
     if game_version in ('beta', 'retro', 'touch'):
         spell_dir = 'chardata/spells/%s/' % game_version
@@ -348,7 +291,10 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                                       game_version, buff_state,
                                       levels).items():
         stats[stat] = stats.get(stat, 0) + delta
-    ap = combat_ap(stats.get('ap'), game_version)
+    # AP cap of the stored solve, like the stats
+    from chardata.temporix_mode import solution_uses_temporix
+    ap = combat_ap(stats.get('ap'), game_version,
+                   temporix=solution_uses_temporix(solution, game_version))
     spells = castable_spells(char.char_class, char.level, game_version,
                              levels=levels)
     weapon = _weapon_castable(solution)
@@ -365,9 +311,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         return None
     language = get_supported_language()
     by_name = {spell.name: spell for spell in spells}
-    # A poison is the spell's damage and belongs in what the search compares,
-    # but it is not what the turn puts on the target now, so the panel counts
-    # it apart instead of letting it read as burst.
+    # best_turn counts delayed damage, the panel shows it apart
     later = delayed_damage(stats, spells, order, standing=standing,
                            game_version=game_version)
     moments = delayed_moments(spells, order)
@@ -381,13 +325,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
     for index, (name, damage) in enumerate(order):
         damage -= (later.get(name, 0) / times_cast[name]) if name in later else 0
         running += damage
-        # Le cumul est arrondi une seule fois, et les degats du lancer sont sa
-        # difference avec le precedent. Arrondir les deux separement donne un
-        # panneau qui ne s'additionne pas: mesure du 12 septembre 2026 sur 83
-        # panneaux, toutes les classes des cinq versions, 46 dont la colonne
-        # des degats ne retombait pas sur celle du cumul, jusqu'a 2 d'ecart,
-        # et deux Iop dont le total en tete n'etait meme pas le dernier cumul.
-        # Le lecteur qui verifie l'addition doit tomber juste.
+        # Round the running total once, each cast is the difference
         before = shown
         shown = int(round(running))
         castable = by_name[name]
@@ -405,17 +343,10 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
                       'running': shown,
                       'note': _cast_note(castable, name, later,
                                          shown - before, game_version),
-                      # Independant de la note precedente: un sort de buff
-                      # peut etre a sa limite, et les deux sont vraies.
                       'limit_mark': limit_notes.get(index, ('', ''))[0],
                       'limit_title': limit_notes.get(index, ('', ''))[1]})
     late = []
-    # Meme regle que l'echelle des lancers plus haut: le cumul est arrondi une
-    # seule fois et chaque ligne est sa difference avec la precedente.
-    # Arrondir chaque ligne et le total separement donnait un bloc qui ne
-    # s'additionne pas: mesure du 13 septembre 2026 sur 384 panneaux a deux
-    # lignes d'un Osamodas Dofus 2, 75 ou la somme des lignes depassait le
-    # total affiche (214 et 290 sous un total de 503).
+    # Same rounding as the casts above
     cumul_differe = 0.0
     montre_differe = 0
     for name in sorted(later):
@@ -442,40 +373,25 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             'damage': int(round(damage)),
             'label': str(_CONDITIONAL_LABELS.get(trigger, trigger)),
         })
-    # Vrai tant que le lecteur n'a baisse aucun rang. Les armes n'en ont pas.
     au_plus_haut = all(getattr(castable, 'at_highest_rank', True)
                        for castable in spells
                        if getattr(castable, 'is_spell', False))
     return {'casts': casts,
-            # Ce que valent les buffs que le tour a choisi de lancer. Le
-            # panneau disait deja qu'un buff n'a pas de degats en propre; il
-            # ne disait pas combien il rapporte, et c'est la question que pose
-            # un lecteur qui voit 1 PA depense pour 0.
             'without_buffs_note': _without_buffs_note(
                 stats, spells, order, ap, standing, game_version, pushback,
                 char.level),
             'rank_note': str(_RANK_NOTES['highest' if au_plus_haut
                                          else 'picked']),
-            # `standing` porte les buffs REELLEMENT en force, pas ceux que la
-            # page a postes: une case cochee sous le niveau requis n'en met
-            # aucun, et la phrase doit suivre ce qui a servi au calcul.
+            # standing holds the buffs really in force, not every ticked box
             'buff_note': str(_BUFF_NOTES['on' if standing else 'off']),
-            # Dite seulement quand le build porte une des deux stats: 9 builds
-            # sur 10 ne sont pas concernes et n'ont pas besoin du bruit.
             'melee_note': _melee_note(stats),
-            # Dite seulement sur la version qui a la mecanique.
             'crit_failure_note': (str(_CRIT_FAILURE_NOTE)
                                   if game_version == 'retro' else ''),
             'later': late,
-            # Le dernier cumul, donc exactement la somme des lignes
-            # ci-dessus, et la meme valeur qu'un arrondi de la somme.
             'later_total': montre_differe,
             'pushback': bool(pushback),
             'can_push': any(getattr(spell, 'push_cells', 0)
                             for spell in spells),
-            # Le dernier cumul, et non un arrondi calcule a part: les deux
-            # valent la meme chose mais pas toujours au meme entier, et le
-            # total en tete doit etre celui que la liste en dessous atteint.
             'total': casts[-1]['running'],
             'ap_used': sum(cast['ap'] for cast in casts),
             'ap_available': ap,
@@ -483,34 +399,7 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
 
 
 def _limit_notes(spells, order, times_cast, ap):
-    """Le marqueur de plafond a poser, par index de lancer.
-
-    Un sort porte trois plafonds dans la donnee du jeu: lancers par tour,
-    lancers par cible, et temps de relance (qui vaut 1 dans le tour).
-    `Castable.limit` en prend le minimum, donc il est exactement <<le plus que
-    ce tour-la permet sur une cible>>, ce que le panneau annonce justement
-    comme cadre. Une seule phrase couvre donc les trois sans preciser a faux
-    laquelle a joue.
-
-    Le marqueur n'est pose que quand la limite a **faconne** le tour: le sort
-    est lance autant de fois que permis ALORS QUE les PA payaient un lancer de
-    plus. Sinon il n'explique rien et serait du bruit. Il va sur le **dernier**
-    lancer du sort, celui ou la depense s'arrete.
-
-    Mesure du 12 septembre 2026, un panneau par classe sur les cinq versions,
-    83 panneaux: **79, soit 95,2 %, sont faconnes par une limite** sans que
-    rien ne le dise, et 174 des 331 lignes le seraient. C'est ce nombre qui a
-    decide la forme: une phrase sous une ligne sur deux etait du bruit, donc
-    c'est un marqueur <<2/2>> dans la ligne, sans ligne ajoutee, et la phrase
-    passe en infobulle.
-
-    Par version: 100 % des panneaux sur Dofus 3, la beta, Dofus 2 et Touch,
-    66,7 % sur Retro. 97,5 % des sorts jouables portent une limite (1789 sur
-    1835), donc le lecteur qui voit un sort une seule fois ne peut pas deviner
-    si le solveur a choisi ou si le jeu refuse.
-
-    Rendu {index: (marqueur, phrase)}.
-    """
+    """{cast index: (mark, sentence)} where a spell's limit cut the turn."""
     par_nom = {}
     for castable in spells:
         nom = (castable.spell.name if getattr(castable, 'is_spell', False)
@@ -530,20 +419,14 @@ def _limit_notes(spells, order, times_cast, ap):
         if not limite or not cout or combien < limite:
             continue
         if (combien + 1) * cout > ap:
-            # Les PA arretaient la depense de toute facon: la limite n'a rien
-            # faconne et le dire n'expliquerait rien.
+            # Out of AP anyway
             continue
         notes[index] = ('%d/%d' % (combien, limite), str(_LIMIT_NOTE))
     return notes
 
 
 def _melee_note(stats):
-    """La phrase sur le % melee et le % distance, ou '' quand le build n'en
-    porte aucun.
-
-    Les libelles viennent du resume du build, pour que le lecteur relie la
-    phrase a la ligne qu'il y voit.
-    """
+    """The % melee and % ranged sentence, or '' when the build has neither."""
     if not any(stats.get(cle) for cle in _UNCOUNTED_STATS):
         return ''
     return str(_MELEE_NOTE) % {'melee': _('% Melee Damage'),
@@ -551,29 +434,7 @@ def _melee_note(stats):
 
 
 def _cast_note(castable, name, later, damage, game_version=None):
-    """Ce que ce lancer a besoin de dire de lui-meme, ou '' s'il se suffit.
-
-    Deux choses, et rien de devine.
-
-    **Un zero** s'explique: un sort dont toutes les lignes sont des buffs n'a
-    rien a poser lui-meme, et un sort dont les degats sont differes a les
-    siens dans le bloc du dessous. Un zero qu'on ne sait pas expliquer reste
-    nu plutot que de recevoir une phrase au hasard.
-
-    **Un nombre** s'explique aussi quand la fiche en affiche plusieurs. Un
-    sort a agregats ne pose qu'un groupe par lancer et la fiche les montre
-    tous: <<Cumul 0>> a <<Cumul 4>>, <<2 PA utilises ce tour>>, <<Avec
-    Telefrag>>. Le panneau annoncait son nombre sans dire lequel il avait lu,
-    donc le lecteur qui verifiait trouvait cinq valeurs en face d'une.
-    `scored_group_label` rend le libelle seulement quand il y a un choix a
-    nommer et que ce choix ne depend pas des stats.
-
-    Mesure du 14 septembre 2026, 1044 tours sur toutes les classes des cinq
-    versions, a trois niveaux et quatre profils d'element: **60 tours (5,7%)
-    portent au moins une de ces lignes**, 88 lignes sur 3982. Dont un Cra de
-    niveau 50 qui lance deux fois la Fleche d'Immobilisation, le sort dont
-    Ankama ecrit que les degats montent apres chaque lancer.
-    """
+    """Why a cast shows zero, or which group it counted, or ''."""
     if int(round(damage)):
         group = getattr(castable, 'scored_group', '')
         if group:
@@ -589,11 +450,7 @@ def _cast_note(castable, name, later, damage, game_version=None):
 
 
 def _buff_casts(spells, order):
-    """Les sorts que le tour lance et qui ne frappent pas.
-
-    Meme condition que `_cast_note`, pour que la phrase et la note posee sur
-    la ligne du lancer ne puissent pas se contredire.
-    """
+    """Spells the turn casts that only buff, same test as _cast_note."""
     lances = {name for name, _damage in order}
     return {spell.name for spell in spells
             if spell.name in lances
@@ -602,19 +459,7 @@ def _buff_casts(spells, order):
 
 
 def _burst_total(stats, spells, order, standing, game_version):
-    """Le total tel que le panneau l'affiche: le tour moins ce qui tombe plus
-    tard.
-
-    `best_turn` maximise le tour **poison compris**, le panneau montre ce que
-    la cible prend maintenant. Les deux nombres sont donc differents pour un
-    meme tour: sur un Cra de niveau 200 a cinq pieces, 1709 pour le solveur et
-    1241 pour le panneau. Comparer l'un a l'autre invente un ecart qui
-    n'existe pas, ce qui est arrive a la premiere version de
-    `_without_buffs_note`.
-
-    Le meme arrondi que la boucle des lancers, pour la meme raison: le cumul
-    est arrondi une seule fois.
-    """
+    """Total as the panel shows it: the turn minus what lands later."""
     from chardata.spell_combo import delayed_damage
     later = delayed_damage(stats, spells, order, standing=standing,
                            game_version=game_version)
@@ -633,27 +478,7 @@ def _burst_total(stats, spells, order, standing, game_version):
 
 def _without_buffs_note(stats, spells, order, ap, standing, game_version,
                         pushback, caster_level):
-    """Ce que ferait le meme tour sans les buffs qu'il lance.
-
-    Un lecteur qui voit <<Tirs Puissants, 1 PA, 0>> demande pourquoi le tour
-    depense un PA pour rien. La note posee sur la ligne repondait <<il
-    grossit les lancers qui suivent>>, sans dire de combien. La reponse est
-    le meme calcul, prive de ces sorts-la: le solveur y repond deja, il
-    suffit de le relancer.
-
-    **Mesure du 14 septembre 2026 sur les 86 builds locaux:** 43 tours (50%)
-    lancent au moins un buff, arme comprise, et **aucun** n'y perd. Le second
-    appel a `best_turn` coute 2 ms, le meme que le premier, et n'a lieu que
-    sur ces pages-la.
-
-    Le nombre est lu sur **l'echelle du panneau** et non sur celle du
-    solveur, voir `_burst_total`: sur le Cra qui a servi a trouver le defaut,
-    1241 avec les buffs et 1074 sans, quand le solveur dit 1709 et 1412. La
-    premiere version de cette note melangeait les deux et annoncait 1412 sous
-    un total de 1241.
-
-    Rendu vide quand le tour ne lance aucun buff.
-    """
+    """The same turn without the buffs it casts, on the panel's scale."""
     from chardata.spell_combo import best_turn
     buffs = _buff_casts(spells, order)
     if not buffs:
@@ -671,23 +496,7 @@ def _without_buffs_note(stats, spells, order, ap, standing, game_version,
 
 
 def _reach(level_req, char_level):
-    """Ce que le personnage peut vraiment demander: le rang le plus haut que
-    son niveau atteint, et s'il a le sort du tout.
-
-    Decide ici et pas dans la page. Le serveur borne deja le rang qu'on lui
-    demande, dans `_chosen_level`, et la page posait un rond cliquable par rang
-    sans regarder le niveau: la table des degats obeissait au rond et le
-    panneau non, donc les deux se contredisaient et c'etait la table qui
-    montrait des degats hors de portee.
-
-    Mesure du 12 septembre 2026, tous les sorts de toutes les classes: sur un
-    personnage de niveau 1, **93,6 % des rangs offerts en Dofus 3 sont hors de
-    portee** (1057 sur 1129), 62,2 % a 100, et 0 % a 200. C'est ce zero a 200
-    qui explique que personne ne l'ait vu.
-
-    `char_level` a None veut dire <<l'appelant ne parle pas d'un niveau>>: la
-    page de comparaison decide par colonne, chaque build ayant le sien.
-    """
+    """Has the spell, and highest reachable rank; a None level allows all."""
     from chardata.spell_buffs import _decide_spell_level
     levels = list(level_req or [1])
     if char_level is None:
@@ -699,12 +508,7 @@ def _reach(level_req, char_level):
 
 
 def _always_land_by_rank(spell, digest):
-    """{'non_crit': {rang: [indices]}, 'crit': {...}}, ou None s'il n'y en a.
-
-    Par rang ET par critique, parce que la forme varie vraiment: mesure du
-    13 septembre 2026, Mot Alchimique change entre le coup normal et le coup
-    critique sur deux de ses rangs, Coeur de Dragon sur un.
-    """
+    """{'non_crit': {rank: [indices]}, 'crit': {...}}, or None."""
     from chardata.spell_combo import rows_that_always_land
     attente = getattr(spell, 'conditional', None) or {}
     sortie = {}
@@ -721,28 +525,11 @@ def _always_land_by_rank(spell, digest):
     return sortie or None
 
 
-#: Par version, les langues dont plus aucun nom de sort n'est traduit. Lu une
-#: fois: les tables de noms sont des modules generes, elles ne bougent pas
-#: entre deux requetes.
 _NAMES_LEFT_ENGLISH = {}
 
 
 def _languages_left_english(game_version):
-    """Les langues dont le jeu ne fournit plus les noms de sorts.
-
-    Derivee des donnees et non d'une liste ecrite a la main: une langue dont
-    **tous** les noms valent l'anglais n'est plus servie, et elle sortira
-    d'elle-meme de cette liste le jour ou Ankama la resservira.
-
-    Ankama l'a dit de son cote: le 8 septembre 2026, le `config.json` des
-    serveurs Touch a repondu `serverLanguages ["en", "es", "fr", "pt"]`, sans
-    allemand, ce que `itemscraper/download_touch_data.py` lit avant chaque
-    rafraichissement. Mesure du 14 septembre 2026 sur les tables generees:
-    **les 174 noms de sorts Touch** valent leur nom anglais en allemand
-    (<<Afflux>> se lit <<Influx>>, <<Aiguille>> se lit <<Hand>>), contre
-    **4 sur 106** en Retro, qui sont des mots identiques dans les deux langues
-    et non une absence.
-    """
+    """Languages whose spell names all equal the English ones."""
     if game_version in _NAMES_LEFT_ENGLISH:
         return _NAMES_LEFT_ENGLISH[game_version]
     if game_version == 'touch':
@@ -792,11 +579,7 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     web_digest['aggregates'] = convert_aggregates(
         digest.aggregates, game_version,
         digest.non_crit_dams[0] if digest.non_crit_dams else None)
-    # Les lignes qui tombent toujours et que les groupes d'agregats laissent
-    # dehors. La page ne les recalcule pas: c'est le serveur qui decide, pour
-    # que la table des degats et le meilleur tour disent la meme chose du
-    # meme sort. Seuls 44 sorts en portent, donc la clef est absente partout
-    # ailleurs et ne coute rien aux 1900 autres.
+    # Rows that always land, outside the aggregate groups
     web_digest['always_land'] = _always_land_by_rank(spell, digest)
     web_digest['is_linked'] = (
         spell.is_linked[0],
@@ -809,8 +592,7 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     web_digest['delayed'] = {
         str(index): str(_DELAYED_LABELS.get(when, when))
         for index, when in (getattr(spell, 'delayed', None) or {}).items()}
-    # A critical hit can carry a different row list; when it does, the card
-    # labels its block from that one.
+    # A critical hit can have its own row list
     crit_delayed = getattr(spell, 'delayed_crit', None)
     web_digest['delayed_crit'] = (
         {str(index): str(_DELAYED_LABELS.get(when, when))
@@ -861,18 +643,7 @@ def spells(request, char_id=0):
     return _spells(request, char, False, char_id)
 
 def spells_linked_path(char, encoded_char_id):
-    """The one url a shared build's spell page should be indexed under.
-
-    The route captures a name and the view never reads it, so
-    /spells_linked/ANYTHING/<id>/ serves the same page, and the template
-    canonicalised each of them to itself. A build that is renamed keeps
-    answering 200 under its old name, which is how a single page ends up
-    indexed twice. `/s/` was given `shared_build_path` for exactly this and
-    this page was left behind.
-
-    The slug is the one base.html emits, so the canonical IS the link the site
-    hands out rather than a third spelling.
-    """
+    """Canonical url of a shared build's spell page, same slug as base.html."""
     from urllib.parse import quote
     prefix = ('' if char.game_version in (None, '', 'dofus3')
               else '/' + char.game_version)
@@ -909,12 +680,9 @@ def _convert_weapon_damage(base):
     
 
 _BEST_ELEMENT = 'Hit in best element'
-#: Retro's Bluff: Ankama says it hits "aleatoirement" in Air OR Water, so the
-#: reader has to be told the two rows are one roll and not two hits.
+# Retro's Bluff hits in Air or Water at random: one roll, not two hits
 _RANDOM_ELEMENT = 'Hit in one random element'
-#: Le Dofus Ebene: sa fiche dit <<la prochaine attaque applique un poison de
-#: 16 dans SON element>>. Un seul element tombe, celui de l'attaque, donc ses
-#: cinq lignes sont des faces et non une somme de 80.
+# Ebony Dofus poisons in the attack's element only: its five rows are one hit
 _ATTACK_ELEMENT = 'Poison in the element of the attack'
 _STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
 _MP_LABEL = re.compile(r'^(\d+) MP used this turn$')
@@ -922,9 +690,7 @@ _STATE_LABEL = re.compile(r'^State (!?\d+(?:,!?\d+)*)$')
 
 
 def _localized_state_label(token, game_version):
-    """The states the generator wrote as ids, under the names the game gives
-    them. An unknown id leaves the whole label out rather than showing a
-    number."""
+    """State ids under their game names; '' when one is unknown."""
     language = get_supported_language()
     needed, absent = [], []
     for part in token.split(','):
@@ -943,8 +709,7 @@ def _localized_state_label(token, game_version):
 
 
 def _localized_aggregate_label(label, game_version=None):
-    """The generator writes these labels in English and builds them by hand,
-    so they are translated by shape rather than one msgid per number."""
+    """Generator labels are English and built by hand: translate by shape."""
     if label == _BEST_ELEMENT:
         return _('Hit in best element')
     if label == _RANDOM_ELEMENT:
@@ -968,49 +733,18 @@ def _localized_aggregate_label(label, game_version=None):
     return _(label)
 
 
-# What a waiting damage row is waiting for, in the reader's words. Lazy: this
-# dict is built at import, and gettext there would freeze the first language
-# the process happened to serve.
+# Lazy: gettext at import would freeze the first language served
 _DELAYED_LABELS = {
     'turn_begin': _lazy('at the start of a turn'),
     'turn_end': _lazy('at the end of a turn'),
 }
 
-# Les deux stats que le calcul n'applique pas, dites seulement quand le build
-# en porte une. `calculate_damage` multiplie par le % degats de sort et par le
-# % degats d'arme, jamais par le % melee ni par le % distance. Le site les
-# affiche pourtant dans le resume du build, laisse leur donner un poids, les
-# optimise (`smart_build` leur attribue un poids selon une probabilite
-# d'attaque de melee allant de 0,1 pour un Cra a 0,7 pour un Sacrieur) et les
-# compte 35 dans le score public.
-#
-# Les appliquer serait pire que de les taire. Mesure du 12 septembre 2026 sur
-# la reference de sorts, qui porte la portee par rang: **86 % des sorts de
-# Dofus 3 ont une fenetre de portee allant de 1 a N**, donc c'est le lanceur
-# qui decide s'il frappe au contact ou a distance. Seuls 4,9 % sont a distance
-# seulement et 9,2 % au contact seulement. Trancher pour les 86 % restants
-# serait une invention.
-#
-# Ce que cela coute au lecteur, mesure sur les builds de la base locale: 6 sur
-# 63, soit 9,5 %, portent du % distance, et il y vaut **-12** (deux objets a
-# -6). Le panneau SURESTIME donc leurs degats, et rien ne le disait.
-#
-# La phrase reprend les libelles que le resume du build affiche, pour que le
-# lecteur relie les deux, plutot que d'inventer un vocabulaire.
+# calculate_damage never applies % melee or % ranged
 _MELEE_NOTE = _lazy('%(melee)s and %(ranged)s are not counted here: on most '
                     'casts the caster chooses the range.')
 
-#: Les stats que le calcul laisse de cote.
 _UNCOUNTED_STATS = ('permedam', 'perrandam')
 
-# Ce que le panneau suppose sur les BUFFS PERSONNELS. Il annoncait <<buffs
-# personnels compris>>, ce qui est faux par defaut: `_ticked_buffs` rend une
-# suite vide des que `buff_state` l'est, et la page ouvre sans aucune case
-# cochee. Seuls les buffs lances DANS le tour sont comptes, et ils paient
-# leur PA sur le meme budget. Mesure du 12 septembre 2026 sur six builds
-# partages: Enutrof 1682 sans buffs contre 3429 avec, Cra 2188 contre 3245,
-# Pandawa 930 contre 982. Jusqu'a 104 % d'ecart derriere une phrase qui
-# disait que c'etait deja compte.
 _BUFF_NOTES = {
     'off': _lazy('One turn on a single target: average damage and critical '
                  'hit rate included. Buffs cast in the turn count; none is '
@@ -1020,61 +754,24 @@ _BUFF_NOTES = {
                 'the ones ticked on this page.'),
 }
 
-# Ce que rapportent les buffs que le tour lance. Un seul nombre, celui du
-# meme tour prive de ces lancers-la: le total est juste au-dessus, donc le
-# lecteur lit l'ecart d'un coup d'oeil. Pas de nom compte a cote d'un nombre,
-# la phrase vaut pour un buff comme pour trois.
 _WITHOUT_BUFFS_NOTE = _lazy('Without the buffs it casts first, this turn '
                             'would deal %(damage)s.')
 
-# Ce que le panneau suppose sur le RANG des sorts. Le total change beaucoup
-# avec lui: mesure du 12 septembre 2026 sur un Cra de niveau 200, 1728 degats
-# au rang le plus haut contre 1292 au rang 1, un quart d'ecart. Elle se lit a
-# la suite de `_BUFF_NOTES`, qui dit l'autre hypothese du meme total.
 _RANK_NOTES = {
     'highest': _lazy('Spells at the highest level the character reaches.'),
     'picked': _lazy('Spells at the levels picked above.'),
 }
 
-# L'echec critique, que le calcul ne compte pas, dit sur la seule version qui
-# l'a. Dofus a retire la mecanique en 2.0: le lecteur d'objets moderne ne porte
-# que `critical_hit_probability` et `critical_hit_bonus`, quand le tableau `e`
-# d'une arme 1.29 porte `[twoHanded, _, crit_chance, crit_failure, maxRange,
-# minRange, ap, crit_bonus]`. Et aucun objet d'aucune des cinq versions ne vend
-# la stat Echec Critique.
-#
-# Mesure du 12 septembre 2026 sur la donnee 1.29 brute: **4361 armes portent un
-# taux d'echec**, 2376 a 1/40, 1112 a 1/30, 744 a 1/50, et une a 1/2. Cote
-# sorts, 240 des 252 sorts de classe sont a 1/100. Le lecteur Retro du site lit
-# ce champ et le jette, donc le nombre annonce est un majorant de 2 a 3 % sur
-# la plupart des armes.
-#
-# Pourquoi on ne le modelise PAS: un echec critique fait que l'action ne porte
-# pas, mais selon le sort il fait aussi perdre le reste des PA du tour, et la
-# donnee ne dit pas lesquels. Un ajustement calcule serait donc une invention
-# sur ce second point. On le dit, on ne le devine pas.
+# Not modelled: on some spells a critical failure also ends the turn
 _CRIT_FAILURE_NOTE = _lazy('Critical failure is not counted; this version is '
                            'the only one that has it.')
 
-# Quand un sort a atteint le plus que le tour permet. Vraie pour les trois
-# plafonds que la donnee du jeu porte (lancers par tour, lancers par cible,
-# temps de relance), parce que `Castable.limit` en prend le minimum et que le
-# panneau annonce deja son cadre: un tour, une cible. Le nombre de lancers est
-# visible dans la liste, donc la phrase ne le repete pas.
+# Castable.limit is the lowest of per turn, per target and cooldown
 _LIMIT_NOTE = _lazy('at the most one turn on one target allows')
 
-# Pourquoi un lancer du meilleur tour n'affiche aucun degat. Mesure du 12
-# septembre 2026 sur la copie de production: **77 des 200 tours proposes, soit
-# 38,5 %, contiennent au moins un lancer a zero**, et rien ne disait pourquoi.
-# Un zero sans un mot se lit comme une panne, alors que le solveur a raison de
-# depenser ce PA. Les deux seules raisons, lues dans la donnee et non
-# supposees: le sort ne porte que des lignes de buff, ou ses degats sont
-# differes et comptes dans le bloc du dessous.
 _CAST_NOTES = {
     'buff': _lazy('no damage of its own, it raises the casts that follow'),
     'delayed': _lazy('no damage now, its own lands later and is counted apart'),
-    # La fiche du sort montre une ligne par groupe; celle-ci dit laquelle le
-    # panneau a lue, sous le libelle que la fiche lui donne.
     'group': _lazy('counted on %(group)s'),
 }
 
@@ -1097,10 +794,6 @@ _CONDITIONAL_LABELS = {
         _lazy("only if the target attracts, repels, switches places or "
               "deals pushback damage"),
     'ap_removal': _lazy("only if the target is hit by an attempted AP reduction"),
-    # Le Dofus Ebene: <<Lorsque le porteur attaque en melee, il gagne 2% de
-    # dommages a distance, et s'il attaque a distance, 2% en melee. Declencher
-    # les 2 effets dans le tour permet a la prochaine attaque d'appliquer un
-    # poison.>> Sans cette phrase, le lecteur croit le poison acquis.
     'melee_and_ranged':
         _lazy("only after attacking both in close combat and at range in the "
               "same turn"),
@@ -1113,9 +806,7 @@ _CONDITIONAL_LABELS = {
 }
 
 
-#: Ce que le generateur ecrit quand il sait qu'une seule ligne du groupe
-#: tombe, et laquelle des deux formes la table doit rendre. `Stack N - ` peut
-#: preceder l'etiquette, c'est la meme declaration.
+# Labels meaning one row of the group lands; a "Stack N - " prefix may precede
 _ONE_LANDS = {
     _BEST_ELEMENT: 'best',
     _RANDOM_ELEMENT: 'one',
@@ -1131,28 +822,7 @@ def _one_lands_kind(label):
 
 
 def _merge_faces_of_one_hit(aggregates, rows):
-    """Les faces d'un seul coup rendues comme un seul groupe.
-
-    Le generateur ecrit un coup <<dans le meilleur element>> comme un groupe
-    d'une ligne par element, et n'etiquette que le premier. La table empilait
-    donc les faces les unes sous les autres, sans rien qui dise qu'une seule
-    tombe: Scalpel, dont Ankama dit <<occasionne des dommages aux ennemis ou
-    soigne les allies dans le meilleur element>>, montrait **huit lignes** de
-    42-46 pour un seul lancer.
-
-    Le tour, lui, lisait deja la decoupe: `_element_alternatives` en choisit
-    une face. Les deux moities du panneau disaient donc deux choses du meme
-    sort. Elles lisent maintenant la meme fonction, `element_runs`.
-
-    Mesure du 14 septembre 2026 sur les 1923 sorts des cinq versions: **197
-    suites sur 93 sorts** portent une de ces trois declarations (32 sorts en
-    Dofus 3, 32 en beta, 26 en Dofus 2, 2 en Touch, 1 en Retro). 86 autres
-    suites, sur 23 sorts, n'en portent aucune: 30 sur Rekop, 21 sur Arcane
-    Torrent et 21 sur Knell, etiquetees par palier, et 14 sur les sorts
-    elementaires du Huppermage, etiquetees par etat. **Rien dans les donnees
-    ne dit si une seule de leurs lignes tombe**, donc elles sont laissees
-    telles quelles.
-    """
+    """Merge the per-element faces of one hit into a single group."""
     from chardata.spell_combo import element_runs
     runs = element_runs(aggregates, rows)
     head_of, merged_head = {}, {}
@@ -1182,12 +852,7 @@ def _merge_faces_of_one_hit(aggregates, rows):
 
 
 def convert_aggregates(aggregates, game_version=None, rows=None):
-    """Les groupes tels que la page les lit.
-
-    `rows` sont les lignes de degats du sort; sans elles, aucune fusion n'est
-    tentee, ce qui est le cas de l'arme, dont les groupes sont batis a la
-    main juste au-dessus.
-    """
+    """Aggregates as the page reads them; no merge without rows."""
     if aggregates is None:
         return None
     if rows:

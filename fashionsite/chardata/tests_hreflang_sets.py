@@ -1,34 +1,20 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Whether the translation sets a page declares agree with each other.
-
-The rule Google applies is stronger than "the other page mentions me". A
-hreflang set is a group, and every member must declare the SAME group. If the
-English page lists five languages and the German one lists three, the set is
-inconsistent and the whole group is dropped -- not just the German entry. So a
-page can point back correctly and still be ignored.
-
-The pages are discovered from the hubs rather than written down. The slugs are
-localised and change with the game data, and a hard-coded list only ever covers
-what someone thought of on the day.
-"""
+"""Every member of a hreflang set declares the same set."""
 import re
 
 from django.test import TestCase
 
 BASE = 'https://dofusfashionista.gg'
 
-#: Un carrefour et le motif du lien de detail qu'on y cherche.
+# (family, hub, detail link prefix)
 FAMILLES = (
     ('objet', '/encyclopedia/', '/encyclopedia/item/'),
     ('panoplie', '/encyclopedia/sets/', '/encyclopedia/set/'),
     ('monstre', '/encyclopedia/monsters/', '/encyclopedia/monster/'),
-    # Les guides portent leur langue dans le slug comme les fiches, mais leur
-    # texte est ecrit a la main : c'est la famille ou une traduction peut
-    # manquer sans que rien d'automatique ne le signale.
+    # Guides are translated by hand
     ('guide', '/guides/', '/guides/'),
 )
 
-#: Les carrefours eux-memes, qui sont publies par langue.
 CARREFOURS = ('/encyclopedia/', '/encyclopedia/sets/',
               '/encyclopedia/monsters/', '/encyclopedia/most-used/')
 
@@ -37,13 +23,7 @@ NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
 
 
 class ATranslationSetAgreesWithItselfTests(TestCase):
-    """One page, one set, and every member of the set says the same thing.
-
-    The existing reciprocity test checks a single French item page and asks
-    only whether its alternates point back. That catches a link that goes
-    nowhere; it does not catch two pages of the same group declaring different
-    groups, which is the failure that makes Google drop the set entirely.
-    """
+    """One page, one set, and every member of the set says the same thing."""
 
     def _html(self, chemin):
         reponse = self.client.get(chemin, HTTP_ACCEPT_LANGUAGE='en',
@@ -54,13 +34,9 @@ class ATranslationSetAgreesWithItselfTests(TestCase):
 
     @staticmethod
     def _ensemble(html):
-        """The page's hreflang map, language to path, x-default excluded.
-
-        The minifier reorders attributes, so each tag is matched whole and its
-        two attributes read separately. A pattern expecting hreflang before
-        href finds nothing and passes.
-        """
+        """The page's hreflang map, language to path, x-default excluded."""
         trouve = {}
+        # The minifier sorts attributes, read them one by one
         for tag in re.findall('<link[^>]*hreflang=[^>]*>', html):
             langue = re.search('hreflang="([^"]+)"', tag)
             href = re.search('href="([^"]+)"', tag)
@@ -69,12 +45,10 @@ class ATranslationSetAgreesWithItselfTests(TestCase):
         return trouve
 
     def _premier_lien(self, carrefour, motif):
-        """A detail page found on the hub, so the slug is never hard-coded."""
+        """A detail page found on the hub."""
         html = self._html(carrefour)
         for href in re.findall('href="([^"]+)"', html):
-            # Plus long que le carrefour lui-meme : sans cette condition
-            # le lien "retour au carrefour" que porte chaque page passe pour
-            # une fiche, et on compare le carrefour avec lui-meme.
+            # Longer than the hub, or the back-to-hub link matches
             if href.startswith(motif) and len(href) > len(carrefour) + 1:
                 return href
         return None
@@ -114,9 +88,7 @@ class ATranslationSetAgreesWithItselfTests(TestCase):
             vus, mauvais = self._verifier(lien)
             pages += vus
             desaccords.extend(mauvais)
-            # Compte PAR FAMILLE et pas en tout : un seuil global est atteint
-            # par les seules fiches d'objet, et une famille qui ne declare
-            # aucun groupe passerait sans que rien ne le dise.
+            # Per family: items alone would reach a global floor
             with self.subTest(famille=nom):
                 self.assertGreaterEqual(
                     vus, 2, '%s compared %d page(s): %s declares no set'
@@ -143,18 +115,7 @@ class ATranslationSetAgreesWithItselfTests(TestCase):
                                 'only %d hub pages compared' % pages)
 
     def test_a_page_declares_the_language_its_url_promises(self):
-        """The url says which language, so the document has to say the same.
-
-        On these families the language is not in a prefix but in the slug
-        itself, and the page is chosen by that slug alone. A document that
-        answers a Spanish url while declaring lang="en" tells a screen reader
-        to pronounce Spanish with English rules, and tells Google that the
-        translation it just followed is not one.
-
-        The alternates come from the page itself rather than from a list built
-        here: whatever the site claims as its Spanish version is exactly what
-        gets checked.
-        """
+        """The <html lang> matches the language of the localised slug."""
         faux = []
         verifiees = 0
         for nom, carrefour, motif in FAMILLES:
@@ -171,20 +132,14 @@ class ATranslationSetAgreesWithItselfTests(TestCase):
         self.assertFalse(
             faux, 'these pages declare a language their url does not promise '
             '(family, page, promised, declared): %s' % faux[:4])
-        # Un ensemble vide fait sortir la boucle sans rien verifier, et zero
-        # incoherence sur zero page se lit comme une reussite.
+        # An empty set would check nothing and pass
         self.assertGreaterEqual(
             verifiees, 2 * len(FAMILLES),
             'only %d localised pages checked over %d families'
             % (verifiees, len(FAMILLES)))
 
     def test_a_page_that_declares_a_set_is_in_its_own_set(self):
-        """A group whose member does not name itself is incomplete.
-
-        This is the half the reciprocity test cannot see: it follows the links
-        outward and never asks whether the page it started from appears in its
-        own list.
-        """
+        """A page appears in its own set."""
         absentes = []
         examinees = 0
         for chemin in CARREFOURS:

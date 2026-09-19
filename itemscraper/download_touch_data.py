@@ -32,8 +32,13 @@ FALLBACK_DATA_URL = "https://dt-proxy-production-login.ankama-games.com"
 # The data API does not gate on the UA.
 USER_AGENT = "Dofus/2 CFNetwork"
 
+# ShieldModelsLevels says how many ranks each shield model has: the transform
+# reads a shield's final line off it (models 1 to 5 have 100 ranks, the
+# TemporiX Shield of Infinity's model 7 has 1000). It carries no name, so it is
+# fetched in the primary language only.
 DEFAULT_CLASSES = [
     'Items', 'ItemSets', 'ItemTypes', 'Effects', 'Recipes', 'Breeds', 'Monsters',
+    'ShieldModelsLevels',
 ]
 
 # Languages this scraper knows how to ask for. Which of them Touch still
@@ -55,11 +60,12 @@ def served_languages(lang: str = 'fr') -> set:
 
     Re-read 2026-09-14, asking in fr, en and de: the answer is still
     ["en", "es", "fr", "pt"] whichever language you ask in. What is left of
-    German in our Touch catalogue is the scrape from before the drop, and 152
-    of its 3390 item names are the English text that leaked in that day --
+    German in our Touch catalogue is the scrape from before the drop, and 151
+    of its 3389 item names (counted 2026-09-17) are the English text that
+    leaked in that day --
     <<Plum and Indigo Dragoturkey>>, <<Turquoise Dragoturkey>>, <<Caraboots>>.
     Dofus 3, for comparison, has 74 and they are proper nouns: Gelano, Kabuto,
-    Kaiser. Those 152 no longer claim a German address, because a German name
+    Kaiser. Those 151 no longer claim a German address, because a German name
     equal to the English one loses the slug to English.
 
     An empty set means the config could not be read, and the caller must then

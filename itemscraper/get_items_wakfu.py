@@ -1,88 +1,7 @@
 #!/usr/bin/env python3
 """Mirror Ankama's Wakfu game data and decode the equipment out of it.
 
-    python get_items_wakfu.py [--out itemscraper/wakfu_raw] [--report]
-
-Wakfu is not a Dofus version, it is another game: other stats, other slots,
-other damage rules. This script does the first half of the job only, the half
-that is pure data, and writes a normalised dump. Nothing here touches the site.
-
-THE SOURCE (first-party, announced by Ankama on their own forum in 2019):
-
-    https://wakfu.cdn.ankama.com/gamedata/config.json      -> {"version": ...}
-    https://wakfu.cdn.ankama.com/gamedata/<version>/<file>.json
-
-Ankama ask that the data be mirrored rather than fetched live, and the files
-carry ETag and Last-Modified, so the mirror is refreshed with a conditional
-GET. There is no gzip: a full refresh is about 16 MB.
-
-A build cannot be fetched again once it is two versions old (anything older
-than the current version and its predecessor answers 403), so every download
-is kept under its own version directory. That is the only way a build stays
-reproducible.
-
-WHAT THE DATA DOES NOT CARRY, so that nobody looks for it here:
-
-- Sets. 1105 items name an `itemSetId` and 210 distinct sets exist, but no set
-  file is published. The official encyclopedia uses the same ids.
-- German. Wakfu has no German locale at all; titles carry fr/en/es/pt only.
-- Equip conditions. A raw item carries exactly six keys, `definition` with
-  `item`, `useEffects`, `useCriticalEffects` and `equipEffects`, plus `title`
-  and `description`. There is no condition field of any kind, so
-  `min_stat_to_equip` and `max_stat_to_equip` stay empty for Wakfu and that is
-  correct rather than missing. The one rule that looks like a condition, the
-  refusal to equip below -9 % critical hit, is a single global limit the
-  client applies to the character total; see wakfu_stats.py. 87 items sell
-  stats in exchange for negative critical hit, down to -20 on one of them.
-- Classes, spells, monsters, zones. Probed against build 1.92.1.60 on
-  2026-08-24: `classes.json`, `breeds.json`, `characteristics.json`,
-  `aptitudes.json`, `spells.json`, `jobs.json`, `monsters.json` and
-  `zones.json` all answer 403, so the feed is about ITEMS and CRAFTING and
-  nothing else.
-
-  THE ENCYCLOPEDIA HAS THEM, though, and that is where a character model will
-  have to look. Probed the same day, with the cookie jar that get_sets_wakfu.py
-  already uses:
-
-      /fr/mmorpg/encyclopedie/classes            the 18 classes, Ankama's ids
-      /fr/mmorpg/encyclopedie/classes/8-iop      one class, WITH ITS SPELLS
-      /fr/mmorpg/encyclopedie/monstres           the bestiary
-      /fr/mmorpg/encyclopedie/ressources         the resources
-
-  A class page carries every spell in full: AP cost, minimum and maximum range,
-  the damage on a normal hit and on a critical, the states it applies, and the
-  level it unlocks at. The Iop's Celestial Sword reads 2 AP, range 1 to 4,
-  65 damage, 82 on a critical. That is the whole input a damage model needs,
-  from Ankama, for a game whose CDN publishes no spell at all.
-
-  Class ids are the game's own and run 1 to 19 with 17 missing:
-  1 feca, 2 osamodas, 3 enutrof, 4 sram, 5 xelor, 6 ecaflip, 7 eniripsa,
-  8 iop, 9 cra, 10 sadida, 11 sacrieur, 12 pandawa, 13 roublard, 14 zobal,
-  15 ouginak, 16 steamer, 18 eliotrope, 19 huppermage.
-
-  The forum, unlike the encyclopedia, is unreachable: it answers a scripted
-  request with 202 and an empty body, cookie jar or not. So official DEVELOPER
-  statements that live only in forum threads cannot be read from here.
-
-WHAT IS PUBLISHED BESIDE THE ITEMS. The crafting files ARE mirrored, by the
-list below, even though nothing decodes them yet: recipes.json,
-recipeResults.json, recipeIngredients.json, recipeCategories.json and
-jobsItems.json. Mirroring them now is the point, because a build goes
-unreachable two versions later. The shared schema already has `item_recipes`,
-`item_recipe_ingredient_names`, `item_craft_jobs` and `job_names` waiting.
-
-Still not mirrored, because nothing has even measured them: blueprints.json,
-harvestLoots.json, collectibleResources.json and resourceTypes.json.
-
-- Item pictures. They are not in this feed either, but Ankama serves them at
-  static.ankama.com; see get_item_images_wakfu.py.
-
-LICENCE: the data is published under Ankama's "WAKFU DATA USE LICENSE" for
-personal, non-commercial use, and requires the notice
-"WAKFU MMORPG: (c) 2012-<year> Ankama Studio. All rights reserved."
-Mirroring it locally for development is one thing; publishing it on a site
-that carries advertising is a decision for the site's owner, not for this
-script, which is why this script has no web surface.
+    python get_items_wakfu.py [--out DIR] [--dump FILE] [--version VERSION]
 """
 
 from __future__ import annotations
@@ -108,13 +27,7 @@ ICON = 'https://static.ankama.com/wakfu/portal/game/item/%d/%s.png'
 ICON_SIZES = (21, 64, 115)
 UA = 'DofusFashionista/wakfu-import (+https://dofusfashionista.gg)'
 
-# The files the equipment needs. The rest of the feed (recipes, jobs, harvest)
-# is left alone until something asks for it.
-# Everything this project reads out of a build. The crafting half is mirrored
-# even though nothing decodes it yet, and that is deliberate: a build older
-# than the current one and its predecessor answers 403, so a file that is not
-# mirrored TODAY may be unreachable by the time somebody wants it. The mirror
-# is the only thing that keeps a build reproducible.
+# Builds older than the previous one answer 403, so mirror what we may need later
 FILES = (
     'items.json',
     'itemTypes.json',
@@ -122,8 +35,7 @@ FILES = (
     'itemProperties.json',
     'actions.json',
     'states.json',
-    # Crafting. 5616 recipes, one product each, 34832 ingredient lines, 14
-    # jobs, and the resources that are not gear and are named nowhere else.
+    # Crafting
     'recipes.json',
     'recipeResults.json',
     'recipeIngredients.json',
@@ -133,43 +45,22 @@ FILES = (
 
 LANGS = ('fr', 'en', 'es', 'pt')
 
-# Wakfu has no German locale: across all 8405 items the titles carry fr/en/es/pt
-# and nothing else, and wakfu.com declares no German alternate. Game data
-# therefore falls back to English for German readers. Everything the site says
-# in its own voice stays translated in five languages; this is only the data.
+# Wakfu has no German, game data falls back to English
 FALLBACK = {'de': 'en'}
 
-# A line's characteristic is named in its own template, "[#charac HP]" and the
-# like, for 57 of the 63 actions equipment uses. The six that do not:
-#
-#   39, 40  "charac passee en parametre": the characteristic is a parameter,
-#           params[4], and only two values appear. Both read against Ankama's
-#           own rendering on 2026-08-22 rather than guessed: Furnace Eye
-#           (27584) passes 121 and renders "7% Armor received", Power Helmet
-#           (27700) passes 120 and renders "10% Armor given".
-#   304     applies a named state; the name joins to states.json.
-#   400     "NullEffect", literally nothing.
-#   1020    an internal regulation effect, one use.
-#   2001    harvesting quantity, a job stat rather than a fighting one.
+# 39 and 40 pass the characteristic in params[4], not in the template
 CHARACTERISTIC_IN_PARAM = {39: 1, 40: -1}
 CHARACTERISTIC_BY_ID = {120: 'ARMOR_GIVEN_PERCENT',
                         121: 'ARMOR_RECEIVED_PERCENT'}
 STATE_ACTION = 304
 
-# "232 Mastery with 2 elements" and its resistance twin. The value is params[0]
-# and the NUMBER of elements is params[2]; which elements is not in the data at
-# all, because it is a property of the copy in a player's hands rather than of
-# the item. 5255 gear lines carry the mastery form, the second most common line
-# in the game, so nothing about Wakfu can be modelled without deciding what
-# they are worth. That decision is not made here: the count is recorded and the
-# question is left to whoever writes the model.
+# "Mastery with 2 elements": params[2] is the count, the elements are not in the data
 ELEMENT_COUNT_ACTIONS = {1068: 'mastery', 1069: 'resistance'}
 ELEMENT_COUNT_PARAM = 2
 IGNORED_ACTIONS = (400, 1020)
 JOB_ACTIONS = (2001,)
 
-# A slot the optimizer would have to fill. PET, MOUNT and COSTUME are carried
-# through as data but are not gear in the sense the solver means.
+# Slots the optimizer fills (not PET, MOUNT or COSTUME)
 GEAR_POSITIONS = (
     'HEAD', 'NECK', 'CHEST', 'SHOULDERS', 'BACK', 'BELT', 'LEGS',
     'LEFT_HAND', 'RIGHT_HAND', 'FIRST_WEAPON', 'SECOND_WEAPON', 'ACCESSORY',
@@ -249,8 +140,7 @@ def characteristic(action_id, description, params):
     found = re.search(r'\[#charac ([A-Z_]+)\]', description or '')
     if not found:
         return None, 'no characteristic in the template'
-    # A template that opens with "-" is the losing half of a pair: action 168
-    # is "-[#1]% Critical Hit" against 150's "[#1]% Critical Hit".
+    # A template starting with "-" is a malus (168 is "-[#1]% Critical Hit")
     negative = (description or '').lstrip().startswith('-') or '] -[#1]' in (
         description or '')
     value = params[0] if params else 0
@@ -258,11 +148,7 @@ def characteristic(action_id, description, params):
 
 
 def titles(node):
-    """The four languages, as plain strings, with the plural template kept.
-
-    The template ("Anneau{[~1]?s:}") is Ankama's own and is stripped where the
-    name is displayed, not here: this dump stays faithful to the source.
-    """
+    """Title per language, plural template ("Anneau{[~1]?s:}") kept."""
     body = node or {}
     out = {lang: body.get(lang) for lang in LANGS if body.get(lang)}
     for missing, instead in FALLBACK.items():
@@ -302,10 +188,7 @@ def decode(target):
         parameters = base.get('baseParameters') or {}
         effects = definition.get('equipEffects') or []
         if not effects:
-            # Ankama really does publish gear with an empty equipEffects: the
-            # four nation rings, every cosmetic set. Nothing a build can use,
-            # so they are dropped, but the count is said out loud because the
-            # hole is otherwise invisible and it is 136 items wide.
+            # Nation rings and cosmetic sets have no equipEffects
             report['no_stat_lines'] += 1
             continue
         type_id = parameters.get('itemTypeId')
@@ -352,8 +235,6 @@ def decode(target):
         if parameters.get('itemSetId'):
             report['sets'].add(parameters['itemSetId'])
 
-        # The two rules that decide whether a set of items can be worn at
-        # once, both read from Ankama's own tables rather than restated here.
         two_handed = blocks_the_off_hand(disabled)
         exclusive = exclusivity_of(base.get('properties') or [])
         if two_handed:
@@ -368,10 +249,7 @@ def decode(target):
             'level': base.get('level'),
             'name': titles(item.get('title')),
             'type_id': type_id,
-            # The equipment file first: it is the one that defines a gear
-            # type, and itemTypes.json does not carry all of them. Type 480,
-            # the Torch, is named only in the equipment file, so reading the
-            # general one alone left five accessories with no type at all.
+            # itemTypes.json misses some gear types (480, the Torch)
             'type_name': titles(((equipment.get(type_id)
                                   or types.get(type_id)
                                   or {}).get('title'))),
@@ -407,6 +285,7 @@ def main(argv=None):
         parser.error('build %s is not mirrored under %s' % (version, args.out))
 
     equipment, report = decode(target)
+    # Notice required by the WAKFU DATA USE LICENSE (personal, non-commercial use)
     payload = {'version': version, 'equipment': equipment,
                'notice': 'WAKFU MMORPG: (c) 2012-2026 Ankama Studio. '
                          'All rights reserved.'}

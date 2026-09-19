@@ -14,14 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""The page language comes from the URL slug, not from Accept-Language.
-
-The property that matters for indexing is negative and easy to break silently:
-an anonymous request must never be redirected and must never depend on a
-request header. Every crawler is anonymous and sends no Accept-Language, so any
-regression here puts the site back to serving English everywhere and declaring
-every localised URL a duplicate.
-"""
+"""The page language comes from the URL slug, not from Accept-Language."""
 
 import re
 import unicodedata
@@ -39,9 +32,7 @@ from chardata.url_language import (KEEP_LANGUAGE_PARAM, build_alternate_urls,
 
 BASE = 'https://dofusfashionista.gg'
 
-# Item 44, read from the item database rather than written from memory: two
-# of these were guessed wrong at first, and a fixture that invents its data
-# proves nothing about the code it exercises.
+# Item 44 names, from the item database
 TWIGGY_SWORD = {
     'en': 'Twiggy Sword',
     'fr': 'Épée de Boisaille',
@@ -84,12 +75,7 @@ class LanguageFromSlugTest(TestCase):
         self.assertIsNone(language_from_slug(TWIGGY_SWORD, None, normalise))
 
     def test_an_ambiguous_slug_answers_in_english(self):
-        """Proper nouns are usually left untranslated, so this is the common
-        case, not an edge one. Such a URL must keep answering exactly as it did
-        before the language was read from the slug -- in English, which is both
-        the historical default and the indexed URL. An earlier tie-break put
-        English last and served Portuguese on every monster whose name does not
-        change between languages."""
+        """Untranslated proper nouns answer in English."""
         names = {'en': 'Crocodyl', 'de': 'Crocodyl', 'fr': 'Crocodyl',
                  'es': 'Crocodyl', 'pt': 'Crocodyl'}
         self.assertEqual(language_from_slug(names, 'crocodyl', normalise), 'en')
@@ -133,21 +119,12 @@ class AlternateUrlsTest(TestCase):
             BASE + '/encyclopedia/item/equipment/44-espada-de-maderucha/')
 
     def test_every_alternate_is_distinct(self):
-        # Two languages pointing at one URL would tell Google they are the
-        # same page, which is the bug this whole change exists to remove.
+        # Two languages on one URL tell Google they are the same page
         alternates = build_alternate_urls(self._builder, TWIGGY_SWORD, BASE,
                                           normalise)
         self.assertEqual(len(set(alternates.values())), len(alternates))
 
     def test_two_languages_sharing_a_name_do_not_share_a_url(self):
-        """Le temoin qui manquait au test precedent.
-
-        Il disait deja que deux langues sur une adresse mentiraient a Google,
-        et le verifiait sur une epee dont les cinq noms different: il passait
-        sans que rien n'empeche le contraire. Mesure du 14 septembre 2026:
-        5135 adresses d'objets et 293 de panoplies annoncaient une langue que
-        leur url ne sert pas.
-        """
         shared = dict(TWIGGY_SWORD, pt=TWIGGY_SWORD['es'])
         alternates = build_alternate_urls(self._builder, shared, BASE,
                                           normalise)
@@ -187,8 +164,7 @@ class RedirectTest(TestCase):
         return request
 
     def test_anonymous_visitor_is_never_redirected(self):
-        # This is the property that keeps one URL bound to one language.
-        # Every crawler is anonymous.
+        # Every crawler is anonymous
         request = self._request()
         self.assertIsNone(
             redirect_target_for_user(request, 'es', self.alternates))
@@ -289,12 +265,7 @@ class _language(object):
 
 
 class EncyclopediaItemPageTest(TestCase):
-    """End to end, against the real item database.
-
-    Reproduces exactly what Googlebot does: no Accept-Language header, no
-    cookies. Before this change every one of these URLs answered in English and
-    named the English URL as its canonical.
-    """
+    """End to end, as a crawler: no Accept-Language, no cookies."""
 
     FR = '/encyclopedia/item/equipment/44-epee-de-boisaille/'
     ES = '/encyclopedia/item/equipment/44-espada-de-maderucha/'
@@ -319,8 +290,6 @@ class EncyclopediaItemPageTest(TestCase):
         self.assertIn('maderucha', html.lower())
 
     def test_each_url_is_its_own_canonical(self):
-        # The regression that mattered: the French page declared the English
-        # URL as canonical, so Google dropped it as a duplicate.
         for path in (self.FR, self.ES, self.EN):
             html = self._head(path)
             canonical = re.search(
@@ -337,12 +306,7 @@ class EncyclopediaItemPageTest(TestCase):
 
     @staticmethod
     def _alternate_links(html):
-        """(hreflang, href) pairs, whatever order the minifier left them in.
-
-        The HTML minifier rewrites <link rel="alternate" hreflang=".." href="..">
-        with the attributes in another order, so anything matching them as a
-        fixed sequence silently finds nothing and passes.
-        """
+        """(hreflang, href) pairs in any order, the minifier sorts attributes."""
         pairs = []
         for tag in re.findall(r'<link\b[^>]*hreflang=[^>]*>', html):
             lang = re.search(r'hreflang="([^"]+)"', tag)
@@ -365,7 +329,6 @@ class EncyclopediaItemPageTest(TestCase):
                           '%s does not point back at the French page' % path)
 
     def test_accept_language_no_longer_changes_the_page(self):
-        # The whole point: the URL decides, not the header.
         titles = set()
         for header in ('fr', 'es', 'en', 'pt'):
             response = self.client.get(self.ES, HTTP_ACCEPT_LANGUAGE=header)
@@ -382,11 +345,7 @@ class EncyclopediaItemPageTest(TestCase):
 
 
 class LocalisedSlugPagesTest(TestCase):
-    """The same rule, applied to monsters, resources and sets.
-
-    Fixtures are discovered from the item database rather than hard-coded, so
-    these keep working when the game data is refreshed.
-    """
+    """The same rule, applied to monsters, resources and sets."""
 
     @staticmethod
     def _conn():
@@ -450,9 +409,7 @@ class LocalisedSlugPagesTest(TestCase):
         finally:
             conn.close()
 
-        # Many resources have no recipe and legitimately 404. Walk candidates
-        # until one is actually published, then assert strictly on it -- a
-        # test that skips every candidate would pass while proving nothing.
+        # Resources without a recipe 404: walk until one is published
         checked = 0
         for ankama_id, subtype, name_en, name_fr in rows:
             path_en = self._localised_path(
@@ -494,8 +451,6 @@ class LocalisedSlugPagesTest(TestCase):
             }
             if self.client.get(paths['en']).status_code != 200:
                 continue
-            # The set slug used to sit in a non-capturing group, so the view
-            # never saw it and every localised set URL served one language.
             for lang, path in paths.items():
                 self._assert_page_is_self_canonical(
                     path, item_set.localized_names[lang])
@@ -505,19 +460,15 @@ class LocalisedSlugPagesTest(TestCase):
         self.assertTrue(checked, 'no published bilingual set to check')
 
     def test_every_localised_page_type_emits_hreflang(self):
-        # Regression guard: the hreflang block lives in base.html, so a view
-        # that forgets to pass alternate_urls silently emits nothing.
-        html = self.client.get(
+        # A view that forgets alternate_urls emits no hreflang
+        html =self.client.get(
             '/encyclopedia/item/equipment/44-twiggy-sword/'
         ).content.decode('utf-8')
         self.assertIn('hreflang=', html)
 
 
 class LocalisedSitemapTest(TestCase):
-    """The localised pages exist and are self-canonical, but nothing makes
-    Google find them: /encyclopedia/ is a fixed path, so a crawler only ever
-    sees its English form, which links only to English item URLs. They have to
-    be submitted."""
+    """Localised pages have to be submitted in the sitemaps."""
 
     def test_the_index_lists_a_file_per_submitted_language(self):
         xml = self.client.get('/sitemap.xml').content.decode('utf-8')
@@ -526,10 +477,7 @@ class LocalisedSitemapTest(TestCase):
                 self.assertIn('sitemap-%s-%s.xml' % (section, language), xml)
 
     def test_german_is_served_but_not_submitted(self):
-        # No measured German audience. The pages answer and hreflang points at
-        # them, which is enough to be found; submitting 40 000 more URLs is not
-        # worth the crawl budget until the numbers say otherwise.
-        xml = self.client.get('/sitemap.xml').content.decode('utf-8')
+        xml =self.client.get('/sitemap.xml').content.decode('utf-8')
         self.assertNotIn('sitemap-items-de.xml', xml)
         self.assertEqual(
             self.client.get(
@@ -537,9 +485,8 @@ class LocalisedSitemapTest(TestCase):
             200)
 
     def test_the_english_sections_keep_their_names(self):
-        # Already submitted to Search Console; renaming them would lose their
-        # history for nothing.
-        xml = self.client.get('/sitemap.xml').content.decode('utf-8')
+        # Already submitted to Search Console
+        xml =self.client.get('/sitemap.xml').content.decode('utf-8')
         for section in ('pages', 'items', 'sets', 'resources', 'monsters'):
             self.assertIn('sitemap-%s.xml' % section, xml)
 
@@ -567,9 +514,7 @@ class LocalisedSitemapTest(TestCase):
 
 
 class InternalLinksStayInLanguageTest(TestCase):
-    """A localised page whose links point back at English URLs sends every
-    visitor -- and every crawler -- straight out of the language it just
-    reached, and tells Google the translations are unrelated pages."""
+    """Links on a localised page stay in its language."""
 
     FRENCH = '/encyclopedia/item/equipment/44-epee-de-boisaille/'
     SPANISH = '/encyclopedia/item/equipment/44-espada-de-maderucha/'
@@ -580,20 +525,12 @@ class InternalLinksStayInLanguageTest(TestCase):
 
     @staticmethod
     def _without_hreflang(html):
-        """Drops the alternate block, which names the other languages on
-        purpose. Stripping only the attribute leaves the tag and its href
-        behind, which reads as an English link that is not one."""
+        """Drops the hreflang links, which name other languages on purpose."""
         return re.sub(r'<link[^>]*hreflang[^>]*>', '', html)
 
     @staticmethod
     def _without_language_selector(html):
-        """Drops the flag destinations. The English flag naming the English
-        url is the selector working, not a link leaving the language.
-
-        Keyed on data-next rather than on the tag: the flags moved from <img>
-        to <button> so a keyboard could reach them, and the destination is
-        what identifies the selector either way.
-        """
+        """Drops the flag destinations, found by data-next whatever the tag."""
         return re.sub(r'<[a-z]+[^>]*data-next[^>]*>', '', html)
 
     def test_a_french_page_does_not_link_to_the_english_item(self):
@@ -606,13 +543,7 @@ class InternalLinksStayInLanguageTest(TestCase):
             'the French item page links to the English URL outside hreflang')
 
     def test_links_on_a_spanish_page_answer_in_spanish(self):
-        # Le selecteur est retire ici comme il l'est deja au-dessus. Ses
-        # drapeaux sont devenus des ancres, parce qu'un bouton n'est pas un
-        # lien et qu'aucun robot ne suivait les quatre : /fr/, /es/, /pt/ et
-        # /de/ ne recevaient aucun lien interne de nulle part. C'est le seul
-        # endroit d'une page ou sortir de sa langue est le but, et le compter
-        # comme une fuite ferait mentir l'un des deux invariants.
-        body = self._without_language_selector(self._without_hreflang(
+        body =self._without_language_selector(self._without_hreflang(
             self.client.get(self.SPANISH).content.decode('utf-8')))
         checked = 0
         fugues = []
@@ -629,12 +560,7 @@ class InternalLinksStayInLanguageTest(TestCase):
             checked += 1
         self.assertTrue(checked, 'no internal encyclopedia link to check')
 
-        # Hubs on the default version now carry a language prefix, so nothing
-        # there may leak. Version-prefixed hubs (/dofus2/encyclopedia/) are the
-        # one case still unpublished per language: stacking two prefixes needs
-        # its own pass. Narrowed to exactly that, so a new leak anywhere else
-        # fails here.
-        VERSIONS = ('/beta/', '/dofus2/', '/retro/', '/touch/')
+        VERSIONS =('/beta/', '/dofus2/', '/retro/', '/touch/')
         inattendues = [
             (path, lang) for path, lang in fugues
             if not path.startswith(VERSIONS)
@@ -645,16 +571,7 @@ class InternalLinksStayInLanguageTest(TestCase):
 
 
 class SubmittedUrlsAnswerTest(TestCase):
-    """Every URL in a sitemap is a promise to Google.
-
-    161 404 URLs are submitted once the localised sections are live. A 404
-    among them burns crawl budget and reads as a quality signal.
-
-    Deliberately narrow: building a section costs a scan of five game
-    databases, so this samples the item sections -- 20 466 URLs each, by far
-    the largest -- rather than every combination. The other sections share the
-    same builder and the same code path.
-    """
+    """Every URL in a sitemap answers, sampled on the item sections."""
 
     SAMPLE = 4
 
@@ -702,19 +619,13 @@ class SubmittedUrlsAnswerTest(TestCase):
 
 
 class HubLanguagePrefixTest(TestCase):
-    """Pages with no name of their own carry their language in a prefix.
-
-    Everything else takes it from the entity name. A hub has no name, so
-    without a prefix it exists only in English -- and the breadcrumb of a
-    Spanish item page sent every reader and every crawler straight back to
-    English on the first click.
-    """
+    """Pages with no name of their own carry their language in a prefix."""
 
     HUBS = ('/', '/guides/', '/encyclopedia/', '/encyclopedia/sets/',
             '/encyclopedia/monsters/')
 
     def test_the_english_urls_are_exactly_where_they_were(self):
-        # prefix_default_language=False. Nothing already indexed may move.
+        # prefix_default_language=False
         for hub in self.HUBS:
             with self.subTest(hub=hub):
                 self.assertEqual(self.client.get(hub).status_code, 200)
@@ -737,16 +648,13 @@ class HubLanguagePrefixTest(TestCase):
                 self.assertEqual(declared.group(1).split('-')[0], language)
 
     def test_the_breadcrumb_of_a_spanish_item_stays_spanish(self):
-        # The finding that motivated this: /encyclopedia/ was the one link on
-        # a Spanish page that left Spanish.
-        html = self.client.get(
+        html =self.client.get(
             '/encyclopedia/item/equipment/44-espada-de-maderucha/'
         ).content.decode('utf-8')
         self.assertIn('/es/encyclopedia/', html)
 
     def test_an_entity_url_never_takes_a_prefix(self):
-        # Entities carry their language in the name; a prefix on top would be
-        # a second URL for one page.
+        # Entities carry their language in the slug
         self.assertEqual(
             self.client.get(
                 '/es/encyclopedia/item/equipment/44-espada-de-maderucha/'
@@ -754,12 +662,7 @@ class HubLanguagePrefixTest(TestCase):
 
 
 class VersionAndLanguageMatrixTest(TestCase):
-    """Every game version behaves like every other one.
-
-    The rule cannot hold on the default version only: /encyclopedia/ answers in
-    five languages, so /dofus2/encyclopedia/ has to as well, or the site says
-    two different things depending on which version a reader is on.
-    """
+    """Every game version behaves like every other one."""
 
     VERSIONS = tuple(version_keys())
     LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
@@ -793,9 +696,7 @@ class VersionAndLanguageMatrixTest(TestCase):
                                      path)
 
     def test_the_version_survives_a_language_prefix(self):
-        """GameVersionMiddleware read the opening segment to find the version.
-        With a language in front it found 'es', so every translated page fell
-        back to the default version and served the wrong game's data."""
+        """GameVersionMiddleware finds the version behind a language prefix."""
         from chardata.middleware import GameVersionMiddleware
 
         for version in self.VERSIONS:
@@ -814,7 +715,7 @@ class VersionAndLanguageMatrixTest(TestCase):
                     self.assertEqual(seen['version'], version, path)
 
     def test_english_urls_did_not_move(self):
-        # prefix_default_language=False. Every English url stays put.
+        # prefix_default_language=False
         for version in self.VERSIONS:
             for hub in self.HUBS:
                 path = hub if version == 'dofus3' else '/%s%s' % (version, hub)
@@ -838,14 +739,7 @@ class VersionAndLanguageMatrixTest(TestCase):
 
 
 class UnprefixedUrlsKeepNegotiatingTest(TestCase):
-    """Two properties that have to hold at once, and nearly did not.
-
-    Django forces the default language on every unprefixed url as soon as
-    i18n_patterns is used with prefix_default_language=False. Adding prefixes
-    for the hub pages therefore turned the whole site English for readers --
-    /faq/, /setup/, every solution page -- while the tests for the encyclopedia
-    stayed green, because those pages take their language from the slug.
-    """
+    """Unprefixed urls still negotiate, though i18n_patterns forces English."""
 
     def _lang_of(self, path, **headers):
         html = self.client.get(path, **headers).content.decode('utf-8')
@@ -862,8 +756,7 @@ class UnprefixedUrlsKeepNegotiatingTest(TestCase):
                         language)
 
     def test_a_crawler_always_gets_the_default_language(self):
-        # No Accept-Language, no cookie: exactly Googlebot. The url stays
-        # deterministic for indexing without forcing English on readers.
+        # No Accept-Language, no cookie: a crawler
         for path in ('/faq/', '/about/', '/encyclopedia/', '/guides/'):
             with self.subTest(path=path):
                 self.assertEqual(self._lang_of(path), 'en')
@@ -878,7 +771,7 @@ class UnprefixedUrlsKeepNegotiatingTest(TestCase):
                         language)
 
     def test_an_entity_url_ignores_the_header_too(self):
-        # These carry the language in the slug, so no header may move them.
+        # The slug carries the language
         for header in ('en', 'fr', 'de'):
             with self.subTest(header=header):
                 self.assertEqual(
@@ -889,17 +782,7 @@ class UnprefixedUrlsKeepNegotiatingTest(TestCase):
 
 
 class EverySubmittedPageIsItsOwnCanonicalTest(TestCase):
-    """The check that would have caught the versioned guides.
-
-    An adversarial review found 44 of the 256 urls in sitemap-pages.xml
-    declaring a canonical no sitemap contained: guides under a version prefix
-    built their url with reverse() while a non-default language was active, so
-    /retro/guides/coups-critiques/ named /fr/retro/guides/... as canonical.
-    Telling Google a submitted page is a copy of an unsubmitted one is exactly
-    the defect this whole change set exists to remove.
-
-    Earlier tests only looked at dofus3, which is where the blind spot was.
-    """
+    """Every url of sitemap-pages.xml is its own canonical, on every version."""
 
     @staticmethod
     def _canonical(html):
@@ -931,28 +814,14 @@ class EverySubmittedPageIsItsOwnCanonicalTest(TestCase):
 
 
 class LanguageSelectorTest(TestCase):
-    """The flag has to work for a visitor who is not signed in.
-
-    On a page whose language lives in its url, coming back to the same url
-    re-imposes the language being left, so the selector did nothing at all on
-    the encyclopedia and the guides -- the two largest families of pages.
-    Signed-in visitors were carried by the profile redirect and hid it.
-    """
+    """The flag has to work for a visitor who is not signed in."""
 
     PAGES = ('/guides/getting-started/',
              '/encyclopedia/item/equipment/44-twiggy-sword/')
 
     @staticmethod
     def _destination(html, language):
-        """The flag's destination, whatever order the minifier left the
-        attributes in -- it sorts them alphabetically, so data-next comes
-        before id and any fixed-order pattern silently finds nothing.
-
-        Element-agnostic on purpose. The flags were <img> carrying a click
-        handler, which no keyboard could reach; they are <button> now, and a
-        helper naming the tag would have failed for a change that fixed
-        something rather than broke it.
-        """
+        """The flag's destination, in any attribute order and on any tag."""
         for tag in re.findall(r'<[a-z]+[^>]*>', html):
             if 'id="flag-%s"' % language not in tag:
                 continue
@@ -994,17 +863,7 @@ class LanguageSelectorTest(TestCase):
 
 
 class OneSlugFunctionTest(TestCase):
-    """The url a page is published at and the slug it is looked up by must be
-    produced by the same rule.
-
-    They were not: official_site._slugify_name drops "'s" and
-    encyclopedia_view._normalized_slug did not. An item called "Coldbruela's
-    Boots" was published at /...-coldbruela-boots/ and looked up as
-    "coldbruela-s-boots", so the lookup found nothing, the page fell back to
-    the negotiated language, and a crawler read English on a url submitted as
-    Spanish. Roughly 46 urls were affected -- few, but the invariant "one url,
-    one language" was simply false for them.
-    """
+    """Published url and lookup build the slug with the same rule."""
 
     def test_the_two_agree_on_every_name_in_the_database(self):
         import sqlite3
@@ -1037,15 +896,12 @@ class OneSlugFunctionTest(TestCase):
 
         published = _slugify_name("Coldbruela's Boots", 'item')
         self.assertEqual(_normalized_slug("Coldbruela's Boots"), published)
-        # And the published slug resolves to itself, so a second pass over an
-        # already-slugified url cannot drift.
+        # A slug stays the same when slugified again
         self.assertEqual(_normalized_slug(published), published)
 
 
 class HubAlternatesTest(TestCase):
-    """A hub that answers in five languages but says so nowhere is only half
-    published: Google has no way to know the five are the same page, and no
-    sitemap invited it to look."""
+    """A hub announces its five languages with hreflang."""
 
     def test_a_hub_announces_its_translations(self):
         for path in ('/encyclopedia/', '/es/encyclopedia/',
@@ -1057,8 +913,7 @@ class HubAlternatesTest(TestCase):
 
     def test_the_announced_urls_answer_in_that_language(self):
         html = self.client.get('/es/encyclopedia/').content.decode('utf-8')
-        # Parsed tag by tag: the minifier sorts attributes, so hreflang and
-        # href arrive in either order and a fixed-order pattern finds nothing.
+        # Tag by tag: the minifier sorts attributes
         pairs = []
         for tag in re.findall(r'<link\b[^>]*hreflang=[^>]*>', html):
             code = re.search(r'hreflang="([^"]+)"', tag)
@@ -1076,19 +931,7 @@ class HubAlternatesTest(TestCase):
                 self.assertEqual(declared.group(1).split('-')[0], language)
 
     def test_no_page_announces_an_alternate_that_is_not_there(self):
-        """Pointing hreflang at a 404 is worse than pointing at nothing.
-
-        This test used to say that as one absence: /faq/ lived outside
-        i18n_patterns, so /es/faq/ did not exist and /faq/ announced nothing.
-        The second half was the state of the day, not the rule. Since section
-        91 the default version prefixes every route whose path does not
-        already name a language, so /es/faq/ answers 200 in Spanish like the
-        114 others. /faq/ still announces no alternate, which the rule allows:
-        a missing hreflang is not a dead one.
-
-        So the rule is asserted as a rule -- every alternate a page announces
-        must answer -- over several pages rather than one.
-        """
+        """Every alternate a page announces answers."""
         announced = 0
         for path in ('/faq/', '/about/', '/es/faq/', '/encyclopedia/',
                      '/fr/guides/'):
@@ -1122,24 +965,22 @@ class HubAlternatesTest(TestCase):
 
 
 class RepeatedVersionVariantTest(TestCase):
-    """A version variant only claims to be its own page when it shows
-    something the live one does not.
+    """A variant is a copy of the live page only if data and picture match."""
 
-    The picture decides, and it decides almost everywhere. This is a gear
-    *appearance* optimizer: two pages carrying identical numbers and a
-    different render are two different pages to the people who come here.
-
-        matching on data      after counting the picture
-        beta    3796    ->    38
-        dofus2   531    ->    530
-        touch     48    ->    0
-        retro     51    ->    0
-
-    Comparing data alone would have merged 3458 pages into a page showing a
-    different item -- every Touch and Retro one among them. Fixtures are found
-    in the catalogues rather than written down here, so the tests keep meaning
-    something after a game update.
-    """
+    def setUp(self):
+        from unittest import mock
+        from chardata import image_store
+        real = image_store._static_exists
+        # Dofus 2 icons hidden, so its pages match Dofus 3 again
+        hidden = mock.patch.object(
+            image_store, '_static_exists',
+            side_effect=lambda path: '/dofus2/' not in path and real(path))
+        hidden.start()
+        self.addCleanup(hidden.stop)
+        # The sitemap caches its documents in the module
+        from fashionsite import urls
+        urls._SITEMAP_CACHES.clear()
+        self.addCleanup(urls._SITEMAP_CACHES.clear)
 
     @staticmethod
     def _canonical(html):
@@ -1163,8 +1004,7 @@ class RepeatedVersionVariantTest(TestCase):
                 if repeats_the_live_version(version, *key)]
 
     def _pair(self, version):
-        """A variant judged a copy, with its live counterpart. None if there
-        is no such item that both versions actually publish."""
+        """(variant, live) urls of a copy both versions publish, or None."""
         from chardata.official_site import get_item_link
         for (ankama_type, ankama_id), (_digest, name, _kind) in self._copies(version):
             variant = get_item_link(ankama_type, ankama_id, name,
@@ -1179,12 +1019,8 @@ class RepeatedVersionVariantTest(TestCase):
         return None
 
     def test_a_page_called_a_copy_shows_the_same_picture(self):
-        """End to end, because a helper agreeing with itself proves nothing.
-
-        Rendered html is compared, so a mistake in resolving the item type --
-        which is what picks the picture directory -- cannot hide here.
-        """
-        pair = self._pair('beta') or self._pair('dofus2')
+        """Compared on the rendered html."""
+        pair =self._pair('beta') or self._pair('dofus2')
         self.assertIsNotNone(pair, 'no variant judged a copy to check')
         variant, live = pair
         self.assertEqual(
@@ -1202,9 +1038,8 @@ class RepeatedVersionVariantTest(TestCase):
             'https://dofusfashionista.gg' + live)
 
     def test_a_copy_still_answers(self):
-        # It points elsewhere; it is not withdrawn. A reader on that branch
-        # still needs the page.
-        pair = self._pair('beta') or self._pair('dofus2')
+        # Canonical elsewhere, but still served
+        pair =self._pair('beta') or self._pair('dofus2')
         self.assertIsNotNone(pair)
         self.assertEqual(self.client.get(pair[0]).status_code, 200)
 
@@ -1217,8 +1052,7 @@ class RepeatedVersionVariantTest(TestCase):
         self.assertIn('<loc>https://dofusfashionista.gg%s</loc>' % live, xml)
 
     def test_a_different_picture_alone_makes_a_different_page(self):
-        # Every Touch and Retro item matching on data carries its own render,
-        # so none of them may be called a copy.
+        # Touch and Retro items all have their own render
         for version in ('touch', 'retro'):
             with self.subTest(version=version):
                 copies = self._copies(version)
@@ -1234,13 +1068,7 @@ class RepeatedVersionVariantTest(TestCase):
 
 
 class PageHitPathTest(TestCase):
-    """One page counts as one page, whatever prefixes its url carries.
-
-    Versions were already collapsed. Languages were not, so the same page
-    would have split across five rows the moment prefixed urls went live --
-    and /es/dofus2/encyclopedia/ was worse: with the version no longer at the
-    front, "dofus2" was mistaken for an id.
-    """
+    """One page counts as one page, whatever prefixes its url carries."""
 
     def test_prefixes_collapse_to_one_shape(self):
         from chardata.middleware import normalise_path
@@ -1273,13 +1101,7 @@ class PageHitPathTest(TestCase):
 
 
 class PrivatePagesStayOutOfSearchTest(TestCase):
-    """A page that is empty unless you are signed in is not content.
-
-    /loadprojects/ was submitted to the sitemap and drew 3795 impressions for
-    4 clicks over ninety days: Google ranked, and readers found nothing. Its
-    per-project siblings are already disallowed in robots.txt; the plural
-    escaped because the rule reads */loadproject/ and this one carries an s.
-    """
+    """A page that is empty unless you are signed in is not content."""
 
     def test_the_project_list_is_not_indexable(self):
         html = self.client.get('/loadprojects/').content.decode('utf-8')
@@ -1290,26 +1112,14 @@ class PrivatePagesStayOutOfSearchTest(TestCase):
         self.assertNotIn('/loadprojects/', xml)
 
     def test_the_public_landing_is_still_submitted(self):
-        # /setup/ is the public "create a project" page and must stay.
-        xml = self.client.get('/sitemap-pages.xml').content.decode('utf-8')
+        # /setup/ is the public "create a project" page
+        xml =self.client.get('/sitemap-pages.xml').content.decode('utf-8')
         self.assertIn('<loc>https://dofusfashionista.gg/setup/</loc>', xml)
         self.assertEqual(self.client.get('/setup/').status_code, 200)
 
 
 class SubmittedHubCanonicalIgnoresTheBrowserTests(TestCase):
-    """A submitted url must name itself, whatever language the browser asks for.
-
-    Hub pages answer on two urls -- /encyclopedia/ and /es/encyclopedia/ -- and
-    the unprefixed one is served in whatever language the reader negotiated. Its
-    canonical used to be built from that served language, so a Spanish reader's
-    copy of /encyclopedia/ declared /es/encyclopedia/ canonical while the same
-    <head> listed /encyclopedia/ as the English alternate and the x-default: a
-    submitted url contradicting its own hreflang block.
-
-    EverySubmittedPageIsItsOwnCanonicalTest cannot see this -- it sends no
-    Accept-Language, so English stays active and every canonical is
-    self-referential. This one varies the header, which is the whole point.
-    """
+    """A submitted url names itself, whatever language the browser asks for."""
 
     HUBS = ('/encyclopedia/', '/encyclopedia/sets/', '/encyclopedia/monsters/')
     HEADERS = ('fr', 'es', 'pt', 'de', 'es-ES,es;q=0.9', '')
@@ -1346,8 +1156,7 @@ class SubmittedHubCanonicalIgnoresTheBrowserTests(TestCase):
                         % (path, header))
 
     def test_the_canonical_never_contradicts_the_hreflang_block(self):
-        """Whatever the canonical names, the page must be listed under that
-        same url in its own alternates."""
+        """The canonical url is among the page's own alternates."""
         for header in ('es', 'fr', ''):
             html = self.client.get(
                 '/encyclopedia/', HTTP_ACCEPT_LANGUAGE=header
@@ -1368,15 +1177,7 @@ class SubmittedHubCanonicalIgnoresTheBrowserTests(TestCase):
                 % (sorted(alternates[canonical]), canonical))
 
     def test_breadcrumbs_still_follow_the_language_of_the_page(self):
-        """The canonical follows the url; links must keep following the page.
-
-        Fixing one by breaking the other would send a Spanish reader to the
-        English hub on the first click -- the very thing the language prefix on
-        hub urls exists to prevent.
-
-        The Spanish url is read off the English page's own hreflang block
-        rather than spelled out here: an invented slug would test a 404.
-        """
+        """The canonical follows the url; links keep following the page."""
         english = self.client.get(
             '/encyclopedia/item/equipment/44-twiggy-sword/')
         self.assertEqual(english.status_code, 200)
@@ -1399,15 +1200,7 @@ class SubmittedHubCanonicalIgnoresTheBrowserTests(TestCase):
 
 
 class ALanguageSitemapOnlyHoldsThatLanguageTests(TestCase):
-    """A translated sitemap must not submit another language's url.
-
-    Entity urls carry their language in the slug, so they look unprefixed and
-    that is correct. Hub urls carry it in a path prefix, and the monster
-    sitemap emitted its hub for every language: /encyclopedia/monsters/ --
-    the English one -- appeared in the French, Spanish and Portuguese sitemaps
-    as well as its own. The same url submitted four times, telling Google the
-    translated sitemaps contain a page they do not.
-    """
+    """A translated sitemap must not submit another language's url."""
 
     HUB = '/encyclopedia/monsters/'
 
@@ -1426,8 +1219,7 @@ class ALanguageSitemapOnlyHoldsThatLanguageTests(TestCase):
                         % (language, path, language))
 
     def test_the_english_sitemap_still_submits_its_hub(self):
-        """Removing it everywhere would drop the English hub entirely: no other
-        sitemap submits the unprefixed one."""
+        """No other sitemap submits the unprefixed hub."""
         paths = [l.replace('https://dofusfashionista.gg', '')
                  for l in self._locations('monsters')]
         self.assertIn(self.HUB, paths)
@@ -1444,25 +1236,11 @@ class ALanguageSitemapOnlyHoldsThatLanguageTests(TestCase):
 
 
 class HreflangNamesTheCanonicalTests(TestCase):
-    """A page listing its translations has to name itself among them.
-
-    Google reads an hreflang group through that self-reference and drops the
-    whole group when it is missing, so a group contradicting the canonical is
-    worth less than no group at all. /encyclopedia/?page=7 was canonical at
-    ?page=7 and, one line below, named /encyclopedia/ as its own English
-    version: 768 pages in English, 3840 across the five languages.
-
-    Carrying ?page=N into every alternate would have been the wrong repair.
-    The lists are ordered by the translated name, so page 7 in English and
-    page 7 in French share 4 of their 39 items, English and Spanish 1 of 39.
-    A slice publishes nothing instead, which is the truth about it.
-    """
+    """Google drops an hreflang group that does not name the page itself."""
 
     NAVIGATEUR = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0'
 
-    #: Pages whose alternates are true. The filtered-and-paginated one is here
-    #: on purpose: its canonical falls back to the bare list, so it agrees
-    #: today -- and the day either half changes, this is where it is caught.
+    # ?q=sword&page=2 is canonical at the bare list
     NAMES_ITSELF = (
         '/',
         '/guides/',
@@ -1478,7 +1256,7 @@ class HreflangNamesTheCanonicalTests(TestCase):
         '/guides/resistance-explained/',
     )
 
-    #: Slices of a list. Every game version has its own, and every language.
+    # Lists sort by translated name: page N differs per language
     PUBLISHES_NOTHING = (
         '/encyclopedia/?page=7',
         '/encyclopedia/sets/?page=3',
@@ -1503,10 +1281,7 @@ class HreflangNamesTheCanonicalTests(TestCase):
         return canonical, alternates
 
     def test_a_published_group_contains_the_canonical(self):
-        # Read as "the canonical is one of the alternates" rather than by
-        # deriving which language this url is: on an item page the language
-        # lives in the slug, not in a prefix, and deriving it from the path
-        # would call a French page English.
+        # Item pages carry their language in the slug, not in a prefix
         checked = 0
         wrong = []
         for url in self.NAMES_ITSELF:
@@ -1532,8 +1307,7 @@ class HreflangNamesTheCanonicalTests(TestCase):
                 'them as translations: %s' % (url, sorted(alternates)))
 
     def test_a_slice_keeps_its_language_flags(self):
-        # The alternates feed two things and only the group may be silenced.
-        # A reader on page 7 still has to be able to switch language.
+        # The alternates also feed the language flags
         for url in self.PUBLISHES_NOTHING:
             response = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
                                        HTTP_USER_AGENT=self.NAVIGATEUR)

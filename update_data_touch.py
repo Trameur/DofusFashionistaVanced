@@ -6,26 +6,6 @@ Usage:
     python update_data_touch.py                  # full update (latest live Touch data)
     python update_data_touch.py --skip-images    # skip the item-icon download
     python update_data_touch.py --skip-translations  # FR names only (faster)
-
-Like Retro, there's no version tag to bump: the data comes straight from the live
-Touch backend, so download_touch_data.py always pulls the current tables. See
-docs/touch_data_sources.md for where that data lives and how it's structured.
-
-Steps:
-    data/download    download_touch_data.py   -> touch_raw/{Items,ItemSets,ItemTypes,Effects,Recipes,Breeds}_<lang>.json
-    data/mounts      download_touch_mounts.py -> touch_raw/mounts.json (names from backend, stats from encyclopedia)
-    items/transform  get_equipments_touch.py  -> touch/transformed_{equipment,sets}.json
-    items/dump       get_equipments3.py        -> item_db_dumped_touch.dump
-    items/load-db    load_item_db.py           -> items_touch.db
-    items/recipes    store_touch_recipes.py    -> item_recipes + descriptions + pods in items_touch.db
-    items/special-spells store_touch_special_spells.py -> "casts spell" extra_lines (Dofus/shields)
-    spells/tooltips     store_spell_tooltips.py -> spell_tooltips (what a named spell does)
-    spells/build     get_spells_touch.py       -> dofus_constants_touch_spells.py (TOUCH_DAMAGE_SPELLS)
-    item-images      download_touch_images.py  -> static/chardata/{items,pets}/touch/60x60/
-
-Touch is a Dofus 2 fork with its own quirks (it keeps PvP resists, AP/MP parry and
-reduction, dodge/lock and trap stats, and has 15 classes); get_equipments_touch.py
-and version_compat.py handle those.
 """
 
 from __future__ import annotations
@@ -124,8 +104,7 @@ def main() -> None:
         download_cmd.append("--all-langs")
     step("data/download", download_cmd, cwd=ITEMSCRAPER)
 
-    # Mounts: names from the backend Mounts table, stats scraped from the Touch
-    # encyclopedia (the backend has no mount stats). Must run before items/transform.
+    # Backend has no mount stats, they come from the encyclopedia. Before items/transform
     step("data/mounts", [PY, "download_touch_mounts.py", "--dest", TOUCH_RAW_DIR],
          cwd=ITEMSCRAPER)
 
@@ -141,31 +120,22 @@ def main() -> None:
 
     step("items/load-db", [PY, "load_item_db.py", "--game-version", "touch"])
 
-    # Recipes are added after load-db (the dump from get_equipments3 doesn't carry
-    # them); this fills item_recipes in items_touch.db and re-dumps it.
+    # The dump has no recipes, added after load-db
     step("items/recipes", [PY, "store_touch_recipes.py"], cwd=ITEMSCRAPER)
 
     # "Casts spell at start of combat" tooltip lines (Dofus/shields) -> extra_lines.
     step("items/special-spells", [PY, "store_touch_special_spells.py"], cwd=ITEMSCRAPER)
 
-    # What those spells actually do, for the tooltip on the lines above.
+    # What those spells do, for their tooltip
     step("spells/tooltips", [
         PY, "-m", "itemscraper.store_spell_tooltips", "--game-version", "touch",
     ])
 
-    # Feeding pets carry no bonuses in the backend datacenter: scrape the official
-    # dofus-touch.com encyclopedia hormone caps, then generate the maxed variants
-    # ("<Pet> (+110 Agility)") the optimizer picks from.
-    #
-    # BEFORE drops/store, like the Retro pipeline: store_drops attaches a drop to
-    # every internal row of an ankama id, so a variant created after it keeps
-    # none. The drops step cannot move later instead, because monsters/grades and
-    # monsters/subareas read the monster_names table it creates.
+    # Pet bonuses from the encyclopedia; before drops/store or the variants get no drops
     step("pets/scrape-bonuses", [PY, "scrape_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
     step("pets/store-bonuses", [PY, "store_touch_pet_bonuses.py"], cwd=ITEMSCRAPER)
 
-    # Monster drops (from the backend Monsters table) -> item_drops / monster_names
-    # in items_touch.db (encyclopedia "Dropped by"). Runs after recipes finalize the db.
+    # Monster drops -> item_drops / monster_names
     step("drops/transform", [
         PY, "get_monsters_touch.py",
         "--raw-dir", TOUCH_RAW_DIR, "--output", "transformed_drops_touch.json",
@@ -178,14 +148,12 @@ def main() -> None:
         PY, "store_touch_monster_grades.py", "--raw-dir", TOUCH_RAW_DIR,
     ], cwd=ITEMSCRAPER)
 
-    # Where each monster can be found: the client's SubAreas table (official
-    # data proxy) lists the monsters per subarea with localized names.
+    # Monster locations from the SubAreas table
     step("monsters/subareas", [
         PY, "store_touch_monster_subareas.py", "--download",
     ], cwd=ITEMSCRAPER)
 
-    # Craft professions -> item_craft_jobs / job_names ("Crafted by ..."). The
-    # localized Recipes_<lang>.json come from data/download with --all-langs.
+    # Craft professions -> item_craft_jobs / job_names, names need --all-langs
     step("craftjobs/transform", [
         PY, "get_craft_jobs_touch.py",
         "--raw-dir", TOUCH_RAW_DIR,
@@ -197,22 +165,17 @@ def main() -> None:
         "--game-version", "touch",
     ], cwd=ITEMSCRAPER)
 
-    # Replayed, not matched: Touch is a fork of the Dofus 2 client and keeps the
-    # same equipment designs, so the Dofus 3 skins fit here by ankama id, and by
-    # type and name for the third of the catalogue Touch renumbered. Its own
-    # mapping (item_skins_touch.json) is not used: the baked preview cache is a
-    # single Dofus 3 id space and a Touch skin id there would draw another piece.
+    # Dofus 3 skins by ankama id, or type and name; the preview cache only knows Dofus 3 ids
     step("item-skins", [PY, "store_item_skins.py", "--game-version", "touch",
                         "--input", "item_skins.json",
                         "--names", "item_skins_by_name.json"], cwd=ITEMSCRAPER)
 
-    # Manual fixes last, so they survive whatever the stores rebuilt.
+    # Manual fixes last
     step("items/corrections", [
         PY, "store_item_corrections.py", "--game-version", "touch",
     ], cwd=ITEMSCRAPER)
 
-    # Data changed: refresh the scanned list of runtime-translated
-    # strings (item types, stats...) so makemessages keeps them.
+    # Runtime-translated strings (item types, stats...) for makemessages
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     # Damage spells per class -> dofus_constants_touch_spells.py (independent of items).
@@ -231,10 +194,7 @@ def main() -> None:
              cwd=ITEMSCRAPER)
 
 
-    # A rebuild reports success either way. This asks what it changed that
-    # nobody asked for: a table that lost rows, an item whose row id moved.
-    # A moved id empties that slot in every saved build, in silence, which is
-    # how 82 Touch pets changed owner on 2026-08-15.
+    # Tables that lost rows, items whose row id moved
     step("verify/rebuild", [PY, "check_rebuild.py", "--only", "touch"],
          cwd=ITEMSCRAPER)
 

@@ -1,51 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une copie version-prefixee qui ne montre rien de neuf le dit.
-
-Trouve en relevant le titre de chaque page atteinte depuis les 25 racines.
-Mesure du 14 septembre 2026, sur les 584 pages lues: **360 se declaraient
-canoniques d'elles-memes, et 150 d'entre elles partageaient leur titre avec
-quatre soeurs de la meme langue** -- les copies version-prefixees de pages
-identiques.
-
-Le site avait deja la regle, ecrite dans `about.html`:
-
-    Version-prefixed copies (/beta/about/ etc.) are duplicates
-    -> canonical to the global page.
-
-Elle etait posee sur `/about/`, `/faq/`, `/license/`, `/support/` et
-`/privacy/`, et nulle part ailleurs.
-
-**Quelles pages y ont droit est une mesure, pas une intuition.** Rendues sous
-les cinq versions et comparees corps a corps, pied de page exclu:
-
-| famille | ressemblance entre versions | verdict |
-|---------|-----------------------------|---------|
-| /contact/ | 0,98 a 0,99 | identique, seule la ligne de version du pied change |
-| /login_page/ | 0,98 a 0,99 | identique |
-| /smartbuild/ | 0,99 | identique |
-| **/quickstart/** | 0,96 a 0,99 | **differente**: Retro y montre sept classes de moins |
-| /sharedbuilds/ | 0,33 a 0,39 | differente |
-| /loadprojects/ | 0,50 a 0,62 | differente |
-| /encyclopedia/ | 0,26 a 0,98 | differente |
-
-`/quickstart/` est le cas qui aurait rendu le site faux: son corps se
-ressemble a 0,96, et le diff mot a mot dit pourquoi les quatre pour cent
-manquants comptent. Elle garde donc son propre canonique sur chaque version.
-
-Apres: 300 pages se declarent d'elles-memes au lieu de 360, et les 15 titres
-encore partages sont ceux de trois familles qui montrent vraiment autre chose
-(`loadprojects` et `choose_compare_sets`, derriere la connexion, et
-`quickstart`).
-
-Deux choses sont retirees avant de comparer, et le premier parcours mesure
-qu'elles le sont: le pied de page, qui nomme la version du jeu sur les 584
-pages, et le jeton anti-CSRF du formulaire, tire au sort a chaque requete.
-Sans ces deux coupes aucune page ne serait jamais identique a sa copie.
-
-Ce garde ne lit pas une liste: il rend les pages et compare, donc il tombe
-aussi bien si une page identique cesse de le dire que si une page differente
-se met a le dire.
-"""
+"""A version-prefixed copy that shows nothing new is canonical to the global page."""
 import re
 
 from django.test import TestCase
@@ -55,22 +9,18 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 PREFIX = {'dofus3': '', 'beta': '/beta', 'dofus2': '/dofus2',
           'touch': '/touch', 'retro': '/retro'}
 
-#: Les pages publiques servies sous les cinq versions. Les pages derriere la
-#: connexion en sont absentes: elles sont noindex, donc leur canonique ne
-#: decide de rien.
+# Public pages only, logged-in ones are noindex
 FAMILIES = ('/about/', '/faq/', '/license/', '/support/', '/contact/',
             '/login_page/', '/smartbuild/', '/quickstart/')
 
-#: Ce que le corps de la page dit, sans l'en-tete qui marque la version
-#: active ni le pied qui la nomme.
+# Body without the header and footer, both name the version
 _BODY = re.compile(r'id="main-content"(.*?)class="footer"', re.S)
 _TAG = re.compile(r'<[^>]+>')
 _LINK = re.compile(r'<link\b[^>]*>', re.I)
 _ATTR = {name: re.compile(r'\b%s="([^"]*)"' % name, re.I)
          for name in ('rel', 'href')}
 
-#: Le jeton anti-CSRF: 64 caracteres tires au sort a chaque requete, donc
-#: different entre deux rendus de la meme page, version ou pas.
+# CSRF token, new on every request
 _CSRF = re.compile(r'\b[A-Za-z0-9]{64}\b')
 
 
@@ -111,8 +61,7 @@ class AVersionCopySaysWhetherItShowsAnythingNewTests(TestCase):
         return bodies, canonicals
 
     def test_the_two_cuts_are_what_make_a_copy_comparable(self):
-        """Le plancher du parcours. Chaque coupe est mesuree: sans elle les
-        deux pages different, avec elle elles se confondent."""
+        """Footer and CSRF token are cut before comparing."""
         page = self._page('/retro/about/')
         self.assertIn('Items up to', page,
                       'the footer no longer names the game version')
@@ -153,9 +102,6 @@ class AVersionCopySaysWhetherItShowsAnythingNewTests(TestCase):
         self.assertGreaterEqual(len(different), 1, different)
 
     def test_quickstart_is_the_family_that_shows_something_else(self):
-        """Le temoin nomme du cote <<differente>>. Sans lui, une regle qui
-        canoniserait tout passerait le parcours le jour ou plus rien ne
-        differe."""
         bodies, canonicals = self._read('/quickstart/')
         self.assertNotEqual(bodies['dofus3'], bodies['retro'])
         missing = [name for name in ('Eliotrope', 'Foggernaut', 'Forgelance',
@@ -166,8 +112,7 @@ class AVersionCopySaysWhetherItShowsAnythingNewTests(TestCase):
         self.assertEqual(SITE + '/retro/quickstart/', canonicals['retro'])
 
     def test_a_copy_that_disclaims_itself_publishes_no_hreflang(self):
-        """Les deux moities du <head> repondent a la meme question: un groupe
-        qui nommerait cette page la contredirait."""
+        """A page canonical elsewhere is in no hreflang group."""
         html = self._page('/retro/contact/')
         self.assertEqual(SITE + '/contact/', _canonical_of(html))
         self.assertNotIn('hreflang=', html)

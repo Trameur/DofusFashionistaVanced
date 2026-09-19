@@ -61,6 +61,11 @@ with open(os.path.join(CONFIG_DIR, 'debug_mode')) as f:
     DEBUG = (content == 'True')
     print('DEBUG: %s' % DEBUG)
 
+# Build sites whose creators agreed (chardata/build_sites.py); DEBUG enables all
+BUILD_SITES_AGREED = ()
+BUILD_SITES_ENABLED = (('dofusbook', 'dofus-stuffer', 'dofuscreator')
+                       if DEBUG else BUILD_SITES_AGREED)
+
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
@@ -150,6 +155,7 @@ TEMPLATES = [
                 'chardata.context_processors.site_stats',
                 'chardata.context_processors.ads',
                 'chardata.context_processors.changelog',
+                'chardata.context_processors.build_sites',
             ],
         },
     },

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""get_monsters_retro.py - build the item -> monster drops index for Dofus Retro.
-
-Scrapes the paginated Solomonk.fr bestiary AJAX endpoint and emits
-{item_ankama_id: [{monster_ankama_id, names{lang}, rates}]}, the same shape as
-get_monsters.py. Item and monster ids are Ankama ids.
+"""Retro item -> monster drops index from Solomonk.fr, shaped like get_monsters.py.
 
 Usage (from repo root):
     python itemscraper/get_monsters_retro.py --output itemscraper/transformed_drops_retro.json
@@ -22,9 +18,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-# What this source publishes, not what the game has: solomonk.fr answers only
-# fr, en and es and redirects the other two. German and Portuguese are not
-# lost for all that -- they come from Ankama's own files below.
+# Solomonk only answers fr, en and es; pt and de come from Ankama below
 LANGUAGES: Sequence[str] = ("fr", "en", "es")
 DEFAULT_OUTPUT = Path("itemscraper/transformed_drops_retro.json")
 
@@ -43,14 +37,10 @@ COLLAPSE = {
     "CS[bestiaryCollapseDropsTemporis]": "true",
 }
 
-# The card-solo-monster-title class also sits on a decorative div, so the <a> is
-# required to match only real titles.
+# card-solo-monster-title also sits on a decorative div, hence the <a>
 TITLE_RE = re.compile(
     r'card-solo-monster-title"><a[^>]*href="[^"]*?/(\d+)/[^"/]+"[^>]*>([^<]+)</a>')
-# One drop: an item link (Ankama id in the path) followed by its ( <rate>% ...).
-# The rate used to be plain text after the paren; the site now wraps it in a
-# span carrying one rate per monster rank, whose own text is the rank 1 rate.
-# Both shapes are read, so the parser survives the site changing back.
+# Item link then ( <rate>%, the rate bare or in a span whose text is the rank 1 rate
 DROP_RE = re.compile(
     r'href="[^"]*?/(\d+)/[^"/]+"[^>]*>.*?</a>\s*\(\s*(?:<span[^>]*>\s*)?'
     r'([\d.,]+)\s*(?:</span>)?\s*%', re.S)
@@ -126,8 +116,7 @@ def _fetch_language(lang: str, delay: float, max_pages: int,
         data = _http_get_json("%s?%s" % (AJAX, query))
         cards = _parse_cards((data or {}).get("html") or "")
         if not cards:
-            # The endpoint intermittently serves an empty page mid-crawl, so an
-            # empty page is only the end after a few retries at the same offset.
+            # The endpoint sometimes serves an empty page mid-crawl
             empty_streak += 1
             if empty_streak > 2:
                 break
@@ -146,18 +135,10 @@ def _fetch_language(lang: str, delay: float, max_pages: int,
     return monsters
 
 
-# Ankama's own Retro lang files, the ones the client downloads. Solomonk answers
-# only fr, en and es, and the note that used to sit here concluded from that
-# that the German and Portuguese monster names "have no source". They do: the
-# manifest publishes 38 categories including `monsters`, in all five languages,
-# and 772 of the 774 monsters this scraper knows are in it. The claim was true
-# of Solomonk and got generalised to every source without asking Ankama.
+# Ankama's Retro lang files, for the languages Solomonk lacks
 ANKAMA_LANGUAGES: Sequence[str] = ("pt", "de")
 ANKAMA_CDN = "https://dofusretro.cdn.ankama.com/lang"
-# The file carries over fifteen hundred monsters. Far below that means the
-# payload key moved, not that Ankama lost its bestiary -- and an empty result
-# reads exactly like "this language has none", which is what sent the previous
-# reader down the wrong path.
+# Far below this means the payload key moved
 MIN_ANKAMA_NAMES = 800
 
 
@@ -177,11 +158,7 @@ def _ankama_manifest(lang: str) -> Dict[str, str]:
 
 def ankama_monster_names(languages: Sequence[str] = ANKAMA_LANGUAGES,
                          delay: float = 0.2) -> Dict[int, Dict[str, str]]:
-    """Monster names from Ankama's files, as {monster_ankama_id: {lang: name}}.
-
-    Reuses the parser download_retro_langs.py already depends on, so the SWF
-    format is decoded in one place rather than two.
-    """
+    """Monster names from Ankama's files, as {monster_ankama_id: {lang: name}}."""
     try:
         from retro_swf_parser import parse_lang_swf
     except ImportError:  # when run as a module
@@ -212,9 +189,6 @@ def ankama_monster_names(languages: Sequence[str] = ANKAMA_LANGUAGES,
                 continue
             names.setdefault(monster_id, {})[lang] = name
             found += 1
-        # An assertion on the question and not on the answer: a moved key gives
-        # an empty dict, and an empty dict is indistinguishable from a language
-        # that genuinely has no names.
         if found < MIN_ANKAMA_NAMES:
             raise RuntimeError(
                 "only %d %s monster names parsed, expected at least %d: the "
@@ -225,11 +199,7 @@ def ankama_monster_names(languages: Sequence[str] = ANKAMA_LANGUAGES,
 
 def merge_ankama_names(index: Dict[str, Any],
                        languages: Sequence[str] = ANKAMA_LANGUAGES) -> int:
-    """Add the Ankama-only languages to an index Solomonk already filled.
-
-    Only monsters the index already knows are touched: this adds languages to
-    existing entries, it never invents a monster the drop tables never saw.
-    """
+    """Add the Ankama-only languages to monsters the index already has."""
     extra = ankama_monster_names(languages)
     ajoutes = 0
     for monsters in index.values():
@@ -270,9 +240,7 @@ def build_drops_index(languages: Sequence[str] = LANGUAGES,
         for monster_id, info in per_lang[lang].items():
             names_by_monster.setdefault(monster_id, {})[lang] = info["name"]
 
-    # The two languages this source cannot serve, from Ankama. Only
-    # monsters Solomonk already named are touched: this adds a language
-    # to an entry, it never invents a monster the drop tables never saw.
+    # pt and de from Ankama, only for monsters Solomonk already named
     if ankama_languages:
         for monster_id, extra in ankama_monster_names(
                 ankama_languages).items():
@@ -301,11 +269,7 @@ def build_drops_index(languages: Sequence[str] = LANGUAGES,
     return out
 
 
-# A page of 10 monsters carries about 20 drops, and the source has over a
-# thousand monsters. Anything near zero means the markup moved again, not that
-# the game lost its loot: the site once wrapped the rate in a span and this
-# scraper quietly returned nothing, which then emptied the drop, monster name,
-# grade and subarea tables in one run while every step still said ok.
+# Far below this means the markup moved
 MIN_PAIRS = 500
 
 
@@ -331,8 +295,6 @@ def main() -> int:
         avant = count_named(index, toutes)
         merge_ankama_names(index)
         apres = count_named(index, toutes)
-        # Le compte par langue et pas en tout : un total qui monte
-        # peut cacher une langue restee vide.
         for lang in toutes:
             print("  %s: %d -> %d monsters named"
                   % (lang, avant[lang], apres[lang]))

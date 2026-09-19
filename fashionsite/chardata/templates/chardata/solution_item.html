@@ -6,12 +6,18 @@
     <div class="{% if item.id %}expand-header{% endif %} solution-item-expand-header">
         <table width="100%"><tr>
         <td width="62px">
+            {% if item.shiny %}
+            <div class="solution-item-icon-container shiny-slot" title="{% trans "Shiny: on the TemporiX servers this piece drops with every value times 1.5. In the game it keeps its name and shows a golden frame." %}">
+                <img alt="{% trans "Shiny" context "shiny mark on an item" %}" src="{{ item.file }}" class="solution-items-icon" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
+            </div>
+            {% else %}
             <div class="solution-item-icon-container">
                 <img alt="" src="{{ item.file }}" class="solution-items-icon" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
             </div>
+            {% endif %}
         </td>
         <td class="solution-item-info">
-            <div class="solution-item-name-div"><span id='item-name-{{item.slot}}'>{{item.localized_name}}</span>{% if item.level %} <span class="solution-item-level">{% trans "Lvl." %} {{item.level}}</span>{% endif %}{% if item.acquisition_text %} <span class="solution-item-source">{{ item.acquisition_text }}</span>{% endif %}</div>
+            <div class="solution-item-name-div"><span id='item-name-{{item.slot}}'>{{item.localized_name}}</span>{% if item.level %} <span class="solution-item-level">{% trans "Lvl." %} {{item.level}}</span>{% endif %}{% if item.has_forge %} <span class="solution-item-mark" title="{% trans "Smithmagic: the rolls recorded on this piece differ from its encyclopedia values." %}">{% trans "SM" context "smithmagic mark on an item" %}</span>{% endif %}{% if item.has_exo %} <span class="solution-item-mark" title="{% trans "Exo: this piece carries a line, or an AP, MP or Range point, beyond its encyclopedia values." %}">{% trans "Exo" context "exo mark on an item" %}</span>{% endif %}{% if item.acquisition_text %} <span class="solution-item-source">{{ item.acquisition_text }}</span>{% endif %}</div>
             {% if item.link %}
             <div class="solution-item-link-div">
                 <a class="item-external-link" target="_blank" rel="noopener noreferrer" href="{{item.link}}">

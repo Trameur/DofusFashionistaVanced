@@ -1,43 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une fiche n'annonce que les langues que son adresse peut servir.
-
-Trouve en parcourant les fiches d'objets des cinq versions dans les cinq
-langues: sur 200 fiches lues, **10 servaient une autre langue que celle dont
-l'adresse portait le nom**. La cause n'est pas un defaut de traduction, c'est
-que deux langues donnent parfois le meme nom a un objet: le Bouclier en
-Mousse s'appelle `Escudo de Esponja` en espagnol **et** en portugais, donc les
-deux slugs sont le meme et une seule langue peut avoir l'adresse.
-`language_from_slug` tranche par un ordre fixe, et la langue perdante n'a plus
-de page a elle.
-
-La fiche annoncait quand meme les cinq. Sur
-`/encyclopedia/item/equipment/18659-escudo-de-esponja/`, la page disait
-`<html lang="es">` et, quatre lignes plus haut, qu'elle etait la version
-portugaise d'elle-meme. Cote lecteur, le drapeau portugais etait un lien vers
-la page espagnole elle-meme: on cliquait et il ne se passait rien.
-
-**Combien.** Mesure du 14 septembre 2026 sur les catalogues des cinq versions:
-
-    version   objets   ambigus   adresses annoncees a tort
-    dofus3      3827       465     710
-    beta        3834       466     714
-    dofus2      3389       454     693
-    touch       3390       540     827
-    retro       6361      1715    2191
-
-soit **5135 sur les objets** (2537 en portugais, 1353 en allemand, 643 en
-francais, 602 en espagnol) et **293 de plus sur les panoplies**, presque
-toutes allemandes.
-
-**La regle existait deja.** Le sitemap ne depose jamais une adresse dans le
-fichier d'une langue qu'elle ne sert pas: `_served_in` le dit depuis toujours,
-avec le bon commentaire. C'est la page qui ne posait pas la question. Les deux
-lisent maintenant `url_language.address_serves_language`.
-
-Apres: 60 fiches tirees au sort sur les cinq versions, 284 traductions
-annoncees, **zero faute** -- chacune repond 200, dans la langue annoncee, se
-nomme elle-meme en canonique et se compte dans son propre groupe.
-"""
+"""Languages sharing an item name share one address; a page announces only the one it serves."""
 import collections
 import random
 import re
@@ -52,13 +14,9 @@ from fashionistapulp.translation import SUPPORTED_LANGUAGES
 
 SITE = 'https://dofusfashionista.gg'
 LANGUAGES = tuple(SUPPORTED_LANGUAGES)
-#: Imprimee par le test qui echantillonne: un tirage muet n'est pas reproductible.
 SEED = 20260915
 
-#: Le tag entier, puis chaque attribut cherche a part. Le minificateur trie
-#: les attributs par ordre alphabetique, donc `href` passe avant `hreflang` et
-#: avant `rel`: un motif qui les lit dans un ordre ne trouve rien en
-#: production ni dans la suite, qui minifie aussi.
+# The minifier sorts attributes, read each one separately
 _LANG = re.compile(r'<html[^>]*\slang="([^"]+)"')
 _LINK = re.compile(r'<link\b[^>]*>', re.I)
 _FLAG = re.compile(r'<(a|button)\b[^>]*>', re.I)
@@ -103,7 +61,7 @@ def _flags_of(html):
 
 
 def _an_ambiguous_item(game_version='dofus3'):
-    """Le premier objet du catalogue dont deux langues partagent le slug."""
+    """First catalogue item whose slug two languages share."""
     structure = get_structure(game_version)
     for item in structure.get_items_list():
         if getattr(item, 'removed', False):
@@ -120,7 +78,7 @@ def _an_ambiguous_item(game_version='dofus3'):
 
 
 class TwoLanguagesSharingANameShareOneAddressTests(TestCase):
-    """La regle, sur des noms fabriques: rien ne depend du catalogue."""
+    """The rule on made-up names, no catalogue."""
 
     BUILDER = staticmethod(lambda name: '/x/%s/' % _normalized_slug(name))
 
@@ -136,7 +94,6 @@ class TwoLanguagesSharingANameShareOneAddressTests(TestCase):
                          'both: %s' % announced)
 
     def test_the_winner_is_the_one_the_url_will_answer_in(self):
-        """Le garde de la paire: annoncer l'autre serait aussi faux."""
         names = {'en': 'Sponghield', 'fr': 'Bouclier en Mousse',
                  'es': 'Escudo de Esponja', 'pt': 'Escudo de Esponja',
                  'de': 'Schwammiger Spongischild'}
@@ -145,8 +102,6 @@ class TwoLanguagesSharingANameShareOneAddressTests(TestCase):
                                      _normalized_slug))
 
     def test_a_name_unique_everywhere_still_announces_five(self):
-        """Le plancher: une regle qui couperait tout passerait le premier
-        test sans rien mesurer."""
         names = {'en': 'Twiggy Sword', 'fr': 'Epee de Boisaille',
                  'es': 'Espada de Maderucha', 'pt': 'Espada de Madeirinha',
                  'de': 'Zweigschwert'}
@@ -165,7 +120,7 @@ class TwoLanguagesSharingANameShareOneAddressTests(TestCase):
 
 
 class TheSitemapAndThePageAskTheSameQuestionTests(TestCase):
-    """Deux reponses a une question, c'est ainsi que la page a derive."""
+    """The sitemap and the page answer with the same helper."""
 
     CASES = (
         {'en': 'A', 'fr': 'B', 'es': 'C', 'pt': 'C', 'de': 'D'},
@@ -185,7 +140,6 @@ class TheSitemapAndThePageAskTheSameQuestionTests(TestCase):
                                                 _normalized_slug))
 
     def test_the_cases_really_contain_a_tie(self):
-        """Sans cela, les deux fonctions pourraient s'accorder sur rien."""
         refused = [(names, language) for names in self.CASES
                    for language in LANGUAGES
                    if not address_serves_language(names, language,
@@ -194,7 +148,7 @@ class TheSitemapAndThePageAskTheSameQuestionTests(TestCase):
 
 
 class AnAmbiguousItemPageTellsTheTruthTests(TestCase):
-    """Bout en bout, sur un objet reel du catalogue."""
+    """End to end on a real catalogue item."""
 
     @classmethod
     def setUpClass(cls):
@@ -215,7 +169,6 @@ class AnAmbiguousItemPageTellsTheTruthTests(TestCase):
         return path, answer.content.decode('utf-8', 'replace')
 
     def test_the_catalogue_really_holds_such_an_item(self):
-        """Le plancher du temoin: sans tie, tout ce qui suit est vide."""
         self.assertGreaterEqual(len(self.tied), 2)
 
     def test_the_page_does_not_announce_the_language_it_cannot_serve(self):
@@ -236,8 +189,6 @@ class AnAmbiguousItemPageTellsTheTruthTests(TestCase):
                                  % (self.item.name, winner, language))
 
     def test_the_flag_it_cannot_serve_is_a_button_not_a_dead_link(self):
-        """Un lien qui ramene sur la meme page dans une autre langue est pire
-        qu'un bouton: on clique et il ne se passe rien."""
         winner = language_from_slug(
             self.item.localized_names,
             _normalized_slug(self.item.localized_names[self.tied[0]]),

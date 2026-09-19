@@ -1,17 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le compteur de la barre laterale dit ce qu'il compte.
-
-Le lot A bis avait remplace <<stuffs generes>> par <<solver runs>>. Mesure du
-10 septembre 2026 sur le code: le nombre est la somme des `get_count` de
-SolutionCounter, et `DatabaseSolutionMemory.get` l'incremente AVANT de
-regarder la memoire. Une demande servie depuis la memoire, sans faire tourner
-le solveur, compte donc autant qu'un calcul. <<solver runs>> disait plus que
-le chiffre, et le disait sur chaque page, sous 442 243 en production.
-
-Une reponse servie de memoire reste une reponse du solveur, calculee une
-premiere fois pour la meme demande: <<reponses du solveur>> est vrai dans
-les deux cas, et le nombre garde son histoire cumulee depuis 2016.
-"""
+"""The sidebar counter counts what it says."""
 
 import os
 
@@ -26,9 +14,6 @@ def _gabarit():
 
 
 class TheCounterCountsAnswersNotRunsTests(TestCase):
-    """La mesure qui justifie le libelle, gardee comme un test: si un jour
-    le compteur ne bouge plus sur une reponse de memoire, le libelle
-    <<reponses>> devient a son tour trop large et ce test le dira."""
 
     def test_a_request_served_from_memory_still_counts(self):
         import pickle
@@ -36,8 +21,6 @@ class TheCounterCountsAnswersNotRunsTests(TestCase):
         from chardata.models import SolutionCounter, SolutionMemory
         from chardata.solution_memory import DatabaseSolutionMemory
 
-        # La cle est un entier en base, comme ce que cache_key() rend pour
-        # une vraie demande.
         CLE = 424242424242
 
         class Demande(object):
@@ -46,7 +29,7 @@ class TheCounterCountsAnswersNotRunsTests(TestCase):
 
         memoire = DatabaseSolutionMemory()
         demande = Demande()
-        # Une reponse deja en memoire pour cette demande.
+        # Already cached for this request
         SolutionMemory.objects.create(input_hash=CLE,
                                       input=pickle.dumps('x'),
                                       stored=pickle.dumps(('reponse',)))
@@ -64,12 +47,8 @@ class TheLabelSaysAnswersTests(SimpleTestCase):
 
     def test_the_sidebar_no_longer_claims_solver_runs(self):
         corps = _gabarit()
-        # Vise le LIBELLE, pas le commentaire qui cite la formule fautive
-        # pour expliquer pourquoi elle a ete abandonnee.
         self.assertNotIn('{% trans "solver runs" %}', corps)
         self.assertNotIn('solver run{% plural %}', corps)
-        # Le libelle s'accorde en nombre depuis le lot 72: il n'est plus une
-        # chaine simple mais une paire singulier-pluriel.
         self.assertIn('solver answer{% plural %}solver answers', corps)
 
     def test_the_label_is_translated_in_the_four_other_languages(self):
@@ -77,8 +56,6 @@ class TheLabelSaysAnswersTests(SimpleTestCase):
         muettes = []
         for langue in ('fr', 'es', 'pt', 'de'):
             with override(langue):
-                # Ce que le lecteur recoit, et non l'ancienne entree simple
-                # que le gabarit n'emploie plus.
                 for nombre, attendu in ((1, 'solver answer'),
                                         (2, 'solver answers')):
                     if ngettext('solver answer', 'solver answers',
@@ -87,8 +64,6 @@ class TheLabelSaysAnswersTests(SimpleTestCase):
         self.assertEqual([], muettes)
 
     def test_no_translation_says_generated_on_its_own(self):
-        """La derive que le lot A bis avait trouvee: l'anglais propre et la
-        traduction qui dit <<genere>> toute seule."""
         from django.utils.translation import ngettext, override
         for langue in ('fr', 'es', 'pt', 'de'):
             with override(langue):

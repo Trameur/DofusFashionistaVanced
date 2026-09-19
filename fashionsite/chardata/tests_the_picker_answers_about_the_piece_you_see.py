@@ -1,37 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La fenetre de changement d'objet repond sur la piece qu'on regarde.
-
-Trouve en exercant la fenetre sur un build Touch. Elle renvoie trois cartes
-au navigateur, les conditions, l'ecart de caracteristiques et le profil
-d'arme, et **elles etaient indexees par le nom de l'objet**. Ankama donne le
-meme nom a deux pieces differentes, donc la seconde ecrasait la premiere et
-le lecteur lisait les chiffres d'un autre objet sous celui qu'il regardait.
-
-Mesure du 13 septembre 2026, en ne comptant que les homonymes du **meme
-type**, les seuls qui se rencontrent dans une fenetre:
-
-| version | noms partages | valeurs distinctes | conditions distinctes |
-|---------|---------------|--------------------|-----------------------|
-| dofus3  | 0             | 0                  | 0                     |
-| beta    | 0             | 0                  | 0                     |
-| dofus2  | 0             | 0                  | 0                     |
-| touch   | 17            | 14                 | 0                     |
-| retro   | 40            | 1                  | 0                     |
-
-Les conditions pour equiper, elles, coincident partout: c'est l'ecart de
-caracteristiques que le lecteur lisait faux.
-
-Preuve au niveau du lecteur: deux capes Touch s'appellent <<Caracape>>, l'une
-de niveau 60 et l'autre de niveau 150. Avant, les deux lignes affichaient
-<<-370 PV>>. Apres, la premiere dit <<-150 PV>> et la seconde <<-370 PV>>.
-
-**Le second defaut, sur la meme surface.** La liste est mise en cache cinq
-minutes, et sa cle ne portait pas la langue alors que la recherche filtre sur
-le nom **traduit**. Une recherche <<Caracape>> trouve les deux capes en
-anglais et une seule en francais, ou l'autre s'appelle <<Caparak>>: le
-premier lecteur servi donnait sa liste au suivant, dans l'orthographe de sa
-propre langue. Verifie a l'ecran dans les deux sens.
-"""
+"""The item picker answers about the piece being looked at."""
 
 import collections
 import json
@@ -44,20 +12,13 @@ from chardata.models import Char
 from chardata.util import get_picker_cache_key
 from fashionistapulp.structure import get_structure, set_current_game_version
 
-#: (noms partages, dont les valeurs different, dont les conditions different)
-#: dans le catalogue lui-meme, sans porteur. Un plancher: sans homonymes, les
-#: tests ci-dessous ne prouveraient rien.
 _HOMONYMES = {'dofus3': (0, 0, 0), 'beta': (0, 0, 0), 'dofus2': (0, 0, 0),
               'touch': (17, 14, 0), 'retro': (40, 1, 0)}
 
-#: Les deux capes Touch qui portent le meme nom anglais.
 _CARACAPE = (2532, 19624)
 
 
-
 class TwoPiecesShareANameTests(SimpleTestCase):
-    """Le plancher, et la raison d'etre du lot. Mesure sur le catalogue seul,
-    donc independante de tout build."""
 
     def tearDown(self):
         set_current_game_version('dofus3')
@@ -97,8 +58,6 @@ class TwoPiecesShareANameTests(SimpleTestCase):
                                 for objet in lot}) > 1))
 
     def test_the_two_touch_cloaks_really_differ(self):
-        """Sans cela, le test de la fenetre passerait sur deux pieces
-        identiques et ne prouverait rien."""
         set_current_game_version('touch')
         structure = get_structure('touch')
         pieces = [structure.get_item_by_id(numero) for numero in _CARACAPE]
@@ -108,15 +67,13 @@ class TwoPiecesShareANameTests(SimpleTestCase):
 
 
 class ThePickerAnswersByPieceTests(TestCase):
-    """La fenetre est interrogee pour de vrai, comme la page le fait."""
 
     def setUp(self):
         self.client.post('/touch/createproject/', {
             'project': 'p', 'charname': 'P', 'level': '200',
             'class': 'Iop', 'where_to_go': 'wizard'})
         self.char = Char.objects.order_by('-id').first()
-        # The build has to wear a cloak: the difference the window shows is
-        # the one between the offered piece and the one already in the slot.
+        # Worn cloak, so the window has a piece to compare with
         self.assertEqual(200, self.client.get('/touch/solution/%d/'
                                               % self.char.id,
                                               follow=True).status_code)
@@ -157,7 +114,6 @@ class ThePickerAnswersByPieceTests(TestCase):
                 self.assertEqual(numeros, set(donnees[carte] or {}))
 
     def test_two_cloaks_of_the_same_name_get_two_answers(self):
-        """Le test qui aurait attrape le defaut."""
         donnees = self._fenetre('Caracape')
         rendus = [item for item in donnees['items']
                   if item['name'] == 'Caracape']
@@ -168,10 +124,6 @@ class ThePickerAnswersByPieceTests(TestCase):
         self.assertEqual(2, len(lignes), lignes)
 
     def test_a_search_made_in_one_language_does_not_answer_another(self):
-        """La liste est filtree sur le nom traduit et gardee cinq minutes.
-        <<Caracape>> trouve les deux capes en anglais et une seule en
-        francais, ou l'autre s'appelle <<Caparak>>: sans la langue dans la
-        cle, le premier lecteur servi donnait sa liste au suivant."""
         anglais = self._fenetre('Caracape', 'en')
         self.assertEqual(2, len([item for item in anglais['items']
                                  if item['name'] == 'Caracape']),
@@ -186,8 +138,6 @@ def _texte_json(lignes):
 
 
 class TheCachedListKnowsItsLanguageTests(SimpleTestCase):
-    """La recherche filtre sur le nom traduit, donc la liste mise en cache
-    appartient a une langue."""
 
     def test_the_key_changes_with_the_language(self):
         cles = set()
@@ -197,7 +147,6 @@ class TheCachedListKnowsItsLanguageTests(SimpleTestCase):
         self.assertEqual(5, len(cles))
 
     def test_the_key_still_changes_with_everything_it_changed_with(self):
-        """Le plancher: ajouter la langue ne doit rien avoir efface."""
         with translation.override('en'):
             base = get_picker_cache_key(7, 4, 'Caracape', 'false', '[]')
             autres = {

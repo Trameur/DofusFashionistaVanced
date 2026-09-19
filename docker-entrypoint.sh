@@ -48,6 +48,14 @@ cd /app/fashionsite
 echo "Running Django migrations..."
 python manage.py migrate --noinput
 
+# Les solves memorises sont cles sur la demande du joueur, jamais sur les
+# donnees ni sur le solveur : apres un deploy qui change l'un ou l'autre, ils
+# resserviraient des stuffs optimises pour l'ancien. Presque chaque deploy
+# porte des donnees, donc on les oublie a chaque demarrage. Les builds
+# sauvegardes ne bougent pas.
+echo "Forgetting memoized solves..."
+python manage.py clear_solution_cache || echo "solution cache not cleared"
+
 # Collecter les fichiers statiques. Pas de --clear : le volume static_files
 # persiste entre les deploys et --clear forcait la recopie COMPLETE des
 # ~40k fichiers (webp monstres inclus) a chaque boot, soit plusieurs minutes

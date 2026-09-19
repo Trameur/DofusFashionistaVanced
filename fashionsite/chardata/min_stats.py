@@ -16,6 +16,7 @@
 
 import pickle
 from chardata.char_blobs import read_char_blob
+from chardata.temporix_mode import char_uses_temporix
 from fashionistapulp.dofus_constants import get_stat_maximum
 from fashionistapulp.structure import get_structure
 
@@ -51,7 +52,8 @@ def set_min_stats(char, minimum_values):
             del minimum_values['Range']
     # AP/MP/Range cap at 12/6/6 on modern and Touch. Retro (1.29) has no cap, so
     # get_stat_maximum omits those keys there and 17 AP stands.
-    caps = get_stat_maximum(getattr(char, 'game_version', 'dofus3'))
+    caps = get_stat_maximum(getattr(char, 'game_version', 'dofus3'),
+                            temporix=char_uses_temporix(char))
     for stat_name, stat_value in minimum_values.items():
         # A min that was never set is stored as None or ''.
         if not isinstance(stat_value, int):
@@ -83,7 +85,8 @@ def minimums_above_their_cap(char):
     limitation, get_stat_maximum omits those keys there, and a 17 AP minimum is
     not an offence on that version.
     """
-    caps = get_stat_maximum(getattr(char, 'game_version', 'dofus3'))
+    caps = get_stat_maximum(getattr(char, 'game_version', 'dofus3'),
+                            temporix=char_uses_temporix(char))
     over = []
     for stat_name, value in get_min_stats_digested(char).items():
         cap = caps.get(stat_name)

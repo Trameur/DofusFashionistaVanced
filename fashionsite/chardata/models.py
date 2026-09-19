@@ -34,17 +34,7 @@ class Char(models.Model):
     stats_weight = models.BinaryField()
     minimal_solution = models.BinaryField(default=b'')
     link_shared = models.BooleanField()
-    # Whether nobody has chosen this build's visibility yet, in which case it
-    # is published the first time it gets a solution. It is NOT "is public":
-    # `link_shared` is. Touching the switch, either way, clears it for good,
-    # so a build the author made private stays private through every later
-    # solve.
-    #
-    # Every row that existed on 2026-09-11 keeps the migration default of
-    # False and is therefore never published by this path. That is the whole
-    # point of a second field rather than a new meaning for the old one: a
-    # build made private years ago must not become public because the default
-    # changed today.
+    # Publish at the first solution; cleared once the owner touches the switch
     auto_publish = models.BooleanField(default=False)
     view_count = models.IntegerField(default=0)
     options = models.BinaryField()
@@ -55,12 +45,11 @@ class Char(models.Model):
     stat_overrides = models.BinaryField(default=b'')
     deleted = models.BooleanField(default=False)
     allow_points_distribution = models.BooleanField(default=True)
-    # 0 male, 1 female, only used to pick the body and head of the preview.
+    # 0 male, 1 female, for the preview
     gender = models.IntegerField(default=0)
-    # Six hex triplets for the preview, comma separated (41 chars). Empty means
-    # the default palette.
+    # Six comma separated hex colors for the preview, empty for the default
     colors = models.CharField(max_length=48, blank=True, default='')
-    # Slots the preview leaves off, comma separated, e.g. "hat,cloak".
+    # Slots the preview leaves off, e.g. "hat,cloak"
     hidden_parts = models.CharField(max_length=60, blank=True, default='')
     game_version = models.CharField(
         max_length=20,
@@ -69,8 +58,7 @@ class Char(models.Model):
     )
 
     class Meta:
-        # The shared-builds page filters on these three and orders by date.
-        # game_version alone is not selective: nearly every row is dofus3.
+        # Shared-builds page filter, newest first
         indexes = [
             models.Index(fields=['game_version', 'link_shared', 'deleted',
                                  '-created_time'],
@@ -78,7 +66,7 @@ class Char(models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        # MySQL strict mode rejects over-long values.
+        # MySQL strict mode rejects over-long values
         for field_name in ('name', 'char_name', 'char_build'):
             value = getattr(self, field_name, None)
             if value:
@@ -100,9 +88,9 @@ class UserAlias(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     alias = models.CharField(max_length=50, null=True, blank=True)
     notify_comments = models.BooleanField(default=True)
-    # Last language the user explicitly picked; notification emails use it.
+    # Last language the user picked, for notification emails
     language = models.CharField(max_length=10, null=True, blank=True)
-    # How big the character preview is drawn, in percent of the normal size.
+    # Character preview size in percent
     preview_size = models.IntegerField(default=100)
 
 class BuildVote(models.Model):
@@ -131,7 +119,7 @@ class BuildView(models.Model):
         ]
 
 class BuildComment(models.Model):
-    """Comments left by users on shared builds, soft-deleted via `deleted`."""
+    """Comments on shared builds, soft-deleted via `deleted`."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     build = models.ForeignKey(Char, on_delete=models.CASCADE)
     content = models.TextField(max_length=2000)
@@ -144,8 +132,7 @@ class BuildComment(models.Model):
         ]
 
 class BuildTag(models.Model):
-    """Free-form tags the build owner attaches to a Char ("Klime", "PvP arena").
-    `name` is lowercased and trimmed, `display_name` keeps the original."""
+    """Owner tags on a build; `name` is lowercased, `display_name` as typed."""
     char = models.ForeignKey(Char, on_delete=models.CASCADE, related_name='tags')
     name = models.CharField(max_length=40, db_index=True)
     display_name = models.CharField(max_length=40)
@@ -159,8 +146,7 @@ class BuildTag(models.Model):
 
 
 class SolutionGeneration(models.Model):
-    """Recent generated solutions for a character, per game version: item ids
-    and calculations are not shared across versions."""
+    """Recent solutions of a character, per game version."""
     char = models.ForeignKey(Char, on_delete=models.CASCADE,
                              related_name='solution_generations')
     game_version = models.CharField(max_length=20, default='dofus3', db_index=True)
@@ -192,8 +178,7 @@ class UserFollow(models.Model):
 
 
 class WorkshopItem(models.Model):
-    """A single item the user wants to craft, per game version. Adding the same
-    item again bumps quantity."""
+    """Item the user wants to craft, per game version."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item_id = models.IntegerField()  # internal id from structure.items_dict
     game_version = models.CharField(max_length=20, default='dofus3')
@@ -208,8 +193,7 @@ class WorkshopItem(models.Model):
 
 
 class InventoryFolder(models.Model):
-    """A named group of items the user owns ("Imagiro", "Bank alt"), per game
-    version. The solver can be restricted to one folder."""
+    """Named group of owned items, per game version."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     game_version = models.CharField(max_length=20, default='dofus3')
@@ -223,9 +207,7 @@ class InventoryFolder(models.Model):
 
 
 class InventoryItem(models.Model):
-    """One physical item the user owns, in a folder; the same item can appear
-    several times with different rolls. custom_stats is a JSON
-    {stat_key: value} map, empty meaning the stats the encyclopedia lists."""
+    """Owned item; custom_stats is JSON {stat_key: value}, empty for defaults."""
     folder = models.ForeignKey(InventoryFolder, on_delete=models.CASCADE,
                                related_name='items')
     item_id = models.IntegerField()  # internal id from structure.items_dict
@@ -239,8 +221,7 @@ class InventoryItem(models.Model):
 
 
 class CommentReport(models.Model):
-    """Player-submitted report on a comment. Three distinct reporters auto-mark
-    the comment deleted (chardata.comment_view.report_comment)."""
+    """Report on a comment; three reporters auto-delete it."""
 
     REASON_CHOICES = [
         ('spam', 'Spam'),
@@ -271,7 +252,7 @@ class ContactForm(forms.Form):
 class SolutionCounter(models.Model):
     input_hash = models.BigIntegerField(unique=True)
     get_count = models.IntegerField(default=0)
-    # Game version the solve ran under, for per-version stats.
+    # Game version the solve ran under
     game_version = models.CharField(max_length=20, default='dofus3', db_index=True)
     created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     modified_time = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -292,8 +273,7 @@ class SolutionMemoryHits(models.Model):
 
 
 class PageHit(models.Model):
-    """One row per page and per day; ids in the path are folded into a
-    placeholder."""
+    """One row per page and day, ids in the path folded into a placeholder."""
     day = models.DateField(db_index=True)
     path = models.CharField(max_length=200)
     game_version = models.CharField(max_length=20, default='dofus3')
@@ -304,20 +284,13 @@ class PageHit(models.Model):
 
 
 class SiteSetting(models.Model):
-    """Settings the owner changes from the admin page; gen_config.json is only
-    read at boot."""
+    """Settings changed from the admin page; gen_config.json is read at boot."""
     key = models.CharField(max_length=60, unique=True)
     value = models.TextField(blank=True)
 
 
 class RateCounter(models.Model):
-    """How many times something happened inside a window, shared by every worker.
-
-    The failed-login and reset-mail limits used to count in the cache, which is
-    local memory here: a pool of four workers held four separate counters, so the
-    real ceiling was four times what the code says, and a restart forgot the lot.
-    A row per key is small, exact and survives a reload.
-    """
+    """Count per key and time window, shared by every worker."""
     key = models.CharField(max_length=190, unique=True)
     window_start = models.DateTimeField()
     count = models.IntegerField(default=0)
@@ -325,38 +298,22 @@ class RateCounter(models.Model):
     def __str__(self):
         return '%s x%d' % (self.key, self.count)
 
-# Signal wiring (models.py is the one chardata module Django always imports).
+# Signals live here, Django always imports models.py
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.utils import translation as _translation
 
 
 class VisitSource(models.Model):
-    """Where a reader came from, counted per day. No ip, no cookie, no id.
-
-    The site knows how many people come and not one thing about how they got
-    here: 77% of its search clicks are people typing its own name, which means
-    the growth question is not "does Google rank us" but "who ever hears of
-    us". Answering that needs the referrer, and nothing else -- so nothing else
-    is stored.
-
-    Rows are aggregated by day the way PageHit is, so the table stays small and
-    holds no trace of an individual. Storing no identifier and no address is
-    also what keeps this out of consent-banner territory: these are anonymous
-    statistics kept for the site's own operator alone.
-
-    Only ARRIVALS are counted -- a request whose referrer is absent or on
-    another host. Clicking from one page of the site to the next is not a
-    provenance, and counting it would drown the signal.
-    """
+    """Arrivals from another host per day and referrer, no visitor stored."""
     day = models.DateField(db_index=True)
-    #: 'google', 'youtube.com', 'discord', or whatever utm_source was given.
+    # 'google', 'youtube.com', 'discord', or utm_source
     source = models.CharField(max_length=100)
-    #: 'organic', 'referral', 'none' for a bare arrival, or utm_medium.
+    # 'organic', 'referral', 'none' for a bare arrival, or utm_medium
     medium = models.CharField(max_length=40)
     campaign = models.CharField(max_length=60, blank=True)
     language = models.CharField(max_length=10, blank=True)
-    #: Cloudflare's CF-IPCountry when it is in front; blank otherwise.
+    # Cloudflare's CF-IPCountry, blank without Cloudflare
     country = models.CharField(max_length=2, blank=True)
     count = models.BigIntegerField(default=0)
 
@@ -369,22 +326,10 @@ class VisitSource(models.Model):
 
 
 class SupportClick(models.Model):
-    """How many readers asked how to support the site, per day and language.
-
-    The one number nobody has: what share of an audience would pay. Traffic is
-    already known and worth less than half a cent a visit, so measuring more of
-    it teaches nothing. This measures intent instead, and it is what decides
-    whether the hours it would take to court content creators are worth
-    spending at all.
-
-    A click, not a payment: the page it leads to takes no money and promises no
-    price. Counted per day like everything else here, with no visitor attached.
-    """
+    """Clicks on the support link per day, language and page."""
     day = models.DateField(db_index=True)
     language = models.CharField(max_length=10, blank=True)
-    #: Which page the reader was on. The whole question is whether asking at
-    #: the moment the tool just did its work beats asking on a page nobody
-    #: visits, and that cannot be answered by one undifferentiated total.
+    # Page the click came from
     source = models.CharField(max_length=20, default='support')
     count = models.BigIntegerField(default=0)
 
@@ -396,20 +341,7 @@ class SupportClick(models.Model):
 
 
 class ItemPopularity(models.Model):
-    """How often an item is actually worn, across every build ever calculated.
-
-    The named builds on an item page can only ever be the public ones, 1 980
-    of them. This counts all 142 043, which is what makes the number worth
-    printing: it is the one thing this site knows and Ankama, DofusDB and the
-    wikis do not, since they all publish the same numbers from the same game
-    files and none of them sees what people put on.
-
-    Nothing identifying is stored, not the owner, not the build: only how many
-    wore it. `eligible` is the number of builds that could have worn it at all,
-    meaning those at or above its level. Dividing by every build instead would
-    make a level 20 item look unpopular for the sole reason that most builds
-    are level 200.
-    """
+    """Builds wearing an item; `eligible` counts builds at or above its level."""
     ankama_id = models.IntegerField()
     game_version = models.CharField(max_length=20, default='dofus3')
     builds = models.IntegerField(default=0)
@@ -418,27 +350,15 @@ class ItemPopularity(models.Model):
     class Meta:
         unique_together = ('ankama_id', 'game_version')
 
-    # Sous ce nombre de porteurs, la part est du bruit plutot qu'un signal.
+    # Below this many wearers the share is noise
     ENOUGH_WEARERS = 30
 
     @property
     def share(self):
-        """Percentage of the builds that could wear it and did, or None.
-
-        None whenever printing the number would say something false. Guarding
-        the denominator alone was not enough and hid nothing where it mattered:
-        1 219 of the 3 436 item pages carried "worn in 70 builds, 0.0 % of
-        those that could equip it", a sentence that contradicts itself in its
-        own second half. The noise was in the numerator, and in the rounding.
-
-        The count alone is always true, so it is what remains when the share
-        is dropped.
-        """
+        """Percent of eligible builds wearing it, None if too few or 0.0."""
         if not self.eligible or self.builds < self.ENOUGH_WEARERS:
             return None
         part = 100.0 * self.builds / self.eligible
-        # Ce qui s'arrondirait a "0.0 %" n'est pas une part, c'est un zero
-        # accompagne d'un compte qui dit le contraire.
         return None if round(part, 1) < 0.1 else part
 
     def __str__(self):
@@ -447,28 +367,13 @@ class ItemPopularity(models.Model):
 
 
 class ItemInSharedBuild(models.Model):
-    """Which shared builds wear a given item.
-
-    The encyclopedia has promised "Discover builds using X" in its meta
-    description on every item page since it existed, and no page has ever
-    carried a single one. This is the index that makes the promise true.
-
-    It also answers the one thing the encyclopedia could never answer better
-    than Ankama or a wiki: they all publish the same numbers, taken from the
-    same game files, and none of them knows what people actually wear. That
-    knowledge exists here and nowhere else.
-
-    Derived data, rebuilt from the builds themselves by reindex_builds_by_item,
-    so it is never the source of truth and can be thrown away at any time. The
-    whole rebuild reads 3 361 shared builds in about 12 seconds.
-    """
+    """Shared builds wearing an item, rebuilt by reindex_builds_by_item."""
     ankama_id = models.IntegerField()
     game_version = models.CharField(max_length=20, default='dofus3')
     char = models.ForeignKey(Char, on_delete=models.CASCADE)
 
     class Meta:
-        # The lookup is always (ankama_id, game_version), which this covers as
-        # a prefix, so it needs no index of its own.
+        # Also the index for (ankama_id, game_version) lookups
         unique_together = ('ankama_id', 'game_version', 'char')
 
     def __str__(self):
@@ -477,8 +382,7 @@ class ItemInSharedBuild(models.Model):
 
 @receiver(user_logged_in)
 def _remember_language_on_login(sender, request, user, **kwargs):
-    """Backfill the notification-email language; an explicit choice is never
-    overwritten."""
+    """Backfill the notification language, never over an explicit choice."""
     try:
         alias, _created = UserAlias.objects.get_or_create(user=user)
         if not alias.language:

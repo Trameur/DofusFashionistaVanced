@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-"""
-Extract Dofus Retro (1.29) damage spells per class, for dofus_constants'
-DAMAGE_SPELLS, from the lang files download_retro_langs.py writes.
+"""Extract Dofus Retro damage spells per class from the spell lang files.
 
     python get_spells_retro.py [--raw-dir retro_raw] [--module-out PATH]
-
-A spell "level" array ends with two effect lists; each entry is
-[dice, ..., effect_id], with the item effect ids for elemental damage.
 """
 
 from __future__ import annotations
@@ -17,115 +12,34 @@ import re
 import sys
 from pathlib import Path
 
-# Retro effect id -> element token. 96-100 elemental damage, 91-95 elemental
-# steals (same hit, heals the caster).
+# Retro effect id -> element. 96-100 damage, 91-95 steals
 DAMAGE_EFFECTS = {96: 'water', 97: 'earth', 98: 'air', 99: 'fire', 100: 'neutral',
                   91: 'water', 92: 'earth', 93: 'air', 94: 'fire', 95: 'neutral'}
 
-# THE ONE DAMAGE FAMILY THIS FILE STILL CANNOT READ, screened 2026-08-31 over
-# the 252 class spells against Ankama's own effects_fr.json: 88 and 89,
-# "Dommages : #1 a #2% de la vie de l'attaquant" (fire and neutral), and 672,
-# which carries the neutral wording a second time. Seven class spells use them.
-#
-# Three are absent from the generated table for want of any other row: the
-# Eniripsa's "Mot Drainant" (123) and "Mot Stimulant" (126), and the Sacrieur's
-# "Punition" (446). Four are in it and lose only this row, so their damage is
-# understated: "Roue de la Fortune" (106), "Contrecoup" (111), "Mutilation"
-# (149) and "Furie" (447).
-#
-# Not an oversight and not a one-line fix: a row here is a fixed range baked in
-# per level, while these deal a share of the CASTER's health, which is a
-# property of the build and not of the spell. Carrying them means a new kind of
-# row that reaches the damage computation with the character's Vitality, and
-# then a first-hand answer on whether Power and Damage apply to it. Every other
-# unread id is a heal, a summon, a trap, a glyph, a state or a displacement.
+# Not read: 88, 89 and 672 hit for a share of the caster's HP
 
 
-# Characteristic effects, read since 2026-08-27.
-#
-# This file used to read only the ten ids above, so the class self-buffs of
-# 1.29 were dropped and the table held zero buff rows. That reads as "Retro has
-# no such spells" and was really "this file never asked": the Iop's own
-# "Puissance" and "Vitalite", the Ecaflip's "Roulette", the Enutrof's "Chance"
-# were all absent.
-#
-# NOTHING HERE IS COPIED FROM THE MODERN TABLE. 1.29 numbers its effects its own
-# way, and 138 is the proof: Dofus 3 reads it "X Puissance" while 1.29 reads it
-# "Augmente les dommages de #1 a #2%". Each id below was taken from Ankama's own
-# effects_fr.json in retro_raw, with the label it carries there:
-#     118  "+#1 a #2 en force"                    -> buff_str
-#     119  "+#1 a #2 en agilite"                  -> buff_agi
-#     123  "+#1 a #2 a la chance"                 -> buff_cha
-#     126  "+#1 a #2 en intelligence"             -> buff_int
-#     125  "+#1 a #2 en vitalite"                 -> buff_vit
-#     138  "Augmente les dommages de #1 a #2%"    -> buff_pow
-#
-# 138 maps to buff_pow because the stat the Fashionista calls Power IS that
-# effect on Retro; the site has shown it under Ankama's own wording, "% de
-# dommages", since bb3dbcd11. Same internal stat, different label per version.
-#
-# LEFT OUT ON PURPOSE: 112 "+X de dommages" (flat Damage), 111 "+X PA", 128
-# "+X PM", 117 "+X a la portee", 115 "+X aux coups critiques", 178 "+X de
-# soins". 23 further class spells carry only those, among them the Cra's
-# "Maitrise de l'Arc" and the Ecaflip's "Odorat".
-#
-# NOT for want of a key: `dam`, `ap` and `mp` are all three in the 64-stat
-# structure of every version, Retro included, so 'buff_dam' would reach the
-# turn the way 'buff_str' does. Measured 2026-08-31 with get_structure.
-#
-# The reason is that no version credits a self-buff of that kind, so adding
-# one here would make Retro the only version that does. Counted the same day
-# over the four generated tables: zero buff_dam, zero buff_ap, zero buff_mp.
-# What they do carry is buff_pow, buff_str, buff_int, buff_cha, buff_agi,
-# buff_vit, buff_wis, buff_pshdam, buff_final and buff_finalheals.
-#
-# So it stays a question for the four versions at once, not a Retro detail:
-# whether a spell may hand a build AP, MP and flat Damage it does not wear.
+# Retro numbers its effects its own way: 138 is % damage there, our Power
 CHARACTERISTIC_EFFECTS = {118: 'buff_str', 119: 'buff_agi', 123: 'buff_cha',
                           126: 'buff_int', 125: 'buff_vit', 138: 'buff_pow'}
 ROW_EFFECTS = dict(DAMAGE_EFFECTS)
 ROW_EFFECTS.update(CHARACTERISTIC_EFFECTS)
 
-#: The label the group carries. spells_view translates it; keep the two in step.
+# spells_view translates this label
 RANDOM_ELEMENT_LABEL = 'Hit in one random element'
 
-# ONE HIT, NOT TWO. Ankama on the Ecaflip's Bluff: "Le Bluff inflige
-# ALEATOIREMENT des degats d'Air OU d'Eau". The table listed its two rows
-# loose, with nothing saying they are the two faces of one roll, so the model
-# added them: 209 damage a cast where the game lands about half that.
-#
-# Named, not detected by shape, because 1.29 marks this nowhere. The shape
-# alone would be wrong: four other Retro spells carry several elemental rows
-# that ALL land, and Ankama says so in as many words -- "dommages Air et Feu"
-# (Fleche Persecutrice), "de type Feu et Eau" (Feu de Brousse), and Rekop's
-# "degats monstrueux de Feu, Terre, Eau et Air". Screened over the 252 class
-# spells on 2026-09-01: only three speak of chance at all, and the other two
-# (Roulette, Souillure) carry no elemental rows to group.
-#
-# The quote is checked at generation time, so a rewording stops the run
-# instead of quietly restoring the doubled count.
+# Elemental rows that are one random roll; 1.29 says so only in the text
 ONE_ELEMENT_AT_RANDOM = {
     109: "ou d'eau",                       # Ecaflip, Bluff
 }
 
 
-#: Where a Retro effect row carries its chance, in percent. The rows of one
-#: draw sum to 100. Measured 14 September 2026 over the 2091 spells of the
-#: lang: 36 spells carry such a set and every one is a partition -- 50/50,
-#: 25/25/25/25, 20 five times, and one 25/50/25 that is not uniform, which is
-#: what tells the slot from a duration or a value.
+# Slot 3 of an effect row is its chance in percent; one draw sums to 100
 CHANCE_SLOT = 3
 
 
 def _screen_random_element(spell, spell_id):
-    """Stop the run if the sentence no longer says one element OR the other,
-    or if Ankama stops drawing those rows evenly.
-
-    The turn averages the faces of a drawn spell rather than taking the best
-    (see `spell_combo.scored`), which is only Ankama's expectation while the
-    chances stay equal. A reworded sentence or a reweighted draw stops the
-    run instead of quietly leaving a wrong average in the module.
-    """
+    """Stop if the text or the draw no longer says one random element."""
     quote = ONE_ELEMENT_AT_RANDOM.get(spell_id)
     if quote is None:
         return
@@ -155,12 +69,7 @@ def _screen_random_element(spell, spell_id):
 
 
 def emit_aggregates(spell_id, elements):
-    """One group per row when the rows are one roll, else None.
-
-    Only when every row is elemental damage: a buff row is not an alternative
-    to a hit, and giving it a group of its own would have the model score the
-    spell on the buff alone.
-    """
+    """One group per row when the rows are one roll, else None."""
     if spell_id not in ONE_ELEMENT_AT_RANDOM:
         return None
     if len(elements) < 2 or any(str(t).startswith('buff_') for t in elements):
@@ -169,69 +78,30 @@ def emit_aggregates(spell_id, elements):
             for index in range(len(elements))]
 
 
-# Two class spells carry characteristic effects the caster does not reliably
-# get, and this scraper has no target test at all.
-#
-# The 1.29 target field (slot 5 of a level) IS a run of two-character codes,
-# one per effect line, and the codes align exactly: 56 buff lines, 56 codes, no
-# leftovers. But the codes do NOT settle the question. "Resistance Naturelle",
-# whose own sentence says it raises the vitality OF SUMMONS, wears the same
-# `Pa` as "Chance", which raises the caster's own. Reading the field would have
-# looked principled and let both through.
-#
-# So the exclusion is named, with the sentence Ankama writes, and the generator
-# refuses to run if that sentence goes away rather than silently going back to
-# crediting the player. Measured 2026-08-27 on the 252 class spells (21 per
-# class): 15 carry a buff, 13 of them legitimately.
-#
-# Neither spell existed in the shipped table before 19b29e9bf, which is the
-# commit that added Retro buffs: excluding them restores what the pages had,
-# it does not take anything away from a reader.
+# Buffs that are not the caster's; the target codes in slot 5 can't tell
 NOT_A_SELF_BUFF = {
-    # Ecaflip, Roulette: ONE random effect among many, on random targets. The
-    # data lists the alternatives as four separate lines, so reading them as
-    # granted together handed the caster +400 Strength, Chance, Intelligence
-    # AND Agility at once, +500 on a critical, at every rank.
+    # Ecaflip, Roulette: one random effect, on random targets
     101: 'sur vos adversaires',
-    # Osamodas, Resistance Naturelle: the sentence names summons and allies,
-    # and never the caster. (Osamodas, not Sadida: checked in
-    # chardata/spell_reference/retro.json, whose `name` is a dict of languages.)
+    # Osamodas, Resistance Naturelle: summons and allies only
     32: 'des invocations',
-    # Osamodas, Crocs du Mulou: same sentence as above, and the same spell was
-    # already excluded on Touch for the same reason under id 9919.
+    # Osamodas, Crocs du Mulou
     29: 'des invocations',
 }
 
-# A buff whose sentence names somebody other than the caster and which is NOT
-# in the table above has to be settled here, with the words that settle it.
-#
-# This exists because a hand-written exclusion list goes stale in silence:
-# Ankama adds spells, nobody re-derives the list, and the new one is credited
-# to the player without a word. So the generator screens every buff it is about
-# to keep and stops on anything unaccounted for.
+# Words in a buff description that name someone other than the caster
 SOMEBODY_ELSE = ('invocation', 'alli', 'adversaire', 'ennemi',
                  'autres personnages')
 
 BUFFS_THE_CASTER_TOO = {
-    # Enutrof, Cupidite. "tous les joueurs" is every player, the caster
-    # included, so he does receive it -- and refusing a buff the game says he
-    # gets would be the opposite error, erasing a real mechanic. Note this is
-    # NOT the same call as Touch's spell 52, whose own sentence there reads
-    # "la puissance de tous les allies" and names no player: different words,
-    # different version, different answer.
+    # Enutrof, Cupidite: every player, the caster included
     52: 'tous les joueurs',
-    # Iop, Puissance. Names the caster first, the ally second.
+    # Iop, Puissance
     153: 'le lanceur ou un alli',
 }
 
 
 def _not_a_self_buff(spell, spell_id):
-    """True when this spell's buff rows are not the caster's.
-
-    Checks that Ankama still writes the sentence the exclusion rests on. A
-    hand-written list that stops being read is worse than no list: it keeps
-    excluding a spell whose meaning has changed, and says nothing about it.
-    """
+    """True when this spell's buff rows are not the caster's."""
     quote = NOT_A_SELF_BUFF.get(spell_id)
     if quote is None:
         return False
@@ -244,12 +114,7 @@ def _not_a_self_buff(spell, spell_id):
 
 
 def _screen_kept_buff(spell, spell_id):
-    """Stop the build if a KEPT buff's sentence names somebody else.
-
-    Runs on what the generator is about to write, not on a list someone
-    maintains, so a spell Ankama adds tomorrow cannot be credited to the player
-    in silence: the run fails and names the spell and the words that flagged it.
-    """
+    """Stop if a kept buff's description names someone else."""
     text = str(spell.get('d') or '')
     lowered = text.lower()
     named = [word for word in SOMEBODY_ELSE if word in lowered]
@@ -288,12 +153,7 @@ def dice_range(d):
 
 
 def _collect(effect_list):
-    """One effect list -> {row token: (min, max)}.
-
-    Rows are the elemental damage hits plus the characteristic buffs; the token
-    is an element name for the first and a 'buff_<stat>' pseudo-element for the
-    second. A level can carry several lines of one token (conditional branches,
-    damage/steal pairs); the strongest by midpoint wins."""
+    """One effect list -> {row token: (min, max)}, strongest line per token."""
     out = {}
     for e in (effect_list or []):
         if isinstance(e, list) and len(e) >= 2 and e[-1] in ROW_EFFECTS:
@@ -307,65 +167,27 @@ def _collect(effect_list):
 
 
 def decode_level(level_arr):
-    """Spell level array -> {element: (normal_range, crit_range)}.
-
-    The place of the two effect lists is FIXED in Ankama's file: the
-    second-to-last slot is the critical hit, the last one the normal hit. The
-    client indexes them by position, so it cannot be otherwise.
-
-    This used to read "in no fixed order; the crit is the higher roll", which
-    is a guess and not what the file says. Measured 14 September 2026 on the
-    2091 spells of Ankama's own Retro spell lang (VERSION 1254, the file in
-    retro_raw), the fixed place is what the data shows:
-
-      * 3554 spell levels cannot crit at all (slot 15, the X of 1/X, is 0).
-        Every single one of them leaves the second-to-last slot EMPTY and
-        fills the last one. Not one does the reverse. The list the game will
-        never read is the critical one.
-      * Of the 4186 element rows where both slots carry that element, 3786
-        are stronger in the second-to-last and 363 tie, which is the same
-        answer read from the other end.
-
-    The guess disagreed with the file on the remaining **37 rows**, where the
-    critical is not strictly the bigger roll -- a Retro critical is a fixed
-    value (`0d0+N`) against a normal that rolls dice, so it can sit inside the
-    normal range. Piqure rank 1 hits 1 to 5 and crits for exactly 3. Those 37
-    rows were published with their two columns swapped; four of them reach the
-    spells panel, on the Feca's Retour du baton and Attaque Nuageuse at ranks
-    1 and 2.
-    """
+    """Spell level array -> {element: (normal_range, crit_range)}."""
     if not isinstance(level_arr, list) or len(level_arr) < 2:
         return {}
     critical, normal = _collect(level_arr[-2]), _collect(level_arr[-1])
     result = {}
-    # The five elements first, in their historical order, then whatever buff
-    # rows the level carries, sorted so the generated module is stable.
     tokens = list(('water', 'earth', 'air', 'fire', 'neutral'))
     tokens += sorted((set(critical) | set(normal)) - set(tokens))
     for elem in tokens:
         hit, crit = normal.get(elem), critical.get(elem)
         if not hit and not crit:
             continue
-        # A spell that cannot crit carries no critical row; the panel then
-        # shows the same numbers on both sides, as it did before.
+        # No crit row when the spell cannot crit
         result[elem] = (hit or crit, crit or hit)
     return result
 
 
-# Slots of the 21-wide level array carrying what a cast costs and how often the
-# game allows it.
-# Slot 15 is the critical hit rate as the X of 1/X, 0 when the spell cannot
-# crit: it is the only slot that improves with the rank (151 spells of the 156
-# that move it get a smaller X at a higher rank), while slot 14, the critical
-# failure, sits at 100 for most spells and barely moves.
+# Level array slots; 15 is the crit rate as X of 1/X, 0 if it cannot crit
 CASTING_SLOTS = {'cooldown': 6, 'per_turn': 7, 'per_target': 8, 'ap': 18,
                  'crit': 15}
 
-# Slot 2 is the character level this rank asks for. Measured on 2026-09-12
-# over the 252 class spells of classes_fr.json: every class carries exactly the
-# ladder 1, 3, 6, 9, 13, 17, 21, 26, 31, 36, 42, 48, 54, 60, 70, 80, 90, 100,
-# its eighteen spell slots, plus 200 for the Dopeul summon, and rank 6 asks for
-# that level plus 100. So it is the level requirement and not a constant.
+# Slot 2 is the character level the rank asks for
 LEVEL_REQ_SLOT = 2
 
 
@@ -383,11 +205,7 @@ def decode_casting(level_arr):
 
 
 def decode_spell(spell, spell_id=None):
-    """Retro spell record -> damage-spell dict, or None if it carries no row.
-
-    A spell that only buffs a characteristic and deals no damage is kept: the
-    Dofus 2, 3 and Touch tables keep theirs, and a build optimizer needs the
-    Iop's "Puissance" even though it hits nobody."""
+    """Retro spell record -> damage-spell dict, or None if it carries no row."""
     drop_buffs = _not_a_self_buff(spell, spell_id)
     _screen_random_element(spell, spell_id)
     per_level = []
@@ -424,7 +242,7 @@ def decode_spell(spell, spell_id=None):
             cr.append('%d-%d' % crit if crit else '0-0')
         non_crit_ranges.append(nc)
         crit_ranges.append(cr)
-    # An absent limit reads 0 at every level, which would pass for a real one.
+    # All zeros means no limit
     casting = {}
     for key in CASTING_SLOTS:
         values = [level.get(key, 0) for level in casting_levels]
@@ -439,8 +257,7 @@ def decode_spell(spell, spell_id=None):
         'non_crit_ranges': non_crit_ranges,
         'crit_ranges': crit_ranges,
         'casting': casting or None,
-        # Rows that are one roll, not a sum. Absent when there are
-        # none, so the json artefact keeps one line per real group.
+        # Rows that are one roll, not a sum
         **({'aggregates': groupes} if groupes else {}),
     }
 
@@ -450,32 +267,18 @@ ELEMENT_TOKEN_TO_CONST = {
     'earth': 'EARTH', 'fire': 'FIRE', 'water': 'WATER', 'air': 'AIR',
     'neutral': 'NEUTRAL',
 }
-# Buff rows are written as plain quoted strings, the way the Dofus 2, 3
-# and Touch tables write them, not as element constants.
+# Buff rows go in as plain strings
 ELEMENT_TOKEN_TO_CONST.update(
     {token: repr(token) for token in CHARACTERISTIC_EFFECTS.values()})
 
 
 def _level_req(level_reqs, name=''):
-    """Character level per spell rank, read from the game and not invented.
-
-    Retro gates ranks 1 to 5 by spell points, so those share the level at
-    which the spell itself is learned, and rank 6 asks for that level plus
-    100: a spell learned at 36 reaches rank 6 at 136, not at 100.
-
-    This used to be written by hand as [1] * (n - 1) + [100]. Measured on
-    2026-09-12 over the module's 106 spells: 89 carried a base level of 1 where
-    the game asks 3 to 100, and all 106 announced rank 6 at level 100. A
-    level-1 character was handed 106 spells where the game gives 17, and a
-    level-100 one read every single spell at rank 6, which the game refuses to
-    all of them.
-    """
+    """Character level per spell rank."""
     read = [value for value in level_reqs if value is not None]
     if len(read) != len(level_reqs) or not read:
         raise ValueError('no level requirement for %s: %s'
                          % (name or '?', level_reqs))
-    # The game may write a rank that asks less than the one before it; the
-    # site's rank reader assumes a sequence that never goes back down.
+    # The site's rank reader needs levels that never go down
     floor = read[0]
     out = []
     for value in read:
@@ -485,8 +288,7 @@ def _level_req(level_reqs, name=''):
 
 
 def emit_module(by_class, spell_names, path):
-    """Write a Python module defining RETRO_DAMAGE_SPELLS (Spell/Effects objects)
-    and RETRO_SPELL_NAMES ({french_name: {lang: localized_name}})."""
+    """Write the RETRO_DAMAGE_SPELLS and RETRO_SPELL_NAMES module."""
     lines = [
         "# AUTO-GENERATED by itemscraper/get_spells_retro.py -- do not edit by hand.",
         "# Dofus Retro (1.29) damage spells per class, decoded from the spell lang.",
@@ -504,8 +306,7 @@ def emit_module(by_class, spell_names, path):
             lines.append("            %s," % json.dumps(s['non_crit_ranges']))
             lines.append("            %s," % json.dumps(s['crit_ranges']))
             lines.append("            [%s]," % elems)
-            # The id ties the spell to what the game says about it, in
-            # chardata/spell_reference/retro.json.
+            # spell_id is the key in chardata/spell_reference/retro.json
             tail = []
             if s.get('aggregates'):
                 tail.append("aggregates=%r" % (s['aggregates'],))
@@ -581,8 +382,7 @@ def main(argv=None):
 
     by_class, missing = build(spells_root, classes_root)
 
-    # Every language is required: retro_raw is not committed, so run
-    # download_retro_langs.py for the missing ones first.
+    # retro_raw is not committed: run download_retro_langs.py first
     names_by_lang = {}
     for lang in ('en', 'es', 'pt', 'de'):
         path = raw / f'spells_{lang}.json'

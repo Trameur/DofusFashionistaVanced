@@ -1,18 +1,7 @@
 #!/usr/bin/env python3
-"""
-Turn the raw Touch tables (touch_raw/) into transformed_equipment.json and
-transformed_sets.json, in the shape get_equipments2.py produces for Dofus 3.
+"""Turn the raw Touch d2o tables into transformed_equipment.json and transformed_sets.json.
 
 Usage: get_equipments_touch.py [--raw-dir DIR] [--out-dir DIR]
-
-Touch is a Dofus 2 fork, so item records are Ankama's raw d2o objects:
-  - possibleEffects[]  effectId -> Effects table (characteristic + operator),
-                       diceNum/diceSide = the value range (min..max).
-  - criteria           equip conditions, e.g. "CS>20&CV>6".
-  - typeId             the slot (see TYPE_MAP); _type=='Weapon' marks weapons.
-  - itemSetId          set membership (the sets carry the per-piece bonuses).
-
-Only stat names that exist in STAT_NAME_TO_KEY (get_equipments3.py) are emitted.
 """
 
 from __future__ import annotations
@@ -28,10 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from untranslated_tag import clean_display_name  # noqa: E402
 
-# ---------------------------------------------------------------------------
-# typeId -> (slot w_type, weapon subtype or None). Weapon subtypes must match
-# WEAPON_TYPES in get_equipments3.py.
-# ---------------------------------------------------------------------------
+# typeId -> (w_type, weapon subtype), subtypes as in WEAPON_TYPES of get_equipments3.py
 TYPE_MAP = {
     1: ('Amulet', None),
     9: ('Ring', None),
@@ -39,12 +25,12 @@ TYPE_MAP = {
     11: ('Boots', None),
     16: ('Hat', None),
     17: ('Cloak', None),
-    81: ('Cloak', None),    # Sac a dos (Backpack) -> Cloak slot
+    81: ('Cloak', None),    # Backpack
     82: ('Shield', None),
-    18: ('Pet', None),      # Familier (pet)
-    121: ('Pet', None),     # Montilier (mount) -> shares the Pet slot
+    18: ('Pet', None),
+    121: ('Pet', None),     # Petsmount
     23: ('Dofus', None),
-    151: ('Trophy', None),  # Trophee: get_equipments3 puts it back on the Dofus slot and flags it Trophy
+    151: ('Trophy', None),  # get_equipments3 moves it to the Dofus slot, flagged Trophy
     # weapons
     2: ('Weapon', 'Bow'), 3: ('Weapon', 'Wand'), 4: ('Weapon', 'Staff'),
     5: ('Weapon', 'Dagger'), 6: ('Weapon', 'Sword'), 7: ('Weapon', 'Hammer'),
@@ -52,15 +38,13 @@ TYPE_MAP = {
     22: ('Weapon', 'Scythe'),
 }
 
-# Ankama "characteristic" id -> internal stat name (STAT_NAME_TO_KEY in
-# get_equipments3.py). characteristic 0 is overloaded (HP, elemental hits,
-# steals, flavour) so those are handled by effectId below, not here.
+# Ankama characteristic id -> stat name; characteristic 0 is overloaded, see effectId below
 CHAR_TO_STAT = {
     1: 'AP', 23: 'MP',
     10: 'Strength', 11: 'Vitality', 12: 'Wisdom', 13: 'Chance',
     14: 'Agility', 15: 'Intelligence',
     16: 'Damage', 17: 'Power', 18: 'Critical Hits', 19: 'Range', 26: 'Summon',
-    27: 'AP Loss Resist', 28: 'MP Loss Resist',     # Esquive PA / PM (parry)
+    27: 'AP Loss Resist', 28: 'MP Loss Resist',
     33: '% Earth Resist', 34: '% Fire Resist', 35: '% Water Resist',
     36: '% Air Resist', 37: '% Neutral Resist',
     44: 'Initiative', 48: 'Prospecting', 49: 'Heals',
@@ -72,52 +56,42 @@ CHAR_TO_STAT = {
     64: 'Earth Resist in PVP', 65: 'Fire Resist in PVP',
     66: 'Water Resist in PVP', 67: 'Air Resist in PVP',
     68: 'Neutral Resist in PVP',
-    69: '% Trap Damage', 70: 'Trap Damage',         # Puissance (pieges) / Dommages Pieges
-    78: 'Dodge', 79: 'Lock',                         # Fuite / Tacle
-    82: 'AP Reduction', 83: 'MP Reduction',          # Retrait PA / PM
+    69: '% Trap Damage', 70: 'Trap Damage',
+    78: 'Dodge', 79: 'Lock',
+    82: 'AP Reduction', 83: 'MP Reduction',
     84: 'Pushback Damage', 85: 'Pushback Resist',
     86: 'Critical Damage', 87: 'Critical Resist',
     88: 'Earth Damage', 89: 'Fire Damage', 90: 'Water Damage',
     91: 'Air Damage', 92: 'Neutral Damage',
 }
 
-# characteristic-0 effects that ARE stats (resolved by effectId, not char).
+# Characteristic 0 effects that are stats, by effectId
 CHAR0_EFFECT_TO_STAT = {
     110: 'HP',
     158: 'Pods', 159: 'Pods',
 }
 
-# Weapon hit lines (characteristic 0, only meaningful on a weapon); diceNum..diceSide
-# is the weapon's damage roll. get_equipments3 reads "(<Element> damage|steal)"
-# as a weapon hit.
+# Weapon hit lines, diceNum..diceSide is the damage roll
 WEAPON_DAMAGE_BY_EFFECT = {96: 'Water', 97: 'Earth', 98: 'Air', 99: 'Fire', 100: 'Neutral'}
 WEAPON_STEAL_BY_EFFECT = {91: 'Water', 92: 'Earth', 93: 'Air', 94: 'Fire', 95: 'Neutral'}
 
-# Weapon AP-removal hit: effect 101 ("removes X AP from the enemy") shares
-# characteristic id 1 with the +AP bonus but carries bonusType 0, so it is a hit
-# line and not a wielder stat.
+# Effect 101 shares characteristic 1 with +AP but has bonusType 0: a hit, not a stat
 WEAPON_AP_REMOVAL_BY_EFFECT = {101}
 
-# Weapon heal: effects 108 and 81, "#1{~1~2 à }#2 (PV rendus)". The Touch line
-# names no element (Retro does the same); Intelligence scales it, so it is filed
-# under the model's Intelligence element and the page drops the label.
+# Weapon heal lines name no element, Intelligence scales them
 WEAPON_HEAL_BY_EFFECT = {108, 81}
 
-# Non-stat item lines, under the names Dofus 3 uses so the site's translations
-# apply. 795 "Arme de chasse" only means a hunting weapon at value 1; at 0 it
-# sits on the Hunter's own tools. 981 "Lie au personnage" takes no parameter.
+# Non-stat lines under their Dofus 3 names; 795 is a hunting weapon only at value 1
 FLAG_BY_EFFECT = {795: 'Hunting Weapon', 981: 'Linked to the character'}
 FLAG_NEEDS_VALUE = {795: 1}
 
-# Equip-condition codes -> internal stat (the 6 primaries; alignment Ps/Pa and
-# quest/flag codes are skipped).
+# Equip condition codes -> stat, the 6 primaries only
 CONDITION_MAP = {
     'CS': 'Strength', 'CI': 'Intelligence', 'CA': 'Agility',
     'CV': 'Vitality', 'CC': 'Chance', 'CW': 'Wisdom',
 }
 
-# CP and CM gate Action and Movement Points on the total WITH the item's own
-# bonus counted, so an "AP < 12" piece cannot itself take the character to 12.
+# CP and CM count the item's own AP/MP bonus
 AP_MP_CONDITION_MAP = {'CP': 'AP', 'CM': 'MP'}
 
 LANGS = ['en', 'fr', 'es', 'pt', 'de']
@@ -130,8 +104,7 @@ def load_effects(raw_dir: Path) -> dict:
 
 
 def stat_for_effect(eid: int, effects: dict):
-    """Return (stat_name, sign) for a characteristic effect, or None if it isn't
-    a stat the optimizer models."""
+    """(stat_name, sign) for a characteristic effect, or None if we do not model it."""
     e = effects.get(str(eid))
     if e is None:
         return None
@@ -143,21 +116,14 @@ def stat_for_effect(eid: int, effects: dict):
     name = CHAR_TO_STAT.get(char)
     if name is None:
         return None
-    # A characteristic id is shared by the wielder bonus and by combat-only
-    # effects ("removes 1-2 AP from the enemy", weapon hits, in-fight steals).
-    # Ankama flags wielder stats with bonusType 1 (bonus) / -1 (malus);
-    # bonusType 0 is in-fight only and is not a flat characteristic.
+    # Wielder stats have bonusType 1 or -1, 0 is in-fight only
     if e.get('bonusType') not in (1, -1):
         return None
     return name, sign
 
 
 def decode_effects(possible_effects, effects, is_weapon):
-    """possibleEffects[] -> (stats, hits).
-
-    stats: [[min, max, stat_name], ...] characteristic bonuses (signed).
-    hits : [[min, max, '(<Element> damage|steal)'], ...] weapon hit lines.
-    """
+    """possibleEffects[] -> (stats [[min, max, stat]], hits [[min, max, '(<Element> damage)']])."""
     stats, hits = [], []
     for pe in (possible_effects or []):
         if not isinstance(pe, dict) or 'effectId' not in pe:
@@ -187,13 +153,6 @@ def decode_effects(possible_effects, effects, is_weapon):
         if resolved is None:
             continue
         name, sign = resolved
-        # get_equipments3 keeps the max on a positive stat and stat[0] on a
-        # negative one, so a negative pair has to be ordered furthest-from-zero
-        # first. Writing [sign*lo, sign*hi] as it comes gave [-1, -100] for a
-        # malus of -1 to -100 and the db kept -1, the SOFTEST end: the
-        # optimiser thought the piece cost 1 point where it can cost 100. The
-        # other four versions already store the hard end. 313 rows moved when
-        # this landed, none added and none lost.
         first, second = sign * lo, sign * hi
         if first < 0 or second < 0:
             first, second = min(first, second), max(first, second)
@@ -201,12 +160,23 @@ def decode_effects(possible_effects, effects, is_weapon):
     return stats, hits
 
 
-# A Touch shield carries no stat of its own: it gains bonusRatio per level, up
-# to level 100, so its final line is ratio * 100.
+# Shields give bonusRatio per rank; last rank used when ShieldModelsLevels is missing
 SHIELD_MAX_LEVEL = 100
 
 
-def decode_shield_bonuses(shield_bonuses, effects):
+def load_shield_levels(raw_dir: Path) -> dict:
+    """{shield model id: its last rank}, from ShieldModelsLevels."""
+    path = raw_dir / 'ShieldModelsLevels_fr.json'
+    if not path.exists():
+        print('  ! %s is missing: every shield is read at rank %d'
+              % (path.name, SHIELD_MAX_LEVEL))
+        return {}
+    table = json.loads(path.read_text(encoding='utf-8'))
+    return {int(model.get('id', key)): len(model.get('requiredXpLevels') or [])
+            for key, model in table.items() if isinstance(model, dict)}
+
+
+def decode_shield_bonuses(shield_bonuses, effects, max_level=SHIELD_MAX_LEVEL):
     stats = []
     for bonus in (shield_bonuses or []):
         if not isinstance(bonus, dict) or 'effectId' not in bonus:
@@ -215,7 +185,7 @@ def decode_shield_bonuses(shield_bonuses, effects):
         if resolved is None:
             continue
         name, sign = resolved
-        value = int(round((bonus.get('bonusRatio') or 0) * SHIELD_MAX_LEVEL))
+        value = int(round((bonus.get('bonusRatio') or 0) * max_level))
         if not value:
             continue
         stats.append([sign * value, sign * value, name])
@@ -238,17 +208,7 @@ def _top_level_parts(criteria: str):
 
 
 def decode_conditions(criteria: str):
-    """'CS>20&CV>6' -> ['Strength > 20', 'Vitality > 6'] (AND, stat gates). Also maps
-    the set-bonus gate 'Pk<N' -> 'Set bonus < N' so trophies that limit panoply bonuses
-    get the 'light_set' weird condition downstream (get_equipments3.py).
-
-    A part whose branches are OR-ed comes out as one string joined by ' | ', for
-    instance 'MP < 6 | AP < 12'. It used to be dropped whole, because the min and
-    max tables can only AND and keeping both gates would forbid what the game
-    allows; the solver models the disjunction now, so it is carried through. A
-    branch that gates nothing we model (a class, an alignment, a subscription)
-    makes the whole part unenforceable, so that one is still dropped.
-    """
+    """'CS>20&CV>6' -> ['Strength > 20', 'Vitality > 6'], OR parts joined by ' | ', 'Pk<N' -> 'Set bonus < N'."""
     out = []
     if not criteria or criteria == 'null':
         return out
@@ -262,6 +222,7 @@ def decode_conditions(criteria: str):
             out.extend(gates)
             continue
         branches = [branch for branch in part.replace('(', '').replace(')', '').split('|')]
+        # A branch we do not model (class, alignment) makes the part unenforceable
         if len(gates) != len(branches):
             continue
         out.append(' | '.join(gates))
@@ -277,7 +238,8 @@ def loc_name(tables_by_lang, lang, item_id, fallback):
     return fallback
 
 
-def build_equipment(items_by_lang, effects):
+def build_equipment(items_by_lang, effects, shield_levels=None):
+    shield_levels = shield_levels or {}
     items_fr = items_by_lang['fr']
     out = []
     for iid, it in items_fr.items():
@@ -296,7 +258,17 @@ def build_equipment(items_by_lang, effects):
         level = max(1, min(int(level), 200))
         is_weapon = it.get('_type') == 'Weapon'
         stats, hits = decode_effects(it.get('possibleEffects'), effects, is_weapon)
-        stats.extend(decode_shield_bonuses(it.get('shieldBonuses'), effects))
+        if it.get('shieldBonuses'):
+            model_id = it.get('shieldModelId')
+            max_level = shield_levels.get(model_id)
+            if not max_level:
+                if shield_levels:
+                    print('  ! shield %s names model %s, which '
+                          'ShieldModelsLevels does not list: read at rank %d'
+                          % (iid, model_id, SHIELD_MAX_LEVEL))
+                max_level = SHIELD_MAX_LEVEL
+            stats.extend(decode_shield_bonuses(it.get('shieldBonuses'), effects,
+                                               max_level))
 
         rec = {
             'ankama_id': ankama_id,
@@ -337,12 +309,11 @@ def build_sets(sets_by_lang, effects, valid_item_ids):
             continue
         name_fr = sd.get('nameId') or ''
         equipment_ids = [int(x) for x in (sd.get('items') or []) if int(x) in valid_item_ids]
-        # Skip non-wearable "sets" (Cubes/Gems/etc.) whose members aren't equipment.
+        # Skip non-wearable sets (cubes, gems)
         if len(equipment_ids) < 2:
             continue
 
-        # The LP supports set bonuses for at most 8 equipped pieces (ss index =
-        # num_pieces+1, capped at 9 in model.py).
+        # model.py caps set bonuses at 8 pieces
         max_pieces = min(len(equipment_ids), 8)
 
         stats_list = []
@@ -379,10 +350,7 @@ def build_sets(sets_by_lang, effects, valid_item_ids):
 
 
 def load_mounts(raw_dir: Path):
-    """Read the scraped Touch mounts (download_touch_mounts.py) as Pet-slot records.
-
-    Mounts share Ankama ids with equipment, so get_equipments3 offsets their db id.
-    """
+    """Touch mounts as Pet records; their ids clash with equipment, get_equipments3 offsets them."""
     path = raw_dir / 'mounts.json'
     if not path.exists():
         return []
@@ -424,7 +392,8 @@ def main(argv=None):
     items_by_lang = _load_lang_tables(raw_dir, 'Items')
     sets_by_lang = _load_lang_tables(raw_dir, 'ItemSets')
 
-    equipment = build_equipment(items_by_lang, effects)
+    equipment = build_equipment(items_by_lang, effects,
+                                load_shield_levels(raw_dir))
     mounts = load_mounts(raw_dir)
     equipment += mounts
     valid_item_ids = {e['ankama_id'] for e in equipment}

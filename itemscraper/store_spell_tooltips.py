@@ -4,13 +4,6 @@
 """Store what the spells named on an item do, into spell_tooltips.
 
     python store_spell_tooltips.py --game-version dofus3|beta|dofus2|retro|touch
-
-Where the spell id comes from, per version:
-  dofus3, beta, dofus2  int_minimum on the modifier effect. Never the name:
-                        443 of the 760 spells the items point at share an
-                        English name with a different spell.
-  retro                 field 1 of the ISTA string, description under 'd'.
-  touch                 diceNum on effect 2822.
 """
 
 import argparse
@@ -35,7 +28,7 @@ from store_item_obtainment import (  # noqa: E402
 
 LANGUAGES = ['en', 'fr', 'es', 'pt', 'de']
 
-# Where each version keeps the equipment dump the item build already read.
+# Equipment dump directory per version
 EQUIPMENT_DIR = {'dofus3': '', 'beta': 'beta', 'dofus2': 'dofus2'}
 
 
@@ -54,7 +47,7 @@ def _items_of(payload):
 
 @lru_cache(maxsize=4096)
 def _names_it(name):
-    """Le nom, cherche comme un mot entier: voir _dofusdude_tooltips."""
+    """The name as a whole word."""
     return re.compile(r'(?<!\w)%s(?!\w)' % re.escape(name))
 
 
@@ -113,27 +106,7 @@ def _dofus2_spells(raw_dir):
 
 
 def _dofusdude_tooltips(game_version, spells_by_id):
-    """{item ankama id: {lang: {spell name: description}}}.
-
-    int_minimum is a numeric field the API reuses, so the resolved name must
-    also occur in the sentence. Dofus 2 numbers these effects 3 to 6 where
-    Dofus 3 numbers them 205 to 242, so the effect id is no help.
-
-    An int_minimum of 0 is not a spell reference, it is an absent number. It
-    resolved to spell 0, which is Punch, the basic attack no item grants; the
-    name check then let it through in German and in German only, because
-    German calls Punch "Nahkampf" and that is also the plain word for close
-    combat. So a Dofus whose sentence says "Schaden im Fern- und Nahkampf"
-    carried an explanation of a spell it has nothing to do with.
-
-    The name check reads the name as a WORD too, and not as a run of letters.
-    Each guard catches most of it on its own and neither catches all: read as
-    a word, the name stops matching inside "Nahkampfschaden" on seven Dofus 3
-    items, seven beta ones and three of Dofus 2; the fourth Dofus 2 item says
-    "im Fern- und Nahkampf", where the word really does stand alone, and only
-    the zero check keeps it out. Together: 18 wrong rows gone, no right one
-    lost, and no item left explained in one language only.
-    """
+    """{item ankama id: {lang: {spell name: description}}}"""
     directory = os.path.join(CURRENT_DIRECTORY, EQUIPMENT_DIR[game_version])
     tooltips = {}
     for lang in LANGUAGES:
@@ -147,6 +120,7 @@ def _dofusdude_tooltips(game_version, spells_by_id):
             if ankama_id is None:
                 continue
             for effect in item.get('effects') or []:
+                # int_minimum is reused by the API, 0 means no spell (not Punch)
                 spell_id = effect.get('int_minimum')
                 if not spell_id:
                     continue
@@ -154,6 +128,7 @@ def _dofusdude_tooltips(game_version, spells_by_id):
                 if not entry:
                     continue
                 name, description = entry
+                # The sentence must name the spell (de: Nahkampf is also a plain word)
                 if not _names_it(name).search(effect.get('formatted') or ''):
                     continue
                 (tooltips.setdefault(int(ankama_id), {})
@@ -201,13 +176,70 @@ def _retro_tooltips():
     return tooltips
 
 
+# Words a trigger adds to a Touch spell row; rows with other triggers than I are skipped
+TOUCH_TRIGGER_TAILS = {
+    'DI': {'fr': 'de la part des invocations', 'en': 'from summons',
+           'es': 'de las invocaciones', 'pt': 'das invocações',
+           'de': 'durch Beschwörungen'},
+}
+
+
+def touch_spell_effects(spell, spell_levels, effects, monster_names, text_lang):
+    """Text for a Touch spell with no description, from its first grade, or None."""
+    from store_monster_spells import _SUMMON_EFFECTS, render_effect
+    level_ids = spell.get('spellLevels') or []
+    level = spell_levels.get(str(level_ids[0])) if level_ids else None
+    rendered = []
+    for row in (level or {}).get('effects') or []:
+        trigger = row.get('triggers') or 'I'
+        if row.get('hidden') or (trigger != 'I'
+                                 and trigger not in TOUCH_TRIGGER_TAILS):
+            continue
+        effect_id = row.get('effectId')
+        template = (effects.get(str(effect_id)) or {}).get('descriptionId')
+        if not template or ('#1' in template and not row.get('diceNum')):
+            continue
+        names = monster_names if effect_id in _SUMMON_EFFECTS else None
+        line = render_effect(template, row.get('diceNum'), row.get('diceSide'),
+                             names)
+        if not line:
+            continue
+        if trigger != 'I':
+            line = '%s %s' % (line, TOUCH_TRIGGER_TAILS[trigger][text_lang])
+        if row.get('random'):
+            line = '%s (%d%%)' % (line, row['random'])
+        if line not in rendered:
+            rendered.append(line)
+    return ', '.join(rendered) or None
+
+
 def _touch_tooltips():
     import requests
+    from download_touch_data import served_languages
     from store_touch_special_spells import (
         CAST_SPELL_EFFECTS, SPELL_MODIFIER_EFFECTS, _data_url, _fetch)
     items = _load(os.path.join(CURRENT_DIRECTORY, 'touch_raw', 'Items_fr.json'))
     data_url = _data_url()
     spells = {lang: _fetch(data_url, 'Spells', lang) for lang in LANGUAGES}
+    # Touch answers unserved languages in English: read serverLanguages first
+    served = served_languages()
+    loaded = {}
+
+    def effects_of(spell, lang):
+        text_lang = lang if not served or lang in served else 'en'
+        if 'levels' not in loaded:
+            loaded['levels'] = _fetch(data_url, 'SpellLevels', 'fr')
+        if lang not in loaded:
+            monsters = _load(os.path.join(CURRENT_DIRECTORY, 'touch_raw',
+                                          'Monsters_%s.json' % text_lang))
+            loaded[lang] = (_fetch(data_url, 'Effects', lang), {
+                int(monster_id): monster['nameId']
+                for monster_id, monster in monsters.items()
+                if isinstance(monster, dict) and monster.get('nameId')})
+        effects, monster_names = loaded[lang]
+        return touch_spell_effects(spell, loaded['levels'], effects,
+                                   monster_names, text_lang)
+
     tooltips = {}
     for ankama_id, item in items.items():
         if not isinstance(item, dict):
@@ -222,6 +254,8 @@ def _touch_tooltips():
                 spell = spells[lang].get(spell_id) or {}
                 name = spell.get('nameId')
                 description = _clean(spell.get('descriptionId'))
+                if name and not description:
+                    description = effects_of(spell, lang)
                 if not name or not description:
                     continue
                 (tooltips.setdefault(int(ankama_id), {})
@@ -281,7 +315,7 @@ def store(game_version, tooltips):
             continue
         kept_any = False
         for lang, by_name in by_lang.items():
-            # Only spells a line actually names: the dump is tracked in git.
+            # Only spells a line names
             text = '\n'.join(_lines_of(cursor, item_id, lang))
             kept = {name: description for name, description in by_name.items()
                     if name in text}

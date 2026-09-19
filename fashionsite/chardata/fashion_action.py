@@ -37,6 +37,7 @@ from chardata.util import get_char_or_raise, get_base_stats_by_attr, \
     remove_cache_for_char, version_reverse
 from chardata.util_views import error
 from fashionistapulp.dofus_constants import STATS_NAMES
+from fashionistapulp import temporix
 from fashionistapulp.model import Model, ModelInput
 from fashionistapulp.model_pool import create_model, borrow_model, return_model
 
@@ -83,7 +84,23 @@ def get_options(request, char_id):
                      'prysmaradite': options.get('prysmaradite', False),
                      'shields': options.get('shields', True),
                      'trophies': options.get('trophies', True)}
+    model_options.update(temporix_model_option(options, char.game_version))
     return model_options
+
+
+def temporix_model_option(options, game_version):
+    """What the solver options say about TemporiX, and on which versions.
+
+    On Touch only, and always: a classic Touch solve now bans the three
+    TemporiX pieces it used to wear, so its answer changed and its cache key
+    must change with it (False), while a TemporiX solve carries the rule's
+    version, so one stored under an older rule is not served as the current
+    one. The other versions keep the key they always had.
+    """
+    if not temporix.version_has_temporix(game_version):
+        return {}
+    return {'temporix': (temporix.RULE_VERSION
+                         if temporix.is_on(options, game_version) else False)}
 
 def fashion(request, char_id, spells=False):
     char = get_char_or_raise(request, char_id)
@@ -153,8 +170,12 @@ def fashion(request, char_id, spells=False):
         # Wall clock around the solve alone, so that the panel quoting it is
         # not also quoting page rendering or database time.
         started = time.monotonic()
-        if stat_overrides:
-            model = Model(stat_overrides=stat_overrides)
+        # A TemporiX model is built from shiny values and without the AP, MP,
+        # Range and summon caps, so it never comes from, nor goes back to, the
+        # pool the classic solves share.
+        is_temporix = bool(model_options.get('temporix'))
+        if stat_overrides or is_temporix:
+            model = Model(stat_overrides=stat_overrides, temporix=is_temporix)
             model.setup(model_input)
             model.run(2)
             solved_status = model.get_solved_status()

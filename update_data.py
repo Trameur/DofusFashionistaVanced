@@ -186,18 +186,11 @@ def main() -> None:
         step("items/transform",  [PY, "get_equipments2.py"], cwd=ITEMSCRAPER)
         step("items/dump",       [PY, "get_equipments3.py"], cwd=ITEMSCRAPER)
         step("items/load-db",    [PY, "load_item_db.py"])
-        # Must run after load-db: adds recipe / description / pods tables onto
-        # the freshly-loaded items.db and re-dumps it. (load-db rebuilds the DB
-        # from the dump, so running this earlier would be wiped out.)
-        # The beta and Dofus 2 run their own copy of this step, in their own
-        # pipeline; it used to be a command to type by hand and Dofus 2 lost its
-        # descriptions and recipes on every rebuild.
-        # Retro recipes come from a different source (Ankama "crafts" lang SWF):
-        #   python itemscraper/store_retro_recipes.py
+        # After load-db, which rebuilds items.db from the dump
+        # Retro recipes: itemscraper/store_retro_recipes.py
         step("items/obtainment", [PY, "store_item_obtainment.py"], cwd=ITEMSCRAPER)
         step("mount-looks", [PY, "store_dofusdb_mount_looks.py"], cwd=ITEMSCRAPER)
-        # Replayed, not matched: working the skins out from the art takes hours,
-        # so the decisions it reached are kept in the repo.
+        # Replays item_skins.json, matching from the art takes hours
         step("item-skins", [PY, "store_item_skins.py", "--game-version", "dofus3",
                             "--input", "item_skins.json"], cwd=ITEMSCRAPER)
 
@@ -228,15 +221,13 @@ def main() -> None:
             "--output", "itemscraper/transformed_spells.json",
             "--class-output", "itemscraper/transformed_class_spells.json",
         ])
-        # Needs the archive the patch replaced, so it runs on whatever is under
-        # raw/ and is a no-op with a single one.
+        # Diffs against the previous archive under raw/, no-op with only one
         step("spells/duplicates", [PY, "-m", "itemscraper.find_duplicated_damage_rows"])
         step("spells/reference", [
             PY, "itemscraper/store_spell_reference.py",
             "--game-version", "dofus3",
         ])
-        # The names of the states a damage row is gated on, so the page can say
-        # which case each block is. Reads the transform, so it runs after it.
+        # State names for damage rows, reads the transform
         step("spells/states", [
             PY, "itemscraper/store_spell_states.py",
             "--game-version", "dofus3", "--tag", version,
@@ -247,14 +238,12 @@ def main() -> None:
             "--spells-json", "itemscraper/transformed_spells.json",
             "--constants", "fashionistapulp/fashionistapulp/dofus_constants.py",
         ])
-        # What the spells an item names actually do, for the tooltip on the
-        # extra lines. Needs both the spell archive and the finished item db.
+        # Item spell tooltips, needs the spell archive and the item db
         step("spells/tooltips", [
             PY, "-m", "itemscraper.store_spell_tooltips",
             "--game-version", "dofus3", "--tag", version,
         ])
-        # Monster drops -> item_drops / monster_names tables (encyclopedia "Dropped by").
-        # Runs after items/obtainment so it rebuilds items.db from the finalized dump.
+        # Monster drops -> item_drops / monster_names tables, after items/obtainment
         step("drops/transform", [
             PY, "get_monsters.py",
             "--dataset-dir", f"raw/{version}",
@@ -265,14 +254,12 @@ def main() -> None:
             "--drops", "transformed_drops.json",
             "--game-version", "dofus3",
         ], cwd=ITEMSCRAPER)
-        # After drops/store, which is what creates monster_names: all three read
-        # it to know which monsters the database has. items/load-db rebuilds the
-        # file from the item dump, so on a run from scratch these three used to
-        # find no such table and die, and the rebuilt database came out with no
-        # monster grade, subarea or spell at all.
+        # After drops/store, which creates monster_names
         step("monster-grades", [PY, "store_dofusdb_monster_grades.py"], cwd=ITEMSCRAPER)
         step("monster-subareas", [PY, "store_dofusdb_monster_subareas.py"], cwd=ITEMSCRAPER)
-        step("monster-spells", [PY, "store_monster_spells.py"], cwd=ITEMSCRAPER)
+        # Its own dump, not the newest under raw/: that one is the beta's.
+        step("monster-spells", [PY, "store_monster_spells.py",
+                                "--tag", version], cwd=ITEMSCRAPER)
         # Craft professions -> item_craft_jobs / job_names tables ("Crafted by ...").
         step("craftjobs/transform", [
             PY, "get_craft_jobs.py",
@@ -291,16 +278,11 @@ def main() -> None:
         PY, "store_item_corrections.py", "--game-version", "dofus3",
     ], cwd=ITEMSCRAPER)
 
-    # Data changed: refresh the scanned list of runtime-translated
-    # strings (item types, stats...) so makemessages keeps them.
+    # Runtime-translated strings (item types, stats...) for makemessages
     step("dynamic-translations", [PY, "generate_dynamic_translations.py"], cwd=ITEMSCRAPER)
 
     if do_images:
-        # 'class' and not 'damage': this run writes into the SHARED directory,
-        # the one dofus2, retro and touch fall back to, and a spell page lists
-        # the whole class book rather than only what deals damage. Asking for
-        # the damage spells while pruning against them left 552 icons where the
-        # pages name 849. Beta is not in the same position, it owns spells/beta.
+        # 'class': shared icon dir for dofus2, retro and touch, pages list every class spell
         step("spell-images", [
             PY, "-m", "itemscraper.download_spell_images",
             "--version", version,
@@ -313,10 +295,7 @@ def main() -> None:
         step("resize", [PY, "resize_images.py"])
 
 
-    # A rebuild reports success either way. This asks what it changed that
-    # nobody asked for: a table that lost rows, an item whose row id moved.
-    # A moved id empties that slot in every saved build, in silence, which is
-    # how 82 Touch pets changed owner on 2026-08-15.
+    # Flags tables that lost rows and items whose id moved
     step("verify/rebuild", [PY, "check_rebuild.py", "--only", "dofus3"],
          cwd=ITEMSCRAPER)
 

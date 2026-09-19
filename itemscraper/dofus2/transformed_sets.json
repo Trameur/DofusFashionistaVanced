@@ -44432,11 +44432,11 @@
     },
     {
         "ankama_id": 861,
-        "name_en": "[!] Panoplie d'apparat du Grand Spectacle",
+        "name_en": "Panoplie d'apparat du Grand Spectacle",
         "name_fr": "Panoplie d'apparat du Grand Spectacle",
-        "name_es": "[!] Panoplie d'apparat du Grand Spectacle",
-        "name_pt": "[!] Panoplie d'apparat du Grand Spectacle",
-        "name_de": "[!] Panoplie d'apparat du Grand Spectacle",
+        "name_es": "Panoplie d'apparat du Grand Spectacle",
+        "name_pt": "Panoplie d'apparat du Grand Spectacle",
+        "name_de": "Panoplie d'apparat du Grand Spectacle",
         "items": 3,
         "equipment_ids": [
             30524,

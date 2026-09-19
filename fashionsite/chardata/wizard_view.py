@@ -50,7 +50,9 @@ def wizard(request, char_id):
                'options': get_options(char),
                'constant_data': jsonpickle.encode(constant_data, unpicklable=False),
                'wizard_data': jsonpickle.encode(wizard_data, unpicklable=False),
-               'triangle_url': jsonpickle.encode(get_triangle_URL(request), unpicklable=False)}
+               'triangle_url': jsonpickle.encode(get_triangle_URL(request), unpicklable=False),
+               'scroll_max': max_scroll_for_version(char.game_version, char.level),
+               'scroll_hundred': HUNDRED}
     context.update(inventory_source_context(request, char))
     return set_response(request,
                         'chardata/wizard.html',
@@ -67,6 +69,13 @@ def get_resetted_sliders(request, char_id):
 @require_POST
 def wizard_post(request, char_id):
     char = get_char_or_raise(request, char_id)
+
+    # Saved before the minimums: set_min_stats clamps AP, MP and Range to the
+    # limits of the mode the options now say.
+    options = get_options(char)
+    options.update(parse_options_post(request))
+    parse_inventory_options(request, char, options)
+    set_options(char, options)
 
     minimum_values = get_min_stats(char)
     for stat_name in STATS_WITH_CONFIG_MINS:
@@ -85,11 +94,6 @@ def wizard_post(request, char_id):
         if weapon:
             set_item_included(char, weapon, 'weapon', False)
 
-    options = get_options(char)
-    options.update(parse_options_post(request))
-    parse_inventory_options(request, char, options)
-    set_options(char, options)
-    
     s = get_structure()
     for (red, item) in DOFUS_OPTIONS.items():
         forbidden = request.POST.get(red) is None
@@ -103,10 +107,16 @@ def wizard_post(request, char_id):
     scroll = request.POST.get('scrolling', 'leave')
     if scroll == 'fully':
         _full_scroll_char(char)
+    elif scroll == 'hundred':
+        _scroll_char_to(char, HUNDRED)
     elif scroll == 'clean':
         _clean_scroll_char(char)
 
     return HttpResponseRedirect(version_reverse(request, 'fashion', char.id))
+
+# Touch goes to 150 at level 200, Retro to 101 with food
+HUNDRED = 100
+
 
 def _get_third_scroll_option(char):
     stats_scroll_dict = {}
@@ -117,7 +127,7 @@ def _get_third_scroll_option(char):
         else:
             basestats = basestats_list[0]
         stats_scroll_dict[basestats.stat] = basestats.scrolled_value
-    max_scroll = max_scroll_for_version(char.game_version)
+    max_scroll = max_scroll_for_version(char.game_version, char.level)
     all_scrolled = True
     all_empty = True
     for _, scrolled_value in stats_scroll_dict.items():
@@ -129,11 +139,17 @@ def _get_third_scroll_option(char):
         return None
     if all_scrolled:
         return 100
+    if max_scroll > HUNDRED and all(
+            value == HUNDRED for value in stats_scroll_dict.values()):
+        return 'hundred'
     return stats_scroll_dict
 
 def _full_scroll_char(char):
-    # Touch scrolls to 150, Retro to 101, every other version to 100.
-    full_scroll = max_scroll_for_version(char.game_version)
+    return _scroll_char_to(
+        char, max_scroll_for_version(char.game_version, char.level))
+
+
+def _scroll_char_to(char, full_scroll):
     for element_name, _ in STATS_NAMES:
         basestats_list = CharBaseStats.objects.filter(char=char, stat=element_name)
         if len(basestats_list) == 0:

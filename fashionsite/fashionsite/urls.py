@@ -39,10 +39,7 @@ from chardata.encoded_char_id import encode_char_id
 admin.autodiscover()
 
 def ads_txt_view(request):
-    """Fallback ads.txt; in production nginx answers from docker/ads.txt.
-
-    A publisher id that disagrees with the ad code stops the ads being bought.
-    """
+    """Fallback ads.txt; in production nginx answers from docker/ads.txt."""
     from chardata.context_processors import DEFAULT_AD_CLIENT, ad_config
     client = ad_config().get('client') or DEFAULT_AD_CLIENT
     content = 'google.com, %s, DIRECT, f08c47fec0942fa0' % client.replace('ca-', '', 1)
@@ -128,8 +125,7 @@ self.addEventListener('fetch', function(e) {
     return HttpResponse(sw, content_type='application/javascript')
 
 def offline_view(request):
-    # The service worker caches this page at install time, so it is served in
-    # the language the visitor had then.
+    # Cached by the service worker at install, in the visitor's language then
     return HttpResponse(
         "<!doctype html><html lang='%s'><head><meta charset='utf-8'>"
         "<meta name='viewport' content='width=device-width, initial-scale=1'>"
@@ -147,9 +143,7 @@ def offline_view(request):
 # --- Sitemap ---------------------------------------------------------------
 import time as _sitemap_time
 
-# One cache entry per (section, language): the same builder now produces a
-# different document per language, so a single slot would serve French XML
-# for a Spanish request.
+# One cache entry per (section, language)
 _SITEMAP_CACHES = {}
 
 
@@ -163,12 +157,7 @@ _SITEMAP_ITEM_TTL = 6 * 3600
 
 
 def _served_in(names, language):
-    """True when a url built from these names is served in `language`.
-
-    The rule itself lives in url_language beside `language_from_slug`, because
-    the page needs the same answer: it used to announce in hreflang the very
-    languages this function has always kept out of the sitemap.
-    """
+    """True when a url built from these names is served in `language`."""
     from chardata.encyclopedia_view import _normalized_slug
     from chardata.url_language import address_serves_language
     return address_serves_language(names, language, _normalized_slug)
@@ -232,17 +221,13 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
                     """ % (localized_name_sql, name_join_sql),
                     (language,) if has_item_names else ())
                 for item_id, ankama_type, ankama_id, name, english in cursor.fetchall():
-                    # A variant that repeats the live version canonicalises to
-                    # it, so submitting it asks Google to fetch a page in order
-                    # to be told to read another one.
+                    # A variant repeating the live version canonicalises to it
                     if repeats_the_live_version(game_version, ankama_type,
                                                 ankama_id):
                         continue
                     names = dict(names_by_item.get(item_id) or {})
                     names['en'] = english
-                    # Two languages sharing a name share a url, and the view
-                    # gives it to one of them. Filing it under the other would
-                    # promise Google a page it will never be served.
+                    # Two languages sharing a name share a url, served in only one
                     if not _served_in(names, language):
                         continue
                     with translation.override(language):
@@ -424,12 +409,7 @@ def _sitemap_encyclopedia_monsters(base_url, language='en'):
         seen = set()
         for game_version in dofus_versions():
             version_prefix = '' if game_version == 'dofus3' else '/%s' % game_version
-            # The hub carries its language in a url prefix, so a translated one
-            # is a different url and _sitemap_pages already submits all of
-            # them. Emitting it here regardless of language put the English hub
-            # in the French, Spanish and Portuguese sitemaps too -- the same
-            # url submitted four times, and one entry per translated sitemap
-            # that was not in that sitemap's language.
+            # English only: _sitemap_pages submits the prefixed translated hubs
             list_link = '%s/encyclopedia/monsters/' % version_prefix
             if language == 'en' and list_link not in seen:
                 seen.add(list_link)
@@ -519,32 +499,17 @@ def _sitemap_encyclopedia_monsters(base_url, language='en'):
 
 
 def _most_used_has_been_indexed():
-    """Whether the most-worn page has anything to show yet.
-
-    The table is filled by reindex_builds_by_item, which takes about a quarter
-    of an hour and is deliberately not in the container entrypoint: putting it
-    there would cost that quarter of an hour of downtime on every deploy to
-    correct a second decimal.
-
-    So between a deploy and that command there is a window where the page
-    answers honestly that the counts are not built. Submitting four URLs to it
-    during that window asks Google to look at the one moment there is nothing
-    to see. The page joins the sitemap by itself once the index exists.
-
-    A missing table is not an error here: before the migration has run there is
-    nothing to submit either, and a sitemap that raises is worse than a sitemap
-    that is one page short.
-    """
+    """Whether the most-worn page has anything to show yet."""
     from django.db import DatabaseError
     from chardata.models import ItemPopularity
+    # Filled by reindex_builds_by_item, which deploys do not run
     try:
         return ItemPopularity.objects.exists()
     except DatabaseError:
         return False
 
 def _sitemap_pages(base_url):
-    """Static pages, feature pages, guides, per-version entry points and a
-    sample of recently shared builds."""
+    """Static pages, guides, per-version entry points and recently shared builds."""
     blocks = []
 
     static_paths = [
@@ -558,9 +523,6 @@ def _sitemap_pages(base_url):
         ('/setup/', 'weekly', '0.9'),
         ('/quickstart/', 'monthly', '0.7'),
         ('/smartbuild/', 'monthly', '0.7'),
-        # Public, no login, and the only page that reads a whole build from
-        # text or screenshots: it was never submitted, so nothing searching
-        # for it could find it.
         ('/import/text/', 'monthly', '0.7'),
         ('/sharedbuilds/', 'daily', '0.9'),
         # /random/ only ever redirects, so it is not sitemap material.
@@ -575,13 +537,7 @@ def _sitemap_pages(base_url):
 
     blocks.append(_sitemap_url(base_url + '/guides/', 'monthly', '0.8'))
 
-    # The most-worn page, once without a prefix and once per language. Not
-    # folded into hub_paths below: that loop also emits a /beta/, /dofus2/,
-    # /retro/ and /touch/ variant of every path it is given, and this page has
-    # no route under those prefixes.
-    #
-    # _SITEMAP_LANGUAGES is three languages, so that is four URLs, and all
-    # four are held back until the index exists -- see the helper above.
+    # Most-worn page: not in hub_paths, it has no route under the version prefixes
     if _most_used_has_been_indexed():
         blocks.append(_sitemap_url(
             base_url + '/encyclopedia/most-used/', 'weekly', '0.7'))
@@ -590,9 +546,7 @@ def _sitemap_pages(base_url):
                 '%s/%s/encyclopedia/most-used/' % (base_url, language),
                 'weekly', '0.6'))
 
-    # The hubs, once per language. They answer and link to each other by
-    # hreflang, but nothing submitted them, so Google had no reason to
-    # look: an entry point that cannot be found is not an entry point.
+    # The hubs, once per language
     from fashionistapulp.game_versions import dofus_versions
     hub_paths = HUB_PATHS
     for language in _SITEMAP_LANGUAGES:
@@ -611,12 +565,7 @@ def _sitemap_pages(base_url):
         for key in guides_content.ordered_slugs():
             published = guides_content.GUIDES[key].get('published')
             lastmod = ('\n    <lastmod>%s</lastmod>' % published) if published else ''
-            # One URL per language. The slug names the language, so the
-            # French and Spanish guides are pages of their own rather than
-            # the same page served twice. Submitting only the English slug
-            # is what kept 128 of the 160 written guide pages out of the
-            # index: a crawler sends no Accept-Language, so it only ever
-            # saw the English text.
+            # One url per language: the slug names the language
             slugs = sorted(set(guides_content.alternate_slugs(key).values())
                            or {key})
             for slug in slugs:
@@ -633,11 +582,6 @@ def _sitemap_pages(base_url):
     from fashionistapulp.game_versions import prefixed_reader_versions
     for version_slug in prefixed_reader_versions():
         vbase = '%s/%s' % (base_url, version_slug)
-        # /guides/ manquait ici alors que la boucle des langues l'emet : les
-        # douze /{fr,es,pt}/{beta,dofus2,retro,touch}/guides/ etaient soumis
-        # et les quatre anglais ne l'etaient pas -- or l'anglais est le
-        # x-default ET le canonique de chacun de ces quatre groupes. Deux
-        # listes de carrefours, c'est un carrefour ajoute d'un seul cote.
         for sub, prio in (('/', '0.8'), ('/setup/', '0.7'), ('/sharedbuilds/', '0.7'),
                           ('/forgemagie/', '0.6'), ('/encyclopedia/', '0.8'),
                           ('/encyclopedia/sets/', '0.7'), ('/guides/', '0.7'),
@@ -674,23 +618,10 @@ _LOCALISED_BUILDERS = (
     ('monsters', _sitemap_encyclopedia_monsters),
 )
 
-# Languages submitted beyond English. One file each, rather than one big file,
-# so Search Console reports coverage per language: whether Spanish indexes is
-# the question worth answering, and a merged file cannot answer it.
-#
-# Chosen from measured audience, not from what is translated. Analytics over 30
-# days: Spanish 789 users (Colombia 417, Chile 161, Spain 141, Mexico 70),
-# French 438, Portuguese 217 (Brazil). German appears nowhere in the top seven
-# countries, so its pages stay served and stay linked by hreflang -- which is
-# enough for Google to find them -- but submitting 40 000 more URLs for an
-# audience that has not shown up would be asking for crawl budget we have no
-# reason to spend. Add 'de' here the day the numbers justify it.
+# Sitemap languages beyond English, one file each; no 'de', too small an audience
 _SITEMAP_LANGUAGES = ('fr', 'es', 'pt')
 
-#: The pages that have no name of their own to localise, so their language
-#: lives in a url prefix. Module level because tests_every_hub_speaks_every_
-#: language.py walks it: a hub added here and forgotten in i18n_patterns
-#: answers 404 under every prefix, which is how /fr/setup/ was lost.
+# Pages with no name to localise: their language lives in a url prefix
 HUB_PATHS = ('/', '/setup/', '/guides/', '/encyclopedia/',
              '/encyclopedia/sets/', '/encyclopedia/monsters/')
 
@@ -701,8 +632,7 @@ def _localised_section(builder, language):
     return build
 
 
-# The English sections keep their names, so the sitemaps already submitted to
-# Search Console are untouched.
+# English sections keep their old names, already submitted to Search Console
 SITEMAP_SECTIONS = ((
     ('pages', _sitemap_pages),
 ) + _LOCALISED_BUILDERS + tuple(
@@ -759,8 +689,7 @@ urlpatterns = [
     re_path(r'^offline/$', offline_view, name='offline'),
     re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog', kwargs=js_info_dict),
 
-    # Character preview art, baked on first request. The -v<n> names match the
-    # cache file names, so nginx serves them straight off disk.
+    # Character preview art, baked on first request; nginx serves the -v<n> files
     re_path(r'^character/poses/(?P<bone_id>[\w-]+)-v(?P<fmt>\d+)\.json$',
             character_assets.pose_view, name='character_pose_versioned'),
     re_path(r'^character/poses/(?P<bone_id>[\w-]+)\.json$',
@@ -831,8 +760,7 @@ urlpatterns = [
     re_path(r'^export/dofusbook/(?P<char_id>\d+)/$',
             dofusbook_export_view.dofusbook_export_page,
             name='dofusbook_export'),
-    # Le navigateur poste ici ce que la politique aurait bloque. Pas de
-    # prefixe de version: un rapport ne vient d'aucun jeu.
+    # CSP violation reports; no version prefix, a report belongs to no game
     re_path(r'^csp-report/$', csp_report_view.csp_report, name='csp_report'),
     re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
     re_path(r'^workshop/ingredients/$', workshop_view.workshop_ingredients, name='workshop_ingredients'),
@@ -900,9 +828,7 @@ urlpatterns = [
     re_path(r'^faq/', views.faq, name='faq'),
     re_path(r'^privacy/', views.privacy, name='privacy'),
     re_path(r'^support/', views.support, name='support'),
-    # Compte le clic puis renvoie vers Ko-fi. L'adresse vient des reglages,
-    # jamais de la requete : une redirection ouverte serait un cadeau au
-    # hameconnage et une penalite chez Google.
+    # Ko-fi redirect; the address comes from settings, never the request
     re_path(r'^out/donate/$', views.donate, name='donate'),
     re_path(r'^out/donate/(?P<index>\d+)/$', views.donate, name='donate_indexed'),
     re_path(r'^encyclopedia/item/(?P<ankama_type>[^/]+)/(?P<ankama_id>\d+)-(?P<slug>[^/]*)/$',
@@ -987,64 +913,29 @@ if settings.EXPERIMENTS['COMPARE_SETS']:
 
 if settings.EXPERIMENTS['TRANSLATION']:
     urlpatterns += [
-                            # Ours first: it also stores the choice on the
-                            # profile, for the notification email language.
+                            # Ours first: it also saves the language on the profile
                             re_path(r'^i18n/setlang/$', views.set_language_and_remember, name='set_language'),
                             re_path(r'^i18n/', include('django.conf.urls.i18n'))]
 
 urlpatterns += staticfiles_urlpatterns()
 
-# Version-specific routes: same views, game_version set by middleware. The URL
-# namespace is what makes reverse('beta:setup') give /beta/setup/.
+# Same views, game_version set by middleware; namespace for reverse('beta:setup')
 _game_urls = ('chardata.game_urls', 'chardata')
 
-# Pages whose path does not already say which language they are. Their
-# language goes in a prefix instead.
-#
-# prefix_default_language=False keeps every English URL exactly where it is:
-# /encyclopedia/ still answers at /encyclopedia/, and /es/encyclopedia/ is
-# added beside it. Nothing already indexed moves.
-#
-# Which routes those are is a rule, not a list. A hand list answers the
-# question asked the day it was written: this one said home, guides, setup and
-# the encyclopedia hubs, and the rest of the default version stayed English
-# only. Measured 14 September 2026 by following the home page's own links: of
-# the 16 pages it offers, 15 -- about, faq, contact, license, privacy,
-# support, quickstart, the gallery, the importer, the forgemagie, the compare
-# landing, the login and the project list among them -- answered 200 in French
-# under /fr/retro/ and 404 under /fr/. On the version people actually play,
-# the reader's own language stopped at the home page.
-#
-# The rule itself lives in game_urls.routes_published_once_per_language,
-# because url_language reads the same answer to decide which pages may
-# announce their translations. Two lists of the same thing is how the router
-# ended up prefixing 115 routes while the hreflang side still named six.
+
 def _as_routes(entries):
     return [re_path(str(entry.pattern), entry.callback, name=entry.name)
             for entry in entries]
 
 
+# Language prefix for pages whose path names no language; English keeps none
 urlpatterns += i18n_patterns(
-    # The create-a-project landing showed the gap first: /fr/retro/setup/ and
-    # /es/retro/setup/ answered in their language while /fr/setup/ answered
-    # 404 -- the translated set builder existed for every version except the
-    # one people actually play, in the market that sends the most impressions.
-    # It is in the list below now, with the other 114.
     *_as_routes(game_urls.routes_published_once_per_language()),
-    # Not in game_urls, so the rule above cannot reach it: the other versions
-    # have no most-used page at all.
+    # Not in game_urls: the other versions have no most-used page
     re_path(r'^encyclopedia/most-used/$', encyclopedia_view.encyclopedia_most_used,
             name='encyclopedia_most_used'),
 
-    # The other game versions, inside the same block so the rule holds for all
-    # of them: /dofus2/encyclopedia/ in English, /es/dofus2/encyclopedia/ in
-    # Spanish. reverse() restores the prefix, so {% game_url %} and
-    # version_reverse() need no change.
-    #
-    # Entity routes come along, which is what we want rather than a problem:
-    # /dofus2/encyclopedia/set/123/ carries no name, so today its language
-    # comes from Accept-Language -- a header no crawler sends. Prefixed, it is
-    # decided by the URL like everything else.
+    # The other versions, prefixed the same way: /es/dofus2/encyclopedia/
     path('beta/', include(_game_urls, namespace='beta')),
     path('dofus2/', include(_game_urls, namespace='dofus2')),
     path('retro/', include(_game_urls, namespace='retro')),

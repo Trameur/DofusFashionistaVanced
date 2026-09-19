@@ -1,11 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Coller son stuff en texte et le retrouver ici.
-
-Le lecteur de captures lit UN objet. Cette page lit un build, et sans rien
-demander a personne d'autre: pas de lien a publier chez un concurrent, pas de
-build public, pas d'image. Un build prive, un build recopie d'un Discord ou
-d'un forum, un build qu'on a simplement sous les yeux dans le jeu.
-"""
+"""Tests for the pasted text build import."""
 
 from django.test import SimpleTestCase, TestCase
 
@@ -15,7 +9,6 @@ from fashionistapulp.structure import (get_structure, get_current_game_version,
 
 
 def _noms(version, types, langue='en'):
-    """Un vrai nom d'objet par type, pris dans le catalogue lui-meme."""
     structure = get_structure(version)
     trouve = []
     for type_name in types:
@@ -48,15 +41,6 @@ class PastedTextBecomesABuildTests(SimpleTestCase):
         self.assertEqual([m['name'] for m in lu['matched']], noms)
 
     def test_a_whole_tooltip_can_be_pasted_and_its_rolls_come_with_it(self):
-        """Mesure du 10 septembre 2026: sur **7800 lignes** qui ne sont pas des
-        noms d'objets (les etiquettes de stats des cinq langues, declinees en
-        <<51 X>>, <<X 51>>, <<-12 X>>, plus les entetes d'infobulle usuelles),
-        prises sur Dofus 3, Retro et Touch, aucune n'est prise pour un objet.
-
-        Elles ne sont pas perdues pour autant: une ligne de jet revient a la
-        piece qu'elle suit. Un import qui repose le stuff <<a l'identique>> et
-        jetterait les jets ne reposerait pas le meme stuff.
-        """
         noms = _noms('dofus3', ('Hat', 'Cloak'))
         texte = '\n'.join([
             noms[0], '51 Vitality', 'Level 200',
@@ -64,36 +48,20 @@ class PastedTextBecomesABuildTests(SimpleTestCase):
         ])
         lu = read_items(texte, 'dofus3', 'en')
         self.assertEqual([m['name'] for m in lu['matched']], noms)
-        # Le jet revient a la piece qu'il suit, pas a l'autre.
         self.assertTrue(any(r['name'] == 'Vitality' and r['value'] == 51
                             for r in lu['matched'][0]['rolls']),
                         lu['matched'][0]['rolls'])
         self.assertEqual([], lu['matched'][1]['rolls'])
-        # Et ce qui n'est ni un nom ni un jet reste signale.
         for parasite in ('Level 200', 'Effects:', 'Conditions'):
             self.assertIn(parasite, lu['ignored'])
 
     def test_a_roll_before_any_item_is_reported_not_guessed(self):
-        """Coller ses stats sans le nom au-dessus n'attache rien: on ne
-        devine pas a quelle piece elles appartenaient."""
         lu = read_items('51 Vitality\n30 Strength', 'dofus3', 'en')
         self.assertEqual([], lu['item_ids'])
         self.assertEqual(2, lu['orphan_rolls'])
         self.assertEqual(['51 Vitality', '30 Strength'], lu['ignored'])
 
     def test_a_stat_word_never_drags_an_item_in_by_substring(self):
-        """La faute que le contrat par egalite supprime.
-
-        L'autocompletion accepte une sous-chaine, parce qu'elle repond a
-        quelqu'un qui tape. Appliquee a une infobulle collee, la meme regle
-        faisait entrer **269 objets sur 7800 lignes (3,4 %)**, et pas des
-        objets exotiques: <<agility>> ramenait Agility Ring, <<chance>> Chance
-        Belt, <<damage>> Damaged Farmer Scythe, <<weight>> Weighted Helmet. Le
-        joueur se serait retrouve avec un anneau qu'il n'a jamais porte.
-
-        Le rappel, lui, est le meme dans les deux contrats: 98,8 %. La
-        sous-chaine ne rattrapait donc rien qu'on perde ici.
-        """
         for mot in ('agility', 'chance', 'damage', 'weight', 'power',
                     'vitality'):
             with self.subTest(mot=mot):
@@ -102,9 +70,6 @@ class PastedTextBecomesABuildTests(SimpleTestCase):
                 self.assertEqual([mot], lu['ignored'])
 
     def test_a_name_read_one_letter_wrong_still_lands_and_says_so(self):
-        """Le rapprochement tolerant de G1 sert ici aussi, et la piece porte
-        la mention: un build qui met en silence l'objet voisin est pire qu'un
-        build qui dit avoir devine."""
         noms = _noms('dofus3', ('Hat',))
         original = noms[0]
         abime = original[:-1] + ('x' if original[-1] != 'x' else 'y')
@@ -131,9 +96,6 @@ class PastedTextBecomesABuildTests(SimpleTestCase):
         self.assertTrue(lu['truncated'])
 
     def test_the_catalogue_is_walked_once_per_paste(self):
-        """Le vivier fait des milliers de noms et chaque ligne inconnue est
-        comparee a chacun. Le reconstruire par ligne rendait la page
-        inutilisable des la dixieme."""
         from chardata import text_build_import
         vrai = text_build_import._pool
         appels = []
@@ -149,9 +111,6 @@ class PastedTextBecomesABuildTests(SimpleTestCase):
         self.assertEqual(1, len(appels))
 
     def test_it_reads_the_version_it_was_given(self):
-        """Un nom Retro cherche dans le catalogue Dofus 3 habillerait le
-        personnage avec autre chose. Le catalogue suit la version demandee,
-        pas celle que le lecteur consultait."""
         noms = _noms('retro', ('Hat',))
         lu = read_items(noms[0], 'retro', 'en')
         self.assertEqual(1, len(lu['item_ids']), lu)
@@ -182,9 +141,7 @@ class TheTextImportPageTests(TestCase):
         self.assertIn('Read this', page)
 
     def test_the_route_answers_under_a_version_prefix_too(self):
-        """Le site a deux tables d'URL. Une route posee dans une seule rend
-        404 dans l'autre, et le lecteur qui joue a Retro est justement celui
-        qui a un prefixe."""
+        """The site has two url tables, the route must be in both."""
         for version in ('dofus3', 'retro', 'touch', 'beta', 'dofus2'):
             with self.subTest(version=version):
                 self.assertEqual(
@@ -198,8 +155,7 @@ class TheTextImportPageTests(TestCase):
         self.assertEqual(avant, Char.objects.count())
 
     def test_the_class_and_the_level_are_asked_for(self):
-        """Une infobulle porte le niveau de l'OBJET, jamais celui du
-        personnage, et rien dans une liste de noms ne nomme une classe."""
+        """A tooltip shows the item level, not the character level."""
         page = self.client.post(self._url(), {'text': self._texte()})
         self.assertContains(page, 'name="char_class"')
         self.assertContains(page, 'name="level"')
@@ -222,16 +178,14 @@ class TheTextImportPageTests(TestCase):
         self.assertIsNotNone(char)
         self.assertEqual('Iop', char.char_class)
         solution = get_solution(char)
-        # item_list rend un emplacement par slot du build; les seize qui n'ont
-        # rien recu portent le nom 'NoItem'. Ce sont des vides, pas des objets.
+        # item_list has one entry per slot, empty ones are named 'NoItem'
         portes = sorted(item.name for item in (solution.item_list or [])
                         if item.name != 'NoItem')
         attendus = sorted(l.strip() for l in texte.split('\n'))
         self.assertEqual(attendus, portes)
 
     def test_the_build_is_not_presented_as_something_the_solver_found(self):
-        """`origin` decide de `is_generated`. Un build colle n'a jamais ete
-        calcule, et la page ne doit pas laisser croire le contraire."""
+        """origin is what decides is_generated."""
         from chardata.models import Char
         from chardata.solution import get_solution
         self.client.post(self._url(), {
@@ -253,11 +207,6 @@ class TheTextImportPageTests(TestCase):
 
 
 class TheTextImportPageSpeaksEveryLanguageTests(TestCase):
-    """Le gabarit est en anglais; quatre lecteurs sur cinq lisent autre chose.
-
-    Un temoin par langue, pris dans la traduction et pas dans une marque: un
-    mot qui survit tel quel a la traduction ne prouverait que lui-meme.
-    """
 
     TEMOINS = {
         'en': ('Import a build', 'Read this',
@@ -289,17 +238,7 @@ class TheTextImportPageSpeaksEveryLanguageTests(TestCase):
 
 
 class NoImportPageClaimsTheGameCanBeCopiedTests(SimpleTestCase):
-    """Une infobulle Dofus n'est pas connue pour etre selectionnable.
-
-    Ce garde existait deja et ne lisait qu'une chaine: le `text_hint` du
-    dictionnaire de l'inventaire. Il aurait donc laisse passer exactement la
-    meme affirmation sur cette page-ci, ecrite dans un gabarit et non dans un
-    dictionnaire. Un garde qui surveille une chaine surveille une chaine.
-
-    Ce qui est interdit, c'est de dire d'ou vient le texte, pas d'accepter le
-    texte: le lecteur colle ce qu'il veut, et le site n'a pas a affirmer
-    qu'il peut le copier d'un endroit ou personne n'a verifie qu'il le peut.
-    """
+    """Nothing shows a Dofus tooltip can be selected, so no page may say so."""
 
     INTERDITS = ('in-game', 'in game', 'depuis le jeu', 'dans le jeu',
                  'del juego', 'en el juego', 'do jogo', 'no jogo',
@@ -315,8 +254,6 @@ class NoImportPageClaimsTheGameCanBeCopiedTests(SimpleTestCase):
                 yield nom, f.read()
 
     def test_the_sweep_reads_the_pages_it_names(self):
-        # Deux pages depuis le 11 septembre 2026: la page qui ne prenait
-        # qu'un lien est fondue dans la page d'import unique.
         lues = list(self._pages())
         self.assertEqual(2, len(lues))
         for _nom, corps in lues:
@@ -356,12 +293,6 @@ class NoImportPageClaimsTheGameCanBeCopiedTests(SimpleTestCase):
 
 
 class AnImportedBuildIsNotCalledEmptyTests(TestCase):
-    """La page de solution n'avait que deux cas: suggere par le solveur, ou
-    vide. Un build importe n'est ni l'un ni l'autre, et il tombait dans
-    <<vide>>: la page annoncait <<This set starts empty. Click the add buttons
-    to choose the items yourself>> juste au-dessus des pieces qu'on venait de
-    rapatrier. Les deux imports, DofusBook et texte, passaient par la.
-    """
 
     def _importe(self):
         from chardata.models import Char
@@ -378,13 +309,10 @@ class AnImportedBuildIsNotCalledEmptyTests(TestCase):
         corps = page.content.decode('utf-8')
         self.assertIn('gear you brought in', corps)
         self.assertNotIn('This set starts empty', corps)
-        # Et les pieces sont bien la, sinon la phrase serait vraie.
         for nom in texte.split('\n'):
             self.assertIn(nom, corps)
 
     def test_the_page_does_not_present_it_as_a_suggestion_either(self):
-        """L'autre moitie: ne pas dire <<voici le set que nous suggerons>>
-        d'un stuff que le solveur n'a jamais vu."""
         char, _texte = self._importe()
         corps = self.client.get('/solution/%d/' % char.id).content.decode(
             'utf-8')
@@ -392,8 +320,6 @@ class AnImportedBuildIsNotCalledEmptyTests(TestCase):
         self.assertIn('Nothing here was chosen by the solver', corps)
 
     def test_a_build_that_really_is_empty_still_says_so(self):
-        """Le garde de l'autre cote: en corrigeant l'import, on ne doit pas
-        avoir fait disparaitre la phrase pour les builds vraiment vides."""
         from chardata.solution_result import IMPORT_ORIGINS
         self.assertNotIn('generated', IMPORT_ORIGINS)
         source = self._gabarit()
@@ -409,18 +335,7 @@ class AnImportedBuildIsNotCalledEmptyTests(TestCase):
 
 
 class ThePythonRollParserAgreesWithTheBrowserOneTests(TestCase):
-    """Deux implementations de la meme lecture, tenues a la meme table.
-
-    `parseStatLine` vit dans un gabarit et tourne chez le lecteur; son jumeau
-    Python sert l'import par texte. Porter une regle sans ce test, c'est se
-    garantir deux comportements dans six mois: la regle des groupes de
-    chiffres, qui a deja fabrique 476 et 4560 une fois, serait corrigee d'un
-    cote et pas de l'autre.
-
-    Les lignes ci-dessous ne sont pas decoratives. Chacune est un cas qui a
-    reellement casse: le separateur de fourchette mal lu, l'icone de stat lue
-    comme un chiffre, les groupes de milliers, le pourcentage, le signe.
-    """
+    """parseStatLine in inventory.html and its Python twin must agree."""
 
     LEXIQUE = {'force': 'str', 'vitalite': 'vit', 'critique': 'ch',
                '% critique': 'ch'}
@@ -450,17 +365,9 @@ class ThePythonRollParserAgreesWithTheBrowserOneTests(TestCase):
     ]
 
     def _js(self):
-        """Le meme harnais que les tests du lecteur de captures.
-
-        Il est importe et non recopie: si l'extraction par comptage
-        d'accolades cesse de marcher, les deux familles de tests doivent
-        rougir ensemble, pas l'une sans l'autre.
-        """
         import json
         from chardata.tests import InventoryScriptHarness
-        # GABARIT est un attribut de CLASSE du harnais, donc on lie
-        # _source au harnais et seul _node a self, dont il utilise les
-        # assertions et skipTest.
+        # GABARIT is a class attribute, only _node needs a real self
         source = InventoryScriptHarness._source(InventoryScriptHarness)
         morceaux = [InventoryScriptHarness._extract(source, 'ocrNormalize'),
                     InventoryScriptHarness._extract(source, 'parseStatLine')]
@@ -490,8 +397,6 @@ class ThePythonRollParserAgreesWithTheBrowserOneTests(TestCase):
             'paste gives two builds: %s' % divergences)
 
     def test_the_table_still_covers_the_cases_that_broke(self):
-        """Un test d'accord qui ne compare que des lignes faciles est vert et
-        ne garde rien."""
         lu = dict(zip(self.LIGNES, self._python()))
         self.assertIsNone(lu['57 4 76 Force'], 'the 476 case came back')
         self.assertIsNone(lu['3 4 5 60 Force'], 'the 4560 case came back')
@@ -506,12 +411,6 @@ class ThePythonRollParserAgreesWithTheBrowserOneTests(TestCase):
 
 
 class PastedRollsReachTheBuildTests(TestCase):
-    """Coller une infobulle doit rendre le stuff TEL QU'IL EST, jets compris.
-
-    Un import qui ramene les bons objets avec leurs valeurs de catalogue
-    rend un autre stuff que celui du joueur, et le solveur repartirait ensuite
-    de chiffres qui ne sont pas les siens.
-    """
 
     def _objet_avec_stats(self, type_name='Hat'):
         structure = get_structure('dofus3')
@@ -541,8 +440,6 @@ class PastedRollsReachTheBuildTests(TestCase):
         self.assertEqual(valeur, overrides[item.id][stat.id])
 
     def test_a_build_with_no_rolls_pasted_carries_no_overrides(self):
-        """Le garde de l'autre cote: coller une simple liste de noms ne doit
-        pas inventer d'overrides."""
         from chardata.models import Char
         from chardata.lock_forbid import get_stat_overrides
         self.client.post('/import/text/', {
@@ -552,17 +449,12 @@ class PastedRollsReachTheBuildTests(TestCase):
         self.assertEqual({}, get_stat_overrides(char))
 
     def test_a_roll_on_a_stat_the_item_lacks_is_never_written(self):
-        """`Model._apply_stat_overrides` AJOUTE la caracteristique a la piece
-        quand elle n'y figure pas. Ecrire un tel jet ferait naitre sur l'objet
-        une stat qu'il n'a jamais eue, et le solveur optimiserait autour."""
+        """Model._apply_stat_overrides adds a stat the item does not have."""
         structure, item = self._objet_avec_stats()
         portees = set(sid for sid, _v in item.stats)
         absente = next(s for s in structure.get_stats_list()
                        if s.id not in portees and s.name
-                       # Les PA, PM et portee sont maintenant appliques comme
-                       # des EXOS quand la piece ne les porte pas: le modele ne
-                       # les ajoute pas a l'objet. Le cas <<stat inventee>> se
-                       # teste donc sur une stat qui n'est pas de ceux-la.
+                       # AP, MP and range become exos, never item stats
                        and s.key not in ('ap', 'mp', 'range'))
         nom = structure.get_item_name_in_language(item, 'en')
         from chardata.models import Char
@@ -579,10 +471,7 @@ class PastedRollsReachTheBuildTests(TestCase):
         portees = set(sid for sid, _v in item.stats)
         absente = next(s for s in structure.get_stats_list()
                        if s.id not in portees and s.name
-                       # Les PA, PM et portee sont maintenant appliques comme
-                       # des EXOS quand la piece ne les porte pas: le modele ne
-                       # les ajoute pas a l'objet. Le cas <<stat inventee>> se
-                       # teste donc sur une stat qui n'est pas de ceux-la.
+                       # AP, MP and range become exos, never item stats
                        and s.key not in ('ap', 'mp', 'range'))
         nom = structure.get_item_name_in_language(item, 'en')
         stat_id, catalogue = item.stats[0]
@@ -596,9 +485,7 @@ class PastedRollsReachTheBuildTests(TestCase):
         self.assertIn(absente.name, corps)
 
     def test_an_out_of_range_roll_is_kept_and_flagged(self):
-        """La forgemagie pousse legitimement un jet au-dessus de son maximum
-        et peut en sacrifier un sous son minimum. Seul le joueur sait, donc on
-        applique et on signale, jamais on refuse."""
+        """Forgemagie can push a roll past its max or below its min."""
         from chardata.stat_range import get_stat_range
         structure = get_structure('dofus3')
         cible = None
@@ -625,15 +512,7 @@ class PastedRollsReachTheBuildTests(TestCase):
         self.assertEqual(bas - 1, lu['overrides'][item.id][stat_id])
 
     def test_the_pasted_roll_actually_changes_the_build_totals(self):
-        """La preuve que les jets servent a quelque chose.
-
-        Les ecrire dans `stat_overrides` ne prouve rien tout seul: la solution
-        est construite AVANT eux, par `_place_items`. Ce qui les fait compter,
-        c'est que `get_solution` repasse par `get_effective_stat_overrides` a
-        chaque lecture. Si ce chemin disparaissait, le build afficherait les
-        valeurs de catalogue et le dictionnaire dormirait sans que rien ne
-        rougisse.
-        """
+        """get_solution applies the overrides on read, _place_items does not."""
         from chardata.models import Char
         from chardata.solution import get_solution
         structure, item = self._objet_avec_stats()
@@ -648,8 +527,7 @@ class PastedRollsReachTheBuildTests(TestCase):
         char = Char.objects.order_by('-id').first()
         porte = next(i for i in get_solution(char).item_list
                      if i.name != 'NoItem')
-        # ModelResultItem.stats est indexe par la CLE de la stat, pas par
-        # son id, et c'est la que l'override atterrit.
+        # ModelResultItem.stats is keyed by stat key, not id
         self.assertEqual(vise, porte.stats[stat.key],
                          'the build shows the catalogue roll, not the pasted '
                          'one')
@@ -657,13 +535,7 @@ class PastedRollsReachTheBuildTests(TestCase):
 
 
 class TheTextIsReadInItsOwnLanguageTests(SimpleTestCase):
-    """Le lecteur peut jouer en francais et lire le site en anglais.
-
-    La langue se deduit des JETS, qui sont un signal fiable: le lexique de
-    stats d'une langue reconnait ses propres lignes et pas celles des autres.
-    Le vivier de noms est ensuite construit dans cette langue-la. Sans jet
-    dans le texte il n'y a aucun signal, et la langue de l'interface gagne.
-    """
+    """The paste language comes from its stat lines, else the site language."""
 
     def setUp(self):
         self.precedente = get_current_game_version()
@@ -689,8 +561,6 @@ class TheTextIsReadInItsOwnLanguageTests(SimpleTestCase):
         self.assertTrue(lu['matched'][0]['rolls'])
 
     def test_without_any_roll_the_reader_language_still_decides(self):
-        """Le comportement d'avant, qui doit survivre: une liste de noms
-        anglais lue par un lecteur anglais."""
         structure, item = self._objet()
         nom_en = structure.get_item_name_in_language(item, 'en')
         lu = read_items(nom_en, 'dofus3', 'en')
@@ -699,27 +569,10 @@ class TheTextIsReadInItsOwnLanguageTests(SimpleTestCase):
 
 
 class TheSiteCanReadBackItsOwnExportTests(TestCase):
-    """Le bouton <<Copier en texte>> et la page d'import doivent se parler.
-
-    Mesure du 10 septembre 2026, avant ce lot: colle tel quel, un build
-    exporte par le site rendait **zero objet reconnu**, les six lignes toutes
-    ignorees. L'export prefixe chaque piece de son emplacement (<<Hat: ...>>)
-    et l'import comparait la ligne entiere a un nom d'objet; le rapprochement
-    tolerant ne pouvait rien, retirer <<Hat: >> coute cinq corrections quand le
-    plafond est a trois.
-
-    Le tour complet est ce qui compte, pas chaque moitie: on exporte un vrai
-    build par la vraie fonction, on colle le resultat dans la vraie page, et
-    on compare ce qui revient.
-    """
+    """The export prefixes every item with its slot, "Hat: ..."."""
 
     def _build_exporte(self, avec_caracteristiques=True):
-        """Un build cree par la vraie page, puis exporte par la vraie fonction.
-
-        Le build passe par `/import/text/` plutot que par `create_build`
-        directement: cette derniere veut une session, et emprunter le chemin
-        du site evite d'en fabriquer une pour les besoins du test.
-        """
+        """create_build wants a session, the import page does not."""
         from chardata.models import Char, CharBaseStats
         from chardata.solution import get_solution
         from chardata.solution_view import _build_share_text
@@ -758,9 +611,6 @@ class TheSiteCanReadBackItsOwnExportTests(TestCase):
                          'the site cannot read its own export: %s' % texte)
 
     def test_a_french_reader_reads_the_same_export(self):
-        """L'export ecrit les noms INTERNES quelle que soit la langue. Sans le
-        nom interne au vivier, un lecteur francais ne relisait pas un texte
-        que le site venait de lui donner."""
         _char, texte, noms = self._build_exporte()
         lu = read_items(texte, 'dofus3', 'fr')
         self.assertEqual(len(noms), len(lu['matched']), lu['ignored'])
@@ -776,28 +626,18 @@ class TheSiteCanReadBackItsOwnExportTests(TestCase):
         self.assertIn('Points:', texte)
         lu = read_items(texte, 'dofus3', 'en')
         self.assertEqual({'Vitality': 101, 'Strength': 50}, lu['base_points'])
-        # Strength a ete mis a zero parchotage, les quatre autres gardent le
-        # plein que create_build pose. La ligne sort donc, et en entier.
+        # create_build scrolls every stat fully, Strength was set to 0
         self.assertIn('Scrolls:', texte)
         self.assertEqual(0, lu['base_scrolled']['Strength'])
         self.assertEqual(100, lu['base_scrolled']['Vitality'])
 
     def test_a_default_build_carries_neither_line(self):
-        """`create_build` cree TOUT build entierement parchote.
-
-        Sortir les parchotages systematiquement collerait six valeurs
-        identiques a la fin de chaque message Discord sans rien apprendre a
-        personne. La ligne ne sort donc que si elle s'ecarte du defaut, et le
-        tour reste exact: absente, elle veut dire <<le defaut>>, qui est
-        precisement ce que la creation repose.
-        """
+        """No Scrolls line means the default, every stat fully scrolled."""
         _char, texte, _noms = self._build_exporte(avec_caracteristiques=False)
         self.assertNotIn('Points:', texte)
         self.assertNotIn('Scrolls:', texte)
 
     def test_a_default_build_still_comes_back_fully_scrolled(self):
-        """L'autre moitie: si la ligne absente ne voulait pas dire le defaut,
-        le tour perdrait cent points de parchotage sur six stats."""
         from chardata.models import Char
         from chardata.util import get_stats_and_scrolled
         _char, texte, _noms = self._build_exporte(avec_caracteristiques=False)
@@ -810,7 +650,6 @@ class TheSiteCanReadBackItsOwnExportTests(TestCase):
         self.assertEqual(100, scrolled['Agility'])
 
     def test_the_whole_trip_gives_back_the_same_character(self):
-        """Le tour complet, par la vraie page."""
         from chardata.models import Char
         from chardata.util import get_stats_and_scrolled
         _char, texte, noms = self._build_exporte()
@@ -829,15 +668,7 @@ class TheSiteCanReadBackItsOwnExportTests(TestCase):
         self.assertEqual(0, scrolled['Strength'])
 
     def test_the_class_is_offered_preselected_when_the_text_names_it(self):
-        """Sans jamais comparer deux attributs dans l'ordre: le gabarit est
-        minifie et les attributs y sont tries.
-
-        Le balayage porte sur la LISTE DES CLASSES et non sur la page: la page
-        en porte une seconde depuis que le lecteur de captures demande la
-        langue du jeu, et son option preselectionnee n'est pas une classe de
-        plus. Un garde qui lit la page entiere garde la page, pas la liste
-        qu'il croit surveiller.
-        """
+        """The minifier sorts attributes, and the page has a second select."""
         import re
         _char, texte, _noms = self._build_exporte()
         corps = self.client.post(
@@ -855,22 +686,7 @@ class TheSiteCanReadBackItsOwnExportTests(TestCase):
 
 
 class AnExportNamesItsGameAndTheImportRefusesAnotherTests(TestCase):
-    """Un meme nom n'est pas un meme objet d'un jeu a l'autre.
-
-    Mesure du 10 septembre 2026, sur les catalogues livres:
-
-      depuis Retro, colles sur Dofus 3 : 1594 des 6269 noms existent aussi,
-      et **482 d'entre eux y designent un objet d'un AUTRE NIVEAU**
-      (<<Amulet of the Valiant Heart>> passe de 41 a 200,
-       <<Arachnamu>> de 20 a 40).
-      depuis Touch  : 818 sur 2618 reconnus changent de niveau.
-      depuis Dofus 2: 210 sur 3306.
-
-    L'export ne disait pas de quel jeu il venait, et l'import cherchait donc
-    dans le catalogue de la page. Le lecteur recevait un build plausible qui
-    n'etait pas le sien, ce qui est le pire resultat possible: rien ne lui
-    aurait signale l'erreur.
-    """
+    """The same name can be a different item in another game."""
 
     def _texte_exporte(self, version):
         from chardata.models import Char
@@ -931,9 +747,7 @@ class AnExportNamesItsGameAndTheImportRefusesAnotherTests(TestCase):
             self.assertContains(page, nom)
 
     def test_a_text_with_no_version_still_works(self):
-        """Tous les textes exportes avant ce lot n'en ont pas, et une liste
-        de noms tapee a la main non plus. Absente, la version veut dire
-        <<celle de la page>>, ce qui etait le comportement d'avant."""
+        """No version line means the page version."""
         noms = _noms('dofus3', ('Hat', 'Cloak'))
         lu = read_items('\n'.join(noms), 'dofus3', 'en')
         self.assertIsNone(lu['stated_version'])
@@ -941,7 +755,6 @@ class AnExportNamesItsGameAndTheImportRefusesAnotherTests(TestCase):
         self.assertContains(page, 'Bring this build in')
 
     def test_an_old_export_without_its_version_still_works(self):
-        """La forme exacte que le site ecrivait avant ce lot."""
         noms = _noms('dofus3', ('Hat', 'Cloak'))
         ancien = 'Mon Cra - Cra lvl 187\n\nHat: %s\nCloak: %s' % tuple(noms)
         lu = read_items(ancien, 'dofus3', 'en')
@@ -952,19 +765,7 @@ class AnExportNamesItsGameAndTheImportRefusesAnotherTests(TestCase):
 
 
 class APastedExoIsKeptAndCountedOnceTests(TestCase):
-    """Les PA, les PM et la portee ne sont pas des jets comme les autres.
-
-    Pour ces trois-la, `Model._apply_stat_overrides` n'ajoute RIEN a la piece:
-    il la note porteuse d'exo, et `create_exo_constraints` ecrit
-    `exo <= option + pieces porteuses portees`. Un jet de PA sur une piece qui
-    n'en porte pas est donc un exo parfaitement legitime, pas une stat
-    inventee.
-
-    L'import les refusait avec toutes les autres, et perdait donc en silence
-    l'exo que le joueur avait colle. Mesure du 10 septembre 2026, sur un build
-    dont l'option est a False: la piece seule fait passer le total de PA de
-    **0 a 1**.
-    """
+    """AP, MP or range on an item that lacks it is an exo, not a new stat."""
 
     def _piece_sans(self, cle):
         structure = get_structure('dofus3')
@@ -995,13 +796,7 @@ class APastedExoIsKeptAndCountedOnceTests(TestCase):
         self.assertEqual([], lu['refused_rolls'])
 
     def test_the_exo_actually_reaches_the_build_total(self):
-        """Ecrire l'override ne prouve rien; le total affiche, oui.
-
-        Le niveau est 199 et non 200 parce que `create_build` allume
-        l'option `ap_exo` des 200: au-dessus de ce seuil, l'option donne deja
-        le point et la piece ne changerait rien. Le cas qui prouve quelque
-        chose est celui ou l'option est eteinte.
-        """
+        """create_build turns ap_exo on from level 200, hence 199."""
         from chardata.options import get_options
         structure, item = self._piece_sans('ap')
         nom = structure.get_item_name_in_language(item, 'en')
@@ -1009,30 +804,22 @@ class APastedExoIsKeptAndCountedOnceTests(TestCase):
         self.assertFalse(get_options(char_sans)['ap_exo'],
                          'the option is on, the case proves nothing')
         _char_avec, avec = self._total('%s\n1 AP' % nom, 199)
-        # L'ecart, et non la valeur absolue: depuis le 11 septembre 2026 le
-        # total porte aussi les PA que le personnage a de son propre chef
-        # (section 41), sept a partir du niveau 100 donc sept ici. Ecrire
-        # <<0>> mesurait en fait l'absence de cette base-la, pas la presence
-        # de l'exo.
+        # The character has 7 AP of its own from level 100
         self.assertEqual(7, sans.get('ap', 0), sans)
         self.assertEqual(sans.get('ap', 0) + 1, avec.get('ap', 0), avec)
 
     def test_the_option_and_the_piece_never_stack(self):
-        """Un point par stat pour tout le build. A 200 l'option est allumee,
-        donc la piece porteuse ne doit rien ajouter par-dessus."""
+        """One exo point per stat for the whole build."""
         structure, item = self._piece_sans('ap')
         nom = structure.get_item_name_in_language(item, 'en')
         _c1, sans = self._total(nom, 200)
         _c2, avec = self._total('%s\n1 AP' % nom, 200)
-        # Sept PA au personnage a ce niveau, plus le point de l'option: la
-        # piece porteuse ne doit rien ajouter par-dessus.
+        # 7 AP of its own plus the option's point
         self.assertEqual(8, sans.get('ap', 0), sans)
         self.assertEqual(sans.get('ap', 0), avec.get('ap', 0),
                          'the option and the piece stacked to two')
 
     def test_a_stat_that_is_not_an_exo_is_still_refused(self):
-        """L'exception vaut pour trois cles, pas pour le reste: ailleurs le
-        modele AJOUTERAIT la caracteristique a la piece."""
         structure, item = self._piece_sans('ap')
         portees = set(sid for sid, _v in item.stats)
         absente = next(s for s in structure.get_stats_list()
@@ -1046,8 +833,6 @@ class APastedExoIsKeptAndCountedOnceTests(TestCase):
         self.assertEqual(1, len(lu['refused_rolls']), lu['refused_rolls'])
 
     def test_the_three_exo_keys_come_from_the_model(self):
-        """Recopier la liste ici, c'est se garantir de perdre des exos le jour
-        ou le modele en ajoute ou en retire une."""
         from fashionistapulp.model import Model
         from chardata.text_build_import import EXO_STAT_KEYS
         self.assertIs(EXO_STAT_KEYS, Model._EXO_STAT_KEYS)
@@ -1055,15 +840,6 @@ class APastedExoIsKeptAndCountedOnceTests(TestCase):
 
 
 class TheSharedTextSpeaksTheReaderLanguageTests(TestCase):
-    """Un joueur francais qui copiait son build obtenait des noms anglais.
-
-    L'export ecrivait `item.name`, le nom interne, quelle que soit la langue.
-    Colle sur un Discord francais, ca donnait <<Creaking Tree Hat>> la ou le
-    joueur attendait <<Coiffe Ranshi>>.
-
-    Le corriger demande que l'import sache relire un nom dans n'importe
-    laquelle des cinq langues, parce qu'un texte partage voyage.
-    """
 
     def _exporte(self, langue):
         from chardata.models import Char
@@ -1089,12 +865,9 @@ class TheSharedTextSpeaksTheReaderLanguageTests(TestCase):
         self.assertIn(nom_fr, texte, texte)
 
     def test_a_french_export_is_read_on_the_german_site(self):
-        """Le cas qui justifie l'index multilingue: un texte partage voyage
-        d'un joueur a l'autre, et rien ne dit qu'ils lisent la meme langue."""
         texte, nom_fr = self._exporte('fr')
         lu = read_items(texte, 'dofus3', 'de')
         self.assertEqual(1, len(lu['matched']), lu['ignored'])
-        # Rendu dans la langue du LECTEUR, pas dans celle du texte.
         structure = get_structure('dofus3')
         item = next(i for i in structure.types[200]['Hat'] if not i.removed)
         self.assertEqual(structure.get_item_name_in_language(item, 'de'),
@@ -1102,8 +875,7 @@ class TheSharedTextSpeaksTheReaderLanguageTests(TestCase):
         self.assertNotEqual(nom_fr, lu['matched'][0]['name'])
 
     def test_a_text_shared_before_this_change_still_reads(self):
-        """Tous les textes deja partages portent le nom INTERNE. L'index le
-        garde, sinon corriger l'export aurait casse ce qui circule deja."""
+        """Older exports carry the internal item name."""
         structure = get_structure('dofus3')
         item = next(i for i in structure.types[200]['Hat'] if not i.removed)
         ancien = 'Hat: %s' % item.name
@@ -1114,14 +886,7 @@ class TheSharedTextSpeaksTheReaderLanguageTests(TestCase):
 
 
 class TwoLanguagesThatDisagreeMakeTheReaderChooseTests(SimpleTestCase):
-    """Un meme nom normalise designe deux objets DIFFERENTS d'une langue a
-    l'autre: 443 fois sur Retro, 215 sur Touch, et sur Dofus 3 <<robotas>>
-    est Bedazzling Boots dans une langue et Roboots dans une autre.
-
-    Un index a plat aurait rendu l'un pour l'autre, en silence. La langue du
-    lecteur tranche quand elle connait le nom; sinon, un desaccord entre les
-    autres langues fait taire l'import.
-    """
+    """One normalized name can be two different items in two languages."""
 
     def setUp(self):
         self.precedente = get_current_game_version()
@@ -1129,7 +894,7 @@ class TwoLanguagesThatDisagreeMakeTheReaderChooseTests(SimpleTestCase):
         self.addCleanup(set_current_game_version, self.precedente)
 
     def _un_desaccord(self, version='dofus3'):
-        """(nom, langue absente) pour un nom que deux langues se disputent."""
+        """(name, a language without it) for a disputed name."""
         from chardata.forgemagie_view import _normalized_text
         from chardata.text_build_import import LANGUES, _pool
         structure = get_structure(version)
@@ -1139,15 +904,12 @@ class TwoLanguagesThatDisagreeMakeTheReaderChooseTests(SimpleTestCase):
                 autres = [index[a].get(nom) for a in LANGUES if a != langue]
                 autres = [a for a in autres if a is not None]
                 if any(a[1].id != entree[1].id for a in autres):
-                    # Une langue qui ne connait PAS ce nom du tout.
                     for candidate in LANGUES:
                         if nom not in index[candidate]:
                             return nom, candidate
         return None, None
 
     def test_such_a_disagreement_really_exists(self):
-        """Le plancher du temoin: sans desaccord reel, le test suivant
-        garderait une regle que rien ne declenche."""
         nom, langue = self._un_desaccord()
         self.assertIsNotNone(nom, 'no cross-language collision found')
         self.assertIsNotNone(langue)
@@ -1162,8 +924,6 @@ class TwoLanguagesThatDisagreeMakeTheReaderChooseTests(SimpleTestCase):
                          'name across languages: %s' % lu['matched'])
 
     def test_the_reader_own_language_still_decides(self):
-        """La regle ne doit pas rendre muet un nom que la langue du lecteur
-        connait parfaitement."""
         structure = get_structure('dofus3')
         item = next(i for i in structure.types[200]['Hat'] if not i.removed)
         for langue in ('en', 'fr', 'de'):

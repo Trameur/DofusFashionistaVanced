@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Hand-written guide content: per slug and language, a title, a description
-(listing card and meta description) and an HTML body.
-
-Bodies use h2/p/ul/li/a/strong only, and link into the tool with root-relative
-URLs so the version namespace does not matter.
-"""
+"""Guide content per slug and language: title, description and HTML body."""
 from __future__ import annotations
 
 ORDER = ['getting-started', 'beginner-mistakes', 'choosing-your-class', 'how-it-works', 'stats-explained', 'critical-hits', 'scrolls-and-characteristics', 'ap-mp-range-caps', 'tuning-your-weights', 'game-modes', 'reading-an-item', 'set-bonuses', 'dofus-and-trophies', 'understanding-your-solution', 'mono-vs-multi-element', 'resistance-explained', 'monster-weaknesses', 'vitality-and-hp', 'gearing-up', 'comparing-builds', 'forgemagie-planning', 'crafting-and-professions', 'prospecting-and-drops', 'pets-mounts-and-shields', 'building-on-a-budget', 'inventory-and-your-own-rolls', 'gearing-a-healer',
@@ -24,10 +19,7 @@ logger = logging.getLogger(__name__)
 
 GUIDES = {
     # ------------------------------------------------------------------ #
-    # Lock and dodge are opposed stats on the modern branch and do not exist at
-    # all in 1.29. Counted on our own catalogues: Dofus 3 has 549 items with
-    # lock and 606 with dodge, Dofus 2 has 476 and 520, Touch 339 and 453 with
-    # nothing above 32, Retro none of either.
+    # No lock or dodge in Retro
     'lock-and-dodge': {
         'published': '2026-08-22',
         'version_groups': {'retro': 'retro', 'touch': 'touch'},
@@ -431,12 +423,7 @@ GUIDES = {
         },
     },
     # ------------------------------------------------------------------ #
-    # Retro (1.29 branch) crit is a 1/X fraction that Agility improves and that
-    # stops at 1/2; update 2.29 turned crit into an additive percentage that
-    # Agility does not touch, reaching 100% and never falling under 1%.
-    # Measured on our own item databases: Retro has 76 items granting PvP
-    # resistance, 74 of them shields, none above level 50; Touch has two level
-    # 1 shields; Dofus 3, the beta and Dofus 2 have none at all.
+    # PvP resistance is on Retro gear, mostly shields
     'pvp-resistance': {
         'published': '2026-08-20',
         'version_groups': {'retro': 'retro'},
@@ -1994,9 +1981,8 @@ GUIDES = {
         },
     },
 
-    # Retro 1.29 has no Kolossium and no alliances or prisms; its only modes are
-    # PvM and PvP.
     # ------------------------------------------------------------------ #
+    # Retro has no Kolossium, alliances or prisms
     'game-modes': {
         'published': '2026-07-01',
         'version_groups': {'retro': 'retro'},
@@ -3831,8 +3817,7 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # The six dofus slots hold three families in the modern game (Dofus,
-    # trophies, prysmaradites) and only Dofus in Retro.
+    # Retro dofus slots take only Dofus, no trophies or prysmaradites
     'dofus-and-trophies': {
         'published': '2026-08-11',
         'i18n': {
@@ -3955,8 +3940,7 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # Transcendence runes exist on Dofus 3, the beta and Dofus 2 only; Touch and
-    # Retro have none, and their smithmagic rulesets differ from each other too.
+    # No transcendence runes on Touch and Retro
     'transcendence-runes': {
         'published': '2026-08-12',
         'version_groups': {'touch': 'touch', 'retro': 'retro'},
@@ -4251,11 +4235,7 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # Dofus 2 has its own best turn since its spell levels were fetched from
-    # Ankama's CDN rather than the mirror that omits them: a level 200 Iop gets
-    # 16 usable spells there against 31 on Dofus 3. Its block used to explain
-    # why there was no panel at all. Retro never got the AP/MP/range
-    # limitation, so its turn is not capped at 12 AP.
+    # Retro has no AP/MP/range limitation, so no 12 AP turn cap
     'best-turn-damage': {
         'published': '2026-08-12',
         'version_groups': {'dofus2': 'dofus2', 'retro': 'retro'},
@@ -4702,10 +4682,7 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # The pet slot works differently per version: modern Dofus ships the pet's
-    # bonus in its own data, while Touch and Retro pets are fed up to a cap the
-    # data does not carry, so the tool lists the fed pet as its own entry.
-    # Retro has no mount in the slot at all, and its shields are PvP only.
+    # Touch and Retro fed pets are their own items; Retro has no mount
     'pets-mounts-and-shields': {
         'published': '2026-08-16',
         'version_groups': {'touch': 'touch', 'retro': 'retro'},
@@ -5065,8 +5042,6 @@ GUIDES = {
     },
 
     # ------------------------------------------------------------------ #
-    # Version neutral: how a piece is obtained is read from each version's own
-    # drop and recipe tables, but the reasoning is the same everywhere.
     'gearing-a-healer': {
         'published': '2026-08-17',
         'i18n': {
@@ -5355,12 +5330,11 @@ def _lang(code):
 
 
 def ordered_slugs():
-    """Every guide slug, ORDER first, then any slug ORDER forgot."""
+    """Every guide slug, ORDER first."""
     return ORDER + [slug for slug in GUIDES if slug not in ORDER]
 
 
-# A guide whose mechanic differs per version carries 'i18n_by_group' instead of
-# 'i18n': one content per system, and one canonical page per system.
+# Per-version guides carry 'i18n_by_group' instead of 'i18n'
 _DEFAULT_GUIDE_GROUP = 'modern'
 _GROUP_CANONICAL_VERSION = {'modern': 'dofus3', 'touch': 'touch',
                             'dofus2': 'dofus2', 'retro': 'retro'}
@@ -5391,8 +5365,7 @@ def is_version_specific(slug):
 
 
 def guide_canonical_version(slug, game_version='dofus3'):
-    """The canonical version for this guide: dofus3 for a plain guide, the
-    system's representative version for a per-version one."""
+    """dofus3 for a plain guide, else the group's canonical version."""
     guide = GUIDES.get(slug)
     group = _guide_group(guide, game_version) if guide else None
     if group is None:
@@ -5401,8 +5374,7 @@ def guide_canonical_version(slug, game_version='dofus3'):
 
 
 def canonical_versions(slug):
-    """Every version whose URL is a canonical page for this guide: dofus3, plus
-    each other system's representative. The sitemap emits one entry per system."""
+    """Versions with a canonical page for this guide, one per group."""
     guide = GUIDES.get(slug)
     if not guide or 'i18n_by_group' not in guide:
         return ['dofus3']
@@ -5421,9 +5393,7 @@ def list_guides(language_code, game_version='dofus3'):
     for key in ordered_slugs():
         block = _guide_block(GUIDES[key], lang, game_version)
         out.append({
-            # `key` identifies the guide, `slug` is what goes in the URL and
-            # differs per language. Comparing the two would silently break the
-            # "other guides" list on every non-English page.
+            # `slug` differs per language, compare guides on `key`
             'key': key,
             'slug': slug_for(key, lang),
             'title': block['title'],
@@ -5432,15 +5402,7 @@ def list_guides(language_code, game_version='dofus3'):
     return out
 
 
-# --- one URL slug per guide and language ------------------------------------
-#
-# A guide used to live at a single English slug, and its language came from
-# Accept-Language. Crawlers send no such header, so Google only ever saw the
-# English text of all 32 guides and never the other 128 translations.
-#
-# The slug now names the language, exactly as it does in the encyclopedia.
-# The English slug is unchanged, so URLs already indexed do not move.
-
+# One URL slug per guide and language, the English one is the guide key
 _SLUG_INDEX = None
 
 
@@ -5462,11 +5424,7 @@ def resolve_slug(slug):
 
 
 def slug_for(key, language_code):
-    """URL slug of a guide in one language.
-
-    Falls back to the guide key -- which is the English slug -- so a guide
-    added without its five slugs still resolves instead of 404ing.
-    """
+    """URL slug of a guide in one language, the guide key if missing."""
     return GUIDE_SLUGS.get(key, {}).get(_lang(language_code)) or key
 
 
@@ -5479,17 +5437,13 @@ def _version_specific_slugs():
     return [slug for slug in GUIDES if 'i18n_by_group' in GUIDES[slug]]
 
 
-#: Un compte que le guide annonce et que la donnee doit fournir:
-#: [[spells:Iop]] pour la version de la page, [[spells:Iop:dofus3]] pour une
-#: version nommee.
+# [[spells:Iop]] for the page's version, [[spells:Iop:dofus3]] for another one
 _MEASURED = re.compile(r'\[\[spells:([A-Za-z]+)(?::([a-z0-9]+))?\]\]')
 
 
 @lru_cache(maxsize=64)
 def _usable_spell_count(char_class, game_version):
-    """Les sorts que le panneau du meilleur tour peut vraiment lancer, au
-    niveau 200. La meme fonction que le panneau, donc le guide ne peut pas
-    annoncer un nombre que la page dement."""
+    """Spells the best turn panel can cast at level 200."""
     from chardata.spell_combo import castable_spells
     from fashionistapulp.structure import set_current_game_version
     set_current_game_version(game_version)
@@ -5497,17 +5451,7 @@ def _usable_spell_count(char_class, game_version):
 
 
 def _fill_measured_numbers(body, game_version):
-    """Remplace les jetons de comptage par la mesure du jour.
-
-    Ces nombres etaient ecrits en dur et ont vieilli: le guide Dofus 2
-    annoncait 16 sorts jouables pour un Iop de niveau 200 quand la table en
-    porte 31, et le guide Retro 12 quand elle en porte 15. Les tables sont
-    regenerees (Dofus 2 a recu ses rangs, Retro a ete re-scrape) et le texte
-    ne suivait pas. Mesure du 12 septembre 2026.
-
-    Cout mesure le meme jour: 9,1 ms au premier appel, 0,74 ms ensuite, et une
-    page de guide en resout deux au plus.
-    """
+    """Replace the [[spells:...]] tokens with the current counts."""
     def resoudre(match):
         classe, version = match.group(1), match.group(2) or game_version
         try:
@@ -5520,12 +5464,7 @@ def _fill_measured_numbers(body, game_version):
 
 
 def _localize_body_links(body, game_version, language_code='en'):
-    """Rewrite the guide links inside a body.
-
-    Bodies are written with English slugs. On a French page those links have to
-    point at the French URLs, or every internal link leaves the language --
-    which also tells Google the translations are not connected to each other.
-    """
+    """Point the English guide links of a body at the page's language."""
     lang = _lang(language_code)
     for key in ordered_slugs():
         target = slug_for(key, lang)
@@ -5541,13 +5480,7 @@ def _localize_body_links(body, game_version, language_code='en'):
 
 
 def get_guide(slug, language_code, game_version='dofus3'):
-    """Return {key, slug, title, desc, lead, body} or None if slug unknown.
-
-    Accepts either the guide key or any of its localised slugs. list_guides()
-    hands back localised slugs, so a caller chaining the two would otherwise
-    get None for every non-English guide -- a trap worth closing rather than
-    documenting.
-    """
+    """{key, slug, title, desc, lead, body} by key or localised slug, or None."""
     guide = GUIDES.get(slug)
     if not guide:
         key, _language = resolve_slug(slug)
@@ -5572,8 +5505,7 @@ def get_guide(slug, language_code, game_version='dofus3'):
 
 
 def iter_content_blocks():
-    """Yield (slug, variant, lang, block) for every localized block; variant is
-    None for a plain guide, else the group name."""
+    """Yield (slug, group or None, lang, block) for every localized block."""
     for slug, guide in GUIDES.items():
         if 'i18n_by_group' in guide:
             for group, by_lang in guide['i18n_by_group'].items():

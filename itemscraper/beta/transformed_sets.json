@@ -46077,7 +46077,7 @@
         "name_es": "Set cosmético forjalanza",
         "name_pt": "Conjunto de Aparência Forjalança",
         "name_de": "Speerschmied-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             28337,
             28338,
@@ -46085,7 +46085,8 @@
             28344,
             28428,
             28429,
-            28430
+            28430,
+            34578
         ]
     },
     {
@@ -46115,7 +46116,7 @@
         "name_es": "Set cosmético de sram",
         "name_pt": "Conjunto de Aparência Sram",
         "name_de": "Sram-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             21472,
             21473,
@@ -46123,14 +46124,15 @@
             21475,
             21476,
             21477,
-            23003
+            23003,
+            34533
         ]
     },
     {
         "ankama_id": 581,
         "name_en": "Rogue Ceremonial Set",
-        "name_fr": "Panoplie d'apparat Roublard",
-        "name_es": "Set cosmético de tymador",
+        "name_fr": "Panoplie d'apparat Roublarde",
+        "name_es": "Set cosmético tymador",
         "name_pt": "Conjunto de Aparência Ladino",
         "name_de": "Halsabschneider-Prunkset",
         "items": 8,
@@ -46248,7 +46250,7 @@
         "name_es": "Set cosmético pandawa",
         "name_pt": "Conjunto de Aparência Pandawa",
         "name_de": "Pandawa-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             23565,
             23566,
@@ -46256,7 +46258,8 @@
             23568,
             23583,
             23584,
-            23646
+            23646,
+            34580
         ]
     },
     {
@@ -46266,7 +46269,7 @@
         "name_es": "Set cosmético de sadida",
         "name_pt": "Conjunto de Aparência Sadida",
         "name_de": "Sadida-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             23040,
             23041,
@@ -46274,7 +46277,8 @@
             23046,
             23047,
             23048,
-            23644
+            23644,
+            34532
         ]
     },
     {
@@ -46341,7 +46345,7 @@
         "name_es": "Set cosmético uginak",
         "name_pt": "Conjunto de Aparência Kilorf",
         "name_de": "Ouginak-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             24941,
             24942,
@@ -46349,7 +46353,8 @@
             24944,
             24945,
             24946,
-            25993
+            25993,
+            34534
         ]
     },
     {
@@ -46359,7 +46364,7 @@
         "name_es": "Set cosmético anutrof",
         "name_pt": "Conjunto de Aparência Enutrof",
         "name_de": "Enutrof-Prunkset",
-        "items": 8,
+        "items": 9,
         "equipment_ids": [
             25359,
             25360,
@@ -46368,7 +46373,8 @@
             25363,
             25364,
             25994,
-            30235
+            30235,
+            34579
         ]
     },
     {
@@ -46417,7 +46423,7 @@
         "name_es": "Set cosmético selotrop",
         "name_pt": "Conjunto de Aparência Eliotrope",
         "name_de": "Eliotrop-Prunkset",
-        "items": 7,
+        "items": 8,
         "equipment_ids": [
             25995,
             25998,
@@ -46425,7 +46431,8 @@
             26002,
             26003,
             26004,
-            26005
+            26005,
+            34535
         ]
     },
     {
@@ -46542,11 +46549,11 @@
     },
     {
         "ankama_id": 604,
-        "name_en": "Lumino Ceremonial Set",
-        "name_fr": "Panoplie d'apparat de Lumino",
-        "name_es": "Set cosmético de Lúmino",
-        "name_pt": "Conjunto de Aparência Lumino",
-        "name_de": "Prunkset Lumino",
+        "name_en": "Lumino Star Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Lumino Star",
+        "name_es": "Set cosmético de Lúmino Star",
+        "name_pt": "Conjunto de Aparência de Lumino Star",
+        "name_de": "Prunkset von Lumino Star",
         "items": 3,
         "equipment_ids": [
             27428,
@@ -48566,17 +48573,18 @@
     {
         "ankama_id": 742,
         "name_en": "Beachgoer Ceremonial Set",
-        "name_fr": "Panoplie d'apparat du Plagiste",
+        "name_fr": "Panoplie d'apparat du plagiste",
         "name_es": "Set cosmético del playero",
         "name_pt": "Conjunto de Aparência do Praiano",
         "name_de": "Prunkset des Strandwärters",
-        "items": 5,
+        "items": 6,
         "equipment_ids": [
             28563,
             28564,
             28565,
             28566,
-            30812
+            30812,
+            34500
         ]
     },
     {
@@ -49166,11 +49174,10 @@
         "name_es": "Set cosmético de Golosorak",
         "name_pt": "Conjunto de Aparência de Glurdorak",
         "name_de": "Barbärdizer-Prunkset",
-        "items": 3,
+        "items": 2,
         "equipment_ids": [
             9924,
-            9926,
-            12273
+            9926
         ]
     },
     {
@@ -49974,13 +49981,14 @@
         "name_es": "Set cosmético de caballero negro",
         "name_pt": "Conjunto de Aparência de Cavaleiro Negro",
         "name_de": "Prunkset des Schwarzen Ritters",
-        "items": 5,
+        "items": 6,
         "equipment_ids": [
             30061,
             30062,
             30063,
             30064,
-            30066
+            30066,
+            30240
         ]
     },
     {
@@ -50173,11 +50181,11 @@
     },
     {
         "ankama_id": 858,
-        "name_en": "Retrofus Set",
-        "name_fr": "Panoplie Retrofus",
-        "name_es": "Set cosmético Retrofus",
-        "name_pt": "Conjunto Retrofus",
-        "name_de": "Retrofus-Ausrüstungsset",
+        "name_en": "Retrofus Ceremonial Set",
+        "name_fr": "Panoplie d'apparat Retrofus",
+        "name_es": "Set cosmético retrofus",
+        "name_pt": "Conjunto de Aparência Retrofus",
+        "name_de": "Retrofus-Prunkset",
         "items": 4,
         "equipment_ids": [
             30434,
@@ -58001,10 +58009,11 @@
         "name_es": "Set cosmético de Zi",
         "name_pt": "Conjunto de Aparência de Zi",
         "name_de": "Zi-Prunkset",
-        "items": 2,
+        "items": 3,
         "equipment_ids": [
             30536,
-            32107
+            32107,
+            34590
         ]
     },
     {
@@ -59729,11 +59738,11 @@
     },
     {
         "ankama_id": 1059,
-        "name_en": "Ankamaset",
-        "name_fr": "Ankamanoplie",
-        "name_es": "Ankamaset",
-        "name_pt": "Ankamonjunto",
-        "name_de": "Ankamaset",
+        "name_en": "Ceremonial Ankamaset",
+        "name_fr": "Ankamanoplie d'apparat",
+        "name_es": "Ankamaset cosmético",
+        "name_pt": "Ankamonjunto de Aparência",
+        "name_de": "Ankama-Prunkset",
         "items": 4,
         "equipment_ids": [
             33531,
@@ -61257,16 +61266,16 @@
     {
         "ankama_id": 1081,
         "name_en": "Turquoise Lottery Ceremonial Set",
-        "name_fr": "Panoplie d'apparat de la loterie Turquoise",
+        "name_fr": "Panoplie d'apparat de la loterie Ébène",
         "name_es": "Set cosmético de la lotería Turquesa",
         "name_pt": "Conjunto de Aparência da Loteria Turquesa",
         "name_de": "Prunkset der Türkis-Lotterie",
         "items": 4,
         "equipment_ids": [
-            34128,
-            34129,
-            34130,
-            34131
+            34641,
+            34642,
+            34643,
+            34644
         ]
     },
     {
@@ -61319,7 +61328,7 @@
     {
         "ankama_id": 1085,
         "name_en": "Crimson Lottery Ceremonial Set",
-        "name_fr": "Panoplie d'apparat de la loterie Poupre",
+        "name_fr": "Panoplie d'apparat de la loterie Pourpre",
         "name_es": "Set cosmético de la lotería Púrpura",
         "name_pt": "Conjunto de Aparência da Loteria Púrpura",
         "name_de": "Prunkset der Purpur-Lotterie",
@@ -61552,19 +61561,14 @@
                         "Power"
                     ],
                     [
-                        1,
+                        5,
                         null,
-                        "Summon"
-                    ],
-                    [
-                        10,
-                        null,
-                        "Damage"
+                        "% Fire Resist"
                     ],
                     [
                         5,
                         null,
-                        "% Earth Resist"
+                        "% Air Resist"
                     ],
                     [
                         5,
@@ -61572,14 +61576,19 @@
                         "% Water Resist"
                     ],
                     [
-                        3,
-                        null,
-                        "% Air Resist"
-                    ],
-                    [
                         5,
                         null,
-                        "% Fire Resist"
+                        "% Earth Resist"
+                    ],
+                    [
+                        10,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        1,
+                        null,
+                        "Summon"
                     ]
                 ]
             },
@@ -61587,29 +61596,19 @@
                 "effect_key": "3",
                 "effects": [
                     [
+                        10,
+                        null,
+                        "% Fire Resist"
+                    ],
+                    [
                         1,
                         null,
-                        "Summon"
-                    ],
-                    [
-                        60,
-                        null,
-                        "Heals"
-                    ],
-                    [
-                        50,
-                        null,
-                        "Power"
-                    ],
-                    [
-                        15,
-                        null,
-                        "Damage"
+                        "AP"
                     ],
                     [
                         5,
                         null,
-                        "% Earth Resist"
+                        "% Air Resist"
                     ],
                     [
                         5,
@@ -61619,17 +61618,27 @@
                     [
                         5,
                         null,
-                        "% Air Resist"
+                        "% Earth Resist"
+                    ],
+                    [
+                        15,
+                        null,
+                        "Damage"
+                    ],
+                    [
+                        50,
+                        null,
+                        "Power"
+                    ],
+                    [
+                        60,
+                        null,
+                        "Heals"
                     ],
                     [
                         1,
                         null,
-                        "AP"
-                    ],
-                    [
-                        10,
-                        null,
-                        "% Fire Resist"
+                        "Summon"
                     ]
                 ]
             }
@@ -61733,11 +61742,11 @@
     },
     {
         "ankama_id": 1094,
-        "name_en": "[!] Panoplie d'apparat du Démon VI",
+        "name_en": "Demon VI Ceremonial Set",
         "name_fr": "Panoplie d'apparat du Démon VI",
-        "name_es": "[!] Panoplie d'apparat du Démon VI",
-        "name_pt": "[!] Panoplie d'apparat du Démon VI",
-        "name_de": "[!] Panoplie d'apparat du Démon VI",
+        "name_es": "Set cosmético del Demonio VI",
+        "name_pt": "Conjunto de Aparência do Demônio VI",
+        "name_de": "Prunkset von Dämon VI",
         "items": 4,
         "equipment_ids": [
             34396,
@@ -61748,11 +61757,11 @@
     },
     {
         "ankama_id": 1095,
-        "name_en": "[!] Panoplie d'apparat diaprée du Démon VI",
+        "name_en": "Many-Hued Demon VI Ceremonial Set",
         "name_fr": "Panoplie d'apparat diaprée du Démon VI",
-        "name_es": "[!] Panoplie d'apparat diaprée du Démon VI",
-        "name_pt": "[!] Panoplie d'apparat diaprée du Démon VI",
-        "name_de": "[!] Panoplie d'apparat diaprée du Démon VI",
+        "name_es": "Set cosmético matizado del Demonio VI",
+        "name_pt": "Conjunto de Aparência Matizado do Demônio VI",
+        "name_de": "Schillerndes Prunkset von Dämon VI",
         "items": 4,
         "equipment_ids": [
             34397,
@@ -61843,6 +61852,174 @@
             34506,
             34508,
             34510
+        ]
+    },
+    {
+        "ankama_id": 1102,
+        "name_en": "Krosmoz 25th Anniversary Ceremonial Set",
+        "name_fr": "Panoplie d'apparat des 25 ans du Krosmoz",
+        "name_es": "Set cosmético de los 25 años del Krosmoz",
+        "name_pt": "Conjunto de Aparência dos 25 Anos do Krosmoz",
+        "name_de": "Prunkset zum 25. Jubiläum des Krosmoz",
+        "items": 18,
+        "equipment_ids": [
+            34512,
+            34513,
+            34514,
+            34515,
+            34516,
+            34517,
+            34518,
+            34519,
+            34520,
+            34521,
+            34522,
+            34523,
+            34524,
+            34525,
+            34526,
+            34527,
+            34528,
+            34536
+        ]
+    },
+    {
+        "ankama_id": 1103,
+        "name_en": "Goultard the Cursed Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Goultard le Maudit",
+        "name_es": "Set cosmético de Gúltar el Maldito",
+        "name_pt": "Conjunto de Aparência de Gultar, o Maldito",
+        "name_de": "Prunkset von Goultard dem Verfluchten",
+        "items": 6,
+        "equipment_ids": [
+            34552,
+            34553,
+            34554,
+            34555,
+            34556,
+            34557
+        ]
+    },
+    {
+        "ankama_id": 1104,
+        "name_en": "Ivory Lottery Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de la loterie Ivoire",
+        "name_es": "Set cosmético de la lotería Marfil",
+        "name_pt": "Conjunto de Aparência da Loteria Marfim",
+        "name_de": "Prunkset der Elfenbein-Lotterie",
+        "items": 4,
+        "equipment_ids": [
+            34558,
+            34559,
+            34560,
+            34561
+        ]
+    },
+    {
+        "ankama_id": 1105,
+        "name_en": "Otomai Ceremonial Set",
+        "name_fr": "Panoplie d'apparat d'Otomaï",
+        "name_es": "Set cosmético de Otomai",
+        "name_pt": "Conjunto de Aparência de Otomai",
+        "name_de": "Otomaï-Prunkset",
+        "items": 3,
+        "equipment_ids": [
+            34563,
+            34564,
+            34565
+        ]
+    },
+    {
+        "ankama_id": 1108,
+        "name_en": "Porcelunar Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Porcelune",
+        "name_es": "Set cosmético de porceluna",
+        "name_pt": "Conjunto de Aparência de Porcelua",
+        "name_de": "Porzelluna-Prunkset",
+        "items": 6,
+        "equipment_ids": [
+            34606,
+            34607,
+            34608,
+            34609,
+            34610,
+            34645
+        ]
+    },
+    {
+        "ankama_id": 1109,
+        "name_en": "Panoplie d'apparat de Jade",
+        "name_fr": "Panoplie d'apparat de Jade",
+        "name_es": "Panoplie d'apparat de Jade",
+        "name_pt": "Panoplie d'apparat de Jade",
+        "name_de": "Panoplie d'apparat de Jade",
+        "items": 5,
+        "equipment_ids": [
+            34636,
+            34637,
+            34638,
+            34639,
+            34640
+        ]
+    },
+    {
+        "ankama_id": 1110,
+        "name_en": "Welsh and Shedar Ceremonial Set",
+        "name_fr": "Panoplie d'apparat de Welsh et Shedar",
+        "name_es": "Set cosmético de Welsh y Shedar",
+        "name_pt": "Conjunto de Aparência de Welsh e Shedar",
+        "name_de": "Prunkset von Welsh und Shedar",
+        "items": 2,
+        "equipment_ids": [
+            34622,
+            34623
+        ]
+    },
+    {
+        "ankama_id": 1111,
+        "name_en": "Panoplie d'apparat de la Démone VII",
+        "name_fr": "Panoplie d'apparat de la Démone VII",
+        "name_es": "Panoplie d'apparat de la Démone VII",
+        "name_pt": "Panoplie d'apparat de la Démone VII",
+        "name_de": "Panoplie d'apparat de la Démone VII",
+        "items": 4,
+        "equipment_ids": [
+            34676,
+            34677,
+            34678,
+            34679
+        ]
+    },
+    {
+        "ankama_id": 1112,
+        "name_en": "Panoplie d'apparat diaprée de la Démone VII",
+        "name_fr": "Panoplie d'apparat diaprée de la Démone VII",
+        "name_es": "Panoplie d'apparat diaprée de la Démone VII",
+        "name_pt": "Panoplie d'apparat diaprée de la Démone VII",
+        "name_de": "Panoplie d'apparat diaprée de la Démone VII",
+        "items": 4,
+        "equipment_ids": [
+            34680,
+            34681,
+            34682,
+            34683
+        ]
+    },
+    {
+        "ankama_id": 1113,
+        "name_en": "Panoplie d'apparat du Gardien des âmes",
+        "name_fr": "Panoplie d'apparat du Gardien des âmes",
+        "name_es": "Panoplie d'apparat du Gardien des âmes",
+        "name_pt": "Panoplie d'apparat du Gardien des âmes",
+        "name_de": "Panoplie d'apparat du Gardien des âmes",
+        "items": 6,
+        "equipment_ids": [
+            34684,
+            34685,
+            34687,
+            34688,
+            34689,
+            34690
         ]
     }
 ]

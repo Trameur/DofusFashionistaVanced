@@ -96,3 +96,7 @@ fashionistapulp/fashionistapulp/items_wakfu.db
 fashionistapulp/fashionistapulp/item_db_dumped_wakfu.dump
 fashionsite/chardata/static/chardata/items/wakfu/
 
+# Dofus 2 icons: the site reads only the 60x60 thumbnails (image_store), so the
+# 200 px pictures the image step downloads beside them stay local.
+fashionsite/chardata/static/chardata/items/dofus2/*.png
+fashionsite/chardata/static/chardata/pets/dofus2/*.png

@@ -1,36 +1,11 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""L'attaque du Dofus Ebene est lue dans le jeu, non ecrite a la main.
-
-Les sorts que porte un OBJET et non une classe etaient apparies au client par
-leur nom anglais. Le client de Dofus 3 a rebaptise l'attaque du Dofus Ebene en
-<<Ebony Black>> (<<Noir Ebene>> en francais, type <<[!] Dofus Ebene>>, lu le
-11 septembre 2026 dans transformed_spells.json): l'appariement a echoue, le
-repli sur les valeurs ecrites a la main a pris le relais **sans un mot**, et
-le site a servi pendant ce temps quatre elements a 14-16, sans cout en PA et
-sans dire que le coup part au debut du tour.
-
-Ce que le client de Dofus 3 dit vraiment, pour l'identifiant 18645: cinq
-elements (Eau, Feu, Air, Terre et Neutre) a 16 chacun, 1 PA, et chaque ligne
-declenchee en debut de tour. Il l'ecrit en neuf paliers gagnant un element
-chacun, mais ce sont des etats de CHARGE et non des rangs que le joueur
-choisit: lus comme des rangs ils dessinent un triangle de zeros et la page
-montrerait un objet qui forcit quand le lecteur monte en niveau. On garde donc
-l'attaque chargee, exactement la forme sous laquelle le client de Dofus 2
-livre deja le meme sort, avec ses propres nombres a lui (14-16).
-
-Le sort est desormais apparie par son IDENTIFIANT, qui ne se renomme pas. La
-porte de niveau, elle, reste celle de l'OBJET: Ankama ecrit le sort comme
-atteignable au niveau 1, ce qui est vrai du sort et faux du joueur, puisqu'il
-faut porter le Dofus. Un test ci-dessous relit ce niveau dans le catalogue.
-"""
+"""The Ebony Dofus attack is read from the game client, matched by id."""
 
 from django.test import SimpleTestCase
 
 VERSIONS_CONCERNEES = ('dofus3', 'beta', 'dofus2')
 
-#: Les deux seuls sorts partages dont les valeurs viennent de nous. Le client
-#: porte bien leurs identifiants (24006 et 3506) mais AUCUNE ligne de degats,
-#: verifie le 11 septembre 2026 dans les trois fichiers de sorts.
+#: Shared spells with our own values: the client has their ids, no damage line
 ECRITS_A_LA_MAIN = {'Burnt Pie', 'Weapon Skill'}
 
 
@@ -47,17 +22,14 @@ def _sorts_partages(version):
 class TheEbonyDofusCarriesItsAnkamaIdTests(SimpleTestCase):
 
     def test_the_spell_is_matched_by_id_on_the_three_versions(self):
-        """Un repli silencieux se voit ici: il perd l'identifiant."""
+        """A fallback to the hand values loses the id."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 sort = _sorts_partages(version)['Ebony Dofus']
                 self.assertEqual(18645, sort.spell_id)
 
     def test_every_other_shared_spell_carries_one_too(self):
-        """La garde generale: si le client rebaptise un autre sort d'objet,
-        l'appariement retombe sur les valeurs ecrites a la main et perd
-        l'identifiant. Cette liste est donc la liste des sorts dont nous
-        assumons les valeurs, et elle ne doit pas s'allonger toute seule."""
+        """Only ECRITS_A_LA_MAIN may lack an id."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 sans_id = {nom for nom, sort in _sorts_partages(version).items()
@@ -65,11 +37,6 @@ class TheEbonyDofusCarriesItsAnkamaIdTests(SimpleTestCase):
                 self.assertEqual(ECRITS_A_LA_MAIN, sans_id)
 
     def test_it_lands_at_the_start_of_the_turn(self):
-        """Ce test demandait aussi 1 PA, lu dans le cout interne du sort
-        cache. La fiche de l'objet a tranche le lendemain: le joueur ne lance
-        jamais cette attaque, sa prochaine attaque l'applique. Le cout a donc
-        disparu, et c'est `tests_the_ebony_dofus_applies_a_poison` qui garde
-        son absence."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 sort = _sorts_partages(version)['Ebony Dofus']
@@ -77,7 +44,6 @@ class TheEbonyDofusCarriesItsAnkamaIdTests(SimpleTestCase):
                 self.assertEqual({'turn_begin'}, set(sort.delayed.values()))
 
     def test_the_neutral_element_was_missing_and_is_back(self):
-        """Les valeurs ecrites a la main n'en portaient que quatre."""
         from fashionistapulp.dofus_constants import NEUTRAL
         for version in ('dofus3', 'beta'):
             with self.subTest(version=version):
@@ -86,10 +52,7 @@ class TheEbonyDofusCarriesItsAnkamaIdTests(SimpleTestCase):
                 self.assertIn(NEUTRAL, sort.effects.elements)
 
     def test_the_charge_states_are_not_shown_as_spell_ranks(self):
-        """Un seul palier, celui de l'attaque chargee, sur les trois
-        versions. Sans cela la page promet un sort qui forcit avec le niveau,
-        et le garde `test_no_spell_counts_a_row_it_replaced` tombe sur le
-        triangle de zeros que les paliers dessinent."""
+        """One grade, the charged attack: the charge states are not ranks."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 sort = _sorts_partages(version)['Ebony Dofus']
@@ -99,9 +62,7 @@ class TheEbonyDofusCarriesItsAnkamaIdTests(SimpleTestCase):
                     self.assertTrue(ligne[0].max_dam, 'un element a zero')
 
     def test_each_element_is_a_flat_sixteen(self):
-        """Dofus 3 donne 16, Dofus 2 donne 14-16: deux jeux, deux nombres,
-        et c'est bien pour cela qu'on ne recopie pas l'un sur l'autre. Le
-        14-16 servi par Dofus 3 venait de ce recopiage."""
+        """Dofus 3 gives 16, Dofus 2 gives 14-16."""
         for version in ('dofus3', 'beta'):
             with self.subTest(version=version):
                 sort = _sorts_partages(version)['Ebony Dofus']
@@ -113,8 +74,6 @@ class TheEbonyDofusCarriesItsAnkamaIdTests(SimpleTestCase):
 class TheGateIsTheDofusNotTheSpellTests(SimpleTestCase):
 
     def test_the_level_is_the_one_the_catalogue_gives_the_item(self):
-        """Le 180 n'est pas une croyance: il est relu dans le catalogue de
-        chaque version, a cote de l'objet qui donne le sort."""
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         for version in VERSIONS_CONCERNEES:
@@ -134,10 +93,7 @@ class TheGateIsTheDofusNotTheSpellTests(SimpleTestCase):
 
 
 class TheExclusionsAreReadPerVersionTests(SimpleTestCase):
-    """Une exclusion est ecrite sur une phrase d'Ankama, et chaque client
-    ecrit la sienne. Le meme numero ne designe meme pas toujours le meme sort:
-    25802 porte <<Mot Alchimique>> sur Dofus 3 et seulement <<Mot d'Amitie>>
-    sur Dofus 2, ou l'exclure retirerait les lignes d'un autre sort."""
+    """Each client words its own sentences, and one id can be another spell."""
 
     def _table(self):
         from chardata.tests import itemscraper_module
@@ -158,10 +114,6 @@ class TheExclusionsAreReadPerVersionTests(SimpleTestCase):
         self.assertIn(25802, self._table()['dofus3'])
 
     def test_the_drain_no_longer_hands_four_characteristics_on_dofus2(self):
-        """Le bloc de Dofus 2 ne se regenerait plus du tout, donc l'exclusion
-        ecrite pour Dofus 3 n'y avait jamais ete appliquee: le sort y portait
-        encore quatre lignes de caracteristique a 60/120/200, soit 800 points
-        pour un lancer ou le jeu en donne 200."""
         from fashionistapulp.dofus_constants_dofus2 import DAMAGE_SPELLS
         drain = next(spell for spell in DAMAGE_SPELLS['Huppermage']
                      if spell.spell_id == 13672)
@@ -172,10 +124,7 @@ class TheExclusionsAreReadPerVersionTests(SimpleTestCase):
 
 
 class TheReaderGetsTheNameInTheirLanguageTests(SimpleTestCase):
-    """Le meme renommage cachait un second defaut: la carte des noms du client
-    est indexee par le nom ANGLAIS DU SORT, devenu <<Ebony Black>>. Notre
-    etiquette, elle, est celle du Dofus qui donne l'attaque, et n'y etait donc
-    plus. Tous les lecteurs lisaient <<Ebony Dofus>>, en francais compris."""
+    """The client's name map is keyed by the spell's English name, not the item's."""
 
     LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
@@ -190,8 +139,6 @@ class TheReaderGetsTheNameInTheirLanguageTests(SimpleTestCase):
                 self.assertNotEqual('Ebony Dofus', nom, langue)
 
     def test_those_names_are_the_ones_the_catalogue_gives_the_item(self):
-        """La table n'est pas une croyance: elle est relue a cote de l'objet.
-        Si le catalogue rebaptise le Dofus, ce test le dit."""
         from chardata.spell_localization import NAMED_AFTER_THEIR_ITEM
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
@@ -208,8 +155,7 @@ class TheReaderGetsTheNameInTheirLanguageTests(SimpleTestCase):
         self.assertEqual(attendu, NAMED_AFTER_THEIR_ITEM['Ebony Dofus'])
 
     def test_the_client_keeps_the_last_word_if_it_takes_the_name_back(self):
-        """Notre table n'est qu'un secours: elle ne sert que si la carte du
-        client ne connait pas l'etiquette."""
+        """Our table is only used when the client's map lacks the label."""
         from chardata.spell_localization import get_localized_spell_name
         self.assertEqual('Mantiscroc',
                          get_localized_spell_name('Mantiscroc', 'fr'))

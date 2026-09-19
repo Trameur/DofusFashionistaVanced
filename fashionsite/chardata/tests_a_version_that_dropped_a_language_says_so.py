@@ -1,35 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une version qui ne fournit plus une langue le dit, au lieu de faire
-passer l'anglais pour elle.
-
-Trouve en lisant le panneau des sorts d'un Iop Touch en allemand. Chaque nom
-etait anglais, et rien ne le disait: <<Afflux>> s'y lit <<Influx>>,
-<<Aiguille>> s'y lit <<Hand>>.
-
-**La cause est chez Ankama, et le depot la lit deja.** Le 8 septembre 2026, le
-`config.json` des serveurs Touch a repondu `serverLanguages
-["en", "es", "fr", "pt"]`, sans allemand; `itemscraper/download_touch_data.py`
-lit cette liste avant chaque rafraichissement et refuse depuis de redemander
-l'allemand. Les noms en base sont donc ceux du dernier passage qui a reussi,
-c'est-a-dire l'anglais.
-
-**Mesure du 14 septembre 2026 sur les tables generees:**
-
-| version | noms de sorts | dont l'allemand vaut l'anglais |
-|---------|---------------|--------------------------------|
-| touch | 180 | **180** |
-| retro | 106 | 4 |
-
-Les quatre de Retro sont des mots identiques dans les deux langues
-(<<Absorption>>), pas une absence: c'est ce qui autorise a nommer la regle
-par <<tous>> et non par un seuil.
-
-**Ce que ce lot ne fait pas.** Il ne traduit rien: personne ici ne peut
-inventer les noms allemands d'Ankama, et les fabriquer serait pire que
-l'anglais. Il dit au lecteur ce qu'il a sous les yeux, et la phrase
-disparaitra d'elle-meme le jour ou Ankama resservira l'allemand, puisque la
-condition est calculee sur les donnees et non ecrite a la main.
-"""
+"""A version that no longer ships a language says so."""
 from django.test import SimpleTestCase, TestCase
 from django.utils import translation
 from django.utils.translation import gettext
@@ -57,8 +27,6 @@ class AVersionThatDroppedALanguageSaysSoTests(SimpleTestCase):
         self.assertEqual({'de'}, _languages_left_english('touch'))
 
     def test_retro_still_names_its_spells_in_german(self):
-        """Le temoin de l'autre cote: quatre noms identiques ne sont pas une
-        absence, et Retro ne doit donc rien annoncer."""
         from fashionistapulp.dofus_constants_retro_spells import (
             RETRO_SPELL_NAMES)
         noms = list(RETRO_SPELL_NAMES.values())
@@ -81,7 +49,6 @@ class AVersionThatDroppedALanguageSaysSoTests(SimpleTestCase):
                     self.assertEqual(attendu, _names_are_english(version))
 
     def test_the_sentence_reads_in_five_languages(self):
-        """Lue par gettext, donc dans le catalogue compile."""
         rendus = {}
         for langue in LANGUES:
             with translation.override(langue):
@@ -98,11 +65,8 @@ class AVersionThatDroppedALanguageSaysSoTests(SimpleTestCase):
 
 
 class TheTouchPageCarriesTheSentenceTests(TestCase):
-    """Ce que le lecteur voit vraiment, rendu par la page."""
 
     def _char(self):
-        """Un build Touch avec un stuff, par la porte d'import du site: la
-        page des sorts renvoie ailleurs tant qu'il n'y a pas de solution."""
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         from chardata.models import Char

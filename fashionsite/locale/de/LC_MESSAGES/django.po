@@ -1754,6 +1754,10 @@ msgstr ""
 "Erhalten Sie Dofus-Sets, die automatisch nach Ihren genauen Bedürfnissen "
 "erstellt werden."
 
+#: .\chardata\templates\chardata\home.html
+msgid "Set Builder and Optimizer"
+msgstr "Set-Baukasten und Optimierer"
+
 #: .\chardata\templates\chardata\base.html:20
 #: .\chardata\templates\chardata\home.html:4
 #: .\chardata\templates\chardata\solution.html:26
@@ -2972,7 +2976,7 @@ msgstr "Auf Null zurücksetzen"
 
 #: .\chardata\templates\chardata\chardata.html:43
 msgid "Fully Scroll"
-msgstr "Vollständig scrollen"
+msgstr "Voll mit Schriftrollen steigern"
 
 #: .\chardata\templates\chardata\chardata.html:46
 msgid "Proceed to Wizard"
@@ -3715,6 +3719,15 @@ msgstr ""
 msgid "Done reading?"
 msgstr "Fertig mit Lesen?"
 
+#: .\chardata\templates\chardata\home.html
+#, python-format
+msgid "Free Dofus %(version)s set builder and theorycraft tool. Tell it your class, level and what you want. It builds your best set automatically. For beginners and min-maxers alike."
+msgstr "Kostenloser Dofus %(version)s Set-Baukasten und Theorycraft-Tool: Gib Klasse, Stufe und Ziele an, und du bekommst automatisch dein bestes Set. Für Einsteiger und Min-Maxer gleichermaßen."
+
+#: .\chardata\templates\chardata\home.html
+msgid "Free Dofus set builder and theorycraft tool. Tell it your class, level and what you want. It builds your best set automatically. For beginners and min-maxers alike."
+msgstr "Kostenloser Dofus Set-Baukasten und Theorycraft-Tool: Gib Klasse, Stufe und Ziele an, und du bekommst automatisch dein bestes Set. Für Einsteiger und Min-Maxer gleichermaßen."
+
 #: .\chardata\templates\chardata\home.html:6
 #, python-format
 msgid ""
@@ -4396,6 +4409,55 @@ msgstr "Prysmaradite"
 #: .\chardata\templates\chardata\wizard_options.html:64
 msgid "Trophies"
 msgstr "Trophäen"
+
+#: .\chardata\templates\chardata\options.html
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "TemporiX mode"
+msgstr "TemporiX-Modus"
+
+#: .\chardata\templates\chardata\options.html
+msgid "For the TemporiX servers (15 September to 13 October 2026): shiny hats, capes, amulets, rings, belts, boots and Dofus that monsters drop (each value times 1.5, rounded up, maluses included), the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit. Forbid the pieces you do not have, as on any build."
+msgstr "Für die TemporiX-Server (15. September bis 13. Oktober 2026): glänzende Hüte, Umhänge, Amulette, Ringe, Gürtel, Stiefel und Dofus, die Monster fallen lassen (jeder Wert mal 1,5, aufgerundet, Mali eingeschlossen), der Bouclier de l'infini auf Rang 1000 und keine Grenze für AP, BP, Reichweite oder Beschwörungen. Verbieten Sie die Teile, die Sie nicht haben, wie bei jedem Build."
+
+#: .\chardata\templates\chardata\solution_item.html
+msgctxt "smithmagic mark on an item"
+msgid "SM"
+msgstr "SM"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgctxt "exo mark on an item"
+msgid "Exo"
+msgstr "Exo"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgctxt "shiny mark on an item"
+msgid "Shiny"
+msgstr "Glänzend"
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Shiny: on the TemporiX servers this piece drops with every value times 1.5. In the game it keeps its name and shows a golden frame."
+msgstr "Glänzend: Auf den TemporiX-Servern fällt dieses Teil mit jedem Wert mal 1,5. Im Spiel behält es seinen Namen und erscheint in einem goldenen Rahmen."
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Smithmagic: the rolls recorded on this piece differ from its encyclopedia values."
+msgstr "Schmiedemagie: Die für dieses Teil erfassten Werte weichen von denen der Enzyklopädie ab."
+
+#: .\chardata\templates\chardata\solution_item.html
+msgid "Exo: this piece carries a line, or an AP, MP or Range point, beyond its encyclopedia values."
+msgstr "Exo: Dieses Teil trägt eine Zeile oder einen AP-, BP- oder Reichweitenpunkt über die Werte der Enzyklopädie hinaus."
+
+#: .\chardata\templates\chardata\solution.html
+#: .\chardata\templates\chardata\shared_builds.html
+msgid "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit."
+msgstr "Nach den TemporiX-Regeln berechnet: glänzende Teile und keine Grenze für AP, BP, Reichweite oder Beschwörungen."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Dofus Touch"
+msgstr "Dofus Touch"
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "A Dofus Touch build can be solved for the TemporiX servers: one box in its options switches on shiny hats, capes, amulets, rings, belts, boots and Dofus, the Shield of Infinity at rank 1000, and no AP, MP, Range or summon limit."
+msgstr "Ein Dofus-Touch-Build lässt sich für die TemporiX-Server berechnen: ein Kästchen in seinen Optionen aktiviert glänzende Hüte, Umhänge, Amulette, Ringe, Gürtel, Stiefel und Dofus, den Bouclier de l'infini auf Rang 1000 und keine Grenze für AP, BP, Reichweite oder Beschwörungen."
 
 #: .\chardata\templates\chardata\password_reset_form.html:7
 #: .\chardata\templates\chardata\password_reset_form.html:14
@@ -5969,6 +6031,14 @@ msgstr "Alle Widerstände"
 msgid "All % Resists"
 msgstr "Alle % Widerstände"
 
+#: .\chardata\wizard_sliders.py
+msgid "All % Resists (PvP)"
+msgstr "Alle % Widerstände (PvP)"
+
+#: .\chardata\wizard_sliders.py
+msgid "All Resists (PvP)"
+msgstr "Alle Widerstände (PvP)"
+
 #: .\chardata\templates\chardata\stats.html:88
 msgid "% Neutral Resist (PvP)"
 msgstr "% Neutral-Resistenz (PvP)"
@@ -6088,7 +6158,7 @@ msgstr "Noch keine geteilten Builds."
 #: .\chardata\templates\chardata\wizard.html:127
 #: .\chardata\templates\chardata\wizard_scrolling.html:10
 msgid "Leave scrolling at"
-msgstr "Scrollen Sie weiter"
+msgstr "Schriftrollen-Steigerung belassen bei"
 
 #: .\chardata\templates\chardata\wizard.html:132
 msgid "This will reset the tuning sliders back to the default for your build."
@@ -6134,11 +6204,19 @@ msgstr "Scrollen"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:8
 msgid "Fully scroll my character"
-msgstr "Scrolle komplett durch meinen Charakter"
+msgstr "Alle Eigenschaftswerte voll mit Schriftrollen steigern"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll every characteristic to 100"
+msgstr "Jeden Eigenschaftswert mit Schriftrollen auf 100 steigern"
+
+#: .\chardata\templates\chardata\wizard_scrolling.html
+msgid "Scroll to 100"
+msgstr "Mit Schriftrollen auf 100"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:9
 msgid "Don't scroll any characteristics"
-msgstr "Scrollen Sie nicht durch irgendwelche Merkmale"
+msgstr "Keinen Eigenschaftswert mit Schriftrollen steigern"
 
 #: .\chardata\templates\chardata\wizard_scrolling.html:18
 #, python-format
@@ -6357,6 +6435,11 @@ msgstr "AP: %(AP)d / Krit: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgid "(%(weapon_type)s) AP: %(AP)d / CH: %(crit_chance)d%% (+%(crit_bonus)d)"
 msgstr ""
 "(%(weapon_type)s) AP: %(AP)d / Krit: %(crit_chance)d%% (+%(crit_bonus)d)"
+
+#: .\chardata\wizard_sliders.py
+msgctxt "Slider section"
+msgid "AP, MP and Range"
+msgstr "AP, BP und Reichweite"
 
 #: .\chardata\wizard_sliders.py:36
 msgctxt "Slider section"
@@ -7166,6 +7249,9 @@ msgstr "Dieses Urteil reist mit dem Build: im kopierten Text, in der öffentlich
 msgid "Your build, in and out"
 msgstr "Dein Build, rein und raus"
 
+msgid "Bring your build in"
+msgstr "Bring deinen Build herein"
+
 msgid "and %(count)d more"
 msgstr "und %(count)d weitere"
 
@@ -7190,20 +7276,38 @@ msgstr "Neues"
 msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importiere einen ganzen Build: füge Gegenstandsnamen ein, einen Link zu einem öffentlichen Build einer anderen Build-Seite, oder lege pro Teil einen Tooltip-Screenshot ab. Werte und Exos kommen mit."
 
+msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
+msgstr "Importiere einen ganzen Build: füge Gegenstandsnamen ein oder lege pro Teil einen Tooltip-Screenshot ab. Werte und Exos kommen mit."
+
 msgid "Paste item names, a build link or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
 msgstr "Füge Gegenstandsnamen, einen Build-Link oder Tooltip-Screenshots ein und erhalte hier denselben Build, Stück für Stück. Es wird nichts neu optimiert, solange du nicht darum bittest."
+
+msgid "Paste item names or tooltip screenshots and get the same build here, piece for piece. Nothing is re-optimized unless you ask for it."
+msgstr "Füge Gegenstandsnamen oder Tooltip-Screenshots ein und erhalte hier denselben Build, Stück für Stück. Es wird nichts neu optimiert, solange du nicht darum bittest."
 
 msgid "Paste your item names, a link to a public build from another build site, or drop tooltip screenshots. Anything that is not an item is skipped."
 msgstr "Füge deine Gegenstandsnamen ein, einen Link zu einem öffentlichen Build einer anderen Build-Seite, oder lege Tooltip-Screenshots ab. Alles, was kein Gegenstand ist, wird übersprungen."
 
+msgid "Paste your item names or drop tooltip screenshots. Anything that is not an item is skipped."
+msgstr "Füge deine Gegenstandsnamen ein oder lege Tooltip-Screenshots ab. Alles, was kein Gegenstand ist, wird übersprungen."
+
 msgid "One item name per line, or a build link"
 msgstr "Ein Gegenstandsname pro Zeile, oder ein Build-Link"
+
+msgid "One item name per line"
+msgstr "Ein Gegenstandsname pro Zeile"
 
 msgid "Read this"
 msgstr "Das lesen"
 
 msgid "Read from the link: %(name)s (%(version)s)."
 msgstr "Aus dem Link gelesen: %(name)s (%(version)s)."
+
+msgid "Read from the link (%(version)s)."
+msgstr "Aus dem Link gelesen (%(version)s)."
+
+msgid "The exos from the link become the build's exo options: %(stats)s."
+msgstr "Die Exos aus dem Link werden zu Exo-Optionen des Builds: %(stats)s."
 
 msgid "The build will be created in that version."
 msgstr "Der Build wird in dieser Version angelegt."
@@ -7226,8 +7330,15 @@ msgstr "Diese Seite war nicht erreichbar. Versuche es später noch einmal."
 msgid "That site answered something we could not read."
 msgstr "Diese Seite hat etwas geantwortet, das wir nicht lesen konnten."
 
+#: .\chardata\text_build_view.py
+msgid "That link is incomplete or damaged. Copy the full address again."
+msgstr "Dieser Link ist unvollständig oder beschädigt. Kopieren Sie die vollständige Adresse erneut."
+
 msgid "Import it from a link, text or screenshots"
 msgstr "Importiere ihn aus einem Link, Text oder Screenshots"
+
+msgid "Import it from text or screenshots"
+msgstr "Importiere ihn aus Text oder Screenshots"
 
 msgid "Build links our server can read today: %(sites)s."
 msgstr "Build-Links, die unser Server heute lesen kann: %(sites)s."
@@ -7250,8 +7361,13 @@ msgstr "Diese Zeilen aus dem Link gehören zu keinem Teil und bleiben außen vor
 msgid "These forgemagie lines could not be read and are left out:"
 msgstr "Diese Schmiedemagie-Zeilen konnten nicht gelesen werden und bleiben außen vor:"
 
-msgid "Your forgemagie travels as one total per characteristic: their link format holds nothing finer."
-msgstr "Deine Schmiedemagie kommt als eine Summe pro Wert mit: feiner kann ihr Linkformat es nicht."
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "DofusBook cannot receive forgemagie or exos piece by piece: its link only takes one total per characteristic, where each AP, MP or Range exo counts as +1. You will find them in its global forgemagie."
+msgstr "DofusBook kann Schmiedemagie und Exos nicht pro Teil übernehmen: sein Link nimmt nur eine Summe pro Wert, in der jedes AP-, BP- oder Reichweiten-Exo als +1 zählt. Du findest sie in seiner globalen Schmiedemagie."
+
+#: .\chardata\templates\chardata\dofusbook_export.html
+msgid "Shiny TemporiX pieces do not exist on DofusBook: what the x1.5 adds to each of them is sent in that global forgemagie."
+msgstr "Glänzende TemporiX-Teile gibt es auf DofusBook nicht: was das x1,5 jedem von ihnen hinzufügt, geht in diese globale Schmiedemagie."
 
 msgid "Their forgemagie field cannot hold these, so they stay here:"
 msgstr "Ihr Schmiedemagie-Feld kann diese nicht tragen, sie bleiben hier:"

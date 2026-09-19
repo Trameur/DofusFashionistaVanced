@@ -128,6 +128,9 @@ function optionsInit(options) {
 
     var $trophiesCheckbox = $('input:checkbox[name=trophies]');
     $trophiesCheckbox.prop('checked', options.trophies);
+
+    var $temporixCheckbox = $('input:checkbox[name=temporix]');
+    $temporixCheckbox.prop('checked', options.temporix);
 }
 
 function disableUnusableDofus(unusable){

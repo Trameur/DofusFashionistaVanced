@@ -24,12 +24,8 @@ from fashionistapulp.structure import get_structure
 logger = logging.getLogger(__name__)
 
 
-# Items the optimiser excludes by default: GM-only, event, joke and duplicate
-# items, with the item name in a trailing comment. Ids absent from the active
-# game version are skipped. Versions reuse ankama ids for unrelated items (11761
-# is Le Divhugalch on Retro and the Teroid Axe on the other four), so an id only
-# belongs here when every version means the same item; anything else goes in the
-# per-version list below.
+# Forbidden by default on every version
+# Versions reuse ankama ids for other items: only ids that are the same item everywhere
 DEFAULT_EXCLUSION_ANKAMA_IDS = [
     9031,   # Gore Master's Ring (Gms Only)
     9202,   # Gore Master's Other Ring (Retro)
@@ -56,15 +52,14 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     13063,  # Split Splinter Sprinter
     8422,   # [wip] (Touch work-in-progress placeholder)
     12596,  # [!] WIP (Touch work-in-progress placeholder)
-    31812,  # Anneau de Ghaston (beta dev item: 99 AP/MP, 32767 Vitality)
-    16340,  # Abuselet (Ankama: "cannot be equipped, it exists merely to be broken")
-    16341,  # Bendant (same, forgemagie fodder carrying an AP bonus)
+    31812,  # Anneau de Ghaston (beta dev item)
+    16340,  # Abuselet (forgemagie fodder, cannot be equipped)
+    16341,  # Bendant (forgemagie fodder)
 ]
 
-# Forbidden by default for one version only, when the same ankama id is a real
-# item elsewhere (10076 is a genuine Retro shield, absent from Dofus Touch).
+# Forbidden by default for one version only
 DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
-    # Items with no source left: no drop, no recipe, no live quest or achievement.
+    # No source left: no drop, no recipe, no quest or achievement
     'dofus3': [
         # GM-only items
         7913,    # Animagi (GM)
@@ -73,14 +68,14 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         2154,    # De Sendar's Ring
         2155,    # Jiva Necklace
         2156,    # Sword of Justice
-        # physical Dofus 2.0 Collector box codes (2009)
+        # Dofus 2.0 Collector box codes
         10685,   # Haks Or Mask
         10686,   # Haks Or Cloak
         10687,   # Haks Or Ring
         10688,   # Haks Or Belt
         # manga/convention promo prizes
         16343,   # Paintbrush
-        # Ankama Lottery rewards; the lottery is long gone
+        # Ankama Lottery rewards
         8941,    # Ecaflip Paw
         8956,    # Ecaflip Paw 2
         8957,    # Ecaflip Paw 3
@@ -165,20 +160,19 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         8854,    # Crack Sparrow's Own Withered Hat
         13063,   # Split Splinter Sprinter
     ],
-    # Same data as dofus3.
+    # Same as dofus3
     'beta': [
         7913, 9031, 2154, 2155, 2156, 10685, 10686, 10687, 10688, 16343, 8941, 8956, 8957, 8958, 8959, 8960, 8961, 8962, 8963, 8964, 8965, 8966, 10054, 10055, 10056, 10058, 10061, 10102, 11855, 12465, 12466, 6773, 10784, 10785, 10794, 10799, 10800, 10801, 12661, 27267, 27268, 27280, 27282, 1505, 8338, 8627, 10158, 10159, 10160, 10161, 10162, 10163, 10164, 10165, 10166, 10167, 11811, 17456, 17457, 21506, 21507, 21508, 21509, 21510, 1628, 1629, 1630, 1631, 1632, 1633, 6661, 6793, 6800, 6840, 6863, 6886, 7097, 11603, 11610, 11617, 11733, 11748, 677, 856, 6713, 8575, 8854, 13063
     ],
     'touch': [
-        # Quest, shop and event rewards also have no drop and no recipe, so empty
-        # tables alone prove nothing; each id below has its own reason.
-        10076,  # Unique Hispanian Shield, absent from the Touch encyclopedia
-        12615,  # Escudo Epico, Spanish community event, PC only
+        # Quest and shop rewards have no drop or recipe either: check each id
+        10076,  # Unique Hispanian Shield, not in the Touch encyclopedia
+        12615,  # Escudo Epico, Spanish event, PC only
         21593,  # [!] Unshakeable test shield
-        17304,  # Beakler, no Touch distribution found
-        9566,   # Raydi Shield, PC "Legendes anciennes" pack
-        13158,  # Thousand Shield, one-off Italian contest prize, PC
-        # Ankama Lottery rewards, gone long before Touch forked
+        17304,  # Beakler, no Touch source
+        9566,   # Raydi Shield, PC pack
+        13158,  # Thousand Shield, Italian contest prize, PC
+        # Ankama Lottery rewards
         8941,    # Ecaflip Paw
         8956,    # Ecaflip Paw
         8957,    # Ecaflip Paw
@@ -202,7 +196,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         12466,   # Boracelet
         # GM-only items
         7913,    # Animagi (GM)
-        # PC-era one-off events and removed content, no Touch source
+        # PC-only events and removed content
         677,     # Pirate Cloak
         1628,    # Fire Artefact
         1629,    # Earth Artefact
@@ -224,13 +218,13 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         11748,   # Thanos's Chewed-Up Staff
         11811,   # Prespic Skin Boots
         13063,   # Split Splinter Sprinter
-        # physical Dofus 2.0 Collector box codes (2009, PC only)
+        # Dofus 2.0 Collector box codes, PC only
         10687,   # Haks Or Ring
         10688,   # Haks Or Belt
-        # rewards of PC tutorial quests that never existed on Touch
+        # PC tutorial quest rewards
         6773,    # Tude Amulet
         12661,   # Handbag
-        # Ankama Lottery / PC promo set pieces, gone before Touch forked
+        # Ankama Lottery / PC promo set pieces
         9921,    # Slamdance Bracelet
         9922,    # Slamdance Belt
         9923,    # Slamdance Shoes
@@ -249,18 +243,18 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         10190,   # Oxo Boots
         10191,   # Oxo Belt
         10557,   # Real Gobbly Glove
-        # Magik Riktus incarnation weapons, never in the Touch shop rotation
+        # Magik Riktus incarnation weapons, never sold on Touch
         10125,   # Bandit Archer Bow
         10126,   # Swashbuckling Bandit Sword
         10127,   # Wandering Bandit Staff
         10133,   # Bandit Sorcerer's Wand
         # PC magazine/collector promo items
         9927,    # Bedazzling Boots
-        # PC-only content with no Touch source
+        # PC-only content
         9925,    # Bedazzling Fist
         9942,    # Ring of Death
         10186,   # Noke's Necklace
-        # ex-Shushumi / Great Emporium ogrine-shop weapons, never sold on Touch
+        # Shushumi / Great Emporium ogrine-shop weapons, never sold on Touch
         9711,    # Dagg' Hers
         9712,    # Dagg' Heirs
         9713,    # Dagger Nica
@@ -393,7 +387,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         8726,    # Crusuede Shoes
         8727,    # Relief Boots
         8728,    # Veggie Boots
-        # spent revamp tokens: the item text itself says to trade them in
+        # Revamp tokens, meant to be traded in
         12385,   # Hoodwink Headgear
         12386,   # Arpone Mask
         12387,   # Hanging Cloak
@@ -412,37 +406,32 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
         14053,   # Flawed Cap
         14054,   # Flawed Ring
         14056,   # Flawed Boots
-        # Boufbowl match rings: handed out inside a match, never owned. Still in
-        # the Touch backend under their untranslated internal name.
+        # Boufbowl match rings, only lent during a match
         19961,   # [!] Bague de Boufbowl (Attaquant Bleu)
         19963,   # [!] Bague de Boufbowl (Attaquant Rouge)
         19965,   # [!] Bague de Boufbowl (Defenseur Bleu)
         19967,   # [!] Bague de Boufbowl (Defenseur Rouge)
         19995,   # [!] Samy Bague de Boufbowl (test)
-        # Boufbowl match rings again: no real stats, their only effect casts a
-        # team-identity spell during a match.
+        # Boufbowl match rings, no real stats
         18815,   # Gobbowl Ring
         19957,   # Gobbowl Ring (Blue Captain)
         19959,   # Gobbowl Ring (Red Captain)
-        # Hispanic set: PC Goultarminator prize, absent from the Touch encyclopedia
+        # Hispanic set, PC Goultarminator prize
         12616,   # Caschoygan
         12617,   # Cuarzomyr Masinko
-        # Kwismas hats stamped with a past year of the Dofus calendar; Kwismas
-        # returns every year, but with that year's number.
+        # Kwismas hats of a past year
         15823,   # Kwismas 648 Treetop
         16888,   # Kwismas 649 Treetop
-        # [FM] is Ankama's own smithmagic-workbench marker
+        # [FM] marks Ankama's smithmagic workbench items
         18555,   # [FM] Capistil
         18557,   # [FM] Plantamulet
         18559,   # [FM] Cuttings
     ],
     'retro': [
-        7043,   # Ice Dofus / Dofus des Glaces (not in 1.29; scraped as a bogus
-                # level 1 Dofus with +10% all resists, a real Dofus 2+ item)
-        13171,  # Nolifishield / Grobouclier (Grobe dungeon key shield, a real
-                # item but never built with)
-        11761,  # Le Divhugalch (unobtainable joke staff, +3 AP/+3 MP)
-        11745,  # Epee Clipse (GM sword: 5 AP/MP, 500 in every characteristic)
+        7043,   # Ice Dofus (a Dofus 2 item, not in 1.29)
+        13171,  # Nolifishield (Grobe dungeon key shield)
+        11761,  # Le Divhugalch (unobtainable joke staff)
+        11745,  # Epee Clipse (GM sword)
     ],
 }
 
@@ -453,9 +442,7 @@ def get_default_exclusions(char):
     item_ids = []
     for ankama_id in ankama_ids:
         item = s.get_item_by_ankama_id(ankama_id)
-        # Twelve ids are in both lists on dofus3, five on touch. Stored twice,
-        # the item could never be un-forbidden: the removal below drops one
-        # occurrence and the survivor made a locked slot infeasible.
+        # Some ids are in both lists: store them once
         if item is not None and item.id not in item_ids:
             item_ids.append(item.id)
     return item_ids
@@ -468,7 +455,7 @@ def set_exclusions_list_and_check_inclusions(char, excluded_items):
     _save_exclusion_list(char, excluded_items)
 
 def _as_item_id(value):
-    """A posted slot value as an item id, empty when it is not one."""
+    """Posted slot value as an item id, '' if not a number."""
     try:
         return int(value)
     except (TypeError, ValueError):
@@ -486,8 +473,20 @@ def get_all_inclusions_en_names(char):
     return {key: _item_id_to_local_or_name(value, 'en')
             for key, value in list(item_dict.items())}
 
+def _structure_of(char):
+    try:
+        return get_structure(getattr(char, 'game_version', None) or None)
+    except Exception:
+        return None
+
+
 def get_inclusions_dict(char):
-    return read_char_blob(char.inclusions, {}, 'inclusions', char)
+    inclusions = read_char_blob(char.inclusions, {}, 'inclusions', char)
+    structure = _structure_of(char)
+    if structure is None or not isinstance(inclusions, dict):
+        return inclusions
+    return {slot: structure.current_item_id(value)
+            for slot, value in inclusions.items()}
 
 def set_exclusions_list_by_name(char, excluded_items):
     s = get_structure()
@@ -605,7 +604,20 @@ def _save_exclusion_list(char, excluded_items):
     char.save()
 
 def _get_all_exclusions(char):
-    return read_char_blob(char.exclusions, [], 'exclusions', char)
+    exclusions = read_char_blob(char.exclusions, [], 'exclusions', char)
+    structure = _structure_of(char)
+    if structure is None or not isinstance(exclusions, list):
+        return exclusions
+    # Dedupe translated ids only, keep the stored list as is
+    stored, current = set(exclusions), []
+    for item_id in exclusions:
+        live_id = structure.current_item_id(item_id)
+        if live_id != item_id:
+            if live_id in stored:
+                continue
+            stored.add(live_id)
+        current.append(live_id)
+    return current
 
 def add_items_to_exclusions(char, item_ids):
     exclusions = get_all_exclusions_ids(char)
@@ -622,8 +634,7 @@ def add_items_to_exclusions(char, item_ids):
 def remove_items_from_exclusions(char, item_ids):
     exclusions = get_all_exclusions_ids(char)
 
-    # Every copy, not one: builds created before the list was de-duplicated
-    # still carry the item twice, and one survivor is enough to break them.
+    # Old builds can hold an id twice, remove every copy
     unwanted = set(item_ids)
     kept = [item_id for item_id in exclusions if item_id not in unwanted]
     changed = len(kept) != len(exclusions)
@@ -647,7 +658,23 @@ def set_empty_slot(char, slot, is_empty):
     char.save()
 
 def get_stat_overrides(char):
-    return read_char_blob(char.stat_overrides, {}, 'stat_overrides', char)
+    overrides = read_char_blob(char.stat_overrides, {}, 'stat_overrides', char)
+    structure = _structure_of(char)
+    if structure is None or not isinstance(overrides, dict):
+        return overrides
+    current, retired = {}, []
+    for item_id, item_overrides in overrides.items():
+        live_id = structure.current_item_id(item_id)
+        if live_id == item_id:
+            current[item_id] = item_overrides
+        else:
+            retired.append((live_id, item_overrides))
+    # A roll saved under the live id is newer
+    for live_id, item_overrides in retired:
+        merged = dict(item_overrides)
+        merged.update(current.get(live_id, {}))
+        current[live_id] = merged
+    return current
 
 def set_item_stat_override(char, item_id, stat_id, value):
     overrides = get_stat_overrides(char)
@@ -667,16 +694,7 @@ def remove_item_stat_override(char, item_id, stat_id):
     char.save()
 
 def set_stat_overrides(char, overrides):
-    """Merge a whole {item_id: {stat_id: value}} map in one save.
-
-    `set_item_stat_override` writes the char once per stat, which is right for
-    a click and wasteful for an import that carries a hundred rolls.
-
-    It MERGES rather than replaces. Replacing is the shape that has already
-    cost this project once: `set_exclusions_list_by_name` replaces, and it
-    silently wiped the default exclusions of any build it touched. A caller
-    who wants a clean slate can clear first and say so.
-    """
+    """Merge a whole {item_id: {stat_id: value}} map in one save."""
     fusion = get_stat_overrides(char)
     for item_id, per_item in overrides.items():
         fusion.setdefault(item_id, {}).update(per_item)
