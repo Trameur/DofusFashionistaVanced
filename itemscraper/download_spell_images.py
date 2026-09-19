@@ -311,15 +311,21 @@ def filter_spell_records(records: Sequence[SpellIconRecord], scope: str,
 
 
 def dedupe_spell_records(records: Sequence[SpellIconRecord]) -> Tuple[List[SpellIconRecord], List[SpellIconRecord]]:
+    # A retired spell can share its name with a live one and carry icon -1
     unique: List[SpellIconRecord] = []
     dropped: List[SpellIconRecord] = []
-    seen: Set[str] = set()
+    seen: Dict[str, int] = {}
     for record in records:
         key = record.filename_stem.casefold()
         if key in seen:
-            dropped.append(record)
+            kept = unique[seen[key]]
+            if kept.icon_id > 0 or record.icon_id <= 0:
+                dropped.append(record)
+                continue
+            unique[seen[key]] = record
+            dropped.append(kept)
             continue
-        seen.add(key)
+        seen[key] = len(unique)
         unique.append(record)
     return unique, dropped
 
@@ -459,7 +465,7 @@ def main() -> int:
                                          getattr(args, "game_version", "dofus3"))
     unique_records, dropped = dedupe_spell_records(scoped_records)
     if dropped:
-        print(f"Skipped {len(dropped)} duplicate spell names (keeping the first occurrence).")
+        print(f"Skipped {len(dropped)} duplicate spell names (keeping one per name).")
 
     destination_dirs: List[Path] = [args.static_dir]
     if args.extra_static_dirs is not None:

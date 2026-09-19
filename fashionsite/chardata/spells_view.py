@@ -239,26 +239,26 @@ def _localized_spell_name(name, language, game_version):
     return get_localized_spell_name(name, language)
 
 
-_dofus2_spell_icons = None
+_own_spell_icons = {}
 
 
-def _dofus2_spell_icon_names():
-    """Spells Dofus 2 has its own icon for; the rest use the Dofus 3 folder."""
-    global _dofus2_spell_icons
-    if _dofus2_spell_icons is None:
-        _dofus2_spell_icons = frozenset(
-            name[:-4] for name in list_static_dir('chardata/spells/dofus2')
+def _own_spell_icon_names(game_version):
+    """Spells the version has its own icon for; the rest use the Dofus 3 folder."""
+    if game_version not in _own_spell_icons:
+        _own_spell_icons[game_version] = frozenset(
+            name[:-4] for name in list_static_dir('chardata/spells/' + game_version)
             if name.endswith('.png'))
-    return _dofus2_spell_icons
+    return _own_spell_icons[game_version]
 
 
 def _spell_image_url(spell_name, game_version):
     # Same escaped stem the scrapers write (Windows reserves names like Con)
     stem = safe_asset_stem(spell_name)
-    if game_version in ('beta', 'retro', 'touch'):
+    if game_version in ('retro', 'touch'):
         spell_dir = 'chardata/spells/%s/' % game_version
-    elif game_version == 'dofus2' and stem in _dofus2_spell_icon_names():
-        spell_dir = 'chardata/spells/dofus2/'
+    elif (game_version in ('beta', 'dofus2')
+          and stem in _own_spell_icon_names(game_version)):
+        spell_dir = 'chardata/spells/%s/' % game_version
     else:
         spell_dir = 'chardata/spells/'
     return static(spell_dir + stem + '.png')
