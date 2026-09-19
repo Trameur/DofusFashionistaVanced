@@ -18,6 +18,7 @@ from django.conf import settings
 from django.db.models import Q, Count, Case, When, IntegerField, F
 from django.core.cache import cache
 from django.utils import translation
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import (Http404, HttpResponsePermanentRedirect,
@@ -351,6 +352,8 @@ def shared_builds_for_class(request, class_slug):
         raise Http404
     char_class, canonical_slug = found
     gallery_path = _gallery_path(request)
+    if not url_has_allowed_host_and_scheme(gallery_path, allowed_hosts=None):
+        raise Http404
     game_version = getattr(request, 'game_version', 'dofus3')
     if not class_exists_in_version(char_class, game_version):
         return HttpResponseRedirect(gallery_path)
@@ -359,6 +362,8 @@ def shared_builds_for_class(request, class_slug):
         query = request.META.get('QUERY_STRING', '')
         if query:
             target = '%s?%s' % (target, query)
+        if not url_has_allowed_host_and_scheme(target, allowed_hosts=None):
+            raise Http404
         return HttpResponsePermanentRedirect(target)
     if not class_build_counts(game_version).get(char_class):
         return HttpResponseRedirect(gallery_path)

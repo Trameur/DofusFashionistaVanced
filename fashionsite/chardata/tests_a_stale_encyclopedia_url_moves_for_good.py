@@ -192,3 +192,15 @@ class TheSiteLinksNoAddressThatMoves(TestCase):
         self.assertEqual('/touch/encyclopedia/item/equipment/2074-fire-bwak/',
                          item.link)
         self._answers_at_once([item.link])
+
+
+class AMoveStaysOnTheSiteTests(TestCase):
+
+    def test_a_target_naming_another_host_is_not_followed(self):
+        from django.test import RequestFactory
+        from chardata.url_language import redirect_to_own_address
+        request = RequestFactory().get('/encyclopedia/item/equipment/15699-belteen-/')
+        for target in ('//evil.example/x/', 'https://evil.example/x/'):
+            with self.subTest(target=target):
+                self.assertIsNone(redirect_to_own_address(
+                    request, lambda: target, 'en', False))

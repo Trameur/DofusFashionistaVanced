@@ -341,3 +341,18 @@ class TheGalleryItselfIsUnchangedTests(_Page):
         self.assertEqual(4, reponse.context['page_obj'].paginator.count)
         self.assertEqual(SITE + '/sharedbuilds/',
                          self._canonical(reponse.content.decode('utf-8')))
+
+
+class AClassRedirectStaysOnTheSiteTests(TestCase):
+
+    def test_a_path_naming_another_host_is_not_followed(self):
+        from django.http import Http404
+        from django.test import RequestFactory
+        from chardata.shared_builds_view import shared_builds_for_class
+        for chemin in ('//evil.example/sharedbuilds/steamer/',
+                       '/\evil.example/sharedbuilds/steamer/'):
+            with self.subTest(chemin=chemin):
+                request = RequestFactory().get('/sharedbuilds/steamer/')
+                request.path = chemin
+                with self.assertRaises(Http404):
+                    shared_builds_for_class(request, 'steamer')

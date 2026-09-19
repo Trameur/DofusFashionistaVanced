@@ -22,6 +22,7 @@ from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
 from django.middleware.locale import LocaleMiddleware
 from django.utils import translation
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from fashionistapulp.translation import SUPPORTED_LANGUAGES
 
@@ -80,6 +81,8 @@ def redirect_to_own_address(request, build_path, language, guessed_language):
     query = request.META.get('QUERY_STRING', '')
     if query:
         target = '%s?%s' % (target, query)
+    if not url_has_allowed_host_and_scheme(target, allowed_hosts=None):
+        return None
     response = HttpResponsePermanentRedirect(target)
     if guessed_language:
         mark_varies_on_cookie(response)
