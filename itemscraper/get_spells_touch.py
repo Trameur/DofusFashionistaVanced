@@ -107,8 +107,18 @@ def resolve_config():
         return FALLBACK_DATA_URL, ''
 
 
+def class_spells(breeds, spells):
+    """{class: [spell rows]} for the whole book, damage spells or not."""
+    out = {}
+    for bid, app_name in CLASS_ID_TO_NAME.items():
+        breed = breeds.get(str(bid)) or {}
+        out[app_name] = [spells[str(sid)] for sid in breed.get('breedSpellsId') or []
+                         if str(sid) in spells]
+    return out
+
+
 def download_spell_images(by_class, spells, assets_url):
-    """Save each damage spell's icon 96x96 as chardata/spells/touch/<French name>.png."""
+    """Save each class spell's icon 96x96 as chardata/spells/touch/<French name>.png."""
     try:
         from PIL import Image
     except ImportError:
@@ -122,8 +132,8 @@ def download_spell_images(by_class, spells, assets_url):
     seen, written, missing = set(), 0, 0
     for class_spells in by_class.values():
         for s in class_spells:
-            name = s['name']
-            if name in seen:
+            name = s.get('name') or s.get('nameId')
+            if not name or name in seen:
                 continue
             seen.add(name)
             icon_id = (spells.get(str(s['id'])) or {}).get('iconId')
@@ -507,7 +517,7 @@ def main(argv=None):
         print("  classes with no damage spells: " + ", ".join(empty))
 
     if not args.skip_images:
-        download_spell_images(by_class, spells, assets_url)
+        download_spell_images(class_spells(breeds, spells), spells, assets_url)
     return 0
 
 
