@@ -7617,3 +7617,19 @@ msgstr "Berechnet vor Update %(patch)s"
 #, python-format
 msgid "Solved before update %(patch)s: the best set may have changed since."
 msgstr "Vor dem Update %(patch)s berechnet: Das beste Set kann sich seitdem geändert haben."
+
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Created around %(patch)s"
+msgstr "Erstellt etwa mit Update %(patch)s"
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#: chardata/templates/chardata/home.html
+#, python-format
+msgid "Solved around %(patch)s"
+msgstr "Berechnet etwa mit Update %(patch)s"
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#: chardata/templates/chardata/home.html
+msgid "Estimated from the build's dates: the solve was not recorded."
+msgstr "Schätzung anhand der Daten des Builds: die Berechnung wurde nicht gespeichert."

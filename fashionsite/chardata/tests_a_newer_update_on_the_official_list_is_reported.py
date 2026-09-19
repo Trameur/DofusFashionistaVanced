@@ -163,11 +163,11 @@ class ANewerUpdateIsReportedTests(SimpleTestCase):
         self.assertEqual({}, check.updates_behind({'touch': '1.9'},
                                                   {'touch': ('1.10', '1.10')}))
 
-    def test_our_patches_come_from_the_labels_and_patch_started(self):
+    def test_our_patches_come_from_the_labels_and_the_timeline(self):
         import fashionista_version as ours
         mine = check.our_patches()
         self.assertEqual(set(check.UPDATE_LISTS), set(mine))
-        self.assertEqual(ours.PATCH_STARTED['touch'][0], mine['touch'][1])
+        self.assertEqual(ours.PATCH_TIMELINE['touch'][-1][1], mine['touch'][1])
         self.assertTrue(ours.FASHIONISTA_VERSION.startswith(mine['dofus3'][0] + '.'))
 
     def test_a_newer_update_is_printed_and_flagged_but_never_written(self):

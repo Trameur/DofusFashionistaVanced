@@ -211,24 +211,46 @@ class ABuildUpdatedDuringTheCurrentUpdateCountsTests(_Featured, TestCase):
         super().setUp()
         import fashionista_version
         from unittest import mock
-        patcher = mock.patch.dict(fashionista_version.PATCH_STARTED,
-                                  {'dofus3': ('3.6', '2026-06-23')})
+        patcher = mock.patch.dict(fashionista_version.PATCH_TIMELINE, {
+            'dofus3': [('2025-12-09', '3.4'), ('2026-03-05', '3.5'),
+                       ('2026-06-23', '3.6')]})
         patcher.start()
         self.addCleanup(patcher.stop)
+
+    def _left_on(self, name, when, views=50):
+        left = self._shared(name, '', views=views)
+        Char.objects.filter(pk=left.pk).update(modified_time=when)
+        return left
 
     def test_an_unstamped_build_updated_since_the_update_started_is_current(self):
         self._shared('previous', '3.5.17.26', views=50)
         self._shared('updated', '', views=1)
         self.assertEqual(['updated', 'previous'], self._featured())
 
-    def test_an_unstamped_build_left_before_the_update_is_not_featured(self):
-        left = self._shared('left', '', views=50)
-        Char.objects.filter(pk=left.pk).update(
-            modified_time=datetime(2026, 6, 22, 23, 0, tzinfo=utc_zone.utc))
+    def test_an_unstamped_build_left_during_the_previous_update_completes_the_row(self):
+        self._shared('current', '3.6.11.15', views=1)
+        self._left_on('previous', datetime(2026, 5, 1, 12, 0, tzinfo=utc_zone.utc))
+        self._left_on('lastday', datetime(2026, 6, 22, 23, 0, tzinfo=utc_zone.utc),
+                      views=40)
+        self.assertEqual(['current', 'previous', 'lastday'], self._featured())
+
+    def test_an_unstamped_build_left_before_the_previous_update_is_not_featured(self):
+        self._left_on('older', datetime(2026, 3, 4, 23, 0, tzinfo=utc_zone.utc))
         self.assertEqual([], self._featured())
 
-    def test_its_card_claims_no_update(self):
-        self._shared('updated', '', views=1)
+    def test_a_card_says_around_which_update_it_was_solved(self):
+        self._shared('updated', '', views=2)
+        self._left_on('previous', datetime(2026, 5, 1, 12, 0, tzinfo=utc_zone.utc),
+                      views=1)
         page = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
-        self.assertEqual(1, len(_cards(page)))
-        self.assertNotIn('Solved on', _cards(page)[0])
+        cards = _cards(page)
+        self.assertEqual(2, len(cards))
+        self.assertIn('Solved around 3.6', cards[0])
+        self.assertIn('Solved around 3.5', cards[1])
+        self.assertNotIn('Solved on', page)
+        self.assertIn("Estimated from the build's dates: the solve was not recorded.",
+                      page)
+        cache.clear()
+        french = _cards(self.client.get('/fr/', HTTP_ACCEPT_LANGUAGE='fr')
+                        .content.decode('utf-8'))
+        self.assertIn('Calculé vers la 3.6', french[0])

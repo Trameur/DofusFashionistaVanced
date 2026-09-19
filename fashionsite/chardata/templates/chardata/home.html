@@ -121,7 +121,7 @@
                     <div class="featured-build-meta">
                         {{ fb.char_class|localized_class }} · {% trans "lvl" %} {{ fb.level }}
                     </div>
-                    {% if fb.solved_patch %}<div class="featured-build-patch">{% blocktrans with patch=fb.solved_patch %}Solved on {{ patch }}{% endblocktrans %}</div>{% endif %}
+                    {% if fb.solved_estimated %}<div class="featured-build-patch" title="{% trans "Estimated from the build's dates: the solve was not recorded." %}">{% blocktrans with patch=fb.solved_patch %}Solved around {{ patch }}{% endblocktrans %}</div>{% elif fb.solved_patch %}<div class="featured-build-patch">{% blocktrans with patch=fb.solved_patch %}Solved on {{ patch }}{% endblocktrans %}</div>{% endif %}
                     <div class="featured-build-stats">
                         <span class="fm-st fm-st-like" aria-hidden="true"></span> {{ fb.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true"></span> {{ fb.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true"></span> {{ fb.view_count }}
                     </div>

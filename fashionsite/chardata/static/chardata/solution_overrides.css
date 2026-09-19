@@ -145,6 +145,9 @@
     white-space: nowrap;
     cursor: help;
 }
+.char-banner-patch-estimated {
+    cursor: help;
+}
 .char-banner-patch-rerun {
     margin-left: 6px;
 }

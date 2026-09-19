@@ -10,7 +10,7 @@ import re
 import runpy
 import shutil
 import tempfile
-from datetime import datetime, timezone as utc_zone
+from datetime import date, datetime, timezone as utc_zone
 from pathlib import Path
 from unittest import mock
 
@@ -20,8 +20,8 @@ from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.utils import timezone
 
 from chardata.char_blobs import read_char_blob
-from chardata.data_versions import (current_data_version, patch_key, patch_of,
-                                    patch_started)
+from chardata.data_versions import (current_data_version, patch_in_force, patch_key,
+                                    patch_of, patch_started)
 from chardata.models import Char, SolutionGeneration
 from chardata.tests import _pulp_solver_available
 from fashionistapulp.game_versions import version_keys
@@ -277,12 +277,33 @@ class PatchNumbersTests(SimpleTestCase):
                 self.assertIsNotNone(started)
                 self.assertLessEqual(started, today)
 
-    def test_each_start_day_belongs_to_the_current_label(self):
+    def test_each_timeline_ends_on_the_current_label(self):
         import fashionista_version
         for key in version_keys():
             with self.subTest(version=key):
                 self.assertEqual(patch_of(current_data_version(key)),
-                                 fashionista_version.PATCH_STARTED[key][0])
+                                 fashionista_version.PATCH_TIMELINE[key][-1][1])
+
+    def test_each_timeline_is_sorted_by_day_and_by_patch(self):
+        import fashionista_version
+        for key, entries in fashionista_version.PATCH_TIMELINE.items():
+            with self.subTest(version=key):
+                days = [date.fromisoformat(day) for day, _patch in entries]
+                self.assertEqual(sorted(set(days)), days)
+                keys = [patch_key(patch) for _day, patch in entries]
+                self.assertEqual(sorted(set(keys)), keys)
+
+    def test_the_dofus3_timeline_reaches_back_to_the_dofus_2_updates(self):
+        self.assertEqual('2.18', patch_in_force(
+            'dofus3', datetime(2014, 3, 1, tzinfo=utc_zone.utc)))
+        self.assertEqual('2.68', patch_in_force(
+            'dofus3', datetime(2023, 9, 1, tzinfo=utc_zone.utc)))
+        self.assertEqual('2.69', patch_in_force(
+            'dofus3', datetime(2023, 9, 28, tzinfo=utc_zone.utc)))
+        self.assertIsNone(patch_in_force(
+            'dofus3', datetime(2014, 1, 1, tzinfo=utc_zone.utc)))
+        self.assertIsNone(patch_in_force(
+            'wakfu', datetime(2026, 1, 1, tzinfo=utc_zone.utc)))
 
 
 class ThePipelineMovesThePatchDayTests(SimpleTestCase):
@@ -317,9 +338,9 @@ class ThePipelineMovesThePatchDayTests(SimpleTestCase):
                 parts[-1] = str(int(parts[-1]) + 1)
                 written = self._run(script, setter, '.'.join(parts))
                 self.assertEqual('.'.join(parts), written[constant])
-                self.assertEqual(ours.PATCH_STARTED, written['PATCH_STARTED'])
+                self.assertEqual(ours.PATCH_TIMELINE, written['PATCH_TIMELINE'])
 
-    def test_a_new_patch_starts_today(self):
+    def test_a_new_patch_is_appended_to_the_timeline_today(self):
         import fashionista_version as ours
         for script, setter, constant, key in self.SCRIPTS:
             with self.subTest(script=script):
@@ -329,11 +350,14 @@ class ThePipelineMovesThePatchDayTests(SimpleTestCase):
                 written = self._run(script, setter, '.'.join(parts))
                 after = datetime.now(utc_zone.utc).date().isoformat()
                 self.assertEqual('.'.join(parts), written[constant])
-                self.assertEqual('.'.join(parts[:2]), written['PATCH_STARTED'][key][0])
-                self.assertIn(written['PATCH_STARTED'][key][1], {before, after})
-                others = dict(written['PATCH_STARTED'])
+                timeline = written['PATCH_TIMELINE']
+                self.assertEqual(ours.PATCH_TIMELINE[key], timeline[key][:-1])
+                day, patch = timeline[key][-1]
+                self.assertEqual('.'.join(parts[:2]), patch)
+                self.assertIn(day, {before, after})
+                others = dict(timeline)
                 del others[key]
-                expected = dict(ours.PATCH_STARTED)
+                expected = dict(ours.PATCH_TIMELINE)
                 del expected[key]
                 self.assertEqual(expected, others)
 

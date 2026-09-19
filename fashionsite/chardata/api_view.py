@@ -9,7 +9,7 @@
 
 from django.db.models import Count, Case, When, F, IntegerField, Value
 from chardata.build_name import display_name
-from chardata.data_versions import patch_of
+from chardata.data_versions import build_patch_info
 from chardata.util import shared_build_path
 from django.db.models.functions import Least
 from django.http import HttpResponse, JsonResponse
@@ -62,9 +62,11 @@ def _creator(char, alias_map):
     return alias_map.get(char.owner_id) or (char.owner.username if char.owner else None)
 
 
-def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
+def _build_payload(char, alias_map, tags_by_char=None, include_tags=True,
+                   has_solution=None):
     """One shared build, as all three endpoints render it."""
     encoded = encode_char_id(int(char.id))
+    patches = build_patch_info(char, has_solution=has_solution)
     payload = {
         'id': encoded,
         # Never empty, consumers print it as is
@@ -81,7 +83,10 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
         'modified_at': char.modified_time.isoformat() if char.modified_time else None,
         'created_version': char.created_version or None,
         'solved_version': char.solved_version or None,
-        'solved_patch': patch_of(char.solved_version),
+        'created_patch': patches['created_patch'],
+        'created_patch_estimated': patches['created_estimated'],
+        'solved_patch': patches['solved_patch'],
+        'solved_patch_estimated': patches['solved_estimated'],
     }
     # Canonical address, not the request host
     payload['url'] = SITE_URL + shared_build_path(char)
@@ -235,7 +240,7 @@ def api_tier_list(request):
               .only('id', 'name', 'char_name', 'char_class', 'level',
                     'game_version', 'view_count', 'created_time',
                     'modified_time', 'created_version', 'solved_version',
-                    'owner', 'owner__username')
+                    'solved_time', 'owner', 'owner__username')
               .order_by('-score', '-id'))
 
     wanted = {cls: min(top_n, n) for cls, n in counts.items()}
@@ -260,7 +265,8 @@ def api_tier_list(request):
     for cls, rows in picked.items():
         top = []
         for row in rows:
-            payload = _build_payload(row, alias_map, include_tags=False)
+            payload = _build_payload(row, alias_map, include_tags=False,
+                                     has_solution=True)
             payload['score'] = row.score
             top.append(payload)
         sections.append({'char_class': cls, 'count': counts.get(cls, len(rows)),

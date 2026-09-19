@@ -220,12 +220,12 @@ def read_update_list(key):
 
 
 def our_patches():
-    """{key: (label patch, PATCH_STARTED patch)} for the versions with an update list."""
+    """{key: (label patch, last PATCH_TIMELINE patch)} for the versions with an update list."""
     import fashionista_version as ours
     labels = {'dofus3': ours.FASHIONISTA_VERSION,
               'retro': ours.FASHIONISTA_RETRO_VERSION,
               'touch': ours.FASHIONISTA_TOUCH_VERSION}
-    return {key: ('.'.join(label.split('.')[:2]), ours.PATCH_STARTED[key][0])
+    return {key: ('.'.join(label.split('.')[:2]), ours.PATCH_TIMELINE[key][-1][1])
             for key, label in labels.items()}
 
 
@@ -256,10 +256,10 @@ def report_updates(newest, where=None):
         flagged.append(('%s update' % key, newest[key]))
         if key == 'dofus3':
             print('  update_data.py --version <tag> moves the label and '
-                  'PATCH_STARTED once dofusdude publishes the tag')
+                  'PATCH_TIMELINE once dofusdude publishes the tag')
         else:
             print('  re-scrape with update_data_%s.py, then set its label and '
-                  'PATCH_STARTED by hand' % key)
+                  'PATCH_TIMELINE by hand' % key)
     return flagged
 
 

@@ -361,6 +361,11 @@
     background-color: rgba(128, 128, 128, 0.16);
 }
 
+.build-patch-badge-estimated {
+    opacity: 0.7;
+    cursor: help;
+}
+
 .no-builds {
     text-align: center;
     padding: 40px;
