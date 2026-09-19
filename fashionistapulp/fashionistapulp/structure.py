@@ -730,6 +730,7 @@ class Structure:
             item_name, w = self._get_item_name_and_weapon_by_id(item_id)
             w.weapon_type = weapon_type
                 
+        rate = get_game_version(self.game_version).weapon_element_rate
         # By key: the name index only holds the first weapon under each name.
         for weapon_name, w in itertools.chain(iter(self.weapons_by_key.items()),
                                               iter(self.dt_weapons_by_key.items())):
@@ -758,13 +759,13 @@ class Structure:
                 if w.has_crits:
                     w.crit_base_hit.append(_with_crit_bonus(hit, w.crit_bonus))
 
-            w.is_mageable = any([hit.element == NEUTRAL and not hit.steals
+            w.is_mageable = any([self._takes_element_potion(hit)
                                  for hit in w.base_hit])
 
             if w.is_mageable:
-                w.maged_hit = [DamageDigest(int((hit.min_dam - 1) * 0.85 + 1),
-                                            int((hit.min_dam - 1) * 0.85)
-                                            + int((hit.max_dam - hit.min_dam + 1) * 0.85),
+                w.maged_hit = [DamageDigest(int((hit.min_dam - 1) * rate + 1),
+                                            int((hit.min_dam - 1) * rate)
+                                            + int((hit.max_dam - hit.min_dam + 1) * rate),
                                             hit.element,
                                             hit.steals,
                                             hit.heals) for hit in w.base_hit]
@@ -798,10 +799,15 @@ class Structure:
                 result[element_maged] = non_maged_hits
         return result
 
+    def _takes_element_potion(self, hit):
+        return (hit.element == NEUTRAL and not hit.steals
+                and (not hit.heals
+                     or get_game_version(self.game_version).element_potion_heals))
+
     def mage(self, base_hits, crit_base_hits, element_maged):
         result = []
         for base_hit, maged_hit in zip(base_hits, crit_base_hits):
-            if (base_hit.element == NEUTRAL and not base_hit.steals
+            if (self._takes_element_potion(base_hit)
                 and element_maged != NEUTRAL):
                 hit = maged_hit
                 element = element_maged
