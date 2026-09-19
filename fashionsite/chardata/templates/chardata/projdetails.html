@@ -5,11 +5,7 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% comment %}
-Le mot-cle en tete : Google tronque les titres, et cette page sort en sixieme
-position sur "dofus set builder" avec 217 impressions par mois pour sept clics.
-Elle s'y annoncait "Project Details".
-{% endcomment %}
+{# Keyword first, Google truncates the title #}
 {% block title %}{% trans "Dofus Set Builder" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% blocktrans %}Tell the optimizer your class, your level and what you want from your set. It picks the gear for you, on every version of Dofus. No account needed to try.{% endblocktrans %}{% endblock %}
 
@@ -96,11 +92,7 @@ Elle s'y annoncait "Project Details".
             </div>
             {% endif %}
 
-            {% comment %}L'interrupteur est MONTRE et coche, il n'est pas
-            cache derriere un reglage: un build qui devient visible doit
-            l'annoncer avant, pas apres. Il n'apparait pas pour un visiteur
-            sans compte, parce que rien n'est publie dans ce cas et qu'une
-            case a cocher sans effet serait un mensonge poli.{% endcomment %}
+            {# The switch is shown and ticked; hidden for a visitor without an account #}
             {% if user.is_authenticated %}
             <div id="publish-choice" style="margin-bottom: 10px;">
                 <input type="hidden" name="publish_choice" value="1">

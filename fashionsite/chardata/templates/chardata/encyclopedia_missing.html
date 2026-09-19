@@ -7,11 +7,7 @@
 
 {% block meta_description %}{{ missing.message }}{% endblock %}
 
-{% comment %}Pas de canonique vers le carrefour : sur une page qui repond
-404, il dirait que cette adresse est un doublon de l'encyclopedie, ce
-qui est faux et consoliderait vers elle une page qui doit simplement
-disparaitre. Celui de base.html pointe sur l'adresse demandee, ce qui
-est la seule chose vraie ici.{% endcomment %}
+{# No canonical to the hub on a 404 #}
 
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
@@ -31,13 +27,7 @@ est la seule chose vraie ici.{% endcomment %}
         <h1>{{ missing.title }}</h1>
         <p>{{ missing.message }}</p>
         <div class="encyclopedia-missing-meta">{{ missing.name }} - {{ missing.version_label }}</div>
-        {% comment %}Les versions qui PORTENT l'entite, avant le retour au
-        carrefour: c'est la reponse a la question que le lecteur se pose sur
-        cette page. La liste vient de la meme recherche que les liens de
-        version d'une vraie fiche, avec la meme regle d'identite (le nom
-        anglais tranche, jamais l'identifiant seul), et quand les candidats se
-        contredisent, rien n'est propose: un lien faux sous ce libelle serait
-        pire qu'aucun.{% endcomment %}
+        {# The versions that carry the entity, found like a real page's version links #}
         {% if missing.elsewhere %}
         <div class="encyclopedia-missing-elsewhere">
             <span class="encyclopedia-missing-elsewhere-label">{{ missing.elsewhere_label }}</span>

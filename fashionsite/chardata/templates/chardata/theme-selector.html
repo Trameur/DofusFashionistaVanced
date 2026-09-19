@@ -1,13 +1,6 @@
 {% load i18n %}
 {% load static_s3 %}
-{% comment %}
-Les quatre commandes etaient des <div> portant un .click() jQuery : aucune
-n'etait atteignable au clavier, pas plus celle qui ouvre le menu que les trois
-qui choisissent. Ce sont des <button> depuis. Les classes portent tout le
-style, donc l'apparence ne bouge pas ; seules la police, la couleur et
-l'empilement doivent etre rendus a la main, un bouton n'heritant ni des deux
-premieres ni ne s'empilant comme un bloc.
-{% endcomment %}
+{# Buttons, reachable from the keyboard; the classes carry the style #}
 <div class="base-theme-selector-div" id="theme-div">
         <button type="button" class='auto-current current-theme'
                 aria-haspopup="true" aria-expanded="false"> {% trans "Theme" %} </button>

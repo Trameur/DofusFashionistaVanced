@@ -65,15 +65,11 @@
         <form method="post" id="coaching_form">
             {% csrf_token %}
             {% if included_item %}
-            {% comment %}Arrive d'une fiche de l'encyclopedie: l'objet sera
-            verrouille dans le build, et la liste des niveaux commence au
-            sien, un objet ne se porte pas en dessous.{% endcomment %}
+            {# From an item page: the item is locked and the level list starts at its own #}
             <p class="coaching-intro" id="coaching-included-item">{% blocktrans with item=included_item.name level=included_item.level %}This build will keep {{ item }} (level {{ level }}): the solver fills the other slots around it.{% endblocktrans %}</p>
             <input type="hidden" name="item" value="{{ included_item.id }}">
             {% elif included_set %}
-            {% comment %}Arrive de la page d'une panoplie: chaque piece
-            sera verrouillee dans son emplacement, et les niveaux commencent
-            a la piece la plus haute.{% endcomment %}
+            {# From a set page: every piece locked in its slot, levels start at the highest piece #}
             <p class="coaching-intro" id="coaching-included-set">{% blocktrans with set=included_set.name count_pieces=included_set.count level=included_set.level %}This build will keep the {{ count_pieces }} pieces of {{ set }} (level {{ level }}): the solver fills the other slots around them.{% endblocktrans %}</p>
             <input type="hidden" name="set" value="{{ included_set.id }}">
             {% endif %}
@@ -111,18 +107,7 @@
             </div>
         </form>
 
-        {% comment %}The headline never says "AI", on purpose. A badge reading
-        "0 AI - 0 LLM" was drawn first and dropped: it is cold, it reads like a
-        campaign slogan, and it walks straight into the trap of becoming the
-        anti-AI site. A line that does not name the thing cannot be read as
-        being against it, and the joke does the work instead.
-
-        The line under it says "not a language model" rather than "no AI",
-        because that one has to survive a reader who opens the network tab: the
-        optional inventory screenshot reader pulls tesseract.js into their own
-        browser. Nothing in THIS path has a model of any kind, and nothing in
-        the repository calls one at all: nl_parser imports re and unicodedata
-        and stops there.{% endcomment %}
+        {# The headline does not name AI on purpose #}
         <p class="solver-headline">{% trans "No magic. Just a lot of math." %}</p>
         <p class="solver-note">{% trans "Mathematical optimization, not a language model. The solver compares real Dofus items against your criteria." %}</p>
 

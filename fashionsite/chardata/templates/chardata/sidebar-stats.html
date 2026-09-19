@@ -1,26 +1,11 @@
 {% load i18n %}
-{% comment %}Le nom s'accorde avec le nombre. Il etait fige au pluriel, et le
-compteur affichait <<1 joueurs>>, <<1 personnages crees>>, <<1 reponses du
-solveur>>: faux dans quatre des cinq langues des qu'un compte vaut un, et
-l'allemand n'y echappait que sur <<Spieler>>, qui est invariant. Le nombre
-reste dans sa balise, formate avec ses separateurs de milliers, et seul le nom
-passe par le pluriel, qui a besoin de l'entier.{% endcomment %}
 <div class="sidebar-stats">
     <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ stat_users }}</span> {% blocktrans count n=stat_users_n %}user{% plural %}users{% endblocktrans %}</div>
     {% for v in stat_per_version %}
     <div class="sidebar-stats-version">
         <div class="sidebar-stats-version-name">{{ v.label }}</div>
         <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.characters }}</span> {% blocktrans count n=v.characters_n %}character created{% plural %}characters created{% endblocktrans %}</div>
-        {% comment %}Le nombre est la somme des `get_count` de SolutionCounter,
-        et DatabaseSolutionMemory.get l'incremente AVANT de regarder la
-        memoire: une reponse servie depuis la memoire, sans faire tourner le
-        solveur, compte aussi. <<solver runs>> disait donc plus que le
-        chiffre. Une reponse de la memoire est bien une reponse du solveur,
-        calculee une premiere fois pour la meme demande, donc <<reponses du
-        solveur>> est vrai dans les deux cas. Le nombre n'a pas change: il
-        est cumule depuis 2016 et le remplacer par les seuls calculs
-        effectifs, comptes seulement depuis SolutionMemoryHits, effacerait
-        l'histoire du site.{% endcomment %}
+        {# Sum of SolutionCounter.get_count; a memoized answer counts too #}
         <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.solver_runs }}</span> {% blocktrans count n=v.solver_runs_n %}solver answer{% plural %}solver answers{% endblocktrans %}</div>
         <div class="sidebar-stats-row"><span class="sidebar-stats-value">{{ v.shared_builds }}</span> {% blocktrans count n=v.shared_builds_n %}shared build{% plural %}shared builds{% endblocktrans %}</div>
     </div>

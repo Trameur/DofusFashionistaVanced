@@ -88,10 +88,7 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
             {% for ver in other_versions %}<a href="{{ ver.url }}">{{ ver.label }} ({{ ver.item_count }})</a>{% if not forloop.last %} | {% endif %}{% endfor %}
         </div>
         {% endif %}
-        {% comment %}Comme la fiche d'objet (section 28 du plan): la page
-        d'une panoplie menait partout sauf au solveur. Le demarrage rapide de
-        la meme version verrouille chaque piece dans son emplacement.
-        {% endcomment %}
+        {# Quick start of the same version, every piece locked in its slot #}
         {% if set_items %}
         <div class="encyclopedia-item-meta encyclopedia-build-around"><a class="button-thin" id="encyclopedia-build-around-set" href="{% game_url 'quickstart' %}?set={{ set_id }}">{{ t.build_around_set_label }}</a></div>
         {% endif %}

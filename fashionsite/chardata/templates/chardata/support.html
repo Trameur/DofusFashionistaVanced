@@ -32,17 +32,6 @@
         <p class="support-intro">
             {% trans "Dofus Fashionista is free and always will be: the optimizer, sharing and encyclopedia stay open to everyone. If the tool saves you time and kamas, here are a few ways to give back." %}
         </p>
-        {% comment %}
-        Le cadrage vient de ce que font les outils comparables : DofusLab, meme
-        jeu, ne donne rien a ses donateurs et demande simplement de l'aider a
-        rester sans publicite. L'absence de publicite n'est financee par
-        personne : elle sort de la poche du proprietaire, qui paie le serveur
-        depuis 2023 contre un seul don recu. Ne pas ecrire que les dons paient
-        le serveur, ce serait faux. Aucun chiffre ici non plus : le montant que
-        la publicite rapporterait ne regarde pas le lecteur.
-        La phrase sur l'absence de publicite est conditionnee a ads_allowed,
-        pour qu'elle cesse d'etre affirmee le jour ou la publicite revient.
-        {% endcomment %}
         <p class="support-intro">
             {% if not ads_allowed %}
             {% trans "There is no advertising on the site, and I would like to keep it that way. I pay for the server myself and build this in my spare time." %}
@@ -55,8 +44,7 @@
         <div class="support-section-title">{% trans "Donate" %}</div>
         <div class="support-donate-links">
             {% for link in support_links %}
-            {% comment %}Passe par /out/donate/ pour que le clic soit compte ; la
-            destination vient des reglages, jamais de l'URL.{% endcomment %}
+            {# Through /out/donate/ so the click is counted; the destination comes from settings #}
             <a class="support-donate-link" href="/out/donate/{{ forloop.counter0 }}/?from=support" target="_blank" rel="nofollow noopener noreferrer">
                 {{ link.label }}
             </a>

@@ -64,9 +64,7 @@
         <div class="workshop-ingredients" id="workshop_ingredients">
             <h2>{% trans "Total ingredients needed" %}</h2>
             <p class="workshop-ingredients-meta" id="ingredients_meta">
-                {% comment %}La phrase vient du serveur, comme celle du
-                rafraichissement: Django accorde selon la langue et le francais
-                met le singulier a zero. Une seule regle, un seul endroit.{% endcomment %}
+                {# The server words the count, Django pluralises per language #}
                 {{ ingredients_meta }}
             </p>
             <ul class="ingredient-list" id="ingredient_list">
