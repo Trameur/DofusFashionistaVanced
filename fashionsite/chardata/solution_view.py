@@ -45,6 +45,7 @@ from chardata.lock_forbid import (set_excluded,
                                   get_all_exclusions_en_names,
                                   get_empty_slots, set_empty_slot)
 from chardata.comment_view import get_comments_for_build
+from chardata.data_versions import build_patch_info
 from chardata.model_wrappers import WrappedChar
 from chardata.models import Char, BuildVote, BuildView, SolutionGeneration
 from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
@@ -810,6 +811,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
 
     params.update(vote_data)
     params.update(solution_params)
+    params['build_patch'] = build_patch_info(
+        char, generation, from_solver=solution_params.get('is_generated', False))
 
     if not is_guest:
         from chardata.inventory_solver import get_effective_stat_overrides

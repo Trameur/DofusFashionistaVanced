@@ -7615,3 +7615,23 @@ msgstr ""
 #: chardata/templates/chardata/shared_builds.html
 msgid "Builds by class"
 msgstr "Builds por clase"
+
+#: chardata/templates/chardata/solution.html
+#, python-format
+msgid "Created on %(patch)s"
+msgstr "Creado en la %(patch)s"
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#, python-format
+msgid "Solved on %(patch)s"
+msgstr "Calculado en la %(patch)s"
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#, python-format
+msgid "Solved before %(patch)s"
+msgstr "Calculado antes de la %(patch)s"
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#, python-format
+msgid "Solved before update %(patch)s: the best set may have changed since."
+msgstr "Calculado antes de la actualización %(patch)s: el mejor set puede haber cambiado desde entonces."

@@ -30,6 +30,7 @@ import pickle
 
 from chardata.translation_util import (LOCALIZED_CHARACTER_CLASSES,
                                        localized_stat_name)
+from chardata.data_versions import build_patch_info
 from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
 from chardata.official_site import _slugify_name
 from chardata.version_compat import class_exists_in_version
@@ -161,6 +162,7 @@ def _get_shared_build_meta(char):
         'public_score': 0,
         # True proven optimum, False stopped at the time limit, None unknown
         'solver_proven': None,
+        'from_solver': False,
         'preview_items': [],
         'compact_stats': [],
         'acquisition_summary': '',
@@ -189,9 +191,11 @@ def _get_shared_build_meta(char):
 
         item_per_slot = getattr(minimal_solution, 'item_per_slot', {}) or {}
         meta['solver_proven'] = getattr(minimal_solution, 'proven', None)
+        solved_input = getattr(minimal_solution, 'input', None) or {}
+        meta['from_solver'] = (
+            solved_input.get('origin', 'generated') == 'generated')
         # TemporiX builds go past 12 AP and 6 MP
-        solved_options = (getattr(minimal_solution, 'input', None) or {}).get(
-            'options') or {}
+        solved_options = solved_input.get('options') or {}
         meta['temporix'] = bool(solved_options.get('temporix'))
         meta['preview_items'] = _get_preview_items(
             minimal_solution, structure, game_version)
@@ -618,6 +622,9 @@ def _gallery(request, forced_class=None):
             # .get: older cached metas don't have this key
             'solver_proven': build_meta.get('solver_proven'),
             'temporix': build_meta.get('temporix', False),
+            # The meta cache key does not follow the data version
+            'patch': build_patch_info(
+                char, from_solver=build_meta.get('from_solver', False)),
             'preview_items': build_meta['preview_items'],
             'compact_stats': build_meta['compact_stats'],
             'acquisition_summary': build_meta.get('acquisition_summary', ''),

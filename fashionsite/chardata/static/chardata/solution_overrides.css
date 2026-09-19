@@ -136,6 +136,18 @@
     font-size: 0.9em;
     opacity: 0.8;
 }
+.char-banner-patch {
+    margin-top: 2px;
+    font-size: 0.8em;
+}
+.char-banner-patch-stale {
+    font-weight: bold;
+    white-space: nowrap;
+    cursor: help;
+}
+.char-banner-patch-rerun {
+    margin-left: 6px;
+}
 .char-banner-tags {
     margin-top: 6px;
     display: flex;

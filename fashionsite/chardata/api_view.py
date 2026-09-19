@@ -9,6 +9,7 @@
 
 from django.db.models import Count, Case, When, F, IntegerField, Value
 from chardata.build_name import display_name
+from chardata.data_versions import patch_of
 from chardata.util import shared_build_path
 from django.db.models.functions import Least
 from django.http import HttpResponse, JsonResponse
@@ -78,6 +79,9 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True):
         'view_count': char.view_count,
         'created_at': char.created_time.isoformat() if char.created_time else None,
         'modified_at': char.modified_time.isoformat() if char.modified_time else None,
+        'created_version': char.created_version or None,
+        'solved_version': char.solved_version or None,
+        'solved_patch': patch_of(char.solved_version),
     }
     # Canonical address, not the request host
     payload['url'] = SITE_URL + shared_build_path(char)
@@ -230,7 +234,8 @@ def api_tier_list(request):
               # owner__username or each creator costs a query
               .only('id', 'name', 'char_name', 'char_class', 'level',
                     'game_version', 'view_count', 'created_time',
-                    'modified_time', 'owner', 'owner__username')
+                    'modified_time', 'created_version', 'solved_version',
+                    'owner', 'owner__username')
               .order_by('-score', '-id'))
 
     wanted = {cls: min(top_n, n) for cls, n in counts.items()}
