@@ -72,12 +72,10 @@ def patch_in_force(game_version, moment):
 
 
 def last_change(char, generation=None):
-    """The snapshot's time, else the later of the last solve and the last save."""
+    """The snapshot's time, else when the stored set last changed."""
     if generation is not None:
         return generation.created_time
-    moments = [moment for moment in (char.solved_time, char.modified_time)
-               if moment is not None]
-    return max(moments) if moments else None
+    return char.stuff_time
 
 
 def build_patch_info(char, generation=None, has_solution=None):

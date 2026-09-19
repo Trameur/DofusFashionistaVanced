@@ -62,6 +62,8 @@ class Char(models.Model):
     created_version = models.CharField(max_length=20, blank=True, default='')
     solved_version = models.CharField(max_length=20, blank=True, default='')
     solved_time = models.DateTimeField(null=True, blank=True)
+    # When the stored set last changed; a plain save leaves it alone
+    stuff_time = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         # Shared-builds page filter, newest first

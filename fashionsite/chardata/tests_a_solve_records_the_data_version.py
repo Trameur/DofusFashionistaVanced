@@ -245,6 +245,7 @@ class AnImportIsNotASolveTests(TestCase):
         self.assertEqual(settings.SITE_VERSIONS['dofus3'], char.created_version)
         self.assertEqual('', char.solved_version)
         self.assertIsNone(char.solved_time)
+        self.assertIsNotNone(char.stuff_time)
         self.assertFalse(SolutionGeneration.objects.filter(char=char).exists())
 
 

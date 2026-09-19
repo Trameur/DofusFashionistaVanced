@@ -75,7 +75,8 @@ class _Featured(object):
                     owner=self.owner, link_shared=True, deleted=False,
                     game_version='dofus3', view_count=views,
                     solved_version=solved_version,
-                    solved_time=solved_time if solved_version else None)
+                    solved_time=solved_time if solved_version else None,
+                    stuff_time=solved_time)
         base.update(fields)
         return Char.objects.create(**base)
 
@@ -201,7 +202,7 @@ class TheHomeSectionReadsPopularTests(_Featured, TestCase):
         self.assertNotIn('Meilleurs builds', french)
 
     def _changed_on(self, char, when):
-        Char.objects.filter(pk=char.pk).update(solved_time=when, modified_time=when)
+        Char.objects.filter(pk=char.pk).update(solved_time=when, stuff_time=when)
 
     def test_each_card_shows_the_update_of_its_last_change(self):
         self._changed_on(self._shared('current', '3.7.0.4', views=2), LATE)
@@ -243,7 +244,7 @@ class TheHomeSectionReadsPopularTests(_Featured, TestCase):
 
 
 @override_settings(SITE_VERSIONS=dict(settings.SITE_VERSIONS, dofus3='3.6.11.15'))
-class ABuildUpdatedDuringTheCurrentUpdateCountsTests(_Featured, TestCase):
+class ABuildWhoseSetChangedDuringTheCurrentUpdateCountsTests(_Featured, TestCase):
 
     def setUp(self):
         super().setUp()
@@ -252,31 +253,38 @@ class ABuildUpdatedDuringTheCurrentUpdateCountsTests(_Featured, TestCase):
         patcher.start()
         self.addCleanup(patcher.stop)
 
-    def _left_on(self, name, when, views=50):
-        left = self._shared(name, '', views=views)
-        Char.objects.filter(pk=left.pk).update(modified_time=when)
-        return left
+    def _set_changed_on(self, name, when, views=50):
+        changed = self._shared(name, '', views=views)
+        Char.objects.filter(pk=changed.pk).update(stuff_time=when)
+        return changed
 
-    def test_an_unstamped_build_updated_since_the_update_started_is_current(self):
+    def test_an_unstamped_build_whose_set_changed_since_the_update_started_is_current(self):
         self._shared('previous', '3.5.17.26', views=50)
-        self._shared('updated', '', views=1)
-        self.assertEqual(['updated', 'previous'], self._featured())
+        self._shared('changed', '', views=1)
+        self.assertEqual(['changed', 'previous'], self._featured())
 
-    def test_an_unstamped_build_left_during_the_previous_update_completes_the_row(self):
+    def test_an_unstamped_build_changed_during_the_previous_update_completes_the_row(self):
         self._shared('current', '3.6.11.15', views=1)
-        self._left_on('previous', datetime(2026, 5, 1, 12, 0, tzinfo=utc_zone.utc))
-        self._left_on('lastday', datetime(2026, 6, 22, 23, 0, tzinfo=utc_zone.utc),
-                      views=40)
+        self._set_changed_on('previous', datetime(2026, 5, 1, 12, 0, tzinfo=utc_zone.utc))
+        self._set_changed_on('lastday', datetime(2026, 6, 22, 23, 0, tzinfo=utc_zone.utc),
+                             views=40)
         self.assertEqual(['current', 'previous', 'lastday'], self._featured())
 
-    def test_an_unstamped_build_left_before_the_previous_update_is_not_featured(self):
-        self._left_on('older', datetime(2026, 3, 4, 23, 0, tzinfo=utc_zone.utc))
+    def test_an_unstamped_build_changed_before_the_previous_update_is_not_featured(self):
+        self._set_changed_on('older', datetime(2026, 3, 4, 23, 0, tzinfo=utc_zone.utc))
         self.assertEqual([], self._featured())
 
+    def test_a_later_save_does_not_bring_an_unstamped_build_forward(self):
+        self._shared('current', '3.6.11.15', views=1)
+        saved = self._set_changed_on('saved', datetime(2026, 3, 4, 23, 0,
+                                                       tzinfo=utc_zone.utc))
+        self.assertGreater(Char.objects.get(pk=saved.pk).modified_time, LATE)
+        self.assertEqual(['current'], self._featured())
+
     def test_an_unstamped_card_shows_the_update_of_its_last_change(self):
-        self._shared('updated', '', views=2)
-        self._left_on('previous', datetime(2026, 5, 1, 12, 0, tzinfo=utc_zone.utc),
-                      views=1)
+        self._shared('changed', '', views=2)
+        self._set_changed_on('previous', datetime(2026, 5, 1, 12, 0, tzinfo=utc_zone.utc),
+                             views=1)
         page = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
         self.assertEqual(2, len(_cards(page)))
         self.assertEqual([('3.6', TITLE, False), ('3.5', OLDER_TITLE % '3.6', True)],

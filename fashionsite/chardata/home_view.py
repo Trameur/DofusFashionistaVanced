@@ -103,13 +103,13 @@ def _score_featured_builds(game_version):
     in_previous = Q(solved_version__in=previous)
     started = patch_started(game_version)
     if started is not None:
-        # Not stamped, but updated during the current update
-        in_current |= Q(solved_version='', modified_time__gte=datetime.combine(
+        # Not stamped, but its set changed during the current update
+        in_current |= Q(solved_version='', stuff_time__gte=datetime.combine(
             started, time.min, timezone.utc))
     window = previous_patch_window(game_version)
     if window is not None:
-        in_previous |= Q(solved_version='', modified_time__gte=window[0],
-                         modified_time__lt=window[1])
+        in_previous |= Q(solved_version='', stuff_time__gte=window[0],
+                         stuff_time__lt=window[1])
     ranked = (shared
               .filter(in_current | in_previous)
               .annotate(
@@ -127,7 +127,7 @@ def _score_featured_builds(game_version):
               .select_related('owner')
               .only('id', 'name', 'char_name', 'char_class', 'level',
                     'game_version', 'view_count', 'solved_version', 'solved_time',
-                    'modified_time', 'owner', 'owner__username')
+                    'stuff_time', 'owner', 'owner__username')
               .order_by('-tier', '-score', F('solved_time').desc(nulls_last=True),
                         '-id'))
     builds = list(ranked[:FEATURED_BUILDS_COUNT])

@@ -17,6 +17,7 @@
 from fashionistapulp.modelresult import model_result_from_minimal, ModelResultMinimal
 
 import pickle
+from django.utils import timezone
 from chardata.util import get_stats_and_scrolled
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.legacy_ids import repair_minimal_solution
@@ -86,6 +87,7 @@ def wears_something(solution):
 
 def set_minimal_solution(char, solution):
     char.minimal_solution = pickle.dumps(solution)
+    char.stuff_time = timezone.now()
     # Public by default: published the first time it is dressed, unless already chosen
     if char.auto_publish and not char.link_shared and wears_something(solution):
         char.link_shared = True

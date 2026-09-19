@@ -81,6 +81,7 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True,
         'view_count': char.view_count,
         'created_at': char.created_time.isoformat() if char.created_time else None,
         'modified_at': char.modified_time.isoformat() if char.modified_time else None,
+        'stuff_changed_at': char.stuff_time.isoformat() if char.stuff_time else None,
         'created_version': char.created_version or None,
         'solved_version': char.solved_version or None,
         'solved_patch': patches['patch'],
@@ -238,7 +239,7 @@ def api_tier_list(request):
               .only('id', 'name', 'char_name', 'char_class', 'level',
                     'game_version', 'view_count', 'created_time',
                     'modified_time', 'created_version', 'solved_version',
-                    'solved_time', 'owner', 'owner__username')
+                    'solved_time', 'stuff_time', 'owner', 'owner__username')
               .order_by('-score', '-id'))
 
     wanted = {cls: min(top_n, n) for cls, n in counts.items()}
