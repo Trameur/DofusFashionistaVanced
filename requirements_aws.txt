@@ -84,7 +84,7 @@ setools==4.4.1
 six==1.17.0
 social-auth-app-django==6.0.1
 social-auth-core==5.1.0
-soupsieve==2.8.4
+soupsieve==2.9.2
 sqlparse==0.6.0
 support-info==1.0
 tldextract==5.3.1

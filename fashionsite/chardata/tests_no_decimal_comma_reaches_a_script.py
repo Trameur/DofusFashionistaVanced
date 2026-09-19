@@ -51,7 +51,7 @@ _PAGES = ('/', '/about/', '/faq/', '/guides/', '/sharedbuilds/',
           '/license/', '/retro/', '/touch/', '/dofus2/', '/beta/',
           '/retro/forgemagie/')
 
-_SCRIPT = re.compile(r'<script\b[^>]*>(.*?)</script>', re.S | re.I)
+_SCRIPT = re.compile(r'<script\b[^>]*>(.*?)</script\b[^>]*>', re.S | re.I)
 
 #: Un nombre a virgule la ou JavaScript attend une valeur.
 _VIRGULE = re.compile(r'[=:([,]\s*(\d+,\d+)')
