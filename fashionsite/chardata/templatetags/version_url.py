@@ -48,6 +48,6 @@ def version_switch_href(context, version_key):
         if key is None and entry.get('label') == wanted_label:
             key = version_key
         if key == version_key and entry.get('url'):
-            url = entry['url']
-            return url if url.startswith(prefix) or not prefix else prefix + url
+            # The slug names the language, a prefixed entity address redirects
+            return entry['url']
     return prefix + version_prefix + '/encyclopedia/'

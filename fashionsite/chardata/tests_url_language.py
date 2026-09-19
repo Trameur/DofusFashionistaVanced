@@ -27,6 +27,7 @@ from fashionistapulp.game_versions import version_keys
 
 from chardata.url_language import (KEEP_LANGUAGE_PARAM, build_alternate_urls,
                                    explicit_user_language, language_from_slug,
+                                   language_from_stale_slug,
                                    mark_varies_on_cookie,
                                    redirect_target_for_user)
 
@@ -96,6 +97,42 @@ class LanguageFromSlugTest(TestCase):
         names = dict(TWIGGY_SWORD, pt=None)
         self.assertEqual(
             language_from_slug(names, 'twiggy-sword', normalise), 'en')
+
+
+class LanguageFromStaleSlugTest(TestCase):
+
+    BELTEEN = {'en': 'Belteen', 'fr': 'Ceintacé', 'es': 'Cintáceo',
+               'pt': 'Cintáceo', 'de': 'Orcürtel'}
+
+    def test_a_variant_number_is_read_past(self):
+        self.assertEqual(
+            language_from_stale_slug('belteen-1', normalise, self.BELTEEN), 'en')
+        self.assertEqual(
+            language_from_stale_slug('ceintace-1', normalise, self.BELTEEN), 'fr')
+
+    def test_stray_dashes_are_read_past(self):
+        self.assertEqual(
+            language_from_stale_slug('belteen-', normalise, self.BELTEEN), 'en')
+        self.assertEqual(
+            language_from_stale_slug('-ceintace--', normalise, self.BELTEEN), 'fr')
+
+    def test_a_name_ending_in_a_number_keeps_its_number(self):
+        names = {'en': 'Nomoon 2', 'fr': 'Nomoon'}
+        self.assertEqual(
+            language_from_stale_slug('nomoon-2', normalise, names), 'en')
+
+    def test_the_first_name_set_decides_before_the_next(self):
+        shown = {'en': 'Gelano', 'fr': 'Anneau Gelano'}
+        rows = {'en': 'Anneau Gelano', 'fr': 'Gelano (#1)'}
+        self.assertEqual(
+            language_from_stale_slug('anneau-gelano', normalise, shown, rows), 'fr')
+        self.assertEqual(
+            language_from_stale_slug('gelano-1', normalise, shown, rows), 'fr')
+
+    def test_an_unknown_slug_is_none(self):
+        self.assertIsNone(
+            language_from_stale_slug('not-a-real-item', normalise, self.BELTEEN))
+        self.assertIsNone(language_from_stale_slug(None, normalise, self.BELTEEN))
 
 
 class AlternateUrlsTest(TestCase):
@@ -338,10 +375,12 @@ class EncyclopediaItemPageTest(TestCase):
                          'the Spanish URL served %d different pages: %s'
                          % (len(titles), titles))
 
-    def test_unknown_slug_still_resolves_by_id(self):
-        # Old shared links carry stale slugs; they must keep working.
-        response = self._fetch('/encyclopedia/item/equipment/44-whatever-slug/')
-        self.assertEqual(response.status_code, 200)
+    def test_unknown_slug_moves_to_the_canonical_with_its_query(self):
+        response = self._fetch(
+            '/encyclopedia/item/equipment/44-whatever-slug/?ref=forum&page=2')
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response['Location'], self.EN + '?ref=forum&page=2')
+        self.assertEqual(self._fetch(response['Location']).status_code, 200)
 
 
 class LocalisedSlugPagesTest(TestCase):

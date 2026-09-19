@@ -27,9 +27,11 @@ from fashionistapulp.spell_text import fold_spell_blocks
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import SUPPORTED_LANGUAGES, get_supported_language
 
-from chardata.url_language import (build_alternate_urls, language_from_slug,
+from chardata.url_language import (build_alternate_urls,
+                                   language_from_stale_slug,
                                    mark_varies_on_cookie,
-                                   redirect_target_for_user)
+                                   redirect_target_for_user,
+                                   redirect_to_own_address)
 from chardata.stat_range import format_stat_range, get_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from chardata.translation_util import localized_stat_name, LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
@@ -1240,9 +1242,9 @@ def _versions_carrying(kind, current_version, language, slug=None,
                         candidates.append((game_version, item.name, {
                             'label': label,
                             'name': nom or item.name,
-                            'url': get_item_link(item.ankama_type, ankama_id,
-                                                 nom or item.name,
-                                                 game_version=game_version),
+                            'url': _item_page_link(game_version,
+                                                   item.ankama_type, ankama_id,
+                                                   nom or item.name, language),
                         }))
                         break
             elif kind == 'monster' and monster_id:
@@ -1501,7 +1503,37 @@ def _version_item_keys(game_version):
     return keys
 
 
-def _other_versions_with_item(current_version, ankama_type, ankama_id, name):
+_item_groups_cache = {}
+
+
+def _item_groups(structure):
+    """Rows of each item by group key, grouped as the item page groups them."""
+    key = id(structure)
+    groups = _item_groups_cache.get(key)
+    if groups is None:
+        groups = {}
+        for item in structure.get_concatenated_items_lists():
+            groups.setdefault(_get_item_group_key(item), []).append(item)
+        _item_groups_cache[key] = groups
+    return groups
+
+
+def _item_page_link(game_version, ankama_type, ankama_id, name, language):
+    """Address of an item page as that page names itself in `language`."""
+    if not ankama_type or not ankama_id:
+        return None
+    structure = get_structure(game_version)
+    group_key = ('ankama', ankama_type.strip().lower(), int(ankama_id))
+    variants = _item_groups(structure).get(group_key)
+    if variants:
+        name = _get_display_name_for_group(structure, variants, language) or name
+    with translation.override(language):
+        return get_item_link(ankama_type, ankama_id, name,
+                             game_version=game_version)
+
+
+def _other_versions_with_item(current_version, ankama_type, ankama_id, name,
+                              language=None):
     """Cross-version item links; only Dofus 3 and Beta share ids, so names must match."""
     if not ankama_type or not ankama_id:
         return []
@@ -1513,11 +1545,13 @@ def _other_versions_with_item(current_version, ankama_type, ankama_id, name):
             continue
         there = _version_item_keys(game_version).get((ankama_type, ankama_id))
         if is_same_item_name(here, there):
-            links.append({
-                'label': label,
-                'url': get_item_link(ankama_type, ankama_id, name,
-                                     game_version=game_version),
-            })
+            if language is None:
+                url = get_item_link(ankama_type, ankama_id, name,
+                                    game_version=game_version)
+            else:
+                url = _item_page_link(game_version, ankama_type, ankama_id,
+                                      name, language)
+            links.append({'label': label, 'url': url})
     return links
 
 
@@ -1554,7 +1588,21 @@ def _version_resource_keys(game_version):
     return keys
 
 
-def _other_versions_with_resource(current_version, subtype, ankama_id, name):
+_resource_names_by_key_cache = {}
+
+
+def _resource_names_by_key(game_version):
+    """(ankama_id, subtype) -> {language: name} for a version's ingredients."""
+    cached = _resource_names_by_key_cache.get(game_version)
+    if cached is None:
+        cached = {(entry['ankama_id'], entry['subtype']): entry['names']
+                  for entry in _get_resource_search_index(game_version)}
+        _resource_names_by_key_cache[game_version] = cached
+    return cached
+
+
+def _other_versions_with_resource(current_version, subtype, ankama_id, name,
+                                  language=None):
     """Cross-version resource links; ingredient ids collide, so names must match."""
     links = []
     here = _version_resource_keys(current_version).get((subtype, ankama_id))
@@ -1563,9 +1611,15 @@ def _other_versions_with_resource(current_version, subtype, ankama_id, name):
             continue
         there = _version_resource_keys(game_version).get((subtype, ankama_id))
         if is_same_item_name(here, there):
+            name_there = name
+            if language is not None:
+                names = _resource_names_by_key(game_version).get(
+                    (ankama_id, subtype)) or {}
+                name_there = names.get(language) or names.get('en') or name
             links.append({
                 'label': label,
-                'url': get_resource_link(subtype, ankama_id, name, game_version),
+                'url': get_resource_link(subtype, ankama_id, name_there,
+                                         game_version),
             })
     return links
 
@@ -2173,8 +2227,9 @@ def encyclopedia_set(request, set_id, slug=None):
     game_version = getattr(request, 'game_version', 'dofus3')
 
     # The slug names the language
-    url_language = language_from_slug(item_set.localized_names, slug,
-                                      _normalized_slug)
+    url_language = language_from_stale_slug(slug, _normalized_slug,
+                                            item_set.localized_names)
+    guessed_language = url_language is None
     if url_language is None:
         url_language = language
     elif url_language != language:
@@ -2184,6 +2239,11 @@ def encyclopedia_set(request, set_id, slug=None):
 
     set_name = (item_set.localized_names.get(language)
                 or item_set.localized_names.get('en') or item_set.name)
+    moved = redirect_to_own_address(
+        request, lambda: get_set_link(set_id, set_name, game_version=game_version),
+        language, guessed_language)
+    if moved is not None:
+        return moved
     canonical_path = get_set_link(set_id, set_name, game_version=game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/sets/')
     alternate_urls = build_alternate_urls(
@@ -2479,9 +2539,11 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                     break
 
     # Final fallback: support outdated IDs by matching slug + type aliases.
+    ambiguous_slug = False
     if matched_item is None:
         target_slug = _normalized_slug(slug)
         if target_slug:
+            slug_matches = []
             for item in structure.get_concatenated_items_lists():
                 item_type = (item.ankama_type or '').strip().lower()
                 if item_type not in target_types:
@@ -2493,9 +2555,12 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                     _normalized_slug(item.name),
                 }
                 if target_slug in item_slugs:
-                    matched_item = item
-                    if not item.removed:
-                        break
+                    slug_matches.append(item)
+            live_matches = [item for item in slug_matches if not item.removed]
+            if slug_matches:
+                matched_item = live_matches[0] if live_matches else slug_matches[-1]
+                ambiguous_slug = len({_get_item_group_key(item) for item
+                                      in live_matches or slug_matches}) > 1
 
     if matched_item is None:
         requested_name = _resolve_missing_item_name(
@@ -2505,21 +2570,6 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             elsewhere=_versions_carrying(
                 'item', game_version, language, slug=slug,
                 ankama_type=ankama_type, ankama_id=target_ankama_id))
-
-    # The slug names the language, crawlers send no Accept-Language
-    item_names_by_language = {
-        lang: structure.get_item_name_in_language(matched_item, lang)
-        for lang in SUPPORTED_LANGUAGES
-    }
-    url_language = language_from_slug(item_names_by_language, slug,
-                                      _normalized_slug)
-    if url_language is None:
-        # Unknown slug: keep the negotiated language
-        url_language = language
-    elif url_language != language:
-        translation.activate(url_language)
-        language = url_language
-        t = _ui_text()
 
     group_key = _get_item_group_key(matched_item)
     grouped_variants = [
@@ -2531,7 +2581,44 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
 
     representative_item = _get_group_representative(grouped_variants)
 
-    localized_name = _get_display_name_for_group(structure, grouped_variants, language)
+    # The slug names the language, crawlers send no Accept-Language
+    item_names_by_language = {
+        lang: structure.get_item_name_in_language(matched_item, lang)
+        for lang in SUPPORTED_LANGUAGES
+    }
+    display_names_by_language = {
+        lang: _get_display_name_for_group(structure, grouped_variants, lang)
+        for lang in SUPPORTED_LANGUAGES
+    }
+    variant_names_by_language = [
+        {lang: structure.get_item_name_in_language(variant, lang)
+         for lang in SUPPORTED_LANGUAGES}
+        for variant in grouped_variants
+    ]
+    url_language = language_from_stale_slug(
+        slug, _normalized_slug, display_names_by_language,
+        item_names_by_language, *variant_names_by_language)
+    guessed_language = url_language is None
+    if url_language is None:
+        # Unknown slug: keep the negotiated language
+        url_language = language
+    elif url_language != language:
+        translation.activate(url_language)
+        language = url_language
+        t = _ui_text()
+
+    localized_name = display_names_by_language[language]
+
+    if not ambiguous_slug:
+        moved = redirect_to_own_address(
+            request,
+            lambda: get_item_link(representative_item.ankama_type,
+                                  representative_item.ankama_id,
+                                  localized_name, game_version=game_version),
+            language, guessed_language)
+        if moved is not None:
+            return moved
+
     type_name = structure.get_type_name_by_id(representative_item.type)
     localized_type_name = _localized_label(type_name, language)
     # sets_dict first, id 1 is in both (touch Jellix Set, dofus3 Gobball Set)
@@ -2669,7 +2756,7 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
             'craft_job': extra_info['craft_job'],
             'other_versions': _other_versions_with_item(
                 game_version, representative_item.ankama_type,
-                representative_item.ankama_id, localized_name),
+                representative_item.ankama_id, localized_name, language),
             'similar_items': _get_similar_items(
                 structure, language, game_version, representative_item),
             'similar_items_label': t['similar_items_label'],
@@ -3004,7 +3091,7 @@ def _append_monster_drop(drop_groups, monster_id, name, rate, kind, ankama_id,
         }
 
 
-def _format_monster_drop_previews(drop_groups, game_version, limit=4):
+def _format_monster_drop_previews(drop_groups, game_version, language, limit=4):
     previews = {}
     for monster_id, grouped_drops in drop_groups.items():
         drops = []
@@ -3018,8 +3105,8 @@ def _format_monster_drop_previews(drop_groups, game_version, limit=4):
             if kind == 'resource':
                 url = get_resource_link(drop['subtype'], ankama_id, name, game_version)
             else:
-                url = get_item_link(drop['ankama_type'], ankama_id, name,
-                                    game_version=game_version)
+                url = _item_page_link(game_version, drop['ankama_type'],
+                                      ankama_id, name, language)
             drops.append({
                 'name': name,
                 'rate': drop['rate'],
@@ -3098,7 +3185,8 @@ def _get_monster_drop_previews(cursor, monster_ids, language, game_version, limi
                 drop_groups, monster_id, name, rate, 'item',
                 ankama_id, ankama_type=ankama_type)
 
-    return _format_monster_drop_previews(drop_groups, game_version, limit=limit)
+    return _format_monster_drop_previews(drop_groups, game_version, language,
+                                         limit=limit)
 
 
 def _build_monster_core(game_version):
@@ -3282,6 +3370,7 @@ def warm_caches():
     for game_version, _label in ACTIVE_GAME_VERSIONS:
         structure = get_structure(game_version)
         _get_light_core(structure)
+        _item_groups(structure)
         for language in SUPPORTED_LANGUAGES:
             _get_light_index(structure, language)
             _get_monster_index(game_version, language)
@@ -3598,6 +3687,7 @@ def encyclopedia_monster(request, monster_id, slug=None):
     monster_name = None
     monster_names_by_language = {}
     url_language = language
+    guessed_language = True
     resource_drops = []
     item_drops = []
     grades = []
@@ -3616,8 +3706,9 @@ def encyclopedia_monster(request, monster_id, slug=None):
         # The slug names the language
         monster_names_by_language = _get_monster_names_by_language(
             cursor, target_monster_id)
-        url_language = language_from_slug(monster_names_by_language, slug,
-                                          _normalized_slug)
+        url_language = language_from_stale_slug(slug, _normalized_slug,
+                                                monster_names_by_language)
+        guessed_language = url_language is None
         if url_language is None:
             url_language = language
         elif url_language != language:
@@ -3728,8 +3819,9 @@ def encyclopedia_monster(request, monster_id, slug=None):
                     'level': item_level,
                     'type_name': _localized_label(item_type_name, language),
                     'rate': rate,
-                    'url': get_item_link(item_ankama_type, item_ankama_id, localized_item_name,
-                                         game_version=game_version),
+                    'url': _item_page_link(game_version, item_ankama_type,
+                                           item_ankama_id, localized_item_name,
+                                           language),
                     'image_url': static(get_image_url(
                         item_type_name, item_name, game_version)),
                     'has_conditions': bool(conditions),
@@ -3743,6 +3835,13 @@ def encyclopedia_monster(request, monster_id, slug=None):
 
     if not resource_drops and not item_drops:
         return _monster_not_found_response(request, target_monster_id, slug, monster_name)
+
+    moved = redirect_to_own_address(
+        request, lambda: get_monster_link(target_monster_id, monster_name,
+                                          game_version),
+        language, guessed_language)
+    if moved is not None:
+        return moved
 
     monster_version_links = _get_monster_version_links(
         target_monster_id, game_version, language)
@@ -3809,6 +3908,7 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
     resource_name = None
     resource_names_by_language = {}
     url_language = language
+    guessed_language = True
     used_in = []
     drops = []
     conn = None
@@ -3835,8 +3935,9 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
             # The slug names the language
             resource_names_by_language = _get_resource_names_by_language(
                 cursor, target_ankama_id, subtype)
-            slug_language = language_from_slug(
-                resource_names_by_language, slug, _normalized_slug)
+            slug_language = language_from_stale_slug(
+                slug, _normalized_slug, resource_names_by_language)
+            guessed_language = slug_language is None
             if slug_language is not None and slug_language != language:
                 translation.activate(slug_language)
                 language = slug_language
@@ -3929,6 +4030,13 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
         return _resource_not_found_response(
             request, subtype, target_ankama_id, slug, current_name=resource_name)
 
+    moved = redirect_to_own_address(
+        request, lambda: get_resource_link(subtype, target_ankama_id,
+                                           resource_name, game_version),
+        language, guessed_language)
+    if moved is not None:
+        return moved
+
     canonical_path = get_resource_link(subtype, target_ankama_id, resource_name, game_version)
     canonical_url = 'https://dofusfashionista.gg' + (canonical_path or '/encyclopedia/')
     alternate_urls = build_alternate_urls(
@@ -3974,5 +4082,6 @@ def encyclopedia_resource(request, subtype, ankama_id, slug=None):
                 resource_name, kind_label, used_in),
             'drops': drops,
             'other_versions': _other_versions_with_resource(
-                game_version, subtype, target_ankama_id, resource_name),
+                game_version, subtype, target_ankama_id, resource_name,
+                language),
         })

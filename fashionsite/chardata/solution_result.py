@@ -40,7 +40,7 @@ from chardata.stat_range import format_stat_range
 from chardata.weapon_header import format_weapon_header, format_weapon_hit
 from static_s3.templatetags.static_s3 import static
 from .translation_util import LOCALIZED_ELEMENTS, LOCALIZED_WEAPON_TYPES
-from chardata.official_site import get_item_link, get_set_link
+from chardata.official_site import get_set_link
 
 
 class SolutionResult:
@@ -353,10 +353,13 @@ def evolve_result_item(result_item, r=None):
 
     result_item.file = static(get_image_url(result_item.type, result_item.name))
     if settings.EXPERIMENTS['ITEM_LINKS']:
-        result_item.link = get_item_link(result_item.ankama_type,
-                                         result_item.ankama_id,
-                                         result_item.localized_name,
-                                         game_version=get_current_game_version())
+        from chardata.encyclopedia_view import _item_page_link
+        from fashionistapulp.translation import get_supported_language
+        result_item.link = _item_page_link(get_current_game_version(),
+                                           result_item.ankama_type,
+                                           result_item.ankama_id,
+                                           result_item.localized_name,
+                                           get_supported_language())
 
 
 def attach_transcendence(result_item, weights):

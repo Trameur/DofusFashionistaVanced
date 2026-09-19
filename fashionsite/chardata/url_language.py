@@ -16,7 +16,10 @@
 
 """Page language from the URL slug or prefix instead of Accept-Language."""
 
+import re
+
 from django.conf import settings
+from django.http import HttpResponsePermanentRedirect
 from django.middleware.locale import LocaleMiddleware
 from django.utils import translation
 
@@ -24,6 +27,9 @@ from fashionistapulp.translation import SUPPORTED_LANGUAGES
 
 # Several languages can share a slug (untranslated proper nouns): English wins
 _TIE_BREAK_ORDER = ['en', 'fr', 'es', 'pt', 'de']
+
+# A variant row named "Belteen (#1)" slugifies to "belteen-1"
+_VARIANT_NUMBER = re.compile(r'-\d+$')
 
 # Query flag to open another language without being redirected back
 KEEP_LANGUAGE_PARAM = 'keeplang'
@@ -46,6 +52,38 @@ def language_from_slug(candidate_names, slug, normalise):
         if lang in matches:
             return lang
     return matches[0]
+
+
+def language_from_stale_slug(slug, normalise, *candidate_names):
+    """Language of a current or outdated slug, or None if none matches."""
+    current = normalise(slug or '')
+    forms = [current]
+    without_number = _VARIANT_NUMBER.sub('', current)
+    if without_number and without_number != current:
+        forms.append(without_number)
+    for form in forms:
+        for names in candidate_names:
+            language = language_from_slug(names, form, normalise)
+            if language is not None:
+                return language
+    return None
+
+
+def redirect_to_own_address(request, build_path, language, guessed_language):
+    """301 to the page's own address in this game version, or None if already there."""
+    if request.method not in ('GET', 'HEAD'):
+        return None
+    with translation.override(language):
+        target = build_path()
+    if not target or target == request.path:
+        return None
+    query = request.META.get('QUERY_STRING', '')
+    if query:
+        target = '%s?%s' % (target, query)
+    response = HttpResponsePermanentRedirect(target)
+    if guessed_language:
+        mark_varies_on_cookie(response)
+    return response
 
 
 def address_serves_language(candidate_names, language, normalise):

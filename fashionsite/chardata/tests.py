@@ -627,13 +627,13 @@ class PublicRouteSmokeTests(TestCase):
             encyclopedia_view._light_index_cache.clear()
 
     def test_item_page_renders_translated_dynamic_stats(self):
-        # Item 6988 (Sulik) has Reflects, translated through dynamic_translations
+        # Stalak Shield has Reflects, translated through dynamic_translations
         from django.utils import translation
         with translation.override('fr'):
             expected = translation.gettext('Reflects')
         self.assertNotEqual(expected, 'Reflects',
                             'the Reflects stat has no fr translation')
-        resp = self.client.get('/encyclopedia/item/equipment/6988-x/',
+        resp = self.client.get('/encyclopedia/item/equipment/18715-bouclier-du-stalak/',
                                headers={'accept-language': 'fr'})
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, expected)
@@ -689,7 +689,7 @@ class PublicRouteSmokeTests(TestCase):
         import html as html_module
         for version, prefix, ankama_id in (('dofus3', '', 44), ('retro', '/retro', 39)):
             resp = self.client.get('%s/encyclopedia/item/equipment/%d-x/'
-                                   % (prefix, ankama_id))
+                                   % (prefix, ankama_id), follow=True)
             with self.subTest(version=version):
                 self.assertEqual(resp.status_code, 200)
                 body = html_module.unescape(resp.content.decode('utf-8'))
@@ -708,13 +708,14 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_item_page_links_other_versions(self):
         # Twiggy Sword (44) is on dofus3, the beta and dofus2, not on touch.
-        block = self._other_versions_block('/encyclopedia/item/equipment/44-x/')
+        block = self._other_versions_block('/encyclopedia/item/equipment/44-twiggy-sword/')
         self.assertIn('/dofus2/encyclopedia/item/equipment/44-', block)
         self.assertIn('/beta/encyclopedia/item/equipment/44-', block)
         self.assertNotIn('/touch/', block)
         # Retro's 44 is the Powerful Twiggy Sword
         self.assertNotIn('/retro/', block)
-        block = self._other_versions_block('/dofus2/encyclopedia/item/equipment/44-x/')
+        block = self._other_versions_block(
+            '/dofus2/encyclopedia/item/equipment/44-twiggy-sword/')
         self.assertIn('"/encyclopedia/item/equipment/44-', block)
 
     def test_a_monster_or_ingredient_id_is_no_identity_either(self):
@@ -746,10 +747,10 @@ class PublicRouteSmokeTests(TestCase):
         self.assertFalse(is_same_item_name('Gelano', ''))
 
     def test_a_cross_version_link_survives_a_translated_page(self):
-        block = self._other_versions_block('/encyclopedia/item/equipment/44-x/')
+        block = self._other_versions_block('/encyclopedia/item/equipment/44-twiggy-sword/')
         self.assertIn('/dofus2/encyclopedia/item/equipment/44-', block)
         resp = self.client.get('/encyclopedia/item/equipment/44-x/',
-                               headers={'accept-language': 'fr'})
+                               headers={'accept-language': 'fr'}, follow=True)
         self.assertEqual(resp.status_code, 200)
         m = re.search(r'encyclopedia-other-versions.*?</div>',
                       resp.content.decode('utf-8'), re.S)
@@ -758,7 +759,7 @@ class PublicRouteSmokeTests(TestCase):
 
     def test_resource_page_links_other_versions(self):
         # Sesame Seed (resources/287) is a craft ingredient in every version.
-        resp = self.client.get('/encyclopedia/resource/resources/287-x/')
+        resp = self.client.get('/encyclopedia/resource/resources/287-sesame-seed/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
@@ -768,7 +769,7 @@ class PublicRouteSmokeTests(TestCase):
             self.assertIn('%s/encyclopedia/resource/resources/287-' % prefix,
                           block)
         # Strawberry (resources/381) is only used by dofus3-era recipes.
-        resp = self.client.get('/encyclopedia/resource/resources/381-x/')
+        resp = self.client.get('/encyclopedia/resource/resources/381-strawberry/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
@@ -777,7 +778,7 @@ class PublicRouteSmokeTests(TestCase):
         self.assertNotIn('/touch/', block)
         self.assertNotIn('/retro/', block)
         # dofus3 is the unprefixed URL.
-        resp = self.client.get('/retro/encyclopedia/resource/resources/287-x/')
+        resp = self.client.get('/retro/encyclopedia/resource/resources/287-sesame-seed/')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
         m = re.search(r'encyclopedia-other-versions.*?</div>', body, re.S)
@@ -845,7 +846,7 @@ class PublicRouteSmokeTests(TestCase):
                 self.assertIsNotNone(row, 'no recipe ingredients for ' + version)
                 ankama_id, subtype = row
                 resp = self.client.get('%s/encyclopedia/resource/%s/%d-x/'
-                                       % (prefix, subtype, ankama_id))
+                                       % (prefix, subtype, ankama_id), follow=True)
                 self.assertEqual(resp.status_code, 200)
                 self.assertContains(resp, '%s/%d-60-60.png' % (icon_dir, ankama_id))
 
@@ -897,7 +898,7 @@ class PublicRouteSmokeTests(TestCase):
                 side_effect=tracking_get_image_url):
             for path in ('/retro/encyclopedia/', item_url, resource_url, monster_url):
                 with self.subTest(path=path):
-                    resp = self.client.get(path)
+                    resp = self.client.get(path, follow=True)
                     self.assertEqual(resp.status_code, 200)
             encyclopedia_view._get_set_items(
                 structure, representative_set, 'en', 'retro')
@@ -1078,7 +1079,7 @@ console.log(JSON.stringify({
         if target is None:
             self.skipTest('no high-id duplicate variant in current data')
         resp = self.client.get('/encyclopedia/item/%s/%s-x/'
-                               % (target.ankama_type, target.ankama_id))
+                               % (target.ankama_type, target.ankama_id), follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertNotIn('when fed', resp.content.decode())
 
@@ -1183,7 +1184,7 @@ console.log(JSON.stringify({
                 break
         self.assertIsNotNone(target, 'no set item found in the structure')
         resp = self.client.get('/encyclopedia/item/%s/%s-x/'
-                               % (target.ankama_type, target.ankama_id))
+                               % (target.ankama_type, target.ankama_id), follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Set bonuses')
 
@@ -1195,7 +1196,7 @@ console.log(JSON.stringify({
         self.assertIsNotNone(item_set)
         self.assertTrue(item_set.max_caps, 'the capping set lost its caps')
 
-        response = self.client.get('/encyclopedia/set/%d/' % item_set.id)
+        response = self.client.get('/encyclopedia/set/%d/' % item_set.id, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Caps this set imposes')
         html = response.content.decode('utf-8')
@@ -1209,7 +1210,7 @@ console.log(JSON.stringify({
                       if getattr(s, 'bonus', None) and not getattr(s, 'max_caps', None)),
                      None)
         self.assertIsNotNone(plain, 'no capless set in the structure')
-        response = self.client.get('/encyclopedia/set/%d/' % plain.id)
+        response = self.client.get('/encyclopedia/set/%d/' % plain.id, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'Caps this set imposes')
 
@@ -1230,7 +1231,8 @@ console.log(JSON.stringify({
                 break
         if not it:
             self.skipTest('no Gobball item with a consistent back-link')
-        resp = self.client.get('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id))
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id),
+                               follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Gobball Set')
         self.assertNotContains(resp, 'Jellix Set')
@@ -1244,14 +1246,14 @@ console.log(JSON.stringify({
 
     def test_craft_line_shows_the_profession(self):
         # Twiggy Sword is a Smith recipe.
-        resp = self.client.get('/encyclopedia/item/equipment/44-x/')
+        resp = self.client.get('/encyclopedia/item/equipment/44-twiggy-sword/')
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Crafted by')
         self.assertContains(resp, 'Smith')
 
     def test_base_job_recipes_hide_the_craft_line(self):
         # Musamune is a Base (job 1) recipe, no profession learns it
-        resp = self.client.get('/encyclopedia/item/equipment/23590-x/')
+        resp = self.client.get('/encyclopedia/item/equipment/23590-x/', follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertNotContains(resp, 'Crafted by')
 
@@ -1389,8 +1391,8 @@ console.log(JSON.stringify({
         self.assertContains(resp, 'property="og:image"')  # set-specific social preview
         self.assertContains(resp, 'BreadcrumbList')
         legacy_resp = self.client.get('/encyclopedia/set/%s/' % target_id)
-        self.assertEqual(legacy_resp.status_code, 200)
-        self.assertContains(legacy_resp, 'https://dofusfashionista.gg%s' % set_url)
+        self.assertEqual(legacy_resp.status_code, 301)
+        self.assertEqual(legacy_resp['Location'], set_url)
 
     def test_encyclopedia_set_page_links_to_other_versions(self):
         from chardata.encyclopedia_view import _other_versions_with_set
@@ -1442,7 +1444,8 @@ console.log(JSON.stringify({
             if it:
                 break
         self.assertIsNotNone(it, 'no renderable set item found')
-        resp = self.client.get('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id))
+        resp = self.client.get('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id),
+                               follow=True)
         self.assertEqual(resp.status_code, 200)
         html = resp.content.decode('utf-8', 'replace')
         m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
@@ -1460,7 +1463,7 @@ console.log(JSON.stringify({
         for url in ('/encyclopedia/item/%s/%s-x/' % (it.ankama_type, it.ankama_id),
                     '/encyclopedia/set/%d/' % set_id,
                     '/encyclopedia/sets/'):
-            resp = self.client.get(url)
+            resp = self.client.get(url, follow=True)
             self.assertEqual(resp.status_code, 200, url)
             self.assertContains(resp, 'encyclopedia-crumbs', msg_prefix=url)
             self.assertContains(resp, 'aria-label="Breadcrumb"', msg_prefix=url)
@@ -1761,9 +1764,9 @@ class CanonicalUrlTests(TestCase):
         touch_set = touch.sets_dict.get(1) or touch.dt_sets_dict.get(1)
         self.assertIsNotNone(touch_set, 'touch set 1 missing')
         touch_set_name = touch_set.localized_names.get('en') or touch_set.name
-        self.assertEqual(self._canonical('/touch/encyclopedia/set/1/'),
-                         'https://dofusfashionista.gg%s'
-                         % get_set_link(1, touch_set_name, 'touch'))
+        touch_set_path = get_set_link(1, touch_set_name, 'touch')
+        self.assertEqual(self._canonical(touch_set_path),
+                         'https://dofusfashionista.gg%s' % touch_set_path)
         # An item whose Dofus 2 page differs (44 does not)
         from chardata.version_content import repeats_the_live_version
         s = get_structure('dofus2')
@@ -1776,8 +1779,10 @@ class CanonicalUrlTests(TestCase):
                 it = cand
                 break
         self.assertIsNotNone(it, 'no diverging dofus2 item found')
-        canon = self._canonical('/dofus2/encyclopedia/item/%s/%s-x/'
-                                % (it.ankama_type, it.ankama_id))
+        from chardata.official_site import get_item_link
+        canon = self._canonical(get_item_link(
+            it.ankama_type, it.ankama_id, s.get_item_name_in_language(it, 'en'),
+            'dofus2'))
         self.assertTrue(canon.startswith('https://dofusfashionista.gg/dofus2/encyclopedia/item/'),
                         msg=canon)
         self.assertIn('/dofus2/', canon)
@@ -7725,7 +7730,8 @@ class OrItemPageTests(TestCase):
             self.assertTrue(ankama_ids, 'no item carries an either-or condition')
             for ankama_id in ankama_ids:
                 resp = self.client.get(
-                    '%s/encyclopedia/item/equipment/%d-x/' % (prefix, ankama_id))
+                    '%s/encyclopedia/item/equipment/%d-x/' % (prefix, ankama_id),
+                    follow=True)
                 with self.subTest(version=version, ankama_id=ankama_id):
                     self.assertEqual(resp.status_code, 200)
                     self.assertNotContains(resp, '(#1)')
@@ -7938,7 +7944,7 @@ class MonsterWeakestElementTests(TestCase):
         # {# #} is single-line only, a multi-line one leaks into the page
         from chardata import encyclopedia_view
         real = self.client.get(
-            encyclopedia_view.get_monster_link(31, 'Tofu', 'dofus3')
+            encyclopedia_view.get_monster_link(31, 'Blue Larva', 'dofus3')
         ).content.decode('utf-8')
         self.assertNotIn('{#', real)
         self.assertRegex(real, r'<td>\s*90\s*</td>')
@@ -10288,7 +10294,7 @@ class FedPetPageTests(TestCase):
         prefix = '' if version == 'dofus3' else '/' + version
         response = self.client.get(
             '%s/encyclopedia/item/equipment/%d-x/' % (prefix, self.PET_ANKAMA_ID),
-            headers={'accept-language': language})
+            headers={'accept-language': language}, follow=True)
         self.assertEqual(200, response.status_code, version)
         return re.findall(r'<b>([^<]+)</b>', response.content.decode('utf-8'))
 
@@ -13519,7 +13525,8 @@ class EncyclopediaResourcePageTests(TestCase):
         resource = self._busiest_resource()
         self.assertIsNotNone(resource, 'expected at least one resource with a recipe')
         ankama_id, name = resource
-        resp = self.client.get('/encyclopedia/resource/resources/%d-x/' % ankama_id,
+        from chardata.official_site import get_resource_link
+        resp = self.client.get(get_resource_link('resources', ankama_id, name),
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         body = resp.content.decode('utf-8')
@@ -13646,7 +13653,8 @@ class EncyclopediaResourcePageTests(TestCase):
         if resource is None:
             self.skipTest('no resource_drops table/data in this build')
         ankama_id, name = resource
-        resp = self.client.get('/encyclopedia/resource/resources/%d-x/' % ankama_id,
+        from chardata.official_site import get_resource_link
+        resp = self.client.get(get_resource_link('resources', ankama_id, name),
                                HTTP_ACCEPT_LANGUAGE='en')
         self.assertEqual(resp.status_code, 200)
         self.assertIn('Dropped by', resp.content.decode('utf-8'))
@@ -14573,7 +14581,7 @@ class EncyclopediaMonsterPageTests(TestCase):
                       resource_resp.content.decode('utf-8'))
 
         item_resp = self.client.get('/retro/encyclopedia/item/equipment/2416-x/',
-                                    HTTP_ACCEPT_LANGUAGE='fr')
+                                    HTTP_ACCEPT_LANGUAGE='fr', follow=True)
         self.assertEqual(item_resp.status_code, 200)
         self.assertIn('/retro/encyclopedia/monster/101-',
                       item_resp.content.decode('utf-8'))
@@ -14704,7 +14712,7 @@ class StatRangeTests(TestCase):
                     'pt': '201 a 250', 'de': '201 bis 250'}
         for language, text in expected.items():
             resp = self.client.get('/encyclopedia/item/equipment/8699-x/',
-                                   HTTP_ACCEPT_LANGUAGE=language)
+                                   HTTP_ACCEPT_LANGUAGE=language, follow=True)
             self.assertEqual(resp.status_code, 200)
             with self.subTest(language=language):
                 self.assertContains(resp, text)
@@ -14719,7 +14727,7 @@ class StatRangeTests(TestCase):
         for version, (ankama_id, text) in expected.items():
             resp = self.client.get('%s/encyclopedia/item/equipment/%s-x/'
                                    % (prefixes[version], ankama_id),
-                                   HTTP_ACCEPT_LANGUAGE='fr')
+                                   HTTP_ACCEPT_LANGUAGE='fr', follow=True)
             with self.subTest(version=version):
                 self.assertEqual(resp.status_code, 200)
                 self.assertContains(resp, text)
@@ -14746,13 +14754,13 @@ class StatRangeTests(TestCase):
 
         # Vitality rolls 151 to 300 on this one
         resp = self.client.get('/retro/encyclopedia/item/equipment/2807-x/',
-                               HTTP_ACCEPT_LANGUAGE='fr')
+                               HTTP_ACCEPT_LANGUAGE='fr', follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, '151 à 300')
 
         # A fixed Strength still shows a bare number
         resp = self.client.get('/retro/encyclopedia/item/equipment/44-x/',
-                               HTTP_ACCEPT_LANGUAGE='fr')
+                               HTTP_ACCEPT_LANGUAGE='fr', follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Force')
 
@@ -16187,14 +16195,14 @@ class AdInventoryTests(TestCase):
                 body.count('fm-ad-rail-'))
 
     def test_an_item_page_carries_a_unit_the_reader_reaches(self):
-        body = self._page('/encyclopedia/item/equipment/6988-x/')
+        body = self._page('/encyclopedia/item/equipment/6988-sulik/')
         top = body.index("data-ad-slot=\"%s\"" % self.SLOTS['content_top'])
         bottom = body.index("data-ad-slot=\"%s\""
                             % self.SLOTS['encyclopedia_inline'])
         self.assertLess(top, bottom)
 
     def test_a_set_page_carries_units_at_all(self):
-        body = self._page('/encyclopedia/set/321-x/')
+        body = self._page('/encyclopedia/set/321-lost-set/')
         total, _waiting, rails = self._units(body)
         self.assertGreaterEqual(total - rails, 3)
         self.assertEqual(rails, 2)
@@ -16216,7 +16224,7 @@ class AdInventoryTests(TestCase):
     # /sharedbuilds/ is empty in the test db, so it is not in FILLED
     FILLED = ('/', '/encyclopedia/', '/encyclopedia/monsters/',
               '/encyclopedia/sets/', '/guides/',
-              '/encyclopedia/item/equipment/6988-x/')
+              '/encyclopedia/item/equipment/6988-sulik/')
 
     def test_the_page_ceiling_holds(self):
         from chardata.templatetags.ads import PAGE_CEILING
@@ -16239,7 +16247,7 @@ class AdInventoryTests(TestCase):
 
     def test_a_unit_below_the_fold_ships_without_its_ins(self):
         # push() binds to the first unprocessed <ins> in document order
-        body = self._page('/encyclopedia/item/equipment/6988-x/')
+        body = self._page('/encyclopedia/item/equipment/6988-sulik/')
         waiting = body.split('fm-ad-lazy"', 1)[1].split('</div>', 1)[0]
         self.assertNotIn('adsbygoogle', waiting)
         self.assertIn('data-ad-slot', waiting)
@@ -17381,12 +17389,14 @@ class MonsterSpellTests(TestCase):
             r'<meta content="([^"]*)" name="description"\s*/?>')
 
         with_spells = self.client.get(
-            '/encyclopedia/monster/%d-x/' % self.JELLY).content.decode('utf-8')
+            '/encyclopedia/monster/%d-x/' % self.JELLY,
+            follow=True).content.decode('utf-8')
         self.assertIn('id="monster-spells"', with_spells)
         self.assertIn('spells it casts', described.search(with_spells).group(1))
 
         without = self.client.get(
-            '/retro/encyclopedia/monster/%d-x/' % retro_id).content.decode('utf-8')
+            '/retro/encyclopedia/monster/%d-x/' % retro_id,
+            follow=True).content.decode('utf-8')
         self.assertNotIn('id="monster-spells"', without)
         self.assertNotIn('spell', described.search(without).group(1))
 
@@ -17400,7 +17410,8 @@ class MonsterSpellTests(TestCase):
                 "AND language = 'en'", (self.JELLY,)).fetchone()[0]
         finally:
             conn.close()
-        resp = self.client.get('/encyclopedia/monster/%d-x/' % self.JELLY)
+        from chardata.official_site import get_monster_link
+        resp = self.client.get(get_monster_link(self.JELLY, name))
         self.assertEqual(resp.status_code, 200)
         page = resp.content.decode('utf-8')
         self.assertIn(name, page)
@@ -22836,7 +22847,8 @@ class WeaponWithoutApTests(TestCase):
         for item_id in self.NO_AP_IDS:
             with self.subTest(item=item_id):
                 resp = self.client.get(
-                    '/retro/encyclopedia/item/equipment/%d-x/' % item_id)
+                    '/retro/encyclopedia/item/equipment/%d-x/' % item_id,
+                    follow=True)
                 self.assertEqual(resp.status_code, 200)
 
     def test_the_weapon_picker_survives_a_weapon_with_no_ap(self):
@@ -23704,7 +23716,7 @@ class SetAndResourcePagesAnswerTooTests(TestCase):
     thing. Together they are around 8 600 URLs.
     """
 
-    SET = '/encyclopedia/set/256/'
+    SET = '/encyclopedia/set/256-henual-set/'
     RESOURCE = '/encyclopedia/resource/resources/32079-dream-reflection/'
     ANCIENNE_SET = 'all the items in this Dofus set'
     ANCIENNE_RES = 'Find every item that uses this ingredient'
@@ -24108,10 +24120,9 @@ class ItemPopularityNeverPrintsSomethingFalseTests(TestCase):
         ItemPopularity.objects.create(ankama_id=26066, game_version='dofus3',
                                       builds=1, eligible=141969)
         rendu = self.client.get(
-            '/encyclopedia/item/equipment/26066-makabrafire-belt/',
+            '/encyclopedia/item/equipment/26066-nightmare-dofus/',
             HTTP_ACCEPT_LANGUAGE='en')
-        if rendu.status_code != 200:
-            self.skipTest('this catalogue has no item 26066')
+        self.assertEqual(rendu.status_code, 200)
         html = rendu.content.decode('utf-8', 'replace')
         bloc = re.search(r'class="encyclopedia-popularity">(.*?)</p>',
                          html, re.S)
