@@ -71,56 +71,26 @@ def patch_in_force(game_version, moment):
     return found
 
 
-def _solve_state(solved, current, last_solve_bound, game_version):
-    if current is None:
-        return None
-    if solved is not None:
-        if solved == current:
-            return 'current'
-        return 'older' if patch_key(solved) < patch_key(current) else None
-    started = patch_started(game_version)
-    if started is None or last_solve_bound is None:
-        return None
-    if last_solve_bound < _day_start(started):
-        return 'before'
-    return None
+def last_change(char, generation=None):
+    """The snapshot's time, else the later of the last solve and the last save."""
+    if generation is not None:
+        return generation.created_time
+    moments = [moment for moment in (char.solved_time, char.modified_time)
+               if moment is not None]
+    return max(moments) if moments else None
 
 
-def _recorded_or_estimated(version, game_version, moment):
-    patch = patch_of(version)
-    if patch is not None:
-        return patch, False
-    patch = patch_in_force(game_version, moment)
-    return patch, patch is not None
-
-
-def build_patch_info(char, generation=None, from_solver=True, has_solution=None):
+def build_patch_info(char, generation=None, has_solution=None):
     """has_solution says whether a set is stored, read from the char when None."""
     game_version = char.game_version
     current = patch_of(current_data_version(game_version))
-    created, created_estimated = _recorded_or_estimated(
-        char.created_version, game_version, char.created_time)
-    solved = state = None
-    solved_estimated = False
     if has_solution is None:
         has_solution = bool(char.minimal_solution)
-    if from_solver and generation is not None:
-        solved, solved_estimated = _recorded_or_estimated(
-            generation.data_version, game_version, generation.created_time)
-        state = _solve_state(solved, current, generation.created_time,
-                             game_version)
-    elif from_solver and has_solution:
-        # Every solve saves the char, so modified_time is never before it
-        moment = char.solved_time or char.modified_time
-        solved, solved_estimated = _recorded_or_estimated(
-            char.solved_version, game_version, moment)
-        state = _solve_state(solved, current, moment, game_version)
+    patch = None
+    if has_solution:
+        patch = patch_in_force(game_version, last_change(char, generation))
     return {
-        'created_patch': created,
-        'created_estimated': created_estimated,
-        'solved_patch': solved,
-        'solved_estimated': solved_estimated,
+        'patch': patch,
         'current_patch': current,
-        'state': state,
-        'stale': state in ('older', 'before'),
+        'older': bool(patch and current and patch_key(patch) < patch_key(current)),
     }

@@ -310,17 +310,9 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
                         <span class="build-proof-badge build-proof-badge-limit" title="{% trans "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit." %}">TemporiX</span>
                     </div>
                     {% endif %}
-                    {% if build.patch.stale %}
+                    {% if build.patch.patch %}
                     <div class="build-alerts">
-                        <span class="build-proof-badge build-proof-badge-limit build-patch-badge" title="{% blocktrans with patch=build.patch.current_patch %}Solved before update {{ patch }}: the best set may have changed since.{% endblocktrans %}">{% blocktrans with patch=build.patch.current_patch %}Solved before {{ patch }}{% endblocktrans %}</span>
-                    </div>
-                    {% elif build.patch.solved_estimated %}
-                    <div class="build-alerts">
-                        <span class="build-proof-badge build-proof-badge-limit build-patch-badge build-patch-badge-estimated" title="{% trans "Estimated from the build's dates: the solve was not recorded." %}">{% blocktrans with patch=build.patch.solved_patch %}Solved around {{ patch }}{% endblocktrans %}</span>
-                    </div>
-                    {% elif build.patch.solved_patch %}
-                    <div class="build-alerts">
-                        <span class="build-proof-badge build-proof-badge-limit build-patch-badge">{% blocktrans with patch=build.patch.solved_patch %}Solved on {{ patch }}{% endblocktrans %}</span>
+                        <span class="build-patch-badge{% if build.patch.older %} build-patch-badge-old{% endif %}" title="{% if build.patch.older %}{% blocktrans with current=build.patch.current_patch %}Game update at the build's last change; the game is now on {{ current }}{% endblocktrans %}{% else %}{% trans "Game update at the build's last change" %}{% endif %}">{{ build.patch.patch }}</span>
                     </div>
                     {% endif %}
 

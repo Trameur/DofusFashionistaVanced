@@ -83,10 +83,8 @@ def _build_payload(char, alias_map, tags_by_char=None, include_tags=True,
         'modified_at': char.modified_time.isoformat() if char.modified_time else None,
         'created_version': char.created_version or None,
         'solved_version': char.solved_version or None,
-        'created_patch': patches['created_patch'],
-        'created_patch_estimated': patches['created_estimated'],
-        'solved_patch': patches['solved_patch'],
-        'solved_patch_estimated': patches['solved_estimated'],
+        'solved_patch': patches['patch'],
+        'last_update_patch': patches['patch'],
     }
     # Canonical address, not the request host
     payload['url'] = SITE_URL + shared_build_path(char)

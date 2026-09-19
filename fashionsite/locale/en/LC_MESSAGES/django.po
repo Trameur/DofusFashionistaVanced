@@ -6894,3 +6894,14 @@ msgstr ""
 #: chardata/templates/chardata/home.html
 msgid "Estimated from the build's dates: the solve was not recorded."
 msgstr ""
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#: chardata/templates/chardata/home.html
+msgid "Game update at the build's last change"
+msgstr ""
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#: chardata/templates/chardata/home.html
+#, python-format
+msgid "Game update at the build's last change; the game is now on %(current)s"
+msgstr ""

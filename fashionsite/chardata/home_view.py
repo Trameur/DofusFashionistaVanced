@@ -19,7 +19,7 @@
 from datetime import datetime, time, timezone
 
 from chardata.util import set_response, version_reverse
-from chardata.data_versions import (current_data_version, patch_in_force, patch_key,
+from chardata.data_versions import (build_patch_info, current_data_version, patch_key,
                                     patch_of, patch_started, previous_patch_window)
 from chardata.create_project_view import is_anon_cant_create, has_too_many_projects
 from chardata.encoded_char_id import encode_char_id
@@ -55,7 +55,7 @@ def _featured_avatar(char):
 
 def _get_featured_builds(request, game_version):
     """Links and the anonymous name are built per request, never cached."""
-    cache_key = 'home_featured_builds:4:%s:%s' % (
+    cache_key = 'home_featured_builds:5:%s:%s' % (
         game_version, patch_of(current_data_version(game_version)))
     cached = cache.get(cache_key)
     if cached is None:
@@ -126,8 +126,8 @@ def _score_featured_builds(game_version):
               )
               .select_related('owner')
               .only('id', 'name', 'char_name', 'char_class', 'level',
-                    'view_count', 'solved_version', 'solved_time', 'modified_time',
-                    'owner', 'owner__username')
+                    'game_version', 'view_count', 'solved_version', 'solved_time',
+                    'modified_time', 'owner', 'owner__username')
               .order_by('-tier', '-score', F('solved_time').desc(nulls_last=True),
                         '-id'))
     builds = list(ranked[:FEATURED_BUILDS_COUNT])
@@ -139,11 +139,6 @@ def _score_featured_builds(game_version):
         # Left as None rather than translated here: the name the reader sees
         # for an owner-less build is their language's word, not the cache's.
         creator = aliases.get(b.owner_id) or (b.owner.username if b.owner else None)
-        solved_patch = patch_of(b.solved_version)
-        solved_estimated = False
-        if solved_patch is None:
-            solved_patch = patch_in_force(game_version, b.solved_time or b.modified_time)
-            solved_estimated = solved_patch is not None
         featured.append({
             'name': b.char_name or b.name,
             'char_class': b.char_class,
@@ -155,8 +150,7 @@ def _score_featured_builds(game_version):
             'char_name': b.char_name or 'shared',
             'encoded_char_id': encode_char_id(int(b.id)),
             'avatar': _featured_avatar(b),
-            'solved_patch': solved_patch,
-            'solved_estimated': solved_estimated,
+            'patch': build_patch_info(b, has_solution=True),
         })
     return featured
 

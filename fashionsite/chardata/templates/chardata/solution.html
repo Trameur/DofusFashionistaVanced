@@ -104,13 +104,10 @@
                 {% if owner_alias %}· {% trans "by" %} {{ owner_alias }}{% endif %}
                 {% if temporix_solve %}· <span class="temporix-solve" title="{% trans "Solved under the TemporiX rules: shiny pieces, and no AP, MP, Range or summon limit." %}">TemporiX</span>{% endif %}
             </div>
-            {% if build_patch.created_patch or build_patch.solved_patch or build_patch.stale %}
+            {% if build_patch.patch %}
             <div class="char-banner-patch">
-                {% if build_patch.created_patch %}{% if build_patch.created_estimated %}<span class="char-banner-patch-estimated" title="{% trans "Estimated from the build's dates: the solve was not recorded." %}">{% blocktrans with patch=build_patch.created_patch %}Created around {{ patch }}{% endblocktrans %}</span>{% else %}<span>{% blocktrans with patch=build_patch.created_patch %}Created on {{ patch }}{% endblocktrans %}</span>{% endif %}{% endif %}
-                {% if build_patch.solved_patch %}{% if build_patch.created_patch %} · {% endif %}{% if build_patch.solved_estimated %}<span class="char-banner-patch-estimated" title="{% trans "Estimated from the build's dates: the solve was not recorded." %}">{% blocktrans with patch=build_patch.solved_patch %}Solved around {{ patch }}{% endblocktrans %}</span>{% else %}<span>{% blocktrans with patch=build_patch.solved_patch %}Solved on {{ patch }}{% endblocktrans %}</span>{% endif %}{% endif %}
-                {% if build_patch.stale %}{% if build_patch.created_patch or build_patch.solved_patch %} · {% endif %}<span class="char-banner-patch-stale" title="{% blocktrans with patch=build_patch.current_patch %}Solved before update {{ patch }}: the best set may have changed since.{% endblocktrans %}">{% blocktrans with patch=build_patch.current_patch %}Solved before {{ patch }}{% endblocktrans %}</span>
-                {% if not is_guest and not is_generation_snapshot %}<a href="{% game_url 'fashion' char_id %}" class="rerun-button char-banner-patch-rerun">{% trans "Tailor a New Set" %}</a>{% endif %}
-                {% endif %}
+                <span class="char-banner-patch-pill{% if build_patch.older %} char-banner-patch-old{% endif %}" title="{% if build_patch.older %}{% blocktrans with current=build_patch.current_patch %}Game update at the build's last change; the game is now on {{ current }}{% endblocktrans %}{% else %}{% trans "Game update at the build's last change" %}{% endif %}">{{ build_patch.patch }}</span>
+                {% if build_patch.older and not is_guest and not is_generation_snapshot %}<a href="{% game_url 'fashion' char_id %}" class="rerun-button char-banner-patch-rerun">{% trans "Tailor a New Set" %}</a>{% endif %}
             </div>
             {% endif %}
             {% if share_text %}

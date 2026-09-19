@@ -7633,3 +7633,14 @@ msgstr "Berechnet etwa mit Update %(patch)s"
 #: chardata/templates/chardata/home.html
 msgid "Estimated from the build's dates: the solve was not recorded."
 msgstr "Schätzung anhand der Daten des Builds: die Berechnung wurde nicht gespeichert."
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#: chardata/templates/chardata/home.html
+msgid "Game update at the build's last change"
+msgstr "Spielupdate bei der letzten Änderung des Builds"
+
+#: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#: chardata/templates/chardata/home.html
+#, python-format
+msgid "Game update at the build's last change; the game is now on %(current)s"
+msgstr "Spielupdate bei der letzten Änderung des Builds; das Spiel ist jetzt auf Update %(current)s"

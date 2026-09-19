@@ -1,8 +1,10 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """The home features popular builds solved on the current update, then on the previous one."""
+import html
 import pickle
 import re
 from datetime import datetime, timezone as utc_zone
+from unittest import mock
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,6 +13,7 @@ from django.db import connection
 from django.test import TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 
+import fashionista_version
 from chardata.home_view import FEATURED_BUILDS_COUNT, _score_featured_builds
 from chardata.models import BuildVote, Char
 from fashionistapulp.modelresult import ModelResultMinimal
@@ -19,14 +22,39 @@ from fashionistapulp.structure import set_current_game_version
 VERSIONS = dict(settings.SITE_VERSIONS, dofus3='3.7.0.4')
 EARLY = datetime(2026, 9, 17, 10, 0, tzinfo=utc_zone.utc)
 LATE = datetime(2026, 9, 18, 10, 0, tzinfo=utc_zone.utc)
+AUGUST = datetime(2026, 8, 1, 12, 0, tzinfo=utc_zone.utc)
 SOLUTION = pickle.dumps(ModelResultMinimal({}, {'origin': 'generated'}, {}))
+UP_TO_THREE_SEVEN = [('2026-03-05', '3.5'), ('2026-06-23', '3.6'), ('2026-09-17', '3.7')]
+UP_TO_THREE_EIGHT = UP_TO_THREE_SEVEN + [('2026-09-19', '3.8')]
+TITLE = "Game update at the build's last change"
+OLDER_TITLE = "Game update at the build's last change; the game is now on %s"
 
 _CARD = re.compile(r'<a\b[^>]*featured-build-card[^>]*>(.*?)</a>', re.S)
+_BADGE = re.compile(r'<span\b([^>]*build-patch-badge[^>]*)>(.*?)</span>', re.S)
 
 
-def _cards(html):
+def _cards(page):
     return [' '.join(re.sub(r'<[^>]+>', ' ', body).split())
-            for body in _CARD.findall(html)]
+            for body in _CARD.findall(page)]
+
+
+def _badges(page):
+    """(number, tooltip, muted) per card, None on a card without a badge."""
+    shown = []
+    for body in _CARD.findall(page):
+        badge = _BADGE.search(body)
+        if badge is None:
+            shown.append(None)
+            continue
+        title = re.search(r'title="([^"]*)"', badge.group(1))
+        shown.append((badge.group(2).strip(),
+                      html.unescape(title.group(1)) if title else None,
+                      'build-patch-badge-old' in badge.group(1)))
+    return shown
+
+
+def _timeline(entries):
+    return mock.patch.dict(fashionista_version.PATCH_TIMELINE, {'dofus3': entries})
 
 
 class _Featured(object):
@@ -172,18 +200,24 @@ class TheHomeSectionReadsPopularTests(_Featured, TestCase):
         self.assertIn('Builds populaires de la communauté', french)
         self.assertNotIn('Meilleurs builds', french)
 
-    def test_each_card_names_the_update_it_was_solved_on(self):
-        self._shared('current', '3.7.0.4', views=2)
-        self._shared('previous', '3.6.11.15', views=1)
-        cards = _cards(self._home())
-        self.assertEqual(2, len(cards))
-        self.assertIn('current', cards[0])
-        self.assertIn('Solved on 3.7', cards[0])
-        self.assertIn('previous', cards[1])
-        self.assertIn('Solved on 3.6', cards[1])
-        cache.clear()
-        french = _cards(self._home('/fr/', 'fr'))
-        self.assertIn('Calculé en 3.6', french[1])
+    def _changed_on(self, char, when):
+        Char.objects.filter(pk=char.pk).update(solved_time=when, modified_time=when)
+
+    def test_each_card_shows_the_update_of_its_last_change(self):
+        self._changed_on(self._shared('current', '3.7.0.4', views=2), LATE)
+        self._changed_on(self._shared('previous', '3.6.11.15', views=1), AUGUST)
+        with _timeline(UP_TO_THREE_SEVEN):
+            page = self._home()
+            cards = _cards(page)
+            self.assertEqual(2, len(cards))
+            self.assertIn('current', cards[0])
+            self.assertIn('previous', cards[1])
+            self.assertEqual([('3.7', TITLE, False),
+                              ('3.6', OLDER_TITLE % '3.7', True)], _badges(page))
+            self.assertNotIn('Solved', ' '.join(cards))
+            cache.clear()
+            self.assertEqual('Mise à jour du jeu au dernier changement du build',
+                             _badges(self._home('/fr/', 'fr'))[0][1])
 
     def test_the_section_is_hidden_when_nothing_qualifies(self):
         self._shared('unsolved', '', views=50)
@@ -193,15 +227,19 @@ class TheHomeSectionReadsPopularTests(_Featured, TestCase):
         self.assertNotIn('Popular community builds', page)
 
     def test_a_new_update_is_not_served_from_the_old_entry(self):
-        self._shared('onthree', '3.7.0.4', views=50)
-        self.assertIn('Solved on 3.7', ' '.join(_cards(self._home())))
-        self._shared('onfour', '3.8.0.0', views=1)
-        with self.settings(SITE_VERSIONS=dict(VERSIONS, dofus3='3.8.0.0')):
-            cards = _cards(self._home())
+        self._changed_on(self._shared('onthree', '3.7.0.4', views=50), LATE)
+        with _timeline(UP_TO_THREE_SEVEN):
+            self.assertEqual([('3.7', TITLE, False)], _badges(self._home()))
+        self._changed_on(self._shared('onfour', '3.8.0.0', views=1),
+                         datetime(2026, 9, 20, 10, 0, tzinfo=utc_zone.utc))
+        with _timeline(UP_TO_THREE_EIGHT), \
+                self.settings(SITE_VERSIONS=dict(VERSIONS, dofus3='3.8.0.0')):
+            page = self._home()
+        cards = _cards(page)
         self.assertEqual(2, len(cards))
         self.assertIn('onfour', cards[0])
-        self.assertIn('Solved on 3.8', cards[0])
-        self.assertIn('Solved on 3.7', cards[1])
+        self.assertEqual([('3.8', TITLE, False),
+                          ('3.7', OLDER_TITLE % '3.8', True)], _badges(page))
 
 
 @override_settings(SITE_VERSIONS=dict(settings.SITE_VERSIONS, dofus3='3.6.11.15'))
@@ -209,11 +247,8 @@ class ABuildUpdatedDuringTheCurrentUpdateCountsTests(_Featured, TestCase):
 
     def setUp(self):
         super().setUp()
-        import fashionista_version
-        from unittest import mock
-        patcher = mock.patch.dict(fashionista_version.PATCH_TIMELINE, {
-            'dofus3': [('2025-12-09', '3.4'), ('2026-03-05', '3.5'),
-                       ('2026-06-23', '3.6')]})
+        patcher = _timeline([('2025-12-09', '3.4'), ('2026-03-05', '3.5'),
+                             ('2026-06-23', '3.6')])
         patcher.start()
         self.addCleanup(patcher.stop)
 
@@ -238,19 +273,17 @@ class ABuildUpdatedDuringTheCurrentUpdateCountsTests(_Featured, TestCase):
         self._left_on('older', datetime(2026, 3, 4, 23, 0, tzinfo=utc_zone.utc))
         self.assertEqual([], self._featured())
 
-    def test_a_card_says_around_which_update_it_was_solved(self):
+    def test_an_unstamped_card_shows_the_update_of_its_last_change(self):
         self._shared('updated', '', views=2)
         self._left_on('previous', datetime(2026, 5, 1, 12, 0, tzinfo=utc_zone.utc),
                       views=1)
         page = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
-        cards = _cards(page)
-        self.assertEqual(2, len(cards))
-        self.assertIn('Solved around 3.6', cards[0])
-        self.assertIn('Solved around 3.5', cards[1])
-        self.assertNotIn('Solved on', page)
-        self.assertIn("Estimated from the build's dates: the solve was not recorded.",
-                      page)
+        self.assertEqual(2, len(_cards(page)))
+        self.assertEqual([('3.6', TITLE, False), ('3.5', OLDER_TITLE % '3.6', True)],
+                         _badges(page))
+        for word in ('Solved', 'around', 'Estimated'):
+            self.assertNotIn(word, ' '.join(_cards(page)))
         cache.clear()
-        french = _cards(self.client.get('/fr/', HTTP_ACCEPT_LANGUAGE='fr')
-                        .content.decode('utf-8'))
-        self.assertIn('Calculé vers la 3.6', french[0])
+        french = self.client.get('/fr/', HTTP_ACCEPT_LANGUAGE='fr').content.decode('utf-8')
+        self.assertEqual('Mise à jour du jeu au dernier changement du build ; '
+                         'le jeu est maintenant en 3.6', _badges(french)[1][1])

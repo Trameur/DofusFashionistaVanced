@@ -121,7 +121,7 @@
                     <div class="featured-build-meta">
                         {{ fb.char_class|localized_class }} · {% trans "lvl" %} {{ fb.level }}
                     </div>
-                    {% if fb.solved_estimated %}<div class="featured-build-patch" title="{% trans "Estimated from the build's dates: the solve was not recorded." %}">{% blocktrans with patch=fb.solved_patch %}Solved around {{ patch }}{% endblocktrans %}</div>{% elif fb.solved_patch %}<div class="featured-build-patch">{% blocktrans with patch=fb.solved_patch %}Solved on {{ patch }}{% endblocktrans %}</div>{% endif %}
+                    {% if fb.patch.patch %}<div class="featured-build-patch"><span class="build-patch-badge{% if fb.patch.older %} build-patch-badge-old{% endif %}" title="{% if fb.patch.older %}{% blocktrans with current=fb.patch.current_patch %}Game update at the build's last change; the game is now on {{ current }}{% endblocktrans %}{% else %}{% trans "Game update at the build's last change" %}{% endif %}">{{ fb.patch.patch }}</span></div>{% endif %}
                     <div class="featured-build-stats">
                         <span class="fm-st fm-st-like" aria-hidden="true"></span> {{ fb.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true"></span> {{ fb.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true"></span> {{ fb.view_count }}
                     </div>
@@ -179,7 +179,15 @@
             text-overflow: ellipsis;
         }
         .featured-build-meta { font-size: 0.85em; opacity: 0.8; }
-        .featured-build-patch { font-size: 0.8em; opacity: 0.8; }
+        .featured-build-patch { margin-top: 2px; font-size: 0.75em; }
+        .featured-build-patch .build-patch-badge {
+            display: inline-block;
+            padding: 0 7px;
+            border: 1px solid rgba(128,128,128,0.5);
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .featured-build-patch .build-patch-badge-old { opacity: 0.55; border-style: dashed; }
         .featured-build-stats { font-size: 0.8em; opacity: 0.85; margin-top: 2px; }
         .featured-build-author { font-size: 0.8em; opacity: 0.7; }
     </style>

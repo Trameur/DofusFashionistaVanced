@@ -361,9 +361,22 @@
     background-color: rgba(128, 128, 128, 0.16);
 }
 
-.build-patch-badge-estimated {
-    opacity: 0.7;
+.build-patch-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #808080;
+    background-color: rgba(128, 128, 128, 0.16);
+    color: inherit;
     cursor: help;
+}
+
+.build-patch-badge-old {
+    opacity: 0.55;
+    border-style: dashed;
 }
 
 .no-builds {

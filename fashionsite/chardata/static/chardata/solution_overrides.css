@@ -137,16 +137,20 @@
     opacity: 0.8;
 }
 .char-banner-patch {
-    margin-top: 2px;
+    margin-top: 3px;
     font-size: 0.8em;
 }
-.char-banner-patch-stale {
+.char-banner-patch-pill {
+    display: inline-block;
+    padding: 0 8px;
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 10px;
     font-weight: bold;
-    white-space: nowrap;
     cursor: help;
 }
-.char-banner-patch-estimated {
-    cursor: help;
+.char-banner-patch-old {
+    opacity: 0.55;
+    border-style: dashed;
 }
 .char-banner-patch-rerun {
     margin-left: 6px;
