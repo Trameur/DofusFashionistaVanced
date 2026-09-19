@@ -20,8 +20,10 @@ import time
 from django.utils.translation import gettext_lazy
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.utils import timezone
 import pickle
 from chardata.char_blobs import read_char_blob
+from chardata.data_versions import current_data_version
 
 from chardata.lock_forbid import (get_inclusions_dict, get_all_exclusions_ids,
                                   get_empty_slots)
@@ -215,6 +217,7 @@ def fashion(request, char_id, spells=False):
             result.proven = proven
             result.solve_seconds = time.monotonic() - started
             result.candidate_pool = pool
+            result.data_version = current_data_version(char.game_version)
         MEMORY.put(model_input, (solved_status, stats, result))
 
     if result is None:
@@ -222,6 +225,9 @@ def fashion(request, char_id, spells=False):
 
     if char.allow_points_distribution:
         set_stats(char, stats)
+    char.solved_version = (getattr(result, 'data_version', '')
+                           or current_data_version(char.game_version))
+    char.solved_time = timezone.now()
     set_minimal_solution(char, result)
     record_solution_generation(char, result)
 

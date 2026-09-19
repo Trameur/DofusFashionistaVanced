@@ -33,6 +33,7 @@ def record_solution_generation(char, minimal_solution):
         char=char,
         game_version=char.game_version,
         minimal_solution=_to_blob(minimal_solution),
+        data_version=char.solved_version,
     )
     old_ids = list(
         SolutionGeneration.objects

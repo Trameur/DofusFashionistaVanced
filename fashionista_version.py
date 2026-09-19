@@ -4,13 +4,22 @@ from __future__ import annotations
 FASHIONISTA_VERSION = "3.6.11.15"
 FASHIONISTA_BETA_VERSION = "3.7.0.0"
 FASHIONISTA_DOFUS2_VERSION = "2.73.3.14"
-FASHIONISTA_RETRO_VERSION = "1.48"
-FASHIONISTA_TOUCH_VERSION = "1.73"
+FASHIONISTA_RETRO_VERSION = "1.49"
+FASHIONISTA_TOUCH_VERSION = "1.74"
+
+# (patch, UTC day its data was first committed); Retro and Touch are set by hand
+PATCH_STARTED = {
+    'dofus3': ('3.6', '2026-06-23'),
+    'beta': ('3.7', '2026-09-17'),
+    'dofus2': ('2.73', '2026-05-27'),
+    'retro': ('1.49', '2026-08-18'),
+    'touch': ('1.74', '2026-08-09'),
+}
 
 # What the version watch compares for versions whose public number is not the
-# release signal. Touch stays "1.73" in the footer while its asset bundle moves,
-# so the bundle is watched here. Retro's build is kept as last-seen diagnostics;
-# its item-data gate is WATCHED_RETRO_LANG below.
+# release signal. Touch keeps its public number in the footer while its asset
+# bundle moves, so the bundle is watched here. Retro's build is kept as
+# last-seen diagnostics; its item-data gate is WATCHED_RETRO_LANG below.
 #
 # A Touch bundle that moves does not have to mean new gear either. 3.2.13
 # changed two item descriptions out of the French fallback and added one item,

@@ -35,6 +35,7 @@ import re
 import subprocess
 import sys
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 if hasattr(sys.stdout, 'reconfigure'):
@@ -113,6 +114,20 @@ def extract_notices(lines: list[str]) -> list[str]:
     return [l.strip() for l in lines if _is_notice(l)]
 
 
+def set_patch_started(content: str, key: str, patch: str) -> str:
+    today = datetime.now(timezone.utc).date().isoformat()
+    new_content, found = re.subn(
+        r"(PATCH_STARTED\s*=\s*\{[^}]*?'%s'\s*:\s*)\([^)]*\)" % key,
+        f"\\g<1>('{patch}', '{today}')",
+        content,
+    )
+    if found:
+        print(f"[version] {key} patch {patch} started {today}")
+    else:
+        print(f"[version] no PATCH_STARTED entry for {key}, set it by hand")
+    return new_content
+
+
 def set_version(new_version: str) -> str:
     version_file = ROOT / "fashionista_version.py"
     content = version_file.read_text(encoding="utf-8")
@@ -126,6 +141,9 @@ def set_version(new_version: str) -> str:
         f'\\1"{new_version}"',
         content,
     )
+    if old_v.split(".")[:2] != new_version.split(".")[:2]:
+        new_content = set_patch_started(
+            new_content, "dofus3", ".".join(new_version.split(".")[:2]))
     version_file.write_text(new_content, encoding="utf-8")
     print(f"[version] {old_v} -> {new_version}")
     return new_version

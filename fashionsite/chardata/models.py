@@ -19,6 +19,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.forms.widgets import Textarea
 
+from chardata.data_versions import current_data_version
+
 
 class Char(models.Model):
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
@@ -56,6 +58,10 @@ class Char(models.Model):
         default='dofus3',
         db_index=True,
     )
+    # Item data version (SITE_VERSIONS) at creation and at the last solve
+    created_version = models.CharField(max_length=20, blank=True, default='')
+    solved_version = models.CharField(max_length=20, blank=True, default='')
+    solved_time = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         # Shared-builds page filter, newest first
@@ -73,6 +79,8 @@ class Char(models.Model):
                 limit = self._meta.get_field(field_name).max_length
                 if len(value) > limit:
                     setattr(self, field_name, value[:limit])
+        if self.pk is None:
+            self.created_version = current_data_version(self.game_version)
         super().save(*args, **kwargs)
 
     def __unicode__(self):
@@ -152,6 +160,7 @@ class SolutionGeneration(models.Model):
     game_version = models.CharField(max_length=20, default='dofus3', db_index=True)
     minimal_solution = models.BinaryField()
     created_time = models.DateTimeField(auto_now_add=True)
+    data_version = models.CharField(max_length=20, blank=True, default='')
 
     class Meta:
         ordering = ['-created_time', '-id']

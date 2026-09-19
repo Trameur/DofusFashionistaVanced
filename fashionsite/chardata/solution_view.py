@@ -620,6 +620,8 @@ def restore_generation(request, char_id, generation_id):
     if get_generation_solution(char, generation) is None:
         raise Http404
     char.minimal_solution = generation.minimal_solution
+    char.solved_version = generation.data_version
+    char.solved_time = generation.created_time
     char.save()
     from chardata.util import remove_cache_for_char
     remove_cache_for_char(char.id)
