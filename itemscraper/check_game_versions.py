@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""What each Dofus version is running, from its own source. Exits 1 if item data moved.
+"""What each Dofus version is running, from its own source. Exits 1 if item data
+moved, or if an official update list is ahead of our labels or unreadable.
 
     python itemscraper/check_game_versions.py
+    python itemscraper/check_game_versions.py --updates touch=1.75 retro=1.49
+
+Dofus 3, Retro and Touch are also compared with the newest "MAJ x.y" of their
+official update list. A newer update is only reported; --updates takes numbers
+read in a browser when a list cannot be fetched.
 
 Dofus 3, the beta and Dofus 2 are watched on the version they publish. Touch
 does not publish a useful public version, so it is watched on the asset bundle
@@ -13,11 +19,14 @@ the release gate and the client build is only printed as a diagnostic.
 from __future__ import annotations
 
 import hashlib
+import http.client
+import http.cookiejar
 import json
 import os
 import re
 import sys
 import urllib.request
+from html.parser import HTMLParser
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -27,6 +36,16 @@ import cytrus_cdn
 TOUCH_CONFIG = 'https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr'
 TAGS = 'https://api.github.com/repos/dofusdude/%s/tags'
 USER_AGENT = 'Dofus Fashionista version watch'
+BROWSER_AGENT = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                 '(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36')
+
+UPDATE_LISTS = {
+    'dofus3': 'https://www.dofus.com/fr/mmorpg/actualites/maj',
+    'retro': 'https://www.dofus-retro.com/fr/mmorpg/actualites/maj',
+    'touch': 'https://www.dofus-touch.com/fr/mmorpg/actualites/maj',
+}
+UPDATE_ENTRY = re.compile(r'\bM[AÀ]J\s*(\d+\.\d+)(?![.\d])', re.IGNORECASE)
+PATCH = re.compile(r'\d+\.\d+')
 
 
 def _json(url):
@@ -133,6 +152,148 @@ def touch_assets():
     return url.rsplit('/', 1)[-1] if url else ''
 
 
+def patch_key(patch):
+    return tuple(int(part) for part in patch.split('.'))
+
+
+class _MainListLinks(HTMLParser):
+    """(href, text) of every link inside <main>; the correctifs sit in <aside>."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.depth = 0
+        self.href = None
+        self.text = []
+        self.links = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'main':
+            self.depth += 1
+        elif tag == 'a' and self.depth:
+            self.href = dict(attrs).get('href') or ''
+            self.text = []
+
+    def handle_endtag(self, tag):
+        if tag == 'main':
+            self.depth = max(0, self.depth - 1)
+        elif tag == 'a' and self.href is not None:
+            self.links.append((self.href, ' '.join(''.join(self.text).split())))
+            self.href = None
+
+    def handle_data(self, data):
+        if self.href is not None:
+            self.text.append(data)
+
+
+def newest_update(html):
+    """(patch, href) of the highest "MAJ x.y" in the page's main list, or None."""
+    parser = _MainListLinks()
+    parser.feed(html)
+    parser.close()
+    found = []
+    for href, text in parser.links:
+        match = UPDATE_ENTRY.search(text)
+        if match:
+            found.append((patch_key(match.group(1)), match.group(1), href))
+    if not found:
+        return None
+    _key, patch, href = max(found)
+    return patch, href
+
+
+def fetch_update_list(url):
+    # Every first visit bounces through account.ankama.com and back with a cookie
+    opener = urllib.request.build_opener(
+        urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+    opener.addheaders = [
+        ('User-Agent', BROWSER_AGENT),
+        ('Accept', 'text/html,application/xhtml+xml'),
+        ('Accept-Language', 'fr-FR,fr;q=0.9'),
+    ]
+    with opener.open(url, timeout=60) as response:
+        charset = response.headers.get_content_charset() or 'utf-8'
+        return response.read().decode(charset, 'replace')
+
+
+def read_update_list(key):
+    return newest_update(fetch_update_list(UPDATE_LISTS[key]))
+
+
+def our_patches():
+    """{key: (label patch, PATCH_STARTED patch)} for the versions with an update list."""
+    import fashionista_version as ours
+    labels = {'dofus3': ours.FASHIONISTA_VERSION,
+              'retro': ours.FASHIONISTA_RETRO_VERSION,
+              'touch': ours.FASHIONISTA_TOUCH_VERSION}
+    return {key: ('.'.join(label.split('.')[:2]), ours.PATCH_STARTED[key][0])
+            for key, label in labels.items()}
+
+
+def updates_behind(newest, ours=None):
+    """{key: (newest, label patch, started patch)} where either of ours is older."""
+    ours = our_patches() if ours is None else ours
+    behind = {}
+    for key, patch in newest.items():
+        label, started = ours[key]
+        if patch_key(patch) > min(patch_key(label), patch_key(started)):
+            behind[key] = (patch, label, started)
+    return behind
+
+
+def report_updates(newest, where=None):
+    """Prints one line per list and returns the (name, patch) pairs that need a look."""
+    ours = our_patches()
+    behind = updates_behind(newest, ours)
+    flagged = []
+    for key in sorted(newest):
+        label, started = ours[key]
+        print('%-8s update MAJ %-6s label %-6s started %-6s %s%s'
+              % (key, newest[key], label, started,
+                 'NEWER' if key in behind else 'ok',
+                 '   (%s)' % where[key] if where and key in where else ''))
+        if key not in behind:
+            continue
+        flagged.append(('%s update' % key, newest[key]))
+        if key == 'dofus3':
+            print('  update_data.py --version <tag> moves the label and '
+                  'PATCH_STARTED once dofusdude publishes the tag')
+        else:
+            print('  re-scrape with update_data_%s.py, then set its label and '
+                  'PATCH_STARTED by hand' % key)
+    return flagged
+
+
+def check_update_lists():
+    newest, where, flagged = {}, {}, []
+    for key, url in UPDATE_LISTS.items():
+        reason = 'no MAJ entry in its main list'
+        try:
+            found = read_update_list(key)
+        except (OSError, http.client.HTTPException) as exc:
+            found, reason = None, exc
+        if found is None:
+            print('%-8s update list UNREADABLE (%s): read %s in the browser, '
+                  'then --updates %s=x.y' % (key, reason, url, key))
+            flagged.append(('%s update list' % key, 'unreadable'))
+        else:
+            newest[key], where[key] = found
+    return flagged + report_updates(newest, where)
+
+
+def updates_from_argv(pairs):
+    newest = {}
+    for pair in pairs:
+        key, _sep, patch = pair.partition('=')
+        if key not in UPDATE_LISTS or not PATCH.fullmatch(patch):
+            print('expected %s=x.y, got %r' % ('|'.join(UPDATE_LISTS), pair))
+            return 2
+        newest[key] = patch
+    if not newest:
+        print('expected at least one %s=x.y' % '|'.join(UPDATE_LISTS))
+        return 2
+    return 1 if report_updates(newest) else 0
+
+
 def emit_snapshot():
     """Print the two lines fashionista_version.py should carry, read live.
 
@@ -146,9 +307,12 @@ def emit_snapshot():
     return 0
 
 
-def main():
-    if '--emit-snapshot' in sys.argv[1:]:
+def main(argv=None):
+    argv = sys.argv[1:] if argv is None else argv
+    if '--emit-snapshot' in argv:
         return emit_snapshot()
+    if '--updates' in argv:
+        return updates_from_argv(argv[argv.index('--updates') + 1:])
 
     import fashionista_version as ours
 
@@ -232,6 +396,8 @@ def main():
                          ', '.join(sorted(bucket['added'] + bucket['changed'])[:3])))
             print('  refresh the Retro images for those families, then run '
                   '--emit-snapshot and paste the two lines it prints')
+
+    moved.extend(check_update_lists())
 
     for name, live in moved:
         if name == 'touch':

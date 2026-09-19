@@ -20859,11 +20859,12 @@ class GameVersionWatchTests(SimpleTestCase):
     }
 
     def _run_check(self, retro_live, touch_live, lang_live=None,
-                   asset_live=None, asset_versions=None):
+                   asset_live=None, asset_versions=None, update_flags=()):
         import check_game_versions as check
         import fashionista_version as ours
         saved = (check.cytrus_cdn.get_version, check.cytrus_cdn.download_manifest,
                  check._json, check.retro_lang_versions, check.retro_asset_entries,
+                 check.check_update_lists,
                  ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
                  ours.WATCHED_RETRO_ASSET_DIGEST, ours.WATCHED_RETRO_ASSET_COUNT)
         live = {'dofus3': ours.FASHIONISTA_VERSION,
@@ -20893,10 +20894,12 @@ class GameVersionWatchTests(SimpleTestCase):
             check._json = lambda url: (
                 [{'name': 'tag'}] if 'tags' in url
                 else {'assetsUrl': 'https://cdn/assets/' + touch_live})
-            return check.main()
+            check.check_update_lists = lambda: list(update_flags)
+            return check.main([])
         finally:
             (check.cytrus_cdn.get_version, check.cytrus_cdn.download_manifest,
              check._json, check.retro_lang_versions, check.retro_asset_entries,
+             check.check_update_lists,
              ours.WATCHED_RETRO_BUILD, ours.WATCHED_TOUCH_ASSETS,
              ours.WATCHED_RETRO_ASSET_DIGEST,
              ours.WATCHED_RETRO_ASSET_COUNT) = saved
@@ -20943,6 +20946,12 @@ class GameVersionWatchTests(SimpleTestCase):
         import fashionista_version as ours
         self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
                                          '9.9.9_newbundle'), 1)
+
+    def test_an_update_list_ahead_of_the_labels_is_not_silent(self):
+        import fashionista_version as ours
+        self.assertEqual(self._run_check(ours.WATCHED_RETRO_BUILD,
+                                         ours.WATCHED_TOUCH_ASSETS,
+                                         update_flags=[('touch update', '1.75')]), 1)
 
 
 class PreviewAssetsStayInTheCacheTests(SimpleTestCase):
