@@ -47,6 +47,12 @@ class EveryClassSpellHasItsIconTests(SimpleTestCase):
     def test_dofus3(self):
         self.assertEqual([], self._missing('dofus3'))
 
+    def test_dofus2(self):
+        self.assertEqual([], self._missing('dofus2'))
+
+    def test_retro(self):
+        self.assertEqual([], self._missing('retro'))
+
     def test_the_beta_borrows_a_dofus_3_icon_it_lacks(self):
         own = os.listdir(os.path.join(STATIC, 'chardata', 'spells', 'beta'))
         shared = os.listdir(os.path.join(STATIC, 'chardata', 'spells'))

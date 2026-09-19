@@ -4,18 +4,20 @@
 The Dofus 2 release carries no spell image archive at all (2.73.3.14 ships
 items_images and mounts_images and nothing else), so the site sends Dofus 2 to
 the Dofus 3 spell directory. That works for the spells both versions still
-share, and breaks for the eleven 2.x names Dofus 3 renamed: no file is stored
-under the old name, so a Dofus 2 Cra build shows broken icons.
+share, and breaks for the 2.x names Dofus 3 renamed or retired: no file is
+stored under the old name, so a Dofus 2 build shows broken icons.
 
 The art itself is not lost. Icons are addressed by iconId, and the Dofus 2
 release does publish the spell records with their iconId, so the id from the
-2.73 lang picks the right image straight out of the Dofus 3 icon pool. Both
-halves stay first hand and no rename table is written down.
+2.73 lang picks the right image straight out of the Dofus 3 icon pool. For the
+ids that pool no longer holds (the spells Dofus 3 dropped, like the Osamodas
+summons), the Dofus 2 client itself still ships every icon as a 128x128 PNG in
+its spell archives (content/gfx/spells/spells0*.d2p on the Cytrus CDN); those
+are fetched once, kept beside the dump, and shrunk to the 96x96 the pages use.
+Both halves stay first hand and no rename table is written down.
 
-Only what the shared directory cannot serve is stored here. A full Dofus 2
-directory would cover 465 of the 514 spells and leave the other 49 worse off
-than they are today, since their icon id is absent from the pool; chardata's
-_spell_image_url falls back to the shared file for exactly that reason.
+Only what the shared directory cannot serve is stored here: chardata's
+_spell_image_url falls back to the shared file for every other name.
 
     python itemscraper/store_dofus2_spell_icons.py
 
@@ -26,22 +28,33 @@ from __future__ import annotations
 
 import argparse
 import importlib.util
+import io
 import json
 import os
 import shutil
+import struct
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT / 'fashionistapulp') not in sys.path:
     sys.path.insert(0, str(ROOT / 'fashionistapulp'))
 from fashionistapulp.reserved_filenames import safe_asset_stem  # noqa: E402
 
+if str(ROOT / 'itemscraper') not in sys.path:
+    sys.path.insert(0, str(ROOT / 'itemscraper'))
+import cytrus_cdn  # noqa: E402
+from version_tags import version_key  # noqa: E402
+
 CONSTANTS = ROOT / 'fashionistapulp' / 'fashionistapulp' / 'dofus_constants_dofus2.py'
 POOL = ROOT / 'itemscraper' / 'spell_images' / '96'
 SHARED = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata' / 'spells'
 STATIC_DIRS = (SHARED / 'dofus2',
                ROOT / 'fashionsite' / 'staticfiles' / 'chardata' / 'spells' / 'dofus2')
+
+# First archive of the client's spell icon chain; each one names the next
+CLIENT_ARCHIVE = 'content/gfx/spells/spells0.d2p'
+ICON_SIZE = 96
 
 
 def damage_spell_names():
@@ -100,6 +113,81 @@ def icons_by_name(raw_dir):
     return out
 
 
+def _read_utf(buf, pos):
+    length = struct.unpack_from('>H', buf, pos)[0]
+    return buf[pos + 2:pos + 2 + length].decode('utf-8'), pos + 2 + length
+
+
+def read_d2p(path):
+    """(bytes, properties, {name: (offset, size)}) of one d2p archive."""
+    buf = path.read_bytes()
+    if buf[:2] != b'\x02\x01':
+        raise ValueError('%s is not a d2p archive' % path)
+    (base, _size, index_offset, index_count, properties_offset,
+     properties_count) = struct.unpack_from('>6i', buf, len(buf) - 24)
+    pos = properties_offset
+    properties = {}
+    for _ in range(properties_count):
+        key, pos = _read_utf(buf, pos)
+        properties[key], pos = _read_utf(buf, pos)
+    pos = index_offset
+    entries = {}
+    for _ in range(index_count):
+        name, pos = _read_utf(buf, pos)
+        offset, size = struct.unpack_from('>ii', buf, pos)
+        pos += 8
+        entries[name] = (base + offset, size)
+    return buf, properties, entries
+
+
+def _client_manifest(raw_dir):
+    version = '6.0_%s' % raw_dir.name
+    try:
+        return cytrus_cdn.download_manifest('dofus2', version)
+    except OSError as exc:
+        live = cytrus_cdn.get_version('dofus2')
+        print('WARNING: the CDN does not serve the %s manifest (%s); '
+              'reading the %s client instead' % (version, exc, live))
+        return cytrus_cdn.download_manifest('dofus2', live)
+
+
+def client_icons(raw_dir, wanted):
+    """Icon id -> PNG bytes from the client archives, fetched once and kept under the dump."""
+    found = {}
+    manifest = None
+    name = CLIENT_ARCHIVE
+    while name and len(found) < len(wanted):
+        path = raw_dir.joinpath(*PurePosixPath(name).parts)
+        if not path.exists():
+            if manifest is None:
+                manifest = _client_manifest(raw_dir)
+            entry = cytrus_cdn.find_file(manifest, name)
+            if entry is None:
+                raise LookupError('%s: not in the client manifest' % name)
+            print('fetching %s (%d bytes)' % (name, entry['size']))
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(cytrus_cdn.fetch_file(entry))
+        buf, properties, entries = read_d2p(path)
+        for icon in wanted:
+            entry = entries.get('sort_%d.png' % icon)
+            if entry and icon not in found:
+                offset, size = entry
+                found[icon] = buf[offset:offset + size]
+        link = properties.get('link')
+        name = str(PurePosixPath(name).parent / link) if link else None
+    return found
+
+
+def page_sized(data):
+    from PIL import Image
+    image = Image.open(io.BytesIO(data)).convert('RGBA')
+    if image.size != (ICON_SIZE, ICON_SIZE):
+        image = image.resize((ICON_SIZE, ICON_SIZE), Image.LANCZOS)
+    out = io.BytesIO()
+    image.save(out, format='PNG')
+    return out.getvalue()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--raw-dir', help='the 2.73 dump; the newest one by default')
@@ -110,11 +198,11 @@ def main():
     if args.raw_dir:
         raw_dir = Path(args.raw_dir)
     else:
-        candidates = sorted(p for p in raw_root.iterdir()
-                            if p.is_dir() and p.name.startswith('2.'))
+        candidates = [p for p in raw_root.iterdir()
+                      if p.is_dir() and p.name.startswith('2.')]
         if not candidates:
             raise SystemExit('no Dofus 2 dump under %s' % raw_root)
-        raw_dir = candidates[-1]
+        raw_dir = max(candidates, key=lambda p: version_key(p.name))
 
     pool = Path(args.pool)
     if not pool.is_dir():
@@ -131,8 +219,9 @@ def main():
     for directory in STATIC_DIRS:
         directory.mkdir(parents=True, exist_ok=True)
 
-    written = borrowed = unnamed = no_icon = 0
+    written = borrowed = unnamed = 0
     missing = []
+    not_in_pool = {}
     for name in sorted(wanted):
         # Windows reserves a handful of stems and git cannot index a file named
         # after one, so the page asks for the escaped name and so must this.
@@ -148,16 +237,37 @@ def main():
         source = next((pool / ('%d.png' % icon) for icon in ids
                        if (pool / ('%d.png' % icon)).exists()), None)
         if source is None:
-            no_icon += 1
-            missing.append('%s (icon %s absent from the pool)' % (name, ids[0]))
+            not_in_pool[name] = ids
             continue
         for directory in STATIC_DIRS:
             shutil.copy2(source, directory / ('%s.png' % stem))
         written += 1
 
-    print('dofus2 spell icons: %d written, %d served by the shared directory,'
-          ' %d without a 2.73 name, %d without an icon in the pool'
-          % (written, borrowed, unnamed, no_icon))
+    client = {}
+    if not_in_pool:
+        try:
+            client = client_icons(
+                raw_dir, {icon for ids in not_in_pool.values() for icon in ids})
+        except (OSError, LookupError, ValueError) as exc:
+            print('WARNING: the Dofus 2 client archives are out of reach (%s); '
+                  'the committed icons stay as they are.' % exc)
+    from_client = no_icon = 0
+    for name, ids in sorted(not_in_pool.items()):
+        data = next((client[icon] for icon in ids if icon in client), None)
+        if data is None:
+            no_icon += 1
+            missing.append('%s (icon %s absent from the pool and the client)'
+                           % (name, ids[0]))
+            continue
+        png = page_sized(data)
+        for directory in STATIC_DIRS:
+            (directory / ('%s.png' % safe_asset_stem(name))).write_bytes(png)
+        from_client += 1
+
+    print('dofus2 spell icons: %d written from the pool, %d from the client'
+          ' archives, %d served by the shared directory, %d without a 2.73'
+          ' name, %d without an icon anywhere'
+          % (written, from_client, borrowed, unnamed, no_icon))
     for line in missing:
         print('   missing: %s' % line)
 

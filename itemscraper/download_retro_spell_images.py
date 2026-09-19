@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """
-download_retro_spell_images.py: Dofus Retro damage-spell icons.
+download_retro_spell_images.py: Dofus Retro class-spell icons.
+
+Targets: every spell of the spell reference the site displays
+(fashionsite/chardata/spell_reference/retro.json, id + French name); the
+older retro/retro_damage_spells.json still works through --spells.
 
 The committed icons are Ankama's own 1.29 spell-book renders, served by the
 old official web CDN and mirrored today by the community Cyberia CDN
-(credited on /about). That mirror is frozen: a handful of spells never got
-an icon there, and the mirror cannot produce new ones.
+(credited on /about) at images/dofus/spells/128/<spell id>.jpg. Every
+missing icon is asked from that mirror first and resized to 96x96.
 
---compose-missing rebuilds those missing icons from first-hand parts:
+The mirror is frozen and cannot produce new icons. --compose-missing
+rebuilds the ones it lacks from first-hand parts:
   - the spell's icon recipe comes from the official lang
     (retro_raw/spells_fr.json, dict "i": up = stencil clip id, bc = the
     per-spell colors; proven against the existing icons: bc[3] is the disc
@@ -21,8 +26,8 @@ an icon there, and the mirror cannot produce new ones.
     reproduces it; the disc is then filled bc[3] and the stencil pasted
     in white, the dominant polarity of the set).
 
-Needs java + ffdec + resvg (JAVA_EXE/FFDEC_JAR/RESVG_EXE or --java/
---ffdec-jar/--resvg) plus numpy; without them it warns and exits 0.
+Composing needs java + ffdec + resvg (JAVA_EXE/FFDEC_JAR/RESVG_EXE or
+--java/--ffdec-jar/--resvg) plus numpy; without them it warns and exits 0.
 
 Saved as: fashionsite/chardata/static/chardata/spells/retro/<name_fr>.png
 (96x96 PNG, the name the spell view expects). Existing files are never
@@ -32,9 +37,12 @@ overwritten.
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import os
 import sys
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -44,8 +52,11 @@ sys.path.insert(0, str(ROOT / 'fashionistapulp'))
 from fashionistapulp.reserved_filenames import safe_asset_stem  # noqa: E402
 
 DEST = ROOT / 'fashionsite' / 'chardata' / 'static' / 'chardata' / 'spells' / 'retro'
+SPELL_REFERENCE = ROOT / 'fashionsite' / 'chardata' / 'spell_reference' / 'retro.json'
 LANG_SPELLS = Path(__file__).resolve().parent / 'retro_raw' / 'spells_fr.json'
 STENCIL_CACHE = Path(__file__).resolve().parent / 'retro_raw' / 'spell_stencils'
+MIRROR = ('https://raw.githubusercontent.com/Lounek09/Cyberia.Cdn/main/'
+          'images/dofus/spells/128/%s.jpg')
 UP_PREFIX = 'resources/app/retroclient/clips/spells/icons/up/'
 SIZE = 96
 DISC_RADIUS = 29.5
@@ -58,12 +69,58 @@ def load_targets(spells_path):
     targets = {}
     for spells in by_class.values():
         for s in spells:
-            if s.get('id') is not None and s.get('name'):
-                targets.setdefault(s['name'], s['id'])
+            name = s.get('name')
+            if isinstance(name, dict):
+                name = name.get('fr')
+            if s.get('id') is not None and name:
+                targets.setdefault(name, s['id'])
     return targets
 
 
-def compose_missing(missing, java, ffdec_jar, resvg_exe):
+def _icon_path(name):
+    return DEST / ('%s.png' % safe_asset_stem(name))
+
+
+def fetch_from_mirror(sid):
+    """The mirror's 128px render as a 96x96 RGBA image, or None if it has none."""
+    from PIL import Image
+
+    req = urllib.request.Request(
+        MIRROR % sid,
+        headers={'User-Agent': 'Mozilla/5.0 (DofusFashionista asset sync)'})
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            raw = resp.read()
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            return None
+        raise
+    return Image.open(io.BytesIO(raw)).convert('RGBA').resize(
+        (SIZE, SIZE), Image.LANCZOS)
+
+
+def download_from_mirror(missing):
+    """Write what the mirror serves; returns the spells it did not have."""
+    left = {}
+    written = 0
+    for name, sid in sorted(missing.items()):
+        try:
+            img = fetch_from_mirror(sid)
+        except Exception as exc:
+            print('  %s: mirror error %s' % (name, exc))
+            left[name] = sid
+            continue
+        if img is None:
+            left[name] = sid
+            continue
+        DEST.mkdir(parents=True, exist_ok=True)
+        img.save(_icon_path(name))
+        written += 1
+    print('mirror: written=%d not served=%d' % (written, len(left)))
+    return left
+
+
+def compose_missing(missing, targets, java, ffdec_jar, resvg_exe):
     import glob
     import subprocess
     import tempfile
@@ -75,14 +132,12 @@ def compose_missing(missing, java, ffdec_jar, resvg_exe):
         download_manifest, load_fragment, download_file, svg_to_cropped_png)
 
     lang = json.loads(LANG_SPELLS.read_text(encoding='utf-8'))['S']
-    targets_all = load_targets(
-        Path(__file__).resolve().parent / 'retro' / 'retro_damage_spells.json')
+    by_stem = {safe_asset_stem(name): sid for name, sid in targets.items()}
 
     # Ring model: per-pixel affine in bc[2]/bc[3] over the committed icons.
     icons, bc2s, bc3s = [], [], []
     for p in sorted(glob.glob(str(DEST / '*.png'))):
-        name = os.path.basename(p)[:-4]
-        sid = targets_all.get(name)
+        sid = by_stem.get(os.path.basename(p)[:-4])
         entry = lang.get(str(sid)) if sid is not None else None
         if not (isinstance(entry, dict) and isinstance(entry.get('i'), dict)):
             continue
@@ -159,7 +214,7 @@ def compose_missing(missing, java, ffdec_jar, resvg_exe):
         white.putalpha(m.split()[3])
         out.paste(white, (SIZE // 2 - m.width // 2, SIZE // 2 - m.height // 2),
                   white)
-        out.save(DEST / ('%s.png' % safe_asset_stem(name)))
+        out.save(_icon_path(name))
         written += 1
         print('  %s: composed (up %d)' % (name, info['up']))
     print('composed=%d failed=%d' % (written, failed))
@@ -169,7 +224,11 @@ def compose_missing(missing, java, ffdec_jar, resvg_exe):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--spells', default=str(Path(__file__).resolve().parent / 'retro' / 'retro_damage_spells.json'))
+    p.add_argument('--spells', default=str(SPELL_REFERENCE),
+                   help='spells by class, each with id and name '
+                        '(a string or {lang: name})')
+    p.add_argument('--no-mirror', action='store_true',
+                   help='Do not ask the mirror; go straight to composing')
     p.add_argument('--compose-missing', action='store_true',
                    help='Compose icons the frozen mirror never had, from '
                         'the official lang + client stencils')
@@ -182,7 +241,7 @@ def main(argv=None):
     missing = {}
     for name, sid in targets.items():
         try:
-            if not (DEST / ('%s.png' % name)).exists():
+            if not _icon_path(name).exists():
                 missing[name] = sid
         except OSError:
             continue
@@ -190,6 +249,10 @@ def main(argv=None):
           % (len(targets), len(targets) - len(missing), len(missing)))
     if not missing:
         return 0
+    if not args.no_mirror:
+        missing = download_from_mirror(missing)
+        if not missing:
+            return 0
     if not args.compose_missing:
         print('missing: %s' % sorted(missing))
         print('(the mirror of the old official CDN is frozen; use '
@@ -204,7 +267,7 @@ def main(argv=None):
         print('WARNING: java + ffdec.jar + resvg are needed to compose the '
               'missing icons; skipping, the committed PNGs stay as they are.')
         return 0
-    return compose_missing(missing, java, ffdec_jar, resvg_exe)
+    return compose_missing(missing, targets, java, ffdec_jar, resvg_exe)
 
 
 if __name__ == '__main__':
