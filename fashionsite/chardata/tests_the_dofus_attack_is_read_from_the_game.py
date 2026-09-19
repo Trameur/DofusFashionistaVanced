@@ -29,12 +29,20 @@ class TheEbonyDofusCarriesItsAnkamaIdTests(SimpleTestCase):
                 self.assertEqual(18645, sort.spell_id)
 
     def test_every_other_shared_spell_carries_one_too(self):
-        """Only ECRITS_A_LA_MAIN may lack an id."""
+        """The hand-written ones carry the client's id as well."""
         for version in VERSIONS_CONCERNEES:
             with self.subTest(version=version):
                 sans_id = {nom for nom, sort in _sorts_partages(version).items()
                            if not sort.spell_id}
-                self.assertEqual(ECRITS_A_LA_MAIN, sans_id)
+                self.assertEqual(set(), sans_id)
+
+    def test_the_hand_written_ones_keep_their_own_values(self):
+        for version in VERSIONS_CONCERNEES:
+            with self.subTest(version=version):
+                partages = _sorts_partages(version)
+                for nom in ECRITS_A_LA_MAIN:
+                    self.assertIsNone(partages[nom].casting, nom)
+                    self.assertTrue(partages[nom].spell_id, nom)
 
     def test_it_lands_at_the_start_of_the_turn(self):
         for version in VERSIONS_CONCERNEES:

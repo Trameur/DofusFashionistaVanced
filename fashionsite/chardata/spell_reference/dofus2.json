@@ -45065,5 +45065,932 @@
     6
    ]
   }
+ ],
+ "default": [
+  {
+   "ap": [
+    2,
+    2,
+    2
+   ],
+   "crit": [
+    5,
+    5,
+    5
+   ],
+   "description": {
+    "de": "Verursacht Schaden im schwächsten Angriffselement des Zaubernden.",
+    "en": "Inflicts damage in the caster's worst attack element.",
+    "es": "Ocasiona daños con el peor elemento de ataque del lanzador.",
+    "fr": "Occasionne des dommages dans le pire élément d'attaque du lanceur.",
+    "pt": "Inflige danos no pior elemento de ataque do lançador."
+   },
+   "id": 24006,
+   "kind": {
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
+   },
+   "levels": [
+    30,
+    97,
+    164
+   ],
+   "name": {
+    "de": "Flammache",
+    "en": "Burnt Pie",
+    "es": "Llamita",
+    "fr": "Flamèche",
+    "pt": "Faísca"
+   },
+   "per_target": [
+    2,
+    2,
+    2
+   ],
+   "per_turn": [
+    4,
+    4,
+    4
+   ],
+   "range": [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     8
+    ]
+   ]
+  },
+  {
+   "ap": [
+    2,
+    2
+   ],
+   "crit": [
+    5,
+    5
+   ],
+   "description": {
+    "de": "Verursacht Schaden im besten Angriffselement des Zaubernden.",
+    "en": "Inflicts damage in the caster's best attack element.",
+    "es": "Ocasiona daños con el mejor elemento de ataque del lanzador.",
+    "fr": "Occasionne des dommages dans le meilleur élément d'attaque du lanceur.",
+    "pt": "Inflige danos no melhor elemento de ataque do lançador."
+   },
+   "id": 350,
+   "kind": {
+    "de": "Variantes Communs",
+    "en": "Variantes Communs",
+    "es": "Variantes Communs",
+    "fr": "Variantes Communs",
+    "pt": "Variantes Communs"
+   },
+   "levels": [
+    97,
+    164
+   ],
+   "name": {
+    "de": "Flammiche",
+    "en": "Leek Pie",
+    "es": "Llamilla",
+    "fr": "Flamiche",
+    "pt": "Flâmula"
+   },
+   "per_target": [
+    1,
+    1
+   ],
+   "per_turn": [
+    2,
+    2
+   ],
+   "range": [
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     8
+    ]
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3,
+    3
+   ],
+   "cooldown": [
+    3,
+    3,
+    3
+   ],
+   "crit": [
+    10,
+    10,
+    10
+   ],
+   "description": {
+    "de": "Fügt Gegnern Feuerschaden zu und erhöht die Heilung bei Verbündeten im Wirkungsbereich.",
+    "en": "Inflicts Fire damage on enemies and increases the healing received by allies in an area of effect.",
+    "es": "Ocasiona daños de fuego a los enemigos y aumenta las curas recibidas de los aliados en zona.",
+    "fr": "Occasionne des dommages Feu aux ennemis et augmente les soins reçus par les alliés en zone.",
+    "pt": "Inflige danos de fogo aos inimigos e aumenta as curas recebidas pelos aliados em zona."
+   },
+   "id": 369,
+   "kind": {
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
+   },
+   "levels": [
+    20,
+    87,
+    154
+   ],
+   "name": {
+    "de": "Blitzschlag von Grunob",
+    "en": "Grunob's Lightning Strike",
+    "es": "Fulminación de Grunob",
+    "fr": "Foudroiement de Grunob",
+    "pt": "Golpe de Raio de Grunob"
+   },
+   "range": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ]
+   ],
+   "stacks": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3
+   ],
+   "cooldown": [
+    3,
+    3
+   ],
+   "crit": [
+    10,
+    10
+   ],
+   "description": {
+    "de": "Verursacht Feuerschaden und verringert die gegnerische Heilung.\nPrallt auf den nächsten Gegner in einem Umkreis von 2 Feldern ab.",
+    "en": "Inflicts Fire damage and reduces the healing received by enemies.\nRebounds on the nearest enemy in a 2-cell circle.",
+    "es": "Ocasiona daños de fuego y reduce las curas recibidas por los enemigos.\nRebota sobre el enemigo más cercano en un círculo de 2 casillas.",
+    "fr": "Occasionne des dommages Feu et réduit les soins reçus par les ennemis.\nRebondit sur l'ennemi le plus proche dans un cercle de 2 cases.",
+    "pt": "Inflige danos de fogo e reduz as curas recebidas pelos inimigos.\nRicocheteia no inimigo mais próximo em um círculo de 2 células."
+   },
+   "id": 24017,
+   "kind": {
+    "de": "Variantes Communs",
+    "en": "Variantes Communs",
+    "es": "Variantes Communs",
+    "fr": "Variantes Communs",
+    "pt": "Variantes Communs"
+   },
+   "levels": [
+    87,
+    154
+   ],
+   "name": {
+    "de": "Lehre des Grunob",
+    "en": "Grunob's Lesson",
+    "es": "Lección de Grunob",
+    "fr": "Leçon de Grunob",
+    "pt": "Lição de Grunob"
+   },
+   "range": [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ]
+   ],
+   "stacks": [
+    1,
+    1
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3,
+    3
+   ],
+   "cooldown": [
+    3,
+    3,
+    3
+   ],
+   "crit": [
+    10,
+    10,
+    10
+   ],
+   "description": {
+    "de": "Verursacht Wasserschaden und verringert den kritischen Schaden.",
+    "en": "Inflicts Water damage and removes Critical Damage.",
+    "es": "Ocasiona daños de agua y retira daños críticos.",
+    "fr": "Occasionne des dommages Eau et retire des Dommages Critiques.",
+    "pt": "Inflige danos de água e retira danos críticos."
+   },
+   "id": 24015,
+   "kind": {
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
+   },
+   "levels": [
+    40,
+    107,
+    174
+   ],
+   "name": {
+    "de": "Kanniblase",
+    "en": "Kannibubble",
+    "es": "Kaniburbuja",
+    "fr": "Kannibulle",
+    "pt": "Kanibolha"
+   },
+   "range": [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     8
+    ]
+   ],
+   "stacks": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3
+   ],
+   "cooldown": [
+    3,
+    3
+   ],
+   "crit": [
+    10,
+    10
+   ],
+   "description": {
+    "de": "Verursacht Wasserschaden und erhöht die Chance auf kritische Treffer des Zaubernden.",
+    "en": "Inflicts Water damage and increases the caster's chances of landing a critical hit.",
+    "es": "Ocasiona daños de agua y aumenta la probabilidad del lanzador de ejecutar un golpe crítico.",
+    "fr": "Occasionne des dommages Eau et augmente les chances d'effectuer un coup critique du lanceur.",
+    "pt": "Inflige danos de água e aumenta as chances de executar um golpe crítico do lançador."
+   },
+   "id": 24016,
+   "kind": {
+    "de": "Variantes Communs",
+    "en": "Variantes Communs",
+    "es": "Variantes Communs",
+    "fr": "Variantes Communs",
+    "pt": "Variantes Communs"
+   },
+   "levels": [
+    107,
+    174
+   ],
+   "name": {
+    "de": "Siedebil",
+    "en": "Kanniboil",
+    "es": "Kanibullición",
+    "fr": "Ebilition",
+    "pt": "Kanibulição"
+   },
+   "range": [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ]
+   ],
+   "stacks": [
+    1,
+    1
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3,
+    3
+   ],
+   "cooldown": [
+    3,
+    3,
+    3
+   ],
+   "crit": [
+    10,
+    10,
+    10
+   ],
+   "description": {
+    "de": "Erhöht Ausweichen des Zaubernden für jeden Gegner im Wirkungsbereich und fügt Gegnern im Wirkungsbereich Erdschaden zu.\n\nDie Effekte können nicht mithilfe eines Zaubers aufgehoben werden.",
+    "en": "Increases the caster's Dodge for each enemy in the area of effect and inflicts Earth damage on enemies in an area of effect.\n\nThe effects cannot be unbewitched.",
+    "es": "Aumenta la huida del lanzador por cada enemigo que haya en la zona de efecto y ocasiona daños de tierra en zona a los enemigos.\n\nLos efectos no se pueden desembrujar.",
+    "fr": "Augmente la Fuite du lanceur pour chaque ennemi dans la zone d'effet et occasionne des dommages Terre aux ennemis en zone.\n\nLes effets ne peuvent pas être désenvoûtés.",
+    "pt": "Aumenta a fuga do lançador a cada entidade na zona de efeito e inflige danos de terra aos inimigos em zona.\n\nOs efeitos não podem ser retirados."
+   },
+   "id": 24011,
+   "kind": {
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
+   },
+   "levels": [
+    60,
+    127,
+    194
+   ],
+   "name": {
+    "de": "Mantiskrok",
+    "en": "Mantiscroc",
+    "es": "Manticolmillo",
+    "fr": "Mantiscroc",
+    "pt": "Mantiscroc"
+   },
+   "range": [
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ]
+   ],
+   "stacks": [
+    5,
+    5,
+    5
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3
+   ],
+   "cooldown": [
+    3,
+    3
+   ],
+   "crit": [
+    10,
+    10
+   ],
+   "description": {
+    "de": "Erhöht Blocken des Zaubernden für jeden Gegner im Wirkungsbereich und fügt Gegnern im Wirkungsbereich rund um den Zaubernden Erdschaden zu.\n\nDie Effekte können nicht mithilfe eines Zaubers aufgehoben werden.",
+    "en": "Increases the caster's Lock for each enemy in the area of effect and inflicts Earth damage on enemies in an area of effect around the caster.\n\nThe effects cannot be unbewitched.",
+    "es": "Aumenta el placaje del lanzador por cada enemigo que haya en la zona de efecto y ocasiona daños de tierra en zona a los enemigos alrededor del lanzador.\n\nLos efectos no se pueden desembrujar.",
+    "fr": "Augmente le Tacle du lanceur pour chaque ennemi dans la zone d'effet et occasionne des dommages Terre aux ennemis en zone autour du lanceur.\n\nLes effets ne peuvent pas être désenvoûtés.",
+    "pt": "Aumenta o bloqueio do lançador a cada inimigo na zona de efeito e inflige danos de terra aos inimigos em zona ao redor do lançador.\n\nOs efeitos não podem ser retirados."
+   },
+   "id": 24013,
+   "kind": {
+    "de": "Variantes Communs",
+    "en": "Variantes Communs",
+    "es": "Variantes Communs",
+    "fr": "Variantes Communs",
+    "pt": "Variantes Communs"
+   },
+   "levels": [
+    127,
+    194
+   ],
+   "name": {
+    "de": "Mokles-Stachel",
+    "en": "Dart Mocles",
+    "es": "Dardo Mokles",
+    "fr": "Dard Moklès",
+    "pt": "Dardo Mokles"
+   },
+   "range": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ]
+   ],
+   "stacks": [
+    6,
+    6
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3
+   ],
+   "cooldown": [
+    3,
+    3
+   ],
+   "crit": [
+    10,
+    10
+   ],
+   "description": {
+    "de": "Verursacht Luftschaden und verringert die Reichweite.",
+    "en": "Inflicts Air damage and reduces Range.",
+    "es": "Ocasiona daños de aire y retira alcance.",
+    "fr": "Occasionne des dommages Air et retire de la Portée.",
+    "pt": "Inflige danos de ar e retira alcance."
+   },
+   "id": 366,
+   "kind": {
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
+   },
+   "levels": [
+    80,
+    147
+   ],
+   "name": {
+    "de": "Moons Hammer",
+    "en": "Moon Hammer",
+    "es": "Martillo de Moon",
+    "fr": "Marteau de Moon",
+    "pt": "Martelo de Moon"
+   },
+   "range": [
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ]
+   ],
+   "stacks": [
+    1,
+    1
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3
+   ],
+   "cooldown": [
+    3,
+    3
+   ],
+   "crit": [
+    10,
+    10
+   ],
+   "description": {
+    "de": "Verursacht Luftschaden und entzieht Reichweite.",
+    "en": "Inflicts Air damage and steals Range.",
+    "es": "Ocasiona daños de aire y roba alcance.",
+    "fr": "Occasionne des dommages Air et vole de la Portée.",
+    "pt": "Inflige danos de ar e rouba alcance."
+   },
+   "id": 24010,
+   "kind": {
+    "de": "Variantes Communs",
+    "en": "Variantes Communs",
+    "es": "Variantes Communs",
+    "fr": "Variantes Communs",
+    "pt": "Variantes Communs"
+   },
+   "levels": [
+    80,
+    147
+   ],
+   "name": {
+    "de": "Darkli Moons Hammer",
+    "en": "Darkli Moon Hammer",
+    "es": "Martillo de Darkli Moon",
+    "fr": "Marteau de Darkli Moon",
+    "pt": "Martelo de Darkli Moon"
+   },
+   "range": [
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ]
+   ],
+   "stacks": [
+    1,
+    1
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3
+   ],
+   "cooldown": [
+    4,
+    4
+   ],
+   "crit": [
+    5,
+    5
+   ],
+   "description": {
+    "de": "Entzieht Lebenspunkte und erhöht einen Eigenschaftswert des Zaubernden in einem zufällig gewählten Element.",
+    "en": "Steals health and increases one of the caster's characteristics in a random element.",
+    "es": "Roba vida y aumenta una característica del lanzador con un elemento aleatorio.",
+    "fr": "Vole de la vie et augmente une caractéristique du lanceur dans un élément aléatoire.",
+    "pt": "Rouba vida e aumenta uma característica do lançador em um elemento aleatório."
+   },
+   "id": 364,
+   "kind": {
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
+   },
+   "levels": [
+    100,
+    200
+   ],
+   "name": {
+    "de": "Bösartiger Boomerang",
+    "en": "Perfidious Boomerang",
+    "es": "Bumerán Pérfido",
+    "fr": "Boomerang Perfide",
+    "pt": "Bumerangue Pérfido"
+   },
+   "range": [
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "stacks": [
+    -1,
+    -1
+   ]
+  },
+  {
+   "ap": [
+    3,
+    3
+   ],
+   "cooldown": [
+    4,
+    4
+   ],
+   "crit": [
+    5,
+    5
+   ],
+   "description": {
+    "de": "Stiehlt Leben in einem zufälligen Element und zieht das Ziel heran.",
+    "en": "Steals health in a random element and attracts the target.",
+    "es": "Roba vida con un elemento aleatorio y atrae al objetivo.",
+    "fr": "Vole de la vie dans un élément aléatoire et attire la cible.",
+    "pt": "Rouba vida em um elemento aleatório e atrai o alvo."
+   },
+   "id": 24007,
+   "kind": {
+    "de": "Variantes Communs",
+    "en": "Variantes Communs",
+    "es": "Variantes Communs",
+    "fr": "Variantes Communs",
+    "pt": "Variantes Communs"
+   },
+   "levels": [
+    100,
+    200
+   ],
+   "name": {
+    "de": "Diamantienchens Bumerang",
+    "en": "Diamondine Boomerang",
+    "es": "Boomerang de Diamantina",
+    "fr": "Boomerang de Diamantine",
+    "pt": "Bumerangue de Diamantina"
+   },
+   "range": [
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "stacks": [
+    -1,
+    -1
+   ]
+  },
+  {
+   "ap": [
+    2,
+    2,
+    2
+   ],
+   "cooldown": [
+    5,
+    5,
+    5
+   ],
+   "crit": [
+    5,
+    5,
+    5
+   ],
+   "description": {
+    "de": "Erhöht die Schlagkraft der Waffen des Zaubernden.",
+    "en": "Increases the Power of the caster's weapons.",
+    "es": "Aumenta la potencia de las armas del lanzador.",
+    "fr": "Augmente la Puissance des armes du lanceur.",
+    "pt": "Aumenta a potência das armas do lançador."
+   },
+   "id": 3506,
+   "kind": {
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
+   },
+   "levels": [
+    30,
+    97,
+    164
+   ],
+   "name": {
+    "de": "Meister der Waffen",
+    "en": "Weapon Skill",
+    "es": "Dominio del Arma",
+    "fr": "Maîtrise d'Arme",
+    "pt": "Domínio da Arma"
+   },
+   "range": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ]
+   ]
+  },
+  {
+   "description": {
+    "de": "",
+    "en": "",
+    "es": "",
+    "fr": "",
+    "pt": ""
+   },
+   "id": 18645,
+   "kind": {
+    "de": "Dofus Ébène V2",
+    "en": "Dofus Ébène V2",
+    "es": "Dofus Ébène V2",
+    "fr": "Dofus Ébène V2",
+    "pt": "Dofus Ébène V2"
+   },
+   "levels": [
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "name": {
+    "de": "Ebenholz-Dofus",
+    "en": "Ebony Dofus",
+    "es": "Dofus Ébano",
+    "fr": "Dofus Ébène",
+    "pt": "Dofus Ébano"
+   },
+   "stacks": [
+    2,
+    2,
+    2,
+    2,
+    2
+   ]
+  },
+  {
+   "ap": [
+    1
+   ],
+   "description": {
+    "de": "",
+    "en": "",
+    "es": "",
+    "fr": "",
+    "pt": ""
+   },
+   "id": 10817,
+   "kind": {
+    "de": "Crocoburio",
+    "en": "Crocoburio",
+    "es": "Crocoburio",
+    "fr": "Crocoburio",
+    "pt": "Crocoburio"
+   },
+   "levels": [
+    1
+   ],
+   "name": {
+    "de": "Appetit von Crocobur",
+    "en": "Crocobur's Appetite",
+    "es": "Apetito de Cocobur",
+    "fr": "Appétit de Crocobur",
+    "pt": "Apetite da Crocálibur"
+   },
+   "range": [
+    [
+     0,
+     63
+    ]
+   ],
+   "stacks": [
+    -1
+   ]
+  },
+  {
+   "ap": [
+    1,
+    1,
+    1
+   ],
+   "description": {
+    "de": "",
+    "en": "",
+    "es": "",
+    "fr": "",
+    "pt": ""
+   },
+   "id": 18898,
+   "kind": {
+    "de": "Pestilence de Corruption",
+    "en": "Pestilence de Corruption",
+    "es": "Pestilence de Corruption",
+    "fr": "Pestilence de Corruption",
+    "pt": "Pestilence de Corruption"
+   },
+   "levels": [
+    1,
+    1,
+    1
+   ],
+   "name": {
+    "de": "Pestilenzwolke",
+    "en": "Pestilential Fog",
+    "es": "Nube Pestilente",
+    "fr": "Nuée Pestilentielle",
+    "pt": "Nuvem Pestilenta"
+   },
+   "range": [
+    [
+     0,
+     63
+    ],
+    [
+     0,
+     63
+    ],
+    [
+     0,
+     63
+    ]
+   ],
+   "stacks": [
+    -1,
+    1,
+    -1
+   ]
+  },
+  {
+   "ap": [
+    1,
+    1,
+    1
+   ],
+   "description": {
+    "de": "Toxizität des Skorpiuts (Stufe 200):\n• Zu Rundenbeginn fügt sich der Träger selbst 6 bis 8 Schaden in seinem besten Angriffselement zu, um Einheiten in Reichweite am Ende der Runde ebenfalls Schaden zuzufügen.",
+    "en": "Scurvion Toxicity (level 200):\n• At the start of each turn, the bearer inflicts 6 to 8 damage on themself in their best attack element to inflict that damage on adjacent entities at the end of the bearer's turn.",
+    "es": "Toxicidad del Scorbuto (nivel 200):\n• Al principio de cada turno, el portador se inflige 6-8 de daño con su mejor elemento de ataque y se lo inflige a las entidades en contacto con él al final de su turno.",
+    "fr": "Toxicité du Scorbute (niveau 200) :\n• À chaque début de tour, le porteur s'inflige 6 à 8 de dommages dans son meilleur élément d'attaque pour les infliger aux entités à son contact à la fin de son tour.",
+    "pt": "Toxicidade do Scorbuto (Nível 200):\n• No começo de cada turno, o carregador inflige a si mesmo de 6 a 8 de danos de seu melhor elemento de ataque, para infligi-los a todas as entidades em contato no final do turno."
+   },
+   "id": 12505,
+   "kind": {
+    "de": "Toxicité du Scorbute",
+    "en": "Toxicité du Scorbute",
+    "es": "Toxicité du Scorbute",
+    "fr": "Toxicité du Scorbute",
+    "pt": "Toxicité du Scorbute"
+   },
+   "levels": [
+    200,
+    200,
+    200
+   ],
+   "name": {
+    "de": "Toxizität des Skorpiuts",
+    "en": "Scurvion Toxicity",
+    "es": "Toxicidad del Scorbuto",
+    "fr": "Toxicité du Scorbute",
+    "pt": "Toxicidade do Scorbuto"
+   },
+   "range": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     0
+    ]
+   ],
+   "stacks": [
+    -1,
+    -1,
+    -1
+   ]
+  }
  ]
 }

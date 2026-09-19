@@ -13,9 +13,9 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Set, Tuple
 
 try:
-    from .default_damage_spells import DefaultSpellSpec, DEFAULT_DAMAGE_SPELL_SPECS
+    from .get_spells import select_default_spells
 except ImportError:
-    from default_damage_spells import DefaultSpellSpec, DEFAULT_DAMAGE_SPELL_SPECS
+    from get_spells import select_default_spells
 
 AUTO_START = "# AUTO-GENERATED DAMAGE_SPELLS START"
 AUTO_END = "# AUTO-GENERATED DAMAGE_SPELLS END"
@@ -803,11 +803,15 @@ def _merge_spell_lists(
 ) -> List[SpellEntry]:
     merged: List[SpellEntry] = list(primary or [])
     seen = {entry.name for entry in merged}
+    # The class map's default block is the same pick under the client's names
+    seen_ids = {entry.ankama_id for entry in merged if entry.ankama_id}
     for entry in extras:
-        if entry.name in seen:
+        if entry.name in seen or entry.ankama_id in seen_ids:
             continue
         merged.append(entry)
         seen.add(entry.name)
+        if entry.ankama_id:
+            seen_ids.add(entry.ankama_id)
     return merged
 
 
@@ -823,32 +827,11 @@ def _select_named_defaults(
     all_spells: Sequence[Mapping[str, Any]],
     spell_lookup: Mapping[int, Mapping[str, Any]],
 ) -> List[SpellEntry]:
-    lookup: Dict[str, List[Mapping[str, Any]]] = {}
-    by_ankama_id: Dict[int, Mapping[str, Any]] = {}
-    for spell in all_spells:
-        try:
-            ankama_id = int(spell.get("ankama_id"))
-        except (TypeError, ValueError):
-            ankama_id = 0
-        if ankama_id:
-            # Shared ids (25802 Friendship / Alchemical Word): keep the one with damage rows
-            connu = by_ankama_id.get(ankama_id)
-            if connu is None or (not connu.get("damage_templates")
-                                 and spell.get("damage_templates")):
-                by_ankama_id[ankama_id] = spell
-        name = (spell.get("name_en") or "").strip().lower()
-        if not name:
-            continue
-        lookup.setdefault(name, []).append(spell)
-
     entries: List[SpellEntry] = []
     missing: List[str] = []
     fell_back: List[str] = []
-    for spec in DEFAULT_DAMAGE_SPELL_SPECS:
-        # Id first, Ankama renames spells (Ebony Dofus attack is "Ebony Black" now)
-        spell = by_ankama_id.get(spec.ankama_id) if spec.ankama_id else None
-        if spell is None:
-            spell = _choose_default_candidate(lookup.get(spec.name.lower(), []), spec)
+    # The same pick as the reference, so both files carry the same ids
+    for spec, spell in select_default_spells(all_spells):
         if spell:
             converted = convert_spell(spell, spell_lookup=spell_lookup)
             if converted:
@@ -870,7 +853,10 @@ def _select_named_defaults(
         if legacy:
             if not spec.hand_written:
                 fell_back.append(spec.name)
-            entries.append(deepcopy(legacy))
+            # The client's own id, so the page finds the spell's description
+            ankama_id = spec.ankama_id or int((spell or {}).get("ankama_id") or 0)
+            entries.append(replace(deepcopy(legacy),
+                                   ankama_id=ankama_id or legacy.ankama_id))
             continue
         missing.append(spec.name)
     if fell_back:
@@ -934,39 +920,6 @@ def _charged_grade_only(entry: SpellEntry) -> SpellEntry:
         casting=({cle: valeurs[-1:] for cle, valeurs in entry.casting.items()}
                  if entry.casting else entry.casting),
     )
-
-
-def _choose_default_candidate(
-    candidates: Optional[Sequence[Mapping[str, Any]]], spec
-) -> Optional[Mapping[str, Any]]:
-    if not candidates:
-        return None
-
-    def score(spell: Mapping[str, Any]) -> tuple:
-        variant_group = spell.get("variant_group")
-        has_variant = bool(variant_group)
-        variant_penalty = 0
-        if spec.prefer_variant and not has_variant:
-            variant_penalty = 1
-        elif not spec.prefer_variant and has_variant:
-            variant_penalty = 0
-        breed_ids = spell.get("breed_ids") or []
-        breed_penalty = 0
-        if breed_ids:
-            if not all(_is_player_breed(bid) for bid in breed_ids):
-                breed_penalty = 1
-        damage_penalty = 0 if spell.get("damage_templates") else 1
-        return (variant_penalty, breed_penalty, damage_penalty, spell.get("ankama_id") or 0)
-
-    return min(candidates, key=score)
-
-
-def _is_player_breed(breed_id: Any) -> bool:
-    try:
-        value = int(breed_id)
-    except (TypeError, ValueError):
-        return False
-    return 1 <= value <= 19
 
 
 def _not_a_self_buff(spell: Mapping[str, Any]) -> bool:
@@ -1802,7 +1755,6 @@ def render_spell(entry: SpellEntry) -> List[str]:
     if entry.casting:
         extra_args.append(f"casting={entry.casting!r}")
     if entry.ankama_id:
-        # hand-written defaults have no id
         extra_args.append(f"spell_id={entry.ankama_id}")
     if entry.conditional:
         extra_args.append(f"conditional={entry.conditional!r}")

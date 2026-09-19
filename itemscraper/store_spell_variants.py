@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 """Store which spells are the two faces of one variant, into spell_variants.json.
 
-    python store_spell_variants.py --game-version dofus3|beta
+    python store_spell_variants.py --game-version dofus3|beta|dofus2
 
-A Dofus 3 class spell comes as a pair and the player arms one of the two before
-the fight, so a turn can never hold both. The datacenter says which two:
-spell_variants.json is a list of {breedId, id, spellIds: [a, b]}. Dofus 2, Touch
-and Retro never had variants, and simply have no such file.
+A class spell comes as a pair and the player arms one of the two before the
+fight, so a turn can never hold both. The datacenter says which two:
+spell_variants.json is a list of {breedId, id, spellIds: [a, b]}, the 2.73
+archive as a plain list and the Dofus 3 dumps Unity-serialised. Touch and Retro
+never had variants, and simply have no such file.
 """
 import argparse
 import json
@@ -23,16 +24,19 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY):
 import fashionista_version  # noqa: E402
 
 RAW_ROOT = os.path.join(CURRENT_DIRECTORY, 'raw')
-# Beta and Dofus 3 share raw/, one directory per build.
+# The three share raw/, one directory per build.
 ARCHIVE_TAG = {
     'dofus3': fashionista_version.FASHIONISTA_VERSION,
     'beta': fashionista_version.FASHIONISTA_BETA_VERSION,
+    'dofus2': fashionista_version.FASHIONISTA_DOFUS2_VERSION,
 }
 OUTPUT = os.path.join(PROJECT_ROOT, 'fashionsite', 'chardata',
                       'spell_variants.json')
 
 
 def _rows(payload):
+    if isinstance(payload, list):
+        return payload
     rows = payload.get('references', payload)
     rows = rows.get('RefIds', rows) if isinstance(rows, dict) else rows
     return list(rows.values()) if isinstance(rows, dict) else rows
@@ -49,7 +53,9 @@ def read_variants(tag):
     for row in _rows(payload):
         data = row.get('data', row)
         variant = data.get('id')
-        spell_ids = (data.get('spellIds') or {}).get('Array') or []
+        spell_ids = data.get('spellIds') or []
+        if isinstance(spell_ids, dict):
+            spell_ids = spell_ids.get('Array') or []
         if variant is None or len(spell_ids) < 2:
             continue
         for spell_id in spell_ids:

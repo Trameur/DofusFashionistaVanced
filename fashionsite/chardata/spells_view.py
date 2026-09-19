@@ -58,13 +58,19 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     game_version = getattr(request, 'game_version', 'dofus3')
     spells_by_class = get_damage_spells_for_version(game_version)
     class_spells = spells_by_class.get(char_class, [])
+    shared_spells = spells_by_class.get('default', [])
     reference = reference_by_spell_id(game_version, char_class)
-    partenaires = _variant_partner_names(class_spells, game_version)
-    for spell in class_spells + spells_by_class.get('default', []):
+    # The item spells every class casts have their own block
+    shared_reference = reference_by_spell_id(game_version, 'default')
+    partenaires = _variant_partner_names(
+        class_spells + shared_spells, game_version,
+        list(reference.values()) + list(shared_reference.values()))
+    for spell in class_spells + shared_spells:
         web_digest = _create_spell_web_digest(spell, game_version,
                                               char.level)
-        web_digest['variant_partner'] = partenaires.get(spell.name)
-        entry = reference.get(getattr(spell, 'spell_id', None))
+        spell_id = getattr(spell, 'spell_id', None)
+        web_digest['variant_partner'] = partenaires.get(spell_id)
+        entry = reference.get(spell_id) or shared_reference.get(spell_id)
         if entry is not None:
             web_digest['reference'] = _reference_digest(entry)
         digests.append(web_digest)
@@ -72,8 +78,10 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
     shown ={getattr(spell, 'spell_id', None) for spell in class_spells}
     for spell_id, entry in reference.items():
         if spell_id not in shown:
-            digests.append(_create_reference_web_digest(entry, game_version,
-                                                       char.level))
+            web_digest = _create_reference_web_digest(entry, game_version,
+                                                      char.level)
+            web_digest['variant_partner'] = partenaires.get(spell_id)
+            digests.append(web_digest)
     # Local import: solution_view imports _best_combo from here
     from chardata.solution_view import pieces_above_the_character_level
     hors_niveau = pieces_above_the_character_level(char, solution)
@@ -108,25 +116,33 @@ def _spells(request, char, is_guest, char_id, encoded_char_id=None):
                              game_version)},
                         char)
 
-def _variant_partner_names(spells, game_version):
-    """{spell name: localized name of its variant partner}"""
+def _variant_partner_names(spells, game_version, entries=()):
+    """{spell id: localized name of its variant partner}"""
     from chardata.spell_variants import variant_of
     langue = get_supported_language()
-    par_variante = {}
-    for spell in spells:
-        variante = variant_of(game_version, getattr(spell, 'spell_id', None))
-        if variante is not None:
-            par_variante.setdefault(variante, []).append(spell)
     noms = {}
+    for spell in spells:
+        spell_id = getattr(spell, 'spell_id', None)
+        if spell_id is not None and spell_id not in noms:
+            noms[spell_id] = _localized_spell_name(spell.name, langue,
+                                                   game_version)
+    for entry in entries:
+        spell_id = entry.get('id')
+        if spell_id is not None and spell_id not in noms:
+            noms[spell_id] = localized(entry, 'name', langue)
+    par_variante = {}
+    for spell_id in noms:
+        variante = variant_of(game_version, spell_id)
+        if variante is not None:
+            par_variante.setdefault(variante, []).append(spell_id)
+    partenaires = {}
     for groupe in par_variante.values():
         if len(groupe) != 2:
             continue
         premier, second = groupe
-        noms[premier.name] = _localized_spell_name(second.name, langue,
-                                                   game_version)
-        noms[second.name] = _localized_spell_name(premier.name, langue,
-                                                  game_version)
-    return noms
+        partenaires[premier] = noms[second]
+        partenaires[second] = noms[premier]
+    return partenaires
 
 
 def _reference_digest(entry):

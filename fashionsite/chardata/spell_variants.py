@@ -1,10 +1,10 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Which spells are the two faces of one variant.
 
-A Dofus 3 class spell comes as a pair and the player arms one of the two before
-the fight, so one turn can never hold both. Data file: spell_variants.json
-(regenerate with itemscraper/store_spell_variants.py). Dofus 2, Touch and Retro
-never had variants.
+A class spell comes as a pair and the player arms one of the two before the
+fight, so one turn can never hold both. Data file: spell_variants.json, one
+table each for dofus3, beta and dofus2 (regenerate with
+itemscraper/store_spell_variants.py). Touch and Retro never had variants.
 """
 import json
 import os

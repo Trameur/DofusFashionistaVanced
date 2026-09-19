@@ -2283,6 +2283,8 @@ class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
 
     def test_every_class_carries_the_same_count_in_the_archive(self):
         for class_name, entries in self._reference().items():
+            if class_name == 'default':
+                continue
             with self.subTest(char_class=class_name):
                 self.assertEqual(self.SPELLS_PER_CLASS, len(entries))
 
@@ -2290,7 +2292,9 @@ class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
     SAME_MEASUREMENT_ABOVE = 0.99
 
     def _spell_ids(self, book):
-        return {spell.get('id') for block in book.values()
+        # The shared block is picked by our spec, not by the archive
+        return {spell.get('id') for name, block in book.items()
+                if name != 'default'
                 for spell in block if spell.get('id')}
 
     def test_the_count_is_the_one_an_independent_source_gives_too(self):
@@ -2308,7 +2312,7 @@ class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
                         'are one measurement and cannot corroborate each '
                         'other' % (overlap * 100))
 
-        shared = sorted(set(ours) & set(book))
+        shared = sorted((set(ours) & set(book)) - {'default'})
         self.assertGreater(len(shared), 15,
                            'almost no class in common with dofus3: the '
                            'comparison would mean nothing')
@@ -2349,6 +2353,8 @@ class Dofus2IsServedItsOwnSpellsTests(SimpleTestCase):
         from chardata.spell_reference import reference_by_spell_id
         served = get_damage_spells_for_version('dofus2')
         for class_name in self._reference():
+            if class_name == 'default':
+                continue
             model = served.get(class_name) or []
             entries = reference_by_spell_id('dofus2', class_name)
             shown = {getattr(spell, 'spell_id', None) for spell in model}
@@ -15977,7 +15983,8 @@ class SpellCastingCostTests(SimpleTestCase):
     VERSIONS = ('dofus3', 'beta')
 
     # The Dofus applies it to the next attack, the player never casts it
-    NOT_CAST_BY_THE_PLAYER = ['Ebony Dofus']
+    # Hand-written stand-ins, and a spell the item casts on its own
+    WITHOUT_CASTING_DATA = {'Burnt Pie', 'Weapon Skill', 'Ebony Dofus'}
 
     def _spells(self, version):
         from chardata.spell_buffs import get_damage_spells_for_version
@@ -16015,9 +16022,10 @@ class SpellCastingCostTests(SimpleTestCase):
     def test_every_real_spell_knows_what_it_costs(self):
         for version in self.VERSIONS:
             with self.subTest(version=version):
-                missing = [spell.name for spell in self._spells(version)
-                           if spell.spell_id and not spell.casting]
-                self.assertEqual(self.NOT_CAST_BY_THE_PLAYER, missing, version)
+                missing = {spell.name for spell in self._spells(version)
+                           if spell.spell_id and not spell.casting}
+                self.assertLessEqual(missing, self.WITHOUT_CASTING_DATA, version)
+                self.assertIn('Ebony Dofus', missing)
 
     def test_a_cost_is_given_per_spell_level_and_is_never_free(self):
         for version in self.VERSIONS:
@@ -20180,11 +20188,11 @@ class SpellVariantTests(TestCase):
         self.assertIsNone(variant_of('dofus3', None))
 
     def test_only_the_versions_that_have_variants_carry_them(self):
-        # Dofus 2, Touch and Retro predate the pairs
+        # Touch and Retro predate the pairs
         from chardata.spell_variants import get_variant_by_spell_id
-        for version in ('dofus3', 'beta'):
+        for version in ('dofus3', 'beta', 'dofus2'):
             self.assertTrue(get_variant_by_spell_id(version), version)
-        for version in ('dofus2', 'touch', 'retro'):
+        for version in ('touch', 'retro'):
             self.assertFalse(get_variant_by_spell_id(version), version)
 
     def test_partners_are_read_from_the_spell_ids(self):
@@ -20206,7 +20214,7 @@ class SpellVariantTests(TestCase):
         self.assertEqual(partners.get(1), frozenset([0]))
         self.assertNotIn(2, partners)
         # A version with no variants constrains nothing
-        self.assertEqual(_variant_partners(spells, 'dofus2'), {})
+        self.assertEqual(_variant_partners(spells, 'touch'), {})
         self.assertEqual(_variant_partners(spells, None), {})
 
     def test_the_buff_panel_holds_the_same_rule_as_the_turn(self):
@@ -20347,7 +20355,8 @@ class SpellReferenceTests(TestCase):
         """The cooldown key is on every Dofus 2 level row, zero on most."""
         from chardata.spell_reference import get_spell_reference
         blocks = get_spell_reference('dofus2')
-        spells = [spell for block in blocks.values() for spell in block]
+        spells = [spell for name, block in blocks.items()
+                  if name != 'default' for spell in block]
         self.assertEqual(836, len(spells))
         self.assertTrue([spell for spell in spells
                          if spell['description'].get('fr')])
@@ -20428,7 +20437,12 @@ class SpellReferenceTests(TestCase):
                    if d.get('type') == 'spell' and not d.get('non_crit_dams')]
         self.assertGreaterEqual(len(with_reference), 40)
         self.assertGreaterEqual(len(utility), 5)
+        # The shared item spells have their own test, some the client does not describe
+        from fashionistapulp.dofus_constants import DAMAGE_SPELLS
+        shared = {spell.name for spell in DAMAGE_SPELLS['default']}
         for digest in with_reference:
+            if digest.get('canonical') in shared:
+                continue
             self.assertTrue(digest['reference']['ap'], digest['name'])
             self.assertTrue(digest['reference']['description'], digest['name'])
         names =[digest['name'] for digest in digests]

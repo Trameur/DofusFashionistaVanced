@@ -8,12 +8,12 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence
+from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
 
 try:
-    from .default_damage_spells import DEFAULT_DAMAGE_SPELL_NAMES
+    from .default_damage_spells import DefaultSpellSpec, DEFAULT_DAMAGE_SPELL_SPECS
 except ImportError:
-    from default_damage_spells import DEFAULT_DAMAGE_SPELL_NAMES
+    from default_damage_spells import DefaultSpellSpec, DEFAULT_DAMAGE_SPELL_SPECS
 
 LANGUAGES: Sequence[str] = ("en", "fr", "es", "pt", "de")
 RAW_ROOT = Path("itemscraper/raw")
@@ -813,19 +813,11 @@ class SpellTransformer:
         return grouped
 
     def _build_default_spells(self, payload: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
-        lookup: Dict[str, Mapping[str, Any]] = {}
-        for entry in payload:
-            name = (entry.get("name_en") or "").strip()
-            if not name:
-                continue
-            lookup.setdefault(name.lower(), entry)
-
         spells: List[Dict[str, Any]] = []
         missing: List[str] = []
-        for name in DEFAULT_DAMAGE_SPELL_NAMES:
-            entry = lookup.get(name.lower())
+        for spec, entry in select_default_spells(payload):
             if not entry:
-                missing.append(name)
+                missing.append(spec.name)
                 continue
             spells.append(self._spell_for_class(entry))
 
@@ -841,6 +833,62 @@ class SpellTransformer:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(json.dumps(class_map, indent=2, ensure_ascii=False), encoding="utf-8")
         print(f"Wrote {sum(len(data['spells']) for data in class_map.values())} class spells -> {output_path}")
+
+
+def select_default_spells(
+    payload: Sequence[Mapping[str, Any]],
+) -> List[Tuple[DefaultSpellSpec, Optional[Mapping[str, Any]]]]:
+    """[(spec, the client's spell or None)], the id first, then the best named one."""
+    lookup: Dict[str, List[Mapping[str, Any]]] = {}
+    by_ankama_id: Dict[int, Mapping[str, Any]] = {}
+    for spell in payload:
+        try:
+            ankama_id = int(spell.get("ankama_id"))
+        except (TypeError, ValueError):
+            ankama_id = 0
+        if ankama_id:
+            # Shared ids (25802 Friendship / Alchemical Word): keep the one with damage rows
+            known = by_ankama_id.get(ankama_id)
+            if known is None or (not known.get("damage_templates")
+                                 and spell.get("damage_templates")):
+                by_ankama_id[ankama_id] = spell
+        name = (spell.get("name_en") or "").strip().lower()
+        if name:
+            lookup.setdefault(name, []).append(spell)
+
+    chosen = []
+    for spec in DEFAULT_DAMAGE_SPELL_SPECS:
+        # Id first, Ankama renames spells (Ebony Dofus attack is "Ebony Black" now)
+        spell = by_ankama_id.get(spec.ankama_id) if spec.ankama_id else None
+        if spell is None:
+            spell = _best_named_candidate(lookup.get(spec.name.lower(), []), spec)
+        chosen.append((spec, spell))
+    return chosen
+
+
+def _best_named_candidate(
+    candidates: Sequence[Mapping[str, Any]], spec: DefaultSpellSpec
+) -> Optional[Mapping[str, Any]]:
+    if not candidates:
+        return None
+
+    def score(spell: Mapping[str, Any]) -> tuple:
+        variant_penalty = 1 if spec.prefer_variant and not spell.get("variant_group") else 0
+        breed_ids = spell.get("breed_ids") or []
+        breed_penalty = 1 if breed_ids and not all(
+            _is_player_breed(bid) for bid in breed_ids) else 0
+        damage_penalty = 0 if spell.get("damage_templates") else 1
+        return (variant_penalty, breed_penalty, damage_penalty, spell.get("ankama_id") or 0)
+
+    return min(candidates, key=score)
+
+
+def _is_player_breed(breed_id: Any) -> bool:
+    try:
+        value = int(breed_id)
+    except (TypeError, ValueError):
+        return False
+    return 1 <= value <= 19
 
 
 def _detect_latest_tag(raw_root: Path) -> Path:

@@ -47440,25 +47440,35 @@
   },
   {
    "ap": [
+    3,
     3
    ],
+   "cooldown": [
+    2,
+    2
+   ],
+   "crit": [
+    10,
+    10
+   ],
    "description": {
-    "de": "",
-    "en": "",
-    "es": "",
-    "fr": "",
-    "pt": ""
+    "de": "Verursacht Luftschaden und verringert die Reichweite.",
+    "en": "Inflicts Air damage and reduces Range.",
+    "es": "Ocasiona daños de aire y retira alcance.",
+    "fr": "Occasionne des dommages Air et retire de la Portée.",
+    "pt": "Inflige danos de ar e retira alcance."
    },
-   "id": 293,
+   "id": 366,
    "kind": {
-    "de": "_VRAC",
-    "en": "_VRAC",
-    "es": "_VRAC",
-    "fr": "_VRAC",
-    "pt": "_VRAC"
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
    },
    "levels": [
-    0
+    80,
+    147
    ],
    "name": {
     "de": "Moons Hammer",
@@ -47467,18 +47477,21 @@
     "fr": "Marteau de Moon",
     "pt": "Martelo de Moon"
    },
-   "per_target": [
-    1
-   ],
-   "per_turn": [
-    2
-   ],
    "range": [
     [
      1,
-     8
+     6
+    ],
+    [
+     1,
+     7
     ]
-   ]
+   ],
+   "stacks": [
+    2,
+    2
+   ],
+   "variant": 486
   },
   {
    "ap": [
@@ -47705,6 +47718,52 @@
    "variant": 494
   },
   {
+   "description": {
+    "de": "",
+    "en": "",
+    "es": "",
+    "fr": "",
+    "pt": ""
+   },
+   "id": 18645,
+   "kind": {
+    "de": "Dofus Ébène",
+    "en": "Dofus Ébène",
+    "es": "Dofus Ébène",
+    "fr": "Dofus Ébène",
+    "pt": "Dofus Ébène"
+   },
+   "levels": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "name": {
+    "de": "Ebenholzschwarz",
+    "en": "Ebony Black",
+    "es": "Negro Ébano",
+    "fr": "Noir Ébène",
+    "pt": "Negro Ébano"
+   },
+   "stacks": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    -1,
+    5,
+    5,
+    -1
+   ]
+  },
+  {
    "ap": [
     1
    ],
@@ -47745,24 +47804,28 @@
   },
   {
    "ap": [
+    1,
+    1,
     1
    ],
    "description": {
-    "de": "Pestilenzwolke:\n• Wenn der Träger wieder 90 % seiner Lebenspunkte hat, wendet er am Anfang der Runde für 2 Runden ein Gift von 18 in seinem besten Angriffselement auf Einheiten an, die maximal 2 Felder von ihm entfernt sind (1-mal kumulierbar).",
-    "en": "Pestilential Fog:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on entities within 2 cells or less of the bearer for 2 turns (stackable 1 time).",
-    "es": "Nube Pestilente:\n• Cuando el portador sube al 90% de su vida, aplica un veneno de inicio de turno de 18 con su mejor elemento de ataque a las entidades a 2 casillas o menos de él durante 2 turnos (acumulable 1 vez).",
-    "fr": "Nuée Pestilentielle :\n• Lorsque le porteur remonte à 90% de sa vie, il applique un poison de début de tour de 18 dans son meilleur élément d'attaque sur les entités à 2 cases ou moins de lui pendant 2 tours (cumulable 1 fois).",
-    "pt": "Nuvem Pestilenta:\n• Quando o portador volta a ter 90% da vida, ele aplica um veneno de início de turno de 18 em seu melhor elemento de ataque às entidades a até 2 células dele por 2 turnos (acumula 1 vez)."
+    "de": "",
+    "en": "",
+    "es": "",
+    "fr": "",
+    "pt": ""
    },
-   "id": 15975,
+   "id": 18898,
    "kind": {
-    "de": "Legendäre Gegenstände",
-    "en": "Legendary Items",
-    "es": "Objetos legendarios",
-    "fr": "Objets légendaires",
-    "pt": "Itens lendários"
+    "de": "Déclenchés Objets Légendaires",
+    "en": "Déclenchés Objets Légendaires",
+    "es": "Déclenchés Objets Légendaires",
+    "fr": "Déclenchés Objets Légendaires",
+    "pt": "Déclenchés Objets Légendaires"
    },
    "levels": [
+    1,
+    1,
     1
    ],
    "name": {
@@ -47776,9 +47839,19 @@
     [
      0,
      63
+    ],
+    [
+     0,
+     63
+    ],
+    [
+     0,
+     63
     ]
    ],
    "stacks": [
+    -1,
+    1,
     -1
    ]
   },

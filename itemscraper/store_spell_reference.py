@@ -20,12 +20,30 @@ for path in (PROJECT_ROOT, CURRENT_DIRECTORY,
         sys.path.append(path)
 
 import fashionista_version  # noqa: E402
+from default_damage_spells import DEFAULT_DAMAGE_SPELL_SPECS  # noqa: E402
 from fashionistapulp.game_versions import dofus_versions  # noqa: E402
 from untranslated_tag import clean_description  # noqa: E402
 
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'fashionsite', 'chardata',
                           'spell_reference')
+
+# Shared spells the game triggers itself: the item card says what they cost
+NEVER_CAST_BY_THE_PLAYER = frozenset(
+    spec.ankama_id for spec in DEFAULT_DAMAGE_SPELL_SPECS
+    if spec.item_effect is not None and not spec.item_effect.cast_by_the_player)
+CAST_NUMBERS = ('ap', 'range', 'per_turn', 'per_target', 'cooldown', 'crit')
+
+
+def _shared_block(entries):
+    """The default block, without a cast line for spells the player never casts."""
+    out = []
+    for entry in entries:
+        if entry.get('id') in NEVER_CAST_BY_THE_PLAYER:
+            entry = {key: value for key, value in entry.items()
+                     if key not in CAST_NUMBERS}
+        out.append(entry)
+    return out
 
 # Dofus 2 and Retro class ids
 CLASS_ID_TO_NAME = {
@@ -255,7 +273,8 @@ def read_modern(path):
                 'variant': variant,
             }))
         if spells:
-            out[class_name] = spells
+            out[class_name] = (_shared_block(spells) if class_name == 'default'
+                               else spells)
     return out
 
 
@@ -293,47 +312,66 @@ def read_dofus2(tag):
     def text(lang, text_id):
         return texts.get(lang, {}).get(str(text_id)) or ''
 
+    def entry_for(spell_id):
+        spell = spells.get(str(spell_id))
+        if spell is None:
+            return None
+        type_row = types.get(str(spell.get('typeId'))) or {}
+        # Same field names as Touch
+        ranks = [levels.get(str(level_id)) or {}
+                 for level_id in (spell.get('spellLevels') or [])]
+        return _drop_empty({
+            'id': spell.get('id'),
+            'name': {lang: text(lang, spell.get('nameId'))
+                     for lang in LANGUAGES},
+            'description': {lang: text(lang, spell.get('descriptionId'))
+                            for lang in LANGUAGES},
+            'kind': {lang: text(lang, type_row.get('longNameId'))
+                     for lang in LANGUAGES},
+            'levels': _rank_values(ranks, 'minPlayerLevel') or [],
+            'ap': _rank_values(ranks, 'apCost'),
+            'range': [[rank.get('minRange'), rank.get('range')]
+                      for rank in ranks] or None,
+            'per_turn': _rank_values(ranks, 'maxCastPerTurn'),
+            'per_target': _rank_values(ranks, 'maxCastPerTarget'),
+            'cooldown': _rank_values(ranks, 'minCastInterval'),
+            'crit': _rank_values(ranks, 'criticalHitProbability'),
+            'stacks': _rank_values(ranks, 'maxStack'),
+        })
+
     out = {}
     for breed in load('breeds.json'):
         class_name = CLASS_ID_TO_NAME.get(breed.get('id'))
         if not class_name:
             continue
-        found = []
         wanted = list(breed.get('breedSpellsId') or [])
         for_this_breed = partners.get(breed.get('id')) or {}
         for base in list(wanted):
             for extra in for_this_breed.get(base, []):
                 if extra not in wanted:
                     wanted.append(extra)
-        for variant in wanted:
-            spell = spells.get(str(variant))
-            if spell is None:
-                continue
-            type_row = types.get(str(spell.get('typeId'))) or {}
-            # Same field names as Touch
-            ranks = [levels.get(str(level_id)) or {}
-                     for level_id in (spell.get('spellLevels') or [])]
-            found.append(_drop_empty({
-                'id': spell.get('id'),
-                'name': {lang: text(lang, spell.get('nameId'))
-                         for lang in LANGUAGES},
-                'description': {lang: text(lang, spell.get('descriptionId'))
-                                for lang in LANGUAGES},
-                'kind': {lang: text(lang, type_row.get('longNameId'))
-                         for lang in LANGUAGES},
-                'levels': _rank_values(ranks, 'minPlayerLevel') or [],
-                'ap': _rank_values(ranks, 'apCost'),
-                'range': [[rank.get('minRange'), rank.get('range')]
-                          for rank in ranks] or None,
-                'per_turn': _rank_values(ranks, 'maxCastPerTurn'),
-                'per_target': _rank_values(ranks, 'maxCastPerTarget'),
-                'cooldown': _rank_values(ranks, 'minCastInterval'),
-                'crit': _rank_values(ranks, 'criticalHitProbability'),
-                'stacks': _rank_values(ranks, 'maxStack'),
-            }))
+        found = [entry for entry in map(entry_for, wanted) if entry]
         if found:
             out[class_name] = found
+    # The item spells every class casts, the ids the transform picked
+    defaults = [entry for entry in map(entry_for, _default_spell_ids(
+        os.path.join(CURRENT_DIRECTORY, 'transformed_class_spells_dofus2.json')))
+        if entry]
+    if defaults:
+        out['default'] = _shared_block(defaults)
     return out
+
+
+def _default_spell_ids(class_map_path):
+    """Ids of the transform's default block, the same pick as the generator's."""
+    if not os.path.exists(class_map_path):
+        raise SystemExit('no %s: run get_spells.py for this version first'
+                         % class_map_path)
+    with open(class_map_path, encoding='utf-8') as handle:
+        classes = json.load(handle)
+    return [spell.get('ankama_id')
+            for spell in (classes.get('default') or {}).get('spells') or []
+            if spell.get('ankama_id') is not None]
 
 
 def read_retro(raw_dir):

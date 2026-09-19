@@ -29,10 +29,17 @@ def _icon_file(url):
 class EveryClassSpellHasItsIconTests(SimpleTestCase):
 
     def _missing(self, game_version):
+        from chardata.spell_buffs import get_damage_spells_for_version
         missing = []
         for class_name, entries in _reference(game_version).items():
-            for entry in entries:
-                name = _reference_icon_name(entry, '', game_version)
+            if class_name == 'default':
+                # Shown under the model's names, the client renames some
+                names = [spell.name for spell in
+                         get_damage_spells_for_version(game_version)['default']]
+            else:
+                names = [_reference_icon_name(entry, '', game_version)
+                         for entry in entries]
+            for name in names:
                 url = _spell_image_url(name, game_version)
                 if not os.path.exists(_icon_file(url)):
                     missing.append((class_name, name))

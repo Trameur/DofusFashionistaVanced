@@ -47443,25 +47443,35 @@
   },
   {
    "ap": [
+    3,
     3
    ],
+   "cooldown": [
+    2,
+    2
+   ],
+   "crit": [
+    10,
+    10
+   ],
    "description": {
-    "de": "",
-    "en": "",
-    "es": "",
-    "fr": "",
-    "pt": ""
+    "de": "Verursacht Luftschaden und verringert die Reichweite.",
+    "en": "Inflicts Air damage and reduces Range.",
+    "es": "Ocasiona daños de aire y retira alcance.",
+    "fr": "Occasionne des dommages Air et retire de la Portée.",
+    "pt": "Inflige danos de ar e retira alcance."
    },
-   "id": 293,
+   "id": 366,
    "kind": {
-    "de": "_VRAC",
-    "en": "_VRAC",
-    "es": "_VRAC",
-    "fr": "_VRAC",
-    "pt": "_VRAC"
+    "de": "Allgemein",
+    "en": "Common",
+    "es": "Comunes",
+    "fr": "Communs",
+    "pt": "Comuns"
    },
    "levels": [
-    0
+    80,
+    147
    ],
    "name": {
     "de": "Moons Hammer",
@@ -47470,18 +47480,21 @@
     "fr": "Marteau de Moon",
     "pt": "Martelo de Moon"
    },
-   "per_target": [
-    1
-   ],
-   "per_turn": [
-    2
-   ],
    "range": [
     [
      1,
-     8
+     6
+    ],
+    [
+     1,
+     7
     ]
-   ]
+   ],
+   "stacks": [
+    2,
+    2
+   ],
+   "variant": 486
   },
   {
    "ap": [
@@ -47706,6 +47719,52 @@
     ]
    ],
    "variant": 494
+  },
+  {
+   "description": {
+    "de": "",
+    "en": "",
+    "es": "",
+    "fr": "",
+    "pt": ""
+   },
+   "id": 18645,
+   "kind": {
+    "de": "Dofus Ébène",
+    "en": "Dofus Ébène",
+    "es": "Dofus Ébène",
+    "fr": "Dofus Ébène",
+    "pt": "Dofus Ébène"
+   },
+   "levels": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "name": {
+    "de": "Ebenholzschwarz",
+    "en": "Ebony Black",
+    "es": "Negro Ébano",
+    "fr": "Noir Ébène",
+    "pt": "Negro Ébano"
+   },
+   "stacks": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    -1,
+    5,
+    5,
+    -1
+   ]
   },
   {
    "ap": [
