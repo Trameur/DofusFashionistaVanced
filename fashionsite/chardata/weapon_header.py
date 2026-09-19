@@ -8,11 +8,7 @@ field into a percentage and every later version kept that.
 """
 from django.utils.translation import gettext as _
 
-# Modern Dofus types the weapon heal by element and says so: the Hidsad Bow reads
-# "12 to 42 Fire heals". Retro and Touch call the same line "PDV rendus", and
-# their effect carries no element field at all. The stored element is what scales
-# the roll, Intelligence in every version, so it must not be printed where the
-# game keeps quiet about it.
+# Retro and Touch heal lines carry no element in the game, so none is printed
 _ELEMENTLESS_HEAL_VERSIONS = {'retro', 'touch'}
 
 
