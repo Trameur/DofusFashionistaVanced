@@ -6841,3 +6841,19 @@ msgid "%(kinds)s ingredient · %(total)s total"
 msgid_plural "%(kinds)s ingredients · %(total)s total"
 msgstr[0] ""
 msgstr[1] ""
+
+#: chardata/shared_builds_view.py
+#, python-format
+msgid "%(class_name)s Builds"
+msgstr ""
+
+#: chardata/shared_builds_view.py
+#, python-format
+msgid ""
+"Browse %(class_name)s builds shared by Dofus players: optimized equipment "
+"sets by level and build type, with full stats. Find one to start your own."
+msgstr ""
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Builds by class"
+msgstr ""

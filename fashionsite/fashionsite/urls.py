@@ -588,6 +588,24 @@ def _sitemap_pages(base_url):
                           ('/import/text/', '0.6')):
             blocks.append(_sitemap_url(vbase + sub, 'weekly', prio))
 
+    # Class pages with enough builds, once per version and language
+    from fashionistapulp.game_versions import GAME_VERSIONS, version_keys
+    try:
+        for version_slug in version_keys():
+            prefix = GAME_VERSIONS[version_slug].prefix
+            vprefix = '/' + prefix if prefix else ''
+            freq, prio, language_prio = (('daily', '0.9', '0.8') if not prefix
+                                         else ('weekly', '0.7', '0.6'))
+            for slug in shared_builds_view.indexable_class_slugs(version_slug):
+                path = '%s/sharedbuilds/%s/' % (vprefix, slug)
+                blocks.append(_sitemap_url(base_url + path, freq, prio))
+                for language in _SITEMAP_LANGUAGES:
+                    blocks.append(_sitemap_url(
+                        '%s/%s%s' % (base_url, language, path),
+                        freq, language_prio))
+    except Exception:
+        pass
+
     try:
         from urllib.parse import quote
         # A /s/ URL whose build has no stored solution 404s.
@@ -735,7 +753,7 @@ urlpatterns = [
     re_path(r'^deleteprojects/', projects_view.delete_projects, name='delete_projects'),
     re_path(r'^duplicateproject/', projects_view.duplicate_project, name='duplicate_project'),
     re_path(r'^duplicatemyproject/(?P<char_id>\d+)/', projects_view.duplicate_my_project, name='duplicate_my_project'),
-    re_path(r'^sharedbuilds/', shared_builds_view.shared_builds, name='shared_builds'),
+    re_path(r'^sharedbuilds/$', shared_builds_view.shared_builds, name='shared_builds'),
     re_path(r'^user/(?P<alias>[^/]+)/$', profile_view.user_profile, name='user_profile'),
     re_path(r'^follow/(?P<user_id>\d+)/$', profile_view.follow_user, name='follow_user'),
     re_path(r'^unfollow/(?P<user_id>\d+)/$', profile_view.unfollow_user, name='unfollow_user'),

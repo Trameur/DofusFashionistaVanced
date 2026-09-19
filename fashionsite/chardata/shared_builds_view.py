@@ -14,19 +14,25 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from django.conf import settings
 from django.db.models import Q, Count, Case, When, IntegerField, F
 from django.core.cache import cache
+from django.utils import translation
 from django.utils.translation import gettext as _
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import JsonResponse
+from django.http import (Http404, HttpResponsePermanentRedirect,
+                         HttpResponseRedirect, JsonResponse)
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 import logging
 import json
 import pickle
 
-from chardata.translation_util import localized_stat_name
+from chardata.translation_util import (LOCALIZED_CHARACTER_CLASSES,
+                                       localized_stat_name)
 from chardata.models import BuildComment, BuildTag, BuildVote, Char, UserAlias
+from chardata.official_site import _slugify_name
+from chardata.version_compat import class_exists_in_version
 from chardata.min_stats import get_min_stats_digested_by_key
 from chardata.pagination import pagination_items
 from chardata.url_language import SITE_URL
@@ -42,6 +48,7 @@ from chardata.solution_scores import calculate_public_build_score
 from chardata.stat_icons import get_stat_icon_path
 from chardata.smart_build import ASPECT_TO_NAME, ASPECT_TO_SHORT_NAME
 from fashionistapulp.dofus_constants import TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS
+from fashionistapulp.fashion_util import strip_accents
 from chardata.legacy_ids import repair_minimal_solution
 from fashionistapulp.modelresult import get_item_in_slot
 from fashionistapulp.structure import (get_current_game_version, get_structure,
@@ -61,6 +68,10 @@ _HEAVY_CHAR_FIELDS = ('minimum_stats', 'minimum_crits', 'stats_weight',
                       'options', 'inclusions', 'exclusions', 'aspects',
                       'empty_slots', 'stat_overrides')
 SHARED_BUILD_META_CACHE_TIMEOUT = 6 * 60 * 60
+
+# Below this many shared builds a class page is noindex and out of the sitemap
+CLASS_PAGE_MIN_BUILDS = 10
+CLASS_COUNTS_CACHE_TIMEOUT = 10 * 60
 
 
 def _get_valid_slots_for_type(type_name):
@@ -264,11 +275,100 @@ def _canonical_url(request, page_obj):
     return '%s?page=%d' % (address, number)
 
 
+def _shared_chars(game_version):
+    # No stored solution means a 404 on /s/, same exclude as the sitemap
+    return (Char.objects
+            .filter(link_shared=True, deleted=False, game_version=game_version)
+            .exclude(minimal_solution=b''))
+
+
+def class_build_counts(game_version):
+    """{char_class: shared builds} for the classes this version has."""
+    key = 'shared-builds-class-counts-v1-%s' % game_version
+    counts = cache.get(key)
+    if counts is None:
+        rows = (_shared_chars(game_version)
+                .values('char_class')
+                .annotate(n=Count('id'))
+                .order_by('char_class'))
+        counts = {row['char_class']: row['n'] for row in rows
+                  if row['char_class']
+                  and class_exists_in_version(row['char_class'], game_version)}
+        cache.set(key, counts, CLASS_COUNTS_CACHE_TIMEOUT)
+    return counts
+
+
+def slug_for_class(char_class):
+    return char_class.lower()
+
+
+def indexable_class_slugs(game_version):
+    """Slugs of the class pages of this version that ask to be indexed."""
+    return sorted(slug_for_class(char_class)
+                  for char_class, count in class_build_counts(game_version).items()
+                  if char_class in LOCALIZED_CHARACTER_CLASSES
+                  and count >= CLASS_PAGE_MIN_BUILDS)
+
+
+_classes_by_slug = None
+
+
+def _class_for_slug(slug):
+    """(class, canonical slug) for a canonical or localized slug, else None."""
+    global _classes_by_slug
+    if _classes_by_slug is None:
+        found = {slug_for_class(char_class): char_class
+                 for char_class in LOCALIZED_CHARACTER_CLASSES}
+        for language, _name in settings.LANGUAGES:
+            with translation.override(language):
+                for char_class, label in LOCALIZED_CHARACTER_CLASSES.items():
+                    alias = _slugify_name(str(label), '')
+                    if alias:
+                        found.setdefault(alias, char_class)
+        _classes_by_slug = found
+    char_class = _classes_by_slug.get(slug)
+    if char_class is None:
+        return None
+    return char_class, slug_for_class(char_class)
+
+
+def _gallery_path(request):
+    """The version's gallery, prefixes kept: /fr/touch/sharedbuilds/."""
+    return request.path.rsplit('/sharedbuilds/', 1)[0] + '/sharedbuilds/'
+
+
+def _sort_key(label):
+    return strip_accents(str(label)).lower()
+
+
+def shared_builds_for_class(request, class_slug):
+    found = _class_for_slug(class_slug)
+    if found is None:
+        raise Http404
+    char_class, canonical_slug = found
+    gallery_path = _gallery_path(request)
+    game_version = getattr(request, 'game_version', 'dofus3')
+    if not class_exists_in_version(char_class, game_version):
+        return HttpResponseRedirect(gallery_path)
+    if class_slug != canonical_slug:
+        target = '%s%s/' % (gallery_path, canonical_slug)
+        query = request.META.get('QUERY_STRING', '')
+        if query:
+            target = '%s?%s' % (target, query)
+        return HttpResponsePermanentRedirect(target)
+    if not class_build_counts(game_version).get(char_class):
+        return HttpResponseRedirect(gallery_path)
+    return _gallery(request, forced_class=char_class)
+
+
 def shared_builds(request):
     """Display a page with all shared builds, with search and filter options."""
+    return _gallery(request)
 
+
+def _gallery(request, forced_class=None):
     # Get filter parameters from GET request
-    char_class = request.GET.get('char_class', '')
+    char_class = forced_class or request.GET.get('char_class', '')
     min_level = request.GET.get('min_level', '')
     max_level = request.GET.get('max_level', '')
     order_by = request.GET.get('order_by', 'created')  # views, modified, created, likes, favorites
@@ -294,9 +394,7 @@ def shared_builds(request):
         request.user.is_authenticated and (show_liked or show_favorited)
     )
 
-    base_filter = dict(link_shared=True, deleted=False, game_version=game_version)
-    # No stored solution means a 404 on /s/, same exclude as the sitemap
-    shared = Char.objects.filter(**base_filter).exclude(minimal_solution=b'')
+    shared = _shared_chars(game_version)
     if needs_vote_annotation:
         builds = shared.select_related('owner').annotate(
             like_count=Count(Case(When(buildvote__vote_type='like', then=1), output_field=IntegerField())),
@@ -551,12 +649,40 @@ def shared_builds(request):
             build['user_liked'] = build['char'].id in user_likes
             build['user_favorited'] = build['char'].id in user_favorites
     
-    # Get all unique classes for filter dropdown (same game version)
-    all_classes = (Char.objects
-                   .filter(link_shared=True, deleted=False, game_version=game_version)
-                   .exclude(minimal_solution=b'')
-                   .values_list('char_class', flat=True).distinct().order_by('char_class'))
-    
+    class_counts = class_build_counts(game_version)
+    all_classes = sorted(
+        class_counts,
+        key=lambda name: _sort_key(LOCALIZED_CHARACTER_CLASSES.get(name, name)))
+    class_links = [
+        {'slug': slug_for_class(name),
+         'label': str(LOCALIZED_CHARACTER_CLASSES[name]),
+         'count': class_counts[name],
+         'current': name == forced_class}
+        for name in all_classes if name in LOCALIZED_CHARACTER_CLASSES]
+
+    canonical_url = _canonical_url(request, builds_page)
+    gallery_url = SITE_URL + _gallery_path(request)
+    trail = [
+        {'@type': 'ListItem', 'position': 1,
+         'name': 'Dofus Fashionista', 'item': SITE_URL + '/'},
+        {'@type': 'ListItem', 'position': 2,
+         'name': str(_('Community Dofus Builds')),
+         'item': gallery_url if forced_class else canonical_url},
+    ]
+    class_title = ''
+    class_description = ''
+    noindex = False
+    if forced_class:
+        class_label = str(LOCALIZED_CHARACTER_CLASSES[forced_class])
+        class_title = _('%(class_name)s Builds') % {'class_name': class_label}
+        class_description = _(
+            'Browse %(class_name)s builds shared by Dofus players: optimized '
+            'equipment sets by level and build type, with full stats. Find '
+            'one to start your own.') % {'class_name': class_label}
+        trail.append({'@type': 'ListItem', 'position': 3,
+                      'name': class_title, 'item': canonical_url})
+        noindex = class_counts.get(forced_class, 0) < CLASS_PAGE_MIN_BUILDS
+
     # Prepare aspect names and layout for checkboxes (same as projdetails.html)
     aspect_to_name = {k: str(v) for k, v in ASPECT_TO_NAME.items()}
     aspect_layout = [['str', 'int', 'cha', 'agi', 'omni'],
@@ -569,20 +695,17 @@ def shared_builds(request):
         'page_obj': builds_page,
         # Every tenth page plus neighbours, so any page is a few clicks away
         'page_links': pagination_items(builds_page),
-        'canonical_url': _canonical_url(request, builds_page),
-        # Two levels, the list sits right under the site
+        'canonical_url': canonical_url,
         'breadcrumb_jsonld': json.dumps({
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
-            'itemListElement': [
-                {'@type': 'ListItem', 'position': 1,
-                 'name': 'Dofus Fashionista', 'item': SITE_URL + '/'},
-                {'@type': 'ListItem', 'position': 2,
-                 'name': str(_('Community Dofus Builds')),
-                 'item': _canonical_url(request, builds_page)},
-            ],
+            'itemListElement': trail,
         }, ensure_ascii=False),
         'all_classes': all_classes,
+        'class_links': class_links,
+        'current_class': forced_class or '',
+        'class_title': class_title,
+        'class_description': class_description,
         'aspect_to_name': json.dumps(aspect_to_name),
         'aspect_layout': json.dumps(aspect_layout),
         'selected_aspects': json.dumps(selected_aspects),
@@ -599,8 +722,11 @@ def shared_builds(request):
             'tag': tag_filter,
         }
     }
-    
-    response = set_response(request, 
+    if noindex:
+        params['noindex'] = True
+        params['hreflang_urls'] = {}
+
+    response = set_response(request,
                             'chardata/shared_builds.html',
                             params)
     return response

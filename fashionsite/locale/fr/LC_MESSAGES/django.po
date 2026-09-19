@@ -7629,3 +7629,22 @@ msgstr[1] "%(kinds)s ingrédients · %(total)s au total"
 #: chardata/spells_view.py
 msgid "counted on %(group)s"
 msgstr "compté sur %(group)s"
+
+#: chardata/shared_builds_view.py
+#, python-format
+msgid "%(class_name)s Builds"
+msgstr "Builds %(class_name)s"
+
+#: chardata/shared_builds_view.py
+#, python-format
+msgid ""
+"Browse %(class_name)s builds shared by Dofus players: optimized equipment "
+"sets by level and build type, with full stats. Find one to start your own."
+msgstr ""
+"Parcourez les builds %(class_name)s partagés par les joueurs de Dofus : "
+"panoplies optimisées par niveau et par type de build, avec toutes les "
+"caractéristiques. Trouvez-en un pour créer le vôtre."
+
+#: chardata/templates/chardata/shared_builds.html
+msgid "Builds by class"
+msgstr "Builds par classe"

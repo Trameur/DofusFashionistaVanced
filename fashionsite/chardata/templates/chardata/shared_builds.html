@@ -12,7 +12,7 @@
 Fashionista: Shared Builds". Google tronque, donc la moitie coupee doit etre
 celle qui est identique sur toutes les pages, pas celle qui dit quoi.
 {% endcomment %}
-{% block title %}{% trans "Community Dofus Builds" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
+{% block title %}{% if class_title %}{{ class_title }}{% else %}{% trans "Community Dofus Builds" %}{% endif %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
 {% comment %}
 Sans ce bloc, base.html fabrique le canonique a partir de request.path, qui ne
@@ -23,7 +23,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
-{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Browse community Dofus builds shared by players: optimized equipment sets by class and level, with full stats. Find inspiration and build your own." %}{% endblock %}
+{% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% if class_description %}{{ class_description }}{% else %}{% trans "Browse community Dofus builds shared by players: optimized equipment sets by class and level, with full stats. Find inspiration and build your own." %}{% endif %}{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static "chardata/forms.css" %}">
@@ -33,7 +33,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
 
 {% block main %}
 <div class="shared-builds-container">
-    <h1 align="center">{% trans "Shared Builds" %}</h1>
+    <h1 align="center">{% if class_title %}{{ class_title }}{% else %}{% trans "Shared Builds" %}{% endif %}</h1>
     
     <p class="text" align="center">
         {% trans "Browse and discover builds shared by the community. Click on any build to view details." %}
@@ -61,6 +61,22 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
     </p>
     {% endif %}
 
+    {% if class_links %}
+    <nav class="filters-section" aria-label="{% trans "Builds by class" %}">
+        <h2>{% trans "Builds by class" %}</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+            {% if current_class %}
+            <a class="build-tag-pill" href="{% game_url 'shared_builds' %}"
+               style="display: inline-block; padding: 2px 10px; border: 1px solid rgba(128,128,128,0.4); border-radius: 10px; text-decoration: none; color: inherit;">{% trans "All Classes" %}</a>
+            {% endif %}
+            {% for entry in class_links %}
+            <a class="build-tag-pill" href="{% game_url 'shared_builds_class' entry.slug %}"{% if entry.current %} aria-current="page"{% endif %}
+               style="display: inline-block; padding: 2px 10px; border: 1px solid rgba(128,128,128,0.4); border-radius: 10px; text-decoration: none; color: inherit;{% if entry.current %} font-weight: bold; border-color: currentColor;{% endif %}">{{ entry.label }} ({{ entry.count }})</a>
+            {% endfor %}
+        </div>
+    </nav>
+    {% endif %}
+
     <div class="filters-section">
         <h2>{% trans "Search & Filter" %}</h2>
         <form method="get" action="{% game_url 'shared_builds' %}">
@@ -85,7 +101,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
                         <option value="">{% trans "All Classes" %}</option>
                         {% for class_name in all_classes %}
                             <option value="{{ class_name }}" {% if filters.char_class == class_name %}selected{% endif %}>
-                                {{ class_name }}
+                                {{ class_name|localized_class }}
                             </option>
                         {% endfor %}
                     </select>
