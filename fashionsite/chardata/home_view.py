@@ -16,14 +16,19 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from datetime import datetime, time, timezone
+
 from chardata.util import set_response, version_reverse
+from chardata.data_versions import (current_data_version, patch_key, patch_of,
+                                    patch_started)
 from chardata.create_project_view import is_anon_cant_create, has_too_many_projects
 from chardata.encoded_char_id import encode_char_id
 from chardata.models import Char, UserAlias
 from chardata.views import user_has_projects
 
 from django.core.cache import cache
-from django.db.models import Count, Case, When, IntegerField
+from django.db.models import Case, Count, F, IntegerField, Q, Value, When
+from django.db.models.functions import Least
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -49,21 +54,9 @@ def _featured_avatar(char):
 
 
 def _get_featured_builds(request, game_version):
-    """Top shared builds of the current game version, best scored first.
-
-    Nothing that depends on the reader goes in the cache. A link built with
-    `build_absolute_uri` carries the host and the language prefix of whichever
-    request filled the entry, and `_('Anonymous')` is already translated when
-    it goes in, so one entry served all five languages for half an hour.
-
-    Measured 14 September 2026 on the dev server: asking for the German home
-    of a version first made the English and the Spanish ones hand out
-    `/de/beta/s/...` for all six cards. A reader clicking a featured build
-    left their own language without asking.
-
-    The cache keeps the builds; the reader's own request builds the links.
-    """
-    cache_key = 'home_featured_builds:2:%s' % game_version
+    """Links and the anonymous name are built per request, never cached."""
+    cache_key = 'home_featured_builds:3:%s:%s' % (
+        game_version, patch_of(current_data_version(game_version)))
     cached = cache.get(cache_key)
     if cached is None:
         cached = _score_featured_builds(game_version)
@@ -76,30 +69,71 @@ def _get_featured_builds(request, game_version):
             for build in cached]
 
 
+def _featured_versions(shared, game_version):
+    """Solved versions of the current patch and of the latest recorded patch below it."""
+    current = patch_of(current_data_version(game_version))
+    if current is None:
+        return [], []
+    by_patch = {}
+    for version in (shared.exclude(solved_version='').order_by()
+                    .values_list('solved_version', flat=True).distinct()):
+        by_patch.setdefault(patch_of(version), []).append(version)
+    try:
+        current_key = patch_key(current)
+    except ValueError:
+        return by_patch.get(current, []), []
+    below = []
+    for patch in by_patch:
+        try:
+            key = patch_key(patch)
+        except ValueError:
+            continue
+        if key < current_key:
+            below.append((key, patch))
+    previous = max(below)[1] if below else None
+    return by_patch.get(current, []), by_patch.get(previous, [])
+
+
 def _score_featured_builds(game_version):
-    """The part that is the same for every reader, and so cacheable."""
-    qs = (Char.objects
-          .filter(link_shared=True, deleted=False, game_version=game_version)
-          .select_related('owner')
-          .annotate(
-              like_count=Count(Case(When(buildvote__vote_type='like', then=1),
-                                    output_field=IntegerField())),
-              favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1),
+    shared = (Char.objects
+              .filter(link_shared=True, deleted=False, game_version=game_version)
+              .exclude(minimal_solution=b''))
+    current, previous = _featured_versions(shared, game_version)
+    in_current = Q(solved_version__in=current)
+    started = patch_started(game_version)
+    if started is not None:
+        # Not stamped, but updated during the current update
+        in_current |= Q(solved_version='', modified_time__gte=datetime.combine(
+            started, time.min, timezone.utc))
+    ranked = (shared
+              .filter(in_current | Q(solved_version__in=previous))
+              .annotate(
+                  like_count=Count(Case(When(buildvote__vote_type='like', then=1),
                                         output_field=IntegerField())),
-          ))
-    builds = list(qs)
+                  favorite_count=Count(Case(When(buildvote__vote_type='favorite', then=1),
+                                            output_field=IntegerField())),
+              )
+              .annotate(
+                  tier=Case(When(in_current, then=Value(1)),
+                            default=Value(0), output_field=IntegerField()),
+                  score=(F('like_count') * 3 + F('favorite_count') * 5
+                         + Least(F('view_count'), Value(50))),
+              )
+              .select_related('owner')
+              .only('id', 'name', 'char_name', 'char_class', 'level',
+                    'view_count', 'solved_version', 'owner', 'owner__username')
+              .order_by('-tier', '-score', F('solved_time').desc(nulls_last=True),
+                        '-id'))
+    builds = list(ranked[:FEATURED_BUILDS_COUNT])
     owner_ids = [b.owner_id for b in builds if b.owner_id]
     aliases = {a.user_id: a.alias for a in UserAlias.objects.filter(user_id__in=owner_ids) if a.alias}
 
-    scored = []
+    featured = []
     for b in builds:
-        score = (b.like_count or 0) * 3 + (b.favorite_count or 0) * 5 + min(50, b.view_count or 0)
         # Left as None rather than translated here: the name the reader sees
         # for an owner-less build is their language's word, not the cache's.
         creator = aliases.get(b.owner_id) or (b.owner.username if b.owner else None)
-        encoded = encode_char_id(int(b.id))
-        char_name = b.char_name or 'shared'
-        scored.append({
+        featured.append({
             'name': b.char_name or b.name,
             'char_class': b.char_class,
             'level': b.level,
@@ -107,13 +141,12 @@ def _score_featured_builds(game_version):
             'like_count': b.like_count or 0,
             'favorite_count': b.favorite_count or 0,
             'view_count': b.view_count or 0,
-            'char_name': char_name,
-            'encoded_char_id': encoded,
+            'char_name': b.char_name or 'shared',
+            'encoded_char_id': encode_char_id(int(b.id)),
             'avatar': _featured_avatar(b),
-            '_score': score,
+            'solved_patch': patch_of(b.solved_version),
         })
-    scored.sort(key=lambda x: x['_score'], reverse=True)
-    return scored[:FEATURED_BUILDS_COUNT]
+    return featured
 
 def home(request, char_id=0):
     items = []

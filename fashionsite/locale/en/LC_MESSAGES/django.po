@@ -3468,7 +3468,7 @@ msgid "Read the guides"
 msgstr ""
 
 #: .\chardata\templates\chardata\home.html:86
-msgid "Top community builds"
+msgid "Popular community builds"
 msgstr ""
 
 #: .\chardata\templates\chardata\home.html:99
@@ -6864,6 +6864,7 @@ msgid "Created on %(patch)s"
 msgstr ""
 
 #: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#: chardata/templates/chardata/home.html
 #, python-format
 msgid "Solved on %(patch)s"
 msgstr ""

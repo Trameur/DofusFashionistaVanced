@@ -111,7 +111,7 @@
 
     {% if featured_builds %}
     <div class="featured-builds-wrap">
-        <h2 class="featured-builds-title">{% trans "Top community builds" %}</h2>
+        <h2 class="featured-builds-title">{% trans "Popular community builds" %}</h2>
         <div class="featured-builds-grid">
             {% for fb in featured_builds %}
             <a class="featured-build-card" href="{{ fb.link }}">
@@ -121,6 +121,7 @@
                     <div class="featured-build-meta">
                         {{ fb.char_class|localized_class }} · {% trans "lvl" %} {{ fb.level }}
                     </div>
+                    {% if fb.solved_patch %}<div class="featured-build-patch">{% blocktrans with patch=fb.solved_patch %}Solved on {{ patch }}{% endblocktrans %}</div>{% endif %}
                     <div class="featured-build-stats">
                         <span class="fm-st fm-st-like" aria-hidden="true"></span> {{ fb.like_count }} · <span class="fm-st fm-st-fav" aria-hidden="true"></span> {{ fb.favorite_count }} · <span class="fm-st fm-st-view" aria-hidden="true"></span> {{ fb.view_count }}
                     </div>
@@ -178,6 +179,7 @@
             text-overflow: ellipsis;
         }
         .featured-build-meta { font-size: 0.85em; opacity: 0.8; }
+        .featured-build-patch { font-size: 0.8em; opacity: 0.8; }
         .featured-build-stats { font-size: 0.8em; opacity: 0.85; margin-top: 2px; }
         .featured-build-author { font-size: 0.8em; opacity: 0.7; }
     </style>

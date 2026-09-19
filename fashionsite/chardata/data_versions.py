@@ -30,7 +30,9 @@ def patch_key(patch):
 
 def patch_started(game_version):
     entry = fashionista_version.PATCH_STARTED.get(game_version)
-    return date.fromisoformat(entry[1]) if entry else None
+    if not entry or entry[0] != patch_of(current_data_version(game_version)):
+        return None
+    return date.fromisoformat(entry[1])
 
 
 def _solve_state(solved, current, last_solve_bound, game_version):

@@ -3773,8 +3773,8 @@ msgid "Read the guides"
 msgstr "Lies die Guides"
 
 #: .\chardata\templates\chardata\home.html:86
-msgid "Top community builds"
-msgstr "Top-Builds der Community"
+msgid "Popular community builds"
+msgstr "Beliebte Builds der Community"
 
 #: .\chardata\templates\chardata\home.html:99
 #: .\chardata\templates\chardata\license.html:48
@@ -7603,6 +7603,7 @@ msgid "Created on %(patch)s"
 msgstr "Erstellt mit Update %(patch)s"
 
 #: chardata/templates/chardata/solution.html chardata/templates/chardata/shared_builds.html
+#: chardata/templates/chardata/home.html
 #, python-format
 msgid "Solved on %(patch)s"
 msgstr "Berechnet mit Update %(patch)s"

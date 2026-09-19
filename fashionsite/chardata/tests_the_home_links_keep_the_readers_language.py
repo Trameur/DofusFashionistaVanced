@@ -11,8 +11,10 @@ from django.utils import translation
 
 from chardata import game_urls
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
+from chardata.data_versions import current_data_version
 from chardata.models import Char
 
+from fashionistapulp.modelresult import ModelResultMinimal
 from fashionistapulp.translation import SUPPORTED_LANGUAGES
 
 LANGUAGES = tuple(SUPPORTED_LANGUAGES)
@@ -69,6 +71,12 @@ def _links_written_by(html):
     return links
 
 
+def _solved_on_the_current_update(version):
+    return dict(minimal_solution=pickle.dumps(
+                    ModelResultMinimal({}, {'origin': 'generated'}, {})),
+                solved_version=current_data_version(version))
+
+
 def _seed_shared_builds(owner):
     """Two shared builds per version for the featured cards."""
     made = {}
@@ -81,7 +89,8 @@ def _seed_shared_builds(owner):
             stats_weight=pickle.dumps({'vit': 1}), options=b'',
             inclusions=b'', exclusions=b'',
             owner=owner, game_version=version,
-            link_shared=True, deleted=False)
+            link_shared=True, deleted=False,
+            **_solved_on_the_current_update(version))
             for rank in range(2)]
     return made
 
@@ -259,7 +268,8 @@ class TheFeaturedBuildsAreBuiltForTheReaderTests(TestCase):
             minimum_stats=b'', minimum_crits=b'',
             stats_weight=pickle.dumps({'vit': 1}), options=b'',
             inclusions=b'', exclusions=b'', owner=None,
-            game_version='dofus3', link_shared=True, deleted=False)
+            game_version='dofus3', link_shared=True, deleted=False,
+            **_solved_on_the_current_update('dofus3'))
         cache.clear()
 
         def authors(path):
