@@ -21749,24 +21749,6 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         from fashionistapulp.fashionista_config import get_fashionista_path
         static = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
                               'static')
-        # 2.73 spells Dofus 3 dropped: their icon is in no source
-        allowed = {'dofus2': {
-            'Aquaculture',        # icon 12785
-            'Batra',              # icon 12800
-            'Constriction',       # icon 12794
-            'Cross Scale',        # icon 12791
-            'Gambol',             # icon 12798
-            'Geyser',
-            'Gobball Fleece',     # icon 12797
-            'Morph',              # icon 12556
-            'Nature Preserve',    # icon 12978
-            'Repulsive Fang',     # icon 12787
-            'Tectonic Breach',    # icon 12558
-            'Telluric Blade',     # icon 12559
-            'Tormenting Arrow',   # icon 13039
-            'Virus',              # icon 12288
-            'Woolly Sledgehammer',  # icon 12779
-        }}
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             names = set()
             for spells in get_damage_spells_for_version(version).values():
@@ -21782,7 +21764,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
                     unquote(_spell_image_url(name, version))
                     .split('/static/', 1)[-1].replace('/', os.sep))))
             with self.subTest(version=version):
-                self.assertEqual(missing, sorted(allowed.get(version, set())))
+                self.assertEqual([], missing)
 
     def test_no_spell_icon_is_on_the_disk_without_being_committed(self):
         """Committed, not only on disk: git cannot index Con.png on Windows."""
