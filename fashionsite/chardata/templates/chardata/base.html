@@ -17,11 +17,7 @@
     <meta name="author" content="Dofus Fashionista">
     <meta name="keywords" content="Dofus, sets, equipment, optimizer, build, character, RPG, MMORPG, Ankama">
     <meta name="robots" content="{% block meta_robots %}{% if noindex %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
-    {% comment %}Une page qui sait quelle adresse elle revendique le dit par
-    `canonical_path`, et `canonical_the_page_will_render` lit la meme valeur
-    pour decider si le bloc hreflang peut etre publie. La laisser au seul
-    gabarit obligeait chaque page a redeclarer ce bloc, et le gardien ne
-    voyait alors rien.{% endcomment %}
+    {# canonical_path: the page's own address, also read by the hreflang guard #}
     {% block canonical %}<link rel="canonical" href="https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}">{% endblock %}
     {% block hreflang %}{% if hreflang_urls %}{# Each localised slug is its own page; without these Google reads them as duplicates. Not alternate_urls: a paginated slice keeps its flags but publishes no group, because page 7 in another language is not this page. #}
     {% for lang, alt_url in hreflang_urls.items %}<link rel="alternate" hreflang="{{ lang }}" href="{{ alt_url }}">
@@ -31,10 +27,7 @@
     <meta property="og:description" content="{{ page_description }}">
     <meta property="og:type" content="website">
     {# A paginated canonical carries ?page=N: naming another URL here lied. #}
-    {% comment %}Les deux balises repondent a la meme question et doivent
-    donc lire la meme chose: canonical_url quand la vue donne une adresse
-    entiere, canonical_path quand elle renvoie la copie sans version vers la
-    page globale, l'adresse demandee sinon.{% endcomment %}
+    {# og:url reads what the canonical reads #}
     {% block og_url %}<meta property="og:url" content="{% if canonical_url %}{{ canonical_url }}{% else %}https://dofusfashionista.gg{% if canonical_path %}{{ canonical_path }}{% else %}{{ request.path }}{% endif %}{% endif %}">{% endblock %}
     <meta property="og:image" content="https://dofusfashionista.gg{% static 'chardata/og-card.jpg' %}">
     <meta property="og:image:width" content="1200">
@@ -403,20 +396,13 @@
         {% if char_id and char_id != 0 %}{% include "chardata/loading.html" with char=char language=language %}{% endif %}
             {% ad_unit 'footer' %}
             <div align="center" class="footer" role="contentinfo">
-                {% comment %}The 2012 date is the lineage, not this fork's own
-                age: Kameghan announced the desktop tool on Imps Village on
-                24 Feb 2012 and the website followed in 2014. A reader who
-                wonders which is which gets the whole story in one click, so
-                the line links to the section of the About page that spells it
-                out rather than leaving the claim standing alone.{% endcomment %}
+                {# 2012 is the lineage of the original tool; the About page tells the story #}
                 <a class="footer-heritage" href="{% game_url 'about' %}#how-its-made">{% trans "Dofus Fashionista, set optimization since 2012" %}</a>
                 <br>
                 {% blocktrans with game=current_game_version_label version=SITE_VERSION %}Items up to {{ game }} update {{ version }}{% endblocktrans %}
                 <br>
                 <!-- General Site Links -->
-                {% comment %}Le lien porte la cle de l'entree la plus recente;
-                changelog.js montre la marque tant que le navigateur n'a pas
-                ouvert le changelog sur cette cle-la (localStorage).{% endcomment %}
+                {# changelog.js hides the mark once the reader opened this key #}
                 <a href="javascript:void(0)" onclick="openChangelog()" id="changelog-link" data-changelog-latest="{{ changelog_latest }}">{% trans "Changelog" %}<span class="changelog-new" id="changelog-new" hidden> ({% trans "new entries" %})</span></a> &middot;
                 <a href="{% game_url 'about' %}">{% trans "Help & About" %}</a> &middot;
                 <a href="{% url 'guides' %}">{% trans "Guides & tips" %}</a> &middot;
@@ -436,14 +422,7 @@
                     fashionista
                 </a>
                 
-                {% comment %}
-                Un lien, plus un widget. Le script de Ko-fi etait charge sur
-                chacune des 68 000 pages vues mensuelles, et le clic restait
-                invisible : le bouton etait dessine par un tiers, donc le site
-                n'a jamais su si quiconque le touchait. Le lien passe par
-                /out/donate/, qui compte puis redirige, et la page perd une
-                requete externe au passage.
-                {% endcomment %}
+                {# A link through /out/donate/, counted then redirected; no third-party widget #}
                 <a href="{% url 'donate' %}?from=footer" class="kofi-donate-btn" rel="nofollow noopener">
                     {% trans "Support Fashionista" %}
                 </a>
@@ -520,9 +499,7 @@
         </div>
      </div>
     </div>
-{% comment %}The shell stops at 1200px, so a wide screen leaves a few hundred
-pixels empty either side. The rails live there and nowhere else: they sit
-outside every column so nothing they do can move the page.{% endcomment %}
+    {# The shell stops at 1200px; the rails live outside every column #}
 {% ad_rails %}
 {% include "chardata/changelog_modal.html" %}
 <script>window.CHANGELOG_CONTENT_URL = "{% url 'changelog_content' %}";</script>

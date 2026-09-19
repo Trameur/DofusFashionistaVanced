@@ -7,15 +7,7 @@
 
 {% block title %}{{ item.name }}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} - {{ t.title }} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% comment %}
-La description construite depuis les donnees de l'objet, pas une promesse de
-page. L'ancienne annoncait "stats, effects, equip conditions and craft recipe",
-c'est-a-dire le GENRE de la page : les fiches sortent cinquieme a huitieme sur
-le nom de leur propre objet et prennent zero clic, pendant que le wiki Fandom
-passe devant avec une description qui repond dans le resultat.
-La derniere phrase est celle qu'aucun wiki ni l'encyclopedie officielle ne peut
-ecrire, puisque aucun ne sait ce que les gens portent.
-{% endcomment %}
+{# The description comes from the item's own data, not a generic promise #}
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% if seo_description %}{{ seo_description }}{% else %}{% blocktrans with item_name=item.name %}{{ item_name }}: Dofus stats, effects, equip conditions and craft recipe. Discover builds using {{ item_name }} and optimize your set with the Dofus Fashionista.{% endblocktrans %}{% endif %}{% endblock %}
 
 {# Version-prefixed item pages are canonical because each game version has distinct item data. #}
@@ -62,10 +54,7 @@ ecrire, puisque aucun ne sait ce que les gens portent.
                 {% if item_set_name %}
                 <div class="encyclopedia-item-meta">{{ t.set_label }}: {% if item_set_url %}<a href="{{ item_set_url }}">{{ item_set_name }}</a>{% else %}{{ item_set_name }}{% endif %}</div>
                 {% endif %}
-                {% comment %}La fiche est la page la plus visitee du site et
-                elle ne menait nulle part vers le solveur. Le demarrage rapide
-                de la meme version recoit l'identifiant interne (celui des
-                inclusions) et verrouille l'objet dans le build.{% endcomment %}
+    {# Quick start of the same version, with the item locked in #}
                 <div class="encyclopedia-item-meta encyclopedia-build-around"><a class="button-thin" id="encyclopedia-build-around" href="{% game_url 'quickstart' %}?item={{ item.id }}">{{ t.build_around_label }}</a></div>
             </div>
         </div>
@@ -90,9 +79,7 @@ ecrire, puisque aucun ne sait ce que les gens portent.
         </div>
         {% endif %}
 
-        {% comment %}The card below can run eleven sections long, so a unit at
-        its foot is never seen. This one sits where the reader already is once
-        they have read the stats they came for.{% endcomment %}
+    {# The card runs long, so the unit sits where the reader is after the stats #}
         {% ad_unit 'content_top' %}
 
         {% if set_bonuses %}
@@ -303,19 +290,8 @@ ecrire, puisque aucun ne sait ce que les gens portent.
         </div>
         {% endif %}
         {% if item_popularity %}
-        {% comment %}
-        Compte tire de TOUS les builds calcules, pas seulement des publics :
-        142 043 contre 1 980. Un compte est anonyme la ou un lien ne l'est pas,
-        donc il peut venir des builds prives. La part n'est affichee que si elle
-        repose sur assez de builds comparables ; sinon on ne donne que le compte.
-        {% endcomment %}
+    {# Counted over all calculated builds; the share needs enough comparable builds #}
         <p class="encyclopedia-popularity">
-            {% comment %}
-            Compte au singulier comme au pluriel : 365 objets sont portes dans
-            exactement un build, 169 sur la version principale, et la page
-            annoncait "Worn in 1 builds". La chaine etant traduite, la faute
-            existait dans les cinq langues.
-            {% endcomment %}
             {% if item_popularity.share %}
             {% blocktrans count n=item_popularity.builds with part=item_popularity.share %}Worn in {{ n }} build, {{ part }} of those that could equip it.{% plural %}Worn in {{ n }} builds, {{ part }} of those that could equip it.{% endblocktrans %}
             {% else %}
@@ -324,15 +300,7 @@ ecrire, puisque aucun ne sait ce que les gens portent.
         </p>
         {% endif %}
         {% if builds_using %}
-        {% comment %}
-        La seule chose que cette encyclopedie peut dire et qu'Ankama, DofusDB et
-        les wikis ne peuvent pas : ils publient les memes chiffres tires des
-        memes fichiers de jeu, et aucun ne sait ce que les gens portent
-        vraiment. C'est aussi ce que la meta description de cette page promet
-        depuis toujours sans que la page l'ait jamais tenu.
-        Lu dans un index reconstruit par reindex_builds_by_item, jamais dans les
-        builds eux-memes : les depickler prend douze secondes.
-        {% endcomment %}
+    {# What only this site knows: what people actually wear #}
         <div class="encyclopedia-section">
             <b>{{ builds_using_label }}</b>
             <ul class="encyclopedia-list">
@@ -345,15 +313,7 @@ ecrire, puisque aucun ne sait ce que les gens portent.
             </ul>
         </div>
         {% endif %}
-        {% comment %}
-        Une fiche d'objet ne disait nulle part que le site sait calculer un set.
-        Le seul lien vers l'outil etait celui du menu, alors que les guides, eux,
-        en portent deux dans leur contenu. Or l'encyclopedie represente la quasi
-        totalite des URL du site : un lecteur venu de Google y arrivait sans
-        jamais apprendre ce que fait l'outil.
-        Les deux libelles existent deja et sont traduits dans les cinq langues,
-        et game_url garde la version de jeu courante.
-        {% endcomment %}
+    {# Google lands here, so the page must point at the tool #}
         <div class="encyclopedia-cta">
             <p class="encyclopedia-cta-line">{% blocktrans with item_name=item.name %}Looking for a set built around {{ item_name }}?{% endblocktrans %}</p>
             <div class="encyclopedia-cta-buttons">

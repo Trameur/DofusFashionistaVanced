@@ -4,10 +4,6 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% comment %}
-1 690 impressions par mois pour trois clics : la page se presentait comme
-"Load a Project", ce qui ne dit rien a qui cherche.
-{% endcomment %}
 {% block title %}{% trans "Your Saved Dofus Sets" %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 {% block meta_description %}{% blocktrans %}Find the Dofus sets you have already built and pick up where you left off.{% endblocktrans %}{% endblock %}
 
@@ -34,11 +30,7 @@
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Build" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Class" %}</th>
                   <th class="load-project-header" style="color:#FFFFFF;">{% trans "Level" %}</th>
-                  {% comment %}Depuis le 11 septembre 2026 un build neuf est
-                  public des qu'il porte un stuff. La liste des projets est
-                  le seul endroit d'ou l'auteur voit ses builds ensemble,
-                  donc c'est la que l'etat doit se lire et se changer, sans
-                  ouvrir chaque build l'un apres l'autre.{% endcomment %}
+    {# The project list is where an author sees every build's visibility #}
                   {% if user.is_authenticated %}
                   <th class="load-project-header" style="color:#FFFFFF;" align="left">{% trans "Visibility" %}</th>
                   {% endif %}
@@ -54,19 +46,12 @@
                       <td class="load-project-cell"><div style="width: 80px" class='big-text'> {{wrapped_char.class_string}}</div></td>
                       <td class="load-project-cell level-cell" align="center"><div style="width: 20px;" class='big-text'>{{wrapped_char.char.level}}</div></td>
                       {% if user.is_authenticated %}
-                      {% comment %}Trois etats et non deux: <<pas encore
-                      visible, et il le sera>> est celui que le nouveau
-                      defaut a cree, et c'est le seul que le lecteur ne peut
-                      pas deviner. Le taire reviendrait a publier sans
-                      prevenir.{% endcomment %}
+            {# Three states: private, public, and public once dressed #}
                       <td class="load-project-cell visibility-cell"
                           data-visibility-build="{{ wrapped_char.char.id }}"
                           data-visibility-state="{% if wrapped_char.char.link_shared %}public{% elif wrapped_char.char.auto_publish %}pending{% else %}private{% endif %}">
                           <div style="width: 170px;">
-                          {% comment %}<<Dans la galerie>> etait faux trois
-                          fois sur quatre: la galerie ecarte 74,5 % des builds
-                          publies, et personne ne le disait a leur auteur. La
-                          raison prend la place de la promesse.{% endcomment %}
+            {# The gallery's refusal reason replaces a promise #}
                           {% with refus=wrapped_char.gallery_refusal %}
                           <span class="visibility-state big-text">{% if refus %}{{ refus }}{% elif wrapped_char.char.link_shared %}{% trans "In the gallery" %}{% elif wrapped_char.char.auto_publish %}{% trans "Public once it has gear" %}{% else %}{% trans "Private" %}{% endif %}</span>
                           {% endwith %}

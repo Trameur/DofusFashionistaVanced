@@ -34,14 +34,7 @@
 <h2>{% trans "Cookies and local storage" %}</h2>
 <p>{% blocktrans %}We use a small number of cookies and browser-local storage to make the site work: a session cookie when you are logged in, and preferences such as your chosen theme, language and interface options. Third-party services described below may also set their own cookies.{% endblocktrans %}</p>
 
-{% comment %}
-Cette page decrivait une regie publicitaire, des cookies de ciblage et un
-consentement EEE qui n'existaient pas : la publicite est coupee, et deux autres
-pages du site affirmaient deja le contraire. Tout ce qui parle de publicite est
-donc conditionne a ads_allowed, le meme drapeau qui pose le chargeur AdSense.
-La politique redevient exacte des que la publicite revient, sans qu'il faille y
-repenser, et rien n'a ete supprime.
-{% endcomment %}
+    {# Ad wording follows ads_allowed, the flag that loads AdSense #}
 {% if ads_allowed %}
 <h2>{% trans "Advertising and third-party services" %}</h2>
 <p>{% blocktrans %}To keep the Dofus Fashionista free we display ads and use a few third-party services:{% endblocktrans %}</p>
@@ -57,25 +50,11 @@ repenser, et rien n'a ete supprime.
 <li>{% blocktrans %}<b>Google Analytics.</b> We use Analytics to understand, in aggregate, how the site is used so we can improve it.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Google Sign-In.</b> Optional authentication, as described above.{% endblocktrans %}</li>
     <li>{% blocktrans %}<b>Google reCAPTCHA.</b> The contact form and the sign-in page use reCAPTCHA to tell people apart from bots. Your browser loads it directly from Google, so Google receives your IP address and information about your browser, and may set its own cookies. We send your answer to Google to check it.{% endblocktrans %}</li>
-    {% comment %}La phrase nommait <<la page de l'inventaire>>, et une
-    deuxieme page lit desormais une capture d'ecran. Une politique qui compte
-    les pages devient fausse a la page suivante, sans que rien ne l'annonce:
-    elle nomme donc ce que la page FAIT, ce qui reste vrai quel que soit leur
-    nombre. Un test refuse le retour de l'ancienne formule.{% endcomment %}
     <li>{% blocktrans %}<b>Code libraries.</b> Some of the code that makes the pages work, such as jQuery on every page and a text-reading library on the pages that read a screenshot, is fetched from Google Hosted Libraries and jsDelivr instead of from our own server, so those providers receive your IP address. Each of these files is pinned to a fingerprint, and your browser refuses to run a copy that does not match.{% endblocktrans %}</li>
-    {% comment %}Ce que le site va CHERCHER chez un tiers, et non ce qu'il
-    charge dans la page: les deux autres entrees parlent de ce que le
-    navigateur telecharge, celle-ci de ce que notre serveur demande a la place
-    du lecteur. Chaque affirmation est mesuree dans
-    `tests_outbound_third_parties`: trois en-tetes partent, aucune ne porte
-    l'adresse du lecteur, et le lien rendu porte `rel="noreferrer"`.
-    {% endcomment %}
+    {# What the server fetches from a third party, not what the browser loads #}
     {% if build_sites.dofusbook %}
     <li>{% blocktrans %}<b>DofusBook.</b> When you paste a DofusBook link, our server fetches that build from dofusbook.net; when you open one of your builds on their site, our server first asks them which of its items they know. Both calls leave from our address and not from yours, so on those steps they do not receive your address. The link we then hand you carries the gear, the level and the characteristics of that build, and nothing that names you, and your browser only reaches their site if you click it.{% endblocktrans %}</li>
     {% endif %}
-    {% comment %}Second site que le serveur va chercher pour un lecteur (11
-    septembre 2026): une page publique, en lecture seule, deux en-tetes
-    (User-Agent, Accept), mesure par tests_outbound_third_parties.{% endcomment %}
     {% if build_sites.dofuscreator %}
     <li>{% blocktrans %}<b>DofusCreator.</b> When you paste a link to a public DofusCreator project, our server fetches that page from dofuscreator.com. The call leaves from our address and not from yours, carries nothing that names you, and only reads.{% endblocktrans %}</li>
     {% endif %}
