@@ -43,10 +43,7 @@ def decode_char_id(encoded_char_id):
     except (ValueError, binascii.Error):
         return None
     signature = half_decoded_id[-4:]
-    # Comparaison en temps constant, comme le fait deja login_view pour le
-    # jeton de reinitialisation. Sur quatre octets et a travers le reseau la
-    # difference n est pas exploitable en pratique -- c est une question de
-    # coherence et de cout nul, pas une faille qu on referme.
+    # Constant-time comparison, like the reset token in login_view
     if not constant_time_compare(signature, _sign(candidate_id)):
         return None
     return candidate_id

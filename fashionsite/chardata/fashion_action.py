@@ -53,19 +53,7 @@ MEMORY = DatabaseSolutionMemory()
 
 
 def _warn_if_unproven(char, solved_status, proven):
-    """Say so when the solver ran out of time instead of closing the gap.
-
-    A set found in ninety seconds is still worth showing, and this does not
-    stop it being shown. What it stops is showing it SILENTLY. Every solver
-    runs with timeLimit=90, and PuLP reports a run CBC stopped on time as
-    'Optimal' all the same (LpProblem2.get_solution_status says how), so
-    without this line the two are the same event everywhere: in the code, in
-    the logs, and to anyone deciding whether the site may promise a proven
-    optimum on a public page.
-
-    Only fresh solves reach here. A cache hit returns the earlier answer
-    without re-solving, and counting it again would inflate the frequency.
-    """
+    """Log when the solver stopped on time instead of proving the optimum; fresh solves only."""
     if solved_status != 'Optimal' or proven:
         return
     logger.warning(
@@ -91,14 +79,7 @@ def get_options(request, char_id):
 
 
 def temporix_model_option(options, game_version):
-    """What the solver options say about TemporiX, and on which versions.
-
-    On Touch only, and always: a classic Touch solve now bans the three
-    TemporiX pieces it used to wear, so its answer changed and its cache key
-    must change with it (False), while a TemporiX solve carries the rule's
-    version, so one stored under an older rule is not served as the current
-    one. The other versions keep the key they always had.
-    """
+    """TemporiX flag for the cache key: Touch only, carrying the rule version."""
     if not temporix.version_has_temporix(game_version):
         return {}
     return {'temporix': (temporix.RULE_VERSION
@@ -135,11 +116,7 @@ def fashion(request, char_id, spells=False):
     # Manual per-project overrides win over the inventory rolls.
     stat_overrides = get_effective_stat_overrides(char)
 
-    # An exo recorded on an owned item used to switch the global option on,
-    # which adds +1 to the character whether or not the item is worn. The point
-    # now rides on the item itself (Model._apply_stat_overrides), so it counts
-    # only when the solver equips it. The option stays what the wizard means by
-    # it: assume an exo somewhere, on every build.
+    # An owned item's exo rides on the item, see Model._apply_stat_overrides
 
     base_stats_by_attr = get_base_stats_by_attr(request, char_id)
 
@@ -169,12 +146,9 @@ def fashion(request, char_id, spells=False):
     if memoized_result is not None:
         solved_status, stats, result = memoized_result
     else:
-        # Wall clock around the solve alone, so that the panel quoting it is
-        # not also quoting page rendering or database time.
+        # Wall clock of the solve alone
         started = time.monotonic()
-        # A TemporiX model is built from shiny values and without the AP, MP,
-        # Range and summon caps, so it never comes from, nor goes back to, the
-        # pool the classic solves share.
+        # A TemporiX model never comes from or goes back to the shared pool
         is_temporix = bool(model_options.get('temporix'))
         if stat_overrides or is_temporix:
             model = Model(stat_overrides=stat_overrides, temporix=is_temporix)
@@ -191,29 +165,17 @@ def fashion(request, char_id, spells=False):
             model.setup(model_input)
             model.run(2)
             solved_status = model.get_solved_status()
-            # Lu ici pour la meme raison que `solved_status` juste au-dessus :
-            # apres `return_model` le modele appartient a la file.
+            # Read before return_model, like solved_status
             proven = model.solution_is_proven()
-            # Lu ici pour la meme raison, et avant return_model.
             pool = model.get_candidate_pool()
             if solved_status == 'Optimal':
                 stats = model.get_stats()
                 result = model.get_result_minimal()
             return_model(model)
-        # `solved_status` et non `model.get_solved_status()` : le modele
-        # vient d etre remis dans la file partagee, et le relire ensuite
-        # est une lecture apres liberation. Avec les workers synchrones
-        # d aujourd hui rien ne peut s intercaler, donc la valeur est la
-        # meme -- mais un `--threads` ajoute a gunicorn armerait la course
-        # sans que personne relie les deux, et la memoire garderait le
-        # statut d une AUTRE requete.
+        # solved_status, not model.get_solved_status(): the model is back in the shared queue
         _warn_if_unproven(char, solved_status, proven)
         if result is not None:
-            # Carried on the result rather than in new columns: the result is
-            # pickled whole into char.minimal_solution, so these ride along
-            # with no migration. Every solution pickled before today lacks
-            # them, which is why the view reads them with getattr and shows
-            # nothing at all rather than guessing.
+            # Carried on the pickled result, so no migration; older solutions lack them
             result.proven = proven
             result.solve_seconds = time.monotonic() - started
             result.candidate_pool = pool

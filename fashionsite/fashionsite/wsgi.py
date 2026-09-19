@@ -14,36 +14,29 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""
-WSGI config for fashionsite project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
-"""
+"""WSGI config for fashionsite; exposes the WSGI callable as application."""
 
 import os
 import sys
 import platform
 
-# Déterminer le chemin du fichier de configuration selon le système d'exploitation
+# Config file path per operating system
 if platform.system() == 'Windows':
     config_file_path = os.path.join(os.environ['APPDATA'], 'fashionista', 'config')
 else:
     config_file_path = '/etc/fashionista/config'
 
-# Obtenir le chemin racine du projet à partir du fichier de configuration
+# Project root from the config file
 try:
     with open(config_file_path) as f:
         path = f.read().strip()  # using strip() to remove any leading/trailing whitespace
 except FileNotFoundError:
-    # Fallback: utiliser le répertoire parent du dossier courant
+    # Fallback: parent of the current folder
     print(f"Configuration file not found: {config_file_path}")
     print("Using default project path as fallback")
     path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     
-    # Créer le fichier de configuration pour les utilisations futures
+    # Create the config file for later runs
     try:
         os.makedirs(os.path.dirname(config_file_path), exist_ok=True)
         with open(config_file_path, 'w') as f:
@@ -54,10 +47,10 @@ except FileNotFoundError:
 
 print(f"Using project path: {path}")
 
-# Ajouter les chemins au sys.path
+# Add the project paths to sys.path
 sys.path.append(path)  # Adding the main project directory to sys.path
 
-# Sur Windows, éviter d'ajouter les chemins spécifiques à Linux
+# On Windows, skip the Linux-only paths
 if platform.system() != 'Windows':
     sys.path.append('/home/ec2-user/DofusFashionistaVanced')
     sys.path.append('/home/ec2-user/DofusFashionistaVanced/fashionistapulp')
@@ -69,11 +62,11 @@ sys.path.append(os.path.join(path, 'fashionsite'))
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'fashionsite.settings' 
 
-# Initialiser Django
+# Start Django
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-# Prechauffer les caches encyclopedie en arriere-plan
+# Warm the encyclopedia caches in the background
 import threading
 
 def _warm_encyclopedia_caches():

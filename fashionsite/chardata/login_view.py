@@ -49,11 +49,7 @@ def _prehash_password(raw_password):
     return hashlib.sha256(('dofusfashionista' + raw_password).encode('utf-8')).hexdigest()
 
 
-# Nothing limited how many passwords could be tried against an account: both
-# local_login and change_password call authenticate() with whatever is posted.
-# The counters live in the cache, which is per process in production, so a
-# worker pool multiplies the real ceiling by its size. That still turns an
-# unbounded guessing loop into a slow one, and it costs no table.
+# Per-process cache counters: a worker pool multiplies the ceiling, still far from unbounded
 LOGIN_FAIL_WINDOW = 15 * 60
 LOGIN_FAIL_MAX_PER_USER = 10
 LOGIN_FAIL_MAX_PER_IP = 30
@@ -91,12 +87,7 @@ def clear_login_failures(request, username):
         clear_hits(key)
 
 
-# A reset request sends a mail to whatever address is posted, so without a
-# limit anyone can flood a player's inbox, and every send spends the project's
-# own Gmail quota, which also carries the welcome mails and the daily recap.
-# Over the limit the page answers exactly as it always does and sends nothing:
-# the response already looks the same whether or not the address has an
-# account, and that must not change.
+# Limits reset mails per address; over the limit the page answers the same and sends nothing
 RESET_MAIL_WINDOW = 60 * 60
 RESET_MAIL_MAX_PER_EMAIL = 3
 RESET_MAIL_MAX_PER_IP = 10
@@ -141,14 +132,13 @@ def _login_page_generic(request, from_confirmation, prefilled_user, char_id, alr
                         {'request': request,
                          'user': request.user,
                          'char_id': char_id,
-                         # Meme formulaire sous les cinq versions.
+                         # Same form under the five versions
                          'canonical_path': version_free_canonical(
                              'login_page'),
                          'from_confirmation': from_confirmation,
                          'prefilled_user': prefilled_user,
                          'already_confirmed': already_confirmed == 'yes',
-                         # Le retour d'une connexion Google qui n'a pas
-                         # abouti: le middleware y renvoie avec ce marqueur.
+                         # Back from a failed Google login: the middleware adds this marker
                          'social_failed': (request.GET.get(SOCIAL_FAILED_PARAM)
                                            == SOCIAL_FAILED_VALUE)})
 
@@ -207,9 +197,7 @@ def register(request):
                     'account.') + '\n' + link,
                   _get_from_email(),
                   [email])
-    # smtplib.SMTPException derive d'OSError, mais une connexion refusee
-    # ou un delai depasse remonte en OSError nu : sans lui, un serveur de
-    # courrier injoignable rendait 500 au lieu de cette page.
+    # A refused connection or a timeout raises a bare OSError, not SMTPException
     except (BadHeaderError, OSError):
         logger.exception('Registration email could not be sent to %s', email)
         user.delete()
@@ -230,10 +218,7 @@ def check_your_email(request):
                         {'request': request})
 
 def confirm_email(request, username, confirmation_token):
-    # Meme comparaison en temps constant que pour le jeton de
-    # reinitialisation, trois fonctions plus bas. Ce jeton n ouvre qu une
-    # action idempotente -- activer un compte -- donc la portee est faible ;
-    # l incoherence dans un meme fichier l etait moins.
+    # Constant-time comparison, like the reset token
     if not constant_time_compare(confirmation_token,
                                  _generate_token_for_user(username)):
         return HttpResponseText('invalid token')
@@ -283,11 +268,7 @@ def local_login(request):
         else:
             return HttpResponseText('confirm-email')
     else:
-        # ModelBackend refuse un compte inactif AVANT de le rendre, donc la
-        # branche 'confirm-email' ci-dessus ne pouvait jamais etre atteinte :
-        # quelqu'un qui venait de s'inscrire sans cliquer le lien s'entendait
-        # dire que son mot de passe etait faux, et recommencait. Un mot de
-        # passe juste n'est pas un echec, donc il n'est pas compte.
+        # ModelBackend rejects an inactive account first, so a right password here is not a failure
         pending = User.objects.filter(username=username, is_active=False).first()
         if pending is not None and pending.check_password(password):
             return HttpResponseText('confirm-email')
@@ -372,9 +353,7 @@ def _recover_password_page(request, email, from_register):
                         username=username, link=link),
                   _get_from_email(),
                   [email])
-    # smtplib.SMTPException derive d'OSError, mais une connexion refusee
-    # ou un delai depasse remonte en OSError nu : sans lui, un serveur de
-    # courrier injoignable rendait 500 au lieu de cette page.
+    # A refused connection or a timeout raises a bare OSError, not SMTPException
     except (BadHeaderError, OSError):
         logger.exception('Password recovery email could not be sent to %s', email)
         return set_response(request,
@@ -450,14 +429,7 @@ def _password_reset_hmac(username, password):
 
 
 def _generate_token_for_password_reset(username, password):
-    """A reset token that stops working.
-
-    The bare HMAC never expired: a reset mail stayed a working key to the
-    account for as long as the password was unchanged, which is to say for
-    years in an old inbox. Signing it with a timestamp puts Django's
-    PASSWORD_RESET_TIMEOUT on it, three days by default. The password hash
-    stays inside, so a completed reset still kills every older link at once.
-    """
+    """A reset token that expires after PASSWORD_RESET_TIMEOUT."""
     return TimestampSigner(salt=PASSWORD_RESET_SALT).sign(
         _password_reset_hmac(username, password))
 

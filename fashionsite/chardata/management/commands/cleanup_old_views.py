@@ -23,15 +23,10 @@ from chardata.models import BuildView
 class Command(BaseCommand):
     help = 'Delete BuildView records older than 24 hours to keep database clean'
 
-    #: Combien de lignes par passe. Le premier menage a supprimer 156 914
-    #: lignes d'un coup, parce que rien n'avait jamais appele cette commande.
-    #: Elle tourne desormais au demarrage du serveur, donc pendant la fenetre
-    #: de maintenance : une seule requete de cette taille tient un verrou sur
-    #: la table tout du long, la ou des lots le rendent entre chaque.
+    # Rows per pass: one huge delete would lock the table during startup
     TAILLE_DE_LOT = 5000
 
-    #: Garde-fou : sans lui, une erreur de filtre qui ne supprimerait rien
-    #: tournerait sans fin au demarrage et le serveur ne repartirait jamais.
+    # Safety stop so a filter that deletes nothing cannot loop forever at startup
     PASSES_MAX = 1000
 
     def handle(self, *args, **options):
@@ -45,8 +40,7 @@ class Command(BaseCommand):
                 break
             supprimees, _ = BuildView.objects.filter(pk__in=lot).delete()
             total += supprimees
-            # Un lot incomplet est le dernier : inutile de redemander pour
-            # s'entendre repondre zero.
+            # A short batch is the last one
             if len(lot) < self.TAILLE_DE_LOT:
                 break
         else:

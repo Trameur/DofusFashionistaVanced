@@ -23,19 +23,7 @@ from chardata.legacy_ids import repair_minimal_solution
 
 
 def _repair_character_base(char, minimal_solution):
-    """Fill the five the character has of their own, when they are missing.
-
-    A build imported before 2026-09-11 was saved with an EMPTY
-    `base_stats_by_attr`, so its sheet was short of seven AP, three MP, a
-    hundred prospecting, a thousand pods and one summon, and its "best combo
-    this turn" panel vanished because a turn with two AP has nothing to
-    cast. The cause is fixed where the build is placed; this repairs the
-    ones already saved, as they are read.
-
-    Nothing is rewritten in the database ([[no-retrofit-user-builds]]): the
-    five depend on the level alone, so this costs no query and no migration.
-    A solution that already carries them is left exactly as it is.
-    """
+    """Fill in the level-based base stats a solution lacks, without rewriting it."""
     from chardata.util import character_own_stats
     entree = getattr(minimal_solution, 'input', None)
     if not isinstance(entree, dict):
@@ -52,9 +40,7 @@ def _repair_character_base(char, minimal_solution):
 def get_solution_from_minimal(char, minimal_solution, refresh_base_stats=True):
     if minimal_solution:
         _repair_character_base(char, minimal_solution)
-        # Les pieces que la migration de novembre 2025 a laissees dans
-        # l'ancienne numerotation, et qui designent donc aujourd'hui un
-        # autre objet. Reparees a la lecture, jamais reecrites.
+        # Pieces left under pre-migration ids, repaired on read
         repair_minimal_solution(char, minimal_solution)
         if refresh_base_stats or not getattr(minimal_solution, 'stats', None):
             spent, scrolled = get_stats_and_scrolled(char)
@@ -77,17 +63,7 @@ def get_solution(char):
     return None
 
 def get_solver_facts(minimal_solution_blob):
-    """(proven, seconds, candidate pool), each None when it predates them.
-
-    Read from the pickled minimal solution and not from the ModelResult the
-    page works with: model_result_from_minimal builds a different object and
-    these facts do not survive the trip, which is exactly how they came
-    back missing the first time they were wired up.
-
-    None means the solver never told us, and the panel then shows nothing.
-    False means it told us the answer is NOT proved, which is the case the
-    reader most needs, so the two must never be conflated.
-    """
+    """(proven, seconds, candidate pool), each None when the solution predates it."""
     if not minimal_solution_blob:
         return None, None, None
     try:
@@ -103,24 +79,14 @@ def set_solution(char, solution):
     set_minimal_solution(char, ModelResultMinimal.from_model_result(solution))
 
 def wears_something(solution):
-    """Whether a solution actually dresses the character.
-
-    The one gate on publishing: an empty solution is a build nobody has
-    finished, and the gallery is not a list of empty drafts. Read from
-    `item_per_slot`, the same field the gallery reads to draw a build's
-    preview, so a build that would show as an empty frame there cannot get
-    in.
-    """
+    """Whether a solution dresses the character: the gate on publishing."""
     par_emplacement = getattr(solution, 'item_per_slot', None) or {}
     return any(par_emplacement.values())
 
 
 def set_minimal_solution(char, solution):
     char.minimal_solution = pickle.dumps(solution)
-    # Public by default, from 2026-09-11: a build made by a logged in author
-    # becomes visible the first time it is dressed, unless somebody has
-    # already chosen. `auto_publish` is False on every build that existed
-    # before that day and on every guest build, so neither is touched here.
+    # Public by default: published the first time it is dressed, unless already chosen
     if char.auto_publish and not char.link_shared and wears_something(solution):
         char.link_shared = True
     char.save()

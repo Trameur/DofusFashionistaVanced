@@ -34,8 +34,6 @@ def _bounded(value, ceiling):
     return max(0, min(value, ceiling))
 
 
-
-
 def setup_base_stats(request, char_id=0):
     return _page(request, char_id, False)
 
@@ -70,9 +68,7 @@ def _page(request, char_id, is_new_char):
                 new_list.append(None)
         lower_soft_caps[stat] = new_list
 
-    # The six cost tiers are 1:2, 1:1, 2:1, 3:1, 4:1, 5:1. A tier exists when
-    # some stat has a threshold there (a number) or an open-ended one (None);
-    # 0 for every stat means the tier does not exist for that class.
+    # Cost tiers 1:2 to 5:1; a tier exists when a stat has a threshold there
     show_tiers = [any((caps[n] is None) or (caps[n] and caps[n] > 0)
                       for caps in soft_caps.values())
                   for n in range(6)]
@@ -113,8 +109,7 @@ def _post(request, char_id):
         basestats.scrolled_value = scrolled
         basestats.save()
         
-    # A checkbox posts its value attribute when checked and nothing at all
-    # when unchecked: presence is the signal, not the value.
+    # An unchecked box posts nothing: presence is the signal
     raw = request.POST.get('choose_stats')
     allow_point_distribution = (raw is not None and
                                 str(raw).strip().lower()
@@ -125,19 +120,7 @@ def _post(request, char_id):
     return char
 
 def _clamped_to_what_the_game_allows(stats, max_scroll):
-    """Ramene un parchemin au-dessus de la borne du jeu, sans toucher aux
-    points que le joueur a distribues.
-
-    Ce n'est pas un choix de lecteur qu'on efface: le champ porte `max="100"`
-    depuis le tout premier commit du depot, donc personne n'a jamais pu taper
-    davantage. Les valeurs au-dessus viennent du semis du site, qui donnait a
-    tout personnage Touch le plafond de 150 que le jeu reserve au niveau 200,
-    et a tout personnage Retro un 101 que le champ refusait.
-
-    `total` comprend le parchemin, donc on le baisse d'autant: sans cela,
-    borner le parchemin seul offrirait au personnage les points ainsi
-    liberes, qu'il n'a jamais distribues.
-    """
+    """Bring a scroll above the game's cap back down, without touching distributed points."""
     ajuste = dict(stats)
     for cle in [c for c in stats if c.startswith('scrolled_')]:
         parchemin = stats[cle]

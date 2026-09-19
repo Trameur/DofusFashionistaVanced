@@ -35,15 +35,15 @@ def get_fashionista_path():
             with open(config_file_path) as f:
                 path = f.read().strip()
         except FileNotFoundError:
-            # Si le fichier de configuration n'existe pas, on utilise le répertoire courant ou parent
+            # No config file: use the current or parent folder
             print(f"Configuration file not found: {config_file_path}")
             print("Using current directory as fallback")
             
-            # Utiliser le répertoire parent du dossier fashionistapulp comme racine
+            # Parent of the fashionistapulp folder as the root
             current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             path = current_dir
             
-            # Créer le fichier de configuration pour les futures utilisations
+            # Create the config file for later runs
             try:
                 os.makedirs(os.path.dirname(config_file_path), exist_ok=True)
                 with open(config_file_path, 'w') as f:
@@ -59,9 +59,7 @@ def _data_path(file_name):
                         'fashionistapulp', file_name)
 
 def get_items_db_path(game_version='dofus3'):
-    # Both of these used to answer an unknown version with Dofus 3's own
-    # database, so a typo served another game's items under the wrong name and
-    # nothing said a word. The registry raises instead.
+    # An unknown version raises instead of falling back to Dofus 3's database
     from .game_versions import get_game_version
     return _data_path(get_game_version(game_version).db_file)
 
@@ -108,12 +106,12 @@ def serve_static_files():
             with open(serve_static_file_path) as f:
                 serve_static = f.read().startswith('True')
         except FileNotFoundError:
-            # Valeur par défaut si le fichier n'existe pas
+            # Default when the file is missing
             print(f"Static file configuration not found: {serve_static_file_path}")
             print("Using default value: True")
             serve_static = True
             
-            # Tenter de créer le fichier pour les futures utilisations
+            # Try to create the file for later runs
             try:
                 os.makedirs(os.path.dirname(serve_static_file_path), exist_ok=True)
                 with open(serve_static_file_path, 'w') as f:

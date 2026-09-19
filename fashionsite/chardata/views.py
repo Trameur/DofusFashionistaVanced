@@ -37,13 +37,7 @@ def load_projects(request, char_id=0):
     return load_projects_error(request, error=None)
 
 def load_projects_error(request, error):
-    """The signed-in visitor's own projects.
-
-    Anonymous visitors see an empty list, so there is nothing here to index --
-    yet it was submitted to the sitemap and drew 3795 impressions for 4 clicks.
-    noindex rather than robots.txt: the page is already in the index, and a
-    disallow would stop Google ever reading the instruction to drop it.
-    """
+    """The signed-in visitor's own projects (noindex: empty for anonymous visitors)."""
     game_version = getattr(request, 'game_version', 'dofus3')
     chars = []
     if request.user is not None and not request.user.is_anonymous:
@@ -90,12 +84,7 @@ def load_a_project(request, char_id):
     return HttpResponseRedirect(version_reverse(request, 'wizard', char.id))
                                               
 def infeasible(request, char_id=0):
-    # Cette page affiche le projet : son nom remonte dans l en-tete
-    # de base.html, et `over_cap` nomme les minimums du personnage.
-    # `get_object_or_404` la servait a qui connaissait un identifiant,
-    # anonyme compris, alors que /setup/ du meme personnage repondait
-    # 403. get_char_or_raise porte la meme regle que le reste du site,
-    # y compris pour un proprietaire anonyme (owns_anon_char).
+    # Shows the project name, so it needs the same access rule as /setup/
     char = get_char_or_raise(request, char_id)
     return set_response(request, 
                         'chardata/infeasible.html', 
@@ -120,10 +109,7 @@ def forbidden(request, exception=None, char_id=0):
     return response
                          
 def not_found(request, exception=None, char_id=0):
-    # A 404 means url resolution failed, so the middleware hook that restores
-    # the reader's language never ran -- it only fires once a url has matched.
-    # Without this the error page is the one page on the site that ignores the
-    # language the visitor asked for.
+    # A 404 skips the middleware that restores the reader's language
     from chardata.url_language import negotiate_language_for_unmatched_path
     negotiate_language_for_unmatched_path(request)
 
@@ -210,27 +196,11 @@ def support(request, char_id=0):
                          'support_links': support_links})
 
 
-#: Where a donation link may sit. Closed on purpose: see donate().
 DONATION_SOURCES = frozenset({'support', 'solution', 'footer'})
 
 
 def donate(request, index='0'):
-    """Counts the click, then hands the reader over to the donation page.
-
-    The Ko-fi button has always been there and has always been invisible: a
-    third-party widget draws it, so the site never learned whether anyone even
-    reaches for it. That number is the one thing worth knowing here -- with
-    3 000 monthly readers and one donation received so far, the share who would
-    give is the variable that decides whether any of this deserves more work.
-
-    The destination comes from settings, never from the query string. Taking a
-    url from a visitor would make this an open redirect: a link that looks like
-    it goes to this site and lands anywhere, which is exactly what phishing
-    wants and what search engines punish.
-
-    Counting is wrapped: a statistics table that will not write must never cost
-    a donation.
-    """
+    """Count the click, then redirect to the donation page from settings, never from the query."""
     links = getattr(settings, 'SUPPORT_LINKS', []) or []
     try:
         target = links[int(index)]['url']
@@ -242,10 +212,7 @@ def donate(request, index='0'):
         from django.utils import timezone as _tz
         from django.utils import translation as _tr
         from chardata.models import SupportClick
-        # Read from a closed list, never from the query as given. A visitor
-        # cannot invent a label, which keeps the table small and the values
-        # comparable; anything unexpected is filed as 'other' rather than
-        # rejected, because a miscounted click is better than a lost donation.
+        # Closed list of labels; anything else is filed as other
         demande = (request.GET.get('from') or 'support').strip().lower()
         source = demande if demande in DONATION_SOURCES else 'other'
         key = {'day': _tz.localdate(), 'language': (_tr.get_language() or '')[:10],
