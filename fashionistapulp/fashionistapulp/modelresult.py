@@ -19,7 +19,7 @@ import logging
 from django.utils.translation import gettext as _
 
 from .dofus_constants import (TYPE_NAMES, TYPE_NAME_TO_SLOT, TYPE_NAME_TO_SLOT_NUMBER, SLOTS,
-                             NEUTRAL, DAMAGE_TYPES, BASE_STATS, STAT_KEY_TO_NAME,
+                             DAMAGE_TYPES, BASE_STATS, STAT_KEY_TO_NAME,
                              calculate_damage, SLOT_NAME_TO_TYPE)
 from .item_flags import flag_lines
 from .spell_text import fold_spell_blocks
@@ -719,32 +719,17 @@ class ModelResultItem():
             self.localized_name = _(SLOT_NAME_TO_TYPE[slot])
         
     def mage_weapon_smartly(self, char_stats):
-        if getattr(self, 'is_mageable', False):
-            calculated_damage = {}
-            for element in DAMAGE_TYPES:
-                calculated_damage[element] = calculate_damage(self.non_crit_hits[element],
-                                                              char_stats, critical_hit=False, is_spell=False)
-                
-            if any([hit.heals for hit in self.non_crit_hits[NEUTRAL]]):
-                lowest_dam = 999999
-                element_chosen = None
-                for element, damage in calculated_damage.items():
-                    total_average_dam = sum([d.average() for d in damage])
-                    if total_average_dam < lowest_dam:
-                        lowest_dam = total_average_dam
-                        element_chosen = element
-                self.element_maged = element_chosen
-            else:
-                highest_dam = -999999
-                element_chosen = None
-                for element, damage in calculated_damage.items():
-                    total_average_dam = sum([d.average() for d in damage])
-                    if total_average_dam > highest_dam:
-                        highest_dam = total_average_dam
-                        element_chosen = element
-                self.element_maged = element_chosen
-            
-            
+        if not getattr(self, 'is_mageable', False):
+            return
+        best_worth = None
+        for element in DAMAGE_TYPES:
+            hits = calculate_damage(self.non_crit_hits[element], char_stats,
+                                    critical_hit=False, is_spell=False)
+            worth = sum(hit.average() for hit in hits)
+            if best_worth is None or worth > best_worth:
+                best_worth = worth
+                self.element_maged = element
+
 
 class ModelResultSet():
 

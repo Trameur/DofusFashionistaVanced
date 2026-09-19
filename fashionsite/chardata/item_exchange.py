@@ -520,10 +520,7 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
     
     total_damage = 0
     for damage in calculated_damage[element]:
-        if damage.heals:
-            total_damage -= (damage.min_dam + damage.max_dam)/2
-        else:
-            total_damage += (damage.min_dam + damage.max_dam)/2
+        total_damage += (damage.min_dam + damage.max_dam)/2
     # Four Retro weapons carry no weapon data at all in the game files, so they
     # reach here with no AP cost. Damage per AP means nothing for them.
     if not weapon_obj.ap:
@@ -540,10 +537,7 @@ def _get_weapon_rate(weapon, char, result, stat_overrides=None):
          
         total_damage = 0
         for damage in calculated_crit_damage[element]:
-            if damage.heals:
-                total_damage -= (damage.min_dam + damage.max_dam)/2
-            else:
-                total_damage += (damage.min_dam + damage.max_dam)/2
+            total_damage += (damage.min_dam + damage.max_dam)/2
         if not weapon_obj.ap:
             rating_crit = 0
         else:
