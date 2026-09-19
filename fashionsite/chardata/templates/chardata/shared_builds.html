@@ -7,19 +7,10 @@
 {% load static_s3 %}
 {% load version_url %}
 
-{% comment %}
-716 impressions par mois pour cinq clics : la page s'annoncait "The Dofus
-Fashionista: Shared Builds". Google tronque, donc la moitie coupee doit etre
-celle qui est identique sur toutes les pages, pas celle qui dit quoi.
-{% endcomment %}
+{# The distinctive part of the title first, Google truncates the tail #}
 {% block title %}{% if class_title %}{{ class_title }}{% else %}{% trans "Community Dofus Builds" %}{% endif %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
 
-{% comment %}
-Sans ce bloc, base.html fabrique le canonique a partir de request.path, qui ne
-porte pas la chaine de requete : les 82 pages suivantes se declaraient toutes
-doublons de la premiere tout en demandant a etre indexees. Les builds qui
-n'apparaissent que sur ces pages-la se decouvrent par elles.
-{% endcomment %}
+{# The canonical keeps the page number, base.html would drop the query string #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
 {% block structured_data %}<script type="application/ld+json">{{ breadcrumb_jsonld|safe }}</script>{% endblock %}
 
@@ -39,14 +30,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
         {% trans "Browse and discover builds shared by the community. Click on any build to view details." %}
     </p>
 
-    {% comment %}
-    Cette page est CALCULEE a partir des builds ci-dessous, et rien ne la
-    reliait depuis ici : son seul lien entrant venait du carrefour de l'encyclopedie.
-    Meme condition que la : la page n'a pas de route sous un prefixe de version,
-    et les autres versions comptent 25, 17, 10 et 1 build indexes, donc zero part
-    publiable. La chaine est celle deja traduite pour le carrefour, donc aucun
-    catalogue n'a bouge.
-    {% endcomment %}
+    {# The most-used page has no version prefix, only Dofus 3 links it #}
     {% if current_game_version == 'dofus3' %}
     <p class="text" align="center" style="margin-top: -6px;">
         <a class="sharedbuilds-page-link" href="{% url 'encyclopedia_most_used' %}">{% trans "Most used items in builds" %} &gt;</a>
@@ -255,13 +239,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
                     {% if build.preview_items %}
                     <div class="build-preview-items">
                         {% static "chardata/QuestionMark-lighttheme.png" as fallback_img %}
-                        {% comment %}
-                        Cette page appelle 314 vignettes d'objets et 283 icones
-                        de stats, soit environ un megaoctet et demi qu'un
-                        navigateur telechargeait d'un seul coup. Les dimensions
-                        sont celles que le CSS impose deja : les poser ici evite
-                        que la page saute pendant le chargement.
-                        {% endcomment %}
+                        {# Width and height keep the page steady while the thumbnails load #}
                         {% for item in build.preview_items %}
                         <div class="build-preview-item" title="{{ item.name }}">
                             <img src="{{ item.image_url }}" alt="{{ item.name }}" width="36" height="36" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='{{ fallback_img }}'">
@@ -287,15 +265,7 @@ n'apparaissent que sur ces pages-la se decouvrent par elles.
                     <div class="build-acquisition">{{ build.acquisition_summary }}</div>
                     {% endif %}
 
-                    {% comment %}Le fait que porte tout le positionnement, sur la
-                    surface ou l'on decouvre les builds: le solveur a DEMONTRE
-                    l'optimum, ou il a rendu le meilleur set atteint a la
-                    limite de temps. Trois etats et jamais deux: True, False,
-                    et None pour une solution d'avant le fait, qui n'affiche
-                    rien plutot que de deviner. Teste contre None explicitement
-                    parce qu'un `{% if build.solver_proven %}` avalerait le
-                    False, qui est le cas que le lecteur a le plus besoin de
-                    voir.{% endcomment %}
+                    {# solver_proven: True, False, or None for a solution older than the fact #}
                     {% if build.solver_proven is True %}
                     <div class="build-alerts">
                         <span class="build-proof-badge" title="{% trans "Proven optimum. The solver checked that no other legal combination scores higher on your criteria." %}">{% trans "Proven optimum" %}</span>
