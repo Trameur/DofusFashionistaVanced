@@ -14,15 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""
-Django settings for fashionsite project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
+"""Django settings for local development."""
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -206,7 +198,7 @@ if not DEBUG:
 
 USE_MYSQL = False
 if USE_MYSQL:
-    # Support pour Docker avec variables d'environnement
+    # Docker support through environment variables
     DB_HOST = os.environ.get('DB_HOST', 'localhost')
     DB_PORT = os.environ.get('DB_PORT', '3306')
     DB_NAME = os.environ.get('DB_NAME', 'fashionista')
@@ -361,8 +353,6 @@ CACHES = {
 }
 
 
-
-
 EMAIL_USE_TLS = GEN_CONFIGS['EMAIL_USE_TLS']
 EMAIL_HOST = GEN_CONFIGS['EMAIL_HOST']
 EMAIL_HOST_USER = GEN_CONFIGS['EMAIL_HOST_USER']
@@ -401,16 +391,6 @@ DEFAULT_THEME = 'lighttheme'
 SUPPORT_LINKS = [
     {'label': 'Ko-fi', 'url': 'https://ko-fi.com/dofusfashionista'},
 ]
-
-
-
-
-
-
-
-
-
-
 
 
 # --- dev-only overrides ---

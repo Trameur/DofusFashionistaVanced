@@ -16,7 +16,10 @@ SCORCHED_DIRT = 12985
 DISTRUST = 12988
 VENDETTA = 32473
 PASTURELAND = 13013
+REFUGE = 13021
+BLACK_ICE = 13023
 PRESSURE = 13106
+SCURVION_TOXICITY = 12505
 
 
 def _spell(version, char_class, spell_id):
@@ -97,9 +100,27 @@ class ThePlacedThingsDamageIsReadFromItsOwnRecordTests(SimpleTestCase):
                                  _rows(spell.effects.non_crit_ranges))
                 self.assertEqual([[(37, 42)], [(37, 42)]],
                                  _rows(spell.effects.crit_ranges))
-                self.assertEqual([('', [0]), ('Glyph damage', [1])],
+                self.assertEqual([('', [0]), ('Glyph damage - State 5260', [1])],
                                  spell.aggregates)
                 self.assertEqual({1: 'state'}, spell.conditional)
+
+    def test_a_placement_gated_on_one_state_names_it_in_the_head(self):
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                heads = {_spell(version, 'Feca', spell_id).aggregates[1][0]
+                         for spell_id in (PASTURELAND, REFUGE, BLACK_ICE)}
+                self.assertEqual({'Glyph damage - State 5260'}, heads)
+
+    def test_a_best_element_hit_renumbered_between_grades_is_one_hit(self):
+        spell = _spell('beta', 'default', SCURVION_TOXICITY)
+        self.assertEqual([[(8, 8)] * 3] * 8, _rows(spell.effects.non_crit_ranges))
+        self.assertEqual([EARTH, FIRE, WATER, AIR] * 2, spell.effects.elements)
+        self.assertEqual([('Hit in best element', [0]), ('', [1]), ('', [2]),
+                          ('', [3]), ('Hit in best element', [4]), ('', [5]),
+                          ('', [6]), ('', [7])], spell.aggregates)
+        spell = _spell('dofus3', 'default', SCURVION_TOXICITY)
+        self.assertEqual([[(0, 0), (8, 8), (8, 8)]] * 4,
+                         _rows(spell.effects.non_crit_ranges))
 
     def test_a_spell_that_was_complete_is_untouched(self):
         for version in VERSIONS:
@@ -191,6 +212,32 @@ class ThePageNamesThePlacedThingInEachLanguageTests(SimpleTestCase):
                           '1': 'only when the bomb explodes'},
                          digest['conditional'])
 
+    def test_the_glyph_head_names_the_state_under_its_game_name(self):
+        for language, head in (
+                ('en', 'Glyph damage - With Greener Pastures'),
+                ('fr', 'Dégâts du glyphe - Avec Glyphes déclenchés'),
+                ('de', 'Glyphenschaden - Mit Vermenschwandlung')):
+            with self.subTest(language=language):
+                digest = self._digest(_spell('dofus3', 'Feca', PASTURELAND),
+                                      language)
+                self.assertEqual([['', [0]], [head, [1]]], digest['aggregates'])
+        digest = self._digest(_spell('dofus2', 'Feca', PASTURELAND), 'en',
+                              version='dofus2')
+        self.assertEqual([['', [0]], ['Glyph damage - With Greener Pastures', [1]]],
+                         digest['aggregates'])
+        self.assertEqual({'1': 'only at the state the spell needs'},
+                         digest['conditional'])
+
+    def test_a_state_the_version_cannot_name_leaves_the_head_alone(self):
+        from chardata.spells_view import _localized_aggregate_label
+        with override('fr'):
+            self.assertEqual('Dégâts du glyphe',
+                             _localized_aggregate_label(
+                                 'Glyph damage - State 999999', 'dofus3'))
+            self.assertEqual('Dégâts du piège',
+                             _localized_aggregate_label(
+                                 'Trap damage - State 5260', 'retro'))
+
 
 class TheBestTurnLeavesAPlacedThingsDamageOutTests(SimpleTestCase):
 
@@ -241,6 +288,58 @@ class TheBestTurnLeavesAPlacedThingsDamageOutTests(SimpleTestCase):
         digest = spell.get_effects_digest()
         self.assertEqual([('', [0]), ('Glyph damage', [1])], spell.aggregates)
         self.assertEqual([], element_runs(spell.aggregates, digest.non_crit_dams[0]))
+
+
+class TheDofus2TablesReadTheTrapsAndTheGlyphsTests(SimpleTestCase):
+
+    def test_a_sram_trap_carries_the_grade_each_level_places(self):
+        trap = _spell('dofus2', 'Sram', TRICKY_TRAP)
+        self.assertEqual([15, 82, 149], trap.level_req)
+        self.assertEqual([[(18, 20), (22, 24), (26, 28)]],
+                         _rows(trap.effects.non_crit_ranges))
+        self.assertEqual([FIRE], trap.effects.elements)
+        self.assertEqual([('Trap damage', [0])], trap.aggregates)
+        self.assertEqual({0: 'trap'}, trap.conditional)
+
+    def test_a_feca_glyph_carries_the_grade_each_level_places(self):
+        glyph = _spell('dofus2', 'Feca', SCORCHED_DIRT)
+        self.assertEqual([80, 147], glyph.level_req)
+        self.assertEqual([[(24, 27), (30, 34)]],
+                         _rows(glyph.effects.non_crit_ranges))
+        self.assertEqual([('Glyph damage', [0])], glyph.aggregates)
+        self.assertEqual({0: 'turn_begin'}, glyph.delayed)
+
+    def test_an_end_of_turn_glyph_reads_the_placed_grade_not_the_level_index(self):
+        glyph = _spell('dofus2', 'Feca', DISTRUST)
+        self.assertEqual([85, 152], glyph.level_req)
+        self.assertEqual([[(17, 18), (21, 22)]] * 4,
+                         _rows(glyph.effects.non_crit_ranges))
+        self.assertEqual([EARTH, FIRE, WATER, AIR], glyph.effects.elements)
+        self.assertEqual({0: 'turn_end', 1: 'turn_end',
+                          2: 'turn_end', 3: 'turn_end'}, glyph.delayed)
+
+    def test_a_gated_glyph_keeps_the_own_hit_first_and_names_the_state(self):
+        spell = _spell('dofus2', 'Feca', PASTURELAND)
+        self.assertEqual([[(31, 35)], [(31, 35)]],
+                         _rows(spell.effects.non_crit_ranges))
+        self.assertEqual([[(37, 42)], [(37, 42)]],
+                         _rows(spell.effects.crit_ranges))
+        self.assertEqual([('', [0]), ('Glyph damage - State 5260', [1])],
+                         spell.aggregates)
+        self.assertEqual({1: 'state'}, spell.conditional)
+
+    def test_no_glyph_of_another_class_and_no_bomb_is_read(self):
+        placed = {}
+        for char_class, spells in get_damage_spells_for_version('dofus2').items():
+            for spell in spells:
+                for label, _indices in spell.aggregates or []:
+                    head = label.split(' - ')[0]
+                    if head.endswith(' damage') or head.endswith(' heals'):
+                        placed.setdefault(char_class, set()).add(head)
+        self.assertEqual({'Sram': {'Trap damage'}, 'Feca': {'Glyph damage'},
+                          'Forgelance': {'Glyph damage'}}, placed)
+        self.assertNotIn('Explobomb', {spell.name for spell
+                                       in get_damage_spells_for_version('dofus2')['Rogue']})
 
 
 class TheSpellsPageCarriesTheLabelTests(TestCase):

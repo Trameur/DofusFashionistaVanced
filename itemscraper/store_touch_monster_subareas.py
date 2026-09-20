@@ -14,16 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Store where each Touch monster can be found into items_touch.db.
-
-The client's SubAreas table (POST /data/map {"class": "SubAreas"}) carries per
-subarea its localized nameId and the monster ids that spawn there; inverted
-here into monster -> [subarea names], per language. A filtered snapshot lives
-in touch_raw/SubAreas_<lang>.json.
-
-Usage (from itemscraper/):
-    python store_touch_monster_subareas.py [--download]
-"""
+"""Store where each Touch monster can be found into items_touch.db, from the client's SubAreas table; python store_touch_monster_subareas.py [--download] from itemscraper/."""
 
 import argparse
 import json
@@ -51,11 +42,7 @@ def download():
     from download_touch_data import resolve_data_url, served_languages
 
     data_url = resolve_data_url()
-    # Touch answers a language it no longer serves with its failover, English,
-    # and no marker. Refreshing on that answer overwrites a real translation
-    # with English: that is how the German names went, all at once, in the
-    # 2026-09-08 rebuild. An empty set means the config was unreadable, and
-    # then nothing is skipped.
+    # Touch answers a language it no longer serves with English and no marker; an empty served set means unreadable, and nothing is skipped
     served = served_languages()
     for lang in LANGUAGES:
         if served and lang not in served:

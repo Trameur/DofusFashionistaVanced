@@ -14,21 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Stats a version cannot give, so the pages stop offering them.
-
-A weight only steers the optimizer if something in that version's catalogue can
-carry the stat. On Retro ten of them cannot: pushback damage and resistance,
-critical damage and resistance, lock, dodge, and the four AP and MP reduction
-and resistance lines. Not one item and not one set bonus grants any of them, so
-a reader who weighted them was moving a control wired to nothing.
-
-Measured per version, never hand-listed: a hand-list is wrong the day a version
-gains an item.
-
-The weird-item bonuses in model.py could give such a weight a second route, but
-that whole block returns early for anything other than dofus3 and the beta, so
-on the other versions there is no route at all.
-"""
+"""Stats a version cannot give, read from its catalogue rather than hand-listed, so the pages stop offering them."""
 import sqlite3
 
 from fashionistapulp.fashionista_config import get_items_db_path
@@ -79,12 +65,6 @@ _VERSIONS_WITH_WEIRD_ITEM_WEIGHTS = ('dofus3', 'beta')
 
 
 def stats_not_worth_offering(game_version):
-    """Stat keys a weight on which cannot change the answer, in this version.
-
-    Empty for dofus3 and the beta: there a stat with no item behind it can
-    still move the solver through the named-item weights, so offering it is
-    honest.
-    """
     if game_version in _VERSIONS_WITH_WEIRD_ITEM_WEIGHTS:
         return frozenset()
     return stats_with_no_source(game_version)

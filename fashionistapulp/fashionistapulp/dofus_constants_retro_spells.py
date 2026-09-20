@@ -257,6 +257,16 @@ RETRO_DAMAGE_SPELLS = {
             [["11-15", "11-17", "13-19", "13-21", "15-23", "18-26"]],
             [WATER],
         ), casting={"ap": [5, 5, 4, 4, 3, 3], "crit": [50, 50, 50, 50, 50, 45], "per_turn": [2, 2, 2, 2, 2, 2]}, spell_id=19),
+        Spell("Glyphe Agressif", [1, 1, 1, 1, 1, 101], Effects(
+            [["1-3", "2-4", "3-5", "5-7", "6-8", "8-10"]],
+            [["1-3", "2-4", "3-5", "5-7", "6-8", "8-10"]],
+            [FIRE],
+        ), aggregates=[('Glyph damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [2, 2, 2, 2, 2, 2]}, spell_id=17, delayed={0: 'turn_begin'}),
+        Spell("Glyphe Enflammé", [70, 70, 70, 70, 70, 170], Effects(
+            [["19-27", "21-29", "23-31", "25-33", "27-35", "27-35"]],
+            [["24-32", "27-35", "30-38", "33-41", "36-44", "36-44"]],
+            [FIRE],
+        ), aggregates=[('Glyph damage', [0])], casting={"ap": [4, 4, 3, 3, 3, 3], "cooldown": [3, 3, 3, 3, 3, 2]}, spell_id=10, delayed={0: 'turn_begin'}),
         Spell("Retour du bâton", [48, 48, 48, 48, 48, 148], Effects(
             [["6-20", "8-22", "10-24", "12-26", "16-30", "21-35"]],
             [["16-18", "18-21", "20-24", "22-27", "26-32", "31-37"]],
@@ -504,6 +514,26 @@ RETRO_DAMAGE_SPELLS = {
             [["8-17", "9-18", "10-19", "11-20", "12-21", "16-30"]],
             [AIR],
         ), casting={"ap": [6, 6, 6, 6, 5, 4], "crit": [30, 30, 30, 30, 30, 30]}, spell_id=68),
+        Spell("Piège Empoisonné", [31, 31, 31, 31, 31, 131], Effects(
+            [["3-3", "4-4", "5-5", "6-6", "7-7", "7-7"]],
+            [["3-3", "4-4", "5-5", "6-6", "7-7", "7-7"]],
+            [EARTH],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [5, 5, 4, 4, 3, 2]}, spell_id=71, conditional={0: 'trap'}),
+        Spell("Piège Mortel", [100, 100, 100, 100, 100, 200], Effects(
+            [["21-40", "26-45", "31-50", "36-55", "41-60", "41-60"]],
+            [["21-40", "26-45", "31-50", "36-55", "41-60", "41-60"]],
+            [EARTH],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [4, 4, 4, 4, 4, 3], "cooldown": [5, 4, 3, 2, 1, 0], "per_target": [0, 0, 0, 0, 0, 2]}, spell_id=80, conditional={0: 'trap'}),
+        Spell("Piège Sournois", [1, 1, 1, 1, 1, 101], Effects(
+            [["5-9", "6-10", "7-11", "8-12", "9-13", "13-17"]],
+            [["7-11", "8-12", "9-13", "10-14", "11-15", "15-19"]],
+            [EARTH],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [2, 2, 2, 2, 2, 2], "per_target": [1, 2, 3, 4, 5, 6]}, spell_id=65, conditional={0: 'trap'}),
+        Spell("Piège de Masse", [21, 21, 21, 21, 21, 121], Effects(
+            [["2-10", "4-12", "6-14", "7-15", "9-17", "13-21"]],
+            [["2-10", "4-12", "6-14", "7-15", "9-17", "13-21"]],
+            [EARTH],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [5, 5, 5, 5, 5, 4], "per_target": [1, 1, 1, 1, 1, 1]}, spell_id=79, conditional={0: 'trap'}),
         Spell("Poison insidieux", [3, 3, 3, 3, 3, 103], Effects(
             [["1-2", "2-3", "3-4", "4-5", "5-6", "8-9"]],
             [["3-4", "4-5", "5-6", "6-7", "7-8", "10-11"]],
@@ -946,6 +976,20 @@ RETRO_SPELL_NAMES = {
   "fr": "Gelure",
   "pt": "Mordida Gélida"
  },
+ "Glyphe Agressif": {
+  "de": "Glyphe der Aggression",
+  "en": "Aggressive Glyph",
+  "es": "Glifo Agresivo",
+  "fr": "Glyphe Agressif",
+  "pt": "Glifo Agressivo"
+ },
+ "Glyphe Enflammé": {
+  "de": "Glyphe des Infernos",
+  "en": "Burning Glyph",
+  "es": "Glifo Flamígero",
+  "fr": "Glyphe Enflammé",
+  "pt": "Glifo Flamejante"
+ },
  "Griffe Cinglante": {
   "de": "Zupackende Kralle",
   "en": "Lashing Claw",
@@ -1106,6 +1150,34 @@ RETRO_SPELL_NAMES = {
   "es": "Cara o Cruz",
   "fr": "Pile ou Face",
   "pt": "Cara ou coroa"
+ },
+ "Piège Empoisonné": {
+  "de": "Giftfalle",
+  "en": "Poisoned Trap",
+  "es": "Trampa Envenenada",
+  "fr": "Piège Empoisonné",
+  "pt": "Armadilha Envenenada"
+ },
+ "Piège Mortel": {
+  "de": "Todesfalle",
+  "en": "Lethal Trap",
+  "es": "Trampa Mortal",
+  "fr": "Piège Mortel",
+  "pt": "Armadilha Letal"
+ },
+ "Piège Sournois": {
+  "de": "Tückische Falle",
+  "en": "Tricky Trap",
+  "es": "Trampa Solapada",
+  "fr": "Piège Sournois",
+  "pt": "Armadilha Enganadora"
+ },
+ "Piège de Masse": {
+  "de": "Massenfalle",
+  "en": "Mass Trap",
+  "es": "Trampa de Masas",
+  "fr": "Piège de Masse",
+  "pt": "Armadilha de Massa"
  },
  "Poing Enflammé": {
   "de": "Flammende Faust",

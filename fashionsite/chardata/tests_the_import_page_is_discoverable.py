@@ -1,13 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La page d'import est trouvable et decrit ce qu'elle fait.
-
-Mesure du 11 septembre 2026: la page lit des captures d'infobulle depuis
-le 10 (commit bf8015c50), sa description disait encore <<collez les noms>>
-et rien d'autre, un lien vers elle colle dans un salon portait la phrase
-generique du site, et aucune section du plan de site ne la soumettait, ni
-sous /import/text/ ni sous les prefixes de version. Une page qu'aucun moteur
-ne connait et qu'aucun salon ne decrit n'est pas une entree.
-"""
+"""The import page is discoverable and describes what it does."""
 
 import re
 
@@ -22,9 +14,6 @@ TITRE = 'Import a build'
 
 
 def _meta(page, nom):
-    """Le contenu d'une balise meta, par son nom ou sa propriete; le
-    minifieur trie les attributs, donc la balise est isolee par le nom avant
-    de lire son contenu."""
     balises = re.findall(r'<meta[^>]*(?:name|property)=["\']?%s["\']?[^>]*>'
                          % re.escape(nom), page)
     assert len(balises) == 1, (nom, balises)
@@ -61,9 +50,7 @@ class ThePageDescribesWhatItReadsTests(TestCase):
         page = self.client.get('/import/text/',
                                HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
         self.assertEqual(DESCRIPTION, _meta(page, 'description'))
-        # La promesse est tenue par la page elle-meme: le champ de captures
-        # est la. Retirer le lecteur de captures rend la phrase fausse et ce
-        # test rouge.
+        # The page itself keeps the promise: the screenshot field is there
         self.assertIn('shot-file', page)
 
     def test_the_link_preview_says_the_same_thing_as_the_search_engine(self):
@@ -77,10 +64,6 @@ class ThePageDescribesWhatItReadsTests(TestCase):
                          _meta(page, 'og:url'))
 
     def test_the_touch_twin_previews_its_own_address_and_names_its_version(self):
-        """Soumise cinq fois, une par version: si les cinq pages portaient
-        le meme titre et la meme description, Google n'en garderait qu'une.
-        C'est la convention de la galerie et de la forgemagie, gardee par
-        tests_page_titles; ici on verifie que l'apercu la suit aussi."""
         page = self.client.get('/touch/import/text/',
                                HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
         self.assertEqual('https://dofusfashionista.gg/touch/import/text/',

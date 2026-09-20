@@ -190,18 +190,16 @@ _shared_icon_names = {}
 def _shared_icon_name_keepers(game_version):
     """{name: lowest id} for the names several spells share; the others are filed as "<name> (<id>)"."""
     if game_version not in _shared_icon_names:
-        keepers = {}
-        if game_version in SPELL_ICON_LANGUAGE:
-            langue = SPELL_ICON_LANGUAGE[game_version]
-            ids_by_name = {}
-            for entries in get_spell_reference(game_version).values():
-                for entry in entries or []:
-                    name = localized(entry, 'name', langue)
-                    if name and entry.get('id') is not None:
-                        ids_by_name.setdefault(name, set()).add(entry['id'])
-            keepers = {name: min(ids) for name, ids in ids_by_name.items()
-                       if len(ids) > 1}
-        _shared_icon_names[game_version] = keepers
+        langue = SPELL_ICON_LANGUAGE.get(game_version, 'en')
+        ids_by_name = {}
+        for entries in get_spell_reference(game_version).values():
+            for entry in entries or []:
+                name = localized(entry, 'name', langue)
+                if name and entry.get('id') is not None:
+                    ids_by_name.setdefault(name, set()).add(entry['id'])
+        _shared_icon_names[game_version] = {
+            name: min(ids) for name, ids in ids_by_name.items()
+            if len(ids) > 1}
     return _shared_icon_names[game_version]
 
 
@@ -784,10 +782,10 @@ def _localized_aggregate_label(label, game_version=None):
     if match:
         head = str(_PLACED_HEADS[match.group(1)])
         rest = match.group(2)
+        # A state this version cannot name leaves the head alone
         if rest:
-            return '%s - %s' % (head,
-                                _localized_aggregate_label(rest, game_version))
-        return head
+            rest = _localized_aggregate_label(rest, game_version)
+        return '%s - %s' % (head, rest) if rest else head
     return _(label)
 
 

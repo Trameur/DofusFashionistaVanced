@@ -1,15 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Every page previews as itself when its link is pasted in a chat.
-
-Mesure du 11 septembre 2026, sur les seize pages carrefour du plan de site:
-quinze portaient l'apercu generique du site (<<Dofus Fashionista - Equipment
-Set Optimizer>> et sa phrase), alors que chacune a son titre et sa
-description. Le constructeur de sets, la galerie, la forgemagie, le
-demarrage rapide, colles dans un salon, se presentaient tous comme la meme
-page. Un bloc ne peut apparaitre qu'une fois dans un gabarit; le titre et la
-description sont maintenant rendus une fois par {% capture %} et repris trois
-fois: <title>, meta description, et la paire Open Graph.
-"""
+"""Every hub page previews as itself when its link is pasted in a chat."""
 
 import re
 
@@ -46,8 +36,7 @@ class TheCaptureTagTests(SimpleTestCase):
         parent = engine.from_string(
             '{% load capture %}{% capture as t %}{% block title %}base'
             '{% endblock %}{% endcapture %}<title>{{ t }}</title><og>{{ t }}</og>')
-        # Un enfant qui surcharge le bloc: ce que la page verra dans les
-        # deux emplacements est la version de l'enfant.
+        # A child that overrides the block: both slots show the child's version
         from django.template.loader_tags import ExtendsNode  # noqa: F401
         from django.template import Template as T
         enfant = T('{% extends parent %}{% block title %}child{% endblock %}')
@@ -56,8 +45,6 @@ class TheCaptureTagTests(SimpleTestCase):
 
 
 class EveryHubPagePreviewsItselfTests(TestCase):
-    """Lu depuis le plan de site, comme tests_page_titles: une page ajoutee
-    plus tard arrive deja gardee."""
 
     def _pages(self):
         reponse = self.client.get('/sitemap-pages.xml')
@@ -66,8 +53,7 @@ class EveryHubPagePreviewsItselfTests(TestCase):
         for url in re.findall(r'<loc>([^<]+)</loc>',
                               reponse.content.decode('utf-8')):
             chemin = re.sub(r'^https?://[^/]+', '', url)
-            # Les builds partages ont leur propre apercu (classe, pieces,
-            # verdict), garde par tests_the_link_preview_carries_the_build.
+            # Shared builds have their own preview, kept by tests_the_link_preview_carries_the_build
             if '/s/' in chemin:
                 continue
             chemins.append(chemin)
@@ -84,8 +70,7 @@ class EveryHubPagePreviewsItselfTests(TestCase):
             html = page.content.decode('utf-8', 'replace')
             titre = _titre(html)
             og_titre = _meta(html, 'og:title')
-            # Un guide previsualise son titre sans le nom du site: le titre
-            # de la page commence par l'apercu, ou lui est egal.
+            # A guide previews its title without the site name: the page title starts with the preview or equals it
             if not titre.startswith(og_titre):
                 faux.append((chemin, 'title', titre, og_titre))
             if _meta(html, 'description') != _meta(html, 'og:description'):
@@ -94,9 +79,6 @@ class EveryHubPagePreviewsItselfTests(TestCase):
                                        'what they say' % len(faux))
 
     def test_the_generic_sentence_is_gone_from_the_hubs(self):
-        """La phrase generique ne doit rester que la ou elle est la
-        description de la page: nulle part dans le plan de site des
-        carrefours, chacun ayant la sienne."""
         generique = 'Create optimized Dofus equipment sets automatically'
         restes = []
         for chemin in ('/', '/setup/', '/sharedbuilds/', '/forgemagie/',

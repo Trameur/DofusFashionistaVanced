@@ -1,33 +1,4 @@
-"""Test runner that isolates the process-global current game version.
-
-The game version is stored in a thread-local in ``fashionistapulp.structure``
-and read by code under test (for example ``evolve_result_item`` formats a damage
-line from it). Many tests call ``set_current_game_version('retro'/'touch'/...)``
-and never reset it, so the version leaks into whatever test runs next in the
-same thread and the outcome depends on test order.
-
-Resetting to the default before every test (in ``startTest``) gives each test a
-known 'dofus3' baseline, so a test only ever sees the version it sets itself.
-This is a single, order-proof fix; individual tests no longer need their own
-version-pinning setUp.
-
-It also makes the suite faster. Django hands whole test classes to its worker
-processes, so the suite can never finish before its heaviest class, and it
-finishes later still when that class is handed out last. Measured 2026-09-18
-on the 24-core machine: 383 s with 4 workers, 196 s with 24, while the work
-summed 2944 s and the heaviest class took 131 s. So:
-
-- without --parallel, one worker per core (DJANGO_TEST_PROCESSES caps it);
-- classes start heaviest first, by the seconds test_weights.json gives them
-  (spreading a heavy class one test per worker was tried: no faster, the cores
-  were already full);
-- --quick leaves out every class of QUICK_LIMIT seconds or more, for the edit
-  and check loop; the full suite still runs before a push;
-- --save-weights rewrites test_weights.json from the run it ends.
-
-With all of it the full suite took 174 s, and --quick 73 s for 2647 of the
-3080 tests.
-"""
+"""Test runner: resets the game version before every test and hands the heaviest classes out first, one worker per core."""
 import json
 import os
 import re
@@ -59,9 +30,6 @@ def _class_of(test):
 
 
 def _reset_between_tests():
-    """What one test leaves behind in its process. The cache matters since the
-    ids of a test database start over at 1: a cache_page answer for
-    /api/v1/shared-builds/1/ stored by one test was served to the next."""
     set_current_game_version('dofus3')
     for cache in caches.all():
         cache.clear()
@@ -78,8 +46,6 @@ class ResettingRemoteTestRunner(RemoteTestRunner):
 
 
 class WeightedParallelTestSuite(ParallelTestSuite):
-    """Hands the heaviest classes out first, so none starts last, and resets
-    each worker between tests like the serial runner does."""
 
     runner_class = ResettingRemoteTestRunner
 

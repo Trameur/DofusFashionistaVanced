@@ -1966,17 +1966,17 @@ DAMAGE_SPELLS = {
             [['24-27', '30-34']],
             None,
             [FIRE],
-        ), is_linked=(1, 'Lookout'), casting={'ap': [3, 3], 'cooldown': [3, 3]}, spell_id=12985),
+        ), aggregates=[('Glyph damage', [0])], is_linked=(1, 'Lookout'), casting={'ap': [3, 3], 'cooldown': [3, 3]}, spell_id=12985, delayed={0: 'turn_begin'}),
         Spell('Dirt Floor', [75, 142], Effects(
             [['23-27', '29-33']],
             None,
             [EARTH],
-        ), is_linked=(1, 'Refuge'), casting={'ap': [3, 3], 'cooldown': [3, 3]}, spell_id=12987),
+        ), aggregates=[('Glyph damage', [0])], is_linked=(1, 'Refuge'), casting={'ap': [3, 3], 'cooldown': [3, 3]}, spell_id=12987, delayed={0: 'turn_begin'}),
         Spell('Distrust', [85, 152], Effects(
-            [['13-14', '17-18'], ['13-14', '17-18'], ['13-14', '17-18'], ['13-14', '17-18']],
+            [['17-18', '21-22'], ['17-18', '21-22'], ['17-18', '21-22'], ['17-18', '21-22']],
             None,
             [EARTH, FIRE, WATER, AIR],
-        ), is_linked=(1, 'Barrier'), casting={'ap': [2, 2], 'cooldown': [1, 1]}, spell_id=12988),
+        ), aggregates=[('Glyph damage', [0, 1, 2, 3])], is_linked=(1, 'Barrier'), casting={'ap': [2, 2], 'cooldown': [1, 1]}, spell_id=12988, delayed={0: 'turn_end', 1: 'turn_end', 2: 'turn_end', 3: 'turn_end'}),
         Spell('Shiver', [155], Effects(
             [['32-36']],
             [['38-43']],
@@ -1986,12 +1986,12 @@ DAMAGE_SPELLS = {
             [['21-24', '25-29', '28-32']],
             None,
             [WATER],
-        ), is_linked=(1, 'Black Ice'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3]}, spell_id=12990),
+        ), aggregates=[('Glyph damage', [0])], is_linked=(1, 'Black Ice'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3]}, spell_id=12990, delayed={0: 'turn_begin'}),
         Spell('Prairie', [60, 127, 194], Effects(
             [['22-25', '28-31', '31-35']],
             None,
             [AIR],
-        ), is_linked=(1, 'Pastureland'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3]}, spell_id=12992),
+        ), aggregates=[('Glyph damage', [0])], is_linked=(1, 'Pastureland'), casting={'ap': [3, 3, 3], 'cooldown': [3, 3, 3]}, spell_id=12992, delayed={0: 'turn_begin'}),
         Spell('Lethargy', [20, 87, 154], Effects(
             [['18-20', '23-25', '28-31']],
             [['21-23', '27-30', '34-37']],
@@ -2033,10 +2033,10 @@ DAMAGE_SPELLS = {
             [AIR],
         ), is_linked=(2, 'Drowsiness'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [25, 25]}, spell_id=13012),
         Spell('Pastureland', [170], Effects(
-            [['31-35']],
-            [['37-42']],
-            [AIR],
-        ), is_linked=(2, 'Prairie'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13013),
+            [['31-35'], ['31-35']],
+            [['37-42'], ['37-42']],
+            [AIR, AIR],
+        ), aggregates=[('', [0]), ('Glyph damage - State 5260', [1])], is_linked=(2, 'Prairie'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13013, conditional={1: 'state'}),
         Spell('Lifelessness', [100, 167], Effects(
             [['24-28', '31-35']],
             [['30-34', '38-43']],
@@ -2053,25 +2053,25 @@ DAMAGE_SPELLS = {
             [EARTH],
         ), is_linked=(2, 'Backlash'), casting={'ap': [4, 4], 'per_turn': [3, 3], 'per_target': [2, 2], 'crit': [20, 20]}, spell_id=13017),
         Spell('Barrier', [195], Effects(
-            [['21-22'], ['21-22'], ['21-22'], ['21-22'], ['0-0'], ['0-0'], ['0-0'], ['0-0']],
+            [['21-22'], ['21-22'], ['21-22'], ['21-22']],
             None,
-            [EARTH, FIRE, WATER, AIR, EARTH, FIRE, WATER, AIR],
-        ), is_linked=(2, 'Distrust'), casting={'ap': [3], 'cooldown': [3]}, spell_id=13019),
+            [EARTH, FIRE, WATER, AIR],
+        ), aggregates=[('Glyph damage', [0, 1, 2, 3])], is_linked=(2, 'Distrust'), casting={'ap': [3], 'cooldown': [3]}, spell_id=13019, conditional={0: 'aura', 1: 'aura', 2: 'aura', 3: 'aura'}),
         Spell('Refuge', [185], Effects(
-            [['32-36']],
-            [['38-43']],
-            [EARTH],
-        ), is_linked=(2, 'Dirt Floor'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13021),
+            [['32-36'], ['32-36']],
+            [['38-43'], ['38-43']],
+            [EARTH, EARTH],
+        ), aggregates=[('', [0]), ('Glyph damage - State 5260', [1])], is_linked=(2, 'Dirt Floor'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13021, conditional={1: 'state'}),
         Spell('Sudden Shower', [160], Effects(
             [['36-40']],
             [['43-48']],
             [WATER],
         ), is_linked=(2, 'Torpor'), casting={'ap': [4], 'per_turn': [2], 'per_target': [1], 'crit': [20]}, spell_id=13022),
         Spell('Black Ice', [175], Effects(
-            [['31-35']],
-            [['37-42']],
-            [WATER],
-        ), is_linked=(2, 'Valley'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13023),
+            [['31-35'], ['31-35']],
+            [['37-42'], ['37-42']],
+            [WATER, WATER],
+        ), aggregates=[('', [0]), ('Glyph damage - State 5260', [1])], is_linked=(2, 'Valley'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13023, conditional={1: 'state'}),
         Spell('Lookout', [190], Effects(
             [['30-34']],
             [['36-41']],
@@ -2646,7 +2646,7 @@ DAMAGE_SPELLS = {
             [['34-38'], ['34-38'], ['34-38'], ['34-38']],
             None,
             [EARTH, FIRE, WATER, AIR],
-        ), aggregates=[('Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], casting={'ap': [4], 'cooldown': [4]}, spell_id=23846),
+        ), aggregates=[('Glyph damage - Hit in best element', [0]), ('', [1]), ('', [2]), ('', [3])], casting={'ap': [4], 'cooldown': [4]}, spell_id=23846, conditional={0: 'aura', 1: 'aura', 2: 'aura', 3: 'aura'}),
         Spell('Brass Rain', [100, 167], Effects(
             [['16-18', '19-21'], ['16-18', '19-21']],
             [['20-22', '23-25'], ['20-22', '23-25']],
@@ -4217,17 +4217,47 @@ DAMAGE_SPELLS = {
             [['22-24', '29-32', '35-38'], ['40', '60', '100']],
             [AIR, 'buff_agi'],
         ), stacks=2, is_linked=(1, 'Raiding'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=12911),
+        Spell('Repelling Trap', [30, 97, 164], Effects(
+            [['12-14', '15-17', '19-21']],
+            None,
+            [AIR],
+        ), aggregates=[('Trap damage', [0])], is_linked=(1, 'Frightful Trap'), casting={'ap': [3, 3, 3], 'per_turn': [1, 1, 1]}, spell_id=12914, conditional={0: 'trap'}),
+        Spell('Miry Trap', [20, 87, 154], Effects(
+            [['21-25', '27-31', '33-37']],
+            None,
+            [WATER],
+        ), aggregates=[('Trap damage', [0])], is_linked=(1, 'Epidemic'), casting={'ap': [3, 3, 3], 'per_turn': [1, 1, 2]}, spell_id=12916, conditional={0: 'trap'}),
         Spell('Lethal Attack', [160], Effects(
             [['43-48'], ['54-60']],
             [['52-58'], ['65-72']],
             [EARTH, EARTH],
         ), is_linked=(2, 'Larceny'), casting={'ap': [4], 'per_turn': [3], 'per_target': [2], 'crit': [20]}, spell_id=12917),
+        Spell('Insidious Trap', [175], Effects(
+            [['8-9'], ['8-9']],
+            None,
+            [AIR, AIR],
+        ), aggregates=[('Trap damage', [0, 1])], is_linked=(2, 'Drift Trap'), casting={'ap': [2], 'per_turn': [1]}, spell_id=12918, conditional={0: 'trap', 1: 'trap'}),
+        Spell('Frightful Trap', [140], Effects(
+            [['20-22']],
+            None,
+            [EARTH],
+        ), aggregates=[('Trap damage', [0])], is_linked=(2, 'Repelling Trap'), casting={'ap': [2], 'per_turn': [1]}, spell_id=12920, conditional={0: 'trap'}),
+        Spell('Lethal Trap', [80, 147], Effects(
+            [['31-35', '39-43'], ['39-44', '49-54']],
+            None,
+            [EARTH, EARTH],
+        ), aggregates=[('Trap damage', [0, 1])], is_linked=(1, 'Calamity'), casting={'ap': [3, 3], 'per_turn': [1, 2]}, spell_id=12921, conditional={0: 'trap', 1: 'trap'}),
         Spell('Jinx', [110, 177], Effects(
             [['29-32', '34-38']],
             [['35-39', '41-46']],
             [WATER],
             steals=[True],
         ), is_linked=(2, 'Cruelty'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=12922),
+        Spell('Sickrat Trap', [70, 137], Effects(
+            [['13-15', '17-19']],
+            None,
+            [WATER],
+        ), aggregates=[('Trap damage', [0])], is_linked=(1, 'Fragmentation Trap'), casting={'ap': [2, 2], 'per_turn': [1, 1]}, spell_id=12931, conditional={0: 'trap'}),
         Spell('Pitfall', [95, 162], Effects(
             [['22-25', '28-32'],
              ['30-33', '36-40'],
@@ -4340,17 +4370,27 @@ DAMAGE_SPELLS = {
             [['23-26', '27-30']],
             [WATER],
             steals=[True],
-        ), casting={'ap': [3, 3], 'per_turn': [3, 3], 'per_target': [2, 2], 'crit': [15, 15]}, spell_id=12939),
+        ), is_linked=(2, 'Tricky Trap'), casting={'ap': [3, 3], 'per_turn': [3, 3], 'per_target': [2, 2], 'crit': [15, 15]}, spell_id=12939),
         Spell('Toxic Injection', [165], Effects(
             [['28-32']],
             [['34-38']],
             [AIR],
         ), stacks=2, is_linked=(2, 'Furrow'), casting={'ap': [5], 'cooldown': [5], 'crit': [25]}, spell_id=12940, delayed={0: 'turn_begin'}),
+        Spell('Fragmentation Trap', [180], Effects(
+            [['13-17'], ['27-31'], ['37-41'], ['47-51']],
+            None,
+            [FIRE, FIRE, FIRE, FIRE],
+        ), aggregates=[('Trap damage', [0, 1, 2, 3])], is_linked=(2, 'Sickrat Trap'), casting={'ap': [4], 'per_turn': [1]}, spell_id=12941, conditional={0: 'trap', 1: 'trap', 2: 'trap', 3: 'trap'}),
+        Spell('Drift Trap', [65, 131, 198], Effects(
+            [['12-14', '15-17', '17-19']],
+            None,
+            [FIRE],
+        ), aggregates=[('Trap damage', [0])], is_linked=(1, 'Insidious Trap'), casting={'ap': [2, 2, 2], 'per_turn': [1, 1, 1]}, spell_id=12942, conditional={0: 'trap'}),
         Spell('Epidemic', [130, 197], Effects(
             [['32-36', '36-40']],
             None,
             [AIR],
-        ), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=12943, delayed={0: 'turn_end'}),
+        ), is_linked=(2, 'Miry Trap'), casting={'ap': [4, 4], 'per_turn': [2, 2], 'per_target': [1, 1]}, spell_id=12943, delayed={0: 'turn_end'}),
         Spell('Misconstrual', [170], Effects(
             [['1']],
             None,
@@ -4361,11 +4401,21 @@ DAMAGE_SPELLS = {
             [['29-32']],
             [FIRE],
         ), is_linked=(2, 'Shakedown'), casting={'ap': [3], 'per_turn': [3], 'per_target': [2], 'crit': [15]}, spell_id=12947),
+        Spell('Malevolent Trap', [25, 92, 159], Effects(
+            [['18-20', '23-26', '28-32']],
+            None,
+            [EARTH],
+        ), aggregates=[('Trap damage', [0])], is_linked=(1, 'Break-In'), casting={'ap': [3, 3, 3], 'per_turn': [2, 2, 2]}, spell_id=12948, conditional={0: 'trap'}),
         Spell('Perfidy', [195], Effects(
             [['56-60']],
             [['62-66']],
             [EARTH],
         ), stacks=4, is_linked=(2, 'Mistake'), casting={'ap': [6], 'per_turn': [3], 'per_target': [2], 'crit': [25]}, spell_id=12949),
+        Spell('Calamity', [190], Effects(
+            [['40-44']],
+            None,
+            [WATER],
+        ), aggregates=[('Trap damage', [0])], is_linked=(2, 'Lethal Trap'), casting={'ap': [4], 'per_turn': [1]}, spell_id=12950, conditional={0: 'trap'}),
         Spell('Mortuary Mark', [200], Effects(
             [['1']],
             None,
@@ -4375,12 +4425,17 @@ DAMAGE_SPELLS = {
             [['15-17']],
             [['19-21']],
             [FIRE],
-        ), stacks=2, casting={'ap': [2], 'per_turn': [3], 'per_target': [2], 'crit': [10]}, spell_id=14742),
+        ), stacks=2, is_linked=(2, 'Malevolent Trap'), casting={'ap': [2], 'per_turn': [3], 'per_target': [2], 'crit': [10]}, spell_id=14742),
         Spell('Deviousness', [1, 67, 133], Effects(
             [['18-21', '22-25', '26-29']],
             [['22-25', '26-29', '31-34']],
             [FIRE],
         ), is_linked=(1, 'Cut-Throat'), casting={'ap': [3, 3, 3], 'per_turn': [3, 3, 3], 'per_target': [2, 2, 2], 'crit': [15, 15, 15]}, spell_id=12904),
+        Spell('Tricky Trap', [15, 82, 149], Effects(
+            [['18-20', '22-24', '26-28']],
+            None,
+            [FIRE],
+        ), aggregates=[('Trap damage', [0])], is_linked=(1, 'Waylaying'), casting={'ap': [3, 3, 3], 'per_turn': [1, 1, 1]}, spell_id=12906, conditional={0: 'trap'}),
         Spell('Arsenic', [1, 68, 134], Effects(
             [['10-12', '13-15', '16-18']],
             [['12-14', '15-17', '19-21']],

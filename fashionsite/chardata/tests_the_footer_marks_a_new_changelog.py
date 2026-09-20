@@ -1,15 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le pied de page marque le changelog tant que sa derniere entree n'a pas
-ete ouverte.
-
-Mesure du 11 septembre 2026: quatre entrees de septembre, seize
-fonctionnalites, derriere un lien <<Changelog>> du pied de page qui avait
-la meme tete qu'un lien vers rien de neuf. Le lien porte maintenant la cle
-de l'entree la plus recente (le msgid de son titre, le meme dans les cinq
-langues), le navigateur garde la cle sur laquelle il a ouvert le changelog
-pour la derniere fois, et une marque <<(nouveautes)>> s'affiche tant que
-les deux different.
-"""
+"""The footer marks the changelog until its latest entry has been opened."""
 
 import io
 import os
@@ -55,8 +45,7 @@ class TheFooterCarriesTheKeyAndTheMarkTests(TestCase):
             lien = _lien(page)
             self.assertIn('data-changelog-latest="%s"' % cle, lien, chemin)
             self.assertIn('changelog-new', lien, chemin)
-            # Cachee au chargement: c'est le script qui la montre, pour que
-            # le lecteur qui a deja tout vu ne la voie pas clignoter.
+            # Hidden on load: the script shows it, so a reader who saw everything never sees it blink
             self.assertIn('hidden', lien, chemin)
             self.assertIn(MARQUE, lien, chemin)
 
@@ -72,10 +61,6 @@ class TheFooterCarriesTheKeyAndTheMarkTests(TestCase):
         self.assertIn('chardata.context_processors.changelog', declares)
 
     def test_the_dev_settings_declare_the_same_processors_as_production(self):
-        """settings_dev.py garde sa propre liste: le serveur de developpement
-        rendait `data-changelog-latest=""` et la marque ne s'affichait
-        jamais, pendant que les tests, sur settings.py, etaient verts.
-        Les deux listes doivent etre les memes."""
         def liste(nom):
             source = io.open(os.path.join(settings.BASE_DIR, 'fashionsite',
                                           nom), encoding='utf-8').read()

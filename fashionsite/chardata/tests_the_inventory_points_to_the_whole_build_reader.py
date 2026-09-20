@@ -1,12 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""L'inventaire renvoie vers le lecteur de build entier.
-
-Le lecteur de captures de l'inventaire lit UN objet et l'ajoute a un
-dossier. Depuis la section 9.10 du plan, la page d'import de texte lit un
-build entier depuis une capture par piece, avec les jets, les exos, la
-classe et le niveau. Rien sur l'inventaire ne le disait: un lecteur qui
-voulait tout son stuff y passait piece par piece.
-"""
+"""The inventory points to the whole-build reader from its screenshot box."""
 
 from django.contrib.auth.models import User
 from django.test import SimpleTestCase, TestCase
@@ -15,11 +8,6 @@ from chardata.inventory_view import LOCALIZED_UI
 
 
 class TheInventoryNamesTheWholeBuildReaderTests(TestCase):
-    """La boite de capture n'existe que sur un dossier selectionne. Sans
-    dossier, la page porte quand meme un lien vers l'import de texte, dans le
-    menu: un test qui cherchait ce lien-la sur la page nue etait vert sans
-    avoir vu la boite. Les deux tests ci-dessous lisent le lien A L'INTERIEUR
-    de la boite, par son identifiant."""
 
     def _boite(self, version, prefixe):
         from chardata.models import InventoryFolder
@@ -36,8 +24,7 @@ class TheInventoryNamesTheWholeBuildReaderTests(TestCase):
         debut = page.find('inv-ocr-whole-build')
         self.assertNotEqual(-1, debut, 'the whole-build link is not in the '
                                         'screenshot box')
-        # L'ancre entiere autour de l'identifiant, sans presumer de l'ordre
-        # des attributs: le minifieur les trie.
+        # The whole anchor around the id, in any attribute order: the minifier sorts them
         ouvre = page.rfind('<a', 0, debut)
         ferme = page.find('</a>', debut)
         return page[ouvre:ferme]
@@ -48,8 +35,6 @@ class TheInventoryNamesTheWholeBuildReaderTests(TestCase):
         self.assertIn(LOCALIZED_UI['en']['ocr_whole_build'], ancre)
 
     def test_the_link_follows_the_version_prefix(self):
-        """Un build Touch se lit sous /touch/: le lien d'une page Touch doit
-        y mener, pas vers le catalogue Dofus 3."""
         ancre = self._boite('touch', '/touch')
         self.assertIn('href="/touch/import/text/"', ancre)
 
@@ -66,8 +51,6 @@ class TheHintExistsInEveryLanguageTests(SimpleTestCase):
                          'two languages share the same sentence: %s' % phrases)
 
     def test_the_hint_promises_one_screenshot_per_piece_not_a_panel(self):
-        """La lecture d'un panneau d'equipement entier en une capture reste
-        non livree (section 9.10): la phrase ne doit pas la promettre."""
         for langue, textes in LOCALIZED_UI.items():
             bas = textes['ocr_whole_build'].lower()
             self.assertFalse(

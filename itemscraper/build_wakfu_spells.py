@@ -1,30 +1,5 @@
 #!/usr/bin/env python3
-"""Put the collected Wakfu spells into the item database.
-
-    python build_wakfu_spells.py
-
-RUN IT THROUGH update_data_wakfu.py. `build_wakfu_db.py` deletes
-items_wakfu.db and writes it again, so everything here is erased by the next
-rebuild unless the orchestrator runs this after it. See that file for who owns
-which table.
-
-Reads what `get_spells_wakfu.py` collected, one file per language, and writes
-four tables. Nothing here touches Ankama's servers.
-
-WHY SO FEW ROWS. A spell page offers 245 levels of every field and invites an
-import to write 245 rows per spell. Measured over all 715: the AP, MP and WP
-costs and the range NEVER vary with the level, on any spell, and the damage
-varies for only 280 of them. So the costs live on the spell and only the
-figures are stored per level. The sentence is kept once per language too, since
-708 spells carry a single template across their whole range.
-
-WHICH LANGUAGE DECIDES WHAT. The numbers are the same in all four, which was
-checked rather than assumed: 706 spells are common to French and English and
-they now agree on every damage figure at five different levels, as do Spanish
-and Portuguese. So one language is enough for the figures and FRENCH is the one
-used, because it carries nine Sram spells the English pages have never heard
-of. The other three contribute names and sentences only.
-"""
+"""Write the four Wakfu spell tables from what get_spells_wakfu.py collected; costs and range live on the spell, only the figures vary per level."""
 
 from __future__ import annotations
 
@@ -70,11 +45,6 @@ def harvest(raw_dir, language):
 
 
 def one_value(levels, field, counts):
-    """The single value of a field that does not vary, or None if it does.
-
-    A field that started varying would be a Wakfu update changing something
-    this schema cannot hold, so it is counted and named rather than averaged.
-    """
     seen = {json.dumps(level[field]) for level in levels.values()}
     if len(seen) > 1:
         counts['%s varies with the level, kept the top one' % field] += 1

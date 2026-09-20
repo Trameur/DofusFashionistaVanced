@@ -26572,6 +26572,18 @@ class EverySpellIconOnDiskIsAskedForByItsRealNameTests(SimpleTestCase):
                              _reference_icon_name(entree, 'peu importe', version),
                              version)
 
+    def test_a_name_two_class_spells_share_is_split_by_id_on_every_version(self):
+        from chardata.spells_view import _reference_icon_name
+        for version, name, keeper, other in (('dofus3', 'Collapse', 13352, 23736),
+                                             ('beta', 'Wandering', 13356, 14604),
+                                             ('dofus2', 'Compass', 13860, 13877)):
+            noms = {'en': name, 'fr': 'peu importe'}
+            with self.subTest(version=version):
+                self.assertEqual(name, _reference_icon_name(
+                    {'id': keeper, 'name': noms}, name, version))
+                self.assertEqual('%s (%s)' % (name, other), _reference_icon_name(
+                    {'id': other, 'name': noms}, name, version))
+
 
 class InventoryScriptHarness(SimpleTestCase):
     """The inventory page's JavaScript lives inside a Django template, so the

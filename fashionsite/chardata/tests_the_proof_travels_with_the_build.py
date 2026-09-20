@@ -1,13 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La preuve voyage avec le build.
-
-Le panneau <<Pourquoi ce resultat ?>> dit sur la page si le solveur a
-DEMONTRE l'optimum ou rendu le meilleur set atteint a la limite de temps.
-C'est la phrase de la section 2.3 du plan, celle qu'aucun systeme generatif
-ne peut ecrire sur sa propre sortie. Elle ne quittait pas la page: ni le
-texte colle sur un Discord ni l'API publique ne la portaient, et c'est la
-que les builds se discutent.
-"""
+"""The solver's proof travels with the build, in the pasted text and in the API."""
 
 import pickle
 
@@ -40,13 +32,6 @@ def _char_partage():
 
 
 def _pose_le_fait(char, proven, seconds=3.2):
-    """Ecrit le fait dans le pickle, la ou le solveur l'ecrit lui-meme.
-
-    Le garde `test_no_column_is_unpickled_bare` refuse un `pickle.loads`
-    d'une colonne stockee hors d'un try, et il a raison en production. Ici le
-    try ne cache rien: un build qui vient d'etre importe et dont la solution
-    ne se relit pas est une faute du test, dite en clair.
-    """
     try:
         minimal = pickle.loads(char.minimal_solution)
     except Exception as erreur:
@@ -87,8 +72,6 @@ class TheShareTextCarriesTheProofTests(TestCase):
         self.assertNotIn('Proven optimum', texte)
 
     def test_an_old_solution_says_nothing_rather_than_guessing(self):
-        """None n'est pas False: un pickle d'avant le fait ne sait pas, et
-        <<pas prouve>> serait une affirmation, pas une absence."""
         char = _char_partage()
         _pose_le_fait(char, None)
         texte = self._texte(char)
@@ -103,8 +86,6 @@ class TheShareTextCarriesTheProofTests(TestCase):
         self.assertLess(texte.index(PROUVE), texte.index('https://'))
 
     def test_the_text_uses_the_same_sentences_as_the_panel(self):
-        """Memes msgids que le panneau, donc la page et le texte colle ne
-        peuvent pas se contredire, dans aucune langue."""
         char = _char_partage()
         _pose_le_fait(char, True)
         with override('fr'):
@@ -114,8 +95,6 @@ class TheShareTextCarriesTheProofTests(TestCase):
                                 'the French catalogue lost the panel sentence')
 
     def test_the_page_offers_the_same_text_to_a_shared_link_visitor(self):
-        """Le texte est fait pour celui qui recoit le lien: il doit le voir
-        depuis /s/ et pas seulement depuis sa propre page."""
         from chardata.util import shared_build_path
         char = _char_partage()
         _pose_le_fait(char, False)
@@ -139,8 +118,6 @@ class TheApiCarriesTheProofTests(TestCase):
             self.assertIs(solveur['proven'], attendu)
 
     def test_the_time_limit_is_the_solver_own(self):
-        """Une copie du 90 ici promettrait une limite que le solveur
-        n'utilise plus le jour ou elle change: la valeur est importee."""
         char = _char_partage()
         _pose_le_fait(char, False)
         solveur = self._detail(char)['solver']
@@ -148,8 +125,6 @@ class TheApiCarriesTheProofTests(TestCase):
         self.assertEqual(3.2, solveur['seconds'])
 
     def test_the_list_does_not_pay_for_it(self):
-        """La liste est paginee et cachee; depickler chaque ligne pour un
-        champ que personne n'y lit serait payer pour rien."""
         char = _char_partage()
         _pose_le_fait(char, True)
         lignes = self.client.get('/api/v1/shared-builds/').json()['results']

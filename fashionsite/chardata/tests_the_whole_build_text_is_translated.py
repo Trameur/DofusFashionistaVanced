@@ -1,33 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le texte du build est traduit EN ENTIER, et relu en entier.
-
-La section precedente avait traduit l'en-tete et laisse le reste, en disant
-pourquoi: les emplacements et les deux lignes de caracteristiques de base
-etaient ecrits en anglais interne, et l'import les relisait ainsi. Un lecteur
-francais copiait donc:
-
-    witness 0 - Iop niv. 200 - Dofus 3
-
-    Hat: Chapeau de l'Aventurier
-    PA 7 / PM 3
-    Scrolls: Vitality 0 / Wisdom 0 / Strength 0 / ...
-
-Trois registres dans cinq lignes. Tout est traduit maintenant, et l'import lit
-les trois dans les cinq langues.
-
-**La mesure qui dit pourquoi les deux moitiés vont ensemble.** Avec l'export
-traduit et l'import laisse en arriere, un texte francais relu rendait **6
-pieces sur 16** et plus aucune ligne de points: les dix autres lignes tombaient
-dans les ignorees, parce que <<Coiffe: Masque d'Anerice>> etait compare en
-entier a un nom d'objet.
-
-Rien n'est recopie: les noms d'emplacements, les noms de stats et les deux
-mots de ligne viennent des catalogues, donc une traduction corrigee est suivie.
-Seul <<Scrolls>> manquait et a ete traduit dans les cinq langues.
-
-L'anglais reste lu quoi qu'il arrive, pour les textes deja colles sur un
-Discord.
-"""
+"""The build text is translated whole, and read back whole."""
 
 import html
 import re
@@ -37,7 +9,7 @@ from django.utils.translation import gettext, override
 
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
-#: Le minifieur trie les attributs: on ne s'ancre sur aucun ordre.
+# The minifier sorts attributes: no order is relied on
 TEXTE = re.compile(
     r'<textarea[^>]*\bid=[\'"]?build_share_text[\'"]?[^>]*>(.*?)</textarea>',
     re.S)
@@ -86,7 +58,6 @@ class EverySlotIsNamedInTheReaderLanguageTests(_AvecUnBuild):
                 self.assertIn('%s:' % attendu, texte)
 
     def test_the_french_reader_reads_coiffe_and_not_hat(self):
-        """Le cas concret, pour qu'un changement de traduction se voie."""
         char = self._build()
         texte = self._texte(char, 'fr')
         self.assertIn('Coiffe:', texte)
@@ -118,7 +89,6 @@ class TheBaseStatLinesAreTranslatedTests(TestCase):
                 self.assertEqual(attendu, lu['base_scrolled'])
 
     def test_the_word_scrolls_is_translated_everywhere(self):
-        """Le seul mot qui manquait aux catalogues."""
         anglais = 'Scrolls'
         for langue in LANGUES:
             with self.subTest(langue=langue):
@@ -132,8 +102,6 @@ class TheBaseStatLinesAreTranslatedTests(TestCase):
 class TheRoundTripSurvivesTests(_AvecUnBuild):
 
     def test_the_same_build_comes_back_in_the_five_languages(self):
-        """Le garde qui tient les deux moities ensemble: traduire l'export
-        sans apprendre a l'import rendait 6 pieces sur 16 en francais."""
         from chardata.text_build_import import read_items
         char = self._build()
         attendu = None
@@ -152,7 +120,6 @@ class TheRoundTripSurvivesTests(_AvecUnBuild):
                     self.assertEqual(attendu, resume)
 
     def test_an_english_text_still_reads(self):
-        """Ceux qui trainent deja sur un Discord portent l'anglais interne."""
         from chardata.text_build_import import read_items
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
@@ -174,8 +141,6 @@ class TheRoundTripSurvivesTests(_AvecUnBuild):
 class TheTablesComeFromTheCataloguesTests(TestCase):
 
     def test_nothing_is_copied_into_the_code(self):
-        """Recopier les mots les figerait: une traduction corrigee ne serait
-        plus lue."""
         from chardata.text_build_import import (_CARACTERISTIQUE_PAR_NOM,
                                                 _mots_traduits)
         from chardata.inventory_view import _ocr_normalize

@@ -1,6 +1,86 @@
 {
  "Feca": [
   {
+   "name": "Glyphe Enflammé",
+   "level_count": 6,
+   "level_reqs": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    170
+   ],
+   "elements": [
+    "fire"
+   ],
+   "non_crit_ranges": [
+    [
+     "19-27",
+     "21-29",
+     "23-31",
+     "25-33",
+     "27-35",
+     "27-35"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "24-32",
+     "27-35",
+     "30-38",
+     "33-41",
+     "36-44",
+     "36-44"
+    ]
+   ],
+   "casting": {
+    "cooldown": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     2
+    ],
+    "ap": [
+     4,
+     4,
+     3,
+     3,
+     3,
+     3
+    ]
+   },
+   "aggregates": [
+    [
+     "Glyph damage",
+     [
+      0
+     ]
+    ]
+   ],
+   "delayed": {
+    "0": "turn_begin"
+   },
+   "placed": [
+    {
+     "kind": "glyph",
+     "effect_id": 401,
+     "spell_id": 351,
+     "ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   ],
+   "id": 10
+  },
+  {
    "name": "Retour du bâton",
    "level_count": 6,
    "level_reqs": [
@@ -239,6 +319,86 @@
     ]
    },
    "id": 2
+  },
+  {
+   "name": "Glyphe Agressif",
+   "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
+   "elements": [
+    "fire"
+   ],
+   "non_crit_ranges": [
+    [
+     "1-3",
+     "2-4",
+     "3-5",
+     "5-7",
+     "6-8",
+     "8-10"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "1-3",
+     "2-4",
+     "3-5",
+     "5-7",
+     "6-8",
+     "8-10"
+    ]
+   ],
+   "casting": {
+    "cooldown": [
+     2,
+     2,
+     2,
+     2,
+     2,
+     2
+    ],
+    "ap": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3
+    ]
+   },
+   "aggregates": [
+    [
+     "Glyph damage",
+     [
+      0
+     ]
+    ]
+   ],
+   "delayed": {
+    "0": "turn_begin"
+   },
+   "placed": [
+    {
+     "kind": "glyph",
+     "effect_id": 401,
+     "spell_id": 1503,
+     "ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   ],
+   "id": 17
   },
   {
    "name": "Attaque Naturelle",
@@ -1254,6 +1414,94 @@
  ],
  "Sram": [
   {
+   "name": "Piège Mortel",
+   "level_count": 6,
+   "level_reqs": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    200
+   ],
+   "elements": [
+    "earth"
+   ],
+   "non_crit_ranges": [
+    [
+     "21-40",
+     "26-45",
+     "31-50",
+     "36-55",
+     "41-60",
+     "41-60"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "21-40",
+     "26-45",
+     "31-50",
+     "36-55",
+     "41-60",
+     "41-60"
+    ]
+   ],
+   "casting": {
+    "cooldown": [
+     5,
+     4,
+     3,
+     2,
+     1,
+     0
+    ],
+    "per_target": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     2
+    ],
+    "ap": [
+     4,
+     4,
+     4,
+     4,
+     4,
+     3
+    ]
+   },
+   "aggregates": [
+    [
+     "Trap damage",
+     [
+      0
+     ]
+    ]
+   ],
+   "conditional": {
+    "0": "trap"
+   },
+   "placed": [
+    {
+     "kind": "trap",
+     "effect_id": 400,
+     "spell_id": 1499,
+     "ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   ],
+   "id": 80
+  },
+  {
    "name": "Attaque Mortelle",
    "level_count": 6,
    "level_reqs": [
@@ -1440,6 +1688,166 @@
    "id": 62
   },
   {
+   "name": "Piège Empoisonné",
+   "level_count": 6,
+   "level_reqs": [
+    31,
+    31,
+    31,
+    31,
+    31,
+    131
+   ],
+   "elements": [
+    "earth"
+   ],
+   "non_crit_ranges": [
+    [
+     "3-3",
+     "4-4",
+     "5-5",
+     "6-6",
+     "7-7",
+     "7-7"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "3-3",
+     "4-4",
+     "5-5",
+     "6-6",
+     "7-7",
+     "7-7"
+    ]
+   ],
+   "casting": {
+    "cooldown": [
+     5,
+     5,
+     4,
+     4,
+     3,
+     2
+    ],
+    "ap": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     3
+    ]
+   },
+   "aggregates": [
+    [
+     "Trap damage",
+     [
+      0
+     ]
+    ]
+   ],
+   "conditional": {
+    "0": "trap"
+   },
+   "placed": [
+    {
+     "kind": "trap",
+     "effect_id": 400,
+     "spell_id": 1495,
+     "ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   ],
+   "id": 71
+  },
+  {
+   "name": "Piège de Masse",
+   "level_count": 6,
+   "level_reqs": [
+    21,
+    21,
+    21,
+    21,
+    21,
+    121
+   ],
+   "elements": [
+    "earth"
+   ],
+   "non_crit_ranges": [
+    [
+     "2-10",
+     "4-12",
+     "6-14",
+     "7-15",
+     "9-17",
+     "13-21"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "2-10",
+     "4-12",
+     "6-14",
+     "7-15",
+     "9-17",
+     "13-21"
+    ]
+   ],
+   "casting": {
+    "per_target": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "ap": [
+     5,
+     5,
+     5,
+     5,
+     5,
+     4
+    ]
+   },
+   "aggregates": [
+    [
+     "Trap damage",
+     [
+      0
+     ]
+    ]
+   ],
+   "conditional": {
+    "0": "trap"
+   },
+   "placed": [
+    {
+     "kind": "trap",
+     "effect_id": 400,
+     "spell_id": 1493,
+     "ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   ],
+   "id": 79
+  },
+  {
    "name": "Coup Sournois",
    "level_count": 6,
    "level_reqs": [
@@ -1608,6 +2016,86 @@
     ]
    },
    "id": 66
+  },
+  {
+   "name": "Piège Sournois",
+   "level_count": 6,
+   "level_reqs": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    101
+   ],
+   "elements": [
+    "earth"
+   ],
+   "non_crit_ranges": [
+    [
+     "5-9",
+     "6-10",
+     "7-11",
+     "8-12",
+     "9-13",
+     "13-17"
+    ]
+   ],
+   "crit_ranges": [
+    [
+     "7-11",
+     "8-12",
+     "9-13",
+     "10-14",
+     "11-15",
+     "15-19"
+    ]
+   ],
+   "casting": {
+    "per_target": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "ap": [
+     2,
+     2,
+     2,
+     2,
+     2,
+     2
+    ]
+   },
+   "aggregates": [
+    [
+     "Trap damage",
+     [
+      0
+     ]
+    ]
+   ],
+   "conditional": {
+    "0": "trap"
+   },
+   "placed": [
+    {
+     "kind": "trap",
+     "effect_id": 400,
+     "spell_id": 2007,
+     "ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   ],
+   "id": 65
   },
   {
    "name": "Sournoiserie",

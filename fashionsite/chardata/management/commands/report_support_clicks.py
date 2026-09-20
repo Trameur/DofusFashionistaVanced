@@ -1,21 +1,4 @@
-"""What share of readers reaches for the donation link, and from where.
-
-SupportClick has been counting since the support block went up, and nothing
-reads it. A measurement nobody can read without writing a query by hand is a
-measurement that does not get read, which is the same as not having it.
-
-The comparison that matters is by source, not the total. The whole question
-the block was built to answer is whether asking at the moment the tool has
-just done its work beats asking on a page almost nobody opens:
-
-    solution  the block under a finished set
-    footer    the link in the footer, on every page
-    support   the /support/ page itself
-    other     anything that did not match the closed list
-
-    manage.py report_support_clicks
-    manage.py report_support_clicks --days 7
-"""
+"""Share of readers reaching for the donation link, by source: solution block, footer, support page."""
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
@@ -40,8 +23,7 @@ class Command(BaseCommand):
 
         total = lignes.aggregate(n=Sum('count'))['n'] or 0
         if not total:
-            # Dire qu'il n'y a rien, plutot que d'afficher des tableaux vides
-            # qu'on lirait comme un resultat.
+            # Say there is nothing rather than print empty tables that read as a result
             self.stdout.write(
                 'no click recorded since %s. Either nobody reached for the '
                 'link, or the block is not on the pages you think it is.'
@@ -75,8 +57,7 @@ class Command(BaseCommand):
                       .annotate(n=Sum('count')).order_by('day')):
             self.stdout.write('  %s %6d' % (ligne['day'], ligne['n']))
 
-        # Un clic n'est pas un don, et la difference est tout le sujet : le
-        # rappeler ici evite de lire ce tableau comme une recette.
+        # A click is not a donation: said here so the table is not read as revenue
         self.stdout.write('')
         self.stdout.write(
             'These are clicks, not donations. The page they lead to takes the '

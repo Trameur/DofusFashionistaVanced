@@ -1,23 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un jeton se compare en temps constant, partout ou il s'en compare un.
-
-Le projet le savait deja : `_password_reset_token_is_valid` utilise
-`constant_time_compare`, et le docstring voisin raconte meme le defaut qu'il a
-fallu corriger sur ces jetons. Deux autres comparaisons du meme genre etaient
-restees en `!=` -- la signature de l'identifiant de build encode, et le jeton
-de confirmation d'adresse.
-
-**Ce module ne pretend pas refermer une faille.** Ni l'une ni l'autre n'est
-exploitable en pratique : la premiere porte sur quatre octets a travers le
-reseau, ou le signal de temps est noye des ordres de grandeur sous le bruit ;
-la seconde n'ouvre qu'une action idempotente, activer un compte. Ce qui se
-garde ici est la COHERENCE : le meme fichier faisait les deux, a trois
-fonctions d'intervalle.
-
-Le test verifie le comportement, pas la forme -- une comparaison en temps
-constant doit accepter le bon jeton et refuser tous les autres, y compris ceux
-qui partagent un prefixe avec lui.
-"""
+"""A token is compared in constant time wherever one is compared."""
 from django.test import SimpleTestCase
 
 from chardata.encoded_char_id import decode_char_id, encode_char_id
@@ -26,8 +8,6 @@ from chardata.encoded_char_id import decode_char_id, encode_char_id
 class TokensAreComparedInConstantTimeTests(SimpleTestCase):
 
     def test_a_valid_encoded_id_still_decodes(self):
-        """Le plancher. Sans lui, une comparaison qui refuse TOUT passerait
-        les tests suivants sans rien garder."""
         for identifiant in (1, 42, 12345, 246814):
             encode = encode_char_id(identifiant)
             self.assertEqual(
@@ -59,12 +39,6 @@ class TokensAreComparedInConstantTimeTests(SimpleTestCase):
             'barely exercises the comparison' % refuses)
 
     def test_every_token_comparison_in_the_project_is_constant_time(self):
-        """L'invariant que ce module existe pour tenir.
-
-        Il lit la source parce qu'un canal temporel ne s'observe pas dans un
-        test unitaire -- et parce que ce qui se garde est justement qu'on
-        n'ecrive pas `!=` la prochaine fois.
-        """
         import os
         import re
 
@@ -73,8 +47,7 @@ class TokensAreComparedInConstantTimeTests(SimpleTestCase):
             r'^\s*(?:if|elif|return|assert)\s+[^\n]*?'
             r'(\w*(?:token|hmac|signature|digest)\w*)\s*(==|!=)\s*[^\n:]+',
             re.I | re.M)
-        # `digest` sert aussi a comparer du CONTENU (version_content compare
-        # deux empreintes de catalogue), ce qui n'est pas un secret.
+        # digest also compares content (version_content compares two catalogue digests), which is no secret
         SANS_OBJET = ('version_content.py',)
         fautes, examines = [], 0
         for dossier, _sous, fichiers in os.walk(racine):

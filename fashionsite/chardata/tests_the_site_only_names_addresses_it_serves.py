@@ -1,31 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le site ne montre jamais une adresse qui pretend etre la sienne sans l'etre.
-
-Trouve en exercant la page <<Escolha os sets para comparar>> en portugais sur
-Retro. Elle montre au lecteur la forme d'un lien a coller, et cette forme nommait
-l'hote `dofusfashionista.com`, ecrit ici sans son schema pour que cette note
-ne soit pas elle-meme une adresse:
-
-- ce n'est pas l'adresse du site, qui est `https://dofusfashionista.gg`;
-- cet hote n'est meme pas dans `ALLOWED_HOSTS`, donc le site refuserait une
-  requete qui le porte;
-- et le schema etait `http`, alors que le site est en `https`.
-
-Mesure du 13 septembre 2026 sur les gabarits, le Python et le JavaScript:
-**149 mentions d'une adresse a nous, sur 6 hotes**, tous declares dans les
-reglages, sauf ces deux lignes-la. Elles etaient les seules.
-
-Le correctif ne remplace pas un domaine par un autre: l'hote vient desormais
-de `SITE_URL` et le chemin du routage du site, donc l'exemple porte aussi le
-prefixe de version et de langue du lecteur et ne peut plus deriver.
-
-    pt / retro   https://dofusfashionista.gg/pt/retro/solution/12345/
-    pt / dofus3  https://dofusfashionista.gg/solution/12345/
-    pt / touch   https://dofusfashionista.gg/pt/touch/solution/12345/
-
-Et l'exemple est un exemple qui marche: un lien de cette forme, avec un vrai
-numero, est accepte et rend `/pt/retro/compare_sets/89/83`.
-"""
+"""The site never shows an address that claims to be its own without being it."""
 
 import io
 import os
@@ -36,8 +10,7 @@ from django.test import SimpleTestCase, TestCase
 from chardata.compare_sets_view import _process_link
 from chardata.url_language import SITE_URL
 
-#: Un hote qui porte notre marque. Ce test ne dit rien des liens externes:
-#: github, discord ou Ankama ne pretendent pas etre nous.
+# A host carrying our brand; external links are not us
 NOTRE_MARQUE = re.compile(
     r'https?://([A-Za-z0-9.\-]*'
     r'(?:dofusfashionista|fashionistavanced)[A-Za-z0-9.\-]*)')
@@ -45,8 +18,7 @@ NOTRE_MARQUE = re.compile(
 _EXTENSIONS = ('.html', '.py', '.js', '.txt', '.json')
 _IGNORES = {'staticfiles', '__pycache__', 'locale', 'node_modules'}
 
-#: Combien de fois le site nomme une adresse a lui. Un plancher: si ce nombre
-#: s'effondrait, le balayage ci-dessous passerait sans rien avoir regarde.
+# How many times the site names an address of its own: a floor for the sweep below
 _MENTIONS = 140
 
 _RACINE = os.path.dirname(os.path.dirname(os.path.dirname(
@@ -70,9 +42,6 @@ def _hotes_du_fichier(chemin):
 
 
 def _hotes_declares():
-    """Les hotes que les reglages nomment: ceux que le site sert, plus le
-    seau de fichiers. Lus dans le fichier et non dans `settings`, parce que
-    `ALLOWED_HOSTS` vaut `["*"]` quand DEBUG est vrai."""
     declares = set()
     for nom in ('settings.py', 'settings_dev.py'):
         chemin = os.path.join(_RACINE, 'fashionsite', 'fashionsite', nom)
@@ -91,7 +60,6 @@ def _hotes_declares():
 class EveryAddressThatClaimsToBeUsIsUsTests(SimpleTestCase):
 
     def test_no_file_names_a_host_the_settings_do_not(self):
-        """Le test qui aurait attrape le defaut."""
         declares = _hotes_declares()
         self.assertIn('dofusfashionista.gg', declares,
                       'les reglages ne nomment plus le site lui-meme')
@@ -118,9 +86,6 @@ class EveryAddressThatClaimsToBeUsIsUsTests(SimpleTestCase):
 
 
 class TheComparePageShowsAnExampleThatWorksTests(TestCase):
-    """L'exemple est le seul endroit du site qui apprend au lecteur la forme
-    d'un lien. Il doit porter notre adresse, le prefixe de sa page, et etre
-    accepte par l'analyseur qui lira ce qu'il collera."""
 
     def _exemples(self, chemin):
         page = self.client.get(chemin, follow=True).content.decode('utf-8')
@@ -144,7 +109,6 @@ class TheComparePageShowsAnExampleThatWorksTests(TestCase):
                                     '%s ne porte pas %s' % (exemple, attendu))
 
     def test_a_link_of_that_shape_is_understood(self):
-        """Un exemple qui ne marcherait pas serait pire que pas d'exemple."""
         for prefixe in ('', '/retro'):
             with self.subTest(version=prefixe or 'dofus3'):
                 modele, partage = self._exemples(

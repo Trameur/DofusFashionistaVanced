@@ -1372,9 +1372,13 @@ def _append_placed_blocks(
             shifted = [(name, [start + idx for idx in indexes])
                        for name, indexes in block_groups]
             first, indexes = shifted[0]
-            shifted[0] = ("%s - %s" % (label, first) if first else label, indexes)
         else:
-            shifted = [(label, list(range(start, start + len(rows))))]
+            shifted = [("", list(range(start, start + len(rows))))]
+            first, indexes = shifted[0]
+        # The head names the gating state unless the first group has a name
+        if not first and block.get("waits") == "state":
+            first = _state_token(block.get("state_group"))
+        shifted[0] = ("%s - %s" % (label, first) if first else label, indexes)
         groups.extend(shifted)
         for idx in range(start, start + len(rows)):
             if block.get("waits"):

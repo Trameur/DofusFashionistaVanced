@@ -231,6 +231,95 @@ def collect_damage(effect_list, best_element_rows=False):
     return out
 
 
+# dice min names the placed spell (a bomb monster for 1008), dice max its grade
+PLACED_BY_EFFECT = {
+    400: ('trap', 'trap'),
+    401: ('glyph', 'turn_begin'),
+    402: ('glyph', 'turn_end'),
+    1091: ('glyph', 'aura'),
+    1008: ('bomb', 'bomb'),
+}
+BOMB_EFFECT_ID = 1008
+# The table naming each bomb monster's explosion spell
+BOMB_TABLE = 'SpellBombs'
+# Damage that waits for something (an enemy, a detonation, a state); the rest is only late
+PLACED_WAITS = frozenset(('trap', 'bomb', 'glyph', 'aura', 'state'))
+# The heads generate_damage_spells.py writes; the site reads these
+PLACED_LABELS = {'trap': 'Trap damage', 'glyph': 'Glyph damage', 'bomb': 'Bomb damage'}
+# "A,*E951": a placement made only in that state
+STATE_IN_TARGET_MASK = re.compile(r'\b\*?[eE]\d+\b')
+
+
+def placed_child(effect, spells, bombs):
+    """(spell id, grade) of the thing a placing effect puts down, or None."""
+    effect_id = effect.get('effectId')
+    if effect_id not in PLACED_BY_EFFECT:
+        return None
+    target, grade = effect.get('diceNum'), effect.get('diceSide')
+    if effect_id == BOMB_EFFECT_ID:
+        target = ((bombs or {}).get(str(target)) or {}).get('explodSpellId')
+    if not target or str(target) not in (spells or {}):
+        return None
+    return int(target), int(grade or 0)
+
+
+def child_rank(child, grade, spell_levels):
+    """The child's record at that grade: rank N is its Nth level."""
+    level_ids = child.get('spellLevels') or []
+    if not 1 <= grade <= len(level_ids):
+        return {}
+    return spell_levels.get(str(level_ids[grade - 1])) or {}
+
+
+def _damage_only(rows):
+    return {token: value for token, value in rows.items()
+            if not str(token).startswith('buff_')}
+
+
+def placed_blocks(placements, gated, spells, spell_levels):
+    """One block per placed thing, its rows read at the grade each rank places."""
+    blocks = []
+    for (effect_id, child_id), grades in placements.items():
+        child = spells[str(child_id)]
+        per_nc, per_cr, tokens = [], [], []
+        for grade in grades:
+            rank = child_rank(child, grade, spell_levels) if grade else {}
+            for key in ('effects', 'criticalEffect'):
+                if any(row.get('effectId') == BEST_ELEMENT_EFFECT
+                       for row in (rank.get(key) or [])):
+                    raise SystemExit(
+                        'touch spell %s places %s, which hits in the best '
+                        'element; that block has no rule yet'
+                        % (effect_id, child_id))
+            nc = _damage_only(collect_damage(rank.get('effects')))
+            cr = _damage_only(collect_damage(rank.get('criticalEffect')))
+            per_nc.append(nc)
+            per_cr.append(cr)
+            for token in list(nc) + list(cr):
+                if token not in tokens:
+                    tokens.append(token)
+        if not tokens:
+            continue
+        kind, when = PLACED_BY_EFFECT[effect_id]
+        if (effect_id, child_id) in gated:
+            when = 'state'
+        blocks.append({'kind': kind, 'when': when, 'tokens': tokens,
+                       'per_nc': per_nc, 'per_cr': per_cr})
+    return blocks
+
+
+def _own_groups(aggregates, elements):
+    """The spell's own rows as groups, so a placed block can follow them."""
+    if aggregates:
+        return [(label, list(indices)) for label, indices in aggregates]
+    damage = [index for index, token in enumerate(elements)
+              if not str(token).startswith('buff_')]
+    groups = [('', damage)] if damage else []
+    groups.extend(('', [index]) for index, token in enumerate(elements)
+                  if str(token).startswith('buff_'))
+    return groups
+
+
 # Touch uses the same percentage crit as Dofus
 CASTING_FIELDS = {'ap': 'apCost', 'per_turn': 'maxCastPerTurn',
                   'per_target': 'maxCastPerTarget', 'cooldown': 'minCastInterval',
@@ -326,11 +415,13 @@ def emit_aggregates(best_element, elements, spell=None):
             for index in range(len(elements))]
 
 
-def decode_spell(spell, spell_levels):
+def decode_spell(spell, spell_levels, spells=None, bombs=None):
     """Touch spell -> damage-spell dict (buff-only spells kept), or None if no row."""
     per_nc, per_cr, levels_req, elements, stacks = [], [], [], [], []
     casting_levels = []
     best_element = False
+    # {(effect id, child id): {rank index: grade}} of the things the spell places
+    placements, gated = {}, set()
     # True when the only damage is the best-element row
     lire_le_meilleur = _best_element_is_the_whole_hit(spell)
     for lid in (spell.get('spellLevels') or []):
@@ -338,6 +429,14 @@ def decode_spell(spell, spell_levels):
         if not lv:
             continue
         best_element = best_element or _says_best_element(lv)
+        for effect in lv.get('effects') or []:
+            child = placed_child(effect, spells, bombs)
+            if child is None:
+                continue
+            key = (effect.get('effectId'), child[0])
+            placements.setdefault(key, {}).setdefault(len(per_nc), child[1])
+            if STATE_IN_TARGET_MASK.findall(str(effect.get('targetMask') or '')):
+                gated.add(key)
         nc = collect_damage(lv.get('effects'), lire_le_meilleur)
         cr = collect_damage(lv.get('criticalEffect'), lire_le_meilleur)
         if _check_still_says(spell):
@@ -363,7 +462,11 @@ def decode_spell(spell, spell_levels):
         for elem in list(nc) + list(cr):
             if elem not in elements:
                 elements.append(elem)
-    if not elements:
+    blocks = placed_blocks(
+        {key: [grades.get(index) for index in range(len(per_nc))]
+         for key, grades in placements.items()},
+        gated, spells, spell_levels)
+    if not elements and not blocks:
         return None
 
     def when_by_row(per_level):
@@ -377,16 +480,47 @@ def decode_spell(spell, spell_levels):
                     late[index] = moment
         return late
 
-    non_crit, crit = [], []
-    for elem in elements:
+    def rows_of(per_nc_levels, per_cr_levels, elem):
+        """The ladder of one row, a crit rank falling back on the plain one."""
         nc_row, cr_row = [], []
-        for i in range(len(per_nc)):
-            n = per_nc[i].get(elem)
-            c = per_cr[i].get(elem) or n
+        for i in range(len(per_nc_levels)):
+            n = per_nc_levels[i].get(elem)
+            c = per_cr_levels[i].get(elem) or n
             nc_row.append('%d-%d' % (n[0], n[1]) if n else '0-0')
             cr_row.append('%d-%d' % (c[0], c[1]) if c else '0-0')
+        return nc_row, cr_row
+
+    non_crit, crit = [], []
+    for elem in elements:
+        nc_row, cr_row = rows_of(per_nc, per_cr, elem)
         non_crit.append(nc_row)
         crit.append(cr_row)
+    # Rows that are alternatives, not a sum. See emit_aggregates.
+    aggregates = emit_aggregates(best_element, elements, spell)
+    delayed = when_by_row(per_nc)
+    delayed_crit = when_by_row(per_cr)
+    if delayed_crit == delayed:
+        delayed_crit = None
+    conditional = {}
+    if blocks:
+        # The placed things' rows after the spell's own, each block a labelled group
+        aggregates = _own_groups(aggregates, elements)
+    for block in blocks:
+        start = len(elements)
+        for token in block['tokens']:
+            nc_row, cr_row = rows_of(block['per_nc'], block['per_cr'], token)
+            non_crit.append(nc_row)
+            crit.append(cr_row)
+            elements.append(token)
+        indices = list(range(start, len(elements)))
+        aggregates.append((PLACED_LABELS[block['kind']], indices))
+        for index in indices:
+            if block['when'] in PLACED_WAITS:
+                conditional[index] = block['when']
+            else:
+                delayed[index] = block['when']
+                if delayed_crit is not None:
+                    delayed_crit[index] = block['when']
     return {
         'id': spell['id'],
         'name': spell.get('nameId') or '',
@@ -394,22 +528,20 @@ def decode_spell(spell, spell_levels):
         'elements': elements,
         'non_crit_ranges': non_crit,
         'crit_ranges': crit,
-        # Rows that are alternatives, not a sum. See emit_aggregates.
-        'aggregates': emit_aggregates(best_element, elements, spell),
+        'aggregates': aggregates,
         # maxStack in the game data: the buff can accumulate.
         'stacks': max(stacks) if stacks else None,
         # A cast limit of 0 means no limit, so all-zero keys are dropped.
         'casting': {key: [level[key] for level in casting_levels]
                     for key in CASTING_FIELDS
                     if any(level[key] for level in casting_levels)} or None,
-        'delayed': when_by_row(per_nc) or None,
-        'delayed_crit': (when_by_row(per_cr)
-                         if when_by_row(per_cr) != when_by_row(per_nc)
-                         else None),
+        'conditional': conditional or None,
+        'delayed': delayed or None,
+        'delayed_crit': delayed_crit,
     }
 
 
-def build(breeds, spells, spell_levels):
+def build(breeds, spells, spell_levels, bombs=None):
     by_class = {}
     for bid, app_name in CLASS_ID_TO_NAME.items():
         breed = breeds.get(str(bid))
@@ -421,7 +553,7 @@ def build(breeds, spells, spell_levels):
             if not spell or sid in seen:
                 continue
             seen.add(sid)
-            decoded = decode_spell(spell, spell_levels)
+            decoded = decode_spell(spell, spell_levels, spells, bombs)
             if decoded and any(str(token).startswith('buff_')
                                for token in decoded.get('elements') or []):
                 _screen_kept_buff(spell)
@@ -474,6 +606,9 @@ def emit_module(by_class, spell_names, path):
             if s.get('id') is not None:
                 tail.append("spell_id=%d" % s['id'])
             # repr, not json: json would turn the int row index into "0"
+            if s.get('conditional'):
+                tail.append("conditional=%r"
+                            % (dict(sorted(s['conditional'].items())),))
             if s.get('delayed'):
                 tail.append("delayed=%r" % (dict(sorted(s['delayed'].items())),))
             if s.get('delayed_crit') is not None:
@@ -504,9 +639,11 @@ def main(argv=None):
     spell_levels = fetch_table(data_url, 'SpellLevels')
     spells_by_lang = {lang: fetch_table(data_url, 'Spells', lang) for lang in LANGS}
     spells = spells_by_lang['fr']
-    print(f"  Breeds={len(breeds)} Spells={len(spells)} SpellLevels={len(spell_levels)}")
+    bombs = fetch_table(data_url, BOMB_TABLE)
+    print(f"  Breeds={len(breeds)} Spells={len(spells)} SpellLevels={len(spell_levels)} "
+          f"{BOMB_TABLE}={len(bombs)}")
 
-    by_class = build(breeds, spells, spell_levels)
+    by_class = build(breeds, spells, spell_levels, bombs)
     spell_names = build_spell_names(by_class, spells_by_lang)
     emit_module(by_class, spell_names, args.module_out)
 

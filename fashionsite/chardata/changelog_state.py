@@ -1,18 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""What the newest changelog entry is, for the footer to mark it as unseen.
-
-The changelog opens from a footer link that looked the same whether or not
-anything had been added since the reader's last visit. On 2026-09-11 the
-four entries of September, sixteen features, sat behind a link nothing
-pointed at. The footer now carries the key of the newest entry; the
-browser keeps the key it last opened the changelog on, and shows a mark
-while the two differ.
-
-The key is the msgid of the newest entry's title: the same in every
-language, stable across translations, and it changes exactly when an entry
-is added on top. Read once per process from the template source, which is
-the changelog itself and not a copy of it.
-"""
+"""The newest changelog entry's key, the msgid of its title, for the footer to mark it as unseen."""
 
 import io
 import os

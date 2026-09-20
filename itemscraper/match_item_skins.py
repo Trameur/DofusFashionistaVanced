@@ -1,21 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Work out which character skin belongs to each equipment item.
-
-The game resolves this server side, so the client data has no item to look
-link. What it does ship is the art on both sides: every item icon, and every
-skin. Rendering a skin part and comparing it to the icon, inside a single slot
-family, recovers the mapping.
-
-    python itemscraper/match_item_skins.py --skins <dir> --icons <bundle> \
-        --icon-map icon_map.json --cache skin_features.pkl --out item_skins.json
-
-Rendering every part takes the best part of an hour, so --cache keeps the
-features and later runs reuse them.
-
-Writes {ankama_id: {skin, score, runner_up, name, type}}. A thin lead over the
-runner up means the pick is a guess; store_item_skins.py drops those.
-"""
+"""Work out which character skin belongs to each equipment item by comparing rendered skin parts to item icons within a slot family; --cache keeps the features."""
 from __future__ import annotations
 
 import argparse
@@ -51,8 +36,7 @@ MASK_SIZE = 48
 BINS = 6
 TOPK = 30
 
-# Colour does most of the work. More silhouette weight made every type worse
-# when measured; weapons keep a bit because their icon is drawn at an angle.
+# Colour does most of the work; weapons keep some silhouette weight because their icon is drawn at an angle
 SILHOUETTE_WEIGHT = {'Hat': 0.15, 'Shield': 0.15, 'Cloak': 0.15, 'Weapon': 0.35}
 ROTATIONS = {'Weapon': (0, -30, -45, -60, 30, 45, 60)}
 

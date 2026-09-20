@@ -39,9 +39,7 @@ def contact(request):
     return set_response(request,
                         'chardata/contacts.html',
                         {'form': ContactForm(),
-                         # Meme page sous les cinq versions: seule la ligne
-                         # de version du pied change. Canonique a l'adresse
-                         # sans version, comme /about/ et /faq/.
+                         # Same page under the five versions; canonical at the unversioned address, like /about/ and /faq/
                          'canonical_path': version_free_canonical('contact'),
                          'known_email': known_email})
 

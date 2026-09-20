@@ -1,21 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une monture que la source a renumerotee revient au build qui la porte.
-
-La section 44 disait que 264 objets avaient quitte notre catalogue. C'etait
-faux pour la plus grande part, et la verification l'a montre le lendemain:
-notre fournisseur de donnees a RENUMEROTE les montures. La Dragodinde Amande
-portait l'ankama 1 dans le catalogue du 4 novembre 2025; elle porte
-aujourd'hui un numero au-dela de 33000, et notre catalogue l'a toujours.
-Le fichier de montures livre en porte 308, dont 68 dragodindes.
-
-Mesure du 11 septembre 2026: sur les 264, **222 se retrouvent** par leur nom
-anglais exact et leur type, sans une seule ambiguite. Les **42** qui restent
-sont les versions SAUVAGES, que la source ne liste plus.
-
-Un appariement par nom est plus faible qu'un appariement par numero. Il ne
-sert donc qu'a REPARER: si l'objet retrouve ne convient pas a l'emplacement,
-rien n'est fait, exactement comme pour la traduction de la section 43.
-"""
+"""A mount the source renumbered comes back to the build that wears it, matched by name and type."""
 
 import pickle
 
@@ -29,14 +13,12 @@ from chardata.models import Char
 class TheMountIsFoundAgainTests(SimpleTestCase):
 
     def test_the_almond_dragoturkey_has_a_new_number(self):
-        """L'ankama 1 du catalogue de novembre 2025."""
         neuf = renumbered_item_id('dofus3', 1)
         self.assertIsNone(neuf, "l'Amande SAUVAGE n'a pas d'equivalent")
         self.assertEqual('Wild Almond Dragoturkey',
                          name_of_missing('dofus3', 1, 'en'))
 
     def test_a_tamed_mount_is_found(self):
-        """La Dragodinde Rousse, ankama 10 en novembre 2025."""
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         neuf = renumbered_item_id('dofus3', 10)
@@ -47,14 +29,10 @@ class TheMountIsFoundAgainTests(SimpleTestCase):
         self.assertGreaterEqual(item.ankama_id, 33000)
 
     def test_the_mount_offset_form_finds_the_same_beast(self):
-        """Selon le jour ou le build a ete enregistre, la meme bete est
-        stockee en ankama nu ou decalee de l'espace des montures."""
         self.assertEqual(renumbered_item_id('dofus3', 10),
                          renumbered_item_id('dofus3', 1000010))
 
     def test_the_two_tables_never_overlap(self):
-        """Un objet retrouve n'a rien a faire dans la table de ceux qu'on ne
-        peut que nommer: il serait annonce manquant alors qu'il est rendu."""
         import io
         import json
         retrouves = json.load(io.open(
@@ -89,14 +67,10 @@ class OnlyABuildThatNeedsItIsTouchedTests(TestCase):
         self.assertEqual('Ginger Dragoturkey', item.name)
 
     def test_a_mount_is_never_put_in_a_slot_that_refuses_it(self):
-        """Le meme nombre dans un emplacement d'arme n'y met rien: un
-        appariement par nom ne sert qu'a reparer."""
         self.assertIsNone(repaired_slots(self._structure(), 'dofus3',
                                          {'weapon': 10}))
 
     def test_a_wild_mount_is_left_alone(self):
-        """Les 42 sans equivalent restent introuvables, et c'est la section
-        44 qui les nomme."""
         self.assertIsNone(repaired_slots(self._structure(), 'dofus3',
                                          {'pet': 1}))
 
@@ -122,7 +96,6 @@ class OnlyABuildThatNeedsItIsTouchedTests(TestCase):
         self.assertIsNone(refusal_reason(char))
 
     def test_a_wild_one_is_still_refused_and_named(self):
-        """Le cas contraire: ce qui n'est pas retrouve doit rester annonce."""
         from chardata.char_blobs import read_char_blob
         from chardata.gallery_visibility import refusal_reason, sentence_for
         from fashionistapulp.structure import (get_structure,

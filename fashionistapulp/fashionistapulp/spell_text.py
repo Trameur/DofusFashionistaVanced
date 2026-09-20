@@ -30,12 +30,7 @@ _BULLETS = ('•', '▪', '●', '·')
 _HEAD_LIMIT = 80
 
 
-# Ankama's own cross-reference, with the name inside it:
-# "{{spell,8395,1::Pourpre Profond}}", "{{item,23408::Dorigami}}". The client
-# resolves it, our archive stores it raw, and it reached readers. Measured on
-# 2026-09-17: 13 lines on 2 dofus3 items (Black-Spotted Dofus, Nightmare
-# Dofus) and 306 on 74 beta items after 3.7.0.0, in de, es, fr and pt only,
-# because the English row already carries the plain name.
+# Ankama's cross-reference with the name inside, {{spell,8395,1::Pourpre Profond}}: the client resolves it, the archive stores it raw
 _TEMPLATE = re.compile(r'\{\{[^{}]*?::([^{}]*?)\}\}')
 
 
@@ -59,11 +54,7 @@ def _is_head(line):
 
 
 def fold_spell_blocks(lines):
-    """(lines to keep, {spell name: what it does}).
-
-    The archive writes a special spell as its name on one line and its rules on
-    the lines under it. Lines with no heading above them are left as they are.
-    """
+    """(lines to keep, {spell name: what it does}); a special spell is its name on one line and its rules under it"""
     kept = []
     tooltips = {}
     heading = None

@@ -76,8 +76,9 @@ REFERENCE = (ROOT / 'fashionsite' / 'chardata' / 'spell_reference'
              / 'dofus2.json')
 
 
-def reference_spell_names():
-    """Every Dofus 2 class spell a page can put an icon behind.
+def reference_spells():
+    """Icon stem -> spell id for every Dofus 2 class spell a page can put an
+    icon behind.
 
     DAMAGE_SPELLS is not that population. The page lists the whole class book
     from spell_reference/dofus2.json, damage or not, and it asks for an icon
@@ -87,30 +88,47 @@ def reference_spell_names():
     the page with no icon and no run could have fetched them.
 
     Reading the reference rather than the literal means this tool covers
-    whatever the page covers, without anyone remembering to widen it.
+    whatever the page covers, without anyone remembering to widen it. When two
+    class spells share a name, the lowest id keeps the bare name and each other
+    one is filed as "<name> (<id>)", which is what the page asks for.
     """
     if not REFERENCE.exists():
-        return set()
+        return {}
     with REFERENCE.open(encoding='utf-8') as handle:
         classes = json.load(handle)
-    return {(spell.get('name') or {}).get('en', '').strip()
-            for block in classes.values() for spell in block
-            if (spell.get('name') or {}).get('en')}
+    ids_by_name = {}
+    for block in classes.values():
+        for spell in block:
+            name = (spell.get('name') or {}).get('en', '').strip()
+            if name and spell.get('id') is not None:
+                ids_by_name.setdefault(name, set()).add(spell['id'])
+    targets = {}
+    for name, ids in ids_by_name.items():
+        keeper = min(ids)
+        targets[name] = keeper
+        for sid in sorted(ids - {keeper}):
+            targets['%s (%s)' % (name, sid)] = sid
+    return targets
 
 
-def icons_by_name(raw_dir):
-    """Spell name -> the icon ids the Dofus 2 release gives it."""
+def icons_by_spell(raw_dir):
+    """(name -> icon ids, spell id -> icon id) from the Dofus 2 release."""
     with open(raw_dir / 'spells.json', encoding='utf-8') as fh:
         spells = json.load(fh)
     with open(raw_dir / 'en.json', encoding='utf-8') as fh:
         texts = json.load(fh)['texts']
-    out = {}
+    by_name = {}
+    by_id = {}
     for spell in spells:
         name = texts.get(str(spell.get('nameId')))
         icon = spell.get('iconId')
-        if name and icon:
-            out.setdefault(name, []).append(icon)
-    return out
+        if not icon:
+            continue
+        if spell.get('id') is not None:
+            by_id[spell['id']] = icon
+        if name:
+            by_name.setdefault(name, []).append(icon)
+    return by_name, by_id
 
 
 def _read_utf(buf, pos):
@@ -212,24 +230,29 @@ def main():
               'the committed icons stay as they are.' % pool)
         return
 
-    wanted = damage_spell_names() | reference_spell_names()
+    # A damage spell outside the class book is found by name, a class spell by id
+    wanted = {name: None for name in damage_spell_names()}
+    wanted.update(reference_spells())
     print('%d noms a couvrir (DAMAGE_SPELLS + reference de classe)'
           % len(wanted))
-    by_name = icons_by_name(raw_dir)
+    by_name, by_id = icons_by_spell(raw_dir)
     for directory in STATIC_DIRS:
         directory.mkdir(parents=True, exist_ok=True)
 
     written = borrowed = unnamed = 0
     missing = []
     not_in_pool = {}
-    for name in sorted(wanted):
+    for name, spell_id in sorted(wanted.items()):
         # Windows reserves a handful of stems and git cannot index a file named
         # after one, so the page asks for the escaped name and so must this.
         stem = safe_asset_stem(name)
         if (SHARED / ('%s.png' % stem)).exists():
             borrowed += 1
             continue
-        ids = by_name.get(name)
+        if spell_id is None:
+            ids = by_name.get(name)
+        else:
+            ids = [by_id[spell_id]] if spell_id in by_id else None
         if not ids:
             unnamed += 1
             missing.append('%s (not in the %s lang)' % (name, raw_dir.name))

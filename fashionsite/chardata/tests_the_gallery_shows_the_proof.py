@@ -1,11 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La galerie des builds partages porte le verdict du solveur.
-
-C'est la surface ou l'on decouvre les builds, et le fait qui porte tout le
-positionnement, <<optimum demontre>> ou <<meilleur atteint a la limite de
-temps>>, n'y etait pas. La carte ouvre deja le pickle de chaque build pour
-dessiner ses objets, donc le lire ne coute rien de plus.
-"""
+"""The shared builds gallery carries the solver's verdict."""
 
 import pickle
 import re
@@ -47,13 +41,11 @@ def _pose_le_fait(char, proven):
         minimal.proven = proven
     char.minimal_solution = pickle.dumps(minimal)
     char.save()
-    # Le meta de la carte est cache: un test qui lirait le cache d'un autre
-    # verrait le verdict d'avant.
+    # The card meta is cached: a test reading another's cache would see the old verdict
     cache.clear()
 
 
 def _carte(page, nom):
-    """Le HTML de la carte qui porte ce nom, et elle seule."""
     cartes = re.split(r'<div class="build-card">', page)
     for carte in cartes[1:]:
         if nom in carte:
@@ -81,7 +73,6 @@ class TheCardSaysWhatTheSolverProvedTests(TestCase):
             'build-proof-badge build-proof-badge-limit', ''))
 
     def test_an_old_solution_shows_nothing_rather_than_a_guess(self):
-        """None n'est pas False: la carte se tait."""
         char = _build_partage('GalerieAncienne')
         _pose_le_fait(char, None)
         carte = _carte(self.client.get('/sharedbuilds/').content.decode('utf-8'),
@@ -89,9 +80,6 @@ class TheCardSaysWhatTheSolverProvedTests(TestCase):
         self.assertNotIn('build-proof-badge', carte)
 
     def test_a_meta_cached_before_the_key_existed_still_renders(self):
-        """Le meta de carte vit dans le cache jusqu'a son delai; celui d'avant
-        ce commit n'a pas la cle, et la page doit le lire comme <<inconnu>>,
-        pas tomber."""
         from chardata import shared_builds_view as vue
         char = _build_partage('GalerieCacheAncien')
         _pose_le_fait(char, True)
@@ -104,8 +92,6 @@ class TheCardSaysWhatTheSolverProvedTests(TestCase):
         self.assertNotIn('build-proof-badge', carte)
 
     def test_the_words_carry_the_verdict_not_the_colour(self):
-        """Les deux badges ne different pas que par la couleur: chacun a ses
-        mots, pour un lecteur qui ne distingue pas les teintes."""
         char = _build_partage('GalerieMots')
         _pose_le_fait(char, False)
         carte = _carte(self.client.get('/sharedbuilds/').content.decode('utf-8'),

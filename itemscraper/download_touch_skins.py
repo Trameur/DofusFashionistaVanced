@@ -1,30 +1,5 @@
 #!/usr/bin/env python3
-"""
-Download the Dofus Touch character skins.
-
-The Touch client bundle (served at <proxy>/build/script.js) declares
-SKIN_PATH="skins/" and BONE_PATH="bones/", at the CDN root and not under gfx/,
-which is why every gfx/sprites-style guess came back missing. Each skin is a
-sprite strip:
-
-  skin  : <assetsUrl>/skins/<skinId>.png
-
-There is no index, so the roster is found by probing. Measured on assets 3.2.11
-(2026-08-09): 3823 skins over ids 10..4188, 23.2 MB in total, median 4.7 KB.
-Dofus 3 ships about 5500 bundles for 780 MB, so matching Touch is the cheaper
-job of the two.
-
-"skins/" holds every sprite the game draws, not just equipment, and the id
-space is grouped by kind. Sampled first frames: 10-50 are scenery (leaves,
-grass, stones), 1000-1012 axes, 2005-2016 cloaks, hats and hair, 3001-3012
-helmets, shields and wings, 4140-4148 more gear. So a matcher must not assume
-every file is a wearable piece; the low band is decor and will never match an
-item icon.
-
-  python itemscraper/download_touch_skins.py --dest itemscraper/skins_touch
-
-Resumable: files already on disk are skipped unless --force.
-"""
+"""Download the Dofus Touch character skins from <assetsUrl>/skins/<skinId>.png; there is no index, so the roster is found by probing ids."""
 
 from __future__ import annotations
 
@@ -40,7 +15,7 @@ CONFIG_URL = "https://dt-proxy-production-login.ankama-games.com/config.json"
 FALLBACK_ASSETS_URL = ("https://dofustouch.cdn.ankama.com/assets/"
                        "3.2.11_XmqR,JLRxKAo0jK41tA_EnsXKrTBc47Z")
 USER_AGENT = "Mozilla/5.0 Chrome/120"
-# The measured range, with room above it: a scan to 5200 found nothing past 4188.
+# The known range, with room above it
 DEFAULT_LAST_ID = 5200
 
 

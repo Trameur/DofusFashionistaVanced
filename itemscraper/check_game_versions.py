@@ -1,21 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""What each Dofus version is running, from its own source. Exits 1 if item data
-moved, or if an official update list is ahead of our labels or unreadable.
-
-    python itemscraper/check_game_versions.py
-    python itemscraper/check_game_versions.py --updates touch=1.75 retro=1.49
-
-Dofus 3, Retro and Touch are also compared with the newest "MAJ x.y" of their
-official update list. A newer update is only reported; --updates takes numbers
-read in a browser when a list cannot be fetched.
-
-Dofus 3, the beta and Dofus 2 are watched on the version they publish. Touch
-does not publish a useful public version, so it is watched on the asset bundle
-its client config points at. Retro's public version and client build are not
-enough: its item data comes from the lang CDN, so the lang category versions are
-the release gate and the client build is only printed as a diagnostic.
-"""
+"""What each Dofus version is running, from its own source; exits 1 if item data moved or an official update list is ahead of our labels: python itemscraper/check_game_versions.py [--updates touch=1.75 retro=1.49]."""
 from __future__ import annotations
 
 import hashlib
@@ -85,22 +70,7 @@ RETRO_ASSET_FAMILIES = (
 
 
 def retro_asset_entries(version=None, manifest=None):
-    """{name: "hash size"} for every Retro clip this site renders.
-
-    This replaces a nine-file sample that could not do the job. Measured over
-    the four Retro build transitions in this repo's history: three of them
-    moved rendered clips, and the sample fired on 0 of 9 every time. It could
-    not have done better, for two reasons. Its nine names are ids 1, 31, 40,
-    100 and 101, the oldest content in a 2004 game, byte-identical at every
-    version; and it looked each name UP, so a file that did not exist before
-    was never a key and an addition was structurally invisible. 38 of the 48
-    rendered changes in 1.48.21 to 1.49.0 were pure additions.
-
-    Reading every watched entry is not the expensive option, it is the cheap
-    one. The sample already downloaded this whole 6.9 MB manifest and threw
-    away all but nine entries, and its nine find_file calls cost eight times
-    the single pass that collects all 9428.
-    """
+    """{name: "hash size"} for every Retro clip this site renders; a fixed sample of nine names could not see a moved or added clip"""
     if manifest is None:
         manifest = cytrus_cdn.download_manifest('retro', version=version)
     out = {}
@@ -115,9 +85,6 @@ def retro_asset_entries(version=None, manifest=None):
 
 
 def retro_asset_digest(entries):
-    """One sha1 over the whole watch set. Never write this by hand: the mode
-    that prints it reads the live manifest, and a digest typed from a report is
-    a digest nobody can reproduce."""
     lines = ''.join('%s %s' % (name, entries[name]) + chr(10)
                     for name in sorted(entries))
     return hashlib.sha1(lines.encode('utf-8')).hexdigest()
@@ -295,12 +262,6 @@ def updates_from_argv(pairs):
 
 
 def emit_snapshot():
-    """Print the two lines fashionista_version.py should carry, read live.
-
-    The point is that nobody types a digest. A digest copied out of a report is
-    a digest no one can reproduce, and three of four hand-carried ones in the
-    proposal that led to this code were wrong.
-    """
     entries = retro_asset_entries()
     print('WATCHED_RETRO_ASSET_DIGEST = "%s"' % retro_asset_digest(entries))
     print('WATCHED_RETRO_ASSET_COUNT = %d' % len(entries))

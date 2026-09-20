@@ -1,17 +1,4 @@
-"""Throw away the arrivals counted before crawlers were filtered out.
-
-The first day of VisitSource recorded 62 130 arrivals for a site that is
-measured, over the 29 days PageHit has been collecting, at about 16 page views
-a day, 61 539 of them from the United States, all filed as "direct". They
-were crawlers: a crawler sends no referrer, so every one landed in that bucket
-and drowned the six real rows underneath.
-
-The user agent was never stored -- deliberately, it is one more thing that can
-describe a person -- so those rows cannot be sorted after the fact. They can
-only be dropped, and the count restarted with the filter in place.
-
-    manage.py purge_bot_arrivals --before 2026-08-24
-"""
+"""Throw away the arrivals counted before crawlers were filtered out: manage.py purge_bot_arrivals --before <date>."""
 from datetime import date
 
 from django.core.management.base import BaseCommand, CommandError

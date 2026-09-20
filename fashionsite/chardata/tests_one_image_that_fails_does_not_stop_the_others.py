@@ -1,41 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une icone qui echoue n'arrete pas les autres.
-
-Trouve en mettant a jour les cinq versions le 15 septembre 2026.
-`itemscraper/get_equipments4.py` telechargeait chaque icone d'objet avec un
-`requests.get` nu, deux fois par objet (une fois par repertoire), sans delai
-maximal.
-
-**Ce que ca coutait, mesure sur 40 vraies icones de Dofus 3:**
-
-| methode | par objet, horloge | par objet, CPU |
-|---------|--------------------|----------------|
-| un `requests.get` par telechargement, deux par objet | 0.581 s | 0.402 s |
-| une session, un telechargement | 0.034 s | 0.009 s |
-
-Pour les 3833 objets de Beta, l'ancienne facon donne 2227 s d'horloge et
-1540 s de CPU. Le run reel a ete coupe par son plafond apres 2370 s d'icones
-et 1600 s de CPU, avant les drops, les monstres et les sorts: sa base est
-restee sans onze tables. Apres le changement, la meme etape a pris 111 s.
-Sur Dofus 3, une seule poignee de main TLS interrompue par l'hote
-(WinError 10053) avait fait tomber toute l'etape, et avec elle chaque icone
-qui venait apres.
-
-**Trois sortes d'absence, trois verdicts.** Une connexion qui tombe est un
-echec du run. Une source qui repond sans image n'en est pas un. Et une source
-qui n'a pas rendu LA TAILLE demandee n'est pas une source sans image: le
-141e objet de Dofus 3, `32204` (Mister Penguin Chain), porte le skin `1332`,
-dont `1332-128.png` repond 404 et `1332-64.png` repond 200 avec un PNG de
-8087 octets. C'est notre transformation qui ne lisait que la cle `sd`; cette
-icone-la avait fini par etre commitee a la main (`a9c6eb918`). Le transform
-garde maintenant l'adresse 64 px sous `image_url_fallback` et cette etape la
-tente.
-
-**Ce que le lot fait.** Une session pour tout le run, avec reprises; un delai
-maximal sur chaque requete; un telechargement par objet pour les deux
-repertoires; l'autre taille tentee quand la premiere manque; une connexion qui
-echoue est comptee, l'objet suivant est tente, et le code de sortie le dit.
-"""
+"""One icon that fails to download does not stop the others."""
 import contextlib
 import io
 import json
@@ -58,7 +22,7 @@ OBJETS = [
     {'name_en': 'Bow Meow', 'w_type': 'Pet', 'image_url': 'https://x/3.png'},
 ]
 
-#: La forme de Mister Penguin Chain: la taille demandee manque, l'autre existe.
+# The Mister Penguin Chain shape: the size asked is missing, the other exists
 OBJET_AVEC_REPLI = [
     {'name_en': 'Mister Penguin Chain', 'w_type': 'Amulet',
      'image_url': 'https://x/1332-128.png',
@@ -66,7 +30,7 @@ OBJET_AVEC_REPLI = [
 ]
 
 
-#: Dofus 2 comes from the dofusdude mirror, whose urls carry Ankama's icon id.
+# Dofus 2 comes from the dofusdude mirror, whose urls carry Ankama's icon id
 OBJET_DOFUS2 = [
     {'name_en': 'Twiggy Sword', 'w_type': 'Sword',
      'image_url': 'https://api.dofusdu.de/dofus2/img/item/6007-200.png',
@@ -90,7 +54,6 @@ class _Reponse:
 
 
 class _Session:
-    """Compte les requetes; fait tomber les unes, repond 404 aux autres."""
 
     def __init__(self, en_panne=(), absentes=()):
         self.appels = []
@@ -160,7 +123,6 @@ class OneImageThatFailsDoesNotStopTheOthersTests(SimpleTestCase):
         self.assertEqual(2, len(stockees))
 
     def test_a_dropped_connection_does_not_burn_the_fallback(self):
-        """Un repli n'a de sens que si la source a repondu."""
         session = _Session(en_panne={'https://x/1332-128.png'})
         code, _, stockees = self._lancer(session, OBJET_AVEC_REPLI)
         self.assertEqual(1, code)
@@ -177,7 +139,7 @@ class OneImageThatFailsDoesNotStopTheOthersTests(SimpleTestCase):
         self.assertEqual(2, len(stockees))
 
     def test_dofus2_falls_back_to_the_mirror_where_ankama_has_none(self):
-        # 26 of the 3388 answered 403 on 2026-09-18.
+        # A few of the mirror's icons answer 403
         session = _Session(absentes={ANKAMA_6007})
         code, _, stockees = self._lancer(session, OBJET_DOFUS2, 'dofus2')
         self.assertEqual(0, code)

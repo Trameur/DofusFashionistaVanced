@@ -1,10 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le nom d'un build dans un gabarit, jamais vide.
-
-Un filtre plutot qu'une propriete de modele: les cartes de la galerie
-travaillent sur des objets legers tires d'un `.only()`, et un filtre les
-accepte comme il accepte un Char entier.
-"""
+"""The name of a build in a template, never empty; a filter, so the gallery's light objects work too."""
 
 from django import template
 

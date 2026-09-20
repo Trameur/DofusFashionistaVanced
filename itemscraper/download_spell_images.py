@@ -280,18 +280,28 @@ def load_damage_spell_names(constants_path: Path) -> Set[str]:
     return names
 
 
-def load_class_spell_names(game_version: str) -> Set[str]:
-    """Every class spell the version has, from the spell reference the page
-    reads: the damage ones plus the spells that only move or protect."""
+def load_class_spell_ids(game_version: str) -> Dict[str, Set[int]]:
+    """{English name: spell ids} for every class spell the version's page
+    lists, from the spell reference the page reads."""
     path = (Path("fashionsite") / "chardata" / "spell_reference"
             / ("%s.json" % game_version))
     if not path.exists():
-        return set()
+        return {}
     with path.open(encoding="utf-8") as handle:
         classes = json.load(handle)
-    return {(spell.get("name") or {}).get("en", "").casefold()
-            for block in classes.values() for spell in block
-            if (spell.get("name") or {}).get("en")}
+    ids_by_name: Dict[str, Set[int]] = {}
+    for block in classes.values():
+        for spell in block:
+            name = (spell.get("name") or {}).get("en")
+            if name and spell.get("id") is not None:
+                ids_by_name.setdefault(name, set()).add(int(spell["id"]))
+    return ids_by_name
+
+
+def load_class_spell_names(game_version: str) -> Set[str]:
+    """Every class spell the version has, from the spell reference the page
+    reads: the damage ones plus the spells that only move or protect."""
+    return {name.casefold() for name in load_class_spell_ids(game_version)}
 
 
 def filter_spell_records(records: Sequence[SpellIconRecord], scope: str,
@@ -310,23 +320,47 @@ def filter_spell_records(records: Sequence[SpellIconRecord], scope: str,
     return filtered
 
 
-def dedupe_spell_records(records: Sequence[SpellIconRecord]) -> Tuple[List[SpellIconRecord], List[SpellIconRecord]]:
-    # A retired spell can share its name with a live one and carry icon -1
-    unique: List[SpellIconRecord] = []
+NamedRecord = Tuple[SpellIconRecord, str]
+
+
+def select_filename(record: SpellIconRecord,
+                    ids_by_name: Dict[str, Set[int]]) -> str:
+    """Of the class spells sharing a name, the lowest id keeps the bare name
+    and each other one is "<name> (<id>)", as the reader asks. A spell the
+    page does not list competes for the bare name and loses it."""
+    ids = ids_by_name.get(record.english_name, ())
+    if len(ids) > 1 and record.ankama_id in ids and record.ankama_id != min(ids):
+        return f"{record.filename_stem} ({record.ankama_id}).png"
+    return f"{record.filename_stem}.png"
+
+
+def name_spell_files(records: Sequence[SpellIconRecord],
+                     ids_by_name: Dict[str, Set[int]]) -> List[NamedRecord]:
+    return [(record, select_filename(record, ids_by_name)) for record in records]
+
+
+def dedupe_spell_records(named: Sequence[NamedRecord],
+                         ids_by_name: Dict[str, Set[int]]) -> Tuple[List[NamedRecord], List[SpellIconRecord]]:
+    # A monster spell or a retired one (icon -1) can share a class spell's name
+    def rank(record: SpellIconRecord) -> Tuple[bool, bool]:
+        listed = record.ankama_id in ids_by_name.get(record.english_name, ())
+        return (listed, record.icon_id > 0)
+
+    unique: List[NamedRecord] = []
     dropped: List[SpellIconRecord] = []
     seen: Dict[str, int] = {}
-    for record in records:
-        key = record.filename_stem.casefold()
+    for record, filename in named:
+        key = filename.casefold()
         if key in seen:
-            kept = unique[seen[key]]
-            if kept.icon_id > 0 or record.icon_id <= 0:
+            kept, _ = unique[seen[key]]
+            if rank(record) <= rank(kept):
                 dropped.append(record)
                 continue
-            unique[seen[key]] = record
+            unique[seen[key]] = (record, filename)
             dropped.append(kept)
             continue
         seen[key] = len(unique)
-        unique.append(record)
+        unique.append((record, filename))
     return unique, dropped
 
 
@@ -341,26 +375,13 @@ def sanitize_spell_name(name: str, fallback: str) -> str:
     return safe_asset_stem(cleaned)
 
 
-def select_filename(record: SpellIconRecord, seen: Dict[str, int]) -> str:
-    base = record.filename_stem
-    key = base.casefold()
-    count = seen.get(key, 0)
-    if count:
-        suffix = record.ankama_id if record.ankama_id is not None else count + 1
-        base = f"{base} ({suffix})"
-        key = base.casefold()
-    seen[key] = seen.get(key, 0) + 1
-    return f"{base}.png"
-
-
 def copy_spell_icons(
     source_dir: Path,
     destination_dirs: Sequence[Path],
-    records: Sequence[SpellIconRecord],
+    named: Sequence[NamedRecord],
     overwrite: bool,
 ) -> Tuple[CopyStats, Set[str]]:
     stats = CopyStats()
-    seen_names: Dict[str, int] = {}
     produced: Set[str] = set()
     targets: List[Path] = []
     for dest in destination_dirs:
@@ -368,9 +389,8 @@ def copy_spell_icons(
         path.mkdir(parents=True, exist_ok=True)
         targets.append(path)
 
-    for record in records:
+    for record, filename in named:
         stats.processed += 1
-        filename = select_filename(record, seen_names)
         produced.add(filename)
         source_path = source_dir / f"{record.icon_id}.png"
         if not source_path.exists():
@@ -462,8 +482,10 @@ def main() -> int:
 
     records = load_spell_metadata(args.metadata)
     scoped_records = filter_spell_records(records, args.scope, args.constants,
-                                         getattr(args, "game_version", "dofus3"))
-    unique_records, dropped = dedupe_spell_records(scoped_records)
+                                         args.game_version)
+    ids_by_name = load_class_spell_ids(args.game_version)
+    unique_records, dropped = dedupe_spell_records(
+        name_spell_files(scoped_records, ids_by_name), ids_by_name)
     if dropped:
         print(f"Skipped {len(dropped)} duplicate spell names (keeping one per name).")
 

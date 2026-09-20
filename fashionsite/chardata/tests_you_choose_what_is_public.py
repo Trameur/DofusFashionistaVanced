@@ -1,19 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Qui rend un build public, et par quelle porte.
-
-Depuis le 11 septembre 2026 un build neuf est publie des qu'il porte un
-stuff, donc la visibilite a cesse d'etre un detail de la page d'un build:
-c'est une chose que son auteur doit pouvoir lire et changer d'un coup d'oeil
-sur la liste de ses projets.
-
-Et c'est aussi une chose que personne d'autre ne doit pouvoir changer.
-Mesure du 11 septembre: les deux routes qui publient et depublient un build
-repondaient a un GET, sans jeton. Une simple balise image sur n'importe
-quelle page (`<img src="https://.../getsharinglink/123/">`) publiait donc le
-build prive de tout lecteur connecte qui passait par la, et les
-identifiants sont des entiers qui se suivent. Les tests d'ici gardent la
-porte fermee dans les deux sens.
-"""
+"""Only the author publishes or hides a build, by POST with a token."""
 
 import pickle
 
@@ -45,17 +31,12 @@ class NobodyPublishesYourBuildForYouTests(TestCase):
         self.char = un_build(self.auteur)
 
     def test_a_get_can_no_longer_publish_a_build(self):
-        """Le trou, referme. Un GET ne change plus rien, donc une image
-        posee sur une page etrangere ne publie plus rien non plus."""
         self.client.force_login(self.auteur)
         reponse = self.client.get('/getsharinglink/%d/' % self.char.pk)
         self.assertEqual(405, reponse.status_code)
         self.assertFalse(Char.objects.get(pk=self.char.pk).link_shared)
 
     def test_a_get_can_no_longer_hide_one_either(self):
-        """L'autre sens compte autant: depublier le build de quelqu'un le
-        fait disparaitre de la galerie et casse les liens qu'il a
-        partages."""
         self.char.link_shared = True
         self.char.save()
         self.client.force_login(self.auteur)
@@ -64,8 +45,6 @@ class NobodyPublishesYourBuildForYouTests(TestCase):
         self.assertTrue(Char.objects.get(pk=self.char.pk).link_shared)
 
     def test_a_post_without_the_token_is_refused(self):
-        """Le jeton est ce qui distingue un clic du lecteur d'un formulaire
-        poste par une page etrangere."""
         client = Client(enforce_csrf_checks=True)
         client.force_login(self.auteur)
         reponse = client.post('/getsharinglink/%d/' % self.char.pk)
@@ -73,8 +52,6 @@ class NobodyPublishesYourBuildForYouTests(TestCase):
         self.assertFalse(Char.objects.get(pk=self.char.pk).link_shared)
 
     def test_the_author_still_publishes_and_hides_with_a_post(self):
-        """Le cas contraire, sans lequel une vue qui refuse tout passerait
-        tous les tests ci-dessus."""
         self.client.force_login(self.auteur)
         reponse = self.client.post('/getsharinglink/%d/' % self.char.pk)
         self.assertEqual(200, reponse.status_code)
@@ -109,9 +86,6 @@ class YourProjectsSayWhichOnesArePublicTests(TestCase):
         self.assertIn('Make private', page)
 
     def test_a_build_waiting_for_gear_says_what_will_happen(self):
-        """L'etat que le nouveau defaut a cree, et le seul que le lecteur ne
-        peut pas deviner: le build n'est pas encore visible, et il le sera.
-        Le taire serait publier sans prevenir."""
         un_build(self.auteur, name='En attente', auto_publish=True)
         page = self._page()
         self.assertIn('Public once it has gear', page)
@@ -122,10 +96,7 @@ class YourProjectsSayWhichOnesArePublicTests(TestCase):
         page = self._page()
         self.assertIn('Private', page)
         self.assertIn('Publish', page)
-        # L'etat se lit sur la cellule et non sur le texte de la page: le
-        # script porte les quatre libelles pour pouvoir les echanger sans
-        # rechargement, donc chercher un libelle prouverait qu'il est dans
-        # le script, pas dans une ligne.
+        # The state is read on the cell, not on the page text: the script carries all four labels
         self.assertIn('data-visibility-state="private"', page)
         self.assertNotIn('data-visibility-state="public"', page)
 
@@ -136,8 +107,6 @@ class YourProjectsSayWhichOnesArePublicTests(TestCase):
         self.assertIn('Rendre priv', page)
 
     def test_each_row_carries_its_own_build(self):
-        """Deux lignes, deux etats, deux boutons: un bouton qui agirait sur
-        le mauvais build serait pire que pas de bouton du tout."""
         prive = un_build(self.auteur, name='Prive')
         public = un_build(self.auteur, name='Publie', link_shared=True)
         page = self._page()
@@ -147,9 +116,6 @@ class YourProjectsSayWhichOnesArePublicTests(TestCase):
         self.assertIn('data-visibility-state="private"', page)
 
     def test_a_guest_sees_no_switch(self):
-        """L'attribut AVEC sa valeur, parce que le script de la page nomme
-        le meme attribut sans valeur pour trouver ses cellules: chercher le
-        nom seul aurait trouve le script et rien prouve."""
         self.client.logout()
         page = self._page()
         self.assertNotIn('data-visibility-build="', page)

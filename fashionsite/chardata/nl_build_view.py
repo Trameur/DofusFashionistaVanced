@@ -107,8 +107,7 @@ def smart_build(request):
         return HttpResponseRedirect(version_reverse(request, 'solution_2', char.id))
 
     return set_response(request, 'chardata/smart_build.html', {
-        # Meme page sous les cinq versions: le corps ne change pas, seule
-        # la ligne de version du pied. Canonique a l adresse sans version.
+        # Same page under the five versions, only the footer's version line changes; canonical at the unversioned address
         'canonical_path': version_free_canonical('smart_build'),
         'query': '',
         'examples': _example_queries(),

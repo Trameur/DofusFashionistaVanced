@@ -31,10 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'fashionistapulp
 
 from fashionistapulp.fashion_util import normalize_name, safe_icon_name
 
-# On 2026-09-15 one TLS handshake out of the Dofus 3 run was aborted by the host
-# (WinError 10053) and the exception took the whole step down, every image after
-# it included. requests.get had no timeout either, so a stalled read could hold
-# the pipeline until something outside killed it.
+# One aborted TLS handshake used to take the whole step down; a timeout and retries keep the run going
 REQUEST_TIMEOUT = 30
 
 # Dofus 2's art is on Ankama's own CDN, under the icon id that the dofusdude
@@ -96,8 +93,6 @@ def images_differ(existing_path, new_content, threshold=0.01):
 
 
 def fetch_image(session, url):
-    """(bytes, False) when fetched, (None, False) when the source answered
-    without an image, (None, True) when the connection itself failed."""
     try:
         response = session.get(url, timeout=REQUEST_TIMEOUT)
     except requests.RequestException as exc:

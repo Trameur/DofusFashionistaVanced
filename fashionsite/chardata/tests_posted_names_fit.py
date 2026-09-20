@@ -1,31 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un nom envoye ne peut pas depasser la colonne qui le recoit.
-
-La garde vit dans `Char.save()`, qui coupe `name`, `char_name` et `char_build`
-a la longueur de leur champ -- lue sur le modele, pas ecrite en dur. Sa raison
-est dans son commentaire : la base de production tourne en
-`STRICT_TRANS_TABLES`, donc une valeur trop longue y leve une erreur au lieu
-d'etre tronquee, et le lecteur recevrait une 500 pour un nom un peu long.
-
-**Ce module existe parce que j'ai failli poser cette garde une seconde fois.**
-En auditant la validation des formulaires, j'ai vu que la vue passe le POST
-droit dans un CharField de 50 sans rien couper, j'ai conclu au defaut, et j'ai
-ecrit la coupe dans la vue. Elle etait redondante : `Char.save()` le faisait
-deja, avec exactement le meme motif `_meta.get_field(...).max_length`.
-
-**C'est la falsification qui l'a dit, pas la relecture.** Le garde restait VERT
-avec la coupe retiree de la vue -- et un test qui ne rougit pas quand on enleve
-ce qu'il pretend garder ne garde rien. Sans cette etape, un correctif inutile
-partait avec un test qui l'accompagnait, et le doublon aurait suggere au lecteur
-suivant que la garde du modele n'est pas fiable.
-
-Ce qui reste ici garde donc la VRAIE protection : si quelqu'un retire la
-troncature de `Char.save()`, ces trois tests rougissent.
-
-Note de portee : la base de test est SQLite, qui n'applique pas les longueurs de
-colonne. Ces tests verifient donc la LONGUEUR ENREGISTREE, vraie sur les deux
-moteurs, et non l'absence d'erreur, qui ne se manifesterait qu'en MySQL.
-"""
+"""A posted name never exceeds the column that stores it; Char.save() cuts it to the field's length."""
 from django.contrib.auth.models import User
 from django.test import TestCase
 
@@ -67,37 +41,21 @@ class PostedNamesFitTheirColumnTests(TestCase):
                              self._limite('char_name'))
 
     def test_a_name_that_fits_is_not_touched(self):
-        """Le controle positif de la paire.
-
-        Sans lui, une coupe a zero caractere passerait le test precedent : tout
-        serait « plus court que la colonne », et le champ serait vide.
-        """
         exact = 'A' * self._limite('name')
         self._enregistre(exact, 'Bob')
         self.assertEqual(exact, self.char.name)
         self.assertEqual('Bob', self.char.char_name)
 
     def test_the_limit_is_read_from_the_model(self):
-        """Ecrire 50 dans `save()` survivrait a un champ passe a 80, en silence.
-
-        Ce test ne verifie pas une valeur mais une PROVENANCE : il echoue si
-        quelqu'un remplace la lecture du modele par une constante, meme juste le
-        jour ou il l'ecrit.
-        """
         import ast
         import inspect
         import textwrap
 
-        # `Char.save` est une METHODE, donc indentee : `cleandoc` desindente
-        # comme une prose et rend un source que `ast` refuse. `dedent` le
-        # fait comme du code. La premiere version visait une fonction de
-        # module, ou la difference ne se voyait pas.
+        # Char.save is a method, so indented: dedent keeps it parseable where cleandoc would not
         source = textwrap.dedent(inspect.getsource(Char.save))
         self.assertIn('_meta.get_field', source,
                       'the limit is no longer read from the model')
-        # Le docstring peut citer la longueur en l'expliquant ; seul le CODE ne
-        # doit pas la porter. Une premiere version cherchait le chiffre dans la
-        # source entiere et accusait sa propre prose.
+        # The docstring may cite the length; only the code must not carry it
         arbre = ast.parse(source).body[0]
         corps = [n for n in arbre.body
                  if not (isinstance(n, ast.Expr)

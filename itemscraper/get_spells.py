@@ -426,8 +426,8 @@ class SpellTransformer:
             return str(min_val)
         return f"{min_val}-{max_val}"
 
-    def _collect_damage_rows(self, levels: Sequence[Mapping[str, Any]], critical: bool,
-                             one_best_element_ladder: bool = False) -> List[Dict[str, Any]]:
+    def _collect_damage_rows(self, levels: Sequence[Mapping[str, Any]],
+                             critical: bool) -> List[Dict[str, Any]]:
         rows: List[Dict[str, Any]] = []
         key_to_idx: Dict[tuple, int] = {}
         level_count = len(levels)
@@ -500,7 +500,7 @@ class SpellTransformer:
                     continue
                 _register_row(element_token)
 
-        rows = self._merge_rows_ankama_renumbered(rows, one_best_element_ladder)
+        rows = self._merge_rows_ankama_renumbered(rows)
 
         for row in rows:
             last_value: Optional[str] = None
@@ -513,20 +513,16 @@ class SpellTransformer:
 
     @staticmethod
     def _merge_rows_ankama_renumbered(
-            rows: List[Dict[str, Any]],
-            one_best_element_ladder: bool = False) -> List[Dict[str, Any]]:
+            rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Merge a hit split in two rows because Ankama renumbers `order` between grades."""
         merged: List[Dict[str, Any]] = []
         seen: List[tuple] = []
         for row in rows:
-            group = row.get("best_element_group")
             # A best-element hit renumbered between grades is one hit too
-            if one_best_element_ladder:
-                group = group is not None
             signature = (row.get("element"), row.get("steals"),
                          row.get("heals"), row.get("triggers"),
                          row.get("situation"), row.get("state_group"),
-                         group)
+                         row.get("best_element_group") is not None)
             filled = {i for i, value in enumerate(row["ranges"])
                       if value is not None}
             for position, (other_signature, other_filled) in enumerate(seen):
@@ -586,7 +582,7 @@ class SpellTransformer:
     def _placed_blocks(self, levels: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
         """One block per placed thing, its rows read at the grade each parent level places."""
         placements: Dict[Tuple[int, int], List[Optional[int]]] = {}
-        gated: set = set()
+        gated: Dict[Tuple[int, int], set] = {}
         for level_idx, level in enumerate(levels):
             for effect in level.get("effects") or []:
                 child = self._placed_child(effect)
@@ -597,8 +593,9 @@ class SpellTransformer:
                 if grades[level_idx] is None:
                     grades[level_idx] = child[1]
                 # A placement the spell only makes in a state waits for that state
-                if STATE_IN_TARGET_MASK.findall(str(effect.get("target_mask") or "")):
-                    gated.add(key)
+                state = STATE_IN_TARGET_MASK.findall(str(effect.get("target_mask") or ""))
+                if state:
+                    gated.setdefault(key, set()).add(",".join(sorted(state)))
 
         blocks: List[Dict[str, Any]] = []
         for (effect_id, child_id), grades in placements.items():
@@ -610,17 +607,19 @@ class SpellTransformer:
                     "effects": (child_level or {}).get("effects") or [],
                     "critical_effects": (child_level or {}).get("critical_effects") or [],
                 })
-            normal = self._collect_damage_rows(synthetic, critical=False,
-                                               one_best_element_ladder=True)
+            normal = self._collect_damage_rows(synthetic, critical=False)
             if not normal:
                 continue
             kind, when = PLACED_BY_EFFECT[effect_id]
-            if (effect_id, child_id) in gated:
+            states = gated.get((effect_id, child_id))
+            if states:
                 when = "state"
             placed: Dict[str, Any] = {"kind": kind, "effect_id": effect_id, "spell_id": child_id}
             placed["waits" if when in PLACED_WAITS else "lands"] = when
-            critical = self._collect_damage_rows(synthetic, critical=True,
-                                                 one_best_element_ladder=True)
+            # One gate for every grade can be named; a gate per grade cannot
+            if states and len(states) == 1:
+                placed["state_group"] = next(iter(states))
+            critical = self._collect_damage_rows(synthetic, critical=True)
             for row in normal + critical:
                 row["placed"] = dict(placed)
             block = dict(placed)

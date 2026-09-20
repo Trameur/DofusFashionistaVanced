@@ -1,27 +1,5 @@
 #!/usr/bin/env python3
-"""scrape_touch_pet_bonuses.py: auto-build touch_pet_bonuses.json from the
-official Dofus Touch encyclopedia.
-
-Touch pets gain their stats by feeding, so the backend datacenter carries no
-bonus values: the Pets class only lists food items, and the pet items'
-possibleEffects are feeding metadata (life points, corpulence, last meal). The
-official site however renders an "Effets maximum sous hormone" block per pet
-with the fed/hormone caps, which is exactly what the optimizer needs.
-
-The site sits behind an anonymous Ankama SSO bounce (302 via account.ankama.com
-with an authlogin token), which a cookie-aware client follows transparently.
-Pages accept bare ids: /fr/mmorpg/encyclopedie/familiers/<ankama_id>. When the
-French page answers 404 the English one, /en/mmorpg/encyclopedia/pets/<id>, is
-read instead: on 2026-09-18 four pets had lost their French page and kept the
-English one, and the English reader gives the French reader's lines on all 172
-pets that have both.
-
-Output: touch_pet_bonuses.json {"<EN items_touch.db name>": [["Stat", max], ...]}
-(same shape as retro_pet_bonuses.json), consumed by store_touch_pet_bonuses.py.
-
-Usage (from repo root):
-    python itemscraper/scrape_touch_pet_bonuses.py [--delay 0.25] [--limit N]
-"""
+"""Build touch_pet_bonuses.json from the official Touch encyclopedia's fed and hormone caps; the French page first, the English one when it answers 404."""
 from __future__ import annotations
 
 import argparse
@@ -59,11 +37,7 @@ SIMPLE_STATS = {
     'resistance poussee': 'Pushback Resist',
 }
 
-# Manual fixes keyed by English items_touch.db name; take precedence over the
-# scrape (same mechanism as retro's OVERRIDES). Moowitty sat here from
-# 2026-08-16, the day after its French page started answering 404; on 2026-09-18
-# that page was back with the same 53 Prospecting and 98 Wisdom, and its English
-# page had them too.
+# Manual fixes keyed by English items_touch.db name; they win over the scrape
 OVERRIDES = {}
 
 _PCT_RESIST_RE = re.compile(
@@ -76,10 +50,7 @@ _PCT_DAMAGE_RE = re.compile(r'^(\d+)\s*%\s*Dommages?$', re.I)
 _SIMPLE_RE = re.compile(
     r'^(\d+)\s+([A-Za-zàâçéèêëîïôûù][A-Za-zàâçéèêëîïôûù ]*)$')
 
-# Compared after _norm, so written without accents: until 2026-09-18 they had
-# them, never matched, and the reader kept the gain per meal listed under
-# "Régime alimentaire" ("1 Prospection") as a cap, on 76 pets. A pet with no
-# diet ends at the page footer or at the recipes that use it.
+# Compared after _norm, so written without accents; a pet with no diet ends at the footer or at the recipes that use it
 _STOP_LINES = ('regime alimentaire', 'est utilise pour', 'partager',
                'description', 'caracteristiques')
 
@@ -180,9 +151,6 @@ _READERS = {
 
 
 def parse_bonuses(html, language='fr'):
-    """Extract [(stat, max)] from the block under 'Effets maximum' ('Max
-    effects' in English), up to the diet. The hormone-dropper line matches no
-    stat."""
     title, stops, read_line = _READERS[language]
     lines = _page_lines(html)
     start = None
@@ -214,8 +182,6 @@ def build_opener():
 
 
 def fetch(opener, url, retries=2, timeout=30):
-    """Return the page html, or None when the encyclopedia has no page for
-    this id (404: legacy/internal pets)."""
     last = None
     for attempt in range(retries + 1):
         try:
@@ -233,8 +199,6 @@ def fetch(opener, url, retries=2, timeout=30):
 
 
 def pets_in_db(cursor):
-    """({pet name: [{(stat, value)} carried, one set per row]}, known stat
-    names), read the way store_touch_pet_bonuses.py reads them."""
     known = {name for (name,) in cursor.execute('SELECT name FROM stats')}
     pets = {}
     for item_id, name in cursor.execute(
@@ -256,10 +220,6 @@ def _best(lines):
 
 
 def variant_keys(bonuses, pets=None, known=None):
-    """{(pet, stat)} store_touch_pet_bonuses.py writes a variant for: one per
-    stat of each pet, except a stat it does not know, a cap the pet already
-    carries as a stat of its own and a pet the db lacks. Without the db, one
-    per stat. The variant's id comes from the pet and the stat alone."""
     keys = set()
     for name, lines in bonuses.items():
         for carried in ([set()] if pets is None else pets.get(name, [])):
@@ -273,16 +233,11 @@ def variant_keys(bonuses, pets=None, known=None):
 
 
 def lost_variants(previous, current, pets=None, known=None):
-    """[(pet, stat)] the previous file gave a variant and the current one does
-    not. A pet or a line that comes in moves no id; one that goes takes a
-    variant saved builds may wear back to the bare pet."""
     return sorted(variant_keys(previous, pets, known)
                   - variant_keys(current, pets, known))
 
 
 def changed_values(previous, current):
-    """(pet, stat, before, after) for the caps that moved: the variant keeps
-    its id and saved builds get the new value."""
     changes = []
     for name in sorted(set(previous) & set(current)):
         before, after = _best(previous[name]), _best(current[name])

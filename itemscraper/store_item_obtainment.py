@@ -33,18 +33,6 @@ except ModuleNotFoundError:
 
 
 def _data_file_name(game_version, attribute):
-    """The file the registry names for this version.
-
-    These two functions used to read `_DB_FILES` / `_DUMP_FILES` straight out of
-    fashionista_config. Those dicts are gone -- the registry replaced them -- so
-    every itemscraper step raised AttributeError the moment it resolved a path,
-    and item data could no longer be refreshed for any version. Nothing failed
-    loudly: the site kept serving the database it already had.
-
-    The paths stay anchored on PROJECT_ROOT rather than delegating to
-    fashionista_config, which points at one fixed checkout and would break
-    worktrees. Only the file name comes from the registry.
-    """
     return getattr(game_versions.get_game_version(game_version), attribute)
 
 
@@ -265,12 +253,6 @@ def _load_name_maps(base_dir):
 
 
 def _resolve_item_ids(cursor, ankama_id, ankama_type):
-    """Every row that is this item.
-
-    An item gated behind alternative conditions is flattened into one row per
-    condition, "(#1)" and "(#2)", sharing its ankama id: they are the same
-    piece and read from the same entry.
-    """
     cursor.execute(
         "SELECT id FROM items WHERE ankama_id = ? AND ankama_type = ? ORDER BY dofustouch ASC",
         (ankama_id, ankama_type),
@@ -348,11 +330,7 @@ def _store_item_data(cursor, item_id, language, entry, ingredient_name_map):
         names = ingredient_name_map.get((ingredient_subtype, int(ingredient_id)))
         if not names:
             continue
-        # The tag marks a language the upstream could not translate, and an
-        # ingredient name is a display string like any other: on 2026-09-17 the
-        # beta shipped 12 of them ("[!] Enduit sufokien", "[!] Mule mineure",
-        # "[!] Mule", in de/en/es/pt). The sanitiser script is wired into no
-        # pipeline, so cleaning has to happen where the row is written.
+        # The tag marks a language the upstream could not translate; the sanitiser is wired into no pipeline, so cleaning happens where the row is written
         translated_name = clean_display_name(
             names.get(language) or names.get('en'))
         if not translated_name:

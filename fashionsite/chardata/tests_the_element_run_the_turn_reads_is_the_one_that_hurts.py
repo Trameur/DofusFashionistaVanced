@@ -29,7 +29,8 @@ _AVEC_PLUSIEURS_SERIES = 30
 
 # Ebony Dofus hitting rows all wait on a state, and a placed thing's rows on
 # what sets it off: 3 casts, then 49 more per version on dofus3 and the beta
-_ZEROS_RESTANTS = 101
+# and 25 on dofus2
+_ZEROS_RESTANTS = 126
 _SORT_DES_ZEROS_RESTANTS = 'Ebony Dofus'
 _ATTENTES_DES_CHOSES_POSEES = {'trap', 'bomb', 'glyph', 'aura', 'state'}
 

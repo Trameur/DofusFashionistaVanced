@@ -4,6 +4,11 @@ from .dofus_constants import Spell, Effects, EARTH, FIRE, WATER, AIR, NEUTRAL
 
 TOUCH_DAMAGE_SPELLS = {
     "Cra": [
+        Spell("Chausse-trappe", [37, 37, 37, 37, 87, 137], Effects(
+            [["16-18", "17-19", "18-20", "19-21", "20-22", "23-25"]],
+            [["16-18", "17-19", "18-20", "19-21", "20-22", "23-25"]],
+            [AIR],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [6, 5, 4, 3, 2, 1]}, spell_id=5537, conditional={0: 'trap'}),
         Spell("Flèche Aveuglante", [49, 49, 49, 49, 99, 149], Effects(
             [["16-18", "17-19", "18-20", "20-22", "22-24", "24-26"]],
             [["18-20", "19-21", "20-22", "22-24", "24-26", "27-29"]],
@@ -312,6 +317,21 @@ TOUCH_DAMAGE_SPELLS = {
             [["29-33", "30-34", "31-35", "32-36", "33-37", "38-42"]],
             [FIRE],
         ), casting={"ap": [4, 4, 4, 4, 4, 4], "crit": [20, 20, 20, 20, 20, 20], "per_turn": [1, 1, 1, 1, 2, 2]}, spell_id=9747),
+        Spell("Glyphe Agressif", [1, 1, 1, 1, 51, 101], Effects(
+            [["20-22", "22-24", "24-26", "26-28", "30-32", "39-41"]],
+            [["20-22", "22-24", "24-26", "26-28", "30-32", "39-41"]],
+            [EARTH],
+        ), aggregates=[('Glyph damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [3, 3, 3, 3, 3, 3]}, spell_id=6149, delayed={0: 'turn_begin'}),
+        Spell("Glyphe Enflammé", [31, 31, 31, 31, 81, 131], Effects(
+            [["29-31", "32-34", "33-35", "35-37", "38-40", "38-40"]],
+            [["35-37", "38-40", "41-43", "44-46", "48-50", "48-50"]],
+            [FIRE],
+        ), aggregates=[('Glyph damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [3, 3, 3, 3, 3, 2]}, spell_id=4708, delayed={0: 'turn_begin'}),
+        Spell("Glyphe d'Aveuglement", [67, 67, 67, 67, 117, 167], Effects(
+            [["20-23", "22-25", "24-27", "26-29", "28-31", "31-34"]],
+            [["20-23", "22-25", "24-27", "26-29", "28-31", "31-34"]],
+            [WATER],
+        ), aggregates=[('Glyph damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [3, 3, 3, 3, 3, 3]}, spell_id=4706, delayed={0: 'turn_begin'}),
         Spell("Mise en Garde", [13, 13, 13, 13, 63, 113], Effects(
             [["20-20", "30-30", "40-40", "50-50", "70-70", "100-100"]],
             [["20-20", "30-30", "40-40", "50-50", "70-70", "100-100"]],
@@ -624,6 +644,11 @@ TOUCH_DAMAGE_SPELLS = {
         ), casting={"ap": [4, 4, 4, 4, 4, 4], "crit": [20, 20, 20, 20, 20, 20], "per_turn": [2, 2, 2, 2, 2, 2]}, spell_id=7053),
     ],
     "Rogue": [
+        Spell("Bombe à Eau", [25, 25, 25, 25, 75, 125], Effects(
+            [["5-6", "6-7", "7-8", "8-9", "9-10", "14-16"]],
+            [["5-6", "6-7", "7-8", "8-9", "9-10", "14-16"]],
+            [WATER],
+        ), aggregates=[('Bomb damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "per_turn": [1, 1, 1, 1, 1, 1]}, spell_id=2797, conditional={0: 'bomb'}),
         Spell("Dagues Boomerang", [19, 19, 19, 19, 69, 119], Effects(
             [["5-7", "6-8", "7-9", "8-10", "9-11", "11-13"]],
             [["8-10", "9-11", "10-12", "11-13", "12-14", "14-16"]],
@@ -639,6 +664,11 @@ TOUCH_DAMAGE_SPELLS = {
             [["25-27", "27-29", "29-31", "31-33", "34-36", "39-41"]],
             [AIR],
         ), casting={"ap": [4, 4, 4, 4, 4, 4], "crit": [20, 20, 20, 20, 20, 20], "per_turn": [2, 2, 2, 2, 2, 2]}, spell_id=2804),
+        Spell("Explobombe", [31, 31, 31, 31, 81, 131], Effects(
+            [["11-12", "12-13", "13-14", "14-15", "15-16", "20-22"]],
+            [["11-12", "12-13", "13-14", "14-15", "15-16", "20-22"]],
+            [FIRE],
+        ), aggregates=[('Bomb damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "per_turn": [1, 1, 1, 1, 1, 1]}, spell_id=2808, conditional={0: 'bomb'}),
         Spell("Extraction", [1, 1, 1, 1, 51, 101], Effects(
             [["9-11", "12-14", "14-16", "15-17", "18-20", "22-24"]],
             [["12-14", "15-17", "17-19", "20-22", "23-25", "27-29"]],
@@ -654,6 +684,11 @@ TOUCH_DAMAGE_SPELLS = {
             [["14-18", "15-19", "16-20", "17-21", "19-23", "26-30"]],
             [WATER],
         ), casting={"ap": [3, 3, 3, 3, 3, 3], "crit": [15, 15, 15, 15, 15, 15], "per_turn": [2, 2, 2, 2, 2, 2]}, spell_id=2807),
+        Spell("Tornabombe", [1, 1, 1, 1, 51, 101], Effects(
+            [["8-9", "9-10", "10-11", "11-12", "12-13", "17-19"]],
+            [["8-9", "9-10", "10-11", "11-12", "12-13", "17-19"]],
+            [AIR],
+        ), aggregates=[('Bomb damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "per_turn": [1, 1, 1, 1, 1, 1]}, spell_id=2796, conditional={0: 'bomb'}),
         Spell("Tromblon", [79, 79, 79, 79, 129, 179], Effects(
             [["28-32", "29-33", "30-34", "31-35", "32-36", "36-40"]],
             [["31-35", "32-36", "33-37", "34-38", "35-39", "40-44"]],
@@ -845,6 +880,26 @@ TOUCH_DAMAGE_SPELLS = {
             [["32-36", "34-38", "36-40", "38-42", "41-45", "46-50"], ["20-20", "40-40", "60-60", "80-80", "100-100", "120-120"]],
             [AIR, 'buff_agi'],
         ), casting={"ap": [4, 4, 4, 4, 4, 4], "crit": [20, 20, 20, 20, 20, 20], "per_target": [0, 0, 0, 1, 1, 1], "per_turn": [1, 1, 1, 2, 2, 2]}, spell_id=8749),
+        Spell("Piège Empoisonné", [61, 61, 61, 61, 111, 161], Effects(
+            [["7-9", "8-10", "9-11", "10-12", "12-14", "14-16"]],
+            [["7-9", "8-10", "9-11", "10-12", "12-14", "14-16"]],
+            [AIR],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [7, 6, 5, 4, 3, 2]}, spell_id=6141, conditional={0: 'trap'}),
+        Spell("Piège Mortel", [19, 19, 19, 19, 69, 119], Effects(
+            [["14-18", "17-21", "20-24", "23-27", "27-31", "34-38"]],
+            [["14-18", "17-21", "20-24", "23-27", "27-31", "34-38"]],
+            [EARTH],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "per_turn": [1, 1, 1, 2, 2, 2]}, spell_id=80, conditional={0: 'trap'}),
+        Spell("Piège Sournois", [13, 13, 13, 13, 63, 113], Effects(
+            [["15-17", "16-18", "17-19", "18-20", "20-22", "23-25"]],
+            [["15-17", "16-18", "17-19", "18-20", "20-22", "23-25"]],
+            [FIRE],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "per_turn": [1, 1, 1, 2, 2, 2]}, spell_id=65, conditional={0: 'trap'}),
+        Spell("Piège répulsif", [67, 67, 67, 67, 117, 167], Effects(
+            [["13-15", "14-16", "15-17", "16-18", "18-20", "21-23"]],
+            [["13-15", "14-16", "15-17", "16-18", "18-20", "21-23"]],
+            [FIRE],
+        ), aggregates=[('Trap damage', [0])], casting={"ap": [3, 3, 3, 3, 3, 3], "cooldown": [6, 5, 4, 3, 2, 1]}, spell_id=73, conditional={0: 'trap'}),
         Spell("Poison insidieux", [7, 7, 7, 7, 57, 107], Effects(
             [["3-4", "4-5", "5-6", "6-7", "7-8", "10-11"]],
             [["5-6", "6-7", "7-8", "8-9", "9-10", "12-13"]],
@@ -1049,6 +1104,13 @@ TOUCH_SPELL_NAMES = {
   "fr": "Boliche",
   "pt": "Boliche"
  },
+ "Bombe à Eau": {
+  "de": "Water Bombs",
+  "en": "Water Bombs",
+  "es": "Bomba de Agua",
+  "fr": "Bombe à Eau",
+  "pt": "Bomba de Água"
+ },
  "Bourbier": {
   "de": "Quagmire",
   "en": "Quagmire",
@@ -1083,6 +1145,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Suerte",
   "fr": "Chance",
   "pt": "Sorte"
+ },
+ "Chausse-trappe": {
+  "de": "Pitfall",
+  "en": "Pitfall",
+  "es": "Abrojo",
+  "fr": "Chausse-trappe",
+  "pt": "Estrepe"
  },
  "Châtiment du Martyr": {
   "de": "Martyr Punishment",
@@ -1258,6 +1327,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Etilo",
   "fr": "Ethylo",
   "pt": "Beberricar"
+ },
+ "Explobombe": {
+  "de": "Explobomb",
+  "en": "Explobomb",
+  "es": "Explobomba",
+  "fr": "Explobombe",
+  "pt": "Boombot Explosivo"
  },
  "Extraction": {
   "de": "Extraction",
@@ -1454,6 +1530,27 @@ TOUCH_SPELL_NAMES = {
   "es": "Filón",
   "fr": "Gisement",
   "pt": "Jazida"
+ },
+ "Glyphe Agressif": {
+  "de": "Aggressive Glyph",
+  "en": "Aggressive Glyph",
+  "es": "Glifo Agresivo",
+  "fr": "Glyphe Agressif",
+  "pt": "Glifo Agressivo"
+ },
+ "Glyphe Enflammé": {
+  "de": "Burning Glyph",
+  "en": "Burning Glyph",
+  "es": "Glifo Flamígero",
+  "fr": "Glyphe Enflammé",
+  "pt": "Glifo Flamejante"
+ },
+ "Glyphe d'Aveuglement": {
+  "de": "Blinding Glyph",
+  "en": "Blinding Glyph",
+  "es": "Glifo de Ceguera",
+  "fr": "Glyphe d'Aveuglement",
+  "pt": "Glifo de Cegueira"
  },
  "Gnôle": {
   "de": "Hooch",
@@ -1819,6 +1916,34 @@ TOUCH_SPELL_NAMES = {
   "fr": "Pillage",
   "pt": "Saque"
  },
+ "Piège Empoisonné": {
+  "de": "Poisoned Trap",
+  "en": "Poisoned Trap",
+  "es": "Trampa Envenenada",
+  "fr": "Piège Empoisonné",
+  "pt": "Armadilha Envenenada"
+ },
+ "Piège Mortel": {
+  "de": "Lethal Trap",
+  "en": "Lethal Trap",
+  "es": "Trampa Mortal",
+  "fr": "Piège Mortel",
+  "pt": "Armadilha Letal"
+ },
+ "Piège Sournois": {
+  "de": "Tricky Trap",
+  "en": "Tricky Trap",
+  "es": "Trampa Solapada",
+  "fr": "Piège Sournois",
+  "pt": "Armadilha Enganadora"
+ },
+ "Piège répulsif": {
+  "de": "Repelling Trap",
+  "en": "Repelling Trap",
+  "es": "Trampa Repulsiva",
+  "fr": "Piège répulsif",
+  "pt": "Armadilha de Desinvocação"
+ },
  "Poigne de Xélor": {
   "de": "Xelor's Fist",
   "en": "Xelor's Fist",
@@ -2119,6 +2244,13 @@ TOUCH_SPELL_NAMES = {
   "es": "Topkaj",
   "fr": "Topkaj",
   "pt": "Topkaj"
+ },
+ "Tornabombe": {
+  "de": "Grenados",
+  "en": "Grenados",
+  "es": "Tornabomba",
+  "fr": "Tornabombe",
+  "pt": "Grenado"
  },
  "Toupet": {
   "de": "Nerve",

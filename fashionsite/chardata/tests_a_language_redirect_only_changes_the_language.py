@@ -1,32 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une redirection de langue laisse le lecteur sur sa version.
-
-Trouve en parcourant les guides en allemand sur Dofus Retro, connecte. Le site
-emmene un lecteur connecte dans la langue de son compte, ce qui est voulu et
-documente: c'est ce qui laisse chaque adresse deterministe pour un robot, qui
-n'est jamais redirige, tout en servant au lecteur sa propre langue.
-
-Mais la redirection etait batie sur les **adresses canoniques** du guide, et
-le canonique d'un guide ordinaire est la page globale, sans version. Un
-lecteur qui lisait les guides Retro se retrouvait donc sur la page Dofus 3
-sans l'avoir demande.
-
-Mesure du 14 septembre 2026, un compte en francais ouvrant les trente-deux
-guides depuis un index allemand, espagnol puis portugais:
-
-| version | guides qui changeaient de version |
-|---------|-----------------------------------|
-| beta    | 32 sur 32                         |
-| dofus2  | 31 sur 32                         |
-| touch   | 29 sur 32                         |
-| retro   | 25 sur 32                         |
-
-Les sept qui restaient etaient les guides propres a un systeme, dont le
-canonique porte deja leur version.
-
-Le canonique et les hreflang ne bougent pas: une page, une adresse. C'est la
-porte par laquelle le lecteur est pousse qui garde sa version.
-"""
+"""A language redirect keeps the reader on the version they were browsing."""
 
 import re
 
@@ -38,8 +11,7 @@ from chardata.models import UserAlias
 
 VERSIONS = ('beta', 'dofus2', 'touch', 'retro')
 
-#: Trois guides ordinaires, dont le canonique est la page globale, et un
-#: guide propre a un systeme, dont le canonique porte sa version.
+# Three ordinary guides whose canonical is the global page, and one system guide whose canonical carries its version
 _ORDINAIRES = ('set-boni', 'dofus-werte', 'losung-lesen')
 _PROPRE_AU_SYSTEME = 'kritische-treffer'
 
@@ -81,14 +53,12 @@ class _LecteurConnecteEnFrancais(TestCase):
 class TheRedirectKeepsTheVersionTests(_LecteurConnecteEnFrancais):
 
     def test_the_redirect_happens_at_all(self):
-        """Le plancher: sans redirection, tout le reste passe a vide."""
         arrivee, _html = self._ouvre('/retro/guides/%s/' % _ORDINAIRES[0])
         self.assertNotEqual('/retro/guides/%s/' % _ORDINAIRES[0], arrivee)
         self.assertEqual('fr', _langue_de_slug(arrivee.rstrip('/')
                                                .rsplit('/', 1)[-1]))
 
     def test_it_keeps_the_version_the_reader_was_on(self):
-        """Le test qui aurait attrape le defaut."""
         for version in VERSIONS:
             for slug in _ORDINAIRES:
                 with self.subTest(version=version, guide=slug):
@@ -105,7 +75,6 @@ class TheRedirectKeepsTheVersionTests(_LecteurConnecteEnFrancais):
                 self.assertEqual(version, _version_de(arrivee))
 
     def test_it_still_changes_the_language(self):
-        """L'autre moitie de la regle, qui ne doit pas disparaitre."""
         for version in VERSIONS:
             with self.subTest(version=version):
                 arrivee, _html = self._ouvre(
@@ -115,8 +84,6 @@ class TheRedirectKeepsTheVersionTests(_LecteurConnecteEnFrancais):
 
 
 class TheCanonicalDoesNotMoveTests(_LecteurConnecteEnFrancais):
-    """Le canonique et les hreflang nomment la version canonique du guide.
-    Les toucher aurait donne cinq adresses canoniques a une page."""
 
     def test_a_plain_guide_stays_canonical_at_the_global_url(self):
         for version in VERSIONS:
@@ -136,8 +103,6 @@ class TheCanonicalDoesNotMoveTests(_LecteurConnecteEnFrancais):
 
 
 class ACrawlerIsNeverMovedTests(TestCase):
-    """Un visiteur anonyme, et donc tout robot, lit l'adresse qu'il a
-    demandee: c'est ce qui rend l'indexation deterministe."""
 
     def test_an_anonymous_reader_stays_where_he_asked(self):
         for version in VERSIONS:

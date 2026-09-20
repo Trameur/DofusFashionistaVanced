@@ -1,36 +1,9 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le modele n'est pas relu apres avoir ete rendu au pool.
-
-`fashion()` empruntait un modele, resolvait, le RENDAIT a la file partagee,
-puis rappelait `model.get_solved_status()` sur cet objet pour l'ecrire dans la
-memoire des solutions. C'est une lecture apres liberation : entre les deux
-lignes, un autre appelant peut emprunter ce meme modele, appeler `setup()` et
-`run()` dessus, et changer ce que la relecture rend.
-
-**Ca ne peut pas se produire aujourd'hui**, et c'est dit ici pour que personne
-ne se rassure a tort : `docker-entrypoint.sh` lance gunicorn avec deux workers
-et SANS `--threads`, donc des workers synchrones, une requete a la fois par
-processus. Rien ne peut s'intercaler.
-
-Le jour ou quelqu'un ajoute `--threads 4` -- un geste de configuration que
-personne ne relierait a ce fichier -- la course s'arme, et la memoire garde
-pour une entree le statut calcule pour une AUTRE. Le statut memorise n'est
-lu par aucune decision aujourd'hui, ce qui rend la panne silencieuse plutot
-qu'absente.
-
-Ce module reproduit la course SANS fil d'execution : le faux modele change de
-statut au moment ou il est rendu. Un test qui aurait besoin de vrais threads
-serait intermittent, donc inutile comme garde.
-"""
+"""The model is not read after it is returned to the pool."""
 from django.test import SimpleTestCase
 
 
 class _ModeleQuiChangeQuandOnLeRend(object):
-    """Un modele dont le statut bascule des qu'il retourne dans la file.
-
-    C'est exactement ce qu'un autre appelant produirait en l'empruntant et en
-    resolvant autre chose dessus, mais de facon deterministe.
-    """
 
     STATUT_A_MOI = 'Optimal'
     STATUT_DE_L_AUTRE = 'Infeasible'
@@ -56,11 +29,6 @@ class _ModeleQuiChangeQuandOnLeRend(object):
 
 
 def _simule(lire_apres_liberation):
-    """Rejoue les deux ordres possibles et rend ce qui atterrit en memoire.
-
-    `lire_apres_liberation=True` est le code d'avant : on rend le modele puis
-    on le relit. `False` est celui d'apres : on garde la valeur calculee.
-    """
     modele = _ModeleQuiChangeQuandOnLeRend()
     modele.setup(None)
     modele.run(2)
@@ -76,12 +44,6 @@ def _simule(lire_apres_liberation):
 class TheModelIsNotReadAfterItIsReturnedTests(SimpleTestCase):
 
     def test_the_simulation_actually_reproduces_the_race(self):
-        """Le controle positif du module.
-
-        Si le faux modele ne changeait pas de statut, les deux ordres
-        rendraient la meme chose et les tests suivants passeraient sur une
-        mise en scene qui ne prouve rien.
-        """
         avant = _simule(lire_apres_liberation=True)
         apres = _simule(lire_apres_liberation=False)
         self.assertNotEqual(
@@ -92,13 +54,6 @@ class TheModelIsNotReadAfterItIsReturnedTests(SimpleTestCase):
         self.assertEqual('Optimal', apres[0])
 
     def test_the_code_keeps_the_status_it_computed(self):
-        """La vraie garde : la source lit-elle la variable ou l'objet rendu.
-
-        Ce test lit le SOURCE plutot que d'executer une requete, parce que le
-        defaut n'est observable a l'execution qu'avec de vrais threads -- et
-        un garde intermittent ne garde rien. Ce qu'il attrape est precis : un
-        appel a `get_solved_status()` place APRES `return_model`.
-        """
         import inspect
         import re
 
@@ -122,12 +77,6 @@ class TheModelIsNotReadAfterItIsReturnedTests(SimpleTestCase):
             'this reads' % [i - premier_rendu for i, _l in apres])
 
     def test_the_memory_still_receives_a_status(self):
-        """Le controle positif inverse.
-
-        Supprimer l'appel plutot que de le remplacer ferait passer le test
-        precedent tout en cassant l'ecriture. Le statut doit toujours partir
-        en memoire.
-        """
         import inspect
         import re
 

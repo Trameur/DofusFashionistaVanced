@@ -1,27 +1,5 @@
 #!/usr/bin/env python3
-"""Add the languages Solomonk cannot serve to the Retro subarea names.
-
-store_retro_monster_subareas.py fills monster_subareas from the Solomonk
-bestiary, which answers fr, en and es. The monster page falls back to French
-when a language has no row, so a Portuguese reader of a Retro monster page
-reads French place names.
-
-That fallback was invisible while Retro had no Portuguese monster names at all:
-the pages did not exist. They do now, and 281 of them carry a subarea list.
-
-Ankama's own `maps` lang file carries the subarea names in all five languages,
-keyed by subarea id. The table stores names and not ids, so the French name is
-the join.
-
-  Usage (from itemscraper/):
-      python store_retro_subarea_languages.py [--languages pt de]
-
-WHY EVERY ROW IS WRITTEN, translated or not: the page falls back to French only
-when a language has NO row at all. Inserting only the names Ankama translates
-would leave the rest out of the list entirely -- the reader would lose subareas
-rather than read them in French. Losing information is worse than showing it in
-the wrong language, so an untranslated subarea is written with its French name.
-"""
+"""Add the languages Solomonk cannot serve to the Retro subarea names, from Ankama's maps lang file; run from itemscraper/."""
 
 import argparse
 import collections
@@ -139,8 +117,6 @@ def store(languages, db_path=DB_PATH, refresh_dump=True):
             print('  %s: %d rows, %d translated, %d kept in %s'
                   % (language, total, traduits, total - traduits,
                      SOURCE_LANGUAGE))
-        # Compte par langue et pas en tout : un total qui monte peut cacher une
-        # langue restee vide.
         for language, (total, _traduits) in resume.items():
             if total != len(source):
                 raise SystemExit(
@@ -163,7 +139,6 @@ def main():
     parser.add_argument('--languages', nargs='*',
                         default=list(DEFAULT_LANGUAGES))
     parser.add_argument('--db', default=DB_PATH)
-    # Pour eprouver le script sur une copie sans toucher au dump partage.
     parser.add_argument('--no-dump', action='store_true')
     args = parser.parse_args()
     store(args.languages, args.db, refresh_dump=not args.no_dump)

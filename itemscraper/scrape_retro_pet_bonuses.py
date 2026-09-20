@@ -1,21 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-"""scrape_retro_pet_bonuses.py: build retro_pet_bonuses.json from dofux.org.
-
-Dofus Retro pet bonuses (the stats a pet can be fed toward, and their caps) are
-not in Ankama's lang data. The fan database dofux.org lists them per pet in a
-"Nourriture" (food) block, e.g. for Bwak d'Air:
-
-    +0 à 80 en vitalité (...)
-    +0 à 80 en agilité (...)
-    0 à 20 % de résistance à l'air (...)
-
-French pet names are mapped to English through the ankama id in the retro_raw
-lang files, so the output keys match items_retro.db.
-
-Network + the retro_raw items_{fr,en}.json lang dumps are required.
-"""
+"""Build retro_pet_bonuses.json from dofux.org's food block per pet; French names map to English through the ankama id in the retro_raw lang files."""
 
 import json
 import os
@@ -119,8 +105,6 @@ _EFFECT_LINE_RE = re.compile(r'<span class="font-weight-bold">([^<]+)</span>')
 
 
 def _parse_effect_lines(lines):
-    """[[stat, max], ...] from Solomonk effect lines like
-    '+0 à 80 en intelligence (Capacités accrues : 90)'."""
     bonuses = []
     seen = set()
 
@@ -141,12 +125,6 @@ def _parse_effect_lines(lines):
 
 
 def _fetch_solomonk_pets():
-    """{ankama_id: [[stat, max], ...]} from the Solomonk pets listing.
-
-    Cards come from the session-primed select_stuff endpoint (T=18, minimal
-    params: adding C=false makes it return empty) and carry the ankama id in
-    the item URL. The endpoint intermittently serves empty pages mid-crawl, so
-    only two consecutive empties end it."""
     session = requests.Session()
     session.headers['User-Agent'] = 'Mozilla/5.0'
     session.get(_SOLOMONK_LIST, timeout=60)
@@ -247,10 +225,7 @@ def main():
 
     result = dict(sorted(result.items()))
 
-    # A pet whose bonuses go blank loses its variants, and the variants are
-    # numbered in file order, so everything after it is renumbered. A saved
-    # build keeps the number: that is how 82 Touch pets changed owner on
-    # 2026-08-15. Two sources feed this file and either can go quiet.
+    # A pet whose bonuses go blank loses its variants and renumbers the ones after it, which a saved build keeps: refuse to shrink unless --allow-shrink
     if os.path.exists(OUT_PATH):
         with open(OUT_PATH, encoding='utf-8') as existing_file:
             existing = json.load(existing_file)

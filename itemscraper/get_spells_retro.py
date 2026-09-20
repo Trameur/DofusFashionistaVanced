@@ -38,6 +38,112 @@ ONE_ELEMENT_AT_RANDOM = {
 CHANCE_SLOT = 3
 
 
+# 400 places a trap, 401 a start-of-turn glyph, 402 an end-of-turn glyph
+PLACED_BY_EFFECT = {
+    400: ('trap', 'trap'),
+    401: ('glyph', 'turn_begin'),
+    402: ('glyph', 'turn_end'),
+}
+
+# A placing row has no dice string; from its end: effect id, placed spell, rank
+PLACED_SPELL_SLOT = -2
+PLACED_RANK_SLOT = -3
+
+# Damage that waits for someone to set the thing off; the rest is only late
+PLACED_WAITS = frozenset(('trap',))
+
+# spells_view translates these heads
+PLACED_LABELS = {'trap': 'Trap damage', 'glyph': 'Glyph damage'}
+
+
+def _is_int(value):
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _placed_child(effect):
+    """(effect id, placed spell id, rank) of a placing row, else None."""
+    if (not isinstance(effect, list) or len(effect) < 3
+            or effect[-1] not in PLACED_BY_EFFECT):
+        return None
+    child, rank = effect[PLACED_SPELL_SLOT], effect[PLACED_RANK_SLOT]
+    if not _is_int(child) or not _is_int(rank) or rank < 1:
+        return None
+    return effect[-1], child, rank
+
+
+def _screen_placed_rows(child, child_id, ranks):
+    """Stop if a placed thing's damage row is drawn at a chance."""
+    for rank in sorted({rank for rank in ranks if rank}):
+        level = child.get('l%d' % rank)
+        if not isinstance(level, list) or len(level) < 2:
+            continue
+        for effects in (level[-2], level[-1]):
+            for effect in (effects or []):
+                if (isinstance(effect, list) and len(effect) > CHANCE_SLOT
+                        and effect[-1] in DAMAGE_EFFECTS
+                        and effect[CHANCE_SLOT]):
+                    raise SystemExit(
+                        'retro spell %s rank %s draws its damage rows at a '
+                        'chance; this reader settles such rows per spell in '
+                        'ONE_ELEMENT_AT_RANDOM, so read it before '
+                        'regenerating' % (child_id, rank))
+
+
+def decode_placed(spell, spells_root):
+    """One block per placed thing: the child's rows at the rank each level places."""
+    if not spells_root:
+        return []
+    levels = [lv for lv in LEVELS if lv in spell]
+    placements = {}
+    for index, lv in enumerate(levels):
+        arr = spell[lv]
+        if not isinstance(arr, list) or len(arr) < 2:
+            continue
+        for effect in (arr[-1] or []):
+            found = _placed_child(effect)
+            if found is None:
+                continue
+            effect_id, child_id, rank = found
+            ranks = placements.setdefault((effect_id, child_id),
+                                          [None] * len(levels))
+            if ranks[index] is None:
+                ranks[index] = rank
+    blocks = []
+    for (effect_id, child_id), ranks in placements.items():
+        child = spells_root.get(str(child_id))
+        if not isinstance(child, dict):
+            continue
+        per_level = []
+        for rank in ranks:
+            decoded = decode_level(child.get('l%d' % rank)) if rank else {}
+            per_level.append({token: value for token, value in decoded.items()
+                              if not str(token).startswith('buff_')})
+        elements = []
+        for decoded in per_level:
+            for elem in decoded:
+                if elem not in elements:
+                    elements.append(elem)
+        if not elements:
+            continue
+        _screen_placed_rows(child, child_id, ranks)
+        kind, when = PLACED_BY_EFFECT[effect_id]
+        block = {'kind': kind, 'effect_id': effect_id, 'spell_id': child_id,
+                 'ranks': ranks, 'elements': elements, 'per_level': per_level}
+        block['waits' if when in PLACED_WAITS else 'lands'] = when
+        blocks.append(block)
+    return blocks
+
+
+def _own_groups(elements):
+    """The spell's own rows as one group, buff rows one each."""
+    hits = [index for index, token in enumerate(elements)
+            if not str(token).startswith('buff_')]
+    groups = [('', hits)] if hits else []
+    groups.extend(('', [index]) for index, token in enumerate(elements)
+                  if str(token).startswith('buff_'))
+    return groups
+
+
 def _screen_random_element(spell, spell_id):
     """Stop if the text or the draw no longer says one random element."""
     quote = ONE_ELEMENT_AT_RANDOM.get(spell_id)
@@ -204,7 +310,21 @@ def decode_casting(level_arr):
     return out
 
 
-def decode_spell(spell, spell_id=None):
+def _ranges(elements, per_level):
+    """Per element, the normal and critical range strings per level."""
+    non_crit_ranges, crit_ranges = [], []
+    for elem in elements:
+        nc, cr = [], []
+        for decoded in per_level:
+            normal, crit = decoded.get(elem, (None, None))
+            nc.append('%d-%d' % normal if normal else '0-0')
+            cr.append('%d-%d' % crit if crit else '0-0')
+        non_crit_ranges.append(nc)
+        crit_ranges.append(cr)
+    return non_crit_ranges, crit_ranges
+
+
+def decode_spell(spell, spell_id=None, spells_root=None):
     """Retro spell record -> damage-spell dict, or None if it carries no row."""
     drop_buffs = _not_a_self_buff(spell, spell_id)
     _screen_random_element(spell, spell_id)
@@ -231,17 +351,10 @@ def decode_spell(spell, spell_id=None):
         for elem in decoded:
             if elem not in elements:
                 elements.append(elem)
-    if not elements or not per_level:
+    placed = decode_placed(spell, spells_root)
+    if not per_level or (not elements and not placed):
         return None
-    non_crit_ranges, crit_ranges = [], []
-    for elem in elements:
-        nc, cr = [], []
-        for decoded in per_level:
-            normal, crit = decoded.get(elem, (None, None))
-            nc.append('%d-%d' % normal if normal else '0-0')
-            cr.append('%d-%d' % crit if crit else '0-0')
-        non_crit_ranges.append(nc)
-        crit_ranges.append(cr)
+    non_crit_ranges, crit_ranges = _ranges(elements, per_level)
     # All zeros means no limit
     casting = {}
     for key in CASTING_SLOTS:
@@ -249,6 +362,22 @@ def decode_spell(spell, spell_id=None):
         if any(values):
             casting[key] = values
     groupes = emit_aggregates(spell_id, elements)
+    conditional, delayed = {}, {}
+    if placed:
+        groupes = _own_groups(elements) if groupes is None else list(groupes)
+        for block in placed:
+            start = len(elements)
+            block_nc, block_cr = _ranges(block['elements'], block['per_level'])
+            non_crit_ranges.extend(block_nc)
+            crit_ranges.extend(block_cr)
+            elements.extend(block['elements'])
+            indexes = list(range(start, len(elements)))
+            groupes.append((PLACED_LABELS[block['kind']], indexes))
+            for index in indexes:
+                if block.get('waits'):
+                    conditional[index] = block['waits']
+                else:
+                    delayed[index] = block['lands']
     return {
         'name': spell.get('n') or '',
         'level_count': len(per_level),
@@ -259,6 +388,11 @@ def decode_spell(spell, spell_id=None):
         'casting': casting or None,
         # Rows that are one roll, not a sum
         **({'aggregates': groupes} if groupes else {}),
+        **({'conditional': conditional} if conditional else {}),
+        **({'delayed': delayed} if delayed else {}),
+        **({'placed': [{key: block[key] for key in
+                        ('kind', 'effect_id', 'spell_id', 'ranks')}
+                       for block in placed]} if placed else {}),
     }
 
 
@@ -315,6 +449,10 @@ def emit_module(by_class, spell_names, path):
                                                       sort_keys=True))
             if s.get('id') is not None:
                 tail.append("spell_id=%d" % s['id'])
+            if s.get('conditional'):
+                tail.append("conditional=%r" % (s['conditional'],))
+            if s.get('delayed'):
+                tail.append("delayed=%r" % (s['delayed'],))
             lines.append("        )%s)," % (', ' + ', '.join(tail) if tail
                                             else ''))
         lines.append("    ],")
@@ -338,7 +476,7 @@ def build(spells_root, classes_root):
             spell = spells_root.get(str(spell_id))
             if not isinstance(spell, dict):
                 continue
-            decoded = decode_spell(spell, spell_id)
+            decoded = decode_spell(spell, spell_id, spells_root)
             if decoded and any(str(token).startswith('buff_')
                                for token in decoded.get('elements') or []):
                 _screen_kept_buff(spell, spell_id)

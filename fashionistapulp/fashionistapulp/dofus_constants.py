@@ -2431,17 +2431,17 @@ DAMAGE_SPELLS = {
             [['31-35'], ['31-35']],
             [['37-42'], ['37-42']],
             [AIR, AIR],
-        ), aggregates=[('', [0]), ('Glyph damage', [1])], is_linked=(2, 'Prairie'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13013, conditional={1: 'state'}),
+        ), aggregates=[('', [0]), ('Glyph damage - State 5260', [1])], is_linked=(2, 'Prairie'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13013, conditional={1: 'state'}),
         Spell('Black Ice', [160], Effects(
             [['31-35'], ['31-35']],
             [['37-42'], ['37-42']],
             [WATER, WATER],
-        ), aggregates=[('', [0]), ('Glyph damage', [1])], is_linked=(2, 'Valley'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13023, conditional={1: 'state'}),
+        ), aggregates=[('', [0]), ('Glyph damage - State 5260', [1])], is_linked=(2, 'Valley'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13023, conditional={1: 'state'}),
         Spell('Refuge', [165], Effects(
             [['32-36'], ['32-36']],
             [['38-43'], ['38-43']],
             [EARTH, EARTH],
-        ), aggregates=[('', [0]), ('Glyph damage', [1])], is_linked=(2, 'Dirt Floor'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13021, conditional={1: 'state'}),
+        ), aggregates=[('', [0]), ('Glyph damage - State 5260', [1])], is_linked=(2, 'Dirt Floor'), casting={'ap': [3], 'per_turn': [1], 'crit': [10]}, spell_id=13021, conditional={1: 'state'}),
         Spell('Lookout', [170], Effects(
             [['30-34']],
             [['36-41']],

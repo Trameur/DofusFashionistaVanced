@@ -91,6 +91,68 @@ class EveryClassSpellHasItsIconTests(SimpleTestCase):
                 self.assertEqual(expected,
                                  _reference_icon_name(entry, '', 'retro'))
 
+    def _by_icon_name(self, game_version):
+        from chardata.spells_view import SPELL_ICON_LANGUAGE
+        language = SPELL_ICON_LANGUAGE.get(game_version, 'en')
+        by_name = {}
+        for entries in _reference(game_version).values():
+            for entry in entries:
+                by_name.setdefault(entry['name'][language], []).append(entry)
+        return by_name
+
+    def _shared_names(self, game_version):
+        return {name: entries
+                for name, entries in self._by_icon_name(game_version).items()
+                if len({entry['id'] for entry in entries}) > 1}
+
+    def test_spells_sharing_a_name_resolve_to_distinct_existing_icons_on_every_version(self):
+        from chardata.spells_view import _create_reference_web_digest
+        for game_version in ('dofus3', 'beta', 'dofus2', 'retro'):
+            shared = self._shared_names(game_version)
+            with self.subTest(game_version=game_version):
+                self.assertTrue(shared)
+            for name, entries in shared.items():
+                files = [_icon_file(_create_reference_web_digest(
+                    entry, game_version)['image_url']) for entry in entries]
+                with self.subTest(game_version=game_version, name=name):
+                    self.assertEqual(len(entries), len(set(files)))
+                    for path in files:
+                        self.assertTrue(os.path.exists(path), path)
+
+    def test_the_lowest_id_of_a_homonym_keeps_the_bare_name_on_every_version(self):
+        from fashionistapulp.game_versions import version_keys
+        for game_version in version_keys():
+            for name, entries in self._by_icon_name(game_version).items():
+                keeper = min(entry['id'] for entry in entries)
+                for entry in entries:
+                    expected = (name if entry['id'] == keeper
+                                else '%s (%s)' % (name, entry['id']))
+                    with self.subTest(game_version=game_version, name=name):
+                        self.assertEqual(
+                            expected,
+                            _reference_icon_name(entry, '', game_version))
+
+    def test_the_english_homonyms_file_the_higher_id_under_its_id(self):
+        english = {13352: 'Collapse', 23736: 'Collapse (23736)',
+                   13860: 'Compass', 13877: 'Compass (13877)',
+                   13356: 'Wandering', 14604: 'Wandering (14604)'}
+        # Dofus 2 still names the Eliotrope spell Flexible Portal
+        expected = {'dofus3': english, 'beta': english,
+                    'dofus2': {spell_id: name
+                               for spell_id, name in english.items()
+                               if not name.startswith('Wandering')}}
+        for game_version, names in expected.items():
+            shared = self._shared_names(game_version)
+            with self.subTest(game_version=game_version):
+                self.assertEqual({name.split(' (')[0] for name in names.values()},
+                                 set(shared))
+            by_id = {entry['id']: entry
+                     for entries in shared.values() for entry in entries}
+            for spell_id, name in names.items():
+                with self.subTest(game_version=game_version, spell_id=spell_id):
+                    self.assertEqual(name, _reference_icon_name(
+                        by_id[spell_id], '', game_version))
+
     def test_the_beta_borrows_a_dofus_3_icon_it_lacks(self):
         own = os.listdir(os.path.join(STATIC, 'chardata', 'spells', 'beta'))
         shared = os.listdir(os.path.join(STATIC, 'chardata', 'spells'))

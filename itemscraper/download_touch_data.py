@@ -1,18 +1,5 @@
 #!/usr/bin/env python3
-"""
-Download the Dofus Touch game data tables.
-
-config.json hands back the current data host (dataUrl); each table is then the
-whole table keyed by id, names localised to the requested language. Plain GETs
-404, the route only answers POST.
-
-  config : GET  https://dt-proxy-production-login.ankama-games.com/config.json?lang=<lang>
-  table  : POST <dataUrl>/data/map   {"class": "Items", "lang": "<lang>"}
-
-Records are Ankama's raw d2o objects: items carry possibleEffects (effectId +
-diceNum/diceSide range), criteria, itemSetId, recipeIds, level, typeId, iconId;
-item sets carry their per-piece bonuses inline.
-"""
+"""Download the Dofus Touch game data tables: config.json gives dataUrl, each table is a POST to <dataUrl>/data/map {class, lang}."""
 
 from __future__ import annotations
 
@@ -48,29 +35,7 @@ ALL_LANGS = ['fr', 'en', 'es', 'pt', 'de']
 
 
 def served_languages(lang: str = 'fr') -> set:
-    """The languages Touch still serves, from its own config.
-
-    This is not a formality. Touch dropped German at some point before
-    2026-09-08: config.json now answers serverLanguages ["en", "es", "fr", "pt"]
-    and failoverLanguage "en", so asking the data API for `de` returns ENGLISH
-    with no error and no marker. Writing that answer into Monsters_de.json is
-    how 16 190 real German names (13 145 items, 2 202 monsters, 325 sets, 214
-    item types, 304 subareas) got replaced by their English text in a single
-    rebuild, silently, while every step reported ok.
-
-    Re-read 2026-09-14, asking in fr, en and de: the answer is still
-    ["en", "es", "fr", "pt"] whichever language you ask in. What is left of
-    German in our Touch catalogue is the scrape from before the drop, and 151
-    of its 3389 item names (counted 2026-09-17) are the English text that
-    leaked in that day --
-    <<Plum and Indigo Dragoturkey>>, <<Turquoise Dragoturkey>>, <<Caraboots>>.
-    Dofus 3, for comparison, has 74 and they are proper nouns: Gelano, Kabuto,
-    Kaiser. Those 151 no longer claim a German address, because a German name
-    equal to the English one loses the slug to English.
-
-    An empty set means the config could not be read, and the caller must then
-    skip nothing rather than wipe everything on a network hiccup.
-    """
+    """The languages Touch still serves, from its own config; a dropped language is answered in English with no marker, and an empty set means unreadable, so the caller skips nothing"""
     try:
         resp = requests.get(f"{CONFIG_URL}?lang={lang}",
                             headers={'User-Agent': USER_AGENT}, timeout=30)

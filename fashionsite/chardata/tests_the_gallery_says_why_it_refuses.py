@@ -1,21 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un build publie que la galerie n'affiche pas le dit a son auteur.
-
-Compte du 11 septembre 2026 sur la copie de production: **1476 des 1980
-builds partages qui ont une solution sont ecartes de la galerie, soit
-74,5 %**. Les raisons se cumulent: emplacements perimes 1382, objets absents
-du catalogue 1083, conditions non tenues 1050. Une cause de fond est l'age:
-368 des 3519 objets que la migration de novembre 2025 connaissait ont depuis
-disparu du catalogue.
-
-Rien de tout cela n'etait dit. L'auteur publiait, ne voyait son build nulle
-part, et depuis que les builds sont publics par defaut (section 37) sa propre
-page lui affirmait meme <<Dans la galerie>>. C'etait faux trois fois sur
-quatre, et c'est exactement ce qu'une regle de la boucle interdit: une phrase
-du site qui n'est pas vraie.
-
-Ce lot ne change pas la regle de la galerie, il la rend visible.
-"""
+"""A published build the gallery hides tells its author why."""
 
 import pickle
 
@@ -42,19 +26,15 @@ class TheReasonIsReadOffTheBuildTests(TestCase):
         return Char.objects.create(**defauts)
 
     def test_a_private_build_is_never_asked(self):
-        """La question ne se pose pas: la page dit deja qu'il est prive."""
         self.assertIsNone(refusal_reason(self._char(link_shared=False)))
 
     def test_a_deleted_build_is_never_asked(self):
         self.assertIsNone(refusal_reason(self._char(deleted=True)))
 
     def test_a_published_build_with_no_gear_says_so(self):
-        """La galerie et le sitemap l'ecartent deja, et sa page /s/ repond
-        404: le lecteur merite de savoir pourquoi son lien est mort."""
         self.assertEqual('no_solution', refusal_reason(self._char()))
 
     def test_each_reason_has_a_sentence_that_says_what_to_do(self):
-        """Une raison sans suite laisse l'auteur devant un fait accompli."""
         for cle in ('missing_items', 'outdated_slots', 'conditions',
                     'no_solution'):
             with self.subTest(cle=cle):
@@ -96,7 +76,6 @@ class TheAuthorSeesItOnHisOwnPagesTests(TestCase):
         return char
 
     def test_the_projects_list_replaces_the_promise_with_the_reason(self):
-        """<<Dans la galerie>> etait faux: la raison prend sa place."""
         self._publie_sans_stuff()
         page = self.client.get('/loadprojects/', HTTP_ACCEPT_LANGUAGE='en'
                                ).content.decode('utf-8')
@@ -104,12 +83,6 @@ class TheAuthorSeesItOnHisOwnPagesTests(TestCase):
         self.assertNotIn('>In the gallery<', page)
 
     def _publie_avec_un_objet_retire(self):
-        """Le vrai cas de production: un objet que le jeu a retire.
-
-        1083 builds partages en portent au moins un. On le reproduit en
-        posant dans un emplacement un identifiant que le catalogue n'a pas,
-        ce qui est exactement ce que devient un objet supprime.
-        """
         from chardata.char_blobs import read_char_blob
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
@@ -140,8 +113,6 @@ class TheAuthorSeesItOnHisOwnPagesTests(TestCase):
         self.assertIn('Not shown in the gallery', page)
 
     def test_a_build_the_gallery_accepts_keeps_its_promise(self):
-        """Le cas contraire, sans lequel une page qui refuserait tout
-        passerait les deux tests ci-dessus."""
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         set_current_game_version('dofus3')

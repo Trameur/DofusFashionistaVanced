@@ -1,11 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le lecteur de captures, maintenant sur deux pages.
-
-L'inventaire lit une infobulle, l'import de texte en lit un build entier,
-mais c'est le meme lecteur dessous. Deux copies d'un reglage se separent en
-silence, et une separation ici ne casse rien: elle enleve simplement une
-langue, ou une empreinte, a une des deux pages.
-"""
+"""The screenshot reader serves two pages with one setting."""
 
 import os
 import re
@@ -28,11 +22,6 @@ def _gabarit(nom):
 
 
 class BothPagesPinTheSameReaderTests(SimpleTestCase):
-    """L'adresse et l'empreinte sont ecrites en toutes lettres dans chaque
-    gabarit, et c'est voulu: `tests_third_party_integrity` cherche un
-    `element.src = "https://..."` litteral, donc les tirer d'une variable de
-    contexte sortirait les deux pages de cet audit. Le prix de ce choix est
-    une copie, et ce test est ce qui la tient."""
 
     def test_the_two_pages_load_the_same_script(self):
         adresses = {}
@@ -49,9 +38,6 @@ class BothPagesPinTheSameReaderTests(SimpleTestCase):
                          'screenshot reader: %s' % adresses)
 
     def test_the_two_pages_pin_the_same_fingerprint(self):
-        """Une empreinte qui diverge ne rougit nulle part: la page qui garde
-        l'ancienne refuse simplement de charger, chez tout le monde, en
-        silence."""
         empreintes = {nom: _INTEGRITY.findall(_gabarit(nom))
                       for nom in GABARITS}
         for nom, trouvees in empreintes.items():
@@ -64,9 +50,6 @@ class BothPagesPinTheSameReaderTests(SimpleTestCase):
             % empreintes)
 
     def test_the_version_in_the_address_is_exact(self):
-        """Une etiquette flottante comme @5 ne peut pas etre epinglee du
-        tout: ses octets changent a chaque publication et le navigateur
-        refuserait une mise a jour legitime."""
         adresse = [u for u in _SRC.findall(_gabarit('inventory.html'))
                    if 'tesseract' in u][0]
         self.assertRegex(adresse, r'tesseract\.js@\d+\.\d+\.\d+/')
@@ -86,8 +69,6 @@ class TheReaderSpeaksTheSameFiveLanguagesTests(SimpleTestCase):
             self.assertEqual([code], choisis)
 
     def test_a_language_the_reader_does_not_speak_selects_nothing(self):
-        """Plutot que d'en preselectionner une au hasard: un modele qui n'est
-        pas celui du jeu rend du texte plausible et faux."""
         self.assertEqual([], [o['code'] for o in language_options('it')
                               if o['selected']])
 
@@ -99,10 +80,6 @@ class TheReaderSpeaksTheSameFiveLanguagesTests(SimpleTestCase):
 
 
 class TheImageNeverLeavesTheBrowserTests(TestCase):
-    """La page le promet en toutes lettres. Ce qui rend la promesse vraie
-    n'est pas le texte, c'est que rien ne peut envoyer le fichier: le champ
-    est hors du formulaire ET sans `name`, donc meme deplace dedans un jour,
-    le navigateur ne le posterait pas."""
 
     def _page(self):
         return self.client.get('/import/text/').content.decode('utf-8')
@@ -135,9 +112,6 @@ class TheTextImportOffersTheReaderTests(TestCase):
             self.assertIn('data-tesseract="%s"' % tesseract, page)
 
     def test_it_survives_a_refusal(self):
-        """Les quatre etats de la page montrent la meme zone de texte, donc
-        les quatre doivent montrer la meme facon de la remplir. La liste des
-        langues n'etant posee qu'a un seul endroit, un refus la perdait."""
         page = self.client.post('/import/text/', {
             'text': 'Nothing here matches any item at all'
         }).content.decode('utf-8')

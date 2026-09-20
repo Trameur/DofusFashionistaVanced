@@ -1,25 +1,5 @@
 #!/usr/bin/env python3
-"""
-Fetch Dofus Touch mounts (Dragodindes) with their stats.
-
-Touch's data backend has the mount catalogue (the Mounts table: id + localized
-names) but not the stats, a mount's effects are server-side, derived from its
-breeding, so they're never in the static data. The official Touch encyclopedia
-does publish each mount's effects, so we take the names from the backend and the
-effects from the encyclopedia and join them on the mount id (they share Ankama's
-ids).
-
-  names   : POST <dataUrl>/data/map {"class":"Mounts","lang":<lang>}
-  effects : https://www.dofus-touch.com/en/mmorpg/encyclopedia/mounts/<id>
-
-Output: touch_raw/mounts.json -> [{ankama_id, name_<lang>, level, stats:[[v,v,Stat]]}]
-get_equipments_touch.py turns these into Pet-slot mount records.
-
-A 404 means Ankama publishes no page for that id (75, 91 and 99 on 2026-09-18,
-in English, French and Spanish alike).
-Any other error is retried, then stops the run with nothing written, and so does
-a scrape that would drop a mount the file already holds, unless --allow-shrink.
-"""
+"""Touch mounts: names from the data map, effects from the encyclopedia page; a 404 means no page for that id, and a scrape that would drop a mount stops unless --allow-shrink."""
 
 from __future__ import annotations
 
@@ -69,8 +49,6 @@ def resolve_data_url() -> str:
 
 
 def fetch_mount_catalogue(data_url: str):
-    """From the backend Mounts table: names per language and the look string
-    (used to render the mount image from the Touch CDN)."""
     names, looks = {}, {}
     for lang in LANGS:
         table = requests.post(f"{data_url}/data/map", json={'class': 'Mounts', 'lang': lang},
@@ -85,9 +63,6 @@ def fetch_mount_catalogue(data_url: str):
 
 
 def parse_effects(html: str):
-    """The encyclopedia "Effects" panel lists each bonus as a clean
-    `<div class="ak-title">N Stat</div>`; the "Characteristics" panel uses a
-    `Label: <span>value</span>` shape, so anything with a tag or ':' is skipped."""
     out = []
     for raw in re.findall(r'<div class="ak-title">(.*?)</div>', html, re.S):
         if '<' in raw or ':' in raw:
@@ -111,8 +86,6 @@ def make_session():
 
 
 def fetch(session, url, retries=2, timeout=30):
-    """Return the page html, or None when Ankama publishes no page for this id
-    (404). Anything else is retried, then raised."""
     last = None
     for attempt in range(retries + 1):
         try:
@@ -129,8 +102,6 @@ def fetch(session, url, retries=2, timeout=30):
 
 
 def lost_mounts(previous, current):
-    """[(ankama_id, name_en)] of the mounts `previous` holds and `current` does
-    not: a saved build wearing one would lose its mount slot in silence."""
     kept = {m['ankama_id'] for m in current}
     return sorted((m['ankama_id'], m.get('name_en')) for m in previous
                   if m['ankama_id'] not in kept)

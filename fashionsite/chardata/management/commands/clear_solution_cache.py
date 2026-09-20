@@ -14,17 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""Forget every memoized solve, so the next one runs on the data just shipped.
-
-The solver's memory is keyed on what the player asked, never on the catalogue
-or the solver code, so after a deploy that changed either it keeps handing
-back sets optimized for the old ones: on 2026-09-18 the malus of five versions
-moved to their best roll and every cached set still weighed the old ones. Most
-deploys carry data, so docker-entrypoint.sh runs this at every boot.
-
-Only the memory goes. Saved builds (Char.minimal_solution), their history and
-the counters stay.
-"""
+"""Forget every memoized solve so the next one runs on the data just shipped; docker-entrypoint.sh runs this at every boot, saved builds and counters stay."""
 from django.core.management.base import BaseCommand
 from django.db import connection
 
@@ -41,8 +31,6 @@ class Command(BaseCommand):
         self.stdout.write('Forgot %d memoized solve(s).' % count)
 
     def _truncate(self):
-        """Instant on MySQL, where a DELETE walks every row and holds the
-        lock; it needs the DROP privilege, so a refusal falls back."""
         if connection.vendor != 'mysql':
             return False
         try:

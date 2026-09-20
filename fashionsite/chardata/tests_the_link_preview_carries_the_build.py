@@ -1,14 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""L'apercu d'un lien partage porte le build et le verdict du solveur.
-
-Un lien colle dans un salon Discord ou sur un forum n'est pas lu comme une
-page: le salon montre le titre et la description Open Graph, et rien
-d'autre. Mesure du 10 septembre 2026: la description disait <<Cra build
-optimized on Dofus Fashionista. Like it, comment it, copy it.>> pour tous
-les builds, donc rien du build lui-meme et rien du verdict, alors que c'est
-la que les builds se discutent. Elle nomme desormais la classe, le niveau,
-la version, les pieces, et le verdict, dans la langue de la page.
-"""
+"""A shared link's preview carries the build and the solver's verdict."""
 
 import re
 from types import SimpleNamespace
@@ -27,9 +18,6 @@ PHRASE_DU_SITE = 'Like it, comment it, copy it.'
 
 
 def _description(page):
-    """Le contenu de la balise og:description, et elle seule. Le minifieur
-    trie les attributs, donc `content` precede `property`: on isole la
-    balise par son nom avant de lire son contenu."""
     balises = re.findall(r'<meta[^>]*og:description[^>]*>', page)
     assert len(balises) == 1, balises
     return re.search(r'content="([^"]*)"', balises[0]).group(1)
@@ -69,8 +57,6 @@ class ThePreviewNamesTheBuildTests(TestCase):
         self.assertNotIn(PROUVE, description)
 
     def test_a_build_from_before_the_fact_keeps_quiet(self):
-        """None n'est pas False: un pickle d'avant le fait n'a ni preuve ni
-        aveu, et la description ne doit inventer ni l'un ni l'autre."""
         char = _build_partage('ApercuAncien')
         _pose_le_fait(char, None)
         description = _description(self._page(char))
@@ -82,8 +68,7 @@ class ThePreviewNamesTheBuildTests(TestCase):
         char = _build_partage('ApercuFrancais')
         _pose_le_fait(char, True)
         description = _description(self._page(char, 'fr'))
-        # La classe aussi est traduite (<<Cra>> devient <<Crâ>>): le nom
-        # attendu vient de la meme table que la page, sous la meme langue.
+        # The class is translated too: the expected name comes from the page's table, in its language
         from django.utils import translation
         from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
         with translation.override('fr'):

@@ -1,27 +1,10 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Une adresse a UN canonique, et il ne se negocie pas avec le navigateur.
-
-Servi a un lecteur francais, `/guides/` declarait `rel=canonical` vers
-`/fr/guides/` -- tout en restant, dans le meme `<head>`, le `x-default` et le
-membre anglais de son propre groupe hreflang. La page se disait a la fois
-l'original anglais et une copie du francais.
-
-La cause etait `{% game_url 'guides' %}` : il passe par `reverse()`, qui ajoute
-le prefixe de la langue ACTIVE, et la langue active vient de `Accept-Language`.
-Les fiches de guides tiraient deja la leur de leur slug ; seul le carrefour
-suivait le navigateur.
-
-Ce module n'assure pas « le canonique de /guides/ vaut /guides/ », qui
-serait une regle d'orthographe. Il assure que **le canonique ne change pas quand
-l'en-tete change**, sur tous les carrefours : la regression suivante ne sera pas
-sur la meme page.
-"""
+"""A hub address has one canonical, and it does not follow the browser's language."""
 import re
 
 from django.test import TestCase
 
-#: Les carrefours, plus une fiche par famille : le defaut ne vivait que sur un
-#: carrefour, et un echantillon de fiches seules ne l'aurait jamais vu.
+# The hubs, plus one page per family
 CARREFOURS = ('/', '/guides/', '/encyclopedia/', '/encyclopedia/sets/',
               '/encyclopedia/monsters/', '/sharedbuilds/', '/setup/',
               '/guides/getting-started/')
@@ -61,11 +44,6 @@ class ACanonicalDoesNotNegotiateTests(TestCase):
             % derives[:2])
 
     def test_the_unprefixed_hub_is_its_own_canonical(self):
-        """Sinon le x-default du groupe se declare copie d'un de ses membres.
-
-        C'est le sens du defaut, pas seulement sa forme : une page qui renonce a
-        elle-meme au profit d'une traduction demande a etre desindexee.
-        """
         for chemin in ('/guides/', '/encyclopedia/'):
             with self.subTest(chemin=chemin):
                 self.assertTrue(
@@ -73,12 +51,6 @@ class ACanonicalDoesNotNegotiateTests(TestCase):
                     '%s points its canonical somewhere else' % chemin)
 
     def test_a_prefixed_hub_keeps_its_prefix(self):
-        """Le controle positif de la paire.
-
-        Sans lui, un canonique qui laisserait TOMBER le prefixe passerait les
-        deux tests precedents : il serait stable, et la version sans prefixe
-        serait bien sa propre canonique.
-        """
         for prefixe in ('fr', 'es'):
             with self.subTest(langue=prefixe):
                 chemin = '/%s/guides/' % prefixe

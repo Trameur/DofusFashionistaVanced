@@ -1,30 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Aucune ligne d'objet ne montre un modele brut au lecteur.
-
-Ankama ecrit ses renvois avec le nom dedans:
-`{{spell,8395,1::Pourpre Profond}}`, `{{item,23408::Dorigami}}`. Le client les
-resout, notre archive les stocke tels quels, et `fold_spell_blocks` les rendait
-verbatim: le lecteur voyait les accolades.
-
-**Mesure du 17 septembre 2026**, en depliant `extra_lines` des cinq bases:
-
-| version | lignes | objets | langues |
-|---------|--------|--------|---------|
-| dofus3  | 13  | 2 (Black-Spotted Dofus 7112, Nightmare Dofus 26066) | les cinq pour 7112, de/es/pt pour 26066 |
-| beta    | 306 | 74 (Dofus Pourpre, Emeraude, Turquoise...) | de, es, fr, pt |
-| dofus2  | 0 | | |
-| touch   | 0 | | |
-| retro   | 0 | | |
-
-L'anglais etait propre parce que sa ligne porte deja le nom en clair: c'est
-exactement ce que la resolution rend aux quatre autres langues. Ce n'est donc
-pas un defaut de la beta: il etait deja sur la version par defaut, sur deux
-objets de niveau 180, et la beta 3.7.0.0 l'a multiplie par vingt.
-
-`resolve_templates` garde le nom et jette le modele. Sur la beta, la ligne
-`{{spell,8395,1::Pourpre Profond}} :` redevient un titre, donc l'objet retrouve
-le nom et son infobulle, la forme que l'anglais avait deja.
-"""
+"""No item line shows a raw Ankama template such as {{item,23408::Dorigami}} to the reader."""
 import os
 import pickle
 import sqlite3
@@ -45,7 +20,7 @@ BASES = {
     'retro': 'items_retro.db',
 }
 
-#: Deux vrais renvois, un de chaque forme, pris dans les bases le 17 septembre.
+# Two real references, one of each form, taken from the databases
 TEMOINS = (
     ('{{spell,8395,1::Pourpre Profond}} :', 'Pourpre Profond :'),
     ('quand le porteur inflige des dommages, lui et ses allies portant le '

@@ -12,7 +12,7 @@ VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')
 SORTS_DECLARES = {'dofus3': 33, 'beta': 33, 'dofus2': 26, 'touch': 6,
                   'retro': 1}
 # Declared and undeclared runs, all versions
-SUITES_DECLAREES = 197
+SUITES_DECLAREES = 196
 SUITES_NON_DECLAREES = 86
 
 

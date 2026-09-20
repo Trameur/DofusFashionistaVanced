@@ -176,23 +176,7 @@ if settings.EXPERIMENTS.get('COMPARE_SETS'):
 
 
 def routes_published_once_per_language():
-    """The routes whose path does not already say which language they are.
-
-    A translated slug is the only thing in a path that names a language.
-    /encyclopedia/item/equipment/44-espada-de-maderucha/ is the Spanish page
-    and says so, so it has one address and needs no prefix. An id or a
-    player's own name says nothing: a build called <<witness 4>> is called
-    that in all five languages, so /s/witness 4/NQi5EdY_/ exists once per
-    language under a prefix, exactly as a hub does.
-
-    **One rule, two readers.** fashionsite.urls builds its i18n_patterns
-    block from this, and url_language decides from it which pages may
-    announce their translations. They used to answer the same question with
-    two hand lists, and the lists drifted: the router gained 115 prefixed
-    routes while the hreflang side still named six, so 305 pages that exist
-    in five languages announced none of them and gave a crawler no link to
-    the other four.
-    """
+    """The routes whose path does not already say which language they are: an id or a player's name says nothing, so they exist once per language under a prefix"""
     return [entry for entry in urlpatterns
             if getattr(entry, 'callback', None) is not None
             and 'slug' not in entry.pattern.regex.groupindex]
