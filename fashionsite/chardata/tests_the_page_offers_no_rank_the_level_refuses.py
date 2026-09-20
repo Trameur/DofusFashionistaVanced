@@ -1,36 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La page des sorts n'offre plus un rang que le niveau refuse.
-
-La page pose un rond cliquable par rang de sort. Elle les posait **tous**,
-sans regarder le niveau du personnage. Cliquer le dernier rond d'un sort qu'on
-n'a pas monte changeait la table des degats, alors que le serveur bornait le
-rang du panneau: les deux se contredisaient et c'etait la table qui montrait
-des degats hors de portee.
-
-**Mesure du 12 septembre 2026**, tous les sorts de toutes les classes, part
-des rangs offerts que le niveau ne permet pas:
-
-| niveau | dofus3 | beta  | dofus2 | touch | retro |
-|--------|-------:|------:|-------:|------:|------:|
-| 1      | 93,6 % | 93,6 %| 93,4 % | 83,1 %| 86,6 %|
-| 50     | 83,9 % | 83,9 %| 83,9 % | 60,2 %| 41,0 %|
-| 100    | 62,2 % | 62,2 %| 61,6 % | 23,4 %| 16,7 %|
-| 200    |    0 % |   0 % |    0 % |   0 % |   0 % |
-
-**49620 rangs offerts sur dix niveaux, 21099 hors de portee, soit 42,5 %.** Le
-zero a 200 explique que personne ne l'ait vu: les builds de test et la plupart
-des builds partages sont au niveau maximum.
-
-Demonstration avant le correctif, sur un Cra Retro de **niveau 20**: cliquer le
-sixieme rang de Fleche Empoisonnee, que le jeu ouvre au niveau 101, faisait
-passer la table de **187-203 a 235-252** pendant que le panneau restait a
-10949.
-
-C'est le **serveur** qui decide desormais, et la page ne le recalcule plus. Elle
-en portait une copie en JavaScript, `decideLevel`, qui refaisait
-`_decide_spell_level`: deux copies d'une meme regle finissent par s'ecarter, et
-celle-la avait deja une troisieme soeur sur la page de comparaison.
-"""
+"""The spells page offers no rank the character's level refuses; the server decides."""
 
 import os
 import re
@@ -51,7 +20,7 @@ class TheServerDecidesTests(SimpleTestCase):
     def test_it_says_the_highest_rank_the_level_reaches(self):
         from chardata.spells_view import _reach
         cas = (
-            # (niveaux du jeu, niveau du personnage, dispo, rang le plus haut)
+            # (game levels, character level, available, highest rank)
             ([1, 1, 1, 1, 1, 101], 20, True, 4),
             ([1, 1, 1, 1, 1, 101], 150, True, 5),
             ([70, 70, 70, 70, 70, 170], 20, False, 0),
@@ -67,16 +36,11 @@ class TheServerDecidesTests(SimpleTestCase):
                                  _reach(niveaux, niveau))
 
     def test_a_caller_with_no_level_gets_every_rank(self):
-        """La page de comparaison decide par colonne, chaque build ayant son
-        propre niveau: elle ne passe pas de niveau et garde tous les rangs."""
         from chardata.spells_view import _reach
         self.assertEqual({'available': True, 'highest_level': 2},
                          _reach([1, 66, 132], None))
 
     def test_it_never_disagrees_with_the_rank_the_panel_uses(self):
-        """Le panneau borne le rang demande avec `_decide_spell_level`. Si les
-        deux divergeaient, la table et le panneau se contrediraient a nouveau,
-        ce qui est exactement le defaut corrige ici."""
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spells_view import _reach
@@ -107,9 +71,6 @@ class TheServerDecidesTests(SimpleTestCase):
 class TheRuleLivesInOnePlaceTests(SimpleTestCase):
 
     def test_the_page_no_longer_carries_its_own_copy_of_the_rank_rule(self):
-        """`decideLevel` refaisait `_decide_spell_level` en JavaScript. La
-        boucle qui comparait les niveaux deux a deux a disparu; ce qui reste
-        lit la reponse du serveur."""
         with open(GABARIT, encoding='utf-8') as fichier:
             source = fichier.read()
         self.assertNotIn('char_level }} < spell.level[0] || numLevels',
@@ -165,9 +126,6 @@ class TheDigestCarriesItTests(TestCase):
                                 len(digest['level']))
 
     def test_a_low_level_build_is_offered_fewer_ranks(self):
-        """Mesure du 12 septembre 2026: 93,6 % des rangs sont hors de portee
-        au niveau 1 en Dofus 3, et 0 % au niveau 200. Sans cet ecart le
-        correctif ne changerait rien."""
         def hors_de_portee(niveau):
             sorts = [d for d in self._digests(self._build(niveau))
                      if d.get('type') == 'spell' and d.get('level')]
@@ -216,9 +174,6 @@ class TheLabelSaysWhichLevelTests(TestCase):
         return Char.objects.order_by('-id').first()
 
     def test_the_five_languages_say_which_level_the_rank_needs(self):
-        """L'etiquette ne passe par aucun texte de page: elle voyage dans un
-        attribut que le JavaScript remplit, donc oubliee elle sortirait en
-        anglais partout."""
         char = self._build()
         vus = {}
         for langue in LANGUES:
@@ -238,8 +193,6 @@ class TheLabelSaysWhichLevelTests(TestCase):
                 self.assertNotEqual(vus['en'], texte, langue)
 
     def test_the_label_keeps_a_place_for_the_number(self):
-        """Sans la marque, l'infobulle dirait <<Demande le niveau>> sans
-        niveau."""
         char = self._build()
         page = self.client.get('/spells/%d/' % char.id,
                                follow=True).content.decode('utf-8')

@@ -1,23 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un build importe compte le personnage, pas seulement son stuff.
-
-Mesure du 11 septembre 2026 sur la page de solution d'un Cra de niveau 200
-importe: <<PA 2+1>>, <<PM 1+1>>, <<Prospection 92>>. Un personnage de ce
-niveau a sept PA, trois PM, cent de prospection, mille pods et une invocation
-de son propre chef. Le site le sait depuis toujours
-(`util.base_stats_by_attr_for`) et c'est ce que le chemin du solveur lui
-donne; le chemin de l'import partait avec un dictionnaire vide.
-
-Deux consequences, toutes deux visibles:
-
-- la feuille du build montrait sept PA de moins que la verite;
-- le panneau <<meilleur combo de ce tour>> disparaissait, parce qu'un tour a
-  deux PA n'a rien a lancer et que le calcul rend alors None.
-
-Les six caracteristiques, elles, n'etaient pas concernees: elles sont
-rafraichies a chaque lecture par `ModelResultMinimal.update_base_stats`. Ce
-sont les cinq autres qui manquaient, parce que rien d'autre ne les ecrit.
-"""
+"""An imported build counts its character's own AP, MP, prospecting, pods and summons."""
 
 from django.test import SimpleTestCase, TestCase
 
@@ -38,7 +20,6 @@ class _Faux(object):
 class WhatACharacterBringsAloneTests(TestCase):
 
     def test_the_five_the_gear_never_gives(self):
-        """La regle du site, inchangee: sept PA a partir du niveau 100."""
         base = base_stats_by_attr_for(Char.objects.create(
             name='x', char_name='x', char_class='Cra', char_build='',
             level=200, link_shared=False, minimum_stats=b'',
@@ -62,14 +43,6 @@ class WhatACharacterBringsAloneTests(TestCase):
 class AnImportedBuildCarriesThemTests(TestCase):
 
     def _importe(self, char_class='Cra', level=200, pieces=2, with_ap=False):
-        """Un build importe, et au besoin avec des pieces qui portent des PA.
-
-        `with_ap` n'est pas un detail: `spell_combo.combat_ap` lit
-        `total_ap or BASE_AP`, donc un stuff qui ne donne AUCUN PA retombait
-        sur six et masquait le defaut. Il ne mordait que quand les pieces en
-        donnaient un peu, ce qui est le cas de tout vrai build, et c'est
-        exactement pourquoi il a vecu si longtemps.
-        """
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         set_current_game_version('dofus3')
@@ -89,7 +62,7 @@ class AnImportedBuildCarriesThemTests(TestCase):
     def test_the_sheet_counts_the_seven_ap_of_the_character(self):
         char = self._importe()
         stats = dict(get_solution(char).get_stats_total())
-        # Sept du personnage, plus ce que les pieces donnent.
+        # Seven from the character, plus what the pieces give
         self.assertGreaterEqual(stats['ap'], 7)
         self.assertGreaterEqual(stats['mp'], 3)
         self.assertGreaterEqual(stats['pod'], 1000)
@@ -100,8 +73,6 @@ class AnImportedBuildCarriesThemTests(TestCase):
             dict(get_solution(char).get_stats_total())['pp'], 100)
 
     def test_the_best_combo_panel_comes_back(self):
-        """La consequence que le lecteur voyait: avec deux PA le calcul rend
-        None et la page n'affiche rien du tout."""
         from chardata.spell_combo import combat_ap
         from chardata.spells_view import _best_combo
         char = self._importe(with_ap=True)
@@ -126,17 +97,12 @@ class AnImportedBuildCarriesThemTests(TestCase):
                                ).content.decode('utf-8')
         self.assertEqual(200, self.client.get(
             '/solution/%d/' % char.id).status_code)
-        # Le panneau du meilleur combo est rendu par la page des sorts, mais
-        # la feuille de stats est ici: elle doit porter un nombre de PA qui
-        # commence au moins a sept.
+        # The best combo panel is rendered by the spells page; the stat sheet here must start at seven AP
         stats = dict(get_solution(char).get_stats_total())
         self.assertIn(str(stats['ap']), page)
 
 
 class TheTwoPathsAgreeTests(SimpleTestCase):
-    """Une seule source pour ce que le personnage porte: si le chemin du
-    solveur et celui de l'import s'en donnaient deux, ils divergeraient a la
-    premiere correction."""
 
     def test_the_request_helper_delegates_to_the_char_one(self):
         import inspect
@@ -156,13 +122,8 @@ class TheTwoPathsAgreeTests(SimpleTestCase):
 
 
 class ABuildSavedBeforeTheFixIsRepairedAsItIsReadTests(TestCase):
-    """Les builds deja importes ne sont pas reecrits: ils sont repares a la
-    lecture. Rien ne touche la base ([[no-retrofit-user-builds]]), et les
-    cinq valeurs ne dependent que du niveau, donc la reparation ne coute
-    aucune requete."""
 
     def _importe_a_l_ancienne(self, level=200):
-        """Un build importe puis remis dans l'etat d'avant le correctif."""
         import pickle
 
         from fashionistapulp.structure import (get_structure,
@@ -196,7 +157,6 @@ class ABuildSavedBeforeTheFixIsRepairedAsItIsReadTests(TestCase):
             dict(get_solution(char).get_stats_total())['ap'], 6)
 
     def test_the_database_row_is_left_alone(self):
-        """La reparation vit en memoire: la ligne stockee ne bouge pas."""
         import pickle
 
         char = self._importe_a_l_ancienne()
@@ -209,8 +169,6 @@ class ABuildSavedBeforeTheFixIsRepairedAsItIsReadTests(TestCase):
         self.assertEqual({}, relu.input['base_stats_by_attr'])
 
     def test_a_solution_that_already_carries_them_is_untouched(self):
-        """Un build passe par le solveur porte ses cinq valeurs: la
-        reparation ne doit pas ecraser ce qui est deja la."""
         from chardata.solution import _repair_character_base
 
         class _Mini(object):

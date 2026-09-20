@@ -1,14 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La fiche d'un objet mene au solveur, l'objet verrouille dans le build.
-
-Mesure du 11 septembre 2026: les fiches d'encyclopedie sont les pages les
-plus visitees du site (section 16: 49 % des vues en temps reel), et aucune
-ne menait vers le solveur, seulement vers l'accueil, l'encyclopedie, les
-autres versions et les builds qui portent l'objet. Un lecteur qui trouvait
-son objet devait repartir de zero. La fiche envoie maintenant son objet au
-demarrage rapide de la meme version, qui le verrouille dans son emplacement
-et laisse le solveur remplir le reste.
-"""
+"""An item page starts a build of the same version with the item locked in."""
 
 import re
 
@@ -24,8 +15,6 @@ PHRASE = ('This build will keep %(item)s (level %(level)s): the solver fills '
 
 
 def _objet(version, type_name='Hat', niveau_max=200):
-    """Un objet porte, non retire, avec un identifiant Ankama (les
-    representants de groupes <<ou>> n'en ont pas et n'ont pas de fiche)."""
     from fashionistapulp.structure import get_structure
     structure = get_structure(version)
     for item in structure.get_items_list():
@@ -90,11 +79,6 @@ class TheQuickStartKeepsTheItemTests(TestCase):
         self.assertIn(200, niveaux)
 
     def test_an_item_above_the_highest_default_level_brings_its_own(self):
-        """Aucune version ne porte aujourd'hui d'objet au-dessus de 200 (le
-        plafond des objets, pas celui des personnages): la branche est
-        verifiee sur le calcul, et la mesure qui la rend inatteignable est
-        affirmee plutot que sautee, pour qu'une donnee qui change la rende
-        rouge et non silencieuse."""
         from fashionistapulp.game_versions import dofus_versions
         from fashionistapulp.structure import get_structure
         plus_haut = 0
@@ -103,12 +87,11 @@ class TheQuickStartKeepsTheItemTests(TestCase):
                 if not getattr(item, 'removed', False):
                     plus_haut = max(plus_haut, item.level)
         self.assertLessEqual(plus_haut, max(DEFAULT_LEVELS))
-        # Le calcul que suivrait un tel objet, par la fonction de la vue.
+        # The level such an item would take, by the view's own function
         from chardata.coaching_view import level_options_for
         self.assertEqual(([230], 230), level_options_for(230))
         self.assertEqual(([50, 100, 150, 180, 200], 200), level_options_for(50))
-        # L'objet apporte toujours son propre niveau, le plus bas qui le
-        # porte, puis les defauts au-dessus.
+        # The item brings its own level, the lowest that wears it, then the defaults above
         self.assertEqual(([160, 180, 200], 200), level_options_for(160))
         self.assertEqual((DEFAULT_LEVELS, 200), level_options_for(None))
 
@@ -145,8 +128,6 @@ class TheQuickStartKeepsTheItemTests(TestCase):
         self.assertEqual({}, get_inclusions_dict(char))
 
     def test_a_default_hidden_item_asked_for_is_unhidden(self):
-        """create_build seme les exclusions par defaut; un objet que le
-        lecteur demande gagne sur un defaut qui le cacherait."""
         from chardata.lock_forbid import get_default_exclusions
         from fashionistapulp.structure import get_structure
         structure = get_structure('dofus3')
@@ -164,8 +145,7 @@ class TheQuickStartKeepsTheItemTests(TestCase):
             'play_style': 'solo_pvm', 'item': str(cache.id)})
         char = Char.objects.order_by('-id').first()
         self.assertIn(cache.id, get_inclusions_dict(char).values())
-        # Lu par le chemin garde du depot (read_char_blob), pas a nu: une
-        # colonne illisible doit etre un echec de test, pas une exception.
+        # Read through the repo's guarded path (read_char_blob): an unreadable column is a failure, not an exception
         from chardata.lock_forbid import read_char_blob
         exclusions = read_char_blob(char.exclusions, None, 'exclusions', char)
         self.assertIsNotNone(exclusions, 'the exclusions column is unreadable')

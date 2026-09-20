@@ -1,32 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le panneau nomme les deux stats qu'il ne compte pas.
-
-`calculate_damage` multiplie par le % degats de sort et par le % degats
-d'arme, et **jamais** par le % degats de melee ni par le % degats a distance.
-Le site les affiche pourtant dans le resume du build, laisse leur donner un
-poids sur la page des caracteristiques, les optimise (`smart_build` leur donne
-un poids selon une probabilite d'attaque de melee interpolee de 0,1 pour un
-Cra a 0,7 pour un Sacrieur) et les compte 35 dans le score public.
-
-**Pourquoi on ne les applique pas, et pourquoi ce test defend cette omission.**
-La reference de sorts porte la portee de chaque rang. Mesure du 12 septembre
-2026: sur Dofus 3, **86,0 % des sorts ont une fenetre de portee allant de 1 a
-N**, donc c'est le lanceur qui decide s'il frappe au contact ou a distance.
-Seuls 4,9 % sont a distance seulement et 9,2 % au contact seulement. Meme sur
-Retro, la version la plus tranchee, 63,2 % restent au choix. Appliquer l'une
-des deux stats demanderait donc d'inventer la portee de 86 % des lancers, ce
-qui serait faux plus souvent que de les taire.
-
-**Ce que l'omission coute, mesure.** Sur les builds de la base locale, 6 sur
-63, soit 9,5 %, portent du % degats a distance, et il y vaut **-12** (deux
-objets a -6 chacun). Le panneau **surestimait** donc leurs degats, et rien ne
-le disait.
-
-La phrase reprend les libelles que le resume du build affiche, dans la langue
-du lecteur, pour qu'il relie la phrase a la ligne qu'il voit. Elle n'apparait
-que quand le build porte une des deux stats: neuf builds sur dix ne sont pas
-concernes et n'ont pas besoin du bruit.
-"""
+"""The panel names the two stats it leaves out, % melee and % ranged damage."""
 
 import json
 import re
@@ -65,9 +38,6 @@ class _AvecDesBuilds(TestCase):
         self.client.force_login(self.auteur)
 
     def _pieces_avec_la_stat(self):
-        """Les pieces du catalogue qui portent une des deux stats, cherchees
-        dans la donnee et non nommees ici: les objets changent de nom entre
-        les versions et entre les mises a jour."""
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         set_current_game_version('dofus3')
@@ -129,10 +99,6 @@ class _AvecDesBuilds(TestCase):
 class TheStatsAreReallyLeftOutTests(_AvecDesBuilds):
 
     def test_the_formula_applies_neither_of_them(self):
-        """La condition du defaut. Si un jour la formule les applique, ce test
-        tombe et fait relire le raisonnement: 86 % des sorts ont une portee au
-        choix du lanceur, donc appliquer l'une des deux demanderait d'inventer
-        la portee de la plupart des lancers."""
         import copy
 
         from fashionistapulp.dofus_constants import (BaseDamage,
@@ -150,14 +116,12 @@ class TheStatsAreReallyLeftOutTests(_AvecDesBuilds):
                 avec = calculate_damage([copy.copy(ligne)], stats, False, True)
                 self.assertEqual(int(nu[0].max_dam), int(avec[0].max_dam),
                                  '%s change le resultat' % cle)
-        # Et pour montrer que le test sait distinguer: le % de sort, lui, agit.
+        # The spell damage stat, by contrast, is applied
         avec_sort = calculate_damage([copy.copy(ligne)],
                                      dict(socle, perspedam=50), False, True)
         self.assertGreater(int(avec_sort[0].max_dam), int(nu[0].max_dam))
 
     def test_most_spells_leave_the_range_to_the_caster(self):
-        """La raison chiffree de ne pas les appliquer. Sans cette part, la
-        decision serait une preference."""
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spell_reference import reference_by_spell_id
@@ -207,7 +171,6 @@ class TheNoteAppearsOnlyWhenItAppliesTests(_AvecDesBuilds):
         self.assertEqual(_attendu('en'), _texte(trouve.group(1)))
 
     def test_a_build_without_it_is_not_bothered(self):
-        """Neuf builds sur dix ne sont pas concernes."""
         char = self._build_ordinaire()
         stats = self._stats(char)
         self.assertFalse(stats.get('permedam') or stats.get('perrandam'))
@@ -217,14 +180,6 @@ class TheNoteAppearsOnlyWhenItAppliesTests(_AvecDesBuilds):
         self.assertEqual('', _texte(trouve.group(1)) if trouve else '')
 
     def test_the_ajax_answer_carries_it(self):
-        """Le panneau se rafraichit sans recharger et doit porter la phrase
-        par ce chemin aussi.
-
-        Mesure du 12 septembre 2026: aucun sort des cinq versions n'accorde de
-        % melee ni de % distance, donc aujourd'hui un buff coche ne peut pas
-        la faire apparaitre. Elle voyage quand meme avec les deux autres pour
-        que le panneau n'ait qu'un seul chemin de rafraichissement.
-        """
         char, _noms = self._build_concerne()
         reponse = self.client.post('/best_combo/%d/' % char.id, {
             'buff_state': json.dumps({}), 'spell_levels': json.dumps({}),
@@ -237,8 +192,6 @@ class TheNoteAppearsOnlyWhenItAppliesTests(_AvecDesBuilds):
 class ItNamesTheStatsTheSummaryShowsTests(_AvecDesBuilds):
 
     def test_it_uses_the_labels_of_the_stat_lines(self):
-        """Le lecteur doit relier la phrase a la ligne qu'il voit dans le
-        resume du build, pas a un vocabulaire nouveau."""
         char, _noms = self._build_concerne()
         page = self.client.get('/spells/%d/' % char.id,
                                follow=True).content.decode('utf-8')
@@ -266,8 +219,6 @@ class ItNamesTheStatsTheSummaryShowsTests(_AvecDesBuilds):
 class TheThreePagesSayTheSameTests(_AvecDesBuilds):
 
     def test_the_build_page_and_the_comparison_repeat_it(self):
-        """Trois pages qui annoncent le meme nombre doivent annoncer les memes
-        hypotheses."""
         char, _noms = self._build_concerne()
         autre = self._build_ordinaire()
         attendu = _attendu('en')

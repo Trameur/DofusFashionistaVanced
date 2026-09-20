@@ -1,26 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Les pieces que la migration de novembre 2025 a laissees derriere reviennent.
-
-Le 5 novembre 2025 les identifiants internes du catalogue sont passes d'un
-compteur sequentiel a l'identifiant Ankama. La migration ecrite ce jour-la est
-saine, mais elle ne portait que 3519 des 3782 objets. Les 263 autres sont
-restes dans l'ancienne numerotation au fond des builds, ou ils designent
-aujourd'hui, par hasard, un objet sans rapport.
-
-Mesure du 11 septembre 2026 sur la copie de production, sur de vrais builds:
-
-- le build 133534 porte une amulette (<<Hozuki Lampulet>>) dans son
-  emplacement d'ARME, parce que l'ancien 2396 etait l'Arc d'Archonte;
-- le build 135608 porte deux paires de bottes dans ses emplacements
-  d'amulette et de ceinture, parce que les anciens 1623 et 1624 etaient
-  l'Amulette et la Ceinture de Grute.
-
-Ces sept identifiants-la sont les temoins de ce fichier: ils viennent des
-builds eux-memes, pas d'un exemple invente.
-
-Ce que la reparation rend, mesure sur les 1476 builds que la galerie
-ecartait: **152 redeviennent entiers**, 364 s'ameliorent.
-"""
+"""The pieces the id migration left in the old numbering come back."""
 
 import pickle
 
@@ -33,7 +12,7 @@ from chardata.models import Char
 
 class TheTableIsTheOneFromThatDayTests(SimpleTestCase):
 
-    #: (ancien numero, nom de l'objet le 4 novembre 2025, son ankama)
+    # (old number, item name in the old catalogue, its ankama id)
     TEMOINS = (
         (2396, "Archon's Bow", 14164),
         (2515, "Nidas's Ring", 15187),
@@ -48,14 +27,10 @@ class TheTableIsTheOneFromThatDayTests(SimpleTestCase):
                 self.assertEqual(ankama, ankama_id_of_legacy('dofus3', ancien))
 
     def test_it_covers_the_whole_catalogue_of_that_day(self):
-        """3782 objets, et non les 3519 que la migration portait: c'est
-        precisement l'ecart qui a laisse des pieces derriere."""
         from chardata.legacy_ids import _tables
         self.assertGreaterEqual(len(_tables()['dofus3']), 3782)
 
     def test_another_version_is_never_translated(self):
-        """Les autres versions avaient leur propre numerotation, et le
-        comptage n'y a trouve qu'un seul build ecarte."""
         for version in ('retro', 'touch', 'dofus2', 'beta', ''):
             with self.subTest(version=version):
                 self.assertIsNone(ankama_id_of_legacy(version, 2396))
@@ -77,7 +52,6 @@ class OnlyWhatIsBrokenIsTouchedTests(TestCase):
                                          {'hat': chapeau.id}))
 
     def test_the_bow_comes_back_to_the_weapon_slot(self):
-        """Le cas du build 133534, tel quel."""
         structure = self._structure()
         repare = repaired_slots(structure, 'dofus3', {'weapon': 2396})
         self.assertIsNotNone(repare)
@@ -86,8 +60,6 @@ class OnlyWhatIsBrokenIsTouchedTests(TestCase):
         self.assertIn('Archon', item.name)
 
     def test_the_two_grute_pieces_come_back(self):
-        """Le cas du build 135608: une amulette et une ceinture qui
-        passaient pour deux paires de bottes."""
         structure = self._structure()
         repare = repaired_slots(structure, 'dofus3',
                                 {'amulet': 1623, 'belt': 1624})
@@ -98,11 +70,8 @@ class OnlyWhatIsBrokenIsTouchedTests(TestCase):
                              structure.get_type_name_by_id(item.type))
 
     def test_a_translation_that_would_not_help_is_refused(self):
-        """Un ancien numero pose dans un emplacement que son objet ne prend
-        pas de toute facon: on ne deplace rien plutot que d'inventer."""
         structure = self._structure()
-        # L'ancien 1623 est une amulette: dans l'emplacement des bottes,
-        # la traduire n'arrangerait rien.
+        # The old 1623 is an amulet: in the boots slot, translating it would change nothing
         self.assertIsNone(repaired_slots(structure, 'dofus3', {'boots': 1623}))
 
     def test_an_unknown_id_is_left_where_it_is(self):
@@ -151,7 +120,6 @@ class TheBuildReadsBackWholeTests(TestCase):
         self.assertEqual({'hat': chapeau.id}, mini.item_per_slot)
 
     def test_the_gallery_stops_refusing_a_build_the_repair_fixes(self):
-        """Le but du lot: la galerie doit re-admettre ce qu'elle ecartait."""
         from chardata.gallery_visibility import refusal_reason
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)

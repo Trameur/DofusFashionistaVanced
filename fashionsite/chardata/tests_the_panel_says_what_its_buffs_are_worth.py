@@ -1,43 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le panneau dit ce que rapportent les buffs qu'il lance.
-
-Trouve en lisant le meilleur tour d'un Cra Dofus 3 de niveau 200. Sa
-premiere ligne etait:
-
-    Tirs Puissants   1/1   1 PA   0   aucun degat en propre, il grossit les
-                                      lancers qui suivent
-
-Un lecteur qui voit un PA depense pour zero demande de combien. La note
-repondait <<il grossit les lancers qui suivent>> sans jamais donner le
-nombre, alors que le solveur le connait: c'est le meme calcul prive de ces
-sorts-la.
-
-**Mesure du 14 septembre 2026 sur les 86 builds locaux:** 43 tours (50%)
-lancent au moins un buff, arme comprise, et aucun n'y perd. Les autres
-n'affichent rien et ne paient rien.
-
-**Le cout a ete mesure avant de choisir l'emplacement:** un appel a
-`best_turn` prend 2 ms, le second aussi, et il n'a lieu que sur les pages
-dont le tour lance un buff.
-
-**Les deux nombres se lisent sur la meme echelle, et c'est ce que ce
-parcours garde.** `best_turn` maximise le tour **poison compris**, le panneau
-affiche ce que la cible prend maintenant. Sur le Cra qui a servi a trouver le
-defaut: 1709 et 1412 pour le solveur, 1241 et 1074 pour le panneau. La
-premiere version de cette note lisait le solveur et l'affichait sous un total
-du panneau, donc annoncait **1412 sous un total de 1241**, c'est-a-dire un
-tour qui monte quand on lui retire des sorts. Voir
-[[project-panel-total-excludes-delayed]].
-
-**L'invariant qui rend la phrase sure.** Le solveur a choisi de lancer ces
-buffs, donc le tour qui les lance vaut au moins autant que celui qui ne les
-lance pas. Lu sur la meme echelle, le nombre annonce est donc toujours **plus
-petit que le total affiche juste au-dessus**.
-
-**Pas de nom compte a cote d'un nombre**, donc la phrase vaut pour un buff
-comme pour trois et n'a pas de piege de pluriel; voir
-[[tests_every_counted_noun_agrees_with_its_number]].
-"""
+"""The panel says what the buffs it casts are worth, on the same scale as its total."""
 import io
 import os
 import re
@@ -54,7 +16,6 @@ LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
 
 class _Sort(object):
-    """Un castable qui ne porte que ce que la regle regarde."""
 
     def __init__(self, name, buffs=None, hits=None):
         self.name = name
@@ -65,8 +26,6 @@ class _Sort(object):
 class WhatTheRuleReadsTests(SimpleTestCase):
 
     def test_a_buff_cast_is_a_cast_that_does_not_hit(self):
-        """Meme condition que la note posee sur la ligne du lancer: les deux
-        ne peuvent pas se contredire."""
         sorts = [_Sort('buff', buffs={'str': 100}),
                  _Sort('frappe', hits=[object()]),
                  _Sort('les deux', buffs={'str': 10}, hits=[object()]),
@@ -75,8 +34,6 @@ class WhatTheRuleReadsTests(SimpleTestCase):
         self.assertEqual({'buff'}, _buff_casts(sorts, ordre))
 
     def test_a_turn_without_a_buff_says_nothing(self):
-        """43 des 86 builds locaux sont dans ce cas: ils ne paient pas le
-        second calcul et n'affichent pas de phrase."""
         sorts = [_Sort('frappe', hits=[object()])]
         self.assertEqual('', _without_buffs_note(
             {}, sorts, [('frappe', 120)], 6, None, 'dofus3', False, 200))
@@ -97,7 +54,6 @@ class WhatTheRuleReadsTests(SimpleTestCase):
 
 
 class ThePanelCarriesTheSentenceTests(TestCase):
-    """Ce que le lecteur voit, rendu par la page."""
 
     def _char(self, char_class='Cra'):
         from fashionistapulp.structure import (get_structure,
@@ -122,8 +78,6 @@ class ThePanelCarriesTheSentenceTests(TestCase):
         return json.loads(reponse.content.decode('utf-8'))['best_combo']
 
     def test_the_number_is_smaller_than_the_total_it_explains(self):
-        """L'invariant: le solveur a choisi de lancer ces buffs, donc le tour
-        qui les lance vaut au moins autant."""
         vus = 0
         for char_class in ('Cra', 'Iop', 'Eniripsa', 'Xelor', 'Sadida'):
             char = self._char(char_class)
@@ -147,10 +101,6 @@ class ThePanelCarriesTheSentenceTests(TestCase):
         self.assertGreater(vus, 0, 'no class cast a buff, so nothing was read')
 
     def test_the_panel_total_is_the_one_the_sentence_is_measured_on(self):
-        """Ce qui relie les deux implementations. `_best_combo` calcule son
-        total dans sa boucle des lancers, la phrase appelle `_burst_total`:
-        si les deux divergeaient, la phrase se lirait sous une autre
-        echelle."""
         from chardata.spell_combo import castable_spells, combat_ap, best_turn
         from chardata.solution import get_solution
         from chardata.spells_view import _burst_total, _weapon_castable
@@ -181,8 +131,7 @@ class ThePanelCarriesTheSentenceTests(TestCase):
         self.assertTrue(note, 'the Cra turn no longer casts a buff, so this '
                               'witness stopped witnessing')
         self.assertIn(note, page)
-        # La page se rebatit sans rechargement quand le lecteur coche un buff:
-        # la phrase doit suivre par le meme chemin que les autres notes.
+        # The page rebuilds without a reload when a buff is ticked; the sentence follows the same path
         gabarit = io.open(os.path.join(
             os.path.dirname(os.path.abspath(__file__)), 'templates',
             'chardata', 'spells.html'), encoding='utf-8').read()
