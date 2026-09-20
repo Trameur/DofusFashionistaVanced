@@ -392,7 +392,7 @@
             </div>
         {% endif %}
         
-        {% comment %}Only a project can start a solve: the buttons that show this screen all sit under the same test.{% endcomment %}
+        {# Only a project can start a solve: every button that shows this screen sits under the same test #}
         {% if char_id and char_id != 0 %}{% include "chardata/loading.html" with char=char language=language %}{% endif %}
             {% ad_unit 'footer' %}
             <div align="center" class="footer" role="contentinfo">

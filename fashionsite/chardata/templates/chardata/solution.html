@@ -507,7 +507,7 @@
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Agility stat_key="agi" base=True %}
             {% stat_name "Power" as Power %}
             {% include "chardata/solution_stat_line.html" with stat_name=Power stat_key="pow" %}
-            {% comment %}% final damage (dommages finaux) is a Dofus 2.30+ stat, absent from Retro 1.29 and Dofus Touch.{% endcomment %}
+            {# % final damage is a Dofus 2.30+ stat, absent from Retro and Touch #}
             {% if current_game_version != 'retro' and current_game_version != 'touch' %}
             {% trans "% Melee Damage" as Power_melee %}
             {% include "chardata/solution_stat_line.html" with stat_name=Power_melee stat_key="permedam" %}
@@ -546,7 +546,7 @@
             {% include "chardata/solution_stat_line.html" with stat_name=AP_Resist stat_key="apres" %}
             {% trans "MP Loss Resist" as MP_Resist %}
             {% include "chardata/solution_stat_line.html" with stat_name=MP_Resist stat_key="mpres" %}
-            {% comment %}Pushback and Critical Resist are Dofus 2+ stats, absent from Retro 1.29.{% endcomment %}
+            {# Pushback and Critical Resist are Dofus 2+ stats, absent from Retro #}
             {% if current_game_version != 'retro' %}
             {% trans "Pushback Resist" as Pushback_Resist %}
             {% include "chardata/solution_stat_line.html" with stat_name=Pushback_Resist stat_key="pshres" %}
@@ -574,7 +574,7 @@
             {% include "chardata/solution_stat_line.html" with icon="chardata/Chance.png" stat_name=Water_Damage stat_key="waterdam" %}
             {% trans "Air Damage" as Air_Damage %}
             {% include "chardata/solution_stat_line.html" with icon="chardata/Agility.png" stat_name=Air_Damage stat_key="airdam" %}
-            {% comment %}Critical Damage and Pushback Damage are Dofus 2+ stats, absent from Retro 1.29.{% endcomment %}
+            {# Critical Damage and Pushback Damage are Dofus 2+ stats, absent from Retro #}
             {% if current_game_version != 'retro' %}
             {% trans "Critical Damage" as Critical_Damage %}
             {% include "chardata/solution_stat_line.html" with stat_name=Critical_Damage stat_key="cridam" %}

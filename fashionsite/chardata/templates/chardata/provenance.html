@@ -1,9 +1,5 @@
 {% extends "chardata/base.html" %}
-{% comment %}
-Admin-only. Reads the VisitSource table, which holds a count per day and per
-provenance -- no address, no cookie, no visitor. Deliberately plain: it is an
-instrument the owner reads once a week, not a page anyone else ever sees.
-{% endcomment %}
+{# Admin only; VisitSource holds a count per day and per provenance, no address, no cookie #}
 
 {% block title %}Provenance{% endblock %}
 {% block canonical %}{% endblock %}

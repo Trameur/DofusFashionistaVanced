@@ -1,15 +1,4 @@
-{% load i18n %}{% comment %}
-The markup of one unit. Reached through the {% load ads %} tags, which decide
-the slot, the page ceiling and whether the unit waits for the reader.
-
-A lazy unit ships without its <ins>: adsbygoogle.push() binds to the first
-element it has not processed yet, in document order, so a unit sitting there
-before its turn would steal the push meant for the one above it. The script in
-base.html builds the element and pushes in the same breath, far enough ahead of
-the viewport that the page has settled by the time the reader gets there. That
-is why nothing here reserves a height: an unsold or blocked unit must leave no
-gap behind, and the reader never sees the fill.
-{% endcomment %}
+{% load i18n %}{# A lazy unit ships without its ins: adsbygoogle.push binds to the first unprocessed element, so nothing here reserves a height #}
 {% if ads_enabled and ad_slot %}
 <div class="fm-ad {{ extra_class }}{% if ad_lazy %} fm-ad-lazy{% endif %}"
      data-label="{% trans 'Advertisement' %}"

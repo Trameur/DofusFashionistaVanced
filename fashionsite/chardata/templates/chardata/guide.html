@@ -56,8 +56,7 @@
 <article class="fm-guide">
     <nav class="fm-guide-crumbs" aria-label="{% trans "Breadcrumb" %}">
         <a href="{% game_url 'home' %}">{% trans "Home" %}</a> ›
-        {% comment %}the crumb led back to the Dofus 3 hub from a Retro or Touch
-        guide; the structured data above stays on the canonical global URL{% endcomment %}
+        {# The crumb leads back to the Dofus 3 hub; the structured data stays on the canonical global url #}
         <a href="{% game_url 'guides' %}">{% trans "Guides & tips" %}</a> ›
         <span>{{ guide.title }}</span>
     </nav>
@@ -65,9 +64,7 @@
     <h1 class="fm-guide-title">{{ guide.title }}</h1>
     <p class="fm-guide-lead">{{ guide.lead }}</p>
 
-    {% comment %}The view cuts the guide at the section heading nearest its
-    middle so a unit can stand between two sections rather than inside one. A
-    guide too short to cut comes back whole and body_rest is empty.{% endcomment %}
+    {# The view cuts the guide at the heading nearest its middle; a guide too short comes back whole, body_rest empty #}
     <div class="fm-guide-body">
         {{ guide_body_top|safe }}
     </div>

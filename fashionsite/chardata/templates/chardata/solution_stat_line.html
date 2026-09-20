@@ -3,12 +3,7 @@
 {% stat_icon_path stat_key as resolved_icon %}
 <tr class="solution-stat-summary-line">
     <td class="solution-stat-summary-icon-cell {% if is_last %}bottom-left-cell{% endif %}">
-        {% comment %}
-        Measured on a 375x812 screen: this table starts at 978 px, and 84 of
-        its 137 icons sit in panels that are collapsed. Not one of them is in
-        the first screen, so deferring them costs the reader nothing and
-        spares 56 % of the page's image bytes.
-        {% endcomment %}
+        {# Every icon of this table sits below the first screen, most in collapsed panels, so they load lazily #}
         {% if resolved_icon %}
             <img alt="" class="solution-stat-summary-icon" loading="lazy" decoding="async" src="{% static resolved_icon %}">
         {% elif icon %}

@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load static_s3 %}
 
-{% comment %}base.html already links home.css and its themed twin, higher up.{% endcomment %}
+{# base.html already links home.css and its themed twin #}
 <script src="{% static 'chardata/loading.js' %}"></script>
 <div class="loading">
     {% include "chardata/main-header.html" with char=char %}
