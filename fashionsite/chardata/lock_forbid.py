@@ -429,6 +429,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS_BY_VERSION = {
     ],
     'retro': [
         7043,   # Ice Dofus (a Dofus 2 item, not in 1.29)
+        8697,   # Olol² Dofus
         13171,  # Nolifishield (Grobe dungeon key shield)
         11761,  # Le Divhugalch (unobtainable joke staff)
         11745,  # Epee Clipse (GM sword)
