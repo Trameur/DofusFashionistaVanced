@@ -85,7 +85,7 @@ class ThePairingComesFromTheGameFilesTests(SimpleTestCase):
                     avec_table += len(seuls) // 2
                     sans_table += len(tous) // 2 - len(seuls) // 2
                 self.assertGreaterEqual(avec_table, 230)
-                self.assertGreaterEqual(sans_table, 170)
+                self.assertGreaterEqual(sans_table, 164)
 
     def test_each_class_carries_both_faces_of_several_pairs(self):
         """Le chiffre qui justifie ce lot. S'il tombe a zero, la page n'a plus

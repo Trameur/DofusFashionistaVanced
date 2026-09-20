@@ -7644,3 +7644,47 @@ msgstr "Spielupdate bei der letzten Änderung des Builds"
 #, python-format
 msgid "Game update at the build's last change; the game is now on %(current)s"
 msgstr "Spielupdate bei der letzten Änderung des Builds; das Spiel ist jetzt auf Update %(current)s"
+
+#: chardata/spells_view.py
+msgid "Trap damage"
+msgstr "Fallenschaden"
+
+#: chardata/spells_view.py
+msgid "Trap heals"
+msgstr "Fallenheilung"
+
+#: chardata/spells_view.py
+msgid "Glyph damage"
+msgstr "Glyphenschaden"
+
+#: chardata/spells_view.py
+msgid "Glyph heals"
+msgstr "Glyphenheilung"
+
+#: chardata/spells_view.py
+msgid "Bomb damage"
+msgstr "Bombenschaden"
+
+#: chardata/spells_view.py
+msgid "Bomb heals"
+msgstr "Bombenheilung"
+
+#: chardata/spells_view.py
+msgid "only when an enemy sets off the trap"
+msgstr "nur wenn ein Gegner die Falle auslöst"
+
+#: chardata/spells_view.py
+msgid "only when the bomb explodes"
+msgstr "nur wenn die Bombe explodiert"
+
+#: chardata/spells_view.py
+msgid "only when an enemy goes through the glyph"
+msgstr "nur wenn ein Gegner durch die Glyphe geht"
+
+#: chardata/spells_view.py
+msgid "when the glyph-aura triggers, on a later turn"
+msgstr "wenn die Glyphenaura auslöst, in einer späteren Runde"
+
+#: chardata/spells_view.py
+msgid "only at the state the spell needs"
+msgstr "nur in dem Zustand, den der Zauber verlangt"

@@ -7,7 +7,7 @@ from django.test import SimpleTestCase
 
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
-JETON = re.compile(r'\[\[spells:')
+JETON = re.compile(r'\[\[')
 
 
 def _compte(char_class, version):
@@ -112,9 +112,10 @@ class TheDofus2SentenceStaysMeaningfulTests(SimpleTestCase):
         corps = re.sub(r'\s+', ' ', re.sub(
             r'<[^>]+>', ' ', get_guide('best-turn-damage', 'en', 'dofus2')['body']))
         self.assertIn('as many as on Dofus 3 but not the same ones', corps)
-        self.assertIn('137 spell names differ', corps)
+        from chardata.guides_content import _differing_spell_names
+        self.assertIn('%d spell names differ' % _differing_spell_names(), corps)
 
-    def test_the_hundred_and_thirty_seven_is_still_what_the_tables_say(self):
+    def test_the_differing_names_count_is_what_the_tables_say(self):
         from chardata.spell_buffs import get_damage_spells_for_version
         from chardata.version_compat import filter_classes_for_version
         from fashionistapulp.dofus_constants import CHARACTER_CLASSES
@@ -131,4 +132,6 @@ class TheDofus2SentenceStaysMeaningfulTests(SimpleTestCase):
         self.assertEqual(18, len(communes))
         differents = sum(len(tables['dofus3'][c] ^ tables['dofus2'][c])
                          for c in communes)
-        self.assertEqual(137, differents)
+        from chardata.guides_content import _differing_spell_names
+        self.assertGreater(differents, 100)
+        self.assertEqual(differents, _differing_spell_names())

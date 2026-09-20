@@ -6905,3 +6905,47 @@ msgstr ""
 #, python-format
 msgid "Game update at the build's last change; the game is now on %(current)s"
 msgstr ""
+
+#: chardata/spells_view.py
+msgid "Trap damage"
+msgstr "Trap damage"
+
+#: chardata/spells_view.py
+msgid "Trap heals"
+msgstr "Trap heals"
+
+#: chardata/spells_view.py
+msgid "Glyph damage"
+msgstr "Glyph damage"
+
+#: chardata/spells_view.py
+msgid "Glyph heals"
+msgstr "Glyph heals"
+
+#: chardata/spells_view.py
+msgid "Bomb damage"
+msgstr "Bomb damage"
+
+#: chardata/spells_view.py
+msgid "Bomb heals"
+msgstr "Bomb heals"
+
+#: chardata/spells_view.py
+msgid "only when an enemy sets off the trap"
+msgstr "only when an enemy sets off the trap"
+
+#: chardata/spells_view.py
+msgid "only when the bomb explodes"
+msgstr "only when the bomb explodes"
+
+#: chardata/spells_view.py
+msgid "only when an enemy goes through the glyph"
+msgstr "only when an enemy goes through the glyph"
+
+#: chardata/spells_view.py
+msgid "when the glyph-aura triggers, on a later turn"
+msgstr "when the glyph-aura triggers, on a later turn"
+
+#: chardata/spells_view.py
+msgid "only at the state the spell needs"
+msgstr "only at the state the spell needs"

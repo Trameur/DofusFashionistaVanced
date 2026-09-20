@@ -727,6 +727,15 @@ _ATTACK_ELEMENT = 'Poison in the element of the attack'
 _STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
 _MP_LABEL = re.compile(r'^(\d+) MP used this turn$')
 _STATE_LABEL = re.compile(r'^State (!?\d+(?:,!?\d+)*)$')
+# Heads the generator writes over the rows of a thing the spell places
+_PLACED_HEADS = {
+    'Trap damage': _lazy('Trap damage'),
+    'Trap heals': _lazy('Trap heals'),
+    'Glyph damage': _lazy('Glyph damage'),
+    'Glyph heals': _lazy('Glyph heals'),
+    'Bomb damage': _lazy('Bomb damage'),
+    'Bomb heals': _lazy('Bomb heals'),
+}
 
 
 def _localized_state_label(token, game_version):
@@ -770,6 +779,15 @@ def _localized_aggregate_label(label, game_version=None):
             return '%s - %s' % (stack,
                                 _localized_aggregate_label(rest, game_version))
         return stack
+    from chardata.spell_combo import PLACED_LABEL
+    match = PLACED_LABEL.match(label)
+    if match:
+        head = str(_PLACED_HEADS[match.group(1)])
+        rest = match.group(2)
+        if rest:
+            return '%s - %s' % (head,
+                                _localized_aggregate_label(rest, game_version))
+        return head
     return _(label)
 
 
@@ -843,6 +861,11 @@ _CONDITIONAL_LABELS = {
         _lazy("at the end of the caster's next turn, and only if the "
               "target has Telefrag"),
     'on_ally': _lazy("only on an ally, never on an enemy"),
+    'trap': _lazy("only when an enemy sets off the trap"),
+    'bomb': _lazy("only when the bomb explodes"),
+    'glyph': _lazy("only when an enemy goes through the glyph"),
+    'aura': _lazy("when the glyph-aura triggers, on a later turn"),
+    'state': _lazy("only at the state the spell needs"),
 }
 
 
@@ -855,9 +878,13 @@ _ONE_LANDS = {
 
 
 def _one_lands_kind(label):
+    from chardata.spell_combo import PLACED_LABEL
     match = _STACK_LABEL.match(label or '')
     if match and match.group(2):
         label = match.group(2)
+    match = PLACED_LABEL.match(label or '')
+    if match:
+        label = match.group(2) or ''
     return _ONE_LANDS.get(label)
 
 

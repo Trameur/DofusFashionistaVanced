@@ -4349,7 +4349,7 @@ GUIDES = {
                     'lead': 'This page used to explain why Dofus 2 had no best-turn total. It has one now, and the numbers behind it are its own.',
                     'body': '''
 <h2>What changed</h2>
-<p>To search a turn, the tool needs every spell at every rank: its AP cost, its damage rolls, how often it can be cast. That table was missing for Dofus 2, so the panel had nothing to search and stayed away. It is there now. A level 200 Iop has [[spells:Iop]] usable spells on Dofus 2, as many as on Dofus 3 but not the same ones: across the eighteen classes both games share, 137 spell names differ. The panel orders them into the turn that hits hardest for the action points you have.</p>
+<p>To search a turn, the tool needs every spell at every rank: its AP cost, its damage rolls, how often it can be cast. That table was missing for Dofus 2, so the panel had nothing to search and stayed away. It is there now. A level 200 Iop has [[spells:Iop]] usable spells on Dofus 2, as many as on Dofus 3 but not the same ones: across the eighteen classes both games share, [[differing-spell-names]] spell names differ. The panel orders them into the turn that hits hardest for the action points you have.</p>
 
 <h2>Why it took so long</h2>
 <p>We were reading a mirror of the game data, and that mirror publishes the Dofus 2 spells without their ranks. It was easy to conclude the game did not have them. Ankama publishes the table itself, and once we went to the source rather than the copy, every rank was there.</p>
@@ -4369,7 +4369,7 @@ GUIDES = {
                     'lead': "Cette page expliquait pourquoi Dofus 2 n'avait pas de total de tour. Il en a un, et les chiffres derrière sont les siens.",
                     'body': '''
 <h2>Ce qui a changé</h2>
-<p>Pour chercher un tour, l'outil a besoin de chaque sort à chaque rang : son coût en PA, ses jets de dégâts, sa fréquence de lancer. Cette table manquait pour Dofus 2, donc le panneau n'avait rien à chercher et s'abstenait. Elle est là. Un Iop niveau 200 dispose de [[spells:Iop]] sorts utilisables sur Dofus 2, autant que sur Dofus 3 mais pas les mêmes : sur les dix-huit classes que les deux jeux partagent, 137 noms de sorts diffèrent. Le panneau les ordonne en le tour qui tape le plus fort pour les points d'action que tu as.</p>
+<p>Pour chercher un tour, l'outil a besoin de chaque sort à chaque rang : son coût en PA, ses jets de dégâts, sa fréquence de lancer. Cette table manquait pour Dofus 2, donc le panneau n'avait rien à chercher et s'abstenait. Elle est là. Un Iop niveau 200 dispose de [[spells:Iop]] sorts utilisables sur Dofus 2, autant que sur Dofus 3 mais pas les mêmes : sur les dix-huit classes que les deux jeux partagent, [[differing-spell-names]] noms de sorts diffèrent. Le panneau les ordonne en le tour qui tape le plus fort pour les points d'action que tu as.</p>
 
 <h2>Pourquoi ça a pris si longtemps</h2>
 <p>Nous lisions un miroir des données du jeu, et ce miroir publie les sorts de Dofus 2 sans leurs rangs. Il était facile d'en conclure que le jeu ne les avait pas. Ankama publie la table lui-même, et le jour où nous sommes allés à la source plutôt qu'à la copie, tous les rangs y étaient.</p>
@@ -4389,7 +4389,7 @@ GUIDES = {
                     'lead': 'Esta página explicaba por qué Dofus 2 no tenía total de turno. Ya lo tiene, y las cifras que hay detrás son suyas.',
                     'body': '''
 <h2>Qué ha cambiado</h2>
-<p>Para buscar un turno, la herramienta necesita cada hechizo en cada rango: su coste en PA, sus tiradas de daño y cuántas veces puede lanzarse. Esa tabla faltaba en Dofus 2, así que el panel no tenía nada que buscar y se mantenía al margen. Ya está. Un Yopuka de nivel 200 tiene [[spells:Iop]] hechizos utilizables en Dofus 2, tantos como en Dofus 3 pero no los mismos: en las dieciocho clases que ambos juegos comparten, 137 nombres de hechizo difieren. El panel los ordena en el turno que más pega con los puntos de acción que tengas.</p>
+<p>Para buscar un turno, la herramienta necesita cada hechizo en cada rango: su coste en PA, sus tiradas de daño y cuántas veces puede lanzarse. Esa tabla faltaba en Dofus 2, así que el panel no tenía nada que buscar y se mantenía al margen. Ya está. Un Yopuka de nivel 200 tiene [[spells:Iop]] hechizos utilizables en Dofus 2, tantos como en Dofus 3 pero no los mismos: en las dieciocho clases que ambos juegos comparten, [[differing-spell-names]] nombres de hechizo difieren. El panel los ordena en el turno que más pega con los puntos de acción que tengas.</p>
 
 <h2>Por qué ha tardado tanto</h2>
 <p>Leíamos un espejo de los datos del juego, y ese espejo publica los hechizos de Dofus 2 sin sus rangos. Era fácil concluir que el juego no los tenía. Ankama publica la tabla por su cuenta, y en cuanto fuimos a la fuente en lugar de a la copia, todos los rangos estaban ahí.</p>
@@ -4409,7 +4409,7 @@ GUIDES = {
                     'lead': 'Esta página explicava por que o Dofus 2 não tinha total de turno. Agora tem, e os números por trás dele são os seus.',
                     'body': '''
 <h2>O que mudou</h2>
-<p>Para procurar um turno, a ferramenta precisa de cada feitiço em cada patamar: o custo em PA, as rolagens de dano e quantas vezes pode ser lançado. Essa tabela faltava no Dofus 2, então o painel não tinha o que procurar e ficava de fora. Agora está lá. Um Iop de nível 200 tem [[spells:Iop]] feitiços utilizáveis no Dofus 2, tantos quanto no Dofus 3 mas não os mesmos: nas dezoito classes que os dois jogos partilham, 137 nomes de feitiço diferem. O painel os organiza no turno que bate mais forte com os pontos de ação que você tem.</p>
+<p>Para procurar um turno, a ferramenta precisa de cada feitiço em cada patamar: o custo em PA, as rolagens de dano e quantas vezes pode ser lançado. Essa tabela faltava no Dofus 2, então o painel não tinha o que procurar e ficava de fora. Agora está lá. Um Iop de nível 200 tem [[spells:Iop]] feitiços utilizáveis no Dofus 2, tantos quanto no Dofus 3 mas não os mesmos: nas dezoito classes que os dois jogos partilham, [[differing-spell-names]] nomes de feitiço diferem. O painel os organiza no turno que bate mais forte com os pontos de ação que você tem.</p>
 
 <h2>Por que demorou tanto</h2>
 <p>Líamos um espelho dos dados do jogo, e esse espelho publica os feitiços do Dofus 2 sem os patamares. Era fácil concluir que o jogo não os tinha. A Ankama publica a tabela por conta própria, e assim que fomos à fonte em vez da cópia, todos os patamares estavam lá.</p>
@@ -4429,7 +4429,7 @@ GUIDES = {
                     'lead': 'Diese Seite erklärte, warum Dofus 2 keine Zugsumme hatte. Es hat jetzt eine, und die Zahlen dahinter sind seine eigenen.',
                     'body': '''
 <h2>Was sich geändert hat</h2>
-<p>Um einen Zug zu suchen, braucht das Werkzeug jeden Zauber auf jeder Stufe: seine AP-Kosten, seine Schadenswürfe und wie oft er gewirkt werden darf. Diese Tabelle fehlte für Dofus 2, also hatte das Panel nichts zu durchsuchen und blieb weg. Jetzt ist sie da. Ein Iop auf Stufe 200 hat in Dofus 2 [[spells:Iop]] nutzbare Zauber, genauso viele wie in Dofus 3, aber nicht dieselben: in den achtzehn Klassen, die beide Spiele teilen, unterscheiden sich 137 Zaubernamen. Das Panel ordnet sie zu dem Zug, der mit deinen Aktionspunkten am härtesten trifft.</p>
+<p>Um einen Zug zu suchen, braucht das Werkzeug jeden Zauber auf jeder Stufe: seine AP-Kosten, seine Schadenswürfe und wie oft er gewirkt werden darf. Diese Tabelle fehlte für Dofus 2, also hatte das Panel nichts zu durchsuchen und blieb weg. Jetzt ist sie da. Ein Iop auf Stufe 200 hat in Dofus 2 [[spells:Iop]] nutzbare Zauber, genauso viele wie in Dofus 3, aber nicht dieselben: in den achtzehn Klassen, die beide Spiele teilen, unterscheiden sich [[differing-spell-names]] Zaubernamen. Das Panel ordnet sie zu dem Zug, der mit deinen Aktionspunkten am härtesten trifft.</p>
 
 <h2>Warum es so lange gedauert hat</h2>
 <p>Wir lasen einen Spiegel der Spieldaten, und dieser Spiegel veröffentlicht die Zauber von Dofus 2 ohne ihre Stufen. Daraus ließ sich leicht schließen, das Spiel habe sie nicht. Ankama veröffentlicht die Tabelle selbst, und sobald wir zur Quelle statt zur Kopie gegangen sind, war jede Stufe da.</p>
@@ -5450,8 +5450,39 @@ def _usable_spell_count(char_class, game_version):
     return len(castable_spells(char_class, 200, game_version))
 
 
+_DIFFERING = '[[differing-spell-names]]'
+
+
+@lru_cache(maxsize=1)
+def _differing_spell_names():
+    """Spell names Dofus 3 and Dofus 2 do not share, over the classes both have."""
+    from chardata.spell_buffs import get_damage_spells_for_version
+    from chardata.version_compat import filter_classes_for_version
+    from fashionistapulp.dofus_constants import CHARACTER_CLASSES
+    from fashionistapulp.structure import (get_current_game_version,
+                                           set_current_game_version)
+    before = get_current_game_version()
+    tables = {}
+    try:
+        for version in ('dofus3', 'dofus2'):
+            set_current_game_version(version)
+            par_classe = get_damage_spells_for_version(version)
+            tables[version] = {
+                classe: {spell.name for spell in par_classe.get(classe, [])}
+                for classe in filter_classes_for_version(CHARACTER_CLASSES,
+                                                         version)}
+    finally:
+        set_current_game_version(before)
+    communes = set(tables['dofus2']) & set(tables['dofus3'])
+    return sum(len(tables['dofus3'][classe] ^ tables['dofus2'][classe])
+               for classe in communes)
+
+
 def _fill_measured_numbers(body, game_version):
     """Replace the [[spells:...]] tokens with the current counts."""
+    if _DIFFERING in body:
+        body = body.replace(_DIFFERING, str(_differing_spell_names()))
+
     def resoudre(match):
         classe, version = match.group(1), match.group(2) or game_version
         try:

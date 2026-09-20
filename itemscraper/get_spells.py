@@ -44,6 +44,19 @@ ZONE_SIGNATURE_KEYS = ("shape", "param1", "param2")
 
 STACK_CONTROLLER_EFFECT_IDS = {792, 1160}
 SUMMON_STACK_PATTERN = re.compile(r"each of the caster's .*summon", re.IGNORECASE)
+
+# dice min names the placed spell (a bomb monster for 1008), dice max its grade
+PLACED_BY_EFFECT = {
+    400: ("trap", "trap"),
+    401: ("glyph", "turn_begin"),
+    402: ("glyph", "turn_end"),
+    1165: ("glyph", "glyph"),
+    1091: ("glyph", "aura"),
+    1008: ("bomb", "bomb"),
+}
+BOMB_EFFECT_ID = 1008
+# Damage that waits for something (an enemy, a detonation, a state); the rest is only late
+PLACED_WAITS = frozenset(("trap", "bomb", "glyph", "aura", "state"))
 SUMMON_STACK_CAP = 10
 STACKABLE_TIMES_PATTERN = re.compile(r"stackable\s*(?:up to\s*)?(\d+)", re.IGNORECASE)
 
@@ -229,11 +242,20 @@ class SpellTransformer:
         self.effects = _load_datacenter_table(dataset_dir / "effects.json")
         self.variants = _load_datacenter_table(dataset_dir / "spell_variants.json")
         self.variant_lookup = self._build_variant_lookup()
+        self.bomb_spells = self._load_bomb_table()
+        self._levels_cache: Dict[int, List[Dict[str, Any]]] = {}
         self.missing_levels: Dict[int, List[int]] = {}
         self.missing_effects: Dict[int, List[int]] = {}
         self._breeds: Optional[Dict[int, Dict[str, Any]]] = None
         self._breed_names: Optional[Dict[int, Dict[str, Optional[str]]]] = None
         self.spell_entries_by_id: Dict[int, Dict[str, Any]] = {}
+
+    def _load_bomb_table(self) -> Dict[int, int]:
+        path = self.dataset_dir / "bomb_spells.json"
+        if not path.exists():
+            return {}
+        return {int(monster_id): int(record.get("explodSpellId") or 0)
+                for monster_id, record in _load_datacenter_table(path).items()}
 
     def _build_variant_lookup(self) -> Dict[int, VariantLink]:
         lookup: Dict[int, VariantLink] = {}
@@ -404,7 +426,8 @@ class SpellTransformer:
             return str(min_val)
         return f"{min_val}-{max_val}"
 
-    def _collect_damage_rows(self, levels: Sequence[Mapping[str, Any]], critical: bool) -> List[Dict[str, Any]]:
+    def _collect_damage_rows(self, levels: Sequence[Mapping[str, Any]], critical: bool,
+                             one_best_element_ladder: bool = False) -> List[Dict[str, Any]]:
         rows: List[Dict[str, Any]] = []
         key_to_idx: Dict[tuple, int] = {}
         level_count = len(levels)
@@ -477,7 +500,7 @@ class SpellTransformer:
                     continue
                 _register_row(element_token)
 
-        rows = self._merge_rows_ankama_renumbered(rows)
+        rows = self._merge_rows_ankama_renumbered(rows, one_best_element_ladder)
 
         for row in rows:
             last_value: Optional[str] = None
@@ -490,15 +513,20 @@ class SpellTransformer:
 
     @staticmethod
     def _merge_rows_ankama_renumbered(
-            rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+            rows: List[Dict[str, Any]],
+            one_best_element_ladder: bool = False) -> List[Dict[str, Any]]:
         """Merge a hit split in two rows because Ankama renumbers `order` between grades."""
         merged: List[Dict[str, Any]] = []
         seen: List[tuple] = []
         for row in rows:
+            group = row.get("best_element_group")
+            # A best-element hit renumbered between grades is one hit too
+            if one_best_element_ladder:
+                group = group is not None
             signature = (row.get("element"), row.get("steals"),
                          row.get("heals"), row.get("triggers"),
                          row.get("situation"), row.get("state_group"),
-                         row.get("best_element_group"))
+                         group)
             filled = {i for i, value in enumerate(row["ranges"])
                       if value is not None}
             for position, (other_signature, other_filled) in enumerate(seen):
@@ -536,26 +564,97 @@ class SpellTransformer:
                 return SUMMON_STACK_CAP
         return None
 
+    def _placed_child(self, effect: Mapping[str, Any]) -> Optional[Tuple[int, int]]:
+        """(spell id, grade) of the thing a placing effect puts down, or None."""
+        if effect.get("effect_id") not in PLACED_BY_EFFECT:
+            return None
+        dice = effect.get("dice") or {}
+        target, grade = dice.get("min"), dice.get("max")
+        if effect.get("effect_id") == BOMB_EFFECT_ID:
+            target = self.bomb_spells.get(target)
+        if not target or target not in self.spells:
+            return None
+        return int(target), int(grade or 0)
+
+    def _levels_of(self, spell_id: int) -> List[Dict[str, Any]]:
+        levels = self._levels_cache.get(spell_id)
+        if levels is None:
+            levels = self._spell_levels(self.spells[spell_id])
+            self._levels_cache[spell_id] = levels
+        return levels
+
+    def _placed_blocks(self, levels: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
+        """One block per placed thing, its rows read at the grade each parent level places."""
+        placements: Dict[Tuple[int, int], List[Optional[int]]] = {}
+        gated: set = set()
+        for level_idx, level in enumerate(levels):
+            for effect in level.get("effects") or []:
+                child = self._placed_child(effect)
+                if child is None:
+                    continue
+                key = (int(effect.get("effect_id")), child[0])
+                grades = placements.setdefault(key, [None] * len(levels))
+                if grades[level_idx] is None:
+                    grades[level_idx] = child[1]
+                # A placement the spell only makes in a state waits for that state
+                if STATE_IN_TARGET_MASK.findall(str(effect.get("target_mask") or "")):
+                    gated.add(key)
+
+        blocks: List[Dict[str, Any]] = []
+        for (effect_id, child_id), grades in placements.items():
+            by_grade = {lvl.get("grade"): lvl for lvl in self._levels_of(child_id)}
+            synthetic = []
+            for grade in grades:
+                child_level = by_grade.get(grade) if grade is not None else None
+                synthetic.append({
+                    "effects": (child_level or {}).get("effects") or [],
+                    "critical_effects": (child_level or {}).get("critical_effects") or [],
+                })
+            normal = self._collect_damage_rows(synthetic, critical=False,
+                                               one_best_element_ladder=True)
+            if not normal:
+                continue
+            kind, when = PLACED_BY_EFFECT[effect_id]
+            if (effect_id, child_id) in gated:
+                when = "state"
+            placed: Dict[str, Any] = {"kind": kind, "effect_id": effect_id, "spell_id": child_id}
+            placed["waits" if when in PLACED_WAITS else "lands"] = when
+            critical = self._collect_damage_rows(synthetic, critical=True,
+                                                 one_best_element_ladder=True)
+            for row in normal + critical:
+                row["placed"] = dict(placed)
+            block = dict(placed)
+            block["grades"] = grades
+            block["names"] = self._localized_map(self.spells[child_id].get("nameId")) or {}
+            block["normal"] = normal
+            block["critical"] = critical
+            blocks.append(block)
+        return blocks
+
     def _build_damage_templates(
         self,
         levels: Sequence[Mapping[str, Any]],
         stack_cap_override: Optional[int] = None,
+        placed: Optional[Sequence[Mapping[str, Any]]] = None,
     ) -> Optional[Dict[str, Any]]:
         normal = self._collect_damage_rows(levels, critical=False)
         critical = self._collect_damage_rows(levels, critical=True)
-        if not normal and not critical:
+        if not normal and not critical and not placed:
             return None
         template: Dict[str, Any] = {
             "levels": [lvl.get("min_player_level") for lvl in levels],
             "normal": normal,
             "critical": critical,
         }
-        stackable = self._extract_stackable_damage(
-            levels,
-            stack_cap_override=stack_cap_override,
-        )
-        if stackable:
-            template["stackable_damage"] = stackable
+        if normal or critical:
+            stackable = self._extract_stackable_damage(
+                levels,
+                stack_cap_override=stack_cap_override,
+            )
+            if stackable:
+                template["stackable_damage"] = stackable
+        if placed:
+            template["placed"] = list(placed)
         return template
 
     def _extract_stackable_damage(
@@ -670,7 +769,9 @@ class SpellTransformer:
                 entry["breed_ids"] = breed_ids
             entry["level_requirements"] = [lvl.get("min_player_level") for lvl in levels]
             stack_cap_hint = self._infer_stack_cap(entry)
-            damage_templates = self._build_damage_templates(levels, stack_cap_override=stack_cap_hint)
+            damage_templates = self._build_damage_templates(
+                levels, stack_cap_override=stack_cap_hint,
+                placed=self._placed_blocks(levels))
             if damage_templates:
                 entry["damage_templates"] = damage_templates
 

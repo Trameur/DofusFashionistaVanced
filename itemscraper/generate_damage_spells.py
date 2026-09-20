@@ -34,6 +34,12 @@ ELEMENT_LITERAL = {
 BEST_ELEMENT_LABEL = "Hit in best element"
 # Ebony Dofus poison takes the element of the attack that applies it
 ATTACK_ELEMENT_LABEL = "Poison in the element of the attack"
+# Rows read from the thing a spell places, labelled by kind; the site knows these heads
+PLACED_LABELS = {
+    "trap": ("Trap damage", "Trap heals"),
+    "glyph": ("Glyph damage", "Glyph heals"),
+    "bomb": ("Bomb damage", "Bomb heals"),
+}
 
 STAT_BUFF_CHARACTERISTICS = {
     10: "buff_str",
@@ -179,7 +185,6 @@ BASE_CLASSES = [
     "Forgelance",
 ]
 CHARACTER_CLASSES = sorted(BASE_CLASSES)
-GLYPH_EFFECT_IDS = {401, 402, 1091, 1165}
 BESTIAL_PACT_ANKAMA_ID = 31141
 MP_DAMAGE_EFFECT_ID = 293
 MP_DAMAGE_TRIGGER_TOKEN = "MP"
@@ -1099,76 +1104,6 @@ def _extract_stack_limit(spell: Mapping[str, Any]) -> Optional[int]:
     return _stack_limit_from_description(spell)
 
 
-def _derive_glyph_damage(
-    spell: Mapping[str, Any],
-    spell_lookup: Mapping[int, Mapping[str, Any]],
-    level_count: int,
-) -> Optional[Dict[str, List[Dict[str, Any]]]]:
-    if level_count <= 0:
-        return None
-    sources = _glyph_damage_sources(spell, spell_lookup)
-    if not sources:
-        return None
-
-    normal_rows: List[Dict[str, Any]] = []
-    critical_rows: List[Dict[str, Any]] = []
-    for _, linked_spell in sources:
-        damage = linked_spell.get("damage_templates") or {}
-        normal_rows.extend(_copy_damage_rows(damage.get("normal"), level_count))
-        critical_rows.extend(_copy_damage_rows(damage.get("critical"), level_count))
-
-    if not normal_rows:
-        return None
-    return {"normal": normal_rows, "critical": critical_rows}
-
-
-def _glyph_damage_sources(
-    spell: Mapping[str, Any],
-    spell_lookup: Mapping[int, Mapping[str, Any]],
-) -> List[tuple]:
-    candidates: List[tuple] = []
-    for level in spell.get("levels") or []:
-        for effect_block in (level.get("effects") or []), (level.get("critical_effects") or []):
-            for effect in effect_block or []:
-                if effect.get("effect_id") not in GLYPH_EFFECT_IDS:
-                    continue
-                dice = effect.get("dice") or {}
-                for key in ("min", "max"):
-                    linked_id = dice.get(key)
-                    if not isinstance(linked_id, int):
-                        continue
-                    if linked_id not in spell_lookup:
-                        continue
-                    candidates.append((effect.get("order") or 0, linked_id))
-
-    ordered: List[tuple] = []
-    seen: Set[int] = set()
-    for order, spell_id in sorted(candidates):
-        if spell_id in seen:
-            continue
-        seen.add(spell_id)
-        linked_spell = spell_lookup.get(spell_id)
-        if not linked_spell:
-            continue
-        damage = linked_spell.get("damage_templates") or {}
-        if not (damage.get("normal") or damage.get("critical")):
-            continue
-        ordered.append((order, linked_spell))
-    return ordered
-
-
-def _copy_damage_rows(rows: Optional[Sequence[Mapping[str, Any]]], level_count: int) -> List[Dict[str, Any]]:
-    if not rows or level_count <= 0:
-        return []
-    copied: List[Dict[str, Any]] = []
-    for row in rows:
-        # Keep every key, heals and best_element_group are read later
-        carried = dict(row)
-        carried["ranges"] = _fit_ranges(list(row.get("ranges", [])), level_count)
-        copied.append(carried)
-    return copied
-
-
 def _fit_ranges(source: List[Optional[str]], target_len: int) -> List[str]:
     if target_len <= 0:
         return []
@@ -1367,6 +1302,88 @@ def _build_best_element_aggregates(
     return aggregates
 
 
+def _block_aggregates(
+    rows: Sequence[Mapping[str, Any]],
+    non_crit: Sequence[Sequence[str]],
+    elements: Sequence[str],
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """Groups of one placed thing's rows, the same cases as a spell's own rows."""
+    count = len(rows)
+    aggregates = _build_best_element_aggregates(
+        _extract_best_element_groups(rows), count, count)
+    if not aggregates:
+        aggregates = _build_state_aggregates(rows, count)
+    if not aggregates:
+        aggregates = _build_situation_aggregates(rows, count)
+    return _collapse_identical_aggregates(aggregates, elements, non_crit)
+
+
+def _append_placed_blocks(
+    blocks: Sequence[Mapping[str, Any]],
+    level_count: int,
+    base_row_count: int,
+    non_crit: List[List[str]],
+    crit: Optional[List[List[str]]],
+    elements: List[str],
+    steals: Optional[List[bool]],
+    heals: Optional[List[bool]],
+    aggregates: Optional[Sequence[Tuple[str, List[int]]]],
+) -> Tuple[Optional[List[List[str]]], Optional[List[bool]], Optional[List[bool]],
+           List[Tuple[str, List[int]]], Dict[int, str], Dict[int, str]]:
+    """The placed things' rows after the spell's own, each block a labelled group."""
+    own_count = len(non_crit)
+    groups: List[Tuple[str, List[int]]] = [
+        (label, list(indexes)) for label, indexes in (aggregates or [])]
+    if not groups and own_count:
+        # The own rows stay one group, buff rows one each, as the other builders do
+        if base_row_count:
+            groups.append(("", list(range(base_row_count))))
+        groups.extend(("", [idx]) for idx in range(base_row_count, own_count))
+    waits: Dict[int, str] = {}
+    lands: Dict[int, str] = {}
+    for block in blocks:
+        rows = block.get("normal") or []
+        if not rows:
+            continue
+        start = len(non_crit)
+        block_non_crit = [_fit_ranges(list(row.get("ranges", [])), level_count)
+                          for row in rows]
+        block_crit = [_fit_ranges(list(row.get("ranges", [])), level_count)
+                      for row in (block.get("critical") or [])]
+        block_elements = [ELEMENT_LITERAL.get(row.get("element"), repr(row.get("element")))
+                          for row in rows]
+        if block_crit or crit is not None:
+            if crit is None:
+                crit = [list(ranges) for ranges in non_crit]
+            for idx, ranges in enumerate(block_non_crit):
+                crit.append(list(block_crit[idx]) if idx < len(block_crit)
+                            else list(ranges))
+        non_crit.extend(block_non_crit)
+        elements.extend(block_elements)
+        block_steals = [bool(row.get("steals")) for row in rows]
+        block_heals = [bool(row.get("heals")) for row in rows]
+        if steals is not None or any(block_steals):
+            steals = (steals if steals is not None else [False] * start) + block_steals
+        if heals is not None or any(block_heals):
+            heals = (heals if heals is not None else [False] * start) + block_heals
+        label = PLACED_LABELS[block["kind"]][1 if all(block_heals) else 0]
+        block_groups = _block_aggregates(rows, block_non_crit, block_elements)
+        if block_groups:
+            shifted = [(name, [start + idx for idx in indexes])
+                       for name, indexes in block_groups]
+            first, indexes = shifted[0]
+            shifted[0] = ("%s - %s" % (label, first) if first else label, indexes)
+        else:
+            shifted = [(label, list(range(start, start + len(rows))))]
+        groups.extend(shifted)
+        for idx in range(start, start + len(rows)):
+            if block.get("waits"):
+                waits[idx] = block["waits"]
+            elif block.get("lands"):
+                lands[idx] = block["lands"]
+    return crit, steals, heals, groups, waits, lands
+
+
 def _casting(spell: Mapping[str, Any], level_count: int) -> Optional[Dict[str, List[int]]]:
     """Cost and cast limits per level; 0 means no limit."""
     levels = spell.get("levels") or []
@@ -1406,11 +1423,6 @@ def convert_spell(
 
     normal_rows = damage.get("normal") or []
     crit_rows = damage.get("critical") or []
-    if not normal_rows and spell_lookup:
-        glyph_damage = _derive_glyph_damage(spell, spell_lookup, level_count)
-        if glyph_damage:
-            normal_rows = glyph_damage["normal"]
-            crit_rows = glyph_damage["critical"]
 
     stack_row_block = len(normal_rows)
     stack_labels: Optional[List[str]] = None
@@ -1504,8 +1516,23 @@ def convert_spell(
             and len(collapsed) == len(state_aggregates)):
         collapsed = _label_state_aggregates(normal_rows, collapsed)
     aggregates = collapsed
+    placed_blocks = damage.get("placed") or []
+    block_waits: Dict[int, str] = {}
+    block_lands: Dict[int, str] = {}
+    if placed_blocks:
+        crit, steals, heals, aggregates, block_waits, block_lands = _append_placed_blocks(
+            placed_blocks, level_count, base_row_count, non_crit, crit,
+            elements, steals, heals, aggregates)
     if not non_crit:
         return None
+    delayed = dict(_waiting_rows[0])
+    delayed.update(block_lands)
+    delayed_crit = None
+    if _waiting_crit is not None and _waiting_crit[0] != _waiting_rows[0]:
+        delayed_crit = dict(_waiting_crit[0])
+        delayed_crit.update(block_lands)
+    holds_back = dict(_waiting_rows[1])
+    holds_back.update(block_waits)
     stacks = stack_limit
     variant_link = spell.get("variant_link")
     is_linked = _convert_variant_link(variant_link)
@@ -1527,12 +1554,9 @@ def convert_spell(
         order=order,
         ankama_id=ankama_id,
         casting=_casting(spell, len(level_requirements)),
-        conditional=_conditional_rows(ankama_id, elements,
-                                      _waiting_rows[1]),
-        delayed=_waiting_rows[0] or None,
-        delayed_crit=(_waiting_crit[0]
-                      if _waiting_crit is not None
-                      and _waiting_crit[0] != _waiting_rows[0] else None),
+        conditional=_conditional_rows(ankama_id, elements, holds_back),
+        delayed=delayed or None,
+        delayed_crit=delayed_crit,
     )
 
     _attach_special_buff_scaling(spell, entry, spell_lookup=spell_lookup)
