@@ -539,7 +539,8 @@ class TheBackfillReadsTheTimeOfTheLastSetChangeTests(_Pages, TestCase):
         counts, minutes = backfill_stuff_time(Char, SolutionGeneration, range_size=7)
         self.assertEqual({BATCH_MINUTE}, minutes)
         self.assertEqual({'generation': 1, 'solved_time': 1, 'modified_time': 1,
-                          'batch_minute': 1, 'no_modified_time': 0, 'no_set': 101},
+                          'batch_minute': 1, 'view_saved': 0, 'no_modified_time': 0,
+                          'no_set': 101},
                          dict(counts))
         self.assertEqual(IN_SEPTEMBER, self._stamp(generated))
         self.assertEqual(IN_JANUARY, self._stamp(solved))
@@ -564,6 +565,45 @@ class TheBackfillReadsTheTimeOfTheLastSetChangeTests(_Pages, TestCase):
         self.assertEqual('3.3', patch_in_force('dofus3', BATCH_MINUTE))
         migration = importlib.import_module('chardata.migrations.0043_backfill_stuff_time')
         migration.fill(apps, None)
+        page = self.client.get(
+            '/s/%s/%s/' % (old.char_name, encode_char_id(old.pk)),
+            HTTP_ACCEPT_LANGUAGE='en', HTTP_USER_AGENT=BROWSER).content.decode('utf-8')
+        self.assertEqual(('2.72', OLDER_TITLE_EN, True), _pill_of(page))
+
+    def test_a_shared_build_saved_by_a_visit_keeps_its_creation_time(self):
+        visited = _build(self.owner, 'Visited', created_time=IN_2024, stuff_time=None,
+                         modified_time=IN_JANUARY)
+        private = _build(self.owner, 'Private', created_time=IN_2024, stuff_time=None,
+                         modified_time=IN_JANUARY, link_shared=False)
+        before = _build(self.owner, 'Before', created_time=IN_2024, stuff_time=None,
+                        modified_time=IN_2025)
+        after = _build(self.owner, 'After', created_time=IN_2024, stuff_time=None,
+                       modified_time=IN_AUGUST)
+        counts, _ = backfill_stuff_time(Char, SolutionGeneration)
+        self.assertEqual((1, 3), (counts['view_saved'], counts['modified_time']))
+        self.assertEqual(IN_2024, self._stamp(visited))
+        self.assertEqual(IN_JANUARY, self._stamp(private))
+        self.assertEqual(IN_2025, self._stamp(before))
+        self.assertEqual(IN_AUGUST, self._stamp(after))
+
+    def test_the_refill_rewrites_only_the_visited_builds(self):
+        visited = _build(self.owner, 'Visited', created_time=IN_2024, stuff_time=IN_JANUARY,
+                         modified_time=IN_JANUARY)
+        edited = _build(self.owner, 'Edited', created_time=IN_2024, stuff_time=IN_2025,
+                        modified_time=IN_AUGUST)
+        migration = importlib.import_module(
+            'chardata.migrations.0044_refill_stuff_time_of_visited_builds')
+        migration.refill(apps, None)
+        self.assertEqual(IN_2024, self._stamp(visited))
+        self.assertEqual(IN_2025, self._stamp(edited))
+
+    def test_an_old_build_visited_under_a_later_update_shows_its_own(self):
+        old = _build(self.owner, 'Ancestral', created_time=IN_2024, stuff_time=IN_JANUARY,
+                     modified_time=IN_JANUARY)
+        self.assertEqual('3.4', patch_in_force('dofus3', IN_JANUARY))
+        migration = importlib.import_module(
+            'chardata.migrations.0044_refill_stuff_time_of_visited_builds')
+        migration.refill(apps, None)
         page = self.client.get(
             '/s/%s/%s/' % (old.char_name, encode_char_id(old.pk)),
             HTTP_ACCEPT_LANGUAGE='en', HTTP_USER_AGENT=BROWSER).content.decode('utf-8')
