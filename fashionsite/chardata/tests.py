@@ -19893,10 +19893,10 @@ class SpellComboTests(SimpleTestCase):
             best = total
 
     def test_a_spell_on_a_cooldown_is_cast_once(self):
-        # maxCastPerTurn 0, minCastInterval 1: the cooldown allows one cast
+        # maxCastPerTurn 0, minCastInterval 2: the cooldown allows one cast
         spells = self._spells('Eniripsa')
-        friendship = next(s for s in spells if s.name == 'Friendship Word')
-        self.assertEqual(1, friendship.limit)
+        ritual = next(s for s in spells if s.name == 'Ritual Word')
+        self.assertEqual(1, ritual.limit)
         cooldown_only = [s for s in spells
                          if (s.spell.casting or {}).get('cooldown')
                          and not (s.spell.casting or {}).get('per_turn')]

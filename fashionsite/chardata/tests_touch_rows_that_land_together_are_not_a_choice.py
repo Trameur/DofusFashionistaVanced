@@ -83,10 +83,11 @@ class TouchRowsThatLandTogetherAreNotAChoiceTests(SimpleTestCase):
         garde = 0
         for spells in get_damage_spells_for_version('dofus3').values():
             for spell in spells:
-                if any(label == 'Hit in best element'
+                # A placed thing's group carries its head before the same label
+                if any(label.endswith('Hit in best element')
                        for label, _indices in (spell.aggregates or [])):
                     garde += 1
-        self.assertEqual(31, garde,
+        self.assertEqual(32, garde,
                          'the Dofus 3 groups moved, and this lot did not '
                          'touch them')
         # Touch spells built from effect 1200 stay grouped, just not these two
