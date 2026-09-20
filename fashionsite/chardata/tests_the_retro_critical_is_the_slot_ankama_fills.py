@@ -1,47 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""En Retro, le coup critique est la place qu'Ankama remplit, pas le plus gros.
-
-Trouve en lisant le panneau des sorts d'un Iop Retro, puis en descendant
-jusqu'a la source: `itemscraper/get_spells_retro.py` disait que les deux
-listes d'effets d'un rang arrivent <<in no fixed order; the crit is the higher
-roll>>. C'est une supposition, et le fichier d'Ankama dit autre chose.
-
-**Ce que dit le fichier.** Mesure du 14 septembre 2026 sur les 2091 sorts du
-lang Retro d'Ankama (VERSION 1254):
-
-| ce qui est lu | nombre |
-|---------------|--------|
-| rangs lus, tous sorts confondus | 10632 |
-| rangs qui ne peuvent pas sortir de critique | 3926 |
-| ... dont l'avant-derniere case est VIDE | 3923 |
-| ... dont elle est pleine | **3** |
-| ... et parmi ces trois, identiques a la derniere case | **3** |
-| lignes d'element ou l'avant-derniere case est strictement plus forte | 3786 |
-| lignes ou les deux sont a egalite | 363 |
-| lignes ou l'avant-derniere case est plus faible | **37** |
-
-La case que le jeu ne lira jamais est celle du critique: 3923 temoins et zero
-contre-exemple. Les trois exceptions sont les rangs 1 a 3 de Teleportation, ou
-les deux cases portent exactement la meme ligne, donc aucune lecture ne les
-separe. La place est fixe, et elle se lit sans deviner.
-
-**Ce que la supposition changeait.** Un critique Retro est une valeur fixe
-(`0d0+N`) face a un coup normal qui lance des des, donc il peut tomber dans la
-fourchette normale. Piqure rang 1 frappe de 1 a 5 et critique a 3 exactement.
-Sur ces 37 lignes, le site publiait les deux colonnes echangees. Quatre
-arrivent au panneau, sur deux sorts de Feca:
-
-    Attaque Nuageuse  normal  11-11  13-13  4-15 ...  ->  2-13  3-14  4-15 ...
-    Attaque Nuageuse  crit     2-13   3-14 16-16 ...  -> 11-11 13-13 16-16 ...
-    Retour du baton   normal  16-18  18-21 10-24 ...  ->  6-20  8-22 10-24 ...
-    Retour du baton   crit     6-20   8-22 20-24 ...  -> 16-18 18-21 20-24 ...
-
-L'echelle corrigee monte rang apres rang des deux cotes; l'ancienne redescendait
-entre le rang 2 et le rang 3. C'est la meme reponse lue par l'autre bout.
-
-`retro_raw` n'est pas dans le depot (.gitignore): le parcours qui lit le
-fichier d'Ankama se met de cote quand il est absent, les autres non.
-"""
+"""In Retro the critical roll is the slot Ankama fills, not the higher roll."""
 import io
 import json
 import os
@@ -55,8 +13,7 @@ RACINE = os.path.dirname(os.path.dirname(os.path.dirname(
 SCRAPER = os.path.join(RACINE, 'itemscraper')
 BRUT = os.path.join(SCRAPER, 'retro_raw', 'spells_fr.json')
 
-#: Les deux sorts de Feca dont le panneau montrait les colonnes echangees, et
-#: ce que le fichier d'Ankama donne pour leurs six rangs.
+# Two Feca spells, with what Ankama's file gives for their six ranks
 ECHANGES = {
     'Attaque Nuageuse': {
         'normal': ['2-13', '3-14', '4-15', '5-16', '7-18', '11-22'],
@@ -84,13 +41,10 @@ def _borne(texte):
 class TheRetroCriticalIsTheSlotAnkamaFillsTests(SimpleTestCase):
 
     def test_the_decoder_reads_the_place_and_not_the_bigger_roll(self):
-        """Un rang a la forme de Piqure: le normal lance 1 a 5, le critique
-        vaut 3. Prendre <<le plus gros>> rend les deux colonnes a l'envers."""
         module = _decoder()
 
         def effet(formule, bas, haut):
-            # La forme d'une ligne d'effet du fichier: formule, puis le haut
-            # et le bas de la fourchette, puis l'identifiant de l'effet.
+            # An effect line: formula, then the top and bottom of the range, then the effect id
             return [formule, True, '', 0, 0, None, haut, bas, 99]
 
         niveau = [0] * 19 + [[effet('0d0+3', 3, None)],
@@ -99,16 +53,12 @@ class TheRetroCriticalIsTheSlotAnkamaFillsTests(SimpleTestCase):
                          module.decode_level(niveau))
 
     def test_a_rank_with_no_critical_row_shows_the_same_on_both_sides(self):
-        """Les 3554 rangs sans critique laissent la case vide; le panneau doit
-        alors rendre le coup normal des deux cotes, pas zero."""
         module = _decoder()
         niveau = [0] * 19 + [[], [['1d5+0', True, '', 0, 0, None, 5, 1, 99]]]
         self.assertEqual({'fire': ((1, 5), (1, 5))},
                          module.decode_level(niveau))
 
     def test_the_two_feca_spells_carry_the_ladder_the_file_gives(self):
-        """Ce que le lecteur voit. Les deux echelles montent rang apres rang,
-        ce que l'ancienne lecture cassait entre le rang 2 et le rang 3."""
         from fashionistapulp.dofus_constants_retro_spells import (
             RETRO_DAMAGE_SPELLS)
         trouves = 0
@@ -130,8 +80,6 @@ class TheRetroCriticalIsTheSlotAnkamaFillsTests(SimpleTestCase):
         self.assertEqual(2, trouves, 'the two Feca spells left the module')
 
     def test_ankamas_own_file_says_which_place_is_the_critical(self):
-        """La regle elle-meme, relue chez Ankama. Se met de cote quand
-        retro_raw est absent, ce qui est le cas sur un depot propre."""
         if not os.path.exists(BRUT):
             raise unittest.SkipTest(
                 'retro_raw is gitignored; run itemscraper/download_retro_langs'

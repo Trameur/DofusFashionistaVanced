@@ -1,20 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un build a toujours un nom qui se lit.
-
-Mesure du 11 septembre 2026 sur la copie de production: **404 des 1980 builds
-partages qui ont une solution n'ont pas de nom lisible**, un sur cinq, et
-39 784 des 152 862 builds au total. La cause est dans la page de creation: le
-champ <<Nom du projet>> est rempli tout seul avec le nom du personnage suivi
-du niveau, le nom du personnage n'est pas obligatoire, et le champ rempli
-d'une espace et d'un nombre satisfait le `required` du formulaire.
-
-Depuis que les builds neufs sont publics des qu'ils portent un stuff, cette
-part n'est plus un detail de la liste personnelle: c'est une carte de galerie
-sur cinq qui n'annonce rien.
-
-La base n'est pas reecrite ([[no-retrofit-user-builds]]): l'affichage se
-rattrape, et la creation cesse d'en fabriquer.
-"""
+"""A build always has a readable name; a fabricated one shows class and level."""
 
 import pickle
 
@@ -27,15 +12,12 @@ from chardata.models import Char
 
 
 class WhatCountsAsNoNameAtAllTests(SimpleTestCase):
-    """La regle est etroite exprès: elle ne prend que ce que la page a
-    fabrique toute seule, jamais ce que quelqu'un a tape."""
 
-    #: Les formes vraiment rencontrees, avec leur compte du 11 septembre 2026
-    #: parmi les builds partages qui ont une solution.
+    # The forms the creation page fabricates on its own
     FABRIQUES = (' 199', ' 160', ' 60', ' 80', ' 150', 'NoName', '', '   ',
                  ' 199 copy', ' 80 copy copy')
 
-    #: Des noms que quelqu'un a tapes, lus dans la meme colonne le meme jour.
+    # Names someone typed, read in the same column
     TAPES = ('200 sadi 200', '117', '2', ' 110cha int handmade',
              ' Travitas 130', ' 150 pvp', ' 1999', ' sin', 'Iop 200')
 
@@ -45,14 +27,11 @@ class WhatCountsAsNoNameAtAllTests(SimpleTestCase):
                 self.assertTrue(is_placeholder(nom))
 
     def test_what_a_player_typed_is_left_alone(self):
-        """Y compris <<espace 1999>>: le niveau tient sur trois chiffres, donc
-        quatre chiffres viennent forcement de quelqu'un."""
         for nom in self.TAPES:
             with self.subTest(nom=nom):
                 self.assertFalse(is_placeholder(nom))
 
     def test_the_fallback_is_two_facts_the_build_carries(self):
-        """Pas de phrase inventee: la classe, traduite, et le niveau."""
         from django.utils.translation import override
         with override('en'):
             self.assertEqual('Iop 199',
@@ -83,9 +62,6 @@ class _Faux(object):
 class TheGalleryNeverShowsANamelessCardTests(TestCase):
 
     def _build(self, nom, char_class='Iop', level=199):
-        """Par la vraie porte: la galerie ecarte un build dont la solution
-        stockee n'en est pas une, donc un objet fabrique a la main n'y
-        apparait pas et ne prouverait rien."""
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         set_current_game_version('dofus3')
@@ -123,7 +99,6 @@ class TheGalleryNeverShowsANamelessCardTests(TestCase):
         self.assertIn('Mon Iop terre', page)
 
     def test_the_public_api_never_hands_out_an_empty_name(self):
-        """Un consommateur de cette API ecrit ce champ tel quel."""
         from chardata.encoded_char_id import encode_char_id
         char = self._build(' 199')
         reponse = self.client.get('/api/v1/shared-builds/%s/'
@@ -161,9 +136,6 @@ class TheCreationPageProposesSomethingReadableTests(TestCase):
         self.assertEqual('Mon build', Char.objects.order_by('-id').first().name)
 
     def test_the_page_offers_the_class_when_the_character_has_no_name(self):
-        """Le script de la page, lu dans le gabarit: sans nom de personnage
-        il prend la classe choisie, donc le champ ne vaut plus une espace et
-        un nombre."""
         page = self.client.get('/setup/').content.decode('utf-8')
         self.assertIn('proposedProjectName', page)
         self.assertIn('select-char-class option:selected', page)

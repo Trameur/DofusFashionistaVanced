@@ -1,38 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Tout identifiant de condition present dans les donnees porte un nom.
-
-`structure.read_weird_conditions_table` fait `WEIRD_CONDITION_FROM_ID[id]`,
-sans defaut: un identifiant que la table de noms ignore leve une KeyError au
-chargement du catalogue, donc sur toutes les pages de cette version, et
-seulement apres un re-scrape.
-
-Trouve en passant la beta a 3.7.0.0 le 17 septembre 2026. Ankama y a change la
-regle des trophees: les 73 trophees restants sont passes de <<Set bonus < 3>> a
-<<Set bonus < 2>>, et les 15 Carapaces ont perdu la condition. Le scraper ecrit
-alors l'identifiant 3 la ou il ecrivait 1, et la base de la beta a porte cet
-identifiant pour la premiere fois.
-
-Ce coup-ci ca tient, parce que `structure.py` lit la table de noms de
-`dofus_constants.py`, qui connait 1, 2 et 3. Mais `dofus_constants_beta.py` en
-porte une copie qui ne connait que 1 et 2: le jour ou la lecture passerait par
-la copie d'une version, la beta tomberait. Le parcours ci-dessous mesure ce que
-les bases contiennent vraiment, pour qu'un identifiant 4 se voie ici et pas sur
-une page.
-
-Mesure du 17 septembre 2026, apres le re-scrape des cinq versions, en lignes:
-
-| version | identifiants presents |
-|---------|-----------------------|
-| dofus3  | 1 (87), 2 (25) |
-| beta    | 2 (25), 3 (73) |
-| dofus2  | 2 (32), 3 (87) |
-| touch   | 3 (71) |
-| retro   | table vide |
-
-L'identifiant 3 n'a donc jamais ete propre a Touch: dofus2 en portait deja 87
-lignes avant ce lot. C'est une regle de jeu par version, pas une propriete de
-l'identifiant.
-"""
+"""Every condition id present in the data has a name in the table structure reads."""
 import os
 import sqlite3
 import unittest
@@ -86,8 +53,6 @@ class EveryConditionIdInTheDataHasANameTests(SimpleTestCase):
         self.assertTrue(vus, 'no database carried the table')
 
     def test_every_light_set_id_carries_its_cap(self):
-        """Un identifiant light_set sans plafond retomberait sur 2, donc sur la
-        regle de l'autre variante, en silence."""
         for condition_id, nom in WEIRD_CONDITION_FROM_ID.items():
             if nom != 'light_set':
                 continue

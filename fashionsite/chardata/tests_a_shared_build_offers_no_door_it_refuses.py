@@ -1,23 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La page d'un build partage n'offre aucune porte qui refuse le visiteur.
-
-Trouve le 12 septembre 2026 en parcourant le site depuis l'accueil et en
-suivant ses propres liens: sur les 28 liens internes d'une page de build
-partage, **27 repondaient et un repondait 403**. C'etait l'en-tete de colonne
-<<Base>> du tableau des stats, qui pointait vers la page de reglages du
-build. Cette page n'appartient qu'a son auteur, donc tout visiteur qui
-cliquait le mot <<Base>> recevait un <<403 Interdit>>.
-
-Le menu du haut appliquait deja la bonne regle (`{% if ... and not is_guest %}`)
-et cachait ses liens d'auteur. Cette colonne l'avait ratee, et c'est la seule:
-verifie sur les deux autres endroits du site qui pointent vers cette page.
-
-La colonne dit maintenant ce qu'elle contient, dans les cinq langues, ce que
-ni le visiteur ni l'auteur n'avaient: ce que le personnage a sans equipement,
-c'est-a-dire ses parchemins et les points qu'il a depenses. Lu dans
-`ModelResult.get_stats_base`, qui additionne les caracteristiques propres du
-personnage et les points repartis, sans rien de l'equipement.
-"""
+"""A shared build page offers a visitor no link that answers 403."""
 
 import re
 
@@ -25,7 +7,7 @@ from django.test import TestCase
 
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
-#: La cellule d'en-tete de la colonne, avec ce qu'elle contient.
+# The header cell of the column, with what it holds
 CELLULE = re.compile(
     r'<td class="solution-stat-summary-base-value-header[^>]*>(.{0,300}?)</td>',
     re.S)
@@ -64,8 +46,6 @@ class _BuildPartage(TestCase):
 class NoLinkRefusesTheVisitorTests(_BuildPartage):
 
     def test_every_link_of_a_shared_build_answers_the_visitor(self):
-        """La garde generale: c'est elle qui prendra la prochaine porte
-        d'auteur laissee sur une page publique, pas seulement celle-ci."""
         char = self._build()
         page = self.client.get(self._adresse_partagee(char),
                                follow=True).content.decode('utf-8')
@@ -92,8 +72,6 @@ class NoLinkRefusesTheVisitorTests(_BuildPartage):
 class TheAuthorKeepsTheirDoorTests(_BuildPartage):
 
     def test_the_owner_still_reaches_their_base_characteristics(self):
-        """Retirer le lien a tout le monde aurait <<corrige>> le 403 en
-        enlevant un chemin utile a celui qui en a le droit."""
         from django.contrib.auth.models import User
         auteur = User.objects.create_user('auteur', 'a@x.test', 'pw')
         char = self._build(partage=False)

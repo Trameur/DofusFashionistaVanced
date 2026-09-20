@@ -1,24 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La page d'un build annonce son meilleur tour, et y mene.
-
-Le nombre existait sur la page des sorts et, depuis la section 55, dans la
-comparaison. Il manquait sur **la page la plus lue des trois**: celle ou l'on
-arrive depuis la galerie, depuis un lien partage ou depuis `/random/`.
-
-Il est a cote du score du build, qui pese des stats; celui-ci dit ce que le
-stuff fait en un tour. Le nombre est un lien vers la page des sorts, la seule
-ou le lecteur peut changer les hypotheses, et l'infobulle porte ces
-hypotheses mot pour mot, les memes que les deux autres pages.
-
-**Pourquoi pas dans la galerie.** C'etait la premiere idee, et la mesure l'a
-ecartee: le filtre <<cacher les builds invalides>> construit la metadonnee de
-TOUS les builds correspondants et non des 24 de la page. Mesure du 12
-septembre 2026: 1980 builds partages, 37 ms le tour, **73 secondes sur un
-cache froid**. Ici c'est un seul calcul par page affichee.
-
-Un tour qui ne se calcule pas fait disparaitre la ligne et rien d'autre: le
-texte a copier et le score sont construits avant, dans leur propre bloc.
-"""
+"""The build page shows its best turn and links to the spells page."""
 
 import re
 
@@ -27,7 +8,7 @@ from django.utils.translation import gettext, override
 
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
-#: Le minifieur trie les attributs: on trouve la ligne par sa classe.
+# The minifier sorts attributes: find the line by its class
 LIGNE = re.compile(r'<tr[^>]*solution-best-turn-row[^>]*>(.*?)</tr>', re.S)
 LIEN = re.compile(r'href="([^"]+)"')
 TITRE = re.compile(r'title="([^"]*)"')
@@ -84,8 +65,6 @@ class TheOwnerSeesItTests(_AvecUnBuild):
         self.assertGreater(int(chiffres[-1]), 0)
 
     def test_the_number_is_the_one_the_spells_page_shows(self):
-        """Deux pages, un seul nombre: si elles divergent, l'une des deux
-        ment."""
         from chardata.solution import get_solution
         from chardata.spells_view import _best_combo
         from fashionistapulp.structure import set_current_game_version
@@ -118,9 +97,6 @@ class TheVisitorSeesItTooTests(_AvecUnBuild):
         self.assertIn(gettext('Best turn'), _texte(ligne))
 
     def test_the_visitor_link_points_at_the_public_spells_page(self):
-        """Un visiteur ne peut pas ouvrir `/spells/<id>/`: ce chemin est celui
-        de l'auteur, et le lui offrir serait la porte fermee de la section
-        51."""
         from django.test import Client
         visiteur = Client()
         char = self._build()

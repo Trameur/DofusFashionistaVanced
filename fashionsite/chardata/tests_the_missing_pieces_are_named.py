@@ -1,23 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Les pieces qu'un build porte et que le catalogue n'a plus sont nommees.
-
-La section 42 disait a l'auteur <<certains de ses objets n'existent plus dans
-le jeu>>. Il ne pouvait pas savoir LESQUELS, donc il ne pouvait rien y faire.
-
-264 objets du catalogue du 4 novembre 2025 n'ont plus le meme numero chez
-nous. **222 d'entre eux sont pourtant toujours la**, sous un autre nombre,
-parce que notre fournisseur a renumerote les montures: ceux-la sont RENDUS au
-build (section 45) et ne sont pas nommes ici. Ne restent ici que les **42**
-sans equivalent, les versions sauvages, que la source ne liste plus.
-
-Cette correction est venue le lendemain de la section 44, qui avait ecrit
-trop vite que les 264 avaient quitte notre catalogue. Leurs noms sont lus sur
-ce catalogue-la, table `item_names` comprise: les cinq langues du site y sont.
-
-La phrase dit <<notre catalogue>> et non <<le jeu>>: qu'un objet ait quitte
-notre catalogue ne prouve pas qu'il ait quitte le jeu
-([[absence-in-data-is-not-absence-in-game]]).
-"""
+"""The pieces a build wears that the catalogue no longer lists are named."""
 
 import pickle
 
@@ -29,14 +11,7 @@ from chardata.models import Char
 
 class TheNamesComeFromTheLastCatalogueThatHadThemTests(SimpleTestCase):
 
-    #: Trois montures SAUVAGES, avec leur identifiant Ankama et leur nom
-    #: francais, lus sur le catalogue du 4 novembre 2025.
-    #:
-    #: Sauvages exprès: la verification du lendemain a montre que notre
-    #: fournisseur avait RENUMEROTE les montures apprivoisees, que notre
-    #: catalogue a donc toujours (section 45). <<Dragodinde Ebene>> etait un
-    #: temoin ici le premier jour et n'en est plus un: elle est rendue au
-    #: build, pas nommee comme perdue. Seules les sauvages le restent.
+    # Three wild mounts with their Ankama id and French name; tamed mounts were renumbered, not lost
     TEMOINS = (
         (1, 'Wild Almond Dragoturkey', 'Dragodinde Amande Sauvage'),
         (6, 'Wild Ginger Dragoturkey', 'Dragodinde Rousse Sauvage'),
@@ -60,15 +35,10 @@ class TheNamesComeFromTheLastCatalogueThatHadThemTests(SimpleTestCase):
                     self.assertNotEqual(name_of_missing('dofus3', 1, 'en'), nom)
 
     def test_a_build_may_store_the_mount_offset_instead(self):
-        """Selon le jour ou le build a ete enregistre, la meme monture est
-        stockee en ankama nu ou decalee de l'espace des montures. Les deux
-        doivent nommer la meme bete."""
         self.assertEqual(name_of_missing('dofus3', 1, 'en'),
                          name_of_missing('dofus3', 1000001, 'en'))
 
     def test_an_item_the_catalogue_still_has_is_not_named_here(self):
-        """La table ne porte que les disparus: y mettre un objet vivant
-        ferait dire a la page qu'il manque alors qu'il est la."""
         self.assertIsNone(name_of_missing('dofus3', 44, 'en'))
 
     def test_another_version_has_no_table(self):
@@ -149,8 +119,6 @@ class TheSentenceNamesThemTests(TestCase):
         self.assertIn('our catalogue no longer has', phrase)
 
     def test_it_says_our_catalogue_and_not_the_game(self):
-        """Qu'un objet ait quitte notre catalogue ne prouve pas qu'il ait
-        quitte le jeu, et la phrase ne doit pas l'affirmer."""
         from chardata.gallery_visibility import sentence_for
         phrase = sentence_for(self._build_avec_familier_disparu())
         self.assertNotIn('no longer in the game', phrase)
