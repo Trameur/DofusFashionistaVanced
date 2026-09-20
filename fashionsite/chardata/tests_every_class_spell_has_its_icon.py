@@ -60,6 +60,37 @@ class EveryClassSpellHasItsIconTests(SimpleTestCase):
     def test_retro(self):
         self.assertEqual([], self._missing('retro'))
 
+    def _retro_by_french_name(self):
+        by_name = {}
+        for entries in _reference('retro').values():
+            for entry in entries:
+                by_name.setdefault(entry['name']['fr'], []).append(entry)
+        return by_name
+
+    def test_retro_spells_sharing_a_name_resolve_to_distinct_existing_icons(self):
+        from chardata.spells_view import _create_reference_web_digest
+        shared = {name: entries
+                  for name, entries in self._retro_by_french_name().items()
+                  if len(entries) > 1}
+        self.assertTrue(shared)
+        for name, entries in shared.items():
+            files = [_icon_file(_create_reference_web_digest(entry, 'retro')
+                                ['image_url'])
+                     for entry in entries]
+            with self.subTest(name=name):
+                self.assertEqual(len(entries), len(set(files)))
+                for path in files:
+                    self.assertTrue(os.path.exists(path), path)
+
+    def test_the_lowest_id_of_a_retro_homonym_keeps_the_bare_name(self):
+        for name, entries in self._retro_by_french_name().items():
+            keeper = min(entry['id'] for entry in entries)
+            for entry in entries:
+                expected = (name if entry['id'] == keeper
+                            else '%s (%s)' % (name, entry['id']))
+                self.assertEqual(expected,
+                                 _reference_icon_name(entry, '', 'retro'))
+
     def test_the_beta_borrows_a_dofus_3_icon_it_lacks(self):
         own = os.listdir(os.path.join(STATIC, 'chardata', 'spells', 'beta'))
         shared = os.listdir(os.path.join(STATIC, 'chardata', 'spells'))

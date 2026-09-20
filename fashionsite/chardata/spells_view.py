@@ -23,8 +23,8 @@ from chardata.models import Char
 from chardata.solution import get_solution
 from chardata.spell_buffs import get_damage_spells_for_version
 from chardata.spell_localization import get_localized_spell_name
-from chardata.spell_reference import (localized, reference_by_spell_id,
-                                      state_name)
+from chardata.spell_reference import (get_spell_reference, localized,
+                                      reference_by_spell_id, state_name)
 from chardata.util import set_response, get_char_or_raise
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -184,11 +184,35 @@ def _create_reference_web_digest(entry, game_version, char_level=None):
 # Retro and Touch spell icons are filed under their French names
 SPELL_ICON_LANGUAGE = {'retro': 'fr', 'touch': 'fr'}
 
+_shared_icon_names = {}
+
+
+def _shared_icon_name_keepers(game_version):
+    """{name: lowest id} for the names several spells share; the others are filed as "<name> (<id>)"."""
+    if game_version not in _shared_icon_names:
+        keepers = {}
+        if game_version in SPELL_ICON_LANGUAGE:
+            langue = SPELL_ICON_LANGUAGE[game_version]
+            ids_by_name = {}
+            for entries in get_spell_reference(game_version).values():
+                for entry in entries or []:
+                    name = localized(entry, 'name', langue)
+                    if name and entry.get('id') is not None:
+                        ids_by_name.setdefault(name, set()).add(entry['id'])
+            keepers = {name: min(ids) for name, ids in ids_by_name.items()
+                       if len(ids) > 1}
+        _shared_icon_names[game_version] = keepers
+    return _shared_icon_names[game_version]
+
 
 def _reference_icon_name(entry, shown_name, game_version=None):
     """The icon file's name, in the language that version files them under."""
     langue = SPELL_ICON_LANGUAGE.get(game_version, 'en')
-    return localized(entry, 'name', langue) or shown_name
+    name = localized(entry, 'name', langue) or shown_name
+    keeper = _shared_icon_name_keepers(game_version).get(name)
+    if keeper is not None and entry.get('id') not in (None, keeper):
+        return '%s (%s)' % (name, entry['id'])
+    return name
 
 
 def _create_weapon_web_digest(weapon):

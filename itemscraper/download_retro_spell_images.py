@@ -30,8 +30,9 @@ Composing needs java + ffdec + resvg (JAVA_EXE/FFDEC_JAR/RESVG_EXE or
 --java/--ffdec-jar/--resvg) plus numpy; without them it warns and exits 0.
 
 Saved as: fashionsite/chardata/static/chardata/spells/retro/<name_fr>.png
-(96x96 PNG, the name the spell view expects). Existing files are never
-overwritten.
+(96x96 PNG, the name the spell view expects). When two spells share the
+French name, the lowest id keeps it and each other one is saved as
+<name_fr> (<id>).png. Existing files are never overwritten.
 """
 
 from __future__ import annotations
@@ -64,16 +65,23 @@ GLYPH_MAX = 50
 
 
 def load_targets(spells_path):
-    """name -> spell id for every spell the app displays."""
+    """icon stem -> spell id for every spell the app displays."""
     by_class = json.loads(Path(spells_path).read_text(encoding='utf-8'))
-    targets = {}
+    ids_by_name = {}
     for spells in by_class.values():
         for s in spells:
             name = s.get('name')
             if isinstance(name, dict):
                 name = name.get('fr')
             if s.get('id') is not None and name:
-                targets.setdefault(name, s['id'])
+                ids_by_name.setdefault(name, set()).add(s['id'])
+    # Homonyms: the lowest id keeps the bare name, the others take " (<id>)"
+    targets = {}
+    for name, ids in ids_by_name.items():
+        keeper = min(ids)
+        targets[name] = keeper
+        for sid in sorted(ids - {keeper}):
+            targets['%s (%s)' % (name, sid)] = sid
     return targets
 
 
