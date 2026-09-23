@@ -59,7 +59,7 @@ PyJWT==2.13.0
 pylibmc==1.6.3
 PyMySQL==1.2.0
 pyOpenSSL==26.4.0
-pyparsing==2.4.7
+pyparsing==3.3.2
 pyrsistent==0.20.0
 pyserial==3.5
 PySocks==1.7.1
