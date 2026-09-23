@@ -170,14 +170,14 @@ def home(request, char_id=0):
     if not is_anon_cant_create(request) and not has_too_many_projects(request) and len(buttons) < 3:
         button = {}
         button['pic'] = static('chardata/LoadProj2.png')
-        button['label'] = _('Create a Project')
+        button['label'] = _('Create a build')
         button['link'] = version_reverse(request, 'setup')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)
     if user_has_projects(request) and len(buttons) < 3:
         button = {}
         button['pic'] = static('chardata/NewProj1.png')
-        button['label'] = _('Load a Project')
+        button['label'] = _('My builds')
         button['link'] = version_reverse(request, 'load_projects')
         button['class'] = get_button_pos(buttons)
         buttons.append(button)

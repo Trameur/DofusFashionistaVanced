@@ -16,9 +16,12 @@ class AVersionThatDroppedALanguageSaysSoTests(SimpleTestCase):
 
     def test_touch_no_longer_names_a_spell_in_german(self):
         from fashionistapulp.dofus_constants_touch_spells import (
-            TOUCH_SPELL_NAMES)
+            TOUCH_DAMAGE_SPELLS, TOUCH_SPELL_NAMES)
+        expected = {spell.name for spells in TOUCH_DAMAGE_SPELLS.values()
+                    for spell in spells}
+        self.assertTrue(expected)
+        self.assertEqual(expected, set(TOUCH_SPELL_NAMES))
         noms = list(TOUCH_SPELL_NAMES.values())
-        self.assertEqual(180, len(noms), len(noms))
         anglais = [par_langue for par_langue in noms
                    if par_langue.get('de') == par_langue.get('en')]
         self.assertEqual(len(noms), len(anglais),

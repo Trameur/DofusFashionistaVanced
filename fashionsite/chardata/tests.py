@@ -8299,9 +8299,9 @@ class SeoTitleTests(TestCase):
 
     def test_home_title_suffix_is_translated(self):
         resp = self.client.get('/', HTTP_ACCEPT_LANGUAGE='fr')
-        self.assertContains(resp, 'Créateur et optimiseur de stuff')
+        self.assertContains(resp, 'builder de stuff et theorycraft')
         resp_en = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en')
-        self.assertContains(resp_en, 'Set Builder and Optimizer')
+        self.assertContains(resp_en, 'Set Builder &amp; Theorycraft')
 
     def test_shared_solution_title_is_keyword_shaped(self):
         from chardata.encoded_char_id import encode_char_id
@@ -19629,6 +19629,9 @@ class SpellComboTests(SimpleTestCase):
                 for spells in TOUCH_DAMAGE_SPELLS.values()
                 for spell in spells if getattr(spell, 'delayed', None)}
         self.assertEqual({'Flèche Empoisonnée': {0: 'turn_begin'},
+                          'Glyphe Agressif': {0: 'turn_begin'},
+                          'Glyphe Enflammé': {0: 'turn_begin'},
+                          "Glyphe d'Aveuglement": {0: 'turn_begin'},
                           'Poison insidieux': {0: 'turn_begin'}}, late)
 
     def test_no_touch_turn_reads_as_negative_damage(self):
@@ -27401,6 +27404,8 @@ class WhyThisResultPanelTests(TestCase):
         proven, _seconds, _pool = get_solver_facts(char.minimal_solution)
         page = self._page(char)
         self.assertIn('solver-why', page)
+        self.assertIn('solver-priority', page)
+        self.assertIn('Best turn', page)
         if proven:
             self.assertIn('Proven optimum', page)
             self.assertNotIn('not a proof', page)

@@ -54,6 +54,21 @@ gives the translated names (no separate i18n lookup needed).
 
 Item icons come from the asset CDN at `<assetsUrl>/gfx/items/<iconId>.png`.
 
+## Game build, mobile app and graphics versions
+
+The production client is served at
+[`/build/script.js`](https://dt-proxy-production-login.ankama-games.com/build/script.js).
+On 2026-09-23, its bootstrap assigns `window.buildVersion="1.74.5"`. Its
+`getBuildVersion()` display combines `window.appInfo.version` as the client
+version with `window.buildVersion` as the game build. The mobile app version
+reported on the phone, `3.14.2`, is independent of this game build.
+
+The `3.3.6_<hash>` component of `assetsUrl` identifies the graphics bundle. Game
+tables are served separately by `dataUrl`; the graphics version cannot identify
+their game build. `update_all.py` reads the build assignment without executing
+JavaScript and watches both the game build and the resource identifier. The
+local game label advances only after an import passes validation.
+
 ## The data shape
 
 Touch is a fork of the Dofus 2 client, so the records are Ankama's raw d2o objects

@@ -4469,12 +4469,12 @@
                 {
                     "item_ankama_id": 2294,
                     "item_subtype": "resources",
-                    "quantity": 4
+                    "quantity": 1
                 },
                 {
                     "item_ankama_id": 1455,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
                 },
                 {
                     "item_ankama_id": 1634,
@@ -4501,7 +4501,7 @@
                 {
                     "item_ankama_id": 2294,
                     "item_subtype": "resources",
-                    "quantity": 4
+                    "quantity": 1
                 },
                 {
                     "item_ankama_id": 1634,
@@ -4511,7 +4511,7 @@
                 {
                     "item_ankama_id": 1458,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
                 }
             ],
             "pods": 1
@@ -4533,12 +4533,12 @@
                 {
                     "item_ankama_id": 2294,
                     "item_subtype": "resources",
-                    "quantity": 4
+                    "quantity": 1
                 },
                 {
                     "item_ankama_id": 1457,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
                 },
                 {
                     "item_ankama_id": 1634,
@@ -4565,12 +4565,12 @@
                 {
                     "item_ankama_id": 2294,
                     "item_subtype": "resources",
-                    "quantity": 4
+                    "quantity": 1
                 },
                 {
                     "item_ankama_id": 1456,
                     "item_subtype": "resources",
-                    "quantity": 1
+                    "quantity": 4
                 },
                 {
                     "item_ankama_id": 1634,
@@ -80238,7 +80238,27 @@
                 {
                     "item_ankama_id": 14635,
                     "item_subtype": "resources",
-                    "quantity": 20
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 1533,
+                    "item_subtype": "resources",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 1531,
+                    "item_subtype": "resources",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 1534,
+                    "item_subtype": "resources",
+                    "quantity": 1
+                },
+                {
+                    "item_ankama_id": 1532,
+                    "item_subtype": "resources",
+                    "quantity": 1
                 }
             ],
             "effects": [
@@ -80275,7 +80295,27 @@
                 {
                     "item_ankama_id": 14635,
                     "item_subtype": "resources",
-                    "quantity": 60
+                    "quantity": 30
+                },
+                {
+                    "item_ankama_id": 1533,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                },
+                {
+                    "item_ankama_id": 1531,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                },
+                {
+                    "item_ankama_id": 1534,
+                    "item_subtype": "resources",
+                    "quantity": 3
+                },
+                {
+                    "item_ankama_id": 1532,
+                    "item_subtype": "resources",
+                    "quantity": 3
                 }
             ],
             "effects": [
@@ -80312,7 +80352,27 @@
                 {
                     "item_ankama_id": 14635,
                     "item_subtype": "resources",
-                    "quantity": 200
+                    "quantity": 100
+                },
+                {
+                    "item_ankama_id": 1533,
+                    "item_subtype": "resources",
+                    "quantity": 5
+                },
+                {
+                    "item_ankama_id": 1531,
+                    "item_subtype": "resources",
+                    "quantity": 5
+                },
+                {
+                    "item_ankama_id": 1534,
+                    "item_subtype": "resources",
+                    "quantity": 5
+                },
+                {
+                    "item_ankama_id": 1532,
+                    "item_subtype": "resources",
+                    "quantity": 5
                 }
             ],
             "effects": [
@@ -80349,7 +80409,27 @@
                 {
                     "item_ankama_id": 14635,
                     "item_subtype": "resources",
-                    "quantity": 600
+                    "quantity": 300
+                },
+                {
+                    "item_ankama_id": 1533,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 1531,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 1534,
+                    "item_subtype": "resources",
+                    "quantity": 10
+                },
+                {
+                    "item_ankama_id": 1532,
+                    "item_subtype": "resources",
+                    "quantity": 10
                 }
             ],
             "effects": [

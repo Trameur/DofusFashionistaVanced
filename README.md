@@ -23,6 +23,11 @@ pip install -r requirements_win.txt
 ```
 
 # Dofus Fashionista
+
+Pour mettre à jour les données de façon guidée : `py update_all.py`.
+Le lanceur propose les versions et les images, sauvegarde l'état local, contrôle
+les différences et lance les tests. Voir [le guide de mise à jour](UPDATE_DATA.md).
+
 The Dofus Fashionista, an equipment advisor for Dofus.
 
 This is a fork that keeps the site running and up to date. Beyond the live game, it

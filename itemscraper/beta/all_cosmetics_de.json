@@ -103753,6 +103753,36 @@
             "pods": 1
         },
         {
+            "ankama_id": 34408,
+            "name": "Prunk-Ramboton",
+            "type": {
+                "name": "Prunkwaffe",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-128.png"
+            },
+            "description": "Eine Prunkwaffe zu Ehren eines berühmten Féca-Kriegers aus einer anderen Zeit. Er sagte ständig: „Um den Krieg zu gewinnen, muss man den Krieg verinnerlichen.“ Jetzt können andere seine Legende verinnerlichen.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Kompatibel zu:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Kompatibel zu: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34409,
             "name": "Kopfbedeckung des Vernichters",
             "type": {

@@ -80,6 +80,10 @@ itemscraper/transformed_wakfu.json
 .env.*
 !.env.example
 
+.update-reports/
+.update-data.lock
+.update-data.guard
+
 discordbot/contributions.json
 discordbot/messages.txt
 

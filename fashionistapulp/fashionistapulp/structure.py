@@ -145,6 +145,7 @@ class Structure:
         self.game_version = game_version
         self._used_stat_keys = None
         self._rows_of_the_same_item = {}
+        self._unique_items_by_type_and_level_cache = {}
         self.legacy_item_ids = {}
         self.conn = sqlite3.connect(get_items_db_path(game_version))
         # A half-written catalogue raises here, still close the db (Windows locks the file)
@@ -880,6 +881,7 @@ class Structure:
         # Level range from the data, Wakfu runs 0 to 245
         levels = {item.level for item in itertools.chain(
             self.items_list, self.dt_items_list)}
+        self._unique_items_by_type_and_level_cache = {}
         self._level_floor = min([1] + [level for level in levels])
         self._level_ceiling = max([200] + [level for level in levels])
         span = range(self._level_floor, self._level_ceiling + 1)
@@ -1074,11 +1076,14 @@ class Structure:
                         item_set.localized_names[lang] = item_set.name
 
     def get_unique_items_by_type_and_level(self, item_type, level, dofus_touch=False):
-        # TODO: Don't sort every time.
-        if dofus_touch:
-            return sorted(self.dt_types[level][item_type], key=lambda item: item.name)
-        else:
-            return sorted(self.types[level][item_type], key=lambda item: item.name)
+        key = (bool(dofus_touch), level, item_type)
+        cached = self._unique_items_by_type_and_level_cache.get(key)
+        if cached is None:
+            source = self.dt_types if dofus_touch else self.types
+            cached = tuple(sorted(source[level][item_type],
+                                 key=lambda item: item.name))
+            self._unique_items_by_type_and_level_cache[key] = cached
+        return list(cached)
       
     def get_all_unique_items_ids_with_type(self, dofus_touch=False):
         if dofus_touch:

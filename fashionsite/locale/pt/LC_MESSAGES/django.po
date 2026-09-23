@@ -7686,3 +7686,65 @@ msgstr "quando o glifo-aura é acionado, em um turno posterior"
 #: chardata/spells_view.py
 msgid "only at the state the spell needs"
 msgstr "apenas no estado que o feitiço exige"
+
+#: chardata/templates/chardata/home.html
+msgid "Dofus Set Builder & Theorycraft"
+msgstr "Dofus: criador de conjuntos e theorycraft"
+
+#: chardata/templates/chardata/home.html
+#, python-format
+msgid "Dofus %(version)s Set Builder & Theorycraft"
+msgstr "Dofus %(version)s: criador de conjuntos e theorycraft"
+
+#: chardata/templates/chardata/home.html
+msgid "Build and compare Dofus sets. Test damage and refine your gear. Plus automatic optimization powered by maths, without AI."
+msgstr "Crie e compare conjuntos Dofus, teste danos e ajuste seus equipamentos. E conte com otimização automática por cálculo matemático, sem IA."
+
+#: chardata/templates/chardata/home.html
+#, python-format
+msgid "Build and compare Dofus %(version)s sets. Test damage and refine your gear. Plus automatic optimization powered by maths, without AI."
+msgstr "Crie e compare conjuntos Dofus %(version)s, teste danos e ajuste seus equipamentos. E conte com otimização automática por cálculo matemático, sem IA."
+
+#: chardata/templates/chardata/home.html
+msgid "Build, compare and fine-tune your Dofus sets"
+msgstr "Crie, compare e aperfeiçoe seus conjuntos Dofus"
+
+#: chardata/templates/chardata/home.html
+msgid "Dofus Fashionista is your free set builder and theorycrafting workshop. Pick your items, fine-tune your stats, test spell damage and compare builds side by side. Save your ideas and share them with other players."
+msgstr "Dofus Fashionista é seu criador de conjuntos e espaço de theorycraft gratuito. Escolha seus equipamentos, ajuste seus atributos, teste os danos dos feitiços e compare builds lado a lado. Salve suas ideias e compartilhe com outros jogadores."
+
+#: chardata/templates/chardata/home.html
+msgid "And when you want to go further, the automatic builder searches for the best sets for your goals. A mathematical optimizer does the calculations, without AI. You choose the priorities and keep control of every item."
+msgstr "E quando quiser ir além, o criador automático busca os melhores conjuntos para seus objetivos. Um otimizador matemático faz os cálculos, sem IA. Você define as prioridades e mantém o controle de cada equipamento."
+
+#: chardata/templates/chardata/home.html
+msgid "Explore community builds"
+msgstr "Explore os builds da comunidade"
+
+#: chardata/templates/chardata/home.html
+msgid "Try the automatic builder:"
+msgstr "Experimente o criador automático:"
+
+#: chardata/templates/chardata/home.html
+msgid "Your build, down to the last detail"
+msgstr "Seu build, nos mínimos detalhes"
+
+#: chardata/templates/chardata/home.html
+msgid "Start from an empty set or import your current gear. Try item swaps, check your damage and resistances, and compare alternatives before making your choice."
+msgstr "Comece com um conjunto vazio ou importe seu equipamento atual. Teste outros itens, confira seus danos e resistências e compare alternativas antes de escolher."
+
+#: chardata/templates/chardata/home.html
+msgid "Choose every item yourself, or start from an imported build."
+msgstr "Escolha cada equipamento ou comece com um build importado."
+
+#: chardata/templates/chardata/home.html
+msgid "Compare stats, resistances and spell damage side by side."
+msgstr "Compare atributos, resistências e danos de feitiços lado a lado."
+
+#: chardata/templates/chardata/home.html
+msgid "Want to go further? Ask the optimizer to search for a better set."
+msgstr "Quer ir além? Peça ao otimizador para buscar um conjunto melhor."
+
+#: chardata/home_view.py
+msgid "Create a build"
+msgstr "Criar um conjunto"

@@ -131,6 +131,62 @@ def _constraints_reached(char, solution):
     return lignes
 
 
+def _solver_priorities(char):
+    try:
+        weights = get_stats_weights(char, persist=False)
+        stats = {stat.key: stat for stat in get_structure().get_stats_list()}
+    except Exception:
+        logger.warning('could not read solver priorities for char %s', char.id)
+        return []
+
+    priorities = []
+    for key, value in weights.items():
+        stat = stats.get(key)
+        if stat is None:
+            continue
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):
+            continue
+        if not numeric:
+            continue
+        priorities.append((abs(numeric), numeric, localized_stat_name(stat.name)))
+    priorities.sort(key=lambda entry: (-entry[0], entry[2]))
+
+    result = []
+    for _absolute, numeric, name in priorities[:5]:
+        result.append({'name': name,
+                       'weight': (int(numeric) if numeric.is_integer()
+                                  else round(numeric, 1))})
+    return result
+
+
+def _solver_resistances(stats_total_json):
+    try:
+        totals = json.loads(stats_total_json or '{}')
+    except (TypeError, ValueError):
+        return []
+
+    resistances = []
+    for key in ('neutresper', 'earthresper', 'fireresper',
+                'waterresper', 'airresper'):
+        stat = get_structure().get_stat_by_key(key)
+        if stat is None:
+            continue
+        try:
+            numeric = float(totals.get(key, 0))
+        except (TypeError, ValueError):
+            continue
+        if numeric <= 0:
+            continue
+        resistances.append({
+            'name': localized_stat_name(stat.name),
+            'value': (int(numeric) if numeric.is_integer()
+                      else round(numeric, 1)),
+        })
+    return resistances
+
+
 def _search_space_exponent(pool):
     """floor(log10) of the number of sets those candidates could form, or None."""
     if not pool:
@@ -661,6 +717,9 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
     solver_proven, solver_seconds, solver_pool = get_solver_facts(
         generation.minimal_solution if generation is not None
         else char.minimal_solution)
+    solver_priorities = _solver_priorities(char)
+    solver_resistances = _solver_resistances(
+        solution_params.get('stats_total_json'))
     solver_pool_total = None if solver_pool is None else sum(solver_pool.values())
     solver_space_exponent = _search_space_exponent(solver_pool)
 
@@ -782,6 +841,8 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'disable_solution_item_actions': is_generation_snapshot,
               'solver_proven': solver_proven,
               'solver_constraints': solver_constraints,
+              'solver_priorities': solver_priorities,
+              'solver_resistances': solver_resistances,
               'solver_pool_total': solver_pool_total,
               'solver_space_exponent': solver_space_exponent,
               'solver_seconds': (None if solver_seconds is None

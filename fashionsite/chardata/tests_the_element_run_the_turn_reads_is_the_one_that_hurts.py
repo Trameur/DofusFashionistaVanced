@@ -27,10 +27,8 @@ _MOITIE_QUI_FRAPPE = {
 _AVEC_GROUPE_DE_BUFF = 13
 _AVEC_PLUSIEURS_SERIES = 30
 
-# Ebony Dofus hitting rows all wait on a state, and a placed thing's rows on
-# what sets it off: 3 casts, then 49 more per version on dofus3 and the beta
-# and 25 on dofus2
-_ZEROS_RESTANTS = 126
+_ZEROS_RESTANTS = {'dofus3': 50, 'beta': 50, 'dofus2': 26,
+                  'touch': 96, 'retro': 48}
 _SORT_DES_ZEROS_RESTANTS = 'Ebony Dofus'
 _ATTENTES_DES_CHOSES_POSEES = {'trap', 'bomb', 'glyph', 'aura', 'state'}
 
@@ -109,15 +107,16 @@ class TheTurnReadsTheHalfThatHurtsTests(SimpleTestCase):
             'the panel scores zero on %d casts that carry a row able to hurt '
             'and that nothing else explains: %s'
             % (len(restants), sorted(set(restants))[:8]))
-        self.assertEqual(_ZEROS_RESTANTS, len(expliques),
-                         'the casts whose hitting rows all wait on a state '
-                         'were %d and are now %d'
-                         % (_ZEROS_RESTANTS, len(expliques)))
-        poses = {sort.name for _version, _classe, sort in _tous_les_sorts()
+        self.assertEqual(_ZEROS_RESTANTS,
+                         dict(collections.Counter(version for version, _name
+                                                  in expliques)))
+        poses = {(version, sort.name)
+                 for version, _classe, sort in _tous_les_sorts()
                  if (getattr(sort, 'conditional', None) or {})
                  and set(sort.conditional.values()) <= _ATTENTES_DES_CHOSES_POSEES}
         self.assertEqual(
-            {_SORT_DES_ZEROS_RESTANTS}, {nom for _v, nom in expliques} - poses,
+            {(version, _SORT_DES_ZEROS_RESTANTS)
+             for version in ('dofus3', 'beta', 'dofus2')}, set(expliques) - poses,
             'another spell now scores zero because its rows wait, and it has '
             'not been read: %s' % sorted(set(expliques)))
 

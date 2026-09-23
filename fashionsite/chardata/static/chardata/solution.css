@@ -613,6 +613,15 @@
     background: rgba(200, 60, 40, 0.18);
 }
 
+.solver-why-best-turn {
+    font-weight: bold;
+}
+
+.solver-why-best-turn-note {
+    font-weight: normal;
+    opacity: 0.8;
+}
+
 /* Les pieces que le niveau du personnage ne permet pas. Exactement la forme
    de la ligne du meilleur tour juste en dessous, bordure comprise, et le fond
    pale du design classique clair lui est donne dans solution_lighttheme.css

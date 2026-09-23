@@ -103753,6 +103753,36 @@
             "pods": 1
         },
         {
+            "ankama_id": 34408,
+            "name": "El Rambotón cosmético",
+            "type": {
+                "name": "Arma de apariencia",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-128.png"
+            },
+            "description": "Un arma de apariencia en honor a un famoso guerrero feca de antaño. Su frase favorita era: «Para ganar la guerra, hay que ser la guerra». Y vaya que sí lo logró, pues acabó entrando en la leyenda.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible con",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible con 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34409,
             "name": "Tocado del exterminador",
             "type": {

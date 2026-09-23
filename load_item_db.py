@@ -22,6 +22,9 @@ import platform
 import sqlite3
 import sys
 import importlib
+import time
+from contextlib import closing
+from data_file_ops import replace_file
 
 try:
     fashionista_config = importlib.import_module('fashionistapulp.fashionista_config')
@@ -53,11 +56,10 @@ def _build_db_file(target_path, dumped_db_path):
         # Executescript handles semicolons in SQL strings correctly.
         with open(dumped_db_path, 'r', encoding='utf-8') as f:
             sql_script = _sanitize_dump_sql(f.read())
-        conn = sqlite3.connect(target_path)
-        conn.executescript("PRAGMA foreign_keys = OFF;")
-        conn.executescript(sql_script)
-        conn.commit()
-        conn.close()
+        with closing(sqlite3.connect(target_path)) as conn:
+            conn.executescript("PRAGMA foreign_keys = OFF;")
+            conn.executescript(sql_script)
+            conn.commit()
     else:
         # One big transaction with fsync disabled while building the private
         # temp file. The dump carries no BEGIN/COMMIT, so the bare CLI used
@@ -73,6 +75,10 @@ def _build_db_file(target_path, dumped_db_path):
         if return_code != 0:
             raise RuntimeError('sqlite3 import failed (exit %d)' % return_code)
         os.system('chmod 666 %s' % target_path)
+
+
+def _replace_db_file(source, destination, timeout=15):
+    replace_file(source, destination, timeout)
 
 
 def main():
@@ -132,7 +138,7 @@ def main():
     print(f"Importing database from {dumped_db_path} to {items_db_path}")
     try:
         _build_db_file(tmp_db_path, dumped_db_path)
-        os.replace(tmp_db_path, items_db_path)  # atomic on the same filesystem
+        _replace_db_file(tmp_db_path, items_db_path)
         print("Database import completed successfully.")
     except Exception as e:
         print(f"Error during database import: {e}")

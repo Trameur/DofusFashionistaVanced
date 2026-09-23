@@ -103753,6 +103753,36 @@
             "pods": 1
         },
         {
+            "ankama_id": 34408,
+            "name": "Primeiro Cajado Sangrento de Aparência",
+            "type": {
+                "name": "Arma de aparência",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-128.png"
+            },
+            "description": "Uma arma de aparência em homenagem a um célebre guerreiro Feca de outrora. Ele amava repetir \"Para ganhar a guerra, é necessário se tornar a guerra\". Nesse caso, ele acabou se tornando uma lenda.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatível com:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatível com: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34409,
             "name": "Chapéu do Exterminador",
             "type": {

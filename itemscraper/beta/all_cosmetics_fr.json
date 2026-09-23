@@ -103753,6 +103753,36 @@
             "pods": 1
         },
         {
+            "ankama_id": 34408,
+            "name": "Le Ramboton d'apparat",
+            "type": {
+                "name": "Arme d'apparat",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-128.png"
+            },
+            "description": "Une arme d'apparat en l'honneur d'un célèbre guerrier Féca d'un ancien temps. Il aimait à répéter \"Pour gagner la guerre, il faut devenir la guerre\". En l'occurrence, il est plutôt entré dans la légende.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible avec :",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible avec : 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34409,
             "name": "Coiffe de l'exterminateur",
             "type": {

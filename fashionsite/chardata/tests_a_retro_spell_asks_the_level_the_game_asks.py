@@ -34,10 +34,18 @@ class TheLevelsComeFromTheGameTests(SimpleTestCase):
         bases = {sort.level_req[0] for _classe, sort in _sorts()}
         self.assertEqual(set(ECHELLE), bases)
 
-    def test_only_seventeen_spells_start_at_level_one(self):
-        depart = [sort.name for _classe, sort in _sorts()
-                  if sort.level_req[0] == 1]
-        self.assertEqual(17, len(depart), sorted(depart))
+    def test_the_starting_spells_match_their_class(self):
+        expected = {
+            'Cra': {161, 164, 169}, 'Ecaflip': {102}, 'Eniripsa': {125},
+            'Enutrof': {43, 51}, 'Feca': {3, 17}, 'Iop': {141, 143},
+            'Osamodas': {21}, 'Pandawa': {687, 692}, 'Sacrier': {432},
+            'Sadida': {183}, 'Sram': {61, 65}, 'Xelor': {83},
+        }
+        actual = {}
+        for char_class, spell in _sorts():
+            if spell.level_req[0] == 1:
+                actual.setdefault(char_class, set()).add(spell.spell_id)
+        self.assertEqual(expected, actual)
 
     def test_the_last_rank_asks_a_hundred_levels_above_the_spell(self):
         for classe, sort in _sorts():
@@ -51,18 +59,15 @@ class TheLevelsComeFromTheGameTests(SimpleTestCase):
     def test_the_module_says_what_the_scraper_wrote_beside_it(self):
         with io.open(ARTEFACT, encoding='utf-8') as fichier:
             artefact = json.load(fichier)
-        attendu = {}
-        entrees = (artefact.values() if isinstance(artefact, dict)
-                   else [artefact])
-        for sorts in entrees:
-            for entree in sorts:
-                if isinstance(entree, dict) and entree.get('level_reqs'):
-                    attendu[entree['name']] = list(entree['level_reqs'])
-        self.assertEqual(106, len(attendu), 'artefact incomplet')
-        for _classe, sort in _sorts():
-            with self.subTest(sort=sort.name):
-                self.assertIn(sort.name, attendu)
-                self.assertEqual(attendu[sort.name], list(sort.level_req))
+        expected = {(char_class, spell['id']):
+                    (spell['name'], tuple(spell['level_reqs']))
+                    for char_class, spells in artefact.items()
+                    for spell in spells}
+        actual = {(char_class, spell.spell_id):
+                  (spell.name, tuple(spell.level_req))
+                  for char_class, spell in _sorts()}
+        self.assertTrue(expected)
+        self.assertEqual(expected, actual)
 
 
 class ThePanelFollowsTheLevelTests(SimpleTestCase):

@@ -103753,6 +103753,36 @@
             "pods": 1
         },
         {
+            "ankama_id": 34408,
+            "name": "Ceremonial First Blood Staff",
+            "type": {
+                "name": "Ceremonial weapon",
+                "id": 34
+            },
+            "level": 1,
+            "image_urls": {
+                "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-64.png",
+                "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/4071-128.png"
+            },
+            "description": "A ceremonial weapon in honour of a famous Feca warrior from ages past. He could often be heard saying, \"To win a war, you gotta become war.\" Well, turns out he became a legend instead.",
+            "effects": [
+                {
+                    "int_minimum": 0,
+                    "int_maximum": 0,
+                    "type": {
+                        "name": "Compatible with:",
+                        "id": 1,
+                        "is_meta": false,
+                        "is_active": false
+                    },
+                    "ignore_int_min": true,
+                    "ignore_int_max": true,
+                    "formatted": "Compatible with: 0"
+                }
+            ],
+            "pods": 1
+        },
+        {
             "ankama_id": 34409,
             "name": "Exterminator Headgear",
             "type": {

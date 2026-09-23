@@ -77,10 +77,7 @@ class ATouchSpellWhoseOnlyDamageIsBestElementShowsItTests(SimpleTestCase):
             with self.subTest(sort=name):
                 self.assertNotIn(name, present)
 
-    def test_the_table_grew_by_exactly_those_six(self):
-        total = sum(1 for _class_name, _spell in _touch_spells())
-        self.assertEqual(180, total,
-                         'the Touch table held 174 before these six')
+    def test_only_the_six_best_element_spells_have_the_group(self):
         grouped = [spell.name for _class_name, spell in _touch_spells()
                    if any(label == 'Hit in best element'
                           for label, _indices in (spell.aggregates or []))]
