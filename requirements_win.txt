@@ -51,7 +51,7 @@ sqlparse==0.6.0
 typing_extensions==4.16.0
 tzdata==2026.3
 Unidecode==1.4.0
-urllib3==2.7.0
+urllib3==2.8.0
 webencodings==0.6.1
 
 # Windows : `manage.py test --parallel` a besoin de tblib pour
