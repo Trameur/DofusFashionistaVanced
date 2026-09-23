@@ -30,7 +30,7 @@ cryptography==50.0.1
 defusedxml==0.7.1
 django-htmlmin==0.11.0
 django-sslserver==0.22
-Django==6.0.8
+Django==6.1.1
 html5lib==1.1
 idna==3.20
 jmespath==1.1.0
