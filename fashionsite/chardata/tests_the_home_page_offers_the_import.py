@@ -43,7 +43,7 @@ class TheHomePageOffersTheImportTests(TestCase):
         page = self.client.get('/', HTTP_ACCEPT_LANGUAGE='fr').content.decode('utf-8')
         self.assertNotIn(QUESTION, page)
         self.assertNotIn(LIEN, page)
-        self.assertIn('Vous avez déjà un build ?', page)
+        self.assertIn('Tu as déjà un build ?', page)
         self.assertIn('captures d’écran', _ancre(page))
 
     def test_the_line_is_not_faded(self):
