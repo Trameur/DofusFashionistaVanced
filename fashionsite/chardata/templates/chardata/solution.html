@@ -652,10 +652,10 @@
         <p class="solution-support-text">
             {# ads_allowed, not ads_enabled: it loads AdSense auto ads, /s/ included #}
             {% if not ads_allowed %}<strong>{% trans "No ads, no subscription." %}</strong>{% endif %}
-            {% blocktrans %}I pay for the server myself and build this in my spare time. If this set was useful, you can chip in.{% endblocktrans %}
+            {% blocktrans %}I pay for the server out of my own pocket and build the site in my spare time. If this set saved you some time, you can buy me a coffee :){% endblocktrans %}
         </p>
         <a class="solution-support-button" href="{% url 'donate' %}?from=solution"
-           target="_blank" rel="nofollow noopener">{% trans "Support Fashionista" %}</a>
+           target="_blank" rel="nofollow noopener">{% trans "Buy me a coffee on Ko-fi" %}</a>
     </aside>
     <div id="blanket" style="display:none;"></div>
     <div id="popUpDiv" style="display:none;">

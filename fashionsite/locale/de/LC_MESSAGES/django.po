@@ -6879,8 +6879,12 @@ msgid "No ads, no subscription."
 msgstr "Keine Werbung, kein Abo."
 
 #: .\chardata\templates\chardata\solution.html:581
-msgid "I pay for the server myself and build this in my spare time. If this set was useful, you can chip in."
-msgstr "Den Server bezahle ich selbst und entwickle das hier in meiner Freizeit. Wenn dieses Set nützlich war, können Sie etwas beisteuern."
+msgid "I pay for the server out of my own pocket and build the site in my spare time. If this set saved you some time, you can buy me a coffee :)"
+msgstr "Ich bezahle den Server aus eigener Tasche und entwickle die Seite in meiner Freizeit. Wenn dir dieses Set Zeit gespart hat, kannst du mir gern einen Kaffee spendieren :)"
+
+#: .\chardata\templates\chardata\solution.html:658
+msgid "Buy me a coffee on Ko-fi"
+msgstr "Kaffee auf Ko-fi spendieren"
 
 #: .\chardata\templates\chardata\privacy.html
 msgid "Third-party services"

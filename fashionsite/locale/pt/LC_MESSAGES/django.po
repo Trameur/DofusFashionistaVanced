@@ -6874,11 +6874,15 @@ msgstr "O servidor pago-o do meu bolso e desenvolvo isto nos tempos livres."
 
 #: .\chardata\templates\chardata\solution.html:580
 msgid "No ads, no subscription."
-msgstr "Sem anúncios, sem subscrição."
+msgstr "Sem anúncios, sem assinatura."
 
 #: .\chardata\templates\chardata\solution.html:581
-msgid "I pay for the server myself and build this in my spare time. If this set was useful, you can chip in."
-msgstr "O servidor pago-o do meu bolso e desenvolvo isto nos tempos livres. Se este conjunto ajudou, pode contribuir."
+msgid "I pay for the server out of my own pocket and build the site in my spare time. If this set saved you some time, you can buy me a coffee :)"
+msgstr "O servidor sai do meu bolso e eu programo o site no meu tempo livre. Se esse set te poupou tempo, você pode me pagar um cafezinho :)"
+
+#: .\chardata\templates\chardata\solution.html:658
+msgid "Buy me a coffee on Ko-fi"
+msgstr "Pagar um café no Ko-fi"
 
 #: .\chardata\templates\chardata\privacy.html
 msgid "Third-party services"

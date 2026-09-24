@@ -25140,7 +25140,7 @@ class AskingAtTheMomentOfValueTests(TestCase):
                       'the probe never turned ads on, so it proves nothing')
         self.assertNotIn('No ads', avec)
         # Le reste de la demande survit : seule l'affirmation invalide tombe.
-        self.assertIn('for the server myself and build this in my spare time', avec)
+        self.assertIn('out of my own pocket and build the site in my spare time', avec)
         self.assertIn('/out/donate/?from=solution', avec)
 
         sans = self._result_page()
@@ -25197,10 +25197,10 @@ class AskingAtTheMomentOfValueTests(TestCase):
                 self.assertNotIn(faux, html, '%s / %s' % (langue, faux))
 
     def test_it_speaks_the_reader_s_language(self):
-        for langue, attendu in (('fr', 'de ma poche et je développe'),
-                                ('es', 'de mi bolsillo y desarrollo'),
-                                ('pt', 'do meu bolso e desenvolvo'),
-                                ('de', 'bezahle ich selbst und entwickle')):
+        for langue, attendu in (('fr', 'de ma poche et je code le site'),
+                                ('es', 'de mi bolsillo y programo el sitio'),
+                                ('pt', 'sai do meu bolso e eu programo'),
+                                ('de', 'aus eigener Tasche und entwickle')):
             self.assertIn(attendu, self._result_page(langue), langue)
 
     def test_nothing_was_locked_away(self):
