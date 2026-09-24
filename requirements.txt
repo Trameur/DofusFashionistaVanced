@@ -1,23 +1,18 @@
-# Dependances de Dofus Fashionista.
+# Dofus Fashionista dependencies.
 #
-# Cette liste est la fermeture calculee par pip a partir des seuls paquets que
-# le code importe : Django, PuLP, Pillow, PyMySQL, requests, boto3, jsonpickle,
-# Unidecode, social-auth-app-django, social-auth-core, django-htmlmin et
-# django-sslserver. Tout le reste ci-dessous est transitif.
+# This list is the closure pip computes from the packages the code imports:
+# Django, PuLP, Pillow, PyMySQL, requests, boto3, jsonpickle, Unidecode,
+# social-auth-app-django, social-auth-core, django-htmlmin and
+# django-sslserver. Everything else below is transitive.
 #
-# Elle a remplace un `pip freeze` de machine qui portait plus de quarante
-# paquets de plus,
-# dont awk, dbus-python, pyserial, configobj et les dependances de Twisted, que
-# rien n'importait. mysql-connector-python en faisait partie : Django passe par
-# PyMySQL (`install_as_MySQLdb()` dans fashionsite/__init__.py), pas par lui.
+# Django reaches MySQL through PyMySQL (`install_as_MySQLdb()` in
+# fashionsite/__init__.py), not through mysql-connector-python.
 #
-# boto3 et botocore doivent rester a la meme version, sinon la construction de
-# l'image s'arrete. PinnedDependenciesAgreeTests le verifie.
+# boto3 and botocore must stay on the same version, or the image build stops.
+# PinnedDependenciesAgreeTests checks it.
 #
-# Linux, installation directe. Identique au fichier Docker : deux
-# listes qui derivent l'une de l'autre finissent par diverger, et
-# c'est ainsi que PuLP s'est retrouve en 3.3.2 ici et en 2.7.0 en
-# production, sans que rien ne le signale.
+# Linux, direct install. Kept identical to the Docker file: two lists
+# copied from each other end up drifting apart without anything saying so.
 
 asgiref==3.12.1
 beautifulsoup4==4.15.0

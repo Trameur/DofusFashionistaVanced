@@ -1,33 +1,33 @@
 #!/bin/bash
 set -e
 
-# Vérifier si docker et docker-compose sont installés
+# Are docker and docker-compose installed
 if ! command -v docker &> /dev/null; then
-    echo "Docker n'est pas installé. Veuillez l'installer d'abord."
+    echo "Docker is not installed. Please install it first."
     exit 1
 fi
 
 if ! command -v docker-compose &> /dev/null; then
-    echo "Docker Compose n'est pas installé. Veuillez l'installer d'abord."
+    echo "Docker Compose is not installed. Please install it first."
     exit 1
 fi
 
-# Configuration du projet pour Docke
-echo "Configuration du projet pour Docker..."
+# Configure the project for Docker
+echo "Configuring the project for Docker..."
 python configure_docker.py
 
-# Construction des images Docke
-echo "Construction des images Docker..."
+# Build the Docker images
+echo "Building the Docker images..."
 docker-compose build
 
-# Démarrage des conteneurs
-echo "Démarrage des conteneurs..."
+# Start the containers
+echo "Starting the containers..."
 docker-compose up -d
 
 echo ""
 echo "=================================================="
-echo "DofusFashionistaVanced est maintenant lancé!"
-echo "Vous pouvez y accéder à l'adresse: http://localhost:8000"
-echo "Pour voir les logs: docker-compose logs -f"
-echo "Pour arrêter: docker-compose down"
+echo "DofusFashionistaVanced is now running."
+echo "Open it at: http://localhost:8000"
+echo "To see the logs: docker-compose logs -f"
+echo "To stop: docker-compose down"
 echo "=================================================="

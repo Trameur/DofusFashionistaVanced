@@ -1,20 +1,17 @@
-# Dependances de Dofus Fashionista.
+# Dofus Fashionista dependencies.
 #
-# Cette liste est la fermeture calculee par pip a partir des seuls paquets que
-# le code importe : Django, PuLP, Pillow, PyMySQL, requests, boto3, jsonpickle,
-# Unidecode, social-auth-app-django, social-auth-core, django-htmlmin et
-# django-sslserver. Tout le reste ci-dessous est transitif.
+# This list is the closure pip computes from the packages the code imports:
+# Django, PuLP, Pillow, PyMySQL, requests, boto3, jsonpickle, Unidecode,
+# social-auth-app-django, social-auth-core, django-htmlmin and
+# django-sslserver. Everything else below is transitive.
 #
-# Elle a remplace un `pip freeze` de machine qui portait plus de quarante
-# paquets de plus,
-# dont awk, dbus-python, pyserial, configobj et les dependances de Twisted, que
-# rien n'importait. mysql-connector-python en faisait partie : Django passe par
-# PyMySQL (`install_as_MySQLdb()` dans fashionsite/__init__.py), pas par lui.
+# Django reaches MySQL through PyMySQL (`install_as_MySQLdb()` in
+# fashionsite/__init__.py), not through mysql-connector-python.
 #
-# boto3 et botocore doivent rester a la meme version, sinon la construction de
-# l'image s'arrete. PinnedDependenciesAgreeTests le verifie.
+# boto3 and botocore must stay on the same version, or the image build stops.
+# PinnedDependenciesAgreeTests checks it.
 #
-# Poste de developpement Windows.
+# Windows development machine.
 
 asgiref==3.12.1
 beautifulsoup4==4.15.0
@@ -54,6 +51,6 @@ Unidecode==1.4.0
 urllib3==2.8.0
 webencodings==0.6.1
 
-# Windows : `manage.py test --parallel` a besoin de tblib pour
-# remonter les traces des workers.
+# Windows: `manage.py test --parallel` needs tblib to pass the worker
+# tracebacks back.
 tblib==3.2.2

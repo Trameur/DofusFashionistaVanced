@@ -8,15 +8,14 @@ export PYTHONUNBUFFERED=1
 
 echo "Starting DofusFashionistaVanced container..."
 
-# Fusionner les configurations existantes avec les valeurs par défaut
+# Merge the existing configuration with the defaults
 CONFIG_DIR="/etc/fashionista"
 CONFIG_FILE="${CONFIG_DIR}/gen_config.json"
 
-# Exécuter le script Python pour fusionner les configurations
 echo "Merging configuration files..."
 python3 /app/merge_docker_config.py
 
-# Attendre que la base de données soit disponible
+# Wait for the database
 echo "Waiting for database to be available..."
 until python3 -c "
 import pymysql
@@ -41,26 +40,20 @@ except Exception as e:
     sleep 3
 done
 
-# Aller dans le répertoire du projet Django
+# Django project folder
 cd /app/fashionsite
 
-# Exécuter les migrations Django
+# Django migrations
 echo "Running Django migrations..."
 python manage.py migrate --noinput
 
-# Les solves memorises sont cles sur la demande du joueur, jamais sur les
-# donnees ni sur le solveur : apres un deploy qui change l'un ou l'autre, ils
-# resserviraient des stuffs optimises pour l'ancien. Presque chaque deploy
-# porte des donnees, donc on les oublie a chaque demarrage. Les builds
-# sauvegardes ne bougent pas.
+# Memoized solves are keyed on the player's request alone, not on the data or
+# the solver, so every boot forgets them. Saved builds are left alone.
 echo "Forgetting memoized solves..."
 python manage.py clear_solution_cache || echo "solution cache not cleared"
 
-# Collecter les fichiers statiques. Pas de --clear : le volume static_files
-# persiste entre les deploys et --clear forcait la recopie COMPLETE des
-# ~40k fichiers (webp monstres inclus) a chaque boot, soit plusieurs minutes
-# de maintenance sur les I/O du VPS. La copie incrementale suffit ; les
-# rares fichiers orphelins restent servis mais ne cassent rien.
+# No --clear: the static_files volume persists between deploys, and --clear
+# would copy every file again at each boot. The incremental copy is enough.
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
@@ -69,16 +62,12 @@ python manage.py collectstatic --noinput
 echo "Baking character bodies and heads..."
 python manage.py prebake_characters || echo "no character bundles, preview off"
 
-# Les vues portent une adresse IP, gardee pour ne compter qu'une visite par
-# adresse et par 24 h. La commande qui les efface existe depuis 2020 et rien ne
-# l'appelait : la table en comptait 156 249 pour une retention annoncee d'un
-# jour. Ici elle passe a chaque demarrage, et la vue elle-meme elague au fil de
-# l'eau, ce qui couvre les longues periodes sans deploiement.
+# View records keep an IP address to count one visit per address per 24 h.
+# The view also prunes as it goes, which covers long stretches without a deploy.
 echo "Dropping view records older than a day..."
 python manage.py cleanup_old_views || echo "view cleanup skipped"
 
-# Les sessions expirees ne sont supprimees par personne non plus : 110 193
-# lignes, 29 Mo, dont aucune n'est plus lisible.
+# Nothing else deletes expired sessions.
 echo "Dropping expired sessions..."
 python manage.py clearsessions || echo "session cleanup skipped"
 
@@ -86,7 +75,7 @@ echo "Starting Gunicorn server..."
 # On small instances, 2 workers is usually more stable than 3.
 GUNICORN_WORKERS="${GUNICORN_WORKERS:-2}"
 
-# Démarrer Gunicorn avec les bonnes configurations
+# Start Gunicorn
 exec gunicorn fashionsite.wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers "${GUNICORN_WORKERS}" \

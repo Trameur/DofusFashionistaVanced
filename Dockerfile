@@ -1,6 +1,6 @@
 FROM python:3.14-slim
 
-# Installer les dépendances système nécessaires
+# System packages
 RUN apt-get update && apt-get install -y \
     bash \
     build-essential \
@@ -12,60 +12,60 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Définir le répertoire de travail
+# Working directory
 WORKDIR /app
 
-# Copier les fichiers de requirements
+# Requirements file
 COPY requirements-docker.txt .
 
-# Installer les dépendances Python
+# Python packages
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements-docker.txt
 RUN pip install --no-cache-dir gunicorn
 
-# Copier le reste du code source
+# The rest of the source code
 COPY . .
 
-# Corriger les problèmes de fin de ligne CRLF sur tous les scripts
+# Convert CRLF line endings in every script
 RUN find . -name "*.py" -type f -exec dos2unix {} \;
 RUN find . -name "*.sh" -type f -exec dos2unix {} \;
 
-# Rendre les scripts exécutables
+# Make the scripts executable
 RUN chmod +x *.py
 RUN find . -name "*.sh" -type f -exec chmod +x {} \;
 
-# Créer le répertoire de configuration pour Docker
+# Configuration folder
 RUN mkdir -p /etc/fashionista
 
-# Copier le script de fusion de configuration
+# Configuration merge script
 COPY merge_docker_config.py /app/merge_docker_config.py
 RUN chmod +x /app/merge_docker_config.py
 
-# Créer un fichier gen_config.json avec les valeurs par défaut en utilisant le script Python
+# Write gen_config.json with the default values
 RUN python3 /app/merge_docker_config.py
 
-# Configurer le mode DEBUG pour Docker (production)
+# DEBUG off for Docker (production)
 RUN echo "False" > /etc/fashionista/debug_mode
 
-# Configurer le mode serve_static pour Docker
+# serve_static on for Docker
 RUN echo "True" > /etc/fashionista/serve_static
 
-# Créer un fichier config avec le chemin du projet
+# config file holding the project path
 RUN echo "/app" > /etc/fashionista/config
 
-# Ajouter les répertoires au PYTHONPATH
+# Folders on the PYTHONPATH
 ENV PYTHONPATH="/app:/app/fashionistapulp:/app/fashionsite"
 
-# Compiler les fichiers de traduction
+# Compile the translation files
 RUN cd /app/fashionsite && python manage.py compilemessages
 
-# Copier et configurer le script d'entrée pour Docker
+# Docker entry script
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 RUN dos2unix /app/docker-entrypoint.sh
 RUN chmod +x /app/docker-entrypoint.sh
 
-# Exposer le port 8000
+# Port 8000
 EXPOSE 8000
 
-# Point d'entrée: démarrer Django en développement
+# Default command: the Django development server
 CMD ["python", "/app/fashionsite/manage.py", "runserver", "0.0.0.0:8000"]
