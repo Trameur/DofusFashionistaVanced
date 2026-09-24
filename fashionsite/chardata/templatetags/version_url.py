@@ -1,7 +1,15 @@
 from django import template
-from django.urls import reverse, NoReverseMatch
+from django.urls import resolve, reverse, NoReverseMatch, Resolver404
 
 register = template.Library()
+
+
+def _resolves(path):
+    try:
+        resolve(path)
+        return True
+    except Resolver404:
+        return False
 
 
 @register.simple_tag(takes_context=True)
@@ -37,9 +45,19 @@ def version_switch_href(context, version_key):
     prefix = context.get('version_switch_language_prefix', '') or ''
     version_prefix = '' if version_key == 'dofus3' else '/' + version_key
     base_path = context.get('version_switch_base_path', '/') or '/'
-    if (version_key == context.get('current_game_version', 'dofus3')
-            or not context.get('version_switch_is_entity')):
+    current = context.get('current_game_version', 'dofus3')
+    if version_key == current:
         return prefix + version_prefix + base_path
+    if not context.get('version_switch_is_entity'):
+        # Guides are routed once per language, login exists in one version only
+        candidate = prefix + version_prefix + base_path
+        if _resolves(candidate):
+            return candidate
+        candidate = version_prefix + base_path
+        if _resolves(candidate):
+            return candidate
+        hub = '/encyclopedia/' if base_path.startswith('/encyclopedia/') else '/'
+        return prefix + version_prefix + hub
     labels = dict(context.get('active_game_versions') or ())
     wanted_label = labels.get(version_key)
     for entry in (list(context.get('other_versions') or ())
