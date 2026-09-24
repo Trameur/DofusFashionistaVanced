@@ -130,10 +130,10 @@ _ENTETE = re.compile(
 
 _CLASSE_PAR_NOM = _classes_par_nom()
 
-# Version labels are not translated
+# Version labels are not translated; experimental versions are never reader-facing
 _VERSION_PAR_LIBELLE = {
     GAME_VERSIONS[cle].label.lower(): cle
-    for cle in version_keys(include_experimental=True)
+    for cle in version_keys()
 }
 
 # Base stats lines of the export: Points (spent on level up) and Scrolls

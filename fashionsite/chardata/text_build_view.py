@@ -45,9 +45,14 @@ def _version(request):
 
 
 def _url_pour_version(cle):
-    """This page under another version's prefix; dofus3 has none."""
-    prefixe = '' if cle == 'dofus3' else '/' + cle
-    return '%s/import/text/' % prefixe
+    """This page under another version's prefix, with the reader's language prefix."""
+    from django.urls import reverse, NoReverseMatch
+    try:
+        return reverse('text_build_import' if cle == 'dofus3'
+                       else '%s:text_build_import' % cle)
+    except NoReverseMatch:
+        prefixe = '' if cle == 'dofus3' else '/' + cle
+        return '%s/import/text/' % prefixe
 
 
 def _raisons_du_lien():

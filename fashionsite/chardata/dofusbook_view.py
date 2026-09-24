@@ -52,10 +52,15 @@ def _language_code():
 
 
 def _solution_path(char):
-    """The build's own version prefix, not the request's."""
+    """The build's own version prefix, not the request's; the reader's language prefix."""
+    from django.urls import reverse, NoReverseMatch
     version = getattr(char, 'game_version', None) or 'dofus3'
-    prefixe = '' if version == 'dofus3' else '/' + version
-    return '%s/solution/%d/' % (prefixe, char.id)
+    try:
+        return reverse('solution_2' if version == 'dofus3'
+                       else '%s:solution_2' % version, args=[char.id])
+    except NoReverseMatch:
+        prefixe = '' if version == 'dofus3' else '/' + version
+        return '%s/solution/%d/' % (prefixe, char.id)
 
 
 def _place_items(char, item_ids, origin='dofusbook'):
