@@ -1,13 +1,16 @@
+# Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 import copy
 import contextlib
 import io
 import json
 import os
 from pathlib import Path
+import re
 import sqlite3
 import subprocess
 import tempfile
 import threading
+import time
 from types import SimpleNamespace
 from unittest import TestCase, mock
 
@@ -30,6 +33,77 @@ class UpdateLauncherTests(TestCase):
         mock.patch.object(audit, 'DATA', self.root / 'fashionistapulp/fashionistapulp').start()
         mock.patch.object(audit, 'STATIC', self.root / 'fashionsite/chardata/static').start()
         (self.root / 'fashionista_version.py').write_text('FASHIONISTA_VERSION = "3.6.9.0"\n', encoding='utf-8')
+
+    VERSION_FILE = ('FASHIONISTA_TOUCH_VERSION = "1.74"\nFASHIONISTA_RETRO_VERSION = "1.49"\n'
+                    'FASHIONISTA_VERSION = "3.6.11.15"\nFASHIONISTA_BETA_VERSION = "3.7.0.0"\n'
+                    'FASHIONISTA_DOFUS2_VERSION = "2.73.3.13"\n'
+                    'WATCHED_RETRO_ASSET_DIGEST = "old"\nWATCHED_RETRO_ASSET_COUNT = 10\nLOCAL_EDIT = True\n')
+    TARGETS = {'dofus3': '3.6.12.16', 'beta': '3.7.1.1', 'dofus2': '2.73.3.14'}
+
+    def settings(self):
+        settings = self.root / 'fashionsite/fashionsite/settings_test.py'
+        settings.parent.mkdir(parents=True, exist_ok=True)
+        settings.write_text('', encoding='utf-8')
+
+    def args(self):
+        return SimpleNamespace(running_file=self.root / 'RUNNING.md', step_timeout=60)
+
+    def database(self, key, *ids):
+        path = audit.database_path(key)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.unlink(missing_ok=True)
+        with audit.writable(path) as connection:
+            connection.execute('CREATE TABLE items(id INTEGER)')
+            connection.executemany('INSERT INTO items VALUES (?)', [(item,) for item in ids])
+        return path
+
+    def item_ids(self, key):
+        with audit.readonly(audit.database_path(key)) as connection:
+            return [row[0] for row in connection.execute('SELECT id FROM items ORDER BY id')]
+
+    def image(self, relative, colour='red'):
+        from PIL import Image
+        path = audit.STATIC / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        Image.new('RGB', (2, 2), colour).save(path)
+        return path
+
+    def versions_run(self, keys):
+        self.settings()
+        (self.root / 'fashionista_version.py').write_text(self.VERSION_FILE, encoding='utf-8')
+        audit.DATA.mkdir(parents=True, exist_ok=True)
+        for key in keys:
+            self.database(key, 1, 2)
+            (audit.DATA / ('dofus_constants_%s.py' % key)).write_text('OLD = True\n', encoding='utf-8')
+        rows = [{'key': key, 'current': updater.read_metadata()[updater.METADATA[key]],
+                 'available': self.TARGETS[key], 'source': {'version': self.TARGETS[key]}} for key in keys]
+        return rows, {row['key']: row for row in rows}
+
+    def fake_import(self, command):
+        job = updater.read_json(Path(command[-1]))
+        key = job['key']
+        with audit.writable(audit.database_path(key)) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        (audit.DATA / ('dofus_constants_%s.py' % key)).write_text('NEW = True\n', encoding='utf-8')
+        translations = self.root / 'fashionsite/chardata/dynamic_translations.py'
+        translations.parent.mkdir(parents=True, exist_ok=True)
+        with translations.open('a', encoding='utf-8') as handle:
+            handle.write('# %s\n' % key)
+        return key
+
+    def execute(self, rows, keys, images, run, by_key, snapshot=None):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output), \
+                mock.patch.object(updater, 'check_configuration'), \
+                mock.patch.object(updater, 'probe', side_effect=lambda key: by_key[key]), \
+                mock.patch.object(updater, 'run_command', side_effect=run), \
+                mock.patch.object(updater, 'RETRY_DELAY', 0), \
+                mock.patch.object(audit, 'snapshot', return_value=snapshot or {}), \
+                mock.patch.object(audit, 'compare', return_value={'errors': [], 'warnings': []}):
+            code = updater.execute(rows, keys, images, self.args())
+        report_dir = next(updater.REPORTS.glob('2*'))
+        recap = (report_dir / 'RECAP.md').read_text(encoding='utf-8')
+        return code, updater.read_json(report_dir / 'report.json'), recap, output.getvalue()
 
     def test_an_unavailable_source_cannot_be_selected_and_wakfu_is_explicit(self):
         rows = [{'key': key, 'error': 'offline' if key == 'beta' else None, 'changed': True}
@@ -131,32 +205,29 @@ class UpdateLauncherTests(TestCase):
         for rendered in (output.getvalue(), report):
             self.assertIn('Build du jeu disponible : 1.74.5', rendered)
             self.assertIn('Ressources CDN : 3.3.6_hash', rendered)
-            self.assertNotIn('Importable : 3.3.6', rendered)
+            self.assertNotIn('importables : 3.3.6', rendered)
+        self.assertIn('4. Dofus Touch (version locale : 1.74)', output.getvalue())
+        self.assertIn('distinct du build du jeu', output.getvalue())
+        self.assertNotIn('distinct du build du jeu', report)
+        self.assertIn('## Dofus Touch : NON LANCÉ', report)
 
-    def test_game_labels_are_restored_when_validation_fails(self):
-        settings = self.root / 'fashionsite/fashionsite/settings_test.py'
-        settings.parent.mkdir(parents=True)
-        settings.write_text('', encoding='utf-8')
+    def test_each_game_label_is_written_after_its_import_and_kept_when_tests_fail(self):
+        self.settings()
         version_file = self.root / 'fashionista_version.py'
         for key, version in (('dofus3', '3.6.12.16'), ('beta', '3.7.1.1'), ('dofus2', '2.73.3.14'),
                              ('touch', '1.74.5'), ('retro', '1.49.5')):
             for exit_code in (0, 1):
                 with self.subTest(key=key, exit_code=exit_code):
-                    original = ('FASHIONISTA_TOUCH_VERSION = "1.74"\nFASHIONISTA_RETRO_VERSION = "1.49"\n'
-                                'FASHIONISTA_VERSION = "3.6.11.15"\nFASHIONISTA_BETA_VERSION = "3.7.0.0"\n'
-                                'FASHIONISTA_DOFUS2_VERSION = "2.73.3.13"\n'
-                                'WATCHED_RETRO_ASSET_DIGEST = "old"\nWATCHED_RETRO_ASSET_COUNT = 10\nLOCAL_EDIT = True\n')
-                    version_file.write_text(original, encoding='utf-8')
+                    version_file.write_text(self.VERSION_FILE, encoding='utf-8')
                     row = {'key': key, 'current': updater.read_metadata()[updater.METADATA[key]],
                            'available': version, 'source': {'build': version}}
                     reports = self.root / ('reports-%s-%s' % (key, exit_code))
-                    args = SimpleNamespace(running_file=self.root / 'RUNNING.md', step_timeout=60)
                     def run(command, log, **kwargs):
                         log.write_text('ok', encoding='utf-8')
                         if log.stem in ('generation', 'weapons', 'django'):
                             self.assertEqual(log.stem != 'weapons', kwargs['django'])
-                        if log.stem == 'django':
-                            self.assertEqual(row['current'], updater.read_metadata()[updater.METADATA[key]])
+                            self.assertEqual(version, updater.read_metadata()[updater.METADATA[key]])
+                            self.assertIn(key, updater.read_json(reports / 'state.json'))
                         return {'exit_code': exit_code if log.stem == 'django' else 0,
                                 'log': str(log), 'seconds': .1}
                     with mock.patch.object(updater, 'REPORTS', reports), \
@@ -164,14 +235,12 @@ class UpdateLauncherTests(TestCase):
                             mock.patch.object(updater, 'probe', return_value=row), \
                             mock.patch.object(updater, 'run_command', side_effect=run), \
                             mock.patch.object(audit, 'snapshot', return_value={}), \
-                            mock.patch.object(audit, 'compare', return_value={'errors': [], 'warnings': []}):
-                        self.assertEqual(exit_code, updater.execute([row], [key], {key: False}, args))
-                    if exit_code:
-                        self.assertEqual(original, version_file.read_text(encoding='utf-8'))
-                        self.assertFalse((reports / 'state.json').exists())
-                    else:
-                        self.assertEqual(version, updater.read_metadata()[updater.METADATA[key]])
-                        self.assertIn('LOCAL_EDIT = True', version_file.read_text(encoding='utf-8'))
+                            mock.patch.object(audit, 'compare', return_value={'errors': [], 'warnings': []}), \
+                            contextlib.redirect_stdout(io.StringIO()):
+                        self.assertEqual(2 * exit_code, updater.execute([row], [key], {key: False}, self.args()))
+                    self.assertEqual(version, updater.read_metadata()[updater.METADATA[key]])
+                    self.assertIn('LOCAL_EDIT = True', version_file.read_text(encoding='utf-8'))
+                    self.assertIn(key, updater.read_json(reports / 'state.json'))
 
     def test_exclusive_work_is_refused_without_removing_someone_elses_marker(self):
         running = self.root / 'RUNNING.md'
@@ -231,7 +300,8 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertTrue((self.root / '.update-data.lock').exists())
         processes = [{'pid': os.getpid(), 'parent': 0, 'name': 'python', 'command': 'tests'}]
-        with mock.patch.object(updater, 'process_snapshot', return_value=processes):
+        with mock.patch.object(updater, 'process_snapshot', return_value=processes), \
+                contextlib.redirect_stdout(io.StringIO()):
             with updater.exclusive(running):
                 self.assertIn('pid=%d' % os.getpid(), running.read_text(encoding='utf-8'))
         self.assertFalse((self.root / '.update-data.lock').exists())
@@ -241,7 +311,8 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         running = self.root / 'RUNNING.md'
         running.write_text('## En cours\n\nupdate_all pid=999999 2026-09-22T20:52:15\n', encoding='utf-8')
         processes = [{'pid': os.getpid(), 'parent': 0, 'name': 'python', 'command': 'tests'}]
-        with mock.patch.object(updater, 'process_snapshot', return_value=processes):
+        with mock.patch.object(updater, 'process_snapshot', return_value=processes), \
+                contextlib.redirect_stdout(io.StringIO()):
             with updater.exclusive(running):
                 self.assertNotIn('999999', running.read_text(encoding='utf-8'))
         self.assertNotIn('update_all pid=', running.read_text(encoding='utf-8'))
@@ -255,7 +326,8 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
             with self.subTest(other=other):
                 lock.write_text(marker, encoding='utf-8')
                 running.write_text('## En cours\n' + marker + other + '\n', encoding='utf-8')
-                with mock.patch.object(updater, 'process_snapshot', return_value=[own]):
+                with mock.patch.object(updater, 'process_snapshot', return_value=[own]), \
+                        contextlib.redirect_stdout(io.StringIO()):
                     if other:
                         with self.assertRaisesRegex(RuntimeError, 'other rebuild'):
                             with updater.exclusive(running):
@@ -274,9 +346,8 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         own = {'pid': os.getpid(), 'parent': 0, 'name': 'python', 'command': 'tests'}
         for process in (
                 {'pid': 999999, 'parent': 1, 'name': 'python', 'command': 'update_all.py'},
-                {'pid': 12, 'parent': 999999, 'name': 'python', 'command': 'worker.py'},
+                {'pid': 12, 'parent': 999999, 'name': 'python', 'command': 'update_all.py --worker job.json'},
                 {'pid': 13, 'parent': 1, 'name': 'python', 'command': 'update_data_touch.py'},
-                {'pid': 14, 'parent': 1, 'name': 'python', 'command': ''},
                 None):
             with self.subTest(process=process):
                 lock.write_text(marker, encoding='utf-8')
@@ -287,6 +358,23 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                             self.fail('active lock accepted')
                 self.assertEqual(marker, lock.read_text(encoding='utf-8'))
                 self.assertIn(marker, running.read_text(encoding='utf-8'))
+
+    def test_a_python_program_unrelated_to_the_repository_does_not_keep_the_lock(self):
+        marker = 'update_all pid=999999 2026-09-22T20:52:15+02:00'
+        lock = self.root / '.update-data.lock'
+        running = self.root / 'RUNNING.md'
+        own = {'pid': os.getpid(), 'parent': 0, 'name': 'python', 'command': 'tests'}
+        for process in (
+                {'pid': 12, 'parent': 999999, 'name': 'python', 'command': 'python -m pylsp'},
+                {'pid': 14, 'parent': 1, 'name': 'python', 'command': ''}):
+            with self.subTest(process=process):
+                lock.write_text(marker, encoding='utf-8')
+                running.write_text('## En cours\n' + marker + '\n', encoding='utf-8')
+                with mock.patch.object(updater, 'process_snapshot', return_value=[own, process]), \
+                        contextlib.redirect_stdout(io.StringIO()):
+                    with updater.exclusive(running):
+                        pass
+                self.assertFalse(lock.exists())
 
     def test_worker_passes_the_target_version_without_changing_the_site_label(self):
         for key, setter in (('dofus3', 'set_version'), ('beta', 'set_beta_version'), ('dofus2', 'set_dofus2_version')):
@@ -306,7 +394,8 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                 job = self.root / 'job.json'
                 updater.write_json(job, {'key': key, 'images': False, 'available': '3.7.1.1', 'timeout': 60})
                 with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
-                        mock.patch.object(updater, 'run_command', side_effect=run), mock.patch.object(updater.sys, 'argv', []):
+                        mock.patch.object(updater, 'run_command', side_effect=run), \
+                        mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
                     updater.worker(job)
                 write.assert_not_called()
 
@@ -355,15 +444,17 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         self.assertEqual(b'old', changed.read_bytes())
         self.assertEqual([changed], [call.args[1] for call in replace.call_args_list])
 
-    def test_preserved_mount_looks_survive_the_next_reload_from_dump(self):
+    def test_preserved_mount_looks_follow_the_ankama_id_and_type_through_a_rename(self):
         audit.DATA.mkdir(parents=True)
         before = self.root / 'previous.db'
         after = audit.database_path('dofus3')
         with audit.writable(before) as db:
-            db.executescript("CREATE TABLE items(id, ankama_id, name); INSERT INTO items VALUES(1, 123, 'Mount');"
+            db.executescript("CREATE TABLE items(id, ankama_id, ankama_type, name);"
+                             "INSERT INTO items VALUES(1, 123, 'mounts', 'Mount'), (2, 123, 'equipment', 'Hat');"
                              "CREATE TABLE mount_looks(item, look); INSERT INTO mount_looks VALUES(1, 'appearance');")
         with audit.writable(after) as db:
-            db.executescript("CREATE TABLE items(id, ankama_id, name); INSERT INTO items VALUES(7, 123, 'Mount');")
+            db.executescript("CREATE TABLE items(id, ankama_id, ankama_type, name);"
+                             "INSERT INTO items VALUES(7, 123, 'mounts', 'Renamed Mount'), (8, 123, 'equipment', 'Hat');")
         audit.preserve_table(before, after, 'mount_looks')
         with audit.writable(':memory:') as reloaded:
             reloaded.executescript((audit.DATA / 'item_db_dumped.dump').read_text(encoding='utf-8'))
@@ -381,7 +472,8 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
             return {'exit_code': 0, 'log': str(log)}
         job = self.root / 'job.json'
         updater.write_json(job, {'key': 'dofus3', 'images': False, 'available': '3.6.10.0', 'timeout': 60})
-        with mock.patch.object(updater.importlib, 'import_module', return_value=module), mock.patch.object(updater, 'run_command', side_effect=run), mock.patch.object(updater.sys, 'argv', []):
+        with mock.patch.object(updater.importlib, 'import_module', return_value=module), mock.patch.object(updater, 'run_command', side_effect=run), mock.patch.object(updater.sys, 'argv', []), \
+                mock.patch.object(updater, 'RETRY_DELAY', 0), contextlib.redirect_stdout(io.StringIO()):
             with self.assertRaisesRegex(RuntimeError, 'Étape échouée'):
                 updater.worker(job)
         self.assertEqual([], calls)
@@ -402,41 +494,396 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                 return {'exit_code': 0, 'log': str(log)}
             job = self.root / 'job.json'
             updater.write_json(job, {'key': version, 'images': False, 'available': 'tag', 'timeout': 60})
-            with mock.patch.object(updater.importlib, 'import_module', return_value=module), mock.patch.object(updater, 'run_command', side_effect=run), mock.patch.object(updater.sys, 'argv', []):
+            with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                    mock.patch.object(updater, 'run_command', side_effect=run), \
+                    mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
                 updater.worker(job)
             self.assertEqual(1, len(commands))
             if version == 'touch':
                 self.assertIn('--skip-images', commands[0])
 
+    def run_worker(self, key, label, command, run, available='3.6.10.0'):
+        module = SimpleNamespace(__file__='legacy.py')
+        def main():
+            module.run_step(label, command)
+        module.main = main
+        job = self.root / 'job.json'
+        updater.write_json(job, {'key': key, 'images': False, 'available': available, 'timeout': 60})
+        output = io.StringIO()
+        with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                mock.patch.object(updater, 'run_command', side_effect=run), \
+                mock.patch.object(updater.sys, 'argv', []), \
+                mock.patch.object(updater.time, 'sleep') as sleep, contextlib.redirect_stdout(output):
+            try:
+                updater.worker(job)
+            except RuntimeError as exc:
+                return sleep, output.getvalue(), exc
+        return sleep, output.getvalue(), None
+
+    WATCHED_FILE = ('FASHIONISTA_TOUCH_VERSION = "1.74"\nFASHIONISTA_RETRO_VERSION = "1.49"\n'
+                    'WATCHED_RETRO_BUILD = "1.49.3.1"\nWATCHED_TOUCH_ASSETS = "3.3.5_old"\n'
+                    "WATCHED_RETRO_LANG = {\n    'items': '1260',\n    'spells': '1254',\n}\n"
+                    'WATCHED_RETRO_ASSET_DIGEST = "old"\nWATCHED_RETRO_ASSET_COUNT = 10\n')
+
+    def test_an_import_names_its_source_for_the_version_watch(self):
+        path = self.root / 'fashionista_version.py'
+        path.write_text(self.WATCHED_FILE, encoding='utf-8')
+        touch = {'key': 'touch', 'available': '1.74.5', 'images': False,
+                 'source': {'build': '1.74.5', 'assets': '3.3.6_new'}}
+        retro = {'key': 'retro', 'available': '1.49.5', 'images': True,
+                 'source': {'build': '1.49.5.2', 'languages': {'fr': {'items': '1261', 'spells': '1254'}},
+                            'image_digest': 'new', 'image_count': 12}}
+        with contextlib.redirect_stdout(io.StringIO()):
+            updater.set_game_versions([touch, retro])
+        metadata = updater.read_metadata()
+        self.assertEqual('3.3.6_new', metadata['WATCHED_TOUCH_ASSETS'])
+        self.assertEqual('1.49.5.2', metadata['WATCHED_RETRO_BUILD'])
+        self.assertEqual({'items': '1261', 'spells': '1254'}, metadata['WATCHED_RETRO_LANG'])
+        self.assertEqual(('new', 12), (metadata['WATCHED_RETRO_ASSET_DIGEST'],
+                                       metadata['WATCHED_RETRO_ASSET_COUNT']))
+        restored = updater.transplant_label(path.read_text(encoding='utf-8'), self.WATCHED_FILE, 'retro')
+        path.write_text(restored, encoding='utf-8')
+        metadata = updater.read_metadata()
+        self.assertEqual(('1.49', '1.49.3.1', 'old'), (metadata['FASHIONISTA_RETRO_VERSION'],
+                                                       metadata['WATCHED_RETRO_BUILD'],
+                                                       metadata['WATCHED_RETRO_ASSET_DIGEST']))
+        self.assertEqual('3.3.6_new', metadata['WATCHED_TOUCH_ASSETS'])
+
+    def test_retro_images_left_alone_keep_the_watched_render_digest(self):
+        path = self.root / 'fashionista_version.py'
+        path.write_text(self.WATCHED_FILE, encoding='utf-8')
+        retro = {'key': 'retro', 'available': '1.49.5', 'images': False,
+                 'source': {'build': '1.49.5.2', 'image_digest': 'new', 'image_count': 12}}
+        with contextlib.redirect_stdout(io.StringIO()):
+            updater.set_game_versions([retro])
+        self.assertEqual('old', updater.read_metadata()['WATCHED_RETRO_ASSET_DIGEST'])
+
+    def test_the_real_version_file_holds_every_watched_constant(self):
+        import fashionista_version
+        for names in updater.WATCHED.values():
+            for name in names:
+                self.assertTrue(hasattr(fashionista_version, name), name)
+
+    def test_a_step_that_failed_twice_is_not_listed_as_saved_by_its_retry(self):
+        retried = {'step': 'item-images', 'exit_code': 0, 'retried': {'error': 'x', 'log': 'l'}}
+        failed = {'step': 'items/dump', 'exit_code': 1, 'retried': {'error': 'x', 'log': 'l'}}
+        row = {'key': 'wakfu', 'status': updater.RESTORED, 'steps': [retried, failed]}
+        block = '\n'.join(updater.version_block(row))
+        self.assertIn('au second essai : ' + updater.step_title('item-images'), block)
+        self.assertNotIn(updater.step_title('items/dump'), block.split('au second essai')[1])
+
+    def test_a_network_step_is_tried_again_once_after_20_seconds(self):
+        calls = []
+        def run(command, log, *args, **kwargs):
+            calls.append(command)
+            log.write_text('Failed to retrieve equipment data for fr.\n' if len(calls) == 1 else 'ok\n', encoding='utf-8')
+            return {'exit_code': 0, 'log': str(log), 'seconds': .1}
+        sleep, output, error = self.run_worker('dofus3', 'items/download', ['python', 'get_equipments.py'], run)
+        self.assertIsNone(error)
+        self.assertEqual(2, len(calls))
+        sleep.assert_called_once_with(20)
+        step = updater.read_json(self.root / 'dofus3-steps.json')[0]
+        self.assertEqual(0, step['exit_code'])
+        self.assertIn('Failed to retrieve', step['retried']['error'])
+        self.assertIn('Failed to retrieve', Path(step['retried']['log']).read_text(encoding='utf-8'))
+        self.assertIn('Deuxième essai', Path(step['log']).read_text(encoding='utf-8'))
+        self.assertIn('nouvel essai dans 20 s', output)
+
+    def test_a_local_step_or_a_timed_out_download_is_not_tried_again(self):
+        for label, failure in (('items/transform', None), ('items/download', TimeoutError('Délai dépassé'))):
+            with self.subTest(label=label):
+                calls = []
+                def run(command, log, *args, **kwargs):
+                    calls.append(command)
+                    if failure:
+                        raise failure
+                    log.write_text('Traceback (most recent call last):\nValueError: bad\n', encoding='utf-8')
+                    return {'exit_code': 1, 'log': str(log)}
+                sleep, output, error = self.run_worker('dofus3', label, ['python', 'script.py'], run)
+                self.assertRegex(str(error), 'Étape échouée')
+                self.assertEqual(1, len(calls))
+                sleep.assert_not_called()
+
+    def test_wakfu_spells_are_harvested_for_the_build_being_imported(self):
+        commands = []
+        def run(command, log, *args, **kwargs):
+            commands.append(command)
+            log.write_text('ok\n', encoding='utf-8')
+            return {'exit_code': 0, 'log': str(log)}
+        self.run_worker('wakfu', 'data/spells fr', ['python', 'itemscraper/get_spells_wakfu.py', '--lang', 'fr'],
+                        run, available='1.93.1.62')
+        self.assertEqual(['--version', '1.93.1.62'], commands[0][-2:])
+
     def test_unknown_stats_are_reported_without_zero_count_noise(self):
         self.assertEqual(['Missing translation for New stat'], updater.log_notices([
             'Missing translation for New stat', '0 unresolved', 'No warnings', 'Missing translation for New stat']))
 
-    def test_failed_validation_restores_files_before_releasing_the_lock(self):
-        settings = self.root / 'fashionsite/fashionsite/settings_test.py'
-        settings.parent.mkdir(parents=True)
-        settings.write_text('', encoding='utf-8')
+    def test_a_failed_pipeline_is_restored_before_releasing_the_lock(self):
+        self.settings()
         version_file = self.root / 'fashionista_version.py'
         original = version_file.read_bytes()
         row = {'key': 'dofus3', 'current': '3.6.9.0', 'available': '3.6.10.0', 'source': {'version': '3.6.10.0'}}
-        args = SimpleNamespace(running_file=self.root / 'RUNNING.md', step_timeout=60)
         def run(command, log, **kwargs):
             version_file.write_text('FASHIONISTA_VERSION = "3.6.10.0"', encoding='utf-8')
-            log.write_text('failed test' if log.stem == 'django' else 'ok', encoding='utf-8')
-            return {'exit_code': 1 if log.stem == 'django' else 0, 'log': str(log), 'seconds': .1}
+            log.write_text('failed', encoding='utf-8')
+            return {'exit_code': 1, 'log': str(log), 'seconds': .1}
         original_restore = audit.restore_runtime
-        def restore(manifest, source):
+        def restore(manifest, source, **kwargs):
             self.assertTrue((self.root / '.update-data.lock').exists())
-            original_restore(manifest, source)
-        with mock.patch.object(updater, 'check_configuration'), mock.patch.object(updater, 'probe', return_value=row), mock.patch.object(updater, 'run_command', side_effect=run), mock.patch.object(audit, 'snapshot', return_value={}), mock.patch.object(audit, 'compare', return_value={'errors': [], 'warnings': []}), mock.patch.object(audit, 'restore_runtime', side_effect=restore):
-            code = updater.execute([row], ['dofus3'], {'dofus3': False}, args)
+            return original_restore(manifest, source, **kwargs)
+        with mock.patch.object(audit, 'restore_runtime', side_effect=restore):
+            code, report, recap, output = self.execute([row], ['dofus3'], {'dofus3': False}, run, {'dofus3': row})
         self.assertEqual(1, code)
         self.assertEqual(original, version_file.read_bytes())
         self.assertFalse((self.root / '.update-data.lock').exists())
         self.assertFalse((updater.REPORTS / 'state.json').exists())
-        report = updater.read_json(next(updater.REPORTS.glob('*/report.json')))
-        self.assertIn('RESTAURÉS', report['status'])
-        self.assertEqual(3, len(report['checks']))
+        self.assertEqual('ÉCHEC', report['status'])
+        self.assertEqual('ÉCHEC, RESTAURÉ', report['versions'][0]['status'])
+        self.assertEqual([], report['checks'])
+
+    def test_a_failed_version_is_restored_and_the_next_versions_still_run(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta', 'dofus2'])
+        imported = []
+        def run(command, log, **kwargs):
+            log.write_text('ok', encoding='utf-8')
+            if '--worker' not in command:
+                return {'exit_code': 0, 'log': str(log), 'seconds': .1}
+            key = self.fake_import(command)
+            imported.append(key)
+            if key == 'beta':
+                updater.write_json(log.parent / 'beta-steps.json', [
+                    {'step': 'items/load-db', 'exit_code': 1, 'log': 'load.log', 'error': 'disk I/O error'}])
+                return {'exit_code': 1, 'log': str(log)}
+            return {'exit_code': 0, 'log': str(log)}
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta', 'dofus2'],
+                                                   dict.fromkeys(by_key, False), run, by_key)
+        self.assertEqual(1, code)
+        self.assertEqual(['dofus3', 'beta', 'dofus2'], imported)
+        self.assertEqual(['IMPORTÉ', 'ÉCHEC, RESTAURÉ', 'IMPORTÉ'], [row['status'] for row in report['versions']])
+        self.assertEqual('IMPORTÉ EN PARTIE', report['status'])
+        self.assertEqual([1, 2, 99], self.item_ids('dofus3'))
+        self.assertEqual([1, 2], self.item_ids('beta'))
+        self.assertEqual([1, 2, 99], self.item_ids('dofus2'))
+        self.assertEqual('OLD = True\n', (audit.DATA / 'dofus_constants_beta.py').read_text(encoding='utf-8'))
+        metadata = updater.read_metadata()
+        self.assertEqual(('3.6.12.16', '3.7.0.0', '2.73.3.14'), (metadata['FASHIONISTA_VERSION'],
+                         metadata['FASHIONISTA_BETA_VERSION'], metadata['FASHIONISTA_DOFUS2_VERSION']))
+        self.assertEqual(['dofus2', 'dofus3'], sorted(updater.read_json(updater.REPORTS / 'state.json')))
+        self.assertIn('## Dofus 3 Beta : ÉCHEC, RESTAURÉ', recap)
+        self.assertIn('Cause : Chargement de la base : disk I/O error', recap)
+        self.assertIn('Dofus 3 Beta : ÉCHEC, RESTAURÉ\n  Cause : Chargement de la base : disk I/O error', output)
+        self.assertTrue(recap.startswith('# IMPORTÉ EN PARTIE\n'))
+        self.assertNotIn('Restauration à terminer', recap)
+
+    def test_a_test_suite_failure_keeps_the_data_and_lists_the_failing_tests(self):
+        rows, by_key = self.versions_run(['dofus3'])
+        failures = ['FAIL: test_icons (chardata.tests.ItemDatabaseIntegrityTests.test_icons)',
+                    'ERROR: test_shiny (chardata.tests_temporix.TheReviewOfTheModeTests.test_shiny)']
+        def run(command, log, **kwargs):
+            if '--worker' in command:
+                self.fake_import(command)
+            log.write_text('\n'.join(failures + ['FAILED (failures=1, errors=1)']) if log.stem == 'django' else 'ok',
+                           encoding='utf-8')
+            return {'exit_code': int(log.stem == 'django'), 'log': str(log), 'seconds': .1}
+        code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': False}, run, by_key)
+        self.assertEqual(2, code)
+        self.assertEqual('IMPORTÉ, TESTS À REVOIR', report['status'])
+        self.assertEqual([1, 2, 99], self.item_ids('dofus3'))
+        self.assertEqual('3.6.12.16', updater.read_metadata()['FASHIONISTA_VERSION'])
+        for failure in failures:
+            self.assertIn(failure, recap)
+        self.assertIn(str(next(updater.REPORTS.glob('2*')) / 'django.log'), recap)
+        self.assertIn('Pour annuler cette mise à jour : `py update_all.py --restore "%s"`\n' % report['directory'], recap)
+        self.assertNotIn('Suite à donner', recap)
+        self.assertIn('Suite Django complète : 2 tests en échec (ItemDatabaseIntegrityTests.test_icons, '
+                      'TheReviewOfTheModeTests.test_shiny)', output)
+
+    def test_a_generation_failure_restores_only_the_version_it_names(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        checks = []
+        def run(command, log, **kwargs):
+            if '--worker' in command:
+                self.fake_import(command)
+            else:
+                checks.append(log.stem)
+            text = 'ok'
+            if log.stem == 'generation':
+                text = ("FAIL: test_each_dofus_version_can_generate_and_render_a_build (chardata.tests_update_generation."
+                        "UpdateGenerationTests.test_each_dofus_version_can_generate_and_render_a_build) (version='dofus3')")
+            log.write_text(text, encoding='utf-8')
+            return {'exit_code': int(log.stem == 'generation'), 'log': str(log), 'seconds': .1}
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': False, 'beta': False},
+                                                   run, by_key)
+        self.assertEqual(1, code)
+        self.assertEqual(['generation', 'generation-apres-restauration', 'weapons', 'django'], checks)
+        self.assertEqual(['ÉCHEC, RESTAURÉ', 'IMPORTÉ'], [row['status'] for row in report['versions']])
+        self.assertEqual([1, 2], self.item_ids('dofus3'))
+        self.assertEqual([1, 2, 99], self.item_ids('beta'))
+        self.assertEqual('OLD = True\n', (audit.DATA / 'dofus_constants_dofus3.py').read_text(encoding='utf-8'))
+        self.assertEqual('NEW = True\n', (audit.DATA / 'dofus_constants_beta.py').read_text(encoding='utf-8'))
+        metadata = updater.read_metadata()
+        self.assertEqual(('3.6.11.15', '3.7.1.1'), (metadata['FASHIONISTA_VERSION'], metadata['FASHIONISTA_BETA_VERSION']))
+        self.assertIn('LOCAL_EDIT = True', (self.root / 'fashionista_version.py').read_text(encoding='utf-8'))
+        self.assertEqual(['beta'], list(updater.read_json(updater.REPORTS / 'state.json')))
+        self.assertEqual(['fashionsite/chardata/dynamic_translations.py'], report['versions'][0]['kept_shared'])
+        self.assertIn('Versions restaurées : Dofus 3', recap)
+        self.assertIn('Nouveau contrôle après restauration : OK', recap)
+        self.assertIn('le site ne peut plus générer de build', recap)
+        self.assertNotIn('panoplie', recap)
+        self.assertEqual([], updater.checks_to_review(report))
+
+    def test_two_versions_that_cannot_build_are_restored_last_first(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        translations = self.root / 'fashionsite/chardata/dynamic_translations.py'
+        start = translations.read_text(encoding='utf-8') if translations.exists() else None
+        def run(command, log, **kwargs):
+            if '--worker' in command:
+                self.fake_import(command)
+            text = 'ok'
+            if log.stem == 'generation':
+                text = '\n'.join(
+                    "FAIL: test_each_dofus_version_can_generate_and_render_a_build (chardata.tests_update_generation."
+                    "UpdateGenerationTests.test_each_dofus_version_can_generate_and_render_a_build) (version='%s')"
+                    % key for key in ('dofus3', 'beta'))
+            log.write_text(text, encoding='utf-8')
+            return {'exit_code': int(log.stem == 'generation'), 'log': str(log), 'seconds': .1}
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': False, 'beta': False},
+                                                   run, by_key)
+        self.assertEqual(['ÉCHEC, RESTAURÉ', 'ÉCHEC, RESTAURÉ'], [row['status'] for row in report['versions']])
+        self.assertEqual([[], []], [row.get('kept_shared', []) for row in report['versions']])
+        now = translations.read_text(encoding='utf-8') if translations.exists() else None
+        self.assertEqual(start, now)
+        self.assertIn('Génération des builds', output)
+
+    def test_ctrl_c_restores_the_version_in_progress_and_stops(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        started = []
+        def run(command, log, **kwargs):
+            started.append(self.fake_import(command))
+            raise KeyboardInterrupt
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': False, 'beta': False},
+                                                   run, by_key)
+        self.assertEqual(130, code)
+        self.assertEqual(['dofus3'], started)
+        self.assertEqual([1, 2], self.item_ids('dofus3'))
+        self.assertEqual('INTERROMPU', report['status'])
+        self.assertEqual('ÉCHEC, RESTAURÉ', report['versions'][0]['status'])
+        self.assertFalse((self.root / '.update-data.lock').exists())
+
+    def test_a_failed_version_gets_its_lost_images_back_and_keeps_new_downloads(self):
+        rows, by_key = self.versions_run(['dofus3'])
+        lost = self.image('chardata/items/60x60/Old-60-60.png')
+        updated = self.image('chardata/items/60x60/Kept-60-60.png')
+        before = {'images': {'paths': {'item:1': 'chardata/items/60x60/Old-60-60.png'}, 'problems': {}}}
+        def run(command, log, **kwargs):
+            self.fake_import(command)
+            lost.unlink()
+            self.image('chardata/items/60x60/Kept-60-60.png', 'blue')
+            self.image('chardata/items/60x60/New-60-60.png', 'green')
+            return {'exit_code': 1, 'log': str(log), 'error': 'download failed'}
+        code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': True}, run, by_key, before)
+        self.assertEqual(1, code)
+        self.assertTrue(lost.is_file())
+        self.assertIsNone(audit.image_problem(lost))
+        self.assertTrue((audit.STATIC / 'chardata/items/60x60/New-60-60.png').is_file())
+        from PIL import Image
+        with Image.open(updated) as image:
+            self.assertEqual((0, 0, 255), image.getpixel((0, 0)))
+        self.assertEqual(['fashionsite/chardata/static/chardata/items/60x60/Old-60-60.png'],
+                         report['versions'][0]['images_restored'])
+        changed = updater.read_json(next(updater.REPORTS.glob('2*')) / 'images-changed.json')
+        self.assertIn('fashionsite/chardata/static/chardata/items/60x60/New-60-60.png', changed)
+        self.assertNotIn('fashionsite/chardata/static/chardata/items/60x60/Old-60-60.png', changed)
+
+    def test_a_locked_database_is_refused_before_any_import(self):
+        rows, by_key = self.versions_run(['dofus3'])
+        holder = sqlite3.connect(audit.database_path('dofus3'))
+        self.addCleanup(holder.close)
+        holder.execute('BEGIN EXCLUSIVE')
+        run = mock.Mock()
+        code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': False}, run, by_key)
+        self.assertEqual(1, code)
+        run.assert_not_called()
+        self.assertEqual([], report['versions'])
+        self.assertIn('Base de données ouverte par un autre programme', output)
+        self.assertIn(str(audit.database_path('dofus3')), recap)
+
+    def test_an_idle_connection_counts_as_a_busy_database_on_windows(self):
+        if os.name != 'nt':
+            self.skipTest('Windows file sharing')
+        path = self.database('dofus3', 1)
+        self.assertFalse(updater.database_in_use(path))
+        idle = sqlite3.connect(path)
+        idle.execute('SELECT * FROM items').fetchall()
+        self.assertTrue(updater.database_in_use(path))
+        idle.close()
+        self.assertFalse(updater.database_in_use(path))
+
+    def test_restore_goes_past_a_locked_file_and_reports_it(self):
+        names = ['fashionsite/chardata/spell_reference/touch.json', 'fashionsite/chardata/spell_states/touch.json',
+                 'fashionista_version.py']
+        for name in names:
+            (self.root / name).parent.mkdir(parents=True, exist_ok=True)
+            (self.root / name).write_text('old ' + name, encoding='utf-8')
+        saved = self.root / 'backup'
+        manifest = audit.backup_runtime(['touch'], False, saved)
+        for name in names:
+            (self.root / name).write_text('new', encoding='utf-8')
+        attempts = []
+        replace = audit.replace_file
+        pause = time.sleep
+        def locked(source, destination, **kwargs):
+            destination = Path(destination)
+            attempts.append(destination)
+            if destination.parent.name == 'spell_reference' or (
+                    destination.parent.name == 'spell_states' and attempts.count(destination) < 3):
+                raise PermissionError('locked')
+            replace(source, destination, **kwargs)
+        with mock.patch.object(audit, 'replace_file', side_effect=locked), \
+                mock.patch.object(audit.time, 'sleep', side_effect=lambda seconds: pause(.05)):
+            unrestored = audit.restore_runtime(manifest, saved, wait=1)
+        self.assertEqual(['fashionsite/chardata/spell_reference/touch.json'], unrestored)
+        self.assertEqual('new', (self.root / names[0]).read_text(encoding='utf-8'))
+        for name in names[1:]:
+            self.assertEqual('old ' + name, (self.root / name).read_text(encoding='utf-8'))
+        self.assertEqual([], list(self.root.rglob('*.restore-tmp')))
+
+    def test_the_restore_command_finishes_a_partial_restore(self):
+        (self.root / 'fashionista_version.py').write_text(self.VERSION_FILE, encoding='utf-8')
+        directory = updater.REPORTS / 'run'
+        self.database('dofus3', 1, 2)
+        self.database('beta', 1, 2)
+        image = self.image('chardata/spells/Pression.png')
+        updater.write_json(updater.REPORTS / 'state.json', {'dofus3': {'source': 'old'}})
+        updater.write_json(directory / 'state-before.json', {'dofus3': {'source': 'old'}})
+        audit.backup_runtime([], True, directory / 'images', shared=False)
+        audit.backup_runtime(['dofus3'], False, directory / 'dofus3')
+        with audit.writable(audit.database_path('dofus3')) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        (self.root / 'fashionista_version.py').write_text('FASHIONISTA_VERSION = "3.6.12.16"\n', encoding='utf-8')
+        audit.backup_runtime(['beta'], False, directory / 'beta')
+        with audit.writable(audit.database_path('beta')) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        self.image('chardata/spells/Pression.png', 'blue')
+        self.image('chardata/spells/Nouveau.png')
+        updater.write_json(updater.REPORTS / 'state.json', {'dofus3': {'source': 'new', 'report': str(directory)},
+                                                            'beta': {'source': 'new', 'report': str(directory)}})
+        with mock.patch.object(audit, 'replace_file', side_effect=PermissionError('locked')):
+            partial = audit.restore_runtime(updater.read_json(directory / 'beta/manifest.json'), directory / 'beta',
+                                            wait=0)
+        self.assertIn('fashionistapulp/fashionistapulp/items_beta.db', partial)
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            code = updater.main(['--restore', str(directory), '--running-file', str(self.root / 'RUNNING.md')])
+        self.assertEqual(0, code, output.getvalue())
+        self.assertEqual([1, 2], self.item_ids('dofus3'))
+        self.assertEqual([1, 2], self.item_ids('beta'))
+        self.assertEqual(self.VERSION_FILE, (self.root / 'fashionista_version.py').read_text(encoding='utf-8'))
+        from PIL import Image
+        with Image.open(image) as restored:
+            self.assertEqual((255, 0, 0), restored.getpixel((0, 0)))
+        self.assertFalse((audit.STATIC / 'chardata/spells/Nouveau.png').exists())
+        self.assertEqual({'dofus3': {'source': 'old'}}, updater.read_json(updater.REPORTS / 'state.json'))
+        self.assertFalse((self.root / '.update-data.lock').exists())
 
     def test_a_moving_source_stops_before_any_pipeline_command(self):
         settings = self.root / 'fashionsite/fashionsite/settings_test.py'
@@ -444,7 +891,10 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         settings.write_text('', encoding='utf-8')
         row = {'key': 'dofus3', 'current': 'old', 'available': 'new', 'source': {'version': 'new'}}
         args = SimpleNamespace(running_file=self.root / 'RUNNING.md', step_timeout=60)
-        with mock.patch.object(updater, 'check_configuration'), mock.patch.object(updater, 'probe', return_value={'source': {'version': 'newer'}}), mock.patch.object(updater, 'run_command') as run, mock.patch.object(audit, 'snapshot', return_value={}):
+        with mock.patch.object(updater, 'check_configuration'), \
+                mock.patch.object(updater, 'probe', return_value={'source': {'version': 'newer'}}), \
+                mock.patch.object(updater, 'run_command') as run, mock.patch.object(audit, 'snapshot', return_value={}), \
+                contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(1, updater.execute([row], ['dofus3'], {'dofus3': False}, args))
         run.assert_not_called()
 
@@ -456,13 +906,16 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
         module.main = main
         job = self.root / 'job.json'
         updater.write_json(job, {'key': 'dofus3', 'images': True, 'available': '3.6.10.0', 'timeout': 60})
-        with mock.patch.object(updater.importlib, 'import_module', return_value=module), mock.patch.object(updater, 'run_command') as run, mock.patch.object(audit, 'preserve_table') as preserve, mock.patch.object(updater.sys, 'argv', []):
+        with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                mock.patch.object(updater, 'run_command') as run, \
+                mock.patch.object(audit, 'preserve_table') as preserve, \
+                mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(io.StringIO()):
             updater.worker(job)
         run.assert_not_called()
         preserve.assert_called_once()
         steps = updater.read_json(self.root / 'dofus3-steps.json')
         self.assertEqual(2, len(steps))
-        self.assertTrue(all(step['warning'] for step in steps))
+        self.assertTrue(all(step['warning'] and step['kept'] for step in steps))
 
     def test_pipeline_failure_names_the_step_and_cause_in_the_console(self):
         settings = self.root / 'fashionsite/fashionsite/settings_test.py'
@@ -482,7 +935,563 @@ with u.exclusive(u.ROOT / 'RUNNING.md'):
                 mock.patch.object(audit, 'snapshot', return_value={}), \
                 mock.patch.object(audit, 'compare', return_value={'errors': [], 'warnings': []}):
             self.assertEqual(1, updater.execute([row], ['dofus3'], {'dofus3': False}, args))
-        self.assertIn('Cause : dofus3 : items/dump : ' + error, output.getvalue())
+        self.assertIn('Dofus 3 : ÉCHEC, RESTAURÉ\n  Cause : Création du dump SQL : ' + error, output.getvalue())
+
+    def restore(self, *arguments):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            code = updater.main(['--restore', *map(str, arguments), '--running-file', str(self.root / 'RUNNING.md')])
+        return code, output.getvalue()
+
+    def succeed(self, command, log, **kwargs):
+        log.write_text('ok', encoding='utf-8')
+        if '--worker' in command:
+            self.fake_import(command)
+        return {'exit_code': 0, 'log': str(log), 'seconds': .1}
+
+    def test_restoring_a_database_also_removes_its_journal_files(self):
+        database = self.database('dofus3', 1, 2)
+        saved = self.root / 'backup'
+        manifest = audit.backup_runtime(['dofus3'], False, saved)
+        with audit.writable(database) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        sidecars = [database.with_name(database.name + suffix) for suffix in ('-journal', '-wal', '-shm')]
+        for sidecar in sidecars:
+            sidecar.write_bytes(b'hot')
+        self.assertEqual([], audit.restore_runtime(manifest, saved, wait=0))
+        self.assertEqual([], [path for path in sidecars if path.exists()])
+        self.assertEqual([1, 2], self.item_ids('dofus3'))
+
+    def test_a_locked_journal_leaves_its_database_unrestored(self):
+        database = self.database('dofus3', 1, 2)
+        saved = self.root / 'backup'
+        manifest = audit.backup_runtime(['dofus3'], False, saved)
+        with audit.writable(database) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        journal = database.with_name(database.name + '-journal')
+        journal.write_bytes(b'hot')
+        replace = os.replace
+        def locked(source, destination):
+            if Path(source) == journal:
+                raise PermissionError('locked')
+            return replace(source, destination)
+        with mock.patch.object(audit.os, 'replace', locked):
+            unrestored = audit.restore_runtime(manifest, saved, wait=0)
+        self.assertEqual(['fashionistapulp/fashionistapulp/items.db'], unrestored)
+        self.assertEqual(b'hot', journal.read_bytes())
+        journal.unlink()
+        self.assertEqual([1, 2, 99], self.item_ids('dofus3'))
+
+    def test_a_database_that_cannot_be_replaced_keeps_its_journal(self):
+        database = self.database('dofus3', 1, 2)
+        saved = self.root / 'backup'
+        manifest = audit.backup_runtime(['dofus3'], False, saved)
+        with audit.writable(database) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        journal = database.with_name(database.name + '-journal')
+        journal.write_bytes(b'hot')
+        with mock.patch.object(audit, 'replace_file', side_effect=PermissionError('locked')):
+            unrestored = audit.restore_runtime(manifest, saved, wait=0)
+        self.assertEqual(['fashionistapulp/fashionistapulp/items.db'], unrestored)
+        self.assertEqual(b'hot', journal.read_bytes())
+        self.assertEqual([], list(database.parent.glob('*.restore-aside')))
+
+    def test_the_lock_names_the_run_and_a_marker_covers_each_import(self):
+        rows, by_key = self.versions_run(['dofus3'])
+        seen = []
+        def run(command, log, **kwargs):
+            if '--worker' in command:
+                seen.append(((self.root / '.update-data.lock').read_text(encoding='utf-8'),
+                             updater.importing_path(log.parent, 'dofus3').exists()))
+            return self.succeed(command, log)
+        code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': False}, run, by_key)
+        self.assertEqual(0, code)
+        self.assertTrue(seen[0][0].endswith(' run=%s' % report['directory']))
+        self.assertTrue(seen[0][1])
+        self.assertFalse(updater.importing_path(Path(report['directory']), 'dofus3').exists())
+
+    def test_an_import_cut_short_blocks_the_next_launch_until_its_version_is_restored(self):
+        rows, by_key = self.versions_run(['dofus3'])
+        crashed = updater.REPORTS / 'crashed-run'
+        audit.backup_runtime(['dofus3'], False, crashed / 'dofus3')
+        updater.write_json(crashed / 'state-before.json', {})
+        with audit.writable(audit.database_path('dofus3')) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        updater.importing_path(crashed, 'dofus3').write_text('update_all pid=999999\n', encoding='utf-8')
+        (self.root / '.update-data.lock').write_text(
+            'update_all pid=999999 2026-09-24T03:00:00+02:00 run=%s' % crashed, encoding='utf-8')
+        own = [{'pid': os.getpid(), 'parent': 0, 'name': 'python', 'command': 'tests'}]
+        run = mock.Mock()
+        with mock.patch.object(updater, 'process_snapshot', return_value=own):
+            code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': False}, run, by_key)
+        command = 'py update_all.py --restore "%s" --versions dofus3' % crashed
+        self.assertEqual(1, code)
+        run.assert_not_called()
+        self.assertIn(command, recap)
+        self.assertIn(command, output)
+        self.assertIn('sauvegardes conservées : ' + str(crashed), output)
+        self.assertEqual([1, 2, 99], self.item_ids('dofus3'))
+        code, output = self.restore(crashed, '--versions', 'dofus3')
+        self.assertEqual(0, code, output)
+        self.assertEqual([1, 2], self.item_ids('dofus3'))
+        self.assertEqual({}, updater.pending_imports())
+
+    def imported_pair(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': False, 'beta': False},
+                                                   self.succeed, by_key)
+        self.assertEqual(0, code, output)
+        return Path(report['directory'])
+
+    def test_a_scoped_restore_of_the_last_version_leaves_the_earlier_one(self):
+        directory = self.imported_pair()
+        code, output = self.restore(directory, '--versions', 'beta')
+        self.assertEqual(0, code, output)
+        self.assertEqual([1, 2, 99], self.item_ids('dofus3'))
+        self.assertEqual([1, 2], self.item_ids('beta'))
+        metadata = updater.read_metadata()
+        self.assertEqual(('3.6.12.16', '3.7.0.0'), (metadata['FASHIONISTA_VERSION'], metadata['FASHIONISTA_BETA_VERSION']))
+        self.assertEqual(['dofus3'], list(updater.read_json(updater.REPORTS / 'state.json')))
+        self.assertEqual('NEW = True\n', (audit.DATA / 'dofus_constants_dofus3.py').read_text(encoding='utf-8'))
+        self.assertEqual('OLD = True\n', (audit.DATA / 'dofus_constants_beta.py').read_text(encoding='utf-8'))
+
+    def test_a_scoped_restore_of_an_earlier_version_keeps_what_a_later_one_wrote(self):
+        directory = self.imported_pair()
+        code, output = self.restore(directory, '--versions', 'dofus3')
+        self.assertEqual(0, code, output)
+        self.assertEqual([1, 2], self.item_ids('dofus3'))
+        self.assertEqual([1, 2, 99], self.item_ids('beta'))
+        metadata = updater.read_metadata()
+        self.assertEqual(('3.6.11.15', '3.7.1.1'), (metadata['FASHIONISTA_VERSION'], metadata['FASHIONISTA_BETA_VERSION']))
+        self.assertIn('LOCAL_EDIT = True', (self.root / 'fashionista_version.py').read_text(encoding='utf-8'))
+        self.assertEqual('OLD = True\n', (audit.DATA / 'dofus_constants_dofus3.py').read_text(encoding='utf-8'))
+        self.assertEqual(['beta'], list(updater.read_json(updater.REPORTS / 'state.json')))
+        self.assertIn('Fichiers gardés, modifiés aussi par une version plus récente : '
+                      'fashionsite/chardata/dynamic_translations.py', output)
+
+    def test_an_incomplete_restore_stops_the_run_and_names_only_its_version(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta', 'dofus2'])
+        def run(command, log, **kwargs):
+            result = self.succeed(command, log)
+            if '--worker' in command and updater.read_json(Path(command[-1]))['key'] == 'beta':
+                return dict(result, exit_code=1, error='download failed')
+            return result
+        original = audit.restore_runtime
+        def restore(manifest, source, **kwargs):
+            locked = ['fashionistapulp/fashionistapulp/items_beta.db'] if source.name == 'beta' else []
+            return original(manifest, source, **kwargs) + locked
+        with mock.patch.object(audit, 'restore_runtime', side_effect=restore):
+            code, report, recap, output = self.execute(rows, ['dofus3', 'beta', 'dofus2'],
+                                                       dict.fromkeys(by_key, False), run, by_key)
+        self.assertEqual(1, code)
+        self.assertEqual(['IMPORTÉ', 'RESTAURATION INCOMPLÈTE', 'NON LANCÉ'],
+                         [row['status'] for row in report['versions']])
+        self.assertIn('la restauration de Dofus 3 Beta est incomplète', report['versions'][2]['cause'])
+        self.assertEqual([1, 2], self.item_ids('dofus2'))
+        self.assertEqual([], report['checks'])
+        self.assertIn('Tests non lancés : une restauration est incomplète', recap)
+        command = 'py update_all.py --restore "%s" --versions beta`' % report['directory']
+        self.assertIn(command, recap)
+        self.assertIn(command[:-1] + '\n', output)
+        self.assertIn('Pour annuler cette mise à jour : `py update_all.py --restore "%s"`' % report['directory'], recap)
+        directory = Path(report['directory'])
+        self.assertEqual(['beta.importing'], sorted(path.name for path in directory.glob('*.importing')))
+
+    def test_an_interrupted_restore_still_gives_the_command_to_finish_it(self):
+        rows, by_key = self.versions_run(['dofus3'])
+        def run(command, log, **kwargs):
+            self.fake_import(command)
+            raise KeyboardInterrupt
+        with mock.patch.object(audit, 'restore_runtime', side_effect=KeyboardInterrupt):
+            code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': False}, run, by_key)
+        self.assertEqual(130, code)
+        self.assertEqual('RESTAURATION INCOMPLÈTE', report['versions'][0]['status'])
+        self.assertEqual([], report['versions'][0]['unrestored'])
+        command = 'py update_all.py --restore "%s" --versions dofus3' % report['directory']
+        self.assertIn(command, recap)
+        self.assertIn(command, output)
+
+    def test_generation_runs_again_after_a_restore_and_what_still_fails_is_to_review(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        failures = {'generation': 'dofus3', 'generation-apres-restauration': 'beta'}
+        def run(command, log, **kwargs):
+            result = self.succeed(command, log)
+            if log.stem in failures:
+                log.write_text("FAIL: test_x (chardata.tests_update_generation.UpdateGenerationTests.test_x)"
+                               " (version='%s')" % failures[log.stem], encoding='utf-8')
+                return dict(result, exit_code=1)
+            return result
+        code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': False, 'beta': False},
+                                                   run, by_key)
+        check = report['checks'][0]
+        self.assertEqual(['ÉCHEC, RESTAURÉ', 'IMPORTÉ'], [row['status'] for row in report['versions']])
+        self.assertEqual(['dofus3'], check['restored'])
+        self.assertEqual(1, check['after_restore']['exit_code'])
+        self.assertEqual([check], updater.checks_to_review(report))
+        self.assertEqual('IMPORTÉ EN PARTIE, TESTS À REVOIR', report['status'])
+        self.assertIn('Nouveau contrôle après restauration : ÉCHEC', recap)
+        self.assertIn("1 test en échec (UpdateGenerationTests.test_x (version='beta'))", output)
+        self.assertEqual([1, 2, 99], self.item_ids('beta'))
+
+    def test_a_dead_launcher_pid_reused_by_another_program_does_not_keep_the_lock(self):
+        marker = 'update_all pid=999999 2026-09-22T20:52:15+02:00'
+        lock = self.root / '.update-data.lock'
+        running = self.root / 'RUNNING.md'
+        own = {'pid': os.getpid(), 'parent': 0, 'name': 'python', 'command': 'tests'}
+        for process in ({'pid': 999999, 'parent': 1, 'name': 'chrome.exe', 'command': 'chrome.exe --type=renderer'},
+                        {'pid': 55, 'parent': 999999, 'name': 'conhost.exe', 'command': 'conhost.exe 0x4'}):
+            with self.subTest(process=process):
+                lock.write_text(marker, encoding='utf-8')
+                running.write_text('## En cours\n' + marker + '\n', encoding='utf-8')
+                with mock.patch.object(updater, 'process_snapshot', return_value=[own, process]), \
+                        contextlib.redirect_stdout(io.StringIO()):
+                    with updater.exclusive(running):
+                        self.assertIn('pid=%d' % os.getpid(), lock.read_text(encoding='utf-8'))
+                self.assertFalse(lock.exists())
+
+    def test_a_running_dev_server_keeps_the_lock_and_says_what_to_close(self):
+        marker = 'update_all pid=999999 2026-09-22T20:52:15+02:00'
+        lock = self.root / '.update-data.lock'
+        lock.write_text(marker, encoding='utf-8')
+        own = {'pid': os.getpid(), 'parent': 0, 'name': 'python', 'command': 'tests'}
+        server = {'pid': 77, 'parent': 1, 'name': 'python.exe', 'command': 'python manage.py runserver'}
+        with mock.patch.object(updater, 'process_snapshot', return_value=[own, server]):
+            with self.assertRaisesRegex(RuntimeError, r'pid 77 : python manage\.py runserver\)\. Fermer ce programme '
+                                                      r'\(serveur de développement compris\), puis relancer update_all\.py'):
+                with updater.exclusive(self.root / 'RUNNING.md'):
+                    self.fail('lock taken')
+        self.assertEqual(marker, lock.read_text(encoding='utf-8'))
+
+    def test_restoring_a_run_older_than_the_last_import_needs_force(self):
+        (self.root / 'fashionista_version.py').write_text(self.VERSION_FILE, encoding='utf-8')
+        self.database('dofus3', 1, 2)
+        older = updater.REPORTS / '20260923T100000000000-1'
+        newer = updater.REPORTS / '20260924T100000000000-2'
+        audit.backup_runtime(['dofus3'], False, older / 'dofus3')
+        updater.write_json(older / 'state-before.json', {})
+        newer.mkdir(parents=True)
+        with audit.writable(audit.database_path('dofus3')) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        updater.write_json(updater.REPORTS / 'state.json', {'dofus3': {'source': 'new', 'report': str(newer)}})
+        code, output = self.restore(older)
+        self.assertEqual(1, code)
+        self.assertIn('Dofus 3 : une exécution plus récente a importé cette version : ' + str(newer), output)
+        self.assertIn('--force', output)
+        self.assertEqual([1, 2, 99], self.item_ids('dofus3'))
+        code, output = self.restore(older, '--force')
+        self.assertEqual(0, code, output)
+        self.assertEqual([1, 2], self.item_ids('dofus3'))
+        self.assertEqual({}, updater.read_json(updater.REPORTS / 'state.json'))
+
+    def test_a_newer_run_that_imported_another_version_also_needs_force(self):
+        (self.root / 'fashionista_version.py').write_text(self.VERSION_FILE, encoding='utf-8')
+        self.database('dofus3', 1, 2)
+        older = updater.REPORTS / '20260923T100000000000-1'
+        newer = updater.REPORTS / '20260924T100000000000-2'
+        audit.backup_runtime(['dofus3'], False, older / 'dofus3')
+        updater.write_json(older / 'state-before.json', {})
+        newer.mkdir(parents=True)
+        with audit.writable(audit.database_path('dofus3')) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        updater.write_json(updater.REPORTS / 'state.json', {
+            'dofus3': {'source': 'old', 'report': str(older)},
+            'beta': {'source': 'new', 'report': str(newer)}})
+        code, output = self.restore(older)
+        self.assertEqual(1, code)
+        self.assertIn('Dofus 3 Beta : une exécution plus récente a importé cette version : ' + str(newer),
+                      output)
+        self.assertEqual([1, 2, 99], self.item_ids('dofus3'))
+
+    def test_restore_reports_a_missing_backup_file_and_still_restores_the_rest(self):
+        (self.root / 'fashionista_version.py').write_text(self.VERSION_FILE, encoding='utf-8')
+        self.database('dofus3', 1, 2)
+        reference = self.root / 'fashionsite/chardata/spell_reference/dofus3.json'
+        reference.parent.mkdir(parents=True)
+        reference.write_text('old', encoding='utf-8')
+        directory = updater.REPORTS / 'run'
+        updater.write_json(directory / 'state-before.json', {})
+        audit.backup_runtime(['dofus3'], False, directory / 'dofus3')
+        with audit.writable(audit.database_path('dofus3')) as connection:
+            connection.execute('INSERT INTO items VALUES (99)')
+        reference.write_text('new', encoding='utf-8')
+        updater.write_json(updater.REPORTS / 'state.json', {'dofus3': {'source': 'new', 'report': str(directory)}})
+        (directory / 'dofus3/fashionsite/chardata/spell_reference/dofus3.json').unlink()
+        code, output = self.restore(directory)
+        self.assertEqual(1, code)
+        self.assertIn('Fichiers non restaurés :\n  fashionsite/chardata/spell_reference/dofus3.json', output)
+        self.assertIn('--restore "%s" --versions dofus3' % directory.resolve(), output)
+        self.assertEqual([1, 2], self.item_ids('dofus3'))
+        self.assertEqual({}, updater.read_json(updater.REPORTS / 'state.json'))
+
+    def test_restore_errors_are_reported_in_french_without_a_traceback(self):
+        directory = updater.REPORTS / 'run'
+        audit.backup_runtime(['dofus3'], False, directory / 'dofus3')
+        (directory / 'dofus3/fashionista_version.py').write_text('damaged', encoding='utf-8')
+        code, output = self.restore(directory)
+        self.assertEqual(1, code)
+        self.assertIn('Restauration impossible : Sauvegarde altérée : fashionista_version.py', output)
+        with updater.update_guard():
+            code, output = self.restore(directory)
+        self.assertEqual(1, code)
+        self.assertIn('Restauration impossible : Une autre mise à jour détient le verrou', output)
+        code, output = self.restore(directory, '--versions', 'dofus4')
+        self.assertIn('Restauration impossible : Choix inconnu : dofus4', output)
+
+    def test_ctrl_c_in_the_final_phase_still_releases_the_lock_and_writes_the_report(self):
+        for target in ('record_changed_images', 'remove_running_marker'):
+            with self.subTest(target=target):
+                rows, by_key = self.versions_run(['dofus3'])
+                (self.root / 'RUNNING.md').write_text('## En cours\n(rien)\n', encoding='utf-8')
+                with mock.patch.object(updater, 'REPORTS', self.root / ('reports-' + target)), \
+                        mock.patch.object(updater, target, side_effect=KeyboardInterrupt):
+                    code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': False},
+                                                               self.succeed, by_key)
+                self.assertEqual(130, code)
+                self.assertTrue(report['status'].startswith('INTERROMPU'))
+                self.assertTrue(recap.startswith('# INTERROMPU'))
+                self.assertFalse((self.root / '.update-data.lock').exists())
+
+    def test_a_database_left_as_it_was_is_not_replaced(self):
+        database = self.database('dofus3', 1, 2)
+        saved = self.root / 'backup'
+        manifest = audit.backup_runtime(['dofus3'], False, saved)
+        name = 'fashionistapulp/fashionistapulp/items.db'
+        self.assertEqual(audit.file_digest(database), manifest['live'][name])
+        with mock.patch.object(audit, 'replace_file', side_effect=PermissionError('locked')):
+            self.assertEqual([], audit.restore_runtime(manifest, saved, only=[name], wait=0))
+
+    @contextlib.contextmanager
+    def fake_git(self, checkouts):
+        def git(*args):
+            self.assertEqual(('checkout', 'HEAD', '--'), args[:3])
+            checkouts.append(args[3:])
+            for name in args[3:]:
+                (self.root / name).write_text('head', encoding='utf-8')
+            return ''
+        names = ['itemscraper/all_mounts.json', 'itemscraper/all_sets.json', 'itemscraper/beta/all_items.json']
+        with mock.patch.object(audit, 'in_work_tree', return_value=True), \
+                mock.patch.object(audit, 'tracked_data_files', return_value=names), \
+                mock.patch.object(audit, 'modified_data_files', return_value={'itemscraper/beta/all_items.json': True}), \
+                mock.patch.object(audit, 'git', side_effect=git):
+            yield
+
+    def tracked_files(self):
+        scraper = self.root / 'itemscraper'
+        (scraper / 'beta').mkdir(parents=True)
+        files = {name: scraper / name for name in ('beta/all_items.json', 'all_sets.json', 'all_mounts.json')}
+        files['beta/all_items.json'].write_text('local edit', encoding='utf-8')
+        files['all_sets.json'].write_text('head', encoding='utf-8')
+        files['all_mounts.json'].write_text('head', encoding='utf-8')
+        return files
+
+    def test_tracked_data_files_a_failed_version_changed_go_back(self):
+        files = self.tracked_files()
+        checkouts = []
+        with self.fake_git(checkouts):
+            backup = self.root / 'run/beta'
+            audit.record_tracked(backup)
+            files['beta/all_items.json'].write_text('import output', encoding='utf-8')
+            files['all_sets.json'].write_text('import output', encoding='utf-8')
+            self.assertEqual(([], []), audit.restore_tracked(backup))
+        self.assertEqual('local edit', files['beta/all_items.json'].read_text(encoding='utf-8'))
+        self.assertEqual('head', files['all_sets.json'].read_text(encoding='utf-8'))
+        self.assertEqual([('itemscraper/all_sets.json',)], checkouts)
+        self.assertEqual(['beta/all_items.json'], [path.relative_to(backup / 'tracked/itemscraper').as_posix()
+                                                   for path in (backup / 'tracked').rglob('*.json')])
+
+    def test_a_tracked_file_a_later_version_changed_again_is_kept(self):
+        files = self.tracked_files()
+        checkouts = []
+        with self.fake_git(checkouts):
+            backup = self.root / 'run/dofus3'
+            audit.record_tracked(backup)
+            files['all_sets.json'].write_text('dofus3 output', encoding='utf-8')
+            audit.record_tracked_after(backup)
+            files['all_sets.json'].write_text('beta output, longer', encoding='utf-8')
+            self.assertEqual(([], ['itemscraper/all_sets.json']), audit.restore_tracked(backup))
+        self.assertEqual('beta output, longer', files['all_sets.json'].read_text(encoding='utf-8'))
+        self.assertEqual([], checkouts)
+
+    def test_a_failed_version_puts_back_the_tracked_data_files_it_changed(self):
+        rows, by_key = self.versions_run(['dofus3', 'beta'])
+        files = self.tracked_files()
+        written = {'dofus3': 'all_mounts.json', 'beta': 'all_sets.json'}
+        def run(command, log, **kwargs):
+            result = self.succeed(command, log)
+            if '--worker' in command:
+                key = updater.read_json(Path(command[-1]))['key']
+                files[written[key]].write_text(key + ' output', encoding='utf-8')
+                if key == 'beta':
+                    return dict(result, exit_code=1, error='download failed')
+            return result
+        checkouts = []
+        with self.fake_git(checkouts):
+            code, report, recap, output = self.execute(rows, ['dofus3', 'beta'], {'dofus3': False, 'beta': False},
+                                                       run, by_key)
+        self.assertEqual(['IMPORTÉ', 'ÉCHEC, RESTAURÉ'], [row['status'] for row in report['versions']])
+        self.assertEqual('head', files['all_sets.json'].read_text(encoding='utf-8'))
+        self.assertEqual('dofus3 output', files['all_mounts.json'].read_text(encoding='utf-8'))
+        self.assertEqual('local edit', files['beta/all_items.json'].read_text(encoding='utf-8'))
+        self.assertEqual([('itemscraper/all_sets.json',)], checkouts)
+        self.assertTrue((Path(report['directory']) / 'dofus3/tracked-after.json').is_file())
+
+    def test_retro_backs_up_its_damage_spell_file(self):
+        names = {audit.relative_name(path) for path in audit.version_files('retro')}
+        self.assertIn('itemscraper/retro/retro_damage_spells.json', names)
+
+    def test_the_wakfu_snapshot_records_the_mirror_counts(self):
+        scraper = self.root / 'itemscraper'
+        (scraper / 'wakfu_raw/1.93.1.62').mkdir(parents=True)
+        (scraper / 'transformed_wakfu.json').write_text('{"version": "1.93.1.62", "equipment": []}', encoding='utf-8')
+        (scraper / 'wakfu_raw/1.93.1.62/recipes.json').write_text('[{"id": 1}, {"id": 2}]', encoding='utf-8')
+        expected = {'build': '1.93.1.62', 'recipes.json': 2}
+        self.assertEqual(expected, audit.wakfu_mirror_counts())
+        self.assertEqual(expected, audit.empty_snapshot('wakfu')['mirror'])
+        self.assertEqual({}, audit.empty_snapshot('dofus3')['mirror'])
+
+    def test_the_image_backup_skips_the_collected_static_copy(self):
+        kept = self.image('chardata/items/60x60/A-60-60.png')
+        collected = self.root / 'fashionsite/staticfiles/chardata/items/60x60/A-60-60.png'
+        collected.parent.mkdir(parents=True)
+        collected.write_bytes(kept.read_bytes())
+        self.assertEqual({kept}, audit.image_files())
+        self.assertEqual((1, kept.stat().st_size), audit.image_backup_size())
+
+    def test_an_image_backup_that_would_fill_the_disk_is_refused(self):
+        rows, by_key = self.versions_run(['dofus3'])
+        self.image('chardata/items/60x60/A-60-60.png')
+        run = mock.Mock()
+        with mock.patch.object(updater.shutil, 'disk_usage', return_value=SimpleNamespace(total=10, used=0, free=10)):
+            code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': True}, run, by_key)
+        self.assertEqual(1, code)
+        run.assert_not_called()
+        self.assertRegex(recap, r'Espace disque insuffisant pour la sauvegarde des images : \d+ octets nécessaires, '
+                                r'10 octets libres')
+
+    def main_output(self, *arguments, answer=''):
+        row = {'key': 'dofus3', 'current': '3.6.11.15', 'available': '3.6.12.16', 'official': '3.6.12.16',
+               'source': {}, 'changed': True, 'warnings': [], 'error': None}
+        output = io.StringIO()
+        with mock.patch.object(updater, 'discover', return_value=[row]), \
+                mock.patch('builtins.input', return_value=answer), contextlib.redirect_stdout(output):
+            code = updater.main(list(arguments) + ['--running-file', str(self.root / 'RUNNING.md')])
+        return code, output.getvalue()
+
+    def test_the_dry_run_estimates_the_image_backup_and_says_which_test_restores(self):
+        self.settings()
+        self.image('chardata/items/60x60/A-60-60.png')
+        code, output = self.main_output('--dry-run', '--versions', 'dofus3', '--images', 'yes')
+        self.assertEqual(0, code)
+        self.assertRegex(output, r'Sauvegarde des images : 1 fichiers, \d+ octets, environ 1 min ; .* libres sur le disque')
+        self.assertIn('Si la génération des builds échoue pour une version, cette version est restaurée ; '
+                      'les autres tests en échec gardent les données.', output)
+        self.assertIn('Choix : Dofus 3 (avec images)', output)
+        self.assertIn('1. Dofus 3 (version locale : 3.6.11.15)', output)
+        self.assertIn('Données importables : 3.6.12.16 | client Ankama : 3.6.12.16', output)
+
+    def test_the_list_gives_the_size_of_the_reports_folder(self):
+        (updater.REPORTS / 'run').mkdir(parents=True)
+        (updater.REPORTS / 'run/RECAP.md').write_bytes(b'x' * 2048)
+        code, output = self.main_output('--list')
+        self.assertEqual(0, code)
+        self.assertIn('Sauvegardes et journaux dans %s : 2,0 ko (1 fichiers)' % updater.REPORTS, output)
+
+    def test_old_image_backups_are_deleted_only_after_the_owner_types_oui(self):
+        runs = []
+        for number in range(6):
+            directory = updater.REPORTS / ('2026092%dT000000000000-1' % number)
+            (directory / 'images/fashionsite').mkdir(parents=True)
+            (directory / 'images/fashionsite/a.png').write_bytes(b'png')
+            (directory / 'images/manifest.json').write_text('{}', encoding='utf-8')
+            os.utime(directory / 'images/manifest.json', (1_000_000 + number, 1_000_000 + number))
+            runs.append(directory)
+        legacy = updater.REPORTS / '20260919T000000000000-1'
+        (legacy / 'backup/fashionsite/staticfiles').mkdir(parents=True)
+        (legacy / 'backup/fashionsite/staticfiles/b.png').write_bytes(b'png')
+        (legacy / 'backup/manifest.json').write_text('{}', encoding='utf-8')
+        os.utime(legacy / 'backup/manifest.json', (999_000, 999_000))
+        updater.importing_path(runs[0], 'dofus3').write_text('pid', encoding='utf-8')
+        for arguments, answer in ((('--clean-reports',), 'yes'), (('--clean-reports', '--yes'), '')):
+            code, output = self.main_output(*arguments, answer=answer)
+            self.assertEqual(0, code)
+            self.assertIn('Rien supprimé.', output)
+            self.assertTrue(all((run / 'images').is_dir() for run in runs))
+        code, output = self.main_output('--clean-reports', answer='oui')
+        self.assertIn('Gardée, restauration inachevée : ' + str(runs[0]), output)
+        self.assertEqual([True, False, False, True, True, True], [(run / 'images').is_dir() for run in runs])
+        self.assertFalse((legacy / 'backup/fashionsite/staticfiles').exists())
+        self.assertTrue((legacy / 'backup/manifest.json').exists())
+
+    def test_kept_dofusdb_steps_are_stated_once_and_zero_counts_collapse(self):
+        row = {'key': 'dofus3', 'status': updater.IMPORTED, 'current': 'a', 'available': 'b', 'images': False,
+               'warnings': [], 'steps': [
+                   {'step': 'mount-looks', 'exit_code': 0, 'warning': 'x', 'kept': True},
+                   {'step': 'monster-grades', 'exit_code': 0, 'warning': 'y', 'kept': True},
+                   {'step': 'items/transform', 'exit_code': 0, 'notices': ['Unknown stat X']}],
+               'diff': {'items_added': [], 'items_removed': [], 'items_changed': [{'id': 1}], 'spell_changes': {},
+                        'new_stats': [], 'new_image_problems': {}, 'errors': [], 'warnings': []}}
+        text = '\n'.join(updater.version_block(row))
+        self.assertEqual(1, text.count('DofusDB désactivé'))
+        self.assertIn('non actualisé (DofusDB désactivé) : Apparences des montures, Grades des monstres', text)
+        self.assertIn('- Étapes avec avertissements : Transformation des objets\n', text + '\n')
+        self.assertIn('- Objets : +0, -0, 1 modifiés', text)
+        self.assertIn('- Aucun changement : sorts, stats, images', text)
+        self.assertNotIn('Sorts : +0', text)
+
+    def test_console_step_numbers_match_the_log_file_numbers(self):
+        module = SimpleNamespace(__file__='legacy.py')
+        def main():
+            module.run_step('items/download', ['python', 'get_equipments.py'])
+            module.run_step('items/transform', ['python', 'get_equipments2.py'])
+        module.main = main
+        logs = []
+        def run(command, log, *args, **kwargs):
+            logs.append(log.name)
+            log.write_text('ok\n', encoding='utf-8')
+            return {'exit_code': 0, 'log': str(log), 'seconds': .1}
+        job = self.root / 'job.json'
+        updater.write_json(job, {'key': 'dofus3', 'images': False, 'available': '3.6.10.0', 'timeout': 60})
+        output = io.StringIO()
+        with mock.patch.object(updater.importlib, 'import_module', return_value=module), \
+                mock.patch.object(updater, 'run_command', side_effect=run), \
+                mock.patch.object(updater.sys, 'argv', []), contextlib.redirect_stdout(output):
+            updater.worker(job)
+        self.assertEqual(['dofus3-01-items-download.log', 'dofus3-02-items-transform.log'], logs)
+        self.assertIn('Dofus 3 | 01 | Téléchargement des objets : OK', output.getvalue())
+        self.assertIn('Dofus 3 | 02 | Transformation des objets : OK', output.getvalue())
+
+    def test_a_failing_check_without_test_lines_prints_its_error(self):
+        rows, by_key = self.versions_run(['dofus3'])
+        def run(command, log, **kwargs):
+            result = self.succeed(command, log)
+            if log.stem == 'weapons':
+                log.write_text('Traceback (most recent call last):\nKeyError: dofus3\n', encoding='utf-8')
+                return dict(result, exit_code=1, error='KeyError: dofus3')
+            return result
+        code, report, recap, output = self.execute(rows, ['dofus3'], {'dofus3': False}, run, by_key)
+        self.assertEqual(2, code)
+        self.assertIn('Contrôle des armes : ÉCHEC, KeyError: dofus3 ; journal ', output)
+        self.assertNotIn('0 tests', output)
+
+    def test_a_new_patch_is_noted_in_french_by_the_launcher(self):
+        (self.root / 'fashionista_version.py').write_text(
+            'FASHIONISTA_VERSION = "3.6.11.15"\nPATCH_TIMELINE = {\n    \'dofus3\': [\n'
+            '        (\'2026-01-01\', \'3.6\'),\n    ],\n}\n', encoding='utf-8')
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            updater.set_game_versions([{'key': 'dofus3', 'available': '3.7.0.1'}])
+        self.assertIn('[suivi] Dofus 3 : début du patch 3.7 noté dans PATCH_TIMELINE', output.getvalue())
+        self.assertNotIn('[version]', output.getvalue())
+        self.assertIn("'3.7'),", (self.root / 'fashionista_version.py').read_text(encoding='utf-8'))
+
+    def test_the_running_section_ends_at_the_next_heading(self):
+        running = self.root / 'RUNNING.md'
+        running.write_text('## En cours\n(rien)\n\n## Historique\nold rebuild 2026-09-01\n', encoding='utf-8')
+        with updater.exclusive(running):
+            text = running.read_text(encoding='utf-8')
+            self.assertLess(text.index('update_all pid='), text.index('## Historique'))
+        self.assertIn('old rebuild 2026-09-01', running.read_text(encoding='utf-8'))
+        self.assertNotIn('update_all pid=', running.read_text(encoding='utf-8'))
 
 
 class UpdateCommandTests(TestCase):
@@ -585,10 +1594,47 @@ print('[suivi] fin sans retour', end='', flush=True)
             processes.append(process)
             return process
         with mock.patch.object(updater.subprocess, 'Popen', side_effect=start), \
-                contextlib.redirect_stdout(io.StringIO()), self.assertRaises(TimeoutError):
-            updater.run_command([sys.executable, '-c', script], log, timeout=.2)
+                contextlib.redirect_stdout(io.StringIO()), \
+                self.assertRaisesRegex(TimeoutError, r'^Délai dépassé \(0 s\) : Dofus 3 \| 02 \| Chargement de la base$'):
+            updater.run_command([sys.executable, '-c', script], log, timeout=.2,
+                                title='Dofus 3 | 02 | Chargement de la base')
         self.assertIsNotNone(processes[0].poll())
         self.assertIn('Commande :', log.read_text(encoding='utf-8'))
+
+    def test_the_real_work_tree_lists_its_tracked_scraper_data(self):
+        if not audit.in_work_tree():
+            self.skipTest('not a git work tree')
+        names = audit.tracked_data_files()
+        self.assertIn('itemscraper/retro/retro_damage_spells.json', names)
+        self.assertTrue(all(name.startswith('itemscraper/') and name.endswith('.json') for name in names))
+        self.assertTrue(all(name.endswith('.json') for name in audit.modified_data_files()))
+
+    def test_every_pipeline_step_has_a_french_title(self):
+        labels = set()
+        for script in Path(updater.__file__).parent.glob('update_data*.py'):
+            source = script.read_text(encoding='utf-8')
+            labels.update(re.findall(r'''\bstep\(\s*f?["']([^"']+)["']''', source))
+        labels = {label.replace('{lang}', 'es').replace('%s', 'fr') for label in labels}
+        self.assertGreater(len(labels), 50)
+        for label in labels:
+            with self.subTest(label=label):
+                title = updater.step_title(label)
+                self.assertNotEqual(label, title)
+                self.assertNotIn('/', title)
+        self.assertEqual('Téléchargement des sorts (fr)', updater.step_title('data/spells fr'))
+        self.assertEqual('Téléchargement des langues (es)', updater.step_title('lang/download-es'))
+
+    def test_the_search_names_each_game_in_full(self):
+        output = io.StringIO()
+        with mock.patch.object(updater, 'fetch_json', side_effect=OSError('offline')), \
+                mock.patch.object(updater, 'probe', side_effect=OSError('offline')), \
+                contextlib.redirect_stdout(output):
+            rows = updater.discover()
+        self.assertEqual(list(updater.VERSIONS), [row['key'] for row in rows])
+        for name in ('Dofus 3', 'Dofus 3 Beta', 'Dofus 2', 'Dofus Touch', 'Dofus Retro', 'Wakfu'):
+            self.assertIn('Recherche de mise à jour : %s\n' % name, output.getvalue())
+        with self.assertRaisesRegex(ValueError, '^Dofus 3 Beta : source indisponible'):
+            updater.selection('beta', rows)
 
     def test_windows_database_replacement_retries_a_transient_lock(self):
         import load_item_db as loader
@@ -713,3 +1759,41 @@ class UpdateInventoryTests(TestCase):
         after = copy.deepcopy(before)
         after['images']['problems']['spell:2'] = {'path': 'spells/existing.png'}
         self.assertTrue(any('Image existante perdue' in error for error in audit.compare(before, after)['errors']))
+
+    def wakfu_pair(self, recipes, jobs):
+        before = self.baseline()
+        before.update(version='wakfu', mirror={'build': '1.92.1.60', 'recipes.json': 5616})
+        before['tables'] = {'items': 7617, 'stats': 34, 'stats_of_item': 50562, 'sets': 195, 'item_craft_jobs': 4455}
+        after = copy.deepcopy(before)
+        after['mirror'] = {'build': '1.93.1.62', 'recipes.json': recipes}
+        after['tables']['item_craft_jobs'] = jobs
+        return before, after
+
+    def test_a_wakfu_table_that_shrinks_with_its_mirror_source_is_only_a_warning(self):
+        result = audit.compare(*self.wakfu_pair(5428, 4210))
+        self.assertEqual([], result['errors'])
+        self.assertIn('item_craft_jobs : 4455 -> 4210 lignes, la source Ankama recipes.json a aussi diminué '
+                      '(5616 -> 5428)', result['warnings'])
+
+    def test_a_wakfu_loss_beyond_what_its_source_lost_still_blocks(self):
+        for recipes, jobs in ((5428, 3000), (5616, 4210), (5700, 4210)):
+            with self.subTest(recipes=recipes, jobs=jobs):
+                errors = audit.compare(*self.wakfu_pair(recipes, jobs))['errors']
+                self.assertTrue(any(error.startswith('item_craft_jobs : perte de plus de 3 %') for error in errors))
+
+    def test_an_item_kept_after_ankama_removed_it_is_counted_as_hidden(self):
+        before = self.baseline()
+        after = copy.deepcopy(before)
+        after['items']['1']['removed'] = 1
+        result = audit.compare(before, after)
+        self.assertEqual([], result['errors'])
+        self.assertEqual(['1'], result['items_hidden'])
+        self.assertIn('- Objets retirés par Ankama, gardés masqués pour les builds enregistrés : 1',
+                      updater.diff_lines(result))
+
+    def test_the_mirror_rule_is_for_wakfu_only(self):
+        before, after = self.wakfu_pair(5428, 4210)
+        before['version'] = after['version'] = 'dofus3'
+        before['tables'].update(weapon_hits=1, weapon_ap=1)
+        after['tables'].update(weapon_hits=1, weapon_ap=1)
+        self.assertTrue(any('item_craft_jobs' in error for error in audit.compare(before, after)['errors']))
