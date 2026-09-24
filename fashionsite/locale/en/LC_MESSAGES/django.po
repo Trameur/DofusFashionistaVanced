@@ -5749,6 +5749,106 @@ msgstr ""
 msgid "Reset to default"
 msgstr ""
 
+#: .\chardata\templates\chardata\workshop.html:59
+#, python-format
+msgid "Quantity for %(name)s"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:62
+#, python-format
+msgid "Remove %(name)s from the workshop"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:80
+msgid "Shopping list"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:83
+msgid "Hide gathered"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:92
+msgid "Open a build and click 'Add all items to my Workshop'."
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:104
+msgid "Ready to craft"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:105
+msgid "Not started"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:106
+msgid "No recipe known"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:107
+msgid "{done} / {total} resources"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:108
+msgid "Ready to craft: {ready} / {total}"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:109
+msgid "Resources still missing: {count}"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:110
+msgid "Owned: {name}"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:111
+msgid "Set {name} to 0"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:112
+msgid "Set {name} to maximum"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:113
+msgid "Max"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:114
+msgid "Shared with other items: {total} needed in all, {missing} missing"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:115
+msgid "Saved"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:116
+msgid "Could not save"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:117
+msgid "Still missing: {count}"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:118
+msgid "Used by: {count}"
+msgstr ""
+
+#: .\chardata\templates\chardata\workshop.html:119
+msgid "Nothing missing right now."
+msgstr ""
+
+#: .\chardata\workshop_view.py:276
+#: .\chardata\workshop_view.py:280
+#: .\chardata\workshop_view.py:299
+msgid "Invalid request"
+msgstr ""
+
+#: .\chardata\workshop_view.py:283
+msgid "Too many resources in one request"
+msgstr ""
+
+#: .\chardata\workshop_view.py:308
+msgid "Too many stocked resources for this version"
+msgstr ""
+
 #: .\chardata\templates\chardata\workshop.html:6
 #: .\chardata\templates\chardata\workshop.html:16
 msgid "My Workshop"
@@ -5789,12 +5889,11 @@ msgstr ""
 msgid "Total ingredients needed"
 msgstr ""
 
-#: .\chardata\templates\chardata\workshop.html:82
-#: .\chardata\templates\chardata\workshop.html:96
+#: .\chardata\templates\chardata\workshop.html:120
 msgid "No recipe data for these items."
 msgstr ""
 
-#: .\chardata\templates\chardata\workshop.html:154
+#: .\chardata\templates\chardata\workshop.html:121
 msgid "Clear all items from your workshop?"
 msgstr ""
 

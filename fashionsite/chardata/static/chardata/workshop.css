@@ -1,6 +1,28 @@
-/* Workshop page (extracted from the template's inline block so the styles cache).
-   Theme-neutral: colors come from opacity and rgba borders over the themed page
-   background; contrast-audited on both themes. */
+/* Status tokens live on html.fm-light/html.fm-dark, not under html.fm-modern,
+   so the classic design resolves them too. */
+
+html.fm-light {
+    --ws-done: #185a22;
+    --ws-part: #7a4100;
+    --ws-none: #8e1f18;
+    --ws-done-line: #2e7d32;
+    --ws-part-line: #9a5b00;
+    --ws-none-line: #c62828;
+    --ws-done-bg: rgba(46, 125, 50, .12);
+    --ws-part-bg: rgba(178, 106, 0, .12);
+    --ws-none-bg: rgba(198, 40, 40, .12);
+}
+html.fm-dark {
+    --ws-done: #86d68f;
+    --ws-part: #f0b45c;
+    --ws-none: #ff9189;
+    --ws-done-line: #66bb6a;
+    --ws-part-line: #e0a458;
+    --ws-none-line: #ef5350;
+    --ws-done-bg: rgba(102, 187, 106, .12);
+    --ws-part-bg: rgba(224, 164, 88, .12);
+    --ws-none-bg: rgba(239, 83, 80, .12);
+}
 
 .workshop-wrapper {
     max-width: 760px;
@@ -11,7 +33,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 0 12px;
+    margin: 0 0 6px;
+    opacity: 0.85;
+}
+.ws-summary {
+    margin: 0 0 14px;
+    font-weight: 600;
+}
+.ws-save-status {
+    min-height: 1.2em;
+    margin: 0 0 10px;
+    font-size: 0.85em;
     opacity: 0.85;
 }
 .workshop-empty {
@@ -20,91 +52,319 @@
     opacity: 0.7;
     font-style: italic;
 }
-.workshop-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.workshop-missing {
+    font-style: italic;
+    opacity: 0.75;
 }
-.workshop-row {
+
+/* ---------- Item cards ---------- */
+.ws-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+}
+.ws-card, .ws-shopping {
+    container-type: inline-size;
+}
+.ws-card.brown-box {
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 !important;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-left: 4px solid rgba(128, 128, 128, .35);
+    color: inherit;
+}
+.ws-card[data-state="done"] {
+    border-left-color: var(--ws-done-line);
+}
+.ws-card[data-state="part"] {
+    border-left-color: var(--ws-part-line);
+}
+.ws-card[data-state="none"] {
+    border-left-color: var(--ws-none-line);
+}
+.ws-head {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px 6px;
+}
+.ws-head-ctl {
+    grid-column: 1 / -1;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px 4px;
-    border-top: 1px solid rgba(128,128,128,0.25);
+    justify-content: flex-end;
+    gap: 8px;
 }
-.workshop-row:first-child {
-    border-top: none;
+@container (min-width: 460px) {
+    .ws-head {
+        grid-template-columns: 48px minmax(0, 1fr) auto auto;
+    }
+    .ws-head-ctl {
+        display: contents;
+    }
 }
-.workshop-row-img {
-    width: 40px;
-    height: 40px;
+.ws-head-img {
+    width: 48px;
+    height: 48px;
     object-fit: contain;
-    flex-shrink: 0;
+    display: block;
 }
-.workshop-row-name {
-    flex: 1;
-    min-width: 0;
+.ws-name {
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    margin: 0 !important;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
 }
 .workshop-row-meta {
     font-size: 0.85em;
-    opacity: 0.7;
+    opacity: 0.75;
+    margin-top: 2px;
 }
-.workshop-row-qty {
-    width: 60px;
-    text-align: center;
-    padding: 3px 4px;
+.ws-mult {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    white-space: nowrap;
 }
-.workshop-row-remove {
+.ws-remove {
     background: none;
     border: none;
     color: inherit;
     opacity: 0.6;
     cursor: pointer;
     font-size: 1.1em;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 4px;
 }
-.workshop-row-remove:hover {
+.ws-remove:hover, .ws-remove:focus-visible {
     opacity: 1;
 }
-.workshop-missing {
-    color: #c33;
-    font-style: italic;
+
+/* Owned / multiplier inputs: exempted from responsive.css's
+   .pretty-input { width:100% !important }, the same way .stat-input is,
+   with extra specificity so load order cannot flip it back. */
+.ws-num, html.fm-modern .ws-num, .maincontent .ws-num {
+    width: 8ch !important;
+    min-width: 0 !important;
+    padding: 6px 4px !important;
+    text-align: center;
+    box-sizing: border-box;
+    font-variant-numeric: tabular-nums;
+    -moz-appearance: textfield;
+    font-size: 15px;
 }
-.workshop-ingredients {
-    margin: 28px 0 0;
-}
-.workshop-ingredients h2 {
-    font-size: 1.15em;
-    margin: 0 0 4px;
-}
-.workshop-ingredients-meta {
-    opacity: 0.7;
-    font-size: 0.85em;
-    margin: 0 0 10px;
-}
-.ingredient-list {
-    list-style: none;
-    padding: 0;
+.ws-num::-webkit-inner-spin-button, .ws-num::-webkit-outer-spin-button {
+    -webkit-appearance: none;
     margin: 0;
 }
-.ingredient-row {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    padding: 5px 4px;
-    border-top: 1px solid rgba(128,128,128,0.25);
+
+.ws-progress {
+    height: 6px;
+    margin: 0 12px 6px;
+    border-radius: 3px;
+    background: rgba(128, 128, 128, .25);
+    overflow: hidden;
 }
-.ingredient-row:first-child {
+.ws-progress > span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: rgba(128, 128, 128, .6);
+}
+.ws-card[data-state="done"] .ws-progress > span {
+    background: var(--ws-done-line);
+}
+.ws-card[data-state="part"] .ws-progress > span {
+    background: var(--ws-part-line);
+}
+.ws-card[data-state="none"] .ws-progress > span {
+    background: var(--ws-none-line);
+}
+
+.ws-res {
+    list-style: none;
+    margin: 0;
+    padding: 0 12px;
+}
+.ws-row {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    column-gap: 8px;
+    row-gap: 4px;
+    align-items: center;
+    padding: 6px 0;
+    border-top: 1px solid rgba(128, 128, 128, .25);
+}
+.ws-row:first-child {
     border-top: none;
 }
-.ingredient-name {
-    flex: 1;
-    min-width: 0;
+.ws-row-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: block;
 }
-.ingredient-qty {
+.ws-row-name {
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+}
+.ws-row-name.ws-row-name-done {
+    text-decoration: line-through;
+}
+.ws-row-need {
     font-weight: 700;
+    font-variant-numeric: tabular-nums;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
-.ingredient-empty {
+.ws-row[data-state="done"] .ws-row-need {
+    color: var(--ws-done);
+}
+.ws-row[data-state="part"] .ws-row-need {
+    color: var(--ws-part);
+}
+.ws-row[data-state="none"] .ws-row-need {
+    color: var(--ws-none);
+}
+.ws-row-ctl {
+    grid-column: 2 / -1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: flex-end;
+}
+.ws-step {
+    min-width: 44px;
+    min-height: 36px;
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, .5);
+    background: transparent;
+    color: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.ws-row-shared {
+    grid-column: 2 / -1;
+    font-size: 0.8em;
+    opacity: 0.75;
+}
+
+.ws-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(128, 128, 128, .10);
+    border-top: 1px solid rgba(128, 128, 128, .25);
+}
+.ws-card[data-state="done"] .ws-foot {
+    background: var(--ws-done-bg);
+    border-top-color: var(--ws-done-line);
+}
+.ws-card[data-state="part"] .ws-foot {
+    background: var(--ws-part-bg);
+    border-top-color: var(--ws-part-line);
+}
+.ws-card[data-state="none"] .ws-foot {
+    background: var(--ws-none-bg);
+    border-top-color: var(--ws-none-line);
+}
+.ws-status {
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.ws-card[data-state="done"] .ws-status {
+    color: var(--ws-done);
+}
+.ws-card[data-state="part"] .ws-status {
+    color: var(--ws-part);
+}
+.ws-card[data-state="none"] .ws-status {
+    color: var(--ws-none);
+}
+
+@container (min-width: 460px) {
+    .ws-row {
+        grid-template-columns: 28px minmax(0, 1fr) auto auto;
+    }
+    .ws-row-ctl {
+        grid-column: auto;
+    }
+    .ws-row-shared {
+        grid-column: 2 / -1;
+    }
+}
+
+/* ---------- Shopping list ---------- */
+.ws-shopping {
+    margin: 28px 0 0;
+}
+.ws-shopping-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 10px;
+}
+.ws-shopping-head h2 {
+    font-size: 1.15em !important;
+    margin: 0 !important;
+}
+.ws-hide-gathered {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9em;
+    opacity: 0.85;
+    cursor: pointer;
+}
+.ws-shopping-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.ws-shopping-list .ws-row {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+}
+.ws-row-extra {
+    grid-column: 2 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.8em;
+    opacity: 0.75;
+}
+.ws-shopping-empty {
     opacity: 0.7;
     font-style: italic;
+    margin: 10px 0 0;
+}
+
+@container (min-width: 460px) {
+    .ws-shopping-list .ws-row {
+        grid-template-columns: 28px minmax(0, 1fr) auto auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .workshop-wrapper {
+        padding: 0;
+    }
 }

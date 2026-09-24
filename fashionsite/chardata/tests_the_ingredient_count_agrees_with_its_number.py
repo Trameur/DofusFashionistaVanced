@@ -121,10 +121,21 @@ class TheFirstRenderAndTheRefreshCannotDifferTests(SimpleTestCase):
             2, source.count('JsonResponse(_ingredients_payload('),
             'one of the two ingredient endpoints builds its own answer again')
 
-    def test_the_page_prints_what_the_server_computed(self):
+    def test_the_solution_panel_prints_what_the_server_computed(self):
+        # solution.html still refreshes its ingredient panel over AJAX and
+        # has to echo back the same phrase the server rendered on load.
+        self.assertIn('resp.ingredients_meta',
+                      self._source('solution.html', _GABARITS))
+
+    def test_the_workshop_page_never_refetches_its_totals(self):
+        # The workshop card rows and the shopping list totals now come from
+        # one breakdown embedded once via json_script, so there is no second
+        # request that could answer with a different number.
         source = self._source('workshop.html', _GABARITS)
-        self.assertIn('{{ ingredients_meta }}', source)
-        for nom in ('workshop.html', 'solution.html'):
-            with self.subTest(gabarit=nom):
-                self.assertIn('resp.ingredients_meta',
-                              self._source(nom, _GABARITS))
+        self.assertIn('workshop_resource_totals|json_script', source)
+        self.assertNotIn('/workshop/ingredients/', source)
+        view_source = self._source('workshop_view.py')
+        self.assertEqual(
+            1, view_source.count('_breakdown_for_user(request.user, game_version)'),
+            'workshop() should build the card rows and the resource totals '
+            'from one breakdown call, not two that could disagree')
