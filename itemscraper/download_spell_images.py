@@ -143,7 +143,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--overwrite",
         action="store_true",
-        help="Overwrite files that already exist (default: skip existing files).",
+        help="Overwrite files that already exist (default: replace only a file whose picture changed).",
     )
     parser.add_argument(
         "--prune",
@@ -200,15 +200,17 @@ def extract_spell_images(raw_dir: Path, size: str, output_dir: Path, overwrite: 
     with tarfile.open(tar_path, "r:gz") as archive:
         for member, filename in iter_spell_members(archive):
             target_path = destination / filename
-            if target_path.exists() and not overwrite:
-                skipped += 1
-                continue
             extracted = archive.extractfile(member)
             if extracted is None:
                 skipped += 1
                 continue
+            data = extracted.read()
+            if (target_path.exists() and not overwrite
+                    and target_path.read_bytes() == data):
+                skipped += 1
+                continue
             with target_path.open("wb") as fh:
-                fh.write(extracted.read())
+                fh.write(data)
             written += 1
     return written, skipped
 
@@ -375,6 +377,20 @@ def sanitize_spell_name(name: str, fallback: str) -> str:
     return safe_asset_stem(cleaned)
 
 
+def same_picture(first: Path, second: Path) -> bool:
+    """Equal pixels, whatever the encoding; colour under full transparency does not count."""
+    if first.read_bytes() == second.read_bytes():
+        return True
+    from PIL import Image
+    try:
+        with Image.open(first) as one, Image.open(second) as other:
+            one = one.convert("RGBA").convert("RGBa")
+            other = other.convert("RGBA").convert("RGBa")
+            return one.size == other.size and one.tobytes() == other.tobytes()
+    except (OSError, ValueError):
+        return False
+
+
 def copy_spell_icons(
     source_dir: Path,
     destination_dirs: Sequence[Path],
@@ -399,7 +415,8 @@ def copy_spell_icons(
         copied = False
         for dest in targets:
             target_path = dest / filename
-            if target_path.exists() and not overwrite:
+            if (target_path.exists() and not overwrite
+                    and same_picture(source_path, target_path)):
                 continue
             shutil.copy2(source_path, target_path)
             copied = True
