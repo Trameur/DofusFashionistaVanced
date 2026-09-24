@@ -2562,7 +2562,8 @@ def encyclopedia_item(request, ankama_type, ankama_id, slug=None):
                 ambiguous_slug = len({_get_item_group_key(item) for item
                                       in live_matches or slug_matches}) > 1
 
-    if matched_item is None:
+    # A live variant always wins the loop above, so removed means every one is
+    if matched_item is None or matched_item.removed:
         requested_name = _resolve_missing_item_name(
             ankama_type, target_ankama_id, slug, language, game_version)
         return _encyclopedia_missing_response(

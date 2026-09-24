@@ -211,6 +211,7 @@ def _sitemap_encyclopedia_items(base_url, language='en'):
                         SELECT MIN(id) AS item_id
                         FROM items
                         WHERE ankama_id IS NOT NULL AND ankama_type IS NOT NULL
+                          AND (removed IS NULL OR removed = 0)
                         GROUP BY ankama_type, ankama_id
                     )
                     SELECT i.id, i.ankama_type, i.ankama_id, %s AS localized_name, i.name
