@@ -14,8 +14,10 @@ into the per-version items DB by `itemscraper/store_item_obtainment.py`.
 import logging
 import sqlite3
 
-from chardata.official_site import get_item_link
+from chardata.encyclopedia_view import _ingredient_icon_url, _recipe_lookups
+from chardata.official_site import get_item_link, get_resource_link
 from fashionistapulp.fashionista_config import get_items_db_path
+from fashionistapulp.structure import get_structure
 
 logger = logging.getLogger(__name__)
 
@@ -127,6 +129,140 @@ def aggregate_ingredients(item_quantities, language, game_version='dofus3',
                          key=lambda entry: (entry['name'] or '').lower())
     return {
         'ingredients': ingredients,
+        'items_with_recipe': items_with_recipe,
+        'recipes_available': True,
+    }
+
+
+def workshop_breakdown(item_quantities, language, game_version='dofus3',
+                       unknown_label='Unknown ingredient'):
+    """Per-item recipe rows plus per-resource totals, for the workshop cards.
+
+    `item_quantities` is an iterable of `(item_id, count)` pairs, where `item_id`
+    is a `WorkshopItem.item_id` (a structure item id, possibly a retired one:
+    every id is resolved through `Structure.current_item_id` before it is
+    looked up). The returned dict has:
+
+      items               {item_id: [row, ...]}, one entry per input item_id
+                          (its own, unresolved key), 'row' quantities are per
+                          one unit of the item; callers multiply by their own
+                          count client-side
+      resources           sorted list of {name, quantity, subtype, ankama_id,
+                          local_item_url, resource_url, image_url, used_by},
+                          quantity and used_by summed across every item_id
+      items_with_recipe   how many distinct input items had a known recipe
+      recipes_available   False when the recipe tables are missing from the DB
+
+    Each ingredient row is {name, quantity, subtype, ankama_id, local_item_url,
+    resource_url, image_url}. This runs a constant number of SQL statements,
+    regardless of how many items are asked for.
+    """
+    empty = {'items': {}, 'resources': [], 'items_with_recipe': 0,
+             'recipes_available': False}
+
+    entries = [(item_id, count) for item_id, count in item_quantities if count]
+    if not entries:
+        return {'items': {}, 'resources': [], 'items_with_recipe': 0,
+                'recipes_available': True}
+
+    structure = get_structure(game_version)
+    resolved_by_item_id = {
+        item_id: structure.current_item_id(item_id) for item_id, _count in entries
+    }
+    resolved_ids = sorted(set(resolved_by_item_id.values()))
+
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        existing = {row[0] for row in cursor.execute(
+            "SELECT name FROM sqlite_master WHERE type = 'table' "
+            "AND name IN ('item_recipes', 'item_recipe_ingredient_names')")}
+        if 'item_recipes' not in existing:
+            return empty
+        has_names = 'item_recipe_ingredient_names' in existing
+
+        holes = ','.join('?' * len(resolved_ids))
+        raw_rows = cursor.execute(
+            "SELECT item, position, ingredient_ankama_id, ingredient_subtype, "
+            "quantity FROM item_recipes WHERE item IN (%s) ORDER BY item, position"
+            % holes, resolved_ids).fetchall()
+
+        lookup_rows = [(position, ankama_id, subtype, quantity)
+                       for _item, position, ankama_id, subtype, quantity in raw_rows]
+        names, local_items = _recipe_lookups(cursor, lookup_rows, language, has_names)
+    except Exception:
+        logger.exception('Failed to build the workshop breakdown')
+        return empty
+    finally:
+        if conn is not None:
+            conn.close()
+
+    rows_by_resolved_id = {}
+    for item_id, _position, ankama_id, subtype, quantity in raw_rows:
+        rows_by_resolved_id.setdefault(item_id, []).append(
+            (ankama_id, subtype, quantity))
+
+    def build_row(ankama_id, subtype, quantity):
+        name = names.get((ankama_id, subtype)) or '%s #%s' % (unknown_label, ankama_id)
+        local_type = _LOCAL_INGREDIENT_TYPES.get((subtype or '').lower())
+        local_item_url = None
+        if local_type:
+            local_item = local_items.get((ankama_id, local_type))
+            if local_item is not None:
+                local_item_url = get_item_link(
+                    local_item[1], local_item[0], local_item[3], game_version)
+        resource_url = None
+        if local_item_url is None and (ankama_id, subtype) in names:
+            resource_url = get_resource_link(subtype, ankama_id, name, game_version)
+        return {
+            'name': name,
+            'quantity': quantity,
+            'subtype': subtype,
+            'ankama_id': ankama_id,
+            'local_item_url': local_item_url,
+            'resource_url': resource_url,
+            'image_url': _ingredient_icon_url(game_version, ankama_id),
+        }
+
+    items = {}
+    totals = {}
+    order = []
+    items_with_recipe = 0
+    for item_id, count in entries:
+        resolved_rows = rows_by_resolved_id.get(resolved_by_item_id[item_id], [])
+        if resolved_rows:
+            items_with_recipe += 1
+        seen_keys = set()
+        item_rows = []
+        for ankama_id, subtype, quantity in resolved_rows:
+            row = build_row(ankama_id, subtype, quantity)
+            item_rows.append(row)
+            key = (ankama_id, subtype)
+            entry = totals.get(key)
+            if entry is None:
+                entry = totals[key] = {
+                    'name': row['name'],
+                    'quantity': 0,
+                    'subtype': subtype,
+                    'ankama_id': ankama_id,
+                    'local_item_url': row['local_item_url'],
+                    'resource_url': row['resource_url'],
+                    'image_url': row['image_url'],
+                    'used_by': 0,
+                }
+                order.append(key)
+            entry['quantity'] += (quantity or 0) * count
+            if key not in seen_keys:
+                seen_keys.add(key)
+                entry['used_by'] += 1
+        items[item_id] = item_rows
+
+    resources = sorted((totals[key] for key in order),
+                       key=lambda entry: (entry['name'] or '').lower())
+    return {
+        'items': items,
+        'resources': resources,
         'items_with_recipe': items_with_recipe,
         'recipes_available': True,
     }
