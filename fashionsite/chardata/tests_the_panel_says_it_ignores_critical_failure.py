@@ -1,30 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le panneau dit qu'il ne compte pas l'echec critique, sur la seule version
-qui l'a.
-
-Dofus a retire la mecanique en 2.0. Le lecteur d'objets moderne ne garde que
-`critical_hit_probability` et `critical_hit_bonus`, quand le tableau `e` d'une
-arme 1.29 porte huit champs dont `crit_failure`:
-
-    [twoHanded, _, crit_chance, crit_failure, maxRange, minRange, ap,
-     crit_bonus]
-
-**Mesure du 12 septembre 2026 sur la donnee 1.29 brute**: 4361 armes portent
-un taux d'echec, **2376 a 1/40, 1112 a 1/30, 744 a 1/50**, et une a 1/2. Cote
-sorts, **240 des 252 sorts de classe sont a 1/100**. Le lecteur Retro du site
-lit ce champ et le jette, donc le nombre annonce est un majorant de 2 a 3 %
-sur la plupart des armes.
-
-**Pourquoi on ne le modelise pas.** Un echec critique fait que l'action ne
-porte pas, mais selon le sort il fait aussi perdre le reste des PA du tour, et
-la donnee ne dit pas lesquels. Un ajustement calcule serait donc une invention
-sur ce second point. Le site le dit au lieu de le deviner, comme pour le %
-melee et le % distance de la section 63.
-
-Et aucun objet d'aucune des cinq versions ne vend la stat Echec Critique: elle
-n'est donc ni affichable ni optimisable, seulement portee par l'arme et par le
-sort.
-"""
+"""Critical failure exists only in Retro item data; the panel names it instead of estimating its effect."""
 
 import json
 import re
@@ -53,8 +28,7 @@ def _texte(html):
 class OnlyRetroHasTheMechanicTests(SimpleTestCase):
 
     def test_no_item_of_any_version_sells_critical_failure(self):
-        """Elle n'est ni affichable ni optimisable: seuls l'arme et le sort la
-        portent, dans la donnee du jeu."""
+        """Not shown or optimized anywhere; only the weapon and the spell carry it in game data."""
         from fashionistapulp.game_versions import version_keys
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
@@ -77,9 +51,7 @@ class OnlyRetroHasTheMechanicTests(SimpleTestCase):
                 self.assertEqual(0, porteurs)
 
     def test_the_retro_reader_names_the_field_and_the_modern_one_does_not(self):
-        """La raison pour laquelle la phrase est propre a Retro. Si un jour le
-        lecteur moderne lit un echec critique, ce test tombe et fait revoir la
-        condition."""
+        """If the modern reader ever picks up a critical failure field, this test must be revisited."""
         import os
 
         racine = os.path.dirname(os.path.dirname(os.path.dirname(
@@ -135,7 +107,7 @@ class TheNoteIsRetroOnlyTests(TestCase):
         self.assertEqual(gettext(PHRASE), self._note(char, prefixe))
 
     def test_the_four_other_versions_are_not_bothered(self):
-        """La mecanique n'existe pas chez elles: la phrase y serait fausse."""
+        """The mechanic doesn't exist there; the note would be wrong."""
         from fashionistapulp.game_versions import version_keys
         vues = 0
         for version in version_keys():
@@ -170,8 +142,7 @@ class TheNoteIsRetroOnlyTests(TestCase):
         self.assertEqual(gettext(PHRASE), combo['crit_failure_note'])
 
     def test_the_build_page_and_the_comparison_repeat_it(self):
-        """Trois pages qui annoncent le meme nombre doivent annoncer les memes
-        hypotheses."""
+        """Three pages announcing the same number must state the same assumptions."""
         char, prefixe = self._build('retro')
         autre, _p = self._build('retro')
         attendu = gettext(PHRASE)

@@ -1,33 +1,12 @@
 # -*- coding: utf-8 -*-
-"""An item may only be exchanged into a slot that accepts its type.
-
-`switch_item` takes an item id straight from the request and used to hand it to
-`ModelResult.switch_item` without ever comparing the item's type to the slot.
-A hand-made POST could therefore put a hat on the character's feet: the page
-rendered, the stats counted the hat as boots, and the shared build -- a public,
-indexed page -- rendered the same nonsense.
-
-The rule the guard enforces is not invented here, it is the one the rest of the
-app already follows on both sides:
-
-  - the picker only ever offers `SLOT_NAME_TO_TYPE[slot]`
-    (`get_items_of_type` -> `_order_items(itype, ...)`);
-  - the solver only ever fills a slot with that same type, measured over five
-    solved builds and eighty equipped items, sixteen slots, zero deviation.
-
-So the guard cannot refuse anything a legitimate path produces. That claim is
-what `test_every_slot_still_accepts_its_own_type` checks, and it is the half
-that matters: a guard that refused everything would pass the rejection test
-alone.
-"""
+"""An item exchange must refuse a target slot whose type does not accept it."""
 import re
 
 from django.test import TestCase
 
 from chardata.models import Char
 
-#: Pairs of (slot holding the item we move, slot we wrongly move it into).
-#: Each pair crosses a different type family.
+# (slot holding the item, slot we wrongly move it into), each pair a different type family
 MISMATCHES = [
     ('hat', 'boots'),
     ('boots', 'ring1'),
@@ -89,11 +68,7 @@ class ExchangeRespectsSlotTypes(TestCase):
             'for this test to mean anything' % checked)
 
     def test_every_slot_still_accepts_its_own_type(self):
-        """The other half: the guard must not refuse a legitimate exchange.
-
-        Every slot is walked, not a chosen few, because the guard reads one
-        table and a single wrong row would only show on the slot it covers.
-        """
+        """The other half: the guard must not refuse a legitimate exchange, checked on every slot."""
         worn = self.equipped()
         self.assertGreaterEqual(len(worn), 12,
                                 'only %d slots filled' % len(worn))
@@ -110,8 +85,7 @@ class ExchangeRespectsSlotTypes(TestCase):
             % ', '.join(refused))
 
     def test_an_unknown_item_is_still_refused(self):
-        """The pre-existing guard, kept honest: an id nobody owns is not a
-        silent way to empty a slot."""
+        """An id nobody owns must still be refused, not silently empty the slot."""
         for bogus in ('0', '-1', '999999999', 'Gelano', ''):
             self.assertEqual(400, self.exchange(bogus, 'boots').status_code,
                              'itemName=%r was accepted' % bogus)

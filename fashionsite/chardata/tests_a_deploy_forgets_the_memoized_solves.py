@@ -1,11 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""A deploy forgets the memoized solves, and only them.
-
-Thibaud, 2026-09-18: "en general il faut vider le cache lors d'un deploy, car
-95% du temps un deploy c'est suite a une modif de donnees". The solver's memory
-is keyed on the player's request alone, so it outlives the data it was solved
-on. docker-entrypoint.sh now runs clear_solution_cache at every boot.
-"""
+"""A deploy forgets the memoized solver solutions but keeps the counters; the cache key ignores the data it was solved on."""
 import io
 import os
 

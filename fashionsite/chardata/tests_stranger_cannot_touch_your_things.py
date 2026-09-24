@@ -1,16 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The mutating routes nothing walked, checked against a stranger.
-
-Of the 176 routes in urls.py, twenty-one are named by no test and reached by
-neither `check_pages` nor `check_actions`. Four of them change data that
-belongs to somebody: they duplicate a build, remove a tag, delete a comment,
-drop a follow. Each one reads correctly. This pins that, because reading is
-not measuring and these are the routes a change would break unnoticed.
-
-Every case has its opposite here: an owner who *can* do the thing. Without
-that, a route that answered 403 to everyone -- including its owner -- would
-pass the whole file.
-"""
+"""Mutating routes with no other test coverage, checked against a stranger who is refused and an owner who is allowed."""
 from django.contrib.auth.models import User
 from django.test import TestCase
 
@@ -24,11 +13,7 @@ class AStrangerCannotTouchYourThings(TestCase):
         self.owner = User.objects.create_user('owner', 'o@x.test', 'pw')
         self.stranger = User.objects.create_user('stranger', 's@x.test', 'pw')
         self.client.force_login(self.owner)
-        # `publish_choice` sans `publish`, c'est-a-dire la case
-        # decochee telle qu'un navigateur la poste: le build reste prive,
-        # ce qui est le sujet de la moitie des tests de ce fichier. Depuis
-        # le 11 septembre 2026 un build neuf est publie des qu'il porte
-        # quelque chose, donc le dire est devenu necessaire.
+        # posts publish_choice without publish, the way a browser posts the box unchecked, so the build stays private
         self.client.post('/createproject/', {
             'project': 'p', 'charname': 'Perso', 'level': '150',
             'class': 'Iop', 'where_to_go': 'wizard',
@@ -52,13 +37,7 @@ class AStrangerCannotTouchYourThings(TestCase):
         self.assertEqual(before, Char.objects.count(), 'a copy was made anyway')
 
     def test_a_shared_build_can_be_duplicated_and_the_copy_is_private(self):
-        """The opposite case, and the fact that explains a whole population.
-
-        The copy carries the original's stored solution -- pk cleared, every
-        other field kept. So a build duplicated today holds item ids from the
-        day the original was solved, which is why builds created this year can
-        carry numbers from an older catalogue.
-        """
+        """The copy keeps the original's stored solution, so it can carry item ids from an older catalogue."""
         self.share()
         self.client.force_login(self.stranger)
         before = Char.objects.count()

@@ -1,19 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Comparing two builds must not become a way to read a private one.
-
-The set comparison takes its builds from the url -- `/compare_sets/12/34/` --
-and it is a **reading** surface: it prints both builds' items, totals and
-names. The rest of the site was checked for who may *touch* a build; nobody
-had checked who may *see* one through this door.
-
-The design is right and this pins it. A bare id goes through
-`get_char_or_raise`, which is owner-only; an id prefixed with `s` goes through
-`get_char_encoded_or_raise`, which refuses a build that is not shared. A build
-that resolves to neither is dropped, and fewer than two survivors is a 404.
-
-Every refusal here is checked on the **body** as well as the status: a 404 page
-that still carried the name would leak exactly what the status refused.
-"""
+"""Comparing two builds must not leak a private one, checked on the body as well as the status."""
 from django.contrib.auth.models import User
 from django.test import TestCase
 
@@ -34,10 +20,7 @@ class CompareOnlyShowsWhatYouMaySee(TestCase):
         self.second = self.a_build(OTHER)
 
     def a_build(self, name):
-        # La case de publication decochee, telle qu'un navigateur
-        # la poste: le champ cache seul. Sans elle, le build nomme
-        # <<secret>> ici serait public des sa premiere solution et les
-        # refus mesures plus bas ne refuseraient plus rien.
+        # posts publish_choice without publish, as an unchecked box; keeps the build private
         self.client.post('/createproject/', {
             'project': name, 'charname': name, 'level': '150',
             'class': 'Iop', 'where_to_go': 'wizard',

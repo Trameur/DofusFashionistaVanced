@@ -1,12 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""A piece whose recorded rolls differ from the encyclopedia wears a mark.
-
-Thibaud, 2026-09-18: "ca serait bien de mettre un petit marqueur de FM sur les
-items FM/exo comme sur dofus book". Two marks, from the rolls the player
-recorded (manual overrides or an inventory): SM (FM in French) when a line
-differs from the encyclopedia value, Exo when the piece carries a line it
-does not have, or an AP, MP or Range point above its own.
-"""
+"""A piece whose recorded rolls differ from the encyclopedia wears a forge (SM) or exo mark."""
 from django.test import SimpleTestCase
 
 from chardata.solution_result import evolve_result_item

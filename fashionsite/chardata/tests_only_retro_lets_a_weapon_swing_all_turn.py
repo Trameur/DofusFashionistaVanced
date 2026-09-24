@@ -1,38 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Retro est la seule version ou une arme frappe tant qu'il reste des PA.
-
-Trouve en lisant le meilleur tour d'un Cra Retro: il lance quatre fois la
-meme epee, 5 PA chacune, sur ses 21 PA. Aucune des quatre autres versions ne
-le ferait avec une arme limitee.
-
-**La regle est celle d'Ankama, pas notre lecture du jeu.** Dans le client
-Retro (lang des objets 1260), **chacune des 4363 armes** porte exactement
-huit champs:
-
-    [twoHanded, _, crit_chance, crit_failure, maxRange, minRange, ap,
-     crit_bonus]
-
-Aucun n'est un nombre d'utilisations. Le champ n'existe pas dans ce client-la,
-alors que les quatre autres versions le portent:
-
-| version | armes qui portent une limite |
-|---------|------------------------------|
-| dofus3 | 766 |
-| beta | 766 |
-| dofus2 | 723 |
-| touch | 698 |
-| **retro** | **0** |
-
-Mesure du 14 septembre 2026, sur les bases d'objets du depot.
-
-**Ce que ce parcours protege.** Le code lisait `uses_per_turn` et tombait sur
-rien en Retro, ce qui donnait la bonne reponse par accident: la table
-`weapon_uses_per_turn` n'existe pas dans `items_retro.db`, et
-`structure.py` la saute quand elle manque. Le jour ou un rebuild Retro se
-mettrait a l'ecrire, le tour Retro changerait sans que rien ne le dise. Le
-nombre est donc ici, avec les quatre autres a cote de lui pour que l'absence
-se lise comme une absence et non comme un oubli.
-"""
+"""Retro is the only version where a weapon has no per-turn use limit."""
 import os
 import sqlite3
 
@@ -41,7 +8,7 @@ from django.test import SimpleTestCase
 PULP = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__)))), 'fashionistapulp', 'fashionistapulp')
 
-#: version -> (fichier, armes qui portent une limite le 14 septembre 2026)
+# version -> (db file, weapons carrying a per-turn use limit)
 BASES = {
     'dofus3': ('items.db', 766),
     'beta': ('items_beta.db', 766),
@@ -78,8 +45,7 @@ class OnlyRetroLetsAWeaponSwingAllTurnTests(SimpleTestCase):
         self.assertEqual(attendu, compte)
 
     def test_the_castable_reads_that_absence_as_no_limit(self):
-        """Ce que le tour en fait: une arme Retro n'a pas de limite, une arme
-        moderne en a une."""
+        """A Retro weapon has no limit; a modern one does."""
         from chardata.spell_combo import WeaponCastable
 
         class _Arme(object):

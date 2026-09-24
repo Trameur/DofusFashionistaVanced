@@ -1,27 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le panneau des sorts dit quand le build sort du niveau du personnage.
-
-Trouve en exercant la version beta en allemand. Un build de niveau 30
-annoncait <<17981 Schaden>> dans son meilleur tour, calcule sur treize pieces
-allant jusqu'au niveau 100 que ce personnage ne peut pas porter.
-
-La page du build le disait deja, et le disait **juste au-dessus du lien qui
-mene ici**: le nombre du meilleur tour est lui-meme ce lien. Le panneau, lui,
-ne disait rien, et il a sa propre adresse, partageable.
-
-La regle ne change pas, elle change de place: `_build_check` la portait au
-milieu de son calcul de suggestions, qui note chaque emplacement candidat et
-coute cher. Elle vit maintenant seule, dans
-`solution_view.pieces_above_the_character_level`, et les deux vues l'appellent.
-
-Aucune chaine neuve: l'etiquette est celle de la page du build, deja traduite
-dans les cinq langues, donc aucun `.mo` a recompiler.
-
-Mesure du 13 septembre 2026, quatre combinaisons de theme et de design:
-contrastes 11,58 / 11,58 / 11,86 / 11,86, aucun debordement. La ligne ne
-prend aucune couleur en propre: sa bordure suit `currentColor`, donc elle ne
-peut pas se retrouver invisible sur un fond qu'elle ignore.
-"""
+"""The spell panel says when the build outgrows the character's level."""
 
 import re
 
@@ -30,7 +8,7 @@ from django.utils.translation import gettext, override
 
 LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
-#: Le minifieur trie les attributs: on cherche la classe ou qu'elle soit.
+# the minifier sorts attributes; match the class anywhere in the tag
 BLOC = re.compile(
     r'<div[^>]*best-combo-level-warning[^>]*>(.*?)</div>\s*</div>', re.S)
 VALEUR = re.compile(
@@ -101,26 +79,23 @@ class _AvecUnBuild(TestCase):
 class ThePanelSaysItTests(_AvecUnBuild):
 
     def test_a_build_lowered_below_its_gear_really_keeps_it(self):
-        """La condition du defaut: sans elle, rien a signaler."""
         char = self._baisse_le_niveau(self._build(200), 30)
         trop = self._pieces_hors_niveau(char)
         self.assertTrue(trop, 'aucune piece au-dessus du niveau 30')
         self.assertTrue(all(piece['level'] > 30 for piece in trop))
 
     def test_the_panel_counts_them(self):
-        """Le test qui aurait attrape le defaut."""
         char = self._baisse_le_niveau(self._build(200), 30)
         attendu = len(self._pieces_hors_niveau(char))
         self.assertEqual(attendu, self._compte_sur_le_panneau(char))
 
     def test_the_panel_and_the_build_page_say_the_same_number(self):
-        """Une regle, un endroit: les deux pages appellent la meme fonction."""
+        """One rule, one place: both pages call the same function."""
         char = self._baisse_le_niveau(self._build(200), 30)
         self.assertEqual(self._compte_sur_le_build(char),
                          self._compte_sur_le_panneau(char))
 
     def test_a_build_within_its_level_says_nothing(self):
-        """Le plancher de l'autre cote: la ligne ne doit pas etre permanente."""
         char = self._build(200)
         self.assertEqual([], self._pieces_hors_niveau(char))
         self.assertIsNone(self._compte_sur_le_panneau(char))
@@ -135,7 +110,7 @@ class ThePanelSaysItTests(_AvecUnBuild):
 
 
 class TheLabelIsTheOneTheBuildPageUsesTests(_AvecUnBuild):
-    """Aucune chaine neuve: la meme entree de catalogue, deja traduite."""
+    """Reuses the build page's label; already translated."""
 
     ETIQUETTE = "Pieces above this character's level"
 
@@ -173,9 +148,7 @@ class TheRuleLivesInOnePlaceTests(TestCase):
                       source)
 
     def test_the_panel_pays_only_for_this_rule(self):
-        """`_build_check` note aussi chaque emplacement candidat, ce qui coute
-        cher. Le panneau ne doit pas l'appeler pour une comparaison de
-        nombres."""
+        """_build_check also scores every candidate slot, which is expensive; the panel must not call it for a number comparison."""
         import io
         import os
         chemin = os.path.join(os.path.dirname(os.path.abspath(__file__)),

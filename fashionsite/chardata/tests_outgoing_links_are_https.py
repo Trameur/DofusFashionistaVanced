@@ -1,16 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Every link the site sends a reader to uses https, with one named exception.
-
-`check_pages` follows internal links and looks for 500s. Nothing looked at what
-the site sends people *out* to, and a sweep of the 65 external addresses in the
-templates found four that no longer work and eleven more that answered only
-over http -- including the two credit links to Coin-Or, whose https redirects
-cleanly to GitHub while the http they carried returns 404.
-
-An http link on an https page is either a redirect the reader pays for or a
-downgrade a network can tamper with. This pins the state the sweep left behind,
-so a new one has to be a deliberate exception rather than a habit.
-"""
+"""Every outgoing link must use https, except a named host with no TLS listener at all."""
 import glob
 import io
 import os
@@ -21,9 +10,7 @@ from django.test import SimpleTestCase
 TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                          'templates', 'chardata')
 
-#: Hosts whose https refuses the connection outright -- no TLS listener at all,
-#: measured on 29 August 2026. Not a preference: an https link here would be a
-#: dead link. Anything else belongs in https.
+# hosts whose https refuses the connection outright; an https link here would be a dead link
 NO_TLS_AT_ALL = ('dofustools.everhate.com',)
 
 LINK = re.compile(r'href="(http://[^"]+)"')
@@ -50,11 +37,7 @@ class OutgoingLinksAreHttps(SimpleTestCase):
             'no https, add it to NO_TLS_AT_ALL with the date it was measured')
 
     def test_the_exception_is_still_used(self):
-        """A list of exceptions nobody uses is a list nobody maintains.
-
-        If the everhate link goes away, this fails and the exception goes with
-        it instead of quietly outliving its reason.
-        """
+        """An unused exception is one nobody maintains; this fails if the host stops being linked."""
         links = [u for _f, u in self.plain_http_links()]
         for host in NO_TLS_AT_ALL:
             self.assertTrue(
@@ -63,13 +46,7 @@ class OutgoingLinksAreHttps(SimpleTestCase):
                 % host)
 
     def test_the_dead_forms_are_gone(self):
-        """The addresses the sweep found dead, in the exact form that failed.
-
-        Not the hosts: ajaxload.info stays on the page as a credit with no
-        anchor, and projects.coin-or.org is a fine link over https -- it is the
-        http one that answers 404. The apex of dofusdu.de fails its certificate
-        while docs.dofusdu.de serves.
-        """
+        """The exact dead link forms the sweep found; the hosts themselves may still be linked over https elsewhere."""
         dead = ('href="http://www.ajaxload.info',
                 'href="http://projects.coin-or.org',
                 'href="https://dofusdu.de"')

@@ -1,30 +1,17 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The picture a page offers when its link is pasted somewhere.
-
-og:image is the one meta tag with a hard numeric floor underneath it. Facebook
-documents 200x200 as the smallest image it accepts, and a Twitter summary card
-asks 144x144. Under those, the link does not render a small picture -- it
-renders none, which reads as "this site has no preview" rather than "this
-image is too small". A tag can therefore be present, well formed, point at a
-file that exists, and still produce nothing.
-
-So this file does not check that the tag is there. It resolves the file the tag
-names and measures it.
-"""
+"""og:image must resolve to a file that meets Facebook and Twitter's minimum preview size."""
 import re
 import struct
 
 from django.contrib.staticfiles import finders
 from django.test import TestCase
 
-#: Le plus haut des deux seuils documentes. Une image qui le passe passe les
-#: deux ; une image entre les deux ne rend que sur une plateforme, ce qui est
-#: la situation la plus penible a diagnostiquer.
+# the higher of the two documented floors; below it the preview renders on neither platform
 PLANCHER = 200
 
 
 def dimensions(chemin):
-    """Largeur et hauteur d'un PNG ou d'un JPEG, sans dependance."""
+    """Width and height of a PNG or a JPEG, no dependency."""
     with open(chemin, 'rb') as fichier:
         donnees = fichier.read()
     if donnees[12:16] == b'IHDR':
@@ -48,15 +35,7 @@ def dimensions(chemin):
 
 
 class ThePreviewPictureIsBigEnoughToRenderTests(TestCase):
-    """Forgelance is the one class with no artwork.
-
-    get_class_avatar hands back a 16x16 question mark for it, which is a fine
-    placeholder beside a build and a broken preview in a chat window. The
-    template guarded the tag with an "if class_avatar" test, but that value is
-    never empty -- the placeholder IS the value -- so the guard never fired,
-    and 198 shared builds in the production copy offered a 16 pixel question
-    mark as their picture.
-    """
+    """Forgelance has no artwork; get_class_avatar falls back to a 16x16 placeholder for it."""
 
     def setUp(self):
         from django.contrib.auth.models import User
@@ -113,18 +92,12 @@ class ThePreviewPictureIsBigEnoughToRenderTests(TestCase):
         self.assertIn('og-card', url, 'Forgelance still offers %s' % url)
 
     def test_a_class_with_artwork_keeps_its_own_avatar(self):
-        # Le remede ne doit pas remplacer les dix-huit autres par une carte
-        # generique : leur avatar fait 260x260 et passe les deux seuils.
+        # the fix must not replace every other class's avatar with a generic card; they are 260x260 and clear both floors
         url = self._og_image(self._char(char_class='Cra'))
         self.assertIn('myWizardCra', url, 'Cra lost its avatar: %s' % url)
 
     def test_every_class_offers_a_picture_that_can_actually_render(self):
-        """The whole point, measured rather than assumed.
-
-        Enumerated over every class the site knows instead of the two I had in
-        mind. The last rule here checked against a hand-picked pair passed on
-        both and was wrong on a third.
-        """
+        """Checked over every class the site knows, not a hand-picked pair."""
         from chardata.translation_util import LOCALIZED_CHARACTER_CLASSES
         trop_petites = []
         mesurees = 0
@@ -144,14 +117,11 @@ class ThePreviewPictureIsBigEnoughToRenderTests(TestCase):
         self.assertFalse(
             trop_petites, 'these previews are under %dx%d and render as no '
             'image at all: %s' % (PLANCHER, PLANCHER, trop_petites))
-        # Sans ce compte, une liste de classes vide rendrait ce test vert en
-        # ne mesurant rien du tout.
+        # without this count, an empty class list would pass while measuring nothing
         self.assertGreaterEqual(mesurees, 19,
                                 'only %d classes measured' % mesurees)
 
     def test_a_page_that_is_not_shared_still_offers_a_picture(self):
-        # La branche privee du gabarit remplacait tout le bloc de base sans
-        # redeclarer d'image : le lien n'avait aucune vignette du tout.
         url = self._og_image(self._char(shared=False))
         chemin = self._fichier(url)
         self.assertIsNotNone(chemin, 'the private page names %s' % url)

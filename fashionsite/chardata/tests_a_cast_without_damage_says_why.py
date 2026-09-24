@@ -1,25 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un lancer du meilleur tour qui n'affiche aucun degat dit pourquoi.
-
-Mesure du 12 septembre 2026 sur la copie de production: **77 des 200 tours
-proposes, soit 38,5 %, contiennent au moins un lancer a zero**, 86 lancers au
-total. Le panneau affichait <<Tirs Puissants, 1 PA, 0>> et rien d'autre.
-
-Le solveur a raison de depenser ce PA: retirer le sort de ses options fait
-BAISSER le tour, verifie sur 60 builds sans une seule exception. Mais un zero
-sans un mot se lit comme une panne, et le lecteur conclut que l'outil se
-trompe au moment meme ou il a raison.
-
-Deux raisons, et deux seulement, lues dans la donnee:
-
-- le sort ne porte que des lignes de buff, donc il n'a rien a poser lui-meme
-  et sa valeur est dans les lancers qui suivent;
-- ses degats sont differes, donc ils sont comptes dans le bloc du dessous.
-
-Sur les 86 lancers a zero mesures, **les 86 recoivent une note**: 84 de buff
-et 2 de degats differes. Un zero qu'on ne saurait pas expliquer resterait nu
-plutot que de recevoir une phrase au hasard.
-"""
+"""A best-turn cast that shows no damage must say why."""
 
 from django.test import SimpleTestCase, TestCase
 
@@ -27,7 +7,7 @@ LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 
 
 class _Lancable(object):
-    """Un lancable reduit a ce que la note regarde."""
+    """A castable reduced to what the note looks at."""
 
     def __init__(self, buffs=(), hits=()):
         self.buffs = list(buffs)
@@ -50,8 +30,7 @@ class TheReasonIsReadAndNeverGuessedTests(SimpleTestCase):
         self.assertIn('counted apart', note)
 
     def test_the_delayed_reason_wins_over_the_buff_one(self):
-        """Un sort qui porte les deux: ce qu'il pose est plus concret que ce
-        qu'il grossit, et le bloc du dessous le montre deja."""
+        """Delayed damage wins over a buff reason when a spell has both."""
         note = self._note(_Lancable(buffs=['buff_pow'], hits=['air']),
                           name='Poison', later={'Poison': 120})
         self.assertIn('counted apart', note)
@@ -60,12 +39,10 @@ class TheReasonIsReadAndNeverGuessedTests(SimpleTestCase):
         self.assertEqual('', self._note(_Lancable(hits=['air']), damage=412))
 
     def test_a_zero_nobody_can_explain_stays_bare(self):
-        """Mieux vaut un zero nu qu'une phrase inventee."""
         self.assertEqual('', self._note(_Lancable()))
 
     def test_a_weapon_cast_is_never_called_a_buff(self):
-        """Le lancable de l'arme ne porte pas d'attribut `buffs`, et la note
-        ne doit pas se tromper de raison en le lisant."""
+        """The weapon's castable has no buffs attribute; the note must not choke on that."""
         class _Arme(object):
             is_spell = False
         self.assertEqual('', self._note(_Arme()))
@@ -97,10 +74,7 @@ class TheNoteAnswersInFiveLanguagesTests(SimpleTestCase):
 
 
 class TheLineKeepsItsShapeTests(TestCase):
-    """Le nom du sort garde sa place: la note va SOUS la ligne et non dedans.
-    La ligne est donc un bloc a elle, et le rafraichissement du panneau doit
-    la rebatir pareil, sans quoi la note disparait au premier reglage change.
-    """
+    """The note renders below the cast line, not inside it; a refresh must rebuild it that way too."""
 
     def _build(self):
         from fashionistapulp.structure import (get_structure,
@@ -131,8 +105,7 @@ class TheLineKeepsItsShapeTests(TestCase):
             self.assertIn('best-combo-cast-line', ouverture)
 
     def test_the_refresh_answer_carries_the_note_for_every_cast(self):
-        """Le panneau est rebati depuis ce JSON: une note absente ici
-        disparaitrait au premier reglage change."""
+        """The panel rebuilds from this JSON; a missing note here disappears on the next refresh."""
         import json
         char = self._build()
         reponse = self.client.get('/best_combo/%d/' % char.id)

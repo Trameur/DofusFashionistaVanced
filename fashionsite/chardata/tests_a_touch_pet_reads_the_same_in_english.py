@@ -1,20 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""A Touch pet's English encyclopedia page gives the lines of its French one.
-
-On 2026-09-18 the French pages of Blue Piwin, Mastostroke, Pink Dragoone and
-Tarantulino answered 404, and every Touch rebuild ended with
-pets/scrape-bonuses FAILED (the steps after it ran on the old file). Their
-English pages answered, so the scraper reads those when the French one is gone.
-Read that way, the English pages gave the French reader's lines on all 172 pets
-that had both, and the file's lines on the four.
-
-Both readers stop at the diet. Until the same day the French one never did:
-its stop words kept their accents and were compared with a line that had lost
-them, so it kept the gain per meal of the soul-fed pets, "1 Intelligence", as a
-second cap. The Mastostroke pages below follow the layout of its live English
-page and of the live French pages of Mosk and Bilby; the other two list every
-line shape the live pages had on 2026-09-18.
-"""
+"""A Touch pet's English encyclopedia page gives the lines of its French one, used when the French page is gone."""
 import contextlib
 import io
 import json
@@ -103,10 +88,7 @@ class ATouchPetReadsTheSameInEnglishTests(SimpleTestCase):
 
 
 class TheScrapeNeverLosesAVariantInSilenceTests(SimpleTestCase):
-    """A variant's id comes from its pet and its stat, so a pet or a line that
-    comes in, a line that moves and a cap that changes leave every id where it
-    was. What still needs a human is a variant that goes: a build wearing it
-    would fall back to the bare pet."""
+    """Flags only a variant that truly disappears; a build wearing a lost one falls back to the bare pet."""
 
     PREVIOUS = {'Bilby': [['Prospecting', 90], ['Prospecting', 1]],
                 'Icky Tofu': [['Strength', 110], ['Intelligence', 110]],
@@ -154,8 +136,7 @@ class TheScrapeNeverLosesAVariantInSilenceTests(SimpleTestCase):
         self.assertEqual([('Bilby', 'Prospecting')], self._lost(current))
 
     def test_a_cap_moving_onto_a_carried_stat_loses_its_variant(self):
-        # Sirocco carries 160 Agility in the game data, so its 160 line is no
-        # variant.
+        # Sirocco already carries 160 Agility, so that line is not a new variant
         pets = {name: [set()] for name in self.PREVIOUS}
         pets['Icky Tofu'] = [{('Strength', 120)}]
         current = dict(self.PREVIOUS, **{
@@ -172,8 +153,7 @@ class TheScrapeNeverLosesAVariantInSilenceTests(SimpleTestCase):
 
 
 class TheScrapeRunTests(SimpleTestCase):
-    """main() on the first two pets it reads from items_touch.db, Bow Wow
-    (nothing to scrape) and Bow Meow, with the network stubbed."""
+    """Runs main() on the first two pets from items_touch.db, network stubbed."""
 
     BOW_MEOW = [['Agility', 110], ['Strength', 110], ['% Neutral Resist', 27],
                 ['Intelligence', 110], ['Vitality', 110], ['Chance', 110]]

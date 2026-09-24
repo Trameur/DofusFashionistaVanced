@@ -242,7 +242,7 @@ class ADamagedStufferLinkIsNeverFetchedTests(SimpleTestCase):
         self.assertEqual('bad_link', self._refused_without_a_request(link))
 
     def test_a_mangled_parameter_is_not_read_as_a_build_id(self):
-        """Digits inside the base64 used to be taken for a public build id."""
+        """Digits inside the base64 must not be mistaken for a public build id."""
         link = ('https://touch.dofusbook.net/desktop/fr/equipement/'
                 'dofus-stuffer/objets?stuff%3DkZ/1234567AAAA')
         self.assertIsNone(parse_link(link))
@@ -284,10 +284,7 @@ class TheExportKeepsTheVitalityScrollReadableTests(SimpleTestCase):
 
 
 class ADofusStufferLinkImportsTests(TestCase):
-    """Thibaud, 2026-09-18: "on peut pas importer un lien directement de
-    dofus stuffer ?". This is the link he pasted. Their site writes the same
-    six fields as a DofusBook stuffer link, with its sparse ones as maps
-    keyed "0", "1"... and seventeen groups where DofusBook reads ten."""
+    """Their site writes the same six fields as DofusBook, sparse ones as maps keyed "0", "1"... and seventeen groups where DofusBook reads ten."""
 
     LINK = ('http://www.dofus-stuffer.is-great.net?stuff=hqEwi6EwzQR+oTFkoTJk'
             'oTNkoTRkoTVkoTYHoTcDoTlkojExAaIyM80D6KExlgDNASxfAAAAoTLMyKEzGKE0'

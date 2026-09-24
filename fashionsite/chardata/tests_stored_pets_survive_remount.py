@@ -1,21 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A pet stored under its pre-mount number still shows on the build.
-
-Ankama reclassified a number of pets as mounts. The catalogue gives mounts an
-id space of their own -- `MOUNT_ID_OFFSET + ankama_id` instead of the bare
-ankama_id (`itemscraper/get_equipments3.py`) -- so every build saved before the
-reclassification kept a number that designates nothing today, and its pet
-silently disappeared: the slot renders as the bare word "Pet".
-
-Measured on the production copy before the fix: 26 341 builds had lost their
-pet this way, 263 of them in the public gallery. Verified on two live shared
-builds, where every other slot rendered its item and only the pet was blank.
-
-`get_item_in_slot` recovers them, and refuses the recovery when what it finds
-is not of the type the slot takes -- which is the half that matters. A fallback
-that accepted anything would restore 26 341 pets and quietly invent gear
-everywhere else.
-"""
+"""A pet stored under its pre-mount number, from before Ankama moved mounts into their own id space, still shows on the build."""
 import pickle
 
 from django.test import TestCase
@@ -28,11 +12,7 @@ from fashionistapulp.structure import get_structure
 
 
 def a_pet_that_moved(structure):
-    """A pet living in the mount id space whose old number is now free.
-
-    Derived from the catalogue rather than hard-coded, so the test keeps
-    meaning something after the catalogue is regenerated.
-    """
+    """A pet living in the mount id space whose old number is free again."""
     for item in structure.get_unique_items_by_type_and_level('Pet', 200):
         if item.id > MOUNT_ID_OFFSET \
                 and structure.get_item_by_id(item.id - MOUNT_ID_OFFSET) is None:
@@ -78,12 +58,7 @@ class AStoredPetSurvivesTheMountRenumbering(TestCase):
         self.assertEqual(pet.id, restored.id)
 
     def test_the_same_number_is_refused_by_a_slot_of_another_type(self):
-        """The other half: the fallback must not dress a slot in a mount.
-
-        Without this, the whole test file would pass on a fallback that
-        recovers any number at all, and 641 551 slots would start showing
-        gear their author never chose.
-        """
+        """The other half: the fallback must not dress a slot in a mount."""
         pet = a_pet_that_moved(self.structure)
         self.assertIsNotNone(pet)
         for slot in ('hat', 'boots', 'ring1', 'weapon'):
@@ -95,11 +70,7 @@ class AStoredPetSurvivesTheMountRenumbering(TestCase):
         self.assertIsNone(self.store_in_slot('pet', 999999999))
 
     def test_the_old_blob_format_does_not_crash(self):
-        """Builds saved long ago hold a ModelResultItem, not an id.
-
-        4 960 of them are still in the database. `get_item_in_slot` must not
-        try arithmetic on one.
-        """
+        """Builds saved long ago hold a ModelResultItem instead of an id; get_item_in_slot must not do arithmetic on one."""
         from fashionistapulp.modelresult import ModelResultItem
         self.assertIsNone(self.store_in_slot('pet', ModelResultItem(None)))
 

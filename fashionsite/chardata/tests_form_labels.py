@@ -1,47 +1,22 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Whether a form field says what it is to someone who cannot see it.
-
-A field with no accessible name is announced as "edit text" and nothing else.
-Nine of the site's thirty-four were in that state, four of them on /setup/ --
-the page everyone enters through. The labels existed and were translated; they
-simply were not attached to the field.
-
-Three ways of attaching count, and all three are checked here, because
-rejecting a valid one is how a guard condemns correct markup: an explicit
-aria-label, a label whose `for` names the field's id, and a label that WRAPS
-the field. The monsters page uses the third and an earlier version of this
-check called it a defect.
-"""
+"""A form field must announce its name through an aria-label, a for label, or a wrapping label."""
 import re
 
 from django.test import TestCase
 
-#: Quatre pages ajoutees le 28 aout 2026, apres avoir mesure la production :
-#: vingt champs sur quarante-cinq n'avaient aucun nom accessible, et ce module
-#: n'en visitait aucun. Le formulaire de CONNEXION etait le pire -- six champs
-#: sur sept, les deux mots de passe compris : un lecteur d'ecran annoncait deux
-#: fois « zone de texte » sans dire laquelle recevait le mot de passe.
-#:
-#: Les libelles existaient et etaient traduits dans les quatre cas ; ils
-#: n'etaient simplement pas attaches. La meme phrase ouvre ce fichier, ecrite
-#: pour /setup/ il y a un jour : la faute ne se corrige pas une fois, elle se
-#: garde. D'ou l'ajout ici plutot qu'un second module a cote.
 PAGES = ('/', '/encyclopedia/', '/encyclopedia/sets/',
          '/encyclopedia/monsters/', '/sharedbuilds/', '/setup/',
          '/login_page/', '/contact/', '/forgemagie/', '/smartbuild/')
 NAVIGATEUR = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
               '(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36')
-#: Ces types portent leur nom autrement : un bouton par sa valeur, une case a
-#: cocher par le texte qui la suit, un champ cache par personne.
+# these types are named differently: a button by its value, a checkbox by trailing text, a hidden field by nobody
 SANS_OBJET = "type=['\"](hidden|submit|button|checkbox|radio|image|reset)['\"]"
-#: Le motif des champs evite \b a dessein : ecrit a travers un heredoc il
-#: devient un caractere retour arriere, et le test ne trouve alors AUCUN champ
-#: et passe. C'est arrive en ecrivant ce fichier.
+# avoids \b on purpose: through a heredoc it becomes a backspace and the pattern silently matches nothing
 CHAMP = '<(?:input|select|textarea)[ >][^>]*>?'
 
 
 def _enveloppes(html):
-    """(debut, fin) de chaque <label>...</label>, pour l'etiquetage implicite."""
+    """(start, end) of each <label>...</label>, for implicit labelling."""
     spans = []
     for ouvre in re.finditer('<label[ >]', html):
         ferme = html.find('</label>', ouvre.start())
@@ -51,7 +26,7 @@ def _enveloppes(html):
 
 
 def champs_sans_nom(html):
-    """Les champs qu'aucun des trois moyens ne nomme, et le total examine."""
+    """Fields none of the three ways name, and the total examined."""
     pour = set(re.findall('<label[^>]*for="([^"]+)"', html))
     spans = _enveloppes(html)
     nus, examines = [], 0
@@ -94,8 +69,7 @@ class EveryFormFieldSaysWhatItIsTests(TestCase):
                 nus.append((chemin, nom.group(1) if nom else balise[:40]))
         self.assertFalse(
             nus, 'these fields have no accessible name (page, field): %s' % nus)
-        # Compte par page et pas en tout : un motif casse rend zero champ
-        # partout, et zero champ sans nom sur zero champ passe pour un succes.
+        # counted per page: a broken pattern finds zero fields everywhere, and zero missing out of zero would pass
         self.assertGreaterEqual(
             examines, 20, 'only %d fields examined over %d pages'
             % (examines, len(PAGES)))
@@ -105,11 +79,7 @@ class EveryFormFieldSaysWhatItIsTests(TestCase):
             % (pages_avec_champ, len(PAGES)))
 
     def test_the_entry_form_names_all_four_of_its_fields(self):
-        """/setup/ is the page everyone enters through, and it named none.
-
-        Kept apart from the sweep above so that a regression there is reported
-        as itself rather than as one line among nine.
-        """
+        """/setup/ is the page everyone enters through; kept separate so a regression there is reported on its own."""
         html = self._html('/setup/')
         pour = set(re.findall('<label[^>]*for="([^"]+)"', html))
         for identifiant in ('input-char-name', 'input-char-level',

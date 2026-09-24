@@ -1,28 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The header version switcher must never link to a page that does not exist.
-
-On a hub -- /encyclopedia/, /encyclopedia/sets/ -- the same path exists under
-every version, so re-prefixing it is right, and VersionSwitcherPathTests (July)
-pins that a public encyclopedia path is preserved rather than dumped to home.
-
-On a page ABOUT one entity it is wrong: an item, set, monster or resource id is
-not a shared identity across versions, and re-prefixing the path fabricated a
-link for every version lacking the entity. Measured on the live site: 63 of
-160 header links on a sample of entity pages answered 404, and every monster
-page sampled carried at least one. Those are freshly generated 404s on ~40 000
-pages, part of what Google keeps re-crawling as "Not found".
-
-The page already knows which versions carry the same entity: the entity block
-below the header uses other_versions / monster_version_links, filtered on
-existence AND English name. The switcher now reuses that answer and falls
-back to the version's encyclopedia hub. The July tests are untouched: the base
-path is still preserved; only the href the header emits changes.
-
-The last test has the teeth: it renders the real monster page and demands that
-the header link to a version lacking the monster is the hub, while the link to
-the version that has it is the entity page. Without it the unit tests could
-pass on a template that never calls the tag.
-"""
+"""The header version switcher must fall back to the version's hub when a page is about an entity the version lacks."""
 import re
 
 from django.template import Context, Template
@@ -98,7 +75,7 @@ class TheSwitcherNeverLinksToNothing(SimpleTestCase):
         self.assertEqual(hrefs['dofus3'], '/es/encyclopedia/monster/4960-captain-chafer/')
 
     def test_a_shared_build_still_goes_home(self):
-        """The July rule for private and shared builds is untouched."""
+        """The rule for private and shared build links is untouched."""
         hrefs = _render(_context(_Req('/retro/s/name/AbCdEf_/', 'retro')))
         self.assertEqual(hrefs['dofus3'], '/')
         self.assertEqual(hrefs['touch'], '/touch/')
@@ -119,8 +96,7 @@ class TheSwitcherNeverLinksToNothing(SimpleTestCase):
 class TheRealMonsterPageHasNoDeadHeaderLink(TestCase):
 
     def test_captain_chafer(self):
-        """4960 exists in dofus3 and beta only (the cross-version block says
-        so). The header must send retro, dofus2 and touch to their hub."""
+        """4960 exists in dofus3 and beta only; the header must send the other versions to their hub."""
         page = self.client.get('/encyclopedia/monster/4960-captain-chafer/')
         self.assertEqual(page.status_code, 200)
         html = page.content.decode('utf-8')

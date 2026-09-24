@@ -1,13 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The TemporiX box is on every page where a Touch build gets its options.
-
-Thibaud, 2026-09-18, on /fr/touch/setup/: "je vois pas de coche temporiX".
-The mode shipped with its box on the options page only, so a player creating
-a Touch build, on the create page and then in the wizard, never met it. The
-wizard also saved the minimums BEFORE the options, and set_min_stats clamps
-AP, MP and Range to the limits of the mode already stored: a first TemporiX
-wizard asking for 14 AP would have kept 12.
-"""
+"""The TemporiX box must be on every page a Touch build gets its options, not just the options page."""
 from django.test import TestCase
 
 from chardata.min_stats import get_min_stats

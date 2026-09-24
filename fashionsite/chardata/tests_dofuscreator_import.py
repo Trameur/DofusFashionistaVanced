@@ -1,10 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Un projet public DofusCreator se lit depuis son lien.
-
-Tout ce qui est affirme ici a ete mesure sur https://dofuscreator.com/projet/6e9f4
-le 11 septembre 2026 (HTTP 200, 118 807 octets), puis rejoue depuis un
-extrait, pour que la suite reste hors ligne et decrive ce qui se passe.
-"""
+"""A public DofusCreator project reads back from its link."""
 
 from django.test import SimpleTestCase, TestCase
 
@@ -13,15 +8,12 @@ from chardata.dofusbook_import import ImportError_
 
 LIEN = 'https://dofuscreator.com/projet/6e9f4'
 
-#: L'extrait exact de la page (le script en ligne), objets Dofus 3 reels:
-#: 18590 Nemes de Tal Kasha, 18591 Chevelure de Tal Kasha, 17103 Amulette
-#: Voldelor, 22186, 32234, 17104, 22187, 32235, 32236, 13465 Sakochere, six
-#: Dofus (694, 7043, 7754, 7115, 6980, 739).
+# Real Dofus 3 item ids, not invented ones.
 PAGE = '''<html><head><title> MIAAW 420 </title></head><body>
 <script>var projeto = {info: { nome: " MIAAW 420", publico: "1", preco: "21.5",servidor: "mono", elemento: "Agilidade/Sorte", secundaria: "Fuga", modo: "Todos", raca: "ecaflip", descricao : "" }, level: 200, itens: {"chapeu":{"id":"18590","img":"16509","exos":[["danos_feiticos",1]]},"capa":{"id":"18591","img":"17377","exos":[["danos_feiticos",1]]},"amuleto":{"id":"17103","img":"1271","exos":[["danos_feiticos",1]]},"anel1":{"id":"22186","img":"9342","exos":[["pa",1]]},"anel2":{"id":"32234","img":"9400","exos":[["pm",1]]},"cinto":{"id":"17104","img":"10297","exos":[["critico",2]]},"bota":{"id":"22187","img":"11343","exos":[["danos_feiticos",1]]},"arma":{"id":"32235","img":"2096","exos":[["danos_criticos",8],["agua ",85]]},"escudo":{"id":"32236","img":"82561","exos":[["danos_criticos",8]]},"pet":{"id":"13465","img":"121003","exos":[]},"misc1":{"id":"694","img":"23001","exos":[]},"misc2":{"id":"7043","img":"23005","exos":[]},"misc3":{"id":"7754","img":"23012","exos":[]},"misc4":{"id":"7115","img":"23011","exos":[]},"misc5":{"id":"6980","img":"23004","exos":[]},"misc6":{"id":"739","img":"23003","exos":[]}}, distribuidos: {"vitalidade":0,"sabedoria":0,"forca":5,"inteligencia":0,"sorte":265,"agilidade":265}, pergaminhos: {"vitalidade":100,"sabedoria":100,"forca":100,"inteligencia":100,"sorte":100,"agilidade":100}, buffs: []};</script>
 <div class="row"></div></body></html>'''
 
-#: Un code inconnu repond 200 avec le constructeur vide, sans le script.
+# an unknown project code answers 200 with an empty builder, no script
 PAGE_VIDE = '<html><body><div class="row"></div></body></html>'
 
 
@@ -55,8 +47,7 @@ class TheLinkIsRecognisedTests(SimpleTestCase):
                          dofuscreator_import.parse_link('dofuscreator.com/projet/6e9f4/'))
 
     def test_retro_projects_and_other_pages_are_not_read(self):
-        """Sur quatre projets Retro, 16 emplacements sur 55 portaient un id
-        absent de leur propre catalogue: un build plausible et faux."""
+        """Retro projects often reference ids absent from their own catalogue, so they are not read."""
         for url in ('https://retro.dofuscreator.com/projet/1cb35',
                     'https://dofuscreator.com/projets?lang=fr',
                     'https://dofuscreator.com/', 'https://example.com/projet/6e9f4'):
@@ -101,17 +92,15 @@ class ThePageIsReadTests(TestCase):
         self.assertEqual(200, lu['level'])
         self.assertEqual('Ecaflip', lu['char_class'])
         self.assertFalse(lu['class_is_unknown'])
-        # Les seize identifiants Ankama sont dans notre catalogue.
         self.assertEqual(16, len(lu['item_ids']), lu['missing'])
         self.assertEqual([], lu['missing'])
         ankama = {structure.get_item_by_id(i).ankama_id for i in lu['item_ids']}
         self.assertIn(2469 if 2469 in ankama else 18590, ankama)
         self.assertIn(694, ankama)
-        # Les points et parchotages, dans nos noms.
         self.assertEqual({'Strength': 5, 'Chance': 265, 'Agility': 265},
                          lu['base_points'])
         self.assertEqual(100, lu['base_scrolled']['Vitality'])
-        # Neuf pieces portent des exos chez eux: nommees, pas appliquees.
+        # nine pieces carry named exos on their site that are not applied there
         self.assertEqual(9, len(lu['fm_not_carried']))
         self.assertTrue(set(lu['fm_not_carried']) <= set(lu['item_ids']))
 

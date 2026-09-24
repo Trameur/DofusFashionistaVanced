@@ -1,27 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The transcendence runes the page names have to exist in the game.
-
-`tests.py` already guards the 105 ordinary runes against the game's own
-resource table, because the page once printed spellings the game does not use
-and a player searching the market found nothing. The 81 transcendence runes are
-printed on the same page and nothing covered them: they come from a scrape of
-DofusDB (`scripts/scrape_transcendance_runes.py`) that has no relation to the
-table the rest of the site is checked against.
-
-Measured on 29 August 2026, before writing this: all 81 exist, and the resource
-table holds exactly 81 entries of type 140 -- none missing, none extra. This
-pins that.
-
-Two ids live in this data and they are not the same. The json carries DofusDB's
-(`typeId=[211]`, rune id 20492 for Rune Ta Ine) while the resource table has its
-own (type 140, another id). Matching on the id would fail on all 81; the name is
-what both sides share, and it is also what a player types into the market.
-
-The catalogue now carries five names per rune, one per language the site
-serves, because Ankama renames every one of them (<<Rune Ta Ine>> is <<Tra Int
-Rune>> in English). The join here stays on the FRENCH one: the resource table
-read below is `all_resources_fr.json`.
-"""
+"""Transcendence runes the page names must exist in the resource table, matched by name."""
 import json
 import os
 
@@ -29,7 +7,7 @@ from django.test import SimpleTestCase
 
 from chardata.forgemagie_data import get_fm_stats
 
-#: The resource table's own type for a transcendence rune, not DofusDB's 211.
+# The resource table's own type for a transcendence rune, not DofusDB's.
 TRANSCENDENCE_TYPE = 140
 
 
@@ -67,8 +45,7 @@ class TheTranscendenceRunesExist(SimpleTestCase):
                          'the market, and the game has no such rune')
 
     def test_no_transcendence_rune_is_left_out(self):
-        """The other half: a rune the game has and the page hides is a hole in
-        the tool, and it would not show up in the check above."""
+        """The other half: a rune missing from the page is a hole this catches."""
         game = self.game_names()
         missing = sorted(game - {r['name']['fr'] for r in self.runes})
         self.assertEqual([], missing)

@@ -1,21 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le panneau du meilleur tour dit a quel niveau il lit les sorts.
-
-Il disait deja un seul tour sur une cible et des degats moyens. Il taisait
-l'hypothese qui pese le plus: **chaque sort est lu au niveau le plus haut que
-le personnage atteint**, donc entierement monte. L'autre phrase du panneau,
-celle qui parle des buffs, a ete corrigee plus tard: voir
-`tests_the_panel_no_longer_claims_buffs_it_never_applied`.
-
-Mesure du 12 septembre 2026 sur un Cra de niveau 200 de la copie de
-production: **1728 degats annonces au niveau le plus haut, 1292 au niveau 1**,
-un quart d'ecart. Un joueur dont les sorts ne sont pas montes lisait donc un
-total qu'il ne peut pas faire, sans rien pour le lui dire.
-
-La page laisse deja choisir le niveau de chaque sort, et le panneau suit ce
-choix. La phrase suit les deux cas: le niveau le plus haut tant que rien n'a
-ete touche, les niveaux choisis des qu'un seul l'a ete.
-"""
+"""The best-turn panel says at what level it reads the spells."""
 
 import json
 import re
@@ -28,7 +12,7 @@ LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 HAUT = 'Spells at the highest level the character reaches.'
 CHOISI = 'Spells at the levels picked above.'
 
-#: Le minifieur trie les attributs: on ne s'ancre sur aucun ordre.
+# the minifier sorts attributes; do not anchor on their order
 NOTE = re.compile(
     r'<span[^>]*\bclass=[\'"]?best-combo-rank-note[\'"]?[^>]*>([^<]*)</span>')
 
@@ -68,8 +52,7 @@ class _AvecUnBuild(TestCase):
 class TheAssumptionIsWorthSayingTests(_AvecUnBuild):
 
     def test_the_rank_really_changes_the_total(self):
-        """La mesure qui justifie la phrase. Sans ecart, elle ne servirait a
-        rien et il vaudrait mieux ne rien dire."""
+        """Without a real gap between ranks, the note would have nothing to say."""
         char = self._build()
         haut = self._combo(char)
         bas = self._combo(char, levels=self._tous_au_plus_bas(char))
@@ -84,7 +67,7 @@ class TheNoteFollowsWhatWasReadTests(_AvecUnBuild):
         self.assertEqual(gettext(HAUT), self._combo(char)['rank_note'])
 
     def test_it_says_the_picked_levels_as_soon_as_one_is_lowered(self):
-        """Un seul suffit: la phrase ne doit pas attendre que tous baissent."""
+        """One lowered spell is enough to flip the note."""
         from chardata.spell_combo import castable_spells
         char = self._build()
         premier = castable_spells(char.char_class, char.level, 'dofus3')
@@ -99,8 +82,7 @@ class TheNoteFollowsWhatWasReadTests(_AvecUnBuild):
                          self._combo(char, levels=baisse)['rank_note'])
 
     def test_a_weapon_is_never_taken_for_a_lowered_spell(self):
-        """L'arme n'a pas de niveau que le lecteur puisse baisser, et elle ne
-        doit pas faire basculer la phrase."""
+        """The weapon has no level to lower, so it must never flip the note."""
         from chardata.spell_combo import WeaponCastable
         self.assertTrue(WeaponCastable.at_highest_rank)
 
@@ -136,8 +118,7 @@ class ThePageAndTheRefreshBothCarryItTests(_AvecUnBuild):
         self.assertEqual(gettext(HAUT), trouve.group(1).strip())
 
     def test_the_refresh_answer_carries_it(self):
-        """Le panneau est rebati depuis ce JSON quand le lecteur change un
-        niveau: sans la phrase ici, elle resterait figee sur l'ancienne."""
+        """The panel rebuilds from this JSON when a level changes; the note must refresh too."""
         char = self._build()
         reponse = self.client.post('/best_combo/%d/' % char.id,
                                    {'spell_levels': json.dumps({})})

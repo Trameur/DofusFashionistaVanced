@@ -1,34 +1,11 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Le panneau du meilleur tour s'additionne.
-
-Chaque lancer affiche ses degats et le cumul a cet instant, et le total est
-annonce en tete. Un lecteur qui additionne la colonne des degats doit retomber
-sur le dernier cumul, et le dernier cumul doit etre le total. C'est la
-verification la plus evidente qu'on puisse faire d'un panneau de calcul, et
-elle ne tombait pas juste.
-
-**Mesure du 12 septembre 2026**, un panneau par classe sur les cinq versions,
-83 panneaux: **46 dont la colonne des degats ne retombait pas sur celle du
-cumul**, jusqu'a 2 d'ecart. Et deux d'entre eux, le Iop de Dofus 3 et celui de
-la beta, annoncaient **3956 en tete pour un dernier cumul de 3955**.
-
-La cause n'etait pas le calcul mais l'affichage: les degats du lancer et le
-cumul etaient arrondis chacun de son cote, a partir de flottants. Deux
-arrondis honnetes du meme nombre ne s'additionnent pas. Le cumul est
-maintenant arrondi une seule fois et les degats du lancer sont sa difference
-avec le precedent, donc la colonne s'additionne par construction.
-
-Le total change d'au plus 1 par rapport a l'ancien, et c'est celui de la
-liste: le total en tete doit etre le nombre que les lignes en dessous
-atteignent.
-"""
+"""The best-turn panel's damage column must sum to the running total and the total."""
 
 import re
 
 from django.test import TestCase
 
-#: Le minifieur trie les attributs et compacte les espaces: on cherche la
-#: classe ou qu'elle soit dans la balise.
+# the minifier sorts attributes and compacts spaces; match the class anywhere in the tag
 CASTS = re.compile(r'<ol[^>]*best-combo-casts[^>]*>(.*?)</ol>', re.S)
 LIGNE = re.compile(r'<li.*?</li>', re.S)
 DEGATS = re.compile(r'<span[^>]*best-combo-damage[^>]*>(-?\d+)</span>')
@@ -37,9 +14,7 @@ TOTAL = re.compile(r'<span[^>]*best-combo-total[^>]*>\s*(-?\d+)')
 
 
 class _FauxChar(object):
-    """Le personnage tel que le panneau le lit: une classe et un niveau. On
-    promene la meme solution sur toutes les classes de la version, ce qui est
-    exactement ce qui a fait sortir les 46 panneaux faux."""
+    """The character as the panel reads it: a class and a level, same solution reused across every class."""
 
     def __init__(self, char_class, level, game_version):
         self.id = 'audit-%s' % char_class
@@ -72,7 +47,7 @@ class _AvecUneSolution(TestCase):
         return Char.objects.order_by('-id').first()
 
     def _panneaux(self, char):
-        """Un panneau par classe de Dofus 3, sur la solution de ce build."""
+        """One panel per Dofus 3 class, on this build's solution."""
         from chardata.solution import get_solution
         from chardata.spells_view import _best_combo
         from chardata.version_compat import filter_classes_for_version
@@ -103,8 +78,7 @@ class TheColumnsAgreeTests(_AvecUneSolution):
                                  sum(c['damage'] for c in combo['casts']))
 
     def test_every_running_total_is_the_sum_so_far(self):
-        """Pas seulement la derniere ligne: chaque cumul doit etre la somme
-        des degats affiches au-dessus de lui."""
+        """Every running total must be the sum of the damage shown above it, not just the last line."""
         char = self._build()
         for char_class, combo in self._panneaux(char):
             with self.subTest(classe=char_class):
@@ -115,7 +89,6 @@ class TheColumnsAgreeTests(_AvecUneSolution):
                                      'lancer %d' % (index + 1))
 
     def test_the_headline_total_is_the_last_running_total(self):
-        """Le Iop de Dofus 3 annoncait 3956 pour un dernier cumul de 3955."""
         char = self._build()
         for char_class, combo in self._panneaux(char):
             with self.subTest(classe=char_class):
@@ -143,8 +116,7 @@ class TheRenderedPageAddsUpTests(_AvecUneSolution):
         return lignes, int(total.group(1))
 
     def test_the_page_the_reader_sees_adds_up(self):
-        """Le dict peut etre juste et le gabarit lire la mauvaise cle: c'est
-        la page rendue qui compte."""
+        """The dict can be right while the template reads the wrong key; only the rendered page counts."""
         char = self._build()
         lignes, total = self._panneau_html(char)
         cumul = 0
@@ -155,9 +127,7 @@ class TheRenderedPageAddsUpTests(_AvecUneSolution):
         self.assertEqual(total, lignes[-1][1])
 
     def test_no_cast_shows_a_bare_zero(self):
-        """Les degats affiches sont maintenant une difference d'arrondis, donc
-        un lancer peut tomber a zero la ou le flottant ne l'etait pas. La
-        raison doit suivre l'affichage, sinon le zero redevient muet."""
+        """Displayed damage is a rounding difference now, so a cast can show zero even when the float was not; the reason must follow."""
         from chardata.solution import get_solution
         from chardata.spells_view import _best_combo
         from fashionistapulp.structure import set_current_game_version

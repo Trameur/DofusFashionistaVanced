@@ -1,18 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The stat table's icons load late; the gear does not.
-
-Measured on production at 375x812 before changing anything: a shared build page
-holds 246 images and **three** of them are in the first screen -- the banner,
-the language flag, the class picture. The stat summary table starts at 978 px,
-and 84 of its 137 icons sit inside panels that are collapsed to nothing.
-
-Those icons are 56 % of the page's image bytes, and each is a 120x113 file
-drawn at about seven pixels. Deferring them costs the reader nothing.
-
-The opposite half matters as much: `loading="lazy"` on the equipment would
-delay the one thing the page exists for. This file pins both, so a later sweep
-that adds the attribute everywhere fails here instead of shipping.
-"""
+"""The stat table's icons load lazily below the fold; the equipment images do not."""
 import re
 
 from django.contrib.auth.models import User
@@ -57,16 +44,11 @@ class TheStatIconsLoadLate(TestCase):
                          % (len(eager), len(icons)))
 
     def test_the_comment_explaining_it_stays_out_of_the_page(self):
-        """A `{# #}` spanning several lines leaks into the html. The note above
-        those tags is a {% comment %} block for that reason."""
+        """A {# #} spanning several lines leaks into the html; the note above uses a {% comment %} block instead."""
         self.assertNotIn('375x812', self.page())
 
     def test_the_gear_is_not_deferred(self):
-        """The half that keeps the other honest.
-
-        The equipment starts at 935 px on a phone but it is what the reader
-        came for, and on a desktop screen it is the first thing visible.
-        """
+        """The other half: equipment starts below the fold on a phone too, but it must never be deferred."""
         images = ITEM_IMAGE.findall(self.page())
         self.assertGreaterEqual(
             len(images), 10,

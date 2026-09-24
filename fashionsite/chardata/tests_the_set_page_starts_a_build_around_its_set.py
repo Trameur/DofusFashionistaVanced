@@ -1,13 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""La page d'une panoplie mene au solveur, chaque piece verrouillee.
-
-Suite de la section 28: la fiche d'objet menait au demarrage rapide, la
-page d'une panoplie non, alors qu'un joueur pense souvent en panoplie
-(<<je veux la Bouftou>>). La page envoie son identifiant au demarrage
-rapide de la meme version, qui verrouille chaque piece dans son
-emplacement, deux bagues dans ring1 et ring2, et commence ses niveaux a la
-piece la plus haute.
-"""
+"""A set's encyclopedia page starts the solver with every piece locked into its own slot."""
 
 import re
 
@@ -109,9 +101,7 @@ class TheQuickStartKeepsTheWholeSetTests(TestCase):
         self.assertEqual(len(attendu), len(set(attendu.values())))
 
     def test_a_level_posted_below_the_set_keeps_only_what_fits(self):
-        # Une panoplie dont les pieces n'ont pas toutes le meme niveau: la
-        # premiere venue en partage un seul, et un test saute n'a rien
-        # prouve.
+        # needs a set whose pieces are not all the same level, or the test proves nothing
         for structure, item_set, pieces in _panoplies('dofus3'):
             bas = min(p['level'] for p in pieces['pieces'])
             haut = pieces['level']

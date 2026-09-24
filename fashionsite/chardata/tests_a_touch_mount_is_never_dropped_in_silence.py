@@ -1,18 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""A Touch mount the encyclopedia cannot give stays in mounts.json.
-
-download_touch_mounts.py rebuilds mounts.json from scratch on every Touch
-rebuild, the stats coming from one English encyclopedia page per mount. Until
-2026-09-18 a page that failed for any reason was skipped and the script still
-answered 0: a timeout or a 429 took the mount out of the file, and out of every
-saved build that wore it, while check_rebuild's 3% tolerance would not have
-noticed even all 70 going.
-
-Mounts 75, 91 and 99 answer 404 in English, French and Spanish and are not in
-Ankama's public listing: Ankama does not publish them, and they were listed
-under the rebuild's warnings as a failed fetch on every run. The pages below are cut from
-the live ones.
-"""
+"""A Touch mount the encyclopedia page can't answer for stays in mounts.json instead of being dropped."""
 import contextlib
 import importlib.util
 import io
@@ -72,8 +59,7 @@ class _Session:
 
 
 def _is_notice():
-    """update_data_touch's own test for a line that goes to "Warnings / items to
-    review". Loaded under a StringIO stdout, which it leaves alone."""
+    """update_data_touch's own test for a line that goes to Warnings/items to review."""
     spec = importlib.util.spec_from_file_location(
         'update_data_touch_for_tests', os.path.join(REPO_ROOT, 'update_data_touch.py'))
     module = importlib.util.module_from_spec(spec)
