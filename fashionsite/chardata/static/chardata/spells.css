@@ -440,6 +440,17 @@
     }
 }
 
+@media (max-width: 600px) {
+    .select-stack {
+        position: static;
+        display: block;
+        width: calc(100% - 26px);
+        max-width: calc(100% - 26px);
+        box-sizing: border-box;
+        margin-top: 4px;
+    }
+}
+
 .spell-meta {
     font-size: 12px;
     opacity: 0.75;
