@@ -32,6 +32,8 @@ media/
 
 # Environment and local configuration files
 .env
+.env.*
+!.env.example
 .venv
 env/
 venv/

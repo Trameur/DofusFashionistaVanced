@@ -4,16 +4,17 @@ services:
     image: mysql:8.0
     container_name: fashionista_mysql
     restart: unless-stopped
+    stop_grace_period: 2m
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "5"
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
       MYSQL_DATABASE: fashionista
       MYSQL_USER: fashionista
-      MYSQL_PASSWORD: fashionista
+      MYSQL_PASSWORD: ${DB_PASSWORD:-fashionista}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./docker/mysql-init:/docker-entrypoint-initdb.d
@@ -45,7 +46,7 @@ services:
       - DB_PORT=3306
       - DB_NAME=fashionista
       - DB_USER=fashionista
-      - DB_PASSWORD=fashionista
+      - DB_PASSWORD=${DB_PASSWORD:-fashionista}
       - DEBUG=False
     volumes:
       - ${FASHIONISTA_GEN_CONFIG_PATH:-./docker/gen_config.json}:/etc/fashionista/gen_config.json

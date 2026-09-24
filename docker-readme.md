@@ -77,6 +77,27 @@ The application uses three Docker containers:
 
 The database data lives in a Docker volume named `fashionista_db_data`, so it survives restarts.
 
+## Database passwords
+
+`docker-compose.yml` reads `MYSQL_ROOT_PASSWORD` and `DB_PASSWORD` from `.env` (gitignored). Locally the defaults of `.env.example` apply. In production `deploy.sh` refuses to run without them. To set or rotate them on the server, with no downtime:
+
+```bash
+scripts/backup_db.sh                      # dump to /root/backups, checked before it is kept
+scripts/rotate_db_passwords.sh            # new random passwords in .env, the old ones still work
+./deploy.sh                               # web and mysql restart on the new passwords
+scripts/rotate_db_passwords.sh --discard  # the old passwords stop working
+```
+
+A rotation stopped half way is undone with `scripts/rotate_db_passwords.sh --abort`; the script refuses to start a second rotation over it. A copy of each new pair of passwords is kept in `/root/backups`.
+
+To restore a backup (the password stays inside the container):
+
+```bash
+gunzip -c /root/backups/fashionista_<stamp>.sql.gz | docker exec -i fashionista_mysql sh -c 'MYSQL_PWD="$MYSQL_ROOT_PASSWORD" mysql -uroot'
+```
+
+MySQL (3307) and gunicorn (8000) are published on 127.0.0.1 only; nginx reaches web through the Docker network.
+
 ## Character preview
 
 The preview draws pieces baked in advance from the Ankama bundles. The bundles (861 MB) are only needed for the bake and are not needed in production; only the baked cache (150 MB) is needed, in the `character_cache` volume. Without it the page falls back to the old avatar, so nothing breaks; the preview is simply missing.

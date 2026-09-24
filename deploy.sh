@@ -14,6 +14,27 @@ if [ -z "${DEPLOY_REEXECED:-}" ]; then
     exec bash "$0" "$@"
 fi
 
+# Production reads its database passwords from .env (scripts/rotate_db_passwords.sh)
+env_value() {
+    grep -E "^$1=" .env 2>/dev/null | tail -n 1 | cut -d= -f2- || true
+}
+for pair in root:MYSQL_ROOT_PASSWORD fashionista:DB_PASSWORD; do
+    user="${pair%%:*}"
+    key="${pair#*:}"
+    value="$(env_value "$key")"
+    if [ -z "$value" ] || [ "$value" = "fashionista" ] || [ "$value" = "root_password" ]; then
+        echo "ERROR: .env has no private $key." >&2
+        echo "Run scripts/backup_db.sh, then scripts/rotate_db_passwords.sh, then deploy again." >&2
+        exit 1
+    fi
+    if docker inspect -f '{{.State.Running}}' fashionista_mysql 2>/dev/null | grep -q true \
+            && ! printf '%s\n' "$value" | docker exec -i fashionista_mysql sh -c \
+                'read -r P; MYSQL_PWD="$P" mysql -u"$0" -e "SELECT 1" >/dev/null 2>&1' "$user"; then
+        echo "ERROR: $key in .env does not log in as $user; nothing was changed." >&2
+        exit 1
+    fi
+done
+
 # Build the new web image first. The old web container keeps serving during the
 # build, so there is no downtime until the swap further down.
 echo ">>> build web image"
@@ -23,7 +44,7 @@ docker compose --profile production build web
 # (no downtime, port 443 never drops). nginx must stay up across the web swap so
 # users get the maintenance page instead of Cloudflare's origin-down error.
 echo ">>> ensure nginx up & reload config"
-docker compose --profile production up -d nginx
+docker compose --profile production up -d --no-deps nginx
 if docker compose --profile production exec -T nginx nginx -t 2>/dev/null; then
     docker compose --profile production exec -T nginx nginx -s reload || true
 fi
@@ -42,7 +63,7 @@ echo "    origin self-check (maintenance on): HTTP $(curl -sk -o /dev/null -w '%
 
 # Swap in the freshly built web image (migrations, collectstatic, gunicorn boot).
 echo ">>> restart web"
-docker compose --profile production up -d web
+docker compose --profile production up -d -t 120 web
 
 # Wait until web actually answers before lifting maintenance (up to ~10 min:
 # the boot imports the item dumps before gunicorn listens, and they keep
