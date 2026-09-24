@@ -1,289 +1,277 @@
-# Mettre à jour les données
+# Updating the data
 
-Depuis le dépôt, avec le Python qui fait déjà tourner les scripts `update_data_*.py` :
+From the repository, with the Python that already runs the `update_data_*.py` scripts:
 
 ```powershell
 py update_all.py
 ```
 
-Le lanceur affiche pour chaque jeu la version locale, celle du client Ankama et
-celle réellement importable. Répondre avec les numéros ou noms des versions
-(`1,4`, `dofus3,touch`), `changed` pour celles qui ont changé, ou `all` pour les
-cinq versions de Dofus. Wakfu est disponible avec `6` ou `wakfu` et reste un
-choix explicite, car il est expérimental. Choisir ensuite avec ou sans images
-pour chaque version, puis confirmer. Entrée sans sélection quitte le programme.
+For each game, the launcher shows the local version, the Ankama client version
+and the version that can really be imported. Answer with the numbers or names of
+the versions (`1,4`, `dofus3,touch`), `changed` for the ones that changed, or
+`all` for the five Dofus versions. Wakfu is available with `6` or `wakfu` and
+stays an explicit choice, since it is experimental. Then choose with or without
+images for each version, and confirm. Pressing Enter without a choice quits.
 
-Les anciens scripts restent utilisables directement ; le lanceur réutilise leurs
-étapes et leurs arguments. Le terminal affiche chaque étape avec son titre en
-français et sa durée, avec un rappel toutes les 30 secondes pendant une opération
-longue. Le numéro d'étape affiché est celui du journal
-(`dofus3-05-items-obtainment.log` pour « Dofus 3 | 05 »).
+The old scripts can still be run directly; the launcher reuses their steps and
+their arguments. The terminal shows each step with its title and its duration,
+with a reminder every 30 seconds during a long operation. The step number shown
+is the one in the log name (`dofus3-05-items-obtainment.log` for "Dofus 3 | 05").
 
-## Commandes
+## Commands
 
 ```powershell
 py update_all.py --list
 py update_all.py --dry-run --versions dofus3,beta --images no
 py update_all.py --versions dofus3,touch --images yes --yes
-py update_all.py --restore .update-reports\<dossier>
-py update_all.py --restore .update-reports\<dossier> --versions beta
+py update_all.py --restore .update-reports\<folder>
+py update_all.py --restore .update-reports\<folder> --versions beta
 py update_all.py --clean-reports
 ```
 
-`--list` et `--dry-run` consultent les sources sans rien modifier. `--list`
-donne aussi la place prise par `.update-reports`. `--dry-run` annonce la taille
-et la durée de la sauvegarde des images, la place libre, les bases ouvertes par
-un autre programme et un import interrompu à restaurer. `--yes` exige des choix
-explicites pour les versions et les images. `--restore` et `--clean-reports` sont
-décrits plus bas. Aucun mode ne fait de commit, de push ni de déploiement.
+`--list` and `--dry-run` read the sources without changing anything. `--list`
+also gives the space taken by `.update-reports`. `--dry-run` gives the size and
+duration of the image backup, the free space, the databases open in another
+program and any stopped import that needs a restore. `--yes` needs explicit
+choices for the versions and the images. `--restore` and `--clean-reports` are
+described below. No mode commits, pushes or deploys.
 
-## Déroulement
+## How a run goes
 
-Avant tout import, le lanceur refuse de partir si une base à remplacer est ouverte
-par un autre programme (serveur de développement, DB Browser...) et nomme le
-fichier. Sous Windows, une base simplement ouverte suffit à bloquer son
-remplacement. Il refuse aussi de partir tant qu'un import arrêté en cours de
-route n'a pas été restauré (voir « Arrêt brutal »).
+Before any import, the launcher refuses to start if a database it has to replace
+is open in another program (dev server, DB Browser...) and names the file. On
+Windows, a database that is merely open is enough to block its replacement. It
+also refuses to start while an import stopped halfway has not been restored (see
+"Hard stop").
 
-Chaque version est traitée seule, l'une après l'autre :
+Each version is handled alone, one after the other:
 
-1. vérification que la source n'a pas changé depuis le choix ;
-2. inventaire avant import et sauvegarde de ses fichiers : base, dump,
-   `spell_reference`, `spell_states`, `transformed_wakfu.json` pour Wakfu,
-   `retro_damage_spells.json` pour Dofus Retro, et les fichiers partagés tels
-   qu'ils sont à ce moment (`fashionista_version.py`, `dynamic_translations.py`,
-   `dofus_constants*.py`) ;
-3. relevé des fichiers JSON suivis par git sous `itemscraper/` (voir
-   « Fichiers intermédiaires ») ;
-4. import par son script `update_data*.py` ;
-5. inventaire après import et contrôle des données.
+1. check that the source has not changed since it was chosen;
+2. inventory before the import and backup of its files: database, dump,
+   `spell_reference`, `spell_states`, `transformed_wakfu.json` for Wakfu,
+   `retro_damage_spells.json` for Dofus Retro, and the shared files as they are
+   at that moment (`fashionista_version.py`, `dynamic_translations.py`,
+   `dofus_constants*.py`);
+3. record of the JSON files tracked by git under `itemscraper/` (see
+   "Intermediate files");
+4. import by its `update_data*.py` script;
+5. inventory after the import and data checks.
 
-Si tout passe, l'étiquette de la version dans `fashionista_version.py` et son
-entrée dans `.update-reports/state.json` sont écrites tout de suite. Quand un
-nouveau patch commence, son entrée `PATCH_TIMELINE` est ajoutée et le terminal
-le dit. Pour Dofus Touch et Dofus Retro, les repères `WATCHED_*` du même fichier
-(paquet de ressources Touch, build, langues et empreinte des images Retro) prennent
-les valeurs de la source importée, pour que `itemscraper/check_game_versions.py`
-compare la même chose que le lanceur. L'empreinte des images Retro ne change que si
-les images ont été importées. Si l'import ou le contrôle échoue, seule cette version est restaurée et
-le lanceur passe à la suivante. Si cette restauration reste incomplète (fichier
-bloqué), le lanceur s'arrête : les versions suivantes sont marquées `NON LANCÉ`
-avec la cause, et les tests ne sont pas lancés. Ctrl+C restaure la version en
-cours puis s'arrête.
+If everything passes, the version label in `fashionista_version.py` and its
+entry in `.update-reports/state.json` are written right away. When a new patch
+starts, its `PATCH_TIMELINE` entry is added and the terminal says so. For Dofus
+Touch and Dofus Retro, the `WATCHED_*` markers of the same file (Touch asset
+pack, Retro build, languages and image digest) take the values of the imported
+source, so that `itemscraper/check_game_versions.py` compares the same thing as
+the launcher. The Retro image digest only changes if the images were imported.
+If the import or the checks fail, only that version is restored and the launcher
+moves on to the next one. If that restore stays incomplete (locked file), the
+launcher stops: the next versions are marked `NOT STARTED` with the cause, and
+the tests are not run. Ctrl+C restores the version in progress and then stops.
 
-Les étapes réseau (téléchargements, miroir, scraping, `data/sets`, `data/spells`,
-images) sont relancées une fois après 20 secondes si elles échouent ; le journal
-de la première tentative est gardé à côté (`.essai-1.log`). Une étape qui dépasse
-son délai n'est pas relancée. Les autres étapes ne sont jamais relancées.
+Network steps (downloads, mirror, scraping, `data/sets`, `data/spells`, images)
+are run again once after 20 seconds if they fail; the log of the first attempt
+is kept next to it (`.attempt-1.log`). A step that runs past its time limit is
+not run again. Other steps are never run again.
 
 ## Images
 
-Si au moins une version télécharge des images, les dossiers d'images de
-`fashionsite/chardata/static` sont sauvegardés une fois au début. La copie de
-`staticfiles` n'est pas sauvegardée : elle n'est pas lue en local et
-`collectstatic` la refait au déploiement. Avant cette sauvegarde, le lanceur
-vérifie que le disque a 1,2 fois sa taille de libre, sinon il refuse de partir et
-donne les deux chiffres.
+If at least one version downloads images, the image folders of
+`fashionsite/chardata/static` are backed up once at the start. The
+`staticfiles` copy is not backed up: it is not read locally and `collectstatic`
+rebuilds it on deployment. Before this backup, the launcher checks that the disk
+has 1.2 times its size free; otherwise it refuses to start and gives both
+numbers.
 
-Quand une version échoue, seules les images qui étaient lisibles avant elle et
-qui sont devenues absentes ou illisibles sont remises depuis cette sauvegarde.
-Les images nouvelles ou mises à jour restent en place : elles viennent des
-sources d'Ankama. Les images des versions non choisies sont contrôlées de la même
-façon à la fin.
+When a version fails, only the images that were readable before it and became
+missing or unreadable are put back from this backup. New or updated images stay
+in place: they come from Ankama's sources. The images of the versions not chosen
+are checked the same way at the end.
 
-## Fichiers intermédiaires
+## Intermediate files
 
-Les imports réécrivent des fichiers JSON suivis par git sous `itemscraper/`
-(`transformed_equipment.json`, `all_*.json`, `touch_raw/`...). Avant chaque
-version, le lanceur copie ceux qui étaient déjà modifiés localement et note la
-taille et la date de tous les autres. Quand la version est restaurée, chaque
-fichier qu'elle a changé revient : depuis la copie s'il était déjà modifié, sinon
-par `git checkout HEAD -- <fichier>`. Un fichier changé ensuite par une version
-suivante est gardé et listé. Les fichiers de code (`.py`) ne sont jamais touchés,
-pour ne pas perdre une modification faite pendant l'import.
+The imports rewrite JSON files tracked by git under `itemscraper/`
+(`transformed_equipment.json`, `all_*.json`, `touch_raw/`...). Before each
+version, the launcher copies the ones that were already modified locally and
+records the size and date of all the others. When the version is restored,
+every file it changed comes back: from the copy if it was already modified,
+otherwise with `git checkout HEAD -- <file>`. A file changed afterwards by a
+later version is kept and listed. Code files (`.py`) are never touched, so that
+an edit made during the import is not lost.
 
-## Contrôles après les imports
+## Checks after the imports
 
-Lancés seulement si au moins une version a été importée et qu'aucune restauration
-n'est incomplète :
+Run only if at least one version was imported and no restore is incomplete:
 
-1. génération réelle d'un Iop terre niveau 50 dans chaque version de Dofus (et
-   contrôles du solveur Wakfu si Wakfu est choisi). Si une version importée ne
-   peut plus générer de build, ses données sont restaurées, puis la génération
-   est relancée une fois : ce qui échoue encore est à revoir ;
-2. contrôle des données d'armes (`check_version_weapon_data.py`) ;
-3. suite Django complète avec `--settings=fashionsite.settings_test`.
+1. a real generation of a level 50 earth Iop in each Dofus version (and the
+   Wakfu solver checks if Wakfu is chosen). If an imported version can no longer
+   generate a build, its data is restored, then the generation runs once more:
+   anything that still fails needs review;
+2. weapon data check (`check_version_weapon_data.py`);
+3. full Django suite with `--settings=fashionsite.settings_test`.
 
-Un échec des deux derniers ne restaure rien : les données restent, le statut
-devient `IMPORTÉ, TESTS À REVOIR`, le terminal donne le nombre de tests en échec
-et les trois premiers, et le récapitulatif les liste tous avec le journal. Un
-contrôle en échec sans test nommé affiche son erreur. Les attentes des tests ne
-sont jamais modifiées automatiquement : à l'humain de dire si c'est un changement
-du jeu ou un défaut d'import.
+A failure of the last two restores nothing: the data stays, the status becomes
+`IMPORTED, TESTS TO REVIEW`, the terminal gives the number of failing tests and
+the first three, and the summary lists them all with the log. A failing check
+without a named test shows its error. Test expectations are never changed
+automatically: a human decides whether it is a game change or an import defect.
 
-## Ce qui est vérifié
+## What is checked
 
-- Dofus 3, Dofus 3 Beta et Dofus 2 : le tag de l'API d'objets doit disposer de
-  son archive de sorts et de langues. Un client Ankama plus récent est signalé à
-  part.
-- Dofus Touch : build du jeu lu dans `window.buildVersion` du client de
-  production, paquet de ressources et langues de sa configuration officielle.
-- Dofus Retro : versions des fichiers de langue dans les cinq langues et
-  empreinte des images du manifeste du client.
-- Wakfu : version du flux officiel et de la dernière transformation locale. Les
-  sorts sont récoltés pour le build importé.
-- Avant/après : intégrité SQLite, lignes par table, tables vidées, références
-  orphelines, identifiants perdus ou réaffectés, stats ajoutées ou supprimées,
-  nouveaux effets de la source, objets et sorts modifiés, objets retirés par
-  Ankama et gardés masqués, concordance base/dump, images référencées présentes
-  et lisibles.
+- Dofus 3, Dofus 3 Beta and Dofus 2: the item API tag must have its spell and
+  language archive. A newer Ankama client is reported separately.
+- Dofus Touch: game build read from `window.buildVersion` in the production
+  client, asset pack and languages from its official configuration.
+- Dofus Retro: versions of the language files in the five languages and digest
+  of the images in the client manifest.
+- Wakfu: version of the official feed and of the last local transformation. The
+  spells are harvested for the imported build.
+- Before and after: SQLite integrity, rows per table, emptied tables, orphan
+  references, lost or reassigned ids, added or removed stats, new source
+  effects, changed items and spells, items removed by Ankama and kept hidden,
+  database and dump agreement, referenced images present and readable.
 
-Bloquent une version : table supprimée, perte de plus de 3 % dans une table,
-identifiant perdu ou réaffecté, dump incohérent, table essentielle vide, image
-existante perdue. Une suppression légitime d'Ankama demande donc un examen humain,
-sauf dans les deux cas Wakfu ci-dessous.
+These block a version: a deleted table, a loss of more than 3% in a table, a
+lost or reassigned id, an inconsistent dump, an empty essential table, a lost
+existing image. A legitimate removal by Ankama therefore needs a human review,
+except in the two Wakfu cases below.
 
-Wakfu : un objet que l'ancienne base contenait et que le nouveau build n'a plus
-est gardé sous son identifiant avec `removed = 1`, comme les objets retirés des
-versions Dofus : le site le masque, les builds enregistrés le retrouvent. Le
-compte apparaît dans le journal de l'étape « Construction de la base ». Pour
-`item_recipes`, `item_recipe_ingredient_names` et `item_craft_jobs`, une perte
-de plus de 3 % n'est qu'un avertissement quand `recipes.json` du miroir a
-diminué d'au moins la part qui dépasse ces 3 % ; l'inventaire Wakfu garde le
-nombre de recettes du miroir pour cette comparaison.
+Wakfu: an item that the old database had and the new build no longer has is
+kept under its id with `removed = 1`, like the items removed from the Dofus
+versions: the site hides it, saved builds still find it. The count appears in
+the log of the "Building the database" step. For `item_recipes`,
+`item_recipe_ingredient_names` and `item_craft_jobs`, a loss of more than 3% is
+only a warning when the mirror's `recipes.json` shrank by at least the share
+above those 3%; the Wakfu inventory keeps the mirror's recipe count for this
+comparison.
 
-## Récapitulatif
+## Summary
 
-Chaque exécution garde un dossier `.update-reports/<date>-<pid>/` :
+Each run keeps a `.update-reports/<date>-<pid>/` folder:
 
-- `RECAP.md` : statut général en première ligne, un bloc par version (statut,
-  version locale -> importée, objets et sorts ajoutés, retirés, modifiés,
-  nouvelles stats, nouveaux problèmes d'images, les compteurs à zéro regroupés
-  sur une ligne, les données DofusDB conservées en une ligne, étapes avec
-  avertissements), les tests en échec, la commande pour terminer une
-  restauration incomplète, puis la commande pour annuler ;
-- `report.json`, les inventaires `<version>-before.json` et `-after.json`, les
-  journaux de chaque étape et des contrôles ;
-- `<version>/` : sauvegarde de chaque version, `images/` : sauvegarde des images,
-  `images-changed.json` : images modifiées pendant l'exécution.
+- `RECAP.md`: overall status on the first line, one block per version (status,
+  local version -> imported version, items and spells added, removed and
+  changed, new stats, new image problems, zero counts grouped on one line, kept
+  DofusDB data on one line, steps with warnings), the failing tests, the command
+  to finish an incomplete restore, then the command to undo;
+- `report.json`, the `<version>-before.json` and `-after.json` inventories, the
+  logs of each step and of the checks;
+- `<version>/`: backup of each version, `images/`: image backup,
+  `images-changed.json`: images changed during the run.
 
-Statut d'une version : `IMPORTÉ`, `ÉCHEC, RESTAURÉ`, `RESTAURATION INCOMPLÈTE`
-ou `NON LANCÉ` (rien n'a été modifié, la cause est donnée). Statut général :
-`IMPORTÉ`, `IMPORTÉ EN PARTIE`, `ÉCHEC` ou `INTERROMPU`, suivi au besoin de
-`, TESTS À REVOIR`, `, ERREURS` ou `, RESTAURATION INCOMPLÈTE`.
+Status of a version: `IMPORTED`, `FAILED, RESTORED`, `RESTORE INCOMPLETE` or
+`NOT STARTED` (nothing was changed, the cause is given). Overall status:
+`IMPORTED`, `PARTLY IMPORTED`, `FAILED` or `INTERRUPTED`, followed when needed by
+`, TESTS TO REVIEW`, `, ERRORS` or `, RESTORE INCOMPLETE`.
 
-Codes de sortie : `0` tout importé et tests verts, `2` tout importé mais tests à
-revoir, `1` au moins une version en échec ou une restauration incomplète, `130`
-interruption. Même après un Ctrl+C en toute fin d'exécution, le verrou est libéré
-et `report.json` et `RECAP.md` sont écrits.
+Exit codes: `0` everything imported and tests green, `2` everything imported but
+tests to review, `1` at least one failed version or an incomplete restore, `130`
+interrupted. Even after a Ctrl+C at the very end of a run, the lock is released
+and `report.json` and `RECAP.md` are written.
 
-## Restauration
+## Restore
 
-La restauration essaie chaque fichier. Remettre une base efface aussi ses
-fichiers `-journal`, `-wal` et `-shm`, qui rejoueraient sinon l'import annulé
-dans la base remise ; si l'un d'eux est bloqué, la base compte comme non
-restaurée. Une base identique à la sauvegarde, ou restée telle qu'avant l'import,
-n'est pas réécrite. Un fichier bloqué par Windows est réessayé jusqu'à 60 secondes
-à la fin ; un fichier absent de la sauvegarde est signalé sans arrêter le reste.
+The restore tries every file. Putting a database back also deletes its
+`-journal`, `-wal` and `-shm` files, which would otherwise replay the cancelled
+import into the restored database; if one of them is locked, the database counts
+as not restored. A database identical to the backup, or left as it was before
+the import, is not rewritten. A file locked by Windows is tried again for up to
+60 seconds at the end; a file missing from the backup is reported without
+stopping the rest.
 
-Quand une restauration est incomplète ou a été interrompue, le terminal et le
-récapitulatif donnent la commande qui la termine, limitée aux versions
-concernées :
+When a restore is incomplete or was interrupted, the terminal and the summary
+give the command that finishes it, limited to the versions concerned:
 
 ```powershell
-py update_all.py --restore .update-reports\<dossier> --versions beta
+py update_all.py --restore .update-reports\<folder> --versions beta
 ```
 
-Avec `--versions`, seules ces versions et leurs entrées de `state.json` sont
-remises. Si une version suivante de la même exécution reste importée, ses
-changements sont gardés : l'étiquette de la version restaurée est remise seule
-dans `fashionista_version.py`, et un fichier partagé modifié ensuite par l'autre
-version est gardé et listé.
+With `--versions`, only those versions and their `state.json` entries are put
+back. If a later version of the same run stays imported, its changes are kept:
+only the restored version's label is put back in `fashionista_version.py`,
+and a shared file changed afterwards by the other version is kept and listed.
 
-Sans `--versions`, `--restore` annule toute l'exécution : les versions de la plus
-récente à la plus ancienne, puis les images modifiées, et les entrées de
-`state.json` écrites par elle. Relancer la commande termine une restauration
-partielle. Le lanceur refuse de restaurer une version qu'une exécution plus
-récente a importée depuis, et nomme cette exécution ; `--force` passe outre.
-Les données applicatives (comptes, personnages, builds) ne sont jamais touchées.
-Une erreur de restauration s'affiche en une phrase, sans trace Python.
+Without `--versions`, `--restore` undoes the whole run: the versions from the
+newest to the oldest, then the changed images, and the `state.json` entries it
+wrote. Running the command again finishes a partial restore. The launcher
+refuses to restore a version that a newer run has imported since, and names that
+run; `--force` overrides this. Application data (accounts, characters, builds)
+is never touched. A restore error is shown in one sentence, without a Python
+traceback.
 
-## Arrêt brutal
+## Hard stop
 
-Pendant l'import d'une version, le fichier `<dossier>/<version>.importing`
-existe ; il disparaît dès que la version est importée ou restaurée. Le verrou
-`.update-data.lock` nomme le dossier de l'exécution. Si la fenêtre est fermée ou
-Windows redémarre pendant un import, le lanceur suivant récupère le verrou, puis
-refuse de partir et affiche la commande exacte :
+While a version is being imported, the file `<folder>/<version>.importing`
+exists; it goes away as soon as the version is imported or restored. The
+`.update-data.lock` lock names the folder of the run. If the window is closed or
+Windows restarts during an import, the next launcher recovers the lock, then
+refuses to start and shows the exact command:
 
 ```powershell
-py update_all.py --restore .update-reports\<dossier> --versions dofus3
+py update_all.py --restore .update-reports\<folder> --versions dofus3
 ```
 
-Une fois cette version restaurée, le fichier `.importing` disparaît et le
-lanceur repart normalement.
+Once that version is restored, the `.importing` file goes away and the launcher
+starts normally again.
 
-## Place disque
+## Disk space
 
-Chaque exécution avec images garde une sauvegarde des images. `py update_all.py
---clean-reports` liste les sauvegardes d'images plus anciennes que les trois
-dernières (anciennes exécutions au format `backup/` comprises), avec leur taille,
-et ne les supprime qu'après avoir tapé `oui`. `--yes` ne suffit pas. Une
-exécution dont la restauration est inachevée est toujours gardée. Les journaux,
-récapitulatifs et sauvegardes de données restent.
+Each run with images keeps an image backup. `py update_all.py --clean-reports`
+lists the image backups older than the last three (old runs in the `backup/`
+format included), with their size, and deletes them only after you type `yes`
+(`oui` is accepted too). `--yes` is not enough. A run whose restore is
+unfinished is always kept. Logs, summaries and data backups stay.
 
-## Sources conservées
+## Kept sources
 
-L'API DofusDB est désactivée dans ce lanceur. Les apparences de montures, grades
-et sous-zones des monstres Dofus 3 et Dofus 3 Beta sont repris depuis la
-sauvegarde de la même version et enregistrés dans la base et son dump. Les
-apparences suivent l'identifiant et le type Ankama de chaque monture, pour
-survivre à un renommage. Les illustrations de monstres Dofus 3 et Dofus 3 Beta
-restent locales. Le récapitulatif le dit une fois par version.
+The DofusDB API is disabled in this launcher. Mount appearances, and monster
+grades and subareas for Dofus 3 and Dofus 3 Beta, are taken from the backup of
+the same version and saved in the database and its dump. Appearances follow the
+Ankama id and type of each mount, so they survive a rename. Dofus 3 and Dofus 3
+Beta monster artwork stays local. The summary says so once per version.
 
-Le choix « sans images » s'applique aussi aux sorts Dofus Touch et aux
-illustrations Dofus Retro. Avec images, les scripts réutilisent leurs caches
-habituels.
+The "without images" choice also applies to Dofus Touch spells and Dofus Retro
+artwork. With images, the scripts reuse their usual caches.
 
-## Versions Dofus Touch et Dofus Retro
+## Dofus Touch and Dofus Retro versions
 
-Dofus Touch utilise plusieurs numéros indépendants. Par exemple, le 23 septembre
-2026 :
+Dofus Touch uses several independent numbers. For example, on 23 September
+2026:
 
-| Numéro | Signification | Source |
+| Number | Meaning | Source |
 |---|---|---|
-| Client `3.14.2` | Version de l'application installée sur le téléphone | Écran du téléphone ; pas détectée par le lanceur |
-| Build `1.74.5` | Version du jeu affichée dans cette application | `window.buildVersion` dans le [client de production](https://dt-proxy-production-login.ankama-games.com/build/script.js) |
-| Ressources `3.3.6_…` | Paquet graphique servi par le CDN | `assetsUrl` dans la [configuration officielle](https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr) |
+| Client `3.14.2` | Version of the app installed on the phone | Phone screen; not detected by the launcher |
+| Build `1.74.5` | Game version shown in that app | `window.buildVersion` in the [production client](https://dt-proxy-production-login.ankama-games.com/build/script.js) |
+| Assets `3.3.6_…` | Graphics pack served by the CDN | `assetsUrl` in the [official configuration](https://dt-proxy-production-login.ankama-games.com/config.json?lang=fr) |
 
-Le lanceur présente le build du jeu comme version disponible, en lisant seulement
-le début du fichier JavaScript sans l'exécuter. Un build illisible ou ambigu rend
-la source indisponible. Un changement du build ou des ressources déclenche une
-mise à jour.
+The launcher presents the game build as the available version, reading only the
+start of the JavaScript file without running it. An unreadable or ambiguous
+build makes the source unavailable. A change of the build or of the assets
+triggers an update.
 
-Pour Dofus Retro, `1.49.5.5656.445-401e092` devient `1.49.5` dans la ligne de
-version du jeu. L'identifiant Cytrus complet reste affiché et conservé pour les
-contrôles.
+For Dofus Retro, `1.49.5.5656.445-401e092` becomes `1.49.5` in the game version
+line. The full Cytrus id is still shown and is kept for the checks.
 
-## Prérequis et concurrence
+## Requirements and concurrency
 
-Le lanceur utilise les dépendances existantes et
-`fashionsite/fashionsite/settings_test.py` configuré avec SQLite. Il refuse de
-partir si ce fichier manque ou si la configuration Fashionista pointe vers un
-autre dépôt. Les étapes d'images Dofus Retro peuvent demander Java/JPEXS et
-resvg : les outils de `~/Documents/fashionista-loop/tools/flash/` sont détectés
-automatiquement, les variables `JAVA_EXE`, `FFDEC_JAR` et `RESVG_EXE` restent
-prioritaires.
+The launcher uses the existing dependencies and
+`fashionsite/fashionsite/settings_test.py` set up with SQLite. It refuses to
+start if that file is missing or if the Fashionista configuration points to
+another repository. The Dofus Retro image steps may need Java/JPEXS and resvg:
+the tools in `~/Documents/fashionista-loop/tools/flash/` are found
+automatically, and the `JAVA_EXE`, `FFDEC_JAR` and `RESVG_EXE` variables take
+precedence.
 
-`.update-data.lock` empêche deux lanceurs en même temps. Le lanceur s'inscrit
-aussi dans la section « En cours » de `~/Documents/fashionista-loop/RUNNING.md`
-s'il existe (autre fichier avec `--running-file`) et refuse de partir si un autre
-travail y figure ; la section s'arrête au titre suivant. Après un arrêt forcé,
-l'ancien verrou est récupéré si aucun programme Python du dépôt, calcul ou
-traitement d'images ne tourne encore ; sinon le lanceur nomme ce programme et
-demande de le fermer (serveur de développement compris) avant de relancer.
+`.update-data.lock` stops two launchers from running at the same time. The
+launcher also registers itself in the "En cours" section of
+`~/Documents/fashionista-loop/RUNNING.md` if that file exists (another file with
+`--running-file`) and refuses to start if other work is listed there; the
+section ends at the next heading. After a forced stop, the old lock is recovered
+if no Python program from the repository, solver or image job is still running;
+otherwise the launcher names that program and asks you to close it (the dev
+server included) before running again.
 
-Une étape dispose d'une heure, l'import complet d'une version de quatre heures :
+A step has one hour, and the full import of a version four hours:
 
 ```powershell
 py update_all.py --step-timeout 7200
