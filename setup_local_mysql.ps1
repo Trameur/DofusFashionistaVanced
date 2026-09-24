@@ -16,18 +16,18 @@ New-Item -ItemType Directory -Force -Path $root | Out-Null
 if (-not (Test-Path -LiteralPath $mysqld)) {
     if (-not (Test-Path -LiteralPath $zip)) {
         $url = "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-$ver-winx64.zip"
-        Write-Host "Telechargement de MySQL $ver (~236 Mo)..."
+        Write-Host "Downloading MySQL $ver (~236 MB)..."
         Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing -UserAgent 'Mozilla/5.0'
     }
-    Write-Host "Extraction..."
+    Write-Host "Extracting..."
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     [System.IO.Compression.ZipFile]::ExtractToDirectory($zip, $root)
 }
 
 if (-not (Test-Path -LiteralPath (Join-Path $data 'mysql'))) {
-    Write-Host "Initialisation du repertoire de donnees..."
+    Write-Host "Initializing the data folder..."
     New-Item -ItemType Directory -Force -Path $data | Out-Null
     & $mysqld --initialize-insecure "--datadir=$data" "--basedir=$base"
 }
 
-Write-Host "MySQL $ver pret dans $base"
+Write-Host "MySQL $ver ready in $base"

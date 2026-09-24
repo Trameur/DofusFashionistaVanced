@@ -2,13 +2,13 @@
 chcp 65001 >nul
 
 REM ===============================================================
-REM  Cree (ou met a jour) un compte admin LOCAL avec un mot de passe,
-REM  utilisable via le formulaire de connexion normal du site
-REM  (le bouton Google ne marche pas en local).
+REM  Creates (or updates) a LOCAL admin account with a password,
+REM  for the site's normal login form (the Google button does not
+REM  work locally).
 REM
-REM  IMPORTANT : lance d'abord le serveur avec
-REM  DofusFashionista_Windows11.bat et laisse-le tourner, pour que
-REM  MySQL soit demarre. Puis lance CE fichier dans une autre fenetre.
+REM  IMPORTANT: start the server first with
+REM  DofusFashionista_Windows11.bat and leave it running, so that
+REM  MySQL is up. Then run THIS file in another window.
 REM ===============================================================
 
 cd /d "%~dp0fashionsite"
@@ -18,11 +18,11 @@ set "PYTHONIOENCODING=UTF-8"
 set "DJANGO_SETTINGS_MODULE=fashionsite.settings"
 
 echo ===============================================
-echo  Creation d'un compte admin local
+echo  Creating a local admin account
 echo ===============================================
 echo.
-set /p ADMINUSER="Nom d'utilisateur admin : "
-set /p ADMINEMAIL="Email (optionnel, Entree pour ignorer) : "
+set /p ADMINUSER="Admin user name: "
+set /p ADMINEMAIL="Email (optional, Enter to skip): "
 echo.
 
 where py >nul 2>nul
@@ -33,8 +33,8 @@ if %ERRORLEVEL%==0 (
 )
 
 echo.
-echo Connecte-toi ensuite avec ce nom d'utilisateur et ce mot de passe
-echo via le formulaire "Connexion" du site (pas le bouton Google),
-echo puis ouvre le lien "Admin tools" du menu.
+echo Then log in with this user name and password
+echo through the site's login form (not the Google button),
+echo and open the "Admin tools" link in the menu.
 echo.
 pause

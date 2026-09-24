@@ -1,6 +1,5 @@
-﻿# DofusFashionistaVanced - Lanceur Windows 11
-# Script PowerShell robuste pour lancer l'application sur Windows 11
-# Utilise des chemins absolus et gère les erreurs de façon avancée
+﻿# DofusFashionistaVanced - Windows 11 launcher
+# Starts the application on Windows 11, using absolute paths.
 
 # Force UTF-8 encoding
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -8,7 +7,7 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 
 #Requires -Version 5.0
 
-# Fonction pour afficher les messages avec horodatage et couleur
+# Prints a message with a timestamp and a color
 function Write-LogMessage {
     param(
         [Parameter(Mandatory=$true)]
@@ -30,13 +29,13 @@ function Write-LogMessage {
     
     Write-Host "[$timestamp] [$Type] $Message" -ForegroundColor $color
     
-    # Ajouter au fichier journal si on a défini un journal
+    # Also append to the log file when one is set
     if ($Global:LogFile) {
         "[$timestamp] [$Type] $Message" | Out-File -FilePath $Global:LogFile -Append
     }
 }
 
-# Fonction pour vérifier si un programme est installé
+# Tells whether a command is available
 function Test-CommandExists {
     param ($command)
     
@@ -124,95 +123,95 @@ function Invoke-Python {
     & $exe @prefix @args
 }
 
-# Fonction pour vérifier les prérequis
+# Checks the prerequisites
 function Test-Prerequisites {
-    Write-LogMessage "Vérification des prérequis..." "INFO"
+    Write-LogMessage "Checking the prerequisites..." "INFO"
     
-    # Vérifier Python (un interpréteur RÉEL, pas le stub Microsoft Store)
+    # A real Python interpreter, not the Microsoft Store stub
     $Global:PythonCmd = Get-PythonCommand
     if (-not $Global:PythonCmd) {
-        Write-LogMessage "Python introuvable. Les alias Microsoft Store (python.exe/python3.exe) ne comptent pas." "ERROR"
-        Write-LogMessage "Installez Python 3.12+ : winget install -e --id Python.Python.3.14   (ou https://www.python.org/downloads/)" "ERROR"
-        Write-LogMessage "Cochez 'Add Python to PATH' et 'Install py launcher'. Au besoin, désactivez les alias d'exécution d'application python.exe/python3.exe dans Paramètres Windows." "ERROR"
+        Write-LogMessage "Python not found. The Microsoft Store aliases (python.exe/python3.exe) do not count." "ERROR"
+        Write-LogMessage "Install Python 3.12+: winget install -e --id Python.Python.3.14   (or https://www.python.org/downloads/)" "ERROR"
+        Write-LogMessage "Tick 'Add Python to PATH' and 'Install py launcher'. If needed, turn off the python.exe/python3.exe app execution aliases in Windows Settings." "ERROR"
         return $false
     }
-    Write-LogMessage "Interpréteur Python: $($Global:PythonCmd -join ' ')" "SUCCESS"
+    Write-LogMessage "Python interpreter: $($Global:PythonCmd -join ' ')" "SUCCESS"
 
-    # Vérifier la version de Python
+    # Python version
     $pythonVersion = Invoke-Python -c "import sys; print('%d.%d.%d' % sys.version_info[:3])"
     if ($LASTEXITCODE -ne 0 -or -not $pythonVersion) {
-        Write-LogMessage "Impossible de déterminer la version de Python." "ERROR"
+        Write-LogMessage "Could not determine the Python version." "ERROR"
         return $false
     }
-    Write-LogMessage "Version Python détectée: $pythonVersion" "INFO"
+    Write-LogMessage "Python version found: $pythonVersion" "INFO"
 
-    # Vérifier pip (via le module, méthode robuste)
+    # pip, through the module
     Invoke-Python -m pip --version 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) {
-        Write-LogMessage "pip n'est pas disponible pour cet interpréteur Python." "ERROR"
-        Write-LogMessage "Tentez : $($Global:PythonCmd -join ' ') -m ensurepip --upgrade" "ERROR"
+        Write-LogMessage "pip is not available for this Python interpreter." "ERROR"
+        Write-LogMessage "Try: $($Global:PythonCmd -join ' ') -m ensurepip --upgrade" "ERROR"
         return $false
     }
     
-    # Vérifier MySQL
+    # MySQL
     if (-not (Test-CommandExists mysql)) {
-        Write-LogMessage "MySQL n'est pas installé ou n'est pas dans le PATH." "WARNING"
-        Write-LogMessage "Certaines fonctionnalités pourraient ne pas fonctionner correctement." "WARNING"
+        Write-LogMessage "MySQL is not installed or not on the PATH." "WARNING"
+        Write-LogMessage "Some features may not work correctly." "WARNING"
     } else {
-        Write-LogMessage "MySQL est installé." "SUCCESS"
+        Write-LogMessage "MySQL is installed." "SUCCESS"
     }
     
-    # Vérifier si les répertoires clés existent
+    # Key folders
     if (-not (Test-Path -Path "$PSScriptRoot\fashionistapulp")) {
-        Write-LogMessage "Le répertoire 'fashionistapulp' est introuvable." "ERROR"
+        Write-LogMessage "The 'fashionistapulp' folder was not found." "ERROR"
         return $false
     }
     
     if (-not (Test-Path -Path "$PSScriptRoot\fashionsite")) {
-        Write-LogMessage "Le répertoire 'fashionsite' est introuvable." "ERROR"
+        Write-LogMessage "The 'fashionsite' folder was not found." "ERROR"
         return $false
     }
     
     if (-not (Test-Path -Path "$PSScriptRoot\fashionsite\manage.py")) {
-        Write-LogMessage "Le fichier manage.py est introuvable dans le répertoire 'fashionsite'." "ERROR"
+        Write-LogMessage "manage.py was not found in the 'fashionsite' folder." "ERROR"
         return $false
     }
     
-    # Installer les dépendances manquantes
-    Write-LogMessage "Installation des dépendances nécessaires..." "INFO"
+    # Missing dependencies
+    Write-LogMessage "Installing the required dependencies..." "INFO"
     try {
-        # Installer toutes les dépendances depuis requirements_win.txt
+        # Everything in requirements_win.txt
         $requirementsFile = "$PSScriptRoot\requirements_win.txt"
         if (Test-Path -Path $requirementsFile) {
-            Write-LogMessage "Installation des dépendances depuis $requirementsFile..." "INFO"
+            Write-LogMessage "Installing the dependencies from $requirementsFile..." "INFO"
             Invoke-Python -m pip install -r $requirementsFile --quiet 2>&1 | Out-Null
-            Write-LogMessage "Toutes les dépendances ont été installées avec succès." "SUCCESS"
+            Write-LogMessage "All dependencies installed." "SUCCESS"
         } else {
-            Write-LogMessage "Fichier requirements_win.txt introuvable, installation limitée..." "WARNING"
+            Write-LogMessage "requirements_win.txt not found, limited install..." "WARNING"
             Invoke-Python -m pip install python-memcached 2>&1 | Out-Null
-            Write-LogMessage "python-memcached installé avec succès." "SUCCESS"
+            Write-LogMessage "python-memcached installed." "SUCCESS"
         }
     }
     catch {
-        Write-LogMessage "Erreur lors de l'installation des dépendances: $_" "WARNING"
+        Write-LogMessage "Error while installing the dependencies: $_" "WARNING"
     }
     
     return $true
 }
 
-# Fonction pour configurer l'environnement Python
+# Sets up the Python environment
 function Set-PythonEnvironment {
-    Write-LogMessage "Configuration de l'environnement Python..." "INFO"
+    Write-LogMessage "Setting up the Python environment..." "INFO"
     
-    # Définition des variables d'environnement (correction du PYTHONPATH pour n'avoir que le chemin actuel)
+    # PYTHONPATH holds only the current path
     $env:PYTHONPATH = "$PSScriptRoot\fashionistapulp"
     $env:PYTHONUNBUFFERED = "1"
     $env:PYTHONIOENCODING = "UTF-8"
 
-    Write-LogMessage "PYTHONPATH défini: $env:PYTHONPATH" "SUCCESS"
+    Write-LogMessage "PYTHONPATH set: $env:PYTHONPATH" "SUCCESS"
 }
 
-# Fonction pour importer un dump MySQL/MariaDB dans la base locale
+# Imports a MySQL/MariaDB dump into the local database
 function Import-MySqlDump {
     param(
         [Parameter(Mandatory=$true)]
@@ -224,16 +223,16 @@ function Import-MySqlDump {
 
     try {
         if (-not (Test-Path -Path $SqlPath)) {
-            Write-LogMessage "Dump SQL introuvable: $SqlPath" "WARNING"
+            Write-LogMessage "SQL dump not found: $SqlPath" "WARNING"
             return
         }
 
-        # Lire les identifiants MySQL depuis %APPDATA%\fashionista\gen_config.json
+        # MySQL credentials from %APPDATA%\fashionista\gen_config.json
         $configDir = Join-Path $env:APPDATA 'fashionista'
         $genConfigPath = Join-Path $configDir 'gen_config.json'
         if (-not (Test-Path -Path $genConfigPath)) {
-            Write-LogMessage "Fichier de configuration introuvable: $genConfigPath" "WARNING"
-            Write-LogMessage "Import SQL ignoré (identifiants MySQL inconnus)." "WARNING"
+            Write-LogMessage "Configuration file not found: $genConfigPath" "WARNING"
+            Write-LogMessage "SQL import skipped (MySQL credentials unknown)." "WARNING"
             return
         }
 
@@ -241,166 +240,166 @@ function Import-MySqlDump {
         $dbUser = $cfg.mysql_USER
         $dbPass = $cfg.mysql_PASSWORD
         if (-not $DbName -or $DbName -eq '') {
-            # Utiliser la même logique que Django: DB_NAME par défaut = 'fashionista'
+            # Same default as Django: DB_NAME = 'fashionista'
             $DbName = if ($env:DB_NAME) { $env:DB_NAME } else { 'fashionista' }
         }
 
-        # Déterminer le binaire mysql
+        # The mysql binary
         $mysqlCmd = 'mysql'
         if (-not (Test-CommandExists $mysqlCmd)) {
             $candidate = 'C:\\Program Files\\MariaDB 11.6\\bin\\mysql.exe'
             if (Test-Path -Path $candidate) {
                 $mysqlCmd = $candidate
             } else {
-                Write-LogMessage "Client MySQL introuvable (mysql). Ajoutez mysql au PATH ou installez MariaDB/MySQL." "WARNING"
+                Write-LogMessage "MySQL client (mysql) not found. Add mysql to the PATH or install MariaDB/MySQL." "WARNING"
                 return
             }
         }
 
-        Write-LogMessage "Import du dump SQL vers la base '$DbName'" "INFO"
+        Write-LogMessage "Importing the SQL dump into the '$DbName' database" "INFO"
 
-        # Créer la base si nécessaire
+        # Create the database if needed
         $createDbOut = & $mysqlCmd -u $dbUser -p$dbPass -e "CREATE DATABASE IF NOT EXISTS `$DbName` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>&1
         if ($LASTEXITCODE -ne 0) {
-            Write-LogMessage "Échec lors de la création/vérification de la base '$DbName'." "ERROR"
+            Write-LogMessage "Could not create or check the '$DbName' database." "ERROR"
             if ($createDbOut) { Write-LogMessage $createDbOut "ERROR" }
             return
         }
 
-        # Importer le fichier. Utiliser cmd /c pour gérer la redirection d'entrée (<) de façon fiable sous PowerShell
+        # cmd /c handles the input redirection (<) reliably under PowerShell
         $quotedMysql = '"' + $mysqlCmd + '"'
         $quotedSql = '"' + $SqlPath + '"'
         $cmdLine = "$quotedMysql -u $dbUser -p$dbPass $DbName --default-character-set=utf8mb4 < $quotedSql"
         $importOut = cmd /c $cmdLine 2>&1
         if ($LASTEXITCODE -eq 0) {
-            Write-LogMessage "Import SQL terminé avec succès dans '$DbName'." "SUCCESS"
+            Write-LogMessage "SQL import into '$DbName' done." "SUCCESS"
         } else {
-            Write-LogMessage "Échec de l'import SQL (code $LASTEXITCODE)." "ERROR"
+            Write-LogMessage "SQL import failed (code $LASTEXITCODE)." "ERROR"
             if ($importOut) { Write-LogMessage $importOut "ERROR" }
         }
     }
     catch {
-        Write-LogMessage "Erreur lors de l'import du dump SQL: $_" "ERROR"
+        Write-LogMessage "Error while importing the SQL dump: $_" "ERROR"
     }
 }
 
-# Fonction pour vérifier ou créer le fichier dump
+# Checks for the dump file, or creates it
 function Ensure-DumpFile {
-    Write-LogMessage "Vérification du fichier dump..." "INFO"
+    Write-LogMessage "Checking the dump file..." "INFO"
     
     $dumpFilePath = "$PSScriptRoot\fashionistapulp\fashionistapulp\item_db_dumped.dump"
     $alternateDumpPath = "$PSScriptRoot\itemscraper\item_db_dumped.dump"
     
-    # Vérifier si le fichier existe dans l'emplacement principal
+    # Main location
     if (-not (Test-Path -Path $dumpFilePath)) {
-        Write-LogMessage "Fichier dump introuvable dans l'emplacement principal" "WARNING"
+        Write-LogMessage "Dump file not found in the main location" "WARNING"
         
-        # Vérifier s'il existe dans le dossier itemscraper
+        # itemscraper folder
         if (Test-Path -Path $alternateDumpPath) {
-            Write-LogMessage "Fichier dump trouvé dans le dossier itemscraper, copie en cours..." "INFO"
+            Write-LogMessage "Dump file found in the itemscraper folder, copying..." "INFO"
             
-            # S'assurer que le chemin de destination existe
+            # Make sure the destination folder exists
             $dumpFileDir = Split-Path -Path $dumpFilePath -Parent
             if (-not (Test-Path -Path $dumpFileDir)) {
                 New-Item -ItemType Directory -Path $dumpFileDir -Force | Out-Null
-                Write-LogMessage "Répertoire de destination créé: $dumpFileDir" "INFO"
+                Write-LogMessage "Destination folder created: $dumpFileDir" "INFO"
             }
             
-            # Copier le fichier
+            # Copy the file
             Copy-Item -Path $alternateDumpPath -Destination $dumpFilePath -Force
-            Write-LogMessage "Fichier dump copié avec succès." "SUCCESS"
+            Write-LogMessage "Dump file copied." "SUCCESS"
             
-            # Corriger le chemin qui contient l'erreur
+            # Also fill the path the error names
             $wrongPathDumpDir = Join-Path $PSScriptRoot "fashionistapulp\fashionistapulp"
             if (-not (Test-Path -Path $wrongPathDumpDir)) {
                 New-Item -ItemType Directory -Path $wrongPathDumpDir -Force -ErrorAction SilentlyContinue | Out-Null
                 Copy-Item -Path $alternateDumpPath -Destination "$wrongPathDumpDir\item_db_dumped.dump" -Force -ErrorAction SilentlyContinue
-                Write-LogMessage "Copie de secours créée dans le chemin alternatif." "INFO"
+                Write-LogMessage "Backup copy created in the alternate path." "INFO"
             }
         }
         else {
-            Write-LogMessage "Fichier dump introuvable. Création d'un fichier vide..." "WARNING"
+            Write-LogMessage "Dump file not found. Creating an empty file..." "WARNING"
             try {
-                # Créer le répertoire de destination si nécessaire
+                # Create the destination folder if needed
                 $dumpFileDir = Split-Path -Path $dumpFilePath -Parent
                 if (-not (Test-Path -Path $dumpFileDir)) {
                     New-Item -ItemType Directory -Path $dumpFileDir -Force | Out-Null
                 }
                 
-                # Créer un fichier vide
+                # Empty file
                 "" | Out-File -FilePath $dumpFilePath -Encoding utf8
-                Write-LogMessage "Fichier dump vide créé." "SUCCESS"
+                Write-LogMessage "Empty dump file created." "SUCCESS"
                 
-                # Corriger également le chemin incorrect qui cause l'erreur
+                # Also fill the path the error names
                 $wrongPathDumpDir = Join-Path $PSScriptRoot "fashionistapulp\fashionistapulp"
                 if (-not (Test-Path -Path $wrongPathDumpDir)) {
                     New-Item -ItemType Directory -Path $wrongPathDumpDir -Force -ErrorAction SilentlyContinue | Out-Null 
                     "" | Out-File -FilePath "$wrongPathDumpDir\item_db_dumped.dump" -Encoding utf8 -ErrorAction SilentlyContinue
-                    Write-LogMessage "Fichier dump vide créé dans le chemin alternatif." "INFO"
+                    Write-LogMessage "Empty dump file created in the alternate path." "INFO"
                 }
             }
             catch {
-                Write-LogMessage "Erreur lors de la création du fichier dump: $_" "ERROR"
+                Write-LogMessage "Error while creating the dump file: $_" "ERROR"
             }
         }
     }
     else {
-        Write-LogMessage "Fichier dump existant trouvé." "SUCCESS"
+        Write-LogMessage "Existing dump file found." "SUCCESS"
         
-        # S'assurer que le chemin alternatif mentionné dans l'erreur existe aussi
+        # Make sure the alternate path named in the error exists too
         $wrongPathDumpDir = Join-Path $PSScriptRoot "fashionistapulp\fashionistapulp"
         $wrongPathDumpFile = "$wrongPathDumpDir\item_db_dumped.dump"
         if (-not (Test-Path -Path $wrongPathDumpFile)) {
             try {
-                # Créer le répertoire si nécessaire
+                # Create the folder if needed
                 if (-not (Test-Path -Path $wrongPathDumpDir)) {
                     New-Item -ItemType Directory -Path $wrongPathDumpDir -Force -ErrorAction SilentlyContinue | Out-Null
                 }
-                # Copier le fichier existant
+                # Copy the existing file
                 Copy-Item -Path $dumpFilePath -Destination $wrongPathDumpFile -Force -ErrorAction SilentlyContinue
-                Write-LogMessage "Copie du fichier dump créée dans le chemin alternatif." "INFO"
+                Write-LogMessage "Dump file copy created in the alternate path." "INFO"
             }
             catch {
-                Write-LogMessage "Impossible de créer la copie du fichier dump dans le chemin alternatif: $_" "WARNING"
+                Write-LogMessage "Could not copy the dump file to the alternate path: $_" "WARNING"
             }
         }
     }
 }
 
-# Fonction pour nettoyer le cache des solutions
+# Clears the solution cache
 function Clear-SolutionCache {
-    Write-LogMessage "Nettoyage du cache des solutions..." "INFO"
+    Write-LogMessage "Clearing the solution cache..." "INFO"
     
     try {
-        # S'assurer que le fichier dump existe avant de nettoyer le cache
+        # The dump file must exist before the cache is cleared
         Ensure-DumpFile
         
         Push-Location $PSScriptRoot
         Invoke-Python "$PSScriptRoot\wipe_solution_cache.py"
         
         if ($LASTEXITCODE -ne 0) {
-            Write-LogMessage "Avertissement lors du nettoyage du cache." "WARNING"
+            Write-LogMessage "Warning while clearing the cache." "WARNING"
         } else {
-            Write-LogMessage "Cache nettoyé avec succès." "SUCCESS"
+            Write-LogMessage "Cache cleared." "SUCCESS"
         }
     }
     catch {
-        Write-LogMessage "Erreur lors du nettoyage du cache: $_" "ERROR"
+        Write-LogMessage "Error while clearing the cache: $_" "ERROR"
     }
     finally {
         Pop-Location
     }
 }
 
-# Fonction pour compiler les messages Django
+# Compiles the Django translation messages
 function Invoke-DjangoCompileMessages {
-    Write-LogMessage "Compilation des messages de traduction..." "INFO"
+    Write-LogMessage "Compiling the translation messages..." "INFO"
     
     try {
         if (Test-Path -Path "$PSScriptRoot\fashionsite") {
             Push-Location "$PSScriptRoot\fashionsite"
             
-            # Vérifier si gettext est installé
+            # Is gettext installed
             $getTextInstalled = $false
             try {
                 $null = & msgfmt --version
@@ -413,46 +412,46 @@ function Invoke-DjangoCompileMessages {
                 Invoke-Python -m django compilemessages
                 
                 if ($LASTEXITCODE -eq 0) {
-                    Write-LogMessage "Messages compilés avec succès." "SUCCESS"
+                    Write-LogMessage "Messages compiled." "SUCCESS"
                 } else {
-                    Write-LogMessage "Problème lors de la compilation des messages." "WARNING"
+                    Write-LogMessage "Problem while compiling the messages." "WARNING"
                 }
             } else {
-                Write-LogMessage "gettext n'est pas installé. Compilation des traductions ignorée." "WARNING"
-                Write-LogMessage "Pour installer gettext: https://mlocati.github.io/articles/gettext-iconv-windows.html" "INFO"
+                Write-LogMessage "gettext is not installed. Skipping the translation build." "WARNING"
+                Write-LogMessage "To install gettext: https://mlocati.github.io/articles/gettext-iconv-windows.html" "INFO"
             }
         } else {
-            Write-LogMessage "Le répertoire 'fashionsite' est introuvable." "ERROR"
+            Write-LogMessage "The 'fashionsite' folder was not found." "ERROR"
         }
     }
     catch {
-        Write-LogMessage "Erreur lors de la compilation des messages: $_" "ERROR"
+        Write-LogMessage "Error while compiling the messages: $_" "ERROR"
     }
     finally {
         Pop-Location
     }
 }
 
-# Fonction pour modifier le fichier settings.py pour utiliser un backend de cache compatible avec Django 4.2+ sur Windows
+# Points settings.py at a cache backend that works with Django 4.2+ on Windows
 function Fix-DjangoSettings {
-    Write-LogMessage "Ajustement des paramètres Django pour Windows..." "INFO"
+    Write-LogMessage "Adjusting the Django settings for Windows..." "INFO"
     
     $settingsPath = "$PSScriptRoot\fashionsite\fashionsite\settings.py"
     
     if (Test-Path -Path $settingsPath) {
         try {
-            # Créer une sauvegarde avant toute modification
+            # Backup before any change
             $backupPath = "$settingsPath.bak"
             Copy-Item -Path $settingsPath -Destination $backupPath -Force
-            Write-LogMessage "Sauvegarde des paramètres créée: $backupPath" "INFO"
+            Write-LogMessage "Settings backup created: $backupPath" "INFO"
             
-            # Installer pymemcache pour compatibilité Django 4.2+
+            # pymemcache for Django 4.2+
             Invoke-Python -m pip install pymemcache 2>&1 | Out-Null
-            Write-LogMessage "pymemcache installé pour compatibilité Django 4.2+." "SUCCESS"
+            Write-LogMessage "pymemcache installed for Django 4.2+." "SUCCESS"
             
-            Write-LogMessage "Configuration du cache vers un backend local..." "INFO"
+            Write-LogMessage "Switching the cache to a local backend..." "INFO"
             
-            # Utiliser un script Python pour modifier de façon sûre le fichier settings.py
+            # A Python script edits settings.py safely
             $tempScript = "$PSScriptRoot\temp_fix_django_settings.py"
 @"
 import re
@@ -462,7 +461,7 @@ def fix_settings(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # Configuration de cache à insérer
+    # Cache configuration to insert
     new_cache_config = """CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -470,79 +469,77 @@ def fix_settings(file_path):
     }
 }"""
     
-    # Rechercher le bloc CACHES existant avec une regex qui gère les structures imbriquées
-    # Cette regex correspond au bloc CACHES complet avec des accolades imbriquées
+    # Matches the whole CACHES block, nested braces included
     cache_pattern = r'CACHES\s*=\s*\{(?:[^{}]|(?:\{[^{}]*\}))*\}'
     
-    # Remplacer le bloc CACHES
+    # Replace the CACHES block
     if re.search(cache_pattern, content, re.DOTALL):
         modified_content = re.sub(cache_pattern, new_cache_config, content, flags=re.DOTALL)
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(modified_content)
-        print("Configuration CACHES mise à jour avec succès.")
+        print("CACHES configuration updated.")
     else:
-        print("Bloc CACHES non trouvé, vérification de syntaxe...")
+        print("CACHES block not found, checking the syntax...")
         
-        # Vérifier s'il y a une accolade en trop à la fin du bloc CACHES
-        # Cette vérification est similaire à celle dans fix_settings.py
+        # Look for an extra closing brace after the CACHES block, as fix_settings.py does
         lines = content.splitlines()
         for i, line in enumerate(lines):
             if line.strip() == '}' and i > 0:
                 prev_line = lines[i-1].strip()
                 if prev_line.endswith('}'):
-                    # Rechercher si les 10 lignes précédentes contiennent 'CACHES'
+                    # Do the 10 previous lines contain 'CACHES'
                     prev_section = '\n'.join(lines[max(0, i-10):i])
                     if 'CACHES' in prev_section:
-                        # Supprimer cette ligne avec l'accolade en trop
+                        # Drop the line with the extra brace
                         lines.pop(i)
                         break
         
-        # Écrire le contenu corrigé
+        # Write the fixed content
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(lines))
-        print("Vérification et correction de syntaxe terminées.")
+        print("Syntax check and fix done.")
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         fix_settings(sys.argv[1])
 "@ | Out-File -FilePath $tempScript -Encoding utf8
 
-            # Exécuter le script Python
+            # Run the Python script
             Invoke-Python $tempScript $settingsPath
 
-            # Vérifier que le fichier est syntaxiquement valide
+            # Check that the file still compiles
             $syntaxCheck = Invoke-Python -c "compile(open('$($settingsPath.Replace('\', '\\'))', 'r', encoding='utf-8').read(), '$($settingsPath.Replace('\', '\\'))', 'exec')" 2>&1
             
             if ($LASTEXITCODE -eq 0) {
-                Write-LogMessage "Paramètres Django mis à jour pour utiliser le cache local." "SUCCESS"
+                Write-LogMessage "Django settings now use the local cache." "SUCCESS"
             }
             else {
-                Write-LogMessage "Problème de syntaxe détecté après modification. Restauration depuis la sauvegarde..." "WARNING"
+                Write-LogMessage "Syntax problem after the change. Restoring from the backup..." "WARNING"
                 Copy-Item -Path $backupPath -Destination $settingsPath -Force
                 
-                # Exécuter le script fix_settings.py dédié si disponible
+                # Run fix_settings.py when it exists
                 if (Test-Path -Path "$PSScriptRoot\fix_settings.py") {
                     Invoke-Python "$PSScriptRoot\fix_settings.py"
-                    Write-LogMessage "Correction appliquée avec fix_settings.py." "INFO"
+                    Write-LogMessage "Fix applied with fix_settings.py." "INFO"
                 }
             }
             
-            # Nettoyer le script temporaire
+            # Remove the temporary script
             if (Test-Path -Path $tempScript) {
                 Remove-Item -Path $tempScript -Force
             }
         }
         catch {
-            Write-LogMessage "Erreur lors de la modification des paramètres Django: $_" "ERROR"
+            Write-LogMessage "Error while changing the Django settings: $_" "ERROR"
         }
     } else {
-        Write-LogMessage "Fichier de paramètres Django introuvable: $settingsPath" "ERROR"
+        Write-LogMessage "Django settings file not found: $settingsPath" "ERROR"
     }
 }
 
-# Fonction pour vérifier et configurer la base de données
+# Checks and sets up the database
 function Invoke-DatabaseMigration {
-    Write-LogMessage "Vérification de la base de données..." "INFO"
+    Write-LogMessage "Checking the database..." "INFO"
     
     try {
         if (Test-Path -Path "$PSScriptRoot\fashionsite\manage.py") {
@@ -551,95 +548,90 @@ function Invoke-DatabaseMigration {
             $migrateCheck = Invoke-Python manage.py migrate --noinput --check 2>&1
 
             if ($LASTEXITCODE -ne 0) {
-                Write-LogMessage "Configuration de la base de données..." "INFO"
+                Write-LogMessage "Setting up the database..." "INFO"
                 Invoke-Python manage.py migrate --noinput
                 
                 if ($LASTEXITCODE -eq 0) {
-                    Write-LogMessage "Base de données configurée avec succès." "SUCCESS"
+                    Write-LogMessage "Database set up." "SUCCESS"
                 } else {
-                    Write-LogMessage "Problème lors de la configuration de la base de données." "ERROR"
+                    Write-LogMessage "Problem while setting up the database." "ERROR"
                 }
             } else {
-                Write-LogMessage "Base de données à jour." "SUCCESS"
+                Write-LogMessage "Database up to date." "SUCCESS"
             }
         } else {
-            Write-LogMessage "Le fichier manage.py est introuvable dans le répertoire 'fashionsite'." "ERROR"
+            Write-LogMessage "manage.py was not found in the 'fashionsite' folder." "ERROR"
         }
     }
     catch {
-        Write-LogMessage "Erreur lors de la configuration de la base de données: $_" "ERROR"
+        Write-LogMessage "Error while setting up the database: $_" "ERROR"
     }
     finally {
         Pop-Location
     }
 }
 
-# Fonction pour nettoyer et réinitialiser la base de données
+# Cleans and resets the database
 function Reset-Database {
-    Write-LogMessage "Nettoyage et réinitialisation de la base de données..." "INFO"
+    Write-LogMessage "Cleaning and resetting the database..." "INFO"
     
     try {
-        # Exécuter le script Python load_item_db.py pour réinitialiser la base de données
+        # load_item_db.py resets the database
         Invoke-Python "$PSScriptRoot\load_item_db.py"
         
         if ($LASTEXITCODE -eq 0) {
-            Write-LogMessage "Base de données réinitialisée avec succès." "SUCCESS"
+            Write-LogMessage "Database reset." "SUCCESS"
             return $true
         } else {
-            Write-LogMessage "Problème lors de la réinitialisation de la base de données." "WARNING"
+            Write-LogMessage "Problem while resetting the database." "WARNING"
             return $false
         }
     }
     catch {
-        Write-LogMessage "Erreur lors de la réinitialisation de la base de données: $_" "ERROR"
+        Write-LogMessage "Error while resetting the database: $_" "ERROR"
         return $false
     }
 }
 
-# Fonction pour démarrer le serveur
+# Starts the server
 function Start-DjangoServer {
-    Write-LogMessage "Démarrage du serveur DofusFashionistaVanced..." "INFO"
-    Write-LogMessage "Accédez à http://localhost:8000 dans votre navigateur" "INFO"
-    Write-LogMessage "(Ctrl+C pour arrêter le serveur)" "INFO"
+    Write-LogMessage "Starting the DofusFashionistaVanced server..." "INFO"
+    Write-LogMessage "Open http://localhost:8000 in your browser" "INFO"
+    Write-LogMessage "(Ctrl+C stops the server)" "INFO"
     
-    # Tuer une éventuelle ancienne app restée collée sur le port 8000, sinon la
-    # nouvelle ne peut pas démarrer et l'ancienne (souvent connectée à une base
-    # vide) continue de servir — donnait l'impression d'une base "presque vide".
+    # A stale server left on port 8000 would keep serving in place of the new one.
     $stale = Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue
     foreach ($procId in ($stale.OwningProcess | Sort-Object -Unique)) {
         Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue
-        Write-LogMessage "Ancien serveur sur le port 8000 (PID $procId) arrêté." "INFO"
+        Write-LogMessage "Stopped the old server on port 8000 (PID $procId)." "INFO"
     }
 
     try {
         if (Test-Path -Path "$PSScriptRoot\fashionsite\manage.py") {
             Push-Location "$PSScriptRoot\fashionsite"
 
-            # Définir les variables d'environnement correctement pour le processus Python
+            # Environment for the Python process
             $env:PYTHONPATH = "$PSScriptRoot\fashionistapulp"
             $env:PYTHONUNBUFFERED = "1"
-            # Forcer l'utilisation des bons settings Django
+            # The right Django settings
             $env:DJANGO_SETTINGS_MODULE = 'fashionsite.settings'
-            # Forcer la connexion MySQL en TCP (127.0.0.1) plutôt que 'localhost' :
-            # sous Windows 'localhost' passe par le named pipe, qui peut tomber sur
-            # une instance MySQL vide/parasite. 127.0.0.1 garantit le port 3306 (la
-            # vraie base). Corrige le "base presque vide".
+            # TCP on 127.0.0.1: on Windows 'localhost' goes through a named pipe that can reach another MySQL instance.
             $env:DB_HOST = '127.0.0.1'
 
-            # Utiliser le serveur standard au lieu du serveur SSL qui a des problèmes avec Python 3.12
+            # The plain server, since the SSL server has problems with Python 3.12
             Invoke-Python -X faulthandler manage.py runserver --noreload 0.0.0.0:8000
             
             if ($LASTEXITCODE -ne 0) {
-                Write-LogMessage "Le serveur s'est arrêté avec le code $LASTEXITCODE" "ERROR"
+                Write-LogMessage "The server stopped with code $LASTEXITCODE" "ERROR"
                 return $false
             }
         } else {
-            Write-LogMessage "Le fichier manage.py est introuvable dans le répertoire 'fashionsite'." "ERROR"
+            Write-LogMessage "manage.py was not found in the 'fashionsite' folder." "ERROR"
             return $false
         }
     }
     catch {
-        Write-LogMessage "Erreur lors du démarrage du serveur: $_" "ERROR"
+        Write-LogMessage "Error while starting the server: $_" "ERROR"
         return $false
     }
     finally {
@@ -650,7 +642,7 @@ function Start-DjangoServer {
 }
 
 function Initialize-FashionistaConfig {
-    Write-LogMessage "Préparation de la configuration locale..." "INFO"
+    Write-LogMessage "Preparing the local configuration..." "INFO"
 
     # settings.py reads these with json.loads / open(), which both reject a UTF-8 BOM.
     $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
@@ -691,15 +683,14 @@ function Initialize-FashionistaConfig {
             EMAIL_PORT                       = 587
         }
         [System.IO.File]::WriteAllText($genPath, ($gen | ConvertTo-Json), $utf8NoBom)
-        Write-LogMessage "Configuration locale créée: $genPath" "SUCCESS"
+        Write-LogMessage "Local configuration created: $genPath" "SUCCESS"
     }
     else {
-        Write-LogMessage "Configuration existante conservée: $genPath" "INFO"
+        Write-LogMessage "Existing configuration kept: $genPath" "INFO"
     }
 }
 
-# Démarre le MySQL 8.0 local (portable, sans service), importe le dump de prod au premier
-# lancement et garantit l'utilisateur applicatif. Réplique l'environnement de prod sous Windows.
+# Starts the local portable MySQL 8.0, imports the prod dump on the first run and ensures the app user.
 function Ensure-LocalMysql {
     $mysqlHome  = Join-Path $env:LOCALAPPDATA 'Fashionista'
     $base       = Join-Path $mysqlHome 'mysql-8.0.46-winx64'
@@ -710,41 +701,41 @@ function Ensure-LocalMysql {
     $dump       = Join-Path $PSScriptRoot 'prod_dump.sql'
 
     if (-not (Test-Path -LiteralPath $mysqld)) {
-        Write-LogMessage "MySQL 8.0 local introuvable dans $base." "ERROR"
-        Write-LogMessage "Lancez l'installation initiale : .\setup_local_mysql.ps1" "ERROR"
+        Write-LogMessage "Local MySQL 8.0 not found in $base." "ERROR"
+        Write-LogMessage "Run the first-time setup: .\setup_local_mysql.ps1" "ERROR"
         return $false
     }
 
     if (-not (Test-Path -LiteralPath (Join-Path $data 'mysql'))) {
-        Write-LogMessage "Initialisation du répertoire de données MySQL..." "INFO"
+        Write-LogMessage "Initializing the MySQL data folder..." "INFO"
         New-Item -ItemType Directory -Force -Path $data | Out-Null
         & $mysqld --initialize-insecure "--datadir=$data" "--basedir=$base"
-        if ($LASTEXITCODE -ne 0) { Write-LogMessage "Échec de l'initialisation MySQL." "ERROR"; return $false }
+        if ($LASTEXITCODE -ne 0) { Write-LogMessage "MySQL initialization failed." "ERROR"; return $false }
     }
 
     if (-not (Get-NetTCPConnection -LocalPort 3306 -State Listen -ErrorAction SilentlyContinue)) {
-        Write-LogMessage "Démarrage de MySQL (port 3306)..." "INFO"
+        Write-LogMessage "Starting MySQL (port 3306)..." "INFO"
         Start-Process -FilePath $mysqld -ArgumentList "--datadir=$data","--basedir=$base","--port=3306","--max_allowed_packet=1G" -WindowStyle Hidden | Out-Null
         $up = $false
         foreach ($i in 1..30) {
             Start-Sleep -Milliseconds 1000
             if ((& $mysqladmin --host=127.0.0.1 --port=3306 -u root ping 2>&1) -match 'alive') { $up = $true; break }
         }
-        if (-not $up) { Write-LogMessage "MySQL ne répond pas après 30s." "ERROR"; return $false }
+        if (-not $up) { Write-LogMessage "MySQL did not answer after 30s." "ERROR"; return $false }
     }
-    Write-LogMessage "MySQL opérationnel (port 3306)." "SUCCESS"
+    Write-LogMessage "MySQL is up (port 3306)." "SUCCESS"
 
     $dbExists = & $mysql --host=127.0.0.1 --port=3306 -u root -N -e "SHOW DATABASES LIKE 'fashionista';" 2>$null
     if (-not $dbExists) {
         if (Test-Path -LiteralPath $dump) {
-            Write-LogMessage "Import de la base de prod (plusieurs minutes au premier lancement)..." "INFO"
+            Write-LogMessage "Importing the prod database (several minutes on the first run)..." "INFO"
             & $mysql --host=127.0.0.1 --port=3306 -u root -e "SET GLOBAL max_allowed_packet=1073741824;" 2>$null
             cmd /c "`"$mysql`" --host=127.0.0.1 --port=3306 -u root --max-allowed-packet=1G --default-character-set=utf8mb4 < `"$dump`""
-            if ($LASTEXITCODE -ne 0) { Write-LogMessage "Échec de l'import de la base de prod." "ERROR"; return $false }
-            Write-LogMessage "Base de prod importée." "SUCCESS"
+            if ($LASTEXITCODE -ne 0) { Write-LogMessage "Prod database import failed." "ERROR"; return $false }
+            Write-LogMessage "Prod database imported." "SUCCESS"
         }
         else {
-            Write-LogMessage "Base 'fashionista' absente ; création vide (les migrations feront le schéma)." "WARNING"
+            Write-LogMessage "No 'fashionista' database; creating an empty one (the migrations build the schema)." "WARNING"
             & $mysql --host=127.0.0.1 --port=3306 -u root -e "CREATE DATABASE IF NOT EXISTS fashionista CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>$null
         }
     }
@@ -759,35 +750,35 @@ function Ensure-LocalMysql {
     return $true
 }
 
-# Fonction principale - point d'entrée du script
+# Entry point
 function Start-DofusFashionista {
     Clear-Host
     
     Write-Host "=========================================================="
-    Write-Host "   DofusFashionistaVanced - Lanceur Robuste Windows 11    "
+    Write-Host "   DofusFashionistaVanced - Windows 11 launcher           "
     Write-Host "=========================================================="
     Write-Host ""
     
-    # Création du dossier logs s'il n'existe pas
+    # logs folder
     if (-not (Test-Path -Path "$PSScriptRoot\logs")) {
         New-Item -Path "$PSScriptRoot\logs" -ItemType Directory | Out-Null
     }
     
-    # Définir le fichier journal
+    # Log file
     $dateStr = Get-Date -Format "yyyy-MM-dd_HHmmss"
     $Global:LogFile = "$PSScriptRoot\logs\fashionista_$dateStr.log"
     
-    Write-Host "Logs disponibles dans: $Global:LogFile"
+    Write-Host "Logs are in: $Global:LogFile"
     Write-Host ""
     
-    # Vérifier les prérequis
+    # Prerequisites
     if (-not (Test-Prerequisites)) {
-        Write-LogMessage "Échec des vérifications préalables. Correction nécessaire avant de continuer." "ERROR"
-        Read-Host "Appuyez sur Entrée pour quitter"
+        Write-LogMessage "Prerequisite checks failed. Fix them before going on." "ERROR"
+        Read-Host "Press Enter to exit"
         return
     }
     
-    # Configurer l'environnement Python
+    # Python environment
     Set-PythonEnvironment
 
     $env:DJANGO_SETTINGS_MODULE = 'fashionsite.settings'
@@ -796,10 +787,10 @@ function Start-DofusFashionista {
     $env:DB_NAME = 'fashionista'
     $env:DB_USER = 'fashionista'
     $env:DB_PASSWORD = 'fashionista'
-    Write-LogMessage "Mode local : MySQL 8.0 (réplique de la prod)." "INFO"
+    Write-LogMessage "Local mode: MySQL 8.0 (a copy of prod)." "INFO"
 
     if (-not (Ensure-LocalMysql)) {
-        Read-Host "Appuyez sur Entrée pour quitter"
+        Read-Host "Press Enter to exit"
         return
     }
 
@@ -808,14 +799,14 @@ function Start-DofusFashionista {
     Clear-SolutionCache
     Invoke-DjangoCompileMessages
     
-    # Démarrer le serveur avec système de redémarrage automatique
+    # Start the server, retrying on failure
     $maxRetries = 3
     $retry = 0
     $serverStarted = $false
     
     while (-not $serverStarted -and $retry -lt $maxRetries) {
         if ($retry -gt 0) {
-            Write-LogMessage "Tentative de redémarrage du serveur ($retry/$maxRetries)..." "WARNING"
+            Write-LogMessage "Restarting the server ($retry/$maxRetries)..." "WARNING"
             Start-Sleep -Seconds 5
         }
         
@@ -824,12 +815,12 @@ function Start-DofusFashionista {
     }
     
     if (-not $serverStarted) {
-        Write-LogMessage "Impossible de démarrer le serveur après $maxRetries tentatives." "ERROR"
-        Write-LogMessage "Vérifiez les journaux pour plus d'informations." "ERROR"
+        Write-LogMessage "Could not start the server after $maxRetries attempts." "ERROR"
+        Write-LogMessage "Check the logs for details." "ERROR"
     }
     
-    Read-Host "Appuyez sur Entrée pour quitter"
+    Read-Host "Press Enter to exit"
 }
 
-# Lancement de la fonction principale
+# Run
 Start-DofusFashionista

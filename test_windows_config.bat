@@ -1,75 +1,75 @@
 @echo off
 echo ===============================================================
-echo Test de la configuration Windows pour DofusFashionistaVanced
+echo Windows configuration check for DofusFashionistaVanced
 echo ===============================================================
 echo.
 
-REM Détection d'un interpréteur Python réel (préférer le lanceur py ; ignorer le stub Microsoft Store)
+REM Find a real Python interpreter (prefer the py launcher, skip the Microsoft Store stub)
 set "PY="
 py -3 --version >nul 2>&1 && set "PY=py -3"
 if not defined PY (
     python --version >nul 2>&1 && set "PY=python"
 )
 
-REM Vérification de Python
-echo Vérification de Python...
+REM Python
+echo Checking Python...
 if not defined PY (
-    echo [ÉCHEC] Python introuvable ^(les alias Microsoft Store ne comptent pas^).
-    echo Installez Python 3.12+ : winget install -e --id Python.Python.3.14
-    echo ^(ou https://www.python.org/downloads/ : cochez "Add Python to PATH" + py launcher^)
+    echo [FAIL] Python not found ^(the Microsoft Store aliases do not count^).
+    echo Install Python 3.12+: winget install -e --id Python.Python.3.14
+    echo ^(or https://www.python.org/downloads/ and tick "Add Python to PATH" + py launcher^)
 ) else (
-    echo [OK] Python détecté via "%PY%" :
+    echo [OK] Python found through "%PY%":
     %PY% --version
 )
 echo.
 
-REM Vérification de pip
-echo Vérification de pip...
+REM pip
+echo Checking pip...
 %PY% -m pip --version > nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
-    echo [ÉCHEC] pip n'est pas installé correctement.
+    echo [FAIL] pip is not installed correctly.
 ) else (
-    echo [OK] pip est installé.
+    echo [OK] pip is installed.
 )
 echo.
 
-REM Vérification du PYTHONPATH
-echo Vérification de PYTHONPATH...
+REM PYTHONPATH
+echo Checking PYTHONPATH...
 if "%PYTHONPATH%"=="" (
-    echo [AVERTISSEMENT] PYTHONPATH n'est pas défini.
-    echo Exécutez: setx PYTHONPATH "%CD%\fashionistapulp"
+    echo [WARNING] PYTHONPATH is not set.
+    echo Run: setx PYTHONPATH "%CD%\fashionistapulp"
 ) else (
-    echo [INFO] PYTHONPATH actuel: %PYTHONPATH%
-    echo Assurez-vous qu'il contient le chemin vers le dossier fashionistapulp.
+    echo [INFO] Current PYTHONPATH: %PYTHONPATH%
+    echo Make sure it contains the path to the fashionistapulp folder.
 )
 echo.
 
-REM Vérification de MySQL
-echo Vérification de MySQL...
+REM MySQL
+echo Checking MySQL...
 mysql --version > nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
-    echo [ÉCHEC] MySQL n'est pas installé ou n'est pas dans le PATH.
-    echo Téléchargez et installez MySQL depuis: https://dev.mysql.com/downloads/installer/
+    echo [FAIL] MySQL is not installed or not on the PATH.
+    echo Download and install MySQL from: https://dev.mysql.com/downloads/installer/
 ) else (
-    echo [OK] MySQL est installé.
-    echo Vérification du service MySQL...
+    echo [OK] MySQL is installed.
+    echo Checking the MySQL service...
     sc query mysql > nul 2>&1
     if %ERRORLEVEL% NEQ 0 (
-        echo [AVERTISSEMENT] Le service MySQL n'est pas trouvé. Il est peut-être nommé différemment.
+        echo [WARNING] MySQL service not found. It may have another name.
     ) else (
         sc query mysql | find "RUNNING" > nul
         if %ERRORLEVEL% NEQ 0 (
-            echo [ÉCHEC] Le service MySQL n'est pas démarré.
-            echo Lancez les services Windows et démarrez le service MySQL.
+            echo [FAIL] The MySQL service is not running.
+            echo Open Windows Services and start the MySQL service.
         ) else (
-            echo [OK] Le service MySQL est en cours d'exécution.
+            echo [OK] The MySQL service is running.
         )
     )
 )
 echo.
 
-REM Vérification des packages Python essentiels
-echo Vérification des packages Python essentiels...
+REM Essential Python packages
+echo Checking the essential Python packages...
 set "MISSING_PACKAGES="
 %PY% -c "import django" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% Django"
 %PY% -c "import social_core" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% social-auth-core"
@@ -77,42 +77,42 @@ set "MISSING_PACKAGES="
 %PY% -c "import pymysql" 2>nul || set "MISSING_PACKAGES=%MISSING_PACKAGES% pymysql"
 
 if not "%MISSING_PACKAGES%"=="" (
-    echo [ÉCHEC] Packages Python manquants:%MISSING_PACKAGES%
-    echo Installez-les avec: pip install -r requirements_win.txt
+    echo [FAIL] Missing Python packages:%MISSING_PACKAGES%
+    echo Install them with: pip install -r requirements_win.txt
 ) else (
-    echo [OK] Les packages Python essentiels sont installés.
+    echo [OK] The essential Python packages are installed.
 )
 echo.
 
-REM Vérification des fichiers de configuration
-echo Vérification des fichiers de configuration...
+REM Configuration files
+echo Checking the configuration files...
 set "CONFIG_DIR=%APPDATA%\fashionista"
 if not exist "%CONFIG_DIR%" (
-    echo [ÉCHEC] Le répertoire de configuration n'existe pas: %CONFIG_DIR%
-    echo Exécutez d'abord configure_fashionista_root.py.
+    echo [FAIL] The configuration folder does not exist: %CONFIG_DIR%
+    echo Run configure_fashionista_root.py first.
 ) else (
-    echo [OK] Le répertoire de configuration existe: %CONFIG_DIR%
+    echo [OK] The configuration folder exists: %CONFIG_DIR%
     if not exist "%CONFIG_DIR%\config" (
-        echo [ÉCHEC] Le fichier config est manquant.
+        echo [FAIL] The config file is missing.
     ) else (
-        echo [OK] Le fichier config existe.
+        echo [OK] The config file exists.
     )
     if not exist "%CONFIG_DIR%\gen_config.json" (
-        echo [ÉCHEC] Le fichier gen_config.json est manquant.
+        echo [FAIL] The gen_config.json file is missing.
     ) else (
-        echo [OK] Le fichier gen_config.json existe.
+        echo [OK] The gen_config.json file exists.
     )
 )
 echo.
 
 echo ===============================================================
-echo Résumé du test de configuration
+echo Configuration check summary
 echo ===============================================================
 echo.
-echo Si des problèmes ont été détectés, suivez les instructions ci-dessus.
-echo Pour une installation complète, utilisez le script install_windows.bat.
+echo If problems were found, follow the instructions above.
+echo For a full install, use the install_windows.bat script.
 echo.
-echo Pour plus d'informations, consultez la section "Dépannage Windows 11" 
-echo dans le fichier README.md.
+echo For more information, see the "Windows 11 troubleshooting" section
+echo in README.md.
 echo.
 pause
