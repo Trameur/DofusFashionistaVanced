@@ -83,6 +83,8 @@ itemscraper/transformed_wakfu.json
 .update-reports/
 .update-data.lock
 .update-data.guard
+*.restore-tmp
+*.restore-aside
 
 discordbot/contributions.json
 discordbot/messages.txt

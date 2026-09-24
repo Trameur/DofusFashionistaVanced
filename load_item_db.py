@@ -77,7 +77,7 @@ def _build_db_file(target_path, dumped_db_path):
         os.system('chmod 666 %s' % target_path)
 
 
-def _replace_db_file(source, destination, timeout=15):
+def _replace_db_file(source, destination, timeout=60):
     replace_file(source, destination, timeout)
 
 
