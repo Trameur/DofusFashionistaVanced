@@ -1,97 +1,97 @@
-# Docker pour DofusFashionistaVanced
+# Docker for DofusFashionistaVanced
 
-Ce document explique comment exécuter DofusFashionistaVanced en utilisant Docker.
+This document explains how to run DofusFashionistaVanced with Docker.
 
-## Prérequis
+## Prerequisites
 
 - Docker
 - Docker Compose
 
-## Démarrage rapide
+## Quick start
 
-### Pour Windows
+### On Windows
 
-1. Exécutez le script `run_docker.bat` en double-cliquant dessus ou à partir de la ligne de commande.
+1. Run the `run_docker.bat` script by double-clicking it or from the command line.
 
 ```
 run_docker.bat
 ```
 
-### Pour Linux/macOS
+### On Linux/macOS
 
-1. Rendez le script exécutable :
+1. Make the script executable:
 
 ```bash
 chmod +x run_docker.sh
 ```
 
-2. Exécutez le script :
+2. Run the script:
 
 ```bash
 ./run_docker.sh
 ```
 
-## Accès à l'application
+## Opening the application
 
-Une fois les conteneurs démarrés, l'application sera accessible à l'adresse suivante :
+Once the containers are up, the application is available at:
 
 ```
 http://localhost:8000
 ```
 
-## Commandes utiles
+## Useful commands
 
-- Pour voir les logs des conteneurs :
+- To follow the container logs:
 
 ```bash
 docker-compose logs -f
 ```
 
-- Pour arrêter les conteneurs :
+- To stop the containers:
 
 ```bash
 docker-compose down
 ```
 
-- Pour redémarrer les conteneurs :
+- To restart the containers:
 
 ```bash
 docker-compose restart
 ```
 
-- Pour reconstruire les images Docker (après des modifications) :
+- To rebuild the Docker images (after a change):
 
 ```bash
 docker-compose build
 ```
 
-## Structure des conteneurs
+## Containers
 
-L'application utilise trois conteneurs Docker :
+The application uses three Docker containers:
 
-1. **web** - Serveur web Django avec gunicorn
-2. **db** - Serveur MySQL
-3. **memcached** - Serveur Memcached pour le cache
+1. **web** - Django web server with gunicorn
+2. **db** - MySQL server
+3. **memcached** - Memcached server for the cache
 
-## Données persistantes
+## Persistent data
 
-Les données de la base de données sont stockées dans un volume Docker nommé `fashionista_db_data` pour garantir la persistance entre les redémarrages.
+The database data lives in a Docker volume named `fashionista_db_data`, so it survives restarts.
 
-## Aperçu du personnage
+## Character preview
 
-L'aperçu dessine des morceaux cuits à l'avance à partir des bundles Ankama. Les bundles (861 Mo) ne servent qu'à la cuisson et n'ont rien à faire en production ; seul le cache cuit (150 Mo) est nécessaire, dans le volume `character_cache`. Sans lui la page retombe sur l'ancien avatar, donc rien ne casse, l'aperçu est simplement absent.
+The preview draws pieces baked in advance from the Ankama bundles. The bundles (861 MB) are only needed for the bake and are not needed in production; only the baked cache (150 MB) is needed, in the `character_cache` volume. Without it the page falls back to the old avatar, so nothing breaks; the preview is simply missing.
 
-Pour remplir le volume depuis une cuisson locale :
+To fill the volume from a local bake:
 
 ```bash
 docker cp character_cache/. fashionista_web:/app/character_cache/
 ```
 
-nginx sert directement les morceaux déjà présents et ne laisse passer vers Django que ceux qui restent à cuire, ce qui n'arrive qu'une fois par morceau. Après toute modification de `docker/nginx.conf`, vérifier avec `docker compose exec nginx nginx -t` avant de recharger.
+nginx serves the pieces that already exist and passes to Django only the pieces not baked yet, which happens once per piece. After any change to `docker/nginx.conf`, check it with `docker compose exec nginx nginx -t` before reloading.
 
-## Configuration personnalisée
+## Custom configuration
 
-Pour personnaliser la configuration, vous pouvez modifier les fichiers suivants :
+To customize the configuration, you can edit these files:
 
-- `docker-compose.yml` - Configuration des services Docker
-- `/etc/fashionista/gen_config.json` (dans le conteneur) - Configuration de l'application
+- `docker-compose.yml` - Docker service configuration
+- `/etc/fashionista/gen_config.json` (inside the container) - application configuration

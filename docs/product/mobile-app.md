@@ -1,113 +1,113 @@
-# Application mobile (Android / iOS) — Dofus Fashionista
+# Mobile app (Android / iOS): Dofus Fashionista
 
-Date : 2026-06-19 · Branche : `mobile-app`
+Date: 2026-06-19, branch: `mobile-app`
 
-## Objectif
+## Goal
 
-Fournir une application mobile (APK Android, projet iOS prêt) **en gardant
-exactement le même design** que le site, et rendre le site **utilisable sur
-mobile** (avant : on arrivait « zoomé », rien ne rentrait à l'écran).
+Ship a mobile app (Android APK, iOS project ready) **with exactly the same
+design** as the site, and make the site **usable on mobile** (before, pages
+opened "zoomed in" and nothing fit on the screen).
 
-## Approche retenue
+## Chosen approach
 
-Le builder (optimisation d'équipement) est rendu **côté serveur** (Django +
-solveur PuLP). Réécrire l'UI en natif aurait cassé le design et dupliqué toute
-la logique. On encapsule donc le site dans une coquille native **Capacitor
-(WebView)** qui charge `https://dofusfashionista.gg`.
+The builder (equipment optimization) is rendered **on the server** (Django +
+PuLP solver). Rewriting the UI natively would have broken the design and
+duplicated all the logic. So the site is wrapped in a native **Capacitor
+(WebView)** shell that loads `https://dofusfashionista.gg`.
 
-Conséquences :
-- Design **identique** au web, 100 % des fonctionnalités, une seule base de code.
-- L'app affiche toujours la version en production. **Pour que le design mobile
-  apparaisse dans l'app, il faut déployer la branche `mobile-app`** (voir plus bas).
+Consequences:
+- The design is **identical** to the web, 100% of the features, one code base.
+- The app always shows the production version. **For the mobile design to show
+  up in the app, the `mobile-app` branch has to be deployed** (see below).
 
-## Deux livrables
+## Two deliverables
 
-### 1. Site responsive (le cœur de la demande)
+### 1. Responsive site (the core of the request)
 
-Le site n'avait **aucune** media query. Ajout d'une couche responsive **non
-destructive**, limitée à `≤ 900px` — le rendu PC (`> 900px`) est strictement
-inchangé.
+The site had **no** media query at all. A **non-destructive** responsive layer
+was added, limited to `<= 900px`; the desktop layout (`> 900px`) is strictly
+unchanged.
 
-Fichiers :
-- `fashionsite/chardata/static/chardata/responsive.css` — **nouveau**. Toute
-  l'adaptation mobile (conteneurs fluides, bannière fluide, barre de contrôles
-  qui passe à la ligne, menu latéral → menu « hamburger » repliable, colonne
-  principale pleine largeur, cartes CTA empilées, grille d'items décorative
-  réduite/atténuée, formulaires et boîtes larges ramenés dans l'écran).
-- `fashionsite/chardata/templates/chardata/base.html` — **modifié** (8 lignes) :
-  - chargement de `responsive.css` en dernier (pour surcharger les CSS de page) ;
-  - bouton « Menu » (`.mobile-nav-toggle`) + petit JS `toggleMobileNav()` ;
-  - classes `header-controls` (barre langue/thème/version/login) et
-    `char-overlay` (personnage de la bannière) pour pouvoir les cibler en mobile.
+Files:
+- `fashionsite/chardata/static/chardata/responsive.css`: **new**. All of the
+  mobile adaptation (fluid containers, fluid banner, a control bar that wraps,
+  the side menu turned into a collapsible "hamburger" menu, a full-width main
+  column, stacked CTA cards, a smaller and dimmer decorative item grid, wide
+  forms and boxes brought back inside the screen).
+- `fashionsite/chardata/templates/chardata/base.html`: **changed** (8 lines):
+  - loads `responsive.css` last (to override the page CSS);
+  - a "Menu" button (`.mobile-nav-toggle`) + a small `toggleMobileNav()` script;
+  - `header-controls` (language/theme/version/login bar) and `char-overlay`
+    (the banner character) classes, so mobile rules can target them.
 
-Principe : la couche est scoppée en `@media (max-width: 900px)` et utilise
-`!important` sur les règles structurelles uniquement, car certaines pages
-ré-importent les CSS fixes desktop dans leur bloc `{% block css %}`.
+How it works: the layer is scoped in `@media (max-width: 900px)` and uses
+`!important` on structural rules only, because some pages re-import the fixed
+desktop CSS in their `{% block css %}`.
 
-Vérification visuelle : captures à 390 px (mobile) **et** 1280 px (PC) des pages
-home, création de projet, login, smart build, about, faq — via un navigateur
-headless. Le PC est identique à l'avant, le mobile rentre entièrement.
+Visual check: screenshots at 390 px (mobile) **and** 1280 px (desktop) of the
+home, project creation, login, smart build, about and faq pages, through a
+headless browser. Desktop is identical to before, mobile fits entirely.
 
-### 2. Coquille mobile Capacitor — `mobile/`
+### 2. Capacitor mobile shell: `mobile/`
 
 ```
 mobile/
   capacitor.config.json   appId gg.dofusfashionista.app, server.url = https://dofusfashionista.gg
   package.json            Capacitor 6 (core/cli/android/ios)
-  www/index.html          écran de chargement / repli hors-ligne
-  assets/                 sources d'icône (logo cintre doré sur fond sombre) + splash
-  android/                projet Android natif (généré)
-  ios/                    projet iOS natif (généré ; pod install à faire sur Mac)
+  www/index.html          loading screen / offline fallback
+  assets/                 icon sources (gold hanger logo on a dark background) + splash
+  android/                native Android project (generated)
+  ios/                    native iOS project (generated; pod install to run on a Mac)
 ```
 
-APK produit : **debug, signé (clé debug), installable** par sideload.
-`gg.dofusfashionista.app` · versionName 1.0 · ~4,2 Mo · permission INTERNET.
+APK produced: **debug, signed (debug key), installable** by sideload.
+`gg.dofusfashionista.app`, versionName 1.0, about 4.2 MB, INTERNET permission.
 
-## Reconstruire l'APK (Android)
+## Rebuilding the APK (Android)
 
-Pré-requis : JDK 17, Android SDK (platform-tools, `platforms;android-34`,
+Prerequisites: JDK 17, Android SDK (platform-tools, `platforms;android-34`,
 `build-tools;34.0.0`), Node.
 
 ```bash
 cd mobile
 npm install
 npx cap sync android
-npx @capacitor/assets generate --android   # icônes/splash depuis assets/
+npx @capacitor/assets generate --android   # icons/splash from assets/
 cd android
 ./gradlew assembleDebug
 # -> app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## Construire iOS (nécessite un Mac)
+## Building iOS (needs a Mac)
 
 ```bash
 cd mobile
 npm install
-npx cap add ios          # si le dossier ios/ n'est pas présent
+npx cap add ios          # if the ios/ folder is missing
 npx @capacitor/assets generate --ios
 cd ios/App && pod install
-npx cap open ios         # ouvre Xcode -> Run / Archive
+npx cap open ios         # opens Xcode -> Run / Archive
 ```
 
-## Déploiement (action requise de ta part)
+## Deployment (action needed from you)
 
-- L'app charge la **prod**. Le nouveau design mobile n'apparaîtra dans l'app
-  (et sur le web mobile) **qu'après déploiement** de la branche `mobile-app`
-  (`responsive.css` + `base.html`). Aucun déploiement n'a été fait.
-- L'APK livré est un **build debug** (test / sideload). Pour le Play Store il
-  faut un build **release signé** (keystore = secret) + un `.aab` — à faire
-  avec ton accord et tes clés.
+- The app loads **production**. The new mobile design will only show up in the
+  app (and on the mobile web) **after the `mobile-app` branch is deployed**
+  (`responsive.css` + `base.html`). Nothing has been deployed.
+- The APK shipped is a **debug build** (testing / sideload). The Play Store
+  needs a **signed release** build (the keystore is a secret) + an `.aab`; to be
+  done with your go-ahead and your keys.
 
-## Limites connues
+## Known limits
 
-- **Connexion Google** : Google bloque souvent OAuth dans une WebView embarquée.
-  La connexion par identifiant/mot de passe et l'usage anonyme fonctionnent ;
-  le login Google pourra nécessiter un plugin natif (Capacitor) si besoin.
-- L'app a besoin d'une connexion (builder côté serveur) ; `www/index.html` sert
-  d'écran de repli.
+- **Google sign-in**: Google often blocks OAuth inside an embedded WebView.
+  Sign-in with a user name and password and anonymous use both work; Google
+  login may need a native (Capacitor) plugin if required.
+- The app needs a connection (the builder runs on the server); `www/index.html`
+  is the fallback screen.
 
-## Pistes suivantes
+## Next steps
 
-- Déployer la branche puis re-tester l'app sur appareil réel.
-- Build release signé + fiche Play Store (titre, description, captures, ASO).
-- Éventuel plugin natif pour le login Google in-app.
+- Deploy the branch, then test the app again on a real device.
+- Signed release build + Play Store listing (title, description, screenshots, ASO).
+- Possibly a native plugin for in-app Google login.

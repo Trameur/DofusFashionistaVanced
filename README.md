@@ -24,9 +24,9 @@ pip install -r requirements_win.txt
 
 # Dofus Fashionista
 
-Pour mettre à jour les données de façon guidée : `py update_all.py`.
-Le lanceur propose les versions et les images, sauvegarde l'état local, contrôle
-les différences et lance les tests. Voir [le guide de mise à jour](UPDATE_DATA.md).
+For a guided data update, run `py update_all.py`.
+The launcher offers the versions and the images, backs up the local state, checks
+the differences and runs the tests. See [the update guide](UPDATE_DATA.md).
 
 The Dofus Fashionista, an equipment advisor for Dofus.
 
@@ -39,56 +39,56 @@ data, reachable under its own URL prefix (`/retro/`, `/touch/`, …).
 
 ## Windows 11 (Thanks Hoklims)
 
-Le support pour Windows 11 est maintenant pleinement fonctionnel avec une méthode d'installation simplifiée ! Suivez ces étapes pour installer le projet :
+Windows 11 is fully supported with a simple install. Follow these steps to install the project:
 
-### Option la plus simple : Exécuter DofusFashionista_Windows11.bat
+### Simplest option: run DofusFashionista_Windows11.bat
 
 ```shell
-# Clonage du dépôt (ou téléchargez l'archive ZIP)
+# Clone the repository (or download the ZIP archive)
 git clone https://github.com/Trameurs/DofusFashionista.git fashionista
 cd fashionista
 
-# Exécution du fichier batch pour Windows 11
+# Run the Windows 11 batch file
 DofusFashionista_Windows11.bat
 ```
 
-Ce fichier batch va automatiquement configurer et démarrer l'application en une seule étape.
+This batch file sets up and starts the application in one step.
 
-### Options alternatives d'installation
+### Other install options
 
-#### Option 1 : Installation avec PowerShell
+#### Option 1: install with PowerShell
 
 ```shell
-# Exécution du script PowerShell amélioré pour Windows 11
+# Run the Windows 11 PowerShell script
 powershell -ExecutionPolicy Bypass -File run_windows11.ps1
 ```
 
-Ce script PowerShell robuste va :
-1. Vérifier et installer tous les prérequis nécessaires
-2. Configurer automatiquement l'environnement Windows
-3. Optimiser les paramètres pour la compatibilité Windows 11
-4. Configurer la base de données et exécuter les migrations
-5. Démarrer le serveur avec gestion automatique des erreurs
+This PowerShell script will:
+1. Check for and install every required prerequisite
+2. Set up the Windows environment
+3. Adjust the settings for Windows 11
+4. Set up the database and run the migrations
+5. Start the server and handle errors along the way
 
-#### Option 2 : Installation traditionnelle
+#### Option 2: classic install
 
 ```shell
-# Exécution du script d'installation automatisé
+# Run the install script
 install_windows.bat
 ```
 
-Le script d'installation automatisé va:
-1. Configurer l'environnement Windows correctement
-2. Installer les dépendances nécessaires
-3. Configurer les fichiers de configuration
-4. Créer et configurer la base de données
+The install script will:
+1. Set up the Windows environment
+2. Install the required dependencies
+3. Write the configuration files
+4. Create and set up the database
 
-Une fois l'installation terminée, lancez l'application avec:
+Once the install is done, start the application with:
 ```shell
 run_fashionista.bat
 ```
 
-Puis accédez à `http://localhost:8000` dans votre navigateur.
+Then open `http://localhost:8000` in your browser.
 
 ## Unix / AWS EC2
 
@@ -220,33 +220,33 @@ python sync_db.py
 ```
 
 Features:
-- ✅ Dry-run mode to test without making changes
-- ✅ Automatic backup before migration
-- ✅ Row-count verification after migration
-- ✅ Batch processing for large datasets
-- ✅ Detailed logging to `db_sync.log`
-- ✅ Support for local MySQL, Docker, and AWS RDS
+- Dry-run mode to test without making changes
+- Automatic backup before migration
+- Row-count verification after migration
+- Batch processing for large datasets
+- Detailed logging to `db_sync.log`
+- Support for local MySQL, Docker, and AWS RDS
 
 See [MIGRATION_EXAMPLES.md](MIGRATION_EXAMPLES.md) for more examples.
 
-# Dépannage Windows 11
+# Windows 11 troubleshooting
 
-Si vous rencontrez des problèmes lors de l'installation sur Windows 11, voici quelques solutions courantes:
+If the install fails on Windows 11, here are some common fixes:
 
-1. **Erreurs MySQL**:
-   - Vérifiez que MySQL est installé et que le service est démarré
-   - Vérifiez que le nom d'utilisateur et le mot de passe MySQL sont corrects
+1. **MySQL errors**:
+   - Check that MySQL is installed and its service is running
+   - Check that the MySQL user name and password are correct
 
-2. **Erreurs de dépendances**:
-   - Vérifiez que Visual C++ Redistributable est installé
-   - Vérifiez que ImageMagick est installé
+2. **Dependency errors**:
+   - Check that the Visual C++ Redistributable is installed
+   - Check that ImageMagick is installed
 
-3. **Erreurs de ports**:
-   - Si le port 8000 est déjà utilisé, modifiez la dernière ligne de run_fashionista.bat
+3. **Port errors**:
+   - If port 8000 is already in use, change the last line of run_fashionista.bat
 
-4. **Problèmes de chemin**:
-   - Vérifiez que PYTHONPATH est correctement défini
-   - Redémarrez votre terminal après avoir défini PYTHONPATH
+4. **Path problems**:
+   - Check that PYTHONPATH is set correctly
+   - Restart your terminal after setting PYTHONPATH
 
 # Running the tests
 
@@ -275,44 +275,44 @@ On top of the set optimizer it offers an inventory, a workshop, smithmagic (forg
 shared builds and an encyclopedia. Original editorial `/guides/` content is published in
 the five supported languages (English, French, Spanish, Portuguese, German).
 
-✅ Website is fully operational     
-✅ All equipments and mounts updated to the Dofus version defined in [fashionista_version.py](fashionista_version.py)      
-✅ Sets 2.70 done  
-✅ Updated all special effects to 2.70     
-✅ Special items effects updated including Prytek         
-✅ Update UI to reflect new Dofus and Prytek       
-✅ Add Forgelance          
-✅ Update all spells to 2.70          
-✅ Update weights of special items including Dofus and Prysmaradite         
-✅ Release a beta version          
-✅ Add support for new languages         
-       ✅ Deutsche          
-       ✅ Italian          
-✅ Bug fixes and improvement for 3.0 release     
-✅ Windows 11 compatibility (Thanks Hoklims)         
-✅ Translate new content               
-       ✅ 100% English              
-       ✅ 100% French               
-       ✅ 100% Spanish           
-       ✅ 100% Portuguese             
-       ✅ 100% Deutsche              
-       ❌ 0% Italian (Ankama removed Italian language)              
-✅ Add ability to forbid prysmaradite       
-✅ Make it mobile friendly             
+- Website is fully operational
+- All equipments and mounts updated to the Dofus version defined in [fashionista_version.py](fashionista_version.py)
+- Sets 2.70 done
+- Updated all special effects to 2.70
+- Special items effects updated including Prytek
+- Update UI to reflect new Dofus and Prytek
+- Add Forgelance
+- Update all spells to 2.70
+- Update weights of special items including Dofus and Prysmaradite
+- Release a beta version
+- Add support for new languages
+  - German
+  - Italian
+- Bug fixes and improvement for 3.0 release
+- Windows 11 compatibility (Thanks Hoklims)
+- Translate new content
+  - 100% English
+  - 100% French
+  - 100% Spanish
+  - 100% Portuguese
+  - 100% German
+  - 0% Italian (Ankama removed Italian language)
+- Add ability to forbid prysmaradite
+- Make it mobile friendly
         
-🚧 New features after 3.0 TBD     
-       ✅ Shared Builds    
-       ✅ Encyclopedia     
-       ✅ Inventory    
-       ✅ Workshop    
-       ✅ Smithmagic     
+- New features after 3.0 TBD
+  - Shared Builds
+  - Encyclopedia
+  - Inventory
+  - Workshop
+  - Smithmagic
        
-✅ Dofus 3 Unity             
-✅ Dofus 3 Beta             
-✅ Dofus 2             
-✅ Dofus Retro             
-✅ Dofus Touch             
-✅ Original /guides/ editorial content (5 languages)             
+- Dofus 3 Unity
+- Dofus 3 Beta
+- Dofus 2
+- Dofus Retro
+- Dofus Touch
+- Original /guides/ editorial content (5 languages)
 
 # Reference
 
