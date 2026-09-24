@@ -207,10 +207,12 @@ class TheReviewOfTheModeTests(_Touch):
     def test_only_a_piece_some_monster_drops_can_be_shiny(self):
         shiny = temporix.shiny_items_by_id(self.structure)
         dropped = temporix.droppable_item_ids(self.structure)
-        gein = self.structure.get_item_by_ankama_id(19179)
+        never_dropped = [item.id for item in self.structure.get_items_list()
+                         if item.id not in dropped
+                         and self.structure.get_type_name_by_id(item.type) in temporix.SHINY_TYPES]
+        self.assertGreater(len(never_dropped), 100)
+        self.assertEqual([], [item_id for item_id in never_dropped if item_id in shiny])
         vulbis = self.structure.get_item_by_ankama_id(_VULBIS)
-        self.assertNotIn(gein.id, dropped)
-        self.assertNotIn(gein.id, shiny)
         self.assertIn(vulbis.id, dropped)
         self.assertIn(vulbis.id, shiny)
         self.assertTrue(set(shiny) <= dropped)
