@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -25,12 +25,30 @@
 <body>
   <div>
     <h1>Dofus Fashionista</h1>
-    <p>Chargement du site&hellip;</p>
+    <p id="loading">Loading the site&hellip;</p>
     <div class="spinner"></div>
     <p style="margin-top:22px; font-size:13px; opacity:.8">
-      Si rien ne s'affiche, vérifie ta connexion internet puis rouvre l'application.<br>
+      <span id="offline">If nothing shows up, check your internet connection, then reopen the app.</span><br>
       <a href="https://dofusfashionista.gg">dofusfashionista.gg</a>
     </p>
   </div>
+  <script>
+    (function () {
+      var texts = {
+        fr: ['Chargement du site…', "Si rien ne s'affiche, vérifie ta connexion internet puis rouvre l'application."],
+        es: ['Cargando el sitio…', 'Si no aparece nada, revisa tu conexión a internet y vuelve a abrir la aplicación.'],
+        pt: ['Carregando o site…', 'Se nada aparecer, verifique sua conexão com a internet e abra o aplicativo de novo.'],
+        de: ['Seite wird geladen…', 'Wenn nichts erscheint, prüfe deine Internetverbindung und öffne die App erneut.']
+      };
+      var language = ((navigator.languages && navigator.languages[0]) || navigator.language || 'en').slice(0, 2).toLowerCase();
+      var text = texts[language];
+      if (!text) {
+        return;
+      }
+      document.documentElement.lang = language;
+      document.getElementById('loading').textContent = text[0];
+      document.getElementById('offline').textContent = text[1];
+    })();
+  </script>
 </body>
 </html>
