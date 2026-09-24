@@ -18,7 +18,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./docker/mysql-init:/docker-entrypoint-initdb.d
     ports:
-      - "3307:3306"
+      - "127.0.0.1:3307:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -55,7 +55,7 @@ services:
       # 150 MB), so it is filled by copying a local bake into the volume.
       - character_cache:/app/character_cache
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     entrypoint: ["/bin/sh", "/app/docker-entrypoint.sh"]
     networks:
       - fashionista_network
