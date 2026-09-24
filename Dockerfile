@@ -21,7 +21,6 @@ COPY requirements-docker.txt .
 # Python packages
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r requirements-docker.txt
-RUN pip install --no-cache-dir gunicorn
 
 # The rest of the source code
 COPY . .
