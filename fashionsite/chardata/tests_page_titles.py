@@ -136,12 +136,13 @@ class EveryVersionOfAListNamesItselfDifferentlyTests(TestCase):
 
 class HomeMetadataTests(TestCase):
 
+    # (words the title and description must carry, the create button's label)
     LANGUAGES = {
-        'en': ('set builder', 'without AI', 'Create a build', 'compare'),
-        'fr': ('builder de stuff', 'sans IA', 'Créer un stuff', 'compare'),
-        'es': ('creador de conjuntos', 'sin IA', 'Crear un conjunto', 'compara'),
-        'pt': ('criador de conjuntos', 'sem IA', 'Criar um conjunto', 'compare'),
-        'de': ('set-baukasten', 'ohne KI', 'Build erstellen', 'vergleiche'),
+        'en': (('set builder', 'optimizer'), 'Create a build'),
+        'fr': (('créateur', 'optimiseur'), 'Créer un build'),
+        'es': (('creador', 'optimizador'), 'Crear un build'),
+        'pt': (('criador', 'otimizador'), 'Criar um build'),
+        'de': (('set-baukasten', 'optimierer'), 'Build erstellen'),
     }
     VERSIONS = {'': '', 'beta': 'Beta', 'dofus2': '2',
                 'retro': 'Retro', 'touch': 'Touch'}
@@ -156,22 +157,23 @@ class HomeMetadataTests(TestCase):
                 self.assertEqual(response.status_code, 200, path)
                 yield language, label, path, response.content.decode('utf-8')
 
-    def test_titles_keep_the_brand_and_name_the_builder_in_each_language(self):
+    def test_the_title_names_the_tool_first_and_the_brand_last(self):
         titles = set()
         for language, version, path, page in self._homes():
             with self.subTest(path=path):
                 title = unescape(re.search(r'<title>(.*?)</title>', page,
                                           re.S).group(1)).strip()
-                self.assertIn('Dofus Fashionista', title)
-                self.assertIn(self.LANGUAGES[language][0], title.lower())
-                self.assertIn('theorycraft', title.lower())
+                self.assertTrue(title.endswith(' - Dofus Fashionista'), title)
+                builder, optimizer = self.LANGUAGES[language][0]
+                self.assertIn(builder, title.lower())
+                self.assertIn(optimizer, title.lower())
                 if version:
                     self.assertIn('Dofus ' + version, title)
                 self.assertLessEqual(len(title), 70, title)
                 self.assertNotIn(title, titles)
                 titles.add(title)
 
-    def test_descriptions_include_the_automatic_bonus_without_ai(self):
+    def test_the_description_leads_with_the_optimizer_and_fits_a_result(self):
         descriptions = set()
         for language, version, path, page in self._homes():
             with self.subTest(path=path):
@@ -182,26 +184,22 @@ class HomeMetadataTests(TestCase):
                 self.assertIn('Dofus' + (' ' + version if version else ''),
                               description)
                 self.assertLessEqual(len(description), 160, description)
-                self.assertIn(self.LANGUAGES[language][1], description)
+                optimizer = self.LANGUAGES[language][0][1]
+                self.assertLess(description.lower().index(optimizer), 40,
+                                description)
                 self.assertNotIn(description, descriptions)
                 descriptions.add(description)
 
-    def test_the_builder_comes_first_and_the_optimizer_is_an_extra(self):
+    def test_the_optimizer_comes_first_and_the_quick_build_is_one_click_away(self):
         for language, version, path, page in self._homes():
             with self.subTest(path=path):
-                intro = unescape(re.search(
-                    r'<p\b[^>]*id="home-builder-intro"[^>]*>(.*?)</p>',
-                    page, re.S).group(1))
-                bonus = unescape(re.search(
-                    r'<p\b[^>]*id="home-optimizer-bonus"[^>]*>(.*?)</p>',
-                    page, re.S).group(1))
-                self.assertIn(self.LANGUAGES[language][3], intro.lower())
-                self.assertIn('theorycraft', intro.lower())
-                self.assertIn(self.LANGUAGES[language][1], bonus)
-                self.assertLess(page.index('home-builder-intro'),
-                                page.index('home-optimizer-bonus'))
+                self.assertLess(page.index('id="home-optimizer-intro"'),
+                                page.index('id="home-workshop-intro"'))
+                body = page[page.index('id="home-workshop-intro"'):]
+                self.assertLess(body.index('href="%squickstart/"' % path),
+                                body.index('href="%ssharedbuilds/"' % path))
                 button = re.search(
                     r'<a\b[^>]*class="giant-button-text"[^>]*>.*?</a>',
                     page, re.S).group(0)
                 self.assertIn('href="%ssetup/"' % path, button)
-                self.assertIn(self.LANGUAGES[language][2], unescape(button))
+                self.assertIn(self.LANGUAGES[language][1], unescape(button))
