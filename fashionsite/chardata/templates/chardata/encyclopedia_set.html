@@ -36,7 +36,7 @@
 /* The way from a set page to the solver: a block, so the button does not
    wrap word by word like a run of inline text (53px wide, three lines). */
 .encyclopedia-build-around { margin-top: 8px; }
-.encyclopedia-build-around a { display: inline-block; }
+.encyclopedia-build-around a { display: inline-block; max-width: 100%; box-sizing: border-box; white-space: normal !important; }
 .encyclopedia-section { margin-top: 14px; }
 .encyclopedia-list { margin: 4px 0 0; padding-left: 20px; }
 .encyclopedia-list-stat { display: flex; align-items: center; gap: 8px; }

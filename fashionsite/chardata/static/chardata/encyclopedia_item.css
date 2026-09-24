@@ -11,6 +11,9 @@
     width: 60px;
     height: 60px;
 }
+.encyclopedia-item-head > div {
+    min-width: 0;
+}
 .encyclopedia-list-stat {
     display: flex;
     align-items: center;

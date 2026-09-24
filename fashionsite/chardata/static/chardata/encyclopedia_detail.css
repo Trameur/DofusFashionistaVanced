@@ -132,4 +132,4 @@ html.fm-dark .encyclopedia-set-caps span {
    the head column is narrow beside the picture and a wrapped inline button
    broke into three lines at 800px. */
 .encyclopedia-build-around { margin-top: 8px; }
-.encyclopedia-build-around a { display: inline-block; }
+.encyclopedia-build-around a { display: inline-block; max-width: 100%; box-sizing: border-box; white-space: normal !important; }
