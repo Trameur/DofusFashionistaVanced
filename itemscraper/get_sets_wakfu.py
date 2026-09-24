@@ -5,15 +5,17 @@ from __future__ import annotations
 
 import argparse
 import html
-import http.cookiejar
 import io
 import json
 import re
 import sys
 import time
-import urllib.error
-import urllib.request
 from pathlib import Path
+
+try:
+    from itemscraper.wakfu_http import opener, read_page
+except ImportError:
+    from wakfu_http import opener, read_page
 
 PATHS = {
     'fr': 'fr/mmorpg/encyclopedie/panoplies',
@@ -22,28 +24,16 @@ PATHS = {
     'pt': 'pt/mmorpg/enciclopedia/conjuntos',
 }
 FALLBACK = {'de': 'en'}
-BROWSER = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-           ' (KHTML, like Gecko) Chrome/120 Safari/537.36')
 PACE = 0.35
 TITLE = re.compile(r'<title>(.*?)</title>', re.S)
-
-
-def opener():
-    jar = http.cookiejar.CookieJar()
-    built = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
-    built.addheaders = [('User-Agent', BROWSER)]
-    return built
 
 
 def set_name(reader, language, set_id):
     """The set's name in one language, or None when the page is not there."""
     url = 'https://www.wakfu.com/%s/%d' % (PATHS[language], set_id)
-    try:
-        page = reader.open(url, timeout=45).read().decode('utf-8', 'replace')
-    except urllib.error.HTTPError as error:
-        if error.code == 404:
-            return None
-        raise
+    page = read_page(reader, url, timeout=45)
+    if page is None:
+        return None
     found = TITLE.search(page)
     if not found:
         return None

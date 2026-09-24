@@ -10,16 +10,20 @@ import argparse
 import collections
 import hashlib
 import html
-import http.cookiejar
 from html.parser import HTMLParser
 import io
 import json
 import re
 import sys
 import time
-import urllib.error
-import urllib.request
 from pathlib import Path
+
+try:
+    from itemscraper.wakfu_http import opener, read_page
+    from itemscraper.wakfu_mirror import current_build
+except ImportError:
+    from wakfu_http import opener, read_page
+    from wakfu_mirror import current_build
 
 HERE = Path(__file__).resolve().parent.parent
 
@@ -36,8 +40,6 @@ FALLBACK = {'de': 'en'}
 # Ankama's own class ids. 17 does not exist.
 CLASSES = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19)
 
-BROWSER = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-           ' (KHTML, like Gecko) Chrome/120 Safari/537.36')
 PACE = 0.35
 
 # The class slug can be empty: the Ouginak links ".../classes/15-/6260-emeute"
@@ -75,14 +77,6 @@ def fingerprint():
     """Hash of this script, to tell harvests read by other versions apart."""
     with io.open(__file__, 'rb') as handle:
         return hashlib.sha256(handle.read()).hexdigest()[:16]
-
-
-def opener():
-    """Opener with a cookie jar, the site redirects in a loop without one."""
-    jar = http.cookiejar.CookieJar()
-    built = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
-    built.addheaders = [('User-Agent', BROWSER)]
-    return built
 
 
 class _Readable(HTMLParser):
@@ -271,8 +265,10 @@ def spell_links(page, language):
 
 def read_spell(reader, url, report):
     """Every level of one spell, or None when the page carries no store."""
-    page = reader.open('https://www.wakfu.com' + url,
-                       timeout=60).read().decode('utf-8', 'replace')
+    page = read_page(reader, 'https://www.wakfu.com' + url)
+    if page is None:
+        report['spell page answering 404'] += 1
+        return None
     found = BIG_SCRIPT.search(page)
     if not found:
         report['page with no store'] += 1
@@ -333,15 +329,14 @@ def read_spell(reader, url, report):
     return levels
 
 
-def collect(language, classes, limit, report, known=None):
+def collect(language, classes, limit, report, known=None, save=None):
     reader = opener()
     out = dict(known or {})
     for class_id in classes:
         url = 'https://www.wakfu.com/%s/%d-x' % (PATHS[language], class_id)
-        try:
-            page = reader.open(url, timeout=60).read().decode('utf-8', 'replace')
-        except urllib.error.HTTPError as error:
-            report['class page %s' % error.code] += 1
+        page = read_page(reader, url)
+        if page is None:
+            report['class page 404'] += 1
             continue
         links = spell_links(page, language)
         if not links:
@@ -364,7 +359,9 @@ def collect(language, classes, limit, report, known=None):
             }
             report['spells'] += 1
         report['classes'] += 1
-        print('   class %-3d %3d spells' % (class_id, len(links)))
+        print('   class %-3d %3d spells' % (class_id, len(links)), flush=True)
+        if save is not None:
+            save(out)
     return out
 
 
@@ -372,7 +369,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--lang', default='fr', choices=sorted(PATHS))
     parser.add_argument('--out', default='itemscraper/wakfu_raw')
-    parser.add_argument('--version', default='1.92.1.60')
+    parser.add_argument('--version', default=None,
+                        help='the mirrored build (default: the one in transformed_wakfu.json)')
     parser.add_argument('--classes', type=int, nargs='*', default=None,
                         help='Ankama class ids, default all 18')
     parser.add_argument('--limit', type=int,
@@ -381,19 +379,28 @@ def main(argv=None):
                         help='fetch every spell again instead of only the new')
     args = parser.parse_args(argv)
 
+    version = args.version or current_build()
+    if not version:
+        parser.error('no mirrored build; run get_items_wakfu.py first or pass --version')
     report = collections.Counter()
     classes = args.classes if args.classes else list(CLASSES)
-    target = Path(args.out) / args.version
+    target = Path(args.out) / version
     target.mkdir(parents=True, exist_ok=True)
     path = target / ('spells_%s.json' % args.lang)
+
+    def save(spells):
+        temporary = path.with_name(path.name + '.tmp')
+        temporary.write_text(json.dumps(spells, ensure_ascii=False, indent=1,
+                                        sort_keys=True), encoding='utf-8')
+        temporary.replace(path)
 
     known = {}
     if path.exists() and not args.refresh:
         known = json.loads(path.read_text(encoding='utf-8'))
         report['already collected'] = 0
-    spells = collect(args.lang, classes, args.limit, report, known)
-    path.write_text(json.dumps(spells, ensure_ascii=False, indent=1,
-                               sort_keys=True), encoding='utf-8')
+    print('build %s, %d spells already collected' % (version, len(known)), flush=True)
+    spells = collect(args.lang, classes, args.limit, report, known, save)
+    save(spells)
     # Not in the spells file, readers take every key there as a spell id
     (target / ('spells_%s.meta.json' % args.lang)).write_text(
         json.dumps({'parser': fingerprint(), 'spells': len(spells)},

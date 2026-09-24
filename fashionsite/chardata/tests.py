@@ -18780,12 +18780,21 @@ class WakfuGearReachesFarPastAnyCapTests(SimpleTestCase):
                         'rule could have been about one piece')
 
 
+def _newest_wakfu_harvest():
+    """spells_fr.json of the newest mirrored Wakfu build that holds one."""
+    mirror = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))), 'itemscraper', 'wakfu_raw')
+    builds = [build for build in (os.listdir(mirror) if os.path.isdir(mirror) else [])
+              if os.path.exists(os.path.join(mirror, build, 'spells_fr.json'))]
+    newest = max(builds or ['none'], key=lambda build: [
+        int(part) if part.isdigit() else -1 for part in build.split('.')])
+    return os.path.join(mirror, newest, 'spells_fr.json')
+
+
 class WakfuSpellsComeFromTheEncyclopediaTests(SimpleTestCase):
     """Wakfu spells come from the encyclopedia: spells.json answers 403."""
 
-    HARVEST = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
-        os.path.abspath(__file__)))), 'itemscraper', 'wakfu_raw', '1.92.1.60',
-        'spells_fr.json')
+    HARVEST = _newest_wakfu_harvest()
     _cache = {}
 
     def _spells(self):

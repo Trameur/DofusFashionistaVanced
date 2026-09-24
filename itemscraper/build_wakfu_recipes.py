@@ -18,6 +18,10 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), 'fashionistapulp'))
 from fashionistapulp.fashionista_config import get_items_db_path  # noqa: E402
+try:
+    from itemscraper.wakfu_mirror import current_build_dir  # noqa: E402
+except ImportError:
+    from wakfu_mirror import current_build_dir  # noqa: E402
 
 HERE = Path(__file__).resolve().parent.parent
 
@@ -153,17 +157,15 @@ def build(db_path, raw_dir):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--raw', default=None,
-                        help='the mirrored build (default: the only one there)')
+                        help='the mirrored build (default: the one in transformed_wakfu.json)')
     parser.add_argument('--db', default=None)
     args = parser.parse_args(argv)
 
     raw_dir = args.raw
     if raw_dir is None:
-        mirror = HERE / 'itemscraper' / 'wakfu_raw'
-        builds = sorted(p for p in mirror.glob('*') if p.is_dir())
-        if not builds:
+        raw_dir = current_build_dir()
+        if raw_dir is None:
             parser.error('no mirrored build; run get_items_wakfu.py first')
-        raw_dir = builds[-1]
     db_path = Path(args.db or get_items_db_path('wakfu'))
     if not db_path.exists():
         parser.error('%s is missing; run build_wakfu_db.py first' % db_path)
