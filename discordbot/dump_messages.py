@@ -22,52 +22,52 @@ GUILD = '1188892643766321173'
 
 
 def main():
-    for flux in (sys.stdout, sys.stderr):
+    for stream in (sys.stdout, sys.stderr):
         try:
-            flux.reconfigure(encoding='utf-8', errors='replace')
+            stream.reconfigure(encoding='utf-8', errors='replace')
         except Exception:
             pass
 
-    parseur = argparse.ArgumentParser(description=__doc__)
-    parseur.add_argument('--channels', nargs='+',
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--channels', nargs='+',
                          default=['suggestions', 'bug-report'])
-    parseur.add_argument('--out', default='discordbot/messages.txt')
-    parseur.add_argument('--max-chars', type=int, default=2500,
+    parser.add_argument('--out', default='discordbot/messages.txt')
+    parser.add_argument('--max-chars', type=int, default=2500,
                          help='truncate a single message beyond this')
-    args = parseur.parse_args()
+    args = parser.parse_args()
 
     made = discord_api.session()
-    disponibles = discord_api.channels(made, GUILD)
-    par_auteur = collections.defaultdict(list)
+    available = discord_api.channels(made, GUILD)
+    by_author = collections.defaultdict(list)
     total = 0
-    for nom in args.channels:
-        if nom not in disponibles:
-            print('  skipped, no such channel: %s' % nom)
+    for channel_name in args.channels:
+        if channel_name not in available:
+            print('  skipped, no such channel: %s' % channel_name)
             continue
-        for m in discord_api.history(made, disponibles[nom]):
-            auteur = m.get('author') or {}
-            if auteur.get('bot'):
+        for m in discord_api.history(made, available[channel_name]):
+            author = m.get('author') or {}
+            if author.get('bot'):
                 continue
-            contenu = (m.get('content') or '').strip()
-            if not contenu:
+            content = (m.get('content') or '').strip()
+            if not content:
                 continue
-            qui = auteur.get('global_name') or auteur.get('username') or '?'
-            par_auteur[qui].append((
-                (m.get('timestamp') or '')[:10], nom, contenu[:args.max_chars]))
+            who = author.get('global_name') or author.get('username') or '?'
+            by_author[who].append((
+                (m.get('timestamp') or '')[:10], channel_name, content[:args.max_chars]))
             total += 1
-    print('  %d messages from %d people' % (total, len(par_auteur)))
+    print('  %d messages from %d people' % (total, len(by_author)))
 
-    ordre = sorted(par_auteur.items(),
-                   key=lambda kv: -sum(len(c) for _d, _s, c in kv[1]))
-    with open(args.out, 'w', encoding='utf-8', newline='\n') as sortie:
-        for qui, messages in ordre:
+    ranked = sorted(by_author.items(),
+                    key=lambda kv: -sum(len(c) for _d, _s, c in kv[1]))
+    with open(args.out, 'w', encoding='utf-8', newline='\n') as handle:
+        for who, messages in ranked:
             volume = sum(len(c) for _d, _s, c in messages)
-            sortie.write('\n\n' + '=' * 72 + '\n')
-            sortie.write('%s  --  %d messages, %d characters\n'
-                         % (qui, len(messages), volume))
-            sortie.write('=' * 72 + '\n')
-            for quand, salon, contenu in sorted(messages):
-                sortie.write('\n[%s #%s]\n%s\n' % (quand, salon, contenu))
+            handle.write('\n\n' + '=' * 72 + '\n')
+            handle.write('%s  --  %d messages, %d characters\n'
+                         % (who, len(messages), volume))
+            handle.write('=' * 72 + '\n')
+            for when, channel, content in sorted(messages):
+                handle.write('\n[%s #%s]\n%s\n' % (when, channel, content))
     print('  written: %s' % args.out)
     return 0
 

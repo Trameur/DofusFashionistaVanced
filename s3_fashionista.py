@@ -22,13 +22,12 @@ import json
 import os
 import platform
 
-# Utiliser le chemin de configuration approprié selon le système d'exploitation
+# Configuration folder for the operating system
 if platform.system() == 'Windows':
     CONFIG_DIR = os.path.join(os.environ['APPDATA'], 'fashionista')
 else:
     CONFIG_DIR = '/etc/fashionista'
 
-# Ouvrir le fichier de configuration avec le chemin correct
 config_file_path = os.path.join(CONFIG_DIR, 'gen_config.json')
 try:
     with open(config_file_path, 'r') as f:
@@ -37,7 +36,6 @@ try:
     DBBACKUP_S3_SECRET_KEY = GEN_CONFIGS['DBBACKUP_S3_SECRET_KEY']
 except FileNotFoundError:
     print(f"Configuration file not found: {config_file_path}")
-    # Valeurs par défaut en cas d'erreur
     DBBACKUP_S3_ACCESS_KEY = None
     DBBACKUP_S3_SECRET_KEY = None
 

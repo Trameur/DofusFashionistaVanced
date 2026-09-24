@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2026 The Dofus Fashionista — LGPL (see COPYING.LESSER)
+# Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 """Scrape the transcendence runes from DofusDB and mirror their icons.
 
     python scripts/scrape_transcendance_runes.py
@@ -50,10 +50,10 @@ RANK = {"Ta": 1, "Pata": 2, "Rata": 3}
 LANGUAGES = ("fr", "en", "es", "pt", "de")
 
 
-def _noms(item):
+def _names(item):
     """{language: name}"""
-    noms = item.get("name") or {}
-    return dict((langue, noms.get(langue) or "") for langue in LANGUAGES)
+    names = item.get("name") or {}
+    return dict((language, names.get(language) or "") for language in LANGUAGES)
 
 
 def _get(path, params):
@@ -94,7 +94,7 @@ def fetch_runes():
                     unmapped.add((it.get("id"), name + " [no weight]"))
                     continue
                 runes.append({
-                    "id": it["id"], "name": _noms(it),
+                    "id": it["id"], "name": _names(it),
                     "rank": RANK[prefix], "rank_label": prefix,
                     "stat_key": stat_key, "stat_label": stat_label,
                     "bonus": bonus_eff.get("from", 0),
@@ -116,7 +116,7 @@ def icon_source(icon_id):
 
 def download_images(runes):
     os.makedirs(IMG_DIR, exist_ok=True)
-    manquants = []
+    missing = []
     for r in runes:
         dest = os.path.join(IMG_DIR, "%d.webp" % r["icon_id"])
         if os.path.exists(dest):
@@ -124,17 +124,17 @@ def download_images(runes):
         try:
             with urllib.request.urlopen(icon_source(r["icon_id"]),
                                         timeout=30) as resp:
-                octets = resp.read()
-            image = Image.open(io.BytesIO(octets)).convert("RGBA")
+                data = resp.read()
+            image = Image.open(io.BytesIO(data)).convert("RGBA")
             image = image.resize((ICON_PX, ICON_PX), Image.LANCZOS)
             image.save(dest, "WEBP", quality=90, method=6)
             print("img", r["icon_id"])
         except Exception as exc:  # noqa
-            manquants.append((r["icon_id"], exc))
+            missing.append((r["icon_id"], exc))
             print("FAIL img", r["icon_id"], exc)
-    if manquants:
+    if missing:
         print("MISSING %d icon(s); the page will show a hole for each"
-              % len(manquants))
+              % len(missing))
 
 
 def main():
@@ -143,10 +143,11 @@ def main():
     runes = fetch_runes()
     out = {
         "source": "DofusDB API typeId=%s (Rune de transcendance)" % RUNE_TYPE_IDS,
-        "mechanic": ("100% à la pose (effet 2827) ; verrouille la FM (effet 2825, "
-                     "Empêche les futures forgemagies) ; pose légale seulement si "
-                     "l'objet n'a ni over ni ligne exotique ET si poids de la rune "
-                     "(effet 2826) + poids actuel de la stat visée <= 101"),
+        "mechanic": ("100% on application (effect 2827); locks smithmagic "
+                     "(effect 2825, prevents any further smithmagic); only legal "
+                     "when the item has no overmage line and no exotic line AND the "
+                     "rune weight (effect 2826) + the current weight of the "
+                     "target stat <= 101"),
         "count": len(runes), "runes": runes,
     }
     with open(OUT_JSON, "w", encoding="utf-8") as fh:

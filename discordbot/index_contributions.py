@@ -31,121 +31,121 @@ GUILD = '1188892643766321173'
 DEFAULT_CHANNELS = ('suggestions', 'bug-report')
 
 
-def gather(made, noms, limit=None):
+def gather(made, names, limit=None):
     """{channel: [message]} for the named channels that exist."""
-    disponibles = discord_api.channels(made, GUILD)
-    manquants = [n for n in noms if n not in disponibles]
-    if manquants:
-        print('  channels not found, skipped: %s' % ', '.join(manquants))
-        print('  (the guild has: %s)' % ', '.join(sorted(disponibles)))
-    return {n: discord_api.history(made, disponibles[n], limit=limit)
-            for n in noms if n in disponibles}
+    available = discord_api.channels(made, GUILD)
+    missing = [n for n in names if n not in available]
+    if missing:
+        print('  channels not found, skipped: %s' % ', '.join(missing))
+        print('  (the guild has: %s)' % ', '.join(sorted(available)))
+    return {n: discord_api.history(made, available[n], limit=limit)
+            for n in names if n in available}
 
 
-def by_author(par_salon, owner_names=('Trameur',)):
+def by_author(by_channel, owner_names=('Trameur',)):
     """Fold the messages into one record per person.
 
     The owner's own messages are counted separately: he answers nearly every
     thread, so leaving him in would put him first on a list meant to surface
     everyone else.
     """
-    gens = collections.defaultdict(lambda: {
-        'messages': 0, 'salons': collections.Counter(), 'premier': None,
-        'dernier': None, 'caracteres': 0, 'exemples': [],
+    people = collections.defaultdict(lambda: {
+        'messages': 0, 'channels': collections.Counter(), 'first': None,
+        'last': None, 'chars': 0, 'examples': [],
     })
-    for salon, messages in par_salon.items():
+    for channel, messages in by_channel.items():
         for m in messages:
-            auteur = m.get('author') or {}
-            if auteur.get('bot'):
+            author = m.get('author') or {}
+            if author.get('bot'):
                 continue
-            nom = auteur.get('global_name') or auteur.get('username') or '?'
-            contenu = (m.get('content') or '').strip()
-            if not contenu:
+            name = author.get('global_name') or author.get('username') or '?'
+            content = (m.get('content') or '').strip()
+            if not content:
                 continue
-            fiche = gens[nom]
-            fiche['messages'] += 1
-            fiche['salons'][salon] += 1
-            fiche['caracteres'] += len(contenu)
-            quand = (m.get('timestamp') or '')[:10]
-            if fiche['premier'] is None or quand < fiche['premier']:
-                fiche['premier'] = quand
-            if fiche['dernier'] is None or quand > fiche['dernier']:
-                fiche['dernier'] = quand
+            record = people[name]
+            record['messages'] += 1
+            record['channels'][channel] += 1
+            record['chars'] += len(content)
+            when = (m.get('timestamp') or '')[:10]
+            if record['first'] is None or when < record['first']:
+                record['first'] = when
+            if record['last'] is None or when > record['last']:
+                record['last'] = when
             # The longest messages are the substantial ones: a bug report with
             # steps runs to paragraphs, "thanks!" does not.
-            fiche['exemples'].append((len(contenu), quand, salon, contenu[:160]))
-    for fiche in gens.values():
-        fiche['exemples'].sort(reverse=True)
-        fiche['exemples'] = fiche['exemples'][:2]
-    proprio = {n: gens.pop(n) for n in list(gens) if n in owner_names}
-    return gens, proprio
+            record['examples'].append((len(content), when, channel, content[:160]))
+    for record in people.values():
+        record['examples'].sort(reverse=True)
+        record['examples'] = record['examples'][:2]
+    owner = {n: people.pop(n) for n in list(people) if n in owner_names}
+    return people, owner
 
 
-def report(gens, proprio):
-    ordre = sorted(gens.items(),
-                   key=lambda kv: (-kv[1]['caracteres'], -kv[1]['messages']))
+def report(people, owner):
+    ranked = sorted(people.items(),
+                    key=lambda kv: (-kv[1]['chars'], -kv[1]['messages']))
     print()
     print('=' * 74)
-    print('%d personnes ont ecrit dans ces salons (hors proprietaire et bots)'
-          % len(ordre))
+    print('%d people wrote in these channels (owner and bots left out)'
+          % len(ranked))
     print('=' * 74)
     print()
     print('%-22s %5s %8s  %-10s %-10s %s'
-          % ('personne', 'msg', 'car.', 'premier', 'dernier', 'salons'))
+          % ('person', 'msg', 'chars', 'first', 'last', 'channels'))
     print('-' * 74)
-    for nom, f in ordre:
-        salons = ', '.join('%s:%d' % (s, n) for s, n in f['salons'].most_common())
+    for name, f in ranked:
+        channel_counts = ', '.join('%s:%d' % (s, n) for s, n in f['channels'].most_common())
         print('%-22s %5d %8d  %-10s %-10s %s'
-              % (nom[:22], f['messages'], f['caracteres'],
-                 f['premier'] or '?', f['dernier'] or '?', salons))
+              % (name[:22], f['messages'], f['chars'],
+                 f['first'] or '?', f['last'] or '?', channel_counts))
     print()
-    print('--- ce que les plus substantiels ont ecrit ---')
-    for nom, f in ordre[:8]:
+    print('--- what the most substantial posters wrote ---')
+    for name, f in ranked[:8]:
         print()
-        print('  %s' % nom)
-        for taille, quand, salon, extrait in f['exemples']:
-            print('    [%s %s, %d car.] %s' % (quand, salon, taille,
-                                               extrait.replace('\n', ' ')))
-    for nom, f in proprio.items():
+        print('  %s' % name)
+        for size, when, channel, excerpt in f['examples']:
+            print('    [%s %s, %d chars] %s' % (when, channel, size,
+                                                excerpt.replace('\n', ' ')))
+    for name, f in owner.items():
         print()
-        print('  (%s, proprietaire : %d messages, non classe)'
-              % (nom, f['messages']))
+        print('  (%s, owner: %d messages, not ranked)'
+              % (name, f['messages']))
 
 
 def main():
     # A Windows console defaults to cp1252 and dies on the first accented
     # nickname. Replacing the odd character beats losing the whole report.
-    for flux in (sys.stdout, sys.stderr):
+    for stream in (sys.stdout, sys.stderr):
         try:
-            flux.reconfigure(encoding='utf-8', errors='replace')
+            stream.reconfigure(encoding='utf-8', errors='replace')
         except Exception:
             pass
 
-    parseur = argparse.ArgumentParser(description=__doc__)
-    parseur.add_argument('--channels', nargs='+', default=list(DEFAULT_CHANNELS))
-    parseur.add_argument('--limit', type=int, default=None,
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--channels', nargs='+', default=list(DEFAULT_CHANNELS))
+    parser.add_argument('--limit', type=int, default=None,
                          help='stop after N messages per channel (a cheap first run)')
-    parseur.add_argument('--json', metavar='FILE',
+    parser.add_argument('--json', metavar='FILE',
                          help='also write the raw fold to a file')
-    args = parseur.parse_args()
+    args = parser.parse_args()
 
     try:
         made = discord_api.session()
-    except discord_api.MissingToken as manque:
-        print(manque)
+    except discord_api.MissingToken as exc:
+        print(exc)
         return 1
 
     print('reading: %s' % ', '.join(args.channels))
-    par_salon = gather(made, args.channels, limit=args.limit)
-    for salon, messages in par_salon.items():
-        print('  #%-14s %5d messages' % (salon, len(messages)))
-    gens, proprio = by_author(par_salon)
-    report(gens, proprio)
+    by_channel = gather(made, args.channels, limit=args.limit)
+    for channel, messages in by_channel.items():
+        print('  #%-14s %5d messages' % (channel, len(messages)))
+    people, owner = by_author(by_channel)
+    report(people, owner)
 
     if args.json:
-        propre = {nom: {**f, 'salons': dict(f['salons'])} for nom, f in gens.items()}
-        with open(args.json, 'w', encoding='utf-8') as sortie:
-            json.dump(propre, sortie, ensure_ascii=False, indent=1)
+        plain = {name: {**f, 'channels': dict(f['channels'])} for name, f in people.items()}
+        with open(args.json, 'w', encoding='utf-8') as out:
+            json.dump(plain, out, ensure_ascii=False, indent=1)
         print('\nwritten: %s' % args.json)
     return 0
 

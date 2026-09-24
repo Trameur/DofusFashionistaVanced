@@ -1,6 +1,6 @@
 {
  "source": "DofusDB API typeId=[211] (Rune de transcendance)",
- "mechanic": "100% à la pose (effet 2827) ; verrouille la FM (effet 2825, Empêche les futures forgemagies) ; pose légale seulement si l'objet n'a ni over ni ligne exotique ET si poids de la rune (effet 2826) + poids actuel de la stat visée <= 101",
+ "mechanic": "100% on application (effect 2827); locks smithmagic (effect 2825, prevents any further smithmagic); only legal when the item has no overmage line and no exotic line AND the rune weight (effect 2826) + the current weight of the target stat <= 101",
  "count": 81,
  "runes": [
   {

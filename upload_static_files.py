@@ -23,7 +23,7 @@ import tempfile
 from subprocess import call, run
 import s3_fashionista
 
-# Utiliser un répertoire temporaire approprié selon le système d'exploitation
+# Temporary folder for the operating system
 if platform.system() == 'Windows':
     STATIC_ROOT = os.path.join(tempfile.gettempdir(), 'statictemp')
     CONFIG_DIR = os.path.join(os.environ['APPDATA'], 'fashionista')
@@ -34,7 +34,6 @@ else:
 DBBACKUP_S3_BUCKET = 'fashionistavanced'
 
 def main():
-    # Utiliser le chemin de configuration approprié
     config_file_path = os.path.join(CONFIG_DIR, 'serve_static')
     try:
         with open(config_file_path) as f:
@@ -47,7 +46,7 @@ def main():
         print("Please run configure_fashionista_root.py -s first")
         exit(1)
 
-    # Nettoyer le répertoire temporaire de manière compatible avec Windows/Linux
+    # Empty the temporary folder on Windows or Linux
     if platform.system() == 'Windows':
         if os.path.exists(STATIC_ROOT):
             import shutil
@@ -68,7 +67,6 @@ def main():
     with open('static_file_map.csv', 'w', newline='', encoding='utf-8') as file_map:
     
         os.chdir('fashionsite')
-        # Utiliser python ou python3 selon le système
         python_cmd = 'python' if platform.system() == 'Windows' else 'python3'
         if platform.system() == 'Windows':
             run([python_cmd, 'manage.py', 'collectstatic', '--noinput'], shell=True)

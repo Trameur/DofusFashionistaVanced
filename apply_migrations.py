@@ -1,37 +1,34 @@
 #!/usr/bin/env python
 
-# Script pour appliquer spécifiquement les migrations Django pour l'application "chardata"
+# Applies the Django migrations, the "chardata" app in particular
 import os
 import platform
 import subprocess
 
 def main():
-    """Exécute les migrations Django pour réparer la table manquante "chardata_itemdbversion"."""
+    """Runs the Django migrations to repair the missing "chardata_itemdbversion" table."""
     print('=' * 60)
     print('Applying Django migrations for chardata app')
     print('=' * 60)
     
-    # Détermine la commande Python à utiliser
     python_cmd = "python3" if platform.system() != "Windows" else "python"
     
-    # Exécute la migration Django globale
-    print("Exécution de migration générale...")
+    print("Running all migrations...")
     subprocess.call([python_cmd, 'fashionsite/manage.py', 'migrate'])
     
-    # Exécute spécifiquement la migration pour l'app chardata
-    print("Exécution de migration spécifique pour chardata...")
-    # On essaie d'abord sans l'option --fake-initial
+    print("Running the chardata migrations...")
+    # First without --fake-initial
     subprocess.call([python_cmd, 'fashionsite/manage.py', 'migrate', 'chardata'])
     
-    # Si la première tentative échoue, on essaie avec --fake-initial
-    print("Exécution de migration avec --fake-initial au cas où...")
+    # Then with --fake-initial, in case the first attempt failed
+    print("Running the migrations with --fake-initial, just in case...")
     subprocess.call([python_cmd, 'fashionsite/manage.py', 'migrate', 'chardata', '--fake-initial'])
     
-    print("Vérification de la création des tables...")
+    print("Checking that the tables were created...")
     subprocess.call([python_cmd, 'fashionsite/manage.py', 'showmigrations', 'chardata'])
     
     print('=' * 60)
-    print('Migrations terminées')
+    print('Migrations done')
     print('=' * 60)
 
 if __name__ == '__main__':

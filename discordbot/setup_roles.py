@@ -96,25 +96,25 @@ ROLES = [
 ]
 
 
-def resolve(made, noms):
+def resolve(made, names):
     """{display name: user id}, read from who actually posted.
 
     The members endpoint needs the Server Members intent and returns everyone;
     the message history already carries the id of every person that matters
     here, and needs nothing extra.
     """
-    voulus = set(noms)
-    trouves = {}
-    disponibles = discord_api.channels(made, GUILD)
-    for salon in ('suggestions', 'bug-report'):
-        if salon not in disponibles:
+    wanted = set(names)
+    found = {}
+    available = discord_api.channels(made, GUILD)
+    for channel in ('suggestions', 'bug-report'):
+        if channel not in available:
             continue
-        for m in discord_api.history(made, disponibles[salon]):
-            auteur = m.get('author') or {}
-            nom = auteur.get('global_name') or auteur.get('username')
-            if nom in voulus and nom not in trouves:
-                trouves[nom] = auteur['id']
-    return trouves
+        for m in discord_api.history(made, available[channel]):
+            author = m.get('author') or {}
+            member = author.get('global_name') or author.get('username')
+            if member in wanted and member not in found:
+                found[member] = author['id']
+    return found
 
 
 def existing_roles(made):
@@ -122,34 +122,34 @@ def existing_roles(made):
 
 
 def main():
-    for flux in (sys.stdout, sys.stderr):
+    for stream in (sys.stdout, sys.stderr):
         try:
-            flux.reconfigure(encoding='utf-8', errors='replace')
+            stream.reconfigure(encoding='utf-8', errors='replace')
         except Exception:
             pass
 
-    parseur = argparse.ArgumentParser(description=__doc__)
-    parseur.add_argument('--apply', action='store_true',
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--apply', action='store_true',
                          help='actually create the roles and assign them')
-    args = parseur.parse_args()
+    args = parser.parse_args()
 
     made = discord_api.session()
-    deja = existing_roles(made)
-    voulus = sorted({n for r in ROLES for n in r['members']})
-    ids = resolve(made, voulus)
+    existing = existing_roles(made)
+    wanted = sorted({n for r in ROLES for n in r['members']})
+    ids = resolve(made, wanted)
 
-    introuvables = [n for n in voulus if n not in ids]
-    if introuvables:
-        print('  not found in the history, skipped: %s' % ', '.join(introuvables))
+    not_found = [n for n in wanted if n not in ids]
+    if not_found:
+        print('  not found in the history, skipped: %s' % ', '.join(not_found))
 
     print()
     for role in ROLES:
-        etat = 'exists' if role['name'] in deja else 'to create'
-        print('%s  [%s]  hoisted=%s' % (role['name'], etat, role['hoist']))
+        state = 'exists' if role['name'] in existing else 'to create'
+        print('%s  [%s]  hoisted=%s' % (role['name'], state, role['hoist']))
         print('   %s' % role['why'])
-        for nom, raison in role['members'].items():
-            marque = ' ' if nom in ids else '?'
-            print('   %s %-14s %s' % (marque, nom, raison))
+        for member, reason in role['members'].items():
+            mark = ' ' if member in ids else '?'
+            print('   %s %-14s %s' % (mark, member, reason))
         print()
 
     if not args.apply:
@@ -157,28 +157,28 @@ def main():
         return 0
 
     for role in ROLES:
-        fiche = deja.get(role['name'])
-        if not fiche:
-            fiche = discord_api.get  # placeholder, replaced below
-            reponse = discord_api.write(
+        record = existing.get(role['name'])
+        if not record:
+            record = discord_api.get  # placeholder, replaced below
+            response = discord_api.write(
                 made, 'POST', '/guilds/%s/roles' % GUILD,
                 name=role['name'], color=role['color'],
                 hoist=role['hoist'], mentionable=False)
-            if not reponse.ok:
-                print('  could not create %s: %s' % (role['name'], reponse.status_code))
+            if not response.ok:
+                print('  could not create %s: %s' % (role['name'], response.status_code))
                 continue
-            fiche = reponse.json()
+            record = response.json()
             print('  created: %s' % role['name'])
-        for nom in role['members']:
-            if nom not in ids:
+        for member in role['members']:
+            if member not in ids:
                 continue
-            mise = discord_api.write(
+            result = discord_api.write(
                 made, 'PUT', '/guilds/%s/members/%s/roles/%s'
-                % (GUILD, ids[nom], fiche['id']))
-            etat = ('ok' if mise.ok else
-                    'left the server' if mise.status_code == 404
-                    else str(mise.status_code))
-            print('  %-16s -> %-18s %s' % (nom, role['name'], etat))
+                % (GUILD, ids[member], record['id']))
+            state = ('ok' if result.ok else
+                     'left the server' if result.status_code == 404
+                     else str(result.status_code))
+            print('  %-16s -> %-18s %s' % (member, role['name'], state))
     return 0
 
 

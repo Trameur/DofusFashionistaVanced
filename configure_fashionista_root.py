@@ -204,48 +204,48 @@ def _install_windows_deps():
     try:
         run(['pip', '--version'], check=True, stdout=PIPE, stderr=PIPE)
     except:
-        print("Pip n'est pas installé ou n'est pas dans le PATH.")
-        print("Veuillez installer Python avec pip et réessayer.")
+        print("pip is not installed or not on the PATH.")
+        print("Please install Python with pip and try again.")
         return
     
-    print("Installation des packages Python...")
+    print("Installing the Python packages...")
     all_pip_packages = PIP_PACKAGES_TO_INSTALL + WINDOWS_PIP_PACKAGES
     run(['pip', 'install'] + all_pip_packages, check=True)
     
-    print("Vérification de MySQL...")
+    print("Checking MySQL...")
     mysql_installed = False
     try:
         result = run(['mysql', '--version'], stdout=PIPE, stderr=PIPE)
         if result.returncode == 0:
             mysql_installed = True
-            print("MySQL est déjà installé.")
+            print("MySQL is already installed.")
     except:
-        print("MySQL n'est pas installé ou n'est pas dans le PATH.")
+        print("MySQL is not installed or not on the PATH.")
     
     if not mysql_installed:
-        print("\nVeuillez installer MySQL manuellement depuis:")
+        print("\nPlease install MySQL by hand from:")
         print("https://dev.mysql.com/downloads/installer/")
-        print("Choisissez l'option 'Server only' pendant l'installation.")
-        input("Appuyez sur Entrée une fois MySQL installé...")
+        print("Pick the 'Server only' option during the install.")
+        input("Press Enter once MySQL is installed...")
     
-    print("\nTéléchargement et installation des dépendances supplémentaires...")
+    print("\nDownloading and installing the extra dependencies...")
     for url in PACKAGES_TO_INSTALL['windows']:
         file_name = url.split('/')[-1]
         file_path = os.path.join(temp_dir, file_name)
         
-        print(f"Téléchargement de {file_name}...")
+        print(f"Downloading {file_name}...")
         try:
             import urllib.request
             urllib.request.urlretrieve(url, file_path)
             
-            print(f"Installation de {file_name}...")
+            print(f"Installing {file_name}...")
             run([file_path], shell=True)
         except Exception as e:
-            print(f"Erreur lors du téléchargement/installation de {file_name}: {e}")
-            print(f"Veuillez télécharger et installer manuellement depuis:\n{url}")
+            print(f"Error while downloading or installing {file_name}: {e}")
+            print(f"Please download and install it by hand from:\n{url}")
     
-    print("\nInstallation des dépendances Windows terminée.")
-    print("Certains composants peuvent nécessiter une installation manuelle si des erreurs se sont produites.")
+    print("\nWindows dependency install done.")
+    print("Some components may need a manual install if errors occurred.")
 
 def _get_package_manager():
     if platform.system() == 'Windows':

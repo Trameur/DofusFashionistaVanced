@@ -25,7 +25,7 @@ from subprocess import call
 # Determine the correct python command
 PYTHON_CMD = "python3" if platform.system() != "Windows" else "python"
 
-# Déterminer le répertoire de configuration en fonction du système d'exploitation
+# Configuration folder for the operating system
 if platform.system() == 'Windows':
     CONFIG_DIR = os.path.join(os.environ['APPDATA'], 'fashionista')
 else:

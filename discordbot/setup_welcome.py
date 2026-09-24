@@ -140,69 +140,69 @@ Die Seite hat keinerlei Werbung, und das soll so bleiben. Spenden bezahlen den S
 
 
 def main():
-    for flux in (sys.stdout, sys.stderr):
+    for stream in (sys.stdout, sys.stderr):
         try:
-            flux.reconfigure(encoding='utf-8', errors='replace')
+            stream.reconfigure(encoding='utf-8', errors='replace')
         except Exception:
             pass
 
-    parseur = argparse.ArgumentParser(description=__doc__)
-    parseur.add_argument('--apply', action='store_true')
-    args = parseur.parse_args()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--apply', action='store_true')
+    args = parser.parse_args()
 
     made = discord_api.session()
-    existants = discord_api.channels(made, GUILD)
+    existing = discord_api.channels(made, GUILD)
 
-    rendus = [(langue, corps % {'site': SITE, 'kofi': KOFI})
-              for langue, corps in MESSAGES]
+    rendered = [(language, body % {'site': SITE, 'kofi': KOFI})
+                for language, body in MESSAGES]
     print('channel: #%s  [%s]' % (
-        CHANNEL, 'exists' if CHANNEL in existants else 'to create'))
-    for langue, corps in rendus:
-        etat = 'ok' if len(corps) <= 2000 else 'TOO LONG'
-        print('  %s  %4d characters  %s' % (langue, len(corps), etat))
-    trop = [l for l, c in rendus if len(c) > 2000]
-    if trop:
-        print('Discord caps a message at 2000: %s' % ', '.join(trop))
+        CHANNEL, 'exists' if CHANNEL in existing else 'to create'))
+    for language, body in rendered:
+        state = 'ok' if len(body) <= 2000 else 'TOO LONG'
+        print('  %s  %4d characters  %s' % (language, len(body), state))
+    too_long = [l for l, c in rendered if len(c) > 2000]
+    if too_long:
+        print('Discord caps a message at 2000: %s' % ', '.join(too_long))
         return 1
 
     if not args.apply:
         print('\ndry run. Nothing was changed. Re-run with --apply.')
         return 0
 
-    salon = existants.get(CHANNEL)
-    if not salon:
-        reponse = discord_api.write(
+    channel = existing.get(CHANNEL)
+    if not channel:
+        response = discord_api.write(
             made, 'POST', '/guilds/%s/channels' % GUILD,
             name=CHANNEL, type=0, position=0,
             topic='Où écrire quoi, et comment on obtient un badge.',
             # The guild id doubles as the @everyone role id.
             permission_overwrites=[{'id': GUILD, 'type': 0,
                                     'deny': str(SEND_MESSAGES)}])
-        if not reponse.ok:
-            print('  could not create the channel: %s' % reponse.status_code)
+        if not response.ok:
+            print('  could not create the channel: %s' % response.status_code)
             return 1
-        salon = reponse.json()['id']
+        channel = response.json()['id']
         print('  created #%s' % CHANNEL)
 
     # The bot belongs to @everyone, so the deny above silences it too. A named
     # exception lets it write without reopening the channel to anyone.
-    discord_api.write(made, 'PUT', '/channels/%s/permissions/%s' % (salon, BOT),
+    discord_api.write(made, 'PUT', '/channels/%s/permissions/%s' % (channel, BOT),
                       type=1, allow=str(SEND_MESSAGES), deny='0')
 
     # Replace what this bot posted before, so re-running does not stack copies.
     # Only its own messages, never anyone else's.
-    for m in discord_api.history(made, salon):
+    for m in discord_api.history(made, channel):
         if (m.get('author') or {}).get('id') == BOT:
             discord_api.write(made, 'DELETE',
-                              '/channels/%s/messages/%s' % (salon, m['id']))
+                              '/channels/%s/messages/%s' % (channel, m['id']))
 
-    for langue, corps in rendus:
-        envoi = discord_api.write(made, 'POST', '/channels/%s/messages' % salon,
-                                  content=corps)
-        print('  %s : %s' % (langue, 'posted' if envoi.ok else envoi.status_code))
-        if envoi.ok and langue == 'fr':
+    for language, body in rendered:
+        sent = discord_api.write(made, 'POST', '/channels/%s/messages' % channel,
+                                 content=body)
+        print('  %s: %s' % (language, 'posted' if sent.ok else sent.status_code))
+        if sent.ok and language == 'fr':
             discord_api.write(made, 'PUT', '/channels/%s/pins/%s'
-                              % (salon, envoi.json()['id']))
+                              % (channel, sent.json()['id']))
     return 0
 
 
