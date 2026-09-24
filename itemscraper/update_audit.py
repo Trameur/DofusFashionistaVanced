@@ -3,20 +3,34 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import json
 from contextlib import contextmanager
 from pathlib import Path
 import shutil
 import sqlite3
+import subprocess
+import time
 from data_file_ops import replace_file
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / 'fashionistapulp/fashionistapulp'
 STATIC = ROOT / 'fashionsite/chardata/static'
+IMAGE_DIRECTORIES = ('items', 'pets', 'resources', 'monsters', 'spells')
+RESTORE_WAIT = 60
+SIDECARS = ('-journal', '-wal', '-shm')
+TRACKED_DIRECTORY = 'itemscraper'
+WAKFU_SOURCES = {'item_recipes': 'recipes.json', 'item_recipe_ingredient_names': 'recipes.json',
+                 'item_craft_jobs': 'recipes.json'}
+LOSS_TOLERANCE = .03
 
 
 def database_path(version):
     return DATA / ('items.db' if version == 'dofus3' else 'items_%s.db' % version)
+
+
+def dump_path(version):
+    return DATA / ('item_db_dumped.dump' if version == 'dofus3' else 'item_db_dumped_%s.dump' % version)
 
 
 @contextmanager
@@ -46,63 +60,324 @@ def fingerprint(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode('utf-8')).hexdigest()
 
 
-def runtime_files(versions, images):
+def file_digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def relative_name(path):
+    return path.relative_to(ROOT).as_posix()
+
+
+def shared_files():
     files = {ROOT / 'fashionista_version.py', ROOT / 'fashionsite/chardata/dynamic_translations.py'}
     files.update(DATA.glob('dofus_constants*.py'))
-    for version in versions:
-        files.add(database_path(version))
-        files.add(DATA / ('item_db_dumped.dump' if version == 'dofus3' else 'item_db_dumped_%s.dump' % version))
-        for directory in ('spell_reference', 'spell_states'):
-            files.add(ROOT / 'fashionsite/chardata' / directory / (version + '.json'))
-    if 'wakfu' in versions:
-        files.add(ROOT / 'itemscraper/transformed_wakfu.json')
-    if images:
-        for static in (STATIC, ROOT / 'fashionsite/staticfiles'):
-            for directory in ('items', 'pets', 'resources', 'monsters', 'spells'):
-                files.update(path for path in (static / 'chardata' / directory).rglob('*') if path.is_file())
     return files
 
 
-def backup_runtime(versions, images, destination):
-    manifest = {'versions': versions, 'images': images, 'files': {}}
-    for path in sorted(runtime_files(versions, images)):
-        relative = path.relative_to(ROOT).as_posix()
+def version_files(version):
+    files = {database_path(version), dump_path(version)}
+    for directory in ('spell_reference', 'spell_states'):
+        files.add(ROOT / 'fashionsite/chardata' / directory / (version + '.json'))
+    if version == 'wakfu':
+        files.add(ROOT / 'itemscraper/transformed_wakfu.json')
+    if version == 'retro':
+        files.add(ROOT / 'itemscraper/retro/retro_damage_spells.json')
+    return files
+
+
+def image_files():
+    files = set()
+    for directory in IMAGE_DIRECTORIES:
+        files.update(path for path in (STATIC / 'chardata' / directory).rglob('*') if path.is_file())
+    return files
+
+
+def image_backup_size():
+    files = image_files()
+    return len(files), sum(path.stat().st_size for path in files)
+
+
+def runtime_files(versions, images, shared=True):
+    files = shared_files() if shared else set()
+    for version in versions:
+        files.update(version_files(version))
+    if images:
+        files.update(image_files())
+    return files
+
+
+def backup_runtime(versions, images, destination, shared=True):
+    manifest = {'versions': list(versions), 'images': images, 'shared': shared, 'files': {}, 'live': {}}
+    for path in sorted(runtime_files(versions, images, shared)):
+        relative = relative_name(path)
         manifest['files'][relative] = None
         if not path.exists():
             continue
         saved = destination / relative
         saved.parent.mkdir(parents=True, exist_ok=True)
         if path.suffix == '.db':
+            manifest['live'][relative] = file_digest(path)
             with readonly(path) as source, writable(saved) as target:
                 source.backup(target)
         else:
             shutil.copy2(path, saved)
-        manifest['files'][relative] = hashlib.sha256(saved.read_bytes()).hexdigest()
+        manifest['files'][relative] = file_digest(saved)
+    destination.mkdir(parents=True, exist_ok=True)
     (destination / 'manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
     return manifest
 
 
-def restore_runtime(manifest, source):
-    for name, digest in manifest['files'].items():
-        if digest and hashlib.sha256((source / name).read_bytes()).hexdigest() != digest:
+def manifest_names(manifest):
+    current = runtime_files(manifest['versions'], manifest['images'], manifest.get('shared', True))
+    return set(manifest['files']) | {relative_name(path) for path in current}
+
+
+def missing_backups(manifest, source, names):
+    missing = []
+    for name in sorted(names):
+        digest = manifest['files'].get(name)
+        saved = source / name
+        if not digest:
+            continue
+        if not saved.is_file():
+            missing.append(name)
+        elif file_digest(saved) != digest:
             raise ValueError('Sauvegarde altérée : ' + name)
-    current = runtime_files(manifest['versions'], manifest['images'])
-    for path in sorted(current, key=lambda path: (path.suffix not in ('.db', '.dump', '.py'), str(path))):
-        relative = path.relative_to(ROOT).as_posix()
-        digest = manifest['files'].get(relative)
+    return missing
+
+
+def restore_order(name):
+    return Path(name).suffix not in ('.db', '.dump', '.py'), name
+
+
+def drop_sidecars(path):
+    for suffix in SIDECARS:
+        path.with_name(path.name + suffix).unlink(missing_ok=True)
+
+
+def set_sidecars_aside(path):
+    """Move a database's journal files out of the way; [(aside, original)]."""
+    moved = []
+    try:
+        for suffix in SIDECARS:
+            original = path.with_name(path.name + suffix)
+            if original.exists():
+                aside = original.with_name(original.name + '.restore-aside')
+                aside.unlink(missing_ok=True)
+                os.replace(original, aside)
+                moved.append((aside, original))
+    except OSError:
+        put_sidecars_back(moved)
+        raise
+    return moved
+
+
+def put_sidecars_back(moved):
+    for aside, original in moved:
+        os.replace(aside, original)
+
+
+def restore_file(name, digest, source, live=None):
+    path = ROOT / name
+    database = path.suffix == '.db'
+    if digest is None or (path.is_file() and file_digest(path) in (digest, live)):
+        if database:
+            drop_sidecars(path)
         if digest is None:
             path.unlink(missing_ok=True)
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    moved = set_sidecars_aside(path) if database else []
+    temp = path.with_name(path.name + '.restore-tmp')
+    try:
+        shutil.copy2(source / name, temp)
+        replace_file(temp, path, timeout=0)
+    except OSError:
+        temp.unlink(missing_ok=True)
+        put_sidecars_back(moved)
+        raise
+    for aside, _original in moved:
+        aside.unlink(missing_ok=True)
+
+
+def restore_pass(names, manifest, source):
+    locked, failed = [], []
+    live = manifest.get('live', {})
+    for name in sorted(names, key=restore_order):
+        try:
+            restore_file(name, manifest['files'].get(name), source, live.get(name))
+        except PermissionError:
+            locked.append(name)
+        except OSError:
+            failed.append(name)
+    return locked, failed
+
+
+def restore_runtime(manifest, source, only=None, wait=None):
+    """Put the backed up files back; returns the names it could not restore."""
+    names = manifest_names(manifest) if only is None else set(only)
+    missing = missing_backups(manifest, source, names)
+    locked, failed = restore_pass(set(names) - set(missing), manifest, source)
+    deadline = time.monotonic() + (RESTORE_WAIT if wait is None else wait)
+    while locked and time.monotonic() < deadline:
+        time.sleep(1)
+        locked, more = restore_pass(locked, manifest, source)
+        failed += more
+    return sorted(set(failed + locked + missing))
+
+
+def same_stat(path, saved):
+    try:
+        current, backup = path.stat(), saved.stat()
+    except OSError:
+        return False
+    return current.st_size == backup.st_size and current.st_mtime_ns == backup.st_mtime_ns
+
+
+def changed_files(manifest, source):
+    changed = []
+    for name in sorted(manifest_names(manifest)):
+        path = ROOT / name
+        digest = manifest['files'].get(name)
+        if digest is None:
+            if path.exists():
+                changed.append(name)
+        elif not path.is_file():
+            changed.append(name)
+        elif not same_stat(path, source / name) and file_digest(path) != digest:
+            changed.append(name)
+    return changed
+
+
+def backed_up_images(static_paths, manifest):
+    names = {relative_name(STATIC / static_path) for static_path in static_paths}
+    return sorted(name for name in names if manifest['files'].get(name))
+
+
+def git(*args):
+    result = subprocess.run(['git', '-C', str(ROOT), *args], capture_output=True, check=True, timeout=120)
+    return result.stdout.decode('utf-8', errors='replace')
+
+
+def in_work_tree():
+    try:
+        top = git('rev-parse', '--show-toplevel').strip()
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return bool(top) and Path(top).resolve() == ROOT.resolve()
+
+
+def tracked_data_files():
+    names = git('ls-files', '-z', '--', TRACKED_DIRECTORY).split('\0')
+    return sorted(name for name in names if name.endswith('.json'))
+
+
+def modified_data_files():
+    entries = git('status', '--porcelain', '-z', '--untracked-files=no', '--', TRACKED_DIRECTORY).split('\0')
+    modified, skip = {}, False
+    for entry in entries:
+        if skip or len(entry) < 4:
+            skip = False
+            continue
+        state, name = entry[:2], entry[3:]
+        skip = 'R' in state or 'C' in state
+        if name.endswith('.json'):
+            modified[name] = 'D' not in state
+    return modified
+
+
+def file_stat(path):
+    try:
+        stat = path.stat()
+    except FileNotFoundError:
+        return None
+    return [stat.st_size, stat.st_mtime_ns]
+
+
+def record_tracked(destination, exclude=()):
+    if not in_work_tree():
+        return None
+    record = {'before': {name: file_stat(ROOT / name) for name in tracked_data_files() if name not in exclude},
+              'modified_before': {}}
+    for name, present in modified_data_files().items():
+        if name in exclude:
+            continue
+        record['before'].setdefault(name, file_stat(ROOT / name))
+        record['modified_before'][name] = None
+        if present and (ROOT / name).is_file():
+            saved = destination / 'tracked' / name
+            saved.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / name, saved)
+            record['modified_before'][name] = file_digest(saved)
+    destination.mkdir(parents=True, exist_ok=True)
+    (destination / 'tracked.json').write_text(json.dumps(record, indent=1), encoding='utf-8')
+    return record
+
+
+def record_tracked_after(destination):
+    record = read_record(destination / 'tracked.json')
+    if record is None:
+        return
+    after = {name: file_stat(ROOT / name) for name in record['before']}
+    (destination / 'tracked-after.json').write_text(json.dumps(after, indent=1), encoding='utf-8')
+
+
+def read_record(path):
+    return json.loads(path.read_text(encoding='utf-8')) if path.is_file() else None
+
+
+def restore_tracked(destination):
+    """Put back the tracked data files a version changed; returns (unrestored, kept)."""
+    record = read_record(destination / 'tracked.json')
+    if record is None:
+        return [], []
+    after = read_record(destination / 'tracked-after.json')
+    unrestored, kept, checkout = [], [], []
+    for name, before in sorted(record['before'].items()):
+        current = file_stat(ROOT / name)
+        changed = current != before if after is None else after.get(name) != before
+        if not changed or current == before:
+            continue
+        if after is not None and current != after.get(name):
+            kept.append(name)
+        elif name not in record['modified_before']:
+            checkout.append(name)
         else:
-            if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == digest:
-                continue
-            temp = path.with_name(path.name + '.restore-tmp')
-            shutil.copy2(source / relative, temp)
-            replace_file(temp, path)
-    for relative, digest in manifest['files'].items():
-        path = ROOT / relative
-        if digest and not path.exists():
-            path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source / relative, path)
+            try:
+                put_back_tracked(name, record['modified_before'][name], destination)
+            except OSError:
+                unrestored.append(name)
+    for start in range(0, len(checkout), 50):
+        chunk = checkout[start:start + 50]
+        try:
+            git('checkout', 'HEAD', '--', *chunk)
+        except (OSError, subprocess.SubprocessError):
+            unrestored += chunk
+    return sorted(unrestored), kept
+
+
+def put_back_tracked(name, digest, destination):
+    path = ROOT / name
+    if digest is None:
+        path.unlink(missing_ok=True)
+        return
+    saved = destination / 'tracked' / name
+    if not saved.is_file() or file_digest(saved) != digest:
+        raise FileNotFoundError('Copie absente ou altérée : ' + name)
+    temp = path.with_name(path.name + '.restore-tmp')
+    shutil.copy2(saved, temp)
+    try:
+        replace_file(temp, path, timeout=0)
+    except OSError:
+        temp.unlink(missing_ok=True)
+        raise
+
+
+def lost_images(before):
+    images = before.get('images', {})
+    problems = images.get('problems', {})
+    good = {path for key, path in images.get('paths', {}).items() if key not in problems}
+    return sorted(path for path in good if image_problem(STATIC / path))
 
 
 def preserve_table(before, after, table):
@@ -112,8 +387,9 @@ def preserve_table(before, after, table):
             raise ValueError('Complément local absent : ' + table)
         rows = old.execute('SELECT * FROM ' + quoted(table)).fetchall()
         if table == 'mount_looks':
-            current = {(ankama, name): item for item, ankama, name in new.execute('SELECT id, ankama_id, name FROM items')}
-            old_items = {item: (ankama, name) for item, ankama, name in old.execute('SELECT id, ankama_id, name FROM items')}
+            query = 'SELECT id, ankama_id, ankama_type FROM items'
+            current = {(ankama, kind): item for item, ankama, kind in new.execute(query)}
+            old_items = {item: (ankama, kind) for item, ankama, kind in old.execute(query)}
             rows = [(current[old_items[row[0]]], *row[1:]) for row in rows if old_items[row[0]] in current]
         else:
             known = {row[0] for row in new.execute('SELECT DISTINCT monster_ankama_id FROM monster_names')}
@@ -130,10 +406,19 @@ def preserve_table(before, after, table):
     replace_file(temporary, dump)
 
 
+def image_problem(path):
+    from PIL import Image
+    try:
+        with Image.open(path) as image:
+            image.verify()
+    except (OSError, ValueError, SyntaxError) as exc:
+        return str(exc)
+    return None
+
+
 def image_inventory(version, items, connection, tables):
     from fashionistapulp.fashionistapulp.fashion_util import normalize_name, safe_icon_name
     import re
-    from PIL import Image
 
     types = dict(connection.execute('SELECT id, name FROM item_types'))
     pictures = dict(connection.execute('SELECT item, gfx FROM item_picture')) if 'item_picture' in tables else {}
@@ -179,19 +464,36 @@ def image_inventory(version, items, connection, tables):
     problems, checked = {}, {}
     for key, relative in expected.items():
         if relative not in checked:
-            try:
-                with Image.open(STATIC / relative) as image:
-                    image.verify()
-                checked[relative] = None
-            except (OSError, ValueError, SyntaxError) as exc:
-                checked[relative] = str(exc)
+            checked[relative] = image_problem(STATIC / relative)
         if checked[relative] is not None:
             problems[key] = {'path': relative, 'reason': checked[relative]}
     return {'references': len(expected), 'paths': expected, 'unique_files': len(checked), 'problems': problems}
 
 
+def empty_snapshot(version):
+    return {'version': version, 'tables': {}, 'schema': {}, 'items': {}, 'stats': {}, 'spells': {},
+            'legacy_ids': {}, 'integrity': ['ok'], 'source_stats': {}, 'dump_errors': [], 'orphaned': {},
+            'images': {'references': 0, 'paths': {}, 'unique_files': 0, 'problems': {}},
+            'mirror': wakfu_mirror_counts() if version == 'wakfu' else {}}
+
+
+def wakfu_mirror_counts():
+    dump = ROOT / 'itemscraper/transformed_wakfu.json'
+    if not dump.is_file():
+        return {}
+    build = json.loads(dump.read_text(encoding='utf-8')).get('version')
+    counts = {'build': build}
+    for name in sorted(set(WAKFU_SOURCES.values())):
+        source = ROOT / 'itemscraper/wakfu_raw' / str(build) / name
+        if source.is_file():
+            counts[name] = len(json.loads(source.read_text(encoding='utf-8')))
+    return counts
+
+
 def snapshot(version):
     path = database_path(version)
+    if not path.exists():
+        return empty_snapshot(version)
     with readonly(path) as connection:
         connection.row_factory = sqlite3.Row
         tables = {row['name']: row['sql'] for row in connection.execute("SELECT name, sql FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")}
@@ -225,7 +527,7 @@ def snapshot(version):
                     if isinstance(stat, list) and len(stat) >= 3:
                         name = str(stat[2])
                         vocabulary[name] = vocabulary.get(name, 0) + 1
-        dump = DATA / ('item_db_dumped.dump' if version == 'dofus3' else 'item_db_dumped_%s.dump' % version)
+        dump = dump_path(version)
         dump_errors = []
         if not dump.exists():
             dump_errors.append('Dump absent : ' + str(dump))
@@ -243,7 +545,18 @@ def snapshot(version):
                 'stats': stats, 'spells': spells, 'legacy_ids': {str(k): str(v) for k, v in aliases.items()},
                 'integrity': [row[0] for row in connection.execute('PRAGMA integrity_check')],
                 'source_stats': vocabulary, 'dump_errors': dump_errors,
-                'orphaned': orphaned, 'images': image_inventory(version, items, connection, tables)}
+                'orphaned': orphaned, 'images': image_inventory(version, items, connection, tables),
+                'mirror': wakfu_mirror_counts() if version == 'wakfu' else {}}
+
+
+def source_shrink(before, after, table):
+    name = WAKFU_SOURCES.get(table)
+    if after.get('version') != 'wakfu' or not name:
+        return None
+    old, new = before.get('mirror', {}).get(name), after.get('mirror', {}).get(name)
+    if not old or new is None or new >= old:
+        return None
+    return name, old, new
 
 
 def compare(before, after):
@@ -256,9 +569,15 @@ def compare(before, after):
     for table in sorted(before['tables'].keys() | after['tables'].keys()):
         old, new = before['tables'].get(table, 0), after['tables'].get(table, 0)
         if new != old:
-            result['changes'].append('%s : %d → %d lignes (%+d)' % (table, old, new, new - old))
-        if table in before['tables'] and (table not in after['tables'] or (old and new < old * .97)):
-            result['errors'].append('%s : perte de plus de 3 %% ou table supprimée (%d → %d)' % (table, old, new))
+            result['changes'].append('%s : %d -> %d lignes (%+d)' % (table, old, new, new - old))
+        shrink = source_shrink(before, after, table) if table in after['tables'] else None
+        explained = bool(shrink) and old > 0 and (old - new) / old <= (shrink[1] - shrink[2]) / shrink[1] + LOSS_TOLERANCE
+        if table in before['tables'] and (table not in after['tables'] or (old and new < old * (1 - LOSS_TOLERANCE))):
+            if explained:
+                result['warnings'].append('%s : %d -> %d lignes, la source Ankama %s a aussi diminué (%d -> %d)'
+                                          % ((table, old, new) + shrink))
+            else:
+                result['errors'].append('%s : perte de plus de 3 %% ou table supprimée (%d -> %d)' % (table, old, new))
         elif new < old:
             result['warnings'].append('%s : %d lignes en moins' % (table, old - new))
     required = ('items', 'stats', 'stats_of_item', 'sets')
@@ -271,13 +590,14 @@ def compare(before, after):
         new_ids = set(ids) - set(before['orphaned'].get(table, []))
         if new_ids:
             result['errors'].append('%s : %d nouvelles références sans objet' % (table, len(new_ids)))
-    for key in sorted(after['stats'].keys() - before['stats'].keys()):
+    result['new_stats'] = sorted(after['stats'].keys() - before['stats'].keys())
+    for key in result['new_stats']:
         result['warnings'].append('NOUVELLE STAT : %s (%s) ; vérifier calcul, poids et traductions' % (key, after['stats'][key]['name']))
     for key in sorted(before['stats'].keys() - after['stats'].keys()):
         result['errors'].append('STAT DISPARUE : ' + key)
     for key in sorted(after['stats'].keys() & before['stats'].keys()):
         if after['stats'][key] != before['stats'][key]:
-            result['warnings'].append('Stat modifiée : %s : %s → %s' % (key, before['stats'][key], after['stats'][key]))
+            result['warnings'].append('Stat modifiée : %s : %s -> %s' % (key, before['stats'][key], after['stats'][key]))
     for item_id, old in before['items'].items():
         target = after['legacy_ids'].get(item_id, item_id)
         new = after['items'].get(target)
@@ -286,6 +606,10 @@ def compare(before, after):
             result['items_removed'].append(old)
         elif old != new:
             result['items_changed'].append({'id': item_id, 'name': new['name'], 'before': old, 'after': new})
+    result['items_hidden'] = [item_id for item_id, new in after['items'].items()
+                              if new.get('removed') and not before['items'].get(item_id, {'removed': 1}).get('removed')]
+    if result['items_hidden']:
+        result['changes'].append('Objets retirés par Ankama, gardés masqués : %d' % len(result['items_hidden']))
     result['items_added'] = [item for key, item in after['items'].items() if key not in before['items']]
     result['changes'].append('Objets : +%d, -%d, %d modifiés' % (len(result['items_added']), len(result['items_removed']), len(result['items_changed'])))
     added = after['spells'].keys() - before['spells'].keys()
@@ -300,7 +624,7 @@ def compare(before, after):
     for key, image in result['new_image_problems'].items():
         if key not in old_images and before['images'].get('paths', {}).get(key) == image['path']:
             result['errors'].append('Image existante perdue ou illisible : %s (%s)' % (key, image['path']))
-    result['changes'].append('Images absentes/illisibles : %d → %d (%d nouvelles)' % (len(old_images), len(new_images), len(result['new_image_problems'])))
+    result['changes'].append('Images absentes/illisibles : %d -> %d (%d nouvelles)' % (len(old_images), len(new_images), len(result['new_image_problems'])))
     if new_images:
-        result['warnings'].append('%d images absentes ou illisibles ; liste exacte dans l’inventaire après mise à jour' % len(new_images))
+        result['warnings'].append("%d images absentes ou illisibles ; liste exacte dans l'inventaire après mise à jour" % len(new_images))
     return result

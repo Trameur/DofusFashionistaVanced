@@ -114,7 +114,7 @@ def extract_notices(lines: list[str]) -> list[str]:
     return [l.strip() for l in lines if _is_notice(l)]
 
 
-def set_patch_started(content: str, key: str, patch: str) -> str:
+def set_patch_started(content: str, key: str, patch: str, quiet: bool = False) -> str:
     today = datetime.now(timezone.utc).date().isoformat()
     new_content, found = re.subn(
         r"(PATCH_TIMELINE\s*=\s*\{.*?'%s'\s*:\s*\[.*?)(\n[ \t]*\],)" % key,
@@ -123,6 +123,8 @@ def set_patch_started(content: str, key: str, patch: str) -> str:
         count=1,
         flags=re.S,
     )
+    if quiet:
+        return new_content
     if found:
         print(f"[version] {key} patch {patch} started {today}")
     else:
