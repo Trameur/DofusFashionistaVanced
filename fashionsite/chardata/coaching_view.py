@@ -225,8 +225,9 @@ def create_build(request, char_class, char_level, aspects, game_version, name=No
     if not request.user.is_anonymous:
         char.owner = request.user
     char.name = name or (_('Quick Start %(cls)s lvl %(lvl)s')
-                         % {'cls': char_class, 'lvl': char_level})
-    char.char_name = char_class
+                         % {'cls': LOCALIZED_CHARACTER_CLASSES.get(char_class, char_class),
+                            'lvl': char_level})
+    char.char_name = ''
     char.char_class = char_class
     char.char_build = ''
     char.level = char_level
