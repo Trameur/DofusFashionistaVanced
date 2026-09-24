@@ -27,5 +27,5 @@ html:not(.fm-modern) a.button-thin-chardata {
    band. Lives here (not in home_lighttheme.css) because the header shows
    on EVERY page while the home sheets only load on the home page. */
 html:not(.fm-modern) .version-link:not(.active) {
-    color: #6E3208;
+    color: #5E2A06;
 }
