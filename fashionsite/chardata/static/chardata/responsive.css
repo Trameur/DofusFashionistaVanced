@@ -297,3 +297,10 @@
   .load-project-cell, .load-project-header { padding: 3px 4px !important; }
   .load-project-table td > div, .load-project-cell > div { overflow-wrap: anywhere !important; }
 }
+
+/* About: the illustration and the text stack on phones */
+@media (max-width: 600px) {
+  .about-layout, .about-layout tbody, .about-layout tr, .about-layout td { display: block !important; width: auto !important; max-width: 100%; box-sizing: border-box; }
+  .about-layout img { display: block; margin: 0 auto 8px; }
+  .about-layout code { overflow-wrap: anywhere; }
+}
