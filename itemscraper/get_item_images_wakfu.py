@@ -106,7 +106,8 @@ def main(argv=None):
         try:
             body = fetch(gfx_id, args.size)
         except urllib.error.HTTPError as error:
-            if error.code == 404:
+            # The bucket answers 403, not 404, for a picture it does not hold
+            if error.code in (403, 404):
                 missing += 1
                 continue
             raise

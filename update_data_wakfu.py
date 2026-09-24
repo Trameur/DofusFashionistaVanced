@@ -172,7 +172,7 @@ def main(argv=None):
     if not args.skip_sets:
         step('data/sets', [PY, 'itemscraper/get_sets_wakfu.py'])
     if not args.skip_spells:
-        for language in ('fr', 'en'):
+        for language in ('fr', 'en', 'es', 'pt'):
             step('data/spells %s' % language,
                  [PY, 'itemscraper/get_spells_wakfu.py', '--lang', language])
 

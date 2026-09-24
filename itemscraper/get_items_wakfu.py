@@ -52,6 +52,9 @@ FALLBACK = {'de': 'en'}
 CHARACTERISTIC_IN_PARAM = {39: 1, 40: -1}
 CHARACTERISTIC_BY_ID = {120: 'ARMOR_GIVEN_PERCENT',
                         121: 'ARMOR_RECEIVED_PERCENT'}
+# Actions 183 and 185 name the same two stats in their template
+TEMPLATE_ALIASES = {'ARMOR_GIVEN': 'ARMOR_GIVEN_PERCENT',
+                    'ARMOR_RECEIVED': 'ARMOR_RECEIVED_PERCENT'}
 STATE_ACTION = 304
 
 # "Mastery with 2 elements": params[2] is the count, the elements are not in the data
@@ -144,7 +147,8 @@ def characteristic(action_id, description, params):
     negative = (description or '').lstrip().startswith('-') or '] -[#1]' in (
         description or '')
     value = params[0] if params else 0
-    return found.group(1), -value if negative else value
+    key = TEMPLATE_ALIASES.get(found.group(1), found.group(1))
+    return key, -value if negative else value
 
 
 def titles(node):
