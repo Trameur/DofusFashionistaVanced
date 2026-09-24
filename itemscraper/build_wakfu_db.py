@@ -81,11 +81,107 @@ def read_sets(out_dir, version):
         return {int(key): names for key, names in json.load(handle).items()}
 
 
+PREVIOUS = {
+    'items': 'SELECT id, name, level, type, item_set, ankama_id, ankama_type,'
+             ' dofustouch, skin FROM items',
+    'item_names': 'SELECT item, language, name FROM item_names',
+    'item_flags': 'SELECT item, flag FROM item_flags',
+    'item_rarity': 'SELECT item, rarity FROM item_rarity',
+    'item_picture': 'SELECT item, gfx FROM item_picture',
+    'stats_of_item': 'SELECT item, stat, value, min_value, max_value'
+                     ' FROM stats_of_item',
+    'stat_element_count': 'SELECT item, line, stat, value, elements'
+                          ' FROM stat_element_count',
+    'stats': 'SELECT id, key FROM stats',
+    'item_types': 'SELECT id, name FROM item_types',
+    'item_type_names': 'SELECT item_type, language, name FROM item_type_names',
+    'item_type_position': 'SELECT item_type, position FROM item_type_position',
+}
+
+
+def read_previous(db_path):
+    """Every row the database held before this build, by table."""
+    if not db_path.exists():
+        return None
+    conn = sqlite3.connect(db_path.resolve().as_uri() + '?mode=ro', uri=True)
+    try:
+        return {table: conn.execute(query).fetchall()
+                for table, query in PREVIOUS.items()}
+    finally:
+        conn.close()
+
+
+def keep_removed(conn, previous, written, stat_ids, set_ids, type_ids):
+    """Add back, flagged removed, the items the new build no longer has."""
+    gone = {row[0] for row in previous['items']} - written
+    if not gone:
+        return 0
+    old_keys = dict(previous['stats'])
+    new_ids = {key.lower(): number for key, number in stat_ids.items()}
+    for item_id, name, level, type_id, item_set, ankama_id, ankama_type, \
+            dofustouch, skin in previous['items']:
+        if item_id not in gone:
+            continue
+        if type_id not in type_ids:
+            type_ids.add(type_id)
+            for row in previous['item_types']:
+                if row[0] == type_id:
+                    conn.execute('INSERT INTO item_types (id, name)'
+                                 ' VALUES (?, ?)', row)
+            for row in previous['item_type_names']:
+                if row[0] == type_id:
+                    conn.execute('INSERT INTO item_type_names (item_type,'
+                                 ' language, name) VALUES (?, ?, ?)', row)
+            for row in previous['item_type_position']:
+                if row[0] == type_id:
+                    conn.execute('INSERT INTO item_type_position'
+                                 ' (item_type, position) VALUES (?, ?)', row)
+        conn.execute(
+            'INSERT INTO items (id, name, level, type, item_set, ankama_id,'
+            ' ankama_type, removed, dofustouch, skin)'
+            ' VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)',
+            (item_id, name, level, type_id,
+             item_set if item_set in set_ids else None, ankama_id,
+             ankama_type, dofustouch, skin))
+    for row in previous['item_names']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_names (item, language, name)'
+                         ' VALUES (?, ?, ?)', row)
+    for row in previous['item_flags']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_flags (item, flag) VALUES (?, ?)',
+                         row)
+    for row in previous['item_rarity']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_rarity (item, rarity)'
+                         ' VALUES (?, ?)', row)
+    for row in previous['item_picture']:
+        if row[0] in gone:
+            conn.execute('INSERT INTO item_picture (item, gfx) VALUES (?, ?)',
+                         row)
+    for item, stat, value, low, high in previous['stats_of_item']:
+        number = new_ids.get(str(old_keys.get(stat)).lower())
+        if item in gone and number:
+            conn.execute(
+                'INSERT INTO stats_of_item (item, stat, value, min_value,'
+                ' max_value) VALUES (?, ?, ?, ?, ?)',
+                (item, number, value, low, high))
+    for item, line, stat, value, elements in previous['stat_element_count']:
+        number = new_ids.get(str(old_keys.get(stat)).lower())
+        if item in gone and number:
+            conn.execute(
+                'INSERT INTO stat_element_count (item, line, stat, value,'
+                ' elements) VALUES (?, ?, ?, ?, ?)',
+                (item, line, number, value, elements))
+    return len(gone)
+
+
 def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
     with io.open(dump_path, encoding='utf-8') as handle:
         dump = json.load(handle)
     sets = read_sets(out_dir, dump['version'])
 
+    previous = read_previous(db_path)
     if db_path.exists():
         db_path.unlink()
     conn = sqlite3.connect(str(db_path))
@@ -139,6 +235,7 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
             conn.execute('INSERT INTO set_names (item_set, language, name)'
                          ' VALUES (?, ?, ?)', (set_id, language, name))
 
+    written = set()
     for item in dump['equipment']:
         positions = [p for p in item['positions'] if p in GEAR]
         if not positions:
@@ -160,6 +257,7 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
             ' VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, NULL)',
             (item_id, item['name'].get('en'), item['level'],
              item['type_id'], set_id, item_id, 'equipment'))
+        written.add(item_id)
         counts['items'] += 1
         if set_id:
             counts['items in a set'] += 1
@@ -215,6 +313,9 @@ def build(dump_path, db_path, out_dir='itemscraper/wakfu_raw'):
                      line['elements']))
                 counts['spread over elements'] += 1
 
+    counts['removed upstream, kept'] = keep_removed(
+        conn, previous, written, stat_ids, set(sets),
+        set(types)) if previous else 0
     conn.commit()
     conn.close()
     return counts
@@ -234,6 +335,8 @@ def main(argv=None):
                      % dump_path)
     counts = build(dump_path, Path(args.db), args.out)
     print('wrote %s' % args.db)
+    print('kept %d items this build no longer has, flagged removed'
+          % counts['removed upstream, kept'])
     for name, count in sorted(counts.items()):
         print('   %-28s %6d' % (name, count))
     return 0
