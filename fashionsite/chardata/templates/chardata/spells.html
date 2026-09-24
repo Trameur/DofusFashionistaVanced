@@ -327,7 +327,7 @@
             return false;
         }
         if (levelFilter){
-            // Le serveur a deja repondu. Voir `setVisible`.
+            // The server has already answered; see setVisible.
             if (spell.available === false){
                 return false;
             }
@@ -518,15 +518,7 @@
             inner_title_cell.append(meta);
             metaCells[spell.name] = meta;
         }
-        // Un sort que le niveau n'atteint pas repliait son bloc en silence.
-        // Le lecteur voyait une ligne vide sans pouvoir dire si le sort ne
-        // fait pas de degats, si le calcul avait echoue, ou si son
-        // personnage etait trop bas. La phrase existait deja, mais dans une
-        // infobulle posee sur un rond de douze pixels a 30% d'opacite, que
-        // nul doigt ne declenche. Mesure du 13 septembre 2026: a niveau 1,
-        // 86% des sorts de Dofus 3 se taisaient ainsi, 44% a niveau 100, et
-        // 0% a 200, ce qui est la raison pour laquelle aucune fixture ne
-        // l'a jamais vu.
+        // A spell above the character's level says so instead of folding its block.
         if (spell.available === false && $.isArray(spell.level)) {
             inner_title_cell.append(
                 $("<div class='spell-out-of-reach'></div>")
@@ -547,10 +539,7 @@
             line_description.append(description_cell);
             table.append(line_description);
         }
-        // Les deux faces d'une variante se partagent une place dans le
-        // grimoire: le tour simule en tient compte depuis toujours, la page
-        // le taisait, et un lecteur comptait donc deux sorts la ou il n'en
-        // armera qu'un.
+        // The two faces of a variant share one slot in the spell book.
         if (spell.variant_partner) {
             var line_variant = $("<tr></tr>");
             var variant_cell = $("<td class='spell-variant'></td>");
@@ -582,11 +571,7 @@
         table.append(line_crit_title);
         line_crit_title.append(crit_title_cell);
         crit_title_cell.append("<hr class='hr-crit'/>");
-        // Un sort auquel le jeu ne donne ni ligne critique ni taux de
-        // critique ne peut pas en faire. Le bloc imprimait quand meme
-        // son titre au-dessus d'une cellule vide: 58 des 534 sorts de
-        // Dofus 3, un sur neuf, montraient une etiquette sans rien
-        // dessous.
+        // A spell with no critical line and no critical rate cannot crit, so the block says so.
         var can_crit = !!spell.crit_dams;
         if (can_crit) {
             crit_title_cell.append("<div class='hit-block-label'>"
@@ -637,20 +622,7 @@
         var mainStat = {neut: 'str', earth: 'str', fire: 'int', water: 'cha', air: 'agi'}
             [damageHit.element] || getBestElementKey(totalStats);
         var baseValue = (isMin ? damageHit.min_dam : damageHit.max_dam);
-        // La meme regle que `dofus_constants.calculate_damage`, qui borne la
-        // caracteristique et la Puissance a zero avant de multiplier. La page
-        // ne les bornait pas, donc la fiche et le meilleur tour ne comptaient
-        // pas pareil des qu'une caracteristique etait negative, ce qui arrive
-        // des le bas niveau ou une piece porte un malus sur une base a zero.
-        //
-        // Mesure du 14 septembre 2026, un Cra Dofus 3 de niveau 30 a -20 en
-        // Force, Intelligence et Chance: 11 sorts sur 14 affichaient moins
-        // que ce que le meilleur tour comptait. Sur un build a -785, les
-        // fiches affichaient 0 pendant que le tour comptait 63.
-        // La Puissance d'arme se replie dans la Puissance avant la borne, et
-        // pas apres: c'est ce que fait `spell_combo` avant d'appeler la
-        // formule, et un soin ne la recoit donc pas. La page l'ajoutait a
-        // part, non bornee, et meme sur une ligne de soin.
+        // Same rule as dofus_constants.calculate_damage: stat and power are clamped at zero, weapon power joins power before the clamp, heals get none.
         var power = totalStats['pow'];
         if (spell.type == 'weapon' || spell.type == 'weapon_non_mageable') {
             power += totalStats['powweap'];
@@ -801,12 +773,7 @@
         return (spell.conditional || {})[String(index)] || late[String(index)];
     }
 
-    // Les lignes qui tombent toujours et que les groupes d'agregats
-    // laissent dehors. Le serveur les designe, la page ne les recalcule
-    // pas: la table des degats et le meilleur tour doivent dire la meme
-    // chose du meme sort, et ce depot a deja paye trois copies d'une
-    // regle de niveau pour l'avoir oublie. La clef n'existe que sur les
-    // 44 sorts concernes, donc ailleurs les groupes sortent tels quels.
+    // Rows that always land outside the aggregate groups; the server names them so the table and the best turn agree.
     function aggregatesWithRowsThatAlwaysLand(spell, isCrit, rank) {
         var groups = spell.aggregates;
         var extra = spell.always_land
@@ -849,11 +816,7 @@
                     continue;
                 }
 
-                // Le serveur dit quand une seule des lignes du groupe tombe.
-                // 'best': le jeu prend le meilleur element du lanceur, donc
-                // la table montre cette face-la, celle que le meilleur tour
-                // compte. 'one': le jeu en prend une que le lecteur ne
-                // choisit pas, donc les faces restent, separees par "ou".
+                // The server says when only one row of the group lands: 'best' shows the caster's best element, 'one' keeps the faces joined by "or".
                 var oneLands = aggregates[i][2];
                 if (oneLands === 'best' && damageInstances.length > 1) {
                     var best = 0;
@@ -1139,7 +1102,7 @@
         }
     }
 
-    // Le serveur dit jusqu'ou le niveau va; la page ne le recalcule pas.
+    // The server says how far the level goes; the page does not recompute it.
     function isOutOfReach(spell, level) {
         if (spell.type != 'spell') {
             return false;
@@ -1415,11 +1378,7 @@
                 levelNumber.addClass('level-number-default-color');
             }
 
-            // Un rang que le niveau ne permet pas n'est pas propose: la table
-            // des degats obeissait au rond alors que le serveur bornait le
-            // rang du panneau, donc les deux se contredisaient et la table
-            // montrait des degats hors de portee. C'est le serveur qui decide,
-            // pour qu'il n'y ait pas deux regles.
+            // A rank the level does not allow is not offered; the server decides.
             if (isOutOfReach(spell, level)) {
                 dot.addClass('level-out-of-reach');
                 dot.attr('title', outOfReachTitle(spell, level));
@@ -1454,12 +1413,7 @@
     }
     
     function setVisible(spell) {
-        // C'est le serveur qui dit si le niveau atteint le sort. Trois
-        // fonctions en portaient encore une copie JavaScript: celle-ci,
-        // `checkIfSpellToDisplay` et `fullyBuff`. Deux copies d'une meme
-        // regle finissent par s'ecarter, et c'est deja arrive ici:
-        // `decideLevel` et `isOutOfReach` avaient rendu la leur apres
-        // avoir contredit le serveur.
+        // The server decides whether the level reaches the spell.
         if (spell.available === false) {
             var spellCell = cells[spell.name];
             if (spellCell) {
@@ -1581,8 +1535,7 @@
                         .attr('src', cast.image_url).attr('alt', cast.name)
                         .appendTo(line);
                     $("<span class='best-combo-name'></span>").text(cast.name).appendTo(line);
-                    // A la meme place que dans le gabarit, sinon les deux
-                    // chemins du panneau n'affichent pas la meme chose.
+                    // Same place as in the template, so both paths of the panel render the same.
                     if (cast.limit_mark) {
                         $("<span class='best-combo-limit-mark'></span>")
                             .text(cast.limit_mark)
@@ -1594,9 +1547,7 @@
                         .appendTo(line);
                     $("<span class='best-combo-damage'></span>").text(cast.damage).appendTo(line);
                     $("<span class='best-combo-running'></span>").text(cast.running).appendTo(line);
-                    // La note vient traduite du serveur, comme les etiquettes
-                    // des blocs du dessous: sans elle un zero se relit comme
-                    // une panne au premier rafraichissement.
+                    // The note comes translated from the server, like the block labels below.
                     if (cast.note) {
                         $("<div class='best-combo-cast-note'></div>")
                             .text(cast.note).appendTo(item);
@@ -1637,19 +1588,12 @@
                      .text(panel.data('ap-note')
                                 .replace('__used__', combo.ap_used)
                                 .replace('__available__', combo.ap_available));
-                // Les deux phrases viennent traduites du serveur et CHANGENT
-                // avec l'etat: l'une quand le lecteur baisse un rang, l'autre
-                // des qu'il coche un buff. Les laisser figees dirait le
-                // contraire de ce qu'il vient de demander.
+                // Both sentences come translated from the server and change with the state.
                 panel.find('.best-combo-buff-note').text(combo.buff_note || '');
                 panel.find('.best-combo-rank-note').text(combo.rank_note || '');
                 panel.find('.best-combo-without-buffs-note')
                      .text(combo.without_buffs_note || '');
-                // Rafraichie avec les deux autres pour que le panneau n'ait
-                // qu'un seul chemin. Aujourd'hui aucun sort des cinq versions
-                // n'accorde de % melee ni de % distance, donc seule la piece
-                // portee decide; le jour ou un sort en accordera, la phrase
-                // suivra sans qu'on y revienne.
+                // Refreshed with the other two so the panel has a single path.
                 panel.find('.best-combo-melee-note').text(combo.melee_note || '');
                 panel.find('.best-combo-crit-failure-note')
                      .text(combo.crit_failure_note || '');
@@ -1729,9 +1673,7 @@
 
     function decideLevel(spell) {
         if (spell.type == 'spell') {
-            // Le rang le plus haut que le niveau atteint, decide par le
-            // serveur. Cette fonction en portait une copie en JavaScript, et
-            // deux copies d'une meme regle finissent par s'ecarter.
+            // Highest rank the level reaches, decided by the server.
             return typeof spell.highest_level === 'number'
                    ? spell.highest_level : 0;
         } else if (spell.type == 'weapon') {
@@ -1794,7 +1736,7 @@
                 var doubleBuffSlot = checkIfDoubleBuffSlot(spell);
                 spellLevel[spell.name] = decideLevel(spell);
                 setDot(spell);
-                // Idem: un buff que le niveau n'atteint pas ne se lance pas.
+                // Likewise: a buff the level does not reach is not cast.
                 if ((spell.available !== false) && (!doubleBuffSlot)) {
                     buffState[spell.name] = findBestBuff(spell);
                 } else {

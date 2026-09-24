@@ -210,8 +210,7 @@ $(document).ready(function() {
     {% trans "Make private" as msg_make_private %}
     {% trans "Publish" as msg_publish %}
     (function () {
-        // Le bouton d'une ligne n'agit que sur le build de SA ligne: l'id
-        // est lu sur la cellule, jamais sur une variable partagee.
+        // Each button acts only on its own row's build: the id is read from the cell.
         var cells = document.querySelectorAll('[data-visibility-build]');
         Array.prototype.forEach.call(cells, function (cell) {
             var bouton = cell.querySelector('.visibility-toggle');
@@ -221,9 +220,7 @@ $(document).ready(function() {
             }
             bouton.addEventListener('click', function () {
                 var publier = cell.getAttribute('data-visibility-state') === 'private';
-                // Le prefixe de la version compte: la route refuse un
-                // build qui n'est pas dans la version courante, et
-                // cette liste est celle d'une version.
+                // The version prefix matters: the route refuses a build from another version.
                 var route = '{{ api_base }}'
                     + (publier ? '/getsharinglink/' : '/hidesharinglink/');
                 bouton.disabled = true;

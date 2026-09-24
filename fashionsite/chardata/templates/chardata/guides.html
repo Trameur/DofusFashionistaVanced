@@ -5,10 +5,7 @@
 {% load version_url %}
 
 {% block title %}{% trans "Dofus build guides & tips" %}{% if current_game_version_seo %} (Dofus {{ current_game_version_seo }}){% endif %} · {% trans "The Dofus Fashionista" %}{% endblock %}
-{# Le prefixe de version, comme sur les autres familles : sans lui les cinq #}
-{# versions repondaient avec UNE description. Le defaut preexistait et etait #}
-{# invisible -- le garde lit le plan de site, et /guides/ n y etait famille de #}
-{# cinq que depuis qu on y a ajoute les quatre carrefours anglais. #}
+{# Version prefix like the other page families, so each version gets its own description #}
 {% block meta_description %}{% if current_game_version_seo %}Dofus {{ current_game_version_seo }}. {% endif %}{% trans "Plain-language guides to building characters in Dofus: how to make your first set, how the optimizer works, what every stat is worth, and the differences between Dofus 3, Beta, Dofus 2, Retro and Touch." %}{% endblock %}
 {# game_url, not url: the list is filtered by game version, so /beta/guides/ is its own page. #}
 {% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}

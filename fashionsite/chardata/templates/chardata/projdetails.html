@@ -374,10 +374,7 @@ $(document).ready(function() {
              saveButtonClicked);
     }
     
-    // Sans le nom du personnage, qui n'est pas obligatoire, ce champ valait
-    // " 199": une espace et un niveau. La classe choisie prend sa place, ce
-    // qui donne un nom que son auteur reconnait dans une galerie et qu'il
-    // reste libre de reecrire.
+    // Without a character name this field was a space and a level; the class name takes its place.
     function proposedProjectName() {
         var perso = $("#input-char-name").val() || "";
         var classe = $("#select-char-class option:selected").text() || "";

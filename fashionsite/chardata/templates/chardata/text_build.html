@@ -33,29 +33,13 @@
         font-size: 0.85em; border-radius: 10px;
         border: 1px solid rgba(128,128,128,0.35);
     }
-    /* Le repere est la bordure et le mot, jamais une couleur de texte: le
-       site a deux designs et deux themes, et un texte colore en dur passe
-       sous le contraste exige dans au moins un des quatre. Le texte herite
-       donc la couleur que la page lui donne deja, ce qui donne, mesure le
-       10 septembre 2026 dans les quatre combinaisons, 10,9 / 13,8 / 13,4 et
-       21,0 pour 1.
-
-       La bordure, elle, tombait a 2,78 sur le blanc du design classique
-       clair, sous les 3 pour 1 d'un element d'interface. Assombrie, elle
-       mesure 4,12 sur ce blanc et 4,43 sur le fond le plus sombre. */
+    /* Marked by the border and the word, never a text colour: the text inherits the page colour. */
     .import-roll-odd { border-color: #a4741f; border-width: 2px; }
     .import-warn { font-style: italic; }
     .import-missing { font-size: 0.9em; margin-top: 6px; }
     .import-ignored { font-size: 0.88em; opacity: 0.85; margin-top: 10px; text-align: left; }
     .import-ignored li { margin: 1px 0; }
-    /* La bordure est opaque et non `rgba(128,128,128,0.4)` comme les puces
-       voisines. Une couche translucide doit etre APLATIE sur son fond avant
-       d'etre mesuree, sans quoi le chiffre ment. Aplatie, cette valeur mesure
-       1,60 / 1,76 / 1,58 / 1,76 dans les quatre combinaisons de design et de
-       theme, donc sous les 3 pour 1 attendus d'un element d'interface: la
-       boite n'avait pas de contour visible. Le meme gris a pleine opacite
-       mesure 3,95 / 4,62 / 3,78 / 4,49 et ne change pas de teinte d'un theme
-       a l'autre. */
+    /* Opaque border: a translucent grey had too little contrast in every theme. */
     .import-shots {
         margin: 0 0 16px; padding: 12px 14px; text-align: left;
         border: 1px solid #808080; border-radius: 8px;
@@ -242,19 +226,7 @@
     var MSG_FAILED = '{{ msg_shot_failed|escapejs }}';
     var tesseractReady = null;
 
-    // Le meme chargement epingle que la page de l'inventaire, ecrit ici en
-    // toutes lettres et non tire d'une variable de contexte: l'audit des
-    // ressources tierces lit les gabarits a la recherche d'une affectation
-    // litterale de src, donc passer par une variable sortirait cette page de
-    // l'audit en ayant l'air de ranger. Un test verifie que les deux copies
-    // disent la meme chose.
-    //
-    // Ce commentaire a d'ailleurs fait rougir cet audit une premiere fois: il
-    // citait la forme exacte qu'il decrit, et un commentaire n'est pas moins
-    // du texte qu'une ligne de code pour une expression reguliere.
-    //
-    // sha384 mesuree le 2026-09-09 sur les octets decodes et recoupee depuis
-    // une SECONDE origine, unpkg.com.
+    // Same pinned loader as the inventory page, written out so the third-party resource audit sees it.
     function ensureTesseract() {
         if (tesseractReady) {
             return tesseractReady;
@@ -278,10 +250,7 @@
         return tesseractReady;
     }
 
-    // Une infobulle est du texte clair sur fond sombre et petit; Tesseract lit
-    // bien mieux de gros glyphes sombres sur fond clair. Meme preparation que
-    // l'inventaire, pour que ce qui a ete regle une fois vaille des deux
-    // cotes.
+    // Tooltips are small light text on dark; Tesseract reads large dark glyphs on light far better.
     function preprocessImage(source) {
         return new Promise(function (resolve) {
             var url = URL.createObjectURL(source);
@@ -326,13 +295,7 @@
         });
     }
 
-    // Une image apres l'autre, et pas toutes en meme temps: chaque lecture
-    // fait tourner un moteur wasm entier dans l'onglet, et seize en parallele
-    // se battraient pour le processeur en rendant le compteur inutile.
-    //
-    // Le compteur est fabrique en JavaScript et non rendu par le gabarit: un
-    // nombre ecrit par Django ressort <<1 234>> en francais et casse le
-    // script qui le relit.
+    // One image at a time: each read runs a whole wasm engine. The counter is built here because Django localizes numbers.
     function readAll(files) {
         var model = lang.options[lang.selectedIndex].getAttribute('data-tesseract');
         var pieces = [];
@@ -348,8 +311,7 @@
             });
         });
         return chain.then(function () {
-            // On AJOUTE au texte deja present plutot que de le remplacer: le
-            // lecteur peut avoir colle la moitie de son stuff a la main.
+            // Appends to the existing text: part of the build may have been pasted by hand.
             var texte = pieces.join('\n\n');
             area.value = area.value.trim()
                 ? area.value.replace(/\s+$/, '') + '\n\n' + texte

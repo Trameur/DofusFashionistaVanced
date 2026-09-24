@@ -374,10 +374,7 @@
         var runeNameCache = null;
 
         function runeNameOf(key) {
-            // La session enregistre la clef francaise, que le jeu utilise
-            // aussi; ce qui s'affiche est le nom du client du lecteur. Une
-            // session ouverte en francais et relue en anglais montre donc
-            // l'anglais, et ses compteurs et ses prix restent les memes.
+            // The session stores the French key the game uses; the display follows the reader's language.
             if (runeNameCache === null) {
                 runeNameCache = {};
                 var stats = config.stats || {};
@@ -1977,10 +1974,7 @@
             }
             session.rows[idx].value += rune.bonus;
             session.locked = true;
-            // L'identifiant en plus du nom: la session vit dans le
-            // navigateur et survit a un changement de langue, donc le
-            // nom qu'on y ecrit aujourd'hui serait relu demain dans une
-            // autre.
+            // The id as well: the session outlives a language change, so a stored name could come back in another language.
             session.transRune = {id: rune.id, name: rune.name,
                 stat: rune.stat_key, bonus: rune.bonus, img: rune.img};
             saveSession();
@@ -1988,10 +1982,7 @@
         }
 
         function transRuneName(stored) {
-            // Le nom courant de la rune verrouillee, retrouve par son
-            // identifiant. Une session enregistree avant que
-            // l'identifiant soit ecrit n'en a pas: elle garde alors le
-            // nom qu'elle porte.
+            // Current name of the locked rune, found by its id; older sessions without an id keep their stored name.
             var trans = config.transcendence || {};
             for (var key in trans) {
                 var runes = trans[key].runes || [];

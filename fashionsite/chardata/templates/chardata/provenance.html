@@ -3,8 +3,7 @@
 
 {% block title %}Provenance{% endblock %}
 {% block canonical %}{% endblock %}
-{# Le bloc remplit un attribut content= : une balise complete ici donnait #}
-{# content="<meta name=" et la page ne portait plus aucune directive. #}
+{# This block fills a content= attribute, so it holds the value only #}
 {% block meta_robots %}noindex, nofollow{% endblock %}
 
 {% block main %}

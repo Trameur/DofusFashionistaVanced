@@ -751,8 +751,6 @@
         $("#blanket-language").click(function() {
             toggleBlanket('blanket-language');
             toggleBlanket('other-flags');
-            // Annoncer un menu ouvert quand il vient de se fermer est pire
-            // que de ne rien annoncer du tout.
             $("#flag").attr("aria-expanded", "false");
         });
         $("#blanket-theme").click(function() {
