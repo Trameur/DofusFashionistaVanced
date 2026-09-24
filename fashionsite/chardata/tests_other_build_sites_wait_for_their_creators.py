@@ -15,12 +15,12 @@ DOFUS_STUFFER_LINK = ('http://www.dofus-stuffer.is-great.net?stuff='
 DOFUSCREATOR_LINK = 'https://dofuscreator.com/projet/6e9f4'
 
 
-class ProductionWaitsForTheCreatorsTests(TestCase):
+class ProductionOffersTheAgreedSitesTests(TestCase):
 
-    def test_no_creator_has_agreed_yet(self):
-        """Update when a creator agrees."""
+    def test_production_reads_and_writes_the_three_sites(self):
         production = sys.modules['fashionsite.settings']
-        self.assertEqual((), production.BUILD_SITES_AGREED)
+        self.assertEqual(('dofusbook', 'dofus-stuffer', 'dofuscreator'),
+                         production.BUILD_SITES_AGREED)
 
 
 class _OwnedBuild(object):

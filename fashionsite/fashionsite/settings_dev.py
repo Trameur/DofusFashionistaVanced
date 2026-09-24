@@ -52,7 +52,7 @@ with open(os.path.join(CONFIG_DIR, 'debug_mode')) as f:
     print('DEBUG: %s' % DEBUG)
 
 # Import/export build sites (chardata/build_sites.py), prod only gets the agreed ones
-BUILD_SITES_AGREED = ()
+BUILD_SITES_AGREED = ('dofusbook', 'dofus-stuffer', 'dofuscreator')
 BUILD_SITES_ENABLED = (('dofusbook', 'dofus-stuffer', 'dofuscreator')
                        if DEBUG else BUILD_SITES_AGREED)
 

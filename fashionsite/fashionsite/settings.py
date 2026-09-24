@@ -54,7 +54,7 @@ with open(os.path.join(CONFIG_DIR, 'debug_mode')) as f:
     print('DEBUG: %s' % DEBUG)
 
 # Build sites whose creators agreed (chardata/build_sites.py); DEBUG enables all
-BUILD_SITES_AGREED = ()
+BUILD_SITES_AGREED = ('dofusbook', 'dofus-stuffer', 'dofuscreator')
 BUILD_SITES_ENABLED = (('dofusbook', 'dofus-stuffer', 'dofuscreator')
                        if DEBUG else BUILD_SITES_AGREED)
 

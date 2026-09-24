@@ -15,8 +15,7 @@ from django.test import SimpleTestCase, TestCase
 
 QUESTION = 'Already have a build?'
 LIEN = 'Import it from a link, text or screenshots'
-# Without any other build site enabled (production until their creators
-# agree, build_sites.py), the link is not offered.
+# Without any other build site enabled (build_sites.py), the link is not offered.
 SANS_LIEN = 'Import it from text or screenshots'
 
 
