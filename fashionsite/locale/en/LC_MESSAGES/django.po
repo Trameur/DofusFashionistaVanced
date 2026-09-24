@@ -1673,6 +1673,11 @@ msgstr ""
 msgid "Website version:"
 msgstr ""
 
+#: .\chardata\templates\chardata\about.html:63
+#, python-format
+msgid "Translated by: %(author)s"
+msgstr "Translated by: %(author)s"
+
 #: .\chardata\templates\chardata\ad_slot.html:7
 msgid "Advertisement"
 msgstr "Advertisement"
@@ -4877,6 +4882,10 @@ msgstr ""
 msgid "Suggestions:"
 msgstr ""
 
+#: .\chardata\templates\chardata\solution.html:143
+msgid "Group"
+msgstr "Group"
+
 #: .\chardata\templates\chardata\solution.html:130
 msgid "Build check"
 msgstr ""
@@ -6541,7 +6550,7 @@ msgstr ""
 msgid "new entries"
 msgstr ""
 
-msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
+msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece."
 msgstr ""
 
 msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."

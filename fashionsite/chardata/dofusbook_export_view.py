@@ -113,7 +113,7 @@ def _partial_scrolls(char, scrolls):
             continue
         valeur = scrolls.get(index, 0)
         if 0 < valeur < dofusbook_export.SCROLL_STEP:
-            noms.append(element_name)
+            noms.append(localized_stat_name(element_name, char.game_version))
     return noms
 
 

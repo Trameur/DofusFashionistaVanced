@@ -1730,6 +1730,11 @@ msgstr "une partie des bonus de familiers de Dofus Retro"
 msgid "Website version:"
 msgstr "Version du site :"
 
+#: .\chardata\templates\chardata\about.html:63
+#, python-format
+msgid "Translated by: %(author)s"
+msgstr "Traduit par : %(author)s"
+
 #: .\chardata\templates\chardata\ad_slot.html:7
 msgid "Advertisement"
 msgstr "Publicité"
@@ -2996,9 +3001,19 @@ msgstr "Continuer vers l'Assistant"
 msgid "Soft Caps"
 msgstr "Paliers"
 
+#: .\chardata\templates\chardata\chardata.html:190
+#, python-format
+msgid "Use %%pointsUsed%% points to increase to %%newTotal%% at %%ratio%%:1"
+msgstr "Utilisez %%pointsUsed%% points pour augmenter à %%newTotal%% à %%ratio%%:1"
+
 #: .\chardata\templates\chardata\chardata.html:187
 msgid "Use %pointsUsed% points to increase to %newTotal% at %ratio%:1"
 msgstr "Utilisez %pointsUsed% points pour augmenter à %newTotal% à %ratio%:1"
+
+#: .\chardata\templates\chardata\chardata.html:312
+#, python-format
+msgid "Scrolled stats must be between 0 and %%max%%."
+msgstr "Les caractéristiques montées via parchemin doivent être entre 0 et %%max%%."
 
 #: .\chardata\templates\chardata\chardata.html:308
 msgid "Scrolled stats must be between 0 and %max%."
@@ -5144,7 +5159,7 @@ msgstr "Afficher uniquement mes builds favoris"
 
 #: .\chardata\templates\chardata\shared_builds.html:140
 msgid "Hide invalid or outdated builds"
-msgstr "Masquer les builds invalides ou obsoletes"
+msgstr "Masquer les builds invalides ou obsolètes"
 
 #: .\chardata\templates\chardata\shared_builds.html:146
 msgid "Apply Filters"
@@ -5395,6 +5410,10 @@ msgstr "+ Ajouter un tag"
 #: .\chardata\templates\chardata\solution.html:113
 msgid "Suggestions:"
 msgstr "Suggestions :"
+
+#: .\chardata\templates\chardata\solution.html:143
+msgid "Group"
+msgstr "Groupe"
 
 #: .\chardata\templates\chardata\solution.html:130
 msgid "Build check"
@@ -6070,6 +6089,11 @@ msgstr ""
 "caractéristiques à la place. Diminuer le poids d'une caractéristique la "
 "sacrifiera pour d'autres"
 
+#: .\chardata\templates\chardata\stats.html:39
+#, python-format
+msgid "%% Spells Damage"
+msgstr "%% Dommages aux Sorts"
+
 #: .\chardata\templates\chardata\stats.html:34
 msgid "% Spells Damage"
 msgstr "% Dommages aux Sorts"
@@ -6077,6 +6101,11 @@ msgstr "% Dommages aux Sorts"
 #: .\chardata\templates\chardata\stats.html:67
 msgid "All Resists"
 msgstr "Toutes les Résistances (Fixe)"
+
+#: .\chardata\templates\chardata\stats.html:81
+#, python-format
+msgid "All %% Resists"
+msgstr "Toutes les Résistances (%%)"
 
 #: .\chardata\templates\chardata\stats.html:74
 msgid "All % Resists"
@@ -7254,7 +7283,7 @@ msgid "Read tooltip screenshots"
 msgstr "Lire des captures d’infobulle"
 
 msgid "One screenshot per piece, tooltip visible. They are read inside your browser: no image leaves your machine."
-msgstr "Une capture par piece, l’infobulle visible. Elles sont lues dans votre navigateur : aucune image ne quitte votre machine."
+msgstr "Une capture par pièce, l’infobulle visible. Elles sont lues dans votre navigateur : aucune image ne quitte votre machine."
 
 msgid "Choose images"
 msgstr "Choisir des images"
@@ -7325,8 +7354,8 @@ msgstr "Chaque fiche d’objet et chaque page de panoplie a un bouton qui lance 
 msgid "new entries"
 msgstr "nouveautés"
 
-msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
-msgstr "Importez un build entier : collez des noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez une capture d’infobulle par pièce. Les jets et les exos suivent."
+msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece."
+msgstr "Importez un build entier : collez des noms d’objets, un lien vers un build public d’un autre site de builds, ou déposez une capture d’infobulle par pièce."
 
 msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importez un build entier : collez des noms d’objets ou déposez une capture d’infobulle par pièce. Les jets et les exos suivent."

@@ -339,7 +339,7 @@ LOCALIZED_UI = {
         'results': 'Ergebnisse',
         'resources_label': 'Ressourcen',
         'no_results': 'Keine Gegenstände entsprechen den Filtern.',
-        'item_level': 'Lvl.',
+        'item_level': 'Stufe',
         'open_item': 'Gegenstandsdetails öffnen',
         'details_title': 'Gegenstandsdetails',
         'set_label': 'Set',

@@ -60,7 +60,7 @@
     </ul>
 
     <p>{% trans "Website version:" %} {{site_version}}</p>
-    <p>{{ about_language_name }} version by: {{ about_language_author }}</p>
+    {% if about_language_author %}<p>{% blocktrans with author=about_language_author %}Translated by: {{ author }}{% endblocktrans %}</p>{% endif %}
     
 </td>
 </tr>

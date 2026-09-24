@@ -1734,6 +1734,11 @@ msgstr "ein Teil der Vertrauten-Boni für Dofus Retro"
 msgid "Website version:"
 msgstr "Website-Version:"
 
+#: .\chardata\templates\chardata\about.html:63
+#, python-format
+msgid "Translated by: %(author)s"
+msgstr "Übersetzt von: %(author)s"
+
 #: .\chardata\templates\chardata\ad_slot.html:7
 msgid "Advertisement"
 msgstr "Werbung"
@@ -2986,10 +2991,20 @@ msgstr "Fahren Sie mit dem Assistenten fort"
 msgid "Soft Caps"
 msgstr "Weiche Kappen"
 
+#: .\chardata\templates\chardata\chardata.html:190
+#, python-format
+msgid "Use %%pointsUsed%% points to increase to %%newTotal%% at %%ratio%%:1"
+msgstr "Verwenden Sie %%pointsUsed%% Punkte, um bei %%ratio%%:1 auf %%newTotal%% zu erhöhen"
+
 #: .\chardata\templates\chardata\chardata.html:187
 msgid "Use %pointsUsed% points to increase to %newTotal% at %ratio%:1"
 msgstr ""
 "Verwenden Sie %pointsUsed% Punkte, um bei %ratio%:1 auf %newTotal% zu erhöhen"
+
+#: .\chardata\templates\chardata\chardata.html:312
+#, python-format
+msgid "Scrolled stats must be between 0 and %%max%%."
+msgstr "Die gescrollten Statistiken müssen zwischen 0 und %%max%% liegen."
 
 #: .\chardata\templates\chardata\chardata.html:308
 msgid "Scrolled stats must be between 0 and %max%."
@@ -5363,6 +5378,10 @@ msgstr "+ Tag hinzufügen"
 msgid "Suggestions:"
 msgstr "Vorschläge:"
 
+#: .\chardata\templates\chardata\solution.html:143
+msgid "Group"
+msgstr "Gruppe"
+
 #: .\chardata\templates\chardata\solution.html:130
 msgid "Build check"
 msgstr "Build-Prüfung"
@@ -5823,7 +5842,7 @@ msgstr "Wie viel Schaden verursachen die Waffen und Zauber von %(charname)s mit 
 msgid "How much damage your weapon and spells will deal with the suggested set."
 msgstr "Wie viel Schaden verursachen Ihre Waffen und Zauber mit dem vorgeschlagenen Set?"
 
-#: .\chardata	emplates\chardata\spells.html:33
+#: .\chardata\templates\chardata\spells.html:33
 msgid ""
 "This game version no longer provides spell names in your language, so they "
 "are shown in English."
@@ -6019,6 +6038,11 @@ msgstr ""
 "geopfert werden. Die Verringerung der Gewichtung eines Attributs führt dazu, "
 "dass es für andere geopfert wird."
 
+#: .\chardata\templates\chardata\stats.html:39
+#, python-format
+msgid "%% Spells Damage"
+msgstr "%% Zauberschaden"
+
 #: .\chardata\templates\chardata\stats.html:34
 msgid "% Spells Damage"
 msgstr "% Zauberschaden"
@@ -6026,6 +6050,11 @@ msgstr "% Zauberschaden"
 #: .\chardata\templates\chardata\stats.html:67
 msgid "All Resists"
 msgstr "Alle Widerstände"
+
+#: .\chardata\templates\chardata\stats.html:81
+#, python-format
+msgid "All %% Resists"
+msgstr "Alle %% Widerstände"
 
 #: .\chardata\templates\chardata\stats.html:74
 msgid "All % Resists"
@@ -7273,8 +7302,8 @@ msgstr "Jede Gegenstands- und Set-Seite hat einen Button, der einen schnellen Bu
 msgid "new entries"
 msgstr "Neues"
 
-msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
-msgstr "Importiere einen ganzen Build: füge Gegenstandsnamen ein, einen Link zu einem öffentlichen Build einer anderen Build-Seite, oder lege pro Teil einen Tooltip-Screenshot ab. Werte und Exos kommen mit."
+msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece."
+msgstr "Importiere einen ganzen Build: füge Gegenstandsnamen ein, einen Link zu einem öffentlichen Build einer anderen Build-Seite, oder lege pro Teil einen Tooltip-Screenshot ab."
 
 msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importiere einen ganzen Build: füge Gegenstandsnamen ein oder lege pro Teil einen Tooltip-Screenshot ab. Werte und Exos kommen mit."
@@ -7347,7 +7376,7 @@ msgid "The forgemagie on these pieces does not travel yet and is left out:"
 msgstr "Die Schmiedemagie dieser Teile reist noch nicht mit und bleibt außen vor:"
 
 msgid "<b>DofusCreator.</b> When you paste a link to a public DofusCreator project, our server fetches that page from dofuscreator.com. The call leaves from our address and not from yours, carries nothing that names you, and only reads."
-msgstr "<b>DofusCreator.</b> Wenn du einen Link zu einem öffentlichen DofusCreator-Projekt einfügst, ruft unser Server diese Seite von dofuscreator.com ab. Der Aufruf geht von unserer Adresse aus und nicht von deiner, trägt nichts, was dich benennt, und liest nur."
+msgstr "<b>DofusCreator.</b> Wenn Sie einen Link zu einem öffentlichen DofusCreator-Projekt einfügen, ruft unser Server diese Seite von dofuscreator.com ab. Der Aufruf geht von unserer Adresse aus und nicht von Ihrer, trägt nichts, was Sie benennt, und liest nur."
 
 msgid "Characteristics read:"
 msgstr "Gelesene Werte:"

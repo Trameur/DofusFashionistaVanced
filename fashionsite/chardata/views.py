@@ -141,13 +141,13 @@ def contact(request, char_id=0):
 
 def about(request, char_id=0):
     language_code = (get_language() or settings.LANGUAGE_CODE or 'en').split('-')[0]
-    language_name = dict(settings.LANGUAGES).get(language_code, 'English')
 
     about_authors = {
         'fr': 'Mr-quifaitmal, Naturalglyphs, Edrolys, Praesugatus, Hyd-x, Bouzouw, Elbisiap et Trameur',
         'es': 'Nelson-Magno',
     }
-    language_author = about_authors.get(language_code, '') or 'Trameur'
+    language_author = (about_authors.get(language_code, '')
+                       or ('' if language_code == 'en' else 'Trameur'))
 
     return set_response(request, 
                         'chardata/about.html', 
@@ -156,7 +156,6 @@ def about(request, char_id=0):
                          'char_id': char_id,
                          'canonical_path': version_free_canonical('about'),
                          'site_version': settings.SITE_VERSION,
-                         'about_language_name': language_name,
                          'about_language_author': language_author})
 
 def license_page(request, char_id=0):

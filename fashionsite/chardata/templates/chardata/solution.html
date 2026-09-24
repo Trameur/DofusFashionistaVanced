@@ -141,7 +141,7 @@
                     <a href="#" class="build-tag-suggest" style="color: inherit;">PvM</a>
                     <a href="#" class="build-tag-suggest" style="color: inherit;">PvP</a>
                     <a href="#" class="build-tag-suggest" style="color: inherit;">Solo</a>
-                    <a href="#" class="build-tag-suggest" style="color: inherit;">Group</a>
+                    <a href="#" class="build-tag-suggest" style="color: inherit;">{% trans "Group" %}</a>
                     <a href="#" class="build-tag-suggest" style="color: inherit;">Farm</a>
                 </span>
                 {% endif %}
@@ -461,7 +461,7 @@
                 <td class="solution-stat-summary-name-header"></td>
                 {# Setup pages are owner only, a guest would get a 403 #}
                 <td class="solution-stat-summary-base-value-header solution-stat-summary-value-cell" title="{% trans "What the character has without gear: scrolls and spent points." %}">{% if is_guest %}{% trans "Base" %}{% else %}<a href="{% game_url 'setup_base_stats' char_id %}">{% trans "Base" %}</a>{% endif %}</td>
-                <td class="solution-stat-summary-value-header solution-stat-summary-value-cell">Total</td>
+                <td class="solution-stat-summary-value-header solution-stat-summary-value-cell">{% trans "Total" %}</td>
             </tr>
             {# Lowering the level does not rerun the solver, gear can sit above it #}
             {% if build_check.above_level %}

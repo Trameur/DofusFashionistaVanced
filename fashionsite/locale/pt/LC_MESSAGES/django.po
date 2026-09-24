@@ -1728,6 +1728,11 @@ msgstr "parte dos bônus de mascotes do Dofus Retro"
 msgid "Website version:"
 msgstr "Versão do site:"
 
+#: .\chardata\templates\chardata\about.html:63
+#, python-format
+msgid "Translated by: %(author)s"
+msgstr "Traduzido por: %(author)s"
+
 #: .\chardata\templates\chardata\ad_slot.html:7
 msgid "Advertisement"
 msgstr "Publicidade"
@@ -2980,11 +2985,21 @@ msgstr "Ir para o Wizard"
 msgid "Soft Caps"
 msgstr "Limiares de Pontos"
 
+#: .\chardata\templates\chardata\chardata.html:190
+#, python-format
+msgid "Use %%pointsUsed%% points to increase to %%newTotal%% at %%ratio%%:1"
+msgstr "Usar %%pointsUsed%% pontos para aumentar esta característica até %%newTotal%% a %%ratio%%:1"
+
 #: .\chardata\templates\chardata\chardata.html:187
 msgid "Use %pointsUsed% points to increase to %newTotal% at %ratio%:1"
 msgstr ""
 "Usar %pointsUsed% pontos para aumentar esta característica até %newTotal% a "
 "%ratio%:1"
+
+#: .\chardata\templates\chardata\chardata.html:312
+#, python-format
+msgid "Scrolled stats must be between 0 and %%max%%."
+msgstr "Características scrolladas com pergaminhos vão de 0 a %%max%%."
 
 #: .\chardata\templates\chardata\chardata.html:308
 msgid "Scrolled stats must be between 0 and %max%."
@@ -5348,6 +5363,10 @@ msgstr "+ Adicionar tag"
 msgid "Suggestions:"
 msgstr "Sugestões:"
 
+#: .\chardata\templates\chardata\solution.html:143
+msgid "Group"
+msgstr "Grupo"
+
 #: .\chardata\templates\chardata\solution.html:130
 msgid "Build check"
 msgstr "Verificação do build"
@@ -6018,6 +6037,11 @@ msgstr ""
 "sacrificados em favor daquele que foi aumentado. Diminuir o peso de um "
 "atributo faz com que este atributo seja sacrificado pelos outros."
 
+#: .\chardata\templates\chardata\stats.html:39
+#, python-format
+msgid "%% Spells Damage"
+msgstr "%% danos feitiços"
+
 #: .\chardata\templates\chardata\stats.html:34
 msgid "% Spells Damage"
 msgstr "% danos feitiços"
@@ -6025,6 +6049,11 @@ msgstr "% danos feitiços"
 #: .\chardata\templates\chardata\stats.html:67
 msgid "All Resists"
 msgstr "Todas resistências fixas"
+
+#: .\chardata\templates\chardata\stats.html:81
+#, python-format
+msgid "All %% Resists"
+msgstr "Todas resistências %%"
 
 #: .\chardata\templates\chardata\stats.html:74
 msgid "All % Resists"
@@ -7221,7 +7250,7 @@ msgid "<b>Code libraries.</b> Some of the code that makes the pages work, such a
 msgstr "<b>Bibliotecas de código.</b> Parte do código que faz as páginas funcionarem, como o jQuery em todas as páginas e uma biblioteca de leitura de texto nas páginas que leem uma captura de tela, é carregada do Google Hosted Libraries e do jsDelivr em vez do nosso servidor, de modo que esses provedores recebem o seu endereço IP. Cada um desses arquivos tem uma impressão digital associada, e o seu navegador se recusa a executar uma cópia que não corresponda."
 
 msgid "<b>DofusBook.</b> When you paste a DofusBook link, our server fetches that build from dofusbook.net; when you open one of your builds on their site, our server first asks them which of its items they know. Both calls leave from our address and not from yours, so on those steps they do not receive your address. The link we then hand you carries the gear, the level and the characteristics of that build, and nothing that names you, and your browser only reaches their site if you click it."
-msgstr "<b>DofusBook.</b> Quando cola um link do DofusBook, o nosso servidor busca essa build no dofusbook.net; quando abre uma das suas builds no DofusBook, o nosso servidor pergunta primeiro quais dos itens dela eles conhecem. As duas chamadas saem do nosso endereço e não do seu, então nesses passos eles não recebem o seu endereço. O link que damos em seguida leva o equipamento, o nível e as características dessa build, e nada que o identifique, e o seu navegador só chega ao site deles se clicar nele."
+msgstr "<b>DofusBook.</b> Quando você cola um link do DofusBook, nosso servidor busca esse build no dofusbook.net; quando você abre um dos seus builds no DofusBook, nosso servidor pergunta primeiro quais dos itens dele eles conhecem. As duas chamadas saem do nosso endereço e não do seu, então nesses passos eles não recebem o seu endereço. O link que damos em seguida leva o equipamento, o nível e as características desse build, e nada que identifique você, e seu navegador só chega ao site deles se você clicar nele."
 
 msgid "Proven optimum"
 msgstr "Ótimo comprovado"
@@ -7271,8 +7300,8 @@ msgstr "Cada página de item e de conjunto tem um botão que inicia um build rá
 msgid "new entries"
 msgstr "novidades"
 
-msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece. Rolls and exos come along."
-msgstr "Importe um build inteiro: cole nomes de itens, um link para um build público de outro site de builds, ou solte uma captura da descrição por peça. Os valores e os exos vêm junto."
+msgid "Import a whole build: paste item names, a link to a public build from another build site, or drop one tooltip screenshot per piece."
+msgstr "Importe um build inteiro: cole nomes de itens, um link para um build público de outro site de builds, ou solte uma captura da descrição por peça."
 
 msgid "Import a whole build: paste item names or drop one tooltip screenshot per piece. Rolls and exos come along."
 msgstr "Importe um build inteiro: cole nomes de itens ou solte uma captura da descrição por peça. Os valores e os exos vêm junto."
