@@ -74,8 +74,9 @@
 
     {% if login_problem %}
     <p class="import-error">
-        {% trans "Log in to save this build to your account." %}
-        <a href="{% url 'login_page' %}">{% trans "Log in" %}</a>
+        {% game_url 'login_page' as login_link %}
+        {% game_url 'load_projects' as load_proj_link %}
+        {% blocktrans with version=current_game_version_label %} You already have a project on {{ version }}, and you can find it <a href="{{load_proj_link}}">here</a>. <a href="{{login_link}}">Log in</a> to keep several projects per version. {% endblocktrans %}
     </p>
     {% endif %}
 
