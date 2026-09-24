@@ -203,14 +203,18 @@ def _shared_icon_name_keepers(game_version):
     return _shared_icon_names[game_version]
 
 
+def _spell_icon_name(name, spell_id, game_version):
+    keeper = _shared_icon_name_keepers(game_version).get(name)
+    if keeper is not None and spell_id not in (None, keeper):
+        return '%s (%s)' % (name, spell_id)
+    return name
+
+
 def _reference_icon_name(entry, shown_name, game_version=None):
     """The icon file's name, in the language that version files them under."""
     langue = SPELL_ICON_LANGUAGE.get(game_version, 'en')
     name = localized(entry, 'name', langue) or shown_name
-    keeper = _shared_icon_name_keepers(game_version).get(name)
-    if keeper is not None and entry.get('id') not in (None, keeper):
-        return '%s (%s)' % (name, entry['id'])
-    return name
+    return _spell_icon_name(name, entry.get('id'), game_version)
 
 
 def _create_weapon_web_digest(weapon):
@@ -369,7 +373,9 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         castable = by_name[name]
         if castable.is_spell:
             shown_name = _localized_spell_name(name, language, game_version)
-            image_url = _spell_image_url(name, game_version)
+            image_url = _spell_image_url(
+                _spell_icon_name(name, castable.spell_id, game_version),
+                game_version)
         else:
             shown_name = castable.weapon.localized_name
             image_url = static(get_image_url(castable.weapon.type,
@@ -610,7 +616,9 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     web_digest['level'] = spell.level_req
     web_digest.update(_reach(spell.level_req, char_level))
     web_digest['stacks'] = spell.stacks
-    web_digest['image_url'] = _spell_image_url(spell.name, game_version)
+    web_digest['image_url'] = _spell_image_url(
+        _spell_icon_name(spell.name, getattr(spell, 'spell_id', None),
+                         game_version), game_version)
     web_digest['hit_number'] = digest.hit_number
     web_digest['non_crit_dams'] = _convert_spell_damage(digest.non_crit_dams)
     web_digest['crit_dams'] = _convert_spell_damage(digest.crit_dams)

@@ -21771,7 +21771,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         # The url comes from the spell name, a rename serves a 404
         from urllib.parse import unquote
         from chardata.spell_buffs import get_damage_spells_for_version
-        from chardata.spells_view import _spell_image_url
+        from chardata.spells_view import _spell_icon_name, _spell_image_url
         from fashionistapulp.fashionista_config import get_fashionista_path
         static = os.path.join(get_fashionista_path(), 'fashionsite', 'chardata',
                               'static')
@@ -21779,10 +21779,13 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
             names = set()
             for spells in get_damage_spells_for_version(version).values():
                 for spell in spells:
-                    name = (spell.get('name') if isinstance(spell, dict)
-                            else getattr(spell, 'name', None))
+                    if isinstance(spell, dict):
+                        name, spell_id = spell.get('name'), spell.get('spell_id')
+                    else:
+                        name = getattr(spell, 'name', None)
+                        spell_id = getattr(spell, 'spell_id', None)
                     if name:
-                        names.add(name)
+                        names.add(_spell_icon_name(name, spell_id, version))
             missing = sorted(
                 name for name in names
                 if not os.path.exists(os.path.join(
@@ -21797,7 +21800,7 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         import subprocess
         from urllib.parse import unquote
         from chardata.spell_buffs import get_damage_spells_for_version
-        from chardata.spells_view import _spell_image_url
+        from chardata.spells_view import _spell_icon_name, _spell_image_url
         from fashionistapulp.fashionista_config import get_fashionista_path
 
         root = get_fashionista_path()
@@ -21818,11 +21821,15 @@ class ItemDatabaseIntegrityTests(SimpleTestCase):
         for version in ('dofus3', 'beta', 'dofus2', 'retro', 'touch'):
             for spells in get_damage_spells_for_version(version).values():
                 for spell in spells:
-                    name = (spell.get('name') if isinstance(spell, dict)
-                            else getattr(spell, 'name', None))
+                    if isinstance(spell, dict):
+                        name, spell_id = spell.get('name'), spell.get('spell_id')
+                    else:
+                        name = getattr(spell, 'name', None)
+                        spell_id = getattr(spell, 'spell_id', None)
                     if not name:
                         continue
-                    relative = (unquote(_spell_image_url(name, version))
+                    relative = (unquote(_spell_image_url(
+                        _spell_icon_name(name, spell_id, version), version))
                                 .split('/static/', 1)[-1])
                     on_disk = os.path.join(static,
                                            relative.replace('/', os.sep))
