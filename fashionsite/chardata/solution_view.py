@@ -793,6 +793,7 @@ def _solution(request, char_id, is_guest, encoded_char_id=None, char=None, gener
               'share_text': share_text,
               'og_description': og_description,
               'dofusbook_export': (not is_guest
+                                   and not is_generation_snapshot
                                    and build_sites.enabled(build_sites.DOFUSBOOK)
                                    and dofusbook_export.supports(
                                        char.game_version)),
