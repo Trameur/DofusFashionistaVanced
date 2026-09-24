@@ -203,6 +203,23 @@ class WorkshopItem(models.Model):
         ]
 
 
+class WorkshopStock(models.Model):
+    """How many of a resource the player owns, per game version; shared by every card."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    game_version = models.CharField(max_length=20, default='dofus3')
+    ingredient_ankama_id = models.IntegerField()
+    ingredient_subtype = models.CharField(max_length=32)
+    owned = models.IntegerField(default=0)
+    updated_time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'game_version', 'ingredient_ankama_id',
+                           'ingredient_subtype')
+        indexes = [
+            models.Index(fields=['user', 'game_version']),
+        ]
+
+
 class InventoryFolder(models.Model):
     """Named group of owned items, per game version."""
     user = models.ForeignKey(User, on_delete=models.CASCADE)

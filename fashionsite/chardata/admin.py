@@ -9,7 +9,7 @@ from django.contrib import admin
 
 from chardata.models import (BuildComment, BuildTag, CommentReport,
                              SolutionGeneration, UserAlias, UserFollow,
-                             WorkshopItem)
+                             WorkshopItem, WorkshopStock)
 
 
 @admin.register(BuildComment)
@@ -65,6 +65,21 @@ class WorkshopItemAdmin(admin.ModelAdmin):
     list_filter = ('game_version', 'added_time')
     search_fields = ('user__username',)
     raw_id_fields = ('user',)
+
+
+@admin.register(WorkshopStock)
+class WorkshopStockAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'game_version', 'ingredient_ankama_id',
+                    'ingredient_subtype', 'owned', 'updated_time')
+    list_filter = ('game_version', 'updated_time')
+    search_fields = ('user__username',)
+    raw_id_fields = ('user',)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(UserFollow)
