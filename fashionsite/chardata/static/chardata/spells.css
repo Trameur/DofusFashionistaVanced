@@ -175,14 +175,7 @@
     font-weight: bold;
 }
 
-/* Les pieces que le niveau du personnage ne permet pas. Sous le total, parce
-   que c'est ce total qu'elles rendent trompeur: un build de niveau 30 portant
-   treize pieces jusqu'au niveau 100 annoncait 17981 de degats sans rien dire.
-   La page du build le disait deja, juste au-dessus du lien qui mene ici.
-
-   Aucune couleur en propre: le panneau porte deja la sienne dans chacun des
-   quatre couples de theme et de design, et `currentColor` suit le texte, donc
-   la bordure ne peut pas se retrouver invisible sur un fond qu'elle ignore. */
+/* Items above the character's level; the border follows currentColor so every theme keeps it visible. */
 .best-combo-level-warning {
     display: flex;
     flex-wrap: wrap;
@@ -220,10 +213,7 @@
     gap: 8px;
 }
 
-/* Pourquoi un lancer n'affiche aucun degat. Sous sa ligne et non dedans: le
-   nom du sort garde sa place, et une phrase n'est pas un nombre. Le retrait
-   aligne la note sur le nom, apres l'icone et son ecart. Aucune couleur en
-   propre, donc elle se lit dans les deux themes. */
+/* Why a cast shows no damage; the colour is inherited so both themes read it. */
 .best-combo-cast-note {
     font-size: .8em;
     opacity: .8;
@@ -468,9 +458,7 @@
     white-space: pre-line;
 }
 
-/* La meme forme que la description du jeu juste au-dessus, et la meme
-   couleur heritee: un element neuf qui nomme sa propre couleur tombe au
-   noir du navigateur dans le design classique. */
+/* Inherited colour: a named colour falls back to black in the classic design. */
 .spell-variant {
     font-size: 12.5px;
     font-style: italic;
@@ -479,17 +467,13 @@
     padding: 0 6px 6px 6px;
 }
 
-/* Pourquoi un sort ne montre aucun degat. Elle remplace un silence, donc
-   elle se lit plus franchement que la ligne de cout juste au-dessus: pas
-   d'opacite, comme `.no-crit-note`, ou a 12 pixels le contraste tomberait
-   sous le seuil. La couleur reste heritee, sans quoi le design classique
-   la ferait tomber au noir du navigateur. */
+/* No opacity: at 12px it would drop below the contrast floor; the colour stays inherited. */
 .spell-out-of-reach {
     font-size: 12px;
     font-style: italic;
     margin-top: 2px;
     line-height: 1.35;
-    /* Les ronds de rang occupent le bas droit du meme en-tete. */
+    /* The rank dots sit bottom right of the same header. */
     padding-right: 26px;
 }
 
@@ -498,10 +482,7 @@
     width: 12px;
 }
 
-/* Ce qu'un sort dit quand il ne peut pas faire de coup critique. Plus
-   petit que les valeurs qu'il remplace, mais sans opacite: a 12 pixels
-   une opacite ferait retomber le contraste sous le seuil, comme au lot
-   64. */
+/* No opacity: at 12px it would drop below the contrast floor. */
 .no-crit-note {
     font-size: 12px;
 }
@@ -514,10 +495,7 @@
     padding: 2px 6px 0 6px;
 }
 
-/* Un rang que le niveau du personnage n'atteint pas. Pas de couleur nommee
-   ici: l'opacite multiplie celle que le theme a deja posee, donc les deux
-   themes et les deux designs suivent sans rien declarer de plus. Le niveau
-   requis est dans l'infobulle du rond. */
+/* Opacity multiplies the theme's own colour, so every theme and design follows. */
 .circle-container.level-out-of-reach {
     opacity: 0.3;
     cursor: default;
@@ -529,17 +507,7 @@
     margin: 2px;
 }
 
-/* Le plafond de lancers atteint, quand les PA payaient encore un lancer de
-   plus. Un marqueur dans la ligne et non une phrase sous elle: la mesure du
-   12 septembre 2026 dit que 174 des 331 lignes de panneau le porteraient, et
-   une phrase sous une ligne sur deux est du bruit. La phrase est dans
-   l'infobulle.
-
-   Creuse par la taille et non par l'opacite. La premiere version mettait
-   `opacity: 0.55`, mesuree a **3,31 contre 1** en design classique clair, sous
-   le seuil de 4,5 que demande un texte de cette taille. Sans opacite, le
-   marqueur herite du panneau et se mesure au meme contraste que lui, et il
-   reste second par sa taille. Aucune couleur nommee ici non plus. */
+/* Cast cap reached while AP remained; smaller rather than faded so it keeps the panel's contrast. */
 .best-combo-limit-mark {
     font-size: 11px;
     margin-left: 4px;

@@ -1,7 +1,4 @@
-/* La page des objets les plus portes.
-   Les couleurs viennent de currentColor et de gris translucides, donc elle
-   tient en theme clair comme en sombre sans regle par theme, comme le bloc de
-   soutien de la page de resultat. */
+/* Colours come from currentColor and translucent greys, so both themes work without per-theme rules. */
 
 .most-used-title {
     text-align: center;
@@ -17,8 +14,6 @@
     line-height: 1.5;
 }
 
-/* Le chiffre qu'on retient : plus gros que la methode, et juste sous le titre.
-   C'est la phrase qu'un article reprend, donc elle doit se lire d'abord. */
 .most-used-headline {
     max-width: 46em;
     margin: 0 auto 10px;
@@ -55,7 +50,6 @@
     padding: 5px 0;
 }
 
-/* Le rang se lit d'un coup d'oeil et ne coute pas une balise de plus. */
 .most-used-item::before {
     content: counter(rang);
     flex: 0 0 1.6em;
@@ -84,8 +78,6 @@
     white-space: nowrap;
 }
 
-/* Les parts s'alignent en colonne, donc les chiffres doivent avoir la meme
-   largeur : sans cela l'oeil ne peut pas les comparer. */
 .most-used-share {
     flex: 0 0 4.5em;
     text-align: right;
@@ -101,8 +93,6 @@
     border-top: 1px solid rgba(128, 128, 128, 0.3);
 }
 
-/* Meme idiome que l'appel a l'action des fiches d'objet : le vert des boutons
-   de guide, la geometrie de la page, et 44px de haut au doigt. */
 .most-used-btn {
     display: inline-flex;
     align-items: center;

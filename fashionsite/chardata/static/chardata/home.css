@@ -273,12 +273,7 @@ h2:first-letter{
     margin-top: 5px;
 }
 
-/* Meme correctif que les drapeaux : ces commandes sont des <button>, seuls
-   elements qu'un clavier atteint sans qu'on lui ajoute un role invente. Un
-   bouton n'herite ni la police ni la couleur et s'affiche en ligne, la ou un
-   div s'empile : sans ces trois lignes les trois choix se rangeraient cote a
-   cote dans une police differente. Le fond reste aux classes de theme, qui le
-   posent deja pour le clair comme pour le sombre. */
+/* Theme choices are buttons: they inherit the font and colour and stack like the divs they replaced. */
 button.current-theme,
 button.theme-selector {
     font-family: inherit;
@@ -311,11 +306,7 @@ button.theme-selector:focus-visible {
     z-index:5000;
 }
 
-/* Les drapeaux etaient des <img> portant un .click() jQuery : au clavier, rien
-   ne les atteignait, ni celui qui ouvre le menu ni les cinq qui choisissent.
-   Ce sont des <button> depuis, ce qui donne le focus, Entree et Espace sans
-   une ligne de script. Reste a leur retirer l'apparence de bouton, que la
-   maquette n'attend pas. */
+/* Flag buttons without the native button look. */
 .flag-btn {
     background: none;
     border: 0;
@@ -326,16 +317,13 @@ button.theme-selector:focus-visible {
     display: inline-block;
 }
 
-/* Un focus qu'on ne voit pas ne sert qu'au lecteur d'ecran : le contour est
-   ce qui rend le selecteur utilisable a l'oeil et au clavier a la fois. */
 .flag-btn:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 2px;
     border-radius: 3px;
 }
 
-/* de.png fait 50x37 la ou les quatre autres font 24x24, comme pour
-   .flag-choose plus haut. */
+/* de.png is 50x37 where the other flags are 24x24. */
 .flag-current {
     width: 24px;
     height: 24px;

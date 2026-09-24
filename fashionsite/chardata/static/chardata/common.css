@@ -45,11 +45,7 @@ a, img {
     width: 10px;
     padding-right: 7px;
 }
-/* Un lecteur au clavier n'a aucun autre moyen de sauter la barre laterale : il
-   doit la parcourir en entier sur chaque page. Ce lien reste hors de l'ecran
-   jusqu'a ce qu'il recoive le focus, donc il est invisible a la souris et ne
-   change rien au rendu. Les couleurs sont explicites plutot que heritees : il
-   s'affiche par-dessus un fond quelconque, clair ou sombre. */
+/* Skip link: off screen until focused, with explicit colours since it overlays any background. */
 .skip-link {
     position: absolute;
     left: -9999px;

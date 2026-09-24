@@ -247,10 +247,7 @@
     align-items: center;
     gap: 10px;
     margin: 30px 0;
-    /* Passee de 5 a 27-30 elements le jour ou une page sur dix a ete
-       gardee : sans retour a la ligne la rangee fait 1016 px dans une
-       fenetre de 375 px, et overflow-x: hidden la coupe au lieu de la
-       faire defiler. */
+    /* Wraps so a long page list stays on screen on phones. */
     flex-wrap: wrap;
 }
 
@@ -488,8 +485,6 @@ html.fm-dark .results-count,
 html.fm-dark .text {
     color: #A8A8A8;
 }
-/* Le lien vers la page des objets les plus portes. Meme sobriete que son
-   jumeau cote encyclopedie : souligne, rien d'autre. */
 .sharedbuilds-page-link {
     display: inline-block;
     text-decoration: underline;
