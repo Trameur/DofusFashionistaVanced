@@ -35,11 +35,13 @@ class TheMountIsFoundAgainTests(SimpleTestCase):
     def test_the_two_tables_never_overlap(self):
         import io
         import json
+        import os
+        here = os.path.dirname(os.path.abspath(__file__))
         retrouves = json.load(io.open(
-            'fashionsite/chardata/legacy_renumbered_items.json',
+            os.path.join(here, 'legacy_renumbered_items.json'),
             encoding='utf-8'))['dofus3']
         restants = json.load(io.open(
-            'fashionsite/chardata/legacy_missing_items.json',
+            os.path.join(here, 'legacy_missing_items.json'),
             encoding='utf-8'))['dofus3']
         self.assertEqual(set(), set(retrouves) & set(restants))
         self.assertGreaterEqual(len(retrouves), 200)
