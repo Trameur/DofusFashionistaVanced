@@ -23,11 +23,11 @@ import sys
 import os
 try:
     conn = pymysql.connect(
-        host='mysql',
-        port=3306,
-        user='fashionista',
-        password='fashionista',
-        database='fashionista'
+        host=os.environ.get('DB_HOST', 'mysql'),
+        port=int(os.environ.get('DB_PORT', '3306')),
+        user=os.environ.get('DB_USER', 'fashionista'),
+        password=os.environ['DB_PASSWORD'],
+        database=os.environ.get('DB_NAME', 'fashionista')
     )
     conn.close()
     print('Database connection successful!')
