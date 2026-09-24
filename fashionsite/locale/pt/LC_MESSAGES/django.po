@@ -6093,9 +6093,9 @@ msgid ""
 "encyclopedia stay open to everyone. If the tool saves you time and kamas, "
 "here are a few ways to give back."
 msgstr ""
-"O Dofus Fashionista é gratuito e será sempre: o otimizador, a partilha e a "
-"enciclopédia continuam abertos a todos. Se a ferramenta te poupa tempo e "
-"kamas, aqui ficam algumas formas de contribuir."
+"O Dofus Fashionista é gratuito e sempre será: o otimizador, o "
+"compartilhamento e a enciclopédia continuam abertos a todos. Se a "
+"ferramenta te poupa tempo e kamas, aqui estão algumas formas de contribuir."
 
 #: .\chardata\templates\chardata\support.html:36
 msgid "Donate"
@@ -6107,23 +6107,23 @@ msgstr "Formas gratuitas de ajudar"
 
 #: .\chardata\templates\chardata\support.html:48
 msgid "Share your builds and the site with your guild and friends."
-msgstr "Partilha os teus builds e o site com a tua guilda e os teus amigos."
+msgstr "Compartilhe seus builds e o site com sua guilda e seus amigos."
 
 #: .\chardata\templates\chardata\support.html:50
 msgid "Report bugs and suggest features"
-msgstr "Reporta erros e sugere funcionalidades"
+msgstr "Reporte bugs e sugira funcionalidades"
 
 #: .\chardata\templates\chardata\support.html:51
 msgid "contact us"
-msgstr "contacta-nos"
+msgstr "fale conosco"
 
 #: .\chardata\templates\chardata\support.html:52
 msgid "or join our"
-msgstr "ou junta-te ao nosso"
+msgstr "ou entre no nosso"
 
 #: .\chardata\templates\chardata\support.html:55
 msgid "Leave helpful comments on shared builds."
-msgstr "Deixa comentários úteis nos builds partilhados."
+msgstr "Deixe comentários úteis nos builds compartilhados."
 
 #: .\chardata\templates\chardata\thankyou.html:14
 msgid "Your message has been sent."
@@ -6866,11 +6866,11 @@ msgstr "Chega mais tarde, não no total acima:"
 
 #: .\chardata\templates\chardata\support.html:44
 msgid "There is no advertising on the site, and I would like to keep it that way. I pay for the server myself and build this in my spare time."
-msgstr "Não há nenhuma publicidade no site, e gostaria que continuasse assim. O servidor pago-o do meu bolso e desenvolvo isto nos tempos livres."
+msgstr "Não há nenhuma publicidade no site, e eu gostaria que continuasse assim. Eu mesmo pago o servidor do meu bolso e desenvolvo isso no meu tempo livre."
 
 #: .\chardata\templates\chardata\support.html:47
 msgid "I pay for the server myself and build this in my spare time."
-msgstr "O servidor pago-o do meu bolso e desenvolvo isto nos tempos livres."
+msgstr "Eu mesmo pago o servidor do meu bolso e desenvolvo isso no meu tempo livre."
 
 #: .\chardata\templates\chardata\solution.html:580
 msgid "No ads, no subscription."

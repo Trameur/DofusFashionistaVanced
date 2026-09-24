@@ -6146,7 +6146,7 @@ msgid ""
 "here are a few ways to give back."
 msgstr ""
 "Dofus Fashionista est gratuit et le restera toujours : l'optimiseur, le "
-"partage et l'encyclopédie restent ouverts à tous. Si l'outil vous fait "
+"partage et l'encyclopédie restent ouverts à tous. Si l'outil te fait "
 "gagner du temps et des kamas, voici quelques façons de nous soutenir."
 
 #: .\chardata\templates\chardata\support.html:36
@@ -6159,23 +6159,23 @@ msgstr "Façons d'aider gratuitement"
 
 #: .\chardata\templates\chardata\support.html:48
 msgid "Share your builds and the site with your guild and friends."
-msgstr "Partagez vos builds et le site avec votre guilde et vos amis."
+msgstr "Partage tes builds et le site avec ta guilde et tes amis."
 
 #: .\chardata\templates\chardata\support.html:50
 msgid "Report bugs and suggest features"
-msgstr "Signalez des bugs et proposez des fonctionnalités"
+msgstr "Signale des bugs et propose des fonctionnalités"
 
 #: .\chardata\templates\chardata\support.html:51
 msgid "contact us"
-msgstr "contactez-nous"
+msgstr "contacte-nous"
 
 #: .\chardata\templates\chardata\support.html:52
 msgid "or join our"
-msgstr "ou rejoignez notre"
+msgstr "ou rejoins notre"
 
 #: .\chardata\templates\chardata\support.html:55
 msgid "Leave helpful comments on shared builds."
-msgstr "Laissez des commentaires utiles sur les builds partagés."
+msgstr "Laisse des commentaires utiles sur les builds partagés."
 
 #: .\chardata\templates\chardata\thankyou.html:14
 msgid "Your message has been sent."
