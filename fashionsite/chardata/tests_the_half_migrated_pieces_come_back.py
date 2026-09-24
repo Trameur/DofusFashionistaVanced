@@ -139,4 +139,4 @@ class TheBuildReadsBackWholeTests(TestCase):
         char.link_shared = True
         char.save()
         self.assertIsNone(refusal_reason(char),
-                          'la galerie refuse encore un build reparable')
+                          'the gallery still refuses a repairable build')

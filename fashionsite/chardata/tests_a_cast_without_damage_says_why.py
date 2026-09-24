@@ -98,7 +98,7 @@ class TheLineKeepsItsShapeTests(TestCase):
         page = self.client.get('/spells/%d/' % char.id).content.decode('utf-8')
         listes = re.findall(r'<ol class="best-combo-casts">(.*?)</ol>', page,
                             re.S)
-        self.assertTrue(listes, 'le panneau du meilleur tour est absent')
+        self.assertTrue(listes, 'the best-turn panel is missing')
         lignes = re.findall(r'<li>\s*(<[a-z]+[^>]*)', listes[0])
         self.assertTrue(lignes)
         for ouverture in lignes:

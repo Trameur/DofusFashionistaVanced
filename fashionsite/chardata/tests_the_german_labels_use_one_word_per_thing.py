@@ -23,26 +23,26 @@ _LONGUEUR_LIBELLE = 5
 # Labels seen together: (msgid, msgid, shared word, where)
 _VOISINS = (
     ('Lock Items', 'Forbid Items', 'Gegenst', 'le menu d\'un projet'),
-    ('Fully Buff', 'Clean Buffs', 'Buff', 'les deux boutons des sorts'),
-    ('Character Level', 'Character Name', 'Charakter', 'la page de creation'),
-    ('Character Level', 'Character Class', 'Charakter', 'la page de creation'),
-    ('Min Level', 'Max Level', 'Stufe', 'les filtres des builds partages'),
-    ('Compare sets', 'Choose sets to compare', 'Set', 'le bandeau'),
+    ('Fully Buff', 'Clean Buffs', 'Buff', 'the two spell buttons'),
+    ('Character Level', 'Character Name', 'Charakter', 'the creation page'),
+    ('Character Level', 'Character Class', 'Charakter', 'the creation page'),
+    ('Min Level', 'Max Level', 'Stufe', 'the shared build filters'),
+    ('Compare sets', 'Choose sets to compare', 'Set', 'the banner'),
 )
 
 # (msgid, wrong translation, what it actually means)
 _MOTS_FAUX = (
-    ('About', 'Um', 'une preposition: autour de, vers'),
-    ('Item A', 'Punkt A', 'un point, comme un point de score'),
-    ('Item B', 'Punkt B', 'un point, comme un point de score'),
-    ('Lock Items', 'Elemente sperren', 'element, pas objet'),
-    ('Character Level', 'Charakterebene', 'ebene: un plan, une couche'),
-    ('Min Level', 'Min. Level', 'la meme page dit Stufe sur chaque carte'),
-    ('Max Level', 'Max. Level', 'la meme page dit Stufe sur chaque carte'),
-    ('Compare sets', 'Sätze vergleichen', 'satz: une phrase, un jeu'),
-    ('Compare Sets', 'Sätze vergleichen', 'satz: une phrase, un jeu'),
-    ('Change Sets', 'Änderungssätze', 'un nom compose sur un bouton'),
-    ('Fully Buff', 'Vollständig poliert', 'poliert: poli, lustre'),
+    ('About', 'Um', 'a preposition: around, towards'),
+    ('Item A', 'Punkt A', 'a point, like a score point'),
+    ('Item B', 'Punkt B', 'a point, like a score point'),
+    ('Lock Items', 'Elemente sperren', 'element, not item'),
+    ('Character Level', 'Charakterebene', 'ebene: a plane, a layer'),
+    ('Min Level', 'Min. Level', 'the same page says Stufe on every card'),
+    ('Max Level', 'Max. Level', 'the same page says Stufe on every card'),
+    ('Compare sets', 'Sätze vergleichen', 'satz: a sentence, a set of things'),
+    ('Compare Sets', 'Sätze vergleichen', 'satz: a sentence, a set of things'),
+    ('Change Sets', 'Änderungssätze', 'a compound noun on a button'),
+    ('Fully Buff', 'Vollständig poliert', 'poliert: polished, shined'),
 )
 
 # Only the verb goes in the link (freischalten is a separable verb)

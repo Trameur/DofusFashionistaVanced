@@ -165,7 +165,7 @@ class TheFallbackAndTheGeneratorTests(SimpleTestCase):
         self.assertEqual('Rune Inconnue',
                          rune_display_name('dofus3', 'Rune Inconnue', 'en'))
         self.assertEqual('Rune Vi',
-                         rune_display_name('pas_une_version', 'Rune Vi', 'en'))
+                         rune_display_name('not_a_version', 'Rune Vi', 'en'))
         self.assertEqual('Vit Rune',
                          rune_display_name('dofus3', 'Rune Vi', 'it'))
 

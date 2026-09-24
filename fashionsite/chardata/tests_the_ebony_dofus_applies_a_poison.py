@@ -68,7 +68,7 @@ class OnePoisonLandsAndNotFiveTests(SimpleTestCase):
                 sort = _sort_partage(version)
                 effets = sort.get_effects_digest().non_crit_dams[-1]
                 groupes = _element_alternatives(sort.aggregates, effets)
-                self.assertIsNotNone(groupes, 'lues comme une somme')
+                self.assertIsNotNone(groupes, 'read as a sum')
                 self.assertEqual(5, len(groupes))
                 for groupe in groupes:
                     self.assertEqual(1, len(groupe))
@@ -81,9 +81,9 @@ class OnePoisonLandsAndNotFiveTests(SimpleTestCase):
                 sort = _sort_partage(version)
                 lignes = sort.get_effects_digest().non_crit_dams[-1]
                 self.assertEqual(80, sum(ligne.max_dam for ligne in lignes),
-                                 'la somme des lignes ne change pas')
+                                 'the sum of the rows does not change')
                 groupes = _element_alternatives(sort.aggregates, lignes)
-                self.assertIsNotNone(groupes, 'encore lues comme une somme')
+                self.assertIsNotNone(groupes, 'still read as a sum')
                 tombent = [max(lignes[index].max_dam for index in groupe)
                            for groupe in groupes]
                 self.assertEqual([16] * 5, tombent)

@@ -111,7 +111,7 @@ class TheDigestCarriesItTests(TestCase):
         page = self.client.get('/spells/%d/' % char.id,
                                follow=True).content.decode('utf-8')
         brut = re.search(r'var\s+spellDigests\s*=\s*(\[.*?\])\s*;', page, re.S)
-        self.assertIsNotNone(brut, 'la page ne porte pas ses sorts')
+        self.assertIsNotNone(brut, 'the page does not carry its spells')
         return json.loads(brut.group(1))
 
     def test_every_spell_says_how_far_the_level_goes(self):
@@ -138,15 +138,15 @@ class TheDigestCarriesItTests(TestCase):
         haut, offerts_haut = hors_de_portee(200)
         self.assertEqual(0, haut, 'un niveau 200 atteint tout')
         self.assertGreater(bas, offerts_bas * 0.5,
-                           'plus de la moitie des rangs sont hors de portee '
-                           'au niveau 1')
+                           'more than half the ranks are out of reach '
+                           'at level 1')
 
     def test_a_spell_the_character_does_not_have_is_marked_unavailable(self):
         char = self._build(1)
         sorts = [d for d in self._digests(char)
                  if d.get('type') == 'spell' and d.get('level')]
         indisponibles = [d for d in sorts if not d['available']]
-        self.assertTrue(indisponibles, 'aucun sort hors de portee au niveau 1')
+        self.assertTrue(indisponibles, 'no spell out of reach at level 1')
         for digest in indisponibles:
             with self.subTest(sort=digest['name']):
                 self.assertLess(1, digest['level'][0])

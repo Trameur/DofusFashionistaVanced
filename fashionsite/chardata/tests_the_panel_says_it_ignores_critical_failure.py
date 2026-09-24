@@ -37,7 +37,7 @@ class OnlyRetroHasTheMechanicTests(SimpleTestCase):
                 set_current_game_version(version)
                 structure = get_structure(version)
                 self.assertIn('cf', structure.stat_dict_key,
-                              'la stat a disparu du catalogue')
+                              'the stat disappeared from the catalogue')
                 sid = structure.stat_dict_key['cf'].id
                 porteurs = 0
                 vus = set()
@@ -150,7 +150,7 @@ class TheNoteIsRetroOnlyTests(TestCase):
         build = self.client.get('/%ssolution/%d/' % (prefixe, char.id),
                                 follow=True).content.decode('utf-8')
         ligne = LIGNE_BUILD.search(build)
-        self.assertIsNotNone(ligne, 'pas de ligne de meilleur tour')
+        self.assertIsNotNone(ligne, 'no best-turn row')
         titre = TITRE.search(ligne.group(1))
         self.assertIsNotNone(titre)
         self.assertIn(attendu, titre.group(1))

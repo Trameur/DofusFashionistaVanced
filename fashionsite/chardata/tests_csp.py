@@ -124,7 +124,7 @@ class TheReportEndpointRecordsWithoutDrowningTests(TestCase):
         self.assertEqual(405, self.client.get(REPORT_PATH).status_code)
 
     def test_junk_is_refused_rather_than_logged(self):
-        for corps in ('pas du json', '[]', '{}', '{"csp-report": 3}',
+        for corps in ('not json', '[]', '{}', '{"csp-report": 3}',
                       '{"csp-report": {}}'):
             with self.subTest(corps=corps):
                 self.assertEqual(400, self._poste(corps).status_code)

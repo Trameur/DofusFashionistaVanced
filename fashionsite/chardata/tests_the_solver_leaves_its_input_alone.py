@@ -68,15 +68,15 @@ class TheSolverLeavesItsInputAlone(SimpleTestCase):
         base = self._plafonds([])
         libres = [i for i, c in base.items() if c != 0]
         deja = [i for i, c in base.items() if c == 0]
-        self.assertTrue(libres, 'toutes les lignes sont deja interdites a '
-                                'vide : ce test ne prouverait rien')
-        self.assertTrue(deja, 'aucune ligne a interdire pour declencher '
-                              'l expansion')
+        self.assertTrue(libres, 'all the rows are already forbidden at '
+                                'zero: this test would prove nothing')
+        self.assertTrue(deja, 'no row to forbid to trigger the '
+                              'expansion')
         apres = self._plafonds([deja[0]])
         for identifiant in libres:
             self.assertEqual(apres[identifiant], 0,
-                             'la ligne soeur %s est restee autorisee alors '
-                             'que %s etait interdit' % (identifiant, deja[0]))
+                             'the sibling row %s stayed allowed while '
+                             '%s was forbidden' % (identifiant, deja[0]))
 
     def test_an_item_nobody_forbade_keeps_its_ceiling(self):
         scindes = {m.id for _n, ms in

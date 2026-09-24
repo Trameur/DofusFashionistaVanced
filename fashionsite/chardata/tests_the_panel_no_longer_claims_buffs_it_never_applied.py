@@ -69,7 +69,7 @@ class TheDefaultSentenceIsTrueTests(_AvecUnBuild):
     def test_the_panel_opens_saying_no_buff_is_standing(self):
         char = self._build()
         note = NOTE_SORTS.search(self._page('/spells/%d/' % char.id))
-        self.assertIsNotNone(note, 'la phrase des buffs a disparu du panneau')
+        self.assertIsNotNone(note, 'the buff sentence disappeared from the panel')
         self.assertEqual(gettext(SANS), _texte(note.group(1)))
 
     def test_no_page_claims_self_buffs_are_included(self):
@@ -121,7 +121,7 @@ class TheSentenceFollowsTheTickedBuffsTests(_AvecUnBuild):
                 spell, _decide_spell_level(spell.level_req, char.level), False)
             if castable.buffs:
                 return spell.name
-        self.fail('aucun sort de buff pour ce personnage')
+        self.fail('no buff spell for this character')
 
     def test_ticking_a_buff_changes_the_sentence(self):
         char = self._build()
@@ -132,7 +132,7 @@ class TheSentenceFollowsTheTickedBuffsTests(_AvecUnBuild):
 
     def test_a_buff_that_never_applies_leaves_the_sentence_alone(self):
         char = self._build()
-        combo = self._combo(char, {'Sort qui n existe pas': 'n1'})
+        combo = self._combo(char, {'Spell that does not exist': 'n1'})
         self.assertEqual(gettext(SANS), combo['buff_note'])
 
     def test_the_ajax_answer_carries_it_so_the_page_can_follow(self):

@@ -75,7 +75,7 @@ class TheFormulaIsExactEverywhereTests(SimpleTestCase):
         self.assertGreater(len(bases), 100)
         casses = self._totaux_casses(bases)
         self.assertGreater(len(casses), 50,
-                           'aucun total de stat ne casse l ancienne forme')
+                           'no stat total breaks the old formula')
 
     def test_no_catalogue_value_loses_a_point_on_any_version(self):
         from fashionistapulp.dofus_constants import raised_by_percent

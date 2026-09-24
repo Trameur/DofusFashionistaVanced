@@ -62,7 +62,7 @@ class EveryAddressThatClaimsToBeUsIsUsTests(SimpleTestCase):
     def test_no_file_names_a_host_the_settings_do_not(self):
         declares = _hotes_declares()
         self.assertIn('dofusfashionista.gg', declares,
-                      'les reglages ne nomment plus le site lui-meme')
+                      'the settings no longer name the site itself')
         etrangers = []
         for chemin in _fichiers():
             for hote, numero in _hotes_du_fichier(chemin):
@@ -71,7 +71,7 @@ class EveryAddressThatClaimsToBeUsIsUsTests(SimpleTestCase):
                                      % (chemin[len(_RACINE) + 1:].replace(
                                          os.sep, '/'), numero, hote))
         self.assertEqual([], etrangers[:5],
-                         'ces adresses pretendent etre nous: %s' % etrangers[:5])
+                         'these addresses claim to be us: %s' % etrangers[:5])
 
     def test_the_site_names_itself_often_enough_for_that_to_mean_something(
             self):
@@ -106,7 +106,7 @@ class TheComparePageShowsAnExampleThatWorksTests(TestCase):
                 for exemple in exemples:
                     chemin = exemple[len(SITE_URL):]
                     self.assertTrue(chemin.startswith(attendu + '/'),
-                                    '%s ne porte pas %s' % (exemple, attendu))
+                                    '%s does not carry %s' % (exemple, attendu))
 
     def test_a_link_of_that_shape_is_understood(self):
         for prefixe in ('', '/retro'):

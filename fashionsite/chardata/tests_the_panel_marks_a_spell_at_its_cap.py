@@ -119,8 +119,8 @@ class ItFiresOnRealBuildsTests(TestCase):
         self.assertGreater(vus, 10, 'trop peu de classes mesurees')
         part = 100.0 * marques / vus
         self.assertGreater(part, 60.0,
-                           'seulement %.1f %% des panneaux portent un '
-                           'marqueur' % part)
+                           'only %.1f %% of the panels carry a '
+                           'mark' % part)
 
     def test_no_mark_repeats_on_an_earlier_cast_of_the_same_spell(self):
         from collections import Counter
@@ -157,7 +157,7 @@ class ItFiresOnRealBuildsTests(TestCase):
                 with self.subTest(classe=classe, sort=cast['name']):
                     self.assertEqual(comptes[cast['name']], int(lances))
                     self.assertGreaterEqual(int(lances), int(limite))
-        self.assertGreater(vus, 5, 'aucun marqueur mesure')
+        self.assertGreater(vus, 5, 'no mark measured')
 
 
 class ThePageShowsItTests(TestCase):
@@ -188,11 +188,11 @@ class ThePageShowsItTests(TestCase):
         page = self.client.get('/spells/%d/' % char.id,
                                follow=True).content.decode('utf-8')
         marques = MARQUE.findall(page)
-        self.assertTrue(marques, 'aucun marqueur sur la page')
+        self.assertTrue(marques, 'no mark on the page')
         ligne_marquee = [l for l in LIGNE.findall(page) if MARQUE.search(l)]
         self.assertTrue(ligne_marquee)
         titre = TITRE.search(ligne_marquee[0])
-        self.assertIsNotNone(titre, 'le marqueur n a pas d infobulle')
+        self.assertIsNotNone(titre, 'the mark has no tooltip')
         self.assertEqual(gettext(PHRASE), titre.group(1))
 
     def test_the_ajax_answer_carries_both_fields(self):
@@ -203,7 +203,7 @@ class ThePageShowsItTests(TestCase):
         self.assertEqual(200, reponse.status_code)
         combo = json.loads(reponse.content.decode('utf-8'))['best_combo']
         marques = [c for c in combo['casts'] if c['limit_mark']]
-        self.assertTrue(marques, 'la reponse AJAX ne porte aucun marqueur')
+        self.assertTrue(marques, 'the AJAX response carries no mark')
         for cast in marques:
             with self.subTest(sort=cast['name']):
                 self.assertRegex(cast['limit_mark'], r'^\d+/\d+$')

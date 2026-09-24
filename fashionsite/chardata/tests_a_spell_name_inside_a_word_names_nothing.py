@@ -74,12 +74,12 @@ class TheCatalogueAgreesTests(SimpleTestCase):
         structure, objet = self._objet('dofus3', 'Emerald Dofus')
         lignes = [ligne for ligne in (objet.localized_extras.get('de') or [])
                   if 'Nahkampf' in ligne]
-        self.assertTrue(lignes, 'la ligne temoin a change dans le catalogue')
+        self.assertTrue(lignes, 'the reference line changed in the catalogue')
         for ligne in lignes:
             with self.subTest(ligne=ligne[:40]):
                 self.assertNotIn('Nahkampf ', ligne,
-                                 'le mot y est desormais seul, le test ne '
-                                 'garde plus le cas du mot compose')
+                                 'the word now stands alone, the test no '
+                                 'longer covers the compound word case')
                 self.assertIsNone(_tip(ligne, dict([COUP_DE_POING_DE])))
 
     def test_no_item_is_explained_in_one_language_only(self):
@@ -95,7 +95,7 @@ class TheCatalogueAgreesTests(SimpleTestCase):
                         for item in items:
                             if not item.removed and item.spell_tooltips:
                                 vus[item.id] = item
-                self.assertTrue(vus, 'aucun objet a infobulle')
+                self.assertTrue(vus, 'no item has a tooltip')
                 boiteux = sorted(
                     structure.get_item_name_in_language(item, 'en')
                     for item in vus.values()
@@ -115,7 +115,7 @@ class TheCatalogueAgreesTests(SimpleTestCase):
                         for item in items:
                             if not item.removed and item.spell_tooltips:
                                 vus[item.id] = item
-                self.assertTrue(vus, 'aucun objet a infobulle')
+                self.assertTrue(vus, 'no item has a tooltip')
                 fautifs = []
                 for item in vus.values():
                     tooltips = item.spell_tooltips.get('de') or {}

@@ -267,7 +267,7 @@ class TheMostUsedPageCountsWhatItSaysItCountsTests(SimpleTestCase):
         """The no-index branch of the meta description names no count."""
         corps = _lit(_GABARITS, 'encyclopedia_most_used.html')
         sans_compte = corps.split('{% else %}')
-        self.assertGreater(len(sans_compte), 1, 'les deux branches ont fondu')
+        self.assertGreater(len(sans_compte), 1, 'the two branches merged')
         branche = sans_compte[1].split('{% endif %}')[0]
         for compte in ('calculated on this site', 'Counted over', '{{ n }}'):
             self.assertNotIn(

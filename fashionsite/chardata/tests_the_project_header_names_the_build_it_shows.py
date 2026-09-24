@@ -10,12 +10,12 @@ LANGUES = ('en', 'fr', 'es', 'pt', 'de')
 _EXEMPLES = ('Str', 'Int', 'Str Glass Cannon', 'Int Crit')
 
 _MOTS_FAUX = (
-    ('Build', 'fr', 'Élément', 'element, pas build'),
+    ('Build', 'fr', 'Élément', 'element, not build'),
     ('Build', 'es', 'Elemento', 'element, pas build'),
     ('Build', 'pt', 'Elemento', 'element, pas build'),
     ('Build', 'de', 'Bauen', 'le verbe construire'),
     ('Char', 'de', 'Verkohlen', 'le verbe carboniser'),
-    ('Duplicate', 'de', 'Duplikat', 'le nom, sur un bouton'),
+    ('Duplicate', 'de', 'Duplikat', 'the noun, on a button'),
 )
 
 

@@ -49,7 +49,7 @@ class _AvecUnBuild(TestCase):
             chemin, HTTP_ACCEPT_LANGUAGE=langue,
             follow=True).content.decode('utf-8')
         trouve = LIGNE.search(page)
-        self.assertIsNotNone(trouve, 'ligne absente sur %s' % chemin)
+        self.assertIsNotNone(trouve, 'row missing on %s' % chemin)
         return trouve.group(1)
 
 
@@ -78,7 +78,7 @@ class TheOwnerSeesItTests(_AvecUnBuild):
         char = self._build()
         ligne = self._ligne('/solution/%d/' % char.id)
         lien = LIEN.search(ligne)
-        self.assertIsNotNone(lien, 'le nombre ne mene nulle part')
+        self.assertIsNotNone(lien, 'the number leads nowhere')
         self.assertEqual(200, self.client.get(lien.group(1),
                                               follow=True).status_code)
 

@@ -55,7 +55,7 @@ class _AvecUnBuild(TestCase):
         self.assertEqual(200, reponse.status_code)
         char.refresh_from_db()
         self.assertEqual(niveau, char.level,
-                         'le formulaire du projet n a pas enregistre le niveau')
+                         'the project form did not save the level')
         return char
 
     def _pieces_portees(self, char):
@@ -80,13 +80,13 @@ class LoweringTheLevelKeepsTheGearTests(_AvecUnBuild):
     def test_the_solver_is_not_run_again_so_the_gear_stays(self):
         char = self._build(200)
         avant = self._pieces_portees(char)
-        self.assertTrue(avant, 'le build importe ne porte rien')
+        self.assertTrue(avant, 'the imported build wears nothing')
         self._baisse_le_niveau(char, 30)
         apres = self._pieces_portees(char)
         self.assertEqual(sorted(avant), sorted(apres),
-                         'la solution a change, le defaut ne se produit plus')
+                         'the solution changed, the bug no longer happens')
         trop = [(n, l) for n, l in apres if l and l > 30]
-        self.assertTrue(trop, 'aucune piece au-dessus du niveau 30')
+        self.assertTrue(trop, 'no piece above level 30')
 
 
 class TheOwnerIsToldTests(_AvecUnBuild):
@@ -138,7 +138,7 @@ class TheVisitorIsToldTooTests(_AvecUnBuild):
         adresse = '/s/%s/%s/' % (char.char_name or 'shared',
                                  encode_char_id(char.id))
         ligne = self._ligne(adresse, client=Client())
-        self.assertIsNotNone(ligne, 'le visiteur n est pas averti')
+        self.assertIsNotNone(ligne, 'the visitor is not told')
         self.assertIn(gettext("Pieces above this character's level"),
                       _texte(ligne))
 

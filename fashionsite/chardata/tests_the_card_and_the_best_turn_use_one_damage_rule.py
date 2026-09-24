@@ -54,16 +54,16 @@ class ThePageClampsTheSameWayTests(SimpleTestCase):
 
     def test_the_characteristic_is_clamped_before_multiplying(self):
         trouve = _MULTIPLICATEUR.search(_source_du_gabarit())
-        self.assertIsNotNone(trouve, 'la formule de la page a disparu')
+        self.assertIsNotNone(trouve, 'the page formula disappeared')
         self.assertIn('Math.max(', trouve.group(1),
-                      'la page multiplie par une caracteristique non bornee: '
+                      'the page multiplies by an unclamped characteristic: '
                       '%s' % trouve.group(1))
 
     def test_power_is_clamped_too(self):
         source = _source_du_gabarit()
         ajouts = [morceau for morceau in _PUISSANCE.findall(source)
                   if 'pow' in morceau.lower()]
-        self.assertTrue(ajouts, 'la page n ajoute plus la Puissance')
+        self.assertTrue(ajouts, 'the page no longer adds Power')
         for ajout in ajouts:
             with self.subTest(ligne=ajout.strip()):
                 self.assertIn('Math.max(', ajout)

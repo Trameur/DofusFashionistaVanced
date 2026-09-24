@@ -28,9 +28,9 @@ class WhatTheRuleReadsTests(SimpleTestCase):
     def test_a_buff_cast_is_a_cast_that_does_not_hit(self):
         sorts = [_Sort('buff', buffs={'str': 100}),
                  _Sort('frappe', hits=[object()]),
-                 _Sort('les deux', buffs={'str': 10}, hits=[object()]),
-                 _Sort('jamais lance', buffs={'str': 10})]
-        ordre = [('buff', 0), ('frappe', 120), ('les deux', 90)]
+                 _Sort('both', buffs={'str': 10}, hits=[object()]),
+                 _Sort('never cast', buffs={'str': 10})]
+        ordre = [('buff', 0), ('frappe', 120), ('both', 90)]
         self.assertEqual({'buff'}, _buff_casts(sorts, ordre))
 
     def test_a_turn_without_a_buff_says_nothing(self):

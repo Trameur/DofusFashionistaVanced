@@ -45,7 +45,7 @@ class _AvecDesBuilds(TestCase):
         ids = {structure.stat_dict_key[cle].id
                for cle in ('permedam', 'perrandam')
                if cle in structure.stat_dict_key}
-        self.assertTrue(ids, 'les deux stats sont absentes du catalogue')
+        self.assertTrue(ids, 'both stats are missing from the catalogue')
         trouvees = []
         for type_name, items in structure.types[200].items():
             for item in items:
@@ -69,7 +69,7 @@ class _AvecDesBuilds(TestCase):
 
     def _build_concerne(self):
         noms = self._pieces_avec_la_stat()
-        self.assertTrue(noms, 'aucune piece ne porte ces stats en Dofus 3')
+        self.assertTrue(noms, 'no piece carries these stats on Dofus 3')
         return self._build(noms[:2]), noms[:2]
 
     def _build_ordinaire(self):
@@ -87,7 +87,7 @@ class _AvecDesBuilds(TestCase):
                        for sid, valeur in (item.stats or [])):
                 return self._build(
                     [structure.get_item_name_in_language(item, 'en')])
-        self.fail('aucun chapeau sans ces stats')
+        self.fail('no hat without these stats')
 
     def _stats(self, char):
         from chardata.solution import get_solution
@@ -150,11 +150,11 @@ class TheStatsAreReallyLeftOutTests(_AvecDesBuilds):
                         and fenetre[0] <= 1 < fenetre[1] + 1
                         and fenetre[1] > 1):
                     au_choix += 1
-        self.assertGreater(total, 300, 'trop peu de sorts avec une portee')
+        self.assertGreater(total, 300, 'too few spells with a range')
         part = 100.0 * au_choix / total
         self.assertGreater(part, 70.0,
-                           'seulement %.1f %% des sorts laissent la portee au '
-                           'choix du lanceur' % part)
+                           'only %.1f %% of spells leave the range up to '
+                           'the caster' % part)
 
 
 class TheNoteAppearsOnlyWhenItAppliesTests(_AvecDesBuilds):
@@ -163,11 +163,11 @@ class TheNoteAppearsOnlyWhenItAppliesTests(_AvecDesBuilds):
         char, noms = self._build_concerne()
         stats = self._stats(char)
         self.assertTrue(stats.get('permedam') or stats.get('perrandam'),
-                        'le build temoin ne porte pas la stat: %s' % noms)
+                        'the reference build does not carry the stat: %s' % noms)
         page = self.client.get('/spells/%d/' % char.id,
                                follow=True).content.decode('utf-8')
         trouve = NOTE.search(page)
-        self.assertIsNotNone(trouve, 'le panneau ne dit rien')
+        self.assertIsNotNone(trouve, 'the panel says nothing')
         self.assertEqual(_attendu('en'), _texte(trouve.group(1)))
 
     def test_a_build_without_it_is_not_bothered(self):

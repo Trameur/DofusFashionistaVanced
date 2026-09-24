@@ -40,7 +40,7 @@ class TheTokenResolvesTests(SimpleTestCase):
 
     def test_text_without_a_token_is_untouched(self):
         from chardata.guides_content import _fill_measured_numbers
-        texte = '<p>Rien a remplacer ici, 16 et 31 compris.</p>'
+        texte = '<p>Nothing to replace here, 16 and 31 included.</p>'
         self.assertEqual(texte, _fill_measured_numbers(texte, 'dofus2'))
 
 
@@ -73,7 +73,7 @@ class TheGuideSaysTheMeasuredNumberTests(SimpleTestCase):
         attendu = str(_compte('Iop', 'retro'))
         autre = str(_compte('Iop', 'dofus3'))
         self.assertNotEqual(attendu, autre,
-                            'sans cet ecart le guide ne dirait rien')
+                            'without this gap the guide would say nothing')
         from chardata.guides_content import GUIDES
         blocs = GUIDES['best-turn-damage']['i18n_by_group']['retro']
         for langue in LANGUES:
@@ -108,7 +108,7 @@ class TheDofus2SentenceStaysMeaningfulTests(SimpleTestCase):
     def test_it_no_longer_opposes_two_equal_numbers(self):
         from chardata.guides_content import get_guide
         self.assertEqual(_compte('Iop', 'dofus2'), _compte('Iop', 'dofus3'),
-                         'les deux comptes ont diverge, relire la phrase')
+                         'the two counts diverged, reread the sentence')
         corps = re.sub(r'\s+', ' ', re.sub(
             r'<[^>]+>', ' ', get_guide('best-turn-damage', 'en', 'dofus2')['body']))
         self.assertIn('as many as on Dofus 3 but not the same ones', corps)

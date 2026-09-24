@@ -81,7 +81,7 @@ class ThePanelSaysItTests(_AvecUnBuild):
     def test_a_build_lowered_below_its_gear_really_keeps_it(self):
         char = self._baisse_le_niveau(self._build(200), 30)
         trop = self._pieces_hors_niveau(char)
-        self.assertTrue(trop, 'aucune piece au-dessus du niveau 30')
+        self.assertTrue(trop, 'no piece above level 30')
         self.assertTrue(all(piece['level'] > 30 for piece in trop))
 
     def test_the_panel_counts_them(self):

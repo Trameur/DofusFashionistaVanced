@@ -132,7 +132,7 @@ class TheSpellPageSaysItTests(TestCase):
             'text': structure.get_item_name_in_language(item, 'en'),
             'confirm': '1', 'char_class': char_class, 'level': '200'})
         char = Char.objects.order_by('-id').first()
-        self.assertIsNotNone(char, 'le build de test n a pas ete cree')
+        self.assertIsNotNone(char, 'the test build was not created')
         return char
 
     def test_a_card_names_the_other_face_and_the_rule(self):
@@ -152,7 +152,7 @@ class TheSpellPageSaysItTests(TestCase):
                                HTTP_ACCEPT_LANGUAGE='en'
                                ).content.decode('utf-8')
         trouve = re.search(r'var spellDigests = (\[.*?\]);\s*\n', page, re.S)
-        self.assertTrue(trouve, 'les cartes ne sont pas dans la page')
+        self.assertTrue(trouve, 'the cards are not on the page')
         digests = json.loads(trouve.group(1))
         nommes = [d for d in digests if d.get('variant_partner')]
         self.assertGreaterEqual(len(nommes), 20, len(digests))

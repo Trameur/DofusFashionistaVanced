@@ -51,7 +51,7 @@ class NoLinkRefusesTheVisitorTests(_BuildPartage):
                                follow=True).content.decode('utf-8')
         liens = sorted({lien for lien in INTERNE.findall(page)
                         if not lien.startswith(('/static/', '/media/'))})
-        self.assertTrue(liens, 'la page ne porte aucun lien interne')
+        self.assertTrue(liens, 'the page carries no internal link')
         refuses = []
         for lien in liens:
             code = self.client.get(lien, follow=True).status_code
@@ -64,7 +64,7 @@ class NoLinkRefusesTheVisitorTests(_BuildPartage):
         page = self.client.get(self._adresse_partagee(char),
                                follow=True).content.decode('utf-8')
         cellule = CELLULE.search(page)
-        self.assertIsNotNone(cellule, 'la colonne Base a disparu de la page')
+        self.assertIsNotNone(cellule, 'the Base column disappeared from the page')
         self.assertNotIn('<a ', cellule.group(0))
         self.assertNotIn('/setup/', cellule.group(0))
 

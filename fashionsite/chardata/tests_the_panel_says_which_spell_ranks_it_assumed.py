@@ -56,7 +56,7 @@ class TheAssumptionIsWorthSayingTests(_AvecUnBuild):
         char = self._build()
         haut = self._combo(char)
         bas = self._combo(char, levels=self._tous_au_plus_bas(char))
-        self.assertTrue(haut['casts'], 'le tour est vide, le test ne mesure rien')
+        self.assertTrue(haut['casts'], 'the turn is empty, the test measures nothing')
         self.assertGreater(haut['total'], bas['total'])
 
 
@@ -77,7 +77,7 @@ class TheNoteFollowsWhatWasReadTests(_AvecUnBuild):
                 baisse = {castable.name: 0}
                 break
         else:
-            self.skipTest('aucun sort de cette classe ne porte deux niveaux')
+            self.skipTest('no spell of this class carries two levels')
         self.assertEqual(gettext(CHOISI),
                          self._combo(char, levels=baisse)['rank_note'])
 
@@ -114,7 +114,7 @@ class ThePageAndTheRefreshBothCarryItTests(_AvecUnBuild):
         page = self.client.get('/spells/%d/' % char.id,
                                follow=True).content.decode('utf-8')
         trouve = NOTE.search(page)
-        self.assertIsNotNone(trouve, 'la note est absente de la page')
+        self.assertIsNotNone(trouve, 'the note is missing from the page')
         self.assertEqual(gettext(HAUT), trouve.group(1).strip())
 
     def test_the_refresh_answer_carries_it(self):

@@ -78,10 +78,10 @@ class AnImportedBuildCarriesThemTests(TestCase):
         char = self._importe(with_ap=True)
         stats = dict(get_solution(char).get_stats_total())
         self.assertGreaterEqual(stats['ap'], 8,
-                                'les pieces ne portent pas de PA')
+                                'the pieces do not carry any AP')
         self.assertGreaterEqual(combat_ap(stats['ap'], 'dofus3'), 8)
         combo = _best_combo(char, get_solution(char), 'dofus3')
-        self.assertIsNotNone(combo, 'aucun combo, le tour n a pas ses PA')
+        self.assertIsNotNone(combo, 'no combo, the turn has no AP')
         self.assertGreater(combo['total'], 0)
         self.assertTrue(combo['casts'])
 

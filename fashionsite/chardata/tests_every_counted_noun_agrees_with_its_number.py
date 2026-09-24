@@ -29,7 +29,7 @@ _NE_COMPTE_RIEN = {
         'phrase de description',
     'damage': 'indenombrable',
     # Follows the set total, and no set has a single piece
-    'pieces': 'ratio x/y, dont le y est au moins 2 sur les cinq versions',
+    'pieces': 'ratio x/y, where y is at least 2 across the five versions',
 }
 
 # "counter" context where the singular already exists as a msgid

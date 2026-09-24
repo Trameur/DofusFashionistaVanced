@@ -54,7 +54,7 @@ class _AvecDeuxSets(TestCase):
 
     def _cellules(self, page):
         ligne = LIGNE.search(page)
-        self.assertIsNotNone(ligne, 'la ligne du meilleur tour est absente')
+        self.assertIsNotNone(ligne, 'the best-turn row is missing')
         return [_texte(c) for c in CELLULE.findall(ligne.group(1))]
 
 

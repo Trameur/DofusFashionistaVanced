@@ -55,7 +55,7 @@ class _AvecUneSolution(TestCase):
         from fashionistapulp.structure import set_current_game_version
 
         solution = get_solution(char)
-        self.assertIsNotNone(solution, 'le build importe n a pas de solution')
+        self.assertIsNotNone(solution, 'the imported build has no solution')
         panneaux = []
         for char_class in filter_classes_for_version(CHARACTER_CLASSES,
                                                      'dofus3'):
@@ -102,7 +102,7 @@ class TheRenderedPageAddsUpTests(_AvecUneSolution):
         page = self.client.get('/spells/%d/' % char.id,
                                follow=True).content.decode('utf-8')
         casts = CASTS.search(page)
-        self.assertIsNotNone(casts, 'la liste des lancers est absente')
+        self.assertIsNotNone(casts, 'the cast list is missing')
         total = TOTAL.search(page)
         self.assertIsNotNone(total, 'le total en tete est absent')
         lignes = []
@@ -112,7 +112,7 @@ class TheRenderedPageAddsUpTests(_AvecUneSolution):
             self.assertIsNotNone(degats, ligne)
             self.assertIsNotNone(cumul, ligne)
             lignes.append((int(degats.group(1)), int(cumul.group(1))))
-        self.assertTrue(lignes, 'aucun lancer sur la page')
+        self.assertTrue(lignes, 'no cast on the page')
         return lignes, int(total.group(1))
 
     def test_the_page_the_reader_sees_adds_up(self):
