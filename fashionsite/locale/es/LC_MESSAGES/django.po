@@ -5135,6 +5135,22 @@ msgstr "Mostrar solo los builds que me gustan"
 msgid "Show only my favorited builds"
 msgstr "Mostrar solo mis builds favoritos"
 
+#: .\chardata\templates\chardata\shared_builds.html
+msgid "TemporiX servers"
+msgstr "Servidores TemporiX"
+
+#: .\chardata\templates\chardata\shared_builds.html
+msgid "All servers"
+msgstr "Todos los servidores"
+
+#: .\chardata\templates\chardata\shared_builds.html
+msgid "TemporiX only"
+msgstr "Solo TemporiX"
+
+#: .\chardata\templates\chardata\shared_builds.html
+msgid "Without TemporiX"
+msgstr "Sin TemporiX"
+
 #: .\chardata\templates\chardata\shared_builds.html:140
 msgid "Hide invalid or outdated builds"
 msgstr "Ocultar builds invalidos u obsoletos"

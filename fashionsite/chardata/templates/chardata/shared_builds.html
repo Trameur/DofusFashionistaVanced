@@ -171,8 +171,18 @@
                         {% trans "Hide invalid or outdated builds" %}
                     </label>
                 </div>
+                {% if current_game_version == 'touch' %}
+                <div class="filter-group">
+                    <label class="filter-label">{% trans "TemporiX servers" %}</label>
+                    <select name="temporix" class="filter-input pretty-input" aria-label="{% trans "TemporiX servers" %}">
+                        <option value="" {% if not filters.temporix %}selected{% endif %}>{% trans "All servers" %}</option>
+                        <option value="only" {% if filters.temporix == 'only' %}selected{% endif %}>{% trans "TemporiX only" %}</option>
+                        <option value="hide" {% if filters.temporix == 'hide' %}selected{% endif %}>{% trans "Without TemporiX" %}</option>
+                    </select>
+                </div>
+                {% endif %}
             </div>
-            
+
             <div class="filter-row" style="justify-content: center;">
                 <button type="submit" class="filter-button button-generic">{% trans "Apply Filters" %}</button>
                 <a href="{% game_url 'shared_builds' %}" class="filter-button button-generic" style="display: inline-block; text-decoration: none;">

@@ -260,8 +260,10 @@ def _get_shared_build_meta(char):
 _FILTER_PARAMS = frozenset({
     'char_class', 'min_level', 'max_level', 'order_by', 'search',
     'user_search', 'show_liked', 'show_favorited', 'hide_invalid', 'tag',
+    'temporix',
 })
 _ASPECT_PREFIX = 'check_'
+_TEMPORIX_FILTER_VALUES = frozenset({'only', 'hide'})
 
 
 def _canonical_url(request, page_obj):
@@ -385,7 +387,14 @@ def _gallery(request, forced_class=None):
     hide_invalid = request.GET.get('hide_invalid', '')
     tag_filter = (request.GET.get('tag') or '').strip().lower()
     page_number = request.GET.get('page', 1)
-    
+
+    # Dofus Touch only: on every other version the control is hidden and
+    # the parameter is ignored, whatever value it carries.
+    game_version = getattr(request, 'game_version', 'dofus3')
+    temporix_filter = request.GET.get('temporix', '')
+    if game_version != 'touch' or temporix_filter not in _TEMPORIX_FILTER_VALUES:
+        temporix_filter = ''
+
     # Get selected build aspects from checkboxes
     selected_aspects = []
     for aspect in ['str', 'int', 'cha', 'agi', 'omni', 'vit', 'res', 'wis', 
@@ -395,7 +404,6 @@ def _gallery(request, forced_class=None):
             selected_aspects.append(aspect)
     
     # Annotate vote counts only when the ordering needs them: expensive JOIN.
-    game_version = getattr(request, 'game_version', 'dofus3')
     needs_vote_annotation = order_by in ('likes', 'favorites') or (
         request.user.is_authenticated and (show_liked or show_favorited)
     )
@@ -519,8 +527,9 @@ def _gallery(request, forced_class=None):
         return [chars_by_id[i] for i in page_ids if i in chars_by_id]
 
     builds_data = []
-    if hide_invalid:
-        # Validity comes from the per-build meta cache.
+    if hide_invalid or temporix_filter:
+        # Validity and the TemporiX flag both come from the per-build meta
+        # cache: one pass over it serves both filters.
         id_rows = list(builds.values_list('id', 'modified_time', 'game_version'))
         metas = {}
         miss_ids = []
@@ -535,8 +544,21 @@ def _gallery(request, forced_class=None):
             for char in Char.objects.filter(id__in=miss_ids):
                 metas[char.id] = _get_shared_build_meta(char)
 
+        def _passes_filters(row_id):
+            meta = metas.get(row_id)
+            if meta is None:
+                return False
+            if hide_invalid and meta['is_invalid']:
+                return False
+            is_temporix = bool(meta.get('temporix'))
+            if temporix_filter == 'only' and not is_temporix:
+                return False
+            if temporix_filter == 'hide' and is_temporix:
+                return False
+            return True
+
         valid_ids = [row_id for row_id, _row_modified, _row_game_version in id_rows
-                     if row_id in metas and not metas[row_id]['is_invalid']]
+                     if _passes_filters(row_id)]
 
         paginator = Paginator(valid_ids, SHARED_BUILDS_PAGE_SIZE)
         try:
@@ -728,6 +750,7 @@ def _gallery(request, forced_class=None):
             'show_favorited': show_favorited,
             'hide_invalid': hide_invalid,
             'tag': tag_filter,
+            'temporix': temporix_filter,
         }
     }
     if noindex:
