@@ -106,8 +106,8 @@ class ThePairingComesFromTheGameFilesTests(SimpleTestCase):
         sorts = get_damage_spells_for_version('dofus3').get('Cra', [])
         noms = _variant_partner_names(sorts, 'dofus3')
         self.assertTrue(noms)
-        affiche = {spell.spell_id: _localized_spell_name(spell.name, 'en',
-                                                         'dofus3')
+        affiche = {spell.spell_id: _localized_spell_name(
+                       spell.name, 'en', 'dofus3', spell.spell_id)
                    for spell in sorts}
         par_affichage = {nom: spell_id for spell_id, nom in affiche.items()}
         for spell_id, partenaire in noms.items():

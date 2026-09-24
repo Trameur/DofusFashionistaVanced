@@ -20749,7 +20749,8 @@ class SpellComboPageTests(TestCase):
         self.assertTrue(combo['casts'])
         language = get_supported_language()
         by_shown = {
-            _localized_spell_name(spell.name, language, 'dofus3'): spell
+            _localized_spell_name(spell.name, language, 'dofus3',
+                                  spell.spell_id): spell
             for spell in castable_spells(char.char_class, char.level, 'dofus3')}
         armed = {}
         for cast in combo['casts']:

@@ -125,7 +125,7 @@ def _variant_partner_names(spells, game_version, entries=()):
         spell_id = getattr(spell, 'spell_id', None)
         if spell_id is not None and spell_id not in noms:
             noms[spell_id] = _localized_spell_name(spell.name, langue,
-                                                   game_version)
+                                                   game_version, spell_id)
     for entry in entries:
         spell_id = entry.get('id')
         if spell_id is not None and spell_id not in noms:
@@ -263,7 +263,36 @@ def _create_weapon_web_digest(weapon):
     
     return web_digest
 
-def _localized_spell_name(name, language, game_version):
+_spell_reference_by_id_cache = {}
+
+
+def _spell_reference_by_id(game_version):
+    """{spell id: entry} across every class of the version's spell reference."""
+    if game_version not in _spell_reference_by_id_cache:
+        by_id = {}
+        for entries in get_spell_reference(game_version).values():
+            for entry in entries or []:
+                spell_id = entry.get('id')
+                if spell_id is not None:
+                    by_id.setdefault(spell_id, entry)
+        _spell_reference_by_id_cache[game_version] = by_id
+    return _spell_reference_by_id_cache[game_version]
+
+
+def _linked_spell_id(spell, game_version):
+    """Id of the spell this one shares a slot with, looked up in its own class."""
+    spell_id = getattr(spell, 'spell_id', None)
+    for spells in get_damage_spells_for_version(game_version).values():
+        if spell_id is None or not any(
+                getattr(other, 'spell_id', None) == spell_id for other in spells):
+            continue
+        for other in spells:
+            if other.name == spell.is_linked[1]:
+                return getattr(other, 'spell_id', None)
+    return None
+
+
+def _localized_spell_name(name, language, game_version, spell_id=None):
     # Retro and Touch name maps are keyed by the French name
     version_names = None
     if game_version == 'retro':
@@ -278,6 +307,11 @@ def _localized_spell_name(name, language, game_version):
             lang = (language or 'en').split('-')[0].lower()
             return names.get(lang) or names.get('fr') or name
         return name
+    if spell_id is not None:
+        entry = _spell_reference_by_id(game_version).get(spell_id)
+        # A spell named after its item (Ebony Dofus) keeps its own map entry
+        if entry is not None and localized(entry, 'name', 'en') == name:
+            return localized(entry, 'name', language) or name
     return get_localized_spell_name(name, language)
 
 
@@ -372,7 +406,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         shown = int(round(running))
         castable = by_name[name]
         if castable.is_spell:
-            shown_name = _localized_spell_name(name, language, game_version)
+            shown_name = _localized_spell_name(name, language, game_version,
+                                               castable.spell_id)
             image_url = _spell_image_url(
                 _spell_icon_name(name, castable.spell_id, game_version),
                 game_version)
@@ -399,7 +434,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
         cumul_differe += later[name]
         montre_differe = int(round(cumul_differe))
         late.append({
-            'name': (_localized_spell_name(name, language, game_version)
+            'name': (_localized_spell_name(name, language, game_version,
+                                           castable.spell_id)
                      if castable.is_spell else castable.weapon.localized_name),
             'damage': montre_differe - avant,
             'label': ', '.join(str(_DELAYED_LABELS.get(when, when))
@@ -412,7 +448,8 @@ def _best_combo(char, solution, game_version, buff_state=None, levels=None,
             pushback=pushback):
         castable = by_name[name]
         extras.append({
-            'name': (_localized_spell_name(name, language, game_version)
+            'name': (_localized_spell_name(name, language, game_version,
+                                           castable.spell_id)
                      if castable.is_spell else castable.weapon.localized_name),
             'damage': int(round(damage)),
             'label': str(_CONDITIONAL_LABELS.get(trigger, trigger)),
@@ -610,7 +647,9 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     digest = spell.get_effects_digest()
     current_language = get_supported_language()
     web_digest['type'] = 'spell'
-    web_digest['name'] = _localized_spell_name(spell.name, current_language, game_version)
+    web_digest['name'] = _localized_spell_name(
+        spell.name, current_language, game_version,
+        getattr(spell, 'spell_id', None))
     # 'name' is translated; the combo endpoint matches on the untranslated name.
     web_digest['canonical'] = spell.name
     web_digest['level'] = spell.level_req
@@ -629,7 +668,9 @@ def _create_spell_web_digest(spell, game_version='dofus3', char_level=None):
     web_digest['always_land'] = _always_land_by_rank(spell, digest)
     web_digest['is_linked'] = (
         spell.is_linked[0],
-        get_localized_spell_name(spell.is_linked[1], current_language)
+        _localized_spell_name(spell.is_linked[1], current_language,
+                              game_version,
+                              _linked_spell_id(spell, game_version))
     ) if spell.is_linked else None
     web_digest['special'] = spell.special
     web_digest['conditional'] = {
