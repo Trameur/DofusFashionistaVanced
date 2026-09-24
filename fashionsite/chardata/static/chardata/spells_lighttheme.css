@@ -17,10 +17,10 @@
     color: purple;
 }
 .fire {
-    color: red;
+    color: #C00000;
 }
 .air {
-    color: green;
+    color: #007000;
 }
 .earth, .small-text {
     color: #7E3517;
