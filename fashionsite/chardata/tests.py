@@ -8631,7 +8631,7 @@ class VersionInPageMetaTests(TestCase):
 
     def test_each_version_names_itself_on_an_item_page(self):
         expected = {'': None, 'retro/': 'Dofus Retro', 'touch/': 'Dofus Touch',
-                    'beta/': 'Dofus Beta', 'dofus2/': 'Dofus 2'}
+                    'beta/': 'Dofus 3 Beta', 'dofus2/': 'Dofus 2'}
         seen = set()
         for prefix, label in expected.items():
             url = '/%sencyclopedia/item/equipment/233-kaiser/' % prefix

@@ -52,7 +52,7 @@ _GAME_VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
 # Word between "Dofus" and "Fashionista" in SEO titles, empty on dofus3
 _GAME_VERSION_SEO_WORDS = {
     'dofus3': '',
-    'beta': 'Beta',
+    'beta': '3 Beta',
     'dofus2': '2',
     'retro': 'Retro',
     'touch': 'Touch',

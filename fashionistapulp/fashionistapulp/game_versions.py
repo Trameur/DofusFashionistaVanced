@@ -52,7 +52,7 @@ GAME_VERSIONS = {
         GameVersion('dofus3', 'Dofus 3', 'items.db', 'item_db_dumped.dump',
                     prefix='', seo_word=''),
         GameVersion('beta', 'Beta', 'items_beta.db',
-                    'item_db_dumped_beta.dump', seo_word='Beta',
+                    'item_db_dumped_beta.dump', seo_word='3 Beta',
                     weapon_element_rate=1.0, element_potion_heals=False),
         GameVersion('dofus2', 'Dofus 2', 'items_dofus2.db',
                     'item_db_dumped_dofus2.dump', seo_word='2'),

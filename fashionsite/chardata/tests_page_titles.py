@@ -144,7 +144,7 @@ class HomeMetadataTests(TestCase):
         'pt': (('criador', 'otimizador'), 'Criar um build'),
         'de': (('set-baukasten', 'optimierer'), 'Build erstellen'),
     }
-    VERSIONS = {'': '', 'beta': 'Beta', 'dofus2': '2',
+    VERSIONS = {'': '', 'beta': '3 Beta', 'dofus2': '2',
                 'retro': 'Retro', 'touch': 'Touch'}
 
     def _homes(self):
