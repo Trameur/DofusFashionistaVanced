@@ -394,20 +394,8 @@
         {% endif %}
         {% if solver_priorities %}
         <p class="solver-why-line">
-            {% trans "Weighted by this project's stat values." %}
+            {% trans "Priorities given to the solver:" %}
             {% for priority in solver_priorities %}<span class="solver-why-goal solver-priority">{{ priority.name }} {{ priority.weight }}</span>{% if not forloop.last %} {% endif %}{% endfor %}
-        </p>
-        {% endif %}
-        {% if solver_resistances %}
-        <p class="solver-why-line">
-            {% for resistance in solver_resistances %}<span class="solver-why-goal solver-resistance">{{ resistance.name }} {{ resistance.value }}</span>{% if not forloop.last %} {% endif %}{% endfor %}
-        </p>
-        {% endif %}
-        {% if best_turn %}
-        <p class="solver-why-line solver-why-best-turn">
-            {% trans "Best turn" %}:
-            {% if encoded_char_id %}<a href="{% game_url 'spells_linked' char.char_name|default:'shared' encoded_char_id %}">{{ best_turn }}</a>{% else %}<a href="{% game_url 'spells' char_id %}">{{ best_turn }}</a>{% endif %}
-            {% if best_turn_note %}<span class="solver-why-best-turn-note">{{ best_turn_note }}</span>{% endif %}
         </p>
         {% endif %}
         {# Pool counted from the solver's own constraints #}

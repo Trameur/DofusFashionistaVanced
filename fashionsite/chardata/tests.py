@@ -27414,7 +27414,6 @@ class WhyThisResultPanelTests(TestCase):
         page = self._page(char)
         self.assertIn('solver-why', page)
         self.assertIn('solver-priority', page)
-        self.assertIn('Best turn', page)
         if proven:
             self.assertIn('Proven optimum', page)
             self.assertNotIn('not a proof', page)

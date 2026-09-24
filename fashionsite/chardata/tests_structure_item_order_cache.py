@@ -1,3 +1,4 @@
+# Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
 from types import SimpleNamespace
 from unittest import mock
 
