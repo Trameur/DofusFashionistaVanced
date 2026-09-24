@@ -142,7 +142,7 @@ def missing_backups(manifest, source, names):
         if not saved.is_file():
             missing.append(name)
         elif file_digest(saved) != digest:
-            raise ValueError('Sauvegarde altérée : ' + name)
+            raise ValueError('Corrupted backup: ' + name)
     return missing
 
 
@@ -363,7 +363,7 @@ def put_back_tracked(name, digest, destination):
         return
     saved = destination / 'tracked' / name
     if not saved.is_file() or file_digest(saved) != digest:
-        raise FileNotFoundError('Copie absente ou altérée : ' + name)
+        raise FileNotFoundError('Copy missing or corrupted: ' + name)
     temp = path.with_name(path.name + '.restore-tmp')
     shutil.copy2(saved, temp)
     try:
@@ -384,7 +384,7 @@ def preserve_table(before, after, table):
     with readonly(before) as old, writable(after) as new:
         schema = old.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name=?", (table,)).fetchone()
         if not schema:
-            raise ValueError('Complément local absent : ' + table)
+            raise ValueError('Local table missing: ' + table)
         rows = old.execute('SELECT * FROM ' + quoted(table)).fetchall()
         if table == 'mount_looks':
             query = 'SELECT id, ankama_id, ankama_type FROM items'
@@ -530,7 +530,7 @@ def snapshot(version):
         dump = dump_path(version)
         dump_errors = []
         if not dump.exists():
-            dump_errors.append('Dump absent : ' + str(dump))
+            dump_errors.append('Dump missing: ' + str(dump))
         else:
             try:
                 with writable(':memory:') as restored:
@@ -538,7 +538,7 @@ def snapshot(version):
                     for table in tables:
                         rows = restored.execute('SELECT COUNT(*) FROM ' + quoted(table)).fetchone()[0]
                         if rows != counts[table]:
-                            dump_errors.append('%s : %d lignes en base, %d dans le dump' % (table, counts[table], rows))
+                            dump_errors.append('%s: %d rows in the database, %d in the dump' % (table, counts[table], rows))
             except (sqlite3.Error, UnicodeError) as exc:
                 dump_errors.append(str(exc))
         return {'version': version, 'tables': counts, 'schema': tables, 'items': items,
@@ -562,69 +562,69 @@ def source_shrink(before, after, table):
 def compare(before, after):
     result = {'errors': [], 'warnings': [], 'changes': [], 'items_added': [], 'items_removed': [], 'items_changed': []}
     if after['integrity'] != ['ok']:
-        result['errors'].append('SQLite : ' + '; '.join(after['integrity']))
-    result['errors'].extend('Dump incohérent : ' + error for error in after.get('dump_errors', []))
+        result['errors'].append('SQLite: ' + '; '.join(after['integrity']))
+    result['errors'].extend('Inconsistent dump: ' + error for error in after.get('dump_errors', []))
     for name in sorted(after.get('source_stats', {}).keys() - before.get('source_stats', {}).keys()):
-        result['warnings'].append('NOUVEL EFFET SOURCE : %s (%d objets), vérifier sa prise en compte' % (name, after['source_stats'][name]))
+        result['warnings'].append('NEW SOURCE EFFECT: %s (%d items), check that it is handled' % (name, after['source_stats'][name]))
     for table in sorted(before['tables'].keys() | after['tables'].keys()):
         old, new = before['tables'].get(table, 0), after['tables'].get(table, 0)
         if new != old:
-            result['changes'].append('%s : %d -> %d lignes (%+d)' % (table, old, new, new - old))
+            result['changes'].append('%s: %d -> %d rows (%+d)' % (table, old, new, new - old))
         shrink = source_shrink(before, after, table) if table in after['tables'] else None
         explained = bool(shrink) and old > 0 and (old - new) / old <= (shrink[1] - shrink[2]) / shrink[1] + LOSS_TOLERANCE
         if table in before['tables'] and (table not in after['tables'] or (old and new < old * (1 - LOSS_TOLERANCE))):
             if explained:
-                result['warnings'].append('%s : %d -> %d lignes, la source Ankama %s a aussi diminué (%d -> %d)'
+                result['warnings'].append('%s: %d -> %d rows, the Ankama source %s shrank too (%d -> %d)'
                                           % ((table, old, new) + shrink))
             else:
-                result['errors'].append('%s : perte de plus de 3 %% ou table supprimée (%d -> %d)' % (table, old, new))
+                result['errors'].append('%s: lost more than 3%% or table deleted (%d -> %d)' % (table, old, new))
         elif new < old:
-            result['warnings'].append('%s : %d lignes en moins' % (table, old - new))
+            result['warnings'].append('%s: %d fewer rows' % (table, old - new))
     required = ('items', 'stats', 'stats_of_item', 'sets')
     if after['version'] != 'wakfu':
         required += ('weapon_hits', 'weapon_ap')
     for table in required:
         if not after['tables'].get(table):
-            result['errors'].append('Table essentielle vide : ' + table)
+            result['errors'].append('Essential table empty: ' + table)
     for table, ids in after['orphaned'].items():
         new_ids = set(ids) - set(before['orphaned'].get(table, []))
         if new_ids:
-            result['errors'].append('%s : %d nouvelles références sans objet' % (table, len(new_ids)))
+            result['errors'].append('%s: %d new references without an item' % (table, len(new_ids)))
     result['new_stats'] = sorted(after['stats'].keys() - before['stats'].keys())
     for key in result['new_stats']:
-        result['warnings'].append('NOUVELLE STAT : %s (%s) ; vérifier calcul, poids et traductions' % (key, after['stats'][key]['name']))
+        result['warnings'].append('NEW STAT: %s (%s); check the calculation, weight and translations' % (key, after['stats'][key]['name']))
     for key in sorted(before['stats'].keys() - after['stats'].keys()):
-        result['errors'].append('STAT DISPARUE : ' + key)
+        result['errors'].append('STAT GONE: ' + key)
     for key in sorted(after['stats'].keys() & before['stats'].keys()):
         if after['stats'][key] != before['stats'][key]:
-            result['warnings'].append('Stat modifiée : %s : %s -> %s' % (key, before['stats'][key], after['stats'][key]))
+            result['warnings'].append('Stat changed: %s: %s -> %s' % (key, before['stats'][key], after['stats'][key]))
     for item_id, old in before['items'].items():
         target = after['legacy_ids'].get(item_id, item_id)
         new = after['items'].get(target)
         if new is None or (old.get('ankama_id'), old.get('ankama_type')) != (new.get('ankama_id'), new.get('ankama_type')):
-            result['errors'].append('Identifiant perdu ou réaffecté : %s (%s)' % (item_id, old['name']))
+            result['errors'].append('Id lost or reassigned: %s (%s)' % (item_id, old['name']))
             result['items_removed'].append(old)
         elif old != new:
             result['items_changed'].append({'id': item_id, 'name': new['name'], 'before': old, 'after': new})
     result['items_hidden'] = [item_id for item_id, new in after['items'].items()
                               if new.get('removed') and not before['items'].get(item_id, {'removed': 1}).get('removed')]
     if result['items_hidden']:
-        result['changes'].append('Objets retirés par Ankama, gardés masqués : %d' % len(result['items_hidden']))
+        result['changes'].append('Items removed by Ankama, kept hidden: %d' % len(result['items_hidden']))
     result['items_added'] = [item for key, item in after['items'].items() if key not in before['items']]
-    result['changes'].append('Objets : +%d, -%d, %d modifiés' % (len(result['items_added']), len(result['items_removed']), len(result['items_changed'])))
+    result['changes'].append('Items: +%d, -%d, %d changed' % (len(result['items_added']), len(result['items_removed']), len(result['items_changed'])))
     added = after['spells'].keys() - before['spells'].keys()
     removed = before['spells'].keys() - after['spells'].keys()
     changed = [key for key in after['spells'].keys() & before['spells'].keys() if after['spells'][key] != before['spells'][key]]
     result['spell_changes'] = {'added': sorted(added), 'removed': sorted(removed), 'changed': changed}
-    result['changes'].append('Sorts : +%d, -%d, %d modifiés' % (len(added), len(removed), len(changed)))
+    result['changes'].append('Spells: +%d, -%d, %d changed' % (len(added), len(removed), len(changed)))
     if removed:
-        result['warnings'].append('Sorts retirés : ' + ', '.join(sorted(removed)))
+        result['warnings'].append('Spells removed: ' + ', '.join(sorted(removed)))
     old_images, new_images = before['images']['problems'], after['images']['problems']
     result['new_image_problems'] = {key: value for key, value in new_images.items() if key not in old_images or value['path'] != old_images[key]['path']}
     for key, image in result['new_image_problems'].items():
         if key not in old_images and before['images'].get('paths', {}).get(key) == image['path']:
-            result['errors'].append('Image existante perdue ou illisible : %s (%s)' % (key, image['path']))
-    result['changes'].append('Images absentes/illisibles : %d -> %d (%d nouvelles)' % (len(old_images), len(new_images), len(result['new_image_problems'])))
+            result['errors'].append('Existing image lost or unreadable: %s (%s)' % (key, image['path']))
+    result['changes'].append('Missing or unreadable images: %d -> %d (%d new)' % (len(old_images), len(new_images), len(result['new_image_problems'])))
     if new_images:
-        result['warnings'].append("%d images absentes ou illisibles ; liste exacte dans l'inventaire après mise à jour" % len(new_images))
+        result['warnings'].append('%d missing or unreadable images; the exact list is in the inventory after the update' % len(new_images))
     return result

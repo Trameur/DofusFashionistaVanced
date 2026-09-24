@@ -1,4 +1,4 @@
-"""Interactive data updates: py update_all.py [--list | --dry-run | --restore DOSSIER | --clean-reports]."""
+"""Interactive data updates: py update_all.py [--list | --dry-run | --restore FOLDER | --clean-reports]."""
 
 from __future__ import annotations
 
@@ -51,50 +51,56 @@ LOCAL_TABLES = {'mount-looks': 'mount_looks', 'monster-grades': 'monster_grades'
 NETWORK_STEP = re.compile(r'download|mirror|scrape|data/sets|data/spells|data/mounts|images|icons|artworks')
 RETRY_DELAY = 20
 PIPELINE_TIMEOUT = 4 * 3600
-IMPORTED = 'IMPORTÉ'
-RESTORED = 'ÉCHEC, RESTAURÉ'
-RESTORE_INCOMPLETE = 'RESTAURATION INCOMPLÈTE'
-NOT_STARTED = 'NON LANCÉ'
-REVIEW = 'TESTS À REVOIR'
-HOLDERS = "le serveur de développement, DB Browser ou la visionneuse d'images (ou attendre la fin de l'analyse antivirus)"
-CHECK_TITLES = {'generation': 'Génération des builds', 'weapons': 'Contrôle des armes',
-                'django': 'Suite Django complète'}
-PROGRESS_PREFIX = '[suivi] '
+IMPORTED = 'IMPORTED'
+PARTLY_IMPORTED = 'PARTLY IMPORTED'
+FAILED = 'FAILED'
+RESTORED = 'FAILED, RESTORED'
+RESTORE_INCOMPLETE = 'RESTORE INCOMPLETE'
+LEGACY_RESTORE_INCOMPLETE = 'RESTAURATION INCOMPL'
+NOT_STARTED = 'NOT STARTED'
+INTERRUPTED = 'INTERRUPTED'
+RUNNING = 'RUNNING'
+REVIEW = 'TESTS TO REVIEW'
+ERRORS = 'ERRORS'
+HOLDERS = 'the dev server, DB Browser or the image viewer (or wait for the antivirus scan to finish)'
+CHECK_TITLES = {'generation': 'Build generation', 'weapons': 'Weapon check',
+                'django': 'Full Django suite'}
+PROGRESS_PREFIX = '[progress] '
 HEARTBEAT_SECONDS = 30
 IMAGE_SECONDS_PER_FILE = .005
 DISK_MARGIN = 1.2
 KEPT_IMAGE_BACKUPS = 3
 MARKER = re.compile(r'update_all pid=(\d+) (\S+)(?: (?:run|restore)=(.+))?')
 STEP_TITLES = {
-    'items/download': 'Téléchargement des objets', 'data/download': 'Téléchargement des données',
-    'data/mirror': 'Copie des données Wakfu', 'data/sets': 'Noms des panoplies',
-    'data/spells': 'Téléchargement des sorts', 'data/mounts': 'Téléchargement des montures',
-    'lang/download': 'Téléchargement des langues',
-    'items/transform': 'Transformation des objets', 'items/dump': 'Création du dump SQL',
-    'items/load-db': 'Chargement de la base', 'items/build-db': 'Construction de la base',
-    'items/obtainment': "Moyens d'obtention", 'items/corrections': 'Corrections des objets',
-    'items/recipes': 'Enregistrement des recettes', 'items/special-spells': 'Sorts spéciaux des objets',
-    'items/spells': 'Enregistrement des sorts', 'item-skins': 'Apparences des objets',
-    'item-images': 'Images des équipements', 'resource-icons': 'Images des ressources',
-    'monster-images': 'Images des monstres', 'monsters/artworks': 'Illustrations des monstres',
-    'spell-images': 'Images des sorts', 'spell-icons': 'Icônes des sorts', 'resize': 'Redimensionnement des images',
-    'mount-looks': 'Apparences des montures', 'monster-grades': 'Grades des monstres',
-    'monster-subareas': 'Sous-zones des monstres', 'monster-spells': 'Sorts des monstres',
-    'monsters/grades': 'Grades des monstres', 'monsters/subareas': 'Sous-zones des monstres',
-    'monsters/subarea-langs': 'Noms des sous-zones',
-    'spells/download': 'Téléchargement des sorts', 'spells/transform': 'Transformation des sorts',
-    'spells/duplicates': 'Lignes de dégâts en double', 'spells/build': 'Construction des sorts',
-    'spells/reference': 'Référentiel des sorts', 'spells/states': 'États des sorts',
-    'spells/constants': 'Statistiques des sorts', 'spells/tooltips': 'Effets des sorts sur les objets',
-    'spells/decode': 'Décodage des sorts', 'spells/d2o-tables': 'Tables des sorts du client',
-    'drops/transform': 'Transformation des butins', 'drops/store': 'Enregistrement des butins',
-    'craftjobs/transform': 'Transformation des métiers', 'craftjobs/store': 'Enregistrement des métiers',
-    'craftjobs/jobs-table': 'Table des métiers', 'recipes/store': 'Enregistrement des recettes',
-    'pets/scrape': 'Lecture des familiers', 'pets/store': 'Enregistrement des familiers',
-    'pets/scrape-bonuses': 'Lecture des bonus des familiers',
-    'pets/store-bonuses': 'Enregistrement des bonus des familiers',
-    'sets/bonuses': 'Bonus des panoplies', 'descriptions/store': 'Descriptions des objets',
-    'dynamic-translations': 'Traductions des données', 'verify/rebuild': 'Contrôle de reconstruction',
+    'items/download': 'Downloading items', 'data/download': 'Downloading data',
+    'data/mirror': 'Copying the Wakfu data', 'data/sets': 'Set names',
+    'data/spells': 'Downloading spells', 'data/mounts': 'Downloading mounts',
+    'lang/download': 'Downloading languages',
+    'items/transform': 'Transforming items', 'items/dump': 'Creating the SQL dump',
+    'items/load-db': 'Loading the database', 'items/build-db': 'Building the database',
+    'items/obtainment': 'Ways to obtain items', 'items/corrections': 'Item corrections',
+    'items/recipes': 'Saving recipes', 'items/special-spells': 'Special item spells',
+    'items/spells': 'Saving spells', 'item-skins': 'Item appearances',
+    'item-images': 'Equipment images', 'resource-icons': 'Resource images',
+    'monster-images': 'Monster images', 'monsters/artworks': 'Monster artwork',
+    'spell-images': 'Spell images', 'spell-icons': 'Spell icons', 'resize': 'Resizing images',
+    'mount-looks': 'Mount appearances', 'monster-grades': 'Monster grades',
+    'monster-subareas': 'Monster subareas', 'monster-spells': 'Monster spells',
+    'monsters/grades': 'Monster grades', 'monsters/subareas': 'Monster subareas',
+    'monsters/subarea-langs': 'Subarea names',
+    'spells/download': 'Downloading spells', 'spells/transform': 'Transforming spells',
+    'spells/duplicates': 'Duplicate damage rows', 'spells/build': 'Building spells',
+    'spells/reference': 'Spell reference', 'spells/states': 'Spell states',
+    'spells/constants': 'Spell statistics', 'spells/tooltips': 'Spell effects on items',
+    'spells/decode': 'Decoding spells', 'spells/d2o-tables': 'Client spell tables',
+    'drops/transform': 'Transforming drops', 'drops/store': 'Saving drops',
+    'craftjobs/transform': 'Transforming professions', 'craftjobs/store': 'Saving professions',
+    'craftjobs/jobs-table': 'Profession table', 'recipes/store': 'Saving recipes',
+    'pets/scrape': 'Reading pets', 'pets/store': 'Saving pets',
+    'pets/scrape-bonuses': 'Reading pet bonuses',
+    'pets/store-bonuses': 'Saving pet bonuses',
+    'sets/bonuses': 'Set bonuses', 'descriptions/store': 'Item descriptions',
+    'dynamic-translations': 'Data translations', 'verify/rebuild': 'Rebuild check',
 }
 
 
@@ -141,7 +147,7 @@ def touch_build_version():
         script = response.read(65536).decode('utf-8', errors='replace')
     builds = set(re.findall(r'\bwindow\.buildVersion\s*=\s*[\'"](\d+\.\d+\.\d+)[\'"]', script))
     if len(builds) != 1:
-        raise ValueError('Build Touch absent ou ambigu dans le client de production : ' + TOUCH_CLIENT)
+        raise ValueError('Touch build missing or ambiguous in the production client: ' + TOUCH_CLIENT)
     return builds.pop()
 
 
@@ -149,7 +155,7 @@ def retro_game_version(build):
     raw = build.split('_')[-1]
     match = re.fullmatch(r'(\d+\.\d+\.\d+)(?:\.\d+)*(?:-[a-zA-Z0-9]+)?', raw)
     if not match:
-        raise ValueError('Build Retro invalide : ' + build)
+        raise ValueError('Invalid Retro build: ' + build)
     return match.group(1)
 
 
@@ -165,20 +171,20 @@ def set_game_versions(rows):
         version = row['available']
         pattern = r'\d+(?:\.\d+){2,4}' if key in APIS else r'\d+\.\d+\.\d+'
         if not re.fullmatch(pattern, version):
-            raise ValueError('Version de jeu invalide : ' + version)
+            raise ValueError('Invalid game version: ' + version)
         name = METADATA[key]
         old = ours[name]
         content, count = re.subn(r'(?m)^(' + name + r'[ \t]*=[ \t]*)[\'"][^\'"\r\n]+[\'"]',
                                 lambda m: m[1] + json.dumps(version), content)
         if count != 1:
-            raise ValueError('Constante de version absente ou ambiguë : ' + name)
+            raise ValueError('Version constant missing or ambiguous: ' + name)
         if old.split('.')[:2] != version.split('.')[:2]:
             patch = '.'.join(version.split('.')[:2])
             updated = set_patch_started(content, key, patch, quiet=True)
             if updated == content:
-                progress('%s : aucune entrée PATCH_TIMELINE, la renseigner à la main' % NAMES[key])
+                progress('%s: no PATCH_TIMELINE entry, add it by hand' % NAMES[key])
             else:
-                progress('%s : début du patch %s noté dans PATCH_TIMELINE' % (NAMES[key], patch))
+                progress('%s: start of patch %s noted in PATCH_TIMELINE' % (NAMES[key], patch))
             content = updated
         content = set_watched_sources(content, row)
     if content != path.read_text(encoding='utf-8'):
@@ -258,17 +264,17 @@ def probe(version, catalog=None):
         api = fetch_json(APIS[version] + 'meta/version')
         tag = api['version']
         if not re.fullmatch(r'\d+(?:\.\d+){2,4}', tag):
-            raise ValueError('Version de données invalide : %r' % tag)
+            raise ValueError('Invalid data version: %r' % tag)
         current = result['current']
         if re.fullmatch(r'\d+(?:\.\d+){2,4}', current) and tuple(map(int, tag.split('.'))) < tuple(map(int, current.split('.'))):
-            raise ValueError('Source plus ancienne que la version locale : %s < %s ; rétrogradation refusée.' % (tag, current))
+            raise ValueError('Source older than the local version: %s < %s; downgrade refused.' % (tag, current))
         release = fetch_json('https://api.github.com/repos/dofusdude/%s/releases/tags/%s'
                              % (REPOS[version], tag))
         assets = {a['name'] for a in release['assets']}
         needed = {'spells.json', 'effects.json', 'breeds.json', 'monsters.json',
                   'recipes.json', 'en.json', 'fr.json', 'es.json', 'pt.json', 'de.json'}
         if release.get('draft') or needed - assets:
-            raise ValueError('Archive incomplète : ' + ', '.join(sorted(needed - assets)))
+            raise ValueError('Incomplete archive: ' + ', '.join(sorted(needed - assets)))
         result['available'] = tag
         result['source'] = {'version': tag, 'update_stamp': api.get('update_stamp'),
                             'archive': release['tag_name']}
@@ -276,7 +282,7 @@ def probe(version, catalog=None):
         catalog = catalog or fetch_json(CYTRUS)
         result['official'] = catalog['games']['dofus']['platforms']['windows'][channel].split('_')[-1]
         if result['official'] != tag:
-            result['warnings'].append('Le client Ankama et les données importables diffèrent.')
+            result['warnings'].append('The Ankama client and the importable data differ.')
         result['changed'] = result['current'] != tag
     elif version == 'touch':
         config = fetch_json(TOUCH)
@@ -298,10 +304,10 @@ def probe(version, catalog=None):
         languages = {lang: fetch_manifest(lang) for lang in ('fr', 'en', 'es', 'pt', 'de')}
         for lang, entries in languages.items():
             if not {'items', 'itemstats', 'itemsets', 'crafts', 'classes', 'effects', 'spells'} <= entries.keys():
-                raise ValueError('Manifeste Retro incomplet : ' + lang)
+                raise ValueError('Incomplete Retro manifest: ' + lang)
         entries = retro_asset_entries(version=build)
         if not entries:
-            raise ValueError('Manifeste Retro sans images reconnues')
+            raise ValueError('Retro manifest without any known image')
         result['available'] = retro_game_version(build)
         result['official'] = result['available']
         result['source'] = {'build': build.split('_')[-1], 'languages': languages,
@@ -319,7 +325,7 @@ def probe(version, catalog=None):
         result['changed'] = result['current'] != tag
     if version in ('touch', 'retro'):
         if tuple(map(int, result['available'].split('.'))) < tuple(map(int, result['current'].split('.'))):
-            raise ValueError('Source plus ancienne que la version locale : rétrogradation refusée.')
+            raise ValueError('Source older than the local version: downgrade refused.')
     return result
 
 
@@ -330,7 +336,7 @@ def discover():
     except Exception:
         catalog = None
     for key in VERSIONS:
-        print('Recherche de mise à jour : ' + NAMES[key], flush=True)
+        print('Checking for updates: ' + NAMES[key], flush=True)
         try:
             row = probe(key, catalog)
         except Exception as exc:
@@ -344,26 +350,26 @@ def discover():
 def show_versions(rows):
     for row in rows:
         number = VERSIONS.index(row['key']) + 1
-        print('\n%d. %s (version locale : %s)' % (number, NAMES[row['key']], row['current']))
+        print('\n%d. %s (local version: %s)' % (number, NAMES[row['key']], row['current']))
         for line in version_details(row, console=True):
             print('   ' + line)
-        print('   ' + (row['error'] or ('Mise à jour détectée' if row['changed'] else 'Pas de changement détecté')))
+        print('   ' + (row['error'] or ('Update found' if row['changed'] else 'No change found')))
         for warning in row['warnings']:
-            print('   À vérifier : ' + warning)
+            print('   To check: ' + warning)
 
 
 def version_details(row, console=False):
     source = row.get('source', {})
     if row['key'] == 'touch':
-        lines = ['Build du jeu disponible : ' + (row['available'] or 'indisponible'),
-                 'Ressources CDN : %s -> %s' % (row.get('current_data', '?'), source.get('assets', '?'))]
+        lines = ['Game build available: ' + (row['available'] or 'unavailable'),
+                 'CDN assets: %s -> %s' % (row.get('current_data', '?'), source.get('assets', '?'))]
         if console:
-            lines.append('Le numéro du client mobile installé est distinct du build du jeu.')
+            lines.append("The installed app's version number is not the game build.")
         return lines
     if row['key'] == 'retro':
-        return ['Version du jeu disponible : ' + (row['available'] or 'indisponible'),
-                'Identifiant technique Cytrus : %s -> %s' % (row.get('current_data', '?'), source.get('build', '?'))]
-    return ['Données importables : %s | client Ankama : %s' % (row['available'] or 'indisponible', row['official'] or '?')]
+        return ['Game version available: ' + (row['available'] or 'unavailable'),
+                'Cytrus technical id: %s -> %s' % (row.get('current_data', '?'), source.get('build', '?'))]
+    return ['Importable data: %s | Ankama client: %s' % (row['available'] or 'unavailable', row['official'] or '?')]
 
 
 def selection(text, rows):
@@ -379,11 +385,11 @@ def selection(text, rows):
         elif token in VERSIONS:
             keys.append(token)
         else:
-            raise ValueError('Choix inconnu : ' + token)
+            raise ValueError('Unknown choice: ' + token)
     by_key = {r['key']: r for r in rows}
     for key in keys:
         if by_key[key]['error']:
-            raise ValueError('%s : source indisponible, mise à jour impossible' % NAMES[key])
+            raise ValueError('%s: source unavailable, cannot update' % NAMES[key])
     return [key for key in VERSIONS if key in keys]
 
 
@@ -395,7 +401,7 @@ def restore_keys(text):
         elif token in VERSIONS:
             keys.append(token)
         else:
-            raise ValueError('Choix inconnu : ' + token)
+            raise ValueError('Unknown choice: ' + token)
     return [key for key in VERSIONS if key in keys]
 
 
@@ -427,8 +433,8 @@ def phase(title):
     stopped = threading.Event()
     def heartbeat():
         while not stopped.wait(HEARTBEAT_SECONDS):
-            progress('%s : en cours (%.0f s)' % (title, time.monotonic() - started))
-    progress(title + '…')
+            progress('%s: running (%.0f s)' % (title, time.monotonic() - started))
+    progress(title + '...')
     thread = threading.Thread(target=heartbeat, daemon=True)
     thread.start()
     completed = False
@@ -438,7 +444,7 @@ def phase(title):
     finally:
         stopped.set()
         thread.join()
-        progress('%s : %s (%.1f s)' % (title, 'terminé' if completed else 'interrompu', time.monotonic() - started))
+        progress('%s: %s (%.1f s)' % (title, 'done' if completed else 'interrupted', time.monotonic() - started))
 
 
 def failure_detail(log):
@@ -447,15 +453,15 @@ def failure_detail(log):
         handle.seek(max(0, handle.tell() - 8192))
         lines = handle.read().decode('utf-8', errors='replace').splitlines()
     useful = [line.strip() for line in lines if line.strip()]
-    return useful[-1][:500] if useful else 'Aucun détail dans le journal.'
+    return useful[-1][:500] if useful else 'No detail in the log.'
 
 
 def run_command(command, log, cwd=ROOT, timeout=3600, *, django=False, title=None, relay_progress=False):
     started = time.monotonic()
     title = title or log.stem
-    progress(title + '…')
+    progress(title + '...')
     with log.open('w', encoding='utf-8') as output, log.open('r', encoding='utf-8', errors='replace') as reader:
-        output.write('Commande : ' + subprocess.list2cmdline(list(map(str, command))) + '\n')
+        output.write('Command: ' + subprocess.list2cmdline(list(map(str, command))) + '\n')
         output.flush()
         process = subprocess.Popen(command, cwd=cwd, env=environment(django), stdout=output,
                                    stderr=subprocess.STDOUT, start_new_session=os.name != 'nt')
@@ -480,9 +486,9 @@ def run_command(command, log, cwd=ROOT, timeout=3600, *, django=False, title=Non
                 relay()
                 now = time.monotonic()
                 if now - started > timeout:
-                    raise TimeoutError('Délai dépassé (%d s) : %s' % (timeout, title))
+                    raise TimeoutError('Timed out (%d s): %s' % (timeout, title))
                 if now - last_progress >= HEARTBEAT_SECONDS + (2 if relay_progress else 0):
-                    progress('%s : en cours (%.0f s)' % (title, now - started))
+                    progress('%s: running (%.0f s)' % (title, now - started))
                     last_progress = now
                 try:
                     process.wait(timeout=.25 if relay_progress else min(HEARTBEAT_SECONDS, 1))
@@ -517,7 +523,7 @@ def update_guard():
                 import fcntl
                 fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except OSError as exc:
-            raise FileExistsError('Une autre mise à jour détient le verrou ; attendre sa fin.') from exc
+            raise FileExistsError('Another update holds the lock; wait for it to finish.') from exc
         try:
             yield
         finally:
@@ -550,10 +556,10 @@ def process_snapshot():
 def abandoned_marker(marker):
     match = MARKER.fullmatch(marker.strip())
     if not match:
-        raise RuntimeError('Verrou non reconnu ; conservé pour vérification : ' + marker.strip())
+        raise RuntimeError('Unrecognized lock, kept for checking: ' + marker.strip())
     rows = process_snapshot()
     if not rows or not any(row['pid'] == os.getpid() for row in rows):
-        raise RuntimeError('Liste des processus incomplète ; verrou conservé.')
+        raise RuntimeError('Incomplete process list; lock kept.')
     ancestors = {os.getpid()}
     parents = {row['pid']: row['parent'] for row in rows}
     current = os.getpid()
@@ -573,12 +579,12 @@ def abandoned_marker(marker):
             # A worker of the dead launcher names one of these; an unreadable command line is another user's
             if (scripts.intersection(tokens) or 'multiprocessing.spawn' in command
                     or 'itemscraper.' in command):
-                raise RuntimeError('Un programme Python du dépôt tourne encore (pid %d : %s). Fermer ce programme '
-                                   '(serveur de développement compris), puis relancer update_all.py ; '
-                                   'verrou conservé.' % (row['pid'], shown))
+                raise RuntimeError('A Python program from the repository is still running (pid %d: %s). Close it '
+                                   '(the dev server included), then run update_all.py again; '
+                                   'lock kept.' % (row['pid'], shown))
         if 'cbc' in name or ('java' in name and str(ROOT).lower().replace('\\', '/') in command.replace('\\', '/')):
-            raise RuntimeError('Un calcul ou un traitement des images tourne encore (pid %d : %s). Attendre sa fin '
-                               'ou fermer ce programme, puis relancer update_all.py ; verrou conservé.'
+            raise RuntimeError('A solver or an image job is still running (pid %d: %s). Wait for it to finish '
+                               'or close it, then run update_all.py again; lock kept.'
                                % (row['pid'], shown))
     return match[3]
 
@@ -592,7 +598,7 @@ def remove_running_marker(running_file, marker):
 def running_section(text, running_file):
     heading = re.search(r'(?m)^## En cours[ \t]*$', text)
     if not heading:
-        raise RuntimeError('Section En cours absente de ' + str(running_file))
+        raise RuntimeError('No "## En cours" section in ' + str(running_file))
     start = heading.end()
     following = re.search(r'(?m)^## ', text[start:])
     return start, start + following.start() if following else len(text)
@@ -613,9 +619,9 @@ def exclusive_marker(running_file, tag=None):
         directory = abandoned_marker(previous)
         remove_running_marker(running_file, previous)
         lock.unlink()
-        print('Verrou abandonné récupéré : ' + previous.strip(), flush=True)
+        print('Recovered an abandoned lock: ' + previous.strip(), flush=True)
         if directory:
-            print('Exécution précédente arrêtée sans se terminer, sauvegardes conservées : ' + directory, flush=True)
+            print('The previous run stopped before the end, backups kept: ' + directory, flush=True)
     marker = 'update_all pid=%d %s' % (os.getpid(), datetime.now().astimezone().isoformat())
     if tag:
         marker += ' ' + tag
@@ -633,9 +639,9 @@ def exclusive_marker(running_file, tag=None):
                     abandoned_marker(line)
                     remove_running_marker(running_file, line)
                     active.remove(line)
-                    print('Marqueur abandonné récupéré : ' + line, flush=True)
+                    print('Recovered an abandoned marker: ' + line, flush=True)
             if active:
-                raise RuntimeError('Travail exclusif déjà en cours : ' + '; '.join(active))
+                raise RuntimeError('Exclusive work already running: ' + '; '.join(active))
             text = running_file.read_text(encoding='utf-8')
             start, end = running_section(text, running_file)
             rest = text[end:]
@@ -680,7 +686,7 @@ def attempt_step(label, command, cwd, log, timeout, title):
         result.setdefault('error', failure_detail(log) if any('Traceback (' in line for line in silent_errors)
                           else silent_errors[-1].strip())
     if result['exit_code']:
-        result.setdefault('error', failure_detail(log) if log.exists() else 'Commande non démarrée.')
+        result.setdefault('error', failure_detail(log) if log.exists() else 'Command not started.')
     result['notices'] = log_notices(lines)
     return result, lines
 
@@ -689,15 +695,15 @@ def run_pipeline_step(label, command, cwd, log, timeout, title):
     result, lines = attempt_step(label, command, cwd, log, timeout, title)
     if not result['exit_code'] or not NETWORK_STEP.search(label) or result.get('timed_out'):
         return result, lines
-    first = log.with_name(log.stem + '.essai-1.log')
+    first = log.with_name(log.stem + '.attempt-1.log')
     if log.exists():
         os.replace(log, first)
-    progress('%s : échec (%s), nouvel essai dans %d s' % (title, result['error'], RETRY_DELAY))
+    progress('%s: failed (%s), trying again in %d s' % (title, result['error'], RETRY_DELAY))
     time.sleep(RETRY_DELAY)
     retry, lines = attempt_step(label, command, cwd, log, timeout, title)
     retry['retried'] = {'error': result['error'], 'log': str(first)}
     with log.open('a', encoding='utf-8') as handle:
-        handle.write('\nDeuxième essai. Le premier a échoué : %s (journal %s)\n' % (result['error'], first.name))
+        handle.write('\nSecond attempt. The first one failed: %s (log %s)\n' % (result['error'], first.name))
     return retry, lines
 
 
@@ -725,16 +731,16 @@ def worker(job_path):
         if not job['images'] and label in IMAGE_STEPS:
             return True, []
         if label == 'monster-images' and key in ('dofus3', 'beta'):
-            progress(title + ' : conservé, non actualisé')
-            return kept_locally(label, 'Illustrations de monstres conservées, non actualisées (API DofusDB désactivée).')
+            progress(title + ': kept, not refreshed')
+            return kept_locally(label, 'Monster artwork kept, not refreshed (DofusDB API disabled).')
         if label in LOCAL_TABLES and key in ('dofus3', 'beta'):
             table = LOCAL_TABLES[label]
             database = audit.database_path(key)
             with phase(title):
                 audit.preserve_table(report_dir / key / audit.relative_name(database), database, table)
-            return kept_locally(label, '%s : conservé depuis la base locale, non actualisé (DofusDB désactivé).' % table)
+            return kept_locally(label, '%s: kept from the local database, not refreshed (DofusDB disabled).' % table)
         if any('dofusdb' in str(part).lower() for part in command):
-            raise RuntimeError('Étape DofusDB non autorisée : ' + label)
+            raise RuntimeError('DofusDB step not allowed: ' + label)
         if label == 'verify/rebuild':
             return True, []
         command = job_command(key, label, command, job)
@@ -742,9 +748,9 @@ def worker(job_path):
         result, lines = run_pipeline_step(label, command, cwd or ROOT, log, job['timeout'], title)
         record(result)
         if result['exit_code']:
-            progress(title + ' : ÉCHEC : ' + result['error'])
-            raise RuntimeError('Étape échouée : %s : %s ; journal %s' % (step_title(label), result['error'], log))
-        progress('%s : OK (%.1f s)' % (title, result.get('seconds', 0)))
+            progress(title + ': ' + FAILED + ': ' + result['error'])
+            raise RuntimeError('Step failed: %s: %s; log %s' % (step_title(label), result['error'], log))
+        progress('%s: OK (%.1f s)' % (title, result.get('seconds', 0)))
         return True, lines
 
     module.run_step = step
@@ -755,7 +761,7 @@ def worker(job_path):
         args += ['--skip-images']
     sys.argv = args
     if module.main():
-        raise RuntimeError('Import de %s en échec' % NAMES[key])
+        raise RuntimeError('Import of %s failed' % NAMES[key])
 
 
 def log_notices(lines):
@@ -802,7 +808,7 @@ def busy_databases(keys):
 def refuse_busy_databases(keys):
     busy = busy_databases(keys)
     if busy:
-        raise RuntimeError('Base de données ouverte par un autre programme : %s. Fermer %s, puis relancer.'
+        raise RuntimeError('Database open in another program: %s. Close %s, then run again.'
                            % (', '.join(map(str, busy)), HOLDERS))
 
 
@@ -819,7 +825,7 @@ def pending_imports():
 
 
 def pending_import_lines(pending):
-    return ['%s : import arrêté en cours de route (%s), données à moitié écrites. Lancer d\'abord : %s'
+    return ['%s: import stopped halfway (%s), data half written. Run this first: %s'
             % (', '.join(NAMES[key] for key in keys), directory, restore_command(directory, keys))
             for directory, keys in pending.items()]
 
@@ -827,18 +833,22 @@ def pending_import_lines(pending):
 def refuse_pending_imports():
     lines = pending_import_lines(pending_imports())
     if lines:
-        raise RuntimeError(' ; '.join(lines))
+        raise RuntimeError('; '.join(lines))
 
 
 def size_text(size):
-    for unit, factor in (('Go', 1024 ** 3), ('Mo', 1024 ** 2), ('ko', 1024)):
+    for unit, factor in (('GB', 1024 ** 3), ('MB', 1024 ** 2), ('KB', 1024)):
         if size >= factor:
-            return ('%.1f %s' % (size / factor, unit)).replace('.', ',')
-    return '%d octets' % size
+            return '%.1f %s' % (size / factor, unit)
+    return '%d bytes' % size
 
 
 def count_text(number):
-    return '{:,}'.format(number).replace(',', ' ')
+    return '{:,}'.format(number)
+
+
+def files_text(number):
+    return '1 file' if number == 1 else count_text(number) + ' files'
 
 
 def image_estimate():
@@ -851,8 +861,8 @@ def refuse_small_disk(size, directory):
     needed = int(size * DISK_MARGIN)
     free = shutil.disk_usage(directory).free
     if free < needed:
-        raise RuntimeError('Espace disque insuffisant pour la sauvegarde des images : %s nécessaires, %s libres. '
-                           'Libérer de la place (py update_all.py --clean-reports) ou choisir sans images.'
+        raise RuntimeError('Not enough disk space for the image backup: %s needed, %s free. '
+                           'Free some space (py update_all.py --clean-reports) or choose no images.'
                            % (size_text(needed), size_text(free)))
 
 
@@ -916,18 +926,18 @@ def revert_state(run, key):
 def prepare_version(run, row):
     key, directory = row['key'], run['directory']
     name = NAMES[key]
-    with phase(name + ' : vérification de la source'):
+    with phase(name + ': checking the source'):
         fresh = probe(key)
     if fresh['source'] != row['source']:
-        raise RuntimeError('la source a changé depuis le choix ; relancer update_all.py.')
-    with phase(name + ' : inventaire avant import (données, dumps et images)'):
+        raise RuntimeError('the source changed since it was chosen; run update_all.py again.')
+    with phase(name + ': inventory before the import (data, dumps and images)'):
         before = audit.snapshot(key)
     write_json(directory / (key + '-before.json'), before)
-    with phase(name + ' : sauvegarde des données'):
+    with phase(name + ': backing up the data'):
         manifest = audit.backup_runtime([key], False, directory / key)
         tracked = audit.record_tracked(directory / key, exclude=audit.manifest_names(manifest))
     if tracked is None and (ROOT / '.git').exists():
-        row['warnings'].append('fichiers intermédiaires suivis par git non sauvegardés : git indisponible.')
+        row['warnings'].append('intermediate files tracked by git not backed up: git unavailable.')
     row['backup'] = str(directory / key)
     return before
 
@@ -935,28 +945,28 @@ def prepare_version(run, row):
 def inspect_version(run, row, before):
     key = row['key']
     try:
-        with phase(NAMES[key] + ' : inventaire après import (données, dumps et images)'):
+        with phase(NAMES[key] + ': inventory after the import (data, dumps and images)'):
             after = audit.snapshot(key)
         write_json(run['directory'] / (key + '-after.json'), after)
         row['diff'] = audit.compare(before, after)
     except Exception as exc:
-        return 'inventaire après import impossible : %s' % exc
+        return 'inventory after the import failed: %s' % exc
     for change in row['diff'].get('changes', []):
-        if change.startswith(('Objets :', 'Sorts :', 'Images absentes/illisibles :')):
-            progress(NAMES[key] + ' : ' + change)
+        if change.startswith(('Items:', 'Spells:', 'Missing or unreadable images:')):
+            progress(NAMES[key] + ': ' + change)
     return None
 
 
 def check_source_after(row):
     key = row['key']
     try:
-        with phase(NAMES[key] + ' : vérification finale de la source'):
+        with phase(NAMES[key] + ': final source check'):
             source = probe(key)['source']
     except Exception as exc:
-        row['warnings'].append('vérification finale de la source impossible : %s' % exc)
+        row['warnings'].append('final source check failed: %s' % exc)
         return None
     if source != row['source']:
-        return 'la source a changé pendant le téléchargement, données mélangées possibles.'
+        return 'the source changed during the download, the data may be mixed.'
     return None
 
 
@@ -967,7 +977,7 @@ def run_version(run, row, before):
     log = directory / (key + '-pipeline.log')
     try:
         result = run_command([sys.executable, str(Path(__file__)), '--worker', str(job_path)], log,
-                             timeout=pipeline_timeout(run['args']), title=NAMES[key] + ' : import',
+                             timeout=pipeline_timeout(run['args']), title=NAMES[key] + ': import',
                              relay_progress=True)
     except Exception as exc:
         result = {'exit_code': 1, 'log': str(log), 'error': str(exc)}
@@ -975,14 +985,14 @@ def run_version(run, row, before):
     if result['exit_code']:
         failed = next((step for step in row['steps'] if step['exit_code']), result)
         title = step_title(failed['step']) if failed.get('step') else 'Import'
-        return '%s : %s ; journal %s' % (title, failed.get('error', 'commande échouée'),
+        return '%s: %s; log %s' % (title, failed.get('error', 'command failed'),
                                         failed.get('log', result['log']))
     cause = inspect_version(run, row, before) or check_source_after(row)
     if cause:
         return cause
     errors = row['diff']['errors']
     if errors:
-        return 'contrôles de données échoués (%d) : %s' % (len(errors), errors[0])
+        return 'data checks failed (%d): %s' % (len(errors), errors[0])
     return None
 
 
@@ -991,7 +1001,7 @@ def publish_version(row, directory):
         set_game_versions([row])
         save_state(row, directory)
     except Exception as exc:
-        return 'écriture de la version impossible : %s' % exc
+        return 'could not write the version: %s' % exc
     return None
 
 
@@ -1012,12 +1022,12 @@ def restore_version(run, row, before):
     row['unrestored'] = []
     row['status'] = RESTORE_INCOMPLETE
     try:
-        with phase(NAMES[key] + ' : restauration de la version'):
+        with phase(NAMES[key] + ': restoring the version'):
             row['unrestored'] += audit.restore_runtime(read_json(backup / 'manifest.json'), backup)
             row['unrestored'] += audit.restore_tracked(backup)[0]
             row['unrestored'] += repair_images(run, row, before)
     except KeyboardInterrupt:
-        row['restore_error'] = 'restauration interrompue au clavier'
+        row['restore_error'] = 'restore interrupted by Ctrl+C'
         raise
     except Exception as exc:
         row['restore_error'] = str(exc)
@@ -1035,7 +1045,7 @@ def import_version(run, key):
         before = prepare_version(run, row)
     except Exception as exc:
         row['cause'] = str(exc)
-        progress('%s : %s' % (NAMES[key], row['cause']))
+        progress('%s: %s' % (NAMES[key], row['cause']))
         return row
     marker = importing_path(run['directory'], key)
     marker.write_text('update_all pid=%d\n' % os.getpid(), encoding='utf-8')
@@ -1043,21 +1053,21 @@ def import_version(run, key):
         try:
             cause = run_version(run, row, before) or publish_version(row, run['directory'])
         except KeyboardInterrupt:
-            row['cause'] = 'interrompu au clavier pendant l\'import.'
+            row['cause'] = 'interrupted by Ctrl+C during the import.'
             restore_version(run, row, before)
             raise
         except Exception as exc:
-            cause = 'erreur du lanceur : %s' % exc
+            cause = 'launcher error: %s' % exc
         if cause:
             row['cause'] = cause
-            progress('%s : échec, restauration (%s)' % (NAMES[key], cause))
+            progress('%s: failed, restoring (%s)' % (NAMES[key], cause))
             restore_version(run, row, before)
-            progress('%s : %s' % (NAMES[key], row['status']))
+            progress('%s: %s' % (NAMES[key], row['status']))
             return row
         row['status'] = IMPORTED
         row['shared_after'] = shared_digests()
         audit.record_tracked_after(run['directory'] / key)
-        progress(NAMES[key] + ' : importé')
+        progress(NAMES[key] + ': imported')
         return row
     finally:
         if row['status'] in (IMPORTED, RESTORED):
@@ -1069,9 +1079,9 @@ def stop_after(run, remaining, key):
         chosen = next(row for row in run['rows'] if row['key'] == rest)
         run['report']['versions'].append(dict(
             chosen, images=run['images'][rest], steps=[], warnings=list(chosen.get('warnings', [])),
-            status=NOT_STARTED, cause='la restauration de %s est incomplète : la terminer avant tout autre import.'
+            status=NOT_STARTED, cause='the restore of %s is incomplete: finish it before any other import.'
             % NAMES[key]))
-        progress('%s : non lancé, restauration de %s incomplète' % (NAMES[rest], NAMES[key]))
+        progress('%s: not started, the restore of %s is incomplete' % (NAMES[rest], NAMES[key]))
 
 
 def restore_under_later(directory, key, shared_after):
@@ -1082,7 +1092,7 @@ def restore_under_later(directory, key, shared_after):
     unrestored = audit.restore_runtime(manifest, backup, only=own)
     kept = []
     for name in sorted(shared):
-        before, after = manifest['files'].get(name), shared_after.get(name, 'inconnu')
+        before, after = manifest['files'].get(name), shared_after.get(name, 'unknown')
         current = digest_or_none(ROOT / name)
         if before == after or current == before:
             continue
@@ -1139,11 +1149,11 @@ def restore_unbuildable(run, check):
     for row in reversed(imported_rows(run['report'])):
         if row['key'] not in broken:
             continue
-        row['cause'] = ('la génération des builds échoue avec ces données : le site ne peut plus générer de build ;'
-                        ' journal ' + check['log'])
-        progress('%s : génération impossible, restauration de la version' % NAMES[row['key']])
+        row['cause'] = ('build generation fails with this data: the site can no longer generate a build;'
+                        ' log ' + check['log'])
+        progress('%s: cannot generate builds, restoring the version' % NAMES[row['key']])
         try:
-            with phase(NAMES[row['key']] + ' : restauration de la version'):
+            with phase(NAMES[row['key']] + ': restoring the version'):
                 restore_late(run, row)
         except Exception as exc:
             row['status'] = RESTORE_INCOMPLETE
@@ -1160,7 +1170,7 @@ def run_check(run, name, command, log, title):
         result = {'exit_code': 1, 'log': str(log), 'seconds': 0, 'error': str(exc)}
     result['name'] = name
     result['failures'] = failing_tests(log) if result['exit_code'] else []
-    progress('%s : %s (%.1f s)' % (title, 'ÉCHEC' if result['exit_code'] else 'OK', result.get('seconds', 0)))
+    progress('%s: %s (%.1f s)' % (title, FAILED if result['exit_code'] else 'OK', result.get('seconds', 0)))
     return result
 
 
@@ -1172,8 +1182,8 @@ def validate(run, keys):
         if name == 'generation' and result['exit_code']:
             result['restored'] = restore_unbuildable(run, result)
             if result['restored']:
-                again = run_check(run, name, command, run['directory'] / 'generation-apres-restauration.log',
-                                  title + ' après restauration')
+                again = run_check(run, name, command, run['directory'] / 'generation-after-restore.log',
+                                  title + ' after the restore')
                 result['after_restore'] = {field: again[field] for field in
                                            ('exit_code', 'log', 'seconds', 'failures', 'error') if field in again}
 
@@ -1205,10 +1215,10 @@ def inventory_other_versions(keys, directory):
         if key in keys or not audit.database_path(key).exists():
             continue
         try:
-            with phase('Inventaire des images partagées : ' + NAMES[key]):
+            with phase('Inventory of shared images: ' + NAMES[key]):
                 inventories[key] = audit.snapshot(key)
         except Exception as exc:
-            progress('%s : inventaire des images impossible (%s)' % (NAMES[key], exc))
+            progress('%s: image inventory failed (%s)' % (NAMES[key], exc))
             continue
         write_json(directory / (key + '-before.json'), inventories[key])
     return inventories
@@ -1217,12 +1227,12 @@ def inventory_other_versions(keys, directory):
 def repair_other_versions(run, inventories):
     for key, before in inventories.items():
         try:
-            with phase('Contrôle des images partagées : ' + NAMES[key]):
+            with phase('Checking shared images: ' + NAMES[key]):
                 lost = audit.lost_images(before)
                 names = audit.backed_up_images(lost, run['image_manifest'])
                 unrestored = audit.restore_runtime(run['image_manifest'], run['directory'] / 'images', only=names)
         except Exception as exc:
-            run['report']['warnings'].append('images partagées de %s non contrôlées : %s' % (NAMES[key], exc))
+            run['report']['warnings'].append('shared images of %s not checked: %s' % (NAMES[key], exc))
             continue
         run['report']['shared_images'][key] = {'lost': lost, 'restored': sorted(set(names) - set(unrestored)),
                                                'unrestored': unrestored}
@@ -1232,10 +1242,10 @@ def record_changed_images(run):
     if not run['image_manifest']:
         return
     try:
-        with phase('Recensement des images modifiées'):
+        with phase('Listing changed images'):
             names = audit.changed_files(run['image_manifest'], run['directory'] / 'images')
     except Exception as exc:
-        run['report']['warnings'].append('recensement des images modifiées impossible : %s' % exc)
+        run['report']['warnings'].append('could not list the changed images: %s' % exc)
         return
     write_json(run['directory'] / 'images-changed.json', names)
     run['report']['images_changed'] = len(names)
@@ -1264,17 +1274,17 @@ def overall_status(report):
     rows = report['versions']
     imported = imported_rows(report)
     if report.get('interrupted'):
-        status = 'INTERROMPU'
+        status = INTERRUPTED
     elif not imported:
-        status = 'ÉCHEC'
+        status = FAILED
     elif len(imported) < len(rows):
-        status = 'IMPORTÉ EN PARTIE'
+        status = PARTLY_IMPORTED
     else:
         status = IMPORTED
     if imported and checks_to_review(report):
         status += ', ' + REVIEW
     if imported and report['errors'] and not report.get('interrupted'):
-        status += ', ERREURS'
+        status += ', ' + ERRORS
     if restore_incomplete(report):
         status += ', ' + RESTORE_INCOMPLETE
     return status
@@ -1318,63 +1328,63 @@ def diff_lines(diff):
     spell_counts = (len(spells.get('added', [])), len(spells.get('removed', [])), len(spells.get('changed', [])))
     lines, unchanged = [], []
     if any(items):
-        lines.append('- Objets : +%d, -%d, %d modifiés' % items)
+        lines.append('- Items: +%d, -%d, %d changed' % items)
     else:
-        unchanged.append('objets')
+        unchanged.append('items')
     if diff.get('items_hidden'):
-        lines.append('- Objets retirés par Ankama, gardés masqués pour les builds enregistrés : %d'
+        lines.append('- Items removed by Ankama, kept hidden for saved builds: %d'
                      % len(diff['items_hidden']))
     if any(spell_counts):
-        lines.append('- Sorts : +%d, -%d, %d modifiés' % spell_counts)
+        lines.append('- Spells: +%d, -%d, %d changed' % spell_counts)
     else:
-        unchanged.append('sorts')
+        unchanged.append('spells')
     if diff.get('new_stats'):
-        lines.append('- Nouvelles stats : ' + ', '.join(diff['new_stats']))
+        lines.append('- New stats: ' + ', '.join(diff['new_stats']))
     else:
         unchanged.append('stats')
     if problems:
-        lines.append('- Nouveaux problèmes d\'images : %d' % len(problems))
-        lines += ['  - %s : `%s`' % (key, image['path']) for key, image in list(problems.items())[:10]]
+        lines.append('- New image problems: %d' % len(problems))
+        lines += ['  - %s: `%s`' % (key, image['path']) for key, image in list(problems.items())[:10]]
     else:
         unchanged.append('images')
     if unchanged:
-        lines.append('- Aucun changement : ' + ', '.join(unchanged))
-    lines += ['- Blocage : ' + error for error in diff.get('errors', [])[:10]]
+        lines.append('- No change: ' + ', '.join(unchanged))
+    lines += ['- Blocking: ' + error for error in diff.get('errors', [])[:10]]
     review = [warning for warning in diff.get('warnings', [])
-              if not warning.startswith('NOUVELLE STAT') and 'images absentes ou illisibles' not in warning]
-    lines += ['- À vérifier : ' + warning for warning in review[:10]]
+              if not warning.startswith('NEW STAT') and 'missing or unreadable images' not in warning]
+    lines += ['- To check: ' + warning for warning in review[:10]]
     return lines
 
 
 def version_block(row):
-    lines = ['## %s : %s' % (NAMES[row['key']], row.get('status', NOT_STARTED)), '',
-             '- Version : %s -> %s, images : %s' % (row.get('current', '?'), row.get('available', '?'),
-                                                    'oui' if row.get('images') else 'non')]
+    lines = ['## %s: %s' % (NAMES[row['key']], row.get('status', NOT_STARTED)), '',
+             '- Version: %s -> %s, images: %s' % (row.get('current', '?'), row.get('available', '?'),
+                                                  'yes' if row.get('images') else 'no')]
     if row['key'] in ('touch', 'retro'):
         lines += ['- ' + detail for detail in version_details(row)]
     if row.get('cause'):
-        lines.append('- Cause : ' + row['cause'])
+        lines.append('- Cause: ' + row['cause'])
     if row.get('restore_error'):
-        lines.append('- Restauration arrêtée : ' + row['restore_error'])
+        lines.append('- Restore stopped: ' + row['restore_error'])
     if row.get('diff') and row.get('status') == IMPORTED:
         lines += diff_lines(row['diff'])
     elif row.get('diff'):
-        lines += ['- Blocage : ' + error for error in row['diff'].get('errors', [])[:10]]
-    lines += ['- À vérifier : ' + warning for warning in row.get('warnings', [])]
+        lines += ['- Blocking: ' + error for error in row['diff'].get('errors', [])[:10]]
+    lines += ['- To check: ' + warning for warning in row.get('warnings', [])]
     kept = kept_steps(row.get('steps', []))
     if kept:
-        lines.append('- Conservé depuis les données locales, non actualisé (DofusDB désactivé) : ' + ', '.join(kept))
+        lines.append('- Kept from local data, not refreshed (DofusDB disabled): ' + ', '.join(kept))
     warned = warned_steps(row.get('steps', []))
     if warned:
-        lines.append('- Étapes avec avertissements : ' + ', '.join(warned))
+        lines.append('- Steps with warnings: ' + ', '.join(warned))
     retried = [step_title(step['step']) for step in row.get('steps', [])
                if step.get('retried') and not step.get('exit_code')]
     if retried:
-        lines.append('- Étapes réussies au second essai : ' + ', '.join(retried))
+        lines.append('- Steps that passed on the second attempt: ' + ', '.join(retried))
     if row.get('images_restored'):
-        lines.append('- Images perdues remises depuis la sauvegarde : %d' % len(row['images_restored']))
+        lines.append('- Lost images put back from the backup: %d' % len(row['images_restored']))
     if row.get('kept_shared'):
-        lines.append('- Fichiers gardés, modifiés aussi par une version suivante : ' + ', '.join(row['kept_shared']))
+        lines.append('- Files kept, also changed by a later version: ' + ', '.join(row['kept_shared']))
     return lines
 
 
@@ -1382,58 +1392,58 @@ def tests_block(report):
     lines = ['## Tests', '']
     if not report.get('checks'):
         if not imported_rows(report):
-            reason = ' : aucune version importée.'
+            reason = ': no version imported.'
         elif restore_incomplete(report):
-            reason = ' : une restauration est incomplète, la terminer d\'abord.'
+            reason = ': a restore is incomplete, finish it first.'
         else:
             reason = '.'
-        return lines + ['Tests non lancés' + reason]
+        return lines + ['Tests not run' + reason]
     for check in report['checks']:
         title = CHECK_TITLES[check['name']]
         if not check['exit_code']:
-            lines.append('- %s : OK (%.0f s)' % (title, check.get('seconds', 0)))
+            lines.append('- %s: OK (%.0f s)' % (title, check.get('seconds', 0)))
             continue
-        lines.append('- %s : ÉCHEC, journal `%s`' % (title, check['log']))
+        lines.append('- %s: %s, log `%s`' % (title, FAILED, check['log']))
         if check.get('restored'):
-            lines.append('  - Versions restaurées : ' + ', '.join(NAMES[key] for key in check['restored']))
+            lines.append('  - Restored versions: ' + ', '.join(NAMES[key] for key in check['restored']))
         again = check.get('after_restore')
         if again is not None and again['exit_code']:
-            lines.append('  - Nouveau contrôle après restauration : ÉCHEC, journal `%s`' % again['log'])
+            lines.append('  - New check after the restore: %s, log `%s`' % (FAILED, again['log']))
             lines += ['    - `%s`' % test for test in again['failures'][:50]]
             if not again['failures']:
-                lines.append('    - Cause : ' + again.get('error', 'voir le journal'))
+                lines.append('    - Cause: ' + again.get('error', 'see the log'))
         elif again is not None:
-            lines.append('  - Nouveau contrôle après restauration : OK')
+            lines.append('  - New check after the restore: OK')
         lines += ['  - `%s`' % test for test in check['failures'][:50]]
         if not check['failures']:
-            lines.append('  - Cause : ' + check.get('error', 'voir le journal'))
+            lines.append('  - Cause: ' + check.get('error', 'see the log'))
     return lines
 
 
 def report_markdown(report):
-    lines = ['# ' + report['status'], '', 'Dossier : `%s`' % report['directory'], '']
+    lines = ['# ' + report['status'], '', 'Folder: `%s`' % report['directory'], '']
     if report.get('images_changed') is not None:
-        lines += ['Images nouvelles, modifiées ou supprimées : %d' % report['images_changed'], '']
+        lines += ['New, changed or deleted images: %d' % report['images_changed'], '']
     for row in report.get('versions', []):
         lines += version_block(row) + ['']
     lines += tests_block(report) + ['']
     for key, images in report.get('shared_images', {}).items():
         if images['lost']:
-            lines.append('Images partagées de %s perdues : %d, remises : %d' % (NAMES[key], len(images['lost']),
-                                                                               len(images['restored'])))
+            lines.append('Shared images of %s lost: %d, put back: %d' % (NAMES[key], len(images['lost']),
+                                                                         len(images['restored'])))
     if report.get('errors'):
-        lines += ['## Erreurs', ''] + ['- ' + error for error in report['errors']] + ['']
+        lines += ['## Errors', ''] + ['- ' + error for error in report['errors']] + ['']
     if report.get('warnings'):
-        lines += ['## À vérifier', ''] + ['- ' + warning for warning in report['warnings']] + ['']
+        lines += ['## To check', ''] + ['- ' + warning for warning in report['warnings']] + ['']
     if restore_incomplete(report):
-        lines += ['## Restauration à terminer', '']
+        lines += ['## Restore to finish', '']
         unrestored = all_unrestored(report)
         if unrestored:
-            lines += ['Fichiers non restaurés :', ''] + ['- `%s`' % name for name in unrestored] + ['']
-        lines += ['Fermer %s, puis lancer : `%s`' % (HOLDERS, restore_command(report['directory'],
-                                                                               keys_to_finish(report))), '']
+            lines += ['Files not restored:', ''] + ['- `%s`' % name for name in unrestored] + ['']
+        lines += ['Close %s, then run: `%s`' % (HOLDERS, restore_command(report['directory'],
+                                                                         keys_to_finish(report))), '']
     if imported_rows(report):
-        lines.append('Pour annuler cette mise à jour : `%s`' % restore_command(report['directory']))
+        lines.append('To undo this update: `%s`' % restore_command(report['directory']))
     return '\n'.join(lines) + '\n'
 
 
@@ -1443,34 +1453,34 @@ def check_summary(check):
     failures = remaining_failures(check)
     log = again['log'] if again is not None else check['log']
     if not failures:
-        error = (again or check).get('error', 'voir le journal')
-        return '%s : ÉCHEC, %s ; journal %s' % (title, error, log)
+        error = (again or check).get('error', 'see the log')
+        return '%s: %s, %s; log %s' % (title, FAILED, error, log)
     shown = ', '.join(short_test_name(test) for test in failures[:3])
-    more = ' et %d autres' % (len(failures) - 3) if len(failures) > 3 else ''
-    count = '1 test en échec' if len(failures) == 1 else '%d tests en échec' % len(failures)
-    return '%s : %s (%s%s) ; journal %s' % (title, count, shown, more, log)
+    more = ' and %d more' % (len(failures) - 3) if len(failures) > 3 else ''
+    count = '1 failing test' if len(failures) == 1 else '%d failing tests' % len(failures)
+    return '%s: %s (%s%s); log %s' % (title, count, shown, more, log)
 
 
 def print_summary(report, directory):
-    print('\n%s\nRécapitulatif : %s' % (report['status'], directory / 'RECAP.md'), flush=True)
+    print('\n%s\nSummary: %s' % (report['status'], directory / 'RECAP.md'), flush=True)
     for row in report['versions']:
         if row.get('status') != IMPORTED:
-            print('%s : %s' % (NAMES[row['key']], row.get('status', NOT_STARTED)))
-            print('  Cause : %s' % row.get('cause', '?'))
+            print('%s: %s' % (NAMES[row['key']], row.get('status', NOT_STARTED)))
+            print('  Cause: %s' % row.get('cause', '?'))
             if row.get('restore_error'):
-                print('  Restauration arrêtée : ' + row['restore_error'])
+                print('  Restore stopped: ' + row['restore_error'])
     for error in report['errors']:
-        print('Cause : ' + error)
+        print('Cause: ' + error)
     for check in checks_to_review(report):
         print(check_summary(check))
     if restore_incomplete(report):
         unrestored = all_unrestored(report)
         if unrestored:
-            print('Fichiers non restaurés : ' + ', '.join(unrestored))
-        print('Fermer %s, puis lancer : %s' % (HOLDERS, restore_command(directory, keys_to_finish(report))), flush=True)
+            print('Files not restored: ' + ', '.join(unrestored))
+        print('Close %s, then run: %s' % (HOLDERS, restore_command(directory, keys_to_finish(report))), flush=True)
 
 
-def interrupt(report, message='Interrompu au clavier.'):
+def interrupt(report, message='Interrupted by Ctrl+C.'):
     report['interrupted'] = True
     if message not in report['errors']:
         report['errors'].append(message)
@@ -1499,9 +1509,9 @@ def finish(run, locks):
             try:
                 locks.close()
             except KeyboardInterrupt:
-                interrupt(report, 'Interrompu pendant la libération du verrou.')
+                interrupt(report, 'Interrupted while releasing the lock.')
             except Exception as exc:
-                report['errors'].append('Nettoyage du verrou : ' + str(exc))
+                report['errors'].append('Lock cleanup: ' + str(exc))
         finally:
             write_report(report, run['directory'])
 
@@ -1510,7 +1520,7 @@ def execute(rows, keys, images, args):
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f') + '-%d' % os.getpid()
     directory = REPORTS / stamp
     directory.mkdir(parents=True)
-    report = {'status': 'EN COURS', 'directory': str(directory), 'versions': [], 'checks': [],
+    report = {'status': RUNNING, 'directory': str(directory), 'versions': [], 'checks': [],
               'errors': [], 'warnings': [], 'shared_images': {}}
     run = {'directory': directory, 'report': report, 'rows': rows, 'images': images, 'args': args,
            'image_manifest': None}
@@ -1519,21 +1529,21 @@ def execute(rows, keys, images, args):
         locks.enter_context(exclusive(args.running_file, 'run=%s' % directory))
         check_configuration()
         if not (ROOT / 'fashionsite/fashionsite/settings_test.py').exists():
-            raise RuntimeError('settings_test.py absent : configurer SQLite pour les tests, voir README.')
+            raise RuntimeError('settings_test.py is missing: set up SQLite for the tests, see the README.')
         refuse_pending_imports()
         refuse_busy_databases(keys)
-        print('Journaux et sauvegardes : ' + str(directory), flush=True)
+        print('Logs and backups: ' + str(directory), flush=True)
         write_json(directory / 'state-before.json', read_json(REPORTS / 'state.json', {}))
         others = {}
         if any(images.values()):
             files, size, minutes = image_estimate()
             refuse_small_disk(size, directory)
-            with phase('Sauvegarde des images (%s fichiers, %s, environ %d min)'
-                       % (count_text(files), size_text(size), minutes)):
+            with phase('Backing up images (%s, %s, about %d min)'
+                       % (files_text(files), size_text(size), minutes)):
                 run['image_manifest'] = audit.backup_runtime([], True, directory / 'images', shared=False)
             others = inventory_other_versions(keys, directory)
         for position, key in enumerate(keys, 1):
-            progress('Version %d/%d : %s' % (position, len(keys), NAMES[key]))
+            progress('Version %d/%d: %s' % (position, len(keys), NAMES[key]))
             row = import_version(run, key)
             if row['status'] == RESTORE_INCOMPLETE:
                 stop_after(run, keys[position:], key)
@@ -1554,9 +1564,9 @@ def restore_run_images(directory):
     manifest = read_json(directory / 'images/manifest.json')
     names = read_json(directory / 'images-changed.json')
     if names is None:
-        with phase('Recherche des images modifiées'):
+        with phase('Finding changed images'):
             names = audit.changed_files(manifest, directory / 'images')
-    with phase('Restauration de %d images' % len(names)):
+    with phase('Restoring %d images' % len(names)):
         return audit.restore_runtime(manifest, directory / 'images', only=names)
 
 
@@ -1634,26 +1644,26 @@ def restore_run(directory, running_file, versions=None, force=False):
         missing = [key for key in versions
                    if key not in available and not (directory / (key + '-before.json')).exists()]
         if missing:
-            print('Aucune sauvegarde de %s dans %s' % (', '.join(NAMES[key] for key in missing), directory))
+            print('No backup of %s in %s' % (', '.join(NAMES[key] for key in missing), directory))
             return 1
         keys = list(versions)
     else:
         keys = available
         if not keys and not legacy.exists() and not images.exists():
-            print('Aucune sauvegarde dans ' + str(directory))
+            print('No backup in ' + str(directory))
             return 1
     # Shared files and images span every version, so any newer import counts
     newer = newer_imports(directory, VERSIONS)
     if newer and not force:
         for key, other in newer:
-            print('%s : une exécution plus récente a importé cette version : %s' % (NAMES[key], other))
-        print('Annuler d\'abord l\'exécution la plus récente, ou ajouter --force pour écraser ses données.')
+            print('%s: a newer run imported this version: %s' % (NAMES[key], other))
+        print('Undo the newest run first, or add --force to overwrite its data.')
         return 1
     by_key, kept, restored, whole = {}, [], [], []
     with exclusive(running_file, 'restore=%s' % directory):
         try:
             for key in reversed(keys):
-                with phase('Restauration : ' + NAMES[key]):
+                with phase('Restoring: ' + NAMES[key]):
                     by_key[key], more = restore_key(directory, key, versions)
                 if key in available:
                     restored.append(key)
@@ -1661,7 +1671,7 @@ def restore_run(directory, running_file, versions=None, force=False):
                 if not by_key[key]:
                     importing_path(directory, key).unlink(missing_ok=True)
             if not versions and legacy.exists():
-                with phase('Restauration de la sauvegarde complète'):
+                with phase('Restoring the full backup'):
                     whole += audit.restore_runtime(read_json(legacy), legacy.parent)
             if not versions and images.exists():
                 whole += restore_run_images(directory)
@@ -1669,15 +1679,15 @@ def restore_run(directory, running_file, versions=None, force=False):
             restore_run_state(directory, restored, force)
     unrestored = sorted(set(whole + [name for names in by_key.values() for name in names]))
     if kept:
-        print('Fichiers gardés, modifiés aussi par une version plus récente : ' + ', '.join(sorted(set(kept))))
+        print('Files kept, also changed by a newer version: ' + ', '.join(sorted(set(kept))))
     if unrestored:
-        print('Fichiers non restaurés :')
+        print('Files not restored:')
         for name in unrestored:
             print('  ' + name)
         unfinished = None if whole else [key for key in VERSIONS if by_key.get(key)]
-        print('Fermer %s, puis relancer : %s' % (HOLDERS, restore_command(directory, unfinished)))
+        print('Close %s, then run again: %s' % (HOLDERS, restore_command(directory, unfinished)))
         return 1
-    print('Restauration terminée : ' + str(directory))
+    print('Restore finished: ' + str(directory))
     return 0
 
 
@@ -1705,7 +1715,8 @@ def restore_pending(directory):
         report = read_json(directory / 'report.json') or {}
     except (OSError, ValueError):
         return True
-    return 'RESTAURATION INCOMPL' in str(report.get('status', ''))
+    status = str(report.get('status', ''))
+    return RESTORE_INCOMPLETE in status or LEGACY_RESTORE_INCOMPLETE in status
 
 
 def clean_reports():
@@ -1713,29 +1724,29 @@ def clean_reports():
     old = [(directory, paths) for directory, paths in backups[KEPT_IMAGE_BACKUPS:] if not restore_pending(directory)]
     pending = [directory for directory, _ in backups[KEPT_IMAGE_BACKUPS:] if restore_pending(directory)]
     for directory in pending:
-        print('Gardée, restauration inachevée : ' + str(directory))
+        print('Kept, restore unfinished: ' + str(directory))
     if not old:
-        print('Aucune sauvegarde d\'images à supprimer : les %d plus récentes sont gardées.' % KEPT_IMAGE_BACKUPS)
+        print('No image backup to delete: the %d most recent are kept.' % KEPT_IMAGE_BACKUPS)
         return 0
     total = 0
-    print('Sauvegardes d\'images plus anciennes que les %d dernières :' % KEPT_IMAGE_BACKUPS)
+    print('Image backups older than the last %d:' % KEPT_IMAGE_BACKUPS)
     for directory, paths in old:
         files, size = map(sum, zip(*(folder_size(path) for path in paths)))
         total += size
-        print('  %s : %s fichiers, %s' % (directory, count_text(files), size_text(size)))
+        print('  %s: %s, %s' % (directory, files_text(files), size_text(size)))
     try:
-        answer = input('Supprimer ces %d sauvegardes d\'images (%s) ? Taper oui pour confirmer : '
+        answer = input('Delete these %d image backups (%s)? Type yes to confirm: '
                        % (len(old), size_text(total)))
     except EOFError:
         answer = ''
-    if answer.strip().lower() != 'oui':
-        print('Rien supprimé.')
+    if answer.strip().lower() not in ('yes', 'oui'):
+        print('Nothing deleted.')
         return 0
     with update_guard():
         for directory, paths in old:
             for path in paths:
                 shutil.rmtree(path)
-            print('Supprimé : images de ' + str(directory))
+            print('Deleted: images of ' + str(directory))
     return 0
 
 
@@ -1756,23 +1767,23 @@ def check_configuration():
     else:
         config = Path('/etc/fashionista/config')
     if config.exists() and Path(config.read_text().strip()).resolve() != ROOT:
-        raise RuntimeError('Le chemin dans %s pointe vers un autre dépôt ; le corriger avant la mise à jour.' % config)
+        raise RuntimeError('The path in %s points to another repository; fix it before updating.' % config)
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description='Mise à jour guidée, sauvegardée et contrôlée des données.')
-    parser.add_argument('--list', action='store_true', help='consulter les versions, sans écrire')
-    parser.add_argument('--dry-run', action='store_true', help='afficher les choix et contrôles sans modifier les données')
-    parser.add_argument('--versions', help='noms ou numéros séparés par des virgules ; all, changed ; Wakfu explicite')
-    parser.add_argument('--images', choices=('yes', 'no'), help='télécharger les images ou garder les images locales')
-    parser.add_argument('--yes', action='store_true', help='exécuter les choix explicites sans dialogue')
-    parser.add_argument('--step-timeout', type=int, default=3600, help='délai maximum par étape en secondes')
-    parser.add_argument('--restore', type=Path, metavar='DOSSIER',
-                        help='annuler une exécution, ou seulement les versions de --versions')
+    parser = argparse.ArgumentParser(description='Guided data update, backed up and checked.')
+    parser.add_argument('--list', action='store_true', help='show the versions without writing anything')
+    parser.add_argument('--dry-run', action='store_true', help='show the choices and checks without changing any data')
+    parser.add_argument('--versions', help='names or numbers separated by commas; all, changed; Wakfu only when named')
+    parser.add_argument('--images', choices=('yes', 'no'), help='download the images or keep the local ones')
+    parser.add_argument('--yes', action='store_true', help='run the explicit choices without asking')
+    parser.add_argument('--step-timeout', type=int, default=3600, help='longest time for one step, in seconds')
+    parser.add_argument('--restore', type=Path, metavar='FOLDER',
+                        help='undo a run, or only the versions given with --versions')
     parser.add_argument('--force', action='store_true',
-                        help='avec --restore : restaurer même si une exécution plus récente a importé ces versions')
+                        help='with --restore: restore even if a newer run imported these versions')
     parser.add_argument('--clean-reports', action='store_true',
-                        help='supprimer, après confirmation, les sauvegardes d\'images des anciennes exécutions')
+                        help='delete the image backups of old runs, after confirmation')
     parser.add_argument('--running-file', type=Path, default=Path.home() / 'Documents/fashionista-loop/RUNNING.md')
     parser.add_argument('--worker', type=Path, help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
@@ -1786,21 +1797,21 @@ def main(argv=None):
             versions = restore_keys(args.versions) if args.versions else None
             return restore_run(args.restore, args.running_file, versions, args.force)
         except Exception as exc:
-            print('Restauration impossible : %s' % exc)
+            print('Restore failed: %s' % exc)
             return 1
     if args.yes and (not args.versions or not args.images):
-        parser.error('--yes exige --versions et --images')
+        parser.error('--yes needs --versions and --images')
     if args.step_timeout <= 0:
-        parser.error('--step-timeout doit être positif')
+        parser.error('--step-timeout must be positive')
     rows = discover()
     show_versions(rows)
     if args.list:
         files, size = folder_size(REPORTS) if REPORTS.is_dir() else (0, 0)
-        print('\nSauvegardes et journaux dans %s : %s (%s fichiers)' % (REPORTS, size_text(size), count_text(files)))
+        print('\nBackups and logs in %s: %s (%s)' % (REPORTS, size_text(size), files_text(files)))
         return 1 if any(row['error'] for row in rows) else 0
     while True:
         choice = args.versions if args.versions is not None else input(
-            '\nQuelles versions ? (1,4 ; all ; changed ; Entrée pour quitter) : ')
+            '\nWhich versions? (1,4; all; changed; Enter to quit): ')
         try:
             keys = selection(choice, rows)
             break
@@ -1814,29 +1825,29 @@ def main(argv=None):
     for key in keys:
         answer = args.images
         while answer is None:
-            raw = input('%s : télécharger les images ? [O/n] : ' % NAMES[key]).strip().lower()
+            raw = input('%s: download the images? [Y/n]: ' % NAMES[key]).strip().lower()
             answer = 'yes' if raw in ('', 'o', 'oui', 'y', 'yes') else 'no' if raw in ('n', 'non', 'no') else None
         images[key] = answer == 'yes'
-    print('\nChoix : ' + ', '.join('%s (%s images)' % (NAMES[key], 'avec' if images[key] else 'sans') for key in keys))
-    print('Pour chaque version : sauvegarde, import, inventaire. Un échec restaure cette version et passe à la suivante.')
-    print('Ensuite : génération des builds, contrôle des armes, suite Django. Si la génération des builds échoue pour'
-          ' une version, cette version est restaurée ; les autres tests en échec gardent les données.')
+    print('\nChoice: ' + ', '.join('%s (%s images)' % (NAMES[key], 'with' if images[key] else 'without') for key in keys))
+    print('For each version: backup, import, inventory. A failure restores that version and moves on to the next.')
+    print('Then: build generation, weapon check, Django suite. If build generation fails for a version,'
+          ' that version is restored; other failing tests keep the data.')
     if args.dry_run:
         for line in pending_import_lines(pending_imports()):
-            print('Lancement refusé tant que ce n\'est pas fait : ' + line)
+            print('Refusing to start until this is done: ' + line)
         for path in busy_databases(keys):
-            print('Base de données ouverte par un autre programme, le lancement sera refusé : %s' % path)
+            print('Database open in another program, the launch will be refused: %s' % path)
         if any(images.values()):
             files, size, minutes = image_estimate()
             free = shutil.disk_usage(REPORTS if REPORTS.is_dir() else ROOT).free
-            print('Sauvegarde des images : %s fichiers, %s, environ %d min ; %s libres sur le disque.'
-                  % (count_text(files), size_text(size), minutes, size_text(free)))
+            print('Image backup: %s, %s, about %d min; %s free on the disk.'
+                  % (files_text(files), size_text(size), minutes, size_text(free)))
             if free < size * DISK_MARGIN:
-                print('Espace disque insuffisant : le lancement avec images sera refusé.')
+                print('Not enough disk space: a launch with images will be refused.')
         for name, command in validation_commands(keys):
-            print('%s : %s' % (CHECK_TITLES[name], subprocess.list2cmdline(command)))
+            print('%s: %s' % (CHECK_TITLES[name], subprocess.list2cmdline(command)))
         return 0
-    if not args.yes and input('Lancer ? [o/N] : ').strip().lower() not in ('o', 'oui', 'yes', 'y'):
+    if not args.yes and input('Start? [y/N]: ').strip().lower() not in ('y', 'yes', 'o', 'oui'):
         return 0
     return execute(rows, keys, images, args)
 
@@ -1847,5 +1858,5 @@ if __name__ == '__main__':
     try:
         raise SystemExit(main())
     except (KeyboardInterrupt, EOFError):
-        print('\nAnnulé.')
+        print('\nCancelled.')
         raise SystemExit(130)
