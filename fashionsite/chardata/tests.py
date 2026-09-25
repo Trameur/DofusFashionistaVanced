@@ -23532,7 +23532,7 @@ class ProvenanceViewTests(TestCase):
         self.client.force_login(self._admin())
         page = self.client.get(self.URL)
         self.assertEqual(page.status_code, 200)
-        self.assertIn('Aucune', page.content.decode('utf-8'))
+        self.assertIn('No data yet', page.content.decode('utf-8'))
 
     def test_it_reports_what_was_counted(self):
         from chardata.models import VisitSource

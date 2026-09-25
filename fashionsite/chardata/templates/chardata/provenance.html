@@ -9,21 +9,21 @@
 {% block main %}
 <div style="max-width:900px;margin:0 auto;padding:24px 16px">
 
-  <h1 style="margin:0 0 4px">Provenance des lecteurs</h1>
+  <h1 style="margin:0 0 4px">Where readers come from</h1>
   <p style="color:#777;margin:0 0 24px">
-    Comptage anonyme, une ligne par jour et par provenance.
-    {% if first_day %}Depuis le {{ first_day }}, jusqu'au {{ today }}.
-    {% else %}<strong>Aucune donnée pour l'instant</strong> : la mesure commence au premier déploiement.{% endif %}
+    Anonymous count, one row per day and per source.
+    {% if first_day %}From {{ first_day }} to {{ today }}.
+    {% else %}<strong>No data yet</strong>: counting starts with the first deploy.{% endif %}
   </p>
 
   {% for p in periods %}
-  <h2 style="margin:28px 0 6px">{{ p.days }} derniers jours</h2>
+  <h2 style="margin:28px 0 6px">Last {{ p.days }} days</h2>
   <p style="margin:0 0 10px;color:#777">
-    {{ p.total }} arrivée{{ p.total|pluralize }}.
+    {{ p.total }} arrival{{ p.total|pluralize }}.
     {% if p.total %}
-      Clics « soutenir » : {{ p.support_clicks }} , soit <strong>{{ p.support_rate }} %</strong>.
+      Support clicks: {{ p.support_clicks }}, that is <strong>{{ p.support_rate }}%</strong>.
     {% else %}
-      Clics « soutenir » : {{ p.support_clicks }}.
+      Support clicks: {{ p.support_clicks }}.
     {% endif %}
   </p>
 
@@ -33,9 +33,9 @@
     <thead>
       <tr style="text-align:left;border-bottom:2px solid #ccc">
         <th style="padding:6px 10px">Source</th>
-        <th style="padding:6px 10px">Canal</th>
-        <th style="padding:6px 10px;text-align:right">Arrivées</th>
-        <th style="padding:6px 10px;text-align:right">Part</th>
+        <th style="padding:6px 10px">Medium</th>
+        <th style="padding:6px 10px;text-align:right">Arrivals</th>
+        <th style="padding:6px 10px;text-align:right">Share</th>
       </tr>
     </thead>
     <tbody>
@@ -44,36 +44,36 @@
         <td style="padding:5px 10px">{{ r.source }}</td>
         <td style="padding:5px 10px;color:#777">{{ r.medium }}</td>
         <td style="padding:5px 10px;text-align:right;font-variant-numeric:tabular-nums">{{ r.visits }}</td>
-        <td style="padding:5px 10px;text-align:right;color:#777;font-variant-numeric:tabular-nums">{{ r.share }} %</td>
+        <td style="padding:5px 10px;text-align:right;color:#777;font-variant-numeric:tabular-nums">{{ r.share }}%</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   </div>
-  {% if p.hidden %}<p style="color:#999;font-size:13px">et {{ p.hidden }} autre{{ p.hidden|pluralize }} source{{ p.hidden|pluralize }}.</p>{% endif %}
+  {% if p.hidden %}<p style="color:#999;font-size:13px">and {{ p.hidden }} other source{{ p.hidden|pluralize }}.</p>{% endif %}
   {% else %}
-  <p style="color:#999">Rien encore.</p>
+  <p style="color:#999">Nothing yet.</p>
   {% endif %}
   {% endfor %}
 
-  <h2 style="margin:32px 0 6px">Pays · 30 jours</h2>
+  <h2 style="margin:32px 0 6px">Countries · 30 days</h2>
   {% if by_country %}
   <p style="margin:0">
     {% for c in by_country %}<span style="display:inline-block;margin:0 14px 6px 0">
       <strong>{{ c.country }}</strong> <span style="color:#777">{{ c.visits }}</span></span>{% endfor %}
   </p>
   {% else %}
-  <p style="color:#999">Aucun pays reçu , Cloudflare n'envoie peut-être pas l'en-tête.</p>
+  <p style="color:#999">No country received; Cloudflare may not be sending the header.</p>
   {% endif %}
 
-  <h2 style="margin:28px 0 6px">Langue servie · 30 jours</h2>
+  <h2 style="margin:28px 0 6px">Language served · 30 days</h2>
   {% if by_language %}
   <p style="margin:0">
     {% for l in by_language %}<span style="display:inline-block;margin:0 14px 6px 0">
       <strong>{{ l.language }}</strong> <span style="color:#777">{{ l.visits }}</span></span>{% endfor %}
   </p>
   {% else %}
-  <p style="color:#999">Rien encore.</p>
+  <p style="color:#999">Nothing yet.</p>
   {% endif %}
 
 </div>
