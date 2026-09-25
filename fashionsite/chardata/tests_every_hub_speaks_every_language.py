@@ -1,20 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Every hub must answer under every language prefix, not most of them.
-
-A hub is a page with no name of its own to localise -- the home, the guides
-index, the encyclopedia, the create-a-project landing. Their language lives in
-a url prefix, and that only works if the route sits inside i18n_patterns.
-
-/setup/ did not. So /fr/retro/setup/ and /es/retro/setup/ answered in their
-language while **/fr/setup/ answered 404**: the translated set builder existed
-for every game version except the one people actually play, and French is the
-market that sends the most impressions by a factor of twenty. Nothing caught it
-because nothing walked the combinations.
-
-The last test is the one with teeth: every assertion above passes on a client
-that returns 200 for anything, so it demands a 404 for a prefix that is not a
-language at all.
-"""
+"""Every hub (a page with no name of its own, like /setup/) must answer under every language prefix."""
 from django.test import TestCase
 
 from fashionsite.urls import HUB_PATHS, _SITEMAP_LANGUAGES
@@ -49,8 +34,7 @@ class EveryHubSpeaksEveryLanguage(TestCase):
         self.assertEqual(missing, [])
 
     def test_the_prefix_actually_changes_the_language(self):
-        """A route that resolves but ignores its prefix is worse than a 404:
-        it looks translated in the sitemap and reads English to the reader."""
+        """A route that resolves but ignores its prefix looks translated while reading English to the reader."""
         wrong = []
         for language in _SITEMAP_LANGUAGES:
             for hub in HUB_PATHS:

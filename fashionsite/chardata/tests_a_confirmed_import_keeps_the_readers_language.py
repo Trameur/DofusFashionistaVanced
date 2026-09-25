@@ -1,10 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""A build imported from text or a link keeps the reader's language prefix.
-
-_solution_path and _url_pour_version used to build the redirect path by hand,
-always without a language prefix. reverse() under the build's own version
-namespace picks up the language active while the view runs instead.
-"""
+"""A build imported from text or a link keeps the reader's language prefix in its redirect."""
 import os
 
 from django.test import TestCase

@@ -1,15 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A build's own name must not be what hides its page from Google.
-
-robots.txt refuses internal endpoints with `Disallow: */word/`. That form
-matches the word at any depth, and a shared build's address carries its name as
-a path segment, so a build called `fashion` asks Google to skip a rule written
-for /fashion/ -- and skips /s/fashion/<id>/ with it. One live build was in that
-state when this was written.
-
-The two files know nothing of each other, so the drift test below is what keeps
-them level: a new `Disallow: */word/` with no matching entry turns this red.
-"""
+"""A build named after a reserved word, such as fashion, must stay crawlable, not blocked by its own rule."""
 import io
 import os
 import re
@@ -58,11 +48,7 @@ def _as_pattern(path):
 
 
 def _allows(rules, path):
-    """Google's rule: the longest matching pattern wins, ties go to Allow.
-
-    The length is the pattern as written, `$` and `*` included -- measuring it
-    without the `$` loses `Allow: /setup/$` against `Disallow: */setup/`.
-    """
+    """Google's rule: the longest matching pattern (with `$` and `*` counted) wins, ties go to Allow."""
     winner, length = None, -1
     for key, value in rules:
         if _as_pattern(value).match(path):
@@ -92,12 +78,7 @@ class BuildNameCannotHideItself(TestCase):
         self.assertEqual(blocked, [])
 
     def test_without_the_fix_every_one_of_them_would_be_blocked(self):
-        """The control: the matcher above must actually be able to say no.
-
-        It reproduces the address the site used to build -- the name verbatim --
-        and demands a refusal for every reserved word. A matcher that allowed
-        everything would make the test above pass while proving nothing.
-        """
+        """The control: the matcher must refuse every reserved word on the address the site used to build."""
         allowed = [w for w in sorted(RESERVED_PATH_WORDS)
                    if _allows(self.rules, '/s/%s/MTAyMTMx/' % w)]
         self.assertEqual(allowed, [])

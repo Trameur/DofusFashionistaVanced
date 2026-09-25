@@ -88,8 +88,7 @@ class ScrollCostCurveTests(TestCase):
 
 
 class ChooseStatsCheckboxTests(TestCase):
-    """A save from the page keeps the "Distribute the points for me" box as
-    the user left it, in both directions."""
+    """A save from the page keeps the distribute-the-points-for-me checkbox as the user left it."""
 
     def _char(self, owner):
         from chardata.coaching_view import create_build
@@ -137,8 +136,7 @@ class ChooseStatsCheckboxTests(TestCase):
 
 
 class BaseStatsBoundsTests(TestCase):
-    """A stat typed out of range is saved clamped, and the save still goes
-    through."""
+    """A stat typed out of range is saved clamped, and the save still goes through."""
 
     def _char(self, owner):
         from chardata.coaching_view import create_build

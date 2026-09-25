@@ -1,13 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""L'accueil propose l'import a qui a deja son build.
-
-Mesure du 11 septembre 2026: l'accueil offrait quatre departs (demarrage
-rapide, build en une phrase, build au hasard, guides) et trois gros boutons
-(creer, charger ou se connecter, FAQ), tous des departs de zero. Un joueur
-qui a deja son stuff, et qui vient voir si le solveur fait mieux, entre
-par l'import (texte ou captures, section 9.10 du plan), et rien sur
-l'accueil ne le lui disait: il fallait ouvrir le menu.
-"""
+"""The home page offers an import link to a reader who already has a build."""
 
 import re
 
@@ -46,10 +38,7 @@ class TheHomePageOffersTheImportTests(TestCase):
         self.assertIn('captures d’écran', _ancre(page))
 
     def test_the_line_is_not_faded(self):
-        """La ligne portait `opacity: 0.8`: ses liens tombaient a 3,3:1 en
-        classique clair et 3,6:1 en moderne clair, sous les 4,5:1 que le
-        lot B a refuses pour le pied de page. A pleine force, 4,6:1 et
-        5,3:1 (couleurs de lien mesurees sur le fond rgb(228, 230, 188))."""
+        """A faded paragraph would fail the contrast floor the footer links already meet."""
         page = self.client.get('/', HTTP_ACCEPT_LANGUAGE='en').content.decode('utf-8')
         debut = page.find('home-import-build')
         paragraphe = page[page.rfind('<p', 0, debut):debut]

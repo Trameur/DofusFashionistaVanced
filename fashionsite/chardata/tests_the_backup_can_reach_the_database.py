@@ -1,15 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The backup has to reach the database before it can reach the bucket.
-
-`mysqldump` was called with the database name alone. That form connects to a
-local unix socket. The database has run in its own container since the site
-moved to Docker, so there was no socket at that path: every run since then
-exited 2, and the guard on the exit status turned it into a loud failure
-rather than an empty file uploaded as a backup. The bucket had never received
-anything, and the reason was one missing --host.
-
-These tests read the command the script builds, without running mysqldump.
-"""
+"""The backup must name the database host, not connect through a local unix socket the container has none of."""
 import os
 import unittest
 from unittest import mock

@@ -14,13 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""A guide's language comes from its URL slug.
-
-32 guides are written in 5 languages, which is 160 pages. Until the slug named
-the language, a guide had one English slug and picked its language from
-Accept-Language -- a header no crawler sends -- so Google only ever saw the 32
-English ones and the other 128 were unreachable.
-"""
+"""A guide's language comes from its URL slug, not from Accept-Language, which no crawler sends."""
 
 import re
 
@@ -33,8 +27,7 @@ LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 
 
 class SlugTableTest(TestCase):
-    """The table is written down, so the tests have to guard what that costs:
-    a guide added without its slugs, or two entries claiming one URL."""
+    """Guards the slug table: a guide added without its slugs, or two entries claiming one URL."""
 
     def test_every_guide_has_a_slug_in_every_language(self):
         missing = [
@@ -60,8 +53,7 @@ class SlugTableTest(TestCase):
             'a slug must name one language, these name two: %s' % clashes)
 
     def test_the_english_slug_is_the_guide_key(self):
-        # The English URLs are already indexed. Moving one costs its ranking,
-        # so the table must never introduce a redirect for them.
+        # the English urls are already indexed, so the table must never redirect them
         for key in guides_content.ordered_slugs():
             self.assertEqual(GUIDE_SLUGS[key]['en'], key)
 
@@ -101,15 +93,11 @@ class GuidePageTest(TestCase):
                 html = self._fetch(slug)
                 expected = guides_content.get_guide(
                     self.KEY, language)['title']
-                # The title carries the language; comparing it is the tightest
-                # check that does not depend on a particular sentence.
+                # the title carries the language without depending on a particular sentence
                 self.assertIn(expected.split(':')[0][:30], html)
 
     def test_the_html_lang_attribute_matches_the_url(self):
-        # The crispest statement of the whole change: the URL decides, and the
-        # document says so. Assistive tech and translation tooling read this
-        # attribute, so a page whose lang disagrees with its text is wrong for
-        # readers before it is wrong for crawlers.
+        # the html lang attribute is read by assistive tech and translation tooling
         for language in LANGUAGES:
             with self.subTest(language=language):
                 slug = guides_content.slug_for(self.KEY, language)
@@ -154,17 +142,10 @@ class GuidePageTest(TestCase):
                     self.client.get('/guides/%s/' % key).status_code, 200)
 
     def test_internal_links_stay_in_the_page_language(self):
-        # A body is written with English slugs. On a French page they have to
-        # be rewritten, or every internal link drops the reader back into
-        # English and tells Google the translations are unrelated.
+        # English slugs written into the body must be rewritten on a translated page
         html = self._fetch(guides_content.slug_for(self.KEY, 'fr'))
         body = html.split('<main')[-1] if '<main' in html else html
-        # The language selector is the one control whose whole job is to leave
-        # the page's language, so it is not a leak. Its flags became links
-        # because a button is not one and no crawler followed them, which left
-        # /fr/, /es/, /pt/ and /de/ with no internal link anywhere on the site.
-        # Keyed on data-next, which identifies the selector whatever tag it
-        # wears -- it has already been <img>, then <button>, now <a>.
+        # the language selector's own links are excluded, keyed on data-next whatever tag it wears
         body = re.sub(r'<[a-z]+[^>]*data-next[^>]*>', '', body)
         english_only = [
             key for key in guides_content.ordered_slugs()
@@ -197,8 +178,7 @@ class GuideSitemapTest(TestCase):
 
 
 class GetGuideAcceptsEitherNameTest(TestCase):
-    """list_guides() hands back localised slugs and get_guide() used to take
-    only keys, so chaining them returned None for every non-English guide."""
+    """get_guide() must also accept the localised slugs list_guides() hands back."""
 
     def test_a_localised_slug_is_accepted(self):
         for language in LANGUAGES:

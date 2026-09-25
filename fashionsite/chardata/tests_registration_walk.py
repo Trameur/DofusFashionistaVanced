@@ -1,23 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Signing up, and the confirmation mail that finishes it.
-
-The other half of the account flow. Like the password reset, its middle link is
-an email, so neither `check_pages` nor `check_actions` can join the chain -- and
-`register` sits behind a captcha, which is very likely why nothing tested it:
-Django forces DEBUG off in tests, so the view demands a real Google answer. The
-captcha check is replaced here, and nothing else is.
-
-Four decisions in this view are worth keeping, and each has a test below:
-
-  - the account is created **inactive**, and `local_login` says so rather than
-    letting an unconfirmed address in;
-  - usernames collide case-insensitively, because the MySQL index does;
-  - an address that already has an account is sent to password recovery instead
-    of quietly getting a second one;
-  - `email_confirmed_page` echoes the username back into the page, so it 404s
-    on a name that does not exist -- the url carries no token and anyone can
-    put anything in it.
-"""
+"""Signing up and the confirmation mail that finishes it, with the recaptcha check mocked out."""
 import hashlib
 import re
 from unittest import mock
@@ -118,13 +100,7 @@ class ARegistrationWalk(TestCase):
             '/email_confirmed/nobody-at-all/no/').status_code)
 
     def test_a_mail_server_that_refuses_the_connection_leaves_no_half_account(self):
-        """A refused connection is a bare OSError, not an SMTPException.
-
-        The view only caught the smtplib family, so an unreachable mail server
-        answered 500 with the inactive account still in the table -- and the
-        visitor who tried again was told their chosen name was taken, by an
-        account they could never confirm.
-        """
+        """A refused connection is a bare OSError, not an SMTPException the view expects to catch."""
         with mock.patch('chardata.login_view.send_mail',
                         side_effect=ConnectionRefusedError('smtp is down')):
             response = self.register()

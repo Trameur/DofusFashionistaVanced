@@ -1,24 +1,12 @@
 # -*- coding: utf-8 -*-
-"""A comment is the only stranger's text that lands on a public page.
-
-Everything else a visitor reads on `/s/…/` comes from the catalogue or from
-the build's owner. Comments come from a third party, they are rendered on a
-page Google indexes, and `validate_comment` only refuses external links and
-profanity -- never a tag. So the escaping is the whole defence, and it lives
-in two places that a later edit could quietly undo: `linebreaksbr` in
-`solution.html`, and `.text()` in the script that appends a new comment.
-
-The positive control matters as much as the payloads: without asserting that
-the escaped form is present, a page that simply stopped showing comments would
-pass every "no raw tag" check.
-"""
+"""A comment must reach the page HTML-escaped, since it is the only stranger's text rendered on an indexed page."""
 from django.contrib.auth.models import User
 from django.test import TestCase
 
 from chardata.models import BuildComment, Char
 from chardata.util import shared_build_path
 
-#: Payloads chosen to survive moderation: none carries an external link.
+# payloads chosen to survive moderation: none carries an external link
 PAYLOADS = [
     '<script>alert(1)</script>',
     '<img src=x onerror=alert(1)>',

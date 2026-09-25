@@ -1,22 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A reader who lost their password gets it back, and nobody else does.
-
-Nothing walked this. `check_pages` follows links a crawler can GET and
-`check_actions` posts to the endpoints it knows; neither can read the mail that
-carries the link, so the chain from "I forgot it" to "I am logged in again"
-was never joined end to end. It is also the flow that never gets reported when
-it breaks: a reader who cannot get back in does not write, they leave.
-
-The design being pinned here is careful and worth keeping that way. The token
-is a TimestampSigner over an HMAC of the username **and the current password
-hash**, so it expires on its own and a completed reset kills every older link
-in the same instant. The four security properties below are that design.
-
-The browser's login.js posts SHA256('dofusfashionista' + password), so a login
-here has to send the same thing; the reset form posts the raw password and the
-view hashes it. Getting that backwards fails in a way that looks like a bug in
-the site.
-"""
+"""A reader who lost their password gets it back, and nobody else does; login here hashes as login.js does."""
 import hashlib
 import re
 
@@ -100,14 +83,9 @@ class APasswordRecoveryWalk(TestCase):
         self.assertEqual(403, self.client.get(forged).status_code)
 
     def comparable(self, content, address):
-        """The page minus what has to differ between two requests.
-
-        The csrf token is new on every response and the address is echoed
-        back; neither says anything about whether an account exists.
-        """
+        """The page minus what has to differ between two requests: the fresh csrf token and the echoed address."""
         text = content.decode('utf-8', 'replace').replace(address, '')
-        # The token appears both as an attribute and inside a script, so blank
-        # every long opaque run rather than one shape of it.
+        # blanks every long opaque run, not just the token's one known shape
         return re.sub(r'[A-Za-z0-9]{32,}', 'TOKEN', text)
 
     def test_an_unknown_address_is_answered_the_same_way(self):

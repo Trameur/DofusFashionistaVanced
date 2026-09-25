@@ -1,18 +1,5 @@
 # -*- coding: utf-8 -*-
-"""An asset missing from the S3 map must still get a url.
-
-The site serves its static files locally: `/etc/fashionista/serve_static`
-exists, so `static_s3.static()` hands everything to Django. The other branch --
-the one that maps a path through `static_file_map.csv` -- is dormant, and it is
-a trap. That map was last written in October 2023 by `upload_static_files.py`,
-which has not run since and could not run anyway. It holds 9 683 rows and
-**not one** for the encyclopedia or for smithmagic.
-
-So the day that one file disappears from the server, every asset added in the
-last three years would render as `src=""`: a blank page with nothing in the log.
-The two behaviours this file pins down turn that into a warning and a working
-local url.
-"""
+"""An asset missing from the static file map must still get a url, falling back with a warning instead of blank."""
 from unittest import mock
 
 from django.test import SimpleTestCase

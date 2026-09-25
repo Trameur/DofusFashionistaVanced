@@ -203,7 +203,7 @@ class AnAmbiguousItemPageTellsTheTruthTests(TestCase):
 
 
 class EveryAnnouncedTranslationIsServedInThatLanguageTests(TestCase):
-    """L'invariant, sur un echantillon dont la graine est imprimee."""
+    """The invariant, checked on a sample whose random seed is printed."""
 
     SAMPLE_PER_VERSION = 4
     VERSIONS = ('dofus3', 'beta', 'dofus2', 'touch', 'retro')

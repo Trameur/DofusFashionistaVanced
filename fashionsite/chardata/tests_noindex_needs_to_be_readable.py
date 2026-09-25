@@ -1,19 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A page that says noindex must stay fetchable, or it never leaves the index.
-
-/loadprojects/ is empty unless you sign in, and Google showed it 3 962 times
-for 4 clicks over ninety days. The remedy already chosen, and live, is a
-`noindex, follow` meta tag -- deliberately NOT a robots.txt disallow. The view's
-own docstring says why: "the page is already in the index, and a disallow would
-stop Google ever reading the instruction to drop it."
-
-That reasoning was easy to miss, and missing it makes the page permanent. This
-walks every disallowed word in robots.txt, asks for it as an anonymous visitor,
-and refuses the one combination that traps a page: 200, noindex, disallowed.
-
-A page that answers 404 or a redirect is exempt -- /admin-tools/ sets noindex
-and is disallowed, and that is fine, because a crawler never receives its body.
-"""
+"""A page that says noindex must stay fetchable (200, not disallowed), or it never leaves the index."""
 import io
 import os
 import re
@@ -24,16 +10,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROBOTS = os.path.join(HERE, 'templates', 'chardata', 'robots.txt')
 
 
-#: Words that serve 200 + noindex and are disallowed anyway, accepted on
-#: purpose. All three are auth pages: never in a sitemap, never linked from a
-#: public page, so nothing put them in the index for the noindex to get out of.
-#: The disallow is what keeps a crawler from spending its budget on them.
-#:
-#: This list is honest about its limit: I could not verify their index status.
-#: `site:` with `inurl:` returns nothing for this domain even for the
-#: encyclopedia, which is indexed 43 000 times over -- so the operator, not the
-#: index, is what is empty. If one of them ever turns up in a search result,
-#: the remedy is the one /loadprojects/ uses: drop the disallow, keep noindex.
+# these auth pages are never linked or sitemapped, so a disallow trapping them is accepted
 ACCEPTED_TRAPPED = frozenset(('check_your_email', 'login', 'login_page'))
 
 
@@ -72,8 +49,7 @@ def _allows(rules, path):
 
 
 def _says_noindex(html):
-    """Read the tag without assuming attribute order: django-htmlmin sorts
-    them, so name= does not come before content=."""
+    """Reads the tag without assuming attribute order: django-htmlmin sorts them."""
     for tag in re.findall(r'<meta\b[^>]*>', html):
         attrs = dict(re.findall(r'([a-zA-Z-]+)="([^"]*)"', tag))
         if attrs.get('name') == 'robots':

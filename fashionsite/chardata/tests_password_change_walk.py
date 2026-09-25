@@ -1,21 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Changing your password from the account page, and still getting back in.
-
-Three places have to agree on where a password gets hashed, and they disagree
-on purpose:
-
-  - `login.js` hashes before posting, both for signing in and for the change
-    form -- so `change_password` stores what it receives;
-  - the reset form posts the **raw** password and `recover_password` hashes it
-    itself.
-
-Get that backwards in either direction and the symptom is the same and silent:
-the change reports success, and the account can never be signed into again. The
-reader is locked out of their own account by a page that told them it worked.
-
-Nothing covered the change path. These tests use the browser's hash, exactly as
-login.js sends it, and check that signing in still works afterwards.
-"""
+"""Changing your password from the account page, sending the same hash login.js does, still lets you back in."""
 import hashlib
 
 from django.contrib.auth.models import User
@@ -71,6 +55,5 @@ class APasswordChangeWalk(TestCase):
                       'an unlimited number of passwords can be tried here')
 
     def test_the_throttle_does_not_shut_out_the_owner_first(self):
-        """The half that keeps the other honest: a limit set to zero would
-        pass the test above and lock everyone out."""
+        """The half that keeps the other honest: a limit set to zero would pass the test above too."""
         self.assertEqual('ok', self.change(OLD, NEW))

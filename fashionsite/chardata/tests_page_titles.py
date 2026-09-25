@@ -1,17 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""What a page calls itself when it is published once per game version.
-
-The same list exists five times -- once for Dofus 3, Beta, Dofus 2, Retro and
-Touch -- and all five are submitted. If they share a title and a description,
-the five results Google can show are indistinguishable, and it has to pick one
-and drop the rest. That is the same failure the canonical had before it was
-fixed, moved from the address to the words.
-
-The families are read from the site's own sitemap rather than typed out here.
-A hand-written list only ever covers the pages someone thought of; the sitemap
-covers what is actually submitted, so a family added later arrives already
-checked.
-"""
+"""A page published once per game version must not share a title or description across those five copies."""
 import re
 from html import unescape
 
@@ -27,21 +15,14 @@ def sans_version(chemin):
     morceaux = [m for m in chemin.split('/') if m]
     if morceaux and morceaux[0] in VERSIONS:
         reste = morceaux[1:]
-        # Sans ce cas, /beta/ rend '//' et ne se regroupe pas avec '/' : la
-        # famille de la page d'accueil disparaissait de la comparaison sans
-        # que rien ne le signale.
+        # without this case /beta/ reduces to '//' and never groups with '/',
+        # so the home page family would silently vanish from the comparison
         return ('/' + '/'.join(reste) + '/') if reste else '/', morceaux[0]
     return chemin, 'dofus3'
 
 
 class EveryVersionOfAListNamesItselfDifferentlyTests(TestCase):
-    """/setup/ and /sharedbuilds/ each answered with one title for five pages.
-
-    Both carry the version in the address and in the page, and neither carried
-    it in the title or the description. The other families already did -- the
-    encyclopedia, its sets, the forgemagie, the home page -- so this was two
-    templates left behind by a convention the rest of the site follows.
-    """
+    """/setup/ and /sharedbuilds/ used to share one title and description across all five versions."""
 
     def _page(self, url):
         reponse = self.client.get(url, HTTP_ACCEPT_LANGUAGE='en',
@@ -67,8 +48,7 @@ class EveryVersionOfAListNamesItselfDifferentlyTests(TestCase):
         groupes = {}
         for loc in re.findall('<loc>([^<]*)</loc>', xml):
             chemin = re.sub('^https?://[^/]*', '', loc)
-            # Les builds partages n'existent qu'a une adresse chacun : ils ne
-            # forment pas une famille de cinq et n'ont rien a departager.
+            # a shared build has only one address, not five, so it never forms a family
             if '/s/' in chemin:
                 continue
             racine, version = sans_version(chemin)
@@ -93,15 +73,13 @@ class EveryVersionOfAListNamesItselfDifferentlyTests(TestCase):
         self.assertFalse(
             collisions, 'these versions answer with one title '
             '(family, versions, title): %s' % collisions[:4])
-        # Sans ce compte, un plan de site vide rendrait ce test vert en ne
-        # comparant rien du tout.
+        # without this count an empty sitemap would pass by comparing nothing at all
         self.assertGreaterEqual(verifiees, 4,
                                 'only %d versioned families found' % verifiees)
 
     def test_five_versions_of_a_page_do_not_share_one_description(self):
-        # Le titre et la description sont deux moities de la meme reponse :
-        # corriger l'une et laisser l'autre laisse cinq resultats dont quatre
-        # sont encore interchangeables sous le titre.
+        # title and description are two halves of the same result; fixing only
+        # one still leaves four of five interchangeable under it
         collisions = []
         for racine, versions in sorted(self._familles().items()):
             vues = {}
@@ -118,10 +96,7 @@ class EveryVersionOfAListNamesItselfDifferentlyTests(TestCase):
             '(family, versions, description): %s' % collisions[:4])
 
     def test_the_version_shown_is_the_version_asked_for(self):
-        """Distinct is not enough: five different wrong titles would pass.
-
-        A Retro page has to say Retro, not merely differ from the Beta one.
-        """
+        """Distinct titles are not enough: a Retro page must say Retro, not merely differ from Beta's."""
         faux = []
         for racine, versions in sorted(self._familles().items()):
             for version, chemin in sorted(versions.items()):

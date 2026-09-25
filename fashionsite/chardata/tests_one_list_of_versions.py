@@ -1,18 +1,5 @@
 # -*- coding: utf-8 -*-
-"""One list of game versions, not three that must be remembered together.
-
-`GameVersion.experimental` is documented as "invisible everywhere a reader
-could reach it". Wakfu is the first version to use it: 20 commits of data
-pipeline, no page, nothing linking to it. That rule was held by three lists
-written out by hand -- the reader-facing versions in context_processors, the
-prefixed hubs in the sitemap, and the prefixes the guide bodies rewrite with --
-and nothing compared any of them with the registry. All three are derived now,
-and this is what keeps them derived.
-
-The last test is the one with teeth: every assertion above passes trivially if
-no experimental version exists at all. It demands that one does, and that it is
-missing from every reader-facing list.
-"""
+"""The reader-facing version list, sitemap hubs and guide prefixes must all derive from one registry."""
 from django.test import SimpleTestCase
 
 from fashionistapulp.game_versions import (DEFAULT_VERSION, GAME_VERSIONS,

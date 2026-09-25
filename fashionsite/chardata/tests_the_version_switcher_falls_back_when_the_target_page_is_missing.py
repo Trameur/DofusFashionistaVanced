@@ -1,12 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""The header version switcher must never send a reader to a 404.
-
-Some non-entity pages are not routed the same way in every version: a
-localized versioned guide is only routed without its language prefix for
-dofus3, and /encyclopedia/most-used/ or /login/ exist for one version only.
-version_switch_href now checks the candidate with django.urls.resolve()
-and falls back to a version that is actually routed.
-"""
+"""The header version switcher must never send a reader to a 404, falling back to a version that is routed."""
 import re
 
 from django.test import TestCase

@@ -1,17 +1,5 @@
 # Copyright (C) 2026 The Dofus Fashionista, LGPL (see COPYING.LESSER)
-"""Every language a monster is named in has to be a language it is served in.
-
-Retro carried monster names in fr, en and es only. Nothing failed and nothing
-said so: the scraper asked a source that answers three languages, and a comment
-concluded from that that the other two "have no source". They did -- Ankama
-publishes them -- and 599 Portuguese pages simply did not exist. A gap that
-produces no error and no empty page is invisible until someone counts.
-
-So this counts, over every version and every language rather than over the ones
-that come to mind. The rule is not "Retro must have Portuguese"; it is that a
-name present in the database must reach the reader, and that a language falling
-to zero must fail here rather than quietly stop being published.
-"""
+"""Every language a monster is named in has to be a language its page actually serves."""
 import collections
 import re
 import sqlite3
@@ -54,10 +42,7 @@ class EveryNamedLanguageIsAServedLanguageTests(TestCase):
                       for langue in LANGUES}
 
     def test_no_version_lost_a_language_of_monster_names(self):
-        """A language that empties would otherwise stop being published in
-        silence: the sitemap drops what has no name, the page falls back, and
-        nothing anywhere reports a number that went to zero.
-        """
+        """A language that empties would otherwise stop being published in silence."""
         vides = []
         mesures = 0
         for game_version in VERSIONS:
@@ -71,21 +56,13 @@ class EveryNamedLanguageIsAServedLanguageTests(TestCase):
         self.assertFalse(
             vides, 'these versions name no monster in that language '
             '(version, language, monsters): %s' % vides)
-        # Compte par couple et pas en tout : un total suffisant est atteint par
-        # dofus3 seul, et une version entiere pourrait n'etre jamais examinee.
+        # counted per pair rather than in total: dofus3 alone could reach a
+        # sufficient total while a whole other version goes unexamined
         self.assertEqual(mesures, len(VERSIONS) * len(LANGUES),
                          'only %d version/language pairs measured' % mesures)
 
     def test_a_localised_monster_page_answers_in_its_own_language(self):
-        """The data being there proves nothing: the page has to serve it.
-
-        The witness is chosen with the site's own rule and not with "the name
-        differs from English". Two languages sharing a name share a url, and
-        only one of them can have it: monster 31 is `Larva Azul` in Portuguese
-        AND in Spanish, so /31-larva-azul/ answers in Spanish. Picking on
-        difference-from-English reported that as a defect when it is the rule
-        working.
-        """
+        """The witness is chosen by the site's own language rule, not by differing from the English name."""
         from chardata.encyclopedia_view import _normalized_slug
         from chardata.official_site import get_monster_link
         from chardata.url_language import language_from_slug
@@ -128,7 +105,7 @@ class EveryNamedLanguageIsAServedLanguageTests(TestCase):
                 html = reponse.content.decode('utf-8', 'replace')
                 titre = re.search('<title>(.*?)</title>', html, re.S)
                 titre = titre.group(1) if titre else ''
-                # Le gabarit remet le nom en forme, donc la casse differe.
+                # the template re-cases the name, so casing differs
                 if d[langue].lower() not in titre.lower():
                     manques.append((game_version, langue, lien, titre[:60]))
         self.assertFalse(

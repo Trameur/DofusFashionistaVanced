@@ -1,19 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The database backup has to be able to reach the bucket.
-
-`backup_db.py` called `bucket.new_key(name).set_contents_from_filename(path)`.
-That is boto2. `s3_fashionista.get_s3_bucket` returns a **boto3** Bucket, whose
-whole action list is Create, Delete, DeleteObjects and PutObject -- read out of
-the resource model shipped in boto3 1.43.61, the version this project pins.
-There is no `new_key` anywhere in that package.
-
-So every run dumped the database, gzipped it, raised AttributeError, and left
-the file in /tmp. Nothing ever reached S3, and nothing said so.
-
-The bucket here exposes only what a real boto3 Bucket exposes, which is what
-makes the test worth anything: the old call raises on it exactly as it did in
-production.
-"""
+"""The database backup must upload through the boto3 Bucket API it actually gets, not a boto2 one."""
 import importlib.util
 import os
 import sys
@@ -25,11 +11,7 @@ REPO = os.path.abspath(os.path.join(os.path.dirname(__file__),
 
 
 def load_backup_module():
-    """Import backup_db.py, which lives at the repository root.
-
-    manage.py runs from fashionsite/, so the root is not on sys.path and a
-    plain import would not find it.
-    """
+    """Imports backup_db.py from the repository root, which is not on sys.path from manage.py."""
     path = os.path.join(REPO, 'backup_db.py')
     if not os.path.exists(path):
         return None
@@ -68,11 +50,7 @@ class TheBackupCanReachS3(unittest.TestCase):
         self.assertEqual([('/tmp/x.dump.gz', 'x.dump.gz')], bucket.uploaded)
 
     def test_the_old_boto2_call_would_have_failed_here(self):
-        """The positive control: this is the bug, reproduced.
-
-        Without it, the test above would pass against a bucket mock that
-        accepts anything, and prove nothing about the real client.
-        """
+        """The positive control: reproduces the bug so the mock above cannot pass by accepting anything."""
         bucket = ABoto3Bucket()
         with self.assertRaises(AttributeError):
             bucket.new_key('x.dump.gz')

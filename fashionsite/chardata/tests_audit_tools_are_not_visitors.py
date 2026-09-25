@@ -1,16 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A tool auditing this site is not one of its readers.
-
-An audit walks every page in a single pass. On a site whose ordinary day holds
-about thirty views, one such sweep put 8 420 into a single day -- 77 % of a
-whole month -- and every ratio read off that month came out inverted: the tool
-looked thirty times smaller than the content, the beta ten times larger than it
-is, and a page type that gets six views in a fortnight looked like the most
-visited on the site.
-
-`looks_like_a_robot` already catches what crawlers call themselves. It could
-not catch an audit, because an audit is not a crawler and does not say so.
-"""
+"""A tool auditing every page in one sweep must be filtered like a crawler, or it distorts every traffic ratio."""
 from django.test import RequestFactory, TestCase
 
 from chardata.middleware import looks_like_a_robot
@@ -33,8 +22,7 @@ class AnAuditIsNotAVisitor(TestCase):
         self.assertTrue(self.agent('fashionistaaudit'))
 
     def test_a_reader_still_is(self):
-        """The half that matters: a filter that answered "robot" to everything
-        would pass the test above and count nobody at all."""
+        """The half that matters: a filter treating everything as a robot would pass the test above too."""
         for ua in (A_READER, A_PHONE):
             self.assertFalse(self.agent(ua), 'a reader was filtered out: %s' % ua)
 

@@ -128,7 +128,7 @@ class TheLabelSaysWhatSeparatesThemTests(SimpleTestCase):
 
 
 class AnkamaNumbersItsRepeatsTests(SimpleTestCase):
-    """"Ecaflip Paw 2" is the same ring as "Ecaflip Paw" unless its values differ."""
+    """Ecaflip Paw 2 is the same ring as Ecaflip Paw unless its values differ."""
 
     def tearDown(self):
         set_current_game_version('dofus3')

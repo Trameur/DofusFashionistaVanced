@@ -14,15 +14,7 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-"""A visitor sent to another language must stay on the host serving them.
-
-The hreflang alternates are absolute and name the production host, because
-that is what hreflang requires. The language redirect reused them as its
-Location, so a signed-in visitor whose account language differed from the page
-was thrown at dofusfashionista.gg whatever host they were on: clicking an item
-on a development server left the development server, and the same would happen
-on any preview host. The alternates must stay absolute; the redirect must not.
-"""
+"""A signed-in visitor's language redirect must target a path, not the absolute host hreflang alternates use."""
 
 from django.conf import settings
 from django.shortcuts import redirect
@@ -100,15 +92,13 @@ class RedirectStaysOnTheHostBeingServed(TestCase):
         self.assertTrue(location.startswith('/'), msg=location)
 
     def test_an_anonymous_visitor_is_still_never_redirected(self):
-        # Control: without it, a function returning None for everyone would
-        # pass the two tests above by never being exercised.
+        # control: a function always returning None would pass the two tests above unexercised
         request = self._request(
             '/encyclopedia/item/equipment/44-espada-de-maderucha/')
         self.assertIsNone(redirect_target_for_user(request, 'es', ALTERNATES))
 
     def test_the_alternates_themselves_stay_absolute(self):
-        # Control on the other side: hreflang needs the host, and a fix that
-        # stripped it there would break indexing instead.
+        # control on the other side: hreflang needs the host, stripping it there would break indexing
         for lang, url in ALTERNATES.items():
             with self.subTest(lang=lang):
                 self.assertTrue(url.startswith('https://'), msg=url)
@@ -117,7 +107,6 @@ class RedirectStaysOnTheHostBeingServed(TestCase):
         self.assertEqual('/guides/', site_relative(SITE_URL + '/guides/'))
         self.assertEqual('/', site_relative(SITE_URL))
         self.assertEqual('/already/a/path/', site_relative('/already/a/path/'))
-        # An address elsewhere is left whole: stripping a host we do not own
-        # would turn an outgoing link into an internal one.
+        # an address on another host is left whole: stripping it would turn an outgoing link into an internal one
         self.assertEqual('https://www.dofus.com/x',
                          site_relative('https://www.dofus.com/x'))
