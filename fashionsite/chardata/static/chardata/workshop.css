@@ -127,6 +127,15 @@ html.fm-dark {
     font-size: 0.85em;
     margin-top: 2px;
 }
+.ws-craft-job {
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-top: 2px;
+}
+.ws-job-summary {
+    margin: 0 0 14px;
+    font-weight: 600;
+}
 .ws-mult {
     display: inline-flex;
     align-items: center;
@@ -354,6 +363,55 @@ html.fm-dark {
     opacity: 0.7;
     font-style: italic;
     margin: 10px 0 0;
+}
+
+/* ---------- Where to get it ---------- */
+.ws-source-wrap {
+    grid-column: 2 / -1;
+    margin-top: 4px;
+}
+.ws-source-toggle {
+    min-height: 36px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, .5);
+    background: transparent;
+    color: inherit;
+    font-weight: 600;
+    font-size: 0.85em;
+    cursor: pointer;
+}
+.ws-source-panel {
+    margin: 6px 0 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(128, 128, 128, .10);
+    font-size: 0.9em;
+}
+.ws-source-line {
+    margin: 0;
+    font-weight: 600;
+}
+.ws-source-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.ws-source-monster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+}
+.ws-source-rate {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.ws-source-level, .ws-source-conditions {
+    font-weight: 600;
 }
 
 @container (min-width: 460px) {

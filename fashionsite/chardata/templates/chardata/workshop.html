@@ -37,6 +37,13 @@
         <p class="ws-save-status" id="ws-save-status" aria-live="polite"></p>
         <p class="ws-save-status" id="ws-undo-status" aria-live="polite"></p>
 
+        {% if workshop_job_summary %}
+        <p class="ws-job-summary">
+            {% trans "Jobs needed:" %}
+            {% for job in workshop_job_summary %}{% if not forloop.first %} · {% endif %}{{ job.job_name }}{% if job.level %} {{ job.level }}{% endif %}{% endfor %}
+        </p>
+        {% endif %}
+
         <div class="ws-toolbar" id="ws-toolbar">
             <div class="ws-search">
                 <label class="ws-search-label" for="ws-search-input">{% trans "Add an item" %}</label>
@@ -83,6 +90,11 @@
                         <div class="workshop-row-meta">
                             {{ it.type_name }} · {% trans "lvl" %} {{ it.level }}{% if it.set_url %} · <a href="{{ it.set_url }}">{{ it.set_name }}</a>{% endif %}
                         </div>
+                        {% if it.job_name %}
+                        <div class="ws-craft-job">
+                            {{ it.job_name }}{% if it.job_level %} · {% trans "lvl" %} {{ it.job_level }}{% endif %}
+                        </div>
+                        {% endif %}
                         {% endif %}
                     </div>
                     <div class="ws-head-ctl">
@@ -170,6 +182,10 @@
     {% trans "Crafted." as ws_crafted %}
     {% trans "Restored." as ws_restored %}
     {% trans "Undo" as ws_undo_button %}
+    {% trans "Where to get it" as ws_where_to_get_it %}
+    {% trans "No known drop" as ws_no_known_drop %}
+    {% trans "Craftable" as ws_craftable %}
+    {% trans "Loading..." as ws_loading %}
     <script>
 window.WORKSHOP_CONFIG = {
     apiBase: "{{ api_base|escapejs }}",
@@ -182,6 +198,7 @@ window.WORKSHOP_CONFIG = {
     resetStockUrl: "{{ api_base|escapejs }}/workshop/stock/reset/",
     craftUrlBase: "{{ api_base|escapejs }}/workshop/craft/",
     uncraftUrlBase: "{{ api_base|escapejs }}/workshop/uncraft/",
+    sourcesUrl: "{{ version_switch_language_prefix|escapejs }}{{ api_base|escapejs }}/workshop/sources/",
     i18n: {
         ready: "{{ ws_ready|escapejs }}",
         notStarted: "{{ ws_not_started|escapejs }}",
@@ -205,7 +222,11 @@ window.WORKSHOP_CONFIG = {
         noItemFound: "{{ ws_no_item_found|escapejs }}",
         crafted: "{{ ws_crafted|escapejs }}",
         restored: "{{ ws_restored|escapejs }}",
-        undoButton: "{{ ws_undo_button|escapejs }}"
+        undoButton: "{{ ws_undo_button|escapejs }}",
+        whereToGetIt: "{{ ws_where_to_get_it|escapejs }}",
+        noKnownDrop: "{{ ws_no_known_drop|escapejs }}",
+        craftableLabel: "{{ ws_craftable|escapejs }}",
+        loading: "{{ ws_loading|escapejs }}"
     }
 };
     </script>

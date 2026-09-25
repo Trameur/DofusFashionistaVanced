@@ -134,6 +134,26 @@
         return chunks;
     }
 
+    function sourceKind(info) {
+        if (info && info.monsters && info.monsters.length) {
+            return 'drops';
+        }
+        if (info && info.crafted) {
+            return 'crafted';
+        }
+        return 'none';
+    }
+
+    function formatDropRate(rate) {
+        if (!rate || rate <= 0) {
+            return '0%';
+        }
+        if (rate < 0.01) {
+            return '< 0.01%';
+        }
+        return (Math.round(rate * 100) / 100) + '%';
+    }
+
     var pure = {
         clampOwned: clampOwned,
         clampQuantity: clampQuantity,
@@ -145,7 +165,9 @@
         chunkKeys: chunkKeys,
         cardMatchesFilter: cardMatchesFilter,
         filterCounts: filterCounts,
-        sortCards: sortCards
+        sortCards: sortCards,
+        sourceKind: sourceKind,
+        formatDropRate: formatDropRate
     };
 
     if (typeof window === 'undefined' || !document.getElementById('ws-list')) {
@@ -196,6 +218,7 @@
     var currentSort = 'added';
     var undoClearTimer = null;
     var SORT_STORAGE_KEY = 'wsSort';
+    var sourceCache = {};
 
     function postJson(url, payload) {
         return fetch(url, {
@@ -307,6 +330,117 @@
         return span;
     }
 
+    function renderSourcePanel(panel, info) {
+        panel.innerHTML = '';
+        var kind = sourceKind(info);
+        if (kind === 'crafted') {
+            var craftedLine = document.createElement('p');
+            craftedLine.className = 'ws-source-line';
+            craftedLine.textContent = i18n.craftableLabel || '';
+            panel.appendChild(craftedLine);
+            return;
+        }
+        if (kind === 'none') {
+            var emptyLine = document.createElement('p');
+            emptyLine.className = 'ws-source-line';
+            emptyLine.textContent = i18n.noKnownDrop || '';
+            panel.appendChild(emptyLine);
+            return;
+        }
+        var list = document.createElement('ul');
+        list.className = 'ws-source-list';
+        (info.monsters || []).forEach(function (monster) {
+            var item = document.createElement('li');
+            item.className = 'ws-source-monster';
+
+            var nameEl = document.createElement('span');
+            nameEl.className = 'ws-source-name';
+            if (monster.url) {
+                var link = document.createElement('a');
+                link.href = monster.url;
+                link.textContent = monster.name;
+                nameEl.appendChild(link);
+            } else {
+                nameEl.textContent = monster.name;
+            }
+            item.appendChild(nameEl);
+
+            if (monster.level) {
+                var levelEl = document.createElement('span');
+                levelEl.className = 'ws-source-level';
+                levelEl.textContent = monster.level;
+                item.appendChild(levelEl);
+            }
+
+            var rateEl = document.createElement('span');
+            rateEl.className = 'ws-source-rate';
+            rateEl.textContent = formatDropRate(monster.rate);
+            item.appendChild(rateEl);
+
+            if (monster.has_conditions && monster.conditions_text) {
+                var condEl = document.createElement('span');
+                condEl.className = 'ws-source-conditions';
+                condEl.textContent = monster.conditions_text;
+                item.appendChild(condEl);
+            }
+
+            list.appendChild(item);
+        });
+        panel.appendChild(list);
+    }
+
+    function fetchSource(key, panel) {
+        panel.textContent = i18n.loading || '';
+        fetch(cfg.sourcesUrl + '?keys=' + encodeURIComponent(key), {
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            var info = (data && data.sources && data.sources[key])
+                || {monsters: [], crafted: false};
+            sourceCache[key] = info;
+            renderSourcePanel(panel, info);
+        }).catch(function () {
+            panel.textContent = i18n.saveError || '';
+        });
+    }
+
+    function buildSourceDisclosure(key) {
+        var wrap = document.createElement('div');
+        wrap.className = 'ws-source-wrap';
+
+        var toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'ws-source-toggle';
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = i18n.whereToGetIt || '';
+
+        var panel = document.createElement('div');
+        panel.className = 'ws-source-panel';
+        panel.setAttribute('aria-live', 'polite');
+        panel.hidden = true;
+
+        toggle.addEventListener('click', function () {
+            var expanded = toggle.getAttribute('aria-expanded') === 'true';
+            if (expanded) {
+                toggle.setAttribute('aria-expanded', 'false');
+                panel.hidden = true;
+                return;
+            }
+            toggle.setAttribute('aria-expanded', 'true');
+            panel.hidden = false;
+            if (sourceCache[key] !== undefined) {
+                renderSourcePanel(panel, sourceCache[key]);
+            } else {
+                fetchSource(key, panel);
+            }
+        });
+
+        wrap.appendChild(toggle);
+        wrap.appendChild(panel);
+        return wrap;
+    }
+
     function buildRowElement(key, meta, getNeed, context, itemId) {
         var owned = stock[key] || 0;
 
@@ -416,6 +550,7 @@
             extra.appendChild(missingSpan);
             extra.appendChild(usedBySpan);
             li.appendChild(extra);
+            li.appendChild(buildSourceDisclosure(key));
         }
 
         var entry = {

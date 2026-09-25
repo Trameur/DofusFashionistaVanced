@@ -6363,6 +6363,10 @@ msgstr "Réinitialiser aux valeurs par défaut"
 msgid "Reset owned counts"
 msgstr "Réinitialiser les quantités possédées"
 
+#: .\chardata\templates\chardata\workshop.html:42
+msgid "Jobs needed:"
+msgstr "Métiers nécessaires :"
+
 #: .\chardata\templates\chardata\workshop.html:41
 msgid "Add an item"
 msgstr "Ajouter un objet"
@@ -6527,6 +6531,14 @@ msgstr "Restauré."
 #: .\chardata\templates\chardata\workshop.html:171
 msgid "Undo"
 msgstr "Annuler"
+
+#: .\chardata\templates\chardata\workshop.html:185
+msgid "Where to get it"
+msgstr "Où l'obtenir"
+
+#: .\chardata\templates\chardata\workshop.html:186
+msgid "No known drop"
+msgstr "Aucun drop connu"
 
 #: .\chardata\workshop_view.py:276
 #: .\chardata\workshop_view.py:280
