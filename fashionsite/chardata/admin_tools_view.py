@@ -168,6 +168,7 @@ def _charts(data):
         'engagement': admin_stats.bar_chart(data['community']['engagement']),
         'pages_per_week': admin_stats.bar_chart(data['pages']['per_week']),
         'imports_per_bucket': admin_stats.bar_chart(data['imports']['per_bucket']),
+        'exports_per_bucket': admin_stats.bar_chart(data['exports']['per_bucket']),
         'solver_hits': admin_stats.stacked_chart(
             {'cache hit': data['solver']['hits'], 'cache miss': data['solver']['misses']},
             {'cache hit': '#8fae7a', 'cache miss': '#c0764a'}),

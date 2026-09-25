@@ -4613,6 +4613,9 @@ msgstr ""
 msgid "<b>Import page.</b> When you use the import page, we count, per day and game version, where each import comes from (the website's name for a link, otherwise only whether it was pasted text or a screenshot) and whether it became a build, so we know which sites to support next. We never keep the link, the pasted text or who pasted it."
 msgstr "<b>Page d'import.</b> Quand vous utilisez la page d'import, nous comptons, par jour et par version du jeu, d'où vient chaque import (le nom du site pour un lien, sinon seulement s'il s'agit de texte collé ou d'une capture d'écran) et s'il est devenu un build, pour savoir quels sites prendre en charge ensuite. Nous ne gardons jamais le lien, le texte collé ni qui l'a collé."
 
+msgid "<b>Exports.</b> When you export one of your builds, or another site fetches a shared build through our API, we count, per day and game version, where each export goes (a JSON file, another build site, or the domain name of the site that fetched it), so we know which exports are used. We never keep which build it was or anything that identifies you."
+msgstr "<b>Exports.</b> Quand vous exportez un de vos builds, ou qu'un autre site récupère un build partagé via notre API, nous comptons, par jour et par version du jeu, la destination de chaque export (un fichier JSON, un autre site de builds, ou le nom de domaine du site qui l'a récupéré), pour savoir quels exports sont utilisés. Nous ne gardons jamais le build concerné ni rien qui permette de vous identifier."
+
 #: .\chardata\templates\chardata\privacy.html:33
 msgid "Cookies and local storage"
 msgstr "Cookies et stockage local"

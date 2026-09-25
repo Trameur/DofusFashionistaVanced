@@ -40,7 +40,7 @@
         <button class="admin-tab" data-tab="versions">Game versions</button>
         <button class="admin-tab" data-tab="community">Community</button>
         <button class="admin-tab" data-tab="pages">Pages</button>
-        <button class="admin-tab" data-tab="imports">Import</button>
+        <button class="admin-tab" data-tab="imports">Import and export</button>
         <button class="admin-tab" data-tab="solver">Solver</button>
         <button class="admin-tab" data-tab="moderation">Moderation</button>
         <button class="admin-tab" data-tab="ads">Ads</button>
@@ -234,6 +234,41 @@
         {% else %}
         <p class="admin-empty-panel">Nothing counted yet. Import sources are recorded from the first paste after this release, and nothing earlier is backfilled.</p>
         {% endif %}
+
+        <section id="admin-exports">
+        <h2 class="admin-section-title">Exports</h2>
+        {% if dash.exports.collecting_since %}
+        <p class="admin-note">Counting since {{ dash.exports.collecting_since }}. Only where a build went is stored, with the domain of the site that pulled it through the API; never the build, the page it was on or who exported it.</p>
+        <h2 class="admin-section-title">Exports {{ dash.filters.unit_word }}</h2>
+        {{ charts.exports_per_bucket|safe }}
+        <h2 class="admin-section-title">Where builds go</h2>
+        <table class="admin-table admin-table-wide" id="admin-exports-destinations">
+            <tr><th>Destination</th><th>Exports</th><th>Share</th></tr>
+            {% if dash.exports.total %}
+            {% for row in dash.exports.rows %}
+            <tr><td>{{ row.label }}</td><td class="admin-num">{{ row.count }}</td>
+                <td class="admin-num">{{ row.share|stringformat:".1f" }}%</td></tr>
+            {% endfor %}
+            {% else %}
+            <tr><td class="admin-empty" colspan="3">nothing counted for this filter</td></tr>
+            {% endif %}
+        </table>
+        <p class="admin-note">One export per visitor, build and destination within 30 minutes. DofusBook and JSON file count browsers only: a user agent that names a crawler, or does not start with Mozilla/ as every browser's does, counts nothing there. The API counts every caller but crawlers, browsers and other sites' servers alike. Each server worker keeps its own 30 minutes, so a repeat that reaches the other worker, or comes after a worker restart, counts again. DofusBook counts the export page reaching its link, not the click on that link. JSON file counts the Export as JSON button. Other sites through the API counts each answer of /api/v1/shared-builds/&lt;id&gt;/fashionista-build/, cached ones included, once per calling address and build. Shares are of all exports and add up to 100%.</p>
+
+        <h2 class="admin-section-title">Sites pulling builds through the API</h2>
+        <table class="admin-table" id="admin-exports-sites" data-more="12">
+            <tr><th>Site</th><th>Pulls</th><th>Share</th></tr>
+            {% for row in dash.exports.sites %}
+            <tr><td>{{ row.label }}</td><td class="admin-num">{{ row.count }}</td>
+                <td class="admin-num">{{ row.share|stringformat:".1f" }}%</td></tr>
+            {% empty %}<tr><td class="admin-empty" colspan="3">none for this filter</td></tr>{% endfor %}
+        </table>
+        {% if dash.exports.sites_not_listed %}<p class="admin-note">{{ dash.exports.sites_not_listed }} more sites are not listed.</p>{% endif %}
+        <p class="admin-note">A site is the domain the caller declares in its Origin header, else in its Referer, without subdomains, not checked. No site named holds pulls with neither header, with an address that has no public domain name, and new sites past {{ dash.exports.sites_per_day }} in one day. A site's server pulling builds itself (curl, python-requests, Node's fetch and the like) counts too, under the site it names. Shares are of all API pulls.</p>
+        {% else %}
+        <p class="admin-empty-panel">Nothing counted yet. Exports are recorded from the first one after this release, and nothing earlier is backfilled.</p>
+        {% endif %}
+        </section>
     </section>
 
     <section class="admin-panel admin-panel-off" data-panel="solver">

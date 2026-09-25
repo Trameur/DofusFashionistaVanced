@@ -4207,6 +4207,9 @@ msgstr ""
 msgid "<b>Import page.</b> When you use the import page, we count, per day and game version, where each import comes from (the website's name for a link, otherwise only whether it was pasted text or a screenshot) and whether it became a build, so we know which sites to support next. We never keep the link, the pasted text or who pasted it."
 msgstr ""
 
+msgid "<b>Exports.</b> When you export one of your builds, or another site fetches a shared build through our API, we count, per day and game version, where each export goes (a JSON file, another build site, or the domain name of the site that fetched it), so we know which exports are used. We never keep which build it was or anything that identifies you."
+msgstr ""
+
 #: .\chardata\templates\chardata\privacy.html:33
 msgid "Cookies and local storage"
 msgstr ""

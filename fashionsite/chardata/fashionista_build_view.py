@@ -3,6 +3,7 @@
 
 import ipaddress
 import json
+from functools import wraps
 
 from django.conf import settings
 from django.core.exceptions import SuspiciousOperation
@@ -16,7 +17,7 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.debug import sensitive_post_parameters
 
-from chardata import fashionista_build, text_build_view
+from chardata import export_count, fashionista_build, text_build_view
 from chardata.api_view import _api_endpoint, _absent, _json
 from chardata.fashionista_build import FormatError
 from chardata.util import get_char_or_raise, set_response, version_free_canonical
@@ -207,6 +208,7 @@ def export_fashionista(request, char_id):
                                                         'indent': 2})
     response['Content-Disposition'] = 'inline; filename="build-%d.json"' % char.id
     response['X-Robots-Tag'] = 'noindex'
+    export_count.count(request, export_count.JSON, char.id, char.game_version)
     return response
 
 
@@ -320,7 +322,24 @@ def api_schema(request, version):
     return _json(fashionista_build.json_schema())
 
 
+def _counted_pull(view):
+    """Counts every answered pull, cached answers included."""
+    @wraps(view)
+    def wrapper(request, encoded_id):
+        response = view(request, encoded_id)
+        if response.status_code == 200 and export_count.counts_pull(request):
+            from chardata.encoded_char_id import decode_char_id
+            export_count.count(request, export_count.API,
+                               decode_char_id(encoded_id),
+                               json.loads(response.content).get('game'),
+                               export_count.requesting_site(request),
+                               rule=export_count.counts_pull)
+        return response
+    return wrapper
+
+
 @_api_endpoint
+@_counted_pull
 @cache_page(60)
 def api_shared_build_export(request, encoded_id):
     from chardata.encoded_char_id import decode_char_id

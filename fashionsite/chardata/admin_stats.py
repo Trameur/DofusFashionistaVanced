@@ -12,10 +12,11 @@ from django.utils import timezone
 from chardata.context_processors import ACTIVE_GAME_VERSIONS
 from chardata.encoded_char_id import encode_char_id
 
-from chardata.models import (BuildComment, BuildVote, Char, ImportSourceHit,
-                             PageHit, SolutionMemoryHits, UserAlias)
+from chardata.models import (BuildComment, BuildVote, Char, ExportHit,
+                             ImportSourceHit, PageHit, SolutionMemoryHits,
+                             UserAlias)
 
-CACHE_KEY = 'admin_dashboard_v3'
+CACHE_KEY = 'admin_dashboard_v4'
 CACHE_SECONDS = 300
 VERSIONS = [slug for slug, _label in ACTIVE_GAME_VERSIONS]
 VERSION_LABELS = dict(ACTIVE_GAME_VERSIONS)
@@ -458,6 +459,48 @@ def imports(period, version):
     }
 
 
+EXPORT_DESTINATIONS = (('dofusbook', 'DofusBook'), ('json', 'JSON file'),
+                       ('api', 'Other sites through the API'))
+UNNAMED_PULLER = 'No site named'
+
+
+def exports(period, version):
+    """Where builds go: DofusBook, the JSON file, other sites through the API."""
+    from chardata.text_build_view import UNKNOWN_SITES_PER_DAY
+    hits = _for_version(ExportHit.objects.filter(
+        day__gte=period.start, day__lte=period.end,
+        destination__in=[key for key, _label in EXPORT_DESTINATIONS]), version)
+    by_destination = {row['destination']: row['n'] for row
+                      in hits.values('destination').annotate(n=Sum('count'))}
+    counts = [by_destination.get(key, 0) for key, _label in EXPORT_DESTINATIONS]
+    rows = [{'label': label, 'count': count, 'share': share}
+            for (_key, label), count, share
+            in zip(EXPORT_DESTINATIONS, counts, _shares(counts))]
+
+    pulls = hits.filter(destination='api')
+    pulled = by_destination.get('api', 0)
+    sites = [{'label': row['host'] or UNNAMED_PULLER, 'count': row['n'],
+              'share': _percent(row['n'], pulled)}
+             for row in pulls.values('host').annotate(n=Sum('count'))
+             .order_by('-n', 'host')[:ROW_CAP]]
+
+    buckets = Counter()
+    for row in hits.values('day').annotate(n=Sum('count')):
+        buckets[period.bucket_of(row['day'])] += row['n']
+    return {
+        'rows': rows,
+        'sites': sites,
+        'sites_not_listed': max(0, pulls.values('host').distinct().count()
+                                - len(sites)),
+        'total': sum(counts),
+        'pulled': pulled,
+        'per_bucket': period.series(buckets),
+        'collecting_since': (ExportHit.objects.order_by('day')
+                             .values_list('day', flat=True).first()),
+        'sites_per_day': UNKNOWN_SITES_PER_DAY,
+    }
+
+
 def solver(period, version):
     in_period = SolutionMemoryHits.objects.filter(day__gte=period.start, day__lte=period.end)
     per_bucket_hit, per_bucket_miss = Counter(), Counter()
@@ -537,6 +580,7 @@ def dashboard(refresh=False, period_key=None, version=None, start=None, end=None
     data = {'overview': overview(period, version), 'versions': versions(period, version),
             'community': community(period, version), 'pages': pages(period, version),
             'imports': imports(period, version),
+            'exports': exports(period, version),
             'solver': solver(period, version), 'filters': filters(period, version),
             'generated': timezone.localtime().strftime('%d/%m %H:%M')}
     if key:

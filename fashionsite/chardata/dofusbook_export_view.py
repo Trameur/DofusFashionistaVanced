@@ -13,7 +13,7 @@ from django.utils.translation import gettext as _
 
 from django.http import Http404
 
-from chardata import build_sites, dofusbook_export
+from chardata import build_sites, dofusbook_export, export_count
 from chardata.inventory_solver import get_effective_stat_overrides
 from chardata.solution import get_solution
 from chardata.temporix_mode import solution_uses_temporix
@@ -291,4 +291,6 @@ def dofusbook_export_page(request, char_id):
             dofusbook_export.vitality_scroll_is_forced(char.level)
             and scrolls.get(0, 0) < dofusbook_export.SCROLL_STEP),
     })
-    return set_response(request, 'chardata/dofusbook_export.html', params)
+    response = set_response(request, 'chardata/dofusbook_export.html', params)
+    export_count.count(request, export_count.DOFUSBOOK, char.id, char.game_version)
+    return response

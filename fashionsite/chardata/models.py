@@ -340,6 +340,18 @@ class ImportSourceHit(models.Model):
         unique_together = ('day', 'source', 'host', 'game_version')
 
 
+class ExportHit(models.Model):
+    """Builds sent out per day, destination, site and version; host is a bare domain, empty unless another site pulled the build."""
+    day = models.DateField(db_index=True)
+    destination = models.CharField(max_length=20)
+    host = models.CharField(max_length=190, blank=True)
+    game_version = models.CharField(max_length=20, default='dofus3')
+    count = models.BigIntegerField(default=0)
+
+    class Meta:
+        unique_together = ('day', 'destination', 'host', 'game_version')
+
+
 class SiteSetting(models.Model):
     """Settings changed from the admin page; gen_config.json is read at boot."""
     key = models.CharField(max_length=60, unique=True)
