@@ -4420,6 +4420,18 @@ msgstr "Prysmaradite"
 msgid "Trophies"
 msgstr "Troféus"
 
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "A workshop that knows your stock"
+msgstr "Uma oficina que sabe o que você tem"
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Type what you already own: each resource turns green when gathered, orange when partial, and the shopping list keeps only what is still missing."
+msgstr "Digite o que você já tem: cada recurso fica verde quando está completo, laranja quando está parcial, e a lista de compras mostra só o que ainda falta."
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Add an item from its page, a whole set from its set page, or search from the workshop itself, then filter the cards, craft one and undo it within seconds."
+msgstr "Adicione um item pela página dele, um conjunto inteiro pela página do conjunto ou pesquise na própria oficina; depois filtre os cartões, crafte um e desfaça em poucos segundos."
+
 #: .\chardata\templates\chardata\options.html
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "TemporiX mode"

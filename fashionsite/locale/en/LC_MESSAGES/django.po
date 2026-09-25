@@ -4067,6 +4067,18 @@ msgstr ""
 msgid "Trophies"
 msgstr ""
 
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "A workshop that knows your stock"
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Type what you already own: each resource turns green when gathered, orange when partial, and the shopping list keeps only what is still missing."
+msgstr ""
+
+#: .\chardata\templates\chardata\changelog_content.html
+msgid "Add an item from its page, a whole set from its set page, or search from the workshop itself, then filter the cards, craft one and undo it within seconds."
+msgstr ""
+
 #: .\chardata\templates\chardata\options.html
 #: .\chardata\templates\chardata\changelog_content.html
 msgid "TemporiX mode"

@@ -42,8 +42,8 @@ class TheSeptemberEntriesAreFewAndShortTests(SimpleTestCase):
         entrees = _entrees()
         self.assertEqual(MOIS, entrees[0][0])
         de_ce_mois = [e for e in entrees if e[0] == MOIS]
-        self.assertEqual(3, len(de_ce_mois), [e[1] for e in de_ce_mois])
-        self.assertEqual('TemporiX mode', entrees[0][1])
+        self.assertEqual(4, len(de_ce_mois), [e[1] for e in de_ce_mois])
+        self.assertEqual('A workshop that knows your stock', entrees[0][1])
         for _date, titre, puces in de_ce_mois:
             self.assertLessEqual(len(puces), MAX_PUCES, titre)
             self.assertGreaterEqual(len(puces), 1, titre)
@@ -111,6 +111,18 @@ class TheClaimsPointAtThingsThatExistTests(TestCase):
         chemin = os.path.join(settings.BASE_DIR, 'chardata', 'templates',
                               'chardata', nom)
         return io.open(chemin, encoding='utf-8').read()
+
+    def test_the_workshop_keeps_stock_and_undoes_a_craft(self):
+        page = self._template('workshop.html')
+        self.assertIn('ws-search-input', page)
+        self.assertIn('ws-chip', page)
+        self.assertIn('ws-craft-btn', page)
+        for name in ('workshop_set_stock', 'workshop_add', 'workshop_add_set',
+                     'workshop_craft', 'workshop_uncraft'):
+            args = [] if name in ('workshop_set_stock', 'workshop_add') else [1]
+            self.assertTrue(reverse(name, args=args), name)
+        self.assertIn('enc-workshop-add-form', self._template('encyclopedia_item.html'))
+        self.assertIn('enc-workshop-add-set-btn', self._template('encyclopedia_set.html'))
 
     def test_the_import_reads_names_links_and_screenshots(self):
         page = self._template('text_build.html')
