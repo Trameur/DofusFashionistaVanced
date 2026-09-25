@@ -48,6 +48,13 @@ FORM_PATHS = (
     '/setcharhidden/%d/', '/getsharinglink/%d/', '/hidesharinglink/%d/',
     '/duplicatemyproject/%d/', '/workshop/addsolution/%d/',
 )
+WORKSHOP_PATHS = (
+    '/workshop/add/', '/workshop/stock/', '/workshop/stock/reset/',
+    '/workshop/addset/0/', '/workshop/addset/99999999/',
+    '/workshop/craft/99999999/', '/workshop/uncraft/99999999/',
+    '/workshop/setqty/99999999/', '/workshop/remove/99999999/',
+    '/workshop/clear/',
+)
 NONSENSE = {'name': 'x' * 400, 'level': 'abc', 'char_level': '-3',
             'value': 'NaN', 'stat': 'no-such-stat', 'weights': '{',
             'gender': '7', 'colors': 'not json', 'hidden': 'maybe',
@@ -198,6 +205,12 @@ class Command(BaseCommand):
             yield ('/exclusionspost/%d/' % char_id, {'exclusions': raw})
         for slot in ('boots', 'weapon'):
             yield ('/inclusionspost/%d/' % char_id, {slot: UNKNOWN_ITEM})
+
+        # The workshop's own actions, with ids that exist nowhere
+        for path in WORKSHOP_PATHS:
+            yield (path, {})
+            yield (path, dict(NONSENSE, item_id='abc', quantity='-5',
+                              updates='not json', mode='sideways'))
             yield ('/inclusionspost/%d/' % char_id, {slot: 'x' * 400})
 
         # The turn panel posts two JSON objects for the combo simulator
