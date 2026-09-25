@@ -6540,6 +6540,42 @@ msgstr "Où l'obtenir"
 msgid "No known drop"
 msgstr "Aucun drop connu"
 
+#: .\chardata\templates\chardata\workshop.html:140
+msgid "Copy the missing list"
+msgstr "Copier la liste des ressources manquantes"
+
+#: .\chardata\templates\chardata\workshop.html:141
+msgid "Download CSV"
+msgstr "Télécharger en CSV"
+
+#: .\chardata\templates\chardata\workshop.html:194
+msgid "Missing list copied."
+msgstr "Liste des manquants copiée."
+
+#: .\chardata\templates\chardata\workshop.html:195
+msgid "Could not copy the list."
+msgstr "Impossible de copier la liste."
+
+#: .\chardata\templates\chardata\workshop.html:196
+msgid "Nothing missing to copy."
+msgstr "Rien ne manque à copier."
+
+#: .\chardata\templates\chardata\workshop.html:197
+msgid "Resource name"
+msgstr "Nom de la ressource"
+
+#: .\chardata\templates\chardata\workshop.html:198
+msgid "Needed"
+msgstr "Nécessaire"
+
+#: .\chardata\templates\chardata\workshop.html:199
+msgid "Owned"
+msgstr "Possédé"
+
+#: .\chardata\templates\chardata\workshop.html:200
+msgid "Missing"
+msgstr "Manquant"
+
 #: .\chardata\workshop_view.py:276
 #: .\chardata\workshop_view.py:280
 #: .\chardata\workshop_view.py:299

@@ -136,11 +136,16 @@
         <section class="ws-shopping">
             <div class="ws-shopping-head">
                 <h2>{% trans "Shopping list" %}</h2>
-                <label class="ws-hide-gathered">
-                    <input type="checkbox" id="ws-hide-gathered-toggle">
-                    {% trans "Hide gathered" %}
-                </label>
+                <div class="ws-shopping-actions">
+                    <button type="button" id="ws-copy-missing" class="ws-mini-btn">{% trans "Copy the missing list" %}</button>
+                    <button type="button" id="ws-download-csv" class="ws-mini-btn">{% trans "Download CSV" %}</button>
+                    <label class="ws-hide-gathered">
+                        <input type="checkbox" id="ws-hide-gathered-toggle">
+                        {% trans "Hide gathered" %}
+                    </label>
+                </div>
             </div>
+            <p class="ws-save-status" id="ws-export-status" aria-live="polite"></p>
             <ul class="ws-shopping-list" id="ws-shopping-list"></ul>
             <p class="ws-shopping-empty" id="ws-shopping-empty" hidden></p>
         </section>
@@ -186,6 +191,13 @@
     {% trans "No known drop" as ws_no_known_drop %}
     {% trans "Craftable" as ws_craftable %}
     {% trans "Loading..." as ws_loading %}
+    {% trans "Missing list copied." as ws_copy_success %}
+    {% trans "Could not copy the list." as ws_copy_error %}
+    {% trans "Nothing missing to copy." as ws_copy_nothing %}
+    {% trans "Resource name" as ws_csv_header_name %}
+    {% trans "Needed" as ws_csv_header_needed %}
+    {% trans "Owned" as ws_csv_header_owned %}
+    {% trans "Missing" as ws_csv_header_missing %}
     <script>
 window.WORKSHOP_CONFIG = {
     apiBase: "{{ api_base|escapejs }}",
@@ -226,7 +238,14 @@ window.WORKSHOP_CONFIG = {
         whereToGetIt: "{{ ws_where_to_get_it|escapejs }}",
         noKnownDrop: "{{ ws_no_known_drop|escapejs }}",
         craftableLabel: "{{ ws_craftable|escapejs }}",
-        loading: "{{ ws_loading|escapejs }}"
+        loading: "{{ ws_loading|escapejs }}",
+        copySuccess: "{{ ws_copy_success|escapejs }}",
+        copyError: "{{ ws_copy_error|escapejs }}",
+        copyNothing: "{{ ws_copy_nothing|escapejs }}",
+        csvHeaderName: "{{ ws_csv_header_name|escapejs }}",
+        csvHeaderNeeded: "{{ ws_csv_header_needed|escapejs }}",
+        csvHeaderOwned: "{{ ws_csv_header_owned|escapejs }}",
+        csvHeaderMissing: "{{ ws_csv_header_missing|escapejs }}"
     }
 };
     </script>

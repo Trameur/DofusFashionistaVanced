@@ -35,6 +35,30 @@ _HIDE_GATHERED = {
     'de': 'Vorhandenes ausblenden',
 }
 
+_COPY_MISSING_LIST = {
+    'en': 'Copy the missing list',
+    'fr': 'Copier la liste des ressources manquantes',
+    'es': 'Copiar la lista de recursos que faltan',
+    'pt': 'Copiar a lista de recursos que faltam',
+    'de': 'Liste der fehlenden Ressourcen kopieren',
+}
+
+_DOWNLOAD_CSV = {
+    'en': 'Download CSV',
+    'fr': 'Télécharger en CSV',
+    'es': 'Descargar CSV',
+    'pt': 'Baixar CSV',
+    'de': 'CSV herunterladen',
+}
+
+_CSV_HEADER_RESOURCE_NAME = {
+    'en': 'Resource name',
+    'fr': 'Nom de la ressource',
+    'es': 'Nombre del recurso',
+    'pt': 'Nome do recurso',
+    'de': 'Ressourcenname',
+}
+
 _NUMERIC_DATA_ATTR_WITH_COMMA = re.compile(r'data-[\w-]+="-?[0-9]+,[0-9,]*"')
 
 
@@ -69,6 +93,17 @@ class TheWorkshopPageSpeaksEveryLanguageTests(TestCase):
                 self.assertIn(heading, html)
                 self.assertIn(_READY_TO_CRAFT[lang], html)
                 self.assertIn(_HIDE_GATHERED[lang], html)
+
+    def test_the_export_strings_are_translated_natively(self):
+        for lang, label in _COPY_MISSING_LIST.items():
+            with self.subTest(lang=lang):
+                self.client.cookies['django_language'] = lang
+                resp = self.client.get('/workshop/')
+                self.assertEqual(200, resp.status_code)
+                html = resp.content.decode('utf-8')
+                self.assertIn(label, html)
+                self.assertIn(_DOWNLOAD_CSV[lang], html)
+                self.assertIn(_CSV_HEADER_RESOURCE_NAME[lang], html)
 
     def test_no_language_falls_back_to_english(self):
         english_only = {'fr', 'es', 'pt', 'de'}

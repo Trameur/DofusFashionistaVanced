@@ -335,6 +335,12 @@ html.fm-dark {
     font-size: 1.15em !important;
     margin: 0 !important;
 }
+.ws-shopping-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
 .ws-hide-gathered {
     display: inline-flex;
     align-items: center;
@@ -575,4 +581,71 @@ html.fm-dark {
     font: inherit;
     font-weight: 700;
     cursor: pointer;
+}
+
+/* ---------- Print: paper checklist, black on white, chrome and controls hidden ---------- */
+@media print {
+    .skip-link,
+    .banner,
+    .char-overlay,
+    .header-controls,
+    .mobile-nav-toggle,
+    #main-sidebar,
+    .footer,
+    .fm-ad,
+    .ws-meta-actions,
+    .ws-save-status,
+    #ws-undo-status,
+    .ws-toolbar,
+    .ws-job-summary,
+    .ws-remove,
+    .ws-mult,
+    .ws-card-bulk,
+    .ws-progress,
+    .ws-row-ctl,
+    .ws-row-shared,
+    .ws-source-wrap,
+    .ws-hide-gathered,
+    .ws-shopping-actions {
+        display: none !important;
+    }
+
+    .workshop-wrapper, .workshop-wrapper * {
+        color: #000 !important;
+        background: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        border-color: #000 !important;
+    }
+    html, body, .maincontent, .maincolumn, .workshop-wrapper {
+        background: #fff !important;
+    }
+
+    .ws-card {
+        border: 1px solid #000 !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    .ws-shopping {
+        break-inside: avoid;
+    }
+
+    .ws-row-img {
+        display: none !important;
+    }
+    .ws-res .ws-row, .ws-shopping-list .ws-row {
+        display: flex !important;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+    }
+    .ws-res .ws-row[data-state]:not([data-state="done"])::before,
+    .ws-shopping-list .ws-row[data-state]:not([data-state="done"])::before {
+        content: "";
+        display: inline-block;
+        flex: 0 0 auto;
+        width: 11px;
+        height: 11px;
+        border: 1.4px solid #000 !important;
+    }
 }

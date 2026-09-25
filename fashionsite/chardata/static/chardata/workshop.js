@@ -154,6 +154,46 @@
         return (Math.round(rate * 100) / 100) + '%';
     }
 
+    function csvField(value, separator) {
+        var s = value === null || value === undefined ? '' : String(value);
+        var sep = separator || ',';
+        if (/["\r\n]/.test(s) || s.indexOf(sep) !== -1) {
+            s = '"' + s.replace(/"/g, '""') + '"';
+        }
+        return s;
+    }
+
+    function buildCsv(headers, rows, separator) {
+        var sep = separator || ',';
+        var field = function (value) { return csvField(value, sep); };
+        var lines = [(headers || []).map(field).join(sep)];
+        (rows || []).forEach(function (row) {
+            lines.push((row || []).map(field).join(sep));
+        });
+        return lines.join('\r\n');
+    }
+
+    function buildMissingListText(items) {
+        return (items || [])
+            .filter(function (item) { return (item.missing || 0) > 0; })
+            .map(function (item) { return item.name + ': ' + item.missing; })
+            .join('\n');
+    }
+
+    function csvSeparatorFor(language) {
+        return String(language || 'en').slice(0, 2).toLowerCase() === 'en' ? ',' : ';';
+    }
+
+    function buildMissingListCsv(items, headers, separator) {
+        headers = headers || {};
+        var rows = (items || []).map(function (item) {
+            return [item.name, item.needed || 0, item.owned || 0, item.missing || 0];
+        });
+        var csv = buildCsv(
+            [headers.name, headers.needed, headers.owned, headers.missing], rows, separator);
+        return String.fromCharCode(0xFEFF) + csv;
+    }
+
     var pure = {
         clampOwned: clampOwned,
         clampQuantity: clampQuantity,
@@ -167,7 +207,12 @@
         filterCounts: filterCounts,
         sortCards: sortCards,
         sourceKind: sourceKind,
-        formatDropRate: formatDropRate
+        formatDropRate: formatDropRate,
+        csvField: csvField,
+        buildCsv: buildCsv,
+        buildMissingListText: buildMissingListText,
+        buildMissingListCsv: buildMissingListCsv,
+        csvSeparatorFor: csvSeparatorFor
     };
 
     if (typeof window === 'undefined' || !document.getElementById('ws-list')) {
@@ -194,6 +239,10 @@
 
     var cardRows = jsonData('ws-card-rows-data') || {};
     var resourceTotals = jsonData('ws-resource-totals-data') || [];
+    var resourceTotalsByKey = {};
+    resourceTotals.forEach(function (item) {
+        resourceTotalsByKey[keyOf(item.ankama_id, item.subtype)] = item;
+    });
     var stock = jsonData('ws-stock-data') || {};
     var stockLimits = jsonData('ws-stock-limits-data') || {};
     var maxOwned = stockLimits.max_owned || MAX_OWNED_DEFAULT;
@@ -944,6 +993,117 @@
         });
     }
 
+    function shoppingListSnapshot() {
+        var list = document.getElementById('ws-shopping-list');
+        var rows = list ? list.querySelectorAll('.ws-row') : [];
+        return Array.prototype.map.call(rows, function (row) {
+            var key = row.getAttribute('data-res-key');
+            var item = resourceTotalsByKey[key] || {};
+            var needed = liveTotalNeed(key);
+            var owned = stock[key] || 0;
+            return {
+                name: item.name || '',
+                needed: needed,
+                owned: owned,
+                missing: stillMissing(needed, owned)
+            };
+        });
+    }
+
+    function copyTextToClipboardFallback(text) {
+        return new Promise(function (resolve, reject) {
+            try {
+                var textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                textarea.setSelectionRange(0, textarea.value.length);
+                var ok = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                if (ok) {
+                    resolve();
+                } else {
+                    reject(new Error('copy command failed'));
+                }
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
+    function copyTextToClipboard(text) {
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                return navigator.clipboard.writeText(text).catch(function () {
+                    return copyTextToClipboardFallback(text);
+                });
+            }
+        } catch (e) {
+            // fall through to the textarea fallback below
+        }
+        return copyTextToClipboardFallback(text);
+    }
+
+    function downloadCsv(csvText, filename) {
+        try {
+            var blob = new Blob([csvText], {type: 'text/csv;charset=utf-8;'});
+            var url = URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(function () {
+                URL.revokeObjectURL(url);
+            }, 1000);
+        } catch (e) {
+            announceExport(i18n.saveError || '');
+        }
+    }
+
+    function announceExport(text) {
+        var el = document.getElementById('ws-export-status');
+        if (el) {
+            el.textContent = text || '';
+        }
+    }
+
+    function wireExportButtons() {
+        var copyBtn = document.getElementById('ws-copy-missing');
+        var csvBtn = document.getElementById('ws-download-csv');
+
+        if (copyBtn) {
+            copyBtn.addEventListener('click', function () {
+                var text = buildMissingListText(shoppingListSnapshot());
+                if (!text) {
+                    announceExport(i18n.copyNothing || '');
+                    return;
+                }
+                copyTextToClipboard(text).then(function () {
+                    announceExport(i18n.copySuccess || '');
+                }).catch(function () {
+                    announceExport(i18n.copyError || '');
+                });
+            });
+        }
+
+        if (csvBtn) {
+            csvBtn.addEventListener('click', function () {
+                var csv = buildMissingListCsv(shoppingListSnapshot(), {
+                    name: i18n.csvHeaderName || '',
+                    needed: i18n.csvHeaderNeeded || '',
+                    owned: i18n.csvHeaderOwned || '',
+                    missing: i18n.csvHeaderMissing || ''
+                }, csvSeparatorFor(document.documentElement.lang));
+                downloadCsv(csv, 'workshop-shopping-list.csv');
+            });
+        }
+    }
+
     function loadHideGathered() {
         try {
             return localStorage.getItem('wsHideGathered') === '1';
@@ -1308,6 +1468,7 @@
         wireFilterChips();
         wireSortSelect();
         wireSearch();
+        wireExportButtons();
 
         window.addEventListener('beforeunload', flushPendingOnUnload);
     }
