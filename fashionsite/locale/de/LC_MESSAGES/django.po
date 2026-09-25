@@ -7704,6 +7704,12 @@ msgstr "Importiere ihn aus Text oder Screenshots"
 msgid "Build links our server can read today: %(sites)s."
 msgstr "Build-Links, die unser Server heute lesen kann: %(sites)s."
 
+msgid "Choose a class"
+msgstr "Wähle eine Klasse"
+
+msgid "Choose a class before bringing this build in."
+msgstr "Wähle eine Klasse, bevor du diesen Build übernimmst."
+
 msgid "The forgemagie on these pieces does not travel yet and is left out:"
 msgstr "Die Schmiedemagie dieser Teile reist noch nicht mit und bleibt außen vor:"
 

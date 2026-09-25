@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 
 from chardata.coaching_view import create_build
 from chardata.create_project_view import is_anon_cant_create
-from chardata import build_link_import
+from chardata import build_link_import, dofusbook_import, dofuscreator_import
 from chardata.dofusbook_import import ImportError_, MAX_POINTS
 from chardata.dofusbook_view import (_classes_for, _place_items,
                                      _preview, _solution_path)
@@ -33,8 +33,32 @@ MAX_CARACTERES = 40000
 
 NIVEAU_PAR_DEFAUT = 200
 
-# A line that is only an address; a link inside a sentence is text
-_LIGNE_LIEN = re.compile(r'^(?:https?://\S+|www\.\S+)$', re.I)
+# A line that is only an address; a link inside a sentence is text.
+_LIEN_AVEC_SCHEME = re.compile(r'^(?:https?://\S+|www\.\S+)$', re.I)
+
+# A bare line's domain shape: a host, optionally followed by a path.
+_FORME_HOTE_NU = re.compile(
+    r'^(?P<hote>(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,})'
+    r'(?P<chemin>[/?#]\S*)?$', re.I)
+
+# Every host a reader answers to, lowercase, short links included.
+_HOTES_CONNUS = (set(dofusbook_import.HOSTS) | set(dofusbook_import.SHORT_HOSTS)
+                 | set(dofusbook_import.STUFFER_HOSTS)
+                 | set(dofuscreator_import.HOSTS))
+
+
+def _ligne_est_un_lien(candidat):
+    """A scheme, a host a reader knows, or any host followed by a path."""
+    if _LIEN_AVEC_SCHEME.match(candidat):
+        return True
+    trouve = _FORME_HOTE_NU.match(candidat)
+    if not trouve:
+        return False
+    if trouve.group('hote').lower() in _HOTES_CONNUS:
+        return True
+    chemin = trouve.group('chemin')
+    return bool(chemin) and chemin.startswith('/')
+
 
 # Tests replace this to stay off the network
 read_build = build_link_import.read
@@ -79,7 +103,7 @@ def separe_les_liens(texte):
     reste, lisibles, illisibles = [], [], []
     for ligne in texte.splitlines():
         candidat = ligne.strip()
-        if _LIGNE_LIEN.match(candidat):
+        if _ligne_est_un_lien(candidat):
             if build_link_import.recognises(candidat):
                 lisibles.append(candidat)
             else:
@@ -249,7 +273,7 @@ def text_build(request):
     for item_id in lu['item_ids']:
         if item_id not in item_ids:
             item_ids.append(item_id)
-    laissees = list(lu['ignored']) + lisibles[1:] + illisibles
+    laissees = list(lu['ignored']) + lisibles[1:]
 
     if not item_ids:
         # Only an unreadable link pasted: say so, not "no item"
@@ -317,8 +341,9 @@ def text_build(request):
         for item_id, par_piece in source.items():
             overrides.setdefault(item_id, {}).update(par_piece)
     refuses = refuses_du_lien + lu['refused_rolls']
+    class_ok = char_class in CHARACTER_CLASSES
 
-    if not request.POST.get('confirm') or char_class not in CHARACTER_CLASSES:
+    if not request.POST.get('confirm') or not class_ok:
         return _reponse(request, {
             'text': texte,
             'confirm': True,
@@ -335,6 +360,9 @@ def text_build(request):
             'char_class': char_class,
             'base_points': _caracteristiques_pour_apercu(caracteristiques),
             'classes': _classes_for(version),
+            'class_error': (_('Choose a class before bringing this build in.')
+                            if request.POST.get('confirm') and not class_ok
+                            else None),
             'login_problem': is_anon_cant_create(request),
         })
 

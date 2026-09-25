@@ -7723,6 +7723,12 @@ msgstr "Impórtalo desde texto o capturas de pantalla"
 msgid "Build links our server can read today: %(sites)s."
 msgstr "Enlaces de build que nuestro servidor sabe leer hoy: %(sites)s."
 
+msgid "Choose a class"
+msgstr "Elige una clase"
+
+msgid "Choose a class before bringing this build in."
+msgstr "Elige una clase antes de traer este build."
+
 msgid "The forgemagie on these pieces does not travel yet and is left out:"
 msgstr "La forjamagia de estas piezas aún no viaja y se deja fuera:"
 

@@ -6725,6 +6725,12 @@ msgstr ""
 msgid "Build links our server can read today: %(sites)s."
 msgstr ""
 
+msgid "Choose a class"
+msgstr ""
+
+msgid "Choose a class before bringing this build in."
+msgstr ""
+
 msgid "The forgemagie on these pieces does not travel yet and is left out:"
 msgstr ""
 

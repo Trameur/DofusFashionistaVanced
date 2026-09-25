@@ -28187,6 +28187,38 @@ class LinkImportOnTheOnePageTests(TestCase):
         self.assertContains(page, 'name="char_class"')
         self.assertContains(page, 'Iop')
 
+    def test_an_unknown_class_shows_a_required_placeholder_option(self):
+        """A DofusBook link never carries the class: the select must not
+        default to the first option in silence, so the browser cannot
+        submit a class nobody chose."""
+        self._patch(build=self._build())
+        page = self.client.post(self._url(), {'text': self.LIEN}
+                                ).content.decode('utf-8')
+        self.assertIn('Choose a class', page)
+        self.assertRegex(page, r'<option[^>]*disabled[^>]*>\s*Choose a class')
+        self.assertRegex(page, r'<select[^>]*name="?char_class"?[^>]*required')
+
+    def test_a_known_class_shows_no_placeholder_and_stays_preselected(self):
+        build = self._build()
+        build.update({'source_host': 'dofuscreator.com', 'build_id': '6e9f4',
+                      'char_class': 'Cra', 'class_is_unknown': False})
+        self._patch(build=build)
+        page = self.client.post(
+            self._url(), {'text': 'https://dofuscreator.com/projet/6e9f4'}
+        ).content.decode('utf-8')
+        self.assertNotIn('Choose a class', page)
+        self.assertRegex(page, r'<option[^>]*selected[^>]*value="?Cra"?[^>]*>'
+                               r'|<option[^>]*value="?Cra"?[^>]*selected[^>]*>')
+
+    def test_confirming_without_a_class_creates_nothing_and_shows_the_message(self):
+        from chardata.models import Char
+        self._patch(build=self._build())
+        avant = Char.objects.count()
+        page = self.client.post(self._url(), {
+            'text': self.LIEN, 'confirm': '1', 'char_class': '', 'level': '200'})
+        self.assertEqual(avant, Char.objects.count())
+        self.assertContains(page, 'Choose a class before bringing this build in.')
+
     def test_confirming_brings_the_gear_in_without_solving(self):
         from chardata.models import Char
         from chardata.solution import get_solution, get_solver_facts

@@ -190,11 +190,15 @@
             {# Class comes from our own export header, e.g. "My Cra - Cra lvl 200" #}
             <label>{% trans "Class" %}
                 <select name="char_class" class="pretty-input" required>
+                    {% if not char_class %}
+                    <option value="" selected disabled>{% trans "Choose a class" %}</option>
+                    {% endif %}
                     {% for key, label in classes %}
                     <option value="{{ key }}"{% if key == char_class %} selected{% endif %}>{{ label }}</option>
                     {% endfor %}
                 </select>
             </label>
+            {% if class_error %}<p class="import-error" id="import-class-error">{{ class_error }}</p>{% endif %}
             <label>{% trans "Level" %}
                 <input type="number" name="level" class="pretty-input"
                        value="{{ level }}" min="1" max="200" style="width: 5.5em;">
