@@ -25,6 +25,12 @@ _STATS = {'agi': 800, 'str': 0, 'int': 0, 'cha': 0, 'pow': 0, 'dam': 0,
           'waterdam': 0, 'airdam': 97, 'neutdam': 0, 'ch': 3, 'final': 0,
           'negfinal': 0, 'pshdam': 0, 'ap': 12}
 
+_STRENGTH_STATS = dict(_STATS, agi=0, airdam=0, str=1100, pow=80, dam=30,
+                       earthdam=70, cridam=35, ch=35, ap=11)
+
+_DOFUS2_HP_FACES = [('Target with 25% of its HP or more', [0]),
+                    ('Target with less than 25% of its HP', [1])]
+
 _SHIELD_LABELS = {'Target with shield points', 'Target without shield points'}
 _HP_LABEL = re.compile(r'^Target with (?:less than )?(\d+)% of its HP(?: or more)?$')
 
@@ -164,6 +170,16 @@ class TheGeneratorSplitsAHitOnItsTargetTests(SimpleTestCase):
         self.assertEqual(set(generator.CONDITIONAL_ROWS_BY_VERSION),
                          set(generator.TARGET_CONDITIONS_BY_VERSION))
 
+    def test_the_dofus2_table_splits_on_hp_and_not_on_shield_points(self):
+        from unittest import mock
+        generator = _generator()
+        with mock.patch.object(generator, 'TARGET_CONDITIONS',
+                               generator.TARGET_CONDITIONS_BY_VERSION['dofus2']):
+            hp = _convert(('a,A,v25|', '43-48'), ('a,A,V25|', '54-60'))
+            shield = _convert(('A,PB|76,3,0', '44-48'), ('A,pb|76,3,0', '38-42'))
+        self.assertEqual(_DOFUS2_HP_FACES, hp.aggregates)
+        self.assertFalse(shield.aggregates)
+
 
 class TheTablesCarryTheFacesTests(SimpleTestCase):
 
@@ -197,12 +213,18 @@ class TheTablesCarryTheFacesTests(SimpleTestCase):
                 top = spell.get_effects_digest().non_crit_dams[-1]
                 self.assertEqual([(43, 48), (54, 60)], _ranges(top))
 
+    def test_dofus2_lethal_attack_splits_on_a_quarter_of_the_targets_hp(self):
+        spell = _spell('Sram', LETHAL_ATTACK, 'dofus2')
+        self.assertEqual(_DOFUS2_HP_FACES, spell.aggregates)
+        top = spell.get_effects_digest().non_crit_dams[-1]
+        self.assertEqual([(43, 48), (54, 60)], _ranges(top))
+
 
 class EachSplitIsOneTheSpellTextStatesTests(SimpleTestCase):
     """A split stays only while Ankama's description, in five languages, names its condition."""
 
     def test_the_text_names_the_shield_or_the_hp_threshold(self):
-        for version in VERSIONS:
+        for version, least in (('dofus3', 2), ('beta', 2), ('dofus2', 1)):
             with open(os.path.join(_REFERENCE_DIR, '%s.json' % version),
                       encoding='utf-8') as handle:
                 reference = json.load(handle)
@@ -224,11 +246,11 @@ class EachSplitIsOneTheSpellTextStatesTests(SimpleTestCase):
                                               language=language, label=label):
                                 match = _HP_LABEL.match(label)
                                 if match:
-                                    self.assertRegex(text, r'\b%s ?%%' % match.group(1))
+                                    self.assertRegex(text, r'\b%s\s?%%' % match.group(1))
                                 else:
                                     self.assertIn(_SHIELD_WORD[language], text)
             with self.subTest(version=version):
-                self.assertGreaterEqual(checked, 2)
+                self.assertGreaterEqual(checked, least)
 
 
 class TheTurnCountsThePlainFaceTests(SimpleTestCase):
@@ -252,6 +274,55 @@ class TheTurnCountsThePlainFaceTests(SimpleTestCase):
                                                 in castable.crit_alternatives])
                 self.assertEqual('Target with 50% of its HP or more',
                                  castable.scored_group)
+
+    def test_dofus2_lethal_attack_lands_its_hit_above_a_quarter_hp(self):
+        castable = _castable('Sram', LETHAL_ATTACK, 'dofus2')
+        self.assertEqual([(43, 48)], _ranges(castable.hits))
+        self.assertEqual([[(52, 58)]], [_ranges(alternative) for alternative
+                                        in castable.crit_alternatives])
+        self.assertEqual('Target with 25% of its HP or more',
+                         castable.scored_group)
+
+    def test_one_dofus2_lethal_attack_is_worth_the_plain_face_and_no_more(self):
+        from chardata.spell_combo import _average, best_turn, crit_chance
+        from fashionistapulp.dofus_constants import calculate_damage
+
+        def face(rows, critical):
+            return _average(calculate_damage([copy.copy(row) for row in rows],
+                                              _STRENGTH_STATS, critical, True))
+
+        castable = _castable('Sram', LETHAL_ATTACK, 'dofus2')
+        total, order = best_turn(_STRENGTH_STATS, [castable], castable.cost,
+                                 game_version='dofus2')
+        self.assertEqual(['Lethal Attack'], [name for name, _damage in order])
+        odds = crit_chance(castable.crit_rate, _STRENGTH_STATS, 'dofus2')
+        expected = (face(castable.plain_alternatives[0], False) * (1 - odds)
+                    + face(castable.crit_alternatives[0], True) * odds)
+        self.assertAlmostEqual(expected, total, places=6)
+        both = face(castable.spell.get_effects_digest().non_crit_dams[-1], False)
+        self.assertLess(total, both)
+
+    def test_each_dofus2_lethal_attack_cast_is_worth_the_plain_face(self):
+        from chardata.spell_combo import _average, best_turn, crit_chance
+        from fashionistapulp.dofus_constants import calculate_damage
+
+        def face(rows, critical):
+            return _average(calculate_damage([copy.copy(row) for row in rows],
+                                              _STRENGTH_STATS, critical, True))
+
+        castable = _castable('Sram', LETHAL_ATTACK, 'dofus2')
+        self.assertEqual(2, castable.limit)
+        total, order = best_turn(_STRENGTH_STATS, [castable],
+                                 castable.limit * castable.cost,
+                                 game_version='dofus2')
+        self.assertEqual(['Lethal Attack'] * castable.limit,
+                         [name for name, _damage in order])
+        odds = crit_chance(castable.crit_rate, _STRENGTH_STATS, 'dofus2')
+        one = (face(castable.plain_alternatives[0], False) * (1 - odds)
+               + face(castable.crit_alternatives[0], True) * odds)
+        self.assertAlmostEqual(castable.limit * one, total, places=6)
+        both = face(castable.spell.get_effects_digest().non_crit_dams[-1], False)
+        self.assertLess(total, castable.limit * both)
 
     def test_abolition_arrow_lands_its_hit_without_shield_points(self):
         for version in VERSIONS:
@@ -313,6 +384,14 @@ class TheTurnCountsThePlainFaceTests(SimpleTestCase):
             self.assertEqual('compté sur Cible sans bouclier',
                              _cast_note(castable, castable.name, {}, 586))
 
+    def test_the_dofus2_panel_note_names_the_quarter_hp_face(self):
+        from chardata.spells_view import _cast_note
+        castable = _castable('Sram', LETHAL_ATTACK, 'dofus2')
+        with translation.override('fr'):
+            self.assertEqual('compté sur Cible à 25% de sa vie ou plus',
+                             _cast_note(castable, castable.name, {}, 768,
+                                        'dofus2'))
+
 
 class TheFacesSpeakEveryLanguageTests(SimpleTestCase):
 
@@ -357,7 +436,7 @@ class TheFacesSpeakEveryLanguageTests(SimpleTestCase):
 
 class TheSpellsPageLabelsTheFacesTests(TestCase):
 
-    def _build(self, version='dofus3'):
+    def _build(self, version='dofus3', char_class='Cra'):
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         from chardata.models import Char
@@ -373,7 +452,7 @@ class TheSpellsPageLabelsTheFacesTests(TestCase):
             set_current_game_version('dofus3')
         self.client.post('/%simport/text/' % _prefix(version), {
             'text': '\n'.join(names), 'confirm': '1',
-            'char_class': 'Cra', 'level': '200'})
+            'char_class': char_class, 'level': '200'})
         return Char.objects.order_by('-id').first()
 
     def _aggregates(self, char, name, language, version='dofus3'):
@@ -399,6 +478,24 @@ class TheSpellsPageLabelsTheFacesTests(TestCase):
                 with self.subTest(version=version, language=language):
                     self.assertEqual(wanted, self._aggregates(
                         char, 'Abolition Arrow', language, version))
+
+    def test_the_dofus2_sram_page_names_both_faces_of_lethal_attack(self):
+        char = self._build('dofus2', 'Sram')
+        self.assertEqual(('dofus2', 'Sram'), (char.game_version, char.char_class))
+        for language, wanted in (
+                ('en', [['Target with 25% of its HP or more', [0]],
+                        ['Target with less than 25% of its HP', [1]]]),
+                ('fr', [['Cible à 25% de sa vie ou plus', [0]],
+                        ['Cible à moins de 25% de sa vie', [1]]]),
+                ('es', [['Objetivo con el 25% de su vida o más', [0]],
+                        ['Objetivo con menos del 25% de su vida', [1]]]),
+                ('pt', [['Alvo com 25% da vida ou mais', [0]],
+                        ['Alvo com menos de 25% da vida', [1]]]),
+                ('de', [['Ziel mit 25 % seiner Lebenspunkte oder mehr', [0]],
+                        ['Ziel mit weniger als 25 % seiner Lebenspunkte', [1]]])):
+            with self.subTest(language=language):
+                self.assertEqual(wanted, self._aggregates(
+                    char, 'Lethal Attack', language, 'dofus2'))
 
     def test_the_cra_page_names_both_faces_of_piercing_arrow(self):
         char = self._build()

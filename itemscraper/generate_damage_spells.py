@@ -164,7 +164,11 @@ TARGET_CONDITIONS_BY_VERSION = {
     "dofus3": _MODERN_TARGET_CONDITIONS,
     # beta: same spell texts in spell_reference/beta.json
     "beta": _MODERN_TARGET_CONDITIONS,
-    "dofus2": (),
+    "dofus2": (
+        # Lethal Attack: "greater on targets with less than 25% of their health points"
+        (r"V(\d+)", "Target with less than {}% of its HP",
+         "Target with {}% of its HP or more"),
+    ),
 }
 
 TARGET_CONDITIONS = TARGET_CONDITIONS_BY_VERSION["dofus3"]

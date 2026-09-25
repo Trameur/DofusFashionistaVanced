@@ -4231,7 +4231,8 @@ DAMAGE_SPELLS = {
             [['43-48'], ['54-60']],
             [['52-58'], ['65-72']],
             [EARTH, EARTH],
-        ), is_linked=(2, 'Larceny'), casting={'ap': [4], 'per_turn': [3], 'per_target': [2], 'crit': [20]}, spell_id=12917),
+        ), aggregates=[('Target with 25% of its HP or more', [0]),
+ ('Target with less than 25% of its HP', [1])], is_linked=(2, 'Larceny'), casting={'ap': [4], 'per_turn': [3], 'per_target': [2], 'crit': [20]}, spell_id=12917),
         Spell('Insidious Trap', [175], Effects(
             [['8-9'], ['8-9']],
             None,
