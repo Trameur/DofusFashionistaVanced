@@ -64078,7 +64078,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Beendet man seine Runde nicht mindestens 3 Felder von allen Verbündeten entfernt, erhalten die Gegner 2 BP.\nAm Ende ihrer Runde ziehen die Gegner alle Verbündeten, die sich in einer Reichweite von mehr als 4 Feldern befinden, um 2 Felder heran.\nJedes Mal, wenn ein Gegner seinen Spielzug beginnt, erleidet der Charakter, der diesem Gegner am nächsten steht, 1 Runde lang 100 % mehr Schaden. (max. Kumulierung 2)"
+                    "formatted": "{{spell,28440,1::Foluks goldenes Idol}}\n• Wenn sich am Ende der Runde eines verbündeten Kämpfers mindestens ein Verbündeter höchstens 2 Felder von ihm entfernt befindet, erhalten die Gegner 2 BP (1 Runde lang).\n• Am Ende der Runde eines Gegners zieht er alle Verbündeten, die mehr als 4 Felder von ihm entfernt sind, um 2 Felder zu sich heran."
                 }
             ],
             "pods": 1

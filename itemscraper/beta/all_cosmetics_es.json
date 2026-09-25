@@ -105860,7 +105860,7 @@
         },
         {
             "ankama_id": 34531,
-            "name": "[!] Bellafeuille",
+            "name": "Belihoja",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -105870,7 +105870,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16920-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16920-128.png"
             },
-            "description": "[!] Les Bellaphones ont sélectionné pour vous cette feuille toute douce pour éviter que vous ne deveniez dur de la feuille.",
+            "description": "Los belíades han elegido para ti esta suave hoja para que pases página de una vez.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107188,7 +107188,7 @@
         },
         {
             "ankama_id": 34626,
-            "name": "[!] Dragodinde Kraméléhone",
+            "name": "Dragopavo krameleón",
             "type": {
                 "name": "Montura de apariencia",
                 "id": 245
@@ -107198,7 +107198,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97016-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97016-128.png"
             },
-            "description": "[!] Cette dragodinde a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "description": "Este dragopavo tiene la capacidad de imitar perfectamente los colores de su propietario.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107257,7 +107257,7 @@
         },
         {
             "ankama_id": 34627,
-            "name": "[!] Muldo Kraméléhon",
+            "name": "Mulagua krameleona",
             "type": {
                 "name": "Montura de apariencia",
                 "id": 245
@@ -107267,7 +107267,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97097-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97097-128.png"
             },
-            "description": "[!] Ce muldo a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "description": "Esta mulagua tiene la capacidad de imitar perfectamente los colores de su propietario.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107326,7 +107326,7 @@
         },
         {
             "ankama_id": 34628,
-            "name": "[!] Volkorne Kraméléhon",
+            "name": "Vueloceronte krameleón",
             "type": {
                 "name": "Montura de apariencia",
                 "id": 245
@@ -107336,7 +107336,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97182-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97182-128.png"
             },
-            "description": "[!] Ce volkorne a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "description": "Este vueloceronte tiene la capacidad de imitar perfectamente los colores de su propietario.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107395,7 +107395,7 @@
         },
         {
             "ankama_id": 34636,
-            "name": "[!] Couronne de jade",
+            "name": "Corona de jade",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -107405,7 +107405,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16928-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16928-128.png"
             },
-            "description": "[!] Le jade poli avec laquelle cette couronne a été taillée semble doté d'un étrange champ magnétique, lui permettant d'intégrer des ornements qui semblent flotter dans les airs.",
+            "description": "El jade pulido con el que se ha tallado esta corona parece poseer un extraño campo magnético, lo que le permite incorporar adornos que parecen flotar en el aire.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107438,7 +107438,7 @@
         },
         {
             "ankama_id": 34637,
-            "name": "[!] Cape de jade",
+            "name": "Capa de jade",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -107448,7 +107448,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17710-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17710-128.png"
             },
-            "description": "[!] Cette cape en queue de grue se sépare en deux afin de faciliter le mouvement de son porteur. La finesse de ses coutures la rend quasiment transparente et en fait un atour luxueux digne d'une œuvre d'art.",
+            "description": "Esta capa con forma de cola de grulla se divide en dos para facilitar los movimientos de quien la lleva. La delicadeza de sus costuras la hace prácticamente transparente y la convierte en un atuendo lujoso digno de una obra de arte.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107481,7 +107481,7 @@
         },
         {
             "ankama_id": 34638,
-            "name": "[!] Bouclier de jade",
+            "name": "Escudo de jade",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -107491,7 +107491,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82608-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82608-128.png"
             },
-            "description": "[!] Ce bouclier gravé arbore une grue prenant son envol. Symbole d'immortalité et de bon augure, elle semble particulièrement adaptée afin d'assurer la protection de son porteur.",
+            "description": "Este escudo grabado muestra una grulla alzando el vuelo. Símbolo de inmortalidad y buena fortuna, parece especialmente adecuada para garantizar la protección de quien lo lleva.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107524,7 +107524,7 @@
         },
         {
             "ankama_id": 34639,
-            "name": "[!] Grue de jade",
+            "name": "Grulla de jade",
             "type": {
                 "name": "Mascota de apariencia",
                 "id": 24
@@ -107534,7 +107534,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18956-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18956-128.png"
             },
-            "description": "[!] Cet oiseau mystique vous portera bonheur tant que vous le chérissez. Mais attention, un simple repas manqué pourrait bien vous attirer les foudres de ce divin volatile.",
+            "description": "Este pájaro místico te aportará felicidad mientras lo cuides con cariño. Pero, atención, un simple descuido a la hora de alimentarlo podría provocar la ira de esta divina ave.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107567,7 +107567,7 @@
         },
         {
             "ankama_id": 34640,
-            "name": "[!] Costume de jade",
+            "name": "Traje de jade",
             "type": {
                 "name": "Traje",
                 "id": 16
@@ -107577,7 +107577,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648908-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648908-128.png"
             },
-            "description": "[!] Cette armure de jade se transmet de génération en génération. En l'enfilant, vous sentez peser sur vos épaules tout le poids d'une lignée qui repose sur vous. Il vous incombe d'en prendre soin afin que votre descendance en hérite lorsque vous ne pourrez plus l'honorer.",
+            "description": "Esta armadura de jade se transmite de generación en generación. Al ponértela, sientes sobre tus hombros todo el peso de un linaje que recae sobre ti. Te corresponde cuidarla para que tu descendencia la herede cuando ya no puedas honrarla.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107597,7 +107597,7 @@
         },
         {
             "ankama_id": 34641,
-            "name": "[!] Pointe du Crépuscule",
+            "name": "Punta del crepúsculo",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -107607,7 +107607,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16930-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16930-128.png"
             },
-            "description": "[!] Sont-ce de sombres pensées ou des idées noires qui s'échappent en volutes de votre couvre-chef ? En tout cas, ce teint ébène vous va à merveille ! Il révèle brillamment votre part de ténèbres...",
+            "description": "¿Son pensamientos sombríos o ideas malvadas lo que se escapa en volutas de tu cubrecabezas? Sea como sea, ¡ese tono ébano te va de maravilla! Revela a la perfección tu parte oscura...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107640,7 +107640,7 @@
         },
         {
             "ankama_id": 34642,
-            "name": "[!] Voile des Ténèbres",
+            "name": "Velo de las tinieblas",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -107650,7 +107650,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17712-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17712-128.png"
             },
-            "description": "[!] Cette cape serait-elle les vestiges de l'ultime combat aérien du Dragon noir : les ailes brisées d'Azalar ? Ou simplement l'état dans lequel le gardien du Dofus Ébène a laissé cette cape après y avoir apposé sa griffe ? Dans les deux cas, c'est cool.",
+            "description": "¿Será esta capa los vestigios del último combate aéreo del dragón negro: las alas rotas de Azalar? ¿O simplemente el estado en el que el guardián del dofus Ébano dejó esta capa después de haberle puesto sus garras encima? En ambos casos, es lo más.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107683,7 +107683,7 @@
         },
         {
             "ankama_id": 34643,
-            "name": "[!] Égide Obscure",
+            "name": "Égida oscura",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -107693,7 +107693,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82611-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82611-128.png"
             },
-            "description": "[!] Ne regardez pas trop longtemps ce cercle infernal : il pourrait vider votre corps en aspirant votre âme ! Bon, personne n'a vérifié si cette malédiction était avérée, mais je connais deux-trois Iops qui ont regardé une éclipse sans lunettes de protection. Il vaut mieux éviter.",
+            "description": "No mires demasiado tiempo este círculo infernal: ¡podría vaciar tu cuerpo aspirándote el alma! Bueno, nadie ha comprobado si esa maldición existe de verdad, pero conozco a dos o tres yopukas que miraron un eclipse sin gafas de protección. Es mejor evitarlo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107726,7 +107726,7 @@
         },
         {
             "ankama_id": 34644,
-            "name": "[!] Grougalou",
+            "name": "Grugalú",
             "type": {
                 "name": "Mascota de apariencia",
                 "id": 24
@@ -107736,7 +107736,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18958-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18958-128.png"
             },
-            "description": "[!] Ne vous méfiez pas des apparences ! Cet obscur dragonnet a le caractère et l'appétit qui vont avec : destructeurs ! Ne lui tendez pas la main, comptez régulièrement vos doigts ; caressez éventuellement sa tête quand il a le dos tourné, c'est le seul endroit qui ne vous fera pas saigner.",
+            "description": "¡No te fíes de las apariencias! Este oscuro dragonito tiene el carácter y el apetito normales en una criatura así: ¡destructores! No le tiendas la mano, cuéntate los dedos con frecuencia y, si eso, acaríciale la cabeza cuando esté de espaldas: es la única parte que no te hará sangrar.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107799,7 +107799,7 @@
         },
         {
             "ankama_id": 34676,
-            "name": "[!] Cornes de la Démone VII",
+            "name": "Cuernos de la Demonio VII",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -107809,7 +107809,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16921-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16921-128.png"
             },
-            "description": "[!] VII accorde beaucoup d'importance à ses cornes : elles sont un de ses principaux charmes pour s'attirer les faveurs des autres démons de l'Hormonde.",
+            "description": "VII concede mucha importancia a sus cuernos: son uno de sus principales encantos para ganarse el favor de los demás demonios del Horamundo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107842,7 +107842,7 @@
         },
         {
             "ankama_id": 34677,
-            "name": "[!] Cape de la Démone VII",
+            "name": "Capa de la Demonio VII",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -107852,7 +107852,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17703-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17703-128.png"
             },
-            "description": "[!] Imaginez la quantité de pauvres chachas innocents qui a été nécessaire à VII pour la confection de cette cape. Maintenant, imaginez pour toute sa garde-robe...",
+            "description": "Imagina la cantidad de pobres miaumiaus inocentes que le han hecho falta a VII para confeccionar esta capa. Ahora, imagínate todo su vestuario...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107885,7 +107885,7 @@
         },
         {
             "ankama_id": 34678,
-            "name": "[!] Bouclier de la Démone VII",
+            "name": "Escudo de la Demonio VII",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -107895,7 +107895,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82601-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82601-128.png"
             },
-            "description": "[!] Entre les chachas empaillés et les cornes acérées, ce bouclier devrait aisément repousser vos prétendants indésirables.",
+            "description": "Entre los miaumiaus disecados y los cuernos afilados, este escudo debería ahuyentar fácilmente a tus pretendientes indeseados.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107928,7 +107928,7 @@
         },
         {
             "ankama_id": 34679,
-            "name": "[!] Guêtres de la Démone VII",
+            "name": "Polainas de la Demonio VII",
             "type": {
                 "name": "Hombrera",
                 "id": 259
@@ -107938,7 +107938,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164979-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164979-128.png"
             },
-            "description": "[!] Ces guêtres en fourrure de chacha habilleront parfaitement vos tenues les plus déshabillées, en appuyant votre attitude sensuelle et mystérieuse dans les soirées mondaines de l'Hormonde.",
+            "description": "Estas polainas de piel de miaumiau combinarán a la perfección con tus atuendos más atrevidos, realzando tu actitud sensual y misteriosa en las veladas mundanas del Horamundo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107958,7 +107958,7 @@
         },
         {
             "ankama_id": 34680,
-            "name": "[!] Cornes diaprées de la Démone VII",
+            "name": "Set cosmético matizado de la Demonio VII",
             "type": {
                 "name": "Sombrero de apariencia",
                 "id": 6
@@ -107968,7 +107968,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16922-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16922-128.png"
             },
-            "description": "[!] VII accorde beaucoup d'importance à ses cornes : elles sont un de ses principaux charmes pour s'attirer les faveurs des autres démons de l'Hormonde.",
+            "description": "VII concede mucha importancia a sus cuernos: son uno de sus principales encantos para ganarse el favor de los demás demonios del Horamundo.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108001,7 +108001,7 @@
         },
         {
             "ankama_id": 34681,
-            "name": "[!] Cape diaprée de la Démone VII",
+            "name": "Capa matizada de la Demonio VII",
             "type": {
                 "name": "Capa de apariencia",
                 "id": 18
@@ -108011,7 +108011,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17704-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17704-128.png"
             },
-            "description": "[!] Imaginez la quantité de pauvres chachas innocents qui a été nécessaire à VII pour la confection de cette cape. Maintenant, imaginez pour toute sa garde-robe...",
+            "description": "Imagina la cantidad de pobres miaumiaus inocentes que le han hecho falta a VII para confeccionar esta capa. Ahora, imagínate todo su vestuario...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108044,7 +108044,7 @@
         },
         {
             "ankama_id": 34682,
-            "name": "[!] Bouclier diapré de la Démone VII",
+            "name": "Escudo matizado de la Demonio VII",
             "type": {
                 "name": "Escudo de apariencia",
                 "id": 19
@@ -108054,7 +108054,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82602-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82602-128.png"
             },
-            "description": "[!] Entre les chachas empaillés et les cornes acérées, ce bouclier devrait aisément repousser vos prétendants indésirables.",
+            "description": "Entre los miaumiaus disecados y los cuernos afilados, este escudo debería ahuyentar fácilmente a tus pretendientes indeseados.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108087,7 +108087,7 @@
         },
         {
             "ankama_id": 34683,
-            "name": "[!] Guêtres diaprées de la Démone VII",
+            "name": "Polainas matizadas de la Demonio VII",
             "type": {
                 "name": "Hombrera",
                 "id": 259
@@ -108097,7 +108097,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164980-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164980-128.png"
             },
-            "description": "[!] Ces guêtres en fourrure de chacha habilleront parfaitement vos tenues les plus déshabillées, en appuyant votre attitude sensuelle et mystérieuse dans les soirées mondaines de l'Hormonde.",
+            "description": "Estas polainas de piel de miaumiau combinarán a la perfección con tus atuendos más atrevidos, realzando tu actitud sensual y misteriosa en las veladas mundanas del Horamundo.",
             "effects": [
                 {
                     "int_minimum": 0,

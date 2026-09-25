@@ -64078,7 +64078,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Si se termina el turno a 2 casillas o menos de un aliado, se da 2 PM a los enemigos.\nAl final de su turno, los enemigos atraen 2 casillas a todos los aliados situados a más de 4 AL.\nEn cada inicio de turno de un enemigo, el personaje más cercano al enemigo que empieza su turno recibe un 100% de daños adicionales durante 1 turno. (acumulación máx. de 2)"
+                    "formatted": "{{spell,28440,1::Ídolo de Foluk Dorado}}\n• Cuando un luchador aliado termina su turno, los enemigos ganan 2 PM (1 turno) si hay al menos un aliado a 2 casillas o menos de este.\n• Cuando un enemigo termina su turno, atrae 2 casillas a todos los aliados a más de 4 casillas de él."
                 }
             ],
             "pods": 1

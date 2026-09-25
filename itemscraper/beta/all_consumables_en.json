@@ -126311,7 +126311,7 @@
         },
         {
             "ankama_id": 34618,
-            "name": "[!] Baume Okeur",
+            "name": "Zip Balm",
             "type": {
                 "name": "Various",
                 "id": 20
@@ -126321,7 +126321,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/165057-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/165057-128.png"
             },
-            "description": "[!] Ce baume vous permet de regagner de la vie et de l'énergie, et peut-être même d'accéder au bonheur.",
+            "description": "This balm restores health, energy, and sometimes even a bit of happiness.",
             "effects": [
                 {
                     "int_minimum": 15,
@@ -126354,7 +126354,7 @@
         },
         {
             "ankama_id": 34621,
-            "name": "[!] Baies Tataiste",
+            "name": "Beta Berries",
             "type": {
                 "name": "Treat",
                 "id": 30
@@ -126364,7 +126364,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/94010-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/94010-128.png"
             },
-            "description": "[!] On raconte que manger ces baies permettrait d'accéder instantanément au bonheur. Malheureusement, ceci n'est qu'un mythe, le bonheur n'existe pas. Et ce que vous tenez dans les mains ne sont pas des baies, mais des cachets. Triste retour à la réalité...",
+            "description": "Some say that eating these berries is an express ticket to happiness. Unfortunately, that's just a legend – happiness doesn't really exist. Besides, what you're holding in your hands aren't berries – they're pills. All we're offering is the truth, nothing more.",
             "effects": [
                 {
                     "int_minimum": 10000,
@@ -126397,7 +126397,7 @@
         },
         {
             "ankama_id": 34674,
-            "name": "[!] Parchemin de Niveau (200)",
+            "name": "Level (200) Scroll",
             "type": {
                 "name": "Experience scroll",
                 "id": 164
@@ -126407,7 +126407,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/13003-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/13003-128.png"
             },
-            "description": "[!] Ce parchemin permet de gagner 200 niveaux sans prendre de risques.",
+            "description": "This scroll allows you to gain 200 levels without taking any risks.",
             "conditions": {
                 "condition": {
                     "operator": "<",

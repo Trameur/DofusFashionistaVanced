@@ -105860,7 +105860,7 @@
         },
         {
             "ankama_id": 34531,
-            "name": "[!] Bellafeuille",
+            "name": "Bellablatt",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -105870,7 +105870,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16920-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16920-128.png"
             },
-            "description": "[!] Les Bellaphones ont sélectionné pour vous cette feuille toute douce pour éviter que vous ne deveniez dur de la feuille.",
+            "description": "Die Bellaphons haben dieses samtweiche Blatt für euch ausgewählt, um eure Lippen zu schonen, wenn ihr es vor den Mund nehmt. Aber das tut ihr ja ohnehin nie, oder?",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107188,7 +107188,7 @@
         },
         {
             "ankama_id": 34626,
-            "name": "[!] Dragodinde Kraméléhone",
+            "name": "Kramelehon-Dracotruter",
             "type": {
                 "name": "Prunkreittier",
                 "id": 245
@@ -107198,7 +107198,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97016-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97016-128.png"
             },
-            "description": "[!] Cette dragodinde a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "description": "Dieser Dracotruter ist dazu imstande, die Farben seines Besitzers perfekt nachzuahmen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107257,7 +107257,7 @@
         },
         {
             "ankama_id": 34627,
-            "name": "[!] Muldo Kraméléhon",
+            "name": "Kramelehon-Seequagga",
             "type": {
                 "name": "Prunkreittier",
                 "id": 245
@@ -107267,7 +107267,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97097-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97097-128.png"
             },
-            "description": "[!] Ce muldo a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "description": "Dieser Seequagga ist dazu imstande, die Farben seines Besitzers perfekt nachzuahmen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107326,7 +107326,7 @@
         },
         {
             "ankama_id": 34628,
-            "name": "[!] Volkorne Kraméléhon",
+            "name": "Kramelehon-Naskäfer",
             "type": {
                 "name": "Prunkreittier",
                 "id": 245
@@ -107336,7 +107336,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/97182-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/97182-128.png"
             },
-            "description": "[!] Ce volkorne a la capacité d'imiter à la perfection les couleurs de son propriétaire.",
+            "description": "Dieser Naskäfer ist dazu imstande, die Farben seines Besitzers perfekt nachzuahmen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107395,7 +107395,7 @@
         },
         {
             "ankama_id": 34636,
-            "name": "[!] Couronne de jade",
+            "name": "Jadekrone",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -107405,7 +107405,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16928-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16928-128.png"
             },
-            "description": "[!] Le jade poli avec laquelle cette couronne a été taillée semble doté d'un étrange champ magnétique, lui permettant d'intégrer des ornements qui semblent flotter dans les airs.",
+            "description": "Der polierte Jade, aus dem diese Krone gefertigt wurde, verfügt offenbar über ein seltsames Magnetfeld und ist mit Verzierungen geschmückt, die in der Luft zu schweben scheinen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107438,7 +107438,7 @@
         },
         {
             "ankama_id": 34637,
-            "name": "[!] Cape de jade",
+            "name": "Jadeumhang",
             "type": {
                 "name": "Prunkumhang",
                 "id": 18
@@ -107448,7 +107448,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17710-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17710-128.png"
             },
-            "description": "[!] Cette cape en queue de grue se sépare en deux afin de faciliter le mouvement de son porteur. La finesse de ses coutures la rend quasiment transparente et en fait un atour luxueux digne d'une œuvre d'art.",
+            "description": "Dieser Umhang mit Kranichschleppe lässt sich teilen und bietet seinem Träger dadurch größere Bewegungsfreiheit. Sein Stoff ist so dünn, dass er schon fast transparent wirkt, was ihm eine luxuriöse Aura verleiht, die eines Kunstwerks würdig ist.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107481,7 +107481,7 @@
         },
         {
             "ankama_id": 34638,
-            "name": "[!] Bouclier de jade",
+            "name": "Jadeschild",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -107491,7 +107491,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82608-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82608-128.png"
             },
-            "description": "[!] Ce bouclier gravé arbore une grue prenant son envol. Symbole d'immortalité et de bon augure, elle semble particulièrement adaptée afin d'assurer la protection de son porteur.",
+            "description": "Diesen Schild ziert ein gravierter Kranich, der sich in die Lüfte erhebt. Als Symbol der Unsterblichkeit und Bote des Glücks scheint dieser Vogel sich ganz besonders zu eignen, um den Schutz seines Trägers zu gewährleisten.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107524,7 +107524,7 @@
         },
         {
             "ankama_id": 34639,
-            "name": "[!] Grue de jade",
+            "name": "Jadekranich",
             "type": {
                 "name": "Prunkvertrauter",
                 "id": 24
@@ -107534,7 +107534,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18956-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18956-128.png"
             },
-            "description": "[!] Cet oiseau mystique vous portera bonheur tant que vous le chérissez. Mais attention, un simple repas manqué pourrait bien vous attirer les foudres de ce divin volatile.",
+            "description": "Dieser mystische Vogel wird euch Glück bringen, solange ihr ihn gut behandelt. Aber Vorsicht, schon durch eine einzige verpasste Mahlzeit könntet ihr euch den Zorn dieses göttlichen Federviehs einhandeln.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107567,7 +107567,7 @@
         },
         {
             "ankama_id": 34640,
-            "name": "[!] Costume de jade",
+            "name": "Jadekostüm",
             "type": {
                 "name": "Kleidung",
                 "id": 16
@@ -107577,7 +107577,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648908-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/1648908-128.png"
             },
-            "description": "[!] Cette armure de jade se transmet de génération en génération. En l'enfilant, vous sentez peser sur vos épaules tout le poids d'une lignée qui repose sur vous. Il vous incombe d'en prendre soin afin que votre descendance en hérite lorsque vous ne pourrez plus l'honorer.",
+            "description": "Diese Rüstung aus Jade wird von Generation zu Generation weitergegeben. Wenn ihr sie anlegt, fühlt ihr das ganze Gewicht des Familienerbes, das auf euren Schultern lastet. Es liegt nun an euch, gut darauf aufzupassen, damit ihr sie eurer Nachkommenschaft hinterlassen könnt, wenn ihr nicht mehr imstande seid, sie in Ehren zu halten.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107597,7 +107597,7 @@
         },
         {
             "ankama_id": 34641,
-            "name": "[!] Pointe du Crépuscule",
+            "name": "Spitze der Dämmerstunde",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -107607,7 +107607,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16930-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16930-128.png"
             },
-            "description": "[!] Sont-ce de sombres pensées ou des idées noires qui s'échappent en volutes de votre couvre-chef ? En tout cas, ce teint ébène vous va à merveille ! Il révèle brillamment votre part de ténèbres...",
+            "description": "Sind es düstere Gedanken oder finstere Ideen, die da in Schwaden aus eurer Kopfbedeckung aufsteigen? Wie dem auch sei, dieser ebenholzschwarze Look steht euch ausgezeichnet! Er bringt eure dunkle Seite glänzend zur Geltung ...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107640,7 +107640,7 @@
         },
         {
             "ankama_id": 34642,
-            "name": "[!] Voile des Ténèbres",
+            "name": "Schleier der Finsternis",
             "type": {
                 "name": "Prunkumhang",
                 "id": 18
@@ -107650,7 +107650,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17712-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17712-128.png"
             },
-            "description": "[!] Cette cape serait-elle les vestiges de l'ultime combat aérien du Dragon noir : les ailes brisées d'Azalar ? Ou simplement l'état dans lequel le gardien du Dofus Ébène a laissé cette cape après y avoir apposé sa griffe ? Dans les deux cas, c'est cool.",
+            "description": "Ist dieser Umhang vielleicht ein Überbleibsel von Azalars letztem Luftkampf – Azalars gebrochenen Schwingen? Oder hat der Wächter des Ebenholz-Dofus den Umhang einfach mit seinen Krallen so zugerichtet? Wie dem auch sei, er sieht cool aus.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107683,7 +107683,7 @@
         },
         {
             "ankama_id": 34643,
-            "name": "[!] Égide Obscure",
+            "name": "Dunkle Ägide",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -107693,7 +107693,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82611-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82611-128.png"
             },
-            "description": "[!] Ne regardez pas trop longtemps ce cercle infernal : il pourrait vider votre corps en aspirant votre âme ! Bon, personne n'a vérifié si cette malédiction était avérée, mais je connais deux-trois Iops qui ont regardé une éclipse sans lunettes de protection. Il vaut mieux éviter.",
+            "description": "Starrt nicht zu lange in diesen Höllenkreis, sonst saugt er eure Seele aus und lässt von euch nichts als eine leere Hülle zurück! Nun ja, ob an diesem Fluch wirklich etwas dran ist, weiß keiner so genau. Aber ich kenne da ein paar Iops, die ohne Schutzbrille eine Sonnenfinsternis beobachtet haben. Das sollte man lieber nicht ausprobieren.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107726,7 +107726,7 @@
         },
         {
             "ankama_id": 34644,
-            "name": "[!] Grougalou",
+            "name": "Grougalo",
             "type": {
                 "name": "Prunkvertrauter",
                 "id": 24
@@ -107736,7 +107736,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/18958-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/18958-128.png"
             },
-            "description": "[!] Ne vous méfiez pas des apparences ! Cet obscur dragonnet a le caractère et l'appétit qui vont avec : destructeurs ! Ne lui tendez pas la main, comptez régulièrement vos doigts ; caressez éventuellement sa tête quand il a le dos tourné, c'est le seul endroit qui ne vous fera pas saigner.",
+            "description": "Traut ruhig dem ersten Eindruck! Dieser düstere kleine Drache hat einen gewaltigen Appetit und ein ebenso verheerendes Temperament! Haltet ihm bloß nicht die Hand hin und zählt regelmäßig eure Finger nach. Wenn überhaupt, streichelt ihm den Kopf, wenn er euch den Rücken zukehrt. Das ist die einzige Stelle, an der ihr ohne Blessuren davonkommt.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107799,7 +107799,7 @@
         },
         {
             "ankama_id": 34676,
-            "name": "[!] Cornes de la Démone VII",
+            "name": "Hörner von Dämonin VII",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -107809,7 +107809,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16921-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16921-128.png"
             },
-            "description": "[!] VII accorde beaucoup d'importance à ses cornes : elles sont un de ses principaux charmes pour s'attirer les faveurs des autres démons de l'Hormonde.",
+            "description": "VII legt großen Wert auf ihre Hörner: Diese sind eines ihrer charmanten Hauptmerkmale, mit denen sie sich die Gunst der anderen Dämonen der Außerwelt sichert.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107842,7 +107842,7 @@
         },
         {
             "ankama_id": 34677,
-            "name": "[!] Cape de la Démone VII",
+            "name": "Umhang von Dämonin VII",
             "type": {
                 "name": "Prunkumhang",
                 "id": 18
@@ -107852,7 +107852,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17703-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17703-128.png"
             },
-            "description": "[!] Imaginez la quantité de pauvres chachas innocents qui a été nécessaire à VII pour la confection de cette cape. Maintenant, imaginez pour toute sa garde-robe...",
+            "description": "Stellt euch vor, wie viele unschuldige Maunzmiezen VII brauchte, um diesen Umhang herzustellen. Und jetzt stellt euch vor, wie viele für ihre restliche Garderobe dran glauben mussten ...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107885,7 +107885,7 @@
         },
         {
             "ankama_id": 34678,
-            "name": "[!] Bouclier de la Démone VII",
+            "name": "Schild von Dämonin VII",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -107895,7 +107895,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82601-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82601-128.png"
             },
-            "description": "[!] Entre les chachas empaillés et les cornes acérées, ce bouclier devrait aisément repousser vos prétendants indésirables.",
+            "description": "Mit seinen ausgestopften Maunzmiezen und spitzen Hörnern sollte es diesem Schild ein Leichtes sein, unerwünschte Freier zu vertreiben.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107928,7 +107928,7 @@
         },
         {
             "ankama_id": 34679,
-            "name": "[!] Guêtres de la Démone VII",
+            "name": "Gamaschen von Dämonin VII",
             "type": {
                 "name": "Schulterplatte",
                 "id": 259
@@ -107938,7 +107938,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164979-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164979-128.png"
             },
-            "description": "[!] Ces guêtres en fourrure de chacha habilleront parfaitement vos tenues les plus déshabillées, en appuyant votre attitude sensuelle et mystérieuse dans les soirées mondaines de l'Hormonde.",
+            "description": "Diese Gamaschen aus Maunzmiezpelz sind das perfekte Accessoire für eure freizügigsten Kleider, indem sie auf den mondänen Partys der Außerwelt euren sinnlichen und geheimnisvollen Look unterstreichen.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -107958,7 +107958,7 @@
         },
         {
             "ankama_id": 34680,
-            "name": "[!] Cornes diaprées de la Démone VII",
+            "name": "Schillernde Hörner von Dämonin VII",
             "type": {
                 "name": "Prunkkopfbedeckung",
                 "id": 6
@@ -107968,7 +107968,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/16922-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/16922-128.png"
             },
-            "description": "[!] VII accorde beaucoup d'importance à ses cornes : elles sont un de ses principaux charmes pour s'attirer les faveurs des autres démons de l'Hormonde.",
+            "description": "VII legt großen Wert auf ihre Hörner: Diese sind eines ihrer charmanten Hauptmerkmale, mit denen sie sich die Gunst der anderen Dämonen der Außerwelt sichert.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108001,7 +108001,7 @@
         },
         {
             "ankama_id": 34681,
-            "name": "[!] Cape diaprée de la Démone VII",
+            "name": "Schillernder Umhang von Dämonin VII",
             "type": {
                 "name": "Prunkumhang",
                 "id": 18
@@ -108011,7 +108011,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/17704-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/17704-128.png"
             },
-            "description": "[!] Imaginez la quantité de pauvres chachas innocents qui a été nécessaire à VII pour la confection de cette cape. Maintenant, imaginez pour toute sa garde-robe...",
+            "description": "Stellt euch vor, wie viele unschuldige Maunzmiezen VII brauchte, um diesen Umhang herzustellen. Und jetzt stellt euch vor, wie viele für ihre restliche Garderobe dran glauben mussten ...",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108044,7 +108044,7 @@
         },
         {
             "ankama_id": 34682,
-            "name": "[!] Bouclier diapré de la Démone VII",
+            "name": "Schillernder Schild von Dämonin VII",
             "type": {
                 "name": "Prunkschild",
                 "id": 19
@@ -108054,7 +108054,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/82602-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/82602-128.png"
             },
-            "description": "[!] Entre les chachas empaillés et les cornes acérées, ce bouclier devrait aisément repousser vos prétendants indésirables.",
+            "description": "Mit seinen ausgestopften Maunzmiezen und spitzen Hörnern sollte es diesem Schild ein Leichtes sein, unerwünschte Freier zu vertreiben.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -108087,7 +108087,7 @@
         },
         {
             "ankama_id": 34683,
-            "name": "[!] Guêtres diaprées de la Démone VII",
+            "name": "Schillernde Gamaschen von Dämonin VII",
             "type": {
                 "name": "Schulterplatte",
                 "id": 259
@@ -108097,7 +108097,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164980-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164980-128.png"
             },
-            "description": "[!] Ces guêtres en fourrure de chacha habilleront parfaitement vos tenues les plus déshabillées, en appuyant votre attitude sensuelle et mystérieuse dans les soirées mondaines de l'Hormonde.",
+            "description": "Diese Gamaschen aus Maunzmiezpelz sind das perfekte Accessoire für eure freizügigsten Kleider, indem sie auf den mondänen Partys der Außerwelt euren sinnlichen und geheimnisvollen Look unterstreichen.",
             "effects": [
                 {
                     "int_minimum": 0,

@@ -5294,7 +5294,7 @@
                 "Emote"
             ]
         ],
-        "special_spell_en": "Deep Crimson:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).",
+        "special_spell_en": "{{spell,8395,1::Deep Crimson}}:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).",
         "special_spell_fr": "{{spell,8395,1::Pourpre Profond}} :\n• Lorsque le porteur est attaqué, il gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois).",
         "special_spell_es": "{{spell,8395,1::Púrpura Profundo}}:\n• Cuando el portador es atacado, gana un 1% de daños finales durante 2 turnos (acumulable 10 veces).",
         "special_spell_pt": "{{spell,8395,1::Púrpura Profundo}}:\n• Quando o portador é atacado, ele recebe 1% de danos finais por 2 turnos (acumula 10 vezes).",
@@ -6011,7 +6011,7 @@
                 "Emote"
             ]
         ],
-        "special_spell_en": "Emerald Green:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy fighter. The effects are halved if the enemy is a summons.",
+        "special_spell_en": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons.",
         "special_spell_fr": "{{spell,8393,1::Vert Émeraude}} :\n• Lorsque le porteur termine son tour, il gagne 100% de son niveau en bouclier pendant 1 tour pour chaque ennemi à son contact. Les effets sont réduits de moitié si l'ennemi est une invocation.",
         "special_spell_es": "{{spell,8393,1::Verde Esmeralda}}:\n• Cuando el portador termina su turno, gana un 100% de su nivel en escudo durante 1 turno por cada enemigo en contacto con él. Los efectos se reducen a la mitad si el enemigo es una invocación.",
         "special_spell_pt": "{{spell,8393,1::Verde-Esmeralda}}:\n• Quando o portador termina seu turno, ele ganha 100% de seu nível em escudo durante 1 turno por inimigo em contato com ele. Os efeitos são reduzidos pela metade se o inimigo for uma invocação.",
@@ -6053,7 +6053,7 @@
                 "Emote"
             ]
         ],
-        "special_spell_en": "Turquoise Blue:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times).",
+        "special_spell_en": "{{spell,5952,1::Turquoise Blue}}:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times).",
         "special_spell_fr": "{{spell,5952,1::Bleu Turquoise}} :\n• Lorsque le porteur effectue un coup critique, il gagne 1% de dommages finaux pendant 3 tours (cumulable 10 fois).",
         "special_spell_es": "{{spell,5952,1::Azul Turquesa}}:\n• Cuando el portador asesta un golpe crítico, gana un 1% de daños finales durante 3 turnos (acumulable 10 veces).",
         "special_spell_pt": "{{spell,5952,1::Azul-Turquesa}}:\n• Quando o portador efetua um golpe crítico, ele recebe 1% de danos finais por 3 turnos (acumula 10 vezes).",
@@ -9000,7 +9000,7 @@
                 "-special spell-"
             ]
         ],
-        "special_spell_en": "Dofus Blessing:\n• Increases one of the bearer's elemental characteristics per turn:\n• <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Strength > <sprite name=\"air\"> 400 Agility > <sprite name=\"feu\"> 400 Intelligence",
+        "special_spell_en": "{{spell,7331,1::Dofus Blessing}}:\n• Increases one of the bearer's elemental characteristics per turn:\n• <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Strength > <sprite name=\"air\"> 400 Agility > <sprite name=\"feu\"> 400 Intelligence",
         "special_spell_fr": "{{spell,7331,1::Bénédiction des Dofus}} :\n• Augmente une caractéristique élémentaire du porteur par tour de jeu :\n • <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Force > <sprite name=\"air\"> 400 Agilité > <sprite name=\"feu\"> 400 Intelligence",
         "special_spell_es": "{{spell,7331,1::Bendición de los Dofus}}:\n• Aumenta una característica elemental del portador por turno de juego:\n • <sprite name=\"eau\"> 400 de suerte > <sprite name=\"terre\"> 400 de fuerza > <sprite name=\"air\"> 400 de agilidad > <sprite name=\"feu\"> 400 de inteligencia",
         "special_spell_pt": "{{spell,7331,1::Bênção dos Dofus}}:\n• Aumenta os atributos elementares do portador por turno de jogo:\n • <sprite name=\"eau\"> 400 de sorte > <sprite name=\"terre\"> 400 de força > <sprite name=\"air\"> 400 de agilidade > <sprite name=\"feu\"> 400 de inteligência",
@@ -9281,7 +9281,7 @@
                 "-special spell-"
             ]
         ],
-        "special_spell_en": "Wabbit Wisdom:\n• When the bearer suffers an attempted AP or MP removal, they gain 25 AP Dodge or 25 MP Dodge for 1 turn (stackable 1 time, shared among effects).",
+        "special_spell_en": "{{spell,8418,1::Wabbit Wisdom}}:\n• When the bearer suffers an attempted AP or MP reduction, they gain 25 AP Parry or 25 MP Parry for 1 turn (stackable 1 time, shared among effects).",
         "special_spell_fr": "{{spell,8418,1::Sagesse Wabbit}} :\n• Lorsque le porteur subit une tentative de retrait de PA ou de PM, il gagne 25 Esquive PA ou 25 Esquive PM pendant 1 tour (cumulable 1 fois, partagé entre les effets).",
         "special_spell_es": "{{spell,8418,1::Sabiduría Wabbit}}:\n• Cuando el portador sufre un intento de retirada de PA o de PM, gana 25 de esquiva de PA o 25 de esquiva de PM durante 1 turno (acumulable 1 vez, compartido entre los efectos).",
         "special_spell_pt": "{{spell,8418,1::Sabedoria Wabbit}}:\n• Quando o portador sofre uma tentativa de retirada de PA ou PM, ele ganha 25 de esquiva PA ou 25 de esquiva PM por 1 turno (acumula 1 vez, compartilhado entre os efeitos).",
@@ -34756,7 +34756,7 @@
                 "Exchangeable"
             ]
         ],
-        "special_spell_en": "Ruby Red:\n• At the start of each turn, the bearer gains 10% final damage if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Lock.",
+        "special_spell_en": "{{spell,8396,1::Ruby Red}}:\n• At the start of each turn, the bearer gains 10% final damage if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Lock.",
         "special_spell_fr": "{{spell,8396,1::Rouge Vermeil}} :\n• À chaque début de tour, le porteur gagne 10% de dommages finaux s'il n'a subi aucune attaque ennemie depuis son précédent tour de jeu. Sinon, il gagne 20 de Tacle.",
         "special_spell_es": "{{spell,8396,1::Rojo Bermejo}}:\n• Al principio de cada turno, el portador gana un 10% de daños finales si no ha recibido ningún ataque enemigo desde su turno de juego anterior. Si no, gana 20 de placaje.",
         "special_spell_pt": "{{spell,8396,1::Vermelho Colorado}}:\n• A cada início de turno, o portador ganha 10% de danos finais se não tiver sofrido nenhum ataque inimigo desde seu turno de jogo anterior. Do contrário, ele ganha 20 de bloqueio.",
@@ -36834,7 +36834,7 @@
                 "Critical Resist"
             ]
         ],
-        "special_spell_en": "Harmony of Pandala:\n• When the bearer inflicts damage during their turn, they and their allies carrying the {{item,23408::Dorigami}} gain 20 Damage for 1 turn (stackable 1 time).\n• If the bearer does not inflict damage, they and their allies carrying the {{item,23237::Domakuro}} gain 100% of the bearer's level as shield for 1 turn.",
+        "special_spell_en": "{{spell,18888,1::Harmony of Pandala}}:\n• When the bearer inflicts damage during their turn, they and their allies carrying the {{item,23408::Dorigami}} gain 20 Damage for 1 turn (stackable 1 time).\n• If the bearer does not inflict damage, they and their allies carrying the {{item,23237::Domakuro}} gain 100% of the bearer's level as shield for 1 turn.",
         "special_spell_fr": "{{spell,18888,1::Harmonie de Pandala}} :\n• Lorsque le porteur occasionne des dommages durant son tour de jeu, lui et ses alliés porteurs du {{item,23408::Dorigami}} gagnent 20 de Dommages pendant 1 tour (cumulable 1 fois).\n• S'il n'en occasionne pas, lui et ses alliés porteurs du {{item,23237::Domakuro}} gagnent 100% de son niveau en bouclier pendant 1 tour.",
         "special_spell_es": "{{spell,18888,1::Armonía de Pandala}}:\n• Cuando el portador ocasiona daños durante su turno, él y sus aliados portadores del {{item,23408::dorigami}} ganan 20 de daños durante 1 turno (acumulable 1 vez).\n• Si no ocasiona daños, gana, al igual que sus aliados portadores del {{item,23237::domakuro}}, el 100% de su nivel en escudo durante 1 turno.",
         "special_spell_pt": "{{spell,18888,1::Harmonia de Pandala}}:\n• Quando o portador causa dano durante seu turno de jogo, ele e seus aliados que estiverem portando o {{item,23408::Dorigami}} ganham 20 de danos por 1 turno (acumula até 1 vez).\n• Se não causar dano, ele e seus aliados portadores do {{item,23237::Domakuro}} ganharão 100% de seu nível em escudo durante 1 turno.",
@@ -36903,7 +36903,7 @@
                 "Dodge"
             ]
         ],
-        "special_spell_en": "Ebony Black:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed.",
+        "special_spell_en": "{{spell,18629,1::Ebony Black}}:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed.",
         "special_spell_fr": "{{spell,18629,1::Noir Ébène}} :\n• Lorsque le porteur attaque en mêlée durant son tour, il gagne 2% de dommages à distance, et s'il attaque à distance, il gagne 2% de dommages en mêlée pendant 3 tours (cumulable 5 fois).\n• Déclencher les 2 effets dans le tour permet à la prochaine attaque d'appliquer un poison de 16 dans son élément pendant 2 tours (cumulable 2 fois).\n• Le temps de relance du poison est de 2 tours, mais peut être réinitialisé si la cible est achevée.",
         "special_spell_es": "{{spell,18629,1::Negro Ébano}}:\n• Cuando el portador ataca en cuerpo a cuerpo durante su turno, gana un 2% de daños a distancia, y, si ataca a distancia, gana un 2% de daños en cuerpo a cuerpo durante 3 turnos (acumulable 5 veces).\n• Activar ambos efectos en un mismo turno permite que el próximo ataque aplique un veneno de 16 con su elemento durante 2 turnos (acumulable 2 veces).\n• El intervalo de lanzamiento del veneno es de 2 turnos, pero se puede reinicializar si se acaba con el objetivo.",
         "special_spell_pt": "{{spell,18629,1::Negro Ébano}}:\n• Quando o portador efetua um ataque corpo a corpo durante seu turno, ele recebe 2% de danos a distância, e, quando ataca a distância, ele recebe 2% de danos corpo a corpo durante 3 turnos (acumula até 5 vezes).\n• Acionar os 2 efeitos em um turno permite que o próximo ataque aplique um veneno de 16 em seu elemento durante 2 turnos (acumula até 2 vezes).\n• O intervalo de relançamento do veneno é de 2 turnos, mas pode ser reinicializado se o alvo for derrotado.",
@@ -36965,7 +36965,7 @@
                 "Emote"
             ]
         ],
-        "special_spell_en": "Ivory White:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible.",
+        "special_spell_en": "{{spell,18665,1::Ivory White}}:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible.",
         "special_spell_fr": "{{spell,18665,1::Blanc Ivoire}} :\n• Le porteur réduit de 50% les dommages d'une attaque sur 5. Les effets d'interception et de partage de dommages sont incompatibles.",
         "special_spell_es": "{{spell,18665,1::Blanco Marfil}}:\n• El portador reduce un 50% los daños de uno de cada 5 ataques. Los efectos de interceptación y de reparto de daños son incompatibles.",
         "special_spell_pt": "{{spell,18665,1::Branco-Marfim}}:\n• O portador reduz em 50% os danos de um ataque em 5. Os efeitos de interceptação e partilha de dano são incompatíveis.",
@@ -44300,7 +44300,7 @@
                 "Emote"
             ]
         ],
-        "special_spell_en": "Ochre Yellow:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge.",
+        "special_spell_en": "{{spell,8394,1::Ochre Yellow}}:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge.",
         "special_spell_fr": "{{spell,8394,1::Jaune Ocre}} :\n• À chaque début de tour, le porteur gagne 1 PA s'il n'a subi aucune attaque ennemie depuis son précédent tour de jeu. Sinon, il gagne 20 de Fuite.",
         "special_spell_es": "{{spell,8394,1::Amarillo Ocre}}:\n• Al principio de cada turno, el portador gana 1 PA si no ha sufrido ningún ataque enemigo desde su turno de juego anterior. Si no, gana 20 de huida.",
         "special_spell_pt": "{{spell,8394,1::Amarelo Ocre}}:\n• A cada início de turno, o portador ganha 1 PA se não tiver sofrido nenhum ataque inimigo desde seu turno de jogo anterior. Do contrário, ganha 20 de fuga.",
@@ -60447,7 +60447,7 @@
                 "Exchangeable"
             ]
         ],
-        "special_spell_en": "Nebulous Dream:\n• On odd turns, the bearer sacrifices 10% final healing to gain 20% final damage.\n• On even turns, the bearer sacrifices 10% final damage to gain 20% final healing.",
+        "special_spell_en": "{{spell,5454,1::Nebulous Dream}}:\n• On odd turns, the bearer sacrifices 10% final healing to gain 20% final damage.\n• On even turns, the bearer sacrifices 10% final damage to gain 20% final healing.",
         "special_spell_fr": "{{spell,5454,1::Rêve Nébuleux}} :\n• Les tours impairs, le porteur sacrifie 10% de soins finaux pour gagner 20% de dommages finaux.\n• Les tours pairs, il sacrifie 10% de dommages finaux pour gagner 20% de soins finaux.",
         "special_spell_es": "{{spell,5454,1::Sueño Nebuloso}}:\n• Los turnos impares, el portador sacrifica un 10% de curas finales para ganar un 20% de daños finales.\n• Los turnos pares, sacrifica un 10% de daños finales para ganar un 20% de curas finales.",
         "special_spell_pt": "{{spell,5454,1::Sonho Nebuloso}}:\n• Nos turnos ímpares, o portador sacrifica 10% de curas finais para ganhar 20% de danos finais.\n• Nos turnos pares, ele sacrifica 10% de danos finais para ganhar 20% de curas finais.",
@@ -97100,9 +97100,9 @@
                 "Lock"
             ],
             [
-                4,
+                5,
                 null,
-                "MP Reduction"
+                "AP Loss Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/151079-128.png",
@@ -97127,9 +97127,9 @@
                 "Lock"
             ],
             [
-                8,
+                10,
                 null,
-                "MP Reduction"
+                "AP Loss Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/151080-128.png",
@@ -97154,9 +97154,9 @@
                 "Lock"
             ],
             [
-                16,
+                20,
                 null,
-                "MP Reduction"
+                "AP Loss Resist"
             ]
         ],
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/151081-128.png",
@@ -132753,7 +132753,7 @@
                 "AP Loss Resist"
             ]
         ],
-        "special_spell_en": "Dimensional Vigil:\n• When the bearer ends their turn, heals all allies in line with the bearer for 7% of their HP.",
+        "special_spell_en": "{{spell,5453,1::Dimensional Vigil}}:\n• When the bearer ends their turn, heals all allies in line with the bearer for 7% of their health.",
         "special_spell_fr": "{{spell,5453,1::Veille Dimensionnelle}} :\n• Lorsque le porteur termine son tour, il soigne ses alliés alignés avec lui de 7% de leur vie.",
         "special_spell_es": "{{spell,5453,1::Vigilia Dimensional}}:\n• Cuando el portador termina su turno, cura a sus aliados alineados con él un 7% de su vida.",
         "special_spell_pt": "{{spell,5453,1::Vigilância Dimensional}}:\n• Quando o portador termina seu turno, ele cura todos os aliados alinhados a ele em 7% da vida.",
@@ -135446,7 +135446,7 @@
         "name_en": "Minor Earth Carapace",
         "name_fr": "Carapace Terre mineure",
         "name_es": "Caparazón de tierra menor",
-        "name_pt": "Carapaça de Terra menor",
+        "name_pt": "Carapaça de Terra Menor",
         "name_de": "Kleiner Erden-Schutzpanzer",
         "w_type": "Trophy",
         "level": 50,
@@ -135500,7 +135500,7 @@
         "name_en": "Major Earth Carapace",
         "name_fr": "Carapace Terre majeure",
         "name_es": "Caparazón de tierra mayor",
-        "name_pt": "Carapaça de Terra maior",
+        "name_pt": "Carapaça de Terra Maior",
         "name_de": "Großer Erden-Schutzpanzer",
         "w_type": "Trophy",
         "level": 150,
@@ -135527,7 +135527,7 @@
         "name_en": "Minor Neutral Carapace",
         "name_fr": "Carapace Neutre mineure",
         "name_es": "Caparazón neutral menor",
-        "name_pt": "Carapaça Neutra menor",
+        "name_pt": "Carapaça Neutra Menor",
         "name_de": "Kleiner Neutral-Schutzpanzer",
         "w_type": "Trophy",
         "level": 50,
@@ -135581,7 +135581,7 @@
         "name_en": "Major Neutral Carapace",
         "name_fr": "Carapace Neutre majeure",
         "name_es": "Caparazón neutral mayor",
-        "name_pt": "Carapaça Neutra maior",
+        "name_pt": "Carapaça Neutra Maior",
         "name_de": "Großer Neutral-Schutzpanzer",
         "w_type": "Trophy",
         "level": 150,
@@ -135608,7 +135608,7 @@
         "name_en": "Minor Fire Carapace",
         "name_fr": "Carapace Feu mineure",
         "name_es": "Caparazón de fuego menor",
-        "name_pt": "Carapaça de Fogo menor",
+        "name_pt": "Carapaça de Fogo Menor",
         "name_de": "Kleiner Feuer-Schutzpanzer",
         "w_type": "Trophy",
         "level": 50,
@@ -135662,7 +135662,7 @@
         "name_en": "Major Fire Carapace",
         "name_fr": "Carapace Feu majeure",
         "name_es": "Caparazón de fuego mayor",
-        "name_pt": "Carapaça de Fogo maior",
+        "name_pt": "Carapaça de Fogo Maior",
         "name_de": "Großer Feuer-Schutzpanzer",
         "w_type": "Trophy",
         "level": 150,
@@ -135689,7 +135689,7 @@
         "name_en": "Minor Water Carapace",
         "name_fr": "Carapace Eau mineure",
         "name_es": "Caparazón de agua menor",
-        "name_pt": "Carapaça de Água menor",
+        "name_pt": "Carapaça de Água Menor",
         "name_de": "Kleiner Wasser-Schutzpanzer",
         "w_type": "Trophy",
         "level": 50,
@@ -135743,7 +135743,7 @@
         "name_en": "Major Water Carapace",
         "name_fr": "Carapace Eau majeure",
         "name_es": "Caparazón de agua mayor",
-        "name_pt": "Carapaça de Água maior",
+        "name_pt": "Carapaça de Água Maior",
         "name_de": "Großer Wasser-Schutzpanzer",
         "w_type": "Trophy",
         "level": 150,
@@ -135770,7 +135770,7 @@
         "name_en": "Minor Air Carapace",
         "name_fr": "Carapace Air mineure",
         "name_es": "Caparazón de aire menor",
-        "name_pt": "Carapaça de Ar menor",
+        "name_pt": "Carapaça de Ar Menor",
         "name_de": "Kleiner Luft-Schutzpanzer",
         "w_type": "Trophy",
         "level": 50,
@@ -135824,7 +135824,7 @@
         "name_en": "Major Air Carapace",
         "name_fr": "Carapace Air majeure",
         "name_es": "Caparazón de aire mayor",
-        "name_pt": "Carapaça de Ar maior",
+        "name_pt": "Carapaça de Ar Maior",
         "name_de": "Großer Luft-Schutzpanzer",
         "w_type": "Trophy",
         "level": 150,
@@ -136658,7 +136658,7 @@
                 "Exchangeable"
             ]
         ],
-        "special_spell_en": "The Monkey and the Moon:\n• Every 3 turns starting on turn 3, the bearer regains 10% health.",
+        "special_spell_en": "{{spell,6149,1::The Monkey and the Moon}}:\n• Every 3 turns starting on turn 3, the bearer is healed for 10% of their health.",
         "special_spell_fr": "{{spell,6149,1::Le Singe et la Lune}} :\n• Tous les 3 tours à partir du tour 3, le porteur est soigné de 10% de sa vie.",
         "special_spell_es": "{{spell,6149,1::El Mono y la Luna}}:\n• Cada 3 turnos a partir del turno 3, el portador se cura un 10% de su vida.",
         "special_spell_pt": "{{spell,6149,1::O Macaco e a Lua}}:\n• A cada 3 turnos a partir do 3º turno, o portador recupera 10% da vida.",
@@ -145469,7 +145469,7 @@
                 "Exchangeable"
             ]
         ],
-        "special_spell_en": "Descent to the Abysses:\n• At the start of each turn, the bearer earns 1 MP if they have no adjacent enemies. Otherwise, they gain 1 AP.",
+        "special_spell_en": "{{spell,6828,1::Descent to the Abysses}}:\n• At the start of each turn, the bearer gains 1 MP if they have no adjacent enemies. Otherwise, they gain 1 AP.",
         "special_spell_fr": "{{spell,6828,1::Descente aux Abysses}} :\n• À chaque début de tour, le porteur gagne 1 PM si aucun ennemi n'est à son contact. Sinon, il gagne 1 PA.",
         "special_spell_es": "{{spell,6828,1::Descenso a los Abismos}}:\n• Al principio de cada turno, el portador gana 1 PM si ningún enemigo está en contacto con él. Si no, gana 1 PA.",
         "special_spell_pt": "{{spell,6828,1::Descida aos Abismos}}:\n• A cada início de turno, o portador ganha 1 PM se não houver nenhum inimigo em contato com ele. Do contrário, ele ganha 1 PA.",
@@ -156296,7 +156296,7 @@
                 "Pushback Resist"
             ]
         ],
-        "special_spell_en": "Volcano Forge:\n• The bearer gains 100% of their level as shield based on the enemy effects suffered (1 time per effect type per turn):\n • pushback damage\n • attraction or pushback\n • place switching, teleportation or teleportal\n• carried by a Pandawa",
+        "special_spell_en": "{{spell,10164,1::Volcano Forge}}:\n• The bearer gains 100% of their level as shield based on the enemy effects suffered (1 time per effect type per turn):\n • pushback damage\n • attraction or pushback\n • place switching, teleportation or teleportal\n• carried by a Pandawa",
         "special_spell_fr": "{{spell,10164,1::Forge du Volcan}} :\n• Le porteur gagne 100% de son niveau en bouclier selon les effets qu'il subit d'un ennemi (1 fois par type d'effet par tour) :\n • Dommages de poussée\n • Attirance ou poussée\n • Échange de positions, téléportation ou téléportail\n • Portage Pandawa",
         "special_spell_es": "{{spell,10164,1::Forja del Volcán}}:\n• El portador gana un 100% de su nivel en escudo según los efectos que sufre de un enemigo (1 vez por tipo de efecto por turno):\n • Daños de empuje\n • Atracción o empuje\n • Intercambio de posiciones, teletransportación o teleportal\n • Transporte pandawa",
         "special_spell_pt": "{{spell,10164,1::Forja do Vulcão}}:\n• O portador recebe 100% do seu nível em escudo de acordo com os efeitos que sofrer de um inimigo (1 vez por tipo de efeito por turno):\n • Danos de empurrão\n • Atração ou empurrão\n • Troca de lugar, teletransporte ou teleportal\n • Carregamento Pandawa",
@@ -158278,7 +158278,7 @@
                 "-special spell-"
             ]
         ],
-        "special_spell_en": "Memory of Silver:\n• When the bearer falls below 20% health, they are healed for 20% of their health at the start of their next turn (once per fight).",
+        "special_spell_en": "{{spell,18674,1::Memory of Silver}}:\n• When the bearer falls below 20% health, they are healed for 20% of their health at the start of their next turn (1 time per fight).",
         "special_spell_fr": "{{spell,18674,1::Souvenir d'Argent}} :\n• Lorsque le porteur descend sous les 20% de sa vie, il est soigné de 20% de sa vie au début de son prochain tour (1 fois par combat).",
         "special_spell_es": "{{spell,18674,1::Recuerdo de Plata}}:\n• Cuando el portador tiene menos de un 20% de vida, se cura un 20% de su vida al principio de su próximo turno (1 vez por combate).",
         "special_spell_pt": "{{spell,18674,1::Lembrança de Prata}}:\n• Quando o portador estiver com menos de 20% de sua vida, ele será curado em 20% da vida no começo do próximo turno dele (1 vez por combate).",
@@ -159301,7 +159301,7 @@
                 "Vitality"
             ]
         ],
-        "special_spell_en": "Promise of Silver:\n• When the bearer falls below 20% health, they are healed for 30% of their health and gain 20% final damage for 1 turn at the start of their next turn (once per fight).",
+        "special_spell_en": "{{spell,18672,1::Promise of Silver}}:\n• When the bearer falls below 20% health, they are healed for 30% of their health and gain 20% final damage for 1 turn at the start of their next turn (1 time per fight).",
         "special_spell_fr": "{{spell,18672,1::Promesse d'Argent}} :\n• Lorsque le porteur descend sous les 20% de sa vie, il est soigné de 30% de sa vie et gagne 20% de dommages finaux pendant 1 tour au début de son prochain tour (1 fois par combat).",
         "special_spell_es": "{{spell,18672,1::Promesa de Plata}}:\n• Cuando el portador tiene menos de un 20% de vida, se cura un 30% de su vida y gana un 20% de daños finales durante 1 turno al principio de su próximo turno (1 vez por combate).",
         "special_spell_pt": "{{spell,18672,1::Promessa de Prata}}:\n• Quando o portador estiver com menos de 20% de sua vida, ele será curado em 30% da vida e ganhará 20% de danos finais durante 1 turno no começo do próximo turno dele (1 vez por combate).",
@@ -159406,7 +159406,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Crocobur's Appetite:\n• At the start of each turn, the bearer inflicts 15 damage on themself in their best attack element to inflict the same amount of health-steal damage on adjacent entities at the end of the bearer's turn. Also heals attackers by 7% of damage inflicted on enemies hit until the bearer's next turn (stackable 1 time).",
+        "special_spell_en": "{{spell,11352,1::Crocobur's Appetite}}:\n• At the start of each turn, the bearer inflicts 15 damage on themself in their best attack element to inflict the same amount of health-steal damage on adjacent entities at the end of the bearer's turn. Also heals attackers by 7% of damage inflicted on enemies hit for 2 turns (stackable 1 time).",
         "special_spell_fr": "{{spell,11352,1::Appétit de Crocobur}} :\n• À chaque début de tour, le porteur s'inflige 15 de dommages dans son meilleur élément d'attaque pour infliger les mêmes dommages en vol de vie aux entités à son contact à la fin de son tour. Soigne également les attaquants de 7% des dommages occasionnés aux ennemis touchés pendant 2 tours (cumulable 1 fois).",
         "special_spell_es": "{{spell,11352,1::Apetito de Cocobur}}:\n• Al principio de cada turno, el portador se inflige 15 de daños con su mejor elemento de ataque e inflige los mismos daños en robo de vida a las entidades en contacto con él al final de su turno. Cura también a los atacantes un 7% de los daños ocasionados a los enemigos alcanzados durante 2 turnos (acumulable 1 vez).",
         "special_spell_pt": "{{spell,11352,1::Apetite da Crocálibur}}:\n• A cada início de turno, o portador inflige a si mesmo 15 de danos em seu melhor elemento de ataque para infligir os mesmos danos em roubo de vida às entidades em contato com ele ao final do turno. Também cura os atacantes em 7% dos danos infligidos aos inimigos atingidos por 2 turnos (acumula 1 vez).",
@@ -159433,7 +159433,7 @@
             1
         ],
         "crit_chance": 100,
-        "crit_bonus": 3,
+        "crit_bonus": 6,
         "stats": [
             [
                 null,
@@ -159491,7 +159491,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Fateful Destiny:\n• At the end of each turn, the bearer shares damage between enemies in a 1-cell square and increases the damage they suffer by 6% for 2 turns (stackable 1 time). The bearer also gains 10 Lock for 1 turn for each enemy hit.",
+        "special_spell_en": "{{spell,11354,1::Fateful Destiny}}:\n• At the end of each turn, the bearer shares damage between enemies in a 1-cell square and increases the damage they suffer by 6% for 2 turns (stackable 1 time). The bearer also gains 10 Lock for 1 turn for each enemy hit.",
         "special_spell_fr": "{{spell,11354,1::Destin Fatidique}} :\n• À chaque fin de tour, le porteur partage les dommages entre les ennemis dans un carré de taille 1 et augmente les dommages qu'ils subissent de 6% pendant 2 tours (cumulable 1 fois). Il gagne également 10 de Tacle pendant 1 tour pour chaque ennemi touché.",
         "special_spell_es": "{{spell,11354,1::Destino Fatídico}}:\n• Al final de cada turno, el portador reparte los daños entre los enemigos en un cuadrado de tamaño 1 y aumenta los daños que reciben en un 6% durante 2 turnos (acumulable 1 vez). También gana 10 de placaje durante 1 turno por cada enemigo alcanzado.",
         "special_spell_pt": "{{spell,11354,1::Destino Fatídico}}:\n• No fim de cada turno, o portador divide os danos entre os inimigos em um quadrado de tamanho 1 e aumenta os danos que eles sofrem em 6% durante 2 turnos (acumula 1 vez). Ele também ganha 10 de bloqueio durante 1 turno para cada inimigo atingido.",
@@ -159586,7 +159586,7 @@
                 "Power"
             ]
         ],
-        "special_spell_en": "Novamaire Cold:\n• At the end of each turn, the bearer removes 1 AP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 AP for 1 turn (stackable 2 times).\n• When the bearer finishes off an enemy fighter, they place a glyph-aura that makes allies Invisible for 1 turn in a 3-cell circle.",
+        "special_spell_en": "{{spell,12147,1::Novamaire Cold}}:\n• At the end of each turn, the bearer removes 1 AP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 AP for 1 turn (stackable 2 times).\n• When the bearer finishes off an enemy fighter, they place a glyph-aura that makes allies Invisible for 1 turn in a 3-cell circle.",
         "special_spell_fr": "{{spell,12147,1::Froid de Novamaire}} :\n• À chaque fin de tour, le porteur retire 1 PA aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsqu'un combattant ennemi est achevé, le porteur gagne 1 PA pendant 1 tour (cumulable 2 fois).\n• Lorsque le porteur achève un combattant ennemi, il pose un glyphe-aura qui rend les alliés invisibles pendant 1 tour dans un cercle de taille 3.",
         "special_spell_es": "{{spell,12147,1::Frío de Novimiembro}}:\n• Al final de cada turno, el portador retira 1 PA a los enemigos en contacto con él durante 1 turno (acumulable 1 vez).\n• Cuando un luchador enemigo es eliminado, el portador gana 1 PA durante 1 turno (acumulable 2 veces).\n• Cuando el portador acaba con un luchador enemigo, coloca un glifo aura que vuelve invisibles a los aliados durante 1 turno en un círculo de tamaño 3.",
         "special_spell_pt": "{{spell,12147,1::Frio de Novemeiro}}:\n• No final de cada turno, o portador retira 1 PA dos inimigos em contato com ele durante 1 turno (acumula até 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PA durante 1 turno (acumula até 2 vezes).\n• Ao derrotar um combatente inimigo, o portador coloca um glifo-aura que deixa os aliados invisíveis durante 1 turno em um círculo de tamanho 3.",
@@ -159681,7 +159681,7 @@
                 "Power"
             ]
         ],
-        "special_spell_en": "Buhorado Feather:\n• When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns (stackable 10 times).",
+        "special_spell_en": "{{spell,11357,1::Buhorado Feather}}:\n• When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns.",
         "special_spell_fr": "{{spell,11357,1::Plume de Buhorado}} :\n• Lorsque le porteur effectue un coup critique, il gagne 10 de Dommages Poussée pendant 3 tours.",
         "special_spell_es": "{{spell,11357,1::Pluma de Buhorado}}:\n• Cuando el portador asesta un golpe crítico, gana 10 de daños de empuje durante 3 turnos.",
         "special_spell_pt": "{{spell,11357,1::Pena de Buhorado}}:\n• Quando o portador efetua um golpe crítico, ele recebe 10 de danos de empurrão por 3 turnos.",
@@ -159753,7 +159753,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Fallanster's Rectitude:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn. The glyph disappears on the next turn or if it is moved.",
+        "special_spell_en": "{{spell,11358,1::Fallanster's Rectitude}}:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn (stackable 1 time). The glyph disappears on the next turn or if it is moved.",
         "special_spell_fr": "{{spell,11358,1::Droiture de Fallanster}} :\n• Lorsque le porteur termine son tour en ligne de vue d'un ennemi, il pose un glyphe-aura dans un carré de taille 1 qui réduit les dommages subis par les alliés de 10% jusqu'au début de son prochain tour (cumulable 1 fois). Le glyphe est dissipé au prochain tour ou s'il est déplacé.",
         "special_spell_es": "{{spell,11358,1::Rectitud de Fallanster}}:\n• Cuando el portador termina su turno en línea de visión de un enemigo, coloca un glifo aura en un cuadrado de tamaño 1 que reduce los daños recibidospor los aliados en un 10% hasta el inicio de su siguiente turno (acumulable 1 vez). El glifo se disipa en el siguiente turno o si es desplazado.",
         "special_spell_pt": "{{spell,11358,1::Retidão de Fallanster}}:\n• Ao terminar seu turno na linha de visão de um inimigo, o portador coloca um glifo-aura em um quadrado de tamanho 1 que reduz os danos sofridos pelos aliados em 10% até o começo do próximo turno (acumula até 1 vez). O glifo desaparece no próximo turno ou ao ser movido.",
@@ -159825,7 +159825,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Death-Defying:\n• When the bearer has more than 50% health, their final damage is increased by 7%, but they lose 10% of their health at the start of each turn.\n• When they have less than 50% HP, the damage taken is reduced by 20%.",
+        "special_spell_en": "{{spell,11359,1::Death-Defying}}:\n• When the bearer has more than 50% health, their final damage is increased by 7%, but they lose 10% of their health at the start of each turn.\n• When they have less than 50% health, the damage they suffer is reduced by 20%.",
         "special_spell_fr": "{{spell,11359,1::Trompe-la-Mort}} :\n• Lorsque le porteur a plus de 50% de sa vie, ses dommages finaux sont augmentés de 7%, mais il perd 10% de sa vie à chaque début de tour.\n• Lorsqu'il a moins de 50% de sa vie, les dommages qu'il subit sont réduits de 20%.",
         "special_spell_es": "{{spell,11359,1::Burlador de la Muerte}}:\n• Cuando el portador tiene más de un 50% de vida, sus daños finales aumentan un 7%, pero pierde un 10% de su vida al principio de cada turno.\n• Cuando tiene menos del 50% de su vida, los daños que sufre se reducen un 20%.",
         "special_spell_pt": "{{spell,11359,1::Engana-a-Morte}}:\n• Quando o portador tem mais de 50% de vida, seus danos finais aumentam em 7%, mas ele perde 10% da vida no começo de cada turno.\n• Quando ele tem menos de 50% da vida, os danos que ele sofre são reduzidos em 20%.",
@@ -159922,7 +159922,7 @@
                 "Critical Hits"
             ]
         ],
-        "special_spell_en": "King Under the Mountain:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target.",
+        "special_spell_en": "{{spell,11360,1::King Under the Mountain}}:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target.",
         "special_spell_fr": "{{spell,11360,1::Roi sous la Montagne}} :\n• Lorsque le porteur effectue ou subit une tentative de retrait de PA ou PM, il gagne 2% de dommages finaux pendant 2 tours (cumulable 5 fois).\n• Les effets ne peuvent pas être déclenchés si le porteur est à la fois l'attaquant et la cible.",
         "special_spell_es": "{{spell,11360,1::Rey Bajo la Montaña}}:\n• Cuando el portador realiza o sufre un intento de retirada de PA o PM, gana un 2% de daños finales durante 2 turnos (acumulable 5 veces).\n• Los efectos no pueden activarse si el portador es atacante y objetivo al mismo tiempo.",
         "special_spell_pt": "{{spell,11360,1::Rei Debaixo da Montanha}}:\n• Ao realizar ou sofrer uma tentativa de retirada de PA ou PM, o portador ganha 2% de danos finais durante 2 turnos (acumula até 5 vezes).\n• Os efeitos não poderão ser acionados se o portador for, ao mesmo tempo, atacante e alvo.",
@@ -160004,7 +160004,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Ganymede's Wisdom:\n• The bearer gains 2 AP on even turns and loses 1 AP and 1 MP on odd turns.",
+        "special_spell_en": "{{spell,11361,1::Ganymede's Wisdom}}:\n• The bearer gains 2 AP on even turns but loses 1 AP and 1 MP on odd turns.",
         "special_spell_fr": "{{spell,11361,1::Sagesse de Ganymède}} :\n• Le porteur gagne 2 PA les tours pairs, mais perd 1 PA et 1 PM les tours impairs.",
         "special_spell_es": "{{spell,11361,1::Sabiduría de Ganymed}}:\n• El portador gana 2 PA los turnos pares, pero pierde 1 PA y 1 PM los turnos impares.",
         "special_spell_pt": "{{spell,11361,1::Sabedoria de Ganimede}}:\n• O portador ganha 2 PA nos turnos pares, mas perde 1 PA e 1 PM nos turnos ímpares.",
@@ -160091,7 +160091,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Rykke Errel's Bravery:\n• When the bearer suffers a ranged attack, they gain 10% of their level as shield and lose 1% ranged damage for 1 turn for each cell of distance from their attacker (max. 11 cells).",
+        "special_spell_en": "{{spell,11363,1::Rykke Errel's Bravery}}:\n• When the bearer suffers a ranged attack, they gain 10% of their level as shield and lose 1% ranged damage for 1 turn for each cell of distance from their attacker (max. 11 cells).",
         "special_spell_fr": "{{spell,11363,1::Bravoure de Rykke Errel}} :\n• Lorsque le porteur subit une attaque à distance, il gagne 10% de son niveau en bouclier et perd 1% de dommages à distance pendant 1 tour par case d'éloignement avec son attaquant (11 cases maximum).",
         "special_spell_es": "{{spell,11363,1::Valentía de Rykke Errel}}:\n• Cuando el portador recibe un ataque a distancia, gana un 10% de su nivel en escudo y pierde un 1% de daños a distancia durante 1 turno por casilla de alejamiento con su atacante (máximo de 11 casillas).",
         "special_spell_pt": "{{spell,11363,1::Bravura de Rykke Errel}}:\n• Ao sofrer um ataque a distância, o portador ganha 10% do seu nível em escudo e perde 1% dos danos a distância durante 1 turno por célula de distância do atacante (máximo de 11 células).",
@@ -160148,7 +160148,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Elemental Assimilation:\n• When the bearer suffers damage in an element, they gain 4% resistance in that element for 2 turns (stackable 5 times, shared between elements).",
+        "special_spell_en": "{{spell,11365,1::Elemental Assimilation}}:\n• When the bearer suffers damage in an element, they gain 4% resistance in that element for 2 turns (stackable 5 times, shared between elements).",
         "special_spell_fr": "{{spell,11365,1::Assimilation Élémentaire}} :\n• Lorsque le porteur subit des dommages dans un élément, il gagne 4% de résistance dans cet élément pendant 2 tours (cumulable 5 fois, partagé entre les éléments).",
         "special_spell_es": "{{spell,11365,1::Asimilación Elemental}}:\n• Cuando el portador sufre daños con un elemento, gana un 4% de resistencia en este elemento durante 2 turnos (acumulable 5 veces, compartido entre los elementos).",
         "special_spell_pt": "{{spell,11365,1::Assimilação Elementar}}:\n• Ao sofrer danos em um elemento, o portador ganha 4% de resistência nesse elemento por 2 turnos (acumula até 5 vezes, repartido entre os elementos).",
@@ -160225,7 +160225,7 @@
                 "% Ranged Resist"
             ]
         ],
-        "special_spell_en": "Thousand Leagues:\n• The bearer gains 2 MP on odd turns.",
+        "special_spell_en": "{{spell,11366,1::Thousand Leagues}}:\n• The bearer gains 2 MP on odd turns.",
         "special_spell_fr": "{{spell,11366,1::Mille Lieues}} :\n• Le porteur gagne 2 PM les tours impairs.",
         "special_spell_es": "{{spell,11366,1::Mil Leguas}}:\n• El portador gana 2 PM en los turnos impares.",
         "special_spell_pt": "{{spell,11366,1::Mil Léguas}}:\n• O portador ganha 2 PM nos turnos ímpares.",
@@ -160317,7 +160317,7 @@
                 "Pushback Resist"
             ]
         ],
-        "special_spell_en": "The Kicked Asses:\n• At the start and end of each turn, the bearer pushes adjacent entities back by 2 cells.",
+        "special_spell_en": "{{spell,11367,1::The Kicked Asses}}:\n• At the start and end of each turn, the bearer pushes adjacent entities back by 2 cells.",
         "special_spell_fr": "{{spell,11367,1::Les Culs Bottés}} :\n• À chaque début et fin de tour, le porteur repousse de 2 cases les entités à son contact.",
         "special_spell_es": "{{spell,11367,1::Los Culo Pateado}}:\n• Al principio y final de cada turno, el portador empuja 2 casillas a las entidades en contacto con él.",
         "special_spell_pt": "{{spell,11367,1::Os Bota-Fora}}:\n• No começo e no fim de cada turno, o portador empurra as entidades em contato por 2 células.",
@@ -160404,7 +160404,7 @@
                 "Critical Damage"
             ]
         ],
-        "special_spell_en": "Dodge's Audacity:\n• At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn.",
+        "special_spell_en": "{{spell,11368,1::Dodge's Audacity}}:\n• At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn.",
         "special_spell_fr": "{{spell,11368,1::Audace de Dodge}} :\n• À chaque début de tour, le porteur se téléporte ou échange de position sur une case adjacente aléatoire et gagne 1 PM et 10% Critique, ou n'est pas déplacé et gagne 40 de Fuite et de Dommages Poussée, pendant 1 tour.",
         "special_spell_es": "{{spell,11368,1::Audacia de Dodge}}:\n• Al principio de cada turno, el portador se teletransporta o intercambia posición en una casilla adyacente aleatoria y gana 1 PM y 10% de críticos, o no se desplaza y gana 40 de huida y daños de empuje, durante 1 turno.",
         "special_spell_pt": "{{spell,11368,1::Audácia de Dodge}}:\n• No começo de cada turno, o portador se teletransporta ou troca de posição para uma célula adjacente aleatória e ganha 1 PM e 10% de crítico, ou não é deslocado e ganha 40 de fuga e de danos de empurrão, durante 1 turno.",
@@ -160471,7 +160471,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Lady Jhessica's Courage:\n• At the end of each turn, the bearer removes 60 Dodge from adjacent enemies and gains 1% spell damage for each enemy hit for 1 turn.",
+        "special_spell_en": "{{spell,11369,1::Lady Jhessica's Courage}}:\n• At the end of each turn, the bearer removes 60 Dodge from adjacent enemies (stackable 1 time) and gains 1% spell damage for each enemy hit for 2 turns (stackable 4 times).",
         "special_spell_fr": "{{spell,11369,1::Courage de Dame Jhessica}} :\n• À chaque fin de tour, le porteur retire 60 de Fuite aux ennemis à son contact (cumulable 1 fois) et gagne 1% de dommages aux sorts pour chaque ennemi touché pendant 2 tours (cumulable 4 fois).",
         "special_spell_es": "{{spell,11369,1::Valentía de la Señorita Jhessica}}:\n• Al final de cada turno, el portador retira 60 de huida a los enemigos en contacto con él (acumulable 1 vez) y gana un 1% de daños a los hechizos por cada enemigo alcanzado durante 2 turnos (acumulable 4 veces).",
         "special_spell_pt": "{{spell,11369,1::Coragem de Lady Jhéssica}}:\n• No final de cada turno, o portador retira 60 de fuga dos inimigos em contato com ele (acumula até 1 vez) e ganha 1% de danos de feitiços para cada inimigo atingido durante 2 turnos (acumula até 4 vezes).",
@@ -161681,7 +161681,7 @@
                 "Exchangeable"
             ]
         ],
-        "special_spell_en": "Chocolatey Blessing:\n• When attacked from long range and adjacent to an enemy, the bearer gains 35% of their level as shield for 1 turn at the start of their next turn.",
+        "special_spell_en": "{{spell,12344,1::Chocolatey Blessing}}:\n• When attacked from long range and adjacent to an enemy, the bearer gains 35% of their level as shield for 1 turn at the start of their next turn.",
         "special_spell_fr": "{{spell,12344,1::Bénédiction chocolatée}} :\n• Lorsque le porteur est attaqué à distance en étant au contact d'un ennemi, il gagne 35% de son niveau en bouclier pendant 1 tour au début de son prochain tour.",
         "special_spell_es": "{{spell,12344,1::Bendición Chocolateada}}:\n• Cuando el portador es atacado a distancia estando en contacto con un enemigo, gana un 35% de su nivel en escudo durante 1 turno al principio de su próximo turno.",
         "special_spell_pt": "{{spell,12344,1::Bênção Achocolatada}}:\n• Quando o portador é atacado a distância enquanto está em contato com um inimigo, ele ganha 35% do seu nível em escudo por 1 turno no início de seu próximo turno.",
@@ -162438,7 +162438,7 @@
                 "Vitality"
             ]
         ],
-        "special_spell_en": "The bearer gains 550% of their level as shield on the first turn, 200% on the second turn and 100% on the third turn.",
+        "special_spell_en": "{{spell,14762,1::Prytekt-O-Mat}}:\n• The bearer gains 550% of their level as shield on the first turn, 200% on the second turn and 100% on the third turn.",
         "special_spell_fr": "{{spell,14762,1::Prytek Mate}} :\n• Le porteur gagne 550% de son niveau en bouclier au premier tour, puis 200% au deuxième tour, et 100% au troisième tour.",
         "special_spell_es": "{{spell,14762,1::Priscudo Mate}}:\n• El portador gana un 550% de su nivel en puntos de escudo en el primer turno, un 200% en el segundo turno y un 100% en el tercer turno.",
         "special_spell_pt": "{{spell,14762,1::Pritek Mate}}:\n• O portador ganha 550% de seu nível em escudo no primeiro turno, 200% no segundo e 100% no terceiro.",
@@ -162495,7 +162495,7 @@
                 "Vitality"
             ]
         ],
-        "special_spell_en": "The bearer gains 150% of their level as shield on the first turn, 450% on the second turn and 150% on the third turn.",
+        "special_spell_en": "{{spell,14763,1::Shiny Prytekt}}:\n• The bearer gains 150% of their level as shield on the first turn, 450% on the second turn and 150% on the third turn.",
         "special_spell_fr": "{{spell,14763,1::Prytek Brillante}} :\n• Le porteur gagne 150% de son niveau en bouclier au premier tour, puis 450% au deuxième tour et 150% au troisième tour.",
         "special_spell_es": "{{spell,14763,1::Priscudo Brillante}}:\n• El portador gana un 150% de su nivel en escudo en el primer turno, un 450% en el segundo turno y un 150% en el tercer turno.",
         "special_spell_pt": "{{spell,14763,1::Pritek Brilhante}}:\n• O portador ganha 150% de seu nível em escudo no primeiro turno, 450% no segundo e 150% no terceiro.",
@@ -162552,7 +162552,7 @@
                 "Vitality"
             ]
         ],
-        "special_spell_en": "The bearer gains 100% of their level as shield on the first turn, 200% on the second turn and 350% on the third turn.",
+        "special_spell_en": "{{spell,14764,1::Iridescent Prytekt}}:\n• The bearer gains 100% of their level as shield on the first turn, 200% on the second turn and 350% on the third turn.",
         "special_spell_fr": "{{spell,14764,1::Prytek Iridescente}} :\n• Le porteur gagne 100% de son niveau en bouclier au premier tour, puis 200% au deuxième tour et 350% au troisième tour.",
         "special_spell_es": "{{spell,14764,1::Priscudo Iridiscente}}:\n• El portador gana un 100% de su nivel en escudo en el primer turno, un 200% en el segundo turno y un 350% en el tercer turno.",
         "special_spell_pt": "{{spell,14764,1::Pritek Iridescente}}:\n• O portador ganha 100% de seu nível em escudo no primeiro turno, 200% no segundo e 350% no terceiro.",
@@ -162888,7 +162888,7 @@
                 "Range"
             ]
         ],
-        "special_spell_en": "The bearer is Unlockable as long as they have not inflicted any damage.\nIf they inflict damage, the duration of the state changes to 1 turn.",
+        "special_spell_en": "{{spell,14902,1::Sprynt}}:\n• The bearer is Unlockable as long as they have not inflicted any damage. If they inflict damage, the duration of the state changes to 1 turn.",
         "special_spell_fr": "{{spell,14902,1::Sprynt}} :\n• Le porteur est Intaclable tant qu'il n'a pas occasionné de dommages. S'il en occasionne, la durée de l'état passe à 1 tour.",
         "special_spell_es": "{{spell,14902,1::Prisprint}}:\n• El portador es no placable mientras no haya recibido daños. Si los ocasiona, el estado dura 1 turno.",
         "special_spell_pt": "{{spell,14902,1::Sprint}}:\n• O portador fica Imbloqueável contanto que não tenha infligido danos. Se infligir, a duração do estado passará a ser de 1 turno.",
@@ -162925,7 +162925,7 @@
                 "Pushback Damage"
             ]
         ],
-        "special_spell_en": "The bearer sacrifices 10% final damage to gain 1 AP for 3 turns.",
+        "special_spell_en": "{{spell,14903,1::Pryssure-O-Mat}}:\n• The bearer sacrifices 10% final damage to gain 1 AP for 3 turns.",
         "special_spell_fr": "{{spell,14903,1::Pryssion Mate}} :\n• Le porteur sacrifie 10% de dommages finaux pour gagner 1 PA pendant 3 tours.",
         "special_spell_es": "{{spell,14903,1::Pristrés Mate}}:\n• El portador sacrifica un 10% de daños finales para ganar 1 PA durante 3 turnos.",
         "special_spell_pt": "{{spell,14903,1::Prissão Mate}}:\n• O portador sacrifica 10% de danos finais para ganhar 1 PA durante 3 turnos.",
@@ -162962,7 +162962,7 @@
                 "Pushback Damage"
             ]
         ],
-        "special_spell_en": "The bearer sacrifices 35% final damage to gain 2 AP for 2 turns.",
+        "special_spell_en": "{{spell,14904,1::Shiny Pryssure}}:\n• The bearer sacrifices 35% final damage to gain 2 AP for 2 turns.",
         "special_spell_fr": "{{spell,14904,1::Pryssion Brillante}} :\n• Le porteur sacrifie 35% de dommages finaux pour gagner 2 PA pendant 2 tours.",
         "special_spell_es": "{{spell,14904,1::Pristrés Brillante}}:\n• El portador sacrifica un 35% de daños finales para ganar 2 PA durante 2 turnos.",
         "special_spell_pt": "{{spell,14904,1::Prissão Brilhante}}:\n• O portador sacrifica 35% de danos finais para ganhar 2 PA durante 2 turnos.",
@@ -162999,7 +162999,7 @@
                 "Pushback Damage"
             ]
         ],
-        "special_spell_en": "The bearer sacrifices 50% final damage to gain 3 AP for 1 turn.",
+        "special_spell_en": "{{spell,14905,1::Iridescent Pryssure}}:\n• The bearer sacrifices 50% final damage to gain 3 AP for 1 turn.",
         "special_spell_fr": "{{spell,14905,1::Pryssion Iridescente}} :\n• Le porteur sacrifie 50% de dommages finaux pour gagner 3 PA pendant 1 tour.",
         "special_spell_es": "{{spell,14905,1::Pristrés Iridiscente}}:\n• El portador sacrifica un 50% de daños finales para ganar 3 PA durante 1 turno.",
         "special_spell_pt": "{{spell,14905,1::Prissão Iridescente}}:\n• O portador sacrifica 50% de danos finais para ganhar 3 PA durante 1 turno.",
@@ -163036,7 +163036,7 @@
                 "Initiative"
             ]
         ],
-        "special_spell_en": "The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn.",
+        "special_spell_en": "{{spell,14908,1::Surpryz}}:\n• The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn.",
         "special_spell_fr": "{{spell,14908,1::Surpryz}} :\n• Le porteur gagne 100% de Critique au premier tour, puis 35% au deuxième tour, et 15% au troisième tour.",
         "special_spell_es": "{{spell,14908,1::Prisorpresa}}:\n• El portador gana un 100% de críticos en el primer turno, un 35% en el segundo turno y un 15% en el tercer turno.",
         "special_spell_pt": "{{spell,14908,1::Surprisma}}:\n• O portador ganha 100% de crítico no primeiro turno, 35% no segundo e 15% no terceiro.",
@@ -163073,7 +163073,7 @@
                 "Range"
             ]
         ],
-        "special_spell_en": "The bearer sacrifices 10% resistance to gain 10% final damage on the first turn, then gains 3% final damage and resistance on the second turn, and sacrifices 10% final damage to gain 10% resistance on the third turn.",
+        "special_spell_en": "{{spell,14913,1::Prynyang}}:\n• The bearer sacrifices 10% resistance to gain 10% final damage on the first turn, then gains 3% final damage and resistance on the second turn, and sacrifices 10% final damage to gain 10% resistance on the third turn.",
         "special_spell_fr": "{{spell,14913,1::Prynyang}} :\n• Le porteur sacrifie 10% de résistance pour gagner 10% de dommages finaux au premier tour, puis gagne 3% de dommages finaux et de résistance au deuxième tour, et sacrifie 10% de dommages finaux pour gagner 10% de résistance au troisième tour.",
         "special_spell_es": "{{spell,14913,1::Prisyingyang}}:\n• El portador sacrifica un 10% de resistencia para ganar un 10% de daños finales en el primer turno, después gana un 3% de daños finales y de resistencia en el segundo turno, y sacrifica un 10% de daños finales para ganar un 10% de resistencia en el tercer turno.",
         "special_spell_pt": "{{spell,14913,1::Pringyang}}:\n• O portador sacrifica 10% de resistência para ganhar 10% de danos finais no primeiro turno, depois ganha 3% de danos finais e de resistência no segundo turno e sacrifica 10% de danos finais para ganhar 10% de resistência no terceiro turno.",
@@ -163110,7 +163110,7 @@
                 "Lock"
             ]
         ],
-        "special_spell_en": "The bearer gains 1 MP for 1 turn for each enemy fighter more than 9 cells away from them at the start of the first 3 turns (stackable 3 times).",
+        "special_spell_en": "{{spell,14919,1::Prycapture}}:\n• The bearer gains 1 MP for 1 turn for each enemy fighter more than 9 cells away from them at the start of the first 3 turns (stackable 3 times).",
         "special_spell_fr": "{{spell,14919,1::Ratrapry}} :\n• Le porteur gagne 1 PM pendant 1 tour pour chaque combattant ennemi à plus de 9 cases de lui au début des 3 premiers tours de jeu (cumulable 3 fois).",
         "special_spell_es": "{{spell,14919,1::Pristeza}}:\n• El portador gana 1 PM durante 1 turno por cada luchador enemigo a más de 9 casillas de él al inicio de los 3 primeros turnos de juego (acumulable 3 veces).",
         "special_spell_pt": "{{spell,14919,1::Aprissar}}:\n• O portador ganha 1 PM durante 1 turno para cada combatente inimigo a mais de 9 células de distância dele no começo dos 3 primeiros turnos de jogo (acumula até 3 vezes).",
@@ -163147,7 +163147,7 @@
                 "Summon"
             ]
         ],
-        "special_spell_en": "Heals 60% of enemy damage suffered on the first turn, 30% on the second turn and 10% on the third turn.",
+        "special_spell_en": "{{spell,14926,1::Prygenerate}}:\n• Heals 60% of enemy damage suffered on the first turn, 30% on the second turn and 10% on the third turn.",
         "special_spell_fr": "{{spell,14926,1::Prygen}} :\n• Soigne 60% des dommages ennemis subis au premier tour, puis 30% au deuxième tour, et 10% au troisième tour.",
         "special_spell_es": "{{spell,14926,1::Prisanación}}:\n• Cura un 60% de los daños enemigos sufridos en el primer turno, un 30% en el segundo turno y un 10% en el tercer turno.",
         "special_spell_pt": "{{spell,14926,1::Prigen}}:\n• Cura 60% dos danos inimigos sofridos no primeiro turno, 30% no segundo e 10% no terceiro.",
@@ -163184,7 +163184,7 @@
                 "MP"
             ]
         ],
-        "special_spell_en": "The bearer gains 2 AP on their first turn.",
+        "special_spell_en": "{{spell,14930,1::Prysipitate-O-Mat}}:\n• The bearer gains 2 AP on their first turn.",
         "special_spell_fr": "{{spell,14930,1::Prycipithon Mate}} :\n• Le porteur gagne 2 PA au premier tour.",
         "special_spell_es": "{{spell,14930,1::Prismacción Mate}}:\n• El portador gana 2 PA en el primer turno.",
         "special_spell_pt": "{{spell,14930,1::Pricipitada Mate}}:\n• O portador ganha 2 PA no primeiro turno.",
@@ -163221,7 +163221,7 @@
                 "MP"
             ]
         ],
-        "special_spell_en": "The bearer sacrifices 2 MP to gain 3 AP on their first turn.",
+        "special_spell_en": "{{spell,14931,1::Shiny Prysipitate}}:\n• The bearer sacrifices 2 MP to gain 3 AP on their first turn.",
         "special_spell_fr": "{{spell,14931,1::Prycipithon Brillante}} :\n• Le porteur sacrifie 2 PM pour gagner 3 PA au premier tour.",
         "special_spell_es": "{{spell,14931,1::Prismacción Brillante}}:\n• El portador sacrifica 2 PM para ganar 3 PA en el primer turno.",
         "special_spell_pt": "{{spell,14931,1::Pricipitada Brilhante}}:\n• O portador sacrifica 2 PM para ganhar 3 PA no primeiro turno.",
@@ -163258,7 +163258,7 @@
                 "MP"
             ]
         ],
-        "special_spell_en": "The bearer sacrifices 4 MP to gain 4 AP on their first turn.",
+        "special_spell_en": "{{spell,14932,1::Iridescent Prysipitate}}:\n• The bearer sacrifices 4 MP to gain 4 AP on their first turn.",
         "special_spell_fr": "{{spell,14932,1::Prycipithon Iridescente}} :\n• Le porteur sacrifie 4 PM pour gagner 4 PA au premier tour.",
         "special_spell_es": "{{spell,14932,1::Prismacción Iridiscente}}:\n• El portador sacrifica 4 PM para ganar 4 PA en el primer turno.",
         "special_spell_pt": "{{spell,14932,1::Pricipitada Iridescente}}:\n• O portador sacrifica 4 PM para ganhar 4 PA no primeiro turno.",
@@ -163305,7 +163305,7 @@
                 "MP Loss Resist"
             ]
         ],
-        "special_spell_en": "The bearer gains 100 AP/MP removal on the first turn, 50 on the second turn and 25 on the third turn.",
+        "special_spell_en": "{{spell,14933,1::Spryritual}}:\n• The bearer gains 100 Reduction on the first turn, 50 on the second turn and 25 on the third turn.",
         "special_spell_fr": "{{spell,14933,1::Espryt}} :\n• Le porteur gagne 100 de Retrait au premier tour, puis 50 au deuxième tour, et 25 au troisième tour.",
         "special_spell_es": "{{spell,14933,1::Prispíritu}}:\n• El portador gana 100 de retirada en el primer turno, 50 en el segundo turno y 25 en el tercer turno.",
         "special_spell_pt": "{{spell,14933,1::Esprírito}}:\n• O portador ganha 100 de retirada no primeiro turno, 50 no segundo e 25 no terceiro.",
@@ -163352,7 +163352,7 @@
                 "MP Reduction"
             ]
         ],
-        "special_spell_en": "The bearer gains 200 Parry on the first turn, 100 on the second turn and 50 on the third turn.",
+        "special_spell_en": "{{spell,14934,1::Prysical}}:\n• The bearer gains 200 Parry on the first turn, 100 on the second turn and 50 on the third turn.",
         "special_spell_fr": "{{spell,14934,1::Korprys}} :\n• Le porteur gagne 200 d'Esquive au premier tour, puis 100 au deuxième tour, et 50 au troisième tour.",
         "special_spell_es": "{{spell,14934,1::Prisencia}}:\n• El portador gana 200 de esquiva en el primer turno, 100 en el segundo turno y 50 en el tercer turno.",
         "special_spell_pt": "{{spell,14934,1::Korpris}}:\n• O portador ganha 200 de esquiva no primeiro turno, 100 no segundo e 50 no terceiro.",
@@ -163389,7 +163389,7 @@
                 "MP"
             ]
         ],
-        "special_spell_en": "The bearer gives 15% resistance to their summons on the first turn, 10% on the second turn and 5% on the third turn.",
+        "special_spell_en": "{{spell,14939,1::Caraprys}}:\n• The bearer gives 15% resistance to their summons on the first turn, 10% on the second turn and 5% on the third turn.",
         "special_spell_fr": "{{spell,14939,1::Caraprys}} :\n• Le porteur donne 15% de résistances à ses invocations au premier tour, puis 10% au deuxième tour, et 5% au troisième tour.",
         "special_spell_es": "{{spell,14939,1::Caparapris}}:\n• El portador otorga un 15% de resistencias a sus invocaciones en el primer turno, un 10% en el segundo turno y un 5% en el tercer turno.",
         "special_spell_pt": "{{spell,14939,1::Carapris}}:\n• O portador concede 15% de resistência a suas invocações no primeiro turno, 10% no segundo e 5% no terceiro.",
@@ -163431,7 +163431,7 @@
                 "MP Loss Resist"
             ]
         ],
-        "special_spell_en": "The bearer becomes Invisible for 1 turn at the start of their first turn.\nThe invisibility does not wear off when the bearer attacks, but it is removed if they suffer any damage.",
+        "special_spell_en": "{{spell,14940,1::Disaprys}}:\n• The bearer becomes Invisible for 1 turn at the start of their first turn. The invisibility does not wear off when the bearer attacks, but it is removed if they suffer any damage.",
         "special_spell_fr": "{{spell,14940,1::Prysmaru}} :\n• Le porteur devient invisible pendant 1 tour au début de son premier tour de jeu. L'invisibilité ne se dissipe pas lorsqu'il attaque, mais elle est retirée s'il subit des dommages.",
         "special_spell_es": "{{spell,14940,1::Prismausente}}:\n• El portador se vuelve invisible durante 1 turno al principio de su primer turno de juego. La invisibilidad no se disipa cuando este ataca, pero sí se le retira si sufre daños.",
         "special_spell_pt": "{{spell,14940,1::Prismaparecido}}:\n• O portador fica invisível durante 1 turno no começo de seu primeiro turno de jogo. A invisibilidade não se dissipa quando ele ataca, mas é retirada quando ele sofre danos.",
@@ -163468,7 +163468,7 @@
                 "Initiative"
             ]
         ],
-        "special_spell_en": "The bearer reduces the duration of active effects on themself by 4 turns at the start of their first turn.",
+        "special_spell_en": "{{spell,14941,1::Prywitchment}}:\n• The bearer reduces the duration of active effects on themself by 4 turns at the start of their first turn.",
         "special_spell_fr": "{{spell,14941,1::Prysmenvout}} :\n• Le porteur réduit la durée des effets actifs sur lui de 4 tours au début de son premier tour de jeu.",
         "special_spell_es": "{{spell,14941,1::Prisortilegio}}:\n• El portador reduce la duración de los efectos activos en sí mismo 4 turnos al principio de su primer turno de juego.",
         "special_spell_pt": "{{spell,14941,1::Prismencanto}}:\n• O portador reduz em 4 turnos a duração dos efeitos ativos sobre ele no começo de seu primeiro turno de jogo.",
@@ -163505,7 +163505,7 @@
                 "Initiative"
             ]
         ],
-        "special_spell_en": "The bearer increases the healing received by their allied fighters by 10% during the bearer's turn on the first turn, then by 35% on the second turn and by 50% on the third turn.",
+        "special_spell_en": "{{spell,14943,1::Aspryst}}:\n• The bearer increases the healing received by their allied fighters by 10% during the bearer's turn on the first turn, then by 35% on the second turn and by 50% on the third turn.",
         "special_spell_fr": "{{spell,14943,1::Supprys}} :\n• Le porteur augmente les soins reçus par ses combattants alliés de 10% pendant son tour de jeu au premier tour, puis de 35% au deuxième tour, et de 50% au troisième tour.",
         "special_spell_es": "{{spell,14943,1::Prismapoyo}}:\n• El portador aumenta las curas recibidas por sus luchadores aliados un 10% durante su turno de juego en el primer turno, un 35% en el segundo turno y un 50% en el tercer turno.",
         "special_spell_pt": "{{spell,14943,1::Pristeção}}:\n• O portador aumenta as curas recebidas pelos combatentes aliados em 10% durante seu turno de jogo no primeiro turno, em 35% no segundo e em 50% no terceiro.",
@@ -163562,7 +163562,7 @@
                 "Air Resist"
             ]
         ],
-        "special_spell_en": "The bearer gains 200% of their level as shield until the end of the fight at the start of the first turn of each enemy fighter that plays before them.",
+        "special_spell_en": "{{spell,14945,1::Pryshield}}:\n• The bearer gains 200% of their level as shield until the end of the fight at the start of the first turn of each enemy fighter that plays before them.",
         "special_spell_fr": "{{spell,14945,1::Aprybou}} :\n• Le porteur gagne 200% de son niveau en bouclier jusqu'à la fin du combat au début du premier tour de jeu de chaque combattant ennemi qui joue avant lui.",
         "special_spell_es": "{{spell,14945,1::Prismuralla}}:\n• El portador gana un 200% de su nivel en escudo hasta el final del combate al inicio del primer turno de juego de cada luchador enemigo que juegue antes que él.",
         "special_spell_pt": "{{spell,14945,1::Prismeiros}}:\n• O portador ganha 200% de seu nível em escudo até o fim do combate no começo do primeiro turno de jogo de cada combatente inimigo que jogar antes dele.",
@@ -163599,7 +163599,7 @@
                 "Pushback Resist"
             ]
         ],
-        "special_spell_en": "The bearer gains 2% close-combat damage for 3 turns for each enemy fighter within 3 cells or less of the bearer at the start and end of their first turn.",
+        "special_spell_en": "{{spell,14948,1::Pryximity}}:\n• The bearer gains 2% close-combat damage for 3 turns for each enemy fighter within 3 cells or less of the bearer at the start and end of their first turn.",
         "special_spell_fr": "{{spell,14948,1::Pryximite}} :\n• Le porteur gagne 2% de dommages en mêlée pendant 3 tours pour chaque combattant ennemi à 3 cases ou moins de lui au début et à la fin de son premier tour.",
         "special_spell_es": "{{spell,14948,1::Priximidad}}:\n• El portador gana un 2% de daños en cuerpo a cuerpo durante 3 turnos por cada luchador enemigo a 3 casillas o menos de él al principio y al final de su primer turno.",
         "special_spell_pt": "{{spell,14948,1::Priximidade}}:\n• O portador ganha 2% de danos corpo a corpo durante 3 turnos para cada combatente inimigo a até 3 células dele no começo e no fim de seu primeiro turno.",
@@ -163661,7 +163661,7 @@
                 "MP Loss Resist"
             ]
         ],
-        "special_spell_en": "The bearer reduces all types of damage suffered by 80% on the first turn.",
+        "special_spell_en": "{{spell,14949,1::Prymune}}:\n• The bearer reduces all types of damage suffered by 80% on the first turn.",
         "special_spell_fr": "{{spell,14949,1::Prymune}} :\n• Le porteur réduit tout type de dommages subis de 80% au premier tour.",
         "special_spell_es": "{{spell,14949,1::Prismantelación}}:\n• El portador reduce toda clase de daños sufridos un 80% en el primer turno.",
         "special_spell_pt": "{{spell,14949,1::Primune}}:\n• O portador reduz todo tipo de dano sofrido em 80% no primeiro turno.",
@@ -163698,7 +163698,7 @@
                 "Pushback Resist"
             ]
         ],
-        "special_spell_en": "The bearer is in the Gravity state as long as they have not suffered any damage.\nIf they suffer damage, the duration of the state changes to 1 turn.",
+        "special_spell_en": "{{spell,14950,1::Gravprysy}}:\n• The bearer is in the Gravity state as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn.",
         "special_spell_fr": "{{spell,14950,1::Prysantor}} :\n• Le porteur est dans l'état Pesanteur tant qu'il n'a pas subi de dommages. S'il en subit, la durée de l'état passe à 1 tour.",
         "special_spell_es": "{{spell,14950,1::Prismazacote}}:\n• El portador permanece en el estado Pesante mientras no sufra daños. Si los sufre, el estado dura 1 turno.",
         "special_spell_pt": "{{spell,14950,1::Prisada}}:\n• O portador fica no estado Gravidade contanto que não tenha sofrido danos. Se tiver sofrido, a duração do estado passa a ser de 1 turno.",
@@ -165054,7 +165054,7 @@
             2
         ],
         "crit_chance": 15,
-        "crit_bonus": 15,
+        "crit_bonus": 10,
         "stats": [
             [
                 401,
@@ -165137,7 +165137,7 @@
                 "Power"
             ]
         ],
-        "special_spell_en": "Attrition Warfare:\n• At the end of each turn, the bearer removes 2 MP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 MP until the end of the fight (stackable 5 times).",
+        "special_spell_en": "{{spell,15739,1::Attrition Warfare}}:\n• At the end of each turn, the bearer removes 2 MP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 MP until the end of the fight (stackable 5 times).",
         "special_spell_fr": "{{spell,15739,1::Guerre de Positions}} :\n• À chaque fin de tour, le porteur retire 2 PM aux ennemis à son contact pendant 1 tour (cumulable 1 fois).\n• Lorsqu'un combattant ennemi est achevé, le porteur gagne 1 PM jusqu'à la fin du combat (cumulable 5 fois).",
         "special_spell_es": "{{spell,15739,1::Guerra de Desgaste}}:\n• Al final de cada turno, el portador retira 2 PM a los enemigos en contacto con él durante 1 turno (acumulable 1 vez).\n• Cuando un luchador enemigo es eliminado, el portador gana 1 PM hasta el final del combate (acumulable 5 veces).",
         "special_spell_pt": "{{spell,15739,1::Guerra de Posição}}:\n• No final de cada turno, o portador retira 2 PM dos inimigos em contato com ele durante 1 turno (acumula até 1 vez).\n• Ao derrotar um combatente inimigo, o portador ganha 1 PM até o fim do combate (acumula até 5 vezes).",
@@ -165244,7 +165244,7 @@
                 "Neutral Damage"
             ]
         ],
-        "special_spell_en": "Pestilential Fog:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on entities within 2 cells or less of the bearer for 2 turns (stackable 1 time).",
+        "special_spell_en": "{{spell,15975,1::Pestilential Fog}}:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on enemies within 2 cells or less of the bearer for 2 turns (stackable 1 time).",
         "special_spell_fr": "{{spell,15975,1::Nuée Pestilentielle}} :\n• Lorsque le porteur remonte à 90% de sa vie, il applique un poison de début de tour de 18 dans son meilleur élément d'attaque sur les ennemis à 2 cases ou moins de lui pendant 2 tours (cumulable 1 fois).",
         "special_spell_es": "{{spell,15975,1::Nube Pestilente}}:\n• Cuando el portador sube al 90% de su vida, aplica un veneno de inicio de turno de 18 con su mejor elemento de ataque a los enemigos a 2 casillas o menos de él durante 2 turnos (acumulable 1 vez).",
         "special_spell_pt": "{{spell,15975,1::Nuvem Pestilenta}}:\n• Quando o portador volta a ter 90% da vida, ele aplica um veneno de início de turno de 18 em seu melhor elemento de ataque aos inimigos a até 2 células dele por 2 turnos (acumula até 1 vez).",
@@ -165346,7 +165346,7 @@
                 "Air Damage"
             ]
         ],
-        "special_spell_en": "Shackles of Tyranny:\n• At the end of each turn, the bearer attracts entities in a straight line with them and within 3 cells or less. If there are no entities adjacent to the bearer, the bearer becomes Unmovable until the start of their next turn. The state is removed if they suffer damage.",
+        "special_spell_en": "{{spell,15984,1::Shackles of Tyranny}}:\n• At the end of each turn, the bearer attracts entities within 3 cells or less of them and in a straight line with them. If there are no entities adjacent to the bearer, the bearer becomes Unmovable until the start of their next turn. The state is removed if they suffer damage.",
         "special_spell_fr": "{{spell,15984,1::Fers de la Tyrannie}} :\n• À chaque fin de tour, le porteur attire les entités à 3 cases ou moins alignés à lui. S'il n'y a aucune entité à son contact, il devient Indéplaçable jusqu'au début de son prochain tour. L'état est retiré s'il subit des dommages.",
         "special_spell_es": "{{spell,15984,1::Cadenas de la Tiranía}}:\n• Al final de cada turno, el portador atrae a las entidades a 3 casillas o menos alineadas con él. Si no hay ninguna entidad en su contacto, se vuelve indesplazable hasta el inicio de su próximo turno. El estado se retira si sufre daños.",
         "special_spell_pt": "{{spell,15984,1::Ferros da Tirania}}:\n• No final de cada turno, o portador atrai entidades a até 3 células alinhadas a ele. Se não houver nenhuma entidade em contato com ele, ele ficará Irremovível até o início de seu próximo turno. O estado será retirado se ele sofrer danos.",
@@ -165373,7 +165373,7 @@
             5
         ],
         "crit_chance": 15,
-        "crit_bonus": 2,
+        "crit_bonus": 3,
         "stats": [
             [
                 301,
@@ -165456,7 +165456,7 @@
                 "Wisdom"
             ]
         ],
-        "special_spell_en": "Trial of the Scales:\n• When the bearer suffers an attempted AP, MP or Range reduction, they steal 2% resistance from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer.",
+        "special_spell_en": "{{spell,15996,1::Trial of the Scales}}:\n• When the bearer suffers an attempted AP, MP or Range reduction, they steal 2% resistance from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer.",
         "special_spell_fr": "{{spell,15996,1::Épreuve de la Balance}} :\n• Lorsque le porteur subit une tentative de retrait de PA, de PM ou de Portée, il vole 2% de résistances à son attaquant pendant 2 tours (cumulable 4 fois).\n• Les effets ne peuvent pas être déclenchés par le porteur.",
         "special_spell_es": "{{spell,15996,1::Prueba de la Balanza}}:\n• Cuando el portador sufre un intento de retirada de PA, PM o alcance, roba un 2% de resistencias a su atacante durante 2 turnos (acumulable 4 veces).\n• El portador no puede activar los efectos.",
         "special_spell_pt": "{{spell,15996,1::Prova da Balança}}:\n• Quando o portador sofre uma tentativa de retirada de PA, PM ou AL, ele rouba 2% de resistência de seu atacante por 2 turnos (acumula até 4 vezes).\n• Os efeitos não podem ser acionados pelo portador.",
@@ -165520,7 +165520,7 @@
                 "Summon"
             ]
         ],
-        "special_spell_en": "Ink River:\n• At the end of each turn for the first 4 turns, the bearer and their summons gain up to 16 Damage until the end of the fight.\n• This bonus is reduced each time the bearer attacks an enemy during their turn:\n • No attacks: 16 Damage\n • 1 attack: 8 Damage\n• 2 attacks or more: 0 Damage",
+        "special_spell_en": "{{spell,17006,1::Ink River}}:\n• At the end of each turn for the first 4 turns, the bearer and their summons gain up to 16 Damage until the end of the fight.\n• This bonus is reduced each time the bearer attacks an enemy during their turn:\n • No attacks: 16 Damage\n • 1 attack: 8 Damage\n• 2 attacks or more: 0 Damage",
         "special_spell_fr": "{{spell,17006,1::Rivière d'Encre}} :\n• À chaque fin de tour sur les 4 premiers tours, le porteur et ses invocations gagnent jusqu'à 16 Dommages jusqu'à la fin du combat.\n• Ce bonus est réduit à chaque fois que le porteur attaque un ennemi durant son tour :\n • Aucune attaque : 16 Dommages.\n • 1 attaque : 8 Dommages.\n • 2 attaques et plus : 0 Dommages.",
         "special_spell_es": "{{spell,17006,1::Río de Tinta}}:\n• Al final de cada uno de los primeros 4 turnos, el portador y sus invocaciones ganan hasta 16 de daños hasta el final del combate.\n• Este bonus se reduce cada vez que el portador ataque durante su turno a un enemigo:\n •Ningún ataque: 16 de daños.\n • 1 ataque: 8 de daños.\n • 2 ataques o más: 0 de daños.",
         "special_spell_pt": "{{spell,17006,1::Rio de Tinta}}:\n• Ao final de cada turno nos 4 primeiros turnos, o portador e suas invocações ganham até 16 de danos até o fim do combate.\n• Esse bônus diminui sempre que o portador ataca um inimigo durante seu turno:\n• Nenhum ataque: 16 de danos.\n• 1 ataque: 8 de danos.\n• 2 ataques e mais: 0 de danos.",
@@ -167520,7 +167520,7 @@
                 "MP Loss Resist"
             ]
         ],
-        "special_spell_en": "Paper Tiger:\n• For the first 5 turns, the bearer gains 100% of their level as shield for 1 turn at the start of every turn.\n• For the first 5 turns, if the bearer kills an enemy during their turn, they gain a shield for 2 turns based on the nature of the enemy:\n • Summons: 100% of its level as shield (stackable 4 times).\n• Fighter: 300% of its level as shield (stackable 2 times).",
+        "special_spell_en": "{{spell,17307,1::Paper Tiger}}:\n• For the first 5 turns, the bearer gains 100% of their level as shield for 1 turn at the start of every turn.\n• For the first 5 turns, if the bearer kills an enemy during their turn, they gain a shield for 2 turns based on the nature of the enemy:\n • Summons: 100% of its level as shield (stackable 4 times).\n• Fighter: 300% of its level as shield (stackable 2 times).",
         "special_spell_fr": "{{spell,17307,1::Tigre de Papier}} :\n• À chaque début de tour sur les 5 premiers tours, le porteur gagne 100% de son niveau en bouclier pendant 1 tour.\n• Sur ces 5 premiers tours, si le porteur achève un ennemi durant son tour de jeu, il gagne un bouclier pendant 2 tours selon la nature de l'ennemi :\n • Invocation : 100% de son niveau en bouclier (cumulable 4 fois).\n • Combattant : 300% de son niveau en bouclier (cumulable 2 fois).",
         "special_spell_es": "{{spell,17307,1::Tigre de Papel}}:\n• Al principio de los 5 primeros turnos, el portador gana un 100% de su nivel en escudo durante 1 turno.\n• En esos 5 primeros turnos, si el portador elimina a un enemigo durante su turno de juego, gana un escudo durante 2 turnos según la naturaleza del enemigo:\n • Invocación: 100% de su nivel en escudo (acumulable 4 veces).\n • Luchador: 300% de su nivel en escudo (acumulable 2 veces).",
         "special_spell_pt": "{{spell,17307,1::Tigre de Papel}}:\n• A cada início de turno nos 5 primeiros turnos, o portador ganha 100% de seu nível em escudo durante 1 turno.\n• Nesses 5 primeiros turnos, se o portador eliminar um inimigo durante seu turno de jogo, ele ganhará um escudo durante 2 turnos de acordo com a natureza do inimigo:\n• Invocação: 100% de seu nível em escudo (acumula até 4 vezes).\n• Combatente: 300% de seu nível em escudo (acumula até 2 vezes).",
@@ -172657,7 +172657,7 @@
                 "-special spell-"
             ]
         ],
-        "special_spell_en": "Nightmare Eternal:\n• Bontarian Shield: when the bearer is unbewitched or hindered, the bearer gains 100% of their level as shield for 1 turn.\n• Brakmarian Power: when the bearer inflicts or suffers pushback damage, the bearer gains 100 Power for 1 turn. \n• Nightmare Eye: if the bearer triggers 2 effects in the same turn, the damage they inflict and suffer increases by 10% for 1 turn.\n• The effects can only be triggered once per turn.",
+        "special_spell_en": "{{spell,20981,1::Nightmare Eternal}}:\n• Bontarian Shield: when the bearer is unbewitched or hindered, the bearer gains 100% of their level as shield for 1 turn.\n• Brakmarian Power: when the bearer inflicts or suffers pushback damage, the bearer gains 100 Power for 1 turn. \n• Nightmare Eye: if the bearer triggers both effects in the same turn, the damage they inflict and suffer increases by 10% for 1 turn.\n• The effects can only be triggered once per turn.",
         "special_spell_fr": "{{spell,20981,1::Éternel Cauchemar}} :\n• Bouclier Bontarien : lorsque le porteur est désenvoûté ou entravé, il gagne 100% de son niveau en bouclier pour 1 tour.\n• Puissance Brâkmarienne : lorsque le porteur occasionne ou subit des dommages de poussée, il gagne 100 de Puissance pour 1 tour. \n• Œil du Cauchemar : si le porteur déclenche les 2 effets dans le même tour, les dommages qu'il occasionne et subit sont augmentés de 10% pendant 1 tour.\n• Les effets ne peuvent être déclenchés qu'une seule fois par tour.",
         "special_spell_es": "{{spell,20981,1::Pesadilla Eterna}}:\n• Escudo Bontariano: cuando se desembruja o traba al portador, este gana el 100% de su nivel en escudo durante 1 turno.\n• Potencia Brakmariana: cuando el portador ocasiona o sufre daños de empuje, gana 100 de potencia durante 1 turno. \n• Ojo de Pesadilla: si el portador activa ambos efectos en el mismo turno, los daños que ocasiona y sufre aumentan un 10% durante 1 turno.\n• Los efectos pueden activarse solo una vez por turno.",
         "special_spell_pt": "{{spell,20981,1::Eterno Pesadelo}}:\n• Escudo Bontariano: quando o portador é desencantado ou entravado, ele ganha em escudo o equivalente a 100% de seu nível durante 1 turno.\n• Potência Brakmariana: quando o portador inflige ou sofre danos de empurrão, ele ganha 100 de potência durante 1 turno.\n• Olho do Pesadelo: se o portador acionar os 2 efeitos no mesmo turno, os danos que ele infligir e sofrer aumentarão em 10% durante 1 turno.\n• Os efeitos só podem ser acionados uma vez por turno.",
@@ -176401,14 +176401,14 @@
             [
                 23319,
                 null,
-                ": - cooldown"
+                ": + cast per turn"
             ]
         ],
-        "special_spell_en": "Biting Trident: +3 Maximum Range\nMaelstrom: +2 Maximum Range\nBurning Estoc: +2 Maximum Range\nOctave: modifiable Range\nJormun: +1 casts per turn\nHot Iron: +2 Maximum Range\nChivalry: -1 cooldown\nRenown: -1 cooldown",
-        "special_spell_fr": "Trident de la Mer : +3 Portée maximale\nMaelstrom : +2 Portée maximale\nEstoc Brûlant : +2 Portée maximale\nOctave : Portée modifiable\nJormun : +1 lancers par tour\nFer Rouge : +2 Portée maximale\nChevalerie : -1 de relance\nRenommée : -1 de relance",
-        "special_spell_es": "Al Tridente: +3 de alcance máximo\nMaelstrom: +2 de alcance máximo\nEstocada Ardiente: +2 de alcance máximo\nOctava: alcance modificable\nJormun: +1 lanzamientos por turno\nCadena Candente: +2 de alcance máximo\nCaballería: -1 de reactivación\nRenombre: -1 de reactivación",
-        "special_spell_pt": "Tridente do Mar: +3 de alcance máximo\nMaelstrom: +2 de alcance máximo\nEstoque Ardente: +2 de alcance máximo\nOitava: alcance modificável\nJormun: +1 lançamentos por turno\nFerro Vermelho: +2 de alcance máximo\nCavalaria: -1 de relançamento\nFama: -1 de relançamento",
-        "special_spell_de": "Dreizack des Meeres: +3 Maximale Reichweite\nMahlstrom: +2 Maximale Reichweite\nBrennender Stoßdegen: +2 Maximale Reichweite\nOktave: Veränderbare Reichweite\nJormun: +1 Zauber pro Runde\nGlühendes Eisen: +2 Maximale Reichweite\nRitterlichkeit: Abklingzeit verringert um –1\nRenommiert: Abklingzeit verringert um –1",
+        "special_spell_en": "Biting Trident: +3 Maximum Range\nMaelstrom: +2 Maximum Range\nBurning Estoc: +2 Maximum Range\nOctave: modifiable Range\nJormun: +1 casts per turn\nHot Iron: +2 Maximum Range\nChivalry: -1 cooldown\nRenown: +1 casts per turn",
+        "special_spell_fr": "Trident de la Mer : +3 Portée maximale\nMaelstrom : +2 Portée maximale\nEstoc Brûlant : +2 Portée maximale\nOctave : Portée modifiable\nJormun : +1 lancers par tour\nFer Rouge : +2 Portée maximale\nChevalerie : -1 de relance\nRenommée : +1 lancers par tour",
+        "special_spell_es": "Al Tridente: +3 de alcance máximo\nMaelstrom: +2 de alcance máximo\nEstocada Ardiente: +2 de alcance máximo\nOctava: alcance modificable\nJormun: +1 lanzamientos por turno\nCadena Candente: +2 de alcance máximo\nCaballería: -1 de reactivación\nRenombre: +1 lanzamientos por turno",
+        "special_spell_pt": "Tridente do Mar: +3 de alcance máximo\nMaelstrom: +2 de alcance máximo\nEstoque Ardente: +2 de alcance máximo\nOitava: alcance modificável\nJormun: +1 lançamentos por turno\nFerro Vermelho: +2 de alcance máximo\nCavalaria: -1 de relançamento\nFama: +1 lançamentos por turno",
+        "special_spell_de": "Dreizack des Meeres: +3 Maximale Reichweite\nMahlstrom: +2 Maximale Reichweite\nBrennender Stoßdegen: +2 Maximale Reichweite\nOktave: Veränderbare Reichweite\nJormun: +1 Zauber pro Runde\nGlühendes Eisen: +2 Maximale Reichweite\nRitterlichkeit: Abklingzeit verringert um –1\nRenommiert: +1 Zauber pro Runde",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/10354-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/10354-64.png",
         "dofustouch": false,
@@ -176924,7 +176924,7 @@
                 "-special spell-"
             ]
         ],
-        "special_spell_en": "Country Ranger:\n• The bearer gains 8 Power for 2 turns for each MP they use.\n• If the bearer doesn't use any MP during their turn, they are healed for 8% of their health.",
+        "special_spell_en": "{{spell,28516,1::Country Ranger}}:\n• The bearer gains 8 Power for 2 turns for each MP they use.\n• If the bearer doesn't use any MP during their turn, they are healed for 8% of their health.",
         "special_spell_fr": "{{spell,28516,1::Garde Champêtre}} :\n• Le porteur gagne 8 de Puissance pendant 2 tours pour chaque PM qu'il utilise.\n• S'il n'a utilisé aucun PM durant son tour, il est soigné de 8% de sa vie.",
         "special_spell_es": "{{spell,28516,1::Guarda Campestre}}:\n• El portador gana 8 de potencia durante 2 turnos por cada PM que utilice.\n• Si no utiliza ningún PM durante su turno, se cura un 8% de su vida.",
         "special_spell_pt": "{{spell,28516,1::Guarda Campestre}}:\n• O portador ganha 8 de potência durante 2 turnos para cada PM que ele utilizar.\n• Se ele não tiver usado PM durante seu turno, ele será curado em 8% da vida.",
@@ -182385,7 +182385,7 @@
                 "Summon"
             ]
         ],
-        "special_spell_en": "Explosive Hatching:\n• When one of the bearer's summons is attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).\n• If it is killed by an enemy, the bearer inflicts 10 damage in their best element on enemies in a 2-cell circle around the summons.",
+        "special_spell_en": "{{spell,31607,1::Explosive Hatching}}:\n• When one of the bearer's summons is attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).\n• If it is killed by an enemy, the bearer inflicts 10 damage in their best element on enemies in a 2-cell circle around the summons.",
         "special_spell_fr": "{{spell,31607,1::Éclosion Explosive}} :\n• Lorsqu'une invocation du porteur est attaquée, le porteur gagne 1% de dommages finaux pendant 2 tours (cumulable 10 fois).\n• Si elle est achevée par un ennemi, le porteur occasionne 10 dommages dans son meilleur élément aux ennemis dans un cercle de taille 2 autour d'elle.",
         "special_spell_es": "{{spell,31607,1::Eclosión Explosiva}}:\n• Cuando una invocación del portador es atacada, el portador gana un 1% de daños finales durante 2 turnos (acumulable 10 veces).\n• Si muere a manos de un enemigo, el portador ocasiona 10 de daño con su mejor elemento a los enemigos en un círculo de tamaño 2 alrededor de esta.",
         "special_spell_pt": "{{spell,31607,1::Eclosão Explosiva}}:\n• Quando uma invocação do portador é atacada, ele recebe 1% de danos finais por 2 turnos (acumula até 10 vezes).\n• Se ela for eliminada por um inimigo, o portador inflige 10 de danos em seu melhor elemento aos inimigos em um círculo de tamanho 2 ao redor dela.",
@@ -183096,7 +183096,7 @@
                 "Pushback Resist"
             ]
         ],
-        "special_spell_en": "Ardour of the Dark City:\n• At the start of each turn, the bearer and their allies gain 1% final damage for 1 turn for each enemy fighter alive (stackable 4 times).",
+        "special_spell_en": "{{spell,31856,1::Ardour of the Dark City}}:\n• At the start of each turn, the bearer and their allies gain 1% final damage for 1 turn for each enemy fighter alive (stackable 4 times).",
         "special_spell_fr": "{{spell,31856,1::Ardeur de la Cité Sombre}} :\n• À chaque début de tour, le porteur et ses alliés gagnent 1% de dommages finaux pendant 1 tour pour chaque combattant ennemi en vie (cumulable 4 fois).",
         "special_spell_es": "{{spell,31856,1::Ardor de la Ciudad Oscura}}:\n• Al inicio de cada turno, el portador y sus aliados ganan un 1% de daños finales durante 1 turno por cada luchador enemigo vivo (acumulable hasta 4 veces).",
         "special_spell_pt": "{{spell,31856,1::Ímpeto da Cidade Sombria}}:\n• No começo de cada turno, o portador e seus aliados ganham 1% de danos finais durante 1 turno para cada combatente inimigo vivo (acumula até 4 vezes).",
@@ -183158,7 +183158,7 @@
                 "Lock"
             ]
         ],
-        "special_spell_en": "Blinding Reflection:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time).",
+        "special_spell_en": "{{spell,31857,1::Blinding Reflection}}:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time).",
         "special_spell_fr": "{{spell,31857,1::Reflet Aveuglant}} :\n• Le porteur réduit et renvoie 75% des dommages initiaux de la première attaque alliée subie à l'ennemi le plus proche de lui dans sa ligne de vue (une fois par tour).\n• À chaque fin de tour, il retire 4 de Portée pendant 1 tour à tous les ennemis dans sa ligne de vue et les dévoile s'ils sont invisibles (cumulable 1 fois).",
         "special_spell_es": "{{spell,31857,1::Reflejo Cegador}}:\n• El portador reduce y devuelve el 75% de los daños iniciales del primer ataque aliado sufrido al enemigo más cercano en la línea de visión del portador (una vez por turno).\n• Al final de cada turno, retira 4 de alcance durante 1 turno a todos los enemigos en su línea de visión y los revela si están invisibles (acumulable 1 vez).",
         "special_spell_pt": "{{spell,31857,1::Reflexo Cegante}}:\n• O portador reduz e reflete 75% dos danos iniciais do primeiro ataque aliado sofrido ao inimigo mais próximo dele em sua linha de visão (uma vez por turno).\n• No fim de cada turno, ele retira 4 de alcance durante 1 turno de todos os inimigos em sua linha de visão e os revela se eles estiverem invisíveis (acumula até 1 vez).",
@@ -183253,8 +183253,8 @@
                 "(Pushes back cell)"
             ]
         ],
-        "special_spell_en": "Order of Thunder:\n• At the end of each turn, the bearer gives 1 MP and 40 Pushback Damage to all allies in their line of sight for 1 turn (stackable 1 time).\n• When an allied fighter dies, the bearer increases the final damage of all others by 4% until the end of the fight (stackable 2 times).\n• The effects are removed when the bearer dies.",
-        "special_spell_fr": "{{spell,31859,1::Ordre du Tonnerre}} :\n• Le porteur gagne 8 Dommages Poussée pendant 2 tours pour chaque PM qu'il utilise.\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois).",
+        "special_spell_en": "{{spell,31859,1::Order of Thunder}}:\n• The bearer gains 8 Pushback Damage for 2 turns for each MP they use.\n• At the end of each turn, the bearer gives 1 MP to all allies in their line of sight for 1 turn (stackable 1 time).",
+        "special_spell_fr": "{{spell,31859,1::Ordre du Tonnerre}} :\n• Le porteur gagne 6 Dommages Poussée pendant 2 tours pour chaque PM qu'il utilise.\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois).",
         "special_spell_es": "{{spell,31859,1::Orden del Trueno}}:\n• El portador gana 8 de daños de empuje durante 2 turnos por cada PM que use.\n• Al final de cada turno, el portador da 1 PM durante 1 turno a todos los aliados en su línea de visión (acumulable 1 vez).",
         "special_spell_pt": "{{spell,31859,1::Ordem do Trovão}}:\n• O portador ganha 8 de danos de empurrão durante 2 turnos para cada PM que ele utilizar.\n• No fim de cada turno, o portador concede 1 PM durante 1 turno a todos os aliados em sua linha de visão (acumula até 1 vez).",
         "special_spell_de": "{{spell,31859,1::Orden des Donners}}:\n• Der Träger erhält 2 Runden lang für jeden von ihm verwendeten BP 8 Schubsschaden.\n• Am Ende jeder Runde gewährt der Träger allen Verbündeten in seiner Sichtlinie 1 Runde lang 1 BP und 40 Schubsschaden (1-mal kumulierbar).",
@@ -183358,7 +183358,7 @@
                 "(Attracts by cell)"
             ]
         ],
-        "special_spell_en": "Thanatena's Judgement:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. Healing is 5% of their health if it is a summons.",
+        "special_spell_en": "{{spell,31860,1::Thanatena's Judgement}}:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. Healing is 5% of their health if it is a summons.",
         "special_spell_fr": "{{spell,31860,1::Jugement de Thanatena}} :\n• À chaque début de tour, le porteur érode et augmente les dommages subis par tout le monde de 4% pendant 1 tour (cumulable 1 fois).\n• Lorsqu'il achève un ennemi, il est soigné de 20% de sa vie et gagne 10% de dommages finaux pendant 1 tour. Les soins sont de 5% de sa vie si c'est une invocation.",
         "special_spell_es": "{{spell,31860,1::Juicio de Thanatena}}:\n• Al principio de cada turno, el portador erosiona y aumenta los daños que sufra todo el mundo un 4% durante 1 turno (acumulable 1 vez).\n• Cuando remata a un enemigo, se cura un 20% de su vida y gana un 10% de daños finales durante 1 turno. Las curas son del 5% de su vida si es una invocación.",
         "special_spell_pt": "{{spell,31860,1::Julgamento de Tanatena}}:\n• No começo de cada turno, o portador erode e aumenta os danos sofridos por todo mundo em 4% durante 1 turno (acumula até 1 vez).\n• Ao derrotar um inimigo, ele cura 20% da própria vida e ganha 10% de danos finais durante 1 turno. As curas são de 5% da vida dele se for uma invocação.",
@@ -183440,7 +183440,7 @@
                 "% Melee Damage"
             ]
         ],
-        "special_spell_en": "Helsephine's Love:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 8% of their health within 3 cells or less around them (once per turn).",
+        "special_spell_en": "{{spell,31861,1::Helsephine's Love}}:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 6% of their health within 3 cells or less around them (once per trigger type per turn).",
         "special_spell_fr": "{{spell,31861,1::Amour d'Helséphine}} :\n• Lorsque le porteur applique du bouclier ou occasionne des dommages en mêlée, il soigne ses alliés de 6% de leur vie à 3 cases ou moins autour de lui (une fois par type de déclenchement par tour).",
         "special_spell_es": "{{spell,31861,1::Amor de Helsefina}}:\n• Cuando el portador aplica escudo o inflige daños cuerpo a cuerpo, cura a sus aliados un 6% de su vida si están a 3 casillas o menos a su alrededor (una vez por tipo de activación por turno).",
         "special_spell_pt": "{{spell,31861,1::Amor de Helsefina}}:\n• Ao aplicar escudo ou infligir danos corpo a corpo, o portador cura 6% da vida dos aliados a até 3 células ao redor de si (uma vez por tipo de acionamento por turno).",
@@ -183517,11 +183517,11 @@
                 "MP Loss Resist"
             ]
         ],
-        "special_spell_en": "Henual's Punctuality:\n• When the bearer suffers an attempted AP or MP removal, they are teleported to their previous position up to one time for each type of removal.",
+        "special_spell_en": "{{spell,31862,1::Henual's Punctuality}}:\n• The bearer gains 1 AP when they teleport, are teleported, or switch places (1 time per turn).\n• If the bearer didn't suffer anything on the previous turn, they are teleported to their previous position at the start of their turn.",
         "special_spell_fr": "{{spell,31862,1::Ponctualité d'Henual}} :\n• Le porteur gagne 1 PA lorsqu'il est téléporté, se téléporte ou échange de position (1 fois par tour).\n• S'il n'a rien subi au tour précédent, il est téléporté à sa position précédente au début de son tour.",
-        "special_spell_es": "{{spell,31862,1::Puntualidad de Henual}}:\n• El portador gana 1 PA cuando sufre una teletransportación o un intercambio de posición (1 vez por turno).\n• Si no ha sufrido nada en su turno anterior, se teletransporta a su anterior posición al principio de su turno.",
-        "special_spell_pt": "{{spell,31862,1::Pontualidade de Henual}}:\n• Ao sofrer um teletransporte ou uma troca de posição, o portador ganha 1 PA (1 vez por turno).\nSe ele não tiver sofrido nada no turno anterior, é teletransportado para sua posição anterior no início do seu turno.",
-        "special_spell_de": "{{spell,31862,1::Henuals Pünktlichkeit}}:\n• Der Träger erhält 1 AP, wenn er gezwungen wird zu teleportieren oder die Position zu tauschen (einmal pro Runde).\n• Wurde er in der vorherigen Runde weder zur Teleportation noch zum Positionstausch gezwungen, wird er auf seine vorherige Position zu Beginn seiner Runde teleportiert.",
+        "special_spell_es": "{{spell,31862,1::Puntualidad de Henual}}:\n• El portador gana 1 PA cuando es teletransportado, se teletransporta o intercambia de posición (1 vez por turno).\n• Si no ha sufrido nada en el turno anterior, se teletransporta a su anterior posición al principio de su turno.",
+        "special_spell_pt": "{{spell,31862,1::Pontualidade de Henual}}:\n• O portador ganha 1 PA quando é teletransportado, se teletransporta ou troca de posição (1 vez por turno).\n• Se ele não tiver sofrido nada no turno anterior, é teletransportado para sua posição anterior no início do seu turno.",
+        "special_spell_de": "{{spell,31862,1::Henuals Pünktlichkeit}}:\n• Der Träger erhält 1 AP, wenn er teleportiert wird, sich selbst teleportiert oder die Position tauscht (1 Mal pro Runde).\n• Wurde er in der vorherigen Runde weder zur Teleportation noch zum Positionstausch gezwungen, wird er auf seine vorherige Position zu Beginn seiner Runde teleportiert.",
         "image_url": "https://api.dofusdu.de/dofus3beta/v1/img/item/9392-128.png",
         "image_url_fallback": "https://api.dofusdu.de/dofus3beta/v1/img/item/9392-64.png",
         "dofustouch": false,
@@ -183619,7 +183619,7 @@
                 "Critical Damage"
             ]
         ],
-        "special_spell_en": "Meriana's Clairvoyance:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction",
+        "special_spell_en": "{{spell,31858,1::Meriana's Clairvoyance}}:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction",
         "special_spell_fr": "{{spell,31858,1::Clairvoyance de Mériana}} :\n• Lorsque le porteur occasionne des dommages élémentaires, il gagne du Retrait selon l'élément pendant 2 tours (cumulable 8 fois, partagé entre les effets) :\n • Terre & Eau : 5 Retrait PM\n • Feu & Air : 5 Retrait PA",
         "special_spell_es": "{{spell,31858,1::Clarividencia de Meriana}}:\n• Cuando el portador ocasiona daños elementales, gana retirada según el elemento durante 2 turnos (acumulable 8 veces, compartido entre los efectos):\n • Tierra y agua: 5 de retirada de PM\n • Fuego y aire: 5 de retirada de PA.",
         "special_spell_pt": "{{spell,31858,1::Clarividência de Meriana}}:\n• Quando o portador inflige danos elementares, ele ganha Retirada de acordo com o elemento durante 2 turnos (acumula até 8 vezes, repartido entre os efeitos):\n• Terra e água: 5 de retirada de PM\n• Fogo e ar: 5 de retirada de PA",
@@ -183729,7 +183729,7 @@
                 "(removes ap)"
             ]
         ],
-        "special_spell_en": "Fervour of the White City:\n• At the start of each turn, the bearer and their allies gain 1% Resistance for 1 turn for each enemy fighter alive (stackable 4 times).",
+        "special_spell_en": "{{spell,31880,1::Fervour of the White City}}:\n• At the start of each turn, the bearer and their allies gain 1% Resistance for 1 turn for each enemy fighter alive (stackable 4 times).",
         "special_spell_fr": "{{spell,31880,1::Ferveur de la Cité Blanche}} :\n• À chaque début de tour, le porteur et ses alliés gagnent 1% de résistance pendant 1 tour pour chaque combattant ennemi en vie (cumulable 4 fois).",
         "special_spell_es": "{{spell,31880,1::Fervor de la Ciudad Blanca}}:\n• Al inicio de cada turno, el portador y sus aliados ganan un 1% de resistencia durante 1 turno por cada luchador enemigo vivo (acumulable hasta 4 veces).",
         "special_spell_pt": "{{spell,31880,1::Fervor da Cidade Branca}}:\n• No começo de cada turno, o portador e seus aliados ganham 1% de resistência durante 1 turno para cada combatente inimigo vivo (acumula até 4 vezes).",
@@ -183766,7 +183766,7 @@
                 "Critical Resist"
             ]
         ],
-        "special_spell_en": "The bearer is Unmovable as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn.",
+        "special_spell_en": "{{spell,31881,1::Unmovaprys}}:\n• The bearer is Unmovable as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn.",
         "special_spell_fr": "{{spell,31881,1::Indeprys}} :\n• Le porteur est Indéplaçable tant qu'il n'a pas subi de dommages. S'il en subit, la durée de l'état passe à 1 tour.",
         "special_spell_es": "{{spell,31881,1::Indespris}}:\n• El portador permanece Indesplazable mientras no haya recibido daños. Si los sufre, el estado dura 1 turno.",
         "special_spell_pt": "{{spell,31881,1::Indepris}}:\n• O portador fica Irremovível contanto que não tenha sofrido danos. Se tiver sofrido, a duração do estado passa a ser de 1 turno.",
@@ -202681,11 +202681,11 @@
     {
         "ankama_id": 34569,
         "ankama_type": "equipment",
-        "name_en": "Test Masquer effet",
+        "name_en": "Hide Effect Test",
         "name_fr": "Test Masquer effet",
-        "name_es": "Test Masquer effet",
-        "name_pt": "Test Masquer effet",
-        "name_de": "Test Masquer effet",
+        "name_es": "Test Ocultar efecto",
+        "name_pt": "Teste Ocultar Efeitos",
+        "name_de": "Test – Wirkung maskieren",
         "w_type": "",
         "level": 1,
         "stats": [],
@@ -202744,11 +202744,11 @@
     {
         "ankama_id": 34615,
         "ankama_type": "equipment",
-        "name_en": "Mule mineure",
+        "name_en": "Minor Mule",
         "name_fr": "Mule mineure",
-        "name_es": "Mule mineure",
-        "name_pt": "Mule mineure",
-        "name_de": "Mule mineure",
+        "name_es": "Mula menor",
+        "name_pt": "Mula Menor",
+        "name_de": "Kleiner Maulesel",
         "w_type": "Trophy",
         "level": 50,
         "stats": [
@@ -202773,9 +202773,9 @@
         "ankama_type": "equipment",
         "name_en": "Mule",
         "name_fr": "Mule",
-        "name_es": "Mule",
-        "name_pt": "Mule",
-        "name_de": "Mule",
+        "name_es": "Mula",
+        "name_pt": "Mula",
+        "name_de": "Maulesel",
         "w_type": "Trophy",
         "level": 100,
         "stats": [
@@ -202798,11 +202798,11 @@
     {
         "ankama_id": 34617,
         "ankama_type": "equipment",
-        "name_en": "Mule majeure",
+        "name_en": "Major Mule",
         "name_fr": "Mule majeure",
-        "name_es": "Mule majeure",
-        "name_pt": "Mule majeure",
-        "name_de": "Mule majeure",
+        "name_es": "Mula mayor",
+        "name_pt": "Mula Maior",
+        "name_de": "Großer Maulesel",
         "w_type": "Trophy",
         "level": 150,
         "stats": [

@@ -61265,11 +61265,11 @@
     },
     {
         "ankama_id": 1081,
-        "name_en": "Turquoise Lottery Ceremonial Set",
+        "name_en": "Ebony Lottery Ceremonial Set",
         "name_fr": "Panoplie d'apparat de la loterie Ébène",
-        "name_es": "Set cosmético de la lotería Turquesa",
-        "name_pt": "Conjunto de Aparência da Loteria Turquesa",
-        "name_de": "Prunkset der Türkis-Lotterie",
+        "name_es": "Set cosmético de la lotería Ébano",
+        "name_pt": "Conjunto de Aparência da Loteria Ébano",
+        "name_de": "Prunkset der Ebenholz-Lotterie",
         "items": 4,
         "equipment_ids": [
             34641,
@@ -61948,11 +61948,11 @@
     },
     {
         "ankama_id": 1109,
-        "name_en": "Panoplie d'apparat de Jade",
+        "name_en": "Jade Ceremonial Set",
         "name_fr": "Panoplie d'apparat de Jade",
-        "name_es": "Panoplie d'apparat de Jade",
-        "name_pt": "Panoplie d'apparat de Jade",
-        "name_de": "Panoplie d'apparat de Jade",
+        "name_es": "Set cosmético de jade",
+        "name_pt": "Conjunto de Aparência de Jade",
+        "name_de": "Jade-Prunkset",
         "items": 5,
         "equipment_ids": [
             34636,
@@ -61977,11 +61977,11 @@
     },
     {
         "ankama_id": 1111,
-        "name_en": "Panoplie d'apparat de la Démone VII",
+        "name_en": "Demon VII Ceremonial Set",
         "name_fr": "Panoplie d'apparat de la Démone VII",
-        "name_es": "Panoplie d'apparat de la Démone VII",
-        "name_pt": "Panoplie d'apparat de la Démone VII",
-        "name_de": "Panoplie d'apparat de la Démone VII",
+        "name_es": "Set cosmético de la Demonio VII",
+        "name_pt": "Conjunto de Aparência da Demônia VII",
+        "name_de": "Prunkset von Dämonin VII",
         "items": 4,
         "equipment_ids": [
             34676,
@@ -61992,11 +61992,11 @@
     },
     {
         "ankama_id": 1112,
-        "name_en": "Panoplie d'apparat diaprée de la Démone VII",
+        "name_en": "Many-Hued Demon VII Ceremonial Set",
         "name_fr": "Panoplie d'apparat diaprée de la Démone VII",
-        "name_es": "Panoplie d'apparat diaprée de la Démone VII",
-        "name_pt": "Panoplie d'apparat diaprée de la Démone VII",
-        "name_de": "Panoplie d'apparat diaprée de la Démone VII",
+        "name_es": "Set cosmético matizado de la Demonio VII",
+        "name_pt": "Conjunto de Aparência Matizado da Demônia VII",
+        "name_de": "Schillerndes Prunkset von Dämonin VII",
         "items": 4,
         "equipment_ids": [
             34680,

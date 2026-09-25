@@ -64078,7 +64078,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "If you end your turn 2 cells or less from an ally, enemies gain 2 MP.\nAt the end of their turn, enemies attract all allies located 4 or more cells away by 2 cells.\nAt the start of each of an enemy's turns, the character closest to the enemy starting their turn suffers 100% additional damage for 1 turn. (max. stacking 2)"
+                    "formatted": "{{spell,28440,1::Golden Foluk Idol}}\n• When an allied fighter ends their turn, enemies gain 2 MP (1 turn) if the fighter has at least one ally within 2 cells or less of them.\n• When an enemy ends their turn, they attract all allies more than 4 cells away from them by 2 cells."
                 }
             ],
             "pods": 1

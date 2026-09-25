@@ -244700,17 +244700,17 @@
                     "formatted": "5 Tacle"
                 },
                 {
-                    "int_minimum": 4,
+                    "int_minimum": 5,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Retrait PM",
-                        "id": 50,
+                        "name": "Esquive PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "4 Retrait PM"
+                    "formatted": "5 Esquive PA"
                 }
             ],
             "is_weapon": false,
@@ -244781,17 +244781,17 @@
                     "formatted": "10 Tacle"
                 },
                 {
-                    "int_minimum": 8,
+                    "int_minimum": 10,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Retrait PM",
-                        "id": 50,
+                        "name": "Esquive PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "8 Retrait PM"
+                    "formatted": "10 Esquive PA"
                 }
             ],
             "is_weapon": false,
@@ -244867,17 +244867,17 @@
                     "formatted": "20 Tacle"
                 },
                 {
-                    "int_minimum": 16,
+                    "int_minimum": 20,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Retrait PM",
-                        "id": 50,
+                        "name": "Esquive PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "16 Retrait PM"
+                    "formatted": "20 Esquive PA"
                 }
             ],
             "is_weapon": false,
@@ -417295,7 +417295,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 100,
-            "critical_hit_bonus": 3,
+            "critical_hit_bonus": 6,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -432305,7 +432305,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 15,
+            "critical_hit_bonus": 10,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -433130,7 +433130,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 2,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -462090,14 +462090,14 @@
                     "int_minimum": 23319,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - de relance",
-                        "id": 227,
+                        "name": ": + lancer par tour",
+                        "id": 279,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Renommée : -1 de relance"
+                    "formatted": "Renommée : +1 lancers par tour"
                 }
             ],
             "is_weapon": false,
@@ -501795,7 +501795,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "{{spell,31859,1::Ordre du Tonnerre}} :\n• Le porteur gagne 8 Dommages Poussée pendant 2 tours pour chaque PM qu'il utilise.\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois)."
+                    "formatted": "{{spell,31859,1::Ordre du Tonnerre}} :\n• Le porteur gagne 6 Dommages Poussée pendant 2 tours pour chaque PM qu'il utilise.\n• À chaque fin de tour, le porteur donne 1 PM pendant 1 tour à tous les alliés dans sa ligne de vue (cumulable 1 fois)."
                 },
                 {
                     "int_minimum": 401,

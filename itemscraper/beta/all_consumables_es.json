@@ -126311,7 +126311,7 @@
         },
         {
             "ankama_id": 34618,
-            "name": "[!] Baume Okeur",
+            "name": "Ungüento manosanto",
             "type": {
                 "name": "Objeto utilizable",
                 "id": 20
@@ -126321,7 +126321,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/165057-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/165057-128.png"
             },
-            "description": "[!] Ce baume vous permet de regagner de la vie et de l'énergie, et peut-être même d'accéder au bonheur.",
+            "description": "Este ungüento te permite recuperar vida y energía, y tal vez incluso conseguir la felicidad.",
             "effects": [
                 {
                     "int_minimum": 15,
@@ -126354,7 +126354,7 @@
         },
         {
             "ankama_id": 34621,
-            "name": "[!] Baies Tataiste",
+            "name": "Frutatés",
             "type": {
                 "name": "Golosina",
                 "id": 30
@@ -126364,7 +126364,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/94010-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/94010-128.png"
             },
-            "description": "[!] On raconte que manger ces baies permettrait d'accéder instantanément au bonheur. Malheureusement, ceci n'est qu'un mythe, le bonheur n'existe pas. Et ce que vous tenez dans les mains ne sont pas des baies, mais des cachets. Triste retour à la réalité...",
+            "description": "Se dice que comer esta fruta permite alcanzar la felicidad al instante. Por desgracia, eso no es más que un mito: la felicidad no existe. Y lo que tienes entre manos no son frutas, sino pastillas. Triste vuelta a la realidad...",
             "effects": [
                 {
                     "int_minimum": 10000,
@@ -126397,7 +126397,7 @@
         },
         {
             "ankama_id": 34674,
-            "name": "[!] Parchemin de Niveau (200)",
+            "name": "Pergamino de nivel (200)",
             "type": {
                 "name": "Pergamino de experiencia",
                 "id": 164
@@ -126407,7 +126407,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/13003-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/13003-128.png"
             },
-            "description": "[!] Ce parchemin permet de gagner 200 niveaux sans prendre de risques.",
+            "description": "Con este pergamino puedes ganar 200 niveles sin ningún riesgo.",
             "conditions": {
                 "condition": {
                     "operator": "<",

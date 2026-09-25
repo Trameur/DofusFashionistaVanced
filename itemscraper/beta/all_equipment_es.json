@@ -244700,17 +244700,17 @@
                     "formatted": "5 placaje"
                 },
                 {
-                    "int_minimum": 4,
+                    "int_minimum": 5,
                     "int_maximum": 0,
                     "type": {
-                        "name": "al retiro de PM",
-                        "id": 50,
+                        "name": "a la esquiva pérdidas de PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "4 al retiro de PM"
+                    "formatted": "5 a la esquiva pérdidas de PA"
                 }
             ],
             "is_weapon": false,
@@ -244781,17 +244781,17 @@
                     "formatted": "10 placaje"
                 },
                 {
-                    "int_minimum": 8,
+                    "int_minimum": 10,
                     "int_maximum": 0,
                     "type": {
-                        "name": "al retiro de PM",
-                        "id": 50,
+                        "name": "a la esquiva pérdidas de PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "8 al retiro de PM"
+                    "formatted": "10 a la esquiva pérdidas de PA"
                 }
             ],
             "is_weapon": false,
@@ -244867,17 +244867,17 @@
                     "formatted": "20 placaje"
                 },
                 {
-                    "int_minimum": 16,
+                    "int_minimum": 20,
                     "int_maximum": 0,
                     "type": {
-                        "name": "al retiro de PM",
-                        "id": 50,
+                        "name": "a la esquiva pérdidas de PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "16 al retiro de PM"
+                    "formatted": "20 a la esquiva pérdidas de PA"
                 }
             ],
             "is_weapon": false,
@@ -417295,7 +417295,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 100,
-            "critical_hit_bonus": 3,
+            "critical_hit_bonus": 6,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -432305,7 +432305,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 15,
+            "critical_hit_bonus": 10,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -433130,7 +433130,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 2,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -462090,14 +462090,14 @@
                     "int_minimum": 23319,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - de reactivación",
-                        "id": 227,
+                        "name": ": + lanzamiento por turno",
+                        "id": 279,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Renombre: -1 de reactivación"
+                    "formatted": "Renombre: +1 lanzamientos por turno"
                 }
             ],
             "is_weapon": false,
@@ -502511,7 +502511,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "{{spell,31862,1::Puntualidad de Henual}}:\n• El portador gana 1 PA cuando sufre una teletransportación o un intercambio de posición (1 vez por turno).\n• Si no ha sufrido nada en su turno anterior, se teletransporta a su anterior posición al principio de su turno."
+                    "formatted": "{{spell,31862,1::Puntualidad de Henual}}:\n• El portador gana 1 PA cuando es teletransportado, se teletransporta o intercambia de posición (1 vez por turno).\n• Si no ha sufrido nada en el turno anterior, se teletransporta a su anterior posición al principio de su turno."
                 },
                 {
                     "int_minimum": 401,
@@ -545781,7 +545781,7 @@
         },
         {
             "ankama_id": 34569,
-            "name": "[!] Test Masquer effet",
+            "name": "Test Ocultar efecto",
             "type": {
                 "name": "",
                 "id": 212
@@ -545807,7 +545807,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151271-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151271-128.png"
             },
-            "description": "[!] Avec ce trophée, vous pourriez devenir le meilleur dresseur et vous battre sans répit. Vous pourriez tout faire pour être vainqueur et gagner les défis.",
+            "description": "Con este trofeo, podrías convertirte en el mejor adiestrador y combatir sin descanso. Podrías hacer todo lo posible por salir victorioso y ganar los retos.",
             "recipe": [
                 {
                     "item_ankama_id": 748,
@@ -545870,7 +545870,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151272-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151272-128.png"
             },
-            "description": "[!] Avec ce trophée, vous excellerez dans l'art de dompter les bêtes.",
+            "description": "Con este trofeo, destacarás en el arte de domar a las bestias.",
             "recipe": [
                 {
                     "item_ankama_id": 749,
@@ -545939,7 +545939,7 @@
         },
         {
             "ankama_id": 34615,
-            "name": "[!] Mule mineure",
+            "name": "Mula menor",
             "type": {
                 "name": "Trofeo",
                 "id": 23
@@ -545949,7 +545949,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151184-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Este trofeo te permite aumentar tu sabiduría. Pero eso no va a calmar tus pasiones.",
             "recipe": [
                 {
                     "item_ankama_id": 302,
@@ -546015,7 +546015,7 @@
         },
         {
             "ankama_id": 34616,
-            "name": "[!] Mule",
+            "name": "Mula",
             "type": {
                 "name": "Trofeo",
                 "id": 23
@@ -546025,7 +546025,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151185-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151185-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Este trofeo te permite aumentar tu sabiduría. Pero eso no va a calmar tus pasiones.",
             "recipe": [
                 {
                     "item_ankama_id": 750,
@@ -546096,7 +546096,7 @@
         },
         {
             "ankama_id": 34617,
-            "name": "[!] Mule majeure",
+            "name": "Mula mayor",
             "type": {
                 "name": "Trofeo",
                 "id": 23
@@ -546106,7 +546106,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Este trofeo te permite aumentar tu sabiduría. Pero eso no va a calmar tus pasiones.",
             "recipe": [
                 {
                     "item_ankama_id": 2516,

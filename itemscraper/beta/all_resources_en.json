@@ -9119,7 +9119,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/15423-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/15423-128.png"
             },
-            "description": "What a good idea! Turtle Milk in a bottle! You can drink it whenever and wherever you want.",
+            "description": "Now here's a brilliant idea: turtle milk in a bottle! You can drink it whenever and wherever you want.",
             "pods": 1
         },
         {
@@ -55466,14 +55466,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 1"
+                    "formatted": "Assigns the starting spell: 1"
                 },
                 {
                     "int_minimum": 0,
@@ -55486,7 +55486,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Bwork Precision (level 200):\n• At the start of each turn, the bearer gains 3% ranged damage for 1 turn if they are adjacent to an enemy; otherwise, they gain 3% close-combat damage for 1 turn."
+                    "formatted": "{{spell,12485,1::Bwork Precision}} (level 200):\n• At the start of each turn, the bearer gains 3% ranged damage for 1 turn if they are adjacent to an enemy; otherwise, they gain 3% close-combat damage for 1 turn."
                 }
             ],
             "pods": 2
@@ -55551,14 +55551,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 2"
+                    "formatted": "Assigns the starting spell: 2"
                 },
                 {
                     "int_minimum": 0,
@@ -55571,7 +55571,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Wabbit Impatience (level 200):\n• At the start of combat, the bearer gains 1% final damage per enemy fighter, but loses 2% final damage until the end of the fight when one of them dies."
+                    "formatted": "{{spell,12483,1::Wabbit Impatience}} (level 200):\n• At the start of combat, the bearer gains 1% final damage for each enemy fighter, but loses 2% final damage until the end of the fight when one of them dies."
                 }
             ],
             "pods": 2
@@ -55636,14 +55636,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 3"
+                    "formatted": "Assigns the starting spell: 3"
                 },
                 {
                     "int_minimum": 0,
@@ -55656,7 +55656,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Boowolf Fury (level 200):\n• The bearer gains 5% final damage for 2 turns when an allied fighter dies (stackable 3 times)."
+                    "formatted": "{{spell,12486,1::Boowolf Fury}} (level 200):\n• The bearer gains 5% final damage for 2 turns when an allied fighter dies (stackable 3 times)."
                 }
             ],
             "pods": 2
@@ -55721,14 +55721,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 4"
+                    "formatted": "Assigns the starting spell: 4"
                 },
                 {
                     "int_minimum": 0,
@@ -55741,7 +55741,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Moskito Thirst (level 200):\n• The bearer sacrifices 5% of their final damage to heal themself by 15% of the damage they inflict on enemies during their turn."
+                    "formatted": "{{spell,12482,1::Moskito Thirst}} (level 200):\n• The bearer sacrifices 5% of their final damage to heal themself by 15% of the damage they inflict on enemies during their turn."
                 }
             ],
             "pods": 2
@@ -55806,14 +55806,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 5"
+                    "formatted": "Assigns the starting spell: 5"
                 },
                 {
                     "int_minimum": 0,
@@ -55826,7 +55826,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Trool Brutality (level 200):\n• At the start of combat, the bearer sacrifices 1% final damage per enemy fighter to gain 3% final damage until the end of the fight when one of them dies."
+                    "formatted": "{{spell,12484,1::Trool Brutality}} (level 200):\n• At the start of combat, the bearer sacrifices 1% final damage per enemy fighter to gain 3% final damage until the end of the fight when one of them dies."
                 }
             ],
             "pods": 2
@@ -55891,14 +55891,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 6"
+                    "formatted": "Assigns the starting spell: 6"
                 },
                 {
                     "int_minimum": 0,
@@ -55911,7 +55911,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Kanig Barbarism (level 200):\n• When the bearer kills an entity with a weapon, they gain 5% final damage for 2 turns (stackable 3 times)."
+                    "formatted": "{{spell,23151,1::Kanig Barbarism}} (level 200):\n• When the bearer kills an entity with a weapon, they gain 5% final damage for 2 turns (stackable 3 times)."
                 }
             ],
             "pods": 2
@@ -55976,14 +55976,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 8"
+                    "formatted": "Assigns the starting spell: 8"
                 },
                 {
                     "int_minimum": 0,
@@ -55996,7 +55996,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gobbette Sweetness (level 200):\n• At the end of each turn, the bearer gives 3% close-combat damage to adjacent allies for 2 turns (stackable 1 time)."
+                    "formatted": "{{spell,12488,1::Gobbette Sweetness}} (level 200):\n• At the end of each turn, the bearer gives 3% close-combat damage to adjacent allies for 2 turns (stackable 1 time)."
                 }
             ],
             "pods": 2
@@ -56061,14 +56061,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 9"
+                    "formatted": "Assigns the starting spell: 9"
                 },
                 {
                     "int_minimum": 0,
@@ -56081,7 +56081,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Greedoblop Gluttony (level 200):\n• When an allied fighter dies, the bearer is healed for 20% of their health (max. 3 times)."
+                    "formatted": "{{spell,12492,1::Greedoblop Gluttony}} (level 200):\n• When an allied fighter dies, the bearer is healed for 20% of their health (max. 3 times)."
                 }
             ],
             "pods": 2
@@ -56146,14 +56146,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 29"
+                    "formatted": "Assigns the starting spell: 29"
                 },
                 {
                     "int_minimum": 0,
@@ -56166,7 +56166,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Bwak Generosity (level 200):\n• When the bearer ends their turn adjacent to an enemy, the bearer sacrifices 2% ranged damage for their next turn to give 4% ranged damage to their allies for 1 turn (stackable 1 time)."
+                    "formatted": "{{spell,12487,1::Bwak Generosity}} (level 200):\n• When the bearer ends their turn adjacent to an enemy, the bearer sacrifices 2% ranged damage for their next turn to give 4% ranged damage to their allies for 1 turn (stackable 1 time)."
                 }
             ],
             "pods": 2
@@ -56231,14 +56231,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 11"
+                    "formatted": "Assigns the starting spell: 11"
                 },
                 {
                     "int_minimum": 0,
@@ -56251,7 +56251,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Chafer Immortality (level 200):\n• When an allied fighter dies, the bearer gains 500% of that ally's level as shield for the rest of the fight (max. 5 times)."
+                    "formatted": "{{spell,12497,1::Chafer Immortality}} (level 200):\n• When an allied fighter dies, the bearer gains 500% of that ally's level as shield for the rest of the fight (max. 5 times)."
                 }
             ],
             "pods": 2
@@ -56316,14 +56316,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 12"
+                    "formatted": "Assigns the starting spell: 12"
                 },
                 {
                     "int_minimum": 0,
@@ -56336,7 +56336,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Sauroshell Protection (level 200):\n• At the start of combat, the bearer gains 100% of each ally's level in shield, but loses 5% resistance every time an allied fighter that was present at the start of the fight dies."
+                    "formatted": "{{spell,12490,1::Sauroshell Protection}} (level 200):\n• At the start of combat, the bearer gains 100% of each ally's level in shield, but loses 5% resistance every time an allied fighter that was present at the start of the fight dies."
                 }
             ],
             "pods": 2
@@ -56401,14 +56401,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 13"
+                    "formatted": "Assigns the starting spell: 13"
                 },
                 {
                     "int_minimum": 0,
@@ -56421,7 +56421,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Crackler Robustness (level 200):\n• At the start of combat, the bearer sacrifices 2% resistance per ally to give 3% resistance to their allies. The resistance sacrificed for an ally is recovered when they die.\n• The effects are removed when the bearer dies."
+                    "formatted": "{{spell,12489,1::Crackler Robustness}} (level 200):\n• At the start of combat, the bearer sacrifices 2% resistance per ally to give 3% resistance to their allies. The resistance sacrificed for an ally is recovered when they die.\n• The effects are removed when the bearer dies."
                 }
             ],
             "pods": 2
@@ -56486,14 +56486,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 14"
+                    "formatted": "Assigns the starting spell: 14"
                 },
                 {
                     "int_minimum": 0,
@@ -56506,7 +56506,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Treechnid Bark (level 200):\n• When the bearer suffers an attempted MP loss, they gain 75% of their level as shield for 1 turn (stackable 1 time)."
+                    "formatted": "{{spell,12498,1::Treechnid Bark}} (level 200):\n• When the bearer suffers an attempted MP reduction, they gain 75% of their level as shield for 1 turn (stackable 1 time)."
                 }
             ],
             "pods": 2
@@ -56571,14 +56571,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 15"
+                    "formatted": "Assigns the starting spell: 15"
                 },
                 {
                     "int_minimum": 0,
@@ -56591,7 +56591,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Domoizelle Devotion (level 200):\n• At the end of each turn, the bearer transfers 5% of their health to adjacent allies and gains 10% Vitality for 2 turns if the transfer is made."
+                    "formatted": "{{spell,12503,1::Domoizelle Devotion}} (level 200):\n• At the end of each turn, the bearer transfers 5% of their health to adjacent allies and gains 10% Vitality for 2 turns if the transfer is made."
                 }
             ],
             "pods": 2
@@ -56656,14 +56656,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 16"
+                    "formatted": "Assigns the starting spell: 16"
                 },
                 {
                     "int_minimum": 0,
@@ -56676,7 +56676,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Piwi Velocity (level 200):\n• When the bearer is locked, they gain 1 MP for 2 turns."
+                    "formatted": "{{spell,12475,1::Piwi Velocity}} (level 200):\n• When the bearer is locked, they gain 1 MP for 2 turns."
                 }
             ],
             "pods": 2
@@ -56741,14 +56741,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 17"
+                    "formatted": "Assigns the starting spell: 17"
                 },
                 {
                     "int_minimum": 0,
@@ -56761,7 +56761,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Hystritcheria (level 200):\n• The bearer gains 10 Lock if pushed or 10 Dodge if attracted for 2 turns."
+                    "formatted": "{{spell,12481,1::Hystritcheria}} (level 200):\n• The bearer gains 10 Lock if pushed or 10 Dodge if attracted for 2 turns."
                 }
             ],
             "pods": 2
@@ -56826,14 +56826,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 18"
+                    "formatted": "Assigns the starting spell: 18"
                 },
                 {
                     "int_minimum": 0,
@@ -56846,7 +56846,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Arachnee Web: \n• At the end of each turn, the bearer gains 10 Lock for 2 turns for each enemy 2 cells away or closer."
+                    "formatted": "{{spell,12480,1::Arachnee Web}}: \n• At the end of each turn, the bearer gains 10 Lock for 2 turns for each enemy 2 cells away or closer."
                 }
             ],
             "pods": 2
@@ -56911,14 +56911,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 19"
+                    "formatted": "Assigns the starting spell: 19"
                 },
                 {
                     "int_minimum": 0,
@@ -56931,7 +56931,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Koalak Savings (level 200):\n• When the bearer is locked, they gain 1 AP for 2 turns."
+                    "formatted": "{{spell,12477,1::Koalak Savings}} (level 200):\n• When the bearer is locked, they gain 1 AP for 2 turns."
                 }
             ],
             "pods": 2
@@ -56996,14 +56996,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 20"
+                    "formatted": "Assigns the starting spell: 20"
                 },
                 {
                     "int_minimum": 0,
@@ -57016,7 +57016,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Kitsou Evasion (level 200):\n• At the start of each turn, the bearer gains 10 Dodge for 2 turns for each enemy 2 cells away or closer."
+                    "formatted": "{{spell,12479,1::Kitsou Evasion}} (level 200):\n• At the start of each turn, the bearer gains 10 Dodge for 2 turns for each enemy 2 cells away or closer."
                 }
             ],
             "pods": 2
@@ -57081,14 +57081,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 21"
+                    "formatted": "Assigns the starting spell: 21"
                 },
                 {
                     "int_minimum": 0,
@@ -57101,7 +57101,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Kozaru Agitation (level 200):\n• When the bearer pushes, attracts or transposes an entity, the bearer gains 7 Lock and Dodge for 2 turns."
+                    "formatted": "{{spell,23152,1::Kozaru Agitation}} (level 200):\n• When the bearer pushes, attracts or transposes an entity, the bearer gains 7 Lock and Dodge for 2 turns."
                 }
             ],
             "pods": 2
@@ -57166,14 +57166,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 22"
+                    "formatted": "Assigns the starting spell: 22"
                 },
                 {
                     "int_minimum": 0,
@@ -57186,7 +57186,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Scurvion Toxicity (level 200):\n• At the start of each turn, the bearer inflicts 8 damage on themself in their best attack element to inflict that damage on adjacent entities at the end of the bearer's turn."
+                    "formatted": "{{spell,12505,1::Scurvion Toxicity}} (level 200):\n• At the start of each turn, the bearer inflicts 8 damage on themself in their best attack element to inflict that damage on adjacent entities at the end of the bearer's turn."
                 }
             ],
             "pods": 2
@@ -57251,14 +57251,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 23"
+                    "formatted": "Assigns the starting spell: 23"
                 },
                 {
                     "int_minimum": 0,
@@ -57271,7 +57271,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Pandora's Call (level 200):\n• When the bearer summons a creature, they give it 1 MP for 2 turns."
+                    "formatted": "{{spell,12501,1::Pandora's Call}} (level 200):\n• When the bearer summons a creature, they give it 1 MP for 2 turns."
                 }
             ],
             "pods": 2
@@ -57336,14 +57336,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 24"
+                    "formatted": "Assigns the starting spell: 24"
                 },
                 {
                     "int_minimum": 0,
@@ -57356,7 +57356,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Neye Acuity (level 200):\n• At the start of each turn, the bearer gains 3 Range for the turn. This bonus is lost if they use at least 1 MP."
+                    "formatted": "{{spell,23153,1::Neye Acuity}} (level 200):\n• At the start of each turn, the bearer gains 3 Range for the turn. This bonus is lost if they use at least 1 MP."
                 }
             ],
             "pods": 2
@@ -57421,14 +57421,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 25"
+                    "formatted": "Assigns the starting spell: 25"
                 },
                 {
                     "int_minimum": 0,
@@ -57441,7 +57441,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Spimush Altruism (level 200):\n• When the bearer ends their turn adjacent to an ally, they give 1 AP to adjacent allies for 2 turns (stackable 1 time)."
+                    "formatted": "{{spell,12499,1::Spimush Altruism}} (level 200):\n• When the bearer ends their turn adjacent to an ally, they give 1 AP to adjacent allies for 2 turns (stackable 1 time)."
                 }
             ],
             "pods": 2
@@ -57506,14 +57506,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 26"
+                    "formatted": "Assigns the starting spell: 26"
                 },
                 {
                     "int_minimum": 0,
@@ -57526,7 +57526,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Persaport Empathy (level 200):\n• At the start of combat, the bearer gains 10% final healing. This bonus is lost if one of their allied fighters dies."
+                    "formatted": "{{spell,12506,1::Persaport Empathy}} (level 200):\n• At the start of combat, the bearer gains 10% final healing. This bonus is lost if one of their allied fighters dies."
                 }
             ],
             "pods": 2
@@ -57591,14 +57591,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 27"
+                    "formatted": "Assigns the starting spell: 27"
                 },
                 {
                     "int_minimum": 0,
@@ -57611,7 +57611,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Tofoone Benevolence (level 200):\n• When the bearer ends their turn adjacent to an ally, they give 1 MP to adjacent allies for 2 turns (stackable 2 times)."
+                    "formatted": "{{spell,12500,1::Tofoone Benevolence}} (level 200):\n• When the bearer ends their turn adjacent to an ally, they give 1 MP to adjacent allies for 2 turns (stackable 2 times)."
                 }
             ],
             "pods": 2
@@ -57676,14 +57676,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 28"
+                    "formatted": "Assigns the starting spell: 28"
                 },
                 {
                     "int_minimum": 0,
@@ -57696,7 +57696,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Dreggon Fetter (level 200):\n• When the bearer locks an enemy, the bearer gains 200% of their level as shield for 1 turn."
+                    "formatted": "{{spell,12502,1::Dreggon Fetter}} (level 200):\n• When the bearer locks an enemy, the bearer gains 200% of their level as shield for 1 turn."
                 }
             ],
             "pods": 2
@@ -59409,14 +59409,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 30"
+                    "formatted": "Assigns the starting spell: 30"
                 },
                 {
                     "int_minimum": 0,
@@ -59429,7 +59429,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Scaraleaf's Carapace (level 200):\n• When the bearer suffers an attempted AP removal, they gain 75% of their level as shield for 1 turn (stackable 1 time)."
+                    "formatted": "{{spell,29819,1::Scaraleaf's Carapace}} (level 200):\n• When the bearer suffers an attempted AP removal, they gain 75% of their level as shield for 1 turn (stackable 1 time)."
                 }
             ],
             "pods": 2
@@ -59494,14 +59494,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 31"
+                    "formatted": "Assigns the starting spell: 31"
                 },
                 {
                     "int_minimum": 0,
@@ -59514,7 +59514,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Thoronduddleswell's Patience (level 200):\n• When the bearer uses no MP during their turn, they gain 2 MP for their next turn."
+                    "formatted": "{{spell,29820,1::Thoronduddleswell's Patience}} (level 200):\n• When the bearer uses no MP during their turn, they gain 2 MP for the next turn."
                 }
             ],
             "pods": 2
@@ -59579,14 +59579,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 32"
+                    "formatted": "Assigns the starting spell: 32"
                 },
                 {
                     "int_minimum": 0,
@@ -59599,7 +59599,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Leopena's Perseverance (level 200):\n• When the bearer uses no MP during their turn, they gain 1 AP for their next turn."
+                    "formatted": "{{spell,29821,1::Leopena's Perseverance}} (level 200):\n• When the bearer uses no MP during their turn, they gain 1 AP for the next turn."
                 }
             ],
             "pods": 2
@@ -59664,14 +59664,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 33"
+                    "formatted": "Assigns the starting spell: 33"
                 },
                 {
                     "int_minimum": 0,
@@ -59684,7 +59684,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Bambooto's Serenity (level 200):\n• When the bearer uses no MP during their turn, they gain 3 Range for their next turn."
+                    "formatted": "{{spell,29822,1::Bambooto's Serenity}} (level 200):\n• When the bearer uses no MP during their turn, they gain 3 Range for the next turn."
                 }
             ],
             "pods": 2
@@ -59749,14 +59749,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Gives the spell:",
-                        "id": 256,
+                        "name": "Assigns the starting spell:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Gives the spell: 34"
+                    "formatted": "Assigns the starting spell: 34"
                 },
                 {
                     "int_minimum": 0,
@@ -59769,7 +59769,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Pingwinkle's Comfort (level 200):\n• At the end of each turn, the bearer is healed for 3% of their health for each adjacent allied fighter."
+                    "formatted": "{{spell,29823,1::Pingwinkle's Comfort}} (level 200):\n• At the end of each turn, the bearer is healed for 3% of their health for each adjacent allied fighter."
                 }
             ],
             "pods": 2
@@ -79755,7 +79755,7 @@
         },
         {
             "ankama_id": 34496,
-            "name": "Awakening Residue",
+            "name": "Light of the Source - Amakna",
             "type": {
                 "name": "Miscellaneous Resource",
                 "id": 231
@@ -79765,7 +79765,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136146-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136146-128.png"
             },
-            "description": "[!] Un fragment de lumière du passé, vestige d'une époque révolue, mais aussi lueur d'espoir pour le futur.",
+            "description": "A fragment of the light of the past, a remnant of a bygone era, but also a glimmer of hope for the future.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -79800,7 +79800,7 @@
         },
         {
             "ankama_id": 34538,
-            "name": "[!] Enduit sufokien",
+            "name": "Sufokian Coating",
             "type": {
                 "name": "Miscellaneous Resource",
                 "id": 231
@@ -79810,7 +79810,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/15394-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/15394-128.png"
             },
-            "description": "[!] Préparé avec des ingrédients naturels, cet enduit s'avère très efficace contre la corrosion saline. Son seul défaut est son fumet qui évoque l'odeur d'un pichon mort exposé au soleil de midi... Quand on est un véritable Sufokien, on ne s'offusque pas de ce genre de détail. On laisse couler.",
+            "description": "Made with all-natural ingredients, this coating is highly effective against salt corrosion. Its only shortcoming is its odour, which is reminiscent of the smell of a dead snapper left out in the noon-day sun... But real Sufokians aren't bothered by such minor details. Everyone else can simply plug their noses.",
             "recipe": [
                 {
                     "item_ankama_id": 17995,
@@ -80451,7 +80451,7 @@
         },
         {
             "ankama_id": 34587,
-            "name": "[!] Lumière de la Source - Otomaï",
+            "name": "Light of the Source - Otomai",
             "type": {
                 "name": "Miscellaneous Resource",
                 "id": 231
@@ -80461,7 +80461,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136148-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136148-128.png"
             },
-            "description": "[!] Un fragment de lumière du passé, vestige d'une époque révolue, mais aussi lueur d'espoir pour le futur.",
+            "description": "A fragment of the light of the past, a remnant of a bygone era, but also a glimmer of hope for the future.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -80481,7 +80481,7 @@
         },
         {
             "ankama_id": 34588,
-            "name": "[!] Lumière de la Source - Moon",
+            "name": "Light of the Source - Moon",
             "type": {
                 "name": "Miscellaneous Resource",
                 "id": 231
@@ -80491,7 +80491,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136147-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136147-128.png"
             },
-            "description": "[!] Un fragment de lumière du passé, vestige d'une époque révolue, mais aussi lueur d'espoir pour le futur.",
+            "description": "A fragment of the light of the past, a remnant of a bygone era, but also a glimmer of hope for the future.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -80511,7 +80511,7 @@
         },
         {
             "ankama_id": 34589,
-            "name": "[!] Lumière de la Source - Wabbit",
+            "name": "Light of the Source - Wabbit",
             "type": {
                 "name": "Miscellaneous Resource",
                 "id": 231
@@ -80521,7 +80521,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136149-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136149-128.png"
             },
-            "description": "[!] Un fragment de lumière du passé, vestige d'une époque révolue, mais aussi lueur d'espoir pour le futur.",
+            "description": "A fragment of the light of the past, a remnant of a bygone era, but also a glimmer of hope for the future.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -80541,7 +80541,7 @@
         },
         {
             "ankama_id": 34675,
-            "name": "[!] Ovaton",
+            "name": "Ovatoken",
             "type": {
                 "name": "Miscellaneous Resource",
                 "id": 231
@@ -80551,7 +80551,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-128.png"
             },
-            "description": "[!] « Je n'étais pas le meilleur parce que je frappais plus vite, j'étais le meilleur parce que la foule m'aimait. Gagne la foule, Maximor, et tu auras ta liberté. »\n\n— Proximor, gladiateur vétéran.",
+            "description": "\"I was not the best because I struck quickly. I was the best because the crowd loved me. Win the crowd, Maximor, and you will win your freedom.\"\n\n— Proximor, veteran gladiator.",
             "effects": [
                 {
                     "int_minimum": 0,

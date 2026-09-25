@@ -121307,7 +121307,7 @@
         },
         {
             "ankama_id": 1081,
-            "name": "Prunkset der Türkis-Lotterie",
+            "name": "Prunkset der Ebenholz-Lotterie",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -122313,7 +122313,7 @@
         },
         {
             "ankama_id": 1109,
-            "name": "[!] Panoplie d'apparat de Jade",
+            "name": "Jade-Prunkset",
             "items": 5,
             "level": 1,
             "contains_cosmetics": true,
@@ -122340,7 +122340,7 @@
         },
         {
             "ankama_id": 1111,
-            "name": "[!] Panoplie d'apparat de la Démone VII",
+            "name": "Prunkset von Dämonin VII",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,
@@ -122354,7 +122354,7 @@
         },
         {
             "ankama_id": 1112,
-            "name": "[!] Panoplie d'apparat diaprée de la Démone VII",
+            "name": "Schillerndes Prunkset von Dämonin VII",
             "items": 4,
             "level": 1,
             "contains_cosmetics": true,

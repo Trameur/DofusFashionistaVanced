@@ -55466,14 +55466,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 1"
+                    "formatted": "Atribuye el hechizo inicial: 1"
                 },
                 {
                     "int_minimum": 0,
@@ -55551,14 +55551,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 2"
+                    "formatted": "Atribuye el hechizo inicial: 2"
                 },
                 {
                     "int_minimum": 0,
@@ -55636,14 +55636,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 3"
+                    "formatted": "Atribuye el hechizo inicial: 3"
                 },
                 {
                     "int_minimum": 0,
@@ -55721,14 +55721,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 4"
+                    "formatted": "Atribuye el hechizo inicial: 4"
                 },
                 {
                     "int_minimum": 0,
@@ -55806,14 +55806,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 5"
+                    "formatted": "Atribuye el hechizo inicial: 5"
                 },
                 {
                     "int_minimum": 0,
@@ -55891,14 +55891,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 6"
+                    "formatted": "Atribuye el hechizo inicial: 6"
                 },
                 {
                     "int_minimum": 0,
@@ -55976,14 +55976,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 8"
+                    "formatted": "Atribuye el hechizo inicial: 8"
                 },
                 {
                     "int_minimum": 0,
@@ -56061,14 +56061,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 9"
+                    "formatted": "Atribuye el hechizo inicial: 9"
                 },
                 {
                     "int_minimum": 0,
@@ -56146,14 +56146,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 29"
+                    "formatted": "Atribuye el hechizo inicial: 29"
                 },
                 {
                     "int_minimum": 0,
@@ -56231,14 +56231,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 11"
+                    "formatted": "Atribuye el hechizo inicial: 11"
                 },
                 {
                     "int_minimum": 0,
@@ -56316,14 +56316,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 12"
+                    "formatted": "Atribuye el hechizo inicial: 12"
                 },
                 {
                     "int_minimum": 0,
@@ -56401,14 +56401,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 13"
+                    "formatted": "Atribuye el hechizo inicial: 13"
                 },
                 {
                     "int_minimum": 0,
@@ -56486,14 +56486,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 14"
+                    "formatted": "Atribuye el hechizo inicial: 14"
                 },
                 {
                     "int_minimum": 0,
@@ -56571,14 +56571,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 15"
+                    "formatted": "Atribuye el hechizo inicial: 15"
                 },
                 {
                     "int_minimum": 0,
@@ -56656,14 +56656,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 16"
+                    "formatted": "Atribuye el hechizo inicial: 16"
                 },
                 {
                     "int_minimum": 0,
@@ -56741,14 +56741,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 17"
+                    "formatted": "Atribuye el hechizo inicial: 17"
                 },
                 {
                     "int_minimum": 0,
@@ -56826,14 +56826,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 18"
+                    "formatted": "Atribuye el hechizo inicial: 18"
                 },
                 {
                     "int_minimum": 0,
@@ -56911,14 +56911,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 19"
+                    "formatted": "Atribuye el hechizo inicial: 19"
                 },
                 {
                     "int_minimum": 0,
@@ -56996,14 +56996,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 20"
+                    "formatted": "Atribuye el hechizo inicial: 20"
                 },
                 {
                     "int_minimum": 0,
@@ -57081,14 +57081,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 21"
+                    "formatted": "Atribuye el hechizo inicial: 21"
                 },
                 {
                     "int_minimum": 0,
@@ -57166,14 +57166,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 22"
+                    "formatted": "Atribuye el hechizo inicial: 22"
                 },
                 {
                     "int_minimum": 0,
@@ -57251,14 +57251,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 23"
+                    "formatted": "Atribuye el hechizo inicial: 23"
                 },
                 {
                     "int_minimum": 0,
@@ -57336,14 +57336,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 24"
+                    "formatted": "Atribuye el hechizo inicial: 24"
                 },
                 {
                     "int_minimum": 0,
@@ -57421,14 +57421,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 25"
+                    "formatted": "Atribuye el hechizo inicial: 25"
                 },
                 {
                     "int_minimum": 0,
@@ -57506,14 +57506,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 26"
+                    "formatted": "Atribuye el hechizo inicial: 26"
                 },
                 {
                     "int_minimum": 0,
@@ -57591,14 +57591,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 27"
+                    "formatted": "Atribuye el hechizo inicial: 27"
                 },
                 {
                     "int_minimum": 0,
@@ -57676,14 +57676,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 28"
+                    "formatted": "Atribuye el hechizo inicial: 28"
                 },
                 {
                     "int_minimum": 0,
@@ -59409,14 +59409,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 30"
+                    "formatted": "Atribuye el hechizo inicial: 30"
                 },
                 {
                     "int_minimum": 0,
@@ -59494,14 +59494,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 31"
+                    "formatted": "Atribuye el hechizo inicial: 31"
                 },
                 {
                     "int_minimum": 0,
@@ -59579,14 +59579,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 32"
+                    "formatted": "Atribuye el hechizo inicial: 32"
                 },
                 {
                     "int_minimum": 0,
@@ -59664,14 +59664,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 33"
+                    "formatted": "Atribuye el hechizo inicial: 33"
                 },
                 {
                     "int_minimum": 0,
@@ -59749,14 +59749,14 @@
                     "int_minimum": 0,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Da el hechizo:",
-                        "id": 256,
+                        "name": "Atribuye el hechizo inicial:",
+                        "id": 282,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Da el hechizo: 34"
+                    "formatted": "Atribuye el hechizo inicial: 34"
                 },
                 {
                     "int_minimum": 0,
@@ -79755,7 +79755,7 @@
         },
         {
             "ankama_id": 34496,
-            "name": "Residuo de despertar",
+            "name": "Luz de la Fuente - Amakna",
             "type": {
                 "name": "Recurso variado",
                 "id": 231
@@ -79765,7 +79765,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136146-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136146-128.png"
             },
-            "description": "[!] Un fragment de lumière du passé, vestige d'une époque révolue, mais aussi lueur d'espoir pour le futur.",
+            "description": "Un fragmento de luz del pasado, vestigio de una época ya pasada, pero también una luz de esperanza para el futuro.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -79800,7 +79800,7 @@
         },
         {
             "ankama_id": 34538,
-            "name": "[!] Enduit sufokien",
+            "name": "Argamasa sufokeña",
             "type": {
                 "name": "Recurso variado",
                 "id": 231
@@ -79810,7 +79810,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/15394-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/15394-128.png"
             },
-            "description": "[!] Préparé avec des ingrédients naturels, cet enduit s'avère très efficace contre la corrosion saline. Son seul défaut est son fumet qui évoque l'odeur d'un pichon mort exposé au soleil de midi... Quand on est un véritable Sufokien, on ne s'offusque pas de ce genre de détail. On laisse couler.",
+            "description": "Elaborada con ingredientes naturales, esta argamasa resulta muy eficaz contra la corrosión salina. Su único inconveniente es su olor, que recuerda al de un pischis muerto expuesto al sol del mediodía... Cuando uno es un auténtico sufokeño, no se ofende por ese tipo de detalles. Se deja pasar.",
             "recipe": [
                 {
                     "item_ankama_id": 17995,
@@ -80451,7 +80451,7 @@
         },
         {
             "ankama_id": 34587,
-            "name": "[!] Lumière de la Source - Otomaï",
+            "name": "Luz de la Fuente - Otomai",
             "type": {
                 "name": "Recurso variado",
                 "id": 231
@@ -80461,7 +80461,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136148-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136148-128.png"
             },
-            "description": "[!] Un fragment de lumière du passé, vestige d'une époque révolue, mais aussi lueur d'espoir pour le futur.",
+            "description": "Un fragmento de luz del pasado, vestigio de una época ya pasada, pero también una luz de esperanza para el futuro.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -80481,7 +80481,7 @@
         },
         {
             "ankama_id": 34588,
-            "name": "[!] Lumière de la Source - Moon",
+            "name": "Luz de la Fuente - Moon",
             "type": {
                 "name": "Recurso variado",
                 "id": 231
@@ -80491,7 +80491,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136147-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136147-128.png"
             },
-            "description": "[!] Un fragment de lumière du passé, vestige d'une époque révolue, mais aussi lueur d'espoir pour le futur.",
+            "description": "Un fragmento de luz del pasado, vestigio de una época ya pasada, pero también una luz de esperanza para el futuro.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -80511,7 +80511,7 @@
         },
         {
             "ankama_id": 34589,
-            "name": "[!] Lumière de la Source - Wabbit",
+            "name": "Luz de la Fuente - Wabbit",
             "type": {
                 "name": "Recurso variado",
                 "id": 231
@@ -80521,7 +80521,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/136149-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/136149-128.png"
             },
-            "description": "[!] Un fragment de lumière du passé, vestige d'une époque révolue, mais aussi lueur d'espoir pour le futur.",
+            "description": "Un fragmento de luz del pasado, vestigio de una época ya pasada, pero también una luz de esperanza para el futuro.",
             "effects": [
                 {
                     "int_minimum": 0,
@@ -80541,7 +80541,7 @@
         },
         {
             "ankama_id": 34675,
-            "name": "[!] Ovaton",
+            "name": "Vitoricha",
             "type": {
                 "name": "Recurso variado",
                 "id": 231
@@ -80551,7 +80551,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/164184-128.png"
             },
-            "description": "[!] « Je n'étais pas le meilleur parce que je frappais plus vite, j'étais le meilleur parce que la foule m'aimait. Gagne la foule, Maximor, et tu auras ta liberté. »\n\n— Proximor, gladiateur vétéran.",
+            "description": "«No era el mejor porque fuera ágil matando, era el mejor porque el pueblo me amaba. Haz lo mismo, Máximorl, y te ganarás tu libertad».\n\n— Próximorl, gladiador veterano.",
             "effects": [
                 {
                     "int_minimum": 0,

@@ -11497,7 +11497,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Deep Crimson:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times)."
+                    "formatted": "{{spell,8395,1::Deep Crimson}}:\n• When attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times)."
                 },
                 {
                     "int_minimum": 186,
@@ -13161,7 +13161,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Emerald Green:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy fighter. The effects are halved if the enemy is a summons."
+                    "formatted": "{{spell,8393,1::Emerald Green}}:\n• At the end of their turn, the bearer gains 100% of their level as shield for 1 turn for each adjacent enemy. The effects are halved if the enemy is a summons."
                 },
                 {
                     "int_minimum": 183,
@@ -13218,7 +13218,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Turquoise Blue:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times)."
+                    "formatted": "{{spell,5952,1::Turquoise Blue}}:\n• When the bearer lands a critical hit, they gain 1% final damage for 3 turns (stackable 10 times)."
                 },
                 {
                     "int_minimum": 0,
@@ -19760,7 +19760,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Dofus Blessing:\n• Increases one of the bearer's elemental characteristics per turn:\n• <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Strength > <sprite name=\"air\"> 400 Agility > <sprite name=\"feu\"> 400 Intelligence"
+                    "formatted": "{{spell,7331,1::Dofus Blessing}}:\n• Increases one of the bearer's elemental characteristics per turn:\n• <sprite name=\"eau\"> 400 Chance > <sprite name=\"terre\"> 400 Strength > <sprite name=\"air\"> 400 Agility > <sprite name=\"feu\"> 400 Intelligence"
                 }
             ],
             "is_weapon": false,
@@ -20439,7 +20439,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Wabbit Wisdom:\n• When the bearer suffers an attempted AP or MP removal, they gain 25 AP Dodge or 25 MP Dodge for 1 turn (stackable 1 time, shared among effects)."
+                    "formatted": "{{spell,8418,1::Wabbit Wisdom}}:\n• When the bearer suffers an attempted AP or MP reduction, they gain 25 AP Parry or 25 MP Parry for 1 turn (stackable 1 time, shared among effects)."
                 }
             ],
             "is_weapon": false,
@@ -81480,7 +81480,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ruby Red:\n• At the start of each turn, the bearer gains 10% final damage if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Lock."
+                    "formatted": "{{spell,8396,1::Ruby Red}}:\n• At the start of each turn, the bearer gains 10% final damage if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Lock."
                 },
                 {
                     "int_minimum": 0,
@@ -86782,7 +86782,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Harmony of Pandala:\n• When the bearer inflicts damage during their turn, they and their allies carrying the {{item,23408::Dorigami}} gain 20 Damage for 1 turn (stackable 1 time).\n• If the bearer does not inflict damage, they and their allies carrying the {{item,23237::Domakuro}} gain 100% of the bearer's level as shield for 1 turn."
+                    "formatted": "{{spell,18888,1::Harmony of Pandala}}:\n• When the bearer inflicts damage during their turn, they and their allies carrying the {{item,23408::Dorigami}} gain 20 Damage for 1 turn (stackable 1 time).\n• If the bearer does not inflict damage, they and their allies carrying the {{item,23237::Domakuro}} gain 100% of the bearer's level as shield for 1 turn."
                 },
                 {
                     "int_minimum": 0,
@@ -86896,7 +86896,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ebony Black:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed."
+                    "formatted": "{{spell,18629,1::Ebony Black}}:\n• When the bearer attacks in close combat during their turn, they gain 2% ranged damage, and if they attack from range, they gain 2% close-combat damage, for 3 turns (stackable 5 times).\n• Triggering both effects during the turn allows the next attack to apply a 16 poison in its element for 2 turns (stackable 2 times).\n• The poison's cooldown period is 2 turns but can be reset if the target is killed."
                 },
                 {
                     "int_minimum": 0,
@@ -87018,7 +87018,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ivory White:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible."
+                    "formatted": "{{spell,18665,1::Ivory White}}:\n• The bearer reduces damage from one out of five attacks by 50%. Interception and damage-sharing effects are incompatible."
                 },
                 {
                     "int_minimum": 0,
@@ -105598,7 +105598,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ochre Yellow:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge."
+                    "formatted": "{{spell,8394,1::Ochre Yellow}}:\n• At the start of each turn, the bearer gains 1 AP if they haven't suffered any enemy attacks since their previous turn. Otherwise, the bearer gains 20 Dodge."
                 },
                 {
                     "int_minimum": 0,
@@ -147696,7 +147696,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Nebulous Dream:\n• On odd turns, the bearer sacrifices 10% final healing to gain 20% final damage.\n• On even turns, the bearer sacrifices 10% final damage to gain 20% final healing."
+                    "formatted": "{{spell,5454,1::Nebulous Dream}}:\n• On odd turns, the bearer sacrifices 10% final healing to gain 20% final damage.\n• On even turns, the bearer sacrifices 10% final damage to gain 20% final healing."
                 },
                 {
                     "int_minimum": 0,
@@ -244700,17 +244700,17 @@
                     "formatted": "5 Lock"
                 },
                 {
-                    "int_minimum": 4,
+                    "int_minimum": 5,
                     "int_maximum": 0,
                     "type": {
-                        "name": "MP Reduction",
-                        "id": 50,
+                        "name": "AP Parry",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "4 MP Reduction"
+                    "formatted": "5 AP Parry"
                 }
             ],
             "is_weapon": false,
@@ -244781,17 +244781,17 @@
                     "formatted": "10 Lock"
                 },
                 {
-                    "int_minimum": 8,
+                    "int_minimum": 10,
                     "int_maximum": 0,
                     "type": {
-                        "name": "MP Reduction",
-                        "id": 50,
+                        "name": "AP Parry",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "8 MP Reduction"
+                    "formatted": "10 AP Parry"
                 }
             ],
             "is_weapon": false,
@@ -244867,17 +244867,17 @@
                     "formatted": "20 Lock"
                 },
                 {
-                    "int_minimum": 16,
+                    "int_minimum": 20,
                     "int_maximum": 0,
                     "type": {
-                        "name": "MP Reduction",
-                        "id": 50,
+                        "name": "AP Parry",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "16 MP Reduction"
+                    "formatted": "20 AP Parry"
                 }
             ],
             "is_weapon": false,
@@ -344179,7 +344179,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Dimensional Vigil:\n• When the bearer ends their turn, heals all allies in line with the bearer for 7% of their HP."
+                    "formatted": "{{spell,5453,1::Dimensional Vigil}}:\n• When the bearer ends their turn, heals all allies in line with the bearer for 7% of their health."
                 },
                 {
                     "int_minimum": 0,
@@ -355072,7 +355072,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The Monkey and the Moon:\n• Every 3 turns starting on turn 3, the bearer regains 10% health."
+                    "formatted": "{{spell,6149,1::The Monkey and the Moon}}:\n• Every 3 turns starting on turn 3, the bearer is healed for 10% of their health."
                 },
                 {
                     "int_minimum": 0,
@@ -379040,7 +379040,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Descent to the Abysses:\n• At the start of each turn, the bearer earns 1 MP if they have no adjacent enemies. Otherwise, they gain 1 AP."
+                    "formatted": "{{spell,6828,1::Descent to the Abysses}}:\n• At the start of each turn, the bearer gains 1 MP if they have no adjacent enemies. Otherwise, they gain 1 AP."
                 },
                 {
                     "int_minimum": 0,
@@ -408590,7 +408590,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Volcano Forge:\n• The bearer gains 100% of their level as shield based on the enemy effects suffered (1 time per effect type per turn):\n • pushback damage\n • attraction or pushback\n • place switching, teleportation or teleportal\n• carried by a Pandawa"
+                    "formatted": "{{spell,10164,1::Volcano Forge}}:\n• The bearer gains 100% of their level as shield based on the enemy effects suffered (1 time per effect type per turn):\n • pushback damage\n • attraction or pushback\n • place switching, teleportation or teleportal\n• carried by a Pandawa"
                 },
                 {
                     "int_minimum": 100,
@@ -414117,7 +414117,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Memory of Silver:\n• When the bearer falls below 20% health, they are healed for 20% of their health at the start of their next turn (once per fight)."
+                    "formatted": "{{spell,18674,1::Memory of Silver}}:\n• When the bearer falls below 20% health, they are healed for 20% of their health at the start of their next turn (1 time per fight)."
                 }
             ],
             "is_weapon": false,
@@ -416810,7 +416810,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Promise of Silver:\n• When the bearer falls below 20% health, they are healed for 30% of their health and gain 20% final damage for 1 turn at the start of their next turn (once per fight)."
+                    "formatted": "{{spell,18672,1::Promise of Silver}}:\n• When the bearer falls below 20% health, they are healed for 30% of their health and gain 20% final damage for 1 turn at the start of their next turn (1 time per fight)."
                 },
                 {
                     "int_minimum": 300,
@@ -416896,7 +416896,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Crocobur's Appetite:\n• At the start of each turn, the bearer inflicts 15 damage on themself in their best attack element to inflict the same amount of health-steal damage on adjacent entities at the end of the bearer's turn. Also heals attackers by 7% of damage inflicted on enemies hit until the bearer's next turn (stackable 1 time)."
+                    "formatted": "{{spell,11352,1::Crocobur's Appetite}}:\n• At the start of each turn, the bearer inflicts 15 damage on themself in their best attack element to inflict the same amount of health-steal damage on adjacent entities at the end of the bearer's turn. Also heals attackers by 7% of damage inflicted on enemies hit for 2 turns (stackable 1 time)."
                 },
                 {
                     "int_minimum": 451,
@@ -417159,7 +417159,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Fateful Destiny:\n• At the end of each turn, the bearer shares damage between enemies in a 1-cell square and increases the damage they suffer by 6% for 2 turns (stackable 1 time). The bearer also gains 10 Lock for 1 turn for each enemy hit."
+                    "formatted": "{{spell,11354,1::Fateful Destiny}}:\n• At the end of each turn, the bearer shares damage between enemies in a 1-cell square and increases the damage they suffer by 6% for 2 turns (stackable 1 time). The bearer also gains 10 Lock for 1 turn for each enemy hit."
                 },
                 {
                     "int_minimum": 401,
@@ -417295,7 +417295,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 100,
-            "critical_hit_bonus": 3,
+            "critical_hit_bonus": 6,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -417370,7 +417370,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Novamaire Cold:\n• At the end of each turn, the bearer removes 1 AP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 AP for 1 turn (stackable 2 times).\n• When the bearer finishes off an enemy fighter, they place a glyph-aura that makes allies Invisible for 1 turn in a 3-cell circle."
+                    "formatted": "{{spell,12147,1::Novamaire Cold}}:\n• At the end of each turn, the bearer removes 1 AP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 AP for 1 turn (stackable 2 times).\n• When the bearer finishes off an enemy fighter, they place a glyph-aura that makes allies Invisible for 1 turn in a 3-cell circle."
                 },
                 {
                     "int_minimum": 351,
@@ -417607,7 +417607,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Buhorado Feather:\n• When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns (stackable 10 times)."
+                    "formatted": "{{spell,11357,1::Buhorado Feather}}:\n• When the bearer lands a critical hit, they gain 10 Pushback Damage for 3 turns."
                 },
                 {
                     "int_minimum": 301,
@@ -417844,7 +417844,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Fallanster's Rectitude:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn. The glyph disappears on the next turn or if it is moved."
+                    "formatted": "{{spell,11358,1::Fallanster's Rectitude}}:\n• When the bearer ends their turn in an enemy's line of sight, they place a glyph-aura in a 1-cell square, which reduces the damage suffered by allies by 10% until the start of the bearer's next turn (stackable 1 time). The glyph disappears on the next turn or if it is moved."
                 },
                 {
                     "int_minimum": 251,
@@ -418034,7 +418034,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Death-Defying:\n• When the bearer has more than 50% health, their final damage is increased by 7%, but they lose 10% of their health at the start of each turn.\n• When they have less than 50% HP, the damage taken is reduced by 20%."
+                    "formatted": "{{spell,11359,1::Death-Defying}}:\n• When the bearer has more than 50% health, their final damage is increased by 7%, but they lose 10% of their health at the start of each turn.\n• When they have less than 50% health, the damage they suffer is reduced by 20%."
                 },
                 {
                     "int_minimum": 251,
@@ -418224,7 +418224,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "King Under the Mountain:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target."
+                    "formatted": "{{spell,11360,1::King Under the Mountain}}:\n• When the bearer performs or suffers an attempted AP or MP removal, they gain 2% final damage for 2 turns (stackable 5 times).\n• The effects cannot be triggered if the bearer is both the attacker and the target."
                 },
                 {
                     "int_minimum": 351,
@@ -418479,7 +418479,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ganymede's Wisdom:\n• The bearer gains 2 AP on even turns and loses 1 AP and 1 MP on odd turns."
+                    "formatted": "{{spell,11361,1::Ganymede's Wisdom}}:\n• The bearer gains 2 AP on even turns but loses 1 AP and 1 MP on odd turns."
                 },
                 {
                     "int_minimum": 301,
@@ -418695,7 +418695,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Rykke Errel's Bravery:\n• When the bearer suffers a ranged attack, they gain 10% of their level as shield and lose 1% ranged damage for 1 turn for each cell of distance from their attacker (max. 11 cells)."
+                    "formatted": "{{spell,11363,1::Rykke Errel's Bravery}}:\n• When the bearer suffers a ranged attack, they gain 10% of their level as shield and lose 1% ranged damage for 1 turn for each cell of distance from their attacker (max. 11 cells)."
                 },
                 {
                     "int_minimum": 401,
@@ -418924,7 +418924,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Elemental Assimilation:\n• When the bearer suffers damage in an element, they gain 4% resistance in that element for 2 turns (stackable 5 times, shared between elements)."
+                    "formatted": "{{spell,11365,1::Elemental Assimilation}}:\n• When the bearer suffers damage in an element, they gain 4% resistance in that element for 2 turns (stackable 5 times, shared between elements)."
                 },
                 {
                     "int_minimum": 351,
@@ -419075,7 +419075,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Thousand Leagues:\n• The bearer gains 2 MP on odd turns."
+                    "formatted": "{{spell,11366,1::Thousand Leagues}}:\n• The bearer gains 2 MP on odd turns."
                 },
                 {
                     "int_minimum": 501,
@@ -419278,7 +419278,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The Kicked Asses:\n• At the start and end of each turn, the bearer pushes adjacent entities back by 2 cells."
+                    "formatted": "{{spell,11367,1::The Kicked Asses}}:\n• At the start and end of each turn, the bearer pushes adjacent entities back by 2 cells."
                 },
                 {
                     "int_minimum": 301,
@@ -419520,7 +419520,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Dodge's Audacity:\n• At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn."
+                    "formatted": "{{spell,11368,1::Dodge's Audacity}}:\n• At the start of each turn, the bearer teleports or switches places to a random adjacent cell and gains 1 MP and 10% Critical, or is not moved and gains 40 Dodge and Pushback Damage, for 1 turn."
                 },
                 {
                     "int_minimum": 351,
@@ -419749,7 +419749,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Lady Jhessica's Courage:\n• At the end of each turn, the bearer removes 60 Dodge from adjacent enemies and gains 1% spell damage for each enemy hit for 1 turn."
+                    "formatted": "{{spell,11369,1::Lady Jhessica's Courage}}:\n• At the end of each turn, the bearer removes 60 Dodge from adjacent enemies (stackable 1 time) and gains 1% spell damage for each enemy hit for 2 turns (stackable 4 times)."
                 },
                 {
                     "int_minimum": 401,
@@ -423112,7 +423112,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Chocolatey Blessing:\n• When attacked from long range and adjacent to an enemy, the bearer gains 35% of their level as shield for 1 turn at the start of their next turn."
+                    "formatted": "{{spell,12344,1::Chocolatey Blessing}}:\n• When attacked from long range and adjacent to an enemy, the bearer gains 35% of their level as shield for 1 turn at the start of their next turn."
                 },
                 {
                     "int_minimum": 0,
@@ -425136,7 +425136,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 550% of their level as shield on the first turn, 200% on the second turn and 100% on the third turn."
+                    "formatted": "{{spell,14762,1::Prytekt-O-Mat}}:\n• The bearer gains 550% of their level as shield on the first turn, 200% on the second turn and 100% on the third turn."
                 },
                 {
                     "int_minimum": 40,
@@ -425287,7 +425287,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 150% of their level as shield on the first turn, 450% on the second turn and 150% on the third turn."
+                    "formatted": "{{spell,14763,1::Shiny Prytekt}}:\n• The bearer gains 150% of their level as shield on the first turn, 450% on the second turn and 150% on the third turn."
                 },
                 {
                     "int_minimum": 40,
@@ -425438,7 +425438,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 100% of their level as shield on the first turn, 200% on the second turn and 350% on the third turn."
+                    "formatted": "{{spell,14764,1::Iridescent Prytekt}}:\n• The bearer gains 100% of their level as shield on the first turn, 200% on the second turn and 350% on the third turn."
                 },
                 {
                     "int_minimum": 40,
@@ -426156,7 +426156,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer is Unlockable as long as they have not inflicted any damage.\nIf they inflict damage, the duration of the state changes to 1 turn."
+                    "formatted": "{{spell,14902,1::Sprynt}}:\n• The bearer is Unlockable as long as they have not inflicted any damage. If they inflict damage, the duration of the state changes to 1 turn."
                 },
                 {
                     "int_minimum": 1,
@@ -426255,7 +426255,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer sacrifices 10% final damage to gain 1 AP for 3 turns."
+                    "formatted": "{{spell,14903,1::Pryssure-O-Mat}}:\n• The bearer sacrifices 10% final damage to gain 1 AP for 3 turns."
                 },
                 {
                     "int_minimum": 1,
@@ -426354,7 +426354,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer sacrifices 35% final damage to gain 2 AP for 2 turns."
+                    "formatted": "{{spell,14904,1::Shiny Pryssure}}:\n• The bearer sacrifices 35% final damage to gain 2 AP for 2 turns."
                 },
                 {
                     "int_minimum": 1,
@@ -426453,7 +426453,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer sacrifices 50% final damage to gain 3 AP for 1 turn."
+                    "formatted": "{{spell,14905,1::Iridescent Pryssure}}:\n• The bearer sacrifices 50% final damage to gain 3 AP for 1 turn."
                 },
                 {
                     "int_minimum": 1,
@@ -426552,7 +426552,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn."
+                    "formatted": "{{spell,14908,1::Surpryz}}:\n• The bearer gains 100% Critical on the first turn, 35% on the second turn and 15% on the third turn."
                 },
                 {
                     "int_minimum": 10,
@@ -426651,7 +426651,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer sacrifices 10% resistance to gain 10% final damage on the first turn, then gains 3% final damage and resistance on the second turn, and sacrifices 10% final damage to gain 10% resistance on the third turn."
+                    "formatted": "{{spell,14913,1::Prynyang}}:\n• The bearer sacrifices 10% resistance to gain 10% final damage on the first turn, then gains 3% final damage and resistance on the second turn, and sacrifices 10% final damage to gain 10% resistance on the third turn."
                 },
                 {
                     "int_minimum": 25,
@@ -426750,7 +426750,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 1 MP for 1 turn for each enemy fighter more than 9 cells away from them at the start of the first 3 turns (stackable 3 times)."
+                    "formatted": "{{spell,14919,1::Prycapture}}:\n• The bearer gains 1 MP for 1 turn for each enemy fighter more than 9 cells away from them at the start of the first 3 turns (stackable 3 times)."
                 },
                 {
                     "int_minimum": 1,
@@ -426849,7 +426849,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Heals 60% of enemy damage suffered on the first turn, 30% on the second turn and 10% on the third turn."
+                    "formatted": "{{spell,14926,1::Prygenerate}}:\n• Heals 60% of enemy damage suffered on the first turn, 30% on the second turn and 10% on the third turn."
                 },
                 {
                     "int_minimum": 200,
@@ -426948,7 +426948,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 2 AP on their first turn."
+                    "formatted": "{{spell,14930,1::Prysipitate-O-Mat}}:\n• The bearer gains 2 AP on their first turn."
                 },
                 {
                     "int_minimum": 1,
@@ -427047,7 +427047,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer sacrifices 2 MP to gain 3 AP on their first turn."
+                    "formatted": "{{spell,14931,1::Shiny Prysipitate}}:\n• The bearer sacrifices 2 MP to gain 3 AP on their first turn."
                 },
                 {
                     "int_minimum": 1,
@@ -427146,7 +427146,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer sacrifices 4 MP to gain 4 AP on their first turn."
+                    "formatted": "{{spell,14932,1::Iridescent Prysipitate}}:\n• The bearer sacrifices 4 MP to gain 4 AP on their first turn."
                 },
                 {
                     "int_minimum": 1,
@@ -427245,7 +427245,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 100 AP/MP removal on the first turn, 50 on the second turn and 25 on the third turn."
+                    "formatted": "{{spell,14933,1::Spryritual}}:\n• The bearer gains 100 Reduction on the first turn, 50 on the second turn and 25 on the third turn."
                 },
                 {
                     "int_minimum": 20,
@@ -427370,7 +427370,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 200 Parry on the first turn, 100 on the second turn and 50 on the third turn."
+                    "formatted": "{{spell,14934,1::Prysical}}:\n• The bearer gains 200 Parry on the first turn, 100 on the second turn and 50 on the third turn."
                 },
                 {
                     "int_minimum": 30,
@@ -427495,7 +427495,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gives 15% resistance to their summons on the first turn, 10% on the second turn and 5% on the third turn."
+                    "formatted": "{{spell,14939,1::Caraprys}}:\n• The bearer gives 15% resistance to their summons on the first turn, 10% on the second turn and 5% on the third turn."
                 },
                 {
                     "int_minimum": 2,
@@ -427594,7 +427594,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer becomes Invisible for 1 turn at the start of their first turn.\nThe invisibility does not wear off when the bearer attacks, but it is removed if they suffer any damage."
+                    "formatted": "{{spell,14940,1::Disaprys}}:\n• The bearer becomes Invisible for 1 turn at the start of their first turn. The invisibility does not wear off when the bearer attacks, but it is removed if they suffer any damage."
                 },
                 {
                     "int_minimum": 1000,
@@ -427706,7 +427706,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer reduces the duration of active effects on themself by 4 turns at the start of their first turn."
+                    "formatted": "{{spell,14941,1::Prywitchment}}:\n• The bearer reduces the duration of active effects on themself by 4 turns at the start of their first turn."
                 },
                 {
                     "int_minimum": 80,
@@ -427805,7 +427805,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer increases the healing received by their allied fighters by 10% during the bearer's turn on the first turn, then by 35% on the second turn and by 50% on the third turn."
+                    "formatted": "{{spell,14943,1::Aspryst}}:\n• The bearer increases the healing received by their allied fighters by 10% during the bearer's turn on the first turn, then by 35% on the second turn and by 50% on the third turn."
                 },
                 {
                     "int_minimum": 40,
@@ -427904,7 +427904,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 200% of their level as shield until the end of the fight at the start of the first turn of each enemy fighter that plays before them."
+                    "formatted": "{{spell,14945,1::Pryshield}}:\n• The bearer gains 200% of their level as shield until the end of the fight at the start of the first turn of each enemy fighter that plays before them."
                 },
                 {
                     "int_minimum": 40,
@@ -428055,7 +428055,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer gains 2% close-combat damage for 3 turns for each enemy fighter within 3 cells or less of the bearer at the start and end of their first turn."
+                    "formatted": "{{spell,14948,1::Pryximity}}:\n• The bearer gains 2% close-combat damage for 3 turns for each enemy fighter within 3 cells or less of the bearer at the start and end of their first turn."
                 },
                 {
                     "int_minimum": 6,
@@ -428154,7 +428154,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer reduces all types of damage suffered by 80% on the first turn."
+                    "formatted": "{{spell,14949,1::Prymune}}:\n• The bearer reduces all types of damage suffered by 80% on the first turn."
                 },
                 {
                     "int_minimum": 3,
@@ -428318,7 +428318,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer is in the Gravity state as long as they have not suffered any damage.\nIf they suffer damage, the duration of the state changes to 1 turn."
+                    "formatted": "{{spell,14950,1::Gravprysy}}:\n• The bearer is in the Gravity state as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn."
                 },
                 {
                     "int_minimum": 50,
@@ -432182,7 +432182,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Attrition Warfare:\n• At the end of each turn, the bearer removes 2 MP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 MP until the end of the fight (stackable 5 times)."
+                    "formatted": "{{spell,15739,1::Attrition Warfare}}:\n• At the end of each turn, the bearer removes 2 MP from adjacent enemies for 1 turn (stackable 1 time).\n• When an enemy fighter is finished off, the bearer gains 1 MP until the end of the fight (stackable 5 times)."
                 },
                 {
                     "int_minimum": 7,
@@ -432305,7 +432305,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 15,
+            "critical_hit_bonus": 10,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -432432,7 +432432,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Pestilential Fog:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on entities within 2 cells or less of the bearer for 2 turns (stackable 1 time)."
+                    "formatted": "{{spell,15975,1::Pestilential Fog}}:\n• When the bearer reaches 90% health, they apply a start-of-turn poison for 18 damage in their best attack element on enemies within 2 cells or less of the bearer for 2 turns (stackable 1 time)."
                 },
                 {
                     "int_minimum": 3,
@@ -432713,7 +432713,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Shackles of Tyranny:\n• At the end of each turn, the bearer attracts entities in a straight line with them and within 3 cells or less. If there are no entities adjacent to the bearer, the bearer becomes Unmovable until the start of their next turn. The state is removed if they suffer damage."
+                    "formatted": "{{spell,15984,1::Shackles of Tyranny}}:\n• At the end of each turn, the bearer attracts entities within 3 cells or less of them and in a straight line with them. If there are no entities adjacent to the bearer, the bearer becomes Unmovable until the start of their next turn. The state is removed if they suffer damage."
                 },
                 {
                     "int_minimum": 7,
@@ -433020,7 +433020,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Trial of the Scales:\n• When the bearer suffers an attempted AP, MP or Range reduction, they steal 2% resistance from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer."
+                    "formatted": "{{spell,15996,1::Trial of the Scales}}:\n• When the bearer suffers an attempted AP, MP or Range reduction, they steal 2% resistance from their attacker for 2 turns (stackable 4 times).\n• The effects cannot be triggered by the bearer."
                 },
                 {
                     "int_minimum": 8,
@@ -433130,7 +433130,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 2,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -433257,7 +433257,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ink River:\n• At the end of each turn for the first 4 turns, the bearer and their summons gain up to 16 Damage until the end of the fight.\n• This bonus is reduced each time the bearer attacks an enemy during their turn:\n • No attacks: 16 Damage\n • 1 attack: 8 Damage\n• 2 attacks or more: 0 Damage"
+                    "formatted": "{{spell,17006,1::Ink River}}:\n• At the end of each turn for the first 4 turns, the bearer and their summons gain up to 16 Damage until the end of the fight.\n• This bonus is reduced each time the bearer attacks an enemy during their turn:\n • No attacks: 16 Damage\n • 1 attack: 8 Damage\n• 2 attacks or more: 0 Damage"
                 },
                 {
                     "int_minimum": 1,
@@ -438606,7 +438606,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Paper Tiger:\n• For the first 5 turns, the bearer gains 100% of their level as shield for 1 turn at the start of every turn.\n• For the first 5 turns, if the bearer kills an enemy during their turn, they gain a shield for 2 turns based on the nature of the enemy:\n • Summons: 100% of its level as shield (stackable 4 times).\n• Fighter: 300% of its level as shield (stackable 2 times)."
+                    "formatted": "{{spell,17307,1::Paper Tiger}}:\n• For the first 5 turns, the bearer gains 100% of their level as shield for 1 turn at the start of every turn.\n• For the first 5 turns, if the bearer kills an enemy during their turn, they gain a shield for 2 turns based on the nature of the enemy:\n • Summons: 100% of its level as shield (stackable 4 times).\n• Fighter: 300% of its level as shield (stackable 2 times)."
                 },
                 {
                     "int_minimum": 20,
@@ -452405,7 +452405,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Nightmare Eternal:\n• Bontarian Shield: when the bearer is unbewitched or hindered, the bearer gains 100% of their level as shield for 1 turn.\n• Brakmarian Power: when the bearer inflicts or suffers pushback damage, the bearer gains 100 Power for 1 turn. \n• Nightmare Eye: if the bearer triggers 2 effects in the same turn, the damage they inflict and suffer increases by 10% for 1 turn.\n• The effects can only be triggered once per turn."
+                    "formatted": "{{spell,20981,1::Nightmare Eternal}}:\n• Bontarian Shield: when the bearer is unbewitched or hindered, the bearer gains 100% of their level as shield for 1 turn.\n• Brakmarian Power: when the bearer inflicts or suffers pushback damage, the bearer gains 100 Power for 1 turn. \n• Nightmare Eye: if the bearer triggers both effects in the same turn, the damage they inflict and suffer increases by 10% for 1 turn.\n• The effects can only be triggered once per turn."
                 }
             ],
             "is_weapon": false,
@@ -462090,14 +462090,14 @@
                     "int_minimum": 23319,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - cooldown",
-                        "id": 227,
+                        "name": ": + cast per turn",
+                        "id": 279,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Renown: -1 cooldown"
+                    "formatted": "Renown: +1 casts per turn"
                 }
             ],
             "is_weapon": false,
@@ -484942,7 +484942,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Country Ranger:\n• The bearer gains 8 Power for 2 turns for each MP they use.\n• If the bearer doesn't use any MP during their turn, they are healed for 8% of their health."
+                    "formatted": "{{spell,28516,1::Country Ranger}}:\n• The bearer gains 8 Power for 2 turns for each MP they use.\n• If the bearer doesn't use any MP during their turn, they are healed for 8% of their health."
                 }
             ],
             "is_weapon": false,
@@ -499683,7 +499683,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Explosive Hatching:\n• When one of the bearer's summons is attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).\n• If it is killed by an enemy, the bearer inflicts 10 damage in their best element on enemies in a 2-cell circle around the summons."
+                    "formatted": "{{spell,31607,1::Explosive Hatching}}:\n• When one of the bearer's summons is attacked, the bearer gains 1% final damage for 2 turns (stackable 10 times).\n• If it is killed by an enemy, the bearer inflicts 10 damage in their best element on enemies in a 2-cell circle around the summons."
                 },
                 {
                     "int_minimum": 2,
@@ -501402,7 +501402,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Ardour of the Dark City:\n• At the start of each turn, the bearer and their allies gain 1% final damage for 1 turn for each enemy fighter alive (stackable 4 times)."
+                    "formatted": "{{spell,31856,1::Ardour of the Dark City}}:\n• At the start of each turn, the bearer and their allies gain 1% final damage for 1 turn for each enemy fighter alive (stackable 4 times)."
                 },
                 {
                     "int_minimum": 401,
@@ -501631,7 +501631,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Blinding Reflection:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time)."
+                    "formatted": "{{spell,31857,1::Blinding Reflection}}:\n• The bearer reduces and reflects 75% of initial damage from the first allied attack suffered onto the enemy closest to them in their line of sight (once per turn).\n• At the end of each turn, the bearer removes 4 Range from all enemies in their line of sight for 1 turn and reveals them if they are Invisible (stackable 1 time)."
                 },
                 {
                     "int_minimum": 251,
@@ -501795,7 +501795,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Order of Thunder:\n• At the end of each turn, the bearer gives 1 MP and 40 Pushback Damage to all allies in their line of sight for 1 turn (stackable 1 time).\n• When an allied fighter dies, the bearer increases the final damage of all others by 4% until the end of the fight (stackable 2 times).\n• The effects are removed when the bearer dies."
+                    "formatted": "{{spell,31859,1::Order of Thunder}}:\n• The bearer gains 8 Pushback Damage for 2 turns for each MP they use.\n• At the end of each turn, the bearer gives 1 MP to all allies in their line of sight for 1 turn (stackable 1 time)."
                 },
                 {
                     "int_minimum": 401,
@@ -502032,7 +502032,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Thanatena's Judgement:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. Healing is 5% of their health if it is a summons."
+                    "formatted": "{{spell,31860,1::Thanatena's Judgement}}:\n• At the start of each turn, the bearer erodes and increases damage suffered by everyone by 4% for 1 turn (stackable 1 time).\n• When they finish off an enemy, they are healed for 20% of their health and gain 10% final damage for 1 turn. Healing is 5% of their health if it is a summons."
                 },
                 {
                     "int_minimum": 81,
@@ -502295,7 +502295,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Helsephine's Love:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 8% of their health within 3 cells or less around them (once per turn)."
+                    "formatted": "{{spell,31861,1::Helsephine's Love}}:\n• When the bearer applies shield or inflicts close-combat damage, they heal allies for 6% of their health within 3 cells or less around them (once per trigger type per turn)."
                 },
                 {
                     "int_minimum": 451,
@@ -502511,7 +502511,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Henual's Punctuality:\n• When the bearer suffers an attempted AP or MP removal, they are teleported to their previous position up to one time for each type of removal."
+                    "formatted": "{{spell,31862,1::Henual's Punctuality}}:\n• The bearer gains 1 AP when they teleport, are teleported, or switch places (1 time per turn).\n• If the bearer didn't suffer anything on the previous turn, they are teleported to their previous position at the start of their turn."
                 },
                 {
                     "int_minimum": 401,
@@ -502714,7 +502714,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Meriana's Clairvoyance:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction"
+                    "formatted": "{{spell,31858,1::Meriana's Clairvoyance}}:\n• When the bearer inflicts elemental damage, they gain Reduction based on the element for 2 turns (stackable 8 times, shared among effects):\n • Earth & Water: 5 MP Reduction\n• Fire & Air: 5 AP Reduction"
                 },
                 {
                     "int_minimum": 151,
@@ -503138,7 +503138,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Fervour of the White City:\n• At the start of each turn, the bearer and their allies gain 1% Resistance for 1 turn for each enemy fighter alive (stackable 4 times)."
+                    "formatted": "{{spell,31880,1::Fervour of the White City}}:\n• At the start of each turn, the bearer and their allies gain 1% Resistance for 1 turn for each enemy fighter alive (stackable 4 times)."
                 },
                 {
                     "int_minimum": 1,
@@ -503258,7 +503258,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "The bearer is Unmovable as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn."
+                    "formatted": "{{spell,31881,1::Unmovaprys}}:\n• The bearer is Unmovable as long as they have not suffered any damage. If they suffer damage, the duration of the state changes to 1 turn."
                 },
                 {
                     "int_minimum": 100,
@@ -545781,7 +545781,7 @@
         },
         {
             "ankama_id": 34569,
-            "name": "[!] Test Masquer effet",
+            "name": "Hide Effect Test",
             "type": {
                 "name": "",
                 "id": 212
@@ -545807,7 +545807,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151271-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151271-128.png"
             },
-            "description": "[!] Avec ce trophée, vous pourriez devenir le meilleur dresseur et vous battre sans répit. Vous pourriez tout faire pour être vainqueur et gagner les défis.",
+            "description": "With this trophy, you could become the best trainer of all time and take on fight after fight. You could do whatever it takes to win every battle and conquer every challenge.",
             "recipe": [
                 {
                     "item_ankama_id": 748,
@@ -545870,7 +545870,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151272-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151272-128.png"
             },
-            "description": "[!] Avec ce trophée, vous excellerez dans l'art de dompter les bêtes.",
+            "description": "With this trophy, you will excel in the art of taming beasts.",
             "recipe": [
                 {
                     "item_ankama_id": 749,
@@ -545939,7 +545939,7 @@
         },
         {
             "ankama_id": 34615,
-            "name": "[!] Mule mineure",
+            "name": "Minor Mule",
             "type": {
                 "name": "Trophy",
                 "id": 23
@@ -545949,7 +545949,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151184-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "This trophy increases your wisdom, but it won't dampen your passion.",
             "recipe": [
                 {
                     "item_ankama_id": 302,
@@ -546015,7 +546015,7 @@
         },
         {
             "ankama_id": 34616,
-            "name": "[!] Mule",
+            "name": "Mule",
             "type": {
                 "name": "Trophy",
                 "id": 23
@@ -546025,7 +546025,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151185-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151185-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "This trophy increases your wisdom, but it won't dampen your passion.",
             "recipe": [
                 {
                     "item_ankama_id": 750,
@@ -546096,7 +546096,7 @@
         },
         {
             "ankama_id": 34617,
-            "name": "[!] Mule majeure",
+            "name": "Major Mule",
             "type": {
                 "name": "Trophy",
                 "id": 23
@@ -546106,7 +546106,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "This trophy increases your wisdom, but it won't dampen your passion.",
             "recipe": [
                 {
                     "item_ankama_id": 2516,

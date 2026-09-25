@@ -244700,17 +244700,17 @@
                     "formatted": "5 Blocken"
                 },
                 {
-                    "int_minimum": 4,
+                    "int_minimum": 5,
                     "int_maximum": 0,
                     "type": {
-                        "name": "BP-Entzug",
-                        "id": 50,
+                        "name": "Res. gg. AP-Entzug",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "4 BP-Entzug"
+                    "formatted": "5 Res. gg. AP-Entzug"
                 }
             ],
             "is_weapon": false,
@@ -244781,17 +244781,17 @@
                     "formatted": "10 Blocken"
                 },
                 {
-                    "int_minimum": 8,
+                    "int_minimum": 10,
                     "int_maximum": 0,
                     "type": {
-                        "name": "BP-Entzug",
-                        "id": 50,
+                        "name": "Res. gg. AP-Entzug",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "8 BP-Entzug"
+                    "formatted": "10 Res. gg. AP-Entzug"
                 }
             ],
             "is_weapon": false,
@@ -244867,17 +244867,17 @@
                     "formatted": "20 Blocken"
                 },
                 {
-                    "int_minimum": 16,
+                    "int_minimum": 20,
                     "int_maximum": 0,
                     "type": {
-                        "name": "BP-Entzug",
-                        "id": 50,
+                        "name": "Res. gg. AP-Entzug",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "16 BP-Entzug"
+                    "formatted": "20 Res. gg. AP-Entzug"
                 }
             ],
             "is_weapon": false,
@@ -417295,7 +417295,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 100,
-            "critical_hit_bonus": 3,
+            "critical_hit_bonus": 6,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -432305,7 +432305,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 15,
+            "critical_hit_bonus": 10,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -433130,7 +433130,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 2,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -462090,14 +462090,14 @@
                     "int_minimum": 23319,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": Abklingzeit verringert um –",
-                        "id": 227,
+                        "name": ": + Zauber pro Runde",
+                        "id": 279,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Renommiert: Abklingzeit verringert um –1"
+                    "formatted": "Renommiert: +1 Zauber pro Runde"
                 }
             ],
             "is_weapon": false,
@@ -502511,7 +502511,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "{{spell,31862,1::Henuals Pünktlichkeit}}:\n• Der Träger erhält 1 AP, wenn er gezwungen wird zu teleportieren oder die Position zu tauschen (einmal pro Runde).\n• Wurde er in der vorherigen Runde weder zur Teleportation noch zum Positionstausch gezwungen, wird er auf seine vorherige Position zu Beginn seiner Runde teleportiert."
+                    "formatted": "{{spell,31862,1::Henuals Pünktlichkeit}}:\n• Der Träger erhält 1 AP, wenn er teleportiert wird, sich selbst teleportiert oder die Position tauscht (1 Mal pro Runde).\n• Wurde er in der vorherigen Runde weder zur Teleportation noch zum Positionstausch gezwungen, wird er auf seine vorherige Position zu Beginn seiner Runde teleportiert."
                 },
                 {
                     "int_minimum": 401,
@@ -545781,7 +545781,7 @@
         },
         {
             "ankama_id": 34569,
-            "name": "[!] Test Masquer effet",
+            "name": "Test – Wirkung maskieren",
             "type": {
                 "name": "",
                 "id": 212
@@ -545807,7 +545807,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151271-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151271-128.png"
             },
-            "description": "[!] Avec ce trophée, vous pourriez devenir le meilleur dresseur et vous battre sans répit. Vous pourriez tout faire pour être vainqueur et gagner les défis.",
+            "description": "Mit dieser Trophäe könnt ihr der Allerbeste sein, wie keiner vor euch war. Ihr könnt sie euch alle schnappen!",
             "recipe": [
                 {
                     "item_ankama_id": 748,
@@ -545870,7 +545870,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151272-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151272-128.png"
             },
-            "description": "[!] Avec ce trophée, vous excellerez dans l'art de dompter les bêtes.",
+            "description": "Mit dieser Trophäe werdet ihr zu einem Meister in der Kunst des Zähmens.",
             "recipe": [
                 {
                     "item_ankama_id": 749,
@@ -545939,7 +545939,7 @@
         },
         {
             "ankama_id": 34615,
-            "name": "[!] Mule mineure",
+            "name": "Kleiner Maulesel",
             "type": {
                 "name": "Trophäe",
                 "id": 23
@@ -545949,7 +545949,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151184-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Mit dieser Trophäe könnt ihr eure Weisheit erhöhen. Aber euer hitziges Temperament bekommt ihr damit nicht in den Griff.",
             "recipe": [
                 {
                     "item_ankama_id": 302,
@@ -546015,7 +546015,7 @@
         },
         {
             "ankama_id": 34616,
-            "name": "[!] Mule",
+            "name": "Maulesel",
             "type": {
                 "name": "Trophäe",
                 "id": 23
@@ -546025,7 +546025,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151185-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151185-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Mit dieser Trophäe könnt ihr eure Weisheit erhöhen. Aber euer hitziges Temperament bekommt ihr damit nicht in den Griff.",
             "recipe": [
                 {
                     "item_ankama_id": 750,
@@ -546096,7 +546096,7 @@
         },
         {
             "ankama_id": 34617,
-            "name": "[!] Mule majeure",
+            "name": "Großer Maulesel",
             "type": {
                 "name": "Trophäe",
                 "id": 23
@@ -546106,7 +546106,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Mit dieser Trophäe könnt ihr eure Weisheit erhöhen. Aber euer hitziges Temperament bekommt ihr damit nicht in den Griff.",
             "recipe": [
                 {
                     "item_ankama_id": 2516,

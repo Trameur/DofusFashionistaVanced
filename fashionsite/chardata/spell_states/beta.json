@@ -1246,46 +1246,46 @@
   "pt": "Javelot-Foudre (ligne)"
  },
  "400": {
-  "de": "Wahnsinn 1",
-  "en": "Madness 1",
-  "es": "Locura 1",
+  "de": "Wahnsinn 1/10",
+  "en": "Madness 1/10",
+  "es": "Locura 1/10",
   "fr": "Folie 1/10",
-  "pt": "Loucura 1"
+  "pt": "Loucura 1/10"
  },
  "4005": {
-  "de": "Hand von Pandawa I",
-  "en": "Pandawa's Hand I",
-  "es": "Mano de Pandawa I",
+  "de": "Hand von Pandawa 1/1",
+  "en": "Pandawa's Hand 1/1",
+  "es": "Mano de Pandawa 1/1",
   "fr": "Main de Pandawa 1/1",
-  "pt": "Mão de Pandawa I"
+  "pt": "Mão de Pandawa 1/1"
  },
  "401": {
-  "de": "Wahnsinn 2",
-  "en": "Madness 2",
-  "es": "Locura 2",
+  "de": "Wahnsinn 2/10",
+  "en": "Madness 2/10",
+  "es": "Locura 2/10",
   "fr": "Folie 2/10",
-  "pt": "Loucura 2"
+  "pt": "Loucura 2/10"
  },
  "402": {
-  "de": "Wahnsinn 3",
-  "en": "Madness 3",
-  "es": "Locura 3",
+  "de": "Wahnsinn 3/10",
+  "en": "Madness 3/10",
+  "es": "Locura 3/10",
   "fr": "Folie 3/10",
-  "pt": "Loucura 3"
+  "pt": "Loucura 3/10"
  },
  "403": {
-  "de": "Wahnsinn 4",
-  "en": "Madness 4",
-  "es": "Locura 4",
+  "de": "Wahnsinn 4/10",
+  "en": "Madness 4/10",
+  "es": "Locura 4/10",
   "fr": "Folie 4/10",
-  "pt": "Loucura 4"
+  "pt": "Loucura 4/10"
  },
  "404": {
-  "de": "Wahnsinn 5",
-  "en": "Madness 5",
-  "es": "Locura 5",
+  "de": "Wahnsinn 5/10",
+  "en": "Madness 5/10",
+  "es": "Locura 5/10",
   "fr": "Folie 5/10",
-  "pt": "Loucura 5"
+  "pt": "Loucura 5/10"
  },
  "4045": {
   "de": "Instable Méditation Céleste",
@@ -1295,11 +1295,11 @@
   "pt": "Instable Méditation Céleste"
  },
  "405": {
-  "de": "Wahnsinn 6",
-  "en": "Madness 6",
-  "es": "Locura 6",
+  "de": "Wahnsinn 6/10",
+  "en": "Madness 6/10",
+  "es": "Locura 6/10",
   "fr": "Folie 6/10",
-  "pt": "Loucura 6"
+  "pt": "Loucura 6/10"
  },
  "4056": {
   "de": "Ausgangssperre",
@@ -1309,18 +1309,18 @@
   "pt": "Toque de Recolher"
  },
  "406": {
-  "de": "Wahnsinn 7",
-  "en": "Madness 7",
-  "es": "Locura 7",
+  "de": "Wahnsinn 7/10",
+  "en": "Madness 7/10",
+  "es": "Locura 7/10",
   "fr": "Folie 7/10",
-  "pt": "Loucura 7"
+  "pt": "Loucura 7/10"
  },
  "407": {
-  "de": "Wahnsinn 8",
-  "en": "Madness 8",
-  "es": "Locura 8",
+  "de": "Wahnsinn 8/10",
+  "en": "Madness 8/10",
+  "es": "Locura 8/10",
   "fr": "Folie 8/10",
-  "pt": "Loucura 8"
+  "pt": "Loucura 8/10"
  },
  "4077": {
   "de": "Ébriété rang 1",
@@ -1344,11 +1344,11 @@
   "pt": "Ébriété rang 3"
  },
  "408": {
-  "de": "Wahnsinn 9",
-  "en": "Madness 9",
-  "es": "Locura 9",
+  "de": "Wahnsinn 9/10",
+  "en": "Madness 9/10",
+  "es": "Locura 9/10",
   "fr": "Folie 9/10",
-  "pt": "Loucura 9"
+  "pt": "Loucura 9/10"
  },
  "410": {
   "de": "Leiter",
@@ -1603,7 +1603,7 @@
   "pt": "Micolobiossonado"
  },
  "513": {
-  "de": "Wut",
+  "de": "Tollwut",
   "en": "Rage",
   "es": "Rabia",
   "fr": "Rage",
@@ -1757,11 +1757,11 @@
   "pt": "Enrascado feito um Milobo"
  },
  "533": {
-  "de": "Marche des goules",
-  "en": "Marche des goules",
-  "es": "Marche des goules",
+  "de": "Marsch der Ghule",
+  "en": "Ghoulish March",
+  "es": "Marcha de Ghuls",
   "fr": "Marche des goules",
-  "pt": "Marche des goules"
+  "pt": "Marcha dos Carniçais"
  },
  "5343": {
   "de": "Entfettet",
@@ -1813,18 +1813,18 @@
   "pt": "Infectado (alvo)"
  },
  "5418": {
-  "de": "Puppenhafte Präparation I",
-  "en": "Dollish Decoction I",
-  "es": "Preparación Muñequera I",
+  "de": "Puppenhafte Präparation 1/3",
+  "en": "Dollish Decoction 1/3",
+  "es": "Preparación Muñequera 1/3",
   "fr": "Préparation Poupesque 1/3",
-  "pt": "Preparação Bonecal I"
+  "pt": "Preparação Bonecal 1/3"
  },
  "5420": {
-  "de": "Puppenhafte Präparation III",
-  "en": "Dollish Decoction III",
-  "es": "Preparación Muñequera III",
+  "de": "Puppenhafte Präparation 3/3",
+  "en": "Dollish Decoction 3/3",
+  "es": "Preparación Muñequera 3/3",
   "fr": "Préparation Poupesque 3/3",
-  "pt": "Preparação Bonecal III"
+  "pt": "Preparação Bonecal 3/3"
  },
  "5424": {
   "de": "Ansteckung (Ziel)",
@@ -1939,7 +1939,7 @@
   "pt": "Quadra de Reis"
  },
  "5488": {
-  "de": "Ass-Vierling",
+  "de": "As-Vierling",
   "en": "Four Aces",
   "es": "Póquer de Ases",
   "fr": "Carré d'As",
@@ -1953,25 +1953,25 @@
   "pt": "Para a Direita"
  },
  "5497": {
-  "de": "Erdrutsch IV",
-  "en": "Collapse IV",
-  "es": "Desprendimiento IV",
+  "de": "Erdrutsch 4/4",
+  "en": "Collapse 4/4",
+  "es": "Desprendimiento 4/4",
   "fr": "Éboulement 4/4",
-  "pt": "Desmoronamento IV"
+  "pt": "Desmoronamento 4/4"
  },
  "5498": {
-  "de": "Goldwaschen IV",
-  "en": "Placer Mining IV",
-  "es": "Búsqueda de Oro IV",
+  "de": "Goldwaschen 4/4",
+  "en": "Placer Mining 4/4",
+  "es": "​Búsqueda de Oro 4/4",
   "fr": "Orpaillage 4/4",
-  "pt": "Garimpo IV"
+  "pt": "Garimpo 4/4"
  },
  "5499": {
-  "de": "Klingende Münze IV",
-  "en": "Hard Cash IV",
-  "es": "Moneda Sonante IV",
+  "de": "Klingende Münze 4/4",
+  "en": "Hard Cash 4/4",
+  "es": "Moneda Sonante 4/4",
   "fr": "Monnaie Sonnante 4/4",
-  "pt": "Moeda Falsa IV"
+  "pt": "Moeda Falsa 4/4"
  },
  "550": {
   "de": "Nach unten",
@@ -2233,18 +2233,18 @@
   "pt": "Necrônix"
  },
  "573": {
-  "de": "Verheerender Pfeil I",
-  "en": "Devouring Arrow I",
-  "es": "Flecha Voraz I",
+  "de": "Verheerender Pfeil 1/3",
+  "en": "Devouring Arrow 1/3",
+  "es": "Flecha Voraz 1/3",
   "fr": "Flèche Dévorante 1/3",
-  "pt": "Flecha Devoradora I"
+  "pt": "Flecha Devoradora 1/3"
  },
  "574": {
-  "de": "Verheerender Pfeil II",
-  "en": "Devouring Arrow II",
-  "es": "Flecha Voraz II",
+  "de": "Verheerender Pfeil 2/3",
+  "en": "Devouring Arrow 2/3",
+  "es": "Flecha Voraz 2/3",
   "fr": "Flèche Dévorante 2/3",
-  "pt": "Flecha Devoradora II"
+  "pt": "Flecha Devoradora 2/3"
  },
  "5742": {
   "de": "Holmgang (cast)",
@@ -2499,11 +2499,11 @@
   "pt": "Dark Sônio"
  },
  "662": {
-  "de": "Verheerender Pfeil III",
-  "en": "Devouring Arrow III",
-  "es": "Flecha Voraz III",
+  "de": "Verheerender Pfeil 3/3",
+  "en": "Devouring Arrow 3/3",
+  "es": "Flecha Voraz 3/3",
   "fr": "Flèche Dévorante 3/3",
-  "pt": "Flecha Devoradora III"
+  "pt": "Flecha Devoradora 3/3"
  },
  "6626": {
   "de": "Kerker I",
@@ -2695,11 +2695,11 @@
   "pt": "Flecha de Abolição II"
  },
  "713": {
-  "de": "Infiziert III",
-  "en": "Infected III",
-  "es": "Infectado III",
+  "de": "Infiziert 3/3",
+  "en": "Infected 3/3",
+  "es": "Infectado 3/3",
   "fr": "Infecté 3/3",
-  "pt": "Infectado III"
+  "pt": "Infectado 3/3"
  },
  "714": {
   "de": "Graue Faust I",

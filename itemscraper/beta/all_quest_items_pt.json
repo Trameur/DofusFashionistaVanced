@@ -64078,7 +64078,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Terminar seu turno a 2 células ou menos de distância de um aliado dá 2 PM aos inimigos.\nAo final do turno deles, os inimigos atraem por 2 células todos os aliados situados a mais de 4 AL.\nNo início de cada turno de um inimigo, o personagem mais próximo do inimigo que inicia seu turno sofre 100% de danos adicionais durante 1 turno. (acúmulo máx. de 2)"
+                    "formatted": "{{spell,28440,1::Ídolo de Foluk Dourado}}\n• Quando um combatente aliado termina seu turno, os inimigos ganham 2 PM (1 turno) se ele tiver pelo menos um aliado a até 2 células dele.\n• Quando um inimigo termina seu turno, ele atrai por 2 células todos os aliados a mais de 4 células de distância dele."
                 }
             ],
             "pods": 1
@@ -64583,7 +64583,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "Os aliados colocam um glifo no início de seu turno por tempo indeterminado. Se os inimigos começarem ou terminarem seu turno na casa do glifo, eles se tornam invulneráveis.\nOs monstros ficam invulneráveis enquanto não são deslocados. Os danos de empurrão fazem com que eles ganhem 200% de danos.\nAo morrer, os adversários matam os inimigos situados nas células adjacentes.\nOs danos dos adversários aumentam em 400% e diminuem de 40% por turno de jogo."
+                    "formatted": "{{spell,28447,1::Ídolo de Foluk Feérico}}\n• Os inimigos ganham 400% de danos finais. Esses danos finais são reduzidos em 40% após cada turno global (acumula 10 vezes).\n• Quando um combatente aliado começa seu turno, ele coloca dois glifos de início e de fim de turno (duração infinita) que deixam os inimigos Invulneráveis (1 turno)."
                 }
             ],
             "pods": 1

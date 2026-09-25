@@ -126311,7 +126311,7 @@
         },
         {
             "ankama_id": 34618,
-            "name": "[!] Baume Okeur",
+            "name": "Belebender Balsam",
             "type": {
                 "name": "Gebrauchsgegenstände",
                 "id": 20
@@ -126321,7 +126321,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/165057-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/165057-128.png"
             },
-            "description": "[!] Ce baume vous permet de regagner de la vie et de l'énergie, et peut-être même d'accéder au bonheur.",
+            "description": "Dieser Balsam erfüllt euch wieder mit Leben und Energie – und vielleicht sogar mit Freude.",
             "effects": [
                 {
                     "int_minimum": 15,
@@ -126354,7 +126354,7 @@
         },
         {
             "ankama_id": 34621,
-            "name": "[!] Baies Tataiste",
+            "name": "Betabeeren",
             "type": {
                 "name": "Süßigkeit",
                 "id": 30
@@ -126364,7 +126364,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/94010-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/94010-128.png"
             },
-            "description": "[!] On raconte que manger ces baies permettrait d'accéder instantanément au bonheur. Malheureusement, ceci n'est qu'un mythe, le bonheur n'existe pas. Et ce que vous tenez dans les mains ne sont pas des baies, mais des cachets. Triste retour à la réalité...",
+            "description": "Es heißt, dass der Verzehr dieser Beeren einem unmittelbare Glücksgefühle beschert. Leider ist das nur eine Legende, denn wahres Glück gibt es nicht. Und was ihr da in Händen haltet sind keine Beeren, sondern Tabletten. Schon seid ihr wieder auf dem Boden der Tatsachen gelandet ...",
             "effects": [
                 {
                     "int_minimum": 10000,
@@ -126397,7 +126397,7 @@
         },
         {
             "ankama_id": 34674,
-            "name": "[!] Parchemin de Niveau (200)",
+            "name": "Schriftrolle des Stufengewinns (200)",
             "type": {
                 "name": "EP-Schriftrolle",
                 "id": 164
@@ -126407,7 +126407,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/13003-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/13003-128.png"
             },
-            "description": "[!] Ce parchemin permet de gagner 200 niveaux sans prendre de risques.",
+            "description": "Mit dieser Schriftrolle steigt ihr ohne Risiko 200 Stufen auf.",
             "conditions": {
                 "condition": {
                     "operator": "<",

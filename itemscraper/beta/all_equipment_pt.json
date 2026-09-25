@@ -244700,17 +244700,17 @@
                     "formatted": "5 Bloqueio"
                 },
                 {
-                    "int_minimum": 4,
+                    "int_minimum": 5,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Retirada de PM",
-                        "id": 50,
+                        "name": "Esquiva PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "4 Retirada de PM"
+                    "formatted": "5 Esquiva PA"
                 }
             ],
             "is_weapon": false,
@@ -244781,17 +244781,17 @@
                     "formatted": "10 Bloqueio"
                 },
                 {
-                    "int_minimum": 8,
+                    "int_minimum": 10,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Retirada de PM",
-                        "id": 50,
+                        "name": "Esquiva PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "8 Retirada de PM"
+                    "formatted": "10 Esquiva PA"
                 }
             ],
             "is_weapon": false,
@@ -244867,17 +244867,17 @@
                     "formatted": "20 Bloqueio"
                 },
                 {
-                    "int_minimum": 16,
+                    "int_minimum": 20,
                     "int_maximum": 0,
                     "type": {
-                        "name": "Retirada de PM",
-                        "id": 50,
+                        "name": "Esquiva PA",
+                        "id": 75,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "16 Retirada de PM"
+                    "formatted": "20 Esquiva PA"
                 }
             ],
             "is_weapon": false,
@@ -351984,7 +351984,7 @@
         },
         {
             "ankama_id": 16314,
-            "name": "Carapaça de Terra menor",
+            "name": "Carapaça de Terra Menor",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -352141,7 +352141,7 @@
         },
         {
             "ankama_id": 16316,
-            "name": "Carapaça de Terra maior",
+            "name": "Carapaça de Terra Maior",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -352227,7 +352227,7 @@
         },
         {
             "ankama_id": 16318,
-            "name": "Carapaça Neutra menor",
+            "name": "Carapaça Neutra Menor",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -352384,7 +352384,7 @@
         },
         {
             "ankama_id": 16320,
-            "name": "Carapaça Neutra maior",
+            "name": "Carapaça Neutra Maior",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -352470,7 +352470,7 @@
         },
         {
             "ankama_id": 16321,
-            "name": "Carapaça de Fogo menor",
+            "name": "Carapaça de Fogo Menor",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -352627,7 +352627,7 @@
         },
         {
             "ankama_id": 16323,
-            "name": "Carapaça de Fogo maior",
+            "name": "Carapaça de Fogo Maior",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -352713,7 +352713,7 @@
         },
         {
             "ankama_id": 16324,
-            "name": "Carapaça de Água menor",
+            "name": "Carapaça de Água Menor",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -352870,7 +352870,7 @@
         },
         {
             "ankama_id": 16326,
-            "name": "Carapaça de Água maior",
+            "name": "Carapaça de Água Maior",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -352956,7 +352956,7 @@
         },
         {
             "ankama_id": 16327,
-            "name": "Carapaça de Ar menor",
+            "name": "Carapaça de Ar Menor",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -353113,7 +353113,7 @@
         },
         {
             "ankama_id": 16329,
-            "name": "Carapaça de Ar maior",
+            "name": "Carapaça de Ar Maior",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -417295,7 +417295,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 100,
-            "critical_hit_bonus": 3,
+            "critical_hit_bonus": 6,
             "max_cast_per_turn": 2,
             "ap_cost": 3,
             "range": {
@@ -432305,7 +432305,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 15,
+            "critical_hit_bonus": 10,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -433130,7 +433130,7 @@
             "is_weapon": true,
             "pods": 10,
             "critical_hit_probability": 15,
-            "critical_hit_bonus": 2,
+            "critical_hit_bonus": 3,
             "max_cast_per_turn": 1,
             "ap_cost": 5,
             "range": {
@@ -462090,14 +462090,14 @@
                     "int_minimum": 23319,
                     "int_maximum": 0,
                     "type": {
-                        "name": ": - de relançamento",
-                        "id": 227,
+                        "name": ": + lançamento por turno",
+                        "id": 279,
                         "is_meta": false,
                         "is_active": false
                     },
                     "ignore_int_min": false,
                     "ignore_int_max": true,
-                    "formatted": "Fama: -1 de relançamento"
+                    "formatted": "Fama: +1 lançamentos por turno"
                 }
             ],
             "is_weapon": false,
@@ -502511,7 +502511,7 @@
                     },
                     "ignore_int_min": true,
                     "ignore_int_max": true,
-                    "formatted": "{{spell,31862,1::Pontualidade de Henual}}:\n• Ao sofrer um teletransporte ou uma troca de posição, o portador ganha 1 PA (1 vez por turno).\nSe ele não tiver sofrido nada no turno anterior, é teletransportado para sua posição anterior no início do seu turno."
+                    "formatted": "{{spell,31862,1::Pontualidade de Henual}}:\n• O portador ganha 1 PA quando é teletransportado, se teletransporta ou troca de posição (1 vez por turno).\n• Se ele não tiver sofrido nada no turno anterior, é teletransportado para sua posição anterior no início do seu turno."
                 },
                 {
                     "int_minimum": 401,
@@ -545781,7 +545781,7 @@
         },
         {
             "ankama_id": 34569,
-            "name": "[!] Test Masquer effet",
+            "name": "Teste Ocultar Efeitos",
             "type": {
                 "name": "",
                 "id": 212
@@ -545807,7 +545807,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151271-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151271-128.png"
             },
-            "description": "[!] Avec ce trophée, vous pourriez devenir le meilleur dresseur et vous battre sans répit. Vous pourriez tout faire pour être vainqueur et gagner les défis.",
+            "description": "Um troféu que representa esse seu jeito de viver. Ninguém nunca foi igual.",
             "recipe": [
                 {
                     "item_ankama_id": 748,
@@ -545870,7 +545870,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151272-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151272-128.png"
             },
-            "description": "[!] Avec ce trophée, vous excellerez dans l'art de dompter les bêtes.",
+            "description": "Com este troféu, você vai brilhar na arte de domar os animais.",
             "recipe": [
                 {
                     "item_ankama_id": 749,
@@ -545939,7 +545939,7 @@
         },
         {
             "ankama_id": 34615,
-            "name": "[!] Mule mineure",
+            "name": "Mula Menor",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -545949,7 +545949,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151184-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151184-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Esse Troféu permite aumentar sua sabedoria. Mas isso não irá acalmar seus ímpetos.",
             "recipe": [
                 {
                     "item_ankama_id": 302,
@@ -546015,7 +546015,7 @@
         },
         {
             "ankama_id": 34616,
-            "name": "[!] Mule",
+            "name": "Mula",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -546025,7 +546025,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151185-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151185-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Esse Troféu permite aumentar sua sabedoria. Mas isso não irá acalmar seus ímpetos.",
             "recipe": [
                 {
                     "item_ankama_id": 750,
@@ -546096,7 +546096,7 @@
         },
         {
             "ankama_id": 34617,
-            "name": "[!] Mule majeure",
+            "name": "Mula Maior",
             "type": {
                 "name": "Troféu",
                 "id": 23
@@ -546106,7 +546106,7 @@
                 "icon": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-64.png",
                 "sd": "https://api.dofusdu.de/dofus3beta/v1/img/item/151186-128.png"
             },
-            "description": "[!] Ce Trophée permet d'augmenter votre sagesse. Mais cela ne calmera pas vos ardeurs pour autant.",
+            "description": "Esse Troféu permite aumentar sua sabedoria. Mas isso não irá acalmar seus ímpetos.",
             "recipe": [
                 {
                     "item_ankama_id": 2516,
