@@ -34,7 +34,6 @@ html.fm-dark {
     justify-content: space-between;
     align-items: center;
     margin: 0 0 6px;
-    opacity: 0.85;
 }
 .ws-summary {
     margin: 0 0 14px;
@@ -126,7 +125,6 @@ html.fm-dark {
 }
 .workshop-row-meta {
     font-size: 0.85em;
-    opacity: 0.75;
     margin-top: 2px;
 }
 .ws-mult {
@@ -163,6 +161,7 @@ html.fm-dark {
     font-variant-numeric: tabular-nums;
     -moz-appearance: textfield;
     font-size: 15px;
+    min-height: 36px;
 }
 .ws-num::-webkit-inner-spin-button, .ws-num::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -367,4 +366,155 @@ html.fm-dark {
     .workshop-wrapper {
         padding: 0;
     }
+}
+
+/* ---------- Top actions and toolbar ---------- */
+.ws-meta-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.ws-meta-actions .button-thin {
+    min-height: 36px;
+}
+
+.ws-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    margin: 0 0 16px;
+}
+.ws-search {
+    flex: 1 1 220px;
+    min-width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.ws-search-label, .ws-sort label {
+    font-size: 0.85em;
+    opacity: 0.85;
+}
+.ws-search-wrapper {
+    position: relative;
+}
+.ws-search-wrapper input {
+    width: 100%;
+    min-height: 36px;
+    box-sizing: border-box;
+}
+.ws-search-results {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 5;
+    max-height: 260px;
+    overflow-y: auto;
+    border-radius: 8px;
+    margin-top: 2px;
+}
+.ws-search-result {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    min-height: 36px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.ws-search-result:hover, .ws-search-result:focus-visible {
+    background: rgba(128, 128, 128, .15);
+}
+.ws-search-result img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.ws-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.ws-chip {
+    min-height: 36px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(128, 128, 128, .5);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.ws-chip[aria-pressed="true"] {
+    border-color: currentColor;
+    font-weight: 700;
+    background: rgba(128, 128, 128, .15);
+}
+.ws-chip-count {
+    opacity: 0.75;
+    font-variant-numeric: tabular-nums;
+}
+
+.ws-sort {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.ws-sort select {
+    min-height: 36px;
+}
+
+@media (max-width: 480px) {
+    .ws-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* ---------- Per-card bulk actions ---------- */
+.ws-card-bulk {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-left: auto;
+}
+.ws-mini-btn {
+    min-height: 36px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, .5);
+    background: transparent;
+    color: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.ws-craft-btn {
+    border-color: var(--ws-done-line);
+    color: var(--ws-done);
+}
+
+/* #ws-undo-status is its own aria-live region (separate from #ws-save-status)
+   so a routine autosave line cannot cancel a still-valid undo prompt. It only
+   takes up space while it actually holds one. */
+#ws-undo-status {
+    min-height: 0;
+}
+.ws-undo-inline {
+    display: inline-block;
+    min-height: 36px;
+    margin-left: 4px;
+    padding: 2px 8px;
+    border: none;
+    background: none;
+    color: inherit;
+    text-decoration: underline;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
 }

@@ -63,6 +63,58 @@
         return Math.max(0, (total || 0) - (owned || 0));
     }
 
+    function cardMatchesFilter(state, filter) {
+        if (filter === 'ready') {
+            return state === 'done';
+        }
+        if (filter === 'progress') {
+            return state === 'part';
+        }
+        if (filter === 'notstarted') {
+            return state === 'none' || state === 'norecipe';
+        }
+        return true;
+    }
+
+    function filterCounts(states) {
+        var counts = {all: 0, ready: 0, progress: 0, notstarted: 0};
+        (states || []).forEach(function (state) {
+            counts.all++;
+            if (state === 'done') {
+                counts.ready++;
+            } else if (state === 'part') {
+                counts.progress++;
+            } else {
+                counts.notstarted++;
+            }
+        });
+        return counts;
+    }
+
+    var CARD_SORT_RANK = {none: 0, part: 1, done: 2, norecipe: 3};
+
+    function sortCards(cards, sortKey) {
+        var indexed = (cards || []).map(function (card, i) {
+            return {card: card, i: i};
+        });
+        indexed.sort(function (a, b) {
+            var diff = 0;
+            if (sortKey === 'level') {
+                diff = (b.card.level || 0) - (a.card.level || 0);
+            } else if (sortKey === 'name') {
+                diff = String(a.card.name || '').localeCompare(String(b.card.name || ''));
+            } else if (sortKey === 'state') {
+                var rankA = CARD_SORT_RANK[a.card.state];
+                var rankB = CARD_SORT_RANK[b.card.state];
+                diff = (rankA === undefined ? 3 : rankA) - (rankB === undefined ? 3 : rankB);
+            } else {
+                diff = (a.card.order || 0) - (b.card.order || 0);
+            }
+            return diff !== 0 ? diff : a.i - b.i;
+        });
+        return indexed.map(function (entry) { return entry.card; });
+    }
+
     function keyOf(ankamaId, subtype) {
         return String(ankamaId) + ':' + String(subtype);
     }
@@ -90,7 +142,10 @@
         stillMissing: stillMissing,
         keyOf: keyOf,
         format: format,
-        chunkKeys: chunkKeys
+        chunkKeys: chunkKeys,
+        cardMatchesFilter: cardMatchesFilter,
+        filterCounts: filterCounts,
+        sortCards: sortCards
     };
 
     if (typeof window === 'undefined' || !document.getElementById('ws-list')) {
@@ -136,6 +191,11 @@
     var saveTimer = null;
     var qtyTimers = {};
     var saving = false;
+    var removedIds = {};
+    var currentFilter = 'all';
+    var currentSort = 'added';
+    var undoClearTimer = null;
+    var SORT_STORAGE_KEY = 'wsSort';
 
     function postJson(url, payload) {
         return fetch(url, {
@@ -174,6 +234,31 @@
         if (el) {
             el.textContent = text || '';
         }
+    }
+
+    function announceUndo(text, onUndo) {
+        clearTimeout(undoClearTimer);
+        var el = document.getElementById('ws-undo-status');
+        if (!el) {
+            return;
+        }
+        el.textContent = '';
+        el.appendChild(document.createTextNode((text || '') + ' '));
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'ws-undo-inline';
+        btn.textContent = i18n.undoButton || '';
+        btn.addEventListener('click', function () {
+            clearTimeout(undoClearTimer);
+            el.textContent = '';
+            onUndo();
+        });
+        el.appendChild(btn);
+        undoClearTimer = setTimeout(function () {
+            if (el.contains(btn)) {
+                el.textContent = '';
+            }
+        }, 10000);
     }
 
     function buildResourceIndex() {
@@ -392,7 +477,7 @@
 
     function refreshCardFooter(itemId) {
         var card = cardsById[itemId];
-        if (!card || card.dataset.missing === '1') {
+        if (!card || removedIds[itemId] || card.dataset.missing === '1') {
             return;
         }
         var rows = cardRowsWithState(itemId);
@@ -402,6 +487,10 @@
         var status = card.querySelector('.ws-status');
         var statusIcon = status ? status.querySelector('.fm-ico') : null;
         var statusText = status ? status.querySelector('.ws-status-text') : null;
+        var craftBtn = card.querySelector('.ws-craft-btn');
+        if (craftBtn) {
+            craftBtn.hidden = state !== 'done';
+        }
 
         if (state === 'norecipe') {
             card.removeAttribute('data-state');
@@ -465,30 +554,65 @@
         }
     }
 
-    function refreshSummary() {
-        var el = document.getElementById('ws-summary');
-        if (!el) {
-            return;
+    function cardStateForFilter(itemId) {
+        var card = cardsById[itemId];
+        if (!card || removedIds[itemId]) {
+            return 'norecipe';
         }
-        var totalCards = Object.keys(cardsById).length;
-        var readyCards = 0;
-        Object.keys(cardsById).forEach(function (itemId) {
-            if (cardsById[itemId].dataset.missing === '1') {
-                return;
-            }
-            if (cardState(cardRowsWithState(itemId)) === 'done') {
-                readyCards++;
+        if (card.dataset.missing === '1') {
+            return 'norecipe';
+        }
+        return cardState(cardRowsWithState(itemId));
+    }
+
+    function updateFilterChipCounts(counts) {
+        var spans = {
+            all: document.getElementById('ws-chip-all'),
+            ready: document.getElementById('ws-chip-ready'),
+            progress: document.getElementById('ws-chip-progress'),
+            notstarted: document.getElementById('ws-chip-notstarted')
+        };
+        Object.keys(spans).forEach(function (key) {
+            if (spans[key]) {
+                spans[key].textContent = String(counts[key] || 0);
             }
         });
+    }
+
+    function refreshSummary() {
+        var el = document.getElementById('ws-summary');
+        var totalCards = 0;
+        var readyCards = 0;
+        var filterStates = [];
+        Object.keys(cardsById).forEach(function (itemId) {
+            var card = cardsById[itemId];
+            if (removedIds[itemId]) {
+                card.hidden = true;
+                return;
+            }
+            totalCards++;
+            var state = cardStateForFilter(itemId);
+            filterStates.push(state);
+            if (state === 'done') {
+                readyCards++;
+            }
+            card.hidden = !cardMatchesFilter(state, currentFilter);
+        });
+
         var missingResources = 0;
         Object.keys(resourceIndex).forEach(function (key) {
             if (stillMissing(liveTotalNeed(key), stock[key] || 0) > 0) {
                 missingResources++;
             }
         });
-        var readyText = format(i18n.summaryReady, {ready: readyCards, total: totalCards});
-        var missingText = format(i18n.summaryMissing, {count: missingResources});
-        el.textContent = totalCards ? (readyText + '  ·  ' + missingText) : '';
+
+        if (el) {
+            var readyText = format(i18n.summaryReady, {ready: readyCards, total: totalCards});
+            var missingText = format(i18n.summaryMissing, {count: missingResources});
+            el.textContent = totalCards ? (readyText + '  ·  ' + missingText) : '';
+        }
+
+        updateFilterChipCounts(filterCounts(filterStates));
     }
 
     function refreshKey(key) {
@@ -728,6 +852,292 @@
         }
     }
 
+    function cardSortRecord(itemId) {
+        var card = cardsById[itemId];
+        var nameEl = card.querySelector('.ws-name');
+        return {
+            itemId: itemId,
+            order: parseInt(card.getAttribute('data-order'), 10) || 0,
+            level: parseInt(card.getAttribute('data-level'), 10) || 0,
+            name: nameEl ? nameEl.textContent.trim() : '',
+            state: cardStateForFilter(itemId)
+        };
+    }
+
+    function applySort() {
+        var list = document.getElementById('ws-list');
+        if (!list) {
+            return;
+        }
+        var records = Object.keys(cardsById).map(cardSortRecord);
+        sortCards(records, currentSort).forEach(function (record) {
+            list.appendChild(cardsById[record.itemId]);
+        });
+    }
+
+    function loadSort() {
+        try {
+            var value = localStorage.getItem(SORT_STORAGE_KEY);
+            return (value === 'level' || value === 'name' || value === 'state')
+                ? value : 'added';
+        } catch (e) {
+            return 'added';
+        }
+    }
+
+    function saveSort(value) {
+        try {
+            localStorage.setItem(SORT_STORAGE_KEY, value);
+        } catch (e) {}
+    }
+
+    function wireSortSelect() {
+        var select = document.getElementById('ws-sort-select');
+        if (!select) {
+            return;
+        }
+        select.value = currentSort;
+        select.addEventListener('change', function () {
+            currentSort = select.value;
+            saveSort(currentSort);
+            applySort();
+        });
+    }
+
+    function wireFilterChips() {
+        var chips = document.querySelectorAll('.ws-chip');
+        chips.forEach(function (chip) {
+            chip.addEventListener('click', function () {
+                currentFilter = chip.getAttribute('data-filter');
+                chips.forEach(function (c) {
+                    c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
+                });
+                refreshSummary();
+            });
+        });
+    }
+
+    function wireCardBulkButtons() {
+        document.querySelectorAll('.ws-all-zero').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var itemId = btn.getAttribute('data-item-id');
+                (cardRows[itemId] || []).forEach(function (row) {
+                    setStockValue(keyOf(row.ankama_id, row.subtype), 0);
+                });
+            });
+        });
+        document.querySelectorAll('.ws-all-max').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var itemId = btn.getAttribute('data-item-id');
+                (cardRows[itemId] || []).forEach(function (row) {
+                    var key = keyOf(row.ankama_id, row.subtype);
+                    var need = (row.quantity || 0) * (multipliers[itemId] || 1);
+                    setStockValue(key, Math.max(stock[key] || 0, need));
+                });
+            });
+        });
+    }
+
+    function mergeStockResult(stockResult) {
+        Object.keys(stockResult || {}).forEach(function (key) {
+            stock[key] = stockResult[key];
+        });
+    }
+
+    function refreshItemKeys(itemId) {
+        (cardRows[itemId] || []).forEach(function (row) {
+            refreshKey(keyOf(row.ankama_id, row.subtype));
+        });
+    }
+
+    function undoCraft(itemId, workshopId) {
+        postForm(cfg.uncraftUrlBase + workshopId + '/').then(function (resp) {
+            if (resp && resp.success) {
+                delete removedIds[itemId];
+                multipliers[itemId] = resp.quantity;
+                mergeStockResult(resp.stock);
+                var card = cardsById[itemId];
+                // A craft that emptied the card deletes it server-side, so
+                // undo recreates it under a new id: repoint every control
+                // still carrying the old one, or they 404 on the next action.
+                var newId = resp.workshop_item_id != null
+                    ? String(resp.workshop_item_id) : workshopId;
+                if (card) {
+                    card.setAttribute('data-workshop-id', newId);
+                    var qtyInput = card.querySelector('.ws-qty-input');
+                    if (qtyInput) {
+                        qtyInput.value = String(resp.quantity);
+                        qtyInput.setAttribute('data-workshop-id', newId);
+                    }
+                    var removeBtn = card.querySelector('.ws-remove');
+                    if (removeBtn) {
+                        removeBtn.setAttribute('data-workshop-id', newId);
+                    }
+                    var craftBtn = card.querySelector('.ws-craft-btn');
+                    if (craftBtn) {
+                        craftBtn.setAttribute('data-workshop-id', newId);
+                    }
+                }
+                if (newId !== workshopId && qtyTimers[workshopId] !== undefined) {
+                    qtyTimers[newId] = qtyTimers[workshopId];
+                    delete qtyTimers[workshopId];
+                }
+                refreshItemKeys(itemId);
+                applySort();
+                announce(i18n.restored || '');
+            } else {
+                announce((resp && resp.error) || i18n.saveError || '');
+            }
+        }).catch(function () {
+            announce(i18n.saveError || '');
+        });
+    }
+
+    function wireCraftButtons() {
+        document.querySelectorAll('.ws-craft-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var workshopId = btn.getAttribute('data-workshop-id');
+                var itemId = btn.getAttribute('data-item-id');
+                btn.disabled = true;
+                postForm(cfg.craftUrlBase + workshopId + '/').then(function (resp) {
+                    btn.disabled = false;
+                    if (resp && resp.success) {
+                        mergeStockResult(resp.stock);
+                        var card = cardsById[itemId];
+                        if (resp.removed) {
+                            removedIds[itemId] = true;
+                            multipliers[itemId] = 0;
+                        } else {
+                            multipliers[itemId] = resp.quantity;
+                            var qtyInput = card ? card.querySelector('.ws-qty-input') : null;
+                            if (qtyInput) {
+                                qtyInput.value = String(resp.quantity);
+                            }
+                        }
+                        refreshItemKeys(itemId);
+                        applySort();
+                        announceUndo(i18n.crafted || '', function () {
+                            undoCraft(itemId, workshopId);
+                        });
+                    } else {
+                        announce((resp && resp.error) || i18n.saveError || '');
+                    }
+                }).catch(function () {
+                    btn.disabled = false;
+                    announce(i18n.saveError || '');
+                });
+            });
+        });
+    }
+
+    function wireResetStock() {
+        var btn = document.getElementById('ws-reset-stock');
+        if (!btn) {
+            return;
+        }
+        btn.addEventListener('click', function () {
+            if (!window.confirm(i18n.resetConfirm || '')) {
+                return;
+            }
+            postForm(cfg.resetStockUrl).then(function (resp) {
+                if (resp && resp.success) {
+                    window.location.reload();
+                } else {
+                    announce((resp && resp.error) || i18n.saveError || '');
+                }
+            }).catch(function () {
+                announce(i18n.saveError || '');
+            });
+        });
+    }
+
+    function wireSearch() {
+        var input = document.getElementById('ws-search-input');
+        var results = document.getElementById('ws-search-results');
+        if (!input || !results) {
+            return;
+        }
+        var timer = null;
+
+        function hideResults() {
+            results.hidden = true;
+            results.innerHTML = '';
+        }
+
+        function addSearchResult(item) {
+            postForm(cfg.addUrl, {item_id: item.id, quantity: 1}).then(function (resp) {
+                if (resp && resp.success) {
+                    window.location.reload();
+                } else {
+                    announce((resp && resp.error) || i18n.saveError || '');
+                }
+            }).catch(function () {
+                announce(i18n.saveError || '');
+            });
+        }
+
+        function renderResults(items) {
+            results.innerHTML = '';
+            if (!items.length) {
+                var empty = document.createElement('div');
+                empty.className = 'ws-search-result';
+                empty.textContent = i18n.noItemFound || '';
+                results.appendChild(empty);
+            }
+            items.forEach(function (item) {
+                var row = document.createElement('div');
+                row.className = 'ws-search-result';
+                row.setAttribute('role', 'button');
+                row.setAttribute('tabindex', '0');
+                if (item.image_url) {
+                    var img = document.createElement('img');
+                    img.src = item.image_url;
+                    img.alt = '';
+                    row.appendChild(img);
+                }
+                var label = document.createElement('span');
+                label.textContent = item.level
+                    ? item.name + ' (' + item.level + ')' : item.name;
+                row.appendChild(label);
+                row.addEventListener('click', function () {
+                    addSearchResult(item);
+                });
+                row.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        addSearchResult(item);
+                    }
+                });
+                results.appendChild(row);
+            });
+            results.hidden = false;
+        }
+
+        input.addEventListener('input', function () {
+            var query = input.value.trim();
+            clearTimeout(timer);
+            if (query.length < 2) {
+                hideResults();
+                return;
+            }
+            timer = setTimeout(function () {
+                fetch(cfg.searchUrl + '?q=' + encodeURIComponent(query) + '&all_types=1&with_recipe=1', {
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    renderResults(data.items || []);
+                }).catch(hideResults);
+            }, 250);
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!results.contains(e.target) && e.target !== input) {
+                hideResults();
+            }
+        });
+    }
+
     function wireEvents() {
         var clearLink = document.getElementById('workshop_clear');
         if (clearLink) {
@@ -757,6 +1167,13 @@
             });
         }
 
+        wireResetStock();
+        wireCardBulkButtons();
+        wireCraftButtons();
+        wireFilterChips();
+        wireSortSelect();
+        wireSearch();
+
         window.addEventListener('beforeunload', flushPendingOnUnload);
     }
 
@@ -769,10 +1186,12 @@
     }
 
     function init() {
+        currentSort = loadSort();
         buildResourceIndex();
         buildCards();
         buildShoppingList();
         refreshEverything();
+        applySort();
         wireEvents();
         applyHideGathered(loadHideGathered());
     }

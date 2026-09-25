@@ -5818,6 +5818,8 @@ msgid "Added"
 msgstr "Ajouté"
 
 #: .\chardata\templates\chardata\solution.html:1835
+#: .\chardata\templates\chardata\encyclopedia_item.html:369
+#: .\chardata\templates\chardata\encyclopedia_set.html:165
 msgid "Could not add to workshop"
 msgstr "Impossible d'ajouter à l'atelier"
 
@@ -6345,6 +6347,42 @@ msgstr ""
 msgid "Reset to default"
 msgstr "Réinitialiser aux valeurs par défaut"
 
+#: .\chardata\templates\chardata\workshop.html:29
+msgid "Reset owned counts"
+msgstr "Réinitialiser les quantités possédées"
+
+#: .\chardata\templates\chardata\workshop.html:41
+msgid "Add an item"
+msgstr "Ajouter un objet"
+
+#: .\chardata\templates\chardata\workshop.html:44
+msgid "Type an item name (example: Gelano)"
+msgstr "Nom d’objet (exemple : Gelano)"
+
+#: .\chardata\templates\chardata\workshop.html:49
+msgid "Filter by status"
+msgstr "Filtrer par état"
+
+#: .\chardata\templates\chardata\workshop.html:51
+msgid "Ready"
+msgstr "Prêt"
+
+#: .\chardata\templates\chardata\workshop.html:52
+msgid "In progress"
+msgstr "En cours"
+
+#: .\chardata\templates\chardata\workshop.html:57
+msgid "Sort by"
+msgstr "Trier par"
+
+#: .\chardata\templates\chardata\workshop.html:59
+msgid "Recently added"
+msgstr "Récemment ajouté"
+
+#: .\chardata\templates\chardata\workshop.html:62
+msgid "Status"
+msgstr "État"
+
 #: .\chardata\templates\chardata\workshop.html:59
 #, python-format
 msgid "Quantity for %(name)s"
@@ -6354,6 +6392,33 @@ msgstr "Quantité pour %(name)s"
 #, python-format
 msgid "Remove %(name)s from the workshop"
 msgstr "Retirer %(name)s de l'atelier"
+
+#: .\chardata\templates\chardata\workshop.html:111
+#, python-format
+msgid "Set every resource on %(name)s to 0"
+msgstr "Mettre chaque ressource de %(name)s à 0"
+
+#: .\chardata\templates\chardata\workshop.html:111
+msgid "All to 0"
+msgstr "Tout à 0"
+
+#: .\chardata\templates\chardata\workshop.html:113
+#, python-format
+msgid "Set every resource on %(name)s to its needed amount"
+msgstr "Mettre chaque ressource de %(name)s à la quantité nécessaire"
+
+#: .\chardata\templates\chardata\workshop.html:113
+msgid "All to max"
+msgstr "Tout au max"
+
+#: .\chardata\templates\chardata\workshop.html:115
+#, python-format
+msgid "Craft %(name)s"
+msgstr "Crafter %(name)s"
+
+#: .\chardata\templates\chardata\workshop.html:115
+msgid "Craft 1"
+msgstr "Crafter 1"
 
 #: .\chardata\templates\chardata\workshop.html:80
 msgid "Shopping list"
@@ -6431,6 +6496,26 @@ msgstr "Utilisé par : {count}"
 msgid "Nothing missing right now."
 msgstr "Rien ne manque pour l'instant."
 
+#: .\chardata\templates\chardata\workshop.html:167
+msgid "Reset every owned count to 0 for this version?"
+msgstr "Réinitialiser à 0 toutes les quantités possédées pour cette version ?"
+
+#: .\chardata\templates\chardata\workshop.html:168
+msgid "No item found."
+msgstr "Aucun objet trouvé."
+
+#: .\chardata\templates\chardata\workshop.html:169
+msgid "Crafted."
+msgstr "Crafté."
+
+#: .\chardata\templates\chardata\workshop.html:170
+msgid "Restored."
+msgstr "Restauré."
+
+#: .\chardata\templates\chardata\workshop.html:171
+msgid "Undo"
+msgstr "Annuler"
+
 #: .\chardata\workshop_view.py:276
 #: .\chardata\workshop_view.py:280
 #: .\chardata\workshop_view.py:299
@@ -6444,6 +6529,60 @@ msgstr "Trop de ressources dans une seule requête"
 #: .\chardata\workshop_view.py:308
 msgid "Too many stocked resources for this version"
 msgstr "Trop de ressources stockées pour cette version"
+
+#: .\chardata\workshop_view.py:163
+#, python-format
+msgid ""
+"Workshop full for this version (limit: %(max)s items). Remove some items "
+"before adding more."
+msgstr ""
+"Atelier plein pour cette version (limite : %(max)s objets). Retirer des "
+"objets avant d'en ajouter d'autres."
+
+#: .\chardata\templates\chardata\encyclopedia_item.html:235
+#: .\chardata\templates\chardata\solution.html:1521
+msgid "Add to workshop"
+msgstr "Ajouter à l’atelier"
+
+#: .\chardata\templates\chardata\encyclopedia_item.html:240
+msgid "to add this item to the workshop."
+msgstr "pour ajouter cet objet à l’atelier."
+
+#: .\chardata\templates\chardata\encyclopedia_set.html:96
+msgid "Add the set to my workshop"
+msgstr "Ajouter la panoplie à mon atelier"
+
+#: .\chardata\templates\chardata\encyclopedia_set.html:100
+msgid "to add this set to the workshop."
+msgstr "pour ajouter cette panoplie à l’atelier."
+
+#: .\chardata\templates\chardata\solution.html:430
+msgid "For items already in the workshop:"
+msgstr "Pour les objets déjà dans l’atelier :"
+
+#: .\chardata\templates\chardata\solution.html:432
+msgid "Add only what's missing"
+msgstr "Ajouter seulement ce qui manque"
+
+#: .\chardata\templates\chardata\solution.html:433
+msgid "Add one more of each"
+msgstr "Ajouter un exemplaire de plus de chaque"
+
+#: .\chardata\workshop_view.py:472
+msgid "Set not found"
+msgstr "Panoplie introuvable"
+
+#: .\chardata\workshop_view.py:533
+msgid "This item has no known recipe"
+msgstr "Cet objet n'a pas de recette connue"
+
+#: .\chardata\workshop_view.py:545
+msgid "This item is not ready to craft yet"
+msgstr "Cet objet n'est pas encore prêt à crafter"
+
+#: .\chardata\workshop_view.py:598
+msgid "Nothing to undo"
+msgstr "Rien à annuler"
 
 #: .\chardata\templates\chardata\workshop.html:6
 #: .\chardata\templates\chardata\workshop.html:16

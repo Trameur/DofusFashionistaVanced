@@ -32,12 +32,13 @@
 .encyclopedia-set-item { display: flex; gap: 10px; align-items: center; border: 1px solid rgba(61, 32, 13, 0.2); border-radius: 6px; padding: 8px; text-decoration: none; }
 .encyclopedia-set-item img { width: 48px; height: 48px; flex: 0 0 auto; }
 .encyclopedia-set-item-name { font-weight: 600; }
-.encyclopedia-item-meta { opacity: 0.9; }
+.encyclopedia-item-meta { opacity: 0.95; }
 /* The way from a set page to the solver: a block, so the button does not
    wrap word by word like a run of inline text (53px wide, three lines). */
 .encyclopedia-build-around { margin-top: 8px; }
 .encyclopedia-build-around a { display: inline-block; max-width: 100%; box-sizing: border-box; white-space: normal !important; }
 .encyclopedia-section { margin-top: 14px; }
+#enc-workshop-add-set-btn { min-height: 36px; }
 .encyclopedia-list { margin: 4px 0 0; padding-left: 20px; }
 .encyclopedia-list-stat { display: flex; align-items: center; gap: 8px; }
 .encyclopedia-list-stat-icon { width: 16px; height: 16px; object-fit: contain; flex: 0 0 auto; }
@@ -50,7 +51,7 @@
 html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
 .encyclopedia-crumbs {
     font-size: 0.85em;
-    opacity: 0.75;
+    opacity: 0.9;
     margin-bottom: 10px;
 }
 .encyclopedia-crumbs a { text-decoration: none; }
@@ -68,6 +69,8 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
 .dark-theme-active .encyclopedia-set-item { border-color: #5a5a5a; }
 .dark-theme-active .encyclopedia-item a { color: #ffd8a8; }
 .dark-theme-active .encyclopedia-item a:hover { color: #ffe4bf; }
+
+.encyclopedia-workshop-add-feedback { font-size: 0.85em; }
 </style>
 {% endblock %}
 
@@ -90,7 +93,16 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
         {% endif %}
         {# Quick start of the same version, every piece locked in its slot #}
         {% if set_items %}
-        <div class="encyclopedia-item-meta encyclopedia-build-around"><a class="button-thin" id="encyclopedia-build-around-set" href="{% game_url 'quickstart' %}?set={{ set_id }}">{{ t.build_around_set_label }}</a></div>
+        <div class="encyclopedia-item-meta encyclopedia-build-around">
+            <a class="button-thin" id="encyclopedia-build-around-set" href="{% game_url 'quickstart' %}?set={{ set_id }}">{{ t.build_around_set_label }}</a>
+            {% if user.is_authenticated %}
+            <button type="button" class="button-thin" id="enc-workshop-add-set-btn">{% trans "Add the set to my workshop" %}</button>
+            <span id="enc-workshop-add-set-feedback" class="encyclopedia-workshop-add-feedback" aria-live="polite"></span>
+            <form id="enc-workshop-set-csrf" style="display:none;">{% csrf_token %}</form>
+            {% else %}
+            <a href="{% game_url 'login_page' %}">{% trans "Log in" %}</a> {% trans "to add this set to the workshop." %}
+            {% endif %}
+        </div>
         {% endif %}
 
         <div class="encyclopedia-section">
@@ -151,4 +163,50 @@ html.fm-dark .encyclopedia-set-caps span { color: #f0837a; }
         {% ad_unit 'encyclopedia_inline' %}
     </div>
 </div>
+{% if user.is_authenticated and set_items %}
+{% trans "Added" as enc_set_added %}
+{% trans "Could not add to workshop" as enc_set_error %}
+<script>
+(function () {
+    var btn = document.getElementById('enc-workshop-add-set-btn');
+    if (!btn) {
+        return;
+    }
+    var feedback = document.getElementById('enc-workshop-add-set-feedback');
+    var csrfInput = document.querySelector('#enc-workshop-set-csrf input[name=csrfmiddlewaretoken]');
+    var csrf = csrfInput ? csrfInput.value : '';
+    var addUrl = '{{ workshop_add_set_url|escapejs }}';
+    var addedText = '{{ enc_set_added|escapejs }}';
+    var errorText = '{{ enc_set_error|escapejs }}';
+
+    btn.addEventListener('click', function () {
+        btn.disabled = true;
+        feedback.textContent = '';
+        var body = new URLSearchParams();
+        body.append('csrfmiddlewaretoken', csrf);
+        fetch(addUrl, {
+            method: 'POST',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            body: body
+        }).then(function (response) {
+            return response.json().catch(function () { return {}; });
+        }).then(function (data) {
+            btn.disabled = false;
+            if (data && data.success) {
+                var text = addedText + ' (' + data.added + '/' + data.craftable + ')';
+                if (data.limited && data.message) {
+                    text += ' ' + data.message;
+                }
+                feedback.textContent = text;
+            } else {
+                feedback.textContent = (data && data.error) || errorText;
+            }
+        }).catch(function () {
+            btn.disabled = false;
+            feedback.textContent = errorText;
+        });
+    });
+})();
+</script>
+{% endif %}
 {% endblock %}

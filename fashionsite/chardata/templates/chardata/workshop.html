@@ -1,5 +1,6 @@
 {% extends 'chardata/base.html' %}
 {% load i18n %}
+{% load l10n %}
 {% load static_s3 %}
 
 {% block title %}{% trans "The Dofus Fashionista" %}: {% trans "My Workshop" %}{% endblock %}
@@ -24,17 +25,50 @@
                 {% endblocktrans %}
             </span>
             {% if workshop_items %}
-            <a href="#" id="workshop_clear" class="comment-delete">{% trans "Clear all" %}</a>
+            <span class="ws-meta-actions">
+                <button type="button" id="ws-reset-stock" class="button-thin">{% trans "Reset owned counts" %}</button>
+                <button type="button" id="workshop_clear" class="button-thin">{% trans "Clear all" %}</button>
+            </span>
             {% endif %}
         </p>
 
         {% if workshop_items %}
         <p class="ws-summary" id="ws-summary"></p>
         <p class="ws-save-status" id="ws-save-status" aria-live="polite"></p>
+        <p class="ws-save-status" id="ws-undo-status" aria-live="polite"></p>
+
+        <div class="ws-toolbar" id="ws-toolbar">
+            <div class="ws-search">
+                <label class="ws-search-label" for="ws-search-input">{% trans "Add an item" %}</label>
+                <div class="ws-search-wrapper">
+                    <input type="text" id="ws-search-input" class="pretty-input" autocomplete="off"
+                           placeholder="{% trans "Type an item name (example: Gelano)" %}">
+                    <div class="ws-search-results brown-box" id="ws-search-results" hidden></div>
+                </div>
+            </div>
+
+            <div class="ws-filters" role="group" aria-label="{% trans "Filter by status" %}">
+                <button type="button" class="ws-chip" data-filter="all" aria-pressed="true">{% trans "All" %} <span class="ws-chip-count" id="ws-chip-all"></span></button>
+                <button type="button" class="ws-chip" data-filter="ready" aria-pressed="false">{% trans "Ready" %} <span class="ws-chip-count" id="ws-chip-ready"></span></button>
+                <button type="button" class="ws-chip" data-filter="progress" aria-pressed="false">{% trans "In progress" %} <span class="ws-chip-count" id="ws-chip-progress"></span></button>
+                <button type="button" class="ws-chip" data-filter="notstarted" aria-pressed="false">{% trans "Not started" %} <span class="ws-chip-count" id="ws-chip-notstarted"></span></button>
+            </div>
+
+            <div class="ws-sort">
+                <label for="ws-sort-select">{% trans "Sort by" %}</label>
+                <select id="ws-sort-select" class="pretty-input">
+                    <option value="added">{% trans "Recently added" %}</option>
+                    <option value="level">{% trans "Level" %}</option>
+                    <option value="name">{% trans "Name" %}</option>
+                    <option value="state">{% trans "Status" %}</option>
+                </select>
+            </div>
+        </div>
 
         <ul class="ws-list" id="ws-list">
             {% for it in workshop_items %}
-            <li class="ws-card brown-box" data-workshop-id="{{ it.id }}" data-item-id="{{ it.item_id }}"{% if it.missing %} data-missing="1"{% endif %}>
+            <li class="ws-card brown-box" data-workshop-id="{{ it.id }}" data-item-id="{{ it.item_id }}"
+                data-order="{{ forloop.counter0|unlocalize }}" data-level="{{ it.level|default:0|unlocalize }}"{% if it.missing %} data-missing="1"{% endif %}>
                 <div class="ws-head">
                     {% if it.image_url %}
                     <img src="{{ it.image_url }}" alt="" class="ws-head-img">
@@ -72,6 +106,16 @@
                         <span class="fm-ico" aria-hidden="true"></span>
                         <span class="ws-status-text"></span>
                     </span>
+                    {% if not it.missing %}
+                    <div class="ws-card-bulk">
+                        <button type="button" class="ws-mini-btn ws-all-zero" data-item-id="{{ it.item_id }}"
+                                aria-label="{% blocktrans with name=it.name %}Set every resource on {{ name }} to 0{% endblocktrans %}">{% trans "All to 0" %}</button>
+                        <button type="button" class="ws-mini-btn ws-all-max" data-item-id="{{ it.item_id }}"
+                                aria-label="{% blocktrans with name=it.name %}Set every resource on {{ name }} to its needed amount{% endblocktrans %}">{% trans "All to max" %}</button>
+                        <button type="button" class="ws-mini-btn ws-craft-btn" data-workshop-id="{{ it.id }}" data-item-id="{{ it.item_id }}"
+                                aria-label="{% blocktrans with name=it.name %}Craft {{ name }}{% endblocktrans %}" hidden>{% trans "Craft 1" %}</button>
+                    </div>
+                    {% endif %}
                 </div>
             </li>
             {% endfor %}
@@ -121,6 +165,11 @@
     {% trans "Nothing missing right now." as ws_nothing_missing %}
     {% trans "No recipe data for these items." as ws_no_recipe_data %}
     {% trans "Clear all items from your workshop?" as ws_clear_confirm %}
+    {% trans "Reset every owned count to 0 for this version?" as ws_reset_confirm %}
+    {% trans "No item found." as ws_no_item_found %}
+    {% trans "Crafted." as ws_crafted %}
+    {% trans "Restored." as ws_restored %}
+    {% trans "Undo" as ws_undo_button %}
     <script>
 window.WORKSHOP_CONFIG = {
     apiBase: "{{ api_base|escapejs }}",
@@ -128,6 +177,11 @@ window.WORKSHOP_CONFIG = {
     setQtyUrlBase: "{{ api_base|escapejs }}/workshop/setqty/",
     removeUrlBase: "{{ api_base|escapejs }}/workshop/remove/",
     clearUrl: "{{ api_base|escapejs }}/workshop/clear/",
+    addUrl: "{{ api_base|escapejs }}/workshop/add/",
+    searchUrl: "{{ api_base|escapejs }}/forgemagie/items/",
+    resetStockUrl: "{{ api_base|escapejs }}/workshop/stock/reset/",
+    craftUrlBase: "{{ api_base|escapejs }}/workshop/craft/",
+    uncraftUrlBase: "{{ api_base|escapejs }}/workshop/uncraft/",
     i18n: {
         ready: "{{ ws_ready|escapejs }}",
         notStarted: "{{ ws_not_started|escapejs }}",
@@ -146,7 +200,12 @@ window.WORKSHOP_CONFIG = {
         usedByLabel: "{{ ws_used_by|escapejs }}",
         nothingMissing: "{{ ws_nothing_missing|escapejs }}",
         noRecipeData: "{{ ws_no_recipe_data|escapejs }}",
-        clearConfirm: "{{ ws_clear_confirm|escapejs }}"
+        clearConfirm: "{{ ws_clear_confirm|escapejs }}",
+        resetConfirm: "{{ ws_reset_confirm|escapejs }}",
+        noItemFound: "{{ ws_no_item_found|escapejs }}",
+        crafted: "{{ ws_crafted|escapejs }}",
+        restored: "{{ ws_restored|escapejs }}",
+        undoButton: "{{ ws_undo_button|escapejs }}"
     }
 };
     </script>

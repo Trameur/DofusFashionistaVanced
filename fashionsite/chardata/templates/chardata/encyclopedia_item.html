@@ -2,6 +2,7 @@
 {% load version_url %}
 {% load static_s3 %}
 {% load i18n %}
+{% load l10n %}
 {% load ads %}
 {% load localized_class %}
 
@@ -224,6 +225,22 @@
                 <li>{{ t.no_recipe }}</li>
             </ul>
             {% endif %}
+            {% if has_recipe %}
+            <div class="encyclopedia-item-meta encyclopedia-workshop-add">
+                {% if user.is_authenticated %}
+                <form id="enc-workshop-add-form">
+                    <label for="enc-workshop-qty">{% trans "Quantity" %}</label>
+                    <input type="text" id="enc-workshop-qty" class="encyclopedia-workshop-add-qty"
+                           inputmode="numeric" pattern="[0-9]*" value="1">
+                    <button type="submit" class="button-thin" id="enc-workshop-add-btn">{% trans "Add to workshop" %}</button>
+                    <span id="enc-workshop-add-feedback" class="encyclopedia-workshop-add-feedback" aria-live="polite"></span>
+                </form>
+                <form id="enc-workshop-csrf" style="display:none;">{% csrf_token %}</form>
+                {% else %}
+                <a href="{% game_url 'login_page' %}">{% trans "Log in" %}</a> {% trans "to add this item to the workshop." %}
+                {% endif %}
+            </div>
+            {% endif %}
         </div>
 
         {% if used_in %}
@@ -347,4 +364,46 @@
     }
 })();
 </script>
+{% if has_recipe and user.is_authenticated %}
+{% trans "Added" as enc_workshop_added %}
+{% trans "Could not add to workshop" as enc_workshop_error %}
+<script>
+(function () {
+    var form = document.getElementById('enc-workshop-add-form');
+    if (!form) {
+        return;
+    }
+    var qtyInput = document.getElementById('enc-workshop-qty');
+    var feedback = document.getElementById('enc-workshop-add-feedback');
+    var csrfInput = document.querySelector('#enc-workshop-csrf input[name=csrfmiddlewaretoken]');
+    var csrf = csrfInput ? csrfInput.value : '';
+    var itemId = '{{ item.id|unlocalize }}';
+    var addUrl = '{{ workshop_add_url|escapejs }}';
+    var addedText = '{{ enc_workshop_added|escapejs }}';
+    var errorText = '{{ enc_workshop_error|escapejs }}';
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var body = new URLSearchParams({
+            item_id: itemId,
+            quantity: qtyInput ? qtyInput.value : '1'
+        });
+        body.append('csrfmiddlewaretoken', csrf);
+        feedback.textContent = '';
+        fetch(addUrl, {
+            method: 'POST',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            body: body
+        }).then(function (response) {
+            return response.json().catch(function () { return {}; });
+        }).then(function (data) {
+            feedback.textContent = (data && data.success)
+                ? addedText : ((data && data.error) || errorText);
+        }).catch(function () {
+            feedback.textContent = errorText;
+        });
+    });
+})();
+</script>
+{% endif %}
 {% endblock %}

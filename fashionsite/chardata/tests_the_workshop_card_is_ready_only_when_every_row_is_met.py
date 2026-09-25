@@ -47,8 +47,9 @@ console.log(JSON.stringify(EXPR));
 
     def test_the_module_exposes_its_pure_functions(self):
         self.assertEqual(
-            ['cardState', 'chunkKeys', 'clampOwned', 'clampQuantity', 'format',
-             'keyOf', 'rowState', 'stillMissing'],
+            ['cardMatchesFilter', 'cardState', 'chunkKeys', 'clampOwned',
+             'clampQuantity', 'filterCounts', 'format', 'keyOf', 'rowState',
+             'sortCards', 'stillMissing'],
             sorted(self._run('Object.keys(w)')))
 
     def test_a_row_is_none_at_zero_owned(self):

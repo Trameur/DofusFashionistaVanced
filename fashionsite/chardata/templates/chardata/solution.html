@@ -426,6 +426,13 @@
             {% trans "Show crafting ingredients" %}
         </button>
         <span id="workshop_feedback" style="margin-left: 8px; font-size: 0.9em; opacity: 0.85;"></span>
+        <div style="margin-top: 4px; font-size: 0.85em; opacity: 0.85;">
+            <label for="workshop_add_mode">{% trans "For items already in the workshop:" %}</label>
+            <select id="workshop_add_mode" style="min-height: 36px;">
+                <option value="missing" selected>{% trans "Add only what's missing" %}</option>
+                <option value="increment">{% trans "Add one more of each" %}</option>
+            </select>
+        </div>
     </div>
     <div id="solution_ingredients" style="display: none; max-width: 520px; margin: 10px auto 0; text-align: left;">
         <div id="solution_ingredients_meta" style="opacity: 0.7; font-size: 0.85em; margin-bottom: 6px;"></div>
@@ -1507,6 +1514,30 @@
             });
             invRow.append(invSelect).append(invBtn).append(invFeedback);
             statLines.append(invRow);
+
+            // Adds this item to the user's Workshop craft list (quantity 1,
+            // or +1 when it is already listed).
+            var wsRow = $("<div style='margin-top:6px;display:flex;gap:4px;align-items:center;'></div>");
+            var wsBtn = $("<button type='button' class='button-generic' style='font-size:0.8em;padding:2px 6px;'>{% trans "Add to workshop" %}</button>");
+            var wsFeedback = $("<span class='save-feedback' style='font-size:0.85em;color:#4CAF50;display:none;'><svg viewBox='0 0 24 24' width='13' height='13' fill='none' stroke='currentColor' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-2px'><path d='M5 12.5l4.5 4.5L19 6.5'/></svg></span>");
+            var wsError = $("<span role='status' style='font-size:0.85em;'></span>");
+            function showWsError(resp) {
+                wsError.text((resp && (resp.message || resp.error)) || '{{ _("Could not save")|escapejs }}');
+            }
+            wsBtn.click(function() {
+                wsError.text('');
+                $.post(apiBase + "/workshop/add/", {item_id: itemId, quantity: 1}, function(resp) {
+                    if (resp && resp.success) {
+                        wsFeedback.stop(true).show().delay(1200).fadeOut(400);
+                    } else {
+                        showWsError(resp);
+                    }
+                }).fail(function(xhr) {
+                    showWsError(xhr.responseJSON);
+                });
+            });
+            wsRow.append(wsBtn).append(wsFeedback).append(wsError);
+            statLines.append(wsRow);
             {% endif %}
         }
 
@@ -2027,15 +2058,20 @@
         function addSolutionToWorkshop() {
             var $btn = $('#add_to_workshop_btn');
             var $fb = $('#workshop_feedback');
+            var mode = $('#workshop_add_mode').val() || 'missing';
             $btn.prop('disabled', true);
             $fb.text('');
             $.ajax({
                 url: apiBase + '/workshop/addsolution/{{ char_id }}/',
                 type: 'POST',
-                data: { 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                data: { 'csrfmiddlewaretoken': '{{ csrf_token }}', 'mode': mode },
                 success: function(resp) {
                     if (resp.success) {
-                        $fb.text("{% trans 'Added' %} (" + resp.added + ").");
+                        var text = "{% trans 'Added' %} (" + resp.added + ").";
+                        if (resp.limited && resp.message) {
+                            text += ' ' + resp.message;
+                        }
+                        $fb.text(text);
                     }
                 },
                 error: function(xhr) {
