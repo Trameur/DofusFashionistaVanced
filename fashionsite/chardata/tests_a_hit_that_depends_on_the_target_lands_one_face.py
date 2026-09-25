@@ -11,6 +11,7 @@ from django.utils import translation
 from chardata.spell_buffs import get_damage_spells_for_version
 
 PIERCING_ARROW = 32429
+ABOLITION_ARROW = 32453
 LETHAL_ATTACK = 12917
 LANGUAGES = ('en', 'fr', 'es', 'pt', 'de')
 VERSIONS = ('dofus3', 'beta')
@@ -50,6 +51,15 @@ def _convert(*rows):
     return _generator().convert_spell(spell)
 
 
+def _convert_states(*rows):
+    spell = {'ankama_id': 1, 'name_en': 'Probe', 'level_requirements': [1],
+             'damage_templates': {'normal': [
+                 {'element': 'EARTH', 'ranges': [ranges], 'state_group': state,
+                  'situation': situation}
+                 for state, situation, ranges in rows]}}
+    return _generator().convert_spell(spell)
+
+
 def _castable(char_class, spell_id, version='dofus3'):
     from chardata.spell_combo import castable_spells
     from fashionistapulp.structure import set_current_game_version
@@ -63,6 +73,10 @@ def _castable(char_class, spell_id, version='dofus3'):
 
 def _ranges(rows):
     return [(row.min_dam, row.max_dam) for row in rows]
+
+
+def _prefix(version):
+    return '' if version == 'dofus3' else version + '/'
 
 
 class TheGeneratorSplitsAHitOnItsTargetTests(SimpleTestCase):
@@ -96,6 +110,55 @@ class TheGeneratorSplitsAHitOnItsTargetTests(SimpleTestCase):
         entry = _convert(('a,A,v25|80,1,0', '43-48'), ('a,A,V50|80,1,0', '54-60'))
         self.assertFalse(entry.aggregates)
 
+    def test_states_landing_the_same_hit_split_it_into_two_faces(self):
+        entry = _convert_states(
+            ('e7120,e7121', 'a,A,pb,*e7120,*e7121|80,1,0', '9-11'),
+            ('E7120', 'a,A,pb,*E7120|88,1,0', '9-11'),
+            ('E7121', 'a,A,pb,*E7121|67,2,0', '9-11'),
+            ('e7120,e7121', 'a,A,PB,*e7120,*e7121|80,1,0', '18-22'),
+            ('E7120', 'a,A,PB,*E7120|88,1,0', '18-22'),
+            ('E7121', 'a,A,PB,*E7121|67,2,0', '18-22'))
+        self.assertEqual([('Target without shield points', [0]),
+                          ('Target with shield points', [3])],
+                         entry.aggregates)
+
+    def test_inside_states_the_plain_face_still_comes_first(self):
+        entry = _convert_states(
+            ('e7120', 'a,A,PB,*e7120|80,1,0', '18-22'),
+            ('e7120', 'a,A,pb,*e7120|80,1,0', '9-11'),
+            ('E7120', 'a,A,PB,*E7120|88,1,0', '18-22'),
+            ('E7120', 'a,A,pb,*E7120|88,1,0', '9-11'))
+        self.assertEqual([('Target without shield points', [1]),
+                          ('Target with shield points', [0])],
+                         entry.aggregates)
+
+    def test_states_without_the_condition_stay_one_group(self):
+        entry = _convert_states(
+            ('e7120', 'a,A,*e7120|80,1,0', '9-11'),
+            ('e7120', 'a,A,*e7120|80,1,0', '18-22'),
+            ('E7120', 'a,A,*E7120|88,1,0', '9-11'),
+            ('E7120', 'a,A,*E7120|88,1,0', '18-22'))
+        self.assertEqual([('', [0, 1])], entry.aggregates)
+
+    def test_states_collapsing_to_two_groups_keep_both_unsplit(self):
+        entry = _convert_states(
+            ('e7120,e7121', 'a,A,pb,*e7120,*e7121|80,1,0', '9-11'),
+            ('E7120', 'a,A,pb,*E7120|88,1,0', '9-11'),
+            ('E7121', 'a,A,pb,*E7121|67,2,0', '12-14'),
+            ('e7120,e7121', 'a,A,PB,*e7120,*e7121|80,1,0', '18-22'),
+            ('E7120', 'a,A,PB,*E7120|88,1,0', '18-22'),
+            ('E7121', 'a,A,PB,*E7121|67,2,0', '23-27'))
+        self.assertEqual([('', [0, 3]), ('', [2, 5])], entry.aggregates)
+
+    def test_groups_past_the_damage_rows_come_back_after_the_two_faces(self):
+        rows = [{'element': 'EARTH', 'ranges': ['9-11'], 'situation': 'a,A,pb|80,1,0'},
+                {'element': 'EARTH', 'ranges': ['18-22'], 'situation': 'a,A,PB|80,1,0'}]
+        split = _generator()._split_the_one_state_on_its_target(
+            rows, [('', [0, 1]), ('', [len(rows)])])
+        self.assertEqual([('Target without shield points', [0]),
+                          ('Target with shield points', [1]),
+                          ('', [2])], split)
+
     def test_every_version_the_generator_accepts_has_its_own_table(self):
         generator = _generator()
         self.assertEqual(set(generator.CONDITIONAL_ROWS_BY_VERSION),
@@ -113,6 +176,16 @@ class TheTablesCarryTheFacesTests(SimpleTestCase):
                                  spell.aggregates)
                 top = spell.get_effects_digest().non_crit_dams[-1]
                 self.assertEqual([(38, 42), (44, 48)], _ranges(top))
+
+    def test_abolition_arrow_splits_on_shield_points_inside_its_states(self):
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                spell = _spell('Cra', ABOLITION_ARROW, version)
+                self.assertEqual([('Target without shield points', [0]),
+                                  ('Target with shield points', [3])],
+                                 spell.aggregates)
+                top = spell.get_effects_digest().non_crit_dams[-1]
+                self.assertEqual([(9, 11), (18, 22)], _ranges([top[0], top[3]]))
 
     def test_lethal_attack_splits_on_half_the_targets_hp(self):
         for version in VERSIONS:
@@ -179,6 +252,40 @@ class TheTurnCountsThePlainFaceTests(SimpleTestCase):
                                                 in castable.crit_alternatives])
                 self.assertEqual('Target with 50% of its HP or more',
                                  castable.scored_group)
+
+    def test_abolition_arrow_lands_its_hit_without_shield_points(self):
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                castable = _castable('Cra', ABOLITION_ARROW, version)
+                self.assertEqual([(9, 11)], _ranges(castable.hits))
+                self.assertEqual([[(12, 14)]], [_ranges(alternative) for alternative
+                                                in castable.crit_alternatives])
+                self.assertEqual('Target without shield points',
+                                 castable.scored_group)
+
+    def test_each_abolition_arrow_cast_is_worth_the_plain_face(self):
+        from chardata.spell_combo import _average, best_turn, crit_chance
+        from fashionistapulp.dofus_constants import calculate_damage
+
+        def face(rows, critical):
+            return _average(calculate_damage([copy.copy(row) for row in rows],
+                                              _STATS, critical, True))
+
+        for version in VERSIONS:
+            with self.subTest(version=version):
+                castable = _castable('Cra', ABOLITION_ARROW, version)
+                self.assertEqual(3, castable.limit)
+                total, order = best_turn(_STATS, [castable], 3 * castable.cost,
+                                         game_version=version)
+                self.assertEqual(['Abolition Arrow'] * 3,
+                                 [name for name, _damage in order])
+                odds = crit_chance(castable.crit_rate, _STATS, version)
+                one = (face(castable.plain_alternatives[0], False) * (1 - odds)
+                       + face(castable.crit_alternatives[0], True) * odds)
+                self.assertAlmostEqual(3 * one, total, places=6)
+                top = castable.spell.get_effects_digest().non_crit_dams[-1]
+                both = face([top[0], top[3]], False)
+                self.assertLess(total, 3 * both)
 
     def test_one_cast_is_worth_the_plain_face_and_no_more(self):
         from chardata.spell_combo import _average, best_turn, crit_chance
@@ -250,21 +357,48 @@ class TheFacesSpeakEveryLanguageTests(SimpleTestCase):
 
 class TheSpellsPageLabelsTheFacesTests(TestCase):
 
-    def _build(self):
+    def _build(self, version='dofus3'):
         from fashionistapulp.structure import (get_structure,
                                                set_current_game_version)
         from chardata.models import Char
-        set_current_game_version('dofus3')
-        structure = get_structure('dofus3')
-        names = []
-        for type_name in ('Hat', 'Cloak', 'Belt', 'Boots', 'Amulet'):
-            item = next(i for i in structure.types[200][type_name]
-                        if not i.removed and i.ankama_id)
-            names.append(structure.get_item_name_in_language(item, 'en'))
-        self.client.post('/import/text/', {
+        set_current_game_version(version)
+        try:
+            structure = get_structure(version)
+            names = []
+            for type_name in ('Hat', 'Cloak', 'Belt', 'Boots', 'Amulet'):
+                item = next(i for i in structure.types[200][type_name]
+                            if not i.removed and i.ankama_id)
+                names.append(structure.get_item_name_in_language(item, 'en'))
+        finally:
+            set_current_game_version('dofus3')
+        self.client.post('/%simport/text/' % _prefix(version), {
             'text': '\n'.join(names), 'confirm': '1',
             'char_class': 'Cra', 'level': '200'})
         return Char.objects.order_by('-id').first()
+
+    def _aggregates(self, char, name, language, version='dofus3'):
+        page = self.client.get('/%sspells/%d/' % (_prefix(version), char.id),
+                               HTTP_ACCEPT_LANGUAGE=language, follow=True)
+        self.assertEqual(200, page.status_code)
+        found = re.search(r'var spellDigests = (.*);',
+                          page.content.decode('utf-8'))
+        self.assertTrue(found, 'the page carries no spell digests')
+        digests = {digest.get('canonical'): digest
+                   for digest in json.loads(found.group(1))}
+        return digests[name]['aggregates']
+
+    def test_the_cra_page_names_both_faces_of_abolition_arrow(self):
+        for version in VERSIONS:
+            char = self._build(version)
+            self.assertEqual(version, char.game_version or 'dofus3')
+            for language, wanted in (
+                    ('en', [['Target without shield points', [0]],
+                            ['Target with shield points', [3]]]),
+                    ('fr', [['Cible sans bouclier', [0]],
+                            ['Cible avec bouclier', [3]]])):
+                with self.subTest(version=version, language=language):
+                    self.assertEqual(wanted, self._aggregates(
+                        char, 'Abolition Arrow', language, version))
 
     def test_the_cra_page_names_both_faces_of_piercing_arrow(self):
         char = self._build()

@@ -17459,9 +17459,9 @@ class CombatApTests(SimpleTestCase):
         from chardata.spell_buffs import (_decide_spell_level,
                                           get_damage_spells_for_version)
         from chardata.spell_combo import Castable
-        # Abolition Arrow: *e means the state is absent, one case per row
+        # Abolition Arrow: one state, one face; its text says greater on targets with shield points
         wanted = {'Pandawa': ('Schnaps', 1), 'Ecaflip': ('Trickery', 2),
-                  'Cra': ('Abolition Arrow', 2)}
+                  'Cra': ('Abolition Arrow', 1)}
         for char_class, (name, keep) in wanted.items():
             spells = get_damage_spells_for_version('dofus3').get(char_class, [])
             spell = next((s for s in spells if s.name == name), None)

@@ -819,7 +819,7 @@ DAMAGE_SPELLS = {
              ['15-18', '19-23', '23-27']],
             [EARTH, EARTH, EARTH, EARTH, EARTH, EARTH],
             steals=[True, True, True, True, True, True],
-        ), aggregates=[('', [0, 3])], stacks=2, is_linked=(1, 'Persecuting Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'crit': [5, 5, 5]}, spell_id=32453),
+        ), aggregates=[('Target without shield points', [0]), ('Target with shield points', [3])], stacks=2, is_linked=(1, 'Persecuting Arrow'), casting={'ap': [2, 2, 2], 'per_turn': [3, 3, 3], 'crit': [5, 5, 5]}, spell_id=32453),
         Spell('Eye for Eye', [55, 122, 189], Effects(
             [['16-18', '21-24', '24-27'],
              ['19-21', '25-28', '29-32'],

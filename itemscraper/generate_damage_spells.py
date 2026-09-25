@@ -162,7 +162,7 @@ _MODERN_TARGET_CONDITIONS = (
 
 TARGET_CONDITIONS_BY_VERSION = {
     "dofus3": _MODERN_TARGET_CONDITIONS,
-    # beta: same two spell texts in spell_reference/beta.json
+    # beta: same spell texts in spell_reference/beta.json
     "beta": _MODERN_TARGET_CONDITIONS,
     "dofus2": (),
 }
@@ -1328,6 +1328,25 @@ def _build_target_condition_aggregates(
     return None
 
 
+def _split_the_one_state_on_its_target(
+    rows: Sequence[Mapping[str, Any]],
+    aggregates: Sequence[Tuple[str, Sequence[int]]],
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """States landing the same hit collapsed to one; split that hit on its target like a stateless one."""
+    own = [list(indexes) for _label, indexes in aggregates
+           if indexes and indexes[0] < len(rows)]
+    if len(own) != 1:
+        return None
+    kept = own[0]
+    faces = _build_target_condition_aggregates([rows[idx] for idx in kept], len(kept))
+    if not faces:
+        return None
+    split = [(label, [kept[idx] for idx in indexes]) for label, indexes in faces]
+    split.extend((label, list(indexes)) for label, indexes in aggregates
+                 if not (indexes and indexes[0] < len(rows)))
+    return split
+
+
 def _build_best_element_aggregates(
     group_map: Mapping[Any, Sequence[int]],
     base_row_count: int,
@@ -1581,6 +1600,8 @@ def convert_spell(
     if (state_aggregates is not None and collapsed is not None
             and len(collapsed) == len(state_aggregates)):
         collapsed = _label_state_aggregates(normal_rows, collapsed)
+    elif state_aggregates is not None and collapsed is not None:
+        collapsed = _split_the_one_state_on_its_target(normal_rows, collapsed) or collapsed
     aggregates = collapsed
     placed_blocks = damage.get("placed") or []
     block_waits: Dict[int, str] = {}
