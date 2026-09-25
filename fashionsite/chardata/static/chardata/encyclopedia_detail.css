@@ -8,7 +8,7 @@
 }
 .encyclopedia-crumbs {
     font-size: 0.85em;
-    opacity: 0.75;
+    opacity: 0.9;
     margin-bottom: 10px;
 }
 .encyclopedia-crumbs a { text-decoration: none; }
@@ -27,7 +27,7 @@
     margin: 0;
 }
 .encyclopedia-item-meta {
-    opacity: 0.9;
+    opacity: 0.95;
 }
 .encyclopedia-section {
     margin-top: 14px;

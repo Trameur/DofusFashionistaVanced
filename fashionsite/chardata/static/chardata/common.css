@@ -45,7 +45,7 @@ a, img {
     width: 10px;
     padding-right: 7px;
 }
-/* Skip link: off screen until focused, with explicit colours since it overlays any background. */
+/* Skip link: off screen until focused, with explicit colours that outrank every theme's link colour. */
 .skip-link {
     position: absolute;
     left: -9999px;
@@ -53,7 +53,7 @@ a, img {
     z-index: 1000;
     padding: 8px 14px;
     background: #ffffff;
-    color: #000000;
+    color: #000000 !important;
     border: 2px solid #000000;
     text-decoration: none;
 }

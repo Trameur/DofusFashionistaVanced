@@ -280,6 +280,10 @@ html.fm-modern.fm-light a:hover{ color:var(--fm-accent-strong); }
 html.fm-modern.fm-light .version-link:hover{ background:var(--fm-accent-soft) !important; color:var(--fm-text) !important; }
 html.fm-modern.fm-light .build-link:hover, html.fm-modern.fm-light .filter-button:hover{ color:#2a2010 !important; }
 
+html.fm-modern.fm-light .monster-grades td.monster-weak,
+html.fm-modern.fm-light .encyclopedia-monster-card a.encyclopedia-monsters-weakness{ color:#0a6b0a; }
+html.fm-modern.fm-light .load-project-cell a{ color:#5c4406; }
+
 /* ---------- Tables (stats, weights, encyclopedia, compare) ---------- */
 html.fm-modern .maincontent table.register-table,
 html.fm-modern .maincontent .styled-table{ border-collapse:separate; border-spacing:0; }

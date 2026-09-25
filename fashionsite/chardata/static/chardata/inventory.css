@@ -19,7 +19,6 @@
 .inv-hint {
     margin: 0 0 16px;
     font-style: italic;
-    opacity: 0.85;
 }
 .inv-layout {
     display: grid;
@@ -52,9 +51,6 @@
 .inv-folder-link.inv-folder-selected {
     outline: 2px solid rgba(128, 128, 128, 0.55);
     font-weight: 700;
-}
-.inv-folder-count {
-    opacity: 0.75;
 }
 .inv-folder-form input[type="text"] {
     width: 100%;

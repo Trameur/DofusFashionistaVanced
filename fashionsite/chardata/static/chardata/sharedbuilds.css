@@ -372,7 +372,6 @@
 }
 
 .build-patch-badge-old {
-    opacity: 0.55;
     border-style: dashed;
 }
 
@@ -477,7 +476,8 @@ html.fm-light .stat-value,
 html.fm-light .build-compact-stat,
 html.fm-light .vote-btn,
 html.fm-light .pagination a,
-html.fm-light .pagination span {
+html.fm-light .pagination span,
+html.fm-light .build-boxes-section label {
     color: #7A5C10;
 }
 html.fm-dark .build-value,

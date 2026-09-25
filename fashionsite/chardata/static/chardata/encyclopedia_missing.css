@@ -4,7 +4,7 @@
    both themes. */
 
 .encyclopedia-missing { padding: 12px; }
-.encyclopedia-crumbs { font-size: 0.85em; opacity: 0.75; margin-bottom: 10px; }
+.encyclopedia-crumbs { font-size: 0.85em; opacity: 0.9; margin-bottom: 10px; }
 .encyclopedia-crumbs a { text-decoration: none; }
 .encyclopedia-crumbs a:hover { text-decoration: underline; }
 .encyclopedia-missing-card { border: 1px solid rgba(61, 32, 13, 0.25); border-radius: 8px; box-sizing: border-box; padding: 16px; }
