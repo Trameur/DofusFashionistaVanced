@@ -45,11 +45,6 @@ def apply_corrections(conn, corrections):
                 cursor.execute('UPDATE items SET level = ? WHERE id = ? AND level != ?',
                                (int(level), item_id, int(level)))
                 changes += cursor.rowcount
-            if fix.get('removed'):
-                cursor.execute(
-                    'UPDATE items SET removed = 1 WHERE id = ? AND (removed IS NULL OR removed = 0)',
-                    (item_id,))
-                changes += cursor.rowcount
             for stat_key, value in (fix.get('stats') or {}).items():
                 if stat_key not in stat_ids:
                     raise ValueError('unknown stat key %r in correction %s'

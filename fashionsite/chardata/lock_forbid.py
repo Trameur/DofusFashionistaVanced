@@ -53,6 +53,7 @@ DEFAULT_EXCLUSION_ANKAMA_IDS = [
     8422,   # [wip] (Touch work-in-progress placeholder)
     12596,  # [!] WIP (Touch work-in-progress placeholder)
     31812,  # Anneau de Ghaston (beta dev item)
+    34569,  # [!] Test Masquer effet (beta test item)
     16340,  # Abuselet (forgemagie fodder, cannot be equipped)
     16341,  # Bendant (forgemagie fodder)
 ]
