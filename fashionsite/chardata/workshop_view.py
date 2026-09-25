@@ -24,6 +24,8 @@ from chardata.models import WorkshopItem, WorkshopStock, WorkshopUndo
 from chardata.official_site import get_item_link, get_set_link
 from chardata.recipe_util import aggregate_ingredients, workshop_breakdown
 from chardata.util import safe_int, set_response
+from chardata.workshop_sources import (
+    MAX_SOURCE_KEYS_PER_REQUEST, get_item_craft_jobs, get_resource_sources)
 from fashionistapulp.structure import get_structure
 from fashionistapulp.translation import get_supported_language
 from static_s3.templatetags.static_s3 import static
@@ -58,6 +60,7 @@ def _items_for_user(user, game_version):
     structure = get_structure(game_version)
     language = get_supported_language()
     items = []
+    internal_ids_by_item_id = {}
     for row in rows:
         item = structure.get_item_by_id(row.item_id)
         if item is None:
@@ -75,6 +78,8 @@ def _items_for_user(user, game_version):
                 'set_id': None,
                 'set_name': None,
                 'set_url': None,
+                'job_name': None,
+                'job_level': None,
             })
             continue
 
@@ -103,8 +108,20 @@ def _items_for_user(user, game_version):
             'set_name': set_name,
             'set_url': (get_set_link(item_set.id, set_name, game_version)
                        if item_set else None),
+            'job_name': None,
+            'job_level': None,
         })
-    return items
+        internal_ids_by_item_id[row.item_id] = item.id
+
+    job_info = get_item_craft_jobs(
+        internal_ids_by_item_id.values(), game_version, language)
+    for it in items:
+        internal_id = internal_ids_by_item_id.get(it['item_id'])
+        job = job_info['items'].get(internal_id)
+        if job:
+            it['job_name'] = job['job_name']
+            it['job_level'] = job['level']
+    return items, job_info['summary']
 
 
 def _ingredients_payload(recipe, language):
@@ -212,7 +229,7 @@ def _per_unit_recipe_needs(item_id, game_version):
 @login_required
 def workshop(request):
     game_version = getattr(request, 'game_version', 'dofus3')
-    items = _items_for_user(request.user, game_version)
+    items, job_summary = _items_for_user(request.user, game_version)
     breakdown = _breakdown_for_user(request.user, game_version)
     return set_response(request,
                         'chardata/workshop.html',
@@ -220,6 +237,7 @@ def workshop(request):
                          'workshop_count': len(items),
                          'workshop_total_units': sum(
                              it['quantity'] for it in items),
+                         'workshop_job_summary': job_summary,
                          # For the template to hand to workshop.js through json_script
                          'workshop_card_rows': breakdown['items'],
                          'workshop_resource_totals': breakdown['resources'],
@@ -236,6 +254,49 @@ def workshop_ingredients(request):
     game_version = getattr(request, 'game_version', 'dofus3')
     recipe = _ingredients_for_workshop(request.user, game_version)
     return JsonResponse(_ingredients_payload(recipe, get_supported_language()))
+
+
+def _parse_source_keys(raw):
+    """[(ankama_id, subtype), ...] from a "id:subtype,id:subtype" query string.
+
+    Malformed entries are dropped rather than rejected outright; the caller
+    still sees an empty list and answers accordingly.
+    """
+    keys = []
+    for chunk in (raw or '').split(','):
+        chunk = chunk.strip()
+        if not chunk:
+            continue
+        ankama_id_raw, sep, subtype = chunk.partition(':')
+        if not sep:
+            continue
+        ankama_id = safe_int(ankama_id_raw, None)
+        subtype = subtype.strip().lower()
+        if ankama_id is None or not subtype:
+            continue
+        keys.append((ankama_id, subtype))
+    return keys
+
+
+@login_required
+def workshop_sources(request):
+    """JSON source info (top monsters, crafted flag) for a batch of resources.
+
+    GET ?keys=<ankama_id>:<subtype>,<ankama_id>:<subtype>,..., at most
+    MAX_SOURCE_KEYS_PER_REQUEST entries.
+    """
+    game_version = getattr(request, 'game_version', 'dofus3')
+    raw_keys = request.GET.get('keys', '')
+    if len(raw_keys.split(',')) > MAX_SOURCE_KEYS_PER_REQUEST:
+        return JsonResponse(
+            {'error': _('Too many resources in one request')}, status=400)
+
+    keys = _parse_source_keys(raw_keys)
+    if not keys:
+        return JsonResponse({'error': _('Invalid request')}, status=400)
+
+    sources = get_resource_sources(keys, game_version, get_supported_language())
+    return JsonResponse({'success': True, 'sources': sources})
 
 
 def _coerce_quantity(value, default=1):
