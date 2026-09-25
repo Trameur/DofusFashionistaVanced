@@ -15,6 +15,7 @@ import logging
 import sqlite3
 
 from chardata.encyclopedia_view import _ingredient_icon_url, _recipe_lookups
+from chardata.item_sources import get_source_ankama_ids
 from chardata.official_site import get_item_link, get_resource_link
 from fashionistapulp.fashionista_config import get_items_db_path
 from fashionistapulp.structure import get_structure
@@ -29,6 +30,14 @@ _LOCAL_INGREDIENT_TYPES = {
     'pets': 'pet',
     'pet': 'pet',
 }
+
+# How many levels deep a "Craftable" tag can keep opening its own sub-recipe.
+MAX_SUBRECIPE_DEPTH = 8
+MAX_SUBRECIPE_KEYS_PER_REQUEST = 40
+
+
+def _stock_key(ankama_id, subtype):
+    return '%d:%s' % (ankama_id, subtype)
 
 
 def _table_exists(cursor, name):
@@ -203,18 +212,20 @@ def workshop_breakdown(item_quantities, language, game_version='dofus3',
         rows_by_resolved_id.setdefault(item_id, []).append(
             (ankama_id, subtype, quantity))
 
+    craftable_ids = get_source_ankama_ids(game_version)['craftable']
+
     def build_row(ankama_id, subtype, quantity):
         name = names.get((ankama_id, subtype)) or '%s #%s' % (unknown_label, ankama_id)
         local_type = _LOCAL_INGREDIENT_TYPES.get((subtype or '').lower())
+        local_item = local_items.get((ankama_id, local_type)) if local_type else None
         local_item_url = None
-        if local_type:
-            local_item = local_items.get((ankama_id, local_type))
-            if local_item is not None:
-                local_item_url = get_item_link(
-                    local_item[1], local_item[0], local_item[3], game_version)
+        if local_item is not None:
+            local_item_url = get_item_link(
+                local_item[1], local_item[0], local_item[3], game_version)
         resource_url = None
         if local_item_url is None and (ankama_id, subtype) in names:
             resource_url = get_resource_link(subtype, ankama_id, name, game_version)
+        craftable = ankama_id in craftable_ids
         return {
             'name': name,
             'quantity': quantity,
@@ -223,6 +234,9 @@ def workshop_breakdown(item_quantities, language, game_version='dofus3',
             'local_item_url': local_item_url,
             'resource_url': resource_url,
             'image_url': _ingredient_icon_url(game_version, ankama_id),
+            'craftable': craftable,
+            'craftable_item_id': (local_item[2]
+                                  if craftable and local_item is not None else None),
         }
 
     items = {}
@@ -249,6 +263,8 @@ def workshop_breakdown(item_quantities, language, game_version='dofus3',
                     'local_item_url': row['local_item_url'],
                     'resource_url': row['resource_url'],
                     'image_url': row['image_url'],
+                    'craftable': row['craftable'],
+                    'craftable_item_id': row['craftable_item_id'],
                     'used_by': 0,
                 }
                 order.append(key)
@@ -266,3 +282,98 @@ def workshop_breakdown(item_quantities, language, game_version='dofus3',
         'items_with_recipe': items_with_recipe,
         'recipes_available': True,
     }
+
+
+def expand_subrecipes(keys, game_version, language, unknown_label='Unknown ingredient'):
+    """One level of the recipe for each requested craftable ingredient.
+
+    `keys` is an iterable of (ankama_id, subtype) pairs, at most
+    MAX_SUBRECIPE_KEYS_PER_REQUEST honoured (duplicates dropped). Returns
+    {'<ankama_id>:<subtype>': {'found': bool, 'children': [row, ...]}}, where
+    'found' is False when this ankama_id carries no item_recipes row of its
+    own (the recipe changed since the tag was drawn, or the key was never
+    craftable). Each child row is {name, quantity, subtype, ankama_id,
+    local_item_url, resource_url, image_url, craftable, craftable_item_id}.
+
+    Runs a small constant number of SQL statements, independent of how many
+    keys are asked for.
+    """
+    keys = list(dict.fromkeys(
+        (int(a), str(s)) for a, s in keys))[:MAX_SUBRECIPE_KEYS_PER_REQUEST]
+    result = {_stock_key(a, s): {'found': False, 'children': []} for a, s in keys}
+    if not keys:
+        return result
+
+    ankama_ids = sorted({a for a, _s in keys})
+    conn = None
+    try:
+        conn = sqlite3.connect(get_items_db_path(game_version))
+        cursor = conn.cursor()
+        if not _table_exists(cursor, 'item_recipes'):
+            return result
+        has_names = _table_exists(cursor, 'item_recipe_ingredient_names')
+
+        placeholders = ','.join('?' * len(ankama_ids))
+        # One internal item id per ankama_id: duplicate item rows sharing an
+        # ankama_id carry identical recipes (retro, touch), so any one will do.
+        owner_rows = cursor.execute(
+            "SELECT i.ankama_id, MIN(i.id) FROM items i "
+            "JOIN item_recipes r ON r.item = i.id "
+            "WHERE i.ankama_id IN (%s) GROUP BY i.ankama_id"
+            % placeholders, ankama_ids).fetchall()
+        if not owner_rows:
+            return result
+        ankama_by_item = {item_id: ankama_id for ankama_id, item_id in owner_rows}
+
+        item_placeholders = ','.join('?' * len(ankama_by_item))
+        own_rows = cursor.execute(
+            "SELECT item, position, ingredient_ankama_id, ingredient_subtype, "
+            "quantity FROM item_recipes WHERE item IN (%s) ORDER BY item, position"
+            % item_placeholders, list(ankama_by_item)).fetchall()
+
+        lookup_rows = [(position, a, s, q) for _item, position, a, s, q in own_rows]
+        names, local_items = _recipe_lookups(cursor, lookup_rows, language, has_names)
+    except Exception:
+        logger.exception('Failed to expand a sub-recipe')
+        return result
+    finally:
+        if conn is not None:
+            conn.close()
+
+    craftable_ids = get_source_ankama_ids(game_version)['craftable']
+    rows_by_ankama = {}
+    for item_id, _position, a, s, q in own_rows:
+        rows_by_ankama.setdefault(ankama_by_item[item_id], []).append((a, s, q))
+
+    for ankama_id, subtype in keys:
+        rows = rows_by_ankama.get(ankama_id)
+        if not rows:
+            continue
+        children = []
+        for a, s, q in rows:
+            name = names.get((a, s)) or '%s #%s' % (unknown_label, a)
+            local_type = _LOCAL_INGREDIENT_TYPES.get((s or '').lower())
+            local_item = local_items.get((a, local_type)) if local_type else None
+            local_item_url = None
+            if local_item is not None:
+                local_item_url = get_item_link(
+                    local_item[1], local_item[0], local_item[3], game_version)
+            resource_url = None
+            if local_item_url is None and (a, s) in names:
+                resource_url = get_resource_link(s, a, name, game_version)
+            craftable = a in craftable_ids
+            children.append({
+                'name': name,
+                'quantity': q,
+                'subtype': s,
+                'ankama_id': a,
+                'local_item_url': local_item_url,
+                'resource_url': resource_url,
+                'image_url': _ingredient_icon_url(game_version, a),
+                'craftable': craftable,
+                'craftable_item_id': (local_item[2]
+                                      if craftable and local_item is not None else None),
+            })
+        result[_stock_key(ankama_id, subtype)] = {'found': True, 'children': children}
+
+    return result

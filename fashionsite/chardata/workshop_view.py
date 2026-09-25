@@ -22,7 +22,9 @@ from django.views.decorators.http import require_POST
 from chardata.image_store import get_image_url
 from chardata.models import WorkshopItem, WorkshopStock, WorkshopUndo
 from chardata.official_site import get_item_link, get_set_link
-from chardata.recipe_util import aggregate_ingredients, workshop_breakdown
+from chardata.recipe_util import (
+    MAX_SUBRECIPE_DEPTH, MAX_SUBRECIPE_KEYS_PER_REQUEST, aggregate_ingredients,
+    expand_subrecipes, workshop_breakdown)
 from chardata.util import safe_int, set_response
 from chardata.workshop_sources import (
     MAX_SOURCE_KEYS_PER_REQUEST, get_item_craft_jobs, get_resource_sources)
@@ -297,6 +299,45 @@ def workshop_sources(request):
 
     sources = get_resource_sources(keys, game_version, get_supported_language())
     return JsonResponse({'success': True, 'sources': sources})
+
+
+@login_required
+def workshop_subrecipe(request):
+    """JSON: one level of the recipe for a batch of craftable ingredients.
+
+    GET ?keys=<ankama_id>:<subtype>,..., at most MAX_SUBRECIPE_KEYS_PER_REQUEST
+    entries. &depth=<n> is the depth of the children being requested (a
+    card's own ingredient row is depth 0, so its first "Craftable" tag asks
+    for depth 1); requests past MAX_SUBRECIPE_DEPTH are refused. &path=<keys>
+    carries every ancestor already opened above these keys, in the same
+    "<id>:<subtype>" shape; a key already present in its own path is a
+    circular recipe and is refused on its own, without failing the rest of
+    the batch.
+    """
+    game_version = getattr(request, 'game_version', 'dofus3')
+    raw_keys = request.GET.get('keys', '')
+    if len(raw_keys.split(',')) > MAX_SUBRECIPE_KEYS_PER_REQUEST:
+        return JsonResponse({'error': _('Too many resources in one request')}, status=400)
+
+    keys = _parse_source_keys(raw_keys)
+    if not keys:
+        return JsonResponse({'error': _('Invalid request')}, status=400)
+
+    depth = safe_int(request.GET.get('depth'), None)
+    if depth is None or not 1 <= depth <= MAX_SUBRECIPE_DEPTH:
+        return JsonResponse(
+            {'error': _('This recipe is nested too deep to expand')}, status=400)
+
+    path_keys = set(_parse_source_keys(request.GET.get('path', '')))
+    honoured = [key for key in keys if key not in path_keys]
+    cyclical = [key for key in keys if key in path_keys]
+
+    subrecipes = expand_subrecipes(honoured, game_version, get_supported_language())
+    for ankama_id, subtype in cyclical:
+        subrecipes[_stock_key(ankama_id, subtype)] = {
+            'found': True, 'children': [], 'cycle': True}
+
+    return JsonResponse({'success': True, 'depth': depth, 'subrecipes': subrecipes})
 
 
 def _coerce_quantity(value, default=1):

@@ -7,6 +7,7 @@ from unittest import mock
 
 from django.test import SimpleTestCase
 
+from chardata.item_sources import get_source_ankama_ids
 from chardata.recipe_util import workshop_breakdown
 from fashionistapulp.fashionista_config import get_items_db_path
 
@@ -136,6 +137,10 @@ class _CountingConnection:
 class TheBreakdownRunsAConstantNumberOfQueriesTests(SimpleTestCase):
 
     def _query_count(self, item_ids):
+        # The craftable-ankama-id set is cached per version once warm; prime it
+        # here so the measurement reflects its steady-state, per-request cost.
+        get_source_ankama_ids('dofus3')
+
         counter = {'n': 0}
         real_connect = sqlite3.connect
 

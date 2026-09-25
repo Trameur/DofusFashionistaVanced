@@ -5,6 +5,7 @@
     var MAX_QUANTITY = 999;
     var SAVE_DEBOUNCE_MS = 400;
     var MAX_KEYS_PER_REQUEST_DEFAULT = 300;
+    var MAX_SUBRECIPE_DEPTH = 8;
 
     function clampOwned(raw, max) {
         var limit = max || MAX_OWNED_DEFAULT;
@@ -26,6 +27,9 @@
     function rowState(owned, need) {
         owned = owned || 0;
         need = need || 0;
+        if (need <= 0) {
+            return 'done';
+        }
         if (owned <= 0) {
             return 'none';
         }
@@ -61,6 +65,10 @@
 
     function stillMissing(total, owned) {
         return Math.max(0, (total || 0) - (owned || 0));
+    }
+
+    function subrecipeChildNeed(childQuantity, intermediateNeed, intermediateOwned) {
+        return (childQuantity || 0) * stillMissing(intermediateNeed, intermediateOwned);
     }
 
     function cardMatchesFilter(state, filter) {
@@ -212,7 +220,8 @@
         buildCsv: buildCsv,
         buildMissingListText: buildMissingListText,
         buildMissingListCsv: buildMissingListCsv,
-        csvSeparatorFor: csvSeparatorFor
+        csvSeparatorFor: csvSeparatorFor,
+        subrecipeChildNeed: subrecipeChildNeed
     };
 
     if (typeof window === 'undefined' || !document.getElementById('ws-list')) {
@@ -268,6 +277,8 @@
     var undoClearTimer = null;
     var SORT_STORAGE_KEY = 'wsSort';
     var sourceCache = {};
+    var subrecipeCache = {};
+    var subrecipeDependents = {};
 
     function postJson(url, payload) {
         return fetch(url, {
@@ -490,6 +501,158 @@
         return wrap;
     }
 
+    function registerSubrecipeDependent(parentKey, entry) {
+        (subrecipeDependents[parentKey] = subrecipeDependents[parentKey] || []).push(entry);
+    }
+
+    function cascadeSubrecipe(key) {
+        (subrecipeDependents[key] || []).forEach(function (entry) {
+            updateRow(entry);
+            cascadeSubrecipe(entry.el.getAttribute('data-res-key'));
+        });
+    }
+
+    function fetchSubrecipe(key, depth, ancestorPath, callback) {
+        if (subrecipeCache[key] !== undefined) {
+            callback(subrecipeCache[key]);
+            return;
+        }
+        var url = cfg.subrecipeUrl + '?keys=' + encodeURIComponent(key) + '&depth=' + depth;
+        if (ancestorPath.length) {
+            url += '&path=' + encodeURIComponent(ancestorPath.join(','));
+        }
+        fetch(url, {headers: {'X-Requested-With': 'XMLHttpRequest'}}).then(function (response) {
+            if (!response.ok) {
+                throw new Error('subrecipe request failed');
+            }
+            return response.json();
+        }).then(function (data) {
+            var info = (data && data.subrecipes && data.subrecipes[key])
+                || {found: false, children: []};
+            subrecipeCache[key] = info;
+            callback(info);
+        }).catch(function () {
+            callback(null);
+        });
+    }
+
+    function renderSubrecipePanel(panel, key, meta, getNeed, depth, ancestorPath, onDone) {
+        panel.innerHTML = '';
+
+        if (meta.craftable_item_id) {
+            var addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.className = 'ws-mini-btn ws-subrecipe-add';
+            addBtn.textContent = i18n.addAsOwnCard || '';
+            addBtn.addEventListener('click', function () {
+                postForm(cfg.addUrl, {item_id: meta.craftable_item_id, quantity: 1})
+                    .then(function (resp) {
+                        if (resp && resp.success) {
+                            announce(format(i18n.addedAsCard || '', {name: meta.name}));
+                        } else {
+                            announce((resp && resp.error) || i18n.saveError || '');
+                        }
+                    }).catch(function () {
+                        announce(i18n.saveError || '');
+                    });
+            });
+            panel.appendChild(addBtn);
+        }
+
+        var body = document.createElement('div');
+        body.className = 'ws-subrecipe-body';
+        body.textContent = i18n.loading || '';
+        panel.appendChild(body);
+
+        fetchSubrecipe(key, depth, ancestorPath, function (info) {
+            body.innerHTML = '';
+            if (!info) {
+                var errMsg = document.createElement('p');
+                errMsg.className = 'ws-source-line';
+                errMsg.textContent = i18n.saveError || '';
+                body.appendChild(errMsg);
+                if (onDone) {
+                    onDone(false);
+                }
+                return;
+            }
+            var children = (info.found && !info.cycle) ? info.children : [];
+            if (!children.length) {
+                var msg = document.createElement('p');
+                msg.className = 'ws-source-line';
+                msg.textContent = i18n.noSubrecipe || '';
+                body.appendChild(msg);
+                if (onDone) {
+                    onDone(true);
+                }
+                return;
+            }
+            var list = document.createElement('ul');
+            list.className = 'ws-subrecipe-list';
+            var selfPath = ancestorPath.concat([key]);
+            children.forEach(function (child) {
+                var childKey = keyOf(child.ankama_id, child.subtype);
+                var childGetNeed = function () {
+                    return subrecipeChildNeed(child.quantity, getNeed(), stock[key] || 0);
+                };
+                var entry = buildRowElement(childKey, child, childGetNeed, 'subrecipe', null);
+                registerSubrecipeDependent(key, entry);
+                list.appendChild(entry.el);
+                updateRow(entry);
+
+                if (child.craftable && depth < MAX_SUBRECIPE_DEPTH
+                    && selfPath.indexOf(childKey) === -1) {
+                    entry.el.appendChild(buildSubrecipeDisclosure(
+                        childKey, child, childGetNeed, depth + 1, selfPath));
+                }
+            });
+            body.appendChild(list);
+            if (onDone) {
+                onDone(true);
+            }
+        });
+    }
+
+    function buildSubrecipeDisclosure(key, meta, getNeed, depth, ancestorPath) {
+        var wrap = document.createElement('div');
+        wrap.className = 'ws-subrecipe-wrap';
+
+        var toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'ws-subrecipe-toggle';
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', format(i18n.showSubrecipe, {name: meta.name}));
+        toggle.textContent = i18n.craftableLabel || '';
+
+        var panel = document.createElement('div');
+        panel.className = 'ws-subrecipe-panel';
+        panel.setAttribute('aria-live', 'polite');
+        panel.hidden = true;
+
+        var loaded = false;
+
+        toggle.addEventListener('click', function () {
+            var expanded = toggle.getAttribute('aria-expanded') === 'true';
+            if (expanded) {
+                toggle.setAttribute('aria-expanded', 'false');
+                panel.hidden = true;
+                return;
+            }
+            toggle.setAttribute('aria-expanded', 'true');
+            panel.hidden = false;
+            if (!loaded) {
+                renderSubrecipePanel(panel, key, meta, getNeed, depth, ancestorPath,
+                    function (ok) {
+                        loaded = ok;
+                    });
+            }
+        });
+
+        wrap.appendChild(toggle);
+        wrap.appendChild(panel);
+        return wrap;
+    }
+
     function buildRowElement(key, meta, getNeed, context, itemId) {
         var owned = stock[key] || 0;
 
@@ -573,6 +736,8 @@
                 })[0];
                 var perUnit = row ? row.quantity : 0;
                 target = Math.max(stock[key] || 0, perUnit * (multipliers[itemId] || 1));
+            } else if (context === 'subrecipe') {
+                target = Math.max(stock[key] || 0, getNeed());
             } else {
                 target = liveTotalNeed(key);
             }
@@ -589,7 +754,7 @@
             sharedNote.className = 'ws-row-shared';
             sharedNote.hidden = true;
             li.appendChild(sharedNote);
-        } else {
+        } else if (context === 'list') {
             extra = document.createElement('div');
             extra.className = 'ws-row-extra';
             var missingSpan = document.createElement('span');
@@ -801,6 +966,7 @@
 
     function refreshKey(key) {
         (rowElsByKey[key] || []).forEach(updateRow);
+        cascadeSubrecipe(key);
         var entry = resourceIndex[key];
         if (entry) {
             Object.keys(entry.items).forEach(refreshCardFooter);
@@ -950,6 +1116,9 @@
                 })(row.quantity || 0);
                 var entry = buildRowElement(key, row, getNeed, 'card', itemId);
                 resList.appendChild(entry.el);
+                if (row.craftable) {
+                    entry.el.appendChild(buildSubrecipeDisclosure(key, row, getNeed, 1, []));
+                }
             });
         });
     }

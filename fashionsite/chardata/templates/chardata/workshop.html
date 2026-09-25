@@ -198,6 +198,10 @@
     {% trans "Needed" as ws_csv_header_needed %}
     {% trans "Owned" as ws_csv_header_owned %}
     {% trans "Missing" as ws_csv_header_missing %}
+    {% trans "Add as its own card" as ws_add_as_own_card %}
+    {% trans "{name} added as its own card." as ws_added_as_card %}
+    {% trans "No sub-recipe found." as ws_no_subrecipe %}
+    {% trans "Show the recipe for {name}" as ws_show_subrecipe %}
     <script>
 window.WORKSHOP_CONFIG = {
     apiBase: "{{ api_base|escapejs }}",
@@ -211,6 +215,7 @@ window.WORKSHOP_CONFIG = {
     craftUrlBase: "{{ api_base|escapejs }}/workshop/craft/",
     uncraftUrlBase: "{{ api_base|escapejs }}/workshop/uncraft/",
     sourcesUrl: "{{ version_switch_language_prefix|escapejs }}{{ api_base|escapejs }}/workshop/sources/",
+    subrecipeUrl: "{{ version_switch_language_prefix|escapejs }}{{ api_base|escapejs }}/workshop/subrecipe/",
     i18n: {
         ready: "{{ ws_ready|escapejs }}",
         notStarted: "{{ ws_not_started|escapejs }}",
@@ -245,7 +250,11 @@ window.WORKSHOP_CONFIG = {
         csvHeaderName: "{{ ws_csv_header_name|escapejs }}",
         csvHeaderNeeded: "{{ ws_csv_header_needed|escapejs }}",
         csvHeaderOwned: "{{ ws_csv_header_owned|escapejs }}",
-        csvHeaderMissing: "{{ ws_csv_header_missing|escapejs }}"
+        csvHeaderMissing: "{{ ws_csv_header_missing|escapejs }}",
+        addAsOwnCard: "{{ ws_add_as_own_card|escapejs }}",
+        addedAsCard: "{{ ws_added_as_card|escapejs }}",
+        noSubrecipe: "{{ ws_no_subrecipe|escapejs }}",
+        showSubrecipe: "{{ ws_show_subrecipe|escapejs }}"
     }
 };
     </script>

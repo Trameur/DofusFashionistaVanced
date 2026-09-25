@@ -51,11 +51,14 @@ console.log(JSON.stringify(EXPR));
              'cardMatchesFilter', 'cardState', 'chunkKeys', 'clampOwned',
              'clampQuantity', 'csvField', 'csvSeparatorFor', 'filterCounts', 'format',
              'formatDropRate', 'keyOf', 'rowState', 'sortCards', 'sourceKind',
-             'stillMissing'],
+             'stillMissing', 'subrecipeChildNeed'],
             sorted(self._run('Object.keys(w)')))
 
     def test_a_row_is_none_at_zero_owned(self):
         self.assertEqual('none', self._run('w.rowState(0, 40)'))
+
+    def test_a_row_that_needs_nothing_is_done_even_at_zero_owned(self):
+        self.assertEqual('done', self._run('w.rowState(0, 0)'))
 
     def test_a_row_is_part_between_one_and_the_need(self):
         for owned in (1, 12, 39):

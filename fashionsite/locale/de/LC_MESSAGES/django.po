@@ -6524,6 +6524,26 @@ msgstr "Besitz"
 msgid "Missing"
 msgstr "Fehlt"
 
+#: .\chardata\templates\chardata\workshop.html:204
+msgid "Add as its own card"
+msgstr "Als eigene Karte hinzufügen"
+
+#: .\chardata\templates\chardata\workshop.html:205
+msgid "{name} added as its own card."
+msgstr "{name} als eigene Karte hinzugefügt."
+
+#: .\chardata\templates\chardata\workshop.html:206
+msgid "No sub-recipe found."
+msgstr "Kein Unterrezept gefunden."
+
+#: .\chardata\templates\chardata\workshop.html:207
+msgid "Show the recipe for {name}"
+msgstr "Rezept von {name} anzeigen"
+
+#: .\chardata\workshop_view.py:305
+msgid "This recipe is nested too deep to expand"
+msgstr "Dieses Rezept ist zu tief verschachtelt, um es aufzuklappen"
+
 #: .\chardata\workshop_view.py:276
 #: .\chardata\workshop_view.py:280
 #: .\chardata\workshop_view.py:299

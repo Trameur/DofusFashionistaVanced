@@ -250,6 +250,7 @@ html.fm-dark {
 .ws-row-ctl {
     grid-column: 2 / -1;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 6px;
     justify-content: flex-end;
@@ -426,9 +427,49 @@ html.fm-dark {
     }
 }
 
+/* ---------- Craftable ingredients: inline sub-recipe ---------- */
+.ws-subrecipe-wrap {
+    grid-column: 2 / -1;
+    margin-top: 4px;
+}
+.ws-subrecipe-toggle {
+    min-height: 36px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, .5);
+    background: transparent;
+    color: inherit;
+    font-weight: 600;
+    font-size: 0.85em;
+    cursor: pointer;
+}
+.ws-subrecipe-panel {
+    margin: 6px 0 6px 12px;
+    padding: 8px 10px;
+    border-left: 2px solid rgba(128, 128, 128, .35);
+    font-size: 0.9em;
+}
+.ws-subrecipe-list {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+}
+.ws-subrecipe-list .ws-row {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+}
+@container (min-width: 460px) {
+    .ws-subrecipe-list .ws-row {
+        grid-template-columns: 28px minmax(0, 1fr) auto auto;
+    }
+}
+
 @media (max-width: 520px) {
     .workshop-wrapper {
         padding: 0;
+    }
+    .ws-subrecipe-panel {
+        margin-left: 6px;
+        padding: 6px;
     }
 }
 
@@ -605,6 +646,7 @@ html.fm-dark {
     .ws-row-ctl,
     .ws-row-shared,
     .ws-source-wrap,
+    .ws-subrecipe-wrap,
     .ws-hide-gathered,
     .ws-shopping-actions {
         display: none !important;

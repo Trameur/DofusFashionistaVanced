@@ -784,6 +784,7 @@ urlpatterns = [
     re_path(r'^workshop/$', workshop_view.workshop, name='workshop'),
     re_path(r'^workshop/ingredients/$', workshop_view.workshop_ingredients, name='workshop_ingredients'),
     re_path(r'^workshop/sources/$', workshop_view.workshop_sources, name='workshop_sources'),
+    re_path(r'^workshop/subrecipe/$', workshop_view.workshop_subrecipe, name='workshop_subrecipe'),
     re_path(r'^workshop/add/$', workshop_view.add_to_workshop, name='workshop_add'),
     re_path(r'^workshop/addsolution/(?P<char_id>\d+)/$', workshop_view.add_solution_to_workshop, name='workshop_add_solution'),
     re_path(r'^workshop/solutioningredients/(?P<char_id>\d+)/$', workshop_view.solution_ingredients, name='workshop_solution_ingredients'),
