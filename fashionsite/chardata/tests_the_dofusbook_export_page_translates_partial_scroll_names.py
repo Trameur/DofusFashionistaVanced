@@ -52,7 +52,7 @@ class TheDofusbookExportPageTranslatesPartialScrollNamesTests(TestCase):
         for langue, mot in TEMOINS.items():
             char, ankama_id = self._char(langue)
             with mock.patch(
-                    'chardata.dofusbook_export.urllib.request.urlopen',
+                    'chardata.dofusbook_import._urlopen_allowlisted',
                     return_value=_Reponse([ankama_id])):
                 page = self.client.get(
                     '/%s/export/dofusbook/%d/' % (langue, char.id)

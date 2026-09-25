@@ -9,6 +9,7 @@
 
 import json
 import logging
+import math
 from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
@@ -420,10 +421,21 @@ def clear_workshop(request):
     return JsonResponse({'success': True, 'removed_count': deleted})
 
 
+def _reject_json_constant(name):
+    raise ValueError(name)
+
+
+def _finite_json_float(text):
+    value = float(text)
+    if not math.isfinite(value):
+        raise ValueError(text)
+    return value
+
+
 def _clamp_owned(value):
     try:
         owned = int(value)
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, OverflowError):
         return 0
     return max(0, min(owned, MAX_STOCK_OWNED))
 
@@ -439,8 +451,10 @@ def workshop_set_stock(request):
     """
     game_version = getattr(request, 'game_version', 'dofus3')
     try:
-        payload = json.loads(request.body.decode('utf-8') or '{}')
-    except (ValueError, UnicodeDecodeError):
+        payload = json.loads(request.body.decode('utf-8') or '{}',
+                             parse_constant=_reject_json_constant,
+                             parse_float=_finite_json_float)
+    except (ValueError, UnicodeDecodeError, RecursionError):
         return JsonResponse({'error': _('Invalid request')}, status=400)
 
     updates = payload.get('updates') if isinstance(payload, dict) else None
@@ -456,7 +470,7 @@ def workshop_set_stock(request):
             continue
         try:
             ankama_id = int(entry.get('ingredient_ankama_id'))
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
             continue
         if not 0 <= ankama_id <= MAX_ANKAMA_ID:
             continue

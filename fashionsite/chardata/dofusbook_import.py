@@ -7,9 +7,11 @@
 
 """Read a public DofusBook build from its link."""
 
+import functools
 import json
 import re
 import urllib.error
+import urllib.parse
 import urllib.request
 
 # Build ids repeat across hosts: the host alone decides the version
@@ -35,6 +37,8 @@ USER_AGENT = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
 
 TIMEOUT = 20
 
+MAX_BODY = 2 * 1024 * 1024
+
 # Floor, not a version check: low level items share ids across versions
 MIN_RESOLVED = 0.6
 
@@ -47,6 +51,41 @@ class ImportError_(Exception):
     def __init__(self, reason):
         super().__init__(reason)
         self.reason = reason
+
+
+class BodyTooLarge(Exception):
+    """The answer is longer than MAX_BODY."""
+
+
+class _RedirectOnAllowlist(urllib.request.HTTPRedirectHandler):
+    """Follows a redirect only to https on one of the given hosts."""
+
+    def __init__(self, hosts):
+        super().__init__()
+        self.hosts = frozenset(hosts)
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        cible = urllib.parse.urlsplit(newurl)
+        if (cible.scheme != 'https' or cible.port not in (None, 443)
+                or (cible.hostname or '') not in self.hosts):
+            raise urllib.error.HTTPError(
+                newurl, code, 'redirect refused', headers, fp)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def _urlopen_allowlisted(requete, timeout=None, hosts=()):
+    ouvreur = urllib.request.build_opener(_RedirectOnAllowlist(hosts))
+    return ouvreur.open(requete, timeout=timeout)
+
+
+def _open_allowlisted(requete, hosts, opener=None, timeout=TIMEOUT):
+    """The answer's bytes; redirects stay on https and on hosts, BodyTooLarge past MAX_BODY."""
+    ouvreur = opener or functools.partial(_urlopen_allowlisted, hosts=hosts)
+    with ouvreur(requete, timeout=timeout) as reponse:
+        corps = reponse.read(MAX_BODY + 1)
+    if len(corps) > MAX_BODY:
+        raise BodyTooLarge()
+    return corps
 
 
 # At the start only: a stuffer link's base64 can contain '//'
@@ -117,12 +156,12 @@ def fetch_build(host, build_id, opener=None):
         'Referer': 'https://%s/' % host,
         'Accept': 'application/json',
     })
-    ouvreur = opener or urllib.request.urlopen
     try:
-        with ouvreur(requete, timeout=TIMEOUT) as reponse:
-            charge = json.load(reponse)
+        charge = json.loads(_open_allowlisted(requete, HOSTS, opener))
     except urllib.error.HTTPError as erreur:
         raise ImportError_('not_found' if erreur.code == 404 else 'refused')
+    except BodyTooLarge:
+        raise ImportError_('unreadable')
     except Exception:
         raise ImportError_('unreachable')
     if not isinstance(charge, dict) or 'items' not in charge:

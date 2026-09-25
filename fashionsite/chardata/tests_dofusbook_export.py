@@ -357,7 +357,7 @@ class ThePageSaysWhatDoesNotTravelTests(TestCase):
             def __exit__(self, *args):
                 return False
 
-        with mock.patch('chardata.dofusbook_export.urllib.request.urlopen',
+        with mock.patch('chardata.dofusbook_import._urlopen_allowlisted',
                         return_value=Reponse()):
             reponse = self.client.get('/export/dofusbook/%d/' % char.id)
         return reponse
@@ -385,7 +385,7 @@ class ThePageSaysWhatDoesNotTravelTests(TestCase):
     def test_a_site_that_refuses_gives_no_link_at_all(self):
         from unittest import mock
         char = self._char(['Hat'])
-        with mock.patch('chardata.dofusbook_export.urllib.request.urlopen',
+        with mock.patch('chardata.dofusbook_import._urlopen_allowlisted',
                         side_effect=OSError('down')):
             page = self.client.get(
                 '/export/dofusbook/%d/' % char.id).content.decode('utf-8')
@@ -606,7 +606,7 @@ class ThePageSendsTheForgemagieItShowsTests(TestCase):
             def __exit__(self, *args):
                 return False
 
-        with mock.patch('chardata.dofusbook_export.urllib.request.urlopen',
+        with mock.patch('chardata.dofusbook_import._urlopen_allowlisted',
                         return_value=Reponse()):
             return self.client.get('/export/dofusbook/%d/' % char.id,
                                    HTTP_ACCEPT_LANGUAGE=langue)
@@ -797,7 +797,7 @@ class AShinyPieceTravelsAsForgemagieTests(TestCase):
                 def __exit__(self, *args):
                     return False
 
-            with mock.patch('chardata.dofusbook_export.urllib.request.urlopen',
+            with mock.patch('chardata.dofusbook_import._urlopen_allowlisted',
                             return_value=Reponse()):
                 return test.client.get('/touch/export/dofusbook/%d/' % char.id,
                                        HTTP_ACCEPT_LANGUAGE='en')

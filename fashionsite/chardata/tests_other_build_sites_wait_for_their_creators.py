@@ -51,7 +51,7 @@ class WithNoSiteEnabledTests(_OwnedBuild, TestCase):
         self.assertIn('placeholder="One item name per line"', page)
 
     def test_no_link_is_read_and_nothing_is_fetched(self):
-        with mock.patch('urllib.request.urlopen',
+        with mock.patch('chardata.dofusbook_import._urlopen_allowlisted',
                         side_effect=AssertionError('fetched')):
             for link in (DOFUSBOOK_LINK, DOFUS_STUFFER_LINK, DOFUSCREATOR_LINK):
                 with self.subTest(link=link):
@@ -90,7 +90,7 @@ class EachSiteComesBackOnItsOwnTests(_OwnedBuild, TestCase):
         self.assertContains(self.client.get('/solution/%d/' % char.id),
                             'Open on DofusBook')
         # No network in tests
-        with mock.patch('urllib.request.urlopen',
+        with mock.patch('chardata.dofusbook_import._urlopen_allowlisted',
                         side_effect=OSError('no network in tests')):
             self.assertEqual(200, self.client.get(
                 '/export/dofusbook/%d/' % char.id).status_code)

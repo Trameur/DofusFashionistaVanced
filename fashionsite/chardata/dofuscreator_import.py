@@ -6,7 +6,8 @@ import re
 import urllib.error
 import urllib.request
 
-from chardata.dofusbook_import import ImportError_, USER_AGENT, TIMEOUT
+from chardata.dofusbook_import import (
+    BodyTooLarge, ImportError_, USER_AGENT, TIMEOUT, _open_allowlisted)
 
 # Their host to our game version; the Retro subdomain is left out on purpose
 HOSTS = {
@@ -64,12 +65,12 @@ def fetch_project(host, code, opener=None):
         'User-Agent': USER_AGENT,
         'Accept': 'text/html',
     })
-    ouvreur = opener or urllib.request.urlopen
     try:
-        with ouvreur(requete, timeout=TIMEOUT) as reponse:
-            octets = reponse.read()
+        octets = _open_allowlisted(requete, HOSTS, opener, TIMEOUT)
     except urllib.error.HTTPError as erreur:
         raise ImportError_('not_found' if erreur.code == 404 else 'refused')
+    except BodyTooLarge:
+        raise ImportError_('unreadable')
     except Exception:
         raise ImportError_('unreachable')
     try:

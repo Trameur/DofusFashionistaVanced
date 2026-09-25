@@ -419,12 +419,14 @@ def stuffer_items(game_version, grouped, opener=None):
         'Referer': 'https://%s/' % host,
         'Accept': 'application/json',
     })
-    ouvreur = opener or urllib.request.urlopen
+    from chardata.dofusbook_import import BodyTooLarge, _open_allowlisted
     try:
-        with ouvreur(requete, timeout=TIMEOUT) as reponse:
-            charge = json.load(reponse)
+        charge = json.loads(
+            _open_allowlisted(requete, HOSTS.values(), opener, TIMEOUT))
     except urllib.error.HTTPError:
         raise ExportError('refused')
+    except BodyTooLarge:
+        raise ExportError('unreadable')
     except Exception:
         raise ExportError('unreachable')
     if not isinstance(charge, dict) or not isinstance(charge.get('data'), list):
