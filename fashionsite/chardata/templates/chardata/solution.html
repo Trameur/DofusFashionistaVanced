@@ -405,7 +405,7 @@
         {% if solver_seconds is not None %}
         <p class="solver-why-line">{% blocktrans with seconds=solver_seconds %}Computed in {{ seconds }} s.{% endblocktrans %}</p>
         {% endif %}
-        <p class="solver-why-line"><a href="{% game_url 'guide' 'how-it-works' %}">{% trans "How the optimizer works" %}</a></p>
+        <p class="solver-why-line"><a href="{% guide_url 'how-it-works' %}">{% trans "How the optimizer works" %}</a></p>
     </div>
     {% endif %}
 

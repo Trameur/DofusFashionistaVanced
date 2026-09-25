@@ -35,7 +35,7 @@
 {% trans "Pick the one you play from the buttons at the top: Dofus 3, Beta, Dofus 2, Touch or Retro. Each is a different game with its own items and rules." %}</p>
 
     <p class='big-text'><b>{% trans "I am new here. Where do I start?" %}</b><br>
-{% game_url 'quickstart' as qs_url %}{% game_url 'guide' 'getting-started' as gs_url %}{% blocktrans %}The <a href="{{ qs_url }}">Quick Start</a> builds a full set from three quick questions. For a step by step walkthrough, read the <a href="{{ gs_url }}">getting started guide</a>.{% endblocktrans %}</p>
+{% game_url 'quickstart' as qs_url %}{% guide_url 'getting-started' as gs_url %}{% blocktrans %}The <a href="{{ qs_url }}">Quick Start</a> builds a full set from three quick questions. For a step by step walkthrough, read the <a href="{{ gs_url }}">getting started guide</a>.{% endblocktrans %}</p>
 
     <p class='big-text'><b>{% trans "What are the numbers by the sliders? And why does each slider have a different range?" %}</b><br>
 {% trans "Each of those numbers indicate how many points each of the attributes is worth to you. The program will then choose the equipment that sum the most points in total. For example, suppose you have the following equipment:" %}

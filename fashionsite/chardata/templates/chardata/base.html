@@ -154,7 +154,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"
             integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs"
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}?lang={{ LANGUAGE_CODE }}"></script>
     <script>
     
     function confirmRun() {
@@ -502,7 +502,7 @@
     {# The shell stops at 1200px; the rails live outside every column #}
 {% ad_rails %}
 {% include "chardata/changelog_modal.html" %}
-<script>window.CHANGELOG_CONTENT_URL = "{% url 'changelog_content' %}";</script>
+<script>window.CHANGELOG_CONTENT_URL = "{% url 'changelog_content' %}?lang={{ LANGUAGE_CODE|urlencode }}";</script>
 <script src="{% static 'chardata/changelog.js' %}"></script>
 <div id="blanket-language" style="display:none;"></div>
 <div id="blanket-theme" style="display:none;"></div>

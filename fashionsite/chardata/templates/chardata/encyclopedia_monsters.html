@@ -106,7 +106,7 @@ html.fm-dark .encyclopedia-monster-card a.encyclopedia-monsters-weakness { color
     {% if weakness_options %}
     <div class="encyclopedia-monsters-guide-note">
         {{ mt.weakness_guide_prompt }}
-        <a href="{% game_url 'guide' 'monster-weaknesses' %}">{{ mt.weakness_guide_link }}</a>
+        <a href="{% guide_url 'monster-weaknesses' %}">{{ mt.weakness_guide_link }}</a>
     </div>
     {% endif %}
 

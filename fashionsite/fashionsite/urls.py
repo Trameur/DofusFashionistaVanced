@@ -705,7 +705,8 @@ urlpatterns = [
     re_path(r'^manifest\.webmanifest$', manifest_view, name='manifest'),
     re_path(r'^sw\.js$', service_worker_view, name='service_worker'),
     re_path(r'^offline/$', offline_view, name='offline'),
-    re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog', kwargs=js_info_dict),
+    re_path(r'^jsi18n/$', util_views.in_requested_language(JavaScriptCatalog.as_view()),
+            name='javascript-catalog', kwargs=js_info_dict),
 
     # Character preview art, baked on first request; nginx serves the -v<n> files
     re_path(r'^character/poses/(?P<bone_id>[\w-]+)-v(?P<fmt>\d+)\.json$',

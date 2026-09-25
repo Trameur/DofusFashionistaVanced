@@ -14,11 +14,32 @@
 # along with this program; if not, write to the Free Software Foundation,
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+from functools import wraps
+
+from django.conf import settings
 from django.shortcuts import render
+from django.utils import translation
 
 from chardata.util import set_response
 
 
+def in_requested_language(view):
+    """Serve the view in the ?lang= language when it is one the site speaks."""
+    codes = {code for code, _name in settings.LANGUAGES}
+
+    @wraps(view)
+    def wrapped(request, *args, **kwargs):
+        lang = request.GET.get('lang')
+        if lang not in codes:
+            return view(request, *args, **kwargs)
+        with translation.override(lang):
+            response = view(request, *args, **kwargs)
+        response['Content-Language'] = lang
+        return response
+    return wrapped
+
+
+@in_requested_language
 def changelog_content(request):
     return render(request, 'chardata/changelog_content.html')
 

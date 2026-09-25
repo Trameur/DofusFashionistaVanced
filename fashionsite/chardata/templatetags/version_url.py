@@ -30,6 +30,14 @@ def game_url(context, url_name, *args, **kwargs):
 
 
 @register.simple_tag(takes_context=True)
+def guide_url(context, key):
+    """game_url of a guide under its slug in the current language."""
+    from django.utils.translation import get_language
+    from chardata.guides_content import slug_for
+    return game_url(context, 'guide', slug_for(key, get_language()))
+
+
+@register.simple_tag(takes_context=True)
 def version_switch_href(context, version_key):
     """The header switcher's link to `version_key` for the current page.
 

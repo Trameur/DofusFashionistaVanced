@@ -53,7 +53,7 @@
                         {% endfor %}
                     </select>
                     {% if is_new_char %}
-                    <div style="font-size: 0.85em; opacity: 0.9; margin-top: 3px;"><a href="/guides/choosing-your-class/">{% trans "Not sure which class to pick? Read the guide" %}</a></div>
+                    <div style="font-size: 0.85em; opacity: 0.9; margin-top: 3px;"><a href="{% guide_url 'choosing-your-class' %}">{% trans "Not sure which class to pick? Read the guide" %}</a></div>
                     {% endif %}
                     </td>
                   </tr>  
