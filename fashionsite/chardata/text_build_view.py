@@ -296,7 +296,8 @@ def _reponse(request, params):
     """The page, with what every state of it shares."""
     params.setdefault('ocr_languages',
                       language_options(get_supported_language()))
-    params.setdefault('link_sites', ', '.join(build_link_import.readable_sites()))
+    params.setdefault('partner_sites',
+                      build_link_import.partner_sites(_version(request)))
     params.setdefault('used_screenshot', bool(params.get('text'))
                       and request.POST.get('used_screenshot') == '1')
     return set_response(request, 'chardata/text_build.html', params)

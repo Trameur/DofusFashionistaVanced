@@ -7737,8 +7737,13 @@ msgstr "Impórtalo desde un enlace, texto o capturas de pantalla"
 msgid "Import it from text or screenshots"
 msgstr "Impórtalo desde texto o capturas de pantalla"
 
-msgid "Build links our server can read today: %(sites)s."
-msgstr "Enlaces de build que nuestro servidor sabe leer hoy: %(sites)s."
+msgid "Partner sites"
+msgstr "Sitios asociados"
+
+msgid "Paste a build link from this site, or visit it to build there."
+msgid_plural "Paste a build link from one of these sites, or visit them to build there."
+msgstr[0] "Pega un enlace de build de este sitio, o visítalo para crear tus builds allí."
+msgstr[1] "Pega un enlace de build de uno de estos sitios, o visítalos para crear tus builds allí."
 
 msgid "Choose a class"
 msgstr "Elige una clase"

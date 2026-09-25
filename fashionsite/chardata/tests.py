@@ -28029,11 +28029,13 @@ class LinkImportOnTheOnePageTests(TestCase):
         self.assertEqual('Ecaflip', char.char_class)
         self.assertEqual('MIAAW 420', char.name)
 
-    def test_the_note_under_the_field_lists_the_readable_sites(self):
+    def test_the_partner_block_under_the_field_names_the_readable_sites(self):
         page = self.client.get(self._url(), HTTP_ACCEPT_LANGUAGE='en'
                                ).content.decode('utf-8')
-        self.assertIn('dofusbook.net, dofus-stuffer.is-great.net, '
-                      'dofuscreator.com', page)
+        block = page[page.index('id="import-partners"'):]
+        positions = [block.index(host) for host in (
+            'dofusbook.net', 'dofus-stuffer.is-great.net', 'dofuscreator.com')]
+        self.assertEqual(sorted(positions), positions)
 
     def test_the_rolls_of_the_link_land_on_the_pieces(self):
         """Thibaud, 11 septembre 2026: <<les FM sur les items>>. Un jet du
@@ -28168,8 +28170,14 @@ class LinkImportOnTheOnePageTests(TestCase):
         lire: aucun ne nomme un site."""
         for raison in ('not_found', 'refused', 'unreachable', 'unreadable'):
             self._patch(erreur=raison)
-            page = self.client.post(self._url(), {'text': self.LIEN})
-            self.assertNotContains(page, 'DofusBook')
+            page = self.client.post(self._url(), {'text': self.LIEN}
+                                    ).content.decode('utf-8')
+            self.assertRegex(page, r'<p class="?import-error"?>', raison)
+            # The partner links name the sites on every state of the page
+            outside_partners = re.sub(
+                r'<section[^>]*\bimport-partners\b[^>]*>.*?</section>', '',
+                page, flags=re.S)
+            self.assertNotIn('DofusBook', outside_partners, raison)
 
     def test_reading_a_link_creates_nothing_yet(self):
         from chardata.models import Char

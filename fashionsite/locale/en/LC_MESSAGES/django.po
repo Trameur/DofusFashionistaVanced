@@ -6739,8 +6739,13 @@ msgstr ""
 msgid "Import it from text or screenshots"
 msgstr ""
 
-msgid "Build links our server can read today: %(sites)s."
+msgid "Partner sites"
 msgstr ""
+
+msgid "Paste a build link from this site, or visit it to build there."
+msgid_plural "Paste a build link from one of these sites, or visit them to build there."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Choose a class"
 msgstr ""

@@ -44,7 +44,7 @@ class WithNoSiteEnabledTests(_OwnedBuild, TestCase):
 
     def test_the_import_page_speaks_of_names_and_screenshots_only(self):
         page = self.client.get('/import/text/').content.decode('utf-8')
-        self.assertNotIn('import-link-note', page)
+        self.assertNotRegex(page, r'\bid="?import-partners\b')
         self.assertNotIn('build link', page)
         self.assertNotIn('another build site', page)
         self.assertIn('Paste your item names or drop tooltip screenshots.', page)
