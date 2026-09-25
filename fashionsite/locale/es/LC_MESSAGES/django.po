@@ -6995,6 +6995,20 @@ msgstr "Con %(states)s"
 msgid "Without %(states)s"
 msgstr "Sin %(states)s"
 
+msgid "Target with shield points"
+msgstr "Objetivo con escudo"
+
+msgid "Target without shield points"
+msgstr "Objetivo sin escudo"
+
+#, python-format
+msgid "Target with less than %(percent)s%% of its HP"
+msgstr "Objetivo con menos del %(percent)s%% de su vida"
+
+#, python-format
+msgid "Target with %(percent)s%% of its HP or more"
+msgstr "Objetivo con el %(percent)s%% de su vida o más"
+
 msgid "Normal hit"
 msgstr "Golpe normal"
 

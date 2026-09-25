@@ -151,6 +151,24 @@ CONDITIONAL_ROWS_BY_VERSION = {
 
 CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION["dofus3"]
 
+# (mask token, label when the target meets it, label when not); the lowercase token is the negation
+_MODERN_TARGET_CONDITIONS = (
+    # Piercing Arrow: "greater on targets with shield points"
+    (r"PB", "Target with shield points", "Target without shield points"),
+    # Lethal Attack: "greater on targets with less than 50% of their HP"
+    (r"V(\d+)", "Target with less than {}% of its HP",
+     "Target with {}% of its HP or more"),
+)
+
+TARGET_CONDITIONS_BY_VERSION = {
+    "dofus3": _MODERN_TARGET_CONDITIONS,
+    # beta: same two spell texts in spell_reference/beta.json
+    "beta": _MODERN_TARGET_CONDITIONS,
+    "dofus2": (),
+}
+
+TARGET_CONDITIONS = TARGET_CONDITIONS_BY_VERSION["dofus3"]
+
 BUFF_SORT_ORDER = {
     "buff_str": 0,
     "buff_int": 1,
@@ -1268,6 +1286,48 @@ def _build_situation_aggregates(
     return aggregates
 
 
+def _split_on_target_condition(situation: Optional[str], pattern: str) -> Optional[Tuple[bool, str, str]]:
+    """(target meets it, token parameter, rest of the situation), or None without the token."""
+    mask, _sep, zone = str(situation or "").partition("|")
+    tokens = [token.strip() for token in mask.split(",") if token.strip()]
+    for position, token in enumerate(tokens):
+        for meets, candidate in ((True, token), (False, token.swapcase())):
+            match = re.fullmatch(pattern, candidate)
+            if match:
+                rest = ",".join(tokens[:position] + tokens[position + 1:])
+                return meets, "".join(match.groups()), "%s|%s" % (rest, zone)
+    return None
+
+
+def _build_target_condition_aggregates(
+    rows: Sequence[Mapping[str, Any]],
+    total_row_count: int,
+) -> Optional[List[Tuple[str, List[int]]]]:
+    """A hit whose rows split on a target condition (shield, HP): one lands, the plain case first."""
+    for pattern, meets_label, fails_label in TARGET_CONDITIONS:
+        faces: Dict[bool, List[int]] = {True: [], False: []}
+        cases: Dict[bool, Set[str]] = {True: set(), False: set()}
+        parameters: Set[str] = set()
+        for idx, row in enumerate(rows):
+            split = _split_on_target_condition(row.get("situation"), pattern)
+            if split is None:
+                break
+            meets, parameter, rest = split
+            faces[meets].append(idx)
+            cases[meets].add(rest)
+            parameters.add(parameter)
+        else:
+            if (faces[True] and faces[False] and len(parameters) == 1
+                    and cases[True] == cases[False]):
+                parameter = parameters.pop()
+                aggregates = [(fails_label.format(parameter), faces[False]),
+                              (meets_label.format(parameter), faces[True])]
+                for idx in range(len(rows), total_row_count):
+                    aggregates.append(("", [idx]))
+                return aggregates
+    return None
+
+
 def _build_best_element_aggregates(
     group_map: Mapping[Any, Sequence[int]],
     base_row_count: int,
@@ -1514,6 +1574,8 @@ def convert_spell(
     if not aggregates:
         aggregates = _build_duplicated_row_aggregates(
             spell.get("ankama_id"), normal_rows, len(non_crit))
+    if not aggregates:
+        aggregates = _build_target_condition_aggregates(normal_rows, len(non_crit))
     collapsed = _collapse_identical_aggregates(aggregates, elements, non_crit)
     # Name the states only when nothing collapsed
     if (state_aggregates is not None and collapsed is not None
@@ -1856,7 +1918,7 @@ def _version_named(suffix: str) -> str:
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    global CONDITIONAL_ROWS, NOT_A_SELF_BUFF
+    global CONDITIONAL_ROWS, NOT_A_SELF_BUFF, TARGET_CONDITIONS
     args = parse_args(argv)
     mismatch = _paths_match_version(args)
     if mismatch:
@@ -1864,6 +1926,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         return 2
     CONDITIONAL_ROWS = CONDITIONAL_ROWS_BY_VERSION[args.game_version]
     NOT_A_SELF_BUFF = NOT_A_SELF_BUFF_BY_VERSION[args.game_version]
+    TARGET_CONDITIONS = TARGET_CONDITIONS_BY_VERSION[args.game_version]
     class_data = load_json(args.class_json)
     all_spells = load_json(args.spells_json)
     spells_by_class = build_spell_map(class_data, all_spells)

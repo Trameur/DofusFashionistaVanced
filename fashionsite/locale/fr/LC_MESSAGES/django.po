@@ -7027,6 +7027,20 @@ msgstr "Avec %(states)s"
 msgid "Without %(states)s"
 msgstr "Sans %(states)s"
 
+msgid "Target with shield points"
+msgstr "Cible avec bouclier"
+
+msgid "Target without shield points"
+msgstr "Cible sans bouclier"
+
+#, python-format
+msgid "Target with less than %(percent)s%% of its HP"
+msgstr "Cible à moins de %(percent)s%% de sa vie"
+
+#, python-format
+msgid "Target with %(percent)s%% of its HP or more"
+msgstr "Cible à %(percent)s%% de sa vie ou plus"
+
 msgid "Normal hit"
 msgstr "Coup normal"
 

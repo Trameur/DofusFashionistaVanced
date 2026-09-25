@@ -774,6 +774,11 @@ _ATTACK_ELEMENT = 'Poison in the element of the attack'
 _STACK_LABEL = re.compile(r'^Stack (\d+)(?: - (.+))?$')
 _MP_LABEL = re.compile(r'^(\d+) MP used this turn$')
 _STATE_LABEL = re.compile(r'^State (!?\d+(?:,!?\d+)*)$')
+# Faces of a hit split on the target, written by the generator's TARGET_CONDITIONS
+_WITH_SHIELD = 'Target with shield points'
+_WITHOUT_SHIELD = 'Target without shield points'
+_HP_UNDER_LABEL = re.compile(r'^Target with less than (\d+)% of its HP$')
+_HP_AT_LEAST_LABEL = re.compile(r'^Target with (\d+)% of its HP or more$')
 # Heads the generator writes over the rows of a thing the spell places
 _PLACED_HEADS = {
     'Trap damage': _lazy('Trap damage'),
@@ -812,6 +817,18 @@ def _localized_aggregate_label(label, game_version=None):
         return _('Hit in one random element')
     if label == _ATTACK_ELEMENT:
         return _('Poison in the element of the attack')
+    if label == _WITH_SHIELD:
+        return _('Target with shield points')
+    if label == _WITHOUT_SHIELD:
+        return _('Target without shield points')
+    match = _HP_UNDER_LABEL.match(label)
+    if match:
+        return _('Target with less than %(percent)s%% of its HP') % {
+            'percent': match.group(1)}
+    match = _HP_AT_LEAST_LABEL.match(label)
+    if match:
+        return _('Target with %(percent)s%% of its HP or more') % {
+            'percent': match.group(1)}
     match = _MP_LABEL.match(label)
     if match:
         return _('%(count)s MP used this turn') % {'count': match.group(1)}

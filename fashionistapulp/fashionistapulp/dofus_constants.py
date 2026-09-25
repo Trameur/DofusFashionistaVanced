@@ -640,7 +640,7 @@ DAMAGE_SPELLS = {
             [['31-34', '38-42'], ['35-39', '44-48']],
             [['37-40', '46-50'], ['42-46', '53-58']],
             [AIR, AIR],
-        ), is_linked=(1, 'Boomerang Arrow'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=32429),
+        ), aggregates=[('Target without shield points', [0]), ('Target with shield points', [1])], is_linked=(1, 'Boomerang Arrow'), casting={'ap': [4, 4], 'per_turn': [1, 1], 'crit': [20, 20]}, spell_id=32429),
         Spell('Raining Arrows', [160], Effects(
             [['21-23']],
             [['25-28']],
@@ -4784,7 +4784,8 @@ DAMAGE_SPELLS = {
             [['43-48'], ['54-60']],
             [['52-58'], ['65-72']],
             [EARTH, EARTH],
-        ), is_linked=(2, 'Raiding'), casting={'ap': [4], 'per_turn': [3], 'per_target': [2], 'crit': [20]}, spell_id=12917),
+        ), aggregates=[('Target with 50% of its HP or more', [0]),
+ ('Target with less than 50% of its HP', [1])], is_linked=(2, 'Raiding'), casting={'ap': [4], 'per_turn': [3], 'per_target': [2], 'crit': [20]}, spell_id=12917),
         Spell('Toxic Injection', [165], Effects(
             [['28-32']],
             [['34-38']],

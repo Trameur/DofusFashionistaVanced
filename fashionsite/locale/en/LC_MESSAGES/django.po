@@ -6219,6 +6219,20 @@ msgstr "With %(states)s"
 msgid "Without %(states)s"
 msgstr "Without %(states)s"
 
+msgid "Target with shield points"
+msgstr "Target with shield points"
+
+msgid "Target without shield points"
+msgstr "Target without shield points"
+
+#, python-format
+msgid "Target with less than %(percent)s%% of its HP"
+msgstr "Target with less than %(percent)s%% of its HP"
+
+#, python-format
+msgid "Target with %(percent)s%% of its HP or more"
+msgstr "Target with %(percent)s%% of its HP or more"
+
 msgid "Normal hit"
 msgstr "Normal hit"
 
